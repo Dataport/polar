@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuetify, { UserVuetifyPreset } from 'vuetify'
 import merge from 'lodash.merge'
-import kebabCase from 'lodash.kebabCase'
+import kebabCase from 'lodash.kebabcase'
 import 'vuetify/dist/vuetify.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
