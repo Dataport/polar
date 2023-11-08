@@ -13,7 +13,7 @@ const uBahn = '23053'
  * they could be overwritten in this object
  */
 export const mapConfiguration = {
-  language: 'de',
+  language: 'en',
   epsg: 'EPSG:25832',
   vuetify: {
     theme: {
