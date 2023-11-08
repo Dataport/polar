@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>LayerChooser</h1>
+<p>The tool offers layer selection to the user.</p>
+<h2>Scope</h2>
+<p>The LayerChooser offers an additive (usually Overlays, technically named with <code>type: 'mask'</code>) and an exclusive (usually background maps, <code>type: 'background'</code>) selection of layers to the users.</p>
+<p>Order of layers within a layer is currently always as initially configured.</p>
+<h2>Configuration</h2>
+<p>The tool does not require any configuration for itself, but is based on the <code>mapConfiguration.layers</code> array. It will infer its options from there, and change layer visibility and availability depending on <code>minZoom</code> and <code>maxZoom</code>.</p>
+<p>Each object in <code>mapConfiguration.layers</code> array fits this definition:</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>Service register id.</td>
+</tr>
+<tr>
+<td>visibility</td>
+<td>boolean</td>
+<td>Initial visibility.</td>
+</tr>
+<tr>
+<td>type</td>
+<td>enum[&quot;background&quot;, &quot;mask&quot;]</td>
+<td>Layer handling. Backgrounds are mutually exclusive, masks (&quot;overlays&quot;) can be stacked.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Display name in UI.</td>
+</tr>
+<tr>
+<td>minZoom</td>
+<td>?number</td>
+<td>If set, layer only available (and selectable) from this zoom level on.</td>
+</tr>
+<tr>
+<td>maxZoom</td>
+<td>?number</td>
+<td>If set, layer only available (and selectable) to this zoom level.</td>
+</tr>
+<tr>
+<td>options</td>
+<td>options</td>
+<td>Shows a layer-specific sub-menu; its contents are configurable.</td>
+</tr>
+</tbody>
+</table>
+<h3>mapConfiguration.layers.options</h3>
+<p>An option wheel will appear in the layer chooser that allows opening a sub-menu with configured configuration options for the end user.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>layers</td>
+<td>Boolean | layers</td>
+<td>If truthy, all configured <em>layers of the layer</em> for can be turned off and on by the user. ⚠️ Only implemented for WMS. Only implemented for top layers; that is, only first level of nesting is considered.</td>
+</tr>
+</tbody>
+</table>
+<h4>mapConfiguration.layers.options.layers</h4>
+<p>This field is named like this to match the OGC specification for their name; that is, layers have layers that may have layers that may have layers, and so on. However, only the first level (a layer's layers) is currently implemented.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>order</td>
+<td>?string</td>
+<td>Optional. If not given, field <code>layers</code> from service description will be used, and defines order of options. If layer defined in service description's <code>layers</code> and <code>order</code>, it's initially on. If only in <code>order</code>, it's initially off. If only in <code>layers</code>, it's always-on. If in neither, it's always-off.</td>
+</tr>
+<tr>
+<td>title</td>
+<td>Boolean | Record&lt;name, layerName&gt;</td>
+<td>Title to be displayed for sub-layer. If false, layer name itself will be used as given in service description 'layers' field. If true, it is assumed a name exists in the layer's GetCapabilities, and that will be used. If Record, it maps the layer name to an arbitrary display name given by the configuration. The <code>layerName</code> can be any string.</td>
+</tr>
+<tr>
+<td>legend</td>
+<td>Boolean | Record&lt;name, legendUrl&gt;</td>
+<td>Legend image to be used for sub-layer. If false, no image is displayed. If true, it is assumed an image exists in the layer's GetCapabilities, and that will be used. If Record, it maps the layer name to a linked image. The <code>legendUrl</code> can be any valid reachable image URL.</td>
+</tr>
+</tbody>
+</table>
+
+    
+  </article>
+</body>
+</html>

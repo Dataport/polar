@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>Zoom</h1>
+<h2>Scope</h2>
+<p>The Zoom plugin offers functionality regarding map zooming.</p>
+<h3>Extension ideas</h3>
+<ul>
+<li>Support zoom sliders https://openlayers.org/en/latest/examples/zoomslider.html</li>
+<li>Support rectangle zoom (as implemented in POLAR@1 FundstellenDB)
+<ul>
+<li>i.e. there's an activatable button and, while active, user may draw a rectangle; rectangle is then zoomed to</li>
+</ul>
+</li>
+</ul>
+<p>These items are currently not on the roadmap.</p>
+<h2>Configuration</h2>
+<p>The Zoom plugin offers a plus/minus button, and will adjust itself to the map's zoom settings on initialization.<br>
+It can be configured as followed.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>renderType</td>
+<td>'iconMenu' | 'independent'?</td>
+<td>Whether the zoom related buttons are being rendered independently or as part of the IconMenu. Defaults to 'independent'.</td>
+</tr>
+<tr>
+<td>showMobile</td>
+<td>boolean?</td>
+<td>Whether the zoom related buttons should be displayed on smaller devices; defaults to false.</td>
+</tr>
+</tbody>
+</table>
+<h2>Store</h2>
+<h3>Getters</h3>
+<p>The map's zoom level can be listened to.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zoomLevel</td>
+<td>number</td>
+<td>Current OpenLayers zoom level.</td>
+</tr>
+<tr>
+<td>maximumZoomLevel</td>
+<td>number</td>
+<td>Maximum OpenLayers zoom level.</td>
+</tr>
+<tr>
+<td>minimumZoomLevel</td>
+<td>number</td>
+<td>Minimum OpenLayers zoom level.</td>
+</tr>
+<tr>
+<td>maximumZoomLevelActive</td>
+<td>boolean</td>
+<td>Whether the current zoomLevel is the maximum.</td>
+</tr>
+<tr>
+<td>minimumZoomLevelActive</td>
+<td>boolean</td>
+<td>Whether the current zoomLevel is the minimum.</td>
+</tr>
+</tbody>
+</table>
+<h4>Usage example</h4>
+<pre><code class="language-js">map.subscribe('plugin/zoom/zoomLevel', (zoomLevel) =&gt; {
+  /* This code is called on any zoomLevel update. */
+})
+</code></pre>
+<h3>Actions</h3>
+<p>The zoomLevel can be set programmatically.</p>
+<pre><code class="language-js">map.$store.dispatch('plugin/zoom/setZoomLevel', zoomLevelNumber)
+map.$store.dispatch('plugin/zoom/increaseZoomLevel')
+map.$store.dispatch('plugin/zoom/decreaseZoomLevel')
+</code></pre>
+<p>Zooming to invalid zoom level numbers (that is, above maximum or below minimum) will be ignored. A user should not be offered interactionable buttons that result in no operation.</p>
+
+    
+  </article>
+</body>
+</html>

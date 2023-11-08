@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>GeoLocation</h1>
+<h2>Scope</h2>
+<p>The GeoLocation plugin is responsible for collecting and displaying a user's GPS location. It is shown as a crosshair mark on the map.
+The tracking can be triggered initially on startup or via a button. This behavior can be controlled by setting <code>checkLocationInitially</code> to
+either <code>true</code> or <code>false</code>. When a users denies the location tracking, the button for this plugin gets disabled.</p>
+<h2>Configuration</h2>
+<h4>geoLocation</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>checkLocationInitially</td>
+<td>boolean</td>
+<td>If <code>true</code> the location gets checked on page load. When <code>false</code> this can be triggered with a button.</td>
+</tr>
+<tr>
+<td>zoomLevel</td>
+<td>number</td>
+<td>Specifies to which zoom level gets zoomed after a successfull tracking of the location.</td>
+</tr>
+<tr>
+<td>keepCentered</td>
+<td>boolean</td>
+<td>False by default. If true, the map will re-center on the user on any position change. If false, only the first position will be centered on.</td>
+</tr>
+<tr>
+<td>boundaryLayerId</td>
+<td>string?</td>
+<td>Id of a vector layer to restrict geolocation markers and zooms to. When geolocation outside of its features occurs, an information will be shown once and the feature is stopped. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off.</td>
+</tr>
+<tr>
+<td>toastAction</td>
+<td>string?</td>
+<td>If <code>boundaryLayerId</code> is set, and the user is not locatable within the boundary, this string will be used as action to send a toast information to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console.</td>
+</tr>
+</tbody>
+</table>
+<h4>Example configuration</h4>
+<pre><code class="language-json">{
+  &quot;geoLocation&quot;: {
+    &quot;checkLocationInitially&quot;: true,
+    &quot;zoomLevel&quot;: 7
+  }
+}
+</code></pre>
+<h2>Store</h2>
+<h3>Getters</h3>
+<p>If the access to an users location has been granted, the coordinates get stored in the <code>position</code> state value. This value can be subscribed through the path <code>'plugin/geoLocation/position'</code>.</p>
+<pre><code class="language-js">map.subscribe('plugin/geoLocation/position', (position) =&gt; {
+  /* Your code here */
+})
+</code></pre>
+
+    
+  </article>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>Fullscreen</h1>
+<h2>Scope</h2>
+<p>The fullscreen plugin allows viewing the map in fullscreen mode. It relies solely on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API">HTML Fullscreen API</a>, where you can also find more about browser support.</p>
+<h2>Configuration</h2>
+<h3>fullscreen</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>renderType</td>
+<td>'iconMenu' | 'independent'?</td>
+<td>Whether the fullscreen button is being rendered independently or as part of the IconMenu. Defaults to 'independent'.</td>
+</tr>
+<tr>
+<td>targetContainerId</td>
+<td>string</td>
+<td>Specifies the html element on which the fullscreen mode should be applied. If the parameter is omitted, it falls back to the configured global field <code>containerId</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>Store</h2>
+<h3>Getters</h3>
+<pre><code class="language-js">map.subscribe('plugin/fullscreen/isInFullscreen', (isInFullscreen) =&gt; {
+  /* Your code. */
+})
+</code></pre>
+<p>The returned flag indicates whether the MapClient in in fullscreen mode.</p>
+
+    
+  </article>
+</body>
+</html>

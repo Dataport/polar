@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>Export</h1>
+<h2>Scope</h2>
+<p>The Export plugin offers users to download the currently visible map canvas in a variety of file formats and by a variety of methods.</p>
+<h2>Configuration</h2>
+<h3>export</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>showJpg</td>
+<td>boolean</td>
+<td>Tools offers current map view as JPG.</td>
+</tr>
+<tr>
+<td>showPdf</td>
+<td>boolean</td>
+<td>Tools offers current map view as PDF.</td>
+</tr>
+<tr>
+<td>showPng</td>
+<td>boolean</td>
+<td>Tools offers current map view as PNG.</td>
+</tr>
+<tr>
+<td>download</td>
+<td>boolean</td>
+<td>Whether file is offered for download. By default, no download will happen, and the using service is supposed to register whether a &quot;screenshot&quot; has been taken and react accordingly.</td>
+</tr>
+</tbody>
+</table>
+<h2>Store</h2>
+<p>To remove user control, add <code>displayComponent: false</code> to the configuration and use the following interactions.</p>
+<h3>Actions</h3>
+<p>To programmatically trigger a &quot;screenshot&quot;, use this action.</p>
+<pre><code class="language-js">// type is 'Png', 'Jpg', or 'Pdf'
+map.$store.dispatch('plugin/export/exportAs', type)
+</code></pre>
+<h3>Getters</h3>
+<p>This shows how a callback can be used to immediately show a <code>Png</code> screenshot in an image tag. The value of the <code>screenshot</code> variable is a base64-encoded string.</p>
+<pre><code class="language-js">const someImgTag = // ... however you retrieve your tag
+  map.subscribe('plugin/export/exportedMap', (screenshot) =&gt;
+    someImgTag.setAttribute('src', screenshot)
+  )
+</code></pre>
+
+    
+  </article>
+</body>
+</html>

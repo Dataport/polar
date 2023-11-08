@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>POLAR AfM map client</h1>
+<p>This is a default compilation of POLAR feature packages that can be used for online services. This document and its child documents describe the setup.</p>
+<h2>Requirements</h2>
+<p>To understand this document, programming knowledge (preferably in JavaScript) are required. This is a technical document describing how to integrate the map client with its programmatic API.</p>
+<h2>Versioning</h2>
+<p>The map client honors <a href="https://semver.org/lang/de/">SemVer</a> versioning. Breaking Changes without a change in leading version number are bugs.</p>
+<h2>Library integration</h2>
+<p>You may either use the AfM client with import syntax or via HTML tags. In the following, the integration via HTML is shown.</p>
+<pre><code class="language-html">&lt;link href=&quot;&lt;Path&gt;/dist/polar-client.css&quot; rel=&quot;stylesheet&quot; /&gt;
+&lt;script src=&quot;&lt;Path&gt;/dist/polar-client.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>The global variable <code>MapClient</code> is now available. All other files in the dist folder are pulled on demand by relative pathing.</p>
+<h2>Configuration and creation</h2>
+<p>The map client can be controlled with a configuration object. An example file is supplied in the folder <code>example</code>. This file can be used as base for your own configuration.</p>
+<h3>Programmatic integration</h3>
+<p>The following is an abstract example.</p>
+<p>In your HTML, a div with unique ID is required that holds the following style properties. Width and height can be changed as you need, but are required to be defined.</p>
+<pre><code class="language-html">&lt;div
+  style=&quot;
+    width: 680px;
+    height: 420px;
+    position: relative;
+  &quot;
+  id=&quot;polarstern&quot;
+/&gt;
+</code></pre>
+<pre><code class="language-js">/* Services registration. Either a link to a services file (e.g. https://geodienste.hamburg.de/services-internet.json) or a local array. Check the core documentation for more details, linked at the end of this document. */
+MapClient.rawLayerList.initializeLayerList(services, callback)
+
+function callback (services) {
+  // services now ready
+  MapClient
+    .createMap({
+      // arbitrary, must be in surrounding HTML document
+      containerId: &quot;polarstern&quot;,
+      // see core documentation on possibilities for this object
+      mapConfiguration: {
+        ...mapConfiguration,
+        layerConf: services,
+      },
+    })
+    .then((map) =&gt; {
+      /* Map initialized – now listeners may be registered. Check the plugin
+       * linked at the end of the document for available keys. */
+      map.subscribe(
+        'plugin/zoom/zoomLevel',
+        (zoomLevel) =&gt; { /* Your code here. */ }
+      )
+    })
+</code></pre>
+
+    <h2>Child documents</h2><nav><ul>
+      <li><a href="core.html" target="_blank">core.html</a></li><li><a href="plugin-address-search.html" target="_blank">plugin-address-search.html</a></li><li><a href="plugin-attributions.html" target="_blank">plugin-attributions.html</a></li><li><a href="plugin-draw.html" target="_blank">plugin-draw.html</a></li><li><a href="plugin-export.html" target="_blank">plugin-export.html</a></li><li><a href="plugin-gfi.html" target="_blank">plugin-gfi.html</a></li><li><a href="plugin-icon-menu.html" target="_blank">plugin-icon-menu.html</a></li><li><a href="plugin-layer-chooser.html" target="_blank">plugin-layer-chooser.html</a></li><li><a href="plugin-legend.html" target="_blank">plugin-legend.html</a></li><li><a href="plugin-loading-indicator.html" target="_blank">plugin-loading-indicator.html</a></li><li><a href="plugin-pins.html" target="_blank">plugin-pins.html</a></li><li><a href="plugin-scale.html" target="_blank">plugin-scale.html</a></li><li><a href="plugin-toast.html" target="_blank">plugin-toast.html</a></li><li><a href="plugin-zoom.html" target="_blank">plugin-zoom.html</a></li>
+      </ul></nav>
+  </article>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>LoadingIndicator</h1>
+<h2>Scope</h2>
+<p>A generic loading indicator that may be used by any plugin or outside procedure to indicate loading.</p>
+<h3>Extension ideas</h3>
+<ul>
+<li>More styles (currently not on roadmap)</li>
+</ul>
+<h2>Store</h2>
+<h3>Mutations</h3>
+<pre><code class="language-js">// show loading indicator
+map.$store.commit('plugin/loadingIndicator/addLoadingKey', key)
+// hide loading indicator
+map.$store.commit('plugin/loadingIndicator/removeLoadingKey', key)
+</code></pre>
+<p><img src="./readme_loadingIndicator_example.png" alt="Loading indicator example"></p>
+<p>The key must be unique and is kept track of via a Set. It can't be added multiple times, and removing it once always removes it altogether. It is advised to use a key like <code>{my-plugin-or-application-name}-{procedure-name}</code> to avoid name conflicts. The LoadingIndicator will usually be used for asynchronous code.</p>
+<p>As such, <strong>always call <code>removeLoadingKey</code> in the <code>finally</code> section of your code</strong> to prevent hanging loading indicators.</p>
+<h3>Getters</h3>
+<p>You may desire to listen to whether the loader is currently being shown.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>showLoader</td>
+<td>boolean</td>
+<td>Whether the layer is currently shown.</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js">map.subscribe('plugin/loadingIndicator/showLoader', (showLoader) =&gt; {
+  /* This code is called on showLoader updates. */
+})
+</code></pre>
+
+    
+  </article>
+</body>
+</html>
