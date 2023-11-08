@@ -322,7 +322,12 @@ export interface AppearOnClick {
   /** Whether the pin should be set with a click on a map. */
   show: boolean
   /** At which zoomLevel it should be possible to have a pin set (if show is set to true). */
-  atZoomLevel: number
+  atZoomLevel?: number
+}
+
+interface InitialPin {
+  centerOn?: boolean
+  coordinates: [number, number]
 }
 
 interface PinStyle {
@@ -331,26 +336,27 @@ interface PinStyle {
 }
 
 export interface PinsConfiguration extends PluginOptions {
-  appearOnClick: AppearOnClick
-  /** Path in store from where coordinates can be retrieved from. */
-  coordinateSource: string
   /** The zoom level to zoom to when a pin is added to the map. */
   toZoomLevel: number
+  appearOnClick?: AppearOnClick
   /**
    * If set, Pins will only be set within the layer's features.
    * The layer must contain vectors. This is useful for restricted maps to avoid
    * selecting unfit coordinates.
    */
   boundaryLayerId?: string
+  /** Path in store from where coordinates can be retrieved from. */
+  coordinateSource?: string
+  initial?: InitialPin
+  /** If the pin should be movable; defaults to false. */
+  movable?: boolean
+  /** Pin styling */
+  style?: PinStyle
   /**
    * Used if boundaryLayer does not contain the user's pin to inform
    * the user that the pin could not be set/updated.
    */
   toastAction?: string
-  /** If the pin should be movable; defaults to false. */
-  movable?: boolean
-  /** Pin styling */
-  style?: PinStyle
 }
 
 export interface ReverseGeocoderConfiguration {

@@ -12,6 +12,7 @@ import { PolarModule } from '@polar/lib-custom-types'
 import { toLonLat } from 'ol/proj'
 import { Geometry } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
+import { MapBrowserEvent } from 'ol'
 import { PinsState } from '../types'
 import getPointCoordinate from '../util/getPointCoordinate'
 import { getPinStyle } from '../util/getPinStyle'
@@ -28,6 +29,17 @@ const getInitialState = (): PinsState => ({
 
 let pinsLayer: VectorLayer<Vector<Geometry>>
 
+function movementNotAllowed(map, { dragging, originalEvent }) {
+  if (!dragging && pinsLayer) {
+    pinsLayer
+      .getFeatures(map.getEventPixel(originalEvent))
+      .then(
+        (features) =>
+          (document.body.style.cursor = features.length ? 'not-allowed' : '')
+      )
+  }
+}
+
 const storeModule: PolarModule<PinsState, PinsState> = {
   namespaced: true,
   state: getInitialState(),
@@ -37,22 +49,28 @@ const storeModule: PolarModule<PinsState, PinsState> = {
      * calls removeMarker and showMarker if the store for addressSearch changes
      * its value for the chosenAddress.
      */
-    setupModule({ rootGetters, dispatch, commit }): void {
-      const { coordinateSource, appearOnClick } =
+    setupModule({ getters, rootGetters, dispatch, commit }): void {
+      const { appearOnClick, coordinateSource, initial, toZoomLevel } =
         rootGetters.configuration.pins || {}
       const interactions = rootGetters.map.getInteractions()
-      commit('setToZoomLevel', rootGetters.configuration.pins?.toZoomLevel)
-      commit('setAtZoomLevel', appearOnClick?.atZoomLevel)
+      if (toZoomLevel) {
+        commit('setToZoomLevel', toZoomLevel)
+      }
+      if (appearOnClick?.atZoomLevel) {
+        commit('setAtZoomLevel', appearOnClick.atZoomLevel)
+      }
+      const showPin = appearOnClick === undefined ? true : appearOnClick.show
+
       rootGetters.map.on('singleclick', async ({ coordinate }) => {
         const isDrawing = interactions
           .getArray()
           .some((interaction) => interaction instanceof Draw)
 
         if (
-          appearOnClick?.show &&
+          showPin &&
           // NOTE: It is assumed that getZoom actually returns the currentZoomLevel, thus the view has a constraint in the resolution.
           (rootGetters.map.getView().getZoom() as number) >=
-            appearOnClick.atZoomLevel &&
+            getters.atZoomLevel &&
           !isDrawing &&
           (await dispatch('isCoordinateInBoundaryLayer', coordinate))
         ) {
@@ -85,6 +103,18 @@ const storeModule: PolarModule<PinsState, PinsState> = {
           { deep: true }
         )
       }
+      if (initial) {
+        const { coordinates, centerOn } = initial
+
+        dispatch('removeMarker')
+        dispatch('showMarker', { coordinates, clicked: true })
+        commit('setCoordinatesAfterDrag', coordinates)
+        dispatch('updateCoordinates', coordinates)
+        if (centerOn) {
+          rootGetters.map.getView().setCenter(getters.transformedCoordinate)
+          rootGetters.map.getView().setZoom(getters.toZoomLevel)
+        }
+      }
     },
     /**
      * Builds a vectorLayer which contains the mapMarker as
@@ -92,8 +122,9 @@ const storeModule: PolarModule<PinsState, PinsState> = {
      * @param payload - an object with a boolean that shows if the coordinate
      * was submitted via click and the corresponding coordinates.
      */
-    showMarker({ rootGetters, getters, commit, dispatch }, payload): void {
+    showMarker({ getters, rootGetters, commit, dispatch }, payload): void {
       if (getters.isActive === false) {
+        const { map } = rootGetters
         if (payload.clicked === false) {
           dispatch(
             'updateCoordinates',
@@ -125,11 +156,18 @@ const storeModule: PolarModule<PinsState, PinsState> = {
           style: getPinStyle(rootGetters?.configuration?.pins?.style || {}),
         })
         pinsLayer.set('polarInternalId', 'mapMarkerVectorLayer')
-        rootGetters.map.addLayer(pinsLayer)
+        map.addLayer(pinsLayer)
         pinsLayer.setZIndex(100)
         commit('setIsActive', true)
+        // NOTE: Wrapper is needed to give the map to the function an be able to remove the reference to the map
+        const wrapperFunction = (event: MapBrowserEvent<PointerEvent>) =>
+          movementNotAllowed(map, event)
         if (rootGetters.configuration.pins?.movable) {
           dispatch('makeMarkerDraggable')
+          map.un('pointermove', wrapperFunction)
+        } else {
+          map.un('pointermove', wrapperFunction)
+          map.on('pointermove', wrapperFunction)
         }
       }
     },

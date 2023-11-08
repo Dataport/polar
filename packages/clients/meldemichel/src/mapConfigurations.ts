@@ -112,6 +112,10 @@ const commonPins: Partial<PinsConfiguration> = {
   style: {
     fill: hamburgRed,
   },
+  /* initial: {
+    centerOn: true,
+    coordinates: [569028, 5932885],
+  }, */
   boundaryLayerId: hamburgBorder,
 }
 
