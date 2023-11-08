@@ -29,7 +29,11 @@ const getInitialState = (): PinsState => ({
 
 let pinsLayer: VectorLayer<Vector<Geometry>>
 
-function movementNotAllowed(map, { dragging, originalEvent }) {
+function movementNotAllowed({
+  dragging,
+  map,
+  originalEvent,
+}: MapBrowserEvent<PointerEvent>) {
   if (!dragging && pinsLayer) {
     pinsLayer
       .getFeatures(map.getEventPixel(originalEvent))
@@ -159,15 +163,12 @@ const storeModule: PolarModule<PinsState, PinsState> = {
         map.addLayer(pinsLayer)
         pinsLayer.setZIndex(100)
         commit('setIsActive', true)
-        // NOTE: Wrapper is needed to give the map to the function an be able to remove the reference to the map
-        const wrapperFunction = (event: MapBrowserEvent<PointerEvent>) =>
-          movementNotAllowed(map, event)
         if (rootGetters.configuration.pins?.movable) {
           dispatch('makeMarkerDraggable')
-          map.un('pointermove', wrapperFunction)
+          map.un('pointermove', movementNotAllowed)
         } else {
-          map.un('pointermove', wrapperFunction)
-          map.on('pointermove', wrapperFunction)
+          map.un('pointermove', movementNotAllowed)
+          map.on('pointermove', movementNotAllowed)
         }
       }
     },
