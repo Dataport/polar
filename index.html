@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>📚POLAR Docs</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate, max-age=0"
+    />
+    <style>
+      /* example page style; not directly related to map client */
+      :root {
+        --not-quite-white: #f2f3f4;
+        --eigengrau: #16161d;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        width: 100%;
+      }
+
+      body {
+        font-family: sans-serif;
+        padding: 2em;
+        background: var(--not-quite-white);
+        color: var(--eigengrau);
+      }
+
+      h1 {
+        margin-bottom: 0.5em;
+      }
+
+      h2 {
+        margin: 0.5em 0;
+      }
+
+      p {
+        margin: 0.2em 0;
+      }
+
+      /* directly related to POLAR - something like this must be
+       * available for map client to render in (see core docs for
+       * more details on requirements) */
+      .polarstern {
+        width: 800px;
+        height: 600px;
+        position: relative;
+        margin: 5px 0;
+        outline: solid var(--eigengrau);
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-b51b8b34.js"></script>
+    <link data-polar="true" rel="stylesheet" href="/assets/index-d498c3b1.css">
+  </head>
+  <body>
+    <h1>🧊POLAR</h1>
+    <p>Welcome to our example and documentation hub.</p>
+    <h2>📚 Documentation</h2>
+    <ul>
+      <li>
+        <a href="/docs/afm/client-afm.html"> AfM Client Documentation </a>
+      </li>
+      <li>
+        <a href="/docs/snowbox/client-snowbox.html">
+          Snowbox Client Documentation
+        </a>
+      </li>
+    </ul>
+    <p>
+      The documentation above contains the clients' respective API description
+      with the plugin documentation of the currently installed plugins. The
+      current client version is documented – for older documentation or a
+      package-wise documentation, please check the NPM packages, which always
+      come with their full description included.
+    </p>
+    <h2>🗺️ Map</h2>
+    <p>In this example, the map client is used as an element on a website.</p>
+    <p>
+      When clicking on a feature, the GetFeatureInformation window for
+      developers is shown. Should feature information be offered to users
+      in-client, you may override the shown window with your own component,
+      since requirements for proper display will vary wildly across projects. To
+      show the information in separate fields (e.g. a pre-filled form after the
+      client), see the programmatic information binding example below.
+    </p>
+    <label id="language-switcher-label">
+      Language in map client:
+      <select
+        id="language-switcher"
+        style="border-style: solid; background: white"
+      >
+        <option value="en">English</option>
+        <option value="de">German</option>
+      </select>
+    </label>
+    <div id="polarstern" class="polarstern"></div>
+    <h2>Example for programmatic information binding</h2>
+    <p>
+      This illustrates which kind of data can be retrieved from the map client.
+      For a full overview, please check the full documentation per plugin.
+    </p>
+    <p>Current zoom level: <span id="vuex-target-zoom" /></p>
+    <p>GFI information: <span id="vuex-target-gfi" /></p>
+    <p>Pin coordinates: <span id="vuex-target-pin-coordinate" /></p>
+    <p>
+      Address search result:
+      <span id="vuex-target-address-search-result" />
+    </p>
+    <p>
+      Map export:
+      <image id="vuex-target-export-result"></image>
+    </p>
+    
+  </body>
+</html>
