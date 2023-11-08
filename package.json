@@ -9,6 +9,7 @@
     "npm": "^8.19.3"
   },
   "scripts": {
+    "buildPages": "rimraf ./pages_output && bash ./scripts/buildPages.sh",
     "clean": "lerna clean && rimraf packages/**/.cache && rimraf packages/**/dist  && rimraf dist && rimraf .cache && node ./scripts/clean",
     "snowbox": "cd packages/clients/snowbox/ && vite",
     "snowbox:build": "lerna run build --scope @polar/client-snowbox --stream",
