@@ -1,0 +1,15 @@
+**/.eslintcache
+**/*.tgz
+**/.cache
+**/coverage
+**/dist
+**/dist-test
+**/docs
+**/node_modules
+/public
+**/tests_output
+/*.log
+logs/*.log
+logs
+/.idea/
+**/.parcel-cache

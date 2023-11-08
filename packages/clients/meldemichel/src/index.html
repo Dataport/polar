@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!-- NOTE THIS FILE IS DEV MODE ONLY; for prod html see src/html -->
+<html style="height: 100%; width: 100vw; overflow: hidden">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate, max-age=0"
+    />
+    <title>Meldemichel (Dev Mode)</title>
+  </head>
+  <body style="width: 100%; height: 100%; overscroll-behavior: contain">
+    <div style="width: 100%; height: 100%">
+      <div id="polarstern"></div>
+    </div>
+    <script type="module">
+      import client from './polar-client.ts'
+
+      // // // // // // // // // // // // // // // //
+      // //  SIMULATE MODES DURING DEVELOPMENT  // //
+      // // // // // // // // // // // // // // // //
+      const mode = 'COMPLETE' // COMPLETE, REPORT, SINGLE
+      const stage = true // true, false
+
+      // TODO API incomplete
+      const mapInstance = await client.createMap({
+        containerId: 'polarstern',
+        mode,
+        afmUrl: `https://${
+          stage ? 'stage.' : ''
+        }afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index`,
+        reportServiceId: stage ? '6061' : '6059',
+      })
+
+      // added to window for testing
+      window._polar = {
+        mapInstance,
+        setMapState: () =>
+          mapInstance.$store.dispatch('meldemichel/setMapState', {
+            vendor_maps_position: '566167.224436667,5935872.419250831',
+            // inconsistency intentional to test whether field is auto-filled
+            vendor_maps_address_str: 'Mümmelmannsberg',
+            vendor_maps_address_hnr: '72',
+            mapZoomLevel: 6,
+            mapBaseLayer: 452,
+            mapCenter: '566808.8386735287,5935896.23173797',
+          }),
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,183 @@
+# Core
+
+## Scope
+
+The client's core is the base package to create clients in the POLAR environment.
+
+It offers this functionality:
+
+- Plugin mechanism
+- @masterportal/masterportalapi functionality
+- Localization mechanism
+
+## Interaction
+
+If a client is rendered as part of another page, the zoom and drag-pan behaviour is different to if the client is rendered as complete page.  
+If it's part of another page, drag-panning on mobile devices is only usable if at least two fingers are being used while on desktop clients the user can only zoom if using the respective platform modifier key (e.g. CTRL).  
+
+It is important to note that the behaviour will be desktop-like on larger touchscreen devices (e.g. tablets).
+
+## Initialization / Configuration
+
+It depends on the client how exactly the initialization will take place for the embedding programmer. However, the core mechanism remains the same.
+
+The exported default object is an extended masterportalAPI, adding the `addPlugins` and extending the `createMap` functions. For masterportalAPI details, [see their repository](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/).
+
+**IMPORTANT**: To be able to see the map in production mode, the imported stylesheet has to have the property `data-polar`. The value can be chosen arbitrarily.
+
+### addPlugins
+
+Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared. You may add further plugins or proceed with `createMap`.
+
+In case you're integrating new plugins, call `addPlugins` with an array of instances.
+
+```js
+client.addPlugins([Plugin({ pluginConfig })])
+```
+
+In case you're writing a new plugin, it must fulfill the following API:
+
+```js
+const Plugin = (options: PluginOptions) => (instance: Vue) =>
+  instance.$store.dispatch('addComponent', {
+    name: 'plugin', // unique technical name
+    plugin: Plugin, // a vue component
+    language, // an i18n locale batch
+    options, // configuration; overriddable with mapConfiguration on createMap
+    storeModule, // vuex store module, if required
+  })
+```
+
+If the storeModule features a `setupModule` action, it will be executed automatically after initialization.
+
+### createMap
+
+The map is created by calling the `createMap` method. Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone HTML pages that do this for you.
+
+```js
+MapClient.createMap({
+  // arbitrary id, must point to a div
+  containerId: 'polarstern',
+  // see below
+  mapConfiguration,
+}).then((map) => {
+  /* Your Code, e.g. for setting up callbacks. */
+})
+```
+
+#### mapConfiguration
+
+The mapConfiguration allows controlling many client instance details.
+
+| fieldName                   | type             | description                                                                                                                                                              |
+| --------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| layerConf                   | LayerConf        | Layer configuration as required by masterportalAPI.                                                                                                                      |
+| language                    | enum["de", "en"] | Initial language. Live changes not yet implemented, waiting for requirement.                                                                                             |
+| <...masterportalAPI.fields> | various          | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options.                                                              |
+| <plugin.fields>             | various          | Many plugins added with `addPlugin` may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below. |
+| vuetify                     | object           | You may add vuetify configuration here.                                                                                                                                  |
+
+##### mapConfiguration.LayerConf
+
+The layer configuration (or: service register) is read by the masterportalAPI. The full definition can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+
+However, not all listed services have been implemented in the masterportalAPI yet, and no documentation regarding implemented properties exists there yet.
+
+Whitelisted and confirmed parameters include:
+
+- WMS: id, name, url, typ, format, version, transparent, layers, STYLES
+- WFS: id, name, url, typ, outputFormat, version, featureType
+
+###### Example services register
+
+```json
+[
+  {
+    "id": "my-wfs-id",
+    "name": "Service name",
+    "url": "Service url",
+    "typ": "WFS",
+    "outputFormat": "XML",
+    "version": "1.1.0",
+    "featureType": "ns:featureType"
+  },
+  {
+    "id": "my-wms-id",
+    "name": "Service name",
+    "url": "Service url",
+    "typ": "WMS",
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "layers": ["A", "B"]
+  }
+]
+```
+
+Since this is the base for many functions, the service ID set in this is used to reference map material in many places of the map client.
+
+##### <...masterportalAPI.fields>
+
+The `<...masterportalAPI.fields>` means that any masterportalAPI field may also be used here _directly_. The most common fields are the following ones; for more, see masterportalAPI.
+
+| fieldName        | type     | description                                                                                                               |
+| ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
+| startResolution  | number   | Initial resolution; must be in options. See below.                                                                        |
+| startCenter      | number[] | Initial center coordinate.                                                                                                |
+| extent           | number[] | Map movement will be restricted to this rectangle.                                                                        |
+| epsg             | string   | Leading coordinate system, e.g. `"EPSG:25832"`.                                                                           |
+| options          | Array    | Defines all available zoomLevels. Entries define `resolution`, `scale`, and `zoomLevel`. See masterportalAPI for details. |
+| namedProjections | Array    | Array of usable projections by proj4 string.                                                                              |
+
+##### <plugin.fields>
+
+On how to configure a plugin, see the respective plugin. The configuration is given in the `mapConfiguration` object by the plugin's name as specified in its respective documentation. For example, a `@polar/plugin-address-search` plugin can be configured like this:
+
+```js
+{
+  addressSearch: {
+    // ...
+  }
+}
+```
+
+Most plugins honor this additional field.
+
+| fieldName        | type    | description                                                                                                                                                                                                                                               |
+| ---------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| displayComponent | boolean | Optional field that allows hiding UI elements from the user. The store will still be initialized, allowing you to add your own UI elements and control the plugin's functionality via the Store. This may or may not make sense, depending on the plugin. |
+
+##### mapConfiguration.vuetify
+
+These fields let you e.g. specify a [Vuetify-Theme](https://vuetifyjs.com/en/features/theme/). For more options, refer to the official vuetify documentation.
+
+Additionally to the regular fields, `primaryContrast` and `secondaryContrast` are interpreted. They serve as contrast colors to their respective fields and are used for e.g. button icons.
+
+```js
+{
+  theme: {
+    themes: {
+      light: {
+        primary: "black",
+        primaryContrast: "white",
+        secondary: "#c0ffee",
+        secondaryContrast: "#de1e7e"
+      }
+    }
+  }
+}
+```
+
+## Store
+
+The core module features a vuex root store that all plugin vuex modules are plugged into. However, the root contents are only relevant to plugins. It is accessible with `map.$store`, and can be used as a starting point for plugin access.
+
+To ease use, the map instance also features a `subscribe` method that will register a watcher to any state field. Please mind that only documented paths should be used, and all others are subject to change without notice.
+
+```js
+map.subscribe('some/key', (value) => {
+  // do something with the value
+})
+```
+
+This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.

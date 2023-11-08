@@ -1,0 +1,31 @@
+{
+  "name": "@polar/plugin-pins",
+  "version": "0.1.0",
+  "description": "Plugin Pins",
+  "license": "EUPL-1.2",
+  "author": "Dataport AöR <dataport-polar-support@dataport.de>",
+  "scripts": {
+    "postversion": "npm publish",
+    "preversion": "cd ../../.. && npm test"
+  },
+  "main": "src/index.ts",
+  "files": [
+    "src/**/*",
+    "CHANGELOG.md"
+  ],
+  "dependencies": {
+    "@polar/lib-idx": "*"
+  },
+  "peerDependencies": {
+    "@repositoryname/vuex-generators": "^1.1.2",
+    "ol": "^7.1.0",
+    "vue": "^2.6.14",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@polar/lib-custom-types": "*",
+    "@polar/lib-idx": "*",
+    "@polar/lib-passes-boundary-check": "*",
+    "@polar/lib-test-mount-parameters": "*"
+  }
+}

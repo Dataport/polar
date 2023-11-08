@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "esnext",
+    "strict": true,
+    "noImplicitAny": false,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "sourceMap": true,
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+    "typeRoots": ["node_modules/@types", "./packages/types"],
+    "types": ["custom", "vue-shims", "vuetify", "jest", "node"]
+  }
+}

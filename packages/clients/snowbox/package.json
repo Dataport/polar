@@ -1,0 +1,29 @@
+{
+  "name": "@polar/client-snowbox",
+  "private": true,
+  "description": "Snow❄️📦box",
+  "license": "EUPL-1.2",
+  "author": "Dataport AöR <dataport-polar-support@dataport.de>",
+  "scripts": {
+    "build": "rimraf dist && parcel build src/index.html --public-url . && copyfiles docs/**/* dist/docs/"
+  },
+  "//": "Don't push versions but '*'. Do locally as you desire.",
+  "dependencies": {
+    "@polar/core": "*",
+    "@polar/plugin-address-search": "*",
+    "@polar/plugin-attributions": "*",
+    "@polar/plugin-draw": "*",
+    "@polar/plugin-export": "*",
+    "@polar/plugin-fullscreen": "*",
+    "@polar/plugin-geo-location": "*",
+    "@polar/plugin-gfi": "*",
+    "@polar/plugin-icon-menu": "*",
+    "@polar/plugin-layer-chooser": "*",
+    "@polar/plugin-legend": "*",
+    "@polar/plugin-loading-indicator": "*",
+    "@polar/plugin-pins": "*",
+    "@polar/plugin-scale": "*",
+    "@polar/plugin-toast": "*",
+    "@polar/plugin-zoom": "*"
+  }
+}

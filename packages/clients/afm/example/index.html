@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html style="min-height: 100%; min-width: 100%">
+  <!-- this is a test page for the usage of POLAR - PROD TEST, not dev test -->
+  <head>
+    <meta charset="utf-8" />
+    <title>🗺️ AfM MapClient</title>
+  </head>
+  <body
+    style="
+      color: white;
+      padding: 2em;
+      font-family: Roboto;
+      min-height: 100%;
+      min-width: 100%;
+      background: rgb(4, 0, 78);
+      background: linear-gradient(
+        135deg,
+        rgba(4, 0, 78, 1) 0%,
+        rgba(9, 9, 121, 1) 29%,
+        rgba(0, 212, 255, 1) 100%
+      );
+    "
+  >
+    <h1>Testseite Konfiguration (OD-unspezifische Auslieferung)</h1>
+    <p>Nur für Testzwecke</p>
+    <h2>Karte</h2>
+    <div
+      style="
+        width: 680px;
+        height: 420px;
+        position: relative;
+        margin: 5px 0px;
+        -webkit-box-shadow: 0px 0px 5px 3px rgba(255, 255, 255, 0.5);
+        box-shadow: 0px 0px 5px 3px rgba(255, 255, 255, 0.5);
+      "
+      id="polarstern"
+    ></div>
+    <h2>Beispiel für programmatische Informationsbindung</h2>
+    <p>Aktuelle Zoomstufe: <span id="vuex-target-zoom" /></p>
+    <p>Featureinformationen: <span id="vuex-target-gfi" /></p>
+    <p>Pin-Koordinate: <span id="vuex-target-pin-coordinate" /></p>
+    <script type="module" src="./polar-example.js"></script>
+  </body>
+</html>

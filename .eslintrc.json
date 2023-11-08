@@ -1,0 +1,101 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vue/recommended",
+    "standard",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "extraFileExtensions": [".vue"]
+  },
+  "plugins": ["import"],
+  "rules": {
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-debugger": "error",
+    "object-curly-spacing": "error",
+    "array-bracket-spacing": "error",
+    "no-multi-spaces": "error",
+    "vue/multi-word-component-names": "warn",
+    "import/order": "error",
+    "curly": "error",
+    "brace-style": "error",
+    "no-else-return": "error",
+    "no-lonely-if": "error",
+    "require-await": "error",
+    "no-extra-parens": "error",
+    "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
+    "eol-last": "error",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "complexity": "warn",
+    "max-depth": "warn",
+    "max-lines": "warn",
+    "max-lines-per-function": "warn"
+  },
+  "ignorePatterns": ["**/node_modules/**/*", "**/dist/**/*"],
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": ["**/__tests__/*.{j,t}s?(x)", "**/tests/**/*.spec.{j,t}s?(x)"],
+      "env": {
+        "jest": true
+      },
+      "plugins": ["jest"],
+      "rules": {
+        "max-lines-per-function": "off"
+      }
+    },
+    {
+      "files": ["packages/**/*.js", "packages/**/*.vue"],
+      "env": {
+        "browser": true
+      }
+    },
+    {
+      "files": ["packages/**/*.ts"],
+      "env": {
+        "browser": true
+      },
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser",
+        "ecmaVersion": 2021,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+      },
+      "plugins": ["eslint-plugin-tsdoc"],
+      "rules": {
+        "tsdoc/syntax": "warn",
+        "no-use-before-define": "off",
+        "@typescript-eslint/promise-function-async": "off",
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": ["typeLike"],
+            "format": ["PascalCase"]
+          },
+          {
+            "selector": ["memberLike"],
+            "format": ["camelCase", "UPPER_CASE", "snake_case"]
+          }
+        ],
+        "@typescript-eslint/consistent-type-definitions": ["error", "interface"]
+      }
+    }
+  ]
+}

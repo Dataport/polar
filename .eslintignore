@@ -1,0 +1,9 @@
+**/build
+**/.cache
+**/coverage
+**/dist
+**/dist-test
+**/docs
+**/node_modules
+**/tests_output
+*.d.ts

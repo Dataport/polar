@@ -1,0 +1,27 @@
+{
+  "name": "@polar/plugin-export",
+  "version": "0.1.0",
+  "description": "Export the map in several formats",
+  "license": "EUPL-1.2",
+  "author": "Dataport AöR <dataport-polar-support@dataport.de>",
+  "scripts": {
+    "postversion": "npm publish",
+    "preversion": "cd ../../.. && npm test"
+  },
+  "main": "src/index.ts",
+  "files": [
+    "src/**/*",
+    "CHANGELOG.md"
+  ],
+  "dependencies": {
+    "jspdf": "^2.4.0"
+  },
+  "peerDependencies": {
+    "@repositoryname/vuex-generators": "^1.1.2",
+    "vue": "^2.6.14",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@polar/lib-custom-types": "*"
+  }
+}

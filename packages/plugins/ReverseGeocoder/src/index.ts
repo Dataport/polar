@@ -1,0 +1,10 @@
+import Vue from 'vue'
+import { ReverseGeocoderConfiguration } from '@polar/lib-custom-types'
+import storeModule from './store'
+
+export default (options: ReverseGeocoderConfiguration) => (instance: Vue) =>
+  instance.$store.dispatch('addComponent', {
+    name: 'reverseGeocoder',
+    storeModule,
+    options,
+  })

@@ -1,0 +1,2 @@
+export const SMALL_DISPLAY_HEIGHT = 480
+export const SMALL_DISPLAY_WIDTH = 768

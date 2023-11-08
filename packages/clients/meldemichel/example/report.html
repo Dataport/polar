@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate, max-age=0"
+    />
+    <title>MML REPORT (Build Test)</title>
+    <link data-polar="true" href="../dist/style.css" rel="stylesheet" />
+    <style>
+      #polarstern {
+        min-width: 320px;
+        max-width: 930px;
+        height: 500px;
+        position: relative;
+        margin: 5px;
+        -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.5);
+      }
+
+      /* attempting to break something by simulating bad external CSS rules */
+      #polarstern * {
+        color: red;
+        background-color: cadetblue;
+      }
+
+      /* mocking an environment */
+      .mock-content {
+        font-family: sans-serif;
+        padding: 1em 2em;
+      }
+
+      button {
+        cursor: pointer;
+        border: 2px solid #39756f;
+        color: #39756f;
+        background-color: white;
+        border-radius: 4px;
+        padding: 2px;
+      }
+      button:hover {
+        color: white;
+        background-color: #39756f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mock-content">
+      <p>This is a minimal test page for the REPORT environment.</p>
+      <div id="polarstern"></div>
+      <p>Communicated data:</p>
+      <p>Coordinates: <span id="test-display-coordinate">null</span></p>
+      <p>Address: <span id="test-display-address">null</span></p>
+      <p>Address data: <span id="test-display-address-data">null</span></p>
+      <button onclick="_polar.setMapState()">
+        Set parameters after rendering
+      </button>
+    </div>
+    <script type="module">
+      import meldemichelMapClient from '../dist/client-meldemichel.mjs'
+
+      const mapInstance = await meldemichelMapClient.createMap({
+        containerId: 'polarstern',
+        mode: 'REPORT',
+        // TODO incomplete API
+      })
+
+      window._polar = {
+        mapInstance,
+        setMapState: () =>
+          mapInstance.$store.dispatch('meldemichel/setMapState', {
+            vendor_maps_position: '566167.224436667,5935872.419250831',
+            // inconsistency intentional to test whether field is auto-filled
+            vendor_maps_address_str: 'Mümmelmannsberg',
+            vendor_maps_address_hnr: '72',
+            mapZoomLevel: 6,
+            mapBaseLayer: 452,
+            mapCenter: '566808.8386735287,5935896.23173797',
+          }),
+      }
+
+      // NOTE: Uncomment to test immediate execution
+      // _polar.setMapState()
+    </script>
+  </body>
+</html>

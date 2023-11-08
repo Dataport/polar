@@ -1,0 +1,36 @@
+{
+  "name": "@polar/client-dish",
+  "version": "0.1.0",
+  "description": "Client dish",
+  "license": "EUPL-1.2",
+  "author": "Dataport AöR <dataport-polar-support@dataport.de>",
+  "files": [
+    "dist/**/**.*",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "postversion": "npm run build && npm publish",
+    "build": "rimraf dist && vite build"
+  },
+  "devDependencies": {
+    "@masterportal/masterportalapi": "2.8.0",
+    "@polar/core": "*",
+    "@polar/lib-custom-types": "*",
+    "@polar/lib-get-features": "*",
+    "@polar/plugin-address-search": "*",
+    "@polar/plugin-attributions": "*",
+    "@polar/plugin-geo-location": "*",
+    "@polar/plugin-gfi": "*",
+    "@polar/plugin-icon-menu": "*",
+    "@polar/plugin-layer-chooser": "*",
+    "@polar/plugin-legend": "*",
+    "@polar/plugin-loading-indicator": "*",
+    "@polar/plugin-pins": "*",
+    "@polar/plugin-scale": "*",
+    "@polar/plugin-toast": "*",
+    "@polar/plugin-zoom": "*",
+    "focus-trap": "^7.2.0",
+    "js-levenshtein": "^1.1.6",
+    "lodash.merge": "^4.6.2"
+  }
+}

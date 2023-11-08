@@ -1,0 +1,17 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.detectIndentation": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "cSpell.words": ["snowbox"],
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "vetur.experimental.templateInterpolationService": true
+}

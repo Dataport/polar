@@ -1,0 +1,9 @@
+.polar-plugin-attributions-wrapper {
+  position: relative;
+}
+
+.polar-plugin-attributions-wrapper > div.mr-2 {
+  position: absolute;
+  right: 100%;
+  margin-right: 0 !important;
+}

@@ -1,0 +1,34 @@
+{
+  "name": "@polar/client-meldemichel",
+  "version": "0.1.0",
+  "description": "Client Meldemichel",
+  "license": "EUPL-1.2",
+  "author": "Dataport AöR <dataport-polar-support@dataport.de>",
+  "main": "dist/client-meldemichel.mjs",
+  "files": [
+    "dist/**/**.*",
+    "CHANGELOG.md",
+    "API.md"
+  ],
+  "scripts": {
+    "postversion": "npm run build && npm publish",
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist"
+  },
+  "devDependencies": {
+    "@polar/core": "*",
+    "@polar/lib-custom-types": "*",
+    "@polar/plugin-address-search": "*",
+    "@polar/plugin-attributions": "*",
+    "@polar/plugin-fullscreen": "*",
+    "@polar/plugin-geo-location": "*",
+    "@polar/plugin-gfi": "*",
+    "@polar/plugin-icon-menu": "*",
+    "@polar/plugin-layer-chooser": "*",
+    "@polar/plugin-loading-indicator": "*",
+    "@polar/plugin-pins": "*",
+    "@polar/plugin-reverse-geocoder": "*",
+    "@polar/plugin-scale": "*",
+    "@polar/plugin-toast": "*",
+    "@polar/plugin-zoom": "*"
+  }
+}
