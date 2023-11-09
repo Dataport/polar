@@ -1,6 +1,6 @@
 import { Collection } from 'ol'
 import BaseLayer from 'ol/layer/Base'
-import { Attribution, MapConfig } from '@polar/lib-custom-types'
+import { Attribution } from '@polar/lib-custom-types'
 
 /**
  * Returns a string which contains the attributions for every visible Layer
@@ -74,62 +74,12 @@ function getVisibleAttributions(
 }
 
 /**
- * builds all attributions for a Map
- * @param mapConfiguration - the map configuration
- * @param layers - contains all Layers
- * @returns an Array of Attributions
- */
-export function buildAttributions(
-  mapConfiguration: MapConfig,
-  layers: Collection<BaseLayer>
-): Attribution[] {
-  // if attributions are defined in the mapConfiguration get them
-  let attributions: Attribution[] = []
-  if (mapConfiguration?.attributions?.layerAttributions) {
-    attributions = mapConfiguration.attributions.layerAttributions
-  }
-
-  // check if we got an attribution for each layer
-  layers?.forEach((layer) => {
-    const layerID: string = layer.get('id')
-
-    let a: Attribution = attributions.find(
-      (attribution) => layerID === attribution.id
-    ) as Attribution
-    // if found something, print the information (by setting it as source attribution text)
-    if (a) {
-      a.title = a.title.includes('common:')
-        ? a.title
-        : formatAttributionText(a.title)
-    } else {
-      // if nothing found, print URL for source
-      a = { id: layerID, title: '' }
-      a.title = getLayerSource(mapConfiguration, a.id)
-      attributions.push(a)
-    }
-  })
-
-  return attributions
-}
-
-/**
- * Looks for the proxyUrl in the MapConfig
- * @param mapConfig - tha MapConfiguration
- * @param id - the LayerID
- * @returns a string which contain the proxyUrl for the LayerID
- */
-function getLayerSource(mapConfig: MapConfig, id: string): string {
-  const layerSource = mapConfig.layers?.find((layer) => id === layer.id)
-  return layerSource?.proxyUrl || ''
-}
-
-/**
  * Formats the attribution-string and replaces <YEAR> with the current year and
  * <MONTH> with the current month.
  * @param text - the attribution text defined in the mapConfig
  * @returns a formatted string, which can be displayed in the Attributions
  */
-function formatAttributionText(text: string): string {
+export function formatAttributionText(text: string): string {
   const now = new Date()
   return text
     .replaceAll('{{YEAR}}', now.getFullYear().toString())
