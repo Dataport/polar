@@ -1,0 +1,14 @@
+name: Generate a Software Bill of Materials in CycloneDX format based on the current dependency graph
+on:
+  push:
+    branches:
+      - main
+jobs:
+  generate_sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - run: sudo apt-get install jq
+      - run: gh ext install advanced-security/gh-sbom && gh sbom -c -l | jq '.' > /sbom.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
