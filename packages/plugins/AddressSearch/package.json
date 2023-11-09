@@ -4,10 +4,6 @@
   "description": "Plugin AddressSearch",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataport-polar-support@dataport.de>",
-  "scripts": {
-    "postversion": "npm publish",
-    "preversion": "cd ../../.. && npm test"
-  },
   "main": "src/index.ts",
   "files": [
     "src/**/*",

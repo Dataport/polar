@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataport-polar-support@dataport.de>",
-  "scripts": {
-    "postversion": "npm publish"
-  },
   "main": "index.ts",
   "devDependencies": {
     "@polar/lib-custom-types": "*"
