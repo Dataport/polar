@@ -10,9 +10,9 @@
     "CHANGELOG.md"
   ],
   "devDependencies": {
-    "@polar/lib-custom-types": "*"
+    "@polar/lib-custom-types": "^1.0.0"
   },
   "peerDependencies": {
-    "@masterportal/masterportalapi": "*"
+    "@masterportal/masterportalapi": "2.8.0"
   }
 }

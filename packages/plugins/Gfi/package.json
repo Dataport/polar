@@ -20,8 +20,8 @@
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "*",
-    "@polar/lib-test-mount-parameters": "*",
-    "@polar/components": "*"
+    "@polar/lib-custom-types": "^1.0.0",
+    "@polar/lib-test-mount-parameters": "^1.0.0",
+    "@polar/components": "^1.0.0"
   }
 }
