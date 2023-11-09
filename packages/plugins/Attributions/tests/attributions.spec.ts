@@ -27,10 +27,6 @@ describe('plugin-attributions', () => {
     describe('lib', () => {
       // TODO: Copy and adjust these tests to be usable with buildMapInfo as well
       describe('updateMapInfo', () => {
-        it('breaks the test', () => {
-          expect(true).toBe(false)
-        })
-
         it('should return no Attributions if none are found', () => {
           const mapInfo = updateMapInfo(['baz', 'foo'], mockyButions, [])
 
