@@ -41,9 +41,9 @@
     <p>Featureinformationen: <span id="vuex-target-gfi" /></p>
     <p>Pin-Koordinate: <span id="vuex-target-pin-coordinate" /></p>
     <script type="module">
-      import MapClient from "../dist/polar-client.js"
+      import * as MapClient from "../dist/polar-client.js"
       window.MapClient = MapClient
+      import "./polar-example.js"
     </script>
-    <script type="module" src="./polar-example.js"></script>
   </body>
 </html>
