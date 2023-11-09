@@ -35,6 +35,7 @@ client.rawLayerList.initializeLayerList(servicesUrl, function (layerConf) {
             visibility: true,
             type: 'mask',
             name: 'Bebauungsplänen',
+            minZoom: 2,
           },
         ],
         attributions: {
