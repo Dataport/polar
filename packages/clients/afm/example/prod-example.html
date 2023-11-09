@@ -40,7 +40,10 @@
     <p>Aktuelle Zoomstufe: <span id="vuex-target-zoom" /></p>
     <p>Featureinformationen: <span id="vuex-target-gfi" /></p>
     <p>Pin-Koordinate: <span id="vuex-target-pin-coordinate" /></p>
-    <script src="../dist/polar-client.js"></script>
+    <script type="module">
+      import MapClient from "../dist/polar-client.js"
+      window.MapClient = MapClient
+    </script>
     <script type="module" src="./polar-example.js"></script>
   </body>
 </html>
