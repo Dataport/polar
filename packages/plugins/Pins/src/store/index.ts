@@ -7,12 +7,12 @@ import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
 import { Vector } from 'ol/source'
 import Feature from 'ol/Feature'
-import { Translate, Draw } from 'ol/interaction'
+import { Draw, Select, Translate } from 'ol/interaction'
 import { PolarModule } from '@polar/lib-custom-types'
 import { toLonLat } from 'ol/proj'
+import { pointerMove } from 'ol/events/condition'
 import { Geometry } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
-import { MapBrowserEvent } from 'ol'
 import { PinsState } from '../types'
 import getPointCoordinate from '../util/getPointCoordinate'
 import { getPinStyle } from '../util/getPinStyle'
@@ -29,20 +29,11 @@ const getInitialState = (): PinsState => ({
 
 let pinsLayer: VectorLayer<Vector<Geometry>>
 
-function movementNotAllowed({
-  dragging,
-  map,
-  originalEvent,
-}: MapBrowserEvent<PointerEvent>) {
-  if (!dragging && pinsLayer) {
-    pinsLayer
-      .getFeatures(map.getEventPixel(originalEvent))
-      .then(
-        (features) =>
-          (document.body.style.cursor = features.length ? 'not-allowed' : '')
-      )
-  }
-}
+const move = new Select({
+  layers: (l) => l === pinsLayer,
+  style: null,
+  condition: pointerMove,
+})
 
 const storeModule: PolarModule<PinsState, PinsState> = {
   namespaced: true,
@@ -54,7 +45,7 @@ const storeModule: PolarModule<PinsState, PinsState> = {
      * its value for the chosenAddress.
      */
     setupModule({ getters, rootGetters, dispatch, commit }): void {
-      const { appearOnClick, coordinateSource, initial, toZoomLevel } =
+      const { appearOnClick, coordinateSource, initial, movable, toZoomLevel } =
         rootGetters.configuration.pins || {}
       const interactions = rootGetters.map.getInteractions()
       if (toZoomLevel) {
@@ -105,6 +96,14 @@ const storeModule: PolarModule<PinsState, PinsState> = {
             }
           },
           { deep: true }
+        )
+      }
+      if (!movable) {
+        rootGetters.map.addInteraction(move)
+        move.on(
+          'select',
+          ({ selected }) =>
+            (document.body.style.cursor = selected.length ? 'not-allowed' : '')
         )
       }
       if (initial) {
@@ -165,10 +164,6 @@ const storeModule: PolarModule<PinsState, PinsState> = {
         commit('setIsActive', true)
         if (rootGetters.configuration.pins?.movable) {
           dispatch('makeMarkerDraggable')
-          map.un('pointermove', movementNotAllowed)
-        } else {
-          map.un('pointermove', movementNotAllowed)
-          map.on('pointermove', movementNotAllowed)
         }
       }
     },
