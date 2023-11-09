@@ -1,6 +1,6 @@
 {
   "name": "@polar/client-dish",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Client dish",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataport-polar-support@dataport.de>",
@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build"
+    "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh"
   },
   "devDependencies": {
     "@masterportal/masterportalapi": "2.8.0",
