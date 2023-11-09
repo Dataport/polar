@@ -1,13 +1,13 @@
 {
   "name": "@polar/client-afm",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Client Afm",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataport-polar-support@dataport.de>",
   "files": [
     "dist/**/**.*",
     "docs/**/**.*",
-    "example/polar-example.html",
+    "example/prod-example.html",
     "example/polar-example.js",
     "CHANGELOG.md",
     "API.md"
