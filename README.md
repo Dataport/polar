@@ -31,7 +31,7 @@ We're production-ready, but have a history as Inner Source software, and are now
 | GitHub Page                    | ~~Create a page offering our full documentation and examples. This includes adapting the internal _snowbox_ client to work as both example and development environment.~~ [Basic page done.](https://dataport.github.io/polar/) | 🏗️     |
 | Working outside the repository | Clients can be used anywhere, but their development requires further setup. Right now, clients should be developed in this repository or in a fork.                                                                             | ⌛     |
 | Getting started                | This will probably be a part of the GitHub Page.                                                                                                                                                                                | ⌛     |
-| GitHub Actions                 | Linting and testing is done with [husky](https://github.com/typicode/husky) until pipelines are ready.                                                                                                                          | ⌛     |
+| GitHub Actions                 | ~~Linting and testing is done with [husky](https://github.com/typicode/husky) until pipelines are ready.~~ Tests and linting now run in the pipeline. Farewell, husky! 🐺❄️                                                     | ✔️     |
 | OSS Best Practices             | Contributions, Issues, Discussions, The Wiki – there's a lot to fill out and define.                                                                                                                                            | ⌛     |
 
 ## Stay In Touch 💬

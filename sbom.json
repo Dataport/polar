@@ -3,9 +3,9 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.4",
   "version": 1,
-  "serialNumber": "urn:uuid:7fa63f92-8555-447a-8f8b-7dddc9c70575",
+  "serialNumber": "urn:uuid:a84e8432-0231-493b-ad4f-67301f4fae73",
   "metadata": {
-    "timestamp": "2023-11-08T11:40:32.351Z",
+    "timestamp": "2023-11-09T12:54:53.365Z",
     "tools": [
       {
         "name": "npm",
@@ -38173,60 +38173,6 @@
     },
     {
       "type": "library",
-      "name": "husky",
-      "version": "8.0.3",
-      "bom-ref": "husky@8.0.3",
-      "author": "Typicode",
-      "description": "Modern native Git hooks made easy",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:npm/husky@8.0.3",
-      "externalReferences": [
-        {
-          "url": "git+https://github.com/typicode/husky.git",
-          "type": "vcs",
-          "comment": "as detected from PackageJson property \"repository.url\""
-        },
-        {
-          "url": "https://typicode.github.io/husky",
-          "type": "website",
-          "comment": "as detected from PackageJson property \"homepage\""
-        },
-        {
-          "url": "https://github.com/typicode/husky/issues",
-          "type": "issue-tracker",
-          "comment": "as detected from PackageJson property \"bugs.url\""
-        },
-        {
-          "url": "https://registry.npmjs.org/husky/-/husky-8.0.3.tgz",
-          "type": "distribution",
-          "hashes": [
-            {
-              "alg": "SHA-512",
-              "content": "f9d412caa3e1e31d6194ed6cc1706235bd87cd30cdd48d8818b431d46ac1ba2a8525fa0cae7656c1599ab6f4a23be233f1f0549dffa57a4c0da387362e55c8b6"
-            }
-          ],
-          "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/husky"
-        },
-        {
-          "name": "cdx:npm:package:development",
-          "value": "true"
-        }
-      ]
-    },
-    {
-      "type": "library",
       "name": "i18next-browser-languagedetector",
       "version": "6.1.8",
       "bom-ref": "i18next-browser-languagedetector@6.1.8",
@@ -68372,7 +68318,7 @@
       "type": "library",
       "name": "string-width",
       "version": "4.2.3",
-      "bom-ref": "BomRef.0e5ov7jhadg.nrnd6s13h7g",
+      "bom-ref": "BomRef.jg59kmj3qmo.1n20cvrl14g",
       "author": "Sindre Sorhus",
       "description": "Get the visual width of a string - the number of columns required to display it",
       "licenses": [
@@ -68480,7 +68426,7 @@
       "type": "library",
       "name": "strip-ansi",
       "version": "6.0.1",
-      "bom-ref": "BomRef.fsnqj14lavg.k1ts5grlm68",
+      "bom-ref": "BomRef.ib1sk1gq7m.723dejo2l4g",
       "author": "Sindre Sorhus",
       "description": "Strip ANSI escape codes from a string",
       "licenses": [
@@ -98584,7 +98530,6 @@
         "hammerjs@2.0.8",
         "html2canvas@1.4.1",
         "http-server@14.1.1",
-        "husky@8.0.3",
         "i18next-browser-languagedetector@6.1.8",
         "i18next@21.10.0",
         "jest-environment-jsdom@29.7.0",
@@ -102909,9 +102854,6 @@
       "ref": "url-join@4.0.1"
     },
     {
-      "ref": "husky@8.0.3"
-    },
-    {
       "ref": "i18next-browser-languagedetector@6.1.8",
       "dependsOn": [
         "@babel/runtime@7.23.2"
@@ -106496,9 +106438,9 @@
     {
       "ref": "@isaacs/cliui@8.0.2",
       "dependsOn": [
-        "BomRef.0e5ov7jhadg.nrnd6s13h7g",
+        "BomRef.jg59kmj3qmo.1n20cvrl14g",
         "@isaacs/cliui@8.0.2|string-width@5.1.2",
-        "BomRef.fsnqj14lavg.k1ts5grlm68",
+        "BomRef.ib1sk1gq7m.723dejo2l4g",
         "@isaacs/cliui@8.0.2|strip-ansi@7.1.0",
         "wrap-ansi@7.0.0",
         "@isaacs/cliui@8.0.2|wrap-ansi@8.1.0"
@@ -106536,7 +106478,7 @@
       "ref": "@isaacs/cliui@8.0.2|ansi-styles@6.2.1"
     },
     {
-      "ref": "BomRef.0e5ov7jhadg.nrnd6s13h7g",
+      "ref": "BomRef.jg59kmj3qmo.1n20cvrl14g",
       "dependsOn": [
         "emoji-regex@8.0.0",
         "is-fullwidth-code-point@3.0.0",
@@ -106547,7 +106489,7 @@
       "ref": "eastasianwidth@0.2.0"
     },
     {
-      "ref": "BomRef.fsnqj14lavg.k1ts5grlm68",
+      "ref": "BomRef.ib1sk1gq7m.723dejo2l4g",
       "dependsOn": [
         "ansi-regex@5.0.1"
       ]
