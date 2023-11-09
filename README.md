@@ -25,14 +25,14 @@ This is but a rudimentary start into the POLAR library. We will improve with add
 
 We're production-ready, but have a history as Inner Source software, and are now gradually switching to being Open Source software. There's a lot to do until we're completely "here":
 
-| Topic                          | TODO                                                                                                                                                                  | Status |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| Re-release                     | Offer all packages as 1.0.0 on the NPM registry and as GitHub releases. Previous inner source version history and changelogs are reset.                               | ⌛     |
-| GitHub Page                    | Create a page offering our full documentation and examples. This includes adapting the internal _snowbox_ client to work as both example and development environment. | ⌛     |
-| Working outside the repository | Clients can be used anywhere, but their development requires further setup. Right now, clients should be developed in this repository or in a fork.                   | ⌛     |
-| Getting started                | This will probably be a part of the GitHub Page.                                                                                                                      | ⌛     |
-| GitHub Actions                 | Linting and testing is done with [husky](https://github.com/typicode/husky) until pipelines are ready.                                                                | ⌛     |
-| OSS Best Practices             | Contributions, Issues, Discussions, The Wiki – there's a lot to fill out and define.                                                                                  | ⌛     |
+| Topic                          | TODO                                                                                                                                                                                                                            | Status |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| Re-release                     | Offer all packages as 1.0.0 on the NPM registry and as GitHub releases. Previous inner source version history and changelogs are reset.                                                                                         | ⌛     |
+| GitHub Page                    | ~~Create a page offering our full documentation and examples. This includes adapting the internal _snowbox_ client to work as both example and development environment.~~ [Basic page done.](https://dataport.github.io/polar/) | 🏗️     |
+| Working outside the repository | Clients can be used anywhere, but their development requires further setup. Right now, clients should be developed in this repository or in a fork.                                                                             | ⌛     |
+| Getting started                | This will probably be a part of the GitHub Page.                                                                                                                                                                                | ⌛     |
+| GitHub Actions                 | Linting and testing is done with [husky](https://github.com/typicode/husky) until pipelines are ready.                                                                                                                          | ⌛     |
+| OSS Best Practices             | Contributions, Issues, Discussions, The Wiki – there's a lot to fill out and define.                                                                                                                                            | ⌛     |
 
 ## Stay In Touch 💬
 
