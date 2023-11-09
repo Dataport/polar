@@ -5,6 +5,6 @@
   "author": "Dataport AöR <dataport-polar-support@dataport.de>",
   "main": "index.ts",
   "devDependencies": {
-    "@polar/lib-custom-types": "*"
+    "@polar/lib-custom-types": "^1.0.0"
   }
 }
