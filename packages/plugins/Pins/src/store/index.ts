@@ -9,7 +9,7 @@ import { Vector } from 'ol/source'
 import Feature from 'ol/Feature'
 import { Draw, Select, Translate } from 'ol/interaction'
 import { PolarModule } from '@polar/lib-custom-types'
-import { toLonLat } from 'ol/proj'
+import { toLonLat, transform } from 'ol/proj'
 import { pointerMove } from 'ol/events/condition'
 import { Geometry } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
@@ -107,12 +107,19 @@ const storeModule: PolarModule<PinsState, PinsState> = {
         )
       }
       if (initial) {
-        const { coordinates, centerOn } = initial
+        const { coordinates, centerOn, epsg } = initial
+        const transformedCoordinates =
+          typeof epsg === 'string'
+            ? transform(coordinates, epsg, rootGetters.configuration.epsg)
+            : coordinates
 
         dispatch('removeMarker')
-        dispatch('showMarker', { coordinates, clicked: true })
-        commit('setCoordinatesAfterDrag', coordinates)
-        dispatch('updateCoordinates', coordinates)
+        dispatch('showMarker', {
+          coordinates: transformedCoordinates,
+          clicked: true,
+        })
+        commit('setCoordinatesAfterDrag', transformedCoordinates)
+        dispatch('updateCoordinates', transformedCoordinates)
         if (centerOn) {
           rootGetters.map.getView().setCenter(getters.transformedCoordinate)
           rootGetters.map.getView().setZoom(getters.toZoomLevel)

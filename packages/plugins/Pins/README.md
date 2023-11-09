@@ -34,10 +34,11 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 
 #### pins.initial
 
-| fieldName   | type     | description                                                                                                                |
-|-------------|----------|----------------------------------------------------------------------------------------------------------------------------|
-| centerOn    | boolean? | If set to true, center on and zoom to the given coordinates on start. Defaults to false.                                   |
-| coordinates | number[] | Coordinate pair for the pin. Has to be encoded in the active coordinate reference system defined in the mapConfiguration. |
+| fieldName   | type     | description                                                                                                                           |
+|-------------|----------|---------------------------------------------------------------------------------------------------------------------------------------|
+| coordinates | number[] | Coordinate pair for the pin.                                                                                                          |
+| centerOn    | boolean? | If set to true, center on and zoom to the given coordinates on start. Defaults to false.                                              |
+| epsg        | string?  | Coordinate reference system in which the given coordinates are encoded. Defaults to the `epsg` value defined in the mapConfiguration. |
 
 #### pins.style
 

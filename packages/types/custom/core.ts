@@ -326,8 +326,9 @@ export interface AppearOnClick {
 }
 
 interface InitialPin {
-  centerOn?: boolean
   coordinates: [number, number]
+  centerOn?: boolean
+  epsg?: string
 }
 
 interface PinStyle {
