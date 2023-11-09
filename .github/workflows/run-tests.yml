@@ -1,0 +1,13 @@
+name: Run linter and tests
+
+on: push
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          npm ci
+          npm run lint
+          npm run test
