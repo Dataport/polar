@@ -1,17 +1,11 @@
-# Polar-Client AfM
+# POLAR client AfM
 
-## Umfang
+## Contents
 
-Dieser Klient ist eine durch Konfiguration wiederverwendbare Kartenlösung für
-AfM-Prozesse. Der Klient wird für wiederkehrende Anforderungen erweitert.
+This clients is a reusable map solution intended for AfM procedures. However, it's also a generic client without special code that is usable in any environment. The client can be extended for recurring requirements on demand.
 
-## Konfiguration
+## Configuration
 
-Eine detaillierte Beschreibung der API ist in der mitgelieferten `API.md`
-enthalten. Ein Anwendungsbeispiel wird im Ordner `example` mitgeliefert. Dieses
-kann eingesehen werden, indem die Dateien in einem beliebigen HTTP-Server
-gehostet werden.
+A detailed API description is provided in the contained `API.md` file. A usage example is included in the `example` folder. It can be viewn by hosting the files in an arbitrary HTTP server.
 
-Für NPM-Nutzer: `npx http-server ./` und Navigation auf `/example/prod-example.html`
-unter `localhost:8080` (Port kann abweichen, siehe Konsole) zeigt den Klienten
-an.
+NPM users may e.g. run `npx http-server ./` and navigate to `/example/prod-example.html` appended to the URL shown in the console.

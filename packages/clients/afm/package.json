@@ -15,23 +15,23 @@
   "main": "./dist/afm.js",
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build"
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm"
   },
   "devDependencies": {
-    "@polar/core": "*",
-    "@polar/plugin-address-search": "*",
-    "@polar/plugin-attributions": "*",
-    "@polar/plugin-draw": "*",
-    "@polar/plugin-export": "*",
-    "@polar/plugin-gfi": "*",
-    "@polar/plugin-icon-menu": "*",
-    "@polar/plugin-layer-chooser": "*",
-    "@polar/plugin-legend": "*",
-    "@polar/plugin-loading-indicator": "*",
-    "@polar/plugin-pins": "*",
-    "@polar/plugin-scale": "*",
-    "@polar/plugin-toast": "*",
-    "@polar/plugin-zoom": "*"
+    "@polar/core": "^1.0.0",
+    "@polar/plugin-address-search": "^1.0.0",
+    "@polar/plugin-attributions": "^1.0.0",
+    "@polar/plugin-draw": "^1.0.0",
+    "@polar/plugin-export": "^1.0.0",
+    "@polar/plugin-gfi": "^1.0.0",
+    "@polar/plugin-icon-menu": "^1.0.0",
+    "@polar/plugin-layer-chooser": "^1.0.0",
+    "@polar/plugin-legend": "^1.0.0",
+    "@polar/plugin-loading-indicator": "^1.0.0",
+    "@polar/plugin-pins": "^1.0.0",
+    "@polar/plugin-scale": "^1.0.0",
+    "@polar/plugin-toast": "^1.0.0",
+    "@polar/plugin-zoom": "^1.0.0"
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
