@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-legend",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Plugin Legend",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataport-polar-support@dataport.de>",
@@ -10,9 +10,9 @@
     "CHANGELOG.md"
   ],
   "devDependencies": {
-    "@polar/lib-custom-types": "*"
+    "@polar/lib-custom-types": "^1.0.0"
   },
   "peerDependencies": {
-    "@masterportal/masterportalapi": "*"
+    "@masterportal/masterportalapi": "2.8.0"
   }
 }

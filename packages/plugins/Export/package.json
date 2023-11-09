@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-export",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Export the map in several formats",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataport-polar-support@dataport.de>",
@@ -18,6 +18,6 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "*"
+    "@polar/lib-custom-types": "^1.0.0"
   }
 }
