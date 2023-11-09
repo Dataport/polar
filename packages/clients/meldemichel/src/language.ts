@@ -3,8 +3,6 @@
 import { LanguageOption } from '@polar/lib-custom-types'
 import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
 
-const intentionallyBreakLint = require('@babel/core')
-
 /*
   NOTE this is a lookup of the old localization.
   TODO this comment must be deleted after parts were used where applicable.
