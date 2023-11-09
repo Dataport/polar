@@ -1,0 +1,24 @@
+name: Publish packages with updated changelog to npmjs.org
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.13.0
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: npm run publishPackages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: EndBug/add-and-commit@v9
+        with:
+          author_name: Dataport Geo Bot
+          author_email: dataport-polar-support@dataport.de

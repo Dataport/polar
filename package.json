@@ -28,6 +28,7 @@
     "lint:ci": "npx eslint . --ext .js,.ts,.vue",
     "lint:fix": "npx eslint . --fix --cache --ext .js,.ts,.vue",
     "postinstall": "lerna bootstrap --hoist",
+    "publishPackages": "node ./scripts/publishPackages",
     "test": "jest",
     "test:dev": "jest --coverage --coverageReporters=text --watchAll",
     "test:coverage": "jest --coverage"
