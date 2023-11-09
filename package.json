@@ -22,7 +22,6 @@
     "buildPages": "rimraf ./pages_output && bash ./scripts/buildPages.sh",
     "clean": "lerna clean && rimraf --glob packages/**/{.cache,dist,docs} && rimraf --glob {.cache,dist,pages_output} && node ./scripts/clean",
     "docs:afm": "node ./scripts/makeDocs ./packages/clients/afm",
-    "docs:sbom": "npx @cyclonedx/cyclonedx-npm --output-file sbom.json",
     "docs:snowbox": "node ./scripts/makeDocs ./packages/clients/snowbox",
     "lint": "npx eslint . --cache --ext .js,.ts,.vue",
     "lint:ci": "npx eslint . --ext .js,.ts,.vue",
@@ -36,7 +35,6 @@
   "devDependencies": {
     "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.20.2",
-    "@cyclonedx/cyclonedx-npm": "^1.7.2",
     "@jest/types": "^29.3.1",
     "@types/geojson": "^7946.0.8",
     "@types/jest": "^29.2.5",
