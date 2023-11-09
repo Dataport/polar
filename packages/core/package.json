@@ -26,8 +26,8 @@
     "ol": "^7.1.0"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "*",
-    "@polar/lib-idx": "*"
+    "@polar/lib-custom-types": "^1.0.0",
+    "@polar/lib-idx": "^1.0.0"
   },
   "files": [
     "src/**/*",
