@@ -1,6 +1,6 @@
 {
   "name": "@polar/lib-idx",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataport-polar-support@dataport.de>",
   "main": "index.ts"
