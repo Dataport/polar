@@ -1,12 +1,9 @@
 {
   "name": "@polar/core",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "MapClient Core",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataport-polar-support@dataport.de>",
-  "scripts": {
-    "postversion": "npm publish"
-  },
   "main": "src/index.ts",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.1",
@@ -29,8 +26,8 @@
     "ol": "^7.1.0"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "*",
-    "@polar/lib-idx": "*"
+    "@polar/lib-custom-types": "^1.0.0",
+    "@polar/lib-idx": "^1.0.0"
   },
   "files": [
     "src/**/*",

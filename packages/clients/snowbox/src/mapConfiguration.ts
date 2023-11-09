@@ -62,6 +62,7 @@ export const mapConfiguration = {
   },
   attributions: {
     initiallyOpen: false,
+    windowWidth: 300,
     layerAttributions: [
       {
         id: basemapId,

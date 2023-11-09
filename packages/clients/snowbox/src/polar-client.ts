@@ -67,7 +67,7 @@ document
     const target = event.target as HTMLOptionElement
     const { value } = target
     changeLanguage(value).then(() => {
-      target[0].innerHTML = value === 'en' ? 'German' : 'Deutsch'
-      target[1].innerHTML = value === 'en' ? 'English' : 'Englisch'
+      target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
+      target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
     })
   })

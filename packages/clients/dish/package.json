@@ -9,7 +9,7 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "postversion": "npm run build && npm publish",
+    "postversion": "npm run build",
     "build": "rimraf dist && vite build"
   },
   "devDependencies": {

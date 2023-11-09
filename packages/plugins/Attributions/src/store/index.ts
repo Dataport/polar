@@ -56,10 +56,15 @@ const storeModule: PolarModule<AttributionsState, AttributionsGetters> = {
     setLayer({ rootGetters: { map }, commit }) {
       commit('setLayer', lib.getVisibleLayers(map.getLayers()))
     },
-    setAttributions({ rootGetters: { map, configuration }, commit }) {
+    setAttributions({ rootGetters: { configuration }, commit }) {
       commit(
         'setAttributions',
-        lib.buildAttributions(configuration, map.getLayers())
+        configuration.attributions?.layerAttributions === undefined
+          ? []
+          : configuration.attributions.layerAttributions.map((a) => ({
+              ...a,
+              title: lib.formatAttributionText(a.title),
+            }))
       )
     },
   },

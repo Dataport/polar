@@ -4,9 +4,6 @@
   "description": "Displays the Attributions of the Map",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataport-polar-support@dataport.de>",
-  "scripts": {
-    "postversion": "npm publish"
-  },
   "main": "src/index.ts",
   "files": [
     "src/**/*",
