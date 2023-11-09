@@ -10,7 +10,7 @@
   },
   "scripts": {
     "buildPages": "rimraf ./pages_output && bash ./scripts/buildPages.sh",
-    "clean": "lerna clean && rimraf packages/**/.cache && rimraf packages/**/dist  && rimraf dist && rimraf .cache && node ./scripts/clean",
+    "clean": "lerna clean && rimraf --glob packages/**/{.cache,dist,docs} && rimraf --glob {.cache,dist,pages_output} && node ./scripts/clean",
     "snowbox": "cd packages/clients/snowbox/ && vite",
     "snowbox:build": "lerna run build --scope @polar/client-snowbox --stream",
     "dish:dev": "cd packages/clients/dish/ && vite",
