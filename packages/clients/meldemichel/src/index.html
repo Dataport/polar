@@ -25,6 +25,8 @@
       // // // // // // // // // // // // // // // //
       const mode = 'COMPLETE' // COMPLETE, REPORT, SINGLE
       const stage = true // true, false
+      const movablePin = false // true, false
+      const coordinates = [569028, 5932885] // anything in HH in EPSG:25832
 
       // TODO API incomplete
       const mapInstance = await client.createMap({
@@ -34,6 +36,20 @@
           stage ? 'stage.' : ''
         }afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index`,
         reportServiceId: stage ? '6061' : '6059',
+        /*
+        configOverride: {
+          pins: {
+            initial: {
+              centerOn: true,
+              coordinates,
+            },
+            movable: movablePin,
+            style: {
+              fill: movablePin ? '#0392cf' : '#ff0019',
+            },
+          },
+        },
+        */
       })
 
       // added to window for testing

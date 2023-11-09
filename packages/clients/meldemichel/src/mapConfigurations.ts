@@ -1,6 +1,3 @@
-// TODO Seemingly this is how movable pins for Sachbearbeiter came in prior
-// pinCoordinate: [565699.2, 5933923.69],
-
 import {
   AddressSearchConfiguration,
   Attribution,
@@ -112,10 +109,6 @@ const commonPins: Partial<PinsConfiguration> = {
   style: {
     fill: hamburgRed,
   },
-  /* initial: {
-    centerOn: true,
-    coordinates: [569028, 5932885],
-  }, */
   boundaryLayerId: hamburgBorder,
 }
 
