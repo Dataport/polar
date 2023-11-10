@@ -331,6 +331,8 @@ interface InitialPin {
   epsg?: string
 }
 
+type MovablePin = 'drag' | 'click' | 'none'
+
 interface PinStyle {
   fill?: string
   stroke?: string
@@ -350,7 +352,7 @@ export interface PinsConfiguration extends PluginOptions {
   coordinateSource?: string
   initial?: InitialPin
   /** If the pin should be movable; defaults to false. */
-  movable?: boolean
+  movable?: boolean | MovablePin
   /** Pin styling */
   style?: PinStyle
   /**

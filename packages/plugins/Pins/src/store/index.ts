@@ -55,13 +55,20 @@ const storeModule: PolarModule<PinsState, PinsState> = {
         commit('setAtZoomLevel', appearOnClick.atZoomLevel)
       }
       const showPin = appearOnClick === undefined ? true : appearOnClick.show
-
+      if (typeof movable === 'boolean') {
+        console.warn(
+          "Pins: Using a boolean for the configuration parameter 'movable' has been deprecated and will be removed in the next major release."
+        )
+      }
       rootGetters.map.on('singleclick', async ({ coordinate }) => {
         const isDrawing = interactions
           .getArray()
           .some((interaction) => interaction instanceof Draw)
 
         if (
+          ((typeof movable === 'boolean' && movable) ||
+            movable === 'drag' ||
+            movable === 'click') &&
           showPin &&
           // NOTE: It is assumed that getZoom actually returns the currentZoomLevel, thus the view has a constraint in the resolution.
           (rootGetters.map.getView().getZoom() as number) >=
@@ -98,7 +105,7 @@ const storeModule: PolarModule<PinsState, PinsState> = {
           { deep: true }
         )
       }
-      if (!movable) {
+      if (!movable || movable === 'none') {
         rootGetters.map.addInteraction(move)
         move.on(
           'select',
@@ -134,19 +141,19 @@ const storeModule: PolarModule<PinsState, PinsState> = {
      */
     showMarker({ getters, rootGetters, commit, dispatch }, payload): void {
       if (getters.isActive === false) {
-        const { map } = rootGetters
+        const { configuration, map } = rootGetters
         if (payload.clicked === false) {
           dispatch(
             'updateCoordinates',
             getPointCoordinate(
               payload.epsg,
-              rootGetters.configuration.epsg,
+              configuration.epsg,
               payload.type,
               payload.coordinates
             )
           )
-          rootGetters.map.getView().setCenter(getters.transformedCoordinate)
-          rootGetters.map.getView().setZoom(getters.toZoomLevel)
+          map.getView().setCenter(getters.transformedCoordinate)
+          map.getView().setZoom(getters.toZoomLevel)
         }
         const coordinatesForIcon =
           payload.clicked === true
@@ -163,13 +170,16 @@ const storeModule: PolarModule<PinsState, PinsState> = {
               }),
             ],
           }),
-          style: getPinStyle(rootGetters?.configuration?.pins?.style || {}),
+          style: getPinStyle(configuration?.pins?.style || {}),
         })
         pinsLayer.set('polarInternalId', 'mapMarkerVectorLayer')
         map.addLayer(pinsLayer)
         pinsLayer.setZIndex(100)
         commit('setIsActive', true)
-        if (rootGetters.configuration.pins?.movable) {
+        const movable = configuration.pins?.movable
+        if (typeof movable === 'boolean' && movable) {
+          dispatch('makeMarkerDraggable')
+        } else if (movable === 'drag') {
           dispatch('makeMarkerDraggable')
         }
       }
