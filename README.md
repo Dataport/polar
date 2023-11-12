@@ -15,7 +15,7 @@ POLAR runs both as full page application and as component. The most common usage
 
 ## Getting started 🚀
 
-Clone the repository and run `npm install && npm run generic:dev`. This winds up our generic client in a minimal test environment. The most common use case for this client is in citizen's application processes regarding public service.
+Clone the repository and run `npm install && npm run afm:dev`. This winds up our generic client in a minimal test environment. The most common use case for this client is in citizen's application processes regarding public service.
 
 Other clients with more specific code include the [Denkmalkarte Schleswig-Holstein](https://efi2.schleswig-holstein.de/dish/dish_client/index.html), a memorial map, and the [Meldemichel Hamburg](https://static.hamburg.de/kartenclient/prod/), a map to inspect and create reports regarding damages to public infrastructure. The latter is currently being migrated to the version seen in this repository.
 
@@ -27,11 +27,11 @@ We're production-ready, but have a history as Inner Source software, and are now
 
 | Topic                          | TODO                                                                                                                                                                                                                            | Status |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| Re-release                     | Offer all packages as 1.0.0 on the NPM registry and as GitHub releases. Previous inner source version history and changelogs are reset.                                                                                         | ⌛     |
-| GitHub Page                    | ~~Create a page offering our full documentation and examples. This includes adapting the internal _snowbox_ client to work as both example and development environment.~~ [Basic page done.](https://dataport.github.io/polar/) | 🏗️     |
-| Working outside the repository | Clients can be used anywhere, but their development requires further setup. Right now, clients should be developed in this repository or in a fork.                                                                             | ⌛     |
-| Getting started                | This will probably be a part of the GitHub Page.                                                                                                                                                                                | ⌛     |
+| Re-release                     | Offer all packages as 1.0.0 on the NPM registry and as GitHub releases. Previous inner source version history and changelogs are reset.                                                                                         | ✔️     |
 | GitHub Actions                 | ~~Linting and testing is done with [husky](https://github.com/typicode/husky) until pipelines are ready.~~ Tests and linting now run in the pipeline. Farewell, husky! 🐺❄️                                                     | ✔️     |
+| GitHub Page                    | ~~Create a page offering our full documentation and examples. This includes adapting the internal _snowbox_ client to work as both example and development environment.~~ [Basic page done.](https://dataport.github.io/polar/) | 🏗️     |
+| Getting started                | A short introduction is available above. We will expand upon this after the following task.                                                                                                                                                                                | 🏗️     |
+| Working outside the repository | Clients can be used anywhere, but their development requires further setup. Right now, clients should be developed in this repository or in a fork.                                                                             | ⌛     |
 | OSS Best Practices             | Contributions, Issues, Discussions, The Wiki – there's a lot to fill out and define.                                                                                                                                            | ⌛     |
 
 ## Stay In Touch 💬
