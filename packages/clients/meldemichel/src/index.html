@@ -26,7 +26,6 @@
       const mode = 'COMPLETE' // COMPLETE, REPORT, SINGLE
       const stage = true // true, false
 
-      // TODO API incomplete
       const mapInstance = await client.createMap({
         containerId: 'polarstern',
         mode,
@@ -50,6 +49,31 @@
             mapCenter: '566808.8386735287,5935896.23173797',
           }),
       }
+
+      mapInstance.$store.watch(
+        (_, getters) => getters["meldemichel/mapState"],
+        ({
+          mapCenter,
+          mapZoomLevel,
+          mapBaseLayer,
+          vendor_maps_position,
+          vendor_maps_address_hnr,
+          vendor_maps_address_str,
+          vendor_maps_address_plz,
+          vendor_maps_address_to
+        }) => {
+          /* do anything with the map values here */
+          console.info(`MapState Update
+            Center coordinate: ${mapCenter}
+            Zoom level: ${mapZoomLevel}
+            Base layer: ${mapBaseLayer}
+            Pin Coordinate: ${vendor_maps_position}
+            Address: ${vendor_maps_address_str + ' ' + vendor_maps_address_hnr}
+            PLZ: ${vendor_maps_address_plz}
+            Distance to address: ${vendor_maps_address_to}`)
+        },
+        { immediate: true }
+      )
     </script>
   </body>
 </html>
