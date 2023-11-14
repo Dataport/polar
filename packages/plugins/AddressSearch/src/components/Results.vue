@@ -12,6 +12,7 @@
         { features, category, categoryId }, index
       ) in featureListsWithCategory"
       :key="['results-list', index].join('-')"
+      tag="ul"
       subheader
     >
       <v-subheader
@@ -28,6 +29,7 @@
       <v-list-item
         v-for="(feature, innerDex) in features"
         :key="['results-feature', index, innerDex].join('-')"
+        tag="li"
         :class="{
           'polar-plugin-address-search-hidden-result':
             innerDex >=
