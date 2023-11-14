@@ -5,6 +5,7 @@
     dense
     class="mx-auto overflow-y-auto rounded-b-xl polar-plugin-address-search-toolbar-results"
     :max-height="maxHeight"
+    tabindex="-1"
   >
     <v-list
       v-for="(
