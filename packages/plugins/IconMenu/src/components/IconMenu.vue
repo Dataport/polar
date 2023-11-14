@@ -45,7 +45,7 @@
               : 'icon-menu-list-item-content',
             'icon-menu-list-item-content-scrollable-y',
           ]"
-          :style="`max-height: ${maxHeight};`"
+          :style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
         />
       </template>
     </component>
@@ -80,6 +80,13 @@ export default Vue.extend({
       return `calc(${this.clientHeight}px - ${
         this.isHorizontal ? 'calc(100% + 1.5em)' : '1em'
       })`
+    },
+    maxWidth() {
+      // NOTE: Same value as constant in core
+      if (!this.hasWindowSize && window.innerWidth <= 768) {
+        return `calc(${window.innerWidth}px * 0.75)`
+      }
+      return 'inherit'
     },
   },
   methods: {
