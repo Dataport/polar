@@ -14,22 +14,31 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 
 ### pins
 
-| fieldName        | type          | description                                                                                                                                                                                                                                                                                         |
-| ---------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| toZoomLevel      | number        | Zoom level to use on outside input by e.g. address search.                                                                                                                                                                                                                                          |
-| movable          | boolean       | Whether user may drag pin with mouse.                                                                                                                                                                                                                                                               |
-| appearOnClick    | appearOnClick | Pin restrictions. See object description below.                                                                                                                                                                                                                                                     |
-| coordinateSource | string        | The pins plugin may react to changes in other plugins. This specifies the path to such store positions. The position must, when subscribed to, return a GeoJSON feature.                                                                                                                            |
-| style            | style?        | Display style configuration.                                                                                                                                                                                                                                                                        |
-| boundaryLayerId  | string?       | Id of a vector layer to restrict pins to. When pins are moved or created outside of the boundary, an information will be shown and the pin is reset to its previous state. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off.        |
-| toastAction      | string?       | If `boundaryLayerId` is set, and the pin is moved or created outside the boundary, this string will be used as action to send a toast information to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console. |
+| fieldName        | type                                    | description                                                                                                                                                                                                                                                                                         |
+|------------------|-----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| toZoomLevel      | number                                  | Zoom level to use on outside input by e.g. address search.                                                                                                                                                                                                                                          |
+| appearOnClick    | appearOnClick?                          | Pin restrictions. If not set, a pin can be set on all zoom levels and will be visible.                                                                                                                                                                                                              |
+| boundaryLayerId  | string?                                 | Id of a vector layer to restrict pins to. When pins are moved or created outside of the boundary, an information will be shown and the pin is reset to its previous state. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off.        |
+| coordinateSource | string?                                 | The pins plugin may react to changes in other plugins. This specifies the path to such store positions. The position must, when subscribed to, return a GeoJSON feature.                                                                                                                            |
+| initial          | number[]?                               | Configuration options for setting an initial pin.                                                                                                                                                                                                                                                   |
+| movable          | boolean? \| 'drag' \| 'click' \| 'none' | Whether a user may drag and re-click the pin (`drag` or `true`), only re-click it (`click`) or may only be placed programmatically (`none` or `false`). Defaults to 'none'. **Using a boolean for this configuration has been deprecated and will be removed in the next major release.**           |
+| style            | style?                                  | Display style configuration.                                                                                                                                                                                                                                                                        |
+| toastAction      | string?                                 | If `boundaryLayerId` is set, and the pin is moved or created outside the boundary, this string will be used as action to send a toast information to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console. |
 
 #### pins.appearOnClick
 
-| fieldName   | type     | description                              |
-| ----------- | -------- | ---------------------------------------- |
-| show        | boolean? | Display marker.                          |
-| atZoomLevel | number?  | Minimum zoom level for sensible marking. |
+| fieldName   | type    | description                              |
+|-------------|---------|------------------------------------------|
+| show        | boolean | Display marker.                          |
+| atZoomLevel | number? | Minimum zoom level for sensible marking. |
+
+#### pins.initial
+
+| fieldName   | type     | description                                                                                                                           |
+|-------------|----------|---------------------------------------------------------------------------------------------------------------------------------------|
+| coordinates | number[] | Coordinate pair for the pin.                                                                                                          |
+| centerOn    | boolean? | If set to true, center on and zoom to the given coordinates on start. Defaults to false.                                              |
+| epsg        | string?  | Coordinate reference system in which the given coordinates are encoded. Defaults to the `epsg` value defined in the mapConfiguration. |
 
 #### pins.style
 

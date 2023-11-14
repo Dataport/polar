@@ -1,6 +1,3 @@
-// TODO Seemingly this is how movable pins for Sachbearbeiter came in prior
-// pinCoordinate: [565699.2, 5933923.69],
-
 import {
   AddressSearchConfiguration,
   Attribution,
