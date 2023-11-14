@@ -110,9 +110,7 @@ const storeModule: PolarModule<PinsState, PinsState> = {
         move.on(
           'select',
           ({ selected }) =>
-            (document.body.style.cursor = selected.length
-              ? 'not-allowed'
-              : '')
+            (document.body.style.cursor = selected.length ? 'not-allowed' : '')
         )
       }
       if (initial) {
