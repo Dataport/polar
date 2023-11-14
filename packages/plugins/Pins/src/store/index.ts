@@ -112,7 +112,7 @@ const storeModule: PolarModule<PinsState, PinsState> = {
           ({ selected }) =>
             (document.body.style.cursor = selected.length
               ? 'not-allowed'
-              : 'inherit')
+              : '')
         )
       }
       if (initial) {
