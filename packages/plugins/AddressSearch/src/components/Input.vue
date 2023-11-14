@@ -5,6 +5,7 @@
     :label="$t(label)"
     :placeholder="$t(placeholder)"
     :hint="$t(hint, { minLength })"
+    :aria-description="$t(hint, { minLength })"
     :loading="loading"
     :value="inputValue"
     @input="input"
