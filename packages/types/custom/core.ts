@@ -254,6 +254,7 @@ export interface GeoLocationConfiguration extends PluginOptions {
    * the user that geolocation ended up outside the map.
    */
   toastAction?: string
+  showTooltip?: boolean
 }
 
 /** Object containing information for highlighting a gfi result */
