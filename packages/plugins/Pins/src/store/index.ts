@@ -216,22 +216,18 @@ const storeModule: PolarModule<PinsState, PinsState> = {
         evt.features.forEach(async (feat) => {
           const geometry = feat.getGeometry()
           // @ts-expect-error | abstract method missing on type, exists in all implementations
-          const coordinatesAfterDrag = geometry?.getCoordinates()
+          let coordinates = geometry?.getCoordinates()
 
-          if (
-            await dispatch('isCoordinateInBoundaryLayer', coordinatesAfterDrag)
-          ) {
-            commit('setCoordinatesAfterDrag', coordinatesAfterDrag)
-            dispatch('updateCoordinates', coordinatesAfterDrag)
-          } else {
+          if (!(await dispatch('isCoordinateInBoundaryLayer', coordinates))) {
+            coordinates = getters.transformedCoordinate
             dispatch('removeMarker')
             dispatch('showMarker', {
-              coordinates: getters.transformedCoordinate,
+              coordinates,
               clicked: true,
             })
-            commit('setCoordinatesAfterDrag', getters.transformedCoordinate)
-            dispatch('updateCoordinates', getters.transformedCoordinate)
           }
+          commit('setCoordinatesAfterDrag', coordinates)
+          dispatch('updateCoordinates', coordinates)
         })
       })
     },
