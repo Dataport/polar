@@ -8,6 +8,8 @@ const language: LanguageOption[] = [
         pins: {
           toast: {
             notInBoundary: 'Diese Koordinate kann nicht gewählt werden.',
+            boundaryError:
+              'Die Überprüfung der Koordinate ist fehlgeschlagen. Bitte versuchen Sie es später erneut oder wenden Sie sich an einen Administrator, wenn das Problem bestehen bleibt.',
           },
         },
       },
@@ -20,6 +22,8 @@ const language: LanguageOption[] = [
         pins: {
           toast: {
             notInBoundary: 'It is not possible to select this coordinate.',
+            boundaryError:
+              'Validating the coordinate failed. Please try later again or contact an administrator if the issue persists.',
           },
         },
       },

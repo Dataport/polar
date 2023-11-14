@@ -86,7 +86,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
     rootGetters: { map },
     getters: {
       boundaryLayerId,
-      toastAction,
+      boundaryOnError,
       geolocation,
       configuredEpsg,
       position,
@@ -100,21 +100,18 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       configuredEpsg
     )
 
-    if (!(await passesBoundaryCheck(map, boundaryLayerId, transformedCoords))) {
-      if (toastAction) {
-        const info = {
-          type: 'info',
-          text: 'plugins.geoLocation.toast.notInBoundary',
-          timeout: 10000,
-        }
-        dispatch(toastAction, info, { root: true })
-      } else {
-        // eslint-disable-next-line no-console
-        console.log(
-          'User position outside of boundary layer:',
-          transformedCoords
-        )
-      }
+    const boundaryCheckPassed = await passesBoundaryCheck(
+      map,
+      boundaryLayerId,
+      transformedCoords
+    )
+    const boundaryErrorOccurred = typeof boundaryCheckPassed === 'symbol'
+
+    if (
+      boundaryCheckPassed === false ||
+      (boundaryErrorOccurred && boundaryOnError !== 'permissive')
+    ) {
+      dispatch('printPositioningFailed', boundaryErrorOccurred)
       // if check initially breaks or user leaves boundary, turn off tracking
       dispatch('untrack')
       return
@@ -126,6 +123,32 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
     ) {
       commit('setPosition', transformedCoords)
       dispatch('addMarker', transformedCoords)
+    }
+  },
+  printPositioningFailed(
+    { dispatch, getters: { toastAction } },
+    boundaryErrorOccurred
+  ) {
+    if (toastAction) {
+      const toast = boundaryErrorOccurred
+        ? {
+            type: 'error',
+            text: 'plugins.geoLocation.toast.boundaryError',
+            timeout: 0,
+          }
+        : {
+            type: 'info',
+            text: 'plugins.geoLocation.toast.notInBoundary',
+            timeout: 10000,
+          }
+      dispatch(toastAction, toast, { root: true })
+    } else {
+      // eslint-disable-next-line no-console
+      console[boundaryErrorOccurred ? 'error' : 'log'](
+        boundaryErrorOccurred
+          ? 'Checking boundary layer failed.'
+          : 'User position outside of boundary layer.'
+      )
     }
   },
 

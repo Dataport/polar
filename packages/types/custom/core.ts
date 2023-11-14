@@ -249,6 +249,7 @@ export interface GeoLocationConfiguration extends PluginOptions {
    * zooming to unreachable or tileless coordinates.
    */
   boundaryLayerId?: string
+  boundaryOnError?: 'strict' | 'permissive'
   /**
    * Used if boundaryLayer does not contain the user's geolocation to inform
    * the user that geolocation ended up outside the map.
@@ -342,6 +343,7 @@ export interface PinsConfiguration extends PluginOptions {
    * selecting unfit coordinates.
    */
   boundaryLayerId?: string
+  boundaryOnError?: 'strict' | 'permissive'
   /**
    * Used if boundaryLayer does not contain the user's pin to inform
    * the user that the pin could not be set/updated.

@@ -8,6 +8,12 @@ let readinessChecks = 0
 const readinessCheckLimit = 100
 const readinessWaitTime = 100
 
+export const errors = {
+  undefinedBoundaryLayer: Symbol.for('Boundary Layer undefined'),
+  undefinedBoundarySource: Symbol.for('Boundary Source undefined'),
+  sourceNotReady: Symbol.for('Source not ready'),
+} as const
+
 /**
  * @param source - source to check
  * @returns Promise that resolves true if source is in 'ready' state with at
@@ -35,7 +41,7 @@ export const passesBoundaryCheck = async (
   map: Map,
   boundaryLayerId: string | undefined,
   coordinate: Coordinate
-): Promise<boolean> => {
+): Promise<boolean | symbol> => {
   if (typeof boundaryLayerId === 'undefined') {
     return Promise.resolve(true)
   }
@@ -51,7 +57,7 @@ export const passesBoundaryCheck = async (
     console.error(
       `POLAR Map Client: No layer configured to match boundaryLayerId "${boundaryLayerId}" in plugins/GeoLocation/src/utils/isWithinBoundary.ts.`
     )
-    return Promise.resolve(false)
+    return Promise.resolve(errors.undefinedBoundaryLayer)
   }
 
   const boundaryLayerSource = boundaryLayer.getSource()
@@ -60,7 +66,7 @@ export const passesBoundaryCheck = async (
     console.error(
       `POLAR Map Client: Layer with boundaryLayerId "${boundaryLayerId}" missing source in plugins/GeoLocation/src/utils/isWithinBoundary.ts.`
     )
-    return Promise.resolve(false)
+    return Promise.resolve(errors.undefinedBoundarySource)
   }
 
   const sourceReady = await isReady(boundaryLayerSource)
@@ -69,7 +75,7 @@ export const passesBoundaryCheck = async (
     console.error(
       `POLAR Map Client: Layer with boundaryLayerId "${boundaryLayerId}" did not load or is featureless in plugins/GeoLocation/src/utils/isWithinBoundary.ts.`
     )
-    return Promise.resolve(false)
+    return Promise.resolve(errors.sourceNotReady)
   }
 
   const features = boundaryLayerSource.getFeatures() || []
