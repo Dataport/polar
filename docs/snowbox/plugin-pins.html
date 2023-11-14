@@ -42,29 +42,34 @@
 <td>Zoom level to use on outside input by e.g. address search.</td>
 </tr>
 <tr>
-<td>movable</td>
-<td>boolean</td>
-<td>Whether user may drag pin with mouse.</td>
-</tr>
-<tr>
 <td>appearOnClick</td>
-<td>appearOnClick</td>
-<td>Pin restrictions. See object description below.</td>
-</tr>
-<tr>
-<td>coordinateSource</td>
-<td>string</td>
-<td>The pins plugin may react to changes in other plugins. This specifies the path to such store positions. The position must, when subscribed to, return a GeoJSON feature.</td>
-</tr>
-<tr>
-<td>style</td>
-<td>style?</td>
-<td>Display style configuration.</td>
+<td>appearOnClick?</td>
+<td>Pin restrictions. If not set, a pin can be set on all zoom levels and will be visible.</td>
 </tr>
 <tr>
 <td>boundaryLayerId</td>
 <td>string?</td>
 <td>Id of a vector layer to restrict pins to. When pins are moved or created outside of the boundary, an information will be shown and the pin is reset to its previous state. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off.</td>
+</tr>
+<tr>
+<td>coordinateSource</td>
+<td>string?</td>
+<td>The pins plugin may react to changes in other plugins. This specifies the path to such store positions. The position must, when subscribed to, return a GeoJSON feature.</td>
+</tr>
+<tr>
+<td>initial</td>
+<td>number[]?</td>
+<td>Configuration options for setting an initial pin.</td>
+</tr>
+<tr>
+<td>movable</td>
+<td>boolean? | 'drag' | 'click' | 'none'</td>
+<td>Whether a user may drag and re-click the pin (<code>drag</code> or <code>true</code>), only re-click it (<code>click</code>) or may only be placed programmatically (<code>none</code> or <code>false</code>). Defaults to 'none'. <strong>Using a boolean for this configuration has been deprecated and will be removed in the next major release.</strong></td>
+</tr>
+<tr>
+<td>style</td>
+<td>style?</td>
+<td>Display style configuration.</td>
 </tr>
 <tr>
 <td>toastAction</td>
@@ -85,13 +90,40 @@
 <tbody>
 <tr>
 <td>show</td>
-<td>boolean?</td>
+<td>boolean</td>
 <td>Display marker.</td>
 </tr>
 <tr>
 <td>atZoomLevel</td>
 <td>number?</td>
 <td>Minimum zoom level for sensible marking.</td>
+</tr>
+</tbody>
+</table>
+<h4>pins.initial</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>coordinates</td>
+<td>number[]</td>
+<td>Coordinate pair for the pin.</td>
+</tr>
+<tr>
+<td>centerOn</td>
+<td>boolean?</td>
+<td>If set to true, center on and zoom to the given coordinates on start. Defaults to false.</td>
+</tr>
+<tr>
+<td>epsg</td>
+<td>string?</td>
+<td>Coordinate reference system in which the given coordinates are encoded. Defaults to the <code>epsg</code> value defined in the mapConfiguration.</td>
 </tr>
 </tbody>
 </table>
