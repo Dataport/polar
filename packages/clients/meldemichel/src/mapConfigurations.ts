@@ -74,10 +74,6 @@ const commonLayers: LayerConfiguration[] = [
   },
 ]
 
-// TODO: Update link with reference to sbom
-const sbomAttributionAnchor =
-  '<a href="https://github.com/Dataport/polar/network/dependencies" target="_blank">Software Bill of Materials</a>'
-
 const commonAttributions: Partial<AttributionsConfiguration> = {
   initiallyOpen: false,
   layerAttributions: [
@@ -157,14 +153,7 @@ const mapConfigurations = {
           },
         ],
         staticAttributions: [
-          `<ul style="display: flex; column-gap: 8px; list-style-type: none; padding: 0">
-            <li>
-              <a href="https://www.hamburg.de/impressum/" target="_blank">Impressum</a>
-            </li>
-            <li>
-              ${sbomAttributionAnchor}
-            </li>
-          </ul>`,
+          '<a href="https://www.hamburg.de/impressum/" target="_blank">Impressum</a>',
         ],
       },
       geoLocation,
@@ -192,7 +181,6 @@ const mapConfigurations = {
     layers: commonLayers,
     attributions: {
       ...commonAttributions,
-      staticAttributions: [sbomAttributionAnchor],
     },
     geoLocation,
     pins: commonPins,
@@ -203,7 +191,6 @@ const mapConfigurations = {
     layers: commonLayers,
     attributions: {
       ...commonAttributions,
-      staticAttributions: [sbomAttributionAnchor],
     },
     pins: commonPins,
   }),
