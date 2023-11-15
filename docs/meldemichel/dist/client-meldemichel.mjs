@@ -95940,9 +95940,7 @@ function I7(e, t, n, s, r) {
     let f;
     if (o.length === 0)
       return l;
-    const d = Array.from(o), u = d[0].getElementsByTagName("iso19112:position").length > 0 ? `EPSG:${// NOTE: The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    const d = Array.from(o), u = d[0].getElementsByTagName("iso19112:position").length > 0 ? `EPSG:${// @ts-expect-error | The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
     d[0].getElementsByTagName("iso19112:position")[0].getElementsByTagName("gml:Point")[0].attributes[1].textContent.split("::")[1]}` : s;
     return d.forEach((c) => {
       const h = Object.values(
@@ -95955,9 +95953,7 @@ function I7(e, t, n, s, r) {
       );
       if (c.getElementsByTagName("iso19112:position").length > 0) {
         const g = (
-          // NOTE: The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          // @ts-expect-error | The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
           c.getElementsByTagName("iso19112:position")[0].getElementsByTagName("gml:pos")[0].textContent.split(" ").map((m) => parseFloat(m))
         );
         f = {
@@ -95967,9 +95963,7 @@ function I7(e, t, n, s, r) {
       }
       if (c.getElementsByTagName("iso19112:geographicExtent").length > 0) {
         const g = (
-          // NOTE: The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          // @ts-expect-error | The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
           c.getElementsByTagName("iso19112:geographicExtent")[0].getElementsByTagName("gml:posList")[0].textContent.split(" ").map((m) => parseFloat(m)).reduce(
             (m, v, y, E) => y % 2 === 0 ? [...m, [E[y], E[y + 1]]] : m,
             []
@@ -98721,8 +98715,7 @@ const HY = /* @__PURE__ */ qo(kY), { parseString: YY, processors: XY } = ss, ZY 
     method: "POST",
     body: ZY(t)
   }), s = await JY(await n.text()), r = HY(
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore | no types for WPS output defined
+    // @ts-expect-error | no types for WPS output defined
     s.ExecuteResponse.ProcessOutputs[0].Output[0].Data[0].ComplexData[0].ReverseGeocoder[0].Ergebnis[0].Adresse[0],
     (o) => o[0]
   ), i = {
@@ -100237,8 +100230,7 @@ const T_ = "453", P_ = "452", op = "6074", IT = "#ffffff", _T = "#003063", LZ = 
       "POLAR Meldemichel Client: Missing reportServiceId configuration in mode COMPLETE."
     );
   return {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore | TS doesn't get the if above right
+    // @ts-expect-error | methods don't have a common interface
     ...RZ[e](n)
     // NOTE local plugin does not exist yet
     // meldemichelNeuesAnliegen: {
