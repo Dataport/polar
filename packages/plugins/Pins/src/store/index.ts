@@ -194,10 +194,18 @@ const storeModule: PolarModule<PinsState, PinsState> = {
       dispatch,
     }): void {
       const { atZoomLevel } = getters
+      const previousTranslate = map
+        .getInteractions()
+        .getArray()
+        .find((interaction) => interaction.get('_polar_plugin_pins'))
       const translate = new Translate({
         condition: () => (map.getView().getZoom() as number) >= atZoomLevel,
         layers: [pinsLayer],
       })
+      translate.set('_polar_plugin_pins', true)
+      if (previousTranslate) {
+        map.removeInteraction(previousTranslate)
+      }
       map.addInteraction(translate)
 
       translate.on('translatestart', () => {
@@ -207,10 +215,7 @@ const storeModule: PolarModule<PinsState, PinsState> = {
         commit('setGetsDragged', false)
         evt.features.forEach(async (feat) => {
           const geometry = feat.getGeometry()
-          // NOTE: getCoordinates does not exist on Geometry, but on all of its
-          //      implementations ... missing abstract method?
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          // @ts-expect-error | abstract method missing on type, exists in all implementations
           let coordinates = geometry?.getCoordinates()
 
           if (!(await dispatch('isCoordinateInBoundaryLayer', coordinates))) {

@@ -7,6 +7,7 @@
 - Feature: Add `boundaryOnError` parameter to let user define behaviour on boundary check errors.
 - Feature: Add new configuration parameter `initial` to be able to add a pin initially to the map.
 - Feature: If `movable` is set to `none` or `false`, the style of the cursor is set to `not-allowed` when hovering the pin.
+- Fix: Mouse cursor wasn't `'grab'` from second created pin on. It now is on all movable pins.
 
 ## 1.0.0
 
