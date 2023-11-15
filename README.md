@@ -1,5 +1,6 @@
 ![Public Money, Public Value](https://img.shields.io/badge/Public%20Money-Public%20Value-red)
 [![License: EUPL v1.2](https://img.shields.io/badge/License-EUPL%20v1.2-blue)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
+[![We're on NPM!](https://img.shields.io/badge/npm-%F0%9F%9A%80-green)](https://www.npmjs.com/search?q=%40polar)
 
 # POLAR 🗺️
 
