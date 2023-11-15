@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Add flag `showTooltip` to `GeoLocationConfiguration`.
 - Feature: Add type for CoreState's `center` field.
 - Feature: Remodel type structure to deduplicate fields now modeled in `LayerBoundPluginOptions`.
 - Feature: Add new optional parameter `initial` to `PinsConfiguration` including related interface `InitialPin`.

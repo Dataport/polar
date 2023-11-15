@@ -119,6 +119,7 @@ const geoLocation: Partial<GeoLocationConfiguration> = {
   checkLocationInitially: true,
   zoomLevel: 7,
   boundaryLayerId: hamburgBorder,
+  showTooltip: true,
 }
 
 const mapConfigurations = {
