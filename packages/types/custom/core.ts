@@ -228,6 +228,8 @@ export interface GfiLayerConfiguration {
   format?: string
 }
 
+export type BoundaryOnError = 'strict' | 'permissive'
+
 export interface GeoLocationConfiguration extends PluginOptions {
   /**
    * Source paths through store to listen to for changes; it is assumed values
@@ -249,7 +251,7 @@ export interface GeoLocationConfiguration extends PluginOptions {
    * zooming to unreachable or tileless coordinates.
    */
   boundaryLayerId?: string
-  boundaryOnError?: 'strict' | 'permissive'
+  boundaryOnError?: BoundaryOnError
   /**
    * Used if boundaryLayer does not contain the user's geolocation to inform
    * the user that geolocation ended up outside the map.
@@ -343,7 +345,7 @@ export interface PinsConfiguration extends PluginOptions {
    * selecting unfit coordinates.
    */
   boundaryLayerId?: string
-  boundaryOnError?: 'strict' | 'permissive'
+  boundaryOnError?: BoundaryOnError
   /**
    * Used if boundaryLayer does not contain the user's pin to inform
    * the user that the pin could not be set/updated.
