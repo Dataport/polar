@@ -2,6 +2,7 @@ import { Map } from 'ol'
 import { Coordinate } from 'ol/coordinate'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
+import { LayerBoundPluginOptions } from '@polar/lib-custom-types'
 
 // arbitrarily give up after 10s of stalling
 let readinessChecks = 0
@@ -33,7 +34,7 @@ const isReady = async (source: VectorSource): Promise<boolean> => {
  */
 export const passesBoundaryCheck = async (
   map: Map,
-  boundaryLayerId: string | undefined,
+  boundaryLayerId: LayerBoundPluginOptions['boundaryLayerId'],
   coordinate: Coordinate
 ): Promise<boolean> => {
   if (typeof boundaryLayerId === 'undefined') {
