@@ -18,13 +18,13 @@ const storeModule: PolarModule<FullscreenState, FullscreenGetters> = {
   getters: {
     ...generateSimpleGetters(getInitialState()),
     renderType: (_, __, ___, rootGetters) => {
-      return rootGetters?.configuration?.fullscreen?.renderType
-        ? rootGetters?.configuration.fullscreen.renderType
+      return rootGetters.configuration?.fullscreen?.renderType
+        ? rootGetters.configuration.fullscreen.renderType
         : 'independent'
     },
     targetContainerId(_, __, ___, rootGetters) {
-      return rootGetters?.configuration?.fullscreen?.targetContainerId
-        ? rootGetters?.configuration?.fullscreen?.targetContainerId
+      return rootGetters.configuration?.fullscreen?.targetContainerId
+        ? rootGetters.configuration?.fullscreen?.targetContainerId
         : ''
     },
   },

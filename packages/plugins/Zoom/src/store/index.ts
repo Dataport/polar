@@ -58,13 +58,13 @@ const storeModule: PolarModule<ZoomState, ZoomGetters> = {
     minimumZoomLevelActive: (_, { zoomLevel, minimumZoomLevel }): boolean =>
       zoomLevel <= minimumZoomLevel,
     renderType: (_, __, ___, rootGetters) => {
-      return rootGetters?.configuration?.zoom?.renderType
-        ? rootGetters?.configuration.zoom.renderType
+      return rootGetters.configuration?.zoom?.renderType
+        ? rootGetters.configuration.zoom.renderType
         : 'independent'
     },
     showMobile: (_, __, ___, rootGetters) =>
-      typeof rootGetters?.configuration?.zoom?.showMobile === 'boolean'
-        ? rootGetters?.configuration.zoom.showMobile
+      typeof rootGetters.configuration?.zoom?.showMobile === 'boolean'
+        ? rootGetters.configuration.zoom.showMobile
         : false,
   },
 }
