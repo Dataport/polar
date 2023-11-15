@@ -1,6 +1,3 @@
-// TODO Seemingly this is how movable pins for Sachbearbeiter came in prior
-// pinCoordinate: [565699.2, 5933923.69],
-
 import {
   AddressSearchConfiguration,
   Attribution,
@@ -153,6 +150,9 @@ const mapConfigurations = {
             title: 'meldemichel.attributions.reports',
           },
         ],
+        staticAttributions: [
+          '<a href="https://www.hamburg.de/impressum/" target="_blank">Impressum</a>',
+        ],
       },
       geoLocation,
       gfi: {
@@ -177,7 +177,9 @@ const mapConfigurations = {
     ...commonMapConfiguration,
     addressSearch,
     layers: commonLayers,
-    attributions: commonAttributions,
+    attributions: {
+      ...commonAttributions,
+    },
     geoLocation,
     pins: commonPins,
     reverseGeocoder,
@@ -185,7 +187,9 @@ const mapConfigurations = {
   [MODE.SINGLE]: () => ({
     ...commonMapConfiguration,
     layers: commonLayers,
-    attributions: commonAttributions,
+    attributions: {
+      ...commonAttributions,
+    },
     pins: commonPins,
   }),
 }

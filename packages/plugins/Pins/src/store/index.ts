@@ -7,9 +7,10 @@ import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
 import { Vector } from 'ol/source'
 import Feature from 'ol/Feature'
-import { Translate, Draw } from 'ol/interaction'
+import { Draw, Select, Translate } from 'ol/interaction'
 import { PolarModule } from '@polar/lib-custom-types'
-import { toLonLat } from 'ol/proj'
+import { toLonLat, transform } from 'ol/proj'
+import { pointerMove } from 'ol/events/condition'
 import { Geometry } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
 import { PinsState } from '../types'
@@ -28,6 +29,12 @@ const getInitialState = (): PinsState => ({
 
 let pinsLayer: VectorLayer<Vector<Geometry>>
 
+const move = new Select({
+  layers: (l) => l === pinsLayer,
+  style: null,
+  condition: pointerMove,
+})
+
 const storeModule: PolarModule<PinsState, PinsState> = {
   namespaced: true,
   state: getInitialState(),
@@ -37,22 +44,35 @@ const storeModule: PolarModule<PinsState, PinsState> = {
      * calls removeMarker and showMarker if the store for addressSearch changes
      * its value for the chosenAddress.
      */
-    setupModule({ rootGetters, dispatch, commit }): void {
-      const { coordinateSource, appearOnClick } =
+    setupModule({ getters, rootGetters, dispatch, commit }): void {
+      const { appearOnClick, coordinateSource, initial, movable, toZoomLevel } =
         rootGetters.configuration.pins || {}
       const interactions = rootGetters.map.getInteractions()
-      commit('setToZoomLevel', rootGetters.configuration.pins?.toZoomLevel)
-      commit('setAtZoomLevel', appearOnClick?.atZoomLevel)
+      if (toZoomLevel) {
+        commit('setToZoomLevel', toZoomLevel)
+      }
+      if (appearOnClick?.atZoomLevel) {
+        commit('setAtZoomLevel', appearOnClick.atZoomLevel)
+      }
+      const showPin = appearOnClick === undefined ? true : appearOnClick.show
+      if (typeof movable === 'boolean') {
+        console.warn(
+          "Pins: Using a boolean for the configuration parameter 'movable' has been deprecated and will be removed in the next major release."
+        )
+      }
       rootGetters.map.on('singleclick', async ({ coordinate }) => {
         const isDrawing = interactions
           .getArray()
           .some((interaction) => interaction instanceof Draw)
 
         if (
-          appearOnClick?.show &&
+          ((typeof movable === 'boolean' && movable) ||
+            movable === 'drag' ||
+            movable === 'click') &&
+          showPin &&
           // NOTE: It is assumed that getZoom actually returns the currentZoomLevel, thus the view has a constraint in the resolution.
           (rootGetters.map.getView().getZoom() as number) >=
-            appearOnClick.atZoomLevel &&
+            getters.atZoomLevel &&
           !isDrawing &&
           (await dispatch('isCoordinateInBoundaryLayer', coordinate))
         ) {
@@ -85,6 +105,33 @@ const storeModule: PolarModule<PinsState, PinsState> = {
           { deep: true }
         )
       }
+      if (!movable || movable === 'none') {
+        rootGetters.map.addInteraction(move)
+        move.on(
+          'select',
+          ({ selected }) =>
+            (document.body.style.cursor = selected.length ? 'not-allowed' : '')
+        )
+      }
+      if (initial) {
+        const { coordinates, centerOn, epsg } = initial
+        const transformedCoordinates =
+          typeof epsg === 'string'
+            ? transform(coordinates, epsg, rootGetters.configuration.epsg)
+            : coordinates
+
+        dispatch('removeMarker')
+        dispatch('showMarker', {
+          coordinates: transformedCoordinates,
+          clicked: true,
+        })
+        commit('setCoordinatesAfterDrag', transformedCoordinates)
+        dispatch('updateCoordinates', transformedCoordinates)
+        if (centerOn) {
+          rootGetters.map.getView().setCenter(getters.transformedCoordinate)
+          rootGetters.map.getView().setZoom(getters.toZoomLevel)
+        }
+      }
     },
     /**
      * Builds a vectorLayer which contains the mapMarker as
@@ -92,20 +139,21 @@ const storeModule: PolarModule<PinsState, PinsState> = {
      * @param payload - an object with a boolean that shows if the coordinate
      * was submitted via click and the corresponding coordinates.
      */
-    showMarker({ rootGetters, getters, commit, dispatch }, payload): void {
+    showMarker({ getters, rootGetters, commit, dispatch }, payload): void {
       if (getters.isActive === false) {
+        const { configuration, map } = rootGetters
         if (payload.clicked === false) {
           dispatch(
             'updateCoordinates',
             getPointCoordinate(
               payload.epsg,
-              rootGetters.configuration.epsg,
+              configuration.epsg,
               payload.type,
               payload.coordinates
             )
           )
-          rootGetters.map.getView().setCenter(getters.transformedCoordinate)
-          rootGetters.map.getView().setZoom(getters.toZoomLevel)
+          map.getView().setCenter(getters.transformedCoordinate)
+          map.getView().setZoom(getters.toZoomLevel)
         }
         const coordinatesForIcon =
           payload.clicked === true
@@ -122,13 +170,16 @@ const storeModule: PolarModule<PinsState, PinsState> = {
               }),
             ],
           }),
-          style: getPinStyle(rootGetters?.configuration?.pins?.style || {}),
+          style: getPinStyle(configuration?.pins?.style || {}),
         })
         pinsLayer.set('polarInternalId', 'mapMarkerVectorLayer')
-        rootGetters.map.addLayer(pinsLayer)
+        map.addLayer(pinsLayer)
         pinsLayer.setZIndex(100)
         commit('setIsActive', true)
-        if (rootGetters.configuration.pins?.movable) {
+        const movable = configuration.pins?.movable
+        if (typeof movable === 'boolean' && movable) {
+          dispatch('makeMarkerDraggable')
+        } else if (movable === 'drag') {
           dispatch('makeMarkerDraggable')
         }
       }
