@@ -173,7 +173,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
       // render feature geometries to help layer
       geometryLayerKeys
         .filter((key) => Array.isArray(featuresByLayerId[key]))
-        // @ts-expect-error | Might be fixed through having all the types in the action. Otherwise: It works properly, as all the symbols are filtered in before calling forEach
+        // @ts-expect-error | Might be fixed through having all the types in the action. Otherwise: It works properly, as all the symbols are filtered before calling forEach
         .forEach((key) => featuresByLayerId[key].forEach(addFeature))
     },
     50
