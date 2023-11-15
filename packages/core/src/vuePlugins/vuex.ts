@@ -12,6 +12,7 @@ import noop from '@repositoryname/noop'
 import i18next from 'i18next'
 import { PluginContainer, CoreState, PolarError } from '@polar/lib-custom-types'
 import { Interaction } from 'ol/interaction'
+import { Map } from 'ol'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
@@ -35,7 +36,7 @@ const devMode = import.meta.env.DEV
  * They must be set via setter to let getters toggle through. This is intended.
  */
 
-let map = null
+let map: null | Map = null
 let components = []
 let interactions: Interaction[] = []
 
@@ -69,6 +70,7 @@ const getInitialState = (): CoreState => ({
   clientHeight: 0,
   clientWidth: 0,
   components: 1,
+  center: null,
   // TODO: Add default values for epsg, layers, namedProjections, options and remove @ts-ignore for configuration
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -76,7 +78,10 @@ const getInitialState = (): CoreState => ({
   errors: [],
 })
 
-export default new Store({
+const setCenter = ({ map }) =>
+  store.commit('setCenter', map.getView().getCenter())
+
+const store = new Store({
   state: getInitialState(),
   plugins: [mutationLogger], // vuex plugins, not polar plugins
   modules: {
@@ -111,7 +116,13 @@ export default new Store({
   mutations: {
     ...generateSimpleMutations(getInitialState()),
     setMap: (state, payload) => {
+      if (map) {
+        map.un('moveend', setCenter)
+      }
       map = payload
+      if (map) {
+        map.on('moveend', setCenter)
+      }
       // NOTE: hack: don't put map in vuex (complex object); see NOTE above
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -175,3 +186,5 @@ export default new Store({
     },
   },
 })
+
+export default store

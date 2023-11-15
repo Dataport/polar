@@ -4,12 +4,21 @@
 import { PolarModule } from '@polar/lib-custom-types'
 
 interface SetMapStatePayload {
-  mapCenter: string // resembling 'number,number'
-  mapZoomLevel: number | string
-  mapBaseLayer: number | string
-  vendor_maps_position: string // resembling 'number,number'
-  vendor_maps_address_str: string
-  vendor_maps_address_hnr: number | string
+  mapCenter?: string // resembling 'number,number'
+  mapZoomLevel?: number | string
+  mapBaseLayer?: number | string
+  vendor_maps_position?: string // resembling 'number,number'
+  vendor_maps_address_str?: string
+  vendor_maps_address_hnr?: number | string
+}
+
+interface GetMapState extends SetMapStatePayload {
+  vendor_maps_address_plz: string
+  vendor_maps_address_to: number // distance between address and marker
+}
+
+export interface MeldemichelGetters {
+  mapState: GetMapState
 }
 
 const readAfmCoordinate = (coordinate: string): number[] =>
@@ -21,11 +30,12 @@ const readAfmCoordinate = (coordinate: string): number[] =>
  */
 const meldemichelModule: PolarModule<
   Record<string, never>,
-  Record<string, never>
+  MeldemichelGetters
 > = {
   namespaced: true,
   state: {},
   actions: {
+    // setupModule({ getters }): void {},
     setMapState: (
       { commit, dispatch, rootGetters: { map } },
       {
@@ -76,7 +86,27 @@ const meldemichelModule: PolarModule<
     },
   },
   mutations: {},
-  getters: {},
+  getters: {
+    mapState(_, __, rootState): GetMapState {
+      let address = rootState?.plugin?.addressSearch?.chosenAddress
+      if (address?.type !== 'reverse_geocoded') {
+        // wait for reverse geocoder result
+        address = null
+      }
+      return {
+        mapCenter: rootState.center?.join(',') || '',
+        mapZoomLevel: rootState?.plugin?.zoom?.zoomLevel,
+        mapBaseLayer: rootState?.plugin?.layerChooser?.activeBackgroundId,
+        vendor_maps_position: rootState?.plugin?.pins?.transformedCoordinate,
+        vendor_maps_address_str: address?.properties?.Strasse,
+        vendor_maps_address_hnr: address
+          ? `${address.properties.Hausnr}${address.properties.Zusatz}`
+          : undefined,
+        vendor_maps_address_plz: address?.properties?.Plz,
+        vendor_maps_address_to: address?.properties?.Distanz,
+      }
+    },
+  },
 }
 
 export default meldemichelModule

@@ -532,11 +532,13 @@ export interface PolarError {
 
 export interface CoreState {
   map: number
+  center: [number, number] | null
   clientHeight: number
   clientWidth: number
   components: number
   configuration: MapConfig
   errors: PolarError[]
+  plugin: object
 }
 
 export interface CoreGetters {
