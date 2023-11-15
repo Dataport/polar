@@ -274,7 +274,7 @@ const storeModule: PolarModule<PinsState, PinsState> = {
           coordinates
         )) === true ||
         (typeof boundaryCheckResult === 'symbol' &&
-          boundaryOnError !== 'strict') /* defaults to 'permissive' */
+          boundaryOnError !== 'strict')
       ) {
         return true
       }
