@@ -23,7 +23,7 @@ const language: LanguageOption[] = [
           toast: {
             notInBoundary: 'It is not possible to select this coordinate.',
             boundaryError:
-              'Validating the coordinate failed. Please try later again or contact an administrator if the issue persists.',
+              'Validating the coordinate failed. Please try again later or contact an administrator if the issue persists.',
           },
         },
       },
