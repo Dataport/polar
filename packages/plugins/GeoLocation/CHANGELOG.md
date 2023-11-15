@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Adding optional tooltip to user geolocation map icon.
+- Feature: Add optional tooltip to user geolocation map icon.
 
 ## 1.0.0
 
