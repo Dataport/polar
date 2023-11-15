@@ -100219,7 +100219,7 @@ const x_ = "453", b_ = "452", op = "6074", MT = "#ffffff", ST = "#003063", IZ = 
   }
 };
 console.log(`POLAR Meldemichel loaded in version ${FH.version}.`);
-const RZ = "http://geoportal-hamburg.de/lgv-config/services-internet.json", wZ = (e) => {
+const RZ = "https://geoportal-hamburg.de/lgv-config/services-internet.json", wZ = (e) => {
   e.getLayers().getArray().find((t) => t.get("id") === op).setStyle(null);
 }, WZ = {
   ...qh,
