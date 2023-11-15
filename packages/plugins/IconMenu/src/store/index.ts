@@ -18,7 +18,7 @@ const storeModule: PolarModule<IconMenuState, IconMenuState> = {
       const menus = rootGetters.configuration?.iconMenu?.menus || []
       const initializedMenus = menus
         .filter(({ id }) => {
-          const display = rootGetters?.configuration?.[id]?.displayComponent
+          const display = rootGetters.configuration?.[id]?.displayComponent
           return typeof display === 'boolean' ? display : true
         })
         .map((menu) => {

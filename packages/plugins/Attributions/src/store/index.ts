@@ -43,7 +43,7 @@ const storeModule: PolarModule<AttributionsState, AttributionsGetters> = {
       dispatch('setAttributions')
 
       if (
-        typeof rootGetters?.configuration?.attributions?.initiallyOpen ===
+        typeof rootGetters.configuration?.attributions?.initiallyOpen ===
           'boolean' &&
         renderType === 'independent'
       ) {
@@ -74,17 +74,17 @@ const storeModule: PolarModule<AttributionsState, AttributionsGetters> = {
   getters: {
     ...generateSimpleGetters(getInitialState()),
     listenToChanges: (_, __, ___, rootGetters) =>
-      rootGetters?.configuration?.attributions?.listenToChanges || [],
+      rootGetters.configuration?.attributions?.listenToChanges || [],
     mapInfo: (_, { layer, attributions, staticAttributions }): string[] => {
       return lib.updateMapInfo(layer, attributions, staticAttributions)
     },
     renderType: (_, __, ___, rootGetters) =>
-      rootGetters?.configuration?.attributions?.renderType || 'independent',
+      rootGetters.configuration?.attributions?.renderType || 'independent',
     staticAttributions: (_, __, ___, rootGetters) => {
-      return rootGetters?.configuration?.attributions?.staticAttributions || []
+      return rootGetters.configuration?.attributions?.staticAttributions || []
     },
     windowWidth: (_, __, ___, rootGetters) =>
-      rootGetters?.configuration?.attributions?.windowWidth || 500,
+      rootGetters.configuration?.attributions?.windowWidth || 500,
   },
 }
 
