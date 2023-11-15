@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-geo-location",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Plugin GeoLocation",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
