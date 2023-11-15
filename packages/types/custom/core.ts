@@ -228,6 +228,8 @@ export interface GfiLayerConfiguration {
   format?: string
 }
 
+export type BoundaryOnError = 'strict' | 'permissive'
+
 export interface LayerBoundPluginOptions extends PluginOptions {
   /**
    * If set, feature will only be applicable within the layer's features.
@@ -235,6 +237,7 @@ export interface LayerBoundPluginOptions extends PluginOptions {
    * selecting unfit coordinates.
    */
   boundaryLayerId?: string
+  boundaryOnError?: BoundaryOnError
   /**
    * Used if boundaryLayer does not contain the plugin information to inform
    * the user that something could not be set/updated.
@@ -346,12 +349,12 @@ export interface PinsConfiguration extends LayerBoundPluginOptions {
   appearOnClick: AppearOnClick
   /** Path in store from where coordinates can be retrieved from. */
   coordinateSource: string
-  /** The zoom level to zoom to when a pin is added to the map. */
   initial?: InitialPin
   /** If the pin should be movable; defaults to false. */
   movable?: boolean | MovablePin
   /** Pin styling */
   style?: PinStyle
+  /** The zoom level to zoom to when a pin is added to the map. */
   toZoomLevel: number
 }
 
