@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.MAIN_BOT_KEY_PRIVATE }}
       - uses: actions/setup-node@v3
         with:
           node-version: 18.13.0
