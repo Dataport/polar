@@ -10,7 +10,7 @@ const getters: PolarGetterTree<GeoLocationState, GeoLocationGetters> = {
   },
   boundaryOnError: (_, __, ___, rootGetters): string | undefined => {
     return (
-      rootGetters?.configuration?.geoLocation?.boundaryOnError || 'permissive'
+      rootGetters.configuration?.geoLocation?.boundaryOnError || 'permissive'
     )
   },
   configuredEpsg: (_, __, ___, rootGetters): string | undefined => {
