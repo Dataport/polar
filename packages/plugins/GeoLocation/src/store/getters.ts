@@ -8,9 +8,9 @@ const getters: PolarGetterTree<GeoLocationState, GeoLocationGetters> = {
   boundaryLayerId: (_, __, ___, rootGetters): string | undefined => {
     return rootGetters?.configuration?.geoLocation?.boundaryLayerId
   },
-  boundaryOnError: (_, __, ___, rootGetters): string | undefined => {
+  boundaryOnError: (_, __, ___, rootGetters) => {
     return (
-      rootGetters?.configuration?.geoLocation?.boundaryOnError || 'permissive'
+      rootGetters.configuration?.geoLocation?.boundaryOnError || 'permissive'
     )
   },
   configuredEpsg: (_, __, ___, rootGetters): string | undefined => {
