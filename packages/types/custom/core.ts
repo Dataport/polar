@@ -228,7 +228,21 @@ export interface GfiLayerConfiguration {
   format?: string
 }
 
-export interface GeoLocationConfiguration extends PluginOptions {
+export interface LayerBoundPluginOptions extends PluginOptions {
+  /**
+   * If set, feature will only be applicable within the layer's features.
+   * The layer must contain vectors. This is useful for restricted maps to avoid
+   * selecting unfit coordinates.
+   */
+  boundaryLayerId?: string
+  /**
+   * Used if boundaryLayer does not contain the plugin information to inform
+   * the user that something could not be set/updated.
+   */
+  toastAction?: string
+}
+
+export interface GeoLocationConfiguration extends LayerBoundPluginOptions {
   /**
    * Source paths through store to listen to for changes; it is assumed values
    * listened to are coordinates that can be used to request information from
@@ -243,17 +257,6 @@ export interface GeoLocationConfiguration extends PluginOptions {
    * limit an endless stream of returns to maybe 10 or so. Infinite by default.
    */
   zoomLevel: number
-  /**
-   * If set, geolocation will only occur within the layer's features.
-   * The layer must contain vectors. This is useful for restricted maps to avoid
-   * zooming to unreachable or tileless coordinates.
-   */
-  boundaryLayerId?: string
-  /**
-   * Used if boundaryLayer does not contain the user's geolocation to inform
-   * the user that geolocation ended up outside the map.
-   */
-  toastAction?: string
 }
 
 /** Object containing information for highlighting a gfi result */
@@ -322,35 +325,33 @@ export interface AppearOnClick {
   /** Whether the pin should be set with a click on a map. */
   show: boolean
   /** At which zoomLevel it should be possible to have a pin set (if show is set to true). */
-  atZoomLevel: number
+  atZoomLevel?: number
 }
+
+interface InitialPin {
+  coordinates: [number, number]
+  centerOn?: boolean
+  epsg?: string
+}
+
+type MovablePin = 'drag' | 'click' | 'none'
 
 interface PinStyle {
   fill?: string
   stroke?: string
 }
 
-export interface PinsConfiguration extends PluginOptions {
+export interface PinsConfiguration extends LayerBoundPluginOptions {
   appearOnClick: AppearOnClick
   /** Path in store from where coordinates can be retrieved from. */
   coordinateSource: string
   /** The zoom level to zoom to when a pin is added to the map. */
-  toZoomLevel: number
-  /**
-   * If set, Pins will only be set within the layer's features.
-   * The layer must contain vectors. This is useful for restricted maps to avoid
-   * selecting unfit coordinates.
-   */
-  boundaryLayerId?: string
-  /**
-   * Used if boundaryLayer does not contain the user's pin to inform
-   * the user that the pin could not be set/updated.
-   */
-  toastAction?: string
+  initial?: InitialPin
   /** If the pin should be movable; defaults to false. */
-  movable?: boolean
+  movable?: boolean | MovablePin
   /** Pin styling */
   style?: PinStyle
+  toZoomLevel: number
 }
 
 export interface ReverseGeocoderConfiguration {

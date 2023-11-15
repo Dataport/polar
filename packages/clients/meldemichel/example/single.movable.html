@@ -48,7 +48,18 @@
       const mapInstance = await meldemichelMapClient.createMap({
         containerId: 'polarstern',
         mode: 'SINGLE',
-        // TODO incomplete API
+        configOverride: {
+          pins: {
+            initial: {
+              centerOn: true,
+              coordinates: [569028, 5932885],
+            },
+            movable: 'drag',
+            style: {
+              fill: '#0392cf'
+            },
+          },
+        },
       })
 
       const dataList = document.getElementById('subscribed-data-list')
