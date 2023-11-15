@@ -28,6 +28,11 @@
       </v-subheader>
       <v-list-item
         v-for="(feature, innerDex) in features"
+        :id="
+          ['polar-plugin-address-search-results-feature', index, innerDex].join(
+            '-'
+          )
+        "
         :key="['results-feature', index, innerDex].join('-')"
         tag="li"
         :class="{
@@ -37,6 +42,22 @@
               ? Number.MAX_SAFE_INTEGER
               : limitResults),
         }"
+        @keydown.down.prevent.stop="
+          focusNextElement(
+            true,
+            Number(index),
+            Number(innerDex),
+            features.length
+          )
+        "
+        @keydown.up.prevent.stop="
+          focusNextElement(
+            false,
+            Number(index),
+            Number(innerDex),
+            features.length
+          )
+        "
         @click="selectResult({ feature, categoryId })"
       >
         <v-list-item-title>
@@ -120,6 +141,53 @@ export default Vue.extend({
       return Boolean(searchService?.queryParameters?.maxFeatures)
     },
     emTitleByInput,
+    getNextElementId(
+      index: number,
+      nextInnerDex: number,
+      featureListLength: number
+    ): string {
+      if (nextInnerDex === -1 && index === 0) {
+        return 'polar-plugin-address-search-input'
+      }
+
+      let nextIndex: number
+      let usedInnerDex: number
+      if (nextInnerDex === -1) {
+        nextIndex = index - 1
+        usedInnerDex = this.featureListsWithCategory[nextIndex].length - 1
+      } else if (nextInnerDex === featureListLength) {
+        nextIndex =
+          index + 1 === this.featureListsWithCategory.length ? 0 : index + 1
+        usedInnerDex = 0
+      } else {
+        nextIndex = index
+        usedInnerDex = nextInnerDex
+      }
+      return [
+        'polar-plugin-address-search-results-feature',
+        nextIndex,
+        usedInnerDex,
+      ].join('-')
+    },
+    focusNextElement(
+      down: boolean,
+      index: number,
+      innerDex: number,
+      featureListLength: number
+    ): void {
+      const nextElement =
+        // @ts-expect-error | Type conversion is fine here as the querySelector method is monkeyPatched in core/createMap
+        (document.querySelector('[data-app]') as ShadowRoot).getElementById(
+          this.getNextElementId(
+            index,
+            down ? innerDex + 1 : innerDex - 1,
+            featureListLength
+          )
+        )
+      if (nextElement) {
+        nextElement.focus()
+      }
+    },
   },
 })
 </script>
