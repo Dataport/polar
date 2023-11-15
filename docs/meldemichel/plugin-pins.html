@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>Pins</h1>
+<h2>Scope</h2>
+<p>The pins plugin handles marking locations. Embedding processes can then use that coordinate for further steps. The plugin may react to other plugins, especially address searches.</p>
+<h3>Extension ideas</h3>
+<ul>
+<li>Allow multiple pins</li>
+</ul>
+<h2>Configuration</h2>
+<p>The usage of <code>displayComponent</code> has no influence on the creation of Pins on the Map if this plugin is being used.</p>
+<h3>pins</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>toZoomLevel</td>
+<td>number</td>
+<td>Zoom level to use on outside input by e.g. address search.</td>
+</tr>
+<tr>
+<td>appearOnClick</td>
+<td>appearOnClick?</td>
+<td>Pin restrictions. If not set, a pin can be set on all zoom levels and will be visible.</td>
+</tr>
+<tr>
+<td>boundaryLayerId</td>
+<td>string?</td>
+<td>Id of a vector layer to restrict pins to. When pins are moved or created outside of the boundary, an information will be shown and the pin is reset to its previous state. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off.</td>
+</tr>
+<tr>
+<td>coordinateSource</td>
+<td>string?</td>
+<td>The pins plugin may react to changes in other plugins. This specifies the path to such store positions. The position must, when subscribed to, return a GeoJSON feature.</td>
+</tr>
+<tr>
+<td>initial</td>
+<td>number[]?</td>
+<td>Configuration options for setting an initial pin.</td>
+</tr>
+<tr>
+<td>movable</td>
+<td>boolean? | 'drag' | 'click' | 'none'</td>
+<td>Whether a user may drag and re-click the pin (<code>drag</code> or <code>true</code>), only re-click it (<code>click</code>) or may only be placed programmatically (<code>none</code> or <code>false</code>). Defaults to 'none'. <strong>Using a boolean for this configuration has been deprecated and will be removed in the next major release.</strong></td>
+</tr>
+<tr>
+<td>style</td>
+<td>style?</td>
+<td>Display style configuration.</td>
+</tr>
+<tr>
+<td>toastAction</td>
+<td>string?</td>
+<td>If <code>boundaryLayerId</code> is set, and the pin is moved or created outside the boundary, this string will be used as action to send a toast information to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console.</td>
+</tr>
+</tbody>
+</table>
+<h4>pins.appearOnClick</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>show</td>
+<td>boolean</td>
+<td>Display marker.</td>
+</tr>
+<tr>
+<td>atZoomLevel</td>
+<td>number?</td>
+<td>Minimum zoom level for sensible marking.</td>
+</tr>
+</tbody>
+</table>
+<h4>pins.initial</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>coordinates</td>
+<td>number[]</td>
+<td>Coordinate pair for the pin.</td>
+</tr>
+<tr>
+<td>centerOn</td>
+<td>boolean?</td>
+<td>If set to true, center on and zoom to the given coordinates on start. Defaults to false.</td>
+</tr>
+<tr>
+<td>epsg</td>
+<td>string?</td>
+<td>Coordinate reference system in which the given coordinates are encoded. Defaults to the <code>epsg</code> value defined in the mapConfiguration.</td>
+</tr>
+</tbody>
+</table>
+<h4>pins.style</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fill</td>
+<td>string?</td>
+<td>Fill color of the pin. Defaults to blue (<code>#005CA9</code>).</td>
+</tr>
+<tr>
+<td>stroke</td>
+<td>string?</td>
+<td>Stroke (that is, border) color of the pin. Defaults to white (<code>#FFFFFF</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2>Store</h2>
+<h3>Getters</h3>
+<pre><code class="language-js">map.subscribe('plugin/pins/transformedCoordinate', (pinCoordinate) =&gt; {
+  /* Your Code. */
+})
+</code></pre>
+<p>The <code>pinCoordinate</code> is of type <code>[number, number]</code>.</p>
+<pre><code class="language-js">map.subscribe('plugin/pins/latLon', (pinCoordinate) =&gt; {
+  /* Your Code. */
+})
+</code></pre>
+<p>The <code>pinCoordinate</code> transcribed to latitude / longitude.</p>
+
+    
+  </article>
+</body>
+</html>

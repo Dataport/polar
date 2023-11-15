@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html style="height: 100%; width: 100%; overflow: hidden">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate, max-age=0"
+    />
+    <title>MML COMPLETE (Build Test)</title>
+    <link data-polar="true" href="../dist/style.css" rel="stylesheet" />
+    <style>
+      /* attempting to break something by simulating bad external CSS rules */
+      * {
+        color: white;
+        background-color: cadetblue;
+      }
+    </style>
+  </head>
+  <body style="height: 100%; width: 100%">
+    <div style="width: 100%; height: 100%">
+      <div id="polarstern"></div>
+    </div>
+    <script type="module">
+      import meldemichelMapClient from '../dist/client-meldemichel.mjs'
+
+      const stage = true
+
+      meldemichelMapClient.createMap({
+        containerId: 'polarstern',
+        mode: 'COMPLETE',
+        afmUrl: `https://${
+          stage ? 'stage.' : ''
+        }afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index`,
+        reportServiceId: stage ? '6061' : '6059',
+      })
+    </script>
+  </body>
+</html>

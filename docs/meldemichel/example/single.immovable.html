@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate, max-age=0"
+    />
+    <title>MML SINGLE (Build Test) – Immovable</title>
+    <link data-polar="true" href="../dist/style.css" rel="stylesheet" />
+    <style>
+      #polarstern {
+        width: 260px;
+        height: 450px;
+        position: relative;
+        margin: 5px 5px 5px auto;
+        -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.5);
+      }
+
+      /* attempting to break something by simulating bad external CSS rules */
+      #polarstern * {
+        color: red;
+        background-color: cadetblue;
+      }
+
+      /* mocking an environment */
+      .mock-content {
+        font-family: sans-serif;
+        padding: 1em 2em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mock-content">
+      <p>This is a minimal test page for the SINGLE (immovable) environment.</p>
+      <div id="polarstern"></div>
+    </div>
+    <script type="module">
+      import meldemichelMapClient from '../dist/client-meldemichel.mjs'
+
+      meldemichelMapClient.createMap({
+        containerId: 'polarstern',
+        mode: 'SINGLE',
+        configOverride: {
+          pins: {
+            initial: {
+              centerOn: true,
+              coordinates: [569028, 5932885],
+            },
+            movable: 'none',
+            style: {
+              fill: '#ff0019',
+            },
+          },
+        },
+      })
+    </script>
+  </body>
+</html>

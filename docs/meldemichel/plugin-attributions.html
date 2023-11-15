@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>Attributions</h1>
+<h2>Scope</h2>
+<p>This plugin shows attributions (that is, legal information) regarding copyrights and sources of the currently visible layers.</p>
+<h3>Extension ideas</h3>
+<ul>
+<li>Offer a mode where attributions are always visible. (Not on roadmap.)</li>
+</ul>
+<h2>Configuration</h2>
+<h3>attributions</h3>
+<p>All parameters are optional. However, setting neither <code>layerAttributions</code> nor <code>staticAttributions</code> results in an empty window.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>layerAttributions</td>
+<td>layerAttribution[]?</td>
+<td>List of attributions that are shown when the matching layer is visible.</td>
+</tr>
+<tr>
+<td>staticAttributions</td>
+<td>string[]?</td>
+<td>List of static attributions that are always shown.</td>
+</tr>
+<tr>
+<td>renderType</td>
+<td>'iconMenu' | 'independent'?</td>
+<td>Whether this plugin ('independent') or the IconMenu should handle opening the information box. Defaults to 'independent'.</td>
+</tr>
+<tr>
+<td>listenToChanges</td>
+<td>string[]?</td>
+<td>Store variable paths to listen to for changes. Will update the currently visible layers depending on the current map state on changes to these values</td>
+</tr>
+<tr>
+<td>initiallyOpen</td>
+<td>boolean?</td>
+<td>Whether the information box is open by default. Only usable when renderType is set to 'independent', otherwise the IconMenu handles this.</td>
+</tr>
+<tr>
+<td>windowWidth</td>
+<td>number?</td>
+<td>Sets the width of the container of the attributions. Defaults to 500.</td>
+</tr>
+</tbody>
+</table>
+<h4>attributions.layerAttribution</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>ID of service the attribution relates to. The text will only be shown when the layer is visible.</td>
+</tr>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>Attribution text or localization key. May contain HTML. The tags <code>{{YEAR}}</code> and <code>{{MONTH}}</code> are translated to the current year or month respectively.</td>
+</tr>
+</tbody>
+</table>
+
+    
+  </article>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>Meldemichel MapClient API 🗺️ <code>@polar/client-meldemichel</code></h1>
+<p>This client is based on <a href="https://github.com/Dataport/polar">POLAR</a> and subsequently the <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">masterportalAPI</a>. The following documentation only contains how this specific client can be used, and the minimal information required to get it running.</p>
+<p>For all additional details, check the <a href="https://dataport.github.io/polar/docs/meldemichel/client-meldemichel.html">full documentation</a>.</p>
+<p>For the development test deployments, <a href="./example/index.html">see here</a>.</p>
+<h2>Basic usage</h2>
+<p>The NPM package <code>@polar/client-meldemichel</code> can be installed via NPM or downloaded from the <a href="https://github.com/Dataport/polar/releases">release page</a>. When using <code>import mapClient from '@polar/client-meldemichel'</code>, the object <code>mapClient</code> contains a method <code>createMap</code>. This is the main method required to get the client up and running. Should you use another import method, check the package's <code>dist</code> folder for available files.</p>
+<p>The method expects a single object with the following parameters.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>containerId</td>
+<td>string</td>
+<td>ID of the container the map is supposed to render itself to.</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>enum[&quot;REPORT&quot;, &quot;SINGLE&quot;, &quot;COMPLETE&quot;]</td>
+<td>See chapters below for an overview of the modes.</td>
+</tr>
+<tr>
+<td>afmUrl</td>
+<td>string?</td>
+<td>TODO <code>COMPLETE</code> mode only. URL used in the AfM Button.</td>
+</tr>
+<tr>
+<td>reportServiceId</td>
+<td>string?</td>
+<td>TODO <code>COMPLETE</code> mode only. ID of the report layer to display.</td>
+</tr>
+<tr>
+<td>configOverride</td>
+<td>object?</td>
+<td>This can be used to override the configuration of any installed plugin; see full documentation. It is also used to set initial pins in <code>SINGLE</code> mode. See documentation of <code>SINGLE</code> further below.</td>
+</tr>
+</tbody>
+</table>
+<p>It returns a Promise of a map instance. This returned instance is required to retrieve information from the map.</p>
+<p>The package also includes a <code>style.css</code> and an <code>index.html</code> file. The <code>style.css</code> must be imported in the following fashion:</p>
+<pre><code class="language-html">&lt;link data-polar=&quot;true&quot; href=&quot;./style.css&quot; rel=&quot;stylesheet&quot; /&gt;
+</code></pre>
+<p>The <code>index.html</code> is used in <code>COMPLETE</code> mode, which is not run in the AfM. You may, however, use it for testing or inspecting an example.</p>
+<h2>Rendering in SINGLE or REPORT mode</h2>
+<p>A document rendering the map client could e.g. look like this:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;REPORT EXAMPLE&lt;/title&gt;
+    &lt;link data-polar=&quot;true&quot; href=&quot;./style.css&quot; rel=&quot;stylesheet&quot; /&gt;
+    &lt;style&gt;
+      #meldemichel-map-client {
+        min-width: 320px;
+        max-width: 930px;
+        height: 500px;
+        position: relative;
+        margin: 5px;
+        -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.5);
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;meldemichel-map-client&quot;&gt;&lt;/div&gt;
+    &lt;script type=&quot;module&quot;&gt;
+      import meldemichelMapClient from './client-meldemichel.mjs'
+
+      const meldemichelMapInstance = await meldemichelMapClient.createMap({
+        containerId: 'meldemichel-map-client',
+        mode: 'REPORT', // or 'SINGLE',
+        // For 'SINGLE' mode where a singular coordinate is inspected/worked on
+        configOverride: {
+          pins: {
+            initial: {
+              centerOn: true,
+              // The coordinate that is inspected/worked on
+              coordinates: [569028, 5932885],
+            },
+            movable: 'drag', // or 'none' to have an immovable pin
+            style: {
+              fill: '#0392cf' // or (optionally) '#ff0019' if 'none' is set
+            },
+          },
+        },
+      })
+
+      // If an old view state should be set, use this snippet:
+      meldemichelMapInstance.$store.dispatch('meldemichel/setMapState', {
+        vendor_maps_position: '566167.224436667,5935872.419250831',
+        vendor_maps_address_str: 'Alte Rabenstraße',
+        vendor_maps_address_hnr: '28',
+        mapZoomLevel: 6,
+        mapBaseLayer: 452,
+        mapCenter: '566808.8386735287,5935896.23173797',
+        // NOTE: vendor_maps_address_to and -_plz are not read
+      })
+
+      // to retrieve map state updates, use this snippet:
+      mapInstance.$store.watch(
+        (_, getters) =&gt; getters[&quot;meldemichel/mapState&quot;],
+        ({
+          mapCenter,
+          mapZoomLevel,
+          mapBaseLayer,
+          vendor_maps_position,
+          // The following fields are not changed/set in 'SINGLE' mode
+          vendor_maps_address_hnr,
+          vendor_maps_address_str,
+          vendor_maps_address_plz,
+          vendor_maps_address_to
+        }) =&gt; {
+          // do anything with the map values here; example print
+          console.info(`MapState Update
+            Center coordinate: ${mapCenter}
+            Zoom level: ${mapZoomLevel}
+            Base layer: ${mapBaseLayer}
+            Pin coordinate: ${vendor_maps_position}
+            Address: ${vendor_maps_address_str + ' ' + vendor_maps_address_hnr}
+            PLZ: ${vendor_maps_address_plz}
+            Distance to address: ${vendor_maps_address_to}`)
+        },
+        // will return initial values; delete parameter if not desired
+        { immediate: true }
+      )
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2>Rendering COMPLETE mode</h2>
+<p>The <code>index.html</code> included in the package's <code>dist</code> folder has been prepared for this mode and must merely be hosted.</p>
+<p>// TODO update this block after implementation (TO BE IMPLEMENTED)</p>
+<pre><code>Dieser [AfMButton] wird dann gerendert, wenn in der mapConf das Feld `afmUrl` befüllt ist, zum Beispiel mit dem String `&quot;https://afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index&quot;`. Diese URL ist in die Konfiguration gezogen worden, falls sich die Adresse des Prozesses einmal ändern sollte.
+
+Der URL werden folgende Query-Parameter (hier mit Beispielwerten) hinzugefügt:
+
+- `mapCenter=569029.708,5932888.959`
+- `mapZoomLevel=9`
+- `mapBaseLayer=452`
+  - Wert ist ID in der https://geoportal-hamburg.de/lgv-config/services-internet.json
+- `vendor_maps_position=569029.708,5932888.959`
+- `vendor_maps_address_str=Berlinertordamm`
+- `vendor_maps_address_hnr=4`
+- `vendor_maps_address_plz=12345`
+- `vendor_maps_address_to=0` (Entfernung zum Hit im Falle von )
+
+Analog liest der Klient im Modus `complete` beim Start auch alle bis auf die letzten zwei Query-Parameter wieder ein. Dabei wird die Adresse überschrieben, falls sie nicht zur `vendor_maps_position` passt.
+</code></pre>
+
+    <h2>Child documents</h2><nav><ul>
+      <li><a href="core.html" target="_blank">core.html</a></li><li><a href="lib-custom-types.html" target="_blank">lib-custom-types.html</a></li><li><a href="plugin-address-search.html" target="_blank">plugin-address-search.html</a></li><li><a href="plugin-attributions.html" target="_blank">plugin-attributions.html</a></li><li><a href="plugin-fullscreen.html" target="_blank">plugin-fullscreen.html</a></li><li><a href="plugin-geo-location.html" target="_blank">plugin-geo-location.html</a></li><li><a href="plugin-gfi.html" target="_blank">plugin-gfi.html</a></li><li><a href="plugin-icon-menu.html" target="_blank">plugin-icon-menu.html</a></li><li><a href="plugin-layer-chooser.html" target="_blank">plugin-layer-chooser.html</a></li><li><a href="plugin-loading-indicator.html" target="_blank">plugin-loading-indicator.html</a></li><li><a href="plugin-pins.html" target="_blank">plugin-pins.html</a></li><li><a href="plugin-reverse-geocoder.html" target="_blank">plugin-reverse-geocoder.html</a></li><li><a href="plugin-scale.html" target="_blank">plugin-scale.html</a></li><li><a href="plugin-toast.html" target="_blank">plugin-toast.html</a></li><li><a href="plugin-zoom.html" target="_blank">plugin-zoom.html</a></li>
+      </ul></nav>
+  </article>
+</body>
+</html>
