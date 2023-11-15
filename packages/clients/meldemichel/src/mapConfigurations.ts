@@ -16,8 +16,6 @@ const stadtplan = '453'
 const luftbilder = '452'
 export const hamburgBorder = '6074' // boundary layer for pins / geolocalization
 
-// TODO decide whether to use static hhborder.geojson (TODO update file - is there a difference since last time?)
-
 const hamburgWhite = '#ffffff'
 const hamburgDarkBlue = '#003063'
 const hamburgRed = '#ff0019'
@@ -121,6 +119,7 @@ const geoLocation: Partial<GeoLocationConfiguration> = {
   checkLocationInitially: true,
   zoomLevel: 7,
   boundaryLayerId: hamburgBorder,
+  showTooltip: true,
 }
 
 const mapConfigurations = {
