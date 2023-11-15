@@ -265,31 +265,49 @@ const storeModule: PolarModule<PinsState, PinsState> = {
       { rootGetters, dispatch },
       coordinates: Coordinate
     ): Promise<boolean> {
-      const { boundaryLayerId, toastAction } =
+      const { boundaryLayerId, toastAction, boundaryOnError } =
         rootGetters?.configuration?.pins || {}
+
+      const boundaryCheckResult = await passesBoundaryCheck(
+        rootGetters.map,
+        boundaryLayerId,
+        coordinates
+      )
 
       if (
         !boundaryLayerId ||
-        (await passesBoundaryCheck(
-          rootGetters.map,
-          boundaryLayerId,
-          coordinates
-        ))
+        // if a setup error occurred, client will act as if no boundaryLayerId specified
+        boundaryCheckResult === true ||
+        (typeof boundaryCheckResult === 'symbol' &&
+          boundaryOnError !== 'strict')
       ) {
         return true
       }
 
+      const errorOccurred = typeof boundaryCheckResult === 'symbol'
+
       if (toastAction) {
-        const info = {
-          type: 'info',
-          text: 'plugins.pins.toast.notInBoundary',
-          timeout: 10000,
-        }
-        dispatch(toastAction, info, { root: true })
+        const toast = errorOccurred
+          ? {
+              type: 'error',
+              text: 'plugins.pins.toast.boundaryError',
+              timeout: 0,
+            }
+          : {
+              type: 'info',
+              text: 'plugins.pins.toast.notInBoundary',
+              timeout: 10000,
+            }
+        dispatch(toastAction, toast, { root: true })
       } else {
         // eslint-disable-next-line no-console
-        console.log('Pin position outside of boundary layer:', coordinates)
+        console[errorOccurred ? 'error' : 'log'](
+          errorOccurred
+            ? 'Checking boundary layer failed.'
+            : ['Pin position outside of boundary layer:', coordinates]
+        )
       }
+
       return false
     },
   },

@@ -119,6 +119,8 @@ const language: LanguageOption[] = [
           toast: {
             notInBoundary:
               'Das System konnte Sie leider nicht in Hamburg verorten. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.',
+            boundaryError:
+              'Die Verortung ist fehlgeschlagen. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.',
           },
         },
         pins: {
