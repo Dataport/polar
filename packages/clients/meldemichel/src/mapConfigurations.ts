@@ -208,11 +208,9 @@ export const getMapConfiguration = ({
       'POLAR Meldemichel Client: Missing reportServiceId configuration in mode COMPLETE.'
     )
   }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore | TODO problem not solved: configuration taking place in addPlugins and in mapConf – merge happens in core
+  // @ts-expect-error | known issue; type definitions fit after merge in core
   return {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore | TS doesn't get the if above right
+    // @ts-expect-error | methods don't have a common interface
     ...mapConfigurations[mode](reportServiceId),
     // NOTE local plugin does not exist yet
     // meldemichelNeuesAnliegen: {

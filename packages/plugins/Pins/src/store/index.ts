@@ -207,10 +207,7 @@ const storeModule: PolarModule<PinsState, PinsState> = {
         commit('setGetsDragged', false)
         evt.features.forEach(async (feat) => {
           const geometry = feat.getGeometry()
-          // NOTE: getCoordinates does not exist on Geometry, but on all of its
-          //      implementations ... missing abstract method?
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          // @ts-expect-error | getCoordinates does not exist on Geometry, but on all of its implementations – missing abstract method?
           let coordinates = geometry?.getCoordinates()
 
           if (!(await dispatch('isCoordinateInBoundaryLayer', coordinates))) {

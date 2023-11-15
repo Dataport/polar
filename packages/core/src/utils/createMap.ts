@@ -64,9 +64,7 @@ export default function createMap({
           return querySelector.call(this, selector)
         }
 
-        // NOTE: 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does when using vite as a bundler.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
         const devMode = import.meta.env.DEV
         // move polar css to Shadow DOM (customer has to import it)
         const attributeName = devMode ? 'style' : 'link'
@@ -109,9 +107,7 @@ export default function createMap({
 
         // fetch vuetify style from document and pull it over to the shadow realm
         const vuetifyStyle = document.getElementById('vuetify-theme-stylesheet')
-        // NOTE: "TS2345: Argument of type 'HTMLElement | null' is not assignable to parameter of type 'Node'. Type 'null' is not assignable to type 'Node'."
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // @ts-expect-error | "TS2345: Argument of type 'HTMLElement | null' is not assignable to parameter of type 'Node'. Type 'null' is not assignable to type 'Node'."
         shadowRoot.appendChild(vuetifyStyle)
 
         // also, we inject this method so the users may listen to store changes

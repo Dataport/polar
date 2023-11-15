@@ -16,9 +16,7 @@ import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 
-// NOTE: 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does when using vite.
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite.
 const devMode = import.meta.env.DEV
 
 /*
@@ -113,15 +111,11 @@ export default new Store({
     setMap: (state, payload) => {
       map = payload
       // NOTE: hack: don't put map in vuex (complex object); see NOTE above
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       state.map = state.map + 1
     },
     setComponents: (state, payload) => {
       components = payload
       // NOTE: hack: don't put components in vuex (complex objects); see NOTE above
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       state.components = state.components + 1
     },
     addError: (state, error: PolarError) => {
@@ -143,9 +137,7 @@ export default new Store({
       if (storeModule) {
         this.registerModule(['plugin', name], storeModule)
         const setupActionName = `plugin/${name}/setupModule`
-        // NOTE: It's not defined on the interface but accessible and needed here.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // @ts-expect-error | It's not defined on the interface but accessible and needed here.
         const setupActionExists = Object.keys(this._actions).includes(
           setupActionName
         )
