@@ -10,7 +10,7 @@
     "CHANGELOG.md"
   ],
   "devDependencies": {
-    "@polar/lib-passes-boundary-check": "^1.0.0",
+    "@polar/lib-passes-boundary-check": "^2.0.0",
     "@polar/lib-custom-types": "^1.0.0",
     "@polar/lib-test-mount-parameters": "^1.0.0"
   }
