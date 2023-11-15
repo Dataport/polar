@@ -325,8 +325,16 @@ export interface AppearOnClick {
   /** Whether the pin should be set with a click on a map. */
   show: boolean
   /** At which zoomLevel it should be possible to have a pin set (if show is set to true). */
-  atZoomLevel: number
+  atZoomLevel?: number
 }
+
+interface InitialPin {
+  coordinates: [number, number]
+  centerOn?: boolean
+  epsg?: string
+}
+
+type MovablePin = 'drag' | 'click' | 'none'
 
 interface PinStyle {
   fill?: string
@@ -338,11 +346,12 @@ export interface PinsConfiguration extends LayerBoundPluginOptions {
   /** Path in store from where coordinates can be retrieved from. */
   coordinateSource: string
   /** The zoom level to zoom to when a pin is added to the map. */
-  toZoomLevel: number
+  initial?: InitialPin
   /** If the pin should be movable; defaults to false. */
-  movable?: boolean
+  movable?: boolean | MovablePin
   /** Pin styling */
   style?: PinStyle
+  toZoomLevel: number
 }
 
 export interface ReverseGeocoderConfiguration {
