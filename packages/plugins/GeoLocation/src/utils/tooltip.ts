@@ -1,6 +1,6 @@
 import i18next from 'i18next'
 
-const setInnerHtml = (tooltip) => () =>
+const setInnerHtml = (tooltip: HTMLDivElement) => () =>
   (tooltip.innerHTML = `<h2>${i18next.t(
     'plugins.geoLocation.markerText'
   )}</h2>`)
