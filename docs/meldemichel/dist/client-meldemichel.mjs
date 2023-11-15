@@ -98000,20 +98000,20 @@ const PT = new wk({
       commit: n,
       dispatch: s
     }) {
-      const { atZoomLevel: r } = t, i = new Bk({
+      const { atZoomLevel: r } = t, i = e.getInteractions().getArray().find((o) => o.get("_polar_plugin_pins")), a = new Bk({
         condition: () => e.getView().getZoom() >= r,
         layers: [bl]
       });
-      e.addInteraction(i), i.on("translatestart", () => {
+      a.set("_polar_plugin_pins", !0), i && e.removeInteraction(i), e.addInteraction(a), a.on("translatestart", () => {
         n("setGetsDragged", !0);
-      }), i.on("translateend", (a) => {
-        n("setGetsDragged", !1), a.features.forEach(async (o) => {
-          const l = o.getGeometry();
-          let f = l == null ? void 0 : l.getCoordinates();
-          await s("isCoordinateInBoundaryLayer", f) || (f = t.transformedCoordinate, s("removeMarker"), s("showMarker", {
-            coordinates: f,
+      }), a.on("translateend", (o) => {
+        n("setGetsDragged", !1), o.features.forEach(async (l) => {
+          const f = l.getGeometry();
+          let d = f == null ? void 0 : f.getCoordinates();
+          await s("isCoordinateInBoundaryLayer", d) || (d = t.transformedCoordinate, s("removeMarker"), s("showMarker", {
+            coordinates: d,
             clicked: !0
-          })), n("setCoordinatesAfterDrag", f), s("updateCoordinates", f);
+          })), n("setCoordinatesAfterDrag", d), s("updateCoordinates", d);
         });
       });
     },
