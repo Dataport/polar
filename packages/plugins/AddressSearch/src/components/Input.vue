@@ -1,5 +1,6 @@
 <template>
   <v-text-field
+    id="polar-plugin-address-search-input"
     prepend-icon="fa-magnifying-glass"
     clearable
     :label="$t(label)"
