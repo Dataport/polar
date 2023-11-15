@@ -95548,7 +95548,7 @@ const DH = _H.exports, qh = {
   ...E5,
   addPlugins: C5,
   createMap: gH
-}, AH = "@polar/client-meldemichel", LH = "0.1.0", RH = "Client Meldemichel", wH = "EUPL-1.2", VH = "Dataport AöR <dataport-polar-support@dataport.de>", BH = "dist/client-meldemichel.mjs", NH = [
+}, AH = "@polar/client-meldemichel", LH = "0.1.0", RH = "Client Meldemichel", wH = "EUPL-1.2", VH = "Dataport AöR <dataportpolarsupport@dataport.de>", BH = "dist/client-meldemichel.mjs", NH = [
   "dist/**/**.*",
   "docs/**/**.*",
   "example/**/**.*",
