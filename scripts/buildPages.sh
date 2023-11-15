@@ -1,4 +1,4 @@
-array=( afm snowbox )
+array=( afm meldemichel snowbox )
 for i in "${array[@]}"
 do
   echo "Building $i docs ..."
