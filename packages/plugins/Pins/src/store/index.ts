@@ -263,16 +263,16 @@ const storeModule: PolarModule<PinsState, PinsState> = {
       const { boundaryLayerId, toastAction, boundaryOnError } =
         rootGetters?.configuration?.pins || {}
 
-      let boundaryCheckResult
+      const boundaryCheckResult = await passesBoundaryCheck(
+        rootGetters.map,
+        boundaryLayerId,
+        coordinates
+      )
 
       if (
         !boundaryLayerId ||
         // if a setup error occured, client will act as if no boundaryLayerId specified
-        (boundaryCheckResult = await passesBoundaryCheck(
-          rootGetters.map,
-          boundaryLayerId,
-          coordinates
-        )) === true ||
+        boundaryCheckResult === true ||
         (typeof boundaryCheckResult === 'symbol' &&
           boundaryOnError !== 'strict') /* defaults to 'permissive' */
       ) {
