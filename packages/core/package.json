@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "MapClient Core",
   "license": "EUPL-1.2",
-  "author": "Dataport AöR <dataport-polar-support@dataport.de>",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "main": "src/index.ts",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.1",
