@@ -16,7 +16,7 @@ const language: LanguageOption[] = [
           toast: {
             notInBoundary: 'Sie befinden sich nicht im Kartengebiet.',
             boundaryError:
-              'Die Überprüfung Ihrer Koordinate ist fehlgeschlagen. Bitte versuchen Sie es später erneut oder wenden Sie sich an einen Administrator, wenn das Problem bestehen bleibt.',
+              'Die Überprüfung Ihrer Position ist fehlgeschlagen. Bitte versuchen Sie es später erneut oder wenden Sie sich an einen Administrator, wenn das Problem bestehen bleibt.',
           },
         },
       },
