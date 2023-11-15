@@ -24,7 +24,7 @@
                 $t(hint ? hint : `common:plugins.iconMenu.hints.${id}`)
               "
               v-bind="attrs"
-              @click="toggle(index)"
+              @click="toggle(Number(index))"
               v-on="on"
             >
               <v-icon :color="open === index ? 'primary' : 'primaryContrast'">
@@ -95,9 +95,8 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations('plugin/iconMenu', ['setOpen']),
-    toggle(index) {
-      const { open } = this
-      if (open === index) {
+    toggle(index: number) {
+      if (this.open === index) {
         this.setOpen(null)
       } else {
         this.setOpen(index)
