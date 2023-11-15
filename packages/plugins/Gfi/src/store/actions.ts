@@ -173,10 +173,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
       // render feature geometries to help layer
       geometryLayerKeys
         .filter((key) => Array.isArray(featuresByLayerId[key]))
-        // NOTE: Might be fixed through having all the types in the action.
-        //    Otherwise: It works properly, as all the symbols are filtered in line 168.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // @ts-expect-error | Might be fixed through having all the types in the action. Otherwise: It works properly, as all the symbols are filtered before calling forEach
         .forEach((key) => featuresByLayerId[key].forEach(addFeature))
     },
     50
