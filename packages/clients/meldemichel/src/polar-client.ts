@@ -16,7 +16,7 @@ import './styles/index.css'
 console.log(`POLAR Meldemichel loaded in version ${packageInfo.version}.`)
 
 const serviceRegister =
-  'http://geoportal-hamburg.de/lgv-config/services-internet.json'
+  'https://geoportal-hamburg.de/lgv-config/services-internet.json'
 
 // can't be configured "visible: false" – wouldn't load at all then
 const hideHamburgBorder = (map: Map) => {
