@@ -267,7 +267,7 @@ const storeModule: PolarModule<PinsState, PinsState> = {
 
       if (
         !boundaryLayerId ||
-        // if a setup error occured, client will act as if no boundaryLayerId specified
+        // if a setup error occurred, client will act as if no boundaryLayerId specified
         (boundaryCheckResult = await passesBoundaryCheck(
           rootGetters.map,
           boundaryLayerId,
