@@ -21,4 +21,4 @@ jobs:
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: Dataport Geo Bot
-          author_email: dataport-polar-support@dataport.de
+          author_email: dataportpolarsupport@dataport.de

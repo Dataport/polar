@@ -2,7 +2,7 @@
   "name": "polar-monorepo",
   "private": true,
   "description": "monorepository to build masterportalAPI-based map clients",
-  "author": "Dataport AöR <dataport-polar-support@dataport.de>",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "license": "EUPL-1.2",
   "engines": {
     "node": "^18.13.0",
