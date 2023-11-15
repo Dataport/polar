@@ -6,6 +6,7 @@ const language: LanguageOption[] = [
     resources: {
       plugins: {
         geoLocation: {
+          markerText: 'Aktuelle Position',
           button: {
             tooltip: {
               placeLocationMarker: 'Eigene Position markieren',
@@ -27,6 +28,7 @@ const language: LanguageOption[] = [
     resources: {
       plugins: {
         geoLocation: {
+          markerText: 'Current location',
           button: {
             tooltip: {
               placeLocationMarker: 'Mark own location',
