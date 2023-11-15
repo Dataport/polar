@@ -60,7 +60,20 @@ A document rendering the map client could e.g. look like this:
       const meldemichelMapInstance = await meldemichelMapClient.createMap({
         containerId: 'meldemichel-map-client',
         mode: 'REPORT', // or 'SINGLE',
-        // TODO add bits about PINS plugin
+        // For 'SINGLE' mode where a singular coordinate is inspected/worked on
+        configOverride: {
+          pins: {
+            initial: {
+              centerOn: true,
+              // The coordinate that is inspected/worked on
+              coordinates: [569028, 5932885],
+            },
+            movable: 'drag', // or 'none' to have an immovable pin
+            style: {
+              fill: '#0392cf' // or (optionally) '#ff0019' if 'none' is set
+            },
+          },
+        },
       })
 
       // If an old view state should be set, use this snippet:
@@ -81,6 +94,8 @@ A document rendering the map client could e.g. look like this:
           mapCenter,
           mapZoomLevel,
           mapBaseLayer,
+          vendor_maps_position,
+          // The following fields are not changed/set in 'SINGLE' mode
           vendor_maps_address_hnr,
           vendor_maps_address_str,
           vendor_maps_address_plz,
@@ -91,6 +106,7 @@ A document rendering the map client could e.g. look like this:
             Center coordinate: ${mapCenter}
             Zoom level: ${mapZoomLevel}
             Base layer: ${mapBaseLayer}
+            Pin coordinate: ${vendor_maps_position}
             Address: ${vendor_maps_address_str + ' ' + vendor_maps_address_hnr}
             PLZ: ${vendor_maps_address_plz}
             Distance to address: ${vendor_maps_address_to}`)
