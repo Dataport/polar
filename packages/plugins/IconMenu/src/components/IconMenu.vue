@@ -39,6 +39,7 @@
         <component
           :is="plugin"
           v-if="open === index"
+          ref="item-component"
           :class="[
             isHorizontal
               ? 'icon-menu-list-item-content-horizontal'
@@ -58,6 +59,9 @@ import { mapGetters, mapMutations } from 'vuex'
 
 export default Vue.extend({
   name: 'IconMenu',
+  data: () => ({
+    maxWidth: 'inherit',
+  }),
   computed: {
     ...mapGetters(['hasSmallHeight', 'hasWindowSize', 'clientHeight']),
     ...mapGetters('plugin/iconMenu', ['menus', 'open']),
@@ -81,13 +85,13 @@ export default Vue.extend({
         this.isHorizontal ? 'calc(100% + 1.5em)' : '1em'
       })`
     },
-    maxWidth() {
-      // NOTE: Same value as constant in core
-      if (!this.hasWindowSize && window.innerWidth <= 768) {
-        return `calc(${window.innerWidth}px * 0.75)`
-      }
-      return 'inherit'
-    },
+  },
+  mounted() {
+    addEventListener('resize', this.updateMaxSize)
+    this.updateMaxSize()
+  },
+  beforeDestroy() {
+    removeEventListener('resize', this.updateMaxSize)
   },
   methods: {
     ...mapMutations('plugin/iconMenu', ['setOpen']),
@@ -97,6 +101,16 @@ export default Vue.extend({
         this.setOpen(null)
       } else {
         this.setOpen(index)
+      }
+      this.updateMaxSize()
+    },
+    updateMaxSize() {
+      const plugin = this.$refs['item-component']
+      if (!this.hasWindowSize && plugin) {
+        const { width, left } = plugin[0].$el.getBoundingClientRect()
+        this.maxWidth = `${width + left}px`
+      } else {
+        this.maxWidth = 'inherit'
       }
     },
   },
