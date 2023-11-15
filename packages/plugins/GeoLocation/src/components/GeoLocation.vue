@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-tooltip
-      class="polar-geo-location-wrap"
-      content-class="polar-tooltip"
-      left
-    >
+    <v-tooltip content-class="polar-tooltip" left>
       <template #activator="{ on, attrs }">
         <v-btn
           class="ma-2"
@@ -52,9 +48,4 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
-.polar-geo-location-wrap {
-  display: flex;
-  flex-direction: column;
-}
-</style>
+<style lang="scss" scoped></style>

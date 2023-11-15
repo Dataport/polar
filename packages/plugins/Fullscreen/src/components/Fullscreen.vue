@@ -1,6 +1,5 @@
 <template>
   <v-tooltip
-    class="polar-fullscreen-wrap"
     content-class="polar-tooltip"
     :left="!isHorizontal"
     :bottom="isHorizontal"
@@ -115,9 +114,4 @@ export default Vue.extend({
   },
 })
 </script>
-<style lang="scss" scoped>
-.polar-fullscreen-wrap {
-  display: flex;
-  flex-direction: column;
-}
-</style>
+<style lang="scss" scoped></style>
