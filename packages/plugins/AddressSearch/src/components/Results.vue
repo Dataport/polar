@@ -35,6 +35,7 @@
         "
         :key="['results-feature', index, innerDex].join('-')"
         tag="li"
+        tabindex="-1"
         :class="{
           'polar-plugin-address-search-hidden-result':
             innerDex >=
