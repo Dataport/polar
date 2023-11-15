@@ -37,6 +37,6 @@ We're production-ready. After a history as Inner Source software, we are now gra
 
 ## Stay In Touch 💬
 
-- [Contact us via email 📧](mailto:dataport-polar-support@dataport.de)
+- [Contact us via email 📧](mailto:dataportpolarsupport@dataport.de)
 
 made by [Dataport](https://www.dataport.de/) with ❤️

@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.1.0
 
 - Feature: Add parameter `boundaryOnError` to `PinsConfiguration`.
 - Feature: Add parameter `boundaryOnError` to `GeoLocationConfiguration`.

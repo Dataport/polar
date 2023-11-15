@@ -1,9 +1,9 @@
 {
   "name": "@polar/plugin-icon-menu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Plugin IconMenu",
   "license": "EUPL-1.2",
-  "author": "Dataport AöR <dataport-polar-support@dataport.de>",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "main": "src/index.ts",
   "files": [
     "src/**/*",
@@ -15,7 +15,7 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.0.0",
+    "@polar/lib-custom-types": "^1.1.0",
     "@polar/lib-test-mount-parameters": "^1.0.0"
   }
 }

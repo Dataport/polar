@@ -3,7 +3,7 @@
   "private": true,
   "description": "Snow❄️📦box",
   "license": "EUPL-1.2",
-  "author": "Dataport AöR <dataport-polar-support@dataport.de>",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "scripts": {
     "build": "rimraf dist && parcel build src/index.html --public-url . && copyfiles docs/**/* dist/docs/"
   },

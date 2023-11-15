@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## unpublished
+## 1.1.0
 
-- Feature: Update`@polar/lib-passes-boundary-check` to major version 2. (TODO: Publish and install library before publishing this update in a new version.)
+- Feature: Update`@polar/lib-passes-boundary-check` to major version 2.
 - Feature: Add `boundaryOnError` parameter to let user define behaviour on boundary check errors.
 - Feature: Add optional tooltip to user geolocation map icon.
 
