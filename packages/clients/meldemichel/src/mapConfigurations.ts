@@ -1,6 +1,3 @@
-// TODO Seemingly this is how movable pins for Sachbearbeiter came in prior
-// pinCoordinate: [565699.2, 5933923.69],
-
 import {
   AddressSearchConfiguration,
   Attribution,
@@ -18,8 +15,6 @@ import { MeldemichelCreateMapParams } from './types'
 const stadtplan = '453'
 const luftbilder = '452'
 export const hamburgBorder = '6074' // boundary layer for pins / geolocalization
-
-// TODO decide whether to use static hhborder.geojson (TODO update file - is there a difference since last time?)
 
 const hamburgWhite = '#ffffff'
 const hamburgDarkBlue = '#003063'
@@ -124,6 +119,8 @@ const geoLocation: Partial<GeoLocationConfiguration> = {
   checkLocationInitially: true,
   zoomLevel: 7,
   boundaryLayerId: hamburgBorder,
+  boundaryOnError: 'strict',
+  showTooltip: true,
 }
 
 const mapConfigurations = {
@@ -152,6 +149,9 @@ const mapConfigurations = {
             title: 'meldemichel.attributions.reports',
           },
         ],
+        staticAttributions: [
+          '<a href="https://www.hamburg.de/impressum/" target="_blank">Impressum</a>',
+        ],
       },
       geoLocation,
       gfi: {
@@ -176,7 +176,9 @@ const mapConfigurations = {
     ...commonMapConfiguration,
     addressSearch,
     layers: commonLayers,
-    attributions: commonAttributions,
+    attributions: {
+      ...commonAttributions,
+    },
     geoLocation,
     pins: commonPins,
     reverseGeocoder,
@@ -184,7 +186,9 @@ const mapConfigurations = {
   [MODE.SINGLE]: () => ({
     ...commonMapConfiguration,
     layers: commonLayers,
-    attributions: commonAttributions,
+    attributions: {
+      ...commonAttributions,
+    },
     pins: commonPins,
   }),
 }

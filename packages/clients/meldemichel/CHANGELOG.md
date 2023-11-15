@@ -1,5 +1,5 @@
 # CHANGELOG
 
-## unpublished
+## 1.0.0-alpaka.0
 
-Initial release.
+Test release. Feature-complete for AfM integration.

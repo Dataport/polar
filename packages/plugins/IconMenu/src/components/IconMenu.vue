@@ -24,7 +24,7 @@
                 $t(hint ? hint : `common:plugins.iconMenu.hints.${id}`)
               "
               v-bind="attrs"
-              @click="toggle(index)"
+              @click="toggle(Number(index))"
               v-on="on"
             >
               <v-icon :color="open === index ? 'primary' : 'primaryContrast'">
@@ -39,13 +39,14 @@
         <component
           :is="plugin"
           v-if="open === index"
+          ref="item-component"
           :class="[
             isHorizontal
               ? 'icon-menu-list-item-content-horizontal'
               : 'icon-menu-list-item-content',
             'icon-menu-list-item-content-scrollable-y',
           ]"
-          :style="getContentStyle(Number(index))"
+          :style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
         />
       </template>
     </component>
@@ -58,6 +59,9 @@ import { mapGetters, mapMutations } from 'vuex'
 
 export default Vue.extend({
   name: 'IconMenu',
+  data: () => ({
+    maxWidth: 'inherit',
+  }),
   computed: {
     ...mapGetters(['hasSmallHeight', 'hasWindowSize', 'clientHeight']),
     ...mapGetters('plugin/iconMenu', ['menus', 'open']),
@@ -82,28 +86,30 @@ export default Vue.extend({
       })`
     },
   },
+  mounted() {
+    addEventListener('resize', this.updateMaxSize)
+    this.updateMaxSize()
+  },
+  beforeDestroy() {
+    removeEventListener('resize', this.updateMaxSize)
+  },
   methods: {
     ...mapMutations('plugin/iconMenu', ['setOpen']),
-    getContentStyle(index: number) {
-      // HACK: Zoom is currently the only plugin that adds two buttons instead of one.
-      const zoomIndex = this.menus.findIndex(({ id }) => id === 'zoom')
-      const isAfterZoom = zoomIndex < index
-      return `max-height: ${this.maxHeight}; ${
-        this.isHorizontal
-          ? `right: calc(${
-              this.menus.length - (isAfterZoom ? index + 1 : index + 2)
-            } * (-100% - 0.5rem));`
-          : `top: calc(${
-              isAfterZoom && zoomIndex !== -1 ? index + 1 : index
-            } * (-100% - 0.5rem));`
-      }`
-    },
-    toggle(index) {
-      const { open } = this
-      if (open === index) {
+    toggle(index: number) {
+      if (this.open === index) {
         this.setOpen(null)
       } else {
         this.setOpen(index)
+      }
+      this.updateMaxSize()
+    },
+    updateMaxSize() {
+      const plugin = this.$refs['item-component']
+      if (!this.hasWindowSize && plugin) {
+        const { width, left } = plugin[0].$el.getBoundingClientRect()
+        this.maxWidth = `${width + left}px`
+      } else {
+        this.maxWidth = 'inherit'
       }
     },
   },
@@ -112,17 +118,17 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .icon-menu-list {
+  position: relative;
   list-style: none;
+  padding: 0;
 }
 
 .icon-menu-list-item-horizontal {
-  position: relative;
   float: left;
   margin-left: 0.5rem;
 }
 
 .icon-menu-list-item {
-  position: relative;
   margin-bottom: 0.5rem;
   z-index: 1;
 }
@@ -130,13 +136,15 @@ export default Vue.extend({
 .icon-menu-list-item-content {
   position: absolute;
   white-space: nowrap;
-  right: calc(100% + 0.5rem);
+  top: 0;
+  right: calc(100% + 0.5em);
 }
 
 .icon-menu-list-item-content-horizontal {
   position: absolute;
   white-space: nowrap;
-  top: 3em;
+  top: calc(100% + 0.5em);
+  right: -0.5em;
 }
 
 .icon-menu-list-item-content-scrollable-y {

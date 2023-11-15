@@ -48,6 +48,7 @@ export default (): MockParameters => {
       map: 1,
       clientHeight: 0,
       clientWidth: 0,
+      center: null,
       components: 1,
       configuration: {
         epsg: '',
@@ -56,6 +57,7 @@ export default (): MockParameters => {
         options: [],
       },
       errors: [],
+      plugin: {},
     },
   }
 }

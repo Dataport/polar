@@ -39,10 +39,6 @@
     <div class="mock-content">
       <p>This is a minimal test page for the SINGLE (immovable) environment.</p>
       <div id="polarstern"></div>
-      <p>Communicated data:</p>
-      <p>Coordinates: <span id="test-display-coordinate">null</span></p>
-      <p>Address: <span id="test-display-address">null</span></p>
-      <p>Address data: <span id="test-display-address-data">null</span></p>
     </div>
     <script type="module">
       import meldemichelMapClient from '../dist/client-meldemichel.mjs'
@@ -50,7 +46,18 @@
       meldemichelMapClient.createMap({
         containerId: 'polarstern',
         mode: 'SINGLE',
-        // TODO incomplete API
+        configOverride: {
+          pins: {
+            initial: {
+              centerOn: true,
+              coordinates: [569028, 5932885],
+            },
+            movable: 'none',
+            style: {
+              fill: '#ff0019',
+            },
+          },
+        },
       })
     </script>
   </body>
