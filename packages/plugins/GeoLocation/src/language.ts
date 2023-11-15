@@ -16,6 +16,8 @@ const language: LanguageOption[] = [
           },
           toast: {
             notInBoundary: 'Sie befinden sich nicht im Kartengebiet.',
+            boundaryError:
+              'Die Überprüfung Ihrer Position ist fehlgeschlagen. Bitte versuchen Sie es später erneut oder wenden Sie sich an einen Administrator, wenn das Problem bestehen bleibt.',
           },
         },
       },
@@ -36,6 +38,8 @@ const language: LanguageOption[] = [
           },
           toast: {
             notInBoundary: "You are not within the map's boundaries.",
+            boundaryError:
+              'Validating your position failed. Please try later again or contact an administrator if the issue persists.',
           },
         },
       },
