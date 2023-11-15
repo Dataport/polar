@@ -37,7 +37,7 @@ const language: LanguageOption[] = [
           toast: {
             notInBoundary: "You are not within the map's boundaries.",
             boundaryError:
-              'Validating your coordinate failed. Please try later again or contact an administrator if the issue persists.',
+              'Validating your position failed. Please try later again or contact an administrator if the issue persists.',
           },
         },
       },
