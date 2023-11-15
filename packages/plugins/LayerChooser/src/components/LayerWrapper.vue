@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip left>
+  <v-tooltip content-class="polar-tooltip" left>
     <template #activator="{ on }">
       <div
         class="polar-layer-chooser-option-line"

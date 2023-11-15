@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top>
+  <v-tooltip content-class="polar-tooltip" top>
     <template #activator="{ on, attrs }">
       <v-btn
         class="ma-2"

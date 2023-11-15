@@ -14,7 +14,11 @@
         :is-horizontal="isHorizontal"
       />
       <template v-else>
-        <v-tooltip :left="!isHorizontal" :bottom="isHorizontal">
+        <v-tooltip
+          content-class="polar-tooltip"
+          :left="!isHorizontal"
+          :bottom="isHorizontal"
+        >
           <template #activator="{ on, attrs }">
             <v-btn
               :color="open === index ? 'primaryContrast' : 'primary'"
