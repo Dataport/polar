@@ -1,3 +1,5 @@
+import language from './language'
+
 const eigengrau = '#16161d'
 const somewhatBlue = '#002177'
 const notQuiteWhite = '#f2f3f4'
@@ -7,14 +9,17 @@ const basemapGreyId = '23421'
 const sBahn = '23050'
 const uBahn = '23053'
 
+const hamburgBorder = '6074'
+
 /**
  * bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/src/defaults.js
  * implicitly using masterportalAPI HH defaults by fallback
- * they could be overwritten in this object
+ * they can be overwritten in this object
  */
 export const mapConfiguration = {
   language: 'en',
   epsg: 'EPSG:25832',
+  locales: language,
   vuetify: {
     theme: {
       themes: {
@@ -45,16 +50,12 @@ export const mapConfiguration = {
     searchMethods: [
       {
         queryParameters: {
-          memberSuffix: 'member',
-          namespaces: [
-            'http://www.adv-online.de/namespaces/adv/dog',
-            'http://geodienste.hamburg.de/dog_gages/services/wfs_dog?SERVICE=WFS&VERSION=2.0.0&REQUEST=DescribeFeatureType&OUTPUTFORMAT=application/gml+xml;+version=3.2&TYPENAME=dog:Flurstueckskoordinaten&NAMESPACES=xmlns(dog,http://www.adv-online.de/namespaces/adv/dog)',
-          ],
-          fieldName: ['strassenname', 'hausnummer'],
-          storedQueryId: 'AdresseOhneZusatz',
+          searchAddress: true,
+          searchStreets: true,
+          searchHouseNumbers: true,
         },
-        type: 'gazetteer',
-        url: 'https:///geodienste.hamburg.de/HH_WFS_DOG',
+        type: 'mpapi',
+        url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
       },
     ],
     minLength: 3,
@@ -66,21 +67,19 @@ export const mapConfiguration = {
     layerAttributions: [
       {
         id: basemapId,
-        title: 'Basemap © basemap.de / BKG <MONTH> <YEAR>',
+        title: 'snowbox.layers.basemap',
       },
       {
         id: basemapGreyId,
-        title: 'Basemap Grau © basemap.de / BKG <MONTH> <YEAR>',
+        title: 'snowbox.layers.basemapGrey',
       },
       {
         id: uBahn,
-        title:
-          'Strecken U-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
+        title: 'snowbox.layers.underground',
       },
       {
         id: sBahn,
-        title:
-          'Strecken S-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
+        title: 'snowbox.layers.rapid',
       },
     ],
   },
@@ -144,31 +143,42 @@ export const mapConfiguration = {
       id: basemapId,
       visibility: true,
       type: 'background',
-      name: 'Basemap.de Web Raster Farbe',
+      name: 'snowbox.layers.basemap',
     },
     {
       id: basemapGreyId,
       type: 'background',
-      name: 'Basemap.de Web Raster Grau',
+      name: 'snowbox.layers.basemapGrey',
     },
     {
       id: uBahn,
       visibility: true,
       type: 'mask',
-      name: 'Einzugsbereich U-Bahn',
+      name: 'snowbox.layers.underground',
     },
     {
       id: sBahn,
       type: 'mask',
-      name: 'Einzugsbereich S-Bahn',
+      name: 'snowbox.layers.rapid',
+    },
+    {
+      id: hamburgBorder,
+      visibility: true,
+      hideInMenu: true,
+      type: 'mask',
+      name: 'snowbox.layers.hamburgBorder',
     },
   ],
   pins: {
+    boundaryLayerId: hamburgBorder,
     toZoomLevel: 9,
     movable: true,
     appearOnClick: {
       show: true,
       atZoomLevel: 0,
+    },
+    style: {
+      fill: '#ff0019',
     },
   },
 }

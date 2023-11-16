@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>POLAR@2 Snowbox ❄️📦</title>
+    <title>POLAR@2 Snowbox ❄️📦 Dev</title>
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta
@@ -67,29 +67,13 @@
     </style>
   </head>
   <body>
-    <h1>POLAR@2 Snowbox</h1>
-    <p>Welcome to our example page.</p>
-    <h2>📚 Documentation</h2>
-    <p>
-      Since POLAR is, in its core, a library to code with, each package comes
-      with its own documentation. For an overview of what exists, a compiled
-      documentation is also available: See
-      <a id="docs-link" target="_blank">here</a>.
-    </p>
-    <p>
-      A POLAR-generated documentation will always contain exactly the plugins in
-      use.
+    <h1>POLAR@2 Snowbox ❄️📦 Dev</h1>
+    <p>Developer playground.</p>
+    <h2><a id="docs-link" target="_blank">📚 Documentation</a></h2>
+      Please mind you have to generate it locally first with `npm run docs:snowbox`, or use the public version <a target="_blank" href="https://dataport.github.io/polar/">here</a>.
     </p>
     <h2>🗺️ Map</h2>
     <p>In this example, the map client is used as an element on a website.</p>
-    <p>
-      When clicking on a feature, the GetFeatureInformation window for
-      developers is shown. Should feature information be offered to users
-      in-client, you may override the shown window with your own component,
-      since requirements for proper display will vary wildly across projects. To
-      show the information in separate fields (e.g. a pre-filled form after the
-      client), see the programmatic information binding example below.
-    </p>
     <label id="language-switcher-label">
       Language in map client:
       <select id="language-switcher">
@@ -101,14 +85,13 @@
     <h2>Example for programmatic information binding</h2>
     <p>
       This illustrates which kind of data can be retrieved from the map client.
-      For a full overview, please check the full documentation further below.
     </p>
-    <p>Current zoom level: <span id="vuex-target-zoom" /></p>
-    <p>GFI information: <span id="vuex-target-gfi" /></p>
-    <p>PIN coordinates: <span id="vuex-target-pin-coordinate" /></p>
+    <p>Current zoom level: <span id="vuex-target-zoom"></span></p>
+    <p>GFI information: <pre id="vuex-target-gfi"></pre></p>
+    <p>PIN coordinates: <span id="vuex-target-pin-coordinate"></span></p>
     <p>
       Address search result:
-      <span id="vuex-target-address-search-result" />
+      <pre id="vuex-target-address-search-result"></pre>
     </p>
     <p>
       Map export:
