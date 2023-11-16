@@ -71,7 +71,7 @@ export const mapConfiguration = {
       },
       {
         id: basemapGreyId,
-        title: 'snowbox.layers.basemapGrey',
+        title: 'snowbox.attributions.basemapGrey',
       },
       {
         id: uBahn,
