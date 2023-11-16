@@ -67,7 +67,7 @@ export const mapConfiguration = {
     layerAttributions: [
       {
         id: basemapId,
-        title: 'snowbox.layers.basemap',
+        title: 'snowbox.attributions.basemap',
       },
       {
         id: basemapGreyId,
