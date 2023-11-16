@@ -29,7 +29,7 @@
       </v-subheader>
       <template v-for="(feature, innerDex) in features">
         <v-list-item
-          v-if="innerDex < limitResults || openCategories.includes(category)"
+          v-if="innerDex < limitResults || areResultsExpanded(category)"
           :id="
             [
               'polar-plugin-address-search-results-feature',
@@ -43,7 +43,7 @@
           :class="{
             'polar-plugin-address-search-hidden-result':
               innerDex >=
-              (openCategories.includes(category)
+              (areResultsExpanded(category)
                 ? Number.MAX_SAFE_INTEGER
                 : limitResults),
           }"
@@ -90,15 +90,13 @@
       >
         <v-icon x-small class="mr-1">
           {{
-            openCategories.includes(category)
-              ? 'fa-chevron-up'
-              : 'fa-chevron-down'
+            areResultsExpanded(category) ? 'fa-chevron-up' : 'fa-chevron-down'
           }}
         </v-icon>
         {{
           $t(
             `common:plugins.addressSearch.resultList.${
-              openCategories.includes(category)
+              areResultsExpanded(category)
                 ? 'reduce'
                 : `extend${hasMaximum(selectedGroup[index]) ? 'Max' : ''}`
             }`,
@@ -161,6 +159,12 @@ export default Vue.extend({
       return Boolean(searchService?.queryParameters?.maxFeatures)
     },
     emTitleByInput,
+    isExpandButtonVisible(featureListLength: number): boolean {
+      return featureListLength > this.limitResults
+    },
+    areResultsExpanded(category: string): boolean {
+      return this.openCategories.includes(category)
+    },
     getNextElementId(
       down: boolean,
       index: number,
@@ -168,21 +172,17 @@ export default Vue.extend({
       category: string,
       innerDex: number | undefined
     ): string {
-      const expandButtonExists = featureListLength > this.limitResults
-      const resultsExpanded = this.openCategories.includes(category)
-
       if (typeof innerDex === 'number') {
-        this.getNextListElementId(
+        return this.getNextListElementId(
           down,
           index,
           innerDex,
           featureListLength,
-          expandButtonExists,
-          resultsExpanded
+          category
         )
       }
-      if (expandButtonExists) {
-        this.getExpandButtonId(down, index, featureListLength, resultsExpanded)
+      if (this.isExpandButtonVisible(featureListLength)) {
+        return this.getExpandButtonId(down, index, featureListLength, category)
       }
       // This is just here as a fallback
       console.error(
@@ -195,20 +195,20 @@ export default Vue.extend({
       index: number,
       innerDex: number,
       featureListLength: number,
-      expandButtonExists: boolean,
-      resultsExpanded: boolean
+      category: string
     ): string {
       const nextInnerDex = down ? innerDex + 1 : innerDex - 1
 
       if (nextInnerDex === -1 && index === 0) {
         return 'polar-plugin-address-search-input'
       }
-      if (expandButtonExists) {
+      if (this.isExpandButtonVisible(featureListLength)) {
         if (nextInnerDex === -1) {
           return `polar-plugin-address-search-results-feature-expand-button-${
             index - 1
           }`
         }
+        const resultsExpanded = this.areResultsExpanded(category)
         if (
           (!resultsExpanded && nextInnerDex === this.limitResults) ||
           (resultsExpanded && nextInnerDex === featureListLength)
@@ -235,7 +235,7 @@ export default Vue.extend({
       down: boolean,
       index: number,
       featureListLength: number,
-      resultsExpanded: boolean
+      category: string
     ): string {
       let nextIndex: number
       let nextInnerDex: number
@@ -245,7 +245,7 @@ export default Vue.extend({
         nextInnerDex = 0
       } else {
         nextIndex = index
-        nextInnerDex = resultsExpanded
+        nextInnerDex = this.areResultsExpanded(category)
           ? featureListLength - 1
           : this.limitResults - 1
       }
