@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add parameter `renderType` to configuration, allowing configuration as IconMenu subcomponent.
+
 ## 1.1.0
 
 - Feature: Update`@polar/lib-passes-boundary-check` to major version 2.

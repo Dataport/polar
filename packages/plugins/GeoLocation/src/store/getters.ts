@@ -28,6 +28,9 @@ const getters: PolarGetterTree<GeoLocationState, GeoLocationGetters> = {
     }
     return false
   },
+  renderType: (_, __, ___, rootGetters): string => {
+    return rootGetters.configuration?.geoLocation?.renderType || 'independent'
+  },
   showTooltip: (_, __, ___, rootGetters): boolean => {
     return Boolean(rootGetters.configuration?.geoLocation?.showTooltip)
   },
