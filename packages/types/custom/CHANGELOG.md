@@ -3,7 +3,6 @@
 ## unpublished
 
 - Feature: Add parameter `renderType` to `GeoLocationConfiguration`.
-- Feature: Add type for `LegendConfiguration` and add it to `MapConfig`.
 - Feature: Add export of `RenderType`.
 
 ## 1.1.0
