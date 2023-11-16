@@ -54,11 +54,13 @@
        * available for map client to render in (see core docs for
        * more details on requirements) */
       .polarstern {
-        width: 800px;
-        max-width: 100%;
+        width: 100vw;
+        max-width: calc(100% + 64px);
         height: 600px;
         position: relative;
-        margin: 5px 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        left: -32px;
         outline: solid var(--eigengrau);
       }
     </style>
