@@ -27,46 +27,50 @@
           })
         }}
       </v-subheader>
-      <v-list-item
-        v-for="(feature, innerDex) in features"
-        :id="
-          ['polar-plugin-address-search-results-feature', index, innerDex].join(
-            '-'
-          )
-        "
-        :key="['results-feature', index, innerDex].join('-')"
-        tag="li"
-        tabindex="-1"
-        :class="{
-          'polar-plugin-address-search-hidden-result':
-            innerDex >=
-            (openCategories.includes(category)
-              ? Number.MAX_SAFE_INTEGER
-              : limitResults),
-        }"
-        @keydown.down.prevent.stop="
-          focusNextElement(
-            true,
-            Number(index),
-            Number(innerDex),
-            features.length
-          )
-        "
-        @keydown.up.prevent.stop="
-          focusNextElement(
-            false,
-            Number(index),
-            Number(innerDex),
-            features.length
-          )
-        "
-        @click="selectResult({ feature, categoryId })"
-      >
-        <v-list-item-title>
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <span v-html="emTitleByInput(feature.title, inputValue)"></span>
-        </v-list-item-title>
-      </v-list-item>
+      <template v-for="(feature, innerDex) in features">
+        <v-list-item
+          v-if="innerDex < limitResults || openCategories.includes(category)"
+          :id="
+            [
+              'polar-plugin-address-search-results-feature',
+              index,
+              innerDex,
+            ].join('-')
+          "
+          :key="['results-feature', index, innerDex].join('-')"
+          tag="li"
+          tabindex="-1"
+          :class="{
+            'polar-plugin-address-search-hidden-result':
+              innerDex >=
+              (openCategories.includes(category)
+                ? Number.MAX_SAFE_INTEGER
+                : limitResults),
+          }"
+          @keydown.down.prevent.stop="
+            focusNextElement(
+              true,
+              Number(index),
+              Number(innerDex),
+              features.length
+            )
+          "
+          @keydown.up.prevent.stop="
+            focusNextElement(
+              false,
+              Number(index),
+              Number(innerDex),
+              features.length
+            )
+          "
+          @click="selectResult({ feature, categoryId })"
+        >
+          <v-list-item-title>
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <span v-html="emTitleByInput(feature.title, inputValue)"></span>
+          </v-list-item-title>
+        </v-list-item>
+      </template>
       <v-btn
         v-if="features.length > limitResults"
         text
