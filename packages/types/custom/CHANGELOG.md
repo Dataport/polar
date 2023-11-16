@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add parameter `renderType` to `GeoLocationConfiguration`.
+- Feature: Add export of `RenderType`.
+
 ## 1.1.0
 
 - Feature: Add parameter `boundaryOnError` to `PinsConfiguration`.

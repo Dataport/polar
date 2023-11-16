@@ -12,6 +12,7 @@ import LayerChooser from '@polar/plugin-layer-chooser'
 import Legend from '@polar/plugin-legend'
 import LoadingIndicator from '@polar/plugin-loading-indicator'
 import Pins from '@polar/plugin-pins'
+import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
@@ -24,23 +25,48 @@ const defaultOptions = {
 export const addPlugins = (core) => {
   setLayout(NineLayout)
 
-  const iconMenu = IconMenu(
-    merge({}, defaultOptions, {
-      menus: [
-        {
-          plugin: LayerChooser({}),
-          icon: 'fa-book-atlas',
-          id: 'layerChooser',
-        },
-        {
-          plugin: Draw({}),
-          icon: 'fa-pencil',
-          id: 'draw',
-        },
-      ],
-      layoutTag: NineLayoutTag.TOP_RIGHT,
-    })
-  )
+  const iconMenu = IconMenu({
+    menus: [
+      {
+        plugin: LayerChooser({}),
+        icon: 'fa-book-atlas',
+        id: 'layerChooser',
+      },
+      {
+        plugin: Draw({}),
+        icon: 'fa-pencil',
+        id: 'draw',
+      },
+      {
+        plugin: Zoom({ renderType: 'iconMenu' }),
+        id: 'zoom',
+      },
+      {
+        plugin: Fullscreen({ renderType: 'iconMenu' }),
+        id: 'fullscreen',
+      },
+      {
+        plugin: GeoLocation({ renderType: 'iconMenu' }),
+        id: 'geoLocation',
+      },
+      {
+        plugin: Attributions({
+          renderType: 'iconMenu',
+          windowLength: 450,
+          listenToChanges: [
+            'plugin/zoom/zoomLevel',
+            'plugin/layerChooser/activeBackgroundId',
+            'plugin/layerChooser/activeMaskIds',
+          ],
+        }),
+        icon: 'fa-regular fa-copyright',
+        id: 'attributions',
+      },
+    ],
+    displayComponent: true,
+    initiallyOpen: 'layerChooser',
+    layoutTag: NineLayoutTag.TOP_RIGHT,
+  })
 
   core.addPlugins([
     AddressSearch(
@@ -51,38 +77,6 @@ export const addPlugins = (core) => {
       })
     ),
     iconMenu,
-    Zoom(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.TOP_RIGHT,
-      })
-    ),
-    Fullscreen(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.TOP_RIGHT,
-      })
-    ),
-    GeoLocation(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.TOP_RIGHT,
-      })
-    ),
-    Legend(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        maxWidth: 500,
-      })
-    ),
-    Attributions(
-      merge({}, defaultOptions, {
-        windowLength: 450,
-        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        listenToChanges: [
-          'plugin/zoom/zoomLevel',
-          'plugin/layerChooser/activeBackgroundId',
-          'plugin/layerChooser/activeMaskIds',
-        ],
-      })
-    ),
     Export(
       merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.BOTTOM_LEFT,
@@ -93,6 +87,11 @@ export const addPlugins = (core) => {
         layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
       })
     ),
+    Legend({
+      displayComponent: true,
+      maxWidth: 500,
+      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+    }),
     Scale(
       merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.BOTTOM_RIGHT,
@@ -107,6 +106,7 @@ export const addPlugins = (core) => {
       merge({}, defaultOptions, {
         appearOnClick: { show: true, atZoomLevel: 6 },
         coordinateSource: 'plugin/addressSearch/chosenAddress',
+        toastAction: 'plugin/toast/addToast',
       })
     ),
     Gfi(
@@ -114,5 +114,13 @@ export const addPlugins = (core) => {
         layoutTag: NineLayoutTag.MIDDLE_LEFT,
       })
     ),
+    ReverseGeocoder({
+      url: 'https://geodienste.hamburg.de/HH_WPS',
+      addLoading: 'plugin/loadingIndicator/addLoadingKey',
+      removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+      coordinateSource: 'plugin/pins/transformedCoordinate',
+      addressTarget: 'plugin/addressSearch/selectResult',
+      zoomTo: 7,
+    }),
   ])
 }

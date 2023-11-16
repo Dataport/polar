@@ -24,9 +24,7 @@ export function parseGazetteerResponse(
     const gmlFeatures = new DOMParser()
       .parseFromString(text, 'application/xml')
       .getElementsByTagName(`wfs:${memberSuffix}`)
-    // NOTE: This is sadly needed as this already is a workaround because the GeoJSON reader can't read the XMLResponse from a WFS-G
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // @ts-expect-error | This is needed as this already is a workaround because the GeoJSON reader can't read the XMLResponse from a WFS-G
     const featureCollection: FeatureCollection = {
       type: 'FeatureCollection',
       features,
@@ -41,9 +39,7 @@ export function parseGazetteerResponse(
     const featureEPSG =
       gmlFeatureArray[0].getElementsByTagName('iso19112:position').length > 0
         ? `EPSG:${
-            // NOTE: The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
+            // @ts-expect-error | The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
             gmlFeatureArray[0]
               .getElementsByTagName('iso19112:position')[0]
               .getElementsByTagName('gml:Point')[0]
@@ -53,9 +49,7 @@ export function parseGazetteerResponse(
 
     gmlFeatureArray.forEach((feature) => {
       const properties: GeoJsonProperties = Object.values(
-        // NOTE: The TS compiler says 'TS2556: A spread argument must either have a tuple type or be passed to a rest parameter.' which might be true, but this works as intended
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // @ts-expect-error | The TS compiler says 'TS2556: A spread argument must either have a tuple type or be passed to a rest parameter.' which might be true, but this works as intended
         ...namespaces.map((namespace) =>
           feature.getElementsByTagNameNS(namespace, '*')
         )
@@ -65,9 +59,7 @@ export function parseGazetteerResponse(
       )
       if (feature.getElementsByTagName('iso19112:position').length > 0) {
         const coordinates =
-          // NOTE: The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          // @ts-expect-error | The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
           feature
             .getElementsByTagName('iso19112:position')[0]
             .getElementsByTagName('gml:pos')[0]
@@ -85,9 +77,7 @@ export function parseGazetteerResponse(
         feature.getElementsByTagName('iso19112:geographicExtent').length > 0
       ) {
         const coordinates =
-          // NOTE: The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          // @ts-expect-error | The TS compiler says 'TS2531: Object is possibly 'null'.' which is valid, but not the case with this document
           feature
             .getElementsByTagName('iso19112:geographicExtent')[0]
             .getElementsByTagName('gml:posList')[0]

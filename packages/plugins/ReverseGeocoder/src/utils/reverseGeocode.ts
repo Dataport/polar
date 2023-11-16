@@ -45,8 +45,7 @@ export const reverseGeocode = async (
   const parsedBody = await readResponseText(await response.text())
 
   const address = mapValues(
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore | no types for WPS output defined
+    // @ts-expect-error | no types for WPS output defined
     parsedBody.ExecuteResponse.ProcessOutputs[0].Output[0].Data[0]
       .ComplexData[0].ReverseGeocoder[0].Ergebnis[0].Adresse[0],
     (v) => v[0]

@@ -30,7 +30,7 @@ export interface PluginOptions {
   layoutTag?: string // TODO: Might it be useful to move declaration of NineLayoutTag here?
 }
 
-type RenderType = 'iconMenu' | 'independent'
+export type RenderType = 'iconMenu' | 'independent'
 
 /** Possible search methods by type */
 export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi'
@@ -254,6 +254,7 @@ export interface GeoLocationConfiguration extends LayerBoundPluginOptions {
   checkLocationInitially: boolean
   /** whether to keep center on user or allow movement after first zoom to */
   keepCentered: boolean
+  renderType?: RenderType
   showTooltip?: boolean
   /**
    * Limits the viewable GFIs per layer by this number. The first n elements

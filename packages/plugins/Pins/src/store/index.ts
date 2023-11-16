@@ -266,7 +266,7 @@ const storeModule: PolarModule<PinsState, PinsState> = {
       coordinates: Coordinate
     ): Promise<boolean> {
       const { boundaryLayerId, toastAction, boundaryOnError } =
-        rootGetters?.configuration?.pins || {}
+        rootGetters.configuration?.pins || {}
 
       const boundaryCheckResult = await passesBoundaryCheck(
         rootGetters.map,
