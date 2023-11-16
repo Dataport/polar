@@ -79,7 +79,7 @@ export const mapConfiguration = {
       },
       {
         id: sBahn,
-        title: 'snowbox.layers.rapid',
+        title: 'snowbox.attributions.rapid',
       },
     ],
   },
