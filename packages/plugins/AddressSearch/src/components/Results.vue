@@ -104,6 +104,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
+import { focusFirstResult } from '../utils/focusFirstResult'
 import { emTitleByInput } from '../utils/emTitleByInput'
 
 export default Vue.extend({
@@ -127,16 +128,7 @@ export default Vue.extend({
   },
   watch: {
     featuresAvailable(): void {
-      this.$nextTick(() => {
-        const firstElement =
-          // @ts-expect-error | Type conversion is fine here as the querySelector method is monkeyPatched in core/createMap
-          (document.querySelector('[data-app]') as ShadowRoot).getElementById(
-            'polar-plugin-address-search-results-feature-0-0'
-          )
-        if (firstElement) {
-          firstElement.focus()
-        }
-      })
+      this.$nextTick(focusFirstResult)
     },
     /* reset opened categories on group change */
     selectedGroupId(): void {
@@ -145,6 +137,7 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions('plugin/addressSearch', ['selectResult']),
+    focusFirstResult,
     toggle(category: string): void {
       this.openCategories =
         this.openCategories.indexOf(category) === -1
