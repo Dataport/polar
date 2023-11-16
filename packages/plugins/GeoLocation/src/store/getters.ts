@@ -1,5 +1,5 @@
 import { generateSimpleGetters } from '@repositoryname/vuex-generators'
-import { PolarGetterTree } from '@polar/lib-custom-types'
+import { PolarGetterTree, RenderType } from '@polar/lib-custom-types'
 import { GeoLocationGetters, GeoLocationState } from '../types'
 import getInitialState from './getInitialState'
 
@@ -28,7 +28,7 @@ const getters: PolarGetterTree<GeoLocationState, GeoLocationGetters> = {
     }
     return false
   },
-  renderType: (_, __, ___, rootGetters): string => {
+  renderType: (_, __, ___, rootGetters): RenderType => {
     return rootGetters.configuration?.geoLocation?.renderType || 'independent'
   },
   showTooltip: (_, __, ___, rootGetters): boolean => {
