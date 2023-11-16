@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Fix: Locale string layer names are now translated.
+- Feature: Locale string layer names are now translated.
 
 ## 1.0.0
 
