@@ -75,7 +75,7 @@ export const mapConfiguration = {
       },
       {
         id: uBahn,
-        title: 'snowbox.layers.underground',
+        title: 'snowbox.attributions.underground',
       },
       {
         id: sBahn,
