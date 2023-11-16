@@ -3,7 +3,9 @@
     <v-tooltip content-class="polar-tooltip" left>
       <template #activator="{ on, attrs }">
         <v-btn
-          class="ma-2"
+          :class="{
+            'ma-2': renderType !== 'iconMenu',
+          }"
           color="primary"
           small
           fab
@@ -29,6 +31,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters('plugin/geoLocation', [
       'geolocation',
+      'renderType',
       'tracking',
       'isGeolocationDenied',
     ]),

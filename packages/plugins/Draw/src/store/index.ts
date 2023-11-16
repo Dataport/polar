@@ -77,7 +77,7 @@ const storeModule: PolarModule<DrawState, DrawGetters> = {
       )
     },
     configuration(_, __, ___, rootGetters) {
-      return rootGetters?.configuration?.draw || {}
+      return rootGetters.configuration?.draw || {}
     },
     fontSizes(_, { configuration }) {
       const { textStyle } = configuration

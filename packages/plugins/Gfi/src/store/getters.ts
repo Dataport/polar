@@ -8,7 +8,7 @@ import getInitialState from './getInitialState'
 const getters: PolarGetterTree<GfiState, GfiGetters> = {
   ...generateSimpleGetters(getInitialState()),
   gfiConfiguration(_, __, ___, rootGetters): GfiConfiguration {
-    return <GfiConfiguration>(rootGetters?.configuration?.gfi || {
+    return <GfiConfiguration>(rootGetters.configuration?.gfi || {
       afterLoadFunction: null,
       coordinateSources: [],
       layers: {},

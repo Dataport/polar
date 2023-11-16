@@ -85,6 +85,7 @@ export default Vue.extend({
   display: grid;
   align-items: center;
   background-color: #ffffff;
+  padding: 0.25em;
 
   #polar-plugin-gfi-grip-icon {
     grid-column: 2;

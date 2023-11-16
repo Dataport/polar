@@ -34,9 +34,7 @@ async function initializeClient() {
     navigateToDenkmal(instance, objektId)
   }
 
-  // allow attributions to call this method
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+  // @ts-expect-error | intentionally expand window; no environment affected
   window.openBenutzungshinweise = function () {
     instance.$store.commit('plugin/modal/setContent', CONTENT_ENUM.HINTS)
     instance.$store.commit('plugin/modal/setClosed', false)

@@ -25,9 +25,7 @@ export function parseWfsResponse(
     const parser = new WFS()
     const writer = new GeoJSON()
     const parsedFeatures = parser.readFeatures(text)
-    // srsName is there, I've seen it – probably a bug in OL?
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // @ts-expect-error | srsName is there, I've seen it – probably a bug in OL?
     const { srsName } = parser.readFeatureCollectionMetadata(text)
 
     parsedFeatures.forEach((f) => {
