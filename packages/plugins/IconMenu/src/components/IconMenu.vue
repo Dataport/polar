@@ -105,7 +105,7 @@ export default Vue.extend({
     },
     updateMaxSize() {
       const plugin = this.$refs['item-component']
-      if (!this.hasWindowSize && plugin) {
+      if (!this.hasWindowSize && plugin?.[0]) {
         const { width, left } = plugin[0].$el.getBoundingClientRect()
         this.maxWidth = `${width + left}px`
       } else {

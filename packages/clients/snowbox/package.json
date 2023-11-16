@@ -10,6 +10,7 @@
   "//": "Don't push versions but '*'. Do locally as you desire.",
   "dependencies": {
     "@polar/core": "*",
+    "@polar/lib-custom-types": "*",
     "@polar/plugin-address-search": "*",
     "@polar/plugin-attributions": "*",
     "@polar/plugin-draw": "*",
@@ -22,6 +23,7 @@
     "@polar/plugin-legend": "*",
     "@polar/plugin-loading-indicator": "*",
     "@polar/plugin-pins": "*",
+    "@polar/plugin-reverse-geocoder": "*",
     "@polar/plugin-scale": "*",
     "@polar/plugin-toast": "*",
     "@polar/plugin-zoom": "*"

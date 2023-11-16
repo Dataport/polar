@@ -17,7 +17,7 @@
     "meldemichel:build": "lerna run build --scope @polar/client-meldemichel --stream",
     "meldemichel:build:example": "http-server packages/clients/meldemichel -o /example/index.html",
     "meldemichel:dev": "cd packages/clients/meldemichel/ && vite --host",
-    "snowbox": "cd packages/clients/snowbox/ && vite",
+    "snowbox": "cd packages/clients/snowbox/ && vite --host",
     "snowbox:build": "lerna run build --scope @polar/client-snowbox --stream",
     "buildPages": "rimraf ./pages_output && bash ./scripts/buildPages.sh",
     "clean": "lerna clean && rimraf --glob packages/**/{.cache,dist,docs} && rimraf --glob {.cache,dist,pages_output} && node ./scripts/clean",
