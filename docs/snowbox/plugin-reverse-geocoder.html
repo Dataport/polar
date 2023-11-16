@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>Reverse Geocoder</h1>
+<h2>Scope</h2>
+<p>Reverse Geocoder Plugin that turns coordinates into addresses via a WPS. It does not offer any UI by itself.</p>
+<p>This module has been written for the HH WPS service. The return format is custom and no other WPS are currently supported. Please mind this when trying to use this plugin with any other WPS. For usage with other WPS, those must either fit the HH WPS, or a generalization of this plugin is required.</p>
+<h2>Configuration</h2>
+<h3>reverseGeocoder</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>string</td>
+<td>URL of the WPS to use for reverse geocoding.</td>
+</tr>
+<tr>
+<td>coordinateSource</td>
+<td>string?</td>
+<td>Points to a path in the store where a coordinate may be. If given, ReverseGeocoder will resolve on any updates. If not given, ReverseGeocoder is passive and waits for its action to be called.</td>
+</tr>
+<tr>
+<td>addressTarget</td>
+<td>string?</td>
+<td>Points to a path in the store where an address can be put. If given, ReverseGeocoder will update on resolve. If not given, ReverseGeocoder's results can only be retrieved by awaiting its action.</td>
+</tr>
+<tr>
+<td>addLoading</td>
+<td>string?</td>
+<td>Points to an action in the store; commited with a loading key as payload on starting reverse geocoding.</td>
+</tr>
+<tr>
+<td>removeLoading</td>
+<td>string?</td>
+<td>Points to an action in the store; commited with a loading key as payload on finishing reverse geocoding.</td>
+</tr>
+<tr>
+<td>zoomTo</td>
+<td>number?</td>
+<td>If specified, plugin zooms to given coordinate after successful reverse geocoding; number indicates maximal zoom level.</td>
+</tr>
+</tbody>
+</table>
+<h2>Store</h2>
+<p>The ReverseGeocoder plugin does not hold any state.</p>
+<h3>Actions</h3>
+<pre><code class="language-js">// result contains the resolved address (exact format depends on WPS)
+const result = await map.$store.dispatch(
+  'plugin/reverseGeocoder/reverseGeocode',
+  {
+    coordinate, // [number, number]
+  }
+)
+</code></pre>
+
+    
+  </article>
+</body>
+</html>
