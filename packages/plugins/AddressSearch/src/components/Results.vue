@@ -127,8 +127,9 @@ export default Vue.extend({
     ...mapGetters(['clientHeight', 'hasWindowSize']),
     ...mapGetters('plugin/addressSearch', [
       'featuresAvailable',
-      'inputValue',
       'featureListsWithCategory',
+      'focusAfterSearch',
+      'inputValue',
       'limitResults',
       'selectedGroupId',
       'selectedGroup',
@@ -139,7 +140,9 @@ export default Vue.extend({
   },
   watch: {
     featuresAvailable(): void {
-      this.$nextTick(focusFirstResult)
+      if (this.focusAfterSearch) {
+        this.$nextTick(focusFirstResult)
+      }
     },
     /* reset opened categories on group change */
     selectedGroupId(): void {

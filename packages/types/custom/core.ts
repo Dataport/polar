@@ -116,10 +116,11 @@ export interface AddressSearchConfiguration extends PluginOptions {
   customSearchMethods?: Record<string, SearchMethodFunction>
   // optional selectResult overrides (client-side injections)
   customSelectResult?: Record<string, SelectResultFunction>
-  // definition of groups referred to in searchMethods
-  groupProperties?: Record<string, AddressSearchGroupProperties>
   // definition of categories referred to in searchMethods
   categoryProperties?: Record<string, AddressSearchCategoryProperties>
+  focusAfterSearch?: boolean
+  // definition of groups referred to in searchMethods
+  groupProperties?: Record<string, AddressSearchGroupProperties>
   // optional loading action name to start loading
   addLoading?: string
   // optional loading action name to end loading

@@ -125,6 +125,7 @@ export interface AddressSearchGetters extends AddressSearchState {
   hasMultipleGroups: boolean
   groupSelectOptions: string[]
   featureListsWithCategory: FeatureListWithCategory[]
+  focusAfterSearch: boolean
 }
 
 export type AddressSearchAutoselect = 'first' | 'only' | 'never'
