@@ -13,6 +13,7 @@
       ) in featureListsWithCategory"
       :key="['results-list', index].join('-')"
       tag="ul"
+      class="polar-plugin-address-search-results-list"
       subheader
     >
       <v-subheader
@@ -225,5 +226,11 @@ export default Vue.extend({
   max-height: 0;
   height: 0;
   min-height: 0;
+}
+</style>
+
+<style lang="scss" scoped>
+.polar-plugin-address-search-results-list {
+  padding-left: 0;
 }
 </style>
