@@ -131,10 +131,6 @@ export interface Attribution {
   title: string
 }
 
-export interface LegendConfiguration extends PluginOptions {
-  renderType?: RenderType
-}
-
 /** Attributions Module Configuration */
 export interface AttributionsConfiguration extends PluginOptions {
   layerAttributions?: Attribution[]
@@ -518,7 +514,6 @@ export interface MapConfig {
   geoLocation?: GeoLocationConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
-  legend?: LegendConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
   toast?: ToastConfiguration
