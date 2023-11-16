@@ -131,6 +131,10 @@ export interface Attribution {
   title: string
 }
 
+export interface LegendConfiguration extends PluginOptions {
+  renderType?: RenderType
+}
+
 /** Attributions Module Configuration */
 export interface AttributionsConfiguration extends PluginOptions {
   layerAttributions?: Attribution[]
@@ -254,6 +258,7 @@ export interface GeoLocationConfiguration extends LayerBoundPluginOptions {
   checkLocationInitially: boolean
   /** whether to keep center on user or allow movement after first zoom to */
   keepCentered: boolean
+  renderType?: RenderType
   showTooltip?: boolean
   /**
    * Limits the viewable GFIs per layer by this number. The first n elements
@@ -513,6 +518,7 @@ export interface MapConfig {
   geoLocation?: GeoLocationConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
+  legend?: LegendConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
   toast?: ToastConfiguration

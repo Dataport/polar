@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add parameter `renderType` to `GeoLocationConfiguration`.
+- Feature: Add type for `LegendConfiguration` and add it to `MapConfig`.
+
 ## 1.1.0
 
 - Feature: Add parameter `boundaryOnError` to `PinsConfiguration`.
