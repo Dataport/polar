@@ -16,7 +16,7 @@
           <div class="polar-scroll-box" role="list" :style="maxHeight">
             <template v-for="({ legendUrl, name }, index) in legends">
               <div :key="'polar-legend-image-item-' + index" role="listitem">
-                <div class="text-body-1">{{ name }}</div>
+                <div class="text-body-1">{{ $t(name) }}</div>
                 <a
                   class="text-body-2"
                   :href="legendUrl"
