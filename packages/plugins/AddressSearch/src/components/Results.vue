@@ -52,7 +52,8 @@
               true,
               Number(index),
               Number(innerDex),
-              features.length
+              features.length,
+              category
             )
           "
           @keydown.up.prevent.stop="
@@ -60,7 +61,8 @@
               false,
               Number(index),
               Number(innerDex),
-              features.length
+              features.length,
+              category
             )
           "
           @click="selectResult({ feature, categoryId })"
@@ -114,7 +116,7 @@ import { emTitleByInput } from '../utils/emTitleByInput'
 export default Vue.extend({
   name: 'AddressSearchResults',
   data: () => ({
-    openCategories: [],
+    openCategories: [] as string[],
   }),
   computed: {
     ...mapGetters(['clientHeight', 'hasWindowSize']),
@@ -155,7 +157,8 @@ export default Vue.extend({
     getNextElementId(
       index: number,
       nextInnerDex: number,
-      featureListLength: number
+      featureListLength: number,
+      category: string
     ): string {
       if (nextInnerDex === -1 && index === 0) {
         return 'polar-plugin-address-search-input'
@@ -165,8 +168,15 @@ export default Vue.extend({
       let usedInnerDex: number
       if (nextInnerDex === -1) {
         nextIndex = index - 1
-        usedInnerDex = this.featureListsWithCategory[nextIndex].length - 1
-      } else if (nextInnerDex === featureListLength) {
+        usedInnerDex =
+          featureListLength <= this.limitResults ||
+          this.openCategories.includes(category)
+            ? this.featureListsWithCategory[nextIndex].length - 1
+            : this.limitResults - 1
+      } else if (
+        nextInnerDex === featureListLength ||
+        nextInnerDex === this.limitResults
+      ) {
         nextIndex =
           index + 1 === this.featureListsWithCategory.length ? 0 : index + 1
         usedInnerDex = 0
@@ -184,7 +194,8 @@ export default Vue.extend({
       down: boolean,
       index: number,
       innerDex: number,
-      featureListLength: number
+      featureListLength: number,
+      category: string
     ): void {
       const nextElement =
         // @ts-expect-error | Type conversion is fine here as the querySelector method is monkeyPatched in core/createMap
@@ -192,7 +203,8 @@ export default Vue.extend({
           this.getNextElementId(
             index,
             down ? innerDex + 1 : innerDex - 1,
-            featureListLength
+            featureListLength,
+            category
           )
         )
       if (nextElement) {
