@@ -51,18 +51,18 @@
             focusNextElement(
               true,
               Number(index),
-              Number(innerDex),
               features.length,
-              category
+              category,
+              Number(innerDex)
             )
           "
           @keydown.up.prevent.stop="
             focusNextElement(
               false,
               Number(index),
-              Number(innerDex),
               features.length,
-              category
+              category,
+              Number(innerDex)
             )
           "
           @click="selectResult({ feature, categoryId })"
@@ -75,10 +75,17 @@
       </template>
       <v-btn
         v-if="features.length > limitResults"
+        :id="`polar-plugin-address-search-results-feature-expand-button-${index}`"
         text
         tile
         block
         class="text-none"
+        @keydown.down.prevent.stop="
+          focusNextElement(true, Number(index), features.length, category)
+        "
+        @keydown.up.prevent.stop="
+          focusNextElement(false, Number(index), features.length, category)
+        "
         @click="toggle(category)"
       >
         <v-icon x-small class="mr-1">
@@ -155,56 +162,87 @@ export default Vue.extend({
     },
     emTitleByInput,
     getNextElementId(
+      down: boolean,
       index: number,
-      nextInnerDex: number,
       featureListLength: number,
-      category: string
+      category: string,
+      innerDex: number | undefined
     ): string {
-      if (nextInnerDex === -1 && index === 0) {
-        return 'polar-plugin-address-search-input'
-      }
+      const expandButtonExists = featureListLength > this.limitResults
+      const resultsExpanded = this.openCategories.includes(category)
 
-      let nextIndex: number
-      let usedInnerDex: number
-      if (nextInnerDex === -1) {
-        nextIndex = index - 1
-        usedInnerDex =
-          featureListLength <= this.limitResults ||
-          this.openCategories.includes(category)
-            ? this.featureListsWithCategory[nextIndex].length - 1
-            : this.limitResults - 1
-      } else if (
-        nextInnerDex === featureListLength ||
-        nextInnerDex === this.limitResults
-      ) {
-        nextIndex =
-          index + 1 === this.featureListsWithCategory.length ? 0 : index + 1
-        usedInnerDex = 0
-      } else {
-        nextIndex = index
-        usedInnerDex = nextInnerDex
+      if (typeof innerDex === 'number') {
+        const nextInnerDex = down ? innerDex + 1 : innerDex - 1
+
+        if (nextInnerDex === -1 && index === 0) {
+          return 'polar-plugin-address-search-input'
+        }
+        if (expandButtonExists) {
+          if (nextInnerDex === -1) {
+            return `polar-plugin-address-search-results-feature-expand-button-${
+              index - 1
+            }`
+          }
+          if (
+            (!resultsExpanded && nextInnerDex === this.limitResults) ||
+            (resultsExpanded && nextInnerDex === featureListLength)
+          ) {
+            return `polar-plugin-address-search-results-feature-expand-button-${index}`
+          }
+        }
+
+        const nextIndex =
+          nextInnerDex === featureListLength
+            ? index + 1 === this.featureListsWithCategory.length
+              ? 0
+              : index + 1
+            : index
+        const usedInnerDex =
+          nextInnerDex === featureListLength ? 0 : nextInnerDex
+
+        return [
+          'polar-plugin-address-search-results-feature',
+          nextIndex,
+          usedInnerDex,
+        ].join('-')
       }
-      return [
-        'polar-plugin-address-search-results-feature',
-        nextIndex,
-        usedInnerDex,
-      ].join('-')
+      if (expandButtonExists) {
+        let nextIndex: number
+        let nextInnerDex: number
+        if (down) {
+          nextIndex =
+            index + 1 === this.featureListsWithCategory.length ? 0 : index + 1
+          nextInnerDex = 0
+        } else {
+          nextIndex = index
+          nextInnerDex = resultsExpanded
+            ? featureListLength - 1
+            : this.limitResults - 1
+        }
+        return `polar-plugin-address-search-results-feature-${nextIndex}-${nextInnerDex}`
+      }
+      // This is just here as a fallback
+      console.error(
+        'AddressSearch: Trying to focus on an expand button not possible as it is not rendered. Focus remains on the current element.'
+      )
+      return ''
     },
     focusNextElement(
       down: boolean,
       index: number,
-      innerDex: number,
       featureListLength: number,
-      category: string
+      category: string,
+      innerDex?: number
     ): void {
       const nextElement =
         // @ts-expect-error | Type conversion is fine here as the querySelector method is monkeyPatched in core/createMap
         (document.querySelector('[data-app]') as ShadowRoot).getElementById(
           this.getNextElementId(
+            down,
             index,
-            down ? innerDex + 1 : innerDex - 1,
             featureListLength,
-            category
+            category,
+            innerDex
           )
         )
       if (nextElement) {
