@@ -19,6 +19,7 @@ export interface GeoLocationGetters extends GeoLocationState {
   geoLocationMarkerLayer: VectorLayer<VectorSource>
   keepCentered: boolean
   markerFeature: Feature
+  renderType: string
   showTooltip: boolean
   zoomLevel: number
 }
