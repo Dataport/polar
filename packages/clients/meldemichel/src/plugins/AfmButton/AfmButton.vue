@@ -7,6 +7,7 @@
     :href="mapStateReady ? afmUrl : '#'"
     large
     @click="click"
+    @keydown.space="click"
   >
     <v-icon small>fa-map-location</v-icon>
     {{ $t('common:plugins.meldemichelAfmButton.buttonText') }}
