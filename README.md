@@ -45,7 +45,7 @@ Other clients with more specific code (and more visibility) include the [Denkmal
 
 ### Using POLAR
 
-Select a client from our [releases](https://github.com/Dataport/polar/releases). For a generic client, use a `@polar/client-afm`. The zipped client is downloadable and attached as an asset to the release.
+Select a client from our [releases](https://github.com/Dataport/polar/releases). For a generic client, use `@polar/client-afm`. The zipped client is downloadable and attached as an asset to the release.
 
 The package contains example files that illustrate how the client can be used. You may also inspect the usage [here](https://github.com/Dataport/polar/tree/main/packages/clients/afm/example).
 
