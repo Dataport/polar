@@ -24,7 +24,7 @@ Other clients with more specific code (and more visibility) include the [Denkmal
 
 |Name|Details|
 |-|-|
-|[AddressSearch](https://github.com/Dataport/polar/tree/main/packages/plugins/AddressSearch)|Offers a search field and standard search service implementations with API for your own configurable custom search services. Integration with Reverse Geocoder and Pins possible, or usable as a data source for further processing.|
+|[AddressSearch](https://github.com/Dataport/polar/tree/main/packages/plugins/AddressSearch)|Offers a search field and standard search service implementations with API for your own configurable custom search services. For already usable search services, see the documentation of the package. Integration with Reverse Geocoder and Pins possible, or usable as a data source for further processing.|
 |[Attributions](https://github.com/Dataport/polar/tree/main/packages/plugins/Attributions)|Shows layer copyright information of visible layers.|
 |[Draw](https://github.com/Dataport/polar/tree/main/packages/plugins/Draw)|Allows the user to draw various geometries onto the map. The resulting GeoJSON can be forwarded to later processing steps, or be used by the Export plugin to generate screenshots.|
 |[Export](https://github.com/Dataport/polar/tree/main/packages/plugins/Export)|Offers screenshot functionality for the user or further processing.|
