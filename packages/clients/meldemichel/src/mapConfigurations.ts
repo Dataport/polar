@@ -123,8 +123,11 @@ const geoLocation: Partial<GeoLocationConfiguration> = {
   showTooltip: true,
 }
 
-const mapConfigurations = {
-  [MODE.COMPLETE]: (reportServiceId: string) => {
+const mapConfigurations: Record<
+  string,
+  (reportServiceId: string, afmUrl: string) => object
+> = {
+  [MODE.COMPLETE]: (reportServiceId: string, afmUrl: string) => {
     return {
       ...commonMapConfiguration,
       addressSearch,
@@ -161,15 +164,17 @@ const mapConfigurations = {
             // TODO doesn't work atm; no coordinate source
             geometry: false,
             window: true,
-            properties: {
-              filename: 'Name of file',
-            },
+            properties: { filename: 'Name of file' },
           },
         },
         coordinateSources: [], // to be set in addPlugins.ts
       },
       pins: commonPins,
       reverseGeocoder,
+      meldemichelAfmButton: {
+        displayComponent: true,
+        afmUrl,
+      },
     }
   },
   [MODE.REPORT]: () => ({
@@ -195,8 +200,6 @@ const mapConfigurations = {
 
 export const getMapConfiguration = ({
   mode,
-  // NOTE temporarily commenting out, needed later in NeuesAnliegen-Plugin
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afmUrl,
   reportServiceId,
 }: Pick<
@@ -208,13 +211,8 @@ export const getMapConfiguration = ({
       'POLAR Meldemichel Client: Missing reportServiceId configuration in mode COMPLETE.'
     )
   }
-  // @ts-expect-error | known issue; type definitions fit after merge in core
   return {
-    // @ts-expect-error | methods don't have a common interface
-    ...mapConfigurations[mode](reportServiceId),
-    // NOTE local plugin does not exist yet
-    // meldemichelNeuesAnliegen: {
-    //   afmUrl
-    // }
+    // @ts-expect-error | reportServiceId might be undefined, but that's catched above for relevant cases
+    ...mapConfigurations[mode](reportServiceId, afmUrl),
   }
 }

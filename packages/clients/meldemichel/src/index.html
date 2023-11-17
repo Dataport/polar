@@ -76,7 +76,7 @@
           vendor_maps_address_hnr,
           vendor_maps_address_str,
           vendor_maps_address_plz,
-          vendor_maps_address_to
+          vendor_maps_distance_to
         }) => {
           /* do anything with the map values here */
           console.info(`MapState Update
@@ -86,7 +86,7 @@
             Pin Coordinate: ${vendor_maps_position}
             Address: ${vendor_maps_address_str + ' ' + vendor_maps_address_hnr}
             PLZ: ${vendor_maps_address_plz}
-            Distance to address: ${vendor_maps_address_to}`)
+            Distance to address: ${vendor_maps_distance_to}`)
         },
         { immediate: true }
       )

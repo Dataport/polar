@@ -50,8 +50,6 @@ import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
     'report.button.title': 'Einen neuen Schaden melden',
     'report.button.ariaDescription':
       'Öffnet eine neue Seite, auf welcher ein neues Anliegen gemeldet werden kann.',
-    'afmButton.noSearchedValue':
-      'Bitte geben Sie eine Hausnummer an oder wählen Sie eine Position durch Klick in die Karte.',
 */
 
 const language: LanguageOption[] = [

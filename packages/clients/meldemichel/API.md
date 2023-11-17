@@ -84,7 +84,7 @@ A document rendering the map client could e.g. look like this:
         mapZoomLevel: 6,
         mapBaseLayer: 452,
         mapCenter: '566808.8386735287,5935896.23173797',
-        // NOTE: vendor_maps_address_to and -_plz are not read
+        // NOTE: vendor_maps_distance_to and -_plz are not read
       })
 
       // to retrieve map state updates, use this snippet:
@@ -99,7 +99,7 @@ A document rendering the map client could e.g. look like this:
           vendor_maps_address_hnr,
           vendor_maps_address_str,
           vendor_maps_address_plz,
-          vendor_maps_address_to
+          vendor_maps_distance_to
         }) => {
           // do anything with the map values here; example print
           console.info(`MapState Update
@@ -109,7 +109,7 @@ A document rendering the map client could e.g. look like this:
             Pin coordinate: ${vendor_maps_position}
             Address: ${vendor_maps_address_str + ' ' + vendor_maps_address_hnr}
             PLZ: ${vendor_maps_address_plz}
-            Distance to address: ${vendor_maps_address_to}`)
+            Distance to address: ${vendor_maps_distance_to}`)
         },
         // will return initial values; delete parameter if not desired
         { immediate: true }
@@ -138,7 +138,7 @@ Der URL werden folgende Query-Parameter (hier mit Beispielwerten) hinzugefügt:
 - `vendor_maps_address_str=Berlinertordamm`
 - `vendor_maps_address_hnr=4`
 - `vendor_maps_address_plz=12345`
-- `vendor_maps_address_to=0` (Entfernung zum Hit im Falle von )
+- `vendor_maps_distance_to=0` (Distanz zum Adresspunkt laut Reverse Geocoder)
 
 Analog liest der Klient im Modus `complete` beim Start auch alle bis auf die letzten zwei Query-Parameter wieder ein. Dabei wird die Adresse überschrieben, falls sie nicht zur `vendor_maps_position` passt.
 ```
