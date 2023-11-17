@@ -38,6 +38,7 @@
             ].join('-')
           "
           :key="['results-feature', index, innerDex].join('-')"
+          v-ripple.stop
           tag="li"
           tabindex="-1"
           :class="{
