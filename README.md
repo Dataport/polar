@@ -47,7 +47,7 @@ Other clients with more specific code (and more visibility) include the [Denkmal
 
 Select a client from our [releases](https://github.com/Dataport/polar/releases). For a generic client, use a `@polar/client-afm`. The zipped client is downloadable and attached as an asset to the release.
 
-The package contains example files that illustrate how the client can be used. You may also inspect the usage [here](https://github.com/Dataport/polar/tree/main/packages/clients/afm/example).
+The package contains example files that illustrate how the client can be used. You may also inspect the example usage [here](https://github.com/Dataport/polar/tree/main/packages/clients/afm/example).
 
 To adapt the client to your use case, change the included `polar-example.js` file, and replace the object used in the `.createMap` call with your configuration. To learn more about configuration options, read the [AfM documentation](https://dataport.github.io/polar/docs/afm/client-afm.html), or the documentation of the client you chose.
 
