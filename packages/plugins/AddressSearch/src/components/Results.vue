@@ -118,6 +118,7 @@ import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import { focusFirstResult } from '../utils/focusFirstResult'
 import { emTitleByInput } from '../utils/emTitleByInput'
+import { FeatureListWithCategory } from '../types'
 
 export default Vue.extend({
   name: 'AddressSearchResults',
@@ -142,7 +143,9 @@ export default Vue.extend({
   watch: {
     featuresAvailable(): void {
       if (this.focusAfterSearch) {
-        this.$nextTick(focusFirstResult)
+        this.$nextTick(() =>
+          focusFirstResult(this.featureListsWithCategory.length)
+        )
       }
     },
     /* reset opened categories on group change */
@@ -203,7 +206,15 @@ export default Vue.extend({
     ): string {
       const nextInnerDex = down ? innerDex + 1 : innerDex - 1
 
-      if (nextInnerDex === -1 && index === 0) {
+      if (
+        nextInnerDex === -1 &&
+        (index === 0 ||
+          this.featureListsWithCategory
+            .slice(0, index)
+            .every(
+              ({ features }: FeatureListWithCategory) => features.length === 0
+            ))
+      ) {
         return 'polar-plugin-address-search-input'
       }
       if (this.isExpandButtonVisible(featureListLength)) {

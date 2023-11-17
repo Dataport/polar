@@ -11,7 +11,9 @@
     :value="inputValue"
     @input="input"
     @keydown.enter="abortAndRequest"
-    @keydown.down.prevent.stop="focusFirstResult"
+    @keydown.down.prevent.stop="
+      focusFirstResult(featureListsWithCategory.length)
+    "
     @click:clear="clear"
   />
 </template>
@@ -25,6 +27,7 @@ export default Vue.extend({
   name: 'AddressSearchInput',
   computed: {
     ...mapGetters('plugin/addressSearch', [
+      'featureListsWithCategory',
       'label',
       'placeholder',
       'hint',
