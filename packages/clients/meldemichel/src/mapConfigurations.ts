@@ -124,7 +124,7 @@ const geoLocation: Partial<GeoLocationConfiguration> = {
 }
 
 const mapConfigurations: Record<
-  string,
+  keyof typeof MODE,,
   (reportServiceId: string, afmUrl: string) => object
 > = {
   [MODE.COMPLETE]: (reportServiceId: string, afmUrl: string) => {
