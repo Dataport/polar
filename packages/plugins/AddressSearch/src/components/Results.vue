@@ -5,6 +5,7 @@
     dense
     class="mx-auto overflow-y-auto rounded-b-xl polar-plugin-address-search-toolbar-results"
     :max-height="maxHeight"
+    :ripple="false"
     tabindex="-1"
   >
     <v-list
@@ -38,7 +39,7 @@
             ].join('-')
           "
           :key="['results-feature', index, innerDex].join('-')"
-          v-ripple.stop
+          :ripple="false"
           tag="li"
           tabindex="-1"
           :class="{
