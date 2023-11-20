@@ -202,6 +202,8 @@ const getters: PolarGetterTree<AddressSearchState, AddressSearchGetters> = {
           ?.label || '',
     }))
   },
+  focusAfterSearch: (_, __, ___, rootGetters) =>
+    rootGetters.configuration?.addressSearch?.focusAfterSearch || false,
 }
 
 export default getters

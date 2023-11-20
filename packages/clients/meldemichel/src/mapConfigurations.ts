@@ -98,6 +98,7 @@ const addressSearch: AddressSearchConfiguration = {
   ],
   minLength: 3,
   waitMs: 300,
+  focusAfterSearch: true,
 }
 
 const commonPins: Partial<PinsConfiguration> = {
