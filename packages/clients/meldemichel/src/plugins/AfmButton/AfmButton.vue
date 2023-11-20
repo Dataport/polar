@@ -1,17 +1,24 @@
 <template>
-  <v-btn
-    v-if="afmUrl"
-    :target="mapStateReady ? '_blank' : ''"
-    color="primary"
-    class="meldemichel-afm-button"
-    :href="mapStateReady ? afmUrl : '#'"
-    large
-    @click="click"
-    @keydown.space="click"
-  >
-    <v-icon small>fa-map-location</v-icon>
-    {{ $t('common:plugins.meldemichel.afmButton.buttonText') }}
-  </v-btn>
+  <v-tooltip :left="!hasSmallWidth" :top="hasSmallWidth">
+    <template #activator="{ on, attrs }">
+      <v-btn
+        v-if="afmUrl"
+        :target="mapStateReady ? '_blank' : ''"
+        color="primary"
+        class="meldemichel-afm-button"
+        :href="mapStateReady ? afmUrl : '#'"
+        large
+        v-bind="attrs"
+        @click="click"
+        @keydown.space="click"
+        v-on="on"
+      >
+        <v-icon small>fa-map-location</v-icon>
+        {{ $t('common:plugins.meldemichel.afmButton.buttonText') }}
+      </v-btn>
+    </template>
+    <span>{{ $t('common:plugins.meldemichel.afmButton.hint') }}</span>
+  </v-tooltip>
 </template>
 
 <script lang="ts">
@@ -21,7 +28,7 @@ import { mapGetters } from 'vuex'
 export default Vue.extend({
   name: 'MeldemichelAfmButton',
   computed: {
-    ...mapGetters(['configuration']),
+    ...mapGetters(['configuration', 'hasSmallWidth']),
     ...mapGetters('meldemichel', ['mapState']),
     mapStateReady() {
       return Boolean(
@@ -59,6 +66,7 @@ export default Vue.extend({
 .meldemichel-afm-button {
   margin: 0 4px 4px 0;
   border: solid transparent;
+  pointer-events: initial;
 
   .v-btn__content {
     align-items: baseline;
