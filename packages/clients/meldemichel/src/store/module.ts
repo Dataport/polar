@@ -14,7 +14,7 @@ interface SetMapStatePayload {
 
 interface GetMapState extends SetMapStatePayload {
   vendor_maps_address_plz: string
-  vendor_maps_address_to: number // distance between address and marker
+  vendor_maps_distance_to: number // distance between address and marker
 }
 
 export interface MeldemichelGetters {
@@ -97,13 +97,15 @@ const meldemichelModule: PolarModule<
         mapCenter: rootState.center?.join(',') || '',
         mapZoomLevel: rootState?.plugin?.zoom?.zoomLevel,
         mapBaseLayer: rootState?.plugin?.layerChooser?.activeBackgroundId,
-        vendor_maps_position: rootState?.plugin?.pins?.transformedCoordinate,
+        vendor_maps_position:
+          rootState?.plugin?.pins?.transformedCoordinate?.join?.(',') ||
+          undefined,
         vendor_maps_address_str: address?.properties?.Strasse,
         vendor_maps_address_hnr: address
           ? `${address.properties.Hausnr}${address.properties.Zusatz}`
           : undefined,
         vendor_maps_address_plz: address?.properties?.Plz,
-        vendor_maps_address_to: address?.properties?.Distanz,
+        vendor_maps_distance_to: address?.properties?.Distanz,
       }
     },
   },
