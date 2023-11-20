@@ -10,7 +10,7 @@
     @keydown.space="click"
   >
     <v-icon small>fa-map-location</v-icon>
-    {{ $t('common:plugins.meldemichelAfmButton.buttonText') }}
+    {{ $t('common:plugins.meldemichel.afmButton.buttonText') }}
   </v-btn>
 </template>
 
@@ -29,10 +29,10 @@ export default Vue.extend({
       )
     },
     afmUrl() {
-      const url = this.configuration.meldemichelAfmButton.afmUrl
+      const url = this.configuration.meldemichel.afmButton.afmUrl
       if (!url) {
         console.error(
-          'Missing afmUrl parameter in `configuration.meldemichelAfmButton.afmUrl`.'
+          'Missing afmUrl parameter in `configuration.meldemichel.afmButton.afmUrl`.'
         )
         return ''
       }
@@ -46,7 +46,7 @@ export default Vue.extend({
       if (!this.mapStateReady) {
         this.$store.dispatch('plugin/toast/addToast', {
           type: 'info',
-          text: 'plugins.meldemichelAfmButton.missingAddress',
+          text: 'plugins.meldemichel.afmButton.missingAddress',
           timeout: 10000,
         })
       }

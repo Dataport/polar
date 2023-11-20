@@ -124,7 +124,7 @@ const geoLocation: Partial<GeoLocationConfiguration> = {
 }
 
 const mapConfigurations: Record<
-  keyof typeof MODE,,
+  keyof typeof MODE,
   (reportServiceId: string, afmUrl: string) => object
 > = {
   [MODE.COMPLETE]: (reportServiceId: string, afmUrl: string) => {
@@ -171,9 +171,11 @@ const mapConfigurations: Record<
       },
       pins: commonPins,
       reverseGeocoder,
-      meldemichelAfmButton: {
-        displayComponent: true,
-        afmUrl,
+      meldemichel: {
+        afmButton: {
+          displayComponent: true,
+          afmUrl,
+        },
       },
     }
   },
