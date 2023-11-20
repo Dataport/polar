@@ -212,7 +212,7 @@ export const getMapConfiguration = ({
     )
   }
   return {
-    // @ts-expect-error | reportServiceId might be undefined, but that's catched above for relevant cases
+    // @ts-expect-error | reportServiceId might be undefined, but that's caught above for relevant cases
     ...mapConfigurations[mode](reportServiceId, afmUrl),
   }
 }
