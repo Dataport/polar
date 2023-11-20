@@ -5,7 +5,7 @@ import language from './language'
 
 export default (options: PluginOptions) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
-    name: 'scale',
+    name: 'meldemichelAfmButton',
     plugin: AfmButton,
     language,
     options,
