@@ -172,10 +172,7 @@ const mapConfigurations: Record<
       pins: commonPins,
       reverseGeocoder,
       meldemichel: {
-        afmButton: {
-          displayComponent: true,
-          afmUrl,
-        },
+        afmButton: { afmUrl },
       },
     }
   },
