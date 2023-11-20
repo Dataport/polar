@@ -21,6 +21,7 @@
     "snowbox:build": "lerna run build --scope @polar/client-snowbox --stream",
     "buildPages": "rimraf ./pages_output && bash ./scripts/buildPages.sh",
     "clean": "lerna clean && rimraf --glob packages/**/{.cache,dist,docs} && rimraf --glob {.cache,dist,pages_output} && node ./scripts/clean",
+    "clean:git": "git fetch -p && git branch -vv | grep gone | cut -d' ' -f 3 | grep . | xargs git branch -D",
     "docs:afm": "node ./scripts/makeDocs ./packages/clients/afm",
     "docs:meldemichel": "node ./scripts/makeDocs ./packages/clients/meldemichel && npm run meldemichel:build && cp -r ./packages/clients/meldemichel/dist ./packages/clients/meldemichel/example ./packages/clients/meldemichel/docs",
     "docs:sbom": "npx @cyclonedx/cyclonedx-npm --output-file sbom.json",
