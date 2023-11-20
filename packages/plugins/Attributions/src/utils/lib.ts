@@ -51,6 +51,7 @@ function buildMapInfo(
     text.push(attribution.title)
   })
   staticAttributions.forEach((attribution) => text.push(attribution))
+  text.push('plugins.attributions.sourceCode')
   return text
 }
 
