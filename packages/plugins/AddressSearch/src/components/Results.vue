@@ -5,6 +5,7 @@
     dense
     class="mx-auto overflow-y-auto rounded-b-xl polar-plugin-address-search-toolbar-results"
     :max-height="maxHeight"
+    :ripple="false"
     tabindex="-1"
   >
     <v-list
@@ -38,6 +39,7 @@
             ].join('-')
           "
           :key="['results-feature', index, innerDex].join('-')"
+          :ripple="false"
           tag="li"
           tabindex="-1"
           :class="{
@@ -117,6 +119,7 @@ import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import { focusFirstResult } from '../utils/focusFirstResult'
 import { emTitleByInput } from '../utils/emTitleByInput'
+import { FeatureListWithCategory } from '../types'
 
 export default Vue.extend({
   name: 'AddressSearchResults',
@@ -141,7 +144,9 @@ export default Vue.extend({
   watch: {
     featuresAvailable(): void {
       if (this.focusAfterSearch) {
-        this.$nextTick(focusFirstResult)
+        this.$nextTick(() =>
+          focusFirstResult(this.featureListsWithCategory.length)
+        )
       }
     },
     /* reset opened categories on group change */
@@ -202,7 +207,15 @@ export default Vue.extend({
     ): string {
       const nextInnerDex = down ? innerDex + 1 : innerDex - 1
 
-      if (nextInnerDex === -1 && index === 0) {
+      if (
+        nextInnerDex === -1 &&
+        (index === 0 ||
+          this.featureListsWithCategory
+            .slice(0, index)
+            .every(
+              ({ features }: FeatureListWithCategory) => features.length === 0
+            ))
+      ) {
         return 'polar-plugin-address-search-input'
       }
       if (this.isExpandButtonVisible(featureListLength)) {

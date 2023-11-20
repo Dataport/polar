@@ -51,6 +51,7 @@ export default Vue.extend({
 
   .scale-as-a-ratio {
     display: inline-block;
+    white-space: nowrap;
     /* keeping border so texts align well */
     border-color: transparent;
 

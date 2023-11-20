@@ -1,4 +1,4 @@
-import core from '@polar/core'
+import core, { NineLayoutTag } from '@polar/core'
 import merge from 'lodash.merge'
 import { Vector } from 'ol/layer'
 import { Map } from 'ol'
@@ -11,6 +11,7 @@ import { setBackgroundImage } from './utils/setBackgroundImage'
 import { MeldemichelCreateMapParams } from './types'
 import meldemichelModule from './store/module'
 import './styles/index.css'
+import AfmButton from './plugins/AfmButton'
 
 // eslint-disable-next-line no-console
 console.log(`POLAR Meldemichel loaded in version ${packageInfo.version}.`)
@@ -65,6 +66,14 @@ export default {
           })
 
           client.$store.registerModule('meldemichel', meldemichelModule)
+
+          if (mode === MODE.COMPLETE) {
+            // late setup due to dependency to meldemichelModule
+            AfmButton({
+              displayComponent: true,
+              layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+            })(client)
+          }
 
           hideHamburgBorder(client.$store.getters.map)
           setBackgroundImage(containerId)
