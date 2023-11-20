@@ -67,14 +67,19 @@
 <td>An object that maps categoryIds to functions. These functions are then called as vuex store actions instead of the <code>selectResult</code> default implementation. This allows overriding selection behaviour with full store access. Use <code>''</code> as key for categoryless results.</td>
 </tr>
 <tr>
-<td>groupProperties</td>
-<td>Record&lt;string, groupProperties&gt;?</td>
-<td>An object defining properties for a group. The searchMethod's groupId is used as identifier. All services without groupId fall back to the key <code>&quot;defaultGroup&quot;</code>.</td>
-</tr>
-<tr>
 <td>categoryProperties</td>
 <td>Record&lt;string, categoryProperties&gt;?</td>
 <td>An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category.</td>
+</tr>
+<tr>
+<td>focusAfterSearch</td>
+<td>boolean?</td>
+<td>Whether the focus should switch to the first result after a successful search. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>groupProperties</td>
+<td>Record&lt;string, groupProperties&gt;?</td>
+<td>An object defining properties for a group. The searchMethod's groupId is used as identifier. All services without groupId fall back to the key <code>&quot;defaultGroup&quot;</code>.</td>
 </tr>
 </tbody>
 </table>
