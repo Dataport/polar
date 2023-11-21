@@ -162,13 +162,21 @@ const mapConfigurations: Record<
         mode: 'bboxDot',
         layers: {
           [reportServiceId]: {
-            // TODO doesn't work atm; no coordinate source
             geometry: false,
             window: true,
-            properties: { filename: 'Name of file' },
+            // translation in meldemichel's local gfi override
+            properties: [
+              'str',
+              'hsnr',
+              'pic',
+              'skat',
+              'beschr',
+              'rueck',
+              'start',
+              'statu',
+            ],
           },
         },
-        coordinateSources: [], // to be set in addPlugins.ts
       },
       pins: commonPins,
       reverseGeocoder,

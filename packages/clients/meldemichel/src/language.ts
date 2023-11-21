@@ -64,6 +64,14 @@ const language: LanguageOption[] = [
             'Kartografie Luftbilder: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
           reports: 'Meldungen durch Bürger',
         },
+        gfi: {
+          title: 'Meldung',
+          skat: 'Kategorie',
+          beschr: 'Beschreibung',
+          rueck: 'Rückmeldung',
+          start: 'Gemeldet am',
+          statu: 'Status',
+        },
         layers: {
           stadtplan: 'Stadtplan',
           luftbilder: 'Luftbildansicht',
@@ -119,6 +127,11 @@ const language: LanguageOption[] = [
               'Das System konnte Sie leider nicht in Hamburg verorten. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.',
             boundaryError:
               'Die Verortung ist fehlgeschlagen. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.',
+          },
+        },
+        iconMenu: {
+          hints: {
+            gfi: 'Meldungsliste',
           },
         },
         pins: {
