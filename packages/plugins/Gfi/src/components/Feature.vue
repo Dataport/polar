@@ -19,18 +19,18 @@
     </div>
     <v-simple-table class="polar-edgy-table" dense>
       <template #default>
-        <GfiHead></GfiHead>
-        <GfiBody
+        <FeatureTableHead></FeatureTableHead>
+        <FeatureTableBody
           :current-properties="currentProperties"
           :photo-height="photoHeight"
-        ></GfiBody>
+        ></FeatureTableBody>
       </template>
     </v-simple-table>
-    <GfiButtonGroup
+    <FeatureButtonGroup
       v-if="exportProperty || showSwitchButtons"
       :export-property="exportProperty"
       :show-switch-buttons="showSwitchButtons"
-    ></GfiButtonGroup>
+    ></FeatureButtonGroup>
   </div>
 </template>
 
@@ -38,16 +38,16 @@
 import Vue, { PropType } from 'vue'
 import { GeoJsonProperties } from 'geojson'
 import { mapActions, mapGetters } from 'vuex'
-import GfiButtonGroup from './GfiButtonGroup.vue'
-import GfiBody from './GfiBody.vue'
-import GfiHead from './GfiHead.vue'
+import FeatureButtonGroup from './FeatureButtonGroup.vue'
+import FeatureTableBody from './FeatureTableBody.vue'
+import FeatureTableHead from './FeatureTableHead.vue'
 
 export default Vue.extend({
-  name: 'GfiContent',
+  name: 'GfiFeature',
   components: {
-    GfiButtonGroup,
-    GfiBody,
-    GfiHead,
+    FeatureButtonGroup,
+    FeatureTableBody,
+    FeatureTableHead,
   },
   props: {
     currentProperties: {

@@ -38,7 +38,7 @@ import { GeoJsonProperties } from 'geojson'
 import isValidHttpUrl from '../utils/isValidHttpUrl'
 
 export default Vue.extend({
-  name: 'GfiBody',
+  name: 'GfiFeatureTableBody',
   props: {
     currentProperties: {
       type: Object as PropType<GeoJsonProperties>,

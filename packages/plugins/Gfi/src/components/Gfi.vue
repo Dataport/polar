@@ -2,28 +2,19 @@
   <div
     v-if="renderUi"
     id="polar-plugin-gfi"
-    :class="hasWindowSize ? 'polar-plugin-gfi-fullscreen' : ''"
+    :class="{
+      'polar-plugin-gfi-move-handle': renderMoveHandle,
+      'polar-plugin-gfi-fullscreen': hasWindowSize,
+    }"
   >
     <MoveHandle
-      v-if="hasWindowSize && hasSmallWidth"
-      :max-height="maxMobileHeight"
+      v-if="renderMoveHandle"
+      :min-height="0.1"
+      :max-height="9999 /* TODO better value? */"
     >
-      <component
-        :is="contentComponent"
-        :current-properties="currentProperties"
-        :client-width="clientWidth"
-        :export-property="exportProperty"
-        :show-switch-buttons="showSwitchButtons"
-      ></component>
+      <component :is="contentComponent" v-bind="contentProps"></component>
     </MoveHandle>
-    <component
-      :is="contentComponent"
-      v-else
-      :current-properties="currentProperties"
-      :client-width="clientWidth"
-      :export-property="exportProperty"
-      :show-switch-buttons="showSwitchButtons"
-    ></component>
+    <component :is="contentComponent" v-else v-bind="contentProps"></component>
   </div>
 </template>
 
@@ -32,10 +23,11 @@ import Vue from 'vue'
 import { GeoJsonProperties } from 'geojson'
 import { mapGetters } from 'vuex'
 import { MoveHandle } from '@polar/components'
-import GfiContent from './GfiContent.vue'
+import Feature from './Feature.vue'
+import List from './List.vue'
 
 export default Vue.extend({
-  name: 'PolarGfi',
+  name: 'GfiPlugin',
   components: {
     MoveHandle,
   },
@@ -47,9 +39,20 @@ export default Vue.extend({
       'windowFeatures',
       'visibleWindowFeatureIndex',
       'gfiContentComponent',
+      'showList',
     ]),
     contentComponent(): Vue {
-      return this.gfiContentComponent || GfiContent
+      return this.showList ? List : this.gfiContentComponent || Feature
+    },
+    contentProps(): object {
+      return this.showList
+        ? {}
+        : {
+            currentProperties: this.currentProperties,
+            clientWidth: this.clientWidth,
+            exportProperty: this.exportProperty,
+            showSwitchButtons: this.showSwitchButtons,
+          }
     },
     currentProperties(): GeoJsonProperties {
       const properties = {
@@ -57,7 +60,7 @@ export default Vue.extend({
       }
       const exportProperty =
         this.exportPropertyLayerKeys[properties.polarInternalLayerKey]
-      if (exportProperty.length > 0) {
+      if (exportProperty?.length > 0) {
         delete properties[exportProperty]
       }
       return properties
@@ -75,7 +78,10 @@ export default Vue.extend({
       return ''
     },
     renderUi(): boolean {
-      return this.windowFeatures.length > 0
+      return this.windowFeatures.length > 0 || this.showList
+    },
+    renderMoveHandle(): boolean {
+      return this.hasWindowSize && this.hasSmallWidth
     },
     /** only show switch buttons if multiple property sets are available */
     showSwitchButtons(): boolean {
@@ -134,5 +140,12 @@ export default Vue.extend({
     width: 100%;
     z-index: 1;
   }
+}
+
+.polar-plugin-gfi-move-handle {
+  left: 0;
+  right: 0;
+  overflow-y: unset;
+  scrollbar-gutter: unset;
 }
 </style>

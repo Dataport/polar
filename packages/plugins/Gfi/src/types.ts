@@ -10,6 +10,7 @@ import {
   GfiAfterLoadFunction,
   GfiConfiguration,
   GfiLayerConfiguration,
+  RenderType,
 } from '@polar/lib-custom-types'
 
 /** parameter specification for request method */
@@ -32,6 +33,7 @@ export interface GfiState {
   visibleWindowFeatureIndex: number
   /** default style for stroke and fill of the highlighted feature. */
   defaultHighlightStyle: HighlightStyle
+  windowIsOpen: boolean
 }
 
 export interface GfiGetters extends GfiState {
@@ -41,6 +43,7 @@ export interface GfiGetters extends GfiState {
   gfiConfiguration: GfiConfiguration
   /** all layer keys to retrieve GFI information for */
   layerKeys: string[]
+  renderType: RenderType
   /** subset of layerKeys, where features' properties are to be shown in UI */
   windowLayerKeys: string[]
   /**

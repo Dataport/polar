@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import { generateSimpleGetters } from '@repositoryname/vuex-generators'
 import { GeoJsonProperties } from 'geojson'
-import { GfiConfiguration, PolarGetterTree } from '@polar/lib-custom-types'
+import {
+  FeatureList,
+  GfiConfiguration,
+  PolarGetterTree,
+} from '@polar/lib-custom-types'
 import { GfiGetters, GfiState } from '../types'
 import getInitialState from './getInitialState'
 
@@ -104,6 +108,17 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
           : []
       )
       .flat(1)
+  },
+  listMode(_, { gfiConfiguration }): FeatureList['mode'] | undefined {
+    if (gfiConfiguration.featureList && !gfiConfiguration.featureList.mode) {
+      console.error(
+        'POLAR: When using featureList in GFI plugin, a mode must be chosen.'
+      )
+    }
+    return gfiConfiguration.featureList?.mode
+  },
+  showList(_, { windowFeatures, gfiConfiguration }): boolean {
+    return Boolean(gfiConfiguration.featureList && !windowFeatures.length)
   },
 }
 

@@ -36,6 +36,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
       }
     }
 
+    console.warn(coordinateSources)
     coordinateSources.forEach((coordinateSource) =>
       this.watch(() => rootGetters[coordinateSource], reaction)
     )
