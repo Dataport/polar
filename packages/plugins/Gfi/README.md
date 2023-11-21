@@ -2,7 +2,7 @@
 
 ## Scope
 
-The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) from WMS and WFS services. In a first step, the information is stored in the VueX store to allow for easy access. Display is optional and quite obstructive within the map client.
+The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) from WMS and WFS services as well as layers based on GeoJSON files. In a first step, the information is stored in the VueX store to allow for easy access. Display is optional and quite obstructive within the map client.
 
 > ⚠️ The display feature is currently not meant for production. Please use data bindings for display to avoid obstructing the map client.
 
@@ -57,6 +57,8 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | window         | boolean                                    | If true, properties will be shown in the map client.                                                                                                                                                                                                 |
 | geometry       | boolean                                    | If true, feature geometry will be highlighted within the map.                                                                                                                                                                                        |
 | properties     | Record<propertyName, displayName>/string[] | In case `window` is `true`, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. |
+| renderType | ('iconMenu' \| 'independent')? | Only relevant if `window` is set to `true`. Whether the gfi plugin is independently or as part of the IconMenu. Defaults to 'independent'. |
+| featureList | featureList? | If defined, a list of available vector layer features is visible when no feature is selected. |
 | exportProperty | string                                     | Property of the features of a service having an url usable to trigger a download of features as a document.                                                                                                                                          |
 
 ##### gfi.customHighlightStyle
@@ -78,6 +80,14 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | fieldName | type   | description |
 | --------- | ------ | ----------- |
 | color     | string | Color value |
+
+##### gfi.featureList
+
+| fieldName | type | description |
+| - | - | - |
+| layers | string[] | A non-empty list of vector layer to list features of. |
+| mode | 'visible' \| 'known' | Whether to show only features currently visible in the map view's bounding box or to display all known features. In the latter case, if you desire to display all features of a layer (seen or not), set its loading strategy to `'all'`. |
+| pageLength | number? | A number >0 that sets the limit to the feature list's length. If the length is surpassed, additional features can be reached by using the pagination that is generated in such a case. If not defined, the list can be of arbitrary length. |
 
 #### Example configuration
 
