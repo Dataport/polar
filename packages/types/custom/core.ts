@@ -283,6 +283,12 @@ export type GfiAfterLoadFunction = (
 ) => Record<string, GeoJsonFeature[] | symbol>
 
 /** GFI Module Configuration */
+export interface FeatureList {
+  layers: string[]
+  mode: 'visible' | 'known'
+  pageLength?: number
+}
+
 export interface GfiConfiguration extends PluginOptions {
   afterLoadFunction?: GfiAfterLoadFunction
   /**
@@ -291,6 +297,12 @@ export interface GfiConfiguration extends PluginOptions {
    * the specified layers.
    */
   coordinateSources: string[]
+  /**
+   * If required the stroke and fill of the highlighted feature can be configured.
+   * Otherwise, a default style is applied.
+   */
+  customHighlightStyle?: HighlightStyle
+  featureList?: FeatureList
   /**
    * Optionally replace GfiContent component.
    * Usable to completely redesign content of GFI window.
@@ -307,11 +319,6 @@ export interface GfiConfiguration extends PluginOptions {
    * limit an endless stream of returns to maybe 10 or so. Infinite by default.
    */
   maxFeatures?: number
-  /**
-   * If required the stroke and fill of the highlighted feature can be configured.
-   * Otherwise, a default style is applied.
-   */
-  customHighlightStyle?: HighlightStyle
 }
 
 export interface Menu {
