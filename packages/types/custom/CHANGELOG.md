@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add parameter `renderType` to `GfiConfiguration`.
+- Feature: Add parameters `renderType` and `featureList` to `GfiConfiguration`.
 - Feature: Add parameter `renderType` to `GeoLocationConfiguration`.
 - Feature: Add export of `RenderType`.
 - Feature: Add parameter `focusAfterSearch` to `AddressSearchConfiguration`.

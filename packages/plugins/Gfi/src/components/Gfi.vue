@@ -122,6 +122,7 @@ export default Vue.extend({
     overflow-x: hidden;
     scrollbar-gutter: stable;
     pointer-events: all;
+    min-width: 300px;
 
     &::v-deep .v-data-table__wrapper {
       /* table cell padding underlaps scrollbar; prevent horizontal scroll */

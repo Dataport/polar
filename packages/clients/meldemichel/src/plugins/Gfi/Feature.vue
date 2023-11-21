@@ -7,6 +7,8 @@
       fa-grip-lines
     </v-icon>
     <v-card-actions>
+      <v-btn>Prev</v-btn>
+      <v-btn>Next</v-btn>
       <v-spacer></v-spacer>
       <v-btn
         icon
@@ -56,6 +58,7 @@
 import Vue, { PropType } from 'vue'
 import { GeoJsonProperties } from 'geojson'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
+// TODO must work separate to GFI (clicking !== selecting, in Meldemichel)
 
 type GfiIndexStep = -1 | 1
 
@@ -96,6 +99,9 @@ export default Vue.extend({
     ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
     ...mapActions('plugin/gfi', ['close']),
     formatProperty(type: string, value: string): string {
+      if (!value) {
+        return ''
+      }
       if (type === 'skat') {
         return `meldemichel.skat.${value}`
       }

@@ -6,6 +6,9 @@ import {
   GfiConfiguration,
   PolarGetterTree,
 } from '@polar/lib-custom-types'
+import noop from '@repositoryname/noop'
+import { Feature } from 'ol'
+import { Vector as VectorLayer } from 'ol/layer'
 import { GfiGetters, GfiState } from '../types'
 import getInitialState from './getInitialState'
 
@@ -119,6 +122,51 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
   },
   showList(_, { windowFeatures, gfiConfiguration }): boolean {
     return Boolean(gfiConfiguration.featureList && !windowFeatures.length)
+  },
+  listFeatures(
+    _,
+    { listMode, layerKeys },
+    __,
+    rootGetters
+  ): Record<string, Feature[]> {
+    const {
+      map,
+      clientHeight,
+      clientWidth,
+      center,
+      // NOTE: Might be undefined
+      'plugin/zoom/zoomLevel': zoomLevel,
+    } = rootGetters
+    // trigger getter on those who indicate feature change possibility
+    noop(clientHeight, clientWidth, center, zoomLevel)
+    return map
+      .getLayers()
+      .getArray()
+      .filter((layer) => layerKeys.includes(layer.get('id')))
+      .filter(
+        (layer) =>
+          layer instanceof VectorLayer ||
+          console.warn(
+            `Layer ${layer.get(
+              'id'
+            )} in GFI plugin will not produce list results since it is not a vector layer.`
+          )
+      )
+      .map((layer) => {
+        const source = layer.getSource()
+        return (
+          listMode === 'known'
+            ? source.getFeatures()
+            : source.getFeaturesInExtent(
+                map.getView().calculateExtent(map.getSize()),
+                map.getView().getProjection()
+              )
+        ).map((feature) => {
+          feature.set('_gfiLayerId', layer.get('id'))
+          return feature
+        })
+      })
+      .flat(1)
   },
 }
 

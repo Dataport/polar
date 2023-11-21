@@ -21,6 +21,9 @@ const language: LanguageOption[] = [
             previous: 'Vorangehender Datensatz',
             next: 'Nächster Datensatz',
           },
+          list: {
+            header: 'Objektliste',
+          },
         },
       },
     },

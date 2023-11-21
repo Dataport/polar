@@ -102,7 +102,6 @@ const addressSearch: AddressSearchConfiguration = {
 }
 
 const commonPins: Partial<PinsConfiguration> = {
-  // TODO must work separate to GFI (clicking !== selecting, in Meldemichel)
   toZoomLevel: 7,
   movable: true,
   style: {

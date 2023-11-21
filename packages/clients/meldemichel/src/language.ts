@@ -129,6 +129,11 @@ const language: LanguageOption[] = [
               'Die Verortung ist fehlgeschlagen. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.',
           },
         },
+        gfi: {
+          list: {
+            header: 'Meldungsliste',
+          },
+        },
         iconMenu: {
           hints: {
             gfi: 'Meldungsliste',
