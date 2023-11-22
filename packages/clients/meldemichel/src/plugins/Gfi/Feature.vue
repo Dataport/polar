@@ -7,8 +7,10 @@
       fa-grip-lines
     </v-icon>
     <v-card-actions>
+      <!-- TODO implement when vector clusters are done
       <v-btn>Prev</v-btn>
       <v-btn>Next</v-btn>
+      -->
       <v-spacer></v-spacer>
       <v-btn
         icon
