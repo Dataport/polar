@@ -52,6 +52,29 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       [] as string[]
     )
   },
+  windowLayerKeysActive(
+    _,
+    { windowLayerKeys, gfiConfiguration },
+    __,
+    rootGetters
+  ): boolean {
+    const { activeLayerPath } = gfiConfiguration
+    if (!activeLayerPath) {
+      // if not configured, restriction does not apply
+      return true
+    }
+    // update on change indicator
+    noop(rootGetters[activeLayerPath])
+    return Boolean(
+      rootGetters.map
+        .getLayers()
+        .getArray()
+        .filter(
+          (layer) =>
+            windowLayerKeys.includes(layer.get('id')) && layer.getVisible()
+        ).length
+    )
+  },
   geometryLayerKeys(_, { gfiConfiguration }): string[] {
     return Object.entries(gfiConfiguration?.layers || {}).reduce(
       (accumulator, [key, { geometry }]) => {

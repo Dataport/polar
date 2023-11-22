@@ -7,8 +7,11 @@
       'polar-plugin-gfi-fullscreen': hasWindowSize,
     }"
   >
+    <v-card v-if="!windowLayerKeysActive">
+      <v-card-text>{{ $t('common:plugins.gfi.noActiveLayer') }}</v-card-text>
+    </v-card>
     <MoveHandle
-      v-if="renderMoveHandle"
+      v-else-if="renderMoveHandle"
       :min-height="0.1"
       :max-height="9999 /* TODO better value? */"
     >
@@ -37,6 +40,7 @@ export default Vue.extend({
     ...mapGetters('plugin/gfi', [
       'exportPropertyLayerKeys',
       'windowFeatures',
+      'windowLayerKeysActive',
       'visibleWindowFeatureIndex',
       'gfiContentComponent',
       'showList',

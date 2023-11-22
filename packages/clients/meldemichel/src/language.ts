@@ -133,6 +133,7 @@ const language: LanguageOption[] = [
           list: {
             header: 'Meldungsliste',
           },
+          noActiveLayer: 'Die Meldungen sind derzeit ausgeschaltet.',
         },
         iconMenu: {
           hints: {

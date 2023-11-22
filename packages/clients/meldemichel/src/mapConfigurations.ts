@@ -159,6 +159,7 @@ const mapConfigurations: Record<
       geoLocation,
       gfi: {
         mode: 'bboxDot',
+        activeLayerPath: 'plugin/layerChooser/activeMaskIds',
         layers: {
           [reportServiceId]: {
             geometry: false,

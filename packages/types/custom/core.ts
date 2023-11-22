@@ -289,6 +289,7 @@ export interface FeatureList {
 }
 
 export interface GfiConfiguration extends PluginOptions {
+  activeLayerPath?: string
   afterLoadFunction?: GfiAfterLoadFunction
   /**
    * Source paths through store to listen to for changes; it is assumed values

@@ -24,6 +24,8 @@ const language: LanguageOption[] = [
           list: {
             header: 'Objektliste',
           },
+          noActiveLayer:
+            'Derzeit ist kein Kartenmaterial mit passenden Objekten eingeschaltet.',
         },
       },
     },
@@ -48,6 +50,8 @@ const language: LanguageOption[] = [
             previous: 'Previous data',
             next: 'Next data',
           },
+          noActiveLayer:
+            'Currently, no map layer with fitting objects is active.',
         },
       },
     },
