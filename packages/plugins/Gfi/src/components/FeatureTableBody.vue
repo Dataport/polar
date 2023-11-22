@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO Rename this and Head to TableX -->
   <tbody>
     <tr v-for="[key, value] of Object.entries(filteredProperties)" :key="key">
       <td>{{ key }}</td>
