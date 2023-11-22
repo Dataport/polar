@@ -149,12 +149,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
   showList(_, { windowFeatures, gfiConfiguration }): boolean {
     return Boolean(gfiConfiguration.featureList && !windowFeatures.length)
   },
-  listFeatures(
-    _,
-    { listMode, layerKeys },
-    __,
-    rootGetters
-  ): Record<string, Feature[]> {
+  listFeatures(_, { listMode, layerKeys }, __, rootGetters): Feature[] {
     const {
       map,
       clientHeight,

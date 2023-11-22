@@ -132,6 +132,9 @@ const language: LanguageOption[] = [
         gfi: {
           list: {
             header: 'Meldungsliste',
+            entry: 'Meldung',
+            emptyView:
+              'Im aktuellen Kartenausschnitt sind keine Meldungen enthalten.',
           },
           noActiveLayer: 'Die Meldungen sind derzeit ausgeschaltet.',
         },
