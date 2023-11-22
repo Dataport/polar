@@ -57,6 +57,7 @@ export default (): MockParameters => {
         options: [],
       },
       errors: [],
+      hasSmallDisplay: false,
       plugin: {},
     },
   }
