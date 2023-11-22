@@ -7,23 +7,21 @@
         {{ $t('common:plugins.gfi.list.header') }}
       </v-card-title>
       <v-list nav>
-        <!-- TODO parametrize -->
         <v-list-item
           v-for="feature of listFeatures"
-          :key="feature.get('id')"
-          three-line
+          :key="`gfi-feature-list-${feature.ol_uid}`"
+          :two-line="listText.length === 2"
+          :three-line="listText.length === 3"
           @click="itemClick(feature)"
         >
-          <v-list-item-content three-line>
-            <v-list-item-title>{{
-              `${feature.get('str')} ${feature.get('hsnr')}`
-            }}</v-list-item-title>
-            <v-list-item-subtitle class="first-subtitle">
-              {{ $t(`meldemichel.skat.${feature.get('skat')}`) }}
-            </v-list-item-subtitle>
-            <v-list-item-subtitle>
-              {{ feature.get('beschr') }}
-            </v-list-item-subtitle>
+          <v-list-item-content>
+            <component
+              :is="index === 0 ? 'v-list-item-title' : 'v-list-item-subtitle'"
+              v-for="(_, index) of listText"
+              :key="`gfi-feature-list-${feature.ol_uid}-${index}`"
+            >
+              {{ $t(applyListText(feature, index)) }}
+            </component>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -32,18 +30,34 @@
 </template>
 
 <script lang="ts">
+import { Feature } from 'ol'
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default Vue.extend({
   name: 'GfiList',
   computed: {
-    ...mapGetters('plugin/gfi', ['listFeatures']),
+    ...mapGetters('plugin/gfi', ['listFeatures', 'listText']),
   },
   methods: {
     ...mapActions('plugin/gfi', ['setOlFeatureInformation']),
     itemClick(feature) {
       this.setOlFeatureInformation(feature)
+    },
+    applyListText(feature: Feature, index: number) {
+      const text: string | ((f: Feature) => string) | undefined =
+        this.listText[index]
+      if (typeof text === 'undefined') {
+        console.error(
+          `Missing text entry in GFI configuration. See documentation of gfi.featureList.text for more information. Fallback to ol_uid.`
+        )
+        // @ts-expect-error | It does exist.
+        return feature.ol_uid
+      }
+      if (typeof text === 'string') {
+        return feature.get(text)
+      }
+      return text(feature)
     },
   },
 })
@@ -63,9 +77,11 @@ export default Vue.extend({
     gap: 0.5em;
     word-break: normal;
   }
+}
+</style>
 
-  .first-subtitle {
-    font-style: italic;
-  }
+<style>
+.plugin-gfi-list .v-list-item__title + .v-list-item__subtitle {
+  font-style: italic;
 }
 </style>

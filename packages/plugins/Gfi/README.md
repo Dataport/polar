@@ -86,9 +86,9 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 
 | fieldName | type | description |
 | - | - | - |
-| layers | string[] | A non-empty list of vector layer to list features of. |
 | mode | 'visible' \| 'known' | Whether to show only features currently visible in the map view's bounding box or to display all known features. In the latter case, if you desire to display all features of a layer (seen or not), set its loading strategy to `'all'`. |
 | pageLength | number? | A number >0 that sets the limit to the feature list's length. If the length is surpassed, additional features can be reached by using the pagination that is generated in such a case. If not defined, the list can be of arbitrary length. |
+| text | (function | string)[] | Array of one to three entries that will produce title, subtitle, and an additional subtitle for the list view. If string, the text item will simply be that feature's value for the denoted property. If function, it's assumed to match the function signature `(feature: OpenLayersFeature): string`, and the returned string will be used to the text item. |
 
 #### Example configuration
 

@@ -143,6 +143,9 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
     }
     return gfiConfiguration.featureList?.mode
   },
+  listText(_, { gfiConfiguration }): FeatureList['text'] {
+    return gfiConfiguration.featureList?.text || []
+  },
   showList(_, { windowFeatures, gfiConfiguration }): boolean {
     return Boolean(gfiConfiguration.featureList && !windowFeatures.length)
   },

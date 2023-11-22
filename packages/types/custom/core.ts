@@ -1,4 +1,4 @@
-import { Map } from 'ol'
+import { Feature, Map } from 'ol'
 import { Resource } from 'i18next'
 import { Options as Fill } from 'ol/style/Fill'
 import { Options as Stroke } from 'ol/style/Stroke'
@@ -286,6 +286,7 @@ export type GfiAfterLoadFunction = (
 export interface FeatureList {
   mode: 'visible' | 'known'
   pageLength?: number
+  text: (string | ((f: Feature) => string))[]
 }
 
 export interface GfiConfiguration extends PluginOptions {

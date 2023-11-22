@@ -26,6 +26,11 @@ export default function (mode: keyof typeof MODE): Menu[] {
         featureList: {
           mode: 'visible',
           pageLength: 10,
+          text: [
+            (feature) => `${feature.get('str')} ${feature.get('hsnr')}`,
+            (feature) => `meldemichel.skat.${feature.get('skat')}`,
+            'beschr',
+          ],
         },
       }),
       icon: 'fa-location-pin',
