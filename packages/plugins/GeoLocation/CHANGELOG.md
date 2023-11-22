@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add parameter `renderType` to configuration, allowing configuration as IconMenu subcomponent.
+- Feature: Change the colour of tooltip to `primary` with its border being `primaryContrast` to be more visible.
 
 ## 1.1.0
 
