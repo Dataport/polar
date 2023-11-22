@@ -136,7 +136,8 @@ const language: LanguageOption[] = [
             emptyView:
               'Im aktuellen Kartenausschnitt sind keine Meldungen enthalten.',
           },
-          noActiveLayer: 'Die Meldungen sind derzeit ausgeschaltet.',
+          noActiveLayer:
+            'Die Meldungen sind derzeit ausgeschaltet. Sie können Sie über die Kartenauswahl (Buch-Symbol in der Werkzeugleiste) wieder einschalten.',
         },
         iconMenu: {
           hints: {
