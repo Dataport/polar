@@ -225,10 +225,9 @@ export default Vue.extend({
   width: 100%;
 }
 
-.polar-tooltip {
-  background-color: var(--polar-primary) !important;
-  border: 2px solid var(--polar-primary-contrast) !important;
-  border-radius: 3px;
+.v-tooltip__content {
+  background-color: var(--polar-primary);
+  border: 2px solid var(--polar-primary-contrast);
 }
 
 .v-application {

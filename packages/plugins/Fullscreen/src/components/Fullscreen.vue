@@ -1,6 +1,5 @@
 <template>
   <v-tooltip
-    content-class="polar-tooltip"
     :left="!isHorizontal"
     :bottom="isHorizontal"
     :disabled="hasSmallDisplay"

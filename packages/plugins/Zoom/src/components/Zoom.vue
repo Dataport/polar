@@ -1,7 +1,6 @@
 <template>
   <div v-if="showZoomButtons" class="polar-zoom-wrap">
     <v-tooltip
-      content-class="polar-tooltip"
       :left="!isHorizontal"
       :bottom="isHorizontal"
       :disabled="hasSmallDisplay"
@@ -28,7 +27,6 @@
       <span>{{ $t('common:plugins.zoom.in') }}</span>
     </v-tooltip>
     <v-tooltip
-      content-class="polar-tooltip"
       :left="!isHorizontal"
       :bottom="isHorizontal"
       :disabled="hasSmallDisplay"

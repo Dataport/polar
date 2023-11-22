@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip content-class="polar-tooltip" top :disabled="hasSmallDisplay">
+  <v-tooltip top :disabled="hasSmallDisplay">
     <template #activator="{ on, attrs }">
       <v-btn
         class="ma-2"

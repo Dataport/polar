@@ -2,7 +2,6 @@
 
 ## unpublished
 
-- Feature: Change the colour of tooltip to `primary` with its border being `primaryContrast` to be more visible.
 - Feature: Hide obstructive tooltip on small devices.
 - Fix: Resolved internal error. (No effect on client behaviour.)
 
