@@ -99235,7 +99235,8 @@ const wX = RX.exports, VX = [
           button: {
             closeTitle: "Quellennachweis ausblenden",
             openTitle: "Quellennachweis einblenden"
-          }
+          },
+          sourceCode: '<span><a href="https://github.com/Dataport/polar" target="_blank">Quellcode</a> lizenziert unter <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span>'
         }
       }
     }
@@ -99248,7 +99249,8 @@ const wX = RX.exports, VX = [
           button: {
             closeTitle: "Hide Attributions",
             openTitle: "Show Attributions"
-          }
+          },
+          sourceCode: '<span><a href="https://github.com/Dataport/polar" target="_blank">Source code</a> licensed under <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span>'
         }
       }
     }
@@ -99270,7 +99272,7 @@ function FX(e, t = []) {
   const n = [];
   return e.forEach((s) => {
     n.push(s.title);
-  }), t.forEach((s) => n.push(s)), n;
+  }), t.forEach((s) => n.push(s)), n.push("plugins.attributions.sourceCode"), n;
 }
 function jX(e, t) {
   const n = [];
