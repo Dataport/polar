@@ -542,6 +542,7 @@ export interface CoreState {
   clientWidth: number
   components: number
   configuration: MapConfig
+  hasSmallDisplay: boolean
   errors: PolarError[]
   plugin: object
 }

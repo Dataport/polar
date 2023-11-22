@@ -105,9 +105,14 @@ export default Vue.extend({
     if (this.mapConfiguration.checkServiceAvailability) {
       this.checkServiceAvailability()
     }
+    addEventListener('resize', this.updateHasSmallDisplay)
+    this.updateHasSmallDisplay()
+  },
+  beforeDestroy() {
+    removeEventListener('resize', this.updateHasSmallDisplay)
   },
   methods: {
-    ...mapMutations(['setMap', 'setConfiguration']),
+    ...mapMutations(['setConfiguration', 'setHasSmallDisplay', 'setMap']),
     ...mapActions(['updateDragAndZoomInteractions']),
     checkServiceAvailability() {
       this.mapConfiguration.layerConf
@@ -146,6 +151,12 @@ export default Vue.extend({
             })
             .catch(console.error)
         )
+    },
+    updateHasSmallDisplay() {
+      this.setHasSmallDisplay(
+        window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
+          window.innerWidth <= SMALL_DISPLAY_WIDTH
+      )
     },
     updateListeners(hasWindowSize: boolean) {
       if (!hasWindowSize) {
