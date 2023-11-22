@@ -134,7 +134,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       clientHeight,
       clientWidth,
       center,
-      // NOTE: Might be undefined
+      // NOTE: Might be undefined; TODO also hold zoom level in core to avoid cross-reference and ensure correctness in all config scenarios
       'plugin/zoom/zoomLevel': zoomLevel,
     } = rootGetters
     // trigger getter on those who indicate feature change possibility
