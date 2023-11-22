@@ -150,14 +150,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
     return Boolean(gfiConfiguration.featureList && !windowFeatures.length)
   },
   listFeatures(_, { listMode, layerKeys }, __, rootGetters): Feature[] {
-    const {
-      map,
-      clientHeight,
-      clientWidth,
-      center,
-      // NOTE: Might be undefined; TODO also hold zoom level in core to avoid cross-reference and ensure correctness in all config scenarios
-      'plugin/zoom/zoomLevel': zoomLevel,
-    } = rootGetters
+    const { map, clientHeight, clientWidth, center, zoomLevel } = rootGetters
     // trigger getter on those who indicate feature change possibility
     noop(clientHeight, clientWidth, center, zoomLevel)
     return map

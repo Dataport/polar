@@ -60,7 +60,6 @@
 import Vue, { PropType } from 'vue'
 import { GeoJsonProperties } from 'geojson'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
-// TODO must work separate to GFI (clicking !== selecting, in Meldemichel)
 
 type GfiIndexStep = -1 | 1
 

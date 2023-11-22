@@ -549,6 +549,7 @@ export interface CoreState {
   clientHeight: number
   clientWidth: number
   components: number
+  zoomLevel: number
   configuration: MapConfig
   errors: PolarError[]
   plugin: object

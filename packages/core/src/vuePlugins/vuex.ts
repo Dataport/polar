@@ -69,6 +69,7 @@ const getInitialState = (): CoreState => ({
   clientWidth: 0,
   components: 1,
   center: null,
+  zoomLevel: 0,
   // TODO: Add default values for epsg, layers, namedProjections, options and remove @ts-ignore for configuration
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -78,6 +79,9 @@ const getInitialState = (): CoreState => ({
 
 const setCenter = ({ map }) =>
   store.commit('setCenter', map.getView().getCenter())
+
+const setZoom = ({ map }) =>
+  store.commit('setZoomLevel', map.getView().getZoom())
 
 const store = new Store({
   state: getInitialState(),
@@ -116,10 +120,14 @@ const store = new Store({
     setMap: (state, payload) => {
       if (map) {
         map.un('moveend', setCenter)
+        map.un('moveend', setZoom)
       }
       map = payload
       if (map) {
         map.on('moveend', setCenter)
+        map.on('moveend', setZoom)
+        setCenter({ map })
+        setZoom({ map })
       }
       // NOTE: hack: don't put map in vuex (complex object); see NOTE above
       state.map = state.map + 1
