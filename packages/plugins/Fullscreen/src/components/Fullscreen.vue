@@ -3,6 +3,7 @@
     content-class="polar-tooltip"
     :left="!isHorizontal"
     :bottom="isHorizontal"
+    :disabled="hasSmallDisplay"
   >
     <template #activator="{ on, attrs }">
       <v-btn
@@ -40,7 +41,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...mapGetters(['map']),
+    ...mapGetters(['hasSmallDisplay', 'map']),
     ...mapGetters('plugin/fullscreen', [
       'isInFullscreen',
       'renderType',

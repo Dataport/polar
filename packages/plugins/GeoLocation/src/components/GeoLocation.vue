@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-tooltip content-class="polar-tooltip" left>
+    <v-tooltip content-class="polar-tooltip" left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
           :class="{
@@ -29,6 +29,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default Vue.extend({
   name: 'GeoLocation',
   computed: {
+    ...mapGetters(['hasSmallDisplay']),
     ...mapGetters('plugin/geoLocation', [
       'geolocation',
       'renderType',

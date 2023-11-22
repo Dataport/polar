@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip content-class="polar-tooltip" left>
+  <v-tooltip content-class="polar-tooltip" left :disabled="hasSmallDisplay">
     <template #activator="{ on }">
       <div
         class="polar-layer-chooser-option-line"
@@ -46,6 +46,7 @@ export default Vue.extend({
     },
   },
   computed: {
+    ...mapGetters(['hasSmallDisplay']),
     ...mapGetters('plugin/layerChooser', ['idsWithOptions']),
     hasOptions() {
       return this.idsWithOptions.includes(this.layerId)

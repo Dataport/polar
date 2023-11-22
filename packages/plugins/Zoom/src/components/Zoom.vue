@@ -4,6 +4,7 @@
       content-class="polar-tooltip"
       :left="!isHorizontal"
       :bottom="isHorizontal"
+      :disabled="hasSmallDisplay"
     >
       <template #activator="{ on, attrs }">
         <v-btn
@@ -30,6 +31,7 @@
       content-class="polar-tooltip"
       :left="!isHorizontal"
       :bottom="isHorizontal"
+      :disabled="hasSmallDisplay"
     >
       <template #activator="{ on, attrs }">
         <v-btn
@@ -64,7 +66,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...mapGetters(['hasSmallHeight']),
+    ...mapGetters(['hasSmallDisplay', 'hasSmallHeight']),
     ...mapGetters('plugin/zoom', [
       'maximumZoomLevelActive',
       'minimumZoomLevelActive',

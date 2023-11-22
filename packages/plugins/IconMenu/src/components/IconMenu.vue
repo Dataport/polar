@@ -18,6 +18,7 @@
           content-class="polar-tooltip"
           :left="!isHorizontal"
           :bottom="isHorizontal"
+          :disabled="hasSmallDisplay"
         >
           <template #activator="{ on, attrs }">
             <v-btn
@@ -67,7 +68,12 @@ export default Vue.extend({
     maxWidth: 'inherit',
   }),
   computed: {
-    ...mapGetters(['hasSmallHeight', 'hasWindowSize', 'clientHeight']),
+    ...mapGetters([
+      'hasSmallDisplay',
+      'hasSmallHeight',
+      'hasWindowSize',
+      'clientHeight',
+    ]),
     ...mapGetters('plugin/iconMenu', ['menus', 'open']),
     asList() {
       return this.menus.length > 1
