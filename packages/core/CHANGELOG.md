@@ -2,6 +2,7 @@
 
 ## 1.1.0
 
+- Feature: Add hovered and selected feature to vuex store. This is an optional functionality that has to be explicitly enabled and works with the @masterportal/masterportalapi default marker design.
 - Feature: Add zoomLevel as plugin-agnostic map information to store.
 - Feature: Add core state variable for map's center position.
 

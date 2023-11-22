@@ -130,6 +130,7 @@ const mapConfigurations: Record<
   [MODE.COMPLETE]: (reportServiceId: string, afmUrl: string) => {
     return {
       ...commonMapConfiguration,
+      extendedMasterportalapiMarkers: {},
       addressSearch,
       layers: [
         ...commonLayers,

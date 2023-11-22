@@ -92,6 +92,11 @@ export default Vue.extend({
 
     this.setMap(map)
     this.updateDragAndZoomInteractions()
+    if (this.mapConfiguration.extendedMasterportalapiMarkers) {
+      this.useExtendedMasterportalapiMarkers(
+        this.mapConfiguration.extendedMasterportalapiMarkers
+      )
+    }
     this.updateListeners(this.hasWindowSize)
     this.setConfiguration(this.mapConfiguration)
     this.mapConfiguration.locales?.forEach?.((lng: LanguageOption) =>
@@ -108,7 +113,10 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations(['setMap', 'setConfiguration']),
-    ...mapActions(['updateDragAndZoomInteractions']),
+    ...mapActions([
+      'updateDragAndZoomInteractions',
+      'useExtendedMasterportalapiMarkers',
+    ]),
     checkServiceAvailability() {
       this.mapConfiguration.layerConf
         .map((service) => ({

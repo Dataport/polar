@@ -550,6 +550,8 @@ export interface CoreState {
   clientWidth: number
   components: number
   zoomLevel: number
+  hovered: number
+  selected: number
   configuration: MapConfig
   errors: PolarError[]
   plugin: object
@@ -564,6 +566,8 @@ export interface CoreGetters {
   hasWindowSize: boolean
   errors: PolarError[]
   map: Map
+  hovered: Feature | null
+  selected: Feature | null
 }
 
 export type PolarGetter<S, G, P> = (
