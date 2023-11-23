@@ -142,6 +142,8 @@ export interface AttributionsConfiguration extends PluginOptions {
   windowWidth?: number
 }
 
+export type FilterConfiguration = PluginOptions
+
 export interface PolarCircleStyle {
   fillColor?: Color | ColorLike
   radius: number

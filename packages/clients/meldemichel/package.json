@@ -21,6 +21,7 @@
     "@polar/lib-custom-types": "^1.1.0",
     "@polar/plugin-address-search": "^1.0.0",
     "@polar/plugin-attributions": "^1.0.0",
+    "@polar/plugin-filter": "*",
     "@polar/plugin-fullscreen": "^1.0.0",
     "@polar/plugin-geo-location": "^1.1.0",
     "@polar/plugin-gfi": "^1.0.0",

@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Add types for new plugin `Filter`, namely `FilterConfiguration`.
 - Feature: Add parameter `renderType` to `GeoLocationConfiguration`.
 - Feature: Add export of `RenderType`.
 - Feature: Add parameter `focusAfterSearch` to `AddressSearchConfiguration`.
