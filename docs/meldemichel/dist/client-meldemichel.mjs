@@ -95353,13 +95353,17 @@ const uH = $t.extend({
       );
     },
     updateListeners(e) {
-      e || (document.addEventListener("wheel", ({ ctrlKey: t }) => {
-        clearTimeout(this.noControlOnZoomTimeout), this.noControlOnZoom = !t, this.noControlOnZoomTimeout = setTimeout(
-          () => this.noControlOnZoom = !1,
-          2e3
-        );
-      }), (window.innerHeight <= wv || window.innerWidth <= Vv) && new eH(this.$refs["polar-map-container"]).on("pan", (t) => {
-        this.oneFingerPan = t.maxPointers === 1, setTimeout(() => this.oneFingerPan = !1, 2e3);
+      const t = this.$refs["polar-map-container"];
+      !e && t && (t.addEventListener(
+        "wheel",
+        ({ ctrlKey: n }) => {
+          clearTimeout(this.noControlOnZoomTimeout), this.noControlOnZoom = !n, this.noControlOnZoomTimeout = setTimeout(
+            () => this.noControlOnZoom = !1,
+            2e3
+          );
+        }
+      ), (window.innerHeight <= wv || window.innerWidth <= Vv) && new eH(t).on("pan", (n) => {
+        this.oneFingerPan = n.maxPointers === 1, setTimeout(() => this.oneFingerPan = !1, 2e3);
       }));
     }
   }
@@ -95373,7 +95377,7 @@ var cH = function() {
   hH,
   !1,
   null,
-  "7d603b48",
+  "f9a3c418",
   null,
   null
 );
