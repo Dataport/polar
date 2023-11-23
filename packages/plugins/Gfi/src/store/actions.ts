@@ -134,7 +134,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         (result) =>
           result.status === 'fulfilled'
             ? result.value
-            : (console.error(result), errorSymbol(result.reason.message))
+            : errorSymbol(result.reason.message)
       )
 
       const generalMaxFeatures: number =
