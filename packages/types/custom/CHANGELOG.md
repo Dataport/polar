@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add fields `hovered` and `selected` to core store.
+- Feature: Add types for new core state and getters. (`zoomLevel`, `hovered`, `selected`)
 - Feature: Add parameters `renderType`, `featureList`, and `activeLayerPath` to `GfiConfiguration`.
 - Feature: Add type `FeatureList` for `GfiConfiguration`.
 - Feature: Add parameter `renderType` to `GeoLocationConfiguration`.
