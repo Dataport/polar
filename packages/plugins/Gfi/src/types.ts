@@ -34,7 +34,6 @@ export interface GfiState {
   /** default style for stroke and fill of the highlighted feature. */
   defaultHighlightStyle: HighlightStyle
   page: number
-  windowIsOpen: boolean
 }
 
 export interface GfiGetters extends GfiState {
