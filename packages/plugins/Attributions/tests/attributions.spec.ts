@@ -27,25 +27,28 @@ describe('plugin-attributions', () => {
     describe('lib', () => {
       // TODO: Copy and adjust these tests to be usable with buildMapInfo as well
       describe('updateMapInfo', () => {
-        it('should return no Attributions if none are found', () => {
+        it('should return only the license information if no layer is found and no staticAttributions are given', () => {
           const mapInfo = updateMapInfo(['baz', 'foo'], mockyButions, [])
 
-          expect(mapInfo.length).toBe(0)
+          expect(mapInfo.length).toEqual(1)
+          expect(mapInfo[0]).toEqual('plugins.attributions.sourceCode')
         })
 
         it('should return configured attributions', () => {
           const mapInfo = updateMapInfo(['polarFuchs', 'foo'], mockyButions, [])
 
-          expect(mapInfo.length).toBe(1)
+          expect(mapInfo.length).toBe(2)
           expect(mapInfo[0]).toBe(mockyButions[3].title)
+          expect(mapInfo[1]).toEqual('plugins.attributions.sourceCode')
         })
 
         it('should return polarFuchs/PLN Attributions', () => {
           const mapInfo = updateMapInfo(['polarFuchs', 'PLN'], mockyButions, [])
 
-          expect(mapInfo.length).toBe(2)
+          expect(mapInfo.length).toBe(3)
           expect(mapInfo[0]).toBe(mockyButions[0].title)
           expect(mapInfo[1]).toBe(mockyButions[3].title)
+          expect(mapInfo[2]).toEqual('plugins.attributions.sourceCode')
         })
       })
     })

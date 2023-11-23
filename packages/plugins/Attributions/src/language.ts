@@ -10,6 +10,8 @@ const language: LanguageOption[] = [
             closeTitle: 'Quellennachweis ausblenden',
             openTitle: 'Quellennachweis einblenden',
           },
+          sourceCode:
+            '<span><a href="https://github.com/Dataport/polar" target="_blank">Quellcode</a> lizenziert unter <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span>',
         },
       },
     },
@@ -23,6 +25,8 @@ const language: LanguageOption[] = [
             closeTitle: 'Hide Attributions',
             openTitle: 'Show Attributions',
           },
+          sourceCode:
+            '<span><a href="https://github.com/Dataport/polar" target="_blank">Source code</a> licensed under <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span>',
         },
       },
     },
