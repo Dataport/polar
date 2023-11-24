@@ -51,12 +51,14 @@ const makeMultiMarker = ({
 `)}`
 */
 
+// center bottom of marker 📍 is intended to show the spot
+const anchor = [0.5, 1]
+
 const hoverStyle = (hoverFill = fallbackHoverFill) =>
   new Style({
     image: new Icon({
       src: makeMarker({ fill: hoverFill }),
-      // center bottom of marker 📍 is intended to show the spot
-      anchor: [0.5, 1],
+      anchor,
     }),
   })
 
@@ -64,8 +66,7 @@ const selectedStyle = (selectionFill = fallbackSelectionFill) =>
   new Style({
     image: new Icon({
       src: makeMarker({ fill: selectionFill }),
-      // center bottom of marker 📍 is intended to show the spot
-      anchor: [0.5, 1],
+      anchor,
     }),
   })
 
