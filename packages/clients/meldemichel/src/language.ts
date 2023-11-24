@@ -8,23 +8,10 @@ import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
   TODO this comment must be deleted after parts were used where applicable.
   NOTE delete parts you used further below in the actual data
     'title': 'Meldemichel',
-    'tooltip.self.header': 'Eigene Position',
-    'tooltip.self.body': 'Sie wurden hier verortet',
     'tooltip.multiple.header': 'Mehrere Anliegen',
     'tooltip.multiple.body': 'Klick zum Zoomen',
     'tooltip.finalMultiple.header': 'Mehrere Anliegen',
     'tooltip.finalMultiple.body': 'Klick öffnet Details',
-    'toast.user.outsideHH':
-      'Das System konnte Sie leider nicht in Hamburg verorten. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.',
-    'toast.point.outsideHH':
-      'Es können nur Punkte innerhalb von Hamburg gewählt werden.',
-    'sidebar.report.title':
-      'Meldungsliste Sidebar öffnen / schließen',
-    'sidebar.report.header': 'Meldungsliste',
-    'sidebar.report.page':
-      '<FROM> bis <TO> von <ALL> Einträgen',
-    'sidebar.report.pagination':
-      'Öffne Seite <X> von <Y> der Schadensmeldungen',
     'sidebar.report.close': 'Zurück zur Kartenansicht',
     'sidebar.report.back':
       'Zurück zur Listenansicht der Meldungen',
@@ -33,10 +20,6 @@ import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
     'sidebar.report.next':
       'Nächste Meldung in Auswahl aufrufen',
     'sidebar.report.response': 'Rückmeldung',
-    'sidebar.report.date': 'Gemeldet am <DATE>',
-    'sidebar.report.state': 'Status',
-    'sidebar.filter.title':
-      'Filter Sidebar öffnen / schließen',
     'sidebar.filter.close': 'Zurück zur Kartenansicht',
     'sidebar.filter.categories': 'Kategorien',
     'sidebar.filter.status': 'Status',
@@ -46,8 +29,6 @@ import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
     'sidebar.filter.information':
       '90 Tage nach Bearbeitungsende werden die Meldungen gelöscht.',
     'skat.all': 'Alle anwählen/abwählen',
-    'report.button': 'Neues Anliegen',
-    'report.button.title': 'Einen neuen Schaden melden',
     'report.button.ariaDescription':
       'Öffnet eine neue Seite, auf welcher ein neues Anliegen gemeldet werden kann.',
 */
