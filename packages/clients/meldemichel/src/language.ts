@@ -12,14 +12,10 @@ import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
     'tooltip.multiple.body': 'Klick zum Zoomen',
     'tooltip.finalMultiple.header': 'Mehrere Anliegen',
     'tooltip.finalMultiple.body': 'Klick öffnet Details',
-    'sidebar.report.close': 'Zurück zur Kartenansicht',
-    'sidebar.report.back':
-      'Zurück zur Listenansicht der Meldungen',
     'sidebar.report.previous':
       'Vorherige Meldung in Auswahl aufrufen',
     'sidebar.report.next':
       'Nächste Meldung in Auswahl aufrufen',
-    'sidebar.report.response': 'Rückmeldung',
     'sidebar.filter.close': 'Zurück zur Kartenansicht',
     'sidebar.filter.categories': 'Kategorien',
     'sidebar.filter.status': 'Status',
@@ -111,11 +107,22 @@ const language: LanguageOption[] = [
           },
         },
         gfi: {
+          header: {
+            close: 'Zurück zur Listenansicht der Meldungen',
+          },
           list: {
             header: 'Meldungsliste',
             entry: 'Meldung',
             emptyView:
               'Im aktuellen Kartenausschnitt sind keine Meldungen enthalten.',
+            pagination: {
+              currentPage:
+                'Aktuelle Seite, Seite {{page}} von {{maxPage}} der Schadensmeldungen',
+              page: 'Öffne Seite {{page}} von {{maxPage}} der Schadensmeldungen',
+              next: 'Nächste Seite öffnen',
+              previous: 'Vorherige Seite öffnen',
+              wrapper: 'Seitenauswahl',
+            },
           },
           noActiveLayer:
             'Die Meldungen sind derzeit ausgeschaltet. Sie können Sie über die Kartenauswahl (Buch-Symbol in der Werkzeugleiste) wieder einschalten.',

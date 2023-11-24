@@ -21,10 +21,14 @@
           :current-page-aria-label="
             $t('common:plugins.gfi.list.pagination.currentPage', {
               page: _page,
+              maxPage,
             })
           "
           :page-aria-label="
-            $t('common:plugins.gfi.list.pagination.page', { page: _page })
+            $t('common:plugins.gfi.list.pagination.page', {
+              page: _page,
+              maxPage,
+            })
           "
           :next-aria-label="$t('common:plugins.gfi.list.pagination.next')"
           :previous-aria-label="
