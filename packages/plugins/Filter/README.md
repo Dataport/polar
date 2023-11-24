@@ -69,7 +69,7 @@ The Filter plugin can be used to filter arbitrary configurable vector layers by 
         time: {
           targetProperty: 'lastAccident',
           last: {
-            amount: [7, 30],
+            amounts: [7, 30],
             unit: 'days'
           },
           freeSelection: {
