@@ -1,6 +1,12 @@
-import { Map, Feature, MapBrowserEvent } from 'ol'
+import { Feature, MapBrowserEvent } from 'ol'
 import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
+import {
+  CoreGetters,
+  CoreState,
+  PolarActionContext,
+} from '@polar/lib-custom-types'
+import RenderFeature from 'ol/render/Feature'
 
 const fallbackHoverFill = '#008A8A'
 const fallbackSelectionFill = '#00A95C'
@@ -69,17 +75,26 @@ let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 let hovered: Feature | null = null
 let selected: Feature | null = null
 
+// eslint-disable-next-line max-lines-per-function
 export function useExtendedMasterportalapiMarkers(
-  { getters, commit },
-  { hoverFill, selectionFill, layers }
+  { getters, commit }: PolarActionContext<CoreState, CoreGetters>,
+  {
+    hoverFill,
+    selectionFill,
+    layers,
+  }: {
+    layers: string[]
+    hoverFill?: string
+    selectionFill?: string
+  }
 ) {
-  const map: Map = getters.map
+  const { map } = getters
 
   map.on('pointermove', function (event) {
-    const feature: Feature = getters.map.getFeaturesAtPixel(event.pixel, {
+    const feature = getters.map.getFeaturesAtPixel(event.pixel, {
       layerFilter: (layer) => layers.includes(layer.get('id')),
     })[0]
-    if (feature === selected) {
+    if (feature === selected || feature instanceof RenderFeature) {
       return
     }
     if (hovered !== null && hovered !== selected) {
@@ -100,10 +115,10 @@ export function useExtendedMasterportalapiMarkers(
       selected = null
       commit('setSelected', selected)
     }
-    const feature: Feature = getters.map.getFeaturesAtPixel(event.pixel, {
+    const feature = getters.map.getFeaturesAtPixel(event.pixel, {
       layerFilter: (layer) => layers.includes(layer.get('id')),
     })[0]
-    if (!feature) {
+    if (!feature || feature instanceof RenderFeature) {
       return
     }
     selected = feature
