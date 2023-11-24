@@ -95552,16 +95552,20 @@ const AH = DH.exports, qh = {
   ...C5,
   addPlugins: x5,
   createMap: vH
-}, LH = "@polar/client-meldemichel", RH = "1.0.0-alpaka.0", wH = "Client Meldemichel", VH = "EUPL-1.2", BH = "Dataport AöR <dataportpolarsupport@dataport.de>", NH = "dist/client-meldemichel.mjs", FH = [
+}, LH = "@polar/client-meldemichel", RH = "1.0.0-alpaka.0", wH = "Client Meldemichel", VH = "EUPL-1.2", BH = "Dataport AöR <dataportpolarsupport@dataport.de>", NH = "dist/client-meldemichel.mjs", FH = {
+  type: "git",
+  url: "https://github.com/Dataport/polar.git",
+  directory: "packages/clients/meldemichel"
+}, jH = [
   "dist/**/**.*",
   "docs/**/**.*",
   "example/**/**.*",
   "CHANGELOG.md",
   "API.md"
-], jH = {
+], UH = {
   postversion: "npm run build",
   build: "rimraf dist && vite build && copyfiles -f src/html/**/* dist"
-}, UH = {
+}, WH = {
   "@polar/core": "^1.1.0",
   "@polar/lib-custom-types": "^1.1.0",
   "@polar/plugin-address-search": "^1.0.0",
@@ -95577,16 +95581,17 @@ const AH = DH.exports, qh = {
   "@polar/plugin-scale": "^1.0.0",
   "@polar/plugin-toast": "^1.0.0",
   "@polar/plugin-zoom": "^1.0.0"
-}, WH = {
+}, $H = {
   name: LH,
   version: RH,
   description: wH,
   license: VH,
   author: BH,
   main: NH,
-  files: FH,
-  scripts: jH,
-  devDependencies: UH
+  repository: FH,
+  files: jH,
+  scripts: UH,
+  devDependencies: WH
 }, Xs = {
   // display everything
   COMPLETE: "COMPLETE",
@@ -95595,7 +95600,7 @@ const AH = DH.exports, qh = {
   /* do not display AfmButton, reports, filter, list
    * do display a single (maybe movable) feature */
   SINGLE: "SINGLE"
-}, $H = [
+}, zH = [
   100,
   101,
   102,
@@ -95633,7 +95638,7 @@ const AH = DH.exports, qh = {
   DAYS_7: 1,
   DAYS_30: 2,
   SELECTABLE: 3
-}, zH = $t.extend({
+}, KH = $t.extend({
   name: "AddressSearchGroupSelect",
   computed: {
     ...ge("plugin/addressSearch", [
@@ -95654,7 +95659,7 @@ const AH = DH.exports, qh = {
     ...br("plugin/addressSearch", ["setSelectedGroupId"])
   }
 });
-var KH = function() {
+var GH = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, t.hasMultipleGroups ? n("v-select", { staticClass: "polar-plugin-address-search-group-select", attrs: { dense: "", "aria-label": t.$t("common:plugins.addressSearch.groupSelector"), items: (
     // mapping in template to guarantee update on language change
@@ -95662,17 +95667,17 @@ var KH = function() {
   ) }, model: { value: t.selectedItem, callback: function(s) {
     t.selectedItem = s;
   }, expression: "selectedItem" } }, [n("div", { attrs: { slot: "selection" }, slot: "selection" })]) : t._e();
-}, GH = [], kH = /* @__PURE__ */ Pe(
-  zH,
+}, kH = [], HH = /* @__PURE__ */ Pe(
   KH,
   GH,
+  kH,
   !1,
   null,
   null,
   null,
   null
 );
-const HH = kH.exports;
+const YH = HH.exports;
 function Nv(e) {
   for (let t = 0; t < e; t++) {
     const n = (
@@ -95687,10 +95692,10 @@ function Nv(e) {
     }
   }
 }
-const YH = (e, t) => {
+const XH = (e, t) => {
   const n = e.toLowerCase().indexOf(t.toLowerCase());
   return n === -1 ? e : e.substring(0, n) + "<em>" + e.substring(n, n + t.length) + "</em>" + e.substring(n + t.length);
-}, XH = $t.extend({
+}, ZH = $t.extend({
   name: "AddressSearchResults",
   data: () => ({
     openCategories: []
@@ -95731,7 +95736,7 @@ const YH = (e, t) => {
       var t;
       return !!((t = e == null ? void 0 : e.queryParameters) != null && t.maxFeatures);
     },
-    emTitleByInput: YH,
+    emTitleByInput: XH,
     isExpandButtonVisible(e) {
       return e > this.limitResults;
     },
@@ -95789,7 +95794,7 @@ const YH = (e, t) => {
     }
   }
 });
-var ZH = function() {
+var JH = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, t.featuresAvailable ? n("v-card", { staticClass: "mx-auto overflow-y-auto rounded-b-xl polar-plugin-address-search-toolbar-results", attrs: { tile: "", dense: "", "max-height": t.maxHeight, ripple: !1, tabindex: "-1" } }, t._l(t.featureListsWithCategory, function({ features: s, category: r, categoryId: i }, a) {
     return n("v-list", { key: ["results-list", a].join("-"), staticClass: "polar-plugin-address-search-results-list", attrs: { tag: "ul", subheader: "" } }, [r ? n("v-subheader", { key: ["results-category", a].join("-") }, [t._v(" " + t._s(t.$t(r)) + " " + t._s(t.$t("common:plugins.addressSearch.resultCount", { count: s.length })) + " ")]) : t._e(), t._l(s, function(o, l) {
@@ -95834,17 +95839,17 @@ var ZH = function() {
       return t.toggle(r);
     } } }, [n("v-icon", { staticClass: "mr-1", attrs: { "x-small": "" } }, [t._v(" " + t._s(t.areResultsExpanded(r) ? "fa-chevron-up" : "fa-chevron-down") + " ")]), t._v(" " + t._s(t.$t(`common:plugins.addressSearch.resultList.${t.areResultsExpanded(r) ? "reduce" : `extend${t.hasMaximum(t.selectedGroup[a]) ? "Max" : ""}`}`, t.selectedGroup[a])) + " ")], 1) : t._e(), r ? n("v-divider", { key: ["results-divider", a].join("-") }) : t._e()], 2);
   }), 1) : t._e();
-}, JH = [], QH = /* @__PURE__ */ Pe(
-  XH,
+}, QH = [], qH = /* @__PURE__ */ Pe(
   ZH,
   JH,
+  QH,
   !1,
   null,
   "739f3662",
   null,
   null
 );
-const qH = QH.exports, t7 = $t.extend({
+const t7 = qH.exports, e7 = $t.extend({
   name: "AddressSearchInput",
   computed: {
     ...ge("plugin/addressSearch", [
@@ -95866,29 +95871,29 @@ const qH = QH.exports, t7 = $t.extend({
     focusFirstResult: Nv
   }
 });
-var e7 = function() {
+var n7 = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("v-text-field", { attrs: { id: "polar-plugin-address-search-input", "prepend-icon": "fa-magnifying-glass", clearable: "", label: t.$t(t.label), placeholder: t.$t(t.placeholder), hint: t.$t(t.hint, { minLength: t.minLength }), "aria-description": t.$t(t.hint, { minLength: t.minLength }), loading: t.loading, value: t.inputValue }, on: { input: t.input, keydown: [function(s) {
     return !s.type.indexOf("key") && t._k(s.keyCode, "enter", 13, s.key, "Enter") ? null : t.abortAndRequest.apply(null, arguments);
   }, function(s) {
     return !s.type.indexOf("key") && t._k(s.keyCode, "down", 40, s.key, ["Down", "ArrowDown"]) ? null : (s.preventDefault(), s.stopPropagation(), t.focusFirstResult(t.featureListsWithCategory.length));
   }], "click:clear": t.clear } });
-}, n7 = [], i7 = /* @__PURE__ */ Pe(
-  t7,
+}, i7 = [], r7 = /* @__PURE__ */ Pe(
   e7,
   n7,
+  i7,
   !1,
   null,
   null,
   null,
   null
 );
-const r7 = i7.exports, s7 = $t.extend({
+const s7 = r7.exports, a7 = $t.extend({
   name: "AddressSearch",
   components: {
-    GroupSelect: HH,
-    Input: r7,
-    Results: qH
+    GroupSelect: YH,
+    Input: s7,
+    Results: t7
   },
   computed: {
     ...ge(["clientWidth", "hasSmallWidth", "hasWindowSize"]),
@@ -95901,20 +95906,20 @@ const r7 = i7.exports, s7 = $t.extend({
     }
   }
 });
-var a7 = function() {
+var o7 = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("v-container", { style: t.style }, [n("v-toolbar", { staticClass: "polar-plugin-address-search-toolbar pt-1", class: t.toolbarClass, attrs: { height: "72" } }, [n("GroupSelect"), n("Input")], 1), n("Results")], 1);
-}, o7 = [], l7 = /* @__PURE__ */ Pe(
-  s7,
+}, l7 = [], u7 = /* @__PURE__ */ Pe(
   a7,
   o7,
+  l7,
   !1,
   null,
   null,
   null,
   null
 );
-const u7 = l7.exports, c7 = [
+const c7 = u7.exports, h7 = [
   {
     type: "de",
     resources: {
@@ -95962,14 +95967,14 @@ const u7 = l7.exports, c7 = [
     }
   }
 ];
-var h7 = "Expected a function", ET = 0 / 0, d7 = "[object Symbol]", f7 = /^\s+|\s+$/g, p7 = /^[-+]0x[0-9a-f]+$/i, m7 = /^0b[01]+$/i, g7 = /^0o[0-7]+$/i, v7 = parseInt, y7 = typeof It == "object" && It && It.Object === Object && It, E7 = typeof self == "object" && self && self.Object === Object && self, C7 = y7 || E7 || Function("return this")(), x7 = Object.prototype, b7 = x7.toString, O7 = Math.max, T7 = Math.min, rg = function() {
-  return C7.Date.now();
+var d7 = "Expected a function", ET = 0 / 0, f7 = "[object Symbol]", p7 = /^\s+|\s+$/g, m7 = /^[-+]0x[0-9a-f]+$/i, g7 = /^0b[01]+$/i, v7 = /^0o[0-7]+$/i, y7 = parseInt, E7 = typeof It == "object" && It && It.Object === Object && It, C7 = typeof self == "object" && self && self.Object === Object && self, x7 = E7 || C7 || Function("return this")(), b7 = Object.prototype, O7 = b7.toString, T7 = Math.max, P7 = Math.min, rg = function() {
+  return x7.Date.now();
 };
-function P7(e, t, n) {
+function M7(e, t, n) {
   var s, r, i, a, o, l, f = 0, d = !1, u = !1, c = !0;
   if (typeof e != "function")
-    throw new TypeError(h7);
-  t = CT(t) || 0, Fv(n) && (d = !!n.leading, u = "maxWait" in n, i = u ? O7(CT(n.maxWait) || 0, t) : i, c = "trailing" in n ? !!n.trailing : c);
+    throw new TypeError(d7);
+  t = CT(t) || 0, Fv(n) && (d = !!n.leading, u = "maxWait" in n, i = u ? T7(CT(n.maxWait) || 0, t) : i, c = "trailing" in n ? !!n.trailing : c);
   function h(b) {
     var P = s, T = r;
     return s = r = void 0, f = b, a = e.apply(T, P), a;
@@ -95979,7 +95984,7 @@ function P7(e, t, n) {
   }
   function g(b) {
     var P = b - l, T = b - f, O = t - P;
-    return u ? T7(O, i - T) : O;
+    return u ? P7(O, i - T) : O;
   }
   function m(b) {
     var P = b - l, T = b - f;
@@ -96016,16 +96021,16 @@ function Fv(e) {
   var t = typeof e;
   return !!e && (t == "object" || t == "function");
 }
-function M7(e) {
+function S7(e) {
   return !!e && typeof e == "object";
 }
-function S7(e) {
-  return typeof e == "symbol" || M7(e) && b7.call(e) == d7;
+function _7(e) {
+  return typeof e == "symbol" || S7(e) && O7.call(e) == f7;
 }
 function CT(e) {
   if (typeof e == "number")
     return e;
-  if (S7(e))
+  if (_7(e))
     return ET;
   if (Fv(e)) {
     var t = typeof e.valueOf == "function" ? e.valueOf() : e;
@@ -96033,12 +96038,12 @@ function CT(e) {
   }
   if (typeof e != "string")
     return e === 0 ? e : +e;
-  e = e.replace(f7, "");
-  var n = m7.test(e);
-  return n || g7.test(e) ? v7(e.slice(2), n ? 2 : 8) : p7.test(e) ? ET : +e;
+  e = e.replace(p7, "");
+  var n = g7.test(e);
+  return n || v7.test(e) ? y7(e.slice(2), n ? 2 : 8) : m7.test(e) ? ET : +e;
 }
-var _7 = P7;
-const EI = /* @__PURE__ */ qo(_7), ba = {
+var I7 = M7;
+const EI = /* @__PURE__ */ qo(I7), ba = {
   ERROR: Symbol("error"),
   NO_SEARCH: Symbol("noSearch")
 };
@@ -96048,7 +96053,7 @@ function CI(e) {
       `getFeatures/parseGazetteerResponse: ${e.status === 418 ? "The server refuses to brew coffee because it is, permanently, a teapot." : `The received status code ${e.status} indicates an error.`}`
     );
 }
-function I7(e, t, n, s, r) {
+function D7(e, t, n, s, r) {
   return e.text().then((i) => {
     const a = [], o = new DOMParser().parseFromString(i, "application/xml").getElementsByTagName(`wfs:${t}`), l = {
       type: "FeatureCollection",
@@ -96108,12 +96113,12 @@ function I7(e, t, n, s, r) {
     }), l;
   });
 }
-function D7(e, t, n, s, r, i, a, o = {}) {
+function A7(e, t, n, s, r, i, a, o = {}) {
   let l = Object.entries(n).reduce(
     (f, d) => `${f}&${d[0]}=${d[1]}`,
     `${t}?service=WFS&request=GetFeature&version=${s}`
   );
-  return l += o.maxFeatures ? `&${s === "2.0.0" ? "count" : "maxFeatures"}=${o.maxFeatures}` : "", l += o.storedQueryId ? `&StoredQuery_ID=${o.storedQueryId}` : "", fetch(encodeURI(l), { signal: e }).then((f) => (CI(f), I7(
+  return l += o.maxFeatures ? `&${s === "2.0.0" ? "count" : "maxFeatures"}=${o.maxFeatures}` : "", l += o.storedQueryId ? `&StoredQuery_ID=${o.storedQueryId}` : "", fetch(encodeURI(l), { signal: e }).then((f) => (CI(f), D7(
     f,
     r,
     i,
@@ -96129,20 +96134,20 @@ const sg = {}, xI = (e) => {
   for (const r of t)
     s < r.index && (n.push(e.substring(s, r.index)), s = r.index), n.push(r), s += r[0].length;
   return sg[e] = n, n;
-}, A7 = (e, t) => e.uninterpreted > t.uninterpreted ? 1 : e.uninterpreted < t.uninterpreted ? -1 : e.index > t.index ? 1 : e.index < t.index ? -1 : 0, L7 = (e, t, n) => {
+}, L7 = (e, t) => e.uninterpreted > t.uninterpreted ? 1 : e.uninterpreted < t.uninterpreted ? -1 : e.index > t.index ? 1 : e.index < t.index ? -1 : 0, R7 = (e, t, n) => {
   const r = [...e.map((o, l) => ({
     match: o,
     uninterpreted: n[l],
     patternLengthDiff: (t[l].match(/{{/g) || []).length - o.length,
     index: l
-  }))].sort(A7).map(({ match: o }) => o), i = [];
+  }))].sort(L7).map(({ match: o }) => o), i = [];
   return r.filter((o) => {
     if (o.length === 0)
       return !1;
     const l = JSON.stringify(o);
     return i.includes(l) ? !1 : (i.push(l), !0);
   });
-}, R7 = (e, t, n) => {
+}, w7 = (e, t, n) => {
   const s = [], r = [];
   return e.forEach((a) => {
     const o = xI(a), l = [];
@@ -96159,8 +96164,8 @@ const sg = {}, xI = (e) => {
         u = d.trim();
       f.startsWith(u) && (f = f.substring(u.length).trim());
     }), r.push(f.length), s.push(l);
-  }), L7(s, e, r);
-}, w7 = (e, t) => e.fillPercentage > t.fillPercentage ? -1 : e.fillPercentage < t.fillPercentage ? 1 : e.keys.length > t.keys.length ? -1 : e.keys.length < t.keys.length ? 1 : e.index > t.index ? -1 : e.index < t.index ? 1 : 0, V7 = (e, t) => {
+  }), R7(s, e, r);
+}, V7 = (e, t) => e.fillPercentage > t.fillPercentage ? -1 : e.fillPercentage < t.fillPercentage ? 1 : e.keys.length > t.keys.length ? -1 : e.keys.length < t.keys.length ? 1 : e.index > t.index ? -1 : e.index < t.index ? 1 : 0, B7 = (e, t) => {
   const n = e.properties || {}, i = [...t.map((o, l) => {
     const d = xI(o).reduce(
       (c, h) => Array.isArray(h) ? [...c, h[1]] : c,
@@ -96175,13 +96180,13 @@ const sg = {}, xI = (e) => {
       index: l,
       fillPercentage: u / d.length
     };
-  })].sort(w7)[0];
+  })].sort(V7)[0];
   return i.keys.reduce(
     (o, l) => o.replace(`{{${l}}}`, n[l] || ""),
     i.pattern
   );
 };
-function B7(e, t, n) {
+function N7(e, t, n) {
   const s = [], r = {
     type: "FeatureCollection",
     features: s
@@ -96190,16 +96195,16 @@ function B7(e, t, n) {
     const a = new Yc(), o = new qs(), l = a.readFeatures(i), { srsName: f } = a.readFeatureCollectionMetadata(i);
     return l.forEach((d) => {
       const u = JSON.parse(o.writeFeature(d));
-      u.title = "", t && (n ? u.title = V7(
+      u.title = "", t && (n ? u.title = B7(
         u,
         t
       ) : u.title = Array.isArray(t) ? t.map((c) => u.properties[c]).join(" ") : u.properties[t]), f && (u.epsg = "EPSG:" + f.split("::")[1]), s.push(u);
     }), r;
   });
 }
-const N7 = (e) => e.replace(/\r?\n|\r/g, ""), F7 = ({ maxFeatures: e }) => `
+const F7 = (e) => e.replace(/\r?\n|\r/g, ""), j7 = ({ maxFeatures: e }) => `
 <?xml version="1.0" encoding="UTF-8"?>
-<wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd"${e ? ` maxFeatures="${e}"` : ""}>`, j7 = ({
+<wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd"${e ? ` maxFeatures="${e}"` : ""}>`, U7 = ({
   srsName: e,
   featurePrefix: t,
   typeName: n,
@@ -96210,32 +96215,32 @@ const N7 = (e) => e.replace(/\r?\n|\r/g, ""), F7 = ({ maxFeatures: e }) => `
 <ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!">
 <ogc:PropertyName>${n}:${e}</ogc:PropertyName>
 <ogc:Literal>${t}${typeof s == "boolean" && !s ? "" : "*"}</ogc:Literal>
-</ogc:PropertyIsLike>`, U7 = "</ogc:Filter></wfs:Query>", W7 = "</wfs:GetFeature>", $7 = (e, t) => {
-  let n = j7(t);
+</ogc:PropertyIsLike>`, W7 = "</ogc:Filter></wfs:Query>", $7 = "</wfs:GetFeature>", z7 = (e, t) => {
+  let n = U7(t);
   if (e.length > 1)
     n += `<ogc:And>${e.map(([s, r]) => xT(s, r, t)).join("")}</ogc:And>`;
   else if (e.length === 1) {
     const [s, r] = e[0];
     n += xT(s, r, t);
   }
-  return n + U7;
-}, z7 = (e, t) => N7(
-  F7(t) + e.map((n) => $7(n, t)).join("") + W7
+  return n + W7;
+}, K7 = (e, t) => F7(
+  j7(t) + e.map((n) => z7(n, t)).join("") + $7
 );
-function K7(e, t, n, s) {
+function G7(e, t, n, s) {
   const { fieldName: r, patterns: i, patternKeys: a } = s;
   let o = [[[]]];
   r && i && console.error(
     "Using both fieldName and patterns for WFS search. These are mutually exclusive. Patterns will be ignored."
-  ), r ? o = [[[r, n]]] : i && a ? o = R7(i, a, n) : console.error(
+  ), r ? o = [[[r, n]]] : i && a ? o = w7(i, a, n) : console.error(
     'Incomplete WFS search configuration. Either "fieldName" or "patterns" and "patternKeys" are required.'
   );
-  const l = z7(o, s);
+  const l = K7(o, s);
   return fetch(encodeURI(t), { signal: e, method: "POST", body: l }).then(
-    (f) => (CI(f), B7(f, r || i, !r))
+    (f) => (CI(f), N7(f, r || i, !r))
   );
 }
-function G7(e, t, n, s) {
+function k7(e, t, n, s) {
   let r = `${t}?query=${n.replace(" ", "+")}`;
   if (s) {
     for (const [a, o] of Object.entries(s).filter(
@@ -96262,7 +96267,7 @@ function G7(e, t, n, s) {
     }))
   }));
 }
-function k7(e, t) {
+function H7(e, t) {
   if (Array.isArray(e)) {
     const n = t.split(" ");
     return e.reduce(
@@ -96275,15 +96280,15 @@ function k7(e, t) {
   }
   return { [e]: t };
 }
-function H7(e, t, n, s) {
+function Y7(e, t, n, s) {
   const r = {
     title: s.fieldName,
     storedQueryId: s.storedQueryId
   };
-  return s.maxFeatures && (r.maxFeatures = s.maxFeatures), D7(
+  return s.maxFeatures && (r.maxFeatures = s.maxFeatures), A7(
     e,
     t,
-    k7(s.fieldName, n),
+    H7(s.fieldName, n),
     s.version || "2.0.0",
     s.memberSuffix,
     Array.isArray(s.namespaces) ? s.namespaces : [s.namespaces],
@@ -96291,7 +96296,7 @@ function H7(e, t, n, s) {
     r
   );
 }
-const Y7 = (e, t, n, s) => e.map((r) => {
+const X7 = (e, t, n, s) => e.map((r) => {
   const { name: i, geometry: a } = r, o = [
     parseInt(a.coordinates[0]),
     parseInt(a.coordinates[1])
@@ -96307,7 +96312,7 @@ const Y7 = (e, t, n, s) => e.map((r) => {
     }
   };
 });
-async function X7(e, t, n, s) {
+async function Z7(e, t, n, s) {
   K0(t);
   try {
     const r = await yS(n, {
@@ -96324,18 +96329,18 @@ async function X7(e, t, n, s) {
     let o;
     return a.includes("::") ? o = `EPSG:${a.split("::")[1]}` : a.includes(":") ? o = a : console.error("Unknown formatting of projection:", a), {
       type: "FeatureCollection",
-      features: Y7(r, e, s.epsg, o)
+      features: X7(r, e, s.epsg, o)
     };
   } catch (r) {
     throw console.error(r), new Error("An error occurred while fetching the feature collection.");
   }
 }
-const jv = { bkg: G7, gazetteer: H7, wfs: K7, mpapi: X7 }, Z7 = (e) => Object.entries(e).forEach(([t, n]) => {
+const jv = { bkg: k7, gazetteer: Y7, wfs: G7, mpapi: Z7 }, J7 = (e) => Object.entries(e).forEach(([t, n]) => {
   jv[t] ? console.error(
     `AddressSearch: Method "${t}" already exists. Please choose a different name. Overrides are not allowed.`
   ) : jv[t] = n;
 });
-function J7(e) {
+function Q7(e) {
   const t = jv[e];
   if (t)
     return t;
@@ -96344,7 +96349,7 @@ function J7(e) {
   );
 }
 let Ls, bT;
-const Q7 = {
+const q7 = {
   setupModule({ getters: e }) {
     bT = EI(
       () => this.dispatch("plugin/addressSearch/load"),
@@ -96357,7 +96362,7 @@ const Q7 = {
       )
     );
     const t = e.addressSearchConfiguration.customSearchMethods;
-    t && Z7(t);
+    t && J7(t);
   },
   setSelectedGroupId({ commit: e, dispatch: t, state: n }, s) {
     e("setSelectedGroupId", s), e("setSearchResults", ba.NO_SEARCH), t("input", n.inputValue);
@@ -96385,7 +96390,7 @@ const Q7 = {
     }
     r("indicateLoading", !0), Ls = new AbortController();
     const o = Ls, l = a.map(
-      (f) => J7(f.type)(
+      (f) => Q7(f.type)(
         Ls.signal,
         f.url,
         e,
@@ -96467,7 +96472,7 @@ const Q7 = {
   hint: "",
   resultDisplayMode: "mixed",
   limitResults: Number.MAX_SAFE_INTEGER
-}, q7 = {
+}, t9 = {
   minLength: 0,
   waitMs: 0,
   searchMethods: []
@@ -96477,7 +96482,7 @@ const Q7 = {
   selectedGroupId: n,
   key: s
 }) => t[s] || // if not set, first entry defines [key] value
-e[n][0][s] || Wv[s], t9 = {
+e[n][0][s] || Wv[s], e9 = {
   ...rr(Uv()),
   /** true if any service of selected group yielded features */
   featuresAvailable(e, { searchResults: t }) {
@@ -96491,7 +96496,7 @@ e[n][0][s] || Wv[s], t9 = {
   addressSearchConfiguration(e, t, n, s) {
     var r;
     return {
-      ...q7,
+      ...t9,
       ...((r = s.configuration) == null ? void 0 : r.addressSearch) || {}
     };
   },
@@ -96594,21 +96599,21 @@ e[n][0][s] || Wv[s], t9 = {
     var r, i;
     return ((i = (r = s.configuration) == null ? void 0 : r.addressSearch) == null ? void 0 : i.focusAfterSearch) || !1;
   }
-}, e9 = {
+}, n9 = {
   namespaced: !0,
   state: Uv(),
-  actions: Q7,
-  getters: t9,
+  actions: q7,
+  getters: e9,
   mutations: {
     ...zr(Uv())
   }
-}, n9 = (e) => (t) => t.$store.dispatch("addComponent", {
+}, i9 = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "addressSearch",
-  plugin: u7,
-  language: c7,
-  storeModule: e9,
+  plugin: c7,
+  language: h7,
+  storeModule: n9,
   options: e
-}), i9 = $t.extend({
+}), r9 = $t.extend({
   name: "GeoLocation",
   computed: {
     ...ge("plugin/geoLocation", [
@@ -96625,7 +96630,7 @@ e[n][0][s] || Wv[s], t9 = {
     ...br("plugin/geoLocation", ["track", "untrack"])
   }
 });
-var r9 = function() {
+var s9 = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("div", [n("v-tooltip", { staticClass: "polar-geo-location-wrap", attrs: { left: "" }, scopedSlots: t._u([{ key: "activator", fn: function({ on: s, attrs: r }) {
     return [n("v-btn", t._g(t._b({ class: {
@@ -96634,17 +96639,17 @@ var r9 = function() {
       t.geolocation === null ? t.track() : t.untrack();
     } } }, "v-btn", r, !1), s), [n("v-icon", { attrs: { color: "primaryContrast" } }, [t._v("fa-map-pin")])], 1)];
   } }]) }, [n("span", [t._v(t._s(t.$t(t.tooltipMessage)))])])], 1);
-}, s9 = [], a9 = /* @__PURE__ */ Pe(
-  i9,
+}, a9 = [], o9 = /* @__PURE__ */ Pe(
   r9,
   s9,
+  a9,
   !1,
   null,
   "e6894c72",
   null,
   null
 );
-const o9 = a9.exports, l9 = [
+const l9 = o9.exports, u9 = [
   {
     type: "de",
     resources: {
@@ -96694,15 +96699,15 @@ const o9 = a9.exports, l9 = [
   isGeolocationDenied: !1
 });
 let OT = 0;
-const u9 = 100, c9 = 100, ag = {
+const c9 = 100, h9 = 100, ag = {
   undefinedBoundaryLayer: Symbol.for("Boundary Layer undefined"),
   undefinedBoundarySource: Symbol.for("Boundary Source undefined"),
   sourceNotReady: Symbol.for("Source not ready")
-}, h9 = async (e) => {
+}, d9 = async (e) => {
   for (; e.getState() !== "ready" || e.getFeatures().length === 0; )
-    if (OT++ < u9)
+    if (OT++ < c9)
       await new Promise((t) => {
-        setTimeout(t, c9);
+        setTimeout(t, h9);
       });
     else
       return !1;
@@ -96722,7 +96727,7 @@ const u9 = 100, c9 = 100, ag = {
     return console.error(
       `POLAR Map Client: Layer with boundaryLayerId "${t}" missing source in plugins/GeoLocation/src/utils/isWithinBoundary.ts.`
     ), Promise.resolve(ag.undefinedBoundarySource);
-  if (!await h9(r))
+  if (!await d9(r))
     return console.error(
       `POLAR Map Client: Layer with boundaryLayerId "${t}" did not load or is featureless in plugins/GeoLocation/src/utils/isWithinBoundary.ts.`
     ), Promise.resolve(ag.sourceNotReady);
@@ -96735,18 +96740,18 @@ const u9 = 100, c9 = 100, ag = {
       }
     )
   );
-}, d9 = '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><path d="M320 64A64 64 0 1 0 192 64a64 64 0 1 0 128 0zm-96 96c-35.3 0-64 28.7-64 64v48c0 17.7 14.3 32 32 32h1.8l11.1 99.5c1.8 16.2 15.5 28.5 31.8 28.5h38.7c16.3 0 30-12.3 31.8-28.5L318.2 304H320c17.7 0 32-14.3 32-32V224c0-35.3-28.7-64-64-64H224zM132.3 394.2c13-2.4 21.7-14.9 19.3-27.9s-14.9-21.7-27.9-19.3c-32.4 5.9-60.9 14.2-82 24.8c-10.5 5.3-20.3 11.7-27.8 19.6C6.4 399.5 0 410.5 0 424c0 21.4 15.5 36.1 29.1 45c14.7 9.6 34.3 17.3 56.4 23.4C130.2 504.7 190.4 512 256 512s125.8-7.3 170.4-19.6c22.1-6.1 41.8-13.8 56.4-23.4c13.7-8.9 29.1-23.6 29.1-45c0-13.5-6.4-24.5-14-32.6c-7.5-7.9-17.3-14.3-27.8-19.6c-21-10.6-49.5-18.9-82-24.8c-13-2.4-25.5 6.3-27.9 19.3s6.3 25.5 19.3 27.9c30.2 5.5 53.7 12.8 69 20.5c3.2 1.6 5.8 3.1 7.9 4.5c3.6 2.4 3.6 7.2 0 9.6c-8.8 5.7-23.1 11.8-43 17.3C374.3 457 318.5 464 256 464s-118.3-7-157.7-17.9c-19.9-5.5-34.2-11.6-43-17.3c-3.6-2.4-3.6-7.2 0-9.6c2.1-1.4 4.8-2.9 7.9-4.5c15.3-7.7 38.8-14.9 69-20.5z" /></svg>', og = (e) => () => e.innerHTML = `<h2>${xn.t(
+}, f9 = '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><path d="M320 64A64 64 0 1 0 192 64a64 64 0 1 0 128 0zm-96 96c-35.3 0-64 28.7-64 64v48c0 17.7 14.3 32 32 32h1.8l11.1 99.5c1.8 16.2 15.5 28.5 31.8 28.5h38.7c16.3 0 30-12.3 31.8-28.5L318.2 304H320c17.7 0 32-14.3 32-32V224c0-35.3-28.7-64-64-64H224zM132.3 394.2c13-2.4 21.7-14.9 19.3-27.9s-14.9-21.7-27.9-19.3c-32.4 5.9-60.9 14.2-82 24.8c-10.5 5.3-20.3 11.7-27.8 19.6C6.4 399.5 0 410.5 0 424c0 21.4 15.5 36.1 29.1 45c14.7 9.6 34.3 17.3 56.4 23.4C130.2 504.7 190.4 512 256 512s125.8-7.3 170.4-19.6c22.1-6.1 41.8-13.8 56.4-23.4c13.7-8.9 29.1-23.6 29.1-45c0-13.5-6.4-24.5-14-32.6c-7.5-7.9-17.3-14.3-27.8-19.6c-21-10.6-49.5-18.9-82-24.8c-13-2.4-25.5 6.3-27.9 19.3s6.3 25.5 19.3 27.9c30.2 5.5 53.7 12.8 69 20.5c3.2 1.6 5.8 3.1 7.9 4.5c3.6 2.4 3.6 7.2 0 9.6c-8.8 5.7-23.1 11.8-43 17.3C374.3 457 318.5 464 256 464s-118.3-7-157.7-17.9c-19.9-5.5-34.2-11.6-43-17.3c-3.6-2.4-3.6-7.2 0-9.6c2.1-1.4 4.8-2.9 7.9-4.5c15.3-7.7 38.8-14.9 69-20.5z" /></svg>', og = (e) => () => e.innerHTML = `<h2>${xn.t(
   "plugins.geoLocation.markerText"
-)}</h2>`, f9 = `
+)}</h2>`, p9 = `
   background: rgba(255, 255, 255, 0.8);
   padding: 0.2em 0.5em;
   border-radius: 4px;
   color: #16161d;
   box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.5);
-`, p9 = () => {
+`, m9 = () => {
   const e = document.createElement("div");
-  return e.style.cssText = f9, og(e)(), xn.on("languageChanged", og(e)), xn.store.on("added", og(e)), e;
-}, m9 = {
+  return e.style.cssText = p9, og(e)(), xn.on("languageChanged", og(e)), xn.store.on("added", og(e)), e;
+}, g9 = {
   setupModule({ getters: e, commit: t, dispatch: n }) {
     n("addMarkerLayer"), navigator.permissions.query({ name: "geolocation" }).then((s) => {
       s.state === "denied" && t("setIsGeolocationDenied", !0);
@@ -96755,7 +96760,7 @@ const u9 = 100, c9 = 100, ag = {
   setupTooltip({ getters: e, rootGetters: t }) {
     if (e.showTooltip) {
       const { map: n } = t, s = new H1({
-        element: p9(),
+        element: m9(),
         positioning: "bottom-center",
         offset: [0, -5]
       });
@@ -96860,7 +96865,7 @@ const u9 = 100, c9 = 100, ag = {
       new zn({
         image: new Wa({
           // TODO: It might be interesting to be able to change the color.
-          src: `data:image/svg+xml;utf8,${d9}`,
+          src: `data:image/svg+xml;utf8,${f9}`,
           scale: 0.08,
           opacity: 1
         })
@@ -96898,7 +96903,7 @@ const u9 = 100, c9 = 100, ag = {
       { root: !0 }
     ), console.error(n.message), e("setIsGeolocationDenied", !0), e("setTracking", !1), t("removeMarker");
   }
-}, g9 = {
+}, v9 = {
   ...rr($v()),
   boundaryLayerId: (e, t, n, s) => {
     var r, i;
@@ -96944,25 +96949,25 @@ const u9 = 100, c9 = 100, ag = {
     var n, s, r, i, a;
     return ((a = (i = (r = (s = (n = t == null ? void 0 : t.getSource) == null ? void 0 : n.call(t)) == null ? void 0 : s.getFeatures) == null ? void 0 : r.call(s)) == null ? void 0 : i.find) == null ? void 0 : a.call(i, (o) => o.get("name") === "geoLocationMarker")) || null;
   }
-}, v9 = {
+}, y9 = {
   namespaced: !0,
   state: $v(),
-  actions: m9,
-  getters: g9,
+  actions: g9,
+  getters: v9,
   mutations: {
     ...zr($v())
   }
-}, y9 = (e) => (t) => t.$store.dispatch("addComponent", {
+}, E9 = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "geoLocation",
-  plugin: o9,
-  language: l9,
-  storeModule: v9,
+  plugin: l9,
+  language: u9,
+  storeModule: y9,
   options: e
 });
 function TT(e) {
   return !isNaN(e) && typeof e == "number" && e >= 0;
 }
-const E9 = $t.extend({
+const C9 = $t.extend({
   name: "MoveHandle",
   props: {
     minHeight: {
@@ -97044,7 +97049,7 @@ const E9 = $t.extend({
     }
   }
 });
-var C9 = function() {
+var x9 = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("div", { staticClass: "polar-move-handle", attrs: { tabindex: "0" }, on: { focus: function(s) {
     return t.moveHandle(s.key);
@@ -97055,17 +97060,17 @@ var C9 = function() {
   }, touchstart: function(s) {
     return s.stopPropagation(), t.onTouchStart.apply(null, arguments);
   } } }, [t._t("default")], 2);
-}, x9 = [], b9 = /* @__PURE__ */ Pe(
-  E9,
+}, b9 = [], O9 = /* @__PURE__ */ Pe(
   C9,
   x9,
+  b9,
   !1,
   null,
   "979c5207",
   null,
   null
 );
-const O9 = b9.exports, T9 = $t.extend({
+const T9 = O9.exports, P9 = $t.extend({
   name: "GfiSwitchButtons",
   computed: {
     ...ge("plugin/gfi", [
@@ -97094,27 +97099,27 @@ const O9 = b9.exports, T9 = $t.extend({
     }
   }
 });
-var P9 = function() {
+var M9 = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("div", { attrs: { id: "polar-gfi-switch-buttons" } }, [n("v-btn", { staticClass: "ma-2", attrs: { elevation: "2", fab: "", "x-small": "", "aria-label": t.$t("common:plugins.gfi.switch.previous") }, on: { click: function(s) {
     return t.switchFeature(-1);
   } } }, [n("v-icon", [t._v("fa-chevron-left")])], 1), n("v-btn", { staticClass: "ma-2", attrs: { elevation: "2", fab: "", "x-small": "", "aria-label": t.$t("common:plugins.gfi.switch.next") }, on: { click: function(s) {
     return t.switchFeature(1);
   } } }, [n("v-icon", [t._v("fa-chevron-right")])], 1)], 1);
-}, M9 = [], S9 = /* @__PURE__ */ Pe(
-  T9,
+}, S9 = [], _9 = /* @__PURE__ */ Pe(
   P9,
   M9,
+  S9,
   !1,
   null,
   "20a8e6f0",
   null,
   null
 );
-const _9 = S9.exports, I9 = $t.extend({
+const I9 = _9.exports, D9 = $t.extend({
   name: "GfiButtonGroup",
   components: {
-    GfiSwitchButtons: _9
+    GfiSwitchButtons: I9
   },
   props: {
     exportProperty: {
@@ -97127,21 +97132,21 @@ const _9 = S9.exports, I9 = $t.extend({
     }
   }
 });
-var D9 = function() {
+var A9 = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("div", { attrs: { id: "polar-plugin-gfi-button-group" } }, [n("div", [t.exportProperty ? n("v-btn", { staticClass: "ma-2 text-none reticent-button primaryContrast--text", attrs: { id: "polar-plugin-gfi-export-link", elevation: "2", color: "primary", href: t.exportProperty, target: "_blank", title: t.$t("common:plugins.gfi.property.linkTitle"), "aria-label": t.$t("common:plugins.gfi.property.export"), onmousedown: "return false" } }, [t._v(" " + t._s(t.$t("common:plugins.gfi.property.export")) + " ")]) : t._e()], 1), t.showSwitchButtons ? n("GfiSwitchButtons") : t._e()], 1);
-}, A9 = [], L9 = /* @__PURE__ */ Pe(
-  I9,
+}, L9 = [], R9 = /* @__PURE__ */ Pe(
   D9,
   A9,
+  L9,
   !1,
   null,
   "4f15ef16",
   null,
   null
 );
-const R9 = L9.exports;
-function w9(e) {
+const w9 = R9.exports;
+function V9(e) {
   let t;
   try {
     t = new URL(e);
@@ -97150,7 +97155,7 @@ function w9(e) {
   }
   return t.protocol === "http:" || t.protocol === "https:";
 }
-const V9 = $t.extend({
+const B9 = $t.extend({
   name: "GfiBody",
   props: {
     currentProperties: {
@@ -97173,46 +97178,46 @@ const V9 = $t.extend({
     }
   },
   methods: {
-    isValidHttpUrl: w9
+    isValidHttpUrl: V9
   }
 });
-var B9 = function() {
+var N9 = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("tbody", t._l(Object.entries(t.filteredProperties), function([s, r]) {
     return n("tr", { key: s }, [n("td", [t._v(t._s(s))]), r.match(/\.(jpeg|jpg|gif|png)$/) !== null ? n("td", [n("a", { attrs: { href: r, target: "_blank" } }, [n("img", { attrs: { src: r, alt: t.$t("common:plugins.gfi.property.imageAlt"), title: t.$t("common:plugins.gfi.property.linkTitle"), "aria-label": t.$t("common:plugins.gfi.property.linkTitle"), height: t.photoHeight < 200 ? 200 : t.photoHeight, width: "auto" } })])]) : t.isValidHttpUrl(r) ? n("td", [n("a", { attrs: { href: r, target: "_blank", title: t.$t("common:plugins.gfi.property.linkTitle"), "aria-label": t.$t("common:plugins.gfi.property.linkTitle") } }, [t._v(" " + t._s("Link") + " ")])]) : n("td", [t._v(" " + t._s(r) + " ")])]);
   }), 0);
-}, N9 = [], F9 = /* @__PURE__ */ Pe(
-  V9,
+}, F9 = [], j9 = /* @__PURE__ */ Pe(
   B9,
   N9,
+  F9,
   !1,
   null,
   "c7584b28",
   null,
   null
 );
-const j9 = F9.exports, U9 = $t.extend({
+const U9 = j9.exports, W9 = $t.extend({
   name: "GfiHead"
 });
-var W9 = function() {
+var $9 = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("thead", [n("tr", [n("th", { staticClass: "text-left" }, [t._v(t._s(t.$t("common:plugins.gfi.header.field")))]), n("th", { staticClass: "text-left" }, [t._v(t._s(t.$t("common:plugins.gfi.header.value")))])])]);
-}, $9 = [], z9 = /* @__PURE__ */ Pe(
-  U9,
+}, z9 = [], K9 = /* @__PURE__ */ Pe(
   W9,
   $9,
+  z9,
   !1,
   null,
   "fe8329ca",
   null,
   null
 );
-const K9 = z9.exports, G9 = $t.extend({
+const G9 = K9.exports, k9 = $t.extend({
   name: "GfiContent",
   components: {
-    GfiButtonGroup: R9,
-    GfiBody: j9,
-    GfiHead: K9
+    GfiButtonGroup: w9,
+    GfiBody: U9,
+    GfiHead: G9
   },
   props: {
     currentProperties: {
@@ -97243,25 +97248,25 @@ const K9 = z9.exports, G9 = $t.extend({
     ...br("plugin/gfi", ["close"])
   }
 });
-var k9 = function() {
+var H9 = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("div", [n("div", { staticClass: "polar-plugin-gfi-button-container" }, [t.hasWindowSize && t.hasSmallWidth ? n("v-icon", { attrs: { id: "polar-plugin-gfi-grip-icon" } }, [t._v(" fa-grip-lines ")]) : t._e(), n("v-btn", { attrs: { id: "polar-plugin-gfi-close-button", icon: "", small: "", "aria-label": t.$t(t.closeLabel) }, on: { click: t.close } }, [n("v-icon", [t._v("fa-xmark")])], 1)], 1), n("v-simple-table", { staticClass: "polar-edgy-table", attrs: { dense: "" }, scopedSlots: t._u([{ key: "default", fn: function() {
     return [n("GfiHead"), n("GfiBody", { attrs: { "current-properties": t.currentProperties, "photo-height": t.photoHeight } })];
   }, proxy: !0 }]) }), t.exportProperty || t.showSwitchButtons ? n("GfiButtonGroup", { attrs: { "export-property": t.exportProperty, "show-switch-buttons": t.showSwitchButtons } }) : t._e()], 1);
-}, H9 = [], Y9 = /* @__PURE__ */ Pe(
-  G9,
+}, Y9 = [], X9 = /* @__PURE__ */ Pe(
   k9,
   H9,
+  Y9,
   !1,
   null,
   "4a65e865",
   null,
   null
 );
-const X9 = Y9.exports, Z9 = $t.extend({
+const Z9 = X9.exports, J9 = $t.extend({
   name: "PolarGfi",
   components: {
-    MoveHandle: O9
+    MoveHandle: T9
   },
   data: () => ({ clientWidth: 0, maxMobileHeight: 1 }),
   computed: {
@@ -97273,7 +97278,7 @@ const X9 = Y9.exports, Z9 = $t.extend({
       "gfiContentComponent"
     ]),
     contentComponent() {
-      return this.gfiContentComponent || X9;
+      return this.gfiContentComponent || Z9;
     },
     currentProperties() {
       const e = {
@@ -97313,20 +97318,20 @@ const X9 = Y9.exports, Z9 = $t.extend({
     }
   }
 });
-var J9 = function() {
+var Q9 = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, t.renderUi ? n("div", { class: t.hasWindowSize ? "polar-plugin-gfi-fullscreen" : "", attrs: { id: "polar-plugin-gfi" } }, [t.hasWindowSize && t.hasSmallWidth ? n("MoveHandle", { attrs: { "max-height": t.maxMobileHeight } }, [n(t.contentComponent, { tag: "component", attrs: { "current-properties": t.currentProperties, "client-width": t.clientWidth, "export-property": t.exportProperty, "show-switch-buttons": t.showSwitchButtons } })], 1) : n(t.contentComponent, { tag: "component", attrs: { "current-properties": t.currentProperties, "client-width": t.clientWidth, "export-property": t.exportProperty, "show-switch-buttons": t.showSwitchButtons } })], 1) : t._e();
-}, Q9 = [], q9 = /* @__PURE__ */ Pe(
-  Z9,
+}, q9 = [], tY = /* @__PURE__ */ Pe(
   J9,
   Q9,
+  q9,
   !1,
   null,
   "83895759",
   null,
   null
 );
-const tY = q9.exports, eY = [
+const eY = tY.exports, nY = [
   {
     type: "de",
     resources: {
@@ -97385,7 +97390,7 @@ const tY = q9.exports, eY = [
       color: "rgb(255, 255, 255, 0.7)"
     }
   }
-}), nY = new qs(), su = new vr({
+}), iY = new qs(), su = new vr({
   source: new jr({
     features: []
   })
@@ -97399,9 +97404,9 @@ function lg() {
   const e = su.getSource();
   OI(e) && e.clear();
 }
-function iY(e) {
+function rY(e) {
   const t = su.getSource();
-  OI(t) && t.addFeature(nY.readFeature(e));
+  OI(t) && t.addFeature(iY.readFeature(e));
 }
 const PT = {
   GML: eM,
@@ -97409,7 +97414,7 @@ const PT = {
   GML3: re,
   GML32: Hc
 };
-function rY(e) {
+function sY(e) {
   const t = e.split(`
 `), n = [];
   let s;
@@ -97439,24 +97444,24 @@ function rY(e) {
     }
   return n;
 }
-function sY(e) {
+function aY(e) {
   const t = e.includes('xmlns:gml="http://www.opengis.net/gml/3.2"') ? Hc : e.includes('xmlns:gml="http://www.opengis.net/gml"') ? eM : e.includes('xmlns:gml="http://www.opengis.net/gml/2') ? Qo : re;
   return new Yc({
     gmlFormat: new t()
   });
 }
-function aY(e) {
+function oY(e) {
   if (PT[e])
     return new Yc({
       gmlFormat: new PT[e]()
     });
   if (e === "text")
     return {
-      readFeatures: rY
+      readFeatures: sY
     };
   throw new Error(`Format '${e}' not yet implemented in requestGfiWms.ts.`);
 }
-function oY({
+function lY({
   map: e,
   layer: t,
   coordinate: n
@@ -97471,10 +97476,10 @@ function oY({
   ), o = s ? `&info_format=${s}` : "";
   return a + o;
 }
-const lY = (e) => {
-  const { coordinate: t, layerConfiguration: n, layerSpecification: s } = e, { filterBy: r, geometryName: i, format: a } = n, o = oY(e, s);
+const uY = (e) => {
+  const { coordinate: t, layerConfiguration: n, layerSpecification: s } = e, { filterBy: r, geometryName: i, format: a } = n, o = lY(e, s);
   return fetch(o).then((l) => l.text()).then((l) => {
-    const d = (s.infoFormat === "application/geojson" ? new qs() : a ? aY(a) : sY(l)).readFeatures(l), u = new qs();
+    const d = (s.infoFormat === "application/geojson" ? new qs() : a ? oY(a) : aY(l)).readFeatures(l), u = new qs();
     return i && d.forEach((h) => h.setGeometryName("geometry")), d.filter(
       (h) => {
         var p;
@@ -97482,12 +97487,12 @@ const lY = (e) => {
       }
     ).map((h) => JSON.parse(u.writeFeature(h)));
   }).catch((l) => Promise.reject(l));
-}, uY = (e, t) => {
+}, cY = (e, t) => {
   const n = new Yc({ version: t }), s = new qs();
   return n.readFeatures(e).map(
     (a) => JSON.parse(s.writeFeature(a))
   );
-}, cY = ({
+}, hY = ({
   map: e,
   coordinate: t,
   layerConfiguration: n,
@@ -97511,9 +97516,9 @@ const lY = (e) => {
         `Type error in requestGfiWfs.ts: mode must be "intersects" or "bboxDot", but was "${r}".`
       )
     );
-  return fetch(u, { method: "GET" }).then((c) => c.text()).then((c) => uY(c, o));
+  return fetch(u, { method: "GET" }).then((c) => c.text()).then((c) => cY(c, o));
 };
-function hY({
+function dY({
   map: e,
   layer: t,
   coordinate: n,
@@ -97522,13 +97527,13 @@ function hY({
   mode: i
 }) {
   try {
-    return t instanceof kc ? lY({
+    return t instanceof kc ? uY({
       map: e,
       layer: t,
       coordinate: n,
       layerConfiguration: s,
       layerSpecification: r
-    }) : t instanceof vr ? cY({
+    }) : t instanceof vr ? hY({
       map: e,
       coordinate: n,
       layerConfiguration: s,
@@ -97551,7 +97556,7 @@ function hY({
     );
   }
 }
-function dY(e, t, n) {
+function fY(e, t, n) {
   const s = new qs({
     dataProjection: n,
     featureProjection: n
@@ -97565,7 +97570,7 @@ function dY(e, t, n) {
   const l = r instanceof qi || r instanceof Js, f = i instanceof qi || i instanceof Js;
   return l && f ? 0 : l ? -1 : f ? 1 : 0;
 }
-const fY = {
+const pY = {
   /**
    * Responsible for setting up the module by
    * - adding watchers to configured coordinate sources. Whenever one of these
@@ -97629,7 +97634,7 @@ const fY = {
           const g = n.gfi.layers[h] || {}, m = Ga({ id: h }), y = n.layers.find(
             (E) => E.id === h
           ).gfiMode || n.gfi.mode || "bboxDot";
-          return hY({
+          return dY({
             map: t,
             layer: p,
             coordinate: a,
@@ -97654,19 +97659,19 @@ const fY = {
       c = Object.entries(c).reduce(
         (h, [p, g]) => ({
           ...h,
-          [p]: Array.isArray(g) && g.length >= 2 ? g.sort((m, v) => dY(m, v, u)) : g
+          [p]: Array.isArray(g) && g.length >= 2 ? g.sort((m, v) => fY(m, v, u)) : g
         }),
         {}
-      ), typeof i == "function" && (c = await i(c, u)), e("setFeatureInformation", c), r.filter((h) => Array.isArray(c[h])).forEach((h) => c[h].forEach(iY));
+      ), typeof i == "function" && (c = await i(c, u)), e("setFeatureInformation", c), r.filter((h) => Array.isArray(c[h])).forEach((h) => c[h].forEach(rY));
     },
     50
   )
-}, pY = {
+}, mY = {
   ...zr(bE()),
   clearFeatureInformation(e) {
     e.featureInformation = {};
   }
-}, mY = {
+}, gY = {
   ...rr(bE()),
   gfiConfiguration(e, t, n, s) {
     var r;
@@ -97740,19 +97745,19 @@ const fY = {
       )
     ).flat(1);
   }
-}, gY = {
+}, vY = {
   namespaced: !0,
   state: bE(),
-  actions: fY,
-  mutations: pY,
-  getters: mY
-}, vY = (e) => (t) => t.$store.dispatch("addComponent", {
+  actions: pY,
+  mutations: mY,
+  getters: gY
+}, yY = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "gfi",
-  plugin: tY,
-  language: eY,
-  storeModule: gY,
+  plugin: eY,
+  language: nY,
+  storeModule: vY,
   options: e
-}), yY = $t.extend({
+}), EY = $t.extend({
   name: "IconMenu",
   data: () => ({
     maxWidth: "inherit"
@@ -97797,7 +97802,7 @@ const fY = {
     }
   }
 });
-var EY = function() {
+var CY = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n(t.wrapperComponent, { tag: "component", staticClass: "icon-menu-list ma-2" }, t._l(t.menus, function({ plugin: s, icon: r, id: i, hint: a }, o) {
     return n(t.itemComponent, { key: o, tag: "component", class: t.isHorizontal ? "icon-menu-list-item-horizontal" : "icon-menu-list-item" }, [r === void 0 ? n(s, { tag: "component", attrs: { "is-horizontal": t.isHorizontal } }) : [n("v-tooltip", { attrs: { left: !t.isHorizontal, bottom: t.isHorizontal }, scopedSlots: t._u([{ key: "activator", fn: function({ on: l, attrs: f }) {
@@ -97809,17 +97814,17 @@ var EY = function() {
       "icon-menu-list-item-content-scrollable-y"
     ], style: `max-height: ${t.maxHeight}; max-width: ${t.maxWidth}` }) : t._e()]], 2);
   }), 1);
-}, CY = [], xY = /* @__PURE__ */ Pe(
-  yY,
+}, xY = [], bY = /* @__PURE__ */ Pe(
   EY,
   CY,
+  xY,
   !1,
   null,
   "f6c46b17",
   null,
   null
 );
-const bY = xY.exports, OY = [
+const OY = bY.exports, TY = [
   {
     type: "de",
     resources: {
@@ -97851,7 +97856,7 @@ const bY = xY.exports, OY = [
 ], ug = () => ({
   menus: [],
   open: null
-}), TY = {
+}), PY = {
   namespaced: !0,
   state: ug(),
   actions: {
@@ -97887,14 +97892,14 @@ const bY = xY.exports, OY = [
   getters: {
     ...rr(ug())
   }
-}, PY = (e) => (t) => t.$store.dispatch("addComponent", {
+}, MY = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "iconMenu",
-  plugin: bY,
-  language: OY,
-  storeModule: TY,
+  plugin: OY,
+  language: TY,
+  storeModule: PY,
   options: e
 });
-const MY = {
+const SY = {
   name: "DefaultIndicator",
   props: {
     showLoader: {
@@ -97903,40 +97908,40 @@ const MY = {
     }
   }
 };
-var SY = function() {
+var _Y = function() {
   var t = this, n = t._self._c;
   return t.showLoader ? n("div", [n("v-card", [n("v-card-text", [t._v(" " + t._s(t.$t("common:plugins.loadingIndicator.loading")) + " "), n("v-progress-linear", { staticClass: "mb-0", attrs: { indeterminate: "", color: "primary" } })], 1)], 1)], 1) : t._e();
-}, _Y = [], IY = /* @__PURE__ */ Pe(
-  MY,
+}, IY = [], DY = /* @__PURE__ */ Pe(
   SY,
   _Y,
+  IY,
   !1,
   null,
   "667d4f83",
   null,
   null
 );
-const DY = IY.exports, AY = $t.extend({
+const AY = DY.exports, LY = $t.extend({
   name: "LoadingIndicator",
-  components: { DefaultIndicator: DY },
+  components: { DefaultIndicator: AY },
   computed: {
     ...ge("plugin/loadingIndicator", ["showLoader"])
   }
 });
-var LY = function() {
+var RY = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("DefaultIndicator", { attrs: { "show-loader": t.showLoader } });
-}, RY = [], wY = /* @__PURE__ */ Pe(
-  AY,
+}, wY = [], VY = /* @__PURE__ */ Pe(
   LY,
   RY,
+  wY,
   !1,
   null,
   "e82c649c",
   null,
   null
 );
-const VY = wY.exports, BY = [
+const BY = VY.exports, NY = [
   {
     type: "de",
     resources: {
@@ -97957,11 +97962,11 @@ const VY = wY.exports, BY = [
       }
     }
   }
-], NY = () => ({
+], FY = () => ({
   loadKeys: /* @__PURE__ */ new Set()
-}), FY = {
+}), jY = {
   namespaced: !0,
-  state: NY(),
+  state: FY(),
   mutations: {
     addLoadingKey(e, t) {
       e.loadKeys = /* @__PURE__ */ new Set([...e.loadKeys, t]);
@@ -97974,13 +97979,13 @@ const VY = wY.exports, BY = [
   getters: {
     showLoader: ({ loadKeys: e }) => e.size > 0
   }
-}, jY = (e) => (t) => t.$store.dispatch("addComponent", {
+}, UY = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "loadingIndicator",
-  plugin: VY,
-  language: BY,
-  storeModule: FY,
+  plugin: BY,
+  language: NY,
+  storeModule: jY,
   options: e
-}), UY = {
+}), WY = {
   Circle: rM,
   LinearRing: vd,
   LineString: qi,
@@ -97990,12 +97995,12 @@ const VY = wY.exports, BY = [
   Point: hi,
   Polygon: nr
 };
-function WY(e, t, n, s) {
-  const r = UY[n || "Point"], i = new r(s);
+function $Y(e, t, n, s) {
+  const r = WY[n || "Point"], i = new r(s);
   let a = Fi(i.getExtent());
   return (n === "Polygon" || n === "MultiPolygon") && !i.intersectsCoordinate(a) && (a = n === "Polygon" ? i.getInteriorPoint().getFirstCoordinate() : i.getInteriorPoints().getFirstCoordinate()), e === t ? a : ji(a, e, t);
 }
-const $Y = ({ fill: e = "#005CA9", stroke: t = "#FFF" }) => `
+const zY = ({ fill: e = "#005CA9", stroke: t = "#FFF" }) => `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -98009,9 +98014,9 @@ const $Y = ({ fill: e = "#005CA9", stroke: t = "#FFF" }) => `
       stroke-width="1"
     />
   </svg>
-`, zY = (e) => new zn({
+`, KY = (e) => new zn({
   image: new Wa({
-    src: `data:image/svg+xml;base64,${btoa($Y(e))}`,
+    src: `data:image/svg+xml;base64,${btoa(zY(e))}`,
     scale: 2,
     anchor: [0.5, 1]
   })
@@ -98029,7 +98034,7 @@ const MT = new Vk({
   layers: (e) => e === bl,
   style: null,
   condition: aR
-}), KY = {
+}), GY = {
   namespaced: !0,
   state: cg(),
   actions: {
@@ -98088,7 +98093,7 @@ const MT = new Vk({
         const { configuration: o, map: l } = t;
         r.clicked === !1 && (s(
           "updateCoordinates",
-          WY(
+          $Y(
             r.epsg,
             o.epsg,
             r.type,
@@ -98107,7 +98112,7 @@ const MT = new Vk({
               })
             ]
           }),
-          style: zY(((i = o == null ? void 0 : o.pins) == null ? void 0 : i.style) || {})
+          style: KY(((i = o == null ? void 0 : o.pins) == null ? void 0 : i.style) || {})
         }), bl.set("polarInternalId", "mapMarkerVectorLayer"), l.addLayer(bl), bl.setZIndex(100), n("setIsActive", !0);
         const d = (a = o.pins) == null ? void 0 : a.movable;
         (typeof d == "boolean" && d || d === "drag") && s("makeMarkerDraggable");
@@ -98190,7 +98195,7 @@ const MT = new Vk({
   getters: {
     ...rr(cg())
   }
-}, GY = [
+}, kY = [
   {
     type: "de",
     resources: {
@@ -98217,10 +98222,10 @@ const MT = new Vk({
       }
     }
   }
-], kY = (e) => (t) => t.$store.dispatch("addComponent", {
+], HY = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "pins",
-  language: GY,
-  storeModule: KY,
+  language: kY,
+  storeModule: GY,
   options: e
 });
 var mf = { exports: {} };
@@ -98813,8 +98818,8 @@ mf.exports;
   }
   e.exports = Au;
 })(mf, mf.exports);
-var HY = mf.exports;
-const YY = /* @__PURE__ */ qo(HY), { parseString: XY, processors: ZY } = ss, JY = ([e, t]) => `
+var YY = mf.exports;
+const XY = /* @__PURE__ */ qo(YY), { parseString: ZY, processors: JY } = ss, QY = ([e, t]) => `
   <wps:Execute xmlns:wps='http://www.opengis.net/wps/1.0.0' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:ows='http://www.opengis.net/ows/1.1' service='WPS' version='1.0.0' xsi:schemaLocation='http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_request.xsd'>
     <ows:Identifier>ReverseGeocoder.fmw</ows:Identifier>
       <wps:DataInputs>
@@ -98832,17 +98837,17 @@ const YY = /* @__PURE__ */ qo(HY), { parseString: XY, processors: ZY } = ss, JY 
       </wps:Input>
     </wps:DataInputs>
   </wps:Execute>
-`, QY = (e) => new Promise(
-  (t, n) => XY(
+`, qY = (e) => new Promise(
+  (t, n) => ZY(
     e,
-    { tagNameProcessors: [ZY.stripPrefix] },
+    { tagNameProcessors: [JY.stripPrefix] },
     (s, r) => s ? n(s) : t(r)
   )
-), qY = async (e, t) => {
+), tX = async (e, t) => {
   const n = await fetch(e, {
     method: "POST",
-    body: JY(t)
-  }), s = await QY(await n.text()), r = YY(
+    body: QY(t)
+  }), s = await qY(await n.text()), r = XY(
     // @ts-expect-error | no types for WPS output defined
     s.ExecuteResponse.ProcessOutputs[0].Output[0].Data[0].ComplexData[0].ReverseGeocoder[0].Ergebnis[0].Adresse[0],
     (o) => o[0]
@@ -98872,7 +98877,7 @@ const YY = /* @__PURE__ */ qo(HY), { parseString: XY, processors: ZY } = ss, JY 
   };
 };
 let ST = 0;
-const tX = {
+const eX = {
   namespaced: !0,
   state: {},
   actions: {
@@ -98896,7 +98901,7 @@ const tX = {
       a && t(a, u, { root: !0 });
       let c = null;
       try {
-        c = await qY(r, s), d === ST && (i && n(i, { feature: c }, { root: !0 }), typeof l == "number" && f.getView().fit(new hi(s), {
+        c = await tX(r, s), d === ST && (i && n(i, { feature: c }, { root: !0 }), typeof l == "number" && f.getView().fit(new hi(s), {
           maxZoom: l,
           duration: 400,
           easing: Zo
@@ -98913,30 +98918,30 @@ const tX = {
   },
   getters: {},
   mutations: {}
-}, eX = (e) => (t) => t.$store.dispatch("addComponent", {
+}, nX = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "reverseGeocoder",
-  storeModule: tX,
+  storeModule: eX,
   options: e
-}), nX = $t.extend({
+}), iX = $t.extend({
   name: "PolarScale",
   computed: {
     ...ge("plugin/scale", ["scaleToOne", "scaleWithUnit"])
   }
 });
-var iX = function() {
+var rX = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("div", { attrs: { id: "polar-plugin-scales", title: t.$t("common:plugins.scale.label"), "aria-label": t.$t("common:plugins.scale.label") } }, [n("span", { staticClass: "scale-as-a-ratio" }, [t._v(" " + t._s(t.scaleToOne) + " ")]), n("span", { staticClass: "scale-line" }, [t._v(" " + t._s(t.scaleWithUnit) + " ")])]);
-}, rX = [], sX = /* @__PURE__ */ Pe(
-  nX,
+}, sX = [], aX = /* @__PURE__ */ Pe(
   iX,
   rX,
+  sX,
   !1,
   null,
   null,
   null,
   null
 );
-const aX = sX.exports, oX = [
+const oX = aX.exports, lX = [
   {
     type: "de",
     resources: {
@@ -98960,11 +98965,11 @@ const aX = sX.exports, oX = [
     }
   }
 ];
-function lX(e, t = ".", n = ",") {
+function uX(e, t = ".", n = ",") {
   const s = typeof e != "string" ? e.toString() : e, r = s.indexOf("."), a = (r > -1 ? s.substring(0, r) : s).replace(/\B(?=(\d{3})+(?!\d),?.*)/g, t), o = r > -1 ? s.substring(r + 1) : !1;
   return o ? a + n + o : a;
 }
-function uX() {
+function cX() {
   let e = 96;
   try {
     const t = document.createElement("div"), n = document.body;
@@ -98983,7 +98988,7 @@ const hg = () => ({
   scaleValue: 0,
   scaleToOne: "",
   scaleWithUnit: ""
-}), cX = {
+}), hX = {
   namespaced: !0,
   state: hg(),
   actions: {
@@ -98995,7 +99000,7 @@ const hg = () => ({
      */
     getScale({ rootGetters: { map: e }, commit: t, dispatch: n }) {
       const s = e.getView().getProjection().getUnits(), r = e.getView().getResolution(), i = 39.37, a = Math.round(
-        r * Zl[s] * i * uX()
+        r * Zl[s] * i * cX()
       );
       t("setScaleValue", a), n("scaleWithUnit"), n("scaleToOne");
     },
@@ -99007,7 +99012,7 @@ const hg = () => ({
       if (typeof n != "number" || n <= 0)
         return `1 : ${tI("common:plugins.scale.toOneNegative")}`;
       n > 1e4 ? n = Math.round(n / 500) * 500 : n > 1e3 && (n = Math.round(n / 50) * 50);
-      const s = "1 : " + lX(n);
+      const s = "1 : " + uX(n);
       t("setScaleToOne", s);
     },
     /**
@@ -99024,13 +99029,13 @@ const hg = () => ({
   getters: {
     ...rr(hg())
   }
-}, hX = (e) => (t) => t.$store.dispatch("addComponent", {
+}, dX = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "scale",
-  plugin: aX,
-  language: oX,
-  storeModule: cX,
+  plugin: oX,
+  language: lX,
+  storeModule: hX,
   options: e
-}), dX = $t.extend({
+}), fX = $t.extend({
   name: "PolarToast",
   computed: {
     ...ge("plugin/toast", ["toasts", "types"])
@@ -99040,24 +99045,24 @@ const hg = () => ({
     ...br("plugin/toast", ["addToast"])
   }
 });
-var fX = function() {
+var pX = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("div", { staticClass: "polar-alert-invert" }, t._l(t.toasts, function(s, r) {
     return n("v-alert", { key: s.type + "-" + r + "-" + s.text, staticClass: "v-alert", attrs: { dismissible: "", dense: "", "close-label": t.$t("common:plugins.toast.close"), type: s.type, color: s.color, icon: s.icon }, on: { input: function(i) {
       return t.removeToast(s);
     } } }, [t._v(" " + t._s(t.$t(s.text)) + " ")]);
   }), 1);
-}, pX = [], mX = /* @__PURE__ */ Pe(
-  dX,
+}, mX = [], gX = /* @__PURE__ */ Pe(
   fX,
   pX,
+  mX,
   !1,
   null,
   "98b4ed40",
   null,
   null
 );
-const gX = mX.exports, vX = [
+const vX = gX.exports, yX = [
   {
     type: "de",
     resources: {
@@ -99098,7 +99103,7 @@ const gX = mX.exports, vX = [
       icon: void 0
     }
   }
-}), yX = {
+}), EX = {
   namespaced: !0,
   state: dg(),
   actions: {
@@ -99135,13 +99140,13 @@ const gX = mX.exports, vX = [
       e.toasts = e.toasts.filter((n) => n !== t);
     }
   }
-}, EX = (e) => (t) => t.$store.dispatch("addComponent", {
+}, CX = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "toast",
-  plugin: gX,
-  language: vX,
+  plugin: vX,
+  language: yX,
   options: e,
-  storeModule: yX
-}), CX = $t.extend({
+  storeModule: EX
+}), xX = $t.extend({
   name: "AttributionButton",
   computed: {
     ...ge("plugin/attributions", ["windowIsOpen"]),
@@ -99156,22 +99161,22 @@ const gX = mX.exports, vX = [
     }
   }
 });
-var xX = function() {
+var bX = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("v-btn", { staticClass: "buttonSecondary", attrs: { "x-small": "", fab: "", color: "secondary", title: t.$t(
     `common:plugins.attributions.button.${t.windowIsOpen ? "close" : "open"}Title`
   ) }, on: { click: t.toggleMapInfo } }, [n("v-icon", { attrs: { color: "secondaryContrast" } }, [t._v(t._s(t.mapInfoIcon))])], 1);
-}, bX = [], OX = /* @__PURE__ */ Pe(
-  CX,
+}, OX = [], TX = /* @__PURE__ */ Pe(
   xX,
   bX,
+  OX,
   !1,
   null,
   "2d4c700a",
   null,
   null
 );
-const TX = OX.exports, PX = $t.extend({
+const PX = TX.exports, MX = $t.extend({
   name: "AttributionContent",
   computed: {
     ...ge(["clientWidth", "hasSmallWidth", "hasWindowSize"]),
@@ -99194,43 +99199,43 @@ const TX = OX.exports, PX = $t.extend({
     );
   }
 });
-var MX = function() {
+var SX = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("div", [n("v-scroll-x-reverse-transition", [n("v-card", { attrs: { dir: "ltr", dense: "", filled: "", width: t.windowWidth, color: "#ffffffdd", "max-width": t.maxWidth } }, [n("v-card-text", { ref: "sources", domProps: { innerHTML: t._s(t.cardText) } })], 1)], 1)], 1);
-}, SX = [], _X = /* @__PURE__ */ Pe(
-  PX,
+}, _X = [], IX = /* @__PURE__ */ Pe(
   MX,
   SX,
+  _X,
   !1,
   null,
   "22a9c86d",
   null,
   null
 );
-const IX = _X.exports, DX = $t.extend({
+const DX = IX.exports, AX = $t.extend({
   name: "AttributionsPlugin",
   components: {
-    AttributionButton: TX,
-    AttributionContent: IX
+    AttributionButton: PX,
+    AttributionContent: DX
   },
   computed: {
     ...ge("plugin/attributions", ["renderType", "windowIsOpen"])
   }
 });
-var AX = function() {
+var LX = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, t.renderType === "independent" ? n("div", { staticClass: "polar-plugin-attributions-wrapper" }, [t.windowIsOpen ? n("AttributionContent", { staticClass: "mr-2" }) : t._e(), n("AttributionButton")], 1) : n("AttributionContent");
-}, LX = [], RX = /* @__PURE__ */ Pe(
-  DX,
+}, RX = [], wX = /* @__PURE__ */ Pe(
   AX,
   LX,
+  RX,
   !1,
   null,
   "4419ce0e",
   null,
   null
 );
-const wX = RX.exports, VX = [
+const VX = wX.exports, BX = [
   {
     type: "de",
     resources: {
@@ -99260,31 +99265,31 @@ const wX = RX.exports, VX = [
     }
   }
 ];
-function BX(e, t, n) {
-  return FX(
-    jX(e, t),
+function NX(e, t, n) {
+  return jX(
+    UX(e, t),
     n
   );
 }
-function NX(e) {
+function FX(e) {
   const t = [];
   return e.forEach((n) => {
     n.getVisible() && n.get("id") && t.push(n.get("id"));
   }), t;
 }
-function FX(e, t = []) {
+function jX(e, t = []) {
   const n = [];
   return e.forEach((s) => {
     n.push(s.title);
   }), t.forEach((s) => n.push(s)), n.push("plugins.attributions.sourceCode"), n;
 }
-function jX(e, t) {
+function UX(e, t) {
   const n = [];
   return t.forEach((s) => {
     e.includes(s.id) && n.push(s);
   }), n;
 }
-function UX(e) {
+function WX(e) {
   const t = /* @__PURE__ */ new Date();
   return e.replaceAll("{{YEAR}}", t.getFullYear().toString()).replaceAll("{{MONTH}}", `${t.getMonth() + 1}`.padStart(2, "0"));
 }
@@ -99292,7 +99297,7 @@ const fg = () => ({
   layer: [],
   attributions: [],
   windowIsOpen: !1
-}), WX = {
+}), $X = {
   namespaced: !0,
   state: fg(),
   actions: {
@@ -99320,7 +99325,7 @@ const fg = () => ({
       );
     },
     setLayer({ rootGetters: { map: e }, commit: t }) {
-      t("setLayer", NX(e.getLayers()));
+      t("setLayer", FX(e.getLayers()));
     },
     setAttributions({ rootGetters: { configuration: e }, commit: t }) {
       var n;
@@ -99328,7 +99333,7 @@ const fg = () => ({
         "setAttributions",
         ((n = e.attributions) == null ? void 0 : n.layerAttributions) === void 0 ? [] : e.attributions.layerAttributions.map((s) => ({
           ...s,
-          title: UX(s.title)
+          title: WX(s.title)
         }))
       );
     }
@@ -99342,7 +99347,7 @@ const fg = () => ({
       var r, i;
       return ((i = (r = s.configuration) == null ? void 0 : r.attributions) == null ? void 0 : i.listenToChanges) || [];
     },
-    mapInfo: (e, { layer: t, attributions: n, staticAttributions: s }) => BX(t, n, s),
+    mapInfo: (e, { layer: t, attributions: n, staticAttributions: s }) => NX(t, n, s),
     renderType: (e, t, n, s) => {
       var r, i;
       return ((i = (r = s.configuration) == null ? void 0 : r.attributions) == null ? void 0 : i.renderType) || "independent";
@@ -99356,13 +99361,13 @@ const fg = () => ({
       return ((i = (r = s.configuration) == null ? void 0 : r.attributions) == null ? void 0 : i.windowWidth) || 500;
     }
   }
-}, $X = (e) => (t) => t.$store.dispatch("addComponent", {
+}, zX = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "attributions",
-  plugin: wX,
-  language: VX,
-  storeModule: WX,
+  plugin: VX,
+  language: BX,
+  storeModule: $X,
   options: e
-}), zX = $t.extend({
+}), KX = $t.extend({
   name: "FullscreenPlugin",
   props: {
     isHorizontal: {
@@ -99418,22 +99423,22 @@ const fg = () => ({
     }
   }
 });
-var KX = function() {
+var GX = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("v-tooltip", { staticClass: "polar-fullscreen-wrap", attrs: { left: !t.isHorizontal, bottom: t.isHorizontal }, scopedSlots: t._u([{ key: "activator", fn: function({ on: s, attrs: r }) {
     return [n("v-btn", t._g(t._b({ class: { "ma-2": t.renderType === "independent" }, attrs: { color: "primary", small: "", fab: "" }, on: { click: t.toggleFullscreen } }, "v-btn", r, !1), s), [n("v-icon", { attrs: { color: "primaryContrast" } }, [t._v(" " + t._s(t.isInFullscreen ? "fa-compress" : "fa-expand") + " ")])], 1)];
   } }]) }, [n("span", [t._v(t._s(t.isInFullscreen ? t.$t("common:plugins.fullscreen.button.tooltip.deactivate") : t.$t("common:plugins.fullscreen.button.tooltip.activate")))])]);
-}, GX = [], kX = /* @__PURE__ */ Pe(
-  zX,
+}, kX = [], HX = /* @__PURE__ */ Pe(
   KX,
   GX,
+  kX,
   !1,
   null,
   "f881fc01",
   null,
   null
 );
-const HX = kX.exports, YX = [
+const YX = HX.exports, XX = [
   {
     type: "de",
     resources: {
@@ -99466,7 +99471,7 @@ const HX = kX.exports, YX = [
   }
 ], pg = () => ({
   isInFullscreen: !1
-}), XX = {
+}), ZX = {
   namespaced: !0,
   state: pg(),
   mutations: {
@@ -99483,13 +99488,13 @@ const HX = kX.exports, YX = [
       return (i = (r = s.configuration) == null ? void 0 : r.fullscreen) != null && i.targetContainerId ? (o = (a = s.configuration) == null ? void 0 : a.fullscreen) == null ? void 0 : o.targetContainerId : "";
     }
   }
-}, ZX = (e) => (t) => t.$store.dispatch("addComponent", {
+}, JX = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "fullscreen",
-  plugin: HX,
-  language: YX,
-  storeModule: XX,
+  plugin: YX,
+  language: XX,
+  storeModule: ZX,
   options: e
-}), JX = $t.extend({
+}), QX = $t.extend({
   name: "LayerChooserOptions",
   props: {
     maxWidth: {
@@ -99524,7 +99529,7 @@ const HX = kX.exports, YX = [
     ...br("plugin/layerChooser", ["toggleOpenedOptionsServiceLayer"])
   }
 });
-var QX = function() {
+var qX = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("v-card", { staticClass: "layer-chooser-options", attrs: { "max-width": t.maxWidth } }, [n("v-card-actions", { style: t.cardActionStyle }, [n("v-btn", { attrs: { icon: "", small: "", "aria-label": t.$t("common:plugins.layerChooser.returnToLayers") }, on: { click: function(s) {
     return t.setOpenedOptions(null);
@@ -99539,17 +99544,17 @@ var QX = function() {
       t.activeLayers = a;
     }, expression: "activeLayers" } })];
   })], 2)] : t._e()], 2);
-}, qX = [], tZ = /* @__PURE__ */ Pe(
-  JX,
+}, tZ = [], eZ = /* @__PURE__ */ Pe(
   QX,
   qX,
+  tZ,
   !1,
   null,
   "b8eec4bb",
   null,
   null
 );
-const eZ = tZ.exports, nZ = $t.extend({
+const nZ = eZ.exports, iZ = $t.extend({
   name: "LayerChooserLayerWrapper",
   props: {
     index: {
@@ -99575,26 +99580,26 @@ const eZ = tZ.exports, nZ = $t.extend({
     ...$r("plugin/layerChooser", ["setOpenedOptions"])
   }
 });
-var iZ = function() {
+var rZ = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("v-tooltip", { attrs: { left: "" }, scopedSlots: t._u([{ key: "activator", fn: function({ on: s }) {
     return [n("div", t._g({ staticClass: "polar-layer-chooser-option-line" }, t.disabledLayers[t.index] && s), [t._t("default"), n("v-btn", { staticClass: "ml-1", class: !t.hasOptions && "polar-layer-chooser-option-invisible", attrs: { "aria-label": t.$t("common:plugins.layerChooser.layerOptions"), icon: "", small: "" }, on: { click: function(r) {
       return t.setOpenedOptions(t.layerId);
     } } }, [n("v-icon", { attrs: { small: "" } }, [t._v("fa-gear")])], 1)], 2)];
   } }], null, !0) }, [t._v(" " + t._s(t.$t("common:plugins.layerChooser.tooltipDisabledLayer")) + " ")]);
-}, rZ = [], sZ = /* @__PURE__ */ Pe(
-  nZ,
+}, sZ = [], aZ = /* @__PURE__ */ Pe(
   iZ,
   rZ,
+  sZ,
   !1,
   null,
   "46f82b1d",
   null,
   null
 );
-const aZ = sZ.exports, oZ = $t.extend({
+const oZ = aZ.exports, lZ = $t.extend({
   name: "LayerChooserSelection",
-  components: { LayerWrapper: aZ },
+  components: { LayerWrapper: oZ },
   props: {
     maxWidth: {
       type: Number,
@@ -99634,7 +99639,7 @@ const aZ = sZ.exports, oZ = $t.extend({
     ])
   }
 });
-var lZ = function() {
+var uZ = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("v-card", { staticClass: "layer-chooser-selection", attrs: { "max-width": t.maxWidth } }, [t.backgrounds.length ? n("v-card-title", { attrs: { id: "polar-label-background-title" } }, [t._v(t._s(t.$t("common:plugins.layerChooser.backgroundTitle")))]) : t._e(), t.backgrounds.length ? n("v-card-text", [n("v-radio-group", { attrs: { dense: "", "hide-details": "" }, model: { value: t.activeBackground, callback: function(s) {
     t.activeBackground = s;
@@ -99645,21 +99650,21 @@ var lZ = function() {
       t.activeMasks = a;
     }, expression: "activeMasks" } })], 1)];
   })], 2) : t._e()], 1);
-}, uZ = [], cZ = /* @__PURE__ */ Pe(
-  oZ,
+}, cZ = [], hZ = /* @__PURE__ */ Pe(
   lZ,
   uZ,
+  cZ,
   !1,
   null,
   "35e295c7",
   null,
   null
 );
-const hZ = cZ.exports, dZ = $t.extend({
+const dZ = hZ.exports, fZ = $t.extend({
   name: "LayerChooser",
   components: {
-    Options: eZ,
-    Selection: hZ
+    Options: nZ,
+    Selection: dZ
   },
   computed: {
     ...ge(["clientWidth", "hasSmallWidth", "hasWindowSize"]),
@@ -99672,20 +99677,20 @@ const hZ = cZ.exports, dZ = $t.extend({
     }
   }
 });
-var fZ = function() {
+var pZ = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("v-scroll-x-reverse-transition", [n("div", [t.displaySelection ? n("Selection", { attrs: { "max-width": t.maxWidth } }) : n("Options", { attrs: { "max-width": t.maxWidth } })], 1)]);
-}, pZ = [], mZ = /* @__PURE__ */ Pe(
-  dZ,
+}, mZ = [], gZ = /* @__PURE__ */ Pe(
   fZ,
   pZ,
+  mZ,
   !1,
   null,
   null,
   null,
   null
 );
-const gZ = mZ.exports, vZ = [
+const vZ = gZ.exports, yZ = [
   {
     type: "de",
     resources: {
@@ -99739,14 +99744,14 @@ const gf = (e, t) => {
       return gf(e.Layer, t);
   }
   return null;
-}, yZ = (e) => (Array.isArray(e) ? e : [e]).map(
+}, EZ = (e) => (Array.isArray(e) ? e : [e]).map(
   (t) => (Array.isArray(t.LegendURL) ? t.LegendURL : typeof t.LegendURL == "object" ? [t.LegendURL] : []).map((n) => n.OnlineResource)
-).flat(1), EZ = (e, t) => {
+).flat(1), CZ = (e, t) => {
   const n = gf(e.Capability.Layer, t);
   return (n == null ? void 0 : n.Title) || "";
-}, CZ = (e, t) => {
+}, xZ = (e, t) => {
   const n = gf(e.Capability.Layer, t), s = n == null ? void 0 : n.Style;
-  return s && yZ(s)[0] || "";
+  return s && EZ(s)[0] || "";
 }, gg = () => ({
   openedOptions: null,
   backgrounds: [],
@@ -99756,7 +99761,7 @@ const gf = (e, t) => {
   activeBackgroundId: "",
   activeMaskIds: [],
   activeLayerIds: {}
-}), xZ = {
+}), bZ = {
   namespaced: !0,
   state: gg(),
   actions: {
@@ -99893,11 +99898,11 @@ const gf = (e, t) => {
         var c;
         return {
           layerName: u,
-          displayName: ((r == null ? void 0 : r.title) === !0 ? EZ(
+          displayName: ((r == null ? void 0 : r.title) === !0 ? CZ(
             a,
             u
           ) : (r == null ? void 0 : r.title) === !1 ? u : r == null ? void 0 : r.title[u]) || u,
-          layerImage: r.legend === !1 ? null : r.legend === !0 ? CZ(
+          layerImage: r.legend === !1 ? null : r.legend === !0 ? xZ(
             a,
             u
           ) : ((c = r.legend) == null ? void 0 : c[u]) || null
@@ -99905,13 +99910,13 @@ const gf = (e, t) => {
       });
     }
   }
-}, bZ = (e) => (t) => t.$store.dispatch("addComponent", {
+}, OZ = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "layerChooser",
-  plugin: gZ,
-  language: vZ,
-  storeModule: xZ,
+  plugin: vZ,
+  language: yZ,
+  storeModule: bZ,
   options: e
-}), OZ = $t.extend({
+}), TZ = $t.extend({
   name: "PolarZoom",
   props: {
     isHorizontal: {
@@ -99935,24 +99940,24 @@ const gf = (e, t) => {
     ...br("plugin/zoom", ["increaseZoomLevel", "decreaseZoomLevel"])
   }
 });
-var TZ = function() {
+var PZ = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, t.showZoomButtons ? n("div", { staticClass: "polar-zoom-wrap" }, [n("v-tooltip", { attrs: { left: !t.isHorizontal, bottom: t.isHorizontal }, scopedSlots: t._u([{ key: "activator", fn: function({ on: s, attrs: r }) {
     return [n("v-btn", t._g(t._b({ class: t.renderType === "iconMenu" ? `polar-zoom-dependent${t.isHorizontal ? "-horizontal" : ""}` : "ma-2", attrs: { "aria-label": t.$t("common:plugins.zoom.in"), color: "primary", small: "", fab: "", disabled: t.maximumZoomLevelActive }, on: { click: t.increaseZoomLevel } }, "v-btn", r, !1), s), [n("v-icon", { attrs: { color: "primaryContrast" } }, [t._v(" fa-plus ")])], 1)];
   } }], null, !1, 1658946353) }, [n("span", [t._v(t._s(t.$t("common:plugins.zoom.in")))])]), n("v-tooltip", { attrs: { left: !t.isHorizontal, bottom: t.isHorizontal }, scopedSlots: t._u([{ key: "activator", fn: function({ on: s, attrs: r }) {
     return [n("v-btn", t._g(t._b({ class: { "ma-2": t.renderType === "independent" }, attrs: { "aria-label": t.$t("common:plugins.zoom.out"), color: "primary", small: "", fab: "", disabled: t.minimumZoomLevelActive }, on: { click: t.decreaseZoomLevel } }, "v-btn", r, !1), s), [n("v-icon", { attrs: { color: "primaryContrast" } }, [t._v(" fa-minus ")])], 1)];
   } }], null, !1, 2549324567) }, [n("span", [t._v(t._s(t.$t("common:plugins.zoom.out")))])])], 1) : t._e();
-}, PZ = [], MZ = /* @__PURE__ */ Pe(
-  OZ,
+}, MZ = [], SZ = /* @__PURE__ */ Pe(
   TZ,
   PZ,
+  MZ,
   !1,
   null,
   "aee50481",
   null,
   null
 );
-const SZ = MZ.exports, _Z = [
+const _Z = SZ.exports, IZ = [
   {
     type: "de",
     resources: {
@@ -99979,7 +99984,7 @@ const SZ = MZ.exports, _Z = [
   zoomLevel: 0,
   maximumZoomLevel: 12,
   minimumZoomLevel: 0
-}), IZ = {
+}), DZ = {
   namespaced: !0,
   state: vg(),
   actions: {
@@ -100017,30 +100022,30 @@ const SZ = MZ.exports, _Z = [
       return typeof ((i = (r = s.configuration) == null ? void 0 : r.zoom) == null ? void 0 : i.showMobile) == "boolean" ? s.configuration.zoom.showMobile : !1;
     }
   }
-}, DZ = (e) => (t) => t.$store.dispatch("addComponent", {
+}, AZ = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "zoom",
-  plugin: SZ,
-  language: _Z,
-  storeModule: IZ,
+  plugin: _Z,
+  language: IZ,
+  storeModule: DZ,
   options: e
 });
-function AZ(e) {
+function LZ(e) {
   return [
     {
-      plugin: bZ({}),
+      plugin: OZ({}),
       icon: "fa-book-atlas",
       id: "layerChooser"
     },
     {
-      plugin: DZ({ renderType: "iconMenu" }),
+      plugin: AZ({ renderType: "iconMenu" }),
       id: "zoom"
     },
     e !== Xs.REPORT && {
-      plugin: ZX({ renderType: "iconMenu" }),
+      plugin: JX({ renderType: "iconMenu" }),
       id: "fullscreen"
     },
     {
-      plugin: $X({
+      plugin: zX({
         renderType: "iconMenu",
         windowWidth: 550,
         listenToChanges: [
@@ -100057,49 +100062,49 @@ function AZ(e) {
     /* remove `false` entries */
   );
 }
-const LZ = (e, t) => {
-  const n = PY({
+const RZ = (e, t) => {
+  const n = MY({
     initiallyOpen: "layerChooser",
     displayComponent: !0,
-    menus: AZ(t),
+    menus: LZ(t),
     layoutTag: xa.TOP_RIGHT
   });
   nH(AH), e.addPlugins(
     [
       n,
-      t !== Xs.SINGLE && n9({
+      t !== Xs.SINGLE && i9({
         displayComponent: !0,
         layoutTag: xa.TOP_LEFT,
         addLoading: "plugin/loadingIndicator/addLoadingKey",
         removeLoading: "plugin/loadingIndicator/removeLoadingKey"
       }),
-      kY({
+      HY({
         displayComponent: !0,
         appearOnClick: { show: !0, atZoomLevel: 0 },
         coordinateSource: "plugin/addressSearch/chosenAddress",
         toastAction: "plugin/toast/addToast"
       }),
-      vY({
+      yY({
         displayComponent: !0,
         coordinateSources: ["plugin/addressSearch/chosenAddress"],
         // TODO what is this? often used, seemingly nowhere available
         coordinatesFromMarker: "plugin/pins/coordinatesAfterDrag",
         showGfi: !0
       }),
-      jY({
+      UY({
         displayComponent: !0,
         layoutTag: xa.MIDDLE_MIDDLE
       }),
-      hX({ displayComponent: !0, layoutTag: xa.BOTTOM_RIGHT }),
-      EX({
+      dX({ displayComponent: !0, layoutTag: xa.BOTTOM_RIGHT }),
+      CX({
         displayComponent: !0,
         layoutTag: xa.BOTTOM_MIDDLE
       }),
-      t !== Xs.SINGLE && y9({
+      t !== Xs.SINGLE && E9({
         displayComponent: !1,
         toastAction: "plugin/toast/addToast"
       }),
-      eX({
+      nX({
         url: "https://geodienste.hamburg.de/HH_WPS",
         addLoading: "plugin/loadingIndicator/addLoadingKey",
         removeLoading: "plugin/loadingIndicator/removeLoadingKey",
@@ -100185,13 +100190,13 @@ const LZ = (e, t) => {
   }
 ];
 TI.forEach((e) => {
-  const t = Object.keys(e.resources.meldemichel.skat), n = $H.map((s) => String(s));
+  const t = Object.keys(e.resources.meldemichel.skat), n = zH.map((s) => String(s));
   if (t.sort().join(",") !== n.sort().join(","))
     throw new Error(
       `POLAR Meldemichel: Error in language.ts/enums.ts: SKAT and Locales not in sync for language "${e.type}". Affected SKAT: ${t.filter((s) => !n.includes(s)).concat(n.filter((s) => !t.includes(s)))}`
     );
 });
-const PI = "453", MI = "452", op = "6074", IT = "#ffffff", DT = "#003063", RZ = "#ff0019", yg = {
+const PI = "453", MI = "452", op = "6074", IT = "#ffffff", DT = "#003063", wZ = "#ff0019", yg = {
   checkServiceAvailability: !1,
   // service register too long
   epsg: "EPSG:25832",
@@ -100270,7 +100275,7 @@ const PI = "453", MI = "452", op = "6074", IT = "#ffffff", DT = "#003063", RZ = 
   toZoomLevel: 7,
   movable: !0,
   style: {
-    fill: RZ
+    fill: wZ
   },
   boundaryLayerId: op
 }, LT = {
@@ -100282,7 +100287,7 @@ const PI = "453", MI = "452", op = "6074", IT = "#ffffff", DT = "#003063", RZ = 
   boundaryLayerId: op,
   boundaryOnError: "strict",
   showTooltip: !0
-}, wZ = {
+}, VZ = {
   [Xs.COMPLETE]: (e, t) => ({
     ...yg,
     addressSearch: AT,
@@ -100350,7 +100355,7 @@ const PI = "453", MI = "452", op = "6074", IT = "#ffffff", DT = "#003063", RZ = 
     },
     pins: Cg
   })
-}, VZ = ({
+}, BZ = ({
   mode: e,
   afmUrl: t,
   reportServiceId: n
@@ -100361,12 +100366,12 @@ const PI = "453", MI = "452", op = "6074", IT = "#ffffff", DT = "#003063", RZ = 
     );
   return {
     // @ts-expect-error | reportServiceId might be undefined, but that's caught above for relevant cases
-    ...wZ[e](n, t)
+    ...VZ[e](n, t)
   };
-}, BZ = (e) => {
+}, NZ = (e) => {
   const t = document.getElementById(e);
   t.shadowRoot.children.app.style.backgroundImage = "url('data:image/jpeg;base64,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')";
-}, wT = (e) => e.split(",").map((t) => Number(t)), NZ = {
+}, wT = (e) => e.split(",").map((t) => Number(t)), FZ = {
   namespaced: !0,
   state: {},
   actions: {
@@ -100421,7 +100426,7 @@ const PI = "453", MI = "452", op = "6074", IT = "#ffffff", DT = "#003063", RZ = 
     }
   }
 };
-const FZ = $t.extend({
+const jZ = $t.extend({
   name: "MeldemichelAfmButton",
   computed: {
     ...ge(["configuration", "hasSmallWidth"]),
@@ -100446,24 +100451,24 @@ const FZ = $t.extend({
     }
   }
 });
-var jZ = function() {
+var UZ = function() {
   var t = this, n = t._self._c;
   return t._self._setupProxy, n("v-tooltip", { attrs: { left: !t.hasSmallWidth, top: t.hasSmallWidth }, scopedSlots: t._u([{ key: "activator", fn: function({ on: s, attrs: r }) {
     return [t.afmUrl ? n("v-btn", t._g(t._b({ staticClass: "meldemichel-afm-button", attrs: { target: t.mapStateReady ? "_blank" : "", color: "primary", href: t.mapStateReady ? t.afmUrl : "#", large: "" }, on: { click: t.click, keydown: function(i) {
       return !i.type.indexOf("key") && t._k(i.keyCode, "space", 32, i.key, [" ", "Spacebar"]) ? null : t.click.apply(null, arguments);
     } } }, "v-btn", r, !1), s), [n("v-icon", { attrs: { small: "" } }, [t._v("fa-map-location")]), t._v(" " + t._s(t.$t("common:plugins.meldemichel.afmButton.buttonText")) + " ")], 1) : t._e()];
   } }]) }, [n("span", [t._v(t._s(t.$t("common:plugins.meldemichel.afmButton.hint")))])]);
-}, UZ = [], WZ = /* @__PURE__ */ Pe(
-  FZ,
+}, WZ = [], $Z = /* @__PURE__ */ Pe(
   jZ,
   UZ,
+  WZ,
   !1,
   null,
   null,
   null,
   null
 );
-const $Z = WZ.exports, zZ = [
+const zZ = $Z.exports, KZ = [
   {
     type: "de",
     resources: {
@@ -100478,16 +100483,16 @@ const $Z = WZ.exports, zZ = [
       }
     }
   }
-], KZ = (e) => (t) => t.$store.dispatch("addComponent", {
+], GZ = (e) => (t) => t.$store.dispatch("addComponent", {
   name: "meldemichelAfmButton",
-  plugin: $Z,
-  language: zZ,
+  plugin: zZ,
+  language: KZ,
   options: e
 });
-console.log(`POLAR Meldemichel loaded in version ${WH.version}.`);
-const GZ = "https://geoportal-hamburg.de/lgv-config/services-internet.json", kZ = (e) => {
+console.log(`POLAR Meldemichel loaded in version ${$H.version}.`);
+const kZ = "https://geoportal-hamburg.de/lgv-config/services-internet.json", HZ = (e) => {
   e.getLayers().getArray().find((t) => t.get("id") === op).setStyle(null);
-}, qZ = {
+}, tJ = {
   ...qh,
   // TODO API is probably not complete; worked out as part of project
   // how do we identify which marker is moved? by coordinate?
@@ -100501,27 +100506,27 @@ const GZ = "https://geoportal-hamburg.de/lgv-config/services-internet.json", kZ 
   }) => new Promise((i) => {
     Object.keys(Xs).includes(t) || console.error(
       `POLAR Meldemichel: Critical error. Unknown mode "${t}" configured. Please use 'COMPLETE', 'REPORT', or 'SINGLE'.`
-    ), LZ(qh, t), qh.rawLayerList.initializeLayerList(
-      GZ,
+    ), RZ(qh, t), qh.rawLayerList.initializeLayerList(
+      kZ,
       async (a) => {
         const o = await qh.createMap({
           containerId: e,
           mapConfiguration: Lc(
             {
-              ...VZ({ mode: t, afmUrl: n, reportServiceId: s }),
+              ...BZ({ mode: t, afmUrl: n, reportServiceId: s }),
               layerConf: a
             },
             r || {}
           )
         });
-        o.$store.registerModule("meldemichel", NZ), t === Xs.COMPLETE && KZ({
+        o.$store.registerModule("meldemichel", FZ), t === Xs.COMPLETE && GZ({
           displayComponent: !0,
           layoutTag: xa.BOTTOM_RIGHT
-        })(o), kZ(o.$store.getters.map), BZ(e), i(o);
+        })(o), HZ(o.$store.getters.map), NZ(e), i(o);
       }
     );
   })
 };
 export {
-  qZ as default
+  tJ as default
 };
