@@ -76,9 +76,9 @@ The mapConfiguration allows controlling many client instance details.
 | <...masterportalAPI.fields> | various          | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options.                                                              |
 | <plugin.fields>             | various          | Many plugins added with `addPlugin` may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below. |
 | vuetify                     | object           | You may add vuetify configuration here.                                                                                                                                  |
-| extendedMasterportalapiMarkers | ExtendedMasterportalapiMarkers? | Optional. If set, all visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Please mind that this only works properly if you use nothing but point marker vector layers styled by the masterportalAPI. |
+| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Please mind that this only works properly if you use nothing but point marker vector layers styled by the masterportalAPI. |
 
-##### mapConfiguration.ExtendedMasterportalapiMarkers
+##### mapConfiguration.extendedMasterportalapiMarkers
 
 | fieldName | type |description |
 | - | - | - |
