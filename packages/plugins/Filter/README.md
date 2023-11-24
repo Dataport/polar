@@ -12,36 +12,58 @@ The Filter plugin can be used to filter arbitrary configurable vector layers by 
 | - | - | - |
 | layers | Record<string, filterConfiguration> | Maps layer id to filter configuration. |
 
+```
+The following chapters contain drafts in this format. Please mind that they neither represent UI nor localisation, but are merely there to communicate the idea with an example.
+```
+
 #### filter.filterConfiguration
 
 | fieldName | type | description |
 | - | - | - |
-| categories | category[] | Category filter definition so filter features by their properties. |
-| time | time | Time filter definition so filter features by a time property. |
+| categories | category[]? | Category filter definition to filter features by their property values. |
+| time | time? | Time filter definition so filter features by a time property. |
 
 ##### filter.filterConfiguration.category
 
 | fieldName | type | description |
 | - | - | - |
-| selectAll | boolean? | If true, a checkbox is added to de/select all categories at once. Defaults to `false`. |
-| targetProperty | string | Target property to filter by. |
-| knownCategories | string[] | Array of known values for the property. Each entry will result in a checkbox that allows filtering the appropriate features. Properties not listed will not be filterable. The technical name will result in a localization key that can be configured on a per-client basis. |
+| targetProperty | string | Target property to filter by. This is the name (that is, key) of a feature property. |
+| knownCategories | (string | number)[] | Array of known values for the feature properties. Each entry will result in a checkbox that allows filtering the appropriate features. Properties not listed will not be filterable. The technical name will result in a localization key that can be configured on a per-client basis. |
+| selectAll | boolean? | If true, a checkbox is added to de/select all `knownCategories` (above) at once. Defaults to `false`. |
+
+For example, `{targetProperty: 'favouriteIceCream', knownCategories: ['chocolate', 'vanilla', 'strawberry'], selectAll: true}` will add these checkboxes:
+
+```
+▢ De-/select all
+▢ Chocolate
+▢ Vanilla
+▢ Strawberry
+```
 
 ##### filter.filterConfiguration.time
 
 | fieldName | type | description |
 | - | - | - |
 | targetProperty | string | Target property to filter by. |
-| last | options[] | Array of options to create for a `last` filter, e.g. "last 10 days". |
-| next | options[] | Array of options to create for a `next` filter, e.g. "next 10 day". |
-| freeSelection | freeSelection[] | Provide a more dynamic configurable from-to chooser for timeframes. |
+| last | options[]? | Array of options to create for a `last` filter, e.g. "last 10 days". |
+| next | options[]? | Array of options to create for a `next` filter, e.g. "next 10 day". |
+| freeSelection | freeSelection[]? | Provide a more dynamic configurable from-to chooser for timeframes. |
+
+Of all time restrictions, at most one can be selected at any time. The produced options are selectable by radio buttons.
 
 ##### filter.filterConfiguration.time.options
 
 | fieldName | type | description |
 | - | - | - |
-| amounts | number[] | Offer radio buttons for these amounts of `unit`. |
+| amounts | number[] | Offer radio buttons for these amounts of `unit`. The rest of the current day is additionally included in the range. |
 | unit | 'days' | Implemented units. Currently, only `'days'` are supported. |
+
+For example, `{amounts: [3, 7], unit: 'days'}` as value for `last` will add these radio buttons:
+
+```
+◯ Last 3 days
+◯ Last 7 days
+```
 
 ##### filter.filterConfiguration.time.freeSelection
 
@@ -49,6 +71,14 @@ The Filter plugin can be used to filter arbitrary configurable vector layers by 
 | - | - | - |
 | now | ('until' \| 'from')? | If set, only time points *until* now or *from* now are selectable, including the current time point. |
 | unit | 'days' | Implemented units. Currently, only `'days'` are supported. |
+
+For example, `{now: 'until', unit: 'days'}` will add this radio button:
+
+```
+◯ Choose time frame
+   From ▒▒▒▒▒▒▒▒▒▒▒ // clicking inpit opens a selector restricted *until* today
+   To   ▇▇▇▇▇▇▇▇▇▇▇ // clicking inpit opens a selector restricted *until* today
+```
 
 #### Example configuration
 
