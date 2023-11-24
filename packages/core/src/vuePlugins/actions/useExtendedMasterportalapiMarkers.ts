@@ -63,7 +63,6 @@ const selectedStyle = (selectionFill = fallbackSelectionFill) =>
     }),
   })
 
-const forbidden = ['mapMarker', 'geoLocationMarker'] as const
 let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 
 // local copies
@@ -72,13 +71,15 @@ let selected: Feature | null = null
 
 export function useExtendedMasterportalapiMarkers(
   { getters, commit },
-  { hoverFill, selectionFill }
+  { hoverFill, selectionFill, layers }
 ) {
   const map: Map = getters.map
 
   map.on('pointermove', function (event) {
-    const feature: Feature = getters.map.getFeaturesAtPixel(event.pixel)[0]
-    if (feature === selected || forbidden.includes(feature?.get?.('name'))) {
+    const feature: Feature = getters.map.getFeaturesAtPixel(event.pixel, {
+      layerFilter: (layer) => layers.includes(layer.get('id')),
+    })[0]
+    if (feature === selected) {
       return
     }
     if (hovered !== null && hovered !== selected) {
@@ -99,8 +100,10 @@ export function useExtendedMasterportalapiMarkers(
       selected = null
       commit('setSelected', selected)
     }
-    const feature: Feature = getters.map.getFeaturesAtPixel(event.pixel)[0]
-    if (!feature || forbidden.includes(feature.get('name'))) {
+    const feature: Feature = getters.map.getFeaturesAtPixel(event.pixel, {
+      layerFilter: (layer) => layers.includes(layer.get('id')),
+    })[0]
+    if (!feature) {
       return
     }
     selected = feature

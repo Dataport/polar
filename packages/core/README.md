@@ -76,12 +76,13 @@ The mapConfiguration allows controlling many client instance details.
 | <...masterportalAPI.fields> | various          | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options.                                                              |
 | <plugin.fields>             | various          | Many plugins added with `addPlugin` may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below. |
 | vuetify                     | object           | You may add vuetify configuration here.                                                                                                                                  |
-| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Please mind that this only works properly if you use nothing but point marker vector layers styled by the masterportalAPI. |
+| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
 
 ##### mapConfiguration.extendedMasterportalapiMarkers
 
 | fieldName | type |description |
 | - | - | - |
+| layers | string[] | List of layer ids. The effect will only be applied to these layers. |
 | hoverFill | string? | Used as map marker fill for hovered features. Defaults to `'#008A8A'`. |
 | selectionFill | string? | Used as map marker fill for selected features. Defaults to `'#00A95C'`. |
 
