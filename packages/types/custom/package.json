@@ -3,5 +3,10 @@
   "version": "1.1.0",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
-  "main": "index.ts"
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dataport/polar.git",
+    "directory": "packages/types/custom"
+  }
 }

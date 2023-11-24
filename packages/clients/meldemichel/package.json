@@ -5,6 +5,11 @@
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "main": "dist/client-meldemichel.mjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dataport/polar.git",
+    "directory": "packages/clients/meldemichel"
+  },
   "files": [
     "dist/**/**.*",
     "docs/**/**.*",
