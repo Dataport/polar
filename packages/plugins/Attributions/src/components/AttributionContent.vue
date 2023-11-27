@@ -1,7 +1,13 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <v-scroll-x-reverse-transition>
-    <v-card dense filled :width="width" color="#ffffffdd" :max-width="maxWidth">
+    <v-card
+      dense
+      filled
+      :width="width"
+      :color="renderType === 'independent' ? '#ffffffdd' : ''"
+      :max-width="maxWidth"
+    >
       <!-- TODO: Add solution to be able to also translate attribution when it becomes necessary -->
       <!-- NOTE: The usage of v-html is considered unsafe as it
         opens a window for XSS attacks. In this case, the information is retrieved
@@ -29,7 +35,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...mapGetters('plugin/attributions', ['mapInfo']),
+    ...mapGetters('plugin/attributions', ['mapInfo', 'renderType']),
     cardText(): string {
       return this.mapInfo
         .map((x) =>
