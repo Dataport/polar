@@ -16,7 +16,6 @@ export default function (mode: keyof typeof MODE): Menu[] {
     },
     {
       plugin: Gfi({
-        displayComponent: true,
         gfiContentComponent: MeldemichelGfiFeature,
         coordinateSources: [
           'plugin/pins/transformedCoordinate',
