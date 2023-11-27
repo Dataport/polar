@@ -1,10 +1,7 @@
 <template>
   <v-scroll-x-reverse-transition>
-    <!-- x-scroll-x-reverse-transition seems to require single child -->
-    <div>
-      <Selection v-if="displaySelection"></Selection>
-      <Options v-else></Options>
-    </div>
+    <Selection v-if="displaySelection"></Selection>
+    <Options v-else></Options>
   </v-scroll-x-reverse-transition>
 </template>
 

@@ -150,6 +150,16 @@ export default Vue.extend({
 })
 </script>
 
+<style lang="scss">
+.icon-menu-list-item-content,
+.icon-menu-list-item-horizontal {
+  .v-card__text {
+    // Prevents a x-scrollbar being shown if not necessary
+    width: inherit;
+  }
+}
+</style>
+
 <style lang="scss" scoped>
 .icon-menu-list {
   position: relative;
@@ -184,7 +194,6 @@ export default Vue.extend({
 .icon-menu-list-item-content-scrollable-y {
   z-index: 1;
   overflow-y: auto;
-  overflow-x: hidden;
   scrollbar-gutter: stable;
 
   &::v-deep > * {
