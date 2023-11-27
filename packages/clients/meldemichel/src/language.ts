@@ -3,32 +3,6 @@
 import { LanguageOption } from '@polar/lib-custom-types'
 import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
 
-/*
-  NOTE this is a lookup of the old localization.
-  TODO this comment must be deleted after parts were used where applicable.
-  NOTE delete parts you used further below in the actual data
-    'title': 'Meldemichel',
-    'tooltip.multiple.header': 'Mehrere Anliegen',
-    'tooltip.multiple.body': 'Klick zum Zoomen',
-    'tooltip.finalMultiple.header': 'Mehrere Anliegen',
-    'tooltip.finalMultiple.body': 'Klick öffnet Details',
-    'sidebar.report.previous':
-      'Vorherige Meldung in Auswahl aufrufen',
-    'sidebar.report.next':
-      'Nächste Meldung in Auswahl aufrufen',
-    'sidebar.filter.close': 'Zurück zur Kartenansicht',
-    'sidebar.filter.categories': 'Kategorien',
-    'sidebar.filter.status': 'Status',
-    'sidebar.filter.timeframe': 'Zeitraum',
-    'sidebar.filter.from': 'Von',
-    'sidebar.filter.to': 'Bis',
-    'sidebar.filter.information':
-      '90 Tage nach Bearbeitungsende werden die Meldungen gelöscht.',
-    'skat.all': 'Alle anwählen/abwählen',
-    'report.button.ariaDescription':
-      'Öffnet eine neue Seite, auf welcher ein neues Anliegen gemeldet werden kann.',
-*/
-
 const language: LanguageOption[] = [
   {
     type: 'de',
