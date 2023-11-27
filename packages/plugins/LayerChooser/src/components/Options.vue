@@ -1,5 +1,5 @@
 <template>
-  <v-card class="layer-chooser-options" :max-width="maxWidth">
+  <v-card class="layer-chooser-options">
     <v-card-actions :style="cardActionStyle">
       <v-btn
         icon
@@ -55,12 +55,6 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default Vue.extend({
   name: 'LayerChooserOptions',
-  props: {
-    maxWidth: {
-      type: Number,
-      required: true,
-    },
-  },
   computed: {
     ...mapGetters(['clientWidth']),
     ...mapGetters('plugin/layerChooser', [
@@ -77,11 +71,8 @@ export default Vue.extend({
       },
     },
     cardActionStyle(): string {
-      if (this.clientWidth === this.maxWidth) {
-        return ''
-      }
       return `
-        width: ${this.maxWidth}px;
+        width: ${this.clientWidth}px;
         white-space: normal;
       `
     },

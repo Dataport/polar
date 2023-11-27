@@ -36,18 +36,34 @@
             $t(hint ? hint : `common:plugins.iconMenu.hints.${id}`)
           }}</span>
         </v-tooltip>
-        <component
-          :is="plugin"
-          v-if="open === index"
-          ref="item-component"
-          :class="[
-            isHorizontal
-              ? 'icon-menu-list-item-content-horizontal'
-              : 'icon-menu-list-item-content',
-            'icon-menu-list-item-content-scrollable-y',
-          ]"
-          :style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
-        />
+        <template v-if="open === index">
+          <div v-if="hasWindowSize && hasSmallWidth">
+            <MoveHandle
+              :use-default-icons="true"
+              :close-label="
+                $t('plugins.iconMenu.mobileCloseButton', {
+                  plugin: hint ? hint : `common:plugins.iconMenu.hints.${id}`,
+                })
+              "
+              :close-function="() => toggle(Number(index))"
+              :max-height="maxMobileHeight"
+            >
+              <component :is="plugin" ref="item-component" />
+            </MoveHandle>
+          </div>
+          <component
+            :is="plugin"
+            v-else
+            ref="item-component"
+            :class="[
+              isHorizontal
+                ? 'icon-menu-list-item-content-horizontal'
+                : 'icon-menu-list-item-content',
+              'icon-menu-list-item-content-scrollable-y',
+            ]"
+            :style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
+          />
+        </template>
       </template>
     </component>
   </component>
@@ -56,14 +72,21 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
+import { MoveHandle } from '@polar/components'
 
 export default Vue.extend({
   name: 'IconMenu',
-  data: () => ({
-    maxWidth: 'inherit',
-  }),
+  components: {
+    MoveHandle,
+  },
+  data: () => ({ maxMobileHeight: 1, maxWidth: 'inherit' }),
   computed: {
-    ...mapGetters(['hasSmallHeight', 'hasWindowSize', 'clientHeight']),
+    ...mapGetters([
+      'hasSmallHeight',
+      'hasSmallWidth',
+      'hasWindowSize',
+      'clientHeight',
+    ]),
     ...mapGetters('plugin/iconMenu', ['menus', 'open']),
     asList() {
       return this.menus.length > 1
@@ -87,11 +110,11 @@ export default Vue.extend({
     },
   },
   mounted() {
-    addEventListener('resize', this.updateMaxSize)
-    this.updateMaxSize()
+    addEventListener('resize', this.updateWindowSizing)
+    this.updateWindowSizing()
   },
   beforeDestroy() {
-    removeEventListener('resize', this.updateMaxSize)
+    removeEventListener('resize', this.updateWindowSizing)
   },
   methods: {
     ...mapMutations('plugin/iconMenu', ['setOpen']),
@@ -101,15 +124,26 @@ export default Vue.extend({
       } else {
         this.setOpen(index)
       }
-      this.updateMaxSize()
+      this.updateWindowSizing()
     },
-    updateMaxSize() {
-      const plugin = this.$refs['item-component']
-      if (!this.hasWindowSize && plugin?.[0]) {
-        const { width, left } = plugin[0].$el.getBoundingClientRect()
-        this.maxWidth = `${width + left}px`
-      } else {
-        this.maxWidth = 'inherit'
+    updateWindowSizing() {
+      const pluginElement: HTMLElement | undefined =
+        this.$refs['item-component']?.[0]?.$el
+      if (pluginElement) {
+        if (!this.hasWindowSize) {
+          const { width, left } = pluginElement.getBoundingClientRect()
+          this.maxWidth = `${width + left}px`
+        } else {
+          this.maxWidth = 'inherit'
+          this.$nextTick(() => {
+            // If the content of a plugin is being closed, the element is undefined after the nextTick
+            if (pluginElement && pluginElement.offsetParent) {
+              this.maxMobileHeight =
+                pluginElement.offsetParent.clientHeight /
+                this.$root.$el.clientHeight
+            }
+          })
+        }
       }
     },
   },
@@ -150,6 +184,7 @@ export default Vue.extend({
 .icon-menu-list-item-content-scrollable-y {
   z-index: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-gutter: stable;
 
   &::v-deep > * {

@@ -2,8 +2,8 @@
   <v-scroll-x-reverse-transition>
     <!-- x-scroll-x-reverse-transition seems to require single child -->
     <div>
-      <Selection v-if="displaySelection" :max-width="maxWidth"></Selection>
-      <Options v-else :max-width="maxWidth"></Options>
+      <Selection v-if="displaySelection"></Selection>
+      <Options v-else></Options>
     </div>
   </v-scroll-x-reverse-transition>
 </template>
@@ -25,11 +25,6 @@ export default Vue.extend({
     ...mapGetters('plugin/layerChooser', ['openedOptions']),
     displaySelection() {
       return this.openedOptions === null
-    },
-    maxWidth(): number {
-      return (
-        this.clientWidth * (this.hasWindowSize && this.hasSmallWidth ? 0.75 : 1)
-      )
     },
   },
 })
