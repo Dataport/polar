@@ -1,14 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <v-scroll-x-reverse-transition>
-    <v-card
-      dir="ltr"
-      dense
-      filled
-      :width="width"
-      color="#ffffffdd"
-      :max-width="maxWidth"
-    >
+    <v-card dense filled :width="width" color="#ffffffdd" :max-width="maxWidth">
       <!-- TODO: Add solution to be able to also translate attribution when it becomes necessary -->
       <!-- NOTE: The usage of v-html is considered unsafe as it
         opens a window for XSS attacks. In this case, the information is retrieved
