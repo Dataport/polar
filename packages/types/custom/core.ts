@@ -142,8 +142,6 @@ export interface AttributionsConfiguration extends PluginOptions {
   windowWidth?: number
 }
 
-export type FilterConfiguration = PluginOptions
-
 export interface PolarCircleStyle {
   fillColor?: Color | ColorLike
   radius: number
@@ -189,6 +187,33 @@ export interface ExportConfiguration extends PluginOptions {
   showPdf?: boolean
   /** Tool offers exporting current mapView as a png. */
   showPng?: boolean
+}
+
+export interface FilterConfigurationTimeOption {
+  amounts: number[]
+  unit: 'days'
+}
+
+export interface FilterConfiguration extends PluginOptions {
+  layers: Record<
+    string,
+    {
+      categories?: {
+        selectAll?: boolean
+        targetProperty: string
+        knownCategories: (string | number)[]
+      }[]
+      time?: {
+        targetProperty: string
+        last?: FilterConfigurationTimeOption[]
+        next?: FilterConfigurationTimeOption[]
+        freeSelection?: {
+          now?: 'until' | 'from'
+          unit: 'days'
+        }[]
+      }
+    }
+  >
 }
 
 /** Configuration of GFI feature regarding a specific layer */
@@ -513,6 +538,7 @@ export interface MapConfig {
   attributions?: AttributionsConfiguration
   draw?: DrawConfiguration
   export?: ExportConfiguration
+  filter?: FilterConfiguration
   fullscreen?: FullscreenConfiguration
   geoLocation?: GeoLocationConfiguration
   gfi?: GfiConfiguration

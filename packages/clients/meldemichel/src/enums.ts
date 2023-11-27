@@ -18,10 +18,7 @@ export const SKAT = [
   119, 120, 200, 202, 203, 204, 205, 400, 401, 402, 500, 501, 502, 503,
 ] as const
 
-export const REPORT_STATUS = {
-  PROCESSING: 0,
-  PROCESSED: 1,
-} as const
+export const REPORT_STATUS = ['In Bearbeitung', 'abgeschlossen'] as const
 
 export const TIME_FILTER = {
   NONE: 0,

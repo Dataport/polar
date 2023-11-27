@@ -1,9 +1,9 @@
 <template>
   <div id="polar-plugin-filter">
     <MoveHandle v-if="hasWindowSize && hasSmallWidth">
-      <component :is="contentComponent"> Hello Filter! </component>
+      <FilterContent></FilterContent>
     </MoveHandle>
-    <component :is="contentComponent" v-else> Hello Filter! </component>
+    <FilterContent v-else></FilterContent>
   </div>
 </template>
 
@@ -11,17 +11,16 @@
 import Vue from 'vue'
 import { MoveHandle } from '@polar/components'
 import { mapGetters } from 'vuex'
+import FilterContent from './FilterContent.vue'
 
 export default Vue.extend({
-  name: 'PolarGfi',
+  name: 'PolarFilter',
   components: {
+    FilterContent,
     MoveHandle,
   },
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
-    contentComponent(): Vue {
-      return 'div'
-    },
   },
 })
 </script>

@@ -6,7 +6,7 @@ import storeModule from './store'
 
 export default (options: FilterConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
-    name: 'Filter',
+    name: 'filter',
     plugin: Filter,
     language,
     storeModule,

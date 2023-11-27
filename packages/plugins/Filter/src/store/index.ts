@@ -2,7 +2,7 @@ import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { PolarModule } from '@polar/lib-custom-types'
+import { FilterConfiguration, PolarModule } from '@polar/lib-custom-types'
 import { FilterGetters, FilterState } from '../types'
 
 const getInitialState = (): FilterState => ({})
@@ -11,8 +11,9 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
   namespaced: true,
   state: getInitialState(),
   actions: {
-    setupModule({}): void {
+    setupModule(): void {
       // TODO decide if setup required at all
+      // NOTE probably to get active layers :thinking:
     },
   },
   mutations: {
@@ -20,6 +21,9 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
   },
   getters: {
     ...generateSimpleGetters(getInitialState()),
+    filterConfiguration(_, __, ___, rootGetters): FilterConfiguration {
+      return rootGetters.configuration?.filter || { layers: {} }
+    },
   },
 }
 
