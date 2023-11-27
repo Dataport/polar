@@ -1,6 +1,6 @@
 <template>
   <v-card class="layer-chooser-options">
-    <v-card-actions :style="cardActionStyle">
+    <v-card-actions>
       <v-btn
         icon
         small
