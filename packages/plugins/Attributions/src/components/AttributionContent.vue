@@ -5,7 +5,7 @@
       dir="ltr"
       dense
       filled
-      :width="renderType === 'independent' ? windowWidth : 'inherit'"
+      :width="width"
       color="#ffffffdd"
       :max-width="maxWidth"
     >
@@ -25,18 +25,18 @@ import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   name: 'AttributionContent',
-  computed: {
-    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
-    ...mapGetters('plugin/attributions', [
-      'mapInfo',
-      'windowWidth',
-      'renderType',
-    ]),
-    maxWidth(): number {
-      return this.hasWindowSize && this.hasSmallWidth
-        ? this.clientWidth * 0.85
-        : 1080
+  props: {
+    maxWidth: {
+      type: [Number, String],
+      default: 'inherit',
     },
+    width: {
+      type: [Number, String],
+      default: 'inherit',
+    },
+  },
+  computed: {
+    ...mapGetters('plugin/attributions', ['mapInfo']),
     cardText(): string {
       return this.mapInfo
         .map((x) =>
