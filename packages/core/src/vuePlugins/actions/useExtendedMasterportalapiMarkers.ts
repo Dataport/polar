@@ -81,11 +81,11 @@ export function useExtendedMasterportalapiMarkers(
   { getters, commit }: PolarActionContext<CoreState, CoreGetters>,
   {
     hoverFill,
-    selectionFill,
     layers,
+    selectionFill,
   }: {
-    layers: string[]
     hoverFill?: string
+    layers: string[]
     selectionFill?: string
   }
 ) {
