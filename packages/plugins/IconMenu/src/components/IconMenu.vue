@@ -127,24 +127,24 @@ export default Vue.extend({
       this.updateWindowSizing()
     },
     updateWindowSizing() {
-      const pluginElement: HTMLElement | undefined =
-        this.$refs['item-component']?.[0]?.$el
-      if (pluginElement) {
-        if (!this.hasWindowSize) {
-          const { width, left } = pluginElement.getBoundingClientRect()
-          this.maxWidth = `${width + left}px`
-        } else {
-          this.maxWidth = 'inherit'
-          this.$nextTick(() => {
-            // If the content of a plugin is being closed, the element is undefined after the nextTick
-            if (pluginElement && pluginElement.offsetParent) {
-              this.maxMobileHeight =
-                pluginElement.offsetParent.clientHeight /
-                this.$root.$el.clientHeight
+      this.$nextTick(() => {
+        const plugin = this.$refs['item-component']
+        if (plugin?.[0]) {
+          if (!this.hasWindowSize) {
+            const { width, left } = plugin[0].$el.getBoundingClientRect()
+            this.maxWidth = `${width + left}px`
+          } else {
+            this.maxWidth = 'inherit'
+            if (open !== null) {
+              this.$nextTick(() => {
+                this.maxMobileHeight =
+                  plugin[0].$el.offsetParent.clientHeight /
+                  this.$root.$el.clientHeight
+              })
             }
-          })
+          }
         }
-      }
+      })
     },
   },
 })
