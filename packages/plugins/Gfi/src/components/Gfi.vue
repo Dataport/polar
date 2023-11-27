@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-if="renderUi"
-    id="polar-plugin-gfi"
-    :class="hasWindowSize ? 'polar-plugin-gfi-fullscreen' : ''"
-  >
+  <div v-if="renderUi" id="polar-plugin-gfi">
     <MoveHandle
       v-if="hasWindowSize && hasSmallWidth"
       :max-height="maxMobileHeight"
@@ -121,18 +117,6 @@ export default Vue.extend({
       /* table cell padding underlaps scrollbar; prevent horizontal scroll */
       overflow-x: clip;
     }
-  }
-}
-
-.polar-plugin-gfi-fullscreen {
-  @media only screen and (max-width: 768px) {
-    position: fixed;
-    /* NOTE: If the element is supposed to be lower, a corresponding min-height has to be given to MoveHandle;
-    *  e.g.: top: 95%; -> :min-height="0.5"
-    *  Otherwise it could lead to misleading behaviour. */
-    top: 90%;
-    width: 100%;
-    z-index: 1;
   }
 }
 </style>

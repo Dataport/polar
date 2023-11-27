@@ -97,12 +97,19 @@ export default Vue.extend({
   mounted() {
     if (this.$el.parentElement) {
       this.handleElement = this.$el.parentElement
-      return
+    } else {
+      console.error(
+        'MoveHandle: No parent element used, using MoveHandle container.'
+      )
+      this.handleElement = this.$el as HTMLElement
     }
-    console.error(
-      'MoveHandle: No parent element used, using MoveHandle container.'
-    )
-    this.handleElement = this.$el as HTMLElement
+    this.handleElement.style.position = 'fixed'
+    this.handleElement.style.width = '100%'
+    this.handleElement.style['z-index'] = 1
+    this.handleElement.style.left = '0'
+    this.handleElement.style.top = `${Math.round(
+      this.$root.$el.clientHeight - this.$root.$el.clientHeight * this.minHeight
+    )}px`
   },
   methods: {
     moveHandle(key: string): void {
