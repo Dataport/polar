@@ -70,12 +70,6 @@ export default Vue.extend({
         this.toggleOpenedOptionsServiceLayer(value)
       },
     },
-    cardActionStyle(): string {
-      return `
-        width: ${this.clientWidth}px;
-        white-space: normal;
-      `
-    },
   },
   methods: {
     ...mapMutations('plugin/layerChooser', ['setOpenedOptions']),
@@ -113,6 +107,9 @@ export default Vue.extend({
     padding-top: 0;
     padding-bottom: 0;
     font-size: 100%;
+  }
+  .v-card__actions {
+    white-space: normal;
   }
 }
 
