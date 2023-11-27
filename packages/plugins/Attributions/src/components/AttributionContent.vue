@@ -5,7 +5,7 @@
       dir="ltr"
       dense
       filled
-      :width="windowWidth"
+      :width="renderType === 'independent' ? windowWidth : 'inherit'"
       color="#ffffffdd"
       :max-width="maxWidth"
     >
@@ -27,7 +27,11 @@ export default Vue.extend({
   name: 'AttributionContent',
   computed: {
     ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
-    ...mapGetters('plugin/attributions', ['mapInfo', 'windowWidth']),
+    ...mapGetters('plugin/attributions', [
+      'mapInfo',
+      'windowWidth',
+      'renderType',
+    ]),
     maxWidth(): number {
       return this.hasWindowSize && this.hasSmallWidth
         ? this.clientWidth * 0.85
