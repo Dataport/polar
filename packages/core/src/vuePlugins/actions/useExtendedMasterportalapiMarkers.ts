@@ -16,8 +16,8 @@ export const imgSizeMulti = [35, 32]
 
 const prefix = 'data:image/svg+xml,'
 
-/* NOTE path below copied and adapted from
- * @masterportal/masterportalapi/public/marker.svg */
+/* Path of marker svg used in this file copied and adapted from
+ * @masterportal/masterportalapi/public/marker.svg. */
 
 const makeMarker = ({ stroke = '#FFF', strokeWidth = '2', fill = '#005CA9' }) =>
   `${prefix}${encodeURIComponent(`
