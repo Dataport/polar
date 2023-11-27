@@ -1,23 +1,21 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div>
-    <v-scroll-x-reverse-transition>
-      <v-card
-        dir="ltr"
-        dense
-        filled
-        :width="windowWidth"
-        color="#ffffffdd"
-        :max-width="maxWidth"
-      >
-        <!-- TODO: Add solution to be able to also translate attribution when it becomes necessary -->
-        <!-- NOTE: The usage of v-html is considered unsafe as it
+  <v-scroll-x-reverse-transition>
+    <v-card
+      dir="ltr"
+      dense
+      filled
+      :width="windowWidth"
+      color="#ffffffdd"
+      :max-width="maxWidth"
+    >
+      <!-- TODO: Add solution to be able to also translate attribution when it becomes necessary -->
+      <!-- NOTE: The usage of v-html is considered unsafe as it
         opens a window for XSS attacks. In this case, the information is retrieved
         from the mapConfiguration. This is fine by configuration. -->
-        <v-card-text ref="sources" v-html="cardText" />
-      </v-card>
-    </v-scroll-x-reverse-transition>
-  </div>
+      <v-card-text ref="sources" v-html="cardText" />
+    </v-card>
+  </v-scroll-x-reverse-transition>
 </template>
 
 <script lang="ts">
