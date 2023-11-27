@@ -1,4 +1,4 @@
-import { Map } from 'ol'
+import { Map, Feature } from 'ol'
 import { Coordinate } from 'ol/coordinate'
 import { SourceType } from 'ol/layer/WebGLTile'
 import { LayerType } from 'ol/renderer/webgl/TileLayer'
@@ -11,6 +11,7 @@ import {
   GfiConfiguration,
   GfiLayerConfiguration,
   RenderType,
+  FeatureList,
 } from '@polar/lib-custom-types'
 
 /** parameter specification for request method */
@@ -53,4 +54,9 @@ export interface GfiGetters extends GfiState {
   windowFeatures: GeoJsonProperties[]
   /** subset of layerKeys, where features' geometries are to be shown on map */
   geometryLayerKeys: string[]
+  windowLayerKeysActive: boolean
+  listMode: FeatureList['mode'] | undefined
+  listText: FeatureList['text']
+  showList: boolean
+  listFeatures: Feature[]
 }

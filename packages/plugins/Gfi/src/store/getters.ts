@@ -167,6 +167,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
           )
       )
       .map((layer) => {
+        // @ts-expect-error | no sourceless layers in masterportalAPI generation
         const source = layer.getSource()
         return (
           listMode === 'known'
