@@ -13,7 +13,7 @@
     <MoveHandle
       v-else-if="renderMoveHandle"
       :min-height="0.1"
-      :max-height="9999 /* TODO better value? */"
+      :max-height="maxMobileHeight"
     >
       <component :is="contentComponent" v-bind="contentProps"></component>
     </MoveHandle>
