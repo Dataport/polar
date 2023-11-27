@@ -284,7 +284,7 @@ export type GfiAfterLoadFunction = (
 
 /** GFI Module Configuration */
 export interface FeatureList {
-  mode: 'visible' | 'known'
+  mode: 'visible' | 'loaded'
   pageLength?: number
   text: (string | ((f: Feature) => string))[]
 }
