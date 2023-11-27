@@ -92,7 +92,7 @@ export function useExtendedMasterportalapiMarkers(
   const { map } = getters
 
   map.on('pointermove', function (event) {
-    const feature = getters.map.getFeaturesAtPixel(event.pixel, {
+    const feature = map.getFeaturesAtPixel(event.pixel, {
       layerFilter: (layer) => layers.includes(layer.get('id')),
     })[0]
     if (feature === selected || feature instanceof RenderFeature) {
@@ -116,7 +116,7 @@ export function useExtendedMasterportalapiMarkers(
       selected = null
       commit('setSelected', selected)
     }
-    const feature = getters.map.getFeaturesAtPixel(event.pixel, {
+    const feature = map.getFeaturesAtPixel(event.pixel, {
       layerFilter: (layer) => layers.includes(layer.get('id')),
     })[0]
     if (!feature || feature instanceof RenderFeature) {
