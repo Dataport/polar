@@ -7,6 +7,18 @@
     @mousedown.stop="onMouseDown"
     @touchstart.stop="onTouchStart"
   >
+    <div v-if="useDefaultIcons" class="polar-move-handle-button-container">
+      <v-icon id="polar-move-handle-grip-icon"> fa-grip-lines </v-icon>
+      <v-btn
+        id="polar-move-handle-close-button"
+        icon
+        small
+        :aria-label="closeLabel"
+        @click="closeFunction"
+      >
+        <v-icon>fa-xmark</v-icon>
+      </v-btn>
+    </div>
     <slot />
   </div>
 </template>
@@ -31,6 +43,18 @@ export default Vue.extend({
       type: Number,
       default: 1,
       validator: dimensionValidator,
+    },
+    useDefaultIcons: {
+      type: Boolean,
+      default: false,
+    },
+    closeLabel: {
+      type: String,
+      default: '',
+    },
+    closeFunction: {
+      type: Function,
+      default: null,
     },
   },
   data: () => ({
@@ -158,6 +182,21 @@ export default Vue.extend({
     -moz-user-select: none;
     -ms-user-select: none !important;
     user-select: none;
+  }
+  .polar-move-handle-button-container {
+    display: grid;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 0.25em;
+
+    #polar-move-handle-grip-icon {
+      grid-column: 2;
+      justify-self: center;
+    }
+    #polar-move-handle-close-button {
+      grid-column: 3;
+      justify-self: end;
+    }
   }
 }
 </style>
