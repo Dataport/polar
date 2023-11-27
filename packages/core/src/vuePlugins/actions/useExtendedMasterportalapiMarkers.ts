@@ -128,6 +128,8 @@ export function useExtendedMasterportalapiMarkers(
     lastClickEvent = event
     event.stopPropagation()
   })
+  /* click leads to singlelick; if an element is selected, to not let other
+   * plugins pick it up, something was already done with it */
   map.on('singleclick', function (event) {
     if (event?.originalEvent === lastClickEvent?.originalEvent) {
       event.stopPropagation()
