@@ -74,6 +74,7 @@ const getInitialState = (): CoreState => ({
   // @ts-ignore
   configuration: {},
   errors: [],
+  language: '',
 })
 
 const setCenter = ({ map }) =>
@@ -177,6 +178,10 @@ const store = new Store({
       interactions.forEach((i) => getters.map.addInteraction(i))
     },
   },
+})
+
+i18next.on('languageChanged', (language) => {
+  store.commit('setLanguage', language)
 })
 
 export default store

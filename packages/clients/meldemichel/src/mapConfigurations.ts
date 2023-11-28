@@ -133,18 +133,17 @@ const getFilterConfiguration = (id: string): FilterConfiguration => ({
       ],
       time: {
         targetProperty: 'start',
+        pattern: 'YYYYMMDD',
         last: [
           {
             amounts: [7, 30],
             unit: 'days',
           },
         ],
-        freeSelection: [
-          {
-            now: 'until',
-            unit: 'days',
-          },
-        ],
+        freeSelection: {
+          now: 'until',
+          unit: 'days',
+        },
       },
     },
   },

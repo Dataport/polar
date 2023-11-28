@@ -29,6 +29,12 @@
                 dense
                 hide-details
                 :label="$t('common:plugins.filter.category.deselectAll')"
+                :indeterminate="
+                  getActiveCategoryAll({ layerId, targetProperty }) ===
+                  'indeterminate'
+                "
+                :input-value="getActiveCategoryAll({ layerId, targetProperty })"
+                @change="toggleCategoryAll({ layerId, targetProperty })"
               ></v-checkbox>
               <v-checkbox
                 v-for="(knownCategory, knownCategoryIndex) of knownCategories"
@@ -40,6 +46,12 @@
                     `common:plugins.filter.category.${layerId}.${targetProperty}.${knownCategory}`
                   )
                 "
+                :input-value="
+                  getActiveCategory({ layerId, targetProperty, knownCategory })
+                "
+                @change="
+                  toggleCategory({ layerId, targetProperty, knownCategory })
+                "
               ></v-checkbox>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -49,23 +61,44 @@
             {{ $t(`common:plugins.filter.time.header`) }}
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <v-radio-group dense hide-details>
+            <v-radio-group
+              :value="
+                getActiveTime({
+                  layerId,
+                })
+              "
+              dense
+              hide-details
+              @change="
+                (radioId) =>
+                  changeTimeRadio({
+                    radioId,
+                    layerId,
+                  })
+              "
+            >
               <v-radio
                 :label="$t('common:plugins.filter.time.noRestriction')"
+                :value="0"
               ></v-radio>
               <template
                 v-for="(
-                  { label, component, amount, unit }, timeIndex
+                  { label, component, amount, now }, timeIndex
                 ) of getTimeOptions(layerId)"
               >
                 <v-radio
                   :key="`plugin-filter-checkbox-${layerIndex}-${timeIndex}`"
                   :label="$t(label, { count: amount })"
+                  :value="timeIndex + 1"
                 ></v-radio>
                 <component
                   :is="component"
-                  v-if="component"
+                  v-if="
+                    component && getActiveTime({ layerId }) === timeIndex + 1
+                  "
                   :key="`plugin-filter-checkbox-${layerIndex}-${timeIndex}-options`"
+                  :layer-id="layerId"
+                  :now="now"
                 ></component>
               </template>
             </v-radio-group>
@@ -77,68 +110,38 @@
 </template>
 
 <script lang="ts">
-import {
-  FilterConfiguration,
-  FilterConfigurationTimeOption,
-} from '@polar/lib-custom-types'
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+
 export default Vue.extend({
   name: 'PolarFilterContent',
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
-    ...mapGetters('plugin/filter', ['filterConfiguration']),
+    ...mapGetters('plugin/filter', [
+      'filterConfiguration',
+      'getActiveCategory',
+      'getActiveCategoryAll',
+      'getActiveTime',
+      'getCategories',
+      'getTimeConfig',
+      'getTimeOptions',
+    ]),
     layers(): string[] {
       return Object.keys(this.filterConfiguration.layers)
     },
   },
   methods: {
-    getCategories(
-      layerId: string
-    ): FilterConfiguration['layers']['categories'] {
-      return this.filterConfiguration.layers[layerId]?.categories || []
-    },
-    getTimeConfig(
-      layerId: string
-    ): FilterConfiguration['layers'][string]['time'] {
-      return this.filterConfiguration.layers[layerId]?.time || null
-    },
-    getTimeTarget(layerId: string) {
-      const { targetProperty } = this.getTimeConfig(layerId) || {}
-      return targetProperty
-    },
-    getTimeOptions(layerId: string) {
-      const timeConfig = this.getTimeConfig(layerId)
-      if (!timeConfig) {
-        return []
-      }
-      return [
-        ...(timeConfig.last || []).map(this.parseOption('last')).flat(1),
-        ...(timeConfig.next || []).map(this.parseOption('next')).flat(1),
-        ...(timeConfig.freeSelection || []).map((entry) => ({
-          label: 'common:plugins.filter.time.chooseTimeFrame',
-          component: 'div',
-          amount: null,
-          unit: entry.unit,
-        })),
-      ]
-    },
-    parseOption(timeDirection: 'last' | 'next') {
-      return (config: FilterConfigurationTimeOption) =>
-        config.amounts.map((amount) => ({
-          label: `common:plugins.filter.time.${timeDirection}.${config.unit}`,
-          component: null,
-          amount,
-          unit: config.unit,
-        }))
-    },
+    ...mapActions('plugin/filter', [
+      'toggleCategory',
+      'toggleCategoryAll',
+      'changeTimeRadio',
+    ]),
   },
 })
 </script>
 
 <style lang="scss" scoped>
 .polar-plugin-filter-wrapper {
-  /* TODO what's the good solution here */
   min-width: 300px;
 
   // tone down spacing

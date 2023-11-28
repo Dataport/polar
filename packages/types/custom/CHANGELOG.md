@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Currently active `language` key has been added to the core store.
 - Feature: Add types for new plugin `Filter`, namely `FilterConfiguration`; also to `MapConfig` as configurable plugin.
 - Feature: Add parameter `renderType` to `GeoLocationConfiguration`.
 - Feature: Add export of `RenderType`.

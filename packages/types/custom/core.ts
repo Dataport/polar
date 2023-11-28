@@ -205,12 +205,13 @@ export interface FilterConfiguration extends PluginOptions {
       }[]
       time?: {
         targetProperty: string
+        pattern?: string
         last?: FilterConfigurationTimeOption[]
         next?: FilterConfigurationTimeOption[]
         freeSelection?: {
           now?: 'until' | 'from'
           unit: 'days'
-        }[]
+        }
       }
     }
   >
@@ -572,6 +573,7 @@ export interface CoreState {
   configuration: MapConfig
   errors: PolarError[]
   plugin: object
+  language: string
 }
 
 export interface CoreGetters {

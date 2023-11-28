@@ -14,8 +14,35 @@ export const MODE = {
 /* SKAT tend to change; do not hard-code anything regarding them;
  * they have no semantic but their ID within this client */
 export const SKAT = [
-  100, 101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 117, 118,
-  119, 120, 200, 202, 203, 204, 205, 400, 401, 402, 500, 501, 502, 503,
+  '100',
+  '101',
+  '102',
+  '103',
+  '104',
+  '105',
+  '106',
+  '111',
+  '112',
+  '113',
+  '114',
+  '115',
+  '116',
+  '117',
+  '118',
+  '119',
+  '120',
+  '200',
+  '202',
+  '203',
+  '204',
+  '205',
+  '400',
+  '401',
+  '402',
+  '500',
+  '501',
+  '502',
+  '503',
 ] as const
 
 export const REPORT_STATUS = ['In Bearbeitung', 'abgeschlossen'] as const
