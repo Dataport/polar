@@ -21,7 +21,6 @@ export default function (mode: keyof typeof MODE): Menu[] {
           'plugin/pins/transformedCoordinate',
           'plugin/pins/coordinatesAfterDrag',
         ],
-        showGfi: true,
         featureList: {
           mode: 'visible',
           pageLength: 10,
