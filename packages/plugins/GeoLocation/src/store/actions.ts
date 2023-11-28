@@ -243,7 +243,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       {
         type: 'error',
         text: 'common:plugins.geoLocation.button.tooltip.locationAccessDenied',
-        timeout: 5000,
+        timeout: 0,
       },
       { root: true }
     )
