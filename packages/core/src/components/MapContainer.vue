@@ -92,6 +92,11 @@ export default Vue.extend({
 
     this.setMap(map)
     this.updateDragAndZoomInteractions()
+    if (this.mapConfiguration.extendedMasterportalapiMarkers) {
+      this.useExtendedMasterportalapiMarkers(
+        this.mapConfiguration.extendedMasterportalapiMarkers
+      )
+    }
     this.updateListeners(this.hasWindowSize)
     this.setConfiguration(this.mapConfiguration)
     this.mapConfiguration.locales?.forEach?.((lng: LanguageOption) =>
@@ -108,7 +113,10 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations(['setMap', 'setConfiguration']),
-    ...mapActions(['updateDragAndZoomInteractions']),
+    ...mapActions([
+      'updateDragAndZoomInteractions',
+      'useExtendedMasterportalapiMarkers',
+    ]),
     checkServiceAvailability() {
       this.mapConfiguration.layerConf
         .map((service) => ({
@@ -148,21 +156,25 @@ export default Vue.extend({
         )
     },
     updateListeners(hasWindowSize: boolean) {
-      if (!hasWindowSize) {
-        document.addEventListener('wheel', ({ ctrlKey }) => {
-          clearTimeout(this.noControlOnZoomTimeout)
-          this.noControlOnZoom = !ctrlKey
-          this.noControlOnZoomTimeout = setTimeout(
-            () => (this.noControlOnZoom = false),
-            2000
-          )
-        })
+      const mapContainer = this.$refs['polar-map-container']
+      if (!hasWindowSize && mapContainer) {
+        ;(mapContainer as HTMLDivElement).addEventListener(
+          'wheel',
+          ({ ctrlKey }) => {
+            clearTimeout(this.noControlOnZoomTimeout)
+            this.noControlOnZoom = !ctrlKey
+            this.noControlOnZoomTimeout = setTimeout(
+              () => (this.noControlOnZoom = false),
+              2000
+            )
+          }
+        )
 
         if (
           window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
           window.innerWidth <= SMALL_DISPLAY_WIDTH
         ) {
-          new Hammer(this.$refs['polar-map-container']).on('pan', (e) => {
+          new Hammer(mapContainer).on('pan', (e) => {
             this.oneFingerPan = e.maxPointers === 1
             setTimeout(() => (this.oneFingerPan = false), 2000)
           })

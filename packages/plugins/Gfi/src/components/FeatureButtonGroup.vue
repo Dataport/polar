@@ -16,18 +16,18 @@
         {{ $t('common:plugins.gfi.property.export') }}
       </v-btn>
     </div>
-    <GfiSwitchButtons v-if="showSwitchButtons"></GfiSwitchButtons>
+    <FeatureSwitchButtons v-if="showSwitchButtons"></FeatureSwitchButtons>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import GfiSwitchButtons from './GfiSwitchButtons.vue'
+import FeatureSwitchButtons from './FeatureSwitchButtons.vue'
 
 export default Vue.extend({
-  name: 'GfiButtonGroup',
+  name: 'GfiFeatureButtonGroup',
   components: {
-    GfiSwitchButtons,
+    FeatureSwitchButtons,
   },
   props: {
     exportProperty: {
