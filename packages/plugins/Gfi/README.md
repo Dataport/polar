@@ -59,7 +59,7 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | geometry       | boolean                                    | If true, feature geometry will be highlighted within the map.                                                                                                                                                                                        |
 | properties     | Record<propertyName, displayName>/string[] | In case `window` is `true`, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. |
 | renderType | ('iconMenu' \| 'independent')? | Only relevant if `window` is set to `true`. Whether the gfi plugin is independently or as part of the IconMenu. Defaults to 'independent'. |
-| featureList | featureList? | If defined, a list of available vector layer features is visible when no feature is selected. |
+| featureList | featureList? | If defined, a list of available vector layer features is visible when no feature is selected. Only usable if `renderType` is set to `iconMenu` and `window` is set to `true`. |
 | exportProperty | string                                     | Property of the features of a service having an url usable to trigger a download of features as a document.                                                                                                                                          |
 
 ##### gfi.customHighlightStyle
