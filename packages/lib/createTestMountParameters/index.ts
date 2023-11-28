@@ -58,6 +58,7 @@ export default (): MockParameters => {
       },
       errors: [],
       plugin: {},
+      language: '',
     },
   }
 }
