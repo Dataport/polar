@@ -291,7 +291,6 @@ const storeModule: PolarModule<PinsState, PinsState> = {
           ? {
               type: 'error',
               text: 'plugins.pins.toast.boundaryError',
-              timeout: 0,
             }
           : {
               type: 'info',
