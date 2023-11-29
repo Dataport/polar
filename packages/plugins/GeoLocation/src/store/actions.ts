@@ -162,7 +162,6 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
         ? {
             type: 'error',
             text: 'plugins.geoLocation.toast.boundaryError',
-            timeout: 0,
           }
         : {
             type: 'info',
@@ -243,7 +242,6 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       {
         type: 'error',
         text: 'common:plugins.geoLocation.button.tooltip.locationAccessDenied',
-        timeout: 0,
       },
       { root: true }
     )
