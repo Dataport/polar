@@ -37,20 +37,20 @@
           }}</span>
         </v-tooltip>
         <template v-if="open === index">
-          <div v-if="hasWindowSize && hasSmallWidth">
-            <MoveHandle
-              :use-default-icons="true"
-              :close-label="
-                $t('plugins.iconMenu.mobileCloseButton', {
-                  plugin: hint ? hint : `common:plugins.iconMenu.hints.${id}`,
-                })
-              "
-              :close-function="() => toggle(Number(index))"
-              :max-height="maxMobileHeight"
-            >
-              <component :is="plugin" ref="item-component" />
-            </MoveHandle>
-          </div>
+          <MoveHandle
+            v-if="hasWindowSize && hasSmallWidth"
+            :use-default-icons="true"
+            :close-label="
+              $t('plugins.iconMenu.mobileCloseButton', {
+                plugin: hint ? hint : `common:plugins.iconMenu.hints.${id}`,
+              })
+            "
+            :close-function="() => toggle(Number(index))"
+            :container-as-handle="true"
+            :max-height="maxMobileHeight"
+          >
+            <component :is="plugin" ref="item-component" />
+          </MoveHandle>
           <component
             :is="plugin"
             v-else
