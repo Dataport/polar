@@ -236,15 +236,16 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   /**
    * Show error information and stop tracking if there are errors by tracking the position
    */
-  onError({ commit, dispatch }, error) {
-    dispatch(
-      'plugin/toast/addToast',
-      {
+  onError({ commit, dispatch, getters: { toastAction } }, error) {
+    if (toastAction) {
+      const toast = {
         type: 'error',
         text: 'common:plugins.geoLocation.button.tooltip.locationAccessDenied',
-      },
-      { root: true }
-    )
+      }
+      dispatch(toastAction, toast, { root: true })
+    } else {
+      console.error('Location access denied by user')
+    }
     console.error(error.message)
 
     commit('setIsGeolocationDenied', true)
