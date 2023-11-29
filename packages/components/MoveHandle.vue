@@ -7,9 +7,15 @@
     @mousedown.stop="onMouseDown"
     @touchstart.stop="onTouchStart"
   >
-    <div v-if="useDefaultIcons" class="polar-move-handle-button-container">
-      <v-icon id="polar-move-handle-grip-icon"> fa-grip-lines </v-icon>
+    <div></div>
+    <v-icon v-if="useDefaultIcons" id="polar-move-handle-grip-icon">
+      fa-grip-lines
+    </v-icon>
+    <v-card-actions v-if="hasActionButton || useDefaultIcons">
+      <slot name="actionButton" />
+      <v-spacer></v-spacer>
       <v-btn
+        v-if="useDefaultIcons"
         id="polar-move-handle-close-button"
         icon
         small
@@ -18,7 +24,7 @@
       >
         <v-icon>fa-xmark</v-icon>
       </v-btn>
-    </div>
+    </v-card-actions>
     <slot />
   </div>
 </template>
@@ -70,6 +76,9 @@ export default Vue.extend({
     timeoutReference: 0,
   }),
   computed: {
+    hasActionButton() {
+      return Array.isArray(this.$slots.actionButton)
+    },
     moveEventNames(): MoveEventNames {
       return this.touchDevice
         ? { move: 'touchmove', end: 'touchend' }
@@ -196,20 +205,13 @@ export default Vue.extend({
     -ms-user-select: none !important;
     user-select: none;
   }
-  .polar-move-handle-button-container {
-    display: grid;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 0.25em;
-
-    #polar-move-handle-grip-icon {
-      grid-column: 2;
-      justify-self: center;
-    }
-    #polar-move-handle-close-button {
-      grid-column: 3;
-      justify-self: end;
-    }
+  #polar-move-handle-grip-icon {
+    width: 100%;
+    transition: translateX(-50%);
+    background-color: #fff;
+  }
+  .v-card__actions {
+    background-color: #fff;
   }
 }
 </style>
