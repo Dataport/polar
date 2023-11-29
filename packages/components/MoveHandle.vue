@@ -56,6 +56,10 @@ export default Vue.extend({
       type: Function,
       default: null,
     },
+    containerAsHandle: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     handleElement: null as unknown as HTMLElement,
@@ -95,7 +99,9 @@ export default Vue.extend({
     },
   },
   mounted() {
-    if (this.$el.parentElement) {
+    if (this.containerAsHandle) {
+      this.handleElement = this.$el as HTMLElement
+    } else if (this.$el.parentElement) {
       this.handleElement = this.$el.parentElement
     } else {
       console.error(
