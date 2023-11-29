@@ -109,6 +109,14 @@ export default Vue.extend({
       })`
     },
   },
+  watch: {
+    // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
+    isHorizontal(newVal: boolean) {
+      if (!newVal) {
+        this.updateWindowSizing()
+      }
+    },
+  },
   mounted() {
     addEventListener('resize', this.updateWindowSizing)
     this.updateWindowSizing()
