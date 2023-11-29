@@ -54,7 +54,7 @@ const storeModule: PolarModule<ToastState, ToastState> = {
           }, toast.timeout)
         } else {
           console.warn(
-            'Timeouts for error messages are disabled, they can only be dismissed manually.'
+            '@polar/plugin.toast: Timeouts for error messages are disabled, they can only be dismissed manually.'
           )
         }
       }
