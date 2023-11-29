@@ -28,11 +28,12 @@ export default Vue.extend({
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
       'exportPropertyLayerKeys',
+      'gfiContentComponent',
+      'renderType',
+      'showList',
+      'visibleWindowFeatureIndex',
       'windowFeatures',
       'windowLayerKeysActive',
-      'visibleWindowFeatureIndex',
-      'gfiContentComponent',
-      'showList',
     ]),
     contentComponent(): Vue {
       return this.showList ? List : this.gfiContentComponent || Feature
@@ -74,7 +75,11 @@ export default Vue.extend({
       return this.windowFeatures.length > 0 || this.showList
     },
     renderMoveHandle(): boolean {
-      return this.hasWindowSize && this.hasSmallWidth
+      return (
+        this.hasWindowSize &&
+        this.hasSmallWidth &&
+        this.renderType === 'independent'
+      )
     },
     /** only show switch buttons if multiple property sets are available */
     showSwitchButtons(): boolean {
