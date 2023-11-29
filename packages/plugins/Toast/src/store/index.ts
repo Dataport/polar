@@ -48,9 +48,15 @@ const storeModule: PolarModule<ToastState, ToastState> = {
       }
       commit('addToast', smearedToast)
       if (toast.timeout) {
-        setTimeout(() => {
-          commit('removeToast', smearedToast)
-        }, toast.timeout)
+        if (toast.type !== 'error') {
+          setTimeout(() => {
+            commit('removeToast', smearedToast)
+          }, toast.timeout)
+        } else {
+          console.warn(
+            '@polar/plugin.toast: Timeouts for error messages are disabled, they can only be dismissed manually.'
+          )
+        }
       }
     },
   },
