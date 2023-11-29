@@ -13,7 +13,7 @@
     "afm:build:serve": "http-server ./packages/clients/afm -o /example/prod-example.html",
     "afm:dev": "cd packages/clients/afm/ && vite",
     "dish:build": "lerna run build --scope @polar/client-dish --stream",
-    "dish:dev": "cd packages/clients/dish/ && vite",
+    "dish:dev": "cd packages/clients/dish/ && vite --host",
     "meldemichel:build": "lerna run build --scope @polar/client-meldemichel --stream",
     "meldemichel:build:example": "http-server packages/clients/meldemichel -o /example/index.html",
     "meldemichel:dev": "cd packages/clients/meldemichel/ && vite --host",
