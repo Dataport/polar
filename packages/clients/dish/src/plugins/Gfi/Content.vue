@@ -1,5 +1,5 @@
 <template>
-  <v-card class="dish-gfi-content">
+  <v-card>
     <v-icon v-if="hasWindowSize && hasSmallWidth" class="dish-gfi-grip-icon">
       fa-grip-lines
     </v-icon>
