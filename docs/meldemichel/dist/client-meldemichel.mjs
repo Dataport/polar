@@ -96841,8 +96841,7 @@ const c9 = 100, h9 = 100, ag = {
   printPositioningFailed({ dispatch: e, getters: { toastAction: t } }, n) {
     t ? e(t, n ? {
       type: "error",
-      text: "plugins.geoLocation.toast.boundaryError",
-      timeout: 0
+      text: "plugins.geoLocation.toast.boundaryError"
     } : {
       type: "info",
       text: "plugins.geoLocation.toast.notInBoundary",
@@ -96892,16 +96891,11 @@ const c9 = 100, h9 = 100, ag = {
   /**
    * Show error information and stop tracking if there are errors by tracking the position
    */
-  onError({ commit: e, dispatch: t }, n) {
-    t(
-      "plugin/toast/addToast",
-      {
-        type: "error",
-        text: "common:plugins.geoLocation.button.tooltip.locationAccessDenied",
-        timeout: 5e3
-      },
-      { root: !0 }
-    ), console.error(n.message), e("setIsGeolocationDenied", !0), e("setTracking", !1), t("removeMarker");
+  onError({ commit: e, dispatch: t, getters: { toastAction: n } }, s) {
+    n ? t(n, {
+      type: "error",
+      text: "common:plugins.geoLocation.button.tooltip.locationAccessDenied"
+    }, { root: !0 }) : console.error("Location access denied by user"), console.error(s.message), e("setIsGeolocationDenied", !0), e("setTracking", !1), t("removeMarker");
   }
 }, v9 = {
   ...rr($v()),
@@ -98178,8 +98172,7 @@ const MT = new Vk({
       const o = typeof a == "symbol";
       return r ? t(r, o ? {
         type: "error",
-        text: "plugins.pins.toast.boundaryError",
-        timeout: 0
+        text: "plugins.pins.toast.boundaryError"
       } : {
         type: "info",
         text: "plugins.pins.toast.notInBoundary",
@@ -99121,9 +99114,11 @@ const vX = gX.exports, yX = [
         ...e.types[n.type] || {},
         ...n
       };
-      t("addToast", s), n.timeout && setTimeout(() => {
+      t("addToast", s), n.timeout && (n.type !== "error" ? setTimeout(() => {
         t("removeToast", s);
-      }, n.timeout);
+      }, n.timeout) : console.warn(
+        "@polar/plugin.toast: Timeouts for error messages are disabled, they can only be dismissed manually."
+      ));
     }
   },
   getters: {
