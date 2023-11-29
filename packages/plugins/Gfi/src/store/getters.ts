@@ -21,6 +21,9 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       layers: {},
     })
   },
+  renderType(_, __, ___, rootGetters) {
+    return rootGetters.configuration?.gfi?.renderType || 'independent'
+  },
   gfiContentComponent(_, { gfiConfiguration }): Vue | null {
     return gfiConfiguration.gfiContentComponent || null
   },

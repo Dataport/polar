@@ -309,6 +309,7 @@ export interface GfiConfiguration extends PluginOptions {
    * Usable to completely redesign content of GFI window.
    */
   gfiContentComponent?: Vue
+  renderType?: RenderType
   /**
    * The layers to request feature information from. Both WMS and WFS layers are
    * supported. Keys are layer IDs as specified in the services.json registry.
