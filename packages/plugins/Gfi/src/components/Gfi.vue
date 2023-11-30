@@ -29,6 +29,7 @@ export default Vue.extend({
     ...mapGetters('plugin/gfi', [
       'exportPropertyLayerKeys',
       'gfiContentComponent',
+      'renderMoveHandle',
       'renderType',
       'showList',
       'visibleWindowFeatureIndex',
@@ -73,13 +74,6 @@ export default Vue.extend({
     },
     renderUi(): boolean {
       return this.windowFeatures.length > 0 || this.showList
-    },
-    renderMoveHandle(): boolean {
-      return (
-        this.hasWindowSize &&
-        this.hasSmallWidth &&
-        this.renderType === 'independent'
-      )
     },
     /** only show switch buttons if multiple property sets are available */
     showSwitchButtons(): boolean {

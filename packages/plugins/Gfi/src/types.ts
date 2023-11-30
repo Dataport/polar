@@ -44,6 +44,7 @@ export interface GfiGetters extends GfiState {
   gfiConfiguration: GfiConfiguration
   /** all layer keys to retrieve GFI information for */
   layerKeys: string[]
+  renderMoveHandle: boolean
   renderType: RenderType
   /** subset of layerKeys, where features' properties are to be shown in UI */
   windowLayerKeys: string[]
