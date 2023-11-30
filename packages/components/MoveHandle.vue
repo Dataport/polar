@@ -7,7 +7,6 @@
     @mousedown.stop="onMouseDown"
     @touchstart.stop="onTouchStart"
   >
-    <div></div>
     <v-icon v-if="useDefaultIcons" id="polar-move-handle-grip-icon">
       fa-grip-lines
     </v-icon>
