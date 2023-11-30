@@ -100191,7 +100191,7 @@ TI.forEach((e) => {
       `POLAR Meldemichel: Error in language.ts/enums.ts: SKAT and Locales not in sync for language "${e.type}". Affected SKAT: ${t.filter((s) => !n.includes(s)).concat(n.filter((s) => !t.includes(s)))}`
     );
 });
-const PI = "453", MI = "452", op = "6074", IT = "#ffffff", DT = "#003063", wZ = "#ff0019", yg = {
+const PI = "453", MI = "452", op = "1693", IT = "#ffffff", DT = "#003063", wZ = "#ff0019", yg = {
   checkServiceAvailability: !1,
   // service register too long
   epsg: "EPSG:25832",
