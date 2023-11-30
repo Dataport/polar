@@ -204,10 +204,17 @@ export default Vue.extend({
     -ms-user-select: none !important;
     user-select: none;
   }
+
   #polar-move-handle-grip-icon {
     width: 100%;
+    color: var(--polar-primary);
     background-color: var(--polar-primary-contrast);
   }
+
+  #polar-move-handle-close-button {
+    color: var(--polar-primary);
+  }
+
   .v-card__actions {
     background-color: var(--polar-primary-contrast);
   }
