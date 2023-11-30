@@ -1,26 +1,5 @@
 <template>
   <v-card class="meldemichel-gfi-card">
-    <v-icon
-      v-if="hasWindowSize && hasSmallWidth"
-      class="meldemichel-gfi-grip-icon"
-    >
-      fa-grip-lines
-    </v-icon>
-    <v-card-actions>
-      <!-- TODO implement when vector clusters are done
-      <v-btn>Prev</v-btn>
-      <v-btn>Next</v-btn>
-      -->
-      <v-spacer></v-spacer>
-      <v-btn
-        icon
-        small
-        :aria-label="$t('common:plugins.gfi.header.close')"
-        @click="close"
-      >
-        <v-icon small>fa-xmark</v-icon>
-      </v-btn>
-    </v-card-actions>
     <v-card-title class="meldemichel-gfi-title">
       {{ $t('meldemichel.gfi.title') }}<br />
       {{ `${currentProperties.str} ${currentProperties.hsnr}` }}
@@ -59,7 +38,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import { GeoJsonProperties } from 'geojson'
-import { mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 
 type GfiIndexStep = -1 | 1
 
@@ -87,7 +66,6 @@ export default Vue.extend({
     infoFields: ['skat', 'start', 'statu'],
   }),
   computed: {
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
       'windowFeatures',
       'visibleWindowFeatureIndex',
@@ -98,7 +76,6 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
-    ...mapActions('plugin/gfi', ['close']),
     formatProperty(type: string, value: string): string {
       if (!value) {
         return ''
@@ -141,11 +118,6 @@ export default Vue.extend({
 <style lang="scss" scoped>
 * {
   color: #003064 !important;
-}
-
-.meldemichel-gfi-grip-icon {
-  left: 50%;
-  transition: translateX(-50%);
 }
 
 .meldemichel-gfi-card {

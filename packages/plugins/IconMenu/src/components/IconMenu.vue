@@ -49,6 +49,10 @@
             :container-as-handle="true"
             :max-height="maxMobileHeight"
           >
+            <!-- TODO:
+                  Add a possibility to use the actionButton slot.
+                  This will become relevant once vector clusters have been implemented as they require a previous and next button.
+            -->
             <component :is="plugin" ref="item-component" />
           </MoveHandle>
           <component
