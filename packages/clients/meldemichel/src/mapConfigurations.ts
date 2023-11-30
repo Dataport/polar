@@ -14,7 +14,7 @@ import { MeldemichelCreateMapParams } from './types'
 
 const stadtplan = '453'
 const luftbilder = '452'
-export const hamburgBorder = '6074' // boundary layer for pins / geolocalization
+export const hamburgBorder = '1693' // boundary layer for pins / geolocalization
 
 const hamburgWhite = '#ffffff'
 const hamburgDarkBlue = '#003063'
