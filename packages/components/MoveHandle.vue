@@ -206,7 +206,6 @@ export default Vue.extend({
   }
   #polar-move-handle-grip-icon {
     width: 100%;
-    transition: translateX(-50%);
     background-color: #fff;
   }
   .v-card__actions {
