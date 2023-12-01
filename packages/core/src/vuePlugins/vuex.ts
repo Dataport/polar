@@ -12,10 +12,11 @@ import noop from '@repositoryname/noop'
 import i18next from 'i18next'
 import { PluginContainer, CoreState, PolarError } from '@polar/lib-custom-types'
 import { Interaction } from 'ol/interaction'
-import { Map } from 'ol'
+import { Feature, Map } from 'ol'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
+import { useExtendedMasterportalapiMarkers } from './actions/useExtendedMasterportalapiMarkers'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
 const devMode = import.meta.env.DEV
@@ -35,6 +36,8 @@ const devMode = import.meta.env.DEV
  */
 
 let map: null | Map = null
+let hovered: null | Feature = null
+let selected: null | Feature = null
 let components = []
 let interactions: Interaction[] = []
 
@@ -69,6 +72,9 @@ const getInitialState = (): CoreState => ({
   clientWidth: 0,
   components: 1,
   center: null,
+  hovered: 1,
+  selected: 1,
+  zoomLevel: 0,
   // TODO: Add default values for epsg, layers, namedProjections, options and remove @ts-ignore for configuration
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -79,6 +85,9 @@ const getInitialState = (): CoreState => ({
 
 const setCenter = ({ map }) =>
   store.commit('setCenter', map.getView().getCenter())
+
+const setZoom = ({ map }) =>
+  store.commit('setZoomLevel', map.getView().getZoom())
 
 const store = new Store({
   state: getInitialState(),
@@ -96,6 +105,14 @@ const store = new Store({
     map: (state) => {
       noop(state.map)
       return map
+    },
+    hovered: (state) => {
+      noop(state.hovered)
+      return hovered
+    },
+    selected: (state) => {
+      noop(state.selected)
+      return selected
     },
     // hack: deliver components (outside vuex) based on counter; see NOTE above
     components: (state) => {
@@ -117,13 +134,25 @@ const store = new Store({
     setMap: (state, payload) => {
       if (map) {
         map.un('moveend', setCenter)
+        map.un('moveend', setZoom)
       }
       map = payload
       if (map) {
         map.on('moveend', setCenter)
+        map.on('moveend', setZoom)
+        setCenter({ map })
+        setZoom({ map })
       }
       // NOTE: hack: don't put map in vuex (complex object); see NOTE above
       state.map = state.map + 1
+    },
+    setHovered: (state, payload) => {
+      hovered = payload
+      state.hovered = state.hovered + 1
+    },
+    setSelected: (state, payload) => {
+      selected = payload
+      state.selected = state.selected + 1
     },
     setComponents: (state, payload) => {
       components = payload
@@ -177,6 +206,7 @@ const store = new Store({
       )
       interactions.forEach((i) => getters.map.addInteraction(i))
     },
+    useExtendedMasterportalapiMarkers,
   },
 })
 

@@ -1,10 +1,12 @@
 import Attributions from '@polar/plugin-attributions'
 import Filter from '@polar/plugin-filter'
 import Fullscreen from '@polar/plugin-fullscreen'
+import Gfi from '@polar/plugin-gfi'
 import LayerChooser from '@polar/plugin-layer-chooser'
 import Zoom from '@polar/plugin-zoom'
 import { Menu } from '@polar/lib-custom-types'
 import { MODE } from '../enums'
+import MeldemichelGfiFeature from '../plugins/Gfi'
 
 export default function (mode: keyof typeof MODE): Menu[] {
   return [
@@ -17,6 +19,26 @@ export default function (mode: keyof typeof MODE): Menu[] {
       plugin: Filter({}),
       icon: 'fa-filter',
       id: 'filter',
+    },
+    {
+      plugin: Gfi({
+        gfiContentComponent: MeldemichelGfiFeature,
+        coordinateSources: [
+          'plugin/pins/transformedCoordinate',
+          'plugin/pins/coordinatesAfterDrag',
+        ],
+        featureList: {
+          mode: 'visible',
+          pageLength: 10,
+          text: [
+            (feature) => `${feature.get('str')} ${feature.get('hsnr')}`,
+            (feature) => `meldemichel.skat.${feature.get('skat')}`,
+            'beschr',
+          ],
+        },
+      }),
+      icon: 'fa-location-pin',
+      id: 'gfi',
     },
     {
       plugin: Zoom({ renderType: 'iconMenu' }),

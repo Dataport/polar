@@ -31,7 +31,7 @@ Other clients with more specific code (and more visibility) include the [Denkmal
 |[Filter](https://github.com/Dataport/polar/tree/main/packages/plugins/Filter)|Allows users to filter vector layers to content relevant to their interests.|
 |[Fullscreen](https://github.com/Dataport/polar/tree/main/packages/plugins/Fullscreen)|User can toggle between integrated and fullscreen view with this plugin.|
 |[GeoLocation](https://github.com/Dataport/polar/tree/main/packages/plugins/GeoLocation)|Geolocalizes the user either on user demand or as a background procedure. An icon is shown on the user position on the map.|
-|[Gfi](https://github.com/Dataport/polar/tree/main/packages/plugins/Gfi)|Short for "Get Feature Information". Retrieves feature information from a WMS or WFS layer for display or usage by further processing steps.|
+|[Gfi](https://github.com/Dataport/polar/tree/main/packages/plugins/Gfi)|Short for "Get Feature Information". Retrieves feature information from a WMS or WFS layer for display or usage by further processing steps. Can be used as feature list viewer for vector layers.|
 |[IconMenu](https://github.com/Dataport/polar/tree/main/packages/plugins/IconMenu)|Handles display of visible plugin buttons. Only relevant for programming clients, no direct user feature.|
 |[LayerChooser](https://github.com/Dataport/polar/tree/main/packages/plugins/LayerChooser)|Allows choosing a background layer and an arbitrary amount of feature or overlay layers. WMS layers can optionally be filtered by sub-layers by the user.|
 |[Legend](https://github.com/Dataport/polar/tree/main/packages/plugins/Legend)|Displays an overview of layer legend images as delivered by the used WMS services. Images can be clicked for large view.|
