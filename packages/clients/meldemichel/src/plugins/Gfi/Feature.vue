@@ -1,5 +1,5 @@
 <template>
-  <v-card class="meldemichel-gfi-card">
+  <v-card>
     <v-icon
       v-if="hasWindowSize && hasSmallWidth"
       class="meldemichel-gfi-grip-icon"
