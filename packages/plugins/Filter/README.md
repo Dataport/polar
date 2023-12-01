@@ -108,7 +108,12 @@ For example, `{now: 'until', unit: 'days'}` will add this radio button:
           freeSelection: {
             unit: 'days',
             now: 'until'
-          }
+          },
+          /**
+           * Feature holds date property as e.g. "20143012", where 2014 is the
+           * year, 30 the day, and 12 the month.
+           */
+          pattern: 'YYYYDDMM'
         }
       }
     }
