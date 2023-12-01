@@ -116,7 +116,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default Vue.extend({
   name: 'PolarFilter',
   computed: {
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/filter', [
       'filterConfiguration',
       'getActiveCategory',
