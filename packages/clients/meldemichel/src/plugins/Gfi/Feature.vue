@@ -147,10 +147,6 @@ export default Vue.extend({
   transition: translateX(-50%);
 }
 
-.meldemichel-gfi-card {
-  min-width: 20vw;
-}
-
 .meldemichel-export-button .v-icon {
   margin-right: 0.4em;
 }
