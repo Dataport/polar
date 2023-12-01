@@ -147,10 +147,6 @@ export default Vue.extend({
   transition: translateX(-50%);
 }
 
-.meldemichel-export-button .v-icon {
-  margin-right: 0.4em;
-}
-
 .meldemichel-fat-cell {
   font-weight: bolder;
   white-space: nowrap;
