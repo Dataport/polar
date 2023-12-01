@@ -79,8 +79,8 @@ For example, `{now: 'until', unit: 'days'}` will add this radio button:
 
 ```
 ◯ Choose time frame
-   From ▒▒▒▒▒▒▒▒▒▒▒ // clicking inpit opens a selector restricted *until* today
-   To   ▇▇▇▇▇▇▇▇▇▇▇ // clicking inpit opens a selector restricted *until* today
+   From ▒▒▒▒▒▒▒▒▒▒▒ // clicking input opens a selector restricted *until* today
+   To   ▇▇▇▇▇▇▇▇▇▇▇ // clicking input opens a selector restricted *until* today
 ```
 
 #### Example configuration
