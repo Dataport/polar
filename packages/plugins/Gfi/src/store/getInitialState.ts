@@ -3,6 +3,7 @@ import { GfiState } from '../types'
 const getInitialState = (): GfiState => ({
   featureInformation: {},
   visibleWindowFeatureIndex: 0,
+  visibilityChangeIndicator: 0,
   defaultHighlightStyle: {
     stroke: {
       color: '#003064',

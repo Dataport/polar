@@ -136,10 +136,18 @@ export const updateFeatureVisibility = ({
     .getSource()
     .getFeatures()
     .forEach((feature) => {
-      feature.setStyle(
-        doesFeaturePassFilter(feature, state, categories, layerId, timeOptions)
-          ? undefined
-          : InvisibleStyle
+      const targetStyle = doesFeaturePassFilter(
+        feature,
+        state,
+        categories,
+        layerId,
+        timeOptions
       )
+        ? null
+        : InvisibleStyle
+      // only update if it changes anything (prevent unnecessary rerenders)
+      if (feature.getStyle() !== targetStyle) {
+        feature.setStyle(targetStyle)
+      }
     })
 }
