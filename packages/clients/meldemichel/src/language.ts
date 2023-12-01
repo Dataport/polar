@@ -72,6 +72,8 @@ const language: LanguageOption[] = [
           reports: 'Meldungen',
           hamburgBorder: 'Stadtgrenze Hamburg',
         },
+        skat,
+        status,
         time: {
           [TIME_FILTER.NONE]: 'Keine Einschränkung',
           [TIME_FILTER.DAYS_7]: 'Die letzten 7 Tage',
@@ -121,6 +123,7 @@ const language: LanguageOption[] = [
         },
         iconMenu: {
           hints: {
+            filter: 'Filter',
             gfi: 'Meldungsliste',
           },
         },
@@ -137,7 +140,7 @@ const language: LanguageOption[] = [
 
 // test for enum/locale synchronity; error on mismatch
 language.forEach((languageOption) => {
-  const knownLocaleSKAT = Object.keys(languageOption.resources.meldemichel.skat)
+  const knownLocaleSKAT = Object.keys(skat)
   const knownEnumSKAT = SKAT.map((n) => String(n))
   if (knownLocaleSKAT.sort().join(',') !== knownEnumSKAT.sort().join(',')) {
     throw new Error(
