@@ -142,10 +142,8 @@ export default Vue.extend({
   gap: 0.5em;
   word-break: normal;
 }
-</style>
 
-<style>
-.plugin-gfi-list .v-list-item__title + .v-list-item__subtitle {
+.v-list-item__title + .v-list-item__subtitle {
   font-style: italic;
 }
 </style>
