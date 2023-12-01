@@ -13,7 +13,7 @@
           <template v-if="getCategories(layerId)">
             <v-expansion-panel
               v-for="(
-                { targetProperty, knownCategories, selectAll }, categoryIndex
+                { targetProperty, knownValues, selectAll }, categoryIndex
               ) of getCategories(layerId)"
               :key="`plugin-filter-panel-${layerIndex}-${categoryIndex}`"
             >
@@ -40,7 +40,7 @@
                   @change="toggleCategoryAll({ layerId, targetProperty })"
                 ></v-checkbox>
                 <v-checkbox
-                  v-for="(knownCategory, knownCategoryIndex) of knownCategories"
+                  v-for="(knownCategory, knownCategoryIndex) of knownValues"
                   :key="`plugin-filter-checkbox-${layerIndex}-${categoryIndex}-${knownCategoryIndex}`"
                   dense
                   hide-details
