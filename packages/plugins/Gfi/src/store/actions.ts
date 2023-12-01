@@ -7,6 +7,7 @@ import { GeoJSON } from 'ol/format'
 import { rawLayerList } from '@masterportal/masterportalapi/src'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import { getTooltip } from '@polar/lib-tooltip'
+import { Feature } from 'ol'
 import {
   featureDisplayLayer,
   clear,
@@ -73,9 +74,11 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
           if (dragging) {
             return
           }
-          const features = map.getFeaturesAtPixel(pixel, {
-            layerFilter: (layer) => layer.get('id') === layerId,
-          })
+          const features = map
+            .getFeaturesAtPixel(pixel, {
+              layerFilter: (layer) => layer.get('id') === layerId,
+            })
+            .filter((feature) => feature instanceof Feature) as Feature[]
 
           const coordinate = features.length
             ? map.getCoordinateFromPixel(pixel)
@@ -83,6 +86,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
 
           overlay.setPosition(coordinate)
 
+          // remove FeatureLikes
           if (features[0]) {
             if (unregister) {
               unregister()
