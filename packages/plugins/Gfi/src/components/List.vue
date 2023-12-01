@@ -129,7 +129,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 #polar-plugin-gfi:not(.polar-plugin-gfi-move-handle) .plugin-gfi-list {
   /* magic number; leaves minimal space to minimal size AddressSearch in IconMenu mode */
   max-width: 420px;
