@@ -19,7 +19,7 @@
   <article class="markdown-body">
     <h1>GFI</h1>
 <h2>Scope</h2>
-<p>The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) from WMS and WFS services. In a first step, the information is stored in the VueX store to allow for easy access. Display is optional and quite obstructive within the map client.</p>
+<p>The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) from WMS and WFS services as well as layers based on GeoJSON files. In a first step, the information is stored in the VueX store to allow for easy access. Display is optional and quite obstructive within the map client.</p>
 <blockquote>
 <p>⚠️ The display feature is currently not meant for production. Please use data bindings for display to avoid obstructing the map client.</p>
 </blockquote>
@@ -94,6 +94,11 @@ than showing each feature individually</p>
 <td>If required a user can change the stroke and fill of the highlighted feature. The default style as seen in the example will be used for each part that is not customized. An empty object will return the complete default style while e.g. for an object without a configured fill the default fill will be applied.</td>
 </tr>
 <tr>
+<td>activeLayerPath</td>
+<td>string?</td>
+<td>Optional store path to array of active mask layer ids. If used with <code>LayerChooser</code>, setting this to <code>'plugin/layerChooser/activeMaskIds'</code> will result in an info text in the GFI box, should no layer be active. If used without <code>LayerChooser</code>, the active mask layers have to be provided by another plugin or the client. If not set, the GFI plugin may e.g. show an empty list, which may be confusing to some users.</td>
+</tr>
+<tr>
 <td>afterLoadFunction</td>
 <td>function (featuresByLayerId: Record&lt;string, GeoJsonFeature[]&gt;): Record&lt;layerId, GeoJsonFeature[]&gt;</td>
 <td>This method can be used to extend, filter, or otherwise modify a GFI result.</td>
@@ -129,6 +134,16 @@ than showing each feature individually</p>
 <td>properties</td>
 <td>Record&lt;propertyName, displayName&gt;/string[]</td>
 <td>In case <code>window</code> is <code>true</code>, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values.</td>
+</tr>
+<tr>
+<td>renderType</td>
+<td>('iconMenu' | 'independent')?</td>
+<td>Only relevant if <code>window</code> is set to <code>true</code>. Whether the gfi plugin is independently or as part of the IconMenu. Defaults to 'independent'.</td>
+</tr>
+<tr>
+<td>featureList</td>
+<td>featureList?</td>
+<td>If defined, a list of available vector layer features is visible when no feature is selected. Only usable if <code>renderType</code> is set to <code>iconMenu</code> and <code>window</code> is set to <code>true</code>.</td>
 </tr>
 <tr>
 <td>exportProperty</td>
@@ -195,6 +210,33 @@ than showing each feature individually</p>
 <td>color</td>
 <td>string</td>
 <td>Color value</td>
+</tr>
+</tbody>
+</table>
+<h5>gfi.featureList</h5>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mode</td>
+<td>'visible' | 'loaded'</td>
+<td>Whether to show only features currently visible in the map view's bounding box or to display all loaded features. In the latter case, if you desire to display all features of a layer (seen or not), set its loading strategy to <code>'all'</code>.</td>
+</tr>
+<tr>
+<td>pageLength</td>
+<td>number?</td>
+<td>A number &gt;0 that sets the limit to the feature list's length. If the length is surpassed, additional features can be reached by using the pagination that is generated in such a case. If not defined, the list can be of arbitrary length.</td>
+</tr>
+<tr>
+<td>text</td>
+<td>(function</td>
+<td>string)[]</td>
 </tr>
 </tbody>
 </table>

@@ -97,6 +97,38 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <td>object</td>
 <td>You may add vuetify configuration here.</td>
 </tr>
+<tr>
+<td>extendedMasterportalapiMarkers</td>
+<td>extendedMasterportalapiMarkers?</td>
+<td>Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI.</td>
+</tr>
+</tbody>
+</table>
+<h5>mapConfiguration.extendedMasterportalapiMarkers</h5>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>layers</td>
+<td>string[]</td>
+<td>List of layer ids. The effect will only be applied to these layers.</td>
+</tr>
+<tr>
+<td>hoverFill</td>
+<td>string?</td>
+<td>Used as map marker fill for hovered features. Defaults to <code>'#008A8A'</code>.</td>
+</tr>
+<tr>
+<td>selectionFill</td>
+<td>string?</td>
+<td>Used as map marker fill for selected features. Defaults to <code>'#00A95C'</code>.</td>
+</tr>
 </tbody>
 </table>
 <h5>mapConfiguration.LayerConf</h5>
