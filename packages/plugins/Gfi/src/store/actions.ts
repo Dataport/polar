@@ -2,9 +2,11 @@ import debounce from 'lodash.debounce'
 import { Coordinate } from 'ol/coordinate'
 import { Feature as GeoJsonFeature } from 'geojson'
 import { Style, Fill, Stroke } from 'ol/style'
+import Overlay from 'ol/Overlay'
 import { GeoJSON } from 'ol/format'
 import { rawLayerList } from '@masterportal/masterportalapi/src'
 import { PolarActionTree } from '@polar/lib-custom-types'
+import { getTooltip } from '@polar/lib-tooltip'
 import {
   featureDisplayLayer,
   clear,
@@ -54,6 +56,45 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         ),
       })
     )
+
+    dispatch('setupTooltip')
+  },
+  setupTooltip({ getters: { gfiConfiguration }, rootGetters: { map } }) {
+    Object.keys(gfiConfiguration.layers).forEach((layerId) => {
+      const showTooltip = gfiConfiguration.layers[layerId].showTooltip
+      if (showTooltip) {
+        let element, unregister
+        const overlay = new Overlay({
+          positioning: 'bottom-center',
+          offset: [0, -5],
+        })
+        map.addOverlay(overlay)
+        map.on('pointermove', ({ pixel, dragging }) => {
+          if (dragging) {
+            return
+          }
+          const features = map.getFeaturesAtPixel(pixel, {
+            layerFilter: (layer) => layer.get('id') === layerId,
+          })
+
+          const coordinate = features.length
+            ? map.getCoordinateFromPixel(pixel)
+            : undefined
+
+          overlay.setPosition(coordinate)
+
+          if (features[0]) {
+            if (unregister) {
+              unregister()
+            }
+            ;({ element, unregister } = getTooltip({
+              localeKeys: showTooltip(features[0]),
+            }))
+            overlay.setElement(element)
+          }
+        })
+      }
+    })
   },
   close({ commit, dispatch }) {
     commit('clearFeatureInformation')

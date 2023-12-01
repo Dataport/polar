@@ -27,6 +27,7 @@
   "devDependencies": {
     "@polar/lib-custom-types": "^1.0.0",
     "@polar/lib-test-mount-parameters": "^1.0.0",
+    "@polar/lib-tooltip": "*",
     "@polar/components": "^1.0.0"
   }
 }
