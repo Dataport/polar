@@ -25,10 +25,12 @@ const language: LanguageOption[] = [
               info: 'Bitte wählen Sie ein Einzeldatum oder das erste und letzte Datum eines Zeitraums.',
             },
             vuetify: {
-              nextMonth: 'Nächsten Monat auswählen',
-              nextYear: 'Nächstes Jahr auswählen',
-              prevMonth: 'Vorherigen Monat auswählen',
-              prevYear: 'Vorheriges Jahr auswählen',
+              aria: {
+                nextMonth: 'Nächsten Monat auswählen',
+                nextYear: 'Nächstes Jahr auswählen',
+                prevMonth: 'Vorherigen Monat auswählen',
+                prevYear: 'Vorheriges Jahr auswählen',
+              },
             },
           },
         },
