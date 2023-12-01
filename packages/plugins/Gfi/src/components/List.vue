@@ -135,6 +135,10 @@ export default Vue.extend({
   max-width: 420px;
 }
 
+.v-card__subtitle {
+  padding-bottom: 0;
+}
+
 .v-card__title {
   display: flex;
   flex-direction: row;
