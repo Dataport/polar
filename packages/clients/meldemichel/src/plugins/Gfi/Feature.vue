@@ -40,10 +40,9 @@
               <td class="meldemichel-fat-cell">
                 {{ $t(`meldemichel.gfi.${item}`) }}
               </td>
-              <!-- eslint-disable-next-line vue/no-v-html -->
-              <td
-                v-html="$t(formatProperty(item, currentProperties[item]))"
-              ></td>
+              <td>
+                {{ $t(formatProperty(item, currentProperties[item])) }}
+              </td>
             </tr>
           </tbody>
         </template>
