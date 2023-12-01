@@ -50,10 +50,10 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
     setupModule({ getters: { filterConfiguration }, commit }): void {
       Object.entries(filterConfiguration.layers).forEach(
         ([layerId, { categories, time }]) => {
-          categories?.forEach?.(({ targetProperty, knownCategories }) => {
+          categories?.forEach?.(({ targetProperty, knownValues }) => {
             commit('setupState', {
               path: ['category', layerId, targetProperty],
-              value: knownCategories.reduce((accumulator, current) => {
+              value: knownValues.reduce((accumulator, current) => {
                 accumulator[current] = true
                 return accumulator
               }, {}),
@@ -87,8 +87,8 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
       getters
         .getCategories(layerId)
         .find(({ targetProperty }) => targetProperty === payload.targetProperty)
-        .knownCategories.forEach((knownCategory) => {
-          commit('setCategory', { ...payload, knownCategory, value })
+        .knownValues.forEach((knownValue) => {
+          commit('setCategory', { ...payload, knownValue, value })
         })
       dispatch('updateFeatureVisibility', payload.layerId)
     },
@@ -112,8 +112,8 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
   },
   mutations: {
     ...generateSimpleMutations(getInitialState()),
-    setCategory(state, { layerId, targetProperty, knownCategory, value }) {
-      state.category[layerId][targetProperty][knownCategory] = value
+    setCategory(state, { layerId, targetProperty, knownValue, value }) {
+      state.category[layerId][targetProperty][knownValue] = value
     },
     setupState(state, { path, value }) {
       setState(state, path, value)
@@ -131,8 +131,8 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
       return rootGetters.configuration?.filter || { layers: {} }
     },
     getActiveCategory(state) {
-      return ({ layerId, targetProperty, knownCategory }) =>
-        state.category[layerId][targetProperty][knownCategory]
+      return ({ layerId, targetProperty, knownValue }) =>
+        state.category[layerId][targetProperty][knownValue]
     },
     getActiveCategoryAll(state) {
       return ({ layerId, targetProperty }) => {

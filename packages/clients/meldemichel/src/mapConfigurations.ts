@@ -123,11 +123,11 @@ const getFilterConfiguration = (id: string): FilterConfiguration => ({
         {
           selectAll: true,
           targetProperty: 'skat',
-          knownCategories: [...SKAT],
+          knownValues: [...SKAT],
         },
         {
           targetProperty: 'statu',
-          knownCategories: [...REPORT_STATUS],
+          knownValues: [...REPORT_STATUS],
         },
       ],
       time: {

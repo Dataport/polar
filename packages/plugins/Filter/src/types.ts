@@ -3,7 +3,7 @@ import Vue from 'vue'
 
 export type LayerId = string
 export type TargetProperty = string
-export type KnownCategory = string
+export type KnownValue = string
 export type DatePattern = string
 export interface TimeLayerEntry {
   targetProperty: TargetProperty
@@ -21,10 +21,7 @@ export interface TimeOption {
 }
 
 export interface FilterState {
-  category: Record<
-    LayerId,
-    Record<TargetProperty, Record<KnownCategory, boolean>>
-  >
+  category: Record<LayerId, Record<TargetProperty, Record<KnownValue, boolean>>>
   time: Record<LayerId, TimeLayerEntry>
 }
 
@@ -33,11 +30,11 @@ export interface FilterGetters extends FilterState {
   getActiveCategory: ({
     layerId,
     targetProperty,
-    knownCategory,
+    knownValue,
   }: {
     layerId: LayerId
     targetProperty: TargetProperty
-    knownCategory: KnownCategory
+    knownValue: KnownValue
   }) => boolean
   getActiveCategoryAll: ({
     layerId,

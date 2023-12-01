@@ -208,7 +208,7 @@ interface FilterConfigurationTime {
 interface FilerConfigurationCategory {
   selectAll?: boolean
   targetProperty: string
-  knownCategories: (string | number)[]
+  knownValues: (string | number)[]
 }
 
 export interface FilterConfiguration extends PluginOptions {
