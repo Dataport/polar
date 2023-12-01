@@ -135,14 +135,12 @@ export default Vue.extend({
   max-width: 420px;
 }
 
-.plugin-gfi-list {
-  .v-card__title {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 0.5em;
-    word-break: normal;
-  }
+.v-card__title {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5em;
+  word-break: normal;
 }
 </style>
 
