@@ -90,18 +90,21 @@ For example, `{now: 'until', unit: 'days'}` will add this radio button:
   filter: {
     layers: {
       "1234": {
-        categories: [{
-          selectAll: true,
-          targetProperty: 'buildingType',
-          knownValues: ['shed', 'mansion', 'fortress']
-        }, {
-          selectAll: false,
-          targetProperty: 'lightbulb',
-          knownValues: ['on', 'off']
-        }],
+        categories: [
+          {
+            selectAll: true,
+            targetProperty: 'buildingType',
+            knownValues: ['shed', 'mansion', 'fortress']
+          },
+          {
+            selectAll: false,
+            targetProperty: 'lightbulb',
+            knownValues: ['on', 'off']
+          }
+        ],
         time: {
           targetProperty: 'lastAccident',
-         last: [
+          last: [
             {
               amounts: [7, 30],
               unit: 'days',
