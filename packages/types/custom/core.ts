@@ -545,17 +545,17 @@ export interface PolarError {
 }
 
 export interface CoreState {
-  map: number
   center: [number, number] | null
   clientHeight: number
   clientWidth: number
   components: number
-  zoomLevel: number
-  hovered: number
-  selected: number
   configuration: MapConfig
   errors: PolarError[]
+  hovered: number
+  map: number
   plugin: object
+  selected: number
+  zoomLevel: number
 }
 
 export interface CoreGetters {
@@ -565,9 +565,9 @@ export interface CoreGetters {
   hasSmallWidth: boolean
   /** Whether the application currently has the same size as the visual viewport of the users browser */
   hasWindowSize: boolean
+  hovered: Feature | null
   errors: PolarError[]
   map: Map
-  hovered: Feature | null
   selected: Feature | null
 }
 
