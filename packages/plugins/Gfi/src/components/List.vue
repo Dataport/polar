@@ -46,7 +46,7 @@
           :key="`gfi-feature-list-${feature.ol_uid}`"
           :two-line="listText.length === 2"
           :three-line="listText.length === 3"
-          @click="itemClick(feature)"
+          @click="setOlFeatureInformation(feature)"
         >
           <v-list-item-content>
             <component
@@ -110,9 +110,6 @@ export default Vue.extend({
   methods: {
     ...mapActions('plugin/gfi', ['setOlFeatureInformation', 'setPage']),
     ...mapMutations('plugin/gfi', ['setPage']),
-    itemClick(feature) {
-      this.setOlFeatureInformation(feature)
-    },
     applyListText(feature: Feature, index: number) {
       const text: string | ((f: Feature) => string) | undefined =
         this.listText[index]
