@@ -61,10 +61,12 @@ const language: LanguageOption[] = [
               info: 'Please choose a singular date or the first and last date of a time frame.',
             },
             vuetify: {
-              nextMonth: 'Choose next month',
-              nextYear: 'Choose next year',
-              prevMonth: 'Choose previous month',
-              prevYear: 'Choose previous year',
+              aria: {
+                nextMonth: 'Choose next month',
+                nextYear: 'Choose next year',
+                prevMonth: 'Choose previous month',
+                prevYear: 'Choose previous year',
+              },
             },
           },
         },
