@@ -161,7 +161,7 @@ export default Vue.extend({
 }
 
 .meldemichel-gfi-title {
-  padding-top: 0 !important;
+  padding-top: 0;
   word-break: break-word;
 }
 
