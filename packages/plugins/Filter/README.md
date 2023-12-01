@@ -16,14 +16,14 @@ The Filter plugin can be used to filter arbitrary configurable vector layers by 
 The following chapters contain drafts in this format. Please mind that they neither represent UI nor localisation, but are merely there to communicate the idea with an example.
 ```
 
-#### filter.filterConfiguration
+##### filter.filterConfiguration
 
 | fieldName | type | description |
 | - | - | - |
 | categories | category[]? | Category filter definition to filter features by their property values. |
 | time | time? | Time filter definition so filter features by a time property. |
 
-##### filter.filterConfiguration.category
+###### filter.filterConfiguration.category
 
 | fieldName | type | description |
 | - | - | - |
@@ -41,7 +41,7 @@ For example, `{targetProperty: 'favouriteIceCream', knownCategories: ['chocolate
 ▢ Strawberry
 ```
 
-##### filter.filterConfiguration.time
+###### filter.filterConfiguration.time
 
 | fieldName | type | description |
 | - | - | - |
@@ -52,7 +52,7 @@ For example, `{targetProperty: 'favouriteIceCream', knownCategories: ['chocolate
 
 Of all time restrictions, at most one can be selected at any time. The produced options are selectable by radio buttons.
 
-##### filter.filterConfiguration.time.options
+###### filter.filterConfiguration.time.options
 
 | fieldName | type | description |
 | - | - | - |
@@ -68,7 +68,7 @@ For example, `{amounts: [3, 7], unit: 'days'}` as value for `last` will add thes
 
 In `'days'` mode, the selections will always include full days, and additionally the current day. Due to this, the time frame of "last 7 days" is actually 8*24h long. This seems unexpected at first, but follows intuition – if it's Monday and you filter to the "last seven days", you'd expect to fully see last week's Monday, but also features from today's morning.
 
-##### filter.filterConfiguration.time.freeSelection
+###### filter.filterConfiguration.time.freeSelection
 
 | fieldName | type | description |
 | - | - | - |
