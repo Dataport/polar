@@ -113,7 +113,7 @@ export default Vue.extend({
     applyListText(feature: Feature, index: number) {
       const text: string | ((f: Feature) => string) | undefined =
         this.listText[index]
-      if (typeof text === 'undefined') {
+      if (text === undefined) {
         console.error(
           `Missing text entry in GFI configuration. See documentation of gfi.featureList.text for more information. Fallback to ol_uid.`
         )
