@@ -29,7 +29,7 @@ The following chapters contain drafts in this format. Please mind that they neit
 | - | - | - |
 | targetProperty | string | Target property to filter by. This is the name (that is, key) of a feature property. |
 | pattern | string? | Pattern the target string uses for its date formatting. Defaults to `'YYYY-MM-DD'`. Only 'Y', 'M', and 'D' are interpreted. All other characters are considered filler. |
-| knownCategories | (string | number | boolean | null)[] | Array of known values for the feature properties. Each entry will result in a checkbox that allows filtering the appropriate features. Properties not listed will not be filterable. The technical name will result in a localization key that can be configured on a per-client basis. |
+| knownCategories | (string \| number \| boolean \| null)[] | Array of known values for the feature properties. Each entry will result in a checkbox that allows filtering the appropriate features. Properties not listed will not be filterable. The technical name will result in a localization key that can be configured on a per-client basis. |
 | selectAll | boolean? | If true, a checkbox is added to de/select all `knownCategories` (above) at once. Defaults to `false`. |
 
 For example, `{targetProperty: 'favouriteIceCream', knownCategories: ['chocolate', 'vanilla', 'strawberry'], selectAll: true}` will add these checkboxes:
@@ -108,7 +108,12 @@ For example, `{now: 'until', unit: 'days'}` will add this radio button:
           freeSelection: {
             unit: 'days',
             now: 'until'
-          }
+          },
+          /**
+           * Feature holds date property as e.g. "20143012", where 2014 is the
+           * year, 30 the day, and 12 the month.
+           */
+          pattern: 'YYYYDDMM'
         }
       }
     }
