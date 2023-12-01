@@ -93,9 +93,6 @@ export default Vue.extend({
     maxPage() {
       return Math.ceil(this.listFeatures.length / this.pageLength)
     },
-    showPagination() {
-      return Boolean(this.gfiConfiguration.featureList.pageLength)
-    },
     visibleListFeatures() {
       return this.listFeatures.slice(
         (this._page - 1) * this.pageLength,
