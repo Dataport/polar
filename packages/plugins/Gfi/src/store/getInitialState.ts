@@ -12,6 +12,7 @@ const getInitialState = (): GfiState => ({
       color: 'rgb(255, 255, 255, 0.7)',
     },
   },
+  page: 0,
 })
 
 export default getInitialState

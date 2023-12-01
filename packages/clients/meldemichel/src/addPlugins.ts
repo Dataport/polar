@@ -1,7 +1,6 @@
 import { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
 import AddressSearch from '@polar/plugin-address-search'
 import GeoLocation from '@polar/plugin-geo-location'
-import Gfi from '@polar/plugin-gfi'
 import IconMenu from '@polar/plugin-icon-menu'
 import LoadingIndicator from '@polar/plugin-loading-indicator'
 import Pins from '@polar/plugin-pins'
@@ -29,7 +28,6 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
 
   core.addPlugins(
     [
-      iconMenu,
       mode !== MODE.SINGLE &&
         AddressSearch({
           displayComponent: true,
@@ -43,13 +41,7 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
         coordinateSource: 'plugin/addressSearch/chosenAddress',
         toastAction: 'plugin/toast/addToast',
       }),
-      Gfi({
-        displayComponent: true,
-        coordinateSources: ['plugin/addressSearch/chosenAddress'],
-        // TODO what is this? often used, seemingly nowhere available
-        coordinatesFromMarker: 'plugin/pins/coordinatesAfterDrag',
-        showGfi: true,
-      }),
+      iconMenu,
       LoadingIndicator({
         displayComponent: true,
         layoutTag: NineLayoutTag.MIDDLE_MIDDLE,

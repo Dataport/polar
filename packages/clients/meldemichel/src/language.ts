@@ -3,55 +3,6 @@
 import { LanguageOption } from '@polar/lib-custom-types'
 import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
 
-/*
-  NOTE this is a lookup of the old localization.
-  TODO this comment must be deleted after parts were used where applicable.
-  NOTE delete parts you used further below in the actual data
-    'title': 'Meldemichel',
-    'tooltip.self.header': 'Eigene Position',
-    'tooltip.self.body': 'Sie wurden hier verortet',
-    'tooltip.multiple.header': 'Mehrere Anliegen',
-    'tooltip.multiple.body': 'Klick zum Zoomen',
-    'tooltip.finalMultiple.header': 'Mehrere Anliegen',
-    'tooltip.finalMultiple.body': 'Klick öffnet Details',
-    'toast.user.outsideHH':
-      'Das System konnte Sie leider nicht in Hamburg verorten. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.',
-    'toast.point.outsideHH':
-      'Es können nur Punkte innerhalb von Hamburg gewählt werden.',
-    'sidebar.report.title':
-      'Meldungsliste Sidebar öffnen / schließen',
-    'sidebar.report.header': 'Meldungsliste',
-    'sidebar.report.page':
-      '<FROM> bis <TO> von <ALL> Einträgen',
-    'sidebar.report.pagination':
-      'Öffne Seite <X> von <Y> der Schadensmeldungen',
-    'sidebar.report.close': 'Zurück zur Kartenansicht',
-    'sidebar.report.back':
-      'Zurück zur Listenansicht der Meldungen',
-    'sidebar.report.previous':
-      'Vorherige Meldung in Auswahl aufrufen',
-    'sidebar.report.next':
-      'Nächste Meldung in Auswahl aufrufen',
-    'sidebar.report.response': 'Rückmeldung',
-    'sidebar.report.date': 'Gemeldet am <DATE>',
-    'sidebar.report.state': 'Status',
-    'sidebar.filter.title':
-      'Filter Sidebar öffnen / schließen',
-    'sidebar.filter.close': 'Zurück zur Kartenansicht',
-    'sidebar.filter.categories': 'Kategorien',
-    'sidebar.filter.status': 'Status',
-    'sidebar.filter.timeframe': 'Zeitraum',
-    'sidebar.filter.from': 'Von',
-    'sidebar.filter.to': 'Bis',
-    'sidebar.filter.information':
-      '90 Tage nach Bearbeitungsende werden die Meldungen gelöscht.',
-    'skat.all': 'Alle anwählen/abwählen',
-    'report.button': 'Neues Anliegen',
-    'report.button.title': 'Einen neuen Schaden melden',
-    'report.button.ariaDescription':
-      'Öffnet eine neue Seite, auf welcher ein neues Anliegen gemeldet werden kann.',
-*/
-
 const language: LanguageOption[] = [
   {
     type: 'de',
@@ -63,6 +14,14 @@ const language: LanguageOption[] = [
           luftbilder:
             'Kartografie Luftbilder: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
           reports: 'Meldungen durch Bürger',
+        },
+        gfi: {
+          title: 'Meldung',
+          skat: 'Kategorie',
+          beschr: 'Beschreibung',
+          rueck: 'Rückmeldung',
+          start: 'Gemeldet am',
+          statu: 'Status',
         },
         layers: {
           stadtplan: 'Stadtplan',
@@ -119,6 +78,32 @@ const language: LanguageOption[] = [
               'Das System konnte Sie leider nicht in Hamburg verorten. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.',
             boundaryError:
               'Die Verortung ist fehlgeschlagen. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.',
+          },
+        },
+        gfi: {
+          header: {
+            close: 'Zurück zur Listenansicht der Meldungen',
+          },
+          list: {
+            header: 'Meldungsliste',
+            entry: 'Meldung',
+            emptyView:
+              'Im aktuellen Kartenausschnitt sind keine Meldungen enthalten.',
+            pagination: {
+              currentPage:
+                'Aktuelle Seite, Seite {{page}} von {{maxPage}} der Schadensmeldungen',
+              page: 'Öffne Seite {{page}} von {{maxPage}} der Schadensmeldungen',
+              next: 'Nächste Seite öffnen',
+              previous: 'Vorherige Seite öffnen',
+              wrapper: 'Seitenauswahl',
+            },
+          },
+          noActiveLayer:
+            'Die Meldungen sind derzeit ausgeschaltet. Sie können Sie über die Kartenauswahl (Buch-Symbol in der Werkzeugleiste) wieder einschalten.',
+        },
+        iconMenu: {
+          hints: {
+            gfi: 'Meldungsliste',
           },
         },
         pins: {

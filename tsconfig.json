@@ -12,7 +12,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "declaration": true,
     "sourceMap": true,
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "typeRoots": ["node_modules/@types", "./packages/types"],

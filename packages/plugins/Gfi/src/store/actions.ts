@@ -2,6 +2,7 @@ import debounce from 'lodash.debounce'
 import { Coordinate } from 'ol/coordinate'
 import { Feature as GeoJsonFeature } from 'geojson'
 import { Style, Fill, Stroke } from 'ol/style'
+import { GeoJSON } from 'ol/format'
 import { rawLayerList } from '@masterportal/masterportalapi/src'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import {
@@ -12,6 +13,8 @@ import {
 import { requestGfi } from '../utils/requestGfi'
 import { GfiGetters, GfiState } from '../types'
 import sortFeatures from '../utils/sortFeatures'
+
+const writer = new GeoJSON()
 
 const actions: PolarActionTree<GfiState, GfiGetters> = {
   /**
@@ -131,7 +134,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         (result) =>
           result.status === 'fulfilled'
             ? result.value
-            : (console.error(result), errorSymbol(result.reason.message))
+            : errorSymbol(result.reason.message)
       )
 
       const generalMaxFeatures: number =
@@ -178,6 +181,14 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
     },
     50
   ),
+  setOlFeatureInformation({ commit }, feature) {
+    commit('clearFeatureInformation')
+    commit('setVisibleWindowFeatureIndex', 0)
+    clear()
+    commit('setFeatureInformation', {
+      [feature.get('_gfiLayerId')]: [JSON.parse(writer.writeFeature(feature))],
+    })
+  },
 }
 
 export default actions

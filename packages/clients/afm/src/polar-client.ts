@@ -84,8 +84,6 @@ polarCore.addPlugins([
   PolarPluginGfi(
     merge({}, defaultOptions, {
       coordinateSources: ['plugin/addressSearch/chosenAddress'],
-      coordinatesFromMarker: 'plugin/pins/coordinatesAfterDrag',
-      showGfi: true,
     })
   ),
   PolarPluginLoadingIndicator(

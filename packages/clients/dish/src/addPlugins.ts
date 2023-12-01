@@ -83,9 +83,7 @@ export const addPlugins = (core) => {
     PolarPluginGfi(
       merge({}, defaultOptions, {
         coordinateSources: ['plugin/addressSearch/chosenAddress'],
-        coordinatesFromMarker: 'plugin/pins/coordinatesAfterDrag',
         gfiContentComponent: DishGfiContent,
-        showGfi: true,
         afterLoadFunction: extendGfi,
       })
     ),

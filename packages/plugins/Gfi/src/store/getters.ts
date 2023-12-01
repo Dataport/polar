@@ -1,7 +1,14 @@
 import Vue from 'vue'
 import { generateSimpleGetters } from '@repositoryname/vuex-generators'
 import { GeoJsonProperties } from 'geojson'
-import { GfiConfiguration, PolarGetterTree } from '@polar/lib-custom-types'
+import {
+  FeatureList,
+  GfiConfiguration,
+  PolarGetterTree,
+} from '@polar/lib-custom-types'
+import noop from '@repositoryname/noop'
+import { Feature } from 'ol'
+import { Vector as VectorLayer } from 'ol/layer'
 import { GfiGetters, GfiState } from '../types'
 import getInitialState from './getInitialState'
 
@@ -43,6 +50,29 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
         return accumulator
       },
       [] as string[]
+    )
+  },
+  windowLayerKeysActive(
+    _,
+    { windowLayerKeys, gfiConfiguration },
+    __,
+    rootGetters
+  ): boolean {
+    const { activeLayerPath } = gfiConfiguration
+    if (!activeLayerPath) {
+      // if not configured, restriction does not apply
+      return true
+    }
+    // update on change indicator
+    noop(rootGetters[activeLayerPath])
+    return Boolean(
+      rootGetters.map
+        .getLayers()
+        .getArray()
+        .filter(
+          (layer) =>
+            windowLayerKeys.includes(layer.get('id')) && layer.getVisible()
+        ).length
     )
   },
   geometryLayerKeys(_, { gfiConfiguration }): string[] {
@@ -103,6 +133,54 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
             })
           : []
       )
+      .flat(1)
+  },
+  listMode(_, { gfiConfiguration }): FeatureList['mode'] | undefined {
+    if (gfiConfiguration.featureList && !gfiConfiguration.featureList.mode) {
+      console.error(
+        'POLAR: When using featureList in GFI plugin, a mode must be chosen.'
+      )
+    }
+    return gfiConfiguration.featureList?.mode
+  },
+  listText(_, { gfiConfiguration }): FeatureList['text'] {
+    return gfiConfiguration.featureList?.text || []
+  },
+  showList(_, { windowFeatures, gfiConfiguration }): boolean {
+    return Boolean(gfiConfiguration.featureList && !windowFeatures.length)
+  },
+  listFeatures(_, { listMode, layerKeys }, __, rootGetters): Feature[] {
+    const { map, clientHeight, clientWidth, center, zoomLevel } = rootGetters
+    // trigger getter on those who indicate feature change possibility
+    noop(clientHeight, clientWidth, center, zoomLevel)
+    return map
+      .getLayers()
+      .getArray()
+      .filter((layer) => layerKeys.includes(layer.get('id')))
+      .filter(
+        (layer) =>
+          layer instanceof VectorLayer ||
+          console.warn(
+            `Layer ${layer.get(
+              'id'
+            )} in GFI plugin will not produce list results since it is not a vector layer.`
+          )
+      )
+      .map((layer) => {
+        // @ts-expect-error | no sourceless layers in masterportalAPI generation
+        const source = layer.getSource()
+        return (
+          listMode === 'loaded'
+            ? source.getFeatures()
+            : source.getFeaturesInExtent(
+                map.getView().calculateExtent(map.getSize()),
+                map.getView().getProjection()
+              )
+        ).map((feature) => {
+          feature.set('_gfiLayerId', layer.get('id'))
+          return feature
+        })
+      })
       .flat(1)
   },
 }
