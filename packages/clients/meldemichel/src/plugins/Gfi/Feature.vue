@@ -28,7 +28,7 @@
     <img
       v-if="displayImage"
       :src="currentProperties.pic"
-      style="width: 100%"
+      class="meldemichel-gfi-img"
       draggable="false"
       @load="resize"
     />
@@ -164,5 +164,11 @@ export default Vue.extend({
 .meldemichel-gfi-title {
   padding-top: 0 !important;
   word-break: break-word;
+}
+
+.meldemichel-gfi-img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
 }
 </style>
