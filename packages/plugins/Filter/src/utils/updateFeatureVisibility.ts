@@ -1,10 +1,7 @@
 import { Feature, Map } from 'ol'
-import Style from 'ol/style/Style'
+import { InvisibleStyle } from '@polar/lib-invisible-style'
 import { FilterConfiguration } from '@polar/lib-custom-types'
 import { DatePattern, FilterState, LayerId, TimeOption } from '../types'
-
-// comparable style to identify elements *supposed* to be invisible
-export const Invisible = new Style()
 
 const doesFeaturePassCategoryFilter = (
   categories: FilterConfiguration['layers'][string]['categories'],
@@ -142,7 +139,7 @@ export const updateFeatureVisibility = ({
       feature.setStyle(
         doesFeaturePassFilter(feature, state, categories, layerId, timeOptions)
           ? undefined
-          : Invisible
+          : InvisibleStyle
       )
     })
 }
