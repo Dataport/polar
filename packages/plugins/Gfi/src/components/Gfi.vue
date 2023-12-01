@@ -150,7 +150,6 @@ export default Vue.extend({
 .polar-plugin-gfi-move-handle {
   left: 0;
   right: 0;
-  overflow-y: unset;
   scrollbar-gutter: unset;
 }
 </style>
