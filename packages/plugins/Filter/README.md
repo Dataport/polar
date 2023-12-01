@@ -101,10 +101,12 @@ For example, `{now: 'until', unit: 'days'}` will add this radio button:
         }],
         time: {
           targetProperty: 'lastAccident',
-          last: {
-            amounts: [7, 30],
-            unit: 'days'
-          },
+         last: [
+            {
+              amounts: [7, 30],
+              unit: 'days',
+            },
+          ],
           freeSelection: {
             unit: 'days',
             now: 'until'
