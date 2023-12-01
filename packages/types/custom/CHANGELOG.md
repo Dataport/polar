@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Currently active `language` key has been added to the core store.
+- Feature: Add currently active language key as parameter `language` to `CoreState `.
 - Feature: Add types for new plugin `Filter`, namely `FilterConfiguration`; also to `MapConfig` as configurable plugin.
 - Feature: Add types for new core state and getters. (`zoomLevel`, `hovered`, `selected`)
 - Feature: Add parameters `renderType`, `featureList`, and `activeLayerPath` to `GfiConfiguration`.

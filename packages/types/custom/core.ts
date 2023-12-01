@@ -194,25 +194,29 @@ export interface FilterConfigurationTimeOption {
   unit: 'days'
 }
 
+interface FilterConfigurationTime {
+  targetProperty: string
+  pattern?: string
+  last?: FilterConfigurationTimeOption[]
+  next?: FilterConfigurationTimeOption[]
+  freeSelection?: {
+    now?: 'until' | 'from'
+    unit: 'days'
+  }
+}
+
+interface FilerConfigurationCategory {
+  selectAll?: boolean
+  targetProperty: string
+  knownCategories: (string | number)[]
+}
+
 export interface FilterConfiguration extends PluginOptions {
   layers: Record<
     string,
     {
-      categories?: {
-        selectAll?: boolean
-        targetProperty: string
-        knownCategories: (string | number)[]
-      }[]
-      time?: {
-        targetProperty: string
-        pattern?: string
-        last?: FilterConfigurationTimeOption[]
-        next?: FilterConfigurationTimeOption[]
-        freeSelection?: {
-          now?: 'until' | 'from'
-          unit: 'days'
-        }
-      }
+      categories?: FilerConfigurationCategory[]
+      time?: FilterConfigurationTime
     }
   >
 }
