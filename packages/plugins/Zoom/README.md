@@ -21,9 +21,10 @@ It can be configured as followed.
 |------------|------------------------------|-----------------------------------------------------------------------------------------------|
 | renderType | 'iconMenu' \| 'independent'? | Whether the zoom related buttons are being rendered independently or as part of the IconMenu. Defaults to 'independent'. |
 | showMobile | boolean?                     | Whether the zoom related buttons should be displayed on smaller devices; defaults to false.   |
+
 ## Store
 
-### Getters
+### State
 
 The map's zoom level can be listened to.
 
@@ -32,15 +33,27 @@ The map's zoom level can be listened to.
 | zoomLevel              | number  | Current OpenLayers zoom level.                |
 | maximumZoomLevel       | number  | Maximum OpenLayers zoom level.                |
 | minimumZoomLevel       | number  | Minimum OpenLayers zoom level.                |
-| maximumZoomLevelActive | boolean | Whether the current zoomLevel is the maximum. |
-| minimumZoomLevelActive | boolean | Whether the current zoomLevel is the minimum. |
-
-#### Usage example
 
 ```js
 map.subscribe('plugin/zoom/zoomLevel', (zoomLevel) => {
   /* This code is called on any zoomLevel update. */
 })
+```
+
+### Getters
+
+| fieldName | type | description |
+| - | - | - |
+| maximumZoomLevelActive | boolean | Whether the current zoomLevel is the maximum. |
+| minimumZoomLevelActive | boolean | Whether the current zoomLevel is the minimum. |
+
+```js
+mapInstance.$store.watch(
+  (_, getters) => getters['plugin/zoom/maximumZoomLevelActive'],
+  (maximumZoomLevelActive) => {
+    /* This code is called on value updates. */
+  }
+)
 ```
 
 ### Actions

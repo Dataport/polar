@@ -34,7 +34,10 @@ You may desire to listen to whether the loader is currently being shown.
 | showLoader | boolean | Whether the layer is currently shown. |
 
 ```js
-map.subscribe('plugin/loadingIndicator/showLoader', (showLoader) => {
-  /* This code is called on showLoader updates. */
-})
+mapInstance.$store.watch(
+    (_, getters) => getters['plugin/loadingIndicator/showLoader'],
+    (showLoader) => {
+        /* This code is called on showLoader updates. */
+    }
+)
 ```
