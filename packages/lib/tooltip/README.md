@@ -1,6 +1,6 @@
 # tooltip
 
-Minimal package that provides a `div` element factory bound to i18next translations. The element can e.g. be used in ol/Overlay.
+Minimal package that provides a `div` element factory bound to `i18next` translations. The element can e.g. be used in `ol/Overlay`.
 
 ```js
 import { getTooltip } from '@polar/lib-tooltip'
