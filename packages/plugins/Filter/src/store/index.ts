@@ -140,12 +140,13 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
     filterConfiguration(_, __, ___, rootGetters): FilterConfiguration {
       return rootGetters.configuration?.filter || { layers: {} }
     },
-    getActiveCategory(state) {
-      return ({ layerId, targetProperty, knownValue }) =>
-        state.category[layerId][targetProperty][knownValue]
-    },
-    getActiveCategoryAll(state) {
-      return ({ layerId, targetProperty }) => {
+    getActiveCategory:
+      (state) =>
+      ({ layerId, targetProperty, knownValue }) =>
+        state.category[layerId][targetProperty][knownValue],
+    getActiveCategoryAll:
+      (state) =>
+      ({ layerId, targetProperty }) => {
         const allValues = Object.values(state.category[layerId][targetProperty])
         if (arrayOnlyContains(allValues, true)) {
           return true
@@ -154,20 +155,20 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
           return false
         }
         return 'indeterminate'
-      }
-    },
-    getActiveTime(state) {
-      return ({ layerId }) => state.time[layerId].radioId
-    },
-    getCategories(_, getters) {
-      return (layerId) =>
-        getters.filterConfiguration.layers[layerId]?.categories || []
-    },
-    getTimeConfig(_, { filterConfiguration }) {
-      return (layerId) => filterConfiguration.layers[layerId]?.time || null
-    },
-    getTimeOptions(_, { getTimeConfig }) {
-      return (layerId) => {
+      },
+    getActiveTime:
+      (state) =>
+      ({ layerId }) =>
+        state.time[layerId].radioId,
+    getCategories: (_, getters) => (layerId) =>
+      getters.filterConfiguration.layers[layerId]?.categories || [],
+    getTimeConfig:
+      (_, { filterConfiguration }) =>
+      (layerId) =>
+        filterConfiguration.layers[layerId]?.time || null,
+    getTimeOptions:
+      (_, { getTimeConfig }) =>
+      (layerId) => {
         const timeConfig = getTimeConfig(layerId)
         if (!timeConfig) {
           return []
@@ -188,11 +189,9 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
                 },
               ]),
         ]
-      }
-    },
-    getFreeSelection(state) {
-      return (layerId: string) => state.time[layerId].freeSelection
-    },
+      },
+    getFreeSelection: (state) => (layerId: string) =>
+      state.time[layerId].freeSelection,
   },
 }
 
