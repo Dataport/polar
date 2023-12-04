@@ -42,7 +42,7 @@ export const getTooltip = ({
   style = defaultStyle,
   localeKeys,
 }: GetTooltipParams): Tooltip => {
-  const element = document.createElement('div') as HTMLDivElement
+  const element = document.createElement('div')
   element.style.cssText = style
 
   const translate = setInnerHtml(element, localeKeys)
