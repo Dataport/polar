@@ -1,10 +1,12 @@
 import { Feature as GeoJsonFeature } from 'geojson'
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer'
+import { getLayerWhere } from '@masterportal/masterportalapi/src/rawLayerList'
 
 import { RequestGfiParameters } from '../types'
 
 import requestGfiWms from './requestGfiWms'
 import requestGfiWfs from './requestGfiWfs'
+import requestGfiGeoJson from './requestGfiGeoJson'
 
 /**
  * The requestGfi method abstracts from service-specific implementation and
@@ -24,23 +26,15 @@ export function requestGfi({
   mode,
 }: RequestGfiParameters): Promise<GeoJsonFeature[]> {
   try {
+    const params = { map, coordinate, layerConfiguration, layerSpecification }
     if (layer instanceof TileLayer) {
-      return requestGfiWms({
-        map,
-        layer,
-        coordinate,
-        layerConfiguration,
-        layerSpecification,
-      })
+      return requestGfiWms({ ...params, layer })
+    }
+    if (getLayerWhere({ id: layer.get('id') })?.typ === 'GeoJSON') {
+      return requestGfiGeoJson({ ...params, layer })
     }
     if (layer instanceof VectorLayer) {
-      return requestGfiWfs({
-        map,
-        coordinate,
-        layerConfiguration,
-        layerSpecification,
-        mode,
-      })
+      return requestGfiWfs({ ...params, mode })
     }
     return Promise.reject(
       new Error(

@@ -1,4 +1,4 @@
-import { Map } from 'ol'
+import { Feature, Map } from 'ol'
 import { Resource } from 'i18next'
 import { Options as Fill } from 'ol/style/Fill'
 import { Options as Stroke } from 'ol/style/Stroke'
@@ -283,7 +283,14 @@ export type GfiAfterLoadFunction = (
 ) => Record<string, GeoJsonFeature[] | symbol>
 
 /** GFI Module Configuration */
+export interface FeatureList {
+  mode: 'visible' | 'loaded'
+  pageLength?: number
+  text: (string | ((f: Feature) => string))[]
+}
+
 export interface GfiConfiguration extends PluginOptions {
+  activeLayerPath?: string
   afterLoadFunction?: GfiAfterLoadFunction
   /**
    * Source paths through store to listen to for changes; it is assumed values
@@ -291,6 +298,12 @@ export interface GfiConfiguration extends PluginOptions {
    * the specified layers.
    */
   coordinateSources: string[]
+  /**
+   * If required the stroke and fill of the highlighted feature can be configured.
+   * Otherwise, a default style is applied.
+   */
+  customHighlightStyle?: HighlightStyle
+  featureList?: FeatureList
   /**
    * Optionally replace GfiContent component.
    * Usable to completely redesign content of GFI window.
@@ -307,11 +320,6 @@ export interface GfiConfiguration extends PluginOptions {
    * limit an endless stream of returns to maybe 10 or so. Infinite by default.
    */
   maxFeatures?: number
-  /**
-   * If required the stroke and fill of the highlighted feature can be configured.
-   * Otherwise, a default style is applied.
-   */
-  customHighlightStyle?: HighlightStyle
 }
 
 export interface Menu {
@@ -541,6 +549,9 @@ export interface CoreState {
   clientHeight: number
   clientWidth: number
   components: number
+  zoomLevel: number
+  hovered: number
+  selected: number
   configuration: MapConfig
   hasSmallDisplay: boolean
   errors: PolarError[]
@@ -556,6 +567,8 @@ export interface CoreGetters {
   hasWindowSize: boolean
   errors: PolarError[]
   map: Map
+  hovered: Feature | null
+  selected: Feature | null
 }
 
 export type PolarGetter<S, G, P> = (

@@ -21,6 +21,23 @@ const language: LanguageOption[] = [
             previous: 'Vorangehender Datensatz',
             next: 'Nächster Datensatz',
           },
+          noActiveLayer:
+            'Derzeit ist kein Kartenmaterial mit passenden Objekten eingeschaltet.',
+          list: {
+            header: 'Objektliste',
+            entry: 'Eintrag',
+            to: 'bis',
+            of: 'von',
+            emptyView:
+              'Im aktuellen Kartenausschnitt sind keine Objekte enthalten.',
+            pagination: {
+              currentPage: 'Aktuelle Seite, Seite {{page}}',
+              page: 'Seite {{page}}',
+              next: 'Nächste Seite',
+              previous: 'Vorherige Seite',
+              wrapper: 'Seitenauswahl',
+            },
+          },
         },
       },
     },
@@ -44,6 +61,22 @@ const language: LanguageOption[] = [
           switch: {
             previous: 'Previous data',
             next: 'Next data',
+          },
+          noActiveLayer:
+            'Currently, no map layer with fitting objects is active.',
+          list: {
+            header: 'Feature list',
+            entry: 'Entry',
+            to: 'to',
+            of: 'of',
+            emptyView: 'There are no features in the current view.',
+            pagination: {
+              currentPage: 'Current page, page {{page}}',
+              page: 'Page {{page}}',
+              next: 'Next page',
+              previous: 'Previous page',
+              wrapper: 'Pagination',
+            },
           },
         },
       },

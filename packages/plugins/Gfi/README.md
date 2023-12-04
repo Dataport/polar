@@ -2,7 +2,7 @@
 
 ## Scope
 
-The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) from WMS and WFS services. In a first step, the information is stored in the VueX store to allow for easy access. Display is optional and quite obstructive within the map client.
+The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) from WMS and WFS services as well as layers based on GeoJSON files. In a first step, the information is stored in the VueX store to allow for easy access. Display is optional and quite obstructive within the map client.
 
 > ⚠️ The display feature is currently not meant for production. Please use data bindings for display to avoid obstructing the map client.
 
@@ -47,6 +47,7 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | coordinateSources    | string[]                                                                                          | The GFI plugin will react to these coordinate positions in the store. This allows it to react to e.g. the address search of the pins plugin. Please see example configuration for the common use-cases. If listening to other plugins, the GFI plugin must be added _after_ that respective plugin.                                                                                       |
 | mode                 | enum["bboxDot", "intersects"]                                                                     | Method of calculating which feature has been chosen by the user. `bbodyDot` utilizes the `bbox`-url parameter using the clicked coordinate while `intersects` uses a `Filter` to calculate the intersected features. Layers can have their own `gfiMode` parameter which would override this global mode. To apply this, add the desired value to the parameter in the `mapConfiguration` |
 | customHighlightStyle | object                                                                                            | If required a user can change the stroke and fill of the highlighted feature. The default style as seen in the example will be used for each part that is not customized. An empty object will return the complete default style while e.g. for an object without a configured fill the default fill will be applied.                                                                     |
+| activeLayerPath | string? | Optional store path to array of active mask layer ids. If used with `LayerChooser`, setting this to `'plugin/layerChooser/activeMaskIds'` will result in an info text in the GFI box, should no layer be active. If used without `LayerChooser`, the active mask layers have to be provided by another plugin or the client. If not set, the GFI plugin may e.g. show an empty list, which may be confusing to some users. |
 | afterLoadFunction    | function (featuresByLayerId: Record<string, GeoJsonFeature[]>): Record<layerId, GeoJsonFeature[]> | This method can be used to extend, filter, or otherwise modify a GFI result.                                                                                                                                                                                                                                                                                                              |
 | gfiContentComponent  | Vue?                                                                                              | Allows overriding the GfiContent.vue component for a custom design. Coding knowledge required to use this feature.                                                                                                                                                                                                                                                                        |
 
@@ -57,6 +58,8 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | window         | boolean                                    | If true, properties will be shown in the map client.                                                                                                                                                                                                 |
 | geometry       | boolean                                    | If true, feature geometry will be highlighted within the map.                                                                                                                                                                                        |
 | properties     | Record<propertyName, displayName>/string[] | In case `window` is `true`, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. |
+| renderType | ('iconMenu' \| 'independent')? | Only relevant if `window` is set to `true`. Whether the gfi plugin is independently or as part of the IconMenu. Defaults to 'independent'. |
+| featureList | featureList? | If defined, a list of available vector layer features is visible when no feature is selected. Only usable if `renderType` is set to `iconMenu` and `window` is set to `true`. |
 | exportProperty | string                                     | Property of the features of a service having an url usable to trigger a download of features as a document.                                                                                                                                          |
 
 ##### gfi.customHighlightStyle
@@ -78,6 +81,14 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | fieldName | type   | description |
 | --------- | ------ | ----------- |
 | color     | string | Color value |
+
+##### gfi.featureList
+
+| fieldName | type | description |
+| - | - | - |
+| mode | 'visible' \| 'loaded' | Whether to show only features currently visible in the map view's bounding box or to display all loaded features. In the latter case, if you desire to display all features of a layer (seen or not), set its loading strategy to `'all'`. |
+| pageLength | number? | A number >0 that sets the limit to the feature list's length. If the length is surpassed, additional features can be reached by using the pagination that is generated in such a case. If not defined, the list can be of arbitrary length. |
+| text | (function | string)[] | Array of one to three entries that will produce title, subtitle, and an additional subtitle for the list view. If string, the text item will simply be that feature's value for the denoted property. If function, it's assumed to match the function signature `(feature: OpenLayersFeature): string`, and the returned string will be used for the text item. |
 
 #### Example configuration
 

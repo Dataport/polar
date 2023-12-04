@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO Rename this and Head to TableX -->
   <tbody>
     <tr v-for="[key, value] of Object.entries(filteredProperties)" :key="key">
       <td>{{ key }}</td>
@@ -38,7 +37,7 @@ import { GeoJsonProperties } from 'geojson'
 import isValidHttpUrl from '../utils/isValidHttpUrl'
 
 export default Vue.extend({
-  name: 'GfiBody',
+  name: 'GfiFeatureTableBody',
   props: {
     currentProperties: {
       type: Object as PropType<GeoJsonProperties>,
