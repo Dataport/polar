@@ -38,7 +38,7 @@ const getDateFromValue = (
     D: dayIndices,
   }
   ;[...pattern].forEach((letter, index) => indexLookup[letter]?.push?.(index))
-  function getFromPropertyValue(index) {
+  function getFromPropertyValue(index: number) {
     return propertyValue[index]
   }
   return new Date(
