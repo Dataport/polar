@@ -29,9 +29,9 @@ const getDateFromValue = (
   propertyValue: string,
   pattern: DatePattern
 ): Date => {
-  const yearIndices = []
-  const monthIndices = []
-  const dayIndices = []
+  const yearIndices: number[] = []
+  const monthIndices: number[] = []
+  const dayIndices: number[] = []
   const indexLookup = {
     Y: yearIndices,
     M: monthIndices,
