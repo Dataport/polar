@@ -1,47 +1,19 @@
-import Vue from 'vue'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import {
-  FilterConfigurationTimeOption,
-  FilterConfiguration,
-  PolarModule,
-} from '@polar/lib-custom-types'
+import { FilterConfiguration, PolarModule } from '@polar/lib-custom-types'
 import ChooseTimeFrame from '../components/ChooseTimeFrame.vue'
 import { FilterGetters, FilterState } from '../types'
 import { updateFeatureVisibility } from '../utils/updateFeatureVisibility'
+import { setState } from '../utils/setState'
+import { arrayOnlyContains } from '../utils/arrayOnlyContains'
+import { parseTimeOption } from '../utils/parseTimeOption'
 
 const getInitialState = (): FilterState => ({
   category: {},
   time: {},
 })
-
-const arrayOnlyContains = (array, value) =>
-  array.reduce((accumulator, current) => accumulator && current === value, true)
-
-const setState = (state, path, value) => {
-  if (path.length === 1) {
-    Vue.set(state, path[0], value)
-    return
-  }
-  const [step, ...restPath] = path
-  if (!state[step]) {
-    Vue.set(state, step, {})
-  }
-  setState(state[step], restPath, value)
-}
-
-const parseTimeOption =
-  (timeDirection: 'last' | 'next') => (config: FilterConfigurationTimeOption) =>
-    config.amounts.map((amount) => ({
-      label: `common:plugins.filter.time.${timeDirection}.${config.unit}`,
-      component: null,
-      amount,
-      unit: config.unit,
-      now: null,
-      type: timeDirection,
-    }))
 
 const storeModule: PolarModule<FilterState, FilterGetters> = {
   namespaced: true,
