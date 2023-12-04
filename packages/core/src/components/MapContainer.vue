@@ -238,8 +238,8 @@ export default Vue.extend({
 }
 
 .v-tooltip__content {
-  background-color: var(--polar-primary);
-  border: 2px solid var(--polar-primary-contrast);
+  background-color: #595959;
+  border: 2px solid #fff;
 }
 
 .v-application {
