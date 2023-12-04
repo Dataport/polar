@@ -32,12 +32,12 @@ const getDateFromValue = (
   const yearIndices = []
   const monthIndices = []
   const dayIndices = []
-  const indiceLookup = {
+  const indexLookup = {
     Y: yearIndices,
     M: monthIndices,
     D: dayIndices,
   }
-  ;[...pattern].forEach((letter, index) => indiceLookup[letter]?.push?.(index))
+  ;[...pattern].forEach((letter, index) => indexLookup[letter]?.push?.(index))
   function getFromPropertyValue(index) {
     return propertyValue[index]
   }
