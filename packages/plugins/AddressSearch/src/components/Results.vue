@@ -158,11 +158,11 @@ export default Vue.extend({
       const focus = ['BUTTON', 'LI']
       const sibling = down ? 'nextElementSibling' : 'previousElementSibling'
 
-      let searchBase: Element | undefined = originalTarget
-      let candidateElement: Element | undefined | null = searchBase[sibling]
+      let searchBase: Element = originalTarget
+      let candidateElement: Element | null = searchBase[sibling]
 
       while (candidateElement && !focus.includes(candidateElement.tagName)) {
-        candidateElement = candidateElement?.[sibling]
+        candidateElement = candidateElement[sibling]
 
         if (!candidateElement) {
           const children = searchBase?.parentElement?.[sibling]?.children
