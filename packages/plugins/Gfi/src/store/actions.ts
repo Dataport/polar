@@ -6,7 +6,7 @@ import Overlay from 'ol/Overlay'
 import { GeoJSON } from 'ol/format'
 import { rawLayerList } from '@masterportal/masterportalapi/src'
 import { PolarActionTree } from '@polar/lib-custom-types'
-import { getTooltip } from '@polar/lib-tooltip'
+import { getTooltip, Tooltip } from '@polar/lib-tooltip'
 import { Feature } from 'ol'
 import {
   featureDisplayLayer,
@@ -64,7 +64,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
     Object.keys(gfiConfiguration.layers).forEach((layerId) => {
       const showTooltip = gfiConfiguration.layers[layerId].showTooltip
       if (showTooltip) {
-        let element, unregister
+        let element: Tooltip['element'], unregister: Tooltip['unregister']
         const overlay = new Overlay({
           positioning: 'bottom-center',
           offset: [0, -5],
