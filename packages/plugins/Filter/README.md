@@ -66,7 +66,7 @@ For example, `{amounts: [3, 7], unit: 'days'}` as value for `last` will add thes
 ◯ Last 7 days
 ```
 
-In `'days'` mode, the selections will always include full days, and additionally the current day. Due to this, the time frame of "last 7 days" is actually 8*24h long. This seems unexpected at first, but follows intuition – if it's Monday and you filter to the "last seven days", you'd expect to fully see last week's Monday, but also features from today's morning.
+In `'days'` mode, the selections will always include full days, and additionally the current day. Due to this, the time frame of "last 7 days" is actually 8*24h long. This seems unexpected at first, but follows intuition – if it's Monday and a user filters to the "last seven days", they would expect to fully see last week's Monday, but also features from that day's morning.
 
 ###### filter.filterConfiguration.time.freeSelection
 
