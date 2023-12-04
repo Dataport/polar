@@ -46,12 +46,25 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
         }
       )
     },
-    toggleCategory({ getters, commit, dispatch }, payload) {
+    toggleCategory(
+      { getters, commit, dispatch },
+      payload: {
+        layerId: string
+        targetProperty: string
+        knownValue: string
+      }
+    ) {
       const value = !getters.getActiveCategory(payload)
       commit('setCategory', { ...payload, value })
       dispatch('updateFeatureVisibility', payload.layerId)
     },
-    toggleCategoryAll({ getters, commit, dispatch }, payload) {
+    toggleCategoryAll(
+      { getters, commit, dispatch },
+      payload: {
+        layerId: string
+        targetProperty: string
+      }
+    ) {
       // 'indeterminate' to false intentionally (something had to be decided)
       const value = !getters.getActiveCategoryAll(payload)
       const { layerId } = payload
@@ -64,15 +77,21 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
         })
       dispatch('updateFeatureVisibility', payload.layerId)
     },
-    changeTimeRadio({ commit, dispatch }, payload) {
+    changeTimeRadio(
+      { commit, dispatch },
+      payload: { layerId: string; radioId: number }
+    ) {
       commit('setTimeRadio', payload)
       dispatch('updateFeatureVisibility', payload.layerId)
     },
-    changeFreeSelection({ commit, dispatch }, { layerId, freeSelection }) {
+    changeFreeSelection(
+      { commit, dispatch },
+      { layerId, freeSelection }: { layerId: string; freeSelection: Date[] }
+    ) {
       commit('setFreeSelection', { layerId, freeSelection })
       dispatch('updateFeatureVisibility', layerId)
     },
-    updateFeatureVisibility({ state, rootGetters, getters }, layerId) {
+    updateFeatureVisibility({ state, rootGetters, getters }, layerId: string) {
       updateFeatureVisibility({
         map: rootGetters.map,
         layerId,
@@ -84,16 +103,35 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
   },
   mutations: {
     ...generateSimpleMutations(getInitialState()),
-    setCategory(state, { layerId, targetProperty, knownValue, value }) {
+    setCategory(
+      state,
+      {
+        layerId,
+        targetProperty,
+        knownValue,
+        value,
+      }: {
+        layerId: string
+        targetProperty: string
+        knownValue: string
+        value: boolean
+      }
+    ) {
       state.category[layerId][targetProperty][knownValue] = value
     },
-    setupState(state, { path, value }) {
+    setupState(state, { path, value }: { path: string[]; value: boolean }) {
       setState(state, path, value)
     },
-    setTimeRadio(state, { layerId, radioId }) {
+    setTimeRadio(
+      state,
+      { layerId, radioId }: { layerId: string; radioId: number }
+    ) {
       state.time[layerId].radioId = radioId
     },
-    setFreeSelection(state, { layerId, freeSelection }) {
+    setFreeSelection(
+      state,
+      { layerId, freeSelection }: { layerId: string; freeSelection: Date[] }
+    ) {
       state.time[layerId].freeSelection = freeSelection
     },
   },
