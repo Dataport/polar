@@ -22,15 +22,17 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
     setupModule({ getters: { filterConfiguration }, commit }): void {
       Object.entries(filterConfiguration.layers).forEach(
         ([layerId, { categories, time }]) => {
-          categories?.forEach?.(({ targetProperty, knownValues }) => {
-            commit('setupState', {
-              path: ['category', layerId, targetProperty],
-              value: knownValues.reduce((accumulator, current) => {
-                accumulator[current] = true
-                return accumulator
-              }, {}),
-            })
-          })
+          if (categories) {
+            categories.forEach(({ targetProperty, knownValues }) =>
+              commit('setupState', {
+                path: ['category', layerId, targetProperty],
+                value: knownValues.reduce((accumulator, current) => {
+                  accumulator[current] = true
+                  return accumulator
+                }, {}),
+              })
+            )
+          }
           if (time) {
             const { targetProperty, freeSelection, pattern } = time
             commit('setupState', {
