@@ -7,7 +7,7 @@ export interface GetTooltipParams {
   style?: string
   /**
    * Locale keys to use in the tooltip. In the format [string, string][], the
-   * first entry is a HTML element tag, and the second entry is a locale key
+   * first entry is an HTML element tag, and the second entry is a locale key
    * used as (translated) child of that tag. May also include values that are
    * not locale keys. Translation will be tried on anything.
    */
