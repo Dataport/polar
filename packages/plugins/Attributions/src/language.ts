@@ -12,6 +12,7 @@ const language: LanguageOption[] = [
           },
           sourceCode:
             '<span><a href="https://github.com/Dataport/polar" target="_blank">Quellcode</a> lizenziert unter <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span>',
+          title: 'Quellennachweis',
         },
       },
     },
@@ -27,6 +28,7 @@ const language: LanguageOption[] = [
           },
           sourceCode:
             '<span><a href="https://github.com/Dataport/polar" target="_blank">Source code</a> licensed under <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span>',
+          title: 'Attributions',
         },
       },
     },
