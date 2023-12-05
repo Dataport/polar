@@ -1,18 +1,17 @@
 import debounce from 'lodash.debounce'
 import { Coordinate } from 'ol/coordinate'
 import { Feature as GeoJsonFeature } from 'geojson'
-import { Fill, Stroke, Style } from 'ol/style'
+import { Style, Fill, Stroke } from 'ol/style'
 import Overlay from 'ol/Overlay'
 import { GeoJSON } from 'ol/format'
 import { rawLayerList } from '@masterportal/masterportalapi/src'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import { getTooltip, Tooltip } from '@polar/lib-tooltip'
 import { Feature } from 'ol'
-import OverlayPositioning from 'ol/OverlayPositioning'
 import {
-  addFeature,
-  clear,
   featureDisplayLayer,
+  clear,
+  addFeature,
 } from '../utils/displayFeatureLayer'
 import { requestGfi } from '../utils/requestGfi'
 import { GfiGetters, GfiState } from '../types'
@@ -75,7 +74,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
 
     let element: Tooltip['element'], unregister: Tooltip['unregister']
     const overlay = new Overlay({
-      positioning: OverlayPositioning.BOTTOM_CENTER,
+      positioning: 'bottom-center',
       offset: [0, -5],
     })
     map.addOverlay(overlay)
