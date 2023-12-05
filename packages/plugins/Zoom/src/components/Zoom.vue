@@ -1,6 +1,10 @@
 <template>
   <div v-if="showZoomButtons" class="polar-zoom-wrap">
-    <v-tooltip :left="!isHorizontal" :bottom="isHorizontal">
+    <v-tooltip
+      :left="!isHorizontal"
+      :bottom="isHorizontal"
+      :disabled="hasSmallDisplay"
+    >
       <template #activator="{ on, attrs }">
         <v-btn
           :aria-label="$t('common:plugins.zoom.in')"
@@ -22,7 +26,11 @@
       </template>
       <span>{{ $t('common:plugins.zoom.in') }}</span>
     </v-tooltip>
-    <v-tooltip :left="!isHorizontal" :bottom="isHorizontal">
+    <v-tooltip
+      :left="!isHorizontal"
+      :bottom="isHorizontal"
+      :disabled="hasSmallDisplay"
+    >
       <template #activator="{ on, attrs }">
         <v-btn
           :aria-label="$t('common:plugins.zoom.out')"
@@ -56,7 +64,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...mapGetters(['hasSmallHeight']),
+    ...mapGetters(['hasSmallDisplay', 'hasSmallHeight']),
     ...mapGetters('plugin/zoom', [
       'maximumZoomLevelActive',
       'minimumZoomLevelActive',

@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top>
+  <v-tooltip top :disabled="hasSmallDisplay">
     <template #activator="{ on, attrs }">
       <v-btn
         class="ma-2"
@@ -22,6 +22,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   name: 'ExportButton',
@@ -58,6 +59,9 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+  },
+  computed: {
+    ...mapGetters(['hasSmallDisplay']),
   },
 })
 </script>

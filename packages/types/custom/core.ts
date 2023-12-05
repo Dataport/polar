@@ -586,6 +586,7 @@ export interface CoreState {
   hovered: number
   selected: number
   configuration: MapConfig
+  hasSmallDisplay: boolean
   errors: PolarError[]
   plugin: object
   language: string

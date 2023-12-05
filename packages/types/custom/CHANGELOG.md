@@ -10,6 +10,7 @@
 - Feature: Add parameter `renderType` to `GeoLocationConfiguration`.
 - Feature: Add export of `RenderType`.
 - Feature: Add parameter `focusAfterSearch` to `AddressSearchConfiguration`.
+- Feature: Add parameter `hasSmallDisplay` to `CoreState`.
 
 ## 1.1.0
 

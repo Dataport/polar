@@ -79,6 +79,7 @@ const getInitialState = (): CoreState => ({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   configuration: {},
+  hasSmallDisplay: false,
   errors: [],
   language: '',
 })
