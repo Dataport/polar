@@ -78,6 +78,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
             .getFeaturesAtPixel(pixel, {
               layerFilter: (layer) => layer.get('id') === layerId,
             })
+            // remove FeatureLikes
             .filter((feature) => feature instanceof Feature) as Feature[]
 
           const coordinate = features.length
@@ -86,7 +87,6 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
 
           overlay.setPosition(coordinate)
 
-          // remove FeatureLikes
           if (features[0]) {
             if (unregister) {
               unregister()
