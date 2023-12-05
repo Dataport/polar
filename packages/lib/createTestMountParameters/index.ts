@@ -59,6 +59,7 @@ export default (): MockParameters => {
       errors: [],
       hasSmallDisplay: false,
       plugin: {},
+      language: '',
       zoomLevel: 0,
       hovered: 0,
       selected: 0,

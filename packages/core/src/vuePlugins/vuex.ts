@@ -81,6 +81,7 @@ const getInitialState = (): CoreState => ({
   configuration: {},
   hasSmallDisplay: false,
   errors: [],
+  language: '',
 })
 
 const setCenter = ({ map }) =>
@@ -208,6 +209,10 @@ const store = new Store({
     },
     useExtendedMasterportalapiMarkers,
   },
+})
+
+i18next.on('languageChanged', (language) => {
+  store.commit('setLanguage', language)
 })
 
 export default store

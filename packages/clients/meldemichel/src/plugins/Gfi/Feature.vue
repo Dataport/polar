@@ -111,6 +111,9 @@ export default Vue.extend({
           6
         )}.${value.substring(0, 4)}`
       }
+      if (type === 'statu') {
+        return `meldemichel.status.${value}`
+      }
       return value
     },
     resize(): void {
