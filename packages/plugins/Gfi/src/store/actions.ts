@@ -67,7 +67,6 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
     const tooltipLayerIds = Object.keys(gfiConfiguration.layers).filter(
       (key) => gfiConfiguration.layers[key].showTooltip
     )
-
     if (!tooltipLayerIds.length) {
       return
     }
@@ -83,7 +82,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         return
       }
       let hasFeatureAtPixel = false
-      // Only displays the information of the feature that is on top of every other feature
+      // stops on return `true`, thus only using the uppermost feature
       map.forEachFeatureAtPixel(
         pixel,
         (feature, layer) => {
