@@ -95,6 +95,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
           }
           ;({ element, unregister } = getTooltip({
             localeKeys:
+              // @ts-expect-error | it exists by virtue of layerFilter below
               gfiConfiguration.layers[layer.get('id')].showTooltip(feature),
           }))
           overlay.setElement(element)
