@@ -184,9 +184,18 @@ The core module features a vuex root store that all plugin vuex modules are plug
 To ease use, the map instance also features a `subscribe` method that will register a watcher to any state field. Please mind that only documented paths should be used, and all others are subject to change without notice.
 
 ```js
+// state subscription – listening to data held by the map client
 map.subscribe('some/key', (value) => {
   // do something with the value
 })
+
+// getter subscription – these are computed values from various sources
+map.$store.watch(
+    (_, getters) => getters['some/key'],
+    (value) => {
+        // effect
+    }
+)
 ```
 
 This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.

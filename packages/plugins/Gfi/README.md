@@ -121,7 +121,7 @@ customHighlightStyle: {
 
 ## Store
 
-### Getters
+### State
 
 If a successful query has been sent and a response has been received, the result will be saved in the store and can be subscribed through the path `'plugin/gfi/featureInformation'`. If, however, a query for a layer fails, a `Symbol` containing the error will be saved in the store instead to indicate the error.
 

@@ -190,7 +190,7 @@ The payload object supports the following fields:
 | input      | string                         | Search string to be used.                                                                                                                                                                                                                         |
 | autoselect | enum['first', 'only', 'never'] | By default, 'never' is selected, and results will be presented as if the user searched for them. Setting 'only' will autoselect if a single result was returned; setting 'first' will autoselect the first of an arbitrary amount of results >=1. |
 
-### Getters
+### State
 
 ```js
 map.subscribe('plugin/addressSearch/chosenAddress', (chosenAddress) => {

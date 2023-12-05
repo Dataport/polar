@@ -34,7 +34,7 @@ either `true` or `false`. When a users denies the location tracking, the button 
 
 ## Store
 
-### Getters
+### State
 
 If the access to an users location has been granted, the coordinates get stored in the `position` state value. This value can be subscribed through the path `'plugin/geoLocation/position'`.
 

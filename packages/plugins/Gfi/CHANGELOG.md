@@ -7,6 +7,7 @@
 - Feature: Added optional configuration parameter `activeLayerPath` to allow checking for whether any fitting layer is active.
 - Feature: Added support for type `GeoJSON` layers.
 - Fix: Add space to dev GFI window to fully contain close button effects.
+- Fix: Documentation error regarding plugin state.
 
 ## 1.0.0
 
