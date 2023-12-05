@@ -86,7 +86,7 @@ For the time being, please use this example as a rough reference as to what can 
 
 ## Store
 
-### Getters
+### State
 
 ```js
 map.subscribe('plugin/draw/featureCollection', (featureCollection) => {

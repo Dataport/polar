@@ -15,7 +15,7 @@ The fullscreen plugin allows viewing the map in fullscreen mode. It relies solel
 
 ## Store
 
-### Getters
+### State
 
 ```js
 map.subscribe('plugin/fullscreen/isInFullscreen', (isInFullscreen) => {
