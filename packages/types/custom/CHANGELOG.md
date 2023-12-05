@@ -12,6 +12,7 @@
 - Feature: Add export of `RenderType`.
 - Feature: Add parameter `focusAfterSearch` to `AddressSearchConfiguration`.
 - Feature: Add parameter `hasSmallDisplay` to `CoreState`.
+- Feature: Add `layerConf` to `MapConfig`.
 
 ## 1.1.0
 

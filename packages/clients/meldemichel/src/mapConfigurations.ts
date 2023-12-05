@@ -172,7 +172,6 @@ const mapConfigurations: Record<
           // TODO features visible as single, group, selected (green)
           id: reportServiceId,
           visibility: true,
-          distance: 30,
           type: 'mask',
           name: 'meldemichel.layers.reports',
         } as LayerConfiguration,

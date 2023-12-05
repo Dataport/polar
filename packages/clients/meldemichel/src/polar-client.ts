@@ -12,6 +12,7 @@ import { MeldemichelCreateMapParams } from './types'
 import meldemichelModule from './store/module'
 import './styles/index.css'
 import AfmButton from './plugins/AfmButton'
+import { enableClustering } from './utils/enableClustering'
 
 // eslint-disable-next-line no-console
 console.log(`POLAR Meldemichel loaded in version ${packageInfo.version}.`)
@@ -54,6 +55,7 @@ export default {
       core.rawLayerList.initializeLayerList(
         serviceRegister,
         async (layerConf) => {
+          enableClustering(layerConf, reportServiceId)
           const client = await core.createMap({
             containerId,
             mapConfiguration: merge(

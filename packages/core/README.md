@@ -76,15 +76,24 @@ The mapConfiguration allows controlling many client instance details.
 | <...masterportalAPI.fields> | various          | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options.                                                              |
 | <plugin.fields>             | various          | Many plugins added with `addPlugin` may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below. |
 | vuetify                     | object           | You may add vuetify configuration here.                                                                                                                                  |
-| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
+| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
 
 ##### mapConfiguration.extendedMasterportalapiMarkers
 
 | fieldName | type |description |
 | - | - | - |
 | layers | string[] | List of layer ids. The effect will only be applied to these layers. |
-| hoverFill | string? | Used as map marker fill for hovered features. Defaults to `'#008A8A'`. |
-| selectionFill | string? | Used as map marker fill for selected features. Defaults to `'#00A95C'`. |
+| defaultStyle | MarkerStyle? | Used as the default marker style. The default fill color for these markers is `'#005CA9'`. |
+| hoverStyle | MarkerStyle? | Used as map marker style for hovered features. The default fill color for these markers is `'#7B1045'`. |
+| selectionStyle | MarkerStyle? | Used as map marker style for selected features. The default fill color for these markers is `'#679100'`. |
+
+###### mapConfiguration.extendedMasterportalapiMarkers.MarkerStyle
+
+| fieldName | type |description |
+| - | - | - |
+| strokeWidth | (string \| number)? | Width of marker stroke (outer line). Defaults to `'2'`. |
+| stroke | string? | Color of marker stroke (outer line). Defaults to `'#ffffff'`. |
+| fill | string? | Fill color for map marker. |
 
 ##### mapConfiguration.LayerConf
 
