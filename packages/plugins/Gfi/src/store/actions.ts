@@ -81,6 +81,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         return
       }
       let hasFeatureAtPixel = false
+      // Only displays the information of the feature that is on top of every other feature
       map.forEachFeatureAtPixel(
         pixel,
         (feature, layer) => {
