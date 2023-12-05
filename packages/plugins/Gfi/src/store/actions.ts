@@ -61,42 +61,51 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
     dispatch('setupTooltip')
   },
   setupTooltip({ getters: { gfiConfiguration }, rootGetters: { map } }) {
-    Object.keys(gfiConfiguration.layers).forEach((layerId) => {
-      const showTooltip = gfiConfiguration.layers[layerId].showTooltip
-      if (showTooltip) {
-        let element: Tooltip['element'], unregister: Tooltip['unregister']
-        const overlay = new Overlay({
-          positioning: 'bottom-center',
-          offset: [0, -5],
-        })
-        map.addOverlay(overlay)
-        map.on('pointermove', ({ pixel, dragging }) => {
-          if (dragging) {
-            return
+    const tooltipLayerIds = Object.keys(gfiConfiguration.layers).filter(
+      (key) => gfiConfiguration.layers[key].showTooltip
+    )
+
+    if (!tooltipLayerIds.length) {
+      return
+    }
+
+    let element: Tooltip['element'], unregister: Tooltip['unregister']
+    const overlay = new Overlay({
+      positioning: 'bottom-center',
+      offset: [0, -5],
+    })
+    map.addOverlay(overlay)
+    map.on('pointermove', ({ pixel, dragging }) => {
+      if (dragging) {
+        return
+      }
+      let hasFeatureAtPixel = false
+      map.forEachFeatureAtPixel(
+        pixel,
+        (feature, layer) => {
+          if (!(feature instanceof Feature)) {
+            return false
           }
-          const features = map
-            .getFeaturesAtPixel(pixel, {
-              layerFilter: (layer) => layer.get('id') === layerId,
-            })
-            // remove FeatureLikes
-            .filter((feature) => feature instanceof Feature) as Feature[]
+          hasFeatureAtPixel = true
 
-          const coordinate = features.length
-            ? map.getCoordinateFromPixel(pixel)
-            : undefined
+          overlay.setPosition(map.getCoordinateFromPixel(pixel))
 
-          overlay.setPosition(coordinate)
-
-          if (features[0]) {
-            if (unregister) {
-              unregister()
-            }
-            ;({ element, unregister } = getTooltip({
-              localeKeys: showTooltip(features[0]),
-            }))
-            overlay.setElement(element)
+          if (unregister) {
+            unregister()
           }
-        })
+          ;({ element, unregister } = getTooltip({
+            localeKeys:
+              gfiConfiguration.layers[layer.get('id')].showTooltip(feature),
+          }))
+          overlay.setElement(element)
+          return true
+        },
+        {
+          layerFilter: (layer) => tooltipLayerIds.includes(layer.get('id')),
+        }
+      )
+      if (!hasFeatureAtPixel) {
+        overlay.setPosition(undefined)
       }
     })
   },
