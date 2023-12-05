@@ -67,7 +67,7 @@ const doesFeaturePassTimeFilter = (
   // only unit 'days' currently supported
   const unitMilliseconds = {
     days: 24 * 60 * 60 * 1000,
-  }[unit]
+  }[unit || 'days']
   const limits: Date[] = []
 
   if (type === 'freeSelection') {

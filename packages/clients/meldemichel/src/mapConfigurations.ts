@@ -136,12 +136,10 @@ const getFilterConfiguration = (id: string): FilterConfiguration => ({
         last: [
           {
             amounts: [7, 30],
-            unit: 'days',
           },
         ],
         freeSelection: {
           now: 'until',
-          unit: 'days',
         },
       },
     },

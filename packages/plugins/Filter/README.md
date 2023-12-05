@@ -57,7 +57,7 @@ Of all time restrictions, at most one can be selected at any time. The produced 
 | fieldName | type | description |
 | - | - | - |
 | amounts | number[] | Offer radio buttons for these amounts of `unit`. The rest of the current day is additionally included in the range. |
-| unit | 'days' | Implemented units. Currently, only `'days'` are supported. |
+| unit | 'days' | Implemented units. Currently, only `'days'` are supported. Defaults to `'days'`. |
 
 For example, `{amounts: [3, 7], unit: 'days'}` as value for `last` will add these radio buttons:
 
@@ -73,7 +73,7 @@ In `'days'` mode, the selections will always include full days, and additionally
 | fieldName | type | description |
 | - | - | - |
 | now | ('until' \| 'from')? | If set, only time points *until* now or *from* now are selectable, including the current time point. |
-| unit | 'days' | Implemented units. Currently, only `'days'` are supported. |
+| unit | 'days' | Implemented units. Currently, only `'days'` are supported. Defaults to `'days'`. |
 
 For example, `{now: 'until', unit: 'days'}` will add this radio button:
 

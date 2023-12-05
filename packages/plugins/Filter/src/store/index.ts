@@ -185,7 +185,7 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
                   label: 'common:plugins.filter.time.chooseTimeFrame.label',
                   component: ChooseTimeFrame,
                   amount: null,
-                  unit: timeConfig.freeSelection.unit,
+                  unit: timeConfig.freeSelection.unit || 'days',
                   now: timeConfig.freeSelection.now,
                   type: 'freeSelection',
                 },
