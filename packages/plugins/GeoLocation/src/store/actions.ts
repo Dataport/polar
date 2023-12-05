@@ -9,9 +9,9 @@ import * as Proj from 'ol/proj.js'
 import Geolocation from 'ol/Geolocation.js'
 import { transform as transformCoordinates } from 'ol/proj'
 import Overlay from 'ol/Overlay'
+import { getTooltip } from '@polar/lib-tooltip'
 import { GeoLocationState, GeoLocationGetters } from '../types'
 import geoLocationMarker from '../assets/geoLocationMarker'
-import { getTooltip } from '../utils/tooltip'
 
 const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   setupModule({ getters, commit, dispatch }): void {
@@ -32,7 +32,9 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
     if (getters.showTooltip) {
       const { map } = rootGetters
       const overlay = new Overlay({
-        element: getTooltip(),
+        element: getTooltip({
+          localeKeys: [['h2', 'plugins.geoLocation.markerText']],
+        }).element,
         positioning: 'bottom-center',
         offset: [0, -5],
       })

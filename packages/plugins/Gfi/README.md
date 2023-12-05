@@ -61,6 +61,7 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | renderType | ('iconMenu' \| 'independent')? | Only relevant if `window` is set to `true`. Whether the gfi plugin is independently or as part of the IconMenu. Defaults to 'independent'. |
 | featureList | featureList? | If defined, a list of available vector layer features is visible when no feature is selected. Only usable if `renderType` is set to `iconMenu` and `window` is set to `true`. |
 | exportProperty | string                                     | Property of the features of a service having an url usable to trigger a download of features as a document.                                                                                                                                          |
+| showTooltip | ((feature: Feature) => [string, string][])? | If given, a tooltip will be shown with the values calculated for the feature. The first string is the HTML tag to render, the second its contents; contants may be locale keys. For more information regarding the strings, see the documentation of the `@polar/lib-tooltip` package. Defaults to `undefined`. |
 
 ##### gfi.customHighlightStyle
 

@@ -210,6 +210,10 @@ const mapConfigurations: Record<
               'start',
               'statu',
             ],
+            showTooltip: (feature) => [
+              ['h2', `${feature.get('str')} ${feature.get('hsnr')}`],
+              ['span', `meldemichel.skat.${feature.get('skat')}`],
+            ],
           },
         },
       },
