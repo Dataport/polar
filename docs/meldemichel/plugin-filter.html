@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>Filter</h1>
+<h2>Scope</h2>
+<p>The Filter plugin can be used to filter arbitrary configurable vector layers by their properties.</p>
+<h3>Configuration</h3>
+<h4>filter</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>layers</td>
+<td>Record&lt;string, filterConfiguration&gt;</td>
+<td>Maps layer id to filter configuration.</td>
+</tr>
+</tbody>
+</table>
+<pre><code>The following chapters contain drafts in this format. Please mind that they neither represent UI nor localisation, but are merely there to communicate the idea with an example.
+</code></pre>
+<h5>filter.filterConfiguration</h5>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>categories</td>
+<td>category[]?</td>
+<td>Category filter definition to filter features by their property values.</td>
+</tr>
+<tr>
+<td>time</td>
+<td>time?</td>
+<td>Time filter definition so filter features by a time property.</td>
+</tr>
+</tbody>
+</table>
+<h6>filter.filterConfiguration.category</h6>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>targetProperty</td>
+<td>string</td>
+<td>Target property to filter by. This is the name (that is, key) of a feature property.</td>
+</tr>
+<tr>
+<td>knownValues</td>
+<td>(string | number | boolean | null)[]</td>
+<td>Array of known values for the feature properties. Each entry will result in a checkbox that allows filtering the appropriate features. Properties not listed will not be filterable. The technical name will result in a localization key that can be configured on a per-client basis.</td>
+</tr>
+<tr>
+<td>selectAll</td>
+<td>boolean?</td>
+<td>If true, a checkbox is added to de/select all <code>knownValues</code> (above) at once. Defaults to <code>false</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>For example, <code>{targetProperty: 'favouriteIceCream', knownValues: ['chocolate', 'vanilla', 'strawberry'], selectAll: true}</code> will add these checkboxes:</p>
+<pre><code>▢ De-/select all
+▢ Chocolate
+▢ Vanilla
+▢ Strawberry
+</code></pre>
+<h6>filter.filterConfiguration.time</h6>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>targetProperty</td>
+<td>string</td>
+<td>Target property to filter by.</td>
+</tr>
+<tr>
+<td>last</td>
+<td>options[]?</td>
+<td>Array of options to create for a <code>last</code> filter, e.g. &quot;last 10 days&quot;.</td>
+</tr>
+<tr>
+<td>next</td>
+<td>options[]?</td>
+<td>Array of options to create for a <code>next</code> filter, e.g. &quot;next 10 day&quot;.</td>
+</tr>
+<tr>
+<td>freeSelection</td>
+<td>freeSelection?</td>
+<td>Provide a more dynamic configurable from-to chooser for timeframes.</td>
+</tr>
+<tr>
+<td>pattern</td>
+<td>string?</td>
+<td>Pattern the target string uses for its date formatting. Defaults to <code>'YYYY-MM-DD'</code>. Only 'Y', 'M', and 'D' are interpreted. All other characters are considered filler. Example: A feature has <code>&quot;AA202001-04&quot;</code> as property value that is supposed to convey a date. Setting <code>pattern</code> to <code>&quot;--YYYYDD-MM&quot;</code> would interpret it as the 1st of April, 2020.</td>
+</tr>
+</tbody>
+</table>
+<p>Of all time restrictions, at most one can be selected at any time. The produced options are selectable by radio buttons.</p>
+<h6>filter.filterConfiguration.time.options</h6>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>amounts</td>
+<td>number[]</td>
+<td>Offer radio buttons for these amounts of <code>unit</code>. The rest of the current day is additionally included in the range.</td>
+</tr>
+<tr>
+<td>unit</td>
+<td>'days'</td>
+<td>Implemented units. Currently, only <code>'days'</code> are supported. Defaults to <code>'days'</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>For example, <code>{amounts: [3, 7], unit: 'days'}</code> as value for <code>last</code> will add these radio buttons:</p>
+<pre><code>◯ Last 3 days
+◯ Last 7 days
+</code></pre>
+<p>In <code>'days'</code> mode, the selections will always include full days, and additionally the current day. Due to this, the time frame of &quot;last 7 days&quot; is actually 8*24h long. This seems unexpected at first, but follows intuition – if it's Monday and a user filters to the &quot;last seven days&quot;, they would expect to fully see last week's Monday, but also features from that day's morning.</p>
+<h6>filter.filterConfiguration.time.freeSelection</h6>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>now</td>
+<td>('until' | 'from')?</td>
+<td>If set, only time points <em>until</em> now or <em>from</em> now are selectable, including the current time point.</td>
+</tr>
+<tr>
+<td>unit</td>
+<td>'days'</td>
+<td>Implemented units. Currently, only <code>'days'</code> are supported. Defaults to <code>'days'</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>For example, <code>{now: 'until', unit: 'days'}</code> will add this radio button:</p>
+<pre><code>◯ Choose time frame
+   From ▒▒▒▒▒▒▒▒▒▒▒ // clicking input opens a selector restricted *until* today
+   To   ▇▇▇▇▇▇▇▇▇▇▇ // clicking input opens a selector restricted *until* today
+</code></pre>
+<h4>Example configuration</h4>
+<pre><code class="language-js">{
+  filter: {
+    layers: {
+      &quot;1234&quot;: {
+        categories: [
+          {
+            selectAll: true,
+            targetProperty: 'buildingType',
+            knownValues: ['shed', 'mansion', 'fortress']
+          },
+          {
+            selectAll: false,
+            targetProperty: 'lightbulb',
+            knownValues: ['on', 'off']
+          }
+        ],
+        time: {
+          targetProperty: 'lastAccident',
+          last: [
+            {
+              amounts: [7, 30],
+              unit: 'days',
+            },
+          ],
+          freeSelection: {
+            unit: 'days',
+            now: 'until'
+          },
+          /**
+           * Feature holds date property as e.g. &quot;20143012&quot;, where 2014 is the
+           * year, 30 the day, and 12 the month.
+           */
+          pattern: 'YYYYDDMM'
+        }
+      }
+    }
+  }
+}
+</code></pre>
+
+    
+  </article>
+</body>
+</html>
