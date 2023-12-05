@@ -95788,7 +95788,6 @@ const h7 = (e, t) => {
   },
   methods: {
     ...ki("plugin/addressSearch", ["selectResult"]),
-    focusFirstResult: zv,
     toggle(e) {
       this.openCategories = this.openCategories.indexOf(e) === -1 ? [...this.openCategories, e] : this.openCategories.filter((t) => t !== e);
     },
@@ -95803,54 +95802,24 @@ const h7 = (e, t) => {
     areResultsExpanded(e) {
       return this.openCategories.includes(e);
     },
-    getNextElementId(e, t, n, s, r) {
-      return typeof r == "number" ? this.getNextListElementId(
-        e,
-        t,
-        r,
-        n,
-        s
-      ) : this.isExpandButtonVisible(n) ? this.getExpandButtonId(e, t, n, s) : (console.error(
-        "AddressSearch: Trying to focus on an expand button not possible as it is not rendered. Focus remains on the current element."
-      ), "");
-    },
-    getNextListElementId(e, t, n, s, r) {
-      const i = e ? n + 1 : n - 1;
-      if (i === -1 && (t === 0 || this.featureListsWithCategory.slice(0, t).every(
-        ({ features: l }) => l.length === 0
-      )))
-        return "polar-plugin-address-search-input";
-      if (this.isExpandButtonVisible(s)) {
-        if (i === -1)
-          return `polar-plugin-address-search-results-feature-expand-button-${t - 1}`;
-        const l = this.areResultsExpanded(r);
-        if (!l && i === this.limitResults || l && i === s)
-          return `polar-plugin-address-search-results-feature-expand-button-${t}`;
+    focusNextElement(e, { originalTarget: t }) {
+      var a, o, l;
+      const n = ["BUTTON", "LI"], s = e ? "nextElementSibling" : "previousElementSibling";
+      let r = t, i = r[s];
+      for (; i && !n.includes(i.tagName); )
+        if (i = i[s], !i) {
+          const f = (o = (a = r == null ? void 0 : r.parentElement) == null ? void 0 : a[s]) == null ? void 0 : o.children;
+          f && (r = f[e ? 0 : f.length - 1], i = r);
+        }
+      if (i) {
+        i.focus();
+        return;
       }
-      return [
-        "polar-plugin-address-search-results-feature",
-        i === s ? t + 1 === this.featureListsWithCategory.length ? 0 : t + 1 : t,
-        i === s ? 0 : i
-      ].join("-");
-    },
-    getExpandButtonId(e, t, n, s) {
-      let r, i;
-      return e ? (r = t + 1 === this.featureListsWithCategory.length ? 0 : t + 1, i = 0) : (r = t, i = this.areResultsExpanded(s) ? n - 1 : this.limitResults - 1), `polar-plugin-address-search-results-feature-${r}-${i}`;
-    },
-    focusNextElement(e, t, n, s, r) {
-      const i = (
-        // @ts-expect-error | Type conversion is fine here as the querySelector method is monkeyPatched in core/createMap
-        document.querySelector("[data-app]").getElementById(
-          this.getNextElementId(
-            e,
-            t,
-            n,
-            s,
-            r
-          )
-        )
-      );
-      i && i.focus();
+      if (e) {
+        zv(this.featureListsWithCategory.length);
+        return;
+      }
+      (l = document.querySelector("[data-app]").getElementById("polar-plugin-address-search-input")) == null || l.focus();
     }
   }
 });
@@ -95865,36 +95834,16 @@ var f7 = function() {
         a,
         l
       ].join("-"), ripple: !1, tag: "li", tabindex: "-1" }, on: { keydown: [function(f) {
-        if (!f.type.indexOf("key") && t._k(f.keyCode, "down", 40, f.key, ["Down", "ArrowDown"]))
-          return null;
-        f.preventDefault(), f.stopPropagation(), t.focusNextElement(
-          !0,
-          Number(a),
-          s.length,
-          r,
-          Number(l)
-        );
+        return !f.type.indexOf("key") && t._k(f.keyCode, "down", 40, f.key, ["Down", "ArrowDown"]) ? null : (f.preventDefault(), f.stopPropagation(), ((d) => t.focusNextElement(!0, d)).apply(null, arguments));
       }, function(f) {
-        if (!f.type.indexOf("key") && t._k(f.keyCode, "up", 38, f.key, ["Up", "ArrowUp"]))
-          return null;
-        f.preventDefault(), f.stopPropagation(), t.focusNextElement(
-          !1,
-          Number(a),
-          s.length,
-          r,
-          Number(l)
-        );
+        return !f.type.indexOf("key") && t._k(f.keyCode, "up", 38, f.key, ["Up", "ArrowUp"]) ? null : (f.preventDefault(), f.stopPropagation(), ((d) => t.focusNextElement(!1, d)).apply(null, arguments));
       }], click: function(f) {
         return t.selectResult({ feature: o, categoryId: i });
       } } }, [n("v-list-item-title", [n("span", { domProps: { innerHTML: t._s(t.emTitleByInput(o.title, t.inputValue)) } })])], 1) : t._e()];
     }), s.length > t.limitResults ? n("v-btn", { staticClass: "text-none", attrs: { id: `polar-plugin-address-search-results-feature-expand-button-${a}`, text: "", tile: "", block: "" }, on: { keydown: [function(o) {
-      if (!o.type.indexOf("key") && t._k(o.keyCode, "down", 40, o.key, ["Down", "ArrowDown"]))
-        return null;
-      o.preventDefault(), o.stopPropagation(), t.focusNextElement(!0, Number(a), s.length, r);
+      return !o.type.indexOf("key") && t._k(o.keyCode, "down", 40, o.key, ["Down", "ArrowDown"]) ? null : (o.preventDefault(), o.stopPropagation(), ((l) => t.focusNextElement(!0, l)).apply(null, arguments));
     }, function(o) {
-      if (!o.type.indexOf("key") && t._k(o.keyCode, "up", 38, o.key, ["Up", "ArrowUp"]))
-        return null;
-      o.preventDefault(), o.stopPropagation(), t.focusNextElement(!1, Number(a), s.length, r);
+      return !o.type.indexOf("key") && t._k(o.keyCode, "up", 38, o.key, ["Up", "ArrowUp"]) ? null : (o.preventDefault(), o.stopPropagation(), ((l) => t.focusNextElement(!1, l)).apply(null, arguments));
     }], click: function(o) {
       return t.toggle(r);
     } } }, [n("v-icon", { staticClass: "mr-1", attrs: { "x-small": "" } }, [t._v(" " + t._s(t.areResultsExpanded(r) ? "fa-chevron-up" : "fa-chevron-down") + " ")]), t._v(" " + t._s(t.$t(`common:plugins.addressSearch.resultList.${t.areResultsExpanded(r) ? "reduce" : `extend${t.hasMaximum(t.selectedGroup[a]) ? "Max" : ""}`}`, t.selectedGroup[a])) + " ")], 1) : t._e(), r ? n("v-divider", { key: ["results-divider", a].join("-") }) : t._e()], 2);
@@ -95905,7 +95854,7 @@ var f7 = function() {
   p7,
   !1,
   null,
-  "739f3662",
+  "b6b9cc30",
   null,
   null
 );
