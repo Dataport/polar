@@ -50,7 +50,7 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 
 ## Store
 
-### Getters
+### State
 
 ```js
 map.subscribe('plugin/pins/transformedCoordinate', (pinCoordinate) => {
