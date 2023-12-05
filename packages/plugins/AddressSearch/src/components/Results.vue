@@ -49,24 +49,8 @@
                 ? Number.MAX_SAFE_INTEGER
                 : limitResults),
           }"
-          @keydown.down.prevent.stop="
-            focusNextElement(
-              true,
-              Number(index),
-              features.length,
-              category,
-              Number(innerDex)
-            )
-          "
-          @keydown.up.prevent.stop="
-            focusNextElement(
-              false,
-              Number(index),
-              features.length,
-              category,
-              Number(innerDex)
-            )
-          "
+          @keydown.down.prevent.stop="(event) => focusNextElement(true, event)"
+          @keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
           @click="selectResult({ feature, categoryId })"
         >
           <v-list-item-title>
@@ -82,12 +66,8 @@
         tile
         block
         class="text-none"
-        @keydown.down.prevent.stop="
-          focusNextElement(true, Number(index), features.length, category)
-        "
-        @keydown.up.prevent.stop="
-          focusNextElement(false, Number(index), features.length, category)
-        "
+        @keydown.down.prevent.stop="(event) => focusNextElement(true, event)"
+        @keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
         @click="toggle(category)"
       >
         <v-icon x-small class="mr-1">
@@ -119,7 +99,6 @@ import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import { focusFirstResult } from '../utils/focusFirstResult'
 import { emTitleByInput } from '../utils/emTitleByInput'
-import { FeatureListWithCategory } from '../types'
 
 export default Vue.extend({
   name: 'AddressSearchResults',
@@ -156,7 +135,6 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions('plugin/addressSearch', ['selectResult']),
-    focusFirstResult,
     toggle(category: string): void {
       this.openCategories =
         this.openCategories.indexOf(category) === -1
@@ -173,121 +151,43 @@ export default Vue.extend({
     areResultsExpanded(category: string): boolean {
       return this.openCategories.includes(category)
     },
-    getNextElementId(
-      down: boolean,
-      index: number,
-      featureListLength: number,
-      category: string,
-      innerDex: number | undefined
-    ): string {
-      if (typeof innerDex === 'number') {
-        return this.getNextListElementId(
-          down,
-          index,
-          innerDex,
-          featureListLength,
-          category
-        )
-      }
-      if (this.isExpandButtonVisible(featureListLength)) {
-        return this.getExpandButtonId(down, index, featureListLength, category)
-      }
-      // This is just here as a fallback
-      console.error(
-        'AddressSearch: Trying to focus on an expand button not possible as it is not rendered. Focus remains on the current element.'
-      )
-      return ''
-    },
-    getNextListElementId(
-      down: boolean,
-      index: number,
-      innerDex: number,
-      featureListLength: number,
-      category: string
-    ): string {
-      const nextInnerDex = down ? innerDex + 1 : innerDex - 1
-
-      if (
-        nextInnerDex === -1 &&
-        (index === 0 ||
-          this.featureListsWithCategory
-            .slice(0, index)
-            .every(
-              ({ features }: FeatureListWithCategory) => features.length === 0
-            ))
-      ) {
-        return 'polar-plugin-address-search-input'
-      }
-      if (this.isExpandButtonVisible(featureListLength)) {
-        if (nextInnerDex === -1) {
-          return `polar-plugin-address-search-results-feature-expand-button-${
-            index - 1
-          }`
-        }
-        const resultsExpanded = this.areResultsExpanded(category)
-        if (
-          (!resultsExpanded && nextInnerDex === this.limitResults) ||
-          (resultsExpanded && nextInnerDex === featureListLength)
-        ) {
-          return `polar-plugin-address-search-results-feature-expand-button-${index}`
-        }
-      }
-
-      const nextIndex =
-        nextInnerDex === featureListLength
-          ? index + 1 === this.featureListsWithCategory.length
-            ? 0
-            : index + 1
-          : index
-      const usedInnerDex = nextInnerDex === featureListLength ? 0 : nextInnerDex
-
-      return [
-        'polar-plugin-address-search-results-feature',
-        nextIndex,
-        usedInnerDex,
-      ].join('-')
-    },
-    getExpandButtonId(
-      down: boolean,
-      index: number,
-      featureListLength: number,
-      category: string
-    ): string {
-      let nextIndex: number
-      let nextInnerDex: number
-      if (down) {
-        nextIndex =
-          index + 1 === this.featureListsWithCategory.length ? 0 : index + 1
-        nextInnerDex = 0
-      } else {
-        nextIndex = index
-        nextInnerDex = this.areResultsExpanded(category)
-          ? featureListLength - 1
-          : this.limitResults - 1
-      }
-      return `polar-plugin-address-search-results-feature-${nextIndex}-${nextInnerDex}`
-    },
     focusNextElement(
       down: boolean,
-      index: number,
-      featureListLength: number,
-      category: string,
-      innerDex?: number
+      { originalTarget }: { originalTarget: HTMLElement }
     ): void {
-      const nextElement =
-        // @ts-expect-error | Type conversion is fine here as the querySelector method is monkeyPatched in core/createMap
-        (document.querySelector('[data-app]') as ShadowRoot).getElementById(
-          this.getNextElementId(
-            down,
-            index,
-            featureListLength,
-            category,
-            innerDex
-          )
-        )
-      if (nextElement) {
-        nextElement.focus()
+      const focus = ['BUTTON', 'LI']
+      const sibling = down ? 'nextElementSibling' : 'previousElementSibling'
+
+      let searchBase: Element = originalTarget
+      let candidateElement: Element | null = searchBase[sibling]
+
+      while (candidateElement && !focus.includes(candidateElement.tagName)) {
+        candidateElement = candidateElement[sibling]
+
+        if (!candidateElement) {
+          const children = searchBase?.parentElement?.[sibling]?.children
+          if (children) {
+            searchBase = children[down ? 0 : children.length - 1]
+            candidateElement = searchBase
+          }
+        }
       }
+
+      if (candidateElement) {
+        // @ts-expect-error | we have no non-HTML elements in this DOM part
+        candidateElement.focus()
+        return
+      }
+
+      if (down) {
+        focusFirstResult(this.featureListsWithCategory.length)
+        return
+      }
+
+      // @ts-expect-error | Type conversion is fine here as the querySelector method is monkeyPatched in core/createMap
+      ;(document.querySelector('[data-app]') as ShadowRoot)
+        .getElementById('polar-plugin-address-search-input')
+        ?.focus()
     },
   },
 })
