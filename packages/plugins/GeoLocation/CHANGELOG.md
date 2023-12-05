@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add parameter `renderType` to configuration, allowing configuration as IconMenu subcomponent.
+- Feature: Hide obstructive tooltip on small devices.
 - Fix: Documentation error regarding plugin state.
 
 ## 1.1.0

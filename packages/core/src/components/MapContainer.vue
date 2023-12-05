@@ -110,9 +110,14 @@ export default Vue.extend({
     if (this.mapConfiguration.checkServiceAvailability) {
       this.checkServiceAvailability()
     }
+    addEventListener('resize', this.updateHasSmallDisplay)
+    this.updateHasSmallDisplay()
+  },
+  beforeDestroy() {
+    removeEventListener('resize', this.updateHasSmallDisplay)
   },
   methods: {
-    ...mapMutations(['setMap', 'setConfiguration']),
+    ...mapMutations(['setConfiguration', 'setHasSmallDisplay', 'setMap']),
     ...mapActions([
       'updateDragAndZoomInteractions',
       'useExtendedMasterportalapiMarkers',
@@ -154,6 +159,12 @@ export default Vue.extend({
             })
             .catch(console.error)
         )
+    },
+    updateHasSmallDisplay() {
+      this.setHasSmallDisplay(
+        window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
+          window.innerWidth <= SMALL_DISPLAY_WIDTH
+      )
     },
     updateListeners(hasWindowSize: boolean) {
       const mapContainer = this.$refs['polar-map-container']
@@ -224,6 +235,11 @@ export default Vue.extend({
 .polar-shadow {
   height: 100%;
   width: 100%;
+}
+
+.v-tooltip__content {
+  background-color: #595959;
+  border: 2px solid #fff;
 }
 
 .v-application {

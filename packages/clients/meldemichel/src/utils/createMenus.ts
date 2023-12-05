@@ -1,4 +1,5 @@
 import Attributions from '@polar/plugin-attributions'
+import Filter from '@polar/plugin-filter'
 import Fullscreen from '@polar/plugin-fullscreen'
 import Gfi from '@polar/plugin-gfi'
 import LayerChooser from '@polar/plugin-layer-chooser'
@@ -13,6 +14,11 @@ export default function (mode: keyof typeof MODE): Menu[] {
       plugin: LayerChooser({}),
       icon: 'fa-book-atlas',
       id: 'layerChooser',
+    },
+    mode === MODE.COMPLETE && {
+      plugin: Filter({}),
+      icon: 'fa-filter',
+      id: 'filter',
     },
     {
       plugin: Gfi({

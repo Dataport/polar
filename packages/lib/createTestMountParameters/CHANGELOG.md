@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublish
+## unpublished
 
 - Feature: Extend mock state to match current core state type.
 

@@ -19,6 +19,8 @@ import sortFeatures from '../utils/sortFeatures'
 
 const writer = new GeoJSON()
 
+let debouncedVisibilityChangeIndicator
+
 const actions: PolarActionTree<GfiState, GfiGetters> = {
   /**
    * Responsible for setting up the module by
@@ -59,6 +61,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
     )
 
     dispatch('setupTooltip')
+    dispatch('setupFeatureVisibilityUpdates')
   },
   setupTooltip({ getters: { gfiConfiguration }, rootGetters: { map } }) {
     const tooltipLayerIds = Object.keys(gfiConfiguration.layers).filter(
@@ -109,6 +112,29 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         overlay.setPosition(undefined)
       }
     })
+  },
+  setupFeatureVisibilityUpdates({ commit, state, getters, rootGetters }) {
+    // debounce to prevent update spam
+    debouncedVisibilityChangeIndicator = debounce(
+      () =>
+        commit(
+          'setVisibilityChangeIndicator',
+          state.visibilityChangeIndicator + 1
+        ),
+      10
+    )
+    const usedLayers = Object.keys(getters.gfiConfiguration.layers)
+    rootGetters.map
+      .getLayers()
+      .getArray()
+      .forEach((layer) => {
+        if (usedLayers.includes(layer.get('id'))) {
+          layer
+            // @ts-expect-error | layers reaching this have a source
+            .getSource()
+            .on('changefeature', debouncedVisibilityChangeIndicator)
+        }
+      })
   },
   close({ commit, dispatch }) {
     commit('clearFeatureInformation')

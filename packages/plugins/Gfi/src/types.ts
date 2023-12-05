@@ -32,6 +32,8 @@ export interface GfiState {
   featureInformation: Record<string, GeoJsonFeature[]>
   /** currently visible feature index regarding  */
   visibleWindowFeatureIndex: number
+  /** count up if something in relevant features changed */
+  visibilityChangeIndicator: number
   /** default style for stroke and fill of the highlighted feature. */
   defaultHighlightStyle: HighlightStyle
   page: number
