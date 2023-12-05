@@ -28,7 +28,6 @@ The following chapters contain drafts in this format. Please mind that they neit
 | fieldName | type | description |
 | - | - | - |
 | targetProperty | string | Target property to filter by. This is the name (that is, key) of a feature property. |
-| pattern | string? | Pattern the target string uses for its date formatting. Defaults to `'YYYY-MM-DD'`. Only 'Y', 'M', and 'D' are interpreted. All other characters are considered filler. |
 | knownValues | (string \| number \| boolean \| null)[] | Array of known values for the feature properties. Each entry will result in a checkbox that allows filtering the appropriate features. Properties not listed will not be filterable. The technical name will result in a localization key that can be configured on a per-client basis. |
 | selectAll | boolean? | If true, a checkbox is added to de/select all `knownValues` (above) at once. Defaults to `false`. |
 
@@ -49,6 +48,7 @@ For example, `{targetProperty: 'favouriteIceCream', knownValues: ['chocolate', '
 | last | options[]? | Array of options to create for a `last` filter, e.g. "last 10 days". |
 | next | options[]? | Array of options to create for a `next` filter, e.g. "next 10 day". |
 | freeSelection | freeSelection? | Provide a more dynamic configurable from-to chooser for timeframes. |
+| pattern | string? | Pattern the target string uses for its date formatting. Defaults to `'YYYY-MM-DD'`. Only 'Y', 'M', and 'D' are interpreted. All other characters are considered filler. Example: A feature has `"AA202001-04"` as property value that is supposed to convey a date. Setting `pattern` to `"--YYYYDD-MM"` would interpret it as the 1st of April, 2020. |
 
 Of all time restrictions, at most one can be selected at any time. The produced options are selectable by radio buttons.
 
