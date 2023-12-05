@@ -4,7 +4,13 @@ import {
 } from '@repositoryname/vuex-generators'
 import { FilterConfiguration, PolarModule } from '@polar/lib-custom-types'
 import ChooseTimeFrame from '../components/ChooseTimeFrame.vue'
-import { FilterGetters, FilterState } from '../types'
+import {
+  FilterGetters,
+  FilterState,
+  KnownValue,
+  LayerId,
+  TargetProperty,
+} from '../types'
 import { updateFeatureVisibility } from '../utils/updateFeatureVisibility'
 import { setState } from '../utils/setState'
 import { arrayOnlyContains } from '../utils/arrayOnlyContains'
@@ -51,9 +57,9 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
     toggleCategory(
       { getters, commit, dispatch },
       payload: {
-        layerId: string
-        targetProperty: string
-        knownValue: string
+        layerId: LayerId
+        targetProperty: TargetProperty
+        knownValue: KnownValue
       }
     ) {
       const value = !getters.getActiveCategory(payload)
@@ -63,8 +69,8 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
     toggleCategoryAll(
       { getters, commit, dispatch },
       payload: {
-        layerId: string
-        targetProperty: string
+        layerId: LayerId
+        targetProperty: TargetProperty
       }
     ) {
       // 'indeterminate' to false intentionally (something had to be decided)
@@ -81,19 +87,19 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
     },
     changeTimeRadio(
       { commit, dispatch },
-      payload: { layerId: string; radioId: number }
+      payload: { layerId: LayerId; radioId: number }
     ) {
       commit('setTimeRadio', payload)
       dispatch('updateFeatureVisibility', payload.layerId)
     },
     changeFreeSelection(
       { commit, dispatch },
-      { layerId, freeSelection }: { layerId: string; freeSelection: Date[] }
+      { layerId, freeSelection }: { layerId: LayerId; freeSelection: Date[] }
     ) {
       commit('setFreeSelection', { layerId, freeSelection })
       dispatch('updateFeatureVisibility', layerId)
     },
-    updateFeatureVisibility({ state, rootGetters, getters }, layerId: string) {
+    updateFeatureVisibility({ state, rootGetters, getters }, layerId: LayerId) {
       updateFeatureVisibility({
         map: rootGetters.map,
         layerId,
@@ -113,9 +119,9 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
         knownValue,
         value,
       }: {
-        layerId: string
-        targetProperty: string
-        knownValue: string
+        layerId: LayerId
+        targetProperty: TargetProperty
+        knownValue: KnownValue
         value: boolean
       }
     ) {
@@ -126,13 +132,13 @@ const storeModule: PolarModule<FilterState, FilterGetters> = {
     },
     setTimeRadio(
       state,
-      { layerId, radioId }: { layerId: string; radioId: number }
+      { layerId, radioId }: { layerId: LayerId; radioId: number }
     ) {
       state.time[layerId].radioId = radioId
     },
     setFreeSelection(
       state,
-      { layerId, freeSelection }: { layerId: string; freeSelection: Date[] }
+      { layerId, freeSelection }: { layerId: LayerId; freeSelection: Date[] }
     ) {
       state.time[layerId].freeSelection = freeSelection
     },
