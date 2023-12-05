@@ -250,9 +250,18 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <h2>Store</h2>
 <p>The core module features a vuex root store that all plugin vuex modules are plugged into. However, the root contents are only relevant to plugins. It is accessible with <code>map.$store</code>, and can be used as a starting point for plugin access.</p>
 <p>To ease use, the map instance also features a <code>subscribe</code> method that will register a watcher to any state field. Please mind that only documented paths should be used, and all others are subject to change without notice.</p>
-<pre><code class="language-js">map.subscribe('some/key', (value) =&gt; {
+<pre><code class="language-js">// state subscription – listening to data held by the map client
+map.subscribe('some/key', (value) =&gt; {
   // do something with the value
 })
+
+// getter subscription – these are computed values from various sources
+map.$store.watch(
+    (_, getters) =&gt; getters['some/key'],
+    (value) =&gt; {
+        // effect
+    }
+)
 </code></pre>
 <p>This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.</p>
 

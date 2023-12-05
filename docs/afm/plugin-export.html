@@ -60,7 +60,7 @@
 <pre><code class="language-js">// type is 'Png', 'Jpg', or 'Pdf'
 map.$store.dispatch('plugin/export/exportAs', type)
 </code></pre>
-<h3>Getters</h3>
+<h3>State</h3>
 <p>This shows how a callback can be used to immediately show a <code>Png</code> screenshot in an image tag. The value of the <code>screenshot</code> variable is a base64-encoded string.</p>
 <pre><code class="language-js">const someImgTag = // ... however you retrieve your tag
   map.subscribe('plugin/export/exportedMap', (screenshot) =&gt;

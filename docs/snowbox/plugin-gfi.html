@@ -266,7 +266,7 @@ customHighlightStyle: {
 },
 </code></pre>
 <h2>Store</h2>
-<h3>Getters</h3>
+<h3>State</h3>
 <p>If a successful query has been sent and a response has been received, the result will be saved in the store and can be subscribed through the path <code>'plugin/gfi/featureInformation'</code>. If, however, a query for a layer fails, a <code>Symbol</code> containing the error will be saved in the store instead to indicate the error.</p>
 <p>The exact value of <code>featureInformation</code> may vary wildly depending on the service used, but is always given as json representation here.</p>
 <pre><code class="language-js">map.subscribe('plugin/gfi/featureInformation', (featureInformation) =&gt; {

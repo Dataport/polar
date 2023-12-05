@@ -52,9 +52,12 @@ map.$store.commit('plugin/loadingIndicator/removeLoadingKey', key)
 </tr>
 </tbody>
 </table>
-<pre><code class="language-js">map.subscribe('plugin/loadingIndicator/showLoader', (showLoader) =&gt; {
-  /* This code is called on showLoader updates. */
-})
+<pre><code class="language-js">mapInstance.$store.watch(
+    (_, getters) =&gt; getters['plugin/loadingIndicator/showLoader'],
+    (showLoader) =&gt; {
+        /* This code is called on showLoader updates. */
+    }
+)
 </code></pre>
 
     
