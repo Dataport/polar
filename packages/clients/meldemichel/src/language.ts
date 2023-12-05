@@ -3,6 +3,49 @@
 import { LanguageOption } from '@polar/lib-custom-types'
 import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
 
+const skat = {
+  100: 'Wege und Straßen',
+  101: 'Schlagloch und Wegeschaden',
+  102: 'Verunreinigung und Vandalismus',
+  103: 'Wildwuchs und Überwuchs',
+  104: 'Beschädigtes Verkehrszeichen',
+  105: 'Beschädigte Brücke, Tunnel, Mauer, Treppe',
+  106: 'Beschädigte Geländer, Poller, Fahrradständer, Sitzgelegenheit',
+  111: 'Schrottfahrräder',
+  112: 'Abgemeldete Fahrzeuge',
+  113: 'Radverkehr',
+  114: 'Stadtwald Hamburg',
+  115: 'Stadtwald: Schäden am Baumbestand',
+  116: 'Stadtwald: Schäden an Einrichtungen',
+  117: 'Stadtwald: Wegeschäden',
+  118: 'Stadtwald: Verschmutzung / Müll',
+  119: 'Stadtwald: Illegale Aktivitäten',
+  120: 'Stadtwald: Sonstige Schäden',
+  200: 'Ampeln und Leuchten',
+  202: 'Ampel gestört',
+  203: 'beleuchtetes Schild gestört',
+  204: 'Straßenbeleuchtung ausgefallen',
+  205: 'Straßenbeleuchtung tagsüber in Betrieb',
+  400: 'Grünanlagen und Spielplätze',
+  401: 'Baumschaden',
+  402: 'Spielgeräteschaden',
+  500: 'Siele und Gewässer',
+  501: 'Gully-Schaden',
+  502: 'Graben',
+  503: 'Gewässerverunreinigung',
+}
+
+const status = {
+  [REPORT_STATUS[0]]: 'In Bearbeitung',
+  [REPORT_STATUS[1]]: 'Bearbeitet',
+}
+
+const filterCategory = {
+  skat,
+  statu: status,
+  title: { skat: 'Kategorien', statu: 'Status' },
+}
+
 const language: LanguageOption[] = [
   {
     type: 'de',
@@ -29,41 +72,8 @@ const language: LanguageOption[] = [
           reports: 'Meldungen',
           hamburgBorder: 'Stadtgrenze Hamburg',
         },
-        skat: {
-          100: 'Wege und Straßen',
-          101: 'Schlagloch und Wegeschaden',
-          102: 'Verunreinigung und Vandalismus',
-          103: 'Wildwuchs und Überwuchs',
-          104: 'Beschädigtes Verkehrszeichen',
-          105: 'Beschädigte Brücke, Tunnel, Mauer, Treppe',
-          106: 'Beschädigte Geländer, Poller, Fahrradständer, Sitzgelegenheit',
-          111: 'Schrottfahrräder',
-          112: 'Abgemeldete Fahrzeuge',
-          113: 'Radverkehr',
-          114: 'Stadtwald Hamburg',
-          115: 'Stadtwald: Schäden am Baumbestand',
-          116: 'Stadtwald: Schäden an Einrichtungen',
-          117: 'Stadtwald: Wegeschäden',
-          118: 'Stadtwald: Verschmutzung / Müll',
-          119: 'Stadtwald: Illegale Aktivitäten',
-          120: 'Stadtwald: Sonstige Schäden',
-          200: 'Ampeln und Leuchten',
-          202: 'Ampel gestört',
-          203: 'beleuchtetes Schild gestört',
-          204: 'Straßenbeleuchtung ausgefallen',
-          205: 'Straßenbeleuchtung tagsüber in Betrieb',
-          400: 'Grünanlagen und Spielplätze',
-          401: 'Baumschaden',
-          402: 'Spielgeräteschaden',
-          500: 'Siele und Gewässer',
-          501: 'Gully-Schaden',
-          502: 'Graben',
-          503: 'Gewässerverunreinigung',
-        },
-        status: {
-          [REPORT_STATUS.PROCESSING]: 'In Bearbeitung',
-          [REPORT_STATUS.PROCESSED]: 'Bearbeitet',
-        },
+        skat,
+        status,
         time: {
           [TIME_FILTER.NONE]: 'Keine Einschränkung',
           [TIME_FILTER.DAYS_7]: 'Die letzten 7 Tage',
@@ -72,6 +82,16 @@ const language: LanguageOption[] = [
         },
       },
       plugins: {
+        filter: {
+          layerName: {
+            6059: 'Meldungen — Filter',
+            6061: 'Meldungen (Stage) — Filter',
+          },
+          category: {
+            6059: filterCategory,
+            6061: filterCategory,
+          },
+        },
         geoLocation: {
           toast: {
             notInBoundary:
@@ -103,6 +123,7 @@ const language: LanguageOption[] = [
         },
         iconMenu: {
           hints: {
+            filter: 'Filter',
             gfi: 'Meldungsliste',
           },
         },
@@ -119,7 +140,7 @@ const language: LanguageOption[] = [
 
 // test for enum/locale synchronity; error on mismatch
 language.forEach((languageOption) => {
-  const knownLocaleSKAT = Object.keys(languageOption.resources.meldemichel.skat)
+  const knownLocaleSKAT = Object.keys(skat)
   const knownEnumSKAT = SKAT.map((n) => String(n))
   if (knownLocaleSKAT.sort().join(',') !== knownEnumSKAT.sort().join(',')) {
     throw new Error(

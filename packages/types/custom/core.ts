@@ -189,6 +189,38 @@ export interface ExportConfiguration extends PluginOptions {
   showPng?: boolean
 }
 
+export interface FilterConfigurationTimeOption {
+  amounts: number[]
+  unit: 'days'
+}
+
+interface FilterConfigurationTime {
+  targetProperty: string
+  pattern?: string
+  last?: FilterConfigurationTimeOption[]
+  next?: FilterConfigurationTimeOption[]
+  freeSelection?: {
+    now?: 'until' | 'from'
+    unit: 'days'
+  }
+}
+
+interface FilerConfigurationCategory {
+  selectAll?: boolean
+  targetProperty: string
+  knownValues: (string | number)[]
+}
+
+export interface FilterConfiguration extends PluginOptions {
+  layers: Record<
+    string,
+    {
+      categories?: FilerConfigurationCategory[]
+      time?: FilterConfigurationTime
+    }
+  >
+}
+
 /** Configuration of GFI feature regarding a specific layer */
 export interface GfiLayerConfiguration {
   /**
@@ -519,6 +551,7 @@ export interface MapConfig {
   attributions?: AttributionsConfiguration
   draw?: DrawConfiguration
   export?: ExportConfiguration
+  filter?: FilterConfiguration
   fullscreen?: FullscreenConfiguration
   geoLocation?: GeoLocationConfiguration
   gfi?: GfiConfiguration
@@ -555,6 +588,7 @@ export interface CoreState {
   configuration: MapConfig
   errors: PolarError[]
   plugin: object
+  language: string
 }
 
 export interface CoreGetters {

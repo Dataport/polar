@@ -2,13 +2,14 @@ import {
   AddressSearchConfiguration,
   Attribution,
   AttributionsConfiguration,
+  FilterConfiguration,
   GeoLocationConfiguration,
   LayerConfiguration,
   MapConfig,
   PinsConfiguration,
   ReverseGeocoderConfiguration,
 } from '@polar/lib-custom-types'
-import { MODE } from './enums'
+import { MODE, SKAT, REPORT_STATUS } from './enums'
 import language from './language'
 import { MeldemichelCreateMapParams } from './types'
 
@@ -115,6 +116,36 @@ const reverseGeocoder: Partial<ReverseGeocoderConfiguration> = {
   addressTarget: 'plugin/addressSearch/selectResult',
 }
 
+const getFilterConfiguration = (id: string): FilterConfiguration => ({
+  layers: {
+    [id]: {
+      categories: [
+        {
+          selectAll: true,
+          targetProperty: 'skat',
+          knownValues: [...SKAT],
+        },
+        {
+          targetProperty: 'statu',
+          knownValues: [...REPORT_STATUS],
+        },
+      ],
+      time: {
+        targetProperty: 'start',
+        pattern: 'YYYYMMDD',
+        last: [
+          {
+            amounts: [7, 30],
+          },
+        ],
+        freeSelection: {
+          now: 'until',
+        },
+      },
+    },
+  },
+})
+
 const geoLocation: Partial<GeoLocationConfiguration> = {
   checkLocationInitially: true,
   zoomLevel: 7,
@@ -159,6 +190,7 @@ const mapConfigurations: Record<
           '<a href="https://www.hamburg.de/impressum/" target="_blank">Impressum</a>',
         ],
       },
+      filter: getFilterConfiguration(reportServiceId),
       geoLocation,
       gfi: {
         mode: 'bboxDot',
