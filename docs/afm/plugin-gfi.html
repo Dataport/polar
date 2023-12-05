@@ -150,6 +150,11 @@ than showing each feature individually</p>
 <td>string</td>
 <td>Property of the features of a service having an url usable to trigger a download of features as a document.</td>
 </tr>
+<tr>
+<td>showTooltip</td>
+<td>((feature: Feature) =&gt; [string, string][])?</td>
+<td>If given, a tooltip will be shown with the values calculated for the feature. The first string is the HTML tag to render, the second its contents; contants may be locale keys. For more information regarding the strings, see the documentation of the <code>@polar/lib-tooltip</code> package. Defaults to <code>undefined</code>.</td>
+</tr>
 </tbody>
 </table>
 <h5>gfi.customHighlightStyle</h5>
