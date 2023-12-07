@@ -1,4 +1,4 @@
-import { Feature, MapBrowserEvent } from 'ol'
+import { Feature, Map, MapBrowserEvent } from 'ol'
 import {
   CoreGetters,
   CoreState,
@@ -18,6 +18,21 @@ let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 // local copies
 let hovered: Feature | null = null
 let selected: Feature | null = null
+
+const setLayerId = (map: Map, feature: Feature): void => {
+  const layer = map
+    .getLayers()
+    .getArray()
+    .find((layer) => {
+      // @ts-expect-error | That's why we're checking.
+      if (layer.getSource) {
+        // @ts-expect-error | We've just checked.
+        return layer.getSource().hasFeature?.(feature)
+      }
+      return false
+    })
+  feature.set('_gfiLayerId', layer?.get('id'), true)
+}
 
 // eslint-disable-next-line max-lines-per-function
 export function useExtendedMasterportalapiMarkers(
@@ -63,6 +78,7 @@ export function useExtendedMasterportalapiMarkers(
       return
     }
     const isMultiFeature = feature.get('features')?.length > 1
+    setLayerId(map, feature)
     hovered = feature
     commit('setHovered', hovered)
     feature.setStyle(getHoveredStyle(hoverStyle, isMultiFeature))
@@ -89,6 +105,7 @@ export function useExtendedMasterportalapiMarkers(
     ) {
       resolveClusterClick(map, feature)
     } else {
+      setLayerId(map, feature)
       selected = feature
       commit('setSelected', selected)
       selected.setStyle(getSelectedStyle(selectionStyle, isMultiFeature))

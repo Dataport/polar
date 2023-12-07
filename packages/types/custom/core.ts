@@ -320,6 +320,7 @@ export interface FeatureList {
   mode: 'visible' | 'loaded'
   pageLength?: number
   text: (string | ((f: Feature) => string))[]
+  bindWithCoreHoverSelect?: boolean
 }
 
 export interface GfiConfiguration extends PluginOptions {

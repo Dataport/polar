@@ -116,7 +116,6 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
                   ...baseProperties,
                 }
               }
-
               // if of type object, map keys, forward properties named in object keys
               if (typeof propertyReducer === 'object') {
                 const relevantKeys = Object.keys(propertyReducer)

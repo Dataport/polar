@@ -62,6 +62,28 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
 
     dispatch('setupTooltip')
     dispatch('setupFeatureVisibilityUpdates')
+    dispatch('setupCoreListener')
+  },
+  setupCoreListener({ getters: { gfiConfiguration }, rootGetters, dispatch }) {
+    if (gfiConfiguration.featureList?.bindWithCoreHoverSelect) {
+      this.watch(
+        () => rootGetters.hovered,
+        (newFeature, oldFeature) => {
+          // console.warn(newFeature, oldFeature)
+        },
+        {
+          deep: true,
+        }
+      )
+      this.watch(
+        () => rootGetters.selected,
+        (selectedFeature) =>
+          dispatch('setOlFeatureInformation', selectedFeature),
+        {
+          deep: true,
+        }
+      )
+    }
   },
   setupTooltip({ getters: { gfiConfiguration }, rootGetters: { map } }) {
     const tooltipLayerIds = Object.keys(gfiConfiguration.layers).filter(
@@ -266,9 +288,15 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
     commit('clearFeatureInformation')
     commit('setVisibleWindowFeatureIndex', 0)
     clear()
-    commit('setFeatureInformation', {
-      [feature.get('_gfiLayerId')]: [JSON.parse(writer.writeFeature(feature))],
-    })
+    if (feature !== null) {
+      commit('setFeatureInformation', {
+        [feature.get('_gfiLayerId')]: feature.get('features')?.length
+          ? feature
+              .get('features')
+              .map((feature) => JSON.parse(writer.writeFeature(feature)))
+          : [JSON.parse(writer.writeFeature(feature))],
+      })
+    }
   },
 }
 
