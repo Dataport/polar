@@ -20,7 +20,7 @@ The most common use case for this client is in citizen's application processes r
 
 Other clients with more specific code (and more visibility) include the [Denkmalkarte Schleswig-Holstein](https://efi2.schleswig-holstein.de/dish/dish_client/index.html), a memorial map, and the [Meldemichel Hamburg](https://static.hamburg.de/kartenclient/prod/), a map to inspect and create reports regarding damages to public infrastructure. The latter is currently being migrated to the version seen in this repository.
 
-## Plugins
+## Plugins 🧩
 
 |Name|Details|
 |-|-|
