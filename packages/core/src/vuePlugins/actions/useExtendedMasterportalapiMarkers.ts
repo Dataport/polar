@@ -82,7 +82,7 @@ export function useExtendedMasterportalapiMarkers(
     const isMultiFeature = feature.get('features')?.length > 1
     lastClickEvent = event
     event.stopPropagation()
-    if (clusterClickZoom) {
+    if (clusterClickZoom && isMultiFeature) {
       resolveClusterClick(map, feature)
     } else {
       selected = feature
