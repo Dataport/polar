@@ -13,6 +13,7 @@
 - Feature: Add parameter `focusAfterSearch` to `AddressSearchConfiguration`.
 - Feature: Add parameter `hasSmallDisplay` to `CoreState`.
 - Feature: Add `layerConf` to `MapConfig`.
+- Fix: Add missing `CoreGetter` fields `clientHeight`, `clientWidth`, `center`, `zoomLevel`.
 
 ## 1.1.0
 

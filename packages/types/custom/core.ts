@@ -620,6 +620,10 @@ export interface CoreGetters {
   map: Map
   hovered: Feature | null
   selected: Feature | null
+  clientHeight: number
+  clientWidth: number
+  center: number[] | null
+  zoomLevel: number
 }
 
 export type PolarGetter<S, G, P> = (
