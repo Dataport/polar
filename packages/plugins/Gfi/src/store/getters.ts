@@ -158,13 +158,8 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
   ): Feature[] {
     const { map, clientHeight, clientWidth, center, zoomLevel } = rootGetters
     // trigger getter on those who indicate feature change possibility
-    noop(
-      clientHeight,
-      clientWidth,
-      center,
-      zoomLevel,
-      visibilityChangeIndicator
-    )
+    noop(clientHeight, clientWidth, center, zoomLevel)
+    noop(visibilityChangeIndicator)
     return map
       .getLayers()
       .getArray()
@@ -190,6 +185,13 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
               )
         )
           .filter(isVisible)
+          .reduce((accumulator, feature) => {
+            if (feature.get('features')) {
+              return accumulator.concat(feature.get('features'))
+            }
+            accumulator.push(feature)
+            return accumulator
+          }, [])
           .map((feature) => {
             feature.set('_gfiLayerId', layer.get('id'))
             return feature
