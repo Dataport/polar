@@ -9,7 +9,6 @@ import {
 import noop from '@repositoryname/noop'
 import { isVisible } from '@polar/lib-invisible-style'
 import { Feature } from 'ol'
-import { Vector as VectorLayer } from 'ol/layer'
 import { Cluster as ClusterSource } from 'ol/source'
 import { GfiGetters, GfiState } from '../types'
 import { listableLayersFilter } from '../utils/listableLayersFilter'
