@@ -10,7 +10,9 @@ import noop from '@repositoryname/noop'
 import { isVisible } from '@polar/lib-invisible-style'
 import { Feature } from 'ol'
 import { Vector as VectorLayer } from 'ol/layer'
+import { Cluster as ClusterSource } from 'ol/source'
 import { GfiGetters, GfiState } from '../types'
+import { listableLayersFilter } from '../utils/listableLayersFilter'
 import getInitialState from './getInitialState'
 
 const getters: PolarGetterTree<GfiState, GfiGetters> = {
@@ -164,18 +166,13 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       .getLayers()
       .getArray()
       .filter((layer) => layerKeys.includes(layer.get('id')))
-      .filter(
-        (layer) =>
-          layer instanceof VectorLayer ||
-          console.warn(
-            `Layer ${layer.get(
-              'id'
-            )} in GFI plugin will not produce list results since it is not a vector layer.`
-          )
-      )
+      .filter(listableLayersFilter)
       .map((layer) => {
         // @ts-expect-error | no sourceless layers in masterportalAPI generation
-        const source = layer.getSource()
+        let source = layer.getSource()
+        while (source instanceof ClusterSource) {
+          source = source.getSource()
+        }
         return (
           listMode === 'loaded'
             ? source.getFeatures()
@@ -185,15 +182,8 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
               )
         )
           .filter(isVisible)
-          .reduce((accumulator, feature) => {
-            if (feature.get('features')) {
-              return accumulator.concat(feature.get('features'))
-            }
-            accumulator.push(feature)
-            return accumulator
-          }, [])
           .map((feature) => {
-            feature.set('_gfiLayerId', layer.get('id'))
+            feature.set('_gfiLayerId', layer.get('id'), true)
             return feature
           })
       })
