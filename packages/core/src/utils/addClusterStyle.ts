@@ -1,5 +1,6 @@
 import { MapConfig } from '@polar/lib-custom-types'
 import { Feature } from 'ol'
+import { InvisibleStyle, isVisible } from '@polar/lib-invisible-style'
 import { getDefaultStyle } from './markers'
 
 // optimization to keep getDefaultStyle memoization intact
@@ -9,11 +10,18 @@ export const addClusterStyle = (mapConfiguration: MapConfig): MapConfig => {
   mapConfiguration.layerConf.forEach((layerConfiguration) => {
     if (layerConfiguration.clusterDistance !== undefined) {
       const style =
-        mapConfiguration.extendedMasterportalapiMarkers.defaultStyle ||
+        mapConfiguration.extendedMasterportalapiMarkers?.defaultStyle ||
         defaultStyle
       // @masterportal/masterportalapi hook
-      layerConfiguration.style = (feature: Feature) =>
-        getDefaultStyle(style, feature.get('features')?.length > 1)
+      layerConfiguration.style = (feature: Feature) => {
+        const visibleFeaturesCount = (feature.get('features') || []).filter(
+          isVisible
+        ).length
+        if (visibleFeaturesCount === 0) {
+          return InvisibleStyle
+        }
+        return getDefaultStyle(style, visibleFeaturesCount > 1)
+      }
     }
   })
   return mapConfiguration
