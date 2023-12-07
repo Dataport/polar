@@ -131,11 +131,14 @@ export const updateFeatureVisibility = ({
       `Layer ${layerId} undefined in Filter.utils.updateFeatureVisibility.`
     )
   }
-  layer
-    // @ts-expect-error | only layers with getSource allowed
-    .getSource()
+
+  // @ts-expect-error | only layers with getSource allowed
+  const source = layer.getSource()
+  const updatedFeatures = source
     .getFeatures()
-    .forEach((feature) => {
+    .map((feature) => feature.get('features') || [feature])
+    .flat(1)
+    .map((feature) => {
       const targetStyle = doesFeaturePassFilter(
         feature,
         state,
@@ -147,7 +150,12 @@ export const updateFeatureVisibility = ({
         : InvisibleStyle
       // only update if it changes anything (prevent unnecessary rerenders)
       if (feature.getStyle() !== targetStyle) {
-        feature.setStyle(targetStyle)
+        const newFeature = feature.clone()
+        newFeature.setStyle(targetStyle)
+        return newFeature
       }
+      return feature
     })
+  // only update finally to prevent overly recalculating clusters
+  source.setFeatures(updatedFeatures)
 }
