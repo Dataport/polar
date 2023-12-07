@@ -7,10 +7,24 @@
       fa-grip-lines
     </v-icon>
     <v-card-actions>
-      <!-- TODO implement when vector clusters are done
-      <v-btn>Prev</v-btn>
-      <v-btn>Next</v-btn>
-      -->
+      <v-btn
+        v-if="showSwitchButtons"
+        icon
+        small
+        :aria-label="$t('common:plugins.gfi.switch.previous')"
+        @click="switchFeature(-1)"
+      >
+        <v-icon small>fa-arrow-left-long</v-icon>
+      </v-btn>
+      <v-btn
+        v-if="showSwitchButtons"
+        icon
+        small
+        :aria-label="$t('common:plugins.gfi.switch.next')"
+        @click="switchFeature(1)"
+      >
+        <v-icon small>fa-arrow-right-long</v-icon>
+      </v-btn>
       <v-spacer></v-spacer>
       <v-btn
         icon
@@ -98,6 +112,25 @@ export default Vue.extend({
   methods: {
     ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
     ...mapActions('plugin/gfi', ['close']),
+    /** switch to next or previous feature */
+    switchFeature(by: GfiIndexStep): void {
+      const {
+        visibleWindowFeatureIndex,
+        windowFeatures,
+        setVisibleWindowFeatureIndex,
+      } = this
+      const maxIndex = windowFeatures.length - 1
+      const nextIndex = visibleWindowFeatureIndex + by
+      if (nextIndex < 0) {
+        setVisibleWindowFeatureIndex(windowFeatures.length - 1)
+        return
+      }
+      if (nextIndex > maxIndex) {
+        setVisibleWindowFeatureIndex(0)
+        return
+      }
+      setVisibleWindowFeatureIndex(nextIndex)
+    },
     formatProperty(type: string, value: string): string {
       if (!value) {
         return ''
