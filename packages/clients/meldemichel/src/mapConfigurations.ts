@@ -164,6 +164,7 @@ const mapConfigurations: Record<
       ...commonMapConfiguration,
       extendedMasterportalapiMarkers: {
         layers: [reportServiceId],
+        clusterClickZoom: true,
       },
       addressSearch,
       layers: [

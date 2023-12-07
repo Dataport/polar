@@ -86,6 +86,7 @@ The mapConfiguration allows controlling many client instance details.
 | defaultStyle | MarkerStyle? | Used as the default marker style. The default fill color for these markers is `'#005CA9'`. |
 | hoverStyle | MarkerStyle? | Used as map marker style for hovered features. The default fill color for these markers is `'#7B1045'`. |
 | selectionStyle | MarkerStyle? | Used as map marker style for selected features. The default fill color for these markers is `'#679100'`. |
+| clusterClickZoom | boolean? | If `true`, clicking a cluster feature will zoom into the clustered features' bounding box (with padding) so that the cluster is "resolved". This happens until the maximum zoom level is reached, at which no further zooming can take place. Defaults to `false`. |
 
 ###### mapConfiguration.extendedMasterportalapiMarkers.MarkerStyle
 

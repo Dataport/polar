@@ -10,6 +10,7 @@ import {
   getHoveredStyle,
   getSelectedStyle,
 } from '../../utils/markers'
+import { resolveClusterClick } from '../../utils/resolveClusterClick'
 
 let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 
@@ -24,10 +25,12 @@ export function useExtendedMasterportalapiMarkers(
     hoverStyle = {},
     selectionStyle = {},
     layers,
+    clusterClickZoom = false,
   }: {
     hoverStyle?: MarkerStyle
     selectionStyle?: MarkerStyle
     layers: string[]
+    clusterClickZoom: boolean
   }
 ) {
   const { map } = getters
@@ -65,11 +68,15 @@ export function useExtendedMasterportalapiMarkers(
       return
     }
     const isMultiFeature = feature.get('features')?.length > 1
-    selected = feature
-    commit('setSelected', selected)
-    selected.setStyle(getSelectedStyle(selectionStyle, isMultiFeature))
     lastClickEvent = event
     event.stopPropagation()
+    if (clusterClickZoom) {
+      resolveClusterClick(map, feature)
+    } else {
+      selected = feature
+      commit('setSelected', selected)
+      selected.setStyle(getSelectedStyle(selectionStyle, isMultiFeature))
+    }
   })
   /* click leads to singlelick; if an element is selected, to not let other
    * plugins pick it up, something was already done with it */
