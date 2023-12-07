@@ -5,6 +5,7 @@ import {
   PolarActionContext,
 } from '@polar/lib-custom-types'
 import RenderFeature from 'ol/render/Feature'
+import { isVisible } from '@polar/lib-invisible-style'
 import {
   MarkerStyle,
   getHoveredStyle,
@@ -34,6 +35,17 @@ export function useExtendedMasterportalapiMarkers(
   }
 ) {
   const { map } = getters
+
+  // prevents features from jumping due to invisible features "pulling"
+  map
+    .getLayers()
+    .getArray()
+    .filter((layer) => layers.includes(layer.get('id')))
+    .forEach((layer) => {
+      // @ts-expect-error | only vector layers reach this
+      layer.getSource().geometryFunction = (feature) =>
+        isVisible(feature) ? feature.getGeometry() : null
+    })
 
   map.on('pointermove', function (event) {
     const feature = map.getFeaturesAtPixel(event.pixel, {
