@@ -69,7 +69,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
       this.watch(
         () => rootGetters.hovered,
         (newFeature, oldFeature) => {
-          // console.warn(newFeature, oldFeature)
+          console.warn('TODO gfi list reaction to core hover')
         },
         {
           deep: true,
@@ -158,10 +158,13 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         }
       })
   },
-  close({ commit, dispatch }) {
+  close({ commit, dispatch, rootGetters }) {
     commit('clearFeatureInformation')
     // NOTE: null is needed, as the payload is always the second argument...
-    dispatch('plugin/pins/removeMarker', null, { root: true })
+    if (!rootGetters.configuration?.extendedMasterportalapiMarkers) {
+      dispatch('plugin/pins/removeMarker', null, { root: true })
+    }
+    dispatch('setCoreSelection', null)
     clear() // ... features of gfi layer
   },
   /**
@@ -284,7 +287,12 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
     },
     50
   ),
-  setOlFeatureInformation({ commit }, feature) {
+  setCoreSelection({ commit, rootGetters }, feature) {
+    if (rootGetters.selected !== feature) {
+      commit('setSelected', feature, { root: true })
+    }
+  },
+  setOlFeatureInformation({ commit, dispatch }, feature) {
     commit('clearFeatureInformation')
     commit('setVisibleWindowFeatureIndex', 0)
     clear()
@@ -296,6 +304,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
               .map((feature) => JSON.parse(writer.writeFeature(feature)))
           : [JSON.parse(writer.writeFeature(feature))],
       })
+      dispatch('setCoreSelection', feature)
     }
   },
 }

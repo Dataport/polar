@@ -6,6 +6,9 @@ import {
 } from '@polar/lib-custom-types'
 import RenderFeature from 'ol/render/Feature'
 import { isVisible } from '@polar/lib-invisible-style'
+import { Store } from 'vuex'
+import { Point } from 'ol/geom'
+import { easeOut } from 'ol/easing'
 import {
   MarkerStyle,
   getHoveredStyle,
@@ -19,23 +22,39 @@ let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 let hovered: Feature | null = null
 let selected: Feature | null = null
 
+// key `_gfiLayerId` required for GFI plugin interconnection
 const setLayerId = (map: Map, feature: Feature): void => {
-  const layer = map
-    .getLayers()
-    .getArray()
-    .find((layer) => {
-      // @ts-expect-error | That's why we're checking.
-      if (layer.getSource) {
-        // @ts-expect-error | We've just checked.
-        return layer.getSource().hasFeature?.(feature)
-      }
-      return false
+  feature.set(
+    '_gfiLayerId',
+    map
+      .getLayers()
+      .getArray()
+      .find((layer) => {
+        // @ts-expect-error | Some BaseLayer instances *do* have it.
+        if (layer.getSource) {
+          // @ts-expect-error | We just checked.
+          return layer.getSource().hasFeature?.(feature)
+        }
+        return false
+      })
+      ?.get('id'),
+    true
+  )
+}
+
+const center = (map: Map, selected: Feature | null) => {
+  if (selected !== null) {
+    map.getView().animate({
+      center: (selected.getGeometry() as Point).getCoordinates(),
+      duration: 400,
+      easing: easeOut,
     })
-  feature.set('_gfiLayerId', layer?.get('id'), true)
+  }
 }
 
 // eslint-disable-next-line max-lines-per-function
 export function useExtendedMasterportalapiMarkers(
+  this: Store<CoreState>,
   { getters, commit }: PolarActionContext<CoreState, CoreGetters>,
   {
     hoverStyle = {},
@@ -62,6 +81,58 @@ export function useExtendedMasterportalapiMarkers(
         isVisible(feature) ? feature.getGeometry() : null
     })
 
+  // // // STORE EVENT HANDLING
+
+  this.watch(
+    () => getters.hovered,
+    (feature: Feature | null) => {
+      console.warn('TODO core reaction to list hover', feature)
+    }
+  )
+
+  this.watch(
+    () => getters.selected,
+    (feature: Feature | null) => {
+      if (feature === null) {
+        console.warn('nulling', selected)
+        selected?.setStyle(undefined)
+        selected = null
+        return
+      }
+
+      let selectedCluster = feature.get('features') ? feature : null
+
+      if (selectedCluster === null) {
+        // @ts-expect-error | Really, it's there!
+        const candidates = map
+          .getLayers()
+          .getArray()
+          .find((layer) => layer.get('id') === feature.get('_gfiLayerId'))
+          // @ts-expect-error | Really, it's there!
+          .getSource()
+          .getFeaturesInExtent(
+            map.getView().calculateExtent(map.getSize()),
+            map.getView().getProjection()
+          )
+
+        selectedCluster = candidates.find((candidate) =>
+          candidate.get('features').includes(feature)
+        )
+      }
+
+      selectedCluster?.setStyle(
+        getSelectedStyle(
+          selectionStyle,
+          selectedCluster.get('features')?.length > 1
+        )
+      )
+      selected = selectedCluster
+      center(map, selected)
+    }
+  )
+
+  // // // MAP EVENT HANDLING
+
   map.on('pointermove', function (event) {
     const feature = map.getFeaturesAtPixel(event.pixel, {
       layerFilter: (layer) => layers.includes(layer.get('id')),
@@ -83,6 +154,7 @@ export function useExtendedMasterportalapiMarkers(
     commit('setHovered', hovered)
     feature.setStyle(getHoveredStyle(hoverStyle, isMultiFeature))
   })
+
   map.on('click', function (event) {
     if (selected !== null) {
       selected.setStyle(undefined)
@@ -109,8 +181,10 @@ export function useExtendedMasterportalapiMarkers(
       selected = feature
       commit('setSelected', selected)
       selected.setStyle(getSelectedStyle(selectionStyle, isMultiFeature))
+      center(map, selected)
     }
   })
+
   /* click leads to singlelick; if an element is selected, to not let other
    * plugins pick it up, something was already done with it */
   map.on('singleclick', function (event) {
