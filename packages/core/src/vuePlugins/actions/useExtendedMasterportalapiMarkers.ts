@@ -55,17 +55,19 @@ const center = (map: Map, selected: Feature | null) => {
 // eslint-disable-next-line max-lines-per-function
 export function useExtendedMasterportalapiMarkers(
   this: Store<CoreState>,
-  { getters, commit }: PolarActionContext<CoreState, CoreGetters>,
+  { getters, dispatch, commit }: PolarActionContext<CoreState, CoreGetters>,
   {
     hoverStyle = {},
     selectionStyle = {},
     layers,
     clusterClickZoom = false,
+    dispatchOnMapSelect,
   }: {
     hoverStyle?: MarkerStyle
     selectionStyle?: MarkerStyle
     layers: string[]
     clusterClickZoom: boolean
+    dispatchOnMapSelect?: string[]
   }
 ) {
   const { map } = getters
@@ -179,6 +181,10 @@ export function useExtendedMasterportalapiMarkers(
     } else {
       setLayerId(map, feature)
       selected = feature
+      if (dispatchOnMapSelect) {
+        // @ts-expect-error | May be one or two elements, no fixed tuple.
+        dispatch(...dispatchOnMapSelect)
+      }
       commit('setSelected', selected)
       selected.setStyle(getSelectedStyle(selectionStyle, isMultiFeature))
       center(map, selected)

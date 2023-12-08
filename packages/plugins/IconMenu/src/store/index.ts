@@ -14,7 +14,7 @@ const storeModule: PolarModule<IconMenuState, IconMenuState> = {
   namespaced: true,
   state: getInitialState(),
   actions: {
-    setupModule({ commit, rootGetters }): void {
+    setupModule({ commit, dispatch, rootGetters }): void {
       const menus = rootGetters.configuration?.iconMenu?.menus || []
       const initializedMenus = menus
         .filter(({ id }) => {
@@ -44,7 +44,10 @@ const storeModule: PolarModule<IconMenuState, IconMenuState> = {
 
       const initiallyOpen =
         rootGetters.configuration?.iconMenu?.initiallyOpen || ''
-      const index = initializedMenus.findIndex(({ id }) => id === initiallyOpen)
+      dispatch('openMenuById', initiallyOpen)
+    },
+    openMenuById({ commit, getters }, openId) {
+      const index = getters.menus.findIndex(({ id }) => id === openId)
       if (index !== -1) {
         commit('setOpen', index)
       }

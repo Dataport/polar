@@ -541,6 +541,7 @@ export interface ExtendedMasterportalapiMarkers {
   hoverStyle: MarkerStyle
   selectionStyle: MarkerStyle
   clusterClickZoom?: boolean
+  dispatchOnMapSelect?: string
 }
 
 export interface MapConfig {

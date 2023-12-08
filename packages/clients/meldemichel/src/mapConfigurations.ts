@@ -165,6 +165,7 @@ const mapConfigurations: Record<
       extendedMasterportalapiMarkers: {
         layers: [reportServiceId],
         clusterClickZoom: true,
+        dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
       },
       addressSearch,
       layers: [
