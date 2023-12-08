@@ -152,23 +152,6 @@ export default Vue.extend({
     resize(): void {
       window.dispatchEvent(new Event('resize'))
     },
-    /** switch to next or previous feature */
-    switchFeature(by: GfiIndexStep): void {
-      const {
-        visibleWindowFeatureIndex,
-        windowFeatures,
-        setVisibleWindowFeatureIndex,
-      } = this
-      const maxIndex = windowFeatures.length - 1
-      const nextIndex = visibleWindowFeatureIndex + by
-      if (nextIndex < 0) {
-        setVisibleWindowFeatureIndex(windowFeatures.length - 1)
-      } else if (nextIndex > maxIndex) {
-        setVisibleWindowFeatureIndex(0)
-      } else {
-        setVisibleWindowFeatureIndex(nextIndex)
-      }
-    },
   },
 })
 </script>
