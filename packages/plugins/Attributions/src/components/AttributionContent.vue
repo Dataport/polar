@@ -27,11 +27,17 @@
 import { t } from 'i18next'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import noop from '@repositoryname/noop'
 
 export default Vue.extend({
   name: 'AttributionContent',
   computed: {
-    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
+    ...mapGetters([
+      'clientWidth',
+      'hasSmallWidth',
+      'hasWindowSize',
+      'language',
+    ]),
     ...mapGetters('plugin/attributions', ['mapInfo', 'windowWidth']),
     maxWidth(): number {
       return this.hasWindowSize && this.hasSmallWidth
@@ -39,6 +45,7 @@ export default Vue.extend({
         : 1080
     },
     cardText(): string {
+      noop(this.language)
       return this.mapInfo
         .map((x) =>
           t(x, {
