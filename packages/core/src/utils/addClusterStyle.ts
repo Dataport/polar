@@ -14,9 +14,9 @@ export const addClusterStyle = (mapConfiguration: MapConfig): MapConfig => {
         defaultStyle
       // @masterportal/masterportalapi hook
       layerConfiguration.style = (feature: Feature) => {
-        const visibleFeaturesCount = (feature.get('features') || []).filter(
-          isVisible
-        ).length
+        const visibleFeaturesCount: number = (
+          feature.get('features') || []
+        ).filter(isVisible).length
         if (visibleFeaturesCount === 0) {
           return InvisibleStyle
         }
