@@ -67,15 +67,19 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters('plugin/gfi', [
-      'windowFeatures',
+      'imageLoaded',
       'visibleWindowFeatureIndex',
+      'windowFeatures',
     ]),
     displayImage(): boolean {
       return this.currentProperties.pic
     },
   },
   methods: {
-    ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
+    ...mapMutations('plugin/gfi', [
+      'setImageLoaded',
+      'setVisibleWindowFeatureIndex',
+    ]),
     formatProperty(type: string, value: string): string {
       if (!value) {
         return ''
@@ -91,8 +95,11 @@ export default Vue.extend({
       }
       return value
     },
-    resize(): void {
-      window.dispatchEvent(new Event('resize'))
+    resize(e: Event) {
+      if ((e.currentTarget as HTMLImageElement).complete && !this.imageLoaded) {
+        this.setImageLoaded(true)
+        window.dispatchEvent(new Event('resize'))
+      }
     },
     /** switch to next or previous feature */
     switchFeature(by: GfiIndexStep): void {

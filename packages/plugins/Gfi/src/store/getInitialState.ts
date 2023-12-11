@@ -2,6 +2,7 @@ import { GfiState } from '../types'
 
 const getInitialState = (): GfiState => ({
   featureInformation: {},
+  imageLoaded: false,
   visibleWindowFeatureIndex: 0,
   defaultHighlightStyle: {
     stroke: {

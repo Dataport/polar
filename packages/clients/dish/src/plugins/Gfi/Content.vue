@@ -35,7 +35,7 @@
       v-if="displayImage"
       :style="`max-width: ${imgMaxWidth}; min-width: max(${imgMinWidth}, 100%); pointer-events: none`"
       :src="currentProperties.Foto"
-      @load="resize"
+      @load="resizeImage"
     />
     <v-card-text>
       <v-simple-table dense>
@@ -91,7 +91,7 @@
               <img
                 :style="`max-width: ${imgMaxWidth}; min-width: max(${imgMinWidth}, 100%); pointer-events: none`"
                 :src="sachgesamtheit.properties.Foto"
-                @load="resize"
+                @load="resizeImage"
               />
             </td>
           </tr>
@@ -147,8 +147,9 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
-      'windowFeatures',
+      'imageLoaded',
       'visibleWindowFeatureIndex',
+      'windowFeatures',
     ]),
     displayImage(): boolean {
       return this.currentProperties.Foto !== 'Kein Foto gefunden'
@@ -187,11 +188,14 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
+    ...mapMutations('plugin/gfi', [
+      'setImageLoaded',
+      'setVisibleWindowFeatureIndex',
+    ]),
     ...mapActions('plugin/gfi', ['close']),
     toggleSachgesamtheit() {
       this.sachgesamtheitOpen = !this.sachgesamtheitOpen
-      Vue.nextTick(this.resize)
+      Vue.nextTick(() => window.dispatchEvent(new Event('resize')))
     },
     prepareTableData(object: Record<string, string>): Array<string[]> {
       return Object.entries(object)
@@ -203,8 +207,11 @@ export default Vue.extend({
             : value,
         ])
     },
-    resize(): void {
-      window.dispatchEvent(new Event('resize'))
+    resizeImage(e: Event) {
+      if ((e.currentTarget as HTMLImageElement).complete && !this.imageLoaded) {
+        this.setImageLoaded(true)
+        window.dispatchEvent(new Event('resize'))
+      }
     },
     /** switch to next or previous feature */
     switchFeature(by: GfiIndexStep): void {

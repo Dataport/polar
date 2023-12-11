@@ -57,6 +57,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
   },
   close({ commit, dispatch }) {
     commit('clearFeatureInformation')
+    commit('setImageLoaded', false)
     // NOTE: null is needed, as the payload is always the second argument...
     dispatch('plugin/pins/removeMarker', null, { root: true })
     clear() // ... features of gfi layer

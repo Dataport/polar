@@ -30,6 +30,7 @@ export interface RequestGfiParameters {
 export interface GfiState {
   /** mapping of layer id to features found for last GFI call */
   featureInformation: Record<string, GeoJsonFeature[]>
+  imageLoaded: boolean
   /** currently visible feature index regarding  */
   visibleWindowFeatureIndex: number
   /** default style for stroke and fill of the highlighted feature. */
