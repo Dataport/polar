@@ -1,23 +1,7 @@
 <template>
-  <v-card>
-    <v-icon v-if="hasWindowSize && hasSmallWidth" class="dish-gfi-grip-icon">
-      fa-grip-lines
-    </v-icon>
-    <v-card-actions>
-      <v-btn
-        v-if="exportProperty"
-        class="text-none dish-export-button"
-        text
-        :href="exportProperty"
-        target="_blank"
-        :alt="$t('common:plugins.gfi.property.imageAlt')"
-        :title="$t('common:plugins.gfi.property.linkTitle')"
-        :aria-label="$t('common:plugins.gfi.property.export')"
-        onmousedown="return false"
-      >
-        <v-icon small>fa-download</v-icon>
-        {{ $t('common:plugins.gfi.property.export') }}
-      </v-btn>
+  <v-card class="dish-gfi-content">
+    <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
+      <ActionButton :export-property="exportProperty"></ActionButton>
       <v-spacer></v-spacer>
       <v-btn
         icon
@@ -110,11 +94,13 @@
 import Vue, { PropType } from 'vue'
 import { GeoJsonProperties } from 'geojson'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
+import ActionButton from './ActionButton.vue'
 
 type GfiIndexStep = -1 | 1
 
 export default Vue.extend({
   name: 'DishGfiContent',
+  components: { ActionButton },
   props: {
     currentProperties: {
       type: Object as PropType<GeoJsonProperties>,
@@ -187,8 +173,17 @@ export default Vue.extend({
       return this.sachgesamtheit.properties.Foto !== 'Kein Foto gefunden'
     },
   },
+  beforeCreate() {
+    if (this.hasWindowSize && this.hasSmallWidth) {
+      this.setActionButton({
+        component: ActionButton,
+        props: { exportProperty },
+      })
+    }
+  },
   methods: {
     ...mapMutations('plugin/gfi', [
+      'setActionButton',
       'setImageLoaded',
       'setVisibleWindowFeatureIndex',
     ]),

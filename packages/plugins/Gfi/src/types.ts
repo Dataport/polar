@@ -12,6 +12,7 @@ import {
   GfiLayerConfiguration,
   RenderType,
   FeatureList,
+  MoveHandleActionButton,
 } from '@polar/lib-custom-types'
 
 /** parameter specification for request method */
@@ -28,6 +29,7 @@ export interface RequestGfiParameters {
 
 /** GFI Vuex Module State */
 export interface GfiState {
+  actionButton: MoveHandleActionButton | null
   /** mapping of layer id to features found for last GFI call */
   featureInformation: Record<string, GeoJsonFeature[]>
   imageLoaded: boolean
