@@ -4,10 +4,10 @@ import {
   CoreState,
   MarkerStyle,
   PolarActionContext,
+  PolarStore,
 } from '@polar/lib-custom-types'
 import RenderFeature from 'ol/render/Feature'
 import { isVisible } from '@polar/lib-invisible-style'
-import { Store } from 'vuex'
 import { Point } from 'ol/geom'
 import { easeOut } from 'ol/easing'
 import { getHoveredStyle, getSelectedStyle } from '../../../utils/markers'
@@ -34,7 +34,7 @@ const center = (map: Map, selected: Feature | null) => {
 
 // eslint-disable-next-line max-lines-per-function
 export function useExtendedMasterportalapiMarkers(
-  this: Store<CoreState>,
+  this: PolarStore<CoreState, CoreGetters>,
   { getters, dispatch, commit }: PolarActionContext<CoreState, CoreGetters>,
   {
     hoverStyle = {},
