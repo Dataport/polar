@@ -80,7 +80,7 @@ const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
   }
 }
 
-const getGetStyle =
+const getStyleFunction =
   (fallbackFill: string): GetMarkerFunction =>
   (style, multi = false) =>
     new Style({
@@ -93,12 +93,12 @@ const getGetStyle =
       }),
     })
 
-export const getDefaultStyle = memoizeStyle(getGetStyle(defaultFill))
+export const getDefaultStyle = memoizeStyle(getStyleFunction(defaultFill))
 
 export const getHoveredStyle = memoizeStyle(
-  memoizeStyle(getGetStyle(defaultHoverFill))
+  memoizeStyle(getStyleFunction(defaultHoverFill))
 )
 
 export const getSelectedStyle = memoizeStyle(
-  memoizeStyle(getGetStyle(defaultSelectionFill))
+  memoizeStyle(getStyleFunction(defaultSelectionFill))
 )
