@@ -2,7 +2,7 @@ import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
 import { MarkerStyle } from '@polar/lib-custom-types'
 
-export type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
+type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
 
 // these have been measured to fit once and influence marker size
 export const imgSize = [23, 32]
