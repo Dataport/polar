@@ -15,13 +15,13 @@ describe('plugin-fullscreen', () => {
       )
     })
 
-    it('should render the fullscreen button', () => {
+    it("should'nt render the fullscreen button when no fullscreen method is available", () => {
       const wrapper = mount(FullscreenComponent, { ...testParameters })
       const tooltip = wrapper.findAllComponents({ name: 'v-tooltip' })
       const button = wrapper.findAllComponents({ name: 'v-btn' })
 
-      expect(tooltip.length).toBe(1)
-      expect(button.length).toBe(1)
+      expect(tooltip.length).toBe(0)
+      expect(button.length).toBe(0)
     })
   })
 })
