@@ -9,6 +9,7 @@ export interface MarkerStyle {
 
 export type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
 
+// these have been measured to fit once and influence marker size
 export const imgSize = [23, 32]
 export const imgSizeMulti = [35, 32]
 
