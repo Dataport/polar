@@ -1,5 +1,9 @@
 <template>
-  <v-tooltip :left="!hasSmallWidth" :top="hasSmallWidth">
+  <v-tooltip
+    :left="!hasSmallWidth"
+    :top="hasSmallWidth"
+    :disabled="hasSmallDisplay"
+  >
     <template #activator="{ on, attrs }">
       <v-btn
         v-if="afmUrl"
@@ -28,7 +32,7 @@ import { mapGetters } from 'vuex'
 export default Vue.extend({
   name: 'MeldemichelAfmButton',
   computed: {
-    ...mapGetters(['configuration', 'hasSmallWidth']),
+    ...mapGetters(['configuration', 'hasSmallDisplay', 'hasSmallWidth']),
     ...mapGetters('meldemichel', ['mapState']),
     mapStateReady() {
       return Boolean(

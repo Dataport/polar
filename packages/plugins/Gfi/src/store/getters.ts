@@ -7,6 +7,7 @@ import {
   PolarGetterTree,
 } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
+import { isVisible } from '@polar/lib-invisible-style'
 import { Feature } from 'ol'
 import { Vector as VectorLayer } from 'ol/layer'
 import { GfiGetters, GfiState } from '../types'
@@ -159,10 +160,21 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
   showList(_, { windowFeatures, gfiConfiguration }): boolean {
     return Boolean(gfiConfiguration.featureList && !windowFeatures.length)
   },
-  listFeatures(_, { listMode, layerKeys }, __, rootGetters): Feature[] {
+  listFeatures(
+    { visibilityChangeIndicator },
+    { listMode, layerKeys },
+    __,
+    rootGetters
+  ): Feature[] {
     const { map, clientHeight, clientWidth, center, zoomLevel } = rootGetters
     // trigger getter on those who indicate feature change possibility
-    noop(clientHeight, clientWidth, center, zoomLevel)
+    noop(
+      clientHeight,
+      clientWidth,
+      center,
+      zoomLevel,
+      visibilityChangeIndicator
+    )
     return map
       .getLayers()
       .getArray()
@@ -186,10 +198,12 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
                 map.getView().calculateExtent(map.getSize()),
                 map.getView().getProjection()
               )
-        ).map((feature) => {
-          feature.set('_gfiLayerId', layer.get('id'))
-          return feature
-        })
+        )
+          .filter(isVisible)
+          .map((feature) => {
+            feature.set('_gfiLayerId', layer.get('id'))
+            return feature
+          })
       })
       .flat(1)
   },

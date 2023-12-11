@@ -14,7 +14,11 @@
         :is-horizontal="isHorizontal"
       />
       <template v-else>
-        <v-tooltip :left="!isHorizontal" :bottom="isHorizontal">
+        <v-tooltip
+          :left="!isHorizontal"
+          :bottom="isHorizontal"
+          :disabled="hasSmallDisplay"
+        >
           <template #activator="{ on, attrs }">
             <v-btn
               :color="open === index ? 'primaryContrast' : 'primary'"
@@ -67,6 +71,7 @@ export default Vue.extend({
   data: () => ({ maxWidth: 'inherit' }),
   computed: {
     ...mapGetters([
+      'hasSmallDisplay',
       'hasSmallHeight',
       'hasSmallWidth',
       'hasWindowSize',

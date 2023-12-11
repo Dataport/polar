@@ -86,7 +86,9 @@ const getInitialState = (): CoreState => ({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   configuration: {},
+  hasSmallDisplay: false,
   errors: [],
+  language: '',
 })
 
 const setCenter = ({ map }) =>
@@ -222,6 +224,10 @@ const store = new Store({
     },
     useExtendedMasterportalapiMarkers,
   },
+})
+
+i18next.on('languageChanged', (language) => {
+  store.commit('setLanguage', language)
 })
 
 export default store

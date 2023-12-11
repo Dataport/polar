@@ -10,6 +10,7 @@ const language: LanguageOption[] = [
           hints: {
             attributions: 'Quellennachweis',
             draw: 'Zeichenwerkzeuge',
+            filter: 'Filter',
             layerChooser: 'Kartenauswahl',
             gfi: 'Objektliste',
           },
@@ -26,6 +27,7 @@ const language: LanguageOption[] = [
           hints: {
             attributions: 'Attributions',
             draw: 'Draw tools',
+            filter: 'Filter',
             layerChooser: 'Choose map',
             gfi: 'Feature list',
           },

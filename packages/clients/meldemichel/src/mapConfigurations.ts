@@ -2,19 +2,20 @@ import {
   AddressSearchConfiguration,
   Attribution,
   AttributionsConfiguration,
+  FilterConfiguration,
   GeoLocationConfiguration,
   LayerConfiguration,
   MapConfig,
   PinsConfiguration,
   ReverseGeocoderConfiguration,
 } from '@polar/lib-custom-types'
-import { MODE } from './enums'
+import { MODE, SKAT, REPORT_STATUS } from './enums'
 import language from './language'
 import { MeldemichelCreateMapParams } from './types'
 
 const stadtplan = '453'
 const luftbilder = '452'
-export const hamburgBorder = '6074' // boundary layer for pins / geolocalization
+export const hamburgBorder = '1693' // boundary layer for pins / geolocalization
 
 const hamburgWhite = '#ffffff'
 const hamburgDarkBlue = '#003063'
@@ -115,6 +116,36 @@ const reverseGeocoder: Partial<ReverseGeocoderConfiguration> = {
   addressTarget: 'plugin/addressSearch/selectResult',
 }
 
+const getFilterConfiguration = (id: string): FilterConfiguration => ({
+  layers: {
+    [id]: {
+      categories: [
+        {
+          selectAll: true,
+          targetProperty: 'skat',
+          knownValues: [...SKAT],
+        },
+        {
+          targetProperty: 'statu',
+          knownValues: [...REPORT_STATUS],
+        },
+      ],
+      time: {
+        targetProperty: 'start',
+        pattern: 'YYYYMMDD',
+        last: [
+          {
+            amounts: [7, 30],
+          },
+        ],
+        freeSelection: {
+          now: 'until',
+        },
+      },
+    },
+  },
+})
+
 const geoLocation: Partial<GeoLocationConfiguration> = {
   checkLocationInitially: true,
   zoomLevel: 7,
@@ -159,6 +190,7 @@ const mapConfigurations: Record<
           '<a href="https://www.hamburg.de/impressum/" target="_blank">Impressum</a>',
         ],
       },
+      filter: getFilterConfiguration(reportServiceId),
       geoLocation,
       gfi: {
         mode: 'bboxDot',
@@ -177,6 +209,10 @@ const mapConfigurations: Record<
               'rueck',
               'start',
               'statu',
+            ],
+            showTooltip: (feature) => [
+              ['h2', `${feature.get('str')} ${feature.get('hsnr')}`],
+              ['span', `meldemichel.skat.${feature.get('skat')}`],
             ],
           },
         },

@@ -20,7 +20,7 @@ The most common use case for this client is in citizen's application processes r
 
 Other clients with more specific code (and more visibility) include the [Denkmalkarte Schleswig-Holstein](https://efi2.schleswig-holstein.de/dish/dish_client/index.html), a memorial map, and the [Meldemichel Hamburg](https://static.hamburg.de/kartenclient/prod/), a map to inspect and create reports regarding damages to public infrastructure. The latter is currently being migrated to the version seen in this repository.
 
-## Plugins
+## Plugins 🧩
 
 |Name|Details|
 |-|-|
@@ -28,6 +28,7 @@ Other clients with more specific code (and more visibility) include the [Denkmal
 |[Attributions](https://github.com/Dataport/polar/tree/main/packages/plugins/Attributions)|Shows layer copyright information of visible layers.|
 |[Draw](https://github.com/Dataport/polar/tree/main/packages/plugins/Draw)|Allows the user to draw various geometries onto the map. The resulting GeoJSON can be forwarded to later processing steps, or be used by the Export plugin to generate screenshots.|
 |[Export](https://github.com/Dataport/polar/tree/main/packages/plugins/Export)|Offers screenshot functionality for the user or further processing.|
+|[Filter](https://github.com/Dataport/polar/tree/main/packages/plugins/Filter)|Allows users to filter vector layers to content relevant to their interests.|
 |[Fullscreen](https://github.com/Dataport/polar/tree/main/packages/plugins/Fullscreen)|User can toggle between integrated and fullscreen view with this plugin.|
 |[GeoLocation](https://github.com/Dataport/polar/tree/main/packages/plugins/GeoLocation)|Geolocalizes the user either on user demand or as a background procedure. An icon is shown on the user position on the map.|
 |[Gfi](https://github.com/Dataport/polar/tree/main/packages/plugins/Gfi)|Short for "Get Feature Information". Retrieves feature information from a WMS or WFS layer for display or usage by further processing steps. Can be used as feature list viewer for vector layers.|

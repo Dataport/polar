@@ -28,7 +28,7 @@ To programmatically trigger a "screenshot", use this action.
 map.$store.dispatch('plugin/export/exportAs', type)
 ```
 
-### Getters
+### State
 
 This shows how a callback can be used to immediately show a `Png` screenshot in an image tag. The value of the `screenshot` variable is a base64-encoded string.
 

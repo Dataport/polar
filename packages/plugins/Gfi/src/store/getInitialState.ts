@@ -5,6 +5,7 @@ const getInitialState = (): GfiState => ({
   featureInformation: {},
   imageLoaded: false,
   visibleWindowFeatureIndex: 0,
+  visibilityChangeIndicator: 0,
   defaultHighlightStyle: {
     stroke: {
       color: '#003064',

@@ -1,0 +1,15 @@
+{
+  "name": "@polar/lib-tooltip",
+  "version": "0.1.0",
+  "license": "EUPL-1.2",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dataport/polar.git",
+    "directory": "packages/lib/tooltip"
+  },
+  "peerDependencies": {
+    "i18next": "^21.6.0"
+  }
+}

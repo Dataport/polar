@@ -8,7 +8,10 @@
       :color="renderType === 'independent' ? '#ffffffdd' : ''"
       :max-width="maxWidth"
     >
-      <!-- TODO: Add solution to be able to also translate attribution when it becomes necessary -->
+      <v-card-title>
+          {{ $t('common:plugins.attributions.title') }}
+        </v-card-title>
+        <!-- TODO: Add solution to be able to also translate attribution when it becomes necessary -->
       <!-- NOTE: The usage of v-html is considered unsafe as it
         opens a window for XSS attacks. In this case, the information is retrieved
         from the mapConfiguration. This is fine by configuration. -->
@@ -21,6 +24,7 @@
 import { t } from 'i18next'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import noop from '@repositoryname/noop'
 
 export default Vue.extend({
   name: 'AttributionContent',
@@ -35,8 +39,10 @@ export default Vue.extend({
     },
   },
   computed: {
+    ...mapGetters(['language']),
     ...mapGetters('plugin/attributions', ['mapInfo', 'renderType']),
     cardText(): string {
+      noop(this.language)
       return this.mapInfo
         .map((x) =>
           t(x, {

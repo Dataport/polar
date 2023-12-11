@@ -61,6 +61,7 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | properties     | Record<propertyName, displayName>/string[] | In case `window` is `true`, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. |
 | featureList | featureList? | If defined, a list of available vector layer features is visible when no feature is selected. Only usable if `renderType` is set to `iconMenu` and `window` is set to `true`. |
 | exportProperty | string                                     | Property of the features of a service having an url usable to trigger a download of features as a document.                                                                                                                                          |
+| showTooltip | ((feature: Feature) => [string, string][])? | If given, a tooltip will be shown with the values calculated for the feature. The first string is the HTML tag to render, the second its contents; contants may be locale keys. For more information regarding the strings, see the documentation of the `@polar/lib-tooltip` package. Defaults to `undefined`. |
 
 ##### gfi.customHighlightStyle
 
@@ -120,7 +121,7 @@ customHighlightStyle: {
 
 ## Store
 
-### Getters
+### State
 
 If a successful query has been sent and a response has been received, the result will be saved in the store and can be subscribed through the path `'plugin/gfi/featureInformation'`. If, however, a query for a layer fails, a `Symbol` containing the error will be saved in the store instead to indicate the error.
 

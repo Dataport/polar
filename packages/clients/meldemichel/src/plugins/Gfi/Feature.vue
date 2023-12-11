@@ -22,7 +22,7 @@
     <img
       v-if="displayImage"
       :src="currentProperties.pic"
-      style="width: 100%"
+      class="meldemichel-gfi-img"
       draggable="false"
       @load="resize"
     />
@@ -34,10 +34,9 @@
               <td class="meldemichel-fat-cell">
                 {{ $t(`meldemichel.gfi.${item}`) }}
               </td>
-              <!-- eslint-disable-next-line vue/no-v-html -->
-              <td
-                v-html="$t(formatProperty(item, currentProperties[item]))"
-              ></td>
+              <td>
+                {{ $t(formatProperty(item, currentProperties[item])) }}
+              </td>
             </tr>
           </tbody>
         </template>
@@ -110,6 +109,9 @@ export default Vue.extend({
           6
         )}.${value.substring(0, 4)}`
       }
+      if (type === 'statu') {
+        return `meldemichel.status.${value}`
+      }
       return value
     },
     resize(e: Event) {
@@ -158,7 +160,13 @@ export default Vue.extend({
 }
 
 .meldemichel-gfi-title {
-  padding-top: 0 !important;
+  padding-top: 0;
   word-break: break-word;
+}
+
+.meldemichel-gfi-img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
 }
 </style>

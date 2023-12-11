@@ -46,7 +46,7 @@
           :key="`gfi-feature-list-${feature.ol_uid}`"
           :two-line="listText.length === 2"
           :three-line="listText.length === 3"
-          @click="itemClick(feature)"
+          @click="setOlFeatureInformation(feature)"
         >
           <v-list-item-content>
             <component
@@ -93,9 +93,6 @@ export default Vue.extend({
     maxPage() {
       return Math.ceil(this.listFeatures.length / this.pageLength)
     },
-    showPagination() {
-      return Boolean(this.gfiConfiguration.featureList.pageLength)
-    },
     visibleListFeatures() {
       return this.listFeatures.slice(
         (this._page - 1) * this.pageLength,
@@ -113,13 +110,10 @@ export default Vue.extend({
   methods: {
     ...mapActions('plugin/gfi', ['setOlFeatureInformation', 'setPage']),
     ...mapMutations('plugin/gfi', ['setPage']),
-    itemClick(feature) {
-      this.setOlFeatureInformation(feature)
-    },
     applyListText(feature: Feature, index: number) {
       const text: string | ((f: Feature) => string) | undefined =
         this.listText[index]
-      if (typeof text === 'undefined') {
+      if (text === undefined) {
         console.error(
           `Missing text entry in GFI configuration. See documentation of gfi.featureList.text for more information. Fallback to ol_uid.`
         )
@@ -135,7 +129,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .v-card {
   @media only screen and (min-width: 769px) {
     /* magic number; leaves minimal space to minimal size AddressSearch in IconMenu mode */
@@ -143,19 +137,15 @@ export default Vue.extend({
   }
 }
 
-.plugin-gfi-list {
-  .v-card__title {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 0.5em;
-    word-break: normal;
-  }
+.v-card__title {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5em;
+  word-break: normal;
 }
-</style>
 
-<style>
-.plugin-gfi-list .v-list-item__title + .v-list-item__subtitle {
+.v-list-item__title + .v-list-item__subtitle {
   font-style: italic;
 }
 </style>
