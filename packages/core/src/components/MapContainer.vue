@@ -77,8 +77,8 @@ export default Vue.extend({
       {
         target: this.$refs['polar-map-container'],
         ...(this.mapConfiguration.extendedMasterportalapiMarkers
-          ? addClusterStyle
-          : (x) => x)(this.mapConfiguration),
+          ? addClusterStyle(this.mapConfiguration)
+          : this.mapConfiguration),
       },
       '2D',
       {
