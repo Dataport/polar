@@ -7,20 +7,11 @@
     @mousedown.stop="onMouseDown"
     @touchstart.stop="onTouchStart"
   >
-    <v-icon v-if="useDefaultIcons" id="polar-move-handle-grip-icon">
-      fa-grip-lines
-    </v-icon>
-    <v-card-actions v-if="hasActionButton || useDefaultIcons">
+    <v-icon id="polar-move-handle-grip-icon"> fa-grip-lines </v-icon>
+    <v-card-actions>
       <slot name="actionButton" />
       <v-spacer></v-spacer>
-      <v-btn
-        v-if="useDefaultIcons"
-        id="polar-move-handle-close-button"
-        icon
-        small
-        :aria-label="closeLabel"
-        @click="closeFunction"
-      >
+      <v-btn icon small :aria-label="closeLabel" @click="close">
         <v-icon>fa-xmark</v-icon>
       </v-btn>
     </v-card-actions>
@@ -75,9 +66,6 @@ export default Vue.extend({
     timeoutReference: 0,
   }),
   computed: {
-    hasActionButton() {
-      return Array.isArray(this.$slots.actionButton)
-    },
     moveEventNames(): MoveEventNames {
       return this.touchDevice
         ? { move: 'touchmove', end: 'touchend' }
@@ -211,12 +199,12 @@ export default Vue.extend({
     background-color: var(--polar-primary-contrast);
   }
 
-  #polar-move-handle-close-button {
-    color: var(--polar-primary);
-  }
-
   .v-card__actions {
     background-color: var(--polar-primary-contrast);
+
+    .v-btn {
+      color: var(--polar-primary);
+    }
   }
 }
 </style>
