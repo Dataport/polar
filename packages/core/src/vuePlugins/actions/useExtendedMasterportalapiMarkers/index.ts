@@ -10,8 +10,8 @@ import { isVisible } from '@polar/lib-invisible-style'
 import { Store } from 'vuex'
 import { Point } from 'ol/geom'
 import { easeOut } from 'ol/easing'
-import { getHoveredStyle, getSelectedStyle } from '../../utils/markers'
-import { resolveClusterClick } from '../../utils/resolveClusterClick'
+import { getHoveredStyle, getSelectedStyle } from '../../../utils/markers'
+import { resolveClusterClick } from '../../../utils/resolveClusterClick'
 
 // TODO pull file apart (after changes in other PR are through)
 
