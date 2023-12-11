@@ -1,6 +1,6 @@
 <template>
   <div
-    class="polar-move-handle"
+    id="polar-move-handle"
     tabindex="0"
     @focus="moveHandle($event.key)"
     @keydown="moveHandle($event.key)"
@@ -58,7 +58,6 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    handleElement: null as unknown as HTMLElement,
     initialCursorY: 0,
     isMoving: false,
     preMoveHandleTop: 0,
@@ -77,12 +76,12 @@ export default Vue.extend({
       const { move, end } = this.moveEventNames
 
       if (newValue) {
-        this.handleElement.classList.add('polar-move-handle-is-moving')
+        this.$el.classList.add('polar-move-handle-is-moving')
         document.addEventListener<MoveEventName>(move, this.onMove)
         document.addEventListener(end, this.onMoveEnd, { once: true })
         return
       }
-      this.handleElement.classList.remove('polar-move-handle-is-moving')
+      this.$el.classList.remove('polar-move-handle-is-moving')
       document.removeEventListener<MoveEventName>(move, this.onMove)
       document.removeEventListener(end, this.onMoveEnd)
     },
@@ -95,22 +94,13 @@ export default Vue.extend({
     },
   },
   mounted() {
-    if (this.containerAsHandle) {
-      this.handleElement = this.$el as HTMLElement
-    } else if (this.$el.parentElement) {
-      this.handleElement = this.$el.parentElement
-    } else {
-      console.error(
-        'MoveHandle: No parent element used, using MoveHandle container.'
-      )
-      this.handleElement = this.$el as HTMLElement
-    }
-    this.handleElement.style.position = 'fixed'
-    this.handleElement.style.width = '100%'
-    this.handleElement.style['z-index'] = 1
-    this.handleElement.style.left = '0'
-    this.handleElement.style.top = `${Math.round(
-      this.$root.$el.clientHeight - this.$root.$el.clientHeight * this.minHeight
+    const handleElement = this.$el as HTMLDivElement
+    handleElement.style.position = 'fixed'
+    handleElement.style.width = '100%'
+    handleElement.style['z-index'] = 1
+    handleElement.style.left = '0'
+    handleElement.style.top = `${Math.round(
+      this.$root.$el.clientHeight - this.$root.$el.clientHeight * minHeight
     )}px`
   },
   methods: {
@@ -153,20 +143,20 @@ export default Vue.extend({
         event instanceof MouseEvent ? event.clientY : event.touches[0].clientY
     },
     savePreMoveHandleTop(): void {
-      this.preMoveHandleTop = this.handleElement.offsetTop
+      this.preMoveHandleTop = (this.$el as HTMLDivElement).offsetTop
     },
     setNewPosition(deltaY: number): void {
       const containerHeight = this.$root.$el.clientHeight
       let newTop = Math.round(this.preMoveHandleTop + deltaY)
 
-      if (containerHeight - newTop < containerHeight * this.minHeight) {
-        newTop = containerHeight - containerHeight * this.minHeight
+      if (containerHeight - newTop < containerHeight * minHeight) {
+        newTop = containerHeight - containerHeight * minHeight
       }
       if (containerHeight - newTop > containerHeight * this.maxHeight) {
         newTop = containerHeight - containerHeight * this.maxHeight
       }
 
-      this.handleElement.style.top = newTop + 'px'
+      ;(this.$el as HTMLDivElement).style.top = newTop + 'px'
     },
     startMoving(event: PolarMoveEvent): void {
       this.saveInitialCursorCoordinates(event)
@@ -178,7 +168,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.polar-move-handle {
+#polar-move-handle {
   position: static;
   height: auto;
   width: auto;
