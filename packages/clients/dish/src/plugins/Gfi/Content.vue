@@ -177,7 +177,7 @@ export default Vue.extend({
     if (this.hasWindowSize && this.hasSmallWidth) {
       this.setActionButton({
         component: ActionButton,
-        props: { exportProperty },
+        props: { exportProperty: this.exportProperty },
       })
     }
   },
