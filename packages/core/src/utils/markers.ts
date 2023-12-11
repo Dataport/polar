@@ -5,22 +5,22 @@ import { MarkerStyle } from '@polar/lib-custom-types'
 type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
 
 // these have been measured to fit once and influence marker size
-export const imgSize = [23, 32]
-export const imgSizeMulti = [35, 32]
+const imgSize = [23, 32]
+const imgSizeMulti = [35, 32]
 
-export const defaultStroke = '#FFFFFF'
-export const defaultStrokeWidth = '2'
+const defaultStroke = '#FFFFFF'
+const defaultStrokeWidth = '2'
 
-export const defaultFill = '#005CA9'
-export const defaultHoverFill = '#7B1045'
-export const defaultSelectionFill = '#679100'
+const defaultFill = '#005CA9'
+const defaultHoverFill = '#7B1045'
+const defaultSelectionFill = '#679100'
 
 const prefix = 'data:image/svg+xml,'
 
 /* Path of marker svg used in this file copied and adapted from
  * @masterportal/masterportalapi/public/marker.svg. */
 
-export const makeMarker = ({
+const makeMarker = ({
   stroke = defaultStroke,
   strokeWidth = defaultStrokeWidth,
   fill = defaultFill,
@@ -38,7 +38,7 @@ export const makeMarker = ({
 </svg>
 `)}`
 
-export const makeMultiMarker = ({
+const makeMultiMarker = ({
   stroke = defaultStroke,
   strokeWidth = defaultStrokeWidth,
   fill = defaultFill,
@@ -55,7 +55,7 @@ export const makeMultiMarker = ({
 `)}`
 
 // center bottom of marker 📍 is intended to show the spot
-export const anchor = [0.5, 1]
+const anchor = [0.5, 1]
 
 /**
  * The map became a little laggy due to constant re-generation of styles.
