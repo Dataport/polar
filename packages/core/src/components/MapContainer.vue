@@ -20,6 +20,24 @@
       :aria-label="$t('common:canvas.label')"
     ></div>
     <MapUi></MapUi>
+    <MoveHandle
+      v-if="renderMoveHandle"
+      ref="moveHandleElement"
+      :key="moveHandleKey"
+      :close-label="moveHandle.closeLabel"
+      :close-function="moveHandle.closeFunction"
+      :max-height="maxMoveHandleHeight"
+    >
+      <template v-if="moveHandle.actionButton" #actionButton>
+        <component
+          :is="moveHandle.actionButton.component"
+          v-bind="moveHandle.actionButton.props"
+        />
+      </template>
+      <template #default>
+        <component :is="moveHandle.component" v-bind="moveHandle.props || {}" />
+      </template>
+    </MoveHandle>
   </v-app>
 </template>
 
@@ -28,10 +46,15 @@ import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import api from '@masterportal/masterportalapi/src/maps/api'
 import { ping } from '@masterportal/masterportalapi/src'
+import { MoveHandle } from '@polar/components'
 import Hammer from 'hammerjs'
 import i18next from 'i18next'
 import { defaults } from 'ol/interaction'
-import { LanguageOption, PolarError } from '@polar/lib-custom-types'
+import {
+  LanguageOption,
+  MoveHandleProperties,
+  PolarError,
+} from '@polar/lib-custom-types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import MapUi from './MapUi.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
@@ -40,6 +63,7 @@ import 'ol/ol.css'
 export default Vue.extend({
   components: {
     MapUi,
+    MoveHandle,
   },
   props: {
     mapConfiguration: {
@@ -49,26 +73,52 @@ export default Vue.extend({
   },
   data: (): {
     lang: 'de' | 'en'
+    maxMoveHandleHeight: number
+    moveHandleKey: number
     noControlOnZoom: boolean
     noControlOnZoomTimeout: number | undefined
     oneFingerPan: boolean
     oneFingerPanTimeout: number | undefined
   } => ({
     lang: 'de',
+    maxMoveHandleHeight: 1,
+    moveHandleKey: 0,
     noControlOnZoom: false,
     noControlOnZoomTimeout: undefined,
     oneFingerPan: false,
     oneFingerPanTimeout: undefined,
   }),
   computed: {
-    ...mapGetters(['hasWindowSize']),
+    ...mapGetters([
+      'hasSmallHeight',
+      'hasSmallWidth',
+      'hasWindowSize',
+      'moveHandle',
+    ]),
+    isHorizontal() {
+      return this.hasSmallHeight && this.hasWindowSize
+    },
+    renderMoveHandle() {
+      return (
+        this.moveHandle !== null && this.hasWindowSize && this.hasSmallWidth
+      )
+    },
   },
   watch: {
     // NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
     //       Added as a watcher to trigger the update at the correct time.
-    hasWindowSize: function (newVal) {
+    hasWindowSize(newVal) {
       this.updateDragAndZoomInteractions()
       this.updateListeners(newVal)
+    },
+    // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
+    isHorizontal(newVal: boolean) {
+      if (!newVal) {
+        this.updateMaxMobileHeight()
+      }
+    },
+    moveHandle(_: MoveHandleProperties, oldHandle: MoveHandleProperties) {
+      this.updateMaxMobileHeight(oldHandle)
     },
   },
   mounted() {
@@ -110,6 +160,10 @@ export default Vue.extend({
     if (this.mapConfiguration.checkServiceAvailability) {
       this.checkServiceAvailability()
     }
+    addEventListener('resize', this.updateMaxMobileHeight)
+  },
+  beforeDestroy() {
+    removeEventListener('resize', this.updateMaxMobileHeight)
   },
   methods: {
     ...mapMutations(['setMap', 'setConfiguration']),
@@ -180,6 +234,30 @@ export default Vue.extend({
           })
         }
       }
+    },
+    updateMaxMobileHeight(oldHandle?: MoveHandleProperties) {
+      if (
+        oldHandle &&
+        typeof oldHandle.closeFunction === 'function' &&
+        (this.moveHandle === null ||
+          this.moveHandle.plugin !== oldHandle.plugin)
+      ) {
+        oldHandle.closeFunction()
+      }
+      // Make sure the element is properly updated.
+      this.moveHandleKey += 1
+      // Wait until the element is mounted.
+      this.$nextTick(() => {
+        const element = (this.$refs.moveHandleElement as Vue | undefined)?.$el
+        if (this.moveHandle !== null && element) {
+          // Make sure everything of the element is rendered.
+          this.$forceUpdate()
+          this.$nextTick(() => {
+            this.maxMoveHandleHeight =
+              element.clientHeight / this.$el.clientHeight
+          })
+        }
+      })
     },
   },
 })

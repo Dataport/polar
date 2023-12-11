@@ -544,6 +544,24 @@ export interface PolarError {
   text: string
 }
 
+type MoveHandleProps = object
+
+export interface MoveHandleProperties {
+  closeLabel: string
+  closeFunction: (...args: unknown[]) => unknown
+  component: Vue
+  // Plugin that added the moveHandle
+  plugin: string
+  actionButton?: MoveHandleActionButton
+  props?: MoveHandleProps
+  clearHandleAfterClose?: boolean
+}
+
+export interface MoveHandleActionButton {
+  component: Vue
+  props?: MoveHandleProps
+}
+
 export interface CoreState {
   center: [number, number] | null
   clientHeight: number
@@ -553,6 +571,7 @@ export interface CoreState {
   errors: PolarError[]
   hovered: number
   map: number
+  moveHandle: number
   plugin: object
   selected: number
   zoomLevel: number
@@ -568,6 +587,7 @@ export interface CoreGetters {
   hovered: Feature | null
   errors: PolarError[]
   map: Map
+  moveHandle: MoveHandleProperties
   selected: Feature | null
 }
 
