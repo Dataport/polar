@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
@@ -51,6 +52,24 @@ const storeModule: PolarModule<IconMenuState, IconMenuState> = {
         !rootGetters.hasSmallHeight
       ) {
         commit('setOpen', index)
+      }
+    },
+    openInMoveHandle({ commit, getters, rootGetters }, index: number) {
+      if (rootGetters.hasWindowSize && rootGetters.hasSmallWidth) {
+        // TODO: Add actionButton to moveHandle for vector clusters including a previous and next button. Should be added to menus
+        const { hint, id, plugin } = getters.menus[index]
+        commit(
+          'setMoveHandle',
+          {
+            closeLabel: t('plugins.iconMenu.mobileCloseButton', {
+              plugin: hint || `common:plugins.iconMenu.hints.${id}`,
+            }),
+            closeFunction: () => commit('setOpen', null),
+            component: plugin,
+            plugin: 'iconMenu',
+          },
+          { root: true }
+        )
       }
     },
   },

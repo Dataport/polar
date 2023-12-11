@@ -36,38 +36,19 @@
             $t(hint ? hint : `common:plugins.iconMenu.hints.${id}`)
           }}</span>
         </v-tooltip>
-        <template v-if="open === index">
-          <MoveHandle
-            v-if="hasWindowSize && hasSmallWidth"
-            :use-default-icons="true"
-            :close-label="
-              $t('plugins.iconMenu.mobileCloseButton', {
-                plugin: hint ? hint : `common:plugins.iconMenu.hints.${id}`,
-              })
-            "
-            :close-function="() => toggle(Number(index))"
-            :container-as-handle="true"
-            :max-height="maxMobileHeight"
-          >
-            <!-- TODO:
-                  Add a possibility to use the actionButton slot.
-                  This will become relevant once vector clusters have been implemented as they require a previous and next button.
-            -->
-            <component :is="plugin" ref="item-component" />
-          </MoveHandle>
-          <component
-            :is="plugin"
-            v-else
-            ref="item-component"
-            :class="[
-              isHorizontal
-                ? 'icon-menu-list-item-content-horizontal'
-                : 'icon-menu-list-item-content',
-              'icon-menu-list-item-content-scrollable-y',
-            ]"
-            :style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
-          />
-        </template>
+        <!-- Content is displayed in MoveHandle of the core if hasWindowSize and hasSmallWidth are true -->
+        <component
+          :is="plugin"
+          v-if="open === index && (!hasWindowSize || !hasSmallWidth)"
+          ref="item-component"
+          :class="[
+            isHorizontal
+              ? 'icon-menu-list-item-content-horizontal'
+              : 'icon-menu-list-item-content',
+            'icon-menu-list-item-content-scrollable-y',
+          ]"
+          :style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
+        />
       </template>
     </component>
   </component>
@@ -75,7 +56,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { MoveHandle } from '@polar/components'
 
 export default Vue.extend({
@@ -83,7 +64,7 @@ export default Vue.extend({
   components: {
     MoveHandle,
   },
-  data: () => ({ maxMobileHeight: 1, maxWidth: 'inherit' }),
+  data: () => ({ maxWidth: 'inherit' }),
   computed: {
     ...mapGetters([
       'hasSmallHeight',
@@ -117,28 +98,32 @@ export default Vue.extend({
     // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
     isHorizontal(newVal: boolean) {
       if (!newVal) {
-        this.updateWindowSizing()
+        this.updateMaxWidth()
       }
     },
   },
   mounted() {
-    addEventListener('resize', this.updateWindowSizing)
-    this.updateWindowSizing()
+    addEventListener('resize', this.updateMaxWidth)
+    this.updateMaxWidth()
   },
   beforeDestroy() {
-    removeEventListener('resize', this.updateWindowSizing)
+    removeEventListener('resize', this.updateMaxWidth)
   },
   methods: {
+    ...mapMutations(['setMoveHandle']),
     ...mapMutations('plugin/iconMenu', ['setOpen']),
+    ...mapActions('plugin/iconMenu', ['openInMoveHandle']),
     toggle(index: number) {
       if (this.open === index) {
         this.setOpen(null)
+        this.setMoveHandle(null)
       } else {
         this.setOpen(index)
+        this.openInMoveHandle(index)
       }
-      this.updateWindowSizing()
+      this.updateMaxWidth()
     },
-    updateWindowSizing() {
+    updateMaxWidth() {
       this.$nextTick(() => {
         const plugin = this.$refs['item-component']
         if (plugin?.[0]) {
@@ -147,13 +132,6 @@ export default Vue.extend({
             this.maxWidth = `${width + left}px`
           } else {
             this.maxWidth = 'inherit'
-            if (open !== null) {
-              this.$nextTick(() => {
-                this.maxMobileHeight =
-                  plugin[0].$el.offsetParent.clientHeight /
-                  this.$root.$el.clientHeight
-              })
-            }
           }
         }
       })
