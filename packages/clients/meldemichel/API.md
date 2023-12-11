@@ -12,13 +12,13 @@ The NPM package `@polar/client-meldemichel` can be installed via NPM or download
 
 The method expects a single object with the following parameters.
 
-| fieldName       | type                                 | description                                                                                                                                                                                                                                                                             |
-| --------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| containerId     | string                               | ID of the container the map is supposed to render itself to.                                                                                                                                                                                                                            |
-| mode            | enum["REPORT", "SINGLE", "COMPLETE"] | See chapters below for an overview of the modes.                                                                                                                                                                                                                                        |
-| afmUrl          | string?                              | TODO `COMPLETE` mode only. URL used in the AfM Button.                                                                                                                                                                                                                                         |
-| reportServiceId | string?                              | TODO `COMPLETE` mode only. ID of the report layer to display.                                                                                                                                                                                                                                  |
-| configOverride  | object?                              | This can be used to override the configuration of any installed plugin; see full documentation. It is also used to set initial pins in `SINGLE` mode. See documentation of `SINGLE` further below. |
+| fieldName | type | description |
+| - | - | - |
+| containerId | string | ID of the container the map is supposed to render itself to. |
+| mode | enum["REPORT", "SINGLE", "COMPLETE"] | See chapters below for an overview of the modes. |
+| afmUrl | string? | `COMPLETE` mode only. The URL used here is the URL of the AfM service to open to create a new damage report. |
+| reportServiceId | string? | `COMPLETE` mode only. ID of the report layer to display. Both the Filter and the Feature List will work with this layer. The client will also provide tooltips and cluster the features. |
+| configOverride  | object? | This can be used to override the configuration of any installed plugin; see full documentation. It is also used to set initial pins in `SINGLE` mode. See documentation of `SINGLE` further below. |
 
 It returns a Promise of a map instance. This returned instance is required to retrieve information from the map.
 
@@ -123,22 +123,4 @@ A document rendering the map client could e.g. look like this:
 
 The `index.html` included in the package's `dist` folder has been prepared for this mode and must merely be hosted.
 
-// TODO update this block after implementation (TO BE IMPLEMENTED)
-
-```
-Dieser [AfMButton] wird dann gerendert, wenn in der mapConf das Feld `afmUrl` befüllt ist, zum Beispiel mit dem String `"https://afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index"`. Diese URL ist in die Konfiguration gezogen worden, falls sich die Adresse des Prozesses einmal ändern sollte.
-
-Der URL werden folgende Query-Parameter (hier mit Beispielwerten) hinzugefügt:
-
-- `mapCenter=569029.708,5932888.959`
-- `mapZoomLevel=9`
-- `mapBaseLayer=452`
-  - Wert ist ID in der https://geoportal-hamburg.de/lgv-config/services-internet.json
-- `vendor_maps_position=569029.708,5932888.959`
-- `vendor_maps_address_str=Berlinertordamm`
-- `vendor_maps_address_hnr=4`
-- `vendor_maps_address_plz=12345`
-- `vendor_maps_distance_to=0` (Distanz zum Adresspunkt laut Reverse Geocoder)
-
-Analog liest der Klient im Modus `complete` beim Start auch alle bis auf die letzten zwei Query-Parameter wieder ein. Dabei wird die Adresse überschrieben, falls sie nicht zur `vendor_maps_position` passt.
-```
+Please see the table in chapter `Basic usage` about configuration options.
