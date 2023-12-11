@@ -1,5 +1,20 @@
 <template>
-  <v-card class="meldemichel-gfi-card">
+  <v-card>
+    <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
+      <!-- TODO implement when vector clusters are done
+      <v-btn>Prev</v-btn>
+      <v-btn>Next</v-btn>
+      -->
+      <v-spacer />
+      <v-btn
+        icon
+        small
+        :aria-label="$t('common:plugins.gfi.header.close')"
+        @click="close"
+      >
+        <v-icon small>fa-xmark</v-icon>
+      </v-btn>
+    </v-card-actions>
     <v-card-title class="meldemichel-gfi-title">
       {{ $t('meldemichel.gfi.title') }}<br />
       {{ `${currentProperties.str} ${currentProperties.hsnr}` }}
@@ -38,7 +53,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import { GeoJsonProperties } from 'geojson'
-import { mapMutations, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 type GfiIndexStep = -1 | 1
 
@@ -66,6 +81,7 @@ export default Vue.extend({
     infoFields: ['skat', 'start', 'statu'],
   }),
   computed: {
+    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
       'imageLoaded',
       'visibleWindowFeatureIndex',
@@ -80,6 +96,7 @@ export default Vue.extend({
       'setImageLoaded',
       'setVisibleWindowFeatureIndex',
     ]),
+    ...mapActions('plugin/gfi', ['close']),
     formatProperty(type: string, value: string): string {
       if (!value) {
         return ''
