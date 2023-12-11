@@ -3,18 +3,21 @@
     <v-card v-if="!windowLayerKeysActive">
       <v-card-text>{{ $t('common:plugins.gfi.noActiveLayer') }}</v-card-text>
     </v-card>
-    <MoveHandle v-else-if="renderMoveHandle" :max-height="maxMobileHeight">
-      <component :is="contentComponent" v-bind="contentProps"></component>
-    </MoveHandle>
-    <component :is="contentComponent" v-else v-bind="contentProps"></component>
+    <component
+      :is="contentComponent"
+      v-else-if="!renderMoveHandle"
+      v-bind="contentProps"
+    />
   </div>
 </template>
 
 <script lang="ts">
+import { t } from 'i18next'
 import Vue from 'vue'
 import { GeoJsonProperties } from 'geojson'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { MoveHandle } from '@polar/components'
+import { MoveHandleProperties } from '@polar/lib-custom-types'
 import Feature from './Feature.vue'
 import List from './List.vue'
 
@@ -23,12 +26,14 @@ export default Vue.extend({
   components: {
     MoveHandle,
   },
-  data: () => ({ clientWidth: 0, maxMobileHeight: 1 }),
+  data: () => ({ clientWidth: 0 }),
   computed: {
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
+    ...mapGetters(['moveHandle']),
     ...mapGetters('plugin/gfi', [
+      'actionButton',
       'exportPropertyLayerKeys',
       'gfiContentComponent',
+      'gfiConfiguration',
       'renderMoveHandle',
       'renderType',
       'showList',
@@ -80,26 +85,55 @@ export default Vue.extend({
       return this.windowFeatures.length > 1
     },
   },
+  watch: {
+    windowFeatures(features: GeoJsonProperties[]) {
+      if (features.length) {
+        const moveHandleProperties: MoveHandleProperties = {
+          closeLabel: t('plugins.gfi.header.close'),
+          closeFunction: () => {
+            this.close()
+            // The list view is currently only implemented if the gfi is rendered as part of the iconMenu.
+            // TODO: Finding a different solution may be a task to be tackled in the future
+            if (
+              this.gfiConfiguration.featureList &&
+              this.$store.hasModule(['plugin', 'iconMenu']) &&
+              this.$store.getters['plugin/iconMenu/open'] !== null
+            ) {
+              this.$store.dispatch(
+                'plugin/iconMenu/openInMoveHandle',
+                this.$store.getters['plugin/iconMenu/menus'].findIndex(
+                  ({ id }) => id === 'gfi'
+                )
+              )
+            }
+          },
+          component: this.contentComponent,
+          props: this.contentProps,
+          plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
+        }
+        if (this.actionButton !== null) {
+          moveHandleProperties.actionButton = this.actionButton
+        }
+        this.setMoveHandle(moveHandleProperties)
+      } else if (
+        this.moveHandle !== null &&
+        this.moveHandle.component === this.contentComponent
+      ) {
+        this.setMoveHandle(null)
+      }
+    },
+  },
   mounted() {
     window.addEventListener('resize', () => {
       this.updateClientWidth()
-      this.updateMaxMobileHeight()
     })
     this.updateClientWidth()
   },
-  updated() {
-    this.$nextTick(this.updateMaxMobileHeight)
-  },
   methods: {
+    ...mapMutations(['setMoveHandle']),
+    ...mapActions('plugin/gfi', ['close']),
     updateClientWidth() {
       this.clientWidth = this.$root.$el.clientWidth
-    },
-    updateMaxMobileHeight() {
-      // Only update if the element is actually rendered
-      if (this.$el.clientHeight) {
-        this.maxMobileHeight =
-          this.$el.clientHeight / this.$root.$el.clientHeight
-      }
     },
   },
 })
