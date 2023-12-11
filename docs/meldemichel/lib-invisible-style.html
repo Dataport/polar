@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+  }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>invisibleStyle</h1>
+<p>Exports a style for vector layer features that results in invisibility. Plugins that work with feature visibility ought to use this package to keep them interoperable.</p>
+<pre><code class="language-js">import { InvisibleStyle, isInvisible, isVisible } from '@polar/lib-invisible-style'
+
+// making feature invisible
+feature.setStyle(InvisibleStyle)
+
+// making feature visible
+feature.setStyle(undefined)
+
+// checking if a feature is (in)visible
+isInvisible(feature) // true or false
+isVisible(feature)
+</code></pre>
+
+    
+  </article>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>
