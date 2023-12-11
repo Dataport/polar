@@ -24,38 +24,22 @@ import Vue from 'vue'
 import { mapMutations } from 'vuex'
 import { MoveEventName, MoveEventNames, PolarMoveEvent } from './types'
 
-function dimensionValidator(val): boolean {
-  return !isNaN(val) && typeof val === 'number' && val >= 0
-}
+const minHeight = 0.1
 
 export default Vue.extend({
   name: 'MoveHandle',
   props: {
-    minHeight: {
-      type: Number,
-      default: 0.1,
-      validator: dimensionValidator,
-    },
-    maxHeight: {
-      type: Number,
-      default: 1,
-      validator: dimensionValidator,
-    },
-    useDefaultIcons: {
-      type: Boolean,
-      default: false,
-    },
     closeLabel: {
       type: String,
-      default: '',
+      required: true,
     },
     closeFunction: {
       type: Function,
-      default: null,
+      required: true,
     },
-    containerAsHandle: {
-      type: Boolean,
-      default: false,
+    maxHeight: {
+      type: Number,
+      required: true,
     },
   },
   data: () => ({
