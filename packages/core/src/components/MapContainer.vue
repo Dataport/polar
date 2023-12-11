@@ -33,6 +33,7 @@ import i18next from 'i18next'
 import { defaults } from 'ol/interaction'
 import { LanguageOption, PolarError } from '@polar/lib-custom-types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
+import { addClusterStyle } from '../utils/addClusterStyle'
 import MapUi from './MapUi.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
@@ -75,7 +76,9 @@ export default Vue.extend({
     const map = api.map.createMap(
       {
         target: this.$refs['polar-map-container'],
-        ...this.mapConfiguration,
+        ...(this.mapConfiguration.extendedMasterportalapiMarkers
+          ? addClusterStyle(this.mapConfiguration)
+          : this.mapConfiguration),
       },
       '2D',
       {

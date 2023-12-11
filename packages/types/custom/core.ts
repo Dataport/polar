@@ -528,6 +528,20 @@ export interface PolarMapOptions {
 /** The initial language the client should be using; defaults to 'de' if not given */
 export type InitialLanguage = 'de' | 'en'
 
+export interface MarkerStyle {
+  strokeWidth?: string | number
+  stroke?: string
+  fill?: string
+}
+
+export interface ExtendedMasterportalapiMarkers {
+  layers: string[]
+  defaultStyle: MarkerStyle
+  hoverStyle: MarkerStyle
+  selectionStyle: MarkerStyle
+  clusterClickZoom?: boolean
+}
+
 export interface MapConfig {
   /** if true, all services' availability will be checked with head requests */
   checkServiceAvailability?: boolean
@@ -535,6 +549,9 @@ export interface MapConfig {
   epsg: string
   /** Configured layers */
   layers: LayerConfiguration[]
+  /** masterportalapi-type layer configuration */
+  layerConf: Record<string, unknown>[]
+  extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   /** Enabled projections for the map; 2nd dimension of the array contains the epsg code as the first parameter and the proj4 definition as the second */
   namedProjections: Array<[string, string]>
   /** Mapped resolution to zoomLevel */
@@ -604,6 +621,10 @@ export interface CoreGetters {
   map: Map
   hovered: Feature | null
   selected: Feature | null
+  clientHeight: number
+  clientWidth: number
+  center: number[] | null
+  zoomLevel: number
 }
 
 export type PolarGetter<S, G, P> = (
