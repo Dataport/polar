@@ -65,6 +65,10 @@ const language: LanguageOption[] = [
           rueck: 'Rückmeldung',
           start: 'Gemeldet am',
           statu: 'Status',
+          tooltip: {
+            multiHeader: 'Mehrere Anliegen',
+            multiBody: 'Klick zum Zoomen',
+          },
         },
         layers: {
           stadtplan: 'Stadtplan',
