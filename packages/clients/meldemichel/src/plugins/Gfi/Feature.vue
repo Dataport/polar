@@ -146,14 +146,6 @@ export default Vue.extend({
   color: #003064 !important;
 }
 
-.meldemichel-gfi-card {
-  min-width: 20vw;
-}
-
-.meldemichel-export-button .v-icon {
-  margin-right: 0.4em;
-}
-
 .meldemichel-fat-cell {
   font-weight: bolder;
   white-space: nowrap;
