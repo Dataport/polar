@@ -199,3 +199,5 @@ map.$store.watch(
 ```
 
 This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.
+
+To add content to the `MoveHandle`, the mutation `setMoveHandle` can be used. The values needed are described in `@polar/lib-custom-types:MoveHandleProperties`.
