@@ -74,7 +74,7 @@ export function useExtendedMasterportalapiMarkers(
 
     if (selectedCluster === null) {
       // @ts-expect-error | The layer with the id '_gfiLayerId' is defined if this action is called
-      const candidates = map
+      const candidates: Feature[] = map
         .getLayers()
         .getArray()
         .find((layer) => layer.get('id') === feature.get('_gfiLayerId'))
@@ -85,9 +85,10 @@ export function useExtendedMasterportalapiMarkers(
           map.getView().getProjection()
         )
 
-      selectedCluster = candidates.find((candidate) =>
-        candidate.get('features').includes(feature)
-      )
+      selectedCluster =
+        candidates.find((candidate) =>
+          candidate.get('features').includes(feature)
+        ) || null
     }
 
     selectedCluster?.setStyle(
