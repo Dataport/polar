@@ -29,4 +29,10 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.dish-export-button {
+  .v-icon {
+    margin-right: 0.4em;
+  }
+}
+</style>
