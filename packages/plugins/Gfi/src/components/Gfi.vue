@@ -16,16 +16,12 @@ import { t } from 'i18next'
 import Vue from 'vue'
 import { GeoJsonProperties } from 'geojson'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { MoveHandle } from '@polar/components'
 import { MoveHandleProperties } from '@polar/lib-custom-types'
 import Feature from './Feature.vue'
 import List from './List.vue'
 
 export default Vue.extend({
   name: 'GfiPlugin',
-  components: {
-    MoveHandle,
-  },
   data: () => ({ clientWidth: 0 }),
   computed: {
     ...mapGetters(['moveHandle']),

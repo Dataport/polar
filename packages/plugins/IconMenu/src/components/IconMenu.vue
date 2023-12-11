@@ -61,13 +61,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { MoveHandle } from '@polar/components'
 
 export default Vue.extend({
   name: 'IconMenu',
-  components: {
-    MoveHandle,
-  },
   data: () => ({ maxWidth: 'inherit' }),
   computed: {
     ...mapGetters([
