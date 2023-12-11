@@ -11,7 +11,6 @@
       <v-card-title>
         {{ $t('common:plugins.attributions.title') }}
       </v-card-title>
-      <!-- TODO: Add solution to be able to also translate attribution when it becomes necessary -->
       <!-- NOTE: The usage of v-html is considered unsafe as it
         opens a window for XSS attacks. In this case, the information is retrieved
         from the mapConfiguration. This is fine by configuration. -->
