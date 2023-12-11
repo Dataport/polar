@@ -12,6 +12,7 @@
 - Feature: Add export of `RenderType`.
 - Feature: Add parameter `focusAfterSearch` to `AddressSearchConfiguration`.
 - Feature: Add parameter `hasSmallDisplay` to `CoreState`.
+- Feature: Add types for new `MoveHandle`-handling for usage in e.g. `CoreGetters`; namely the interfaces `MoveHandleProperties` and `MoveHandleActionButton` as well as the type `MoveHandleProps`. 
 
 ## 1.1.0
 
