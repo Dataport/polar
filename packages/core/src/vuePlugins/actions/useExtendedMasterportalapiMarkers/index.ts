@@ -78,7 +78,7 @@ export function useExtendedMasterportalapiMarkers(
         .getLayers()
         .getArray()
         .find((layer) => layer.get('id') === feature.get('_gfiLayerId'))
-        // @ts-expect-error | Really, it's there!
+        // @ts-expect-error | The gfi layer has a source defined if this action is called
         .getSource()
         .getFeaturesInExtent(
           map.getView().calculateExtent(map.getSize()),
