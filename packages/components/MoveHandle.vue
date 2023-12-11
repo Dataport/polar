@@ -210,3 +210,11 @@ export default Vue.extend({
   }
 }
 </style>
+
+<style lang="scss">
+#polar-move-handle {
+  .v-card {
+    box-shadow: none;
+  }
+}
+</style>
