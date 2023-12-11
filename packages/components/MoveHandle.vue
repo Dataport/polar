@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapMutations } from 'vuex'
 import { MoveEventName, MoveEventNames, PolarMoveEvent } from './types'
 
 function dimensionValidator(val): boolean {
@@ -104,6 +105,11 @@ export default Vue.extend({
     )}px`
   },
   methods: {
+    ...mapMutations(['setMoveHandle']),
+    close() {
+      this.setMoveHandle(null)
+      this.closeFunction()
+    },
     moveHandle(key: string): void {
       if (key === 'ArrowUp' || key === 'ArrowDown') {
         this.savePreMoveHandleTop()
