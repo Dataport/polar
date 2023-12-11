@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { MoveEventName, MoveEventNames, PolarMoveEvent } from './types'
 
 const minHeight = 0.1
@@ -37,19 +37,29 @@ export default Vue.extend({
       type: Function,
       required: true,
     },
-    maxHeight: {
-      type: Number,
-      required: true,
-    },
   },
-  data: () => ({
+  data: (): {
+    initialCursorY: number
+    isMoving: boolean
+    maxHeight: number
+    preMoveHandleTop: number
+    resizeObserver: null | ResizeObserver
+    touchDevice: boolean
+    timeoutReference: number
+  } => ({
     initialCursorY: 0,
     isMoving: false,
+    maxHeight: Number.MAX_SAFE_INTEGER,
     preMoveHandleTop: 0,
+    resizeObserver: null,
     touchDevice: false,
     timeoutReference: 0,
   }),
   computed: {
+    ...mapGetters(['hasSmallHeight', 'hasWindowSize']),
+    isHorizontal() {
+      return this.hasSmallHeight && this.hasWindowSize
+    },
     moveEventNames(): MoveEventNames {
       return this.touchDevice
         ? { move: 'touchmove', end: 'touchend' }
@@ -57,6 +67,12 @@ export default Vue.extend({
     },
   },
   watch: {
+    // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
+    isHorizontal(newVal: boolean) {
+      if (!newVal) {
+        this.updateMaxHeight()
+      }
+    },
     isMoving(newValue: boolean): void {
       const { move, end } = this.moveEventNames
 
@@ -87,9 +103,15 @@ export default Vue.extend({
     handleElement.style.top = `${Math.round(
       this.$root.$el.clientHeight - this.$root.$el.clientHeight * minHeight
     )}px`
+    this.resizeObserver = new ResizeObserver(this.updateMaxHeight)
+    this.resizeObserver.observe(handleElement)
+    this.updateMaxHeight()
   },
   methods: {
     ...mapMutations(['setMoveHandle']),
+    updateMaxHeight() {
+      this.maxHeight = this.$el.clientHeight / this.$root.$el.clientHeight
+    },
     close() {
       this.setMoveHandle(null)
       this.closeFunction()

@@ -26,7 +26,6 @@
       :key="moveHandleKey"
       :close-label="moveHandle.closeLabel"
       :close-function="moveHandle.closeFunction"
-      :max-height="maxMoveHandleHeight"
     >
       <template v-if="moveHandle.actionButton" #actionButton>
         <component
@@ -74,7 +73,6 @@ export default Vue.extend({
   },
   data: (): {
     lang: 'de' | 'en'
-    maxMoveHandleHeight: number
     moveHandleKey: number
     noControlOnZoom: boolean
     noControlOnZoomTimeout: number | undefined
@@ -82,7 +80,6 @@ export default Vue.extend({
     oneFingerPanTimeout: number | undefined
   } => ({
     lang: 'de',
-    maxMoveHandleHeight: 1,
     moveHandleKey: 0,
     noControlOnZoom: false,
     noControlOnZoomTimeout: undefined,
@@ -90,15 +87,7 @@ export default Vue.extend({
     oneFingerPanTimeout: undefined,
   }),
   computed: {
-    ...mapGetters([
-      'hasSmallHeight',
-      'hasSmallWidth',
-      'hasWindowSize',
-      'moveHandle',
-    ]),
-    isHorizontal() {
-      return this.hasSmallHeight && this.hasWindowSize
-    },
+    ...mapGetters(['hasSmallWidth', 'hasWindowSize', 'moveHandle']),
     renderMoveHandle() {
       return (
         this.moveHandle !== null && this.hasWindowSize && this.hasSmallWidth
@@ -112,14 +101,18 @@ export default Vue.extend({
       this.updateDragAndZoomInteractions()
       this.updateListeners(newVal)
     },
-    // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
-    isHorizontal(newVal: boolean) {
-      if (!newVal) {
-        this.updateMaxMobileHeight()
-      }
-    },
     moveHandle(_: MoveHandleProperties, oldHandle: MoveHandleProperties) {
-      this.updateMaxMobileHeight(oldHandle)
+      // Makes sure the previous plugin is properly closed if the "normal" way of closing isn't used
+      if (
+        oldHandle &&
+        typeof oldHandle.closeFunction === 'function' &&
+        (this.moveHandle === null ||
+          this.moveHandle.plugin !== oldHandle.plugin)
+      ) {
+        oldHandle.closeFunction()
+      }
+      // Make sure the element is properly updated.
+      this.moveHandleKey += 1
     },
   },
   mounted() {
@@ -163,12 +156,10 @@ export default Vue.extend({
     if (this.mapConfiguration.checkServiceAvailability) {
       this.checkServiceAvailability()
     }
-    addEventListener('resize', this.updateMaxMobileHeight)
     addEventListener('resize', this.updateHasSmallDisplay)
     this.updateHasSmallDisplay()
   },
   beforeDestroy() {
-    removeEventListener('resize', this.updateMaxMobileHeight)
     removeEventListener('resize', this.updateHasSmallDisplay)
   },
   methods: {
@@ -246,30 +237,6 @@ export default Vue.extend({
           })
         }
       }
-    },
-    updateMaxMobileHeight(oldHandle?: MoveHandleProperties) {
-      if (
-        oldHandle &&
-        typeof oldHandle.closeFunction === 'function' &&
-        (this.moveHandle === null ||
-          this.moveHandle.plugin !== oldHandle.plugin)
-      ) {
-        oldHandle.closeFunction()
-      }
-      // Make sure the element is properly updated.
-      this.moveHandleKey += 1
-      // Wait until the element is mounted.
-      this.$nextTick(() => {
-        const element = (this.$refs.moveHandleElement as Vue | undefined)?.$el
-        if (this.moveHandle !== null && element) {
-          // Make sure everything of the element is rendered.
-          this.$forceUpdate()
-          this.$nextTick(() => {
-            this.maxMoveHandleHeight =
-              element.clientHeight / this.$el.clientHeight
-          })
-        }
-      })
     },
   },
 })
