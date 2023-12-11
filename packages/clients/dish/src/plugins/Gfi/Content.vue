@@ -133,6 +133,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
+      'actionButton',
       'imageLoaded',
       'visibleWindowFeatureIndex',
       'windowFeatures',
@@ -173,13 +174,16 @@ export default Vue.extend({
       return this.sachgesamtheit.properties.Foto !== 'Kein Foto gefunden'
     },
   },
-  beforeCreate() {
+  mounted() {
     if (this.hasWindowSize && this.hasSmallWidth) {
       this.setActionButton({
         component: ActionButton,
         props: { exportProperty: this.exportProperty },
       })
     }
+  },
+  beforeDestroy() {
+    this.setActionButton(null)
   },
   methods: {
     ...mapMutations('plugin/gfi', [

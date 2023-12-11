@@ -12,11 +12,15 @@
 </template>
 
 <script lang="ts">
+import compare from 'just-compare'
 import { t } from 'i18next'
 import Vue from 'vue'
-import { GeoJsonProperties } from 'geojson'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { MoveHandleProperties } from '@polar/lib-custom-types'
+import { GeoJsonProperties } from 'geojson'
+import {
+  MoveHandleActionButton,
+  MoveHandleProperties,
+} from '@polar/lib-custom-types'
 import Feature from './Feature.vue'
 import List from './List.vue'
 
@@ -82,27 +86,29 @@ export default Vue.extend({
     },
   },
   watch: {
+    actionButton(
+      newButton: MoveHandleActionButton | null,
+      oldButton: MoveHandleActionButton | null
+    ) {
+      if (this.windowFeatures.length && !compare(newButton, oldButton)) {
+        const moveHandleProperties: MoveHandleProperties = {
+          closeLabel: t('plugins.gfi.header.close'),
+          closeFunction: this.closeWindow,
+          component: this.contentComponent,
+          props: this.contentProps,
+          plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
+        }
+        if (newButton !== null) {
+          moveHandleProperties.actionButton = newButton
+        }
+        this.setMoveHandle(moveHandleProperties)
+      }
+    },
     windowFeatures(features: GeoJsonProperties[]) {
       if (features.length) {
         const moveHandleProperties: MoveHandleProperties = {
           closeLabel: t('plugins.gfi.header.close'),
-          closeFunction: () => {
-            this.close()
-            // The list view is currently only implemented if the gfi is rendered as part of the iconMenu.
-            // TODO: Finding a different solution may be a task to be tackled in the future
-            if (
-              this.gfiConfiguration.featureList &&
-              this.$store.hasModule(['plugin', 'iconMenu']) &&
-              this.$store.getters['plugin/iconMenu/open'] !== null
-            ) {
-              this.$store.dispatch(
-                'plugin/iconMenu/openInMoveHandle',
-                this.$store.getters['plugin/iconMenu/menus'].findIndex(
-                  ({ id }) => id === 'gfi'
-                )
-              )
-            }
-          },
+          closeFunction: this.closeWindow,
           component: this.contentComponent,
           props: this.contentProps,
           plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
@@ -128,6 +134,23 @@ export default Vue.extend({
   methods: {
     ...mapMutations(['setMoveHandle']),
     ...mapActions('plugin/gfi', ['close']),
+    closeWindow() {
+      this.close()
+      // The list view is currently only implemented if the gfi is rendered as part of the iconMenu.
+      // TODO: Finding a different solution may be a task to be tackled in the future
+      if (
+        this.gfiConfiguration.featureList &&
+        this.$store.hasModule(['plugin', 'iconMenu']) &&
+        this.$store.getters['plugin/iconMenu/open'] !== null
+      ) {
+        this.$store.dispatch(
+          'plugin/iconMenu/openInMoveHandle',
+          this.$store.getters['plugin/iconMenu/menus'].findIndex(
+            ({ id }) => id === 'gfi'
+          )
+        )
+      }
+    },
     updateClientWidth() {
       this.clientWidth = this.$root.$el.clientWidth
     },

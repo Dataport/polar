@@ -22,6 +22,7 @@
     "vuex": "^3.6.2"
   },
   "dependencies": {
+    "just-compare": "^2.3.0",
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
