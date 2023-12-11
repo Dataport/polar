@@ -39,8 +39,5 @@
     "@polar/plugin-scale": "^1.0.0",
     "@polar/plugin-toast": "^1.0.0",
     "@polar/plugin-zoom": "^1.0.0"
-  },
-  "peerDependencies": {
-    "@masterportal/masterportalapi": "2.8.0"
   }
 }

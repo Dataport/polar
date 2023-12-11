@@ -1,14 +1,10 @@
 import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
+import { MarkerStyle } from '@polar/lib-custom-types'
 
-export interface MarkerStyle {
-  strokeWidth?: string | number
-  stroke?: string
-  fill?: string
-}
+type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
 
-export type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
-
+// these have been measured to fit once and influence marker size
 export const imgSize = [23, 32]
 export const imgSizeMulti = [35, 32]
 
@@ -84,7 +80,7 @@ const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
   }
 }
 
-const getGetStyle =
+const getStyleFunction =
   (fallbackFill: string): GetMarkerFunction =>
   (style, multi = false) =>
     new Style({
@@ -97,12 +93,10 @@ const getGetStyle =
       }),
     })
 
-export const getDefaultStyle = memoizeStyle(getGetStyle(defaultFill))
+export const getDefaultStyle = memoizeStyle(getStyleFunction(defaultFill))
 
-export const getHoveredStyle = memoizeStyle(
-  memoizeStyle(getGetStyle(defaultHoverFill))
-)
+export const getHoveredStyle = memoizeStyle(getStyleFunction(defaultHoverFill))
 
 export const getSelectedStyle = memoizeStyle(
-  memoizeStyle(getGetStyle(defaultSelectionFill))
+  getStyleFunction(defaultSelectionFill)
 )
