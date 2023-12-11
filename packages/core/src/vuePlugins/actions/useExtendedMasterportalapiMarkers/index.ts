@@ -73,7 +73,7 @@ export function useExtendedMasterportalapiMarkers(
     let selectedCluster = feature.get('features') ? feature : null
 
     if (selectedCluster === null) {
-      // @ts-expect-error | Really, it's there!
+      // @ts-expect-error | The layer with the id '_gfiLayerId' is defined if this action is called
       const candidates = map
         .getLayers()
         .getArray()
