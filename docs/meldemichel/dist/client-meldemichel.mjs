@@ -99028,6 +99028,10 @@ const SX = PX.exports, jI = new Mn(), MX = (e) => e.getStyle() !== jI, _X = (e, 
         );
       }
       return this.$root.$el;
+    },
+    fullscreenAvailable() {
+      return !!(this.targetContainer && (this.targetContainer.requestFullscreen || // @ts-expect-error | 'TS2339: Property 'webkitRequestFullscreen' does not exist on type 'Element'.'; For information refer to https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API#browser_compatibility
+      this.targetContainer.webkitRequestFullscreen));
     }
   },
   mounted() {
@@ -99062,16 +99066,16 @@ const SX = PX.exports, jI = new Mn(), MX = (e) => e.getStyle() !== jI, _X = (e, 
 });
 var FX = function() {
   var t = this, n = t._self._c;
-  return t._self._setupProxy, n("v-tooltip", { attrs: { left: !t.isHorizontal, bottom: t.isHorizontal, disabled: t.hasSmallDisplay }, scopedSlots: t._u([{ key: "activator", fn: function({ on: s, attrs: r }) {
+  return t._self._setupProxy, t.fullscreenAvailable ? n("v-tooltip", { attrs: { left: !t.isHorizontal, bottom: t.isHorizontal, disabled: t.hasSmallDisplay }, scopedSlots: t._u([{ key: "activator", fn: function({ on: s, attrs: r }) {
     return [n("v-btn", t._g(t._b({ class: { "ma-2": t.renderType === "independent" }, attrs: { color: "primary", small: "", fab: "" }, on: { click: t.toggleFullscreen } }, "v-btn", r, !1), s), [n("v-icon", { attrs: { color: "primaryContrast" } }, [t._v(" " + t._s(t.isInFullscreen ? "fa-compress" : "fa-expand") + " ")])], 1)];
-  } }]) }, [n("span", [t._v(t._s(t.isInFullscreen ? t.$t("common:plugins.fullscreen.button.tooltip.deactivate") : t.$t("common:plugins.fullscreen.button.tooltip.activate")))])]);
+  } }], null, !1, 325162155) }, [n("span", [t._v(t._s(t.isInFullscreen ? t.$t("common:plugins.fullscreen.button.tooltip.deactivate") : t.$t("common:plugins.fullscreen.button.tooltip.activate")))])]) : t._e();
 }, NX = [], jX = /* @__PURE__ */ Ce(
   BX,
   FX,
   NX,
   !1,
   null,
-  "45f6b486",
+  "7a14c397",
   null,
   null
 );
