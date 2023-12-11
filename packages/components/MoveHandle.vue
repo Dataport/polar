@@ -109,9 +109,6 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations(['setMoveHandle']),
-    updateMaxHeight() {
-      this.maxHeight = this.$el.clientHeight / this.$root.$el.clientHeight
-    },
     close() {
       this.setMoveHandle(null)
       this.closeFunction()
@@ -174,6 +171,9 @@ export default Vue.extend({
       this.saveInitialCursorCoordinates(event)
       this.savePreMoveHandleTop()
       this.isMoving = true
+    },
+    updateMaxHeight() {
+      this.maxHeight = this.$el.clientHeight / this.$root.$el.clientHeight
     },
   },
 })
