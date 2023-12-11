@@ -13,6 +13,8 @@ import { easeOut } from 'ol/easing'
 import { getHoveredStyle, getSelectedStyle } from '../../utils/markers'
 import { resolveClusterClick } from '../../utils/resolveClusterClick'
 
+// TODO pull file apart (after changes in other PR are through)
+
 let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 
 // local copies
@@ -21,22 +23,27 @@ let selected: Feature | null = null
 
 // key `_gfiLayerId` required for GFI plugin interconnection
 const setLayerId = (map: Map, feature: Feature): void => {
-  feature.set(
-    '_gfiLayerId',
-    map
-      .getLayers()
-      .getArray()
-      .find((layer) => {
-        // @ts-expect-error | Some BaseLayer instances *do* have it.
-        if (layer.getSource) {
-          // @ts-expect-error | We just checked.
-          return layer.getSource().hasFeature?.(feature)
+  const layerId = map
+    .getLayers()
+    .getArray()
+    .find((layer) => {
+      // @ts-expect-error | That's why we check, some children have it.
+      if (layer.getSource) {
+        let step = layer
+        // @ts-expect-error | Just checked.
+        while (step.getSource) {
+          // @ts-expect-error | Just checked.
+          step = step.getSource()
         }
-        return false
-      })
-      ?.get('id'),
-    true
-  )
+        // @ts-expect-error | If getSource is there, so is hasFeature.
+        return step.hasFeature?.(feature)
+      }
+      return false
+    })
+    ?.get('id')
+  if (layerId) {
+    feature.set('_gfiLayerId', layerId, true)
+  }
 }
 
 const center = (map: Map, selected: Feature | null) => {
@@ -80,6 +87,57 @@ export function useExtendedMasterportalapiMarkers(
         isVisible(feature) ? feature.getGeometry() : null
     })
 
+  const updateSelection = (feature: Feature | null) => {
+    if (feature === null) {
+      selected?.setStyle(undefined)
+      selected = null
+      return
+    }
+
+    let selectedCluster = feature.get('features') ? feature : null
+
+    if (selectedCluster === null) {
+      // @ts-expect-error | Really, it's there!
+      const candidates = map
+        .getLayers()
+        .getArray()
+        .find((layer) => layer.get('id') === feature.get('_gfiLayerId'))
+        // @ts-expect-error | Really, it's there!
+        .getSource()
+        .getFeaturesInExtent(
+          map.getView().calculateExtent(map.getSize()),
+          map.getView().getProjection()
+        )
+
+      selectedCluster = candidates.find((candidate) =>
+        candidate.get('features').includes(feature)
+      )
+    }
+
+    selectedCluster?.setStyle(
+      getSelectedStyle(
+        selectionStyle,
+        selectedCluster.get('features')?.length > 1
+      )
+    )
+    selected = selectedCluster
+    center(map, selected)
+  }
+
+  // on zoom change, re-select since cluster was updated
+  let lastZoom = map.getView().getZoom()
+  map.on('moveend', function () {
+    const zoom = map.getView().getZoom()
+    if (zoom !== lastZoom) {
+      lastZoom = zoom
+      if (selected) {
+        const baseFeature = selected.get('features')?.[0] || selected
+        setLayerId(map, baseFeature)
+        updateSelection(baseFeature)
+      }
+    }
+  })
+
   // // // STORE EVENT HANDLING
 
   this.watch(
@@ -89,46 +147,7 @@ export function useExtendedMasterportalapiMarkers(
     }
   )
 
-  this.watch(
-    () => getters.selected,
-    (feature: Feature | null) => {
-      if (feature === null) {
-        console.warn('nulling', selected)
-        selected?.setStyle(undefined)
-        selected = null
-        return
-      }
-
-      let selectedCluster = feature.get('features') ? feature : null
-
-      if (selectedCluster === null) {
-        // @ts-expect-error | Really, it's there!
-        const candidates = map
-          .getLayers()
-          .getArray()
-          .find((layer) => layer.get('id') === feature.get('_gfiLayerId'))
-          // @ts-expect-error | Really, it's there!
-          .getSource()
-          .getFeaturesInExtent(
-            map.getView().calculateExtent(map.getSize()),
-            map.getView().getProjection()
-          )
-
-        selectedCluster = candidates.find((candidate) =>
-          candidate.get('features').includes(feature)
-        )
-      }
-
-      selectedCluster?.setStyle(
-        getSelectedStyle(
-          selectionStyle,
-          selectedCluster.get('features')?.length > 1
-        )
-      )
-      selected = selectedCluster
-      center(map, selected)
-    }
-  )
+  this.watch(() => getters.selected, updateSelection)
 
   // // // MAP EVENT HANDLING
 
