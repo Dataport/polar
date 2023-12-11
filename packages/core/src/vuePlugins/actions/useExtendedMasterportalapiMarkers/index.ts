@@ -70,26 +70,20 @@ export function useExtendedMasterportalapiMarkers(
       return
     }
 
-    let selectedCluster = feature.get('features') ? feature : null
-
-    if (selectedCluster === null) {
-      // @ts-expect-error | The layer with the id '_gfiLayerId' is defined if this action is called
-      const candidates: Feature[] = map
-        .getLayers()
-        .getArray()
-        .find((layer) => layer.get('id') === feature.get('_gfiLayerId'))
-        // @ts-expect-error | The gfi layer has a source defined if this action is called
-        .getSource()
-        .getFeaturesInExtent(
-          map.getView().calculateExtent(map.getSize()),
-          map.getView().getProjection()
-        )
-
-      selectedCluster =
-        candidates.find((candidate) =>
-          candidate.get('features').includes(feature)
-        ) || null
-    }
+    const selectedCluster: Feature = feature.get('features')
+      ? feature
+      : // @ts-expect-error | The layer with the id '_gfiLayerId' is defined if this action is called
+        map
+          .getLayers()
+          .getArray()
+          .find((layer) => layer.get('id') === feature.get('_gfiLayerId'))
+          // @ts-expect-error | The gfi layer has a source defined if this action is called
+          .getSource()
+          .getFeaturesInExtent(
+            map.getView().calculateExtent(map.getSize()),
+            map.getView().getProjection()
+          )
+          .find((candidate) => candidate.get('features').includes(feature))
 
     selectedCluster?.setStyle(
       getSelectedStyle(
