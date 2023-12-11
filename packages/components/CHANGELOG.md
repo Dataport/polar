@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add new prop `useDefaultIcons` accompanied by the props `closeLabel` and `closeFunction` to `MoveHandle`. Using them adds an icon and a button above the content, giving a visual indicator for the user and an option to close the content directly from the MoveHandle.
+- Breaking: MoveHandle can now only be rendered once which is done in `@polar/core`. Please refer to the documentation of `@polar/core` on how to use this component.
 
 ## 1.0.0
 
