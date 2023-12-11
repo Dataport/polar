@@ -12,6 +12,7 @@ import { Point } from 'ol/geom'
 import { easeOut } from 'ol/easing'
 import { getHoveredStyle, getSelectedStyle } from '../../../utils/markers'
 import { resolveClusterClick } from '../../../utils/resolveClusterClick'
+import { setLayerId } from './setLayerId'
 
 // TODO pull file apart (after changes in other PR are through)
 
@@ -20,31 +21,6 @@ let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 // local copies
 let hovered: Feature | null = null
 let selected: Feature | null = null
-
-// key `_gfiLayerId` required for GFI plugin interconnection
-const setLayerId = (map: Map, feature: Feature): void => {
-  const layerId = map
-    .getLayers()
-    .getArray()
-    .find((layer) => {
-      // @ts-expect-error | That's why we check, some children have it.
-      if (layer.getSource) {
-        let step = layer
-        // @ts-expect-error | Just checked.
-        while (step.getSource) {
-          // @ts-expect-error | Just checked.
-          step = step.getSource()
-        }
-        // @ts-expect-error | If getSource is there, so is hasFeature.
-        return step.hasFeature?.(feature)
-      }
-      return false
-    })
-    ?.get('id')
-  if (layerId) {
-    feature.set('_gfiLayerId', layerId, true)
-  }
-}
 
 const center = (map: Map, selected: Feature | null) => {
   if (selected !== null) {
