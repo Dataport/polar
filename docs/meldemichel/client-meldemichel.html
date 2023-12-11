@@ -46,12 +46,12 @@
 <tr>
 <td>afmUrl</td>
 <td>string?</td>
-<td>TODO <code>COMPLETE</code> mode only. URL used in the AfM Button.</td>
+<td><code>COMPLETE</code> mode only. The URL used here is the URL of the AfM service to open to create a new damage report.</td>
 </tr>
 <tr>
 <td>reportServiceId</td>
 <td>string?</td>
-<td>TODO <code>COMPLETE</code> mode only. ID of the report layer to display.</td>
+<td><code>COMPLETE</code> mode only. ID of the report layer to display. Both the Filter and the Feature List will work with this layer. The client will also provide tooltips and cluster the features.</td>
 </tr>
 <tr>
 <td>configOverride</td>
@@ -152,23 +152,7 @@
 </code></pre>
 <h2>Rendering COMPLETE mode</h2>
 <p>The <code>index.html</code> included in the package's <code>dist</code> folder has been prepared for this mode and must merely be hosted.</p>
-<p>// TODO update this block after implementation (TO BE IMPLEMENTED)</p>
-<pre><code>Dieser [AfMButton] wird dann gerendert, wenn in der mapConf das Feld `afmUrl` befüllt ist, zum Beispiel mit dem String `&quot;https://afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index&quot;`. Diese URL ist in die Konfiguration gezogen worden, falls sich die Adresse des Prozesses einmal ändern sollte.
-
-Der URL werden folgende Query-Parameter (hier mit Beispielwerten) hinzugefügt:
-
-- `mapCenter=569029.708,5932888.959`
-- `mapZoomLevel=9`
-- `mapBaseLayer=452`
-  - Wert ist ID in der https://geoportal-hamburg.de/lgv-config/services-internet.json
-- `vendor_maps_position=569029.708,5932888.959`
-- `vendor_maps_address_str=Berlinertordamm`
-- `vendor_maps_address_hnr=4`
-- `vendor_maps_address_plz=12345`
-- `vendor_maps_distance_to=0` (Distanz zum Adresspunkt laut Reverse Geocoder)
-
-Analog liest der Klient im Modus `complete` beim Start auch alle bis auf die letzten zwei Query-Parameter wieder ein. Dabei wird die Adresse überschrieben, falls sie nicht zur `vendor_maps_position` passt.
-</code></pre>
+<p>Please see the table in chapter <code>Basic usage</code> about configuration options.</p>
 
     <h2>Child documents</h2><nav><ul>
       <li><a href="core.html" target="_blank">core.html</a></li><li><a href="lib-custom-types.html" target="_blank">lib-custom-types.html</a></li><li><a href="lib-invisible-style.html" target="_blank">lib-invisible-style.html</a></li><li><a href="plugin-address-search.html" target="_blank">plugin-address-search.html</a></li><li><a href="plugin-attributions.html" target="_blank">plugin-attributions.html</a></li><li><a href="plugin-filter.html" target="_blank">plugin-filter.html</a></li><li><a href="plugin-fullscreen.html" target="_blank">plugin-fullscreen.html</a></li><li><a href="plugin-geo-location.html" target="_blank">plugin-geo-location.html</a></li><li><a href="plugin-gfi.html" target="_blank">plugin-gfi.html</a></li><li><a href="plugin-icon-menu.html" target="_blank">plugin-icon-menu.html</a></li><li><a href="plugin-layer-chooser.html" target="_blank">plugin-layer-chooser.html</a></li><li><a href="plugin-loading-indicator.html" target="_blank">plugin-loading-indicator.html</a></li><li><a href="plugin-pins.html" target="_blank">plugin-pins.html</a></li><li><a href="plugin-reverse-geocoder.html" target="_blank">plugin-reverse-geocoder.html</a></li><li><a href="plugin-scale.html" target="_blank">plugin-scale.html</a></li><li><a href="plugin-toast.html" target="_blank">plugin-toast.html</a></li><li><a href="plugin-zoom.html" target="_blank">plugin-zoom.html</a></li>
