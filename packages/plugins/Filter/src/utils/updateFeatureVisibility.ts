@@ -144,29 +144,25 @@ export const updateFeatureVisibility = ({
   while (source instanceof ClusterSource) {
     source = source.getSource()
   }
-  const updatedFeatures = source
+  const updateFeatures = source
     .getFeatures()
     .map((feature) => feature.get('features') || [feature])
     .flat(1)
-    .map((feature) => {
-      const targetStyle = doesFeaturePassFilter(
-        feature,
-        state,
-        categories,
-        layerId,
-        timeOptions
-      )
-        ? null
-        : InvisibleStyle
-      // only update if it changes anything (prevent unnecessary rerenders)
-      if (feature.getStyle() !== targetStyle) {
-        const newFeature = feature.clone()
-        newFeature.setStyle(targetStyle)
-        return newFeature
-      }
-      return feature
-    })
   // only update finally to prevent overly recalculating clusters
   source.clear()
-  source.addFeatures(updatedFeatures)
+  updateFeatures.forEach((feature) => {
+    const targetStyle = doesFeaturePassFilter(
+      feature,
+      state,
+      categories,
+      layerId,
+      timeOptions
+    )
+      ? null
+      : InvisibleStyle
+    if (feature.getStyle() !== targetStyle) {
+      feature.setStyle(targetStyle)
+    }
+  })
+  source.addFeatures(updateFeatures)
 }
