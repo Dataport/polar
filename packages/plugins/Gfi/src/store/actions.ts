@@ -132,7 +132,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
           layer
             // @ts-expect-error | layers reaching this have a source
             .getSource()
-            .on('changefeature', debouncedVisibilityChangeIndicator)
+            .on('addfeature', debouncedVisibilityChangeIndicator)
         }
       })
   },

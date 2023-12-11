@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add vector layer feature list with pagination, see configuration parameter `gfiLayerConfiguration.featureList`.
+- Feature: Add cluster-ready vector layer feature list with pagination, see configuration parameter `gfiLayerConfiguration.featureList`.
 - Feature: Can now be rendered as child of icon menu, see configuration parameter `renderType`.
 - Feature: Add optional configuration parameter `activeLayerPath` to allow checking for whether any fitting layer is active.
 - Feature: Add support for type `GeoJSON` layers.
