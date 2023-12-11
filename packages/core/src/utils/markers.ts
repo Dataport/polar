@@ -95,10 +95,8 @@ const getStyleFunction =
 
 export const getDefaultStyle = memoizeStyle(getStyleFunction(defaultFill))
 
-export const getHoveredStyle = memoizeStyle(
-  memoizeStyle(getStyleFunction(defaultHoverFill))
-)
+export const getHoveredStyle = memoizeStyle(getStyleFunction(defaultHoverFill))
 
 export const getSelectedStyle = memoizeStyle(
-  memoizeStyle(getStyleFunction(defaultSelectionFill))
+  getStyleFunction(defaultSelectionFill)
 )
