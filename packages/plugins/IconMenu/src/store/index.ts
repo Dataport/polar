@@ -45,7 +45,11 @@ const storeModule: PolarModule<IconMenuState, IconMenuState> = {
       const initiallyOpen =
         rootGetters.configuration?.iconMenu?.initiallyOpen || ''
       const index = initializedMenus.findIndex(({ id }) => id === initiallyOpen)
-      if (index !== -1) {
+      if (
+        index !== -1 &&
+        !rootGetters.hasSmallWidth &&
+        !rootGetters.hasSmallHeight
+      ) {
         commit('setOpen', index)
       }
     },
