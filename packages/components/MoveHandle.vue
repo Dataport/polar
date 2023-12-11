@@ -25,6 +25,24 @@ import { mapGetters, mapMutations } from 'vuex'
 import { MoveEventName, MoveEventNames, PolarMoveEvent } from './types'
 
 const minHeight = 0.1
+let top = 0
+
+function calculateTop(
+  topValue: number,
+  containerHeight: number,
+  maxHeight: number
+) {
+  let newTop = topValue
+
+  if (containerHeight - newTop < containerHeight * minHeight) {
+    newTop = containerHeight - containerHeight * minHeight
+  }
+  if (containerHeight - newTop > containerHeight * maxHeight) {
+    newTop = containerHeight - containerHeight * maxHeight
+  }
+  top = newTop
+  return newTop
+}
 
 export default Vue.extend({
   name: 'MoveHandle',
@@ -100,8 +118,10 @@ export default Vue.extend({
     handleElement.style.width = '100%'
     handleElement.style['z-index'] = 1
     handleElement.style.left = '0'
-    handleElement.style.top = `${Math.round(
-      this.$root.$el.clientHeight - this.$root.$el.clientHeight * minHeight
+    handleElement.style.top = `${calculateTop(
+      top,
+      this.$root.$el.clientHeight,
+      this.maxHeight
     )}px`
     this.resizeObserver = new ResizeObserver(this.updateMaxHeight)
     this.resizeObserver.observe(handleElement)
@@ -155,17 +175,11 @@ export default Vue.extend({
       this.preMoveHandleTop = (this.$el as HTMLDivElement).offsetTop
     },
     setNewPosition(deltaY: number): void {
-      const containerHeight = this.$root.$el.clientHeight
-      let newTop = Math.round(this.preMoveHandleTop + deltaY)
-
-      if (containerHeight - newTop < containerHeight * minHeight) {
-        newTop = containerHeight - containerHeight * minHeight
-      }
-      if (containerHeight - newTop > containerHeight * this.maxHeight) {
-        newTop = containerHeight - containerHeight * this.maxHeight
-      }
-
-      ;(this.$el as HTMLDivElement).style.top = newTop + 'px'
+      ;(this.$el as HTMLDivElement).style.top = `${calculateTop(
+        Math.round(this.preMoveHandleTop + deltaY),
+        this.$root.$el.clientHeight,
+        this.maxHeight
+      )}px`
     },
     startMoving(event: PolarMoveEvent): void {
       this.saveInitialCursorCoordinates(event)
