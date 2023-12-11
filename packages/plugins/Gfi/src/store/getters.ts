@@ -182,6 +182,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
         )
           .filter(isVisible)
           .map((feature) => {
+            // true = silent change (prevents cluster recomputation & rerender)
             feature.set('_gfiLayerId', layer.get('id'), true)
             return feature
           })
