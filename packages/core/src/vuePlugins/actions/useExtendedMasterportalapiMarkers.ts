@@ -2,15 +2,12 @@ import { Feature, MapBrowserEvent } from 'ol'
 import {
   CoreGetters,
   CoreState,
+  MarkerStyle,
   PolarActionContext,
 } from '@polar/lib-custom-types'
 import RenderFeature from 'ol/render/Feature'
 import { isVisible } from '@polar/lib-invisible-style'
-import {
-  MarkerStyle,
-  getHoveredStyle,
-  getSelectedStyle,
-} from '../../utils/markers'
+import { getHoveredStyle, getSelectedStyle } from '../../utils/markers'
 import { resolveClusterClick } from '../../utils/resolveClusterClick'
 
 let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null

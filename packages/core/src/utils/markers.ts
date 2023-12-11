@@ -1,11 +1,6 @@
 import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
-
-export interface MarkerStyle {
-  strokeWidth?: string | number
-  stroke?: string
-  fill?: string
-}
+import { MarkerStyle } from '@polar/lib-custom-types'
 
 export type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
 
