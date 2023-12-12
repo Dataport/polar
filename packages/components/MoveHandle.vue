@@ -206,6 +206,7 @@ export default Vue.extend({
   width: auto;
   background-color: transparent;
   cursor: ns-resize;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 19px 38px, rgba(0, 0, 0, 0.22) 0 15px 12px;
 
   &-is-moving * {
     -webkit-touch-callout: none;
