@@ -11,7 +11,7 @@
   "scripts": {
     "afm:build": "lerna run build --scope @polar/client-afm --stream && npm run docs:afm",
     "afm:build:serve": "http-server ./packages/clients/afm -o /example/prod-example.html",
-    "afm:dev": "cd packages/clients/afm/ && vite",
+    "afm:dev": "cd packages/clients/afm/ && vite --host",
     "dish:build": "lerna run build --scope @polar/client-dish --stream",
     "dish:dev": "cd packages/clients/dish/ && vite --host",
     "meldemichel:build": "lerna run build --scope @polar/client-meldemichel --stream",

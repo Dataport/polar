@@ -1,47 +1,83 @@
 <template>
   <div
-    class="polar-move-handle"
+    id="polar-move-handle"
     tabindex="0"
     @focus="moveHandle($event.key)"
     @keydown="moveHandle($event.key)"
     @mousedown.stop="onMouseDown"
     @touchstart.stop="onTouchStart"
   >
+    <v-icon id="polar-move-handle-grip-icon"> fa-grip-lines </v-icon>
+    <v-card-actions>
+      <slot name="actionButton" />
+      <v-spacer></v-spacer>
+      <v-btn icon small :aria-label="closeLabel" @click="close">
+        <v-icon>fa-xmark</v-icon>
+      </v-btn>
+    </v-card-actions>
     <slot />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapGetters, mapMutations } from 'vuex'
 import { MoveEventName, MoveEventNames, PolarMoveEvent } from './types'
 
-function dimensionValidator(val): boolean {
-  return !isNaN(val) && typeof val === 'number' && val >= 0
+const minHeight = 0.2
+let top = 0
+
+function calculateTop(
+  topValue: number,
+  containerHeight: number,
+  maxHeight: number
+) {
+  let newTop = topValue
+
+  if (containerHeight - newTop < containerHeight * minHeight) {
+    newTop = containerHeight - containerHeight * minHeight
+  }
+  if (containerHeight - newTop > containerHeight * maxHeight) {
+    newTop = containerHeight - containerHeight * maxHeight
+  }
+  top = newTop
+  return newTop
 }
 
 export default Vue.extend({
   name: 'MoveHandle',
   props: {
-    minHeight: {
-      type: Number,
-      default: 0.1,
-      validator: dimensionValidator,
+    closeLabel: {
+      type: String,
+      required: true,
     },
-    maxHeight: {
-      type: Number,
-      default: 1,
-      validator: dimensionValidator,
+    closeFunction: {
+      type: Function,
+      required: true,
     },
   },
-  data: () => ({
-    handleElement: null as unknown as HTMLElement,
+  data: (): {
+    initialCursorY: number
+    isMoving: boolean
+    maxHeight: number
+    preMoveHandleTop: number
+    resizeObserver: null | ResizeObserver
+    touchDevice: boolean
+    timeoutReference: number
+  } => ({
     initialCursorY: 0,
     isMoving: false,
+    maxHeight: Number.MAX_SAFE_INTEGER,
     preMoveHandleTop: 0,
+    resizeObserver: null,
     touchDevice: false,
     timeoutReference: 0,
   }),
   computed: {
+    ...mapGetters(['hasSmallHeight', 'hasWindowSize']),
+    isHorizontal() {
+      return this.hasSmallHeight && this.hasWindowSize
+    },
     moveEventNames(): MoveEventNames {
       return this.touchDevice
         ? { move: 'touchmove', end: 'touchend' }
@@ -49,16 +85,22 @@ export default Vue.extend({
     },
   },
   watch: {
+    // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
+    isHorizontal(newVal: boolean) {
+      if (!newVal) {
+        this.updateMaxHeight()
+      }
+    },
     isMoving(newValue: boolean): void {
       const { move, end } = this.moveEventNames
 
       if (newValue) {
-        this.handleElement.classList.add('polar-move-handle-is-moving')
+        this.$el.classList.add('polar-move-handle-is-moving')
         document.addEventListener<MoveEventName>(move, this.onMove)
         document.addEventListener(end, this.onMoveEnd, { once: true })
         return
       }
-      this.handleElement.classList.remove('polar-move-handle-is-moving')
+      this.$el.classList.remove('polar-move-handle-is-moving')
       document.removeEventListener<MoveEventName>(move, this.onMove)
       document.removeEventListener(end, this.onMoveEnd)
     },
@@ -71,16 +113,32 @@ export default Vue.extend({
     },
   },
   mounted() {
-    if (this.$el.parentElement) {
-      this.handleElement = this.$el.parentElement
-      return
+    const handleElement = this.$el as HTMLDivElement
+    handleElement.style.position = 'fixed'
+    handleElement.style.width = '100%'
+    handleElement.style['z-index'] = 1
+    handleElement.style.left = '0'
+    handleElement.style.top = `${calculateTop(
+      top,
+      this.$root.$el.clientHeight,
+      this.maxHeight
+    )}px`
+    this.resizeObserver = new ResizeObserver(this.updateMaxHeight)
+    this.resizeObserver.observe(handleElement)
+    this.updateMaxHeight()
+  },
+  beforeDestroy() {
+    if (this.resizeObserver !== null) {
+      this.resizeObserver.disconnect()
+      this.resizeObserver = null
     }
-    console.error(
-      'MoveHandle: No parent element used, using MoveHandle container.'
-    )
-    this.handleElement = this.$el as HTMLElement
   },
   methods: {
+    ...mapMutations(['setMoveHandle']),
+    close() {
+      this.setMoveHandle(null)
+      this.closeFunction()
+    },
     moveHandle(key: string): void {
       if (key === 'ArrowUp' || key === 'ArrowDown') {
         this.savePreMoveHandleTop()
@@ -120,37 +178,35 @@ export default Vue.extend({
         event instanceof MouseEvent ? event.clientY : event.touches[0].clientY
     },
     savePreMoveHandleTop(): void {
-      this.preMoveHandleTop = this.handleElement.offsetTop
+      this.preMoveHandleTop = (this.$el as HTMLDivElement).offsetTop
     },
     setNewPosition(deltaY: number): void {
-      const containerHeight = this.$root.$el.clientHeight
-      let newTop = Math.round(this.preMoveHandleTop + deltaY)
-
-      if (containerHeight - newTop < containerHeight * this.minHeight) {
-        newTop = containerHeight - containerHeight * this.minHeight
-      }
-      if (containerHeight - newTop > containerHeight * this.maxHeight) {
-        newTop = containerHeight - containerHeight * this.maxHeight
-      }
-
-      this.handleElement.style.top = newTop + 'px'
+      ;(this.$el as HTMLDivElement).style.top = `${calculateTop(
+        Math.round(this.preMoveHandleTop + deltaY),
+        this.$root.$el.clientHeight,
+        this.maxHeight
+      )}px`
     },
     startMoving(event: PolarMoveEvent): void {
       this.saveInitialCursorCoordinates(event)
       this.savePreMoveHandleTop()
       this.isMoving = true
     },
+    updateMaxHeight() {
+      this.maxHeight = this.$el.clientHeight / this.$root.$el.clientHeight
+    },
   },
 })
 </script>
 
 <style lang="scss" scoped>
-.polar-move-handle {
+#polar-move-handle {
   position: static;
   height: auto;
   width: auto;
   background-color: transparent;
   cursor: ns-resize;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 19px 38px, rgba(0, 0, 0, 0.22) 0 15px 12px;
 
   &-is-moving * {
     -webkit-touch-callout: none;
@@ -158,6 +214,28 @@ export default Vue.extend({
     -moz-user-select: none;
     -ms-user-select: none !important;
     user-select: none;
+  }
+
+  #polar-move-handle-grip-icon {
+    width: 100%;
+    color: var(--polar-primary);
+    background-color: var(--polar-primary-contrast);
+  }
+
+  .v-card__actions {
+    background-color: var(--polar-primary-contrast);
+
+    .v-btn {
+      color: var(--polar-primary);
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+#polar-move-handle {
+  .v-card {
+    box-shadow: none;
   }
 }
 </style>

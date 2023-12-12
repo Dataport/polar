@@ -6,6 +6,7 @@ const language: LanguageOption[] = [
     resources: {
       plugins: {
         iconMenu: {
+          mobileCloseButton: '{{plugin}} schließen',
           hints: {
             attributions: 'Quellennachweis',
             draw: 'Zeichenwerkzeuge',
@@ -22,6 +23,7 @@ const language: LanguageOption[] = [
     resources: {
       plugins: {
         iconMenu: {
+          mobileCloseButton: 'Close {{plugin}}',
           hints: {
             attributions: 'Attributions',
             draw: 'Draw tools',

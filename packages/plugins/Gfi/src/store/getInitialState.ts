@@ -1,7 +1,9 @@
 import { GfiState } from '../types'
 
 const getInitialState = (): GfiState => ({
+  actionButton: null,
   featureInformation: {},
+  imageLoaded: false,
   visibleWindowFeatureIndex: 0,
   visibilityChangeIndicator: 0,
   defaultHighlightStyle: {
