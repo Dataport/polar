@@ -49,6 +49,7 @@ export interface GfiGetters extends GfiState {
   geometryLayerKeys: string[]
   /** module configuration */
   gfiConfiguration: GfiConfiguration
+  isFeatureHovered: (feature: Feature) => boolean
   /** all layer keys to retrieve GFI information for */
   layerKeys: string[]
   listFeatures: Feature[]

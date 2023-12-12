@@ -198,7 +198,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       })
       .flat(1)
   },
-  isFeatureHovered: (_, __, ___, rootGetters) => (feature: Feature) => {
+  isFeatureHovered: (_, __, ___, rootGetters) => (feature) => {
     const { hovered } = rootGetters
     return (
       hovered !== null &&
