@@ -36,7 +36,7 @@ const updateSelection = (
 
   const selectedCluster = getFeaturesCluster(map, feature)
 
-  selectedCluster?.setStyle(
+  selectedCluster.setStyle(
     getSelectedStyle(
       selectionStyle,
       selectedCluster.get('features')?.length > 1

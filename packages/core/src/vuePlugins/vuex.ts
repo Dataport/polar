@@ -162,7 +162,7 @@ const store = new Store({
     setHovered: (state, payload) => {
       if (payload === null || payload.get('features')) {
         hovered = payload
-      } else {
+      } else if (map !== null) {
         // nested features are invisible and hence unfit for styling
         hovered = getFeaturesCluster(map, payload)
       }
