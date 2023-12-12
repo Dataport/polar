@@ -49,6 +49,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { GeoJsonProperties } from 'geojson'
 import ActionButtons from './ActionButtons.vue'
 
 export default Vue.extend({
@@ -79,7 +80,7 @@ export default Vue.extend({
     displayImage(): boolean {
       return this.currentProperties.pic
     },
-    currentProperties() {
+    currentProperties(): GeoJsonProperties {
       return { ...this.windowFeatures[this.visibleWindowFeatureIndex] }
     },
   },
