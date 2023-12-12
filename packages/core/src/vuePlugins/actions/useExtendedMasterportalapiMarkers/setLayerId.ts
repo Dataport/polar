@@ -1,7 +1,6 @@
 import { Feature, Map } from 'ol'
 import Cluster from 'ol/source/Cluster'
 import VectorLayer from 'ol/layer/Vector'
-import BaseLayer from 'ol/layer/Base'
 import VectorSource from 'ol/source/Vector'
 
 // key `_gfiLayerId` required for GFI plugin interconnection
