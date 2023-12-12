@@ -259,7 +259,7 @@ export interface GfiLayerConfiguration {
   geometryName?: string
   // format the response is known to come in (e.h. "GML")
   format?: string
-  showTooltip?: (feature: Feature) => [string, string][]
+  showTooltip?: (feature: Feature, map: Map) => [string, string][]
 }
 
 export type BoundaryOnError = 'strict' | 'permissive'

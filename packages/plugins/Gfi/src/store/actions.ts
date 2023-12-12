@@ -67,15 +67,6 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
   setupCoreListener({ getters: { gfiConfiguration }, rootGetters, dispatch }) {
     if (gfiConfiguration.featureList?.bindWithCoreHoverSelect) {
       this.watch(
-        () => rootGetters.hovered,
-        (newFeature, oldFeature) => {
-          console.warn('TODO gfi list reaction to core hover')
-        },
-        {
-          deep: true,
-        }
-      )
-      this.watch(
         () => rootGetters.selected,
         (selectedFeature) =>
           dispatch('setOlFeatureInformation', selectedFeature),
@@ -112,23 +103,22 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
             return false
           }
           hasFeatureAtPixel = true
-
           overlay.setPosition(map.getCoordinateFromPixel(pixel))
-
           if (unregister) {
             unregister()
           }
           ;({ element, unregister } = getTooltip({
             localeKeys:
               // @ts-expect-error | it exists by virtue of layerFilter below
-              gfiConfiguration.layers[layer.get('id')].showTooltip(feature),
+              gfiConfiguration.layers[layer.get('id')].showTooltip(
+                feature,
+                map
+              ),
           }))
           overlay.setElement(element)
           return true
         },
-        {
-          layerFilter: (layer) => tooltipLayerIds.includes(layer.get('id')),
-        }
+        { layerFilter: (layer) => tooltipLayerIds.includes(layer.get('id')) }
       )
       if (!hasFeatureAtPixel) {
         overlay.setPosition(undefined)
