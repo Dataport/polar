@@ -37,7 +37,7 @@
           :wrapper-aria-label="$t('common:plugins.gfi.list.pagination.wrapper')"
         ></v-pagination>
       </v-card-subtitle>
-      <v-list>
+      <v-list @mouseleave="unhover">
         <v-list-item v-if="!visibleListFeatures.length">
           {{ $t('common:plugins.gfi.list.emptyView') }}
         </v-list-item>
@@ -50,6 +50,10 @@
             'gfi-feature-list-item-hovered': isFeatureHovered(feature),
           }"
           @click="setOlFeatureInformation(feature)"
+          @keydown.space.prevent="setOlFeatureInformation(feature)"
+          @mouseover="hover(feature)"
+          @focusout="unhover"
+          @focus="hover(feature)"
         >
           <v-list-item-content>
             <component
@@ -112,7 +116,12 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapActions('plugin/gfi', ['setOlFeatureInformation', 'setPage']),
+    ...mapActions('plugin/gfi', [
+      'setOlFeatureInformation',
+      'setPage',
+      'hover',
+      'unhover',
+    ]),
     ...mapMutations('plugin/gfi', ['setPage']),
     applyListText(feature: Feature, index: number) {
       const text: string | ((f: Feature) => string) | undefined =

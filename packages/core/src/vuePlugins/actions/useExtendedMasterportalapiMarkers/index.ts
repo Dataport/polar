@@ -104,7 +104,15 @@ export function useExtendedMasterportalapiMarkers(
   this.watch(
     () => getters.hovered,
     (feature: Feature | null) => {
-      console.warn('TODO core reaction to list hover', feature)
+      if (hovered !== null && hovered !== selected) {
+        hovered.setStyle(undefined)
+        hovered = null
+      }
+      if (feature !== null && feature !== selected) {
+        hovered = feature
+        const isMultiFeature = hovered.get('features')?.length > 1
+        hovered.setStyle(getHoveredStyle(hoverStyle, isMultiFeature))
+      }
     }
   )
 
