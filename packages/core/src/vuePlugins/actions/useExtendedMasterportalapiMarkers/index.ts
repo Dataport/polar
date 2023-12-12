@@ -161,6 +161,9 @@ export function useExtendedMasterportalapiMarkers(
         // @ts-expect-error | May be one or two elements, no fixed tuple.
         dispatch(...dispatchOnMapSelect)
       }
+      hovered?.setStyle?.(undefined)
+      hovered = null
+      commit('setHovered', null)
       commit('setSelected', selected)
       selected.setStyle(getSelectedStyle(selectionStyle, isMultiFeature))
       center(map, selected)

@@ -188,6 +188,15 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       })
       .flat(1)
   },
+  isFeatureHovered: (_, __, ___, rootGetters) => (feature: Feature) => {
+    const { hovered } = rootGetters
+    return (
+      hovered !== null &&
+      (hovered === feature || hovered.get('features')
+        ? hovered.get('features').includes(feature)
+        : false)
+    )
+  },
 }
 
 export default getters

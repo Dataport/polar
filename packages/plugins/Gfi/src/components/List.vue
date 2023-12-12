@@ -46,6 +46,9 @@
           :key="`gfi-feature-list-${feature.ol_uid}`"
           :two-line="listText.length === 2"
           :three-line="listText.length === 3"
+          :class="{
+            'gfi-feature-list-item-hovered': isFeatureHovered(feature),
+          }"
           @click="setOlFeatureInformation(feature)"
         >
           <v-list-item-content>
@@ -76,6 +79,7 @@ export default Vue.extend({
       'listText',
       'page',
       'gfiConfiguration',
+      'isFeatureHovered',
     ]),
     _page: {
       get() {
@@ -145,5 +149,15 @@ export default Vue.extend({
 
 .v-list-item__title + .v-list-item__subtitle {
   font-style: italic;
+}
+
+.v-list-item {
+  /* reserved space so that hover outline works in FF */
+  margin-right: 2px;
+}
+
+.gfi-feature-list-item-hovered {
+  outline: inset 2px #3fa535;
+  background: #dff0dd;
 }
 </style>
