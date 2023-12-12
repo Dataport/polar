@@ -116,6 +116,11 @@ export default Vue.extend({
       }
     },
   },
+  mounted() {
+    if (this._page > this.maxPage) {
+      this._page = Math.max(this.maxPage, 1)
+    }
+  },
   methods: {
     ...mapActions('plugin/gfi', [
       'setOlFeatureInformation',
