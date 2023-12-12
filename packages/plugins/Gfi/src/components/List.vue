@@ -142,6 +142,17 @@ export default Vue.extend({
 })
 </script>
 
+<style lang="scss">
+.plugin-gfi-list {
+  .v-pagination__navigation,
+  .v-pagination__item {
+    &:focus {
+      outline: thick solid #3fa535;
+    }
+  }
+}
+</style>
+
 <style lang="scss" scoped>
 #polar-plugin-gfi:not(.polar-plugin-gfi-move-handle) .plugin-gfi-list {
   /* magic number; leaves minimal space to minimal size AddressSearch in IconMenu mode */
