@@ -37,7 +37,7 @@
           :wrapper-aria-label="$t('common:plugins.gfi.list.pagination.wrapper')"
         ></v-pagination>
       </v-card-subtitle>
-      <v-list @mouseleave="unhover">
+      <v-list>
         <v-list-item v-if="!visibleListFeatures.length">
           {{ $t('common:plugins.gfi.list.emptyView') }}
         </v-list-item>
@@ -51,6 +51,7 @@
           }"
           @click="setOlFeatureInformation(feature)"
           @keydown.space.prevent="setOlFeatureInformation(feature)"
+          @mouseleave="unhover"
           @mouseover="hover(feature)"
           @focusout="unhover"
           @focus="hover(feature)"
