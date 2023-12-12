@@ -108,6 +108,11 @@ than showing each feature individually</p>
 <td>Vue?</td>
 <td>Allows overriding the GfiContent.vue component for a custom design. Coding knowledge required to use this feature.</td>
 </tr>
+<tr>
+<td>renderType</td>
+<td>('iconMenu' | 'independent')?</td>
+<td>Only relevant if <code>window</code> is set to <code>true</code> for at least one layer. Whether the gfi plugin is rendered independently or as part of the IconMenu. Defaults to 'independent'.</td>
+</tr>
 </tbody>
 </table>
 <h5>gfi.gfiLayerConfiguration</h5>
@@ -134,11 +139,6 @@ than showing each feature individually</p>
 <td>properties</td>
 <td>Record&lt;propertyName, displayName&gt;/string[]</td>
 <td>In case <code>window</code> is <code>true</code>, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values.</td>
-</tr>
-<tr>
-<td>renderType</td>
-<td>('iconMenu' | 'independent')?</td>
-<td>Only relevant if <code>window</code> is set to <code>true</code>. Whether the gfi plugin is independently or as part of the IconMenu. Defaults to 'independent'.</td>
 </tr>
 <tr>
 <td>featureList</td>
