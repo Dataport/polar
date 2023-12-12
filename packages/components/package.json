@@ -10,6 +10,9 @@
     "directory": "packages/components"
   },
   "peerDependencies": {
-    "vue": "^2.6.14"
+    "@fortawesome/fontawesome-free": "^6.2.1",
+    "vue": "^2.6.14",
+    "vuetify": "^2.5.9",
+    "vuex": "^3.6.2"
   }
 }

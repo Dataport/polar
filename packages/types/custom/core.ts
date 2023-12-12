@@ -342,6 +342,7 @@ export interface GfiConfiguration extends PluginOptions {
    * Usable to completely redesign content of GFI window.
    */
   gfiContentComponent?: Vue
+  renderType?: RenderType
   /**
    * The layers to request feature information from. Both WMS and WFS layers are
    * supported. Keys are layer IDs as specified in the services.json registry.
@@ -594,20 +595,39 @@ export interface PolarError {
   text: string
 }
 
+type MoveHandleProps = object
+
+export interface MoveHandleProperties {
+  closeLabel: string
+  closeFunction: (...args: unknown[]) => unknown
+  component: Vue
+  // Plugin that added the moveHandle
+  plugin: string
+  actionButton?: MoveHandleActionButton
+  props?: MoveHandleProps
+  clearHandleAfterClose?: boolean
+}
+
+export interface MoveHandleActionButton {
+  component: Vue
+  props?: MoveHandleProps
+}
+
 export interface CoreState {
-  map: number
   center: [number, number] | null
   clientHeight: number
   clientWidth: number
   components: number
-  zoomLevel: number
-  hovered: number
-  selected: number
   configuration: MapConfig
-  hasSmallDisplay: boolean
   errors: PolarError[]
-  plugin: object
+  hasSmallDisplay: boolean
+  hovered: number
   language: string
+  map: number
+  moveHandle: number
+  plugin: object
+  selected: number
+  zoomLevel: number
 }
 
 export interface CoreGetters {
@@ -617,9 +637,10 @@ export interface CoreGetters {
   hasSmallWidth: boolean
   /** Whether the application currently has the same size as the visual viewport of the users browser */
   hasWindowSize: boolean
+  hovered: Feature | null
   errors: PolarError[]
   map: Map
-  hovered: Feature | null
+  moveHandle: MoveHandleProperties
   selected: Feature | null
   clientHeight: number
   clientWidth: number

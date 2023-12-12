@@ -3,7 +3,12 @@
     v-if="renderType === 'independent'"
     class="polar-plugin-attributions-wrapper"
   >
-    <AttributionContent v-if="windowIsOpen" class="mr-2"></AttributionContent>
+    <AttributionContent
+      v-if="windowIsOpen"
+      class="mr-2"
+      :max-width="maxWidth"
+      :width="windowWidth"
+    ></AttributionContent>
     <AttributionButton></AttributionButton>
   </div>
   <AttributionContent v-else></AttributionContent>
@@ -22,7 +27,17 @@ export default Vue.extend({
     AttributionContent,
   },
   computed: {
-    ...mapGetters('plugin/attributions', ['renderType', 'windowIsOpen']),
+    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
+    ...mapGetters('plugin/attributions', [
+      'renderType',
+      'windowIsOpen',
+      'windowWidth',
+    ]),
+    maxWidth() {
+      return this.hasWindowSize && this.hasSmallWidth
+        ? this.clientWidth * 0.85
+        : 1080
+    },
   },
 })
 </script>

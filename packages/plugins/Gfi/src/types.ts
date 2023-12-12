@@ -12,6 +12,7 @@ import {
   GfiLayerConfiguration,
   RenderType,
   FeatureList,
+  MoveHandleActionButton,
 } from '@polar/lib-custom-types'
 
 /** parameter specification for request method */
@@ -28,8 +29,10 @@ export interface RequestGfiParameters {
 
 /** GFI Vuex Module State */
 export interface GfiState {
+  actionButton: MoveHandleActionButton | null
   /** mapping of layer id to features found for last GFI call */
   featureInformation: Record<string, GeoJsonFeature[]>
+  imageLoaded: boolean
   /** currently visible feature index regarding  */
   visibleWindowFeatureIndex: number
   /** count up if something in relevant features changed */
@@ -46,6 +49,7 @@ export interface GfiGetters extends GfiState {
   gfiConfiguration: GfiConfiguration
   /** all layer keys to retrieve GFI information for */
   layerKeys: string[]
+  renderMoveHandle: boolean
   renderType: RenderType
   /** subset of layerKeys, where features' properties are to be shown in UI */
   windowLayerKeys: string[]

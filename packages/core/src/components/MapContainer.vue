@@ -20,6 +20,23 @@
       :aria-label="$t('common:canvas.label')"
     ></div>
     <MapUi></MapUi>
+    <MoveHandle
+      v-if="renderMoveHandle"
+      ref="moveHandleElement"
+      :key="moveHandleKey"
+      :close-label="moveHandle.closeLabel"
+      :close-function="moveHandle.closeFunction"
+    >
+      <template v-if="moveHandle.actionButton" #actionButton>
+        <component
+          :is="moveHandle.actionButton.component"
+          v-bind="moveHandle.actionButton.props"
+        />
+      </template>
+      <template #default>
+        <component :is="moveHandle.component" v-bind="moveHandle.props || {}" />
+      </template>
+    </MoveHandle>
   </v-app>
 </template>
 
@@ -28,10 +45,15 @@ import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import api from '@masterportal/masterportalapi/src/maps/api'
 import { ping } from '@masterportal/masterportalapi/src'
+import { MoveHandle } from '@polar/components'
 import Hammer from 'hammerjs'
 import i18next from 'i18next'
 import { defaults } from 'ol/interaction'
-import { LanguageOption, PolarError } from '@polar/lib-custom-types'
+import {
+  LanguageOption,
+  MoveHandleProperties,
+  PolarError,
+} from '@polar/lib-custom-types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addClusterStyle } from '../utils/addClusterStyle'
 import MapUi from './MapUi.vue'
@@ -41,6 +63,7 @@ import 'ol/ol.css'
 export default Vue.extend({
   components: {
     MapUi,
+    MoveHandle,
   },
   props: {
     mapConfiguration: {
@@ -50,26 +73,46 @@ export default Vue.extend({
   },
   data: (): {
     lang: 'de' | 'en'
+    moveHandleKey: number
     noControlOnZoom: boolean
     noControlOnZoomTimeout: number | undefined
     oneFingerPan: boolean
     oneFingerPanTimeout: number | undefined
   } => ({
     lang: 'de',
+    moveHandleKey: 0,
     noControlOnZoom: false,
     noControlOnZoomTimeout: undefined,
     oneFingerPan: false,
     oneFingerPanTimeout: undefined,
   }),
   computed: {
-    ...mapGetters(['hasWindowSize']),
+    ...mapGetters(['hasSmallWidth', 'hasWindowSize', 'moveHandle']),
+    renderMoveHandle() {
+      return (
+        this.moveHandle !== null && this.hasWindowSize && this.hasSmallWidth
+      )
+    },
   },
   watch: {
     // NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
     //       Added as a watcher to trigger the update at the correct time.
-    hasWindowSize: function (newVal) {
+    hasWindowSize(newVal) {
       this.updateDragAndZoomInteractions()
       this.updateListeners(newVal)
+    },
+    moveHandle(_: MoveHandleProperties, oldHandle: MoveHandleProperties) {
+      // Makes sure the previous plugin is properly closed if the "normal" way of closing isn't used
+      if (
+        oldHandle &&
+        typeof oldHandle.closeFunction === 'function' &&
+        (this.moveHandle === null ||
+          this.moveHandle.plugin !== oldHandle.plugin)
+      ) {
+        oldHandle.closeFunction()
+      }
+      // Make sure the element is properly updated.
+      this.moveHandleKey += 1
     },
   },
   mounted() {

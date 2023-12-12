@@ -1,17 +1,11 @@
 <template>
   <v-card>
-    <v-icon
-      v-if="hasWindowSize && hasSmallWidth"
-      class="meldemichel-gfi-grip-icon"
-    >
-      fa-grip-lines
-    </v-icon>
-    <v-card-actions>
+    <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
       <!-- TODO implement when vector clusters are done
       <v-btn>Prev</v-btn>
       <v-btn>Next</v-btn>
       -->
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-btn
         icon
         small
@@ -58,7 +52,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import { GeoJsonProperties } from 'geojson'
-import { mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 type GfiIndexStep = -1 | 1
 
@@ -88,15 +82,19 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
-      'windowFeatures',
+      'imageLoaded',
       'visibleWindowFeatureIndex',
+      'windowFeatures',
     ]),
     displayImage(): boolean {
       return this.currentProperties.pic
     },
   },
   methods: {
-    ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
+    ...mapMutations('plugin/gfi', [
+      'setImageLoaded',
+      'setVisibleWindowFeatureIndex',
+    ]),
     ...mapActions('plugin/gfi', ['close']),
     formatProperty(type: string, value: string): string {
       if (!value) {
@@ -116,8 +114,11 @@ export default Vue.extend({
       }
       return value
     },
-    resize(): void {
-      window.dispatchEvent(new Event('resize'))
+    resize(e: Event) {
+      if ((e.currentTarget as HTMLImageElement).complete && !this.imageLoaded) {
+        this.setImageLoaded(true)
+        window.dispatchEvent(new Event('resize'))
+      }
     },
     /** switch to next or previous feature */
     switchFeature(by: GfiIndexStep): void {
@@ -143,11 +144,6 @@ export default Vue.extend({
 <style lang="scss" scoped>
 * {
   color: #003064 !important;
-}
-
-.meldemichel-gfi-grip-icon {
-  left: 50%;
-  transition: translateX(-50%);
 }
 
 .meldemichel-fat-cell {

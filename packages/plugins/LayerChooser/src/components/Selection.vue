@@ -1,5 +1,5 @@
 <template>
-  <v-card class="layer-chooser-selection" :max-width="maxWidth">
+  <v-card class="layer-chooser-selection">
     <v-card-title v-if="backgrounds.length" id="polar-label-background-title">{{
       $t('common:plugins.layerChooser.backgroundTitle')
     }}</v-card-title>
@@ -60,12 +60,6 @@ import LayerWrapper from './LayerWrapper.vue'
 export default Vue.extend({
   name: 'LayerChooserSelection',
   components: { LayerWrapper },
-  props: {
-    maxWidth: {
-      type: Number,
-      required: true,
-    },
-  },
   computed: {
     ...mapGetters('plugin/layerChooser', [
       'activeBackgroundId',
