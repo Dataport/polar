@@ -47,6 +47,7 @@ const updateSelection = (
   center(map, selected)
 }
 
+// disabled since most of the body relies on parameters; allow longer function to avoid parameter explosion
 // eslint-disable-next-line max-lines-per-function
 export function useExtendedMasterportalapiMarkers(
   this: PolarStore<CoreState, CoreGetters>,
