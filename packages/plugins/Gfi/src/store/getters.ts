@@ -23,6 +23,16 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       layers: {},
     })
   },
+  renderType(_, __, ___, rootGetters) {
+    return rootGetters.configuration?.gfi?.renderType || 'independent'
+  },
+  renderMoveHandle(_, getters, __, rootGetters) {
+    return (
+      getters.renderType === 'independent' &&
+      rootGetters.hasWindowSize &&
+      rootGetters.hasSmallWidth
+    )
+  },
   gfiContentComponent(_, { gfiConfiguration }): Vue | null {
     return gfiConfiguration.gfiContentComponent || null
   },

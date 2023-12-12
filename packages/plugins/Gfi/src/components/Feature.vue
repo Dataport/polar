@@ -1,12 +1,9 @@
 <template>
   <div>
-    <div class="polar-plugin-gfi-button-container">
-      <v-icon
-        v-if="hasWindowSize && hasSmallWidth"
-        id="polar-plugin-gfi-grip-icon"
-      >
-        fa-grip-lines
-      </v-icon>
+    <div
+      v-if="!hasWindowSize || !hasSmallWidth"
+      class="polar-plugin-gfi-button-container"
+    >
       <v-btn
         id="polar-plugin-gfi-close-button"
         icon
@@ -87,10 +84,6 @@ export default Vue.extend({
   background-color: #ffffff;
   padding: 0.25em;
 
-  #polar-plugin-gfi-grip-icon {
-    grid-column: 2;
-    justify-self: center;
-  }
   #polar-plugin-gfi-close-button {
     grid-column: 3;
     justify-self: end;

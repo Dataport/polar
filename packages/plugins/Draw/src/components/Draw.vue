@@ -52,7 +52,6 @@ export default Vue.extend({
   components: {
     RadioCard,
   },
-
   computed: {
     ...mapGetters(['hasSmallHeight', 'hasWindowSize']),
     ...mapGetters('plugin/draw', [

@@ -150,6 +150,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
   },
   close({ commit, dispatch, rootGetters }) {
     commit('clearFeatureInformation')
+    commit('setImageLoaded', false)
     // NOTE: null is needed, as the payload is always the second argument...
     if (!rootGetters.configuration?.extendedMasterportalapiMarkers) {
       dispatch('plugin/pins/removeMarker', null, { root: true })

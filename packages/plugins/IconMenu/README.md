@@ -21,7 +21,7 @@ Usage during client build:
 
 ```js
 {
-  // id of the plugin which should be open on start
+  // id of the plugin which should be open on start; only applicable if the device doesn't have a small display
   initiallyOpen: 'some',
   menus: [
     {

@@ -1,31 +1,8 @@
 <template>
   <v-card>
-    <v-icon
-      v-if="hasWindowSize && hasSmallWidth"
-      class="meldemichel-gfi-grip-icon"
-    >
-      fa-grip-lines
-    </v-icon>
-    <v-card-actions>
-      <v-btn
-        v-if="showSwitchButtons"
-        icon
-        small
-        :aria-label="$t('common:plugins.gfi.switch.previous')"
-        @click="switchFeature(-1)"
-      >
-        <v-icon small>fa-arrow-left-long</v-icon>
-      </v-btn>
-      <v-btn
-        v-if="showSwitchButtons"
-        icon
-        small
-        :aria-label="$t('common:plugins.gfi.switch.next')"
-        @click="switchFeature(1)"
-      >
-        <v-icon small>fa-arrow-right-long</v-icon>
-      </v-btn>
-      <v-spacer></v-spacer>
+    <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
+      <ActionButtons />
+      <v-spacer />
       <v-btn
         icon
         small
@@ -70,19 +47,16 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
-import { GeoJsonProperties } from 'geojson'
-import { mapActions, mapMutations, mapGetters } from 'vuex'
-
-type GfiIndexStep = -1 | 1
+import Vue from 'vue'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import ActionButtons from './ActionButtons.vue'
 
 export default Vue.extend({
   name: 'MeldemichelGfiFeature',
+  components: {
+    ActionButtons,
+  },
   props: {
-    currentProperties: {
-      type: Object as PropType<GeoJsonProperties>,
-      required: true,
-    },
     clientWidth: {
       type: Number,
       required: true,
@@ -91,10 +65,6 @@ export default Vue.extend({
       type: String,
       default: '',
     },
-    showSwitchButtons: {
-      type: Boolean,
-      default: false,
-    },
   },
   data: () => ({
     infoFields: ['skat', 'start', 'statu'],
@@ -102,35 +72,34 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
-      'windowFeatures',
+      'actionButton',
+      'imageLoaded',
       'visibleWindowFeatureIndex',
+      'windowFeatures',
     ]),
     displayImage(): boolean {
       return this.currentProperties.pic
     },
+    currentProperties() {
+      return { ...this.windowFeatures[this.visibleWindowFeatureIndex] }
+    },
+  },
+  mounted() {
+    this.setActionButton({
+      component: ActionButtons,
+      props: {},
+    })
+  },
+  beforeDestroy() {
+    this.setActionButton(null)
   },
   methods: {
-    ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
+    ...mapMutations('plugin/gfi', [
+      'setActionButton',
+      'setImageLoaded',
+      'setVisibleWindowFeatureIndex',
+    ]),
     ...mapActions('plugin/gfi', ['close']),
-    /** switch to next or previous feature */
-    switchFeature(by: GfiIndexStep): void {
-      const {
-        visibleWindowFeatureIndex,
-        windowFeatures,
-        setVisibleWindowFeatureIndex,
-      } = this
-      const maxIndex = windowFeatures.length - 1
-      const nextIndex = visibleWindowFeatureIndex + by
-      if (nextIndex < 0) {
-        setVisibleWindowFeatureIndex(windowFeatures.length - 1)
-        return
-      }
-      if (nextIndex > maxIndex) {
-        setVisibleWindowFeatureIndex(0)
-        return
-      }
-      setVisibleWindowFeatureIndex(nextIndex)
-    },
     formatProperty(type: string, value: string): string {
       if (!value) {
         return ''
@@ -149,8 +118,11 @@ export default Vue.extend({
       }
       return value
     },
-    resize(): void {
-      window.dispatchEvent(new Event('resize'))
+    resize(e: Event) {
+      if ((e.currentTarget as HTMLImageElement).complete && !this.imageLoaded) {
+        this.setImageLoaded(true)
+        window.dispatchEvent(new Event('resize'))
+      }
     },
   },
 })
@@ -159,11 +131,6 @@ export default Vue.extend({
 <style lang="scss" scoped>
 * {
   color: #003064 !important;
-}
-
-.meldemichel-gfi-grip-icon {
-  left: 50%;
-  transition: translateX(-50%);
 }
 
 .meldemichel-fat-cell {

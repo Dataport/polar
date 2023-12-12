@@ -1,23 +1,7 @@
 <template>
   <v-card class="dish-gfi-content">
-    <v-icon v-if="hasWindowSize && hasSmallWidth" class="dish-gfi-grip-icon">
-      fa-grip-lines
-    </v-icon>
-    <v-card-actions>
-      <v-btn
-        v-if="exportProperty"
-        class="text-none dish-export-button"
-        text
-        :href="exportProperty"
-        target="_blank"
-        :alt="$t('common:plugins.gfi.property.imageAlt')"
-        :title="$t('common:plugins.gfi.property.linkTitle')"
-        :aria-label="$t('common:plugins.gfi.property.export')"
-        onmousedown="return false"
-      >
-        <v-icon small>fa-download</v-icon>
-        {{ $t('common:plugins.gfi.property.export') }}
-      </v-btn>
+    <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
+      <ActionButton :export-property="exportProperty"></ActionButton>
       <v-spacer></v-spacer>
       <v-btn
         icon
@@ -35,7 +19,7 @@
       v-if="displayImage"
       :style="`max-width: ${imgMaxWidth}; min-width: max(${imgMinWidth}, 100%); pointer-events: none`"
       :src="currentProperties.Foto"
-      @load="resize"
+      @load="resizeImage"
     />
     <v-card-text>
       <v-simple-table dense>
@@ -91,7 +75,7 @@
               <img
                 :style="`max-width: ${imgMaxWidth}; min-width: max(${imgMinWidth}, 100%); pointer-events: none`"
                 :src="sachgesamtheit.properties.Foto"
-                @load="resize"
+                @load="resizeImage"
               />
             </td>
           </tr>
@@ -110,11 +94,13 @@
 import Vue, { PropType } from 'vue'
 import { GeoJsonProperties } from 'geojson'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
+import ActionButton from './ActionButton.vue'
 
 type GfiIndexStep = -1 | 1
 
 export default Vue.extend({
   name: 'DishGfiContent',
+  components: { ActionButton },
   props: {
     currentProperties: {
       type: Object as PropType<GeoJsonProperties>,
@@ -147,8 +133,10 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
-      'windowFeatures',
+      'actionButton',
+      'imageLoaded',
       'visibleWindowFeatureIndex',
+      'windowFeatures',
     ]),
     displayImage(): boolean {
       return this.currentProperties.Foto !== 'Kein Foto gefunden'
@@ -186,12 +174,27 @@ export default Vue.extend({
       return this.sachgesamtheit.properties.Foto !== 'Kein Foto gefunden'
     },
   },
+  mounted() {
+    if (this.hasWindowSize && this.hasSmallWidth) {
+      this.setActionButton({
+        component: ActionButton,
+        props: { exportProperty: this.exportProperty },
+      })
+    }
+  },
+  beforeDestroy() {
+    this.setActionButton(null)
+  },
   methods: {
-    ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
+    ...mapMutations('plugin/gfi', [
+      'setActionButton',
+      'setImageLoaded',
+      'setVisibleWindowFeatureIndex',
+    ]),
     ...mapActions('plugin/gfi', ['close']),
     toggleSachgesamtheit() {
       this.sachgesamtheitOpen = !this.sachgesamtheitOpen
-      Vue.nextTick(this.resize)
+      Vue.nextTick(() => window.dispatchEvent(new Event('resize')))
     },
     prepareTableData(object: Record<string, string>): Array<string[]> {
       return Object.entries(object)
@@ -203,8 +206,11 @@ export default Vue.extend({
             : value,
         ])
     },
-    resize(): void {
-      window.dispatchEvent(new Event('resize'))
+    resizeImage(e: Event) {
+      if ((e.currentTarget as HTMLImageElement).complete && !this.imageLoaded) {
+        this.setImageLoaded(true)
+        window.dispatchEvent(new Event('resize'))
+      }
     },
     /** switch to next or previous feature */
     switchFeature(by: GfiIndexStep): void {

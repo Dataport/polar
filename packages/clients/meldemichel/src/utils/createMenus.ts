@@ -23,6 +23,7 @@ export default function (mode: keyof typeof MODE): Menu[] {
     {
       plugin: Gfi({
         gfiContentComponent: MeldemichelGfiFeature,
+        renderType: 'iconMenu',
         coordinateSources: [
           'plugin/pins/transformedCoordinate',
           'plugin/pins/coordinatesAfterDrag',
