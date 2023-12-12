@@ -8,13 +8,14 @@ import {
 } from '@polar/lib-custom-types'
 import RenderFeature from 'ol/render/Feature'
 import { isVisible } from '@polar/lib-invisible-style'
-import { Point } from 'ol/geom'
-import { easeOut } from 'ol/easing'
+import VectorLayer from 'ol/layer/Vector'
+import VectorSource from 'ol/source/Vector'
+import BaseLayer from 'ol/layer/Base'
 import { getHoveredStyle, getSelectedStyle } from '../../../utils/markers'
 import { resolveClusterClick } from '../../../utils/resolveClusterClick'
 import { setLayerId } from './setLayerId'
-
-// TODO pull file apart (after changes in other PR are through)
+import { center } from './center'
+import { getFeaturesCluster } from './getFeaturesCluster'
 
 let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 
@@ -22,14 +23,28 @@ let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 let hovered: Feature | null = null
 let selected: Feature | null = null
 
-const center = (map: Map, selected: Feature | null) => {
-  if (selected !== null) {
-    map.getView().animate({
-      center: (selected.getGeometry() as Point).getCoordinates(),
-      duration: 400,
-      easing: easeOut,
-    })
+const updateSelection = (
+  map: Map,
+  feature: Feature | null,
+  selectionStyle: MarkerStyle
+) => {
+  if (feature === null) {
+    selected?.setStyle(undefined)
+    selected = null
+    return
   }
+
+  const selectedCluster = getFeaturesCluster(map, feature)
+
+  selectedCluster?.setStyle(
+    getSelectedStyle(
+      selectionStyle,
+      selectedCluster.get('features')?.length > 1
+    )
+  )
+
+  selected = selectedCluster
+  center(map, selected)
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -52,48 +67,23 @@ export function useExtendedMasterportalapiMarkers(
 ) {
   const { map } = getters
 
-  // prevents features from jumping due to invisible features "pulling"
+  const layerFilter = (layer: BaseLayer): boolean =>
+    layers.includes(layer.get('id'))
+
   map
     .getLayers()
     .getArray()
-    .filter((layer) => layers.includes(layer.get('id')))
+    .filter(layerFilter)
     .forEach((layer) => {
-      // @ts-expect-error | only vector layers reach this
-      layer.getSource().geometryFunction = (feature) =>
-        isVisible(feature) ? feature.getGeometry() : null
+      // only vector layers reach this
+      const source = (layer as VectorLayer<VectorSource>).getSource()
+      if (source !== null) {
+        // @ts-expect-error | Undocumented hook.
+        source.geometryFunction =
+          // prevents features from jumping due to invisible features "pulling"
+          (feature) => (isVisible(feature) ? feature.getGeometry() : null)
+      }
     })
-
-  const updateSelection = (feature: Feature | null) => {
-    if (feature === null) {
-      selected?.setStyle(undefined)
-      selected = null
-      return
-    }
-
-    const selectedCluster: Feature = feature.get('features')
-      ? feature
-      : // @ts-expect-error | The layer with the id '_gfiLayerId' is defined if this action is called
-        map
-          .getLayers()
-          .getArray()
-          .find((layer) => layer.get('id') === feature.get('_gfiLayerId'))
-          // @ts-expect-error | The gfi layer has a source defined if this action is called
-          .getSource()
-          .getFeaturesInExtent(
-            map.getView().calculateExtent(map.getSize()),
-            map.getView().getProjection()
-          )
-          .find((candidate) => candidate.get('features').includes(feature))
-
-    selectedCluster?.setStyle(
-      getSelectedStyle(
-        selectionStyle,
-        selectedCluster.get('features')?.length > 1
-      )
-    )
-    selected = selectedCluster
-    center(map, selected)
-  }
 
   // on zoom change, re-select since cluster was updated
   let lastZoom = map.getView().getZoom()
@@ -104,7 +94,7 @@ export function useExtendedMasterportalapiMarkers(
       if (selected) {
         const baseFeature = selected.get('features')?.[0] || selected
         setLayerId(map, baseFeature)
-        updateSelection(baseFeature)
+        updateSelection(map, baseFeature, selectionStyle)
       }
     }
   })
@@ -118,14 +108,15 @@ export function useExtendedMasterportalapiMarkers(
     }
   )
 
-  this.watch(() => getters.selected, updateSelection)
+  this.watch(
+    () => getters.selected,
+    (feature) => updateSelection(map, feature, selectionStyle)
+  )
 
   // // // MAP EVENT HANDLING
 
   map.on('pointermove', function (event) {
-    const feature = map.getFeaturesAtPixel(event.pixel, {
-      layerFilter: (layer) => layers.includes(layer.get('id')),
-    })[0]
+    const feature = map.getFeaturesAtPixel(event.pixel, { layerFilter })[0]
     if (feature === selected || feature instanceof RenderFeature) {
       return
     }
@@ -150,9 +141,7 @@ export function useExtendedMasterportalapiMarkers(
       selected = null
       commit('setSelected', selected)
     }
-    const feature = map.getFeaturesAtPixel(event.pixel, {
-      layerFilter: (layer) => layers.includes(layer.get('id')),
-    })[0]
+    const feature = map.getFeaturesAtPixel(event.pixel, { layerFilter })[0]
     if (!feature || feature instanceof RenderFeature) {
       return
     }

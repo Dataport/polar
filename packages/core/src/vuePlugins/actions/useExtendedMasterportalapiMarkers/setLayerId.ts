@@ -6,6 +6,9 @@ import VectorSource from 'ol/source/Vector'
 
 // key `_gfiLayerId` required for GFI plugin interconnection
 export const setLayerId = (map: Map, feature: Feature): void => {
+  if (feature.get('_gfiLayerId')) {
+    return
+  }
   const layerId = map
     .getLayers()
     .getArray()
