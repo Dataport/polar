@@ -127,6 +127,12 @@ export default Vue.extend({
     this.resizeObserver.observe(handleElement)
     this.updateMaxHeight()
   },
+  beforeDestroy() {
+    if (this.resizeObserver !== null) {
+      this.resizeObserver.disconnect()
+      this.resizeObserver = null
+    }
+  },
   methods: {
     ...mapMutations(['setMoveHandle']),
     close() {
