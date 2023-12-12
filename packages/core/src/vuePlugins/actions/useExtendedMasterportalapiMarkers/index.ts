@@ -82,7 +82,8 @@ export function useExtendedMasterportalapiMarkers(
         // @ts-expect-error | Undocumented hook.
         source.geometryFunction =
           // prevents features from jumping due to invisible features "pulling"
-          (feature) => (isVisible(feature) ? feature.getGeometry() : null)
+          (feature: Feature) =>
+            isVisible(feature) ? feature.getGeometry() : null
       }
     })
 
