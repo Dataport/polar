@@ -298,12 +298,12 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
       dispatch('setCoreSelection', feature)
     }
   },
-  hover({ commit, dispatch, rootGetters }, feature) {
+  hover({ commit, rootGetters }, feature) {
     if (rootGetters.configuration.extendedMasterportalapiMarkers) {
       commit('setHovered', feature, { root: true })
     }
   },
-  unhover({ commit, dispatch, rootGetters }) {
+  unhover({ commit, rootGetters }) {
     if (rootGetters.configuration.extendedMasterportalapiMarkers) {
       commit('setHovered', null, { root: true })
     }
