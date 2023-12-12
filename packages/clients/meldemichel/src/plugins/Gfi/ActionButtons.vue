@@ -27,9 +27,6 @@ type GfiIndexStep = -1 | 1
 
 export default Vue.extend({
   name: 'MeldemichelGfiFeatureActionButtons',
-  data: () => ({
-    infoFields: ['skat', 'start', 'statu'],
-  }),
   computed: {
     ...mapGetters('plugin/gfi', [
       'visibleWindowFeatureIndex',
