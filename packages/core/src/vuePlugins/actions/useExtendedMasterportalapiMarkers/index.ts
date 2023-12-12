@@ -87,20 +87,6 @@ export function useExtendedMasterportalapiMarkers(
       }
     })
 
-  // on zoom change, re-select since cluster was updated
-  let lastZoom = map.getView().getZoom()
-  map.on('moveend', function () {
-    const zoom = map.getView().getZoom()
-    if (zoom !== lastZoom) {
-      lastZoom = zoom
-      if (selected) {
-        const baseFeature = selected.get('features')?.[0] || selected
-        setLayerId(map, baseFeature)
-        updateSelection(map, baseFeature, selectionStyle)
-      }
-    }
-  })
-
   // // // STORE EVENT HANDLING
 
   this.watch(
@@ -124,6 +110,20 @@ export function useExtendedMasterportalapiMarkers(
   )
 
   // // // MAP EVENT HANDLING
+
+  // on zoom change, re-select since cluster was updated
+  let lastZoom = map.getView().getZoom()
+  map.on('moveend', function () {
+    const zoom = map.getView().getZoom()
+    if (zoom !== lastZoom) {
+      lastZoom = zoom
+      if (selected) {
+        const baseFeature = selected.get('features')?.[0] || selected
+        setLayerId(map, baseFeature)
+        updateSelection(map, baseFeature, selectionStyle)
+      }
+    }
+  })
 
   map.on('pointermove', function (event) {
     const feature = map.getFeaturesAtPixel(event.pixel, { layerFilter })[0]
