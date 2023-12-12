@@ -101304,6 +101304,18 @@ const sQ = (e) => {
     ...Ag,
     extendedMasterportalapiMarkers: {
       layers: [e],
+      defaultStyle: {
+        stroke: "#FFFFFF",
+        fill: "#005CA9"
+      },
+      hoverStyle: {
+        stroke: "#46688E",
+        fill: "#8BA1B8"
+      },
+      selectionStyle: {
+        stroke: "#FFFFFF",
+        fill: "#E10019"
+      },
       clusterClickZoom: !0
     },
     addressSearch: i1,
