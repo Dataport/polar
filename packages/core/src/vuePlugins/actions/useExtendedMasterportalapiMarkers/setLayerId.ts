@@ -13,21 +13,16 @@ export const setLayerId = (map: Map, feature: Feature): void => {
     .getLayers()
     .getArray()
     .find((layer) => {
-      // @ts-expect-error | That's why we check, some children have it.
-      if (layer.getSource) {
-        let step:
-          | BaseLayer
-          | VectorLayer<VectorSource>
-          | VectorSource
-          | Cluster = layer
+      if (layer instanceof VectorLayer) {
+        let step: VectorLayer<VectorSource> | VectorSource | Cluster = layer
         while (step instanceof VectorLayer || step instanceof Cluster) {
+          // @ts-expect-error | Clusters in masterportalapi always have a source.
           step = step.getSource()
-          // @ts-expect-error | We just checked.
+          // @ts-expect-error | It's not a vector layer anymore.
           if (step.hasFeature(feature)) {
             return true
           }
         }
-        // @ts-expect-error | We just checked.
         return Boolean(step?.hasFeature?.(feature))
       }
       return false
