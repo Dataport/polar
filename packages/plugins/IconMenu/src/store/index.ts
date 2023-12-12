@@ -46,17 +46,16 @@ const storeModule: PolarModule<IconMenuState, IconMenuState> = {
       const initiallyOpen =
         rootGetters.configuration?.iconMenu?.initiallyOpen || ''
 
-      dispatch('openMenuById', initiallyOpen)
+      if (!rootGetters.hasSmallWidth && !rootGetters.hasSmallHeight) {
+        dispatch('openMenuById', initiallyOpen)
+      }
     },
-    openMenuById({ commit, getters, rootGetters }, openId) {
+    openMenuById({ commit, getters, dispatch }, openId) {
       const index = getters.menus.findIndex(({ id }) => id === openId)
 
-      if (
-        index !== -1 &&
-        !rootGetters.hasSmallWidth &&
-        !rootGetters.hasSmallHeight
-      ) {
+      if (index !== -1) {
         commit('setOpen', index)
+        dispatch('openInMoveHandle', index)
       }
     },
     openInMoveHandle({ commit, getters, rootGetters }, index: number) {
