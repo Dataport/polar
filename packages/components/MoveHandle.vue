@@ -24,7 +24,7 @@ import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
 import { MoveEventName, MoveEventNames, PolarMoveEvent } from './types'
 
-const minHeight = 0.1
+const minHeight = 0.2
 let top = 0
 
 function calculateTop(
