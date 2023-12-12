@@ -70,9 +70,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         () => rootGetters.selected,
         (selectedFeature) =>
           dispatch('setOlFeatureInformation', selectedFeature),
-        {
-          deep: true,
-        }
+        { deep: true }
       )
     }
   },
