@@ -276,12 +276,12 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
     },
     50
   ),
-  setCoreSelection({ commit, rootGetters }, feature) {
+  setCoreSelection({ commit, rootGetters }, feature: Feature | null) {
     if (rootGetters.selected !== feature) {
       commit('setSelected', feature, { root: true })
     }
   },
-  setOlFeatureInformation({ commit, dispatch }, feature) {
+  setOlFeatureInformation({ commit, dispatch }, feature: Feature | null) {
     commit('clearFeatureInformation')
     commit('setVisibleWindowFeatureIndex', 0)
     clear()
@@ -296,7 +296,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
       dispatch('setCoreSelection', feature)
     }
   },
-  hover({ commit, rootGetters }, feature) {
+  hover({ commit, rootGetters }, feature: Feature) {
     if (rootGetters.configuration.extendedMasterportalapiMarkers) {
       commit('setHovered', feature, { root: true })
     }
