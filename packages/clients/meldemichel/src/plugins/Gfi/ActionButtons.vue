@@ -31,7 +31,6 @@ export default Vue.extend({
     infoFields: ['skat', 'start', 'statu'],
   }),
   computed: {
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
       'visibleWindowFeatureIndex',
       'windowFeatures',
