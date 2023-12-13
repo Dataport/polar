@@ -95894,7 +95894,7 @@ const A7 = D7.exports, ad = {
   ...sz,
   addPlugins: az,
   createMap: v7
-}, L7 = "@polar/client-meldemichel", R7 = "1.0.0-alpaka.0", w7 = "Client Meldemichel", V7 = "EUPL-1.2", B7 = "Dataport AöR <dataportpolarsupport@dataport.de>", F7 = "dist/client-meldemichel.mjs", N7 = {
+}, L7 = "@polar/client-meldemichel", R7 = "1.0.0-beta.0", w7 = "Client Meldemichel", V7 = "EUPL-1.2", B7 = "Dataport AöR <dataportpolarsupport@dataport.de>", F7 = "dist/client-meldemichel.mjs", N7 = {
   type: "git",
   url: "https://github.com/Dataport/polar.git",
   directory: "packages/clients/meldemichel"
