@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add the possibility to update the content displayed for closing the MoveHandle.
+- Feature: Add the possibility to update the icon of the button for closing the MoveHandle.
 
 ## 2.0.0
 

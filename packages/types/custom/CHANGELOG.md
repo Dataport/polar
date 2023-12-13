@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add new parameter `closeContent` with its type `MoveHandleCloseContent` to `MoveHandleProperties`.
+- Feature: Add new parameter `closeIcon` to `MoveHandleProperties`.
 
 ## 1.2.0
 

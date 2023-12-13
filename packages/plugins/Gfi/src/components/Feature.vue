@@ -11,10 +11,7 @@
         :aria-label="$t(closeLabel)"
         @click="close"
       >
-        <template v-if="typeof closeContent === 'string'">
-          {{ closeContent }}
-        </template>
-        <component :is="closeContent" v-else />
+        <v-icon>fa-xmark</v-icon>
       </v-btn>
     </div>
     <v-simple-table class="polar-edgy-table" dense>
@@ -70,7 +67,6 @@ export default Vue.extend({
   data: () => ({ closeLabel: 'common:plugins.gfi.header.close' }),
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
-    ...mapGetters('plugin/gfi', ['closeContent']),
     photoHeight(): number {
       return this.clientWidth * 0.15
     },

@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add possibility to use the new slot added to `@polar/components` component `MoveHandle` to be able to use different content for the close-button.
+- Feature: Add possibility to use the new slot added to `@polar/components` component `MoveHandle` to be able to use a different icon for the close-button.
 
 ## 1.2.1
 

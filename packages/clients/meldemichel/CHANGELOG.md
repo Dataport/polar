@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Update the close-button of the GFI window to indicate more clearly that it leads to the FeatureList.
+
 ## 1.0.0-beta.0
 
 Beta release. Feature-complete, but some known (and unknown?) bugs remain.
