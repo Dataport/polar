@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## unpublished
+## 1.0.0-beta.0
+
+Beta release. Feature-complete, but some known (and unknown?) bugs remain.
 
 - Feature: Add features for `COMPLETE` mode:
   - Feature List
