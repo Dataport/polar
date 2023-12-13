@@ -606,6 +606,7 @@ export interface MoveHandleProperties {
   // Plugin that added the moveHandle
   plugin: string
   actionButton?: MoveHandleActionButton
+  closeContent?: string | Vue
   props?: MoveHandleProps
 }
 
