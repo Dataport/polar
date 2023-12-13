@@ -28,6 +28,7 @@ export default Vue.extend({
     ...mapGetters(['moveHandle']),
     ...mapGetters('plugin/gfi', [
       'actionButton',
+      'closeContent',
       'exportPropertyLayerKeys',
       'gfiContentComponent',
       'gfiConfiguration',
@@ -83,6 +84,7 @@ export default Vue.extend({
     },
     moveHandleProperties() {
       const properties: MoveHandleProperties = {
+        closeContent: this.closeContent,
         closeLabel: t('plugins.gfi.header.close'),
         closeFunction: this.closeWindow,
         component: this.contentComponent,

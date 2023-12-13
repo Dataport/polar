@@ -1,7 +1,9 @@
 import { GfiState } from '../types'
+import CloseIcon from '../components/CloseIcon.vue'
 
 const getInitialState = (): GfiState => ({
   actionButton: null,
+  closeContent: CloseIcon,
   featureInformation: {},
   imageLoaded: false,
   visibleWindowFeatureIndex: 0,
