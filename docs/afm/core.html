@@ -139,6 +139,11 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <td>boolean?</td>
 <td>If <code>true</code>, clicking a cluster feature will zoom into the clustered features' bounding box (with padding) so that the cluster is &quot;resolved&quot;. This happens until the maximum zoom level is reached, at which no further zooming can take place. Defaults to <code>false</code>.</td>
 </tr>
+<tr>
+<td>dispatchOnMapSelect</td>
+<td>string[]?</td>
+<td>If set, the parameters will be spread to dispatchment on map selection. <code>['target', 'value']</code> will <code>dispatch(...['target', 'value'])</code>. This can be used to open the iconMenu's GFI with <code>['plugin/iconMenu/openMenuById', 'gfi']</code>, should the IconMenu exist and the gfi plugin be in it with this id.</td>
+</tr>
 </tbody>
 </table>
 <h6>mapConfiguration.extendedMasterportalapiMarkers.MarkerStyle</h6>
