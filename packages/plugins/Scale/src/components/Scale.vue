@@ -38,7 +38,7 @@ export default Vue.extend({
   > span {
     background: #ffffffcc;
     border-radius: 2px;
-    border-width: 0px 2px 2px 2px;
+    border-width: 0 2px 2px 2px;
     border-style: solid;
   }
 
@@ -61,6 +61,7 @@ export default Vue.extend({
 
   @media only screen and (max-width: 768px) {
     flex-direction: column-reverse;
+    align-items: flex-end;
   }
 }
 </style>
