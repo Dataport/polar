@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "@polar/lib-custom-types": "*",
-    "@polar/lib-invisible-style": "*",
-    "@polar/components": "^1.0.0"
+    "@polar/lib-invisible-style": "*"
   }
 }
