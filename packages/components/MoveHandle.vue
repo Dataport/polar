@@ -12,7 +12,7 @@
       <slot name="actionButton" />
       <v-spacer></v-spacer>
       <v-btn icon small :aria-label="closeLabel" @click="close">
-        <v-icon>fa-xmark</v-icon>
+        <slot name="closeContent"><v-icon>fa-xmark</v-icon></slot>
       </v-btn>
     </v-card-actions>
     <slot />
