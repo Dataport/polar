@@ -24,7 +24,7 @@ import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
 import { MoveEventName, MoveEventNames, PolarMoveEvent } from './types'
 
-const minHeight = 0.1
+const minHeight = 0.2
 let top: null | number = null
 
 function calculateTop(
@@ -113,8 +113,9 @@ export default Vue.extend({
     },
   },
   mounted() {
+    const containerHeight = this.$root.$el.clientHeight
     if (top === null) {
-      top = this.$root.$el.clientHeight * 0.8
+      top = containerHeight - containerHeight * minHeight
     }
     const handleElement = this.$el as HTMLDivElement
     handleElement.style.position = 'fixed'
@@ -123,7 +124,7 @@ export default Vue.extend({
     handleElement.style.left = '0'
     handleElement.style.top = `${calculateTop(
       top,
-      this.$root.$el.clientHeight,
+      containerHeight,
       this.maxHeight
     )}px`
     this.resizeObserver = new ResizeObserver(this.updateMaxHeight)

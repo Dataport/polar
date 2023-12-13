@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Set `minHeight` of MoveHandle to `0.2` to have content changes always be visible.
+
 ## 2.0.0
 
 - Breaking: MoveHandle can now only be rendered once which is done in `@polar/core`. Please refer to the documentation of `@polar/core` on how to use this component.
