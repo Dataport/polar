@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Move attributions from the `iconMenu` to the bottom-right, use a smaller icon and a different colour to clear-up the secondary nature of the content.
+
 ## 1.0.0-beta.0
 
 Beta release. Feature-complete, but some known (and unknown?) bugs remain.
