@@ -17,10 +17,7 @@ import { t } from 'i18next'
 import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { GeoJsonProperties } from 'geojson'
-import {
-  MoveHandleActionButton,
-  MoveHandleProperties,
-} from '@polar/lib-custom-types'
+import { MoveHandleProperties } from '@polar/lib-custom-types'
 import Feature from './Feature.vue'
 import List from './List.vue'
 
