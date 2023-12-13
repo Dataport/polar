@@ -22,6 +22,7 @@ import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { useExtendedMasterportalapiMarkers } from './actions/useExtendedMasterportalapiMarkers'
+import { getFeaturesCluster } from './actions/useExtendedMasterportalapiMarkers/getFeaturesCluster'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
 const devMode = import.meta.env.DEV
@@ -159,7 +160,12 @@ const store = new Store({
       state.map = state.map + 1
     },
     setHovered: (state, payload) => {
-      hovered = payload
+      if (payload === null || payload.get('features')) {
+        hovered = payload
+      } else if (map !== null) {
+        // nested features are invisible and hence unfit for styling
+        hovered = getFeaturesCluster(map, payload)
+      }
       state.hovered = state.hovered + 1
     },
     setMoveHandle: (state, payload: MoveHandleProperties | null) => {

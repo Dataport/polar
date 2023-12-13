@@ -46,7 +46,15 @@
           :key="`gfi-feature-list-${feature.ol_uid}`"
           :two-line="listText.length === 2"
           :three-line="listText.length === 3"
+          :class="{
+            'gfi-feature-list-item-hovered': isFeatureHovered(feature),
+          }"
           @click="setOlFeatureInformation(feature)"
+          @keydown.space.prevent="setOlFeatureInformation(feature)"
+          @mouseleave="unhover"
+          @mouseover="hover(feature)"
+          @focusout="unhover"
+          @focus="hover(feature)"
         >
           <v-list-item-content>
             <component
@@ -76,6 +84,7 @@ export default Vue.extend({
       'listText',
       'page',
       'gfiConfiguration',
+      'isFeatureHovered',
     ]),
     _page: {
       get() {
@@ -107,8 +116,18 @@ export default Vue.extend({
       }
     },
   },
+  mounted() {
+    if (this._page > this.maxPage) {
+      this._page = Math.max(this.maxPage, 1)
+    }
+  },
   methods: {
-    ...mapActions('plugin/gfi', ['setOlFeatureInformation', 'setPage']),
+    ...mapActions('plugin/gfi', [
+      'setOlFeatureInformation',
+      'setPage',
+      'hover',
+      'unhover',
+    ]),
     ...mapMutations('plugin/gfi', ['setPage']),
     applyListText(feature: Feature, index: number) {
       const text: string | ((f: Feature) => string) | undefined =
@@ -129,6 +148,17 @@ export default Vue.extend({
 })
 </script>
 
+<style lang="scss">
+.plugin-gfi-list {
+  .v-pagination__navigation,
+  .v-pagination__item {
+    &:focus {
+      outline: thick solid #3fa535;
+    }
+  }
+}
+</style>
+
 <style lang="scss" scoped>
 .v-card {
   @media only screen and (min-width: 769px) {
@@ -147,5 +177,15 @@ export default Vue.extend({
 
 .v-list-item__title + .v-list-item__subtitle {
   font-style: italic;
+}
+
+.v-list-item {
+  /* reserved space so that hover outline works in FF */
+  margin-right: 2px;
+}
+
+.gfi-feature-list-item-hovered {
+  outline: inset 2px #3fa535;
+  background: #dff0dd;
 }
 </style>

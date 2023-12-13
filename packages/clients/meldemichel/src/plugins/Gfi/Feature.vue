@@ -1,10 +1,7 @@
 <template>
   <v-card>
     <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
-      <!-- TODO implement when vector clusters are done
-      <v-btn>Prev</v-btn>
-      <v-btn>Next</v-btn>
-      -->
+      <ActionButtons />
       <v-spacer />
       <v-btn
         icon
@@ -50,19 +47,17 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
-import { GeoJsonProperties } from 'geojson'
+import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-
-type GfiIndexStep = -1 | 1
+import { GeoJsonProperties } from 'geojson'
+import ActionButtons from './ActionButtons.vue'
 
 export default Vue.extend({
   name: 'MeldemichelGfiFeature',
+  components: {
+    ActionButtons,
+  },
   props: {
-    currentProperties: {
-      type: Object as PropType<GeoJsonProperties>,
-      required: true,
-    },
     clientWidth: {
       type: Number,
       required: true,
@@ -70,10 +65,6 @@ export default Vue.extend({
     exportProperty: {
       type: String,
       default: '',
-    },
-    showSwitchButtons: {
-      type: Boolean,
-      default: false,
     },
   },
   data: () => ({
@@ -89,9 +80,22 @@ export default Vue.extend({
     displayImage(): boolean {
       return this.currentProperties.pic
     },
+    currentProperties(): GeoJsonProperties {
+      return { ...this.windowFeatures[this.visibleWindowFeatureIndex] }
+    },
+  },
+  mounted() {
+    this.setActionButton({
+      component: ActionButtons,
+      props: {},
+    })
+  },
+  beforeDestroy() {
+    this.setActionButton(null)
   },
   methods: {
     ...mapMutations('plugin/gfi', [
+      'setActionButton',
       'setImageLoaded',
       'setVisibleWindowFeatureIndex',
     ]),
@@ -118,23 +122,6 @@ export default Vue.extend({
       if ((e.currentTarget as HTMLImageElement).complete && !this.imageLoaded) {
         this.setImageLoaded(true)
         window.dispatchEvent(new Event('resize'))
-      }
-    },
-    /** switch to next or previous feature */
-    switchFeature(by: GfiIndexStep): void {
-      const {
-        visibleWindowFeatureIndex,
-        windowFeatures,
-        setVisibleWindowFeatureIndex,
-      } = this
-      const maxIndex = windowFeatures.length - 1
-      const nextIndex = visibleWindowFeatureIndex + by
-      if (nextIndex < 0) {
-        setVisibleWindowFeatureIndex(windowFeatures.length - 1)
-      } else if (nextIndex > maxIndex) {
-        setVisibleWindowFeatureIndex(0)
-      } else {
-        setVisibleWindowFeatureIndex(nextIndex)
       }
     },
   },

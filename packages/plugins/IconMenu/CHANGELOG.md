@@ -5,6 +5,7 @@
 - Feature: Add default locale for filter plugin as child.
 - Feature: Add default locale for gfi plugin as child.
 - Feature: Hide obstructive tooltip on small devices.
+- Feature: Added action `openMenuById` that expects an id as payload and opens the matching icon menu entry.
 - Feature: Render mobile content in `MoveHandle` of `@polar/core`. This also means, that `initiallyOpen` only works on large devices.
 - Fix: Resolved internal error. (No effect on client behaviour.)
 
