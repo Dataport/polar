@@ -75,13 +75,6 @@ export default Vue.extend({
       }
       return ''
     },
-    renderUi(): boolean {
-      return this.windowFeatures.length > 0 || this.showList
-    },
-    /** only show switch buttons if multiple property sets are available */
-    showSwitchButtons(): boolean {
-      return this.windowFeatures.length > 1
-    },
     moveHandleProperties() {
       const properties: MoveHandleProperties = {
         closeContent: this.closeContent,
@@ -96,6 +89,13 @@ export default Vue.extend({
       }
 
       return properties
+    },
+    renderUi(): boolean {
+      return this.windowFeatures.length > 0 || this.showList
+    },
+    /** only show switch buttons if multiple property sets are available */
+    showSwitchButtons(): boolean {
+      return this.windowFeatures.length > 1
     },
   },
   watch: {
