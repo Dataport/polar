@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.1.0
 
 - Feature: Add cluster-ready vector layer feature list with pagination, see configuration parameter `gfiLayerConfiguration.featureList`.
 - Feature: Can now be rendered as child of icon menu, see configuration parameter `renderType`.

@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.1.0
 
 - Feature: Add default locale for filter plugin as child.
 - Feature: Add default locale for gfi plugin as child.

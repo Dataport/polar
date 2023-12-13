@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.0
 
 - Feature: Add hovered and selected features to vuex store that support clustering. This is an optional functionality that has to be explicitly enabled and works with the `@masterportal/masterportalapi` default marker design. See configuration parameter `extendedMasterportalapiMarkers`.
 - Feature: Add zoomLevel as plugin-agnostic map information to store.

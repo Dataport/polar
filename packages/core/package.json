@@ -33,7 +33,7 @@
     "ol": "^7.1.0"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.1.0"
+    "@polar/lib-custom-types": "^1.2.0"
   },
   "files": [
     "src/**/*",
