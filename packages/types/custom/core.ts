@@ -607,7 +607,6 @@ export interface MoveHandleProperties {
   plugin: string
   actionButton?: MoveHandleActionButton
   props?: MoveHandleProps
-  clearHandleAfterClose?: boolean
 }
 
 export interface MoveHandleActionButton {
