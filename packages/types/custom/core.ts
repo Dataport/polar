@@ -606,7 +606,7 @@ export interface MoveHandleProperties {
   // Plugin that added the moveHandle
   plugin: string
   actionButton?: MoveHandleActionButton
-  closeContent?: string | Vue
+  closeContent?: MoveHandleCloseContent
   props?: MoveHandleProps
 }
 
@@ -614,6 +614,8 @@ export interface MoveHandleActionButton {
   component: Vue
   props?: MoveHandleProps
 }
+
+export type MoveHandleCloseContent = string | Vue
 
 export interface CoreState {
   center: [number, number] | null
