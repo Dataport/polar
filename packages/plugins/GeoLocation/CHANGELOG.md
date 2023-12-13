@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.0
 
 - Feature: Add parameter `renderType` to configuration, allowing configuration as IconMenu subcomponent.
 - Feature: Hide obstructive tooltip on small devices.
