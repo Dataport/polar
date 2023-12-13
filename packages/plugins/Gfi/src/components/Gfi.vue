@@ -84,6 +84,15 @@ export default Vue.extend({
     showSwitchButtons(): boolean {
       return this.windowFeatures.length > 1
     },
+    moveHandleProperties(): MoveHandleProperties {
+      return {
+        closeLabel: t('plugins.gfi.header.close'),
+        closeFunction: this.closeWindow,
+        component: this.contentComponent,
+        props: this.contentProps,
+        plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
+      }
+    },
   },
   watch: {
     actionButton(
@@ -91,13 +100,7 @@ export default Vue.extend({
       oldButton: MoveHandleActionButton | null
     ) {
       if (this.windowFeatures.length && !compare(newButton, oldButton)) {
-        const moveHandleProperties: MoveHandleProperties = {
-          closeLabel: t('plugins.gfi.header.close'),
-          closeFunction: this.closeWindow,
-          component: this.contentComponent,
-          props: this.contentProps,
-          plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
-        }
+        const moveHandleProperties = this.moveHandleProperties
         if (newButton !== null) {
           moveHandleProperties.actionButton = newButton
         }
@@ -106,13 +109,7 @@ export default Vue.extend({
     },
     windowFeatures(features: GeoJsonProperties[]) {
       if (features.length) {
-        const moveHandleProperties: MoveHandleProperties = {
-          closeLabel: t('plugins.gfi.header.close'),
-          closeFunction: this.closeWindow,
-          component: this.contentComponent,
-          props: this.contentProps,
-          plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
-        }
+        const moveHandleProperties = this.moveHandleProperties
         if (this.actionButton !== null) {
           moveHandleProperties.actionButton = this.actionButton
         }
