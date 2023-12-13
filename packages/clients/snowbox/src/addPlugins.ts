@@ -29,7 +29,7 @@ export const addPlugins = (core) => {
     menus: [
       {
         plugin: LayerChooser({}),
-        icon: 'fa-book-atlas',
+        icon: 'fa-layer-group',
         id: 'layerChooser',
       },
       {
