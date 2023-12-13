@@ -12,6 +12,30 @@ Beta release. Feature-complete, but some known (and unknown?) bugs remain.
 - Fix: The listenable `mapState` field `vendor_maps_position` has been changed in its formatting. It now matches the formatting of the neighbouring `mapCenter` field (`number,number`) instead of being an array.
 - Fix: The listenable `mapState` field `vendor_maps_address_to` has been renamed to `vendor_maps_distance_to` to match the previous name.
 
+### Dependency updates
+
+Please check the package changelogs regarding details.
+
+|Package|Previous|Current|
+|-|-|-|
+| `@polar/core | ^1.1.0 | ^1.2.1 |
+| `@polar/lib-custom-types | ^1.1.0 | ^1.2.0 |
+| `@polar/lib-invisible-style | * | ^1.0.0 |
+| `@polar/plugin-address-search | ^1.0.0 | ^1.1.0 |
+| `@polar/plugin-attributions | ^1.0.0 |  ^1.1.0 |
+| `@polar/plugin-filter | * |  ^1.0.0 |
+| `@polar/plugin-fullscreen | ^1.0.0 |  ^1.1.0 |
+| `@polar/plugin-geo-location | ^1.1.0 | ^1.2.0 |
+| `@polar/plugin-gfi | ^1.0.0 |  ^1.1.0 |
+| `@polar/plugin-icon-menu | ^1.0.1 | ^1.1.0 |
+| `@polar/plugin-layer-chooser | ^1.0.0 | ^1.1.0 |
+| `@polar/plugin-loading-indicator | ^1.0.0 | ^1.0.1 |
+| `@polar/plugin-pins | ^1.1.0 |  ^1.1.1 |
+| `@polar/plugin-reverse-geocoder | ^1.0.0 | ^1.0.1 |
+| `@polar/plugin-scale | ^1.0.0 |  ^1.0.1 |
+| `@polar/plugin-toast | ^1.0.0 |  ^1.0.1 |
+| `@polar/plugin-zoom | ^1.0.0 | ^1.1.0 |
+
 ## 1.0.0-alpaka.0
 
 Test release. Feature-complete for AfM integration.
