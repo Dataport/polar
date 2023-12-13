@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.1.0
 
 - Feature: Add aria-description to the input for improved accessibility.
 - Feature: Render results as a native html list.

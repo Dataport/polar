@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.0.1
 
 - Fix: Prevent linebreak on ratio scale on narrow devices.
 

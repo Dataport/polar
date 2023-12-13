@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.1.0
 
 - Feature: Locale string layer names are now translated.
 

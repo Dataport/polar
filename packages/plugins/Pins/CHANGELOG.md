@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.1
+
+- Fix: Add missing repository information in package.json.
+
 ## 1.1.0
 
 - Deprecated: Using `movable` with a `boolean` has been deprecated. Please use the parameter with a string. For more information, see the documentation of the package.
