@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.0
 
 - Feature: Add currently active language key as parameter `language` to `CoreState `.
 - Feature: Add types for new plugin `Filter`, namely `FilterConfiguration`; also to `MapConfig` as configurable plugin.
