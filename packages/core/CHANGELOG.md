@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add possibility to use the new slot added to `@polar/components` component `MoveHandle` to be able to use different content for the close-button.
+
 ## 1.2.1
 
 - Fix dependency `@polar/components` version.
