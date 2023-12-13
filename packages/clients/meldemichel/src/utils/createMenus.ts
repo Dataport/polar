@@ -36,6 +36,7 @@ export default function (mode: keyof typeof MODE): Menu[] {
             (feature) => `meldemichel.skat.${feature.get('skat')}`,
             'beschr',
           ],
+          bindWithCoreHoverSelect: true,
         },
       }),
       icon: 'fa-location-pin',

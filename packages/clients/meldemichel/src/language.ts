@@ -68,6 +68,7 @@ const language: LanguageOption[] = [
           tooltip: {
             multiHeader: 'Mehrere Anliegen',
             multiBody: 'Klick zum Zoomen',
+            multiBodyUnresolvable: 'Klick zum Öffnen',
           },
         },
         layers: {

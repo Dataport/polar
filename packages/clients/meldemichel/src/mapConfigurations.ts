@@ -177,6 +177,7 @@ const mapConfigurations: Record<
           fill: '#E10019',
         },
         clusterClickZoom: true,
+        dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
       },
       addressSearch,
       layers: [

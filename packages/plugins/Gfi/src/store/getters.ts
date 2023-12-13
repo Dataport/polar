@@ -126,7 +126,6 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
                   ...baseProperties,
                 }
               }
-
               // if of type object, map keys, forward properties named in object keys
               if (typeof propertyReducer === 'object') {
                 const relevantKeys = Object.keys(propertyReducer)
@@ -198,6 +197,15 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
           })
       })
       .flat(1)
+  },
+  isFeatureHovered: (_, __, ___, rootGetters) => (feature) => {
+    const { hovered } = rootGetters
+    return (
+      hovered !== null &&
+      (hovered === feature || hovered.get('features')
+        ? hovered.get('features').includes(feature)
+        : false)
+    )
   },
 }
 
