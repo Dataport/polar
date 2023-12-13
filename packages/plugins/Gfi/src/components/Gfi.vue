@@ -71,7 +71,7 @@ export default Vue.extend({
           this.exportPropertyLayerKeys[
             this.currentProperties.polarInternalLayerKey
           ]
-        return property.length > 0
+        return property?.length > 0
           ? this.windowFeatures[this.visibleWindowFeatureIndex][property]
           : ''
       }
@@ -84,37 +84,33 @@ export default Vue.extend({
     showSwitchButtons(): boolean {
       return this.windowFeatures.length > 1
     },
-    moveHandleProperties(): MoveHandleProperties {
-      return {
+    moveHandleProperties() {
+      const properties: MoveHandleProperties = {
         closeLabel: t('plugins.gfi.header.close'),
         closeFunction: this.closeWindow,
         component: this.contentComponent,
         props: this.contentProps,
         plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
       }
+      if (this.actionButton !== null) {
+        properties.actionButton = this.actionButton
+      }
+
+      return properties
     },
   },
   watch: {
-    actionButton(
-      newButton: MoveHandleActionButton | null,
-      oldButton: MoveHandleActionButton | null
+    moveHandleProperties(
+      newProperties: MoveHandleProperties,
+      oldProperties: MoveHandleProperties
     ) {
-      if (this.windowFeatures.length && !compare(newButton, oldButton)) {
-        const moveHandleProperties = this.moveHandleProperties
-        if (newButton !== null) {
-          moveHandleProperties.actionButton = newButton
-        }
-        this.setMoveHandle(moveHandleProperties)
-      }
-    },
-    windowFeatures(features: GeoJsonProperties[]) {
-      if (features.length) {
-        const moveHandleProperties = this.moveHandleProperties
-        if (this.actionButton !== null) {
-          moveHandleProperties.actionButton = this.actionButton
-        }
-        this.setMoveHandle(moveHandleProperties)
+      if (
+        this.windowFeatures.length &&
+        !compare(newProperties, oldProperties)
+      ) {
+        this.setMoveHandle(newProperties)
       } else if (
+        !this.windowFeatures.length &&
         this.moveHandle !== null &&
         this.moveHandle.component === this.contentComponent
       ) {
