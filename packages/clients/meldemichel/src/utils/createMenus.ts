@@ -20,7 +20,7 @@ export default function (mode: keyof typeof MODE): Menu[] {
       icon: 'fa-filter',
       id: 'filter',
     },
-    {
+    mode === MODE.COMPLETE && {
       plugin: Gfi({
         gfiContentComponent: MeldemichelGfiFeature,
         renderType: 'iconMenu',
