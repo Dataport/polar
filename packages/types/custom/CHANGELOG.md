@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.0
 
 - Feature: Add currently active language key as parameter `language` to `CoreState `.
 - Feature: Add types for new plugin `Filter`, namely `FilterConfiguration`; also to `MapConfig` as configurable plugin.
@@ -12,6 +12,9 @@
 - Feature: Add export of `RenderType`.
 - Feature: Add parameter `focusAfterSearch` to `AddressSearchConfiguration`.
 - Feature: Add parameter `hasSmallDisplay` to `CoreState`.
+- Feature: Add types for new `MoveHandle`-handling for usage in e.g. `CoreGetters`; namely the interfaces `MoveHandleProperties` and `MoveHandleActionButton` as well as the type `MoveHandleProps`. 
+- Feature: Add `layerConf` to `MapConfig`.
+- Fix: Add missing `CoreGetter` fields `clientHeight`, `clientWidth`, `center`, `zoomLevel`.
 
 ## 1.1.0
 

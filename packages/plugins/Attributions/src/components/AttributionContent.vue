@@ -1,26 +1,22 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div>
-    <v-scroll-x-reverse-transition>
-      <v-card
-        dir="ltr"
-        dense
-        filled
-        :width="windowWidth"
-        color="#ffffffdd"
-        :max-width="maxWidth"
-      >
-        <v-card-title>
-          {{ $t('common:plugins.attributions.title') }}
-        </v-card-title>
-        <!-- TODO: Add solution to be able to also translate attribution when it becomes necessary -->
-        <!-- NOTE: The usage of v-html is considered unsafe as it
+  <v-scroll-x-reverse-transition>
+    <v-card
+      dense
+      filled
+      :width="width"
+      :color="renderType === 'independent' ? '#ffffffdd' : ''"
+      :max-width="maxWidth"
+    >
+      <v-card-title>
+        {{ $t('common:plugins.attributions.title') }}
+      </v-card-title>
+      <!-- NOTE: The usage of v-html is considered unsafe as it
         opens a window for XSS attacks. In this case, the information is retrieved
         from the mapConfiguration. This is fine by configuration. -->
-        <v-card-text ref="sources" v-html="cardText" />
-      </v-card>
-    </v-scroll-x-reverse-transition>
-  </div>
+      <v-card-text ref="sources" v-html="cardText" />
+    </v-card>
+  </v-scroll-x-reverse-transition>
 </template>
 
 <script lang="ts">
@@ -31,19 +27,19 @@ import noop from '@repositoryname/noop'
 
 export default Vue.extend({
   name: 'AttributionContent',
-  computed: {
-    ...mapGetters([
-      'clientWidth',
-      'hasSmallWidth',
-      'hasWindowSize',
-      'language',
-    ]),
-    ...mapGetters('plugin/attributions', ['mapInfo', 'windowWidth']),
-    maxWidth(): number {
-      return this.hasWindowSize && this.hasSmallWidth
-        ? this.clientWidth * 0.85
-        : 1080
+  props: {
+    maxWidth: {
+      type: [Number, String],
+      default: 'inherit',
     },
+    width: {
+      type: [Number, String],
+      default: 'inherit',
+    },
+  },
+  computed: {
+    ...mapGetters(['language']),
+    ...mapGetters('plugin/attributions', ['mapInfo', 'renderType']),
     cardText(): string {
       noop(this.language)
       return this.mapInfo

@@ -12,6 +12,7 @@ import {
 import { MODE, SKAT, REPORT_STATUS } from './enums'
 import language from './language'
 import { MeldemichelCreateMapParams } from './types'
+import { showTooltip } from './utils/showTooltip'
 
 const stadtplan = '453'
 const luftbilder = '452'
@@ -163,6 +164,20 @@ const mapConfigurations: Record<
       ...commonMapConfiguration,
       extendedMasterportalapiMarkers: {
         layers: [reportServiceId],
+        defaultStyle: {
+          stroke: '#FFFFFF',
+          fill: '#005CA9',
+        },
+        hoverStyle: {
+          stroke: '#46688E',
+          fill: '#8BA1B8',
+        },
+        selectionStyle: {
+          stroke: '#FFFFFF',
+          fill: '#E10019',
+        },
+        clusterClickZoom: true,
+        dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
       },
       addressSearch,
       layers: [
@@ -172,7 +187,6 @@ const mapConfigurations: Record<
           // TODO features visible as single, group, selected (green)
           id: reportServiceId,
           visibility: true,
-          distance: 30,
           type: 'mask',
           name: 'meldemichel.layers.reports',
         } as LayerConfiguration,
@@ -210,10 +224,7 @@ const mapConfigurations: Record<
               'start',
               'statu',
             ],
-            showTooltip: (feature) => [
-              ['h2', `${feature.get('str')} ${feature.get('hsnr')}`],
-              ['span', `meldemichel.skat.${feature.get('skat')}`],
-            ],
+            showTooltip,
           },
         },
       },

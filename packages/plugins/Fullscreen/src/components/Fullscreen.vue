@@ -1,5 +1,6 @@
 <template>
   <v-tooltip
+    v-if="fullscreenAvailable"
     :left="!isHorizontal"
     :bottom="isHorizontal"
     :disabled="hasSmallDisplay"
@@ -56,6 +57,14 @@ export default Vue.extend({
         )
       }
       return this.$root.$el
+    },
+    fullscreenAvailable(): boolean {
+      return Boolean(
+        this.targetContainer &&
+          (this.targetContainer.requestFullscreen ||
+            // @ts-expect-error | 'TS2339: Property 'webkitRequestFullscreen' does not exist on type 'Element'.'; For information refer to https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API#browser_compatibility
+            this.targetContainer.webkitRequestFullscreen)
+      )
     },
   },
   mounted() {

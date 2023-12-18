@@ -1,6 +1,8 @@
 import { Feature, Map } from 'ol'
 import { InvisibleStyle } from '@polar/lib-invisible-style'
 import { FilterConfiguration } from '@polar/lib-custom-types'
+import ClusterSource from 'ol/source/Cluster'
+import BaseLayer from 'ol/layer/Base'
 import { DatePattern, FilterState, LayerId, TimeOption } from '../types'
 
 const doesFeaturePassCategoryFilter = (
@@ -109,6 +111,19 @@ const doesFeaturePassFilter = (
   )
 }
 
+const getLayer = (map: Map, layerId: LayerId): BaseLayer => {
+  const layer = map
+    .getLayers()
+    .getArray()
+    .find((layer) => layer.get('id') === layerId)
+  if (!layer) {
+    throw new Error(
+      `Layer ${layerId} undefined in Filter.utils.updateFeatureVisibility.`
+    )
+  }
+  return layer
+}
+
 export const updateFeatureVisibility = ({
   map,
   layerId,
@@ -122,32 +137,32 @@ export const updateFeatureVisibility = ({
   categories: FilterConfiguration['layers'][string]['categories']
   timeOptions: TimeOption[]
 }) => {
-  const layer = map
-    .getLayers()
-    .getArray()
-    .find((layer) => layer.get('id') === layerId)
-  if (!layer) {
-    throw new Error(
-      `Layer ${layerId} undefined in Filter.utils.updateFeatureVisibility.`
-    )
+  const layer = getLayer(map, layerId)
+
+  // @ts-expect-error | only layers with getSource allowed
+  let source = layer.getSource()
+  while (source instanceof ClusterSource) {
+    source = source.getSource()
   }
-  layer
-    // @ts-expect-error | only layers with getSource allowed
-    .getSource()
+  const updateFeatures = source
     .getFeatures()
-    .forEach((feature) => {
-      const targetStyle = doesFeaturePassFilter(
-        feature,
-        state,
-        categories,
-        layerId,
-        timeOptions
-      )
-        ? null
-        : InvisibleStyle
-      // only update if it changes anything (prevent unnecessary rerenders)
-      if (feature.getStyle() !== targetStyle) {
-        feature.setStyle(targetStyle)
-      }
-    })
+    .map((feature) => feature.get('features') || [feature])
+    .flat(1)
+  // only update finally to prevent overly recalculating clusters
+  source.clear()
+  updateFeatures.forEach((feature) => {
+    const targetStyle = doesFeaturePassFilter(
+      feature,
+      state,
+      categories,
+      layerId,
+      timeOptions
+    )
+      ? null
+      : InvisibleStyle
+    if (feature.getStyle() !== targetStyle) {
+      feature.setStyle(targetStyle)
+    }
+  })
+  source.addFeatures(updateFeatures)
 }

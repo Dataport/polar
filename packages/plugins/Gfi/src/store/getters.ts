@@ -9,8 +9,9 @@ import {
 import noop from '@repositoryname/noop'
 import { isVisible } from '@polar/lib-invisible-style'
 import { Feature } from 'ol'
-import { Vector as VectorLayer } from 'ol/layer'
+import { Cluster as ClusterSource } from 'ol/source'
 import { GfiGetters, GfiState } from '../types'
+import { listableLayersFilter } from '../utils/listableLayersFilter'
 import getInitialState from './getInitialState'
 
 const getters: PolarGetterTree<GfiState, GfiGetters> = {
@@ -21,6 +22,16 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       coordinateSources: [],
       layers: {},
     })
+  },
+  renderType(_, __, ___, rootGetters) {
+    return rootGetters.configuration?.gfi?.renderType || 'independent'
+  },
+  renderMoveHandle(_, getters, __, rootGetters) {
+    return (
+      getters.renderType === 'independent' &&
+      rootGetters.hasWindowSize &&
+      rootGetters.hasSmallWidth
+    )
   },
   gfiContentComponent(_, { gfiConfiguration }): Vue | null {
     return gfiConfiguration.gfiContentComponent || null
@@ -115,7 +126,6 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
                   ...baseProperties,
                 }
               }
-
               // if of type object, map keys, forward properties named in object keys
               if (typeof propertyReducer === 'object') {
                 const relevantKeys = Object.keys(propertyReducer)
@@ -158,29 +168,19 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
   ): Feature[] {
     const { map, clientHeight, clientWidth, center, zoomLevel } = rootGetters
     // trigger getter on those who indicate feature change possibility
-    noop(
-      clientHeight,
-      clientWidth,
-      center,
-      zoomLevel,
-      visibilityChangeIndicator
-    )
+    noop(clientHeight, clientWidth, center, zoomLevel)
+    noop(visibilityChangeIndicator)
     return map
       .getLayers()
       .getArray()
       .filter((layer) => layerKeys.includes(layer.get('id')))
-      .filter(
-        (layer) =>
-          layer instanceof VectorLayer ||
-          console.warn(
-            `Layer ${layer.get(
-              'id'
-            )} in GFI plugin will not produce list results since it is not a vector layer.`
-          )
-      )
+      .filter(listableLayersFilter)
       .map((layer) => {
         // @ts-expect-error | no sourceless layers in masterportalAPI generation
-        const source = layer.getSource()
+        let source = layer.getSource()
+        while (source instanceof ClusterSource) {
+          source = source.getSource()
+        }
         return (
           listMode === 'loaded'
             ? source.getFeatures()
@@ -191,11 +191,21 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
         )
           .filter(isVisible)
           .map((feature) => {
-            feature.set('_gfiLayerId', layer.get('id'))
+            // true = silent change (prevents cluster recomputation & rerender)
+            feature.set('_gfiLayerId', layer.get('id'), true)
             return feature
           })
       })
       .flat(1)
+  },
+  isFeatureHovered: (_, __, ___, rootGetters) => (feature) => {
+    const { hovered } = rootGetters
+    return (
+      hovered !== null &&
+      (hovered === feature || hovered.get('features')
+        ? hovered.get('features').includes(feature)
+        : false)
+    )
   },
 }
 

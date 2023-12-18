@@ -40,9 +40,10 @@
             $t(hint ? hint : `common:plugins.iconMenu.hints.${id}`)
           }}</span>
         </v-tooltip>
+        <!-- Content is displayed in MoveHandle of the core if hasWindowSize and hasSmallWidth are true -->
         <component
           :is="plugin"
-          v-if="open === index"
+          v-if="open === index && (!hasWindowSize || !hasSmallWidth)"
           ref="item-component"
           :class="[
             isHorizontal
@@ -59,17 +60,16 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default Vue.extend({
   name: 'IconMenu',
-  data: () => ({
-    maxWidth: 'inherit',
-  }),
+  data: () => ({ maxWidth: 'inherit' }),
   computed: {
     ...mapGetters([
       'hasSmallDisplay',
       'hasSmallHeight',
+      'hasSmallWidth',
       'hasWindowSize',
       'clientHeight',
     ]),
@@ -95,35 +95,61 @@ export default Vue.extend({
       })`
     },
   },
+  watch: {
+    // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
+    isHorizontal(newVal: boolean) {
+      if (!newVal) {
+        this.updateMaxWidth()
+      }
+    },
+  },
   mounted() {
-    addEventListener('resize', this.updateMaxSize)
-    this.updateMaxSize()
+    addEventListener('resize', this.updateMaxWidth)
+    this.updateMaxWidth()
   },
   beforeDestroy() {
-    removeEventListener('resize', this.updateMaxSize)
+    removeEventListener('resize', this.updateMaxWidth)
   },
   methods: {
+    ...mapMutations(['setMoveHandle']),
     ...mapMutations('plugin/iconMenu', ['setOpen']),
+    ...mapActions('plugin/iconMenu', ['openInMoveHandle']),
     toggle(index: number) {
       if (this.open === index) {
         this.setOpen(null)
+        this.setMoveHandle(null)
       } else {
         this.setOpen(index)
+        this.openInMoveHandle(index)
       }
-      this.updateMaxSize()
+      this.updateMaxWidth()
     },
-    updateMaxSize() {
-      const plugin = this.$refs['item-component']
-      if (!this.hasWindowSize && plugin?.[0]) {
-        const { width, left } = plugin[0].$el.getBoundingClientRect()
-        this.maxWidth = `${width + left}px`
-      } else {
-        this.maxWidth = 'inherit'
-      }
+    updateMaxWidth() {
+      this.$nextTick(() => {
+        const plugin = this.$refs['item-component']
+        if (plugin?.[0]) {
+          if (!this.hasWindowSize) {
+            const { width, left } = plugin[0].$el.getBoundingClientRect()
+            this.maxWidth = `${width + left}px`
+          } else {
+            this.maxWidth = 'inherit'
+          }
+        }
+      })
     },
   },
 })
 </script>
+
+<style lang="scss">
+.icon-menu-list-item-content,
+.icon-menu-list-item-horizontal {
+  .v-card__text {
+    // Prevents a x-scrollbar being shown if not necessary
+    width: inherit;
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 .icon-menu-list {

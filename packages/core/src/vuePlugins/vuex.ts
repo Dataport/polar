@@ -10,13 +10,19 @@ import {
 } from '@repositoryname/vuex-generators'
 import noop from '@repositoryname/noop'
 import i18next from 'i18next'
-import { PluginContainer, CoreState, PolarError } from '@polar/lib-custom-types'
+import {
+  CoreState,
+  MoveHandleProperties,
+  PluginContainer,
+  PolarError,
+} from '@polar/lib-custom-types'
 import { Interaction } from 'ol/interaction'
 import { Feature, Map } from 'ol'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { useExtendedMasterportalapiMarkers } from './actions/useExtendedMasterportalapiMarkers'
+import { getFeaturesCluster } from './actions/useExtendedMasterportalapiMarkers/getFeaturesCluster'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
 const devMode = import.meta.env.DEV
@@ -37,6 +43,7 @@ const devMode = import.meta.env.DEV
 
 let map: null | Map = null
 let hovered: null | Feature = null
+let moveHandle: MoveHandleProperties | null = null
 let selected: null | Feature = null
 let components = []
 let interactions: Interaction[] = []
@@ -73,6 +80,7 @@ const getInitialState = (): CoreState => ({
   components: 1,
   center: null,
   hovered: 1,
+  moveHandle: 1,
   selected: 1,
   zoomLevel: 0,
   // TODO: Add default values for epsg, layers, namedProjections, options and remove @ts-ignore for configuration
@@ -106,6 +114,10 @@ const store = new Store({
     map: (state) => {
       noop(state.map)
       return map
+    },
+    moveHandle: (state) => {
+      noop(state.moveHandle)
+      return moveHandle
     },
     hovered: (state) => {
       noop(state.hovered)
@@ -148,8 +160,17 @@ const store = new Store({
       state.map = state.map + 1
     },
     setHovered: (state, payload) => {
-      hovered = payload
+      if (payload === null || payload.get('features')) {
+        hovered = payload
+      } else if (map !== null) {
+        // nested features are invisible and hence unfit for styling
+        hovered = getFeaturesCluster(map, payload)
+      }
       state.hovered = state.hovered + 1
+    },
+    setMoveHandle: (state, payload: MoveHandleProperties | null) => {
+      moveHandle = payload
+      state.moveHandle += 1
     },
     setSelected: (state, payload) => {
       selected = payload

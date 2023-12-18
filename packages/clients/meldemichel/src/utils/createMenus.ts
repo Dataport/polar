@@ -20,9 +20,10 @@ export default function (mode: keyof typeof MODE): Menu[] {
       icon: 'fa-filter',
       id: 'filter',
     },
-    {
+    mode === MODE.COMPLETE && {
       plugin: Gfi({
         gfiContentComponent: MeldemichelGfiFeature,
+        renderType: 'iconMenu',
         coordinateSources: [
           'plugin/pins/transformedCoordinate',
           'plugin/pins/coordinatesAfterDrag',
@@ -35,6 +36,7 @@ export default function (mode: keyof typeof MODE): Menu[] {
             (feature) => `meldemichel.skat.${feature.get('skat')}`,
             'beschr',
           ],
+          bindWithCoreHoverSelect: true,
         },
       }),
       icon: 'fa-location-pin',

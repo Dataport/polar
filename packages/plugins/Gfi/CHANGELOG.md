@@ -1,13 +1,15 @@
 # CHANGELOG
 
-## unpublished
+## 1.1.0
 
-- Feature: Add vector layer feature list with pagination, see configuration parameter `gfiLayerConfiguration.featureList`.
-- Feature: Can now be rendered as child of icon menu, see configuration parameter `gfiLayerConfiguration.renderType`.
-- Feature: Added optional configuration parameter `activeLayerPath` to allow checking for whether any fitting layer is active.
-- Feature: Added support for type `GeoJSON` layers.
+- Feature: Add cluster-ready vector layer feature list with pagination, see configuration parameter `gfiLayerConfiguration.featureList`.
+- Feature: Can now be rendered as child of icon menu, see configuration parameter `renderType`.
+- Feature: Add optional configuration parameter `activeLayerPath` to allow checking for whether any fitting layer is active.
+- Feature: Add support for type `GeoJSON` layers.
+- Feature: Render mobile content in `MoveHandle` of `@polar/core`.
 - Fix: Add space to dev GFI window to fully contain close button effects.
 - Fix: Documentation error regarding plugin state.
+- Fix: `<img>`s constantly firing `onload`-event thus constantly firing `resize`.
 
 ## 1.0.0
 

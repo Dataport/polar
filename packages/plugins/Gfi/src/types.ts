@@ -12,6 +12,7 @@ import {
   GfiLayerConfiguration,
   RenderType,
   FeatureList,
+  MoveHandleActionButton,
 } from '@polar/lib-custom-types'
 
 /** parameter specification for request method */
@@ -28,25 +29,35 @@ export interface RequestGfiParameters {
 
 /** GFI Vuex Module State */
 export interface GfiState {
+  actionButton: MoveHandleActionButton | null
+  /** default style for stroke and fill of the highlighted feature. */
+  defaultHighlightStyle: HighlightStyle
   /** mapping of layer id to features found for last GFI call */
   featureInformation: Record<string, GeoJsonFeature[]>
+  imageLoaded: boolean
+  page: number
   /** currently visible feature index regarding  */
   visibleWindowFeatureIndex: number
   /** count up if something in relevant features changed */
   visibilityChangeIndicator: number
-  /** default style for stroke and fill of the highlighted feature. */
-  defaultHighlightStyle: HighlightStyle
-  page: number
 }
 
 export interface GfiGetters extends GfiState {
   afterLoadFunction: GfiAfterLoadFunction | null
   exportPropertyLayerKeys: Record<string, string>
+  /** subset of layerKeys, where features' geometries are to be shown on map */
+  geometryLayerKeys: string[]
   /** module configuration */
   gfiConfiguration: GfiConfiguration
+  isFeatureHovered: (feature: Feature) => boolean
   /** all layer keys to retrieve GFI information for */
   layerKeys: string[]
+  listFeatures: Feature[]
+  listMode: FeatureList['mode'] | undefined
+  listText: FeatureList['text']
+  renderMoveHandle: boolean
   renderType: RenderType
+  showList: boolean
   /** subset of layerKeys, where features' properties are to be shown in UI */
   windowLayerKeys: string[]
   /**
@@ -54,11 +65,5 @@ export interface GfiGetters extends GfiState {
    * includes the key of the layer
    */
   windowFeatures: GeoJsonProperties[]
-  /** subset of layerKeys, where features' geometries are to be shown on map */
-  geometryLayerKeys: string[]
   windowLayerKeysActive: boolean
-  listMode: FeatureList['mode'] | undefined
-  listText: FeatureList['text']
-  showList: boolean
-  listFeatures: Feature[]
 }

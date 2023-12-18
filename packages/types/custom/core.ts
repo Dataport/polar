@@ -259,7 +259,7 @@ export interface GfiLayerConfiguration {
   geometryName?: string
   // format the response is known to come in (e.h. "GML")
   format?: string
-  showTooltip?: (feature: Feature) => [string, string][]
+  showTooltip?: (feature: Feature, map: Map) => [string, string][]
 }
 
 export type BoundaryOnError = 'strict' | 'permissive'
@@ -320,6 +320,7 @@ export interface FeatureList {
   mode: 'visible' | 'loaded'
   pageLength?: number
   text: (string | ((f: Feature) => string))[]
+  bindWithCoreHoverSelect?: boolean
 }
 
 export interface GfiConfiguration extends PluginOptions {
@@ -342,6 +343,7 @@ export interface GfiConfiguration extends PluginOptions {
    * Usable to completely redesign content of GFI window.
    */
   gfiContentComponent?: Vue
+  renderType?: RenderType
   /**
    * The layers to request feature information from. Both WMS and WFS layers are
    * supported. Keys are layer IDs as specified in the services.json registry.
@@ -528,6 +530,21 @@ export interface PolarMapOptions {
 /** The initial language the client should be using; defaults to 'de' if not given */
 export type InitialLanguage = 'de' | 'en'
 
+export interface MarkerStyle {
+  strokeWidth?: string | number
+  stroke?: string
+  fill?: string
+}
+
+export interface ExtendedMasterportalapiMarkers {
+  layers: string[]
+  defaultStyle: MarkerStyle
+  hoverStyle: MarkerStyle
+  selectionStyle: MarkerStyle
+  clusterClickZoom?: boolean
+  dispatchOnMapSelect?: string
+}
+
 export interface MapConfig {
   /** if true, all services' availability will be checked with head requests */
   checkServiceAvailability?: boolean
@@ -535,6 +552,9 @@ export interface MapConfig {
   epsg: string
   /** Configured layers */
   layers: LayerConfiguration[]
+  /** masterportalapi-type layer configuration */
+  layerConf: Record<string, unknown>[]
+  extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   /** Enabled projections for the map; 2nd dimension of the array contains the epsg code as the first parameter and the proj4 definition as the second */
   namedProjections: Array<[string, string]>
   /** Mapped resolution to zoomLevel */
@@ -577,20 +597,39 @@ export interface PolarError {
   text: string
 }
 
+type MoveHandleProps = object
+
+export interface MoveHandleProperties {
+  closeLabel: string
+  closeFunction: (...args: unknown[]) => unknown
+  component: Vue
+  // Plugin that added the moveHandle
+  plugin: string
+  actionButton?: MoveHandleActionButton
+  props?: MoveHandleProps
+  clearHandleAfterClose?: boolean
+}
+
+export interface MoveHandleActionButton {
+  component: Vue
+  props?: MoveHandleProps
+}
+
 export interface CoreState {
-  map: number
   center: [number, number] | null
   clientHeight: number
   clientWidth: number
   components: number
-  zoomLevel: number
-  hovered: number
-  selected: number
   configuration: MapConfig
-  hasSmallDisplay: boolean
   errors: PolarError[]
-  plugin: object
+  hasSmallDisplay: boolean
+  hovered: number
   language: string
+  map: number
+  moveHandle: number
+  plugin: object
+  selected: number
+  zoomLevel: number
 }
 
 export interface CoreGetters {
@@ -600,10 +639,15 @@ export interface CoreGetters {
   hasSmallWidth: boolean
   /** Whether the application currently has the same size as the visual viewport of the users browser */
   hasWindowSize: boolean
+  hovered: Feature | null
   errors: PolarError[]
   map: Map
-  hovered: Feature | null
+  moveHandle: MoveHandleProperties
   selected: Feature | null
+  clientHeight: number
+  clientWidth: number
+  center: number[] | null
+  zoomLevel: number
 }
 
 export type PolarGetter<S, G, P> = (

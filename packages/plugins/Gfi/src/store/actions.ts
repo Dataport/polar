@@ -62,6 +62,17 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
 
     dispatch('setupTooltip')
     dispatch('setupFeatureVisibilityUpdates')
+    dispatch('setupCoreListener')
+  },
+  setupCoreListener({ getters: { gfiConfiguration }, rootGetters, dispatch }) {
+    if (gfiConfiguration.featureList?.bindWithCoreHoverSelect) {
+      this.watch(
+        () => rootGetters.selected,
+        (selectedFeature) =>
+          dispatch('setOlFeatureInformation', selectedFeature),
+        { deep: true }
+      )
+    }
   },
   setupTooltip({ getters: { gfiConfiguration }, rootGetters: { map } }) {
     const tooltipLayerIds = Object.keys(gfiConfiguration.layers).filter(
@@ -90,23 +101,22 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
             return false
           }
           hasFeatureAtPixel = true
-
           overlay.setPosition(map.getCoordinateFromPixel(pixel))
-
           if (unregister) {
             unregister()
           }
           ;({ element, unregister } = getTooltip({
             localeKeys:
               // @ts-expect-error | it exists by virtue of layerFilter below
-              gfiConfiguration.layers[layer.get('id')].showTooltip(feature),
+              gfiConfiguration.layers[layer.get('id')].showTooltip(
+                feature,
+                map
+              ),
           }))
           overlay.setElement(element)
           return true
         },
-        {
-          layerFilter: (layer) => tooltipLayerIds.includes(layer.get('id')),
-        }
+        { layerFilter: (layer) => tooltipLayerIds.includes(layer.get('id')) }
       )
       if (!hasFeatureAtPixel) {
         overlay.setPosition(undefined)
@@ -132,14 +142,18 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
           layer
             // @ts-expect-error | layers reaching this have a source
             .getSource()
-            .on('changefeature', debouncedVisibilityChangeIndicator)
+            .on('addfeature', debouncedVisibilityChangeIndicator)
         }
       })
   },
-  close({ commit, dispatch }) {
+  close({ commit, dispatch, rootGetters }) {
     commit('clearFeatureInformation')
+    commit('setImageLoaded', false)
     // NOTE: null is needed, as the payload is always the second argument...
-    dispatch('plugin/pins/removeMarker', null, { root: true })
+    if (!rootGetters.configuration?.extendedMasterportalapiMarkers) {
+      dispatch('plugin/pins/removeMarker', null, { root: true })
+    }
+    dispatch('setCoreSelection', null)
     clear() // ... features of gfi layer
   },
   /**
@@ -262,13 +276,35 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
     },
     50
   ),
-  setOlFeatureInformation({ commit }, feature) {
+  setCoreSelection({ commit, rootGetters }, feature: Feature | null) {
+    if (rootGetters.selected !== feature) {
+      commit('setSelected', feature, { root: true })
+    }
+  },
+  setOlFeatureInformation({ commit, dispatch }, feature: Feature | null) {
     commit('clearFeatureInformation')
     commit('setVisibleWindowFeatureIndex', 0)
     clear()
-    commit('setFeatureInformation', {
-      [feature.get('_gfiLayerId')]: [JSON.parse(writer.writeFeature(feature))],
-    })
+    if (feature !== null) {
+      commit('setFeatureInformation', {
+        [feature.get('_gfiLayerId')]: feature.get('features')?.length
+          ? feature
+              .get('features')
+              .map((feature) => JSON.parse(writer.writeFeature(feature)))
+          : [JSON.parse(writer.writeFeature(feature))],
+      })
+      dispatch('setCoreSelection', feature)
+    }
+  },
+  hover({ commit, rootGetters }, feature: Feature) {
+    if (rootGetters.configuration.extendedMasterportalapiMarkers) {
+      commit('setHovered', feature, { root: true })
+    }
+  },
+  unhover({ commit, rootGetters }) {
+    if (rootGetters.configuration.extendedMasterportalapiMarkers) {
+      commit('setHovered', null, { root: true })
+    }
   },
 }
 
