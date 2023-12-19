@@ -21,6 +21,9 @@ export const updateSizeOnReady = (instance: Vue) => {
         `The POLAR map client could not update its size. The map is probably invisible due to having 0 width or 0 height. This might be a CSS issue – please check the wrapper's size.`
       )
     } else {
+      // OL prints warnings – add this log to reduce confusion
+      // eslint-disable-next-line no-console
+      console.log(`The map now has dimensions and can be rendered.`)
       clearInterval(intervalId)
     }
   }, 0)
