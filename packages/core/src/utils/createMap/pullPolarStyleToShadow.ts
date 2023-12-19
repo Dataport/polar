@@ -9,10 +9,7 @@ export const pullPolarStyleToShadow = (shadowRoot: ShadowRoot) => {
     el.getAttribute(stylesheetDataAttribute)
   )
   if (polarStylesheets.length > 0) {
-    polarStylesheets
-      // NOTE: Nodes have to be cloned due to a browser bug https://stackoverflow.com/questions/62129243/external-font-does-not-load-when-link-is-loaded-from-inside-the-shadowdom
-      .map((el) => el.cloneNode(true))
-      .forEach((style) => shadowRoot.appendChild(style))
+    polarStylesheets.forEach((style) => shadowRoot.appendChild(style))
   } else {
     console.error(
       `core.createMap: Couldn't find required stylesheets, map won' render. ${
