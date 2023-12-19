@@ -68,7 +68,6 @@ polarCore.addPlugins([
   PolarPluginAttributions(
     merge({}, defaultOptions, {
       layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-      windowLength: 999,
       listenToChanges: [
         'plugin/zoom/zoomLevel',
         'plugin/layerChooser/activeBackgroundId',

@@ -52,7 +52,6 @@ export const addPlugins = (core) => {
       {
         plugin: Attributions({
           renderType: 'iconMenu',
-          windowLength: 450,
           listenToChanges: [
             'plugin/zoom/zoomLevel',
             'plugin/layerChooser/activeBackgroundId',
