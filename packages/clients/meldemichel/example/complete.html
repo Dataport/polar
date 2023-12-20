@@ -11,7 +11,6 @@
       content="no-cache, no-store, must-revalidate, max-age=0"
     />
     <title>MML COMPLETE (Build Test)</title>
-    <link data-polar="true" href="../dist/style.css" rel="stylesheet" />
     <style>
       html, body {
         margin: 0;
@@ -42,6 +41,7 @@
         }afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index`,
         reportServiceId: stage ? '6061' : '6059',
         configOverride: {
+          stylePath: '../dist/style.css',
           attributions: {
             staticAttributions: [
               `<a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md">Legal Notice (Impressum)</a>`

@@ -37,7 +37,7 @@ export default async function createMap({
   })
   instance.subscribe = subscribeFunction
 
-  pullPolarStyleToShadow(shadowRoot)
+  pullPolarStyleToShadow(shadowRoot, mapConfiguration.stylePath)
   pullVuetifyStyleToShadow(shadowRoot)
   updateSizeOnReady(instance)
 

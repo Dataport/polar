@@ -565,6 +565,7 @@ export interface MapConfig {
   locales?: LanguageOption[]
   /** Initial center coordinate for the mapView */
   startCenter?: number[]
+  stylePath?: string
   /** Initial resolution the map should be rendered with */
   startResolution?: number
   vuetify?: UserVuetifyPreset

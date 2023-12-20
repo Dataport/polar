@@ -23,7 +23,7 @@ It depends on the client how exactly the initialization will take place for the 
 
 The exported default object is an extended masterportalAPI, adding the `addPlugins` and extending the `createMap` functions. For masterportalAPI details, [see their repository](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/).
 
-**IMPORTANT**: To be able to see the map in production mode, the imported stylesheet has to have the property `data-polar`. The value can be chosen arbitrarily.
+To be able to see the map in production mode, the imported stylesheet has to have the property `data-polar`. The value can be chosen arbitrarily. ⚠️ Deprecated. The new field 'stylePath' should be used instead.
 
 ### addPlugins
 
@@ -77,6 +77,7 @@ The mapConfiguration allows controlling many client instance details.
 | <plugin.fields>             | various          | Many plugins added with `addPlugin` may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below. |
 | vuetify                     | object           | You may add vuetify configuration here.                                                                                                                                  |
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
+| stylePath | string? | If no link tag with `data-polar="true"` is found in the document, this path will be used to create the link node in the client itself. It defaults to `'./style.css'`. Please mind that `data-polar="true"` is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release. |
 
 ##### mapConfiguration.extendedMasterportalapiMarkers
 

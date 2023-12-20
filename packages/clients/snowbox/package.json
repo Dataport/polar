@@ -5,7 +5,7 @@
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "scripts": {
-    "build": "rimraf dist && parcel build src/index.html --public-url . && copyfiles docs/**/* dist/docs/"
+    "build": "rimraf dist && vite build && bash ../dish/scripts/injectFlag.sh"
   },
   "//": "Don't push versions but '*'. Do locally as you desire.",
   "dependencies": {

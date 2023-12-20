@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add `stylePath` to `MapConfig` for a cleaner style import.
+
 ## 1.2.0
 
 - Feature: Add currently active language key as parameter `language` to `CoreState `.

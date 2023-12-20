@@ -14,6 +14,67 @@ if (!client) {
   client = require('../src/polar-client.ts') // eslint-disable-line
 }
 
+const mapConfiguration = {
+  stylePath: '../dist/polar-client.css',
+  layers: [
+    {
+      id: '453',
+      visibility: true,
+      type: 'background',
+      name: 'Stadtplan Hamburg',
+    },
+    {
+      id: '1561',
+      visibility: true,
+      type: 'mask',
+      name: 'Bebauungsplänen',
+      minZoom: 2,
+    },
+  ],
+  attributions: {
+    layerAttributions: [
+      {
+        id: '453',
+        title: 'Copyrightinformationen zum Stadtplan Hamburg',
+      },
+      {
+        id: '1561',
+        title: 'Copyrightinformationen zu Bebauungsplänen',
+      },
+    ],
+  },
+  addressSearch: {
+    displayComponent: false,
+  },
+  export: {
+    showPdf: false,
+  },
+  draw: {},
+  gfi: {
+    layers: {
+      1561: {
+        geometry: true,
+        window: true,
+        properties: {
+          feststellungsdatum: 'Umbenannt',
+        },
+      },
+    },
+    coordinateSources: [
+      'plugin/pins/transformedCoordinate',
+      'plugin/pins/coordinatesAfterDrag',
+    ],
+  },
+  pins: {
+    toZoomLevel: 9,
+    movable: true,
+    appearOnClick: {
+      show: true,
+      atZoomLevel: 3,
+    },
+  },
+}
+
 // you may as well use a local array
 const servicesUrl = 'https://geodienste.hamburg.de/services-internet.json'
 
@@ -21,65 +82,10 @@ client.rawLayerList.initializeLayerList(servicesUrl, function (layerConf) {
   client
     .createMap({
       containerId: 'polarstern',
+      stylePath: '../dist/polar-client.css',
       mapConfiguration: {
+        ...mapConfiguration,
         layerConf,
-        layers: [
-          {
-            id: '453',
-            visibility: true,
-            type: 'background',
-            name: 'Stadtplan Hamburg',
-          },
-          {
-            id: '1561',
-            visibility: true,
-            type: 'mask',
-            name: 'Bebauungsplänen',
-            minZoom: 2,
-          },
-        ],
-        attributions: {
-          layerAttributions: [
-            {
-              id: '453',
-              title: 'Copyrightinformationen zum Stadtplan Hamburg',
-            },
-            {
-              id: '1561',
-              title: 'Copyrightinformationen zu Bebauungsplänen',
-            },
-          ],
-        },
-        addressSearch: {
-          displayComponent: false,
-        },
-        export: {
-          showPdf: false,
-        },
-        draw: {},
-        gfi: {
-          layers: {
-            1561: {
-              geometry: true,
-              window: true,
-              properties: {
-                feststellungsdatum: 'Umbenannt',
-              },
-            },
-          },
-          coordinateSources: [
-            'plugin/pins/transformedCoordinate',
-            'plugin/pins/coordinatesAfterDrag',
-          ],
-        },
-        pins: {
-          toZoomLevel: 9,
-          movable: true,
-          appearOnClick: {
-            show: true,
-            atZoomLevel: 3,
-          },
-        },
       },
     })
     .then((map) => {

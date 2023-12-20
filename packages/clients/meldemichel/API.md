@@ -22,11 +22,18 @@ The method expects a single object with the following parameters.
 
 It returns a Promise of a map instance. This returned instance is required to retrieve information from the map.
 
-The package also includes a `style.css` and an `index.html` file. The `style.css` must be imported in the following fashion:
+The package also includes a `style.css` and an `index.html` file. The `style.css`'s relative path must, if it isn't the default value `'./style.css'`, be included in the `configOverride` as follows:
 
-```html
-<link data-polar="true" href="./style.css" rel="stylesheet" />
+```js
+{
+  // ...
+  configOverride: {
+    stylePath: '../the/relative/path/style.css'
+  }
+}
 ```
+
+The value to `stylePath` is the same as as a `link` tag would have in its `href`.
 
 The `index.html` is used in `COMPLETE` mode, which is not run in the AfM. You may, however, use it for testing or inspecting an example.
 
@@ -39,7 +46,6 @@ A document rendering the map client could e.g. look like this:
 <html>
   <head>
     <title>REPORT EXAMPLE</title>
-    <link data-polar="true" href="./style.css" rel="stylesheet" />
     <style>
       #meldemichel-map-client {
         min-width: 320px;

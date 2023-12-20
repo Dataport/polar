@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: A `stylePath` property has been added to the MapConfiguration. This is the new way to import the client CSS; the previous way with `data-polar="true"` has been deprecated. See README for details.
+
 ## 1.2.1
 
 - Fix dependency `@polar/components` version.
