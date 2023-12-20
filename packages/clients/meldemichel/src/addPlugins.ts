@@ -46,7 +46,6 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
       Attributions({
         displayComponent: true,
         layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        windowWidth: 550,
         listenToChanges: [
           'plugin/zoom/zoomLevel',
           'plugin/layerChooser/activeBackgroundId',
