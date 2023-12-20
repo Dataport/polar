@@ -31,7 +31,7 @@ export const addPlugins = (core) => {
       menus: [
         {
           plugin: PolarPluginLayerChooser({}),
-          icon: 'fa-book-atlas',
+          icon: 'fa-layer-group',
           id: 'layerChooser',
         },
       ],
@@ -72,7 +72,6 @@ export const addPlugins = (core) => {
     PolarPluginAttributions(
       merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        windowLength: 450,
         listenToChanges: [
           'plugin/zoom/zoomLevel',
           'plugin/layerChooser/activeBackgroundId',

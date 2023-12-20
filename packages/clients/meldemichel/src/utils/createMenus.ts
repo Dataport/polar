@@ -12,7 +12,7 @@ export default function (mode: keyof typeof MODE): Menu[] {
   return [
     {
       plugin: LayerChooser({}),
-      icon: 'fa-book-atlas',
+      icon: 'fa-layer-group',
       id: 'layerChooser',
     },
     mode === MODE.COMPLETE && {

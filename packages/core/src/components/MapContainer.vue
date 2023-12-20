@@ -33,6 +33,9 @@
           v-bind="moveHandle.actionButton.props"
         />
       </template>
+      <template v-if="moveHandle.closeIcon" #closeIcon>
+        {{ moveHandle.closeIcon }}
+      </template>
       <template #default>
         <component :is="moveHandle.component" v-bind="moveHandle.props || {}" />
       </template>

@@ -9,7 +9,7 @@
         :aria-label="$t('common:plugins.gfi.header.close')"
         @click="close"
       >
-        <v-icon small>fa-xmark</v-icon>
+        <v-icon small>fa-angles-right</v-icon>
       </v-btn>
     </v-card-actions>
     <v-card-title class="meldemichel-gfi-title">
