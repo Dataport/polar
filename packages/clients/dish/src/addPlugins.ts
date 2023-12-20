@@ -31,7 +31,7 @@ export const addPlugins = (core) => {
       menus: [
         {
           plugin: PolarPluginLayerChooser({}),
-          icon: 'fa-book-atlas',
+          icon: 'fa-layer-group',
           id: 'layerChooser',
         },
       ],

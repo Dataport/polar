@@ -29,7 +29,7 @@ const iconMenu = PolarPluginIconMenu(
     menus: [
       {
         plugin: PolarPluginLayerChooser({}),
-        icon: 'fa-book-atlas',
+        icon: 'fa-layer-group',
         id: 'layerChooser',
       },
       {
