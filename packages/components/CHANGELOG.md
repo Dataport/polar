@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add the possibility to update the icon of the button for closing the MoveHandle.
+
 ## 2.0.0
 
 - Breaking: MoveHandle can now only be rendered once which is done in `@polar/core`. Please refer to the documentation of `@polar/core` on how to use this component.

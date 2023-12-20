@@ -606,8 +606,8 @@ export interface MoveHandleProperties {
   // Plugin that added the moveHandle
   plugin: string
   actionButton?: MoveHandleActionButton
+  closeIcon?: string
   props?: MoveHandleProps
-  clearHandleAfterClose?: boolean
 }
 
 export interface MoveHandleActionButton {

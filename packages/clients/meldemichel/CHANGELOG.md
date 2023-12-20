@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Update icon of `layerChooser` in `iconMenu` to `fa-layer-group` to clear-up the content hidden behind the menu button.
+- Feature: Update the close-button of the GFI window to indicate more clearly that it leads to the FeatureList.
 
 ## 1.0.0-beta.1
 

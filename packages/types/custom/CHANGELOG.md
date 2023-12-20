@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new parameter `closeIcon` to `MoveHandleProperties`.
+
 ## 1.2.0
 
 - Feature: Add currently active language key as parameter `language` to `CoreState `.
