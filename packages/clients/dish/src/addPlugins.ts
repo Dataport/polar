@@ -72,7 +72,6 @@ export const addPlugins = (core) => {
     PolarPluginAttributions(
       merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        windowLength: 450,
         listenToChanges: [
           'plugin/zoom/zoomLevel',
           'plugin/layerChooser/activeBackgroundId',
