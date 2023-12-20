@@ -11,7 +11,7 @@ export default function (mode: keyof typeof MODE): Menu[] {
   return [
     {
       plugin: LayerChooser({}),
-      icon: 'fa-book-atlas',
+      icon: 'fa-layer-group',
       id: 'layerChooser',
     },
     mode === MODE.COMPLETE && {
@@ -19,7 +19,7 @@ export default function (mode: keyof typeof MODE): Menu[] {
       icon: 'fa-filter',
       id: 'filter',
     },
-    {
+    mode === MODE.COMPLETE && {
       plugin: Gfi({
         gfiContentComponent: MeldemichelGfiFeature,
         renderType: 'iconMenu',

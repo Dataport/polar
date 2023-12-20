@@ -29,7 +29,7 @@ export const addPlugins = (core) => {
     menus: [
       {
         plugin: LayerChooser({}),
-        icon: 'fa-book-atlas',
+        icon: 'fa-layer-group',
         id: 'layerChooser',
       },
       {
@@ -52,7 +52,6 @@ export const addPlugins = (core) => {
       {
         plugin: Attributions({
           renderType: 'iconMenu',
-          windowLength: 450,
           listenToChanges: [
             'plugin/zoom/zoomLevel',
             'plugin/layerChooser/activeBackgroundId',

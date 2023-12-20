@@ -29,7 +29,7 @@ const iconMenu = PolarPluginIconMenu(
     menus: [
       {
         plugin: PolarPluginLayerChooser({}),
-        icon: 'fa-book-atlas',
+        icon: 'fa-layer-group',
         id: 'layerChooser',
       },
       {
@@ -68,7 +68,6 @@ polarCore.addPlugins([
   PolarPluginAttributions(
     merge({}, defaultOptions, {
       layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-      windowLength: 999,
       listenToChanges: [
         'plugin/zoom/zoomLevel',
         'plugin/layerChooser/activeBackgroundId',
