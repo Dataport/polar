@@ -101097,7 +101097,7 @@ function dQ(e) {
   return [
     {
       plugin: YJ({}),
-      icon: "fa-book-atlas",
+      icon: "fa-layer-group",
       id: "layerChooser"
     },
     e === zr.COMPLETE && {
