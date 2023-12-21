@@ -9,6 +9,7 @@ import { updateSizeOnReady } from './updateSizeOnReady'
 import { makeShadowRoot } from './makeShadowRoot'
 import { pullPolarStyleToShadow } from './pullPolarStyleToShadow'
 import { pullVuetifyStyleToShadow } from './pullVuetifyStyleToShadow'
+import { setupFontawesome } from './setupFontawesome'
 
 /**
  * createMap handles plugging all the parts together to create a configured map.
@@ -39,6 +40,7 @@ export default async function createMap({
 
   pullPolarStyleToShadow(shadowRoot, mapConfiguration.stylePath)
   pullVuetifyStyleToShadow(shadowRoot)
+  setupFontawesome(shadowRoot, mapConfiguration.renderFaToLightDom)
   updateSizeOnReady(instance)
 
   return instance

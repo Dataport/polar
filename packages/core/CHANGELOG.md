@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: A `stylePath` property has been added to the MapConfiguration. This is the new way to import the client CSS; the previous way with `data-polar="true"` has been deprecated. See README for details.
+- Fix: POLAR now adds required Fontawesome styles to the Light/Root DOM. For more information, please check the `README.md` regarding `renderFaToLightDom`, which may also be used to disable this behaviour.
 
 ## 1.2.1
 

@@ -559,6 +559,7 @@ export interface MapConfig {
   namedProjections: Array<[string, string]>
   /** Mapped resolution to zoomLevel */
   options?: PolarMapOptions[]
+  renderFaToLightDom?: boolean
   /** Extent in which the map can be viewed in; coordinates are written in the set projection of the map set through this config. */
   extent?: number[]
   language?: InitialLanguage
