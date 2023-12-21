@@ -15,7 +15,7 @@ export const setupFontawesome = (
    * - https://bugs.chromium.org/p/chromium/issues/detail?id=336876
    *
    * Due to an unfixed bug in chromium and other browsers, FontAwesome is also
-   * required in the Light/Root DOM outside of our ShadowDOM.
+   * required in the Light/Root DOM outside our ShadowDOM.
    */
   if (!document.getElementById(outerNodeId) && renderFaToLightDom) {
     const outerNode = document.createElement('style')
