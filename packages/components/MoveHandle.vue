@@ -24,7 +24,7 @@ import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
 import { MoveEventName, MoveEventNames, PolarMoveEvent } from './types'
 
-const minHeight = 0.2
+const minHeight = 0.1
 let top: null | number = null
 
 function calculateTop(
@@ -127,9 +127,19 @@ export default Vue.extend({
       containerHeight,
       this.maxHeight
     )}px`
+    handleElement.style.transition = 'margin-top ease 0.25s'
     this.resizeObserver = new ResizeObserver(this.updateMaxHeight)
     this.resizeObserver.observe(handleElement)
     this.updateMaxHeight()
+    let counter = 0
+    const interval = setInterval(() => {
+      if (counter++ < 2) {
+        handleElement.style['margin-top'] = '-15px'
+        setTimeout(() => (handleElement.style['margin-top'] = '0'), 250)
+      } else {
+        clearInterval(interval)
+      }
+    }, 500)
   },
   beforeDestroy() {
     if (this.resizeObserver !== null) {

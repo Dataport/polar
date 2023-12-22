@@ -3,7 +3,7 @@
 ## unpublished
 
 - Feature: Add the possibility to update the icon of the button for closing the MoveHandle.
-- Fix: Set `minHeight` of MoveHandle to `0.2` to have content changes always be visible.
+- Feature: Add movement to the MoveHandle if content changes while it is open.
 
 ## 2.0.0
 
