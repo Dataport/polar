@@ -61,9 +61,15 @@
 </tbody>
 </table>
 <p>It returns a Promise of a map instance. This returned instance is required to retrieve information from the map.</p>
-<p>The package also includes a <code>style.css</code> and an <code>index.html</code> file. The <code>style.css</code> must be imported in the following fashion:</p>
-<pre><code class="language-html">&lt;link data-polar=&quot;true&quot; href=&quot;./style.css&quot; rel=&quot;stylesheet&quot; /&gt;
+<p>The package also includes a <code>style.css</code> and an <code>index.html</code> file. The <code>style.css</code>'s relative path must, if it isn't the default value <code>'./style.css'</code>, be included in the <code>configOverride</code> as follows:</p>
+<pre><code class="language-js">{
+  // ...
+  configOverride: {
+    stylePath: '../the/relative/path/style.css'
+  }
+}
 </code></pre>
+<p>The value to <code>stylePath</code> is the same as as a <code>link</code> tag would have in its <code>href</code>.</p>
 <p>The <code>index.html</code> is used in <code>COMPLETE</code> mode, which is not run in the AfM. You may, however, use it for testing or inspecting an example.</p>
 <h2>Rendering in SINGLE or REPORT mode</h2>
 <p>A document rendering the map client could e.g. look like this:</p>
@@ -71,7 +77,6 @@
 &lt;html&gt;
   &lt;head&gt;
     &lt;title&gt;REPORT EXAMPLE&lt;/title&gt;
-    &lt;link data-polar=&quot;true&quot; href=&quot;./style.css&quot; rel=&quot;stylesheet&quot; /&gt;
     &lt;style&gt;
       #meldemichel-map-client {
         min-width: 320px;

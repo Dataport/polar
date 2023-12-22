@@ -33,7 +33,7 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <h2>Initialization / Configuration</h2>
 <p>It depends on the client how exactly the initialization will take place for the embedding programmer. However, the core mechanism remains the same.</p>
 <p>The exported default object is an extended masterportalAPI, adding the <code>addPlugins</code> and extending the <code>createMap</code> functions. For masterportalAPI details, <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">see their repository</a>.</p>
-<p><strong>IMPORTANT</strong>: To be able to see the map in production mode, the imported stylesheet has to have the property <code>data-polar</code>. The value can be chosen arbitrarily.</p>
+<p>To be able to see the map in production mode, the imported stylesheet has to have the property <code>data-polar</code>. The value can be chosen arbitrarily. ⚠️ Deprecated. The new field 'stylePath' should be used instead.</p>
 <h3>addPlugins</h3>
 <p>Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may already have been done. Ready-made clients (that is, packages prefixed <code>@polar/client-</code>) come with plugins prepared. You may add further plugins or proceed with <code>createMap</code>.</p>
 <p>In case you're integrating new plugins, call <code>addPlugins</code> with an array of instances.</p>
@@ -101,6 +101,16 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <td>extendedMasterportalapiMarkers</td>
 <td>extendedMasterportalapiMarkers?</td>
 <td>Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with <code>clusterDistance</code> will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI.</td>
+</tr>
+<tr>
+<td>stylePath</td>
+<td>string?</td>
+<td>If no link tag with <code>data-polar=&quot;true&quot;</code> is found in the document, this path will be used to create the link node in the client itself. It defaults to <code>'./style.css'</code>. Please mind that <code>data-polar=&quot;true&quot;</code> is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release.</td>
+</tr>
+<tr>
+<td>renderFaToLightDom</td>
+<td>boolean?</td>
+<td>POLAR requires FontAwesome in the Light/Root DOM due to an <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=336876">unfixed bug in many browsers</a>. This value defaults to <code>true</code>. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to <code>false</code> to check whether the versions are interoperable.</td>
 </tr>
 </tbody>
 </table>
