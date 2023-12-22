@@ -15,7 +15,6 @@ The map client honors [SemVer](https://semver.org/lang/de/) versioning. Breaking
 You may either use the AfM client with import syntax or via HTML tags. In the following, the integration via HTML is shown.
 
 ```html
-<link href="<Path>/dist/polar-client.css" rel="stylesheet" />
 <script src="<Path>/dist/polar-client.js"></script>
 ```
 
@@ -56,6 +55,8 @@ function callback (services) {
       mapConfiguration: {
         ...mapConfiguration,
         layerConf: services,
+        // path to CSS file included in the package (as if it was a link tag's href)
+        stylePath: "./polar-client.css"
       },
     })
     .then((map) => {
