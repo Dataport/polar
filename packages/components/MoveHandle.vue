@@ -113,9 +113,8 @@ export default Vue.extend({
     },
   },
   mounted() {
-    const containerHeight = this.$root.$el.clientHeight
     if (top === null) {
-      top = containerHeight - containerHeight * minHeight
+      top = this.$root.$el.clientHeight * 0.8
     }
     const handleElement = this.$el as HTMLDivElement
     handleElement.style.position = 'fixed'
@@ -124,7 +123,7 @@ export default Vue.extend({
     handleElement.style.left = '0'
     handleElement.style.top = `${calculateTop(
       top,
-      containerHeight,
+      this.$root.$el.clientHeight,
       this.maxHeight
     )}px`
     handleElement.style.transition = 'margin-top ease 0.25s'
