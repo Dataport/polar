@@ -17,10 +17,7 @@ import { t } from 'i18next'
 import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { GeoJsonProperties } from 'geojson'
-import {
-  MoveHandleActionButton,
-  MoveHandleProperties,
-} from '@polar/lib-custom-types'
+import { MoveHandleProperties } from '@polar/lib-custom-types'
 import Feature from './Feature.vue'
 import List from './List.vue'
 
@@ -71,11 +68,28 @@ export default Vue.extend({
           this.exportPropertyLayerKeys[
             this.currentProperties.polarInternalLayerKey
           ]
-        return property.length > 0
+        return property?.length > 0
           ? this.windowFeatures[this.visibleWindowFeatureIndex][property]
           : ''
       }
       return ''
+    },
+    moveHandleProperties() {
+      const properties: MoveHandleProperties = {
+        closeIcon: this.gfiConfiguration.featureList
+          ? 'fa-angles-right'
+          : 'fa-xmark',
+        closeLabel: t('plugins.gfi.header.close'),
+        closeFunction: this.closeWindow,
+        component: this.contentComponent,
+        props: this.contentProps,
+        plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
+      }
+      if (this.actionButton !== null) {
+        properties.actionButton = this.actionButton
+      }
+
+      return properties
     },
     renderUi(): boolean {
       return this.windowFeatures.length > 0 || this.showList
@@ -86,38 +100,17 @@ export default Vue.extend({
     },
   },
   watch: {
-    actionButton(
-      newButton: MoveHandleActionButton | null,
-      oldButton: MoveHandleActionButton | null
+    moveHandleProperties(
+      newProperties: MoveHandleProperties,
+      oldProperties: MoveHandleProperties
     ) {
-      if (this.windowFeatures.length && !compare(newButton, oldButton)) {
-        const moveHandleProperties: MoveHandleProperties = {
-          closeLabel: t('plugins.gfi.header.close'),
-          closeFunction: this.closeWindow,
-          component: this.contentComponent,
-          props: this.contentProps,
-          plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
-        }
-        if (newButton !== null) {
-          moveHandleProperties.actionButton = newButton
-        }
-        this.setMoveHandle(moveHandleProperties)
-      }
-    },
-    windowFeatures(features: GeoJsonProperties[]) {
-      if (features.length) {
-        const moveHandleProperties: MoveHandleProperties = {
-          closeLabel: t('plugins.gfi.header.close'),
-          closeFunction: this.closeWindow,
-          component: this.contentComponent,
-          props: this.contentProps,
-          plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
-        }
-        if (this.actionButton !== null) {
-          moveHandleProperties.actionButton = this.actionButton
-        }
-        this.setMoveHandle(moveHandleProperties)
+      if (
+        this.windowFeatures.length &&
+        !compare(newProperties, oldProperties)
+      ) {
+        this.setMoveHandle(newProperties)
       } else if (
+        !this.windowFeatures.length &&
         this.moveHandle !== null &&
         this.moveHandle.component === this.contentComponent
       ) {

@@ -559,12 +559,14 @@ export interface MapConfig {
   namedProjections: Array<[string, string]>
   /** Mapped resolution to zoomLevel */
   options?: PolarMapOptions[]
+  renderFaToLightDom?: boolean
   /** Extent in which the map can be viewed in; coordinates are written in the set projection of the map set through this config. */
   extent?: number[]
   language?: InitialLanguage
   locales?: LanguageOption[]
   /** Initial center coordinate for the mapView */
   startCenter?: number[]
+  stylePath?: string
   /** Initial resolution the map should be rendered with */
   startResolution?: number
   vuetify?: UserVuetifyPreset
@@ -606,8 +608,8 @@ export interface MoveHandleProperties {
   // Plugin that added the moveHandle
   plugin: string
   actionButton?: MoveHandleActionButton
+  closeIcon?: string
   props?: MoveHandleProps
-  clearHandleAfterClose?: boolean
 }
 
 export interface MoveHandleActionButton {

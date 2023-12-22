@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add the possibility to update the close-button to e.g. indicate movement to the vector layer feature list.
+
 ## 1.1.0
 
 - Feature: Add cluster-ready vector layer feature list with pagination, see configuration parameter `gfiLayerConfiguration.featureList`.
