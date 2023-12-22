@@ -49,6 +49,5 @@ export default Vue.extend({
   justify-content: flex-end;
   align-items: flex-end;
   padding: 6px;
-  z-index: 42;
 }
 </style>
