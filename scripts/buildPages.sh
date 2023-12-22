@@ -9,4 +9,5 @@ done
 echo "All docs built."
 cd ./pages
 npx vite build
+sed -i 's/<link/<link data-polar="true"/g' ../pages_output/index.html
 echo "GitHub page built."
