@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Add `stylePath` to `MapConfig` for a cleaner style import.
 - Feature: Add new parameter `closeIcon` to `MoveHandleProperties`.
 
 ## 1.2.0

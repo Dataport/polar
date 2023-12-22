@@ -11,7 +11,6 @@
       content="no-cache, no-store, must-revalidate, max-age=0"
     />
     <title>MML REPORT (Build Test)</title>
-    <link data-polar="true" href="../dist/style.css" rel="stylesheet" />
     <style>
       #polarstern {
         min-width: 320px;
@@ -67,6 +66,9 @@
       const mapInstance = await meldemichelMapClient.createMap({
         containerId: 'polarstern',
         mode: 'REPORT',
+        configOverride: {
+          stylePath: '../dist/style.css',
+        }
       })
 
       window._polar = {
