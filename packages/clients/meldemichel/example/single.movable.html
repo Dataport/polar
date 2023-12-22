@@ -11,7 +11,6 @@
       content="no-cache, no-store, must-revalidate, max-age=0"
     />
     <title>MML SINGLE (Build Test) – Movable</title>
-    <link data-polar="true" href="../dist/style.css" rel="stylesheet" />
     <style>
       #polarstern {
         width: 260px;
@@ -50,6 +49,7 @@
         containerId: 'polarstern',
         mode: 'SINGLE',
         configOverride: {
+          stylePath: '../dist/style.css',
           pins: {
             initial: {
               centerOn: true,
