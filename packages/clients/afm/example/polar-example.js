@@ -82,7 +82,6 @@ client.rawLayerList.initializeLayerList(servicesUrl, function (layerConf) {
   client
     .createMap({
       containerId: 'polarstern',
-      stylePath: '../dist/polar-client.css',
       mapConfiguration: {
         ...mapConfiguration,
         layerConf,

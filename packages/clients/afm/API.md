@@ -51,12 +51,12 @@ function callback (services) {
     .createMap({
       // arbitrary, must be in surrounding HTML document
       containerId: "polarstern",
-      // path to CSS file included in the package (as if it was a link tag's href)
-      stylePath: "./polar-client.css"
       // see core documentation on possibilities for this object
       mapConfiguration: {
         ...mapConfiguration,
         layerConf: services,
+        // path to CSS file included in the package (as if it was a link tag's href)
+        stylePath: "./polar-client.css"
       },
     })
     .then((map) => {
