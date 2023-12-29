@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { GeoJsonProperties } from 'geojson'
 import ActionButtons from './ActionButtons.vue'
