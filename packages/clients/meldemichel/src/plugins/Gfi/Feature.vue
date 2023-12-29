@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { GeoJsonProperties } from 'geojson'
 import ActionButtons from './ActionButtons.vue'
@@ -73,15 +73,27 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
+      'gfiConfiguration',
       'imageLoaded',
+      'renderMoveHandle',
       'visibleWindowFeatureIndex',
       'windowFeatures',
     ]),
+    ...mapGetters('plugin/iconMenu', ['menus', 'open']),
     displayImage(): boolean {
       return this.currentProperties.pic
     },
     currentProperties(): GeoJsonProperties {
       return { ...this.windowFeatures[this.visibleWindowFeatureIndex] }
+    },
+  },
+  watch: {
+    currentProperties(newProps: object) {
+      // currentProperties have some weird behaviour in this client,
+      // adding them via props wouldn't change that either; see #62 for more information.
+      if (!Object.keys(newProps).length && this.open !== null) {
+        this.openInMoveHandle(this.menus.findIndex(({ id }) => id === 'gfi'))
+      }
     },
   },
   mounted() {
@@ -100,6 +112,7 @@ export default Vue.extend({
       'setVisibleWindowFeatureIndex',
     ]),
     ...mapActions('plugin/gfi', ['close']),
+    ...mapActions('plugin/iconMenu', ['openInMoveHandle']),
     formatProperty(type: string, value: string): string {
       if (!value) {
         return ''
