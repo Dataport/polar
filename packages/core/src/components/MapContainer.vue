@@ -27,10 +27,10 @@
       :close-label="moveHandle.closeLabel"
       :close-function="moveHandle.closeFunction"
     >
-      <template v-if="moveHandle.actionButton" #actionButton>
+      <template v-if="moveHandleActionButton" #actionButton>
         <component
-          :is="moveHandle.actionButton.component"
-          v-bind="moveHandle.actionButton.props"
+          :is="moveHandleActionButton.component"
+          v-bind="moveHandleActionButton.props"
         />
       </template>
       <template v-if="moveHandle.closeIcon" #closeIcon>
@@ -90,7 +90,12 @@ export default Vue.extend({
     oneFingerPanTimeout: undefined,
   }),
   computed: {
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize', 'moveHandle']),
+    ...mapGetters([
+      'hasSmallWidth',
+      'hasWindowSize',
+      'moveHandle',
+      'moveHandleActionButton',
+    ]),
     renderMoveHandle() {
       return (
         this.moveHandle !== null && this.hasWindowSize && this.hasSmallWidth
