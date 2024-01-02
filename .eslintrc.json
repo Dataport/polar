@@ -23,6 +23,7 @@
     "array-bracket-spacing": "error",
     "no-multi-spaces": "error",
     "vue/multi-word-component-names": "warn",
+    "vue/order-in-components": "error",
     "import/order": "error",
     "curly": "error",
     "brace-style": "error",
@@ -65,7 +66,8 @@
       "files": ["packages/**/*.js", "packages/**/*.vue"],
       "env": {
         "browser": true
-      }
+      },
+      "plugins": ["eslint-plugin-vue"]
     },
     {
       "files": ["packages/**/*.ts"],

@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <v-scroll-x-reverse-transition>
     <v-card
@@ -13,7 +12,8 @@
       </v-card-title>
       <!-- NOTE: The usage of v-html is considered unsafe as it
         opens a window for XSS attacks. In this case, the information is retrieved
-        from the mapConfiguration. This is fine by configuration. -->
+        from the mapConfiguration. This is fine by configuration.
+        eslint-disable-next-line vue/no-v-html -->
       <v-card-text ref="sources" v-html="cardText" />
     </v-card>
   </v-scroll-x-reverse-transition>
