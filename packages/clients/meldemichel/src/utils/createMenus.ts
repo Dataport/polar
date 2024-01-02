@@ -1,4 +1,3 @@
-import Attributions from '@polar/plugin-attributions'
 import Filter from '@polar/plugin-filter'
 import Fullscreen from '@polar/plugin-fullscreen'
 import Gfi from '@polar/plugin-gfi'
@@ -49,19 +48,6 @@ export default function (mode: keyof typeof MODE): Menu[] {
     mode !== MODE.REPORT && {
       plugin: Fullscreen({ renderType: 'iconMenu' }),
       id: 'fullscreen',
-    },
-    {
-      plugin: Attributions({
-        renderType: 'iconMenu',
-        windowWidth: 550,
-        listenToChanges: [
-          'plugin/zoom/zoomLevel',
-          'plugin/layerChooser/activeBackgroundId',
-          'plugin/layerChooser/activeMaskIds',
-        ],
-      }),
-      icon: 'fa-regular fa-copyright',
-      id: 'attributions',
     },
   ].filter((x) => x /* remove `false` entries */) as Menu[]
 }

@@ -5,6 +5,7 @@
 - Feature: This client now supports the `@polar/core`'s field `stylePath`. The usage is documented in the API.md file.
 - Feature: Update icon of `layerChooser` in `iconMenu` to `fa-layer-group` to clear-up the content hidden behind the menu button.
 - Feature: Update the close-button of the GFI window to indicate more clearly that it leads to the FeatureList.
+- Feature: Move attributions from the `iconMenu` to the bottom-right, use a smaller icon and a different colour to clear-up the secondary nature of the content.
 
 ## 1.0.0-beta.1
 
