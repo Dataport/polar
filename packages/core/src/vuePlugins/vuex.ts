@@ -19,11 +19,11 @@ import {
 } from '@polar/lib-custom-types'
 import { Interaction } from 'ol/interaction'
 import { Feature, Map } from 'ol'
+import { getFeaturesCluster } from '@polar/lib-get-cluster'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { useExtendedMasterportalapiMarkers } from './actions/useExtendedMasterportalapiMarkers'
-import { getFeaturesCluster } from './actions/useExtendedMasterportalapiMarkers/getFeaturesCluster'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
 const devMode = import.meta.env.DEV

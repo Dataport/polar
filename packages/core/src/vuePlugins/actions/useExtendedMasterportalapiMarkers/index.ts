@@ -11,11 +11,11 @@ import { isVisible } from '@polar/lib-invisible-style'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import BaseLayer from 'ol/layer/Base'
+import { getFeaturesCluster } from '@polar/lib-get-cluster'
 import { getHoveredStyle, getSelectedStyle } from '../../../utils/markers'
 import { resolveClusterClick } from '../../../utils/resolveClusterClick'
 import { setLayerId } from './setLayerId'
 import { center } from './center'
-import { getFeaturesCluster } from './getFeaturesCluster'
 
 let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 
