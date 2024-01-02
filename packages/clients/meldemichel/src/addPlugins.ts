@@ -1,5 +1,6 @@
 import { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
 import AddressSearch from '@polar/plugin-address-search'
+import Attributions from '@polar/plugin-attributions'
 import GeoLocation from '@polar/plugin-geo-location'
 import IconMenu from '@polar/plugin-icon-menu'
 import LoadingIndicator from '@polar/plugin-loading-indicator'
@@ -42,6 +43,16 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
         toastAction: 'plugin/toast/addToast',
       }),
       iconMenu,
+      Attributions({
+        displayComponent: true,
+        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+        windowWidth: 550,
+        listenToChanges: [
+          'plugin/zoom/zoomLevel',
+          'plugin/layerChooser/activeBackgroundId',
+          'plugin/layerChooser/activeMaskIds',
+        ],
+      }),
       LoadingIndicator({
         displayComponent: true,
         layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
