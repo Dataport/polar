@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Remove `z-index` on container element to ensure proper order of displayed elements.
+
 ## 1.1.0
 
 - Feature: Add aria-description to the input for improved accessibility.
