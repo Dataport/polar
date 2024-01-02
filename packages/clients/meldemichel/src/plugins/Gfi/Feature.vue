@@ -73,9 +73,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
-      'gfiConfiguration',
       'imageLoaded',
-      'renderMoveHandle',
       'visibleWindowFeatureIndex',
       'windowFeatures',
     ]),
