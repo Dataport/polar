@@ -12,6 +12,7 @@ import noop from '@repositoryname/noop'
 import i18next from 'i18next'
 import {
   CoreState,
+  MoveHandleActionButton,
   MoveHandleProperties,
   PluginContainer,
   PolarError,
@@ -44,6 +45,7 @@ const devMode = import.meta.env.DEV
 let map: null | Map = null
 let hovered: null | Feature = null
 let moveHandle: MoveHandleProperties | null = null
+let moveHandleActionButton: MoveHandleActionButton | null = null
 let selected: null | Feature = null
 let components = []
 let interactions: Interaction[] = []
@@ -81,6 +83,7 @@ const getInitialState = (): CoreState => ({
   center: null,
   hovered: 1,
   moveHandle: 1,
+  moveHandleActionButton: 1,
   selected: 1,
   zoomLevel: 0,
   // TODO: Add default values for epsg, layers, namedProjections, options and remove @ts-ignore for configuration
@@ -118,6 +121,10 @@ const store = new Store({
     moveHandle: (state) => {
       noop(state.moveHandle)
       return moveHandle
+    },
+    moveHandleActionButton: (state) => {
+      noop(state.moveHandleActionButton)
+      return moveHandleActionButton
     },
     hovered: (state) => {
       noop(state.hovered)
@@ -171,6 +178,13 @@ const store = new Store({
     setMoveHandle: (state, payload: MoveHandleProperties | null) => {
       moveHandle = payload
       state.moveHandle += 1
+    },
+    setMoveHandleActionButton: (
+      state,
+      payload: MoveHandleActionButton | null
+    ) => {
+      moveHandleActionButton = payload
+      state.moveHandleActionButton += 1
     },
     setSelected: (state, payload) => {
       selected = payload
