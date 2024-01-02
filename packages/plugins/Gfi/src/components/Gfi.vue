@@ -27,7 +27,6 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['moveHandle']),
     ...mapGetters('plugin/gfi', [
-      'actionButton',
       'exportPropertyLayerKeys',
       'gfiContentComponent',
       'gfiConfiguration',
@@ -84,9 +83,6 @@ export default Vue.extend({
         component: this.contentComponent,
         props: this.contentProps,
         plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
-      }
-      if (this.actionButton !== null) {
-        properties.actionButton = this.actionButton
       }
 
       return properties

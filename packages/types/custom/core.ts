@@ -607,7 +607,6 @@ export interface MoveHandleProperties {
   component: Vue
   // Plugin that added the moveHandle
   plugin: string
-  actionButton?: MoveHandleActionButton
   closeIcon?: string
   props?: MoveHandleProps
 }
@@ -629,6 +628,7 @@ export interface CoreState {
   language: string
   map: number
   moveHandle: number
+  moveHandleActionButton: number
   plugin: object
   selected: number
   zoomLevel: number
@@ -645,6 +645,7 @@ export interface CoreGetters {
   errors: PolarError[]
   map: Map
   moveHandle: MoveHandleProperties
+  moveHandleActionButton: MoveHandleActionButton
   selected: Feature | null
   clientHeight: number
   clientWidth: number

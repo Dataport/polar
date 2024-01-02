@@ -114,10 +114,6 @@ export default Vue.extend({
       type: String,
       default: '',
     },
-    showSwitchButtons: {
-      type: Boolean,
-      default: false,
-    },
   },
   data: () => ({
     infoFields: [
@@ -133,7 +129,6 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
-      'actionButton',
       'imageLoaded',
       'visibleWindowFeatureIndex',
       'windowFeatures',
@@ -176,18 +171,18 @@ export default Vue.extend({
   },
   mounted() {
     if (this.hasWindowSize && this.hasSmallWidth) {
-      this.setActionButton({
+      this.setMoveHandleActionButton({
         component: ActionButton,
         props: { exportProperty: this.exportProperty },
       })
     }
   },
   beforeDestroy() {
-    this.setActionButton(null)
+    this.setMoveHandleActionButton(null)
   },
   methods: {
+    ...mapMutations(['setMoveHandleActionButton']),
     ...mapMutations('plugin/gfi', [
-      'setActionButton',
       'setImageLoaded',
       'setVisibleWindowFeatureIndex',
     ]),

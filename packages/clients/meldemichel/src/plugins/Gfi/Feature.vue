@@ -95,20 +95,21 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.setActionButton({
+    this.setMoveHandleActionButton({
       component: ActionButtons,
       props: {},
     })
   },
   beforeDestroy() {
-    this.setActionButton(null)
+    this.setMoveHandleActionButton(null)
   },
   methods: {
+    ...mapMutations(['setMoveHandleActionButton']),
     ...mapMutations('plugin/gfi', [
-      'setActionButton',
       'setImageLoaded',
       'setVisibleWindowFeatureIndex',
     ]),
+    ...mapMutations(['setMoveHandle']),
     ...mapActions('plugin/gfi', ['close']),
     ...mapActions('plugin/iconMenu', ['openInMoveHandle']),
     formatProperty(type: string, value: string): string {
