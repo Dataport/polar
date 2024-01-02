@@ -77,11 +77,21 @@ export default Vue.extend({
       'visibleWindowFeatureIndex',
       'windowFeatures',
     ]),
+    ...mapGetters('plugin/iconMenu', ['menus', 'open']),
     displayImage(): boolean {
       return this.currentProperties.pic
     },
     currentProperties(): GeoJsonProperties {
       return { ...this.windowFeatures[this.visibleWindowFeatureIndex] }
+    },
+  },
+  watch: {
+    currentProperties(newProps: object) {
+      // currentProperties have some weird behaviour in this client,
+      // adding them via props wouldn't change that either; see #62 for more information.
+      if (!Object.keys(newProps).length && this.open !== null) {
+        this.openInMoveHandle(this.menus.findIndex(({ id }) => id === 'gfi'))
+      }
     },
   },
   mounted() {
@@ -101,6 +111,7 @@ export default Vue.extend({
     ]),
     ...mapMutations(['setMoveHandle']),
     ...mapActions('plugin/gfi', ['close']),
+    ...mapActions('plugin/iconMenu', ['openInMoveHandle']),
     formatProperty(type: string, value: string): string {
       if (!value) {
         return ''
