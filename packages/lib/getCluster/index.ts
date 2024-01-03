@@ -18,11 +18,20 @@ export default function (map: Map, feature: Feature, layerId: string): Feature {
     )
   }
 
-  return layer
+  const cluster = layer
     .getSource()
     .getFeaturesInExtent(
       map.getView().calculateExtent(map.getSize()),
       map.getView().getProjection()
     )
     .find((candidate: Feature) => candidate.get('features').includes(feature))
+
+  if (!(cluster instanceof Feature)) {
+    throw new Error(
+      '@polar/lib-get-cluster: No cluster could be found for the given feature.'
+    )
+  }
+
+  cluster.set(layerId, feature.get(layerId))
+  return cluster
 }
