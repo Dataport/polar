@@ -2,11 +2,7 @@ import { Feature, Map } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
 
 // returns feature if it's a cluster feature, or the cluster the feature is in.
-export function getFeaturesCluster(
-  map: Map,
-  feature: Feature,
-  layerId: string
-): Feature {
+export default function (map: Map, feature: Feature, layerId: string): Feature {
   if (feature.get('features')) {
     return feature
   }

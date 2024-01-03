@@ -19,7 +19,7 @@ import {
 } from '@polar/lib-custom-types'
 import { Interaction } from 'ol/interaction'
 import { Feature, Map } from 'ol'
-import { getFeaturesCluster } from '@polar/lib-get-cluster'
+import getCluster from '@polar/lib-get-cluster'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
@@ -171,7 +171,7 @@ const store = new Store({
         hovered = payload
       } else if (map !== null) {
         // nested features are invisible and hence unfit for styling
-        hovered = getFeaturesCluster(map, payload, '_gfiLayerId')
+        hovered = getCluster(map, payload, '_gfiLayerId')
       }
       state.hovered = state.hovered + 1
     },

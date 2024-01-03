@@ -11,7 +11,7 @@ import { isVisible } from '@polar/lib-invisible-style'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import BaseLayer from 'ol/layer/Base'
-import { getFeaturesCluster } from '@polar/lib-get-cluster'
+import getCluster from '@polar/lib-get-cluster'
 import { getHoveredStyle, getSelectedStyle } from '../../../utils/markers'
 import { resolveClusterClick } from '../../../utils/resolveClusterClick'
 import { setLayerId } from './setLayerId'
@@ -34,7 +34,7 @@ const updateSelection = (
     return
   }
 
-  const selectedCluster = getFeaturesCluster(map, feature, '_gfiLayerId')
+  const selectedCluster = getCluster(map, feature, '_gfiLayerId')
 
   selectedCluster.setStyle(
     getSelectedStyle(
