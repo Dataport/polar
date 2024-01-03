@@ -31,7 +31,11 @@ export default function (map: Map, feature: Feature, layerId: string): Feature {
       '@polar/lib-get-cluster: No cluster could be found for the given feature.'
     )
   }
-
+  // The given feature should be the last in the array, as it the one "above" all thus added last
+  cluster.set('features', [
+    ...cluster.get('features').filter((f: Feature) => f !== feature),
+    feature,
+  ])
   cluster.set(layerId, feature.get(layerId))
   return cluster
 }
