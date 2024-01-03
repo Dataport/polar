@@ -49,8 +49,10 @@
           :class="{
             'gfi-feature-list-item-hovered': isFeatureHovered(feature),
           }"
-          @click="setOlFeatureInformation(feature)"
-          @keydown.space.prevent="setOlFeatureInformation(feature)"
+          @click="setOlFeatureInformation(getFeaturesCluster(map, feature))"
+          @keydown.space.prevent="
+            setOlFeatureInformation(getFeaturesCluster(map, feature))
+          "
           @mouseleave="unhover"
           @mouseover="hover(feature)"
           @focusout="unhover"
@@ -75,10 +77,12 @@
 import { Feature } from 'ol'
 import Vue from 'vue'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { getFeaturesCluster } from '@polar/lib-get-cluster'
 
 export default Vue.extend({
   name: 'GfiList',
   computed: {
+    ...mapGetters(['map']),
     ...mapGetters('plugin/gfi', [
       'listFeatures',
       'listText',
@@ -129,6 +133,7 @@ export default Vue.extend({
       'unhover',
     ]),
     ...mapMutations('plugin/gfi', ['setPage']),
+    getFeaturesCluster,
     applyListText(feature: Feature, index: number) {
       const text: string | ((f: Feature) => string) | undefined =
         this.listText[index]
