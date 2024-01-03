@@ -36,6 +36,7 @@ export default function (map: Map, feature: Feature, layerId: string): Feature {
     ...cluster.get('features').filter((f: Feature) => f !== feature),
     feature,
   ])
-  cluster.set(layerId, feature.get(layerId))
+  // true = silent change (prevents cluster recomputation & rerender)
+  cluster.set(layerId, feature.get(layerId), true)
   return cluster
 }
