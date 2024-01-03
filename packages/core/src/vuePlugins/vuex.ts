@@ -171,7 +171,7 @@ const store = new Store({
         hovered = payload
       } else if (map !== null) {
         // nested features are invisible and hence unfit for styling
-        hovered = getFeaturesCluster(map, payload)
+        hovered = getFeaturesCluster(map, payload, '_gfiLayerId')
       }
       state.hovered = state.hovered + 1
     },

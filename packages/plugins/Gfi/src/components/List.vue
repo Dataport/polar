@@ -49,9 +49,15 @@
           :class="{
             'gfi-feature-list-item-hovered': isFeatureHovered(feature),
           }"
-          @click="setOlFeatureInformation(getFeaturesCluster(map, feature))"
+          @click="
+            setOlFeatureInformation(
+              getFeaturesCluster(map, feature, '_gfiLayerId')
+            )
+          "
           @keydown.space.prevent="
-            setOlFeatureInformation(getFeaturesCluster(map, feature))
+            setOlFeatureInformation(
+              getFeaturesCluster(map, feature, '_gfiLayerId')
+            )
           "
           @mouseleave="unhover"
           @mouseover="hover(feature)"

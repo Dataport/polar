@@ -34,7 +34,7 @@ const updateSelection = (
     return
   }
 
-  const selectedCluster = getFeaturesCluster(map, feature)
+  const selectedCluster = getFeaturesCluster(map, feature, '_gfiLayerId')
 
   selectedCluster.setStyle(
     getSelectedStyle(
