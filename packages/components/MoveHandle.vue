@@ -145,6 +145,7 @@ export default Vue.extend({
       this.resizeObserver.disconnect()
       this.resizeObserver = null
     }
+    top = null
   },
   methods: {
     ...mapMutations(['setMoveHandle']),
