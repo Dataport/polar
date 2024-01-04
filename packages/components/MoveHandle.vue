@@ -114,7 +114,7 @@ export default Vue.extend({
   },
   mounted() {
     if (top === null) {
-      top = this.$root.$el.clientHeight * 0.8
+      top = this.$root.$el.clientHeight * 0.55
     }
     const handleElement = this.$el as HTMLDivElement
     handleElement.style.position = 'fixed'
