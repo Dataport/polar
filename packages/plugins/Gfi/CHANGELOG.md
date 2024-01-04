@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Improved implementation to make plugin SPA-ready.
 - Feature: Add the possibility to update the close-button to e.g. indicate movement to the vector layer feature list.
 
 ## 1.1.0
