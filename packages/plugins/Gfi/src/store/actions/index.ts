@@ -5,7 +5,7 @@ import { Style, Fill, Stroke } from 'ol/style'
 import Overlay from 'ol/Overlay'
 import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
-import { Feature as GeoJsonFeature } from 'geojson'
+import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import { rawLayerList } from '@masterportal/masterportalapi/src'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import getCluster from '@polar/lib-get-cluster'
@@ -91,6 +91,15 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
           } = getters
 
           if (windowFeatures.length) {
+            const layerId: string =
+              // @ts-expect-error | if windowFeatures has features, visibleWindowFeatureIndex is in the range of possible features
+              windowFeatures[visibleWindowFeatureIndex].polarInternalLayerKey
+            const selectedFeatureProperties: GeoJsonProperties = {
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              _gfiLayerId: layerId,
+              ...featureInformation[layerId][visibleWindowFeatureIndex]
+                .properties,
+            }
             const originalFeature = listableLayerSources
               .map((source) =>
                 source
@@ -103,16 +112,12 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
                   })
               )
               .flat(1)
-              .find((f) => {
-                return compare(
+              .find((f) =>
+                compare(
                   JSON.parse(new GeoJSON().writeFeature(f)).properties,
-                  featureInformation[
-                    // @ts-expect-error | if windowFeatures has features, visibleWindowFeatureIndex is in the range of possible features
-                    windowFeatures[visibleWindowFeatureIndex]
-                      .polarInternalLayerKey
-                  ][visibleWindowFeatureIndex].properties
+                  selectedFeatureProperties
                 )
-              })
+              )
             if (originalFeature) {
               dispatch(
                 'setOlFeatureInformation',
@@ -317,6 +322,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         featuresByLayerId = await afterLoadFunction(featuresByLayerId, srsName)
       }
       commit('setFeatureInformation', featuresByLayerId)
+      console.warn('man :(', featuresByLayerId)
 
       // render feature geometries to help layer
       geometryLayerKeys
