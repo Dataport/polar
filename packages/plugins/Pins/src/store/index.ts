@@ -7,7 +7,7 @@ import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
 import { Vector } from 'ol/source'
 import Feature from 'ol/Feature'
-import { Draw, Select, Translate } from 'ol/interaction'
+import { Draw, Modify, Select, Translate } from 'ol/interaction'
 import { PolarModule } from '@polar/lib-custom-types'
 import { toLonLat, transform } from 'ol/proj'
 import { pointerMove } from 'ol/events/condition'
@@ -69,9 +69,14 @@ export const makeStoreModule = () => {
           )
         }
         rootGetters.map.on('singleclick', async ({ coordinate }) => {
-          const isDrawing = interactions
-            .getArray()
-            .some((interaction) => interaction instanceof Draw)
+          const isDrawing = interactions.getArray().some(
+            (interaction) =>
+              // these indicate other interactions are expected now
+              interaction instanceof Draw ||
+              interaction instanceof Modify ||
+              // @ts-expect-error | internal hack to detect it from Draw plugin
+              interaction._isDeleteSelect
+          )
 
           if (
             ((typeof movable === 'boolean' && movable) ||
