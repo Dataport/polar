@@ -1,13 +1,16 @@
 import debounce from 'lodash.debounce'
+import compare from 'just-compare'
 import { Coordinate } from 'ol/coordinate'
-import { Feature as GeoJsonFeature } from 'geojson'
 import { Style, Fill, Stroke } from 'ol/style'
 import Overlay from 'ol/Overlay'
 import { GeoJSON } from 'ol/format'
+import { Feature } from 'ol'
+import { Feature as GeoJsonFeature } from 'geojson'
 import { rawLayerList } from '@masterportal/masterportalapi/src'
 import { PolarActionTree } from '@polar/lib-custom-types'
+import getCluster from '@polar/lib-get-cluster'
+import { isVisible } from '@polar/lib-invisible-style'
 import { getTooltip, Tooltip } from '@polar/lib-tooltip'
-import { Feature } from 'ol'
 import {
   featureDisplayLayer,
   clear,
@@ -63,6 +66,7 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
     dispatch('setupTooltip')
     dispatch('setupFeatureVisibilityUpdates')
     dispatch('setupCoreListener')
+    dispatch('setupZoomListeners')
   },
   setupCoreListener({ getters: { gfiConfiguration }, rootGetters, dispatch }) {
     if (gfiConfiguration.featureList?.bindWithCoreHoverSelect) {
@@ -71,6 +75,52 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         (selectedFeature) =>
           dispatch('setOlFeatureInformation', selectedFeature),
         { deep: true }
+      )
+    }
+  },
+  setupZoomListeners({ dispatch, getters, rootGetters }) {
+    if (getters.gfiConfiguration.featureList) {
+      this.watch(
+        () => rootGetters.zoomLevel,
+        () => {
+          const {
+            featureInformation,
+            listableLayerSources,
+            visibleWindowFeatureIndex,
+            windowFeatures,
+          } = getters
+
+          if (windowFeatures.length) {
+            const originalFeature = listableLayerSources
+              .map((source) =>
+                source
+                  .getFeatures()
+                  .filter(isVisible)
+                  .map((feature) => {
+                    // true = silent change (prevents cluster recomputation & rerender)
+                    feature.set('_gfiLayerId', source.get('_gfiLayerId'), true)
+                    return feature
+                  })
+              )
+              .flat(1)
+              .find((f) => {
+                return compare(
+                  JSON.parse(new GeoJSON().writeFeature(f)).properties,
+                  featureInformation[
+                    // @ts-expect-error | if windowFeatures has features, visibleWindowFeatureIndex is in the range of possible features
+                    windowFeatures[visibleWindowFeatureIndex]
+                      .polarInternalLayerKey
+                  ][visibleWindowFeatureIndex].properties
+                )
+              })
+            if (originalFeature) {
+              dispatch(
+                'setOlFeatureInformation',
+                getCluster(rootGetters.map, originalFeature, '_gfiLayerId')
+              )
+            }
+          }
+        }
       )
     }
   },
