@@ -80,10 +80,11 @@
           },
           { immediate: true }
         )
+
+        return mapInstance
       }
 
-      makeSimulateRecreate(setup)
-      setup()
+      makeSimulateRecreate(setup, await setup())
     </script>
   </body>
 </html>
