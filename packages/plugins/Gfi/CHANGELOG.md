@@ -3,6 +3,8 @@
 ## unpublished
 
 - Feature: Add the possibility to update the close-button to e.g. indicate movement to the vector layer feature list.
+- Feature: If a feature with related features (cluster) is selected in the feature list, users can now toggle between the features with forward/backward buttons, just like when selecting clustered features in the map.
+- Feature: If a feature becomes clustered / is no longer clustered when zooming out / in, the selected features are updated properly now based on the selected cluster in the map.
 
 ## 1.1.0
 
