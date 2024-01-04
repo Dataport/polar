@@ -77,6 +77,7 @@ export default Vue.extend({
       'visibleWindowFeatureIndex',
       'windowFeatures',
     ]),
+    ...mapGetters('plugin/iconMenu', ['menus', 'open']),
     displayImage(): boolean {
       return this.currentProperties.pic
     },
@@ -84,22 +85,33 @@ export default Vue.extend({
       return { ...this.windowFeatures[this.visibleWindowFeatureIndex] }
     },
   },
+  watch: {
+    currentProperties(newProps: object) {
+      // currentProperties have some weird behaviour in this client,
+      // adding them via props wouldn't change that either; see #62 for more information.
+      if (!Object.keys(newProps).length && this.open !== null) {
+        this.openInMoveHandle(this.menus.findIndex(({ id }) => id === 'gfi'))
+      }
+    },
+  },
   mounted() {
-    this.setActionButton({
+    this.setMoveHandleActionButton({
       component: ActionButtons,
       props: {},
     })
   },
   beforeDestroy() {
-    this.setActionButton(null)
+    this.setMoveHandleActionButton(null)
   },
   methods: {
+    ...mapMutations(['setMoveHandleActionButton']),
     ...mapMutations('plugin/gfi', [
-      'setActionButton',
       'setImageLoaded',
       'setVisibleWindowFeatureIndex',
     ]),
+    ...mapMutations(['setMoveHandle']),
     ...mapActions('plugin/gfi', ['close']),
+    ...mapActions('plugin/iconMenu', ['openInMoveHandle']),
     formatProperty(type: string, value: string): string {
       if (!value) {
         return ''

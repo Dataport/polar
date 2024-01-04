@@ -12,7 +12,6 @@ import {
   GfiLayerConfiguration,
   RenderType,
   FeatureList,
-  MoveHandleActionButton,
 } from '@polar/lib-custom-types'
 
 /** parameter specification for request method */
@@ -29,7 +28,6 @@ export interface RequestGfiParameters {
 
 /** GFI Vuex Module State */
 export interface GfiState {
-  actionButton: MoveHandleActionButton | null
   /** default style for stroke and fill of the highlighted feature. */
   defaultHighlightStyle: HighlightStyle
   /** mapping of layer id to features found for last GFI call */
