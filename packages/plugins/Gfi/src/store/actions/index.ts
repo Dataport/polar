@@ -15,10 +15,10 @@ import {
   featureDisplayLayer,
   clear,
   addFeature,
-} from '../utils/displayFeatureLayer'
-import { requestGfi } from '../utils/requestGfi'
-import { GfiGetters, GfiState } from '../types'
-import sortFeatures from '../utils/sortFeatures'
+} from '../../utils/displayFeatureLayer'
+import { requestGfi } from '../../utils/requestGfi'
+import { GfiGetters, GfiState } from '../../types'
+import sortFeatures from '../../utils/sortFeatures'
 
 const writer = new GeoJSON()
 
