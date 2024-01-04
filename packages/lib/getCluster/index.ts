@@ -20,10 +20,7 @@ export default function (map: Map, feature: Feature, layerId: string): Feature {
 
   const cluster = layer
     .getSource()
-    .getFeaturesInExtent(
-      map.getView().calculateExtent(map.getSize()),
-      map.getView().getProjection()
-    )
+    .getFeatures()
     .find((candidate: Feature) => candidate.get('features').includes(feature))
 
   if (!(cluster instanceof Feature)) {
