@@ -85,6 +85,6 @@
     "vite": "^4.1.4",
     "vite-plugin-commonjs": "^0.6.2",
     "vue-jest": "^3.0.7",
-    "vue-template-compiler": "^2.7.15"
+    "vue-template-compiler": "^2.7.16"
   }
 }
