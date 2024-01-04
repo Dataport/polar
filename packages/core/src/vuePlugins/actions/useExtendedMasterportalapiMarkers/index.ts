@@ -28,9 +28,10 @@ const updateSelection = (
   feature: Feature | null,
   selectionStyle: MarkerStyle
 ) => {
+  selected?.setStyle(undefined)
+  selected = null
+
   if (feature === null) {
-    selected?.setStyle(undefined)
-    selected = null
     return
   }
 
