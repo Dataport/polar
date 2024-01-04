@@ -322,7 +322,6 @@ const actions: PolarActionTree<GfiState, GfiGetters> = {
         featuresByLayerId = await afterLoadFunction(featuresByLayerId, srsName)
       }
       commit('setFeatureInformation', featuresByLayerId)
-      console.warn('man :(', featuresByLayerId)
 
       // render feature geometries to help layer
       geometryLayerKeys
