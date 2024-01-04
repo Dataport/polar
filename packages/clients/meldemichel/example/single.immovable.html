@@ -42,8 +42,9 @@
     <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
     <script type="module">
       import meldemichelMapClient from '../dist/client-meldemichel.mjs'
+      import { makeSimulateRecreate } from './simulateRecreate.js'
 
-      meldemichelMapClient.createMap({
+      const setup = () => meldemichelMapClient.createMap({
         containerId: 'polarstern',
         mode: 'SINGLE',
         configOverride: {
@@ -60,6 +61,9 @@
           },
         },
       })
+
+      makeSimulateRecreate(setup)
+      setup()
     </script>
   </body>
 </html>

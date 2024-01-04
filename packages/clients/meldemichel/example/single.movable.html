@@ -44,40 +44,46 @@
     <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
     <script type="module">
       import meldemichelMapClient from '../dist/client-meldemichel.mjs'
+      import { makeSimulateRecreate } from './simulateRecreate.js'
 
-      const mapInstance = await meldemichelMapClient.createMap({
-        containerId: 'polarstern',
-        mode: 'SINGLE',
-        configOverride: {
-          stylePath: '../dist/style.css',
-          pins: {
-            initial: {
-              centerOn: true,
-              coordinates: [569028, 5932885],
-            },
-            movable: 'drag',
-            style: {
-              fill: '#0392cf'
+      const setup = async () => {
+        const mapInstance = await meldemichelMapClient.createMap({
+          containerId: 'polarstern',
+          mode: 'SINGLE',
+          configOverride: {
+            stylePath: '../dist/style.css',
+            pins: {
+              initial: {
+                centerOn: true,
+                coordinates: [569028, 5932885],
+              },
+              movable: 'drag',
+              style: {
+                fill: '#0392cf'
+              },
             },
           },
-        },
-      })
+        })
 
-      const dataList = document.getElementById('subscribed-data-list')
+        const dataList = document.getElementById('subscribed-data-list')
 
-      mapInstance.$store.watch(
-        (_, getters) => getters["meldemichel/mapState"],
-        (mapState) => {
-          dataList.innerHTML = ''
-          const mapStateEntries = Object.entries(mapState)
-          mapStateEntries.forEach(([key, value]) => {
-            const li = document.createElement('li')
-            li.innerHTML = `${key}: ${JSON.stringify(value, null, 2)}`
-            dataList.appendChild(li)
-          })
-        },
-        { immediate: true }
-      )
+        mapInstance.$store.watch(
+          (_, getters) => getters["meldemichel/mapState"],
+          (mapState) => {
+            dataList.innerHTML = ''
+            const mapStateEntries = Object.entries(mapState)
+            mapStateEntries.forEach(([key, value]) => {
+              const li = document.createElement('li')
+              li.innerHTML = `${key}: ${JSON.stringify(value, null, 2)}`
+              dataList.appendChild(li)
+            })
+          },
+          { immediate: true }
+        )
+      }
+
+      makeSimulateRecreate(setup)
+      setup()
     </script>
   </body>
 </html>
