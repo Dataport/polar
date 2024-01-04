@@ -13,5 +13,3 @@ The product is a hostable HTML page. Usually, we do not deliver full pages, but 
 Add a query parameter, e.g. `?ObjektID=1506`, to the page's URL to initially focus a feature and display its feature information by ObjektID.
 
 Name and casing of "ObjektID" have been directly taken from the backend to avoid duplicate naming.
-
-In production mode, it is required to add the property `data-polar` to the `link` attribute importing the polar styles.

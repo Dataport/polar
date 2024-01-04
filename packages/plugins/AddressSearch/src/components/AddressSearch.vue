@@ -30,12 +30,9 @@ export default Vue.extend({
     ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/addressSearch', ['featuresAvailable']),
     style(): string {
-      return (
-        'z-index: 1;' +
-        (this.hasWindowSize && this.hasSmallWidth
-          ? `max-width: ${this.clientWidth * 0.75}px`
-          : '')
-      )
+      return this.hasWindowSize && this.hasSmallWidth
+        ? `max-width: ${this.clientWidth * 0.75}px`
+        : ''
     },
     toolbarClass(): string {
       return this.featuresAvailable ? 'rounded-t-xl' : 'rounded-xl'
