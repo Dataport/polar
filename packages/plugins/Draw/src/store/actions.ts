@@ -13,11 +13,10 @@ import createInteractions from './createInteractions'
 export const makeActions = () => {
   let interactions: Interaction[] = []
   let drawLayer
-  let drawSource
+  const drawSource = new VectorSource()
 
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     setupModule({ commit, dispatch, rootGetters: { configuration, map } }) {
-      drawSource = new VectorSource()
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
         commit('updateFeatures')
       )
