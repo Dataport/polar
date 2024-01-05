@@ -6,7 +6,7 @@
       height="72"
     >
       <GroupSelect></GroupSelect>
-      <Input></Input>
+      <SearchInput />
     </v-toolbar>
     <Results></Results>
   </v-container>
@@ -17,13 +17,13 @@ import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import GroupSelect from './GroupSelect.vue'
 import Results from './Results.vue'
-import Input from './Input.vue'
+import SearchInput from './Input.vue'
 
 export default Vue.extend({
   name: 'AddressSearch',
   components: {
     GroupSelect,
-    Input,
+    SearchInput,
     Results,
   },
   computed: {

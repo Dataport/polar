@@ -65,7 +65,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-tsdoc": "^0.2.14",
-    "eslint-plugin-vue": "^8.2.0",
+    "eslint-plugin-vue": "^9.18.1",
     "events": "^3.3.0",
     "github-markdown-css": "^5.1.0",
     "http-server": "^14.1.1",
