@@ -93,6 +93,11 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <td>Many plugins added with <code>addPlugin</code> may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below.</td>
 </tr>
 <tr>
+<td>locales</td>
+<td>LanguageOption[]</td>
+<td>All locales in POLAR's plugins can be overridden to fit your needs.</td>
+</tr>
+<tr>
 <td>vuetify</td>
 <td>object</td>
 <td>You may add vuetify configuration here.</td>
@@ -114,6 +119,33 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 </tr>
 </tbody>
 </table>
+<h5>mapConfiguration.LanguageOption</h5>
+<p>A language option is an object consisting of a type (its language key) and the i18next resource definition. You may e.g. decide that the texts offered in the LayerChooser do not fit the style of your client, or that they could be more precise in your situation since you're only using <em>very specific</em> overlays.</p>
+<p>An example for a LanguageOption array usable in <code>createMap</code> is this array:</p>
+<pre><code class="language-ts">const languageOptions: LanguageOption[] = [
+  {
+    type: 'de',
+    resources: {
+      plugins: {
+        layerChooser: {
+          maskTitle: 'Bahnstrecken',
+        },
+      },
+    },
+  },
+  {
+    type: 'en',
+    resources: {
+      plugins: {
+        layerChooser: {
+          maskTitle: 'Railway lines',
+        },
+      },
+    },
+  },
+]
+</code></pre>
+<p>To figure out the name of the locales to override, inspect the matching plugin in GitHub's file browser. In <code>packages/plugins</code>, open the plugin you desire to override. Each plugin's <code>src</code> folder contains a <code>language.ts</code> listing all used locale keys with appropriate nesting.</p>
 <h5>mapConfiguration.extendedMasterportalapiMarkers</h5>
 <table>
 <thead>
