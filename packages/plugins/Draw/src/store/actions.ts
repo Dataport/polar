@@ -47,7 +47,7 @@ export const makeActions = () => {
         dispatch('updateInteractions')
       } else if (selectedFeature) {
         selectedFeature.setStyle(
-          createTextStyle(textInput, configuration?.draw?.textStyle, textSize)
+          createTextStyle(textInput, configuration.draw?.textStyle, textSize)
         )
         selectedFeature.set('text', textInput)
         commit('updateFeatures')
@@ -69,7 +69,7 @@ export const makeActions = () => {
         dispatch('updateInteractions')
       } else if (selectedFeature) {
         selectedFeature.setStyle(
-          createTextStyle(textInput, configuration?.draw?.textStyle, textSize)
+          createTextStyle(textInput, configuration.draw?.textStyle, textSize)
         )
         commit('updateFeatures')
       }
