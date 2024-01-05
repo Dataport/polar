@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <v-scroll-x-reverse-transition>
     <v-card class="plugin-gfi-list">
@@ -180,12 +179,23 @@ export default Vue.extend({
 }
 
 .v-list-item {
-  /* reserved space so that hover outline works in FF */
-  margin-right: 2px;
+  &::before {
+    background: transparent;
+  }
+
+  // needed for FF
+  outline-offset: -2px;
+
+  &:hover {
+    outline: dashed 2px #3fa535;
+  }
+
+  &:focus {
+    outline: solid 2px #3fa535;
+  }
 }
 
 .gfi-feature-list-item-hovered {
-  outline: inset 2px #3fa535;
   background: #dff0dd;
 }
 </style>
