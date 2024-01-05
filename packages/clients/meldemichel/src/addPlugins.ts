@@ -12,6 +12,8 @@ import Toast from '@polar/plugin-toast'
 import { MODE } from './enums'
 import createMenus from './utils/createMenus'
 
+// this is an acceptable length for list-like functions
+// eslint-disable-next-line max-lines-per-function
 export const addPlugins = (core, mode: keyof typeof MODE) => {
   const iconMenu = IconMenu({
     initiallyOpen: 'layerChooser',
