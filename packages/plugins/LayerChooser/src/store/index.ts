@@ -251,7 +251,7 @@ export const makeStoreModule = () => {
       },
       openedOptionsServiceLayers(_, { openedOptionsService }, __, rootGetters) {
         const layers: LayerConfigurationOptionLayers | undefined =
-          openedOptionsService?.options?.layers
+          openedOptionsService.options?.layers
 
         if (typeof layers === 'undefined') {
           return null
@@ -288,14 +288,14 @@ export const makeStoreModule = () => {
         return technicalLayerNames.map((technicalLayerName) => ({
           layerName: technicalLayerName,
           displayName:
-            (layers?.title === true
+            (layers.title === true
               ? findLayerTitleInCapabilitiesByName(
                   wmsCapabilitiesJson,
                   technicalLayerName
                 )
-              : layers?.title === false
+              : layers.title === false
               ? technicalLayerName
-              : layers?.title[technicalLayerName]) || technicalLayerName,
+              : layers.title[technicalLayerName]) || technicalLayerName,
           layerImage:
             layers.legend === false
               ? null
