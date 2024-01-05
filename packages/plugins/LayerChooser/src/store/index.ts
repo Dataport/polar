@@ -141,10 +141,9 @@ export const makeStoreModule = () => {
       // when the zoom changes, it does what needs to be done
       updateActiveAndAvailableLayersByZoom({
         rootGetters: { map },
-        getters: { backgrounds, masks },
+        getters: { backgrounds, masks, activeBackgroundId, activeMaskIds },
         commit,
         dispatch,
-        getters: { activeBackgroundId, activeMaskIds },
       }) {
         // NOTE: It is assumed that getZoom actually returns the currentZoomLevel, thus the view has a constraint in the resolution.
         const currentZoomLevel = map.getView().getZoom() as number
