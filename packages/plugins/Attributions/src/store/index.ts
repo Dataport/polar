@@ -32,9 +32,7 @@ export const makeStoreModule = () => {
           this.watch(
             () => rootGetters[listenPath],
             () => dispatch('setLayer'),
-            {
-              deep: true,
-            }
+            { deep: true }
           )
         )
         const layer: Collection<BaseLayer> = map.getLayers()
@@ -78,14 +76,12 @@ export const makeStoreModule = () => {
       ...generateSimpleGetters(getInitialState()),
       listenToChanges: (_, __, ___, rootGetters) =>
         rootGetters.configuration?.attributions?.listenToChanges || [],
-      mapInfo: (_, { layer, attributions, staticAttributions }) => {
-        return lib.updateMapInfo(layer, attributions, staticAttributions)
-      },
+      mapInfo: (_, { layer, attributions, staticAttributions }) =>
+        lib.updateMapInfo(layer, attributions, staticAttributions),
       renderType: (_, __, ___, rootGetters) =>
         rootGetters.configuration?.attributions?.renderType || 'independent',
-      staticAttributions: (_, __, ___, rootGetters) => {
-        return rootGetters.configuration?.attributions?.staticAttributions || []
-      },
+      staticAttributions: (_, __, ___, rootGetters) =>
+        rootGetters.configuration?.attributions?.staticAttributions || [],
       windowWidth: (_, __, ___, rootGetters) =>
         rootGetters.configuration?.attributions?.windowWidth || 500,
     },
