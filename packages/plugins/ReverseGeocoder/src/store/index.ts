@@ -50,8 +50,8 @@ export const makeStoreModule = () => {
           )
         }
 
-        const locelLoaderCounter = ++loaderCounter
-        const loaderKey = `reverse-geocoder-load-${locelLoaderCounter}`
+        const localLoaderCounter = ++loaderCounter
+        const loaderKey = `reverse-geocoder-load-${localLoaderCounter}`
 
         if (addLoading) {
           commit(addLoading, loaderKey, { root: true })
@@ -61,7 +61,7 @@ export const makeStoreModule = () => {
 
         try {
           feature = await reverseGeocode(url, coordinate)
-          if (locelLoaderCounter === loaderCounter) {
+          if (localLoaderCounter === loaderCounter) {
             if (addressTarget) {
               dispatch(addressTarget, { feature }, { root: true })
             }
