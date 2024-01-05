@@ -40,8 +40,6 @@ export const makeActions = () => {
       const customSearchMethods =
         getters.addressSearchConfiguration.customSearchMethods
       if (customSearchMethods) {
-        console.error(this)
-        console.error(customSearchMethods)
         methodContainer.registerSearchMethods(
           Object.fromEntries(
             Object.entries(customSearchMethods).map(([key, value]) => [
