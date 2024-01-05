@@ -82,7 +82,7 @@ export const makeStore = () => {
    * The reason is that complex objects, possibly containing circle references,
    * put a lot of work to the Vuex store to make them reactive, whilst gaining
    * nothing in return. The Vuex store should only be used to store simple
-   * information.l.
+   * information.
    *
    * To still use the power of Vuex in this regard, this hack is applied.
    * Please note that no child item of map/components is reactive at all.
