@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <v-scroll-x-reverse-transition>
     <v-card class="plugin-gfi-list">
