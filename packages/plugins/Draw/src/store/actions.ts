@@ -119,7 +119,6 @@ export const makeActions = () => {
     },
     /**
      * Zoom to one or all features of the draw layer.
-     * @param single - Whether to zoom to the first feature (true) or the whole extent.
      */
     zoomTo({ rootGetters }, { geometryOrExtent, margin }) {
       const m = margin || 20
