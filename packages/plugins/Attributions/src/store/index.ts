@@ -35,7 +35,7 @@ export const makeStoreModule = () => {
             { deep: true }
           )
         )
-        const layer: Collection<BaseLayer> = map.getLayers()
+        const layer = map.getLayers()
         layer.on('add', () => dispatch('setLayer'))
         layer.on('add', () => dispatch('setAttributions'))
         layer.on('change', () => dispatch('setLayer'))
