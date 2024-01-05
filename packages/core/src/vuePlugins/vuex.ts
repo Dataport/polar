@@ -86,8 +86,8 @@ export const makeStore = () => {
    *
    * To still use the power of Vuex in this regard, this hack is applied.
    * Please note that no child item of map/components is reactive at all.
-   * They must be set via setter to let getters toggle through. This is
-   * intended.
+   * They must be set via setter to let getters toggle through.
+   * This is intended.
    */
   let map: null | Map = null
   let hovered: null | Feature = null
