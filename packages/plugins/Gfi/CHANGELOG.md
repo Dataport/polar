@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Improved implementation to make plugin SPA-ready.
 - Feature: Improve WFS list highlighting with focus/hover styles that are easier to decipher for end users.
 - Feature: Add the possibility to update the close-button to e.g. indicate movement to the vector layer feature list.
 - Feature: If a feature with related features (cluster) is selected in the feature list, users can now toggle between the features with forward/backward buttons, just like when selecting clustered features in the map.

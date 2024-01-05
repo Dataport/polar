@@ -5,14 +5,16 @@ import getInitialState from './getInitialState'
 import actions from './actions'
 import getters from './getters'
 
-const storeModule: PolarModule<GeoLocationState, GeoLocationGetters> = {
-  namespaced: true,
-  state: getInitialState(),
-  actions,
-  getters,
-  mutations: {
-    ...generateSimpleMutations(getInitialState()),
-  },
-}
+export const makeStoreModule = () => {
+  const storeModule: PolarModule<GeoLocationState, GeoLocationGetters> = {
+    namespaced: true,
+    state: getInitialState(),
+    actions,
+    getters,
+    mutations: {
+      ...generateSimpleMutations(getInitialState()),
+    },
+  }
 
-export default storeModule
+  return storeModule
+}

@@ -11,37 +11,39 @@ const getInitialState = (): ExportState => ({
   openInDirection: ExportDirection.RIGHT,
 })
 
-const storeModule: PolarModule<ExportState, ExportGetters> = {
-  namespaced: true,
-  state: getInitialState(),
-  actions,
-  getters: {
-    ...generateSimpleGetters(getInitialState()),
-    configuration(_, __, ___, rootGetters) {
-      return {
-        download: false,
-        showJpg: true,
-        showPdf: true,
-        showPng: true,
-        ...rootGetters.configuration?.export,
-      }
+export const makeStoreModule = () => {
+  const storeModule: PolarModule<ExportState, ExportGetters> = {
+    namespaced: true,
+    state: getInitialState(),
+    actions,
+    getters: {
+      ...generateSimpleGetters(getInitialState()),
+      configuration(_, __, ___, rootGetters) {
+        return {
+          download: false,
+          showJpg: true,
+          showPdf: true,
+          showPng: true,
+          ...rootGetters.configuration?.export,
+        }
+      },
+      download(_, { configuration }) {
+        return configuration.download
+      },
+      showJpg(_, { configuration }) {
+        return configuration.showJpg
+      },
+      showPng(_, { configuration }) {
+        return configuration.showPng
+      },
+      showPdf(_, { configuration }) {
+        return configuration.showPdf
+      },
     },
-    download(_, { configuration }) {
-      return configuration.download
+    mutations: {
+      ...generateSimpleMutations(getInitialState()),
     },
-    showJpg(_, { configuration }) {
-      return configuration.showJpg
-    },
-    showPng(_, { configuration }) {
-      return configuration.showPng
-    },
-    showPdf(_, { configuration }) {
-      return configuration.showPdf
-    },
-  },
-  mutations: {
-    ...generateSimpleMutations(getInitialState()),
-  },
-}
+  }
 
-export default storeModule
+  return storeModule
+}

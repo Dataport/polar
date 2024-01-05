@@ -31,7 +31,6 @@ const hideHamburgBorder = (map: Map) => {
 }
 
 export default {
-  ...core,
   // TODO API is probably not complete; worked out as part of project
   // how do we identify which marker is moved? by coordinate?
   // movable = false // NOTE relevant for SINGLE mode later – map to Pins config
@@ -43,20 +42,21 @@ export default {
     configOverride,
   }: MeldemichelCreateMapParams) =>
     new Promise((resolve) => {
+      const meldemichelCore = { ...core }
       if (!Object.keys(MODE).includes(mode)) {
         console.error(
           `POLAR Meldemichel: Critical error. Unknown mode "${mode}" configured. Please use 'COMPLETE', 'REPORT', or 'SINGLE'.`
         )
       }
 
-      addPlugins(core, mode)
+      addPlugins(meldemichelCore, mode)
 
       // NOTE initializeLayerList is async in this scenario
-      core.rawLayerList.initializeLayerList(
+      meldemichelCore.rawLayerList.initializeLayerList(
         serviceRegister,
         async (layerConf) => {
           enableClustering(layerConf, reportServiceId)
-          const client = await core.createMap({
+          const client = await meldemichelCore.createMap({
             containerId,
             mapConfiguration: merge(
               {

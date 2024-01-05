@@ -9,8 +9,11 @@ const getInitialState = (): LoadingIndicatorState => ({
   loadKeys: new Set(),
 })
 
-const storeModule: PolarModule<LoadingIndicatorState, LoadingIndicatorGetters> =
-  {
+export const makeStoreModule = () => {
+  const storeModule: PolarModule<
+    LoadingIndicatorState,
+    LoadingIndicatorGetters
+  > = {
     namespaced: true,
     state: getInitialState(),
     mutations: {
@@ -28,4 +31,5 @@ const storeModule: PolarModule<LoadingIndicatorState, LoadingIndicatorGetters> =
     },
   }
 
-export default storeModule
+  return storeModule
+}

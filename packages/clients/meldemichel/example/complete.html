@@ -30,10 +30,11 @@
     </div>
     <script type="module">
       import meldemichelMapClient from '../dist/client-meldemichel.mjs'
+      import { makeSimulateRecreate } from './simulateRecreate.js'
 
       const stage = true
 
-      meldemichelMapClient.createMap({
+      const setup = () => meldemichelMapClient.createMap({
         containerId: 'polarstern',
         mode: 'COMPLETE',
         afmUrl: `https://${
@@ -49,6 +50,9 @@
           }
         }
       })
+
+      const mapInstance = await setup()
+      makeSimulateRecreate(setup, mapInstance)
     </script>
   </body>
 </html>

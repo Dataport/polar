@@ -17,8 +17,9 @@ export interface LayerChooserState {
 }
 
 export interface LayerChooserGetters extends LayerChooserState {
-  disabledMasks: []
-  shownMasks: []
+  disabledBackgrounds: boolean[]
+  disabledMasks: boolean[]
+  shownMasks: boolean[]
   idsWithOptions: string[]
   openedOptionsService: LayerConfiguration
   openedOptionsServiceLayers: LayerOption[] | null

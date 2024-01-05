@@ -37,6 +37,23 @@ The value to `stylePath` is the same as as a `link` tag would have in its `href`
 
 The `index.html` is used in `COMPLETE` mode, which is not run in the AfM. You may, however, use it for testing or inspecting an example.
 
+### Destroy instance
+
+The `mapInstance` returned by the `createMap` call can be destroyed by calling `mapInstance.$destroy`. This will not remove the rendered HTML, but unlink all internal creations and effects. This should be called before re-navigating, usual lifecycle hooks are `beforeDestroy` or `beforeUnmount`, depending on the framework in use.
+
+After this, `createMap` can be used again when the DOM is restored. That is, the original `div` with its `id` must be recreated, since POLAR changes the DOM in the `div`. Normally, an SPA will take care of this by itself since it will render the outlying component anew.
+
+Should this not be the case in your framework, the following snippet restores the DOM:
+
+```js
+// assuming the render div's id was `"polarstern"`
+const polarstern = document.getElementById('polarstern-wrapper')
+const newStar = document.createElement('div')
+newStar.id = 'polarstern'
+newStar.classList.add('polarstern')
+polarstern?.parentElement?.replaceChild(newStar, polarstern)
+```
+
 ## Rendering in SINGLE or REPORT mode
 
 A document rendering the map client could e.g. look like this:

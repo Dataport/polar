@@ -106,6 +106,9 @@ export default function (
       selectedFeatures.clear()
     })
 
+    // @ts-expect-error | internal hack to detect it in Pins plugin
+    selectInteraction._isDeleteSelect = true
+
     return [selectInteraction, dragBoxInteraction]
   }
   return []

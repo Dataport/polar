@@ -1,7 +1,7 @@
 // NOTE: action tests currently not type-supported, but working
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { PolarActionHandler } from '@polar/lib-custom-types'
-import actions from '../store/actions'
+import { makeActions } from '../store/actions'
 import { GfiState, GfiGetters } from '../../src/types'
 
 jest.mock('../utils/requestGfi', () => ({
@@ -9,11 +9,13 @@ jest.mock('../utils/requestGfi', () => ({
 }))
 
 jest.mock('../utils/displayFeatureLayer', () => ({
+  getFeatureDisplayLayer: jest.fn(),
   addFeature: jest.fn(),
   clear: jest.fn(),
 }))
 
 describe('GFI Actions', () => {
+  const actions = makeActions()
   beforeEach(() => {
     jest.clearAllMocks()
     jest.useFakeTimers()
@@ -55,7 +57,7 @@ describe('GFI Actions', () => {
       getters,
     }
 
-    const getFeatureInfo = actions?.getFeatureInfo as PolarActionHandler<
+    const getFeatureInfo = actions.getFeatureInfo as PolarActionHandler<
       GfiState,
       GfiGetters
     >

@@ -3,7 +3,7 @@ import createTestMountParameters, {
   MockParameters,
 } from '@polar/lib-test-mount-parameters'
 import { GeoLocation } from '../src/components/index'
-import GeoLocationStore from '../src/store/index'
+import { makeStoreModule } from '../src/store/index'
 
 describe('plugin-geolocation', () => {
   let testParameters: MockParameters
@@ -12,7 +12,7 @@ describe('plugin-geolocation', () => {
     testParameters = createTestMountParameters()
     testParameters.store.registerModule(
       ['plugin', 'geoLocation'],
-      GeoLocationStore
+      makeStoreModule()
     )
   })
 
