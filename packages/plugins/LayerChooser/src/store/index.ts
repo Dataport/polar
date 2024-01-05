@@ -192,8 +192,7 @@ export const makeStoreModule = () => {
                 .filter(({ layerName }) => value.includes(layerName))
                 .map(({ layerName }) => layerName)
                 .reverse()
-        const map = rootGetters?.map
-        const olLayer = map
+        const olLayer = rootGetters.map
           .getLayers()
           .getArray()
           .find((l) => l.get('id') === openedOptionsService.id) as Layer<
