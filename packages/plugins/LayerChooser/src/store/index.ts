@@ -249,12 +249,7 @@ export const makeStoreModule = () => {
           (service) => service.id === openedOptions
         )
       },
-      openedOptionsServiceLayers(
-        _,
-        { openedOptionsService },
-        __,
-        rootGetters
-      ): LayerOption[] | null {
+      openedOptionsServiceLayers(_, { openedOptionsService }, __, rootGetters) {
         const layers: LayerConfigurationOptionLayers | undefined =
           openedOptionsService?.options?.layers
 
