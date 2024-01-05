@@ -2,8 +2,6 @@ import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { Collection } from 'ol'
-import BaseLayer from 'ol/layer/Base'
 import { PolarModule } from '@polar/lib-custom-types'
 import * as lib from '../utils/lib'
 import { AttributionsGetters, AttributionsState } from '../types'

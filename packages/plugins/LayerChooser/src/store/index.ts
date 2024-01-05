@@ -10,7 +10,7 @@ import {
 import * as masterportalapi from '@masterportal/masterportalapi/src'
 import { ImageWMS, TileWMS } from 'ol/source'
 import Layer from 'ol/layer/Layer'
-import { LayerChooserGetters, LayerChooserState, LayerOption } from '../types'
+import { LayerChooserGetters, LayerChooserState } from '../types'
 import { asIdList, areLayersActive } from '../utils/layerFolding'
 import {
   findLayerTitleInCapabilitiesByName,
