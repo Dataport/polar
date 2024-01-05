@@ -90,7 +90,7 @@ export const makeStoreModule = () => {
           }
 
           // Store preparation needed when `layers` is an option
-          if (layer?.options?.layers) {
+          if (layer.options?.layers) {
             commit('setActiveLayerIds', {
               ...state.activeLayerIds,
               [layer.id]: rawLayer.layers.split(','),
@@ -98,8 +98,8 @@ export const makeStoreModule = () => {
           }
           // GetCapabilities exactly needed when `true` set for an inferrable option
           if (
-            layer?.options?.layers?.title === true ||
-            layer?.options?.layers?.legend === true
+            layer.options?.layers?.title === true ||
+            layer.options?.layers?.legend === true
           ) {
             dispatch('capabilities/loadCapabilities', layer.id, { root: true })
           }
