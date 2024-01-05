@@ -50,7 +50,7 @@ export const makeStoreModule = () => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { Text, ...defaultSelectableDrawModes } = allSelectableDrawModes
 
-        return configuration?.selectableDrawModes
+        return configuration.selectableDrawModes
           ? configuration.selectableDrawModes.reduce(
               (acc, curr) => ({ ...acc, [curr]: allSelectableDrawModes[curr] }),
               {}
@@ -63,7 +63,7 @@ export const makeStoreModule = () => {
       },
       selectableModes(_, { configuration }) {
         const includesWrite =
-          configuration?.selectableDrawModes?.includes('Text')
+          configuration.selectableDrawModes?.includes('Text')
         const selectableModesDraw = {
           none: 'common:plugins.draw.mode.none',
           draw: includesWrite
@@ -83,7 +83,7 @@ export const makeStoreModule = () => {
         )
       },
       configuration(_, __, ___, rootGetters) {
-        return rootGetters.configuration?.draw || {}
+        return rootGetters.configuration.draw || {}
       },
       fontSizes(_, { configuration }) {
         const { textStyle } = configuration
