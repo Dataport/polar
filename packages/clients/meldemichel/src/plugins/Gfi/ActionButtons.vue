@@ -2,19 +2,19 @@
   <div v-if="showSwitchButtons">
     <v-btn
       icon
-      small
+      :small="showSmall"
       :aria-label="$t('common:plugins.gfi.switch.previous')"
       @click="switchFeature(-1)"
     >
-      <v-icon small>fa-arrow-left-long</v-icon>
+      <v-icon :small="showSmall">fa-arrow-left-long</v-icon>
     </v-btn>
     <v-btn
       icon
-      small
+      :small="showSmall"
       :aria-label="$t('common:plugins.gfi.switch.next')"
       @click="switchFeature(1)"
     >
-      <v-icon small>fa-arrow-right-long</v-icon>
+      <v-icon :small="showSmall">fa-arrow-right-long</v-icon>
     </v-btn>
   </div>
 </template>
@@ -32,9 +32,13 @@ export default Vue.extend({
       'visibleWindowFeatureIndex',
       'windowFeatures',
     ]),
+    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     /** only show switch buttons if multiple property sets are available */
     showSwitchButtons(): boolean {
       return this.windowFeatures.length > 1
+    },
+    showSmall(): boolean {
+      return !this.hasWindowSize || !this.hasSmallWidth
     },
   },
   methods: {
@@ -61,3 +65,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped lang="scss">
+.v-icon {
+  color: var(--polar-primary) !important;
+}
+</style>
