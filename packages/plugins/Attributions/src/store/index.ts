@@ -78,7 +78,7 @@ export const makeStoreModule = () => {
       ...generateSimpleGetters(getInitialState()),
       listenToChanges: (_, __, ___, rootGetters) =>
         rootGetters.configuration?.attributions?.listenToChanges || [],
-      mapInfo: (_, { layer, attributions, staticAttributions }): string[] => {
+      mapInfo: (_, { layer, attributions, staticAttributions }) => {
         return lib.updateMapInfo(layer, attributions, staticAttributions)
       },
       renderType: (_, __, ___, rootGetters) =>
