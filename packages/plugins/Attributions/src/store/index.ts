@@ -44,7 +44,7 @@ export const makeStoreModule = () => {
         dispatch('setAttributions')
 
         if (
-          typeof rootGetters.configuration?.attributions?.initiallyOpen ===
+          typeof rootGetters.configuration.attributions?.initiallyOpen ===
             'boolean' &&
           renderType === 'independent'
         ) {
@@ -75,15 +75,15 @@ export const makeStoreModule = () => {
     getters: {
       ...generateSimpleGetters(getInitialState()),
       listenToChanges: (_, __, ___, rootGetters) =>
-        rootGetters.configuration?.attributions?.listenToChanges || [],
+        rootGetters.configuration.attributions?.listenToChanges || [],
       mapInfo: (_, { layer, attributions, staticAttributions }) =>
         lib.updateMapInfo(layer, attributions, staticAttributions),
       renderType: (_, __, ___, rootGetters) =>
-        rootGetters.configuration?.attributions?.renderType || 'independent',
+        rootGetters.configuration.attributions?.renderType || 'independent',
       staticAttributions: (_, __, ___, rootGetters) =>
-        rootGetters.configuration?.attributions?.staticAttributions || [],
+        rootGetters.configuration.attributions?.staticAttributions || [],
       windowWidth: (_, __, ___, rootGetters) =>
-        rootGetters.configuration?.attributions?.windowWidth || 500,
+        rootGetters.configuration.attributions?.windowWidth || 500,
     },
   }
 
