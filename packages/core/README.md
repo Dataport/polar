@@ -75,10 +75,44 @@ The mapConfiguration allows controlling many client instance details.
 | language                    | enum["de", "en"] | Initial language. Live changes not yet implemented, waiting for requirement.                                                                                             |
 | <...masterportalAPI.fields> | various          | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options.                                                              |
 | <plugin.fields>             | various          | Many plugins added with `addPlugin` may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below. |
+| locales | LanguageOption[] | All locales in POLAR's plugins can be overridden to fit your needs.|
 | vuetify                     | object           | You may add vuetify configuration here.                                                                                                                                  |
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
 | stylePath | string? | If no link tag with `data-polar="true"` is found in the document, this path will be used to create the link node in the client itself. It defaults to `'./style.css'`. Please mind that `data-polar="true"` is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release. |
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
+
+##### mapConfiguration.LanguageOption
+
+A language option is an object consisting of a type (its language key) and the i18next resource definition. You may e.g. decide that the texts offered in the LayerChooser do not fit the style of your client, or that they could be more precise in your situation since you're only using *very specific* overlays.
+
+An example for a LanguageOption array usable in `createMap` is this array:
+
+```ts
+const languageOptions: LanguageOption[] = [
+  {
+    type: 'de',
+    resources: {
+      plugins: {
+        layerChooser: {
+          maskTitle: 'Bahnstrecken',
+        },
+      },
+    },
+  },
+  {
+    type: 'en',
+    resources: {
+      plugins: {
+        layerChooser: {
+          maskTitle: 'Railway lines',
+        },
+      },
+    },
+  },
+]
+```
+
+To figure out the name of the locales to override, inspect the matching plugin in GitHub's file browser. In `packages/plugins`, open the plugin you desire to override. Each plugin's `src` folder contains a `language.ts` listing all used locale keys with appropriate nesting.
 
 ##### mapConfiguration.extendedMasterportalapiMarkers
 
