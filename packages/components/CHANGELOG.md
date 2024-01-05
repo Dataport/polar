@@ -3,6 +3,8 @@
 ## unpublished
 
 - Feature: Add the possibility to update the icon of the button for closing the MoveHandle.
+- Feature: Set the initial top value of the MoveHandle to 45% of the root elements height or the maximum possible height on opening.
+- Fix: The top value was not properly reset leading to the initial top value having no effect if the MoveHandle is currently open.
 
 ## 2.0.0
 
