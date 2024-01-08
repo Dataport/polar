@@ -15,7 +15,6 @@ import getCluster from '@polar/lib-get-cluster'
 import { getHoveredStyle, getSelectedStyle } from '../../../utils/markers'
 import { resolveClusterClick } from '../../../utils/resolveClusterClick'
 import { setLayerId } from './setLayerId'
-import { center } from './center'
 
 interface UpdateSelectionPayload {
   feature: Feature | null
@@ -30,6 +29,7 @@ let selected: Feature | null = null
 
 export function updateSelection(
   {
+    dispatch,
     rootGetters: { map, configuration },
   }: PolarActionContext<CoreState, CoreGetters>,
   { feature, selectionStyle }: UpdateSelectionPayload
@@ -57,7 +57,7 @@ export function updateSelection(
   )
 
   selected = selectedCluster
-  center(map, selected)
+  dispatch('centerOnFeature', selected)
 }
 
 // disabled since most of the body relies on parameters; allow longer function to avoid parameter explosion
@@ -189,7 +189,7 @@ export function useExtendedMasterportalapiMarkers(
       commit('setHovered', null)
       commit('setSelected', selected)
       selected.setStyle(getSelectedStyle(selectionStyle, isMultiFeature))
-      center(map, selected)
+      dispatch('centerOnFeature', selected)
     }
   })
 

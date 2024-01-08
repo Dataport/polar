@@ -19,6 +19,8 @@ import {
 } from '@polar/lib-custom-types'
 import { Interaction } from 'ol/interaction'
 import { Feature, Map } from 'ol'
+import { Point } from 'ol/geom'
+import { easeOut } from 'ol/easing'
 import getCluster from '@polar/lib-get-cluster'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
@@ -237,6 +239,13 @@ export const makeStore = () => {
         if (state.configuration[name].displayComponent) {
           commit('setComponents', [...components, component])
         }
+      },
+      centerOnFeature({ rootGetters: { map } }, feature: Feature) {
+        map.getView().animate({
+          center: (feature.getGeometry() as Point).getCoordinates(),
+          duration: 400,
+          easing: easeOut,
+        })
       },
       updateDragAndZoomInteractions({ getters }) {
         interactions.forEach((i) => getters.map.removeInteraction(i))
