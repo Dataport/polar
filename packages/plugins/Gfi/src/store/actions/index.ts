@@ -21,7 +21,6 @@ import {
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
 export const makeActions = () => {
-  const writer = new GeoJSON()
   const featureDisplayLayer = getFeatureDisplayLayer()
 
   let debouncedVisibilityChangeIndicator
@@ -263,8 +262,10 @@ export const makeActions = () => {
           [feature.get('_gfiLayerId')]: feature.get('features')?.length
             ? feature
                 .get('features')
-                .map((feature) => JSON.parse(writer.writeFeature(feature)))
-            : [JSON.parse(writer.writeFeature(feature))],
+                .map((feature: Feature) =>
+                  JSON.parse(new GeoJSON().writeFeature(feature))
+                )
+            : [JSON.parse(new GeoJSON().writeFeature(feature))],
         })
         dispatch('setCoreSelection', feature)
       }
