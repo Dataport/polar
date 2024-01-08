@@ -17,17 +17,21 @@ import { resolveClusterClick } from '../../../utils/resolveClusterClick'
 import { setLayerId } from './setLayerId'
 import { center } from './center'
 
+interface UpdateSelectionPayload {
+  feature: Feature | null
+  selectionStyle: MarkerStyle
+}
+
 let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 
 // local copies
 let hovered: Feature | null = null
 let selected: Feature | null = null
 
-const updateSelection = (
-  map: Map,
-  feature: Feature | null,
-  selectionStyle: MarkerStyle
-) => {
+export function updateSelection(
+  { rootGetters: { map } }: PolarActionContext<CoreState, CoreGetters>,
+  { feature, selectionStyle }: UpdateSelectionPayload
+) {
   selected?.setStyle(undefined)
   selected = null
 
@@ -107,7 +111,7 @@ export function useExtendedMasterportalapiMarkers(
 
   this.watch(
     () => getters.selected,
-    (feature) => updateSelection(map, feature, selectionStyle)
+    (feature) => dispatch('updateSelection', { feature, selectionStyle })
   )
 
   // // // MAP EVENT HANDLING
@@ -121,7 +125,7 @@ export function useExtendedMasterportalapiMarkers(
       if (selected) {
         const baseFeature = selected.get('features')?.[0] || selected
         setLayerId(map, baseFeature)
-        updateSelection(map, baseFeature, selectionStyle)
+        dispatch('updateSelection', { feature: baseFeature, selectionStyle })
       }
     }
   })
