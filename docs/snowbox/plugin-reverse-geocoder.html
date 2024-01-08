@@ -40,7 +40,7 @@
 <tr>
 <td>coordinateSource</td>
 <td>string?</td>
-<td>Points to a path in the store where a coordinate may be. If given, ReverseGeocoder will resolve on any updates. If not given, ReverseGeocoder is passive and waits for its action to be called.</td>
+<td>Points to a path in the store where a coordinate may be. If given, ReverseGeocoder will resolve on any updates. If not given, ReverseGeocoder is passive and waits for its action to be called. Please mind that, when referencing another plugin, that plugin must be in <code>addPlugins</code> before this one.</td>
 </tr>
 <tr>
 <td>addressTarget</td>
