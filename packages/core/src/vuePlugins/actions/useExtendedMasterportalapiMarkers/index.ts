@@ -29,9 +29,17 @@ let hovered: Feature | null = null
 let selected: Feature | null = null
 
 export function updateSelection(
-  { rootGetters: { map } }: PolarActionContext<CoreState, CoreGetters>,
+  {
+    rootGetters: { map, configuration },
+  }: PolarActionContext<CoreState, CoreGetters>,
   { feature, selectionStyle }: UpdateSelectionPayload
 ) {
+  if (!configuration.extendedMasterportalapiMarkers) {
+    console.error(
+      `@polar/core: The action 'updateSelection' can only be used if 'extendedMasterportalapiMarkers' has been configured.`
+    )
+    return
+  }
   selected?.setStyle(undefined)
   selected = null
 
