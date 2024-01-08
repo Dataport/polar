@@ -33,7 +33,6 @@ export function clear(featureDisplayLayer: VectorLayer<VectorSource>): void {
 
 /**
  * add feature from jsonable GeoJson object.
- * @param feature - to be added to the gfi layer.
  */
 export function addFeature(
   feature: GeoJsonFeature,

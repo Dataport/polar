@@ -1,8 +1,6 @@
 // NOTE: action tests currently not type-supported, but working
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { PolarActionHandler } from '@polar/lib-custom-types'
 import { makeActions } from '../store/actions'
-import { GfiState, GfiGetters } from '../../src/types'
 
 jest.mock('../utils/requestGfi', () => ({
   requestGfi: jest.fn(() => Promise.resolve([])),
@@ -57,10 +55,7 @@ describe('GFI Actions', () => {
       getters,
     }
 
-    const getFeatureInfo = actions.getFeatureInfo as PolarActionHandler<
-      GfiState,
-      GfiGetters
-    >
+    const getFeatureInfo = actions.getFeatureInfo
     // @ts-ignore
     await getFeatureInfo(context, coordinate)
 
@@ -117,10 +112,7 @@ describe('GFI Actions', () => {
       debounce: debounceMock,
     }))
 
-    const debouncedFunction = actions.debouncedGfiRequest as PolarActionHandler<
-      GfiState,
-      GfiGetters
-    >
+    const debouncedFunction = actions.debouncedGfiRequest
     // @ts-ignore
     const debouncedPromise = debouncedFunction(context, coordinate)
     // @ts-ignore
@@ -187,10 +179,7 @@ describe('GFI Actions', () => {
       debounce: debounceMock,
     }))
 
-    const debouncedFunction = actions.debouncedGfiRequest as PolarActionHandler<
-      GfiState,
-      GfiGetters
-    >
+    const debouncedFunction = actions.debouncedGfiRequest
     // @ts-ignore
     const debouncedPromise = debouncedFunction(context, coordinate)
     // @ts-ignore
