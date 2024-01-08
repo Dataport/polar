@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import storeModule from '../src/store'
+import { makeStoreModule } from '../src/store'
 
 describe('plugin-layerchooser', () => {
   describe('store', () => {
     describe('actions', () => {
       describe('toggleOpenedOptionsServiceLayer', () => {
+        const storeModule = makeStoreModule()
         const toggleOpenedOptionsServiceLayer = storeModule.actions!
           .toggleOpenedOptionsServiceLayer as (x: object, y: number[]) => void
 

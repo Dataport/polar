@@ -9,25 +9,27 @@ export const getInitialState = (): FullscreenState => ({
   isInFullscreen: false,
 })
 
-const storeModule: PolarModule<FullscreenState, FullscreenGetters> = {
-  namespaced: true,
-  state: getInitialState(),
-  mutations: {
-    ...generateSimpleMutations(getInitialState()),
-  },
-  getters: {
-    ...generateSimpleGetters(getInitialState()),
-    renderType: (_, __, ___, rootGetters) => {
-      return rootGetters.configuration?.fullscreen?.renderType
-        ? rootGetters.configuration.fullscreen.renderType
-        : 'independent'
+export const makeStoreModule = () => {
+  const storeModule: PolarModule<FullscreenState, FullscreenGetters> = {
+    namespaced: true,
+    state: getInitialState(),
+    mutations: {
+      ...generateSimpleMutations(getInitialState()),
     },
-    targetContainerId(_, __, ___, rootGetters) {
-      return rootGetters.configuration?.fullscreen?.targetContainerId
-        ? rootGetters.configuration?.fullscreen?.targetContainerId
-        : ''
+    getters: {
+      ...generateSimpleGetters(getInitialState()),
+      renderType: (_, __, ___, rootGetters) => {
+        return rootGetters.configuration?.fullscreen?.renderType
+          ? rootGetters.configuration.fullscreen.renderType
+          : 'independent'
+      },
+      targetContainerId(_, __, ___, rootGetters) {
+        return rootGetters.configuration?.fullscreen?.targetContainerId
+          ? rootGetters.configuration?.fullscreen?.targetContainerId
+          : ''
+      },
     },
-  },
-}
+  }
 
-export default storeModule
+  return storeModule
+}

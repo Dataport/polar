@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Improved implementation to make plugin SPA-ready.
 - Fix: Remove `z-index` on container element to ensure proper order of displayed elements.
 
 ## 1.1.0

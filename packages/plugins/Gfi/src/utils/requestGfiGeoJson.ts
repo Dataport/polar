@@ -3,8 +3,6 @@ import { Feature, Map } from 'ol'
 import { GeoJSON } from 'ol/format'
 import { Layer } from 'ol/layer'
 
-const writer = new GeoJSON()
-
 /**
  * Returns features from GeoJSON layer as GeoJSON.
  */
@@ -24,7 +22,7 @@ export default ({
       })
       .map((feature) =>
         feature instanceof Feature
-          ? JSON.parse(writer.writeFeature(feature))
+          ? JSON.parse(new GeoJSON().writeFeature(feature))
           : false
       )
       // remove FeatureLikes

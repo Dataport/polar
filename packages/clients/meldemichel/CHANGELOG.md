@@ -6,6 +6,7 @@
 - Feature: Update icon of `layerChooser` in `iconMenu` to `fa-layer-group` to clear-up the content hidden behind the menu button.
 - Feature: Update the close-button of the GFI window to indicate more clearly that it leads to the FeatureList.
 - Feature: Move attributions from the `iconMenu` to the bottom-right, use a smaller icon and a different colour to clear-up the secondary nature of the content.
+- Feature: The client is now SPA-ready. The `API.md` has been extended with example code.
 - Fix: Size and colours of GFI navigation arrows have been aligned to neighbouring items in mobile mode.
 - Fix: Fixed an issue on narrow devices sometimes showing undefined content in the gfi after clicking somewhere in the map where no feature is present.
 

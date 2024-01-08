@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import createTestMountParameters from '@polar/lib-test-mount-parameters'
-import ToastStore from '../src/store'
+import { makeStoreModule } from '../src/store'
 import { Toast as ToastComponent } from '../src/components'
 import { Toast, ToastState } from '../src/types'
 
@@ -14,6 +14,7 @@ const toasts: Toast[] = [
 describe('plugin-toast', () => {
   describe('components', () => {
     let testParameters
+    const ToastStore = makeStoreModule()
 
     beforeEach(() => {
       testParameters = createTestMountParameters()

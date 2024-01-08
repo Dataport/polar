@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Improved implementation to make plugin SPA-ready.
+
 ## 1.2.0
 
 - Feature: Add parameter `renderType` to configuration, allowing configuration as IconMenu subcomponent.
