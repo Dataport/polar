@@ -124,7 +124,7 @@ export async function debouncedGfiRequest(
       : errorSymbol(result.reason.message)
   )
 
-  const featuresByLayerId = dispatch('mapFeaturesToLayer', features)
+  const featuresByLayerId = await dispatch('mapFeaturesToLayer', features)
   commit('setFeatureInformation', featuresByLayerId)
 
   // render feature geometries to help layer
