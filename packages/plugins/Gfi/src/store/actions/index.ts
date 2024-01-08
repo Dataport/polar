@@ -80,8 +80,7 @@ export const makeActions = () => {
       if (gfiConfiguration.featureList?.bindWithCoreHoverSelect) {
         this.watch(
           () => rootGetters.selected,
-          (selectedFeature) =>
-            dispatch('setOlFeatureInformation', selectedFeature),
+          (feature) => dispatch('setOlFeatureInformation', { feature }),
           { deep: true }
         )
       }
@@ -131,10 +130,13 @@ export const makeActions = () => {
                   )
                 )
               if (originalFeature) {
-                dispatch(
-                  'setOlFeatureInformation',
-                  getCluster(rootGetters.map, originalFeature, '_gfiLayerId')
-                )
+                dispatch('setOlFeatureInformation', {
+                  feature: getCluster(
+                    rootGetters.map,
+                    originalFeature,
+                    '_gfiLayerId'
+                  ),
+                })
               }
             }
           }
@@ -220,7 +222,7 @@ export const makeActions = () => {
       if (!rootGetters.configuration?.extendedMasterportalapiMarkers) {
         dispatch('plugin/pins/removeMarker', null, { root: true })
       }
-      dispatch('setCoreSelection', null)
+      dispatch('setCoreSelection', { feature: null })
       clear(featureDisplayLayer) // ... features of gfi layer
     },
     /**
@@ -350,12 +352,29 @@ export const makeActions = () => {
       },
       50
     ),
-    setCoreSelection({ commit, rootGetters }, feature: Feature | null) {
+    setCoreSelection(
+      { commit, dispatch, rootGetters },
+      {
+        feature,
+        centerOnFeature = false,
+      }: { feature: Feature | null; centerOnFeature?: boolean }
+    ) {
       if (rootGetters.selected !== feature) {
         commit('setSelected', feature, { root: true })
+        dispatch(
+          'updateSelection',
+          { feature, centerOnFeature },
+          { root: true }
+        )
       }
     },
-    setOlFeatureInformation({ commit, dispatch }, feature: Feature | null) {
+    setOlFeatureInformation(
+      { commit, dispatch },
+      {
+        feature,
+        centerOnFeature = false,
+      }: { feature: Feature | null; centerOnFeature?: boolean }
+    ) {
       commit('clearFeatureInformation')
       commit('setVisibleWindowFeatureIndex', 0)
       clear(featureDisplayLayer)
@@ -367,7 +386,7 @@ export const makeActions = () => {
                 .map((feature) => JSON.parse(writer.writeFeature(feature)))
             : [JSON.parse(writer.writeFeature(feature))],
         })
-        dispatch('setCoreSelection', feature)
+        dispatch('setCoreSelection', { feature, centerOnFeature })
       }
     },
     hover({ commit, rootGetters }, feature: Feature) {

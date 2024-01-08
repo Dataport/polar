@@ -49,10 +49,16 @@
             'gfi-feature-list-item-hovered': isFeatureHovered(feature),
           }"
           @click="
-            setOlFeatureInformation(getCluster(map, feature, '_gfiLayerId'))
+            setOlFeatureInformation({
+              feature: getCluster(map, feature, '_gfiLayerId'),
+              centerOnFeature: true,
+            })
           "
           @keydown.space.prevent="
-            setOlFeatureInformation(getCluster(map, feature, '_gfiLayerId'))
+            setOlFeatureInformation({
+              feature: getCluster(map, feature, '_gfiLayerId'),
+              centerOnFeature: true,
+            })
           "
           @mouseleave="unhover"
           @mouseover="hover(feature)"

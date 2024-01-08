@@ -18,7 +18,7 @@ import { setLayerId } from './setLayerId'
 
 interface UpdateSelectionPayload {
   feature: Feature | null
-  selectionStyle: MarkerStyle
+  centerOnFeature?: boolean
 }
 
 let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
@@ -26,13 +26,14 @@ let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 // local copies
 let hovered: Feature | null = null
 let selected: Feature | null = null
+let localSelectionStyle: MarkerStyle = {}
 
 export function updateSelection(
   {
     dispatch,
     rootGetters: { map, configuration },
   }: PolarActionContext<CoreState, CoreGetters>,
-  { feature, selectionStyle }: UpdateSelectionPayload
+  { feature, centerOnFeature = false }: UpdateSelectionPayload
 ) {
   if (!configuration.extendedMasterportalapiMarkers) {
     console.error(
@@ -51,13 +52,15 @@ export function updateSelection(
 
   selectedCluster.setStyle(
     getSelectedStyle(
-      selectionStyle,
+      localSelectionStyle,
       selectedCluster.get('features')?.length > 1
     )
   )
 
   selected = selectedCluster
-  dispatch('centerOnFeature', selected)
+  if (centerOnFeature) {
+    dispatch('centerOnFeature', selected)
+  }
 }
 
 // disabled since most of the body relies on parameters; allow longer function to avoid parameter explosion
@@ -79,6 +82,7 @@ export function useExtendedMasterportalapiMarkers(
     dispatchOnMapSelect?: string[]
   }
 ) {
+  localSelectionStyle = selectionStyle
   const { map } = getters
 
   const layerFilter = (layer: BaseLayer): boolean =>
@@ -117,11 +121,6 @@ export function useExtendedMasterportalapiMarkers(
     }
   )
 
-  this.watch(
-    () => getters.selected,
-    (feature) => dispatch('updateSelection', { feature, selectionStyle })
-  )
-
   // // // MAP EVENT HANDLING
 
   // on zoom change, re-select since cluster was updated
@@ -133,7 +132,7 @@ export function useExtendedMasterportalapiMarkers(
       if (selected) {
         const baseFeature = selected.get('features')?.[0] || selected
         setLayerId(map, baseFeature)
-        dispatch('updateSelection', { feature: baseFeature, selectionStyle })
+        dispatch('updateSelection', { feature: baseFeature })
       }
     }
   })
@@ -163,6 +162,7 @@ export function useExtendedMasterportalapiMarkers(
       selected.setStyle(undefined)
       selected = null
       commit('setSelected', selected)
+      dispatch('updateSelection', { feature: selected })
     }
     const feature = map.getFeaturesAtPixel(event.pixel, { layerFilter })[0]
     if (!feature || feature instanceof RenderFeature) {
@@ -188,7 +188,8 @@ export function useExtendedMasterportalapiMarkers(
       hovered = null
       commit('setHovered', null)
       commit('setSelected', selected)
-      selected.setStyle(getSelectedStyle(selectionStyle, isMultiFeature))
+      selected.setStyle(getSelectedStyle(localSelectionStyle, isMultiFeature))
+      dispatch('updateSelection', { feature: selected, centerOnFeature: true })
       dispatch('centerOnFeature', selected)
     }
   })
