@@ -71,6 +71,17 @@
 </code></pre>
 <p>The value to <code>stylePath</code> is the same as as a <code>link</code> tag would have in its <code>href</code>.</p>
 <p>The <code>index.html</code> is used in <code>COMPLETE</code> mode, which is not run in the AfM. You may, however, use it for testing or inspecting an example.</p>
+<h3>Destroy instance</h3>
+<p>The <code>mapInstance</code> returned by the <code>createMap</code> call can be destroyed by calling <code>mapInstance.$destroy</code>. This will not remove the rendered HTML, but unlink all internal creations and effects. This should be called before re-navigating, usual lifecycle hooks are <code>beforeDestroy</code> or <code>beforeUnmount</code>, depending on the framework in use.</p>
+<p>After this, <code>createMap</code> can be used again when the DOM is restored. That is, the original <code>div</code> with its <code>id</code> must be recreated, since POLAR changes the DOM in the <code>div</code>. Normally, an SPA will take care of this by itself since it will render the outlying component anew.</p>
+<p>Should this not be the case in your framework, the following snippet restores the DOM:</p>
+<pre><code class="language-js">// assuming the render div's id was `&quot;polarstern&quot;`
+const polarstern = document.getElementById('polarstern-wrapper')
+const newStar = document.createElement('div')
+newStar.id = 'polarstern'
+newStar.classList.add('polarstern')
+polarstern?.parentElement?.replaceChild(newStar, polarstern)
+</code></pre>
 <h2>Rendering in SINGLE or REPORT mode</h2>
 <p>A document rendering the map client could e.g. look like this:</p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
