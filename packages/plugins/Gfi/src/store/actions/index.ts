@@ -12,7 +12,11 @@ import { isVisible } from '@polar/lib-invisible-style'
 import { getTooltip, Tooltip } from '@polar/lib-tooltip'
 import { getFeatureDisplayLayer, clear } from '../../utils/displayFeatureLayer'
 import { GfiGetters, GfiState } from '../../types'
-import debouncedGfiRequest from './debouncedGfiRequest'
+import {
+  debouncedGfiRequest,
+  mapFeaturesToLayer,
+  requestFeature,
+} from './debouncedGfiRequest'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -243,6 +247,8 @@ export const makeActions = () => {
      * this *after* resetting the module state, as something is bound to happen.
      */
     debouncedGfiRequest: debounce(debouncedGfiRequest, 50),
+    requestFeature,
+    mapFeaturesToLayer,
     setCoreSelection({ commit, rootGetters }, feature: Feature | null) {
       if (rootGetters.selected !== feature) {
         commit('setSelected', feature, { root: true })

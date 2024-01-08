@@ -17,65 +17,58 @@ interface DebouncedGfiRequestPayload {
   featureDisplayLayer: Vector<VectorSource>
 }
 
-/**
- * Code from `getFeatureInfo`, pulled to avoid overly requesting feature
- * information. Since sources in Pins plugin update right after each other
- * (and such effects are to be expected across the system), we're debouncing
- * this *after* resetting the module state, as something is bound to happen.
- */
-export default async function (
-  {
-    commit,
-    rootGetters: { map, configuration },
-    getters: { layerKeys, geometryLayerKeys, afterLoadFunction },
-  }: PolarActionContext<GfiState, GfiGetters>,
-  { coordinate, featureDisplayLayer }: DebouncedGfiRequestPayload
-): Promise<void> {
-  // fetch new feature information for all configured layers
-  const promisedFeatures = layerKeys.map((key) => {
-    const layer = map
-      .getLayers()
-      .getArray()
-      .find((layer) => layer.getProperties().id === key)
+interface RequestFeaturePayload {
+  coordinate: Coordinate
+  layerId: string
+}
 
-    if (!(layer instanceof Layer)) {
-      console.error(
-        `No layer with id "${key}" found during run-time. GFI skipped.`
-      )
-      return [] as GeoJsonFeature[]
-    }
+export function requestFeature(
+  { rootGetters }: PolarActionContext<GfiState, GfiGetters>,
+  { coordinate, layerId }: RequestFeaturePayload
+): Promise<GeoJsonFeature[]> {
+  const { configuration, map } = rootGetters
+  const layer = map
+    .getLayers()
+    .getArray()
+    .find((layer) => layer.getProperties().id === layerId)
 
-    const layerConfiguration = configuration.gfi?.layers[key] || {}
-    const layerSpecification = rawLayerList.getLayerWhere({ id: key })
-    const mainLayerConfiguration = configuration.layers.find(
-      (element) => element.id === key
+  if (!(layer instanceof Layer)) {
+    console.error(
+      `No layer with id "${layerId}" found during run-time. GFI skipped.`
     )
-    const layerGfiMode =
-      mainLayerConfiguration?.gfiMode || configuration.gfi?.mode || 'bboxDot'
+    return Promise.resolve([] as GeoJsonFeature[])
+  }
 
-    return requestGfi({
-      map,
-      layer,
-      coordinate,
-      layerConfiguration,
-      layerSpecification,
-      mode: layerGfiMode,
-    })
-  })
-
-  const errorSymbol = (err: string) => Symbol(err)
-  const features = (await Promise.allSettled(promisedFeatures)).map((result) =>
-    result.status === 'fulfilled'
-      ? result.value
-      : errorSymbol(result.reason.message)
+  const layerConfiguration = configuration.gfi?.layers[layerId] || {}
+  const layerSpecification = rawLayerList.getLayerWhere({ id: layerId })
+  const mainLayerConfiguration = configuration.layers.find(
+    (element) => element.id === layerId
   )
+  const layerGfiMode =
+    mainLayerConfiguration?.gfiMode || configuration.gfi?.mode || 'bboxDot'
 
+  return requestGfi({
+    map,
+    layer,
+    coordinate,
+    layerConfiguration,
+    layerSpecification,
+    mode: layerGfiMode,
+  })
+}
+
+export async function mapFeaturesToLayer(
+  {
+    rootGetters: { configuration, map },
+    getters: { layerKeys, afterLoadFunction },
+  }: PolarActionContext<GfiState, GfiGetters>,
+  features: (symbol | GeoJsonFeature[])[]
+): Promise<GfiFeatureInformation> {
+  const srsName = map.getView().getProjection().getCode()
   const generalMaxFeatures: number =
     configuration.gfi?.maxFeatures || Number.POSITIVE_INFINITY
 
-  const srsName: string = map.getView().getProjection().getCode()
-  // map features back to their layer keys
-  let featuresByLayerId: GfiFeatureInformation = layerKeys.reduce(
+  let featuresByLayerId = layerKeys.reduce(
     (accumulator, key, index) => ({
       ...accumulator,
       [key]: Array.isArray(features[index])
@@ -102,6 +95,36 @@ export default async function (
   if (typeof afterLoadFunction === 'function') {
     featuresByLayerId = await afterLoadFunction(featuresByLayerId, srsName)
   }
+  return featuresByLayerId
+}
+
+/**
+ * Code from `getFeatureInfo`, pulled to avoid overly requesting feature
+ * information. Since sources in Pins plugin update right after each other
+ * (and such effects are to be expected across the system), we're debouncing
+ * this *after* resetting the module state, as something is bound to happen.
+ */
+export async function debouncedGfiRequest(
+  {
+    commit,
+    dispatch,
+    getters: { layerKeys, geometryLayerKeys },
+  }: PolarActionContext<GfiState, GfiGetters>,
+  { coordinate, featureDisplayLayer }: DebouncedGfiRequestPayload
+): Promise<void> {
+  // fetch new feature information for all configured layers
+  const promisedFeatures = layerKeys.map((key) =>
+    dispatch('requestFeature', { coordinate, layerId: key })
+  )
+
+  const errorSymbol = (err: string) => Symbol(err)
+  const features = (await Promise.allSettled(promisedFeatures)).map((result) =>
+    result.status === 'fulfilled'
+      ? result.value
+      : errorSymbol(result.reason.message)
+  )
+
+  const featuresByLayerId = dispatch('mapFeaturesToLayer', features)
   commit('setFeatureInformation', featuresByLayerId)
 
   // render feature geometries to help layer
