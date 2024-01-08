@@ -17,6 +17,7 @@ import {
   PluginContainer,
   PolarError,
 } from '@polar/lib-custom-types'
+import { ping } from '@masterportal/masterportalapi/src'
 import { Interaction } from 'ol/interaction'
 import { Feature, Map } from 'ol'
 import { CapabilitiesModule } from '../storeModules/capabilities'
@@ -234,6 +235,41 @@ export const makeStore = () => {
         if (state.configuration[name].displayComponent) {
           commit('setComponents', [...components, component])
         }
+      },
+      checkServiceAvailability({ state, getters, commit }) {
+        state.configuration.layerConf
+          .map((service) => ({ ping: ping(service), service }))
+          .forEach(({ ping, service }) =>
+            ping
+              .then((statusCode) => {
+                if (statusCode !== 200) {
+                  // NOTE more output channels? make configurable.
+                  if (this.hasModule(['plugin', 'toast'])) {
+                    this.dispatch('plugin/toast/addToast', {
+                      type: 'warning',
+                      text: i18next.t('common:error.serviceUnavailable', {
+                        serviceId: service.id,
+                        serviceName: service.name,
+                      }),
+                    })
+                  }
+                  // always print status code for debugging purposes
+                  console.error(
+                    `Ping to "${service.id}" returned "${statusCode}".`
+                  )
+                  // always add to error log for listener purposes
+                  commit('setErrors', [
+                    ...getters.errors,
+                    {
+                      type: 'connection',
+                      statusCode,
+                      text: `Ping to "${service.id}" returned "${statusCode}".`,
+                    } as PolarError,
+                  ])
+                }
+              })
+              .catch(console.error)
+          )
       },
       updateDragAndZoomInteractions({ getters }) {
         interactions.forEach((i) => getters.map.removeInteraction(i))

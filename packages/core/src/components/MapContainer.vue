@@ -47,16 +47,11 @@
 import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import api from '@masterportal/masterportalapi/src/maps/api'
-import { ping } from '@masterportal/masterportalapi/src'
 import { MoveHandle } from '@polar/components'
 import Hammer from 'hammerjs'
 import i18next from 'i18next'
 import { defaults } from 'ol/interaction'
-import {
-  LanguageOption,
-  MoveHandleProperties,
-  PolarError,
-} from '@polar/lib-custom-types'
+import { LanguageOption, MoveHandleProperties } from '@polar/lib-custom-types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addClusterStyle } from '../utils/addClusterStyle'
 import MapUi from './MapUi.vue'
@@ -157,9 +152,7 @@ export default Vue.extend({
       i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
     )
 
-    i18next.on('languageChanged', (lang) => {
-      this.lang = lang
-    })
+    i18next.on('languageChanged', (lang) => (this.lang = lang))
 
     if (this.mapConfiguration.checkServiceAvailability) {
       this.checkServiceAvailability()
@@ -175,45 +168,8 @@ export default Vue.extend({
     ...mapActions([
       'updateDragAndZoomInteractions',
       'useExtendedMasterportalapiMarkers',
+      'checkServiceAvailability',
     ]),
-    checkServiceAvailability() {
-      this.mapConfiguration.layerConf
-        .map((service) => ({
-          ping: ping(service),
-          service,
-        }))
-        .forEach(({ ping, service }) =>
-          ping
-            .then((statusCode) => {
-              if (statusCode !== 200) {
-                // NOTE more output channels? make configurable.
-                if (this.$store.hasModule(['plugin', 'toast'])) {
-                  this.$store.dispatch('plugin/toast/addToast', {
-                    type: 'warning',
-                    text: i18next.t('common:error.serviceUnavailable', {
-                      serviceId: service.id,
-                      serviceName: service.name,
-                    }),
-                  })
-                }
-                // always print status code for debugging purposes
-                console.error(
-                  `Ping to "${service.id}" returned "${statusCode}".`
-                )
-                // always add to error log for listener purposes
-                this.$store.commit('setErrors', [
-                  ...this.$store.getters.errors,
-                  {
-                    type: 'connection',
-                    statusCode,
-                    text: `Ping to "${service.id}" returned "${statusCode}".`,
-                  } as PolarError,
-                ])
-              }
-            })
-            .catch(console.error)
-        )
-    },
     updateHasSmallDisplay() {
       this.setHasSmallDisplay(
         window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
