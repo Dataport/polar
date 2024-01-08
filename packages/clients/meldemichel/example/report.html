@@ -62,48 +62,55 @@
     </div>
     <script type="module">
       import meldemichelMapClient from '../dist/client-meldemichel.mjs'
+      import { makeSimulateRecreate } from './simulateRecreate.js'
 
-      const mapInstance = await meldemichelMapClient.createMap({
-        containerId: 'polarstern',
-        mode: 'REPORT',
-        configOverride: {
-          stylePath: '../dist/style.css',
+      const setup = async () => {
+        const mapInstance = await meldemichelMapClient.createMap({
+          containerId: 'polarstern',
+          mode: 'REPORT',
+          configOverride: {
+            stylePath: '../dist/style.css',
+          }
+        })
+
+        window._polar = {
+          mapInstance,
+          setMapState: () =>
+            mapInstance.$store.dispatch('meldemichel/setMapState', {
+              vendor_maps_position: '566167.224436667,5935872.419250831',
+              // inconsistency intentional to test whether field is auto-filled
+              vendor_maps_address_str: 'Mümmelmannsberg',
+              vendor_maps_address_hnr: '72',
+              mapZoomLevel: 6,
+              mapBaseLayer: 452,
+              mapCenter: '566808.8386735287,5935896.23173797',
+            }),
         }
-      })
 
-      window._polar = {
-        mapInstance,
-        setMapState: () =>
-          mapInstance.$store.dispatch('meldemichel/setMapState', {
-            vendor_maps_position: '566167.224436667,5935872.419250831',
-            // inconsistency intentional to test whether field is auto-filled
-            vendor_maps_address_str: 'Mümmelmannsberg',
-            vendor_maps_address_hnr: '72',
-            mapZoomLevel: 6,
-            mapBaseLayer: 452,
-            mapCenter: '566808.8386735287,5935896.23173797',
-          }),
+        // NOTE: Uncomment to test immediate execution
+        // _polar.setMapState()
+
+        // subscribing to store values
+        const dataList = document.getElementById('subscribed-data-list')
+
+        mapInstance.$store.watch(
+          (_, getters) => getters["meldemichel/mapState"],
+          (mapState) => {
+            dataList.innerHTML = ''
+            const mapStateEntries = Object.entries(mapState)
+            mapStateEntries.forEach(([key, value]) => {
+              const li = document.createElement('li')
+              li.innerHTML = `${key}: ${JSON.stringify(value, null, 2)}`
+              dataList.appendChild(li)
+            })
+          },
+          { immediate: true }
+        )
+
+        return mapInstance
       }
 
-      // NOTE: Uncomment to test immediate execution
-      // _polar.setMapState()
-
-      // subscribing to store values
-      const dataList = document.getElementById('subscribed-data-list')
-
-      mapInstance.$store.watch(
-        (_, getters) => getters["meldemichel/mapState"],
-        (mapState) => {
-          dataList.innerHTML = ''
-          const mapStateEntries = Object.entries(mapState)
-          mapStateEntries.forEach(([key, value]) => {
-            const li = document.createElement('li')
-            li.innerHTML = `${key}: ${JSON.stringify(value, null, 2)}`
-            dataList.appendChild(li)
-          })
-        },
-        { immediate: true }
-      )
+      makeSimulateRecreate(setup, await setup())
     </script>
     <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
   </body>

@@ -61,13 +61,6 @@ export interface DishParameters extends QueryParameters {
   volltexttyp?: 'CONTAINS' | 'FREETEXT'
 }
 
-export type DishSearchMethodFunction = (
-  signal: AbortSignal,
-  url: string,
-  inputValue: string,
-  queryParameters: DishParameters
-) => Promise<FeatureCollection> | never
-
 export type DishAutocompleteFunction = (
   signal: AbortSignal,
   url: string,

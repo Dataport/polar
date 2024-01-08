@@ -1,13 +1,14 @@
 // NOTE: action tests currently not type-supported, but working
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { PolarActionHandler } from '@polar/lib-custom-types'
-import ToastStore, { getInitialState } from '../src/store'
+import { getInitialState, makeStoreModule } from '../src/store'
 import { Toast, ToastState } from '../src/types'
 
 describe('plugin-toast', () => {
   describe('store', () => {
     describe('actions', () => {
       describe('addToast', () => {
+        const ToastStore = makeStoreModule()
         const addToast = ToastStore.actions?.addToast as PolarActionHandler<
           ToastState,
           ToastState

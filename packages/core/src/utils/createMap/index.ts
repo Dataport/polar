@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import store from '../../vuePlugins/vuex'
+import { makeStore } from '../../vuePlugins/vuex'
 import vuetify from '../../vuePlugins/vuetify'
 import language from '../../language'
 import { MapContainer } from '../../components'
@@ -34,7 +34,7 @@ export default async function createMap({
           mapConfiguration,
         },
       }),
-    store,
+    store: makeStore(),
   })
   instance.subscribe = subscribeFunction
 

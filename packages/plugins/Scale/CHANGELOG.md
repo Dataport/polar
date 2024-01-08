@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Improved implementation to make plugin SPA-ready.
 - Fix: Alignment of scales on narrow devices.
 
 ## 1.0.1

@@ -3,14 +3,14 @@ import createTestMountParameters, {
   MockParameters,
 } from '@polar/lib-test-mount-parameters'
 import Zoom from '../../src/components/Zoom.vue'
-import ZoomStore from '../../src/store/index'
+import { makeStoreModule } from '../../src/store/index'
 
 describe('zoom-test', () => {
   let testParameters: MockParameters
 
   beforeEach(() => {
     testParameters = createTestMountParameters()
-    testParameters.store.registerModule(['plugin', 'zoom'], ZoomStore)
+    testParameters.store.registerModule(['plugin', 'zoom'], makeStoreModule())
   })
 
   test('should feature a zoom-in and a zoom-out v-btn', () => {
