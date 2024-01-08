@@ -37,6 +37,7 @@ export const makeStoreModule = () => {
         layer.on('add', () => dispatch('setLayer'))
         layer.on('add', () => dispatch('setAttributions'))
         layer.on('change', () => dispatch('setLayer'))
+        map.on('moveend', () => dispatch('setLayer'))
 
         dispatch('setLayer')
         dispatch('setAttributions')
