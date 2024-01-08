@@ -223,6 +223,8 @@ export interface FilterConfiguration extends PluginOptions {
   >
 }
 
+export type RequestGfiMode = 'bboxDot' | 'intersects'
+
 /** Configuration of GFI feature regarding a specific layer */
 export interface GfiLayerConfiguration {
   /**
@@ -262,6 +264,7 @@ export interface GfiLayerConfiguration {
   // format the response is known to come in (e.h. "GML")
   format?: string
   showTooltip?: (feature: Feature, map: Map) => [string, string][]
+  maxFeatures?: number
 }
 
 export type BoundaryOnError = 'strict' | 'permissive'
@@ -311,11 +314,13 @@ export interface FullscreenConfiguration extends PluginOptions {
   targetContainerId?: string
 }
 
+export type GfiFeatureInformation = Record<string, GeoJsonFeature[] | symbol>
+
 /** configurable function to gather additional info */
 export type GfiAfterLoadFunction = (
-  featureInformation: Record<string, GeoJsonFeature[]>,
+  featureInformation: GfiFeatureInformation,
   srsName: string // TODO: Might be interesting to overlap this with mapConfig.namedProjections for type safety in using only allowed epsg codes
-) => Record<string, GeoJsonFeature[] | symbol>
+) => Promise<GfiFeatureInformation>
 
 /** GFI Module Configuration */
 export interface FeatureList {
@@ -346,6 +351,8 @@ export interface GfiConfiguration extends PluginOptions {
    */
   gfiContentComponent?: Vue
   renderType?: RenderType
+  /** defaults to bboxDot (get from minimal coordinate bbox) */
+  mode?: RequestGfiMode
   /**
    * The layers to request feature information from. Both WMS and WFS layers are
    * supported. Keys are layer IDs as specified in the services.json registry.
@@ -509,6 +516,7 @@ export interface LayerConfiguration {
   type: LayerType
   /** Whether the layer should be rendered; defaults to false */
   visibility?: boolean
+  gfiMode?: RequestGfiMode
   /** Whether the layer should be hidden from the LayerChooser selection menu */
   hideInMenu?: boolean
   /** The minimum zoom level the layer will be rendered in; defaults to 0 */

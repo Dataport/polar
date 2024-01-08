@@ -13,6 +13,7 @@ import {
   GfiLayerConfiguration,
   RenderType,
   FeatureList,
+  RequestGfiMode,
 } from '@polar/lib-custom-types'
 
 /** parameter specification for request method */
@@ -24,7 +25,7 @@ export interface RequestGfiParameters {
   /** rawLayerList entry, see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md */
   layerSpecification: Record<string, unknown>
   /** defaults to bboxDot (get from minimal coordinate bbox) */
-  mode?: 'bboxDot' | 'intersects' // TODO: Might be interesting to rather define this per service
+  mode?: RequestGfiMode
 }
 
 /** GFI Vuex Module State */
