@@ -160,17 +160,8 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
   showList(_, { windowFeatures, gfiConfiguration }): boolean {
     return Boolean(gfiConfiguration.featureList && !windowFeatures.length)
   },
-  listFeatures(
-    { visibilityChangeIndicator },
-    { listMode, layerKeys },
-    __,
-    rootGetters
-  ): Feature[] {
-    const { map, clientHeight, clientWidth, center, zoomLevel } = rootGetters
-    // trigger getter on those who indicate feature change possibility
-    noop(clientHeight, clientWidth, center, zoomLevel)
-    noop(visibilityChangeIndicator)
-    return map
+  listableLayerSources(_, { layerKeys }, __, rootGetters) {
+    return rootGetters.map
       .getLayers()
       .getArray()
       .filter((layer) => layerKeys.includes(layer.get('id')))
@@ -181,6 +172,22 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
         while (source instanceof ClusterSource) {
           source = source.getSource()
         }
+        source.set('_gfiLayerId', layer.get('id'), true)
+        return source
+      })
+  },
+  listFeatures(
+    { visibilityChangeIndicator },
+    { listableLayerSources, listMode },
+    __,
+    rootGetters
+  ): Feature[] {
+    const { map, clientHeight, clientWidth, center, zoomLevel } = rootGetters
+    // trigger getter on those who indicate feature change possibility
+    noop(clientHeight, clientWidth, center, zoomLevel)
+    noop(visibilityChangeIndicator)
+    return listableLayerSources
+      .map((source) => {
         return (
           listMode === 'loaded'
             ? source.getFeatures()
@@ -192,7 +199,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
           .filter(isVisible)
           .map((feature) => {
             // true = silent change (prevents cluster recomputation & rerender)
-            feature.set('_gfiLayerId', layer.get('id'), true)
+            feature.set('_gfiLayerId', source.get('_gfiLayerId'), true)
             return feature
           })
       })
