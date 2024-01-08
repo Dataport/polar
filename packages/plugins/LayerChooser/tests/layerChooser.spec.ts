@@ -3,7 +3,7 @@ import createTestMountParameters, {
   MockParameters,
 } from '@polar/lib-test-mount-parameters'
 import { LayerChooser } from '../src/components/index'
-import LayerChooserStore from '../src/store/index'
+import { makeStoreModule } from '../src/store/index'
 
 describe('plugin-layerchooser', () => {
   let testParameters: MockParameters
@@ -12,7 +12,7 @@ describe('plugin-layerchooser', () => {
     testParameters = createTestMountParameters()
     testParameters.store.registerModule(
       ['plugin', 'layerChooser'],
-      LayerChooserStore
+      makeStoreModule()
     )
   })
 

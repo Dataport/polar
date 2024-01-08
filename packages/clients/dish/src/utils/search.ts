@@ -1,9 +1,7 @@
 import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 import { getWfsFeatures } from '@polar/lib-get-features'
-import store from '@polar/core/src/vuePlugins/vuex'
 import { getLayerWhere } from '@masterportal/masterportalapi/src/rawLayerList'
 import {
-  DishSearchMethodFunction,
   WfsConfiguration,
   EfiSearchFeature,
   ParsedEfiSearchFeature,
@@ -133,12 +131,12 @@ const sortAndShort =
 /**
  * DISH "Denkmalsuche" search method (injectable for plugin/AddressSearch)
  */
-export const search: DishSearchMethodFunction = (
-  signal,
-  url,
-  inputValue,
-  queryParameters
-) => {
+export function search(
+  signal: AbortSignal,
+  url: string,
+  inputValue: string,
+  queryParameters: DishParameters
+): Promise<FeatureCollection> | never {
   const maxFeatures = queryParameters.maxFeatures || Infinity
   const searchKey = queryParameters.searchKey || 'volltext'
   const volltexttyp =
@@ -160,13 +158,14 @@ export const search: DishSearchMethodFunction = (
       // if not intentional ("operation was aborted" = "user types more")
       if (!signal.aborted) {
         console.error(error)
+        console.error(this)
         if (error.message === dishBackendSizeError) {
-          store.dispatch('plugin/toast/addToast', {
+          this.dispatch('plugin/toast/addToast', {
             type: 'warning',
             text: 'common:dish.backendSizeError',
           })
         } else {
-          store.dispatch('plugin/toast/addToast', {
+          this.dispatch('plugin/toast/addToast', {
             type: 'error',
             text: 'common:dish.unknownError',
           })

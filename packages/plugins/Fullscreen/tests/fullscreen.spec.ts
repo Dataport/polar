@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import createTestMountParameters from '@polar/lib-test-mount-parameters'
-import FullscreenStore from '../src/store'
+import { makeStoreModule } from '../src/store'
 import { Fullscreen as FullscreenComponent } from '../src/components'
 
 describe('plugin-fullscreen', () => {
@@ -11,7 +11,7 @@ describe('plugin-fullscreen', () => {
       testParameters = createTestMountParameters()
       testParameters.store.registerModule(
         ['plugin', 'fullscreen'],
-        FullscreenStore
+        makeStoreModule()
       )
     })
 

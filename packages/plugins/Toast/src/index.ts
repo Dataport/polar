@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { ToastConfiguration } from '@polar/lib-custom-types'
 import { Toast } from './components'
 import language from './language'
-import storeModule from './store'
+import { makeStoreModule } from './store'
 
 export default (options: ToastConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
@@ -10,5 +10,5 @@ export default (options: ToastConfiguration) => (instance: Vue) =>
     plugin: Toast,
     language,
     options,
-    storeModule,
+    storeModule: makeStoreModule(),
   })

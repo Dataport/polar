@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Improved implementation to make plugin SPA-ready.
+
 ## 1.1.0
 
 - Feature: Add default locale for filter plugin as child.
