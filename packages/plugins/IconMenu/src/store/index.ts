@@ -63,7 +63,6 @@ export const makeStoreModule = () => {
       },
       openInMoveHandle({ commit, getters, rootGetters }, index: number) {
         if (rootGetters.hasWindowSize && rootGetters.hasSmallWidth) {
-          // TODO: Add actionButton to moveHandle for vector clusters including a previous and next button. Should be added to menus
           const { hint, id, plugin } = getters.menus[index]
           commit(
             'setMoveHandle',
