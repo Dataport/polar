@@ -1,4 +1,4 @@
-import { Feature, Map, MapBrowserEvent } from 'ol'
+import { Feature, MapBrowserEvent } from 'ol'
 import {
   CoreGetters,
   CoreState,
