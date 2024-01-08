@@ -22,6 +22,8 @@ const defaultOptions = {
   layoutTag: NineLayoutTag.TOP_LEFT,
 }
 
+// this is acceptable for list-like functions
+// eslint-disable-next-line max-lines-per-function
 export const addPlugins = (core) => {
   setLayout(NineLayout)
 
