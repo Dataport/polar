@@ -131,7 +131,17 @@ To figure out the name of the locales to override, inspect the matching plugin i
 | - | - | - |
 | strokeWidth | (string \| number)? | Width of marker stroke (outer line). Defaults to `'2'`. |
 | stroke | string? | Color of marker stroke (outer line). Defaults to `'#ffffff'`. |
-| fill | string? | Fill color for map marker. |
+| fill | (string | masterportalapiPolygonFillHatch)? | Fill color (or hatch pattern) for map marker. |
+
+A full documentation of the masterportalapiPolygonFillHatch is available at the Masterportal's documentation file [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md), chapter 'Polygon.polygonFillHatch'. The basic usage is quoted below for quick lookup. For more details, visual examples, and expert features, see there.
+
+>|Name|Required|Type|Default|Description|
+>|----|--------|----|-------|-----------|
+>|pattern|no|enum["diagonal", "diagonal-right", "zig-line", "zig-line-horizontal", "circle", "rectangle", "triangle", "diamond"]/Object|`"diagonal"`|Draw pattern. You may either use a pre-defined pattern from the enum or specify one yourself.|
+>|size|no|Number|`30`|Edge length of a singular repeated pattern element.|
+>|lineWidth|no|Number|`10`|Line width of drawn pattern. To achieve an even distribution in diagonal and zig-line pattern, choose lineWidth as (1/3 * size). For triangle and diamond, a lineWidth of 1 must be chosen. For rectangle, a lineWidth of at most (1/4 * size) should be chosen. Deviating from these rules is not harmful, but patterns may seem off.|
+>|backgroundColor|no|Number[]|`[0, 0, 0, 1]`|Background color of polygon.|
+>|patternColor|no|Number[]|`[255, 255, 255, 1]`|Fill color of pattern drawn on polygon.|
 
 ##### mapConfiguration.LayerConf
 
