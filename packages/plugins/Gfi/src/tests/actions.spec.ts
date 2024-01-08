@@ -65,7 +65,7 @@ describe('GFI Actions', () => {
     await getFeatureInfo(context, coordinate)
 
     expect(dispatch).toHaveBeenCalledTimes(1)
-    expect(dispatch).toHaveBeenCalledWith('debouncedGfiRequest', coordinate)
+    expect(dispatch).toHaveBeenCalledWith('debouncedGfiRequest', { coordinate })
   })
   it('should fetch and process features', async () => {
     const commit = jest.fn()
@@ -122,7 +122,7 @@ describe('GFI Actions', () => {
       GfiGetters
     >
     // @ts-ignore
-    const debouncedPromise = debouncedFunction(context, coordinate)
+    const debouncedPromise = debouncedFunction(context, { coordinate })
     // @ts-ignore
     jest.runAllTimers()
 
@@ -192,7 +192,7 @@ describe('GFI Actions', () => {
       GfiGetters
     >
     // @ts-ignore
-    const debouncedPromise = debouncedFunction(context, coordinate)
+    const debouncedPromise = debouncedFunction(context, { coordinate })
     // @ts-ignore
     jest.runAllTimers()
 
