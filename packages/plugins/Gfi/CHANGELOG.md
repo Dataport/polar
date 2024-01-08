@@ -5,6 +5,7 @@
 - Feature: Improved implementation to make plugin SPA-ready.
 - Feature: Improve WFS list highlighting with focus/hover styles that are easier to decipher for end users.
 - Feature: Add the possibility to update the close-button to e.g. indicate movement to the vector layer feature list.
+- Feature: Prevent tooltip windows on touch and pen events; now only mouse hover events produce such tooltips now.
 
 ## 1.1.0
 
