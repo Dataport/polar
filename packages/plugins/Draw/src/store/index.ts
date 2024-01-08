@@ -46,7 +46,7 @@ export const makeStoreModule = () => {
         }
         /* eslint-enable @typescript-eslint/naming-convention */
 
-        // TODO DO SOMETHING DIFFERENT THAN ESLINT IGNORE
+        // TODO: Do something different than eslint ignore
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { Text, ...defaultSelectableDrawModes } = allSelectableDrawModes
 
