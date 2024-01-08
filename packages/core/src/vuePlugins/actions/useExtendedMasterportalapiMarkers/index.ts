@@ -52,7 +52,7 @@ const updateSelection = (
 // eslint-disable-next-line max-lines-per-function
 export function useExtendedMasterportalapiMarkers(
   this: PolarStore<CoreState, CoreGetters>,
-  { getters, dispatch, commit }: PolarActionContext<CoreState, CoreGetters>,
+  { commit, dispatch, getters }: PolarActionContext<CoreState, CoreGetters>,
   {
     hoverStyle = {},
     selectionStyle = {},
