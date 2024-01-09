@@ -25,6 +25,7 @@ import getCluster from '@polar/lib-get-cluster'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
+import { ServiceAvailabilityCheck } from '../types'
 import {
   updateSelection,
   useExtendedMasterportalapiMarkers,
@@ -239,7 +240,12 @@ export const makeStore = () => {
       },
       checkServiceAvailability({ state, getters, commit }) {
         state.configuration.layerConf
-          .map((service) => ({ ping: ping(service), service }))
+          .map(
+            (service): ServiceAvailabilityCheck => ({
+              ping: ping(service),
+              service,
+            })
+          )
           .forEach(({ ping, service }) =>
             ping
               .then((statusCode) => {
