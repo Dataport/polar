@@ -131,7 +131,7 @@ To figure out the name of the locales to override, inspect the matching plugin i
 | - | - | - |
 | strokeWidth | (string \| number)? | Width of marker stroke (outer line). Defaults to `'2'`. |
 | stroke | string? | Color of marker stroke (outer line). Defaults to `'#ffffff'`. |
-| fill | (string | masterportalapiPolygonFillHatch)? | Fill color (or hatch pattern) for map marker. |
+| fill | (string \| masterportalapiPolygonFillHatch)? | Fill color (or hatch pattern) for map marker. |
 
 A full documentation of the masterportalapiPolygonFillHatch is available at the Masterportal's documentation file [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md), chapter 'Polygon.polygonFillHatch'. The basic usage is quoted below for quick lookup. For more details, visual examples, and expert features, see there.
 
