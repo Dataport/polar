@@ -3,18 +3,24 @@ import { DragBox, Draw, Modify, Select, Snap } from 'ol/interaction'
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import VectorLayer from 'ol/layer/Vector'
 import Geometry from 'ol/geom/Geometry'
+import { PolarActionContext } from '@polar/lib-custom-types'
+import Interaction from 'ol/interaction/Interaction'
 import { createTextStyle } from '../utils/createTextStyle'
+import { DrawGetters, DrawState } from '../types'
+
+interface CreateInteractionsPayload {
+  drawSource: VectorSource
+  drawLayer: VectorLayer<VectorSource<Geometry>>
+}
 
 export default function (
   {
     commit,
-    getters: { mode, drawMode, textInput, fontSizes },
+    getters: { drawMode, fontSizes, mode, textInput, textSize },
     rootGetters: { configuration },
-    textSize,
-  },
-  drawSource: VectorSource,
-  drawLayer: VectorLayer<VectorSource<Geometry>>
-) {
+  }: PolarActionContext<DrawState, DrawGetters>,
+  { drawSource, drawLayer }: CreateInteractionsPayload
+): Interaction[] {
   if (mode === 'draw') {
     if (drawMode === 'Text') {
       if (!textInput) {

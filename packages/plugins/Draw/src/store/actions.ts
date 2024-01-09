@@ -16,6 +16,7 @@ export const makeActions = () => {
   const drawSource = new VectorSource()
 
   const actions: PolarActionTree<DrawState, DrawGetters> = {
+    createInteractions,
     setupModule({ commit, dispatch, rootGetters: { configuration, map } }) {
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
         commit('updateFeatures')
@@ -74,17 +75,11 @@ export const makeActions = () => {
         commit('updateFeatures')
       }
     },
-    updateInteractions({
+    async updateInteractions({
       commit,
-      getters: {
-        mode,
-        drawMode,
-        textInput,
-        selectedFeature,
-        textSize,
-        fontSizes,
-      },
-      rootGetters: { map, configuration },
+      dispatch,
+      getters: { selectedFeature },
+      rootGetters: { map },
     }) {
       interactions.forEach((interaction) => map.removeInteraction(interaction))
       if (interactions.some((interaction) => interaction instanceof Select)) {
@@ -96,16 +91,11 @@ export const makeActions = () => {
         commit('setSelectedFeature', null) // select removal = deselect
         commit('setTextInput', '')
       }
-      interactions = createInteractions(
-        {
-          commit,
-          getters: { mode, drawMode, textInput, fontSizes },
-          rootGetters: { configuration },
-          textSize,
-        },
+      // await is needed as dispatch *may* return a Promise
+      interactions = await dispatch('createInteractions', {
         drawSource,
-        drawLayer
-      )
+        drawLayer,
+      })
       interactions.forEach((interaction) => map.addInteraction(interaction))
     },
     zoomToFeature({ dispatch }, { index = 0, margin }) {
