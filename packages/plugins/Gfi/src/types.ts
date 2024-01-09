@@ -4,6 +4,7 @@ import { SourceType } from 'ol/layer/WebGLTile'
 import { LayerType } from 'ol/renderer/webgl/TileLayer'
 import LayerRenderer from 'ol/renderer/Layer'
 import { Layer } from 'ol/layer'
+import VectorSource from 'ol/source/Vector'
 import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import {
   HighlightStyle,
@@ -50,6 +51,7 @@ export interface GfiGetters extends GfiState {
   isFeatureHovered: (feature: Feature) => boolean
   /** all layer keys to retrieve GFI information for */
   layerKeys: string[]
+  listableLayerSources: VectorSource[]
   listFeatures: Feature[]
   listMode: FeatureList['mode'] | undefined
   listText: FeatureList['text']
