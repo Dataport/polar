@@ -1,21 +1,24 @@
 import debounce from 'lodash.debounce'
+import compare from 'just-compare'
 import { Coordinate } from 'ol/coordinate'
-import { Feature as GeoJsonFeature } from 'geojson'
 import { Style, Fill, Stroke } from 'ol/style'
 import Overlay from 'ol/Overlay'
 import { GeoJSON } from 'ol/format'
+import { Feature } from 'ol'
+import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import { rawLayerList } from '@masterportal/masterportalapi/src'
 import { PolarActionTree } from '@polar/lib-custom-types'
+import getCluster from '@polar/lib-get-cluster'
+import { isVisible } from '@polar/lib-invisible-style'
 import { getTooltip, Tooltip } from '@polar/lib-tooltip'
-import { Feature } from 'ol'
 import {
   getFeatureDisplayLayer,
   clear,
   addFeature,
-} from '../utils/displayFeatureLayer'
-import { requestGfi } from '../utils/requestGfi'
-import { GfiGetters, GfiState } from '../types'
-import sortFeatures from '../utils/sortFeatures'
+} from '../../utils/displayFeatureLayer'
+import { requestGfi } from '../../utils/requestGfi'
+import { GfiGetters, GfiState } from '../../types'
+import sortFeatures from '../../utils/sortFeatures'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -67,6 +70,7 @@ export const makeActions = () => {
       dispatch('setupTooltip')
       dispatch('setupFeatureVisibilityUpdates')
       dispatch('setupCoreListener')
+      dispatch('setupZoomListeners')
     },
     setupCoreListener({
       getters: { gfiConfiguration },
@@ -76,9 +80,66 @@ export const makeActions = () => {
       if (gfiConfiguration.featureList?.bindWithCoreHoverSelect) {
         this.watch(
           () => rootGetters.selected,
-          (selectedFeature) =>
-            dispatch('setOlFeatureInformation', selectedFeature),
+          (feature) => dispatch('setOlFeatureInformation', { feature }),
           { deep: true }
+        )
+      }
+    },
+    setupZoomListeners({ dispatch, getters, rootGetters }) {
+      if (getters.gfiConfiguration.featureList) {
+        this.watch(
+          () => rootGetters.zoomLevel,
+          () => {
+            const {
+              featureInformation,
+              listableLayerSources,
+              visibleWindowFeatureIndex,
+              windowFeatures,
+            } = getters
+
+            if (windowFeatures.length) {
+              const layerId: string =
+                // @ts-expect-error | if windowFeatures has features, visibleWindowFeatureIndex is in the range of possible features
+                windowFeatures[visibleWindowFeatureIndex].polarInternalLayerKey
+              const selectedFeatureProperties: GeoJsonProperties = {
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                _gfiLayerId: layerId,
+                ...featureInformation[layerId][visibleWindowFeatureIndex]
+                  .properties,
+              }
+              const originalFeature = listableLayerSources
+                .map((source) =>
+                  source
+                    .getFeatures()
+                    .filter(isVisible)
+                    .map((feature) => {
+                      // true = silent change (prevents cluster recomputation & rerender)
+                      feature.set(
+                        '_gfiLayerId',
+                        source.get('_gfiLayerId'),
+                        true
+                      )
+                      return feature
+                    })
+                )
+                .flat(1)
+                .find((f) =>
+                  compare(
+                    JSON.parse(new GeoJSON().writeFeature(f)).properties,
+                    selectedFeatureProperties
+                  )
+                )
+              if (originalFeature) {
+                dispatch('setOlFeatureInformation', {
+                  feature: getCluster(
+                    rootGetters.map,
+                    originalFeature,
+                    '_gfiLayerId'
+                  ),
+                })
+              }
+            }
+          }
         )
       }
     },
@@ -161,7 +222,7 @@ export const makeActions = () => {
       if (!rootGetters.configuration?.extendedMasterportalapiMarkers) {
         dispatch('plugin/pins/removeMarker', null, { root: true })
       }
-      dispatch('setCoreSelection', null)
+      dispatch('setCoreSelection', { feature: null })
       clear(featureDisplayLayer) // ... features of gfi layer
     },
     /**
@@ -291,12 +352,29 @@ export const makeActions = () => {
       },
       50
     ),
-    setCoreSelection({ commit, rootGetters }, feature: Feature | null) {
+    setCoreSelection(
+      { commit, dispatch, rootGetters },
+      {
+        feature,
+        centerOnFeature = false,
+      }: { feature: Feature | null; centerOnFeature?: boolean }
+    ) {
       if (rootGetters.selected !== feature) {
         commit('setSelected', feature, { root: true })
+        dispatch(
+          'updateSelection',
+          { feature, centerOnFeature },
+          { root: true }
+        )
       }
     },
-    setOlFeatureInformation({ commit, dispatch }, feature: Feature | null) {
+    setOlFeatureInformation(
+      { commit, dispatch },
+      {
+        feature,
+        centerOnFeature = false,
+      }: { feature: Feature | null; centerOnFeature?: boolean }
+    ) {
       commit('clearFeatureInformation')
       commit('setVisibleWindowFeatureIndex', 0)
       clear(featureDisplayLayer)
@@ -308,7 +386,7 @@ export const makeActions = () => {
                 .map((feature) => JSON.parse(writer.writeFeature(feature)))
             : [JSON.parse(writer.writeFeature(feature))],
         })
-        dispatch('setCoreSelection', feature)
+        dispatch('setCoreSelection', { feature, centerOnFeature })
       }
     },
     hover({ commit, rootGetters }, feature: Feature) {
