@@ -1,8 +1,11 @@
 # CHANGELOG
 
-## 1.3.0
+## unpublished
 
 - Feature: Add hatchable markers; that is, when using `extendedMasterportalapiMarkers`, marker fills can now contain patterns for better accessibility.
+
+## 1.3.0
+
 - Feature: Improved implementation to make core SPA-ready.
 - Feature: A `renderFaToLightDom` parameter has been added. This can be used to disable rendering fontawesome styles to the Light/Root DOM. It is, by default, `true`.
 - Feature: A `stylePath` property has been added to the MapConfiguration. This is the new way to import the client CSS; the previous way with `data-polar="true"` has been deprecated. See README for details.

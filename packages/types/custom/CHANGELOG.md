@@ -1,8 +1,11 @@
 # CHANGELOG
 
-## 1.3.0
+## unpublished
 
 - Feature: Add `MasterportalapiPolygonFillHatch` to `MarkerStyle` as optional fill variant.
+
+## 1.3.0
+
 - Feature: Add `stylePath` to `MapConfig` for a cleaner style import.
 - Feature: Add new parameter `closeIcon` to `MoveHandleProperties`.
 - Feature: Add `moveHandleActionButton` to `CoreGetters` and `CoreState` and remove it as the optional parameter `actionButton` from `MoveHandleProperties`.
