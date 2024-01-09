@@ -12,8 +12,8 @@ export const isDevMode = process.env.NODE_ENV === 'development'
  */
 
 export const dishDeegreeBaseUrl = isDevMode
-  ? 'https://efi2-deegree.schleswig-holstein.de/dish-deegree-3.4.13/services'
-  : `#{Project.deegree.URL}/dish-deegree-3.4.13/services`
+  ? 'https://efi2-deegree.schleswig-holstein.de/dish-deegree/services'
+  : `#{Project.deegree.URL}/dish-deegree/services`
 
 export const dishBaseUrl = isDevMode
   ? 'https://efi2.schleswig-holstein.de/dish'
