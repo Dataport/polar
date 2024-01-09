@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.3.0
 
 - Feature: Improved implementation to make core SPA-ready.
 - Feature: A `renderFaToLightDom` parameter has been added. This can be used to disable rendering fontawesome styles to the Light/Root DOM. It is, by default, `true`.
