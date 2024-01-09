@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Slightly enlarge `useExtendedMasterportalapiMarkers` markers for easier usage on mobile devices.
+
 ## 1.3.0
 
 - Feature: Improved implementation to make core SPA-ready.

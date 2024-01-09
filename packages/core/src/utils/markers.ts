@@ -5,8 +5,8 @@ import { MarkerStyle } from '@polar/lib-custom-types'
 type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
 
 // these have been measured to fit once and influence marker size
-const imgSize = [23, 32]
-const imgSizeMulti = [35, 32]
+const imgSize = [26, 36]
+const imgSizeMulti = [40, 36]
 
 const defaultStroke = '#FFFFFF'
 const defaultStrokeWidth = '2'
