@@ -7,6 +7,8 @@ import createDrawLayer from '../utils/createDrawLayer'
 import { DrawGetters, DrawState } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
 import createInteractions from './createInteractions'
+import createModifyInteractions from './createModifyInteractions'
+import createTextInteractions from './createTextInteractions'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -17,6 +19,8 @@ export const makeActions = () => {
 
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
+    createModifyInteractions,
+    createTextInteractions,
     setupModule({ commit, dispatch, rootGetters: { configuration, map } }) {
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
         commit('updateFeatures')
