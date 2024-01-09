@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Improved implementation to make plugin SPA-ready.
+- Fix: Update Attributions on zooming out of layer resolution boundaries.
 
 ## 1.1.0
 
