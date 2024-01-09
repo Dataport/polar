@@ -157,8 +157,8 @@ export const makeActions = () => {
         offset: [0, -5],
       })
       map.addOverlay(overlay)
-      map.on('pointermove', ({ pixel, dragging }) => {
-        if (dragging) {
+      map.on('pointermove', ({ pixel, dragging, originalEvent }) => {
+        if (dragging || ['touch', 'pen'].includes(originalEvent.pointerType)) {
           return
         }
         let hasFeatureAtPixel = false
