@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
 - Feature: Improve WFS list highlighting with focus/hover styles that are easier to decipher for end users.

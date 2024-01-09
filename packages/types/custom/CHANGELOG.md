@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.3.0
 
 - Feature: Add `stylePath` to `MapConfig` for a cleaner style import.
 - Feature: Add new parameter `closeIcon` to `MoveHandleProperties`.

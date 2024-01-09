@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.3.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
 

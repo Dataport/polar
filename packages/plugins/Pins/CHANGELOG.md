@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
 - Fix: Pins are no longer set while there is a `Modify` interaction or one with flag `_isDeleteSelect`. This missing previously led to pin reset on draw interactions.
