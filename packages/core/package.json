@@ -1,6 +1,6 @@
 {
   "name": "@polar/core",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "MapClient Core",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -16,8 +16,8 @@
     "@panter/vue-i18next": "^0.15.2",
     "@polar/components": "^2.0.0",
     "@polar/lib-idx": "^1.0.0",
-    "@polar/lib-get-cluster": "*",
-    "@polar/lib-invisible-style": "*",
+    "@polar/lib-get-cluster": "^1.0.0",
+    "@polar/lib-invisible-style": "^1.0.0",
     "@repositoryname/noop": "^1.0.6",
     "@repositoryname/vuex-generators": "^1.1.2",
     "hammerjs": "2.0.8",

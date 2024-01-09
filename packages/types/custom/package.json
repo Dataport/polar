@@ -1,6 +1,6 @@
 {
   "name": "@polar/lib-custom-types",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "main": "index.ts",

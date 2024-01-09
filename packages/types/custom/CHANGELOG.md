@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.3.0
 
 - Feature: Add `MasterportalapiPolygonFillHatch` to `MarkerStyle` as optional fill variant.
 - Feature: Add `stylePath` to `MapConfig` for a cleaner style import.
