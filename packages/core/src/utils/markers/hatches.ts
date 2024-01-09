@@ -7,7 +7,7 @@ import { MasterportalapiPolygonFillHatch } from '@polar/lib-custom-types'
 /*
  * Polygon hatches from @masterportal/masterportalapi@2.31.0.
  * Small adaptations have been made to fit markers.
- * Licensed unter MIT by LGV.
+ * Licensed under MIT by LGV.
  * Project: https://bitbucket.org/geowerkstatt-hamburg/masterportalapi
  * NOTE we can replace this file with a direct import after updating
  *      to a version supporting this feature, hence only minimal adaptation
