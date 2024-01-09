@@ -8,6 +8,7 @@
 - Feature: Add possibility to use the new slot added to `@polar/components` component `MoveHandle` to be able to use a different icon for the close-button.
 - Feature: Add possibility to directly add the action button to the component `MoveHandle` via the new state variable `moveHandleActionButton`.
 - Fix: POLAR now adds required Fontawesome styles to the Light/Root DOM. For more information, please check the `README.md` regarding `renderFaToLightDom`, which may also be used to disable this behaviour.
+- Fix: Resolved an issue of the `selected` feature sometimes not properly resetting having previous features still being styled as selected.
 
 ## 1.2.1
 

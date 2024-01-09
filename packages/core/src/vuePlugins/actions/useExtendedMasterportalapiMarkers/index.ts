@@ -1,4 +1,4 @@
-import { Feature, Map, MapBrowserEvent } from 'ol'
+import { Feature, MapBrowserEvent } from 'ol'
 import {
   CoreGetters,
   CoreState,
@@ -11,47 +11,63 @@ import { isVisible } from '@polar/lib-invisible-style'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import BaseLayer from 'ol/layer/Base'
+import getCluster from '@polar/lib-get-cluster'
 import { getHoveredStyle, getSelectedStyle } from '../../../utils/markers'
 import { resolveClusterClick } from '../../../utils/resolveClusterClick'
 import { setLayerId } from './setLayerId'
-import { center } from './center'
-import { getFeaturesCluster } from './getFeaturesCluster'
+
+interface UpdateSelectionPayload {
+  feature: Feature | null
+  centerOnFeature?: boolean
+}
 
 let lastClickEvent: MapBrowserEvent<MouseEvent> | null = null
 
 // local copies
 let hovered: Feature | null = null
 let selected: Feature | null = null
+let localSelectionStyle: MarkerStyle = {}
 
-const updateSelection = (
-  map: Map,
-  feature: Feature | null,
-  selectionStyle: MarkerStyle
-) => {
+export function updateSelection(
+  {
+    dispatch,
+    rootGetters: { map, configuration },
+  }: PolarActionContext<CoreState, CoreGetters>,
+  { feature, centerOnFeature = false }: UpdateSelectionPayload
+) {
+  if (!configuration.extendedMasterportalapiMarkers) {
+    console.error(
+      `@polar/core: The action 'updateSelection' can only be used if 'extendedMasterportalapiMarkers' has been configured.`
+    )
+    return
+  }
+  selected?.setStyle(undefined)
+  selected = null
+
   if (feature === null) {
-    selected?.setStyle(undefined)
-    selected = null
     return
   }
 
-  const selectedCluster = getFeaturesCluster(map, feature)
+  const selectedCluster = getCluster(map, feature, '_gfiLayerId')
 
   selectedCluster.setStyle(
     getSelectedStyle(
-      selectionStyle,
+      localSelectionStyle,
       selectedCluster.get('features')?.length > 1
     )
   )
 
   selected = selectedCluster
-  center(map, selected)
+  if (centerOnFeature) {
+    dispatch('centerOnFeature', selected)
+  }
 }
 
 // disabled since most of the body relies on parameters; allow longer function to avoid parameter explosion
 // eslint-disable-next-line max-lines-per-function
 export function useExtendedMasterportalapiMarkers(
   this: PolarStore<CoreState, CoreGetters>,
-  { getters, dispatch, commit }: PolarActionContext<CoreState, CoreGetters>,
+  { commit, dispatch, getters }: PolarActionContext<CoreState, CoreGetters>,
   {
     hoverStyle = {},
     selectionStyle = {},
@@ -66,6 +82,7 @@ export function useExtendedMasterportalapiMarkers(
     dispatchOnMapSelect?: string[]
   }
 ) {
+  localSelectionStyle = selectionStyle
   const { map } = getters
 
   const layerFilter = (layer: BaseLayer): boolean =>
@@ -104,11 +121,6 @@ export function useExtendedMasterportalapiMarkers(
     }
   )
 
-  this.watch(
-    () => getters.selected,
-    (feature) => updateSelection(map, feature, selectionStyle)
-  )
-
   // // // MAP EVENT HANDLING
 
   // on zoom change, re-select since cluster was updated
@@ -120,7 +132,7 @@ export function useExtendedMasterportalapiMarkers(
       if (selected) {
         const baseFeature = selected.get('features')?.[0] || selected
         setLayerId(map, baseFeature)
-        updateSelection(map, baseFeature, selectionStyle)
+        dispatch('updateSelection', { feature: baseFeature })
       }
     }
   })
@@ -150,6 +162,7 @@ export function useExtendedMasterportalapiMarkers(
       selected.setStyle(undefined)
       selected = null
       commit('setSelected', selected)
+      dispatch('updateSelection', { feature: selected })
     }
     const feature = map.getFeaturesAtPixel(event.pixel, { layerFilter })[0]
     if (!feature || feature instanceof RenderFeature) {
@@ -175,8 +188,9 @@ export function useExtendedMasterportalapiMarkers(
       hovered = null
       commit('setHovered', null)
       commit('setSelected', selected)
-      selected.setStyle(getSelectedStyle(selectionStyle, isMultiFeature))
-      center(map, selected)
+      selected.setStyle(getSelectedStyle(localSelectionStyle, isMultiFeature))
+      dispatch('updateSelection', { feature: selected, centerOnFeature: true })
+      dispatch('centerOnFeature', selected)
     }
   })
 
