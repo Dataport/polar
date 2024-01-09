@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
 // console is a vital feature for this
-
+/* eslint-disable no-console */
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import merge from 'lodash.merge'
@@ -20,11 +19,16 @@ import {
 import { ping } from '@masterportal/masterportalapi/src'
 import { Interaction } from 'ol/interaction'
 import { Feature, Map } from 'ol'
+import { Point } from 'ol/geom'
+import { easeOut } from 'ol/easing'
+import getCluster from '@polar/lib-get-cluster'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
-import { useExtendedMasterportalapiMarkers } from './actions/useExtendedMasterportalapiMarkers'
-import { getFeaturesCluster } from './actions/useExtendedMasterportalapiMarkers/getFeaturesCluster'
+import {
+  updateSelection,
+  useExtendedMasterportalapiMarkers,
+} from './actions/useExtendedMasterportalapiMarkers'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
 const devMode = import.meta.env.DEV
@@ -34,7 +38,6 @@ const mutationLogger = (store) => {
     console.log('DEV MODE DETECTED - VUEX LOGGING ENABLED')
     store.subscribe(({ type, payload }) => {
       let fixedPayload
-
       // "fix" in the sense of "screenshot" – print doesn't change anymore
       if (typeof payload === 'undefined') {
         fixedPayload = undefined
@@ -46,7 +49,6 @@ const mutationLogger = (store) => {
           fixedPayload = payload
         }
       }
-
       console.log(`Mutation: '${type}'; Payload:`, fixedPayload)
     })
   }
@@ -100,7 +102,6 @@ export const makeStore = () => {
 
   const setCenter = ({ map }) =>
     store.commit('setCenter', map.getView().getCenter())
-
   const setZoom = ({ map }) =>
     store.commit('setZoomLevel', map.getView().getZoom())
 
@@ -174,7 +175,7 @@ export const makeStore = () => {
           hovered = payload
         } else if (map !== null) {
           // nested features are invisible and hence unfit for styling
-          hovered = getFeaturesCluster(map, payload)
+          hovered = getCluster(map, payload, '_gfiLayerId')
         }
         state.hovered = state.hovered + 1
       },
@@ -271,6 +272,13 @@ export const makeStore = () => {
               .catch(console.error)
           )
       },
+      centerOnFeature({ rootGetters: { map } }, feature: Feature) {
+        map.getView().animate({
+          center: (feature.getGeometry() as Point).getCoordinates(),
+          duration: 400,
+          easing: easeOut,
+        })
+      },
       updateDragAndZoomInteractions({ getters }) {
         interactions.forEach((i) => getters.map.removeInteraction(i))
         interactions = createPanAndZoomInteractions(
@@ -281,12 +289,11 @@ export const makeStore = () => {
         interactions.forEach((i) => getters.map.addInteraction(i))
       },
       useExtendedMasterportalapiMarkers,
+      updateSelection,
     },
   })
-
   i18next.on('languageChanged', (language) => {
     store.commit('setLanguage', language)
   })
-
   return store
 }
