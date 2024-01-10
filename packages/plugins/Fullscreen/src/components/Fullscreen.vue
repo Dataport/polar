@@ -7,6 +7,11 @@
   >
     <template #activator="{ on, attrs }">
       <v-btn
+        :aria-label="
+          isInFullscreen
+            ? $t('common:plugins.fullscreen.button.tooltip.deactivate')
+            : $t('common:plugins.fullscreen.button.tooltip.activate')
+        "
         :class="{ 'ma-2': renderType === 'independent' }"
         color="primary"
         small
