@@ -198,7 +198,7 @@ export default Vue.extend({
                 }
                 // always print status code for debugging purposes
                 console.error(
-                  `Ping to "${service.id}" returned "${statusCode}".`
+                  `@polar/core: Ping to "${service.id}" returned "${statusCode}".`
                 )
                 // always add to error log for listener purposes
                 this.$store.commit('setErrors', [
@@ -211,7 +211,7 @@ export default Vue.extend({
                 ])
               }
             })
-            .catch(console.error)
+            .catch((e) => console.error('@polar/core', e))
         )
     },
     updateHasSmallDisplay() {
