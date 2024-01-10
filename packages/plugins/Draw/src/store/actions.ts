@@ -7,8 +7,8 @@ import createDrawLayer from '../utils/createDrawLayer'
 import { DrawGetters, DrawState } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
 import createInteractions from './createInteractions'
-import createModifyInteractions from './createModifyInteractions'
-import createTextInteractions from './createTextInteractions'
+import createModifyInteractions from './createInteractions/createModifyInteractions'
+import createTextInteractions from './createInteractions/createTextInteractions'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function

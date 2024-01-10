@@ -1,8 +1,8 @@
 import { Draw, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
-import createDeleteInteractions from '../utils/createDeleteInteractions'
-import { CreateInteractionsPayload, DrawGetters, DrawState } from '../types'
+import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
+import createDeleteInteractions from './createDeleteInteractions'
 
 export default function (
   { dispatch, getters }: PolarActionContext<DrawState, DrawGetters>,

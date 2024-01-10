@@ -1,7 +1,7 @@
 import { Modify, Select, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { CreateInteractionsPayload, DrawGetters, DrawState } from '../types'
+import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 
 export default function (
   { commit, getters }: PolarActionContext<DrawState, DrawGetters>,
