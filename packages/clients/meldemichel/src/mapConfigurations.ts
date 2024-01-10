@@ -159,6 +159,8 @@ const mapConfigurations: Record<
   keyof typeof MODE,
   (reportServiceId: string, afmUrl: string) => object
 > = {
+  // this is acceptable for configuration
+  // eslint-disable-next-line max-lines-per-function
   [MODE.COMPLETE]: (reportServiceId: string, afmUrl: string) => {
     return {
       ...commonMapConfiguration,

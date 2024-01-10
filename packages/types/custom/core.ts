@@ -1,3 +1,5 @@
+// pushing this boundary is fine for a type register
+/* eslint-disable max-lines */
 import { Feature, Map } from 'ol'
 import { Resource } from 'i18next'
 import { Options as Fill } from 'ol/style/Fill'
