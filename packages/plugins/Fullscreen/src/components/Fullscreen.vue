@@ -53,7 +53,7 @@ export default Vue.extend({
           return document.getElementById(this.targetContainerId) as HTMLElement
         }
         console.error(
-          `Fullscreen.vue: The given targetContainerId ${this.targetContainerId} does not refer to a valid html element.`
+          `@polar/plugin-fullscreen: The given targetContainerId ${this.targetContainerId} does not refer to a valid html element.`
         )
       }
       return this.$root.$el
