@@ -267,7 +267,7 @@ export const makeActions = () => {
 
             if (!layer) {
               console.error(
-                `No layer with id "${key}" found during run-time. GFI skipped.`
+                `@polar/plugin-gfi: No layer with id "${key}" found during run-time. GFI skipped.`
               )
               return [] as GeoJsonFeature[]
             }

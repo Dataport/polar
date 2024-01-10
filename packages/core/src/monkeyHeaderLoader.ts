@@ -28,7 +28,7 @@ function customLoader(tile, url) {
         tile.getImage().src = URL.createObjectURL(blob)
       }
     })
-    .catch(console.error)
+    .catch((e) => console.error('@polar/core', e))
 }
 
 // Original addLayer method

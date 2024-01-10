@@ -13,7 +13,7 @@ export const getMethodContainer = () => {
     Object.entries(additionalMethods).forEach(([type, searchMethod]) => {
       if (methods[type]) {
         console.error(
-          `AddressSearch: Method "${type}" already exists. Please choose a different name. Overrides are not allowed.`
+          `@polar/plugin-address-search: Method "${type}" already exists. Please choose a different name. Overrides are not allowed.`
         )
       } else {
         methods[type] = searchMethod
@@ -26,7 +26,7 @@ export const getMethodContainer = () => {
       return method
     }
     throw new Error(
-      `AddressSearch: The given type "${type}" does not define a valid searchMethod.`
+      `The given type "${type}" does not define a valid searchMethod.`
     )
   }
 

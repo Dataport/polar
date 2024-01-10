@@ -49,7 +49,7 @@ export const makeStoreModule = () => {
               return [backgrounds, [...masks, current]]
             }
             console.error(
-              `Unknown layer type ${current.type} in Plugin LayerChooser. Layer is ignored by plugin.`
+              `@polar/plugin-layer-chooser: Unknown layer type ${current.type}. Layer is ignored by plugin.`
             )
             return [backgrounds, masks]
           },
@@ -80,7 +80,7 @@ export const makeStoreModule = () => {
 
           if (rawLayer.typ !== 'WMS' && !layer.hideInMenu) {
             console.warn(
-              `Used configuration 'layers' on layer with type '${
+              `@polar/plugin-layer-chooser: Used configuration 'layers' on layer with type '${
                 rawLayer.typ
               }', but only 'WMS' is supported. Ignoring configuration for ${JSON.stringify(
                 rawLayer
@@ -202,7 +202,7 @@ export const makeStoreModule = () => {
 
         if (!olLayer || !olSource) {
           console.error(
-            `Action 'toggleOpenedOptionsServiceLayer' failed on ${openedOptionsService.id} with value ${sortedValue}: Layer not found in OL, or source not initialized in OL.`
+            `@polar/plugin-layer-chooser: Action 'toggleOpenedOptionsServiceLayer' failed on ${openedOptionsService.id} with value ${sortedValue}. Layer not found in OL, or source not initialized in OL.`
           )
           return
         }
@@ -263,7 +263,7 @@ export const makeStoreModule = () => {
 
         if (!serviceDefinition.layers) {
           console.error(
-            'Trying to configure layers of a layer without "layers" field.',
+            '@polar/plugin-layer-chooser: Trying to configure layers of a layer without "layers" field.',
             serviceDefinition
           )
           return null
@@ -275,7 +275,7 @@ export const makeStoreModule = () => {
 
         if (wmsCapabilitiesJson === null) {
           console.error(
-            `CapabilitiesJson for layer ${JSON.stringify(
+            `@polar/plugin-layer-chooser: CapabilitiesJson for layer ${JSON.stringify(
               openedOptionsService
             )} is null.`
           )

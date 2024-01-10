@@ -23,7 +23,7 @@ export function navigateToDenkmal(instance, objektId: string) {
       }
       if (features.length > 1) {
         console.warn(
-          `More than one feature found for id ${objektId}. Arbitrarily using first-returned.`
+          `@polar/client-dish: More than one feature found for id ${objektId}. Arbitrarily using first-returned.`
         )
       }
       const feature = features[0]
@@ -36,7 +36,7 @@ export function navigateToDenkmal(instance, objektId: string) {
       })
     })
     .catch((error) => {
-      console.error(error)
+      console.error('@polar/client-dish', error)
       instance.$store.dispatch('plugin/toast/addToast', {
         type: 'warning',
         text: 'common:dish.idNotFound',

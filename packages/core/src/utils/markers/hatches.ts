@@ -181,7 +181,7 @@ function drawSegment(context, size, { type, parameters }) {
     )
   } else {
     console.error(
-      `polygonStyleHatches: Unknown segment type "${type}". Skipping segment.`
+      `@polar/core: Unknown segment type "${type}". Skipping segment.`
     )
 
     return
@@ -229,7 +229,7 @@ function drawHatch(context, size, pattern) {
     }
   } else {
     console.error(
-      `polygonStyleHatches: Unknown polygon style "${pattern}". Skipping hatching.`
+      `@polar/core: Unknown polygon style "${pattern}". Skipping hatching.`
     )
   }
 }
