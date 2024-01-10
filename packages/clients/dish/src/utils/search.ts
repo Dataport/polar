@@ -46,7 +46,7 @@ const addGeometries = async (
       const keep = Boolean(feature.geometry)
       if (!keep) {
         console.warn(
-          `Feature had no matching geometry and can't be used: ${JSON.stringify(
+          `@polar/client-dish: Feature had no matching geometry and can't be used: ${JSON.stringify(
             feature
           )}`
         )
@@ -142,8 +142,7 @@ export function search(
     .catch((error) => {
       // if not intentional ("operation was aborted" = "user types more")
       if (!signal.aborted) {
-        console.error(error)
-        console.error(this)
+        console.error('@polar/client-dish', error)
         if (error.message === dishBackendSizeError) {
           this.dispatch('plugin/toast/addToast', {
             type: 'warning',

@@ -9,10 +9,9 @@ let lookup: string[] = []
 fetch(dishAutocompleteUrl)
   .then((response) => response.json())
   .then((json) => (lookup = json))
-  .catch((e) => {
-    console.error(e)
-    console.error('Autocomplete initialization failed.')
-  })
+  .catch((e) =>
+    console.error('@polar/client-dish: Autocomplete initialization failed.', e)
+  )
 
 /**
  * To be usable within the AddressSearch plugin, autocomplete

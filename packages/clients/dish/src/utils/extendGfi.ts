@@ -71,7 +71,7 @@ async function getText(identifier: string): Promise<DishFeatureProperties> {
     )
     if (response.status !== 200) {
       console.error(
-        `DISH backend returned status ${response.status}. Response object: `,
+        `@polar/client-dish: DISH backend returned status ${response.status}. Response object: `,
         response
       )
       return { Information: 'Keine Informationen zum Denkmal gefunden' }
@@ -86,7 +86,7 @@ async function getText(identifier: string): Promise<DishFeatureProperties> {
     }
     throw Error('Error while reading response body.')
   } catch (error) {
-    console.error(error)
+    console.error('@polar/client-dish', error)
     return { Information: 'Keine Informationen zum Denkmal gefunden' }
   }
 }
@@ -107,7 +107,7 @@ async function getPhoto(identifier: string): Promise<string> {
       }
       reader.readAsDataURL(blob)
     } catch (e) {
-      console.error(e)
+      console.error('@polar/client-dish', e)
       resolve('Kein Foto gefunden')
     }
   })
