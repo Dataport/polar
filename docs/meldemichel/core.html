@@ -210,11 +210,62 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 </tr>
 <tr>
 <td>fill</td>
-<td>string?</td>
-<td>Fill color for map marker.</td>
+<td>(string | masterportalapiPolygonFillHatch)?</td>
+<td>Fill color (or hatch pattern) for map marker.</td>
 </tr>
 </tbody>
 </table>
+<p>A full documentation of the masterportalapiPolygonFillHatch is available at the Masterportal's documentation file <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md">style.json.md</a>, chapter 'Polygon.polygonFillHatch'. The basic usage is quoted below for quick lookup. For more details, visual examples, and expert features, see there.</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Required</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pattern</td>
+<td>no</td>
+<td>enum[&quot;diagonal&quot;, &quot;diagonal-right&quot;, &quot;zig-line&quot;, &quot;zig-line-horizontal&quot;, &quot;circle&quot;, &quot;rectangle&quot;, &quot;triangle&quot;, &quot;diamond&quot;]/Object</td>
+<td><code>&quot;diagonal&quot;</code></td>
+<td>Draw pattern. You may either use a pre-defined pattern from the enum or specify one yourself.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>no</td>
+<td>Number</td>
+<td><code>30</code></td>
+<td>Edge length of a singular repeated pattern element.</td>
+</tr>
+<tr>
+<td>lineWidth</td>
+<td>no</td>
+<td>Number</td>
+<td><code>10</code></td>
+<td>Line width of drawn pattern. To achieve an even distribution in diagonal and zig-line pattern, choose lineWidth as (1/3 * size). For triangle and diamond, a lineWidth of 1 must be chosen. For rectangle, a lineWidth of at most (1/4 * size) should be chosen. Deviating from these rules is not harmful, but patterns may seem off.</td>
+</tr>
+<tr>
+<td>backgroundColor</td>
+<td>no</td>
+<td>Number[]</td>
+<td><code>[0, 0, 0, 1]</code></td>
+<td>Background color of polygon.</td>
+</tr>
+<tr>
+<td>patternColor</td>
+<td>no</td>
+<td>Number[]</td>
+<td><code>[255, 255, 255, 1]</code></td>
+<td>Fill color of pattern drawn on polygon.</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
 <h5>mapConfiguration.LayerConf</h5>
 <p>The layer configuration (or: service register) is read by the masterportalAPI. The full definition can be read <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md">here</a>.</p>
 <p>However, not all listed services have been implemented in the masterportalAPI yet, and no documentation regarding implemented properties exists there yet.</p>
