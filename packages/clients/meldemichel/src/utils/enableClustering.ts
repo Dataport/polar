@@ -8,7 +8,7 @@ export const enableClustering = (
     )
     if (!reportServiceConfiguration) {
       console.error(
-        `Report service ${reportServiceId} could not be found in service register. Clustering has not been activated.`
+        `@polar/client-meldemichel: Report service ${reportServiceId} could not be found in service register. Clustering has not been activated.`
       )
       return
     }
