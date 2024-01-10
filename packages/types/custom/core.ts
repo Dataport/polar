@@ -1,3 +1,5 @@
+// pushing this boundary is fine for a type register
+/* eslint-disable max-lines */
 import { Feature, Map } from 'ol'
 import { Resource } from 'i18next'
 import { Options as Fill } from 'ol/style/Fill'
@@ -530,10 +532,27 @@ export interface PolarMapOptions {
 /** The initial language the client should be using; defaults to 'de' if not given */
 export type InitialLanguage = 'de' | 'en'
 
+export interface MasterportalapiPolygonFillHatch {
+  pattern?:
+    | 'diagonal'
+    | 'diagonal-right'
+    | 'zig-line'
+    | 'zig-line-horizontal'
+    | 'circle'
+    | 'rectangle'
+    | 'triangle'
+    | 'diamond'
+    | object
+  size?: number
+  lineWidth?: number
+  backgroundColor?: [number, number, number, number]
+  patternColor?: [number, number, number, number]
+}
+
 export interface MarkerStyle {
   strokeWidth?: string | number
   stroke?: string
-  fill?: string
+  fill?: string | MasterportalapiPolygonFillHatch
 }
 
 export interface ExtendedMasterportalapiMarkers {

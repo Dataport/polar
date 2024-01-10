@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
 // console is a vital feature for this
-
+/* eslint-disable no-console */
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import merge from 'lodash.merge'
@@ -17,6 +16,7 @@ import {
   PluginContainer,
   PolarError,
 } from '@polar/lib-custom-types'
+import { ping } from '@masterportal/masterportalapi/src'
 import { Interaction } from 'ol/interaction'
 import { Feature, Map } from 'ol'
 import { Point } from 'ol/geom'
@@ -25,6 +25,7 @@ import getCluster from '@polar/lib-get-cluster'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
+import { ServiceAvailabilityCheck } from '../types'
 import {
   updateSelection,
   useExtendedMasterportalapiMarkers,
@@ -38,7 +39,6 @@ const mutationLogger = (store) => {
     console.log('DEV MODE DETECTED - VUEX LOGGING ENABLED')
     store.subscribe(({ type, payload }) => {
       let fixedPayload
-
       // "fix" in the sense of "screenshot" – print doesn't change anymore
       if (typeof payload === 'undefined') {
         fixedPayload = undefined
@@ -50,7 +50,6 @@ const mutationLogger = (store) => {
           fixedPayload = payload
         }
       }
-
       console.log(`Mutation: '${type}'; Payload:`, fixedPayload)
     })
   }
@@ -104,7 +103,6 @@ export const makeStore = () => {
 
   const setCenter = ({ map }) =>
     store.commit('setCenter', map.getView().getCenter())
-
   const setZoom = ({ map }) =>
     store.commit('setZoomLevel', map.getView().getZoom())
 
@@ -240,6 +238,46 @@ export const makeStore = () => {
           commit('setComponents', [...components, component])
         }
       },
+      checkServiceAvailability({ state, getters, commit }) {
+        state.configuration.layerConf
+          .map(
+            (service): ServiceAvailabilityCheck => ({
+              ping: ping(service),
+              service,
+            })
+          )
+          .forEach(({ ping, service }) =>
+            ping
+              .then((statusCode) => {
+                if (statusCode !== 200) {
+                  // NOTE more output channels? make configurable.
+                  if (this.hasModule(['plugin', 'toast'])) {
+                    this.dispatch('plugin/toast/addToast', {
+                      type: 'warning',
+                      text: i18next.t('common:error.serviceUnavailable', {
+                        serviceId: service.id,
+                        serviceName: service.name,
+                      }),
+                    })
+                  }
+                  // always print status code for debugging purposes
+                  console.error(
+                    `@polar/core: Ping to "${service.id}" returned "${statusCode}".`
+                  )
+                  // always add to error log for listener purposes
+                  commit('setErrors', [
+                    ...getters.errors,
+                    {
+                      type: 'connection',
+                      statusCode,
+                      text: `Ping to "${service.id}" returned "${statusCode}".`,
+                    } as PolarError,
+                  ])
+                }
+              })
+              .catch((e) => console.error('@polar/core', e))
+          )
+      },
       centerOnFeature({ rootGetters: { map } }, feature: Feature) {
         map.getView().animate({
           center: (feature.getGeometry() as Point).getCoordinates(),
@@ -260,10 +298,8 @@ export const makeStore = () => {
       updateSelection,
     },
   })
-
   i18next.on('languageChanged', (language) => {
     store.commit('setLanguage', language)
   })
-
   return store
 }

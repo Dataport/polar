@@ -6,6 +6,31 @@ import { DishAutocompleteFunction } from '../types'
 
 let lookup: string[] = []
 
+const autocompleteFilter = (inputValue: string) => (lookuppable: string) =>
+  // offer phrases that contain input
+  lookuppable.toLowerCase().includes(inputValue.toLowerCase()) &&
+  // don't offer entered phrase
+  lookuppable.toLowerCase() !== inputValue.toLowerCase()
+
+const autocompleteSorter = (inputValue: string) => (a: string, b: string) => {
+  // arbitrarily prefer startsWith
+  const aStartsWith = a.startsWith(inputValue)
+  const bStartsWith = b.startsWith(inputValue)
+
+  if (aStartsWith && !bStartsWith) {
+    return -1
+  }
+  if (!aStartsWith && bStartsWith) {
+    return 1
+  }
+
+  /* arbitrarily prefer closer string, might be more useful
+   * than the alphabetical order */
+  const diffA = levenshtein(a, inputValue)
+  const diffB = levenshtein(b, inputValue)
+  return diffA - diffB
+}
+
 fetch(dishAutocompleteUrl)
   .then((response) => response.json())
   .then((json) => (lookup = json))
@@ -29,31 +54,8 @@ export const autocomplete: DishAutocompleteFunction = (_, __, inputValue) => {
   }
 
   const lookedUp = lookup
-    .filter(
-      (lookuppable) =>
-        // offer phrases that contain input
-        lookuppable.toLowerCase().includes(inputValue.toLowerCase()) &&
-        // don't offer entered phrase
-        lookuppable.toLowerCase() !== inputValue.toLowerCase()
-    )
-    .sort((a, b) => {
-      // arbitrarily prefer startsWith
-      const aStartsWith = a.startsWith(inputValue)
-      const bStartsWith = b.startsWith(inputValue)
-
-      if (aStartsWith && !bStartsWith) {
-        return -1
-      }
-      if (!aStartsWith && bStartsWith) {
-        return 1
-      }
-
-      /* arbitrarily prefer closer string, might be more useful
-       * than the alphabetical order */
-      const diffA = levenshtein(a, inputValue)
-      const diffB = levenshtein(b, inputValue)
-      return diffA - diffB
-    })
+    .filter(autocompleteFilter(inputValue))
+    .sort(autocompleteSorter(inputValue))
 
   /* NOTE
    * Resolves fake feature to satisfy plugin/AddressSearch API.
