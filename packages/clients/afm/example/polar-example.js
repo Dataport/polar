@@ -9,7 +9,7 @@ if (typeof MapClient !== 'undefined') {
 // Code nur für Dev-Umgebung
 if (!client) {
   console.warn(
-    `MapClient not found in environment. This is fine in dev mode, but an error in prod mode.`
+    `@polar/client-afm: MapClient not found in environment. This is fine in dev mode, but an error in prod mode.`
   )
   client = require('../src/polar-client.ts') // eslint-disable-line
 }
