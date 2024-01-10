@@ -282,17 +282,14 @@ export default Vue.extend({
 .polar-unwrappable {
   white-space: nowrap;
 }
-
 .modal-info-close-button {
   position: absolute;
   top: 2em;
   right: 2em;
 }
-
 .modal-link {
   display: inline !important;
 }
-
 .modal-actions {
   justify-content: end !important;
   @media only screen and (max-width: 768px) {
