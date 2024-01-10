@@ -142,8 +142,6 @@ export function search(
     .catch((error) => {
       // if not intentional ("operation was aborted" = "user types more")
       if (!signal.aborted) {
-        console.error(error)
-        console.error(this)
         if (error.message === dishBackendSizeError) {
           this.dispatch('plugin/toast/addToast', {
             type: 'warning',
