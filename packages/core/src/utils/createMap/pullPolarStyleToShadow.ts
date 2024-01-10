@@ -18,7 +18,7 @@ export const pullPolarStyleToShadow = (
 
     if (!devMode) {
       console.warn(
-        `Stylesheets have been pulled to the ShadowDOM. This mechanism is deprecated and will be removed in the next major version. In the future, POLAR will try to create the relevant style nodes itself, and can be configured as to where the file to be imported is located. This removes the flash of misstyled content POLAR could previously produce on the outlying page, and is an overall more clean solution. See the @polar/core documentation, field 'stylePath'.`
+        `@polar/core: Stylesheets have been pulled to the ShadowDOM. This mechanism is deprecated and will be removed in the next major version. In the future, POLAR will try to create the relevant style nodes itself, and can be configured as to where the file to be imported is located. This removes the flash of misstyled content POLAR could previously produce on the outlying page, and is an overall more clean solution. See the @polar/core documentation, field 'stylePath'.`
       )
     }
   } else {
@@ -27,7 +27,7 @@ export const pullPolarStyleToShadow = (
     link.rel = 'stylesheet'
     link.onerror = (e) =>
       console.error(
-        `core.createMap: Couldn't find required stylesheets, map won't render. ${
+        `@polar/core: Couldn't find required stylesheets, map won't render. ${
           stylePath === defaultStylePath
             ? `The default stylePath ${defaultStylePath} did not work. Please check @polar/core's documentation of 'stylePath' on how this can be configured.`
             : `It seems the provided stylePath (${stylePath}) did not work. Please verify its correctness. The value should be given as it would be correct in a link tag's href.`

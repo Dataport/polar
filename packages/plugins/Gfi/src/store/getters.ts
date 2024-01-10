@@ -149,7 +149,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
   listMode(_, { gfiConfiguration }): FeatureList['mode'] | undefined {
     if (gfiConfiguration.featureList && !gfiConfiguration.featureList.mode) {
       console.error(
-        'POLAR: When using featureList in GFI plugin, a mode must be chosen.'
+        '@polar/plugin-gfi: When using featureList a mode has to be chosen.'
       )
     }
     return gfiConfiguration.featureList?.mode

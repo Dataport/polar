@@ -16,7 +16,7 @@ export function getWfsFeatures(
 
   if (fieldName && patterns) {
     console.error(
-      'Using both fieldName and patterns for WFS search. These are mutually exclusive. Patterns will be ignored.'
+      '@polar/lib-get-features: Using both fieldName and patterns for WFS search. These are mutually exclusive. Patterns will be ignored.'
     )
   }
 
@@ -26,7 +26,7 @@ export function getWfsFeatures(
     inputs = match(patterns, patternKeys, inputValue)
   } else {
     console.error(
-      'Incomplete WFS search configuration. Either "fieldName" or "patterns" and "patternKeys" are required.'
+      '@polar/lib-get-features: Incomplete WFS search configuration. Either "fieldName" or "patterns" and "patternKeys" are required.'
     )
   }
 

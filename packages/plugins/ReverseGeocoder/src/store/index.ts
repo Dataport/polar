@@ -75,9 +75,9 @@ export const makeStoreModule = () => {
           }
         } catch (e) {
           console.error(
-            'An error occurred in POLAR ReverseGeocoder#resolveCoordinate:'
+            '@polar/plugin-reverse-geocoder: An error occurred while resolving the coordinate: ',
+            e
           )
-          console.error(e)
         } finally {
           if (removeLoading) {
             commit(removeLoading, loaderKey, { root: true })

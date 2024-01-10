@@ -47,7 +47,7 @@ const addGeometries =
         const keep = Boolean(feature.geometry)
         if (!keep) {
           console.warn(
-            `Feature had no matching geometry and can't be used: ${JSON.stringify(
+            `@polar/client-dish: Feature had no matching geometry and can't be used: ${JSON.stringify(
               feature
             )}`
           )

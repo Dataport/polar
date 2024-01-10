@@ -146,7 +146,7 @@ export default Vue.extend({
         this.listText[index]
       if (text === undefined) {
         console.error(
-          `Missing text entry in GFI configuration. See documentation of gfi.featureList.text for more information. Fallback to ol_uid.`
+          `@polar/plugin-gfi: Missing text entry in configuration. See documentation of gfi.featureList.text for more information. Fallback to ol_uid.`
         )
         // @ts-expect-error | It does exist.
         return feature.ol_uid

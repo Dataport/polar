@@ -8,7 +8,7 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
     type: ExportFormat
   ) {
     if (!map) {
-      console.warn('Export Plugin, map is not initialized')
+      console.warn('@polar/plugin-export: map is not initialized.')
       return
     }
 
@@ -42,7 +42,9 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
       // Write on this
       const mapContext = mapCanvas.getContext('2d')
       if (!mapContext) {
-        console.error('Export Plugin, export failed')
+        console.error(
+          '@polar/plugin-export: map does not of a 2d context, export failed.'
+        )
         return
       }
       // For every ol-layer, get matrix and apply on canvas
@@ -66,7 +68,7 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
               matrix
             )
             mapContext.drawImage(canvas, 0, 0)
-          } else console.warn('Export Plugin, canvas width is 0')
+          } else console.warn('@polar/plugin-export: canvas width is 0')
         }
       )
 
