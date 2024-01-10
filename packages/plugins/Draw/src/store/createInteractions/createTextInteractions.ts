@@ -1,16 +1,15 @@
 import { Draw, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import VectorSource from 'ol/source/Vector'
-import { PolarActionContext } from '@polar/lib-custom-types'
+import { DrawConfiguration } from '@polar/lib-custom-types'
 import { DrawGetters, DrawState } from '../../types'
 import { createTextStyle } from '../../utils/createTextStyle'
 
 export default function (
-  {
-    getters: { textInput, textSize },
-    rootGetters: { configuration },
-  }: PolarActionContext<DrawState, DrawGetters>,
-  drawSource: VectorSource
+  textInput: DrawState['textInput'],
+  textSize: DrawGetters['textSize'],
+  drawSource: VectorSource,
+  drawConfiguration?: DrawConfiguration
 ): Interaction[] {
   if (!textInput) {
     // nothing to draw yet
@@ -18,7 +17,7 @@ export default function (
   }
   const textStyle = createTextStyle(
     textInput,
-    configuration?.draw?.textStyle,
+    drawConfiguration?.textStyle,
     textSize
   )
   const draw = new Draw({

@@ -3,15 +3,24 @@ import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 import createDeleteInteractions from './createDeleteInteractions'
+import createTextInteractions from './createTextInteractions'
 
 export default function (
-  { dispatch, getters }: PolarActionContext<DrawState, DrawGetters>,
+  {
+    dispatch,
+    getters: { drawMode, mode, textInput, textSize },
+    rootGetters: { configuration },
+  }: PolarActionContext<DrawState, DrawGetters>,
   { drawSource, drawLayer }: CreateInteractionsPayload
 ): Interaction[] | Promise<Interaction[]> {
-  const { drawMode, mode } = getters
   if (mode === 'draw') {
     if (drawMode === 'Text') {
-      return dispatch('createTextInteractions', drawSource)
+      return createTextInteractions(
+        textInput,
+        textSize,
+        drawSource,
+        configuration.draw
+      )
     }
     return [
       new Draw({ source: drawSource, type: drawMode }),
