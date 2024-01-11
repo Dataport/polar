@@ -550,9 +550,11 @@ export interface MasterportalapiPolygonFillHatch {
 }
 
 export interface MarkerStyle {
+  clusterSize?: [number, number]
+  fill?: string | MasterportalapiPolygonFillHatch
+  size?: [number, number]
   strokeWidth?: string | number
   stroke?: string
-  fill?: string | MasterportalapiPolygonFillHatch
 }
 
 export interface ExtendedMasterportalapiMarkers {

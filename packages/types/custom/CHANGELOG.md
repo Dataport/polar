@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add `MasterportalapiPolygonFillHatch` to `MarkerStyle` as optional fill variant.
+- Feature: Add `clusterSize` and `size` to `MarkerStyle` for adjustable marker size.
 
 ## 1.3.0
 
