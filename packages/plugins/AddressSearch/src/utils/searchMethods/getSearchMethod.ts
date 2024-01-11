@@ -26,7 +26,7 @@ export const getMethodContainer = () => {
       return method
     }
     throw new Error(
-      `The given type "${type}" does not define a valid searchMethod.`
+      `@polar/plugin-address-search: The given type "${type}" does not define a valid searchMethod.`
     )
   }
 
