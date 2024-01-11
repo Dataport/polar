@@ -12,6 +12,20 @@ export interface AdditionalSearchOptions {
   typeNames?: string | string[]
 }
 
+/*
+ * Explanation by dimension:
+ *   First: each child resembles a query
+ *   Second: children will be ANDed on multiple children
+ *   Third: [key, value] where key is a property name
+ * Explanation by example:
+ *   [[['a', 'b'], ['a', 'c']], [['a', 'b']]]
+ *     becomes
+ *   QUERY(a=b && c=d), QUERY(a=b)
+ *     where the second query is only executed if the first doesn't fill
+ *     maxFeatures to its limit.
+ */
+export type KeyValueSetArray = Array<Array<[string, string]>>
+
 /** Adds the possibility to have a 'title' attribute in a GeoJSON Feature */
 export interface PolarGeoJsonFeature extends GeoJsonFeature {
   /** The projection of the coordinates of the features */
