@@ -2,30 +2,98 @@
 [![License: EUPL v1.2](https://img.shields.io/badge/License-EUPL%20v1.2-blue)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
 [![We're on NPM!](https://img.shields.io/badge/npm-%F0%9F%9A%80-green)](https://www.npmjs.com/search?q=%40polar)
 
-# POLAR 🗺️
+<h1 align="center">POLAR 🗺️</h1>
 
-The **Plugins for OpenLAyeRs** library is based on the [masterportalAPI](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi) and [OpenLayers](https://openlayers.org/).
+**Plugins for OpenLAyeRs** is based on the [masterportalAPI](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi) and [OpenLayers](https://openlayers.org/).
 
-## The Idea 💡
+POLAR is ...
 
-POLAR is built to ease the creation of new map clients: A lot of feature requests in map clients are recurring and can be fulfilled with reusable parts. Then again, many map clients require a _little extra_.
+* ... a configurable map client package.
+* ... a flexible map client factory.
+* ... an extensible library.
 
-POLAR is built to serve both worlds. For generic use cases, generic clients are ready-made and usable by configuration. More specific use cases can be matched with special clients that still make use of the plugins, but fill in the missing parts right where they belong.
+## Quick Start
 
-POLAR runs both as full page application and as component. The most common usage is as component: Think of it as a form input where the input data is geospatial.
+Usage without NPM documented in chapter "Getting started (for developers)".
 
-## Maps 🗺️
+```bash
+npm i @polar/client-generic
+```
+
+```js
+import polar from '@polar/client-generic'
+
+polar.createMap({
+  // a div must have this id
+  containerId: 'polarstern',
+  // any service register – this is Hamburg's
+  services: 'https://geodienste.hamburg.de/services-internet.json',
+  mapConfiguration: {
+    // this initially shows Hamburg's city plan
+    layers: [{
+      id: '453',
+      visibility: true,
+      type: 'background',
+    }]
+  }
+})
+```
+
+See our [documentation page](https://dataport.github.io/polar/) for all features and configuration options included in this modulith client, with running examples.
+
+## Example clients
 
 The most common use case for this client is in citizen's application processes regarding public service.
 
-Other clients with more specific code (and more visibility) include the [Denkmalkarte Schleswig-Holstein](https://efi2.schleswig-holstein.de/dish/dish_client/index.html), a memorial map, and the [Meldemichel Hamburg](https://static.hamburg.de/kartenclient/prod/), a map to inspect and create reports regarding damages to public infrastructure. The latter is currently being migrated to the version seen in this repository.
+Other clients with more specific code include the [Denkmalkarte Schleswig-Holstein](https://efi2.schleswig-holstein.de/dish/dish_client/index.html), a memorial map, and the [Meldemichel Hamburg](https://static.hamburg.de/kartenclient/prod/), a map to inspect and create reports regarding damages to public infrastructure. The latter is currently being migrated to the version seen in this repository.
 
-## Plugins 🧩
+## Backers and users
+
+### States of Germany
+
+<div align="center" style="display: grid;justify-content: space-evenly;grid-template-columns: 50% 50%;">
+  <figure>
+    <img src="./pages/assets/landessymbole/bremen.svg" alt="Bremer Wappenzeichen" height="120px" style="object-fit: contain;">
+    <figcaption>Freie Hansestadt Bremen</figcaption>
+  </figure>
+  <figure>
+    <img src="./pages/assets/landessymbole/hamburg.svg" alt="Hamburg-Symbol" height="120px" style="object-fit: contain;">
+    <figcaption>Freie und Hansestadt Hamburg</figcaption>
+  </figure>
+  <figure>
+    <img src="./pages/assets/landessymbole/sachsen-anhalt.svg" alt="Landessymbol Sachsen-Anhalt"  height="120px" style="object-fit: contain;">
+    <figcaption>Sachsen-Anhalt</figcaption>
+  </figure>
+  <figure>
+    <img src="./pages/assets/landessymbole/schleswig-holstein.svg" alt="Landessymbol Schleswig-Holstein"  height="120px" style="object-fit: contain;">
+    <figcaption>Schleswig-Holstein</figcaption>
+  </figure>
+</div>
+
+### Government agencies
+
+* [Senatskanzlei Hamburg](https://www.hamburg.de/senatskanzlei/)
+* [Landesamt für Denkmalpflege Schleswig-Holstein](https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html)
+* [Dataport AöR](https://www.dataport.de/)
+
+## Technical concepts
+
+### Reusability *and* adaptability
+
+POLAR is built to ease the creation of new map clients. A lot of feature requests in map clients are recurring and can be fulfilled with reusable parts. Then again, many map clients require a _little extra_.
+
+POLAR is built to serve both worlds. For generic use cases, generic clients are ready-made and usable by configuration. More specific use cases can be matched with special clients that still make use of the plugins and fill in the missing parts.
+
+POLAR runs both as full page application and as component. The most common usage is as component: Think of it as a form input where the input data is geospatial.
+
+### Plugin-based approach
+
+To see our plugins in action, please visit our [documentation page](https://dataport.github.io/polar/) to see running examples. Plugins are designed to be configurable, optional, and replacable.
 
 |Name|Details|
 |-|-|
 |[AddressSearch](https://github.com/Dataport/polar/tree/main/packages/plugins/AddressSearch)|Offers a search field and standard search service implementations with API for your own configurable custom search services. For already usable search services, see the documentation of the package. Integration with Reverse Geocoder and Pins possible, or usable as a data source for further processing.|
-|[Attributions](https://github.com/Dataport/polar/tree/main/packages/plugins/Attributions)|Shows layer copyright information of visible layers.|
+|[Attributions](https://github.com/Dataport/polar/tree/main/packages/plugins/Attributions)|Shows layer copyright information of visible layers and client.|
 |[Draw](https://github.com/Dataport/polar/tree/main/packages/plugins/Draw)|Allows the user to draw various geometries onto the map. The resulting GeoJSON can be forwarded to later processing steps, or be used by the Export plugin to generate screenshots.|
 |[Export](https://github.com/Dataport/polar/tree/main/packages/plugins/Export)|Offers screenshot functionality for the user or further processing.|
 |[Filter](https://github.com/Dataport/polar/tree/main/packages/plugins/Filter)|Allows users to filter vector layers to content relevant to their interests.|
@@ -42,36 +110,23 @@ Other clients with more specific code (and more visibility) include the [Denkmal
 |[Toast](https://github.com/Dataport/polar/tree/main/packages/plugins/Toast)|Shows information to the user. Configurable in many plugins to communicate status updates or procedural advice.|
 |[Zoom](https://github.com/Dataport/polar/tree/main/packages/plugins/Zoom)|Allows zooming in and out of the client with buttons.|
 
-## Getting started 🚀
+## Getting started (for developers)
 
 ### Using POLAR
 
-Select a client from our [releases](https://github.com/Dataport/polar/releases). For a generic client, use `@polar/client-afm`. The zipped client is downloadable and attached as an asset to the release.
+First check if the generic map client fulfills your need. For this, see the section "Quick start" above. Should your project not use NPM, you may also select a client from our [releases](https://github.com/Dataport/polar/releases). On all client releases, the zipped client is downloadable and attached as an asset to the release.
 
-The package contains example files that illustrate how the client can be used. You may also inspect the example usage [here](https://github.com/Dataport/polar/tree/main/packages/clients/afm/example).
-
-To adapt the client to your use case, change the included `polar-example.js` file, and replace the object used in the `.createMap` call with your configuration. To learn more about configuration options, read the [AfM documentation](https://dataport.github.io/polar/docs/afm/client-afm.html), or the documentation of the client you chose.
+Client packages contain example files that illustrate how the client can be used. The `@polar/client-generic` package's use is furthermore illustrated on our [documentation page](https://dataport.github.io/polar/).
 
 ### Developing POLAR
 
 Clone the repository and run `npm install && npm run snowbox`. This winds up our development client in a minimal test environment as a starting point.
 
-If you aim to create an additional plugin, you may now create and install it to the snowbox during development. To create a new client, it is advised to create a copy of the AfM client as a base project and adjust it to your needs.
+If you aim to create an additional plugin, you may now create and install it to the snowbox during development. To create a new client, it is advised to create a copy of e.g. `@polar/client-generic` as a base project and adjust it to your needs.
 
-## Roadmap 🛣️
+Clients run anywhere, but their development requires further setup. Right now, clients should be developed in this repository or in a fork of it to make use of its setup.
 
-We're production-ready. After a history as Inner Source software, we are now gradually switching to being Open Source software.
-
-| Topic                          | Description                                                                                                                                                                                                                            | Status |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| Re-release                     | Offer all packages as 1.0.0 on the NPM registry and as GitHub releases. Previous inner source version history and changelogs are reset.                                                                                         | ✔️     |
-| GitHub Actions                 | ~~Linting and testing is done with [husky](https://github.com/typicode/husky) until pipelines are ready.~~ Tests and linting now run in the pipeline. Farewell, husky! 🐺❄️                                                     | ✔️     |
-| GitHub Page                    | ~~Create a page offering our full documentation and examples. This includes adapting the internal _snowbox_ client to work as both example and development environment.~~ [Page done.](https://dataport.github.io/polar/) Keeping it up to date is an ongoing effort. | ✔️     |
-| Getting started                | A short introduction is available above. We will expand upon this after the following task.                                                                                                                                                                                | 🏗️     |
-| Working outside the repository | Clients can be used anywhere, but their development requires further setup. Right now, clients should be developed in this repository or in a fork.                                                                             | ⌛     |
-| OSS Best Practices             | Contributions, Issues, Discussions, The Wiki – there's a lot to fill out and define.                                                                                                                                            | ✔️     |
-
-## Stay In Touch 💬
+## Stay In Touch
 
 - [Contact us via email 📧](mailto:dataportpolarsupport@dataport.de)
 
