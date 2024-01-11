@@ -18,7 +18,7 @@ const defaultSelectionFill = '#679100'
 
 const prefix = 'data:image/svg+xml,'
 
-const getImagePattern = (fill: MarkerStyle.fill) =>
+const getImagePattern = (fill: Exclude<MarkerStyle['fill'], undefined>) =>
   typeof fill === 'string'
     ? ''
     : `<defs>
