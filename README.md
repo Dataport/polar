@@ -69,7 +69,7 @@ We're production-ready. After a history as Inner Source software, we are now gra
 | GitHub Page                    | ~~Create a page offering our full documentation and examples. This includes adapting the internal _snowbox_ client to work as both example and development environment.~~ [Page done.](https://dataport.github.io/polar/) Keeping it up to date is an ongoing effort. | ✔️     |
 | Getting started                | A short introduction is available above. We will expand upon this after the following task.                                                                                                                                                                                | 🏗️     |
 | Working outside the repository | Clients can be used anywhere, but their development requires further setup. Right now, clients should be developed in this repository or in a fork.                                                                             | ⌛     |
-| OSS Best Practices             | Contributions, Issues, Discussions, The Wiki – there's a lot to fill out and define.                                                                                                                                            | ⌛     |
+| OSS Best Practices             | Contributions, Issues, Discussions, The Wiki – there's a lot to fill out and define.                                                                                                                                            | ✔️     |
 
 ## Stay In Touch 💬
 
