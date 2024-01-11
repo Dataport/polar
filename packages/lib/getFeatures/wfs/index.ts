@@ -4,7 +4,7 @@ import { parseWfsResponse } from './parse'
 import { buildWfsFilter } from './buildWfsFilter'
 import { match } from './match'
 
-export function getWfsFeatures(
+export async function getWfsFeatures(
   signal: AbortSignal | null,
   url: string,
   inputValue: string,
@@ -28,10 +28,7 @@ export function getWfsFeatures(
 
   const body = buildWfsFilter(inputs, parameters)
 
-  return fetch(encodeURI(url), { signal, method: 'POST', body }).then(
-    (response: Response) => {
-      errorCheck(response)
-      return parseWfsResponse(response, fieldName || patterns, !fieldName)
-    }
-  )
+  const response = await fetch(encodeURI(url), { signal, method: 'POST', body })
+  errorCheck(response)
+  return parseWfsResponse(response, fieldName || patterns, !fieldName)
 }
