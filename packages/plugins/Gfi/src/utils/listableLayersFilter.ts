@@ -5,8 +5,8 @@ export const listableLayersFilter = (layer: BaseLayer): boolean =>
   Boolean(
     layer instanceof VectorLayer ||
       console.warn(
-        `Layer ${layer.get(
+        `@polar/plugin-gfi: Layer ${layer.get(
           'id'
-        )} in GFI plugin will not produce list results since it is not a vector layer.`
+        )} will not produce list results since it is not a vector layer.`
       )
   )

@@ -262,7 +262,7 @@ export const makeStore = () => {
                   }
                   // always print status code for debugging purposes
                   console.error(
-                    `Ping to "${service.id}" returned "${statusCode}".`
+                    `@polar/core: Ping to "${service.id}" returned "${statusCode}".`
                   )
                   // always add to error log for listener purposes
                   commit('setErrors', [
@@ -275,7 +275,7 @@ export const makeStore = () => {
                   ])
                 }
               })
-              .catch(console.error)
+              .catch((e) => console.error('@polar/core', e))
           )
       },
       centerOnFeature({ rootGetters: { map } }, feature: Feature) {

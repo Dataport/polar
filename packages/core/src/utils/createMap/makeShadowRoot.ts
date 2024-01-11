@@ -57,7 +57,7 @@ export const makeShadowRoot = (containerId: string): Promise<ShadowRoot> =>
           return
         }
         console.error(
-          `containerId "${containerId}" not found on website.
+          `@polar/core: containerId "${containerId}" not found on website.
             POLAR map client won't render.
             Retrying in ${waitTime}ms ...`
         )

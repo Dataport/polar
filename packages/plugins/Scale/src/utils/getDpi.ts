@@ -20,9 +20,9 @@ function getDpi(): number {
     dpi = dpiDiv.offsetWidth * (window.devicePixelRatio || 1)
     body.removeChild(dpiDiv)
   } catch (e) {
-    console.error(e)
+    console.error('@polar/plugin-scale', e)
     console.warn(
-      `Since the dpi could not be inferred, the default value ${dpi} will be used.`
+      `@polar/plugin-scale: Since the dpi could not be inferred, the default value ${dpi} will be used.`
     )
   }
 

@@ -6,7 +6,7 @@ export const pullVuetifyStyleToShadow = (shadowRoot: ShadowRoot) => {
   const vuetifyStyle = document.getElementById('vuetify-theme-stylesheet')
   if (vuetifyStyle === null) {
     console.error(
-      `The POLAR map client did not find the vuetify theme stylesheet. It is supposed to be created programmatically. This is probably a bug in POLAR.`
+      `@polar/core: The POLAR map client did not find the vuetify theme stylesheet. It is supposed to be created programmatically. This is probably a bug in POLAR.`
     )
     return
   }
