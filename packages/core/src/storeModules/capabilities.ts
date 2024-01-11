@@ -25,7 +25,7 @@ export const CapabilitiesModule: Module<CoreCapabilitiesState, object> = {
       const previous = getters.capabilities[id]
       if (typeof previous !== 'undefined' && previous !== null) {
         console.warn(
-          `Re-fired loadCapabilities on id '${id}' albeit the GetCapabilities have already been successfully fetched. No re-fetch will occur.`
+          `@polar/core: Re-fired loadCapabilities on id '${id}' albeit the GetCapabilities have already been successfully fetched. No re-fetch will occur.`
         )
         return
       }
@@ -35,7 +35,9 @@ export const CapabilitiesModule: Module<CoreCapabilitiesState, object> = {
 
       const service = rawLayerList.getLayerWhere({ id })
       if (!service || !service.url || !service.version || !service.typ) {
-        console.error(`Missing data for service with id '${id}': ${service}`)
+        console.error(
+          `@polar/core: Missing data for service '${service}' with id '${id}'.`
+        )
         return
       }
 
@@ -46,8 +48,8 @@ export const CapabilitiesModule: Module<CoreCapabilitiesState, object> = {
         .then((string) => commit('addCapabilities', { id, string }))
         .catch((e) => {
           console.error(
-            e,
-            `Capabilities from ${capabilitiesUrl} could not be fetched.`
+            `@polar/core: Capabilities from ${capabilitiesUrl} could not be fetched.`,
+            e
           )
           commit('addCapabilities', { id, string: null })
         })
@@ -69,7 +71,10 @@ export const CapabilitiesModule: Module<CoreCapabilitiesState, object> = {
             const json = parser.read(xml)
             return json
           } catch (e) {
-            console.error(e, `Error reading xml for id '${id}': ${xml}`)
+            console.error(
+              `@polar/core: Error reading xml '${xml}' for id '${id}'.`,
+              e
+            )
           }
         }
         return null

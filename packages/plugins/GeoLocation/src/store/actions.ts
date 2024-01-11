@@ -246,9 +246,11 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       }
       dispatch(toastAction, toast, { root: true })
     } else {
-      console.error('Location access denied by user')
+      console.error(
+        '@polar/plugin-geo-location: Location access denied by user.'
+      )
     }
-    console.error(error.message)
+    console.error('@polar/plugin-geo-location', error.message)
 
     commit('setIsGeolocationDenied', true)
     commit('setTracking', false)

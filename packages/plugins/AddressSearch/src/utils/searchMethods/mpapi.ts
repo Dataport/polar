@@ -68,7 +68,10 @@ export default async function (
       // Case 2 example: "EPSG:25832"
       featureEPSG = srsName
     } else {
-      console.error('Unknown formatting of projection:', srsName)
+      console.error(
+        '@polar/plugin-address-search: Unknown formatting of projection:',
+        srsName
+      )
     }
 
     const featureCollection: FeatureCollection = {
@@ -78,7 +81,7 @@ export default async function (
 
     return featureCollection
   } catch (error) {
-    console.error(error)
+    console.error('@polar/plugin-address-search', error)
     throw new Error('An error occurred while fetching the feature collection.')
   }
 }

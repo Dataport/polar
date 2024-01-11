@@ -16,7 +16,6 @@ import {
   PluginContainer,
   PolarError,
 } from '@polar/lib-custom-types'
-import { ping } from '@masterportal/masterportalapi/src'
 import { Interaction } from 'ol/interaction'
 import { Feature, Map } from 'ol'
 import { Point } from 'ol/geom'
@@ -25,11 +24,11 @@ import getCluster from '@polar/lib-get-cluster'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
-import { ServiceAvailabilityCheck } from '../types'
 import {
   updateSelection,
   useExtendedMasterportalapiMarkers,
 } from './actions/useExtendedMasterportalapiMarkers'
+import checkServiceAvailability from './actions/checkServiceAvailability'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
 const devMode = import.meta.env.DEV
@@ -205,6 +204,7 @@ export const makeStore = () => {
       },
     },
     actions: {
+      checkServiceAvailability,
       addComponent({ state, commit, dispatch }, component: PluginContainer) {
         const { language, name, options, storeModule } = component
 
@@ -237,46 +237,6 @@ export const makeStore = () => {
         if (state.configuration[name].displayComponent) {
           commit('setComponents', [...components, component])
         }
-      },
-      checkServiceAvailability({ state, getters, commit }) {
-        state.configuration.layerConf
-          .map(
-            (service): ServiceAvailabilityCheck => ({
-              ping: ping(service),
-              service,
-            })
-          )
-          .forEach(({ ping, service }) =>
-            ping
-              .then((statusCode) => {
-                if (statusCode !== 200) {
-                  // NOTE more output channels? make configurable.
-                  if (this.hasModule(['plugin', 'toast'])) {
-                    this.dispatch('plugin/toast/addToast', {
-                      type: 'warning',
-                      text: i18next.t('common:error.serviceUnavailable', {
-                        serviceId: service.id,
-                        serviceName: service.name,
-                      }),
-                    })
-                  }
-                  // always print status code for debugging purposes
-                  console.error(
-                    `Ping to "${service.id}" returned "${statusCode}".`
-                  )
-                  // always add to error log for listener purposes
-                  commit('setErrors', [
-                    ...getters.errors,
-                    {
-                      type: 'connection',
-                      statusCode,
-                      text: `Ping to "${service.id}" returned "${statusCode}".`,
-                    } as PolarError,
-                  ])
-                }
-              })
-              .catch(console.error)
-          )
       },
       centerOnFeature({ rootGetters: { map } }, feature: Feature) {
         map.getView().animate({

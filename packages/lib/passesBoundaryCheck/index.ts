@@ -56,7 +56,7 @@ export const passesBoundaryCheck = async (
 
   if (!boundaryLayer) {
     console.error(
-      `POLAR Map Client: No layer configured to match boundaryLayerId "${boundaryLayerId}" in plugins/GeoLocation/src/utils/isWithinBoundary.ts.`
+      `@polar/lib-passes-boundary-check: No layer configured to match boundaryLayerId "${boundaryLayerId}".`
     )
     return Promise.resolve(errors.undefinedBoundaryLayer)
   }
@@ -65,7 +65,7 @@ export const passesBoundaryCheck = async (
 
   if (!boundaryLayerSource) {
     console.error(
-      `POLAR Map Client: Layer with boundaryLayerId "${boundaryLayerId}" missing source in plugins/GeoLocation/src/utils/isWithinBoundary.ts.`
+      `@polar/lib-passes-boundary-check: Layer with boundaryLayerId "${boundaryLayerId}" missing source.`
     )
     return Promise.resolve(errors.undefinedBoundarySource)
   }
@@ -74,7 +74,7 @@ export const passesBoundaryCheck = async (
 
   if (!sourceReady) {
     console.error(
-      `POLAR Map Client: Layer with boundaryLayerId "${boundaryLayerId}" did not load or is featureless in plugins/GeoLocation/src/utils/isWithinBoundary.ts.`
+      `@polar/lib-passes-boundary-check: Layer with boundaryLayerId "${boundaryLayerId}" did not load or is featureless.`
     )
     return Promise.resolve(errors.sourceNotReady)
   }

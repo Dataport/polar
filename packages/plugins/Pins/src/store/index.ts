@@ -65,7 +65,7 @@ export const makeStoreModule = () => {
         const showPin = appearOnClick === undefined ? true : appearOnClick.show
         if (typeof movable === 'boolean') {
           console.warn(
-            "Pins: Using a boolean for the configuration parameter 'movable' has been deprecated and will be removed in the next major release."
+            "@polar/plugin-pins: Using a boolean for the configuration parameter 'movable' has been deprecated and will be removed in the next major release."
           )
         }
         rootGetters.map.on('singleclick', async ({ coordinate }) => {

@@ -43,7 +43,7 @@ export default Vue.extend({
       const url = this.configuration.meldemichel.afmButton.afmUrl
       if (!url) {
         console.error(
-          'Missing afmUrl parameter in `configuration.meldemichel.afmButton.afmUrl`.'
+          '@polar/client-meldemichel: Missing afmUrl parameter in `configuration.meldemichel.afmButton.afmUrl`.'
         )
         return ''
       }
