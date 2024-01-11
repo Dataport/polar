@@ -16,6 +16,6 @@ export const enableClustering = (
      * must be in services.json at start-up;
      * added on the fly since HH services.json is used and can't be edited
      */
-    reportServiceConfiguration.clusterDistance = 30
+    reportServiceConfiguration.clusterDistance = 40
   }
 }
