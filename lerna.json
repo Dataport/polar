@@ -7,6 +7,7 @@
     "packages/core",
     "packages/lib/*",
     "packages/plugins/*",
-    "packages/types/*"
+    "packages/types/*",
+    "pages"
   ]
 }

@@ -35,5 +35,5 @@ export default function makeVuetify(
       value
     )
   )
-  return new Vuetify(merge({}, defaultPreset, userParams))
+  return new Vuetify(merge({ id: 'boing' }, defaultPreset, userParams))
 }

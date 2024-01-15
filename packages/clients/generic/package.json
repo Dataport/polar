@@ -1,0 +1,44 @@
+{
+  "name": "@polar/client-generic",
+  "version": "0.1.0",
+  "description": "Client Generic",
+  "license": "EUPL-1.2",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "main": "./dist/polar-client.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dataport/polar.git",
+    "directory": "packages/clients/generic"
+  },
+  "files": [
+    "dist/**/**.*",
+    "docs/**/**.*",
+    "example/index.html",
+    "CHANGELOG.md",
+    "API.md"
+  ],
+  "scripts": {
+    "postversion": "npm run build",
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:generic"
+  },
+  "devDependencies": {
+    "@polar/core": "^1.3.0",
+    "@polar/plugin-address-search": "^1.2.0",
+    "@polar/plugin-attributions": "^1.2.0",
+    "@polar/plugin-draw": "^1.1.0",
+    "@polar/plugin-export": "^1.2.0",
+    "@polar/plugin-filter": "^1.1.0",
+    "@polar/plugin-fullscreen": "^1.2.0",
+    "@polar/plugin-geo-location": "^1.3.0",
+    "@polar/plugin-gfi": "^1.2.0",
+    "@polar/plugin-icon-menu": "^1.2.0",
+    "@polar/plugin-layer-chooser": "^1.2.0",
+    "@polar/plugin-legend": "^1.1.0",
+    "@polar/plugin-loading-indicator": "^1.1.0",
+    "@polar/plugin-pins": "^1.2.0",
+    "@polar/plugin-reverse-geocoder": "^1.2.0",
+    "@polar/plugin-scale": "^1.1.0",
+    "@polar/plugin-toast": "^1.1.0",
+    "@polar/plugin-zoom": "^1.2.0"
+  }
+}

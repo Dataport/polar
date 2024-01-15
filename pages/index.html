@@ -1,131 +1,307 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>📚POLAR Docs</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta
-      http-equiv="Cache-Control"
-      content="no-cache, no-store, must-revalidate, max-age=0"
-    />
-    <style>
-      /* example page style; not directly related to map client */
-      :root {
-        --not-quite-white: #f2f3f4;
-        --eigengrau: #16161d;
-      }
+<html lang="en">
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<head>
+  <link rel="icon" href="./assets/iceberg_icon.svg">
+  <link rel="stylesheet" href="./mvp.css">
 
-      html,
-      body {
-        min-height: 100%;
-        width: 100%;
-      }
+  <meta charset="utf-8">
+  <meta name="description" content="POLAR - the configurable map client factory">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      body {
-        font-family: sans-serif;
-        padding: 2em;
-        background: var(--not-quite-white);
-        color: var(--eigengrau);
-      }
+  <title>POLAR</title>
+  <style>
+    .polarstern {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+  </style>
+</head>
 
-      h1 {
-        margin-bottom: 0.5em;
-      }
-
-      h2 {
-        margin: 0.5em 0;
-      }
-
-      p {
-        margin: 0.2em 0;
-      }
-
-      /* directly related to POLAR - something like this must be
-       * available for map client to render in (see core docs for
-       * more details on requirements) */
-      .polarstern {
-        width: 100vw;
-        max-width: calc(100% + 64px);
-        height: 600px;
-        position: relative;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        left: -32px;
-        outline: solid var(--eigengrau);
-      }
-    </style>
-  </head>
-  <body>
-    <h1>🧊POLAR</h1>
-    <p>Welcome to our example and documentation hub.</p>
-    <h2>📚 Documentation</h2>
-    <ul>
-      <li>
-        <a href="./docs/afm/client-afm.html"> AfM Client Documentation </a>
-      </li>
-      <li>
-        <a href="./docs/meldemichel/client-meldemichel.html"> Meldemichel Client Documentation </a>
-      </li>
-      <li>
-        <a href="./docs/snowbox/client-snowbox.html">
-          Snowbox Client Documentation</a>
-        – development state including docs of all plugins and newest features
-      </li>
-    </ul>
+<body>
+  <header>
+    <nav>
+      <img src="./assets/iceberg.svg" alt="POLAR logo" height="100px"/>
+      <ul>
+        <li><a href="#why">Why POLAR?</a>
+        <li><a href="#users">Users</a></li>
+        <li><a href="#plugin-gallery">Plugin gallery</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="./documentation.html">Documentation ↗</a></li>
+        <li><a target="_blank" href="https://github.com/Dataport/polar">GitHub ↗</a></li>
+      </ul>
+    </nav>
+    <h1>The <u>configurable</u> map element solution</h1>
+    <p><b>Built for integration.</b> Just download, configure, and <mark>you're done</mark>.</p>
+    <br>
     <p>
-      The documentation above contains the clients' respective API description with the plugin documentation of the currently installed plugins. For older documentation or a package-wise documentation, please check the NPM packages, which always come with their full description included.
+      <a href="https://github.com/Dataport/polar/releases?q=%22%40polar%2Fclient%22&expanded=true" target="_blank"><i>Download a client ↗</i></a>
+      <a href="#plugin-gallery"><b>View examples now</b></a>
     </p>
-    <h2>🗺️ Map</h2>
-    <p>In this example, the map client is used as an element on a website.</p>
+  </header>
+  <main>
+    <hr>
+    <section id="why">
+      <header>
+        <h2>Reusable plugins, extensible library</h2>
+        <p>Use configurable solutions for recurring needs. <i>Designed to fill in the blanks.</i></p>
+      </header>
+      <aside>
+        <img alt="" src="./assets/manypixels-puzzle.svg" height="150" style="margin: 0 auto; display: block;">
+        <h3>Plugins for common features</h3>
+        <p>Configurable solutions for recurring requirements. Add pieces as needed. Currently <b>17 supported plugins</b> exist. View them in the <a href="#plugin-gallery">plugin gallery</a>.</p>
+      </aside>
+      <aside>
+        <img alt="" src="./assets/manypixels-decentralized.svg" height="150" style="margin: 0 auto; display: block;">
+        <h3>Decentralized</h3>
+        <p>POLAR is built upon the common interfaces defined by the <a href="https://www.ogc.org/" target="_blank">Open Geospatial Consortium ↗</a>, ready to be used with any standard-conforming geospatial infrastructure.</p>
+      </aside>
+      <aside>
+        <img alt="" src="./assets/manypixels-map.svg" height="150" style="margin: 0 auto; display: block;">
+        <h3>Tried & tested</h3>
+        <p>There are <u>20+ productive uses</u> of the POLAR library, <i>from</i> minimal inputs in official applications <i>to</i> expert clients for niche cases.</p>
+      </aside>
+      <aside>
+        <img alt="" src="./assets/manypixels-mobile.svg" height="150" style="margin: 0 auto; display: block;">
+        <h3>Mobile-friendly UI</h3>
+        <p>The library is focused on making maps accessible on <u>any device</u>; smartphone, tablet, or desktop PC.</p>
+      </aside>
+      <aside>
+        <img alt="" src="./assets/manypixels-legal.svg" height="150" style="margin: 0 auto; display: block;">
+        <h3>EUPL license</h3>
+        <p>POLAR is using the official <i>free software license of the European Union</i> for legally secure usage.</p>
+      </aside>
+      <hr>
+      <figure style="width: 100%; position: relative;">
+        <img alt="Image of person using a pin to mark a location on a map" src="./assets/maps_pin.jpg" style="filter: brightness(0.4); min-width: 100%; height: 250px; object-fit: cover;">
+        <header style="position: absolute; color: #fff; top: 0; bottom: 30px; margin: auto; display: flex; flex-direction: column; justify-content: center; text-shadow: 2px 2px 4px #000000; padding: 0;">
+          <h2>Maps provide <i>context</i> to coordinates</h2>
+          <p>Communicate to users <u>and</u> let your users communicate in the <i>native tongue of geospatial data.</i></p>
+        </header>
+        <figcaption><i>Symbolic image for form map input elements</i>; photography by <a href="https://unsplash.com/de/@geojango_maps?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank">GeoJango Maps ↗</a> on <a href="https://unsplash.com/de/fotos/person-die-eine-rote-runde-medikamentenpille-halt-Z8UgB80_46w?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank">Unsplash ↗</a>
+        </figcaption>
+      </figure>
+    </section>
+    <hr>
+    <section id="users">
+      <header>
+        <h2>Productive usage</h2>
+        <p>POLAR is backed and used by states and government agencies in Germany.</p>
+      </header>
+      <aside>
+        <figure style="text-align: center;">
+          <img src="./assets/landessymbole/bremen.svg" alt="Bremer Wappenzeichen" height="120px">
+          <figcaption>Freie Hansestadt Bremen</figcaption>
+        </figure>
+      </aside>
+      <aside>
+        <figure style="text-align: center;">
+          <img src="./assets/landessymbole/hamburg.svg" alt="Hamburg-Symbol" height="120px">
+          <figcaption>Freie und Hansestadt Hamburg</figcaption>
+        </figure>
+      </aside>
+      <aside>
+        <figure style="text-align: center;">
+          <img src="./assets/landessymbole/sachsen-anhalt.svg" alt="Landessymbol Sachsen-Anhalt" height="120px">
+          <figcaption>Sachsen-Anhalt</figcaption>
+        </figure>
+      </aside>
+      <aside>
+        <figure style="text-align: center;">
+          <img src="./assets/landessymbole/schleswig-holstein.svg" alt="Landessymbol Schleswig-Holstein" height="120px">
+          <figcaption>Schleswig-Holstein</figcaption>
+        </figure>
+      </aside>
+      <aside>
+        <h3>Senatskanzlei Hamburg</h3>
+        <p>POLAR is used to provide insights into damages of public infrastructure and allows citizens to add additional reports via the <a target="_blank" href="https://static.hamburg.de/kartenclient/prod/">Meldemichel ↗</a>.</p>
+      </aside>
+      <aside>
+        <h3>Landesamt für Denkmalpflege Schleswig-Holstein</h3>
+        <p>POLAR is used to display cultural monuments in Schleswig-Holstein via the <a target="_blank" href="https://static.hamburg.de/kartenclient/prod/">monument map ↗</a>.</p>
+      </aside>
+      <aside>
+        <h3>Dataport AöR</h3>
+        <p>We're using POLAR in-house whenever geospatial input or display is required.</p>
+      </aside>
+    </section>
+    <hr>
+    <section id="plugin-gallery">
+      <header>
+        <h2>Plugin gallery</h2>
+        <p>Everything works standalone. <mark>Everything works together.</mark></p>
+      </header>
+    </section>
+    <hr>
+    <article id="faq">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>What does POLAR cost?</summary>
+        <p>Nothing. POLAR is a <i>free</i> piece of software that does <u>not</u> lock you into any sort of infrastructure. You may either <a href="https://github.com/Dataport/polar/releases?q=%22%40polar%2Fclient%22&expanded=true" target="_blank">download it ↗</a> directly from our GitHub or load it via package managers like NPM: <code>npm i @polar/client-generic</code></p>
+        <p><sup>SUPPORT US</sup> If you want to support our ongoing efforts, contact us.</p>
+        <p><sup>UPDATE US</sup> If you use POLAR, tell us! We're always happy to see our library in new environments.</p>
+      </details>
+      <details>
+        <summary>I need more features, what do I do now?</summary>
+        <p>Not all included features are documented on this page. Refer to us or our documentation with any inquiry before putting in work.</p>
+        <p>Should the feature really not exist, we will find a solution together. POLAR is designed <b>open for extension</b>: You may, at any time, add missing pieces yourself without further ado. We'll also gladly accept <u>commissions</u> to write additional features.</p>
+      </details>
+      <details>
+        <summary>Where do I get map services?</summary>
+        <p>POLAR does not provide backend services, but a map UI. It is designed to work with decentralized geospatial infrastructure. E.g. Hamburg offers <a href="https://geodienste.hamburg.de/services-internet.json" target="_blank">a huge pool of geospatial services ↗</a> for anyone to use.</p>
+        </p>
+        <p><span style="font-size: xx-large; position: relative; top: 6px; margin-right: 7px;">👉</span> Need support regarding your region? Contact us. There's regional differences, but we've researched this a few times already.</p>
+      </details>
+    </article>
+  </main>
+
+  <footer id="contact">
+    <hr>
+    <h2>Contact</h2>
     <p>
-      When clicking on a feature, the GetFeatureInformation window for
-      developers is shown. Should feature information be offered to users
-      in-client, you may override the shown window with your own component,
-      since requirements for proper display will vary wildly across projects. To
-      show the information in separate fields (e.g. a pre-filled form after the
-      client), see the programmatic information binding example below.
-    </p>
-    <label id="language-switcher-label">
-      Language in map client:
-      <select
-        id="language-switcher"
-        style="border-style: solid; background: white"
-      >
-        <option value="en">English</option>
-        <option value="de">German</option>
-      </select>
-    </label>
-    <div id="polarstern" class="polarstern"></div>
-    <h2>Example for programmatic information binding</h2>
-    <p>
-      This illustrates which kind of data can be retrieved from the map client.
-      For a full overview, please check the full documentation per plugin.
-    </p>
-    <p>Current zoom level: <span id="vuex-target-zoom"></span></p>
-    <p>GFI information: <pre id="vuex-target-gfi"></pre></p>
-    <p>Pin coordinates: <span id="vuex-target-pin-coordinate"></span></p>
-    <p>
-      Address search result:
-      <pre id="vuex-target-address-search-result"></pre>
+      Mail us at <a href="mailto:dataportpolarsupport@dataport.de">dataportpolarsupport@dataport.de</a>
     </p>
     <p>
-      Map export:
-      <image id="vuex-target-export-result"></image>
+      <small><a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" target="_blank">Legal Notice (Impressum) ↗</a></small>
     </p>
-    <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
-    <script
-      type="module"
-      src="../packages/clients/snowbox/src/polar-client.ts"
-    ></script>
-  </body>
+  </footer>
+</body>
+<script type="module" >
+import client from './node_modules/@polar/client-generic/dist/polar-client.mjs'
+
+const commonParameters = {
+  services: 'https://geodienste.hamburg.de/services-internet.json',
+  mapConfiguration: {
+    epsg: 'EPSG:25832',
+    layers: [{
+      id: '453',
+      visibility: true,
+      type: 'background',
+    }],
+    stylePath: './node_modules/@polar/client-generic/dist/polar-client.css',
+  },
+}
+
+// TODO add listener examples
+const scenarios = [
+  {
+    name: 'Blank map',
+    enabledPlugins: [],
+    mapConfiguration: {},
+    description: 'A minimal map displaying a city plan.',
+  },
+  {
+    name: 'Attributions, LayerChooser, & Legend',
+    // TODO
+    enabledPlugins: [],
+    mapConfiguration: {},
+    description: 'Add an arbitrary amount of switchable background and subject layers with copyright information and legend preview with link.'
+  },
+  {
+    name: 'AddressSearch, Pins, & Reverse Geocoder',
+    enabledPlugins: ['address-search', 'loading-indicator', 'pins', 'reverse-geocoder'],
+    mapConfiguration: {
+      addressSearch: {
+        displayComponent: true,
+        addLoading: 'plugin/loadingIndicator/addLoadingKey',
+        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+        searchMethods: [{
+          queryParameters: {
+            searchAddress: true,
+            searchStreets: true,
+            searchHouseNumbers: true,
+          },
+          type: 'mpapi',
+          url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+        }],
+        minLength: 3,
+        waitMs: 300,
+        focusAfterSearch: true,
+      },
+      loadingIndicator: {
+        displayComponent: true,
+      },
+      pins: {
+        coordinateSource: 'plugin/addressSearch/chosenAddress',
+        toZoomLevel: 7,
+        movable: true,
+      },
+      reverseGeocoder: {
+        url: 'https://geodienste.hamburg.de/HH_WPS',
+        addLoading: 'plugin/loadingIndicator/addLoadingKey',
+        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+        zoomTo: 7,
+        coordinateSource: 'plugin/pins/transformedCoordinate',
+        addressTarget: 'plugin/addressSearch/selectResult',
+      }
+    },
+    description: 'These plugins can be mixed to help with locating a coordinate and/or address. Users may use either the address search element directly, or create/move a pin to get an address.'
+  },
+  {
+    name: 'Draw & Export',
+    // TODO
+    enabledPlugins: [],
+    mapConfiguration: {},
+    description: 'Allows the user to draw information and text to the map and making a screenshot to forward the information in the procedure.'
+  },
+  {
+    name: 'Gfi & Filter',
+    // TODO
+    enabledPlugins: [],
+    mapConfiguration: {},
+    description: 'Filtering features and retrieving the information needed.'
+  },
+  {
+    name: 'Fullscreen, Geo Location, Scale, & Zoom',
+    // TODO
+    enabledPlugins: [],
+    mapConfiguration: {},
+    description: 'For intense work, the client can be toggled into fullscreen. Allowing users to identify their position in relation to the geospatial data. A scale to better estimate sizes of shown contents.Zoom buttons as additional navigational tools.'
+  },
+  {
+    name: 'Toast',
+    // TODO
+    enabledPlugins: [],
+    mapConfiguration: {},
+    description: 'Show information to users.'
+  },
+]
+
+for (const { name, mapConfiguration, enabledPlugins, description } of scenarios) {
+  const id = name.toLowerCase().replaceAll(' & ', '-').replaceAll(' ', '-')
+  const aside = document.createElement('aside')
+  aside.style = 'width: 100% !important'
+  const parameterObject = {
+  ...commonParameters,
+  containerId: id,
+  enabledPlugins,
+  mapConfiguration: {
+    ...commonParameters.mapConfiguration,
+    ...mapConfiguration,
+  },
+  }
+  aside.innerHTML = `
+    <h3>${name}</h3>
+    <p>${description}</p>
+    <div id="${id}" class="polarstern"></div>
+    <details>
+      <summary>View configuration</summary>
+      <p>
+        <pre>
+          <code>
+client.createMap(${JSON.stringify(parameterObject, null, 2)})
+          </code>
+        </pre>
+      </p>
+    </details>
+  `
+
+  document.getElementById('plugin-gallery').appendChild(aside)
+
+  client.createMap(parameterObject)
+}
+</script>
+
 </html>
