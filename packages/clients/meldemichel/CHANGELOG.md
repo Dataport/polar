@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: The gazetteer search returned confusing results. This was due to a wildcard option that allowed the return of imprecise matches. This has been deactivated since it tended to result in more confusion than it was helpful. The search now works as it does in the previous Meldemichel implementation.
+
 ## 1.0.0-beta.2
 
 - Feature: This client now supports the `@polar/core`'s field `stylePath`. The usage is documented in the API.md file.
