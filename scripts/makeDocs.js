@@ -73,6 +73,7 @@ function toHtml(filePath, children) {
         : ''
     }
   </article>
+  <hr>
   <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
 </body>
 </html>`
