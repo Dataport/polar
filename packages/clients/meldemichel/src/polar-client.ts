@@ -45,7 +45,7 @@ export default {
       const meldemichelCore = { ...core }
       if (!Object.keys(MODE).includes(mode)) {
         console.error(
-          `POLAR Meldemichel: Critical error. Unknown mode "${mode}" configured. Please use 'COMPLETE', 'REPORT', or 'SINGLE'.`
+          `@polar/client-meldemichel: Critical error. Unknown mode "${mode}" configured. Please use 'COMPLETE', 'REPORT', or 'SINGLE'.`
         )
       }
 

@@ -6,8 +6,7 @@ export default function addPlugins(this, plugins) {
       plugins.forEach((initializePlugin) => initializePlugin(instance))
       return instance
     } catch (error) {
-      console.error('Map creation failed.')
-      console.error(error)
+      console.error('@polar/core: Map creation failed.', error)
     }
   }
 }

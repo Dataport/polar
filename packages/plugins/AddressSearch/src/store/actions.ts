@@ -28,7 +28,7 @@ export const makeActions = () => {
         .filter(({ url }) => !url)
         .forEach((miss) =>
           console.error(
-            `POLAR Plugin AddressSearch: A specification is missing an URL: (${JSON.stringify(
+            `@polar/plugin-address-search: A specification is missing an URL: (${JSON.stringify(
               miss
             )})`
           )
@@ -139,7 +139,7 @@ export const makeActions = () => {
               ) as PromiseRejectedResult[]
             ).forEach(({ reason }) =>
               console.error(
-                'AddressSearch: An error occurred while sending a request: ',
+                '@polar/plugin-address-search: An error occurred while sending a request: ',
                 reason
               )
             )
@@ -149,7 +149,7 @@ export const makeActions = () => {
         })
         .catch((error: Error) => {
           console.error(
-            'AddressSearch: An error occurred while searching.',
+            '@polar/plugin-address-search: An error occurred while searching.',
             error
           )
           commit('setSearchResults', SearchResultSymbols.ERROR)

@@ -8,7 +8,7 @@ export const enableClustering = (
     )
     if (!reportServiceConfiguration) {
       console.error(
-        `Report service ${reportServiceId} could not be found in service register. Clustering has not been activated.`
+        `@polar/client-meldemichel: Report service ${reportServiceId} could not be found in service register. Clustering has not been activated.`
       )
       return
     }
@@ -16,6 +16,6 @@ export const enableClustering = (
      * must be in services.json at start-up;
      * added on the fly since HH services.json is used and can't be edited
      */
-    reportServiceConfiguration.clusterDistance = 30
+    reportServiceConfiguration.clusterDistance = 40
   }
 }
