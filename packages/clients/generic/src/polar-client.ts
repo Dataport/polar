@@ -92,6 +92,13 @@ const addPlugins = (coreInstance, enabledPlugins: PluginName[]) => {
           }),
           id: 'geoLocation',
         },
+        enabledPlugins.includes('attributions') && {
+          plugin: Attributions({
+            renderType: 'iconMenu',
+          }),
+          icon: 'fa-regular fa-copyright',
+          id: 'attributions',
+        },
       ].filter((x) => x),
       layoutTag: NineLayoutTag.TOP_RIGHT,
     })
@@ -107,14 +114,12 @@ const addPlugins = (coreInstance, enabledPlugins: PluginName[]) => {
       enabledPlugins.includes('legend') &&
         Legend({
           layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        }),
-      enabledPlugins.includes('attributions') &&
-        Attributions({
-          layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+          displayComponent: true,
         }),
       enabledPlugins.includes('export') &&
         Export({
           layoutTag: NineLayoutTag.BOTTOM_LEFT,
+          displayComponent: true,
         }),
       enabledPlugins.includes('loading-indicator') &&
         LoadingIndicator({
