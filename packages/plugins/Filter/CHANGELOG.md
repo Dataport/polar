@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Fix: Configurations without time element could sometimes errored on filtering operations.
+- Fix: Configurations without time element could sometimes error on filtering operations.
 
 ## 1.1.0
 
