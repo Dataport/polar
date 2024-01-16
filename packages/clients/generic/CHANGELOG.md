@@ -2,4 +2,4 @@
 
 ## unpublished
 
-- Initial release.
+Initial release.

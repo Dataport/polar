@@ -2,10 +2,8 @@
 
 ## Contents
 
-This client DOES THINGS
+This client contains all available plugins in a monolithic fashion; that is, everything is included in a default combination and can be activated by configuration.
 
 ## Configuration
 
-A detailed API description is provided in the contained `API.md` file. A usage example is included in the `example` folder. It can be viewn by hosting the files in an arbitrary HTTP server.
-
-NPM users may e.g. run `npx http-server . -o ./example/prod-example.html`.
+A detailed API description is provided in the contained `API.md` file. You may also consider viewing [our GitHub page](https://dataport.github.io/polar/) where we use this client to produce the examples.
