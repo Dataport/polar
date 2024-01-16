@@ -48,13 +48,18 @@ function toHtml(filePath, children) {
   <title>🧊📚 POLAR Documentation</title>
 	<link rel="stylesheet" href="./github-markdown.css">
   <style>
-  body {
-    box-sizing: border-box;
-    min-width: 200px;
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 45px;
-  }
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
   </style>
 </head>
 <body>
