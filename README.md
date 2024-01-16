@@ -51,24 +51,16 @@ Other clients with more specific code include the [Denkmalkarte Schleswig-Holste
 
 ### States of Germany
 
-<div align="center" style="display: grid;justify-content: space-evenly;grid-template-columns: 50% 50%;">
-  <figure>
-    <img src="./pages/assets/landessymbole/bremen.svg" alt="Bremer Wappenzeichen" height="120px" style="object-fit: contain;">
-    <figcaption>Freie Hansestadt Bremen</figcaption>
-  </figure>
-  <figure>
-    <img src="./pages/assets/landessymbole/hamburg.svg" alt="Hamburg-Symbol" height="120px" style="object-fit: contain;">
-    <figcaption>Freie und Hansestadt Hamburg</figcaption>
-  </figure>
-  <figure>
-    <img src="./pages/assets/landessymbole/sachsen-anhalt.svg" alt="Landessymbol Sachsen-Anhalt"  height="120px" style="object-fit: contain;">
-    <figcaption>Sachsen-Anhalt</figcaption>
-  </figure>
-  <figure>
-    <img src="./pages/assets/landessymbole/schleswig-holstein.svg" alt="Landessymbol Schleswig-Holstein"  height="120px" style="object-fit: contain;">
-    <figcaption>Schleswig-Holstein</figcaption>
-  </figure>
-</div>
+<table align="center">
+  <tr align="center">
+    <td align="center"><img src="./pages/assets/landessymbole/bremen.svg" alt="Bremer Wappenzeichen" height="120px" style="object-fit: contain;"><div>Freie Hansestadt Bremen</div></td>
+    <td align="center"><img src="./pages/assets/landessymbole/hamburg.svg" alt="Hamburg-Symbol" height="120px" style="object-fit: contain;"><div>Freie Freie und Hansestadt Hamburg</div></td>
+  </tr>
+  <tr align="center">
+    <td align="center"><img src="./pages/assets/landessymbole/sachsen-anhalt.svg" alt="Landessymbol Sachsen-Anhalt" height="120px" style="object-fit: contain;"><div>Sachsen-Anhalt</div></td>
+    <td align="center"><img src="./pages/assets/landessymbole/schleswig-holstein.svg" alt="Landessymbol Schleswig-Holstein" height="120px" style="object-fit: contain;"><div>Schleswig-Holstein</div></td>
+  </tr>
+</table>
 
 ### Government agencies
 
