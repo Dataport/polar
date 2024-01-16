@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.0.0-beta.3
 
 - Fix: The gazetteer search returned confusing results. This was due to a wildcard option that allowed the return of imprecise matches. This has been deactivated since it tended to result in more confusion than it was helpful. The search now works as it does in the previous Meldemichel implementation.
 
