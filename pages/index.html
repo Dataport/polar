@@ -80,7 +80,8 @@
           <h2>Maps provide <i>context</i> to coordinates</h2>
           <p>Communicate to users <u>and</u> let your users communicate in the <i>native tongue of geospatial data.</i></p>
         </header>
-        <figcaption><i>Symbolic image for form map input elements</i>; photography by <a href="https://unsplash.com/de/@geojango_maps?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank">GeoJango Maps ↗</a> on <a href="https://unsplash.com/de/fotos/person-die-eine-rote-runde-medikamentenpille-halt-Z8UgB80_46w?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank">Unsplash ↗</a>
+        <figcaption>
+          <i>Symbolic image for form map input elements</i>
         </figcaption>
       </figure>
     </section>
@@ -168,140 +169,7 @@
     </p>
   </footer>
 </body>
-<script type="module" >
-import client from './node_modules/@polar/client-generic/dist/polar-client.mjs'
 
-const commonParameters = {
-  services: 'https://geodienste.hamburg.de/services-internet.json',
-  mapConfiguration: {
-    epsg: 'EPSG:25832',
-    layers: [{
-      id: '453',
-      visibility: true,
-      type: 'background',
-    }],
-    stylePath: './node_modules/@polar/client-generic/dist/polar-client.css',
-  },
-}
-
-// TODO add listener examples
-const scenarios = [
-  {
-    name: 'Blank map',
-    enabledPlugins: [],
-    mapConfiguration: {},
-    description: 'A minimal map displaying a city plan.',
-  },
-  {
-    name: 'Attributions, LayerChooser, & Legend',
-    // TODO
-    enabledPlugins: [],
-    mapConfiguration: {},
-    description: 'Add an arbitrary amount of switchable background and subject layers with copyright information and legend preview with link.'
-  },
-  {
-    name: 'AddressSearch, Pins, & Reverse Geocoder',
-    enabledPlugins: ['address-search', 'loading-indicator', 'pins', 'reverse-geocoder'],
-    mapConfiguration: {
-      addressSearch: {
-        displayComponent: true,
-        addLoading: 'plugin/loadingIndicator/addLoadingKey',
-        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-        searchMethods: [{
-          queryParameters: {
-            searchAddress: true,
-            searchStreets: true,
-            searchHouseNumbers: true,
-          },
-          type: 'mpapi',
-          url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
-        }],
-        minLength: 3,
-        waitMs: 300,
-        focusAfterSearch: true,
-      },
-      loadingIndicator: {
-        displayComponent: true,
-      },
-      pins: {
-        coordinateSource: 'plugin/addressSearch/chosenAddress',
-        toZoomLevel: 7,
-        movable: true,
-      },
-      reverseGeocoder: {
-        url: 'https://geodienste.hamburg.de/HH_WPS',
-        addLoading: 'plugin/loadingIndicator/addLoadingKey',
-        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-        zoomTo: 7,
-        coordinateSource: 'plugin/pins/transformedCoordinate',
-        addressTarget: 'plugin/addressSearch/selectResult',
-      }
-    },
-    description: 'These plugins can be mixed to help with locating a coordinate and/or address. Users may use either the address search element directly, or create/move a pin to get an address.'
-  },
-  {
-    name: 'Draw & Export',
-    // TODO
-    enabledPlugins: [],
-    mapConfiguration: {},
-    description: 'Allows the user to draw information and text to the map and making a screenshot to forward the information in the procedure.'
-  },
-  {
-    name: 'Gfi & Filter',
-    // TODO
-    enabledPlugins: [],
-    mapConfiguration: {},
-    description: 'Filtering features and retrieving the information needed.'
-  },
-  {
-    name: 'Fullscreen, Geo Location, Scale, & Zoom',
-    // TODO
-    enabledPlugins: [],
-    mapConfiguration: {},
-    description: 'For intense work, the client can be toggled into fullscreen. Allowing users to identify their position in relation to the geospatial data. A scale to better estimate sizes of shown contents.Zoom buttons as additional navigational tools.'
-  },
-  {
-    name: 'Toast',
-    // TODO
-    enabledPlugins: [],
-    mapConfiguration: {},
-    description: 'Show information to users.'
-  },
-]
-
-for (const { name, mapConfiguration, enabledPlugins, description } of scenarios) {
-  const id = name.toLowerCase().replaceAll(' & ', '-').replaceAll(' ', '-')
-  const aside = document.createElement('aside')
-  aside.style = 'width: 100% !important'
-  const parameterObject = {
-  ...commonParameters,
-  containerId: id,
-  enabledPlugins,
-  mapConfiguration: {
-    ...commonParameters.mapConfiguration,
-    ...mapConfiguration,
-  },
-  }
-  aside.innerHTML = `
-    <h3>${name}</h3>
-    <p>${description}</p>
-    <div id="${id}" class="polarstern"></div>
-    <details>
-      <summary>View configuration</summary>
-      <p>
-        <pre>
-          <code>
-client.createMap(${JSON.stringify(parameterObject, null, 2)})
-          </code>
-        </pre>
-      </p>
-    </details>
-  `
-
-  document.getElementById('plugin-gallery').appendChild(aside)
-
-  client.createMap(parameterObject)
-}
-</script>
+<script type="module" src="./client.mjs" ></script>
 
 </html>
