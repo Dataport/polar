@@ -141,7 +141,7 @@ export default {
     enabledPlugins = [],
   }: {
     containerId: string
-    services: object
+    services: object[]
     mapConfiguration: MapConfig
     enabledPlugins: Array<PluginName>
   }) =>
