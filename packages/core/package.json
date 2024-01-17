@@ -13,7 +13,6 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.1",
     "@masterportal/masterportalapi": "2.8.0",
-    "@panter/vue-i18next": "^0.15.2",
     "@polar/components": "^2.0.0",
     "@polar/lib-idx": "^1.0.0",
     "@polar/lib-get-cluster": "^1.0.0",
@@ -23,6 +22,7 @@
     "hammerjs": "2.0.8",
     "i18next": "^21.6.0",
     "i18next-browser-languagedetector": "^6.1.2",
+    "i18next-vue": "^1.1.0",
     "lodash.merge": "^4.6.2",
     "lodash.kebabcase": "^4.1.1",
     "olcs": "2.13.1",
