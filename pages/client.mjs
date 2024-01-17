@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import client from './node_modules/@polar/client-generic/dist/polar-client.mjs'
 
 const commonParameters = {
@@ -152,7 +153,7 @@ const scenarioAddress = {
 }
 
 const scenarioDraw = {
-  name: 'Draw & Export',
+  name: 'Draw, Export, & Toast',
   enabledPlugins: ['draw', 'export', 'icon-menu'],
   mapConfiguration: {
     language: 'en',
@@ -184,7 +185,7 @@ const scenarioDraw = {
     },
   },
   description:
-    "Allows the user to draw information and text to the map and making a screenshot to forward the information in the procedure. It's also confiugurable to offer the image as download directly.",
+    "Allows the user to draw information and text to the map and making a screenshot to forward the information in the procedure. It's also confiugurable to offer the image as download directly.<br>This also showcases how the toast plugin can be used to inform users about the process.",
   postCreation: ({ mapClient, id }) => {
     const figure = document.createElement('figure')
     const imgId = `${id}-img`
@@ -197,11 +198,17 @@ const scenarioDraw = {
       if (imgElement && screenshot) {
         imgElement?.setAttribute('src', screenshot)
         imgElement.style = 'outline: 2px dashed black'
+        // TODO fix, doesn't work :<
+        mapClient.$store.dispatch('plugin/toast/addToast', {
+          type: 'info',
+          text: 'The screenshot was placed below the map.',
+        })
       }
     })
   },
 }
 
+// TODO fix GFI
 const scenarioGfi = {
   name: 'Gfi & Filter',
   enabledPlugins: ['icon-menu', 'filter', 'gfi'],
@@ -279,28 +286,39 @@ const scenarioGfi = {
   description: 'Filtering features and retrieving the information needed.',
 }
 
-/* {
+// TODO use german-wide map and bbox for geo-location
+const scenarioOrientation = {
   name: 'Fullscreen, Geo Location, Scale, & Zoom',
-  // TODO
-  enabledPlugins: [],
+  enabledPlugins: ['fullscreen', 'geo-location', 'icon-menu', 'scale', 'zoom'],
   mapConfiguration: {
     language: 'en',
-    epsg: 'EPSG:25832',},
+    epsg: 'EPSG:25832',
+  },
   description:
     'For intense work, the client can be toggled into fullscreen. Allowing users to identify their position in relation to the geospatial data. A scale to better estimate sizes of shown contents.Zoom buttons as additional navigational tools.',
-},
-{
-  name: 'Toast',
-  // TODO
+}
+
+const scenarioLocales = {
+  name: 'Fully localizable and language switcher',
+  // TODO build locale switcher and some custom locales
   enabledPlugins: [],
   mapConfiguration: {
     language: 'en',
-    epsg: 'EPSG:25832',},
+    epsg: 'EPSG:25832',
+  },
   description: 'Show information to users.',
-},
-// TODO fully overridable localization and language switching!
-// TODO example where inputs outside are modified
-*/
+}
+
+const scenarioSubscriptions = {
+  name: 'POLAR as part of a form & Toast',
+  // TODO use some plugins and fill forms with them
+  enabledPlugins: [],
+  mapConfiguration: {
+    language: 'en',
+    epsg: 'EPSG:25832',
+  },
+  description: 'Show information to users.',
+}
 
 for (const {
   name,
@@ -308,7 +326,15 @@ for (const {
   enabledPlugins,
   description,
   postCreation,
-} of [scenarioGfi]) {
+} of [
+  scenarioDraw,
+  scenarioLocales,
+  scenarioSubscriptions,
+  scenarioOrientation,
+  scenarioAddress,
+  scenarioGfi,
+  scenarioLayer,
+]) {
   const id = name
     .toLowerCase()
     .replaceAll(' & ', '-')

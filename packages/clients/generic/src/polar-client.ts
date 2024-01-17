@@ -129,6 +129,7 @@ const addPlugins = (coreInstance, enabledPlugins: PluginName[]) => {
       enabledPlugins.includes('scale') &&
         Scale({
           layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+          displayComponent: true,
         }),
       enabledPlugins.includes('toast') &&
         Toast({
