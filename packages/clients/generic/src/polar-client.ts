@@ -162,8 +162,8 @@ export default {
           const client = await coreInstance.createMap({
             containerId,
             mapConfiguration: {
-              layerConf,
               ...mapConfiguration,
+              layerConf,
             },
           })
 
