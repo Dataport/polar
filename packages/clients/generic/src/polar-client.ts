@@ -99,7 +99,7 @@ const addPlugins = (coreInstance, enabledPlugins: PluginName[]) => {
           icon: 'fa-regular fa-copyright',
           id: 'attributions',
         },
-      ].filter((x) => x),
+      ].filter((x) => x) as Menu[],
       layoutTag: NineLayoutTag.TOP_RIGHT,
     })
 
