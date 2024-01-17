@@ -19,7 +19,7 @@ The method expects a single object with the following parameters.
 | mapConfiguration | object | See full documentation for all possible configuration options. |
 | enabledPlugins  | string[] | This is a client-specific field. Since the `@polar/client-generic` client contains all existing plugins, they are activated by strings. The strings match their package names: `'address-search' \| 'attributions' \| 'draw'* \| 'export' \| 'filter'* \| 'fullscreen'* \| 'geo-location'* \| 'gfi'* \| 'icon-menu' \| 'layer-chooser'* \| 'legend' \| 'loading-indicator' \| 'pins' \| 'reverse-geocoder' \| 'scale' \| 'toast' \| 'zoom'*`. The plugins marked with * are nested in the `'icon-menu'` in this pre-layouting, hence they depend upon it being active, too. |
 
-`createMap` a Promise of a map instance. This returned instance is required to retrieve information from the map.
+`createMap` returns a Promise of a map instance. This returned instance is required to retrieve information from the map.
 
 The package also includes a `style.css` and an `index.html` file. The `style.css`'s relative path must, if it isn't the default value `'./style.css'`, be included in the `mapConfiguration` as follows:
 
