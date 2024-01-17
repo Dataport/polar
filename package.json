@@ -35,7 +35,7 @@
     "lint": "npx eslint . --cache --ext .js,.ts,.vue",
     "lint:ci": "npx eslint . --ext .js,.ts,.vue",
     "lint:fix": "npx eslint . --fix --cache --ext .js,.ts,.vue",
-    "postinstall": "lerna bootstrap --hoist",
+    "postinstall": "lerna bootstrap --hoist && node ./scripts/overrideMasterportalapi",
     "publishPackages": "node ./scripts/publishPackages",
     "test": "jest",
     "test:dev": "jest --coverage --coverageReporters=text --watchAll",
