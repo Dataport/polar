@@ -20,7 +20,7 @@
     "@repositoryname/noop": "^1.0.6",
     "@repositoryname/vuex-generators": "^1.1.2",
     "hammerjs": "2.0.8",
-    "i18next": "^22.0.0",
+    "i18next": "^23.7.16",
     "i18next-browser-languagedetector": "^7.2.0",
     "i18next-vue": "^1.1.0",
     "lodash.merge": "^4.6.2",
