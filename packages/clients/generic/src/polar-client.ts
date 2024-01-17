@@ -1,4 +1,5 @@
 import core, { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
+import { MapConfig, Menu } from '@polar/lib-custom-types'
 import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'
@@ -16,9 +17,7 @@ import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
-
 import packageInfo from '../package.json'
-import { MapConfig } from '../../../types/custom'
 
 type PluginName =
   | 'address-search'
