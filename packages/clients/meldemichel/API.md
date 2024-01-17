@@ -78,7 +78,7 @@ A document rendering the map client could e.g. look like this:
   <body>
     <div id="meldemichel-map-client"></div>
     <script type="module">
-      import meldemichelMapClient from './client-meldemichel.mjs'
+      import meldemichelMapClient from './client-meldemichel.js'
 
       const meldemichelMapInstance = await meldemichelMapClient.createMap({
         containerId: 'meldemichel-map-client',
