@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Keyboard navigation of results to work on all browsers.
+
 ## 1.2.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
