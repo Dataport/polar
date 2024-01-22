@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Change: The main library file is no longer published as `.mjs`, but as `.js` file. This is due to internal tooling updates. A rename of the import suffices.
+
 ## 1.0.0-beta.3
 
 - Fix: The gazetteer search returned confusing results. This was due to a wildcard option that allowed the return of imprecise matches. This has been deactivated since it tended to result in more confusion than it was helpful. The search now works as it does in the previous Meldemichel implementation.
