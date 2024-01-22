@@ -144,11 +144,13 @@ export default {
     services,
     mapConfiguration,
     enabledPlugins = [],
+    modifyLayerConfiguration = (x) => x,
   }: {
     containerId: string
     services: object[]
     mapConfiguration: MapConfig
     enabledPlugins: Array<PluginName>
+    modifyLayerConfiguration
   }) =>
     new Promise((resolve) => {
       const coreInstance = { ...core }
@@ -162,7 +164,7 @@ export default {
             containerId,
             mapConfiguration: {
               ...mapConfiguration,
-              layerConf,
+              layerConf: modifyLayerConfiguration(layerConf),
             },
           })
 

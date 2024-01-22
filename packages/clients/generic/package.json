@@ -13,7 +13,6 @@
   "files": [
     "dist/**/**.*",
     "docs/**/**.*",
-    "example/index.html",
     "CHANGELOG.md",
     "API.md"
   ],
