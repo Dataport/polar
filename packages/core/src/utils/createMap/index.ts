@@ -24,9 +24,10 @@ export default async function createMap({
 }: CreateOptions): Promise<MapInstance> {
   const shadowRoot = await makeShadowRoot(containerId)
 
+  await language(mapConfiguration?.language)
+
   const instance: MapInstance = new Vue({
     vuetify: vuetify(mapConfiguration?.vuetify),
-    i18n: language(mapConfiguration?.language),
     el: shadowRoot.appendChild(document.createElement('div')),
     render: (createElement) =>
       createElement(MapContainer, {

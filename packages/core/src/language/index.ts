@@ -1,19 +1,17 @@
 import i18next, { init, use } from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import Vue from 'vue'
-import VueI18Next from '@panter/vue-i18next'
+import VueI18Next from 'i18next-vue'
 import de from './locales/de'
 import en from './locales/en'
 
 use(LanguageDetector)
-Vue.use(VueI18Next)
+Vue.use(VueI18Next, { i18next })
 
 /**
  * @param initialLanguage - If given, the initial language set in the mapConfiguration.
  */
-export default function initializeI18Next(
-  initialLanguage?: string
-): VueI18Next {
+export default (initialLanguage?: string) =>
   init({
     resources: { de, en },
     detection: {
@@ -34,6 +32,3 @@ export default function initializeI18Next(
     .catch((error: Error) => {
       console.error('i18next: Error while initializing.', error)
     })
-
-  return new VueI18Next(i18next)
-}
