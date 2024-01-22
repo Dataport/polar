@@ -3,6 +3,7 @@
   "private": true,
   "description": "Snow❄️📦box",
   "license": "EUPL-1.2",
+  "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "scripts": {
     "build": "rimraf dist && vite build && bash ../dish/scripts/injectFlag.sh"

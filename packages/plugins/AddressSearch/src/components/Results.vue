@@ -151,14 +151,11 @@ export default Vue.extend({
     areResultsExpanded(category: string): boolean {
       return this.openCategories.includes(category)
     },
-    focusNextElement(
-      down: boolean,
-      { originalTarget }: { originalTarget: HTMLElement }
-    ): void {
+    focusNextElement(down: boolean, { target }: { target: HTMLElement }): void {
       const focus = ['BUTTON', 'LI']
       const sibling = down ? 'nextElementSibling' : 'previousElementSibling'
 
-      let searchBase: Element = originalTarget
+      let searchBase: Element = target
       let candidateElement: Element | null = searchBase[sibling]
 
       while (candidateElement && !focus.includes(candidateElement.tagName)) {

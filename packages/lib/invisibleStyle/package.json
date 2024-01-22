@@ -2,6 +2,7 @@
   "name": "@polar/lib-invisible-style",
   "version": "1.0.0",
   "license": "EUPL-1.2",
+  "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "main": "index.ts",
   "repository": {

@@ -13,8 +13,8 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "sourceMap": true,
+    "isolatedModules": true,
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
-    "typeRoots": ["node_modules/@types", "./packages/types"],
-    "types": ["custom", "vue-shims", "vuetify", "jest", "node"]
+    "typeRoots": ["node_modules/@types", "@types"]
   }
 }
