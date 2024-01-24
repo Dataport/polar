@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.1
 
 - Fix: Add missing deregistration of event listeners on destruction.
 
