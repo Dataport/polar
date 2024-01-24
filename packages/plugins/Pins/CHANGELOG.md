@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Pins can now be re-initialized with the `setupInitial` action. This is an advanced feature currently only available when coding clients.
+
 ## 1.2.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
