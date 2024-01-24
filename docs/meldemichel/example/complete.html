@@ -34,25 +34,27 @@
 
       const stage = true
 
-      const setup = () => meldemichelMapClient.createMap({
-        containerId: 'polarstern',
-        mode: 'COMPLETE',
-        afmUrl: `https://${
-          stage ? 'stage.' : ''
-        }afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index`,
-        reportServiceId: stage ? '6061' : '6059',
-        configOverride: {
-          stylePath: '../dist/style.css',
-          attributions: {
-            staticAttributions: [
-              `<a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md">Legal Notice (Impressum)</a>`
-            ]
+      const setup = () => {
+        meldemichelMapClient.createMap({
+          containerId: 'polarstern',
+          mode: 'COMPLETE',
+          afmUrl: `https://${
+            stage ? 'stage.' : ''
+          }afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index`,
+          reportServiceId: stage ? '6061' : '6059',
+          configOverride: {
+            stylePath: '../dist/style.css',
+            attributions: {
+              staticAttributions: [
+                `<a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md">Legal Notice (Impressum)</a>`
+              ]
+            }
           }
-        }
-      })
+        })
+        return { un: false }
+      }
 
-      const mapInstance = await setup()
-      makeSimulateRecreate(setup, mapInstance)
+      makeSimulateRecreate(setup).then((f) => window.simulateRecreate = f)
     </script>
   </body>
 </html>
