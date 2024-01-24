@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Fix: Add missing deregistration of event listeners on destruction.
 - Fix: Aria-label was missing on fullscreen button.
 
 ## 1.2.0

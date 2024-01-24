@@ -76,6 +76,10 @@ export default Vue.extend({
     document.addEventListener('webkitfullscreenchange', this.escapeHandler)
     document.addEventListener('fullscreenchange', this.escapeHandler)
   },
+  beforeDestroy() {
+    document.removeEventListener('webkitfullscreenchange', this.escapeHandler)
+    document.removeEventListener('fullscreenchange', this.escapeHandler)
+  },
   methods: {
     ...mapMutations('plugin/fullscreen', ['setIsInFullscreen']),
     /**
