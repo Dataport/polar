@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.0-beta.5
+
+- Fix: Add missing API.md change. No further changes to previous version.
+
 ## 1.0.0-beta.4
 
 - Fix: The previously proclaimed SPA-readiness was erroneous in that a memory leak occurred due to the client not being garbage-collectable. This has been resolved by reusing the map entirely instead of setting up a new one. Given configuration regarding pins is interpreted despite reuse.
