@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Fix: The previously proclaimed SPA-readiness was erroneous in that a memory leak occurred due to the client not being garbage-collectable. This has been resolved by reusing the map entirely instead of setting up a new one. Given configuration regarding pins is interpreted despite reuse.
 - Change: The main library file is no longer published as `.mjs`, but as `.js` file. This is due to internal tooling updates. A rename of the import suffices.
 
 ## 1.0.0-beta.3

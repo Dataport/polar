@@ -5,15 +5,15 @@
  * use of the new core field `stylePath`. (It is automatically `./style.css` in
  * case no old-style `data-polar="true"` is present.)
  * @param {function} setup setup function that results in map creation
- * @param {Vue} mapInstance vue instance
  */
-export const makeSimulateRecreate = (setup, mapInstance) => {
-  window.simulateRecreate = () => {
-    /* destroy vue instance; this will not remove the rendered HTML, but unlink
-     * all internal creations and effects. This should be called before re-
-     * navigating, usual lifecycle hooks are `beforeDestroy` or `beforeUnmount`,
-     * depending on the framework in use */
-    mapInstance.$destroy()
+export const makeSimulateRecreate = async (setup) => {
+  let { un } = await setup()
+  const rerenderButton = document.getElementById('rerender')
+
+  return () => {
+    if (rerenderButton) rerenderButton.disabled = true
+    /* All set up watchers/subscribes have to be deleted. */
+    if (un) un()
 
     /* when re-navigating, the DOM's body is reset – here it is simulated by
      * resetting the DOM manually, but usually the SPA should take care of this
@@ -22,14 +22,12 @@ export const makeSimulateRecreate = (setup, mapInstance) => {
     const risingStar = document.createElement('div')
     risingStar.id = 'polarstern'
     risingStar.classList.add('polarstern')
-    polarstern?.parentElement?.replaceChild(risingStar, polarstern)
+    polarstern?.replaceWith(risingStar)
 
-    // render client – a second/third/... time, here
-    setup()
+    setTimeout(async () => {
+      // render client – a second/third/... time, here
+      ;({ un } = await setup())
+      if (rerenderButton) rerenderButton.disabled = false
+    }, 1000)
   }
-
-  // eslint-disable-next-line no-console
-  console.info(
-    'This is a test environment. Run `simulateRecreate()` to test how the client behaves on another createMap call on a reset HTML body.'
-  )
 }
