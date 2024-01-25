@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: The marker previously disappeared on being moved/reclicked on a second feature. This issue has been resolved.
+
 ## 1.1.0
 
 - Feature: Update icon of `layerChooser` in `iconMenu` to `fa-layer-group` to clear-up the content hidden behind the menu button.
