@@ -1,10 +1,11 @@
 # CHANGELOG
 
-## unpublished
+## 1.4.0
 
 - Feature: Add hatchable markers; that is, when using `extendedMasterportalapiMarkers`, marker fills can now contain patterns for better accessibility.
 - Feature: Slightly enlarge `useExtendedMasterportalapiMarkers` markers for easier usage on mobile devices.
 - Feature: Add possibility to change size of markers and clustered markers via `extendedMasterportalapiMarkers.MarkerStyle.size` and `extendedMasterportalapiMarkers.MarkerStyle.clusterSize`.
+- Fix: Add missing deregistration of event listeners on destruction.
 
 ## 1.3.0
 

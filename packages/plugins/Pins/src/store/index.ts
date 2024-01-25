@@ -8,7 +8,7 @@ import Point from 'ol/geom/Point'
 import { Vector } from 'ol/source'
 import Feature from 'ol/Feature'
 import { Draw, Modify, Select, Translate } from 'ol/interaction'
-import { PolarModule } from '@polar/lib-custom-types'
+import { PinsConfiguration, PolarModule } from '@polar/lib-custom-types'
 import { toLonLat, transform } from 'ol/proj'
 import { pointerMove } from 'ol/events/condition'
 import { Geometry } from 'ol/geom'
@@ -48,13 +48,8 @@ export const makeStoreModule = () => {
        * its value for the chosenAddress.
        */
       setupModule({ getters, rootGetters, dispatch, commit }): void {
-        const {
-          appearOnClick,
-          coordinateSource,
-          initial,
-          movable,
-          toZoomLevel,
-        } = rootGetters.configuration.pins || {}
+        const { appearOnClick, coordinateSource, movable, toZoomLevel } =
+          rootGetters.configuration.pins || {}
         const interactions = rootGetters.map.getInteractions()
         if (toZoomLevel) {
           commit('setToZoomLevel', toZoomLevel)
@@ -118,16 +113,19 @@ export const makeStoreModule = () => {
             { deep: true }
           )
         }
-        if (!movable || movable === 'none') {
-          rootGetters.map.addInteraction(move)
-          move.on(
-            'select',
-            ({ selected }) =>
-              (document.body.style.cursor = selected.length
-                ? 'not-allowed'
-                : '')
-          )
-        }
+
+        rootGetters.map.addInteraction(move)
+        move.on('select', ({ selected }) => {
+          const { movable } = rootGetters.configuration.pins || {}
+          if (!movable || movable === 'none') {
+            document.body.style.cursor = selected.length ? 'not-allowed' : ''
+          }
+        })
+
+        dispatch('setupInitial')
+      },
+      setupInitial({ rootGetters, getters, dispatch, commit }): void {
+        const { initial } = rootGetters.configuration.pins as PinsConfiguration
         if (initial) {
           const { coordinates, centerOn, epsg } = initial
           const transformedCoordinates =
@@ -174,6 +172,7 @@ export const makeStoreModule = () => {
             payload.clicked === true
               ? payload.coordinates
               : getters.transformedCoordinate
+          map.removeLayer(pinsLayer)
           pinsLayer = new VectorLayer({
             source: new Vector({
               features: [

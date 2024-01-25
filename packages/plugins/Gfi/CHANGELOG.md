@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.1
+
+- Fix: Add missing deregistration of event listeners on destruction.
+
 ## 1.2.0
 
 - Feature: Improved implementation to make plugin SPA-ready.

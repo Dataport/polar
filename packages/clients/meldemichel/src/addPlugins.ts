@@ -24,11 +24,6 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
 
   setLayout(NineLayout)
 
-  // TODO fix type errors below; always existed, were previously invisible
-  //      due to creation of parameter set with lodash.merge
-
-  // TODO plugin availability per mode has to be finalized; below is a draft
-
   core.addPlugins(
     [
       mode !== MODE.SINGLE &&

@@ -52,6 +52,9 @@
     <div class="mock-content">
       <p>This is a minimal test page for the REPORT environment.</p>
       <div id="polarstern"></div>
+      <button id="rerender">
+        Simulate SPA-style rerendering
+      </button>
       <h2>Subscribed data</h2>
       <ul id="subscribed-data-list"></ul>
       <h2>Setting data</h2>
@@ -93,7 +96,7 @@
         // subscribing to store values
         const dataList = document.getElementById('subscribed-data-list')
 
-        mapInstance.$store.watch(
+        const un = mapInstance.$store.watch(
           (_, getters) => getters["meldemichel/mapState"],
           (mapState) => {
             dataList.innerHTML = ''
@@ -107,10 +110,11 @@
           { immediate: true }
         )
 
-        return mapInstance
+        return { un }
       }
 
-      makeSimulateRecreate(setup, await setup())
+      document.getElementById('rerender').onclick =
+        await makeSimulateRecreate(setup)
     </script>
     <hr>
     <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>

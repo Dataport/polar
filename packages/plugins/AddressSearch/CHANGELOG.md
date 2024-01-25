@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.1
 
 - Fix: Keyboard navigation of results to work on all browsers.
 

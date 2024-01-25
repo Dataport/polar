@@ -115,10 +115,11 @@ export default Vue.extend({
     },
   },
   mounted() {
-    window.addEventListener('resize', () => {
-      this.updateClientWidth()
-    })
+    window.addEventListener('resize', this.updateClientWidth)
     this.updateClientWidth()
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.updateClientWidth)
   },
   methods: {
     ...mapMutations(['setMoveHandle']),
