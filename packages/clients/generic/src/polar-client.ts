@@ -133,6 +133,7 @@ const addPlugins = (coreInstance, enabledPlugins: PluginName[]) => {
       enabledPlugins.includes('toast') &&
         Toast({
           layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
+          displayComponent: true,
         }),
     ].filter((x) => x)
   )

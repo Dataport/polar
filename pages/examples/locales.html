@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="../assets/iceberg_icon.svg">
+  <link rel="stylesheet" href="../mvp.css">
+
+  <meta charset="utf-8">
+  <meta name="description" content="POLAR - Locales example">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>POLAR – Locales example</title>
+</head>
+
+<body>
+  <section id="render-node">
+  </section>
+</body>
+
+<script src="../assets/iframe-resizer/js/iframeResizer.contentWindow.js"></script>
+<script type="module">
+  import render from './render.js'
+
+  render({
+    name: 'Full localization & language switching & style adaption',
+    description: [
+      'All POLAR texts are localizable to an arbitrary amount of languages and come with German and English included. The language can be switched at runtime programmatically. Colours can be adapted to your style.',
+      'This example uses the layer chooser to illustrate the mechanisms.'
+    ],
+    useCases: [
+      'Offer the map client in the same languages your site is running.',
+      'Reduce visual breaks by using your website\'s colours.'
+    ],
+    enabledPlugins: ['attributions', 'icon-menu', 'layer-chooser'],
+    mapConfiguration: {
+      language: 'en',
+      epsg: 'EPSG:25832',
+      startResolution: 5.2916638091682096,
+      vuetify: {
+        theme: {
+          themes: {
+            light: {
+              primary: '#723e31',
+              primaryContrast: '#f2f1ef'
+            },
+          },
+        },
+      },
+      locales: [
+        {
+          type: 'en',
+          resources: {
+            example: {
+              attributions: {
+                basemap: 'Basemap © basemap.de / BKG {{MONTH}}/{{YEAR}}',
+                basemapGrey: 'Basemap Grey © basemap.de / BKG {{MONTH}}/{{YEAR}}',
+              },
+              layers: {
+                basemap: 'Basemap.de (Coloured)',
+                basemapGrey: 'Basemap.de (Grey)',
+              },
+            },
+          },
+        },
+        {
+          type: 'de',
+          resources: {
+            example: {
+              attributions: {
+                basemap: 'Hintergrundkarte © basemap.de / BKG {{MONTH}}/{{YEAR}}',
+                basemapGrey: 'Hintergrundkarte (grau) © basemap.de / BKG {{MONTH}}/{{YEAR}}',
+              },
+              layers: {
+                basemap: 'Basemap.de (Farbig)',
+                basemapGrey: 'Basemap.de (Grau)',
+              },
+            },
+          },
+        },
+      ],
+      attributions: {
+        initiallyOpen: false,
+        listenToChanges: [
+          'plugin/layerChooser/activeBackgroundId',
+          'plugin/layerChooser/activeMaskIds',
+        ],
+        windowWidth: 300,
+        layerAttributions: [
+          {
+            id: '23420',
+            title: 'example.attributions.basemap',
+          },
+          {
+            id: '23421',
+            title: 'example.attributions.basemapGrey',
+          },
+        ],
+      },
+      layers: [
+        {
+          id: '23420',
+          visibility: true,
+          type: 'background',
+          name: 'example.layers.basemap',
+        },
+        {
+          id: '23421',
+          type: 'background',
+          name: 'example.layers.basemapGrey',
+        },
+      ],
+    },
+    postCreation: ({ mapClient, id }) => {
+      document
+        .querySelector('#render-node p:nth-child(3)')
+        .insertAdjacentHTML("afterend", `
+        <label>
+          Choose the client language:
+          <select id="language-switcher">
+            <option value="en">English</option>
+            <option value="de">German</option>
+          </select>
+        </label>`)
+
+      document.getElementById('language-switcher')
+        .addEventListener('change', (event) => {
+          const target = event.target
+          const { value } = target
+          console.warn(mapClient)
+          mapClient.$i18next.changeLanguage(value).then(() => {
+            target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
+            target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
+          })
+        })
+
+      document
+        .querySelector('#render-node code')
+        .insertAdjacentHTML("beforeend", `
+document.getElementById('language-switcher')
+  .addEventListener('change', (event) => {
+    const target = event.target
+    const { value } = target
+    console.warn(mapClient)
+    mapClient.$i18next.changeLanguage(value).then(() => {
+      target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
+      target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
+    })`)
+  }
+})
+</script>
+</html>

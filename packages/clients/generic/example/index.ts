@@ -1,5 +1,12 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable max-lines */
-import client from './node_modules/@polar/client-generic/dist/polar-client.mjs'
+
+/* NOTE this example is purely for testing dev-side, do not use as guideline,
+ * but refer to our documentation pages. */
+
+import client from '../src/polar-client'
+const id = 'polarstern'
 
 const commonParameters = {
   services: 'https://geodienste.hamburg.de/services-internet.json',
@@ -12,12 +19,10 @@ const commonParameters = {
         type: 'background',
       },
     ],
-    stylePath: './node_modules/@polar/client-generic/dist/polar-client.css',
   },
 }
 
 const scenarioLayer = {
-  name: 'Attributions, LayerChooser, & Legend',
   enabledPlugins: ['attributions', 'icon-menu', 'layer-chooser', 'legend'],
   mapConfiguration: {
     language: 'en',
@@ -63,7 +68,7 @@ const scenarioLayer = {
           title: 'example.attributions.basemapGrey',
         },
         {
-          id: '23050',
+          id: '2301711',
           title: 'example.attributions.underground',
         },
         {
@@ -85,7 +90,7 @@ const scenarioLayer = {
         name: 'example.layers.basemapGrey',
       },
       {
-        id: '23050',
+        id: '2301711',
         visibility: true,
         type: 'mask',
         name: 'example.layers.underground',
@@ -97,12 +102,9 @@ const scenarioLayer = {
       },
     ],
   },
-  description:
-    'POLAR can handle an <i>arbitrary</i> amount of switchable background and togglable subject layers. Both copyright information and layer legend previews are displayed in additional plugins. For more complex WMS layers, a sub-layer menu exists. See the <a target="_blank" href="https://static.hamburg.de/kartenclient/prod/">monument map ↗</a> for an example of that.',
 }
 
 const scenarioAddress = {
-  name: 'AddressSearch, Pins, & Reverse Geocoder',
   enabledPlugins: [
     'address-search',
     'loading-indicator',
@@ -148,13 +150,10 @@ const scenarioAddress = {
       addressTarget: 'plugin/addressSearch/selectResult',
     },
   },
-  description:
-    'These plugins can be mixed to help with locating a coordinate and/or address. Users may use either the address search element directly, or create/move a pin to get an address. Click anywhere in the map to get started.',
 }
 
 const scenarioDraw = {
-  name: 'Draw, Export, & Toast',
-  enabledPlugins: ['draw', 'export', 'icon-menu'],
+  enabledPlugins: ['draw', 'export', 'icon-menu', 'toast'],
   mapConfiguration: {
     language: 'en',
     epsg: 'EPSG:25832',
@@ -184,21 +183,19 @@ const scenarioDraw = {
       showPdf: false,
     },
   },
-  description:
-    "Allows the user to draw information and text to the map and making a screenshot to forward the information in the procedure. It's also confiugurable to offer the image as download directly.<br>This also showcases how the toast plugin can be used to inform users about the process.",
   postCreation: ({ mapClient, id }) => {
     const figure = document.createElement('figure')
     const imgId = `${id}-img`
     figure.innerHTML = `
     <img id="${imgId}" alt=""">
     <figcaption>The screenshot that can be made above will appear here.</figcaption>`
+    // @ts-expect-error | we know better
     document.getElementById(id).parentElement.parentElement.appendChild(figure)
     mapClient.subscribe('plugin/export/exportedMap', (screenshot) => {
       const imgElement = document.getElementById(imgId)
       if (imgElement && screenshot) {
         imgElement?.setAttribute('src', screenshot)
-        imgElement.style = 'outline: 2px dashed black'
-        // TODO fix, doesn't work :<
+        imgElement.style.cssText = 'outline: 2px dashed black'
         mapClient.$store.dispatch('plugin/toast/addToast', {
           type: 'info',
           text: 'The screenshot was placed below the map.',
@@ -208,10 +205,12 @@ const scenarioDraw = {
   },
 }
 
-// TODO fix GFI
 const scenarioGfi = {
-  name: 'Gfi & Filter',
   enabledPlugins: ['icon-menu', 'filter', 'gfi'],
+  modifyLayerConfiguration: (layerConf) => {
+    layerConf.find((entry) => entry.id === '1711').clusterDistance = 40
+    return layerConf
+  },
   mapConfiguration: {
     language: 'en',
     epsg: 'EPSG:25832',
@@ -222,17 +221,17 @@ const scenarioGfi = {
           plugins: {
             filter: {
               layerName: {
-                46: 'E-Mobility charging stations',
+                1711: 'Hospital',
               },
               category: {
-                46: {
+                1711: {
                   title: {
-                    ladesaeule_status: 'Status of charging station',
+                    traegerschaft: 'Sponsorship',
                   },
-                  ladesaeule_status: {
-                    frei: 'Free',
-                    'teilweise belegt': 'Partially occupied',
-                    belegt: 'Occupied',
+                  traegerschaft: {
+                    privat: 'Private',
+                    öffentlich: 'Public',
+                    freigemeinnützig: 'Non-profit',
                   },
                 },
               },
@@ -241,6 +240,23 @@ const scenarioGfi = {
         },
       },
     ],
+    extendedMasterportalapiMarkers: {
+      layers: ['1711'],
+      defaultStyle: {
+        stroke: '#FFFFFF',
+        fill: '#005CA9',
+      },
+      hoverStyle: {
+        stroke: '#46688E',
+        fill: '#8BA1B8',
+      },
+      selectionStyle: {
+        stroke: '#FFFFFF',
+        fill: '#E10019',
+      },
+      clusterClickZoom: true,
+      dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
+    },
     layers: [
       {
         id: '452',
@@ -248,18 +264,18 @@ const scenarioGfi = {
         type: 'background',
       },
       {
-        id: '46',
+        id: '1711',
         visibility: true,
         type: 'mask',
       },
     ],
     filter: {
       layers: {
-        46: {
+        1711: {
           categories: [
             {
-              targetProperty: 'ladesaeule_status',
-              knownValues: ['frei', 'teilweise belegt', 'belegt'],
+              targetProperty: 'traegerschaft',
+              knownValues: ['privat', 'öffentlich', 'freigemeinnützig'],
             },
           ],
         },
@@ -267,111 +283,134 @@ const scenarioGfi = {
     },
     gfi: {
       mode: 'bboxDot',
+      renderType: 'iconMenu',
+      featureList: {
+        mode: 'visible',
+        pageLength: 5,
+        text: ['name', 'adresse'],
+        bindWithCoreHoverSelect: true,
+      },
       layers: {
-        46: {
+        1711: {
           geometry: false,
           window: true,
           properties: {
-            str: 'Straße',
-            hsnr: 'Hausnummer',
+            name: 'Name',
+            adresse: 'Address',
+            ort: 'Address 2',
           },
           showTooltip: (feature) => [
-            ['h2', 'Address'],
-            ['span', feature.get('adresse')],
+            [
+              'h2',
+              feature.get('features').length > 1
+                ? 'Multiple hospitals'
+                : feature.get('features')[0].get('name'),
+            ],
+            [
+              'span',
+              feature.get('features').length > 1
+                ? 'Click to zoom in'
+                : feature.get('features')[0].get('adresse'),
+            ],
           ],
         },
       },
     },
   },
-  description: 'Filtering features and retrieving the information needed.',
 }
 
-// TODO use german-wide map and bbox for geo-location
+let zoomLevel = 1
 const scenarioOrientation = {
-  name: 'Fullscreen, Geo Location, Scale, & Zoom',
   enabledPlugins: ['fullscreen', 'geo-location', 'icon-menu', 'scale', 'zoom'],
+  services: [
+    {
+      id: 'web_raster',
+      name: 'WMS DE BASEMAP.DE WEB RASTER',
+      url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+      typ: 'WMS',
+      layers: 'de_basemapde_web_raster_grau',
+      format: 'image/png',
+      version: '1.3.0',
+      singleTile: false,
+      transparent: true,
+    },
+  ],
   mapConfiguration: {
     language: 'en',
     epsg: 'EPSG:25832',
+    zoom: {
+      showMobile: true,
+    },
+    startResolution: 529.166380916,
+    startCenter: [553655.72, 6004479.25],
+    extent: [
+      272364.5953963266, 5243177.769112317, 884817.7737926682,
+      6109485.046199471,
+    ],
+    options: [
+      { resolution: 529.166380916, scale: 2000000, zoomLevel: zoomLevel++ },
+      { resolution: 264.583190458, scale: 1000000, zoomLevel: zoomLevel++ },
+      { resolution: 132.291595229, scale: 500000, zoomLevel: zoomLevel++ },
+      { resolution: 66.14579761460263, scale: 250000, zoomLevel: zoomLevel++ },
+      { resolution: 26.458319045841044, scale: 100000, zoomLevel: zoomLevel++ },
+      { resolution: 15.874991427504629, scale: 60000, zoomLevel: zoomLevel++ },
+      { resolution: 10.583327618336419, scale: 40000, zoomLevel: zoomLevel++ },
+      { resolution: 5.2916638091682096, scale: 20000, zoomLevel: zoomLevel++ },
+      { resolution: 2.6458319045841048, scale: 10000, zoomLevel: zoomLevel++ },
+      { resolution: 1.3229159522920524, scale: 5000, zoomLevel: zoomLevel++ },
+      { resolution: 0.6614579761460262, scale: 2500, zoomLevel: zoomLevel++ },
+      { resolution: 0.2645831904584105, scale: 1000, zoomLevel: zoomLevel++ },
+      { resolution: 0.1322915952292052, scale: 500, zoomLevel: zoomLevel++ },
+      { resolution: 0.06614579761, scale: 250, zoomLevel: zoomLevel++ },
+      { resolution: 0.02645831904, scale: 100, zoomLevel: zoomLevel++ },
+      { resolution: 0.01322915952, scale: 50, zoomLevel: zoomLevel++ },
+    ],
+    layers: [
+      {
+        id: 'web_raster',
+        visibility: true,
+        type: 'background',
+      },
+    ],
   },
-  description:
-    'For intense work, the client can be toggled into fullscreen. Allowing users to identify their position in relation to the geospatial data. A scale to better estimate sizes of shown contents.Zoom buttons as additional navigational tools.',
 }
 
-const scenarioLocales = {
-  name: 'Fully localizable and language switcher',
-  // TODO build locale switcher and some custom locales
-  enabledPlugins: [],
-  mapConfiguration: {
-    language: 'en',
-    epsg: 'EPSG:25832',
-  },
-  description: 'Show information to users.',
-}
-
-const scenarioSubscriptions = {
-  name: 'POLAR as part of a form & Toast',
-  // TODO use some plugins and fill forms with them
-  enabledPlugins: [],
-  mapConfiguration: {
-    language: 'en',
-    epsg: 'EPSG:25832',
-  },
-  description: 'Show information to users.',
-}
-
-for (const {
-  name,
-  mapConfiguration,
-  enabledPlugins,
-  description,
-  postCreation,
-} of [
+const scenarios = {
   scenarioDraw,
-  scenarioLocales,
-  scenarioSubscriptions,
   scenarioOrientation,
   scenarioAddress,
   scenarioGfi,
   scenarioLayer,
-]) {
-  const id = name
-    .toLowerCase()
-    .replaceAll(' & ', '-')
-    .replaceAll(' ', '-')
-    .replaceAll(',', '')
-  const aside = document.createElement('aside')
-  aside.style = 'width: 100% !important'
-  const parameterObject = {
+}
+
+async function renderLayer({
+  mapConfiguration,
+  enabledPlugins,
+  postCreation,
+  modifyLayerConfiguration,
+  services,
+}) {
+  const div = document.createElement('div')
+  div.id = id
+  div.classList.add('polarstern')
+  document.body.appendChild(div)
+
+  const mapClient = await client.createMap({
     ...commonParameters,
+    services: services || commonParameters.services,
     containerId: id,
     enabledPlugins,
+    modifyLayerConfiguration,
     mapConfiguration: {
       ...commonParameters.mapConfiguration,
       ...mapConfiguration,
     },
-  }
-  aside.innerHTML = `
-    <h3>${name}</h3>
-    <p>${description}</p>
-    <div id="${id}" class="polarstern"></div>
-    <details>
-      <summary>View configuration</summary>
-      <p>
-        <pre>
-          <code>
-client.createMap(${JSON.stringify(parameterObject, null, 2)})
-          </code>
-        </pre>
-      </p>
-    </details>
-  `
-
-  document.getElementById('plugin-gallery').appendChild(aside)
-
-  client.createMap(parameterObject).then((mapClient) => {
-    if (postCreation) {
-      postCreation({ mapClient, id })
-    }
   })
+  if (postCreation) {
+    postCreation({ mapClient, id })
+  }
 }
+
+// RUNS
+// @ts-expect-error | just testing ...
+renderLayer(scenarios.scenarioGfi)

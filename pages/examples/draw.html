@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="../assets/iceberg_icon.svg">
+  <link rel="stylesheet" href="../mvp.css">
+
+  <meta charset="utf-8">
+  <meta name="description" content="POLAR - draw example">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>POLAR – Draw example</title>
+</head>
+
+<body>
+  <section id="render-node">
+  </section>
+</body>
+
+<script src="../assets/iframe-resizer/js/iframeResizer.contentWindow.js"></script>
+<script type="module">
+  import render from './render.js'
+
+  const preDrawn = '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"radius":779.3311236595036},"geometry":{"type":"Point","coordinates":[562905.3766030567,5935068.951517103]}},{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[[564254.7508743946,5934370.451894293],[565572.3751628775,5935719.8261656305]]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[566858.2494685053,5935021.326542821]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[568191.7487484157,5934354.576902865],[568953.7483369359,5935783.326131341],[569747.4979083112,5934354.576902865],[568191.7487484157,5934354.576902865]]]}}]}'
+
+  render({
+    name: 'Draw & Export & Toast',
+    description: [
+      "Allows the user to draw geospatial information and text to the map. The information can be forwarded both as GeoJSON and as screenshot producable by programmatic calls or, in this example, a screenshot button. It's also confiugurable to offer the image as download directly to the user.", "This also showcases how the toast plugin can be used to inform users about the process, as progress outside the map can easily be missed."
+    ],
+    useCases: [
+      'Indicating a location or area on your property for an application or report.',
+      'Editing your department\'s shared GeoJSON depicting a plan of action.',
+      'Notifying the user of changes outside the map client with toasts.',
+    ],
+    enabledPlugins: ['draw', 'export', 'icon-menu', 'toast'],
+    mapConfiguration: {
+      language: 'en',
+      epsg: 'EPSG:25832',
+      layers: [
+        {
+          id: '66',
+          visibility: true,
+          type: 'background',
+        },
+      ],
+      draw: {
+        selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
+        textStyle: {
+          font: {
+            size: [10, 20, 30],
+            family: 'Arial',
+          },
+        },
+        style: {
+          fill: { color: 'rgba(255, 255, 255, 0.5)' },
+          stroke: {
+            color: '#e51313',
+            width: 2,
+          },
+          circle: {
+            radius: 7,
+            fillColor: '#e51313',
+          },
+        },
+      },
+      export: {
+        showPng: true,
+        showJpg: false,
+        showPdf: false,
+      },
+    },
+    postCreation: ({ mapClient, id }) => {
+      const figure = document.createElement('figure')
+      const imgId = `${id}-img`
+      figure.innerHTML = `
+      <img id="${imgId}" alt=""">
+      <figcaption>The screenshot that can be made above will appear here.</figcaption>`
+      document.getElementById(id).parentElement.parentElement.appendChild(figure)
+      mapClient.subscribe('plugin/export/exportedMap', (screenshot) => {
+        const imgElement = document.getElementById(imgId)
+        if (imgElement && screenshot) {
+          imgElement?.setAttribute('src', screenshot)
+          imgElement.style = 'outline: 2px dashed black'
+          mapClient.$store.dispatch('plugin/toast/addToast', {
+            type: 'info',
+            text: 'The screenshot was placed below the map.',
+            timeout: 3000
+          })
+        }
+      })
+      mapClient.$store.dispatch('plugin/draw/addFeatures', {
+        geoJSON: preDrawn
+      })
+    },
+  })
+</script>
+</html>

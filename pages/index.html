@@ -16,6 +16,11 @@
       height: 300px;
       width: 100%;
     }
+
+    iframe {
+      width: 1px;
+      min-width: 100%;
+    }
   </style>
 </head>
 
@@ -170,6 +175,28 @@
   </footer>
 </body>
 
-<script type="module" src="./client.mjs" ></script>
+<script src="./assets/iframe-resizer/js/iframeResizer.js"></script>
+<script>
+  const examples = [
+    'address',
+    'draw',
+    'layer',
+    'gfi',
+    'orientation',
+    'locales'
+  ]
+
+  examples.forEach((example) => {
+    const iframe = document.createElement('iframe')
+    iframe.id = `iframe-${example}`
+    iframe.src = `./examples/${example}.html`
+    iframe.width = '100%'
+    iframe.frameBorder = '0'
+    if (example === 'gfi') iframe.style.zIndex = 1
+    document.getElementById('plugin-gallery').appendChild(iframe)
+
+    iFrameResize({}, `#${iframe.id}`)
+  })
+</script>
 
 </html>
