@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Additionally export `PolarCore` type.
+
 ## 1.4.0
 
 - Feature: Add hatchable markers; that is, when using `extendedMasterportalapiMarkers`, marker fills can now contain patterns for better accessibility.

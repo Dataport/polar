@@ -1,4 +1,9 @@
-import core, { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
+import core, {
+  setLayout,
+  NineLayout,
+  NineLayoutTag,
+  PolarCore,
+} from '@polar/core'
 import { MapConfig, Menu } from '@polar/lib-custom-types'
 import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
@@ -45,7 +50,7 @@ setLayout(NineLayout)
 
 // this is fine for list-like setup functions
 // eslint-disable-next-line max-lines-per-function
-const addPlugins = (coreInstance, enabledPlugins: PluginName[]) => {
+const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
   const iconMenu =
     enabledPlugins.includes('icon-menu') &&
     IconMenu({
