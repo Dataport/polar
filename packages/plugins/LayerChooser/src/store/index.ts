@@ -78,6 +78,14 @@ export const makeStoreModule = () => {
             id: layer.id,
           })
 
+          if (rawLayer === null) {
+            console.error(
+              `@polar/plugin-layer-chooser: Layer ${layer.id} not found in service register. This is a configuration issue. The map might behave in unexpected ways.`,
+              layer
+            )
+            return
+          }
+
           if (rawLayer.typ !== 'WMS' && !layer.hideInMenu) {
             console.warn(
               `@polar/plugin-layer-chooser: Used configuration 'layers' on layer with type '${
