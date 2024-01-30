@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Increase type precision of EPSG codes from `string` to `EPSG:${string}`.
+
 ## 1.4.0
 
 - Feature: Add `MasterportalapiPolygonFillHatch` to `MarkerStyle` as optional fill variant.

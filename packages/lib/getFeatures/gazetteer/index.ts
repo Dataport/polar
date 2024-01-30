@@ -23,7 +23,7 @@ export function getGazetteerFeatures(
   version: WFSVersion,
   memberSuffix: MemberSuffix,
   namespaces: string[],
-  epsg: string,
+  epsg: `EPSG:${string}`,
   options: AdditionalSearchOptions = {}
 ): Promise<FeatureCollection> {
   let requestUrl = Object.entries(input).reduce(
