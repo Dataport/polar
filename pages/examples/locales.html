@@ -126,7 +126,6 @@
         .addEventListener('change', (event) => {
           const target = event.target
           const { value } = target
-          console.warn(mapClient)
           mapClient.$i18next.changeLanguage(value).then(() => {
             target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
             target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
@@ -145,7 +144,9 @@ document.getElementById('language-switcher')
       target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
       target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
     })`)
-  }
+
+      mapClient.$store.dispatch('plugin/iconMenu/openMenuById', 'layerChooser')
+    }
 })
 </script>
 </html>
