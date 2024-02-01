@@ -31,5 +31,6 @@ jobs:
           do
             git tag $TAG_NAME
             git push origin $TAG_NAME
+            echo $TAG_NAME
           done
 
