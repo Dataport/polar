@@ -5,7 +5,6 @@
 const cp = require('child_process')
 const fs = require('fs')
 const packages = require('./packages')
-const tags = []
 
 function checkForNewVersion(cwd) {
   const { version } = JSON.parse(
@@ -17,13 +16,6 @@ function checkForNewVersion(cwd) {
   if (/^\d\.\d\.\d(-.+)?$/.test(nextVersion) && version !== nextVersion) {
     return nextVersion
   }
-}
-
-function getPackageName(cwd) {
-  const { name } = JSON.parse(
-    fs.readFileSync(cwd + '/package.json', { encoding: 'UTF-8' })
-  )
-  return name
 }
 
 for (const path of packages) {
@@ -38,7 +30,6 @@ for (const path of packages) {
         { cwd: path }
       )
       cp.execSync('npm publish --access=public', context)
-      tags.push(`${getPackageName(path)}@${nextVersion}`)
       console.info(`The package in '${path}' was published as v${nextVersion}.`)
     } else {
       console.info("No update in '" + path + "'.")
@@ -48,5 +39,3 @@ for (const path of packages) {
     process.exitCode = 1
   }
 }
-
-return tags

@@ -17,21 +17,10 @@ jobs:
           node-version: 18.13.0
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: TAGS=$(npm run publishPackages)
-      - run: echo "$TAGS"
+      - run: npm run publishPackages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: Dataport Geo Bot
           author_email: dataportpolarsupport@dataport.de
-      - run: |
-          git config user.name "Dataport Geo Bot"
-          git config user.email "dataportpolarsupport@dataport.de"
-          for TAG_NAME in $TAGS
-          do
-            git tag $TAG_NAME
-            git push origin $TAG_NAME
-            echo "$TAG_NAME"
-          done
-
