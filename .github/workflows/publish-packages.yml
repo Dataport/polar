@@ -27,10 +27,11 @@ jobs:
           author_name: Dataport Geo Bot
           author_email: dataportpolarsupport@dataport.de
       - run: |
-          - ${{ each TAG in TAGS }}:
-          - script: |
+          for TAG in TAGS
+          do
             git config user.name "Dataport Geo Bot"
             git config user.email "dataportpolarsupport@dataport.de"
             git tag $(TAG)
             git push origin $(TAG)
-            echo "Released and tagged $(TAG)."
+            echo "Released and tagged $(TAG)"
+          done
