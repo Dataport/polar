@@ -24,16 +24,13 @@ jobs:
         with:
           author_name: Dataport Geo Bot
           author_email: dataportpolarsupport@dataport.de
-      - name: Push tags
-        strategy:
+      - strategy:
           matrix:
             tagname: $TAGS
-        steps:
-          - uses: actions/setup-node@v3
-            with:
-              tagname: ${{ matrix.tagname }}
-          - run: |
-              git config user.name "Dataport Geo Bot"
-              git config user.email "dataportpolarsupport@dataport.de"
-              git tag $tagname
-              git push origin $tagname
+          run: |
+            git config user.name "Dataport Geo Bot"
+            git config user.email "dataportpolarsupport@dataport.de"
+            git tag $tagname
+            git push origin $tagname
+          with:
+            tagname: ${{ matrix.tagname }}
