@@ -38,7 +38,7 @@ jobs:
         with:
           tagname: ${{ matrix.tagname }}
       - run: |
-        git config user.name "Dataport Geo Bot"
-        git config user.email "dataportpolarsupport@dataport.de"
-        git tag $tagname
-        git push origin $tagname
+          git config user.name "Dataport Geo Bot"
+          git config user.email "dataportpolarsupport@dataport.de"
+          git tag $tagname
+          git push origin $tagname
