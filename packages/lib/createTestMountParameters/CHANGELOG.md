@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## 1.3.0.not_really_published
+
 ## 1.2.0
 
 - Feature: Extend mock state to match current core state type.
