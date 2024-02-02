@@ -31,8 +31,8 @@ jobs:
           do
             git config user.name "Dataport Geo Bot"
             git config user.email "dataportpolarsupport@dataport.de"
-            git tag $TAG
-            git push origin $TAG
+            # git tag $TAG
+            # git push origin $TAG
             echo "Released and tagged $TAG"
           done
       - run: node ./scripts/createRelease ${{ env.TAGS }}
