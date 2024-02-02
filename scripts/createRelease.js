@@ -3,7 +3,9 @@
 const fs = require('fs')
 const { getOctokit, context } = require('@actions/github')
 
-const github = getOctokit(process.env.GITHUB_TOKEN)
+const github = getOctokit({
+  auth: process.env.GITHUB_TOKEN,
+})
 const { owner, repo } = context.repo
 
 for (const tag of process.argv.slice(2)) {
