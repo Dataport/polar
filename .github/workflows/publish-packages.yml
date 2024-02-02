@@ -24,21 +24,16 @@ jobs:
         with:
           author_name: Dataport Geo Bot
           author_email: dataportpolarsupport@dataport.de
-      - name: Set output
-        id: tags-output
-        run: echo "TAGS=$TAGS" >> "$GITHUB_OUTPUT"
-  tag:
-    needs: publish
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        tagname: ${{ jobs.tags-output.outputs.TAGS }}
-    steps:
-      - uses: actions/setup-node@v3
-        with:
-          tagname: ${{ matrix.tagname }}
-      - run: |
-          git config user.name "Dataport Geo Bot"
-          git config user.email "dataportpolarsupport@dataport.de"
-          git tag $tagname
-          git push origin $tagname
+      - name: Push tags
+        strategy:
+          matrix:
+            tagname: $TAGS
+        steps:
+          - uses: actions/setup-node@v3
+            with:
+              tagname: ${{ matrix.tagname }}
+          - run: |
+              git config user.name "Dataport Geo Bot"
+              git config user.email "dataportpolarsupport@dataport.de"
+              git tag $tagname
+              git push origin $tagname
