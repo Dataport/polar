@@ -24,13 +24,10 @@ jobs:
         with:
           author_name: Dataport Geo Bot
           author_email: dataportpolarsupport@dataport.de
-      - strategy:
-          matrix:
-            tagname: $TAGS
-          run: |
+      - run: |
+          for TAG_NAME in $TAGS; do
             git config user.name "Dataport Geo Bot"
             git config user.email "dataportpolarsupport@dataport.de"
-            git tag $tagname
-            git push origin $tagname
-          with:
-            tagname: ${{ matrix.tagname }}
+            git tag $TAG_NAME
+            git push origin $TAG_NAME
+          done
