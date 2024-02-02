@@ -22,7 +22,7 @@ jobs:
       - run: echo TAGS=[$(node ./scripts/publishPackages)] >> $GITHUB_OUTPUT
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: echo "$TAGS"
+      - run: echo "$(TAGS)"
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: Dataport Geo Bot

@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.3.0-mock-release-for-testing-pipeline.4
+## 1.3.0-mock-release-for-testing-pipeline.5
 
 ## 1.2.0
 
