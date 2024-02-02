@@ -35,4 +35,4 @@ jobs:
             git push origin $TAG
             echo "Released and tagged $TAG"
           done
-      - run: node ./scripts/createRelease ${{ env.TAGS }}
+      - run: node ./scripts/createRelease ${{ secrets.GITHUB_TOKEN }} ${{ env.TAGS }}
