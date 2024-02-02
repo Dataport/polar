@@ -18,9 +18,9 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: TAGS=$(node ./scripts/publishPackages)
-      - run: echo "$TAGS"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: echo "$TAGS"
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: Dataport Geo Bot
