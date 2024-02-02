@@ -3,9 +3,11 @@
 // const fs = require('fs')
 const { getOctokit, context } = require('@actions/github')
 
-const [token, ...tags] = process.argv.slice(2)
-const github = getOctokit({ auth: token })
+const tags = process.argv.slice(2)
+const github = getOctokit({ auth: process.env.GITHUB_TOKEN })
 const { owner, repo } = context.repo
+
+console.info(process.env.GITHUB_TOKEN)
 
 for (const tag of tags) {
   console.warn(tag)
