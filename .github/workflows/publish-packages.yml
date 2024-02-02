@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tagname: ${{ steps.tags-output.outputs.TAGS }}
+        tagname: ${{ jobs.tags-output.outputs.TAGS }}
     steps:
       - uses: actions/setup-node@v3
         with:
