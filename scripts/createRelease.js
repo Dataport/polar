@@ -9,6 +9,7 @@ const github = getOctokit({
 const { owner, repo } = context.repo
 
 for (const tag of process.argv.slice(2)) {
+  console.warn(tag)
   github.request(`POST /repos/${owner}/${repo}/releases`, {
     owner,
     repo,

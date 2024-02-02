@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.3.0.not_really_published
+## 1.3.0-mock.0
 
 ## 1.2.0
 
