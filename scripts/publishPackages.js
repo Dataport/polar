@@ -47,4 +47,4 @@ for (const path of packages) {
   }
 }
 
-process.stdout.write(`[${tags.join(' ')}]`)
+process.stdout.write(`"${tags.join('" "')}"`)

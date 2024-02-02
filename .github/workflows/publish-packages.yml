@@ -8,6 +8,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.TAGS }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -20,14 +22,20 @@ jobs:
       - run: TAGS=$(node ./scripts/publishPackages)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: echo "TAGS=[$(TAGS)]" >> $GITHUB_OUTPUT
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: Dataport Geo Bot
           author_email: dataportpolarsupport@dataport.de
+  tag:
+    needs: [ publish ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tagname: ${{fromJSON(needs.publish.outputs.matrix)}}
+    steps:
       - run: |
-          for TAG_NAME in $TAGS; do
-            git config user.name "Dataport Geo Bot"
-            git config user.email "dataportpolarsupport@dataport.de"
-            git tag $TAG_NAME
-            git push origin $TAG_NAME
-          done
+          git config user.name "Dataport Geo Bot"
+          git config user.email "dataportpolarsupport@dataport.de"
+          git tag $matrix.tagname
+          git push origin $matrix.tagname
