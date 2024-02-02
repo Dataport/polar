@@ -19,23 +19,19 @@ jobs:
           node-version: 18.13.0
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: echo TAGS=[$(node ./scripts/publishPackages)] >> $GITHUB_OUTPUT
+      - run: TAGS=$(node ./scripts/publishPackages)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: echo "$(TAGS)"
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: Dataport Geo Bot
           author_email: dataportpolarsupport@dataport.de
-  tag:
-    needs: [ publish ]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        tagname: ${{fromJSON(needs.publish.outputs.matrix)}}
-    steps:
       - run: |
-          git config user.name "Dataport Geo Bot"
-          git config user.email "dataportpolarsupport@dataport.de"
-          git tag $matrix.tagname
-          git push origin $matrix.tagname
+          for TAG in $(TAGS)
+          do
+            git config user.name "Dataport Geo Bot"
+            git config user.email "dataportpolarsupport@dataport.de"
+            git tag $(TAG)
+            git push origin $(TAG)
+            echo "Released and tagged $(TAG)."
+          done
