@@ -1,7 +1,5 @@
 # CHANGELOG
 
-## 1.3.0-mock-release-for-testing-pipeline.5
-
 ## 1.2.0
 
 - Feature: Extend mock state to match current core state type.
