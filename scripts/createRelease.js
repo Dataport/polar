@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const fs = require('fs')
+// const fs = require('fs')
 const { getOctokit, context } = require('@actions/github')
 
 const github = getOctokit({
@@ -9,7 +9,7 @@ const github = getOctokit({
 const { owner, repo } = context.repo
 
 for (const tag of process.argv.slice(2)) {
-  github.rest.repos.createRelease({
+  github.request(`POST /repos/${owner}/${repo}/releases`, {
     owner,
     repo,
     tag_name: tag,
