@@ -27,7 +27,7 @@ jobs:
           author_name: Dataport Geo Bot
           author_email: dataportpolarsupport@dataport.de
       - run: |
-          for TAG in TAGS
+          for TAG in $TAGS
           do
             git config user.name "Dataport Geo Bot"
             git config user.email "dataportpolarsupport@dataport.de"
