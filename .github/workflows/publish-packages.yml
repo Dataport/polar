@@ -27,7 +27,6 @@ jobs:
           author_name: Dataport Geo Bot
           author_email: dataportpolarsupport@dataport.de
       - run: |
-          echo ${{ env.TAGS }}
           for TAG in ${{ env.TAGS }}
           do
             git config user.name "Dataport Geo Bot"
