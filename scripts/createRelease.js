@@ -7,7 +7,9 @@ const tags = process.argv.slice(2)
 const github = getOctokit({ auth: process.env.GITHUB_TOKEN })
 const { owner, repo } = context.repo
 
-console.info(process.env.GITHUB_TOKEN)
+console.info('-----------------------------')
+console.info(typeof process.env.GITHUB_TOKEN)
+console.info('-----------------------------')
 
 for (const tag of tags) {
   console.warn(tag)
