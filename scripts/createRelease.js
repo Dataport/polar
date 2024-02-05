@@ -3,11 +3,9 @@
 const fs = require('fs')
 const { getOctokit, context } = require('@actions/github')
 
-const tags = process.argv.slice(3)
+const tags = process.argv.slice(2)
 const github = getOctokit(process.env.GITHUB_TOKEN)
 const { owner, repo } = context.repo
-
-console.warn(`-------------------------------${tags.join('')}`)
 
 const camelize = (strings, all = false) =>
   (all ? '' : strings[0]) +
