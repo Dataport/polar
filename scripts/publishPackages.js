@@ -6,6 +6,8 @@ const cp = require('child_process')
 const fs = require('fs')
 const packages = require('./packages')
 
+const tags = []
+
 function checkForNewVersion(cwd) {
   const { version } = JSON.parse(
     fs.readFileSync(cwd + '/package.json', { encoding: 'UTF-8' })
@@ -18,11 +20,19 @@ function checkForNewVersion(cwd) {
   }
 }
 
+function getPackageName(cwd) {
+  const { name } = JSON.parse(
+    fs.readFileSync(cwd + '/package.json', { encoding: 'UTF-8' })
+  )
+  return name
+}
+
 for (const path of packages) {
   try {
     const nextVersion = checkForNewVersion(path)
     if (nextVersion) {
       const context = { cwd: path, stdio: 'inherit' }
+      /*
       cp.execSync('npm version ' + nextVersion, context)
       cp.execSync(
         'npm set //registry.npmjs.org/:_authToken ' +
@@ -30,12 +40,13 @@ for (const path of packages) {
         { cwd: path }
       )
       cp.execSync('npm publish --access=public', context)
-      console.info(`The package in '${path}' was published as v${nextVersion}.`)
-    } else {
-      console.info("No update in '" + path + "'.")
+      */
+      tags.push(`${getPackageName(path)}@${nextVersion}`)
     }
   } catch (e) {
     console.error(e)
     process.exitCode = 1
   }
 }
+
+process.stdout.write(tags.join(' '))

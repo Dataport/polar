@@ -8,10 +8,9 @@ For these cases, this not-so-secret file denotes our not-anymore-arcane knowledg
 
 1. Draw a dependency tree of POLAR packages with changes documented as `"unpublished"` in their respective `CHANGELOG.md` files.
 2. Start with the leafs. Update the version from `"unpublished"` to the appropriate version indicated by the nature of changes. If required, change the package.json dependencies to refer to minimum versions of dependencies used.
-3. Push to main. A pipeline is now running that detects the CHANGELOG change, updates the version, and publishes the package to NPM.
-4. Pull. Tag the last commit with `git tag @polar/package-name@x.y.z` appropriately for all packages released in that commit. `git push --tags` to push tags to GitHub.
-5. Create new release note on GitHub. Select the previously created tag, use it as title, and copy the relevant changelog. Link to the NPM package. If it's a client, add the NPM package to the artifacts for an easier download. See previous releases for formatting of contents and artifacts.
-6. Delete leafs from tree made in `1`. Go back to `2` until the tree is empty.
+3. Push to main. A pipeline is now running that detects the CHANGELOG change, updates the version, publishes the package to NPM, and creates a tag `@polar/package-name@x.y.z`.
+4. Create new release note on GitHub. Select the previously created tag, use it as title, and copy the relevant changelog. Link to the NPM package. If it's a client, add the NPM package to the artifacts for an easier download. See previous releases for formatting of contents and artifacts.
+5. Delete leafs from tree made in `1`. Go back to `2` until the tree is empty.
 
 ## Update process
 
