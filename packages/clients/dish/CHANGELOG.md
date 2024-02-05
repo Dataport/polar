@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.1.1
 
 - Fix: The marker previously disappeared on being moved/reclicked on a second feature. This issue has been resolved.
 - Fix: The pin colour was off.
