@@ -32,7 +32,6 @@ for (const path of packages) {
     const nextVersion = checkForNewVersion(path)
     if (nextVersion) {
       const context = { cwd: path, stdio: 'inherit' }
-      /*
       cp.execSync('npm version ' + nextVersion, context)
       cp.execSync(
         'npm set //registry.npmjs.org/:_authToken ' +
@@ -40,7 +39,6 @@ for (const path of packages) {
         { cwd: path }
       )
       cp.execSync('npm publish --access=public', context)
-      */
       tags.push(`${getPackageName(path)}@${nextVersion}`)
     }
   } catch (e) {
