@@ -21,6 +21,7 @@ jobs:
       - run: npm ci
       - run: |
           RETURN_TAGS=$(node ./scripts/publishPackages)
+          echo "$RETURN_TAGS"
           echo "TAGS=$RETURN_TAGS" >> $GITHUB_ENV
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

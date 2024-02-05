@@ -33,13 +33,14 @@ for (const path of packages) {
     if (nextVersion) {
       const context = { cwd: path, stdio: 'inherit' }
       tags.push(`${getPackageName(path)}@${nextVersion}`)
+      cp.execSync('npm config set loglevel warn')
       cp.execSync('npm version ' + nextVersion, context)
       cp.execSync(
         'npm set //registry.npmjs.org/:_authToken ' +
           process.env.NODE_AUTH_TOKEN,
         { cwd: path }
       )
-      cp.execSync('npm publish --access=public', context)
+      cp.execSync('npm publish --access=public --dry-run', context)
     }
   } catch (e) {
     console.error(e)
