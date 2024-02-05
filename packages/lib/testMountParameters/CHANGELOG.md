@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## 1.3.0-mock.0
+## unpublished
+
+- Fix: Test now uses a mock EPSG code instead of an empty string.
 
 ## 1.2.0
 
