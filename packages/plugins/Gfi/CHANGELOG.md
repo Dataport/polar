@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: The `close` method previously always removed the pin when not in `extendedMasterportalapiMarkers` mode. This issue has been resolved by distinguishing whether a close operation happened in effect to a direct closing user interaction or was technically motivated.
+
 ## 1.2.1
 
 - Fix: Add missing deregistration of event listeners on destruction.
