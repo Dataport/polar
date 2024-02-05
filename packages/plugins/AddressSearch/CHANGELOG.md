@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 10.0.0-mock.0
+
+TEST
+
 ## 1.2.1
 
 - Fix: Keyboard navigation of results to work on all browsers.
