@@ -28,4 +28,4 @@ All parameters are optional. However, setting neither `layerAttributions` nor `s
 | fieldName | type   | description                                                                                                                                           |
 | --------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | id        | string | ID of service the attribution relates to. The text will only be shown when the layer is visible.                                                      |
-| title     | string | Attribution text or localization key. May contain HTML. The tags `{{YEAR}}` and `{{MONTH}}` are translated to the current year or month respectively. |
+| title     | string | Attribution text or localization key. May contain HTML. The tags `<YEAR>` and `<MONTH>` are translated to the current year or month respectively. |

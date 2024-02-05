@@ -7,7 +7,7 @@
         icon
         small
         :aria-label="$t('common:plugins.gfi.header.close')"
-        @click="close"
+        @click="close(true)"
       >
         <v-icon small>fa-xmark</v-icon>
       </v-btn>

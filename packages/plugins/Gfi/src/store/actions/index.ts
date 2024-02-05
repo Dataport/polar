@@ -215,11 +215,14 @@ export const makeActions = () => {
           }
         })
     },
-    close({ commit, dispatch, rootGetters }) {
+    close({ commit, dispatch, rootGetters }, userInteraction = false) {
       commit('clearFeatureInformation')
       commit('setImageLoaded', false)
       // NOTE: null is needed, as the payload is always the second argument...
-      if (!rootGetters.configuration?.extendedMasterportalapiMarkers) {
+      if (
+        !rootGetters.configuration?.extendedMasterportalapiMarkers &&
+        userInteraction
+      ) {
         dispatch('plugin/pins/removeMarker', null, { root: true })
       }
       dispatch('setCoreSelection', { feature: null })

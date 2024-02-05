@@ -83,6 +83,6 @@ function getVisibleAttributions(
 export function formatAttributionText(text: string): string {
   const now = new Date()
   return text
-    .replaceAll('{{YEAR}}', now.getFullYear().toString())
-    .replaceAll('{{MONTH}}', `${now.getMonth() + 1}`.padStart(2, '0'))
+    .replaceAll('<YEAR>', now.getFullYear().toString())
+    .replaceAll('<MONTH>', `${now.getMonth() + 1}`.padStart(2, '0'))
 }
