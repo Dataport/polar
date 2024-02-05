@@ -11,7 +11,7 @@
     <v-card-actions>
       <slot name="actionButton" />
       <v-spacer></v-spacer>
-      <v-btn icon small :aria-label="closeLabel" @click="close">
+      <v-btn icon small :aria-label="closeLabel" @click="close(true)">
         <v-icon><slot name="closeIcon">fa-xmark</slot></v-icon>
       </v-btn>
     </v-card-actions>
@@ -139,9 +139,9 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations(['setMoveHandle']),
-    close() {
+    close(userInteraction: boolean) {
       this.setMoveHandle(null)
-      this.closeFunction()
+      this.closeFunction(userInteraction)
     },
     moveHandle(key: string): void {
       if (key === 'ArrowUp' || key === 'ArrowDown') {

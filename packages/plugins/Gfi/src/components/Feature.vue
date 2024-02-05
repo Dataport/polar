@@ -9,7 +9,7 @@
         icon
         small
         :aria-label="$t(closeLabel)"
-        @click="close"
+        @click="close(true)"
       >
         <v-icon>fa-xmark</v-icon>
       </v-btn>

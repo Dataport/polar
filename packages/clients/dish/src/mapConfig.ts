@@ -208,7 +208,7 @@ export const mapConfiguration = {
   pins: {
     toZoomLevel: 7,
     movable: true,
-    color: {
+    style: {
       fill: shBlue,
     },
   },
