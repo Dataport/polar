@@ -21,6 +21,11 @@ export const getMethodContainer = () => {
     })
 
   function getSearchMethod(type: string): SearchMethodFunction {
+    if (type === 'gazetteer') {
+      console.warn(
+        '@polar/plugin-address-search: Search type "gazetteer" is deprecated. Please use "mpapi" instead.'
+      )
+    }
     const method = methods[type]
     if (method) {
       return method

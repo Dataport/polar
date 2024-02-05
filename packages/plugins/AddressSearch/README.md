@@ -41,7 +41,7 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 | label           | string?                                  | Display label. Can be a locale key. If grouped with other services, the group's label will be used instead.                                                                                                                |
 | placeholder     | string?                                  | Placeholder string to display on input element. Can be a locale key. If grouped with other services, the group's placeholder will be used instead.                                                                         |
 | hint            | string?                                  | Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key. If grouped with other services, the group's hint will be used instead.                           |
-| type            | enum["bkg", "gazetteer", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`.                                                                                                                              |
+| type            | enum["bkg", "gazetteer", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. ⚠️ "gazetteer" is deprecated. Please use "mpapi" instead. |
 | url             | string                                   | Search service URL. Should you require a service provider, please contact us for further information.                                                                                                                      |
 | groupId         | string?                                  | Default groupId is `"defaultGroup"`. All services with the same id are grouped and used together. See `addressSearch.groupProperties` for configuration options. If multiple groups exist, the UI offers a group switcher. |
 | categoryId      | string?                                  | Grouped services can optionally be distinguished in the UI with categories. See `addressSearch.categoryProperties` for configuration options.                                                                              |
@@ -120,7 +120,7 @@ Since inputs may overlap with multiple patterns, multiple queries are fired and 
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:gazetteer)
 
-> ⚠️ Please mind that the gazetteer implementation is not final. Changes will be announced by a change in the major version number.
+> ⚠️ "gazetteer" is deprecated. Please use "mpapi" instead.
 
 | fieldName     | type     | description                                                                                                   |
 | ------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
