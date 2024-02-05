@@ -116,7 +116,7 @@
 <tr>
 <td>type</td>
 <td>enum[&quot;bkg&quot;, &quot;gazetteer&quot;, &quot;wfs&quot;, &quot;mpapi&quot;]</td>
-<td>Service type. Enum can be extended by configuration, see <code>addressSearch.customSearchMethods</code>.</td>
+<td>Service type. Enum can be extended by configuration, see <code>addressSearch.customSearchMethods</code>. ⚠️ &quot;gazetteer&quot; is deprecated. Please use &quot;mpapi&quot; instead.</td>
 </tr>
 <tr>
 <td>url</td>
@@ -273,7 +273,7 @@
 <p>Since inputs may overlap with multiple patterns, multiple queries are fired and executed on the WFS until the <code>maxFeatures</code> requirement is met, beginning with the pattern that 'looks like the user input the most'. The best-fitting pattern on the returned features will be used to generate a display string. When two patterns fit best, the first one is used.</p>
 <h5>addressSearch.searchMethodsObject.queryParameters (type:gazetteer)</h5>
 <blockquote>
-<p>⚠️ Please mind that the gazetteer implementation is not final. Changes will be announced by a change in the major version number.</p>
+<p>⚠️ &quot;gazetteer&quot; is deprecated. Please use &quot;mpapi&quot; instead.</p>
 </blockquote>
 <table>
 <thead>
