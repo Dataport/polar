@@ -27,20 +27,16 @@ function getPackageName(cwd) {
   return name
 }
 
-const originalWrite = process.stdout.write
-process.stdout.write = () => {
-  /* NOTE
-   * throw away logs
-   * `npm version` ignored `--silent`, no matter what, hence this measure.
-   * `--silent` below is kept in case this ever changes.
-   */
-}
-
 for (const path of packages) {
   try {
     const nextVersion = checkForNewVersion(path)
     if (nextVersion) {
-      const context = { cwd: path, stdio: 'inherit' }
+      /* NOTE
+       * throw away logs with `stdio: []`
+       * `npm version` ignored `--silent`, no matter what, hence this measure.
+       * `--silent` below is kept in case this ever changes.
+       */
+      const context = { cwd: path, stdio: [] }
       tags.push(`${getPackageName(path)}@${nextVersion}`)
 
       cp.execSync('npm version ' + nextVersion + ' --silent', context)
@@ -58,5 +54,4 @@ for (const path of packages) {
   }
 }
 
-process.stdout.write = originalWrite
 process.stdout.write(tags.map((tag) => tag.trim()).join(' '))
