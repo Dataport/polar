@@ -10,6 +10,6 @@
     "directory": "packages/lib/createTestMountParameters"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.3.0"
+    "@polar/lib-custom-types": "^1.4.1"
   }
 }
