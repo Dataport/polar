@@ -112,7 +112,7 @@ export default Vue.extend({
         (this.moveHandle === null ||
           this.moveHandle.plugin !== oldHandle.plugin)
       ) {
-        oldHandle.closeFunction()
+        oldHandle.closeFunction(false)
       }
       // Make sure the element is properly updated.
       this.moveHandleKey += 1
