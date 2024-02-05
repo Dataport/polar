@@ -16,7 +16,7 @@ export function parseGazetteerResponse(
   response: Response,
   memberSuffix: MemberSuffix,
   namespaces: string[],
-  epsg: string,
+  epsg: `EPSG:${string}`,
   title?: string | string[]
 ): Promise<FeatureCollection> {
   return response.text().then((text) => {

@@ -36,5 +36,5 @@ jobs:
             echo "Released and tagged $TAG"
           done
       - run: node ./scripts/createRelease ${{ env.TAGS }}
-        with:
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

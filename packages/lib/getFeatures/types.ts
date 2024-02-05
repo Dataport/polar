@@ -15,7 +15,7 @@ export interface AdditionalSearchOptions {
 /** Adds the possibility to have a 'title' attribute in a GeoJSON Feature */
 export interface PolarGeoJsonFeature extends GeoJsonFeature {
   /** The projection of the coordinates of the features */
-  epsg: string
+  epsg: `EPSG:${string}`
   /** Which fieldName to use for display purposes; e.g. used in the AddressSearch for the result list */
   title?: string
 }
