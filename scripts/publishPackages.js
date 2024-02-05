@@ -27,6 +27,11 @@ function getPackageName(cwd) {
   return name
 }
 
+const originalWrite = process.stdout.write
+process.stdout.write = () => {
+  /* throw away logs */
+}
+
 for (const path of packages) {
   try {
     const nextVersion = checkForNewVersion(path)
@@ -50,4 +55,5 @@ for (const path of packages) {
   }
 }
 
+process.stdout.write = originalWrite
 process.stdout.write(tags.map((tag) => tag.trim()).join(' '))
