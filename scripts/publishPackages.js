@@ -15,7 +15,7 @@ function checkForNewVersion(cwd) {
   const markdown = fs.readFileSync(cwd + '/CHANGELOG.md', { encoding: 'UTF-8' })
   const nextVersion = markdown.split('## ')[1].split('\n')[0].trim()
 
-  if (/^\d\.\d\.\d(-.+)?$/.test(nextVersion) && version !== nextVersion) {
+  if (/^\d+\.\d+\.\d+(-.+)?$/.test(nextVersion) && version !== nextVersion) {
     return nextVersion
   }
 }
@@ -32,6 +32,7 @@ for (const path of packages) {
     const nextVersion = checkForNewVersion(path)
     if (nextVersion) {
       const context = { cwd: path, stdio: 'inherit' }
+      tags.push(`${getPackageName(path)}@${nextVersion}`)
       /*
       cp.execSync('npm version ' + nextVersion, context)
       cp.execSync(
@@ -41,7 +42,6 @@ for (const path of packages) {
       )
       cp.execSync('npm publish --access=public', context)
       */
-      tags.push(`${getPackageName(path)}@${nextVersion}`)
     }
   } catch (e) {
     console.error(e)
