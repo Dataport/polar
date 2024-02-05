@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.4.1
 
 - Fix: Increase type precision of EPSG codes from `string` to `EPSG:${string}`.
 
