@@ -34,19 +34,17 @@ for (const path of packages) {
       /* NOTE
        * throw away logs with `stdio: []`
        * `npm version` ignored `--silent`, no matter what, hence this measure.
-       * `--silent` below is kept in case this ever changes.
        */
       const context = { cwd: path, stdio: [] }
       tags.push(`${getPackageName(path)}@${nextVersion}`)
 
-      cp.execSync('npm version ' + nextVersion + ' --silent', context)
+      cp.execSync('npm version ' + nextVersion, context)
       cp.execSync(
         'npm set //registry.npmjs.org/:_authToken ' +
-          process.env.NODE_AUTH_TOKEN +
-          ' --silent',
+          process.env.NODE_AUTH_TOKEN,
         { cwd: path }
       )
-      cp.execSync('npm publish --access=public --dry-run --silent', context)
+      cp.execSync('npm publish --access=public', context)
     }
   } catch (e) {
     console.error(e)
