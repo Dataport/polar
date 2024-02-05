@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-// const fs = require('fs')
+const fs = require('fs')
 const { getOctokit, context } = require('@actions/github')
 
 const tags = process.argv.slice(2)
@@ -11,14 +11,49 @@ console.info('-----------------------------')
 console.info(typeof process.env.GITHUB_TOKEN)
 console.info('-----------------------------')
 
+const camelize = (strings) =>
+  strings[0] +
+  strings
+    .slice(1)
+    .map((string) => string.charAt(0).toUpperCase() + string.slice(1))
+    .join('')
+
+function getBody(tag) {
+  const [packageName, packageVersion] = tag.split('@').slice(1)
+  const name = packageName.split('/')[1]
+  const nameParts = name.split('-')
+  let filePath
+
+  if (nameParts[0] === 'core' || nameParts[0] === 'components') {
+    filePath = `./packages/${nameParts[0]}`
+  } else if (nameParts[0] === 'plugin' || nameParts[0] === 'client') {
+    filePath = `./packages/${nameParts[0]}s/${camelize(nameParts.slice(1))}`
+  } else if (nameParts[0] === 'lib') {
+    filePath = `./packages/${nameParts[0]}/${camelize(nameParts.slice(1))}`
+  } else {
+    const message = `Unknown package name in tag ${tag}.`
+    console.error(message)
+    process.exit = 1
+    throw new Error(message)
+  }
+  const data = fs.readFileSync(`${filePath}/CHANGELOG.md`, { encoding: 'utf8' })
+  return `## CHANGELOG
+${data
+  .split('##')[1]
+  .split('\n')
+  .slice(1)
+  .join(
+    '\n'
+  )}[NPM package](https://www.npmjs.com/package/${packageName}/v/${packageVersion})`
+}
+
 for (const tag of tags) {
-  console.warn(tag)
   github.request(`POST /repos/${owner}/${repo}/releases`, {
     owner,
     repo,
     tag_name: tag,
     name: tag,
-    body: `Test`,
+    body: getBody(tag),
     headers: {
       'X-GitHub-Api-Version': '2022-11-28',
     },
