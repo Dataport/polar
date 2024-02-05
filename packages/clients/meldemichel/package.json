@@ -19,8 +19,9 @@
     "API.md"
   ],
   "scripts": {
-    "postversion": "npm run build",
-    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist"
+    "postversion": "npm run build:ci",
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
+    "build:ci": "rimraf dist && vite build -l silent && copyfiles -f src/html/**/* dist"
   },
   "devDependencies": {
     "@polar/core": "^1.4.0",
