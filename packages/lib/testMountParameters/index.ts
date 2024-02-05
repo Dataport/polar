@@ -49,7 +49,7 @@ export default (): MockParameters => {
       center: null,
       components: 1,
       configuration: {
-        epsg: '',
+        epsg: 'EPSG:12345',
         layerConf: [],
         namedProjections: [],
         layers: [],
