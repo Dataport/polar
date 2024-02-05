@@ -1,9 +1,5 @@
 # CHANGELOG
 
-## 10.0.0-mock.0
-
-TEST
-
 ## 2.1.1
 
 - Fix: The GFI's new flag `userInteraction` on the close interaction is now filled and forwarded according to whether the close call was due to the user intentionally closing the GFI rather than opening a new GFI. This is required for a fix in the GFI plugin.
