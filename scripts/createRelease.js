@@ -45,7 +45,7 @@ ${data
   .slice(1)
   .join(
     '\n'
-  )}[NPM package](https://www.npmjs.com/package/${packageName}/v/${packageVersion})`
+  )}[NPM package](https://www.npmjs.com/package/@${packageName}/v/${packageVersion})`
 }
 
 for (const tag of tags) {
