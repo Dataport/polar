@@ -19,7 +19,9 @@ jobs:
           node-version: 18.13.0
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: echo "TAGS=$(node ./scripts/publishPackages)" >> $GITHUB_ENV
+      - run: |
+          RETURN_TAGS=$(node ./scripts/publishPackages)
+          echo "TAGS=$RETURN_TAGS" >> $GITHUB_ENV
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: EndBug/add-and-commit@v9

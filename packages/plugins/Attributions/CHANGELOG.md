@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.1
 
 - Fix: There were incomplete changes regarding how to write current year and month references. They have been rolled back to `<YEAR>` and `<MONTH>` in both documentation and code.
 

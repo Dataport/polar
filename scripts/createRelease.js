@@ -7,10 +7,10 @@ const tags = process.argv.slice(2)
 const github = getOctokit(process.env.GITHUB_TOKEN)
 const { owner, repo } = context.repo
 
-const camelize = (strings) =>
-  strings[0] +
+const camelize = (strings, all = false) =>
+  (all ? '' : strings[0]) +
   strings
-    .slice(1)
+    .slice(all ? 0 : 1)
     .map((string) => string.charAt(0).toUpperCase() + string.slice(1))
     .join('')
 
@@ -25,7 +25,10 @@ function getBody(tag) {
   } else if (name === 'lib-custom-types') {
     filePath = `./packages/types/custom`
   } else if (nameParts[0] === 'plugin' || nameParts[0] === 'client') {
-    filePath = `./packages/${nameParts[0]}s/${camelize(nameParts.slice(1))}`
+    filePath = `./packages/${nameParts[0]}s/${camelize(
+      nameParts.slice(1),
+      nameParts[0] === 'plugin'
+    )}`
   } else if (nameParts[0] === 'lib') {
     filePath = `./packages/${nameParts[0]}/${camelize(nameParts.slice(1))}`
   } else {
