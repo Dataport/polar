@@ -31,8 +31,13 @@ for (const path of packages) {
   try {
     const nextVersion = checkForNewVersion(path)
     if (nextVersion) {
-      const context = { cwd: path, stdio: 'inherit' }
+      /* NOTE
+       * throw away logs with `stdio: []`
+       * `npm version` ignored `--silent`, no matter what, hence this measure.
+       */
+      const context = { cwd: path, stdio: [] }
       tags.push(`${getPackageName(path)}@${nextVersion}`)
+
       cp.execSync('npm version ' + nextVersion, context)
       cp.execSync(
         'npm set //registry.npmjs.org/:_authToken ' +
