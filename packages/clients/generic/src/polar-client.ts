@@ -156,7 +156,7 @@ export default {
     services: object[]
     mapConfiguration: MapConfig
     enabledPlugins: Array<PluginName>
-    modifyLayerConfiguration
+    modifyLayerConfiguration: (layerConf: object[]) => object[]
   }) =>
     new Promise((resolve) => {
       const coreInstance = { ...core }

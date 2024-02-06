@@ -18,6 +18,7 @@ The method expects a single object with the following parameters.
 | services | object[] \| string | Either a link to a service registry or an array containing service description objects. For more details, see the startup section on [POLAR documentation](https://dataport.github.io/polar/documentation.html#configuration). |
 | mapConfiguration | object | See full documentation for all possible configuration options. |
 | enabledPlugins  | string[]? | This is a client-specific field. Since the `@polar/client-generic` client contains all existing plugins, they are activated by strings. The strings match their package names: `'address-search' \| 'attributions' \| 'draw'* \| 'export' \| 'filter'* \| 'fullscreen'* \| 'geo-location'* \| 'gfi'* \| 'icon-menu' \| 'layer-chooser'* \| 'legend' \| 'loading-indicator' \| 'pins' \| 'reverse-geocoder' \| 'scale' \| 'toast' \| 'zoom'*`. The plugins marked with * are nested in the `'icon-menu'` in this pre-layouting, hence they depend upon it being active, too. |
+| modifyLayerConfiguration | ((layerConf: object[]) => object[])? | Defaults to identity function. This function is applied to the loaded layer configuration before usage. That is, the `services` can be modified by this to e.g. set parameters not supported by the service register, add additional layers, and so on. |
 
 `createMap` returns a Promise of a map instance. This returned instance is required to retrieve information from the map.
 
