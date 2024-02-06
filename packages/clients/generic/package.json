@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Client Generic",
   "license": "EUPL-1.2",
+  "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "main": "dist/polar-client.mjs",
   "repository": {
