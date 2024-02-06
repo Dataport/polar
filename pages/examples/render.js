@@ -1,4 +1,4 @@
-import client from '../node_modules/@polar/client-generic/dist/polar-client.mjs'
+import client from '../node_modules/@polar/client-generic/dist/polar-client.js'
 
 const commonParameters = {
   services: 'https://geodienste.hamburg.de/services-internet.json',
