@@ -24,6 +24,14 @@ import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
 import packageInfo from '../package.json'
 
+/* TODO
+ * The types below do not match. This is intentional due to this file setting
+ * a base for later configuration; it is not meant to contain a full config.
+ *
+ * We should work something out to make types partial, and maybe identify what's
+ * left to do as a type on a per-client basis.
+ */
+
 type PluginName =
   | 'address-search'
   | 'attributions'
