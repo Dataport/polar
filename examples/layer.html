@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="../assets/iceberg_icon.svg">
+  <link rel="stylesheet" href="../mvp.css">
+
+  <meta charset="utf-8">
+  <meta name="description" content="POLAR - Layer example">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>POLAR – Layer example</title>
+</head>
+
+<body>
+  <section id="render-node">
+  </section>
+</body>
+
+<script src="../assets/iframe-resizer/js/iframeResizer.contentWindow.js"></script>
+<script type="module">
+  import render from './render.js'
+
+  render({
+    name: 'Layer Chooser & Attributions & Legend',
+    description: 'POLAR can handle an <i>arbitrary</i> amount of switchable background and togglable subject layers. Both copyright information and layer legend previews are displayed in additional plugins. For more complex WMS layers, a sub-layer menu exists. See the <a target="_blank" href="https://static.hamburg.de/kartenclient/prod/">monument map ↗</a> for an example.',
+    useCases: [
+      'Offering background material for different user types. Some prefer aerial photography, some require a road map for map navigation.',
+      'Offering various browsable topical information for informative maps.',
+      'Copyright attributions ensures legal usage of map material requiring them, dynamically according to shown contents and in-map.'
+    ],
+    enabledPlugins: ['attributions', 'icon-menu', 'layer-chooser', 'legend'],
+    mapConfiguration: {
+      language: 'en',
+      epsg: 'EPSG:25832',
+      locales: [
+        {
+          type: 'en',
+          resources: {
+            example: {
+              attributions: {
+                basemap: 'Basemap © basemap.de / BKG <MONTH> <YEAR>',
+                basemapGrey: 'Basemap Grey © basemap.de / BKG <MONTH> <YEAR>',
+                gleichenMin:
+                  'Groundwater iso-levels (Minimum) © Freie und Hansestadt Hamburg, Behörde für Umwelt, Klima, Energie und Agrarwirtschaft (BUKEA)',
+                gleichenMax:
+                  'Groundwater iso-levels (Maximum) © Freie und Hansestadt Hamburg, Behörde für Umwelt, Klima, Energie und Agrarwirtschaft (BUKEA)',
+              },
+              layers: {
+                basemap: 'Basemap.de (Coloured)',
+                basemapGrey: 'Basemap.de (Grey)',
+                gleichenMin: 'Groundwater iso-levels (Minimum)',
+                gleichenMax: 'Groundwater iso-levels (Maximum)',
+              },
+            },
+          },
+        },
+      ],
+      attributions: {
+        initiallyOpen: false,
+        listenToChanges: [
+          'plugin/layerChooser/activeBackgroundId',
+          'plugin/layerChooser/activeMaskIds',
+        ],
+        windowWidth: 300,
+        layerAttributions: [
+          {
+            id: '23420',
+            title: 'example.attributions.basemap',
+          },
+          {
+            id: '23421',
+            title: 'example.attributions.basemapGrey',
+          },
+          {
+            id: '690',
+            title: 'example.attributions.gleichenMin',
+          },
+          {
+            id: '688',
+            title: 'example.attributions.gleichenMax',
+          },
+        ],
+      },
+      layers: [
+        {
+          id: '23420',
+          type: 'background',
+          name: 'example.layers.basemap',
+        },
+        {
+          id: '23421',
+          visibility: true,
+          type: 'background',
+          name: 'example.layers.basemapGrey',
+        },
+        {
+          id: '690',
+          visibility: false,
+          type: 'mask',
+          name: 'example.layers.gleichenMin'
+        },
+        {
+          id: '688',
+          visibility: true,
+          type: 'mask',
+          name: 'example.layers.gleichenMax'
+        }
+      ],
+    },
+  })
+</script>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="../assets/iceberg_icon.svg">
+  <link rel="stylesheet" href="../mvp.css">
+
+  <meta charset="utf-8">
+  <meta name="description" content="POLAR - Orientation example">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>POLAR – Orientation example</title>
+</head>
+
+<body>
+  <section id="render-node">
+  </section>
+</body>
+
+<script src="../assets/iframe-resizer/js/iframeResizer.contentWindow.js"></script>
+<script type="module">
+  import render from './render.js'
+
+  const web_raster = ''
+  let zoomLevel = 0
+  render({
+    name: 'Fullscreen & GeoLocation & Scale & Zoom',
+    description: ['The client can be toggled into fullscreen, which may e.g.  be useful on crowded sites when little space for a map client remains, but more context is required. The GeoLocation feature allows users to identify their position in relation to the geospatial data. A scale to better estimate sizes of shown contents is provided.', 'Zoom buttons are further available on some screen and map sizes as additional navigational tools, but zooming mostly relies on touch gestures, mouse wheel interaction, or keyboard interaction, depending on the device type and user.'],
+    useCases: ['Increasing accessibility of the map client in general, for all types of users.'],
+    enabledPlugins: ['fullscreen', 'geo-location', 'icon-menu', 'scale', 'zoom'],
+    services: [
+      {
+        id: 'web_raster',
+        name: 'WMS DE BASEMAP.DE WEB RASTER',
+        url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+        typ: 'WMS',
+        layers: 'de_basemapde_web_raster_grau',
+        format: 'image/png',
+        version: '1.3.0',
+        singleTile: false,
+        transparent: true,
+      },
+    ],
+    mapConfiguration: {
+      language: 'en',
+      epsg: 'EPSG:25832',
+      startResolution: 529.166380916,
+      startCenter: [553655.72, 5704479.25],
+      extent: [
+        272364.5953963266, 5243177.769112317,
+        884817.7737926682, 6109485.046199471,
+      ],
+      options: [
+        { resolution: 529.166380916, scale: 2000000, zoomLevel: zoomLevel++ },
+        { resolution: 264.583190458, scale: 1000000, zoomLevel: zoomLevel++ },
+        { resolution: 132.291595229, scale: 500000, zoomLevel: zoomLevel++ },
+        { resolution: 66.14579761460263, scale: 250000, zoomLevel: zoomLevel++ },
+        { resolution: 26.458319045841044, scale: 100000, zoomLevel: zoomLevel++ },
+        { resolution: 15.874991427504629, scale: 60000, zoomLevel: zoomLevel++ },
+        { resolution: 10.583327618336419, scale: 40000, zoomLevel: zoomLevel++ },
+        { resolution: 5.2916638091682096, scale: 20000, zoomLevel: zoomLevel++ },
+        { resolution: 2.6458319045841048, scale: 10000, zoomLevel: zoomLevel++ },
+        { resolution: 1.3229159522920524, scale: 5000, zoomLevel: zoomLevel++ },
+        { resolution: 0.6614579761460262, scale: 2500, zoomLevel: zoomLevel++ },
+        { resolution: 0.2645831904584105, scale: 1000, zoomLevel: zoomLevel++ },
+        { resolution: 0.1322915952292052, scale: 500, zoomLevel: zoomLevel++ },
+        { resolution: 0.06614579761, scale: 250, zoomLevel: zoomLevel++ },
+        { resolution: 0.02645831904, scale: 100, zoomLevel: zoomLevel++ },
+        { resolution: 0.01322915952, scale: 50, zoomLevel: zoomLevel++ },
+      ],
+      layers: [
+        {
+          id: 'web_raster',
+          visibility: true,
+          type: 'background',
+        },
+      ],
+    },
+    postCreation: ({ id }) => {
+      const aside = document.getElementById(id).parentElement.parentElement
+      const copyright = document.createElement('p')
+      copyright.style.cssText = 'color: var(--color-text-secondary)'
+      copyright.innerHTML = `Background map by <i>© GeoBasis-DE / BKG (${new Date().getFullYear()}) CC BY 4.0</i>`
+      aside.appendChild(copyright)
+    }
+  })
+</script>
+</html>

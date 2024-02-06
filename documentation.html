@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="./assets/iceberg_icon.svg">
+  <link rel="stylesheet" href="./mvp.css">
+
+  <meta charset="utf-8">
+  <meta name="description" content="POLAR - documentation">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>POLAR – Documentation</title>
+  <style>
+    .polarstern {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <img src="./assets/iceberg.svg" alt="POLAR logo" height="100px"/>
+      <ul>
+        <li><a href="#architecture">Architecture</a>
+        <li><a href="#configuration">Configuration</a></li>
+        <li><a href="#development">Development</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="./">Main page ↗</a></li>
+      </ul>
+    </nav>
+    <h1>POLAR documentation</h1>
+    <p>About configuration, integration, and common use cases.</p>
+  </header>
+
+  <main>
+    <hr>
+    <article id="architecture">
+      <h2>Architecture</h2>
+      <h3>User perspective</h3>
+      <p>When using POLAR, it behaves a simple fragment that can be used in any web-based setting. It may either work standalone, in which case there are only inputs for configuration, or as a part of a process, in which case there are both inputs and outputs for further processing.</p>
+      <p>The purpose of POLAR is to handle all geospatial interactions of a user and utilize the decentralized geospatial infrastructure for that end.</p>
+      <figure>
+        <img alt="POLAR architecture as viewn from a user perspective" src="./assets/polar-outer-architecture.png">
+        <figcaption><i>Viewn from the outside, POLAR is just a component</i></figcaption>
+      </figure>
+      <h3>Usage examples</h3>
+      <p>POLAR is designed to increase <mark>application efficiency</mark> and <mark>correctness</mark> for the public sector, but may be used in any form process or as a standalone map client. The provided <u>visualisations</u> ease communication between citizens and administrative staff, allowing them to effectively share the <i>where</i>.</p>
+
+      <p>POLAR is already in use for ...</p>
+      <ul>
+        <li>
+          ... <b>citizens</b> to ...
+          <ul>
+            <li>communicate parcel data in applications.</li>
+            <li>mark their current position for reports.</li>
+            <li>read information on water levels, bathing spots, and much other public information.</li>
+          </ul>
+        </li>
+        <li>
+          ... <b>officials in charge</b> to ...
+          <ul>
+            <li>coordinate city services regarding reports.</li>
+            <li>present governmental data to the public.</li>
+            <li>manage and update department geospatial data.</li>
+          </ul>
+        </li>
+        <li>
+          ... <b>developers</b> to ...
+          <ul>
+            <li>heavily reduce implementation time.</li>
+            <li>easily use geospatial systems without domain expertise.</li>
+            <li>use POLAR as component in low code platforms.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Inner architecture</h3>
+      <p>On the inside, POLAR is constructed from many smaller and isolated packages that each encapsulate a specific part of the business logic. These parts can be mixed and matched, and are easily replacable for situations where further extension would make them overly complicated.</p>
+      <p>For client-specific business logic, this can be placed in the very client itself to prevent bloat in other parts of the product.</p>
+      <p>All in all, this makes POLAR a versatile map client factory.</p>
+      <figure>
+        <img alt="POLAR architecture of the software itself" src="./assets/polar-architecture.png">
+        <figcaption><i>Viewn from the inside, POLAR is a map client factory</i></figcaption>
+      </figure>
+    </article>
+    <hr>
+    <article id="configuration">
+      <h2>Configuration</h2>
+      <h3>Client documentation</h3>
+      <p>Each client comes with its own documentation built from its individual description and used plugins.</p>
+      <ul>
+        <li><a href="./docs/afm/client-afm.html" target="_blank">AfM documentation ↗</a></li>
+        <li><a href="./docs/generic/client-generic.html" target="_blank">Generic documentation ↗</a></li>
+        <li><a href="./docs/meldemichel/client-meldemichel.html" target="_blank">Meldemichel documentation ↗</a></li>
+        <li><a href="./docs/snowbox/client-snowbox.html" target="_blank">Snowbox documentation ↗</a></li>
+      </ul>
+      <aside>
+        <p>Not sure where to start? Use the package <code>@polar/client-generic</code> and its documentation for an unspecialized client <u>including all plugins</u>.</p>
+      </aside>
+      <h3>Usage pattern</h3>
+      <p>All clients come with instructions documented above. However, they all mostly share how their integration works. Overall, these parts are required:</p>
+
+      <ul>
+        <li>A <code>div</code> with <code>position: relative;</code> and size definitions. An arbitrary id can be set.
+          <pre><code>
+&lt;div
+  style="width: 680px; height: 420px; position: relative;"
+  id="polarstern"
+/&gt;
+          </code></pre>
+        </li>
+        <li>A service register defining which services are usable. You may either write this file yourself or use an existing register, for example <a href="https://geodienste.hamburg.de/services-internet.json" target="_blank">Hamburg's service register ↗</a>. This is built on the <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/" target="_blank">masterportalAPI</a> and uses its service register interpreter. This works with all masterportalAPI-compatible fields of the Masterportal's <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md" target="_blank">service register description ↗</a>.<br>
+          A minimal example register with one background layer looks like this:
+          <pre><code>
+[
+  {
+    id: 'arbitrary_id_string',
+    name: 'WMS DE BASEMAP.DE WEB RASTER',
+    url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+    typ: 'WMS',
+    layers: 'de_basemapde_web_raster_grau',
+    format: 'image/png',
+    version: '1.3.0',
+    singleTile: false,
+    transparent: true,
+  }
+]
+          </code></pre>
+        </li>
+        <li>
+          Startup code. This is mostly putting the aforementioned parts together and adding configuration and subscriptions.
+          <pre><code>
+import client from '@polar/client-generic'
+
+client.createMap({
+  containerId: 'polarstern', // id from div
+  services: services, // URL to register or array of service descriptions
+  mapConfiguration: mapConfiguration, // for all things allowed, see full docs
+  enabledPlugins: ['iconMenu', 'zoom'] // only in generic client
+}).then((map) => {
+  // subscriptions and watchers; see full docs for all observable fields
+  map.subscribe(
+    'plugin/zoom/zoomLevel',
+    (zoomLevel) => { /* Your code here. */ }
+  )
+}))
+          </code></pre>
+        </li>
+      </ul>
+
+      <p>And that's about it. For more examples, view the <a href="http://127.0.0.1:8080/index.html#plugin-gallery" target="_blank">plugin gallery ↗</a> or choose a specific client's documentation files.</p>
+    </article>
+    <hr>
+    <article id="development">
+      <h2>Development</h2>
+
+      <p><sup>HINT</sup>Developing yourself is optional. POLAR supplies ready-made clients for many use cases, and you may commission us to write additional features.</p>
+
+      <h3>Where to code</h3>
+      <p>POLAR clients run everywhere. To develop plugins and clients anew, a certain setup is required. To avoid redoing it, it is advised to create additional plugins and clients in a fork of the project.</p>
+      <p>There are no further requirements. If you aim to merge back, please contact us before starting to put in work.</p>
+
+      <h3>Required skills</h3>
+      <p>Depending on what exactly you plan to write anew, the required skills may vary. POLAR is a purely front-end solution and as such general knowledge about web development is advisable.</p>
+      <p>We are especially writing the client with the following libraries, to which additional knowledge is helpful for contributions.</p>
+      <p><progress max="100" value="100">100</progress> <i>OpenLayers</i></p>
+      <p><progress max="100" value="90">90</progress> <i>Vue</i></p>
+      <p><progress max="100" value="80">80</progress> <i>Vuex</i></p>
+      <p><progress max="100" value="80">80</progress> <i>TypeScript</i></p>
+      <p><progress max="100" value="10">10</progress> <i>SCSS</i></p>
+    </article>
+  </main>
+
+  <footer id="contact">
+    <hr>
+    <h2>Contact</h2>
+    <p>
+      Mail us at <a href="mailto:dataportpolarsupport@dataport.de">dataportpolarsupport@dataport.de</a>
+    </p>
+    <p>
+      <small><a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" target="_blank">Legal Notice (Impressum) ↗</a></small>
+    </p>
+  </footer>
+</body>
+
+</html>
