@@ -1,6 +1,6 @@
 # POLAR AfM map client
 
-This is a default compilation of POLAR feature packages that can be used for online services. This document and its child documents describe the setup.
+This is a default compilation of POLAR feature packages for online services. This document and its child documents describe the setup.
 
 ## Requirements
 

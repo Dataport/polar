@@ -2,6 +2,7 @@
 
 ## 1.4.1
 
+- Feature: Additionally export `PolarCore` type.
 - Fix: The GFI's new flag `userInteraction` on the close interaction is forwarded. This is required for a fix in the GFI plugin.
 
 ## 1.4.0

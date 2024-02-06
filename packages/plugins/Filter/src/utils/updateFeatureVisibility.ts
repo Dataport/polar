@@ -57,7 +57,7 @@ const doesFeaturePassTimeFilter = (
   feature: Feature
 ): boolean => {
   // radioId=0 means 'no restriction'
-  if (!time || time[layerId].radioId === 0) {
+  if (!time || !time[layerId] || time[layerId].radioId === 0) {
     return true
   }
   const { targetProperty, radioId, pattern } = time[layerId]

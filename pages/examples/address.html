@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="../assets/iceberg_icon.svg">
+  <link rel="stylesheet" href="../mvp.css">
+
+  <meta charset="utf-8">
+  <meta name="description" content="POLAR - Address example">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>POLAR – Address example</title>
+</head>
+
+<body>
+  <section id="render-node">
+  </section>
+</body>
+
+<script src="../assets/iframe-resizer/js/iframeResizer.contentWindow.js"></script>
+<script type="module">
+  import render from './render.js'
+
+  render({
+    name: 'Address Search & Reverse Geocoder & Pins & Loading Indicator',
+    description: 'These plugins can be mixed to help with locating a coordinate and/or address. Users may use either the address search element directly, or create/move a pin to get an address. Click anywhere in the map to get started.',
+    useCases: [
+      'Finding an address on the map, or a coordinate of an address.',
+      'Figuring out the nearest address to a location for reports requiring an address.'
+    ],
+    enabledPlugins: [
+      'address-search',
+      'loading-indicator',
+      'pins',
+      'reverse-geocoder',
+    ],
+    mapConfiguration: {
+      language: 'en',
+      epsg: 'EPSG:25832',
+      addressSearch: {
+        displayComponent: true,
+        addLoading: 'plugin/loadingIndicator/addLoadingKey',
+        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+        searchMethods: [
+          {
+            queryParameters: {
+              searchAddress: true,
+              searchStreets: true,
+              searchHouseNumbers: true,
+            },
+            type: 'mpapi',
+            url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+          },
+        ],
+        minLength: 3,
+        waitMs: 300,
+        focusAfterSearch: true,
+      },
+      loadingIndicator: {
+        displayComponent: true,
+      },
+      pins: {
+        coordinateSource: 'plugin/addressSearch/chosenAddress',
+        toZoomLevel: 7,
+        movable: true,
+      },
+      reverseGeocoder: {
+        url: 'https://geodienste.hamburg.de/HH_WPS',
+        addLoading: 'plugin/loadingIndicator/addLoadingKey',
+        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+        zoomTo: 7,
+        coordinateSource: 'plugin/pins/transformedCoordinate',
+        addressTarget: 'plugin/addressSearch/selectResult',
+      },
+    },
+    postCreation: ({ mapClient, id }) => {
+      const paragraph = document.createElement('p')
+      const aside = document.getElementById(id).parentElement.parentElement
+      aside.appendChild(paragraph)
+      mapClient.subscribe('plugin/pins/latLon', (pinCoordinate) => {
+        if (pinCoordinate.length) {
+          paragraph.innerHTML = `The pin is at coordinate ${pinCoordinate.map(number => number.toFixed(4)).join(', ')}.`
+          paragraph.style.cssText = 'outline: 2px dashed black'
+        }
+      })
+      const copyright = document.createElement('p')
+      copyright.style.cssText = 'color: var(--color-text-secondary)'
+      copyright.innerHTML = 'Background map by <i>Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung</i>'
+      aside.appendChild(copyright)
+    },
+  })
+</script>
+</html>

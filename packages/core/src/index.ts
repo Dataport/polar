@@ -10,7 +10,7 @@ import './monkeyHeaderLoader'
 export { NineLayout, NineLayoutTag } from './components/layouts'
 export { setLayout, getLayout } from './utils/layout'
 
-type PolarCore = typeof mpapi & {
+export type PolarCore = typeof mpapi & {
   // TODO add more
   addPlugins: typeof addPlugins
   createMap: typeof createMap

@@ -6,5 +6,4 @@
 **/docs
 **/node_modules
 **/tests_output
-pages_output
 *.d.ts
