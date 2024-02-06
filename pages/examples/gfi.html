@@ -138,6 +138,22 @@
         },
       },
     },
+    postCreation: ({ id }) => {
+      const aside = document.getElementById(id).parentElement.parentElement
+      const ul = document.createElement('ul')
+
+      const copyright = document.createElement('li')
+      copyright.style.cssText = 'color: var(--color-text-secondary)'
+      copyright.innerHTML = 'Feature map by <i>Freie und Hansestadt Hamburg, Behörde für Gesundheit und Verbraucherschutz</i>'
+
+      const copyrightBackground = document.createElement('li')
+      copyrightBackground.style.cssText = 'color: var(--color-text-secondary)'
+      copyrightBackground.innerHTML = 'Background map by <i>Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung (LGV)</i>'
+
+      ul.appendChild(copyright)
+      ul.appendChild(copyrightBackground)
+      aside.appendChild(ul)
+    }
   })
 </script>
 </html>

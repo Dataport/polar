@@ -75,13 +75,18 @@
     },
     postCreation: ({ mapClient, id }) => {
       const paragraph = document.createElement('p')
-      document.getElementById(id).parentElement.parentElement.appendChild(paragraph)
+      const aside = document.getElementById(id).parentElement.parentElement
+      aside.appendChild(paragraph)
       mapClient.subscribe('plugin/pins/latLon', (pinCoordinate) => {
         if (pinCoordinate.length) {
           paragraph.innerHTML = `The pin is at coordinate ${pinCoordinate.map(number => number.toFixed(4)).join(', ')}.`
           paragraph.style.cssText = 'outline: 2px dashed black'
         }
       })
+      const copyright = document.createElement('p')
+      copyright.style.cssText = 'color: var(--color-text-secondary)'
+      copyright.innerHTML = 'Background map by <i>Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung</i>'
+      aside.appendChild(copyright)
     },
   })
 </script>

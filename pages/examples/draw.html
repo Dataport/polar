@@ -76,7 +76,8 @@
       figure.innerHTML = `
       <img id="${imgId}" alt=""">
       <figcaption>The screenshot that can be made above will appear here.</figcaption>`
-      document.getElementById(id).parentElement.parentElement.appendChild(figure)
+      const aside = document.getElementById(id).parentElement.parentElement
+      aside.appendChild(figure)
       mapClient.subscribe('plugin/export/exportedMap', (screenshot) => {
         const imgElement = document.getElementById(imgId)
         if (imgElement && screenshot) {
@@ -92,6 +93,10 @@
       mapClient.$store.dispatch('plugin/draw/addFeatures', {
         geoJSON: preDrawn
       })
+      const copyright = document.createElement('p')
+      copyright.style.cssText = 'color: var(--color-text-secondary)'
+      copyright.innerHTML = 'Background map by <i>LGV Hamburg</i>'
+      aside.appendChild(copyright)
     },
   })
 </script>

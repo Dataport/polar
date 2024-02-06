@@ -76,6 +76,13 @@
         },
       ],
     },
+    postCreation: ({ id }) => {
+      const aside = document.getElementById(id).parentElement.parentElement
+      const copyright = document.createElement('p')
+      copyright.style.cssText = 'color: var(--color-text-secondary)'
+      copyright.innerHTML = `Background map by <i>© GeoBasis-DE / BKG (${new Date().getFullYear()}) CC BY 4.0</i>`
+      aside.appendChild(copyright)
+    }
   })
 </script>
 </html>
