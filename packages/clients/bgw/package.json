@@ -1,0 +1,41 @@
+{
+  "name": "@polar/client-bgw",
+  "version": "0.1.0",
+  "description": "Client Badegewaesser SH",
+  "license": "EUPL-1.2",
+  "type": "module",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dataport/polar.git",
+    "directory": "packages/clients/bgw"
+  },
+  "files": [
+    "dist/**/**.*",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "postversion": "npm run build",
+    "build": "rimraf dist && vite build"
+  },
+  "devDependencies": {
+    "@masterportal/masterportalapi": "2.8.0",
+    "@polar/core": "*",
+    "@polar/lib-custom-types": "*",
+    "@polar/lib-get-features": "*",
+    "@polar/plugin-address-search": "*",
+    "@polar/plugin-attributions": "*",
+    "@polar/plugin-filter": "*",
+    "@polar/plugin-fullscreen": "*",
+    "@polar/plugin-geo-location": "*",
+    "@polar/plugin-gfi": "*",
+    "@polar/plugin-icon-menu": "*",
+    "@polar/plugin-layer-chooser": "*",
+    "@polar/plugin-legend": "*",
+    "@polar/plugin-loading-indicator": "*",
+    "@polar/plugin-pins": "*",
+    "@polar/plugin-scale": "*",
+    "@polar/plugin-toast": "*",
+    "@polar/plugin-zoom": "*"
+  }
+}
