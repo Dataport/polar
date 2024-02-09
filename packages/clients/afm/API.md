@@ -38,7 +38,10 @@ In your HTML, a div with unique ID is required that holds the following style pr
     position: relative;
   "
   id="polarstern"
-/>
+>
+  <!-- Optional, may use if your page does not have its own <noscript> information -->
+  <noscript>Please use a browser with active JavaScript to use the map client.</noscript>
+</div>
 ```
 
 ```js
