@@ -15,9 +15,8 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "postversion": "npm run build:ci",
-    "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh",
-    "build:ci": "rimraf dist && vite build -l silent && bash ./scripts/injectFlag.sh"
+    "postversion": "npm run build",
+    "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh"
   },
   "devDependencies": {
     "@masterportal/masterportalapi": "2.8.0",
