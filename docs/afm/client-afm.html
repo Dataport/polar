@@ -45,7 +45,10 @@
     position: relative;
   &quot;
   id=&quot;polarstern&quot;
-/&gt;
+&gt;
+  &lt;!-- Optional, may use if your page does not have its own &lt;noscript&gt; information --&gt;
+  &lt;noscript&gt;Please use a browser with active JavaScript to use the map client.&lt;/noscript&gt;
+&lt;/div&gt;
 </code></pre>
 <pre><code class="language-js">/* Services registration. Either a link to a services file (e.g. https://geodienste.hamburg.de/services-internet.json) or a local array. Check the core documentation for more details, linked at the end of this document. */
 MapClient.rawLayerList.initializeLayerList(services, callback)

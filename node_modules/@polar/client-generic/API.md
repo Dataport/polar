@@ -20,6 +20,22 @@ The method expects a single object with the following parameters.
 | enabledPlugins  | string[]? | This is a client-specific field. Since the `@polar/client-generic` client contains all existing plugins, they are activated by strings. The strings match their package names: `'address-search' \| 'attributions' \| 'draw'* \| 'export' \| 'filter'* \| 'fullscreen'* \| 'geo-location'* \| 'gfi'* \| 'icon-menu' \| 'layer-chooser'* \| 'legend' \| 'loading-indicator' \| 'pins' \| 'reverse-geocoder' \| 'scale' \| 'toast' \| 'zoom'*`. The plugins marked with * are nested in the `'icon-menu'` in this pre-layouting, hence they depend upon it being active, too. |
 | modifyLayerConfiguration | ((layerConf: object[]) => object[])? | Defaults to identity function. This function is applied to the loaded layer configuration before usage. That is, the `services` can be modified by this to e.g. set parameters not supported by the service register, add additional layers, and so on. |
 
+In your HTML, a div with unique ID (`containerId` from above) is required that holds the following style properties. Width and height can be changed as you need, but are required to be defined.
+
+```html
+<div
+  style="
+    width: 680px;
+    height: 420px;
+    position: relative;
+  "
+  id="polarstern"
+>
+  <!-- Optional, may use if your page does not have its own <noscript> information -->
+  <noscript>Please use a browser with active JavaScript to use the map client.</noscript>
+</div>
+```
+
 `createMap` returns a Promise of a map instance. This returned instance is required to retrieve information from the map.
 
 The package also includes a `style.css` and an `index.html` file. The `style.css`'s relative path must, if it isn't the default value `'./style.css'`, be included in the `mapConfiguration` as follows:

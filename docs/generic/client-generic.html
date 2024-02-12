@@ -65,6 +65,19 @@
 </tr>
 </tbody>
 </table>
+<p>In your HTML, a div with unique ID (<code>containerId</code> from above) is required that holds the following style properties. Width and height can be changed as you need, but are required to be defined.</p>
+<pre><code class="language-html">&lt;div
+  style=&quot;
+    width: 680px;
+    height: 420px;
+    position: relative;
+  &quot;
+  id=&quot;polarstern&quot;
+&gt;
+  &lt;!-- Optional, may use if your page does not have its own &lt;noscript&gt; information --&gt;
+  &lt;noscript&gt;Please use a browser with active JavaScript to use the map client.&lt;/noscript&gt;
+&lt;/div&gt;
+</code></pre>
 <p><code>createMap</code> returns a Promise of a map instance. This returned instance is required to retrieve information from the map.</p>
 <p>The package also includes a <code>style.css</code> and an <code>index.html</code> file. The <code>style.css</code>'s relative path must, if it isn't the default value <code>'./style.css'</code>, be included in the <code>mapConfiguration</code> as follows:</p>
 <pre><code class="language-js">{
