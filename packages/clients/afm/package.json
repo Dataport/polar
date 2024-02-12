@@ -20,9 +20,8 @@
     "API.md"
   ],
   "scripts": {
-    "postversion": "npm run build:ci",
-    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm",
-    "build:ci": "rimraf dist && vite build -l silent && cd ../../.. && npm run docs:afm"
+    "postversion": "npm run build",
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm"
   },
   "devDependencies": {
     "@polar/core": "^1.0.0",
