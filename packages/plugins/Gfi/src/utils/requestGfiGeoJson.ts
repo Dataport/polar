@@ -2,6 +2,7 @@ import { Feature as GeoJsonFeature } from 'geojson'
 import { Feature, Map } from 'ol'
 import { GeoJSON } from 'ol/format'
 import { Layer } from 'ol/layer'
+import { Coordinate } from 'ol/coordinate'
 
 /**
  * Returns features from GeoJSON layer as GeoJSON.
@@ -12,7 +13,7 @@ export default ({
   layer,
 }: {
   map: Map
-  coordinate: [number, number]
+  coordinate: Coordinate
   layer: Layer
 }): Promise<GeoJsonFeature[]> =>
   Promise.resolve(
