@@ -28,5 +28,8 @@
     "@polar/plugin-scale": "*",
     "@polar/plugin-toast": "*",
     "@polar/plugin-zoom": "*"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }

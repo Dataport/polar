@@ -28,7 +28,8 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "rimraf dist && tsc --declaration --emitDeclarationOnly && rollup -c"
+    "build": "tsc --declaration --emitDeclarationOnly && rollup -c",
+    "preversion": "npm run build"
   },
   "peerDependencies": {
     "@masterportal/masterportalapi": "2.8.0",
@@ -48,5 +49,8 @@
   "devDependencies": {
     "@polar/lib-custom-types": "^1.2.0",
     "@polar/lib-test-mount-parameters": "^1.1.0"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }

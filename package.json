@@ -28,7 +28,7 @@
     "dish:dev": "cd packages/clients/dish/ && vite --host",
     "meldemichel:build": "npm run build --workspace=packages/clients/meldemichel",
     "meldemichel:build:serve": "http-server packages/clients/meldemichel -o /example/index.html",
-    "meldemichel:dev": "cd packages/clients/meldemichel/ && vite --host",
+    "meldemichel:dev": "concurrently \"cd packages/clients/meldemichel/ && vite --host\" \"npm:nx:watch\"",
     "snowbox": "cd packages/clients/snowbox/ && vite --host",
     "snowbox:build": "npm run build --workspace=packages/clients/snowbox",
     "snowbox:build:serve": "http-server packages/clients/snowbox -o /dist/index.html",
@@ -40,7 +40,7 @@
     "docs:meldemichel": "node ./scripts/makeDocs ./packages/clients/meldemichel && npm run meldemichel:build && cp -r ./packages/clients/meldemichel/dist ./packages/clients/meldemichel/example ./packages/clients/meldemichel/docs",
     "docs:sbom": "npx @cyclonedx/cyclonedx-npm --output-file sbom.json",
     "docs:snowbox": "node ./scripts/makeDocs ./packages/clients/snowbox",
-    "gfi:build": "npm run build --workspace=packages/plugins/Gfi",
+    "nx:watch": "nx watch --all -- nx build %NX_PROJECT_NAME%",
     "lint": "npx eslint . --cache --ext .js,.ts,.vue",
     "lint:ci": "npx eslint . --ext .js,.ts,.vue",
     "lint:fix": "npx eslint . --fix --cache --ext .js,.ts,.vue",
@@ -56,10 +56,14 @@
     "@babel/preset-env": "^7.20.2",
     "@cyclonedx/cyclonedx-npm": "^1.7.2",
     "@jest/types": "^29.3.1",
+    "@nx/eslint": "18.0.4",
+    "@nx/jest": "18.0.4",
+    "@nx/vite": "18.0.4",
+    "@nx/web": "18.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/pluginutils": "^5.1.0",
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/pluginutils": "^5.1.0",
     "@types/geojson": "^7946.0.8",
     "@types/jest": "^29.2.5",
     "@types/node": "^17.0.8",
@@ -68,6 +72,7 @@
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
     "@vitejs/plugin-vue2": "^2.2.0",
+    "@vitest/ui": "^1.0.4",
     "@vue/test-utils": "^1.2.2",
     "babel-core": "^7.0.0-bridge.0",
     "cesium": "^1.62.0",
@@ -91,6 +96,7 @@
     "jest-environment-jsdom": "^29.3.1",
     "lodash.merge": "^4.6.2",
     "markdown-it": "^13.0.1",
+    "nx": "18.0.4",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
     "rollup": "^4.9.5",
@@ -107,7 +113,28 @@
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
     "vite-plugin-commonjs": "^0.6.2",
+    "vitest": "^1.0.4",
     "vue-jest": "^3.0.7",
     "vue-template-compiler": "^2.7.16"
+  },
+  "dependencies": {},
+  "nx": {
+    "targets": {
+      "afm:dev": {
+        "dependsOn": ["^build"]
+      },
+      "dish:dev": {
+        "dependsOn": ["^build"]
+      },
+      "generic:dev": {
+        "dependsOn": ["^build"]
+      },
+      "meldemichel:dev": {
+        "dependsOn": ["^build"]
+      },
+      "snowbox": {
+        "dependsOn": ["^build"]
+      }
+    }
   }
 }

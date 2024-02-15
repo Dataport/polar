@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:generic"
+    "build": "rimraf dist && nx build && cd ../../.. && npm run docs:generic"
   },
   "devDependencies": {
     "@polar/core": "^1.3.0",
@@ -41,5 +41,8 @@
     "@polar/plugin-scale": "^1.1.0",
     "@polar/plugin-toast": "^1.1.0",
     "@polar/plugin-zoom": "^1.2.0"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }
