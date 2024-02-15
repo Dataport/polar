@@ -3,6 +3,16 @@
   "affected": {
     "defaultBase": "main"
   },
+  "targetDefaults": {
+    "bundle": {
+      "dependsOn": [
+        "^bundle"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    }
+  },
   "plugins": [
     {
       "plugin": "@nx/eslint/plugin",

@@ -28,8 +28,8 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "tsc --declaration --emitDeclarationOnly && rollup -c",
-    "preversion": "npm run build"
+    "bundle": "tsc --declaration --emitDeclarationOnly && rollup -c",
+    "preversion": "npm run bundle"
   },
   "peerDependencies": {
     "@masterportal/masterportalapi": "2.8.0",
@@ -51,6 +51,6 @@
     "@polar/lib-test-mount-parameters": "^1.1.0"
   },
   "nx": {
-    "includedScripts": []
+    "includedScripts": ["bundle"]
   }
 }

@@ -40,7 +40,7 @@
     "docs:meldemichel": "node ./scripts/makeDocs ./packages/clients/meldemichel && npm run meldemichel:build && cp -r ./packages/clients/meldemichel/dist ./packages/clients/meldemichel/example ./packages/clients/meldemichel/docs",
     "docs:sbom": "npx @cyclonedx/cyclonedx-npm --output-file sbom.json",
     "docs:snowbox": "node ./scripts/makeDocs ./packages/clients/snowbox",
-    "nx:watch": "nx watch --all -- nx build %NX_PROJECT_NAME%",
+    "nx:watch": "nx watch --all -- nx bundle %NX_PROJECT_NAME%",
     "lint": "npx eslint . --cache --ext .js,.ts,.vue",
     "lint:ci": "npx eslint . --ext .js,.ts,.vue",
     "lint:fix": "npx eslint . --fix --cache --ext .js,.ts,.vue",
@@ -121,19 +121,19 @@
   "nx": {
     "targets": {
       "afm:dev": {
-        "dependsOn": ["^build"]
+        "dependsOn": ["^bundle"]
       },
       "dish:dev": {
-        "dependsOn": ["^build"]
+        "dependsOn": ["^bundle"]
       },
       "generic:dev": {
-        "dependsOn": ["^build"]
+        "dependsOn": ["^bundle"]
       },
       "meldemichel:dev": {
-        "dependsOn": ["^build"]
+        "dependsOn": ["^bundle"]
       },
       "snowbox": {
-        "dependsOn": ["^build"]
+        "dependsOn": ["^bundle"]
       }
     }
   }
