@@ -32,7 +32,6 @@ export default {
       file: 'dist/index.js',
       name: '@polar/plugin-gfi',
       format: 'es',
-      exports: 'default',
       sourcemap: 'inline',
     },
   ],
