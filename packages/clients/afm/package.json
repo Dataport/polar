@@ -22,7 +22,8 @@
   "scripts": {
     "postversion": "npm run build:ci",
     "build": "rimraf dist && nx build && cd ../../.. && npm run docs:afm",
-    "build:ci": "rimraf dist && nx build -l silent && cd ../../.. && npm run docs:afm"
+    "build:ci": "rimraf dist && nx build -l silent && cd ../../.. && npm run docs:afm",
+    "dev": "vite --host"
   },
   "devDependencies": {
     "@polar/core": "^1.0.0",

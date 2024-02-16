@@ -17,7 +17,8 @@
   "scripts": {
     "postversion": "npm run build:ci",
     "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh",
-    "build:ci": "rimraf dist && vite build -l silent && bash ./scripts/injectFlag.sh"
+    "build:ci": "rimraf dist && vite build -l silent && bash ./scripts/injectFlag.sh",
+    "dev": "vite --host"
   },
   "devDependencies": {
     "@masterportal/masterportalapi": "2.8.0",

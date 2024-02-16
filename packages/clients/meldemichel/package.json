@@ -21,7 +21,8 @@
   "scripts": {
     "postversion": "npm run build:ci",
     "build": "rimraf dist && nx build && copyfiles -f src/html/**/* dist",
-    "build:ci": "rimraf dist && nx build -l silent && copyfiles -f src/html/**/* dist"
+    "build:ci": "rimraf dist && nx build -l silent && copyfiles -f src/html/**/* dist",
+    "dev": "vite --host"
   },
   "devDependencies": {
     "@polar/core": "^1.4.0",

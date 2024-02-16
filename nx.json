@@ -5,12 +5,13 @@
   },
   "targetDefaults": {
     "bundle": {
-      "dependsOn": [
-        "^bundle"
-      ],
+      "dependsOn": ["^bundle"],
       "outputs": [
         "{projectRoot}/dist"
       ]
+    },
+    "dev": {
+      "dependsOn": ["^bundle"]
     }
   },
   "plugins": [
