@@ -116,24 +116,5 @@
     "vue-jest": "^3.0.7",
     "vue-template-compiler": "^2.7.16"
   },
-  "dependencies": {},
-  "nx": {
-    "targets": {
-      "afm:dev": {
-        "dependsOn": ["^bundle"]
-      },
-      "dish:dev": {
-        "dependsOn": ["^bundle"]
-      },
-      "generic:dev": {
-        "dependsOn": ["^bundle"]
-      },
-      "meldemichel:dev": {
-        "dependsOn": ["^bundle"]
-      },
-      "snowbox": {
-        "dependsOn": ["^bundle"]
-      }
-    }
-  }
+  "dependencies": {}
 }
