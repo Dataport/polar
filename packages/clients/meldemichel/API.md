@@ -67,7 +67,10 @@ A document rendering the map client could e.g. look like this:
     </style>
   </head>
   <body>
-    <div id="meldemichel-map-client"></div>
+    <div id="meldemichel-map-client">
+      <!-- Optional, may use if your page does not have its own <noscript> information -->
+      <noscript>Please use a browser with active JavaScript to use the map client.</noscript>
+    </div>
     <script type="module">
       import meldemichelMapClient from './client-meldemichel.js'
 

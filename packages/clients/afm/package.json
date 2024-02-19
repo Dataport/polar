@@ -20,9 +20,8 @@
     "API.md"
   ],
   "scripts": {
-    "postversion": "npm run build:ci",
+    "postversion": "npm run build",
     "build": "rimraf dist && nx build && cd ../../.. && npm run docs:afm",
-    "build:ci": "rimraf dist && nx build -l silent && cd ../../.. && npm run docs:afm",
     "dev": "vite --host"
   },
   "devDependencies": {

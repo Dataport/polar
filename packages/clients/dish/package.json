@@ -15,9 +15,8 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "postversion": "npm run build:ci",
+    "postversion": "npm run build",
     "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh",
-    "build:ci": "rimraf dist && vite build -l silent && bash ./scripts/injectFlag.sh",
     "dev": "vite --host"
   },
   "devDependencies": {

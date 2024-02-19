@@ -11,6 +11,11 @@ export function navigateToDenkmal(instance, objektId: string) {
   if (!wfsConfig) {
     throw new Error('Client is missing wfsConfig on DISH search method.')
   }
+  if (!wfsConfig.queryParameters) {
+    throw new Error(
+      'Client is missing wfsConfig.queryParameters on DISH search method.'
+    )
+  }
 
   getWfsFeatures(null, denkmaelerWfsService.url, objektId, {
     ...wfsConfig.queryParameters.wfsConfiguration,

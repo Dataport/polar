@@ -1,4 +1,4 @@
-import { WfsParameters } from '../types'
+import { KeyValueSetArray, WfsParameters } from '../types'
 
 const removeLinebreaks = (s) => s.replace(/\r?\n|\r/g, '')
 
@@ -58,21 +58,10 @@ const buildWfsFilterQuery = (
  * Builds filter of multiple queries from possible interpretations of inputs.
  * Multiple queries are sent so that service may stop computing after
  * maxFeatures has been fulfilled.
- * @param inputs - Explanation by dimension.
- *         First: each child resembles a query
- *         Second: children will be ANDed on multiple children
- *         Third: [key, value] where key is a property name
- *                 Explanation by example.
- *           [[['a', 'b'], ['a', 'c']], [['a', 'b']]]
- *         becomes
- *           QUERY(a=b && c=d), QUERY(a=b)
- *         where the second query is only executed if the first doesn't fill
- *         maxFeatures to its limit.
- * @param parameters - @see WfsParameters
  * @returns request xml
  */
 export const buildWfsFilter = (
-  inputs: Array<Array<[string, string]>>,
+  inputs: KeyValueSetArray,
   parameters: WfsParameters
 ) =>
   removeLinebreaks(
