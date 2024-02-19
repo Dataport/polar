@@ -46,9 +46,10 @@
     "lint:fix": "npx eslint . --fix --cache --ext .js,.ts,.vue",
     "postinstall": "node ./scripts/overrideMasterportalapi",
     "publishPackages": "node ./scripts/publishPackages",
-    "test": "jest",
-    "test:dev": "jest --coverage --coverageReporters=text --watchAll",
-    "test:coverage": "jest --coverage"
+    "bundle:all": "nx run-many --targets=bundle",
+    "test": "npm run bundle:all && jest",
+    "test:dev": "npm run bundle:all && jest --coverage --coverageReporters=text --watchAll",
+    "test:coverage": "npm run bundle:all && jest --coverage"
   },
   "devDependencies": {
     "@actions/github": "^5.1.1",
