@@ -7,7 +7,6 @@
 **/docs
 **/node_modules
 /public
-/pages_output
 **/tests_output
 /*.log
 logs/*.log

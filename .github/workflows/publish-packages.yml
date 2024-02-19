@@ -8,6 +8,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.TAGS }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -17,10 +19,24 @@ jobs:
           node-version: 18.13.0
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: npm run publishPackages
+      - run: |
+          RETURN_TAGS=$(node ./scripts/publishPackages)
+          echo "TAGS=$RETURN_TAGS" >> $GITHUB_ENV
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: Dataport Geo Bot
           author_email: dataportpolarsupport@dataport.de
+      - run: |
+          for TAG in ${{ env.TAGS }}
+          do
+            git config user.name "Dataport Geo Bot"
+            git config user.email "dataportpolarsupport@dataport.de"
+            git tag $TAG
+            git push origin $TAG
+            echo "Released and tagged $TAG"
+          done
+      - run: node ./scripts/createRelease ${{ env.TAGS }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

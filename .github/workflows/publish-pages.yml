@@ -15,9 +15,9 @@ jobs:
           node-version: 18.13.0
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: npm run buildPages
+      - run: npm run pages:build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./pages_output
+          publish_dir: ./pages

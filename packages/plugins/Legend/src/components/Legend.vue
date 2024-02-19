@@ -94,10 +94,19 @@ export default Vue.extend({
             id: layer.id,
           }),
         }))
-        .map((layer) => ({
-          ...layer,
-          legendUrl: masterportalapi.layerLib.getLegendURLs(layer.rawLayer)[0],
-        }))
+        .map((layer) => {
+          if (layer.rawLayer === null) {
+            // skip undefined layers
+            console.warn(`@polar/plugin-legend: Unknown layer.`, layer)
+            return {}
+          }
+          return {
+            ...layer,
+            legendUrl: masterportalapi.layerLib.getLegendURLs(
+              layer.rawLayer
+            )[0],
+          }
+        })
         .filter((layer) => layer.name && layer.legendUrl)
     },
   },

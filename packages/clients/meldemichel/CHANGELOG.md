@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 1.0.0-beta.5
+
+- Fix: Add missing API.md change. No further changes to previous version.
+
+## 1.0.0-beta.4
+
+- Fix: The previously proclaimed SPA-readiness was erroneous in that a memory leak occurred due to the client not being garbage-collectable. This has been resolved by reusing the map entirely instead of setting up a new one. Given configuration regarding pins is interpreted despite reuse.
+- Change: The main library file is no longer published as `.mjs`, but as `.js` file. This is due to internal tooling updates. A rename of the import suffices.
+
+## 1.0.0-beta.3
+
+- Fix: The gazetteer search returned confusing results. This was due to a wildcard option that allowed the return of imprecise matches. This has been deactivated since it tended to result in more confusion than it was helpful. The search now works as it does in the previous Meldemichel implementation.
+
 ## 1.0.0-beta.2
 
 - Feature: This client now supports the `@polar/core`'s field `stylePath`. The usage is documented in the API.md file.

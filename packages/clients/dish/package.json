@@ -1,8 +1,9 @@
 {
   "name": "@polar/client-dish",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Client dish",
   "license": "EUPL-1.2",
+  "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "repository": {
     "type": "git",

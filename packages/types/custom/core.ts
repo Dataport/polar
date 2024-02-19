@@ -44,7 +44,7 @@ export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi'
  */
 export interface QueryParameters {
   /** Currently used projection of the map */
-  epsg: string
+  epsg: `EPSG:${string}`
   /** sets the maximum number of features to retrieve */
   maxFeatures?: number
   // type:mpapi – these are forwarded to the masterportalApi
@@ -550,9 +550,11 @@ export interface MasterportalapiPolygonFillHatch {
 }
 
 export interface MarkerStyle {
+  clusterSize?: [number, number]
+  fill?: string | MasterportalapiPolygonFillHatch
+  size?: [number, number]
   strokeWidth?: string | number
   stroke?: string
-  fill?: string | MasterportalapiPolygonFillHatch
 }
 
 export interface ExtendedMasterportalapiMarkers {
@@ -568,7 +570,7 @@ export interface MapConfig {
   /** if true, all services' availability will be checked with head requests */
   checkServiceAvailability?: boolean
   /** The epsg code of the projection that the map will use */
-  epsg: string
+  epsg: `EPSG:${string}`
   /** Configured layers */
   layers: LayerConfiguration[]
   /** masterportalapi-type layer configuration */

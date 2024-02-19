@@ -115,16 +115,17 @@ export default Vue.extend({
     },
   },
   mounted() {
-    window.addEventListener('resize', () => {
-      this.updateClientWidth()
-    })
+    window.addEventListener('resize', this.updateClientWidth)
     this.updateClientWidth()
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.updateClientWidth)
   },
   methods: {
     ...mapMutations(['setMoveHandle']),
     ...mapActions('plugin/gfi', ['close']),
-    closeWindow() {
-      this.close()
+    closeWindow(userInteraction: boolean) {
+      this.close(userInteraction)
       // The list view is currently only implemented if the gfi is rendered as part of the iconMenu.
       // TODO: Finding a different solution may be a task to be tackled in the future
       if (

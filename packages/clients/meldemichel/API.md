@@ -37,22 +37,13 @@ The value to `stylePath` is the same as as a `link` tag would have in its `href`
 
 The `index.html` is used in `COMPLETE` mode, which is not run in the AfM. You may, however, use it for testing or inspecting an example.
 
-### Destroy instance
+### Instance reuse
 
-The `mapInstance` returned by the `createMap` call can be destroyed by calling `mapInstance.$destroy`. This will not remove the rendered HTML, but unlink all internal creations and effects. This should be called before re-navigating, usual lifecycle hooks are `beforeDestroy` or `beforeUnmount`, depending on the framework in use.
+The `mapInstance` and its HTML environment are kept in the client; it is returned and rerendered on subsequent `createMap` calls to a div with the given `id`. Due to this, everything will appear to the user as it was previously left, including opened menus.
 
-After this, `createMap` can be used again when the DOM is restored. That is, the original `div` with its `id` must be recreated, since POLAR changes the DOM in the `div`. Normally, an SPA will take care of this by itself since it will render the outlying component anew.
+Since in `SINGLE` mode, changes to the pins are required between renders, hence the parameters in `configOverride.pins` are used to update the client. Should additional updates be required, please let us know.
 
-Should this not be the case in your framework, the following snippet restores the DOM:
-
-```js
-// assuming the render div's id was `"polarstern"`
-const polarstern = document.getElementById('polarstern-wrapper')
-const newStar = document.createElement('div')
-newStar.id = 'polarstern'
-newStar.classList.add('polarstern')
-polarstern?.parentElement?.replaceChild(newStar, polarstern)
-```
+Calling `watch`/`subscribe` on the client will return an `unwatch`/`unsubscribe` method. It should be called on leaving the map's page; depending on framework/library in e.g. the `beforeDestroy` or `beforeUnmount` method.
 
 ## Rendering in SINGLE or REPORT mode
 
@@ -76,9 +67,12 @@ A document rendering the map client could e.g. look like this:
     </style>
   </head>
   <body>
-    <div id="meldemichel-map-client"></div>
+    <div id="meldemichel-map-client">
+      <!-- Optional, may use if your page does not have its own <noscript> information -->
+      <noscript>Please use a browser with active JavaScript to use the map client.</noscript>
+    </div>
     <script type="module">
-      import meldemichelMapClient from './client-meldemichel.mjs'
+      import meldemichelMapClient from './client-meldemichel.js'
 
       const meldemichelMapInstance = await meldemichelMapClient.createMap({
         containerId: 'meldemichel-map-client',
@@ -111,7 +105,7 @@ A document rendering the map client could e.g. look like this:
       })
 
       // to retrieve map state updates, use this snippet:
-      mapInstance.$store.watch(
+      const unwatch = mapInstance.$store.watch(
         (_, getters) => getters["meldemichel/mapState"],
         ({
           mapCenter,

@@ -1,6 +1,6 @@
 # POLAR AfM map client
 
-This is a default compilation of POLAR feature packages that can be used for online services. This document and its child documents describe the setup.
+This is a default compilation of POLAR feature packages for online services. This document and its child documents describe the setup.
 
 ## Requirements
 
@@ -38,7 +38,10 @@ In your HTML, a div with unique ID is required that holds the following style pr
     position: relative;
   "
   id="polarstern"
-/>
+>
+  <!-- Optional, may use if your page does not have its own <noscript> information -->
+  <noscript>Please use a browser with active JavaScript to use the map client.</noscript>
+</div>
 ```
 
 ```js

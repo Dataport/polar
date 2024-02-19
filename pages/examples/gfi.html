@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="../assets/iceberg_icon.svg">
+  <link rel="stylesheet" href="../mvp.css">
+
+  <meta charset="utf-8">
+  <meta name="description" content="POLAR - GFI example">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>POLAR – GFI example</title>
+</head>
+
+<body>
+  <section id="render-node">
+  </section>
+</body>
+
+<script src="../assets/iframe-resizer/js/iframeResizer.contentWindow.js"></script>
+<script type="module">
+  import render from './render.js'
+  const layerId = '1711'
+
+  render({
+    name: 'GFI & Filter',
+    description: 'Filtering features and retrieving the information needed.',
+    enabledPlugins: ['icon-menu', 'filter', 'gfi'],
+    modifyLayerConfiguration: (layerConf) => {
+      layerConf.find((entry) => entry.id === layerId).clusterDistance = 40
+      return layerConf
+    },
+    mapConfiguration: {
+      language: 'en',
+      epsg: 'EPSG:25832',
+      extendedMasterportalapiMarkers: {
+        layers: [layerId],
+        defaultStyle: {
+          stroke: '#FFFFFF',
+          fill: '#005CA9',
+        },
+        hoverStyle: {
+          stroke: '#46688E',
+          fill: '#8BA1B8',
+        },
+        selectionStyle: {
+          stroke: '#FFFFFF',
+          fill: '#E10019',
+        },
+        clusterClickZoom: true,
+        dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
+      },
+      locales: [
+        {
+          type: 'en',
+          resources: {
+            plugins: {
+              filter: {
+                layerName: {
+                  [layerId]: 'Hospital',
+                },
+                category: {
+                  [layerId]: {
+                    title: {
+                      traegerschaft: 'Sponsorship',
+                    },
+                    traegerschaft: {
+                      privat: 'Private',
+                      öffentlich: 'Public',
+                      freigemeinnützig: 'Non-profit',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ],
+      layers: [
+        {
+          id: '452',
+          visibility: true,
+          type: 'background',
+        },
+        {
+          id: layerId,
+          visibility: true,
+          type: 'mask',
+        },
+      ],
+      filter: {
+        layers: {
+          [layerId]: {
+            categories: [
+              {
+                selectAll: true,
+                targetProperty: 'traegerschaft',
+                knownValues: ['privat', 'öffentlich', 'freigemeinnützig'],
+              },
+            ],
+          },
+        },
+      },
+      gfi: {
+        mode: 'bboxDot',
+        activeLayerPath: 'plugin/layerChooser/activeMaskIds',
+        renderType: 'iconMenu',
+        featureList: {
+          mode: 'visible',
+          pageLength: 3,
+          text: ['name', 'adresse'],
+          bindWithCoreHoverSelect: true,
+        },
+        layers: {
+          [layerId]: {
+            geometry: false,
+            window: true,
+            properties: {
+              name: 'Name',
+              adresse: 'Street',
+              ort: 'County',
+            },
+            showTooltip: (feature) => [
+              [
+                'h2',
+                feature.get('features').length > 1
+                  ? 'Multiple hospitals'
+                  : feature.get('features')[0].get('name'),
+              ],
+              [
+                'span',
+                feature.get('features').length > 1
+                  ? 'Click to zoom in'
+                  : feature.get('features')[0].get('adresse'),
+              ],
+            ],
+          },
+        },
+      },
+    },
+    postCreation: ({ id }) => {
+      const aside = document.getElementById(id).parentElement.parentElement
+      const ul = document.createElement('ul')
+
+      const copyright = document.createElement('li')
+      copyright.style.cssText = 'color: var(--color-text-secondary)'
+      copyright.innerHTML = 'Feature map by <i>Freie und Hansestadt Hamburg, Behörde für Gesundheit und Verbraucherschutz</i>'
+
+      const copyrightBackground = document.createElement('li')
+      copyrightBackground.style.cssText = 'color: var(--color-text-secondary)'
+      copyrightBackground.innerHTML = 'Background map by <i>Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung (LGV)</i>'
+
+      ul.appendChild(copyright)
+      ul.appendChild(copyrightBackground)
+      aside.appendChild(ul)
+    }
+  })
+</script>
+</html>

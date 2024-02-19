@@ -10,7 +10,7 @@
       http-equiv="Cache-Control"
       content="no-cache, no-store, must-revalidate, max-age=0"
     />
-    <title>MML SINGLE (Build Test) – Movable</title>
+    <title>MML SINGLE (Build Test)</title>
     <style>
       #polarstern {
         width: 260px;
@@ -36,17 +36,37 @@
   </head>
   <body>
     <div class="mock-content">
-      <p>This is a minimal test page for the SINGLE (movable) environment.</p>
+      <p>This is a minimal test page for the SINGLE environment.</p>
       <div id="polarstern"></div>
+      <fieldset>
+        <legend>Rerender mode:</legend>
+          <div>
+            <input type="radio" id="movable" name="move" value="movable" checked />
+            <label for="movable">movable</label>
+          </div>
+          <div>
+            <input type="radio" id="immovable" name="move" value="immovable" />
+            <label for="immovable">immovable</label>
+          </div>
+        <button id="rerender">
+          Simulate SPA-style rerendering
+        </button>
+      </fieldset>
+
       <h2>Subscribed data</h2>
       <ul id="subscribed-data-list"></ul>
     </div>
+    <hr>
     <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
     <script type="module">
-      import meldemichelMapClient from '../dist/client-meldemichel.mjs'
+      import meldemichelMapClient from '../dist/client-meldemichel.js'
       import { makeSimulateRecreate } from './simulateRecreate.js'
 
       const setup = async () => {
+        const isMovable = document.querySelector('input[name="move"]:checked').value === 'movable'
+        const fill = isMovable ? '#0392cf' : '#ff0019'
+        const movable = isMovable ? 'drag' : 'none'
+
         const mapInstance = await meldemichelMapClient.createMap({
           containerId: 'polarstern',
           mode: 'SINGLE',
@@ -57,9 +77,9 @@
                 centerOn: true,
                 coordinates: [569028, 5932885],
               },
-              movable: 'drag',
+              movable,
               style: {
-                fill: '#0392cf'
+                fill,
               },
             },
           },
@@ -67,7 +87,7 @@
 
         const dataList = document.getElementById('subscribed-data-list')
 
-        mapInstance.$store.watch(
+        const un = mapInstance.$store.watch(
           (_, getters) => getters["meldemichel/mapState"],
           (mapState) => {
             dataList.innerHTML = ''
@@ -81,10 +101,10 @@
           { immediate: true }
         )
 
-        return mapInstance
+        return { un }
       }
 
-      makeSimulateRecreate(setup, await setup())
+      document.getElementById('rerender').onclick = await makeSimulateRecreate(setup)
     </script>
   </body>
 </html>

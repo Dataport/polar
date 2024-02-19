@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.1
+
+- Fix: The GFI's new flag `userInteraction` on the close interaction is now filled and forwarded according to whether the close call was due to the user intentionally closing the GFI rather than opening a new GFI. This is required for a fix in the GFI plugin.
+
 ## 2.1.0
 
 - Feature: Add the possibility to update the icon of the button for closing the MoveHandle.

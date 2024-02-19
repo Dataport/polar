@@ -185,8 +185,6 @@ const mapConfigurations: Record<
       layers: [
         ...commonLayers,
         {
-          // TODO implement grouping & spider for this one
-          // TODO features visible as single, group, selected (green)
           id: reportServiceId,
           visibility: true,
           type: 'mask',

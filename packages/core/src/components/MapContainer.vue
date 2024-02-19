@@ -112,7 +112,7 @@ export default Vue.extend({
         (this.moveHandle === null ||
           this.moveHandle.plugin !== oldHandle.plugin)
       ) {
-        oldHandle.closeFunction()
+        oldHandle.closeFunction(false)
       }
       // Make sure the element is properly updated.
       this.moveHandleKey += 1
@@ -162,6 +162,14 @@ export default Vue.extend({
   },
   beforeDestroy() {
     removeEventListener('resize', this.updateHasSmallDisplay)
+
+    const mapContainer = this.$refs['polar-map-container']
+    if (!this.hasWindowSize && mapContainer) {
+      ;(mapContainer as HTMLDivElement).removeEventListener(
+        'wheel',
+        this.wheelEffect
+      )
+    }
   },
   methods: {
     ...mapMutations(['setConfiguration', 'setHasSmallDisplay', 'setMap']),
@@ -181,14 +189,7 @@ export default Vue.extend({
       if (!hasWindowSize && mapContainer) {
         ;(mapContainer as HTMLDivElement).addEventListener(
           'wheel',
-          ({ ctrlKey }) => {
-            clearTimeout(this.noControlOnZoomTimeout)
-            this.noControlOnZoom = !ctrlKey
-            this.noControlOnZoomTimeout = setTimeout(
-              () => (this.noControlOnZoom = false),
-              2000
-            )
-          }
+          this.wheelEffect
         )
 
         if (
@@ -201,6 +202,14 @@ export default Vue.extend({
           })
         }
       }
+    },
+    wheelEffect({ ctrlKey }) {
+      clearTimeout(this.noControlOnZoomTimeout)
+      this.noControlOnZoom = !ctrlKey
+      this.noControlOnZoomTimeout = setTimeout(
+        () => (this.noControlOnZoom = false),
+        2000
+      )
     },
   },
 })

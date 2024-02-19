@@ -6,8 +6,8 @@ import { getPolygonFillHatch } from './hatches'
 type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
 
 // these have been measured to fit once and influence marker size
-const imgSize = [23, 32]
-const imgSizeMulti = [35, 32]
+const imgSize: [number, number] = [26, 36]
+const imgSizeMulti: [number, number] = [40, 36]
 
 const defaultStroke = '#FFFFFF'
 const defaultStrokeWidth = '2'
@@ -35,13 +35,14 @@ const getImagePattern = (fill: Exclude<MarkerStyle['fill'], undefined>) =>
  * @masterportal/masterportalapi/public/marker.svg. */
 
 const makeMarker = ({
+  fill = defaultFill,
+  size = imgSize,
   stroke = defaultStroke,
   strokeWidth = defaultStrokeWidth,
-  fill = defaultFill,
 }: MarkerStyle) =>
   `${prefix}${encodeURIComponent(`
-<svg width="${imgSize[0]}" height="${
-    imgSize[1]
+<svg width="${size[0]}" height="${
+    size[1]
   }" viewBox="0 0 30 43" xmlns="http://www.w3.org/2000/svg">
   <title>DB6C494E-88E8-49F1-89CE-97CBEC3A5240</title>
   ${getImagePattern(fill)}
@@ -56,13 +57,14 @@ const makeMarker = ({
 `)}`
 
 const makeMultiMarker = ({
+  clusterSize = imgSizeMulti,
+  fill = defaultFill,
   stroke = defaultStroke,
   strokeWidth = defaultStrokeWidth,
-  fill = defaultFill,
 }: MarkerStyle) =>
   `${prefix}${encodeURIComponent(`
-<svg width="${imgSizeMulti[0]}" height="${
-    imgSizeMulti[1]
+<svg width="${clusterSize[0]}" height="${
+    clusterSize[1]
   }" viewBox="0 0 30 43" xmlns="http://www.w3.org/2000/svg">
   <title>0A6F4952-4A5A-4E86-88E4-4B3D2EA1E3DF</title>
   ${getImagePattern(fill)}

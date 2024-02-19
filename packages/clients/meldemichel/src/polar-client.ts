@@ -3,6 +3,7 @@ import merge from 'lodash.merge'
 import { Vector } from 'ol/layer'
 import { Map } from 'ol'
 import Source from 'ol/source/Vector'
+import { MapInstance } from '@polar/core/src/types'
 import packageInfo from '../package.json'
 import { MODE } from './enums'
 import { addPlugins } from './addPlugins'
@@ -30,10 +31,41 @@ const hideHamburgBorder = (map: Map) => {
   ).setStyle(null)
 }
 
+const registerAfmButton = (client, mode) => {
+  if (mode === MODE.COMPLETE) {
+    // late setup due to dependency to meldemichelModule
+    AfmButton({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+    })(client)
+  }
+}
+
+const memory: {
+  wrapper: HTMLElement | null
+  client: MapInstance | null
+} = {
+  wrapper: null,
+  client: null,
+}
+
+const rerender = (containerId, configOverride) => {
+  document
+    .getElementById(containerId)
+    ?.replaceWith(memory.wrapper as HTMLElement)
+  if (configOverride.pins && memory.client) {
+    // update may be required on rerender
+    const client = memory.client
+    client.$store.commit('setConfiguration', {
+      ...client.$store.state.configuration,
+      pins: configOverride.pins,
+    })
+    client.$store.dispatch('plugin/pins/setupInitial')
+  }
+  return memory.client
+}
+
 export default {
-  // TODO API is probably not complete; worked out as part of project
-  // how do we identify which marker is moved? by coordinate?
-  // movable = false // NOTE relevant for SINGLE mode later – map to Pins config
   createMap: ({
     containerId,
     mode,
@@ -42,13 +74,17 @@ export default {
     configOverride,
   }: MeldemichelCreateMapParams) =>
     new Promise((resolve) => {
-      const meldemichelCore = { ...core }
+      if (memory.wrapper) {
+        return resolve(rerender(containerId, configOverride))
+      }
+
       if (!Object.keys(MODE).includes(mode)) {
         console.error(
           `@polar/client-meldemichel: Critical error. Unknown mode "${mode}" configured. Please use 'COMPLETE', 'REPORT', or 'SINGLE'.`
         )
       }
 
+      const meldemichelCore = { ...core }
       addPlugins(meldemichelCore, mode)
 
       // NOTE initializeLayerList is async in this scenario
@@ -56,6 +92,7 @@ export default {
         serviceRegister,
         async (layerConf) => {
           enableClustering(layerConf, reportServiceId)
+
           const client = await meldemichelCore.createMap({
             containerId,
             mapConfiguration: merge(
@@ -68,17 +105,12 @@ export default {
           })
 
           client.$store.registerModule('meldemichel', meldemichelModule)
-
-          if (mode === MODE.COMPLETE) {
-            // late setup due to dependency to meldemichelModule
-            AfmButton({
-              displayComponent: true,
-              layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-            })(client)
-          }
-
+          registerAfmButton(client, mode)
           hideHamburgBorder(client.$store.getters.map)
           setBackgroundImage(containerId)
+
+          memory.wrapper = document.getElementById(`${containerId}-wrapper`)
+          memory.client = client
 
           resolve(client)
         }

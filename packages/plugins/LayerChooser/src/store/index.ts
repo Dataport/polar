@@ -5,6 +5,7 @@ import {
 import {
   LayerConfiguration,
   LayerConfigurationOptionLayers,
+  MapConfig,
   PolarModule,
 } from '@polar/lib-custom-types'
 import * as masterportalapi from '@masterportal/masterportalapi/src'
@@ -28,6 +29,36 @@ export const getInitialState = (): LayerChooserState => ({
   activeLayerIds: {},
 })
 
+const getBackgroundsAndMasks = (
+  configuration: MapConfig
+): [LayerConfiguration[], LayerConfiguration[]] =>
+  configuration.layers.reduce(
+    ([backgrounds, masks], current) => {
+      const rawLayer = masterportalapi.rawLayerList.getLayerWhere({
+        id: current.id,
+      })
+
+      if (rawLayer === null) {
+        console.error(
+          `@polar/plugin-layer-chooser: Layer ${current.id} not found in service register. This is a configuration issue. The map might behave in unexpected ways.`,
+          current
+        )
+
+        return [backgrounds, masks]
+      }
+      if (current.type === 'background') {
+        return [[...backgrounds, current], masks]
+      } else if (current.type === 'mask') {
+        return [backgrounds, [...masks, current]]
+      }
+      console.error(
+        `@polar/plugin-layer-chooser: Unknown layer type ${current.type}. Layer is ignored by plugin.`
+      )
+      return [backgrounds, masks]
+    },
+    [[] as LayerConfiguration[], [] as LayerConfiguration[]]
+  )
+
 // OK for module creation
 // eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
@@ -41,20 +72,7 @@ export const makeStoreModule = () => {
         commit,
         dispatch,
       }): void {
-        const [backgrounds, masks] = configuration.layers.reduce(
-          ([backgrounds, masks], current) => {
-            if (current.type === 'background') {
-              return [[...backgrounds, current], masks]
-            } else if (current.type === 'mask') {
-              return [backgrounds, [...masks, current]]
-            }
-            console.error(
-              `@polar/plugin-layer-chooser: Unknown layer type ${current.type}. Layer is ignored by plugin.`
-            )
-            return [backgrounds, masks]
-          },
-          [[] as LayerConfiguration[], [] as LayerConfiguration[]]
-        )
+        const [backgrounds, masks] = getBackgroundsAndMasks(configuration)
 
         // at most one background, arbitrarily many masks
         const activeBackground = backgrounds.find(
@@ -68,7 +86,6 @@ export const makeStoreModule = () => {
         dispatch('setActiveMaskIds', asIdList(activeMasks))
 
         dispatch('updateActiveAndAvailableLayersByZoom')
-
         map.on('moveend', () =>
           dispatch('updateActiveAndAvailableLayersByZoom')
         )
@@ -77,17 +94,6 @@ export const makeStoreModule = () => {
           const rawLayer = masterportalapi.rawLayerList.getLayerWhere({
             id: layer.id,
           })
-
-          if (rawLayer.typ !== 'WMS' && !layer.hideInMenu) {
-            console.warn(
-              `@polar/plugin-layer-chooser: Used configuration 'layers' on layer with type '${
-                rawLayer.typ
-              }', but only 'WMS' is supported. Ignoring configuration for ${JSON.stringify(
-                rawLayer
-              )}.`
-            )
-            return
-          }
 
           // Store preparation needed when `layers` is an option
           if (layer.options?.layers) {
