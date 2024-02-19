@@ -1,16 +1,36 @@
 {
   "name": "@polar/lib-tooltip",
   "version": "1.0.0",
+  "description": "Minimal package that provides a div-element factory bound to i18next-translations. The element can e.g. be used in ol/Overlay.",
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/lib/tooltip"
   },
+  "files": [
+    "dist/**",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "bundle": "tsc --declaration --emitDeclarationOnly && rollup -c",
+    "preversion": "npm run bundle"
+  },
   "peerDependencies": {
     "i18next": "^21.6.0"
+  },
+  "nx": {
+    "includedScripts": ["bundle"]
   }
 }
