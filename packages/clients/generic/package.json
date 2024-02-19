@@ -44,6 +44,6 @@
     "@polar/plugin-zoom": "^1.2.0"
   },
   "nx": {
-    "includedScripts": []
+    "includedScripts": ["dev"]
   }
 }

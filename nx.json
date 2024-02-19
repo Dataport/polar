@@ -3,6 +3,14 @@
   "affected": {
     "defaultBase": "main"
   },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["bundle"]
+      }
+    }
+  },
   "targetDefaults": {
     "bundle": {
       "dependsOn": ["^bundle"],
