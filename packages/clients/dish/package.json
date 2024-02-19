@@ -41,6 +41,6 @@
     "lodash.merge": "^4.6.2"
   },
   "nx": {
-    "includedScripts": ["dev"]
+    "includedScripts": ["build", "dev"]
   }
 }

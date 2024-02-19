@@ -12,38 +12,27 @@
     }
   },
   "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build",
+        "^bundle"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    },
     "bundle": {
-      "dependsOn": ["^bundle"],
+      "dependsOn": [
+        "^bundle"
+      ],
       "outputs": [
         "{projectRoot}/dist"
       ]
     },
     "dev": {
-      "dependsOn": ["^bundle"]
+      "dependsOn": [
+        "^bundle"
+      ]
     }
-  },
-  "plugins": [
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    },
-    {
-      "plugin": "@nx/vite/plugin",
-      "options": {
-        "buildTargetName": "build",
-        "previewTargetName": "preview",
-        "testTargetName": "test",
-        "serveTargetName": "serve",
-        "serveStaticTargetName": "serve-static"
-      }
-    },
-    {
-      "plugin": "@nx/jest/plugin",
-      "options": {
-        "targetName": "test"
-      }
-    }
-  ]
+  }
 }

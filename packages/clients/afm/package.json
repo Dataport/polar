@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && nx build && cd ../../.. && npm run docs:afm",
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm",
     "dev": "vite --host"
   },
   "devDependencies": {
@@ -48,6 +48,6 @@
     "lodash.merge": "^4.6.2"
   },
   "nx": {
-    "includedScripts": ["dev"]
+    "includedScripts": ["build", "dev"]
   }
 }

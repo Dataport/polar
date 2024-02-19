@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && nx build && cd ../../.. && npm run docs:generic",
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:generic",
     "dev": "vite --host"
   },
   "devDependencies": {
@@ -44,6 +44,6 @@
     "@polar/plugin-zoom": "^1.2.0"
   },
   "nx": {
-    "includedScripts": ["dev"]
+    "includedScripts": ["build", "dev"]
   }
 }
