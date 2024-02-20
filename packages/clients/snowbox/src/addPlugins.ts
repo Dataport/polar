@@ -1,5 +1,6 @@
 import merge from 'lodash.merge'
 import { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
+import '@polar/core/styles.css'
 import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'

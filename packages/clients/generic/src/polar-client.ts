@@ -4,6 +4,7 @@ import core, {
   NineLayoutTag,
   PolarCore,
 } from '@polar/core'
+import '@polar/core/styles.css'
 import { MapConfig, Menu } from '@polar/lib-custom-types'
 import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
