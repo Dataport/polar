@@ -10,9 +10,7 @@ import { createFilter } from '@rollup/pluginutils'
 const external = createFilter(
   [
     '@masterportal/masterportalapi/**',
-    '@polar/lib-get-cluster',
-    '@polar/lib-invisible-style',
-    '@polar/lib-tooltip',
+    '@polar/**',
     '@repositoryname/vuex-generators',
     'i18next',
     'just-compare',
