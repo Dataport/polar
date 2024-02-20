@@ -11,7 +11,7 @@ export default {
   output: [
     {
       file: 'dist/index.js',
-      name: '@polar/lib-get-cluster',
+      name: '@polar/lib-get-features',
       format: 'es',
       sourcemap: 'inline',
     },
