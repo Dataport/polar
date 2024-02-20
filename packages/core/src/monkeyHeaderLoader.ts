@@ -1,4 +1,4 @@
-import { Map } from 'ol'
+import { ImageTile, Map } from 'ol'
 
 const headerRegex = /{(?<key>[^=]+)=(?<value>[^}]+)}/gm
 
@@ -6,10 +6,8 @@ const headerRegex = /{(?<key>[^=]+)=(?<value>[^}]+)}/gm
  * A header is defined by `{key=value}` as part of the configured url of a service.
  * Note, that the parenthesis are necessary.
  */
-function customLoader(tile, url) {
-  // TODO: Check if type any is valid
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const headers: any = {}
+function customLoader(tile: ImageTile, url: string) {
+  const headers: HeadersInit = {}
   const src = url.replaceAll(headerRegex, (_, key, value) => {
     headers[key] = value
     return ''
@@ -25,7 +23,7 @@ function customLoader(tile, url) {
     )
     .then((blob) => {
       if (blob) {
-        tile.getImage().src = URL.createObjectURL(blob)
+        ;(tile.getImage() as HTMLImageElement).src = URL.createObjectURL(blob)
       }
     })
     .catch((e) => console.error('@polar/core', e))
@@ -37,12 +35,17 @@ const originalAddLayer = Map.prototype.addLayer
 Map.prototype.addLayer = function (...parameters) {
   // Add layer to map
   originalAddLayer.call(this, ...parameters)
-  Map.prototype.getLayers.call(this).array_.forEach((layer) => {
-    const source = layer.getSource()
-    const headerRequired = source?.urls?.some((url) => headerRegex.test(url))
-    if (headerRequired && typeof source.setTileLoadFunction === 'function') {
-      source.setTileLoadFunction(customLoader)
-      layer.setSource(source)
-    }
-  })
+  Map.prototype.getLayers
+    .call(this)
+    .getArray()
+    .forEach((layer) => {
+      // @ts-expect-error | masterportalapi always produces layers including a source
+      const source = layer.getSource()
+      const headerRequired = source?.urls?.some((url) => headerRegex.test(url))
+      if (headerRequired && typeof source.setTileLoadFunction === 'function') {
+        source.setTileLoadFunction(customLoader)
+        // @ts-expect-error | masterportalapi always produces layers including a source
+        layer.setSource(source)
+      }
+    })
 }
