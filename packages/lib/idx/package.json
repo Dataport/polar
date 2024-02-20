@@ -1,13 +1,33 @@
 {
   "name": "@polar/lib-idx",
   "version": "1.0.0",
+  "description": "Helper function to traverse a nested object and return a certain property if the path can be traversed.",
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/**",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "bundle": "tsc --declaration --emitDeclarationOnly && rollup -c",
+    "preversion": "npm run bundle"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/lib/idx"
+  },
+  "nx": {
+    "includedScripts": ["bundle"]
   }
 }
