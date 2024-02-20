@@ -1,6 +1,7 @@
 import { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
 import '@polar/core/styles.css'
 import AddressSearch from '@polar/plugin-address-search'
+import '@polar/plugin-address-search/styles.css'
 import Attributions from '@polar/plugin-attributions'
 import GeoLocation from '@polar/plugin-geo-location'
 import IconMenu from '@polar/plugin-icon-menu'

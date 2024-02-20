@@ -1,6 +1,7 @@
 import polarCore, { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
 import '@polar/core/styles.css'
 import PolarPluginAddressSearch from '@polar/plugin-address-search'
+import '@polar/plugin-address-search/styles.css'
 import PolarPluginAttributions from '@polar/plugin-attributions'
 import PolarPluginDraw from '@polar/plugin-draw'
 import PolarPluginExport from '@polar/plugin-export'
