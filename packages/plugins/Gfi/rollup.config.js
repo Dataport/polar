@@ -9,14 +9,14 @@ import { createFilter } from '@rollup/pluginutils'
 
 const external = createFilter(
   [
-    '@repositoryname/vuex-generators',
+    '@masterportal/masterportalapi/**',
     '@polar/lib-get-cluster',
     '@polar/lib-invisible-style',
     '@polar/lib-tooltip',
-    '@masterportal/masterportalapi/**',
+    '@repositoryname/vuex-generators',
+    'i18next',
     'just-compare',
     'lodash.debounce',
-    'i18next',
     'ol/**',
     'vue',
     'vuex',
