@@ -12,7 +12,6 @@ const external = createFilter(
     '@masterportal/masterportalapi/**',
     '@polar/**',
     '@repositoryname/vuex-generators',
-    'i18next',
     'lodash.debounce',
     'ol/**',
     'vue',
