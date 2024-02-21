@@ -17,6 +17,7 @@
   ],
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
+    "i18next": "^23.7.16",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },
