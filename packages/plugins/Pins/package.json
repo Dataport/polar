@@ -15,19 +15,16 @@
     "src/**/*",
     "CHANGELOG.md"
   ],
-  "dependencies": {
-    "@polar/lib-idx": "*"
-  },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
     "ol": "^7.1.0",
-    "vue": "^2.6.14",
-    "vuex": "^3.6.2"
+    "vue": "^2.6.14"
+  },
+  "dependencies": {
+    "@polar/lib-passes-boundary-check": "^2.0.0"
   },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.0.0",
-    "@polar/lib-idx": "^1.0.0",
-    "@polar/lib-passes-boundary-check": "^2.0.0",
     "@polar/lib-test-mount-parameters": "^1.0.0"
   }
 }
