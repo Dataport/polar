@@ -32,7 +32,6 @@
     "preversion": "npm run bundle"
   },
   "peerDependencies": {
-    "@masterportal/masterportalapi": "2.8.0",
     "@repositoryname/vuex-generators": "^1.1.2",
     "ol": "^7.1.0",
     "vue": "^2.6.14",
