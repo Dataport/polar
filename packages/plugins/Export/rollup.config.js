@@ -11,7 +11,7 @@ export default {
   output: [
     {
       file: 'dist/index.js',
-      name: '@polar/plugin-gfi',
+      name: '@polar/plugin-export',
       format: 'es',
       sourcemap: 'inline',
     },
