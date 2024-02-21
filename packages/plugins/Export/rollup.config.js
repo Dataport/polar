@@ -5,13 +5,6 @@ import svg from 'rollup-plugin-svg'
 import terser from '@rollup/plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
 import vue from 'rollup-plugin-vue'
-import { createFilter } from '@rollup/pluginutils'
-
-const external = createFilter(
-  ['@repositoryname/vuex-generators', 'jspdf', 'vue', 'vuex'],
-  null,
-  { resolve: false }
-)
 
 export default {
   input: 'src/index.ts',
@@ -23,7 +16,7 @@ export default {
       sourcemap: 'inline',
     },
   ],
-  external,
+  external: ['@repositoryname/vuex-generators', 'jspdf', 'vue', 'vuex'],
   plugins: [
     vue({
       defaultLang: { script: 'ts', style: 'scss' },
