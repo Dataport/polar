@@ -1,4 +1,5 @@
 import Filter from '@polar/plugin-filter'
+import '@polar/plugin-filter/styles.css'
 import Fullscreen from '@polar/plugin-fullscreen'
 import Gfi from '@polar/plugin-gfi'
 import '@polar/plugin-gfi/styles.css'
