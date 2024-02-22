@@ -31,6 +31,7 @@ import '@polar/plugin-scale/styles.css'
 import Toast from '@polar/plugin-toast'
 import '@polar/plugin-toast/styles.css'
 import Zoom from '@polar/plugin-zoom'
+import '@polar/plugin-zoom/styles.css'
 
 const defaultOptions = {
   displayComponent: true,

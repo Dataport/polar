@@ -24,6 +24,7 @@ import '@polar/plugin-scale/styles.css'
 import PolarPluginToast from '@polar/plugin-toast'
 import '@polar/plugin-toast/styles.css'
 import PolarPluginZoom from '@polar/plugin-zoom'
+import '@polar/plugin-zoom/styles.css'
 import merge from 'lodash.merge'
 
 import packageInfo from '../package.json'
