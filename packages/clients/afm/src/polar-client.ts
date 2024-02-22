@@ -22,6 +22,7 @@ import '@polar/plugin-pins/styles.css'
 import PolarPluginScale from '@polar/plugin-scale'
 import '@polar/plugin-scale/styles.css'
 import PolarPluginToast from '@polar/plugin-toast'
+import '@polar/plugin-toast/styles.css'
 import PolarPluginZoom from '@polar/plugin-zoom'
 import merge from 'lodash.merge'
 
