@@ -5,7 +5,7 @@ import {
 import { Feature } from 'geojson'
 import { PolarModule } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
-import Geometry, { Type } from 'ol/geom/Geometry'
+import Geometry from 'ol/geom/Geometry'
 import { Circle } from 'ol/geom'
 import { DrawGetters, DrawMutations, DrawState } from '../types'
 import { makeActions } from './actions'
