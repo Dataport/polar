@@ -16,6 +16,7 @@
     "CHANGELOG.md"
   ],
   "peerDependencies": {
+    "@repositoryname/noop": "^1.0.6",
     "@repositoryname/vuex-generators": "^1.1.2",
     "ol": "^7.1.0",
     "vue": "^2.6.14",
