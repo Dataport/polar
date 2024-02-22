@@ -15,6 +15,7 @@ import '@polar/plugin-pins/styles.css'
 import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import '@polar/plugin-reverse-geocoder/styles.css'
 import Scale from '@polar/plugin-scale'
+import '@polar/plugin-scale/styles.css'
 import Toast from '@polar/plugin-toast'
 
 import { MODE } from './enums'
