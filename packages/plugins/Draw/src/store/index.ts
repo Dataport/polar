@@ -5,6 +5,8 @@ import {
 import { Feature } from 'geojson'
 import { PolarModule } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
+import Geometry, { Type } from 'ol/geom/Geometry'
+import { Circle } from 'ol/geom'
 import { DrawGetters, DrawMutations, DrawState } from '../types'
 import { makeActions } from './actions'
 
@@ -106,7 +108,8 @@ export const makeStoreModule = () => {
       ...generateSimpleMutations(getInitialState()),
       updateFeatures(state) {
         const features = drawSource.getFeatures().map((feature) => {
-          const geometry = feature.getGeometry()
+          // Only features including geometries exist in the drawSource
+          const geometry = feature.getGeometry() as Geometry
           const type = geometry.getType()
           const isCircle = type === 'Circle'
           const jsonFeature: Feature = {
@@ -115,16 +118,18 @@ export const makeStoreModule = () => {
               ? { text: feature.get('text') }
               : {},
             geometry: {
+              // @ts-expect-error | A LinearRing can be defined by OpenLayers, but is a construct that is not present in GeoJSON.
               type: isCircle ? 'Point' : type,
               coordinates: isCircle
-                ? geometry.getCenter()
-                : geometry.getCoordinates(),
+                ? (geometry as Circle).getCenter()
+                : // @ts-expect-error | getCoordinates is a method implemented on all subclasses of Geometry.
+                  geometry.getCoordinates(),
             },
           }
           // NOTE: If one is checking if properties exists (which it clearly does), TS complains
           // "TS2531: Object is possibly 'null'.". This is due to the structure of the type GeoJsonProperties.
           if (isCircle && jsonFeature.properties) {
-            jsonFeature.properties.radius = geometry.getRadius()
+            jsonFeature.properties.radius = (geometry as Circle).getRadius()
           }
           return jsonFeature
         })
