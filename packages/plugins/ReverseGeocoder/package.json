@@ -12,10 +12,6 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.js"
-    },
-    "./styles.css": {
-      "import": "./dist/index.css",
-      "require": "./dist/index.css"
     }
   },
   "repository": {
