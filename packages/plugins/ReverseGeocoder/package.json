@@ -15,12 +15,16 @@
     "src/**/*",
     "CHANGELOG.md"
   ],
+  "//": "xml2js is considered a peerDependency as @masterportal/masterportalapi depends on it. If that changes at some point, it should become a dependency.",
   "peerDependencies": {
     "ol": "^7.1.0",
     "xml2js": "^0.4.23"
   },
+  "dependencies": {
+    "lodash.mapvalues": "^4.6.0"
+  },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.0.0",
-    "lodash.mapvalues": "^4.6.0"
+    "vue": "^2.6.14"
   }
 }
