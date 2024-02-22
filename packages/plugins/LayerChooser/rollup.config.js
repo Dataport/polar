@@ -1,7 +1,6 @@
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import scss from 'rollup-plugin-scss'
-import svg from 'rollup-plugin-svg'
 import terser from '@rollup/plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
 import vue from 'rollup-plugin-vue'
@@ -40,7 +39,6 @@ export default {
     typescript({ check: false }),
     commonjs(),
     resolve(),
-    svg(),
     terser(),
   ],
 }
