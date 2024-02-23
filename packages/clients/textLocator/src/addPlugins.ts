@@ -11,6 +11,7 @@ import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
 
+import { searchCoastalGazetteer } from './search/coastalGazetteer'
 import { idRegister } from './services'
 
 // this is fine for list-like setup functions
@@ -71,11 +72,9 @@ export const addPlugins = (core) => {
       searchMethods: [{ type: 'coastalGazetteer' }],
       addLoading: 'plugin/loadingIndicator/addLoadingKey',
       removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-      customSearchMethods: {
-        /* TODO */
-      },
+      customSearchMethods: { coastalGazetteer: searchCoastalGazetteer },
       customSelectResult: {
-        /* TODO */
+        /* categoryDenkmalsucheAutocomplete: selectResult */
       },
     }),
     Draw({
