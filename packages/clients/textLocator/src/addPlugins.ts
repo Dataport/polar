@@ -11,6 +11,7 @@ import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
 
+import Header from './plugins/Header'
 import { searchCoastalGazetteer } from './search/coastalGazetteer'
 import { idRegister } from './services'
 
@@ -20,6 +21,10 @@ export const addPlugins = (core) => {
   setLayout(NineLayout)
 
   core.addPlugins([
+    Header({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.TOP_LEFT,
+    }),
     IconMenu({
       displayComponent: true,
       // TODO fix, it's broken ...
