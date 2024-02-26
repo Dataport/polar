@@ -27,11 +27,11 @@
 
       initializeClient({
         urls: {
-          backend: 'https://textlocator.ai.dataport.de/api/',
-          gazetteerClient: 'https://mdi-de-dienste.org/GazetteerClient/search',
-          gazetteerWfs: 'https://mdi-de-dienste.org/geoserver_gazClient/nokis/ows'
+          textLocatorBackend: 'https://textlocator.ai.dataport.de/api/',
+          gazetteerClient: 'https://mdi-de-dienste.org/GazetteerClient/search'
         }
-      })
+      }).then(console.info.bind(null, 'Map client instance:'))
+        .catch(console.error.bind(null, 'Map client setup failed:'))
     </script>
   </body>
 </html>
