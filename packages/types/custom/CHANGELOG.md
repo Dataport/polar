@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
+
 ## 1.4.1
 
 - Fix: Increase type precision of EPSG codes from `string` to `EPSG:${string}`.
