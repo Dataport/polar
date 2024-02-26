@@ -6,6 +6,7 @@ import { Map } from 'ol'
 import { GeoJSON, WKT } from 'ol/format'
 import { Store } from 'vuex'
 import levenshtein from 'js-levenshtein'
+import { makeRequestUrl } from './makeRequestUrl'
 
 const ignoreIds = {
   global: ['EuroNat-33'],
@@ -19,17 +20,6 @@ const ignoreIds = {
 }
 const wellKnownText = new WKT()
 const geoJson = new GeoJSON()
-
-interface RequestPayload {
-  keyword: string
-  searchType: 'like' | 'exact' | 'id'
-  lang: '-' | string
-  sdate: string
-  edate: string
-  type: '-' | string
-  page?: string // numerical
-  geom?: string
-}
 
 interface ResponseName {
   Start: string // YYYY-MM-DD
@@ -90,14 +80,6 @@ const sorter =
         levenshtein(b[sortKey], searchPhrase)
   }
 
-const searchRequestDefaultPayload: Partial<RequestPayload> = {
-  searchType: 'like',
-  lang: '-',
-  sdate: '0001-01-01',
-  edate: new Date().toJSON().slice(0, 10),
-  type: '-',
-}
-
 const getEmptyFeatureCollection = (): FeatureCollection => ({
   type: 'FeatureCollection',
   features: [],
@@ -131,14 +113,11 @@ async function getAllPages(
   signal: AbortSignal,
   url: string,
   inputValue: string,
-  page: string | undefined
+  page: string | undefined,
+  epsg: `EPSG:${string}`
 ): Promise<ResponsePayload> {
   const response = await fetch(
-    `${url}?${new URLSearchParams({
-      ...searchRequestDefaultPayload,
-      keyword: `*${inputValue}*`,
-      ...(typeof page !== 'undefined' ? { page } : {}),
-    }).toString()}`,
+    makeRequestUrl(url, inputValue, page, undefined, epsg),
     {
       method: 'GET',
       signal,
@@ -164,7 +143,7 @@ async function getAllPages(
     responsePayload,
     await Promise.all(
       Array.from(Array(pages - 1)).map((_, index) =>
-        getAllPages.call(this, signal, url, inputValue, `${index + 2}`)
+        getAllPages.call(this, signal, url, inputValue, `${index + 2}`, epsg)
       )
     )
   )
@@ -175,6 +154,7 @@ const featurify =
   (feature: ResponseResult): Feature => ({
     type: 'Feature',
     geometry: geoJson.writeGeometryObject(
+      // NOTE currently only the first geometry is used
       wellKnownText.readGeometry(
         feature.geoms.find(
           (geom) => !ignoreIds.geometries.includes(geom.GeomID)
@@ -238,7 +218,8 @@ export async function searchCoastalGazetteer(
       signal,
       url,
       inputValue,
-      undefined
+      undefined,
+      queryParameters.epsg
     )
   } catch (e) {
     console.error(e)

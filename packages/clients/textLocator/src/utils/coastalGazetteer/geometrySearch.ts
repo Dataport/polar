@@ -1,0 +1,3 @@
+// https://mdi-de-dienste.org/GazetteerClient/search?geom=POINT(8.511120645998783 54.10846498210793)&keyword=&searchType=like&lang=-&sdate=0001-01-01&edate=2030-08-16&type=-&page=1
+
+// https://mdi-de-dienste.org/GazetteerClient/search?geom=POLYGON%28%288.621975250313447+54.161985993052355%2C8.621975250313447+54.14485476891343%2C8.65430784323856+54.14485476891343%2C8.65430784323856+54.161985993052355%2C8.621975250313447+54.161985993052355%29%29&keyword=&searchType=like&lang=-&sdate=0001-01-01&edate=2030-08-16&type=-&page=1

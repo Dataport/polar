@@ -2,7 +2,6 @@ import { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
 import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'
-import Gfi from '@polar/plugin-gfi'
 import IconMenu from '@polar/plugin-icon-menu'
 import LayerChooser from '@polar/plugin-layer-chooser'
 import Legend from '@polar/plugin-legend'
@@ -12,7 +11,8 @@ import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
 
 import Header from './plugins/Header'
-import { searchCoastalGazetteer } from './search/coastalGazetteer'
+import GeometrySearch from './plugins/GeometrySearch'
+import { searchCoastalGazetteer } from './utils/coastalGazetteer/toponymSearch'
 import { idRegister } from './services'
 
 // this is fine for list-like setup functions
@@ -28,42 +28,21 @@ export const addPlugins = (core) => {
     IconMenu({
       displayComponent: true,
       // TODO fix, it's broken ...
-      initiallyOpen: 'attributions',
+      initiallyOpen: 'geometrySearch',
       menus: [
+        {
+          plugin: GeometrySearch({}),
+          icon: 'fa-solid fa-magnifying-glass-location',
+          id: 'geometrySearch',
+        },
         {
           plugin: LayerChooser({}),
           icon: 'fa-layer-group',
           id: 'layerChooser',
         },
         {
-          plugin: Gfi({
-            renderType: 'iconMenu',
-            coordinateSources: [],
-            layers: {},
-          }),
-          icon: 'fa-location-pin',
-          id: 'gfi',
-        },
-        {
           plugin: Zoom({ renderType: 'iconMenu' }),
           id: 'zoom',
-        },
-        {
-          plugin: Attributions({
-            renderType: 'iconMenu',
-            listenToChanges: [
-              'plugin/zoom/zoomLevel',
-              'plugin/layerChooser/activeBackgroundId',
-              'plugin/layerChooser/activeMaskIds',
-            ],
-            layerAttributions: idRegister.map((id) => ({
-              id,
-              title: `textLocator.attributions.${id}`,
-            })),
-            staticAttributions: ['textLocator.attributions.static'],
-          }),
-          icon: 'fa-regular fa-copyright',
-          id: 'attributions',
         },
       ],
       layoutTag: NineLayoutTag.TOP_RIGHT,
@@ -98,6 +77,21 @@ export const addPlugins = (core) => {
           fillColor: '#e51313',
         },
       },
+    }),
+    Attributions({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+      initiallyOpen: true,
+      listenToChanges: [
+        'plugin/zoom/zoomLevel',
+        'plugin/layerChooser/activeBackgroundId',
+        'plugin/layerChooser/activeMaskIds',
+      ],
+      layerAttributions: idRegister.map((id) => ({
+        id,
+        title: `textLocator.attributions.${id}`,
+      })),
+      staticAttributions: ['textLocator.attributions.static'],
     }),
     Legend({
       displayComponent: true,
