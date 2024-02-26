@@ -35,7 +35,7 @@ export interface PluginOptions {
 export type RenderType = 'iconMenu' | 'independent'
 
 /** Possible search methods by type */
-export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi'
+export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi' | string
 
 /**
  * Additional queryParameters for the GET-Request;
