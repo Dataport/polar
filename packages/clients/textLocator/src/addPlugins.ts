@@ -12,7 +12,7 @@ import Zoom from '@polar/plugin-zoom'
 
 import Header from './plugins/Header'
 import GeometrySearch from './plugins/GeometrySearch'
-import { searchCoastalGazetteer } from './utils/coastalGazetteer/toponymSearch'
+import { searchCoastalGazetteerByToponym } from './utils/coastalGazetteer/searchToponym'
 import { idRegister } from './services'
 
 // this is fine for list-like setup functions
@@ -56,7 +56,10 @@ export const addPlugins = (core) => {
       searchMethods: [{ type: 'coastalGazetteer' }],
       addLoading: 'plugin/loadingIndicator/addLoadingKey',
       removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-      customSearchMethods: { coastalGazetteer: searchCoastalGazetteer },
+      customSearchMethods: {
+        // @ts-expect-error | Local parameter requirements diverge from type
+        coastalGazetteer: searchCoastalGazetteerByToponym,
+      },
       customSelectResult: {
         /* categoryDenkmalsucheAutocomplete: selectResult */
       },

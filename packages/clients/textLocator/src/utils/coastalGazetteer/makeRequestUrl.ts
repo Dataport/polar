@@ -1,19 +1,6 @@
-import { Geometry } from 'geojson'
-import { GeoJSON, WKT } from 'ol/format'
-
-const geoJson = new GeoJSON()
-const wellKnownText = new WKT()
-
-interface RequestPayload {
-  keyword: string
-  searchType: 'like' | 'exact' | 'id'
-  lang: '-' | string
-  sdate: string
-  edate: string
-  type: '-' | string
-  page?: string // numerical
-  geom?: string
-}
+import { wgs84ProjectionCode } from '../common'
+import { geoJson, wellKnownText } from './common'
+import { MakeRequestUrlParameters, RequestPayload } from './types'
 
 const searchRequestDefaultPayload: Partial<RequestPayload> = {
   searchType: 'like',
@@ -25,23 +12,22 @@ const searchRequestDefaultPayload: Partial<RequestPayload> = {
 
 export const makeRequestUrl = (
   url: string,
-  inputValue: string,
-  page: string | undefined,
-  geometry: Geometry | undefined,
+  { keyword, page, geometry, ...rest }: Partial<MakeRequestUrlParameters>,
   epsg: string
 ): string =>
   `${url}?${new URLSearchParams({
     ...searchRequestDefaultPayload,
-    keyword: inputValue ? `*${inputValue}*` : '',
+    keyword: keyword ? `*${keyword}*` : '',
     ...(typeof page !== 'undefined' ? { page } : {}),
     ...(typeof geometry !== 'undefined'
       ? {
           geom: wellKnownText.writeGeometry(
             geoJson.readGeometry(geometry, {
               dataProjection: epsg,
-              featureProjection: 'EPSG:4326',
+              featureProjection: wgs84ProjectionCode,
             })
           ),
         }
       : {}),
+    ...rest,
   }).toString()}`
