@@ -1,9 +1,5 @@
 # CHANGELOG
 
-## unpublished
-
-- Fix: The client now properly throws an error if `queryParameters` is missing on the `searchMethod` configuration of the `dish` search.
-
 ## 1.1.1
 
 - Fix: The marker previously disappeared on being moved/reclicked on a second feature. This issue has been resolved.
