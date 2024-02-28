@@ -8,11 +8,12 @@ interface GeometrySearchConfiguration extends PluginOptions {
   url: string
 }
 
-export default (options: GeometrySearchConfiguration) => (instance: Vue) =>
-  instance.$store.dispatch('addComponent', {
-    name: 'geometrySearch',
-    plugin: GeometrySearch,
-    language,
-    storeModule: makeStoreModule(),
-    options,
-  })
+export default (options: Partial<GeometrySearchConfiguration>) =>
+  (instance: Vue) =>
+    instance.$store.dispatch('addComponent', {
+      name: 'geometrySearch',
+      plugin: GeometrySearch,
+      language,
+      storeModule: makeStoreModule(),
+      options,
+    })

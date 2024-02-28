@@ -5,6 +5,7 @@ export const wmtsTopplusOpenWeb = 'wmtsTopplusOpenWeb'
 export const wmtsTopplusOpenWebGrey = 'wmtsTopplusOpenWebGrey'
 export const wmtsTopplusOpenLight = 'wmtsTopplusOpenLight'
 export const wmtsTopplusOpenLightGrey = 'wmtsTopplusOpenLightGrey'
+export const aerial = 'aerial'
 
 export const idRegister = [
   openStreetMap,
@@ -14,6 +15,7 @@ export const idRegister = [
   wmtsTopplusOpenWebGrey,
   wmtsTopplusOpenLight,
   wmtsTopplusOpenLightGrey,
+  aerial,
 ]
 
 const layerNames = {
@@ -87,5 +89,15 @@ export const services = [
     transparent: true,
     singleTile: true,
     STYLES: 'Seeseitig',
+  },
+  {
+    id: aerial,
+    url: 'https://sgx.geodatenzentrum.de/wms_sen2europe',
+    typ: 'WMS',
+    layers: 'rgb',
+    format: 'image/png',
+    version: '1.3.0',
+    transparent: true,
+    singleTile: true,
   },
 ]

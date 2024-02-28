@@ -4,7 +4,7 @@
       {{ $t('common:plugins.geometrySearch.draw.title') }}
     </v-card-title>
     <v-card-text class="text-locator-card-collapse">
-      <v-radio-group v-model="_draw" dense hide-details>
+      <v-radio-group v-model="_drawMode" dense hide-details>
         <v-radio
           :label="$t('common:plugins.draw.drawMode.point')"
           value="Point"
@@ -15,19 +15,22 @@
         ></v-radio>
       </v-radio-group>
     </v-card-text>
-    <v-card-text v-if="tipVisibility[_draw]" class="text-locator-card-collapse">
+    <v-card-text
+      v-if="tipVisibility[_drawMode]"
+      class="text-locator-card-collapse"
+    >
       <v-alert
-        v-model="tipVisibility[_draw]"
+        v-model="tipVisibility[_drawMode]"
         type="info"
         prominent
         dense
         colored-border
         border="left"
-        :icon="_draw === 'Point' ? 'fa-location-dot' : 'fa-draw-polygon'"
+        :icon="_drawMode === 'Point' ? 'fa-location-dot' : 'fa-draw-polygon'"
         dismissible
         elevation="4"
         >{{
-          $t(`common:plugins.geometrySearch.draw.description.${_draw}`)
+          $t(`common:plugins.geometrySearch.draw.description.${_drawMode}`)
         }}</v-alert
       >
     </v-card-text>
@@ -50,9 +53,21 @@
         dense
         hoverable
         activatable
+        color="info"
         :items="treeViewItems"
+        @update:active="changeActiveData"
       >
-        <template #prepend="{ item }"> {{ item.count }} </template>
+        <template #label="{ item }">
+          <v-badge
+            color="info"
+            inline
+            left
+            :content="item.count"
+            class="text-locator-result-badge"
+          >
+            {{ item.name }}
+          </v-badge>
+        </template>
       </v-treeview>
       <v-card-text v-else>
         {{ $t('common:plugins.geometrySearch.results.none') }}
@@ -62,9 +77,10 @@
 </template>
 
 <script lang="ts">
+import { DrawMode } from '@polar/lib-custom-types'
 import Vue from 'vue'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
-import { TextLocatorCategories, TextLocatorDrawModes } from '../types'
+import { TextLocatorCategories } from '../types'
 
 export default Vue.extend({
   name: 'GeometrySearchPlugin',
@@ -75,11 +91,8 @@ export default Vue.extend({
     },
   }),
   computed: {
-    ...mapGetters('plugin/geometrySearch', [
-      'draw',
-      'byCategory',
-      'treeViewItems',
-    ]),
+    ...mapGetters('plugin/geometrySearch', ['byCategory', 'treeViewItems']),
+    ...mapGetters('plugin/draw', ['drawMode']),
     _byCategory: {
       get() {
         return this.byCategory
@@ -88,17 +101,18 @@ export default Vue.extend({
         this.setByCategory(byCategory)
       },
     },
-    _draw: {
+    _drawMode: {
       get() {
-        return this.draw
+        return this.drawMode
       },
-      set(drawMode: TextLocatorDrawModes) {
+      set(drawMode: DrawMode) {
         this.setDrawMode(drawMode)
       },
     },
   },
   methods: {
-    ...mapActions('plugin/geometrySearch', ['setDrawMode']),
+    ...mapActions('plugin/draw', ['setDrawMode']),
+    ...mapActions('plugin/geometrySearch', ['changeActiveData']),
     ...mapMutations('plugin/geometrySearch', ['setByCategory']),
   },
 })
@@ -119,6 +133,27 @@ export default Vue.extend({
 
   .text-locator-btn-group-button {
     text-transform: unset;
+
+    // determined by trial & error ¯\ツ/¯
+    &:hover:not(:last-child),
+    &:focus:not(:last-child) {
+      z-index: 1;
+      margin-left: -2px;
+      margin-right: -2px;
+    }
+
+    &:hover:last-child,
+    &:focus:last-child {
+      margin-left: -3px;
+    }
+  }
+
+  .text-locator-result-badge {
+    max-width: 500px;
+    width: 500px;
+    white-space: normal;
+    justify-content: left;
+    margin: 0.5em 0;
   }
 }
 </style>

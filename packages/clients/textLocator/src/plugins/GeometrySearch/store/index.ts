@@ -6,17 +6,15 @@ import { PolarActionHandler, PolarModule } from '@polar/lib-custom-types'
 import debounce from 'lodash.debounce'
 import { Feature } from 'ol'
 import VectorSource, { VectorSourceEvent } from 'ol/source/Vector'
-import { GeometrySearchState, GeometrySearchGetters } from '../types'
+import {
+  GeometrySearchState,
+  GeometrySearchGetters,
+  TreeViewItem,
+} from '../types'
 import { searchGeometry } from '../../../utils/coastalGazetteer/searchGeometry'
 import { getEmptyFeatureCollection } from '../../../utils/coastalGazetteer/responseInterpreter'
 import { searchLiteratureByToponym } from '../../../utils/literatureByToponym'
-
-interface TreeViewItem {
-  id: string
-  name: string
-  count: number
-  children?: TreeViewItem[]
-}
+import { makeTreeView } from '../../../utils/makeTreeView'
 
 let counter = 0
 const searchLoadingKey = 'geometrySearchLoadingKey'
@@ -25,7 +23,6 @@ const getSearchLoadingKey = () => `${searchLoadingKey}-${++counter}`
 const getInitialState = (): GeometrySearchState => ({
   featureCollection: getEmptyFeatureCollection(),
   titleLocationFrequency: {},
-  draw: 'Point',
   byCategory: 'text',
 })
 
@@ -42,10 +39,11 @@ export const makeStoreModule = () => {
     state: getInitialState(),
     actions: {
       setupModule({ dispatch }): void {
-        // initially, point drawing is active
-        dispatch('setDrawMode', 'Point')
+        // point drawing is initially active by default
+        dispatch('plugin/draw/setMode', 'draw', { root: true })
         dispatch('setupDrawReaction')
-        dispatch('setupWatchers')
+        // register watchers after store is ready (else immediate-like firing)
+        setTimeout(() => dispatch('setupWatchers'), 0)
       },
       setupDrawReaction({ rootGetters }): void {
         // features added multiple times; avoid overly requesting
@@ -74,10 +72,21 @@ export const makeStoreModule = () => {
         // load titleLocationFrequency on each featureCollection update
         this.watch(
           () => rootGetters['plugin/geometrySearch/featureCollection'],
-          async () => {
-            const names: string[] = rootGetters[
-              'plugin/geometrySearch/featureCollection'
-            ].features
+          async (featureCollection) => {
+            if (!featureCollection.features.length) {
+              dispatch(
+                'plugin/toast/addToast',
+                {
+                  type: 'info',
+                  text: 'textLocator.info.noGeometriesFound',
+                  timeout: 10000,
+                },
+                { root: true }
+              )
+              commit('setTitleLocationFrequency', {})
+              return
+            }
+            const names: string[] = featureCollection.features
               .map((feature) =>
                 feature.properties?.names?.map((name) => name.Name)
               )
@@ -93,9 +102,18 @@ export const makeStoreModule = () => {
               dispatch('plugin/iconMenu/openMenuById', 'geometrySearch', {
                 root: true,
               })
+            } else {
+              dispatch(
+                'plugin/toast/addToast',
+                {
+                  type: 'info',
+                  text: 'textLocator.info.noLiteratureFound',
+                  timeout: 10000,
+                },
+                { root: true }
+              )
             }
-          },
-          { immediate: false }
+          }
         )
       },
       searchGeometry({ rootGetters, commit }, feature): void {
@@ -120,10 +138,10 @@ export const makeStoreModule = () => {
             })
           )
       },
-      setDrawMode({ commit, dispatch }, drawMode): void {
-        dispatch('plugin/draw/setMode', 'draw', { root: true })
-        dispatch('plugin/draw/setDrawMode', drawMode, { root: true })
-        commit('plugin/geometrySearch/setDraw', drawMode, { root: true })
+      // TODO remove on implementing
+      // eslint-disable-next-line no-empty-pattern
+      changeActiveData({}, activeSlotIds: string[]) {
+        console.warn('NOT IMPLEMENTED', activeSlotIds)
       },
     },
     mutations: {
@@ -131,65 +149,11 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
-      // TODO
-      // eslint-disable-next-line max-lines-per-function
       treeViewItems({
         titleLocationFrequency,
         byCategory,
       }: GeometrySearchState): TreeViewItem[] {
-        const byTextTreeViewItems: TreeViewItem[] = Object.entries(
-          titleLocationFrequency
-        ).map(([title, locations]) => ({
-          id: title,
-          name: title,
-          count: Object.values(locations).reduce((acc, curr) => acc + curr),
-          children: Object.entries(locations).map(([location, count]) => ({
-            id: location,
-            name: location,
-            count,
-          })),
-        }))
-
-        if (byCategory === 'text') {
-          return byTextTreeViewItems
-        }
-
-        /*
-interface TreeViewItem {
-  id: string
-  name: string
-  children?: TreeViewItem[]
-}
-        */
-
-        const locationNames = [
-          ...new Set(
-            byTextTreeViewItems
-              .map((item) =>
-                (item.children || []).map((child) => child.name).flat(1)
-              )
-              .flat(1)
-          ),
-        ]
-
-        console.warn(locationNames)
-
-        return locationNames.map((locationName) => ({
-          id: locationName,
-          name: locationName,
-          count: byTextTreeViewItems
-            .map(
-              (item) =>
-                item.children?.find((child) => child.name === locationName)
-                  ?.count || 0
-            )
-            .reduce((acc, curr) => acc + curr),
-          children: byTextTreeViewItems
-            .filter((item) =>
-              item.children?.find((child) => child.name === locationName)
-            )
-            .map((item) => ({ ...item, children: undefined })),
-        }))
+        return makeTreeView(titleLocationFrequency, byCategory)
       },
     },
   }

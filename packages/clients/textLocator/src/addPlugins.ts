@@ -24,49 +24,6 @@ export const addPlugins = (core) => {
   setLayout(NineLayout)
 
   core.addPlugins([
-    Header({
-      displayComponent: true,
-      layoutTag: NineLayoutTag.TOP_LEFT,
-    }),
-    Draw({
-      displayComponent: false,
-      selectableDrawModes: ['Point', 'LineString', 'Circle', 'Polygon'],
-      style: {
-        fill: {
-          color: 'rgba(255, 255, 255, 0.5)',
-        },
-        stroke: {
-          color: '#e51313',
-          width: 2,
-        },
-        circle: {
-          radius: 7,
-          fillColor: '#e51313',
-        },
-      },
-    }),
-    IconMenu({
-      displayComponent: true,
-      // TODO fix, it's broken ...
-      initiallyOpen: 'geometrySearch',
-      menus: [
-        {
-          plugin: GeometrySearch({}),
-          icon: 'fa-solid fa-magnifying-glass-location',
-          id: 'geometrySearch',
-        },
-        {
-          plugin: LayerChooser({}),
-          icon: 'fa-layer-group',
-          id: 'layerChooser',
-        },
-        {
-          plugin: Zoom({ renderType: 'iconMenu' }),
-          id: 'zoom',
-        },
-      ],
-      layoutTag: NineLayoutTag.TOP_RIGHT,
-    }),
     AddressSearch({
       displayComponent: true,
       layoutTag: NineLayoutTag.TOP_LEFT,
@@ -85,6 +42,46 @@ export const addPlugins = (core) => {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         '': selectResult,
       },
+    }),
+    Draw({
+      selectableDrawModes: ['Point', 'Polygon'],
+      style: {
+        fill: {
+          color: 'rgba(255, 255, 255, 0.5)',
+        },
+        stroke: {
+          color: '#e51313',
+          width: 2,
+        },
+        circle: {
+          radius: 7,
+          fillColor: '#e51313',
+        },
+      },
+    }),
+    Header({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.TOP_LEFT,
+    }),
+    IconMenu({
+      displayComponent: true,
+      menus: [
+        {
+          plugin: GeometrySearch({}),
+          icon: 'fa-solid fa-magnifying-glass-location',
+          id: 'geometrySearch',
+        },
+        {
+          plugin: LayerChooser({}),
+          icon: 'fa-layer-group',
+          id: 'layerChooser',
+        },
+        {
+          plugin: Zoom({ renderType: 'iconMenu' }),
+          id: 'zoom',
+        },
+      ],
+      layoutTag: NineLayoutTag.TOP_RIGHT,
     }),
     Attributions({
       displayComponent: true,

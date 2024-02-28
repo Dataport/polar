@@ -10,6 +10,7 @@ import {
   wmtsTopplusOpenWebGrey,
   wmtsTopplusOpenLight,
   wmtsTopplusOpenLightGrey,
+  aerial,
 } from './services'
 import { theme } from './palettes'
 
@@ -51,6 +52,11 @@ export const mapConfiguration: Partial<MapConfig> = {
       id: openStreetMap,
       type: 'background',
       name: `textLocator.layers.${openStreetMap}`,
+    },
+    {
+      id: aerial,
+      type: 'background',
+      name: `textLocator.layers.${aerial}`,
     },
     {
       id: openSeaMap,

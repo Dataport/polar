@@ -58,7 +58,6 @@ export const selectResult: SelectResultFunction = ({ commit }, { feature }) => {
   )
 
   // added behaviour: push as one-element feature collection to search store
-  commit('plugin/geometrySearch/setByCategory', 'toponym', { root: true })
   commit(
     'plugin/geometrySearch/setFeatureCollection',
     {

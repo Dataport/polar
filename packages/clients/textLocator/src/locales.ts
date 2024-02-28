@@ -7,6 +7,7 @@ import {
   wmtsTopplusOpenWebGrey,
   wmtsTopplusOpenLight,
   wmtsTopplusOpenLightGrey,
+  aerial,
 } from './services'
 
 // Gefundene Orte
@@ -25,6 +26,7 @@ const locales: LanguageOption[] = [
           [wmtsTopplusOpenWebGrey]: 'TopPlusOpen (Web, Grau)',
           [wmtsTopplusOpenLight]: 'TopPlusOpen (Light)',
           [wmtsTopplusOpenLightGrey]: 'TopPlusOpen (Light, Grau)',
+          [aerial]: 'Luftbilder Sen2Europe',
         },
         addressSearch: {
           unnamed: 'Unbenannt',
@@ -33,12 +35,19 @@ const locales: LanguageOption[] = [
           [openStreetMap]: `$t(textLocator.layers.${openStreetMap}): © <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a> contributors`,
           [openSeaMap]: `$t(textLocator.layers.${openSeaMap}): © <a href='https://www.openseamap.org/ target='_blank''>OpenSeaMap</a>`,
           [mdiSeaNames]: `$t(textLocator.layers.${mdiSeaNames}): © <a href='https://projekt.mdi-de.org/kuesten-gazetteer/ target='_blank''>MDI DE</a>`,
-          [wmtsTopplusOpenWeb]: `$t(textLocator.layers.${wmtsTopplusOpenWeb}): © Bundesamt für Kartographie und Geodäsie <YEAR>`,
-          [wmtsTopplusOpenWebGrey]: `$t(textLocator.layers.${wmtsTopplusOpenWebGrey}): © Bundesamt für Kartographie und Geodäsie <YEAR>`,
-          [wmtsTopplusOpenLight]: `$t(textLocator.layers.${wmtsTopplusOpenLight}): © Bundesamt für Kartographie und Geodäsie <YEAR>`,
-          [wmtsTopplusOpenLightGrey]: `$t(textLocator.layers.${wmtsTopplusOpenLightGrey}): © Bundesamt für Kartographie und Geodäsie <YEAR>`,
+          [wmtsTopplusOpenWeb]: `$t(textLocator.layers.${wmtsTopplusOpenWeb}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
+          [wmtsTopplusOpenWebGrey]: `$t(textLocator.layers.${wmtsTopplusOpenWebGrey}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
+          [wmtsTopplusOpenLight]: `$t(textLocator.layers.${wmtsTopplusOpenLight}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
+          [wmtsTopplusOpenLightGrey]: `$t(textLocator.layers.${wmtsTopplusOpenLightGrey}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
+          [aerial]:
+            '© Europäische Union, enthält veränderte Copernicus Sentinel-Daten ({{YEAR}})',
           static:
             '<br><a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md">Impressum</a>',
+        },
+        info: {
+          noLiteratureFound: 'Es wurden keine Texte zu diesen Orten gefunden.',
+          noGeometriesFound:
+            'Es wurden keine Orte zu dieser Geometrie gefunden.',
         },
         error: {
           searchCoastalGazetteer:
@@ -64,6 +73,7 @@ const locales: LanguageOption[] = [
           [wmtsTopplusOpenWebGrey]: 'TopPlusOpen (Web, Grey)',
           [wmtsTopplusOpenLight]: 'TopPlusOpen (Light)',
           [wmtsTopplusOpenLightGrey]: 'TopPlusOpen (Light, Grey)',
+          [aerial]: 'Luftbilder Sen2Europe',
         },
         addressSearch: {
           unnamed: 'Unnamed',
@@ -72,12 +82,18 @@ const locales: LanguageOption[] = [
           [openStreetMap]: `$t(textLocator.layers.${openStreetMap}): © <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a> contributors`,
           [openSeaMap]: `$t(textLocator.layers.${openSeaMap}): © <a href='https://www.openseamap.org/ target='_blank''>OpenSeaMap</a>`,
           [mdiSeaNames]: `$t(textLocator.layers.${mdiSeaNames}): © <a href='https://projekt.mdi-de.org/kuesten-gazetteer/ target='_blank''>MDI DE</a>`,
-          [wmtsTopplusOpenWeb]: `$t(textLocator.layers.${wmtsTopplusOpenWeb}): © Bundesamt für Kartographie und Geodäsie <YEAR>`,
-          [wmtsTopplusOpenWebGrey]: `$t(textLocator.layers.${wmtsTopplusOpenWebGrey}): © Bundesamt für Kartographie und Geodäsie <YEAR>`,
-          [wmtsTopplusOpenLight]: `$t(textLocator.layers.${wmtsTopplusOpenLight}): © Bundesamt für Kartographie und Geodäsie <YEAR>`,
-          [wmtsTopplusOpenLightGrey]: `$t(textLocator.layers.${wmtsTopplusOpenLightGrey}): © Bundesamt für Kartographie und Geodäsie <YEAR>`,
+          [wmtsTopplusOpenWeb]: `$t(textLocator.layers.${wmtsTopplusOpenWeb}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
+          [wmtsTopplusOpenWebGrey]: `$t(textLocator.layers.${wmtsTopplusOpenWebGrey}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
+          [wmtsTopplusOpenLight]: `$t(textLocator.layers.${wmtsTopplusOpenLight}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
+          [wmtsTopplusOpenLightGrey]: `$t(textLocator.layers.${wmtsTopplusOpenLightGrey}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
+          [aerial]:
+            '© European Union, contains modified Copernicus Sentinel data ({{YEAR}})',
           static:
             '<br><a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md">Legal notice (Impressum)</a>',
+        },
+        info: {
+          noLiteratureFound: 'No texts were found regarding these places.',
+          noGeometriesFound: 'No places were found regarding this geometry.',
         },
         error: {
           searchCoastalGazetteer:
