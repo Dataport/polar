@@ -109,7 +109,7 @@ export const match = (
   const uninterpretedCharacters: number[] = []
   patterns.forEach((pattern) => {
     const patternBlocks = getBlocks(pattern)
-    const patternMapping: Array<[string, string]> = []
+    const patternMapping: KeyValueSetArray[number] = []
     let traverseInput = inputValue
 
     patternBlocks.forEach((block) => {
