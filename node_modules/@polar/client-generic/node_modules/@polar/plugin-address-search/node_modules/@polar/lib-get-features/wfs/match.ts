@@ -1,6 +1,8 @@
 // code doesn't produce RegExpMatchArray where index is not set ... :|
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
+import { KeyValueSetArray } from '../types'
+
 export type Separator = string
 export type Slot = RegExpMatchArray
 export type Block = Slot | Separator
@@ -55,10 +57,10 @@ const sortComparableMatches = (comparableA, comparableB) => {
  *  2. pattern fulfillment
  */
 const sortMatches = (
-  matches: string[][][],
+  matches: KeyValueSetArray,
   patterns: string[],
   uninterpretedCharacters: number[]
-): string[][][] => {
+): KeyValueSetArray => {
   const comparableMatches = matches.map((match, index) => ({
     match,
     uninterpreted: uninterpretedCharacters[index],
@@ -72,7 +74,7 @@ const sortMatches = (
 
   // remove duplicates and empty matches
   const known: string[] = []
-  const sortedFilteredMatches = sortedMatches.filter((match) => {
+  return sortedMatches.filter((match) => {
     if (match.length === 0) {
       return false
     }
@@ -83,23 +85,31 @@ const sortMatches = (
     known.push(asString)
     return true
   })
-
-  return sortedFilteredMatches
 }
 
 /**
  * matches an input string to patterns
  */
 export const match = (
-  patterns: string[],
-  patternKeys: Record<string, string>,
+  patterns: string[] | undefined,
+  patternKeys: Record<string, string> | undefined,
   inputValue: string
-): string[][][] => {
-  const matches: string[][][] = []
+): KeyValueSetArray => {
+  if (!patterns) {
+    throw new Error(
+      '@polar/lib-get-features: Parameter "patterns" is missing on wfs configuration for pattern-based search.'
+    )
+  }
+  if (!patternKeys) {
+    throw new Error(
+      '@polar/lib-get-features: Parameter "patternKeys" is missing on wfs configuration for pattern-based search.'
+    )
+  }
+  const matches: KeyValueSetArray = []
   const uninterpretedCharacters: number[] = []
   patterns.forEach((pattern) => {
     const patternBlocks = getBlocks(pattern)
-    const patternMapping: string[][] = []
+    const patternMapping: KeyValueSetArray[number] = []
     let traverseInput = inputValue
 
     patternBlocks.forEach((block) => {
@@ -126,8 +136,5 @@ export const match = (
     uninterpretedCharacters.push(traverseInput.length)
     matches.push(patternMapping)
   })
-
-  const sortedMatches = sortMatches(matches, patterns, uninterpretedCharacters)
-
-  return sortedMatches
+  return sortMatches(matches, patterns, uninterpretedCharacters)
 }

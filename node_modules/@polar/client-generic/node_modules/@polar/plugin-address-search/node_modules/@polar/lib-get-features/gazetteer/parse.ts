@@ -24,7 +24,6 @@ export function parseGazetteerResponse(
     const gmlFeatures = new DOMParser()
       .parseFromString(text, 'application/xml')
       .getElementsByTagName(`wfs:${memberSuffix}`)
-    // @ts-expect-error | This is needed as this already is a workaround because the GeoJSON reader can't read the XMLResponse from a WFS-G
     const featureCollection: FeatureCollection = {
       type: 'FeatureCollection',
       features,
