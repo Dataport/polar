@@ -14,7 +14,7 @@ import {
 import { searchGeometry } from '../../../utils/coastalGazetteer/searchGeometry'
 import { getEmptyFeatureCollection } from '../../../utils/coastalGazetteer/responseInterpreter'
 import { searchLiteratureByToponym } from '../../../utils/literatureByToponym'
-import { makeTreeView } from '../../../utils/makeTreeView'
+import { makeTreeView } from '../utils/makeTreeView'
 
 let counter = 0
 const searchLoadingKey = 'geometrySearchLoadingKey'

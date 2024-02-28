@@ -1,8 +1,5 @@
-import {
-  TextLocatorCategories,
-  TreeViewItem,
-} from '../plugins/GeometrySearch/types'
-import { TitleLocationFrequency } from './literatureByToponym'
+import { TextLocatorCategories, TreeViewItem } from '../types'
+import { TitleLocationFrequency } from '../../../utils/literatureByToponym'
 
 export const makeTreeView = (
   titleLocationFrequency: TitleLocationFrequency,
