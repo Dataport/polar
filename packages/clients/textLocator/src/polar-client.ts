@@ -11,9 +11,8 @@ addPlugins(client)
 
 interface TextLocatorParameters {
   urls: {
-    backend: string
+    textLocatorBackend: string
     gazetteerClient: string
-    gazetteerWfs: string
   }
 }
 
@@ -24,6 +23,12 @@ export async function initializeClient({ urls }: TextLocatorParameters) {
     // @ts-expect-error | rest configured in addPlugins.ts (simple API)
     searchMethods: [{ url: urls.gazetteerClient }],
   }
+  // @ts-expect-error | local addition
+  mapConfiguration.geometrySearch = {
+    url: urls.gazetteerClient,
+  }
+  // @ts-expect-error | local addition
+  mapConfiguration.textLocatorBackendUrl = urls.textLocatorBackend
 
   return await client.createMap({
     containerId,

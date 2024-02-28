@@ -5,7 +5,7 @@ import language from './language'
 import { makeStoreModule } from './store'
 
 interface GeometrySearchConfiguration extends PluginOptions {
-  thing: string
+  url: string
 }
 
 export default (options: GeometrySearchConfiguration) => (instance: Vue) =>

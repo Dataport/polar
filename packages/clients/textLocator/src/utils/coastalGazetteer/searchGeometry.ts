@@ -1,3 +1,51 @@
-// https://mdi-de-dienste.org/GazetteerClient/search?geom=POINT(8.511120645998783 54.10846498210793)&keyword=&searchType=like&lang=-&sdate=0001-01-01&edate=2030-08-16&type=-&page=1
+import { Feature } from 'ol'
+import { Store } from 'vuex'
+import { CoreState } from '@polar/lib-custom-types'
+import { FeatureCollection } from 'geojson'
+import { getAllPages } from './getAllPages'
+import { geoJson } from './common'
+import { ResponsePayload } from './types'
+import {
+  featureCollectionify,
+  getEmptyFeatureCollection,
+} from './responseInterpreter'
 
-// https://mdi-de-dienste.org/GazetteerClient/search?geom=POLYGON%28%288.621975250313447+54.161985993052355%2C8.621975250313447+54.14485476891343%2C8.65430784323856+54.14485476891343%2C8.65430784323856+54.161985993052355%2C8.621975250313447+54.161985993052355%29%29&keyword=&searchType=like&lang=-&sdate=0001-01-01&edate=2030-08-16&type=-&page=1
+let abortController
+
+export async function searchGeometry(
+  this: Store<CoreState>,
+  feature: Feature,
+  url: string,
+  epsg: `EPSG:${string}`
+): Promise<FeatureCollection> | never {
+  if (abortController) {
+    abortController.abort()
+  }
+  const geometry = feature.getGeometry()
+  if (!geometry) {
+    return getEmptyFeatureCollection()
+  }
+  abortController = new AbortController()
+  const signal = abortController.signal
+  let fullResponse: ResponsePayload
+  try {
+    fullResponse = await getAllPages.call(
+      this,
+      signal,
+      url,
+      { geometry: geoJson.writeGeometryObject(geometry) },
+      epsg
+    )
+  } catch (e) {
+    if (!signal.aborted) {
+      console.error(e)
+      this.dispatch('plugin/toast/addToast', {
+        type: 'error',
+        text: 'textLocator.error.searchCoastalGazetteer',
+      })
+    }
+    return getEmptyFeatureCollection()
+  }
+  abortController = null
+  return Promise.resolve(featureCollectionify(fullResponse, epsg, null))
+}

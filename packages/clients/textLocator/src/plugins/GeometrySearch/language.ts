@@ -1,3 +1,5 @@
+// other names required
+/* eslint-disable @typescript-eslint/naming-convention */
 import { LanguageOption } from '@polar/lib-custom-types'
 
 const language: LanguageOption[] = [
@@ -10,7 +12,24 @@ const language: LanguageOption[] = [
             geometrySearch: 'Geometriesuche',
           },
         },
-        geometrySearch: {},
+        geometrySearch: {
+          draw: {
+            title: 'Zeichenmodus',
+            description: {
+              Point:
+                'Klicken Sie in die Karte, um Ortsnamen und Literatur zu einer Punktkoordinate abzufragen. $t(plugins.geometrySearch.draw.description.Common)',
+              Polygon:
+                'Klicken Sie wiederholt in die Karte, um eine Fläche zu zeichnen, zu der Ortsnamen und Literatur abgefragt werden. Doppelklick beendet eine Zeichnung. $t(plugins.geometrySearch.draw.description.Common)',
+              Common: 'Neue Zeichnungen verwerfen vorangehende Ergebnisse.',
+            },
+          },
+          results: {
+            title: 'Funde',
+            byLocation: 'Ort',
+            byText: 'Text',
+            none: 'Keine Suchergebnisse',
+          },
+        },
       },
     },
   },
@@ -23,7 +42,24 @@ const language: LanguageOption[] = [
             geometrySearch: 'Geometry search',
           },
         },
-        geometrySearch: {},
+        geometrySearch: {
+          draw: {
+            title: 'Draw mode',
+            description: {
+              Point:
+                'Click somewhere in the map to request location names and literature to a point coordinate. $t(plugins.geometrySearch.draw.description.Common)',
+              Polygon:
+                'Click repeatedly in the map to draw an area to request location names and literature to. Double click finished an area. $t(plugins.geometrySearch.draw.description.Common)',
+              Common: 'New drawings discard previous results.',
+            },
+          },
+          results: {
+            title: 'Findings',
+            byLocation: 'Place',
+            byText: 'Text',
+            none: 'No search results',
+          },
+        },
       },
     },
   },

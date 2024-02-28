@@ -12,7 +12,10 @@ import Zoom from '@polar/plugin-zoom'
 
 import Header from './plugins/Header'
 import GeometrySearch from './plugins/GeometrySearch'
-import { searchCoastalGazetteerByToponym } from './utils/coastalGazetteer/searchToponym'
+import {
+  searchCoastalGazetteerByToponym,
+  selectResult,
+} from './utils/coastalGazetteer/searchToponym'
 import { idRegister } from './services'
 
 // this is fine for list-like setup functions
@@ -24,6 +27,23 @@ export const addPlugins = (core) => {
     Header({
       displayComponent: true,
       layoutTag: NineLayoutTag.TOP_LEFT,
+    }),
+    Draw({
+      displayComponent: false,
+      selectableDrawModes: ['Point', 'LineString', 'Circle', 'Polygon'],
+      style: {
+        fill: {
+          color: 'rgba(255, 255, 255, 0.5)',
+        },
+        stroke: {
+          color: '#e51313',
+          width: 2,
+        },
+        circle: {
+          radius: 7,
+          fillColor: '#e51313',
+        },
+      },
     }),
     IconMenu({
       displayComponent: true,
@@ -61,24 +81,9 @@ export const addPlugins = (core) => {
         coastalGazetteer: searchCoastalGazetteerByToponym,
       },
       customSelectResult: {
-        /* categoryDenkmalsucheAutocomplete: selectResult */
-      },
-    }),
-    Draw({
-      displayComponent: false,
-      selectableDrawModes: ['Point', 'LineString', 'Circle', 'Polygon'],
-      style: {
-        fill: {
-          color: 'rgba(255, 255, 255, 0.5)',
-        },
-        stroke: {
-          color: '#e51313',
-          width: 2,
-        },
-        circle: {
-          radius: 7,
-          fillColor: '#e51313',
-        },
+        // it's defined like that
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        '': selectResult,
       },
     }),
     Attributions({
