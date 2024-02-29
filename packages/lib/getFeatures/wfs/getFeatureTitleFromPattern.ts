@@ -28,8 +28,8 @@ export const getFeatureTitleFromPattern = (
     const keys = blocks.reduce(
       (keyAccumulator, block) =>
         Array.isArray(block) ? [...keyAccumulator, block[1]] : keyAccumulator,
-      []
-    ) as string[]
+      [] as string[]
+    )
     const foundKeys = keys.reduce(
       (sum, key) =>
         typeof properties[key] !== 'undefined' && properties[key] !== ''
