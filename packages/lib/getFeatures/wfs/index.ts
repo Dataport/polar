@@ -1,41 +1,34 @@
-import { WfsParameters } from '../types'
+import { KeyValueSetArray, WfsParameters } from '../types'
 import { errorCheck } from '../utils/errorCheck'
 import { parseWfsResponse } from './parse'
 import { buildWfsFilter } from './buildWfsFilter'
 import { match } from './match'
 
-export function getWfsFeatures(
+export async function getWfsFeatures(
   signal: AbortSignal | null,
   url: string,
   inputValue: string,
   parameters: WfsParameters
 ) {
   const { fieldName, patterns, patternKeys } = parameters
-  // arrays OF sets OF key-value-pairs
-  let inputs: string[][][] = [[[]]]
-
+  if (!fieldName && (!patterns || !patternKeys)) {
+    throw new Error(
+      'Incomplete WFS search configuration. Either "fieldName" or "patterns" and "patternKeys" are required.'
+    )
+  }
   if (fieldName && patterns) {
     console.error(
       '@polar/lib-get-features: Using both fieldName and patterns for WFS search. These are mutually exclusive. Patterns will be ignored.'
     )
   }
-
-  if (fieldName) {
-    inputs = [[[fieldName, inputValue]]]
-  } else if (patterns && patternKeys) {
-    inputs = match(patterns, patternKeys, inputValue)
-  } else {
-    console.error(
-      '@polar/lib-get-features: Incomplete WFS search configuration. Either "fieldName" or "patterns" and "patternKeys" are required.'
-    )
-  }
+  // arrays of sets of key-value-pairs
+  const inputs: KeyValueSetArray = fieldName
+    ? [[[fieldName, inputValue]]]
+    : match(patterns, patternKeys, inputValue)
 
   const body = buildWfsFilter(inputs, parameters)
 
-  return fetch(encodeURI(url), { signal, method: 'POST', body }).then(
-    (response: Response) => {
-      errorCheck(response)
-      return parseWfsResponse(response, fieldName || patterns, !fieldName)
-    }
-  )
+  const response = await fetch(encodeURI(url), { signal, method: 'POST', body })
+  errorCheck(response)
+  return parseWfsResponse(response, fieldName || patterns, !fieldName)
 }
