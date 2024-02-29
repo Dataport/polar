@@ -34,6 +34,9 @@ export const makeStoreModule = () => {
     actions,
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      drawSource() {
+        return drawSource
+      },
       selectableDrawModes(_, { configuration }) {
         /* eslint-disable @typescript-eslint/naming-convention */
         // NOTE: Keys are directly used as technical keys for ol/interaction/Draw and are allowed to differ from the naming scheme.
