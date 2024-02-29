@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add title internationalization; i.e. features may now contain locale keys as titles.
+
 ## 1.2.1
 
 - Fix: Keyboard navigation of results to work on all browsers.
