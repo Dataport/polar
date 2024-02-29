@@ -55,7 +55,7 @@
         >
           <v-list-item-title>
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <span v-html="emTitleByInput(feature.title, inputValue)"></span>
+            <span v-html="emTitleByInput($t(feature.title), inputValue)"></span>
           </v-list-item-title>
         </v-list-item>
       </template>
