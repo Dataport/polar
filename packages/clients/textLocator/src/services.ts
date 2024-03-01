@@ -95,6 +95,7 @@ export const services = [
     url: 'https://sgx.geodatenzentrum.de/wms_sen2europe',
     typ: 'WMS',
     layers: 'rgb',
+    legendURL: 'ignore',
     format: 'image/png',
     version: '1.3.0',
     transparent: true,

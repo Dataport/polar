@@ -2,7 +2,7 @@ import { Feature, FeatureCollection } from 'geojson'
 import levenshtein from 'js-levenshtein'
 import { wgs84ProjectionCode } from '../common'
 import { ResponseName, ResponsePayload, ResponseResult } from './types'
-import { geoJson, ignoreIds, wellKnownText } from './common'
+import { geoJson, idPrefixes, wellKnownText } from './common'
 
 // arbitrary sort based on input – prefer 1. startsWith 2. closer string
 const sorter =
@@ -27,15 +27,16 @@ export const getEmptyFeatureCollection = (): FeatureCollection => ({
 const featurify =
   (epsg: `EPSG:${string}`, searchPhrase: string | null) =>
   (feature: ResponseResult): Feature | null => {
-    const geometries = feature.geoms.filter(
-      (geom) => !ignoreIds.geometries.includes(geom.GeomID)
-    )
+    const title =
+      (searchPhrase
+        ? feature.names.sort(sorter(searchPhrase, 'Name'))
+        : feature.names)[0]?.Name || 'textLocator.addressSearch.unnamed'
     return {
       type: 'Feature',
-      geometry: geometries.length
+      geometry: feature.geoms.length
         ? geoJson.writeGeometryObject(
             // NOTE arbitrarily, the first geometry is used
-            wellKnownText.readGeometry(geometries[0].WKT, {
+            wellKnownText.readGeometry(feature.geoms[0].WKT, {
               dataProjection: wgs84ProjectionCode,
               featureProjection: epsg,
             })
@@ -43,14 +44,12 @@ const featurify =
         : { type: 'Point', coordinates: [] },
       id: feature.id,
       properties: {
+        title,
         names: feature.names,
-        geometries,
+        geometries: feature.geoms,
       },
       // @ts-expect-error | used in POLAR for text display
-      title:
-        (searchPhrase
-          ? feature.names.sort(sorter(searchPhrase, 'Name'))
-          : feature.names)[0]?.Name || 'textLocator.addressSearch.unnamed',
+      title,
     }
   }
 
@@ -62,7 +61,7 @@ export const featureCollectionify = (
   const featureCollection = getEmptyFeatureCollection()
   featureCollection.features.push(
     ...fullResponse.results.reduce((accumulator, feature) => {
-      if (ignoreIds.global.includes(feature.id)) {
+      if (feature.id.includes(idPrefixes.country)) {
         return accumulator
       }
       const featurified = featurify(epsg, searchPhrase)(feature)

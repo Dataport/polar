@@ -23,6 +23,11 @@ const language: LanguageOption[] = [
               Common: 'Neue Zeichnungen verwerfen vorangehende Ergebnisse.',
             },
           },
+          tooltip: {
+            title: 'Orte',
+            highlight: 'Auf Funde zoomen und nach Relevanz färben',
+            focusSearch: 'Neue Suche nach allen Geometrien zu dieser Geometrie',
+          },
           results: {
             title: 'Funde',
             byLocation: 'Ort',
@@ -52,6 +57,11 @@ const language: LanguageOption[] = [
                 'Click repeatedly in the map to draw an area to request location names and literature to. Double click finished an area. $t(plugins.geometrySearch.draw.description.Common)',
               Common: 'New drawings discard previous results.',
             },
+          },
+          tooltip: {
+            title: 'Locations',
+            highlight: 'Zoom to findings and colour by relevance',
+            focusSearch: 'New search for all geometries to this geometry',
           },
           results: {
             title: 'Findings',

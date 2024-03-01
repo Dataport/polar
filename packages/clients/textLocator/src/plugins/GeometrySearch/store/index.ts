@@ -2,10 +2,7 @@ import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { PolarActionHandler, PolarModule } from '@polar/lib-custom-types'
-import debounce from 'lodash.debounce'
-import { Feature } from 'ol'
-import VectorSource, { VectorSourceEvent } from 'ol/source/Vector'
+import { PolarModule } from '@polar/lib-custom-types'
 import {
   GeometrySearchState,
   GeometrySearchGetters,
@@ -13,8 +10,11 @@ import {
 } from '../types'
 import { searchGeometry } from '../../../utils/coastalGazetteer/searchGeometry'
 import { getEmptyFeatureCollection } from '../../../utils/coastalGazetteer/responseInterpreter'
-import { searchLiteratureByToponym } from '../../../utils/literatureByToponym'
 import { makeTreeView } from '../utils/makeTreeView'
+import { updateVectorLayer, vectorLayer } from '../utils/vectorDisplay'
+import { setupTooltip } from './actions/setupTooltip'
+import { setupDrawReaction } from './actions/setupDrawReaction'
+import { setupWatchers } from './actions/setupWatchers'
 
 let counter = 0
 const searchLoadingKey = 'geometrySearchLoadingKey'
@@ -29,94 +29,23 @@ const getInitialState = (): GeometrySearchState => ({
 // OK for module creation
 // eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
-  let debouncedSearchGeometry: PolarActionHandler<
-    GeometrySearchState,
-    GeometrySearchGetters
-  >
-
   const storeModule: PolarModule<GeometrySearchState, GeometrySearchGetters> = {
     namespaced: true,
     state: getInitialState(),
     actions: {
-      setupModule({ dispatch }): void {
+      setupModule({ dispatch, rootGetters: { map } }) {
         // point drawing is initially active by default
         dispatch('plugin/draw/setMode', 'draw', { root: true })
         dispatch('setupDrawReaction')
-        // register watchers after store is ready (else immediate-like firing)
+        dispatch('setupTooltip')
+        map.addLayer(vectorLayer)
+        // register watchers after store is ready (else immediate-like firing on not-really change)
         setTimeout(() => dispatch('setupWatchers'), 0)
       },
-      setupDrawReaction({ rootGetters }): void {
-        // features added multiple times; avoid overly requesting
-        debouncedSearchGeometry = debounce(
-          (feature) =>
-            this.dispatch('plugin/geometrySearch/searchGeometry', feature),
-          20
-        ).bind(this)
-
-        // only keep a single feature in the draw tool
-        const drawSource = rootGetters['plugin/draw/drawSource'] as VectorSource
-        let lastFeature: Feature | undefined
-        drawSource.on(['addfeature'], function (event) {
-          const nextFeature = (event as VectorSourceEvent).feature
-          if (nextFeature && lastFeature !== nextFeature) {
-            lastFeature = nextFeature
-            drawSource.clear()
-            drawSource.addFeature(nextFeature)
-            // TODO confusing, figure out
-            // @ts-expect-error | The function is bound, the error seems not to apply
-            debouncedSearchGeometry(nextFeature)
-          }
-        })
-      },
-      setupWatchers({ commit, dispatch, rootGetters }): void {
-        // load titleLocationFrequency on each featureCollection update
-        this.watch(
-          () => rootGetters['plugin/geometrySearch/featureCollection'],
-          async (featureCollection) => {
-            if (!featureCollection.features.length) {
-              dispatch(
-                'plugin/toast/addToast',
-                {
-                  type: 'info',
-                  text: 'textLocator.info.noGeometriesFound',
-                  timeout: 10000,
-                },
-                { root: true }
-              )
-              commit('setTitleLocationFrequency', {})
-              return
-            }
-            const names: string[] = featureCollection.features
-              .map((feature) =>
-                feature.properties?.names?.map((name) => name.Name)
-              )
-              .flat(1)
-              .filter((x) => x)
-            const titleLocationFrequency = await searchLiteratureByToponym(
-              // @ts-expect-error | local addition
-              rootGetters.configuration.textLocatorBackendUrl,
-              names
-            )
-            commit('setTitleLocationFrequency', titleLocationFrequency)
-            if (Object.keys(titleLocationFrequency).length) {
-              dispatch('plugin/iconMenu/openMenuById', 'geometrySearch', {
-                root: true,
-              })
-            } else {
-              dispatch(
-                'plugin/toast/addToast',
-                {
-                  type: 'info',
-                  text: 'textLocator.info.noLiteratureFound',
-                  timeout: 10000,
-                },
-                { root: true }
-              )
-            }
-          }
-        )
-      },
-      searchGeometry({ rootGetters, commit }, feature): void {
+      setupTooltip,
+      setupDrawReaction,
+      setupWatchers,
+      searchGeometry({ rootGetters, commit }, feature) {
         const loadingKey = getSearchLoadingKey()
         commit('plugin/loadingIndicator/addLoadingKey', loadingKey, {
           root: true,
@@ -138,10 +67,14 @@ export const makeStoreModule = () => {
             })
           )
       },
-      // TODO remove on implementing
-      // eslint-disable-next-line no-empty-pattern
-      changeActiveData({}, activeSlotIds: string[]) {
-        console.warn('NOT IMPLEMENTED', activeSlotIds)
+      changeActiveData(
+        { getters: { featureCollection }, rootGetters: { map } },
+        item: TreeViewItem | null
+      ) {
+        updateVectorLayer(map, featureCollection.features, item)
+      },
+      fullSearchOnToponym({}, item: TreeViewItem) {
+        console.warn('NOT IMPLEMENTED', item)
       },
     },
     mutations: {

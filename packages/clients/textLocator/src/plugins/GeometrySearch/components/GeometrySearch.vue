@@ -52,10 +52,8 @@
         v-if="treeViewItems.length"
         dense
         hoverable
-        activatable
         color="info"
         :items="treeViewItems"
-        @update:active="changeActiveData"
       >
         <template #label="{ item }">
           <v-badge
@@ -67,6 +65,48 @@
           >
             {{ item.name }}
           </v-badge>
+        </template>
+        <template #append="{ item }">
+          <v-tooltip v-if="item.type === 'toponym' || item.children" left>
+            <template #activator="{ on, attrs }">
+              <!-- on single feature "Auf Fund zoomen", no heatmap -->
+              <v-btn
+                :aria-label="$t('plugins.geometrySearch.tooltip.highlight')"
+                color="secondary"
+                icon
+                fab
+                x-small
+                dark
+                v-bind="attrs"
+                v-on="on"
+                @click="changeActiveData(item)"
+                @keypress="changeActiveData(item)"
+              >
+                <v-icon>fa-map-location-dot</v-icon>
+              </v-btn>
+            </template>
+            <!-- TODO fix font -->
+            <span>{{ $t('plugins.geometrySearch.tooltip.highlight') }}</span>
+          </v-tooltip>
+          <v-tooltip v-if="item.type === 'toponym'" left>
+            <template #activator="{ on, attrs }">
+              <v-btn
+                :aria-label="$t('plugins.geometrySearch.tooltip.focusSearch')"
+                color="secondary"
+                icon
+                fab
+                x-small
+                dark
+                v-bind="attrs"
+                v-on="on"
+                @click="fullSearchOnToponym(item)"
+                @keypress="fullSearchOnToponym(item)"
+              >
+                <v-icon>fa-magnifying-glass-arrow-right</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ $t('plugins.geometrySearch.tooltip.focusSearch') }}</span>
+          </v-tooltip>
         </template>
       </v-treeview>
       <v-card-text v-else>
@@ -112,7 +152,10 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions('plugin/draw', ['setDrawMode']),
-    ...mapActions('plugin/geometrySearch', ['changeActiveData']),
+    ...mapActions('plugin/geometrySearch', [
+      'changeActiveData',
+      'fullSearchOnToponym',
+    ]),
     ...mapMutations('plugin/geometrySearch', ['setByCategory']),
   },
 })
@@ -149,6 +192,7 @@ export default Vue.extend({
   }
 
   .text-locator-result-badge {
+    cursor: pointer;
     max-width: 500px;
     width: 500px;
     white-space: normal;

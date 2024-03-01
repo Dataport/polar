@@ -8,13 +8,15 @@ export const makeTreeView = (
   const byTextTreeViewItems: TreeViewItem[] = Object.entries(
     titleLocationFrequency
   ).map(([title, locations]) => ({
-    id: title,
+    id: title, // TODO request an additional ID
     name: title,
     count: Object.values(locations).reduce((acc, curr) => acc + curr),
+    type: 'text',
     children: Object.entries(locations).map(([location, count]) => ({
-      id: location,
+      id: location, // TODO request an additional ID
       name: location,
       count,
+      type: 'toponym',
     })),
   }))
 
@@ -46,5 +48,6 @@ export const makeTreeView = (
         item.children?.find((child) => child.name === locationName)
       )
       .map((item) => ({ ...item, children: undefined })),
+    type: 'toponym',
   }))
 }

@@ -8,6 +8,7 @@ export interface TreeViewItem {
   name: string
   count: number
   children?: TreeViewItem[]
+  type: TextLocatorCategories
 }
 
 export interface GeometrySearchState {
@@ -17,3 +18,10 @@ export interface GeometrySearchState {
 }
 
 export type GeometrySearchGetters = GeometrySearchState
+
+export type FeatureType =
+  | 'fallback'
+  | 'roughBackground'
+  | 'fineBackground'
+  | 'wattenmeer'
+  | 'detail'

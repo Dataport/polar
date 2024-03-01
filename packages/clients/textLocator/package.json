@@ -21,6 +21,7 @@
   "devDependencies": {
     "@polar/core": "^1.4.1",
     "@polar/lib-custom-types": "^1.4.1",
+    "@polar/lib-tooltip": "^1.0.0",
     "@polar/plugin-address-search": "^1.2.1",
     "@polar/plugin-attributions": "^1.2.1",
     "@polar/plugin-draw": "1.1.0",
