@@ -12,6 +12,7 @@ import { searchGeometry } from '../../../utils/coastalGazetteer/searchGeometry'
 import { getEmptyFeatureCollection } from '../../../utils/coastalGazetteer/responseInterpreter'
 import { makeTreeView } from '../utils/makeTreeView'
 import { updateVectorLayer, vectorLayer } from '../utils/vectorDisplay'
+import { geoJson } from '../../../utils/coastalGazetteer/common'
 import { setupTooltip } from './actions/setupTooltip'
 import { setupDrawReaction } from './actions/setupDrawReaction'
 import { setupWatchers } from './actions/setupWatchers'
@@ -73,8 +74,16 @@ export const makeStoreModule = () => {
       ) {
         updateVectorLayer(map, featureCollection.features, item)
       },
-      fullSearchOnToponym({}, item: TreeViewItem) {
-        console.warn('NOT IMPLEMENTED', item)
+      fullSearchOnToponym(
+        { dispatch, getters: { featureCollection } },
+        item: TreeViewItem
+      ) {
+        const feature = featureCollection.features.find(
+          // TODO change after id handling has been modified
+          // @ts-expect-error | added locally
+          (feature) => feature.title === item.id
+        )
+        dispatch('searchGeometry', geoJson.readFeature(feature))
       },
     },
     mutations: {
