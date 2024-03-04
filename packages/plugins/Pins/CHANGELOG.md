@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
+- BREAKING: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-pins/styles.css`.
+
 ## 1.3.0
 
 - Feature: Pins can now be re-initialized with the `setupInitial` action. This is an advanced feature currently only available when coding clients.

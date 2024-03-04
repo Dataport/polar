@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Chore: Import newly exposed style paths of `@polar/core` as well as all plugin packages.
+
 ## 1.0.0-beta.5
 
 - Fix: Add missing API.md change. No further changes to previous version.

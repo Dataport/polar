@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
+- BREAKING: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-attributions/styles.css`.
+
 ## 1.2.1
 
 - Fix: There were incomplete changes regarding how to write current year and month references. They have been rolled back to `<YEAR>` and `<MONTH>` in both documentation and code.
