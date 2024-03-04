@@ -1,8 +1,7 @@
 # TODO
 
-* Ortsbezüge eines Textes graphisch darstellen
-* Suchgeometrien: Ortspolygone (Ort => Alle bezüglichen Orte)
-* Schreibweisen/Sprachen von Orten berücksichtigen (=> Zusammenfassung in Übersicht?)
-* Historische Ortspolygone beachten (=> Zeitslot-Auswahl)
-* Ortsbezüge von Texten als Ortsgebirge (explorativ)
-* Mehrsprachigkeit (en/de)
+* Consider different spellings and languages for toponyms (preferences? summary?)
+* Consider historical polygons (timeframe slider?)
+* Visual display of text-to-toponym relations (heat display & explorative)
+* Multilingual support (en/de) only needs a switch (how to handle toponym languages?)
+* URL length problem when searching for all of Schleswig-Holstein (switch to POST body?)
