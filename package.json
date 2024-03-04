@@ -21,8 +21,6 @@
     "afm:build:serve": "http-server ./packages/clients/afm -o /example/prod-example.html",
     "afm:dev": "concurrently \"nx dev @polar/client-afm\" \"npm:nx:watch\"",
     "generic:build": "nx build @polar/client-generic",
-    "generic:build:serve": "http-server ./packages/clients/generic -o /example/index.html",
-    "generic:dev": "concurrently \"nx dev @polar/client-generic\" \"npm:nx:watch\"",
     "dish:build": "nx build @polar/client-dish",
     "dish:build:serve": "http-server ./packages/clients/dish -o /dist/index.html",
     "dish:dev": "concurrently \"nx dev @polar/client-dish\" \"npm:nx:watch\"",

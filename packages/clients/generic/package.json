@@ -19,8 +19,7 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:generic",
-    "dev": "vite --host"
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:generic"
   },
   "devDependencies": {
     "@polar/core": "^1.3.0",
