@@ -13,7 +13,6 @@
     "afm:build:serve": "http-server ./packages/clients/afm -o /example/prod-example.html",
     "afm:dev": "cd packages/clients/afm/ && vite --host",
     "generic:build": "lerna run build --scope @polar/client-generic --stream",
-    "generic:dev": "cd packages/clients/generic/ && vite --host",
     "dish:build": "lerna run build --scope @polar/client-dish --stream",
     "dish:build:serve": "http-server ./packages/clients/dish -o /dist/index.html",
     "dish:dev": "cd packages/clients/dish/ && vite --host",
