@@ -35,7 +35,6 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
-/* TODO decide if required */
 .polar-plugin-address-search-toolbar {
   margin-top: 12px;
 }
