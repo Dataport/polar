@@ -26,13 +26,12 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
 
   core.addPlugins(
     [
-      mode !== MODE.SINGLE &&
-        AddressSearch({
-          displayComponent: true,
-          layoutTag: NineLayoutTag.TOP_LEFT,
-          addLoading: 'plugin/loadingIndicator/addLoadingKey',
-          removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-        }),
+      AddressSearch({
+        displayComponent: true,
+        layoutTag: NineLayoutTag.TOP_LEFT,
+        addLoading: 'plugin/loadingIndicator/addLoadingKey',
+        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+      }),
       Pins({
         displayComponent: true,
         appearOnClick: { show: true, atZoomLevel: 0 },

@@ -248,11 +248,13 @@ const mapConfigurations: Record<
   }),
   [MODE.SINGLE]: () => ({
     ...commonMapConfiguration,
+    addressSearch: { ...addressSearch, displayComponent: false },
     layers: commonLayers,
     attributions: {
       ...commonAttributions,
     },
     pins: commonPins,
+    reverseGeocoder,
   }),
 }
 
