@@ -1,6 +1,6 @@
 {
   "name": "@polar/lib-passes-boundary-check",
-  "version": "2.0.0",
+  "version": "2.1.0-alpha.1",
   "description": "Helper function to decide whether a coordinate is within the geometry of a vector layer.",
   "license": "EUPL-1.2",
   "type": "module",
@@ -34,6 +34,8 @@
     "@polar/lib-custom-types": "^1.1.0"
   },
   "nx": {
-    "includedScripts": ["bundle"]
+    "includedScripts": [
+      "bundle"
+    ]
   }
 }

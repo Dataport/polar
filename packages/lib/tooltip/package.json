@@ -1,6 +1,6 @@
 {
   "name": "@polar/lib-tooltip",
-  "version": "1.0.0",
+  "version": "1.1.0-alpha.1",
   "description": "Minimal package that provides a div-element factory bound to i18next-translations. The element can e.g. be used in ol/Overlay.",
   "license": "EUPL-1.2",
   "type": "module",
@@ -31,6 +31,8 @@
     "i18next": "^21.6.0"
   },
   "nx": {
-    "includedScripts": ["bundle"]
+    "includedScripts": [
+      "bundle"
+    ]
   }
 }
