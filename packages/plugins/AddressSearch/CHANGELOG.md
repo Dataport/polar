@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.0-alpha.1
 
 - Breaking: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-address-search/styles.css`.
 - Feature: Add title internationalization; i.e. features may now contain locale keys as titles.
