@@ -1,6 +1,6 @@
 {
   "name": "@polar/lib-idx",
-  "version": "1.0.0",
+  "version": "1.1.0-alpha.1",
   "description": "Helper function to traverse a nested object and return a certain property if the path can be traversed.",
   "license": "EUPL-1.2",
   "type": "module",
@@ -28,6 +28,8 @@
     "directory": "packages/lib/idx"
   },
   "nx": {
-    "includedScripts": ["bundle"]
+    "includedScripts": [
+      "bundle"
+    ]
   }
 }
