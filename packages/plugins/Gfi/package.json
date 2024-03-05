@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-gfi",
-  "version": "1.2.2",
+  "version": "2.0.0-alpha.1",
   "description": "Plugin Gfi",
   "license": "EUPL-1.2",
   "type": "module",
@@ -51,6 +51,8 @@
     "@polar/lib-test-mount-parameters": "^1.1.0"
   },
   "nx": {
-    "includedScripts": ["bundle"]
+    "includedScripts": [
+      "bundle"
+    ]
   }
 }

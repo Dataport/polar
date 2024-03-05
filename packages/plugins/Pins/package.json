@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-pins",
-  "version": "1.3.0",
+  "version": "2.0.0-alpha.1",
   "description": "Plugin Pins",
   "license": "EUPL-1.2",
   "type": "module",
@@ -40,6 +40,8 @@
     "vue": "^2.6.14"
   },
   "nx": {
-    "includedScripts": ["bundle"]
+    "includedScripts": [
+      "bundle"
+    ]
   }
 }
