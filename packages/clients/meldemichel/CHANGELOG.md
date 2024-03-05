@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.0.0-beta.6
 
 - Feature: Add `@polar/plugin-address-search` and `@polar/plugin-reverse-geocoder` to mode `SINGLE`.
 - Chore: Import newly exposed style paths of `@polar/core` as well as all plugin packages.
