@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-address-search",
-  "version": "1.2.1",
+  "version": "2.0.0-alpha.1",
   "description": "Plugin AddressSearch",
   "license": "EUPL-1.2",
   "type": "module",
@@ -46,6 +46,8 @@
     "@polar/lib-custom-types": "^1.0.0"
   },
   "nx": {
-    "includedScripts": ["bundle"]
+    "includedScripts": [
+      "bundle"
+    ]
   }
 }
