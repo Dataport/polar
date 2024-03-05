@@ -22,7 +22,7 @@
     "build": "rimraf dist && vite build && cd ../../.. && npm run docs:generic"
   },
   "devDependencies": {
-    "@polar/core": "2.0.0-alpha.1",
+    "@polar/core": "2.0.0-alpha.2",
     "@polar/lib-custom-types": "^1.3.0",
     "@polar/plugin-address-search": "^1.2.0",
     "@polar/plugin-attributions": "^1.2.0",
