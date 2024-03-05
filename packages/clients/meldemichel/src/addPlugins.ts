@@ -27,7 +27,7 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
   core.addPlugins(
     [
       AddressSearch({
-        displayComponent: true,
+        displayComponent: mode !== MODE.SINGLE,
         layoutTag: NineLayoutTag.TOP_LEFT,
         addLoading: 'plugin/loadingIndicator/addLoadingKey',
         removeLoading: 'plugin/loadingIndicator/removeLoadingKey',

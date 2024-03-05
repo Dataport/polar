@@ -248,7 +248,7 @@ const mapConfigurations: Record<
   }),
   [MODE.SINGLE]: () => ({
     ...commonMapConfiguration,
-    addressSearch: { ...addressSearch, displayComponent: false },
+    addressSearch,
     layers: commonLayers,
     attributions: {
       ...commonAttributions,
