@@ -1,6 +1,6 @@
 {
   "name": "@polar/lib-get-features",
-  "version": "1.0.1",
+  "version": "2.0.0-alpha.1",
   "description": "Helper functions to be able to send GetFeature-Requests to WFS-services.",
   "license": "EUPL-1.2",
   "type": "module",
@@ -31,6 +31,8 @@
     "ol": "^7.1.0"
   },
   "nx": {
-    "includedScripts": ["bundle"]
+    "includedScripts": [
+      "bundle"
+    ]
   }
 }
