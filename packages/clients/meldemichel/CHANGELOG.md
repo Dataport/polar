@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add `@polar/plugin-address-search` and `@polar/plugin-reverse-geocoder` to mode `SINGLE`.
+
 ## 1.0.0-beta.5
 
 - Fix: Add missing API.md change. No further changes to previous version.
