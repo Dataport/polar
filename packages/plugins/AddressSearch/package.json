@@ -39,7 +39,7 @@
     "vuex": "^3.6.2"
   },
   "dependencies": {
-    "@polar/lib-get-features": "^1.0.0",
+    "@polar/lib-get-features": "2.0.0-alpha.1",
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {

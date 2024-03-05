@@ -32,7 +32,7 @@
     "ol": "^7.1.0"
   },
   "dependencies": {
-    "@polar/lib-passes-boundary-check": "^2.0.0"
+    "@polar/lib-passes-boundary-check": "2.1.0-alpha.1"
   },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.0.0",
