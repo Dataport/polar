@@ -40,8 +40,7 @@ for (const path of packages) {
 
       cp.execSync('npm version ' + nextVersion, context)
       cp.execSync(
-        'npm set //registry.npmjs.org/:_authToken ' +
-          process.env.NODE_AUTH_TOKEN,
+        `npm set //registry.npmjs.org/:_authToken ${process.env.NODE_AUTH_TOKEN} --workspaces=false --include-workspace-root`,
         { cwd: path }
       )
       cp.execSync('npm publish --access=public', context)
