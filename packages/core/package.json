@@ -38,7 +38,7 @@
     "@fortawesome/fontawesome-free": "^6.2.1",
     "@masterportal/masterportalapi": "2.8.0",
     "@polar/components": "^2.0.0",
-    "@polar/lib-idx": "1.1.0-alpha.1",
+    "@polar/lib-idx": "^1.0.0",
     "@polar/lib-get-cluster": "1.1.0-alpha.1",
     "@polar/lib-invisible-style": "1.1.0-alpha.1",
     "@repositoryname/noop": "^1.0.6",
