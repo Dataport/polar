@@ -14,6 +14,5 @@ module.exports = ['./packages/clients', './packages/lib', './packages/plugins']
   .concat([
     // manually registered packages without a group folder
     './packages/core',
-    './packages/components',
     './packages/types/custom',
   ])

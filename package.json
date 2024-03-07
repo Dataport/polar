@@ -9,7 +9,6 @@
     "npm": "^8.19.3"
   },
   "workspaces": [
-    "packages/components",
     "packages/clients/*",
     "packages/core",
     "packages/lib/*",

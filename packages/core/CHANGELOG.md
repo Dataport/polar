@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0-alpha.4
+
+- Feature: Add `MoveHandle.vue` to this package.
+
 ## 2.0.0-alpha.3
 
 - Fix: Model `olcs` as `peerDependency` to not break the build.

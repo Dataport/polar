@@ -20,7 +20,7 @@ function getBody(tag) {
   const nameParts = name.split('-')
   let filePath
 
-  if (nameParts[0] === 'core' || nameParts[0] === 'components') {
+  if (nameParts[0] === 'core') {
     filePath = `./packages/${nameParts[0]}`
   } else if (name === 'lib-custom-types') {
     filePath = `./packages/types/custom`
