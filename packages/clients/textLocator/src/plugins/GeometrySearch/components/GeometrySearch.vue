@@ -69,9 +69,16 @@
         <template #append="{ item }">
           <v-tooltip v-if="item.type === 'toponym' || item.children" left>
             <template #activator="{ on, attrs }">
-              <!-- on single feature "Auf Fund zoomen", no heatmap -->
               <v-btn
-                :aria-label="$t('plugins.geometrySearch.tooltip.highlight')"
+                :aria-label="
+                  $t(
+                    `plugins.geometrySearch.tooltip.highlight.${
+                      item?.children?.length && item.type !== 'toponym'
+                        ? 'heat'
+                        : 'cold'
+                    }`
+                  )
+                "
                 color="secondary"
                 icon
                 fab
@@ -86,7 +93,15 @@
               </v-btn>
             </template>
             <!-- TODO fix font -->
-            <span>{{ $t('plugins.geometrySearch.tooltip.highlight') }}</span>
+            <span>{{
+              $t(
+                `plugins.geometrySearch.tooltip.highlight.${
+                  item?.children?.length && item.type !== 'toponym'
+                    ? 'heat'
+                    : 'cold'
+                }`
+              )
+            }}</span>
           </v-tooltip>
           <v-tooltip v-if="item.type === 'toponym'" left>
             <template #activator="{ on, attrs }">

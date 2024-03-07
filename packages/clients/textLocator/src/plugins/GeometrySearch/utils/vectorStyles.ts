@@ -47,7 +47,7 @@ const coldStyle = makeStyle(
 )
 
 export const heatStyles = heatPalette.map((color) =>
-  makeStyle(`${color}FF`, `${color}AA`, ++zIndexCounter)
+  makeStyle(`${color}FF`, `${color}33`, ++zIndexCounter)
 )
 
 export const typeToStyle: Record<FeatureType, Style> = {

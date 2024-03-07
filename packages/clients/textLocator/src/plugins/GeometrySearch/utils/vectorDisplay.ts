@@ -5,6 +5,7 @@ import { Vector } from 'ol/source'
 import { createEmpty, extend } from 'ol/extent'
 import { geoJson, idPrefixes } from '../../../utils/coastalGazetteer/common'
 import { FeatureType, TreeViewItem } from '../types'
+import { TitleLocationFrequency } from '../../../utils/literatureByToponym'
 import { heatStyles, typeToStyle } from './vectorStyles'
 
 const vectorSource = new Vector()
@@ -40,13 +41,36 @@ const getZoomFeatures = (features: OlFeature[], item: TreeViewItem | null) =>
           item.children?.map(({ id }) => id).includes(feature.get('title'))
       )
 
+const featHeat = (
+  olFeatures: OlFeature[],
+  titleLocationFrequency: TitleLocationFrequency
+) => {
+  // TODO change id from name to something id-worthy
+  const sums: Record<string, number> = olFeatures.reduce(
+    (accumulator, current) => ({
+      ...accumulator,
+      [current.get('title')]:
+        (accumulator[current.get('title')] || 0) +
+        Object.values(titleLocationFrequency).reduce(
+          (perTitleAccumulator, toponymToAmount) =>
+            perTitleAccumulator + (toponymToAmount[current.get('title')] || 0),
+          0
+        ),
+    }),
+    {} as Record<string, number>
+  )
+  const max = Math.max(...Object.values(sums))
+  olFeatures.forEach((feature) =>
+    feature.set('heat', Math.floor((sums[feature.get('title')] / max) * 9))
+  )
+}
+
 export const updateVectorLayer = (
   map: Map,
   features: Feature[],
-  item: TreeViewItem | null
+  item: TreeViewItem | null,
+  titleLocationFrequency: TitleLocationFrequency
 ) => {
-  console.warn('features', features)
-  console.warn('item', item)
   vectorSource.clear()
   const preparedFeatures = features.map((feature) => {
     const olFeature = geoJson.readFeature(feature)
@@ -55,17 +79,20 @@ export const updateVectorLayer = (
   })
 
   const zoomFeatures = getZoomFeatures(preparedFeatures, item)
-  if (zoomFeatures.length) {
-    map.getView().fit(
-      zoomFeatures.reduce(
-        (extent, feature) =>
-          extend(extent, feature.getGeometry()?.getExtent() || []),
-        createEmpty()
-      ),
-      { padding: [20, 20, 20, 20], duration: 500 }
-    )
+  map.getView().fit(
+    // fall back to global zoom if no high-detail features are found
+    (zoomFeatures.length ? zoomFeatures : preparedFeatures).reduce(
+      (extent, feature) =>
+        extend(extent, feature.getGeometry()?.getExtent() || []),
+      createEmpty()
+    ),
+    { padding: [20, 20, 20, 20], duration: 500 }
+  )
+
+  preparedFeatures.forEach((feature) => feature.set('heat', undefined))
+  if (item?.children?.length && item.type === 'text') {
+    featHeat(zoomFeatures, titleLocationFrequency)
   }
-  // TODO style by dominance: feature.set('heat', 0-9)
-  // only consider item for heat, if not null
+
   vectorSource.addFeatures(preparedFeatures)
 }

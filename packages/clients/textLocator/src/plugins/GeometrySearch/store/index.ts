@@ -69,10 +69,18 @@ export const makeStoreModule = () => {
           )
       },
       changeActiveData(
-        { getters: { featureCollection }, rootGetters: { map } },
+        {
+          getters: { featureCollection, titleLocationFrequency },
+          rootGetters: { map },
+        },
         item: TreeViewItem | null
       ) {
-        updateVectorLayer(map, featureCollection.features, item)
+        updateVectorLayer(
+          map,
+          featureCollection.features,
+          item,
+          titleLocationFrequency
+        )
       },
       fullSearchOnToponym(
         { dispatch, getters: { featureCollection } },

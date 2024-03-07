@@ -25,7 +25,10 @@ const language: LanguageOption[] = [
           },
           tooltip: {
             title: 'Orte',
-            highlight: 'Auf Funde zoomen und nach Relevanz färben',
+            highlight: {
+              cold: 'Auf Fund zoomen',
+              heat: 'Auf Funde zoomen und nach Relevanz färben',
+            },
             focusSearch: 'Neue Suche nach allen Geometrien zu dieser Geometrie',
           },
           results: {
@@ -60,7 +63,10 @@ const language: LanguageOption[] = [
           },
           tooltip: {
             title: 'Locations',
-            highlight: 'Zoom to findings and colour by relevance',
+            highlight: {
+              cold: 'Zoom to finding',
+              heat: 'Zoom to findings and color by relevance',
+            },
             focusSearch: 'New search for all geometries to this geometry',
           },
           results: {
