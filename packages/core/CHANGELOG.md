@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0-alpha.3
+
+- Fix: Model `olcs` as `peerDependency` to not break the build.
+
 ## 2.0.0-alpha.2
 
 - Chore: Add correct versions for alpha testing.
