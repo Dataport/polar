@@ -24,7 +24,7 @@
     "dev": "vite --host"
   },
   "devDependencies": {
-    "@polar/core": "2.0.0-alpha.3",
+    "@polar/core": "2.0.0-alpha.4",
     "@polar/lib-custom-types": "^1.4.0",
     "@polar/lib-invisible-style": "1.1.0-alpha.1",
     "@polar/plugin-address-search": "^1.2.1",
