@@ -21,10 +21,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { VSelect } from 'vuetify/lib/components'
 import { mapGetters, mapActions } from 'vuex'
 
 export default Vue.extend({
   name: 'AddressSearchGroupSelect',
+  components: {
+    VSelect,
+  },
   computed: {
     ...mapGetters('plugin/addressSearch', [
       'selectedGroupId',

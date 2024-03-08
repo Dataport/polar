@@ -23,6 +23,7 @@ const external = createFilter(
     'olcs',
     'vue',
     'vuetify',
+    'vuetify/lib/components',
     'vuex',
   ],
   null,

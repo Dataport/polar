@@ -51,6 +51,7 @@ import Hammer from 'hammerjs'
 import i18next from 'i18next'
 import { defaults } from 'ol/interaction'
 import { LanguageOption, MoveHandleProperties } from '@polar/lib-custom-types'
+import { VApp } from 'vuetify/lib/components'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addClusterStyle } from '../utils/addClusterStyle'
 import MapUi from './MapUi.vue'
@@ -62,6 +63,7 @@ export default Vue.extend({
   components: {
     MapUi,
     MoveHandle,
+    VApp,
   },
   props: {
     mapConfiguration: {

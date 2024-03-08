@@ -14,6 +14,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { VContainer, VToolbar } from 'vuetify/lib/components'
 import { mapGetters } from 'vuex'
 import GroupSelect from './GroupSelect.vue'
 import Results from './Results.vue'
@@ -25,6 +26,8 @@ export default Vue.extend({
     GroupSelect,
     SearchInput,
     Results,
+    VContainer,
+    VToolbar,
   },
   computed: {
     ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
