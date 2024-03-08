@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0-alpha.2
+
+- Fix: Model every dependency as a devDependency.
+
 ## 2.0.0-alpha.1
 
 - Breaking: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-pins/styles.css`.

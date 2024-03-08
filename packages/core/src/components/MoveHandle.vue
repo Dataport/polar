@@ -23,8 +23,6 @@
 import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
 
-import { VBtn, VCardActions, VIcon, VSpacer } from 'vuetify/lib/components'
-
 type EndEventName = 'touchend' | 'mouseup'
 type MoveEventName = 'touchmove' | 'mousemove'
 interface MoveEventNames {
@@ -55,12 +53,6 @@ function calculateTop(
 
 export default Vue.extend({
   name: 'MoveHandle',
-  components: {
-    VBtn,
-    VCardActions,
-    VIcon,
-    VSpacer,
-  },
   props: {
     closeLabel: {
       type: String,

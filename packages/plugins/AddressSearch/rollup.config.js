@@ -14,7 +14,6 @@ const external = createFilter(
     'lodash.debounce',
     'ol/**',
     'vue',
-    'vuetify/lib/components',
     'vuex',
   ],
   null,

@@ -20,15 +20,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { VTextField } from 'vuetify/lib/components'
 import { mapActions, mapGetters } from 'vuex'
 import { focusFirstResult } from '../utils/focusFirstResult'
 
 export default Vue.extend({
   name: 'AddressSearchInput',
-  components: {
-    VTextField,
-  },
   computed: {
     ...mapGetters('plugin/addressSearch', [
       'featureListsWithCategory',

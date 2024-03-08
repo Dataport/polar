@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0-alpha.7
+
+- Fix: Model every dependency as a devDependency.
+
 ## 2.0.0-alpha.6
 
 - Fix: Remove vuetify plugin for rollup.

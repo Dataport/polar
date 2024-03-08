@@ -96,28 +96,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {
-  VBtn,
-  VCard,
-  VIcon,
-  VList,
-  VListItem,
-  VSubheader,
-} from 'vuetify/lib/components'
 import { mapGetters, mapActions } from 'vuex'
 import { focusFirstResult } from '../utils/focusFirstResult'
 import { emTitleByInput } from '../utils/emTitleByInput'
 
 export default Vue.extend({
   name: 'AddressSearchResults',
-  components: {
-    VBtn,
-    VCard,
-    VIcon,
-    VList,
-    VListItem,
-    VSubheader,
-  },
   data: () => ({
     openCategories: [] as string[],
   }),

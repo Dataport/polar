@@ -1,9 +1,13 @@
 # CHANGELOG
 
+## 2.0.0-alpha.4
+
+- Fix: Model every dependency as a devDependency.
+
 ## 2.0.0-alpha.3
 
 - Fix: Remove vuetify plugin for rollup.
-- - Fix: Import vuetify components so they can be externalized by rollup.
+- Fix: Import vuetify components, so they can be externalized by rollup.
 
 ## 2.0.0-alpha.2
 
