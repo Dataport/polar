@@ -37,10 +37,10 @@ export default {
       defaultLang: { script: 'ts', style: 'scss' },
       css: false,
     }),
-    vuetify(),
     scss({ fileName: 'index.css', sourceMap: true }),
     // Types are not checked as typechecking does not work for vue-files with the current version, might be fixable with an upgrade of vue and vuex; see https://github.com/vuejs/vuex/pull/1121.
     typescript({ check: false }),
+    vuetify(),
     commonjs(),
     resolve(),
     terser(),
