@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0-alpha.5
+
+- Fix: Add vuetify plugin for rollup.
+
 ## 2.0.0-alpha.4
 
 - Feature: Add `MoveHandle.vue` to this package.

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0-alpha.2
+
+- Fix: Add vuetify plugin for rollup.
+
 ## 2.0.0-alpha.1
 
 - Breaking: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-gfi/styles.css`.
