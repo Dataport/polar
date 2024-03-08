@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Remove vuetify plugin for rollup.
+
 ## 2.0.0-alpha.2
 
 - Fix: Add vuetify plugin for rollup.
