@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.0.0-alpha.5
+## 2.0.0-alpha.6
 
 - Fix: Remove vuetify plugin for rollup.
 - Fix: Import vuetify components so they can be externalized by rollup.
