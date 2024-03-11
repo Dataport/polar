@@ -3,6 +3,7 @@
 ## unpublished
 
 Fix: Revert back to previous dependency modelling.
+Fix: Add missing entry externalizing vuetify styles.
 
 ## 2.0.0-alpha.7
 
