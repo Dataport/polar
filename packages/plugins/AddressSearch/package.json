@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-address-search",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0-alpha.4",
   "description": "Plugin AddressSearch",
   "license": "EUPL-1.2",
   "type": "module",
