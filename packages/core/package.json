@@ -31,10 +31,13 @@
     "bundle": "tsc --declaration --emitDeclarationOnly && rollup -c",
     "preversion": "npm run bundle"
   },
-  "devDependencies": {
+  "peerDependencies": {
+    "ol": "^7.1.0",
+    "olcs": "2.13.1"
+  },
+  "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.1",
     "@masterportal/masterportalapi": "2.8.0",
-    "@polar/lib-custom-types": "^1.4.0",
     "@polar/lib-idx": "1.1.0-alpha.1",
     "@polar/lib-get-cluster": "1.1.0-alpha.1",
     "@polar/lib-invisible-style": "1.1.0-alpha.1",
@@ -46,11 +49,12 @@
     "i18next-vue": "^1.1.0",
     "lodash.merge": "^4.6.2",
     "lodash.kebabcase": "^4.1.1",
-    "ol": "^7.1.0",
-    "olcs": "2.13.1",
     "vue": "^2.6.14",
     "vuetify": "^2.5.9",
     "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@polar/lib-custom-types": "^1.4.0"
   },
   "nx": {
     "includedScripts": [

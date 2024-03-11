@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+Fix: Revert back to previous dependency modelling.
+
 ## 2.0.0-alpha.3
 
 - Fix: Remove vuetify plugin for rollup.

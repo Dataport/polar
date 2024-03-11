@@ -31,20 +31,24 @@
     "bundle": "tsc --declaration --emitDeclarationOnly && rollup -c",
     "preversion": "npm run bundle"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "@masterportal/masterportalapi": "2.8.0",
-    "@polar/lib-custom-types": "^1.2.0",
-    "@polar/lib-get-cluster": "1.1.0-alpha.1",
-    "@polar/lib-invisible-style": "1.1.0-alpha.1",
-    "@polar/lib-test-mount-parameters": "^1.1.0",
-    "@polar/lib-tooltip": "1.1.0-alpha.1",
     "@repositoryname/vuex-generators": "^1.1.2",
-    "just-compare": "^2.3.0",
-    "lodash.debounce": "^4.0.8",
     "i18next": "^23.7.16",
     "ol": "^7.1.0",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
+  },
+  "dependencies": {
+    "@polar/lib-get-cluster": "1.1.0-alpha.1",
+    "@polar/lib-invisible-style": "1.1.0-alpha.1",
+    "@polar/lib-tooltip": "1.1.0-alpha.1",
+    "just-compare": "^2.3.0",
+    "lodash.debounce": "^4.0.8"
+  },
+  "devDependencies": {
+    "@polar/lib-custom-types": "^1.2.0",
+    "@polar/lib-test-mount-parameters": "^1.1.0"
   },
   "nx": {
     "includedScripts": [

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+Fix: Revert back to previous dependency modelling.
+
 ## 2.0.0-alpha.2
 
 - Fix: Model every dependency as a devDependency.
