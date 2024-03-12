@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.0-alpha.5
 
 Fix: Revert back to previous dependency modelling.
 
