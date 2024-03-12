@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0-alpha.2
+
+- Chore: Release the package without minifying.
+
 ## 2.0.0-alpha.1
 
 - Breaking: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-filter/styles.css`.
