@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0-alpha.5
+
+- Chore: Release the package without minifying.
+
 ## 2.0.0-alpha.4
 
 Fix: Revert back to previous dependency modelling.
