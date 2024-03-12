@@ -17,6 +17,7 @@ export default {
   external: ['@repositoryname/vuex-generators', 'i18next', 'vue', 'vuex'],
   plugins: [
     vue({
+      compileTemplate: true,
       defaultLang: { script: 'ts', style: 'scss' },
       css: false,
     }),

@@ -42,6 +42,7 @@ export default {
   external,
   plugins: [
     vue({
+      compileTemplate: true,
       defaultLang: { script: 'ts', style: 'scss' },
       css: false,
     }),

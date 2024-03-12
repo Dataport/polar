@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0-alpha.10
+
+- Chore: Add `compileTemplate` to `rollup-plugin-vue`.
+
 ## 2.0.0-alpha.9
 
 - Chore: Release the package without minifying.
