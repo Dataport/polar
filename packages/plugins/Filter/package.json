@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-filter",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "Plugin Filter",
   "license": "EUPL-1.2",
   "type": "module",
