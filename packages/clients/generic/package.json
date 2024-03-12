@@ -1,6 +1,6 @@
 {
   "name": "@polar/client-generic",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Client Generic",
   "license": "EUPL-1.2",
   "type": "module",
