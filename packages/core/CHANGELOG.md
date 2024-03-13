@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 2.0.0-alpha.11
+
+- Chore: Readd vuetify and add another external for vuetify.
+
+## 2.0.0-alpha.11
+
+- Experimental: Remove vuetify in core to test if vuetify breaks build.
+
 ## 2.0.0-alpha.10
 
 - Chore: Add `compileTemplate` to `rollup-plugin-vue`.
