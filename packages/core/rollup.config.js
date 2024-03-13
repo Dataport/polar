@@ -21,6 +21,8 @@ const external = createFilter(
     'ol/**',
     'olcs',
     'vue',
+    'vuetify',
+    'vuetify/dist/vuetify.min.css',
     'vuex',
   ],
   null,

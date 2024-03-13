@@ -1,5 +1,5 @@
 <template>
-  <div class="polar-wrapper" :lang="lang">
+  <v-app class="polar-wrapper" :lang="lang">
     <transition name="fade">
       <div
         v-if="!hasWindowSize && (noControlOnZoom || oneFingerPan)"
@@ -40,7 +40,7 @@
         <component :is="moveHandle.component" v-bind="moveHandle.props || {}" />
       </template>
     </MoveHandle>
-  </div>
+  </v-app>
 </template>
 
 <script lang="ts">

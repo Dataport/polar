@@ -7,13 +7,14 @@
     @mousedown.stop="onMouseDown"
     @touchstart.stop="onTouchStart"
   >
-    <i id="polar-move-handle-grip-icon" class="fa-grip-lines"></i>
-    <div>
+    <v-icon id="polar-move-handle-grip-icon"> fa-grip-lines </v-icon>
+    <v-card-actions>
       <slot name="actionButton" />
-      <button :aria-label="closeLabel" @click="close(true)">
-        <i class="fa-xmark"><slot name="closeIcon"></slot></i>
-      </button>
-    </div>
+      <v-spacer></v-spacer>
+      <v-btn icon small :aria-label="closeLabel" @click="close(true)">
+        <v-icon><slot name="closeIcon">fa-xmark</slot></v-icon>
+      </v-btn>
+    </v-card-actions>
     <slot />
   </div>
 </template>

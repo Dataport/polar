@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { makeStore } from '../../vuePlugins/vuex'
+import vuetify from '../../vuePlugins/vuetify'
 import language from '../../language'
 import { MapContainer } from '../../components'
 import { CreateOptions, MapInstance } from '../../types'
@@ -7,6 +8,7 @@ import subscribeFunction from './subscribe'
 import { updateSizeOnReady } from './updateSizeOnReady'
 import { makeShadowRoot } from './makeShadowRoot'
 import { pullPolarStyleToShadow } from './pullPolarStyleToShadow'
+import { pullVuetifyStyleToShadow } from './pullVuetifyStyleToShadow'
 import { setupFontawesome } from './setupFontawesome'
 
 /**
@@ -25,6 +27,7 @@ export default async function createMap({
   await language(mapConfiguration?.language)
 
   const instance: MapInstance = new Vue({
+    vuetify: vuetify(mapConfiguration?.vuetify),
     el: shadowRoot.appendChild(document.createElement('div')),
     render: (createElement) =>
       createElement(MapContainer, {
@@ -37,6 +40,7 @@ export default async function createMap({
   instance.subscribe = subscribeFunction
 
   pullPolarStyleToShadow(shadowRoot, mapConfiguration.stylePath)
+  pullVuetifyStyleToShadow(shadowRoot)
   setupFontawesome(shadowRoot, mapConfiguration.renderFaToLightDom)
   updateSizeOnReady(instance)
 
