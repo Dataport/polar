@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.0.0-alpha.11
+## 2.0.0-alpha.12
 
 - Chore: Readd vuetify and add another external for vuetify.
 
