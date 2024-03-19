@@ -7,7 +7,13 @@ import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
 import { Feature as GeoJsonFeature } from 'geojson'
 import Geometry from 'ol/geom/Geometry'
+import TileLayer from 'ol/layer/Tile'
+import { TileWMS } from 'ol/source'
 import { RequestGfiParameters } from '../types'
+
+interface WmsRequestParameters extends RequestGfiParameters {
+  layer: TileLayer<TileWMS>
+}
 
 // list of supported reply formats that can be used from OL
 const formats = {
@@ -133,14 +139,14 @@ function getWmsGfiUrl(
     map,
     layer,
     coordinate,
-  }: Pick<RequestGfiParameters, 'map' | 'layer' | 'coordinate'>,
+  }: Pick<WmsRequestParameters, 'map' | 'layer' | 'coordinate'>,
   { infoFormat }: Record<string, unknown>
 ): string {
-  const source = layer.getSource()
+  const source = layer.getSource() as TileWMS
   const view = map.getView()
   const url = source.getFeatureInfoUrl(
     coordinate,
-    view.getResolution(),
+    view.getResolution() as number,
     view.getProjection(),
     {
       feature_count: 10,
@@ -157,7 +163,7 @@ function getWmsGfiUrl(
  * @returns promise of all features that hold relevant feature information
  */
 export default (
-  parameters: RequestGfiParameters
+  parameters: WmsRequestParameters
 ): Promise<GeoJsonFeature[]> => {
   const { coordinate, layerConfiguration, layerSpecification } = parameters
   const { filterBy, geometryName, format } = layerConfiguration

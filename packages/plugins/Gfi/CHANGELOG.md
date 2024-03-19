@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## 2.0.0-alpha.6
+
+- Chore: Add `compileTemplate` to `rollup-plugin-vue`.
+
+## 2.0.0-alpha.5
+
+- Chore: Release the package without minifying.
+
+## 2.0.0-alpha.4
+
+Fix: Revert back to previous dependency modelling.
+
+## 2.0.0-alpha.3
+
+- Fix: Remove vuetify plugin for rollup.
+- Fix: Model every dependency as a devDependency.
+
+## 2.0.0-alpha.2
+
+- Fix: Add vuetify plugin for rollup.
+
+## 2.0.0-alpha.1
+
+- Breaking: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-gfi/styles.css`.
+- Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
+
 ## 1.2.2
 
 - Fix: The `close` method previously always removed the pin when not in `extendedMasterportalapiMarkers` mode. This issue has been resolved by distinguishing whether a close operation happened in effect to a direct closing user interaction or was technically motivated.

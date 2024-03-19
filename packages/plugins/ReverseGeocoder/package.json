@@ -5,22 +5,41 @@
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/plugins/ReverseGeocoder"
   },
   "files": [
-    "src/**/*",
+    "dist/**",
     "CHANGELOG.md"
   ],
+  "scripts": {
+    "bundle": "tsc --declaration --emitDeclarationOnly && rollup -c",
+    "preversion": "npm run bundle"
+  },
+  "//": "xml2js is considered a peerDependency as @masterportal/masterportalapi depends on it. If that changes at some point, it should become a dependency.",
   "peerDependencies": {
     "ol": "^7.1.0",
     "xml2js": "^0.4.23"
   },
+  "dependencies": {
+    "lodash.mapvalues": "^4.6.0"
+  },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.0.0",
-    "lodash.mapvalues": "^4.6.0"
+    "vue": "^2.6.14"
+  },
+  "nx": {
+    "includedScripts": ["bundle"]
   }
 }

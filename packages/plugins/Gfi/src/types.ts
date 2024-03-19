@@ -1,9 +1,7 @@
 import { Map, Feature } from 'ol'
 import { Coordinate } from 'ol/coordinate'
-import { SourceType } from 'ol/layer/WebGLTile'
-import { LayerType } from 'ol/renderer/webgl/TileLayer'
-import LayerRenderer from 'ol/renderer/Layer'
 import { Layer } from 'ol/layer'
+import { Source } from 'ol/source'
 import VectorSource from 'ol/source/Vector'
 import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import {
@@ -18,7 +16,7 @@ import {
 /** parameter specification for request method */
 export interface RequestGfiParameters {
   map: Map
-  layer: Layer<SourceType, LayerRenderer<LayerType>>
+  layer: Layer<Source>
   coordinate: Coordinate
   layerConfiguration: GfiLayerConfiguration
   /** rawLayerList entry, see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md */

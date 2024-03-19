@@ -22,7 +22,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
-import { MoveEventName, MoveEventNames, PolarMoveEvent } from './types'
+
+type EndEventName = 'touchend' | 'mouseup'
+type MoveEventName = 'touchmove' | 'mousemove'
+interface MoveEventNames {
+  move: MoveEventName
+  end: EndEventName
+}
+type PolarMoveEvent = MouseEvent | TouchEvent
 
 const minHeight = 0.1
 let top: null | number = null

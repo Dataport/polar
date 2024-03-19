@@ -1,5 +1,60 @@
 # CHANGELOG
 
+## 2.0.0-alpha.13
+
+- Chore: Actually add external for vuetify.
+
+## 2.0.0-alpha.12
+
+- Chore: Readd vuetify and add another external for vuetify.
+
+## 2.0.0-alpha.11
+
+- Experimental: Remove vuetify in core to test if vuetify breaks build.
+
+## 2.0.0-alpha.10
+
+- Chore: Add `compileTemplate` to `rollup-plugin-vue`.
+
+## 2.0.0-alpha.9
+
+- Chore: Release the package without minifying.
+
+## 2.0.0-alpha.8
+
+Fix: Revert back to previous dependency modelling.
+Fix: Add missing entry externalizing vuetify styles.
+
+## 2.0.0-alpha.7
+
+- Fix: Model every dependency as a devDependency.
+
+## 2.0.0-alpha.6
+
+- Fix: Remove vuetify plugin for rollup.
+- Fix: Import vuetify components so they can be externalized by rollup.
+
+## 2.0.0-alpha.5
+
+- Fix: Add vuetify plugin for rollup.
+
+## 2.0.0-alpha.4
+
+- Feature: Add `MoveHandle.vue` to this package.
+
+## 2.0.0-alpha.3
+
+- Fix: Model `olcs` as `peerDependency` to not break the build.
+
+## 2.0.0-alpha.2
+
+- Chore: Add correct versions for alpha testing.
+
+## 2.0.0-alpha.1
+
+- Breaking: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/core/styles.css`.
+- Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
+
 ## 1.4.1
 
 - Feature: Additionally export `PolarCore` type.

@@ -1,23 +1,46 @@
 {
   "name": "@polar/core",
-  "version": "1.4.1",
+  "version": "2.0.0-alpha.13",
   "description": "MapClient Core",
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./styles.css": {
+      "import": "./dist/index.css",
+      "require": "./dist/index.css"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/core"
   },
+  "files": [
+    "dist/**",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "bundle": "tsc --declaration --emitDeclarationOnly && rollup -c",
+    "preversion": "npm run bundle"
+  },
+  "peerDependencies": {
+    "ol": "^7.1.0",
+    "olcs": "2.13.1"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.1",
     "@masterportal/masterportalapi": "2.8.0",
-    "@polar/components": "^2.0.0",
-    "@polar/lib-idx": "^1.0.0",
-    "@polar/lib-get-cluster": "^1.0.0",
-    "@polar/lib-invisible-style": "^1.0.0",
+    "@polar/lib-idx": "1.1.0-alpha.1",
+    "@polar/lib-get-cluster": "1.1.0-alpha.1",
+    "@polar/lib-invisible-style": "1.1.0-alpha.1",
     "@repositoryname/noop": "^1.0.6",
     "@repositoryname/vuex-generators": "^1.1.2",
     "hammerjs": "2.0.8",
@@ -26,19 +49,16 @@
     "i18next-vue": "^1.1.0",
     "lodash.merge": "^4.6.2",
     "lodash.kebabcase": "^4.1.1",
-    "olcs": "2.13.1",
     "vue": "^2.6.14",
     "vuetify": "^2.5.9",
     "vuex": "^3.6.2"
   },
-  "peerDependencies": {
-    "ol": "^7.1.0"
-  },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.4.0"
   },
-  "files": [
-    "src/**/*",
-    "CHANGELOG.md"
-  ]
+  "nx": {
+    "includedScripts": [
+      "bundle"
+    ]
+  }
 }

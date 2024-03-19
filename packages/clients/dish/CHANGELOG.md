@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Chore: Import newly exposed style paths of `@polar/core` as well as all plugin packages.
+
 ## 1.1.1
 
 - Fix: The marker previously disappeared on being moved/reclicked on a second feature. This issue has been resolved.

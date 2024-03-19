@@ -5,6 +5,8 @@ import { AddressSearch } from './components'
 import language from './language'
 import { makeStoreModule } from './store'
 
+export { default as SearchResultSymbols } from './utils/searchResultSymbols'
+
 export default (options: AddressSearchConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'addressSearch',
