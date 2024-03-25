@@ -9,10 +9,6 @@ It is meant for additional information/functionality (legend, other layers) or p
 
 _Please note that the average user has never seen the client before and just wants to get done with it, not learn a map client._
 
-### Extension ideas
-
-- Content configurability during mapConfiguration (not on roadmap)
-
 ## Configuration
 
 > ⚠️ This plugin can't be configured with the `mapConfiguration`, but is configured during client construction. Currently, no way exists to add plugins to it after the build took place.

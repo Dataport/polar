@@ -4,10 +4,6 @@
 
 This plugin shows attributions (that is, legal information) regarding copyrights and sources of the currently visible layers.
 
-### Extension ideas
-
-- Offer a mode where attributions are always visible. (Not on roadmap.)
-
 ## Configuration
 
 ### attributions
