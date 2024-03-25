@@ -4,10 +4,6 @@
 
 A generic loading indicator that may be used by any plugin or outside procedure to indicate loading.
 
-### Extension ideas
-
-- More styles (currently not on roadmap)
-
 ## Store
 
 ### Mutations

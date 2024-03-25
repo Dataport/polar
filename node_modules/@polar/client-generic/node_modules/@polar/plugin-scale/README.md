@@ -5,7 +5,3 @@
 ## Scope
 
 The scale plugin shows the current map resolution as relative scale (1:x) and/or absolute scale (a drawn line has length x units).
-
-## Extension ideas
-
-- offer a selection menu to choose a scale from (done im Masterportal)

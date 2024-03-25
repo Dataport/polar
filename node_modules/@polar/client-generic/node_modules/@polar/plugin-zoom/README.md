@@ -4,14 +4,6 @@
 
 The Zoom plugin offers functionality regarding map zooming.
 
-### Extension ideas
-
-- Support zoom sliders https://openlayers.org/en/latest/examples/zoomslider.html
-- Support rectangle zoom (as implemented in POLAR@1 FundstellenDB)
-  - i.e. there's an activatable button and, while active, user may draw a rectangle; rectangle is then zoomed to
-
-These items are currently not on the roadmap.
-
 ## Configuration
 
 The Zoom plugin offers a plus/minus button, and will adjust itself to the map's zoom settings on initialization.  

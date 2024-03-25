@@ -28,45 +28,6 @@
 <blockquote>
 <p>⚠️ The display feature is currently not meant for production. Please use data bindings for display to avoid obstructing the map client.</p>
 </blockquote>
-<h3>Extension ideas</h3>
-<ul>
-<li>
-<p>To ease the currently rather complex WMS GFI parsing, we may send a WMS
-GetCapabilities request during initialization to detect supported formats by
-services. We may then proceed to choose from the offered formats and have the
-parser ready from the get-go. This would also allow for printing error
-messages for unspecified formats during start-up time, and for choosing a
-better format should the first named (and therefore used by default) format be
-unhandy, e.g. be an arbitrary text response.</p>
-</li>
-<li>
-<p>Currently, the specification on how to display a GFI is taken from the
-mapConfiguration object. The Masterportal does support GFI instructions
-specified on the layer definitions within the services.json file itself. That
-specification is documented, but a little more complex, and ignored for now,
-since we're going for a more configurable client – our users will, in general,
-be interested in <em>one specific layer</em>, not any layer that might display GFI.</p>
-<p>However, we may still support that one day by e.g. a configuration parameter
-<code>useServicesDefinition::boolean</code>.</p>
-</li>
-<li>
-<p>Any entry may be a callback rather than an object/definition</p>
-</li>
-<li>
-<p>Display links as <code>&lt;a ...&gt;Click to open&lt;/a&gt;</code></p>
-</li>
-<li>
-<p>Optionally filter to visible layers</p>
-</li>
-<li>
-<p>Reduce features to a single window rather
-than showing each feature individually</p>
-<ul>
-<li>By function parameter</li>
-<li>By definition</li>
-</ul>
-</li>
-</ul>
 <h3>Configuration</h3>
 <h4>gfi</h4>
 <table>
