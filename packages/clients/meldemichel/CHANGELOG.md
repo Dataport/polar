@@ -4,6 +4,10 @@
 
 - Chore: Import newly exposed style paths of `@polar/core` as well as all plugin packages.
 
+## 1.0.0-beta.7
+
+- Fix: Use `@polar/plugins-pins@1.3.1` to fix the map getting dragged along with the pin in some situations.
+
 ## 1.0.0-beta.6
 
 - Feature: Add `@polar/plugin-address-search` and `@polar/plugin-reverse-geocoder` to mode `SINGLE`.

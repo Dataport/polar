@@ -13,6 +13,10 @@ Fix: Revert back to previous dependency modelling.
 - Breaking: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-pins/styles.css`.
 - Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
 
+## 1.3.1
+
+- Fix: The map dragged along with the pin in some situations, rendering the pin effectively immovable. This has been fixed.
+
 ## 1.3.0
 
 - Feature: Pins can now be re-initialized with the `setupInitial` action. This is an advanced feature currently only available when coding clients.
