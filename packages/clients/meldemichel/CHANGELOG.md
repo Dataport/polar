@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.0.0-beta.7
+
+- Fix: Use `@polar/plugins-pins@1.3.1` to fix the map getting dragged along with the pin in some situations.
+
+## 1.0.0-beta.6
+
+- Feature: Add `@polar/plugin-address-search` and `@polar/plugin-reverse-geocoder` to mode `SINGLE`.
+
 ## 1.0.0-beta.5
 
 - Fix: Add missing API.md change. No further changes to previous version.

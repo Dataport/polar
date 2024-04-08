@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.1
+
+- Fix: The map dragged along with the pin in some situations, rendering the pin effectively immovable. This has been fixed.
+
 ## 1.3.0
 
 - Feature: Pins can now be re-initialized with the `setupInitial` action. This is an advanced feature currently only available when coding clients.
