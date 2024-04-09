@@ -1,6 +1,6 @@
 import { wgs84ProjectionCode } from '../common'
 import { geoJson, wellKnownText } from './common'
-import { MakeRequestUrlParameters, RequestPayload } from './types'
+import { MakeRequestBodyParameters, RequestPayload } from './types'
 
 const searchRequestDefaultPayload: Partial<RequestPayload> = {
   searchType: 'like',
@@ -10,12 +10,11 @@ const searchRequestDefaultPayload: Partial<RequestPayload> = {
   type: '-',
 }
 
-export const makeRequestUrl = (
-  url: string,
-  { keyword, page, geometry, ...rest }: Partial<MakeRequestUrlParameters>,
+export const makeRequestBody = (
+  { keyword, page, geometry, ...rest }: Partial<MakeRequestBodyParameters>,
   epsg: string
 ): string =>
-  `${url}?${new URLSearchParams({
+  Object.entries({
     ...searchRequestDefaultPayload,
     keyword: keyword ? `*${keyword}*` : '',
     ...(typeof page !== 'undefined' ? { page } : {}),
@@ -30,4 +29,6 @@ export const makeRequestUrl = (
         }
       : {}),
     ...rest,
-  }).toString()}`
+  })
+    .map(([key, value]) => `${key}=${value}`)
+    .join('&')

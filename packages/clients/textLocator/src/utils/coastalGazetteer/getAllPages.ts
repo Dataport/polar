@@ -1,7 +1,7 @@
 import { CoreState } from '@polar/lib-custom-types'
 import { Store } from 'vuex'
-import { MakeRequestUrlParameters, ResponsePayload } from './types'
-import { makeRequestUrl } from './makeRequestUrl'
+import { MakeRequestBodyParameters, ResponsePayload } from './types'
+import { makeRequestBody } from './makeRequestBody'
 
 const getEmptyResponsePayload = (): ResponsePayload => ({
   count: '',
@@ -26,15 +26,24 @@ const mergeResponses = (
   time: NaN, // not used, setting NaN to indicate it's not the actual time
 })
 
+const fetchParams = {
+  method: 'POST',
+  headers: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+}
+
 export async function getAllPages(
   this: Store<CoreState>,
   signal: AbortSignal,
   url: string,
-  params: Partial<MakeRequestUrlParameters>,
+  params: Partial<MakeRequestBodyParameters>,
   epsg: `EPSG:${string}`
 ): Promise<ResponsePayload> {
-  const response = await fetch(makeRequestUrl(url, params, epsg), {
-    method: 'GET',
+  const response = await fetch(url, {
+    ...fetchParams,
+    body: new TextEncoder().encode(makeRequestBody(params, epsg)),
     signal,
   })
 

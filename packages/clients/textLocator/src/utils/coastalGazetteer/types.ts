@@ -15,7 +15,7 @@ export interface RequestPayload {
   geom?: string
 }
 
-export interface MakeRequestUrlParameters extends RequestPayload {
+export interface MakeRequestBodyParameters extends RequestPayload {
   geometry?: Geometry
 }
 
