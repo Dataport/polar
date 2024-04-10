@@ -1,0 +1,20 @@
+{
+    "name": "@polar/plugin-feature-distance",
+    "version": "1.0.0",
+    "description": "Plugin FeatureDistance",
+    "license": "EUPL-1.2",
+    "type": "module",
+    "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+    "main": "src/index.ts",
+    "files": [
+      "src/**/*",
+      "CHANGELOG.md"
+    ],
+    "peerDependencies": {
+      "vue": "^2.6.14",
+      "vuex": "^3.6.2"
+    },
+    "devDependencies": {
+      "@polar/lib-custom-types": "^1.0.0"
+    }
+  }

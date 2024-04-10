@@ -36,14 +36,14 @@ export const addPlugins = (core) => {
         id: 'layerChooser',
       },
       {
-        plugin: Draw({}),
-        icon: 'fa-pencil',
-        id: 'draw',
-      },
-      {
         plugin: FeatureDistance({}),
         icon: 'fa-pen-ruler',
         id: 'featureDistance',
+      },
+      {
+        plugin: Draw({}),
+        icon: 'fa-pencil',
+        id: 'draw',
       },
       {
         plugin: Zoom({ renderType: 'iconMenu' }),

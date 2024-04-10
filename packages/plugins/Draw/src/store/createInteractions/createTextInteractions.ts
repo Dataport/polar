@@ -26,8 +26,8 @@ export default function (
     style: textStyle,
   })
   draw.on('drawend', function (e) {
-    e.feature.setStyle(textStyle)
-    e.feature.set('text', textInput)
+     e.feature.setStyle(textStyle)
+     e.feature.set('text', textInput)
   })
   // prevent the creation of empty text features
   drawSource.on('addfeature', (event) => {

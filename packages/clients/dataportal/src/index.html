@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dataportal</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate, max-age=0"
+    />
+    <style>
+      /* style just for example page, not directly related to POLAR */
+      :root {
+        --not-quite-white: #f2f3f4;
+        --eigengrau: #16161d;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        width: 100%;
+      }
+
+      body {
+        font-family: sans-serif;
+        padding: 2em;
+        background: var(--not-quite-white);
+        color: var(--eigengrau);
+      }
+
+      h1 {
+        margin-bottom: 0.5em;
+      }
+
+      h2 {
+        margin: 0.5em 0;
+      }
+
+      p {
+        margin: 0.2em 0;
+      }
+
+      #language-switcher {
+        outline: solid black;
+      }
+
+      /* directly related to POLAR - something like this must be
+       * available for map client to render in (see core docs for
+       * more details on requirements) */
+      .polarstern {
+        width: 100vw;
+        max-width: calc(100% + 64px);
+        height: 60vh;
+        position: relative;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        left: -32px;
+        outline: solid var(--eigengrau);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Dataportal Dev</h1>
+    <label id="language-switcher-label">
+      Language in map client:
+      <select id="language-switcher">
+        <option value="en">English</option>
+        <option value="de">German</option>
+      </select>
+    </label>
+    <div id="polarstern" class="polarstern">
+      <noscript>Please use a browser with active JavaScript to use the map client.</noscript>
+    </div>
+    <h2>Example for programmatic information binding</h2>
+    <p>
+      This illustrates which kind of data can be retrieved from the map client.
+    </p>
+    <p>Current distance: <span id="vuex-target-distance"></span><span id="vuex-target-unit"></span></p>
+    <p>Current zoom level: <span id="vuex-target-zoom"></span></p>
+    <p>GFI information: <pre id="vuex-target-gfi"></pre></p>
+    <p>PIN coordinates: <span id="vuex-target-pin-coordinate"></span></p>
+    <p>
+      Address search result:
+      <pre id="vuex-target-address-search-result"></pre>
+    </p>
+    <p>
+      Map export:
+      <image id="vuex-target-export-result"></image>
+    </p>
+    <script type="module" src="./polar-client.ts"></script>
+    <script>
+      // circumvent bundler; exists neither at compile time nor in dev mode
+      document
+        .getElementById('docs-link')
+        .setAttribute('href', './docs/client-snowbox.html')
+    </script>
+  </body>
+</html>
