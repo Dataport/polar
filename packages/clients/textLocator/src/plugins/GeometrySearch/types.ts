@@ -1,5 +1,6 @@
-import { FeatureCollection } from 'geojson'
+import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 import { TitleLocationFrequency } from '../../utils/literatureByToponym'
+import { ResponseGeom, ResponseName } from '../../utils/coastalGazetteer/types'
 
 export type TextLocatorCategories = 'text' | 'toponym'
 
@@ -11,8 +12,18 @@ export interface TreeViewItem {
   type: TextLocatorCategories
 }
 
+export type GeometrySearchFeatureProperties = GeoJsonProperties & {
+  title: string
+  // using only implemented gazetteer's type for now – on extension, this may require a broader type
+  names: ResponseName[]
+  geometries: ResponseGeom[]
+}
+
 export interface GeometrySearchState {
-  featureCollection: FeatureCollection
+  featureCollection: FeatureCollection<
+    Geometry,
+    GeometrySearchFeatureProperties
+  >
   titleLocationFrequency: TitleLocationFrequency
   byCategory: TextLocatorCategories
 }
