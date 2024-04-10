@@ -1,5 +1,3 @@
-// APIs require other names
-/* eslint-disable @typescript-eslint/naming-convention */
 const urlSuffix = {
   lookUpLocationsIndividually: '/lookup/locations_individually',
 }
@@ -24,6 +22,7 @@ export async function searchLiteratureByToponym(
     {
       method: 'POST',
       headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json',
       },
       body: `{"location_names":${JSON.stringify(names)}}`,
