@@ -18,6 +18,7 @@ export const dataportPalette = {
   gold: '#FFD500',
 }
 
+// TODO: May be used later to distinguish multiple geometries to an entry
 export const pastelPalette = [
   '#66c2a5',
   '#fc8d62',
@@ -29,6 +30,7 @@ export const pastelPalette = [
   '#b3b3b3',
 ]
 
+// TODO: Use later for text search result heatmaps
 export const heatPalette = [
   '#fff5f0',
   '#fee2d5',

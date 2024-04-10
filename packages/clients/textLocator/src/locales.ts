@@ -10,9 +10,6 @@ import {
   aerial,
 } from './services'
 
-// Gefundene Orte
-// Gefundene Texte
-
 const locales: LanguageOption[] = [
   {
     type: 'de',
@@ -61,6 +58,7 @@ const locales: LanguageOption[] = [
       },
     },
   },
+  // NOTE: English translation not yet required and may be incomplete
   {
     type: 'en',
     resources: {
