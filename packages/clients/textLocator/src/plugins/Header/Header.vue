@@ -4,14 +4,17 @@
     &nbsp;
     <v-icon x-small color="white">fa-scroll</v-icon>
     <v-icon x-small color="white">fa-magnifying-glass</v-icon>
+    &nbsp; v{{ version }}
   </h1>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import packageJson from '../../../package.json'
 
 export default Vue.extend({
   name: 'TextLocatorHeader',
+  data: () => ({ version: packageJson.version }),
 })
 </script>
 
