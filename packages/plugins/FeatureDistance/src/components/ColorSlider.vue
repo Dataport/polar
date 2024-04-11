@@ -1,6 +1,6 @@
 <template>
   <div class="mb-1">
-    <span class="text--secondary"> {{ $t(title) }} </span>
+    <span class="text--secondary">{{ $t(title) }}</span>
     <div class="d-flex align-center">
       <v-sheet
         class="mr-1"

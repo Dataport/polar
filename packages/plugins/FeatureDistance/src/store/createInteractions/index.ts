@@ -11,7 +11,7 @@ import VectorSource from 'ol/source/Vector'
 export default async function (
   { 
     dispatch, 
-    getters: { mode, lineFeature } 
+    getters: { mode, selectedFeature, measureMode } 
   } : PolarActionContext<FeatureDistanceState, FeatureDistanceGetters>, 
   drawLayer: VectorLayer<VectorSource>
 ): Promise<Interaction[]> {  
@@ -23,24 +23,25 @@ export default async function (
   if (mode === 'draw') {
     const draw = new Draw({
       style: specialStyle,
-      type: 'LineString', 
+      type: measureMode === 'distance' ? 'LineString' : 'Polygon', 
       source: drawSource
     });
   
-    draw.on("drawend", ({feature}) => { dispatch("setLineFeature", feature) })
+    draw.on("drawend", ({feature}) => { dispatch("setSelectedFeature", feature) })
   
     interactions.push(draw);
   } 
   else if (drawSource.getFeatures().length > 0) {
     if (mode === 'edit') {
-      interactions.push(
-        new Modify({
-          source: drawSource,
-          insertVertexCondition: never,
-          deleteCondition: never,
-          style: new Style()
-        })
-      );
+      const modify = new Modify({
+        source: drawSource,
+        insertVertexCondition: never,
+        deleteCondition: never,
+        style: new Style()
+      });
+      
+      modify.on('modifystart', ({features}) => dispatch("setSelectedFeature", features.item(0)))
+      interactions.push(modify);
       styleFunc = specialStyle;
     }
     else if (mode === 'delete') {
@@ -48,15 +49,15 @@ export default async function (
       styleFunc = specialStyle;
     }
     else {
-      const collection = lineFeature ? new Collection([lineFeature]) : undefined;
+      const collection = selectedFeature ? new Collection([selectedFeature]) : undefined;
       const select = new Select({
         layers: [drawLayer],
         features: collection,
         style: specialStyle
       });
     
-      select.getFeatures().on("add", ({element}) => dispatch("setLineFeature", element));
-      select.getFeatures().on("remove", () => dispatch("setLineFeature", null));
+      select.getFeatures().on("add", ({element}) => dispatch("setSelectedFeature", element));
+      select.getFeatures().on("remove", () => dispatch("setSelectedFeature", null));
     
       interactions.push(select);
     }

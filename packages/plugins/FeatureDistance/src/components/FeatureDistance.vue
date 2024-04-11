@@ -30,6 +30,24 @@
           >
             Delete All
           </v-btn>
+          <div
+            v-if="mode === 'draw'"
+            class="d-flex align-center justify-space-between"
+          >
+            <button class="text--secondary" @click="toggleMeasureMode">
+              {{ $t('common:plugins.featureDistance.label.distance') }}
+            </button>
+            <v-switch
+              class="mt-0"
+              color="primary"
+              :value="measureMode === 'area'"
+              hide-details
+              @change="setMeasureMode(measure($event))"
+            ></v-switch>
+            <button class="text--secondary" @click="toggleMeasureMode">
+              {{ $t('common:plugins.featureDistance.label.area') }}
+            </button>
+          </div>
         </ExpansionPanel>
         <ExpansionPanel
           id="unit"
@@ -106,6 +124,8 @@ export default Vue.extend({
     ...mapGetters('plugin/featureDistance', [
       'mode',
       'selectableModes',
+      'measureMode',
+      'selectableMeasureMode',
       'unit',
       'selectableUnits',
       'color',
@@ -122,11 +142,18 @@ export default Vue.extend({
   methods: {
     ...mapActions('plugin/featureDistance', [
       'setMode',
+      'setMeasureMode',
       'setUnit',
       'setLineColor',
       'setTextColor',
       'clearLayer',
     ]),
+    measure(value: boolean): string {
+      return value ? 'area' : 'distance'
+    },
+    toggleMeasureMode() {
+      this.setMeasureMode(this.measureMode === 'distance' ? 'area' : 'distance')
+    },
   },
 })
 </script>

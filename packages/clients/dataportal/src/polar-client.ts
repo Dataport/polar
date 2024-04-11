@@ -18,8 +18,8 @@ const createMap = (layerConf) => {
     .then(
       addStoreSubscriptions(
         ['plugin/zoom/zoomLevel', 'vuex-target-zoom'],
-        ['plugin/featureDistance/length', 'vuex-target-distance'],
-        ['plugin/featureDistance/unit', 'vuex-target-unit'],
+        ['plugin/featureDistance/measure', 'vuex-target-distance'],
+        ['plugin/featureDistance/selectedUnit', 'vuex-target-unit'],
         [
           'plugin/gfi/featureInformation',
           'vuex-target-gfi',

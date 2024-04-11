@@ -20,6 +20,8 @@ const language: LanguageOption[] = [
             label: {
               line: 'Linie',
               text: 'Text',
+              distance: 'Entfernung',
+              area: 'Fläche',
               buttons: {
                 deletaAll: 'Alle löschen',
                 setColor: 'Setze {{ title }}-Farbe'
@@ -48,6 +50,8 @@ const language: LanguageOption[] = [
             label: {
               line: 'Line',
               text: 'Text',
+              distance: 'Distance',
+              area: 'Area',
               buttons: {
                 deletaAll: 'Delete all',
                 setColor: 'Set {{ title }}-Color'

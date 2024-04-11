@@ -1,5 +1,5 @@
 import { PolarActionTree } from '@polar/lib-custom-types'
-import { FeatureDistanceGetters, FeatureDistanceState, Mode, Unit, Color } from '../types'
+import { FeatureDistanceGetters, FeatureDistanceState, Mode, Unit, Color, MeasureMode } from '../types'
 import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector';
 import { Interaction } from 'ol/interaction'
@@ -33,14 +33,19 @@ export const makeActions = () => {
             commit('setMode', mode);
             dispatch('updateInteractions');
         },
+        setMeasureMode({ commit, dispatch }, measureMode) {
+            commit('setMeasureMode', measureMode);
+            dispatch('updateInteractions');
+        },
         setUnit({ commit, dispatch }, unit: Unit) {
             commit('setUnit', unit);
             dispatch('updateInteractions');
         },
-        setLineFeature({ commit }, feature: Feature | null) {
-            commit('setLineFeature', feature);
-            commit('setLine');
-            commit('setLength');
+        setSelectedFeature({ commit }, feature: Feature | null) {
+            commit('setSelectedFeature', feature);
+            commit('setGeometry');
+            commit('setSelectedUnit');
+            commit('setMeasure');
         },
         clearLayer() {
             drawSource.clear();

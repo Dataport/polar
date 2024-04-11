@@ -1,94 +1,65 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { FeatureDistanceGetters, FeatureDistanceState, Mode } from '../../types'
-import { Text, Fill, Stroke, Circle, Style } from 'ol/style'
-import { LineString,  Point } from 'ol/geom'
-import createDrawStyle from './createDrawStyle'
-import createDeleteStyle from './createDeleteStyle'
-import createModifyStyle from './createModifyStyle'
-import createSelectStyle from './createSelectStyle'
+import { FeatureDistanceGetters, FeatureDistanceState, Mode, StyleParameter } from '../../types'
+import { LineString,  MultiPoint,  Polygon } from 'ol/geom'
+import { Coordinate } from 'ol/coordinate'
+import createStyle from './createStyle'
 
 
 export default function (
   { commit, getters }: PolarActionContext<FeatureDistanceState, FeatureDistanceGetters>,
   styleType: Mode | undefined
 ): Function {
-  const {r, g, b} = getters.color;
-  const textColor = getters.textColor;
-  const pointStyle = new Style({
-    image: new Circle({
-      radius: 3,
-      stroke: new Stroke({
-        color: [r, g, b, 1.0],
-        width: 1
-      }),
-      fill: new Fill({
-        color: [r, g, b, 0.4]
-      })
-    }),
-  });
-  
-  const lineStyle = new Style({
-    stroke: new Stroke({
-      color: [r, g, b, 0.8],
-      width: 3
-    }),
-    text: new Text({
-      font: 'bold 10px cursive',
-      placement: 'line',
-      fill: new Fill({
-        color: [textColor.r, textColor.g, textColor.b, 0.8]
-      }),
-      stroke: new Stroke({
-        color: [r, g, b, 0.8]
-      }),
-      offsetY: -5,
-    })
-  });
-  let style: Style[] = [pointStyle, lineStyle];
-  
+  const parameter: StyleParameter = {color: getters.color, text: getters.textColor, opacity: 0.8, lineWidth: 3, pointWidth: 3};
+
   if (styleType === 'draw') {
-    style = createDrawStyle(getters.color, textColor);
+    parameter.opacity = 0.5;
+    parameter.pointWidth = 4;
   } else if (styleType === 'edit') {
-    style = createModifyStyle(getters.color, textColor);
+    parameter.pointWidth = 5;
   } else if (styleType === 'delete') {
-    style = createDeleteStyle(getters.color, textColor);
+    parameter.lineWidth = 4;
+    parameter.pointWidth = 5;
   } else if (styleType === 'select') {
-    style = createSelectStyle(getters.color, textColor);
+    parameter.opacity = 1;
+    parameter.lineWidth = 5;
+    parameter.pointWidth = 5;
   }
   
-  const pointstyle = style[0];
-  const linestyle = style[1];
+  const style = createStyle(parameter);
+  const polygonStyle = style[0];
+  const lineStyle = style[1];
+  const pointStyle = style[2];
 
   const styleFunc = function (feature) {
-    const styles: Style[] = [];
-    if (feature.getGeometry().getType() === 'Point') {
-      const dot = feature.getGeometry() as Point;
-      const dotStyle = pointstyle.clone();
-      dotStyle.setGeometry(dot);
-      styles.push(dotStyle);
+    const styles = [polygonStyle, pointStyle];
+    const geom = feature.getGeometry() as Polygon | LineString;
+
+    if (geom.getType() !== 'LineString' && geom.getType() !== 'Polygon') {
+      return styles;
     }
-    else {
-    const line = feature.getGeometry() as LineString;
-    line.forEachSegment((c1, c2) => {
-      const segment = new LineString([c1, c2]);
-      const length = getters.getRoundedLength(segment);
-      const text = length + getters.unit;
-      const segmentstyle = linestyle.clone();
-      segmentstyle.getText().setText(text);
-      segmentstyle.setGeometry(segment);
-      const point = new Point(c1);
-      const c1style = pointstyle.clone();
-      c1style.setGeometry(point);
-      styles.splice(styles.length, 0, segmentstyle, c1style)
-      if (c2.toString() === line.getLastCoordinate().toString()) {
-        const endpoint = new Point(c2);
-        const c2style = pointstyle.clone();
-        c2style.setGeometry(endpoint);
-        styles.push(c2style);
-      }
-    })
-    line.set("length", getters.getRoundedLength(line))
-    if (feature === getters.lineFeature) { commit("setLength") }}
+
+    let coordinates: Coordinate[] = geom.getType() === 'Polygon' ? 
+    (geom as Polygon).getCoordinates()[0] : 
+    (geom as LineString).getCoordinates();
+
+    const points = new MultiPoint(coordinates);
+    const ps = pointStyle.clone();
+    ps.setGeometry(points);
+    styles.push(ps);
+
+    for (let i = 1; i < coordinates.length; i++) {
+      const l = new LineString([coordinates[i- 1], coordinates[i]]);
+      const s = lineStyle.clone();
+      s.setGeometry(l);
+      const value = getters.getRoundedMeasure(l);
+      const text = value + getters.unit;
+      s.getText().setText(text);
+      styles.push(s);
+    }
+
+    geom.set("measure", getters.getRoundedMeasure(geom))
+    if (feature === getters.selectedFeature) { commit("setMeasure") }
+    
     return styles;
   }
   return styleFunc

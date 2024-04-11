@@ -3,15 +3,17 @@ import { generateSimpleGetters, generateSimpleMutations } from '@repositoryname/
 import { FeatureDistanceGetters, FeatureDistanceState } from '../types'
 import { makeActions } from './actions'
 
-import { LineString } from 'ol/geom';
-import { getLength } from 'ol/sphere';
+import { getLength, getArea } from 'ol/sphere';
+import { LineString, Polygon } from 'ol/geom';
 
 const getInitialState = (): FeatureDistanceState => ({
-  mode: 'select',
+  mode: 'draw',
   unit: 'm',
-  lineFeature: null,
-  line: null,
-  length: null,
+  measureMode : 'distance',
+  selectedFeature: null,
+  selectedUnit: null,
+  geometry: null,
+  measure: null,
   color: {r: 0, g: 204, b: 204},
   textColor: {r: 0, g: 0, b: 0},
   active: true
@@ -32,27 +34,46 @@ export const makeStoreModule = () => {
           delete: 'common:plugins.featureDistance.mode.delete',
         }
       },
-      selectableUnits() {
+      selectableMeasureModes() {
         return {
-          m: 'm',
-          km: 'km'
+          distance: 'common:plugins.featureDistance.mode.select',
+          area: 'common:plugins.featureDistance.mode.draw',
         }
       },
-      getRoundedLength: ({ unit }) => (geometry: LineString) => {
+      selectableUnits() {
+        return {
+          m: 'm / m²',
+          km: 'km / km²'
+        }
+      },
+      getRoundedMeasure: ({ unit }) => (geometry: LineString | Polygon) => {
         let factor = 1;
         if (unit === 'km') {
           factor = 1000;
         }
-        return Math.round((getLength(geometry) / factor) * 100) / 100;
+        const value = geometry.getType() === 'Polygon'? getArea(geometry): getLength(geometry);
+        return Math.round((value / factor) * 100) / 100;
       },
     },
     mutations: {...generateSimpleMutations(getInitialState()),
-      setLine: (state) => {
-        state.line = state.lineFeature ? state.lineFeature.getGeometry() as LineString : null;
+      setGeometry: (state) => {
+        state.geometry = state.selectedFeature ? 
+        state.selectedFeature.getGeometry() as LineString | Polygon : 
+        null;
       },
-      setLength: (state) => {
-        state.length = state.line?.get("length") ? state.line?.get("length") : null;
+      setMeasure: (state) => {
+        state.measure = state.geometry?.get("measure") ? state.geometry?.get("measure") : null;
       },
+      setSelectedUnit: (state) => {
+        if (state.geometry) {
+          state.selectedUnit = state.geometry?.getType() === 'Polygon' 
+          ? state.unit + '²' 
+          :  state.unit;
+        }
+        else {
+          state.selectedUnit = null;
+        }
+      }
     },
   }
 
