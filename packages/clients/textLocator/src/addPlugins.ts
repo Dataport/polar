@@ -12,6 +12,7 @@ import Zoom from '@polar/plugin-zoom'
 
 import Header from './plugins/Header'
 import GeometrySearch from './plugins/GeometrySearch'
+import ResultInfo from './components/ResultInfo.vue'
 import {
   searchCoastalGazetteerByToponym,
   selectResult,
@@ -42,6 +43,7 @@ export const addPlugins = (core) => {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         '': selectResult,
       },
+      afterResultComponent: ResultInfo,
     }),
     Draw({
       selectableDrawModes: ['Point', 'Polygon'],

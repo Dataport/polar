@@ -27,6 +27,12 @@ const locales: LanguageOption[] = [
         },
         addressSearch: {
           unnamed: 'Unbenannt',
+          resultInfo: {
+            name: 'Name',
+            type: 'Typ',
+            language: 'Sprache',
+            timeFrame: 'Zeitraum',
+          },
         },
         attributions: {
           [openStreetMap]: `$t(textLocator.layers.${openStreetMap}): © <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a> contributors`,

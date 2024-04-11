@@ -5,6 +5,7 @@ import {
   PolarGetterTree,
   SearchMethodConfiguration,
 } from '@polar/lib-custom-types'
+import Vue from 'vue'
 import SearchResults from '../utils/searchResultSymbols'
 import {
   AddressSearchGetters,
@@ -60,6 +61,9 @@ const getters: PolarGetterTree<AddressSearchState, AddressSearchGetters> = {
       ...defaultConfiguration,
       ...(rootGetters.configuration?.addressSearch || {}),
     }
+  },
+  afterResultComponent(_, { addressSearchConfiguration }): Vue | null {
+    return addressSearchConfiguration.afterResultComponent || null
   },
   minLength(_, { addressSearchConfiguration }) {
     return addressSearchConfiguration.minLength
