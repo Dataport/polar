@@ -44,8 +44,10 @@ const locales: LanguageOption[] = [
           [wmtsTopplusOpenLightGrey]: `$t(textLocator.layers.${wmtsTopplusOpenLightGrey}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
           [aerial]:
             '© Europäische Union, enthält veränderte Copernicus Sentinel-Daten ({{YEAR}})',
+          kuestengazetteer:
+            '<br>Zur Ortssuche wird der <a href="https://projekt.mdi-de.org/kuesten-gazetteer/" target="_blank">Küstengazetteer</a> eingesetzt.',
           static:
-            '<br><a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md">Impressum</a>',
+            '<a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" target="_blank">Impressum</a>',
         },
         info: {
           noLiteratureFound: 'Es wurden keine Texte zu diesen Orten gefunden.',

@@ -98,7 +98,10 @@ export const addPlugins = (core) => {
         id,
         title: `textLocator.attributions.${id}`,
       })),
-      staticAttributions: ['textLocator.attributions.static'],
+      staticAttributions: [
+        'textLocator.attributions.kuestengazetteer',
+        'textLocator.attributions.static',
+      ],
     }),
     Legend({
       displayComponent: true,
