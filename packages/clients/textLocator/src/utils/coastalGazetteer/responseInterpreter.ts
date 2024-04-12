@@ -1,8 +1,15 @@
 import { Feature, FeatureCollection } from 'geojson'
 import levenshtein from 'js-levenshtein'
+import { MultiPolygon } from 'ol/geom'
 import { wgs84ProjectionCode } from '../common'
-import { ResponseName, ResponsePayload, ResponseResult } from './types'
+import {
+  ResponseGeom,
+  ResponseName,
+  ResponsePayload,
+  ResponseResult,
+} from './types'
 import { geoJson, idPrefixes, wellKnownText } from './common'
+import { getPrimaryName } from './getPrimaryName'
 
 // arbitrary sort based on input – prefer 1. startsWith 2. closer string
 const sorter =
@@ -24,23 +31,39 @@ export const getEmptyFeatureCollection = (): FeatureCollection => ({
   features: [],
 })
 
+// for now: merge all geometries, independent of their timeframe
+const geoJsonifyAllGeometries = (
+  geoms: ResponseGeom[],
+  epsg: `EPSG:${string}`
+) =>
+  geoJson.writeGeometryObject(
+    geoms.reduce(
+      (multiPolygon, currentGeom) =>
+        (
+          wellKnownText.readGeometry(currentGeom.WKT, {
+            dataProjection: wgs84ProjectionCode,
+            featureProjection: epsg,
+          }) as MultiPolygon
+        )
+          .getPolygons()
+          .reduce((accumulator, currentPolygon) => {
+            accumulator.appendPolygon(currentPolygon)
+            return accumulator
+          }, multiPolygon),
+      new MultiPolygon([])
+    )
+  )
+
 const featurify =
   (epsg: `EPSG:${string}`, searchPhrase: string | null) =>
   (feature: ResponseResult): Feature | null => {
-    const title =
-      (searchPhrase
-        ? feature.names.sort(sorter(searchPhrase, 'Name'))
-        : feature.names)[0]?.Name || 'textLocator.addressSearch.unnamed'
+    const title = searchPhrase
+      ? feature.names.sort(sorter(searchPhrase, 'Name'))[0]?.Name || '???'
+      : getPrimaryName(feature.names)
     return {
       type: 'Feature',
       geometry: feature.geoms.length
-        ? geoJson.writeGeometryObject(
-            // NOTE arbitrarily, the first geometry is used
-            wellKnownText.readGeometry(feature.geoms[0].WKT, {
-              dataProjection: wgs84ProjectionCode,
-              featureProjection: epsg,
-            })
-          )
+        ? geoJsonifyAllGeometries(feature.geoms, epsg)
         : { type: 'Point', coordinates: [] },
       id: feature.id,
       properties: {

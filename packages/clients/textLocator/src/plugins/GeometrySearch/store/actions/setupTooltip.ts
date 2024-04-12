@@ -1,6 +1,7 @@
 import { Tooltip, getTooltip } from '@polar/lib-tooltip'
 import { Feature, Overlay } from 'ol'
 import { vectorLayer } from '../../utils/vectorDisplay'
+import { getPrimaryName } from '../../../../utils/coastalGazetteer/getPrimaryName'
 
 const localeKeys: [string, string][] = [
   ['h2', 'plugins.geometrySearch.tooltip.title'],
@@ -29,15 +30,7 @@ export function setupTooltip({ rootGetters: { map } }) {
           hasFeatureAtPixel = true
           overlay.setPosition(map.getCoordinateFromPixel(pixel))
         }
-        listEntries.push(
-          `<li>${
-            feature
-              .get('names')
-              .filter((name) => name.Typ === 'Primärer Name')
-              .map((name) => `${name.Name}`)
-              .join(', ') || `${feature.get('names')[0]?.Name || '???'}`
-          }</li>`
-        )
+        listEntries.push(`<li>${getPrimaryName(feature.get('names'))}</li>`)
       },
       {
         layerFilter: (layer) => layer === vectorLayer,

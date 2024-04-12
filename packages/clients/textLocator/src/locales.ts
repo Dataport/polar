@@ -28,7 +28,6 @@ const locales: LanguageOption[] = [
           [aerial]: 'Luftbilder Sen2Europe',
         },
         addressSearch: {
-          unnamed: 'Unbenannt',
           resultInfo: {
             name: 'Name',
             type: 'Typ',
