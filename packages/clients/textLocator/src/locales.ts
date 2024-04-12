@@ -15,6 +15,8 @@ const locales: LanguageOption[] = [
     type: 'de',
     resources: {
       textLocator: {
+        // TODO temporary key, should be removed when no longer needed
+        notImplemented: 'Diese Funktion ist noch nicht implementiert.',
         layers: {
           [openStreetMap]: 'OpenStreetMap',
           [openSeaMap]: 'OpenSeaMap',

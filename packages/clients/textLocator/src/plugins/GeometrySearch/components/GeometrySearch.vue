@@ -122,6 +122,25 @@
             </template>
             <span>{{ $t('plugins.geometrySearch.tooltip.focusSearch') }}</span>
           </v-tooltip>
+          <v-tooltip v-if="item.type === 'text'" left>
+            <template #activator="{ on, attrs }">
+              <v-btn
+                :aria-label="$t('plugins.geometrySearch.tooltip.textSearch')"
+                color="secondary"
+                icon
+                fab
+                x-small
+                dark
+                v-bind="attrs"
+                v-on="on"
+                @click="fullSearchLiterature()"
+                @keypress="fullSearchLiterature()"
+              >
+                <v-icon>fa-magnifying-glass-arrow-right</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ $t('plugins.geometrySearch.tooltip.textSearch') }}</span>
+          </v-tooltip>
         </template>
       </v-treeview>
       <v-card-text v-else>
@@ -170,6 +189,7 @@ export default Vue.extend({
     ...mapActions('plugin/geometrySearch', [
       'changeActiveData',
       'fullSearchOnToponym',
+      'fullSearchLiterature',
     ]),
     ...mapMutations('plugin/geometrySearch', ['setByCategory']),
   },

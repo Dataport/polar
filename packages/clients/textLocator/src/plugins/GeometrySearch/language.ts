@@ -30,6 +30,7 @@ const language: LanguageOption[] = [
               heat: 'Auf Funde zoomen und nach Relevanz färben',
             },
             focusSearch: 'Neue Suche nach allen Geometrien zu dieser Geometrie',
+            textSearch: 'Suche nach allen Geometrien zu diesem Text',
           },
           results: {
             title: 'Funde',

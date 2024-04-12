@@ -93,6 +93,17 @@ export const makeStoreModule = () => {
         )
         dispatch('searchGeometry', geoJson.readFeature(feature))
       },
+      fullSearchLiterature({ dispatch }) {
+        dispatch(
+          'plugin/toast/addToast',
+          {
+            type: 'info',
+            text: 'common:textLocator.notImplemented',
+            timeout: 5000,
+          },
+          { root: true }
+        )
+      },
     },
     mutations: {
       ...generateSimpleMutations(getInitialState()),
