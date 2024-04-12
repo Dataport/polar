@@ -31,6 +31,16 @@ const language: LanguageOption[] = [
             },
             focusSearch: 'Neue Suche nach allen Geometrien zu dieser Geometrie',
             textSearch: 'Suche nach allen Geometrien zu diesem Text',
+            badge: {
+              textToToponym:
+                'Anzahl der Ortsnennungen zu den aktuell angezeigten Geometrien in diesem Text',
+              toponymInText:
+                'Anzahl der Funde dieses Ortes im aktuell geöffneten Text',
+              toponymToText:
+                'Anzahl der Ortsnennungen dieses Ortes über alle aktuell betrachteten Texte',
+              textInToponym:
+                'Anzahl der Funde des aktuellen geöffneten Ortes in diesem Text',
+            },
           },
           results: {
             title: 'Funde',

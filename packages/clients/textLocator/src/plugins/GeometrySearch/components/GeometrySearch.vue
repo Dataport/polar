@@ -56,13 +56,27 @@
         :items="treeViewItems"
       >
         <template #label="{ item }">
-          <v-badge
-            color="info"
-            inline
-            left
-            :content="item.count"
-            class="text-locator-result-badge"
-          >
+          <v-badge color="info" inline left class="text-locator-result-badge">
+            <template #badge>
+              <v-tooltip left>
+                <template #activator="{ on }">
+                  <span v-on="on">{{ item.count }}</span>
+                </template>
+                <span>{{
+                  $t(
+                    `plugins.geometrySearch.tooltip.badge.${
+                      item.type === 'toponym' && item.children
+                        ? 'toponymToText'
+                        : item.type === 'toponym' && !item.children
+                        ? 'toponymInText'
+                        : item.children
+                        ? 'textToToponym'
+                        : 'textInToponym'
+                    }`
+                  )
+                }}</span>
+              </v-tooltip>
+            </template>
             {{ item.name }}
           </v-badge>
         </template>
