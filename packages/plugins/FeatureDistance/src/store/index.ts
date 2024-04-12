@@ -3,7 +3,6 @@ import { generateSimpleGetters, generateSimpleMutations } from '@repositoryname/
 import { FeatureDistanceGetters, FeatureDistanceState } from '../types'
 import { makeActions } from './actions'
 
-import { getLength, getArea } from 'ol/sphere';
 import { LineString, Polygon } from 'ol/geom';
 
 const getInitialState = (): FeatureDistanceState => ({
@@ -46,12 +45,16 @@ export const makeStoreModule = () => {
           km: 'km / km²'
         }
       },
-      getRoundedMeasure: ({ unit }) => (geometry: LineString | Polygon) => {
+      getRoundedMeasure: ({ unit }, _, __, { map }) => (geometry: LineString | Polygon) => {
         let factor = 1;
         if (unit === 'km') {
           factor = 1000;
         }
-        const value = geometry.getType() === 'Polygon'? getArea(geometry): getLength(geometry);
+
+        //const value = geometry.getType() === 'Polygon'? getArea(geometry): getLength(geometry);
+        const value = geometry.getType() === 'Polygon' ? 
+        (geometry as Polygon).getArea() 
+        : (geometry as LineString).getLength();
         return Math.round((value / factor) * 100) / 100;
       },
     },
