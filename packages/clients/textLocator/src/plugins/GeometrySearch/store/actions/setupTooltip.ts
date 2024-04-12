@@ -2,6 +2,10 @@ import { Tooltip, getTooltip } from '@polar/lib-tooltip'
 import { Feature, Overlay } from 'ol'
 import { vectorLayer } from '../../utils/vectorDisplay'
 
+const localeKeys: [string, string][] = [
+  ['h2', 'plugins.geometrySearch.tooltip.title'],
+]
+
 export function setupTooltip({ rootGetters: { map } }) {
   let element: Tooltip['element'], unregister: Tooltip['unregister']
   const overlay = new Overlay({
@@ -14,10 +18,7 @@ export function setupTooltip({ rootGetters: { map } }) {
       return
     }
     let hasFeatureAtPixel = false
-    const localeKeys: [string, string][] = [
-      ['h2', 'plugins.geometrySearch.tooltip.title'],
-    ]
-    // TODO do not list every name separately,
+    const listEntries: string[] = []
     map.forEachFeatureAtPixel(
       pixel,
       (feature) => {
@@ -28,13 +29,15 @@ export function setupTooltip({ rootGetters: { map } }) {
           hasFeatureAtPixel = true
           overlay.setPosition(map.getCoordinateFromPixel(pixel))
         }
-        localeKeys.push([
-          'ul',
-          feature
-            .get('names')
-            .map((name) => `<li>${name.Name}</li>`)
-            .join(''),
-        ])
+        listEntries.push(
+          `<li>${
+            feature
+              .get('names')
+              .filter((name) => name.Typ === 'Primärer Name')
+              .map((name) => `${name.Name}`)
+              .join(', ') || `${feature.get('names')[0]?.Name || '???'}`
+          }</li>`
+        )
       },
       {
         layerFilter: (layer) => layer === vectorLayer,
@@ -44,7 +47,9 @@ export function setupTooltip({ rootGetters: { map } }) {
       overlay.setPosition(undefined)
     } else {
       unregister?.()
-      ;({ element, unregister } = getTooltip({ localeKeys }))
+      ;({ element, unregister } = getTooltip({
+        localeKeys: [...localeKeys, ['ul', listEntries.join('')]],
+      }))
       overlay.setElement(element)
       return true
     }
