@@ -1,12 +1,12 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { FeatureDistanceGetters, FeatureDistanceState, Mode, StyleParameter } from '../../types'
+import { MeasureGetters, MeasureState, Mode, StyleParameter } from '../../types'
 import { LineString,  MultiPoint,  Polygon } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
 import createStyle from './createStyle'
 
 
 export default function (
-  { commit, getters }: PolarActionContext<FeatureDistanceState, FeatureDistanceGetters>,
+  { commit, getters }: PolarActionContext<MeasureState, MeasureGetters>,
   styleType: Mode | undefined
 ): Function {
   const parameter: StyleParameter = {color: getters.color, text: getters.textColor, opacity: 0.8, lineWidth: 3, pointWidth: 3};

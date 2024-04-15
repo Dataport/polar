@@ -5,7 +5,7 @@ const language: LanguageOption[] = [
       type: 'de',
       resources: {
         plugins: {
-          featureDistance: {
+          measure: {
             mode: {
               select: 'Auswählen',
               draw: 'Zeichnen',
@@ -35,7 +35,7 @@ const language: LanguageOption[] = [
       type: 'en',
       resources: {
         plugins: {
-          featureDistance: {
+          measure: {
             mode: {
               select: 'Select',
               draw: 'Draw',

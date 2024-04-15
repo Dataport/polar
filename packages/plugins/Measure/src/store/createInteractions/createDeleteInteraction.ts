@@ -4,10 +4,10 @@ import {never, singleClick} from 'ol/events/condition'
 import { LineString, Point, Polygon } from 'ol/geom'
 import { Feature } from 'ol'
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { FeatureDistanceGetters, FeatureDistanceState } from '../../types'
+import { MeasureGetters, MeasureState } from '../../types'
 
 export default function (
-  { dispatch, commit, getters: { selectedFeature } }: PolarActionContext<FeatureDistanceState, FeatureDistanceGetters>, 
+  { dispatch, commit, getters: { selectedFeature } }: PolarActionContext<MeasureState, MeasureGetters>, 
   {drawSource, drawLayer})
   : Interaction[] {
     

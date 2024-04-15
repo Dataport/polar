@@ -1,12 +1,13 @@
 import { PolarModule } from '@polar/lib-custom-types'
 import { generateSimpleGetters, generateSimpleMutations } from '@repositoryname/vuex-generators'
-import { FeatureDistanceGetters, FeatureDistanceState } from '../types'
+import { MeasureGetters, MeasureState } from '../types'
 import { makeActions } from './actions'
 
 import { LineString, Polygon } from 'ol/geom';
+import {getArea, getLength} from "ol/sphere";
 
-const getInitialState = (): FeatureDistanceState => ({
-  mode: 'draw',
+const getInitialState = (): MeasureState => ({
+  mode: 'select',
   unit: 'm',
   measureMode : 'distance',
   selectedFeature: null,
@@ -19,7 +20,7 @@ const getInitialState = (): FeatureDistanceState => ({
 })
 
 export const makeStoreModule = () => {
-  const storeModule: PolarModule<FeatureDistanceState, FeatureDistanceGetters> = {
+  const storeModule: PolarModule<MeasureState, MeasureGetters> = {
     namespaced: true,
     state: getInitialState(),
     actions: makeActions(),
@@ -27,16 +28,16 @@ export const makeStoreModule = () => {
       ...generateSimpleGetters(getInitialState()),
       selectableModes() {
         return {
-          select: 'common:plugins.featureDistance.mode.select',
-          draw: 'common:plugins.featureDistance.mode.draw',
-          edit: 'common:plugins.featureDistance.mode.edit',
-          delete: 'common:plugins.featureDistance.mode.delete',
+          select: 'common:plugins.measure.mode.select',
+          draw: 'common:plugins.measure.mode.draw',
+          edit: 'common:plugins.measure.mode.edit',
+          delete: 'common:plugins.measure.mode.delete',
         }
       },
       selectableMeasureModes() {
         return {
-          distance: 'common:plugins.featureDistance.mode.select',
-          area: 'common:plugins.featureDistance.mode.draw',
+          distance: 'common:plugins.measure.mode.select',
+          area: 'common:plugins.measure.mode.draw',
         }
       },
       selectableUnits() {
@@ -50,11 +51,11 @@ export const makeStoreModule = () => {
         if (unit === 'km') {
           factor = 1000;
         }
-
-        //const value = geometry.getType() === 'Polygon'? getArea(geometry): getLength(geometry);
+        
+        const projection = map.getView().getProjection();
         const value = geometry.getType() === 'Polygon' ? 
-        (geometry as Polygon).getArea() 
-        : (geometry as LineString).getLength();
+        getArea(geometry, { projection }) 
+        : getLength(geometry, { projection });
         return Math.round((value / factor) * 100) / 100;
       },
     },

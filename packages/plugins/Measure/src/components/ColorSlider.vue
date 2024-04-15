@@ -49,7 +49,7 @@
       @click="changeCallback({ r, g, b })"
     >
       {{
-        $t('common:plugins.featureDistance.label.buttons.setColor', {
+        $t('common:plugins.measure.label.buttons.setColor', {
           title: $t(title),
         })
       }}

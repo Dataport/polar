@@ -16,7 +16,7 @@
     "@polar/plugin-attributions": "*",
     "@polar/plugin-draw": "*",
     "@polar/plugin-export": "*",
-    "@polar/plugin-feature-distance": "*",
+    "@polar/plugin-measure": "*",
     "@polar/plugin-fullscreen": "*",
     "@polar/plugin-geo-location": "*",
     "@polar/plugin-gfi": "*",

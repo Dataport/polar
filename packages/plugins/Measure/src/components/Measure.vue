@@ -4,7 +4,7 @@
       <v-expansion-panels accordion flat tile multiple>
         <ExpansionPanel
           id="mode"
-          title="common:plugins.featureDistance.title.mode"
+          title="common:plugins.measure.title.mode"
         >
           <v-radio-group
             dense
@@ -35,7 +35,7 @@
             class="d-flex align-center justify-space-between"
           >
             <button class="text--secondary" @click="toggleMeasureMode">
-              {{ $t('common:plugins.featureDistance.label.distance') }}
+              {{ $t('common:plugins.measure.label.distance') }}
             </button>
             <v-switch
               class="mt-0"
@@ -45,13 +45,13 @@
               @change="setMeasureMode(measure($event))"
             ></v-switch>
             <button class="text--secondary" @click="toggleMeasureMode">
-              {{ $t('common:plugins.featureDistance.label.area') }}
+              {{ $t('common:plugins.measure.label.area') }}
             </button>
           </div>
         </ExpansionPanel>
         <ExpansionPanel
           id="unit"
-          title="common:plugins.featureDistance.title.unit"
+          title="common:plugins.measure.title.unit"
         >
           <v-radio-group
             dense
@@ -69,7 +69,7 @@
         </ExpansionPanel>
         <ExpansionPanel
           id="color"
-          title="common:plugins.featureDistance.title.color"
+          title="common:plugins.measure.title.color"
         >
           <span
             class="d-block text-center"
@@ -78,7 +78,7 @@
               'font-size': `15px`,
               'text-shadow': `rgb(${rgbColor}) 0 0 3px`,
             }"
-            >{{ $t('common:plugins.featureDistance.label.text') }}</span
+            >{{ $t('common:plugins.measure.label.text') }}</span
           >
           <div
             :style="{
@@ -88,7 +88,7 @@
           ></div>
           <ColorSlider
             id="lineColor"
-            title="common:plugins.featureDistance.label.line"
+            title="common:plugins.measure.label.line"
             :initial-r="color.r"
             :initial-g="color.g"
             :initial-b="color.b"
@@ -96,7 +96,7 @@
           ></ColorSlider>
           <ColorSlider
             id="textColor"
-            title="common:plugins.featureDistance.label.text"
+            title="common:plugins.measure.label.text"
             :initial-r="textColor.r"
             :initial-g="textColor.g"
             :initial-b="textColor.b"
@@ -115,13 +115,13 @@ import ColorSlider from './ColorSlider.vue'
 import ExpansionPanel from './ExpansionPanel.vue'
 
 export default Vue.extend({
-  name: 'FeatureDistance',
+  name: 'Measure',
   components: {
     ColorSlider,
     ExpansionPanel,
   },
   computed: {
-    ...mapGetters('plugin/featureDistance', [
+    ...mapGetters('plugin/measure', [
       'mode',
       'selectableModes',
       'measureMode',
@@ -140,7 +140,7 @@ export default Vue.extend({
   },
   watch: {},
   methods: {
-    ...mapActions('plugin/featureDistance', [
+    ...mapActions('plugin/measure', [
       'setMode',
       'setMeasureMode',
       'setUnit',

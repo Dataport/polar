@@ -14,7 +14,7 @@ export type Unit = 'm' | 'km'
 
 export type MeasureMode = 'distance' | 'area'
 
-export interface FeatureDistanceState {
+export interface MeasureState {
     mode: Mode,
     unit: Unit,
     measureMode: MeasureMode,
@@ -28,7 +28,7 @@ export interface FeatureDistanceState {
 }
 
 
-export interface FeatureDistanceGetters extends FeatureDistanceState {
+export interface MeasureGetters extends MeasureState {
     getRoundedMeasure: Function,
     selectableModes: Mode[],
     selectableUnits: Unit[]

@@ -1,5 +1,5 @@
 import { PolarActionTree } from '@polar/lib-custom-types'
-import { FeatureDistanceGetters, FeatureDistanceState, Mode, Unit, Color, MeasureMode } from '../types'
+import { MeasureGetters, MeasureState, Mode, Unit, Color, MeasureMode } from '../types'
 import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector';
 import { Interaction } from 'ol/interaction'
@@ -13,7 +13,7 @@ export const makeActions = () => {
     const drawSource = new VectorSource()
     let drawLayer = new VectorLayer({source: drawSource})
   
-    const actions: PolarActionTree<FeatureDistanceState, FeatureDistanceGetters> = {
+    const actions: PolarActionTree<MeasureState, MeasureGetters> = {
         createDeleteInteraction,
         createInteractions,
         createStyleFunc,

@@ -1,6 +1,6 @@
 import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { FeatureDistanceGetters, FeatureDistanceState } from '../../types'
+import { MeasureGetters, MeasureState } from '../../types'
 import { Select, Modify, Draw} from 'ol/interaction'
 import {never } from 'ol/events/condition'
 import { Style } from 'ol/style'
@@ -12,7 +12,7 @@ export default async function (
   { 
     dispatch, 
     getters: { mode, selectedFeature, measureMode } 
-  } : PolarActionContext<FeatureDistanceState, FeatureDistanceGetters>, 
+  } : PolarActionContext<MeasureState, MeasureGetters>, 
   drawLayer: VectorLayer<VectorSource>
 ): Promise<Interaction[]> {  
   let interactions: Interaction[] = [];
