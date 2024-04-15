@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add `toastAction` to `geoLocation` configuration.
+
 ## 1.1.1
 
 - Fix: The marker previously disappeared on being moved/reclicked on a second feature. This issue has been resolved.
