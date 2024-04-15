@@ -4,6 +4,7 @@ import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
 import { Vector } from 'ol/source'
 import Feature from 'ol/Feature'
+import { containsCoordinate } from 'ol/extent'
 import { Style, Icon } from 'ol/style'
 import * as Proj from 'ol/proj.js'
 import Geolocation from 'ol/Geolocation.js'
@@ -130,11 +131,10 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       configuredEpsg
     )
 
-    const boundaryCheckPassed = await passesBoundaryCheck(
-      map,
-      boundaryLayerId,
-      transformedCoords
-    )
+    const boundaryCheckPassed =
+      typeof boundaryLayerId === 'string'
+        ? await passesBoundaryCheck(map, boundaryLayerId, transformedCoords)
+        : containsCoordinate(map.getView().calculateExtent(), transformedCoords)
     const boundaryErrorOccurred = typeof boundaryCheckPassed === 'symbol'
 
     if (

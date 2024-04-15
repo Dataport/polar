@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Only zoom to the user position if the user is currently in the extent of the map.
+
 ## 1.3.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
