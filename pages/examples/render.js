@@ -15,7 +15,7 @@ const commonParameters = {
   },
 }
 
-const makeAsideHtml = (id, name, description, parameterObject, useCases) => `
+const makeCardHtml = (id, name, description, parameterObject, useCases) => `
 <h3>${name}</h3>
 ${(typeof description === 'string' ? [description] : description)
   .map((text) => `<p>${text}</p>`)
@@ -57,8 +57,9 @@ export default ({
   services,
 }) => {
   const id = nameToId(name)
-  const aside = document.createElement('aside')
-  aside.style = 'width: 100% !important'
+  const card = document.createElement('div')
+  card.classList.add('card')
+  card.style = 'width: 100% !important'
   const parameterObject = {
     ...commonParameters,
     containerId: id,
@@ -70,7 +71,7 @@ export default ({
     },
     modifyLayerConfiguration,
   }
-  aside.innerHTML = makeAsideHtml(
+  card.innerHTML = makeCardHtml(
     id,
     name,
     description,
@@ -78,7 +79,7 @@ export default ({
     useCases
   )
 
-  document.getElementById('render-node').appendChild(aside)
+  document.getElementById('render-node').appendChild(card)
 
   client.createMap(parameterObject).then((mapClient) => {
     if (postCreation) {
