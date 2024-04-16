@@ -4,6 +4,7 @@
 <head>
   <link rel="icon" href="../assets/iceberg_icon.svg">
   <link rel="stylesheet" href="../mvp.css">
+  <link rel="stylesheet" href="../polar.css">
 
   <meta charset="utf-8">
   <meta name="description" content="POLAR - Orientation example">
@@ -77,11 +78,11 @@
       ],
     },
     postCreation: ({ id }) => {
-      const aside = document.getElementById(id).parentElement.parentElement
+      const card = document.getElementById(id).parentElement.parentElement
       const copyright = document.createElement('p')
       copyright.style.cssText = 'color: var(--color-text-secondary)'
       copyright.innerHTML = `Background map by <i>© GeoBasis-DE / BKG (${new Date().getFullYear()}) CC BY 4.0</i>`
-      aside.appendChild(copyright)
+      card.appendChild(copyright)
     }
   })
 </script>
