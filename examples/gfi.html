@@ -4,6 +4,7 @@
 <head>
   <link rel="icon" href="../assets/iceberg_icon.svg">
   <link rel="stylesheet" href="../mvp.css">
+  <link rel="stylesheet" href="../polar.css">
 
   <meta charset="utf-8">
   <meta name="description" content="POLAR - GFI example">
@@ -139,7 +140,7 @@
       },
     },
     postCreation: ({ id }) => {
-      const aside = document.getElementById(id).parentElement.parentElement
+      const card = document.getElementById(id).parentElement.parentElement
       const ul = document.createElement('ul')
 
       const copyright = document.createElement('li')
@@ -152,7 +153,7 @@
 
       ul.appendChild(copyright)
       ul.appendChild(copyrightBackground)
-      aside.appendChild(ul)
+      card.appendChild(ul)
     }
   })
 </script>
