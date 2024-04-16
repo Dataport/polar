@@ -3,6 +3,7 @@ import { Map } from 'ol'
 import { Store } from 'vuex'
 import { CoreState, SelectResultFunction } from '@polar/lib-custom-types'
 import SearchResultSymbols from '@polar/plugin-address-search/src/utils/searchResultSymbols'
+import VectorSource from 'ol/source/Vector'
 import { ResponsePayload } from './types'
 import { getAllPages } from './getAllPages'
 import {
@@ -47,7 +48,10 @@ export async function searchCoastalGazetteerByToponym(
   )
 }
 
-export const selectResult: SelectResultFunction = ({ commit }, { feature }) => {
+export const selectResult: SelectResultFunction = (
+  { commit, rootGetters },
+  { feature }
+) => {
   // default behaviour (AddressSearch selects and is out further behaviour)
   commit('plugin/addressSearch/setChosenAddress', feature, { root: true })
   commit('plugin/addressSearch/setInputValue', feature.title, { root: true })
@@ -56,6 +60,8 @@ export const selectResult: SelectResultFunction = ({ commit }, { feature }) => {
     SearchResultSymbols.NO_SEARCH,
     { root: true }
   )
+  const drawSource = rootGetters['plugin/draw/drawSource'] as VectorSource
+  drawSource.clear()
 
   // added behaviour: push as one-element feature collection to search store
   commit(
