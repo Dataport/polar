@@ -67,13 +67,14 @@ export default Vue.extend({
   data: () => ({ maxWidth: 'inherit' }),
   computed: {
     ...mapGetters([
+      'clientHeight',
+      'clientWidth',
       'hasSmallDisplay',
       'hasSmallHeight',
       'hasSmallWidth',
       'hasWindowSize',
-      'clientHeight',
     ]),
-    ...mapGetters('plugin/iconMenu', ['menus', 'open']),
+    ...mapGetters('plugin/iconMenu', ['initiallyOpen', 'menus', 'open']),
     asList() {
       return this.menus.length > 1
     },
@@ -96,6 +97,17 @@ export default Vue.extend({
     },
   },
   watch: {
+    // The map initially has a height of 0, so initially opening a menu only works after the height has changed
+    clientHeight(newValue: number, oldValue: number) {
+      if (
+        oldValue === 0 &&
+        newValue > 0 &&
+        !this.hasSmallHeight &&
+        !this.hasSmallWidth
+      ) {
+        this.openMenuById()
+      }
+    },
     // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
     isHorizontal(newVal: boolean) {
       if (!newVal) {
@@ -113,7 +125,7 @@ export default Vue.extend({
   methods: {
     ...mapMutations(['setMoveHandle']),
     ...mapMutations('plugin/iconMenu', ['setOpen']),
-    ...mapActions('plugin/iconMenu', ['openInMoveHandle']),
+    ...mapActions('plugin/iconMenu', ['openInMoveHandle', 'openMenuById']),
     toggle(index: number) {
       if (this.open === index) {
         this.setOpen(null)

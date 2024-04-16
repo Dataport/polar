@@ -4,7 +4,7 @@ import {
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import { PolarModule } from '@polar/lib-custom-types'
-import { IconMenuState } from '../types'
+import { IconMenuGetters, IconMenuState } from '../types'
 
 const getInitialState = (): IconMenuState => ({
   menus: [],
@@ -14,11 +14,11 @@ const getInitialState = (): IconMenuState => ({
 // OK for module creation
 // eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
-  const storeModule: PolarModule<IconMenuState, IconMenuState> = {
+  const storeModule: PolarModule<IconMenuState, IconMenuGetters> = {
     namespaced: true,
     state: getInitialState(),
     actions: {
-      setupModule({ commit, dispatch, rootGetters }): void {
+      setupModule({ commit, rootGetters }): void {
         const menus = rootGetters.configuration?.iconMenu?.menus || []
         const initializedMenus = menus
           .filter(({ id }) => {
@@ -45,16 +45,11 @@ export const makeStoreModule = () => {
           })
 
         commit('setMenus', initializedMenus)
-
-        const initiallyOpen =
-          rootGetters.configuration?.iconMenu?.initiallyOpen || ''
-
-        if (!rootGetters.hasSmallWidth && !rootGetters.hasSmallHeight) {
-          dispatch('openMenuById', initiallyOpen)
-        }
       },
-      openMenuById({ commit, getters, dispatch }, openId) {
-        const index = getters.menus.findIndex(({ id }) => id === openId)
+      openMenuById({ commit, dispatch, getters }) {
+        const index = getters.menus.findIndex(
+          ({ id }) => id === getters.initiallyOpen
+        )
 
         if (index !== -1) {
           commit('setOpen', index)
@@ -84,6 +79,8 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      initiallyOpen: (_, __, ___, rootGetters) =>
+        rootGetters.configuration?.iconMenu?.initiallyOpen || '',
     },
   }
 
