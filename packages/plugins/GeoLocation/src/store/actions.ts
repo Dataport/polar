@@ -114,7 +114,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
    * Setting the current map on the position
    */
   async positioning({
-    rootGetters: { map },
+    rootGetters: { map, configuration },
     getters: {
       boundaryLayerId,
       boundaryOnError,
@@ -134,7 +134,11 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
     const boundaryCheckPassed =
       typeof boundaryLayerId === 'string'
         ? await passesBoundaryCheck(map, boundaryLayerId, transformedCoords)
-        : containsCoordinate(map.getView().calculateExtent(), transformedCoords)
+        : containsCoordinate(
+            // NOTE: The fallback is the default value set by @masterportal/masterportalApi
+            configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
+            transformedCoords
+          )
     const boundaryErrorOccurred = typeof boundaryCheckPassed === 'symbol'
 
     if (
