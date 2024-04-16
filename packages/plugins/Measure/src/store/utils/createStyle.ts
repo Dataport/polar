@@ -1,11 +1,10 @@
 import { StyleParameter} from '../../types'
 import { Text, Fill, Stroke, Style, Circle } from 'ol/style'
-import { LineString,  MultiPoint, Polygon } from 'ol/geom'
-import { Coordinate } from 'ol/coordinate'
 
 
 export default function ( { color, text, opacity, pointWidth, lineWidth} : StyleParameter): Style[] 
 {
+  // creates rgba-values with the given parameter
     const c = color;
     const mainColor = [c.r, c.g, c.b, opacity];
     const backgroundColor = [c.r, c.g, c.b, (opacity / 3)];
@@ -23,6 +22,7 @@ export default function ( { color, text, opacity, pointWidth, lineWidth} : Style
       }),
     });
 
+    // creates styles for Polygone, Lines with Text and Points
     const lineStyle = new Style({
       stroke: new Stroke({
         color: textColor,

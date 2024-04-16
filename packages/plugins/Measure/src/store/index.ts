@@ -26,6 +26,7 @@ export const makeStoreModule = () => {
     actions: makeActions(),
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      // label for the modus-selector
       selectableModes() {
         return {
           select: 'common:plugins.measure.mode.select',
@@ -34,24 +35,20 @@ export const makeStoreModule = () => {
           delete: 'common:plugins.measure.mode.delete',
         }
       },
-      selectableMeasureModes() {
-        return {
-          distance: 'common:plugins.measure.mode.select',
-          area: 'common:plugins.measure.mode.draw',
-        }
-      },
+      // label for the unit-selector
       selectableUnits() {
         return {
           m: 'm / m²',
           km: 'km / km²'
         }
       },
+      // calculates the measurement of the given geometry fixed to two decimal places
       getRoundedMeasure: ({ unit }, _, __, { map }) => (geometry: LineString | Polygon) => {
         let factor = 1;
         if (unit === 'km') {
           factor = 1000;
         }
-        
+    
         const projection = map.getView().getProjection();
         const value = geometry.getType() === 'Polygon' ? 
         getArea(geometry, { projection }) 
@@ -60,14 +57,17 @@ export const makeStoreModule = () => {
       },
     },
     mutations: {...generateSimpleMutations(getInitialState()),
+      // updates geometry to the geometry of the selected feature
       setGeometry: (state) => {
         state.geometry = state.selectedFeature ? 
         state.selectedFeature.getGeometry() as LineString | Polygon : 
         null;
       },
+      // updates measurement to the measurement of the selected feature
       setMeasure: (state) => {
         state.measure = state.geometry?.get("measure") ? state.geometry?.get("measure") : null;
       },
+      // sets unit and fixes the label depending on form
       setSelectedUnit: (state) => {
         if (state.geometry) {
           state.selectedUnit = state.geometry?.getType() === 'Polygon' 

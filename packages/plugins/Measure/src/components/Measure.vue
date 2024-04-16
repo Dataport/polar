@@ -2,10 +2,7 @@
   <v-scroll-x-reverse-transition>
     <v-card class="polar-measure-card">
       <v-expansion-panels accordion flat tile multiple>
-        <ExpansionPanel
-          id="mode"
-          title="common:plugins.measure.title.mode"
-        >
+        <ExpansionPanel id="mode" title="common:plugins.measure.title.mode">
           <v-radio-group
             dense
             hide-details
@@ -49,10 +46,7 @@
             </button>
           </div>
         </ExpansionPanel>
-        <ExpansionPanel
-          id="unit"
-          title="common:plugins.measure.title.unit"
-        >
+        <ExpansionPanel id="unit" title="common:plugins.measure.title.unit">
           <v-radio-group
             dense
             hide-details
@@ -67,10 +61,7 @@
             ></v-radio>
           </v-radio-group>
         </ExpansionPanel>
-        <ExpansionPanel
-          id="color"
-          title="common:plugins.measure.title.color"
-        >
+        <ExpansionPanel id="color" title="common:plugins.measure.title.color">
           <span
             class="d-block text-center"
             :style="{

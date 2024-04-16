@@ -21,6 +21,7 @@ export default async function (
   const drawSource = drawLayer.getSource() as VectorSource;
 
   if (mode === 'draw') {
+    // draws Lines or Polygon depending on mode
     const draw = new Draw({
       style: specialStyle,
       type: measureMode === 'distance' ? 'LineString' : 'Polygon', 
@@ -33,6 +34,7 @@ export default async function (
   } 
   else if (drawSource.getFeatures().length > 0) {
     if (mode === 'edit') {
+      // edits only the corner-points
       const modify = new Modify({
         source: drawSource,
         insertVertexCondition: never,
@@ -40,6 +42,7 @@ export default async function (
         style: new Style()
       });
       
+      // selects edited feature
       modify.on('modifystart', ({features}) => dispatch("setSelectedFeature", features.item(0)))
       interactions.push(modify);
       styleFunc = specialStyle;
@@ -49,6 +52,7 @@ export default async function (
       styleFunc = specialStyle;
     }
     else {
+      // presets select if feature is selected
       const collection = selectedFeature ? new Collection([selectedFeature]) : undefined;
       const select = new Select({
         layers: [drawLayer],
@@ -56,6 +60,7 @@ export default async function (
         style: specialStyle
       });
     
+      // selects and deselects
       select.getFeatures().on("add", ({element}) => dispatch("setSelectedFeature", element));
       select.getFeatures().on("remove", () => dispatch("setSelectedFeature", null));
     
