@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip :value="focus" right color="#00000000">
+  <v-tooltip :value="focus" color="#00000000" v-bind="{ [direction]: true }">
     <template #activator="{ on, attrs }">
       <v-icon small v-bind="attrs" v-on="on"> fa-info-circle </v-icon>
     </template>
@@ -55,6 +55,12 @@ export default Vue.extend({
     focus: {
       type: Boolean,
       default: false,
+      required: false,
+    },
+    direction: {
+      type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
+      default: 'right',
+      required: false,
     },
   },
 })
