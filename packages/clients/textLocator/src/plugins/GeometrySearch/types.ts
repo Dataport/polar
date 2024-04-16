@@ -1,4 +1,9 @@
-import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
+import {
+  Feature,
+  FeatureCollection,
+  GeoJsonProperties,
+  Geometry,
+} from 'geojson'
 import { TitleLocationFrequency } from '../../utils/literatureByToponym'
 import { ResponseGeom, ResponseName } from '../../utils/coastalGazetteer/types'
 
@@ -9,6 +14,7 @@ export interface TreeViewItem {
   name: string
   count: number
   children?: TreeViewItem[]
+  feature?: Feature
   type: TextLocatorCategories
 }
 

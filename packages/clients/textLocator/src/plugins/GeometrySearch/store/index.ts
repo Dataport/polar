@@ -3,6 +3,7 @@ import {
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import { PolarModule } from '@polar/lib-custom-types'
+import { Feature } from 'ol'
 import {
   GeometrySearchState,
   GeometrySearchGetters,
@@ -15,7 +16,7 @@ import { updateVectorLayer, vectorLayer } from '../utils/vectorDisplay'
 import { geoJson } from '../../../utils/coastalGazetteer/common'
 import { setupTooltip } from './actions/setupTooltip'
 import { setupDrawReaction } from './actions/setupDrawReaction'
-import { setupWatchers } from './actions/setupWatchers'
+import { setupWatchers, updateFrequencies } from './actions/watchers'
 
 let counter = 0
 const searchLoadingKey = 'geometrySearchLoadingKey'
@@ -46,7 +47,8 @@ export const makeStoreModule = () => {
       setupTooltip,
       setupDrawReaction,
       setupWatchers,
-      searchGeometry({ rootGetters, commit }, feature) {
+      updateFrequencies,
+      searchGeometry({ rootGetters, commit }, feature: Feature) {
         const loadingKey = getSearchLoadingKey()
         commit('plugin/loadingIndicator/addLoadingKey', loadingKey, {
           root: true,
@@ -82,16 +84,8 @@ export const makeStoreModule = () => {
           titleLocationFrequency
         )
       },
-      fullSearchOnToponym(
-        { dispatch, getters: { featureCollection } },
-        item: TreeViewItem
-      ) {
-        const feature = featureCollection.features.find(
-          // TODO change after id handling has been modified
-          // @ts-expect-error | added locally
-          (feature) => feature.title === item.id
-        )
-        dispatch('searchGeometry', geoJson.readFeature(feature))
+      fullSearchOnToponym({ dispatch }, item: TreeViewItem) {
+        dispatch('searchGeometry', geoJson.readFeature(item.feature))
       },
       fullSearchLiterature({ dispatch }) {
         dispatch(
@@ -113,8 +107,13 @@ export const makeStoreModule = () => {
       treeViewItems({
         titleLocationFrequency,
         byCategory,
+        featureCollection,
       }: GeometrySearchState): TreeViewItem[] {
-        return makeTreeView(titleLocationFrequency, byCategory)
+        return makeTreeView(
+          titleLocationFrequency,
+          byCategory,
+          featureCollection
+        )
       },
     },
   }

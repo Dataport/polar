@@ -78,6 +78,10 @@
               </v-tooltip>
             </template>
             {{ item.name }}
+            <template v-if="item.type === 'toponym' && item.feature">
+              &nbsp;
+              <ResultInfo :feature="item.feature" direction="left"></ResultInfo>
+            </template>
           </v-badge>
         </template>
         <template #append="{ item }">
@@ -169,9 +173,11 @@ import { DrawMode } from '@polar/lib-custom-types'
 import Vue from 'vue'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { TextLocatorCategories } from '../types'
+import ResultInfo from '../../../components/ResultInfo.vue'
 
 export default Vue.extend({
   name: 'GeometrySearchPlugin',
+  components: { ResultInfo },
   data: () => ({
     tipVisibility: {
       Point: true,

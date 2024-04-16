@@ -2,6 +2,7 @@ import { Feature, FeatureCollection } from 'geojson'
 import levenshtein from 'js-levenshtein'
 import { MultiPolygon } from 'ol/geom'
 import { wgs84ProjectionCode } from '../common'
+import { GeometrySearchState } from '../../plugins/GeometrySearch/types'
 import {
   ResponseGeom,
   ResponseName,
@@ -26,10 +27,11 @@ const sorter =
         levenshtein(b[sortKey], searchPhrase)
   }
 
-export const getEmptyFeatureCollection = (): FeatureCollection => ({
-  type: 'FeatureCollection',
-  features: [],
-})
+export const getEmptyFeatureCollection =
+  (): GeometrySearchState['featureCollection'] => ({
+    type: 'FeatureCollection',
+    features: [],
+  })
 
 // for now: merge all geometries, independent of their timeframe
 const geoJsonifyAllGeometries = (
@@ -56,7 +58,9 @@ const geoJsonifyAllGeometries = (
 
 const featurify =
   (epsg: `EPSG:${string}`, searchPhrase: string | null) =>
-  (feature: ResponseResult): Feature | null => {
+  (
+    feature: ResponseResult
+  ): GeometrySearchState['featureCollection']['features'][number] | null => {
     const title = searchPhrase
       ? feature.names.sort(sorter(searchPhrase, 'Name'))[0]?.Name || '???'
       : getPrimaryName(feature.names)
@@ -93,7 +97,7 @@ export const featureCollectionify = (
       }
       accumulator.push(featurified)
       return accumulator
-    }, [] as Feature[])
+    }, [] as GeometrySearchState['featureCollection']['features'])
   )
 
   if (searchPhrase) {

@@ -34,11 +34,8 @@ const getZoomFeatures = (features: OlFeature[], item: TreeViewItem | null) =>
         // TODO once items feature actual IDs, change this title comparison
         (feature) => feature.get('title') === item.id
       )
-    : /* assume item.type === 'text' */ features.filter(
-        // TODO once items feature actual IDs, change this title comparison
-        // TODO naïve – will only find primary names
-        (feature) =>
-          item.children?.map(({ id }) => id).includes(feature.get('title'))
+    : /* assume item.type === 'text' */ features.filter((feature) =>
+        item.children?.map(({ id }) => id).includes(feature.get('title'))
       )
 
 const featHeat = (
