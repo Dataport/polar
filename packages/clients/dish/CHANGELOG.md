@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add `toastAction` to `geoLocation` configuration.
+- Feature: If a user is geolocated outside of the map's extent, the client will inform the user of why geolocation did not take effect via a textbox.
 
 ## 1.1.1
 
