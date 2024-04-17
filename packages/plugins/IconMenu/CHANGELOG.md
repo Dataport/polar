@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Resolve issue with `initiallyOpen` not working as expected.
+
 ## 1.2.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
