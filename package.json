@@ -33,6 +33,7 @@
     "docs:meldemichel": "node ./scripts/makeDocs ./packages/clients/meldemichel && npm run meldemichel:build && cp -r ./packages/clients/meldemichel/dist ./packages/clients/meldemichel/example ./packages/clients/meldemichel/docs",
     "docs:sbom": "npx @cyclonedx/cyclonedx-npm --output-file sbom.json",
     "docs:snowbox": "node ./scripts/makeDocs ./packages/clients/snowbox",
+    "docs:textLocator": "node ./scripts/makeDocs ./packages/clients/textLocator && npm run textLocator:build && cp -r ./packages/clients/textLocator/dist ./packages/clients/textLocator/docs",
     "lint": "npx eslint . --cache --ext .js,.ts,.vue",
     "lint:ci": "npx eslint . --ext .js,.ts,.vue",
     "lint:fix": "npx eslint . --fix --cache --ext .js,.ts,.vue",
