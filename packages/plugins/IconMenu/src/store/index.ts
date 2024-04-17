@@ -46,10 +46,8 @@ export const makeStoreModule = () => {
 
         commit('setMenus', initializedMenus)
       },
-      openMenuById({ commit, dispatch, getters }) {
-        const index = getters.menus.findIndex(
-          ({ id }) => id === getters.initiallyOpen
-        )
+      openMenuById({ commit, dispatch, getters }, openId: string) {
+        const index = getters.menus.findIndex(({ id }) => id === openId)
 
         if (index !== -1) {
           commit('setOpen', index)

@@ -105,7 +105,7 @@ export default Vue.extend({
         !this.hasSmallHeight &&
         !this.hasSmallWidth
       ) {
-        this.openMenuById()
+        this.openMenuById(this.initiallyOpen)
       }
     },
     // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
