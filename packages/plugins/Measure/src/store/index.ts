@@ -45,9 +45,8 @@ export const makeStoreModule = () => {
         }
       },
       // calculates the measurement of the given geometry fixed to two decimal places
-      getRoundedMeasure:
-        ({ unit }, _, __, { map }) =>
-        (geometry: LineString | Polygon) => {
+      getRoundedMeasure({ unit }, _, __, { map }) {
+        return (geometry: LineString | Polygon) => {
           let factor = 1
           if (unit === 'km') {
             factor = 1000
@@ -59,7 +58,8 @@ export const makeStoreModule = () => {
               ? getArea(geometry, { projection })
               : getLength(geometry, { projection })
           return Math.round((value / factor) * 100) / 100
-        },
+        }
+      },
     },
     mutations: {
       ...generateSimpleMutations(getInitialState()),

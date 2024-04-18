@@ -1,13 +1,14 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { LineString, MultiPoint, Polygon } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
+import { StyleFunction } from 'ol/style/Style'
 import { MeasureGetters, MeasureState, Mode, StyleParameter } from '../../types'
 import createStyle from './createStyle'
 
 export default function (
   { commit, getters }: PolarActionContext<MeasureState, MeasureGetters>,
   styleType: Mode | undefined
-): Function {
+): StyleFunction {
   // Standard Style
   const parameter: StyleParameter = {
     color: getters.color,
@@ -41,7 +42,7 @@ export default function (
   const pointStyle = style[2]
 
   // set corner-points and text
-  const styleFunc = function (feature) {
+  const styleFunc = (feature) => {
     // setting only polygon and point as standard
     const styles = [polygonStyle, pointStyle]
     const geom = feature.getGeometry() as Polygon | LineString
