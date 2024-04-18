@@ -6,6 +6,8 @@ For all additional details, check the [full documentation](https://dataport.gith
 
 For the development test deployments and example configurations, [see here](https://dataport.github.io/polar#plugin-gallery).
 
+For a minimum working example, [see here](https://github.com/dopenguin/polar-fossgis-2024).
+
 ## Basic usage
 
 The NPM package `@polar/client-generic` can be installed via NPM or downloaded from the [release page](https://github.com/Dataport/polar/releases). When using `import mapClient from '@polar/client-generic'`, the object `mapClient` contains a method `createMap`. This is the main method required to get the client up and running. Should you use another import method, check the package's `dist` folder for available files.
