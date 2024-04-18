@@ -1,53 +1,11 @@
 <template>
   <v-card class="text-locator-search-card">
-    <v-card-title class="text-locator-card-collapse">
-      {{ $t('common:plugins.geometrySearch.draw.title') }}
-    </v-card-title>
-    <v-card-text class="text-locator-card-collapse">
-      <v-radio-group v-model="_drawMode" dense hide-details>
-        <v-radio
-          :label="$t('common:plugins.draw.drawMode.point')"
-          value="Point"
-        ></v-radio>
-        <v-radio
-          :label="$t('common:plugins.draw.drawMode.polygon')"
-          value="Polygon"
-        ></v-radio>
-      </v-radio-group>
-    </v-card-text>
-    <v-card-text
-      v-if="tipVisibility[_drawMode]"
-      class="text-locator-card-collapse"
-    >
-      <v-alert
-        v-model="tipVisibility[_drawMode]"
-        type="info"
-        prominent
-        dense
-        colored-border
-        border="left"
-        :icon="_drawMode === 'Point' ? 'fa-location-dot' : 'fa-draw-polygon'"
-        dismissible
-        elevation="4"
-        >{{
-          $t(`common:plugins.geometrySearch.draw.description.${_drawMode}`)
-        }}</v-alert
-      >
-    </v-card-text>
-    <v-card-title class="text-locator-card-collapse">
+    <DrawMode />
+    <v-card-title class="text-locator-collapse">
       {{ $t('common:plugins.geometrySearch.results.title') }}
     </v-card-title>
     <v-card-text>
-      <v-btn-toggle v-model="_byCategory" dense>
-        <v-btn class="text-locator-btn-group-button" value="text">
-          <v-icon small>fa-book-open</v-icon>&nbsp;
-          {{ $t('common:plugins.geometrySearch.results.byText') }}
-        </v-btn>
-        <v-btn class="text-locator-btn-group-button" value="toponym">
-          <v-icon small>fa-location-pin</v-icon>&nbsp;
-          {{ $t('common:plugins.geometrySearch.results.byLocation') }}
-        </v-btn>
-      </v-btn-toggle>
+      <ViewToggle />
       <v-treeview
         v-if="treeViewItems.length"
         dense
@@ -62,19 +20,7 @@
                 <template #activator="{ on }">
                   <span v-on="on">{{ item.count }}</span>
                 </template>
-                <span>{{
-                  $t(
-                    `plugins.geometrySearch.tooltip.badge.${
-                      item.type === 'toponym' && item.children
-                        ? 'toponymToText'
-                        : item.type === 'toponym' && !item.children
-                        ? 'toponymInText'
-                        : item.children
-                        ? 'textToToponym'
-                        : 'textInToponym'
-                    }`
-                  )
-                }}</span>
+                <span>{{ $t(tooltipKey(item)) }}</span>
               </v-tooltip>
             </template>
             {{ item.name }}
@@ -85,80 +31,38 @@
           </v-badge>
         </template>
         <template #append="{ item }">
-          <v-tooltip v-if="item.type === 'toponym' || item.children" left>
-            <template #activator="{ on, attrs }">
-              <v-btn
-                :aria-label="
-                  $t(
-                    `plugins.geometrySearch.tooltip.highlight.${
-                      item?.children?.length && item.type !== 'toponym'
-                        ? 'heat'
-                        : 'cold'
-                    }`
-                  )
-                "
-                color="secondary"
-                icon
-                fab
-                x-small
-                dark
-                v-bind="attrs"
-                v-on="on"
-                @click="changeActiveData(item)"
-                @keypress="changeActiveData(item)"
-              >
-                <v-icon>fa-map-location-dot</v-icon>
-              </v-btn>
-            </template>
-            <!-- TODO fix font -->
-            <span>{{
-              $t(
-                `plugins.geometrySearch.tooltip.highlight.${
-                  item?.children?.length && item.type !== 'toponym'
-                    ? 'heat'
-                    : 'cold'
-                }`
-              )
-            }}</span>
-          </v-tooltip>
-          <v-tooltip v-if="item.type === 'toponym'" left>
-            <template #activator="{ on, attrs }">
-              <v-btn
-                :aria-label="$t('plugins.geometrySearch.tooltip.focusSearch')"
-                color="secondary"
-                icon
-                fab
-                x-small
-                dark
-                v-bind="attrs"
-                v-on="on"
-                @click="fullSearchOnToponym(item)"
-                @keypress="fullSearchOnToponym(item)"
-              >
-                <v-icon>fa-magnifying-glass-arrow-right</v-icon>
-              </v-btn>
-            </template>
-            <span>{{ $t('plugins.geometrySearch.tooltip.focusSearch') }}</span>
-          </v-tooltip>
-          <v-tooltip v-if="item.type === 'text'" left>
-            <template #activator="{ on, attrs }">
-              <v-btn
-                :aria-label="$t('plugins.geometrySearch.tooltip.textSearch')"
-                color="secondary"
-                icon
-                fab
-                x-small
-                dark
-                v-bind="attrs"
-                v-on="on"
-                @click="fullSearchLiterature()"
-                @keypress="fullSearchLiterature()"
-              >
-                <v-icon>fa-magnifying-glass-arrow-right</v-icon>
-              </v-btn>
-            </template>
-            <span>{{ $t('plugins.geometrySearch.tooltip.textSearch') }}</span>
-          </v-tooltip>
+          <Action
+            v-if="item.type === 'toponym' || item.children"
+            :item="item"
+            :aria-label-key="`plugins.geometrySearch.tooltip.highlight.${
+              item?.children?.length && item.type !== 'toponym'
+                ? 'heat'
+                : 'cold'
+            }`"
+            :action="changeActiveData"
+            icon="fa-map-location-dot"
+            :tooltip-key="`plugins.geometrySearch.tooltip.highlight.${
+              item?.children?.length && item.type !== 'toponym'
+                ? 'heat'
+                : 'cold'
+            }`"
+          ></Action>
+          <Action
+            v-if="item.type === 'toponym'"
+            :item="item"
+            aria-label-key="plugins.geometrySearch.tooltip.focusSearch"
+            :action="fullSearchOnToponym"
+            icon="fa-magnifying-glass-arrow-right"
+            tooltip-key="plugins.geometrySearch.tooltip.focusSearch"
+          ></Action>
+          <Action
+            v-if="item.type === 'text'"
+            :item="item"
+            aria-label-key="plugins.geometrySearch.tooltip.textSearch"
+            :action="fullSearchLiterature"
+            icon="fa-magnifying-glass-arrow-right"
+            tooltip-key="plugins.geometrySearch.tooltip.textSearch"
+          ></Action>
         </template>
       </v-treeview>
       <v-card-text v-else>
@@ -169,49 +73,42 @@
 </template>
 
 <script lang="ts">
-import { DrawMode } from '@polar/lib-custom-types'
 import Vue from 'vue'
-import { mapGetters, mapActions, mapMutations } from 'vuex'
-import { TextLocatorCategories } from '../types'
+import { mapGetters, mapActions } from 'vuex'
 import ResultInfo from '../../../components/ResultInfo.vue'
+import { TreeViewItem } from '../types'
+import DrawMode from './DrawMode.vue'
+import ViewToggle from './ViewToggle.vue'
+import Action from './Action.vue'
 
 export default Vue.extend({
   name: 'GeometrySearchPlugin',
-  components: { ResultInfo },
-  data: () => ({
-    tipVisibility: {
-      Point: true,
-      Polygon: true,
-    },
-  }),
+  components: {
+    DrawMode,
+    Action,
+    ViewToggle,
+    ResultInfo,
+  },
   computed: {
-    ...mapGetters('plugin/geometrySearch', ['byCategory', 'treeViewItems']),
-    ...mapGetters('plugin/draw', ['drawMode']),
-    _byCategory: {
-      get() {
-        return this.byCategory
-      },
-      set(byCategory: TextLocatorCategories) {
-        this.setByCategory(byCategory)
-      },
-    },
-    _drawMode: {
-      get() {
-        return this.drawMode
-      },
-      set(drawMode: DrawMode) {
-        this.setDrawMode(drawMode)
-      },
-    },
+    ...mapGetters('plugin/geometrySearch', ['treeViewItems']),
   },
   methods: {
-    ...mapActions('plugin/draw', ['setDrawMode']),
     ...mapActions('plugin/geometrySearch', [
       'changeActiveData',
       'fullSearchOnToponym',
       'fullSearchLiterature',
     ]),
-    ...mapMutations('plugin/geometrySearch', ['setByCategory']),
+    tooltipKey(item: TreeViewItem) {
+      return `plugins.geometrySearch.tooltip.badge.${
+        item.type === 'toponym' && item.children
+          ? 'toponymToText'
+          : item.type === 'toponym' && !item.children
+          ? 'toponymInText'
+          : item.children
+          ? 'textToToponym'
+          : 'textInToponym'
+      }`
+    },
   },
 })
 </script>
@@ -225,27 +122,6 @@ export default Vue.extend({
   min-width: 400px;
   white-space: normal;
 
-  .text-locator-card-collapse {
-    padding-bottom: 0;
-  }
-
-  .text-locator-btn-group-button {
-    text-transform: unset;
-
-    // determined by trial & error ¯\ツ/¯
-    &:hover:not(:last-child),
-    &:focus:not(:last-child) {
-      z-index: 1;
-      margin-left: -2px;
-      margin-right: -2px;
-    }
-
-    &:hover:last-child,
-    &:focus:last-child {
-      margin-left: -3px;
-    }
-  }
-
   .text-locator-result-badge {
     cursor: pointer;
     max-width: 500px;
@@ -254,5 +130,11 @@ export default Vue.extend({
     justify-content: left;
     margin: 0.5em 0;
   }
+}
+</style>
+
+<style>
+.text-locator-search-card .text-locator-collapse {
+  padding-bottom: 0;
 }
 </style>
