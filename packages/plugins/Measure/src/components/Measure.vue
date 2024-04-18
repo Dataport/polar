@@ -35,9 +35,9 @@
               {{ $t('common:plugins.measure.label.distance') }}
             </button>
             <v-switch
+              :input-value="measureMode === 'area'"
               class="mt-0"
               color="primary"
-              :value="measureMode === 'area'"
               hide-details
               @change="setMeasureMode(measure($event))"
             ></v-switch>
@@ -106,7 +106,7 @@ import ColorSlider from './ColorSlider.vue'
 import ExpansionPanel from './ExpansionPanel.vue'
 
 export default Vue.extend({
-  name: 'Measure',
+  name: 'MeasurePlugin',
   components: {
     ColorSlider,
     ExpansionPanel,
@@ -139,7 +139,7 @@ export default Vue.extend({
       'setTextColor',
       'clearLayer',
     ]),
-    measure(value: boolean): string {
+    measure(value: string): string {
       return value ? 'area' : 'distance'
     },
     toggleMeasureMode() {
