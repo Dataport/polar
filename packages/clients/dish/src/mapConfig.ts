@@ -83,6 +83,7 @@ export const mapConfiguration = {
   },
   geoLocation: {
     checkLocationInitially: false,
+    toastAction: 'plugin/toast/addToast',
     zoomLevel: 7,
   },
   attributions: {
