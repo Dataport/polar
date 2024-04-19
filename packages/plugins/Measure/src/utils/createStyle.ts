@@ -1,6 +1,16 @@
 import { Text, Fill, Stroke, Style, Circle } from 'ol/style'
-import { StyleParameter } from '../../types'
+import { StyleParameter } from '../types'
 
+/**
+ * Creates three styles Polygone, Lines with Text and Points with the given Parameter
+ * @param styleParameter - Parameter for styling
+ * @param styleParameter.color - Color for lines and the fill bei Polygones
+ * @param styleParameter.text - Color for the text
+ * @param styleParameter.opacity - Opacity for the lines and text
+ * @param styleParameter.pointWidth - Radius for Corner-Points
+ * @param styleParameter.lineWidth - Thickness for drawn lines
+ * @returns Array with three created styles
+ */
 export default function ({
   color,
   text,
@@ -9,12 +19,10 @@ export default function ({
   lineWidth,
 }: StyleParameter): Style[] {
   // creates rgba-values with the given parameter
-  const c = color
-  const mainColor = [c.r, c.g, c.b, opacity]
-  const backgroundColor = [c.r, c.g, c.b, opacity / 3]
-  const pointColor = [c.r, c.g, c.b, opacity / 2]
-  const t = text
-  const textColor = [t.r, t.g, t.b, opacity]
+  const mainColor = [color.r, color.g, color.b, opacity]
+  const backgroundColor = [color.r, color.g, color.b, opacity / 3]
+  const pointColor = [color.r, color.g, color.b, opacity / 2]
+  const textColor = [text.r, text.g, text.b, opacity]
 
   const polygonStyle = new Style({
     stroke: new Stroke({

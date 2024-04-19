@@ -2,9 +2,15 @@ import { PolarActionContext } from '@polar/lib-custom-types'
 import { LineString, MultiPoint, Polygon } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
 import { StyleFunction } from 'ol/style/Style'
-import { MeasureGetters, MeasureState, Mode, StyleParameter } from '../../types'
+import { MeasureGetters, MeasureState, Mode, StyleParameter } from '../types'
 import createStyle from './createStyle'
 
+/**
+ * Creates the interactions necessary to delete points or vertebrae of the drawn features
+ * @param context - ActionContext to have access to dispatch, commit and getters
+ * @param styleType - Tool-Mode
+ * @returns StyleFunc
+ */
 export default function (
   { commit, getters }: PolarActionContext<MeasureState, MeasureGetters>,
   styleType: Mode | undefined

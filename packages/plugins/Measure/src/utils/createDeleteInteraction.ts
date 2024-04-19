@@ -4,19 +4,29 @@ import { never, singleClick } from 'ol/events/condition'
 import { LineString, Point, Polygon } from 'ol/geom'
 import { Feature } from 'ol'
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { MeasureGetters, MeasureState } from '../../types'
+import VectorLayer from 'ol/layer/Vector'
+import VectorSource from 'ol/source/Vector'
+import { MeasureGetters, MeasureState } from '../types'
 
+/**
+ * Creates the interactions necessary to delete points or vertebrae of the drawn features
+ * @param context - ActionContext to have access to dispatch, commit and getters
+ * @param drawLayer - drawing layer
+ * @returns Array with the created Interactions
+ */
 export default function (
   {
     dispatch,
     commit,
     getters: { selectedFeature },
   }: PolarActionContext<MeasureState, MeasureGetters>,
-  { drawSource, drawLayer }
+  drawLayer: VectorLayer<VectorSource>
 ): Interaction[] {
   // checks if Feature has still enough points
   // deletes if not
   // returns if feature got deleted
+  const drawSource = drawLayer.getSource() as VectorSource
+
   function removeFeature(feature: Feature, pointAmount: number): boolean {
     const geom = feature.getGeometry() as LineString | Polygon
     const minimum = geom.getType() === 'Polygon' ? 3 : 2
@@ -53,6 +63,7 @@ export default function (
   const select = new Select({ layers: [drawLayer] })
   const snap = new Snap({ source: drawSource })
 
+  // removes vertebrae
   select.on('select', ({ selected, mapBrowserEvent }) => {
     if (selected.length > 0) {
       // gets the feature, outline and clicked point
@@ -92,6 +103,7 @@ export default function (
     }
   })
 
+  // removes point
   modify.on('modifyend', ({ features }) => {
     if (features.getLength() === 1) {
       const feature = features.item(0) as Feature

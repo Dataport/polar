@@ -6,8 +6,14 @@ import { Style } from 'ol/style'
 import { Collection } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
-import { MeasureGetters, MeasureState } from '../../types'
+import { MeasureGetters, MeasureState } from '../types'
 
+/**
+ * Creates Interactions to interact with the drawing layer depending on the tool mode
+ * @param context - ActionContext to have access to dispatch and getters
+ * @param drawLayer - drawing layer
+ * @returns Array with the created Interactions
+ */
 export default async function (
   {
     dispatch,
@@ -50,10 +56,7 @@ export default async function (
       interactions.push(modify)
       styleFunc = specialStyle
     } else if (mode === 'delete') {
-      interactions = await dispatch('createDeleteInteraction', {
-        drawSource,
-        drawLayer,
-      })
+      interactions = await dispatch('createDeleteInteraction', drawLayer)
       styleFunc = specialStyle
     } else {
       // presets select if feature is selected
