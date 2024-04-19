@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.0
+
+Initial release. 🎉
+
 ## 1.0.0-beta.7
 
 - Fix: Use `@polar/plugins-pins@1.3.1` to fix the map getting dragged along with the pin in some situations.
