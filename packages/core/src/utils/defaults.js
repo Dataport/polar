@@ -1,3 +1,5 @@
+// NOTE: This is a copy of https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/src/defaults.js and not currently used in the project.
+
 /**
  * Since all functions are exported for users, all functions with defaults
  * have to import this object themselves to use fallbacks.
