@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new state parameter `mapHasDimensions` to let plugins have a "hook" to react on when the map is ready.
+
 ## 1.4.1
 
 - Feature: Additionally export `PolarCore` type.
