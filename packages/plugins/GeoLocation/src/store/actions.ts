@@ -161,7 +161,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   },
   printPositioningFailed(
     { dispatch, getters: { toastAction } },
-    boundaryErrorOccurred
+    boundaryErrorOccurred: string
   ) {
     if (toastAction) {
       const toast = boundaryErrorOccurred
