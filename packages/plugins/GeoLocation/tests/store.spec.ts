@@ -247,7 +247,7 @@ describe('plugin-geolocation', () => {
         })
         it('trigger the action to reposition the location if the geolocation was not denied and the geolocation has been instantiated already', () => {
           actionContext.getters.isGeolocationDenied = false
-          actionContext.getters.geolocation = { on: () => {} }
+          actionContext.getters.geolocation = { on: jest.fn() }
 
           storeModule.actions.track(actionContext)
 
