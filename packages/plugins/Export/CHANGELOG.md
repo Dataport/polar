@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unreleased
+
+- Fix: PDF export with download:false now works correctly.
+
 ## 1.2.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
