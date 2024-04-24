@@ -103,15 +103,6 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
       }
 
       commit('setExportedMap', src)
-      /*
-      commit(
-        'plugin/toast/addToast',
-        {
-          message: 'Your image is awesome and stored.',
-        },
-        { root: true }
-      )
-      */
     })
     map.renderSync()
   },
