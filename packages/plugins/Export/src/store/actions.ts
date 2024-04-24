@@ -72,41 +72,47 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
         }
       )
 
-      const src = mapCanvas.toDataURL(
+      let src = mapCanvas.toDataURL(
         type === ExportFormat.PNG ? 'image/png' : 'image/jpeg'
       )
 
-      commit('setExportedMap', src)
-
-      if (!download) {
-        /*
-        commit(
-          'plugin/toast/addToast',
-          {
-            message: 'Your image is awesome and stored.',
-          },
-          { root: true }
-        )
-        */
-      } else if (type === ExportFormat.JPG || type === ExportFormat.PNG) {
-        const link = document.createElement('a')
-        link.download = 'map.' + (type === ExportFormat.PNG ? 'png' : 'jpeg')
-        link.href = src
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
+      if (type === ExportFormat.JPG || type === ExportFormat.PNG) {
+        if (download) {
+          const link = document.createElement('a')
+          link.download = 'map.' + (type === ExportFormat.PNG ? 'png' : 'jpeg')
+          link.href = src
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        } else {
+          /*
+          commit(
+            'plugin/toast/addToast',
+            {
+              message: 'Your image is awesome and stored.',
+            },
+            { root: true }
+          )
+          */
+        }
       } else {
         // TODO: decide on a format, scale map accordingly
         const format = 'a4'
         const dim = dims[format]
         // Import of jspdf is in mounted.
-          const pdf = new jsPDF('landscape', undefined, format) // eslint-disable-line
+        const pdf = new jsPDF('landscape', undefined, format) // eslint-disable-line
         pdf.addImage(src, 'JPEG', 0, 0, dim[0], dim[1])
-        pdf.save('map.pdf')
         // Reset original map size
         map.setSize(size)
         map.getView().setResolution(viewResolution)
+        if (download) {
+          pdf.save('map.pdf')
+        } else {
+          src = pdf.output('datauristring')
+        }
       }
+
+      commit('setExportedMap', src)
     })
     map.renderSync()
   },
