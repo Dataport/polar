@@ -84,16 +84,6 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
           document.body.appendChild(link)
           link.click()
           document.body.removeChild(link)
-        } else {
-          /*
-          commit(
-            'plugin/toast/addToast',
-            {
-              message: 'Your image is awesome and stored.',
-            },
-            { root: true }
-          )
-          */
         }
       } else {
         // TODO: decide on a format, scale map accordingly
@@ -105,14 +95,23 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
         // Reset original map size
         map.setSize(size)
         map.getView().setResolution(viewResolution)
+        src = pdf.output('datauristring')
+
         if (download) {
           pdf.save('map.pdf')
-        } else {
-          src = pdf.output('datauristring')
         }
       }
 
       commit('setExportedMap', src)
+      /*
+      commit(
+        'plugin/toast/addToast',
+        {
+          message: 'Your image is awesome and stored.',
+        },
+        { root: true }
+      )
+      */
     })
     map.renderSync()
   },
