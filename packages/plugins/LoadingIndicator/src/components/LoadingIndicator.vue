@@ -16,9 +16,4 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
-.polar-zoom-wrap {
-  display: flex;
-  flex-direction: column;
-}
-</style>
+<style lang="scss" scoped></style>
