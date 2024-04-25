@@ -19,7 +19,6 @@
         <FeatureTableHead></FeatureTableHead>
         <FeatureTableBody
           :current-properties="currentProperties"
-          :photo-height="photoHeight"
         ></FeatureTableBody>
       </template>
     </v-simple-table>
@@ -62,10 +61,7 @@ export default Vue.extend({
   },
   data: () => ({ closeLabel: 'common:plugins.gfi.header.close' }),
   computed: {
-    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
-    photoHeight(): number {
-      return this.clientWidth * 0.15
-    },
+    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),

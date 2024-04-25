@@ -9,7 +9,7 @@
             :alt="$t('common:plugins.gfi.property.imageAlt')"
             :title="$t('common:plugins.gfi.property.linkTitle')"
             :aria-label="$t('common:plugins.gfi.property.linkTitle')"
-            :height="photoHeight < 200 ? 200 : photoHeight"
+            :height="photoHeight"
             width="auto"
           />
         </a>
@@ -34,6 +34,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import { GeoJsonProperties } from 'geojson'
+import { mapGetters } from 'vuex'
 import isValidHttpUrl from '../utils/isValidHttpUrl'
 
 export default Vue.extend({
@@ -43,12 +44,9 @@ export default Vue.extend({
       type: Object as PropType<GeoJsonProperties>,
       required: true,
     },
-    photoHeight: {
-      type: Number,
-      default: 250,
-    },
   },
   computed: {
+    ...mapGetters(['clientWidth']),
     /** Removes polarInternalLayerKey as it shouldn't be displayed to the user. */
     filteredProperties() {
       if (this.currentProperties) {
@@ -59,6 +57,10 @@ export default Vue.extend({
         )
       }
       return {}
+    },
+    photoHeight() {
+      const height = this.clientWidth * 0.15
+      return height < 200 ? 200 : height
     },
   },
   methods: {
