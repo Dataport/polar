@@ -26,8 +26,7 @@ Usage during client build:
       /*
        * Icon for icon menu button
        * If given, render a button with the icon. When clicked, open the content of the configured plugin.
-       * If not given, render the plugin content as is inside the IconMenu. The component of the plugin
-       * should in that case implement the prop `isHorizontal: boolean`.
+       * If not given, render the plugin content as is inside the IconMenu.
        * Current examples for the usage without icon include Zoom and Fullscreen,
        */
       icon: 'fa-book-atlas',

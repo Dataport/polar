@@ -658,6 +658,7 @@ export interface CoreState {
 export interface CoreGetters {
   components: PluginContainer[]
   configuration: MapConfig
+  deviceIsHorizontal: boolean
   hasSmallHeight: boolean
   hasSmallWidth: boolean
   /** Whether the application currently has the same size as the visual viewport of the users browser */
