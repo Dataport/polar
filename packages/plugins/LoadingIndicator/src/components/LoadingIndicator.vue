@@ -1,15 +1,20 @@
 <template>
-  <DefaultIndicator :show-loader="showLoader" />
+  <div v-if="showLoader">
+    <v-card>
+      <v-card-text>
+        {{ $t('common:plugins.loadingIndicator.loading') }}
+        <v-progress-linear indeterminate color="primary" class="mb-0" />
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import DefaultIndicator from './DefaultIndicator.vue'
 
 export default Vue.extend({
   name: 'LoadingIndicator',
-  components: { DefaultIndicator },
   computed: {
     ...mapGetters('plugin/loadingIndicator', ['showLoader']),
   },
