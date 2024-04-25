@@ -58,10 +58,6 @@ export default Vue.extend({
     ActionButtons,
   },
   props: {
-    clientWidth: {
-      type: Number,
-      required: true,
-    },
     exportProperty: {
       type: String,
       default: '',

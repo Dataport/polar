@@ -23,7 +23,6 @@ import List from './List.vue'
 
 export default Vue.extend({
   name: 'GfiPlugin',
-  data: () => ({ clientWidth: 0 }),
   computed: {
     ...mapGetters(['moveHandle']),
     ...mapGetters('plugin/gfi', [
@@ -45,7 +44,6 @@ export default Vue.extend({
         ? {}
         : {
             currentProperties: this.currentProperties,
-            clientWidth: this.clientWidth,
             exportProperty: this.exportProperty,
             showSwitchButtons: this.showSwitchButtons,
           }
@@ -114,13 +112,6 @@ export default Vue.extend({
       }
     },
   },
-  mounted() {
-    window.addEventListener('resize', this.updateClientWidth)
-    this.updateClientWidth()
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.updateClientWidth)
-  },
   methods: {
     ...mapMutations(['setMoveHandle']),
     ...mapActions('plugin/gfi', ['close']),
@@ -140,9 +131,6 @@ export default Vue.extend({
           )
         )
       }
-    },
-    updateClientWidth() {
-      this.clientWidth = this.$root.$el.clientWidth
     },
   },
 })

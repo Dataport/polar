@@ -51,10 +51,6 @@ export default Vue.extend({
       type: Object as PropType<GeoJsonProperties>,
       required: true,
     },
-    clientWidth: {
-      type: Number,
-      required: true,
-    },
     exportProperty: {
       type: String,
       default: '',
@@ -66,7 +62,7 @@ export default Vue.extend({
   },
   data: () => ({ closeLabel: 'common:plugins.gfi.header.close' }),
   computed: {
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
+    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
     photoHeight(): number {
       return this.clientWidth * 0.15
     },

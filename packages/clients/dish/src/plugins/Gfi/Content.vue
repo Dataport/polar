@@ -106,10 +106,6 @@ export default Vue.extend({
       type: Object as PropType<GeoJsonProperties>,
       required: true,
     },
-    clientWidth: {
-      type: Number,
-      required: true,
-    },
     exportProperty: {
       type: String,
       default: '',
@@ -127,7 +123,7 @@ export default Vue.extend({
     sachgesamtheitOpen: false,
   }),
   computed: {
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
+    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
       'imageLoaded',
       'visibleWindowFeatureIndex',
