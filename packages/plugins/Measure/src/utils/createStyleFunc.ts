@@ -53,8 +53,15 @@ export default function (
     const styles = [polygonStyle, pointStyle]
     const geom = feature.getGeometry() as Polygon | LineString
 
-    if (geom.getType() !== 'LineString' && geom.getType() !== 'Polygon') {
-      return styles
+    if (
+      !geom ||
+      (geom.getType() !== 'LineString' && geom.getType() !== 'Polygon')
+    ) {
+      console.error(
+        '@polar/plugin-measure: Unsupported geometry type or undefined geometry:',
+        geom
+      )
+      return []
     }
 
     const coordinates: Coordinate[] =
