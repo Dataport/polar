@@ -23,7 +23,6 @@
     "@polar/plugin-layer-chooser": "*",
     "@polar/plugin-legend": "*",
     "@polar/plugin-loading-indicator": "*",
-    "@polar/plugin-measure": "*",
     "@polar/plugin-pins": "*",
     "@polar/plugin-reverse-geocoder": "*",
     "@polar/plugin-scale": "*",
