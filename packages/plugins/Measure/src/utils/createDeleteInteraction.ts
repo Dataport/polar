@@ -9,7 +9,7 @@ import VectorSource from 'ol/source/Vector'
 import { MeasureGetters, MeasureState } from '../types'
 
 /**
- * Creates the interactions necessary to delete points or vertebrae of the drawn features
+ * Creates the interactions necessary to delete points or vertices of the drawn features.
  * @param context - ActionContext to have access to dispatch, commit and getters
  * @param drawLayer - drawing layer
  * @returns Array with the created Interactions
@@ -59,11 +59,11 @@ export default function (
     insertVertexCondition: never,
     deleteCondition: singleClick,
   })
-  // select for deleting vertebrae
+  // select for deleting vertices
   const select = new Select({ layers: [drawLayer] })
   const snap = new Snap({ source: drawSource })
 
-  // removes vertebrae
+  // removes vertices
   select.on('select', ({ selected, mapBrowserEvent }) => {
     if (selected.length > 0) {
       // gets the feature, outline and clicked point

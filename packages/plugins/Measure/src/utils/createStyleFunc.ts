@@ -6,7 +6,7 @@ import { MeasureGetters, MeasureState, Mode, StyleParameter } from '../types'
 import createStyle from './createStyle'
 
 /**
- * Creates the interactions necessary to delete points or vertebrae of the drawn features
+ * Creates the interactions necessary to delete points or vertices of the drawn features
  * @param context - ActionContext to have access to dispatch, commit and getters
  * @param styleType - Tool-Mode
  * @returns StyleFunc
