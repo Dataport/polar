@@ -17,9 +17,7 @@
     <v-simple-table class="polar-edgy-table" dense>
       <template #default>
         <FeatureTableHead></FeatureTableHead>
-        <FeatureTableBody
-          :current-properties="currentProperties"
-        ></FeatureTableBody>
+        <FeatureTableBody></FeatureTableBody>
       </template>
     </v-simple-table>
     <FeatureButtonGroup
@@ -45,10 +43,6 @@ export default Vue.extend({
     FeatureTableHead,
   },
   props: {
-    currentProperties: {
-      type: Object as PropType<GeoJsonProperties>,
-      required: true,
-    },
     exportProperty: {
       type: String,
       default: '',

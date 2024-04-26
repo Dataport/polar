@@ -41,6 +41,20 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       ? gfiConfiguration.afterLoadFunction
       : null
   },
+  currentProperties(
+    _,
+    { exportPropertyLayerKeys, visibleWindowFeatureIndex, windowFeatures }
+  ) {
+    const properties = {
+      ...windowFeatures[visibleWindowFeatureIndex],
+    }
+    const exportProperty =
+      exportPropertyLayerKeys[properties.polarInternalLayerKey]
+    if (exportProperty?.length > 0) {
+      delete properties[exportProperty]
+    }
+    return properties
+  },
   layerKeys(_, { gfiConfiguration }) {
     return Object.keys(gfiConfiguration?.layers || {})
   },

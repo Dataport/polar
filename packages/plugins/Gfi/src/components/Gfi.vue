@@ -16,7 +16,6 @@ import compare from 'just-compare'
 import { t } from 'i18next'
 import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { GeoJsonProperties } from 'geojson'
 import { MoveHandleProperties } from '@polar/lib-custom-types'
 import Feature from './Feature.vue'
 import List from './List.vue'
@@ -26,6 +25,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['moveHandle']),
     ...mapGetters('plugin/gfi', [
+      'currentProperties',
       'exportPropertyLayerKeys',
       'gfiContentComponent',
       'gfiConfiguration',
@@ -43,20 +43,8 @@ export default Vue.extend({
       return this.showList
         ? {}
         : {
-            currentProperties: this.currentProperties,
             exportProperty: this.exportProperty,
           }
-    },
-    currentProperties(): GeoJsonProperties {
-      const properties = {
-        ...this.windowFeatures[this.visibleWindowFeatureIndex],
-      }
-      const exportProperty =
-        this.exportPropertyLayerKeys[properties.polarInternalLayerKey]
-      if (exportProperty?.length > 0) {
-        delete properties[exportProperty]
-      }
-      return properties
     },
     exportProperty(): string {
       if (this.currentProperties) {

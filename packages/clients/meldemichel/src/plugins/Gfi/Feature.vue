@@ -69,6 +69,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
+      'currentProperties',
       'imageLoaded',
       'visibleWindowFeatureIndex',
       'windowFeatures',
@@ -76,9 +77,6 @@ export default Vue.extend({
     ...mapGetters('plugin/iconMenu', ['menus', 'open']),
     displayImage(): boolean {
       return this.currentProperties.pic
-    },
-    currentProperties(): GeoJsonProperties {
-      return { ...this.windowFeatures[this.visibleWindowFeatureIndex] }
     },
   },
   watch: {

@@ -102,10 +102,6 @@ export default Vue.extend({
   name: 'DishGfiContent',
   components: { ActionButton },
   props: {
-    currentProperties: {
-      type: Object as PropType<GeoJsonProperties>,
-      required: true,
-    },
     exportProperty: {
       type: String,
       default: '',
@@ -125,6 +121,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
+      'currentProperties',
       'imageLoaded',
       'visibleWindowFeatureIndex',
       'windowFeatures',

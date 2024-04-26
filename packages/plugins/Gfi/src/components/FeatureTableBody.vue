@@ -39,14 +39,9 @@ import isValidHttpUrl from '../utils/isValidHttpUrl'
 
 export default Vue.extend({
   name: 'GfiFeatureTableBody',
-  props: {
-    currentProperties: {
-      type: Object as PropType<GeoJsonProperties>,
-      required: true,
-    },
-  },
   computed: {
     ...mapGetters(['clientWidth']),
+    ...mapGetters('plugin/gfi', ['currentProperties']),
     /** Removes polarInternalLayerKey as it shouldn't be displayed to the user. */
     filteredProperties() {
       if (this.currentProperties) {
