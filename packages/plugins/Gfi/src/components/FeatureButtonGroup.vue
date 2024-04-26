@@ -22,6 +22,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
 import FeatureSwitchButtons from './FeatureSwitchButtons.vue'
 
 export default Vue.extend({
@@ -34,10 +35,9 @@ export default Vue.extend({
       type: String,
       default: '',
     },
-    showSwitchButtons: {
-      type: Boolean,
-      default: false,
-    },
+  },
+  computed: {
+    ...mapGetters('plugin/gfi', ['showSwitchButtons']),
   },
 })
 </script>

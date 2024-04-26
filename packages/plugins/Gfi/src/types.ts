@@ -58,6 +58,7 @@ export interface GfiGetters extends GfiState {
   renderMoveHandle: boolean
   renderType: RenderType
   showList: boolean
+  showSwitchButtons: boolean
   /** subset of layerKeys, where features' properties are to be shown in UI */
   windowLayerKeys: string[]
   /**

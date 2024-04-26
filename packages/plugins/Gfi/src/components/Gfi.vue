@@ -45,7 +45,6 @@ export default Vue.extend({
         : {
             currentProperties: this.currentProperties,
             exportProperty: this.exportProperty,
-            showSwitchButtons: this.showSwitchButtons,
           }
     },
     currentProperties(): GeoJsonProperties {
@@ -87,10 +86,6 @@ export default Vue.extend({
     },
     renderUi(): boolean {
       return this.windowFeatures.length > 0 || this.showList
-    },
-    /** only show switch buttons if multiple property sets are available */
-    showSwitchButtons(): boolean {
-      return this.windowFeatures.length > 1
     },
   },
   watch: {

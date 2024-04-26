@@ -25,7 +25,6 @@
     <FeatureButtonGroup
       v-if="exportProperty || showSwitchButtons"
       :export-property="exportProperty"
-      :show-switch-buttons="showSwitchButtons"
     ></FeatureButtonGroup>
   </div>
 </template>
@@ -54,14 +53,11 @@ export default Vue.extend({
       type: String,
       default: '',
     },
-    showSwitchButtons: {
-      type: Boolean,
-      default: false,
-    },
   },
   data: () => ({ closeLabel: 'common:plugins.gfi.header.close' }),
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
+    ...mapGetters('plugin/gfi', ['showSwitchButtons']),
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),
