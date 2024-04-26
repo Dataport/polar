@@ -32,8 +32,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
-import { GeoJsonProperties } from 'geojson'
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import isValidHttpUrl from '../utils/isValidHttpUrl'
 
