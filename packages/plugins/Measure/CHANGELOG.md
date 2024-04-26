@@ -1,9 +1,5 @@
 # CHANGELOG
 
-## unpublished
+## 1.0.0-alpha.0
 
-- Initial release.
-
-## 1.0.0
-
-Initial release.
+Alpha release. This tool is ready for use in minimal clients or for expert users. For caveats, see the README file.
