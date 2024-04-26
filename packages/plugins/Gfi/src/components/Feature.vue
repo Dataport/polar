@@ -28,8 +28,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
-import { GeoJsonProperties } from 'geojson'
+import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import FeatureButtonGroup from './FeatureButtonGroup.vue'
 import FeatureTableBody from './FeatureTableBody.vue'
