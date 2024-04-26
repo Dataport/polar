@@ -1,7 +1,7 @@
 <template>
   <v-card class="dish-gfi-content">
     <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
-      <ActionButton :export-property="exportProperty"></ActionButton>
+      <ActionButton></ActionButton>
       <v-spacer></v-spacer>
       <v-btn
         icon
@@ -101,12 +101,6 @@ type GfiIndexStep = -1 | 1
 export default Vue.extend({
   name: 'DishGfiContent',
   components: { ActionButton },
-  props: {
-    exportProperty: {
-      type: String,
-      default: '',
-    },
-  },
   data: () => ({
     infoFields: [
       'Kreis',
@@ -166,7 +160,6 @@ export default Vue.extend({
     if (this.hasWindowSize && this.hasSmallWidth) {
       this.setMoveHandleActionButton({
         component: ActionButton,
-        props: { exportProperty: this.exportProperty },
       })
     }
   },

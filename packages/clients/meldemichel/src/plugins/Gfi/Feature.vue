@@ -49,19 +49,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { GeoJsonProperties } from 'geojson'
 import ActionButtons from './ActionButtons.vue'
 
 export default Vue.extend({
   name: 'MeldemichelGfiFeature',
   components: {
     ActionButtons,
-  },
-  props: {
-    exportProperty: {
-      type: String,
-      default: '',
-    },
   },
   data: () => ({
     infoFields: ['skat', 'start', 'statu'],

@@ -22,7 +22,6 @@
     </v-simple-table>
     <FeatureButtonGroup
       v-if="exportProperty || showSwitchButtons"
-      :export-property="exportProperty"
     ></FeatureButtonGroup>
   </div>
 </template>
@@ -41,16 +40,10 @@ export default Vue.extend({
     FeatureTableBody,
     FeatureTableHead,
   },
-  props: {
-    exportProperty: {
-      type: String,
-      default: '',
-    },
-  },
   data: () => ({ closeLabel: 'common:plugins.gfi.header.close' }),
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
-    ...mapGetters('plugin/gfi', ['showSwitchButtons']),
+    ...mapGetters('plugin/gfi', ['exportProperty', 'showSwitchButtons']),
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),

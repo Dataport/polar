@@ -30,14 +30,8 @@ export default Vue.extend({
   components: {
     FeatureSwitchButtons,
   },
-  props: {
-    exportProperty: {
-      type: String,
-      default: '',
-    },
-  },
   computed: {
-    ...mapGetters('plugin/gfi', ['showSwitchButtons']),
+    ...mapGetters('plugin/gfi', ['exportProperty', 'showSwitchButtons']),
   },
 })
 </script>

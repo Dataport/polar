@@ -40,23 +40,7 @@ export default Vue.extend({
       return this.showList ? List : this.gfiContentComponent || Feature
     },
     contentProps(): object {
-      return this.showList
-        ? {}
-        : {
-            exportProperty: this.exportProperty,
-          }
-    },
-    exportProperty(): string {
-      if (this.currentProperties) {
-        const property =
-          this.exportPropertyLayerKeys[
-            this.currentProperties.polarInternalLayerKey
-          ]
-        return property?.length > 0
-          ? this.windowFeatures[this.visibleWindowFeatureIndex][property]
-          : ''
-      }
-      return ''
+      return this.showList ? {} : {}
     },
     moveHandleProperties() {
       const properties: MoveHandleProperties = {
