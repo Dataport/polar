@@ -8,6 +8,8 @@ import * as createDeleteInteractions from '../utils/createDeleteInteraction'
 import createInteractions from '../utils/createInteractions'
 import createStyleFunc from '../utils/createStyleFunc'
 
+// NOTE this is acceptable for list-like functions
+// eslint-disable-next-line max-lines-per-function
 export const makeActions = () => {
   let interactions: Interaction[] = []
   const drawSource = new VectorSource()
@@ -22,39 +24,32 @@ export const makeActions = () => {
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
     },
-    // updates the color for the drawings
     setLineColor({ commit, dispatch }, color: Color) {
       commit('setColor', color)
       dispatch('updateInteractions')
     },
-    // updates the color for the drawn texts along the lines
     setTextColor({ commit, dispatch }, color: Color) {
       commit('setTextColor', color)
       dispatch('updateInteractions')
     },
-    // sets the Modus
     setMode({ commit, dispatch }, mode: Mode) {
       commit('setMode', mode)
       dispatch('updateInteractions')
     },
-    // sets the mode for drawing (Polygon/LineString)
     setMeasureMode({ commit, dispatch }, measureMode) {
       commit('setMeasureMode', measureMode)
       dispatch('updateInteractions')
     },
-    // sets the unit for the measurements
     setUnit({ commit, dispatch }, unit: Unit) {
       commit('setUnit', unit)
       dispatch('updateInteractions')
     },
-    // updates the selected feature andf connected properties
     setSelectedFeature({ commit }, feature: Feature | null) {
       commit('setSelectedFeature', feature)
       commit('setGeometry')
       commit('setSelectedUnit')
       commit('setMeasure')
     },
-    // clears the measuring layer
     clearLayer() {
       drawSource.clear()
     },

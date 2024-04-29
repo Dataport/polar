@@ -21,6 +21,8 @@ const getInitialState = (): MeasureState => ({
   active: true,
 })
 
+// NOTE this is acceptable for list-like functions
+// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<MeasureState, MeasureGetters> = {
     namespaced: true,
