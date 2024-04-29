@@ -4,7 +4,7 @@ import VectorLayer from 'ol/layer/Vector'
 import { Interaction } from 'ol/interaction'
 import Feature from 'ol/Feature'
 import { MeasureGetters, MeasureState, Mode, Unit, Color } from '../types'
-import createDeleteInteraction from '../utils/createDeleteInteraction'
+import * as createDeleteInteractions from '../utils/createDeleteInteraction'
 import createInteractions from '../utils/createInteractions'
 import createStyleFunc from '../utils/createStyleFunc'
 
@@ -14,7 +14,7 @@ export const makeActions = () => {
   const drawLayer = new VectorLayer({ source: drawSource })
 
   const actions: PolarActionTree<MeasureState, MeasureGetters> = {
-    createDeleteInteraction,
+    ...createDeleteInteractions,
     createInteractions,
     createStyleFunc,
     // creates the drawing layer for measuring
