@@ -8,6 +8,8 @@ const invertOrder = (
   byTextTreeViewItems: TreeViewItem[],
   featureCollection: FeatureCollection
 ): TreeViewItem[] => {
+  const idRegister = new Set()
+
   // in case of toponym sorting, reverse the tree
   return featureCollection.features
     .map(
@@ -31,6 +33,14 @@ const invertOrder = (
         type: 'toponym',
       })
     )
+    .filter((item) => {
+      // duplicate removal
+      if (idRegister.has(item.id)) {
+        return false
+      }
+      idRegister.add(item.id)
+      return true
+    })
     .sort(sortByCount)
 }
 
