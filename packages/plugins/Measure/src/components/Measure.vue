@@ -25,7 +25,7 @@
             small
             @click="clearLayer"
           >
-            Delete All
+            {{ $t('common:plugins.measure.label.buttons.deleteAll') }}
           </v-btn>
           <div
             v-if="mode === 'draw'"

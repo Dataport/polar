@@ -23,7 +23,7 @@ const language: LanguageOption[] = [
             distance: 'Entfernung',
             area: 'Fläche',
             buttons: {
-              deletaAll: 'Alle löschen',
+              deleteAll: 'Alle löschen',
               setColor: 'Setze {{ title }}-Farbe',
             },
           },
@@ -53,7 +53,7 @@ const language: LanguageOption[] = [
             distance: 'Distance',
             area: 'Area',
             buttons: {
-              deletaAll: 'Delete all',
+              deleteAll: 'Delete all',
               setColor: 'Set {{ title }}-Color',
             },
           },
