@@ -1,3 +1,6 @@
+import union from '@turf/union'
+import flatten from '@turf/flatten'
+import { Feature, GeoJsonProperties, Geometry, Polygon } from 'geojson'
 import { wgs84ProjectionCode } from '../common'
 import { geoJson, wellKnownText } from './common'
 import { MakeRequestBodyParameters, RequestPayload } from './types'
@@ -8,6 +11,25 @@ const searchRequestDefaultPayload: Partial<RequestPayload> = {
   sdate: '0001-01-01',
   edate: new Date().toJSON().slice(0, 10),
   type: '-',
+}
+
+/**
+ * Reduces overlapping MultiPolygon to MultiPolygon without overlapping
+ * geometries. This is required for the following step, where the MultiPolygon
+ * is coverted to WKT. WKT forbids overlapping geometries in a MultiPolygon.
+ */
+const unify = (geometry: Geometry): Geometry => {
+  if (geometry.type === 'MultiPolygon') {
+    return flatten(geometry).features.reduce(
+      (accumulator, current) =>
+        // NOTE: never null, input from flatten merges as expected
+        union(accumulator, current) as Feature<Polygon, GeoJsonProperties>
+    ).geometry
+  }
+  console.warn(
+    `@polar/client-text-locator: Unexpected geometry in request body creation.`
+  )
+  return geometry
 }
 
 export const makeRequestBody = (
@@ -21,7 +43,7 @@ export const makeRequestBody = (
     ...(typeof geometry !== 'undefined'
       ? {
           geom: wellKnownText.writeGeometry(
-            geoJson.readGeometry(geometry, {
+            geoJson.readGeometry(unify(geometry), {
               dataProjection: epsg,
               featureProjection: wgs84ProjectionCode,
             })
