@@ -1,7 +1,4 @@
-import {
-  generateSimpleGetters,
-  generateSimpleMutations,
-} from '@repositoryname/vuex-generators'
+import { generateSimpleMutations } from '@repositoryname/vuex-generators'
 import { passesBoundaryCheck } from '@polar/lib-passes-boundary-check'
 import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
@@ -13,56 +10,52 @@ import { toLonLat, transform } from 'ol/proj'
 import { pointerMove } from 'ol/events/condition'
 import { Geometry } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
-import { PinsState } from '../types'
+import { PinsState, PinsGetters } from '../types'
 import getPointCoordinate from '../util/getPointCoordinate'
 import { getPinStyle } from '../util/getPinStyle'
-
-const getInitialState = (): PinsState => ({
-  isActive: false,
-  transformedCoordinate: [],
-  latLon: [],
-  coordinatesAfterDrag: [],
-  getsDragged: false,
-  toZoomLevel: 0,
-  atZoomLevel: 0,
-})
+import { getInitialState } from './state'
+import getters from './getters'
 
 // OK for module creation
 // eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   let pinsLayer: VectorLayer<Vector<Geometry>>
-
   const move = new Select({
     layers: (l) => l === pinsLayer,
     style: null,
     condition: pointerMove,
   })
 
-  const storeModule: PolarModule<PinsState, PinsState> = {
+  const storeModule: PolarModule<PinsState, PinsGetters> = {
     namespaced: true,
     state: getInitialState(),
     actions: {
-      /**
-       * Responsible for setting up the module by adding a watcher. This watcher
-       * calls removeMarker and showMarker if the store for addressSearch changes
-       * its value for the chosenAddress.
-       */
-      setupModule({ getters, rootGetters, dispatch, commit }): void {
-        const { appearOnClick, coordinateSource, movable, toZoomLevel } =
-          rootGetters.configuration.pins || {}
-        const interactions = rootGetters.map.getInteractions()
-        if (toZoomLevel) {
-          commit('setToZoomLevel', toZoomLevel)
-        }
-        if (appearOnClick?.atZoomLevel) {
-          commit('setAtZoomLevel', appearOnClick.atZoomLevel)
-        }
-        const showPin = appearOnClick === undefined ? true : appearOnClick.show
+      setupModule({ rootGetters, dispatch }): void {
+        dispatch('setupClickInteraction')
+        dispatch('setupCoordinateSource')
+        rootGetters.map.addInteraction(move)
+        move.on('select', ({ selected }) => {
+          const { movable } = rootGetters.configuration.pins || {}
+          if (!movable || movable === 'none') {
+            document.body.style.cursor = selected.length ? 'not-allowed' : ''
+          }
+        })
+        dispatch('setupInitial')
+        // without update, map will pan during drag
+        this.watch(
+          () => rootGetters.hasSmallWidth || rootGetters.hasSmallHeight,
+          () => dispatch('updateMarkerDraggability')
+        )
+      },
+      setupClickInteraction({ rootGetters, getters, commit, dispatch }): void {
+        const { appearOnClick, movable } = rootGetters.configuration.pins || {}
         if (typeof movable === 'boolean') {
           console.warn(
             "@polar/plugin-pins: Using a boolean for the configuration parameter 'movable' has been deprecated and will be removed in the next major release."
           )
         }
+        const interactions = rootGetters.map.getInteractions()
+        const showPin = appearOnClick === undefined ? true : appearOnClick.show
         rootGetters.map.on('singleclick', async ({ coordinate }) => {
           const isDrawing = interactions.getArray().some(
             (interaction) =>
@@ -72,7 +65,6 @@ export const makeStoreModule = () => {
               // @ts-expect-error | internal hack to detect it from Draw plugin
               interaction._isDeleteSelect
           )
-
           if (
             ((typeof movable === 'boolean' && movable) ||
               movable === 'drag' ||
@@ -85,15 +77,17 @@ export const makeStoreModule = () => {
             (await dispatch('isCoordinateInBoundaryLayer', coordinate))
           ) {
             const payload = { coordinates: coordinate, clicked: true }
-
             dispatch('removeMarker')
             dispatch('showMarker', payload)
             commit('setCoordinatesAfterDrag', coordinate)
             dispatch('updateCoordinates', coordinate)
           }
         })
-
+      },
+      setupCoordinateSource({ rootGetters, dispatch }): void {
+        const { coordinateSource } = rootGetters.configuration.pins || {}
         if (coordinateSource) {
+          // redo marker if source (e.g. from addressSearch) changes
           this.watch(
             () => rootGetters[coordinateSource],
             (feature) => {
@@ -113,16 +107,6 @@ export const makeStoreModule = () => {
             { deep: true }
           )
         }
-
-        rootGetters.map.addInteraction(move)
-        move.on('select', ({ selected }) => {
-          const { movable } = rootGetters.configuration.pins || {}
-          if (!movable || movable === 'none') {
-            document.body.style.cursor = selected.length ? 'not-allowed' : ''
-          }
-        })
-
-        dispatch('setupInitial')
       },
       setupInitial({ rootGetters, getters, dispatch, commit }): void {
         const { initial } = rootGetters.configuration.pins as PinsConfiguration
@@ -132,7 +116,6 @@ export const makeStoreModule = () => {
             typeof epsg === 'string'
               ? transform(coordinates, epsg, rootGetters.configuration.epsg)
               : coordinates
-
           dispatch('removeMarker')
           dispatch('showMarker', {
             coordinates: transformedCoordinates,
@@ -190,23 +173,20 @@ export const makeStoreModule = () => {
           map.addLayer(pinsLayer)
           pinsLayer.setZIndex(100)
           commit('setIsActive', true)
-          const movable = configuration.pins?.movable
-          if (typeof movable === 'boolean' && movable) {
-            dispatch('makeMarkerDraggable')
-          } else if (movable === 'drag') {
-            dispatch('makeMarkerDraggable')
-          }
+          dispatch('updateMarkerDraggability')
         }
       },
-      /**
-       * Makes the mapMarker draggable
-       */
-      makeMarkerDraggable({
-        rootGetters: { map },
+      // Decides whether to make the mapMarker draggable and, if so, does so.
+      updateMarkerDraggability({
+        rootGetters: { map, configuration },
         getters,
         commit,
         dispatch,
       }): void {
+        const movable = configuration.pins?.movable
+        if (movable !== 'drag' && movable !== true) {
+          return
+        }
         const { atZoomLevel } = getters
         const previousTranslate = map
           .getInteractions()
@@ -221,7 +201,6 @@ export const makeStoreModule = () => {
           map.removeInteraction(previousTranslate)
         }
         map.addInteraction(translate)
-
         translate.on('translatestart', () => {
           commit('setGetsDragged', true)
         })
@@ -231,7 +210,6 @@ export const makeStoreModule = () => {
             const geometry = feat.getGeometry()
             // @ts-expect-error | abstract method missing on type, exists in all implementations
             let coordinates = geometry?.getCoordinates()
-
             if (!(await dispatch('isCoordinateInBoundaryLayer', coordinates))) {
               coordinates = getters.transformedCoordinate
               dispatch('removeMarker')
@@ -245,15 +223,10 @@ export const makeStoreModule = () => {
           })
         })
       },
-      /**
-       * Removes the mapMarker from the map by removing its vectorLayer
-       */
+      // Removes the mapMarker from the map by removing its vectorLayer
       removeMarker({ rootGetters: { map }, commit }): void {
         map.getLayers().forEach(function (layer) {
-          if (
-            layer !== undefined &&
-            layer.get('polarInternalId') === 'mapMarkerVectorLayer'
-          ) {
+          if (layer?.get?.('polarInternalId') === 'mapMarkerVectorLayer') {
             map.removeLayer(layer)
           }
         })
@@ -266,7 +239,6 @@ export const makeStoreModule = () => {
       updateCoordinates({ commit, rootGetters }, coordinates: Coordinate) {
         const lonLat = toLonLat(coordinates, rootGetters.configuration.epsg)
         const latLon = [lonLat[1], lonLat[0]]
-
         commit('setTransformedCoordinate', coordinates)
         commit('setLatLon', latLon)
       },
@@ -281,13 +253,11 @@ export const makeStoreModule = () => {
       ): Promise<boolean> {
         const { boundaryLayerId, toastAction, boundaryOnError } =
           rootGetters.configuration?.pins || {}
-
         const boundaryCheckResult = await passesBoundaryCheck(
           rootGetters.map,
           boundaryLayerId,
           coordinates
         )
-
         if (
           !boundaryLayerId ||
           // if a setup error occurred, client will act as if no boundaryLayerId specified
@@ -297,15 +267,10 @@ export const makeStoreModule = () => {
         ) {
           return true
         }
-
         const errorOccurred = typeof boundaryCheckResult === 'symbol'
-
         if (toastAction) {
           const toast = errorOccurred
-            ? {
-                type: 'error',
-                text: 'plugins.pins.toast.boundaryError',
-              }
+            ? { type: 'error', text: 'plugins.pins.toast.boundaryError' }
             : {
                 type: 'info',
                 text: 'plugins.pins.toast.notInBoundary',
@@ -320,16 +285,11 @@ export const makeStoreModule = () => {
               : ['Pin position outside of boundary layer:', coordinates]
           )
         }
-
         return false
       },
     },
-    mutations: {
-      ...generateSimpleMutations(getInitialState()),
-    },
-    getters: {
-      ...generateSimpleGetters(getInitialState()),
-    },
+    mutations: { ...generateSimpleMutations(getInitialState()) },
+    getters,
   }
   return storeModule
 }

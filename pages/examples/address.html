@@ -4,6 +4,7 @@
 <head>
   <link rel="icon" href="../assets/iceberg_icon.svg">
   <link rel="stylesheet" href="../mvp.css">
+  <link rel="stylesheet" href="../polar.css">
 
   <meta charset="utf-8">
   <meta name="description" content="POLAR - Address example">
@@ -75,8 +76,8 @@
     },
     postCreation: ({ mapClient, id }) => {
       const paragraph = document.createElement('p')
-      const aside = document.getElementById(id).parentElement.parentElement
-      aside.appendChild(paragraph)
+      const card = document.getElementById(id).parentElement.parentElement
+      card.appendChild(paragraph)
       mapClient.subscribe('plugin/pins/latLon', (pinCoordinate) => {
         if (pinCoordinate.length) {
           paragraph.innerHTML = `The pin is at coordinate ${pinCoordinate.map(number => number.toFixed(4)).join(', ')}.`
@@ -86,7 +87,7 @@
       const copyright = document.createElement('p')
       copyright.style.cssText = 'color: var(--color-text-secondary)'
       copyright.innerHTML = 'Background map by <i>Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung</i>'
-      aside.appendChild(copyright)
+      card.appendChild(copyright)
     },
   })
 </script>
