@@ -16,7 +16,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'ExpansionPanel',
+  name: 'PolarMeasureExpansionPanel',
   props: {
     id: {
       type: String,

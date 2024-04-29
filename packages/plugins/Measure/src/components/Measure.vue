@@ -106,7 +106,7 @@ import ColorSlider from './ColorSlider.vue'
 import ExpansionPanel from './ExpansionPanel.vue'
 
 export default Vue.extend({
-  name: 'MeasurePlugin',
+  name: 'PolarMeasure',
   components: {
     ColorSlider,
     ExpansionPanel,

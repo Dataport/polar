@@ -61,7 +61,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'ColorSlider',
+  name: 'PolarMeasureColorSlider',
   props: {
     id: {
       type: String,
