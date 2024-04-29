@@ -17,6 +17,7 @@
       :root {
         --not-quite-white: #f2f3f4;
         --eigengrau: #16161d;
+        --map-height: 600px;
       }
 
       * {
@@ -60,13 +61,19 @@
       .polarstern {
         width: 100vw;
         max-width: calc(100% + 64px);
-        height: 600px;
+        height: var(--map-height);
         position: relative;
         margin-top: 10px;
         margin-bottom: 10px;
         left: -32px;
         outline: solid var(--eigengrau);
       }
+
+      #vuex-target-export-result {
+        width: 100%;
+        height: var(--map-height);
+      }
+
     </style>
   </head>
   <body>
@@ -100,7 +107,7 @@
     </p>
     <p>
       Map export:
-      <image id="vuex-target-export-result"></image>
+      <embed  id="vuex-target-export-result">
     </p>
     <script type="module" src="./polar-client.ts"></script>
     <script>
