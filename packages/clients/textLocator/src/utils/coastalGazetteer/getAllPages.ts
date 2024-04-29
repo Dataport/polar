@@ -34,6 +34,23 @@ const fetchParams = {
   },
 }
 
+const loadLengthInfoToast: [string, object] = [
+  'plugin/toast/addToast',
+  {
+    type: 'info',
+    text: 'textLocator.info.loadingTime',
+    timeout: 10000,
+  },
+]
+
+const loadErrorInfoToast: [string, object] = [
+  'plugin/toast/addToast',
+  {
+    type: 'error',
+    text: 'textLocator.error.searchCoastalGazetteer',
+  },
+]
+
 export async function getAllPages(
   this: Store<CoreState>,
   signal: AbortSignal,
@@ -48,19 +65,21 @@ export async function getAllPages(
   })
 
   if (!response.ok) {
-    this.dispatch('plugin/toast/addToast', {
-      type: 'error',
-      text: 'textLocator.error.searchCoastalGazetteer',
-    })
+    this.dispatch(...loadErrorInfoToast)
     console.error('Gazetteer response:', response)
     return getEmptyResponsePayload()
   }
+
   const responsePayload: ResponsePayload = await response.json()
   const pages = parseInt(responsePayload.pages, 10)
   const initialRequestMerge = typeof params.page === 'undefined' && pages > 1
 
   if (!initialRequestMerge) {
     return responsePayload
+  }
+
+  if (Number(responsePayload.count) > 10) {
+    this.dispatch(...loadLengthInfoToast)
   }
 
   return mergeResponses(

@@ -54,6 +54,8 @@ const locales: LanguageOption[] = [
           noLiteratureFound: 'Es wurden keine Texte zu diesen Orten gefunden.',
           noGeometriesFound:
             'Es wurden keine Orte zu dieser Geometrie gefunden.',
+          loadingTime:
+            'Es gibt viele Ergebnisse zu der letzten Anfrage. Der Ladevorgang kann einen Moment länger dauern.',
         },
         error: {
           searchCoastalGazetteer:
