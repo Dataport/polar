@@ -152,6 +152,10 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .polar-measure-card {
   min-width: 12em;
+
+  .v-expansion-panels {
+    margin-left: -2px;
+  }
 }
 
 .v-input--radio-group {
