@@ -57,10 +57,6 @@ export default function (
       !geom ||
       (geom.getType() !== 'LineString' && geom.getType() !== 'Polygon')
     ) {
-      console.error(
-        '@polar/plugin-measure: Unsupported geometry type or undefined geometry:',
-        geom
-      )
       return []
     }
 
