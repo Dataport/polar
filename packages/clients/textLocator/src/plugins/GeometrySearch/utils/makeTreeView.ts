@@ -9,41 +9,28 @@ const invertOrder = (
   featureCollection: FeatureCollection
 ): TreeViewItem[] => {
   // in case of toponym sorting, reverse the tree
-  const locationIds = [
-    ...new Set(
-      byTextTreeViewItems
-        .map((item) => (item.children || []).map((child) => child.id).flat(1))
-        .flat(1)
-    ),
-  ]
-
-  return locationIds
-    .map((locationId): TreeViewItem => {
-      const feature = featureCollection.features.find(
-        (feature) => feature.id === locationId
-      )
-      const locationName = feature?.properties?.title
-
-      return {
-        id: locationId,
-        name: locationName,
+  return featureCollection.features
+    .map(
+      (feature): TreeViewItem => ({
+        id: String(feature.id),
+        name: feature.properties?.title,
         feature,
         count: byTextTreeViewItems
           .map(
             (item) =>
-              item.children?.find((child) => child.name === locationName)
-                ?.count || 0
+              item.children?.find((child) => child.id === feature.id)?.count ||
+              0
           )
           .reduce((acc, curr) => acc + curr),
         children: byTextTreeViewItems
           .filter((item) =>
-            item.children?.find((child) => child.name === locationName)
+            item.children?.find((child) => child.id === feature.id)
           )
           .map((item) => ({ ...item, children: undefined }))
           .sort(sortByCount),
         type: 'toponym',
-      }
-    })
+      })
+    )
     .sort(sortByCount)
 }
 
