@@ -77,7 +77,6 @@ export const makeStoreModule = () => {
             (await dispatch('isCoordinateInBoundaryLayer', coordinate))
           ) {
             const payload = { coordinates: coordinate, clicked: true }
-            dispatch('removeMarker')
             dispatch('showMarker', payload)
             commit('setCoordinatesAfterDrag', coordinate)
             dispatch('updateCoordinates', coordinate)
@@ -100,7 +99,6 @@ export const makeStoreModule = () => {
                   clicked: false,
                   epsg: feature.epsg,
                 }
-                dispatch('removeMarker')
                 dispatch('showMarker', payload)
               }
             },
@@ -116,7 +114,6 @@ export const makeStoreModule = () => {
             typeof epsg === 'string'
               ? transform(coordinates, epsg, rootGetters.configuration.epsg)
               : coordinates
-          dispatch('removeMarker')
           dispatch('showMarker', {
             coordinates: transformedCoordinates,
             clicked: true,
@@ -135,46 +132,45 @@ export const makeStoreModule = () => {
        * @param payload - an object with a boolean that shows if the coordinate
        * was submitted via click and the corresponding coordinates.
        */
-      showMarker({ getters, rootGetters, commit, dispatch }, payload): void {
-        if (getters.isActive === false) {
-          const { configuration, map } = rootGetters
-          if (payload.clicked === false) {
-            dispatch(
-              'updateCoordinates',
-              getPointCoordinate(
-                payload.epsg,
-                configuration.epsg,
-                payload.type,
-                payload.coordinates
-              )
+      showMarker({ getters, rootGetters, dispatch }, payload): void {
+        // always clean up other/old markers first – single marker only atm
+        dispatch('removeMarker')
+        const { configuration, map } = rootGetters
+        if (payload.clicked === false) {
+          dispatch(
+            'updateCoordinates',
+            getPointCoordinate(
+              payload.epsg,
+              configuration.epsg,
+              payload.type,
+              payload.coordinates
             )
-            map.getView().setCenter(getters.transformedCoordinate)
-            map.getView().setZoom(getters.toZoomLevel)
-          }
-          const coordinatesForIcon =
-            payload.clicked === true
-              ? payload.coordinates
-              : getters.transformedCoordinate
-          map.removeLayer(pinsLayer)
-          pinsLayer = new VectorLayer({
-            source: new Vector({
-              features: [
-                new Feature({
-                  geometry: new Point(coordinatesForIcon),
-                  type: 'point',
-                  name: 'mapMarker',
-                  zIndex: 100,
-                }),
-              ],
-            }),
-            style: getPinStyle(configuration?.pins?.style || {}),
-          })
-          pinsLayer.set('polarInternalId', 'mapMarkerVectorLayer')
-          map.addLayer(pinsLayer)
-          pinsLayer.setZIndex(100)
-          commit('setIsActive', true)
-          dispatch('updateMarkerDraggability')
+          )
+          map.getView().setCenter(getters.transformedCoordinate)
+          map.getView().setZoom(getters.toZoomLevel)
         }
+        const coordinatesForIcon =
+          payload.clicked === true
+            ? payload.coordinates
+            : getters.transformedCoordinate
+        map.removeLayer(pinsLayer)
+        pinsLayer = new VectorLayer({
+          source: new Vector({
+            features: [
+              new Feature({
+                geometry: new Point(coordinatesForIcon),
+                type: 'point',
+                name: 'mapMarker',
+                zIndex: 100,
+              }),
+            ],
+          }),
+          style: getPinStyle(configuration?.pins?.style || {}),
+        })
+        pinsLayer.set('polarInternalId', 'mapMarkerVectorLayer')
+        map.addLayer(pinsLayer)
+        pinsLayer.setZIndex(100)
+        dispatch('updateMarkerDraggability')
       },
       // Decides whether to make the mapMarker draggable and, if so, does so.
       updateMarkerDraggability({
@@ -212,7 +208,6 @@ export const makeStoreModule = () => {
             let coordinates = geometry?.getCoordinates()
             if (!(await dispatch('isCoordinateInBoundaryLayer', coordinates))) {
               coordinates = getters.transformedCoordinate
-              dispatch('removeMarker')
               dispatch('showMarker', {
                 coordinates,
                 clicked: true,
@@ -224,13 +219,12 @@ export const makeStoreModule = () => {
         })
       },
       // Removes the mapMarker from the map by removing its vectorLayer
-      removeMarker({ rootGetters: { map }, commit }): void {
+      removeMarker({ rootGetters: { map } }): void {
         map.getLayers().forEach(function (layer) {
           if (layer?.get?.('polarInternalId') === 'mapMarkerVectorLayer') {
             map.removeLayer(layer)
           }
         })
-        commit('setIsActive', false)
       },
       /**
        * Set the value for the transformed coordinate and save it as latLon as well.
