@@ -9,6 +9,7 @@ import {
   PinsConfiguration,
   ReverseGeocoderConfiguration,
 } from '@polar/lib-custom-types'
+import { MpApiParameters } from '@polar/plugin-address-search/src/types'
 import { MODE, SKAT, REPORT_STATUS } from './enums'
 import language from './language'
 import { MeldemichelCreateMapParams } from './types'
@@ -88,12 +89,11 @@ const commonAttributions: Partial<AttributionsConfiguration> = {
 const addressSearch: AddressSearchConfiguration = {
   searchMethods: [
     {
-      // @ts-expect-error | missing field "epsg" filled later in process
       queryParameters: {
         searchAddress: true,
         searchStreets: true,
         searchHouseNumbers: true,
-      },
+      } as MpApiParameters,
       type: 'mpapi',
       url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
     },

@@ -43,31 +43,22 @@ export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi' | string
  * please refer to the types in the plugin
  */
 export interface QueryParameters {
-  /** Currently used projection of the map */
-  epsg: `EPSG:${string}`
   /** sets the maximum number of features to retrieve */
   maxFeatures?: number
-  // type:mpapi – these are forwarded to the masterportalApi
-  searchAddress?: boolean
-  searchDistricts?: boolean
-  searchHouseNumbers?: boolean
-  searchParcels?: boolean
-  searchStreetKey?: boolean
-  searchStreets?: boolean
 }
 
 export type SearchDisplayMode = 'mixed' | 'categorized'
 
 /** Object containing information for a specific search method */
 export interface SearchMethodConfiguration {
-  queryParameters?: QueryParameters
   type: SearchType
   url: string
+  categoryId?: string
+  groupId?: string
+  hint?: string
   label?: string
   placeholder?: string
-  hint?: string
-  groupId?: string
-  categoryId?: string
+  queryParameters?: QueryParameters
 }
 
 export type SearchMethodFunction = (
@@ -95,10 +86,10 @@ export type MemberSuffix = 'member' | 'featureMember'
 
 export interface AddressSearchGroupProperties {
   label: string
-  placeholder?: string
-  hint?: string
   resultDisplayMode: SearchDisplayMode
+  hint?: string
   limitResults?: number
+  placeholder?: string
 }
 
 export interface AddressSearchCategoryProperties {
@@ -108,25 +99,25 @@ export interface AddressSearchCategoryProperties {
 
 /** AddressSearch Module Configuration */
 export interface AddressSearchConfiguration extends PluginOptions {
-  // Minimal input length before the search starts
-  minLength: number
-  // Time passed in milliseconds before another search is started
-  waitMs: number
   // Configured search methods
   searchMethods: SearchMethodConfiguration[]
+  // optional loading action name to start loading
+  addLoading?: string
+  // definition of categories referred to in searchMethods
+  categoryProperties?: Record<string, AddressSearchCategoryProperties>
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
   // optional selectResult overrides (client-side injections)
   customSelectResult?: Record<string, SelectResultFunction>
-  // definition of categories referred to in searchMethods
-  categoryProperties?: Record<string, AddressSearchCategoryProperties>
   focusAfterSearch?: boolean
   // definition of groups referred to in searchMethods
   groupProperties?: Record<string, AddressSearchGroupProperties>
-  // optional loading action name to start loading
-  addLoading?: string
+  // Minimal input length before the search starts
+  minLength?: number
   // optional loading action name to end loading
   removeLoading?: string
+  // Time passed in milliseconds before another search is started
+  waitMs?: number
 }
 
 export interface Attribution {
