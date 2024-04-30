@@ -30,11 +30,11 @@ map.$store.dispatch('plugin/export/exportAs', type)
 
 ### State
 
-This shows how a callback can be used to immediately show a `Png` screenshot in an image tag. The value of the `screenshot` variable is a base64-encoded string.
+This shows how a callback can be used to show the exported data in a suitable html element. The value of the `screenshot` variable is a base64-encoded string.
 
 ```js
-const someImgTag = // ... however you retrieve your tag
+const someElement = // ... however you retrieve your html element
   map.subscribe('plugin/export/exportedMap', (screenshot) =>
-    someImgTag.setAttribute('src', screenshot)
+    someElement.setAttribute('src', screenshot)
   )
 ```
