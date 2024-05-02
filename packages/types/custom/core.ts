@@ -217,17 +217,21 @@ export interface FilterConfiguration extends PluginOptions {
 /** Configuration of GFI feature regarding a specific layer */
 export interface GfiLayerConfiguration {
   /**
+   * Property of the features of a service having an url usable to trigger a
+   * download of features as a document.
+   */
+  exportProperty?: string
+  // filter method to apply on response features, only relevant for WMS services
+  filterBy?: 'clickPosition'
+  // format the response is known to come in (e.g. "GML"); only relevant for WMS services
+  format?: 'GML' | 'GML2' | 'GML3' | 'GML32' | 'text'
+  /**
    * Whether the found features' geometry, if available, is to be shown on the
    * map. It is simply printed to a helper layer.
    */
   geometry?: boolean
-  /**
-   * Whether the found features' properties are to be shown in the client's UI.
-   * They are displayed as a table, one feature at a time, and if multiple
-   * features are found, the user may step through all where the layer's window
-   * value is true.
-   */
-  window?: boolean
+  // name of field to use for geometry, if not default field
+  geometryName?: string
   /**
    * If window is true, the properties are either
    * 1. filtered by whether their key is in a string[]
@@ -241,18 +245,14 @@ export interface GfiLayerConfiguration {
    * only the UI is affected by these filters/mappings.
    */
   properties?: string[] | Record<string, string>
-  /**
-   * Property of the features of a service having an url usable to trigger a
-   * download of features as a document.
-   */
-  exportProperty?: string
-  // filter method to apply on response features
-  filterBy?: 'clickPosition' | undefined
-  // name of field to use for geometry, if not default field
-  geometryName?: string
-  // format the response is known to come in (e.h. "GML")
-  format?: string
   showTooltip?: (feature: Feature, map: Map) => [string, string][]
+  /**
+   * Whether the found features' properties are to be shown in the client's UI.
+   * They are displayed as a table, one feature at a time, and if multiple
+   * features are found, the user may step through all where the layer's window
+   * value is true.
+   */
+  window?: boolean
 }
 
 export type BoundaryOnError = 'strict' | 'permissive'
@@ -311,20 +311,25 @@ export type GfiAfterLoadFunction = (
 /** GFI Module Configuration */
 export interface FeatureList {
   mode: 'visible' | 'loaded'
-  pageLength?: number
-  text: (string | ((f: Feature) => string))[]
   bindWithCoreHoverSelect?: boolean
+  pageLength?: number
+  text?: (string | ((f: Feature) => string))[]
 }
 
 export interface GfiConfiguration extends PluginOptions {
-  activeLayerPath?: string
-  afterLoadFunction?: GfiAfterLoadFunction
   /**
    * Source paths through store to listen to for changes; it is assumed values
    * listened to are coordinates that can be used to request information from
    * the specified layers.
    */
   coordinateSources: string[]
+  /**
+   * The layers to request feature information from. Both WMS and WFS layers are
+   * supported. Keys are layer IDs as specified in the services.json registry.
+   */
+  layers: Record<string, GfiLayerConfiguration>
+  activeLayerPath?: string
+  afterLoadFunction?: GfiAfterLoadFunction
   /**
    * If required the stroke and fill of the highlighted feature can be configured.
    * Otherwise, a default style is applied.
@@ -336,18 +341,14 @@ export interface GfiConfiguration extends PluginOptions {
    * Usable to completely redesign content of GFI window.
    */
   gfiContentComponent?: Vue
-  renderType?: RenderType
-  /**
-   * The layers to request feature information from. Both WMS and WFS layers are
-   * supported. Keys are layer IDs as specified in the services.json registry.
-   */
-  layers: Record<string, GfiLayerConfiguration>
   /**
    * Limits the viewable GFIs per layer by this number. The first n elements
    * are chosen arbitrarily. Useful if you e.g. just want one result, or to
    * limit an endless stream of returns to maybe 10 or so. Infinite by default.
    */
   maxFeatures?: number
+  mode?: 'bboxDot' | 'intersects'
+  renderType?: RenderType
 }
 
 export interface Menu {
