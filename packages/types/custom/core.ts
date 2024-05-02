@@ -184,24 +184,24 @@ export interface ExportConfiguration extends PluginOptions {
 
 export interface FilterConfigurationTimeOption {
   amounts: number[]
-  unit: 'days'
+  unit?: 'days'
 }
 
 interface FilterConfigurationTime {
   targetProperty: string
-  pattern?: string
-  last?: FilterConfigurationTimeOption[]
-  next?: FilterConfigurationTimeOption[]
   freeSelection?: {
     now?: 'until' | 'from'
-    unit: 'days'
+    unit?: 'days'
   }
+  last?: FilterConfigurationTimeOption[]
+  next?: FilterConfigurationTimeOption[]
+  pattern?: string
 }
 
 interface FilerConfigurationCategory {
-  selectAll?: boolean
-  targetProperty: string
   knownValues: (string | number)[]
+  targetProperty: string
+  selectAll?: boolean
 }
 
 export interface FilterConfiguration extends PluginOptions {
