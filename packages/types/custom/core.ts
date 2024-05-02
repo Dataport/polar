@@ -278,9 +278,9 @@ export interface GeoLocationConfiguration extends LayerBoundPluginOptions {
    * listened to are coordinates that can be used to request information from
    * the specified layers.
    */
-  checkLocationInitially: boolean
+  checkLocationInitially?: boolean
   /** whether to keep center on user or allow movement after first zoom to */
-  keepCentered: boolean
+  keepCentered?: boolean
   renderType?: RenderType
   showTooltip?: boolean
   /**
@@ -288,7 +288,7 @@ export interface GeoLocationConfiguration extends LayerBoundPluginOptions {
    * are chosen arbitrarily. Useful if you e.g. just want one result, or to
    * limit an endless stream of returns to maybe 10 or so. Infinite by default.
    */
-  zoomLevel: number
+  zoomLevel?: number
 }
 
 /** Object containing information for highlighting a gfi result */
