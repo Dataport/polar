@@ -163,9 +163,9 @@ export interface FontStyle {
 export type DrawMode = 'Circle' | 'LineString' | 'Point' | 'Polygon' | 'Text'
 
 export interface DrawConfiguration extends Partial<PluginOptions> {
+  selectableDrawModes?: DrawMode[]
   style?: DrawStyle
   textStyle?: TextStyle
-  selectableDrawModes?: DrawMode[]
 }
 
 export interface ExportConfiguration extends PluginOptions {
