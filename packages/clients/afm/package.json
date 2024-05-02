@@ -21,7 +21,8 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm"
+    "build": "rimraf --glob {./dist,./docs,./bom.json} && vite build",
+    "postbuild": "cd ../../.. && npm run docs:afm && node ./scripts/makeBom.js ./packages/clients/afm library"
   },
   "devDependencies": {
     "@polar/core": "^1.0.0",
@@ -41,9 +42,9 @@
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
+    "lodash.merge": "^4.6.2",
     "ol": "^7.x",
     "vue": "^2.x",
-    "vuex": "^3.x",
-    "lodash.merge": "^4.6.2"
+    "vuex": "^3.x"
   }
 }
