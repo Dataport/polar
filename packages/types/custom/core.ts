@@ -127,11 +127,11 @@ export interface Attribution {
 
 /** Attributions Module Configuration */
 export interface AttributionsConfiguration extends PluginOptions {
-  layerAttributions?: Attribution[]
-  staticAttributions?: string[]
-  renderType?: RenderType
   initiallyOpen?: boolean
   listenToChanges?: string[]
+  layerAttributions?: Attribution[]
+  renderType?: RenderType
+  staticAttributions?: string[]
   windowWidth?: number
 }
 
