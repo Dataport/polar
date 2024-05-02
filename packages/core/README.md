@@ -72,7 +72,7 @@ The mapConfiguration allows controlling many client instance details.
 | fieldName                   | type             | description                                                                                                                                                              |
 | --------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | layerConf                   | LayerConf        | Layer configuration as required by masterportalAPI.                                                                                                                      |
-| language                    | enum["de", "en"] | Initial language. Live changes not yet implemented, waiting for requirement.                                                                                             |
+| language                    | enum["de", "en"] | Initial language.                                                                                           |
 | <...masterportalAPI.fields> | various          | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options.                                                              |
 | <plugin.fields>             | various?          | Many plugins added with `addPlugin` may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below. |
 | locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
