@@ -129,6 +129,7 @@ Since inputs may overlap with multiple patterns, multiple queries are fired and 
 
 | fieldName     | type     | description                                                                                                   |
 | ------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
+| epsg | `EPSG:${string}` | EPSG code of the projection to use. |
 | fieldName     | string[] | Field names of service to search in.                                                                          |
 | memberSuffix  | string   | Elements to interpret are fetched from response XML as `wfs:memberSuffix`; fitting suffix must be configured. |
 | namespaces    | string \| string[] | Namespaces to add to the request.                                                                             |

@@ -50,6 +50,8 @@ export interface BKGParameters extends QueryParameters {
  * Further information can be retrieved from the WFS specification
  */
 export interface GazetteerParameters extends QueryParameters {
+  /** Currently used projection of the map */
+  epsg: `EPSG:${string}`
   /** The fieldName to be searched within the service */
   fieldName: string
   memberSuffix: MemberSuffix
