@@ -385,16 +385,16 @@ interface PinStyle {
 }
 
 export interface PinsConfiguration extends LayerBoundPluginOptions {
-  appearOnClick: AppearOnClick
+  appearOnClick?: AppearOnClick
   /** Path in store from where coordinates can be retrieved from. */
-  coordinateSource: string
+  coordinateSource?: string
   initial?: InitialPin
   /** If the pin should be movable; defaults to false. */
   movable?: boolean | MovablePin
   /** Pin styling */
   style?: PinStyle
   /** The zoom level to zoom to when a pin is added to the map. */
-  toZoomLevel: number
+  toZoomLevel?: number
 }
 
 export interface ReverseGeocoderConfiguration {
