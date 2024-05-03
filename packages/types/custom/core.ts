@@ -400,12 +400,12 @@ export interface PinsConfiguration extends LayerBoundPluginOptions {
 export interface ReverseGeocoderConfiguration {
   // WPS (Web Processing Service) URL
   url: string
-  // points to a coordinate source; on update, coordinate is resolved
-  coordinateSource?: string
-  // points to an address acceptor; on resolve, address is dispatched there
-  addressTarget?: string
   // optional loading action name to start loading
   addLoading?: string
+  // points to an address acceptor; on resolve, address is dispatched there
+  addressTarget?: string
+  // points to a coordinate source; on update, coordinate is resolved
+  coordinateSource?: string
   // optional loading action name to end loading
   removeLoading?: string
   // optionally zooms to given coordinate after successful reverse geocoding; number indicates zoom level
