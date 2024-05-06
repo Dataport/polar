@@ -74,7 +74,7 @@ const getInitialState = (): CoreState => ({
   hasSmallDisplay: false,
   errors: [],
   language: '',
-  mapHasDimensions: null,
+  mapHasDimensions: false,
 })
 
 // OK for store creation
