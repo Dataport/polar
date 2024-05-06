@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Adjust types to correctly reflect usages.
+- Refactor: Adjust meldemichel-gfi-component to the new API.
+
 ## 1.0.0
 
 Initial release. 🎉

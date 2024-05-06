@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Fix: Add missing configuration parameters `featureList` and `maxFeatures` to the general documentation and `filterBy` and `format` to `gfi.gfiLayerConfiguration`
+- Refactor: Replace redundant prop-forwarding with `getters`.
+- Refactor: Use core getter `clientWidth` instead of local computed value.
+
 ## 1.2.2
 
 - Fix: The `close` method previously always removed the pin when not in `extendedMasterportalapiMarkers` mode. This issue has been resolved by distinguishing whether a close operation happened in effect to a direct closing user interaction or was technically motivated.

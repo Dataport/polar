@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add `deviceIsHorizontal` as a getter to have a more central place to check if the device is in landscape mode.
+- Fix: Adjust documentation to properly describe optionality of configuration parameters.
+
 ## 1.4.1
 
 - Feature: Additionally export `PolarCore` type.
