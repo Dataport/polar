@@ -31,7 +31,7 @@ An option wheel will appear in the layer chooser that allows opening a sub-menu 
 
 | fieldName | type              | description                                                                                                                                                                                                 |
 | --------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| layers    | boolean \| options.layers | If truthy, all configured _layers of the layer_ can be turned off and on by the user. ⚠️ Only implemented for WMS. Only implemented for top layers; that is, only first level of nesting is considered. |
+| layers    | options.layers | If configured, all configured _layers of the layer_ can be turned off and on by the user. ⚠️ Only implemented for WMS. Only implemented for top layers; that is, only first level of nesting is considered. |
 
 #### mapConfiguration.layers.options.layers
 
