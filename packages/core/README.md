@@ -213,7 +213,7 @@ Most plugins honor this additional field.
 
 | fieldName        | type    | description                                                                                                                                                                                                                                               |
 | ---------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| displayComponent | boolean? | Optional field that allows hiding UI elements from the user. The store will still be initialized, allowing you to add your own UI elements and control the plugin's functionality via the Store. This may or may not make sense, depending on the plugin. |
+| displayComponent | boolean? | Optional field that allows hiding UI elements from the user. The store will still be initialized, allowing you to add your own UI elements and control the plugin's functionality via the Store. This may or may not make sense, depending on the plugin. Defaults to `false` , meaning the default UI is hidden. |
 
 ##### mapConfiguration.vuetify
 
