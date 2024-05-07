@@ -4,6 +4,7 @@ import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
 import { Vector } from 'ol/source'
 import Feature from 'ol/Feature'
+import { containsCoordinate } from 'ol/extent'
 import { Style, Icon } from 'ol/style'
 import * as Proj from 'ol/proj.js'
 import Geolocation from 'ol/Geolocation.js'
@@ -113,7 +114,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
    * Setting the current map on the position
    */
   async positioning({
-    rootGetters: { map },
+    rootGetters: { map, configuration },
     getters: {
       boundaryLayerId,
       boundaryOnError,
@@ -130,11 +131,14 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       configuredEpsg
     )
 
-    const boundaryCheckPassed = await passesBoundaryCheck(
-      map,
-      boundaryLayerId,
-      transformedCoords
-    )
+    const boundaryCheckPassed =
+      typeof boundaryLayerId === 'string'
+        ? await passesBoundaryCheck(map, boundaryLayerId, transformedCoords)
+        : containsCoordinate(
+            // NOTE: The fallback is the default value set by @masterportal/masterportalApi
+            configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
+            transformedCoords
+          )
     const boundaryErrorOccurred = typeof boundaryCheckPassed === 'symbol'
 
     if (
@@ -157,7 +161,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   },
   printPositioningFailed(
     { dispatch, getters: { toastAction } },
-    boundaryErrorOccurred
+    boundaryErrorOccurred: string
   ) {
     if (toastAction) {
       const toast = boundaryErrorOccurred

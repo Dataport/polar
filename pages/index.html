@@ -23,6 +23,20 @@
       width: 1px;
       min-width: 100%;
     }
+
+    #contact {
+      padding: 0;
+      margin-bottom: 3rem;
+    }
+    .footer-hr {
+      margin: 0;
+    }
+    .talks-links-wrapper {
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 1rem;
+      max-width: 25%;
+    }
   </style>
 </head>
 
@@ -34,6 +48,7 @@
         <li><a href="#why">Why POLAR?</a>
         <li><a href="#users">Users</a></li>
         <li><a href="#plugin-gallery">Plugin gallery</a></li>
+        <li><a href="#media">Media</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="./documentation.html">Documentation ↗</a></li>
@@ -157,6 +172,22 @@
       </header>
     </section>
     <hr>
+    <section id="media">
+      <header>
+        <h2>Media</h2>
+        Watch our latest talk for a comprehensive explanation of architecture and configuration.
+      </header>
+      <aside style="width:1024px">
+        <iframe width="1024" height="576" src="https://media.ccc.de/v/fossgis2024-38921-polar-vollkonfigurierbare-pluginbasierte-kartenklienten-fr-brgernahe-anwendungen/oembed" frameborder="0" allowfullscreen></iframe>
+        <h3>FOSSGIS 2024 (German)</h3>
+        <p lang="de">POLAR - Vollkonfigurierbare, pluginbasierte Kartenklienten für bürgernahe Anwendungen </p>
+        <div class="talks-links-wrapper">
+          <a href="https://pretalx.com/fossgis2024/talk/review/WKTPGZRRVBGZPU9B7HXC87KHAK8LNKCN" target="_blank">Abstract and Slides</a>
+          <a href="https://github.com/dopenguin/polar-fossgis-2024" target="_blank">Example</a>
+        </div>
+      </aside>
+    </section>
+    <hr>
     <article id="faq">
       <h2>Frequently Asked Questions</h2>
       <details>
@@ -173,14 +204,13 @@
       <details>
         <summary>Where do I get map services?</summary>
         <p>POLAR does not provide backend services, but a map UI. It is designed to work with decentralized geospatial infrastructure. E.g. Hamburg offers <a href="https://geodienste.hamburg.de/services-internet.json" target="_blank">a huge pool of geospatial services ↗</a> for anyone to use.</p>
-        </p>
         <p><span style="font-size: xx-large; position: relative; top: 6px; margin-right: 7px;">👉</span> Need support regarding your region? Contact us. There's regional differences, but we've researched this a few times already.</p>
       </details>
     </article>
   </main>
 
   <footer id="contact">
-    <hr>
+    <hr class="footer-hr">
     <h2>Contact</h2>
     <p>
       Mail us at <a href="mailto:dataportpolarsupport@dataport.de">dataportpolarsupport@dataport.de</a>

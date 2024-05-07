@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Resolve issue with `initiallyOpen` not working as expected.
+
 ## 2.0.0-alpha.3
 
 - Chore: Add `compileTemplate` to `rollup-plugin-vue`.
