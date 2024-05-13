@@ -4,6 +4,10 @@
 
 - Chore: Import newly exposed style paths of `@polar/core` as well as all plugin packages.
 
+## 1.1.0
+
+- Change: The search now no longer focuses on the first result after a successful search.
+
 ## 1.0.0
 
 Initial release. 🎉
