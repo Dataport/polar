@@ -82,7 +82,7 @@ const locales: LanguageOption[] = [
           [wmtsTopplusOpenWebGrey]: 'TopPlusOpen (Web, Grey)',
           [wmtsTopplusOpenLight]: 'TopPlusOpen (Light)',
           [wmtsTopplusOpenLightGrey]: 'TopPlusOpen (Light, Grey)',
-          [aerial]: 'Luftbilder Sen2Europe',
+          [aerial]: 'Aerial photographs Sen2Europe',
         },
         addressSearch: {
           unnamed: 'Unnamed',
