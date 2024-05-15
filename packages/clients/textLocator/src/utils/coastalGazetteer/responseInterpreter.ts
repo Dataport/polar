@@ -91,11 +91,11 @@ export const featureCollectionify = (
       if (feature.id.includes(idPrefixes.country)) {
         return accumulator
       }
-      const featurified = featurify(epsg, searchPhrase)(feature)
-      if (featurified === null) {
+      const geoJsonFeature = featurify(epsg, searchPhrase)(feature)
+      if (geoJsonFeature === null) {
         return accumulator
       }
-      accumulator.push(featurified)
+      accumulator.push(geoJsonFeature)
       return accumulator
     }, [] as GeometrySearchState['featureCollection']['features'])
   )
