@@ -43,8 +43,7 @@ const locales: LanguageOption[] = [
           [wmtsTopplusOpenWebGrey]: `$t(textLocator.layers.${wmtsTopplusOpenWebGrey}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
           [wmtsTopplusOpenLight]: `$t(textLocator.layers.${wmtsTopplusOpenLight}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
           [wmtsTopplusOpenLightGrey]: `$t(textLocator.layers.${wmtsTopplusOpenLightGrey}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
-          [aerial]:
-            '© Europäische Union, enthält veränderte Copernicus Sentinel-Daten ({{YEAR}})',
+          [aerial]: `$t(textLocator.layers.${aerial}): © Europäische Union, enthält veränderte Copernicus Sentinel-Daten ({{YEAR}})`,
           kuestengazetteer:
             '<br>Zur Ortssuche wird der <a href="https://projekt.mdi-de.org/kuesten-gazetteer/" target="_blank">Küstengazetteer</a> eingesetzt.',
           static:
