@@ -7,7 +7,7 @@ const lang: LanguageOption[] = [
       plugins: {
         textLocator: {
           header: {
-            // remove lang="en" in component if this becomes german
+            // remove lang="en" in component if this becomes German
             text: 'TextLocator',
           },
         },
