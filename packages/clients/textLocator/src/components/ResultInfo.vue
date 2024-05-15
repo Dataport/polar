@@ -1,5 +1,10 @@
 <template>
-  <v-tooltip :value="focus" color="#00000000" v-bind="{ [direction]: true }">
+  <v-tooltip
+    :value="focus"
+    color="#00000000"
+    v-bind="{ [direction]: true }"
+    transition="none"
+  >
     <template #activator="{ on, attrs }">
       <v-icon small v-bind="attrs" v-on="on"> fa-info-circle </v-icon>
     </template>
