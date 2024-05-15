@@ -2,11 +2,7 @@ import { Fill, Stroke, Style } from 'ol/style'
 import { dataportPalette, heatPalette } from '../../../palettes'
 import { FeatureType } from '../types'
 
-const makeStyle = (
-  strokeColor: string,
-  fillColor: string,
-  zIndex: number
-): Style =>
+const makeStyle = (strokeColor: string, fillColor: string, zIndex: number) =>
   new Style({
     stroke: new Stroke({ color: strokeColor, width: 2 }),
     fill: new Fill({ color: fillColor }),
