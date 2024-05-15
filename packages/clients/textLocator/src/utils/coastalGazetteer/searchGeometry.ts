@@ -9,7 +9,7 @@ import {
   getEmptyFeatureCollection,
 } from './responseInterpreter'
 
-let abortController
+let abortController: AbortController | null = null
 
 export async function searchGeometry(
   this: PolarStore<CoreState, CoreGetters>,
