@@ -5,7 +5,7 @@ import { Geometry } from 'geojson'
 // // // REQUEST // // //
 
 export interface RequestPayload {
-  keyword: string
+  keyword?: string
   searchType: 'like' | 'exact' | 'id'
   lang: '-' | string
   sdate: string

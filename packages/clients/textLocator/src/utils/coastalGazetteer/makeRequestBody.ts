@@ -5,7 +5,7 @@ import { wgs84ProjectionCode } from '../common'
 import { geoJson, wellKnownText } from './common'
 import { MakeRequestBodyParameters, RequestPayload } from './types'
 
-const searchRequestDefaultPayload: Partial<RequestPayload> = {
+const searchRequestDefaultPayload: RequestPayload = {
   searchType: 'like',
   lang: '-',
   sdate: '0001-01-01',
@@ -33,7 +33,7 @@ const unify = (geometry: Geometry): Geometry => {
 }
 
 export const makeRequestBody = (
-  { keyword, page, geometry, ...rest }: Partial<MakeRequestBodyParameters>,
+  { keyword, page, geometry, ...rest }: MakeRequestBodyParameters,
   epsg: string
 ): string =>
   Object.entries({
