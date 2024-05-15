@@ -34,8 +34,8 @@ export interface ResponseName {
 }
 
 export interface ResponseGeom {
-  Start: string // YYYY-MM-DD
-  Ende: string // YYYY-MM-DD
+  Start: `${number}-${number}-${number}` // YYYY-MM-DD
+  Ende: `${number}-${number}-${number}` // YYYY-MM-DD
   GeomID: string
   ObjectID: string
   Quellen: object[] // not used
