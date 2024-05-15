@@ -33,7 +33,7 @@ const unify = (geometry: Geometry): Geometry => {
 }
 
 export const makeRequestBody = (
-  { keyword, page, geometry, ...rest }: MakeRequestBodyParameters,
+  { keyword, page, geometry, ...rest }: Partial<MakeRequestBodyParameters>,
   epsg: `EPSG:${string}`
 ): string =>
   Object.entries({
