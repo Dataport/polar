@@ -24,15 +24,15 @@ export async function initializeClient({ urls }: TextLocatorParameters) {
     minLength: 3,
     waitMs: 500,
   }
-  // @ts-expect-error | local addition
-  mapConfiguration.geometrySearch = {
-    url: urls.gazetteerClient,
-  }
-  // @ts-expect-error | local addition
-  mapConfiguration.textLocatorBackendUrl = urls.textLocatorBackend
 
   return await client.createMap({
     containerId,
-    mapConfiguration,
+    mapConfiguration: {
+      ...mapConfiguration,
+      geometrySearch: {
+        url: urls.gazetteerClient,
+      },
+      textLocatorBackendUrl: urls.textLocatorBackend,
+    },
   })
 }
