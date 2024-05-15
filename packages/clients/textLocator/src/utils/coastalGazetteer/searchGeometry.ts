@@ -1,6 +1,5 @@
 import { Feature } from 'ol'
-import { Store } from 'vuex'
-import { CoreState } from '@polar/lib-custom-types'
+import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
 import { FeatureCollection } from 'geojson'
 import { getAllPages } from './getAllPages'
 import { geoJson } from './common'
@@ -13,7 +12,7 @@ import {
 let abortController
 
 export async function searchGeometry(
-  this: Store<CoreState>,
+  this: PolarStore<CoreState, CoreGetters>,
   feature: Feature,
   url: string,
   epsg: `EPSG:${string}`

@@ -1,5 +1,4 @@
-import { CoreState } from '@polar/lib-custom-types'
-import { Store } from 'vuex'
+import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
 import { MakeRequestBodyParameters, ResponsePayload } from './types'
 import { makeRequestBody } from './makeRequestBody'
 
@@ -52,7 +51,7 @@ const loadErrorInfoToast: [string, object] = [
 ]
 
 export async function getAllPages(
-  this: Store<CoreState>,
+  this: PolarStore<CoreState, CoreGetters>,
   signal: AbortSignal,
   url: string,
   params: Partial<MakeRequestBodyParameters>,
