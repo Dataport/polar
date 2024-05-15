@@ -20,8 +20,9 @@ export async function initializeClient({ urls }: TextLocatorParameters) {
   client.rawLayerList.initializeLayerList(layerConf)
   mapConfiguration.layerConf = layerConf
   mapConfiguration.addressSearch = {
-    // @ts-expect-error | rest configured in addPlugins.ts (simple API)
-    searchMethods: [{ url: urls.gazetteerClient }],
+    searchMethods: [{ url: urls.gazetteerClient, type: 'coastalGazetteer' }],
+    minLength: 3,
+    waitMs: 500,
   }
   // @ts-expect-error | local addition
   mapConfiguration.geometrySearch = {

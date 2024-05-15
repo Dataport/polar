@@ -28,10 +28,6 @@ export const addPlugins = (core) => {
     AddressSearch({
       displayComponent: true,
       layoutTag: NineLayoutTag.TOP_LEFT,
-      minLength: 3,
-      waitMs: 500,
-      // @ts-expect-error | URL configured in a different way (simple API)
-      searchMethods: [{ type: 'coastalGazetteer' }],
       addLoading: 'plugin/loadingIndicator/addLoadingKey',
       removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
       customSearchMethods: {
