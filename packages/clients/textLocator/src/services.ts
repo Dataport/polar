@@ -18,7 +18,7 @@ export const idRegister = [
   aerial,
 ]
 
-const layerNames = {
+const topplusLayerNames = {
   [wmtsTopplusOpenWeb]: 'web',
   [wmtsTopplusOpenWebGrey]: 'web_grau',
   [wmtsTopplusOpenLight]: 'web_light',
@@ -39,8 +39,8 @@ export const services = [
     optionsFromCapabilities: true,
     tileMatrixSet: 'EU_EPSG_25832_TOPPLUS',
     typ: 'WMTS',
-    layers: layerNames[id],
-    legendURL: `https://sg.geodatenzentrum.de/wms_topplus_open?styles=&layer=${layerNames[id]}&service=WMS&format=image/png&sld_version=1.1.0&request=GetLegendGraphic&version=1.1.1`,
+    layers: topplusLayerNames[id],
+    legendURL: `https://sg.geodatenzentrum.de/wms_topplus_open?styles=&layer=${topplusLayerNames[id]}&service=WMS&format=image/png&sld_version=1.1.0&request=GetLegendGraphic&version=1.1.1`,
   })),
   {
     id: openStreetMap,
