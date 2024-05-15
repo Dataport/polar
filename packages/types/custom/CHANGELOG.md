@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Add `afterResultComponent` to `AddressSearchConfiguration` for custom search result suffixes.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 
 ## 1.4.1

@@ -6,6 +6,7 @@ import {
   AddressSearchGroupProperties,
   AddressSearchCategoryProperties,
 } from '@polar/lib-custom-types'
+import Vue from 'vue'
 import { WFSVersion } from '@polar/lib-get-features'
 import { Feature, FeatureCollection } from 'geojson'
 
@@ -126,6 +127,7 @@ export interface AddressSearchGetters extends AddressSearchState {
   groupSelectOptions: string[]
   featureListsWithCategory: FeatureListWithCategory[]
   focusAfterSearch: boolean
+  afterResultComponent: Vue | null
 }
 
 export type AddressSearchAutoselect = 'first' | 'only' | 'never'
