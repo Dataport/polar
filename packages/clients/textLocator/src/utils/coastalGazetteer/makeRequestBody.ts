@@ -34,7 +34,7 @@ const unify = (geometry: Geometry): Geometry => {
 
 export const makeRequestBody = (
   { keyword, page, geometry, ...rest }: MakeRequestBodyParameters,
-  epsg: string
+  epsg: `EPSG:${string}`
 ): string =>
   Object.entries({
     ...searchRequestDefaultPayload,
