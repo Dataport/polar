@@ -82,7 +82,7 @@ const locales: LanguageOption[] = [
           [wmtsTopplusOpenWebGrey]: 'TopPlusOpen (Web, Grey)',
           [wmtsTopplusOpenLight]: 'TopPlusOpen (Light)',
           [wmtsTopplusOpenLightGrey]: 'TopPlusOpen (Light, Grey)',
-          [aerial]: 'Luftbilder Sen2Europe',
+          [aerial]: 'Aerial photographs Sen2Europe',
         },
         addressSearch: {
           unnamed: 'Unnamed',
@@ -95,8 +95,7 @@ const locales: LanguageOption[] = [
           [wmtsTopplusOpenWebGrey]: `$t(textLocator.layers.${wmtsTopplusOpenWebGrey}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
           [wmtsTopplusOpenLight]: `$t(textLocator.layers.${wmtsTopplusOpenLight}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
           [wmtsTopplusOpenLightGrey]: `$t(textLocator.layers.${wmtsTopplusOpenLightGrey}): © Bundesamt für Kartographie und Geodäsie {{YEAR}}`,
-          [aerial]:
-            '© European Union, contains modified Copernicus Sentinel data ({{YEAR}})',
+          [aerial]: `$t(textLocator.layers.${aerial}): © European Union, contains modified Copernicus Sentinel data ({{YEAR}})`,
           static:
             '<br><a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md">Legal notice (Impressum)</a>',
         },
