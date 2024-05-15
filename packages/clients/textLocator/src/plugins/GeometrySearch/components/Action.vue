@@ -11,7 +11,7 @@
         v-bind="attrs"
         v-on="on"
         @click="action(item)"
-        @keypress="action(item)"
+        @keydown="action(item)"
       >
         <v-icon>{{ icon }}</v-icon>
       </v-btn>
