@@ -56,7 +56,7 @@ export const selectResult: SelectResultFunction = (
   { commit, rootGetters },
   { feature }
 ) => {
-  // default behaviour (AddressSearch selects and is out further behaviour)
+  // default behaviour (AddressSearch selects and is out of further behaviour)
   commit('plugin/addressSearch/setChosenAddress', feature, { root: true })
   commit('plugin/addressSearch/setInputValue', feature.title, { root: true })
   commit(
