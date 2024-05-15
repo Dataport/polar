@@ -65,7 +65,7 @@ export async function getAllPages(
 
   if (!response.ok) {
     this.dispatch(...loadErrorInfoToast)
-    console.error('Gazetteer response:', response)
+    console.error('@polar/client-text-locator: Gazetteer response:', response)
     return getEmptyResponsePayload()
   }
 
