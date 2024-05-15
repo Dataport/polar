@@ -15,7 +15,7 @@ const getEmptyResponsePayload = (): ResponsePayload => ({
 const mergeResponses = (
   initialResponse: ResponsePayload,
   responses: ResponsePayload[]
-) => ({
+): ResponsePayload => ({
   ...initialResponse,
   currentpage: 'merged',
   results: [

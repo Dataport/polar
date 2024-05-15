@@ -51,9 +51,9 @@ export interface ResponseResult {
 }
 
 export interface ResponsePayload {
-  count: `${number}`
-  currentpage: `${number}`
-  pages: `${number}`
+  count: `${number}` | ''
+  currentpage: `${number}` | 'merged' | ''
+  pages: `${number}` | ''
   keyword: string
   querystring: string
   results: ResponseResult[]
