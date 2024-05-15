@@ -40,7 +40,7 @@ const wattenmeerStyle = makeStyle(
   ++zIndexCounter
 )
 
-const coldStyle = makeStyle(
+const detailStyle = makeStyle(
   `${dataportPalette.carolinaBlue}FF`,
   `${dataportPalette.carolinaBlue}33`,
   ++zIndexCounter
@@ -55,5 +55,5 @@ export const typeToStyle: Record<FeatureType, Style> = {
   roughBackground: roughBackgroundStyle,
   fineBackground: fineBackgroundStyle,
   wattenmeer: wattenmeerStyle,
-  detail: coldStyle,
+  detail: detailStyle,
 }
