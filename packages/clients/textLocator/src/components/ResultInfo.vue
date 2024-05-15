@@ -39,16 +39,15 @@
 </template>
 
 <script lang="ts">
-import { Feature, Geometry } from 'geojson'
 import Vue, { PropType } from 'vue'
-import { GeometrySearchFeatureProperties } from '../plugins/GeometrySearch/types'
+import { GeometrySearchState } from '../plugins/GeometrySearch/types'
 
 export default Vue.extend({
   name: 'ResultInfo',
   props: {
     feature: {
       type: Object as PropType<
-        Feature<Geometry, GeometrySearchFeatureProperties>
+        GeometrySearchState['featureCollection']['features'][number]
       >,
       required: true,
     },
