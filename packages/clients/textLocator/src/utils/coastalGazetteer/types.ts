@@ -11,7 +11,7 @@ export interface RequestPayload {
   sdate: string
   edate: string
   type: '-' | string
-  page?: string // numerical
+  page?: `${number}`
   geom?: string
 }
 
