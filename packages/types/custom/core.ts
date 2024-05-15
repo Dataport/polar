@@ -19,7 +19,7 @@ import {
   SubscribeOptions,
 } from 'vuex'
 import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
-import { VueConstructor, WatchOptions } from 'vue'
+import Vue, { VueConstructor, WatchOptions } from 'vue'
 
 /**
  *
