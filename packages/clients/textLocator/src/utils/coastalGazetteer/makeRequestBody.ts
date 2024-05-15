@@ -16,7 +16,7 @@ const searchRequestDefaultPayload: Partial<RequestPayload> = {
 /**
  * Reduces overlapping MultiPolygon to MultiPolygon without overlapping
  * geometries. This is required for the following step, where the MultiPolygon
- * is coverted to WKT. WKT forbids overlapping geometries in a MultiPolygon.
+ * is converted to WKT. WKT forbids overlapping geometries in a MultiPolygon.
  */
 const unify = (geometry: Geometry): Geometry => {
   if (geometry.type === 'MultiPolygon') {
