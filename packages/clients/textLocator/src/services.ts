@@ -8,9 +8,9 @@ export const wmtsTopplusOpenLightGrey = 'wmtsTopplusOpenLightGrey'
 export const aerial = 'aerial'
 
 export const idRegister = [
-  openStreetMap,
   openSeaMap,
   mdiSeaNames,
+  openStreetMap,
   wmtsTopplusOpenWeb,
   wmtsTopplusOpenWebGrey,
   wmtsTopplusOpenLight,
