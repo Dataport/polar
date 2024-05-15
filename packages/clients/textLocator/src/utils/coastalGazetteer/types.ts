@@ -11,7 +11,7 @@ export interface RequestPayload {
   sdate: string
   edate: string
   type: '-' | string
-  page?: string // numerical
+  page?: `${number}`
   geom?: string
 }
 
@@ -22,8 +22,8 @@ export interface MakeRequestBodyParameters extends RequestPayload {
 // // // RESPONSE // // //
 
 export interface ResponseName {
-  Start: string // YYYY-MM-DD
-  Ende: string // YYYY-MM-DD
+  Start: `${number}-${number}-${number}` // YYYY-MM-DD
+  Ende: `${number}-${number}-${number}` // YYYY-MM-DD
   GeomID: string
   ObjectID: string
   Name: string
@@ -34,8 +34,8 @@ export interface ResponseName {
 }
 
 export interface ResponseGeom {
-  Start: string // YYYY-MM-DD
-  Ende: string // YYYY-MM-DD
+  Start: `${number}-${number}-${number}` // YYYY-MM-DD
+  Ende: `${number}-${number}-${number}` // YYYY-MM-DD
   GeomID: string
   ObjectID: string
   Quellen: object[] // not used
@@ -51,9 +51,9 @@ export interface ResponseResult {
 }
 
 export interface ResponsePayload {
-  count: string // numerical
-  currentpage: string // numerical
-  pages: string // numerical
+  count: `${number}`
+  currentpage: `${number}`
+  pages: `${number}`
   keyword: string
   querystring: string
   results: ResponseResult[]

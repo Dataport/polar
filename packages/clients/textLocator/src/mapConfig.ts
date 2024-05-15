@@ -1,5 +1,3 @@
-// number-only keys needed in layers object
-/* eslint-disable @typescript-eslint/naming-convention */
 import { MapConfig } from '@polar/lib-custom-types'
 import locales from './locales'
 import {
