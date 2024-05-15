@@ -22,8 +22,8 @@ export interface MakeRequestBodyParameters extends RequestPayload {
 // // // RESPONSE // // //
 
 export interface ResponseName {
-  Start: string // YYYY-MM-DD
-  Ende: string // YYYY-MM-DD
+  Start: `${number}-${number}-${number}` // YYYY-MM-DD
+  Ende: `${number}-${number}-${number}` // YYYY-MM-DD
   GeomID: string
   ObjectID: string
   Name: string
