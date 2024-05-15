@@ -9,7 +9,7 @@ import { TitleLocationFrequency } from '../../../utils/literatureByToponym'
 import { heatStyles, typeToStyle } from './vectorStyles'
 
 const vectorSource = new Vector()
-export const vectorLayer = new VectorLayer<Vector>({
+export const vectorLayer = new VectorLayer({
   source: vectorSource,
   style: (feature) =>
     heatStyles[feature.get('heat')] || typeToStyle[feature.get('featureType')],
