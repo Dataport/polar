@@ -39,7 +39,7 @@ export async function searchCoastalGazetteerByToponym(
     )
   } catch (e) {
     if (!signal.aborted) {
-      console.error(e)
+      console.error('@polar/client-text-locator', e)
       this.dispatch('plugin/toast/addToast', {
         type: 'error',
         text: 'textLocator.error.searchCoastalGazetteer',
