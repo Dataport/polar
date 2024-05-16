@@ -15,7 +15,7 @@ export function setupDrawReaction(
 ) {
   // features added multiple times; avoid overly requesting
   debouncedSearchGeometry = debounce(
-    (feature) => dispatch('searchGeometry', feature),
+    (feature: Feature) => dispatch('searchGeometry', feature),
     20
   ).bind(this)
 
