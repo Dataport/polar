@@ -6,7 +6,9 @@
     transition="none"
   >
     <template #activator="{ on, attrs }">
-      <v-icon small v-bind="attrs" v-on="on"> fa-info-circle </v-icon>
+      <span :tabIndex="tabIndex" v-bind="attrs" v-on="on">
+        <v-icon small> fa-info-circle </v-icon>
+      </span>
     </template>
     <v-simple-table dense>
       <template #default>
@@ -65,6 +67,10 @@ export default Vue.extend({
       type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
       default: 'right',
       required: false,
+    },
+    tabIndex: {
+      type: Number,
+      default: -1,
     },
   },
 })

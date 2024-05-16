@@ -5,7 +5,7 @@
         <template #badge>
           <v-tooltip left>
             <template #activator="{ on }">
-              <span v-on="on">{{ item.count }}</span>
+              <span tabIndex="0" v-on="on">{{ item.count }}</span>
             </template>
             <span>{{ $t(tooltipKey(item)) }}</span>
           </v-tooltip>
@@ -13,7 +13,11 @@
         {{ item.name }}
         <template v-if="item.type === 'toponym' && item.feature">
           &nbsp;
-          <ResultInfo :feature="item.feature" direction="left"></ResultInfo>
+          <ResultInfo
+            :tab-index="0"
+            :feature="item.feature"
+            direction="left"
+          ></ResultInfo>
         </template>
       </v-badge>
     </template>
