@@ -7,7 +7,10 @@ import {
 
 export function setupWatchers(
   this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
-  { dispatch, rootGetters }
+  {
+    dispatch,
+    rootGetters,
+  }: PolarActionContext<GeometrySearchState, GeometrySearchGetters>
 ) {
   // load titleLocationFrequency on each featureCollection update
   this.watch(
