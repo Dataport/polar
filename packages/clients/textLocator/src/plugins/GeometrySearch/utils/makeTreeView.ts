@@ -23,7 +23,7 @@ const invertOrder = (
               item.children?.find((child) => child.id === feature.id)?.count ||
               0
           )
-          .reduce((acc, curr) => acc + curr),
+          .reduce((acc, curr) => acc + curr, 0),
         children: byTextTreeViewItems
           .filter((item) =>
             item.children?.find((child) => child.id === feature.id)

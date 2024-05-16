@@ -74,15 +74,20 @@ export const updateVectorLayer = (
   })
 
   const zoomFeatures = getZoomFeatures(preparedFeatures, item)
-  map.getView().fit(
-    // fall back to global zoom if no high-detail features are found
-    (zoomFeatures.length ? zoomFeatures : preparedFeatures).reduce(
-      (extent, feature) =>
-        extend(extent, feature.getGeometry()?.getExtent() || []),
-      createEmpty()
-    ),
-    { padding: [20, 20, 20, 20], duration: 500 }
+  const extent = (zoomFeatures.length ? zoomFeatures : preparedFeatures).reduce(
+    (extent, feature) =>
+      extend(extent, feature.getGeometry()?.getExtent() || []),
+    createEmpty()
   )
+
+  // an extent including Infinity is empty and can't be used by .fit
+  if (!extent.includes(Infinity)) {
+    map.getView().fit(
+      // fall back to global zoom if no high-detail features are found
+      extent,
+      { padding: [20, 20, 20, 20], duration: 500 }
+    )
+  }
 
   preparedFeatures.forEach((feature) => feature.set('heat', undefined))
   if (item?.children?.length && item.type === 'text') {
