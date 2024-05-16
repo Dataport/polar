@@ -1,5 +1,6 @@
 import { Tooltip, getTooltip } from '@polar/lib-tooltip'
 import { Feature, Overlay } from 'ol'
+import BaseLayer from 'ol/layer/Base'
 import { vectorLayer } from '../../utils/vectorDisplay'
 import { getPrimaryName } from '../../../../utils/coastalGazetteer/getPrimaryName'
 
@@ -33,7 +34,7 @@ export function setupTooltip({ rootGetters: { map } }) {
         listEntries.push(`<li>${getPrimaryName(feature.get('names'))}</li>`)
       },
       {
-        layerFilter: (layer) => layer === vectorLayer,
+        layerFilter: (layer: BaseLayer) => layer === vectorLayer,
       }
     )
     if (!hasFeatureAtPixel) {
