@@ -1,4 +1,4 @@
-import { PolarStore } from '@polar/lib-custom-types'
+import { PolarActionContext, PolarStore } from '@polar/lib-custom-types'
 import { GeometrySearchGetters, GeometrySearchState } from '../../types'
 import {
   TitleLocationFrequency,
@@ -55,10 +55,12 @@ const flattenFrequencies = (
   return accumulator
 }
 
-// eslint-disable-next-line max-lines-per-function
-export async function updateFrequencies({ commit, dispatch, rootGetters }) {
-  const featureCollection: GeometrySearchState['featureCollection'] =
-    rootGetters['plugin/geometrySearch/featureCollection']
+export async function updateFrequencies({
+  commit,
+  dispatch,
+  getters: { featureCollection },
+  rootGetters,
+}: PolarActionContext<GeometrySearchState, GeometrySearchGetters>) {
   if (!featureCollection.features.length) {
     dispatch(
       'plugin/toast/addToast',
