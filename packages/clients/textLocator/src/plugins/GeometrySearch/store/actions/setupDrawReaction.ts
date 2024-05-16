@@ -1,4 +1,8 @@
-import { PolarActionHandler, PolarStore } from '@polar/lib-custom-types'
+import {
+  PolarActionContext,
+  PolarActionHandler,
+  PolarStore,
+} from '@polar/lib-custom-types'
 import debounce from 'lodash.debounce'
 import { Feature } from 'ol'
 import VectorSource, { VectorSourceEvent } from 'ol/source/Vector'
@@ -11,7 +15,10 @@ let debouncedSearchGeometry: PolarActionHandler<
 
 export function setupDrawReaction(
   this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
-  { rootGetters, dispatch }
+  {
+    rootGetters,
+    dispatch,
+  }: PolarActionContext<GeometrySearchState, GeometrySearchGetters>
 ) {
   // features added multiple times; avoid overly requesting
   debouncedSearchGeometry = debounce(
