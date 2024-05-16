@@ -1,14 +1,17 @@
 import { Tooltip, getTooltip } from '@polar/lib-tooltip'
 import { Feature, Overlay } from 'ol'
-import BaseLayer from 'ol/layer/Base'
+import { PolarActionContext } from '@polar/lib-custom-types'
 import { vectorLayer } from '../../utils/vectorDisplay'
 import { getPrimaryName } from '../../../../utils/coastalGazetteer/getPrimaryName'
+import { GeometrySearchGetters, GeometrySearchState } from '../../types'
 
 const localeKeys: [string, string][] = [
   ['h2', 'plugins.geometrySearch.tooltip.title'],
 ]
 
-export function setupTooltip({ rootGetters: { map } }) {
+export function setupTooltip({
+  rootGetters: { map },
+}: PolarActionContext<GeometrySearchState, GeometrySearchGetters>) {
   let element: Tooltip['element'], unregister: Tooltip['unregister']
   const overlay = new Overlay({
     positioning: 'bottom-center',
@@ -34,7 +37,7 @@ export function setupTooltip({ rootGetters: { map } }) {
         listEntries.push(`<li>${getPrimaryName(feature.get('names'))}</li>`)
       },
       {
-        layerFilter: (layer: BaseLayer) => layer === vectorLayer,
+        layerFilter: (layer) => layer === vectorLayer,
       }
     )
     if (!hasFeatureAtPixel) {
