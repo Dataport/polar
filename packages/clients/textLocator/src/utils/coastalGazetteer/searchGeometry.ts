@@ -1,6 +1,10 @@
 import { Feature } from 'ol'
-import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
+import { PolarStore } from '@polar/lib-custom-types'
 import { FeatureCollection } from 'geojson'
+import {
+  GeometrySearchGetters,
+  GeometrySearchState,
+} from '../../plugins/GeometrySearch/types'
 import { getAllPages } from './getAllPages'
 import { geoJson } from './common'
 import { ResponsePayload } from './types'
@@ -12,7 +16,7 @@ import {
 let abortController: AbortController | null = null
 
 export async function searchGeometry(
-  this: PolarStore<CoreState, CoreGetters>,
+  this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
   feature: Feature,
   url: string,
   epsg: `EPSG:${string}`

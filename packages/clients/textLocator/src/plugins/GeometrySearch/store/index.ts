@@ -55,8 +55,6 @@ export const makeStoreModule = () => {
         })
         searchGeometry
           .call(
-            // TODO figure out
-            // @ts-expect-error | the part somehow is the whole
             this,
             feature,
             // @ts-expect-error | added in polar-client.ts locally

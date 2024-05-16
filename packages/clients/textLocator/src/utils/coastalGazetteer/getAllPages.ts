@@ -1,4 +1,8 @@
-import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
+import { PolarStore } from '@polar/lib-custom-types'
+import {
+  GeometrySearchGetters,
+  GeometrySearchState,
+} from '../../plugins/GeometrySearch/types'
 import { MakeRequestBodyParameters, ResponsePayload } from './types'
 import { makeRequestBody } from './makeRequestBody'
 
@@ -51,7 +55,7 @@ const loadErrorInfoToast: [string, object] = [
 ]
 
 export async function getAllPages(
-  this: PolarStore<CoreState, CoreGetters>,
+  this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
   signal: AbortSignal,
   url: string,
   params: Partial<MakeRequestBodyParameters>,
