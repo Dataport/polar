@@ -39,7 +39,9 @@ export function setupTooltip({ rootGetters: { map } }) {
     if (!hasFeatureAtPixel) {
       overlay.setPosition(undefined)
     } else {
-      unregister?.()
+      if (unregister) {
+        unregister()
+      }
       ;({ element, unregister } = getTooltip({
         localeKeys: [...localeKeys, ['ul', listEntries.join('')]],
       }))
