@@ -24,7 +24,7 @@ const requestLiteraturePerFeature = (
   textLocatorBackendUrl: string
 ) =>
   featureCollection.features
-    .map((feature) => feature.properties?.names?.map((name) => name.Name))
+    .map((feature) => feature.properties.names.map((name) => name.Name))
     .filter((names) => names.length)
     .map((names) => searchLiteratureByToponym(textLocatorBackendUrl, names))
 
