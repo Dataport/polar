@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html style="min-height: 100%; min-width: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <title>POLAR - DS-Werkstatt</title>
+    <link rel="icon" href="./iceberg.svg">
+    <style>
+      .polar-form {
+        display: grid;
+        margin-top: 2em;
+        grid-template-columns: auto 1fr;
+        grid-gap: 0.5em;
+      }
+      .polar-form > input {
+        border: solid rgb(4, 0, 78);
+        background: white;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body
+    style="
+      color: white;
+      padding: 2em;
+      font-family: Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, rgb(17, 139, 238) 15%, rgb(196, 239, 255) 85%);
+    "
+  >
+    <h1>POLAR - DS-Werkstatt</h1>
+    <h2>Karte</h2>
+    <div
+      style="
+        width: 680px;
+        height: 420px;
+        position: relative;
+        margin: 5px 0;
+        -webkit-box-shadow: 0 0 5px 3px rgba(255, 255, 255, 0.5);
+        box-shadow: 0  5px 3px rgba(255, 255, 255, 0.5);
+      "
+      id="polarfuchs"
+    >
+      <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
+    </div>
+    <form class="polar-form">
+      <label for="polar-pin-coordinate">
+        Koordinate
+      </label>
+      <input id="polar-pin-coordinate" disabled>
+      <label for="polar-address-street">
+        Straße
+      </label>
+      <input id="polar-address-street" disabled>
+      <label for="polar-address-hnr">
+        Hausnummer
+      </label>
+      <input id="polar-address-hnr" disabled>
+      <label for="polar-gfi">
+        Feature-Informationen
+      </label>
+      <input id="polar-gfi" disabled>
+    </form>
+    <script type="module">
+      // TODO: Zum Testen des produktiven Modus den Pfad zu '../dist/polar-client.js' anpassen
+      import { createMap } from "./polar-client.js"
+      import { mapConfiguration } from "./mapConfiguration.js";
+
+      // TODO: Korrekten Wert für 'containerId' eintragen
+      createMap('', mapConfiguration).then(map => {
+        // TODO: Füge ein map.subscribe hinzu für die Koordinate des Pins, welches den Wert des Inputs mit der ID 'polar-pin-coordinate' befüllt
+        // TODO: Füge ein map.subscribe hinzu für den Straßennamen-Teil der gefundenen Adresse, welches den Wert des Inputs mit der ID 'polar-address-street' befüllt
+        // TODO: Füge ein map.subscribe hinzu für den Hausnummer-Teil der gefundenen Adresse, welches den Wert des Inputs mit der ID 'polar-address-hnr' befüllt
+        // TODO: (optional) Füge ein map.subscribe hinzu für gefundene Feature-Informationen, welches den Wert des Inputs mit der ID 'polar-gfi' befüllt
+      })
+    </script>
+  </body>
+</html>
