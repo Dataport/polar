@@ -84,6 +84,29 @@ function toHtml(filePath, children) {
 </html>`
 }
 
+/**
+ * Removes documentation page link from documentation page; it's only relevant
+ * when reading the API.md directly, not on this page.
+ * @param {string} html the html'd API.md
+ * @returns {string} html without the link to itself
+ */
+const filter = (html) => {
+  const filterRegex =
+    /<p>For all additional details, check the <a href=".*">full documentation<\/a>.<\/p>/g
+
+  const matches = (html.match(filterRegex) || []).length
+
+  if (matches !== 1) {
+    console.error(html)
+
+    throw new Error(
+      `makeDocs.js expected to remove a self-reference in HTML generated from an API.md with exactly one match, but found ${matches} matches. This indicates an unexpected change in the API.md.`
+    )
+  }
+
+  return html.replace(filterRegex, '')
+}
+
 const getDistinguishingFileNameFromPath = (path) => path.split('/').slice(-1)[0]
 
 const dependencyPaths = fs
@@ -99,13 +122,15 @@ fs.readdirSync(docPath).forEach((f) => fs.rmSync(`${docPath}/${f}`))
 ;[clientPath, ...dependencyPaths].forEach((path) => {
   const isMain = path === clientPath
   const markdownFile = `${path}/${isMain ? 'API.md' : 'README.md'}`
-  const html = toHtml(
-    markdownFile,
-    isMain
-      ? dependencyPaths.map(
-          (path) => getDistinguishingFileNameFromPath(path) + '.html'
-        )
-      : null
+  const html = (isMain ? filter : (x) => x)(
+    toHtml(
+      markdownFile,
+      isMain
+        ? dependencyPaths.map(
+            (path) => getDistinguishingFileNameFromPath(path) + '.html'
+          )
+        : null
+    )
   )
   const targetName = `${
     path === clientPath ? 'client-' : ''
