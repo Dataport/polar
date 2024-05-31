@@ -2,6 +2,8 @@
 
 This is a default compilation of POLAR feature packages for online services. This document and its child documents describe the setup.
 
+For all additional details, check the [full documentation](https://dataport.github.io/polar/docs/afm/client-afm.html).
+
 ## Requirements
 
 To understand this document, programming knowledge (preferably in JavaScript) are required. This is a technical document describing how to integrate the map client with its programmatic API.
