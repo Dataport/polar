@@ -24,8 +24,9 @@
   <article class="markdown-body">
     <h1>Generic MapClient API 🗺️ <code>@polar/client-generic</code></h1>
 <p>This client is based on <a href="https://github.com/Dataport/polar">POLAR</a> and subsequently the <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">masterportalAPI</a>. The following documentation only contains how this specific client can be used, and the minimal information required to get it running.</p>
-<p>For all additional details, check the <a href="https://dataport.github.io/polar/docs/generic/client-generic.html">full documentation</a>.</p>
+
 <p>For the development test deployments and example configurations, <a href="https://dataport.github.io/polar#plugin-gallery">see here</a>.</p>
+<p>For a minimum working example, <a href="https://github.com/dopenguin/polar-fossgis-2024">see here</a>.</p>
 <h2>Basic usage</h2>
 <p>The NPM package <code>@polar/client-generic</code> can be installed via NPM or downloaded from the <a href="https://github.com/Dataport/polar/releases">release page</a>. When using <code>import mapClient from '@polar/client-generic'</code>, the object <code>mapClient</code> contains a method <code>createMap</code>. This is the main method required to get the client up and running. Should you use another import method, check the package's <code>dist</code> folder for available files.</p>
 <p>The method expects a single object with the following parameters.</p>
@@ -46,12 +47,12 @@
 <tr>
 <td>services</td>
 <td>object[] | string</td>
-<td>Either a link to a service registry or an array containing service description objects. For more details, see the startup section on <a href="https://dataport.github.io/polar/documentation.html#configuration">POLAR documentation</a>.</td>
+<td>Either a link to a service registry or an array containing service description objects. For more details, see the startup section on <a href="https://dataport.github.io/polar/documentation.html#configuration">POLAR documentation</a>. This parameter can be seen as an accessible version of <code>mapConfiguration.layerConf</code>.</td>
 </tr>
 <tr>
 <td>mapConfiguration</td>
 <td>object</td>
-<td>See full documentation for all possible configuration options.</td>
+<td>See <a href="https://dataport.github.io/polar/docs/generic/core.html">documentation of <code>@polar/core</code></a> for all possible configuration options.</td>
 </tr>
 <tr>
 <td>enabledPlugins</td>
