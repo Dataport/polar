@@ -1,10 +1,5 @@
 # CHANGELOG
 
-## unpublished
-
-- Fix: Adjust types to correctly reflect usages.
-- Refactor: Adjust meldemichel-gfi-component to the new API.
-
 ## 1.1.0
 
 - Change: The search now no longer focuses on the first result after a successful search.
