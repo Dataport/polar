@@ -68,7 +68,6 @@ export default Vue.extend({
   computed: {
     ...mapGetters([
       'clientHeight',
-      'clientWidth',
       'hasSmallDisplay',
       'hasSmallHeight',
       'hasSmallWidth',
@@ -97,17 +96,6 @@ export default Vue.extend({
     },
   },
   watch: {
-    // The map initially has a height of 0, so initially opening a menu only works after the height has changed
-    clientHeight(newValue: number, oldValue: number) {
-      if (
-        oldValue === 0 &&
-        newValue > 0 &&
-        !this.hasSmallHeight &&
-        !this.hasSmallWidth
-      ) {
-        this.openMenuById(this.initiallyOpen)
-      }
-    },
     // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
     isHorizontal(newVal: boolean) {
       if (!newVal) {
