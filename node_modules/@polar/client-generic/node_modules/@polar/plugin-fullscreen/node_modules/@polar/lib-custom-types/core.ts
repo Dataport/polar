@@ -648,6 +648,7 @@ export interface CoreState {
   hovered: number
   language: string
   map: number
+  mapHasDimensions: boolean
   moveHandle: number
   moveHandleActionButton: number
   plugin: object
@@ -665,6 +666,7 @@ export interface CoreGetters {
   hovered: Feature | null
   errors: PolarError[]
   map: Map
+  mapHasDimensions: boolean
   moveHandle: MoveHandleProperties
   moveHandleActionButton: MoveHandleActionButton
   selected: Feature | null

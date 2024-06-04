@@ -61,6 +61,7 @@ export default (): MockParameters => {
       moveHandleActionButton: 0,
       plugin: {},
       language: '',
+      mapHasDimensions: false,
       zoomLevel: 0,
       hovered: 0,
       selected: 0,
