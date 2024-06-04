@@ -670,6 +670,7 @@ export interface CoreGetters
   components: PluginContainer[]
   hovered: Feature | null
   map: Map
+  mapHasDimensions: boolean
   moveHandle: MoveHandleProperties
   moveHandleActionButton: MoveHandleActionButton
   selected: Feature | null
