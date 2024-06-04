@@ -18,7 +18,7 @@ export const makeStoreModule = () => {
     namespaced: true,
     state: getInitialState(),
     actions: {
-      setupModule({ commit, rootGetters }): void {
+      setupModule({ commit, dispatch, getters, rootGetters }): void {
         const menus = rootGetters.configuration?.iconMenu?.menus || []
         const initializedMenus = menus
           .filter(({ id }) => {
@@ -45,6 +45,20 @@ export const makeStoreModule = () => {
           })
 
         commit('setMenus', initializedMenus)
+
+        // The map initially has a height of 0, so initially opening a menu only works after the height has changed
+        this.watch(
+          () => rootGetters.mapHasDimensions,
+          (value) => {
+            if (
+              value &&
+              !rootGetters.hasSmallHeight &&
+              !rootGetters.hasSmallWidth
+            ) {
+              dispatch('openMenuById', getters.initiallyOpen)
+            }
+          }
+        )
       },
       openMenuById({ commit, dispatch, getters }, openId: string) {
         const index = getters.menus.findIndex(({ id }) => id === openId)
