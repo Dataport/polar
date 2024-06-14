@@ -32,7 +32,7 @@ export interface PluginOptions {
   layoutTag?: string // TODO: Might it be useful to move declaration of NineLayoutTag here?
 }
 
-export type RenderType = 'iconMenu' | 'independent'
+export type RenderType = 'iconMenu' | 'independent' | 'footer'
 
 /** Possible search methods by type */
 export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi' | string
