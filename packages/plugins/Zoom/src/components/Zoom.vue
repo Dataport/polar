@@ -40,25 +40,46 @@
       </template>
       <span>{{ $t('common:plugins.zoom.out') }}</span>
     </v-tooltip>
+    <div v-if="showZoomSlider">
+      <zoom-slider
+        :aria-label="$t('common:plugins.zoom.slider')"
+        :min-zoom="minimumZoomLevel"
+        :max-zoom="maximumZoomLevel"
+      ></zoom-slider>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
+import ZoomSlider from './ZoomSlider.vue'
 
 export default Vue.extend({
   name: 'PolarZoom',
+  components: { ZoomSlider },
+  props: {
+    isHorizontal: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     ...mapGetters(['deviceIsHorizontal', 'hasSmallDisplay', 'hasSmallHeight']),
     ...mapGetters('plugin/zoom', [
       'maximumZoomLevelActive',
       'minimumZoomLevelActive',
+      'maximumZoomLevel',
+      'minimumZoomLevel',
       'renderType',
       'showMobile',
+      'addZoomSlider',
     ]),
     showZoomButtons(): boolean {
       return this.hasSmallHeight ? this.showMobile : true
+    },
+    showZoomSlider(): boolean {
+      return !this.hasSmallHeight && this.addZoomSlider
     },
   },
   methods: {

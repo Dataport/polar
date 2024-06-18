@@ -13,6 +13,7 @@ It can be configured as followed.
 |------------|------------------------------|-----------------------------------------------------------------------------------------------|
 | renderType | 'iconMenu' \| 'independent'? | Whether the zoom related buttons are being rendered independently or as part of the IconMenu. Defaults to `'independent'`. |
 | showMobile | boolean?                     | Whether the zoom related buttons should be displayed on smaller devices; defaults to `false`.   |
+| showZoomSlider | boolean?                     | Whether a zoom slider should be displayed; defaults to false.   |
 
 ## Store
 
