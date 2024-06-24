@@ -18,12 +18,14 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   setupModule({ getters, commit, dispatch }): void {
     dispatch('addMarkerLayer')
 
-    // NOTE: limited support across browsers
-    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-      if (result.state === 'denied') {
-        commit('setIsGeolocationDenied', true)
-      }
-    })
+    // NOTE: limited support across browsers; nice but optional initially
+    if (navigator.permissions?.query) {
+      navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+        if (result.state === 'denied') {
+          commit('setIsGeolocationDenied', true)
+        }
+      })
+    }
     if (getters.checkLocationInitially) {
       dispatch('track')
     }
