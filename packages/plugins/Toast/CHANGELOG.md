@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Adjust documentation to properly describe optionality of configuration parameters.
+
 ## 1.1.0
 
 - Feature: Improved implementation to make plugin SPA-ready.

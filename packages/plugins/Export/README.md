@@ -10,10 +10,10 @@ The Export plugin offers users to download the currently visible map canvas in a
 
 | fieldName | type    | description                                                                                                                                                                           |
 | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| showJpg   | boolean | Tools offers current map view as JPG.                                                                                                                                                 |
-| showPdf   | boolean | Tools offers current map view as PDF.                                                                                                                                                 |
-| showPng   | boolean | Tools offers current map view as PNG.                                                                                                                                                 |
-| download  | boolean | Whether file is offered for download. By default, no download will happen, and the using service is supposed to register whether a "screenshot" has been taken and react accordingly. |
+| download  | boolean? | Whether file is offered for download. By default, no download will happen, and the using service is supposed to register whether a "screenshot" has been taken and react accordingly. |
+| showJpg   | boolean? | Tools offers current map view as JPG. Defaults to `true`. |
+| showPdf   | boolean? | Tools offers current map view as PDF. Defaults to `true`. |
+| showPng   | boolean? | Tools offers current map view as PNG. Defaults to `true`. |
 
 ## Store
 

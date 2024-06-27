@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Fix: Correctly log an error if required parameter `layers` is not provided.
+
 ## 1.1.1
 
 - Fix: Configurations without time element could sometimes error on filtering operations.

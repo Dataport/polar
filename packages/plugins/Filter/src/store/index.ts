@@ -29,6 +29,11 @@ export const makeStoreModule = () => {
     state: getInitialState(),
     actions: {
       setupModule({ getters: { filterConfiguration }, commit }): void {
+        if (Object.entries(filterConfiguration.layers).length === 0) {
+          console.error(
+            '@polar/plugin-filter: No configuration for parameter "layers" was found. Plugin will not be usable.'
+          )
+        }
         Object.entries(filterConfiguration.layers).forEach(
           ([layerId, { categories, time }]) => {
             if (categories) {
