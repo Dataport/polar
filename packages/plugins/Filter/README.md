@@ -28,8 +28,8 @@ The following chapters contain drafts in this format. Please mind that they neit
 | fieldName | type | description |
 | - | - | - |
 | knownValues | (string \| number \| boolean \| null)[] | Array of known values for the feature properties. Each entry will result in a checkbox that allows filtering the appropriate features. Properties not listed will not be filterable and never be visible. The technical name will result in a localization key that can be configured on a per-client basis. |
-| selectAll | boolean? | If true, a checkbox is added to de/select all `knownValues` (above) at once. Defaults to `false`. |
 | targetProperty | string | Target property to filter by. This is the name (that is, key) of a feature property. |
+| selectAll | boolean? | If true, a checkbox is added to de/select all `knownValues` (above) at once. Defaults to `false`. |
 
 For example, `{targetProperty: 'favouriteIceCream', knownValues: ['chocolate', 'vanilla', 'strawberry'], selectAll: true}` will add these checkboxes:
 
