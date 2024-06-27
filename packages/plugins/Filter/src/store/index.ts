@@ -3,6 +3,7 @@ import {
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import { FilterConfiguration, PolarModule } from '@polar/lib-custom-types'
+import ClusterSource from 'ol/source/Cluster'
 import ChooseTimeFrame from '../components/ChooseTimeFrame.vue'
 import {
   FilterGetters,
@@ -11,7 +12,10 @@ import {
   LayerId,
   TargetProperty,
 } from '../types'
-import { updateFeatureVisibility } from '../utils/updateFeatureVisibility'
+import {
+  getLayer,
+  updateFeatureVisibility,
+} from '../utils/updateFeatureVisibility'
 import { setState } from '../utils/setState'
 import { arrayOnlyContains } from '../utils/arrayOnlyContains'
 import { parseTimeOption } from '../utils/parseTimeOption'
@@ -28,7 +32,12 @@ export const makeStoreModule = () => {
     namespaced: true,
     state: getInitialState(),
     actions: {
-      setupModule({ getters: { filterConfiguration }, commit }): void {
+      setupModule({
+        getters: { filterConfiguration },
+        rootGetters: { map },
+        commit,
+        dispatch,
+      }): void {
         Object.entries(filterConfiguration.layers).forEach(
           ([layerId, { categories, time }]) => {
             if (categories) {
@@ -54,6 +63,18 @@ export const makeStoreModule = () => {
                 },
               })
             }
+            // apply filter effects on layer loads
+            const layer = getLayer(map, layerId)
+            // @ts-expect-error | only layers with getSource allowed
+            let source = layer.getSource()
+            while (source instanceof ClusterSource) {
+              source = source.getSource()
+            }
+            source.on('featuresloadend', () =>
+              dispatch('updateFeatureVisibility', layerId)
+            )
+            // initially update visibility in case loading already took place
+            dispatch('updateFeatureVisibility', layerId)
           }
         )
       },

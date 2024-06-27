@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.1.2
+
+- Fix: Features with categories that are not listed in `knownValues` are never displayed now. Previously, they were initially visible, but disappeared once any filter was touched.
+- Fix: It was possible to have features visible that were loaded after the filter was applied and that would have been filtered out. This has been resolved.
+
 ## 1.1.1
 
 - Fix: Configurations without time element could sometimes error on filtering operations.
