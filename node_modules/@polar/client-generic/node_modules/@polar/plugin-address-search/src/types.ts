@@ -39,6 +39,8 @@ export interface BKGParameters extends QueryParameters {
   accessToken: string
   /** X-Api-Key header used for authentication, if given */
   apiKey: string
+  /** Currently used projection of the map */
+  epsg: `EPSG:${string}`
   /** Limit search to the defined filter attributes */
   filter?: BKGFilter
 }
@@ -48,15 +50,17 @@ export interface BKGParameters extends QueryParameters {
  * Further information can be retrieved from the WFS specification
  */
 export interface GazetteerParameters extends QueryParameters {
+  /** Currently used projection of the map */
+  epsg: `EPSG:${string}`
   /** The fieldName to be searched within the service */
   fieldName: string
-  // TODO: It is assumed, for now, that a WFS-G always uses a Stored Query
-  /** Id of the stored query of the service to request the features */
-  storedQueryId: string
   memberSuffix: MemberSuffix
   /** The namespaces of the service; obsolete with WFS\@3.0.0 as GeoJSON will be the standard response */
   namespaces: string | string[]
   // TODO: Check whether a WFS-G can only be a WFS@2.0.0 or also a WFS@1.1.0
+  // TODO: It is assumed, for now, that a WFS-G always uses a Stored Query
+  /** Id of the stored query of the service to request the features */
+  storedQueryId: string
   version?: WFSVersion
 }
 

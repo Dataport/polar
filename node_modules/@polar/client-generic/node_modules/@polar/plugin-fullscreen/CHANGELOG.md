@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Refactor: Remove redundant props regarding positioning of the tooltip.
+
 ## 1.2.1
 
 - Fix: Add missing deregistration of event listeners on destruction.

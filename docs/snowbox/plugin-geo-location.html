@@ -39,21 +39,6 @@ either <code>true</code> or <code>false</code>. When a users denies the location
 </thead>
 <tbody>
 <tr>
-<td>checkLocationInitially</td>
-<td>boolean</td>
-<td>If <code>true</code> the location gets checked on page load. When <code>false</code> this can be triggered with a button.</td>
-</tr>
-<tr>
-<td>zoomLevel</td>
-<td>number</td>
-<td>Specifies to which zoom level gets zoomed after a successfull tracking of the location.</td>
-</tr>
-<tr>
-<td>keepCentered</td>
-<td>boolean</td>
-<td>False by default. If true, the map will re-center on the user on any position change. If false, only the first position will be centered on.</td>
-</tr>
-<tr>
 <td>boundaryLayerId</td>
 <td>string?</td>
 <td>Id of a vector layer to restrict geolocation markers and zooms to. When geolocation outside of its features occurs, an information will be shown once and the feature is stopped. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off.</td>
@@ -64,9 +49,14 @@ either <code>true</code> or <code>false</code>. When a users denies the location
 <td>If the boundary layer check does not work due to loading or configuration errors, style <code>'strict'</code> will disable the geolocation feature, and style <code>'permissive'</code> will act as if no boundaryLayerId was set. Defaults to <code>'permissive'</code>.</td>
 </tr>
 <tr>
-<td>showTooltip</td>
+<td>checkLocationInitially</td>
 <td>boolean?</td>
-<td>If set <code>true</code>, a tooltip will be shown when hovering the geoposition marker in the map, indicating that it shows the user's position. Defaults to <code>false</code>.</td>
+<td>If <code>true</code> the location gets checked on page load. When <code>false</code> this can be triggered with a button. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>keepCentered</td>
+<td>boolean?</td>
+<td>If <code>true</code>, the map will re-center on the user on any position change. If <code>false</code>, only the first position will be centered on. Defaults to <code>false</code>.</td>
 </tr>
 <tr>
 <td>renderType</td>
@@ -74,9 +64,19 @@ either <code>true</code> or <code>false</code>. When a users denies the location
 <td>If nested in <code>IconMenu</code>, select 'iconMenu' to match styling. Defaults to 'independent'.</td>
 </tr>
 <tr>
+<td>showTooltip</td>
+<td>boolean?</td>
+<td>If set to <code>true</code>, a tooltip will be shown when hovering the geoposition marker in the map, indicating that it shows the user's position. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
 <td>toastAction</td>
 <td>string?</td>
 <td>If the user is not locatable within the boundary of the maps extent or the boundary of the layer of <code>boundaryLayerId</code>, this string will be used as action to send a toast information to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console.</td>
+</tr>
+<tr>
+<td>zoomLevel</td>
+<td>number?</td>
+<td>Specifies to which zoom level gets zoomed after a successfull tracking of the location. Defaults to <code>7</code>.</td>
 </tr>
 </tbody>
 </table>

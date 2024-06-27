@@ -38,34 +38,9 @@
 </thead>
 <tbody>
 <tr>
-<td>toZoomLevel</td>
-<td>number</td>
-<td>Zoom level to use on outside input by e.g. address search.</td>
-</tr>
-<tr>
-<td>movable</td>
-<td>boolean? | 'drag' | 'click' | 'none'</td>
-<td>Whether a user may drag and re-click the pin (<code>drag</code> or <code>true</code>), only re-click it (<code>click</code>) or may only be placed programmatically (<code>none</code> or <code>false</code>). Defaults to 'none'. <strong>Using a boolean for this configuration has been deprecated and will be removed in the next major release.</strong></td>
-</tr>
-<tr>
 <td>appearOnClick</td>
-<td>appearOnClick</td>
+<td>appearOnClick??</td>
 <td>Pin restrictions. See object description below.</td>
-</tr>
-<tr>
-<td>coordinateSource</td>
-<td>string</td>
-<td>The pins plugin may react to changes in other plugins. This specifies the path to such store positions. The position must, when subscribed to, return a GeoJSON feature. Please mind that, when referencing another plugin, that plugin must be in <code>addPlugins</code> before this one.</td>
-</tr>
-<tr>
-<td>style</td>
-<td>style?</td>
-<td>Display style configuration.</td>
-</tr>
-<tr>
-<td>initial</td>
-<td>initial?</td>
-<td>Configuration options for setting an initial pin.</td>
 </tr>
 <tr>
 <td>boundaryLayerId</td>
@@ -78,9 +53,34 @@
 <td>If the boundary layer check does not work due to loading or configuration errors, style <code>'strict'</code> will disable the pins feature, and style <code>'permissive'</code> will act as if no boundaryLayerId was set. Defaults to <code>'permissive'</code>.</td>
 </tr>
 <tr>
+<td>coordinateSource</td>
+<td>string?</td>
+<td>The pins plugin may react to changes in other plugins. This specifies the path to such store positions. The position must, when subscribed to, return a GeoJSON feature. Please mind that, when referencing another plugin, that plugin must be in <code>addPlugins</code> before this one.</td>
+</tr>
+<tr>
+<td>initial</td>
+<td>initial?</td>
+<td>Configuration options for setting an initial pin.</td>
+</tr>
+<tr>
+<td>movable</td>
+<td>boolean? | 'drag' | 'click' | 'none'</td>
+<td>Whether a user may drag and re-click the pin (<code>drag</code> or <code>true</code>), only re-click it (<code>click</code>) or may only be placed programmatically (<code>none</code> or <code>false</code>). Defaults to 'none'. <strong>Using a boolean for this configuration has been deprecated and will be removed in the next major release.</strong></td>
+</tr>
+<tr>
+<td>style</td>
+<td>style?</td>
+<td>Display style configuration.</td>
+</tr>
+<tr>
 <td>toastAction</td>
 <td>string?</td>
 <td>If <code>boundaryLayerId</code> is set, and the pin is moved or created outside the boundary, this string will be used as action to send a toast information to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console.</td>
+</tr>
+<tr>
+<td>toZoomLevel</td>
+<td>number?</td>
+<td>Zoom level to use on outside input by e.g. address search. Defaults to <code>0</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -102,7 +102,7 @@
 <tr>
 <td>atZoomLevel</td>
 <td>number?</td>
-<td>Minimum zoom level for sensible marking.</td>
+<td>Minimum zoom level for sensible marking. Defaults to <code>0</code>.</td>
 </tr>
 </tbody>
 </table>

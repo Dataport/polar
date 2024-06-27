@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add title internationalization; i.e. features may now contain locale keys as titles.
+- Fix: Adjust documentation and types to properly describe optionality of configuration parameters.
 
 ## 1.2.1
 

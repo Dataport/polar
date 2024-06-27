@@ -47,19 +47,19 @@
 </thead>
 <tbody>
 <tr>
-<td>minLength</td>
-<td>number</td>
-<td>Minimal input length after which searches are started.</td>
-</tr>
-<tr>
-<td>waitMs</td>
-<td>number</td>
-<td>Debounce time in ms for search requests after last user input.</td>
-</tr>
-<tr>
 <td>searchMethods</td>
 <td>searchMethodsObject[]</td>
 <td>Array of search method descriptions. Only searches configured here can be used.</td>
+</tr>
+<tr>
+<td>addLoading</td>
+<td>string?</td>
+<td>Optional loading action name to start loading.</td>
+</tr>
+<tr>
+<td>categoryProperties</td>
+<td>Record&lt;string, categoryProperties&gt;?</td>
+<td>An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category.</td>
 </tr>
 <tr>
 <td>customSearchMethods</td>
@@ -72,11 +72,6 @@
 <td>An object that maps categoryIds to functions. These functions are then called as vuex store actions instead of the <code>selectResult</code> default implementation. This allows overriding selection behaviour with full store access. Use <code>''</code> as key for categoryless results.</td>
 </tr>
 <tr>
-<td>categoryProperties</td>
-<td>Record&lt;string, categoryProperties&gt;?</td>
-<td>An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category.</td>
-</tr>
-<tr>
 <td>focusAfterSearch</td>
 <td>boolean?</td>
 <td>Whether the focus should switch to the first result after a successful search. Defaults to <code>false</code>.</td>
@@ -85,6 +80,21 @@
 <td>groupProperties</td>
 <td>Record&lt;string, groupProperties&gt;?</td>
 <td>An object defining properties for a group. The searchMethod's groupId is used as identifier. All services without groupId fall back to the key <code>&quot;defaultGroup&quot;</code>.</td>
+</tr>
+<tr>
+<td>minLength</td>
+<td>number?</td>
+<td>Minimal input length after which searches are started. Defaults to 0.</td>
+</tr>
+<tr>
+<td>removeLoading</td>
+<td>string?</td>
+<td>Optional loading action name to end loading.</td>
+</tr>
+<tr>
+<td>waitMs</td>
+<td>number?</td>
+<td>Debounce time in ms for search requests after last user input. Defaults to 0.</td>
 </tr>
 </tbody>
 </table>
@@ -99,9 +109,29 @@
 </thead>
 <tbody>
 <tr>
-<td>queryParameters</td>
-<td>object</td>
-<td>The object further describes details for the search request. Its contents vary by service type, see documentation below.</td>
+<td>type</td>
+<td>enum[&quot;bkg&quot;, &quot;gazetteer&quot;, &quot;wfs&quot;, &quot;mpapi&quot;]</td>
+<td>Service type. Enum can be extended by configuration, see <code>addressSearch.customSearchMethods</code>. ⚠️ &quot;gazetteer&quot; is deprecated. Please use &quot;mpapi&quot; instead.</td>
+</tr>
+<tr>
+<td>url</td>
+<td>string</td>
+<td>Search service URL. Should you require a service provider, please contact us for further information.</td>
+</tr>
+<tr>
+<td>categoryId</td>
+<td>string?</td>
+<td>Grouped services can optionally be distinguished in the UI with categories. See <code>addressSearch.categoryProperties</code> for configuration options.</td>
+</tr>
+<tr>
+<td>groupId</td>
+<td>string?</td>
+<td>Default groupId is <code>&quot;defaultGroup&quot;</code>. All services with the same id are grouped and used together. See <code>addressSearch.groupProperties</code> for configuration options. If multiple groups exist, the UI offers a group switcher.</td>
+</tr>
+<tr>
+<td>hint</td>
+<td>string?</td>
+<td>Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key. If grouped with other services, the group's hint will be used instead.</td>
 </tr>
 <tr>
 <td>label</td>
@@ -114,29 +144,9 @@
 <td>Placeholder string to display on input element. Can be a locale key. If grouped with other services, the group's placeholder will be used instead.</td>
 </tr>
 <tr>
-<td>hint</td>
-<td>string?</td>
-<td>Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key. If grouped with other services, the group's hint will be used instead.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>enum[&quot;bkg&quot;, &quot;gazetteer&quot;, &quot;wfs&quot;, &quot;mpapi&quot;]</td>
-<td>Service type. Enum can be extended by configuration, see <code>addressSearch.customSearchMethods</code>. ⚠️ &quot;gazetteer&quot; is deprecated. Please use &quot;mpapi&quot; instead.</td>
-</tr>
-<tr>
-<td>url</td>
-<td>string</td>
-<td>Search service URL. Should you require a service provider, please contact us for further information.</td>
-</tr>
-<tr>
-<td>groupId</td>
-<td>string?</td>
-<td>Default groupId is <code>&quot;defaultGroup&quot;</code>. All services with the same id are grouped and used together. See <code>addressSearch.groupProperties</code> for configuration options. If multiple groups exist, the UI offers a group switcher.</td>
-</tr>
-<tr>
-<td>categoryId</td>
-<td>string?</td>
-<td>Grouped services can optionally be distinguished in the UI with categories. See <code>addressSearch.categoryProperties</code> for configuration options.</td>
+<td>queryParameters</td>
+<td>object?</td>
+<td>The object further describes details for the search request. Its contents vary by service type, see documentation below.</td>
 </tr>
 </tbody>
 </table>
@@ -182,9 +192,9 @@
 <td>Display label. Can be a locale key.</td>
 </tr>
 <tr>
-<td>placeholder</td>
-<td>string?</td>
-<td>Placeholder string to display on input element. Can be a locale key.</td>
+<td>resultDisplayMode</td>
+<td>enum['mixed', 'categorized']</td>
+<td>Defaults to <code>'mixed'</code>. In <code>'mixed'</code>, results of all requested services are offered in a list in no specific order. In <code>'categorized'</code>, the results are listed by their searchService's categoryId.</td>
 </tr>
 <tr>
 <td>hint</td>
@@ -192,14 +202,14 @@
 <td>Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key.</td>
 </tr>
 <tr>
-<td>resultDisplayMode</td>
-<td>enum['mixed', 'categorized']</td>
-<td>Defaults to <code>'mixed'</code>. In <code>'mixed'</code>, results of all requested services are offered in a list in no specific order. In <code>'categorized'</code>, the results are listed by their searchService's categoryId.</td>
-</tr>
-<tr>
 <td>limitResults</td>
 <td>number?</td>
 <td>If set, only the first <code>n</code> results (per category in <code>categorized</code>) are displayed initially. All further results can be opened via UI.</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>string?</td>
+<td>Placeholder string to display on input element. Can be a locale key.</td>
 </tr>
 </tbody>
 </table>
@@ -233,8 +243,8 @@
 <tbody>
 <tr>
 <td>maxFeatures</td>
-<td>number</td>
-<td>Maximum amount of features to retrieve.</td>
+<td>number?</td>
+<td>Maximum amount of features to retrieve. Doesn't limit results if not set.</td>
 </tr>
 </tbody>
 </table>
@@ -249,14 +259,14 @@
 </thead>
 <tbody>
 <tr>
-<td>typeName</td>
-<td>string</td>
-<td>Feature type to search for by name.</td>
-</tr>
-<tr>
 <td>featurePrefix</td>
 <td>string</td>
 <td>XML feature prefix for WFS service.</td>
+</tr>
+<tr>
+<td>typeName</td>
+<td>string</td>
+<td>Feature type to search for by name.</td>
 </tr>
 <tr>
 <td>xmlns</td>
@@ -264,14 +274,29 @@
 <td>XML namespace to use in search.</td>
 </tr>
 <tr>
+<td>fieldName</td>
+<td>string?</td>
+<td>Name of the type's field to search in. Mutually exclusive to <code>patterns</code>.</td>
+</tr>
+<tr>
 <td>patterns</td>
-<td>string[]</td>
-<td>Allows specifying input patterns. In a single-field search, a pattern can be as easy as <code>{{theWholeThing}}</code>, where <code>theWholeThing</code> is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. <code>{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}</code> would fit many parcel search services.</td>
+<td>string[]?</td>
+<td>Allows specifying input patterns. In a single-field search, a pattern can be as easy as <code>{{theWholeThing}}</code>, where <code>theWholeThing</code> is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. <code>{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}</code> would fit many parcel search services. Mutually exclusive to <code>fieldName</code>.</td>
 </tr>
 <tr>
 <td>patternKeys</td>
-<td>Record&lt;string, string&gt;</td>
+<td>Record&lt;string, string&gt;?</td>
 <td>Maps field names from patterns to regexes. Each field name has to have a definition. Each regex must have one capture group that is used to search. Contents next to it are ignored for the search and just used for matching. E.g. <code>'([0-9]+)$'</code> would be a value for a key that fits an arbitrary number string at the input's end.</td>
+</tr>
+<tr>
+<td>srsName</td>
+<td>string?</td>
+<td>Name of the projection (srs) for the query.</td>
+</tr>
+<tr>
+<td>useRightHandWildcard?</td>
+<td>boolean?</td>
+<td>By default, if searching for &quot;search&quot;, it is sent as &quot;search*&quot;. This behaviour can be deactivated by setting this parameter to <code>false</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -290,14 +315,9 @@
 </thead>
 <tbody>
 <tr>
-<td>memberSuffix</td>
-<td>string</td>
-<td>Elements to interpret are fetched from response XML as <code>wfs:memberSuffix</code>; fitting suffix must be configured.</td>
-</tr>
-<tr>
-<td>namespaces</td>
-<td>string[]</td>
-<td>Namespaces to add to the request.</td>
+<td>epsg</td>
+<td><code>EPSG:${string}</code></td>
+<td>EPSG code of the projection to use.</td>
 </tr>
 <tr>
 <td>fieldName</td>
@@ -305,9 +325,24 @@
 <td>Field names of service to search in.</td>
 </tr>
 <tr>
+<td>memberSuffix</td>
+<td>string</td>
+<td>Elements to interpret are fetched from response XML as <code>wfs:memberSuffix</code>; fitting suffix must be configured.</td>
+</tr>
+<tr>
+<td>namespaces</td>
+<td>string | string[]</td>
+<td>Namespaces to add to the request.</td>
+</tr>
+<tr>
 <td>storedQueryId</td>
 <td>string</td>
 <td>Name of the WFS-G stored query that is to be used.</td>
+</tr>
+<tr>
+<td>version</td>
+<td>'1.1.0' | '2.0.0'?</td>
+<td>WFS version used. Defaults to <code>'2.0.0'</code>.</td>
 </tr>
 </tbody>
 </table>

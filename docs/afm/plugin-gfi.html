@@ -40,24 +40,14 @@
 </thead>
 <tbody>
 <tr>
-<td>layers</td>
-<td>Record&lt;string, gfiLayerConfiguration&gt;</td>
-<td>Maps a string (must be a layer ID) to a behaviour configuration for that layer.</td>
-</tr>
-<tr>
 <td>coordinateSources</td>
 <td>string[]</td>
 <td>The GFI plugin will react to these coordinate positions in the store. This allows it to react to e.g. the address search of the pins plugin. Please see example configuration for the common use-cases. Please mind that, when referencing another plugin, that plugin must be in <code>addPlugins</code> before this one.</td>
 </tr>
 <tr>
-<td>mode</td>
-<td>enum[&quot;bboxDot&quot;, &quot;intersects&quot;]</td>
-<td>Method of calculating which feature has been chosen by the user. <code>bbodyDot</code> utilizes the <code>bbox</code>-url parameter using the clicked coordinate while <code>intersects</code> uses a <code>Filter</code> to calculate the intersected features. Layers can have their own <code>gfiMode</code> parameter which would override this global mode. To apply this, add the desired value to the parameter in the <code>mapConfiguration</code></td>
-</tr>
-<tr>
-<td>customHighlightStyle</td>
-<td>object</td>
-<td>If required a user can change the stroke and fill of the highlighted feature. The default style as seen in the example will be used for each part that is not customized. An empty object will return the complete default style while e.g. for an object without a configured fill the default fill will be applied.</td>
+<td>layers</td>
+<td>Record&lt;string, gfiLayerConfiguration&gt;</td>
+<td>Maps a string (must be a layer ID) to a behaviour configuration for that layer.</td>
 </tr>
 <tr>
 <td>activeLayerPath</td>
@@ -66,13 +56,33 @@
 </tr>
 <tr>
 <td>afterLoadFunction</td>
-<td>function (featuresByLayerId: Record&lt;string, GeoJsonFeature[]&gt;): Record&lt;layerId, GeoJsonFeature[]&gt;</td>
+<td>function (featuresByLayerId: Record&lt;string, GeoJsonFeature[]&gt;): Record&lt;layerId, GeoJsonFeature[]&gt;?</td>
 <td>This method can be used to extend, filter, or otherwise modify a GFI result.</td>
+</tr>
+<tr>
+<td>customHighlightStyle</td>
+<td>customHighlighStyle?</td>
+<td>If required a user can change the stroke and fill of the highlighted feature. The default style as seen in the example will be used for each part that is not customized. An empty object will return the complete default style while e.g. for an object without a configured fill the default fill will be applied.</td>
+</tr>
+<tr>
+<td>featureList</td>
+<td>featureList?</td>
+<td>If defined, a list of available vector layer features is visible when no feature is selected. Only usable if <code>renderType</code> is set to <code>iconMenu</code> and <code>window</code> is set to <code>true</code> for at least one configured layer.</td>
 </tr>
 <tr>
 <td>gfiContentComponent</td>
 <td>Vue?</td>
 <td>Allows overriding the GfiContent.vue component for a custom design. Coding knowledge required to use this feature.</td>
+</tr>
+<tr>
+<td>maxFeatures</td>
+<td>number?</td>
+<td>Limits the viewable GFIs per layer by this number. The first n elements are chosen arbitrarily. Useful if you e.g. just want one result, or to limit an endless stream of returns to e.g. 10. Infinite by default.</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>enum[&quot;bboxDot&quot;, &quot;intersects&quot;]?</td>
+<td>Method of calculating which feature has been chosen by the user. <code>bboxDot</code> utilizes the <code>bbox</code>-url parameter using the clicked coordinate while <code>intersects</code> uses a <code>Filter</code> to calculate the intersected features. Layers can have their own <code>gfiMode</code> parameter which would override this global mode. To apply this, add the desired value to the parameter in the <code>mapConfiguration</code>. Defaults to <code>'bboxDot'</code>.</td>
 </tr>
 <tr>
 <td>renderType</td>
@@ -92,34 +102,56 @@
 </thead>
 <tbody>
 <tr>
-<td>window</td>
-<td>boolean</td>
-<td>If true, properties will be shown in the map client.</td>
+<td>exportProperty</td>
+<td>string?</td>
+<td>Property of the features of a service having an url usable to trigger a download of features as a document.</td>
 </tr>
 <tr>
 <td>geometry</td>
-<td>boolean</td>
-<td>If true, feature geometry will be highlighted within the map.</td>
+<td>boolean?</td>
+<td>If true, feature geometry will be highlighted within the map. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>geometryName</td>
+<td>string?</td>
+<td>Name of the geometry property if not the default field.</td>
 </tr>
 <tr>
 <td>properties</td>
 <td>Record&lt;propertyName, displayName&gt;/string[]</td>
-<td>In case <code>window</code> is <code>true</code>, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values.</td>
-</tr>
-<tr>
-<td>featureList</td>
-<td>featureList?</td>
-<td>If defined, a list of available vector layer features is visible when no feature is selected. Only usable if <code>renderType</code> is set to <code>iconMenu</code> and <code>window</code> is set to <code>true</code>.</td>
-</tr>
-<tr>
-<td>exportProperty</td>
-<td>string</td>
-<td>Property of the features of a service having an url usable to trigger a download of features as a document.</td>
+<td>In case <code>window</code> is <code>true</code>, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. Displays all properties by default.</td>
 </tr>
 <tr>
 <td>showTooltip</td>
 <td>((feature: Feature) =&gt; [string, string][])?</td>
 <td>If given, a tooltip will be shown with the values calculated for the feature. The first string is the HTML tag to render, the second its contents; contants may be locale keys. For more information regarding the strings, see the documentation of the <code>@polar/lib-tooltip</code> package. Defaults to <code>undefined</code>. Please mind that tooltips will only be shown if a mouse is used or the hovering device could not be detected. Touch and pen interactions do not open tooltips since they will open the GFI window, rendering the gatherable information redundant.</td>
+</tr>
+<tr>
+<td>window</td>
+<td>boolean?</td>
+<td>If true, properties will be shown in the map client. Defaults to <code>false</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Additionally, if using a WMS service, the following properties can be configured as well.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filterBy</td>
+<td>'clickPosition'?</td>
+<td>Some WMS services may return features close to the clicked position. By setting the this value <code>clickPosition</code>, only features that intersect the clicked position are shown to the user. Defaults to showing all features.</td>
+</tr>
+<tr>
+<td>format</td>
+<td>'GML' | 'GML2' | 'GML3' | 'GML32' | 'text'?</td>
+<td>If the <code>infoFormat</code> is not set to <code>'application/geojson'</code>´, this can be configured to be the known file format of the response. If not given, the format is parsed from the response data.</td>
 </tr>
 </tbody>
 </table>
@@ -134,53 +166,14 @@
 </thead>
 <tbody>
 <tr>
-<td>stroke</td>
-<td>object</td>
-<td>Object for defining the stroke style</td>
-</tr>
-<tr>
 <td>fill</td>
-<td>object</td>
-<td>Object for defining the fill style</td>
-</tr>
-</tbody>
-</table>
-<h5>gfi.customHighlightStyle.stroke</h5>
-<table>
-<thead>
-<tr>
-<th>fieldName</th>
-<th>type</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>color</td>
-<td>string</td>
-<td>Color value</td>
+<td>ol/style/Fill?</td>
+<td>Object for defining the fill style. See <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_Fill-Fill.html">OpenLayers documentation</a> for full options.</td>
 </tr>
 <tr>
-<td>width</td>
-<td>number</td>
-<td>Stroke width</td>
-</tr>
-</tbody>
-</table>
-<h5>gfi.customHighlightStyle.fill</h5>
-<table>
-<thead>
-<tr>
-<th>fieldName</th>
-<th>type</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>color</td>
-<td>string</td>
-<td>Color value</td>
+<td>stroke</td>
+<td>ol/style/Stroke?</td>
+<td>Object for defining the stroke style.  See <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_Stroke-Stroke.html">OpenLayers documentation</a> for full options.</td>
 </tr>
 </tbody>
 </table>
@@ -200,19 +193,19 @@
 <td>Whether to show only features currently visible in the map view's bounding box or to display all loaded features. In the latter case, if you desire to display all features of a layer (seen or not), set its loading strategy to <code>'all'</code>.</td>
 </tr>
 <tr>
+<td>bindWithCoreHoverSelect</td>
+<td>boolean?</td>
+<td>If <code>true</code>, the hover/select fields in the core's state will be listened to and interacted with. This will result in a bilateral hovering and selecting of features with the core. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
 <td>pageLength</td>
 <td>number?</td>
 <td>A number &gt;0 that sets the limit to the feature list's length. If the length is surpassed, additional features can be reached by using the pagination that is generated in such a case. If not defined, the list can be of arbitrary length.</td>
 </tr>
 <tr>
 <td>text</td>
-<td>(function</td>
-<td>string)[]</td>
-</tr>
-<tr>
-<td>bindWithCoreHoverSelect</td>
-<td>boolean?</td>
-<td>If <code>true</code>, the hover/select fields in the core's state will be listened to and interacted with. This will result in a bilateral hovering and selecting of features with the core. Defaults to <code>false</code>.</td>
+<td>(function | string)[]?</td>
+<td>Array of one to three entries that will produce title, subtitle, and an additional subtitle for the list view. If string, the text item will simply be that feature's value for the denoted property. If function, it's assumed to match the function signature <code>(feature: OpenLayersFeature): string</code>, and the returned string will be used for the text item.</td>
 </tr>
 </tbody>
 </table>

@@ -85,7 +85,7 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <tr>
 <td>language</td>
 <td>enum[&quot;de&quot;, &quot;en&quot;]</td>
-<td>Initial language. Live changes not yet implemented, waiting for requirement.</td>
+<td>Initial language.</td>
 </tr>
 <tr>
 <td>&lt;...masterportalAPI.fields&gt;</td>
@@ -94,17 +94,17 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 </tr>
 <tr>
 <td>&lt;plugin.fields&gt;</td>
-<td>various</td>
+<td>various?</td>
 <td>Many plugins added with <code>addPlugin</code> may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below.</td>
 </tr>
 <tr>
 <td>locales</td>
-<td>LanguageOption[]</td>
+<td>LanguageOption[]?</td>
 <td>All locales in POLAR's plugins can be overridden to fit your needs.</td>
 </tr>
 <tr>
 <td>vuetify</td>
-<td>object</td>
+<td>object?</td>
 <td>You may add vuetify configuration here.</td>
 </tr>
 <tr>
@@ -376,8 +376,8 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <tbody>
 <tr>
 <td>displayComponent</td>
-<td>boolean</td>
-<td>Optional field that allows hiding UI elements from the user. The store will still be initialized, allowing you to add your own UI elements and control the plugin's functionality via the Store. This may or may not make sense, depending on the plugin.</td>
+<td>boolean?</td>
+<td>Optional field that allows hiding UI elements from the user. The store will still be initialized, allowing you to add your own UI elements and control the plugin's functionality via the Store. This may or may not make sense, depending on the plugin. Defaults to <code>false</code> , meaning the default UI is hidden.</td>
 </tr>
 </tbody>
 </table>

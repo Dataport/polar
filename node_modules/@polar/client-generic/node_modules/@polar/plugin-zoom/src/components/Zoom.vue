@@ -1,16 +1,12 @@
 <template>
   <div v-if="showZoomButtons" class="polar-zoom-wrap">
-    <v-tooltip
-      :left="!isHorizontal"
-      :bottom="isHorizontal"
-      :disabled="hasSmallDisplay"
-    >
+    <v-tooltip left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
           :aria-label="$t('common:plugins.zoom.in')"
           :class="
             renderType === 'iconMenu'
-              ? `polar-zoom-dependent${isHorizontal ? '-horizontal' : ''}`
+              ? `polar-zoom-dependent${deviceIsHorizontal ? '-horizontal' : ''}`
               : 'ma-2'
           "
           color="primary"
@@ -26,11 +22,7 @@
       </template>
       <span>{{ $t('common:plugins.zoom.in') }}</span>
     </v-tooltip>
-    <v-tooltip
-      :left="!isHorizontal"
-      :bottom="isHorizontal"
-      :disabled="hasSmallDisplay"
-    >
+    <v-tooltip left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
           :aria-label="$t('common:plugins.zoom.out')"
@@ -57,14 +49,8 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default Vue.extend({
   name: 'PolarZoom',
-  props: {
-    isHorizontal: {
-      type: Boolean,
-      default: false,
-    },
-  },
   computed: {
-    ...mapGetters(['hasSmallDisplay', 'hasSmallHeight']),
+    ...mapGetters(['deviceIsHorizontal', 'hasSmallDisplay', 'hasSmallHeight']),
     ...mapGetters('plugin/zoom', [
       'maximumZoomLevelActive',
       'minimumZoomLevelActive',

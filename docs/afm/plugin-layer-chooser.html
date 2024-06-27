@@ -45,9 +45,9 @@
 <td>Service register id.</td>
 </tr>
 <tr>
-<td>visibility</td>
-<td>boolean</td>
-<td>Initial visibility.</td>
+<td>name</td>
+<td>string</td>
+<td>Display name in UI.</td>
 </tr>
 <tr>
 <td>type</td>
@@ -55,24 +55,29 @@
 <td>Layer handling. Backgrounds are mutually exclusive, masks (&quot;overlays&quot;) can be stacked.</td>
 </tr>
 <tr>
-<td>name</td>
-<td>string</td>
-<td>Display name in UI.</td>
-</tr>
-<tr>
-<td>minZoom</td>
-<td>?number</td>
-<td>If set, layer only available (and selectable) from this zoom level on.</td>
+<td>hideInMenu</td>
+<td>boolean?</td>
+<td>Can be set for layers of type <code>'mask'</code> to hide them in the selection menu.</td>
 </tr>
 <tr>
 <td>maxZoom</td>
-<td>?number</td>
+<td>number?</td>
 <td>If set, layer only available (and selectable) to this zoom level.</td>
 </tr>
 <tr>
+<td>minZoom</td>
+<td>number?</td>
+<td>If set, layer only available (and selectable) from this zoom level on.</td>
+</tr>
+<tr>
 <td>options</td>
-<td>options</td>
+<td>options?</td>
 <td>Shows a layer-specific sub-menu; its contents are configurable.</td>
+</tr>
+<tr>
+<td>visibility</td>
+<td>boolean?</td>
+<td>Initial visibility. Defaults to <code>false</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -89,8 +94,8 @@
 <tbody>
 <tr>
 <td>layers</td>
-<td>Boolean | layers</td>
-<td>If truthy, all configured <em>layers of the layer</em> for can be turned off and on by the user. ⚠️ Only implemented for WMS. Only implemented for top layers; that is, only first level of nesting is considered.</td>
+<td>options.layers</td>
+<td>If configured, all configured <em>layers of the layer</em> can be turned off and on by the user. ⚠️ Only implemented for WMS. Only implemented for top layers; that is, only first level of nesting is considered.</td>
 </tr>
 </tbody>
 </table>
@@ -106,19 +111,19 @@
 </thead>
 <tbody>
 <tr>
+<td>legend</td>
+<td>boolean | Record&lt;name, legendUrl&gt;?</td>
+<td>Legend image to be used for sub-layer. If false, no image is displayed. If true, it is assumed an image exists in the layer's GetCapabilities, and that will be used. If Record, it maps the layer name to a linked image. The <code>legendUrl</code> can be any valid reachable image URL.</td>
+</tr>
+<tr>
 <td>order</td>
-<td>?string</td>
+<td>string?</td>
 <td>Optional. If not given, field <code>layers</code> from service description will be used, and defines order of options. If layer defined in service description's <code>layers</code> and <code>order</code>, it's initially on. If only in <code>order</code>, it's initially off. If only in <code>layers</code>, it's always-on. If in neither, it's always-off.</td>
 </tr>
 <tr>
 <td>title</td>
-<td>Boolean | Record&lt;name, layerName&gt;</td>
+<td>boolean | Record&lt;name, layerName&gt;?</td>
 <td>Title to be displayed for sub-layer. If false, layer name itself will be used as given in service description 'layers' field. If true, it is assumed a name exists in the layer's GetCapabilities, and that will be used. If Record, it maps the layer name to an arbitrary display name given by the configuration. The <code>layerName</code> can be any string.</td>
-</tr>
-<tr>
-<td>legend</td>
-<td>Boolean | Record&lt;name, legendUrl&gt;</td>
-<td>Legend image to be used for sub-layer. If false, no image is displayed. If true, it is assumed an image exists in the layer's GetCapabilities, and that will be used. If Record, it maps the layer name to a linked image. The <code>legendUrl</code> can be any valid reachable image URL.</td>
 </tr>
 </tbody>
 </table>

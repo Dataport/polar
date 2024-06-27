@@ -53,18 +53,18 @@
 <tbody>
 <tr>
 <td>selectableDrawModes</td>
-<td>string[]</td>
-<td>List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired.</td>
+<td>string[]?</td>
+<td>List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default.</td>
 </tr>
 <tr>
 <td>style</td>
-<td>style</td>
-<td>Please see example below for styling options.</td>
+<td>style?</td>
+<td>Please see example below for styling options. Defaults to standard OpenLayers styling.</td>
 </tr>
 <tr>
 <td>textStyle</td>
-<td>object</td>
-<td>Use this object with properties 'font' and 'textColor' to style text feature</td>
+<td>object?</td>
+<td>Use this object with properties 'font' and 'textColor' to style text feature.</td>
 </tr>
 </tbody>
 </table>
@@ -81,12 +81,12 @@
 <tr>
 <td>font</td>
 <td>object | string</td>
-<td>Style the font of the text feature with either css font properties or use font as an object with properties 'size' and 'family'</td>
+<td>Style the font of the text feature with either css font properties or use font as an object with properties 'size' and 'family'.</td>
 </tr>
 <tr>
 <td>textColor</td>
-<td>string</td>
-<td>Define text color in hex or rgb / rgba code</td>
+<td>string?</td>
+<td>Define text color in hex or rgb / rgba code.</td>
 </tr>
 </tbody>
 </table>
@@ -101,14 +101,14 @@
 </thead>
 <tbody>
 <tr>
-<td>size</td>
-<td>number[]</td>
-<td>Array with numbers that define the available text sizes that a user can choose from</td>
+<td>family</td>
+<td>string?</td>
+<td>Font family.</td>
 </tr>
 <tr>
-<td>family</td>
-<td>string</td>
-<td>Font family</td>
+<td>size</td>
+<td>number[]?</td>
+<td>Array with numbers that define the available text sizes that a user can choose from</td>
 </tr>
 </tbody>
 </table>

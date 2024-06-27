@@ -38,19 +38,14 @@
 </thead>
 <tbody>
 <tr>
+<td>initiallyOpen</td>
+<td>boolean?</td>
+<td>Whether the information box is open by default. Only usable when renderType is set to 'independent', otherwise the IconMenu handles this.</td>
+</tr>
+<tr>
 <td>layerAttributions</td>
 <td>layerAttribution[]?</td>
 <td>List of attributions that are shown when the matching layer is visible.</td>
-</tr>
-<tr>
-<td>staticAttributions</td>
-<td>string[]?</td>
-<td>List of static attributions that are always shown.</td>
-</tr>
-<tr>
-<td>renderType</td>
-<td>'iconMenu' | 'independent'?</td>
-<td>Whether this plugin ('independent') or the IconMenu should handle opening the information box. Defaults to 'independent'.</td>
 </tr>
 <tr>
 <td>listenToChanges</td>
@@ -58,9 +53,14 @@
 <td>Store variable paths to listen to for changes. Will update the currently visible layers depending on the current map state on changes to these values. Please mind that, when referencing another plugin, that plugin must be in <code>addPlugins</code> before this one.</td>
 </tr>
 <tr>
-<td>initiallyOpen</td>
-<td>boolean?</td>
-<td>Whether the information box is open by default. Only usable when renderType is set to 'independent', otherwise the IconMenu handles this.</td>
+<td>renderType</td>
+<td>'iconMenu' | 'independent'?</td>
+<td>Whether this plugin ('independent') or the IconMenu should handle opening the information box. Defaults to 'independent'.</td>
+</tr>
+<tr>
+<td>staticAttributions</td>
+<td>string[]?</td>
+<td>List of static attributions that are always shown.</td>
 </tr>
 <tr>
 <td>windowWidth</td>
