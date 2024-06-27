@@ -4,6 +4,8 @@
 
 The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) from WMS and WFS services as well as layers based on GeoJSON files. In a first step, the information is stored in the VueX store to allow for easy access. Display is optional and quite obstructive within the map client.
 
+> ⚠️ The display feature is currently not meant for production. Please use data bindings for display to avoid obstructing the map client.
+
 ### Configuration
 
 #### gfi
