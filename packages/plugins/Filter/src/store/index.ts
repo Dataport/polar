@@ -38,6 +38,11 @@ export const makeStoreModule = () => {
         commit,
         dispatch,
       }): void {
+        if (Object.entries(filterConfiguration.layers).length === 0) {
+          console.error(
+            '@polar/plugin-filter: No configuration for parameter "layers" was found. Plugin will not be usable.'
+          )
+        }
         Object.entries(filterConfiguration.layers).forEach(
           ([layerId, { categories, time }]) => {
             if (categories) {
@@ -64,9 +69,8 @@ export const makeStoreModule = () => {
               })
             }
             // apply filter effects on layer loads
-            const layer = getLayer(map, layerId)
             // @ts-expect-error | only layers with getSource allowed
-            let source = layer.getSource()
+            let source = getLayer(map, layerId).getSource()
             while (source instanceof ClusterSource) {
               source = source.getSource()
             }

@@ -4,6 +4,8 @@
 
 - Fix: Features with categories that are not listed in `knownValues` are never displayed now. Previously, they were initially visible, but disappeared once any filter was touched.
 - Fix: It was possible to have features visible that were loaded after the filter was applied and that would have been filtered out. This has been resolved.
+- Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Fix: Correctly log an error if required parameter `layers` is not provided.
 
 ## 1.1.1
 

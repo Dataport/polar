@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Adjust documentation to properly describe optionality of configuration parameters.
+
 ## 1.3.1
 
 - Fix: Only zoom to the user position if the user is currently in the extent of the map. The user position is no longer indicated when it's outside the map's extent.
