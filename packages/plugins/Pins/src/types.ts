@@ -1,5 +1,4 @@
 export interface PinsState {
-  isActive: boolean
   transformedCoordinate: number[]
   latLon: number[]
   coordinatesAfterDrag: number[]

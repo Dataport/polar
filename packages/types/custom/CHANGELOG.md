@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Add `mapHasDimensions` to `CoreState` and `CoreGetters`.
 - Feature: Add new getter `deviceIsHorizontal` to `CoreGetters`.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 - Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.

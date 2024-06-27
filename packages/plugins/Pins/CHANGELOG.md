@@ -3,6 +3,7 @@
 ## unpublished
 
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Chore: Refactor parts of the data handling.
 
 ## 1.3.1
 
