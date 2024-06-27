@@ -27,8 +27,8 @@ The following chapters contain drafts in this format. Please mind that they neit
 
 | fieldName | type | description |
 | - | - | - |
+| knownValues | (string \| number \| boolean \| null)[] | Array of known values for the feature properties. Each entry will result in a checkbox that allows filtering the appropriate features. Properties not listed will not be filterable and never be visible. The technical name will result in a localization key that can be configured on a per-client basis. |
 | targetProperty | string | Target property to filter by. This is the name (that is, key) of a feature property. |
-| knownValues | (string \| number \| boolean \| null)[] | Array of known values for the feature properties. Each entry will result in a checkbox that allows filtering the appropriate features. Properties not listed will not be filterable. The technical name will result in a localization key that can be configured on a per-client basis. |
 | selectAll | boolean? | If true, a checkbox is added to de/select all `knownValues` (above) at once. Defaults to `false`. |
 
 For example, `{targetProperty: 'favouriteIceCream', knownValues: ['chocolate', 'vanilla', 'strawberry'], selectAll: true}` will add these checkboxes:
@@ -45,9 +45,9 @@ For example, `{targetProperty: 'favouriteIceCream', knownValues: ['chocolate', '
 | fieldName | type | description |
 | - | - | - |
 | targetProperty | string | Target property to filter by. |
+| freeSelection | freeSelection? | Provide a more dynamic configurable from-to chooser for timeframes. |
 | last | options[]? | Array of options to create for a `last` filter, e.g. "last 10 days". |
 | next | options[]? | Array of options to create for a `next` filter, e.g. "next 10 day". |
-| freeSelection | freeSelection? | Provide a more dynamic configurable from-to chooser for timeframes. |
 | pattern | string? | Pattern the target string uses for its date formatting. Defaults to `'YYYY-MM-DD'`. Only 'Y', 'M', and 'D' are interpreted. All other characters are considered filler. Example: A feature has `"AA202001-04"` as property value that is supposed to convey a date. Setting `pattern` to `"--YYYYDD-MM"` would interpret it as the 1st of April, 2020. |
 
 Of all time restrictions, at most one can be selected at any time. The produced options are selectable by radio buttons.
@@ -57,7 +57,7 @@ Of all time restrictions, at most one can be selected at any time. The produced 
 | fieldName | type | description |
 | - | - | - |
 | amounts | number[] | Offer radio buttons for these amounts of `unit`. The rest of the current day is additionally included in the range. |
-| unit | 'days' | Implemented units. Currently, only `'days'` are supported. Defaults to `'days'`. |
+| unit | 'days'? | Implemented units. Currently, only `'days'` are supported. Defaults to `'days'`. |
 
 For example, `{amounts: [3, 7], unit: 'days'}` as value for `last` will add these radio buttons:
 
@@ -73,7 +73,7 @@ In `'days'` mode, the selections will always include full days, and additionally
 | fieldName | type | description |
 | - | - | - |
 | now | ('until' \| 'from')? | If set, only time points *until* now or *from* now are selectable, including the current time point. |
-| unit | 'days' | Implemented units. Currently, only `'days'` are supported. Defaults to `'days'`. |
+| unit | 'days'? | Implemented units. Currently, only `'days'` are supported. Defaults to `'days'`. |
 
 For example, `{now: 'until', unit: 'days'}` will add this radio button:
 

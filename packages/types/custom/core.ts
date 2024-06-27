@@ -43,31 +43,22 @@ export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi' | string
  * please refer to the types in the plugin
  */
 export interface QueryParameters {
-  /** Currently used projection of the map */
-  epsg: `EPSG:${string}`
   /** sets the maximum number of features to retrieve */
   maxFeatures?: number
-  // type:mpapi – these are forwarded to the masterportalApi
-  searchAddress?: boolean
-  searchDistricts?: boolean
-  searchHouseNumbers?: boolean
-  searchParcels?: boolean
-  searchStreetKey?: boolean
-  searchStreets?: boolean
 }
 
 export type SearchDisplayMode = 'mixed' | 'categorized'
 
 /** Object containing information for a specific search method */
 export interface SearchMethodConfiguration {
-  queryParameters?: QueryParameters
   type: SearchType
   url: string
+  categoryId?: string
+  groupId?: string
+  hint?: string
   label?: string
   placeholder?: string
-  hint?: string
-  groupId?: string
-  categoryId?: string
+  queryParameters?: QueryParameters
 }
 
 export type SearchMethodFunction = (
@@ -95,10 +86,10 @@ export type MemberSuffix = 'member' | 'featureMember'
 
 export interface AddressSearchGroupProperties {
   label: string
-  placeholder?: string
-  hint?: string
   resultDisplayMode: SearchDisplayMode
+  hint?: string
   limitResults?: number
+  placeholder?: string
 }
 
 export interface AddressSearchCategoryProperties {
@@ -108,26 +99,26 @@ export interface AddressSearchCategoryProperties {
 
 /** AddressSearch Module Configuration */
 export interface AddressSearchConfiguration extends PluginOptions {
-  // Minimal input length before the search starts
-  minLength: number
-  // Time passed in milliseconds before another search is started
-  waitMs: number
   // Configured search methods
   searchMethods: SearchMethodConfiguration[]
+  // optional loading action name to start loading
+  addLoading?: string
+  // definition of categories referred to in searchMethods
+  categoryProperties?: Record<string, AddressSearchCategoryProperties>
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
   // optional selectResult overrides (client-side injections)
   customSelectResult?: Record<string, SelectResultFunction>
-  // definition of categories referred to in searchMethods
-  categoryProperties?: Record<string, AddressSearchCategoryProperties>
   focusAfterSearch?: boolean
   // definition of groups referred to in searchMethods
   groupProperties?: Record<string, AddressSearchGroupProperties>
-  // optional loading action name to start loading
-  addLoading?: string
+  // Minimal input length before the search starts
+  minLength?: number
   // optional loading action name to end loading
   removeLoading?: string
   afterResultComponent?: VueConstructor
+  // Time passed in milliseconds before another search is started
+  waitMs?: number
 }
 
 export interface Attribution {
@@ -137,11 +128,11 @@ export interface Attribution {
 
 /** Attributions Module Configuration */
 export interface AttributionsConfiguration extends PluginOptions {
-  layerAttributions?: Attribution[]
-  staticAttributions?: string[]
-  renderType?: RenderType
   initiallyOpen?: boolean
   listenToChanges?: string[]
+  layerAttributions?: Attribution[]
+  renderType?: RenderType
+  staticAttributions?: string[]
   windowWidth?: number
 }
 
@@ -173,9 +164,9 @@ export interface FontStyle {
 export type DrawMode = 'Circle' | 'LineString' | 'Point' | 'Polygon' | 'Text'
 
 export interface DrawConfiguration extends Partial<PluginOptions> {
+  selectableDrawModes?: DrawMode[]
   style?: DrawStyle
   textStyle?: TextStyle
-  selectableDrawModes?: DrawMode[]
 }
 
 export interface ExportConfiguration extends PluginOptions {
@@ -194,24 +185,24 @@ export interface ExportConfiguration extends PluginOptions {
 
 export interface FilterConfigurationTimeOption {
   amounts: number[]
-  unit: 'days'
+  unit?: 'days'
 }
 
 interface FilterConfigurationTime {
   targetProperty: string
-  pattern?: string
-  last?: FilterConfigurationTimeOption[]
-  next?: FilterConfigurationTimeOption[]
   freeSelection?: {
     now?: 'until' | 'from'
-    unit: 'days'
+    unit?: 'days'
   }
+  last?: FilterConfigurationTimeOption[]
+  next?: FilterConfigurationTimeOption[]
+  pattern?: string
 }
 
 interface FilerConfigurationCategory {
-  selectAll?: boolean
-  targetProperty: string
   knownValues: (string | number)[]
+  targetProperty: string
+  selectAll?: boolean
 }
 
 export interface FilterConfiguration extends PluginOptions {
@@ -227,17 +218,21 @@ export interface FilterConfiguration extends PluginOptions {
 /** Configuration of GFI feature regarding a specific layer */
 export interface GfiLayerConfiguration {
   /**
+   * Property of the features of a service having an url usable to trigger a
+   * download of features as a document.
+   */
+  exportProperty?: string
+  // filter method to apply on response features, only relevant for WMS services
+  filterBy?: 'clickPosition'
+  // format the response is known to come in (e.g. "GML"); only relevant for WMS services
+  format?: 'GML' | 'GML2' | 'GML3' | 'GML32' | 'text'
+  /**
    * Whether the found features' geometry, if available, is to be shown on the
    * map. It is simply printed to a helper layer.
    */
   geometry?: boolean
-  /**
-   * Whether the found features' properties are to be shown in the client's UI.
-   * They are displayed as a table, one feature at a time, and if multiple
-   * features are found, the user may step through all where the layer's window
-   * value is true.
-   */
-  window?: boolean
+  // name of field to use for geometry, if not default field
+  geometryName?: string
   /**
    * If window is true, the properties are either
    * 1. filtered by whether their key is in a string[]
@@ -251,18 +246,14 @@ export interface GfiLayerConfiguration {
    * only the UI is affected by these filters/mappings.
    */
   properties?: string[] | Record<string, string>
-  /**
-   * Property of the features of a service having an url usable to trigger a
-   * download of features as a document.
-   */
-  exportProperty?: string
-  // filter method to apply on response features
-  filterBy?: 'clickPosition' | undefined
-  // name of field to use for geometry, if not default field
-  geometryName?: string
-  // format the response is known to come in (e.h. "GML")
-  format?: string
   showTooltip?: (feature: Feature, map: Map) => [string, string][]
+  /**
+   * Whether the found features' properties are to be shown in the client's UI.
+   * They are displayed as a table, one feature at a time, and if multiple
+   * features are found, the user may step through all where the layer's window
+   * value is true.
+   */
+  window?: boolean
 }
 
 export type BoundaryOnError = 'strict' | 'permissive'
@@ -288,9 +279,9 @@ export interface GeoLocationConfiguration extends LayerBoundPluginOptions {
    * listened to are coordinates that can be used to request information from
    * the specified layers.
    */
-  checkLocationInitially: boolean
+  checkLocationInitially?: boolean
   /** whether to keep center on user or allow movement after first zoom to */
-  keepCentered: boolean
+  keepCentered?: boolean
   renderType?: RenderType
   showTooltip?: boolean
   /**
@@ -298,7 +289,7 @@ export interface GeoLocationConfiguration extends LayerBoundPluginOptions {
    * are chosen arbitrarily. Useful if you e.g. just want one result, or to
    * limit an endless stream of returns to maybe 10 or so. Infinite by default.
    */
-  zoomLevel: number
+  zoomLevel?: number
 }
 
 /** Object containing information for highlighting a gfi result */
@@ -321,20 +312,25 @@ export type GfiAfterLoadFunction = (
 /** GFI Module Configuration */
 export interface FeatureList {
   mode: 'visible' | 'loaded'
-  pageLength?: number
-  text: (string | ((f: Feature) => string))[]
   bindWithCoreHoverSelect?: boolean
+  pageLength?: number
+  text?: (string | ((f: Feature) => string))[]
 }
 
 export interface GfiConfiguration extends PluginOptions {
-  activeLayerPath?: string
-  afterLoadFunction?: GfiAfterLoadFunction
   /**
    * Source paths through store to listen to for changes; it is assumed values
    * listened to are coordinates that can be used to request information from
    * the specified layers.
    */
   coordinateSources: string[]
+  /**
+   * The layers to request feature information from. Both WMS and WFS layers are
+   * supported. Keys are layer IDs as specified in the services.json registry.
+   */
+  layers: Record<string, GfiLayerConfiguration>
+  activeLayerPath?: string
+  afterLoadFunction?: GfiAfterLoadFunction
   /**
    * If required the stroke and fill of the highlighted feature can be configured.
    * Otherwise, a default style is applied.
@@ -346,18 +342,14 @@ export interface GfiConfiguration extends PluginOptions {
    * Usable to completely redesign content of GFI window.
    */
   gfiContentComponent?: Vue
-  renderType?: RenderType
-  /**
-   * The layers to request feature information from. Both WMS and WFS layers are
-   * supported. Keys are layer IDs as specified in the services.json registry.
-   */
-  layers: Record<string, GfiLayerConfiguration>
   /**
    * Limits the viewable GFIs per layer by this number. The first n elements
    * are chosen arbitrarily. Useful if you e.g. just want one result, or to
    * limit an endless stream of returns to maybe 10 or so. Infinite by default.
    */
   maxFeatures?: number
+  mode?: 'bboxDot' | 'intersects'
+  renderType?: RenderType
 }
 
 export interface Menu {
@@ -394,27 +386,27 @@ interface PinStyle {
 }
 
 export interface PinsConfiguration extends LayerBoundPluginOptions {
-  appearOnClick: AppearOnClick
+  appearOnClick?: AppearOnClick
   /** Path in store from where coordinates can be retrieved from. */
-  coordinateSource: string
+  coordinateSource?: string
   initial?: InitialPin
   /** If the pin should be movable; defaults to false. */
   movable?: boolean | MovablePin
   /** Pin styling */
   style?: PinStyle
   /** The zoom level to zoom to when a pin is added to the map. */
-  toZoomLevel: number
+  toZoomLevel?: number
 }
 
 export interface ReverseGeocoderConfiguration {
   // WPS (Web Processing Service) URL
   url: string
-  // points to a coordinate source; on update, coordinate is resolved
-  coordinateSource?: string
-  // points to an address acceptor; on resolve, address is dispatched there
-  addressTarget?: string
   // optional loading action name to start loading
   addLoading?: string
+  // points to an address acceptor; on resolve, address is dispatched there
+  addressTarget?: string
+  // points to a coordinate source; on update, coordinate is resolved
+  coordinateSource?: string
   // optional loading action name to end loading
   removeLoading?: string
   // optionally zooms to given coordinate after successful reverse geocoding; number indicates zoom level
@@ -469,13 +461,19 @@ export type LayerType = 'mask' | 'background'
 
 export interface LayerConfigurationOptionLayers {
   /**
+   * Legend image to be used for sub-layer. If false, no image is displayed.
+   * If true, it is assumed an image exists in the layer's GetCapabilities, and
+   * that will be used. If Record, it maps the layer name to a linked image.
+   */
+  legend?: boolean | Record<string, string>
+  /**
    * Comma-separated re-ordering of service layer's 'layer' specification.
    * Layer's not specified in service definition, but in order, are initially
    * invisible. Layers not specified in order, but in service definition, are
    * always visible. Layers specified in both are initially visible. Layers
    * specified in neither are always invisible.
    */
-  order: string
+  order?: string
   /**
    * Title to be displayed for sub-layer. If false, layer name itself will
    * be used as given in service description 'layers' field. If true, it is
@@ -483,13 +481,7 @@ export interface LayerConfigurationOptionLayers {
    * used. If Record, it maps the layer name to an arbitrary display name given
    * by the configuration.
    */
-  title: boolean | Record<string, string>
-  /**
-   * Legend image to be used for sub-layer. If false, no image is displayed.
-   * If true, it is assumed an image exists in the layer's GetCapabilities, and
-   * that will be used. If Record, it maps the layer name to a linked image.
-   */
-  legend: boolean | Record<string, string>
+  title?: boolean | Record<string, string>
 }
 
 export interface LayerConfigurationOptions {
@@ -508,20 +500,16 @@ export interface LayerConfiguration {
   name: string
   /** Whether the layer is a background layer or a feature layer with specific information */
   type: LayerType
-  /** Whether the layer should be rendered; defaults to false */
-  visibility?: boolean
-  /** Whether the layer should be hidden from the LayerChooser selection menu */
+  /** Whether the mask-layer should be hidden from the LayerChooser selection menu */
   hideInMenu?: boolean
   /** The minimum zoom level the layer will be rendered in; defaults to 0 */
   minZoom?: number
   /** The maximum zoom level the layer will be rendered in; defaults to Number.MAX_SAFE_INTEGER */
   maxZoom?: number
-  /** Url to use to proxy the request with */
-  proxyUrl?: string
-  // TODO: Is the property 'loadingStrategy' still in use?
-  loadingStrategy?: StrategyOptions
   /** Enables a configuration feature for the layer in its selection. */
   options?: LayerConfigurationOptions
+  /** Whether the layer should be rendered; defaults to false */
+  visibility?: boolean
 }
 
 export interface PolarMapOptions {
@@ -677,6 +665,7 @@ export interface CoreGetters
   selected: Feature | null
 
   // regular getters
+  deviceIsHorizontal: boolean
   hasSmallHeight: boolean
   hasSmallWidth: boolean
   /** Whether the application currently has the same size as the visual viewport of the users browser */

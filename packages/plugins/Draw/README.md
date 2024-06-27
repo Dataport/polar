@@ -33,23 +33,23 @@ The styling of the drawn features can be configured to overwrite the default ol-
 
 | fieldName           | type     | description                                                                  |
 | ------------------- | -------- | ---------------------------------------------------------------------------- |
-| selectableDrawModes | string[] | List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired.    |
-| style               | style    | Please see example below for styling options.                                |
-| textStyle           | object   | Use this object with properties 'font' and 'textColor' to style text feature |
+| selectableDrawModes | string[]? | List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default. |
+| style               | style? | Please see example below for styling options. Defaults to standard OpenLayers styling. |
+| textStyle           | object? | Use this object with properties 'font' and 'textColor' to style text feature. |
 
 ##### draw.textStyle
 
 | fieldName | type             | description                                                                                                                     |
 | --------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| font      | object \| string | Style the font of the text feature with either css font properties or use font as an object with properties 'size' and 'family' |
-| textColor | string           | Define text color in hex or rgb / rgba code                                                                                     |
+| font      | object \| string | Style the font of the text feature with either css font properties or use font as an object with properties 'size' and 'family'. |
+| textColor | string?          | Define text color in hex or rgb / rgba code.                                                                                    |
 
 ##### draw.textStyle.font
 
 | fieldName | type     | description                                                                         |
 | --------- | -------- | ----------------------------------------------------------------------------------- |
-| size      | number[] | Array with numbers that define the available text sizes that a user can choose from |
-| family    | string   | Font family                                                                         |
+| family    | string? | Font family.                                                                        |
+| size      | number[]? | Array with numbers that define the available text sizes that a user can choose from |
 
 #### draw.style (by example)
 

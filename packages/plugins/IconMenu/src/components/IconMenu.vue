@@ -5,20 +5,14 @@
       v-for="({ plugin, icon, id, hint }, index) of menus"
       :key="index"
       :class="
-        isHorizontal ? 'icon-menu-list-item-horizontal' : 'icon-menu-list-item'
+        deviceIsHorizontal
+          ? 'icon-menu-list-item-horizontal'
+          : 'icon-menu-list-item'
       "
     >
-      <component
-        :is="plugin"
-        v-if="icon === undefined"
-        :is-horizontal="isHorizontal"
-      />
+      <component :is="plugin" v-if="icon === undefined" />
       <template v-else>
-        <v-tooltip
-          :left="!isHorizontal"
-          :bottom="isHorizontal"
-          :disabled="hasSmallDisplay"
-        >
+        <v-tooltip left :disabled="hasSmallDisplay">
           <template #activator="{ on, attrs }">
             <v-btn
               :color="open === index ? 'primaryContrast' : 'primary'"
@@ -46,7 +40,7 @@
           v-if="open === index && (!hasWindowSize || !hasSmallWidth)"
           ref="item-component"
           :class="[
-            isHorizontal
+            deviceIsHorizontal
               ? 'icon-menu-list-item-content-horizontal'
               : 'icon-menu-list-item-content',
             'icon-menu-list-item-content-scrollable-y',
@@ -68,6 +62,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters([
       'clientHeight',
+      'deviceIsHorizontal',
       'hasSmallDisplay',
       'hasSmallHeight',
       'hasSmallWidth',
@@ -83,21 +78,18 @@ export default Vue.extend({
     itemComponent() {
       return this.asList ? 'li' : 'div'
     },
-    isHorizontal() {
-      return this.hasSmallHeight && this.hasWindowSize
-    },
     maxHeight() {
       if (!this.hasWindowSize) {
         return 'inherit'
       }
       return `calc(${this.clientHeight}px - ${
-        this.isHorizontal ? 'calc(100% + 1.5em)' : '1em'
+        this.deviceIsHorizontal ? 'calc(100% + 1.5em)' : '1em'
       })`
     },
   },
   watch: {
     // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
-    isHorizontal(newVal: boolean) {
+    deviceIsHorizontal(newVal: boolean) {
       if (!newVal) {
         this.updateMaxWidth()
       }

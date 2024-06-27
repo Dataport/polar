@@ -12,17 +12,17 @@ Please check the vuetify documentation to override the success, warning, info, o
 
 | fieldName | type       | description                           |
 | --------- | ---------- | ------------------------------------- |
-| error     | toastStyle | Design override for error messages.   |
-| warning   | toastStyle | Design override for warning messages. |
-| info      | toastStyle | Design override for info messages.    |
-| success   | toastStyle | Design override for success messages. |
+| error     | toastStyle? | Design override for error messages.   |
+| info      | toastStyle? | Design override for info messages.    |
+| success   | toastStyle? | Design override for success messages. |
+| warning   | toastStyle? | Design override for warning messages. |
 
 #### toast.toastStyle
 
 | fieldName | type    | description                                                                                                          |
 | --------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
-| color     | ?string | Either a color code like '#FACADE' or a color string [vuetify understands](https://vuetifyjs.com/en/styles/colors/). |
-| icon      | ?string | CSS icon class.                                                                                                      |
+| color     | string? | Either a color code like '#FACADE' or a color string [vuetify understands](https://vuetifyjs.com/en/styles/colors/). |
+| icon      | string? | CSS icon class.                                                                                                      |
 
 ## Store
 

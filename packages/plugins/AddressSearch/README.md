@@ -24,28 +24,30 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 
 | fieldName           | type                                  | description                                                                                                                                                                                                                                                            |
 | ------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| minLength           | number                                | Minimal input length after which searches are started.                                                                                                                                                                                                                 |
-| waitMs              | number                                | Debounce time in ms for search requests after last user input.                                                                                                                                                                                                         |
 | searchMethods       | searchMethodsObject[]                 | Array of search method descriptions. Only searches configured here can be used.                                                                                                                                                                                        |
+| afterResultComponent | VueConstructor? | If given, this component will be rendered in the last line of every single search result. It will be forwarded its search result feature as prop `feature` of type `GeoJSON.Feature`, and the focus state of the result as prop `focus` of type `boolean`. |
+| addLoading | string? | Optional loading action name to start loading. |
+| categoryProperties  | Record<string, categoryProperties>?   | An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category.                                                                                                     |
 | customSearchMethods | Record<string, customSearchMethod>?   | An object with named search functions added to the existing set of configurable search methods. (See `addressSearch.searchMethodsObject.type`) This record's keys are added to that enum.                                                                              |
 | customSelectResult  | Record<string, customSelectFunction>? | An object that maps categoryIds to functions. These functions are then called as vuex store actions instead of the `selectResult` default implementation. This allows overriding selection behaviour with full store access. Use `''` as key for categoryless results. |
-| categoryProperties  | Record<string, categoryProperties>?   | An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category.                                                                                                     |
 | focusAfterSearch | boolean? | Whether the focus should switch to the first result after a successful search. Defaults to `false`. |
 | groupProperties     | Record<string, groupProperties>?      | An object defining properties for a group. The searchMethod's groupId is used as identifier. All services without groupId fall back to the key `"defaultGroup"`.                                                                                                       |
-| afterResultComponent | VueConstructor? | If given, this component will be rendered in the last line of every single search result. It will be forwarded its search result feature as prop `feature` of type `GeoJSON.Feature`, and the focus state of the result as prop `focus` of type `boolean`. |
+| minLength           | number?                                | Minimal input length after which searches are started. Defaults to 0.                                                                                                                                                                                                                 |
+| removeLoading | string? | Optional loading action name to end loading. |
+| waitMs              | number?                                | Debounce time in ms for search requests after last user input. Defaults to 0.                                                                                                                                                                                                         |
 
 #### addressSearch.searchMethodsObject
 
 | fieldName       | type                                     | description                                                                                                                                                                                                                |
 | --------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| queryParameters | object                                   | The object further describes details for the search request. Its contents vary by service type, see documentation below.                                                                                                   |
-| label           | string?                                  | Display label. Can be a locale key. If grouped with other services, the group's label will be used instead.                                                                                                                |
-| placeholder     | string?                                  | Placeholder string to display on input element. Can be a locale key. If grouped with other services, the group's placeholder will be used instead.                                                                         |
-| hint            | string?                                  | Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key. If grouped with other services, the group's hint will be used instead.                           |
 | type            | enum["bkg", "gazetteer", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. ⚠️ "gazetteer" is deprecated. Please use "mpapi" instead. |
 | url             | string                                   | Search service URL. Should you require a service provider, please contact us for further information.                                                                                                                      |
-| groupId         | string?                                  | Default groupId is `"defaultGroup"`. All services with the same id are grouped and used together. See `addressSearch.groupProperties` for configuration options. If multiple groups exist, the UI offers a group switcher. |
 | categoryId      | string?                                  | Grouped services can optionally be distinguished in the UI with categories. See `addressSearch.categoryProperties` for configuration options.                                                                              |
+| groupId         | string?                                  | Default groupId is `"defaultGroup"`. All services with the same id are grouped and used together. See `addressSearch.groupProperties` for configuration options. If multiple groups exist, the UI offers a group switcher. |
+| hint            | string?                                  | Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key. If grouped with other services, the group's hint will be used instead.                           |
+| label           | string?                                  | Display label. Can be a locale key. If grouped with other services, the group's label will be used instead.                                                                                                                |
+| placeholder     | string?                                  | Placeholder string to display on input element. Can be a locale key. If grouped with other services, the group's placeholder will be used instead.                                                                         |
+| queryParameters | object?                                   | The object further describes details for the search request. Its contents vary by service type, see documentation below.                                                                                                   |
 
 #### addressSearch.customSearchMethod
 
@@ -88,10 +90,10 @@ With this, arbitrary click results can be supported. Please mind that undocument
 | fieldName         | type                         | description                                                                                                                                                                                        |
 | ----------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | label             | string                       | Display label. Can be a locale key.                                                                                                                                                                |
-| placeholder       | string?                      | Placeholder string to display on input element. Can be a locale key.                                                                                                                               |
-| hint              | string?                      | Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key.                                                                          |
 | resultDisplayMode | enum['mixed', 'categorized'] | Defaults to `'mixed'`. In `'mixed'`, results of all requested services are offered in a list in no specific order. In `'categorized'`, the results are listed by their searchService's categoryId. |
+| hint              | string?                      | Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key.                                                                          |
 | limitResults      | number?                      | If set, only the first `n` results (per category in `categorized`) are displayed initially. All further results can be opened via UI.                                                              |
+| placeholder       | string?                      | Placeholder string to display on input element. Can be a locale key.                                                                                                                               |
 
 #### addressSearch.categoryProperties
 
@@ -105,17 +107,20 @@ These fields are interpreted by all implemented services.
 
 | fieldName   | type   | description                             |
 | ----------- | ------ | --------------------------------------- |
-| maxFeatures | number | Maximum amount of features to retrieve. |
+| maxFeatures | number? | Maximum amount of features to retrieve. Doesn't limit results if not set. |
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:wfs)
 
 | fieldName     | type                   | description                                                                                                                                                                                                                                                                                                                                             |
 | ------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| typeName      | string                 | Feature type to search for by name.                                                                                                                                                                                                                                                                                                                     |
 | featurePrefix | string                 | XML feature prefix for WFS service.                                                                                                                                                                                                                                                                                                                     |
+| typeName      | string                 | Feature type to search for by name.                                                                                                                                                                                                                                                                                                                     |
 | xmlns         | string                 | XML namespace to use in search.                                                                                                                                                                                                                                                                                                                         |
-| patterns      | string[]               | Allows specifying input patterns. In a single-field search, a pattern can be as easy as `{{theWholeThing}}`, where `theWholeThing` is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. `{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}` would fit many parcel search services. |
-| patternKeys   | Record<string, string> | Maps field names from patterns to regexes. Each field name has to have a definition. Each regex must have one capture group that is used to search. Contents next to it are ignored for the search and just used for matching. E.g. `'([0-9]+)$'` would be a value for a key that fits an arbitrary number string at the input's end.                   |
+| fieldName | string? | Name of the type's field to search in. Mutually exclusive to `patterns`. |
+| patterns      | string[]?               | Allows specifying input patterns. In a single-field search, a pattern can be as easy as `{{theWholeThing}}`, where `theWholeThing` is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. `{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}` would fit many parcel search services. Mutually exclusive to `fieldName`. |
+| patternKeys   | Record<string, string>? | Maps field names from patterns to regexes. Each field name has to have a definition. Each regex must have one capture group that is used to search. Contents next to it are ignored for the search and just used for matching. E.g. `'([0-9]+)$'` would be a value for a key that fits an arbitrary number string at the input's end.                   |
+| srsName | string? | Name of the projection (srs) for the query. |
+| useRightHandWildcard? | boolean? | By default, if searching for "search", it is sent as "search*". This behaviour can be deactivated by setting this parameter to `false`. |
 
 Since inputs may overlap with multiple patterns, multiple queries are fired and executed on the WFS until the `maxFeatures` requirement is met, beginning with the pattern that 'looks like the user input the most'. The best-fitting pattern on the returned features will be used to generate a display string. When two patterns fit best, the first one is used.
 
@@ -125,10 +130,12 @@ Since inputs may overlap with multiple patterns, multiple queries are fired and 
 
 | fieldName     | type     | description                                                                                                   |
 | ------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
-| memberSuffix  | string   | Elements to interpret are fetched from response XML as `wfs:memberSuffix`; fitting suffix must be configured. |
-| namespaces    | string[] | Namespaces to add to the request.                                                                             |
+| epsg | `EPSG:${string}` | EPSG code of the projection to use. |
 | fieldName     | string[] | Field names of service to search in.                                                                          |
+| memberSuffix  | string   | Elements to interpret are fetched from response XML as `wfs:memberSuffix`; fitting suffix must be configured. |
+| namespaces    | string \| string[] | Namespaces to add to the request.                                                                             |
 | storedQueryId | string   | Name of the WFS-G stored query that is to be used.                                                            |
+| version | '1.1.0' \| '2.0.0'? | WFS version used. Defaults to `'2.0.0'`. |
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:mpapi)
 

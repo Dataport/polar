@@ -41,8 +41,40 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       ? gfiConfiguration.afterLoadFunction
       : null
   },
+  currentProperties(
+    _,
+    { exportPropertyLayerKeys, visibleWindowFeatureIndex, windowFeatures }
+  ) {
+    const properties = {
+      ...windowFeatures[visibleWindowFeatureIndex],
+    }
+    const exportProperty =
+      exportPropertyLayerKeys[properties.polarInternalLayerKey]
+    if (exportProperty?.length > 0) {
+      delete properties[exportProperty]
+    }
+    return properties
+  },
   layerKeys(_, { gfiConfiguration }) {
     return Object.keys(gfiConfiguration?.layers || {})
+  },
+  exportProperty(
+    _,
+    {
+      currentProperties,
+      exportPropertyLayerKeys,
+      visibleWindowFeatureIndex,
+      windowFeatures,
+    }
+  ) {
+    if (currentProperties) {
+      const property =
+        exportPropertyLayerKeys[currentProperties.polarInternalLayerKey]
+      return property.length > 0
+        ? (windowFeatures[visibleWindowFeatureIndex]?.[property] as string)
+        : ''
+    }
+    return ''
   },
   exportPropertyLayerKeys(_, { gfiConfiguration }) {
     return Object.entries(gfiConfiguration?.layers || {}).reduce(
@@ -52,6 +84,10 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       }),
       {} as Record<string, string>
     )
+  },
+  /** only show switch buttons if multiple property sets are available */
+  showSwitchButtons(_, { windowFeatures }) {
+    return windowFeatures.length > 1
   },
   windowLayerKeys(_, { gfiConfiguration }): string[] {
     return Object.entries(gfiConfiguration?.layers || {}).reduce(

@@ -1,12 +1,6 @@
 <template>
   <v-scroll-x-reverse-transition>
-    <v-card
-      dense
-      filled
-      :width="width"
-      :color="renderType === 'independent' ? '#ffffffdd' : ''"
-      :max-width="maxWidth"
-    >
+    <v-card dense filled :width="width" :color="color" :max-width="maxWidth">
       <v-card-title>
         {{ $t('common:plugins.attributions.title') }}
       </v-card-title>
@@ -27,19 +21,18 @@ import noop from '@repositoryname/noop'
 
 export default Vue.extend({
   name: 'AttributionContent',
-  props: {
-    maxWidth: {
-      type: [Number, String],
-      default: 'inherit',
-    },
-    width: {
-      type: [Number, String],
-      default: 'inherit',
-    },
-  },
   computed: {
-    ...mapGetters(['language']),
-    ...mapGetters('plugin/attributions', ['mapInfo', 'renderType']),
+    ...mapGetters([
+      'clientWidth',
+      'hasSmallWidth',
+      'hasWindowSize',
+      'language',
+    ]),
+    ...mapGetters('plugin/attributions', [
+      'mapInfo',
+      'renderType',
+      'windowWidth',
+    ]),
     cardText(): string {
       noop(this.language)
       return this.mapInfo
@@ -50,6 +43,22 @@ export default Vue.extend({
           })
         )
         .join('<br>')
+    },
+    renderIndependently() {
+      return this.renderType === 'independent'
+    },
+    color() {
+      return this.renderIndependently ? '#ffffffdd' : ''
+    },
+    maxWidth() {
+      return this.renderIndependently
+        ? this.hasWindowSize && this.hasSmallWidth
+          ? this.clientWidth * 0.85
+          : 1080
+        : 'inherit'
+    },
+    width() {
+      return this.renderIndependently ? this.windowWidth : 'inherit'
     },
   },
   mounted() {

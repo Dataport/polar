@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Remove requirement of `isHorizontal` prop for plugins as the relevant logic is implemented in `@polar/core`.
 - Fix: Resolve issue with `initiallyOpen` not working as expected.
 
 ## 1.2.0

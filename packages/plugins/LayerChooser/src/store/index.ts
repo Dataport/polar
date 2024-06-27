@@ -104,8 +104,9 @@ export const makeStoreModule = () => {
           }
           // GetCapabilities exactly needed when `true` set for an inferrable option
           if (
-            layer.options?.layers?.title === true ||
-            layer.options?.layers?.legend === true
+            typeof layer.options?.layers === 'object' &&
+            (layer.options.layers?.title === true ||
+              layer.options.layers?.legend === true)
           ) {
             dispatch('capabilities/loadCapabilities', layer.id, { root: true })
           }
@@ -257,7 +258,7 @@ export const makeStoreModule = () => {
       },
       openedOptionsServiceLayers(_, { openedOptionsService }, __, rootGetters) {
         const layers: LayerConfigurationOptionLayers | undefined =
-          openedOptionsService.options?.layers
+          openedOptionsService?.options?.layers
 
         if (typeof layers === 'undefined') {
           return null
@@ -301,7 +302,7 @@ export const makeStoreModule = () => {
                 )
               : layers.title === false
               ? technicalLayerName
-              : layers.title[technicalLayerName]) || technicalLayerName,
+              : layers.title?.[technicalLayerName]) || technicalLayerName,
           layerImage:
             layers.legend === false
               ? null
