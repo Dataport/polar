@@ -111,7 +111,7 @@ const doesFeaturePassFilter = (
   )
 }
 
-const getLayer = (map: Map, layerId: LayerId): BaseLayer => {
+export const getLayer = (map: Map, layerId: LayerId): BaseLayer => {
   const layer = map
     .getLayers()
     .getArray()
