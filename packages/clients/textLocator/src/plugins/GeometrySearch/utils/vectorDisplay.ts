@@ -43,7 +43,7 @@ const featHeat = (
   const sums: Record<string, number> = olFeatures.reduce(
     (accumulator, current) => ({
       ...accumulator,
-      // sum occurence of toponyms cross-document
+      // sum occurrence of toponyms cross-document
       [current.get('title')]:
         (accumulator[current.get('title')] || 0) +
         Object.values(titleLocationFrequency).reduce(
