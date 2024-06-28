@@ -82,6 +82,7 @@ export async function updateFrequencies({
     await Promise.all(
       requestLiteraturePerFeature(
         featureCollection,
+        // @ts-expect-error | added in polar-client.ts locally
         rootGetters.configuration.textLocatorBackendUrl
       )
     )
