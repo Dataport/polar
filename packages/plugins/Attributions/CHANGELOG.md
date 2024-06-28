@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## Unpublished
 - Feature: The new renderType `footer` displays a small version of the information box that is always visible.
 
 ## 1.2.1
