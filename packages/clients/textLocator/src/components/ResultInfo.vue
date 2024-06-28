@@ -6,7 +6,7 @@
     transition="none"
   >
     <template #activator="{ on, attrs }">
-      <span :tabIndex="tabIndex" v-bind="attrs" v-on="on">
+      <span :tabindex="tabIndex" v-bind="attrs" v-on="on">
         <v-icon small> fa-info-circle </v-icon>
       </span>
     </template>

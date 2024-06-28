@@ -5,7 +5,7 @@
         <template #badge>
           <v-tooltip left>
             <template #activator="{ on }">
-              <span tabIndex="0" v-on="on">{{ item.count }}</span>
+              <span tabindex="0" v-on="on">{{ item.count }}</span>
             </template>
             <span>{{ $t(tooltipKey(item)) }}</span>
           </v-tooltip>
