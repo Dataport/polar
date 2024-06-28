@@ -1,13 +1,12 @@
 import { FeatureCollection } from 'geojson'
 import { Map } from 'ol'
-import {
-  CoreGetters,
-  CoreState,
-  PolarStore,
-  SelectResultFunction,
-} from '@polar/lib-custom-types'
+import { PolarStore, SelectResultFunction } from '@polar/lib-custom-types'
 import SearchResultSymbols from '@polar/plugin-address-search/src/utils/searchResultSymbols'
 import VectorSource from 'ol/source/Vector'
+import {
+  GeometrySearchGetters,
+  GeometrySearchState,
+} from '../../plugins/GeometrySearch/types'
 import { ResponsePayload } from './types'
 import { getAllPages } from './getAllPages'
 import {
@@ -22,7 +21,7 @@ interface CoastalGazetteerParameters {
 
 // this method is meant to be injected into the AddressSearch plugin
 export async function searchCoastalGazetteerByToponym(
-  this: PolarStore<CoreState, CoreGetters>,
+  this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
   signal: AbortSignal,
   url: string,
   inputValue: string,
