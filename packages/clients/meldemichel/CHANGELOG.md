@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.1.2
+
+- Chore: Fix bugs via dependency updates.
+  - resolve filter bugs for features of unknown filter categories; they were sometimes visible
+
 ## 1.1.1
 
 - Chore: Fix bugs via dependency updates.
