@@ -62,7 +62,7 @@ import { TreeViewItem } from '../types'
 import Action from './Action.vue'
 
 export default Vue.extend({
-  name: 'GeometrySearchPlugin',
+  name: 'GeometrySearchTree',
   components: {
     Action,
     ResultInfo,
