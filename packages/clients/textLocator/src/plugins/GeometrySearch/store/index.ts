@@ -57,6 +57,7 @@ export const makeStoreModule = () => {
           .call(
             this,
             feature,
+            // @ts-expect-error | added in polar-client.ts locally
             rootGetters.configuration.geometrySearch.url,
             rootGetters.configuration.epsg
           )
