@@ -68,7 +68,7 @@ const language: LanguageOption[] = [
               Point:
                 'Click somewhere in the map to request location names and literature to a point coordinate. $t(plugins.geometrySearch.draw.description.Common)',
               Polygon:
-                'Click repeatedly in the map to draw an area to request location names and literature to. Double click finished an area. $t(plugins.geometrySearch.draw.description.Common)',
+                'Click repeatedly in the map to draw an area to request location names and literature to. Double click finishes an area. $t(plugins.geometrySearch.draw.description.Common)',
               Common: 'New drawings discard previous results.',
             },
           },
