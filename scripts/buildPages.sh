@@ -1,4 +1,4 @@
-array=( afm generic meldemichel snowbox )
+array=( afm generic meldemichel snowbox textLocator )
 for i in "${array[@]}"
 do
   echo "Building $i docs ..."
