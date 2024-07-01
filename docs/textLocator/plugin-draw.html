@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>Draw</h1>
+<h2>Scope</h2>
+<p>The draw plugin allows users to draw features on the map. Drawn features may be edited and deleted.</p>
+<p>Currently supported OpenLayers geometry types:</p>
+<ul>
+<li><code>'Circle''</code></li>
+<li><code>'LineString'</code></li>
+<li><code>'Point'</code></li>
+<li><code>'Polygon'</code></li>
+</ul>
+<p>Also, <code>'Text'</code> is supported which is modeled as an OpenLayers <code>'Point'</code>. This is no default feature, so it must be specified in the configuration to use it.</p>
+<h2>User instructions for Text Mode</h2>
+<p>The interaction with text features is not intuitive, which is why the text feature should come with instructions for the users:</p>
+<h3>Edit</h3>
+<p>To edit the text or the placement of the text feature, the user must click on the center of the text to select the point geometry below it. After selecting it, the user can move the point by keeping the left mouse button pressed, or edit the text in the input field that opens with selecting the feature. If more than one text size is specified in the configuration, the user can change the text size with a slider.</p>
+<h3>Delete</h3>
+<p>To delete the text, the user must either click on the point at the center of the text or use CTRL + left mouse button to open a box over all features that he or she wants to delete.</p>
+<h2>Configuration</h2>
+<p>The styling of the drawn features can be configured to overwrite the default ol-style. Configuration is oriented around the <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_Style.html#~StyleLike">OpenLayers styles</a>.</p>
+<h3>draw</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>selectableDrawModes</td>
+<td>string[]?</td>
+<td>List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default.</td>
+</tr>
+<tr>
+<td>style</td>
+<td>style?</td>
+<td>Please see example below for styling options. Defaults to standard OpenLayers styling.</td>
+</tr>
+<tr>
+<td>textStyle</td>
+<td>object?</td>
+<td>Use this object with properties 'font' and 'textColor' to style text feature.</td>
+</tr>
+</tbody>
+</table>
+<h5>draw.textStyle</h5>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>font</td>
+<td>object | string</td>
+<td>Style the font of the text feature with either css font properties or use font as an object with properties 'size' and 'family'.</td>
+</tr>
+<tr>
+<td>textColor</td>
+<td>string?</td>
+<td>Define text color in hex or rgb / rgba code.</td>
+</tr>
+</tbody>
+</table>
+<h5>draw.textStyle.font</h5>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>family</td>
+<td>string?</td>
+<td>Font family.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>number[]?</td>
+<td>Array with numbers that define the available text sizes that a user can choose from</td>
+</tr>
+</tbody>
+</table>
+<h4>draw.style (by example)</h4>
+<p>The <code>@masterportal/masterportalapi</code> has vectorStyles in development. As soon as that's done, we shall use its styling syntax and methods.</p>
+<p>For the time being, please use this example as a rough reference as to what can currently be done.</p>
+<pre><code class="language-json">{
+  &quot;draw&quot;: {
+    &quot;style&quot;: {
+      &quot;fill&quot;: {
+        &quot;color&quot;: &quot;rgba(255, 255, 255, 0.5)&quot;
+      },
+      &quot;stroke&quot;: {
+        &quot;color&quot;: &quot;#e51313&quot;,
+        &quot;width&quot;: 2
+      },
+      &quot;circle&quot;: {
+        &quot;radius&quot;: 7,
+        &quot;fillColor&quot;: &quot;#e51313&quot;
+      }
+    },
+    &quot;textStyle&quot;: {
+      &quot;font&quot;: {
+        &quot;size&quot;: [10.5, 20, 30.5, 35],
+        &quot;family&quot;: &quot;serif&quot;
+      },
+      &quot;textColor&quot;: &quot;#e51313&quot;
+    }
+  }
+}
+</code></pre>
+<h2>Store</h2>
+<h3>State</h3>
+<pre><code class="language-js">map.subscribe('plugin/draw/featureCollection', (featureCollection) =&gt; {
+  /* Your code. */
+})
+</code></pre>
+<p>The returned featureCollection is a <a href="https://geojson.org/">GeoJSON</a> FeatureCollection. It includes all drawn features and updates on changes.</p>
+<h2>Actions</h2>
+<pre><code class="language-js">map.$store.dispatch('plugin/draw/addFeatures', {
+  geoJSON: {
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'Point',
+          coordinates: [484000, 5885000],
+        },
+      },
+    ],
+  },
+  overwrite: true, // defaults to false
+})
+</code></pre>
+<p>Calling the action <code>addFeatures</code> expects an object containing the parameter <code>geoJSON</code>, which is a <a href="https://geojson.org/">GeoJSON</a> FeatureCollection.<br>
+It adds the given features from the FeatureCollection to the drawn source. It is also possible to completely overwrite them using the parameter <code>overwrite</code>.</p>
+<p>It's important to note that the GeoJSON Standard <a href="https://www.rfc-editor.org/rfc/rfc7946">RFC7946</a> does not support circles.
+To add a circle to the map, it is assumed, that a feature being a circle has a property <code>radius</code> together with a point geometry.</p>
+<pre><code class="language-js">map.$store.dispatch('plugin/draw/zoomToFeature', {
+  index: 42, // defaults to 0
+  margin: 420, // defaults to 20
+})
+</code></pre>
+<p>Calling the action <code>zoomToFeature</code> zooms to the feature with position <code>index</code>, if given, and fits the map view around it with a padding of size <code>margin</code> in every direction of the feature.</p>
+<pre><code class="language-js">map.$store.dispatch('plugin/draw/zoomToAllFeatures', {
+  margin: 420, // defaults to 20
+})
+</code></pre>
+<p>Calling the action <code>zoomToFeature</code> zooms to all drawn features, fits them in the map view with a padding of size <code>margin</code> in every direction of the features.</p>
+
+    
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>Core</h1>
+<h2>Scope</h2>
+<p>The client's core is the base package to create clients in the POLAR environment.</p>
+<p>It offers this functionality:</p>
+<ul>
+<li>Plugin mechanism</li>
+<li>@masterportal/masterportalapi functionality</li>
+<li>Localization mechanism</li>
+</ul>
+<h2>Interaction</h2>
+<p>If a client is rendered as part of another page, the zoom and drag-pan behaviour is different to if the client is rendered as complete page.<br>
+If it's part of another page, drag-panning on mobile devices is only usable if at least two fingers are being used while on desktop clients the user can only zoom if using the respective platform modifier key (e.g. CTRL).</p>
+<p>It is important to note that the behaviour will be desktop-like on larger touchscreen devices (e.g. tablets).</p>
+<h2>Initialization / Configuration</h2>
+<p>It depends on the client how exactly the initialization will take place for the embedding programmer. However, the core mechanism remains the same.</p>
+<p>The exported default object is an extended masterportalAPI, adding the <code>addPlugins</code> and extending the <code>createMap</code> functions. For masterportalAPI details, <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">see their repository</a>.</p>
+<p>To be able to see the map in production mode, the imported stylesheet has to have the property <code>data-polar</code>. The value can be chosen arbitrarily. ⚠️ Deprecated. The new field 'stylePath' should be used instead.</p>
+<h3>addPlugins</h3>
+<p>Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may already have been done. Ready-made clients (that is, packages prefixed <code>@polar/client-</code>) come with plugins prepared. You may add further plugins or proceed with <code>createMap</code>.</p>
+<p>In case you're integrating new plugins, call <code>addPlugins</code> with an array of instances.</p>
+<pre><code class="language-js">client.addPlugins([Plugin({ pluginConfig })])
+</code></pre>
+<p>In case you're writing a new plugin, it must fulfill the following API:</p>
+<pre><code class="language-js">const Plugin = (options: PluginOptions) =&gt; (instance: Vue) =&gt;
+  instance.$store.dispatch('addComponent', {
+    name: 'plugin', // unique technical name
+    plugin: Plugin, // a vue component
+    language, // an i18n locale batch
+    options, // configuration; overriddable with mapConfiguration on createMap
+    storeModule, // vuex store module, if required
+  })
+</code></pre>
+<p>If the storeModule features a <code>setupModule</code> action, it will be executed automatically after initialization.</p>
+<h3>createMap</h3>
+<p>The map is created by calling the <code>createMap</code> method. Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone HTML pages that do this for you.</p>
+<pre><code class="language-js">MapClient.createMap({
+  // arbitrary id, must point to a div
+  containerId: 'polarstern',
+  // see below
+  mapConfiguration,
+}).then((map) =&gt; {
+  /* Your Code, e.g. for setting up callbacks. */
+})
+</code></pre>
+<h4>mapConfiguration</h4>
+<p>The mapConfiguration allows controlling many client instance details.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>layerConf</td>
+<td>LayerConf</td>
+<td>Layer configuration as required by masterportalAPI.</td>
+</tr>
+<tr>
+<td>language</td>
+<td>enum[&quot;de&quot;, &quot;en&quot;]</td>
+<td>Initial language.</td>
+</tr>
+<tr>
+<td>&lt;...masterportalAPI.fields&gt;</td>
+<td>various</td>
+<td>The object is also used to initialize the masterportalAPI. Please refer to their documentation for options.</td>
+</tr>
+<tr>
+<td>&lt;plugin.fields&gt;</td>
+<td>various?</td>
+<td>Many plugins added with <code>addPlugin</code> may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below.</td>
+</tr>
+<tr>
+<td>locales</td>
+<td>LanguageOption[]?</td>
+<td>All locales in POLAR's plugins can be overridden to fit your needs.</td>
+</tr>
+<tr>
+<td>vuetify</td>
+<td>object?</td>
+<td>You may add vuetify configuration here.</td>
+</tr>
+<tr>
+<td>extendedMasterportalapiMarkers</td>
+<td>extendedMasterportalapiMarkers?</td>
+<td>Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with <code>clusterDistance</code> will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI.</td>
+</tr>
+<tr>
+<td>stylePath</td>
+<td>string?</td>
+<td>If no link tag with <code>data-polar=&quot;true&quot;</code> is found in the document, this path will be used to create the link node in the client itself. It defaults to <code>'./style.css'</code>. Please mind that <code>data-polar=&quot;true&quot;</code> is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release.</td>
+</tr>
+<tr>
+<td>renderFaToLightDom</td>
+<td>boolean?</td>
+<td>POLAR requires FontAwesome in the Light/Root DOM due to an <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=336876">unfixed bug in many browsers</a>. This value defaults to <code>true</code>. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to <code>false</code> to check whether the versions are interoperable.</td>
+</tr>
+</tbody>
+</table>
+<h5>mapConfiguration.LanguageOption</h5>
+<p>A language option is an object consisting of a type (its language key) and the i18next resource definition. You may e.g. decide that the texts offered in the LayerChooser do not fit the style of your client, or that they could be more precise in your situation since you're only using <em>very specific</em> overlays.</p>
+<p>An example for a LanguageOption array usable in <code>createMap</code> is this array:</p>
+<pre><code class="language-ts">const languageOptions: LanguageOption[] = [
+  {
+    type: 'de',
+    resources: {
+      plugins: {
+        layerChooser: {
+          maskTitle: 'Bahnstrecken',
+        },
+      },
+    },
+  },
+  {
+    type: 'en',
+    resources: {
+      plugins: {
+        layerChooser: {
+          maskTitle: 'Railway lines',
+        },
+      },
+    },
+  },
+]
+</code></pre>
+<p>To figure out the name of the locales to override, inspect the matching plugin in GitHub's file browser. In <code>packages/plugins</code>, open the plugin you desire to override. Each plugin's <code>src</code> folder contains a <code>language.ts</code> listing all used locale keys with appropriate nesting.</p>
+<h5>mapConfiguration.extendedMasterportalapiMarkers</h5>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>layers</td>
+<td>string[]</td>
+<td>List of layer ids. The effect will only be applied to these layers.</td>
+</tr>
+<tr>
+<td>defaultStyle</td>
+<td>MarkerStyle?</td>
+<td>Used as the default marker style. The default fill color for these markers is <code>'#005CA9'</code>.</td>
+</tr>
+<tr>
+<td>hoverStyle</td>
+<td>MarkerStyle?</td>
+<td>Used as map marker style for hovered features. The default fill color for these markers is <code>'#7B1045'</code>.</td>
+</tr>
+<tr>
+<td>selectionStyle</td>
+<td>MarkerStyle?</td>
+<td>Used as map marker style for selected features. The default fill color for these markers is <code>'#679100'</code>.</td>
+</tr>
+<tr>
+<td>clusterClickZoom</td>
+<td>boolean?</td>
+<td>If <code>true</code>, clicking a cluster feature will zoom into the clustered features' bounding box (with padding) so that the cluster is &quot;resolved&quot;. This happens until the maximum zoom level is reached, at which no further zooming can take place. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>dispatchOnMapSelect</td>
+<td>string[]?</td>
+<td>If set, the parameters will be spread to dispatchment on map selection. <code>['target', 'value']</code> will <code>dispatch(...['target', 'value'])</code>. This can be used to open the iconMenu's GFI with <code>['plugin/iconMenu/openMenuById', 'gfi']</code>, should the IconMenu exist and the gfi plugin be in it with this id.</td>
+</tr>
+</tbody>
+</table>
+<h6>mapConfiguration.extendedMasterportalapiMarkers.MarkerStyle</h6>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>clusterSize</td>
+<td>[number, number]?</td>
+<td><code>width</code> and <code>height</code> of the <code>&lt;svg&gt;</code>-cluster-marker.</td>
+</tr>
+<tr>
+<td>fill</td>
+<td>(string | masterportalapiPolygonFillHatch)?</td>
+<td>Fill color (or hatch pattern) for map marker.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>[number, number]?</td>
+<td><code>width</code> and <code>height</code> of the <code>&lt;svg&gt;</code>-marker.</td>
+</tr>
+<tr>
+<td>strokeWidth</td>
+<td>(string | number)?</td>
+<td>Width of marker stroke (outer line). Defaults to <code>'2'</code>.</td>
+</tr>
+<tr>
+<td>stroke</td>
+<td>string?</td>
+<td>Color of marker stroke (outer line). Defaults to <code>'#ffffff'</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>A full documentation of the masterportalapiPolygonFillHatch is available at the Masterportal's documentation file <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md">style.json.md</a>, chapter 'Polygon.polygonFillHatch'. The basic usage is quoted below for quick lookup. For more details, visual examples, and expert features, see there.</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Required</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pattern</td>
+<td>no</td>
+<td>enum[&quot;diagonal&quot;, &quot;diagonal-right&quot;, &quot;zig-line&quot;, &quot;zig-line-horizontal&quot;, &quot;circle&quot;, &quot;rectangle&quot;, &quot;triangle&quot;, &quot;diamond&quot;]/Object</td>
+<td><code>&quot;diagonal&quot;</code></td>
+<td>Draw pattern. You may either use a pre-defined pattern from the enum or specify one yourself.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>no</td>
+<td>Number</td>
+<td><code>30</code></td>
+<td>Edge length of a singular repeated pattern element.</td>
+</tr>
+<tr>
+<td>lineWidth</td>
+<td>no</td>
+<td>Number</td>
+<td><code>10</code></td>
+<td>Line width of drawn pattern. To achieve an even distribution in diagonal and zig-line pattern, choose lineWidth as (1/3 * size). For triangle and diamond, a lineWidth of 1 must be chosen. For rectangle, a lineWidth of at most (1/4 * size) should be chosen. Deviating from these rules is not harmful, but patterns may seem off.</td>
+</tr>
+<tr>
+<td>backgroundColor</td>
+<td>no</td>
+<td>Number[]</td>
+<td><code>[0, 0, 0, 1]</code></td>
+<td>Background color of polygon.</td>
+</tr>
+<tr>
+<td>patternColor</td>
+<td>no</td>
+<td>Number[]</td>
+<td><code>[255, 255, 255, 1]</code></td>
+<td>Fill color of pattern drawn on polygon.</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<h5>mapConfiguration.LayerConf</h5>
+<p>The layer configuration (or: service register) is read by the masterportalAPI. The full definition can be read <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md">here</a>.</p>
+<p>However, not all listed services have been implemented in the masterportalAPI yet, and no documentation regarding implemented properties exists there yet.</p>
+<p>Whitelisted and confirmed parameters include:</p>
+<ul>
+<li>WMS: id, name, url, typ, format, version, transparent, layers, STYLES</li>
+<li>WFS: id, name, url, typ, outputFormat, version, featureType</li>
+</ul>
+<h6>Example services register</h6>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: &quot;my-wfs-id&quot;,
+    &quot;name&quot;: &quot;Service name&quot;,
+    &quot;url&quot;: &quot;Service url&quot;,
+    &quot;typ&quot;: &quot;WFS&quot;,
+    &quot;outputFormat&quot;: &quot;XML&quot;,
+    &quot;version&quot;: &quot;1.1.0&quot;,
+    &quot;featureType&quot;: &quot;ns:featureType&quot;
+  },
+  {
+    &quot;id&quot;: &quot;my-wms-id&quot;,
+    &quot;name&quot;: &quot;Service name&quot;,
+    &quot;url&quot;: &quot;Service url&quot;,
+    &quot;typ&quot;: &quot;WMS&quot;,
+    &quot;format&quot;: &quot;image/png&quot;,
+    &quot;version&quot;: &quot;1.3.0&quot;,
+    &quot;transparent&quot;: true,
+    &quot;layers&quot;: [&quot;A&quot;, &quot;B&quot;]
+  }
+]
+</code></pre>
+<p>Since this is the base for many functions, the service ID set in this is used to reference map material in many places of the map client.</p>
+<h5>&lt;...masterportalAPI.fields&gt;</h5>
+<p>The <code>&lt;...masterportalAPI.fields&gt;</code> means that any masterportalAPI field may also be used here <em>directly</em>. The most common fields are the following ones; for more, see masterportalAPI.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>startResolution</td>
+<td>number</td>
+<td>Initial resolution; must be in options. See below.</td>
+</tr>
+<tr>
+<td>startCenter</td>
+<td>number[]</td>
+<td>Initial center coordinate.</td>
+</tr>
+<tr>
+<td>extent</td>
+<td>number[]</td>
+<td>Map movement will be restricted to this rectangle.</td>
+</tr>
+<tr>
+<td>epsg</td>
+<td>string</td>
+<td>Leading coordinate system, e.g. <code>&quot;EPSG:25832&quot;</code>.</td>
+</tr>
+<tr>
+<td>options</td>
+<td>Array</td>
+<td>Defines all available zoomLevels. Entries define <code>resolution</code>, <code>scale</code>, and <code>zoomLevel</code>. See masterportalAPI for details.</td>
+</tr>
+<tr>
+<td>namedProjections</td>
+<td>Array</td>
+<td>Array of usable projections by proj4 string.</td>
+</tr>
+</tbody>
+</table>
+<h5>&lt;plugin.fields&gt;</h5>
+<p>On how to configure a plugin, see the respective plugin. The configuration is given in the <code>mapConfiguration</code> object by the plugin's name as specified in its respective documentation. For example, a <code>@polar/plugin-address-search</code> plugin can be configured like this:</p>
+<pre><code class="language-js">{
+  addressSearch: {
+    // ...
+  }
+}
+</code></pre>
+<p>Most plugins honor this additional field.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>displayComponent</td>
+<td>boolean?</td>
+<td>Optional field that allows hiding UI elements from the user. The store will still be initialized, allowing you to add your own UI elements and control the plugin's functionality via the Store. This may or may not make sense, depending on the plugin. Defaults to <code>false</code> , meaning the default UI is hidden.</td>
+</tr>
+</tbody>
+</table>
+<h5>mapConfiguration.vuetify</h5>
+<p>These fields let you e.g. specify a <a href="https://vuetifyjs.com/en/features/theme/">Vuetify-Theme</a>. For more options, refer to the official vuetify documentation.</p>
+<p>Additionally to the regular fields, <code>primaryContrast</code> and <code>secondaryContrast</code> are interpreted. They serve as contrast colors to their respective fields and are used for e.g. button icons.</p>
+<pre><code class="language-js">{
+  theme: {
+    themes: {
+      light: {
+        primary: &quot;black&quot;,
+        primaryContrast: &quot;white&quot;,
+        secondary: &quot;#c0ffee&quot;,
+        secondaryContrast: &quot;#de1e7e&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<h2>Store</h2>
+<p>The core module features a vuex root store that all plugin vuex modules are plugged into. However, the root contents are only relevant to plugins. It is accessible with <code>map.$store</code>, and can be used as a starting point for plugin access.</p>
+<p>To ease use, the map instance also features a <code>subscribe</code> method that will register a watcher to any state field. Please mind that only documented paths should be used, and all others are subject to change without notice.</p>
+<pre><code class="language-js">// state subscription – listening to data held by the map client
+map.subscribe('some/key', (value) =&gt; {
+  // do something with the value
+})
+
+// getter subscription – these are computed values from various sources
+map.$store.watch(
+    (_, getters) =&gt; getters['some/key'],
+    (value) =&gt; {
+        // effect
+    }
+)
+</code></pre>
+<p>This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.</p>
+<p>To add content to the <code>MoveHandle</code>, the mutation <code>setMoveHandle</code> can be used. The values needed are described in <code>@polar/lib-custom-types:MoveHandleProperties</code>.</p>
+
+    
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>

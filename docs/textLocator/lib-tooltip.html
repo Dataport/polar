@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1>tooltip</h1>
+<p>Minimal package that provides a <code>div</code> element factory bound to <code>i18next</code> translations. The element can e.g. be used in <code>ol/Overlay</code>.</p>
+<pre><code class="language-js">import { getTooltip } from '@polar/lib-tooltip'
+
+const tooltip = getTooltip({
+  style: '', // optional inline style string
+  localeKeys: [
+    // tag/content pairs
+    ['h2', 'plugins.myPlugin.header'],
+    ['p', 'plugins.myPlugin.body']
+  ],
+})
+
+// tooltip contains 'element' (a div) and 'unregister' (when div is no longer used)
+// the element will automatically update on locale change
+</code></pre>
+
+    
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>
