@@ -19,7 +19,7 @@ import {
   SubscribeOptions,
 } from 'vuex'
 import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
-import Vue, { WatchOptions } from 'vue'
+import Vue, { VueConstructor, WatchOptions } from 'vue'
 
 /**
  *
@@ -116,6 +116,7 @@ export interface AddressSearchConfiguration extends PluginOptions {
   minLength?: number
   // optional loading action name to end loading
   removeLoading?: string
+  afterResultComponent?: VueConstructor
   // Time passed in milliseconds before another search is started
   waitMs?: number
 }
