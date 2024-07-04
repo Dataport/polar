@@ -5,13 +5,20 @@
     :aria-label="$t('common:plugins.scale.label')"
   >
     <select
-      v-if="scales.length > 0"
+      v-if="showSelectOptions"
       v-model="scale"
-      class="scale-as-a-ratio"
-      @change="setResolutionByIndex($event.target.selectedIndex)"
+      :title="$t('common:plugins.scale.scaleSwitcher')"
+      :aria-label="$t('common:plugins.scale.scaleSwitcher')"
+      class="scale-as-a-ratio scale-switcher"
+      @change="setZoomLevelByScale($event.target.selectedIndex)"
     >
-      <option v-for="(scaleOption, i) in scales" :key="i" :value="scaleOption">
-        {{ scalesToOne(scaleOption.scale) }}
+      <option
+        v-for="(option, i) in zoomOptions"
+        :key="i"
+        :value="option"
+        class="scale-as-a-ratio"
+      >
+        {{ scaleNumberToScale(option.scale) }}
       </option>
     </select>
     <span v-else class="scale-as-a-ratio">
@@ -26,49 +33,39 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import { mapConfiguration } from '../../../../clients/dish/src/mapConfig'
 import thousandsSeparator from '../utils/thousandsSeperator'
+import beautifyScale from '../utils/beautifyScale'
 
 export default Vue.extend({
   name: 'PolarScale',
-  data() {
-    return {
-      scales: [] as { scale: number; zoomLevel: number }[],
-    }
-  },
   computed: {
     ...mapGetters({
+      zoomOptions: 'plugin/scale/zoomOptions',
       scaleToOne: 'plugin/scale/scaleToOne',
       scaleValue: 'plugin/scale/scaleValue',
       scaleWithUnit: 'plugin/scale/scaleWithUnit',
       getMapView: 'map/getMapView',
     }),
-    scalesToOne() {
-      return (scale: number) => '1 : ' + thousandsSeparator(scale)
+    scaleNumberToScale() {
+      return (scale: number) => {
+        return '1 : ' + thousandsSeparator(scale)
+      }
     },
     scale: {
       get() {
-        let scaleToCompare = this.scaleValue
+        const scaleToCompare = beautifyScale(this.scaleValue)
 
-        if (scaleToCompare > 10000) {
-          scaleToCompare = Math.round(scaleToCompare / 500) * 500
-        } else if (scaleToCompare > 1000) {
-          scaleToCompare = Math.round(scaleToCompare / 50) * 50
-        }
-        return this.scales[
-          this.scales.findIndex((s) => s.scale === scaleToCompare)
+        return this.zoomOptions[
+          this.zoomOptions.findIndex((s) => s.scale === scaleToCompare)
         ]
       },
       set(value: number) {
         this.setScaleValue(value)
       },
     },
-  },
-  created() {
-    this.scales = mapConfiguration.options.map((option) => ({
-      scale: option.scale,
-      zoomLevel: option.zoomLevel,
-    }))
+    showSelectOptions() {
+      return this.zoomOptions.length > 0
+    },
   },
   methods: {
     ...mapMutations({
@@ -77,8 +74,8 @@ export default Vue.extend({
     ...mapActions({
       setZoomLevel: 'plugin/zoom/setZoomLevel',
     }),
-    setResolutionByIndex(index: number) {
-      this.setZoomLevel(this.scales[index].zoomLevel)
+    setZoomLevelByScale(index: number) {
+      this.setZoomLevel(this.zoomOptions[index].zoomLevel)
     },
   },
 })

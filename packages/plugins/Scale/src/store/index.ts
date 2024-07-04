@@ -6,6 +6,7 @@ import * as olProj from 'ol/proj'
 import { t as translate } from 'i18next'
 import { PolarModule } from '@polar/lib-custom-types'
 import thousandsSeparator from '../utils/thousandsSeperator'
+import beautifyScale from '../utils/beautifyScale'
 import getDpi from '../utils/getDpi'
 import { ScaleState } from '../types'
 
@@ -48,12 +49,7 @@ export const makeStoreModule = () => {
         if (typeof currentScaleValue !== 'number' || currentScaleValue <= 0) {
           return `1 : ${translate('common:plugins.scale.toOneNegative')}`
         }
-
-        if (currentScaleValue > 10000) {
-          currentScaleValue = Math.round(currentScaleValue / 500) * 500
-        } else if (currentScaleValue > 1000) {
-          currentScaleValue = Math.round(currentScaleValue / 50) * 50
-        }
+        currentScaleValue = beautifyScale(currentScaleValue)
 
         const scaleToOne = '1 : ' + thousandsSeparator(currentScaleValue)
         commit('setScaleToOne', scaleToOne)
