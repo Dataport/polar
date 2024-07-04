@@ -116,6 +116,20 @@ export default Vue.extend({
     padding-right: 1em;
   }
 
+  .scale-switcher:hover {
+    cursor: pointer;
+    font-weight: bold;
+    background: #003064;
+    color: #ffffff;
+  }
+
+  .scale-switcher option {
+    cursor: pointer;
+    font-weight: normal;
+    background: #ffffff;
+    color: black;
+  }
+
   @media only screen and (max-width: 768px) {
     flex-direction: column-reverse;
     align-items: flex-end;
