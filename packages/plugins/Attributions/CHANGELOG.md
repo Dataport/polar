@@ -5,7 +5,6 @@
 - Feature: Add new option `'footer'` to configuration parameter `renderType` that changes the attributions to be displayed as a small version of the information box that is always visible.
 - Refactor: Replace redundant props with computed properties.
 
-
 ## 1.2.1
 
 - Fix: There were incomplete changes regarding how to write current year and month references. They have been rolled back to `<YEAR>` and `<MONTH>` in both documentation and code.
