@@ -81,10 +81,7 @@ export default Vue.extend({
     timeoutReference: 0,
   }),
   computed: {
-    ...mapGetters(['hasSmallHeight', 'hasWindowSize']),
-    isHorizontal() {
-      return this.hasSmallHeight && this.hasWindowSize
-    },
+    ...mapGetters(['deviceIsHorizontal', 'hasSmallHeight', 'hasWindowSize']),
     moveEventNames(): MoveEventNames {
       return this.touchDevice
         ? { move: 'touchmove', end: 'touchend' }
@@ -93,7 +90,7 @@ export default Vue.extend({
   },
   watch: {
     // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
-    isHorizontal(newVal: boolean) {
+    deviceIsHorizontal(newVal: boolean) {
       if (!newVal) {
         this.updateMaxHeight()
       }

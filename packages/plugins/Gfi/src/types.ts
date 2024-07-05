@@ -41,6 +41,8 @@ export interface GfiState {
 
 export interface GfiGetters extends GfiState {
   afterLoadFunction: GfiAfterLoadFunction | null
+  currentProperties: GeoJsonProperties
+  exportProperty: string
   exportPropertyLayerKeys: Record<string, string>
   /** subset of layerKeys, where features' geometries are to be shown on map */
   geometryLayerKeys: string[]
@@ -56,6 +58,7 @@ export interface GfiGetters extends GfiState {
   renderMoveHandle: boolean
   renderType: RenderType
   showList: boolean
+  showSwitchButtons: boolean
   /** subset of layerKeys, where features' properties are to be shown in UI */
   windowLayerKeys: string[]
   /**

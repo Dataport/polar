@@ -30,6 +30,9 @@
   "peerDependencies": {
     "ol": "^7.1.0"
   },
+  "devDependencies": {
+    "@polar/lib-custom-types": "^1.0.0"
+  },
   "nx": {
     "includedScripts": [
       "bundle"

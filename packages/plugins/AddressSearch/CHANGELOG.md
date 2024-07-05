@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new optional configuration parameter `afterResultComponent` that allows to display a custom component for each search result.
+- Fix: Adjust documentation and types to properly describe optionality of configuration parameters.
+
 ## 2.0.0-alpha.5
 
 Fix: Revert back to previous dependency modelling.

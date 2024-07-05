@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Properly extend interface `WfsParameters` from `QueryParameters` to reflect actual usage.
+
 ## 2.0.0-alpha.1
 
 - Breaking: `getWfsFeatures` now throws errors if required parameters on the wfs configuration are missing instead of only printing error messages on the console.

@@ -74,6 +74,7 @@ const getInitialState = (): CoreState => ({
   hasSmallDisplay: false,
   errors: [],
   language: '',
+  mapHasDimensions: false,
 })
 
 // OK for store creation
@@ -152,6 +153,8 @@ export const makeStore = () => {
           window.innerWidth === state.clientWidth
         )
       },
+      deviceIsHorizontal: (_, getters) =>
+        getters.hasSmallHeight && getters.hasWindowSize,
     },
     mutations: {
       ...generateSimpleMutations(getInitialState()),

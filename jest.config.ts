@@ -15,7 +15,7 @@ const config: Config.InitialOptions = {
   },
   testEnvironment: 'jsdom',
   transform: {
-    '^[^.]+.vue$': 'vue-jest',
+    '^[^.]+.vue$': '@vue/vue2-jest',
     '^.+\\.tsx?$': 'ts-jest',
     '^.*\\.js$': 'babel-jest',
   },

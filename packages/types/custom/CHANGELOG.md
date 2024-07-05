@@ -2,7 +2,14 @@
 
 ## unpublished
 
+- Feature: Add `afterResultComponent` to `AddressSearchConfiguration` for custom search result suffixes.
+- Feature: Add `mapHasDimensions` to `CoreState` and `CoreGetters`.
+- Feature: Add new getter `deviceIsHorizontal` to `CoreGetters`.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
+- Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.
+- Fix: Properly document optional parameters of interfaces `AddressSearchConfiguration`, `FeatureList`, `FilterConfigurationTime`, `FilterConfigurationTimeOption`, `GeoLocationConfiguration`, `LayerConfigurationOptionLayers` and `PinsConfiguration`
+- Fix: Add missing parameters `mode` and `renderType` to `GfiConfiguration`.
+- Fix: Remove mpapi-search specific parameters from general interface `QueryParameters`.
 
 ## 1.4.1
 

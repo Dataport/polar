@@ -4,7 +4,12 @@
 
 - Breaking: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-geo-location/styles.css`.
 - Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
+- Fix: Adjust documentation to properly describe optionality of configuration parameters.
+
+## 1.3.1
+
 - Fix: Only zoom to the user position if the user is currently in the extent of the map. The user position is no longer indicated when it's outside the map's extent.
+- Fix: The plugin would fail the map initialization procedure on Safari 15 and prior. This issue has been resolved by disabling the fail-fast feature for browsers not supporting `navigator.permissions.query`.
 
 ## 1.3.0
 

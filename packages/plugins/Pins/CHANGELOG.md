@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Chore: Refactor parts of the data handling.
+
 ## 2.0.0-alpha.3
 
 Fix: Revert back to previous dependency modelling.

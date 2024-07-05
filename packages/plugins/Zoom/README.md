@@ -11,8 +11,8 @@ It can be configured as followed.
 
 | fieldName  | type                         | description                                                                                   |
 |------------|------------------------------|-----------------------------------------------------------------------------------------------|
-| renderType | 'iconMenu' \| 'independent'? | Whether the zoom related buttons are being rendered independently or as part of the IconMenu. Defaults to 'independent'. |
-| showMobile | boolean?                     | Whether the zoom related buttons should be displayed on smaller devices; defaults to false.   |
+| renderType | 'iconMenu' \| 'independent'? | Whether the zoom related buttons are being rendered independently or as part of the IconMenu. Defaults to `'independent'`. |
+| showMobile | boolean?                     | Whether the zoom related buttons should be displayed on smaller devices; defaults to `false`.   |
 
 ## Store
 
