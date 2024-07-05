@@ -17,23 +17,17 @@
     <v-simple-table class="polar-edgy-table" dense>
       <template #default>
         <FeatureTableHead></FeatureTableHead>
-        <FeatureTableBody
-          :current-properties="currentProperties"
-          :photo-height="photoHeight"
-        ></FeatureTableBody>
+        <FeatureTableBody></FeatureTableBody>
       </template>
     </v-simple-table>
     <FeatureButtonGroup
       v-if="exportProperty || showSwitchButtons"
-      :export-property="exportProperty"
-      :show-switch-buttons="showSwitchButtons"
     ></FeatureButtonGroup>
   </div>
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
-import { GeoJsonProperties } from 'geojson'
+import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import FeatureButtonGroup from './FeatureButtonGroup.vue'
 import FeatureTableBody from './FeatureTableBody.vue'
@@ -46,30 +40,10 @@ export default Vue.extend({
     FeatureTableBody,
     FeatureTableHead,
   },
-  props: {
-    currentProperties: {
-      type: Object as PropType<GeoJsonProperties>,
-      required: true,
-    },
-    clientWidth: {
-      type: Number,
-      required: true,
-    },
-    exportProperty: {
-      type: String,
-      default: '',
-    },
-    showSwitchButtons: {
-      type: Boolean,
-      default: false,
-    },
-  },
   data: () => ({ closeLabel: 'common:plugins.gfi.header.close' }),
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
-    photoHeight(): number {
-      return this.clientWidth * 0.15
-    },
+    ...mapGetters('plugin/gfi', ['exportProperty', 'showSwitchButtons']),
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),

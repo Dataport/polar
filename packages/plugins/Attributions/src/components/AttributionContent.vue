@@ -28,19 +28,18 @@ import noop from '@repositoryname/noop'
 
 export default Vue.extend({
   name: 'AttributionContent',
-  props: {
-    maxWidth: {
-      type: [Number, String],
-      default: 'inherit',
-    },
-    width: {
-      type: [Number, String],
-      default: 'inherit',
-    },
-  },
   computed: {
-    ...mapGetters(['language']),
-    ...mapGetters('plugin/attributions', ['mapInfo', 'renderType']),
+    ...mapGetters([
+      'clientWidth',
+      'hasSmallWidth',
+      'hasWindowSize',
+      'language',
+    ]),
+    ...mapGetters('plugin/attributions', [
+      'mapInfo',
+      'renderType',
+      'windowWidth',
+    ]),
     cardText(): string {
       noop(this.language)
       return this.mapInfo
@@ -52,10 +51,23 @@ export default Vue.extend({
         )
         .join('<br>')
     },
-    color(): string {
+    renderIndependently() {
+      return this.renderType === 'independent'
+    },
+    color() {
       return this.renderType === 'independent' || this.renderType === 'footer'
         ? '#ffffffdd'
         : ''
+    },
+    maxWidth() {
+      return this.renderIndependently
+        ? this.hasWindowSize && this.hasSmallWidth
+          ? this.clientWidth * 0.85
+          : 1080
+        : 'inherit'
+    },
+    width() {
+      return this.renderIndependently ? this.windowWidth : 'inherit'
     },
   },
   mounted() {

@@ -1,7 +1,10 @@
 # CHANGELOG
 
-## Unpublished
-- Feature: The new renderType `footer` displays a small version of the information box that is always visible.
+## unpublished
+
+- Feature: Add new option `'footer'` to configuration parameter `renderType` that changes the attributions to be displayed as a small version of the information box that is always visible.
+- Refactor: Replace redundant props with computed properties.
+
 
 ## 1.2.1
 
