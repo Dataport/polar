@@ -5,6 +5,7 @@
 - Feature: Add `afterResultComponent` to `AddressSearchConfiguration` for custom search result suffixes.
 - Feature: Add `mapHasDimensions` to `CoreState` and `CoreGetters`.
 - Feature: Add new getter `deviceIsHorizontal` to `CoreGetters`.
+- Feature: Add `footer`to `RenderType` as option to display attributions in a footer.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 - Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.
 - Fix: Properly document optional parameters of interfaces `AddressSearchConfiguration`, `FeatureList`, `FilterConfigurationTime`, `FilterConfigurationTimeOption`, `GeoLocationConfiguration`, `LayerConfigurationOptionLayers` and `PinsConfiguration`
