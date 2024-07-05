@@ -90,7 +90,7 @@ export default Vue.extend({
   margin: 4px;
 }
 .polar-plugin-attributions-footer .v-card__text {
-  font-size: 10px;
+  font-size: 0.8rem;
   padding: 2px;
   line-height: 1.1;
 }
