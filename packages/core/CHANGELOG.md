@@ -5,6 +5,7 @@
 - Feature: Add new state parameter `mapHasDimensions` to let plugins have a "hook" to react on when the map is ready.
 - Feature: Add `deviceIsHorizontal` as a getter to have a more central place to check if the device is in landscape mode.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Chore: Updated dependencies to latest versions.
 
 ## 1.4.1
 
