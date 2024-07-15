@@ -18,10 +18,10 @@
         :value="option"
         class="scale-as-a-ratio"
       >
-        {{ scaleNumberToScale(option.scale) }}
+        {{ i === 0 ? option : scaleNumberToScale(option.scale) }}
       </option>
     </select>
-    <span v-else class="scale-as-a-ratio">
+    <span class="scale-as-a-ratio">
       {{ scaleToOne }}
     </span>
     <span class="scale-line">
@@ -54,10 +54,13 @@ export default Vue.extend({
     scale: {
       get() {
         const scaleToCompare = beautifyScale(this.scaleValue)
-
-        return this.zoomOptions[
-          this.zoomOptions.findIndex((s) => s.scale === scaleToCompare)
-        ]
+        return (
+          this.zoomOptions[
+            this.zoomOptions.findIndex(
+              (s: { scale: number }) => s.scale === scaleToCompare
+            )
+          ] || this.zoomOptions[0]
+        )
       },
       set(value: number) {
         this.setScaleValue(value)
@@ -114,6 +117,16 @@ export default Vue.extend({
 
     padding-left: 1em;
     padding-right: 1em;
+  }
+
+  .scale-switcher {
+    cursor: pointer;
+    font-weight: bold;
+    background: #ffffff;
+    color: black;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
   }
 
   .scale-switcher:hover {

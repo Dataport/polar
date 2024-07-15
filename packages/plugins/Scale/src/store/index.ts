@@ -78,12 +78,13 @@ export const makeStoreModule = () => {
           rootGetters.configuration.options
 
         const filteredOptions = options?.filter(
-          (option: { scale: any; zoomLevel: any }) =>
+          (option: { scale: number; zoomLevel: number }) =>
             typeof option.scale === 'number' &&
             typeof option.zoomLevel === 'number'
         )
+        filteredOptions.unshift(translate('common:plugins.scale.scaleSwitcher'))
 
-        return filteredOptions || []
+        return filteredOptions.length > 1 ? filteredOptions : []
       },
     },
   }
