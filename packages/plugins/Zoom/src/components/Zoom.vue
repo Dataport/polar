@@ -41,11 +41,7 @@
       <span>{{ $t('common:plugins.zoom.out') }}</span>
     </v-tooltip>
     <div v-if="showZoomSlider">
-      <zoom-slider
-        :aria-label="$t('common:plugins.zoom.slider')"
-        :min-zoom="minimumZoomLevel"
-        :max-zoom="maximumZoomLevel"
-      ></zoom-slider>
+      <zoom-slider />
     </div>
   </div>
 </template>
@@ -69,8 +65,6 @@ export default Vue.extend({
     ...mapGetters('plugin/zoom', [
       'maximumZoomLevelActive',
       'minimumZoomLevelActive',
-      'maximumZoomLevel',
-      'minimumZoomLevel',
       'renderType',
       'showMobile',
       'addZoomSlider',

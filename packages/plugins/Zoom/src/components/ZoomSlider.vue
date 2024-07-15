@@ -4,8 +4,8 @@
       v-model="zoomLevelRange"
       vertical
       class="polar-zoom-slider"
-      :min="minZoom"
-      :max="maxZoom"
+      :min="minimumZoomLevel"
+      :max="maximumZoomLevel"
       :title="$t('common:plugins.zoom.slider')"
     ></v-slider>
   </div>
@@ -28,7 +28,11 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...mapGetters('plugin/zoom', ['zoomLevel']),
+    ...mapGetters('plugin/zoom', [
+      'zoomLevel',
+      'maximumZoomLevel',
+      'minimumZoomLevel',
+    ]),
     zoomLevelRange: {
       get(): number {
         return this.zoomLevel
