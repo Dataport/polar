@@ -44,6 +44,7 @@ export default Vue.extend({
       scaleToOne: 'plugin/scale/scaleToOne',
       scaleValue: 'plugin/scale/scaleValue',
       scaleWithUnit: 'plugin/scale/scaleWithUnit',
+      showScaleSwitcher: 'plugin/scale/showScaleSwitcher',
       getMapView: 'map/getMapView',
     }),
     scaleNumberToScale() {
@@ -67,7 +68,7 @@ export default Vue.extend({
       },
     },
     showSelectOptions() {
-      return this.zoomOptions.length > 0
+      return this.showScaleSwitcher && this.zoomOptions.length > 0
     },
   },
   methods: {

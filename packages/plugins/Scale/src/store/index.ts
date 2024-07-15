@@ -86,6 +86,9 @@ export const makeStoreModule = () => {
 
         return filteredOptions.length > 1 ? filteredOptions : []
       },
+      showScaleSwitcher: (_, __, ___, rootGetters) => {
+        return rootGetters.configuration?.scale?.showScaleSwitcher
+      },
     },
   }
 
