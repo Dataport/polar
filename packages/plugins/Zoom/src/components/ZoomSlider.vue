@@ -49,9 +49,11 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.v-slider {
-  height: 50%;
+.v-slider--focused,
+.v-slider__thumb::before {
+  display: none;
 }
+
 .v-slider__thumb {
   width: 16px;
   height: 16px;
@@ -62,11 +64,6 @@ export default Vue.extend({
   width: 16px;
   height: 16px;
   left: -8px;
-}
-
-.v-slider__thumb::before {
-  left: -10px;
-  top: -10px;
 }
 
 .v-slider--vertical {
