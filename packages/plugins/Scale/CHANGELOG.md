@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add the option to configure a scale switcher.
+
 ## 1.1.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
