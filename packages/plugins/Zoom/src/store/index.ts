@@ -69,9 +69,9 @@ export const makeStoreModule = () => {
         typeof rootGetters.configuration?.zoom?.showMobile === 'boolean'
           ? rootGetters.configuration.zoom.showMobile
           : false,
-      addZoomSlider: (_, __, ___, rootGetters) =>
-        typeof rootGetters.configuration?.zoom?.addZoomSlider === 'boolean'
-          ? rootGetters.configuration.zoom.addZoomSlider
+      showZoomSlider: (_, __, ___, rootGetters) =>
+        typeof rootGetters.configuration?.zoom?.showZoomSlider === 'boolean'
+          ? rootGetters.configuration.zoom.showZoomSlider
           : false,
     },
   }

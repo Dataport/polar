@@ -40,7 +40,7 @@
       </template>
       <span>{{ $t('common:plugins.zoom.out') }}</span>
     </v-tooltip>
-    <div v-if="showZoomSlider">
+    <div v-if="addZoomSlider">
       <zoom-slider />
     </div>
   </div>
@@ -67,13 +67,13 @@ export default Vue.extend({
       'minimumZoomLevelActive',
       'renderType',
       'showMobile',
-      'addZoomSlider',
+      'showZoomSlider',
     ]),
     showZoomButtons(): boolean {
       return this.hasSmallHeight ? this.showMobile : true
     },
-    showZoomSlider(): boolean {
-      return !this.hasSmallHeight && this.addZoomSlider
+    addZoomSlider(): boolean {
+      return !this.hasSmallHeight && this.showZoomSlider
     },
   },
   methods: {
