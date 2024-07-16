@@ -7,6 +7,7 @@
       :min="minimumZoomLevel"
       :max="maximumZoomLevel"
       :title="$t('common:plugins.zoom.slider')"
+      :aria-label="$t('common:plugins.zoom.slider')"
     ></v-slider>
   </div>
 </template>
