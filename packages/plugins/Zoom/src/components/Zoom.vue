@@ -40,7 +40,14 @@
       </template>
       <span>{{ $t('common:plugins.zoom.out') }}</span>
     </v-tooltip>
-    <ZoomSlider v-if="addZoomSlider"></ZoomSlider>
+    <v-tooltip left :disabled="hasSmallDisplay">
+      <template #activator="{ on, attrs }">
+        <div v-bind="attrs" v-on="on">
+          <ZoomSlider v-if="addZoomSlider"></ZoomSlider>
+        </div>
+      </template>
+      <span>{{ $t('common:plugins.zoom.slider') }}</span>
+    </v-tooltip>
   </div>
 </template>
 
