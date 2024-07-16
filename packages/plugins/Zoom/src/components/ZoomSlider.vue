@@ -50,9 +50,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.v-slider--focused,
 .v-slider__thumb::before {
-  display: none;
+  opacity: 0;
 }
 
 .v-slider__thumb {
@@ -61,10 +60,11 @@ export default Vue.extend({
   border-radius: 2px;
   left: -8px;
 }
-.v-slider__thumb-container:hover .v-slider__thumb {
-  width: 16px;
-  height: 16px;
-  left: -8px;
+
+.v-slider:hover .v-slider__track-background,
+.v-slider:hover .v-slider__track-fill,
+.v-slider:hover .v-slider__thumb {
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #003064;
 }
 
 .v-slider--vertical {
