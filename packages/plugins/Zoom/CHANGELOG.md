@@ -1,10 +1,9 @@
 # CHANGELOG
 
 ## unpublished
+- Feature: Add new configuration parameter `showZoomSlider` to configure a zoom slider display.
 
 - Refactor: Remove redundant prop `isHorizontal` from `Zoom` component. Logic is now placed in `@polar/core`.
-
-- Feature: Add the option to configure a zoom slider.
 
 ## 1.2.0
 
