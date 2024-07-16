@@ -18,16 +18,6 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default Vue.extend({
   name: 'ZoomSlider',
-  props: {
-    minZoom: {
-      type: Number,
-      default: 0,
-    },
-    maxZoom: {
-      type: Number,
-      default: 9,
-    },
-  },
   computed: {
     ...mapGetters('plugin/zoom', [
       'zoomLevel',

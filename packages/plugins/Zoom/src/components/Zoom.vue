@@ -52,12 +52,6 @@ import ZoomSlider from './ZoomSlider.vue'
 export default Vue.extend({
   name: 'PolarZoom',
   components: { ZoomSlider },
-  props: {
-    isHorizontal: {
-      type: Boolean,
-      default: false,
-    },
-  },
   computed: {
     ...mapGetters(['deviceIsHorizontal', 'hasSmallDisplay', 'hasSmallHeight']),
     ...mapGetters('plugin/zoom', [
