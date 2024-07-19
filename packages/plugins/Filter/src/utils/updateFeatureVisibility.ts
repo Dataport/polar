@@ -22,7 +22,7 @@ const getFreeSelectionLimits = (clickLimits: Date[]): Date[] => {
     .sort()
     .map((x) => new Date(x))
   if (!limits[1]) {
-    limits[1] = limits[0]
+    limits[1] = new Date(limits[0])
   }
   return limits
 }
@@ -87,7 +87,7 @@ const doesFeaturePassTimeFilter = (
     limits[type === 'last' ? 1 : 0] = new Date(Date.now())
   }
   limits[0].setHours(0, 0, 0, 0)
-  limits[1].setHours(24, 0, 0, 0)
+  limits[1].setHours(23, 59, 59, 999)
 
   return limits[0] <= featureDate && featureDate <= limits[1]
 }
@@ -111,7 +111,7 @@ const doesFeaturePassFilter = (
   )
 }
 
-const getLayer = (map: Map, layerId: LayerId): BaseLayer => {
+export const getLayer = (map: Map, layerId: LayerId): BaseLayer => {
   const layer = map
     .getLayers()
     .getArray()
@@ -150,6 +150,7 @@ export const updateFeatureVisibility = ({
     .flat(1)
   // only update finally to prevent overly recalculating clusters
   source.clear()
+
   updateFeatures.forEach((feature) => {
     const targetStyle = doesFeaturePassFilter(
       feature,

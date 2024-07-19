@@ -29,14 +29,11 @@ export default Vue.extend({
   name: 'MeldemichelGfiFeatureActionButtons',
   computed: {
     ...mapGetters('plugin/gfi', [
+      'showSwitchButtons',
       'visibleWindowFeatureIndex',
       'windowFeatures',
     ]),
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
-    /** only show switch buttons if multiple property sets are available */
-    showSwitchButtons(): boolean {
-      return this.windowFeatures.length > 1
-    },
     showSmall(): boolean {
       return !this.hasWindowSize || !this.hasSmallWidth
     },

@@ -1,7 +1,7 @@
 <template>
   <v-card class="dish-gfi-content">
     <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
-      <ActionButton :export-property="exportProperty"></ActionButton>
+      <ActionButton></ActionButton>
       <v-spacer></v-spacer>
       <v-btn
         icon
@@ -91,8 +91,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
-import { GeoJsonProperties } from 'geojson'
+import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import ActionButton from './ActionButton.vue'
 
@@ -101,20 +100,6 @@ type GfiIndexStep = -1 | 1
 export default Vue.extend({
   name: 'DishGfiContent',
   components: { ActionButton },
-  props: {
-    currentProperties: {
-      type: Object as PropType<GeoJsonProperties>,
-      required: true,
-    },
-    clientWidth: {
-      type: Number,
-      required: true,
-    },
-    exportProperty: {
-      type: String,
-      default: '',
-    },
-  },
   data: () => ({
     infoFields: [
       'Kreis',
@@ -127,8 +112,9 @@ export default Vue.extend({
     sachgesamtheitOpen: false,
   }),
   computed: {
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
+    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
+      'currentProperties',
       'imageLoaded',
       'visibleWindowFeatureIndex',
       'windowFeatures',
@@ -173,7 +159,6 @@ export default Vue.extend({
     if (this.hasWindowSize && this.hasSmallWidth) {
       this.setMoveHandleActionButton({
         component: ActionButton,
-        props: { exportProperty: this.exportProperty },
       })
     }
   },

@@ -153,6 +153,8 @@ export const makeStore = () => {
           window.innerWidth === state.clientWidth
         )
       },
+      deviceIsHorizontal: (_, getters) =>
+        getters.hasSmallHeight && getters.hasWindowSize,
     },
     mutations: {
       ...generateSimpleMutations(getInitialState()),

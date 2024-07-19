@@ -52,11 +52,19 @@
           @keydown.down.prevent.stop="(event) => focusNextElement(true, event)"
           @keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
           @click="selectResult({ feature, categoryId })"
+          @focus="focusIndex = `${index}-${innerDex}`"
+          @blur="focusIndex = ''"
         >
           <v-list-item-title>
             <!-- eslint-disable-next-line vue/no-v-html -->
             <span v-html="emTitleByInput($t(feature.title), inputValue)"></span>
           </v-list-item-title>
+          <component
+            :is="afterResultComponent"
+            v-if="afterResultComponent"
+            :feature="feature"
+            :focus="focusIndex === `${index}-${innerDex}`"
+          ></component>
         </v-list-item>
       </template>
       <v-btn
@@ -104,10 +112,12 @@ export default Vue.extend({
   name: 'AddressSearchResults',
   data: () => ({
     openCategories: [] as string[],
+    focusIndex: '',
   }),
   computed: {
     ...mapGetters(['clientHeight', 'hasWindowSize']),
     ...mapGetters('plugin/addressSearch', [
+      'afterResultComponent',
       'featuresAvailable',
       'featureListsWithCategory',
       'focusAfterSearch',

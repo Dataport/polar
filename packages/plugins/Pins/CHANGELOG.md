@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Chore: Refactor parts of the data handling.
+
 ## 1.3.1
 
 - Fix: The map dragged along with the pin in some situations, rendering the pin effectively immovable. This has been fixed.

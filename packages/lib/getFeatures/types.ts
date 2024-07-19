@@ -1,4 +1,5 @@
 import { Feature as GeoJsonFeature } from 'geojson'
+import { QueryParameters } from '@polar/lib-custom-types'
 
 /** Optional options related to a GetFeature request */
 export interface AdditionalSearchOptions {
@@ -41,25 +42,23 @@ export interface SearchParameters {
 }
 
 /** Parameters for wfs searches */
-export interface WfsParameters {
+export interface WfsParameters extends QueryParameters {
+  /** Feature prefix from xmlns namespace without :; e.g. 'ave' */
+  featurePrefix: string
   /** Name of the type of features (see ?service=wfs&request=DescribeFeatureType) */
   typeName: string
+  /** Namespace of feature type */
+  xmlns: string
   /** Name of the type's field to search in; mutually exclusive to patterns */
   fieldName?: string
   /** Input destructor patterns, e.g. \{\{streetName\}\} \{\{houseNumber\}\}; mutually exclusive to fieldName */
   patterns?: string[]
   /** RegExp to define pattern, e.g. \{houseNumber: '([1-9][0-9]*[a-z]?)', ...\}; only if patterns present */
   patternKeys?: Record<string, string>
-  /** Feature prefix from xmlns namespace without :; e.g. 'ave' */
-  featurePrefix: string
-  /** Namespace of feature type */
-  xmlns: string
-  /** Limits requested features */
-  maxFeatures?: number
-  /** By default, if searching for "search", it is sent as "search*"; can be deactivated */
-  useRightHandWildcard?: boolean
   /** srsName for wfs query */
   srsName?: string
+  /** By default, if searching for "search", it is sent as "search*"; can be deactivated */
+  useRightHandWildcard?: boolean
 }
 
 /**
