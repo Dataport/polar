@@ -28,5 +28,6 @@ export async function searchLiteratureByToponym(
       body: `{"location_names":${JSON.stringify(names)}}`,
     }
   )
-  return (await response.json()).title_location_freq as TitleLocationFrequency
+  return ((await response.json()).title_location_freq ||
+    {}) as TitleLocationFrequency
 }
