@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { transform } from 'ol/proj'
 import { getCenter } from 'ol/extent'
 

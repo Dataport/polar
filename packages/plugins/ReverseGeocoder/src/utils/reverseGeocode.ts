@@ -51,7 +51,6 @@ export const reverseGeocode = async (
     (v) => v[0]
   )
   // NOTE: Property names come from the WPS
-  /* eslint-disable @typescript-eslint/naming-convention */
   const properties = {
     Distanz: parseFloat(address.Distanz),
     Hausnr: parseInt(address.Hausnr, 10),
@@ -61,7 +60,6 @@ export const reverseGeocode = async (
     YKoordinate: parseFloat(address.YKoordinate),
     Zusatz: address.Zusatz,
   }
-  /* eslint-enable @typescript-eslint/naming-convention */
   const resultObject: ReverseGeocoderFeature = {
     type: 'reverse_geocoded',
     title: `${properties.Strasse} ${properties.Hausnr}${properties.Zusatz}`,

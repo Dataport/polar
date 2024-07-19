@@ -87,7 +87,7 @@ export default Vue.extend({
       props: {},
     })
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.setMoveHandleActionButton(null)
   },
   methods: {

@@ -20,6 +20,8 @@ export default Vue.extend({
   name: 'GeometrySearchViewToggle',
   computed: {
     ...mapGetters('plugin/geometrySearch', ['byCategory']),
+    // NOTE allowed to use as computed property name by convention
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     _byCategory: {
       get() {
         return this.byCategory

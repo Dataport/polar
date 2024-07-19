@@ -162,7 +162,7 @@ export default Vue.extend({
       })
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.setMoveHandleActionButton(null)
   },
   methods: {

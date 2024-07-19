@@ -1,5 +1,4 @@
 /* eslint-env node */
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const cp = require('child_process')

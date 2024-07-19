@@ -9,6 +9,8 @@ export default defineConfig({
   plugins: [commonJs(), vuePlugin()],
   root: 'src',
   define: {
+    // disabled since that's its name and we have to deal with it
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
   },
   build: {

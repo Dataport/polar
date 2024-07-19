@@ -127,7 +127,7 @@ export default Vue.extend({
     this.resizeObserver.observe(handleElement)
     this.updateMaxHeight()
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.resizeObserver !== null) {
       this.resizeObserver.disconnect()
       this.resizeObserver = null

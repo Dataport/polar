@@ -1,5 +1,4 @@
 // non-standard names allowed as keys are used as display text
-/* eslint-disable @typescript-eslint/naming-convention */
 
 import { Feature as GeoJsonFeature, GeoJsonProperties, Geometry } from 'geojson'
 import {

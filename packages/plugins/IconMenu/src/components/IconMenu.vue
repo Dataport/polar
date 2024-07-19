@@ -99,7 +99,7 @@ export default Vue.extend({
     addEventListener('resize', this.updateMaxWidth)
     this.updateMaxWidth()
   },
-  beforeDestroy() {
+  beforeUnmount() {
     removeEventListener('resize', this.updateMaxWidth)
   },
   methods: {

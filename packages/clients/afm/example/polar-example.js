@@ -11,7 +11,7 @@ if (!client) {
   console.warn(
     `@polar/client-afm: MapClient not found in environment. This is fine in dev mode, but an error in prod mode.`
   )
-  client = require('../src/polar-client.ts') // eslint-disable-line
+  client = require('../src/polar-client.ts')
 }
 
 const mapConfiguration = {
@@ -52,6 +52,8 @@ const mapConfiguration = {
   draw: {},
   gfi: {
     layers: {
+      // layers are adresses in this fashion
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       1561: {
         geometry: true,
         window: true,

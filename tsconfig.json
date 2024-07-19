@@ -1,4 +1,13 @@
 {
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": [
+    "packages/**/*",
+    "viteConfigs/**/*",
+    "scripts/**/*",
+    "pages/**/*",
+    "__mocks__/**/*",
+    "jest.config.ts"
+  ],
   "compilerOptions": {
     "target": "es6",
     "module": "esnext",
@@ -15,6 +24,7 @@
     "sourceMap": true,
     "isolatedModules": true,
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
-    "typeRoots": ["node_modules/@types", "@types"]
+    "typeRoots": ["node_modules/@types", "@types"],
+    "types": ["jest"]
   }
 }

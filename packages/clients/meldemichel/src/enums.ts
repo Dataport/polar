@@ -1,5 +1,4 @@
 // SKAT modeled by their ID; no semantic value for client
-/* eslint-disable @typescript-eslint/naming-convention */
 
 export const MODE = {
   // display everything

@@ -1,5 +1,4 @@
 // other names required
-/* eslint-disable @typescript-eslint/naming-convention */
 import { LanguageOption } from '@polar/lib-custom-types'
 
 const language: LanguageOption[] = [

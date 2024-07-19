@@ -1,8 +1,8 @@
 // adapting rules to match original file
-/* eslint-disable tsdoc/syntax */
+//* eslint-disable tsdoc/syntax */ NOTE rule currently not working
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { MasterportalapiPolygonFillHatch } from '@polar/lib-custom-types'
+import type { MasterportalapiPolygonFillHatch } from '@polar/lib-custom-types'
 
 /*
  * Polygon hatches from @masterportal/masterportalapi@2.31.0.

@@ -25,8 +25,6 @@ const addGeometries =
 
     const wfsFeatures = await Promise.all(
       features.map((feature) =>
-        // NOTE: works by specification of linkText field
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         getWfsFeatures(null, url, feature.linkText.match(/\d+/)![0], {
           ...wfsConfiguration,
           useRightHandWildcard: false,

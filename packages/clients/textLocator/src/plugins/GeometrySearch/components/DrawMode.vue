@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { DrawMode } from '@polar/lib-custom-types'
+import type { DrawMode } from '@polar/lib-custom-types'
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -49,6 +49,8 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters('plugin/draw', ['drawMode']),
+    // NOTE allowed to use as computed property name by convention
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     _drawMode: {
       get() {
         return this.drawMode

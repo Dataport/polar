@@ -1,5 +1,4 @@
 // code doesn't produce RegExpMatchArray where index is not set ... :|
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import { KeyValueSetArray } from '../types'
 

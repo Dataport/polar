@@ -1,7 +1,6 @@
 /* eslint-env node */
 
 /* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable no-console */
 
 /*
  * Generates documentation page for clients from

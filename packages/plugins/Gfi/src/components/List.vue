@@ -97,6 +97,8 @@ export default Vue.extend({
       'gfiConfiguration',
       'isFeatureHovered',
     ]),
+    // we decided on this pattern to mark computed variable wrappers
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     _page: {
       get() {
         return this.page + 1

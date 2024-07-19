@@ -10,12 +10,14 @@
       groupSelectOptions.map(({ value, text }) => ({ value, text: $t(text) }))
     "
   >
-    <div slot="selection">
-      <!--
-        empty node on purpose to reduce UI;
-        label is shown on input element and would be a duplicate
-      -->
-    </div>
+    <template #selection>
+      <div>
+        <!--
+          empty node on purpose to reduce UI;
+          label is shown on input element and would be a duplicate
+        -->
+      </div>
+    </template>
   </v-select>
 </template>
 

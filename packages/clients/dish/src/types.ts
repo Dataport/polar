@@ -1,5 +1,4 @@
 // naming convention doesn't hold since backend names are used in Beschreibung
-/* eslint-disable @typescript-eslint/naming-convention */
 
 import { FeatureCollection, GeometryObject } from 'geojson'
 import { QueryParameters } from '@polar/lib-custom-types'

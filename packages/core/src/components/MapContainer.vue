@@ -160,7 +160,7 @@ export default Vue.extend({
     addEventListener('resize', this.updateHasSmallDisplay)
     this.updateHasSmallDisplay()
   },
-  beforeDestroy() {
+  beforeUnmount() {
     removeEventListener('resize', this.updateHasSmallDisplay)
 
     const mapContainer = this.$refs['polar-map-container']

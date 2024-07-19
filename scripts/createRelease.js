@@ -56,6 +56,8 @@ for (const tag of tags) {
     name: tag,
     body: getBody(tag),
     headers: {
+      // name can't be changed
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       'X-GitHub-Api-Version': '2022-11-28',
     },
   })

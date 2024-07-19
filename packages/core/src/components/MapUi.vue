@@ -22,7 +22,7 @@ export default Vue.extend({
     this.resizeObserver.observe(this.$root.$el)
     this.updateClientDimensions()
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.resizeObserver instanceof ResizeObserver) {
       this.resizeObserver.unobserve(this.$root.$el)
     }

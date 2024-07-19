@@ -110,7 +110,6 @@ describe('plugin-reversegeocoder', () => {
             type: 'Point',
           },
           properties: {
-            /* eslint-disable @typescript-eslint/naming-convention */
             Distanz: 16.20141565450446,
             Hausnr: 1,
             Plz: 20459,
@@ -118,7 +117,6 @@ describe('plugin-reversegeocoder', () => {
             XKoordinate: 565200.347,
             YKoordinate: 5933442.881,
             Zusatz: '',
-            /* eslint-enable @typescript-eslint/naming-convention */
           },
         })
       })

@@ -36,10 +36,10 @@ export default function (
   // TODO: These parameters should rather be implemented for all search methods instead of only for bkg.
   if (queryParameters.accessToken) {
     // TODO must be legal to match API
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     options.headers = { Authorization: `Bearer ${queryParameters.accessToken}` }
   } else if (queryParameters.apiKey) {
     // TODO must be legal to match API
+    // NOTE name required as noted
     // eslint-disable-next-line @typescript-eslint/naming-convention
     options.headers = { 'X-Api-Key': queryParameters.apiKey }
   }

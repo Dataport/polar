@@ -1,3 +1,5 @@
+// names chosen as required
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { Config } from '@jest/types'
 
 const config: Config.InitialOptions = {

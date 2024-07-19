@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import polarCore from '@polar/core'
 import { changeLanguage } from 'i18next'
 import { addPlugins } from './addPlugins'

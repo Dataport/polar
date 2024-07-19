@@ -38,7 +38,6 @@ export const makeStoreModule = () => {
         return drawSource
       },
       selectableDrawModes(_, { configuration }) {
-        /* eslint-disable @typescript-eslint/naming-convention */
         // NOTE: Keys are directly used as technical keys for ol/interaction/Draw and are allowed to differ from the naming scheme.
         const allSelectableDrawModes = {
           Circle: 'common:plugins.draw.drawMode.circle',
@@ -47,7 +46,6 @@ export const makeStoreModule = () => {
           Polygon: 'common:plugins.draw.drawMode.polygon',
           Text: 'common:plugins.draw.drawMode.text',
         }
-        /* eslint-enable @typescript-eslint/naming-convention */
 
         // TODO: Do something different than eslint ignore
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

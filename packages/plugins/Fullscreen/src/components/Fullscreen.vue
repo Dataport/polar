@@ -65,7 +65,7 @@ export default Vue.extend({
     document.addEventListener('webkitfullscreenchange', this.escapeHandler)
     document.addEventListener('fullscreenchange', this.escapeHandler)
   },
-  beforeDestroy() {
+  beforeUnmount() {
     document.removeEventListener('webkitfullscreenchange', this.escapeHandler)
     document.removeEventListener('fullscreenchange', this.escapeHandler)
   },

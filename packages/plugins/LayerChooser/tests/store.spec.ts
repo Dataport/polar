@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { makeStoreModule } from '../src/store'
 
 describe('plugin-layerchooser', () => {
