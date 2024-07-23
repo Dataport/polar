@@ -11,6 +11,6 @@
     "directory": "packages/lib/tooltip"
   },
   "peerDependencies": {
-    "i18next": "^21.6.0"
+    "i18next": "^23.x"
   }
 }
