@@ -12,5 +12,6 @@
 logs/*.log
 logs
 /.idea/
+/.nx/
 **/.parcel-cache
 .nx/cache
