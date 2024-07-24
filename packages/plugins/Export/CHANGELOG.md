@@ -4,6 +4,7 @@
 
 - Fix: PDF export with download:false now works correctly.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Chore: Update dependencies to latest versions.
 
 ## 1.2.0
 
