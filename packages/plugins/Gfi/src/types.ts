@@ -1,9 +1,4 @@
 import { Map, Feature } from 'ol'
-import { Coordinate } from 'ol/coordinate'
-import { SourceType } from 'ol/layer/WebGLTile'
-import { LayerType } from 'ol/renderer/webgl/TileLayer'
-import LayerRenderer from 'ol/renderer/Layer'
-import { Layer } from 'ol/layer'
 import VectorSource from 'ol/source/Vector'
 import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import {
@@ -14,12 +9,13 @@ import {
   RenderType,
   FeatureList,
 } from '@polar/lib-custom-types'
+import BaseLayer from 'ol/layer/Base'
 
 /** parameter specification for request method */
 export interface RequestGfiParameters {
   map: Map
-  layer: Layer<SourceType, LayerRenderer<LayerType>>
-  coordinate: Coordinate
+  layer: BaseLayer
+  coordinate: [number, number]
   layerConfiguration: GfiLayerConfiguration
   /** rawLayerList entry, see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md */
   layerSpecification: Record<string, unknown>

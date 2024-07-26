@@ -258,7 +258,7 @@ export const makeActions = () => {
           rootGetters: { map, configuration },
           getters: { layerKeys, geometryLayerKeys, afterLoadFunction },
         },
-        coordinate: Coordinate
+        coordinate: [number, number]
       ): Promise<void> => {
         // fetch new feature information for all configured layers
         const promisedFeatures: Promise<GeoJsonFeature[]>[] = layerKeys.map(
