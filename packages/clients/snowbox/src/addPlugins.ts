@@ -90,7 +90,6 @@ export const addPlugins = (core) => {
     ),
     Legend({
       displayComponent: true,
-      maxWidth: 500,
       layoutTag: NineLayoutTag.BOTTOM_RIGHT,
     }),
     Scale(

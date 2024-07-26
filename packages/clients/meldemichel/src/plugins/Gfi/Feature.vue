@@ -49,7 +49,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { GeoJsonProperties } from 'geojson'
 import ActionButtons from './ActionButtons.vue'
 
 export default Vue.extend({
@@ -57,22 +56,13 @@ export default Vue.extend({
   components: {
     ActionButtons,
   },
-  props: {
-    clientWidth: {
-      type: Number,
-      required: true,
-    },
-    exportProperty: {
-      type: String,
-      default: '',
-    },
-  },
   data: () => ({
     infoFields: ['skat', 'start', 'statu'],
   }),
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
+      'currentProperties',
       'imageLoaded',
       'visibleWindowFeatureIndex',
       'windowFeatures',
@@ -80,9 +70,6 @@ export default Vue.extend({
     ...mapGetters('plugin/iconMenu', ['menus', 'open']),
     displayImage(): boolean {
       return this.currentProperties.pic
-    },
-    currentProperties(): GeoJsonProperties {
-      return { ...this.windowFeatures[this.visibleWindowFeatureIndex] }
     },
   },
   watch: {

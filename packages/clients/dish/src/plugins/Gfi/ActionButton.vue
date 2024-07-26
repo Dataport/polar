@@ -17,14 +17,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   name: 'DishActionButton',
-  props: {
-    exportProperty: {
-      type: String,
-      default: '',
-    },
+  computed: {
+    ...mapGetters('plugin/gfi', ['exportProperty']),
   },
 })
 </script>

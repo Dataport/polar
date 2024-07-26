@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 1.1.2
+
+- Chore: Fix bugs via dependency updates.
+  - resolve filter bugs for features of unknown filter categories; they were sometimes visible
+
+## 1.1.1
+
+- Chore: Fix bugs via dependency updates.
+  - restore Safari 15 compatibility
+  - resolve time filter bugs where selected time frame was applied incorrectly
+
 ## 1.1.0
 
 - Change: The search now no longer focuses on the first result after a successful search.

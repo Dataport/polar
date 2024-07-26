@@ -3,6 +3,8 @@
 ## unpublished
 
 - Feature: Add title internationalization; i.e. features may now contain locale keys as titles.
+- Feature: Add new optional configuration parameter `afterResultComponent` that allows to display a custom component for each search result.
+- Fix: Adjust documentation and types to properly describe optionality of configuration parameters.
 
 ## 1.2.1
 

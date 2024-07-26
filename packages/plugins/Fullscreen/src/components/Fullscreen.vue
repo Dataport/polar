@@ -1,10 +1,5 @@
 <template>
-  <v-tooltip
-    v-if="fullscreenAvailable"
-    :left="!isHorizontal"
-    :bottom="isHorizontal"
-    :disabled="hasSmallDisplay"
-  >
+  <v-tooltip v-if="fullscreenAvailable" left :disabled="hasSmallDisplay">
     <template #activator="{ on, attrs }">
       <v-btn
         :aria-label="
@@ -39,12 +34,6 @@ import { mapGetters, mapMutations } from 'vuex'
 
 export default Vue.extend({
   name: 'FullscreenPlugin',
-  props: {
-    isHorizontal: {
-      type: Boolean,
-      default: false,
-    },
-  },
   computed: {
     ...mapGetters(['hasSmallDisplay', 'map']),
     ...mapGetters('plugin/fullscreen', [

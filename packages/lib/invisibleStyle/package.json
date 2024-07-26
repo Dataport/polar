@@ -11,6 +11,6 @@
     "directory": "packages/lib/invisibleStyle"
   },
   "peerDependencies": {
-    "ol": "^9.1.0"
+    "ol": "^9.2.4"
   }
 }

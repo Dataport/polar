@@ -27,7 +27,7 @@
                 >
                   <v-img
                     contain
-                    :max-width="maxWidth"
+                    :max-width="250"
                     :src="legendUrl"
                     :alt="$t('common:plugins.legend.legendTo', { name })"
                     :title="$t('common:plugins.legend.openLegendTo', { name })"
@@ -61,13 +61,6 @@ import * as masterportalapi from '@masterportal/masterportalapi/src'
 
 export default Vue.extend({
   name: 'LegendPlugin',
-  props: {
-    maxWidth: {
-      type: Number,
-      required: false,
-      default: 250,
-    },
-  },
   data: () => ({
     isOpen: false,
   }),
