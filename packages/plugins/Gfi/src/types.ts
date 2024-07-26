@@ -10,6 +10,8 @@ import {
   FeatureList,
 } from '@polar/lib-custom-types'
 import BaseLayer from 'ol/layer/Base'
+import TileLayer from 'ol/layer/Tile'
+import { TileWMS } from 'ol/source'
 
 /** parameter specification for request method */
 export interface RequestGfiParameters {
@@ -21,6 +23,14 @@ export interface RequestGfiParameters {
   layerSpecification: Record<string, unknown>
   /** defaults to bboxDot (get from minimal coordinate bbox) */
   mode?: 'bboxDot' | 'intersects' // TODO: Might be interesting to rather define this per service
+}
+
+export interface RequestGfiWmsParameters {
+  map: RequestGfiParameters['map']
+  coordinate: RequestGfiParameters['coordinate']
+  layerConfiguration: RequestGfiParameters['layerConfiguration']
+  layerSpecification: RequestGfiParameters['layerSpecification']
+  layer: TileLayer<TileWMS>
 }
 
 /** GFI Vuex Module State */
