@@ -16,7 +16,7 @@
     "CHANGELOG.md"
   ],
   "peerDependencies": {
-    "@masterportal/masterportalapi": "2.39.0",
+    "@masterportal/masterportalapi": "2.40.0",
     "@repositoryname/vuex-generators": "^1.1.2",
     "ol": "^9.2.4",
     "vue": "^2.6.14",
