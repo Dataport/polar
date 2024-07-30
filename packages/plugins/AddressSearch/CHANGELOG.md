@@ -4,6 +4,7 @@
 
 - Feature: Add title internationalization; i.e. features may now contain locale keys as titles.
 - Feature: Add new optional configuration parameter `afterResultComponent` that allows to display a custom component for each search result.
+- Feature: When using the search type `mpapi`, a second search using a wildcard is now being triggered when the first search yielded no results.
 - Fix: Adjust documentation and types to properly describe optionality of configuration parameters.
 
 ## 1.2.1
