@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Chore: `Pins` package using `movable` with a `boolean` has been deprecated.
+  - values `true` have been replaced with `drag` instead.
+
 ## 1.1.2
 
 - Chore: Fix bugs via dependency updates.
