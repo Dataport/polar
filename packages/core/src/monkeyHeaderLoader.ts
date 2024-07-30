@@ -37,12 +37,17 @@ const originalAddLayer = Map.prototype.addLayer
 Map.prototype.addLayer = function (...parameters) {
   // Add layer to map
   originalAddLayer.call(this, ...parameters)
-  Map.prototype.getLayers.call(this).array_.forEach((layer) => {
-    const source = layer.getSource()
-    const headerRequired = source?.urls?.some((url) => headerRegex.test(url))
-    if (headerRequired && typeof source.setTileLoadFunction === 'function') {
-      source.setTileLoadFunction(customLoader)
-      layer.setSource(source)
-    }
-  })
+  Map.prototype.getLayers
+    .call(this)
+    .getArray()
+    .forEach((layer) => {
+      // @ts-expect-error | All layers here are instantiated layers including a source.
+      const source = layer.getSource()
+      const headerRequired = source?.urls?.some((url) => headerRegex.test(url))
+      if (headerRequired && typeof source.setTileLoadFunction === 'function') {
+        source.setTileLoadFunction(customLoader)
+        // @ts-expect-error | All layers here are instantiated layers including a source.
+        layer.setSource(source)
+      }
+    })
 }
