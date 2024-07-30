@@ -1,4 +1,7 @@
 import { Map, Feature } from 'ol'
+import BaseLayer from 'ol/layer/Base'
+import TileLayer from 'ol/layer/Tile'
+import { TileWMS } from 'ol/source'
 import VectorSource from 'ol/source/Vector'
 import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import {
@@ -9,9 +12,6 @@ import {
   RenderType,
   FeatureList,
 } from '@polar/lib-custom-types'
-import BaseLayer from 'ol/layer/Base'
-import TileLayer from 'ol/layer/Tile'
-import { TileWMS } from 'ol/source'
 
 /** parameter specification for request method */
 export interface RequestGfiParameters {
