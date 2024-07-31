@@ -400,7 +400,7 @@
 <h5>addressSearch.searchMethodsObject.queryParameters (type:bkg)</h5>
 <p>In <em>BKG</em> mode, queryParameter's key-value pairs are used in the service query. E.g. <code>{filter: { bundesland: 'Bremen' }}</code> results in the GET request URL having <code>&amp;filter=bundesland:Bremen</code> as suffix.</p>
 <p>For more options, please check the <a href="https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf">official documentation</a> regarding what query parameters are interpreted.</p>
-<p>Additionally, it is possible to configure the parameters <code>accesstoken</code> (<code>Authorization</code>) or <code>apiKey</code> (custom header <code>X-Api-Key</code>) to send the described headers to the search service for authentication purposes.<br>
+<p>Additionally, it is possible to configure the parameters <code>accesstoken</code> (<code>Authorization</code>) or <code>apiKey</code> (custom header <code>X-Api-Key</code>) to send the described headers to the search service for authentication purposes.
 Note that this changes the request to be non-simple. To be able to use the parameters, the request has to be sent in <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request/mode"><code>cors</code> mode</a> and has to support preflight request <code>OPTIONS</code>.</p>
 <h2>Store</h2>
 <h3>Mutations</h3>
