@@ -11,7 +11,7 @@ Please check the vuetify documentation to override the success, warning, info, o
 ### toast
 
 | fieldName | type | description |
-| --------- | ---------- | ------------------------------------- |
+| - | - | - |
 | error | toastStyle? | Design override for error messages. |
 | info | toastStyle? | Design override for info messages. |
 | success | toastStyle? | Design override for success messages. |
@@ -20,7 +20,7 @@ Please check the vuetify documentation to override the success, warning, info, o
 #### toast.toastStyle
 
 | fieldName | type | description |
-| --------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | color | string? | Either a color code like '#FACADE' or a color string [vuetify understands](https://vuetifyjs.com/en/styles/colors/). |
 | icon | string? | CSS icon class. |
 
@@ -37,7 +37,7 @@ map.$store.dispatch('plugin/toast/addToast', payload)
 #### Payload structure
 
 | fieldName | type | description |
-| --------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| - | - | - |
 | type | enum['error', 'warning', 'info', 'success'] | Decides the default toast colouring and icon. |
 | text | string | Textual user information. This may either be a user-readable string or a translation key. |
 | timeout | number | Any positive non-null number will be used as ms until the toast is closed. 0 means no timeout. |

@@ -11,7 +11,7 @@ This module has been written for the HH WPS service. The return format is custom
 ### reverseGeocoder
 
 | fieldName | type | description |
-| ---------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | url | string | URL of the WPS to use for reverse geocoding. |
 | addLoading | string? | Points to an action in the store; commited with a loading key as payload on starting reverse geocoding. |
 | addressTarget | string? | Points to a path in the store where an address can be put. If given, ReverseGeocoder will update on resolve. If not given, ReverseGeocoder's results can only be retrieved by awaiting its action. |

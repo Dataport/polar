@@ -70,7 +70,7 @@ MapClient.createMap({
 The mapConfiguration allows controlling many client instance details.
 
 | fieldName | type | description |
-| --------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| - | - | - |
 | layerConf | LayerConf | Layer configuration as required by masterportalAPI. |
 | language | enum["de", "en"] | Initial language. |
 | <...masterportalAPI.fields> | various | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options. |
@@ -138,7 +138,7 @@ To figure out the name of the locales to override, inspect the matching plugin i
 A full documentation of the masterportalapiPolygonFillHatch is available at the Masterportal's documentation file [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md), chapter 'Polygon.polygonFillHatch'. The basic usage is quoted below for quick lookup. For more details, visual examples, and expert features, see there.
 
 >|Name|Required|Type|Default|Description|
->|----|--------|----|-------|-----------|
+>| - | - | - | - | - |
 >|pattern|no|enum["diagonal", "diagonal-right", "zig-line", "zig-line-horizontal", "circle", "rectangle", "triangle", "diamond"]/Object|`"diagonal"`|Draw pattern. You may either use a pre-defined pattern from the enum or specify one yourself.|
 >|size|no|Number|`30`|Edge length of a singular repeated pattern element.|
 >|lineWidth|no|Number|`10`|Line width of drawn pattern. To achieve an even distribution in diagonal and zig-line pattern, choose lineWidth as (1/3 * size). For triangle and diamond, a lineWidth of 1 must be chosen. For rectangle, a lineWidth of at most (1/4 * size) should be chosen. Deviating from these rules is not harmful, but patterns may seem off.|
@@ -189,7 +189,7 @@ Since this is the base for many functions, the service ID set in this is used to
 The `<...masterportalAPI.fields>` means that any masterportalAPI field may also be used here _directly_. The most common fields are the following ones; for more, see masterportalAPI.
 
 | fieldName        | type     | description                                                                                                               |
-| ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | startResolution  | number   | Initial resolution; must be in options. See below.                                                                        |
 | startCenter      | number[] | Initial center coordinate.                                                                                                |
 | extent           | number[] | Map movement will be restricted to this rectangle.                                                                        |
@@ -211,8 +211,8 @@ On how to configure a plugin, see the respective plugin. The configuration is gi
 
 Most plugins honor this additional field.
 
-| fieldName        | type    | description                                                                                                                                                                                                                                               |
-| ---------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| fieldName | type | description |
+| - | - | - |
 | displayComponent | boolean? | Optional field that allows hiding UI elements from the user. The store will still be initialized, allowing you to add your own UI elements and control the plugin's functionality via the Store. This may or may not make sense, depending on the plugin. Defaults to `false` , meaning the default UI is hidden. |
 
 ##### mapConfiguration.vuetify

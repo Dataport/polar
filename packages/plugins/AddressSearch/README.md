@@ -23,7 +23,7 @@ It is advised to either use one-search-per-group _or_ all services in a singular
 In `categoryProperties` and `groupProperties`, id strings called `groupId` and `categoryId` are used. These are arbitrary strings you can introduce and reuse to group or categorize elements together. Regarding what groups and categories are, see further below.
 
 | fieldName | type | description |
-| ------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | searchMethods | searchMethodsObject[] | Array of search method descriptions. Only searches configured here can be used. |
 | afterResultComponent | VueConstructor? | If given, this component will be rendered in the last line of every single search result. It will be forwarded its search result feature as prop `feature` of type `GeoJSON.Feature`, and the focus state of the result as prop `focus` of type `boolean`. |
 | addLoading | string? | Optional loading action name to start loading. |
@@ -39,7 +39,7 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 #### addressSearch.searchMethodsObject
 
 | fieldName | type | description |
-| --------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | type | enum["bkg", "gazetteer", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. ⚠️ "gazetteer" is deprecated. Please use "mpapi" instead. |
 | url | string | Search service URL. Should you require a service provider, please contact us for further information. |
 | categoryId | string? | Grouped services can optionally be distinguished in the UI with categories. See `addressSearch.categoryProperties` for configuration options. |
@@ -88,7 +88,7 @@ With this, arbitrary click results can be supported. Please mind that undocument
 #### addressSearch.groupProperties
 
 | fieldName | type | description |
-| ----------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | label | string | Display label. Can be a locale key. |
 | resultDisplayMode | enum['mixed', 'categorized'] | Defaults to `'mixed'`. In `'mixed'`, results of all requested services are offered in a list in no specific order. In `'categorized'`, the results are listed by their searchService's categoryId. |
 | hint | string? | Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key. |
@@ -98,7 +98,7 @@ With this, arbitrary click results can be supported. Please mind that undocument
 #### addressSearch.categoryProperties
 
 | fieldName | type | description |
-| --------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| - | - | - |
 | label | string | Category label to display next to results to identify the source. Can be a locale key. Only relevant if the search's `groupProperties` linked via `groupId` contain a `resultDisplayMode` scenario that uses categories. |
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:common)
@@ -106,13 +106,13 @@ With this, arbitrary click results can be supported. Please mind that undocument
 These fields are interpreted by all implemented services.
 
 | fieldName | type | description |
-| ----------- | ------ | --------------------------------------- |
+| - | - | - |
 | maxFeatures | number? | Maximum amount of features to retrieve. Doesn't limit results if not set. |
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:wfs)
 
 | fieldName | type | description |
-| ------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | featurePrefix | string | XML feature prefix for WFS service. |
 | typeName | string | Feature type to search for by name. |
 | xmlns | string | XML namespace to use in search. |
@@ -129,7 +129,7 @@ Since inputs may overlap with multiple patterns, multiple queries are fired and 
 > ⚠️ "gazetteer" is deprecated. Please use "mpapi" instead.
 
 | fieldName | type | description |
-| ------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | epsg | `EPSG:${string}` | EPSG code of the projection to use. |
 | fieldName | string[] | Field names of service to search in. |
 | memberSuffix | string | Elements to interpret are fetched from response XML as `wfs:memberSuffix`; fitting suffix must be configured. |
@@ -142,7 +142,7 @@ Since inputs may overlap with multiple patterns, multiple queries are fired and 
 > **Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the [masterportalApi](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/). This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.**
 
 | fieldName | Type | Description |
-| ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | searchAddress | Boolean? | Defines whether address search is active. For backward compatibility, if "searchAddress" is not configured, the "searchAddress" attribute is set to "true" when "searchStreets" and "searchHouseNumbers" are set to "true". |
 | searchDistricts | Boolean? | Defines whether district search is active. |
 | searchHouseNumbers | Boolean? | Defines whether house numbers should be searched for. Requires `searchStreets` to be set to `true`, too. |
@@ -194,7 +194,7 @@ map.$store.dispatch('plugin/addressSearch/search', {
 The payload object supports the following fields:
 
 | fieldName | type | description |
-| ---------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | input | string | Search string to be used. |
 | autoselect | enum['first', 'only', 'never'] | By default, 'never' is selected, and results will be presented as if the user searched for them. Setting 'only' will autoselect if a single result was returned; setting 'first' will autoselect the first of an arbitrary amount of results >=1. |
 

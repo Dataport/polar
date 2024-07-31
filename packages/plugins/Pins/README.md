@@ -11,7 +11,7 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 ### pins
 
 | fieldName | type | description |
-| ---------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | appearOnClick | appearOnClick?? | Pin restrictions. See object description below. |
 | boundaryLayerId | string? | Id of a vector layer to restrict pins to. When pins are moved or created outside of the boundary, an information will be shown and the pin is reset to its previous state. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off. |
 | boundaryOnError | ('strict' \| 'permissive')? | If the boundary layer check does not work due to loading or configuration errors, style `'strict'` will disable the pins feature, and style `'permissive'` will act as if no boundaryLayerId was set. Defaults to `'permissive'`. |
@@ -25,14 +25,14 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 #### pins.appearOnClick
 
 | fieldName | type | description |
-|-------------|---------|------------------------------------------|
+| - | - | - |
 | show | boolean | Display marker. |
 | atZoomLevel | number? | Minimum zoom level for sensible marking. Defaults to `0`. |
 
 #### pins.initial
 
 | fieldName | type | description |
-|-------------|----------|---------------------------------------------------------------------------------------------------------------------------------------|
+| - | - | - |
 | coordinates | number[] | Coordinate pair for the pin. |
 | centerOn | boolean? | If set to true, center on and zoom to the given coordinates on start. Defaults to false. |
 | epsg | string? | Coordinate reference system in which the given coordinates are encoded. Defaults to the `epsg` value defined in the mapConfiguration. |
@@ -40,7 +40,7 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 #### pins.style
 
 | fieldName | type | description |
-| --------- | ------- | ------------------------------------------------------------------------- |
+| - | - | - |
 | fill | string? | Fill color of the pin. Defaults to blue (`#005CA9`). |
 | stroke | string? | Stroke (that is, border) color of the pin. Defaults to white (`#FFFFFF`). |
 

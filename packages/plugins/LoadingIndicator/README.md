@@ -26,7 +26,7 @@ As such, **always call `removeLoadingKey` in the `finally` section of your code*
 You may desire to listen to whether the loader is currently being shown.
 
 | fieldName | type | description |
-| ---------- | ------- | ------------------------------------- |
+| - | - | - |
 | showLoader | boolean | Whether the layer is currently shown. |
 
 ```js

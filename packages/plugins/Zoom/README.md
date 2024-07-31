@@ -6,11 +6,11 @@ The Zoom plugin offers functionality regarding map zooming.
 
 ## Configuration
 
-The Zoom plugin offers a plus/minus button, and will adjust itself to the map's zoom settings on initialization. 
+The Zoom plugin offers a plus/minus button, and will adjust itself to the map's zoom settings on initialization.  
 It can be configured as followed.
 
 | fieldName | type | description |
-|------------|------------------------------|-----------------------------------------------------------------------------------------------|
+| - | - | - |
 | renderType | 'iconMenu' \| 'independent'? | Whether the zoom related buttons are being rendered independently or as part of the IconMenu. Defaults to `'independent'`. |
 | showMobile | boolean? | Whether the zoom related buttons should be displayed on smaller devices; defaults to `false`. |
 
@@ -21,7 +21,7 @@ It can be configured as followed.
 The map's zoom level can be listened to.
 
 | fieldName | type | description |
-| ---------------------- | ------- | --------------------------------------------- |
+| - | - | - |
 | zoomLevel | number | Current OpenLayers zoom level. |
 | maximumZoomLevel | number | Maximum OpenLayers zoom level. |
 | minimumZoomLevel | number | Minimum OpenLayers zoom level. |

@@ -11,7 +11,7 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 #### gfi
 
 | fieldName | type | description |
-| -------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | coordinateSources | string[] | The GFI plugin will react to these coordinate positions in the store. This allows it to react to e.g. the address search of the pins plugin. Please see example configuration for the common use-cases. Please mind that, when referencing another plugin, that plugin must be in `addPlugins` before this one. |
 | layers | Record<string, gfiLayerConfiguration> | Maps a string (must be a layer ID) to a behaviour configuration for that layer. |
 | activeLayerPath | string? | Optional store path to array of active mask layer ids. If used with `LayerChooser`, setting this to `'plugin/layerChooser/activeMaskIds'` will result in an info text in the GFI box, should no layer be active. If used without `LayerChooser`, the active mask layers have to be provided by another plugin or the client. If not set, the GFI plugin may e.g. show an empty list, which may be confusing to some users. |
@@ -26,7 +26,7 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 ##### gfi.gfiLayerConfiguration
 
 | fieldName | type | description |
-| -------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | exportProperty | string? | Property of the features of a service having an url usable to trigger a download of features as a document. |
 | geometry | boolean? | If true, feature geometry will be highlighted within the map. Defaults to `false`. |
 | geometryName | string? | Name of the geometry property if not the default field. |
@@ -44,9 +44,9 @@ Additionally, if using a WMS service, the following properties can be configured
 ##### gfi.customHighlightStyle
 
 | fieldName | type | description |
-| --------- | ------ | ------------------------------------ |
-| fill | ol/style/Fill? | Object for defining the fill style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Fill-Fill.html) for full options. |
-| stroke | ol/style/Stroke? | Object for defining the stroke style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Stroke-Stroke.html) for full options. |
+| - | - | - |
+| fill | ol/style/Fill? | Object for defining the fill style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module - ol_style_Fill - Fill.html) for full options. |
+| stroke | ol/style/Stroke? | Object for defining the stroke style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module - ol_style_Stroke - Stroke.html) for full options. |
 
 ##### gfi.featureList
 

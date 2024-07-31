@@ -32,7 +32,7 @@ The styling of the drawn features can be configured to overwrite the default ol-
 ### draw
 
 | fieldName | type | description |
-| ------------------- | -------- | ---------------------------------------------------------------------------- |
+| - | - | - |
 | selectableDrawModes | string[]? | List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default. |
 | style | style? | Please see example below for styling options. Defaults to standard OpenLayers styling. |
 | textStyle | object? | Use this object with properties 'font' and 'textColor' to style text feature. |
@@ -40,14 +40,14 @@ The styling of the drawn features can be configured to overwrite the default ol-
 ##### draw.textStyle
 
 | fieldName | type | description |
-| --------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | font | object \| string | Style the font of the text feature with either css font properties or use font as an object with properties 'size' and 'family'. |
 | textColor | string? | Define text color in hex or rgb / rgba code. |
 
 ##### draw.textStyle.font
 
 | fieldName | type | description |
-| --------- | -------- | ----------------------------------------------------------------------------------- |
+| - | - | - |
 | family | string? | Font family. |
 | size | number[]? | Array with numbers that define the available text sizes that a user can choose from |
 

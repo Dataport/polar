@@ -11,7 +11,7 @@ either `true` or `false`. When a users denies the location tracking, the button 
 #### geoLocation
 
 | fieldName | type | description |
-| ---------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - | - | - |
 | boundaryLayerId | string? | Id of a vector layer to restrict geolocation markers and zooms to. When geolocation outside of its features occurs, an information will be shown once and the feature is stopped. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off. |
 | boundaryOnError | ('strict' \| 'permissive')? | If the boundary layer check does not work due to loading or configuration errors, style `'strict'` will disable the geolocation feature, and style `'permissive'` will act as if no boundaryLayerId was set. Defaults to `'permissive'`. |
 | checkLocationInitially | boolean? | If `true` the location gets checked on page load. When `false` this can be triggered with a button. Defaults to `false`. |
