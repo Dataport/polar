@@ -45,8 +45,8 @@ Additionally, if using a WMS service, the following properties can be configured
 
 | fieldName | type | description |
 | - | - | - |
-| fill | ol/style/Fill? | Object for defining the fill style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module - ol_style_Fill - Fill.html) for full options. |
-| stroke | ol/style/Stroke? | Object for defining the stroke style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module - ol_style_Stroke - Stroke.html) for full options. |
+| fill | ol/style/Fill? | Object for defining the fill style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Fill-Fill.html) for full options. |
+| stroke | ol/style/Stroke? | Object for defining the stroke style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Stroke-Stroke.html) for full options. |
 
 ##### gfi.featureList
 
