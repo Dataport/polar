@@ -1,5 +1,6 @@
 import { jsPDF } from 'jspdf'
 import { PolarActionTree } from '@polar/lib-custom-types'
+import { Interaction } from 'ol/interaction'
 import { ExportFormat, ExportGetters, ExportState } from '../types'
 
 const actions: PolarActionTree<ExportState, ExportGetters> = {
@@ -24,6 +25,13 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
 
     //  Screenshot canvas
     const CANVAS_ID = 'export-canvas'
+
+    const disabledInteractions: Array<Interaction> = []
+
+    map.getInteractions().forEach((interaction) => {
+      disabledInteractions.push(interaction)
+      interaction.setActive(false)
+    })
 
     map.once('postrender', function () {
       // Map properties
@@ -101,6 +109,10 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
           pdf.save('map.pdf')
         }
       }
+
+      disabledInteractions.forEach((interaction) => {
+        interaction.setActive(true)
+      })
 
       commit('setExportedMap', src)
     })

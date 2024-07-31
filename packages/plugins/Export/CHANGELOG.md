@@ -4,6 +4,7 @@
 
 - Fix: PDF export with download:false now works correctly.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Fix: Map interactions are now disabled during the export process so potential interaction features won't be exported
 - Chore: Update dependencies to latest versions.
 
 ## 1.2.0
