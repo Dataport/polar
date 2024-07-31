@@ -188,7 +188,7 @@ Since this is the base for many functions, the service ID set in this is used to
 
 The `<...masterportalAPI.fields>` means that any masterportalAPI field may also be used here _directly_. The most common fields are the following ones; for more, see masterportalAPI.
 
-| fieldName        | type     | description                                                                                                               |
+| fieldName | type | description |
 | - | - | - |
 | startResolution  | number   | Initial resolution; must be in options. See below.                                                                        |
 | startCenter      | number[] | Initial center coordinate.                                                                                                |
