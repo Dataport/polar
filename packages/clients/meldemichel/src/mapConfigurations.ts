@@ -104,7 +104,7 @@ const addressSearch: AddressSearchConfiguration = {
 
 const commonPins: Partial<PinsConfiguration> = {
   toZoomLevel: 7,
-  movable: true,
+  movable: 'drag',
   style: {
     fill: hamburgRed,
   },

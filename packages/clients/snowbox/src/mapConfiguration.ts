@@ -179,7 +179,7 @@ export const mapConfiguration = {
   pins: {
     boundaryLayerId: hamburgBorder,
     toZoomLevel: 9,
-    movable: true,
+    movable: 'drag',
     appearOnClick: {
       show: true,
       atZoomLevel: 0,
