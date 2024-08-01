@@ -43,7 +43,11 @@
     <v-tooltip left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <div v-bind="attrs" v-on="on">
-          <ZoomSlider v-if="addZoomSlider"></ZoomSlider>
+          <ZoomSlider
+            v-if="addZoomSlider"
+            left
+            :disabled="hasSmallDisplay"
+          ></ZoomSlider>
         </div>
       </template>
       <span>{{ $t('common:plugins.zoom.slider') }}</span>
