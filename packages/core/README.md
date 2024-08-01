@@ -74,7 +74,7 @@ The mapConfiguration allows controlling many client instance details.
 | layerConf | LayerConf | Layer configuration as required by masterportalAPI. |
 | language | enum["de", "en"] | Initial language. |
 | <...masterportalAPI.fields> | various | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options. |
-| <plugin.fields> | various? | Fields for configuring plugins added with `addPlugin`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](../core/README.md#global-plugin-parameters). |
+| <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](../core/README.md#global-plugin-parameters). |
 | locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
 | vuetify | object? | You may add vuetify configuration here. |
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
@@ -199,11 +199,12 @@ The `<...masterportalAPI.fields>` means that any masterportalAPI field may also 
 
 ##### <plugin.fields>
 
-Plugins in POLAR are modular components that extend the functionality of the map client. They can be added using the [addPlugin](../core/README.md#addPlugins) method and configured through the `mapConfiguration` object. Each plugin has its own set of fields and options that can be customized.
+Plugins in POLAR are modular components that extend the functionality of the map client. They can be added using the [addPlugins](../core/README.md#addPlugins) method and configured through the `mapConfiguration` object. Each plugin has its own set of fields and options that can be customized.
 
 On how to configure a plugin, see the respective plugin. The configuration is given in the `mapConfiguration` object by the plugin's name as specified in its respective documentation.
 
 ###### Global Plugin Parameters
+
 Most plugins honor this additional field.
 
 | fieldName | type | description |
