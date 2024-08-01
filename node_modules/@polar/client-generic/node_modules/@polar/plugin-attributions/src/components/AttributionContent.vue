@@ -1,7 +1,14 @@
 <template>
   <v-scroll-x-reverse-transition>
-    <v-card dense filled :width="width" :color="color" :max-width="maxWidth">
-      <v-card-title>
+    <v-card
+      :class="renderType === 'footer' ? 'polar-plugin-attributions-footer' : ''"
+      dense
+      filled
+      :width="width"
+      :color="color"
+      :max-width="maxWidth"
+    >
+      <v-card-title v-if="renderType !== 'footer'">
         {{ $t('common:plugins.attributions.title') }}
       </v-card-title>
       <!-- NOTE: The usage of v-html is considered unsafe as it
@@ -48,7 +55,9 @@ export default Vue.extend({
       return this.renderType === 'independent'
     },
     color() {
-      return this.renderIndependently ? '#ffffffdd' : ''
+      return this.renderType === 'independent' || this.renderType === 'footer'
+        ? '#ffffffdd'
+        : ''
     },
     maxWidth() {
       return this.renderIndependently
@@ -76,4 +85,13 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.polar-plugin-attributions-footer {
+  margin: 4px;
+}
+.polar-plugin-attributions-footer .v-card__text {
+  font-size: 0.8rem;
+  padding: 2px;
+  line-height: 1.1;
+}
+</style>
