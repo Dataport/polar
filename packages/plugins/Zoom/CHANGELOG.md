@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Add easing between zoom levels.
 - Refactor: Remove redundant prop `isHorizontal` from `Zoom` component. Logic is now placed in `@polar/core`.
 
 ## 1.2.0
