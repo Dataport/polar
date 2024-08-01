@@ -25,6 +25,10 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
     //  Screenshot canvas
     const CANVAS_ID = 'export-canvas'
 
+    map.getInteractions().forEach((interaction) => {
+      interaction.setActive(false)
+    })
+
     map.once('postrender', function () {
       // Map properties
       const size = map.getSize()
@@ -101,6 +105,10 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
           pdf.save('map.pdf')
         }
       }
+
+      map.getInteractions().forEach((interaction) => {
+        interaction.setActive(true)
+      })
 
       commit('setExportedMap', src)
     })
