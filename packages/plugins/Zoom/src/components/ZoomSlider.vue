@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <v-slider
-      v-model="zoomLevelRange"
-      vertical
-      class="polar-zoom-slider"
-      :min="minimumZoomLevel"
-      :max="maximumZoomLevel"
-      :aria-label="$t('common:plugins.zoom.slider')"
-    ></v-slider>
-  </div>
+  <v-slider
+    v-model="zoomLevelRange"
+    vertical
+    class="polar-zoom-slider"
+    :min="minimumZoomLevel"
+    :max="maximumZoomLevel"
+    :aria-label="$t('common:plugins.zoom.slider')"
+  ></v-slider>
 </template>
 
 <script lang="ts">
