@@ -50,7 +50,8 @@ export default Vue.extend({
 
 .polar-zoom-slider :hover .v-slider__track-background,
 .polar-zoom-slider :hover .v-slider__track-fill,
-.polar-zoom-slider :hover .v-slider__thumb {
+.polar-zoom-slider :hover .v-slider__thumb,
+.polar-zoom-slider :focus .v-slider__thumb {
   box-shadow: 0 0 0 2px white, 0 0 0 4px #003064;
 }
 
