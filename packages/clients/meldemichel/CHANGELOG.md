@@ -3,6 +3,7 @@
 ## unpublished
 
 - Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
+- Chore: Removed the `displayComponent` attribute for `@polar/plugin-pins` as it is not necessary.
 
 ## 1.1.2
 
