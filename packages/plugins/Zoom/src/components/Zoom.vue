@@ -1,6 +1,6 @@
 <template>
-  <div v-if="showZoomButtons" class="polar-zoom-wrap">
-    <v-tooltip left :disabled="hasSmallDisplay">
+  <div class="polar-zoom-wrap">
+    <v-tooltip v-if="showZoomButtons" left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
           :aria-label="$t('common:plugins.zoom.in')"
@@ -22,7 +22,7 @@
       </template>
       <span>{{ $t('common:plugins.zoom.in') }}</span>
     </v-tooltip>
-    <v-tooltip left :disabled="hasSmallDisplay">
+    <v-tooltip v-if="showZoomButtons" left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
           :aria-label="$t('common:plugins.zoom.out')"
