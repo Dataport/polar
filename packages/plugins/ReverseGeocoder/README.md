@@ -10,14 +10,14 @@ This module has been written for the HH WPS service. The return format is custom
 
 ### reverseGeocoder
 
-| fieldName        | type    | description                                                                                                                                                                                        |
-| ---------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| url              | string  | URL of the WPS to use for reverse geocoding.                                                                                                                                                       |
-| addLoading       | string? | Points to an action in the store; commited with a loading key as payload on starting reverse geocoding.                                                                                            |
-| addressTarget    | string? | Points to a path in the store where an address can be put. If given, ReverseGeocoder will update on resolve. If not given, ReverseGeocoder's results can only be retrieved by awaiting its action. |
+| fieldName | type | description |
+| - | - | - |
+| url | string | URL of the WPS to use for reverse geocoding. |
+| addLoading | string? | Points to an action in the store; commited with a loading key as payload on starting reverse geocoding. |
+| addressTarget | string? | Points to a path in the store where an address can be put. If given, ReverseGeocoder will update on resolve. If not given, ReverseGeocoder's results can only be retrieved by awaiting its action. |
 | coordinateSource | string? | Points to a path in the store where a coordinate may be. If given, ReverseGeocoder will resolve on any updates. If not given, ReverseGeocoder is passive and waits for its action to be called. Please mind that, when referencing another plugin, that plugin must be in `addPlugins` before this one. |
-| removeLoading    | string? | Points to an action in the store; commited with a loading key as payload on finishing reverse geocoding.                                                                                           |
-| zoomTo           | number? | If specified, plugin zooms to given coordinate after successful reverse geocoding; number indicates maximal zoom level.                                                                            |
+| removeLoading | string? | Points to an action in the store; commited with a loading key as payload on finishing reverse geocoding. |
+| zoomTo | number? | If specified, plugin zooms to given coordinate after successful reverse geocoding; number indicates maximal zoom level. |
 
 ## Store
 
