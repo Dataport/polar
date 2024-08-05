@@ -123,18 +123,19 @@ export default Vue.extend({
   .scale-switcher {
     cursor: pointer;
     font-weight: bold;
-    background: #ffffff;
-    color: black;
+    background: #003064;
+    color: #ffffff;
     border-radius: 5px;
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
       0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+    border: 3px solid transparent;
   }
 
-  .scale-switcher:hover {
+  .scale-switcher:hover,
+  .scale-switcher:focus {
     cursor: pointer;
-    font-weight: bold;
-    background: #003064;
-    color: #ffffff;
+    border: 3px solid #ffffff;
+    outline: 3px solid #003064;
   }
 
   .scale-switcher option {
