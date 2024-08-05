@@ -59,6 +59,8 @@ export interface WfsParameters extends QueryParameters {
   srsName?: string
   /** By default, if searching for "search", it is sent as "search*"; can be deactivated */
   useRightHandWildcard?: boolean
+  /** custom attributes for the like operators in filters */
+  likeFilterAttributes?: Record<string, string>
 }
 
 /**

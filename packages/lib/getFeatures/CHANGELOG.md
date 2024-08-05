@@ -3,6 +3,7 @@
 ## unpublished
 
 - Breaking: `getWfsFeatures` now throws errors if required parameters on the wfs configuration are missing instead of only printing error messages on the console.
+- Feature: addressSearch.searchMethodsObject.queryParameters (type:wfs) now supports custom attributes for the like filter operator.
 - Fix: Properly extend interface `WfsParameters` from `QueryParameters` to reflect actual usage.
 
 ## 1.0.1
