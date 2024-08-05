@@ -13,6 +13,14 @@ The fullscreen plugin allows viewing the map in fullscreen mode. It relies solel
 | renderType | 'iconMenu' \| 'independent'? | Whether the fullscreen button is being rendered independently or as part of the IconMenu. Defaults to 'independent'. |
 | targetContainerId | string? | Specifies the html element on which the fullscreen mode should be applied. If the parameter is omitted, it falls back to the configured global field `containerId`. |
 
+Example configuration:
+```js
+fullscreen: {
+  renderType: iconMenu,
+  targetContainerId: 'mapContainer'
+}
+```
+
 ## Store
 
 ### State
