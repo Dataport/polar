@@ -56,7 +56,7 @@ export const makeStoreModule = () => {
         if (view) {
           view.animate({
             zoom: zoomLevel,
-            duration: 1000,
+            duration: 500,
           })
         }
       },
