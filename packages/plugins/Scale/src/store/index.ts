@@ -73,9 +73,7 @@ export const makeStoreModule = () => {
     getters: {
       ...generateSimpleGetters(getInitialState()),
       zoomOptions: (_, __, ___, rootGetters) => {
-        const options =
-          rootGetters.configuration?.scale?.options ||
-          rootGetters.configuration.options
+        const options = rootGetters.configuration.options
 
         const filteredOptions = options?.filter(
           (option: { scale: number; zoomLevel: number }) =>
