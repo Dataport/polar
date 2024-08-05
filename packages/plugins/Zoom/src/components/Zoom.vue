@@ -1,6 +1,6 @@
 <template>
-  <div v-if="showZoomButtons" class="polar-zoom-wrap">
-    <v-tooltip left :disabled="hasSmallDisplay">
+  <div class="polar-zoom-wrap">
+    <v-tooltip v-if="showZoomButtons" left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
           :aria-label="$t('common:plugins.zoom.in')"
@@ -22,7 +22,7 @@
       </template>
       <span>{{ $t('common:plugins.zoom.in') }}</span>
     </v-tooltip>
-    <v-tooltip left :disabled="hasSmallDisplay">
+    <v-tooltip v-if="showZoomButtons" left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
           :aria-label="$t('common:plugins.zoom.out')"
@@ -40,15 +40,25 @@
       </template>
       <span>{{ $t('common:plugins.zoom.out') }}</span>
     </v-tooltip>
+    <v-tooltip v-if="addZoomSlider" left :disabled="hasSmallDisplay">
+      <template #activator="{ on, attrs }">
+        <div v-bind="attrs" v-on="on">
+          <ZoomSlider></ZoomSlider>
+        </div>
+      </template>
+      <span>{{ $t('common:plugins.zoom.slider') }}</span>
+    </v-tooltip>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
+import ZoomSlider from './ZoomSlider.vue'
 
 export default Vue.extend({
   name: 'PolarZoom',
+  components: { ZoomSlider },
   computed: {
     ...mapGetters(['deviceIsHorizontal', 'hasSmallDisplay', 'hasSmallHeight']),
     ...mapGetters('plugin/zoom', [
@@ -56,9 +66,13 @@ export default Vue.extend({
       'minimumZoomLevelActive',
       'renderType',
       'showMobile',
+      'showZoomSlider',
     ]),
     showZoomButtons(): boolean {
       return this.hasSmallHeight ? this.showMobile : true
+    },
+    addZoomSlider(): boolean {
+      return !this.hasSmallHeight && this.showZoomSlider
     },
   },
   methods: {

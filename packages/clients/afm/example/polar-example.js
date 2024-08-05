@@ -67,7 +67,7 @@ const mapConfiguration = {
   },
   pins: {
     toZoomLevel: 9,
-    movable: true,
+    movable: 'drag',
     appearOnClick: {
       show: true,
       atZoomLevel: 3,

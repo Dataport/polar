@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: If a user is geolocated outside of the map's extent, the client will inform the user of why geolocation did not take effect via a textbox.
+- Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
 
 ## 1.1.1
 

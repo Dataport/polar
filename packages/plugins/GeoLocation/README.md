@@ -10,16 +10,16 @@ either `true` or `false`. When a users denies the location tracking, the button 
 
 #### geoLocation
 
-| fieldName              | type    | description                                                                                                                                                                                                                                                                                         |
-| ---------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| boundaryLayerId        | string? | Id of a vector layer to restrict geolocation markers and zooms to. When geolocation outside of its features occurs, an information will be shown once and the feature is stopped. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off. |
+| fieldName | type | description |
+| - | - | - |
+| boundaryLayerId | string? | Id of a vector layer to restrict geolocation markers and zooms to. When geolocation outside of its features occurs, an information will be shown once and the feature is stopped. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off. |
 | boundaryOnError | ('strict' \| 'permissive')? | If the boundary layer check does not work due to loading or configuration errors, style `'strict'` will disable the geolocation feature, and style `'permissive'` will act as if no boundaryLayerId was set. Defaults to `'permissive'`. |
 | checkLocationInitially | boolean? | If `true` the location gets checked on page load. When `false` this can be triggered with a button. Defaults to `false`. |
-| keepCentered           | boolean? | If `true`, the map will re-center on the user on any position change. If `false`, only the first position will be centered on. Defaults to `false`. |
+| keepCentered | boolean? | If `true`, the map will re-center on the user on any position change. If `false`, only the first position will be centered on. Defaults to `false`. |
 | renderType | 'iconMenu' \| 'independent'? | If nested in `IconMenu`, select 'iconMenu' to match styling. Defaults to 'independent'. |
 | showTooltip | boolean? | If set to `true`, a tooltip will be shown when hovering the geoposition marker in the map, indicating that it shows the user's position. Defaults to `false`. |
 | toastAction | string? | If the user is not locatable within the boundary of the maps extent or the boundary of the layer of `boundaryLayerId`, this string will be used as action to send a toast information to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console. |
-| zoomLevel              | number? | Specifies to which zoom level gets zoomed after a successfull tracking of the location. Defaults to `7`. |
+| zoomLevel | number? | Specifies to which zoom level gets zoomed after a successfull tracking of the location. Defaults to `7`. |
 
 #### Example configuration
 
