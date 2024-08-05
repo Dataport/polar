@@ -434,6 +434,7 @@ export type ToastConfiguration = PluginOptions & ToastTypeStyles
 export interface ZoomConfiguration extends PluginOptions {
   renderType?: RenderType
   showMobile?: boolean
+  showZoomSlider?: boolean
 }
 
 export interface LanguageOption {
