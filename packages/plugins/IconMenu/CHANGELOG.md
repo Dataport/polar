@@ -5,6 +5,19 @@
 - Feature: Remove requirement of `isHorizontal` prop for plugins as the relevant logic is implemented in `@polar/core`.
 - Fix: Resolve issue with `initiallyOpen` not working as expected.
 
+## 2.0.0-alpha.3
+
+- Chore: Add `compileTemplate` to `rollup-plugin-vue`.
+
+## 2.0.0-alpha.2
+
+- Chore: Release the package without minifying.
+
+## 2.0.0-alpha.1
+
+- Breaking: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-icon-menu/styles.css`.
+- Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
+
 ## 1.2.0
 
 - Feature: Improved implementation to make plugin SPA-ready.

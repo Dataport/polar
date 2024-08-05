@@ -9,10 +9,12 @@ Map.prototype.addLayer = function (...parameters) {
   // Change all layers to be crossOrigin safe
   Map.prototype.getLayers
     .call(this)
-    .array_ // Change layers with wrong crossOrigin
+    .getArray() // Change layers with wrong crossOrigin
     .forEach((layer) => {
+      // @ts-expect-error | masterportalapi always produces layers including a source
       const source = layer.getSource()
       source.crossOrigin = 'anonymous'
+      // @ts-expect-error | masterportalapi always produces layers including a source
       layer.setSource(source)
     })
 }

@@ -2,8 +2,12 @@
 
 ## unpublished
 
-- Breaking: `getWfsFeatures` now throws errors if required parameters on the wfs configuration are missing instead of only printing error messages on the console.
 - Fix: Properly extend interface `WfsParameters` from `QueryParameters` to reflect actual usage.
+
+## 2.0.0-alpha.1
+
+- Breaking: `getWfsFeatures` now throws errors if required parameters on the wfs configuration are missing instead of only printing error messages on the console.
+- Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
 
 ## 1.0.1
 
