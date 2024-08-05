@@ -28,7 +28,7 @@
     "preversion": "npm run bundle"
   },
   "peerDependencies": {
-    "i18next": "^23.7.16"
+    "i18next": "^23.x"
   },
   "nx": {
     "includedScripts": [

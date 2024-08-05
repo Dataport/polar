@@ -4,6 +4,7 @@
 
 - Feature: This client now supports the `@polar/core`'s field `stylePath`. The usage is documented in the API.md file.
 - Feature: Update icon of `layerChooser` in `iconMenu` to `fa-layer-group` to clear-up the content hidden behind the menu button.
+- Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
 - Chore: Import newly exposed style paths of `@polar/core` as well as all plugin packages.
 
 ## 1.0.1

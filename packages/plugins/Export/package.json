@@ -37,7 +37,7 @@
     "vuex": "^3.6.2"
   },
   "dependencies": {
-    "jspdf": "^2.4.0"
+    "jspdf": "^2.5.1"
   },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.0.0"

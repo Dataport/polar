@@ -6,6 +6,8 @@
 - Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
 - Fix: PDF export with download:false now works correctly.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Fix: Disable map interactions during the export process so potential interaction features won't be exported.
+- Chore: Update dependencies to latest versions.
 
 ## 1.2.0
 
