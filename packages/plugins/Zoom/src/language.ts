@@ -8,6 +8,7 @@ const language: LanguageOption[] = [
         zoom: {
           in: 'Hinein zoomen',
           out: 'Heraus zoomen',
+          slider: 'Zoomstufe wählen',
         },
       },
     },
@@ -19,6 +20,7 @@ const language: LanguageOption[] = [
         zoom: {
           in: 'Zoom in',
           out: 'Zoom out',
+          slider: 'Choose zoom level',
         },
       },
     },
