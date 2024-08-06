@@ -15,6 +15,15 @@ It can be configured as followed.
 | showMobile | boolean? | Whether the zoom related buttons should be displayed on smaller devices; defaults to `false`. |
 | showZoomSlider | boolean? | Whether a zoom slider should be displayed under the zoom buttons. Won't be rendered on smaller devices; defaults to `false`.|
 
+Example configuration:
+```js
+zoom: {
+  renderType: 'independent',
+  showMobile: false,
+  showZoomSlider: true,
+}
+```
+
 ## Store
 
 ### State
