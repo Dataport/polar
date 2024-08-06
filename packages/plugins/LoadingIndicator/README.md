@@ -4,6 +4,21 @@
 
 A generic loading indicator that may be used by any plugin or outside procedure to indicate loading.
 
+Example configuration:
+
+```js
+AddressSearch({
+        displayComponent: true,
+        layoutTag: NineLayoutTag.TOP_LEFT,
+        addLoading: 'plugin/loadingIndicator/addLoadingKey',
+        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+    }),
+LoadingIndicator({
+        displayComponent: true,
+        layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
+    }),
+```
+
 ## Store
 
 ### Mutations
