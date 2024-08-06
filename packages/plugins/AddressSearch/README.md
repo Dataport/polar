@@ -77,6 +77,8 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
     },
     minLength: 3,
     waitMs: 300,
+    addLoading: 'plugin/loadingIndicator/addLoadingKey',
+    removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
   },
 ```
 </details>

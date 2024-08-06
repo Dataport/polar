@@ -7,6 +7,8 @@ A generic loading indicator that may be used by any plugin or outside procedure 
 Example configuration:
 
 ```js
+ core.addPlugins([
+    ...
 AddressSearch({
         displayComponent: true,
         layoutTag: NineLayoutTag.TOP_LEFT,
@@ -17,6 +19,8 @@ LoadingIndicator({
         displayComponent: true,
         layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
     }),
+    ...
+ ])
 ```
 
 ## Store
