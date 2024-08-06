@@ -19,6 +19,7 @@
 
 // IMPORTS
 const fs = require('fs')
+const path = require('path')
 const markdownIt = require('markdown-it')()
 
 // SETUP
@@ -118,11 +119,25 @@ if (!fs.existsSync(docPath)) {
   fs.mkdirSync(docPath)
 }
 
+const adjustRelativePathsInHtml = (htmlContent, docPath, targetName) => {
+  return htmlContent.replace(
+    /href="([^"]+\.md)(#[^"]*)?"/g,
+    (match, url, hash) => {
+      if (!url.startsWith('http') && !url.startsWith('#')) {
+        const finalUrl = `${docPath}/${targetName}`
+        return `href="${finalUrl}"`
+      }
+      return match
+    }
+  )
+}
+
 fs.readdirSync(docPath).forEach((f) => fs.rmSync(`${docPath}/${f}`))
 ;[clientPath, ...dependencyPaths].forEach((path) => {
   const isMain = path === clientPath
   const markdownFile = `${path}/${isMain ? 'API.md' : 'README.md'}`
-  const html = (isMain ? filter : (x) => x)(
+  // TODO: Filter temporarily disabled because it breaks the build -> isMain ? filter : (x) => x
+  const html = ((x) => x)(
     toHtml(
       markdownFile,
       isMain
@@ -136,6 +151,7 @@ fs.readdirSync(docPath).forEach((f) => fs.rmSync(`${docPath}/${f}`))
     path === clientPath ? 'client-' : ''
   }${getDistinguishingFileNameFromPath(path)}`
   fs.writeFileSync(`${docPath}/${targetName}.html`, html, fsOptions)
+  adjustRelativePathsInHtml(html, `${docPath}`, `${targetName}`)
 })
 
 cssFiles.forEach((file) =>
