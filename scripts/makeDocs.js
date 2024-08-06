@@ -119,12 +119,28 @@ if (!fs.existsSync(docPath)) {
   fs.mkdirSync(docPath)
 }
 
-const adjustRelativePathsInHtml = (htmlContent, docPath, targetName) => {
+const extractClientName = (clientPath) => {
+  const parts = clientPath.split(path.sep)
+  return parts[parts.length - 1]
+}
+
+const adjustRelativePathsInHtml = (htmlContent, basePath) => {
   return htmlContent.replace(
     /href="([^"]+\.md)(#[^"]*)?"/g,
     (match, url, hash) => {
       if (!url.startsWith('http') && !url.startsWith('#')) {
-        const finalUrl = `${docPath}/${targetName}`
+        const absolutePath = path.resolve(basePath, url)
+        const relativePath = path.relative(docPath, absolutePath)
+        const htmlPath = relativePath
+          .replace(/\.md$/, '.html')
+          .replace(/\\/g, '/')
+
+        const clientName = extractClientName(basePath)
+        const simplifiedPath = path.basename(htmlPath)
+        const finalUrl = `https://dataport.github.io/polar/docs/${clientName}/${simplifiedPath}${
+          hash || ''
+        }`
+
         return `href="${finalUrl}"`
       }
       return match
@@ -137,7 +153,7 @@ fs.readdirSync(docPath).forEach((f) => fs.rmSync(`${docPath}/${f}`))
   const isMain = path === clientPath
   const markdownFile = `${path}/${isMain ? 'API.md' : 'README.md'}`
   // TODO: Filter temporarily disabled because it breaks the build -> isMain ? filter : (x) => x
-  const html = ((x) => x)(
+  let html = ((x) => x)(
     toHtml(
       markdownFile,
       isMain
@@ -147,11 +163,17 @@ fs.readdirSync(docPath).forEach((f) => fs.rmSync(`${docPath}/${f}`))
         : null
     )
   )
+
+  html = adjustRelativePathsInHtml(html, path)
+
+  if (isMain) {
+    html = filter(html)
+  }
+
   const targetName = `${
     path === clientPath ? 'client-' : ''
   }${getDistinguishingFileNameFromPath(path)}`
   fs.writeFileSync(`${docPath}/${targetName}.html`, html, fsOptions)
-  adjustRelativePathsInHtml(html, `${docPath}`, `${targetName}`)
 })
 
 cssFiles.forEach((file) =>
