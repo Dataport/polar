@@ -35,6 +35,7 @@ Example configuration:
       fill: '#003064',
     },
     boundaryLayerId: hamburgBorder,
+    toastAction: 'plugin/toast/addToast',
   },
 
 ```
