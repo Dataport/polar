@@ -17,12 +17,39 @@ Please check the vuetify documentation to override the success, warning, info, o
 | success | toastStyle? | Design override for success messages. |
 | warning | toastStyle? | Design override for warning messages. |
 
+Example configuration:
+```js
+toast: {
+  info: {
+    toastStyle: {
+      color: '#0000FF'
+      icon: 'fas fa-file'
+    }
+  },
+  error: {
+    toastStyle: {
+      color: '#FF0000'
+      icon: 'fas fa-cloud'
+    }
+  }
+}
+
+```
+
 #### toast.toastStyle
 
 | fieldName | type | description |
 | - | - | - |
 | color | string? | Either a color code like '#FACADE' or a color string [vuetify understands](https://vuetifyjs.com/en/styles/colors/). |
 | icon | string? | CSS icon class. |
+
+Example configuration:
+```js
+    toastStyle: {
+      color: '#0000FF'
+      icon: 'fas fa-file'
+    }
+```
 
 ## Store
 
