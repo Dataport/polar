@@ -75,14 +75,13 @@ export const makeStoreModule = () => {
       zoomOptions: (_, __, ___, rootGetters) => {
         const options = rootGetters.configuration.options
 
-        const filteredOptions = options?.filter(
-          (option: { scale: number; zoomLevel: number }) =>
-            typeof option.scale === 'number' &&
-            typeof option.zoomLevel === 'number'
-        )
-        filteredOptions.unshift(translate('common:plugins.scale.scaleSwitcher'))
-
-        return filteredOptions.length > 1 ? filteredOptions : []
+        if (!options) {
+          console.error(
+            "@polar/plugin-scale: Configuration parameter `options` is missing. Scale switcher won't be rendered."
+          )
+          return []
+        }
+        return options
       },
       showScaleSwitcher: (_, __, ___, rootGetters) => {
         return rootGetters.configuration?.scale?.showScaleSwitcher
