@@ -36,6 +36,8 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 | removeLoading | string? | Optional loading action name to end loading. |
 | waitMs | number? | Debounce time in ms for search requests after last user input. Defaults to 0. |
 
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
+
 #### addressSearch.searchMethodsObject
 
 | fieldName | type | description |

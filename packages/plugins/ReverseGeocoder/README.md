@@ -19,6 +19,7 @@ This module has been written for the HH WPS service. The return format is custom
 | removeLoading | string? | Points to an action in the store; commited with a loading key as payload on finishing reverse geocoding. |
 | zoomTo | number? | If specified, plugin zooms to given coordinate after successful reverse geocoding; number indicates maximal zoom level. |
 
+
 ## Store
 
 The ReverseGeocoder plugin does not hold any state.

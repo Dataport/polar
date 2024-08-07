@@ -22,6 +22,7 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 | toastAction | string? | If `boundaryLayerId` is set, and the pin is moved or created outside the boundary, this string will be used as action to send a toast information to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console. |
 | toZoomLevel | number? | Zoom level to use on outside input by e.g. address search. Defaults to `0`. |
 
+
 #### pins.appearOnClick
 
 | fieldName | type | description |
