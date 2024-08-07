@@ -74,7 +74,7 @@ The mapConfiguration allows controlling many client instance details.
 | layerConf | LayerConf | Layer configuration as required by masterportalAPI. |
 | language | enum["de", "en"] | Initial language. |
 | <...masterportalAPI.fields> | various | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options. |
-| <plugin.fields> | various? | Many plugins added with `addPlugin` may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below. |
+| <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
 | locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
 | vuetify | object? | You may add vuetify configuration here. |
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
@@ -199,21 +199,32 @@ The `<...masterportalAPI.fields>` means that any masterportalAPI field may also 
 
 ##### <plugin.fields>
 
-On how to configure a plugin, see the respective plugin. The configuration is given in the `mapConfiguration` object by the plugin's name as specified in its respective documentation. For example, a `@polar/plugin-address-search` plugin can be configured like this:
+Plugins in POLAR are modular components that extend the functionality of the map client. They can be added using the [addPlugins](#addPlugins) method and configured through the `mapConfiguration` object. Each plugin has its own set of fields and options that can be customized.
 
-```js
-{
-  addressSearch: {
-    // ...
-  }
-}
-```
+On how to configure a plugin, see the respective plugin. The configuration is given in the `mapConfiguration` object by the plugin's name as specified in its respective documentation.
+
+###### Global Plugin Parameters
 
 Most plugins honor this additional field.
 
 | fieldName | type | description |
 | - | - | - |
 | displayComponent | boolean? | Optional field that allows hiding UI elements from the user. The store will still be initialized, allowing you to add your own UI elements and control the plugin's functionality via the Store. This may or may not make sense, depending on the plugin. Defaults to `false` , meaning the default UI is hidden. |
+
+###### Example Configuration
+
+For example, a `@polar/plugin-address-search` plugin can be configured like this:
+
+```js
+{
+  addressSearch: {
+    // Plugin-specific configuration
+    displayComponent: true, // Optional field to control UI elements
+    // ...
+  }
+}
+```
+
 
 ##### mapConfiguration.vuetify
 
