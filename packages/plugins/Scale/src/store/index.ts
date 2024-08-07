@@ -8,7 +8,7 @@ import { PolarModule } from '@polar/lib-custom-types'
 import thousandsSeparator from '../utils/thousandsSeperator'
 import beautifyScale from '../utils/beautifyScale'
 import getDpi from '../utils/getDpi'
-import { ScaleState } from '../types'
+import { ScaleState, ScaleGetters } from '../types'
 
 const getInitialState = (): ScaleState => ({
   scaleValue: 0,
@@ -19,7 +19,7 @@ const getInitialState = (): ScaleState => ({
 // OK for module creation
 // eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
-  const storeModule: PolarModule<ScaleState, ScaleState> = {
+  const storeModule: PolarModule<ScaleState, ScaleGetters> = {
     namespaced: true,
     state: getInitialState(),
     actions: {
