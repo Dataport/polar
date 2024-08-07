@@ -192,12 +192,12 @@ export default Vue.extend({
 }
 
 .v-list-item {
+  // needed for FF
+  outline-offset: -2px;
+
   &::before {
     background: transparent;
   }
-
-  // needed for FF
-  outline-offset: -2px;
 
   &:hover {
     outline: dashed 2px #3fa535;
