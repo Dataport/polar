@@ -8,7 +8,6 @@ const language: LanguageOption[] = [
         scale: {
           toOneNegative: 'Skalierung muss eine positive Zahl sein',
           label: 'Skala',
-          scaleSwitcher: 'Maßstab wählen',
         },
       },
     },
@@ -20,7 +19,6 @@ const language: LanguageOption[] = [
         scale: {
           toOneNegative: 'scale must be a positive number',
           label: 'Scale',
-          scaleSwitcher: 'choose scale',
         },
       },
     },
