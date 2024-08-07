@@ -19,6 +19,8 @@ All parameters are optional. However, setting neither `layerAttributions` nor `s
 | staticAttributions | string[]? | List of static attributions that are always shown. |
 | windowWidth | number? | If `renderType` is set to `independent`, sets the width of the container of the attributions. Defaults to 500. |
 
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
+
 #### attributions.layerAttribution
 
 | fieldName | type | description |
