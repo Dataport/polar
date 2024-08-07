@@ -4,10 +4,8 @@
 
 import { PolarModule } from '@polar/lib-custom-types'
 import { LoadingIndicatorGetters, LoadingIndicatorState } from '../types'
-
-const getInitialState = (): LoadingIndicatorState => ({
-  loadKeys: new Set(),
-})
+import getters from './getters'
+import { getInitialState } from './state'
 
 export const makeStoreModule = () => {
   const storeModule: PolarModule<
@@ -26,9 +24,7 @@ export const makeStoreModule = () => {
         state.loadKeys = loadKeys
       },
     },
-    getters: {
-      showLoader: ({ loadKeys }) => loadKeys.size > 0,
-    },
+    getters,
   }
 
   return storeModule
