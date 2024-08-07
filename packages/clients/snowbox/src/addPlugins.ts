@@ -11,6 +11,7 @@ import IconMenu from '@polar/plugin-icon-menu'
 import LayerChooser from '@polar/plugin-layer-chooser'
 import Legend from '@polar/plugin-legend'
 import LoadingIndicator from '@polar/plugin-loading-indicator'
+import Pins from '@polar/plugin-pins'
 import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
@@ -101,6 +102,11 @@ export const addPlugins = (core) => {
         layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
       })
     ),
+    Pins({
+      appearOnClick: { show: true, atZoomLevel: 6 },
+      coordinateSource: 'plugin/addressSearch/chosenAddress',
+      toastAction: 'plugin/toast/addToast',
+    }),
     Gfi(
       merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.MIDDLE_LEFT,
