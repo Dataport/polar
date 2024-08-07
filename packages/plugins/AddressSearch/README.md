@@ -125,6 +125,10 @@ These fields are interpreted by all implemented services.
 
 Since inputs may overlap with multiple patterns, multiple queries are fired and executed on the WFS until the `maxFeatures` requirement is met, beginning with the pattern that 'looks like the user input the most'. The best-fitting pattern on the returned features will be used to generate a display string. When two patterns fit best, the first one is used.
 
+Configuration examples for the likeFilterAttributes parameter: 
+- WFS 2.0.0 `{wildCard: "%", singleChar: "*", escapeChar: "\"}`
+- WFS 1.0.0 `{wildCard: "*", singleChar: "*", escape: "\"}`
+
 ##### addressSearch.searchMethodsObject.queryParameters (type:gazetteer)
 
 > ⚠️ "gazetteer" is deprecated. Please use "mpapi" instead.
