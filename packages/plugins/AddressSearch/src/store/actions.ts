@@ -85,13 +85,12 @@ export const makeActions = () => {
       commit,
       dispatch,
     }): Promise<void> | void {
-      const { minLength } = getters.addressSearchConfiguration
       const activeSearchMethods = getters.selectedGroup
       // Value is null when the input is cleared; extra undefined check for safety
       if (
         typeof inputValue === 'undefined' ||
         inputValue === null ||
-        inputValue.length < minLength
+        inputValue.length < getters.minLength
       ) {
         commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
         dispatch('indicateLoading', false)
