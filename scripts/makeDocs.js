@@ -19,12 +19,12 @@
 
 // IMPORTS
 const fs = require('fs')
-const path = require('path')
 const markdownIt = require('markdown-it')()
 
 // SETUP
 const fsOptions = { encoding: 'utf8' }
-const clientPath = process.argv[2]
+const client = process.argv[2]
+const clientPath = `./packages/clients/${client}`
 const docPath = `${clientPath}/docs`
 const polarDependencyPathsBase = `${clientPath}/node_modules/@polar`
 const cssFiles = [
@@ -119,32 +119,11 @@ if (!fs.existsSync(docPath)) {
   fs.mkdirSync(docPath)
 }
 
-const extractClientName = (clientPath) => {
-  const parts = clientPath.split(path.sep)
-  return parts[parts.length - 1]
-}
-
-const adjustRelativePathsInHtml = (htmlContent, basePath) => {
+const adjustRelativePathsInHtml = (htmlContent) => {
   return htmlContent.replace(
-    /href="([^"]+\.md)(#[^"]*)?"/g,
-    (match, url, hash) => {
-      if (!url.startsWith('http') && !url.startsWith('#')) {
-        const absolutePath = path.resolve(basePath, url)
-        const relativePath = path.relative(docPath, absolutePath)
-        const htmlPath = relativePath
-          .replace(/\.md$/, '.html')
-          .replace(/\\/g, '/')
-
-        const clientName = extractClientName(basePath)
-        const simplifiedPath = path.basename(htmlPath)
-        const finalUrl = `https://dataport.github.io/polar/docs/${clientName}/${simplifiedPath}${
-          hash || ''
-        }`
-
-        return `href="${finalUrl}"`
-      }
-      return match
-    }
+    /..\/..\/core\/README.md#global-plugin-parameters/g,
+    () =>
+      `https://dataport.github.io/polar/docs/${client}/core.html#global-plugin-parameters`
   )
 }
 
@@ -152,19 +131,16 @@ fs.readdirSync(docPath).forEach((f) => fs.rmSync(`${docPath}/${f}`))
 ;[clientPath, ...dependencyPaths].forEach((path) => {
   const isMain = path === clientPath
   const markdownFile = `${path}/${isMain ? 'API.md' : 'README.md'}`
-  // TODO: Filter temporarily disabled because it breaks the build -> isMain ? filter : (x) => x
-  let html = ((x) => x)(
-    toHtml(
-      markdownFile,
-      isMain
-        ? dependencyPaths.map(
-            (path) => getDistinguishingFileNameFromPath(path) + '.html'
-          )
-        : null
-    )
+  let html = toHtml(
+    markdownFile,
+    isMain
+      ? dependencyPaths.map(
+          (path) => getDistinguishingFileNameFromPath(path) + '.html'
+        )
+      : null
   )
 
-  html = adjustRelativePathsInHtml(html, path)
+  html = adjustRelativePathsInHtml(html)
 
   if (isMain) {
     html = filter(html)
