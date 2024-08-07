@@ -1,4 +1,4 @@
-import { Map } from 'ol'
+import { Feature, Map } from 'ol'
 import { Coordinate } from 'ol/coordinate'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
@@ -52,7 +52,7 @@ export const passesBoundaryCheck = async (
     .getArray()
     .find(
       (layer) => layer.get('id') === boundaryLayerId
-    ) as VectorLayer<VectorSource>
+    ) as VectorLayer<Feature>
 
   if (!boundaryLayer) {
     console.error(

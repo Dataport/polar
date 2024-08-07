@@ -1,4 +1,4 @@
-import * as mpapi from '@masterportal/masterportalapi/src'
+import * as mpapi from '@masterportal/masterportalapi'
 import addPlugins from './utils/addPlugins'
 import createMap from './utils/createMap'
 

@@ -7,7 +7,8 @@ import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
 import { Feature as GeoJsonFeature } from 'geojson'
 import Geometry from 'ol/geom/Geometry'
-import { RequestGfiParameters } from '../types'
+import { TileWMS } from 'ol/source'
+import { RequestGfiWmsParameters } from '../types'
 
 // list of supported reply formats that can be used from OL
 const formats = {
@@ -129,18 +130,16 @@ function getParserFromFormat(format: string): Pick<WFS, 'readFeatures'> {
  * @returns url to request for feature information
  */
 function getWmsGfiUrl(
-  {
-    map,
-    layer,
-    coordinate,
-  }: Pick<RequestGfiParameters, 'map' | 'layer' | 'coordinate'>,
+  { map, layer, coordinate }: RequestGfiWmsParameters,
   { infoFormat }: Record<string, unknown>
 ): string {
-  const source = layer.getSource()
+  // Only layers with a valid source reach this point
+  const source = layer.getSource() as TileWMS
   const view = map.getView()
   const url = source.getFeatureInfoUrl(
     coordinate,
-    view.getResolution(),
+    // The view always has a resolution if this function is called
+    view.getResolution() as number,
     view.getProjection(),
     {
       feature_count: 10,
@@ -157,7 +156,7 @@ function getWmsGfiUrl(
  * @returns promise of all features that hold relevant feature information
  */
 export default (
-  parameters: RequestGfiParameters
+  parameters: RequestGfiWmsParameters
 ): Promise<GeoJsonFeature[]> => {
   const { coordinate, layerConfiguration, layerSpecification } = parameters
   const { filterBy, geometryName, format } = layerConfiguration
