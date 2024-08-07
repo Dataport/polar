@@ -15,6 +15,12 @@ const defaultPreset: UserVuetifyPreset = {
         secondary: '#FFFFFF',
         secondaryContrast: '#003064',
       },
+      dark: {
+        primary: '#4A90E2',
+        primaryContrast: '#121212',
+        secondary: '##121212',
+        secondaryContrast: '#4A90E2',
+      },
     },
   },
   icons: {
