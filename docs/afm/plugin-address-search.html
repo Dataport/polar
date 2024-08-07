@@ -285,14 +285,19 @@
 <td>Name of the type's field to search in. Mutually exclusive to <code>patterns</code>.</td>
 </tr>
 <tr>
-<td>patterns</td>
-<td>string[]?</td>
-<td>Allows specifying input patterns. In a single-field search, a pattern can be as easy as <code>{{theWholeThing}}</code>, where <code>theWholeThing</code> is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. <code>{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}</code> would fit many parcel search services. Mutually exclusive to <code>fieldName</code>.</td>
+<td>likeFilterAttributes</td>
+<td>Record&lt;string, string&gt;?</td>
+<td>As specified by the <a href="https://schemas.opengis.net/filter/">OGC-Standard for filters</a> the <code>PropertyIsLike</code> operator requires three attributes (e.g. in WFS 2.0.0: <code>wildCard</code>, <code>singleChar</code> and <code>escapeChar</code>). These may vary in value and (with other WFS versions) also in property definition. Therefore, it is possible to configure the values of the attributes needed for WFS 2.0.0 and also to add custom attributes needed for other versions. Defaults to <code>{wildCard: &quot;\*&quot;, singleChar: &quot;.&quot;, escapeChar: &quot;!&quot;}</code>.</td>
 </tr>
 <tr>
 <td>patternKeys</td>
 <td>Record&lt;string, string&gt;?</td>
 <td>Maps field names from patterns to regexes. Each field name has to have a definition. Each regex must have one capture group that is used to search. Contents next to it are ignored for the search and just used for matching. E.g. <code>'([0-9]+)$'</code> would be a value for a key that fits an arbitrary number string at the input's end.</td>
+</tr>
+<tr>
+<td>patterns</td>
+<td>string[]?</td>
+<td>Allows specifying input patterns. In a single-field search, a pattern can be as easy as <code>{{theWholeThing}}</code>, where <code>theWholeThing</code> is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. <code>{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}</code> would fit many parcel search services. Mutually exclusive to <code>fieldName</code>.</td>
 </tr>
 <tr>
 <td>srsName</td>
@@ -307,6 +312,11 @@
 </tbody>
 </table>
 <p>Since inputs may overlap with multiple patterns, multiple queries are fired and executed on the WFS until the <code>maxFeatures</code> requirement is met, beginning with the pattern that 'looks like the user input the most'. The best-fitting pattern on the returned features will be used to generate a display string. When two patterns fit best, the first one is used.</p>
+<p>Configuration examples for the likeFilterAttributes parameter:</p>
+<ul>
+<li>WFS 2.0.0 <code>{wildCard: &quot;%&quot;, singleChar: &quot;*&quot;, escapeChar: &quot;\&quot;}</code></li>
+<li>WFS 1.0.0 <code>{wildCard: &quot;*&quot;, singleChar: &quot;*&quot;, escape: &quot;\&quot;}</code></li>
+</ul>
 <h5>addressSearch.searchMethodsObject.queryParameters (type:gazetteer)</h5>
 <blockquote>
 <p>⚠️ &quot;gazetteer&quot; is deprecated. Please use &quot;mpapi&quot; instead.</p>
