@@ -23,7 +23,8 @@ const markdownIt = require('markdown-it')()
 
 // SETUP
 const fsOptions = { encoding: 'utf8' }
-const clientPath = process.argv[2]
+const client = process.argv[2]
+const clientPath = `./packages/clients/${client}`
 const docPath = `${clientPath}/docs`
 const polarDependencyPathsBase = `${clientPath}/node_modules/@polar`
 const cssFiles = [
@@ -118,20 +119,33 @@ if (!fs.existsSync(docPath)) {
   fs.mkdirSync(docPath)
 }
 
+const adjustRelativePathsInHtml = (htmlContent) => {
+  return htmlContent.replace(
+    /..\/..\/core\/README.md#global-plugin-parameters/g,
+    () =>
+      `https://dataport.github.io/polar/docs/${client}/core.html#global-plugin-parameters`
+  )
+}
+
 fs.readdirSync(docPath).forEach((f) => fs.rmSync(`${docPath}/${f}`))
 ;[clientPath, ...dependencyPaths].forEach((path) => {
   const isMain = path === clientPath
   const markdownFile = `${path}/${isMain ? 'API.md' : 'README.md'}`
-  const html = (isMain ? filter : (x) => x)(
-    toHtml(
-      markdownFile,
-      isMain
-        ? dependencyPaths.map(
-            (path) => getDistinguishingFileNameFromPath(path) + '.html'
-          )
-        : null
-    )
+  let html = toHtml(
+    markdownFile,
+    isMain
+      ? dependencyPaths.map(
+          (path) => getDistinguishingFileNameFromPath(path) + '.html'
+        )
+      : null
   )
+
+  html = adjustRelativePathsInHtml(html)
+
+  if (isMain) {
+    html = filter(html)
+  }
+
   const targetName = `${
     path === clientPath ? 'client-' : ''
   }${getDistinguishingFileNameFromPath(path)}`
