@@ -74,7 +74,7 @@ The mapConfiguration allows controlling many client instance details.
 | layerConf | LayerConf | Layer configuration as required by masterportalAPI. |
 | language | enum["de", "en"] | Initial language. |
 | <...masterportalAPI.fields> | various | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options. |
-| <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](../core/README.md#global-plugin-parameters). |
+| <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
 | locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
 | vuetify | object? | You may add vuetify configuration here. |
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
