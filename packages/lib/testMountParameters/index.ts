@@ -41,6 +41,11 @@ export default (): MockParameters => {
           namespaced: true,
         },
       },
+      getters: {
+        // Base value. Should be adjusted in tests if necessary for the test.
+        hasSmallDisplay: () => false,
+        hasSmallHeight: () => false,
+      },
     }),
     emptyRoot: {
       map: 1,
