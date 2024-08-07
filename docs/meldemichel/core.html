@@ -95,7 +95,7 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <tr>
 <td>&lt;plugin.fields&gt;</td>
 <td>various?</td>
-<td>Many plugins added with <code>addPlugin</code> may respect additional configuration. Please see the respective plugin documentations. Global plugin parameters are described below.</td>
+<td>Fields for configuring plugins added with <code>addPlugins</code>. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described <a href="#global-plugin-parameters">below</a>.</td>
 </tr>
 <tr>
 <td>locales</td>
@@ -357,13 +357,9 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 </tbody>
 </table>
 <h5>&lt;plugin.fields&gt;</h5>
-<p>On how to configure a plugin, see the respective plugin. The configuration is given in the <code>mapConfiguration</code> object by the plugin's name as specified in its respective documentation. For example, a <code>@polar/plugin-address-search</code> plugin can be configured like this:</p>
-<pre><code class="language-js">{
-  addressSearch: {
-    // ...
-  }
-}
-</code></pre>
+<p>Plugins in POLAR are modular components that extend the functionality of the map client. They can be added using the <a href="#addPlugins">addPlugins</a> method and configured through the <code>mapConfiguration</code> object. Each plugin has its own set of fields and options that can be customized.</p>
+<p>On how to configure a plugin, see the respective plugin. The configuration is given in the <code>mapConfiguration</code> object by the plugin's name as specified in its respective documentation.</p>
+<h6>Global Plugin Parameters</h6>
 <p>Most plugins honor this additional field.</p>
 <table>
 <thead>
@@ -381,6 +377,16 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 </tr>
 </tbody>
 </table>
+<h6>Example Configuration</h6>
+<p>For example, a <code>@polar/plugin-address-search</code> plugin can be configured like this:</p>
+<pre><code class="language-js">{
+  addressSearch: {
+    // Plugin-specific configuration
+    displayComponent: true, // Optional field to control UI elements
+    // ...
+  }
+}
+</code></pre>
 <h5>mapConfiguration.vuetify</h5>
 <p>These fields let you e.g. specify a <a href="https://vuetifyjs.com/en/features/theme/">Vuetify-Theme</a>. For more options, refer to the official vuetify documentation.</p>
 <p>Additionally to the regular fields, <code>primaryContrast</code> and <code>secondaryContrast</code> are interpreted. They serve as contrast colors to their respective fields and are used for e.g. button icons.</p>
