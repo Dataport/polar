@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add the option to configure a scale switcher.
+- Feature: Add the option to configure a scale switcher via the new configuration parameter `showScaleSwitcher`.
 
 ## 1.1.0
 
