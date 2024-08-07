@@ -3,7 +3,7 @@
  * @param scaleNumber - the scale to be beautified
  * @returns the scale in a beautified format (=rounded based on its value)
  */
-function beautifyScale(scaleNumber: number): number {
+function beautifyScale(scaleNumber: number) {
   if (scaleNumber > 10000) {
     scaleNumber = Math.round(scaleNumber / 500) * 500
   } else if (scaleNumber > 1000) {
