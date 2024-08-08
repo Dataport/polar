@@ -68,7 +68,7 @@ export default Vue.extend({
       },
     },
     showSelectOptions() {
-      return this.showScaleSwitcher && this.zoomOptions.length > 0
+      return this.showScaleSwitcher
     },
   },
   methods: {
@@ -76,9 +76,9 @@ export default Vue.extend({
     ...mapActions('plugin/zoom', ['setZoomLevel']),
     // TODO: Finding a different solution may be a task to be tackled in the future
     setZoomLevelByScale(index: number) {
-      if (!this.setZoomLevel) {
-        console.warn(
-          'Action "setZoomLevel" is not available. To use this feature, please add the "zoom" plugin.'
+      if (!this.$store._actions['plugin/zoom/setZoomLevel']) {
+        console.error(
+          'Action "setZoomLevel" is not available. To use this feature, please add the zoom plugin.'
         )
         return
       }
