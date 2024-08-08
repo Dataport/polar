@@ -15,13 +15,13 @@
       <option
         v-for="(option, i) in zoomOptions"
         :key="i"
-        :value="option"
+        :value="option.scale"
         class="scale-as-a-ratio"
       >
-        {{ i === 0 ? option : scaleNumberToScale(option.scale) }}
+        {{ scaleNumberToScale(option.scale) }}
       </option>
     </select>
-    <span class="scale-as-a-ratio">
+    <span v-else class="scale-as-a-ratio">
       {{ scaleToOne }}
     </span>
     <span class="scale-line">
@@ -55,11 +55,13 @@ export default Vue.extend({
     scale: {
       get() {
         const scaleToCompare = beautifyScale(this.scaleValue)
-        return this.zoomOptions[
-          this.zoomOptions.findIndex(
-            (s: { scale: number }) => s.scale === scaleToCompare
-          )
-        ]
+        const bestMatchingScale = this.zoomOptions.reduce((prev, curr) => {
+          return Math.abs(curr.scale - scaleToCompare) <
+            Math.abs(prev.scale - scaleToCompare)
+            ? curr
+            : prev
+        })
+        return bestMatchingScale.scale
       },
       set(value: number) {
         this.setScaleValue(value)
