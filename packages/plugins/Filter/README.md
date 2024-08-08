@@ -12,6 +12,8 @@ The Filter plugin can be used to filter arbitrary configurable vector layers by 
 | - | - | - |
 | layers | Record<string, filterConfiguration> | Maps layer id to filter configuration. |
 
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
+
 ```
 The following chapters contain drafts in this format. Please mind that they neither represent UI nor localisation, but are merely there to communicate the idea with an example.
 ```

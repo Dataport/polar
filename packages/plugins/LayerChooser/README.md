@@ -25,6 +25,8 @@ Each object in `mapConfiguration.layers` array fits this definition:
 | options | options? | Shows a layer-specific sub-menu; its contents are configurable. |
 | visibility | boolean? | Initial visibility. Defaults to `false`. |
 
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
+
 <details>
 <summary>Example configuration</summary>
 

@@ -33,7 +33,6 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
         removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
       }),
       Pins({
-        displayComponent: true,
         appearOnClick: { show: true, atZoomLevel: 0 },
         coordinateSource: 'plugin/addressSearch/chosenAddress',
         toastAction: 'plugin/toast/addToast',
