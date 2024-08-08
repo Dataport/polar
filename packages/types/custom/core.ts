@@ -37,11 +37,11 @@ export type RenderType = 'iconMenu' | 'independent' | 'footer'
 /** LoadingIndicator Module Configuration */
 export interface LoadingIndicatorConfiguration extends PluginOptions {
   loaderStyle?:
-    | 'Circle'
-    | 'Roller'
-    | 'Spinner'
-    | 'Ring'
-    | 'Default'
+    | 'CircleLoader'
+    | 'RollerLoader'
+    | 'SpinnerLoader'
+    | 'RingLoader'
+    | 'DefaultLoader'
     | 'v-progress-linear'
     | 'none'
 }

@@ -8,7 +8,10 @@ const getters: PolarGetterTree<LoadingIndicatorState, LoadingIndicatorGetters> =
     ...generateSimpleGetters(getInitialState()),
     showLoader: ({ loadKeys }) => true,
     loaderStyle(_, __, ___, rootGetters) {
-      return (rootGetters.configuration.loadingIndicator || {}).loaderStyle
+      return (
+        (rootGetters.configuration.loadingIndicator || {}).loaderStyle ||
+        'v-progress-linear'
+      )
     },
   }
 
