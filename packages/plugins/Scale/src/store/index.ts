@@ -83,8 +83,11 @@ export const makeStoreModule = () => {
         }
         return options
       },
-      showScaleSwitcher: (_, __, ___, rootGetters) => {
-        return rootGetters.configuration?.scale?.showScaleSwitcher
+      showScaleSwitcher: (_, getters, ___, rootGetters) => {
+        return (
+          rootGetters.configuration?.scale?.showScaleSwitcher &&
+          getters.zoomOptions.length > 0
+        )
       },
     },
   }
