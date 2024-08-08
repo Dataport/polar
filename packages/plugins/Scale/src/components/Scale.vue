@@ -55,12 +55,11 @@ export default Vue.extend({
     scale: {
       get() {
         const scaleToCompare = beautifyScale(this.scaleValue)
-        return (
-          this.zoomOptions[
-            this.zoomOptions.findIndex(
-              (s: { scale: number }) => s.scale === scaleToCompare
-            )
-          ] || this.zoomOptions[0]
+        return this.zoomOptions[
+          this.zoomOptions.findIndex(
+            (s: { scale: number }) => s.scale === scaleToCompare
+          )
+        ]
         )
       },
       set(value: number) {
