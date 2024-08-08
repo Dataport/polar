@@ -3,6 +3,7 @@ import { Interaction, Select } from 'ol/interaction'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import GeoJSON from 'ol/format/GeoJSON'
 import { Circle, Point } from 'ol/geom'
+import { Style, Stroke, Fill } from 'ol/style'
 import createDrawLayer from '../utils/createDrawLayer'
 import { DrawGetters, DrawState } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
@@ -19,11 +20,20 @@ export const makeActions = () => {
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
     createModifyInteractions,
-    setupModule({ commit, dispatch, rootGetters: { configuration, map } }) {
+    setupModule({
+      commit,
+      dispatch,
+      rootGetters: { configuration, map },
+      getters: { enableOptions },
+    }) {
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
         commit('updateFeatures')
       )
       drawLayer = createDrawLayer(drawSource, configuration?.draw?.style)
+      if (configuration?.draw?.enableOptions) {
+        // commit('setEnableOptions', configuration.draw.enableOptions)
+        // console.error(enableOptions)
+      }
 
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
@@ -76,6 +86,25 @@ export const makeActions = () => {
         )
         commit('updateFeatures')
       }
+    },
+    setStrokeColor(
+      { commit, getters: { mode }, rootGetters: { map } },
+      selectedStrokeColor
+    ) {
+      commit('setStrokeColor', selectedStrokeColor)
+
+      // if (mode === 'draw') {
+      //   const layers = map.getLayers().getArray()
+      //   const drawLayer = layers.find(
+      //     (layer) => layer.get('name') === 'drawLayer'
+      //   )
+
+      //   if (drawLayer) {
+      //     const style = drawLayer.getStyle()
+      //     style.getStroke().setColor(selectedStrokeColor)
+      //     drawLayer.setStyle(style)
+      //   }
+      // }
     },
     async updateInteractions({
       commit,

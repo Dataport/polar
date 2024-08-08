@@ -5,6 +5,7 @@ import {
 import { Feature } from 'geojson'
 import { PolarModule } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
+import { Style, Stroke } from 'ol/style'
 import { DrawGetters, DrawMutations, DrawState } from '../types'
 import { makeActions } from './actions'
 
@@ -18,6 +19,8 @@ const getInitialState = (): DrawState => ({
     features: [],
   },
   selectedFeature: 1,
+  enableOptions: true,
+  selectedStrokeColor: '#2083F3',
 })
 
 // OK for module creation
@@ -108,6 +111,17 @@ export const makeStoreModule = () => {
     mutations: {
       ...generateSimpleMutations(getInitialState()),
       updateFeatures(state) {
+        // TODO: Too much recursion error
+        // const lastFeature =
+        //   drawSource.getFeatures()[drawSource.getFeatures().length - 1]
+        // const selectedStrokeStyle = new Style({
+        //   stroke: new Stroke({
+        //     color: state.selectedStrokeColor,
+        //   }),
+        // })
+        // lastFeature.setStyle(selectedStrokeStyle)
+        // console.error('update Features', state.selectedStrokeColor, lastFeature)
+
         const features = drawSource.getFeatures().map((feature) => {
           const geometry = feature.getGeometry()
           const type = geometry.getType()
@@ -124,11 +138,13 @@ export const makeStoreModule = () => {
                 : geometry.getCoordinates(),
             },
           }
+
           // NOTE: If one is checking if properties exists (which it clearly does), TS complains
           // "TS2531: Object is possibly 'null'.". This is due to the structure of the type GeoJsonProperties.
           if (isCircle && jsonFeature.properties) {
             jsonFeature.properties.radius = geometry.getRadius()
           }
+          console.error(jsonFeature)
           return jsonFeature
         })
         state.featureCollection = { ...state.featureCollection, features }
@@ -136,6 +152,9 @@ export const makeStoreModule = () => {
       setSelectedFeature: (state, payload) => {
         selectedFeature = payload
         state.selectedFeature = state.selectedFeature + 1
+      },
+      setStrokeColor: (state, payload) => {
+        state.selectedStrokeColor = payload
       },
     } as DrawMutations,
   }

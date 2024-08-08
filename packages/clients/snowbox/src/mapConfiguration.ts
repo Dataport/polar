@@ -85,6 +85,7 @@ export const mapConfiguration = {
   },
   draw: {
     selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
+    enableOptions: true,
     textStyle: {
       font: {
         size: [10, 20, 30],

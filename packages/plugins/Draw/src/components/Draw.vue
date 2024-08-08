@@ -16,6 +16,24 @@
         :values="selectableDrawModes"
         :change-callback="setDrawMode"
       ></RadioCard>
+      <v-btn
+        v-if="enableOptions && mode === 'draw'"
+        class="mb-2"
+        color="primary"
+        @click="toggleColorPicker"
+      >
+        {{
+          isColorPickerVisible
+            ? $t('common:plugins.draw.label.hideColorPicker')
+            : $t('common:plugins.draw.label.showColorPicker')
+        }}
+      </v-btn>
+      <v-color-picker
+        v-if="enableOptions && mode === 'draw' && isColorPickerVisible"
+        id="color-picker"
+        v-model="strokeColor"
+      ></v-color-picker>
+      <span>{{ strokeColor }}</span>
       <v-subheader v-if="showSizeSlider" class="align-end">{{
         $t('common:plugins.draw.label.textSize')
       }}</v-subheader>
@@ -52,11 +70,18 @@ export default Vue.extend({
   components: {
     RadioCard,
   },
+  data() {
+    return {
+      strokeColor: '#2083F3',
+      isColorPickerVisible: false, // Neuer Zustand für die Sichtbarkeit des Color Pickers
+    }
+  },
   computed: {
     ...mapGetters(['hasSmallHeight', 'hasWindowSize']),
     ...mapGetters('plugin/draw', [
       'mode',
       'drawMode',
+      'enableOptions',
       'selectableDrawModes',
       'selectableModes',
       'textInput',
@@ -71,13 +96,22 @@ export default Vue.extend({
       }`
     },
   },
+  watch: {
+    strokeColor(newStrokeColor) {
+      this.setStrokeColor(newStrokeColor)
+    },
+  },
   methods: {
     ...mapActions('plugin/draw', [
       'setMode',
       'setDrawMode',
       'setTextInput',
       'setSelectedSize',
+      'setStrokeColor',
     ]),
+    toggleColorPicker() {
+      this.isColorPickerVisible = !this.isColorPickerVisible // Umschalten der Sichtbarkeit des Color Pickers
+    },
   },
 })
 </script>
@@ -96,5 +130,9 @@ export default Vue.extend({
 
 .align-end {
   height: 32px;
+}
+
+.mb-2 {
+  margin-bottom: 16px;
 }
 </style>

@@ -24,6 +24,7 @@ export default function (source, style?: DrawStyle) {
         fill: new Fill({ color: circle.fillColor }),
       }),
     })
+    options.name = "drawLayer"
   }
   return new VectorLayer(options)
 }

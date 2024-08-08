@@ -26,6 +26,8 @@ const language: LanguageOption[] = [
           },
           label: {
             textSize: 'Textgröße (px) wählen:',
+            showColorPicker: 'Color Picker öffnen',
+            hideColorPicker: 'Color Picker schließen',
           },
         },
       },
