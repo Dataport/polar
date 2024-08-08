@@ -72,13 +72,16 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapMutations({
-      setScaleValue: 'plugin/scale/setScaleValue',
-    }),
-    ...mapActions({
-      setZoomLevel: 'plugin/zoom/setZoomLevel',
-    }),
+    ...mapMutations('plugin/scale', ['setScaleValue']),
+    ...mapActions('plugin/zoom', ['setZoomLevel']),
+    // TODO: Finding a different solution may be a task to be tackled in the future
     setZoomLevelByScale(index: number) {
+      if (!this.setZoomLevel) {
+        console.warn(
+          'Action "setZoomLevel" is not available. To use this feature, please add the "zoom" plugin.'
+        )
+        return
+      }
       this.setZoomLevel(this.zoomOptions[index].zoomLevel)
     },
   },
