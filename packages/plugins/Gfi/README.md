@@ -25,6 +25,39 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
+<details>
+<summary>Example configuration</summary>
+
+```js
+    gfi: {
+    mode: 'bboxDot',
+    activeLayerPath: 'plugin/layerChooser/activeMaskIds',
+    layers: {
+      [denkmaelerWFS]: {
+        geometry: true,
+        window: true,
+        maxFeatures: 10,
+        geometryName: 'app:geometry',
+        exportProperty: 'Export',
+      },
+    },
+    coordinateSources: [
+      'plugin/pins/transformedCoordinate',
+      'plugin/pins/coordinatesAfterDrag',
+    ],
+    customHighlightStyle: {
+      stroke: {
+        color: '#FFFF00',
+        width: 3,
+      },
+      fill: {
+        color: 'rgb(255, 255, 255, 0.7)',
+      },
+    },
+  },
+```
+</details>
+
 ##### gfi.gfiLayerConfiguration
 
 | fieldName | type | description |
@@ -50,6 +83,19 @@ Additionally, if using a WMS service, the following properties can be configured
 | fill | ol/style/Fill? | Object for defining the fill style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Fill-Fill.html) for full options. |
 | stroke | ol/style/Stroke? | Object for defining the stroke style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Stroke-Stroke.html) for full options. |
 
+Example configuration:
+```js
+    customHighlightStyle: {
+      stroke: {
+        color: '#FFFF00',
+        width: 3,
+      },
+      fill: {
+        color: 'rgb(255, 255, 255, 0.7)',
+      },
+    },
+```
+
 ##### gfi.featureList
 
 | fieldName | type | description |
@@ -59,32 +105,14 @@ Additionally, if using a WMS service, the following properties can be configured
 | pageLength | number? | A number >0 that sets the limit to the feature list's length. If the length is surpassed, additional features can be reached by using the pagination that is generated in such a case. If not defined, the list can be of arbitrary length. |
 | text | (function \| string)[]? | Array of one to three entries that will produce title, subtitle, and an additional subtitle for the list view. If string, the text item will simply be that feature's value for the denoted property. If function, it's assumed to match the function signature `(feature: OpenLayersFeature): string`, and the returned string will be used for the text item. |
 
-#### Example configuration
-
+Example configuration:
 ```js
-layers: {
-  [serviceId]: {
-    geometry: true,
-    window: false,
-    properties: {
-      keyInService: 'Display Label'
-    } // or ['keyInService'], in which case 'keyInService' is also the actual label
-  },
-},
-coordinateSources: [
-  // use coordinates from pins plugin, that is, resolve GFI to pin position
-  'plugin/pins/transformedCoordinate',
-  'plugin/pins/coordinatesAfterDrag'
-],
-customHighlightStyle: {
-  stroke: {
-    color: '#FFFF00',
-    width: 3,
-  },
-  fill: {
-    color: 'rgb(255, 255, 255, 0.7)',
-  },
-},
+featureList: {
+  mode: visible,
+  bindWithCoreHoverSelect: true,
+  pageLength: 5,
+  text: ["Naturschutzgebiete in Brandenburg"]
+}
 ```
 
 ## Store
