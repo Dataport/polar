@@ -60,7 +60,6 @@ export default Vue.extend({
             (s: { scale: number }) => s.scale === scaleToCompare
           )
         ]
-        )
       },
       set(value: number) {
         this.setScaleValue(value)
