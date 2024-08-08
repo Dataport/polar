@@ -34,16 +34,19 @@ export interface PluginOptions {
 
 export type RenderType = 'iconMenu' | 'independent' | 'footer'
 
+export enum loaderStyles {
+  CircleLoader,
+  RollerLoader ,
+  SpinnerLoader,
+  RingLoader ,
+  DefaultLoader ,
+  'v-progress-linear',
+  none
+}
+
 /** LoadingIndicator Module Configuration */
 export interface LoadingIndicatorConfiguration extends PluginOptions {
-  loaderStyle?:
-    | 'CircleLoader'
-    | 'RollerLoader'
-    | 'SpinnerLoader'
-    | 'RingLoader'
-    | 'DefaultLoader'
-    | 'v-progress-linear'
-    | 'none'
+  loaderStyle?: loaderStyles
 }
 
 /** Possible search methods by type */

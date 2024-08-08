@@ -6,13 +6,7 @@ import { getInitialState } from './state'
 const getters: PolarGetterTree<LoadingIndicatorState, LoadingIndicatorGetters> =
   {
     ...generateSimpleGetters(getInitialState()),
-    showLoader: ({ loadKeys }) => true,
-    loaderStyle(_, __, ___, rootGetters) {
-      return (
-        (rootGetters.configuration.loadingIndicator || {}).loaderStyle ||
-        'v-progress-linear'
-      )
-    },
+    showLoader: ({ loadKeys }) => loadKeys.size > 0,
   }
 
 export default getters
