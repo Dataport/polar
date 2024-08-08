@@ -10,4 +10,4 @@ The scale plugin shows the current map resolution as relative scale (1:x) and/or
 
 | fieldName | type | description |
 | - | - | - |
-| showScaleSwitcher | boolean? | If set to `true`, a button to switch to a specific scale will be rendered. Defaults to `false`. Requires the configuration parameter `options` set in the `mapConfiguration`, see `<...masterportalAPI.fields>` in the `@polar/core` package documentation for more information.
+| showScaleSwitcher | boolean? | If set to `true`, a button to switch to a specific scale will be rendered. Defaults to `false`. Requires the configuration parameter `options` set in the `mapConfiguration`, see `<...masterportalAPI.fields>` in the `@polar/core` package documentation for more information. Needs the Zoom Plugin to work, so make sure that it is added in addPlugins
