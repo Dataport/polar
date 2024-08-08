@@ -1,6 +1,4 @@
-import {
-  LoadingIndicatorConfiguration,
-} from '@polar/lib-custom-types'
+import { LoadingIndicatorConfiguration } from '@polar/lib-custom-types'
 import { Mutation, MutationTree } from 'vuex'
 
 export interface LoadingIndicatorState {
@@ -13,7 +11,8 @@ export interface LoadingIndicatorGetters {
   loaderStyle: LoadingIndicatorConfiguration['loaderStyle']
 }
 
-export interface LoadingIndicatorMutations extends MutationTree<LoadingIndicatorState> {
+export interface LoadingIndicatorMutations
+  extends MutationTree<LoadingIndicatorState> {
   setLoaderStyle: Mutation<LoadingIndicatorState>
   addLoadingKey: Mutation<LoadingIndicatorState>
   removeLoadingKey: Mutation<LoadingIndicatorState>

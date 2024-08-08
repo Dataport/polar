@@ -107,7 +107,10 @@ export default Vue.extend({
   left: 62.29579px;
 }
 @keyframes lds-default {
-  0%, 20%, 80%, 100% {
+  0%,
+  20%,
+  80%,
+  100% {
     transform: scale(1);
   }
   50% {
