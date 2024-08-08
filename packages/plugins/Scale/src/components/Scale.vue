@@ -45,7 +45,6 @@ export default Vue.extend({
       scaleValue: 'plugin/scale/scaleValue',
       scaleWithUnit: 'plugin/scale/scaleWithUnit',
       showScaleSwitcher: 'plugin/scale/showScaleSwitcher',
-      getMapView: 'map/getMapView',
     }),
     scaleNumberToScale() {
       return (scale: number) => {
