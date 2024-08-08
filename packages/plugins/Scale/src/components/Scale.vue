@@ -39,13 +39,13 @@ import beautifyScale from '../utils/beautifyScale'
 export default Vue.extend({
   name: 'PolarScale',
   computed: {
-    ...mapGetters({
-      zoomOptions: 'plugin/scale/zoomOptions',
-      scaleToOne: 'plugin/scale/scaleToOne',
-      scaleValue: 'plugin/scale/scaleValue',
-      scaleWithUnit: 'plugin/scale/scaleWithUnit',
-      showScaleSwitcher: 'plugin/scale/showScaleSwitcher',
-    }),
+    ...mapGetters('plugin/scale', [
+      'scaleToOne',
+      'scaleValue',
+      'scaleWithUnit',
+      'showScaleSwitcher',
+      'zoomOptions',
+    ]),
     scaleNumberToScale() {
       return (scale: number) => {
         return '1 : ' + thousandsSeparator(scale)
