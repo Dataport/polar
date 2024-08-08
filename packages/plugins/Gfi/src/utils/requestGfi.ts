@@ -1,6 +1,6 @@
 import { Feature as GeoJsonFeature } from 'geojson'
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer'
-import { getLayerWhere } from '@masterportal/masterportalapi/src/rawLayerList'
+import { rawLayerList } from '@masterportal/masterportalapi'
 
 import { RequestGfiParameters } from '../types'
 
@@ -30,7 +30,9 @@ export function requestGfi({
     if (layer instanceof TileLayer) {
       return requestGfiWms({ ...params, layer })
     }
-    if (getLayerWhere({ id: layer.get('id') })?.typ === 'GeoJSON') {
+    if (
+      rawLayerList.getLayerWhere({ id: layer.get('id') })?.typ === 'GeoJSON'
+    ) {
       return requestGfiGeoJson({ ...params, layer })
     }
     if (layer instanceof VectorLayer) {

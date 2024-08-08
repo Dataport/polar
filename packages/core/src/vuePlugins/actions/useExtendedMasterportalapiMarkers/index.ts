@@ -9,7 +9,6 @@ import {
 import RenderFeature from 'ol/render/Feature'
 import { isVisible } from '@polar/lib-invisible-style'
 import VectorLayer from 'ol/layer/Vector'
-import VectorSource from 'ol/source/Vector'
 import BaseLayer from 'ol/layer/Base'
 import getCluster from '@polar/lib-get-cluster'
 import { getHoveredStyle, getSelectedStyle } from '../../../utils/markers'
@@ -94,7 +93,7 @@ export function useExtendedMasterportalapiMarkers(
     .filter(layerFilter)
     .forEach((layer) => {
       // only vector layers reach this
-      const source = (layer as VectorLayer<VectorSource>).getSource()
+      const source = (layer as VectorLayer<Feature>).getSource()
       if (source !== null) {
         // @ts-expect-error | Undocumented hook.
         source.geometryFunction =

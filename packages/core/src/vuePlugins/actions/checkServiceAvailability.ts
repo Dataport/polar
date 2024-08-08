@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { ping } from '@masterportal/masterportalapi/src'
+import { ping } from '@masterportal/masterportalapi'
 import {
   CoreGetters,
   CoreState,
