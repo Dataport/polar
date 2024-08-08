@@ -19,7 +19,10 @@ export const makeStoreModule = () => {
     getters,
     actions: {
       setupModule({ rootGetters, getters, commit }) {
-        commit('setLoaderStyle', (rootGetters.configuration.loadingIndicator || {}).loaderStyle)
+        commit(
+          'setLoaderStyle',
+          (rootGetters.configuration.loadingIndicator || {}).loaderStyle
+        )
       }
     },
   }

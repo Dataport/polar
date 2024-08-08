@@ -6,10 +6,14 @@ import { LoadingIndicatorMutations } from '../types'
 const mutations = {
   ...generateSimpleMutations(getInitialState()),
   setLoaderStyle(state, style: string) {
-    if (style && loaderStyles.hasOwnProperty(style)) {
-      state.loaderStyle = style
-    } else {
-      console.error(`@polar/LoadingIndicator: loader style ${style} does not exist. Falling back to default.`)
+    if (style) {
+      if (loaderStyles.hasOwnProperty(style)) {
+        state.loaderStyle = style
+      } else {
+        console.error(
+          `@polar/LoadingIndicator: loader style ${style} does not exist. Falling back to default.`
+        )
+      }
     }
   },
   addLoadingKey(state, key: string) {
