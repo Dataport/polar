@@ -75,7 +75,7 @@ export default Vue.extend({
     ...mapActions('plugin/zoom', ['setZoomLevel']),
     // TODO: Finding a different solution may be a task to be tackled in the future
     setZoomLevelByScale(index: number) {
-      if (!this.$store._actions['plugin/zoom/setZoomLevel']) {
+      if (!this.$store.hasModule(['plugin', 'zoom'])) {
         console.error(
           'Action "setZoomLevel" is not available. To use this feature, please add the zoom plugin.'
         )
