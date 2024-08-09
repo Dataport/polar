@@ -431,7 +431,7 @@ export type ToastTypeStyles = {
 /** configuration for toast type styles */
 export type ToastConfiguration = PluginOptions & ToastTypeStyles
 
-export interface ScaleConfiguration {
+export interface ScaleConfiguration extends PluginOptions {
   showScaleSwitcher?: boolean
 }
 
