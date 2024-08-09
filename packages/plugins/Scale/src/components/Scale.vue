@@ -38,6 +38,11 @@ import beautifyScale from '../utils/beautifyScale'
 
 export default Vue.extend({
   name: 'PolarScale',
+  data() {
+    return {
+      zoomPluginAvailable: false,
+    }
+  },
   computed: {
     ...mapGetters('plugin/scale', [
       'scaleToOne',
@@ -67,21 +72,20 @@ export default Vue.extend({
       },
     },
     showSelectOptions() {
-      return this.showScaleSwitcher
+      return this.showScaleSwitcher && this.zoomPluginAvailable
     },
+  },
+  mounted() {
+    this.checkForZoomPlugin()
   },
   methods: {
     ...mapMutations('plugin/scale', ['setScaleValue']),
     ...mapActions('plugin/zoom', ['setZoomLevel']),
-    // TODO: Finding a different solution may be a task to be tackled in the future
     setZoomLevelByScale(index: number) {
-      if (!this.$store.hasModule(['plugin', 'zoom'])) {
-        console.error(
-          '@polar/plugin-scale: "@polar/plugin-zoom" not available. Please install and configure the plugin to be able to use the scale switcher.'
-        )
-        return
-      }
       this.setZoomLevel(this.zoomOptions[index].zoomLevel)
+    },
+    checkForZoomPlugin() {
+      this.zoomPluginAvailable = this.$store.hasModule(['plugin', 'zoom'])
     },
   },
 })
