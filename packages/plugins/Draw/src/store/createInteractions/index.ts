@@ -1,14 +1,14 @@
-import { Draw, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 import createDeleteInteractions from './createDeleteInteractions'
 import createTextInteractions from './createTextInteractions'
+import createDrawInteractions from './createDrawInteractions'
 
 export default function (
   {
     dispatch,
-    getters: { drawMode, mode, textInput, textSize },
+    getters: { drawMode, mode, textInput, textSize, selectedStrokeColor },
     rootGetters: { configuration },
   }: PolarActionContext<DrawState, DrawGetters>,
   { drawSource, drawLayer }: CreateInteractionsPayload
@@ -22,10 +22,12 @@ export default function (
         configuration.draw
       )
     }
-    return [
-      new Draw({ source: drawSource, type: drawMode }),
-      new Snap({ source: drawSource }),
-    ]
+    return createDrawInteractions(
+      selectedStrokeColor,
+      drawSource,
+      drawMode,
+      configuration.draw
+    )
   } else if (mode === 'edit') {
     return dispatch('createModifyInteractions', { drawSource, drawLayer })
   } else if (mode === 'delete') {

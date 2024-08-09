@@ -18,6 +18,7 @@ const getInitialState = (): DrawState => ({
     features: [],
   },
   selectedFeature: 1,
+  selectedStrokeColor: '#000000',
 })
 
 // OK for module creation

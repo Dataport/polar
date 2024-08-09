@@ -16,6 +16,24 @@
         :values="selectableDrawModes"
         :change-callback="setDrawMode"
       ></RadioCard>
+      <v-btn
+        v-if="mode === 'draw'"
+        class="mb-2"
+        color="primary"
+        @click="toggleColorPicker"
+      >
+        {{
+          isColorPickerVisible
+            ? $t('common:plugins.draw.label.hideColorPicker')
+            : $t('common:plugins.draw.label.showColorPicker')
+        }}
+      </v-btn>
+      <v-color-picker
+        v-if="mode === 'draw' && isColorPickerVisible"
+        id="color-picker"
+        :value="selectedStrokeColor"
+        @input="setSelectedStrokeColor"
+      ></v-color-picker>
       <v-subheader v-if="showSizeSlider" class="align-end">{{
         $t('common:plugins.draw.label.textSize')
       }}</v-subheader>
@@ -44,13 +62,18 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import RadioCard from './RadioCard.vue'
 
 export default Vue.extend({
   name: 'PolarDraw',
   components: {
     RadioCard,
+  },
+  data() {
+    return {
+      isColorPickerVisible: false, // Neuer Zustand für die Sichtbarkeit des Color Pickers
+    }
   },
   computed: {
     ...mapGetters(['hasSmallHeight', 'hasWindowSize']),
@@ -64,6 +87,7 @@ export default Vue.extend({
       'selectedSize',
       'fontSizes',
       'showSizeSlider',
+      'selectedStrokeColor',
     ]),
     flexStyle(): string {
       return `flex-direction: ${
@@ -77,7 +101,11 @@ export default Vue.extend({
       'setDrawMode',
       'setTextInput',
       'setSelectedSize',
+      'setSelectedStrokeColor',
     ]),
+    toggleColorPicker() {
+      this.isColorPickerVisible = !this.isColorPickerVisible // Umschalten der Sichtbarkeit des Color Pickers
+    },
   },
 })
 </script>

@@ -25,6 +25,7 @@ export interface DrawState {
   mode: Mode
   drawMode: DrawMode
   textInput: string
+  selectedStrokeColor: string
   /* index in array of available sizes */
   selectedSize: number
   featureCollection: FeatureCollection
@@ -35,6 +36,7 @@ export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
   selectableDrawModes: DrawMode[]
   selectedFeature: Feature
   selectableModes: Mode[]
+  selectedStrokeColor: string
   showTextInput: boolean
   configuration: DrawConfiguration
   fontSizes: number[]

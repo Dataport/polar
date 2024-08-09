@@ -3,6 +3,7 @@ import { Interaction, Select } from 'ol/interaction'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import GeoJSON from 'ol/format/GeoJSON'
 import { Circle, Point } from 'ol/geom'
+import { Circle as CircleStyle, Fill, Style, Stroke } from 'ol/style'
 import createDrawLayer from '../utils/createDrawLayer'
 import { DrawGetters, DrawState } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
@@ -20,9 +21,9 @@ export const makeActions = () => {
     createInteractions,
     createModifyInteractions,
     setupModule({ commit, dispatch, rootGetters: { configuration, map } }) {
-      drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
+      drawSource.on(['addfeature', 'changefeature', 'removefeature'], () => {
         commit('updateFeatures')
-      )
+      })
       drawLayer = createDrawLayer(drawSource, configuration?.draw?.style)
 
       map.addLayer(drawLayer)
@@ -55,6 +56,10 @@ export const makeActions = () => {
         selectedFeature.set('text', textInput)
         commit('updateFeatures')
       }
+    },
+    setSelectedStrokeColor({ commit, dispatch }, selectedStrokeColor) {
+      commit('setSelectedStrokeColor', selectedStrokeColor)
+      dispatch('updateInteractions')
     },
     setSelectedSize(
       {
@@ -135,6 +140,27 @@ export const makeActions = () => {
       drawSource.addFeatures(features)
       commit('updateFeatures')
     },
+    // setFeatureStrokeColor({
+    //   commit,
+    //   getters: { lastChangedFeature, selectedStrokeColor },
+    // }) {
+    //   if (!lastChangedFeature) {
+    //     return
+    //   }
+    //   if (lastChangedFeature.getStyle()) {
+    //     lastChangedFeature.getStyle().getStroke().setColor(selectedStrokeColor)
+    //   } else {
+    //     lastChangedFeature.setStyle(
+    //       new Style({
+    //         stroke: new Stroke({
+    //           color: selectedStrokeColor,
+    //           width: 1,
+    //         }),
+    //       })
+    //     )
+    //     commit('updateFeatures')
+    //   }
+    // },
   }
 
   return { actions, drawSource }
