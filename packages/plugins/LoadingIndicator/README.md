@@ -8,6 +8,12 @@ A generic loading indicator that may be used by any plugin or outside procedure 
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
+### LoadingIndicator
+
+| fieldName  | type | description |
+| - | - | - |
+| loaderStyle | string? | Choose between different loader styles. Defaults to 'v-progress-linear' (Vuetify loader). Possible values are 'CircleLoader', 'RollerLoader', 'SpinnerLoader', 'RingLoader', 'DefaultLoader' and 'none'  |
+
 ## Store
 
 ### Mutations
@@ -17,6 +23,8 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 map.$store.commit('plugin/loadingIndicator/addLoadingKey', key)
 // hide loading indicator
 map.$store.commit('plugin/loadingIndicator/removeLoadingKey', key)
+// change loader style at runtime
+map.$store.commit('plugin/loadingIndicator/setLoaderStyle', loaderStyle)
 ```
 
 ![Loading indicator example](./readme_loadingIndicator_example.png)
@@ -32,6 +40,7 @@ You may desire to listen to whether the loader is currently being shown.
 | fieldName | type | description |
 | - | - | - |
 | showLoader | boolean | Whether the layer is currently shown. |
+| loaderStyle | string | The current loader style. |
 
 ```js
 mapInstance.$store.watch(

@@ -34,6 +34,21 @@ export interface PluginOptions {
 
 export type RenderType = 'iconMenu' | 'independent' | 'footer'
 
+export enum LoaderStyles {
+  circleLoader = 'CircleLoader',
+  rollerLoader = 'RollerLoader',
+  spinnerLoader = 'SpinnerLoader',
+  ringLoader = 'RingLoader',
+  defaultLoader = 'DefaultLoader',
+  vProgressLinear = 'v-progress-linear',
+  none = 'none',
+}
+
+/** LoadingIndicator Module Configuration */
+export interface LoadingIndicatorConfiguration extends PluginOptions {
+  loaderStyle?: LoaderStyles
+}
+
 /** Possible search methods by type */
 export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi' | string
 
@@ -582,6 +597,7 @@ export interface MapConfig {
   startResolution?: number
   vuetify?: UserVuetifyPreset
   addressSearch?: AddressSearchConfiguration
+  loadingIndicator?: LoadingIndicatorConfiguration
   attributions?: AttributionsConfiguration
   draw?: DrawConfiguration
   export?: ExportConfiguration
