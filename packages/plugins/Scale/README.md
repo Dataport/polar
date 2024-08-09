@@ -12,4 +12,4 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 
 | fieldName | type | description |
 | - | - | - |
-| showScaleSwitcher | boolean? | If set to `true`, a button to switch to a specific scale will be rendered. Defaults to `false`. Requires the configuration parameter `options` set in the `mapConfiguration`, see `<...masterportalAPI.fields>` in the `@polar/core` package documentation for more information. Needs the Zoom Plugin to work, so make sure that it is added in addPlugins
+| showScaleSwitcher | boolean? | If set to `true`, a button to switch to a specific scale will be rendered. Defaults to `false`. Requires the configuration parameter `options` set in the `mapConfiguration`, see `<...masterportalAPI.fields>` in the `@polar/core` package documentation for more information. Also requires the `@polar/plugin-zoom` to be installed and used. |
