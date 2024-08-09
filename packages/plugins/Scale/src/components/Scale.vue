@@ -77,7 +77,7 @@ export default Vue.extend({
     setZoomLevelByScale(index: number) {
       if (!this.$store.hasModule(['plugin', 'zoom'])) {
         console.error(
-          'Action "setZoomLevel" is not available. To use this feature, please add the zoom plugin.'
+          '@polar/plugin-scale: "@polar/plugin-zoom" not available. Please install and configure the plugin to be able to use the scale switcher.'
         )
         return
       }
