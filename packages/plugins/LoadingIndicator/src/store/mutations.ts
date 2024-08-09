@@ -1,13 +1,13 @@
 import { generateSimpleMutations } from '@repositoryname/vuex-generators'
-import { loaderStyles } from '@polar/lib-custom-types'
+import { LoaderStyles } from '@polar/lib-custom-types'
 import { LoadingIndicatorMutations } from '../types'
 import { getInitialState } from './state'
 
 const mutations = {
   ...generateSimpleMutations(getInitialState()),
-  setLoaderStyle(state, style: string) {
+  setLoaderStyle(state, style: LoaderStyles) {
     if (style) {
-      if (Object.prototype.hasOwnProperty.call(loaderStyles, style)) {
+      if (Object.values(LoaderStyles).includes(style)) {
         state.loaderStyle = style
       } else {
         console.error(
