@@ -42,46 +42,46 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
   <summary>Example configuration</summary>
 
 ```js
-  addressSearch: {
-    searchMethods: [
-      {
-        groupId: 'groupAdressSearch',
-        categoryId: 'categoryAddressSearchAutocomplete',
-        type: 'autocomplete',
-        url: 'example.com',
-      },
-      {
-        queryParameters: {
-          filter: {
-            bundesland: 'Schleswig-Holstein',
-          },
+addressSearch: {
+  searchMethods: [
+    {
+      groupId: 'groupAdressSearch',
+      categoryId: 'categoryAddressSearchAutocomplete',
+      type: 'autocomplete',
+      url: 'example.com',
+    },
+    {
+      queryParameters: {
+        filter: {
+          bundesland: 'Schleswig-Holstein',
         },
-        type: 'bkg',
-        url: '',
       },
-    ],
-    groupProperties: {
-      groupAdressSearch: {
-        label: 'Adresssuche',
-        hint: 'Geben Sie eine Adresse ein',
-        resultDisplayMode: 'categorized',
-        limitResults: 3,
-      },
-      defaultGroup: {
-        limitResults: 5,
-      },
+      type: 'bkg',
+      url: '',
     },
-    focusAfterSearch: true,
-    categoryProperties: {
-      categoryAddressSearchAutocomplete: {
-        label: 'Adresssuche Stichworte',
-      },
+  ],
+  groupProperties: {
+    groupAdressSearch: {
+      label: 'Adresssuche',
+      hint: 'Geben Sie eine Adresse ein',
+      resultDisplayMode: 'categorized',
+      limitResults: 3,
     },
-    minLength: 3,
-    waitMs: 300,
-    addLoading: 'plugin/loadingIndicator/addLoadingKey',
-    removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+    defaultGroup: {
+      limitResults: 5,
+    },
   },
+  focusAfterSearch: true,
+  categoryProperties: {
+    categoryAddressSearchAutocomplete: {
+      label: 'Adresssuche Stichworte',
+    },
+  },
+  minLength: 3,
+  waitMs: 300,
+  addLoading: 'plugin/loadingIndicator/addLoadingKey',
+  removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+},
 ```
 </details>
 
@@ -101,21 +101,21 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 Example configuration:
   ```js
  searchMethods: [
-      {
-        groupId: 'groupAdressSearch',
-        categoryId: 'categoryAddressSearchAutocomplete',
-        type: 'autocomplete',
-        url: 'example.com',
-        hint: 'Eingabe von z.B. Strasse oder Adresse',
-        label: 'Strassensuche',
-        placeholder: 'Strassenname',
-        queryParameters: {
-          filter: {
-            bundesland: 'Schleswig-Holstein',
-          },
-        },
+  {
+    groupId: 'groupAdressSearch',
+    categoryId: 'categoryAddressSearch',
+    type: 'bkg'
+    url: 'example.com',
+    hint: 'Eingabe von z.B. Strasse oder Adresse',
+    label: 'Strassensuche',
+    placeholder: 'Strassenname',
+    queryParameters: {
+      filter: {
+        bundesland: 'Schleswig-Holstein',
       },
-    ],
+    },
+  },
+],
   ```
 
 #### addressSearch.customSearchMethod
@@ -165,19 +165,19 @@ With this, arbitrary click results can be supported. Please mind that undocument
 | placeholder | string? | Placeholder string to display on input element. Can be a locale key. |
 
 Example configuration:
-  ```js
-     groupProperties: {
-      groupAdressSearch: {
-        label: 'Strassensuche',
-        hint: 'Geben Sie einen Strassennamen ein',
-        resultDisplayMode: 'categorized',
-        limitResults: 3,
-      },
-      defaultGroup: {
-        limitResults: 5,
-      },
-    },
-  ```
+```js
+groupProperties: {
+  groupAdressSearch: {
+    label: 'Strassensuche',
+    hint: 'Geben Sie einen Strassennamen ein',
+    resultDisplayMode: 'categorized',
+    limitResults: 3,
+  },
+  defaultGroup: {
+    limitResults: 5,
+  },
+}
+```
 
 #### addressSearch.categoryProperties
 
@@ -187,11 +187,11 @@ Example configuration:
 
 Example configuration:
 ```js
-   categoryProperties: {
-     categoryAddressSearchAutocomplete: {
-       label: 'Adresssuche Treffer',
-     },
-   },
+categoryProperties: {
+  categoryAddressSearchAutocomplete: {
+    label: 'Adresssuche Treffer',
+  },
+}
 ```
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:common)
@@ -204,9 +204,9 @@ These fields are interpreted by all implemented services.
 
 Example configuration:
 ```js
-   queryParameters: {
-     maxFeatures: 120,
-   },
+queryParameters: {
+  maxFeatures: 120,
+},
 ```
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:wfs)
@@ -230,20 +230,15 @@ Configuration examples for the likeFilterAttributes parameter:
 - WFS 1.0.0 `{wildCard: "*", singleChar: "*", escape: "\"}`
 
 ```js
-   queryParameters: {
-     wfsConfiguration: {
-       id: addressWFS,
-       srsName: 'EPSG:25832',
-       typeName: 'address_shp',
-       fieldName: 'objektid',
-       featurePrefix: 'app',
-       xmlns: 'http://www.deegree.org/app',
-     },
-     maxFeatures: 120,
-     searchKey: 'volltext',
-     addRightHandWildcard: true,
-     topic: null,
-   },
+type: 'wfs'
+queryParameters: {
+  srsName: 'EPSG:25832',
+  typeName: 'address_shp',
+  fieldName: 'objektid',
+  featurePrefix: 'app',
+  xmlns: 'http://www.deegree.org/app',
+  useRightHandWildcard: true,
+},
 ```
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:gazetteer)
@@ -275,11 +270,12 @@ Configuration examples for the likeFilterAttributes parameter:
 While all fields are optional, configuring none of them will yield undefined behaviour. At least one search instruction should be set to `true`.
 
 ```js
-   queryParameters: {
-     searchAddress: true,
-     searchStreets: true,
-     searchHouseNumbers: true,
-   },
+type: 'mpapi'
+queryParameters: {
+  searchAddress: true,
+  searchStreets: true,
+  searchHouseNumbers: true,
+},
 
 ```
 
@@ -293,11 +289,12 @@ Additionally, it is possible to configure the parameters `accesstoken` (`Authori
 Note that this changes the request to be non-simple. To be able to use the parameters, the request has to be sent in [`cors` mode](https://developer.mozilla.org/en-US/docs/Web/API/Request/mode) and has to support preflight request `OPTIONS`.
 
 ```js
-   queryParameters: {
-      filter: {
-        bundesland: 'Schleswig-Holstein',
-      },
-    },
+type: 'bkg'
+queryParameters: {
+  filter: {
+    bundesland: 'Schleswig-Holstein',
+  },
+},
 ```
 
 ## Store
