@@ -2,13 +2,7 @@
   <div class="polar-plugin-legend-wrapper">
     <div class="mr-2">
       <v-scroll-x-reverse-transition>
-        <v-card
-          v-show="isOpen"
-          class="mx-auto pa-2"
-          dense
-          filled
-          color="#ffffffdd"
-        >
+        <v-card v-show="isOpen" class="mx-auto pa-2" dense>
           <v-card-title>{{ $t('common:plugins.legend.title') }}</v-card-title>
           <v-card-text v-if="legends.length === 0">
             {{ $t('common:plugins.legend.empty') }}

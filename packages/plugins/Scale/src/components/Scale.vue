@@ -36,7 +36,6 @@ export default Vue.extend({
   margin: 4px;
 
   > span {
-    background: #ffffffcc;
     border-radius: 2px;
     border-width: 0 2px 2px 2px;
     border-style: solid;
@@ -44,8 +43,6 @@ export default Vue.extend({
 
   .scale-line {
     display: inline-block;
-    border-color: black;
-
     width: 2cm;
   }
 
