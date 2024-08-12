@@ -66,6 +66,14 @@ export const makeStoreModule = () => {
             : `${scaleNumber} m`
         commit('setScaleWithUnit', newValue)
       },
+      zoomToScale(
+        { dispatch, rootGetters: { configuration } },
+        zoomLevel: number
+      ): void {
+        if (configuration?.scale?.zoomMethod) {
+          dispatch(configuration.scale.zoomMethod, zoomLevel, { root: true })
+        }
+      },
     },
     mutations: {
       ...generateSimpleMutations(getInitialState()),
@@ -87,6 +95,14 @@ export const makeStoreModule = () => {
         return (
           rootGetters.configuration?.scale?.showScaleSwitcher &&
           getters.zoomOptions.length > 0
+        )
+      },
+      zoomMethod: (_, __, ___, rootGetters) => {
+        return (
+          rootGetters.configuration?.scale?.zoomMethod ||
+          console.error(
+            "@polar/plugin-scale: Configuration parameter `zoomMethod` is missing. Scale switcher won't be rendered."
+          )
         )
       },
     },

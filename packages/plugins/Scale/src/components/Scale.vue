@@ -50,6 +50,7 @@ export default Vue.extend({
       'scaleWithUnit',
       'showScaleSwitcher',
       'zoomOptions',
+      'zoomMethod',
     ]),
     scaleNumberToScale() {
       return (scale: number) => {
@@ -72,20 +73,14 @@ export default Vue.extend({
       },
     },
     showSelectOptions() {
-      return this.showScaleSwitcher && this.zoomPluginAvailable
+      return this.showScaleSwitcher && this.zoomMethod
     },
-  },
-  mounted() {
-    this.checkForZoomPlugin()
   },
   methods: {
     ...mapMutations('plugin/scale', ['setScaleValue']),
-    ...mapActions('plugin/zoom', ['setZoomLevel']),
+    ...mapActions('plugin/scale', ['zoomToScale']),
     setZoomLevelByScale(index: number) {
-      this.setZoomLevel(this.zoomOptions[index].zoomLevel)
-    },
-    checkForZoomPlugin() {
-      this.zoomPluginAvailable = this.$store.hasModule(['plugin', 'zoom'])
+      this.zoomToScale(this.zoomOptions[index].zoomLevel)
     },
   },
 })

@@ -433,6 +433,7 @@ export type ToastConfiguration = PluginOptions & ToastTypeStyles
 
 export interface ScaleConfiguration extends PluginOptions {
   showScaleSwitcher?: boolean
+  zoomMethod?: string
 }
 
 export interface ZoomConfiguration extends PluginOptions {

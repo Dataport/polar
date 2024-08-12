@@ -9,4 +9,5 @@ export interface ScaleState {
 export interface ScaleGetters extends ScaleState {
   zoomOptions: PolarMapOptions[]
   showScaleSwitcher: boolean
+  zoomMethod: string
 }
