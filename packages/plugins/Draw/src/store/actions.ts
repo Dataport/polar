@@ -139,6 +139,12 @@ export const makeActions = () => {
       drawSource.addFeatures(features)
       commit('updateFeatures')
     },
+    initializeConfigStyle: ({ commit, getters: { configuration } }) => {
+      console.warn('initializeConfigStyle', configuration)
+      if (configuration?.style?.stroke?.color) {
+        commit('setSelectedStrokeColor', configuration.style.stroke.color)
+      }
+    },
   }
 
   return { actions, drawSource }

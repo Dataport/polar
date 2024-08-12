@@ -95,6 +95,9 @@ export default Vue.extend({
       }`
     },
   },
+  mounted() {
+    this.initializeConfigStyle()
+  },
   methods: {
     ...mapActions('plugin/draw', [
       'setMode',
@@ -102,6 +105,7 @@ export default Vue.extend({
       'setTextInput',
       'setSelectedSize',
       'setSelectedStrokeColor',
+      'initializeConfigStyle',
     ]),
     toggleColorPicker() {
       this.isColorPickerVisible = !this.isColorPickerVisible // Umschalten der Sichtbarkeit des Color Pickers
