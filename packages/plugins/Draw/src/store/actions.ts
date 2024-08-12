@@ -139,27 +139,6 @@ export const makeActions = () => {
       drawSource.addFeatures(features)
       commit('updateFeatures')
     },
-    // setFeatureStrokeColor({
-    //   commit,
-    //   getters: { lastChangedFeature, selectedStrokeColor },
-    // }) {
-    //   if (!lastChangedFeature) {
-    //     return
-    //   }
-    //   if (lastChangedFeature.getStyle()) {
-    //     lastChangedFeature.getStyle().getStroke().setColor(selectedStrokeColor)
-    //   } else {
-    //     lastChangedFeature.setStyle(
-    //       new Style({
-    //         stroke: new Stroke({
-    //           color: selectedStrokeColor,
-    //           width: 1,
-    //         }),
-    //       })
-    //     )
-    //     commit('updateFeatures')
-    //   }
-    // },
   }
 
   return { actions, drawSource }
