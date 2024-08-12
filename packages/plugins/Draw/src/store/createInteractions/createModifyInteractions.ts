@@ -20,7 +20,7 @@ export default function (
     if (event.selected.length > 0) {
       lastSelectedFeature = event.selected[event.selected.length - 1]
       const featureStyle = lastSelectedFeature.getStyle()
-      if (featureStyle && 'getText' in featureStyle) {
+      if (featureStyle && 'getText' in featureStyle && featureStyle.getText()) {
         const featureText = featureStyle.getText().getText()
         const font = featureStyle.getText().getFont()
         // set selectedSize of feature to prevent unintentional size change
