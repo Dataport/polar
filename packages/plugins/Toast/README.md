@@ -17,6 +17,8 @@ Please check the vuetify documentation to override the success, warning, info, o
 | success | toastStyle? | Design override for success messages. |
 | warning | toastStyle? | Design override for warning messages. |
 
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
+
 #### toast.toastStyle
 
 | fieldName | type | description |

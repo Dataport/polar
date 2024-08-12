@@ -13,6 +13,8 @@ _Please note that the average user has never seen the client before and just wan
 
 > ⚠️ This plugin can't be configured with the `mapConfiguration`, but is configured during client construction. Currently, no way exists to add plugins to it after the build took place.
 
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
+
 Usage during client build:
 
 ```js

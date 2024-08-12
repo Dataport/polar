@@ -36,6 +36,8 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 | removeLoading | string? | Optional loading action name to end loading. |
 | waitMs | number? | Debounce time in ms for search requests after last user input. Defaults to 0. |
 
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
+
 #### addressSearch.searchMethodsObject
 
 | fieldName | type | description |
@@ -117,12 +119,17 @@ These fields are interpreted by all implemented services.
 | typeName | string | Feature type to search for by name. |
 | xmlns | string | XML namespace to use in search. |
 | fieldName | string? | Name of the type's field to search in. Mutually exclusive to `patterns`. |
-| patterns | string[]? | Allows specifying input patterns. In a single-field search, a pattern can be as easy as `{{theWholeThing}}`, where `theWholeThing` is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. `{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}` would fit many parcel search services. Mutually exclusive to `fieldName`. |
+| likeFilterAttributes | Record<string, string>? | As specified by the [OGC-Standard for filters](https://schemas.opengis.net/filter/) the `PropertyIsLike` operator requires three attributes (e.g. in WFS 2.0.0: `wildCard`, `singleChar` and `escapeChar`). These may vary in value and (with other WFS versions) also in property definition. Therefore, it is possible to configure the values of the attributes needed for WFS 2.0.0 and also to add custom attributes needed for other versions. Defaults to `{wildCard: "\*", singleChar: ".", escapeChar: "!"}`. |
 | patternKeys | Record<string, string>? | Maps field names from patterns to regexes. Each field name has to have a definition. Each regex must have one capture group that is used to search. Contents next to it are ignored for the search and just used for matching. E.g. `'([0-9]+)$'` would be a value for a key that fits an arbitrary number string at the input's end. |
+| patterns | string[]? | Allows specifying input patterns. In a single-field search, a pattern can be as easy as `{{theWholeThing}}`, where `theWholeThing` is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. `{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}` would fit many parcel search services. Mutually exclusive to `fieldName`. |
 | srsName | string? | Name of the projection (srs) for the query. |
 | useRightHandWildcard? | boolean? | By default, if searching for "search", it is sent as "search*". This behaviour can be deactivated by setting this parameter to `false`. |
 
 Since inputs may overlap with multiple patterns, multiple queries are fired and executed on the WFS until the `maxFeatures` requirement is met, beginning with the pattern that 'looks like the user input the most'. The best-fitting pattern on the returned features will be used to generate a display string. When two patterns fit best, the first one is used.
+
+Configuration examples for the likeFilterAttributes parameter: 
+- WFS 2.0.0 `{wildCard: "%", singleChar: "*", escapeChar: "\"}`
+- WFS 1.0.0 `{wildCard: "*", singleChar: "*", escape: "\"}`
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:gazetteer)
 

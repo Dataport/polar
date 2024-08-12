@@ -108,13 +108,11 @@ export const addPlugins = (core) => {
         layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
       })
     ),
-    Pins(
-      merge({}, defaultOptions, {
-        appearOnClick: { show: true, atZoomLevel: 6 },
-        coordinateSource: 'plugin/addressSearch/chosenAddress',
-        toastAction: 'plugin/toast/addToast',
-      })
-    ),
+    Pins({
+      appearOnClick: { show: true, atZoomLevel: 6 },
+      coordinateSource: 'plugin/addressSearch/chosenAddress',
+      toastAction: 'plugin/toast/addToast',
+    }),
     Gfi(
       merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.MIDDLE_LEFT,
