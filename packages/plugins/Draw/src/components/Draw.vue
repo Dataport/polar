@@ -62,7 +62,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import RadioCard from './RadioCard.vue'
 
 export default Vue.extend({
