@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add the option to configure a scale switcher via the new configuration parameter `showScaleSwitcher`.
+- Feature: Add the option to configure a scale switcher via the new configuration parameters `showScaleSwitcher` and `zoomMethod`.
 
 ## 1.1.0
 
