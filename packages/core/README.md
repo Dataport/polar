@@ -98,24 +98,24 @@ const mapConfiguration = {
   locales, // the languageOptions object will normally be outsourced to another file
   layers: [
 // parts of the layer configuration can be outsourced to another file and referenced in the mapConfiguration by id like the second layer
-      {
-        id: 'hintergrundkarte',
-        name: 'WMS DE BASEMAP.DE WEB RASTER',
-        url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
-        typ: 'WMS',
-        layers: 'de_basemapde_web_raster_grau',
-        format: 'image/png',
-        version: '1.3.0',
-        singleTile: false,
-        transparent: true,
-      },
-      {
-        id: '1561',
-        visibility: true,
-        type: 'mask',
-        name: 'Bebauungsplänen',
-        minZoom: 2,
-      },
+    {
+      id: 'hintergrundkarte',
+      name: 'WMS DE BASEMAP.DE WEB RASTER',
+      url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+      typ: 'WMS',
+      layers: 'de_basemapde_web_raster_grau',
+      format: 'image/png',
+      version: '1.3.0',
+      singleTile: false,
+      transparent: true,
+    },
+    {
+      id: '1561',
+      visibility: true,
+      type: 'mask',
+      name: 'Bebauungsplänen',
+      minZoom: 2,
+    },
   ],
   addressSearch: {
     displayComponent: false,
@@ -126,6 +126,7 @@ const mapConfiguration = {
   ...
 }
 ```
+
 </details>
 
 ##### mapConfiguration.LanguageOption
@@ -176,22 +177,22 @@ To figure out the name of the locales to override, inspect the matching plugin i
 Example configuration:
 ```js
 extendedMasterportalapiMarkers: {
-        layers: ['reportServiceLayerId'],
-        defaultStyle: {
-          stroke: '#FFFFFF',
-          fill: '#005CA9',
-        },
-        hoverStyle: {
-          stroke: '#46688E',
-          fill: '#8BA1B8',
-        },
-        selectionStyle: {
-          stroke: '#FFFFFF',
-          fill: '#E10019',
-        },
-        clusterClickZoom: true,
-        dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
-      },
+  layers: ['reportServiceLayerId'],
+  defaultStyle: {
+    stroke: '#FFFFFF',
+    fill: '#005CA9',
+  },
+  hoverStyle: {
+    stroke: '#46688E',
+    fill: '#8BA1B8',
+  },
+  selectionStyle: {
+    stroke: '#FFFFFF',
+    fill: '#E10019',
+  },
+  clusterClickZoom: true,
+  dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
+},
 ```
 
 ###### mapConfiguration.extendedMasterportalapiMarkers.MarkerStyle
@@ -298,6 +299,7 @@ The `<...masterportalAPI.fields>` means that any masterportalAPI field may also 
   ],
 }
 ```
+
 </details>
 
 ##### <plugin.fields>

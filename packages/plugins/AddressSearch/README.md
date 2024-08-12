@@ -39,7 +39,7 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
 <details>
-  <summary>Example configuration</summary>
+<summary>Example configuration</summary>
 
 ```js
 addressSearch: {
@@ -83,6 +83,7 @@ addressSearch: {
   removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
 },
 ```
+
 </details>
 
 #### addressSearch.searchMethodsObject

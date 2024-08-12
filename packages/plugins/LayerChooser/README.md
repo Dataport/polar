@@ -32,44 +32,45 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 
 ```js
 layers: [
-    {
-      id: hintergrundkarte,
-      visibility: true,
-      type: 'background',
-      name: 'Basemap Graustufen',
-    },
-    {
-      id: denkmaelerWFS,
-      visibility: false,
-      hideInMenu: true,
-      type: 'mask',
-      name: 'Denkmal (WFS)',
-      minZoom: 7,
-    },
-    {
-      id: denkmaelerWMS,
-      visibility: true,
-      type: 'mask',
-      name: 'Kulturdenkmale (Denkmalliste)',
-      options: {
-        layers: {
-          order: '6,24,25,4,3,2,1,0',
-          title: {
-            '6': 'Denkmalbereich',
-            '24': 'Mehrheit von baulichen Anlagen',
-            '25': 'Sachgesamtheit',
-            '4': 'Baudenkmal',
-            '3': 'Gründenkmal',
-            '2': 'Gewässer',
-            '1': 'Baudenkmal (Fläche)',
-            '0': 'Gründenkmal (Fläche)',
-          },
-          legend: true,
+  {
+    id: hintergrundkarte,
+    visibility: true,
+    type: 'background',
+    name: 'Basemap Graustufen',
+  },
+  {
+    id: denkmaelerWFS,
+    visibility: false,
+    hideInMenu: true,
+    type: 'mask',
+    name: 'Denkmal (WFS)',
+    minZoom: 7,
+  },
+  {
+    id: denkmaelerWMS,
+    visibility: true,
+    type: 'mask',
+    name: 'Kulturdenkmale (Denkmalliste)',
+    options: {
+      layers: {
+        order: '6,24,25,4,3,2,1,0',
+        title: {
+          '6': 'Denkmalbereich',
+          '24': 'Mehrheit von baulichen Anlagen',
+          '25': 'Sachgesamtheit',
+          '4': 'Baudenkmal',
+          '3': 'Gründenkmal',
+          '2': 'Gewässer',
+          '1': 'Baudenkmal (Fläche)',
+          '0': 'Gründenkmal (Fläche)',
         },
+        legend: true,
       },
-   },
-],
+    },
+  },
+]
 ```
+
 </details>
 
 
@@ -84,20 +85,20 @@ An option wheel will appear in the layer chooser that allows opening a sub-menu 
 Example configuration:
 ```js
 options: {
-    layers: {
-        order: '6,24,25,4,3,2,1,0',
-        title: {
-            '6': 'Denkmalbereich',
-            '24': 'Mehrheit von baulichen Anlagen',
-            '25': 'Sachgesamtheit',
-            '4': 'Baudenkmal',
-            '3': 'Gründenkmal',
-            '2': 'Gewässer',
-            '1': 'Baudenkmal (Fläche)',
-            '0': 'Gründenkmal (Fläche)',
-        },
-        legend: true,
+  layers: {
+    order: '6,24,25,4,3,2,1,0',
+    title: {
+      '6': 'Denkmalbereich',
+      '24': 'Mehrheit von baulichen Anlagen',
+      '25': 'Sachgesamtheit',
+      '4': 'Baudenkmal',
+      '3': 'Gründenkmal',
+      '2': 'Gewässer',
+      '1': 'Baudenkmal (Fläche)',
+      '0': 'Gründenkmal (Fläche)',
     },
+    legend: true,
+  },
 },
 ```
 
@@ -114,17 +115,17 @@ This field is named like this to match the OGC specification for their name; tha
 Example configuration:
 ```js
 layers: {
-    order: '6,24,25,4,3,2,1,0',
-    title: {
-        '6': 'Denkmalbereich',
-        '24': 'Mehrheit von baulichen Anlagen',
-        '25': 'Sachgesamtheit',
-        '4': 'Baudenkmal',
-        '3': 'Gründenkmal',
-        '2': 'Gewässer',
-        '1': 'Baudenkmal (Fläche)',
-        '0': 'Gründenkmal (Fläche)',
-    },
-    legend: true,
+  order: '6,24,25,4,3,2,1,0',
+  title: {
+    '6': 'Denkmalbereich',
+    '24': 'Mehrheit von baulichen Anlagen',
+    '25': 'Sachgesamtheit',
+    '4': 'Baudenkmal',
+    '3': 'Gründenkmal',
+    '2': 'Gewässer',
+    '1': 'Baudenkmal (Fläche)',
+    '0': 'Gründenkmal (Fläche)',
+  },
+  legend: true,
 },
 ```

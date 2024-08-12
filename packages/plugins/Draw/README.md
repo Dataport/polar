@@ -40,31 +40,34 @@ The styling of the drawn features can be configured to overwrite the default ol-
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
 <details>
-  <summary>Example configuration</summary>
+<summary>Example configuration</summary>
 
-  ```js
-  draw: {
-    selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
-    textStyle: {
-      font: {
-        size: [10, 20, 30],
-        family: 'Arial',
-      },
-    },
-    style: {
-      fill: { color: 'rgba(255, 255, 255, 0.5)' },
-      stroke: {
-        color: '#e51313',
-        width: 2,
-      },
-      circle: {
-        radius: 7,
-        fillColor: '#e51313',
-      },
+```js
+draw: {
+  selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
+  textStyle: {
+    font: {
+      size: [10, 20, 30],
+      family: 'Arial',
     },
   },
-  ```
-  </details>
+  style: {
+    fill: { 
+      color: 'rgba(255, 255, 255, 0.5)' 
+    },
+    stroke: {
+      color: '#e51313',
+      width: 2,
+    },
+    circle: {
+      radius: 7,
+      fillColor: '#e51313',
+    },
+  },
+},
+```
+
+</details>
 
 ##### draw.textStyle
 
@@ -75,13 +78,13 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 
 Example configuration:
 ```js
-  textStyle: {
-      font: {
-        size: [10.5, 20, 30.5, 35],
-        family: 'serif'
-      },
-      textColor: '#e51313'
-    }
+textStyle: {
+  font: {
+    size: [10.5, 20, 30.5, 35],
+    family: 'serif'
+  },
+  textColor: '#e51313'
+}
 ```
 
 ##### draw.textStyle.font
@@ -93,10 +96,10 @@ Example configuration:
 
 Example configuration:
 ```js
-      font: {
-        size: [10.5, 20, 30.5, 35],
-        family: 'serif'
-      },
+font: {
+  size: [10.5, 20, 30.5, 35],
+  family: 'serif'
+},
 ```
 
 #### draw.style (by example)

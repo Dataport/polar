@@ -29,33 +29,34 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 <summary>Example configuration</summary>
 
 ```js
-    gfi: {
-    mode: 'bboxDot',
-    activeLayerPath: 'plugin/layerChooser/activeMaskIds',
-    layers: {
-      [denkmaelerWFS]: {
-        geometry: true,
-        window: true,
-        maxFeatures: 10,
-        geometryName: 'app:geometry',
-        exportProperty: 'Export',
-      },
-    },
-    coordinateSources: [
-      'plugin/pins/transformedCoordinate',
-      'plugin/pins/coordinatesAfterDrag',
-    ],
-    customHighlightStyle: {
-      stroke: {
-        color: '#FFFF00',
-        width: 3,
-      },
-      fill: {
-        color: 'rgb(255, 255, 255, 0.7)',
-      },
+gfi: {
+  mode: 'bboxDot',
+  activeLayerPath: 'plugin/layerChooser/activeMaskIds',
+  layers: {
+    [denkmaelerWFS]: {
+      geometry: true,
+      window: true,
+      maxFeatures: 10,
+      geometryName: 'app:geometry',
+      exportProperty: 'Export',
     },
   },
+  coordinateSources: [
+    'plugin/pins/transformedCoordinate',
+    'plugin/pins/coordinatesAfterDrag',
+  ],
+  customHighlightStyle: {
+    stroke: {
+      color: '#FFFF00',
+      width: 3,
+    },
+    fill: {
+      color: 'rgb(255, 255, 255, 0.7)',
+    },
+  },
+}
 ```
+
 </details>
 
 ##### gfi.gfiLayerConfiguration
@@ -85,15 +86,15 @@ Additionally, if using a WMS service, the following properties can be configured
 
 Example configuration:
 ```js
-    customHighlightStyle: {
-      stroke: {
-        color: '#FFFF00',
-        width: 3,
-      },
-      fill: {
-        color: 'rgb(255, 255, 255, 0.7)',
-      },
-    },
+customHighlightStyle: {
+  stroke: {
+    color: '#FFFF00',
+    width: 3,
+  },
+  fill: {
+    color: 'rgb(255, 255, 255, 0.7)',
+  },
+},
 ```
 
 ##### gfi.featureList

@@ -24,24 +24,24 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 Example configuration:
 ```js
 attributions: {
-    initiallyOpen: false,
-    windowWidth: 300,
-    renderType: 'independent',
-    layerAttributions: [
-      {
-        id: basemapId,
-        title: 'Basemap',
-      },
-      {
-        id: uBahn,
-        title: 'U-Bahn',
-      },
-    ],
-    staticAttributions: [
-        '<a href="https://www.hamburg.de/impressum/" target="_blank">Impressum</a>',
-    ],
-  },
-  ```
+  initiallyOpen: false,
+  windowWidth: 300,
+  renderType: 'independent',
+  layerAttributions: [
+    {
+      id: basemapId,
+      title: 'Basemap',
+    },
+    {
+      id: uBahn,
+      title: 'U-Bahn',
+    },
+  ],
+  staticAttributions: [
+    '<a href="https://www.hamburg.de/impressum/" target="_blank">Impressum</a>',
+  ],
+}
+```
 
 #### attributions.layerAttribution
 
@@ -52,14 +52,14 @@ attributions: {
 
 Example configuration:
 ```js
-    layerAttributions: [
-      {
-        id: basemapId,
-        title: 'Basemap © <YEAR>',
-      },
-      {
-        id: uBahn,
-        title: 'U-Bahn',
-      },
-    ],
+layerAttributions: [
+  {
+    id: basemapId,
+    title: 'Basemap © <YEAR>',
+  },
+  {
+    id: uBahn,
+    title: 'U-Bahn',
+  },
+]
 ```

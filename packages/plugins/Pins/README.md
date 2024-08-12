@@ -25,19 +25,19 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 
 Example configuration:
 ```js
-  pins: {
-    toZoomLevel: 9,
-    movable: 'drag',
-    appearOnClick: {
-      show: true,
-      atZoomLevel: 3,
-    },
-    style: {
-      fill: '#003064',
-    },
-    boundaryLayerId: hamburgBorder,
-    toastAction: 'plugin/toast/addToast',
+pins: {
+  toZoomLevel: 9,
+  movable: 'drag',
+  appearOnClick: {
+    show: true,
+    atZoomLevel: 3,
   },
+  style: {
+    fill: '#003064',
+  },
+  boundaryLayerId: hamburgBorder,
+  toastAction: 'plugin/toast/addToast',
+}
 
 ```
 
@@ -50,10 +50,10 @@ Example configuration:
 
 Example configuration:
 ```js
-    appearOnClick: {
-      show: true,
-      atZoomLevel: 3,
-    },
+appearOnClick: {
+  show: true,
+  atZoomLevel: 3,
+}
 ```
 
 #### pins.initial
@@ -66,11 +66,11 @@ Example configuration:
 
 Example configuration:
 ```js
-    initial: {
-      coordinates: [611694.909470, 5975658.233007],
-      centerOn: true,
-      epsg: 'EPSG:25832'
-    },
+initial: {
+  coordinates: [611694.909470, 5975658.233007],
+  centerOn: true,
+  epsg: 'EPSG:25832'
+}
 ```
 
 
@@ -83,10 +83,10 @@ Example configuration:
 
 Example configuration:
 ```js
-    style: {
-      fill: '#003064',
-      stroke: '#000000'
-    },
+style: {
+  fill: '#003064',
+  stroke: '#000000'
+}
 ```
 
 ## Store

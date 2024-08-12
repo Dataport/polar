@@ -17,6 +17,7 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 ```
 The following chapters contain drafts in this format. Please mind that they neither represent UI nor localisation, but are merely there to communicate the idea with an example.
 ```
+
 <details>
 <summary>Example configuration</summary>
 
@@ -60,6 +61,7 @@ The following chapters contain drafts in this format. Please mind that they neit
   }
 }
 ```
+
 </details>
 
 ##### filter.filterConfiguration
@@ -72,15 +74,15 @@ The following chapters contain drafts in this format. Please mind that they neit
 Example configuration:
 ```js
 categories: [
-        {
-          targetProperty: 'favouriteIceCream', 
-          knownValues: ['chocolate', 'vanilla', 'strawberry'], selectAll: true
-        }
-      ],
-      time: {
-        targetProperty: 'start',
-        pattern: 'YYYYMMDD',
-      },
+  {
+    targetProperty: 'favouriteIceCream', 
+    knownValues: ['chocolate', 'vanilla', 'strawberry'], selectAll: true
+  }
+],
+time: {
+  targetProperty: 'start',
+  pattern: 'YYYYMMDD',
+},
 ```
 
 ###### filter.filterConfiguration.category
@@ -94,11 +96,11 @@ categories: [
 Example configuration:
 ```js
 categories: [
-        {
-          targetProperty: 'favouriteIceCream', 
-          knownValues: ['chocolate', 'vanilla', 'strawberry'], selectAll: true
-        }
-      ],
+  {
+    targetProperty: 'favouriteIceCream', 
+    knownValues: ['chocolate', 'vanilla', 'strawberry'], selectAll: true
+  }
+],
 ```
 
 This example configuration will add these checkboxes:
@@ -126,22 +128,22 @@ Of all time restrictions, at most one can be selected at any time. The produced 
 Example configuration:
 ```js
 time: {
-    targetProperty: 'start',
-    pattern: 'YYYYMMDD',
-    last: [
-      {
-        amounts: [7, 30],
-      },
-    ],
-    next: [
-      {
-        amounts: [7, 30],
-      },
-    ],
-    freeSelection: {
-      now: 'until',
+  targetProperty: 'start',
+  pattern: 'YYYYMMDD',
+  last: [
+    {
+      amounts: [7, 30],
     },
-},
+  ],
+  next: [
+    {
+      amounts: [7, 30],
+    },
+  ],
+  freeSelection: {
+    now: 'until',
+  },
+}
 ```
 
 ###### filter.filterConfiguration.time.options
@@ -153,12 +155,12 @@ time: {
 
 Example configuration:
 ```js
-    last: [
-      {
-        amounts: [7, 30],
-        unit: 'days'
-      },
-    ],
+last: [
+  {
+    amounts: [7, 30],
+    unit: 'days'
+  },
+],
 ```
 
 This example configuration will add these radio buttons:
@@ -180,8 +182,8 @@ In `'days'` mode, the selections will always include full days, and additionally
 Example configuration:
 ```js
 freeSelection: {
-      now: 'until',
-    },
+  now: 'until',
+},
 ```
 
 This example configuration will add this radio button:
