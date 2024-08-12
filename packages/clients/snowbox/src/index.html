@@ -55,6 +55,10 @@
         outline: solid black;
       }
 
+      #theme-switcher {
+        outline: solid black;
+      }
+
       /* directly related to POLAR - something like this must be
        * available for map client to render in (see core docs for
        * more details on requirements) */
@@ -90,6 +94,10 @@
         <option value="en">English</option>
         <option value="de">German</option>
       </select>
+    </label>
+    <label id="theme-switcher-label">
+      Theme in map client:
+      <button id="theme-switcher">Toggle Theme</button>
     </label>
     <div id="polarstern" class="polarstern">
       <noscript>Please use a browser with active JavaScript to use the map client.</noscript>

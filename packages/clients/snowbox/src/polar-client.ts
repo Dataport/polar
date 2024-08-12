@@ -6,39 +6,40 @@ import { mapConfiguration } from './mapConfiguration'
 
 addPlugins(polarCore)
 
-const createMap = (layerConf) => {
-  polarCore
-    .createMap({
-      containerId: 'polarstern',
-      mapConfiguration: {
-        ...mapConfiguration,
-        layerConf,
-      },
-    })
-    .then(
-      addStoreSubscriptions(
-        ['plugin/zoom/zoomLevel', 'vuex-target-zoom'],
-        [
-          'plugin/gfi/featureInformation',
-          'vuex-target-gfi',
-          (featureInformation) => JSON.stringify(featureInformation, null, 2),
-        ],
-        ['plugin/pins/transformedCoordinate', 'vuex-target-pin-coordinate'],
-        [
-          'plugin/addressSearch/chosenAddress',
-          'vuex-target-address-search-result',
-          (address) => JSON.stringify(address, null, 2),
-        ],
-        [
-          'plugin/export/exportedMap',
-          null,
-          (screenshot) =>
-            document
-              .getElementById('vuex-target-export-result')!
-              .setAttribute('src', screenshot),
-        ]
-      )
-    )
+const createMap = async (layerConf) => {
+  const client = await polarCore.createMap({
+    containerId: 'polarstern',
+    mapConfiguration: {
+      ...mapConfiguration,
+      layerConf,
+    },
+  })
+  addStoreSubscriptions(
+    ['plugin/zoom/zoomLevel', 'vuex-target-zoom'],
+    [
+      'plugin/gfi/featureInformation',
+      'vuex-target-gfi',
+      (featureInformation) => JSON.stringify(featureInformation, null, 2),
+    ],
+    ['plugin/pins/transformedCoordinate', 'vuex-target-pin-coordinate'],
+    [
+      'plugin/addressSearch/chosenAddress',
+      'vuex-target-address-search-result',
+      (address) => JSON.stringify(address, null, 2),
+    ],
+    [
+      'plugin/export/exportedMap',
+      null,
+      (screenshot) =>
+        document
+          .getElementById('vuex-target-export-result')!
+          .setAttribute('src', screenshot),
+    ]
+  )(client)
+
+  document.getElementById('theme-switcher')?.addEventListener('click', () => {
+    client.$vuetify.theme.dark = !client.$vuetify.theme.dark
+  })
 }
 
 const addStoreSubscriptions =

@@ -18,7 +18,7 @@ const defaultPreset: UserVuetifyPreset = {
       dark: {
         primary: '#4A90E2',
         primaryContrast: '#121212',
-        secondary: '##121212',
+        secondary: '#121212',
         secondaryContrast: '#4A90E2',
       },
     },
