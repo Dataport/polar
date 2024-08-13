@@ -11,7 +11,7 @@ const mutations = {
         state.loaderStyle = style
       } else {
         console.error(
-          `@polar/LoadingIndicator: loader style ${style} does not exist. Falling back to default.`
+          `@polar/plugin-loading-indicator: loader style ${style} does not exist. Falling back to default.`
         )
       }
     }
