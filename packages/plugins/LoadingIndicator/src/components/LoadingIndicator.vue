@@ -2,17 +2,19 @@
   <div v-if="showLoader">
     <v-card>
       <v-card-text>
-        <v-row justify="center">
-          {{ $t('common:plugins.loadingIndicator.loading') }}
-        </v-row>
-        <v-row v-if="loaderStyle !== 'none'">
-          <component
-            :is="loaderStyle"
-            indeterminate
-            color="primary"
-            class="mb-0"
-          />
-        </v-row>
+        <v-container>
+          <v-row justify="center">
+            {{ $t('common:plugins.loadingIndicator.loading') }}
+          </v-row>
+          <v-row v-if="loaderStyle !== 'none'">
+            <component
+              :is="loaderStyle"
+              indeterminate
+              color="primary"
+              class="mb-0"
+            />
+          </v-row>
+        </v-container>
       </v-card-text>
     </v-card>
   </div>
@@ -38,7 +40,6 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters('plugin/loadingIndicator', ['showLoader', 'loaderStyle']),
-  },
   },
 })
 </script>
