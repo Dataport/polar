@@ -2,12 +2,21 @@ import { generateSimpleMutations } from '@repositoryname/vuex-generators'
 import { LoaderStyles } from '@polar/lib-custom-types'
 import { LoadingIndicatorMutations } from '../types'
 import { getInitialState } from './state'
+const styles = [
+  'CircleLoader',
+  'DefaultLoader',
+  'none',
+  'RingLoader',
+  'RollerLoader',
+  'SpinnerLoader',
+  'v-progress-linear',
+]
 
 const mutations = {
   ...generateSimpleMutations(getInitialState()),
-  setLoaderStyle(state, style: LoaderStyles) {
+  setLoaderStyle(state, style?: LoaderStyles) {
     if (style) {
-      if (Object.values(LoaderStyles).includes(style)) {
+      if (styles.includes(style)) {
         state.loaderStyle = style
       } else {
         console.error(
