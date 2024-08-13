@@ -16,24 +16,27 @@
         :values="selectableDrawModes"
         :change-callback="setDrawMode"
       ></RadioCard>
-      <v-btn
-        v-if="drawOptionsVisible"
-        class="mb-2"
-        color="primary"
-        @click="toggleColorPicker"
-      >
-        {{
-          isColorPickerVisible
-            ? $t('common:plugins.draw.label.hideColorPicker')
-            : $t('common:plugins.draw.label.showColorPicker')
-        }}
-      </v-btn>
-      <v-color-picker
-        v-if="mode === 'draw' && isColorPickerVisible"
-        id="color-picker"
-        :value="selectedStrokeColor"
-        @input="setSelectedStrokeColor"
-      ></v-color-picker>
+      <v-card-title v-if="drawOptionsVisible">Draw Options</v-card-title>
+      <v-card-actions v-if="drawOptionsVisible">
+        <span class="action-btn__label">Umrissfarbe</span>
+        <v-btn plain class="v-btn__color-picker" @click="toggleColorPicker"
+          ><v-icon left>
+            {{
+              isColorPickerVisible
+                ? 'fa-solid fa-chevron-left'
+                : 'fa-solid fa-chevron-right'
+            }}
+          </v-icon>
+        </v-btn>
+        <v-expand-transition>
+          <v-color-picker
+            v-if="mode === 'draw' && isColorPickerVisible"
+            id="color-picker"
+            :value="selectedStrokeColor"
+            @input="setSelectedStrokeColor"
+          ></v-color-picker>
+        </v-expand-transition>
+      </v-card-actions>
       <v-subheader v-if="showSizeSlider" class="align-end">{{
         $t('common:plugins.draw.label.textSize')
       }}</v-subheader>
@@ -96,7 +99,11 @@ export default Vue.extend({
       }`
     },
     drawOptionsVisible(): boolean {
-      return this.mode === 'draw' && this.configuration.enableOptions
+      return (
+        this.mode === 'draw' &&
+        this.configuration.enableOptions &&
+        this.drawMode !== 'Text'
+      )
     },
   },
   mounted() {
@@ -132,5 +139,16 @@ export default Vue.extend({
 
 .align-end {
   height: 32px;
+}
+
+.v-card__title {
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 100%;
+}
+
+.v-btn__color-picker:hover {
+  background-color: transparent;
+  outline: none;
 }
 </style>
