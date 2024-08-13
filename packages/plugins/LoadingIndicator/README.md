@@ -39,8 +39,8 @@ You may desire to listen to whether the loader is currently being shown.
 
 | fieldName | type | description |
 | - | - | - |
-| showLoader | boolean | Whether the layer is currently shown. |
 | loaderStyle | string | The current loader style. |
+| showLoader | boolean | Whether the layer is currently shown. |
 
 ```js
 mapInstance.$store.watch(
