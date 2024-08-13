@@ -17,7 +17,7 @@
         :change-callback="setDrawMode"
       ></RadioCard>
       <v-btn
-        v-if="mode === 'draw'"
+        v-if="drawOptionsVisible"
         class="mb-2"
         color="primary"
         @click="toggleColorPicker"
@@ -88,11 +88,15 @@ export default Vue.extend({
       'fontSizes',
       'showSizeSlider',
       'selectedStrokeColor',
+      'configuration',
     ]),
     flexStyle(): string {
       return `flex-direction: ${
         this.hasWindowSize && this.hasSmallHeight ? 'row-reverse' : 'column'
       }`
+    },
+    drawOptionsVisible(): boolean {
+      return this.mode === 'draw' && this.configuration.enableOptions
     },
   },
   mounted() {
