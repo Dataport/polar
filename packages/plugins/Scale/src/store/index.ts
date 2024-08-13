@@ -66,12 +66,10 @@ export const makeStoreModule = () => {
             : `${scaleNumber} m`
         commit('setScaleWithUnit', newValue)
       },
-      zoomToScale(
-        { dispatch, rootGetters: { configuration } },
-        zoomLevel: number
-      ): void {
-        if (configuration?.scale?.zoomMethod) {
-          dispatch(configuration.scale.zoomMethod, zoomLevel, { root: true })
+      zoomToScale({ dispatch, getters }, zoomLevel: number): void {
+        const { zoomMethod } = getters
+        if (zoomMethod.length > 0) {
+          dispatch(zoomMethod, zoomLevel, { root: true })
         }
       },
     },
