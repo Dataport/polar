@@ -39,8 +39,6 @@ export default Vue.extend({
   computed: {
     ...mapGetters('plugin/loadingIndicator', ['showLoader', 'loaderStyle']),
   },
-  mounted() {
-    this.$store.dispatch('plugin/loadingIndicator/setupModule')
   },
 })
 </script>
