@@ -6,13 +6,13 @@ A generic loading indicator that may be used by any plugin or outside procedure 
 
 ## Configuration
 
-For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
-
-### loadingIndicator
+### LoadingIndicator
 
 | fieldName  | type | description |
 | - | - | - |
 | loaderStyle | string? | Choose between different loader styles. Defaults to 'v-progress-linear' (Vuetify loader). Possible values are 'CircleLoader', 'RollerLoader', 'SpinnerLoader', 'RingLoader', 'DefaultLoader' and 'none'  |
+
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
 ## Store
 
