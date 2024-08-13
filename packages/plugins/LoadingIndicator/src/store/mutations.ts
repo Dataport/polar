@@ -12,7 +12,7 @@ const styles = [
   'v-progress-linear',
 ]
 
-const mutations = {
+const mutations: LoadingIndicatorMutations = {
   ...generateSimpleMutations(getInitialState()),
   setLoaderStyle(state, style?: LoaderStyles) {
     if (style) {
@@ -33,6 +33,6 @@ const mutations = {
     loadKeys.delete(key)
     state.loadKeys = loadKeys
   },
-} as LoadingIndicatorMutations
+}
 
 export default mutations
