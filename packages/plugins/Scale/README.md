@@ -13,4 +13,4 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 | fieldName | type | description |
 | - | - | - |
 | showScaleSwitcher | boolean? | If set to `true`, a button to switch to a specific scale will be rendered. Defaults to `false`. Requires the configuration parameter `options` set in the `mapConfiguration`, see `<...masterportalAPI.fields>` in the `@polar/core` package documentation for more information. Also requires the parameter `zoomMethod` to be configured. |
-| zoomMethod | string? | Path to the action that is used for the zoom of the scale switcher. Has to take zoomLevel als payload. Must be configured for the scale switcher, otherwise it will not be rendered.
+| zoomMethod | string? | Path to the action that is used for the zoom of the scale switcher. Has to take `zoomLevel` as payload. Must be configured for the scale switcher, otherwise it will not be rendered.
