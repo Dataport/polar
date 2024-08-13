@@ -98,12 +98,15 @@ export const makeStoreModule = () => {
         )
       },
       zoomMethod: (_, __, ___, rootGetters) => {
-        return (
-          rootGetters.configuration?.scale?.zoomMethod ||
+        const zoomMethod = rootGetters.configuration?.scale?.zoomMethod
+
+        if (!zoomMethod) {
           console.error(
             "@polar/plugin-scale: Configuration parameter `zoomMethod` is missing. Scale switcher won't be rendered."
           )
-        )
+          return ''
+        }
+        return zoomMethod
       },
     },
   }
