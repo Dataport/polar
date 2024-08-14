@@ -81,16 +81,55 @@ function afterLoadFunction(featuresByLayerId: Record<string, GeoJsonFeature[]>):
 | exportProperty | string? | Property of the features of a service having an url usable to trigger a download of features as a document. |
 | geometry | boolean? | If true, feature geometry will be highlighted within the map. Defaults to `false`. |
 | geometryName | string? | Name of the geometry property if not the default field. |
-| properties | Record<propertyName, displayName>/string[] | In case `window` is `true`, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. Displays all properties by default. |
+| properties | Record<propertyName, displayName>/string[]? | In case `window` is `true`, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. Displays all properties by default. |
 | showTooltip | ((feature: Feature) => [string, string][])? | If given, a tooltip will be shown with the values calculated for the feature. The first string is the HTML tag to render, the second its contents; contants may be locale keys. For more information regarding the strings, see the documentation of the `@polar/lib-tooltip` package. Defaults to `undefined`. Please mind that tooltips will only be shown if a mouse is used or the hovering device could not be detected. Touch and pen interactions do not open tooltips since they will open the GFI window, rendering the gatherable information redundant. |
 | window | boolean? | If true, properties will be shown in the map client. Defaults to `false`. |
+
+Example configuration:
+
+```js
+layers: {
+  'layerId': {
+    geometry: true,
+    window: true,
+    maxFeatures: 10,
+    geometryName: 'app:geometry',
+    exportProperty: 'Export',
+    properties: {
+      status: 'status',
+      type: 'type',
+    },
+    showTooltip: (feature: Feature): [string, string][] => {
+      return [
+        ['div', `Feature ID: ${feature.properties.id}`],
+        ['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`]
+      ];
+    };
+  },
+}
+```
 
 Additionally, if using a WMS service, the following properties can be configured as well.
 
 | fieldName | type | description |
 | - | - | - |
-| filterBy | 'clickPosition'? | Some WMS services may return features close to the clicked position. By setting the this value `clickPosition`, only features that intersect the clicked position are shown to the user. Defaults to showing all features. |
+| filterBy | 'clickPosition'? | Some WMS services may return features close to the clicked position. By setting the value `clickPosition`, only features that intersect the clicked position are shown to the user. Defaults to showing all features. |
 | format | 'GML' \| 'GML2' \| 'GML3' \| 'GML32' \| 'text'? | If the `infoFormat` is not set to `'application/geojson'`´, this can be configured to be the known file format of the response. If not given, the format is parsed from the response data. |
+
+Example configuration:
+
+```js
+layers: {
+  'layerId': {
+    geometry: true,
+    window: true,
+    maxFeatures: 10,
+    geometryName: 'app:geometry',
+    filterBy: 'clickPosition' //TODO: was ist clickPosition für ein type?
+    format: 'text'
+  },
+}
+```
 
 ##### gfi.customHighlightStyle
 
