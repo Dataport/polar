@@ -6,8 +6,9 @@ import * as olProj from 'ol/proj'
 import { t as translate } from 'i18next'
 import { PolarModule } from '@polar/lib-custom-types'
 import thousandsSeparator from '../utils/thousandsSeperator'
+import beautifyScale from '../utils/beautifyScale'
 import getDpi from '../utils/getDpi'
-import { ScaleState } from '../types'
+import { ScaleState, ScaleGetters } from '../types'
 
 const getInitialState = (): ScaleState => ({
   scaleValue: 0,
@@ -18,7 +19,7 @@ const getInitialState = (): ScaleState => ({
 // OK for module creation
 // eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
-  const storeModule: PolarModule<ScaleState, ScaleState> = {
+  const storeModule: PolarModule<ScaleState, ScaleGetters> = {
     namespaced: true,
     state: getInitialState(),
     actions: {
@@ -48,12 +49,7 @@ export const makeStoreModule = () => {
         if (typeof currentScaleValue !== 'number' || currentScaleValue <= 0) {
           return `1 : ${translate('common:plugins.scale.toOneNegative')}`
         }
-
-        if (currentScaleValue > 10000) {
-          currentScaleValue = Math.round(currentScaleValue / 500) * 500
-        } else if (currentScaleValue > 1000) {
-          currentScaleValue = Math.round(currentScaleValue / 50) * 50
-        }
+        currentScaleValue = beautifyScale(currentScaleValue)
 
         const scaleToOne = '1 : ' + thousandsSeparator(currentScaleValue)
         commit('setScaleToOne', scaleToOne)
@@ -70,12 +66,46 @@ export const makeStoreModule = () => {
             : `${scaleNumber} m`
         commit('setScaleWithUnit', newValue)
       },
+      zoomToScale({ dispatch, getters }, zoomLevel: number): void {
+        const { zoomMethod } = getters
+        if (zoomMethod.length > 0) {
+          dispatch(zoomMethod, zoomLevel, { root: true })
+        }
+      },
     },
     mutations: {
       ...generateSimpleMutations(getInitialState()),
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      zoomOptions: (_, __, ___, rootGetters) => {
+        const options = rootGetters.configuration.options
+
+        if (!options) {
+          console.error(
+            "@polar/plugin-scale: Configuration parameter `options` is missing. Scale switcher won't be rendered."
+          )
+          return []
+        }
+        return options
+      },
+      showScaleSwitcher: (_, getters, ___, rootGetters) => {
+        return (
+          rootGetters.configuration?.scale?.showScaleSwitcher &&
+          getters.zoomOptions.length > 0
+        )
+      },
+      zoomMethod: (_, __, ___, rootGetters) => {
+        const zoomMethod = rootGetters.configuration?.scale?.zoomMethod
+
+        if (!zoomMethod) {
+          console.error(
+            "@polar/plugin-scale: Configuration parameter `zoomMethod` is missing. Scale switcher won't be rendered."
+          )
+          return ''
+        }
+        return zoomMethod
+      },
     },
   }
 
