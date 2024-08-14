@@ -114,7 +114,6 @@ This example configuration will add these checkboxes:
 ▢ Strawberry
 ```
 
-
 ###### filter.filterConfiguration.time
 
 | fieldName | type | description |
