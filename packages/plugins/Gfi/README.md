@@ -33,7 +33,7 @@ gfi: {
   mode: 'bboxDot',
   activeLayerPath: 'plugin/layerChooser/activeMaskIds',
   layers: {
-    [denkmaelerWFS]: {
+    'layerId': {
       geometry: true,
       window: true,
       maxFeatures: 10,
