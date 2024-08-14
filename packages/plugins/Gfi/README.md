@@ -163,7 +163,7 @@ customHighlightStyle: {
 Example configuration:
 ```js
 featureList: {
-  mode: visible,
+  mode: 'visible',
   bindWithCoreHoverSelect: true,
   pageLength: 5,
   text: ["Nature reserves"]
