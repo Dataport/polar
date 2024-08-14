@@ -25,7 +25,7 @@ The following chapters contain drafts in this format. Please mind that they neit
 {
   filter: {
     layers: {
-      "1234": {
+      '1234': {
         categories: [
           {
             selectAll: true,
