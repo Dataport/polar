@@ -8,25 +8,6 @@ A generic loading indicator that may be used by any plugin or outside procedure 
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
-Example configuration:
-
-```js
- core.addPlugins([
-    ...
-AddressSearch({
-        displayComponent: true,
-        layoutTag: NineLayoutTag.TOP_LEFT,
-        addLoading: 'plugin/loadingIndicator/addLoadingKey',
-        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-    }),
-LoadingIndicator({
-        displayComponent: true,
-        layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
-    }),
-    ...
- ])
-```
-
 ## Store
 
 ### Mutations
