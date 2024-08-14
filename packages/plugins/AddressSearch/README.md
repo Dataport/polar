@@ -62,8 +62,8 @@ addressSearch: {
   ],
   groupProperties: {
     groupAdressSearch: {
-      label: 'Adresssuche',
-      hint: 'Geben Sie eine Adresse ein',
+      label: 'Address search',
+      hint: 'Please enter an address',
       resultDisplayMode: 'categorized',
       limitResults: 3,
     },
@@ -74,7 +74,7 @@ addressSearch: {
   focusAfterSearch: true,
   categoryProperties: {
     categoryAddressSearchAutocomplete: {
-      label: 'Adresssuche Stichworte',
+      label: 'Address search keywords',
     },
   },
   minLength: 3,
@@ -107,9 +107,9 @@ Example configuration:
     categoryId: 'categoryAddressSearch',
     type: 'bkg'
     url: 'example.com',
-    hint: 'Eingabe von z.B. Strasse oder Adresse',
-    label: 'Strassensuche',
-    placeholder: 'Strassenname',
+    hint: 'Input of e.g. street or address',
+    label: 'Street search',
+    placeholder: 'Street name',
     queryParameters: {
       filter: {
         bundesland: 'Schleswig-Holstein',
@@ -169,8 +169,8 @@ Example configuration:
 ```js
 groupProperties: {
   groupAdressSearch: {
-    label: 'Strassensuche',
-    hint: 'Geben Sie einen Strassennamen ein',
+    label: 'Street search',
+    hint: 'Please enter a street name',
     resultDisplayMode: 'categorized',
     limitResults: 3,
   },
@@ -190,7 +190,7 @@ Example configuration:
 ```js
 categoryProperties: {
   categoryAddressSearchAutocomplete: {
-    label: 'Adresssuche Treffer',
+    label: 'Address search hits',
   },
 }
 ```
@@ -309,7 +309,7 @@ This can be used to change the selected search group by name.
 ```js
 map.$store.commit(
   'plugin/addressSearch/setSelectedGroupName',
-  'Flurstückssuche'
+  'Parcel search'
 )
 ```
 
@@ -323,7 +323,7 @@ This is a purely programmatical search method. It is not used by user input.
 
 ```js
 map.$store.dispatch('plugin/addressSearch/search', {
-  input: 'Bahnhofsstraße 12',
+  input: 'Station Road 12',
   autoselect: 'first',
 })
 ```

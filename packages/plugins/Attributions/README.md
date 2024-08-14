@@ -33,8 +33,8 @@ attributions: {
       title: 'Basemap',
     },
     {
-      id: uBahn,
-      title: 'U-Bahn',
+      id: subway,
+      title: 'Subway',
     },
   ],
   staticAttributions: [
@@ -58,8 +58,8 @@ layerAttributions: [
     title: 'Basemap © <YEAR>',
   },
   {
-    id: uBahn,
-    title: 'U-Bahn',
+    id: subway,
+    title: 'Subway',
   },
 ]
 ```

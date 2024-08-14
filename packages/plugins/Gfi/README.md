@@ -112,7 +112,7 @@ featureList: {
   mode: visible,
   bindWithCoreHoverSelect: true,
   pageLength: 5,
-  text: ["Naturschutzgebiete in Brandenburg"]
+  text: ["Nature reserves"]
 }
 ```
 

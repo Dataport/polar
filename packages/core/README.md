@@ -99,7 +99,7 @@ const mapConfiguration = {
   layers: [
 // parts of the layer configuration can be outsourced to another file and referenced in the mapConfiguration by id like the second layer
     {
-      id: 'hintergrundkarte',
+      id: 'backgroundmap',
       name: 'WMS DE BASEMAP.DE WEB RASTER',
       url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
       typ: 'WMS',
@@ -113,7 +113,7 @@ const mapConfiguration = {
       id: '1561',
       visibility: true,
       type: 'mask',
-      name: 'Bebauungsplänen',
+      name: 'Building Plans',
       minZoom: 2,
     },
   ],
