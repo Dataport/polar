@@ -103,12 +103,12 @@ addressSearch: {
 | queryParameters | object? | The object further describes details for the search request. Its contents vary by service type, see documentation below. |
 
 Example configuration:
-  ```js
+```js
  searchMethods: [
   {
     groupId: 'groupAdressSearch',
     categoryId: 'categoryAddressSearch',
-    type: 'bkg'
+    type: 'bkg',
     url: 'example.com',
     hint: 'Input of e.g. street or address',
     label: 'Street search',
@@ -120,7 +120,6 @@ Example configuration:
     },
   },
 ],
-  ```
 
 #### addressSearch.customSearchMethod
 
