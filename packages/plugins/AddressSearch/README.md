@@ -108,7 +108,7 @@ Example configuration:
   {
     groupId: 'groupAdressSearch',
     categoryId: 'categoryAddressSearch',
-    type: 'bkg'
+    type: 'bkg',
     url: 'example.com',
     hint: 'Input of e.g. street or address',
     label: 'Street search',
