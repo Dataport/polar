@@ -32,7 +32,6 @@ reverseGeocoder: {
 }
 ```
 
-
 ## Store
 
 The ReverseGeocoder plugin does not hold any state.
