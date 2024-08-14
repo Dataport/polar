@@ -27,6 +27,10 @@ attributions: {
   initiallyOpen: false,
   windowWidth: 300,
   renderType: 'independent',
+  listenToChanges: [
+    'plugin/zoom/zoomLevel',
+    'plugin/layerChooser/activeBackgroundId',
+  ],
   layerAttributions: [
     {
       id: basemapId,
