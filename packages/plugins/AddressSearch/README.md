@@ -300,7 +300,6 @@ queryParameters: {
   searchStreets: true,
   searchHouseNumbers: true,
 },
-
 ```
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:bkg)
