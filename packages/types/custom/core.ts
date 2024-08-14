@@ -445,6 +445,11 @@ export type ToastTypeStyles = {
 /** configuration for toast type styles */
 export type ToastConfiguration = PluginOptions & ToastTypeStyles
 
+export interface ScaleConfiguration extends PluginOptions {
+  showScaleSwitcher?: boolean
+  zoomMethod?: string
+}
+
 export interface ZoomConfiguration extends PluginOptions {
   renderType?: RenderType
   showMobile?: boolean
@@ -607,6 +612,7 @@ export interface MapConfig {
   iconMenu?: IconMenuConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
+  scale?: ScaleConfiguration
   toast?: ToastConfiguration
   zoom?: ZoomConfiguration
 }
