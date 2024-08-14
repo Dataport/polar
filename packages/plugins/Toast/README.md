@@ -47,10 +47,10 @@ toast: {
 
 Example configuration:
 ```js
-    toastStyle: {
-      color: '#0000FF'
-      icon: 'fas fa-file'
-    }
+toastStyle: {
+  color: '#0000FF'
+  icon: 'fas fa-file'
+}
 ```
 
 ## Store
