@@ -18,7 +18,7 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 Example configuration:
 ```js
 fullscreen: {
-  renderType: iconMenu,
+  renderType: 'iconMenu',
   targetContainerId: 'mapContainer'
 }
 ```
