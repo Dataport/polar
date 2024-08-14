@@ -92,10 +92,6 @@ const mapConfiguration = {
   stylePath: '../dist/polar-client.css',
   checkServiceAvailability: true,
   language: 'de',
-  startResolution: 264.583190458,
-  startCenter: [553655.72, 6004479.25],
-  extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
-  epsg: 'EPSG:25832',
   locales, // the languageOptions object will normally be outsourced to another file
   layers: [
     // parts of the layer configuration can be outsourced to another file
