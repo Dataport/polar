@@ -28,10 +28,11 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 <details>
 <summary>Example configuration</summary>
 
-```js
+```ts
 gfi: {
   mode: 'bboxDot',
   activeLayerPath: 'plugin/layerChooser/activeMaskIds',
+  afterLoadFunction: afterLoadFunction,
   layers: {
     'layerId': {
       geometry: true,
@@ -55,6 +56,20 @@ gfi: {
     },
   },
 }
+
+function afterLoadFunction(featuresByLayerId: Record<string, GeoJsonFeature[]>): Record<string, GeoJsonFeature[]> {
+  const filteredFeaturesByLayerId: Record<string, GeoJsonFeature[]> = {};
+
+  for (const layerId in featuresByLayerId) {
+    if (featuresByLayerId.hasOwnProperty(layerId)) {
+      const features = featuresByLayerId[layerId];
+      filteredFeaturesByLayerId[layerId] = features.filter(feature => feature.properties.type === 'desiredType');
+    }
+  }
+
+  return filteredFeaturesByLayerId;
+}
+
 ```
 
 </details>
