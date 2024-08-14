@@ -22,7 +22,6 @@ This module has been written for the HH WPS service. The return format is custom
 
 Example configuration:
 ```js
-
 reverseGeocoder: {
   url: 'someWebProcessingServiceUrl.com'
   coordinateSource: 'plugin/pins/transformedCoordinate',
