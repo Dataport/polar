@@ -97,7 +97,8 @@ const mapConfiguration = {
   epsg: 'EPSG:25832',
   locales, // the languageOptions object will normally be outsourced to another file
   layers: [
-// parts of the layer configuration can be outsourced to another file and referenced in the mapConfiguration by id like the second layer
+    // parts of the layer configuration can be outsourced to another file
+    // and referenced in the mapConfiguration by id like the second layer
     {
       id: 'backgroundmap',
       name: 'WMS DE BASEMAP.DE WEB RASTER',
