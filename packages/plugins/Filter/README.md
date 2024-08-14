@@ -98,7 +98,8 @@ Example configuration:
 categories: [
   {
     targetProperty: 'favouriteIceCream', 
-    knownValues: ['chocolate', 'vanilla', 'strawberry'], selectAll: true
+    knownValues: ['chocolate', 'vanilla', 'strawberry'],
+    selectAll: true,
   }
 ],
 ```
