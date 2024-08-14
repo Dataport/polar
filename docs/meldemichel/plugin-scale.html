@@ -29,6 +29,28 @@
 <h2>Scope</h2>
 <p>The scale plugin shows the current map resolution as relative scale (1:x) and/or absolute scale (a drawn line has length x units).</p>
 <h2>Configuration</h2>
+<h3>scale</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>showScaleSwitcher</td>
+<td>boolean?</td>
+<td>If set to <code>true</code>, a button to switch to a specific scale will be rendered. Defaults to <code>false</code>. Requires the configuration parameter <code>options</code> set in the <code>mapConfiguration</code>, see <code>&lt;...masterportalAPI.fields&gt;</code> in the <code>@polar/core</code> package documentation for more information. Also requires the parameter <code>zoomMethod</code> to be configured.</td>
+</tr>
+<tr>
+<td>zoomMethod</td>
+<td>string?</td>
+<td>Path to the action that is used for the zoom of the scale switcher. Has to take <code>zoomLevel</code> as payload. Must be configured for the scale switcher, otherwise it will not be rendered.</td>
+</tr>
+</tbody>
+</table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/meldemichel/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
 
     
