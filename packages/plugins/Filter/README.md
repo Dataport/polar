@@ -184,6 +184,7 @@ Example configuration:
 ```js
 freeSelection: {
   now: 'until',
+  unit: 'days'
 },
 ```
 
