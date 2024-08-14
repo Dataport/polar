@@ -12,7 +12,7 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 
 | fieldName | type | description |
 | - | - | - |
-| appearOnClick | appearOnClick?? | Pin restrictions. See object description below. |
+| appearOnClick | appearOnClick? | Pin restrictions. See object description below. |
 | boundaryLayerId | string? | Id of a vector layer to restrict pins to. When pins are moved or created outside of the boundary, an information will be shown and the pin is reset to its previous state. The map will wait at most 10s for the layer to load; should it not happen, the geolocation feature is turned off. |
 | boundaryOnError | ('strict' \| 'permissive')? | If the boundary layer check does not work due to loading or configuration errors, style `'strict'` will disable the pins feature, and style `'permissive'` will act as if no boundaryLayerId was set. Defaults to `'permissive'`. |
 | coordinateSource | string? | The pins plugin may react to changes in other plugins. This specifies the path to such store positions. The position must, when subscribed to, return a GeoJSON feature. Please mind that, when referencing another plugin, that plugin must be in `addPlugins` before this one. |
