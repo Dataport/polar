@@ -120,7 +120,6 @@ Example configuration:
     },
   },
 ],
-  ```
 
 #### addressSearch.customSearchMethod
 
