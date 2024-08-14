@@ -29,9 +29,9 @@ Example configuration:
 geoLocation: {
   checkLocationInitially: true,
   keepCentered: true,
-  renderType: independent,
+  renderType: 'independent',
   zoomLevel: 7,
-  boundaryLayerId: hamburgBorder,
+  boundaryLayerId: 'hamburgBorder',
   boundaryOnError: 'strict',
   showTooltip: true,
   toastAction: 'plugin/toast/addToast',
