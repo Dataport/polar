@@ -79,10 +79,7 @@ draw: {
 Example configuration:
 ```js
 textStyle: {
-  font: {
-    size: [10.5, 20, 30.5, 35],
-    family: 'serif'
-  },
+  font: '16px sans-serif'
   textColor: '#e51313'
 }
 ```
