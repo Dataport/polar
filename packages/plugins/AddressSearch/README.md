@@ -45,10 +45,13 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 addressSearch: {
   searchMethods: [
     {
-      groupId: 'groupAdressSearch',
-      categoryId: 'categoryAddressSearchAutocomplete',
-      type: 'autocomplete',
-      url: 'example.com',
+      queryParameters: {
+        searchAddress: true,
+        searchStreets: true,
+        searchHouseNumbers: true,
+      },
+      type: 'mpapi',
+      url: 'example-url.com',
     },
     {
       queryParameters: {
@@ -57,26 +60,26 @@ addressSearch: {
         },
       },
       type: 'bkg',
-      url: '',
+      url: 'other-example-url.com',
     },
+    {
+      type: 'wfs'
+      queryParameters: {
+        srsName: 'EPSG:25832',
+        typeName: 'address_shp',
+        fieldName: 'objektid',
+        featurePrefix: 'app',
+        xmlns: 'http://www.deegree.org/app',
+        useRightHandWildcard: true,
+      },
+    }
   ],
   groupProperties: {
-    groupAdressSearch: {
-      label: 'Address search',
-      hint: 'Please enter an address',
-      resultDisplayMode: 'categorized',
-      limitResults: 3,
-    },
     defaultGroup: {
       limitResults: 5,
     },
   },
   focusAfterSearch: true,
-  categoryProperties: {
-    categoryAddressSearchAutocomplete: {
-      label: 'Address search keywords',
-    },
-  },
   minLength: 3,
   waitMs: 300,
   addLoading: 'plugin/loadingIndicator/addLoadingKey',
