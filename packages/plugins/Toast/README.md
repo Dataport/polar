@@ -35,7 +35,6 @@ toast: {
     }
   }
 }
-
 ```
 
 #### toast.toastStyle
