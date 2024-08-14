@@ -233,6 +233,8 @@ Configuration examples for the likeFilterAttributes parameter:
 - WFS 2.0.0 `{wildCard: "%", singleChar: "*", escapeChar: "\"}`
 - WFS 1.0.0 `{wildCard: "*", singleChar: "*", escape: "\"}`
 
+Example configurations:
+
 ```js
 type: 'wfs'
 queryParameters: {
@@ -242,7 +244,26 @@ queryParameters: {
   featurePrefix: 'app',
   xmlns: 'http://www.deegree.org/app',
   useRightHandWildcard: true,
-},
+}
+```
+
+```js
+type: 'wfs'
+queryParameters: {
+  srsName: 'EPSG:25832',
+  typeName: 'address_shp',
+  featurePrefix: 'app',
+  xmlns: 'http://www.deegree.org/app',
+  patternKeys: {
+    streetName: '([A-Za-z]+)'
+    houseNumber: '([0-9]+)'
+    postalCode: '([0-9]+)'
+    city: '([A-Za-z]+)'
+  },
+  pattern: [
+    '{{streetName}} {{houseNumber}} {{postalCode}} {{city}}' 
+  ]
+}
 ```
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:gazetteer)
