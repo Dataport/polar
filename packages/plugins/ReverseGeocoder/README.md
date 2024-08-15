@@ -25,6 +25,7 @@ Example configuration:
 reverseGeocoder: {
   url: 'someWebProcessingServiceUrl.com'
   coordinateSource: 'plugin/pins/transformedCoordinate',
+  addressTarget: 'plugin/addressSearch/selectResult',
   addLoading: 'plugin/loadingIndicator/addLoadingKey',
   removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
   zoomTo: 7,  
