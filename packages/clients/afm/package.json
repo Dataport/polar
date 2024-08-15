@@ -21,7 +21,8 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm"
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm",
+    "dev": "vite --host"
   },
   "devDependencies": {
     "@polar/core": "^1.0.0",
@@ -45,5 +46,8 @@
     "vue": "^2.x",
     "vuex": "^3.x",
     "lodash.merge": "^4.6.2"
+  },
+  "nx": {
+    "includedScripts": ["build", "dev"]
   }
 }

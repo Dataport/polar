@@ -16,7 +16,8 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh"
+    "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh",
+    "dev": "vite --host"
   },
   "devDependencies": {
     "@polar/core": "^1.4.1",
@@ -36,5 +37,8 @@
     "@turf/union": "^6.5.0",
     "js-levenshtein": "^1.1.6",
     "lodash.debounce": "^4.0.8"
+  },
+  "nx": {
+    "includedScripts": ["build", "dev"]
   }
 }
