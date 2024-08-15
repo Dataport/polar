@@ -7,7 +7,7 @@ The client's core is the base package to create clients in the POLAR environment
 It offers this functionality:
 
 - Plugin mechanism
-- @masterportal/masterportalapi functionality
+- @masterportal/masterportalApi functionality
 - Localization mechanism
 
 ## Interaction
@@ -21,7 +21,7 @@ It is important to note that the behaviour will be desktop-like on larger touchs
 
 It depends on the client how exactly the initialization will take place for the embedding programmer. However, the core mechanism remains the same.
 
-The exported default object is an extended masterportalAPI, adding the `addPlugins` and extending the `createMap` functions. For masterportalAPI details, [see their repository](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/).
+The exported default object is an extended masterportalApi, adding the `addPlugins` and extending the `createMap` functions. For masterportalApi details, [see their repository](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/).
 
 To be able to see the map in production mode, the imported stylesheet has to have the property `data-polar`. The value can be chosen arbitrarily. ⚠️ Deprecated. The new field 'stylePath' should be used instead.
 
@@ -71,15 +71,14 @@ The mapConfiguration allows controlling many client instance details.
 
 | fieldName | type | description |
 | - | - | - |
-| layerConf | LayerConf | Layer configuration as required by masterportalAPI. |
-| language | enum["de", "en"] | Initial language. |
-| <...masterportalAPI.fields> | various | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options. |
+| <...masterportalApi.fields> | various | Multiple different parameters are required by the masterportalApi to be able to create the map. Also, some fields are optional but relevant and thus described here as well. For all additional options, refer to the documentation of the masterportalApi itself. |
 | <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
-| locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
-| vuetify | object? | You may add vuetify configuration here. |
-| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
 | stylePath | string? | If no link tag with `data-polar="true"` is found in the document, this path will be used to create the link node in the client itself. It defaults to `'./style.css'`. Please mind that `data-polar="true"` is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release. |
+| language | enum["de", "en"]? | Initial language. |
+| locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
+| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
+| vuetify | object? | You may add vuetify configuration here. |
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
 
 <details>
@@ -221,11 +220,65 @@ A full documentation of the masterportalapiPolygonFillHatch is available at the 
 >|backgroundColor|no|Number[]|`[0, 0, 0, 1]`|Background color of polygon.|
 >|patternColor|no|Number[]|`[255, 255, 255, 1]`|Fill color of pattern drawn on polygon.|
 
-##### mapConfiguration.LayerConf
+##### <...masterportalApi.fields>
 
-The layer configuration (or: service register) is read by the masterportalAPI. The full definition can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+The `<...masterportalAPI.fields>` means that any masterportalAPI field may also be used here _directly_ in the mapConfiguration. The most common fields are the following ones; for more, see masterportalApi.
 
-However, not all listed services have been implemented in the masterportalAPI yet, and no documentation regarding implemented properties exists there yet.
+Note, that some parameters may be optional while others are required.
+
+| fieldName | type | description |
+| - | - | - |
+| layerConf | layerConf \| string | Layer configuration of all available layers as a service register. May either be a self defined register or a link to an external register. Refer to `mapConfiguration.layers` regarding the configuration for a client itself. |
+| startResolution | number | Initial resolution; must be described in `mapConfiguration.options`. |
+| startCenter | number[] | Initial center coordinate. |
+| extent | number[] | Map movement will be restricted to the rectangle described by the given coordinates. |
+| epsg | string | Leading coordinate system, e.g. `"EPSG:25832"`. The coordinate system should be defined in `namedProjections` as well. |
+| options | Array | Defines all available zoom levels mapped to the respective resolution and related scale. Deprecated in an upcoming release, please use the parameter `resolutions` instead. |
+| resolutions | number[] | Resolutions that determine the zoom levels. The index in the array corresponds to the zoom level, therefore the resolution values have to be in descending order. A resolution is the size of 1 pixel on the screen converted to map units (e.g. meters) depending on the used projection (`epsg`). For more information, see the [OpenLayers documentation](https://openlayers.org/en/v9.2.4/apidoc/module-ol_View-View.html) of the parameter `resolutions`. |
+| namedProjections | Array<[string,string]> | Array of usable coordinated systems mapped to a projection as a proj4 string. |
+
+<details>
+<summary>Example configuration</summary>
+
+```js
+{
+  startResolution: 264.583190458,
+  startCenter: [553655.72, 6004479.25],
+  extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
+  epsg: 'EPSG:25832',
+  resolutions: [
+    2116.66552366,
+    1058.33276183,
+    529.166380916,
+    264.583190458,
+    132.291595229,
+    66.14579761460263,
+    26.458319045841044,
+    15.874991427504629,
+    10.583327618336419,
+    5.2916638091682096,
+    2.6458319045841048,
+    1.3229159522920524,
+    0.6614579761460262,
+    0.2645831904584105,
+    0.1322915952292052
+  ],
+  namedProjections: [
+    [
+      'EPSG:25832',
+      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+    ],
+  ],
+}
+```
+
+</details>
+
+##### mapConfiguration.layerConf
+
+The layer configuration (or: service register) is read by the masterportalApi. The full definition can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+
+However, not all listed services have been implemented in the masterportalApi yet, and no documentation regarding implemented properties exists there yet.
 
 Whitelisted and confirmed parameters include:
 
@@ -258,47 +311,7 @@ Whitelisted and confirmed parameters include:
 ]
 ```
 
-Since this is the base for many functions, the service ID set in this is used to reference map material in many places of the map client.
-
-##### <...masterportalAPI.fields>
-
-The `<...masterportalAPI.fields>` means that any masterportalAPI field may also be used here _directly_. The most common fields are the following ones; for more, see masterportalAPI.
-
-| fieldName | type | description |
-| - | - | - |
-| startResolution | number | Initial resolution; must be in options. See below. |
-| startCenter | number[] | Initial center coordinate. |
-| extent | number[] | Map movement will be restricted to this rectangle. |
-| epsg | string | Leading coordinate system, e.g. `"EPSG:25832"`. |
-| options | Array | Defines all available zoomLevels. Entries define `resolution`, `scale`, and `zoomLevel`. See masterportalAPI for details. |
-| namedProjections | Array | Array of usable projections by proj4 string. |
-
-<details>
-<summary>Example configuration</summary>
-
-```js
-{
-  startResolution: 264.583190458,
-  startCenter: [553655.72, 6004479.25],
-  extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
-  epsg: 'EPSG:25832',
-  options: [
-    { resolution: 2.6458319045841048, scale: 10000, zoomLevel: zoomLevel++ },
-    { resolution: 1.3229159522920524, scale: 5000, zoomLevel: zoomLevel++ },
-    { resolution: 0.6614579761460262, scale: 2500, zoomLevel: zoomLevel++ },
-    { resolution: 0.2645831904584105, scale: 1000, zoomLevel: zoomLevel++ },
-    { resolution: 0.1322915952292052, scale: 500, zoomLevel: zoomLevel++ },
-  ],
-  namedProjections: [
-    [
-      'EPSG:25832',
-      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-    ],
-  ],
-}
-```
-
-</details>
+Since this is the base for many functions, the service id set in this is used to reference map material in many places of the map client.
 
 ##### <plugin.fields>
 
