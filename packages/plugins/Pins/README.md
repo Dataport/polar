@@ -37,6 +37,7 @@ pins: {
   },
   boundaryLayerId: hamburgBorder,
   toastAction: 'plugin/toast/addToast',
+  coordinateSource: 'plugin/addressSearch/chosenAddress'
 }
 
 ```
