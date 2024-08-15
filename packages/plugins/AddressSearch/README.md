@@ -38,6 +38,57 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
+<details>
+<summary>Example configuration</summary>
+
+```js
+addressSearch: {
+  searchMethods: [
+    {
+      queryParameters: {
+        searchAddress: true,
+        searchStreets: true,
+        searchHouseNumbers: true,
+      },
+      type: 'mpapi',
+      url: 'example-url.com',
+    },
+    {
+      queryParameters: {
+        filter: {
+          bundesland: 'Schleswig-Holstein',
+        },
+      },
+      type: 'bkg',
+      url: 'other-example-url.com',
+    },
+    {
+      type: 'wfs'
+      queryParameters: {
+        srsName: 'EPSG:25832',
+        typeName: 'address_shp',
+        fieldName: 'objektid',
+        featurePrefix: 'app',
+        xmlns: 'http://www.deegree.org/app',
+        useRightHandWildcard: true,
+      },
+    }
+  ],
+  groupProperties: {
+    defaultGroup: {
+      limitResults: 5,
+    },
+  },
+  focusAfterSearch: true,
+  minLength: 3,
+  waitMs: 300,
+  addLoading: 'plugin/loadingIndicator/addLoadingKey',
+  removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+},
+```
+
+</details>
+
 #### addressSearch.searchMethodsObject
 
 | fieldName | type | description |
@@ -51,11 +102,30 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 | placeholder | string? | Placeholder string to display on input element. Can be a locale key. If grouped with other services, the group's placeholder will be used instead. |
 | queryParameters | object? | The object further describes details for the search request. Its contents vary by service type, see documentation below. |
 
+Example configuration:
+```js
+ searchMethods: [
+  {
+    groupId: 'groupAdressSearch',
+    categoryId: 'categoryAddressSearch',
+    type: 'bkg',
+    url: 'example.com',
+    hint: 'Input of e.g. street or address',
+    label: 'Street search',
+    placeholder: 'Street name',
+    queryParameters: {
+      filter: {
+        bundesland: 'Schleswig-Holstein',
+      },
+    },
+  },
+],
+
 #### addressSearch.customSearchMethod
 
 This is a function with the following signature:
 
-```
+```ts
 (
   // should be used to actually abort request
   signal: AbortSignal,
@@ -74,7 +144,7 @@ With this, arbitrary services can be supported.
 
 This is a function with the following signature:
 
-```
+```ts
 ({
   // VueX context object
   context,
@@ -97,11 +167,35 @@ With this, arbitrary click results can be supported. Please mind that undocument
 | limitResults | number? | If set, only the first `n` results (per category in `categorized`) are displayed initially. All further results can be opened via UI. |
 | placeholder | string? | Placeholder string to display on input element. Can be a locale key. |
 
+Example configuration:
+```js
+groupProperties: {
+  groupAdressSearch: {
+    label: 'Street search',
+    hint: 'Please enter a street name',
+    resultDisplayMode: 'categorized',
+    limitResults: 3,
+  },
+  defaultGroup: {
+    limitResults: 5,
+  },
+}
+```
+
 #### addressSearch.categoryProperties
 
 | fieldName | type | description |
 | - | - | - |
 | label | string | Category label to display next to results to identify the source. Can be a locale key. Only relevant if the search's `groupProperties` linked via `groupId` contain a `resultDisplayMode` scenario that uses categories. |
+
+Example configuration:
+```js
+categoryProperties: {
+  categoryAddressSearchAutocomplete: {
+    label: 'Address search hits',
+  },
+}
+```
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:common)
 
@@ -110,6 +204,13 @@ These fields are interpreted by all implemented services.
 | fieldName | type | description |
 | - | - | - |
 | maxFeatures | number? | Maximum amount of features to retrieve. Doesn't limit results if not set. |
+
+Example configuration:
+```js
+queryParameters: {
+  maxFeatures: 120,
+},
+```
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:wfs)
 
@@ -130,6 +231,39 @@ Since inputs may overlap with multiple patterns, multiple queries are fired and 
 Configuration examples for the likeFilterAttributes parameter: 
 - WFS 2.0.0 `{wildCard: "%", singleChar: "*", escapeChar: "\"}`
 - WFS 1.0.0 `{wildCard: "*", singleChar: "*", escape: "\"}`
+
+Example configurations:
+
+```js
+type: 'wfs'
+queryParameters: {
+  srsName: 'EPSG:25832',
+  typeName: 'address_shp',
+  fieldName: 'objektid',
+  featurePrefix: 'app',
+  xmlns: 'http://www.deegree.org/app',
+  useRightHandWildcard: true,
+}
+```
+
+```js
+type: 'wfs'
+queryParameters: {
+  srsName: 'EPSG:25832',
+  typeName: 'address_shp',
+  featurePrefix: 'app',
+  xmlns: 'http://www.deegree.org/app',
+  patternKeys: {
+    streetName: '([A-Za-z]+)'
+    houseNumber: '([0-9]+)'
+    postalCode: '([0-9]+)'
+    city: '([A-Za-z]+)'
+  },
+  pattern: [
+    '{{streetName}} {{houseNumber}} {{postalCode}} {{city}}' 
+  ]
+}
+```
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:gazetteer)
 
@@ -159,6 +293,15 @@ Configuration examples for the likeFilterAttributes parameter:
 
 While all fields are optional, configuring none of them will yield undefined behaviour. At least one search instruction should be set to `true`.
 
+```js
+type: 'mpapi'
+queryParameters: {
+  searchAddress: true,
+  searchStreets: true,
+  searchHouseNumbers: true,
+},
+```
+
 ##### addressSearch.searchMethodsObject.queryParameters (type:bkg)
 
 In _BKG_ mode, queryParameter's key-value pairs are used in the service query. E.g. `{filter: { bundesland: 'Bremen' }}` results in the GET request URL having `&filter=bundesland:Bremen` as suffix.
@@ -167,6 +310,15 @@ For more options, please check the [official documentation](https://sg.geodatenz
 
 Additionally, it is possible to configure the parameters `accesstoken` (`Authorization`) or `apiKey` (custom header `X-Api-Key`) to send the described headers to the search service for authentication purposes. 
 Note that this changes the request to be non-simple. To be able to use the parameters, the request has to be sent in [`cors` mode](https://developer.mozilla.org/en-US/docs/Web/API/Request/mode) and has to support preflight request `OPTIONS`.
+
+```js
+type: 'bkg'
+queryParameters: {
+  filter: {
+    bundesland: 'Schleswig-Holstein',
+  },
+},
+```
 
 ## Store
 
@@ -179,7 +331,7 @@ This can be used to change the selected search group by name.
 ```js
 map.$store.commit(
   'plugin/addressSearch/setSelectedGroupName',
-  'Flurstückssuche'
+  'Parcel search'
 )
 ```
 
@@ -193,7 +345,7 @@ This is a purely programmatical search method. It is not used by user input.
 
 ```js
 map.$store.dispatch('plugin/addressSearch/search', {
-  input: 'Bahnhofsstraße 12',
+  input: 'Station Road 12',
   autoselect: 'first',
 })
 ```

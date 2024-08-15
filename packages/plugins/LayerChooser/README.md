@@ -27,6 +27,53 @@ Each object in `mapConfiguration.layers` array fits this definition:
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
+<details>
+<summary>Example configuration</summary>
+
+```js
+layers: [
+  {
+    id: backgroundmap,
+    visibility: true,
+    type: 'background',
+    name: 'Basemap Grayscale',
+  },
+  {
+    id: memorialsWFS,
+    visibility: false,
+    hideInMenu: true,
+    type: 'mask',
+    name: 'Memorial (WFS)',
+    minZoom: 7,
+  },
+  {
+    id: memorialsWMS,
+    visibility: true,
+    type: 'mask',
+    name: 'Cultural monuments (list)',
+    options: {
+      layers: {
+        order: '6,24,25,4,3,2,1,0',
+        title: {
+          '6': 'Monument area',
+          '24': 'Majority of structures',
+          '25': 'Material group',
+          '4': 'Architectural monument',
+          '3': 'Natural monument',
+          '2': 'Water bodies',
+          '1': 'Architectural monument (area)',
+          '0': 'Natural monument (area)',
+        },
+        legend: true,
+      },
+    },
+  },
+]
+```
+
+</details>
+
+
 ### mapConfiguration.layers.options
 
 An option wheel will appear in the layer chooser that allows opening a sub-menu with configured configuration options for the end user.
@@ -34,6 +81,26 @@ An option wheel will appear in the layer chooser that allows opening a sub-menu 
 | fieldName | type | description |
 | - | - | - |
 | layers | options.layers | If configured, all configured _layers of the layer_ can be turned off and on by the user. ⚠️ Only implemented for WMS. Only implemented for top layers; that is, only first level of nesting is considered. |
+
+Example configuration:
+```js
+options: {
+  layers: {
+    order: '6,24,25,4,3,2,1,0',
+    title: {
+      '6': 'Monument area',
+      '24': 'Majority of structures',
+      '25': 'Material group',
+      '4': 'Architectural monument',
+      '3': 'Natural monument',
+      '2': 'Water bodies',
+      '1': 'Architectural monument (area)',
+      '0': 'Natural monument (area)',
+    },
+    legend: true,
+  },
+},
+```
 
 #### mapConfiguration.layers.options.layers
 
@@ -44,3 +111,21 @@ This field is named like this to match the OGC specification for their name; tha
 | legend | boolean \| Record<name, legendUrl>? | Legend image to be used for sub-layer. If false, no image is displayed. If true, it is assumed an image exists in the layer's GetCapabilities, and that will be used. If Record, it maps the layer name to a linked image. The `legendUrl` can be any valid reachable image URL. |
 | order | string? | Optional. If not given, field `layers` from service description will be used, and defines order of options. If layer defined in service description's `layers` and `order`, it's initially on. If only in `order`, it's initially off. If only in `layers`, it's always-on. If in neither, it's always-off. |
 | title | boolean \| Record<name, layerName>? | Title to be displayed for sub-layer. If false, layer name itself will be used as given in service description 'layers' field. If true, it is assumed a name exists in the layer's GetCapabilities, and that will be used. If Record, it maps the layer name to an arbitrary display name given by the configuration. The `layerName` can be any string. |
+
+Example configuration:
+```js
+layers: {
+  order: '6,24,25,4,3,2,1,0',
+  title: {
+    '6': 'Monument area',
+    '24': 'Majority of structures',
+    '25': 'Material group',
+    '4': 'Architectural monument',
+    '3': 'Natural monument',
+    '2': 'Water bodies',
+    '1': 'Architectural monument (area)',
+    '0': 'Natural monument (area)',
+  },
+  legend: true,
+},
+```

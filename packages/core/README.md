@@ -80,6 +80,52 @@ The mapConfiguration allows controlling many client instance details.
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
 | stylePath | string? | If no link tag with `data-polar="true"` is found in the document, this path will be used to create the link node in the client itself. It defaults to `'./style.css'`. Please mind that `data-polar="true"` is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release. |
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
+| checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
+
+<details>
+<summary>Example configuration</summary>
+
+```ts
+import locales from './locales'
+
+const mapConfiguration = {
+  stylePath: '../dist/polar-client.css',
+  checkServiceAvailability: true,
+  language: 'de',
+  locales, // the languageOptions object will normally be outsourced to another file
+  layers: [
+    // parts of the layer configuration can be outsourced to another file
+    // and referenced in the mapConfiguration by id like the second layer
+    {
+      id: 'backgroundmap',
+      name: 'WMS DE BASEMAP.DE WEB RASTER',
+      url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+      typ: 'WMS',
+      layers: 'de_basemapde_web_raster_grau',
+      format: 'image/png',
+      version: '1.3.0',
+      singleTile: false,
+      transparent: true,
+    },
+    {
+      id: '1561',
+      visibility: true,
+      type: 'mask',
+      name: 'Building Plans',
+      minZoom: 2,
+    },
+  ],
+  addressSearch: {
+    displayComponent: false,
+  },
+  export: {
+    showPdf: false,
+  },
+  ...
+}
+```
+
+</details>
 
 ##### mapConfiguration.LanguageOption
 
@@ -125,6 +171,28 @@ To figure out the name of the locales to override, inspect the matching plugin i
 | clusterClickZoom | boolean? | If `true`, clicking a cluster feature will zoom into the clustered features' bounding box (with padding) so that the cluster is "resolved". This happens until the maximum zoom level is reached, at which no further zooming can take place. Defaults to `false`. |
 | dispatchOnMapSelect | string[]? | If set, the parameters will be spread to dispatchment on map selection. `['target', 'value']` will `dispatch(...['target', 'value'])`. This can be used to open the iconMenu's GFI with `['plugin/iconMenu/openMenuById', 'gfi']`, should the IconMenu exist and the gfi plugin be in it with this id. |
 
+
+Example configuration:
+```js
+extendedMasterportalapiMarkers: {
+  layers: ['reportServiceLayerId'],
+  defaultStyle: {
+    stroke: '#FFFFFF',
+    fill: '#005CA9',
+  },
+  hoverStyle: {
+    stroke: '#46688E',
+    fill: '#8BA1B8',
+  },
+  selectionStyle: {
+    stroke: '#FFFFFF',
+    fill: '#E10019',
+  },
+  clusterClickZoom: true,
+  dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
+},
+```
+
 ###### mapConfiguration.extendedMasterportalapiMarkers.MarkerStyle
 
 | fieldName | type |description |
@@ -134,6 +202,14 @@ To figure out the name of the locales to override, inspect the matching plugin i
 | size | [number, number]? | `width` and `height` of the `<svg>`-marker. |
 | strokeWidth | (string \| number)? | Width of marker stroke (outer line). Defaults to `'2'`. |
 | stroke | string? | Color of marker stroke (outer line). Defaults to `'#ffffff'`. |
+
+Example configuration:
+```js
+defaultStyle: {
+  stroke: '#FFFFFF',
+  fill: '#005CA9',
+},
+```
 
 A full documentation of the masterportalapiPolygonFillHatch is available at the Masterportal's documentation file [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md), chapter 'Polygon.polygonFillHatch'. The basic usage is quoted below for quick lookup. For more details, visual examples, and expert features, see there.
 
@@ -196,6 +272,33 @@ The `<...masterportalAPI.fields>` means that any masterportalAPI field may also 
 | epsg | string | Leading coordinate system, e.g. `"EPSG:25832"`. |
 | options | Array | Defines all available zoomLevels. Entries define `resolution`, `scale`, and `zoomLevel`. See masterportalAPI for details. |
 | namedProjections | Array | Array of usable projections by proj4 string. |
+
+<details>
+<summary>Example configuration</summary>
+
+```js
+{
+  startResolution: 264.583190458,
+  startCenter: [553655.72, 6004479.25],
+  extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
+  epsg: 'EPSG:25832',
+  options: [
+    { resolution: 2.6458319045841048, scale: 10000, zoomLevel: zoomLevel++ },
+    { resolution: 1.3229159522920524, scale: 5000, zoomLevel: zoomLevel++ },
+    { resolution: 0.6614579761460262, scale: 2500, zoomLevel: zoomLevel++ },
+    { resolution: 0.2645831904584105, scale: 1000, zoomLevel: zoomLevel++ },
+    { resolution: 0.1322915952292052, scale: 500, zoomLevel: zoomLevel++ },
+  ],
+  namedProjections: [
+    [
+      'EPSG:25832',
+      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+    ],
+  ],
+}
+```
+
+</details>
 
 ##### <plugin.fields>
 

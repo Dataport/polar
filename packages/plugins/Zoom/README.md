@@ -17,6 +17,15 @@ It can be configured as followed.
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
+Example configuration:
+```js
+zoom: {
+  renderType: 'independent',
+  showMobile: false,
+  showZoomSlider: true,
+}
+```
+
 ## Store
 
 ### State
