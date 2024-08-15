@@ -35,7 +35,7 @@ pins: {
   style: {
     fill: '#003064',
   },
-  boundaryLayerId: hamburgBorder,
+  boundaryLayerId: 'hamburgBorder',
   toastAction: 'plugin/toast/addToast',
   coordinateSource: 'plugin/addressSearch/chosenAddress'
 }
