@@ -166,7 +166,7 @@ featureList: {
   mode: 'visible',
   bindWithCoreHoverSelect: true,
   pageLength: 5,
-  text: ["Nature reserves"]
+  text: ["Nature reserves", (feature) => `${feature.get('str')} ${feature.get('hsnr')}`,]
 }
 ```
 
