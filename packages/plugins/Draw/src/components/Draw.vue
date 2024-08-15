@@ -16,27 +16,33 @@
         :values="selectableDrawModes"
         :change-callback="setDrawMode"
       ></RadioCard>
-      <v-card-title v-if="drawOptionsVisible">Draw Options</v-card-title>
-      <v-card-actions v-if="drawOptionsVisible">
-        <span class="action-btn__label">Umrissfarbe</span>
-        <v-btn plain class="v-btn__color-picker" @click="toggleColorPicker"
-          ><v-icon left>
-            {{
-              isColorPickerVisible
-                ? 'fa-solid fa-chevron-left'
-                : 'fa-solid fa-chevron-right'
-            }}
-          </v-icon>
-        </v-btn>
-        <v-expand-transition>
-          <v-color-picker
-            v-if="mode === 'draw' && isColorPickerVisible"
-            id="color-picker"
-            :value="selectedStrokeColor"
-            @input="setSelectedStrokeColor"
-          ></v-color-picker>
-        </v-expand-transition>
-      </v-card-actions>
+      <div v-if="drawOptionsVisible">
+        <v-card-title>{{
+          $t('common:plugins.draw.title.options')
+        }}</v-card-title>
+        <v-card-actions>
+          <v-col>
+            <v-btn class="v-btn__color-picker" @click="toggleColorPicker"
+              >{{ $t('common:plugins.draw.options.stroke')
+              }}<v-icon right>
+                {{
+                  isColorPickerVisible
+                    ? 'fa-solid fa-chevron-up'
+                    : 'fa-solid fa-chevron-down'
+                }}
+              </v-icon>
+            </v-btn>
+            <v-expand-transition>
+              <v-color-picker
+                v-if="isColorPickerVisible"
+                class="color-picker"
+                :value="selectedStrokeColor"
+                @input="setSelectedStrokeColor"
+              ></v-color-picker>
+            </v-expand-transition>
+          </v-col>
+        </v-card-actions>
+      </div>
       <v-subheader v-if="showSizeSlider" class="align-end">{{
         $t('common:plugins.draw.label.textSize')
       }}</v-subheader>
@@ -100,8 +106,8 @@ export default Vue.extend({
     },
     drawOptionsVisible(): boolean {
       return (
-        this.mode === 'draw' &&
         this.configuration.enableOptions &&
+        (this.mode === 'draw' || this.mode === 'edit') &&
         this.drawMode !== 'Text'
       )
     },
@@ -147,8 +153,15 @@ export default Vue.extend({
   font-size: 100%;
 }
 
-.v-btn__color-picker:hover {
-  background-color: transparent;
-  outline: none;
+.v-card__actions {
+  padding-top: 0;
+}
+
+.v-btn__color-picker {
+  border: solid transparent; // prevent v-card to change size when hover or focus
+}
+
+.color-picker {
+  margin-top: 0.5em;
 }
 </style>
