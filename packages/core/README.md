@@ -76,7 +76,7 @@ The mapConfiguration allows controlling many client instance details.
 | stylePath | string? | If no link tag with `data-polar="true"` is found in the document, this path will be used to create the link node in the client itself. It defaults to `'./style.css'`. Please mind that `data-polar="true"` is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release. |
 | language | enum["de", "en"]? | Initial language. |
 | locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
-| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
+| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalApi. |
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
 | vuetify | object? | You may add vuetify configuration here. |
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
@@ -222,16 +222,15 @@ A full documentation of the masterportalapiPolygonFillHatch is available at the 
 
 ##### <...masterportalApi.fields>
 
-The `<...masterportalAPI.fields>` means that any masterportalAPI field may also be used here _directly_ in the mapConfiguration. The most common fields are the following ones; for more, see masterportalApi.
-
-Note, that some parameters may be optional while others are required.
+The `<...masterportalApi.fields>` means that any masterportalApi field may also be used here _directly_ in the mapConfiguration. The fields described here are fields that are interesting for the usage of POLAR.
+Fields that are not set as required have default values.
 
 | fieldName | type | description |
 | - | - | - |
 | layerConf | layerConf \| string | Layer configuration of all available layers as a service register. May either be a self defined register or a link to an external register. Layers defined here are not directly shown in a client, see `mapconfiguration.layers` for that. |
 | startCenter | number[] | Initial center coordinate. Needs to be defined in the chosen leading coordinate system. |
 | backgroundImage | string? | Image to be displayed as a background of the map. Defaults to `''`, so no image being used. |
-| epsg | `EPSG:${string}`? | Leading coordinate system. The coordinate system has to be defined in `namedProjections` as well. Defaults to `'EPSG:25832'`. |
+| epsg | `EPSG:${string}`? | Leading coordinate system. The coordinate system has to be defined in `mapConfiguration.namedProjections` as well. Changing this value should also lead to changes in `mapConfiguration.startCenter`, `mapConfiguration.extent`, `mapConfiguration.options` and `mapConfiguration.startResolution` as they are described in or related to the leading coordinate system. Defaults to `'EPSG:25832'`. |
 | extent | number[]? | Map movement will be restricted to the rectangle described by the given coordinates. Unrestricted by default. |
 | namedProjections | Array<[string,string]>? | Array of usable coordinated systems mapped to a projection as a proj4 string. Defines the `'EPSG:25832'`, `'EPSG:3857'` and `'EPSG:4326'` by default. |
 | options | zoomOption[]? | Defines all available zoom levels mapped to the respective resolution and related scale. Defines 10 zoomLevels for `'EPSG:25832'` by default. |
