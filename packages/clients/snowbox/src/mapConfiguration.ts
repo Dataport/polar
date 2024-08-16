@@ -11,11 +11,6 @@ const uBahn = '23053'
 
 const hamburgBorder = '6074'
 
-/**
- * bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/src/defaults.js
- * implicitly using masterportalAPI HH defaults by fallback
- * they can be overwritten in this object
- */
 export const mapConfiguration = {
   language: 'en',
   epsg: 'EPSG:25832',
