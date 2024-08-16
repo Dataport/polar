@@ -565,13 +565,13 @@ export interface MasterportalApiConfig {
   /** masterportalapi-type layer configuration */
   layerConf: Record<string, unknown>[] | string
   /** Initial center coordinate for the mapView */
-  startCenter: number[]
+  startCenter: [number, number]
   // Image to be displayed as a background of the map
   backgroundImage?: string
   /** The epsg code of the projection that the map will use */
   epsg?: `EPSG:${string}`
   /** Extent in which the map can be viewed in; coordinates are written in the set projection of the map set through this config. */
-  extent?: number[]
+  extent?: [number, number, number, number]
   /** Enabled projections for the map; 2nd dimension of the array contains the epsg code as the first parameter and the proj4 definition as the second */
   namedProjections?: Array<[string, string]>
   /** Mapped resolution to zoomLevel */
