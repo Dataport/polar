@@ -2,12 +2,16 @@ import { Modify, Select, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
+import modifyTextInteractions from './modifyTextInteractions'
+import modifyDrawInteractions from './modifyDrawInteractions'
 
 export default function (
-  { commit, getters }: PolarActionContext<DrawState, DrawGetters>,
+  state: PolarActionContext<DrawState, DrawGetters>,
   { drawSource, drawLayer }: CreateInteractionsPayload
 ): Interaction[] {
-  const { drawMode, fontSizes } = getters
+  const { commit } = state
+  const { getters } = state
+  const { drawMode } = getters
   // clear input - no feature selected initially
   commit('setTextInput', '')
   const select = new Select({
@@ -19,15 +23,12 @@ export default function (
   select.on('select', (event) => {
     if (event.selected.length > 0) {
       lastSelectedFeature = event.selected[event.selected.length - 1]
+      commit('setSelectedFeature', lastSelectedFeature)
       const featureStyle = lastSelectedFeature.getStyle()
       if (featureStyle && 'getText' in featureStyle && featureStyle.getText()) {
-        const featureText = featureStyle.getText().getText()
-        const font = featureStyle.getText().getFont()
-        // set selectedSize of feature to prevent unintentional size change
-        const fontSize = font.match(/\b\d+(?:.\d+)?/)
-        commit('setSelectedSize', fontSizes.indexOf(Number(fontSize)))
-        commit('setTextInput', featureText)
-        commit('setSelectedFeature', lastSelectedFeature)
+        modifyTextInteractions(state, featureStyle)
+      } else {
+        modifyDrawInteractions(state, featureStyle)
       }
     } else if (event.selected.length === 0) {
       if (lastSelectedFeature && lastSelectedFeature.get('text') === '') {

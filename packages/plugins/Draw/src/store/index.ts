@@ -86,6 +86,16 @@ export const makeStoreModule = () => {
             typeof selectedFeature.get('text') === 'string')
         )
       },
+      showDrawOptions(
+        _,
+        { mode, configuration, showTextInput, selectedFeature }
+      ) {
+        return (
+          configuration.enableOptions &&
+          ((mode === 'draw' && !showTextInput) ||
+            (mode === 'edit' && selectedFeature))
+        )
+      },
       configuration(_, __, ___, rootGetters) {
         return rootGetters.configuration.draw || {}
       },

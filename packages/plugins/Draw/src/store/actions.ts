@@ -6,6 +6,7 @@ import { Circle, Point } from 'ol/geom'
 import createDrawLayer from '../utils/createDrawLayer'
 import { DrawGetters, DrawState } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
+import createDrawStyle, { createPointStyle } from '../utils/createDrawStyle'
 import createInteractions from './createInteractions'
 import createModifyInteractions from './createInteractions/createModifyInteractions'
 
@@ -56,9 +57,30 @@ export const makeActions = () => {
         commit('updateFeatures')
       }
     },
-    setSelectedStrokeColor({ commit, dispatch }, selectedStrokeColor) {
-      commit('setSelectedStrokeColor', selectedStrokeColor)
-      dispatch('updateInteractions')
+    setSelectedStrokeColor(
+      {
+        commit,
+        dispatch,
+        rootGetters: { configuration },
+        getters: { selectedFeature, mode },
+      },
+      selectedStrokeColor
+    ) {
+      const featureStyle = selectedFeature?.getStyle()
+      if (mode === 'draw') {
+        commit('setSelectedStrokeColor', selectedStrokeColor)
+        dispatch('updateInteractions')
+      } else if (selectedFeature && featureStyle) {
+        const style =
+          'getImage' in featureStyle && featureStyle.getImage()
+            ? createPointStyle(configuration.draw?.style, selectedStrokeColor)
+            : createDrawStyle(
+                configuration.draw?.style,
+                mode,
+                selectedStrokeColor
+              )
+        selectedFeature.setStyle(style)
+      }
     },
     setSelectedSize(
       {

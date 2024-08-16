@@ -16,7 +16,7 @@
         :values="selectableDrawModes"
         :change-callback="setDrawMode"
       ></RadioCard>
-      <div v-if="drawOptionsVisible">
+      <div v-if="showDrawOptions">
         <v-card-title>{{
           $t('common:plugins.draw.title.options')
         }}</v-card-title>
@@ -98,18 +98,12 @@ export default Vue.extend({
       'showSizeSlider',
       'selectedStrokeColor',
       'configuration',
+      'showDrawOptions',
     ]),
     flexStyle(): string {
       return `flex-direction: ${
         this.hasWindowSize && this.hasSmallHeight ? 'row-reverse' : 'column'
       }`
-    },
-    drawOptionsVisible(): boolean {
-      return (
-        this.configuration.enableOptions &&
-        (this.mode === 'draw' || this.mode === 'edit') &&
-        this.drawMode !== 'Text'
-      )
     },
   },
   mounted() {
