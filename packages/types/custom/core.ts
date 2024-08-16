@@ -561,30 +561,35 @@ export interface ExtendedMasterportalapiMarkers {
   dispatchOnMapSelect?: string
 }
 
-export interface MapConfig {
-  /** if true, all services' availability will be checked with head requests */
-  checkServiceAvailability?: boolean
-  /** The epsg code of the projection that the map will use */
-  epsg: `EPSG:${string}`
-  /** Configured layers */
-  layers: LayerConfiguration[]
+export interface MasterportalApiConfig {
   /** masterportalapi-type layer configuration */
-  layerConf: Record<string, unknown>[]
-  extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
-  /** Enabled projections for the map; 2nd dimension of the array contains the epsg code as the first parameter and the proj4 definition as the second */
-  namedProjections: Array<[string, string]>
-  /** Mapped resolution to zoomLevel */
-  options?: PolarMapOptions[]
-  renderFaToLightDom?: boolean
+  layerConf: Record<string, unknown>[] | string
+  /** Initial center coordinate for the mapView */
+  startCenter: number[]
+  // Image to be displayed as a background of the map
+  backgroundImage?: string
+  /** The epsg code of the projection that the map will use */
+  epsg?: `EPSG:${string}`
   /** Extent in which the map can be viewed in; coordinates are written in the set projection of the map set through this config. */
   extent?: number[]
-  language?: InitialLanguage
-  locales?: LanguageOption[]
-  /** Initial center coordinate for the mapView */
-  startCenter?: number[]
-  stylePath?: string
+  /** Enabled projections for the map; 2nd dimension of the array contains the epsg code as the first parameter and the proj4 definition as the second */
+  namedProjections?: Array<[string, string]>
+  /** Mapped resolution to zoomLevel */
+  options?: PolarMapOptions[]
   /** Initial resolution the map should be rendered with */
   startResolution?: number
+}
+
+export interface MapConfig extends MasterportalApiConfig {
+  /** Configured layers */
+  layers: LayerConfiguration[]
+  /** if true, all services' availability will be checked with head requests */
+  checkServiceAvailability?: boolean
+  extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
+  language?: InitialLanguage
+  locales?: LanguageOption[]
+  renderFaToLightDom?: boolean
+  stylePath?: string
   vuetify?: UserVuetifyPreset
   addressSearch?: AddressSearchConfiguration
   attributions?: AttributionsConfiguration

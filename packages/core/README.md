@@ -228,14 +228,14 @@ Note, that some parameters may be optional while others are required.
 
 | fieldName | type | description |
 | - | - | - |
-| layerConf | layerConf \| string | Layer configuration of all available layers as a service register. May either be a self defined register or a link to an external register. Refer to `mapConfiguration.layers` regarding the configuration for a client itself. |
-| startResolution | number | Initial resolution; must be described in `mapConfiguration.options`. |
-| startCenter | number[] | Initial center coordinate. |
-| extent | number[] | Map movement will be restricted to the rectangle described by the given coordinates. |
-| epsg | string | Leading coordinate system, e.g. `"EPSG:25832"`. The coordinate system should be defined in `namedProjections` as well. |
-| options | Array | Defines all available zoom levels mapped to the respective resolution and related scale. Deprecated in an upcoming release, please use the parameter `resolutions` instead. |
-| resolutions | number[] | Resolutions that determine the zoom levels. The index in the array corresponds to the zoom level, therefore the resolution values have to be in descending order. A resolution is the size of 1 pixel on the screen converted to map units (e.g. meters) depending on the used projection (`epsg`). For more information, see the [OpenLayers documentation](https://openlayers.org/en/v9.2.4/apidoc/module-ol_View-View.html) of the parameter `resolutions`. |
-| namedProjections | Array<[string,string]> | Array of usable coordinated systems mapped to a projection as a proj4 string. |
+| layerConf | layerConf \| string | Layer configuration of all available layers as a service register. May either be a self defined register or a link to an external register. Layers defined here are not directly shown in a client, see `mapconfiguration.layers` for that. |
+| startCenter | number[] | Initial center coordinate. Needs to be defined in the chosen leading coordinate system. |
+| backgroundImage | string? | Image to be displayed as a background of the map. Defaults to `''`, so no image being used. |
+| epsg | `EPSG:${string}`? | Leading coordinate system. The coordinate system has to be defined in `namedProjections` as well. Defaults to `'EPSG:25832'`. |
+| extent | number[]? | Map movement will be restricted to the rectangle described by the given coordinates. Unrestricted by default. |
+| namedProjections | Array<[string,string]>? | Array of usable coordinated systems mapped to a projection as a proj4 string. Defines the `'EPSG:25832'`, `'EPSG:3857'` and `'EPSG:4326'` by default. |
+| options | zoomOption[]? | Defines all available zoom levels mapped to the respective resolution and related scale. Defines 10 zoomLevels for `'EPSG:25832'` by default. |
+| startResolution | number? | Initial resolution; must be described in `mapConfiguration.options`. Defaults to `15.874991427504629` which is zoom level to in the default of `mapConfiguration.options`. |
 
 <details>
 <summary>Example configuration</summary>
@@ -246,22 +246,17 @@ Note, that some parameters may be optional while others are required.
   startCenter: [553655.72, 6004479.25],
   extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
   epsg: 'EPSG:25832',
-  resolutions: [
-    2116.66552366,
-    1058.33276183,
-    529.166380916,
-    264.583190458,
-    132.291595229,
-    66.14579761460263,
-    26.458319045841044,
-    15.874991427504629,
-    10.583327618336419,
-    5.2916638091682096,
-    2.6458319045841048,
-    1.3229159522920524,
-    0.6614579761460262,
-    0.2645831904584105,
-    0.1322915952292052
+  options: [
+    { resolution: 66.14579761460263, scale: 250000, zoomLevel: 0 },
+    { resolution: 26.458319045841044, scale: 100000, zoomLevel: 1 },
+    { resolution: 15.874991427504629, scale: 60000, zoomLevel: 2 },
+    { resolution: 10.583327618336419, scale: 40000, zoomLevel: 3 },
+    { resolution: 5.2916638091682096, scale: 20000, zoomLevel: 4 },
+    { resolution: 2.6458319045841048, scale: 10000, zoomLevel: 5 },
+    { resolution: 1.3229159522920524, scale: 5000, zoomLevel: 6 },
+    { resolution: 0.6614579761460262, scale: 2500, zoomLevel: 7 },
+    { resolution: 0.2645831904584105, scale: 1000, zoomLevel: 8 },
+    { resolution: 0.1322915952292052, scale: 500, zoomLevel: 9 },
   ],
   namedProjections: [
     [
@@ -312,6 +307,14 @@ Whitelisted and confirmed parameters include:
 ```
 
 Since this is the base for many functions, the service id set in this is used to reference map material in many places of the map client.
+
+###### zoomOption
+
+| fieldName | type | description |
+| - | - | - |
+| resolution | number | Size of 1 pixel on the screen converted to map units (e.g. meters) depending on the used projection (`epsg`). |
+| scale | number | Scale in meters. |
+| zoomLevel | number | Zoom level. |
 
 ##### <plugin.fields>
 
