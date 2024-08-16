@@ -55,7 +55,7 @@ export default Vue.extend({
 .polar-plugin-gfi-button-container {
   display: grid;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--polar-secondary);
   padding: 0.25em;
 
   #polar-plugin-gfi-close-button {

@@ -44,6 +44,7 @@ export default Vue.extend({
   .scale-line {
     display: inline-block;
     width: 2cm;
+    border-color: var(--polar-primary);
   }
 
   .scale-as-a-ratio {

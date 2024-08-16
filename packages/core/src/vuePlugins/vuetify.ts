@@ -31,9 +31,10 @@ const defaultPreset: UserVuetifyPreset = {
 export default function makeVuetify(
   userParams: UserVuetifyPreset = {}
 ): Vuetify {
+  const isDarkMode = defaultPreset.theme?.dark
   const merged = merge({}, defaultPreset, userParams)
   const customColors: [string, string][] = Object.entries(
-    merged.theme?.themes?.light
+    isDarkMode ? merged.theme?.themes?.dark : merged.theme?.themes?.light
   )
   customColors.forEach(([key, value]) =>
     document.documentElement.style.setProperty(

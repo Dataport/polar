@@ -39,6 +39,7 @@ const createMap = async (layerConf) => {
 
   document.getElementById('theme-switcher')?.addEventListener('click', () => {
     client.$vuetify.theme.dark = !client.$vuetify.theme.dark
+    mapConfiguration.vuetify.theme.dark = !mapConfiguration.vuetify.theme.dark
   })
 }
 
