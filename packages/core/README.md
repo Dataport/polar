@@ -276,8 +276,9 @@ However, not all listed services have been implemented in the masterportalApi ye
 
 Whitelisted and confirmed parameters include:
 
-- WMS: id, name, url, typ, format, version, transparent, layers, STYLES
-- WFS: id, name, url, typ, outputFormat, version, featureType
+- WMS:  id, name, url, typ, format, version, transparent, layers, STYLES
+- WFS:  id, name, url, typ, outputFormat, version, featureType
+- WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength
 
 ###### Example services register
 
@@ -301,6 +302,35 @@ Whitelisted and confirmed parameters include:
     "version": "1.3.0",
     "transparent": true,
     "layers": ["A", "B"]
+  },
+  {
+    "id": "my-self-defined-wmts",
+    "urls": [
+      "url1/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "url2/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "url3/{TileMatrix}/{TileCol}/{TileRow}.png"
+    ],
+    "typ": "WMTS",
+    "format": "image/png",
+    "coordinateSystem": "EPSG:3857",
+    "origin": [-20037508.3428, 20037508.3428],
+    "transparent": false,
+    "tileSize": "256",
+    "minScale": "1",
+    "maxScale": "2500000",
+    "tileMatrixSet": "google3857",
+    "requestEncoding": "REST",
+    "resLength": "20"
+  },
+  {
+    "id": "my-capabilities-wmts",
+    "capabilitiesUrl": "WMTS capabilities url",
+    "urls": "WMTS url",
+    "optionsFromCapabilities": true,
+    "tileMatrixSet": "EU_EPSG_25832_TOPPLUS",
+    "typ": "WMTS",
+    "layers": "layer-name",
+    "legendURL": "my-legend-url"
   }
 ]
 ```
