@@ -6,7 +6,7 @@ A generic loading indicator that may be used by any plugin or outside procedure 
 
 ## Configuration
 
-### LoadingIndicator
+### loadingIndicator
 
 | fieldName  | type | description |
 | - | - | - |
