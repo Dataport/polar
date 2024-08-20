@@ -23,12 +23,39 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 | toZoomLevel | number? | Zoom level to use on outside input by e.g. address search. Defaults to `0`. |
 
 
+Example configuration:
+```js
+pins: {
+  toZoomLevel: 9,
+  movable: 'drag',
+  appearOnClick: {
+    show: true,
+    atZoomLevel: 3,
+  },
+  style: {
+    fill: '#003064',
+  },
+  boundaryLayerId: 'hamburgBorder',
+  toastAction: 'plugin/toast/addToast',
+  coordinateSource: 'plugin/addressSearch/chosenAddress'
+}
+
+```
+
 #### pins.appearOnClick
 
 | fieldName | type | description |
 | - | - | - |
 | show | boolean | Display marker. |
 | atZoomLevel | number? | Minimum zoom level for sensible marking. Defaults to `0`. |
+
+Example configuration:
+```js
+appearOnClick: {
+  show: true,
+  atZoomLevel: 3,
+}
+```
 
 #### pins.initial
 
@@ -38,12 +65,30 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 | centerOn | boolean? | If set to true, center on and zoom to the given coordinates on start. Defaults to false. |
 | epsg | string? | Coordinate reference system in which the given coordinates are encoded. Defaults to the `epsg` value defined in the mapConfiguration. |
 
+Example configuration:
+```js
+initial: {
+  coordinates: [611694.909470, 5975658.233007],
+  centerOn: true,
+  epsg: 'EPSG:25832'
+}
+```
+
+
 #### pins.style
 
 | fieldName | type | description |
 | - | - | - |
 | fill | string? | Fill color of the pin. Defaults to blue (`#005CA9`). |
 | stroke | string? | Stroke (that is, border) color of the pin. Defaults to white (`#FFFFFF`). |
+
+Example configuration:
+```js
+style: {
+  fill: '#003064',
+  stroke: '#000000'
+}
+```
 
 ## Store
 
@@ -63,4 +108,4 @@ map.subscribe('plugin/pins/latLon', (pinCoordinate) => {
 })
 ```
 
-The `pinCoordinate` transcribed to latitude / longitude.
+The `pinCoordinate` is transcribed to latitude / longitude.

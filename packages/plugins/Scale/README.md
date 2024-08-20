@@ -16,3 +16,13 @@ The scale plugin shows the current map resolution as relative scale (1:x) and/or
 | zoomMethod | string? | Path to the action that is used for the zoom of the scale switcher. Has to take `zoomLevel` as payload. Must be configured for the scale switcher, otherwise it will not be rendered. |
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
+
+
+Example configuration:
+
+```js
+scale: {
+    showScaleSwitcher: true,
+    zoomMethod: 'plugin/zoom/setZoomLevel'
+  }
+```
