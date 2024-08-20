@@ -19,7 +19,7 @@
 
 // IMPORTS
 const fs = require('fs')
-const markdownIt = require('markdown-it')()
+const markdownIt = require('markdown-it')().use(require('markdown-it-anchor'))
 
 // SETUP
 const fsOptions = { encoding: 'utf8' }
