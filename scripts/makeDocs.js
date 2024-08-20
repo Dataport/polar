@@ -15,6 +15,11 @@
  * docs and .md.)
  *
  * Call like `node ./scripts/makeDocs.js ./path/to/client`.
+ *
+ * Headings in markdowns will get a slugified ID by markdown-it-anchor to be linkable.
+ * It uses the default slugify function:
+ * (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
+ *
  */
 
 // IMPORTS
@@ -35,7 +40,7 @@ const cssFiles = [
 const markdownIt = new MarkdownIt({
   html: true,
   xhtmlOut: true,
-})
+}).use(require('markdown-it-anchor'))
 
 /**
  * HTMLifies and styles a markdown file.
