@@ -22,7 +22,7 @@ Example configuration:
 
 ```js
 scale: {
-    showScaleSwitcher: true,
-    zoomMethod: 'plugin/zoom/setZoomLevel'
-  }
+  showScaleSwitcher: true,
+  zoomMethod: 'plugin/zoom/setZoomLevel'
+}
 ```
