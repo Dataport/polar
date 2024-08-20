@@ -82,6 +82,8 @@ The mapConfiguration allows controlling many client instance details.
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
 
+For more information about the layerConf parameter, click [here](#mapconfigurationlayerconf)
+
 <details>
 <summary>Example configuration</summary>
 
@@ -93,6 +95,7 @@ const mapConfiguration = {
   checkServiceAvailability: true,
   language: 'de',
   locales, // the languageOptions object will normally be outsourced to another file
+  layerConf, // the layerConf object will normally be outsourced to another file
   layers: [
     // parts of the layer configuration can be outsourced to another file
     // and referenced in the mapConfiguration by id like the second layer
@@ -126,6 +129,7 @@ const mapConfiguration = {
 ```
 
 </details>
+
 
 ##### mapConfiguration.LanguageOption
 
