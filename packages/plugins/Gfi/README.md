@@ -125,7 +125,7 @@ layers: {
     window: true,
     maxFeatures: 10,
     geometryName: 'app:geometry',
-    filterBy: 'clickPosition' //TODO: was ist clickPosition für ein type?
+    filterBy: 'clickPosition'
     format: 'text'
   },
 }
