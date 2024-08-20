@@ -22,12 +22,12 @@
 </head>
 <body>
   <article class="markdown-body">
-    <h1>Reverse Geocoder</h1>
-<h2>Scope</h2>
+    <h1 id="reverse-geocoder" tabindex="-1">Reverse Geocoder</h1>
+<h2 id="scope" tabindex="-1">Scope</h2>
 <p>Reverse Geocoder Plugin that turns coordinates into addresses via a WPS. It does not offer any UI by itself.</p>
 <p>This module has been written for the HH WPS service. The return format is custom and no other WPS are currently supported. Please mind this when trying to use this plugin with any other WPS. For usage with other WPS, those must either fit the HH WPS, or a generalization of this plugin is required.</p>
-<h2>Configuration</h2>
-<h3>reverseGeocoder</h3>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="reversegeocoder" tabindex="-1">reverseGeocoder</h3>
 <table>
 <thead>
 <tr>
@@ -69,9 +69,9 @@
 </tr>
 </tbody>
 </table>
-<h2>Store</h2>
+<h2 id="store" tabindex="-1">Store</h2>
 <p>The ReverseGeocoder plugin does not hold any state.</p>
-<h3>Actions</h3>
+<h3 id="actions" tabindex="-1">Actions</h3>
 <pre><code class="language-js">// result contains the resolved address (exact format depends on WPS)
 const result = await map.$store.dispatch(
   'plugin/reverseGeocoder/reverseGeocode',

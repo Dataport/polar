@@ -22,12 +22,12 @@
 </head>
 <body>
   <article class="markdown-body">
-    <h1>LayerChooser</h1>
+    <h1 id="layerchooser" tabindex="-1">LayerChooser</h1>
 <p>The tool offers layer selection to the user.</p>
-<h2>Scope</h2>
+<h2 id="scope" tabindex="-1">Scope</h2>
 <p>The LayerChooser offers an additive (usually Overlays, technically named with <code>type: 'mask'</code>) and an exclusive (usually background maps, <code>type: 'background'</code>) selection of layers to the users.</p>
 <p>Order of layers within a layer is currently always as initially configured.</p>
-<h2>Configuration</h2>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
 <p>The tool does not require any configuration for itself, but is based on the <code>mapConfiguration.layers</code> array. It will infer its options from there, and change layer visibility and availability depending on <code>minZoom</code> and <code>maxZoom</code>.</p>
 <p>Each object in <code>mapConfiguration.layers</code> array fits this definition:</p>
 <table>
@@ -82,7 +82,7 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/textLocator/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
-<h3>mapConfiguration.layers.options</h3>
+<h3 id="mapconfiguration.layers.options" tabindex="-1">mapConfiguration.layers.options</h3>
 <p>An option wheel will appear in the layer chooser that allows opening a sub-menu with configured configuration options for the end user.</p>
 <table>
 <thead>
@@ -100,7 +100,7 @@
 </tr>
 </tbody>
 </table>
-<h4>mapConfiguration.layers.options.layers</h4>
+<h4 id="mapconfiguration.layers.options.layers" tabindex="-1">mapConfiguration.layers.options.layers</h4>
 <p>This field is named like this to match the OGC specification for their name; that is, layers have layers that may have layers that may have layers, and so on. However, only the first level (a layer's layers) is currently implemented.</p>
 <table>
 <thead>

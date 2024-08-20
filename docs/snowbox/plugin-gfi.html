@@ -22,14 +22,14 @@
 </head>
 <body>
   <article class="markdown-body">
-    <h1>GFI</h1>
-<h2>Scope</h2>
+    <h1 id="gfi" tabindex="-1">GFI</h1>
+<h2 id="scope" tabindex="-1">Scope</h2>
 <p>The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) from WMS and WFS services as well as layers based on GeoJSON files. In a first step, the information is stored in the VueX store to allow for easy access. Display is optional and quite obstructive within the map client.</p>
 <blockquote>
 <p>⚠️ The display feature is currently not meant for production. Please use data bindings for display to avoid obstructing the map client.</p>
 </blockquote>
-<h3>Configuration</h3>
-<h4>gfi</h4>
+<h3 id="configuration" tabindex="-1">Configuration</h3>
+<h4 id="gfi-1" tabindex="-1">gfi</h4>
 <table>
 <thead>
 <tr>
@@ -92,7 +92,7 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/snowbox/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
-<h5>gfi.gfiLayerConfiguration</h5>
+<h5 id="gfi.gfilayerconfiguration" tabindex="-1">gfi.gfiLayerConfiguration</h5>
 <table>
 <thead>
 <tr>
@@ -156,7 +156,7 @@
 </tr>
 </tbody>
 </table>
-<h5>gfi.customHighlightStyle</h5>
+<h5 id="gfi.customhighlightstyle" tabindex="-1">gfi.customHighlightStyle</h5>
 <table>
 <thead>
 <tr>
@@ -178,7 +178,7 @@
 </tr>
 </tbody>
 </table>
-<h5>gfi.featureList</h5>
+<h5 id="gfi.featurelist" tabindex="-1">gfi.featureList</h5>
 <table>
 <thead>
 <tr>
@@ -210,7 +210,7 @@
 </tr>
 </tbody>
 </table>
-<h4>Example configuration</h4>
+<h4 id="example-configuration" tabindex="-1">Example configuration</h4>
 <pre><code class="language-js">layers: {
   [serviceId]: {
     geometry: true,
@@ -235,8 +235,8 @@ customHighlightStyle: {
   },
 },
 </code></pre>
-<h2>Store</h2>
-<h3>State</h3>
+<h2 id="store" tabindex="-1">Store</h2>
+<h3 id="state" tabindex="-1">State</h3>
 <p>If a successful query has been sent and a response has been received, the result will be saved in the store and can be subscribed through the path <code>'plugin/gfi/featureInformation'</code>. If, however, a query for a layer fails, a <code>Symbol</code> containing the error will be saved in the store instead to indicate the error.</p>
 <p>The exact value of <code>featureInformation</code> may vary wildly depending on the service used, but is always given as json representation here.</p>
 <pre><code class="language-js">map.subscribe('plugin/gfi/featureInformation', (featureInformation) =&gt; {

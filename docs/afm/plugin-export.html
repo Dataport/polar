@@ -22,11 +22,11 @@
 </head>
 <body>
   <article class="markdown-body">
-    <h1>Export</h1>
-<h2>Scope</h2>
+    <h1 id="export" tabindex="-1">Export</h1>
+<h2 id="scope" tabindex="-1">Scope</h2>
 <p>The Export plugin offers users to download the currently visible map canvas in a variety of file formats and by a variety of methods.</p>
-<h2>Configuration</h2>
-<h3>export</h3>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="export-1" tabindex="-1">export</h3>
 <table>
 <thead>
 <tr>
@@ -60,12 +60,12 @@
 </table>
 <p>To remove user control, add <code>displayComponent: false</code> to the configuration and use the following interactions.</p>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/afm/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
-<h3>Actions</h3>
+<h3 id="actions" tabindex="-1">Actions</h3>
 <p>To programmatically trigger a &quot;screenshot&quot;, use this action.</p>
 <pre><code class="language-js">// type is 'Png', 'Jpg', or 'Pdf'
 map.$store.dispatch('plugin/export/exportAs', type)
 </code></pre>
-<h3>State</h3>
+<h3 id="state" tabindex="-1">State</h3>
 <p>This shows how a callback can be used to show the exported data in a suitable html element. The value of the <code>screenshot</code> variable is a base64-encoded string.</p>
 <pre><code class="language-js">const someElement = // ... however you retrieve your html element
   map.subscribe('plugin/export/exportedMap', (screenshot) =&gt;

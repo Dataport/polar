@@ -22,21 +22,21 @@
 </head>
 <body>
   <article class="markdown-body">
-    <h1>POLAR AfM map client</h1>
+    <h1 id="polar-afm-map-client" tabindex="-1">POLAR AfM map client</h1>
 <p>This is a default compilation of POLAR feature packages for online services. This document and its child documents describe the setup.</p>
 
-<h2>Requirements</h2>
+<h2 id="requirements" tabindex="-1">Requirements</h2>
 <p>To understand this document, programming knowledge (preferably in JavaScript) are required. This is a technical document describing how to integrate the map client with its programmatic API.</p>
-<h2>Versioning</h2>
+<h2 id="versioning" tabindex="-1">Versioning</h2>
 <p>The map client honors <a href="https://semver.org/lang/de/">SemVer</a> versioning. Breaking Changes without a change in leading version number are bugs.</p>
-<h2>Library integration</h2>
+<h2 id="library-integration" tabindex="-1">Library integration</h2>
 <p>You may either use the AfM client with import syntax or via HTML tags. In the following, the integration via HTML is shown.</p>
 <pre><code class="language-html">&lt;script src=&quot;&lt;Path&gt;/dist/polar-client.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 <p>The global variable <code>MapClient</code> is now available. All other files in the dist folder are pulled on demand by relative pathing.</p>
-<h2>Configuration and creation</h2>
+<h2 id="configuration-and-creation" tabindex="-1">Configuration and creation</h2>
 <p>The map client can be controlled with a configuration object. An example file is supplied in the folder <code>example</code>. This file can be used as base for your own configuration.</p>
-<h3>Programmatic integration</h3>
+<h3 id="programmatic-integration" tabindex="-1">Programmatic integration</h3>
 <p>The following is an abstract example.</p>
 <p>In your HTML, a div with unique ID is required that holds the following style properties. Width and height can be changed as you need, but are required to be defined.</p>
 <pre><code class="language-html">&lt;div

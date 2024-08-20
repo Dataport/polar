@@ -22,12 +22,12 @@
 </head>
 <body>
   <article class="markdown-body">
-    <h1>Generic MapClient API 🗺️ <code>@polar/client-generic</code></h1>
+    <h1 id="generic-mapclient-api-%F0%9F%97%BA%EF%B8%8F-%40polar%2Fclient-generic" tabindex="-1">Generic MapClient API 🗺️ <code>@polar/client-generic</code></h1>
 <p>This client is based on <a href="https://github.com/Dataport/polar">POLAR</a> and subsequently the <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">masterportalAPI</a>. The following documentation only contains how this specific client can be used, and the minimal information required to get it running.</p>
 
 <p>For the development test deployments and example configurations, <a href="https://dataport.github.io/polar#plugin-gallery">see here</a>.</p>
 <p>For a minimum working example, <a href="https://github.com/dopenguin/polar-fossgis-2024">see here</a>.</p>
-<h2>Basic usage</h2>
+<h2 id="basic-usage" tabindex="-1">Basic usage</h2>
 <p>The NPM package <code>@polar/client-generic</code> can be installed via NPM or downloaded from the <a href="https://github.com/Dataport/polar/releases">release page</a>. When using <code>import mapClient from '@polar/client-generic'</code>, the object <code>mapClient</code> contains a method <code>createMap</code>. This is the main method required to get the client up and running. Should you use another import method, check the package's <code>dist</code> folder for available files.</p>
 <p>The method expects a single object with the following parameters.</p>
 <table>
@@ -87,7 +87,7 @@
 }
 </code></pre>
 <p>The value to <code>stylePath</code> is the same as as a <code>link</code> tag would have in its <code>href</code>.</p>
-<h3>Destroy instance</h3>
+<h3 id="destroy-instance" tabindex="-1">Destroy instance</h3>
 <p>The <code>mapInstance</code> returned by the <code>createMap</code> call can be destroyed by calling <code>mapInstance.$destroy</code>. This will not remove the rendered HTML, but unlink all internal creations and effects. This should be called before re-navigating, usual lifecycle hooks are <code>beforeDestroy</code> or <code>beforeUnmount</code>, depending on the framework in use.</p>
 <p>After this, <code>createMap</code> can be used again when the DOM is restored. That is, the original <code>div</code> with its <code>id</code> must be recreated, since POLAR changes the DOM in the <code>div</code>. Normally, an SPA will take care of this by itself since it will render the outlying component anew.</p>
 <p>Should this not be the case in your framework, the following snippet restores the DOM:</p>

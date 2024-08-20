@@ -22,13 +22,13 @@
 </head>
 <body>
   <article class="markdown-body">
-    <h1>GeoLocation</h1>
-<h2>Scope</h2>
+    <h1 id="geolocation" tabindex="-1">GeoLocation</h1>
+<h2 id="scope" tabindex="-1">Scope</h2>
 <p>The GeoLocation plugin is responsible for collecting and displaying a user's GPS location. It is shown as a crosshair mark on the map.
 The tracking can be triggered initially on startup or via a button. This behavior can be controlled by setting <code>checkLocationInitially</code> to
 either <code>true</code> or <code>false</code>. When a users denies the location tracking, the button for this plugin gets disabled.</p>
-<h2>Configuration</h2>
-<h4>geoLocation</h4>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<h4 id="geolocation-1" tabindex="-1">geoLocation</h4>
 <table>
 <thead>
 <tr>
@@ -81,7 +81,7 @@ either <code>true</code> or <code>false</code>. When a users denies the location
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/generic/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
-<h4>Example configuration</h4>
+<h4 id="example-configuration" tabindex="-1">Example configuration</h4>
 <pre><code class="language-json">{
   &quot;geoLocation&quot;: {
     &quot;checkLocationInitially&quot;: true,
@@ -89,8 +89,8 @@ either <code>true</code> or <code>false</code>. When a users denies the location
   }
 }
 </code></pre>
-<h2>Store</h2>
-<h3>State</h3>
+<h2 id="store" tabindex="-1">Store</h2>
+<h3 id="state" tabindex="-1">State</h3>
 <p>If the access to an users location has been granted, the coordinates get stored in the <code>position</code> state value. This value can be subscribed through the path <code>'plugin/geoLocation/position'</code>.</p>
 <pre><code class="language-js">map.subscribe('plugin/geoLocation/position', (position) =&gt; {
   /* Your code here */

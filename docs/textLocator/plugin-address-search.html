@@ -22,8 +22,8 @@
 </head>
 <body>
   <article class="markdown-body">
-    <h1>AddressSearch</h1>
-<h2>Scope</h2>
+    <h1 id="addresssearch" tabindex="-1">AddressSearch</h1>
+<h2 id="scope" tabindex="-1">Scope</h2>
 <p>The AddressSearch plugin allows users to search for an address. If multiple addresses are returned by services, the user is prompted to select a result.</p>
 <p>The plugin saves the chosen information as GeoJSON to the store so that following procedures may grab it or so that other plugins may use it.</p>
 <p>Currently supported services:</p>
@@ -32,8 +32,8 @@
 <li>WFS</li>
 <li>Some gazetteers/WFS-G (please request a check or try yourself, not 100% done)</li>
 </ul>
-<h2>Configuration</h2>
-<h3>addressSearch</h3>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="addresssearch-1" tabindex="-1">addressSearch</h3>
 <p>The configuration allows defining and grouping services. Grouped services can be requested in a search at the same time, and one group of searches can be active at a time. When multiple searches are in a group, they may be extended with category information to make the results easier to browse.</p>
 <p>It is advised to either use one-search-per-group <em>or</em> all services in a singular group to avoid an overly complex UI. Mixed configurations may be required for more complex search requirements.</p>
 <p>In <code>categoryProperties</code> and <code>groupProperties</code>, id strings called <code>groupId</code> and <code>categoryId</code> are used. These are arbitrary strings you can introduce and reuse to group or categorize elements together. Regarding what groups and categories are, see further below.</p>
@@ -104,7 +104,7 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/textLocator/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
-<h4>addressSearch.searchMethodsObject</h4>
+<h4 id="addresssearch.searchmethodsobject" tabindex="-1">addressSearch.searchMethodsObject</h4>
 <table>
 <thead>
 <tr>
@@ -156,7 +156,7 @@
 </tr>
 </tbody>
 </table>
-<h4>addressSearch.customSearchMethod</h4>
+<h4 id="addresssearch.customsearchmethod" tabindex="-1">addressSearch.customSearchMethod</h4>
 <p>This is a function with the following signature:</p>
 <pre><code>(
   // should be used to actually abort request
@@ -170,7 +170,7 @@
 ) =&gt; Promise&lt;FeatureCollection&gt; | never
 </code></pre>
 <p>With this, arbitrary services can be supported.</p>
-<h4>addressSearch.customSelectFunction</h4>
+<h4 id="addresssearch.customselectfunction" tabindex="-1">addressSearch.customSelectFunction</h4>
 <p>This is a function with the following signature:</p>
 <pre><code>({
   // VueX context object
@@ -182,7 +182,7 @@
 }) =&gt; void
 </code></pre>
 <p>With this, arbitrary click results can be supported. Please mind that undocumented mutations and actions fired in such a function are subject to change without further notice.</p>
-<h4>addressSearch.groupProperties</h4>
+<h4 id="addresssearch.groupproperties" tabindex="-1">addressSearch.groupProperties</h4>
 <table>
 <thead>
 <tr>
@@ -219,7 +219,7 @@
 </tr>
 </tbody>
 </table>
-<h4>addressSearch.categoryProperties</h4>
+<h4 id="addresssearch.categoryproperties" tabindex="-1">addressSearch.categoryProperties</h4>
 <table>
 <thead>
 <tr>
@@ -236,7 +236,7 @@
 </tr>
 </tbody>
 </table>
-<h5>addressSearch.searchMethodsObject.queryParameters (type:common)</h5>
+<h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Acommon)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:common)</h5>
 <p>These fields are interpreted by all implemented services.</p>
 <table>
 <thead>
@@ -254,7 +254,7 @@
 </tr>
 </tbody>
 </table>
-<h5>addressSearch.searchMethodsObject.queryParameters (type:wfs)</h5>
+<h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Awfs)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:wfs)</h5>
 <table>
 <thead>
 <tr>
@@ -317,7 +317,7 @@
 <li>WFS 2.0.0 <code>{wildCard: &quot;%&quot;, singleChar: &quot;*&quot;, escapeChar: &quot;\&quot;}</code></li>
 <li>WFS 1.0.0 <code>{wildCard: &quot;*&quot;, singleChar: &quot;*&quot;, escape: &quot;\&quot;}</code></li>
 </ul>
-<h5>addressSearch.searchMethodsObject.queryParameters (type:gazetteer)</h5>
+<h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Agazetteer)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:gazetteer)</h5>
 <blockquote>
 <p>⚠️ &quot;gazetteer&quot; is deprecated. Please use &quot;mpapi&quot; instead.</p>
 </blockquote>
@@ -362,7 +362,7 @@
 </tr>
 </tbody>
 </table>
-<h5>addressSearch.searchMethodsObject.queryParameters (type:mpapi)</h5>
+<h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Ampapi)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:mpapi)</h5>
 <blockquote>
 <p><strong>Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">masterportalApi</a>. This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.</strong></p>
 </blockquote>
@@ -408,14 +408,14 @@
 </tbody>
 </table>
 <p>While all fields are optional, configuring none of them will yield undefined behaviour. At least one search instruction should be set to <code>true</code>.</p>
-<h5>addressSearch.searchMethodsObject.queryParameters (type:bkg)</h5>
+<h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Abkg)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:bkg)</h5>
 <p>In <em>BKG</em> mode, queryParameter's key-value pairs are used in the service query. E.g. <code>{filter: { bundesland: 'Bremen' }}</code> results in the GET request URL having <code>&amp;filter=bundesland:Bremen</code> as suffix.</p>
 <p>For more options, please check the <a href="https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf">official documentation</a> regarding what query parameters are interpreted.</p>
 <p>Additionally, it is possible to configure the parameters <code>accesstoken</code> (<code>Authorization</code>) or <code>apiKey</code> (custom header <code>X-Api-Key</code>) to send the described headers to the search service for authentication purposes.
 Note that this changes the request to be non-simple. To be able to use the parameters, the request has to be sent in <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request/mode"><code>cors</code> mode</a> and has to support preflight request <code>OPTIONS</code>.</p>
-<h2>Store</h2>
-<h3>Mutations</h3>
-<h4>setSelectedGroupName</h4>
+<h2 id="store" tabindex="-1">Store</h2>
+<h3 id="mutations" tabindex="-1">Mutations</h3>
+<h4 id="setselectedgroupname" tabindex="-1">setSelectedGroupName</h4>
 <p>This can be used to change the selected search group by name.</p>
 <pre><code class="language-js">map.$store.commit(
   'plugin/addressSearch/setSelectedGroupName',
@@ -423,8 +423,8 @@ Note that this changes the request to be non-simple. To be able to use the param
 )
 </code></pre>
 <p>Please mind that programmatically changing the search group will <em>not</em> trigger a search, unlike a search group change by the user. If you need a search after change, consider the <code>search</code> action.</p>
-<h3>Actions</h3>
-<h4>search</h4>
+<h3 id="actions" tabindex="-1">Actions</h3>
+<h4 id="search" tabindex="-1">search</h4>
 <p>This is a purely programmatical search method. It is not used by user input.</p>
 <pre><code class="language-js">map.$store.dispatch('plugin/addressSearch/search', {
   input: 'Bahnhofsstraße 12',
@@ -453,7 +453,7 @@ Note that this changes the request to be non-simple. To be able to use the param
 </tr>
 </tbody>
 </table>
-<h3>State</h3>
+<h3 id="state" tabindex="-1">State</h3>
 <pre><code class="language-js">map.subscribe('plugin/addressSearch/chosenAddress', (chosenAddress) =&gt; {
   /* Your code. */
 })

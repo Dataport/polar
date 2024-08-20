@@ -22,8 +22,8 @@
 </head>
 <body>
   <article class="markdown-body">
-    <h1>Draw</h1>
-<h2>Scope</h2>
+    <h1 id="draw" tabindex="-1">Draw</h1>
+<h2 id="scope" tabindex="-1">Scope</h2>
 <p>The draw plugin allows users to draw features on the map. Drawn features may be edited and deleted.</p>
 <p>Currently supported OpenLayers geometry types:</p>
 <ul>
@@ -33,15 +33,15 @@
 <li><code>'Polygon'</code></li>
 </ul>
 <p>Also, <code>'Text'</code> is supported which is modeled as an OpenLayers <code>'Point'</code>. This is no default feature, so it must be specified in the configuration to use it.</p>
-<h2>User instructions for Text Mode</h2>
+<h2 id="user-instructions-for-text-mode" tabindex="-1">User instructions for Text Mode</h2>
 <p>The interaction with text features is not intuitive, which is why the text feature should come with instructions for the users:</p>
-<h3>Edit</h3>
+<h3 id="edit" tabindex="-1">Edit</h3>
 <p>To edit the text or the placement of the text feature, the user must click on the center of the text to select the point geometry below it. After selecting it, the user can move the point by keeping the left mouse button pressed, or edit the text in the input field that opens with selecting the feature. If more than one text size is specified in the configuration, the user can change the text size with a slider.</p>
-<h3>Delete</h3>
+<h3 id="delete" tabindex="-1">Delete</h3>
 <p>To delete the text, the user must either click on the point at the center of the text or use CTRL + left mouse button to open a box over all features that he or she wants to delete.</p>
-<h2>Configuration</h2>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
 <p>The styling of the drawn features can be configured to overwrite the default ol-style. Configuration is oriented around the <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_Style.html#~StyleLike">OpenLayers styles</a>.</p>
-<h3>draw</h3>
+<h3 id="draw-1" tabindex="-1">draw</h3>
 <table>
 <thead>
 <tr>
@@ -69,7 +69,7 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/snowbox/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
-<h5>draw.textStyle</h5>
+<h5 id="draw.textstyle" tabindex="-1">draw.textStyle</h5>
 <table>
 <thead>
 <tr>
@@ -91,7 +91,7 @@
 </tr>
 </tbody>
 </table>
-<h5>draw.textStyle.font</h5>
+<h5 id="draw.textstyle.font" tabindex="-1">draw.textStyle.font</h5>
 <table>
 <thead>
 <tr>
@@ -113,7 +113,7 @@
 </tr>
 </tbody>
 </table>
-<h4>draw.style (by example)</h4>
+<h4 id="draw.style-(by-example)" tabindex="-1">draw.style (by example)</h4>
 <p>The <code>@masterportal/masterportalapi</code> has vectorStyles in development. As soon as that's done, we shall use its styling syntax and methods.</p>
 <p>For the time being, please use this example as a rough reference as to what can currently be done.</p>
 <pre><code class="language-json">{
@@ -141,14 +141,14 @@
   }
 }
 </code></pre>
-<h2>Store</h2>
-<h3>State</h3>
+<h2 id="store" tabindex="-1">Store</h2>
+<h3 id="state" tabindex="-1">State</h3>
 <pre><code class="language-js">map.subscribe('plugin/draw/featureCollection', (featureCollection) =&gt; {
   /* Your code. */
 })
 </code></pre>
 <p>The returned featureCollection is a <a href="https://geojson.org/">GeoJSON</a> FeatureCollection. It includes all drawn features and updates on changes.</p>
-<h2>Actions</h2>
+<h2 id="actions" tabindex="-1">Actions</h2>
 <pre><code class="language-js">map.$store.dispatch('plugin/draw/addFeatures', {
   geoJSON: {
     type: 'FeatureCollection',

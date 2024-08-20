@@ -22,11 +22,11 @@
 </head>
 <body>
   <article class="markdown-body">
-    <h1>Meldemichel MapClient API 🗺️ <code>@polar/client-meldemichel</code></h1>
+    <h1 id="meldemichel-mapclient-api-%F0%9F%97%BA%EF%B8%8F-%40polar%2Fclient-meldemichel" tabindex="-1">Meldemichel MapClient API 🗺️ <code>@polar/client-meldemichel</code></h1>
 <p>This client is based on <a href="https://github.com/Dataport/polar">POLAR</a> and subsequently the <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">masterportalAPI</a>. The following documentation only contains how this specific client can be used, and the minimal information required to get it running.</p>
 
 <p>For the development test deployments, <a href="./example/index.html">see here</a>.</p>
-<h2>Basic usage</h2>
+<h2 id="basic-usage" tabindex="-1">Basic usage</h2>
 <p>The NPM package <code>@polar/client-meldemichel</code> can be installed via NPM or downloaded from the <a href="https://github.com/Dataport/polar/releases">release page</a>. When using <code>import mapClient from '@polar/client-meldemichel'</code>, the object <code>mapClient</code> contains a method <code>createMap</code>. This is the main method required to get the client up and running. Should you use another import method, check the package's <code>dist</code> folder for available files.</p>
 <p>The method expects a single object with the following parameters.</p>
 <table>
@@ -76,11 +76,11 @@
 </code></pre>
 <p>The value to <code>stylePath</code> is the same as as a <code>link</code> tag would have in its <code>href</code>.</p>
 <p>The <code>index.html</code> is used in <code>COMPLETE</code> mode, which is not run in the AfM. You may, however, use it for testing or inspecting an example.</p>
-<h3>Instance reuse</h3>
+<h3 id="instance-reuse" tabindex="-1">Instance reuse</h3>
 <p>The <code>mapInstance</code> and its HTML environment are kept in the client; it is returned and rerendered on subsequent <code>createMap</code> calls to a div with the given <code>id</code>. Due to this, everything will appear to the user as it was previously left, including opened menus.</p>
 <p>Since in <code>SINGLE</code> mode, changes to the pins are required between renders, hence the parameters in <code>configOverride.pins</code> are used to update the client. Should additional updates be required, please let us know.</p>
 <p>Calling <code>watch</code>/<code>subscribe</code> on the client will return an <code>unwatch</code>/<code>unsubscribe</code> method. It should be called on leaving the map's page; depending on framework/library in e.g. the <code>beforeDestroy</code> or <code>beforeUnmount</code> method.</p>
-<h2>Rendering in SINGLE or REPORT mode</h2>
+<h2 id="rendering-in-single-or-report-mode" tabindex="-1">Rendering in SINGLE or REPORT mode</h2>
 <p>A document rendering the map client could e.g. look like this:</p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -167,7 +167,7 @@
   &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-<h2>Rendering COMPLETE mode</h2>
+<h2 id="rendering-complete-mode" tabindex="-1">Rendering COMPLETE mode</h2>
 <p>The <code>index.html</code> included in the package's <code>dist</code> folder has been prepared for this mode and must merely be hosted.</p>
 <p>Please see the table in chapter <code>Basic usage</code> about configuration options.</p>
 
