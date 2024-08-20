@@ -306,7 +306,7 @@ The `<...masterportalAPI.fields>` means that any masterportalAPI field may also 
 
 ##### <plugin.fields>
 
-Plugins in POLAR are modular components that extend the functionality of the map client. They can be added using the [addPlugins](#addPlugins) method and configured through the `mapConfiguration` object. Each plugin has its own set of fields and options that can be customized.
+Plugins in POLAR are modular components that extend the functionality of the map client. They can be added using the [addPlugins](#addplugins) method and configured through the `mapConfiguration` object. Each plugin has its own set of fields and options that can be customized.
 
 On how to configure a plugin, see the respective plugin. The configuration is given in the `mapConfiguration` object by the plugin's name as specified in its respective documentation.
 
