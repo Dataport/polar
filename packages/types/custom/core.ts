@@ -36,7 +36,7 @@ export type RenderType = 'iconMenu' | 'independent' | 'footer'
 
 export type LoaderStyles =
   | 'CircleLoader'
-  | 'DefaultLoader'
+  | 'BasicLoader'
   | 'none'
   | 'RingLoader'
   | 'RollerLoader'

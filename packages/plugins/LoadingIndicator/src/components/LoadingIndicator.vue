@@ -27,7 +27,7 @@ import RollerLoader from './loaderStyles/Roller.vue'
 import CircleLoader from './loaderStyles/Circle.vue'
 import SpinnerLoader from './loaderStyles/Spinner.vue'
 import RingLoader from './loaderStyles/Ring.vue'
-import DefaultLoader from './loaderStyles/Default.vue'
+import BasicLoader from './loaderStyles/Basic.vue'
 
 export default Vue.extend({
   name: 'LoadingIndicator',
@@ -36,7 +36,7 @@ export default Vue.extend({
     CircleLoader,
     SpinnerLoader,
     RingLoader,
-    DefaultLoader,
+    BasicLoader,
   },
   computed: {
     ...mapGetters('plugin/loadingIndicator', ['showLoader', 'loaderStyle']),

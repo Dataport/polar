@@ -4,7 +4,7 @@ import { LoadingIndicatorMutations } from '../types'
 import { getInitialState } from './state'
 const styles = [
   'CircleLoader',
-  'DefaultLoader',
+  'BasicLoader',
   'none',
   'RingLoader',
   'RollerLoader',

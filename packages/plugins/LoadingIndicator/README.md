@@ -10,7 +10,7 @@ A generic loading indicator that may be used by any plugin or outside procedure 
 
 | fieldName  | type | description |
 | - | - | - |
-| loaderStyle | enum['CircleLoader', 'DefaultLoader', 'none', 'RingLoader', 'RollerLoader', 'SpinnerLoader', 'v-progress-linear']? | Choose between different loader styles. Defaults to 'v-progress-linear' (Vuetify loader). |
+| loaderStyle | enum['CircleLoader', 'BasicLoader', 'none', 'RingLoader', 'RollerLoader', 'SpinnerLoader', 'v-progress-linear']? | Choose between different loader styles. Defaults to 'v-progress-linear' (Vuetify loader). |
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
@@ -38,7 +38,7 @@ map.$store.commit('plugin/loadingIndicator/setLoaderStyle', loaderStyle)
 <table align="center">
   <tr align="center">
     <td width="33%" align="center"><img src="./assets/VuetifyLoader.PNG" alt="v-progress-linear" height="120px" style="object-fit: none;"><div>v-progress-linear</div></td>
-    <td width="33%" align="center"><img src="./assets/DefaultLoader.PNG" alt="DefaultLoader" height="120px" style="object-fit: contain;"><div>DefaultLoader</div></td>
+    <td width="33%" align="center"><img src="./assets/BasicLoader.PNG" alt="BasicLoader" height="120px" style="object-fit: contain;"><div>BasicLoader</div></td>
     <td width="33%" align="center"><img src="./assets/RingLoader.PNG" alt="RingLoader" height="120px" style="object-fit: contain;"><div>RingLoader</div></td>
   </tr>
   <tr align="center">

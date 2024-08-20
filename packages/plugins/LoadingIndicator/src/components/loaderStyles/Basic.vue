@@ -18,8 +18,13 @@
 <script lang="ts">
 import Vue from 'vue'
 
+/**
+ * This loader is the lds-default loader from https://loading.io/css/.
+ * It was renamed to BasicLoader to avoid confusion with the default loader.
+ */
+
 export default Vue.extend({
-  name: 'DefaultLoader',
+  name: 'BasicLoader',
 })
 </script>
 
