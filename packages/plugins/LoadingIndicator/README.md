@@ -37,14 +37,14 @@ map.$store.commit('plugin/loadingIndicator/setLoaderStyle', loaderStyle)
 
 <table align="center">
   <tr align="center">
-    <td width="33%" align="center"><img src="./assets/VuetifyLoader.PNG" alt="v-progress-linear" height="120px" style="object-fit: none;"><div>v-progress-linear</div></td>
-    <td width="33%" align="center"><img src="./assets/BasicLoader.PNG" alt="BasicLoader" height="120px" style="object-fit: contain;"><div>BasicLoader</div></td>
-    <td width="33%" align="center"><img src="./assets/RingLoader.PNG" alt="RingLoader" height="120px" style="object-fit: contain;"><div>RingLoader</div></td>
+    <td width="33%" align="center"><img src="./assets/VuetifyLoader.gif" alt="v-progress-linear" height="120px" style="object-fit: none;"><div>v-progress-linear</div></td>
+    <td width="33%" align="center"><img src="./assets/BasicLoader.gif" alt="BasicLoader" height="120px" style="object-fit: contain;"><div>BasicLoader</div></td>
+    <td width="33%" align="center"><img src="./assets/RingLoader.gif" alt="RingLoader" height="120px" style="object-fit: contain;"><div>RingLoader</div></td>
   </tr>
   <tr align="center">
-    <td width="33%" align="center"><img src="./assets/RollerLoader.PNG" alt="RollerLoader" height="120px" style="object-fit: contain;"><div>RollerLoader</div></td>
-    <td width="33%" align="center"><img src="./assets/CircleLoader.PNG" alt="CircleLoader" height="120px" style="object-fit: contain;"><div>CircleLoader</div></td>
-    <td width="33%" align="center"><img src="./assets/SpinnerLoader.PNG" alt="SpinnerLoader" height="120px" style="object-fit: contain;"><div>SpinnerLoader</div></td>
+    <td width="33%" align="center"><img src="./assets/RollerLoader.gif" alt="RollerLoader" height="120px" style="object-fit: contain;"><div>RollerLoader</div></td>
+    <td width="33%" align="center"><img src="./assets/CircleLoader.gif" alt="CircleLoader" height="120px" style="object-fit: contain;"><div>CircleLoader</div></td>
+    <td width="33%" align="center"><img src="./assets/SpinnerLoader.gif" alt="SpinnerLoader" height="120px" style="object-fit: contain;"><div>SpinnerLoader</div></td>
   </tr>
 </table>
 
