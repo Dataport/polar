@@ -10,9 +10,9 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 
 Example configuration:
 ```js
-  loadingIndicator: {
-    loaderStyle: 'RollerLoader',
-  }
+loadingIndicator: {
+  loaderStyle: 'RollerLoader',
+}
 ```
 
 ## Store

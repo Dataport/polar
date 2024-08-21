@@ -17,12 +17,11 @@ The scale plugin shows the current map resolution as relative scale (1:x) and/or
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
-
 Example configuration:
 
 ```js
 scale: {
-    showScaleSwitcher: true,
-    zoomMethod: 'plugin/zoom/setZoomLevel'
-  }
+  showScaleSwitcher: true,
+  zoomMethod: 'plugin/zoom/setZoomLevel'
+}
 ```

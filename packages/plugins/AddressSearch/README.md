@@ -259,7 +259,7 @@ queryParameters: {
     postalCode: '([0-9]+)'
     city: '([A-Za-z]+)'
   },
-  pattern: [
+  patterns: [
     '{{streetName}} {{houseNumber}} {{postalCode}} {{city}}' 
   ]
 }

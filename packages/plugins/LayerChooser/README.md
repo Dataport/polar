@@ -73,7 +73,6 @@ layers: [
 
 </details>
 
-
 ### mapConfiguration.layers.options
 
 An option wheel will appear in the layer chooser that allows opening a sub-menu with configured configuration options for the end user.

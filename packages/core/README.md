@@ -81,6 +81,8 @@ The mapConfiguration allows controlling many client instance details.
 | vuetify | object? | You may add vuetify configuration here. |
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
 
+For more information about the layerConf parameter, click [here](#mapconfigurationlayerconf)
+
 <details>
 <summary>Example configuration</summary>
 
@@ -92,6 +94,7 @@ const mapConfiguration = {
   checkServiceAvailability: true,
   language: 'de',
   locales, // the languageOptions object will normally be outsourced to another file
+  layerConf, // the layerConf object will normally be outsourced to another file
   layers: [
     // parts of the layer configuration can be outsourced to another file
     // and referenced in the mapConfiguration by id like the second layer
@@ -125,6 +128,7 @@ const mapConfiguration = {
 ```
 
 </details>
+
 
 ##### mapConfiguration.LanguageOption
 
@@ -347,7 +351,7 @@ Since this is the base for many functions, the service id set in this is used to
 
 ##### <plugin.fields>
 
-Plugins in POLAR are modular components that extend the functionality of the map client. They can be added using the [addPlugins](#addPlugins) method and configured through the `mapConfiguration` object. Each plugin has its own set of fields and options that can be customized.
+Plugins in POLAR are modular components that extend the functionality of the map client. They can be added using the [addPlugins](#addplugins) method and configured through the `mapConfiguration` object. Each plugin has its own set of fields and options that can be customized.
 
 On how to configure a plugin, see the respective plugin. The configuration is given in the `mapConfiguration` object by the plugin's name as specified in its respective documentation.
 

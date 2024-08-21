@@ -74,7 +74,6 @@ initial: {
 }
 ```
 
-
 #### pins.style
 
 | fieldName | type | description |
