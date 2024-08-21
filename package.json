@@ -78,6 +78,7 @@
     "lerna": "^6.4.0",
     "lodash.merge": "^4.6.2",
     "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^9.0.1",
     "prettier": "^2.5.1",
     "rimraf": "^5.0.9",
     "sass": "^1.47.0",
