@@ -43,6 +43,7 @@ export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
   showSizeSlider: boolean
   /* actual text size to use */
   textSize: number
+  showDrawOptions: boolean
 }
 
 export interface DrawMutations extends MutationTree<DrawState> {
