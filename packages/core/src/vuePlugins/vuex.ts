@@ -13,6 +13,7 @@ import {
   CoreState,
   MoveHandleActionButton,
   MoveHandleProperties,
+  PartialBy,
   PluginContainer,
   PolarError,
 } from '@polar/lib-custom-types'
@@ -56,6 +57,7 @@ const mutationLogger = (store) => {
 
 Vue.use(Vuex)
 
+// @ts-expect-error | plugin is not defined here as it is defined later on.
 const getInitialState = (): CoreState => ({
   map: 1,
   clientHeight: 0,
@@ -67,10 +69,11 @@ const getInitialState = (): CoreState => ({
   moveHandleActionButton: 1,
   selected: 1,
   zoomLevel: 0,
-  // TODO: Add default values for epsg, layers, namedProjections, options and remove @ts-ignore for configuration
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  configuration: {},
+  configuration: {
+    layers: [],
+    layerConf: [],
+    startCenter: [0, 0],
+  },
   hasSmallDisplay: false,
   errors: [],
   language: '',
