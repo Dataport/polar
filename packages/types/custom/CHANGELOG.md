@@ -8,6 +8,7 @@
 - Feature: Add new getter `deviceIsHorizontal` to `CoreGetters`.
 - Feature: Add `footer` to `RenderType` as an option to display attributions in a footer.
 - Feature: Add new parameter `showZoomSlider` to `ZoomConfiguration`.
+- Feature: Add new utility type `PartialBy`.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 - Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.
 - Fix: Properly document optional parameters of interfaces `AddressSearchConfiguration`, `FeatureList`, `FilterConfigurationTime`, `FilterConfigurationTimeOption`, `GeoLocationConfiguration`, `LayerConfigurationOptionLayers` and `PinsConfiguration`
