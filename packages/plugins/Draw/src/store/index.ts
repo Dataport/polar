@@ -87,8 +87,8 @@ export const makeStoreModule = () => {
         )
       },
       showDrawOptions(
-        _,
-        { mode, configuration, showTextInput, selectedFeature }
+        { mode },
+        { configuration, showTextInput, selectedFeature }
       ) {
         return (
           configuration.enableOptions &&
