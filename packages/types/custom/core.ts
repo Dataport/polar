@@ -167,6 +167,7 @@ export interface DrawConfiguration extends Partial<PluginOptions> {
   selectableDrawModes?: DrawMode[]
   style?: DrawStyle
   textStyle?: TextStyle
+  enableOptions?: boolean
 }
 
 export interface ExportConfiguration extends PluginOptions {
