@@ -229,6 +229,7 @@ Fields that are not set as required have default values.
 | fieldName | type | description |
 | - | - | - |
 | layerConf | layerConf \| string | Layer configuration of all available layers as a service register. May either be a self defined register or a link to an external register. Layers defined here are not directly shown in a client, see `mapconfiguration.layers` for that. |
+| layers | layer[] | Configuration of layers that are supposed to be used in the respective client. All layers defined here have to have an entry in `mapConfiguration.layerConf`. If `@polar/plugin-layer-chooser` is installed and configured, all these layers will be displayed in that menu. |
 | startCenter | number[] | Initial center coordinate. Needs to be defined in the chosen leading coordinate system. |
 | backgroundImage | string? | Image to be displayed as a background of the map. Defaults to `''`, so no image being used. |
 | epsg | `EPSG:${string}`? | Leading coordinate system. The coordinate system has to be defined in `mapConfiguration.namedProjections` as well. Changing this value should also lead to changes in `mapConfiguration.startCenter`, `mapConfiguration.extent`, `mapConfiguration.options` and `mapConfiguration.startResolution` as they are described in or related to the leading coordinate system. Defaults to `'EPSG:25832'`. |
@@ -345,6 +346,63 @@ Since this is the base for many functions, the service id set in this is used to
 | resolution | number | Size of 1 pixel on the screen converted to map units (e.g. meters) depending on the used projection (`epsg`). |
 | scale | number | Scale in meters. |
 | zoomLevel | number | Zoom level. |
+
+##### layer
+
+| fieldName | type | description |
+| - | - | - |
+| id | string | Service register id in `mapConfiguration.layerConf`. |
+| name | string | Display name in UI. |
+| type | enum["background", "mask"] | Layer handling. Backgrounds are mutually exclusive, masks ("overlays") can be stacked. |
+| maxZoom | number? | If set, layer only available (and selectable) up to this zoom level. |
+| minZoom | number? | If set, layer only available (and selectable) from this zoom level on. |
+| visibility | boolean? | Initial visibility. Defaults to `false`. |
+
+<details>
+<summary>Example configuration</summary>
+
+```js
+layers: [
+  {
+    id: backgroundmap,
+    visibility: true,
+    type: 'background',
+    name: 'Basemap Grayscale',
+  },
+  {
+    id: memorialsWFS,
+    visibility: false,
+    hideInMenu: true,
+    type: 'mask',
+    name: 'Memorial (WFS)',
+    minZoom: 7,
+  },
+  {
+    id: memorialsWMS,
+    visibility: true,
+    type: 'mask',
+    name: 'Cultural monuments (list)',
+    options: {
+      layers: {
+        order: '6,24,25,4,3,2,1,0',
+        title: {
+          '6': 'Monument area',
+          '24': 'Majority of structures',
+          '25': 'Material group',
+          '4': 'Architectural monument',
+          '3': 'Natural monument',
+          '2': 'Water bodies',
+          '1': 'Architectural monument (area)',
+          '0': 'Natural monument (area)',
+        },
+        legend: true,
+      },
+    },
+  },
+]
+```
+
+</details>
 
 ##### <plugin.fields>
 
