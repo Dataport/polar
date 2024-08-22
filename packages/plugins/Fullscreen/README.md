@@ -15,6 +15,14 @@ The fullscreen plugin allows viewing the map in fullscreen mode. It relies solel
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
+Example configuration:
+```js
+fullscreen: {
+  renderType: 'iconMenu',
+  targetContainerId: 'mapContainer'
+}
+```
+
 ## Store
 
 ### State

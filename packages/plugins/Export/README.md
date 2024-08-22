@@ -15,6 +15,16 @@ The Export plugin offers users to download the currently visible map canvas in a
 | showPdf | boolean? | Tools offers current map view as PDF. Defaults to `true`. |
 | showPng | boolean? | Tools offers current map view as PNG. Defaults to `true`. |
 
+Example Configuration:
+```js
+export: {
+  download: true,
+  showJpg: false,
+  showPdf: false,
+  showPng: true,
+}
+```
+
 To remove user control, add `displayComponent: false` to the configuration and use the following interactions.
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
