@@ -69,7 +69,6 @@ function afterLoadFunction(featuresByLayerId: Record<string, GeoJsonFeature[]>):
 
   return filteredFeaturesByLayerId;
 }
-
 ```
 
 </details>
