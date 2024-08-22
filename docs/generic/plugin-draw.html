@@ -69,6 +69,32 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/generic/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<details>
+<summary>Example configuration</summary>
+<pre><code class="language-js">draw: {
+  selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
+  textStyle: {
+    font: {
+      size: [10, 20, 30],
+      family: 'Arial',
+    },
+  },
+  style: {
+    fill: { 
+      color: 'rgba(255, 255, 255, 0.5)' 
+    },
+    stroke: {
+      color: '#e51313',
+      width: 2,
+    },
+    circle: {
+      radius: 7,
+      fillColor: '#e51313',
+    },
+  },
+},
+</code></pre>
+</details>
 <h5 id="draw.textstyle" tabindex="-1">draw.textStyle</h5>
 <table>
 <thead>
@@ -91,6 +117,12 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">textStyle: {
+  font: '16px sans-serif'
+  textColor: '#e51313'
+}
+</code></pre>
 <h5 id="draw.textstyle.font" tabindex="-1">draw.textStyle.font</h5>
 <table>
 <thead>
@@ -113,31 +145,30 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">font: {
+  size: [10.5, 20, 30.5, 35],
+  family: 'serif'
+},
+</code></pre>
 <h4 id="draw.style-(by-example)" tabindex="-1">draw.style (by example)</h4>
 <p>The <code>@masterportal/masterportalapi</code> has vectorStyles in development. As soon as that's done, we shall use its styling syntax and methods.</p>
 <p>For the time being, please use this example as a rough reference as to what can currently be done.</p>
-<pre><code class="language-json">{
-  &quot;draw&quot;: {
-    &quot;style&quot;: {
-      &quot;fill&quot;: {
-        &quot;color&quot;: &quot;rgba(255, 255, 255, 0.5)&quot;
+<pre><code class="language-js">{
+  draw: {
+    style: {
+      fill: {
+        color: 'rgba(255, 255, 255, 0.5)'
       },
-      &quot;stroke&quot;: {
-        &quot;color&quot;: &quot;#e51313&quot;,
-        &quot;width&quot;: 2
+      stroke: {
+        color: '#e51313',
+        width: 2
       },
-      &quot;circle&quot;: {
-        &quot;radius&quot;: 7,
-        &quot;fillColor&quot;: &quot;#e51313&quot;
+      circle: {
+        radius: 7,
+        fillColor: '#e51313'
       }
     },
-    &quot;textStyle&quot;: {
-      &quot;font&quot;: {
-        &quot;size&quot;: [10.5, 20, 30.5, 35],
-        &quot;family&quot;: &quot;serif&quot;
-      },
-      &quot;textColor&quot;: &quot;#e51313&quot;
-    }
   }
 }
 </code></pre>
@@ -166,7 +197,7 @@
   overwrite: true, // defaults to false
 })
 </code></pre>
-<p>Calling the action <code>addFeatures</code> expects an object containing the parameter <code>geoJSON</code>, which is a <a href="https://geojson.org/">GeoJSON</a> FeatureCollection.<br>
+<p>Calling the action <code>addFeatures</code> expects an object containing the parameter <code>geoJSON</code>, which is a <a href="https://geojson.org/">GeoJSON</a> FeatureCollection.<br />
 It adds the given features from the FeatureCollection to the drawn source. It is also possible to completely overwrite them using the parameter <code>overwrite</code>.</p>
 <p>It's important to note that the GeoJSON Standard <a href="https://www.rfc-editor.org/rfc/rfc7946">RFC7946</a> does not support circles.
 To add a circle to the map, it is assumed, that a feature being a circle has a property <code>radius</code> together with a point geometry.</p>

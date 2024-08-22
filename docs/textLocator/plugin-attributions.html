@@ -54,8 +54,8 @@
 </tr>
 <tr>
 <td>renderType</td>
-<td>'iconMenu' | 'independent'?</td>
-<td>Whether this plugin ('independent') or the IconMenu should handle opening the information box. Defaults to 'independent'.</td>
+<td>'iconMenu' | 'independent'  | 'footer'?</td>
+<td>Defines whether this plugin ('independent') or the IconMenu ('iconMenu') should handle opening the information box or if a small information box should always be visible ('footer'). Defaults to 'independent'.</td>
 </tr>
 <tr>
 <td>staticAttributions</td>
@@ -70,6 +70,30 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/textLocator/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">attributions: {
+  initiallyOpen: false,
+  windowWidth: 300,
+  renderType: 'independent',
+  listenToChanges: [
+    'plugin/zoom/zoomLevel',
+    'plugin/layerChooser/activeBackgroundId',
+  ],
+  layerAttributions: [
+    {
+      id: basemapId,
+      title: 'Basemap',
+    },
+    {
+      id: subway,
+      title: 'Subway',
+    },
+  ],
+  staticAttributions: [
+    '&lt;a href=&quot;https://www.hamburg.de/impressum/&quot; target=&quot;_blank&quot;&gt;Impressum&lt;/a&gt;',
+  ],
+}
+</code></pre>
 <h4 id="attributions.layerattribution" tabindex="-1">attributions.layerAttribution</h4>
 <table>
 <thead>
@@ -92,6 +116,18 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">layerAttributions: [
+  {
+    id: basemapId,
+    title: 'Basemap © &lt;YEAR&gt;',
+  },
+  {
+    id: subway,
+    title: 'Subway',
+  },
+]
+</code></pre>
 
     
   </article>

@@ -32,7 +32,7 @@
 <li>Localization mechanism</li>
 </ul>
 <h2 id="interaction" tabindex="-1">Interaction</h2>
-<p>If a client is rendered as part of another page, the zoom and drag-pan behaviour is different to if the client is rendered as complete page.<br>
+<p>If a client is rendered as part of another page, the zoom and drag-pan behaviour is different to if the client is rendered as complete page.<br />
 If it's part of another page, drag-panning on mobile devices is only usable if at least two fingers are being used while on desktop clients the user can only zoom if using the respective platform modifier key (e.g. CTRL).</p>
 <p>It is important to note that the behaviour will be desktop-like on larger touchscreen devices (e.g. tablets).</p>
 <h2 id="initialization-%2F-configuration" tabindex="-1">Initialization / Configuration</h2>
@@ -122,8 +122,55 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <td>boolean?</td>
 <td>POLAR requires FontAwesome in the Light/Root DOM due to an <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=336876">unfixed bug in many browsers</a>. This value defaults to <code>true</code>. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to <code>false</code> to check whether the versions are interoperable.</td>
 </tr>
+<tr>
+<td>checkServiceAvailability</td>
+<td>boolean?</td>
+<td>If set to <code>true</code>, all services' availability will be checked with head requests.</td>
+</tr>
 </tbody>
 </table>
+<details>
+<summary>Example configuration</summary>
+<pre><code class="language-ts">import locales from './locales'
+
+const mapConfiguration = {
+  stylePath: '../dist/polar-client.css',
+  checkServiceAvailability: true,
+  language: 'de',
+  locales, // the languageOptions object will normally be outsourced to another file
+  layerConf, // the layerConf object will normally be outsourced to another file - for more information, see the relevant chapter
+  layers: [
+    // parts of the layer configuration can be outsourced to another file
+    // and referenced in the mapConfiguration by id like the second layer
+    {
+      id: 'backgroundmap',
+      name: 'WMS DE BASEMAP.DE WEB RASTER',
+      url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+      typ: 'WMS',
+      layers: 'de_basemapde_web_raster_grau',
+      format: 'image/png',
+      version: '1.3.0',
+      singleTile: false,
+      transparent: true,
+    },
+    {
+      id: '1561',
+      visibility: true,
+      type: 'mask',
+      name: 'Building Plans',
+      minZoom: 2,
+    },
+  ],
+  addressSearch: {
+    displayComponent: false,
+  },
+  export: {
+    showPdf: false,
+  },
+  ...
+}
+</code></pre>
+</details>
 <h5 id="mapconfiguration.languageoption" tabindex="-1">mapConfiguration.LanguageOption</h5>
 <p>A language option is an object consisting of a type (its language key) and the i18next resource definition. You may e.g. decide that the texts offered in the LayerChooser do not fit the style of your client, or that they could be more precise in your situation since you're only using <em>very specific</em> overlays.</p>
 <p>An example for a LanguageOption array usable in <code>createMap</code> is this array:</p>
@@ -193,6 +240,25 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">extendedMasterportalapiMarkers: {
+  layers: ['reportServiceLayerId'],
+  defaultStyle: {
+    stroke: '#FFFFFF',
+    fill: '#005CA9',
+  },
+  hoverStyle: {
+    stroke: '#46688E',
+    fill: '#8BA1B8',
+  },
+  selectionStyle: {
+    stroke: '#FFFFFF',
+    fill: '#E10019',
+  },
+  clusterClickZoom: true,
+  dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
+},
+</code></pre>
 <h6 id="mapconfiguration.extendedmasterportalapimarkers.markerstyle" tabindex="-1">mapConfiguration.extendedMasterportalapiMarkers.MarkerStyle</h6>
 <table>
 <thead>
@@ -230,6 +296,12 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">defaultStyle: {
+  stroke: '#FFFFFF',
+  fill: '#005CA9',
+},
+</code></pre>
 <p>A full documentation of the masterportalapiPolygonFillHatch is available at the Masterportal's documentation file <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md">style.json.md</a>, chapter 'Polygon.polygonFillHatch'. The basic usage is quoted below for quick lookup. For more details, visual examples, and expert features, see there.</p>
 <blockquote>
 <table>
@@ -356,6 +428,29 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 </tr>
 </tbody>
 </table>
+<details>
+<summary>Example configuration</summary>
+<pre><code class="language-js">{
+  startResolution: 264.583190458,
+  startCenter: [553655.72, 6004479.25],
+  extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
+  epsg: 'EPSG:25832',
+  options: [
+    { resolution: 2.6458319045841048, scale: 10000, zoomLevel: zoomLevel++ },
+    { resolution: 1.3229159522920524, scale: 5000, zoomLevel: zoomLevel++ },
+    { resolution: 0.6614579761460262, scale: 2500, zoomLevel: zoomLevel++ },
+    { resolution: 0.2645831904584105, scale: 1000, zoomLevel: zoomLevel++ },
+    { resolution: 0.1322915952292052, scale: 500, zoomLevel: zoomLevel++ },
+  ],
+  namedProjections: [
+    [
+      'EPSG:25832',
+      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+    ],
+  ],
+}
+</code></pre>
+</details>
 <h5 id="%3Cplugin.fields%3E" tabindex="-1">&lt;plugin.fields&gt;</h5>
 <p>Plugins in POLAR are modular components that extend the functionality of the map client. They can be added using the <a href="#addplugins">addPlugins</a> method and configured through the <code>mapConfiguration</code> object. Each plugin has its own set of fields and options that can be customized.</p>
 <p>On how to configure a plugin, see the respective plugin. The configuration is given in the <code>mapConfiguration</code> object by the plugin's name as specified in its respective documentation.</p>

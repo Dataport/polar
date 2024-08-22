@@ -69,6 +69,16 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">reverseGeocoder: {
+  url: 'someWebProcessingServiceUrl.com'
+  coordinateSource: 'plugin/pins/transformedCoordinate',
+  addressTarget: 'plugin/addressSearch/selectResult',
+  addLoading: 'plugin/loadingIndicator/addLoadingKey',
+  removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+  zoomTo: 7,  
+}
+</code></pre>
 <h2 id="store" tabindex="-1">Store</h2>
 <p>The ReverseGeocoder plugin does not hold any state.</p>
 <h3 id="actions" tabindex="-1">Actions</h3>

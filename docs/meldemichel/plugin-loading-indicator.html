@@ -27,6 +27,11 @@
 <p>A generic loading indicator that may be used by any plugin or outside procedure to indicate loading.</p>
 <h2 id="configuration" tabindex="-1">Configuration</h2>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/meldemichel/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">loadingIndicator: {
+  loaderStyle: 'RollerLoader',
+}
+</code></pre>
 <h2 id="store" tabindex="-1">Store</h2>
 <h3 id="mutations" tabindex="-1">Mutations</h3>
 <pre><code class="language-js">// show loading indicator
@@ -34,7 +39,7 @@ map.$store.commit('plugin/loadingIndicator/addLoadingKey', key)
 // hide loading indicator
 map.$store.commit('plugin/loadingIndicator/removeLoadingKey', key)
 </code></pre>
-<p><img src="./readme_loadingIndicator_example.png" alt="Loading indicator example"></p>
+<p><img src="./readme_loadingIndicator_example.png" alt="Loading indicator example" /></p>
 <p>The key must be unique and is kept track of via a Set. It can't be added multiple times, and removing it once always removes it altogether. It is advised to use a key like <code>{my-plugin-or-application-name}-{procedure-name}</code> to avoid name conflicts. The LoadingIndicator will usually be used for asynchronous code.</p>
 <p>As such, <strong>always call <code>removeLoadingKey</code> in the <code>finally</code> section of your code</strong> to prevent hanging loading indicators.</p>
 <h3 id="getters" tabindex="-1">Getters</h3>

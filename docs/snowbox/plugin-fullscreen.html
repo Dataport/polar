@@ -49,6 +49,12 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/snowbox/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">fullscreen: {
+  renderType: 'iconMenu',
+  targetContainerId: 'mapContainer'
+}
+</code></pre>
 <h2 id="store" tabindex="-1">Store</h2>
 <h3 id="state" tabindex="-1">State</h3>
 <pre><code class="language-js">map.subscribe('plugin/fullscreen/isInFullscreen', (isInFullscreen) =&gt; {

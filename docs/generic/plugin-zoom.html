@@ -26,7 +26,7 @@
 <h2 id="scope" tabindex="-1">Scope</h2>
 <p>The Zoom plugin offers functionality regarding map zooming.</p>
 <h2 id="configuration" tabindex="-1">Configuration</h2>
-<p>The Zoom plugin offers a plus/minus button, and will adjust itself to the map's zoom settings on initialization.<br>
+<p>The Zoom plugin offers a plus/minus button, and will adjust itself to the map's zoom settings on initialization.<br />
 It can be configured as followed.</p>
 <table>
 <thead>
@@ -55,6 +55,13 @@ It can be configured as followed.</p>
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/generic/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">zoom: {
+  renderType: 'independent',
+  showMobile: false,
+  showZoomSlider: true,
+}
+</code></pre>
 <h2 id="store" tabindex="-1">Store</h2>
 <h3 id="state" tabindex="-1">State</h3>
 <p>The map's zoom level can be listened to.</p>

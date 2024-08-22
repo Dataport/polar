@@ -104,6 +104,53 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/meldemichel/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<details>
+<summary>Example configuration</summary>
+<pre><code class="language-js">addressSearch: {
+  searchMethods: [
+    {
+      queryParameters: {
+        searchAddress: true,
+        searchStreets: true,
+        searchHouseNumbers: true,
+      },
+      type: 'mpapi',
+      url: 'example-url.com',
+    },
+    {
+      queryParameters: {
+        filter: {
+          bundesland: 'Schleswig-Holstein',
+        },
+      },
+      type: 'bkg',
+      url: 'other-example-url.com',
+    },
+    {
+      type: 'wfs'
+      queryParameters: {
+        srsName: 'EPSG:25832',
+        typeName: 'address_shp',
+        fieldName: 'objektid',
+        featurePrefix: 'app',
+        xmlns: 'http://www.deegree.org/app',
+        useRightHandWildcard: true,
+      },
+    }
+  ],
+  groupProperties: {
+    defaultGroup: {
+      limitResults: 5,
+    },
+  },
+  focusAfterSearch: true,
+  minLength: 3,
+  waitMs: 300,
+  addLoading: 'plugin/loadingIndicator/addLoadingKey',
+  removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+},
+</code></pre>
+</details>
 <h4 id="addresssearch.searchmethodsobject" tabindex="-1">addressSearch.searchMethodsObject</h4>
 <table>
 <thead>
@@ -156,9 +203,30 @@
 </tr>
 </tbody>
 </table>
-<h4 id="addresssearch.customsearchmethod" tabindex="-1">addressSearch.customSearchMethod</h4>
-<p>This is a function with the following signature:</p>
-<pre><code>(
+<p>Example configuration:</p>
+<pre><code class="language-js"> searchMethods: [
+  {
+    groupId: 'groupAdressSearch',
+    categoryId: 'categoryAddressSearch',
+    type: 'bkg',
+    url: 'example.com',
+    hint: 'Input of e.g. street or address',
+    label: 'Street search',
+    placeholder: 'Street name',
+    queryParameters: {
+      filter: {
+        bundesland: 'Schleswig-Holstein',
+      },
+    },
+  },
+],
+
+#### addressSearch.customSearchMethod
+
+This is a function with the following signature:
+
+```ts
+(
   // should be used to actually abort request
   signal: AbortSignal,
   // base url as configured
@@ -172,7 +240,7 @@
 <p>With this, arbitrary services can be supported.</p>
 <h4 id="addresssearch.customselectfunction" tabindex="-1">addressSearch.customSelectFunction</h4>
 <p>This is a function with the following signature:</p>
-<pre><code>({
+<pre><code class="language-ts">({
   // VueX context object
   context,
   payload: {
@@ -219,6 +287,19 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">groupProperties: {
+  groupAdressSearch: {
+    label: 'Street search',
+    hint: 'Please enter a street name',
+    resultDisplayMode: 'categorized',
+    limitResults: 3,
+  },
+  defaultGroup: {
+    limitResults: 5,
+  },
+}
+</code></pre>
 <h4 id="addresssearch.categoryproperties" tabindex="-1">addressSearch.categoryProperties</h4>
 <table>
 <thead>
@@ -236,6 +317,13 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">categoryProperties: {
+  categoryAddressSearchAutocomplete: {
+    label: 'Address search hits',
+  },
+}
+</code></pre>
 <h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Acommon)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:common)</h5>
 <p>These fields are interpreted by all implemented services.</p>
 <table>
@@ -254,6 +342,11 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">queryParameters: {
+  maxFeatures: 120,
+},
+</code></pre>
 <h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Awfs)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:wfs)</h5>
 <table>
 <thead>
@@ -317,6 +410,34 @@
 <li>WFS 2.0.0 <code>{wildCard: &quot;%&quot;, singleChar: &quot;*&quot;, escapeChar: &quot;\&quot;}</code></li>
 <li>WFS 1.0.0 <code>{wildCard: &quot;*&quot;, singleChar: &quot;*&quot;, escape: &quot;\&quot;}</code></li>
 </ul>
+<p>Example configurations:</p>
+<pre><code class="language-js">type: 'wfs'
+queryParameters: {
+  srsName: 'EPSG:25832',
+  typeName: 'address_shp',
+  fieldName: 'objektid',
+  featurePrefix: 'app',
+  xmlns: 'http://www.deegree.org/app',
+  useRightHandWildcard: true,
+}
+</code></pre>
+<pre><code class="language-js">type: 'wfs'
+queryParameters: {
+  srsName: 'EPSG:25832',
+  typeName: 'address_shp',
+  featurePrefix: 'app',
+  xmlns: 'http://www.deegree.org/app',
+  patternKeys: {
+    streetName: '([A-Za-z]+)'
+    houseNumber: '([0-9]+)'
+    postalCode: '([0-9]+)'
+    city: '([A-Za-z]+)'
+  },
+  patterns: [
+    '{{streetName}} {{houseNumber}} {{postalCode}} {{city}}' 
+  ]
+}
+</code></pre>
 <h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Agazetteer)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:gazetteer)</h5>
 <blockquote>
 <p>⚠️ &quot;gazetteer&quot; is deprecated. Please use &quot;mpapi&quot; instead.</p>
@@ -408,18 +529,32 @@
 </tbody>
 </table>
 <p>While all fields are optional, configuring none of them will yield undefined behaviour. At least one search instruction should be set to <code>true</code>.</p>
+<pre><code class="language-js">type: 'mpapi'
+queryParameters: {
+  searchAddress: true,
+  searchStreets: true,
+  searchHouseNumbers: true,
+},
+</code></pre>
 <h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Abkg)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:bkg)</h5>
 <p>In <em>BKG</em> mode, queryParameter's key-value pairs are used in the service query. E.g. <code>{filter: { bundesland: 'Bremen' }}</code> results in the GET request URL having <code>&amp;filter=bundesland:Bremen</code> as suffix.</p>
 <p>For more options, please check the <a href="https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf">official documentation</a> regarding what query parameters are interpreted.</p>
 <p>Additionally, it is possible to configure the parameters <code>accesstoken</code> (<code>Authorization</code>) or <code>apiKey</code> (custom header <code>X-Api-Key</code>) to send the described headers to the search service for authentication purposes.
 Note that this changes the request to be non-simple. To be able to use the parameters, the request has to be sent in <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request/mode"><code>cors</code> mode</a> and has to support preflight request <code>OPTIONS</code>.</p>
+<pre><code class="language-js">type: 'bkg'
+queryParameters: {
+  filter: {
+    bundesland: 'Schleswig-Holstein',
+  },
+},
+</code></pre>
 <h2 id="store" tabindex="-1">Store</h2>
 <h3 id="mutations" tabindex="-1">Mutations</h3>
 <h4 id="setselectedgroupname" tabindex="-1">setSelectedGroupName</h4>
 <p>This can be used to change the selected search group by name.</p>
 <pre><code class="language-js">map.$store.commit(
   'plugin/addressSearch/setSelectedGroupName',
-  'Flurstückssuche'
+  'Parcel search'
 )
 </code></pre>
 <p>Please mind that programmatically changing the search group will <em>not</em> trigger a search, unlike a search group change by the user. If you need a search after change, consider the <code>search</code> action.</p>
@@ -427,7 +562,7 @@ Note that this changes the request to be non-simple. To be able to use the param
 <h4 id="search" tabindex="-1">search</h4>
 <p>This is a purely programmatical search method. It is not used by user input.</p>
 <pre><code class="language-js">map.$store.dispatch('plugin/addressSearch/search', {
-  input: 'Bahnhofsstraße 12',
+  input: 'Station Road 12',
   autoselect: 'first',
 })
 </code></pre>

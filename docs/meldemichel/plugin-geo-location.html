@@ -81,12 +81,16 @@ either <code>true</code> or <code>false</code>. When a users denies the location
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/meldemichel/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
-<h4 id="example-configuration" tabindex="-1">Example configuration</h4>
-<pre><code class="language-json">{
-  &quot;geoLocation&quot;: {
-    &quot;checkLocationInitially&quot;: true,
-    &quot;zoomLevel&quot;: 7
-  }
+<p>Example configuration:</p>
+<pre><code class="language-js">geoLocation: {
+  checkLocationInitially: true,
+  keepCentered: true,
+  renderType: 'independent',
+  zoomLevel: 7,
+  boundaryLayerId: 'hamburgBorder',
+  boundaryOnError: 'strict',
+  showTooltip: true,
+  toastAction: 'plugin/toast/addToast',
 }
 </code></pre>
 <h2 id="store" tabindex="-1">Store</h2>

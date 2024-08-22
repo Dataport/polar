@@ -92,6 +92,50 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/generic/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<details>
+<summary>Example configuration</summary>
+<pre><code class="language-ts">gfi: {
+  mode: 'bboxDot',
+  activeLayerPath: 'plugin/layerChooser/activeMaskIds',
+  afterLoadFunction: afterLoadFunction,
+  layers: {
+    'layerId': {
+      geometry: true,
+      window: true,
+      maxFeatures: 10,
+      geometryName: 'app:geometry',
+      exportProperty: 'Export',
+    },
+  },
+  coordinateSources: [
+    'plugin/pins/transformedCoordinate',
+    'plugin/pins/coordinatesAfterDrag',
+  ],
+  customHighlightStyle: {
+    stroke: {
+      color: '#FFFF00',
+      width: 3,
+    },
+    fill: {
+      color: 'rgb(255, 255, 255, 0.7)',
+    },
+  },
+}
+
+function afterLoadFunction(featuresByLayerId: Record&lt;string, GeoJsonFeature[]&gt;): Record&lt;string, GeoJsonFeature[]&gt; {
+  const filteredFeaturesByLayerId: Record&lt;string, GeoJsonFeature[]&gt; = {};
+
+  for (const layerId in featuresByLayerId) {
+    if (featuresByLayerId.hasOwnProperty(layerId)) {
+      const features = featuresByLayerId[layerId];
+      filteredFeaturesByLayerId[layerId] = features.filter(feature =&gt; feature.properties.type === 'desiredType');
+    }
+  }
+
+  return filteredFeaturesByLayerId;
+}
+</code></pre>
+</details>
 <h5 id="gfi.gfilayerconfiguration" tabindex="-1">gfi.gfiLayerConfiguration</h5>
 <table>
 <thead>
@@ -119,7 +163,7 @@
 </tr>
 <tr>
 <td>properties</td>
-<td>Record&lt;propertyName, displayName&gt;/string[]</td>
+<td>Record&lt;propertyName, displayName&gt;/string[]?</td>
 <td>In case <code>window</code> is <code>true</code>, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. Displays all properties by default.</td>
 </tr>
 <tr>
@@ -134,6 +178,27 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">layers: {
+  'layerId': {
+    geometry: true,
+    window: true,
+    maxFeatures: 10,
+    geometryName: 'app:geometry',
+    exportProperty: 'Export',
+    properties: {
+      status: 'status',
+      type: 'type',
+    },
+    showTooltip: (feature: Feature): [string, string][] =&gt; {
+      return [
+        ['div', `Feature ID: ${feature.properties.id}`],
+        ['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`]
+      ];
+    };
+  },
+}
+</code></pre>
 <p>Additionally, if using a WMS service, the following properties can be configured as well.</p>
 <table>
 <thead>
@@ -147,7 +212,7 @@
 <tr>
 <td>filterBy</td>
 <td>'clickPosition'?</td>
-<td>Some WMS services may return features close to the clicked position. By setting the this value <code>clickPosition</code>, only features that intersect the clicked position are shown to the user. Defaults to showing all features.</td>
+<td>Some WMS services may return features close to the clicked position. By setting the value <code>clickPosition</code>, only features that intersect the clicked position are shown to the user. Defaults to showing all features.</td>
 </tr>
 <tr>
 <td>format</td>
@@ -156,6 +221,18 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">layers: {
+  'layerId': {
+    geometry: true,
+    window: true,
+    maxFeatures: 10,
+    geometryName: 'app:geometry',
+    filterBy: 'clickPosition'
+    format: 'text'
+  },
+}
+</code></pre>
 <h5 id="gfi.customhighlightstyle" tabindex="-1">gfi.customHighlightStyle</h5>
 <table>
 <thead>
@@ -178,6 +255,17 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">customHighlightStyle: {
+  stroke: {
+    color: '#FFFF00',
+    width: 3,
+  },
+  fill: {
+    color: 'rgb(255, 255, 255, 0.7)',
+  },
+},
+</code></pre>
 <h5 id="gfi.featurelist" tabindex="-1">gfi.featureList</h5>
 <table>
 <thead>
@@ -210,30 +298,13 @@
 </tr>
 </tbody>
 </table>
-<h4 id="example-configuration" tabindex="-1">Example configuration</h4>
-<pre><code class="language-js">layers: {
-  [serviceId]: {
-    geometry: true,
-    window: false,
-    properties: {
-      keyInService: 'Display Label'
-    } // or ['keyInService'], in which case 'keyInService' is also the actual label
-  },
-},
-coordinateSources: [
-  // use coordinates from pins plugin, that is, resolve GFI to pin position
-  'plugin/pins/transformedCoordinate',
-  'plugin/pins/coordinatesAfterDrag'
-],
-customHighlightStyle: {
-  stroke: {
-    color: '#FFFF00',
-    width: 3,
-  },
-  fill: {
-    color: 'rgb(255, 255, 255, 0.7)',
-  },
-},
+<p>Example configuration:</p>
+<pre><code class="language-js">featureList: {
+  mode: 'visible',
+  bindWithCoreHoverSelect: true,
+  pageLength: 5,
+  text: ['Nature reserves', (feature) =&gt; `${feature.get('str')} ${feature.get('hsnr')}`]
+}
 </code></pre>
 <h2 id="store" tabindex="-1">Store</h2>
 <h3 id="state" tabindex="-1">State</h3>

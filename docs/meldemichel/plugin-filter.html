@@ -46,6 +46,48 @@
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/meldemichel/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
 <pre><code>The following chapters contain drafts in this format. Please mind that they neither represent UI nor localisation, but are merely there to communicate the idea with an example.
 </code></pre>
+<details>
+<summary>Example configuration</summary>
+<pre><code class="language-js">{
+  filter: {
+    layers: {
+      '1234': {
+        categories: [
+          {
+            selectAll: true,
+            targetProperty: 'buildingType',
+            knownValues: ['shed', 'mansion', 'fortress']
+          },
+          {
+            selectAll: false,
+            targetProperty: 'lightbulb',
+            knownValues: ['on', 'off']
+          }
+        ],
+        time: {
+          targetProperty: 'lastAccident',
+          last: [
+            {
+              amounts: [7, 30],
+              unit: 'days',
+            },
+          ],
+          freeSelection: {
+            unit: 'days',
+            now: 'until'
+          },
+          /**
+           * Feature holds date property as e.g. &quot;20143012&quot;, where 2014 is the
+           * year, 30 the day, and 12 the month.
+           */
+          pattern: 'YYYYDDMM'
+        }
+      }
+    }
+  }
+}
+</code></pre>
+</details>
 <h5 id="filter.filterconfiguration" tabindex="-1">filter.filterConfiguration</h5>
 <table>
 <thead>
@@ -68,6 +110,19 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">categories: [
+  {
+    targetProperty: 'favouriteIceCream', 
+    knownValues: ['chocolate', 'vanilla', 'strawberry'],
+    selectAll: true
+  }
+],
+time: {
+  targetProperty: 'start',
+  pattern: 'YYYYMMDD',
+},
+</code></pre>
 <h6 id="filter.filterconfiguration.category" tabindex="-1">filter.filterConfiguration.category</h6>
 <table>
 <thead>
@@ -95,7 +150,16 @@
 </tr>
 </tbody>
 </table>
-<p>For example, <code>{targetProperty: 'favouriteIceCream', knownValues: ['chocolate', 'vanilla', 'strawberry'], selectAll: true}</code> will add these checkboxes:</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">categories: [
+  {
+    targetProperty: 'favouriteIceCream', 
+    knownValues: ['chocolate', 'vanilla', 'strawberry'],
+    selectAll: true,
+  }
+],
+</code></pre>
+<p>This example configuration will add these checkboxes:</p>
 <pre><code>▢ De-/select all
 ▢ Chocolate
 ▢ Vanilla
@@ -139,6 +203,25 @@
 </tbody>
 </table>
 <p>Of all time restrictions, at most one can be selected at any time. The produced options are selectable by radio buttons.</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">time: {
+  targetProperty: 'start',
+  pattern: 'YYYYMMDD',
+  last: [
+    {
+      amounts: [7, 30],
+    },
+  ],
+  next: [
+    {
+      amounts: [7, 30],
+    },
+  ],
+  freeSelection: {
+    now: 'until',
+  },
+}
+</code></pre>
 <h6 id="filter.filterconfiguration.time.options" tabindex="-1">filter.filterConfiguration.time.options</h6>
 <table>
 <thead>
@@ -161,7 +244,15 @@
 </tr>
 </tbody>
 </table>
-<p>For example, <code>{amounts: [3, 7], unit: 'days'}</code> as value for <code>last</code> will add these radio buttons:</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">last: [
+  {
+    amounts: [7, 30],
+    unit: 'days'
+  },
+],
+</code></pre>
+<p>This example configuration will add these radio buttons:</p>
 <pre><code>◯ Last 3 days
 ◯ Last 7 days
 </code></pre>
@@ -188,50 +279,16 @@
 </tr>
 </tbody>
 </table>
-<p>For example, <code>{now: 'until', unit: 'days'}</code> will add this radio button:</p>
-<pre><code>◯ Choose time frame
+<p>Example configuration:</p>
+<pre><code class="language-js">freeSelection: {
+  now: 'until',
+  unit: 'days'
+},
+</code></pre>
+<p>This example configuration will add this radio button:</p>
+<pre><code class="language-js">◯ Choose time frame
    From ▒▒▒▒▒▒▒▒▒▒▒ // clicking input opens a selector restricted *until* today
    To   ▇▇▇▇▇▇▇▇▇▇▇ // clicking input opens a selector restricted *until* today
-</code></pre>
-<h4 id="example-configuration" tabindex="-1">Example configuration</h4>
-<pre><code class="language-js">{
-  filter: {
-    layers: {
-      &quot;1234&quot;: {
-        categories: [
-          {
-            selectAll: true,
-            targetProperty: 'buildingType',
-            knownValues: ['shed', 'mansion', 'fortress']
-          },
-          {
-            selectAll: false,
-            targetProperty: 'lightbulb',
-            knownValues: ['on', 'off']
-          }
-        ],
-        time: {
-          targetProperty: 'lastAccident',
-          last: [
-            {
-              amounts: [7, 30],
-              unit: 'days',
-            },
-          ],
-          freeSelection: {
-            unit: 'days',
-            now: 'until'
-          },
-          /**
-           * Feature holds date property as e.g. &quot;20143012&quot;, where 2014 is the
-           * year, 30 the day, and 12 the month.
-           */
-          pattern: 'YYYYDDMM'
-        }
-      }
-    }
-  }
-}
 </code></pre>
 
     

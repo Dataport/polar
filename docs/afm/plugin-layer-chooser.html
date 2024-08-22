@@ -82,6 +82,48 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/afm/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<details>
+<summary>Example configuration</summary>
+<pre><code class="language-js">layers: [
+  {
+    id: backgroundmap,
+    visibility: true,
+    type: 'background',
+    name: 'Basemap Grayscale',
+  },
+  {
+    id: memorialsWFS,
+    visibility: false,
+    hideInMenu: true,
+    type: 'mask',
+    name: 'Memorial (WFS)',
+    minZoom: 7,
+  },
+  {
+    id: memorialsWMS,
+    visibility: true,
+    type: 'mask',
+    name: 'Cultural monuments (list)',
+    options: {
+      layers: {
+        order: '6,24,25,4,3,2,1,0',
+        title: {
+          '6': 'Monument area',
+          '24': 'Majority of structures',
+          '25': 'Material group',
+          '4': 'Architectural monument',
+          '3': 'Natural monument',
+          '2': 'Water bodies',
+          '1': 'Architectural monument (area)',
+          '0': 'Natural monument (area)',
+        },
+        legend: true,
+      },
+    },
+  },
+]
+</code></pre>
+</details>
 <h3 id="mapconfiguration.layers.options" tabindex="-1">mapConfiguration.layers.options</h3>
 <p>An option wheel will appear in the layer chooser that allows opening a sub-menu with configured configuration options for the end user.</p>
 <table>
@@ -100,6 +142,24 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">options: {
+  layers: {
+    order: '6,24,25,4,3,2,1,0',
+    title: {
+      '6': 'Monument area',
+      '24': 'Majority of structures',
+      '25': 'Material group',
+      '4': 'Architectural monument',
+      '3': 'Natural monument',
+      '2': 'Water bodies',
+      '1': 'Architectural monument (area)',
+      '0': 'Natural monument (area)',
+    },
+    legend: true,
+  },
+},
+</code></pre>
 <h4 id="mapconfiguration.layers.options.layers" tabindex="-1">mapConfiguration.layers.options.layers</h4>
 <p>This field is named like this to match the OGC specification for their name; that is, layers have layers that may have layers that may have layers, and so on. However, only the first level (a layer's layers) is currently implemented.</p>
 <table>
@@ -128,6 +188,22 @@
 </tr>
 </tbody>
 </table>
+<p>Example configuration:</p>
+<pre><code class="language-js">layers: {
+  order: '6,24,25,4,3,2,1,0',
+  title: {
+    '6': 'Monument area',
+    '24': 'Majority of structures',
+    '25': 'Material group',
+    '4': 'Architectural monument',
+    '3': 'Natural monument',
+    '2': 'Water bodies',
+    '1': 'Architectural monument (area)',
+    '0': 'Natural monument (area)',
+  },
+  legend: true,
+},
+</code></pre>
 
     
   </article>
