@@ -13,7 +13,6 @@ import {
   CoreState,
   MoveHandleActionButton,
   MoveHandleProperties,
-  PartialBy,
   PluginContainer,
   PolarError,
 } from '@polar/lib-custom-types'
