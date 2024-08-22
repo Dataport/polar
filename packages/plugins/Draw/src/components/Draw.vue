@@ -23,7 +23,9 @@
         <v-card-actions>
           <v-col>
             <div class="color-picker-field" @click="toggleColorPicker">
-              <v-label class="label__color-picker">{{ $t('common:plugins.draw.options.stroke') }}</v-label>
+              <v-label class="label__color-picker">{{
+                $t('common:plugins.draw.options.stroke')
+              }}</v-label>
               <v-icon right class="icon__color-picker">
                 {{
                   isColorPickerVisible
