@@ -81,8 +81,6 @@ The mapConfiguration allows controlling many client instance details.
 | vuetify | object? | You may add vuetify configuration here. |
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
 
-For more information about the layerConf parameter, click [here](#mapconfigurationlayerconf)
-
 <details>
 <summary>Example configuration</summary>
 
@@ -94,7 +92,7 @@ const mapConfiguration = {
   checkServiceAvailability: true,
   language: 'de',
   locales, // the languageOptions object will normally be outsourced to another file
-  layerConf, // the layerConf object will normally be outsourced to another file
+  layerConf, // the layerConf object will normally be outsourced to another file - for more information, see the relevant chapter
   layers: [
     // parts of the layer configuration can be outsourced to another file
     // and referenced in the mapConfiguration by id like the second layer
@@ -128,7 +126,6 @@ const mapConfiguration = {
 ```
 
 </details>
-
 
 ##### mapConfiguration.LanguageOption
 
