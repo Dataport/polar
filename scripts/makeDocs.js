@@ -31,7 +31,7 @@ const fsOptions = { encoding: 'utf8' }
 const client = process.argv[2]
 const clientPath = `./packages/clients/${client}`
 const docPath = `${clientPath}/docs`
-const polarDependencyPathsBase = `${clientPath}/node_modules/@polar`
+const polarDependencyPathsBase = `node_modules/@polar`
 const cssFiles = [
   'github-markdown.css',
   'github-markdown-light.css',
@@ -115,9 +115,18 @@ const filter = (html) => {
 
 const getDistinguishingFileNameFromPath = (path) => path.split('/').slice(-1)[0]
 
+const polarDependencies = Object.keys(
+  JSON.parse(fs.readFileSync(`${clientPath}/package.json`, fsOptions))
+    .devDependencies
+).filter((dependency) => dependency.startsWith('@polar'))
+
 const dependencyPaths = fs
   .readdirSync(polarDependencyPathsBase, { ...fsOptions, withFileTypes: true })
-  .filter((dirent) => dirent.isSymbolicLink() || dirent.isDirectory())
+  .filter(
+    (dirent) =>
+      (dirent.isSymbolicLink() || dirent.isDirectory()) &&
+      polarDependencies.includes(`@polar/${dirent.name}`)
+  )
   .map((dirent) => `${polarDependencyPathsBase}/${dirent.name}`)
 
 if (!fs.existsSync(docPath)) {
