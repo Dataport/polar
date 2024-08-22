@@ -24,7 +24,7 @@
 
 // IMPORTS
 const fs = require('fs')
-const markdownIt = require('markdown-it')().use(require('markdown-it-anchor'))
+const MarkdownIt = require('markdown-it')
 
 // SETUP
 const fsOptions = { encoding: 'utf8' }
@@ -37,6 +37,10 @@ const cssFiles = [
   'github-markdown-light.css',
   'github-markdown-dark.css',
 ]
+const markdownIt = new MarkdownIt({
+  html: true,
+  xhtmlOut: true,
+}).use(require('markdown-it-anchor'))
 
 /**
  * HTMLifies and styles a markdown file.

@@ -39,12 +39,50 @@ The styling of the drawn features can be configured to overwrite the default ol-
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
+<details>
+<summary>Example configuration</summary>
+
+```js
+draw: {
+  selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
+  textStyle: {
+    font: {
+      size: [10, 20, 30],
+      family: 'Arial',
+    },
+  },
+  style: {
+    fill: { 
+      color: 'rgba(255, 255, 255, 0.5)' 
+    },
+    stroke: {
+      color: '#e51313',
+      width: 2,
+    },
+    circle: {
+      radius: 7,
+      fillColor: '#e51313',
+    },
+  },
+},
+```
+
+</details>
+
 ##### draw.textStyle
 
 | fieldName | type | description |
 | - | - | - |
 | font | object \| string | Style the font of the text feature with either css font properties or use font as an object with properties 'size' and 'family'. |
 | textColor | string? | Define text color in hex or rgb / rgba code. |
+
+Example configuration:
+```js
+textStyle: {
+  font: '16px sans-serif'
+  textColor: '#e51313'
+}
+```
 
 ##### draw.textStyle.font
 
@@ -53,35 +91,36 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 | family | string? | Font family. |
 | size | number[]? | Array with numbers that define the available text sizes that a user can choose from |
 
+Example configuration:
+```js
+font: {
+  size: [10.5, 20, 30.5, 35],
+  family: 'serif'
+},
+```
+
 #### draw.style (by example)
 
 The `@masterportal/masterportalapi` has vectorStyles in development. As soon as that's done, we shall use its styling syntax and methods.
 
 For the time being, please use this example as a rough reference as to what can currently be done.
 
-```json
+```js
 {
-  "draw": {
-    "style": {
-      "fill": {
-        "color": "rgba(255, 255, 255, 0.5)"
+  draw: {
+    style: {
+      fill: {
+        color: 'rgba(255, 255, 255, 0.5)'
       },
-      "stroke": {
-        "color": "#e51313",
-        "width": 2
+      stroke: {
+        color: '#e51313',
+        width: 2
       },
-      "circle": {
-        "radius": 7,
-        "fillColor": "#e51313"
+      circle: {
+        radius: 7,
+        fillColor: '#e51313'
       }
     },
-    "textStyle": {
-      "font": {
-        "size": [10.5, 20, 30.5, 35],
-        "family": "serif"
-      },
-      "textColor": "#e51313"
-    }
   }
 }
 ```
