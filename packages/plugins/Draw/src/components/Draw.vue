@@ -22,16 +22,16 @@
         }}</v-card-title>
         <v-card-actions>
           <v-col>
-            <v-btn class="v-btn__color-picker" @click="toggleColorPicker"
-              >{{ $t('common:plugins.draw.options.stroke')
-              }}<v-icon right>
+            <div class="color-picker-field" @click="toggleColorPicker">
+              <v-label class="label__color-picker">{{ $t('common:plugins.draw.options.stroke') }}</v-label>
+              <v-icon right class="icon__color-picker">
                 {{
                   isColorPickerVisible
                     ? 'fa-solid fa-chevron-up'
                     : 'fa-solid fa-chevron-down'
                 }}
               </v-icon>
-            </v-btn>
+            </div>
             <v-expand-transition>
               <v-color-picker
                 v-if="isColorPickerVisible"
@@ -151,8 +151,32 @@ export default Vue.extend({
   padding-top: 0;
 }
 
-.v-btn__color-picker {
-  border: solid transparent; // prevent v-card to change size when hover or focus
+.color-picker {
+  margin-top: 0.5em;
+}
+
+.color-picker-field {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.color-picker-field:hover,
+.color-picker-field:focus,
+.color-picker-field:active {
+  outline: 3px solid var(--polar-primary);
+  border-radius: 3px;
+  margin: -3px;
+  padding: 3px;
+}
+
+.color-picker-field:hover .label__color-picker,
+.color-picker-field:hover .icon__color-picker,
+.color-picker-field:focus .label__color-picker,
+.color-picker-field:focus .icon__color-picker,
+.color-picker-field:active .label__color-picker,
+.color-picker-field:active .icon__color-picker {
+  color: var(--polar-primary);
 }
 
 .color-picker {
