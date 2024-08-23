@@ -644,6 +644,7 @@ export interface CoreState {
   plugin: object
   selected: number
   zoomLevel: number
+  theme: string
 }
 
 export interface CoreGetters

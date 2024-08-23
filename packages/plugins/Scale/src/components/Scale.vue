@@ -39,6 +39,7 @@ export default Vue.extend({
     border-radius: 2px;
     border-width: 0 2px 2px 2px;
     border-style: solid;
+    background: var(--polar-primary, 0.9);
   }
 
   .scale-line {

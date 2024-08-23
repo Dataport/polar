@@ -45,6 +45,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Vuetify from 'vuetify/lib'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import api from '@masterportal/masterportalapi/src/maps/api'
 import { MoveHandle } from '@polar/components'
@@ -153,6 +154,7 @@ export default Vue.extend({
     )
 
     i18next.on('languageChanged', (lang) => (this.lang = lang))
+    Vuetify.theme.on('themeChanged', (theme) => (this.theme = theme))
 
     if (this.mapConfiguration.checkServiceAvailability) {
       this.checkServiceAvailability()

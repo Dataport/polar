@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
+import Vuetify from 'vuetify/lib'
 import merge from 'lodash.merge'
 import {
   generateSimpleGetters,
@@ -29,6 +30,7 @@ import {
   useExtendedMasterportalapiMarkers,
 } from './actions/useExtendedMasterportalapiMarkers'
 import checkServiceAvailability from './actions/checkServiceAvailability'
+import makeVuetify from './vuetify'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
 const devMode = import.meta.env.DEV
@@ -75,6 +77,7 @@ const getInitialState = (): CoreState => ({
   errors: [],
   language: '',
   mapHasDimensions: false,
+  theme: 'light',
 })
 
 // OK for store creation
@@ -205,6 +208,10 @@ export const makeStore = () => {
       addError: (state, error: PolarError) => {
         state.errors.push(error)
       },
+      setTheme(state, theme) {
+        state.theme = theme
+        this.$vuetify.theme.themes.dark = theme === 'dark'
+      },
     },
     actions: {
       checkServiceAvailability,
@@ -259,10 +266,18 @@ export const makeStore = () => {
       },
       useExtendedMasterportalapiMarkers,
       updateSelection,
+      changeTheme({ commit }, theme) {
+        commit('setTheme', theme)
+        makeVuetify()
+      },
     },
   })
   i18next.on('languageChanged', (language) => {
     store.commit('setLanguage', language)
+  })
+
+  Vuetify.theme.on('themeChanged', (theme) => {
+    store.dispatch('changeTheme', theme)
   })
   return store
 }
