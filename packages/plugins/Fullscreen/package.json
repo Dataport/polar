@@ -15,9 +15,6 @@
     "src/**/*",
     "CHANGELOG.md"
   ],
-  "dependencies": {
-    "@masterportal/masterportalapi": "2.40.0"
-  },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.0.0",
     "@polar/lib-test-mount-parameters": "^1.0.0"
