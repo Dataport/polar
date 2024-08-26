@@ -21,7 +21,7 @@ const config: Config.InitialOptions = {
   },
   // jest-canvas-mock and setup file is required because of @masterportal/masterportalapi; setup file is based on setup file from @masterportal/masterportalapi setup
   setupFiles: ['jest-canvas-mock'],
-  setupFilesAfterEnv: ['./jest.setup.js'],
+  setupFilesAfterEnv: ['./__mocks__/jest.setup.js'],
   transformIgnorePatterns: [
     '/node_modules/(?!(@repositoryname/vuex-generators|@masterportal/masterportalapi|ol|geotiff|quick-lru|color-(space|parse|rgba|name))/)',
   ],
