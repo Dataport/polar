@@ -69,13 +69,13 @@ export type SearchMethodFunction = (
 ) => Promise<FeatureCollection> | never
 
 export interface SelectResultPayload {
-  feature: GeoJsonFeature
+  feature: GeoJsonFeature & { title: string }
   categoryId: number
 }
 
-export type SelectResultFunction = (
-  PolarActionContext,
-  SelectResultPayload
+export type SelectResultFunction<S, G> = (
+  context: PolarActionContext<S, G>,
+  payload: SelectResultPayload
 ) => void
 
 /**
