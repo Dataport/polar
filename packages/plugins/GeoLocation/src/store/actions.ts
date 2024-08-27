@@ -115,6 +115,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   /**
    * Setting the current map on the position
    */
+  // eslint-disable-next-line max-lines-per-function
   async positioning({
     rootGetters: { map, configuration },
     getters: {
@@ -132,19 +133,20 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       Proj.get('EPSG:4326') as Proj.Projection,
       configuredEpsg
     )
-
+    const coordinateInExtent = containsCoordinate(
+      // NOTE: The fallback is the default value set by @masterportal/masterportalApi
+      configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
+      transformedCoords
+    )
     const boundaryCheckPassed =
       typeof boundaryLayerId === 'string'
         ? await passesBoundaryCheck(map, boundaryLayerId, transformedCoords)
-        : containsCoordinate(
-            // NOTE: The fallback is the default value set by @masterportal/masterportalApi
-            configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
-            transformedCoords
-          )
+        : coordinateInExtent
     const boundaryErrorOccurred = typeof boundaryCheckPassed === 'symbol'
-
+    const trackPositionOutOfBoundary =
+      coordinateInExtent && !boundaryCheckPassed && !boundaryErrorOccurred
     if (
-      boundaryCheckPassed === false ||
+      (!trackPositionOutOfBoundary && boundaryCheckPassed === false) ||
       (boundaryErrorOccurred && boundaryOnError !== 'permissive')
     ) {
       dispatch('printPositioningFailed', boundaryErrorOccurred)
@@ -152,13 +154,17 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       dispatch('untrack')
       return
     }
-
     if (
       position[0] !== transformedCoords[0] ||
       position[1] !== transformedCoords[1]
     ) {
       commit('setPosition', transformedCoords)
       dispatch('addMarker', transformedCoords)
+
+      if (trackPositionOutOfBoundary) {
+        map.getView().setZoom(0)
+        dispatch('printPositioningFailed', boundaryErrorOccurred)
+      }
     }
   },
   printPositioningFailed(
@@ -213,7 +219,6 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
         }),
       })
     )
-
     if (keepCentered || !hadPosition) {
       dispatch('zoomAndCenter')
     }
