@@ -3,6 +3,7 @@
 ## unpublished
 
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Feature: Position is now tracked when user is outside of the view extent.
 
 ## 1.3.1
 
