@@ -14,6 +14,33 @@ import { getTooltip } from '@polar/lib-tooltip'
 import { GeoLocationState, GeoLocationGetters } from '../types'
 import geoLocationMarker from '../assets/geoLocationMarker'
 
+async function trackPositionOutOfBoundary(
+  configuration,
+  coords: number[],
+  boundaryLayerId: string | undefined,
+  map
+): Promise<boolean> {
+  const coordinateInExtent = containsCoordinate(
+    configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
+    coords
+  )
+  const boundaryCheckPassed =
+    typeof boundaryLayerId === 'string'
+      ? await passesBoundaryCheck(map, boundaryLayerId, coords)
+      : coordinateInExtent
+  const boundaryErrorOccurred = typeof boundaryCheckPassed === 'string'
+  return coordinateInExtent && !boundaryCheckPassed && !boundaryErrorOccurred
+}
+
+function positionChanged(
+  position: number[],
+  transformedCoords: number[]
+): boolean {
+  return (
+    position[0] !== transformedCoords[0] || position[1] !== transformedCoords[1]
+  )
+}
+
 const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   setupModule({ getters, commit, dispatch }): void {
     dispatch('addMarkerLayer')
@@ -115,7 +142,6 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   /**
    * Setting the current map on the position
    */
-  // eslint-disable-next-line max-lines-per-function
   async positioning({
     rootGetters: { map, configuration },
     getters: {
@@ -138,38 +164,31 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
       transformedCoords
     )
-    const boundaryCheckPassed =
-      typeof boundaryLayerId === 'string'
-        ? await passesBoundaryCheck(map, boundaryLayerId, transformedCoords)
-        : coordinateInExtent
-    const boundaryErrorOccurred = typeof boundaryCheckPassed === 'symbol'
-    const trackPositionOutOfBoundary =
-      coordinateInExtent && !boundaryCheckPassed && !boundaryErrorOccurred
-    if (
-      (!trackPositionOutOfBoundary && boundaryCheckPassed === false) ||
-      (boundaryErrorOccurred && boundaryOnError !== 'permissive')
-    ) {
-      dispatch('printPositioningFailed', boundaryErrorOccurred)
-      // if check initially breaks or user leaves boundary, turn off tracking
-      dispatch('untrack')
-      return
+    if (!coordinateInExtent) {
+      dispatch('printPositioningFailed', true)
+      if (boundaryOnError !== 'permissive') {
+        dispatch('untrack')
+        return
+      }
     }
-    if (
-      position[0] !== transformedCoords[0] ||
-      position[1] !== transformedCoords[1]
-    ) {
+    if (positionChanged(position, transformedCoords)) {
       commit('setPosition', transformedCoords)
       dispatch('addMarker', transformedCoords)
-
-      if (trackPositionOutOfBoundary) {
-        map.getView().setZoom(0)
-        dispatch('printPositioningFailed', boundaryErrorOccurred)
+      if (
+        await trackPositionOutOfBoundary(
+          configuration,
+          transformedCoords,
+          boundaryLayerId,
+          map
+        )
+      ) {
+        dispatch('printPositioningFailed', false)
       }
     }
   },
   printPositioningFailed(
     { dispatch, getters: { toastAction } },
-    boundaryErrorOccurred: string
+    boundaryErrorOccurred: boolean
   ) {
     if (toastAction) {
       const toast = boundaryErrorOccurred
