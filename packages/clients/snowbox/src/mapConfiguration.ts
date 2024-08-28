@@ -36,7 +36,6 @@ export const mapConfiguration = {
           secondaryContrast: '#4A90E2',
         },
       },
-      dark: true,
     },
   },
   namedProjections: [
