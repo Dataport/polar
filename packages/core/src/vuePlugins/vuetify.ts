@@ -22,6 +22,7 @@ const defaultPreset: UserVuetifyPreset = {
         secondaryContrast: '#4A90E2',
       },
     },
+    options: { customProperties: true },
   },
   icons: {
     iconfont: 'fa',
@@ -36,11 +37,15 @@ export default function makeVuetify(
   const customColors: [string, string][] = Object.entries(
     isDarkMode ? merged.theme?.themes?.dark : merged.theme?.themes?.light
   )
+  recolor(customColors)
+  return new Vuetify(merge({}, defaultPreset, userParams))
+}
+
+export function recolor(customColors: [string, string][]) {
   customColors.forEach(([key, value]) =>
     document.documentElement.style.setProperty(
       '--polar-' + kebabCase(key),
       value
     )
   )
-  return new Vuetify(merge({}, defaultPreset, userParams))
 }

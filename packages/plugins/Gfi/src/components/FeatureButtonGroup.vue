@@ -41,7 +41,7 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #ffffff;
+  background-color: var(--polar-primary-contrast);
 
   #polar-plugin-gfi-export-link {
     text-decoration: none;

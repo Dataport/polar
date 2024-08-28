@@ -38,8 +38,10 @@ const createMap = async (layerConf) => {
   )(client)
 
   document.getElementById('theme-switcher')?.addEventListener('click', () => {
-    client.$vuetify.theme.dark = !client.$vuetify.theme.dark
-    mapConfiguration.vuetify.theme.dark = !mapConfiguration.vuetify.theme.dark
+    client.$store.commit(
+      'setTheme',
+      client.$store.state.theme === 'light' ? 'dark' : 'light'
+    )
   })
 }
 

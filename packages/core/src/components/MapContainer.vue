@@ -45,7 +45,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import api from '@masterportal/masterportalapi/src/maps/api'
 import { MoveHandle } from '@polar/components'
@@ -58,6 +57,7 @@ import { addClusterStyle } from '../utils/addClusterStyle'
 import MapUi from './MapUi.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
+import { recolor } from '../vuePlugins/vuetify'
 
 export default Vue.extend({
   components: {
@@ -91,6 +91,7 @@ export default Vue.extend({
       'hasWindowSize',
       'moveHandle',
       'moveHandleActionButton',
+      'theme',
     ]),
     renderMoveHandle() {
       return (
@@ -117,6 +118,18 @@ export default Vue.extend({
       }
       // Make sure the element is properly updated.
       this.moveHandleKey += 1
+    },
+    theme(newTheme) {
+      const isDarkMode = newTheme === 'dark'
+      this.$vuetify.theme.dark = isDarkMode
+      recolor(
+        Object.entries(
+          isDarkMode
+            ? this.$vuetify.theme?.themes?.dark
+            : this.$vuetify.theme?.themes?.light
+        ) as [string, string][]
+      )
+      console.log('Theme changed to:', newTheme)
     },
   },
   mounted() {
@@ -154,7 +167,6 @@ export default Vue.extend({
     )
 
     i18next.on('languageChanged', (lang) => (this.lang = lang))
-    Vuetify.theme.on('themeChanged', (theme) => (this.theme = theme))
 
     if (this.mapConfiguration.checkServiceAvailability) {
       this.checkServiceAvailability()
