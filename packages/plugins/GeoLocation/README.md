@@ -21,14 +21,20 @@ either `true` or `false`. When a users denies the location tracking, the button 
 | toastAction | string? | If the user is not locatable within the boundary of the maps extent or the boundary of the layer of `boundaryLayerId`, this string will be used as action to send a toast information to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console. |
 | zoomLevel | number? | Specifies to which zoom level gets zoomed after a successfull tracking of the location. Defaults to `7`. |
 
-#### Example configuration
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
-```json
-{
-  "geoLocation": {
-    "checkLocationInitially": true,
-    "zoomLevel": 7
-  }
+Example configuration:
+
+```js
+geoLocation: {
+  checkLocationInitially: true,
+  keepCentered: true,
+  renderType: 'independent',
+  zoomLevel: 7,
+  boundaryLayerId: 'hamburgBorder',
+  boundaryOnError: 'strict',
+  showTooltip: true,
+  toastAction: 'plugin/toast/addToast',
 }
 ```
 

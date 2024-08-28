@@ -23,6 +23,56 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | mode | enum["bboxDot", "intersects"]? | Method of calculating which feature has been chosen by the user. `bboxDot` utilizes the `bbox`-url parameter using the clicked coordinate while `intersects` uses a `Filter` to calculate the intersected features. Layers can have their own `gfiMode` parameter which would override this global mode. To apply this, add the desired value to the parameter in the `mapConfiguration`. Defaults to `'bboxDot'`. |
 | renderType | ('iconMenu' \| 'independent')? | Only relevant if `window` is set to `true` for at least one layer. Whether the gfi plugin is rendered independently or as part of the IconMenu. Defaults to 'independent'. |
 
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
+
+<details>
+<summary>Example configuration</summary>
+
+```ts
+gfi: {
+  mode: 'bboxDot',
+  activeLayerPath: 'plugin/layerChooser/activeMaskIds',
+  afterLoadFunction: afterLoadFunction,
+  layers: {
+    'layerId': {
+      geometry: true,
+      window: true,
+      maxFeatures: 10,
+      geometryName: 'app:geometry',
+      exportProperty: 'Export',
+    },
+  },
+  coordinateSources: [
+    'plugin/pins/transformedCoordinate',
+    'plugin/pins/coordinatesAfterDrag',
+  ],
+  customHighlightStyle: {
+    stroke: {
+      color: '#FFFF00',
+      width: 3,
+    },
+    fill: {
+      color: 'rgb(255, 255, 255, 0.7)',
+    },
+  },
+}
+
+function afterLoadFunction(featuresByLayerId: Record<string, GeoJsonFeature[]>): Record<string, GeoJsonFeature[]> {
+  const filteredFeaturesByLayerId: Record<string, GeoJsonFeature[]> = {};
+
+  for (const layerId in featuresByLayerId) {
+    if (featuresByLayerId.hasOwnProperty(layerId)) {
+      const features = featuresByLayerId[layerId];
+      filteredFeaturesByLayerId[layerId] = features.filter(feature => feature.properties.type === 'desiredType');
+    }
+  }
+
+  return filteredFeaturesByLayerId;
+}
+```
+
+</details>
+
 ##### gfi.gfiLayerConfiguration
 
 | fieldName | type | description |
@@ -30,16 +80,55 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | exportProperty | string? | Property of the features of a service having an url usable to trigger a download of features as a document. |
 | geometry | boolean? | If true, feature geometry will be highlighted within the map. Defaults to `false`. |
 | geometryName | string? | Name of the geometry property if not the default field. |
-| properties | Record<propertyName, displayName>/string[] | In case `window` is `true`, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. Displays all properties by default. |
+| properties | Record<propertyName, displayName>/string[]? | In case `window` is `true`, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. Displays all properties by default. |
 | showTooltip | ((feature: Feature) => [string, string][])? | If given, a tooltip will be shown with the values calculated for the feature. The first string is the HTML tag to render, the second its contents; contants may be locale keys. For more information regarding the strings, see the documentation of the `@polar/lib-tooltip` package. Defaults to `undefined`. Please mind that tooltips will only be shown if a mouse is used or the hovering device could not be detected. Touch and pen interactions do not open tooltips since they will open the GFI window, rendering the gatherable information redundant. |
 | window | boolean? | If true, properties will be shown in the map client. Defaults to `false`. |
+
+Example configuration:
+
+```js
+layers: {
+  'layerId': {
+    geometry: true,
+    window: true,
+    maxFeatures: 10,
+    geometryName: 'app:geometry',
+    exportProperty: 'Export',
+    properties: {
+      status: 'status',
+      type: 'type',
+    },
+    showTooltip: (feature: Feature): [string, string][] => {
+      return [
+        ['div', `Feature ID: ${feature.properties.id}`],
+        ['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`]
+      ];
+    };
+  },
+}
+```
 
 Additionally, if using a WMS service, the following properties can be configured as well.
 
 | fieldName | type | description |
 | - | - | - |
-| filterBy | 'clickPosition'? | Some WMS services may return features close to the clicked position. By setting the this value `clickPosition`, only features that intersect the clicked position are shown to the user. Defaults to showing all features. |
+| filterBy | 'clickPosition'? | Some WMS services may return features close to the clicked position. By setting the value `clickPosition`, only features that intersect the clicked position are shown to the user. Defaults to showing all features. |
 | format | 'GML' \| 'GML2' \| 'GML3' \| 'GML32' \| 'text'? | If the `infoFormat` is not set to `'application/geojson'`´, this can be configured to be the known file format of the response. If not given, the format is parsed from the response data. |
+
+Example configuration:
+
+```js
+layers: {
+  'layerId': {
+    geometry: true,
+    window: true,
+    maxFeatures: 10,
+    geometryName: 'app:geometry',
+    filterBy: 'clickPosition'
+    format: 'text'
+  },
+}
+```
 
 ##### gfi.customHighlightStyle
 
@@ -47,6 +136,19 @@ Additionally, if using a WMS service, the following properties can be configured
 | - | - | - |
 | fill | ol/style/Fill? | Object for defining the fill style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Fill-Fill.html) for full options. |
 | stroke | ol/style/Stroke? | Object for defining the stroke style. See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Stroke-Stroke.html) for full options. |
+
+Example configuration:
+```js
+customHighlightStyle: {
+  stroke: {
+    color: '#FFFF00',
+    width: 3,
+  },
+  fill: {
+    color: 'rgb(255, 255, 255, 0.7)',
+  },
+},
+```
 
 ##### gfi.featureList
 
@@ -57,32 +159,14 @@ Additionally, if using a WMS service, the following properties can be configured
 | pageLength | number? | A number >0 that sets the limit to the feature list's length. If the length is surpassed, additional features can be reached by using the pagination that is generated in such a case. If not defined, the list can be of arbitrary length. |
 | text | (function \| string)[]? | Array of one to three entries that will produce title, subtitle, and an additional subtitle for the list view. If string, the text item will simply be that feature's value for the denoted property. If function, it's assumed to match the function signature `(feature: OpenLayersFeature): string`, and the returned string will be used for the text item. |
 
-#### Example configuration
-
+Example configuration:
 ```js
-layers: {
-  [serviceId]: {
-    geometry: true,
-    window: false,
-    properties: {
-      keyInService: 'Display Label'
-    } // or ['keyInService'], in which case 'keyInService' is also the actual label
-  },
-},
-coordinateSources: [
-  // use coordinates from pins plugin, that is, resolve GFI to pin position
-  'plugin/pins/transformedCoordinate',
-  'plugin/pins/coordinatesAfterDrag'
-],
-customHighlightStyle: {
-  stroke: {
-    color: '#FFFF00',
-    width: 3,
-  },
-  fill: {
-    color: 'rgb(255, 255, 255, 0.7)',
-  },
-},
+featureList: {
+  mode: 'visible',
+  bindWithCoreHoverSelect: true,
+  pageLength: 5,
+  text: ['Nature reserves', (feature) => `${feature.get('str')} ${feature.get('hsnr')}`]
+}
 ```
 
 ## Store
