@@ -22,7 +22,6 @@ const defaultPreset: UserVuetifyPreset = {
         secondaryContrast: '#4A90E2',
       },
     },
-    options: { customProperties: true },
   },
   icons: {
     iconfont: 'fa',
