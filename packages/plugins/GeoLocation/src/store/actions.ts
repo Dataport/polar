@@ -10,10 +10,10 @@ import Geolocation from 'ol/Geolocation.js'
 import { transform as transformCoordinates } from 'ol/proj'
 import Overlay from 'ol/Overlay'
 import { getTooltip } from '@polar/lib-tooltip'
+import { passesBoundaryCheck } from '@polar/lib-passes-boundary-check'
 import { GeoLocationState, GeoLocationGetters } from '../types'
 import geoLocationMarker from '../assets/geoLocationMarker'
 import positionChanged from '../utils/positionChanged'
-import trackPositionOutOfBoundary from '../utils/trackPositionOutOfBoundary'
 
 const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   setupModule({ getters, commit, dispatch }): void {
@@ -119,8 +119,8 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   async positioning({
     rootGetters: { map, configuration },
     getters: {
-      boundaryLayerId,
       boundaryOnError,
+      boundaryLayerId,
       geolocation,
       configuredEpsg,
       position,
@@ -138,25 +138,28 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
       transformedCoords
     )
-    if (!coordinateInExtent) {
-      dispatch('printPositioningFailed', true)
-      if (boundaryOnError !== 'permissive') {
-        dispatch('untrack')
-        return
-      }
+    const boundaryCheckPassed = await passesBoundaryCheck(
+      map,
+      boundaryLayerId,
+      transformedCoords
+    )
+    const boundaryLayerCheckFailed = typeof boundaryCheckPassed === 'symbol'
+    if (!coordinateInExtent || boundaryLayerCheckFailed) {
+      dispatch('printPositioningFailed', boundaryLayerCheckFailed)
+      dispatch('untrack')
+      return
     }
     if (positionChanged(position, transformedCoords)) {
       commit('setPosition', transformedCoords)
       dispatch('addMarker', transformedCoords)
-      if (
-        await trackPositionOutOfBoundary(
-          configuration,
-          transformedCoords,
-          boundaryLayerId,
-          map
-        )
-      ) {
+      console.warn(boundaryCheckPassed)
+      if (!boundaryCheckPassed) {
         dispatch('printPositioningFailed', false)
+        if (boundaryOnError === 'strict') {
+          geolocation?.setTracking(false) // for FireFox - cannot handle geolocation.un(...)
+          commit('setTracking', false)
+          commit('setGeolocation', null)
+        }
       }
     }
   },
