@@ -1,5 +1,4 @@
 import { PolarActionTree } from '@polar/lib-custom-types'
-import { passesBoundaryCheck } from '@polar/lib-passes-boundary-check'
 import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
 import { Vector } from 'ol/source'
@@ -13,33 +12,8 @@ import Overlay from 'ol/Overlay'
 import { getTooltip } from '@polar/lib-tooltip'
 import { GeoLocationState, GeoLocationGetters } from '../types'
 import geoLocationMarker from '../assets/geoLocationMarker'
-
-async function trackPositionOutOfBoundary(
-  configuration,
-  coords: number[],
-  boundaryLayerId: string | undefined,
-  map
-): Promise<boolean> {
-  const coordinateInExtent = containsCoordinate(
-    configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
-    coords
-  )
-  const boundaryCheckPassed =
-    typeof boundaryLayerId === 'string'
-      ? await passesBoundaryCheck(map, boundaryLayerId, coords)
-      : coordinateInExtent
-  const boundaryErrorOccurred = typeof boundaryCheckPassed === 'string'
-  return coordinateInExtent && !boundaryCheckPassed && !boundaryErrorOccurred
-}
-
-function positionChanged(
-  position: number[],
-  transformedCoords: number[]
-): boolean {
-  return (
-    position[0] !== transformedCoords[0] || position[1] !== transformedCoords[1]
-  )
-}
+import positionChanged from '../utils/positionChanged'
+import trackPositionOutOfBoundary from '../utils/trackPositionOutOfBoundary'
 
 const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   setupModule({ getters, commit, dispatch }): void {
