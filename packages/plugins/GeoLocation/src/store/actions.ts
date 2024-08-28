@@ -143,23 +143,18 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       boundaryLayerId,
       transformedCoords
     )
-    const boundaryLayerCheckFailed = typeof boundaryCheckPassed === 'symbol'
-    if (!coordinateInExtent || boundaryLayerCheckFailed) {
-      dispatch('printPositioningFailed', boundaryLayerCheckFailed)
+    const showBoundaryLayerError =
+      typeof boundaryCheckPassed === 'symbol' && boundaryOnError === 'strict'
+    if (!coordinateInExtent || showBoundaryLayerError) {
+      dispatch('printPositioningFailed', showBoundaryLayerError)
       dispatch('untrack')
       return
     }
     if (positionChanged(position, transformedCoords)) {
       commit('setPosition', transformedCoords)
       dispatch('addMarker', transformedCoords)
-      console.warn(boundaryCheckPassed)
       if (!boundaryCheckPassed) {
         dispatch('printPositioningFailed', false)
-        if (boundaryOnError === 'strict') {
-          geolocation?.setTracking(false) // for FireFox - cannot handle geolocation.un(...)
-          commit('setTracking', false)
-          commit('setGeolocation', null)
-        }
       }
     }
   },
