@@ -6,7 +6,7 @@ import VectorSource from 'ol/source/Vector'
 import {
   AddressSearchGetters,
   AddressSearchState,
-} from '@polar/plugin-address-search/src/types'
+} from '@polar/plugin-address-search'
 import {
   GeometrySearchGetters,
   GeometrySearchState,

@@ -4,7 +4,7 @@ import levenshtein from 'js-levenshtein'
 import {
   AddressSearchGetters,
   AddressSearchState,
-} from '@polar/plugin-address-search/src/types'
+} from '@polar/plugin-address-search'
 import { dishAutocompleteUrl } from '../services'
 import { DishAutocompleteFunction } from '../types'
 
