@@ -332,7 +332,7 @@ For example, a `@polar/plugin-address-search` plugin can be configured like this
 
 ##### mapConfiguration.vuetify
 
-These fields let you e.g. specify a [Vuetify-Theme](https://vuetifyjs.com/en/features/theme/). For more options, refer to the official vuetify documentation.
+These fields let you e.g. specify a [Vuetify-Theme](https://v2.vuetifyjs.com/en/features/theme/). For more options, refer to the official vuetify documentation.
 
 Additionally to the regular fields, `primaryContrast` and `secondaryContrast` are interpreted. They serve as contrast colors to their respective fields and are used for e.g. button icons.
 
@@ -350,6 +350,33 @@ Additionally to the regular fields, `primaryContrast` and `secondaryContrast` ar
   }
 }
 ```
+
+#### dark theme
+
+To enable an additional dark theme, simply add `dark` under the `light` theme as follows below:
+
+```js
+ theme: {
+    themes: {
+      light: {
+        primary: 'black',
+        primaryContrast: 'white',
+        secondary: '#c0ffee',
+        secondaryContrast: '#de1e7e',
+      },
+      dark: {
+        primary: 'white',
+        primaryContrast: 'black',
+        secondary: '#de1e7e',
+        secondaryContrast: '#c0ffee',
+      },
+    },
+  },
+```
+
+The theme can either be activated directly by setting `dark: true` within the `theme`-object or by calling the `setTheme` method within the store.
+
+
 
 ## Store
 
@@ -375,3 +402,28 @@ map.$store.watch(
 This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.
 
 To add content to the `MoveHandle`, the mutation `setMoveHandle` can be used. The values needed are described in `@polar/lib-custom-types:MoveHandleProperties`.
+
+### Mutations
+
+#### setTheme
+
+This can be used to change the theme.
+
+```js
+setTheme(state, theme) {
+        state.theme = theme
+      },
+```
+
+| fieldname | type | description |
+| - | - | - |
+| theme | enum['light', 'dark'] | By default the theme is set to 'light'. Setting theme to 'dark' will render the default 'dark' theme. |
+
+### Actions
+
+```js
+changeTheme({ commit }, theme) {
+        commit('setTheme', theme)
+        recolor(theme)
+      },
+```

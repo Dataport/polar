@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add the option to configure a scale switcher via the new configuration parameters `showScaleSwitcher` and `zoomMethod`.
+- Update: fix background-colors to use CSS variables.
 
 ## 1.1.0
 

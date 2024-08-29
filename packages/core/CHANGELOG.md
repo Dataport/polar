@@ -7,6 +7,7 @@
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Fix: Add package `events` as a dependency to fix issue with `xml2js`. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/697 for more information.
 - Chore: Update dependencies to latest versions.
+- Feature: Add dark theme support and updated fix background-colors to use CSS variables.
 
 ## 1.4.1
 
