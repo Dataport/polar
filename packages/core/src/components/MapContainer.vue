@@ -54,10 +54,10 @@ import { defaults } from 'ol/interaction'
 import { LanguageOption, MoveHandleProperties } from '@polar/lib-custom-types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addClusterStyle } from '../utils/addClusterStyle'
+import { recolor } from '../vuePlugins/vuetify'
 import MapUi from './MapUi.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
-import { recolor } from '../vuePlugins/vuetify'
 
 export default Vue.extend({
   components: {
@@ -129,7 +129,6 @@ export default Vue.extend({
             : this.$vuetify.theme?.themes?.light
         ) as [string, string][]
       )
-      console.log('Theme changed to:', newTheme)
     },
   },
   mounted() {
