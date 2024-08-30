@@ -3,6 +3,7 @@
 ## unpublished
 
 - Refactor: Remove redundant prop-forwarding by only using one component.
+- Chore: Clarify the description to `removeLoading` within the readme.
 
 ## 1.1.0
 

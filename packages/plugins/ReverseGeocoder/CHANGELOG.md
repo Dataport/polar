@@ -1,5 +1,9 @@
 # Changelog
 
+## Unpublished
+
+- Chore: Clarify the description to `addLoading` and `removeLoading` within the readme.
+
 ## 1.2.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
