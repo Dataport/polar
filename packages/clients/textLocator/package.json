@@ -10,13 +10,15 @@
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/clients/textLocator"
   },
+  "main": "dist/client-text-locator.js",
   "files": [
     "dist/**/**.*",
     "CHANGELOG.md"
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh"
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
+    "build:test": "rimraf dist && vite build && bash ./scripts/injectFlag.sh"
   },
   "devDependencies": {
     "@polar/core": "^1.4.1",
