@@ -18,7 +18,7 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | afterLoadFunction | function (featuresByLayerId: Record<string, GeoJsonFeature[]>): Record<layerId, GeoJsonFeature[]>? | This method can be used to extend, filter, or otherwise modify a GFI result. |
 | customHighlightStyle | customHighlighStyle? | If required a user can change the stroke and fill of the highlighted feature. The default style as seen in the example will be used for each part that is not customized. An empty object will return the complete default style while e.g. for an object without a configured fill the default fill will be applied. |
 | featureList | featureList? | If defined, a list of available vector layer features is visible when no feature is selected. Only usable if `renderType` is set to `iconMenu` and `window` is set to `true` for at least one configured layer. |
-| gfiContentComponent | Vue? | Allows overriding the GfiContent.vue component for a custom design. Coding knowledge required to use this feature. |
+| gfiContentComponent | VueConstructor? | Allows overriding the GfiContent.vue component for a custom design. Coding knowledge is required to use this feature. It is then passed as a Vue Component. |
 | maxFeatures | number? | Limits the viewable GFIs per layer by this number. The first n elements are chosen arbitrarily. Useful if you e.g. just want one result, or to limit an endless stream of returns to e.g. 10. Infinite by default. |
 | mode | enum["bboxDot", "intersects"]? | Method of calculating which feature has been chosen by the user. `bboxDot` utilizes the `bbox`-url parameter using the clicked coordinate while `intersects` uses a `Filter` to calculate the intersected features. Layers can have their own `gfiMode` parameter which would override this global mode. To apply this, add the desired value to the parameter in the `mapConfiguration`. Defaults to `'bboxDot'`. |
 | renderType | ('iconMenu' \| 'independent')? | Only relevant if `window` is set to `true` for at least one layer. Whether the gfi plugin is rendered independently or as part of the IconMenu. Defaults to 'independent'. |
@@ -29,6 +29,8 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 <summary>Example configuration</summary>
 
 ```ts
+import Component from '.component/vue'
+
 gfi: {
   mode: 'bboxDot',
   activeLayerPath: 'plugin/layerChooser/activeMaskIds',
@@ -55,6 +57,7 @@ gfi: {
       color: 'rgb(255, 255, 255, 0.7)',
     },
   },
+  gfiContentComponent: Component,
 }
 
 function afterLoadFunction(featuresByLayerId: Record<string, GeoJsonFeature[]>): Record<string, GeoJsonFeature[]> {

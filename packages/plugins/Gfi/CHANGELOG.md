@@ -6,6 +6,7 @@
 - Fix: Add missing configuration parameters `featureList` and `maxFeatures` to the general documentation and `filterBy` and `format` to `gfi.gfiLayerConfiguration`
 - Refactor: Replace redundant prop-forwarding with `getters`.
 - Refactor: Use core getter `clientWidth` instead of local computed value.
+- Chore: expand on the description to `gfiContentComponent` in the Readme.md.
 
 ## 1.2.2
 
