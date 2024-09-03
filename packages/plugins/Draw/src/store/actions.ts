@@ -6,9 +6,11 @@ import { Circle, Point } from 'ol/geom'
 import createDrawLayer from '../utils/createDrawLayer'
 import { DrawGetters, DrawState } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
-import createDrawStyle, { createPointStyle } from '../utils/createDrawStyle'
+import createDrawStyle from '../utils/createDrawStyle'
 import createInteractions from './createInteractions'
 import createModifyInteractions from './createInteractions/createModifyInteractions'
+import modifyDrawStyle from './createInteractions/modifyDrawStyle'
+import modifyTextStyle from './createInteractions/modifyTextStyle'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -20,11 +22,18 @@ export const makeActions = () => {
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
     createModifyInteractions,
-    setupModule({ commit, dispatch, rootGetters: { configuration, map } }) {
+    modifyDrawStyle,
+    modifyTextStyle,
+    setupModule({
+      commit,
+      dispatch,
+      getters: { configuration },
+      rootGetters: { map },
+    }) {
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () => {
         commit('updateFeatures')
       })
-      drawLayer = createDrawLayer(drawSource, configuration?.draw?.style)
+      drawLayer = createDrawLayer(drawSource, configuration?.style)
 
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
@@ -58,12 +67,7 @@ export const makeActions = () => {
       }
     },
     setSelectedStrokeColor(
-      {
-        commit,
-        dispatch,
-        rootGetters: { configuration },
-        getters: { selectedFeature, mode },
-      },
+      { commit, dispatch, getters: { configuration, selectedFeature, mode } },
       selectedStrokeColor
     ) {
       const featureStyle = selectedFeature?.getStyle()
@@ -71,14 +75,13 @@ export const makeActions = () => {
         commit('setSelectedStrokeColor', selectedStrokeColor)
         dispatch('updateInteractions')
       } else if (selectedFeature && featureStyle) {
-        const style =
+        const style = createDrawStyle(
           'getImage' in featureStyle && featureStyle.getImage()
-            ? createPointStyle(configuration.draw?.style, selectedStrokeColor)
-            : createDrawStyle(
-                configuration.draw?.style,
-                mode,
-                selectedStrokeColor
-              )
+            ? 'Point'
+            : mode,
+          selectedStrokeColor,
+          configuration?.style
+        )
         selectedFeature.setStyle(style)
       }
     },

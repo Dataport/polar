@@ -10,6 +10,7 @@ export default function (
 ): void {
   let strokeColor: Color | ColorLike
   if (featureStyle && 'getImage' in featureStyle && featureStyle.getImage()) {
+    // @ts-expect-error | For some reason getStroke is not defined on the type but is callable.
     strokeColor = featureStyle.getImage().getStroke().getColor()
   } else {
     strokeColor = featureStyle.getStroke().getColor()

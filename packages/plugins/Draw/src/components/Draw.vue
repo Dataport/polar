@@ -22,18 +22,16 @@
         }}</v-card-title>
         <v-card-actions>
           <v-col>
-            <div class="color-picker-field" @click="toggleColorPicker">
-              <v-label class="label__color-picker">{{
-                $t('common:plugins.draw.options.stroke')
-              }}</v-label>
-              <v-icon right class="icon__color-picker">
+            <v-btn class="color-picker-button" @click="toggleColorPicker">
+              <v-label>{{ $t('common:plugins.draw.options.stroke') }}</v-label>
+              <v-icon right>
                 {{
                   isColorPickerVisible
                     ? 'fa-solid fa-chevron-up'
                     : 'fa-solid fa-chevron-down'
                 }}
               </v-icon>
-            </div>
+            </v-btn>
             <v-expand-transition>
               <v-color-picker
                 v-if="isColorPickerVisible"
@@ -157,28 +155,17 @@ export default Vue.extend({
   margin-top: 0.5em;
 }
 
-.color-picker-field {
+.color-picker-button {
   display: flex;
   align-items: center;
   cursor: pointer;
-}
+  border: solid transparent;
+  color: var(--polar-secondary);
+  background-color: var(--polar-secondary-contrast);
 
-.color-picker-field:hover,
-.color-picker-field:focus,
-.color-picker-field:active {
-  outline: 3px solid var(--polar-primary);
-  border-radius: 3px;
-  margin: -3px;
-  padding: 3px;
-}
-
-.color-picker-field:hover .label__color-picker,
-.color-picker-field:hover .icon__color-picker,
-.color-picker-field:focus .label__color-picker,
-.color-picker-field:focus .icon__color-picker,
-.color-picker-field:active .label__color-picker,
-.color-picker-field:active .icon__color-picker {
-  color: var(--polar-primary);
+  label {
+    color: var(--polar-secondary);
+  }
 }
 
 .color-picker {
