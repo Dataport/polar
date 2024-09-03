@@ -79,11 +79,9 @@ export default Vue.extend({
   components: {
     RadioCard,
   },
-  data() {
-    return {
-      isColorPickerVisible: false,
-    }
-  },
+  data: () => ({
+    isColorPickerVisible: false,
+  }),
   computed: {
     ...mapGetters(['hasSmallHeight', 'hasWindowSize']),
     ...mapGetters('plugin/draw', [
