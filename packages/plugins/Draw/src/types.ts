@@ -36,7 +36,6 @@ export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
   selectableDrawModes: DrawMode[]
   selectedFeature: Feature
   selectableModes: Mode[]
-  selectedStrokeColor: string
   showTextInput: boolean
   configuration: DrawConfiguration
   fontSizes: number[]
