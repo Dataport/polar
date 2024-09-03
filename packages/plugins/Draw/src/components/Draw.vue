@@ -97,7 +97,6 @@ export default Vue.extend({
       'fontSizes',
       'showSizeSlider',
       'selectedStrokeColor',
-      'configuration',
       'showDrawOptions',
     ]),
     flexStyle(): string {
