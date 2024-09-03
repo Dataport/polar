@@ -22,7 +22,10 @@
         }}</v-card-title>
         <v-card-actions>
           <v-col>
-            <v-btn class="color-picker-button" @click="toggleColorPicker">
+            <v-btn
+              class="polar-draw-color-picker-button"
+              @click="toggleColorPicker"
+            >
               <v-label>{{ $t('common:plugins.draw.options.stroke') }}</v-label>
               <v-icon right>
                 {{
@@ -35,7 +38,7 @@
             <v-expand-transition>
               <v-color-picker
                 v-if="isColorPickerVisible"
-                class="color-picker"
+                class="polar-draw-color-picker"
                 :value="selectedStrokeColor"
                 @input="setSelectedStrokeColor"
               ></v-color-picker>
@@ -148,11 +151,11 @@ export default Vue.extend({
   padding-top: 0;
 }
 
-.color-picker {
+.polar-draw-color-picker {
   margin-top: 0.5em;
 }
 
-.color-picker-button {
+.polar-draw-color-picker-button {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -163,9 +166,5 @@ export default Vue.extend({
   label {
     color: var(--polar-secondary);
   }
-}
-
-.color-picker {
-  margin-top: 0.5em;
 }
 </style>
