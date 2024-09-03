@@ -83,7 +83,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      isColorPickerVisible: false, // Neuer Zustand für die Sichtbarkeit des Color Pickers
+      isColorPickerVisible: false,
     }
   },
   computed: {
@@ -121,7 +121,7 @@ export default Vue.extend({
       'initializeConfigStyle',
     ]),
     toggleColorPicker() {
-      this.isColorPickerVisible = !this.isColorPickerVisible // Umschalten der Sichtbarkeit des Color Pickers
+      this.isColorPickerVisible = !this.isColorPickerVisible
     },
   },
 })
