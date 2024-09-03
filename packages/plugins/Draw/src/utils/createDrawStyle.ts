@@ -8,11 +8,27 @@ export default function (
   strokeColor: string,
   drawStyle?: DrawStyle
 ): Style {
-  const fillColor = drawStyle?.fill.color ? drawStyle.fill.color : '#ffcc3300'
+  const defaultFillColor = 'rgba(255, 255, 255, 0.5)'
   if (drawMode === 'Point') {
-    return createPointStyle(strokeColor, fillColor, drawStyle?.circle?.radius)
+    return createPointStyle(
+      strokeColor,
+      drawStyle?.circle?.fillColor
+        ? drawStyle.circle.fillColor
+        : defaultFillColor,
+      drawStyle?.circle?.radius
+    )
   }
+  const fillColor = drawStyle?.fill?.color
+    ? drawStyle.fill.color
+    : defaultFillColor
   return new Style({
+    image: new CircleStyle({
+      radius: 5,
+      fill: new Fill({
+        color: fillColor,
+      }),
+      stroke: new Stroke({ color: strokeColor }),
+    }),
     stroke: new Stroke({
       color: strokeColor,
       width: drawStyle?.stroke?.width || 2,
