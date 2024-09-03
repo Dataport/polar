@@ -9,6 +9,8 @@ import { createTextStyle } from '../utils/createTextStyle'
 import createDrawStyle from '../utils/createDrawStyle'
 import createInteractions from './createInteractions'
 import createModifyInteractions from './createInteractions/createModifyInteractions'
+import modifyDrawStyle from './createInteractions/modifyDrawStyle'
+import modifyTextStyle from './createInteractions/modifyTextStyle'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -20,6 +22,8 @@ export const makeActions = () => {
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
     createModifyInteractions,
+    modifyDrawStyle,
+    modifyTextStyle,
     setupModule({
       commit,
       dispatch,
