@@ -6,7 +6,7 @@ import { Circle, Point } from 'ol/geom'
 import createDrawLayer from '../utils/createDrawLayer'
 import { DrawGetters, DrawState } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
-import createDrawStyle, { createPointStyle } from '../utils/createDrawStyle'
+import createDrawStyle from '../utils/createDrawStyle'
 import createInteractions from './createInteractions'
 import createModifyInteractions from './createInteractions/createModifyInteractions'
 
