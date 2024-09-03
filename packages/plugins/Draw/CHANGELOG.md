@@ -3,6 +3,7 @@
 ## unpublished
 
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Feature: Make the stroke color for drawn geometry features selectable and editable.
 
 ## 1.1.0
 
