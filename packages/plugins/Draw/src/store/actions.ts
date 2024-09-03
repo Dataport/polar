@@ -20,11 +20,16 @@ export const makeActions = () => {
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
     createModifyInteractions,
-    setupModule({ commit, dispatch, rootGetters: { configuration, map } }) {
+    setupModule({
+      commit,
+      dispatch,
+      getters: { configuration },
+      rootGetters: { map },
+    }) {
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () => {
         commit('updateFeatures')
       })
-      drawLayer = createDrawLayer(drawSource, configuration?.draw?.style)
+      drawLayer = createDrawLayer(drawSource, configuration?.style)
 
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
