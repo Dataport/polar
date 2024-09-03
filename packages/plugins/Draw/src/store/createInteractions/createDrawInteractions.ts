@@ -11,7 +11,7 @@ export default function (
   drawMode: DrawMode,
   drawConfiguration?: DrawConfiguration
 ): Interaction[] {
-  const style = createDrawStyle(drawConfiguration?.style, drawMode, strokeColor)
+  const style = createDrawStyle(drawMode, strokeColor, drawConfiguration?.style)
 
   const draw = new Draw({
     source: drawSource,

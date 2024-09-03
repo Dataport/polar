@@ -63,12 +63,7 @@ export const makeActions = () => {
       }
     },
     setSelectedStrokeColor(
-      {
-        commit,
-        dispatch,
-        rootGetters: { configuration },
-        getters: { selectedFeature, mode },
-      },
+      { commit, dispatch, getters: { configuration, selectedFeature, mode } },
       selectedStrokeColor
     ) {
       const featureStyle = selectedFeature?.getStyle()
@@ -77,11 +72,11 @@ export const makeActions = () => {
         dispatch('updateInteractions')
       } else if (selectedFeature && featureStyle) {
         const style = createDrawStyle(
-          configuration.draw?.style,
           'getImage' in featureStyle && featureStyle.getImage()
             ? 'Point'
             : mode,
-          selectedStrokeColor
+          selectedStrokeColor,
+          configuration?.style
         )
         selectedFeature.setStyle(style)
       }
