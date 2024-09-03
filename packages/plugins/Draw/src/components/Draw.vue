@@ -23,10 +23,8 @@
         <v-card-actions>
           <v-col>
             <v-btn class="color-picker-button" @click="toggleColorPicker">
-              <v-label class="label__color-picker">{{
-                $t('common:plugins.draw.options.stroke')
-              }}</v-label>
-              <v-icon right class="icon__color-picker">
+              <v-label>{{ $t('common:plugins.draw.options.stroke') }}</v-label>
+              <v-icon right>
                 {{
                   isColorPickerVisible
                     ? 'fa-solid fa-chevron-up'
