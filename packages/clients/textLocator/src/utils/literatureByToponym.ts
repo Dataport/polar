@@ -1,6 +1,4 @@
-const urlSuffix = {
-  lookUpLocationsIndividually: '/lookup/locations_individually',
-}
+import urlSuffix from './urlSuffix'
 
 type LiteratureName = string
 type Toponym = string

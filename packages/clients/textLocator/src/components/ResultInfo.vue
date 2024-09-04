@@ -10,7 +10,10 @@
         <v-icon small> fa-info-circle </v-icon>
       </span>
     </template>
-    <v-simple-table dense>
+    <p v-if="isLiterature" class="result-info-title-display">
+      {{ featureAsLiterature.title }}
+    </p>
+    <v-simple-table v-else dense>
       <template #default>
         <thead>
           <tr>
@@ -30,8 +33,14 @@
         </thead>
         <tbody>
           <tr
-            v-for="{ ObjectID, Name, Sprache, Typ, Start, Ende } in feature
-              .properties.names"
+            v-for="{
+              ObjectID,
+              Name,
+              Sprache,
+              Typ,
+              Start,
+              Ende,
+            } in featureAsGeometry.properties.names"
             :key="ObjectID"
           >
             <td>{{ Name }}</td>
@@ -48,13 +57,15 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import { GeometrySearchState } from '../plugins/GeometrySearch/types'
+import { LiteratureFeature } from '../utils/findLiterature'
 
 export default Vue.extend({
   name: 'ResultInfo',
   props: {
     feature: {
       type: Object as PropType<
-        GeometrySearchState['featureCollection']['features'][number]
+        | GeometrySearchState['featureCollection']['features'][number]
+        | LiteratureFeature
       >,
       required: true,
     },
@@ -73,8 +84,28 @@ export default Vue.extend({
       default: -1,
     },
   },
+  computed: {
+    // duck-typing
+    isLiterature(): boolean {
+      return Boolean(this.feature.properties.location_hits_title)
+    },
+    // required TS support missing in template; workaround ...
+    featureAsGeometry(): GeometrySearchState['featureCollection']['features'][number] {
+      return this
+        .feature as GeometrySearchState['featureCollection']['features'][number]
+    },
+    featureAsLiterature(): LiteratureFeature {
+      return this.feature as LiteratureFeature
+    },
+  },
 })
 </script>
+
+<style scoped>
+.v-icon {
+  margin-left: 0.5em;
+}
+</style>
 
 <style>
 /* suppress table wrap; table looks fine as an element in itself */
@@ -82,5 +113,12 @@ export default Vue.extend({
   padding: 0 !important;
   margin: 0 !important;
   border: 0 !important;
+}
+
+.result-info-title-display {
+  background: #f5f5f5;
+  color: #333;
+  max-width: 30ch;
+  padding: 0.5em 1em;
 }
 </style>

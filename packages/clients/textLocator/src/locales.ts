@@ -34,6 +34,9 @@ const locales: LanguageOption[] = [
             language: 'Sprache',
             timeFrame: 'Zeitraum',
           },
+          groupTL: 'Literatur- und Ortssuche',
+          toponym: 'Ortssuche',
+          literature: 'Literatursuche',
         },
         attributions: {
           [openStreetMap]: `$t(textLocator.layers.${openStreetMap}): © <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a> contributors`,
@@ -59,11 +62,8 @@ const locales: LanguageOption[] = [
         error: {
           searchCoastalGazetteer:
             'Die Suche ist mit einem unbekannten Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut.',
-        },
-      },
-      plugins: {
-        addressSearch: {
-          defaultGroup: 'Ortssuche',
+          findLiterature:
+            'Die Suche ist mit einem unbekannten Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut.',
         },
       },
     },

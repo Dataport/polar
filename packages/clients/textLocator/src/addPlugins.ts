@@ -18,6 +18,15 @@ import {
   selectResult,
 } from './utils/coastalGazetteer/searchToponym'
 import { idRegister } from './services'
+import { searchLiterature, selectLiterature } from './utils/findLiterature'
+
+export const ids = {
+  groupId: 'groupTL',
+  categoryIdToponym: 'categoryToponym',
+  categoryIdLiterature: 'categoryLiterature',
+  typeGazetteer: 'coastalGazetteer',
+  typeLiterature: 'literature',
+}
 
 // this is fine for list-like setup functions
 // eslint-disable-next-line max-lines-per-function
@@ -30,14 +39,29 @@ export const addPlugins = (core) => {
       layoutTag: NineLayoutTag.TOP_LEFT,
       addLoading: 'plugin/loadingIndicator/addLoadingKey',
       removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+      // @ts-expect-error | Local parameter requirements diverge from type
       customSearchMethods: {
-        // @ts-expect-error | Local parameter requirements diverge from type
-        coastalGazetteer: searchCoastalGazetteerByToponym,
+        [ids.typeGazetteer]: searchCoastalGazetteerByToponym,
+        [ids.typeLiterature]: searchLiterature,
       },
       customSelectResult: {
-        // it's defined like that
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        '': selectResult,
+        [ids.categoryIdToponym]: selectResult,
+        [ids.categoryIdLiterature]: selectLiterature,
+      },
+      groupProperties: {
+        [ids.groupId]: {
+          label: `textLocator.addressSearch.${ids.groupId}`,
+          resultDisplayMode: 'categorized',
+          limitResults: 3,
+        },
+      },
+      categoryProperties: {
+        [ids.categoryIdToponym]: {
+          label: 'textLocator.addressSearch.toponym',
+        },
+        [ids.categoryIdLiterature]: {
+          label: 'textLocator.addressSearch.literature',
+        },
       },
       afterResultComponent: ResultInfo,
     }),
