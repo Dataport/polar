@@ -16,36 +16,7 @@
         :values="selectableDrawModes"
         :change-callback="setDrawMode"
       ></RadioCard>
-      <div v-if="showDrawOptions">
-        <v-card-title>{{
-          $t('common:plugins.draw.title.options')
-        }}</v-card-title>
-        <v-card-actions>
-          <v-col>
-            <v-btn
-              class="polar-draw-color-picker-button"
-              @click="toggleColorPicker"
-            >
-              <v-label>{{ $t('common:plugins.draw.options.stroke') }}</v-label>
-              <v-icon right>
-                {{
-                  isColorPickerVisible
-                    ? 'fa-solid fa-chevron-up'
-                    : 'fa-solid fa-chevron-down'
-                }}
-              </v-icon>
-            </v-btn>
-            <v-expand-transition>
-              <v-color-picker
-                v-if="isColorPickerVisible"
-                class="polar-draw-color-picker"
-                :value="selectedStrokeColor"
-                @input="setSelectedStrokeColor"
-              ></v-color-picker>
-            </v-expand-transition>
-          </v-col>
-        </v-card-actions>
-      </div>
+      <DrawOptions v-if="showDrawOptions" />
       <v-subheader v-if="showSizeSlider" class="align-end">{{
         $t('common:plugins.draw.label.textSize')
       }}</v-subheader>
@@ -76,11 +47,13 @@
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import RadioCard from './RadioCard.vue'
+import DrawOptions from './DrawOptions.vue'
 
 export default Vue.extend({
   name: 'PolarDraw',
   components: {
     RadioCard,
+    DrawOptions,
   },
   data: () => ({
     isColorPickerVisible: false,
@@ -97,7 +70,6 @@ export default Vue.extend({
       'selectedSize',
       'fontSizes',
       'showSizeSlider',
-      'selectedStrokeColor',
       'showDrawOptions',
     ]),
     flexStyle(): string {
@@ -112,11 +84,7 @@ export default Vue.extend({
       'setDrawMode',
       'setTextInput',
       'setSelectedSize',
-      'setSelectedStrokeColor',
     ]),
-    toggleColorPicker() {
-      this.isColorPickerVisible = !this.isColorPickerVisible
-    },
   },
 })
 </script>
@@ -135,32 +103,5 @@ export default Vue.extend({
 
 .align-end {
   height: 32px;
-}
-
-.v-card__title {
-  padding-top: 0;
-  padding-bottom: 0;
-  font-size: 100%;
-}
-
-.v-card__actions {
-  padding-top: 0;
-}
-
-.polar-draw-color-picker {
-  margin-top: 0.5em;
-}
-
-.polar-draw-color-picker-button {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  border: solid transparent;
-  color: var(--polar-secondary);
-  background-color: var(--polar-secondary-contrast);
-
-  label {
-    color: var(--polar-secondary);
-  }
 }
 </style>
