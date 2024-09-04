@@ -31,8 +31,9 @@ export const makeActions = () => {
       rootGetters: { map },
     }) {
       dispatch('initializeConfigStyle')
-      drawSource.on(['addfeature', 'changefeature', 'removefeature'], () => 
-        commit('updateFeatures'))
+      drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
+        commit('updateFeatures')
+      )
       drawLayer = createDrawLayer(drawSource, configuration?.style)
 
       map.addLayer(drawLayer)
