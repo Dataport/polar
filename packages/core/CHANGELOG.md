@@ -4,7 +4,6 @@
 
 - Feature: Add new state parameter `mapHasDimensions` to let plugins have a "hook" to react on when the map is ready.
 - Feature: Add `deviceIsHorizontal` as a getter to have a more central place to check if the device is in landscape mode.
-- Feature: Add new parameter `enableOptions` to interface `DrawConfiguration`.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Fix: Add package `events` as a dependency to fix issue with `xml2js`. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/697 for more information.
 - Chore: Update dependencies to latest versions.

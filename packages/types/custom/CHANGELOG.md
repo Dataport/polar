@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Add new parameter `enableOptions` to interface `DrawConfiguration`.
 - Feature: Add new interface `ScaleConfiguration` and new property `scale` to `mapConfiguration`.
 - Feature: Add `afterResultComponent` to `AddressSearchConfiguration` for custom search result suffixes.
 - Feature: Add `mapHasDimensions` to `CoreState` and `CoreGetters`.
