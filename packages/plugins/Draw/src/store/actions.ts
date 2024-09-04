@@ -30,6 +30,7 @@ export const makeActions = () => {
       getters: { configuration },
       rootGetters: { map },
     }) {
+      dispatch('initializeConfigStyle')
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () => {
         commit('updateFeatures')
       })
