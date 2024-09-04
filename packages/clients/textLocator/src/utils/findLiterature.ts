@@ -113,7 +113,7 @@ const processLiteratureToponyms =
     console.warn(featureCollections)
   }
 
-// done to get type in
+// change if `satisfies` is ever usable on functions
 // eslint-disable-next-line func-style
 export const selectLiterature: SelectResultFunction = function (
   this: PolarStore<GeometrySearchState, GeometrySearchState>,
