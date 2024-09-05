@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Extend mock state to match current core state type.
+- Fix: Add getters `hasSmallDisplay` and `hasSmallHeight` to the `store` to prevent warnings in tests.
 
 ## 1.2.1
 
