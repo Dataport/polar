@@ -151,6 +151,56 @@ export interface DrawStyle {
   circle: PolarCircleStyle
 }
 
+export interface PointStyle {
+  type?: 'circle' | 'icon'
+  imageName?: string
+  imageWidth?: string
+  imageHeight?: string
+  imageScale?: string
+  imageOffsetX?: number
+  imageOffsetY?: number
+  imageOffsetXUnit?: string
+  imageOffsetYUnit?: string
+  rotation?: Rotation
+  circleRadius?: number
+  circleStrokeColor?: number[]
+  circleStrokeWidth?: number
+  circleFillColor?: number[]
+}
+
+export interface Rotation {
+  isDegree?: boolean
+  value?: number
+}
+
+export interface LineStringStyle {
+  lineStrokeColor?: number[]
+  lineStrokeWidth?: number
+  lineStrokeCap?: 'round' | 'square' | 'butt'
+  lineStrokeJoin?: 'round' | 'bevel' | 'miter'
+  lineStrokeDash?: number[]
+  lineStrokeDashOffset?: number
+  lineStrokeMiterLimit?: number
+}
+
+export interface PolygonStyle {
+  polygonStrokeColor?: number[]
+  polygonStrokeWidth?: number
+  polygonStrokeCap?: 'round' | 'square' | 'butt'
+  polygonStrokeJoin?: 'round' | 'bevel' | 'miter'
+  polygonStrokeDash?: number[]
+  polygonStrokeDashOffset?: number
+  polygonStrokeMiterLimit?: number
+  polygonFillColor?: number[]
+  polygonFillHatch?: MasterportalapiPolygonFillHatch
+}
+
+export interface CircleStyle {
+  circleStrokeColor?: number[]
+  circleStrokeWidth?: number
+  circleFillColor?: number[]
+}
+
 export interface TextStyle {
   font: string | FontStyle
   textColor?: Color | ColorLike
