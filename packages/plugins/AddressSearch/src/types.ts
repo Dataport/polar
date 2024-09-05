@@ -1,13 +1,11 @@
 import {
   AddressSearchConfiguration,
-  MemberSuffix,
   QueryParameters,
   SearchMethodConfiguration,
   AddressSearchGroupProperties,
   AddressSearchCategoryProperties,
 } from '@polar/lib-custom-types'
 import { VueConstructor } from 'vue'
-import { WFSVersion } from '@polar/lib-get-features'
 import { Feature, FeatureCollection } from 'geojson'
 
 /** Federal states of Germany */
