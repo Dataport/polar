@@ -1,5 +1,6 @@
 import { Map } from 'ol'
 
+// @ts-expect-error | Most modern browsers already support named capturing groups. This should be fine.
 const headerRegex = /{(?<key>[^=]+)=(?<value>[^}]+)}/gm
 
 /**
