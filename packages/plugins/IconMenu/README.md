@@ -47,7 +47,7 @@ Example Configuration:
 }
 ```
 
-### iconMenu.menuEntry
+#### iconMenu.menuEntry
 
 | fieldName | type | description |
 | - | - | - |
