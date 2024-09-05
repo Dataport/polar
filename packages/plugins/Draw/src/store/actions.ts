@@ -3,7 +3,7 @@ import { Interaction, Select } from 'ol/interaction'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import GeoJSON from 'ol/format/GeoJSON'
 import { Circle, Point } from 'ol/geom'
-import createDrawLayer from '../utils/createDrawLayer'
+import VectorLayer from 'ol/layer/Vector'
 import { DrawGetters, DrawState } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
 import createInteractions from './createInteractions'
@@ -19,11 +19,11 @@ export const makeActions = () => {
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
     createModifyInteractions,
-    setupModule({ commit, dispatch, rootGetters: { configuration, map } }) {
+    setupModule({ commit, dispatch, rootGetters: { map } }) {
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
         commit('updateFeatures')
       )
-      drawLayer = createDrawLayer(drawSource, configuration?.draw?.style)
+      drawLayer = new VectorLayer({ source: drawSource })
 
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
