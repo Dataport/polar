@@ -1,12 +1,12 @@
 // NOTE: action tests currently not type-supported, but working
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { makeActions } from '../store/actions'
+import { makeActions } from '../src/store/actions'
 
-jest.mock('../utils/requestGfi', () => ({
+jest.mock('../src/utils/requestGfi', () => ({
   requestGfi: jest.fn(() => Promise.resolve([])),
 }))
 
-jest.mock('../utils/displayFeatureLayer', () => ({
+jest.mock('../src/utils/displayFeatureLayer', () => ({
   getFeatureDisplayLayer: jest.fn(),
   addFeature: jest.fn(),
   clear: jest.fn(),

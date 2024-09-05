@@ -25,8 +25,8 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 | fieldName | type | description |
 | - | - | - |
 | searchMethods | searchMethodsObject[] | Array of search method descriptions. Only searches configured here can be used. |
-| afterResultComponent | VueConstructor? | If given, this component will be rendered in the last line of every single search result. It will be forwarded its search result feature as prop `feature` of type `GeoJSON.Feature`, and the focus state of the result as prop `focus` of type `boolean`. |
 | addLoading | string? | Optional loading action name to start loading. |
+| afterResultComponent | VueConstructor? | If given, this component will be rendered in the last line of every single search result. It will be forwarded its search result feature as prop `feature` of type `GeoJSON.Feature`, and the focus state of the result as prop `focus` of type `boolean`. |
 | categoryProperties | Record<string, categoryProperties>? | An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category. |
 | customSearchMethods | Record<string, customSearchMethod>? | An object with named search functions added to the existing set of configurable search methods. (See `addressSearch.searchMethodsObject.type`) This record's keys are added to that enum. |
 | customSelectResult | Record<string, customSelectFunction>? | An object that maps categoryIds to functions. These functions are then called as vuex store actions instead of the `selectResult` default implementation. This allows overriding selection behaviour with full store access. Use `''` as key for categoryless results. |
@@ -259,7 +259,7 @@ queryParameters: {
     postalCode: '([0-9]+)'
     city: '([A-Za-z]+)'
   },
-  pattern: [
+  patterns: [
     '{{streetName}} {{houseNumber}} {{postalCode}} {{city}}' 
   ]
 }
