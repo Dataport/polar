@@ -23,14 +23,18 @@ either `true` or `false`. When a users denies the location tracking, the button 
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
-#### Example configuration
+Example configuration:
 
-```json
-{
-  "geoLocation": {
-    "checkLocationInitially": true,
-    "zoomLevel": 7
-  }
+```js
+geoLocation: {
+  checkLocationInitially: true,
+  keepCentered: true,
+  renderType: 'independent',
+  zoomLevel: 7,
+  boundaryLayerId: 'hamburgBorder',
+  boundaryOnError: 'strict',
+  showTooltip: true,
+  toastAction: 'plugin/toast/addToast',
 }
 ```
 
