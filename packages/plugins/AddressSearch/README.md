@@ -33,7 +33,7 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 | focusAfterSearch | boolean? | Whether the focus should switch to the first result after a successful search. Defaults to `false`. |
 | groupProperties | Record<string, groupProperties>? | An object defining properties for a group. The searchMethod's groupId is used as identifier. All services without groupId fall back to the key `"defaultGroup"`. |
 | minLength | number? | Minimal input length after which searches are started. Defaults to 0. |
-| addLoading | string? | Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when finishing asynchronous procedures that are intended to be communicated to the user. |
+| removeLoading | string? | Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when finishing asynchronous procedures that are intended to be communicated to the user. |
 | waitMs | number? | Debounce time in ms for search requests after last user input. Defaults to 0. |
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
