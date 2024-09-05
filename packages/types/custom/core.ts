@@ -136,27 +136,13 @@ export interface AttributionsConfiguration extends PluginOptions {
   windowWidth?: number
 }
 
-export interface PolarCircleStyle {
-  fillColor?: Color | ColorLike
-  radius: number
-  strokeColor?: Color | ColorLike
-  displacement?: number[]
-  scale?: number | Size
-  rotation?: number
-}
-
-export interface DrawStyle {
-  fill: Fill
-  stroke: Stroke
-  circle: PolarCircleStyle
-}
-
 export interface PointStyle {
+  // the type defines which parameters will be used to style the point
   type?: 'circle' | 'icon'
   imageName?: string
-  imageWidth?: string
-  imageHeight?: string
-  imageScale?: string
+  imageWidth?: number
+  imageHeight?: number
+  imageScale?: number | Size
   imageOffsetX?: number
   imageOffsetY?: number
   imageOffsetXUnit?: string
@@ -215,7 +201,10 @@ export type DrawMode = 'Circle' | 'LineString' | 'Point' | 'Polygon' | 'Text'
 
 export interface DrawConfiguration extends Partial<PluginOptions> {
   selectableDrawModes?: DrawMode[]
-  style?: DrawStyle
+  pointStyle?: PointStyle
+  lineStringStyle?: LineStringStyle
+  polygonStyle?: PolygonStyle
+  circleStyle?: CircleStyle
   textStyle?: TextStyle
 }
 
