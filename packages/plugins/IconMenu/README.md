@@ -19,9 +19,9 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 
 | fieldName | type | description |
 | - | - | - |
-| initiallyOpen  | string?   | Id of the plugin which should be open on start; only applicable if the device doesn't have a small display  |
-| menus | Array | Defines which plugins should be rendered as part of the icon menu. |
-| layoutTag | enum NineLayoutTag | Defines where the icon menu is rendered. Only use `NineLayoutTag.TOP_RIGHT` here for the time being. |
+| layoutTag | enum['TOP_LEFT','TOP_MIDDLE','TOP_RIGHT','MIDDLE_LEFT','MIDDLE_MIDDLE','MIDDLE_RIGHT','BOTTOM_LEFT','BOTTOM_MIDDLE','BOTTOM_RIGHT'] | Defines where the icon menu is rendered. Only use `NineLayoutTag.TOP_RIGHT` here for the time being. |
+| menus | menuEntry[] | Defines which plugins should be rendered as part of the icon menu. |
+| initiallyOpen | string? | Id of the plugin which should be open on start; only applicable if the device doesn't have a small display. |
 
 Use the configuration during client build.
 
@@ -47,14 +47,14 @@ Example Configuration:
 }
 ```
 
-### iconMenu.menus
+### iconMenu.menuEntry
 
 | fieldName | type | description |
 | - | - | - |
-| plugin | polar plugin | The plugin that should be part of the icon menu |
-| icon | string? | Icon for icon menu button. If given, render a button with the icon. When clicked, open the content of the configured plugin. If not given, render the plugin content as is inside the IconMenu. Current examples for the usage without icon include Zoom and Fullscreen.  |
 | id | string | Id of the plugin, used to resolve hint locale. |
-| hint | string? | Overrides the default hint displayed for the icon menu button |
+| plugin | PolarPlugin | The plugin that should be part of the icon menu. |
+| hint | string? | Overrides the default hint displayed for the icon menu button. |
+| icon | string? | Icon for icon menu button. If given, render a button with the icon. When clicked, open the content of the configured plugin. If not given, render the plugin content as is inside the IconMenu. Current examples for the usage without icon include Zoom and Fullscreen. |
 
 Example Configuration:
 ```js
@@ -75,6 +75,6 @@ Example Configuration:
 }
 ```
 
-### modes
+## Modes
 
 When landscape mode is active the IconMenu is oriented horizontally. Currently, the IconMenu works fine only if there is not more than one row of Icons in landscape mode.
