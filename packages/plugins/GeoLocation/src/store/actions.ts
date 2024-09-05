@@ -137,7 +137,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       typeof boundaryLayerId === 'string'
         ? await passesBoundaryCheck(map, boundaryLayerId, transformedCoords)
         : containsCoordinate(
-            // NOTE: The fallback is the default value set by @masterportal/masterportalApi
+            // NOTE: The fallback is the default value set by @masterportal/masterportalapi
             configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
             transformedCoords
           )
