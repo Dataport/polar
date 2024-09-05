@@ -7,7 +7,7 @@ The client's core is the base package to create clients in the POLAR environment
 It offers this functionality:
 
 - Plugin mechanism
-- @masterportal/masterportalApi functionality
+- @masterportal/masterportalapi functionality
 - Localization mechanism
 
 ## Interaction
@@ -21,7 +21,7 @@ It is important to note that the behaviour will be desktop-like on larger touchs
 
 It depends on the client how exactly the initialization will take place for the embedding programmer. However, the core mechanism remains the same.
 
-The exported default object is an extended masterportalApi, adding the `addPlugins` and extending the `createMap` functions. For masterportalApi details, [see their repository](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/).
+The exported default object is an extended masterportalapi, adding the `addPlugins` and extending the `createMap` functions. For masterportalapi details, [see their repository](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/).
 
 To be able to see the map in production mode, the imported stylesheet has to have the property `data-polar`. The value can be chosen arbitrarily. ⚠️ Deprecated. The new field 'stylePath' should be used instead.
 
@@ -71,15 +71,15 @@ The mapConfiguration allows controlling many client instance details.
 
 | fieldName | type | description |
 | - | - | - |
-| <...masterportalApi.fields> | various | Multiple different parameters are required by the masterportalApi to be able to create the map. Also, some fields are optional but relevant and thus described here as well. For all additional options, refer to the documentation of the masterportalApi itself. |
-| <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
-| stylePath | string? | If no link tag with `data-polar="true"` is found in the document, this path will be used to create the link node in the client itself. It defaults to `'./style.css'`. Please mind that `data-polar="true"` is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release. |
+| <...masterportalapi.fields> | various | Multiple different parameters are required by the masterportalapi to be able to create the map. Also, some fields are optional but relevant and thus described here as well. For all additional options, refer to the documentation of the masterportalapi itself. |
+| checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
+| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalapi. |
 | language | enum["de", "en"]? | Initial language. |
 | locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
-| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalApi. |
+| <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
+| stylePath | string? | If no link tag with `data-polar="true"` is found in the document, this path will be used to create the link node in the client itself. It defaults to `'./style.css'`. Please mind that `data-polar="true"` is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release. |
 | vuetify | object? | You may add vuetify configuration here. |
-| checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
 
 <details>
 <summary>Example configuration</summary>
@@ -165,11 +165,11 @@ To figure out the name of the locales to override, inspect the matching plugin i
 | fieldName | type |description |
 | - | - | - |
 | layers | string[] | List of layer ids. The effect will only be applied to these layers. |
+| clusterClickZoom | boolean? | If `true`, clicking a cluster feature will zoom into the clustered features' bounding box (with padding) so that the cluster is "resolved". This happens until the maximum zoom level is reached, at which no further zooming can take place. Defaults to `false`. |
 | defaultStyle | MarkerStyle? | Used as the default marker style. The default fill color for these markers is `'#005CA9'`. |
+| dispatchOnMapSelect | string[]? | If set, the parameters will be spread to dispatchment on map selection. `['target', 'value']` will `dispatch(...['target', 'value'])`. This can be used to open the iconMenu's GFI with `['plugin/iconMenu/openMenuById', 'gfi']`, should the IconMenu exist and the gfi plugin be in it with this id. |
 | hoverStyle | MarkerStyle? | Used as map marker style for hovered features. The default fill color for these markers is `'#7B1045'`. |
 | selectionStyle | MarkerStyle? | Used as map marker style for selected features. The default fill color for these markers is `'#679100'`. |
-| clusterClickZoom | boolean? | If `true`, clicking a cluster feature will zoom into the clustered features' bounding box (with padding) so that the cluster is "resolved". This happens until the maximum zoom level is reached, at which no further zooming can take place. Defaults to `false`. |
-| dispatchOnMapSelect | string[]? | If set, the parameters will be spread to dispatchment on map selection. `['target', 'value']` will `dispatch(...['target', 'value'])`. This can be used to open the iconMenu's GFI with `['plugin/iconMenu/openMenuById', 'gfi']`, should the IconMenu exist and the gfi plugin be in it with this id. |
 
 
 Example configuration:
@@ -200,8 +200,8 @@ extendedMasterportalapiMarkers: {
 | clusterSize | [number, number]? | `width` and `height` of the `<svg>`-cluster-marker. |
 | fill | (string \| masterportalapiPolygonFillHatch)? | Fill color (or hatch pattern) for map marker. |
 | size | [number, number]? | `width` and `height` of the `<svg>`-marker. |
-| strokeWidth | (string \| number)? | Width of marker stroke (outer line). Defaults to `'2'`. |
 | stroke | string? | Color of marker stroke (outer line). Defaults to `'#ffffff'`. |
+| strokeWidth | (string \| number)? | Width of marker stroke (outer line). Defaults to `'2'`. |
 
 Example configuration:
 ```js
@@ -215,15 +215,15 @@ A full documentation of the masterportalapiPolygonFillHatch is available at the 
 
 >|Name|Required|Type|Default|Description|
 >| - | - | - | - | - |
->|pattern|no|enum["diagonal", "diagonal-right", "zig-line", "zig-line-horizontal", "circle", "rectangle", "triangle", "diamond"]/Object|`"diagonal"`|Draw pattern. You may either use a pre-defined pattern from the enum or specify one yourself.|
->|size|no|Number|`30`|Edge length of a singular repeated pattern element.|
->|lineWidth|no|Number|`10`|Line width of drawn pattern. To achieve an even distribution in diagonal and zig-line pattern, choose lineWidth as (1/3 * size). For triangle and diamond, a lineWidth of 1 must be chosen. For rectangle, a lineWidth of at most (1/4 * size) should be chosen. Deviating from these rules is not harmful, but patterns may seem off.|
 >|backgroundColor|no|Number[]|`[0, 0, 0, 1]`|Background color of polygon.|
+>|lineWidth|no|Number|`10`|Line width of drawn pattern. To achieve an even distribution in diagonal and zig-line pattern, choose lineWidth as (1/3 * size). For triangle and diamond, a lineWidth of 1 must be chosen. For rectangle, a lineWidth of at most (1/4 * size) should be chosen. Deviating from these rules is not harmful, but patterns may seem off.|
+>|pattern|no|enum["diagonal", "diagonal-right", "zig-line", "zig-line-horizontal", "circle", "rectangle", "triangle", "diamond"]/Object|`"diagonal"`|Draw pattern. You may either use a pre-defined pattern from the enum or specify one yourself.|
 >|patternColor|no|Number[]|`[255, 255, 255, 1]`|Fill color of pattern drawn on polygon.|
+>|size|no|Number|`30`|Edge length of a singular repeated pattern element.|
 
-##### <...masterportalApi.fields>
+##### <...masterportalapi.fields>
 
-The `<...masterportalApi.fields>` means that any masterportalApi field may also be used here _directly_ in the mapConfiguration. The fields described here are fields that are interesting for the usage of POLAR.
+The `<...masterportalapi.fields>` means that any masterportalapi field may also be used here _directly_ in the mapConfiguration. The fields described here are fields that are interesting for the usage of POLAR.
 Fields that are not set as required have default values.
 
 | fieldName | type | description |
@@ -272,9 +272,9 @@ Fields that are not set as required have default values.
 
 ##### mapConfiguration.layerConf
 
-The layer configuration (or: service register) is read by the masterportalApi. The full definition can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+The layer configuration (or: service register) is read by the masterportalapi. The full definition can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
 
-However, not all listed services have been implemented in the masterportalApi yet, and no documentation regarding implemented properties exists there yet.
+However, not all listed services have been implemented in the masterportalapi yet, and no documentation regarding implemented properties exists there yet.
 
 Whitelisted and confirmed parameters include:
 

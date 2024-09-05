@@ -4,6 +4,7 @@
 
 - Feature: If a user is geolocated outside of the map's extent, the client will inform the user of why geolocation did not take effect via a textbox.
 - Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
+- Chore: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.
 
 ## 1.1.1
 
