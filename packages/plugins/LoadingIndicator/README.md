@@ -28,9 +28,9 @@ map.$store.commit('plugin/loadingIndicator/removeLoadingKey', key)
 
 ![Loading indicator example](./readme_loadingIndicator_example.png)
 
-The key must be unique and is managed using a Set. This ensures that it can't be added multiple times, and removing it once will remove it completely. To avoid name conflicts, it is recommended to use a key format like `{my-plugin-or-application-name}-{procedure-name}`. The `LoadingIndicator` is typically used for asynchronous operations.
+The key must be unique and is kept track of via a Set. It can't be added multiple times, and removing it once always removes it altogether. It is advised to use a key like `{my-plugin-or-application-name}-{procedure-name}` to avoid name conflicts. The LoadingIndicator will usually be used for asynchronous code.
 
-Therefore, **always call `removeLoadingKey` in the `finally` block of your code** to prevent loading indicators from hanging.
+As such, **always call `removeLoadingKey` in the `finally` section of your code** to prevent hanging loading indicators.
 
 ### Getters
 
