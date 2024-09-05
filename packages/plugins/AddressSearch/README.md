@@ -25,7 +25,7 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 | fieldName | type | description |
 | - | - | - |
 | searchMethods | searchMethodsObject[] | Array of search method descriptions. Only searches configured here can be used. |
-| afterResultComponent | VueConstructor? | If provided, this component will be rendered at the bottom of each search result. It will receive two props: `feature` of type `GeoJSON.Feature`, which represents the search result feature, and `focus` of type `boolean`, which indicates whether the result is focused. It is then passed as a Vue Component. |
+| afterResultComponent | VueConstructor? | If given, this component will be rendered after every single search result's title. It will be forwarded its search result feature as prop `feature` of type `GeoJSON.Feature`, and the focus state of the result as prop `focus` of type `boolean`. This component may e.g. be used to display further information about a result or offer additional interactions. Mind that you may override the default selection by providing a `customSelectResult`, allowing you to completely lift selection options to this component. Using this feature requires coding knowledge. |
 | addLoading | string? | Optional loading action name to start loading. |
 | categoryProperties | Record<string, categoryProperties>? | An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category. |
 | customSearchMethods | Record<string, customSearchMethod>? | An object with named search functions added to the existing set of configurable search methods. (See `addressSearch.searchMethodsObject.type`) This record's keys are added to that enum. |
