@@ -120,11 +120,6 @@
 </thead>
 <tbody>
 <tr>
-<td>type</td>
-<td>enum['error', 'warning', 'info', 'success']</td>
-<td>Decides the default toast colouring and icon.</td>
-</tr>
-<tr>
 <td>text</td>
 <td>string</td>
 <td>Textual user information. This may either be a user-readable string or a translation key.</td>
@@ -135,13 +130,18 @@
 <td>Any positive non-null number will be used as ms until the toast is closed. 0 means no timeout.</td>
 </tr>
 <tr>
+<td>type</td>
+<td>enum['error', 'warning', 'info', 'success']</td>
+<td>Decides the default toast colouring and icon.</td>
+</tr>
+<tr>
 <td>color</td>
-<td>?string</td>
+<td>string?</td>
 <td>See {toast.toastStyle}. Overrides setting for this toast only.</td>
 </tr>
 <tr>
 <td>icon</td>
-<td>?string</td>
+<td>string?</td>
 <td>See {toast.toastStyle}. Overrides setting for this toast only.</td>
 </tr>
 </tbody>

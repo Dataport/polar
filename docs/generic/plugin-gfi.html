@@ -40,6 +40,11 @@
 </thead>
 <tbody>
 <tr>
+<td>activeLayerPath</td>
+<td>string?</td>
+<td>Optional store path to array of active mask layer ids. If used with <code>LayerChooser</code>, setting this to <code>'plugin/layerChooser/activeMaskIds'</code> will result in an info text in the GFI box, should no layer be active. If used without <code>LayerChooser</code>, the active mask layers have to be provided by another plugin or the client. If not set, the GFI plugin may e.g. show an empty list, which may be confusing to some users.</td>
+</tr>
+<tr>
 <td>coordinateSources</td>
 <td>string[]</td>
 <td>The GFI plugin will react to these coordinate positions in the store. This allows it to react to e.g. the address search of the pins plugin. Please see example configuration for the common use-cases. Please mind that, when referencing another plugin, that plugin must be in <code>addPlugins</code> before this one.</td>
@@ -48,11 +53,6 @@
 <td>layers</td>
 <td>Record&lt;string, gfiLayerConfiguration&gt;</td>
 <td>Maps a string (must be a layer ID) to a behaviour configuration for that layer.</td>
-</tr>
-<tr>
-<td>activeLayerPath</td>
-<td>string?</td>
-<td>Optional store path to array of active mask layer ids. If used with <code>LayerChooser</code>, setting this to <code>'plugin/layerChooser/activeMaskIds'</code> will result in an info text in the GFI box, should no layer be active. If used without <code>LayerChooser</code>, the active mask layers have to be provided by another plugin or the client. If not set, the GFI plugin may e.g. show an empty list, which may be confusing to some users.</td>
 </tr>
 <tr>
 <td>afterLoadFunction</td>

@@ -78,14 +78,14 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 </thead>
 <tbody>
 <tr>
-<td>layerConf</td>
-<td>LayerConf</td>
-<td>Layer configuration as required by masterportalAPI.</td>
-</tr>
-<tr>
 <td>language</td>
 <td>enum[&quot;de&quot;, &quot;en&quot;]</td>
 <td>Initial language.</td>
+</tr>
+<tr>
+<td>layerConf</td>
+<td>LayerConf</td>
+<td>Layer configuration as required by masterportalAPI.</td>
 </tr>
 <tr>
 <td>&lt;...masterportalAPI.fields&gt;</td>
@@ -93,19 +93,9 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <td>The object is also used to initialize the masterportalAPI. Please refer to their documentation for options.</td>
 </tr>
 <tr>
-<td>&lt;plugin.fields&gt;</td>
-<td>various?</td>
-<td>Fields for configuring plugins added with <code>addPlugins</code>. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described <a href="#global-plugin-parameters">below</a>.</td>
-</tr>
-<tr>
-<td>locales</td>
-<td>LanguageOption[]?</td>
-<td>All locales in POLAR's plugins can be overridden to fit your needs.</td>
-</tr>
-<tr>
-<td>vuetify</td>
-<td>object?</td>
-<td>You may add vuetify configuration here.</td>
+<td>checkServiceAvailability</td>
+<td>boolean?</td>
+<td>If set to <code>true</code>, all services' availability will be checked with head requests.</td>
 </tr>
 <tr>
 <td>extendedMasterportalapiMarkers</td>
@@ -113,9 +103,14 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <td>Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with <code>clusterDistance</code> will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI.</td>
 </tr>
 <tr>
-<td>stylePath</td>
-<td>string?</td>
-<td>If no link tag with <code>data-polar=&quot;true&quot;</code> is found in the document, this path will be used to create the link node in the client itself. It defaults to <code>'./style.css'</code>. Please mind that <code>data-polar=&quot;true&quot;</code> is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release.</td>
+<td>locales</td>
+<td>LanguageOption[]?</td>
+<td>All locales in POLAR's plugins can be overridden to fit your needs.</td>
+</tr>
+<tr>
+<td>&lt;plugin.fields&gt;</td>
+<td>various?</td>
+<td>Fields for configuring plugins added with <code>addPlugins</code>. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described <a href="#global-plugin-parameters">below</a>.</td>
 </tr>
 <tr>
 <td>renderFaToLightDom</td>
@@ -123,9 +118,14 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <td>POLAR requires FontAwesome in the Light/Root DOM due to an <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=336876">unfixed bug in many browsers</a>. This value defaults to <code>true</code>. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to <code>false</code> to check whether the versions are interoperable.</td>
 </tr>
 <tr>
-<td>checkServiceAvailability</td>
-<td>boolean?</td>
-<td>If set to <code>true</code>, all services' availability will be checked with head requests.</td>
+<td>stylePath</td>
+<td>string?</td>
+<td>If no link tag with <code>data-polar=&quot;true&quot;</code> is found in the document, this path will be used to create the link node in the client itself. It defaults to <code>'./style.css'</code>. Please mind that <code>data-polar=&quot;true&quot;</code> is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release.</td>
+</tr>
+<tr>
+<td>vuetify</td>
+<td>object?</td>
+<td>You may add vuetify configuration here.</td>
 </tr>
 </tbody>
 </table>
@@ -214,9 +214,19 @@ const mapConfiguration = {
 <td>List of layer ids. The effect will only be applied to these layers.</td>
 </tr>
 <tr>
+<td>clusterClickZoom</td>
+<td>boolean?</td>
+<td>If <code>true</code>, clicking a cluster feature will zoom into the clustered features' bounding box (with padding) so that the cluster is &quot;resolved&quot;. This happens until the maximum zoom level is reached, at which no further zooming can take place. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
 <td>defaultStyle</td>
 <td>MarkerStyle?</td>
 <td>Used as the default marker style. The default fill color for these markers is <code>'#005CA9'</code>.</td>
+</tr>
+<tr>
+<td>dispatchOnMapSelect</td>
+<td>string[]?</td>
+<td>If set, the parameters will be spread to dispatchment on map selection. <code>['target', 'value']</code> will <code>dispatch(...['target', 'value'])</code>. This can be used to open the iconMenu's GFI with <code>['plugin/iconMenu/openMenuById', 'gfi']</code>, should the IconMenu exist and the gfi plugin be in it with this id.</td>
 </tr>
 <tr>
 <td>hoverStyle</td>
@@ -227,16 +237,6 @@ const mapConfiguration = {
 <td>selectionStyle</td>
 <td>MarkerStyle?</td>
 <td>Used as map marker style for selected features. The default fill color for these markers is <code>'#679100'</code>.</td>
-</tr>
-<tr>
-<td>clusterClickZoom</td>
-<td>boolean?</td>
-<td>If <code>true</code>, clicking a cluster feature will zoom into the clustered features' bounding box (with padding) so that the cluster is &quot;resolved&quot;. This happens until the maximum zoom level is reached, at which no further zooming can take place. Defaults to <code>false</code>.</td>
-</tr>
-<tr>
-<td>dispatchOnMapSelect</td>
-<td>string[]?</td>
-<td>If set, the parameters will be spread to dispatchment on map selection. <code>['target', 'value']</code> will <code>dispatch(...['target', 'value'])</code>. This can be used to open the iconMenu's GFI with <code>['plugin/iconMenu/openMenuById', 'gfi']</code>, should the IconMenu exist and the gfi plugin be in it with this id.</td>
 </tr>
 </tbody>
 </table>
@@ -285,14 +285,14 @@ const mapConfiguration = {
 <td><code>width</code> and <code>height</code> of the <code>&lt;svg&gt;</code>-marker.</td>
 </tr>
 <tr>
-<td>strokeWidth</td>
-<td>(string | number)?</td>
-<td>Width of marker stroke (outer line). Defaults to <code>'2'</code>.</td>
-</tr>
-<tr>
 <td>stroke</td>
 <td>string?</td>
 <td>Color of marker stroke (outer line). Defaults to <code>'#ffffff'</code>.</td>
+</tr>
+<tr>
+<td>strokeWidth</td>
+<td>(string | number)?</td>
+<td>Width of marker stroke (outer line). Defaults to <code>'2'</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -316,18 +316,11 @@ const mapConfiguration = {
 </thead>
 <tbody>
 <tr>
-<td>pattern</td>
+<td>backgroundColor</td>
 <td>no</td>
-<td>enum[&quot;diagonal&quot;, &quot;diagonal-right&quot;, &quot;zig-line&quot;, &quot;zig-line-horizontal&quot;, &quot;circle&quot;, &quot;rectangle&quot;, &quot;triangle&quot;, &quot;diamond&quot;]/Object</td>
-<td><code>&quot;diagonal&quot;</code></td>
-<td>Draw pattern. You may either use a pre-defined pattern from the enum or specify one yourself.</td>
-</tr>
-<tr>
-<td>size</td>
-<td>no</td>
-<td>Number</td>
-<td><code>30</code></td>
-<td>Edge length of a singular repeated pattern element.</td>
+<td>Number[]</td>
+<td><code>[0, 0, 0, 1]</code></td>
+<td>Background color of polygon.</td>
 </tr>
 <tr>
 <td>lineWidth</td>
@@ -337,11 +330,11 @@ const mapConfiguration = {
 <td>Line width of drawn pattern. To achieve an even distribution in diagonal and zig-line pattern, choose lineWidth as (1/3 * size). For triangle and diamond, a lineWidth of 1 must be chosen. For rectangle, a lineWidth of at most (1/4 * size) should be chosen. Deviating from these rules is not harmful, but patterns may seem off.</td>
 </tr>
 <tr>
-<td>backgroundColor</td>
+<td>pattern</td>
 <td>no</td>
-<td>Number[]</td>
-<td><code>[0, 0, 0, 1]</code></td>
-<td>Background color of polygon.</td>
+<td>enum[&quot;diagonal&quot;, &quot;diagonal-right&quot;, &quot;zig-line&quot;, &quot;zig-line-horizontal&quot;, &quot;circle&quot;, &quot;rectangle&quot;, &quot;triangle&quot;, &quot;diamond&quot;]/Object</td>
+<td><code>&quot;diagonal&quot;</code></td>
+<td>Draw pattern. You may either use a pre-defined pattern from the enum or specify one yourself.</td>
 </tr>
 <tr>
 <td>patternColor</td>
@@ -349,6 +342,13 @@ const mapConfiguration = {
 <td>Number[]</td>
 <td><code>[255, 255, 255, 1]</code></td>
 <td>Fill color of pattern drawn on polygon.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>no</td>
+<td>Number</td>
+<td><code>30</code></td>
+<td>Edge length of a singular repeated pattern element.</td>
 </tr>
 </tbody>
 </table>
@@ -397,14 +397,9 @@ const mapConfiguration = {
 </thead>
 <tbody>
 <tr>
-<td>startResolution</td>
-<td>number</td>
-<td>Initial resolution; must be in options. See below.</td>
-</tr>
-<tr>
-<td>startCenter</td>
-<td>number[]</td>
-<td>Initial center coordinate.</td>
+<td>epsg</td>
+<td>string</td>
+<td>Leading coordinate system, e.g. <code>&quot;EPSG:25832&quot;</code>.</td>
 </tr>
 <tr>
 <td>extent</td>
@@ -412,9 +407,9 @@ const mapConfiguration = {
 <td>Map movement will be restricted to this rectangle.</td>
 </tr>
 <tr>
-<td>epsg</td>
-<td>string</td>
-<td>Leading coordinate system, e.g. <code>&quot;EPSG:25832&quot;</code>.</td>
+<td>namedProjections</td>
+<td>Array</td>
+<td>Array of usable projections by proj4 string.</td>
 </tr>
 <tr>
 <td>options</td>
@@ -422,9 +417,14 @@ const mapConfiguration = {
 <td>Defines all available zoomLevels. Entries define <code>resolution</code>, <code>scale</code>, and <code>zoomLevel</code>. See masterportalAPI for details.</td>
 </tr>
 <tr>
-<td>namedProjections</td>
-<td>Array</td>
-<td>Array of usable projections by proj4 string.</td>
+<td>startCenter</td>
+<td>number[]</td>
+<td>Initial center coordinate.</td>
+</tr>
+<tr>
+<td>startResolution</td>
+<td>number</td>
+<td>Initial resolution; must be in options. See below.</td>
 </tr>
 </tbody>
 </table>
