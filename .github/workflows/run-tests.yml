@@ -35,4 +35,4 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: |
           npm ci
-          npm tsc:ci
+          npm run tsc:ci
