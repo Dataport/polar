@@ -5,6 +5,7 @@ import {
 import { Feature } from 'geojson'
 import { PolarModule } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
+import { Circle, LineString, Point, Polygon } from 'ol/geom'
 import { DrawGetters, DrawMutations, DrawState } from '../types'
 import { makeActions } from './actions'
 
@@ -109,7 +110,11 @@ export const makeStoreModule = () => {
       ...generateSimpleMutations(getInitialState()),
       updateFeatures(state) {
         const features = drawSource.getFeatures().map((feature) => {
-          const geometry = feature.getGeometry()
+          const geometry = feature.getGeometry() as
+            | Circle
+            | LineString
+            | Point
+            | Polygon
           const type = geometry.getType()
           const isCircle = type === 'Circle'
           const jsonFeature: Feature = {
@@ -118,16 +123,18 @@ export const makeStoreModule = () => {
               ? { text: feature.get('text') }
               : {},
             geometry: {
+              // @ts-expect-error | A LinearRing can currently not be drawn
               type: isCircle ? 'Point' : type,
+              // @ts-expect-error | The coordinates are in the correct format
               coordinates: isCircle
-                ? geometry.getCenter()
+                ? (geometry as Circle).getCenter()
                 : geometry.getCoordinates(),
             },
           }
           // NOTE: If one is checking if properties exists (which it clearly does), TS complains
           // "TS2531: Object is possibly 'null'.". This is due to the structure of the type GeoJsonProperties.
           if (isCircle && jsonFeature.properties) {
-            jsonFeature.properties.radius = geometry.getRadius()
+            jsonFeature.properties.radius = (geometry as Circle).getRadius()
           }
           return jsonFeature
         })

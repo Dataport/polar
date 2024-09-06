@@ -8,7 +8,7 @@ import {
   MapConfig,
   PolarModule,
 } from '@polar/lib-custom-types'
-import * as masterportalapi from '@masterportal/masterportalapi/src'
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { ImageWMS, TileWMS } from 'ol/source'
 import Layer from 'ol/layer/Layer'
 import { LayerChooserGetters, LayerChooserState } from '../types'
@@ -34,7 +34,7 @@ const getBackgroundsAndMasks = (
 ): [LayerConfiguration[], LayerConfiguration[]] =>
   configuration.layers.reduce(
     ([backgrounds, masks], current) => {
-      const rawLayer = masterportalapi.rawLayerList.getLayerWhere({
+      const rawLayer = rawLayerList.getLayerWhere({
         id: current.id,
       })
 
@@ -91,7 +91,7 @@ export const makeStoreModule = () => {
         )
 
         configuration.layers.forEach((layer) => {
-          const rawLayer = masterportalapi.rawLayerList.getLayerWhere({
+          const rawLayer = rawLayerList.getLayerWhere({
             id: layer.id,
           })
 
@@ -264,7 +264,7 @@ export const makeStoreModule = () => {
           return null
         }
 
-        const serviceDefinition = masterportalapi.rawLayerList.getLayerWhere({
+        const serviceDefinition = rawLayerList.getLayerWhere({
           id: openedOptionsService.id,
         })
 

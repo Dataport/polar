@@ -1,4 +1,5 @@
 import { createRequire } from 'module'
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import commonJs from 'vite-plugin-commonjs'
 import vuePlugin from '@vitejs/plugin-vue2'
@@ -23,6 +24,15 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      // mitigation for ignoring package.json exports in @masterportal/masterportalapi
+      'olcs/lib/olcs': resolve(
+        __dirname,
+        '..',
+        'node_modules',
+        'olcs',
+        'lib',
+        'olcs'
+      ),
       stream: require.resolve('stream-browserify'),
       timers: require.resolve('timers-browserify'),
     },

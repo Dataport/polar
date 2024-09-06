@@ -42,6 +42,8 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 <summary>Example configuration</summary>
 
 ```js
+import Component from './component.vue'
+
 addressSearch: {
   searchMethods: [
     {
@@ -74,6 +76,7 @@ addressSearch: {
       },
     }
   ],
+  afterResultComponent: Component,
   groupProperties: {
     defaultGroup: {
       limitResults: 5,
@@ -280,7 +283,7 @@ queryParameters: {
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:mpapi)
 
-> **Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the [masterportalApi](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/). This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.**
+> **Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the [masterportalapi](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/). This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.**
 
 | fieldName | Type | Description |
 | - | - | - |
