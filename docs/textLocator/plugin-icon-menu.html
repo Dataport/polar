@@ -29,38 +29,108 @@ Currently, the IconMenu should only be rendered with <code>layoutTag</code> set 
 <p>It is meant for additional information/functionality (legend, other layers) or power users in non-public clients.</p>
 <p><em>Please note that the average user has never seen the client before and just wants to get done with it, not learn a map client.</em></p>
 <h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="iconmenu-1" tabindex="-1">iconMenu</h3>
 <blockquote>
 <p>⚠️ This plugin can't be configured with the <code>mapConfiguration</code>, but is configured during client construction. Currently, no way exists to add plugins to it after the build took place.</p>
 </blockquote>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/textLocator/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
-<p>Usage during client build:</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>layoutTag</td>
+<td>enum['TOP_LEFT','TOP_MIDDLE','TOP_RIGHT','MIDDLE_LEFT','MIDDLE_MIDDLE','MIDDLE_RIGHT','BOTTOM_LEFT','BOTTOM_MIDDLE','BOTTOM_RIGHT']</td>
+<td>Defines where the icon menu is rendered. Only use <code>NineLayoutTag.TOP_RIGHT</code> here for the time being.</td>
+</tr>
+<tr>
+<td>menus</td>
+<td>menuEntry[]</td>
+<td>Defines which plugins should be rendered as part of the icon menu.</td>
+</tr>
+<tr>
+<td>initiallyOpen</td>
+<td>string?</td>
+<td>Id of the plugin which should be open on start; only applicable if the device doesn't have a small display.</td>
+</tr>
+</tbody>
+</table>
+<p>Use the configuration during client build.</p>
+<p>Example Configuration:</p>
 <pre><code class="language-js">{
-  // id of the plugin which should be open on start; only applicable if the device doesn't have a small display
-  initiallyOpen: 'some',
+  initiallyOpen: 'layerChooser',
+  displayComponent: true,
   menus: [
     {
-      // use plugin as child
-      plugin: SomePolarPlugin({}),
-      /*
-       * Icon for icon menu button
-       * If given, render a button with the icon. When clicked, open the content of the configured plugin.
-       * If not given, render the plugin content as is inside the IconMenu.
-       * Current examples for the usage without icon include Zoom and Fullscreen,
-       */
-      icon: 'fa-book-atlas',
-      // used to resolve hint locale
-      id: 'some',
-      // optionally override the hint displayed for the icon menu button
-      hint: 'Some Plugin',
+      plugin: PolarPluginLayerChooser({}),
+      icon: 'fa-layer-group',
+      id: 'layerChooser',
     },
     {
-      plugin: AnotherPolarPlugin({}),
-      id: 'another',
+      plugin: PolarPluginDraw({}),
+      icon: 'fa-pencil',
+      id: 'draw',
+      hint: 'Draw or write something on the map'
+    },
+  ],
+  layoutTag: NineLayoutTag.TOP_RIGHT,
+}
+</code></pre>
+<h4 id="iconmenu.menuentry" tabindex="-1">iconMenu.menuEntry</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>Id of the plugin, used to resolve hint locale.</td>
+</tr>
+<tr>
+<td>plugin</td>
+<td>PolarPlugin</td>
+<td>The plugin that should be part of the icon menu.</td>
+</tr>
+<tr>
+<td>hint</td>
+<td>string?</td>
+<td>Overrides the default hint displayed for the icon menu button.</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>string?</td>
+<td>Icon for icon menu button. If given, render a button with the icon. When clicked, open the content of the configured plugin. If not given, render the plugin content as is inside the IconMenu. Current examples for the usage without icon include Zoom and Fullscreen.</td>
+</tr>
+</tbody>
+</table>
+<p>Example Configuration:</p>
+<pre><code class="language-js">{
+  menus: [
+    {
+      plugin: PolarPluginLayerChooser({}),
+      icon: 'fa-layer-group',
+      id: 'layerChooser',
+    },
+    {
+      plugin: PolarPluginDraw({}),
+      icon: 'fa-pencil',
+      id: 'draw',
+      hint: 'Draw or write something on the map'
     },
   ],
 }
 </code></pre>
-<h3 id="menus" tabindex="-1">menus</h3>
+<h2 id="modes" tabindex="-1">Modes</h2>
 <p>When landscape mode is active the IconMenu is oriented horizontally. Currently, the IconMenu works fine only if there is not more than one row of Icons in landscape mode.</p>
 
     
