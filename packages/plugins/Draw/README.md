@@ -27,15 +27,20 @@ To delete the text, the user must either click on the point at the center of the
 
 ## Configuration
 
-The styling of the drawn features can be configured to overwrite the default ol-style. Configuration is oriented around the [OpenLayers styles](https://openlayers.org/en/latest/apidoc/module-ol_style_Style.html#~StyleLike).
+The styling of the drawn features can be configured to overwrite the default ol-style. Configuration is oriented around the [OpenLayers styles](https://openlayers.org/en/latest/apidoc/module-ol_style_Style.html#~StyleLike) and the [vector styling of the masterportalAPI](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/src/vectorStyle/). 
 
 ### draw
 
 | fieldName | type | description |
 | - | - | - |
+| circleStyle | CircleStyle? | Styling Object to style circle features. Defaults to OpenLayers Style. |
+| lineStringStyle | LineStringStyle? | Styling Object to style linestring features. Defaults to OpenLayers Style. |
+| pointStyle | PointStyle? | Styling Object to style point features. Defaults to OpenLayers Style. |
+| polygonStyle | PolygonStyle? | Styling Object to style polygon features. Defaults to OpenLayers Style. |
 | selectableDrawModes | string[]? | List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default. |
-| style | style? | Please see example below for styling options. Defaults to standard OpenLayers styling. |
-| textStyle | object? | Use this object with properties 'font' and 'textColor' to style text feature. |
+| textStyle | TextStyle? | Use this object with properties 'font' and 'textColor' to style text feature. |
+
+Please note that the configuration of `circleStyle`, `lineStringStyle`, `pointStyle` and `polygonStyle` without all or some of their parameters result in the default style of the `masterportalApi` vectorStyling, which differs from the OpenLayers default style.
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
@@ -51,23 +56,112 @@ draw: {
       family: 'Arial',
     },
   },
-  style: {
-    fill: { 
-      color: 'rgba(255, 255, 255, 0.5)' 
-    },
-    stroke: {
-      color: '#e51313',
-      width: 2,
-    },
-    circle: {
-      radius: 7,
-      fillColor: '#e51313',
-    },
+  polygonStyle: {
+    polygonStrokeColor: [255, 165, 0, 1],
+    polygonStrokeWidth: 2,
+    polygonStrokeCap: 'round',
+    polygonStrokeJoin: 'round',
+    polygonStrokeDash: [2, 4],
+    polygonStrokeDashOffset: 0,
+    polygonStrokeMiterLimit: 10,
+    polygonFillColor:  [10, 200, 0, 0.5],
   },
-},
+  pointStyle: {
+    type: 'circle',
+    circleFillColor: [255, 165, 0, 1],
+    circleStrokeWidth: 2,
+    circleRadius: 10,
+  },
+  circleStyle: {
+    circleFillColor: [0, 255, 0, 0.5],
+    circleStrokeWidth: 5,
+    circleStrokeColor: [0, 0, 0, 1],
+  },
+}
 ```
 
 </details>
+
+##### draw.circleStyle
+
+| fieldName | type | description |
+| - | - | - |
+| circleFillColor | number[]? | Circle fill color as rgba. Defaults to `[0, 153, 255, 1]`. |
+| circleStrokeColor | number[]? | Circle stroke color as rgba. Defaults to `2`. |
+| circleStrokeWidth | number? | Circle stroke width. Defaults to `[0, 0, 0, 1]`. |
+
+Example configuration:
+```js
+circleStyle: {
+  circleStrokeColor?: [0, 255, 0, 0.5],
+  circleStrokeWidth?: 5,
+  circleFillColor?: [0, 0, 0, 1],
+}
+```
+
+##### draw.lineStringStyle
+
+For configurations, see the Masterportal's documentation file [style.json.md, section LineString](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md#markdown-header-linestring).
+
+Example configuration:
+```js
+lineStringStyle: {
+  lineStrokeColor: [255, 165, 0, 1],
+  lineStrokeWidth: 3,
+  lineStrokeCap: 'round',
+  lineStrokeJoin: 'miter',
+  lineStrokeDash: [1, 2, 1],
+  lineStrokeDashOffset: 5,
+  lineStrokeMiterLimit: 8,
+}
+```
+
+##### draw.pointStyle
+
+| fieldName | type | description |
+| - | - | - |
+| imageName | string? | Path to an image, must be defined if type is `'icon'`. |
+| type | ('circle' \| 'icon')? | The type of the point style. This defines which parameters should  be configured. `'icon'` allows to set an image for the point style. `'circle'` displays the Point as circle with a given radius. Defaults to `'circle'`.|
+
+For more configurations for the icon point, see the Masterportal's documentation file [style.json.md, section Point.Icon](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md#markdown-header-pointicon). For more configurations for the circle point, see [section Point.Circle](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md#markdown-header-pointcircle). 
+
+Example configuration:
+```js
+pointStyle: {
+  type: 'icon',
+  imageName: 'http://simpleicon.com/wp-content/uploads/map-marker-17.png',
+  imageWidth: 0.5,
+  imageHeight: 0.5,
+  imageScale: 0.1,
+  imageOffsetX: 1,
+  imageOffsetY: 1,
+  imageOffsetXUnit: 'pixels',
+  imageOffsetYUnit: 'pixels',
+  rotation: {
+    isDegree: false,
+    value: 0,
+   },
+}
+```
+
+##### draw.polygonStyle
+
+For configurations, see the Masterportal's documentation file [style.json.md, section Polygon](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md#markdown-header-polygon).
+
+Example configuration:
+```js
+polygonStyle: {
+  polygonStrokeColor: [255, 165, 0, 1],
+  polygonStrokeWidth: 2,
+  polygonFillHatch: {
+    pattern: 'diagonal',
+    lineWidth: 10,
+    size: 30,
+    backgroundColor: [10, 200, 0, 0.5],
+    patternColor: [255, 255, 255, 1],
+  },
+}
+```
 
 ##### draw.textStyle
 
@@ -84,7 +178,7 @@ textStyle: {
 }
 ```
 
-##### draw.textStyle.font
+###### draw.textStyle.font
 
 | fieldName | type | description |
 | - | - | - |
@@ -97,32 +191,6 @@ font: {
   size: [10.5, 20, 30.5, 35],
   family: 'serif'
 },
-```
-
-#### draw.style (by example)
-
-The `@masterportal/masterportalapi` has vectorStyles in development. As soon as that's done, we shall use its styling syntax and methods.
-
-For the time being, please use this example as a rough reference as to what can currently be done.
-
-```js
-{
-  draw: {
-    style: {
-      fill: {
-        color: 'rgba(255, 255, 255, 0.5)'
-      },
-      stroke: {
-        color: '#e51313',
-        width: 2
-      },
-      circle: {
-        radius: 7,
-        fillColor: '#e51313'
-      }
-    },
-  }
-}
 ```
 
 ## Store
