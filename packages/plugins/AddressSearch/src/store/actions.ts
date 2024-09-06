@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce'
 import { FeatureCollection } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
-import SearchResultSymbols from '../utils/searchResultSymbols'
+import { SearchResultSymbols } from '../'
 import { getMethodContainer } from '../utils/searchMethods/getSearchMethod'
 import {
   AddressSearchGetters,

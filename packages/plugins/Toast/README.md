@@ -66,11 +66,11 @@ map.$store.dispatch('plugin/toast/addToast', payload)
 
 | fieldName | type | description |
 | - | - | - |
-| type | enum['error', 'warning', 'info', 'success'] | Decides the default toast colouring and icon. |
 | text | string | Textual user information. This may either be a user-readable string or a translation key. |
 | timeout | number | Any positive non-null number will be used as ms until the toast is closed. 0 means no timeout. |
-| color | ?string | See {toast.toastStyle}. Overrides setting for this toast only. |
-| icon | ?string | See {toast.toastStyle}. Overrides setting for this toast only. |
+| type | enum['error', 'warning', 'info', 'success'] | Decides the default toast colouring and icon. |
+| color | string? | See {toast.toastStyle}. Overrides setting for this toast only. |
+| icon | string? | See {toast.toastStyle}. Overrides setting for this toast only. |
 
 #### Usage example
 

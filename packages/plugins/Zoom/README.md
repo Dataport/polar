@@ -34,9 +34,9 @@ The map's zoom level can be listened to.
 
 | fieldName | type | description |
 | - | - | - |
-| zoomLevel | number | Current OpenLayers zoom level. |
 | maximumZoomLevel | number | Maximum OpenLayers zoom level. |
 | minimumZoomLevel | number | Minimum OpenLayers zoom level. |
+| zoomLevel | number | Current OpenLayers zoom level. |
 
 ```js
 map.subscribe('plugin/zoom/zoomLevel', (zoomLevel) => {

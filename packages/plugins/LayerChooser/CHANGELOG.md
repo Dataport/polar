@@ -6,6 +6,7 @@
 - Fix: An outdated warning has been removed.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Fix: Some type issues have been resolved.
+- Fix: Add missing peerDependencies `@masterportal/masterportalapi@2.40.0` and `ol@^9.2.4`.
 
 ## 1.2.0
 

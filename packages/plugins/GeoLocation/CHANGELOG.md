@@ -3,6 +3,7 @@
 ## unpublished
 
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Fix: Add missing peerDependency `ol@^9.2.4`.
 
 ## 1.3.1
 

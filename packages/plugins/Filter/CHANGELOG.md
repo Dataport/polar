@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Breaking: Upgrade peerDependency `ol` from `^7.1.0` to `^9.2.4`.
+- Chore: Remove unused peerDependency `@masterportal/masterportalapi`.
+
 ## 1.1.2
 
 - Fix: Features with categories that are not listed in `knownValues` are never displayed now. Previously, they were initially visible, but disappeared once any filter was touched.
