@@ -8,6 +8,9 @@
 - Feature: There is now a new optional configuration parameter `searchMethods.queryParameters.likeFilterAttributes` for the WfsSearch that allows to add custom key/value pairs which are mapped to attributes of the like filter operator.
 - Feature: When using the search type `mpapi`, a second search using a wildcard is now being triggered when the first search yielded no results.
 - Fix: Adjust documentation and types to properly describe optionality of configuration parameters.
+- Fix: `SearchResultSymbols` has been additionally exposed as root export since using packages frequently rely on it.
+- Chore: expand on the description to `afterResultComponent` in the Readme.md.
+- Chore: Clarify the description to `addLoading` and `removeLoading` within the readme.
 
 ## 1.2.1
 
