@@ -11,6 +11,7 @@
 - Fix: Use correct getter for `minLength`.
 - Fix: `SearchResultSymbols` has been additionally exposed as root export since using packages frequently rely on it.
 - Chore: expand on the description to `afterResultComponent` in the Readme.md.
+- Chore: Clarify the description to `addLoading` and `removeLoading` within the readme.
 
 ## 1.2.1
 
