@@ -37,7 +37,7 @@ export default function (
     }
     const style = configuration.draw
       ? configuration.draw[
-          drawMode.charAt(0).toLowerCase() + drawMode.slice(1) + 'Style'
+          `${drawMode.charAt(0).toLowerCase()}${drawMode.slice(1)}Style`
         ]
       : undefined
     const draw = new Draw({ source: drawSource, type: drawMode })
