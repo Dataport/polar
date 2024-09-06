@@ -42,6 +42,8 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 <summary>Example configuration</summary>
 
 ```js
+import Component from './component.vue'
+
 addressSearch: {
   searchMethods: [
     {
@@ -74,6 +76,7 @@ addressSearch: {
       },
     }
   ],
+  afterResultComponent: Component,
   groupProperties: {
     defaultGroup: {
       limitResults: 5,
