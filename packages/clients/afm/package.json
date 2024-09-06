@@ -41,7 +41,6 @@
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "^7.x",
     "vue": "^2.x",
     "vuex": "^3.x",
     "lodash.merge": "^4.6.2"
