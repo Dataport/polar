@@ -45,7 +45,7 @@
 <tr>
 <td>addLoading</td>
 <td>string?</td>
-<td>Points to an action in the store; commited with a loading key as payload on starting reverse geocoding.</td>
+<td>Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when starting asynchronous procedures that are intended to be communicated to the user.</td>
 </tr>
 <tr>
 <td>addressTarget</td>
@@ -60,7 +60,7 @@
 <tr>
 <td>removeLoading</td>
 <td>string?</td>
-<td>Points to an action in the store; commited with a loading key as payload on finishing reverse geocoding.</td>
+<td>Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when finishing asynchronous procedures that are intended to be communicated to the user.</td>
 </tr>
 <tr>
 <td>zoomTo</td>

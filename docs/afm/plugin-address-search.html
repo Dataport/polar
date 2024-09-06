@@ -54,7 +54,7 @@
 <tr>
 <td>addLoading</td>
 <td>string?</td>
-<td>Optional loading action name to start loading.</td>
+<td>Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when starting asynchronous procedures that are intended to be communicated to the user.</td>
 </tr>
 <tr>
 <td>afterResultComponent</td>
@@ -94,7 +94,7 @@
 <tr>
 <td>removeLoading</td>
 <td>string?</td>
-<td>Optional loading action name to end loading.</td>
+<td>Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when finishing asynchronous procedures that are intended to be communicated to the user.</td>
 </tr>
 <tr>
 <td>waitMs</td>
@@ -488,7 +488,7 @@ queryParameters: {
 </table>
 <h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Ampapi)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:mpapi)</h5>
 <blockquote>
-<p><strong>Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">masterportalApi</a>. This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.</strong></p>
+<p><strong>Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">masterportalapi</a>. This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.</strong></p>
 </blockquote>
 <table>
 <thead>
