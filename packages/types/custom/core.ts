@@ -109,7 +109,7 @@ export interface AddressSearchConfiguration extends PluginOptions {
   customSearchMethods?: Record<string, SearchMethodFunction>
   /** NOTE regarding \<unknown, unknown\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here */
   // optional selectResult overrides (client-side injections)
-  customSelectResult?: Record<string, SelectResultFunction<any, any>>
+  customSelectResult?: Record<string, SelectResultFunction<unknown, unknown>>
   focusAfterSearch?: boolean
   // definition of groups referred to in searchMethods
   groupProperties?: Record<string, AddressSearchGroupProperties>
