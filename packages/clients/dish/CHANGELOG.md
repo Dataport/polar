@@ -6,6 +6,7 @@
 - Fix: Extend typing for search result function according to type package update.
 - Fix: Import types `AddressSearchState` and `AddressSearchGetters` from correct position.
 - Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
+- Fix: Import enum `SearchResultSymbols` from correct position.
 
 ## 1.1.1
 

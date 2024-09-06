@@ -1,5 +1,5 @@
 import { SelectResultFunction } from '@polar/lib-custom-types'
-import SearchResultSymbols from '@polar/plugin-address-search/src/utils/searchResultSymbols'
+import { SearchResultSymbols } from '@polar/plugin-address-search'
 import levenshtein from 'js-levenshtein'
 import {
   AddressSearchGetters,
