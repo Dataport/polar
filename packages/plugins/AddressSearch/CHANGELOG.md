@@ -5,8 +5,8 @@
 - Feature: Add title internationalization; i.e. features may now contain locale keys as titles.
 - Feature: Add new optional configuration parameter `afterResultComponent` that allows to display a custom component for each search result.
 - Feature: There is now a new optional configuration parameter `searchMethods.queryParameters.likeFilterAttributes` for the WfsSearch that allows to add custom key/value pairs which are mapped to attributes of the like filter operator.
+- Feature: `AddressSearchState`, `AddressSearchGetters`, and `MpApiParameters` types have been additionally exposed as root export since using packages frequently rely on them.
 - Fix: Adjust documentation and types to properly describe optionality of configuration parameters.
-- Fix: `AddressSearchState`, `AddressSearchGetters`, and `MpApiParameters` types have been additionally exposed as root export since using packages frequently rely on them.
 
 ## 1.2.1
 
