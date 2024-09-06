@@ -6,6 +6,18 @@ import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 import createDeleteInteractions from './createDeleteInteractions'
 import createTextInteractions from './createTextInteractions'
 
+// prevent unhelpful warning from masterportalapi because POLAR does not have a config.js
+const originalConsoleWarn = console.warn
+console.warn = function (message: string) {
+  if (
+    typeof message === 'string' &&
+    message.includes('wfsImgPath at Config.js is not defined')
+  ) {
+    return
+  }
+  originalConsoleWarn.apply(console, [message])
+}
+
 export default function (
   {
     dispatch,
