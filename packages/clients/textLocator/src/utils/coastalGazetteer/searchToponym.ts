@@ -1,12 +1,12 @@
 import { FeatureCollection } from 'geojson'
 import { Map } from 'ol'
 import { PolarStore, SelectResultFunction } from '@polar/lib-custom-types'
-import { SearchResultSymbols } from '@polar/plugin-address-search'
-import VectorSource from 'ol/source/Vector'
 import {
+  SearchResultSymbols,
   AddressSearchGetters,
   AddressSearchState,
 } from '@polar/plugin-address-search'
+import VectorSource from 'ol/source/Vector'
 import {
   GeometrySearchGetters,
   GeometrySearchState,

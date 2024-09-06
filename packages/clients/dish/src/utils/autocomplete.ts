@@ -1,10 +1,10 @@
 import { SelectResultFunction } from '@polar/lib-custom-types'
-import { SearchResultSymbols } from '@polar/plugin-address-search'
-import levenshtein from 'js-levenshtein'
 import {
+  SearchResultSymbols,
   AddressSearchGetters,
   AddressSearchState,
 } from '@polar/plugin-address-search'
+import levenshtein from 'js-levenshtein'
 import { dishAutocompleteUrl } from '../services'
 import { DishAutocompleteFunction } from '../types'
 
