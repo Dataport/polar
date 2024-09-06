@@ -71,8 +71,8 @@
 </tr>
 <tr>
 <td>gfiContentComponent</td>
-<td>Vue?</td>
-<td>Allows overriding the GfiContent.vue component for a custom design. Coding knowledge required to use this feature.</td>
+<td>VueConstructor?</td>
+<td>Allows overriding the GfiContent.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model. Please refer to the implementation.</td>
 </tr>
 <tr>
 <td>maxFeatures</td>
@@ -94,7 +94,9 @@
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/meldemichel/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
 <details>
 <summary>Example configuration</summary>
-<pre><code class="language-ts">gfi: {
+<pre><code class="language-ts">import Component from '.component/vue'
+
+gfi: {
   mode: 'bboxDot',
   activeLayerPath: 'plugin/layerChooser/activeMaskIds',
   afterLoadFunction: afterLoadFunction,
@@ -120,6 +122,7 @@
       color: 'rgb(255, 255, 255, 0.7)',
     },
   },
+  gfiContentComponent: Component,
 }
 
 function afterLoadFunction(featuresByLayerId: Record&lt;string, GeoJsonFeature[]&gt;): Record&lt;string, GeoJsonFeature[]&gt; {

@@ -106,7 +106,9 @@
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/generic/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
 <details>
 <summary>Example configuration</summary>
-<pre><code class="language-js">addressSearch: {
+<pre><code class="language-js">import Component from './component.vue'
+
+addressSearch: {
   searchMethods: [
     {
       queryParameters: {
@@ -138,6 +140,7 @@
       },
     }
   ],
+  afterResultComponent: Component,
   groupProperties: {
     defaultGroup: {
       limitResults: 5,
