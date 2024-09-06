@@ -107,7 +107,7 @@ export interface AddressSearchConfiguration extends PluginOptions {
   categoryProperties?: Record<string, AddressSearchCategoryProperties>
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
-  /** NOTE regarding \<any, any\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here */
+  /** NOTE regarding \<unknown, unknown\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here */
   // optional selectResult overrides (client-side injections)
   customSelectResult?: Record<string, SelectResultFunction<any, any>>
   focusAfterSearch?: boolean
