@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Replace `DrawStyle` and `PolarCircleStyle` with `PointStyle`, `PolygonStyle`, `CircleStyle` and `LineStringStyle`.
 - Feature: Add new interface `ScaleConfiguration` and new property `scale` to `mapConfiguration`.
 - Feature: Add `afterResultComponent` to `AddressSearchConfiguration` for custom search result suffixes.
 - Feature: Add `mapHasDimensions` to `CoreState` and `CoreGetters`.
