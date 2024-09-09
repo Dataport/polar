@@ -1,5 +1,6 @@
 import { Feature, Map } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
+import VectorSource from 'ol/source/Vector'
 
 // returns feature if it's a cluster feature, or the cluster the feature is in.
 export default function (map: Map, feature: Feature, layerId: string): Feature {
@@ -18,8 +19,8 @@ export default function (map: Map, feature: Feature, layerId: string): Feature {
     )
   }
 
-  const cluster = layer
-    .getSource()
+  // If the layer can be found, it has a source
+  const cluster = (layer.getSource() as VectorSource)
     .getFeatures()
     .find((candidate: Feature) => candidate.get('features').includes(feature))
 
