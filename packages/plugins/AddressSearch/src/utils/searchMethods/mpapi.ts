@@ -41,16 +41,25 @@ export default async function (
   setGazetteerUrl(url)
 
   try {
-    const results = await search(input, {
+    let results = await search(input, {
       ...queryParameters,
+      searchStreetBeforeWord: false,
       // always trigger search – control done on a higher level as minLength
       minCharacters: 0,
     })
 
+    // If no results were found without using the wildcard, try again with the wildcard
     if (results.length === 0) {
-      return {
-        type: 'FeatureCollection',
-        features: [],
+      results = await search(input, {
+        ...queryParameters,
+        // always trigger search – control done on a higher level as minLength
+        minCharacters: 0,
+      })
+      if (results.length === 0) {
+        return {
+          type: 'FeatureCollection',
+          features: [],
+        }
       }
     }
 

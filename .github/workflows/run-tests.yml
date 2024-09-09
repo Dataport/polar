@@ -6,10 +6,10 @@ jobs:
   lint-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.13.0
+          node-version: 20.16.0
           registry-url: https://registry.npmjs.org/
       - run: |
           npm ci
