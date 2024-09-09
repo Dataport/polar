@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Breaking: Upgrade peerDependency `ol` from `^7.1.0` to `^9.2.4`.
 - Feature: Add the option to configure a scale switcher via the new configuration parameters `showScaleSwitcher` and `zoomMethod`.
 - Update: fix background-colors to use CSS variables.
 

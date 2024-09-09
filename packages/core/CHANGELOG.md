@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Breaking: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.
 - Feature: Add new state parameter `mapHasDimensions` to let plugins have a "hook" to react on when the map is ready.
 - Feature: Add `deviceIsHorizontal` as a getter to have a more central place to check if the device is in landscape mode.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
