@@ -1,5 +1,10 @@
 # Changelog
 
+## unpublished
+
+- Breaking: Upgrade peerDependency `ol` from `^7.1.0` to `^9.2.4`.
+- Chore: Clarify the description to `addLoading` and `removeLoading` within the readme.
+
 ## 1.2.0
 
 - Feature: Improved implementation to make plugin SPA-ready.
