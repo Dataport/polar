@@ -207,9 +207,6 @@ export const makeStore = () => {
       addError: (state, error: PolarError) => {
         state.errors.push(error)
       },
-      setTheme(state, theme) {
-        state.theme = theme
-      },
     },
     actions: {
       checkServiceAvailability,

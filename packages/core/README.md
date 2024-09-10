@@ -351,7 +351,6 @@ Additionally to the regular fields, `primaryContrast` and `secondaryContrast` ar
 }
 ```
 
-#### dark theme
 
 To enable an additional dark theme, simply add `dark` under the `light` theme as follows below:
 
@@ -373,9 +372,6 @@ To enable an additional dark theme, simply add `dark` under the `light` theme as
     },
   },
 ```
-
-The theme can either be activated directly by setting `dark: true` within the `theme`-object or by calling the `setTheme` method within the store.
-
 
 
 ## Store
@@ -410,20 +406,10 @@ To add content to the `MoveHandle`, the mutation `setMoveHandle` can be used. Th
 This can be used to change the theme.
 
 ```js
-setTheme(state, theme) {
-        state.theme = theme
-      },
+client.$store.commit('setTheme', 'dark')
 ```
 
 | fieldname | type | description |
 | - | - | - |
 | theme | enum['light', 'dark'] | By default the theme is set to 'light'. Setting theme to 'dark' will render the default 'dark' theme. |
 
-### Actions
-
-```js
-changeTheme({ commit }, theme) {
-        commit('setTheme', theme)
-        recolor(theme)
-      },
-```
