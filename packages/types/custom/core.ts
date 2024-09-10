@@ -19,7 +19,7 @@ import {
   SubscribeOptions,
 } from 'vuex'
 import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
-import Vue, { VueConstructor, WatchOptions } from 'vue'
+import { VueConstructor, WatchOptions } from 'vue'
 
 /**
  *
@@ -341,7 +341,7 @@ export interface GfiConfiguration extends PluginOptions {
    * Optionally replace GfiContent component.
    * Usable to completely redesign content of GFI window.
    */
-  gfiContentComponent?: Vue
+  gfiContentComponent?: VueConstructor
   /**
    * Limits the viewable GFIs per layer by this number. The first n elements
    * are chosen arbitrarily. Useful if you e.g. just want one result, or to
@@ -621,7 +621,7 @@ type MoveHandleProps = object
 export interface MoveHandleProperties {
   closeLabel: string
   closeFunction: (...args: unknown[]) => unknown
-  component: Vue
+  component: VueConstructor
   // Plugin that added the moveHandle
   plugin: string
   closeIcon?: string
@@ -629,7 +629,7 @@ export interface MoveHandleProperties {
 }
 
 export interface MoveHandleActionButton {
-  component: Vue
+  component: VueConstructor
   props?: MoveHandleProps
 }
 
