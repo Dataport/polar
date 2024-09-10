@@ -67,6 +67,8 @@ export interface GazetteerParameters extends QueryParameters {
 
 // Specific queryParameters used for the gazetteer search implemented in the masterportalAPI
 export interface MpApiParameters extends QueryParameters {
+  /** Currently used projection of the map */
+  epsg: `EPSG:${string}`
   // Whether to search for a whole address
   searchAddress?: boolean
   // Whether to search for districts
