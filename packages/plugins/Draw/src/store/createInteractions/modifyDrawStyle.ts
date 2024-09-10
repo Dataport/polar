@@ -13,7 +13,7 @@ export default function (
     // @ts-expect-error | For some reason getStroke is not defined on the type but is callable.
     strokeColor = featureStyle.getImage().getStroke().getColor()
   } else {
-    strokeColor = featureStyle.getStroke().getColor()
+    strokeColor = featureStyle.getStroke()?.getColor() || 'black'
   }
   commit('setSelectedStrokeColor', strokeColor)
 }
