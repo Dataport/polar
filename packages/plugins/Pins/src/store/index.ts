@@ -8,7 +8,6 @@ import { Draw, Modify, Select, Translate } from 'ol/interaction'
 import { PinsConfiguration, PolarModule } from '@polar/lib-custom-types'
 import { toLonLat, transform } from 'ol/proj'
 import { pointerMove } from 'ol/events/condition'
-import { Geometry } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
 import { PinsState, PinsGetters } from '../types'
 import getPointCoordinate from '../util/getPointCoordinate'
@@ -19,7 +18,7 @@ import getters from './getters'
 // OK for module creation
 // eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
-  let pinsLayer: VectorLayer<Vector<Geometry>>
+  let pinsLayer: VectorLayer<Feature<Point>>
   const move = new Select({
     layers: (l) => l === pinsLayer,
     style: null,
