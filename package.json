@@ -36,6 +36,7 @@
     "lint": "npx eslint . --cache --ext .js,.ts,.vue",
     "lint:ci": "npx eslint . --ext .js,.ts,.vue",
     "lint:fix": "npx eslint . --fix --cache --ext .js,.ts,.vue",
+    "tsc:ci": "tsc -P tsconfig.ci.json",
     "postinstall": "lerna bootstrap --hoist",
     "publishPackages": "node ./scripts/publishPackages",
     "test": "jest",
