@@ -17,8 +17,7 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
-    "build:test": "rimraf dist && vite build && bash ./scripts/injectFlag.sh"
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist"
   },
   "devDependencies": {
     "@polar/core": "^1.4.1",
