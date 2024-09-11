@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { PolarActionTree } from '@polar/lib-custom-types'
 import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
@@ -124,6 +125,8 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       geolocation,
       configuredEpsg,
       position,
+      boundaryCheck,
+      boundaryCheckChanged,
     },
     commit,
     dispatch,
@@ -143,6 +146,8 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       boundaryLayerId,
       transformedCoords
     )
+    commit('setBoundaryCheckChanged', boundaryCheck !== boundaryCheckPassed)
+    commit('setBoundaryCheck', boundaryCheckPassed)
     const showBoundaryLayerError =
       typeof boundaryCheckPassed === 'symbol' && boundaryOnError === 'strict'
     if (!coordinateInExtent || showBoundaryLayerError) {
@@ -153,7 +158,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
     if (positionChanged(position, transformedCoords)) {
       commit('setPosition', transformedCoords)
       dispatch('addMarker', transformedCoords)
-      if (!boundaryCheckPassed) {
+      if (boundaryCheckChanged) {
         dispatch('printPositioningFailed', false)
       }
     }
