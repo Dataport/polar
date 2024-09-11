@@ -15,7 +15,7 @@
         <v-tooltip left :disabled="hasSmallDisplay">
           <template #activator="{ on, attrs }">
             <v-btn
-              :color="open === index ? 'primaryContrast' : 'primary'"
+              :class="open === index ? 'openButton' : 'closedButton'"
               fab
               small
               :aria-label="
@@ -25,7 +25,7 @@
               @click="toggle(Number(index))"
               v-on="on"
             >
-              <v-icon :color="open === index ? 'primary' : 'primaryContrast'">
+              <v-icon :class="open === index ? 'openButton' : 'closedButton'">
                 {{ icon }}
               </v-icon>
             </v-btn>
@@ -186,5 +186,21 @@ export default Vue.extend({
     top: -2px;
     right: -2px;
   }
+}
+
+.openButton {
+  background: var(--polar-primary);
+  color: var(--polar-primary-contrast);
+  border-color: var(--polar-primary);
+  box-shadow: var(--polar-primary);
+  outline: var(--polar-primary);
+}
+
+.closedButton {
+  background-color: var(--polar-primary);
+  color: var(--polar-primary-contrast);
+  border-color: var(--polar-primary);
+  box-shadow: var(--polar-primary);
+  outline: var(--polar-primary);
 }
 </style>
