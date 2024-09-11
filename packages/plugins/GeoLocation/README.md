@@ -12,8 +12,8 @@ either `true` or `false`. When a users denies the location tracking, the button 
 
 | fieldName | type | description |
 | - | - | - |
-| boundaryLayerId | string? | Id of a vector layer to restrict geolocation markers and zooms to. When geolocation outside of its features occurs, an information will be shown. When loading the boundary layer, the map will wait at most 10s; should it not happen, the geolocation feature is turned off. |
-| boundaryOnError | ('strict' \| 'permissive')? | If the boundary layer check does not work due to loading or configuration errors, style `'strict'` will disable the geolocation feature, and style `'permissive'` will act as if no boundaryLayerId was set.  Defaults to `'permissive'`. |
+| boundaryLayerId | string? | Id of a vector layer to restrict geolocation markers and zooms to. When geolocation outside of its features occurs, a single information will be shown. When loading the boundary layer, the map will wait at most 10s; should it not happen, the geolocation feature is turned off. |
+| boundaryOnError | ('strict' \| 'permissive')? | If the boundary layer check does not work due to loading or configuration errors, style `'strict'` will disable the geolocation feature, and style `'permissive'` will act as if no boundaryLayerId was set. Defaults to `'permissive'`. |
 | checkLocationInitially | boolean? | If `true` the location gets checked on page load. When `false` this can be triggered with a button. Defaults to `false`. |
 | keepCentered | boolean? | If `true`, the map will re-center on the user on any position change. If `false`, only the first position will be centered on. Defaults to `false`. |
 | renderType | 'iconMenu' \| 'independent'? | If nested in `IconMenu`, select 'iconMenu' to match styling. Defaults to 'independent'. |
