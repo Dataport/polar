@@ -1,7 +1,11 @@
 // some names are defined by the environment
 /* eslint-disable camelcase */
 
-import { PolarModule } from '@polar/lib-custom-types'
+import {
+  AddressSearchConfiguration,
+  PolarModule,
+} from '@polar/lib-custom-types'
+import { AddressSearchState } from '@polar/plugin-address-search'
 
 interface SetMapStatePayload {
   mapCenter?: string // resembling 'number,number'
