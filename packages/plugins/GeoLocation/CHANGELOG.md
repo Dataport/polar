@@ -3,7 +3,7 @@
 ## unpublished
 
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
-- Feature: Position is now tracked when user is outside of the boundary layer.
+- Feature: Position is now tracked when user is outside of the boundary layer but inside the map extent.
 
 ## 1.3.1
 
