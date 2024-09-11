@@ -158,7 +158,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
     if (positionChanged(position, transformedCoords)) {
       commit('setPosition', transformedCoords)
       dispatch('addMarker', transformedCoords)
-      if (boundaryCheckChanged) {
+      if (boundaryCheckChanged && !boundaryCheckPassed) {
         dispatch('printPositioningFailed', false)
       }
     }
