@@ -345,23 +345,6 @@ Additionally to the regular fields, `primaryContrast` and `secondaryContrast` ar
         primaryContrast: "white",
         secondary: "#c0ffee",
         secondaryContrast: "#de1e7e"
-      }
-    }
-  }
-}
-```
-
-
-To enable an additional dark theme, simply add `dark` under the `light` theme as follows below:
-
-```js
- theme: {
-    themes: {
-      light: {
-        primary: 'black',
-        primaryContrast: 'white',
-        secondary: '#c0ffee',
-        secondaryContrast: '#de1e7e',
       },
       dark: {
         primary: 'white',
@@ -369,10 +352,10 @@ To enable an additional dark theme, simply add `dark` under the `light` theme as
         secondary: '#de1e7e',
         secondaryContrast: '#c0ffee',
       },
-    },
-  },
+    }
+  }
+}
 ```
-
 
 ## Store
 
