@@ -1,5 +1,5 @@
 import { generateSimpleGetters } from '@repositoryname/vuex-generators'
-import { rawLayerList } from '@masterportal/masterportalapi/src'
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { Module } from 'vuex'
 import WMSCapabilities from 'ol/format/WMSCapabilities'
 

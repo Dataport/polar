@@ -6,7 +6,7 @@ import Overlay from 'ol/Overlay'
 import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
 import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
-import { rawLayerList } from '@masterportal/masterportalapi/src'
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import getCluster from '@polar/lib-get-cluster'
 import { isVisible } from '@polar/lib-invisible-style'
@@ -258,7 +258,7 @@ export const makeActions = () => {
           rootGetters: { map, configuration },
           getters: { layerKeys, geometryLayerKeys, afterLoadFunction },
         },
-        coordinate: Coordinate
+        coordinate: [number, number]
       ): Promise<void> => {
         // fetch new feature information for all configured layers
         const promisedFeatures: Promise<GeoJsonFeature[]>[] = layerKeys.map(

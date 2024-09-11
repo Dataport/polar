@@ -19,7 +19,7 @@ import {
   SubscribeOptions,
 } from 'vuex'
 import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
-import Vue, { VueConstructor, WatchOptions } from 'vue'
+import { VueConstructor, WatchOptions } from 'vue'
 
 /**
  *
@@ -69,13 +69,13 @@ export type SearchMethodFunction = (
 ) => Promise<FeatureCollection> | never
 
 export interface SelectResultPayload {
-  feature: GeoJsonFeature
+  feature: GeoJsonFeature & { title: string }
   categoryId: number
 }
 
-export type SelectResultFunction = (
-  PolarActionContext,
-  SelectResultPayload
+export type SelectResultFunction<S, G> = (
+  context: PolarActionContext<S, G>,
+  payload: SelectResultPayload
 ) => void
 
 /**
@@ -107,8 +107,9 @@ export interface AddressSearchConfiguration extends PluginOptions {
   categoryProperties?: Record<string, AddressSearchCategoryProperties>
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
+  /** NOTE regarding \<unknown, unknown\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here */
   // optional selectResult overrides (client-side injections)
-  customSelectResult?: Record<string, SelectResultFunction>
+  customSelectResult?: Record<string, SelectResultFunction<unknown, unknown>>
   focusAfterSearch?: boolean
   // definition of groups referred to in searchMethods
   groupProperties?: Record<string, AddressSearchGroupProperties>
@@ -341,7 +342,7 @@ export interface GfiConfiguration extends PluginOptions {
    * Optionally replace GfiContent component.
    * Usable to completely redesign content of GFI window.
    */
-  gfiContentComponent?: Vue
+  gfiContentComponent?: VueConstructor
   /**
    * Limits the viewable GFIs per layer by this number. The first n elements
    * are chosen arbitrarily. Useful if you e.g. just want one result, or to
@@ -621,7 +622,7 @@ type MoveHandleProps = object
 export interface MoveHandleProperties {
   closeLabel: string
   closeFunction: (...args: unknown[]) => unknown
-  component: Vue
+  component: VueConstructor
   // Plugin that added the moveHandle
   plugin: string
   closeIcon?: string
@@ -629,7 +630,7 @@ export interface MoveHandleProperties {
 }
 
 export interface MoveHandleActionButton {
-  component: Vue
+  component: VueConstructor
   props?: MoveHandleProps
 }
 
