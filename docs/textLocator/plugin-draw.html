@@ -52,6 +52,11 @@
 </thead>
 <tbody>
 <tr>
+<td>enableOptions</td>
+<td>boolean?</td>
+<td>If <code>true</code>, draw options are displayed, like choosing and changing stroke color. Not available for texts features. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
 <td>selectableDrawModes</td>
 <td>string[]?</td>
 <td>List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default.</td>
@@ -63,7 +68,7 @@
 </tr>
 <tr>
 <td>textStyle</td>
-<td>object?</td>
+<td>textStyle?</td>
 <td>Use this object with properties 'font' and 'textColor' to style text feature.</td>
 </tr>
 </tbody>
@@ -156,6 +161,7 @@
 <p>For the time being, please use this example as a rough reference as to what can currently be done.</p>
 <pre><code class="language-js">{
   draw: {
+    enableOptions: true,
     style: {
       fill: {
         color: 'rgba(255, 255, 255, 0.5)'
