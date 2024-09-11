@@ -83,13 +83,13 @@ export type SearchMethodFunction = (
 ) => Promise<FeatureCollection> | never
 
 export interface SelectResultPayload {
-  feature: GeoJsonFeature
+  feature: GeoJsonFeature & { title: string }
   categoryId: number
 }
 
-export type SelectResultFunction = (
-  PolarActionContext,
-  SelectResultPayload
+export type SelectResultFunction<S, G> = (
+  context: PolarActionContext<S, G>,
+  payload: SelectResultPayload
 ) => void
 
 /**
@@ -121,8 +121,9 @@ export interface AddressSearchConfiguration extends PluginOptions {
   categoryProperties?: Record<string, AddressSearchCategoryProperties>
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
+  /** NOTE regarding \<unknown, unknown\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here */
   // optional selectResult overrides (client-side injections)
-  customSelectResult?: Record<string, SelectResultFunction>
+  customSelectResult?: Record<string, SelectResultFunction<unknown, unknown>>
   focusAfterSearch?: boolean
   // definition of groups referred to in searchMethods
   groupProperties?: Record<string, AddressSearchGroupProperties>
