@@ -16,6 +16,7 @@
         :values="selectableDrawModes"
         :change-callback="setDrawMode"
       ></RadioCard>
+      <DrawOptions v-if="showDrawOptions" />
       <v-subheader v-if="showSizeSlider" class="align-end">{{
         $t('common:plugins.draw.label.textSize')
       }}</v-subheader>
@@ -46,12 +47,17 @@
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import RadioCard from './RadioCard.vue'
+import DrawOptions from './DrawOptions.vue'
 
 export default Vue.extend({
   name: 'PolarDraw',
   components: {
     RadioCard,
+    DrawOptions,
   },
+  data: () => ({
+    isColorPickerVisible: false,
+  }),
   computed: {
     ...mapGetters(['hasSmallHeight', 'hasWindowSize']),
     ...mapGetters('plugin/draw', [
@@ -64,6 +70,7 @@ export default Vue.extend({
       'selectedSize',
       'fontSizes',
       'showSizeSlider',
+      'showDrawOptions',
     ]),
     flexStyle(): string {
       return `flex-direction: ${
