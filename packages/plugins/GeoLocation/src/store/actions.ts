@@ -196,7 +196,12 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
    */
   addMarker(
     {
-      getters: { geoLocationMarkerLayer, markerFeature, keepCentered },
+      getters: {
+        geoLocationMarkerLayer,
+        markerFeature,
+        keepCentered,
+        boundaryCheck,
+      },
       dispatch,
     },
     coordinates
@@ -215,7 +220,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
         }),
       })
     )
-    if (keepCentered || !hadPosition) {
+    if ((keepCentered || !hadPosition) && boundaryCheck) {
       dispatch('zoomAndCenter')
     }
   },
