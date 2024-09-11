@@ -5,10 +5,11 @@
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.
 - Feature: Add new state parameter `mapHasDimensions` to let plugins have a "hook" to react on when the map is ready.
 - Feature: Add `deviceIsHorizontal` as a getter to have a more central place to check if the device is in landscape mode.
+- Feature: Add dark theme support.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Fix: Add package `events` as a dependency to fix issue with `xml2js`. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/697 for more information.
+- Fix: Change background colors to use CSS variables to be able to override these values via the `vuetify` configuration.
 - Chore: Update dependencies to latest versions.
-- Feature: Add dark theme support and updated fix background-colors to use CSS variables.
 
 ## 1.4.1
 
