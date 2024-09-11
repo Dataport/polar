@@ -1,8 +1,6 @@
 export default function positionChanged(
-  position: number[],
-  transformedCoords: number[]
+  oldPosition: number[],
+  newPosition: number[]
 ): boolean {
-  return (
-    position[0] !== transformedCoords[0] || position[1] !== transformedCoords[1]
-  )
+  return oldPosition[0] !== newPosition[0] || oldPosition[1] !== newPosition[1]
 }
