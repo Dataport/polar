@@ -115,11 +115,14 @@ const processLiteratureToponyms =
 
 // change if `satisfies` is ever usable on functions
 // eslint-disable-next-line func-style
-export const selectLiterature: SelectResultFunction = function (
+export const selectLiterature: SelectResultFunction<
+  GeometrySearchState,
+  GeometrySearchState
+> = function (
   this: PolarStore<GeometrySearchState, GeometrySearchState>,
   // TODO apply unanyfication
   { commit, rootGetters },
-  { feature }: { feature: LiteratureFeature }
+  { feature }
 ) {
   // default behaviour (AddressSearch selects and is not involved in further behaviour
   commit('plugin/addressSearch/setChosenAddress', null, { root: true })
@@ -131,8 +134,9 @@ export const selectLiterature: SelectResultFunction = function (
   )
 
   // start searching for included toponyms
-  const { location_hits_title: headerHits, location_hits_text: bodyHits } =
-    feature.properties
+  const { location_hits_title: headerHits, location_hits_text: bodyHits } = (
+    feature as LiteratureFeature
+  ).properties
 
   // TODO it is undecided what value a header hit has in comparison to a body hit; just going 10* for now
   const hits = weightenHits(headerHits, bodyHits, 10)
@@ -153,6 +157,6 @@ export const selectLiterature: SelectResultFunction = function (
       )
     )
   )
-    .then(processLiteratureToponyms(feature, hits))
+    .then(processLiteratureToponyms(feature as LiteratureFeature, hits))
     .catch(console.error) // search function already printed toasts
 }
