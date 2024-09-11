@@ -38,11 +38,7 @@ const getters: PolarGetterTree<GeoLocationState, GeoLocationGetters> = {
     return rootGetters.configuration?.geoLocation?.toastAction
   },
   zoomLevel: (_, __, ___, rootGetters): number => {
-    const zoomLevel = rootGetters.configuration?.geoLocation?.zoomLevel
-    if (zoomLevel !== undefined && zoomLevel !== null) {
-      return zoomLevel
-    }
-    return 7
+    return rootGetters.configuration?.geoLocation?.zoomLevel ?? 7
   },
   geoLocationMarkerLayer(_, __, ___, rootGetters) {
     return rootGetters?.map
