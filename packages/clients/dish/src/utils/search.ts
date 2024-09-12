@@ -1,6 +1,7 @@
 import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 import { getWfsFeatures } from '@polar/lib-get-features'
 import { rawLayerList } from '@masterportal/masterportalapi'
+import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
 import {
   WfsConfiguration,
   EfiSearchFeature,
@@ -132,6 +133,7 @@ const sortAndShort =
  * DISH "Denkmalsuche" search method (injectable for plugin/AddressSearch)
  */
 export function search(
+  this: PolarStore<CoreState, CoreGetters>,
   signal: AbortSignal,
   url: string,
   inputValue: string,
