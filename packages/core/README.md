@@ -394,5 +394,5 @@ client.$store.commit('setTheme', 'dark')
 
 | fieldname | type | description |
 | - | - | - |
-| theme | enum['light', 'dark'] | By default the theme is set to 'light'. Setting theme to 'dark' will render the default 'dark' theme. |
+| theme | enum['light', 'dark'] | By default, the theme is set to 'light'. |
 
