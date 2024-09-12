@@ -85,7 +85,7 @@ const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
           plugin: Gfi({
             renderType: 'iconMenu',
             coordinateSources: [],
-            layers: [],
+            layers: {},
           }),
           icon: 'fa-location-pin',
           id: 'gfi',
@@ -121,6 +121,7 @@ const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
       enabledPlugins.includes('address-search') &&
         AddressSearch({
           layoutTag: NineLayoutTag.TOP_LEFT,
+          searchMethods: [],
         }),
       enabledPlugins.includes('pins') && Pins({}),
       enabledPlugins.includes('legend') &&
@@ -137,7 +138,10 @@ const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
         LoadingIndicator({
           layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
         }),
-      enabledPlugins.includes('reverse-geocoder') && ReverseGeocoder({}),
+      enabledPlugins.includes('reverse-geocoder') &&
+        ReverseGeocoder({
+          url: '',
+        }),
       enabledPlugins.includes('scale') &&
         Scale({
           layoutTag: NineLayoutTag.BOTTOM_RIGHT,

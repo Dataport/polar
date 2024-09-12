@@ -9,7 +9,7 @@ import {
   PinsConfiguration,
   ReverseGeocoderConfiguration,
 } from '@polar/lib-custom-types'
-import { MpApiParameters } from '@polar/plugin-address-search/src/types'
+import { MpApiParameters } from '@polar/plugin-address-search'
 import { MODE, SKAT, REPORT_STATUS } from './enums'
 import language from './language'
 import { MeldemichelCreateMapParams } from './types'
