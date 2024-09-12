@@ -33,9 +33,10 @@ The styling of the drawn features can be configured to overwrite the default ol-
 
 | fieldName | type | description |
 | - | - | - |
+| enableOptions | boolean? | If `true`, draw options are displayed, like choosing and changing stroke color. Not available for texts features. Defaults to `false`. |
 | selectableDrawModes | string[]? | List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default. |
 | style | style? | Please see example below for styling options. Defaults to standard OpenLayers styling. |
-| textStyle | object? | Use this object with properties 'font' and 'textColor' to style text feature. |
+| textStyle | textStyle? | Use this object with properties 'font' and 'textColor' to style text feature. |
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
@@ -108,6 +109,7 @@ For the time being, please use this example as a rough reference as to what can 
 ```js
 {
   draw: {
+    enableOptions: true,
     style: {
       fill: {
         color: 'rgba(255, 255, 255, 0.5)'

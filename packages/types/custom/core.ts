@@ -107,9 +107,10 @@ export interface AddressSearchConfiguration extends PluginOptions {
   categoryProperties?: Record<string, AddressSearchCategoryProperties>
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
-  /** NOTE regarding \<unknown, unknown\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here */
+  /** NOTE regarding \<any, any\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here; not using "unknown" since that errors in client configuration, not using "never" since that errors in AddressSearch plugin; this way, "any"thing goes */
   // optional selectResult overrides (client-side injections)
-  customSelectResult?: Record<string, SelectResultFunction<unknown, unknown>>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  customSelectResult?: Record<string, SelectResultFunction<any, any>>
   focusAfterSearch?: boolean
   // definition of groups referred to in searchMethods
   groupProperties?: Record<string, AddressSearchGroupProperties>
@@ -168,6 +169,7 @@ export interface DrawConfiguration extends Partial<PluginOptions> {
   selectableDrawModes?: DrawMode[]
   style?: DrawStyle
   textStyle?: TextStyle
+  enableOptions?: boolean
 }
 
 export interface ExportConfiguration extends PluginOptions {
@@ -648,7 +650,9 @@ export interface CoreState {
   mapHasDimensions: boolean
   moveHandle: number
   moveHandleActionButton: number
-  plugin: object
+  // NOTE truly any since external plugins may bring whatever; unknown will lead to further errors
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  plugin: Record<string, any>
   selected: number
   zoomLevel: number
 }
