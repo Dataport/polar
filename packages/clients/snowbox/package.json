@@ -10,7 +10,7 @@
     "dev": "vite --host"
   },
   "//": "Don't push versions but '*'. Do locally as you desire.",
-  "dependencies": {
+  "devDependencies": {
     "@polar/core": "*",
     "@polar/lib-custom-types": "*",
     "@polar/plugin-address-search": "*",
