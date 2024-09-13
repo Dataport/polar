@@ -41,5 +41,8 @@
     "@polar/plugin-scale": "^1.1.0",
     "@polar/plugin-toast": "^1.1.0",
     "@polar/plugin-zoom": "^1.2.0"
+  },
+  "nx": {
+    "includedScripts": ["build"]
   }
 }
