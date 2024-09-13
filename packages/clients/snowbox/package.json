@@ -6,10 +6,11 @@
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "scripts": {
-    "build": "rimraf dist && vite build && bash ../dish/scripts/injectFlag.sh"
+    "build": "rimraf dist && vite build && bash ../dish/scripts/injectFlag.sh",
+    "dev": "vite --host"
   },
   "//": "Don't push versions but '*'. Do locally as you desire.",
-  "dependencies": {
+  "devDependencies": {
     "@polar/core": "*",
     "@polar/lib-custom-types": "*",
     "@polar/plugin-address-search": "*",
@@ -28,5 +29,8 @@
     "@polar/plugin-scale": "*",
     "@polar/plugin-toast": "*",
     "@polar/plugin-zoom": "*"
+  },
+  "nx": {
+    "includedScripts": ["build", "dev"]
   }
 }
