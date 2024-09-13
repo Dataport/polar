@@ -40,6 +40,7 @@ As such, **always call `removeLoadingKey` in the `finally` section of your code*
 // change loader style at runtime
 map.$store.commit('plugin/loadingIndicator/setLoaderStyle', loaderStyle)
 ```
+
 #### Supported `loaderStyle` options
 
 <table align="center">
