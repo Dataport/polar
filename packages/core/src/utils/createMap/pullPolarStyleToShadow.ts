@@ -5,22 +5,12 @@ export const pullPolarStyleToShadow = (
   stylePath = defaultStylePath
 ) => {
   // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
-  const devMode = import.meta.env.DEV
-  // move polar css to Shadow DOM (customer has to import it)
-  const attributeName = devMode ? 'style' : 'link'
-  const stylesheets = [...document.getElementsByTagName(attributeName)]
-  const stylesheetDataAttribute = devMode ? 'data-vite-dev-id' : 'data-polar'
-  const polarStylesheets = stylesheets.filter((el) =>
-    el.getAttribute(stylesheetDataAttribute)
-  )
-  if (polarStylesheets.length > 0) {
+  if (import.meta.env.DEV) {
+    const stylesheets = [...document.getElementsByTagName('style')]
+    const polarStylesheets = stylesheets.filter((el) =>
+      el.getAttribute('data-vite-dev-id')
+    )
     polarStylesheets.forEach((style) => shadowRoot.appendChild(style))
-
-    if (!devMode) {
-      console.warn(
-        `@polar/core: Stylesheets have been pulled to the ShadowDOM. This mechanism is deprecated and will be removed in the next major version. In the future, POLAR will try to create the relevant style nodes itself, and can be configured as to where the file to be imported is located. This removes the flash of misstyled content POLAR could previously produce on the outlying page, and is an overall more clean solution. See the @polar/core documentation, field 'stylePath'.`
-      )
-    }
   } else {
     const link = document.createElement('link')
     link.href = stylePath

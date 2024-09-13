@@ -1,13 +1,11 @@
 import {
   AddressSearchConfiguration,
-  MemberSuffix,
   QueryParameters,
   SearchMethodConfiguration,
   AddressSearchGroupProperties,
   AddressSearchCategoryProperties,
 } from '@polar/lib-custom-types'
 import { VueConstructor } from 'vue'
-import { WFSVersion } from '@polar/lib-get-features'
 import { Feature, FeatureCollection } from 'geojson'
 
 /** Federal states of Germany */
@@ -44,25 +42,6 @@ export interface BKGParameters extends QueryParameters {
   epsg: `EPSG:${string}`
   /** Limit search to the defined filter attributes */
   filter?: BKGFilter
-}
-
-/**
- * Specific QueryParameters for a GetFeature request to a WFS-G.
- * Further information can be retrieved from the WFS specification
- */
-export interface GazetteerParameters extends QueryParameters {
-  /** Currently used projection of the map */
-  epsg: `EPSG:${string}`
-  /** The fieldName to be searched within the service */
-  fieldName: string
-  memberSuffix: MemberSuffix
-  /** The namespaces of the service; obsolete with WFS\@3.0.0 as GeoJSON will be the standard response */
-  namespaces: string | string[]
-  // TODO: Check whether a WFS-G can only be a WFS@2.0.0 or also a WFS@1.1.0
-  // TODO: It is assumed, for now, that a WFS-G always uses a Stored Query
-  /** Id of the stored query of the service to request the features */
-  storedQueryId: string
-  version?: WFSVersion
 }
 
 // Specific queryParameters used for the gazetteer search implemented in the masterportalAPI
