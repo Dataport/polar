@@ -4,8 +4,7 @@ import {
   PolarStore,
   SelectResultFunction,
 } from '@polar/lib-custom-types'
-// TODO relink import to plugin root export when that is merged
-import SearchResultSymbols from '@polar/plugin-address-search/src/utils/searchResultSymbols'
+import { SearchResultSymbols } from '@polar/plugin-address-search'
 import { Feature, FeatureCollection } from 'geojson'
 import { GeometrySearchState } from '../plugins/GeometrySearch/types'
 import urlSuffix from './urlSuffix'
