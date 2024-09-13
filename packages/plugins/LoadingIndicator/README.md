@@ -44,7 +44,7 @@ map.$store.commit('plugin/loadingIndicator/setLoaderStyle', loaderStyle)
 
 <table align="center">
   <tr align="center">
-    <td width="33%" align="center"><img src="./images/VuetifyLoader.gif" alt="v-progress-linear" height="120px" style="object-fit: none;"><div>v-progress-linear</div></td>
+    <td width="33%" align="center"><img src="./assets/VuetifyLoader.gif" alt="v-progress-linear" height="120px" style="object-fit: none;"><div>v-progress-linear</div></td>
     <td width="33%" align="center"><img src="./assets/BasicLoader.gif" alt="BasicLoader" height="120px" style="object-fit: contain;"><div>BasicLoader</div></td>
     <td width="33%" align="center"><img src="./assets/RingLoader.gif" alt="RingLoader" height="120px" style="object-fit: contain;"><div>RingLoader</div></td>
   </tr>
