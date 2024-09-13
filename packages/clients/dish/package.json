@@ -17,7 +17,8 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist"
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
+    "dev": "vite --host"
   },
   "devDependencies": {
     "@masterportal/masterportalapi": "2.40.0",
@@ -39,5 +40,8 @@
     "focus-trap": "^7.2.0",
     "js-levenshtein": "^1.1.6",
     "lodash.merge": "^4.6.2"
+  },
+  "nx": {
+    "includedScripts": ["build", "dev"]
   }
 }
