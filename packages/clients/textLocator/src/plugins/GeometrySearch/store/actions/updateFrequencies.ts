@@ -1,23 +1,9 @@
-import { PolarActionContext, PolarStore } from '@polar/lib-custom-types'
+import { PolarActionContext } from '@polar/lib-custom-types'
 import { GeometrySearchGetters, GeometrySearchState } from '../../types'
 import {
   TitleLocationFrequency,
   searchLiteratureByToponym,
 } from '../../../../utils/literatureByToponym'
-
-export function setupWatchers(
-  this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
-  {
-    dispatch,
-    rootGetters,
-  }: PolarActionContext<GeometrySearchState, GeometrySearchGetters>
-) {
-  // load titleLocationFrequency on each featureCollection update
-  this.watch(
-    () => rootGetters['plugin/geometrySearch/featureCollection'],
-    () => dispatch('updateFrequencies')
-  )
-}
 
 const requestLiteraturePerFeature = (
   featureCollection: GeometrySearchState['featureCollection'],
