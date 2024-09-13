@@ -10,13 +10,14 @@
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/clients/dish"
   },
+  "main": "dist/client-dish.js",
   "files": [
     "dist/**/**.*",
     "CHANGELOG.md"
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh",
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
     "dev": "vite --host"
   },
   "devDependencies": {
