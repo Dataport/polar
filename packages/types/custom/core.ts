@@ -34,6 +34,20 @@ export interface PluginOptions {
 
 export type RenderType = 'iconMenu' | 'independent' | 'footer'
 
+export type LoaderStyles =
+  | 'CircleLoader'
+  | 'BasicLoader'
+  | 'none'
+  | 'RingLoader'
+  | 'RollerLoader'
+  | 'SpinnerLoader'
+  | 'v-progress-linear'
+
+/** LoadingIndicator Module Configuration */
+export interface LoadingIndicatorConfiguration extends PluginOptions {
+  loaderStyle?: LoaderStyles
+}
+
 /** Possible search methods by type */
 export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi' | string
 
@@ -69,13 +83,13 @@ export type SearchMethodFunction = (
 ) => Promise<FeatureCollection> | never
 
 export interface SelectResultPayload {
-  feature: GeoJsonFeature
+  feature: GeoJsonFeature & { title: string }
   categoryId: number
 }
 
-export type SelectResultFunction = (
-  PolarActionContext,
-  SelectResultPayload
+export type SelectResultFunction<S, G> = (
+  context: PolarActionContext<S, G>,
+  payload: SelectResultPayload
 ) => void
 
 /**
@@ -107,8 +121,10 @@ export interface AddressSearchConfiguration extends PluginOptions {
   categoryProperties?: Record<string, AddressSearchCategoryProperties>
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
+  /** NOTE regarding \<any, any\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here; not using "unknown" since that errors in client configuration, not using "never" since that errors in AddressSearch plugin; this way, "any"thing goes */
   // optional selectResult overrides (client-side injections)
-  customSelectResult?: Record<string, SelectResultFunction>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  customSelectResult?: Record<string, SelectResultFunction<any, any>>
   focusAfterSearch?: boolean
   // definition of groups referred to in searchMethods
   groupProperties?: Record<string, AddressSearchGroupProperties>
@@ -167,6 +183,7 @@ export interface DrawConfiguration extends Partial<PluginOptions> {
   selectableDrawModes?: DrawMode[]
   style?: DrawStyle
   textStyle?: TextStyle
+  enableOptions?: boolean
 }
 
 export interface ExportConfiguration extends PluginOptions {
@@ -592,6 +609,7 @@ export interface MapConfig extends MasterportalApiConfig {
   stylePath?: string
   vuetify?: UserVuetifyPreset
   addressSearch?: AddressSearchConfiguration
+  loadingIndicator?: LoadingIndicatorConfiguration
   attributions?: AttributionsConfiguration
   draw?: DrawConfiguration
   export?: ExportConfiguration
@@ -652,7 +670,9 @@ export interface CoreState {
   mapHasDimensions: boolean
   moveHandle: number
   moveHandleActionButton: number
-  plugin: object
+  // NOTE truly any since external plugins may bring whatever; unknown will lead to further errors
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  plugin: Record<string, any>
   selected: number
   zoomLevel: number
 }

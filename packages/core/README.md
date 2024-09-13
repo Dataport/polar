@@ -23,8 +23,6 @@ It depends on the client how exactly the initialization will take place for the 
 
 The exported default object is an extended masterportalapi, adding the `addPlugins` and extending the `createMap` functions. For masterportalapi details, [see their repository](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/).
 
-To be able to see the map in production mode, the imported stylesheet has to have the property `data-polar`. The value can be chosen arbitrarily. ⚠️ Deprecated. The new field 'stylePath' should be used instead.
-
 ### addPlugins
 
 Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared. You may add further plugins or proceed with `createMap`.
@@ -78,7 +76,7 @@ The mapConfiguration allows controlling many client instance details.
 | locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
 | <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
-| stylePath | string? | If no link tag with `data-polar="true"` is found in the document, this path will be used to create the link node in the client itself. It defaults to `'./style.css'`. Please mind that `data-polar="true"` is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release. |
+| stylePath | string? | This path will be used to create the link node in the client itself. It defaults to `'./style.css'`. |
 | vuetify | object? | You may add vuetify configuration here. |
 
 <details>
