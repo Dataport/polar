@@ -27,6 +27,7 @@ export interface LiteratureFeature extends Feature {
   title: string
 }
 
+// NOTE hit weighting is computed in the backend in a next iteration
 const weightenHits = (
   headerHits: Record<string, number>,
   bodyHits: Record<string, number>,
