@@ -55,10 +55,6 @@
         outline: solid black;
       }
 
-      #theme-switcher {
-        outline: solid black;
-      }
-
       /* directly related to POLAR - something like this must be
        * available for map client to render in (see core docs for
        * more details on requirements) */
@@ -96,10 +92,6 @@
         <option value="de">German</option>
       </select>
     </label>
-    <label id="theme-switcher-label">
-      Theme in map client:
-      <button id="theme-switcher">Toggle Theme</button>
-    </label>
     <div id="polarstern" class="polarstern">
       <noscript>Please use a browser with active JavaScript to use the map client.</noscript>
     </div>
@@ -118,7 +110,7 @@
       Map export:
       <embed  id="vuex-target-export-result">
     </p>
-    <script type="module" src="./polar-client.ts"></script>
+    <script type="module" src="./client-snowbox.js"></script>
     <script>
       // circumvent bundler; exists neither at compile time nor in dev mode
       document
