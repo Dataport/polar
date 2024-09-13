@@ -96,7 +96,7 @@ addressSearch: {
 
 | fieldName | type | description |
 | - | - | - |
-| type | enum["bkg", "gazetteer", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. ⚠️ "gazetteer" is deprecated. Please use "mpapi" instead. |
+| type | enum["bkg", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. |
 | url | string | Search service URL. Should you require a service provider, please contact us for further information. |
 | categoryId | string? | Grouped services can optionally be distinguished in the UI with categories. See `addressSearch.categoryProperties` for configuration options. |
 | groupId | string? | Default groupId is `"defaultGroup"`. All services with the same id are grouped and used together. See `addressSearch.groupProperties` for configuration options. If multiple groups exist, the UI offers a group switcher. |
@@ -267,19 +267,6 @@ queryParameters: {
   ]
 }
 ```
-
-##### addressSearch.searchMethodsObject.queryParameters (type:gazetteer)
-
-> ⚠️ "gazetteer" is deprecated. Please use "mpapi" instead.
-
-| fieldName | type | description |
-| - | - | - |
-| epsg | `EPSG:${string}` | EPSG code of the projection to use. |
-| fieldName | string[] | Field names of service to search in. |
-| memberSuffix | string | Elements to interpret are fetched from response XML as `wfs:memberSuffix`; fitting suffix must be configured. |
-| namespaces | string \| string[] | Namespaces to add to the request. |
-| storedQueryId | string | Name of the WFS-G stored query that is to be used. |
-| version | '1.1.0' \| '2.0.0'? | WFS version used. Defaults to `'2.0.0'`. |
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:mpapi)
 
