@@ -26,6 +26,23 @@
 <h2 id="scope" tabindex="-1">Scope</h2>
 <p>A generic loading indicator that may be used by any plugin or outside procedure to indicate loading.</p>
 <h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="loadingindicator-1" tabindex="-1">loadingIndicator</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>loaderStyle</td>
+<td>enum['CircleLoader', 'BasicLoader', 'none', 'RingLoader', 'RollerLoader', 'SpinnerLoader', 'v-progress-linear']?</td>
+<td>Choose between different loader styles. Defaults to 'v-progress-linear' (Vuetify loader).</td>
+</tr>
+</tbody>
+</table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/snowbox/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
 <p>Example configuration:</p>
 <pre><code class="language-js">loadingIndicator: {
@@ -39,9 +56,25 @@ map.$store.commit('plugin/loadingIndicator/addLoadingKey', key)
 // hide loading indicator
 map.$store.commit('plugin/loadingIndicator/removeLoadingKey', key)
 </code></pre>
-<p><img src="./readme_loadingIndicator_example.png" alt="Loading indicator example" /></p>
 <p>The key must be unique and is kept track of via a Set. It can't be added multiple times, and removing it once always removes it altogether. It is advised to use a key like <code>{my-plugin-or-application-name}-{procedure-name}</code> to avoid name conflicts. The LoadingIndicator will usually be used for asynchronous code.</p>
 <p>As such, <strong>always call <code>removeLoadingKey</code> in the <code>finally</code> section of your code</strong> to prevent hanging loading indicators.</p>
+<pre><code class="language-js">// change loader style at runtime
+map.$store.commit('plugin/loadingIndicator/setLoaderStyle', loaderStyle)
+</code></pre>
+<h4 id="supported-loaderstyle-options" tabindex="-1">Supported <code>loaderStyle</code> options</h4>
+<table align="center">
+  <tr align="center">
+    <td width="33%" align="center"><img src="./assets/VuetifyLoader.gif" alt="v-progress-linear" height="120px" style="object-fit: none;"><div>v-progress-linear</div></td>
+    <td width="33%" align="center"><img src="./assets/BasicLoader.gif" alt="BasicLoader" height="120px" style="object-fit: contain;"><div>BasicLoader</div></td>
+    <td width="33%" align="center"><img src="./assets/RingLoader.gif" alt="RingLoader" height="120px" style="object-fit: contain;"><div>RingLoader</div></td>
+  </tr>
+  <tr align="center">
+    <td width="33%" align="center"><img src="./assets/RollerLoader.gif" alt="RollerLoader" height="120px" style="object-fit: contain;"><div>RollerLoader</div></td>
+    <td width="33%" align="center"><img src="./assets/CircleLoader.gif" alt="CircleLoader" height="120px" style="object-fit: contain;"><div>CircleLoader</div></td>
+    <td width="33%" align="center"><img src="./assets/SpinnerLoader.gif" alt="SpinnerLoader" height="120px" style="object-fit: contain;"><div>SpinnerLoader</div></td>
+  </tr>
+</table>
+<p>It is also possible to choose <code>none</code> as a <code>loaderStyle</code> to hide the loader.</p>
 <h3 id="getters" tabindex="-1">Getters</h3>
 <p>You may desire to listen to whether the loader is currently being shown.</p>
 <table>
@@ -53,6 +86,11 @@ map.$store.commit('plugin/loadingIndicator/removeLoadingKey', key)
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>loaderStyle</td>
+<td>string</td>
+<td>The current loader style.</td>
+</tr>
 <tr>
 <td>showLoader</td>
 <td>boolean</td>
