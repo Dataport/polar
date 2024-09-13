@@ -137,7 +137,7 @@ export const selectLiterature: SelectResultFunction<
     feature as LiteratureFeature
   ).properties
 
-  // TODO it is undecided what value a header hit has in comparison to a body hit; just going 10* for now
+  // NOTE supposed to be calculated in backend in next iteration; then, this is to be dropped
   const hits = weightenHits(headerHits, bodyHits, 10)
 
   Promise.all(
