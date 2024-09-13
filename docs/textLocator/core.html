@@ -38,7 +38,6 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <h2 id="initialization-%2F-configuration" tabindex="-1">Initialization / Configuration</h2>
 <p>It depends on the client how exactly the initialization will take place for the embedding programmer. However, the core mechanism remains the same.</p>
 <p>The exported default object is an extended masterportalAPI, adding the <code>addPlugins</code> and extending the <code>createMap</code> functions. For masterportalAPI details, <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">see their repository</a>.</p>
-<p>To be able to see the map in production mode, the imported stylesheet has to have the property <code>data-polar</code>. The value can be chosen arbitrarily. ⚠️ Deprecated. The new field 'stylePath' should be used instead.</p>
 <h3 id="addplugins" tabindex="-1">addPlugins</h3>
 <p>Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may already have been done. Ready-made clients (that is, packages prefixed <code>@polar/client-</code>) come with plugins prepared. You may add further plugins or proceed with <code>createMap</code>.</p>
 <p>In case you're integrating new plugins, call <code>addPlugins</code> with an array of instances.</p>
@@ -120,7 +119,7 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <tr>
 <td>stylePath</td>
 <td>string?</td>
-<td>If no link tag with <code>data-polar=&quot;true&quot;</code> is found in the document, this path will be used to create the link node in the client itself. It defaults to <code>'./style.css'</code>. Please mind that <code>data-polar=&quot;true&quot;</code> is deprecated since it potentially led to flashes of misstyled content. stylePath will replace that solution in the next major release.</td>
+<td>This path will be used to create the link node in the client itself. It defaults to <code>'./style.css'</code>.</td>
 </tr>
 <tr>
 <td>vuetify</td>
