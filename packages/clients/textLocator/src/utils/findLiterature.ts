@@ -9,6 +9,8 @@ import { Feature, FeatureCollection } from 'geojson'
 import { GeometrySearchState } from '../plugins/GeometrySearch/types'
 import urlSuffix from './urlSuffix'
 import { searchCoastalGazetteerByToponym } from './coastalGazetteer/searchToponym'
+import { sorter } from './coastalGazetteer/responseInterpreter'
+import { TitleLocationFrequency } from './literatureByToponym'
 
 export interface Literature {
   title: string
@@ -105,12 +107,54 @@ export function searchLiterature(
 }
 
 // NOTE hits and featureCollections are in sync; that is, hits[i] had findings featureCollections[i] in gazetteer
-const processLiteratureToponyms =
-  (literatureFeature: LiteratureFeature, hits: Record<string, number>) =>
-  (featureCollections: FeatureCollection[]) => {
-    // TODO implement so that GeometrySearch is fed with fitting tree display
-    console.warn(literatureFeature, hits)
-    console.warn(featureCollections)
+const processLiteratureToponyms = (
+  literatureFeature: LiteratureFeature,
+  hits: Record<string, number>
+) =>
+  function (
+    this: PolarStore<GeometrySearchState, GeometrySearchState>,
+    featureCollections: FeatureCollection[]
+  ) {
+    const [featureCollection, titleLocationFrequencyChild] = Object.entries(
+      hits
+    ).reduce(
+      (
+        [featureCollection, titleLocationFrequencyChild],
+        [toponym, count],
+        index
+      ) => {
+        if (featureCollections[index].features.length) {
+          const feature = featureCollections[index].features.sort(
+            sorter(toponym, 'title')
+          )[0]
+          titleLocationFrequencyChild[feature.id || ''] =
+            (titleLocationFrequencyChild[feature.id || ''] || 0) + count
+          featureCollection.features.push(feature)
+        }
+        return [featureCollection, titleLocationFrequencyChild]
+      },
+      [
+        { type: 'FeatureCollection', features: [] } as FeatureCollection,
+        {} as TitleLocationFrequency['string'],
+      ]
+    )
+
+    this.commit(
+      'plugin/geometrySearch/setFeatureCollection',
+      featureCollection,
+      { root: true }
+    )
+    this.commit(
+      'plugin/geometrySearch/setTitleLocationFrequency',
+      { [literatureFeature.title]: titleLocationFrequencyChild },
+      { root: true }
+    )
+    this.dispatch('plugin/iconMenu/openMenuById', 'geometrySearch', {
+      root: true,
+    })
+    this.dispatch('plugin/geometrySearch/changeActiveData', null, {
+      root: true,
+    })
   }
 
 // change if `satisfies` is ever usable on functions
@@ -156,6 +200,8 @@ export const selectLiterature: SelectResultFunction<
       )
     )
   )
-    .then(processLiteratureToponyms(feature as LiteratureFeature, hits))
+    .then(
+      processLiteratureToponyms(feature as LiteratureFeature, hits).bind(this)
+    )
     .catch(console.error) // search function already printed toasts
 }
