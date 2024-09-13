@@ -120,7 +120,6 @@ export const selectLiterature: SelectResultFunction<
   GeometrySearchState
 > = function (
   this: PolarStore<GeometrySearchState, GeometrySearchState>,
-  // TODO apply unanyfication
   { commit, rootGetters },
   { feature }
 ) {
