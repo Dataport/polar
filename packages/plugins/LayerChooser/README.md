@@ -10,7 +10,6 @@ Order of layers within a layer is currently always as initially configured.
 
 ## Configuration
 
-// TODO: Link to layers (like global plugin parameters)
 The tool does not require any configuration for itself, but is based on the [`mapConfiguration.layers`](../../core/README.md#mapconfiguration.layers).
 It will infer its options from there, and change layer visibility and availability depending on `minZoom` and `maxZoom`.
 
