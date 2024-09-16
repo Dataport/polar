@@ -18,6 +18,8 @@
 - Fix: Remove mpapi-search specific parameters from general interface `QueryParameters`.
 - Fix: Extend `SelectResultPayload` with fitting vuex parameters, and `SelectResultFunction` with `title` field as used in `@polar/plugin-address-search`.
 - Fix: Use correct type `VueConstructor` for properties `GfiConfiguration.gfiContentComponent`, `MoveHandleProperties.component` and `MoveHandleActionButton.component`.
+- Fix: Add missing `gfiMode` to `LayerConfiguration`.
+- Fix: Add missing `maxFeatures` to `GfiLayerConfiguration`.
 
 ## 1.4.1
 

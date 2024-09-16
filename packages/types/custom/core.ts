@@ -250,6 +250,7 @@ export interface GfiLayerConfiguration {
   geometry?: boolean
   // name of field to use for geometry, if not default field
   geometryName?: string
+  maxFeatures?: number
   /**
    * If window is true, the properties are either
    * 1. filtered by whether their key is in a string[]
@@ -533,6 +534,8 @@ export interface LayerConfiguration {
   options?: LayerConfigurationOptions
   /** Whether the layer should be rendered; defaults to false */
   visibility?: boolean
+  /** layers may have their own gfiMode */
+  gfiMode?: 'bboxDot' | 'intersects'
 }
 
 export interface PolarMapOptions {
