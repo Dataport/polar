@@ -12,6 +12,8 @@
 - Feature: Add new types `LoaderStyles` and `LoadingIndicatorConfiguration`.
 - Feature: Add `loadingIndicator` to `MapConfig` to configure loader style.
 - Feature: Add new utility type `PartialBy`.
+- Feature: Add new type `MasterportalApiConfig`.
+- Feature: Change `MapConfig` to allow for partial configuration as some parameters have default values and have it be extended from `MasterportalApiConfig`.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 - Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.
 - Fix: Properly document optional parameters of interfaces `AddressSearchConfiguration`, `FeatureList`, `FilterConfigurationTime`, `FilterConfigurationTimeOption`, `GeoLocationConfiguration`, `LayerConfigurationOptionLayers` and `PinsConfiguration`
