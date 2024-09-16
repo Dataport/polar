@@ -1,7 +1,8 @@
 {
   "name": "@polar/core",
   "version": "1.4.1",
-  "description": "MapClient Core",
+  "description": "POLAR core package. Provides POALR environment with store setup, localization, UI framework, and other basics.",
+  "keywords": ["POLAR", "core", "base"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

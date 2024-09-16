@@ -1,7 +1,8 @@
 {
   "name": "@polar/client-snowbox",
   "private": true,
-  "description": "Snow❄️📦box",
+  "description": "Snow❄️📦box (Test Environment)",
+  "keywords": ["POLAR", "client", "Snowbox", "testing"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

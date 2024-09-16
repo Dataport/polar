@@ -1,6 +1,8 @@
 {
   "name": "@polar/lib-custom-types",
   "version": "1.4.1",
+  "description": "global type package for overarching types in POLAR",
+  "keywords": ["POLAR", "types"],
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "main": "index.ts",

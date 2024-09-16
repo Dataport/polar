@@ -1,7 +1,8 @@
 {
   "name": "@polar/client-dish",
   "version": "1.1.1",
-  "description": "Client dish",
+  "description": "POLAR Client DISH. This client provides information about monuments in Schleswig-Holstein, Germany.",
+  "keywords": ["POLAR", "client", "DISH", "monument", "memorial"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

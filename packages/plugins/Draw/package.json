@@ -1,7 +1,8 @@
 {
   "name": "@polar/plugin-draw",
   "version": "1.1.0",
-  "description": "Plugin Draw",
+  "description": "Draw plugin for POLAR that adds draw interactions to the map, allowing users to place various shapes and texts.",
+  "keywords": ["POLAR", "plugin", "Draw", "interaction"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

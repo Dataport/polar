@@ -1,7 +1,8 @@
 {
   "name": "@polar/plugin-loading-indicator",
   "version": "1.1.0",
-  "description": "Plugin LoadingIndicator",
+  "description": "LoadingIndicator plugin for POLAR that adds a spinner.",
+  "keywords": ["POLAR", "plugin", "loading indicator", "spinner"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
