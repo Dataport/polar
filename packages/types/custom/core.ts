@@ -661,7 +661,18 @@ export interface CoreState {
   clientHeight: number
   clientWidth: number
   components: number
-  configuration: MapConfig
+  // NOTE: The additional values are not required in the configuration but have default values.
+  configuration: MapConfig &
+    Required<
+      Pick<
+        MasterportalApiConfig,
+        | 'backgroundImage'
+        | 'epsg'
+        | 'namedProjections'
+        | 'options'
+        | 'startResolution'
+      >
+    >
   errors: PolarError[]
   hasSmallDisplay: boolean
   hovered: number

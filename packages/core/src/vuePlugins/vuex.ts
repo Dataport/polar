@@ -56,7 +56,6 @@ const mutationLogger = (store) => {
 
 Vue.use(Vuex)
 
-// @ts-expect-error | plugin is not defined here as it is defined later on.
 const getInitialState = (): CoreState => ({
   map: 1,
   clientHeight: 0,
@@ -68,6 +67,7 @@ const getInitialState = (): CoreState => ({
   moveHandleActionButton: 1,
   selected: 1,
   zoomLevel: 0,
+  // @ts-expect-error | Required values are set in utils/createMap/index.ts
   configuration: {
     layers: [],
     layerConf: [],
