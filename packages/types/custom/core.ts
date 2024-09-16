@@ -580,7 +580,7 @@ export interface ExtendedMasterportalapiMarkers {
 
 export interface MasterportalApiConfig {
   /** masterportalapi-type layer configuration */
-  layerConf: Record<string, unknown>[] | string
+  layerConf: Record<string, unknown>[]
   /** Initial center coordinate for the mapView */
   startCenter: [number, number]
   // Image to be displayed as a background of the map

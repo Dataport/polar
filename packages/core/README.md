@@ -48,6 +48,17 @@ const Plugin = (options: PluginOptions) => (instance: Vue) =>
 
 If the storeModule features a `setupModule` action, it will be executed automatically after initialization.
 
+### initializeLayerList
+
+Layers intended to be used in the map have to be initialized by calling `initializeLayerList` with a service register.  
+This register may either be a link to a predefined one or the custom one, that is also required by [mapConfiguration.layerConf](#mapconfigurationlayerconf).  
+
+``js
+core.rawLayerList.initializeLayerList(services: mapConfiguration.layerConf | string, callback?: Function)
+``
+
+[createMap](#createmap) is usually called inside the callback or directly after this function call.  
+
 ### createMap
 
 The map is created by calling the `createMap` method. Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone HTML pages that do this for you.
@@ -226,7 +237,7 @@ Fields that are not set as required have default values.
 
 | fieldName | type | description |
 | - | - | - |
-| layerConf | layerConf \| string | Layer configuration of all available layers as a service register. May either be a self defined register or a link to an external register. Layers defined here are not directly shown in a client, see `mapconfiguration.layers` for that. |
+| layerConf | layerConf | Layer configuration of all available layers as a service register. Layers defined here are not directly shown in a client, see `mapconfiguration.layers` for that. |
 | layers | layer[] | Configuration of layers that are supposed to be used in the respective client. All layers defined here have to have an entry in `mapConfiguration.layerConf`. If `@polar/plugin-layer-chooser` is installed and configured, all these layers will be displayed in that menu. |
 | startCenter | number[] | Initial center coordinate. Needs to be defined in the chosen leading coordinate system. |
 | backgroundImage | string? | Image to be displayed as a background of the map. Defaults to `''`, so no image being used. |
