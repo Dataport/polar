@@ -1,5 +1,4 @@
 import debounce from 'lodash.debounce'
-import compare from 'just-compare'
 import { Coordinate } from 'ol/coordinate'
 import { Style, Fill, Stroke } from 'ol/style'
 import Overlay from 'ol/Overlay'
@@ -9,7 +8,6 @@ import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import getCluster from '@polar/lib-get-cluster'
-import { isVisible } from '@polar/lib-invisible-style'
 import { getTooltip, Tooltip } from '@polar/lib-tooltip'
 import {
   getFeatureDisplayLayer,
@@ -19,6 +17,7 @@ import {
 import { requestGfi } from '../../utils/requestGfi'
 import { GfiGetters, GfiState } from '../../types'
 import sortFeatures from '../../utils/sortFeatures'
+import { getOriginalFeature } from '../../utils/getOriginalFeature'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -107,28 +106,10 @@ export const makeActions = () => {
                 ...featureInformation[layerId][visibleWindowFeatureIndex]
                   .properties,
               }
-              const originalFeature = listableLayerSources
-                .map((source) =>
-                  source
-                    .getFeatures()
-                    .filter(isVisible)
-                    .map((feature) => {
-                      // true = silent change (prevents cluster recomputation & rerender)
-                      feature.set(
-                        '_gfiLayerId',
-                        source.get('_gfiLayerId'),
-                        true
-                      )
-                      return feature
-                    })
-                )
-                .flat(1)
-                .find((f) =>
-                  compare(
-                    JSON.parse(new GeoJSON().writeFeature(f)).properties,
-                    selectedFeatureProperties
-                  )
-                )
+              const originalFeature = getOriginalFeature(
+                listableLayerSources,
+                selectedFeatureProperties
+              )
               if (originalFeature) {
                 dispatch('setOlFeatureInformation', {
                   feature: getCluster(
