@@ -1,7 +1,7 @@
 {
   "name": "@polar/plugin-attributions",
   "version": "1.2.1",
-  "description": "Attributions plugin for POLAR that adds copyright information regarding all currently active layers.",
+  "description": "Attributions plugin for POLAR that adds copyright information regarding all currently active layers. Additionally, static information can be added.",
   "keywords": ["POLAR", "plugin", "Attributions", "copyright"],
   "license": "EUPL-1.2",
   "type": "module",
