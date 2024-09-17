@@ -2,7 +2,7 @@
   "name": "@polar/plugin-export",
   "version": "1.2.0",
   "description": "Export plugin for POLAR that adds export functionality in various formats to retrieve a screenshot-like graphic of the map without the buttons.",
-  "keywords": ["POLAR", "plugin", "Export", "PDF", "PNG", "JPG", "screenshot"],
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "Export", "PDF", "PNG", "JPG", "screenshot"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

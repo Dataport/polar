@@ -2,7 +2,7 @@
   "name": "@polar/client-meldemichel",
   "version": "1.1.2",
   "description": "POLAR Client Meldemichel. This client aids in crowd-sourcing the detection of Hamburg's infrastructure in need of repair or maintenance.",
-  "keywords": ["POLAR", "client", "Meldemichel", "reporting", "infrastructure"],
+  "keywords": ["OpenLayers", "ol", "POLAR", "client", "Meldemichel", "reporting", "infrastructure"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

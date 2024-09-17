@@ -2,7 +2,7 @@
   "name": "@polar/plugin-legend",
   "version": "1.1.0",
   "description": "Legend plugin for POLAR that adds a simple legend overview referring to the services' provided infographics.",
-  "keywords": ["POLAR", "plugin", "legend", "infographic"],
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "legend", "infographic"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

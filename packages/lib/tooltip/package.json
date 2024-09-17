@@ -2,7 +2,7 @@
   "name": "@polar/lib-tooltip",
   "version": "1.0.0",
   "description": "Tooltip lib that provides localizable and stylable information on hovering map elements in POLAR.",
-  "keywords": ["POLAR", "lib", "tooltip"],
+  "keywords": ["OpenLayers", "ol", "POLAR", "lib", "tooltip"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

@@ -2,7 +2,7 @@
   "name": "@polar/lib-get-cluster",
   "version": "1.0.0",
   "description": "Provides a method to retrieve a cluster a feature belongs to.",
-  "keywords": ["POLAR", "lib", "cluster"],
+  "keywords": ["OpenLayers", "ol", "POLAR", "lib", "cluster"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

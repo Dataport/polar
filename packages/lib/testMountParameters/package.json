@@ -2,7 +2,7 @@
   "name": "@polar/lib-test-mount-parameters",
   "version": "1.2.1",
   "description": "Internal initialization parameters for testing framework in POLAR.",
-  "keywords": ["POLAR", "lib", "testing"],
+  "keywords": ["OpenLayers", "ol", "POLAR", "lib", "testing"],
   "license": "EUPL-1.2",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "main": "index.ts",

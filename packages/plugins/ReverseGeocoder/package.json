@@ -2,7 +2,7 @@
   "name": "@polar/plugin-reverse-geocoder",
   "version": "1.2.0",
   "description": "ReverseGeocoder plugin for POLAR that adds a ui-less reverse geocoding mechanism that can be adresses via store interactions.",
-  "keywords": ["POLAR", "plugin", "reverse geocoder"],
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "reverse geocoder"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
