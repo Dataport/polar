@@ -1,5 +1,5 @@
 # CHANGELOG
 
-## unpublished
+## 1.0.0-alpha.0
 
-Initial release.
+Initial alpha release.

@@ -2,9 +2,18 @@
 
 ## unpublished
 
+- Breaking: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `7.1.0` to `^9.2.4`.
+- Breaking: Remove deprecated search method `gazetteer`. Please use search method `mpapi` instead.
 - Feature: Add title internationalization; i.e. features may now contain locale keys as titles.
 - Feature: Add new optional configuration parameter `afterResultComponent` that allows to display a custom component for each search result.
+- Feature: There is now a new optional configuration parameter `searchMethods.queryParameters.likeFilterAttributes` for the WfsSearch that allows to add custom key/value pairs which are mapped to attributes of the like filter operator.
+- Feature: `AddressSearchState`, `AddressSearchGetters`, and `MpApiParameters` types have been additionally exposed as root export since using packages frequently rely on them.
+- Feature: When using the search type `mpapi`, a second search using a wildcard is now being triggered when the first search yielded no results.
 - Fix: Adjust documentation and types to properly describe optionality of configuration parameters.
+- Fix: Use correct getter for `minLength`.
+- Fix: `SearchResultSymbols` has been additionally exposed as root export since using packages frequently rely on it.
+- Chore: expand on the description to `afterResultComponent` in the Readme.md.
+- Chore: Clarify the description to `addLoading` and `removeLoading` within the readme.
 
 ## 1.2.1
 

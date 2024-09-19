@@ -18,7 +18,7 @@ export interface AttributionsGetters extends AttributionsState {
   listenToChanges: string[]
   mapInfo: string[]
   initiallyOpen: boolean
-  renderType: 'independent' | 'iconMenu'
+  renderType: 'independent' | 'iconMenu' | 'footer'
   staticAttributions: string[]
   windowWidth: number
 }

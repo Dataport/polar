@@ -31,6 +31,7 @@ export const makeStoreModule = () => {
           getters: { maximumZoomLevel, minimumZoomLevel, zoomLevel },
           rootGetters: { map },
           commit,
+          dispatch,
         },
         payload
       ) {
@@ -41,7 +42,7 @@ export const makeStoreModule = () => {
           map
         ) {
           commit('setZoomLevel', payload)
-          map.getView().setZoom(payload)
+          dispatch('smoothZoom')
         }
       },
       increaseZoomLevel({ dispatch, getters: { zoomLevel } }): void {
@@ -49,6 +50,15 @@ export const makeStoreModule = () => {
       },
       decreaseZoomLevel({ dispatch, getters: { zoomLevel } }): void {
         dispatch('setZoomLevel', zoomLevel - 1)
+      },
+      smoothZoom({ rootGetters: { map }, getters: { zoomLevel } }): void {
+        const view = map.getView()
+        if (view) {
+          view.animate({
+            zoom: zoomLevel,
+            duration: 500,
+          })
+        }
       },
     },
     mutations: {
@@ -68,6 +78,10 @@ export const makeStoreModule = () => {
       showMobile: (_, __, ___, rootGetters) =>
         typeof rootGetters.configuration?.zoom?.showMobile === 'boolean'
           ? rootGetters.configuration.zoom.showMobile
+          : false,
+      showZoomSlider: (_, __, ___, rootGetters) =>
+        typeof rootGetters.configuration?.zoom?.showZoomSlider === 'boolean'
+          ? rootGetters.configuration.zoom.showZoomSlider
           : false,
     },
   }

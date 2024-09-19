@@ -20,9 +20,13 @@ const language: LanguageOption[] = [
             polygon: 'Polygon',
             text: 'Text',
           },
+          options: {
+            stroke: 'Linienfarbe',
+          },
           title: {
             mode: 'Modus',
             drawMode: 'Zeichenmodus',
+            options: 'Zeichenoptionen',
           },
           label: {
             textSize: 'Textgröße (px) wählen:',
@@ -50,9 +54,13 @@ const language: LanguageOption[] = [
             polygon: 'Polygon',
             text: 'Text',
           },
+          options: {
+            stroke: 'Stroke color',
+          },
           title: {
             mode: 'Mode',
             drawMode: 'Drawing mode',
+            options: 'Draw options',
           },
           label: {
             textSize: 'Choose text size (px):',

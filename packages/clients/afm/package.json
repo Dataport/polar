@@ -5,7 +5,7 @@
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
-  "main": "dist/afm.js",
+  "main": "dist/polar-client.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Dataport/polar.git",
@@ -21,7 +21,8 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm"
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm",
+    "dev": "vite --host"
   },
   "devDependencies": {
     "@polar/core": "^1.0.0",
@@ -41,9 +42,11 @@
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "^7.x",
     "vue": "^2.x",
     "vuex": "^3.x",
     "lodash.merge": "^4.6.2"
+  },
+  "nx": {
+    "includedScripts": ["build", "dev"]
   }
 }

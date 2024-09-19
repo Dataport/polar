@@ -2,7 +2,9 @@
 
 ## unpublished
 
+- Breaking: Upgrade peerDependency of `ol` from `^7.1.0` to `^9.2.4`.
 - Breaking: `getWfsFeatures` now throws errors if required parameters on the wfs configuration are missing instead of only printing error messages on the console.
+- Feature: `getWfsFeatures` now offers the possibility to set custom attributes for the `PropertyIsLike` operator.
 - Fix: Properly extend interface `WfsParameters` from `QueryParameters` to reflect actual usage.
 
 ## 1.0.1

@@ -1,8 +1,8 @@
 import Geolocation from 'ol/Geolocation.js'
-import { Vector as VectorSource } from 'ol/source'
 import VectorLayer from 'ol/layer/Vector'
 import Feature from 'ol/Feature'
 import { GeoLocationConfiguration } from '@polar/lib-custom-types'
+
 export interface GeoLocationState {
   geolocation: Geolocation | null
   position: number[]
@@ -16,7 +16,7 @@ export interface GeoLocationGetters extends GeoLocationState {
   toastAction: string | undefined
   configuredEpsg: string
   checkLocationInitially: boolean
-  geoLocationMarkerLayer: VectorLayer<VectorSource>
+  geoLocationMarkerLayer: VectorLayer<Feature>
   keepCentered: boolean
   markerFeature: Feature
   renderType: string

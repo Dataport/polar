@@ -1,5 +1,9 @@
 import { SelectResultFunction } from '@polar/lib-custom-types'
-import SearchResultSymbols from '@polar/plugin-address-search/src/utils/searchResultSymbols'
+import {
+  SearchResultSymbols,
+  AddressSearchGetters,
+  AddressSearchState,
+} from '@polar/plugin-address-search'
 import levenshtein from 'js-levenshtein'
 import { dishAutocompleteUrl } from '../services'
 import { DishAutocompleteFunction } from '../types'
@@ -80,10 +84,10 @@ export const autocomplete: DishAutocompleteFunction = (_, __, inputValue) => {
 /**
  * selecting autocomplete offer re-triggers search
  */
-export const selectResult: SelectResultFunction = (
-  { commit, dispatch },
-  { feature }
-) => {
+export const selectResult: SelectResultFunction<
+  AddressSearchState,
+  AddressSearchGetters
+> = ({ commit, dispatch }, { feature }) => {
   commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
   commit('setChosenAddress', null)
   dispatch('input', feature.title)

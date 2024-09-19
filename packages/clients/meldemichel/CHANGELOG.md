@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Import type `MpApiParameters` from correct position.
+- Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
+
 ## 1.1.2
 
 - Chore: Fix bugs via dependency updates.

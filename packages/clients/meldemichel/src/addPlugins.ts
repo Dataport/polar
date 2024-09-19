@@ -31,9 +31,9 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
         layoutTag: NineLayoutTag.TOP_LEFT,
         addLoading: 'plugin/loadingIndicator/addLoadingKey',
         removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+        searchMethods: [],
       }),
       Pins({
-        displayComponent: true,
         appearOnClick: { show: true, atZoomLevel: 0 },
         coordinateSource: 'plugin/addressSearch/chosenAddress',
         toastAction: 'plugin/toast/addToast',

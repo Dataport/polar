@@ -8,16 +8,26 @@ The Export plugin offers users to download the currently visible map canvas in a
 
 ### export
 
-| fieldName | type    | description                                                                                                                                                                           |
-| --------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| download  | boolean? | Whether file is offered for download. By default, no download will happen, and the using service is supposed to register whether a "screenshot" has been taken and react accordingly. |
-| showJpg   | boolean? | Tools offers current map view as JPG. Defaults to `true`. |
-| showPdf   | boolean? | Tools offers current map view as PDF. Defaults to `true`. |
-| showPng   | boolean? | Tools offers current map view as PNG. Defaults to `true`. |
+| fieldName | type | description |
+| - | - | - |
+| download | boolean? | Whether file is offered for download. By default, no download will happen, and the using service is supposed to register whether a "screenshot" has been taken and react accordingly. |
+| showJpg | boolean? | Tools offers current map view as JPG. Defaults to `true`. |
+| showPdf | boolean? | Tools offers current map view as PDF. Defaults to `true`. |
+| showPng | boolean? | Tools offers current map view as PNG. Defaults to `true`. |
 
-## Store
+Example Configuration:
+```js
+export: {
+  download: true,
+  showJpg: false,
+  showPdf: false,
+  showPng: true,
+}
+```
 
 To remove user control, add `displayComponent: false` to the configuration and use the following interactions.
+
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
 ### Actions
 
