@@ -32,7 +32,7 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   webServer: {
-    command: 'npm run snowbox:dev',
+    command: 'npm run snowbox',
     url: 'http://localhost:1234',
     reuseExistingServer: !process.env.CI,
     stdout: 'ignore',
