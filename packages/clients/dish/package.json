@@ -37,7 +37,7 @@
     "@polar/plugin-scale": "^1.1.0",
     "@polar/plugin-toast": "^1.1.0",
     "@polar/plugin-zoom": "^1.2.0",
-    "focus-trap": "^7.2.0",
+    "focus-trap": "^7.6.0",
     "js-levenshtein": "^1.1.6",
     "lodash.merge": "^4.6.2"
   },
