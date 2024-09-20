@@ -16,7 +16,7 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "jspdf": "^2.5.1"
+    "jspdf": "^2.5.2"
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
