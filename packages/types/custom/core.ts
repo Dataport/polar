@@ -49,7 +49,7 @@ export interface LoadingIndicatorConfiguration extends PluginOptions {
 }
 
 /** Possible search methods by type */
-export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi' | string
+export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
 
 /**
  * Additional queryParameters for the GET-Request;
