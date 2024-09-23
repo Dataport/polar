@@ -243,7 +243,7 @@ Fields that are not set as required have default values.
 | backgroundImage | string? | Image to be displayed as a background of the map. Defaults to `''`, so no image being used. |
 | epsg | `EPSG:${string}`? | Leading coordinate system. The coordinate system has to be defined in `mapConfiguration.namedProjections` as well. Changing this value should also lead to changes in `mapConfiguration.startCenter`, `mapConfiguration.extent`, `mapConfiguration.options` and `mapConfiguration.startResolution` as they are described in or related to the leading coordinate system. Defaults to `'EPSG:25832'`. |
 | extent | number[]? | Map movement will be restricted to the rectangle described by the given coordinates. Unrestricted by default. |
-| namedProjections | Array<[string,string]>? | Array of usable coordinated systems mapped to a projection as a proj4 string. Defines the `'EPSG:25832'`, `'EPSG:3857'` and `'EPSG:4326'` by default. |
+| namedProjections | Array<[string,string]>? | Array of usable coordinated systems mapped to a projection as a proj4 string. Defines `'EPSG:25832'`, `'EPSG:3857'`, `'EPSG:4326'`, `'EPSG:31467'` and `'EPSG:4647'` by default. |
 | options | zoomOption[]? | Defines all available zoom levels mapped to the respective resolution and related scale. Defines 10 zoomLevels for `'EPSG:25832'` by default. |
 | startResolution | number? | Initial resolution; must be described in `mapConfiguration.options`. Defaults to `15.874991427504629` which is zoom level to in the default of `mapConfiguration.options`. |
 
