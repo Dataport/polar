@@ -24,6 +24,27 @@ However, this tool also supports the optional configuration parameters `mapConfi
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
+**Example configuration:**
+
+```js
+layers: [
+  {
+    id: backgroundmap,
+    visibility: true,
+    type: 'background',
+    name: 'Basemap Grayscale',
+  },
+  {
+    id: memorialsWFS,
+    visibility: false,
+    hideInMenu: true,
+    type: 'mask',
+    name: 'Memorial (WFS)',
+    minZoom: 7,
+  },
+]
+```
+
 ### layer.options
 
 An option wheel will appear in the layer chooser that allows opening a sub-menu with configured configuration options for the end user.
