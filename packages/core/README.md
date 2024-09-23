@@ -379,7 +379,6 @@ layers: [
   {
     id: memorialsWFS,
     visibility: false,
-    hideInMenu: true,
     name: 'Memorial (WFS)',
     minZoom: 7,
   },
