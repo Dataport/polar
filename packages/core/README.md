@@ -362,9 +362,6 @@ Since this is the base for many functions, the service id set in this is used to
 | - | - | - |
 | id | string | Service register id in `mapConfiguration.layerConf`. |
 | name | string | Display name in UI. |
-| maxZoom | number? | If set, layer only available (and selectable) up to this zoom level. |
-| minZoom | number? | If set, layer only available (and selectable) from this zoom level on. |
-| visibility | boolean? | Initial visibility. Defaults to `false`. |
 
 <details>
 <summary>Example configuration</summary>
@@ -373,14 +370,11 @@ Since this is the base for many functions, the service id set in this is used to
 layers: [
   {
     id: backgroundmap,
-    visibility: true,
     name: 'Basemap Grayscale',
   },
   {
     id: memorialsWFS,
-    visibility: false,
     name: 'Memorial (WFS)',
-    minZoom: 7,
   },
 ]
 ```

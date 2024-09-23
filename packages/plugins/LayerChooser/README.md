@@ -11,16 +11,19 @@ Order of layers within a layer is currently always as initially configured.
 ## Configuration
 
 The tool does not require any configuration for itself, but is based on the [`mapConfiguration.layers`](../../core/README.md#mapconfiguration.layers).
-It will infer its options from there, and change layer visibility and availability depending on `minZoom` and `maxZoom`.  
-It also requires the configuration of `type` for each layer.
+It will infer `id` and `name` from that configuration.
 
-However, this tool also supports the optional configuration parameters `mapConfiguration.layer.options` and `mapConfiguration.layer.hideInMenu` which are described in more depth in the following table.
+This plugin requires the configuration of `mapConfiguration.layer.type`.
+Also, this plugin also supports the optional configuration parameters `mapConfiguration.layer.hideInMenu`, `mapConfiguration.layer.minZoom`, `mapConfiguration.layer.maxZoom`, `mapConfiguration.layer.options` and `mapConfiguration.layer.visibility` which are described in more depth in the following table.
 
 | fieldName | type | description |
 | - | - | - |
 | type | enum["background", "mask"] | Layer handling. Backgrounds are mutually exclusive, masks ("overlays") can be stacked. |
 | hideInMenu | boolean? | Can be set for layers of type `'mask'` to hide them in the selection menu. |
+| maxZoom | number? | If set, layer only available (and selectable) up to this zoom level. |
+| minZoom | number? | If set, layer only available (and selectable) from this zoom level on. |
 | options | options? | Shows a layer-specific sub-menu; its contents are configurable. |
+| visibility | boolean? | Initial visibility. Defaults to `false`. |
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
