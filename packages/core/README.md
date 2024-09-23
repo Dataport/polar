@@ -386,28 +386,6 @@ layers: [
     name: 'Memorial (WFS)',
     minZoom: 7,
   },
-  {
-    id: memorialsWMS,
-    visibility: true,
-    type: 'mask',
-    name: 'Cultural monuments (list)',
-    options: {
-      layers: {
-        order: '6,24,25,4,3,2,1,0',
-        title: {
-          '6': 'Monument area',
-          '24': 'Majority of structures',
-          '25': 'Material group',
-          '4': 'Architectural monument',
-          '3': 'Natural monument',
-          '2': 'Water bodies',
-          '1': 'Architectural monument (area)',
-          '0': 'Natural monument (area)',
-        },
-        legend: true,
-      },
-    },
-  },
 ]
 ```
 
