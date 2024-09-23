@@ -9,6 +9,7 @@
 - Feature: There is now a new optional configuration parameter `searchMethods.queryParameters.likeFilterAttributes` for the WfsSearch that allows to add custom key/value pairs which are mapped to attributes of the like filter operator.
 - Feature: `AddressSearchState`, `AddressSearchGetters`, and `MpApiParameters` types have been additionally exposed as root export since using packages frequently rely on them.
 - Feature: When using the search type `mpapi`, a second search using a wildcard is now being triggered when the first search yielded no results.
+- Feature: When navigating through the search results by keyboard, pressing `Escape` will now result in closing the available results. Browser interactions on `Escape` may take precedence (i.e. in fullscreen mode, the browser will exit fullscreen mode instead of letting us use the input).
 - Fix: Adjust documentation and types to properly describe optionality of configuration parameters.
 - Fix: Use correct getter for `minLength`.
 - Fix: `SearchResultSymbols` has been additionally exposed as root export since using packages frequently rely on it.
