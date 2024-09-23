@@ -51,7 +51,7 @@ If the storeModule features a `setupModule` action, it will be executed automati
 ### initializeLayerList
 
 Layers intended to be used in the map have to be initialized by calling `initializeLayerList` with a service register.  
-This register may either be a link to a predefined one or the custom one, that is also required by [mapConfiguration.layerConf](#mapconfigurationlayerconf).  
+This register may either be a link to a predefined service register like [the Hamburg service register](https://geodienste.hamburg.de/services-internet.json), or the custom service register that is also used in [mapConfiguration.layerConf](#mapconfigurationlayerconf).
 
 ``js
 core.rawLayerList.initializeLayerList(services: mapConfiguration.layerConf | string, callback?: Function)
