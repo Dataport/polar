@@ -7,6 +7,7 @@
     :max-height="maxHeight"
     :ripple="false"
     tabindex="-1"
+    @keydown.escape.prevent.stop="escapeSelection"
   >
     <v-list
       v-for="(
@@ -144,7 +145,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapActions('plugin/addressSearch', ['selectResult']),
+    ...mapActions('plugin/addressSearch', ['selectResult', 'escapeSelection']),
     toggle(category: string): void {
       this.openCategories =
         this.openCategories.indexOf(category) === -1

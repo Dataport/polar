@@ -10,7 +10,7 @@ Currently supported services:
 
 - BKG
 - WFS
-- Some gazetteers/WFS-G (please request a check or try yourself, not 100% done)
+- Hamburg WFS-G (`mpapi`), may fit some WFS-G outside HH, test advised
 
 ## Configuration
 
