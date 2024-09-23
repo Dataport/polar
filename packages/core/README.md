@@ -362,7 +362,6 @@ Since this is the base for many functions, the service id set in this is used to
 | - | - | - |
 | id | string | Service register id in `mapConfiguration.layerConf`. |
 | name | string | Display name in UI. |
-| type | enum["background", "mask"] | Layer handling. Backgrounds are mutually exclusive, masks ("overlays") can be stacked. |
 | maxZoom | number? | If set, layer only available (and selectable) up to this zoom level. |
 | minZoom | number? | If set, layer only available (and selectable) from this zoom level on. |
 | visibility | boolean? | Initial visibility. Defaults to `false`. |
@@ -375,14 +374,12 @@ layers: [
   {
     id: backgroundmap,
     visibility: true,
-    type: 'background',
     name: 'Basemap Grayscale',
   },
   {
     id: memorialsWFS,
     visibility: false,
     hideInMenu: true,
-    type: 'mask',
     name: 'Memorial (WFS)',
     minZoom: 7,
   },

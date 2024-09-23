@@ -11,12 +11,14 @@ Order of layers within a layer is currently always as initially configured.
 ## Configuration
 
 The tool does not require any configuration for itself, but is based on the [`mapConfiguration.layers`](../../core/README.md#mapconfiguration.layers).
-It will infer its options from there, and change layer visibility and availability depending on `minZoom` and `maxZoom`.
+It will infer its options from there, and change layer visibility and availability depending on `minZoom` and `maxZoom`.  
+It also requires the configuration of `type` for each layer.
 
 However, this tool also supports the optional configuration parameters `mapConfiguration.layer.options` and `mapConfiguration.layer.hideInMenu` which are described in more depth in the following table.
 
 | fieldName | type | description |
 | - | - | - |
+| type | enum["background", "mask"] | Layer handling. Backgrounds are mutually exclusive, masks ("overlays") can be stacked. |
 | hideInMenu | boolean? | Can be set for layers of type `'mask'` to hide them in the selection menu. |
 | options | options? | Shows a layer-specific sub-menu; its contents are configurable. |
 
