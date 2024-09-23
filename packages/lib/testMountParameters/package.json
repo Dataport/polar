@@ -10,6 +10,7 @@
     "directory": "packages/lib/createTestMountParameters"
   },
   "devDependencies": {
+    "@polar/core": "^1.4.1",
     "@polar/lib-custom-types": "^1.4.1"
   }
 }

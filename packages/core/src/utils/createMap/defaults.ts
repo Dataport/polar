@@ -1,6 +1,6 @@
-import { MasterportalApiConfig } from '@polar/lib-custom-types'
+import { MasterportalApiConfig, PartialBy } from '@polar/lib-custom-types'
 
-// Default configuration parameters of @masterportal/masterportalapi
+// Default configuration parameters for @masterportal/masterportalapi
 export default {
   epsg: 'EPSG:25832',
   backgroundImage: '',
@@ -39,4 +39,18 @@ export default {
     ],
   ],
   startResolution: 15.874991427504629,
-} as Partial<MasterportalApiConfig>
+} as PartialBy<
+  // The type is this weird as CoreState.configuration has some values required ...
+  MasterportalApiConfig &
+    Required<
+      Pick<
+        MasterportalApiConfig,
+        | 'backgroundImage'
+        | 'epsg'
+        | 'namedProjections'
+        | 'options'
+        | 'startResolution'
+      >
+    >,
+  'layerConf' | 'startCenter'
+>
