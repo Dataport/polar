@@ -15,7 +15,7 @@
         <v-tooltip left :disabled="hasSmallDisplay">
           <template #activator="{ on, attrs }">
             <v-btn
-              :class="open === index ? 'openButton' : 'closedButton'"
+              :style="buttonStyle(Number(index))"
               fab
               small
               :aria-label="
@@ -25,7 +25,7 @@
               @click="toggle(Number(index))"
               v-on="on"
             >
-              <v-icon :class="open === index ? 'openButton' : 'closedButton'">
+              <v-icon :style="iconStyle(index)">
                 {{ icon }}
               </v-icon>
             </v-btn>
@@ -116,6 +116,24 @@ export default Vue.extend({
       }
       this.updateMaxWidth()
     },
+    buttonStyle(index: number) {
+      return this.open === index
+        ? `
+        background-color: var(--polar-primary-contrast) !important;
+        border-color: var(--polar-primary-contrast);
+        color: var(--polar-primary);
+        `
+        : `
+        background-color: var(--polar-primary) !important;
+        border-color: var(--polar-primary);
+        color: var(--polar-primary-contrast);
+        `
+    },
+    iconStyle(index: number) {
+      return this.open === index
+        ? `color: var(--polar-primary);`
+        : `color: var(--polar-primary-contrast);`
+    },
     updateMaxWidth() {
       this.$nextTick(() => {
         const plugin = this.$refs['item-component']
@@ -186,21 +204,5 @@ export default Vue.extend({
     top: -2px;
     right: -2px;
   }
-}
-
-.openButton {
-  background: var(--polar-primary);
-  color: var(--polar-primary-contrast);
-  border-color: var(--polar-primary);
-  box-shadow: var(--polar-primary);
-  outline: var(--polar-primary);
-}
-
-.closedButton {
-  background-color: var(--polar-primary);
-  color: var(--polar-primary-contrast);
-  border-color: var(--polar-primary);
-  box-shadow: var(--polar-primary);
-  outline: var(--polar-primary);
 }
 </style>
