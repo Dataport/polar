@@ -6,7 +6,7 @@
           :class="{
             'ma-2': renderType !== 'iconMenu',
           }"
-          color="primary"
+          :style="buttonStyle"
           small
           fab
           :disabled="isGeolocationDenied"
@@ -14,7 +14,7 @@
           v-on="on"
           @click="geolocation === null ? track() : untrack()"
         >
-          <v-icon color="primaryContrast">fa-map-pin</v-icon>
+          <v-icon :style="iconStyle">fa-map-pin</v-icon>
         </v-btn>
       </template>
       <span>{{ $t(tooltipMessage) }}</span>
@@ -36,6 +36,16 @@ export default Vue.extend({
       'tracking',
       'isGeolocationDenied',
     ]),
+    buttonStyle() {
+      return `
+        background-color: var(--polar-primary) !important;
+        border-color: var(--polar-primary);
+        color: var(--polar-primary-contrast);
+      `
+    },
+    iconStyle() {
+      return `color: var(--polar-primary-contrast);`
+    },
     tooltipMessage() {
       if (this.isGeolocationDenied) {
         return 'common:plugins.geoLocation.button.tooltip.locationAccessDenied'
