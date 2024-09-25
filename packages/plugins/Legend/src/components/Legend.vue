@@ -36,13 +36,13 @@
     <v-btn
       x-small
       fab
-      color="secondary"
+      :style="buttonStyle"
       :title="
         $t(`common:plugins.legend.button.${isOpen ? 'close' : 'open'}Title`)
       "
       @click="toggleMapLegend"
     >
-      <v-icon color="secondaryContrast">{{ mapLegendIcon }}</v-icon>
+      <v-icon :style="iconStyle">{{ mapLegendIcon }}</v-icon>
     </v-btn>
   </div>
 </template>
@@ -59,6 +59,16 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters(['clientHeight', 'configuration', 'hasSmallHeight']),
+    buttonStyle() {
+      return `
+        background-color: var(--polar-secondary) !important;
+        border-color: var(--polar-secondary);
+        color: var(--polar-secondary-contrast);
+      `
+    },
+    iconStyle() {
+      return `color: var(--polar-secondary-contrast);`
+    },
     mapLegendIcon() {
       if (!this.isOpen) {
         return `fa-info`
