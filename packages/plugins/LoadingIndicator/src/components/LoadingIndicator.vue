@@ -2,8 +2,19 @@
   <div v-if="showLoader">
     <v-card>
       <v-card-text>
-        {{ $t('common:plugins.loadingIndicator.loading') }}
-        <v-progress-linear indeterminate color="primary" class="mb-0" />
+        <v-container>
+          <v-row justify="center">
+            {{ $t('common:plugins.loadingIndicator.loading') }}
+          </v-row>
+          <v-row v-if="loaderStyle !== 'none'">
+            <component
+              :is="loaderStyle"
+              indeterminate
+              color="primary"
+              class="mb-0"
+            />
+          </v-row>
+        </v-container>
       </v-card-text>
     </v-card>
   </div>
@@ -12,11 +23,23 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import RollerLoader from './loaderStyles/Roller.vue'
+import CircleLoader from './loaderStyles/Circle.vue'
+import SpinnerLoader from './loaderStyles/Spinner.vue'
+import RingLoader from './loaderStyles/Ring.vue'
+import BasicLoader from './loaderStyles/Basic.vue'
 
 export default Vue.extend({
   name: 'LoadingIndicator',
+  components: {
+    RollerLoader,
+    CircleLoader,
+    SpinnerLoader,
+    RingLoader,
+    BasicLoader,
+  },
   computed: {
-    ...mapGetters('plugin/loadingIndicator', ['showLoader']),
+    ...mapGetters('plugin/loadingIndicator', ['showLoader', 'loaderStyle']),
   },
 })
 </script>

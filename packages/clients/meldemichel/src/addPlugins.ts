@@ -31,6 +31,7 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
         layoutTag: NineLayoutTag.TOP_LEFT,
         addLoading: 'plugin/loadingIndicator/addLoadingKey',
         removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+        searchMethods: [],
       }),
       Pins({
         appearOnClick: { show: true, atZoomLevel: 0 },

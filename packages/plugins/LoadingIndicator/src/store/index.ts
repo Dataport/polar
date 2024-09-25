@@ -4,10 +4,9 @@
 
 import { PolarModule } from '@polar/lib-custom-types'
 import { LoadingIndicatorGetters, LoadingIndicatorState } from '../types'
-
-const getInitialState = (): LoadingIndicatorState => ({
-  loadKeys: new Set(),
-})
+import getters from './getters'
+import { getInitialState } from './state'
+import mutations from './mutations'
 
 export const makeStoreModule = () => {
   const storeModule: PolarModule<
@@ -16,18 +15,15 @@ export const makeStoreModule = () => {
   > = {
     namespaced: true,
     state: getInitialState(),
-    mutations: {
-      addLoadingKey(state, key: string) {
-        state.loadKeys = new Set([...state.loadKeys, key])
+    mutations,
+    getters,
+    actions: {
+      setupModule({ rootGetters, commit }) {
+        commit(
+          'setLoaderStyle',
+          (rootGetters.configuration.loadingIndicator || {}).loaderStyle
+        )
       },
-      removeLoadingKey(state, key: string) {
-        const loadKeys = new Set(state.loadKeys)
-        loadKeys.delete(key)
-        state.loadKeys = loadKeys
-      },
-    },
-    getters: {
-      showLoader: ({ loadKeys }) => loadKeys.size > 0,
     },
   }
 

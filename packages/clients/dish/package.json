@@ -1,7 +1,8 @@
 {
   "name": "@polar/client-dish",
   "version": "1.1.1",
-  "description": "Client dish",
+  "description": "POLAR Client DISH. This client provides information about monuments in Schleswig-Holstein, Germany.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "client", "DISH", "monument", "memorial"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -10,13 +11,15 @@
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/clients/dish"
   },
+  "main": "dist/client-dish.js",
   "files": [
     "dist/**/**.*",
     "CHANGELOG.md"
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh"
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
+    "dev": "vite --host"
   },
   "devDependencies": {
     "@masterportal/masterportalapi": "2.40.0",
@@ -35,8 +38,11 @@
     "@polar/plugin-scale": "^1.1.0",
     "@polar/plugin-toast": "^1.1.0",
     "@polar/plugin-zoom": "^1.2.0",
-    "focus-trap": "^7.2.0",
+    "focus-trap": "^7.6.0",
     "js-levenshtein": "^1.1.6",
     "lodash.merge": "^4.6.2"
+  },
+  "nx": {
+    "includedScripts": ["build", "dev"]
   }
 }

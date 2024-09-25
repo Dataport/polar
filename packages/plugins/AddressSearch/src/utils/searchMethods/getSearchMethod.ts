@@ -1,11 +1,10 @@
 import { getWfsFeatures as wfs } from '@polar/lib-get-features'
 import { SearchMethodFunction } from '@polar/lib-custom-types'
 import bkg from './bkg'
-import gazetteer from './gazetteer'
 import mpapi from './mpapi'
 
 export const getMethodContainer = () => {
-  const methods = { bkg, gazetteer, wfs, mpapi }
+  const methods = { bkg, wfs, mpapi }
 
   const registerSearchMethods = (
     additionalMethods: Record<string, SearchMethodFunction>
@@ -21,11 +20,6 @@ export const getMethodContainer = () => {
     })
 
   function getSearchMethod(type: string): SearchMethodFunction {
-    if (type === 'gazetteer') {
-      console.warn(
-        '@polar/plugin-address-search: Search type "gazetteer" is deprecated. Please use "mpapi" instead.'
-      )
-    }
     const method = methods[type]
     if (method) {
       return method

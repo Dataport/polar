@@ -1,7 +1,8 @@
 {
   "name": "@polar/plugin-toast",
   "version": "1.1.0",
-  "description": "Plugin Toast",
+  "description": "Toast plugin for POLAR that adds toast elements (notification popups) to the client.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "toast", "notification", "popup"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

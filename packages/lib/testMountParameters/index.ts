@@ -18,7 +18,7 @@ export interface MockParameters {
   emptyRoot: CoreState
 }
 
-export default (): MockParameters => {
+const initializeI18n = (): Promise<void> =>
   i18next
     .init({
       lng: 'cimode',
@@ -31,6 +31,9 @@ export default (): MockParameters => {
     .catch((error: Error) => {
       console.error('i18next: Error while initializing for testing.', error)
     })
+
+export default (): MockParameters => {
+  initializeI18n()
   const localVue: VueConstructor<Vue> = createLocalVue()
   return {
     localVue,
