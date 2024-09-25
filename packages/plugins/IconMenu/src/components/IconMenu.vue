@@ -119,14 +119,14 @@ export default Vue.extend({
     buttonStyle(index: number) {
       return this.open === index
         ? `
-        background-color: var(--polar-primary-contrast) !important;
-        border-color: var(--polar-primary-contrast);
-        color: var(--polar-primary);
+          background-color: var(--polar-primary-contrast) !important;
+          border-color: var(--polar-primary-contrast);
+          color: var(--polar-primary);
         `
         : `
-        background-color: var(--polar-primary) !important;
-        border-color: var(--polar-primary);
-        color: var(--polar-primary-contrast);
+          background-color: var(--polar-primary) !important;
+          border-color: var(--polar-primary);
+          color: var(--polar-primary-contrast);
         `
     },
     iconStyle(index: number) {
