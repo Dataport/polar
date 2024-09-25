@@ -2,7 +2,7 @@ import { DrawStyle } from '@polar/lib-custom-types'
 import { Circle as CircleStyle, Fill, Style, Stroke } from 'ol/style'
 import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
-
+// TODO muss auf neue Styles angepasst werden
 export default function (
   drawMode: string,
   strokeColor: string,
