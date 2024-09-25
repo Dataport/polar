@@ -6,8 +6,11 @@ import { Circle, Point } from 'ol/geom'
 import createDrawLayer from '../utils/createDrawLayer'
 import { DrawGetters, DrawState } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
+import createDrawStyle from '../utils/createDrawStyle'
 import createInteractions from './createInteractions'
 import createModifyInteractions from './createInteractions/createModifyInteractions'
+import modifyDrawStyle from './createInteractions/modifyDrawStyle'
+import modifyTextStyle from './createInteractions/modifyTextStyle'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -19,11 +22,19 @@ export const makeActions = () => {
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
     createModifyInteractions,
-    setupModule({ commit, dispatch, rootGetters: { configuration, map } }) {
+    modifyDrawStyle,
+    modifyTextStyle,
+    setupModule({
+      commit,
+      dispatch,
+      getters: { configuration },
+      rootGetters: { map },
+    }) {
+      dispatch('initializeConfigStyle')
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
         commit('updateFeatures')
       )
-      drawLayer = createDrawLayer(drawSource, configuration?.draw?.style)
+      drawLayer = createDrawLayer(drawSource, configuration?.style)
 
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
@@ -54,6 +65,23 @@ export const makeActions = () => {
         )
         selectedFeature.set('text', textInput)
         commit('updateFeatures')
+      }
+    },
+    setSelectedStrokeColor(
+      { commit, dispatch, getters: { configuration, selectedFeature, mode } },
+      selectedStrokeColor
+    ) {
+      const featureStyle = selectedFeature?.getStyle()
+      if (mode === 'draw') {
+        commit('setSelectedStrokeColor', selectedStrokeColor)
+        dispatch('updateInteractions')
+      } else if (selectedFeature && featureStyle) {
+        const style = createDrawStyle(
+          selectedFeature?.getGeometry()?.getType() || mode,
+          selectedStrokeColor,
+          configuration?.style
+        )
+        selectedFeature.setStyle(style)
       }
     },
     setSelectedSize(
@@ -134,6 +162,11 @@ export const makeActions = () => {
       }
       drawSource.addFeatures(features)
       commit('updateFeatures')
+    },
+    initializeConfigStyle: ({ commit, getters: { configuration } }) => {
+      if (configuration?.style?.stroke?.color) {
+        commit('setSelectedStrokeColor', configuration.style.stroke.color)
+      }
     },
   }
 

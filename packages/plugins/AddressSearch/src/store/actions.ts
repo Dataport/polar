@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce'
 import { FeatureCollection } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
-import SearchResultSymbols from '../utils/searchResultSymbols'
+import { SearchResultSymbols } from '../'
 import { getMethodContainer } from '../utils/searchMethods/getSearchMethod'
 import {
   AddressSearchGetters,
@@ -85,13 +85,12 @@ export const makeActions = () => {
       commit,
       dispatch,
     }): Promise<void> | void {
-      const { minLength } = getters.addressSearchConfiguration
       const activeSearchMethods = getters.selectedGroup
       // Value is null when the input is cleared; extra undefined check for safety
       if (
         typeof inputValue === 'undefined' ||
         inputValue === null ||
-        inputValue.length < minLength
+        inputValue.length < getters.minLength
       ) {
         commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
         dispatch('indicateLoading', false)
@@ -183,6 +182,9 @@ export const makeActions = () => {
         commit('setInputValue', feature.title)
         commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
       }
+    },
+    escapeSelection({ commit }): void {
+      commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
     },
 
     /**

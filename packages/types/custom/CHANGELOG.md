@@ -2,17 +2,22 @@
 
 ## unpublished
 
+- Feature: Add new parameter `enableOptions` to interface `DrawConfiguration`.
 - Feature: Add new interface `ScaleConfiguration` and new property `scale` to `mapConfiguration`.
 - Feature: Add `afterResultComponent` to `AddressSearchConfiguration` for custom search result suffixes.
 - Feature: Add `mapHasDimensions` to `CoreState` and `CoreGetters`.
 - Feature: Add new getter `deviceIsHorizontal` to `CoreGetters`.
 - Feature: Add `footer` to `RenderType` as an option to display attributions in a footer.
 - Feature: Add new parameter `showZoomSlider` to `ZoomConfiguration`.
+- Feature: Add new types `LoaderStyles` and `LoadingIndicatorConfiguration`.
+- Feature: Add `loadingIndicator` to `MapConfig` to configure loader style.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 - Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.
 - Fix: Properly document optional parameters of interfaces `AddressSearchConfiguration`, `FeatureList`, `FilterConfigurationTime`, `FilterConfigurationTimeOption`, `GeoLocationConfiguration`, `LayerConfigurationOptionLayers` and `PinsConfiguration`
 - Fix: Add missing parameters `mode` and `renderType` to `GfiConfiguration`.
 - Fix: Remove mpapi-search specific parameters from general interface `QueryParameters`.
+- Fix: Extend `SelectResultPayload` with fitting vuex parameters, and `SelectResultFunction` with `title` field as used in `@polar/plugin-address-search`.
+- Fix: Use correct type `VueConstructor` for properties `GfiConfiguration.gfiContentComponent`, `MoveHandleProperties.component` and `MoveHandleActionButton.component`.
 
 ## 1.4.1
 

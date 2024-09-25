@@ -1,12 +1,12 @@
+import { Feature } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
 import { Vector } from 'ol/source'
 import { GeoJSON } from 'ol/format'
 import { Feature as GeoJsonFeature } from 'geojson'
-import VectorSource from 'ol/source/Vector'
 
 export function getFeatureDisplayLayer() {
   const featureDisplayLayer = new VectorLayer({
-    source: new Vector({
+    source: new Vector<Feature>({
       features: [],
     }),
   })
@@ -24,7 +24,7 @@ function isVectorSource(source): source is Vector {
 /**
  * reset feature layer's features.
  */
-export function clear(featureDisplayLayer: VectorLayer<VectorSource>): void {
+export function clear(featureDisplayLayer: VectorLayer<Feature>): void {
   const source = featureDisplayLayer.getSource()
   if (isVectorSource(source)) {
     source.clear()
@@ -36,7 +36,7 @@ export function clear(featureDisplayLayer: VectorLayer<VectorSource>): void {
  */
 export function addFeature(
   feature: GeoJsonFeature,
-  featureDisplayLayer: VectorLayer<VectorSource>
+  featureDisplayLayer: VectorLayer<Feature>
 ): void {
   const source = featureDisplayLayer.getSource()
   if (isVectorSource(source)) {

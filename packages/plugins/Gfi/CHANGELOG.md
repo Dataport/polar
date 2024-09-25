@@ -2,10 +2,12 @@
 
 ## unpublished
 
+- Breaking: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Fix: Add missing configuration parameters `featureList` and `maxFeatures` to the general documentation and `filterBy` and `format` to `gfi.gfiLayerConfiguration`
 - Refactor: Replace redundant prop-forwarding with `getters`.
 - Refactor: Use core getter `clientWidth` instead of local computed value.
+- Chore: expand on the description to `gfiContentComponent` in the Readme.md.
 
 ## 1.2.2
 

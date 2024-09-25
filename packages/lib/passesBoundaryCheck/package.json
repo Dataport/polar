@@ -1,6 +1,8 @@
 {
   "name": "@polar/lib-passes-boundary-check",
   "version": "2.0.0",
+  "description": "Provides a check function for whether something is in (potentially asynchronously available) boundaries.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "lib", "boundary"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -11,6 +13,7 @@
     "directory": "packages/lib/passesBoundaryCheck"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.1.0"
+    "@polar/lib-custom-types": "^1.1.0",
+    "ol": "^9.2.4"
   }
 }
