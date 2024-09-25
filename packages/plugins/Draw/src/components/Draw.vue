@@ -36,7 +36,6 @@
         :value="textInput"
         class="ml-4"
         rows="1"
-        background-color="grey lighten-3"
         @input="setTextInput"
       ></v-textarea>
     </v-card>
