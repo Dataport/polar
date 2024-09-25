@@ -71,6 +71,7 @@ draw: {
     type: 'circle',
     circleFillColor: [255, 165, 0, 1],
     circleStrokeWidth: 2,
+    circleStrokeColor: [0, 0, 255, 1],
     circleRadius: 10,
   },
   circleStyle: {
