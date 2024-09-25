@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["packages/clients"],
+  "compilerOptions": {
+    "noEmit": true
+  }
+}

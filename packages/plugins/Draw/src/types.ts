@@ -24,6 +24,7 @@ export interface DrawState {
   mode: Mode
   drawMode: DrawMode
   textInput: string
+  selectedStrokeColor: string
   /* index in array of available sizes */
   selectedSize: number
   featureCollection: FeatureCollection
@@ -40,6 +41,7 @@ export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
   showSizeSlider: boolean
   /* actual text size to use */
   textSize: number
+  showDrawOptions: boolean
 }
 
 export interface DrawMutations extends MutationTree<DrawState> {

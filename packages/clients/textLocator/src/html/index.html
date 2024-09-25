@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- NOTE THIS FILE IS DEV MODE ONLY; for prod html see src/html -->
 <html style="height: 100%; width: 100vw; overflow: hidden">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -11,7 +10,7 @@
       http-equiv="Cache-Control"
       content="no-cache, no-store, must-revalidate, max-age=0"
     />
-    <title>TextLocator DevMode</title>
+    <title>TextLocator</title>
     <style>
       html, body {
         margin: 0;
@@ -25,16 +24,6 @@
         <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
       </div>
     </div>
-    <script type="module">
-      import { initializeClient } from './polar-client.ts'
-
-      initializeClient({
-        urls: {
-          textLocatorBackend: 'https://textlocator.ai.dsecurecloud.de/api',
-          gazetteerClient: 'https://mdi-de-dienste.org/GazetteerClient/search'
-        }
-      }).then(console.info.bind(null, 'Map client instance:'))
-        .catch(console.error.bind(null, 'Map client setup failed:'))
-    </script>
+    <script src="./index.js" type="module"></script>
   </body>
 </html>

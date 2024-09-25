@@ -33,6 +33,7 @@ The styling of the drawn features can be configured to overwrite the default ol-
 
 | fieldName | type | description |
 | - | - | - |
+| enableOptions | boolean? | If `true`, draw options are displayed, like choosing and changing stroke color. Not available for texts features. Defaults to `false`. |
 | circleStyle | CircleStyle? | Styling Object to style circle features. Defaults to OpenLayers Style. |
 | lineStringStyle | LineStringStyle? | Styling Object to style linestring features. Defaults to OpenLayers Style. |
 | pointStyle | PointStyle? | Styling Object to style point features. Defaults to OpenLayers Style. |

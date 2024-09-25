@@ -8,4 +8,6 @@ Please see the CHANGELOG.md for all changes after the initial release.
 
 ## Usage
 
-The product is a hostable HTML page.
+The product is a hostable HTML page. The included index.js file contains the default configuration.
+
+It's also possible to directly import and use the client `client-text-locator.js`; however, this is currently neither tested nor documented. Should the client with matching documentation be required in such a way that further modifications can be made or that the client can used embedded in a page, contact us.

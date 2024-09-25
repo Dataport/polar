@@ -19,6 +19,7 @@ const getInitialState = (): DrawState => ({
     features: [],
   },
   selectedFeature: 1,
+  selectedStrokeColor: '#000000',
 })
 
 // OK for module creation
@@ -84,6 +85,16 @@ export const makeStoreModule = () => {
           (mode === 'edit' &&
             selectedFeature &&
             typeof selectedFeature.get('text') === 'string')
+        )
+      },
+      showDrawOptions(
+        { mode },
+        { configuration, showTextInput, selectedFeature }
+      ) {
+        return (
+          configuration.enableOptions &&
+          !showTextInput &&
+          (mode === 'draw' || (mode === 'edit' && selectedFeature))
         )
       },
       configuration(_, __, ___, rootGetters) {
