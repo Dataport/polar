@@ -1,7 +1,8 @@
 <template>
   <div :class="'export-wrapper ' + flow">
     <export-button
-      color="primary"
+      :button-style="primaryButtonStyle"
+      :icon-style="primaryIconStyle"
       fab
       :click="singleExport ? () => exportFile(singleExport) : toggleButtons"
       icon="fa-image"
@@ -11,7 +12,8 @@
       <div v-if="visible" :class="'export-wrapper export-center ' + flow">
         <export-button
           v-if="showJpg"
-          color="secondary"
+          :button-style="secondaryButtonStyle"
+          :icon-style="secondaryIconStyle"
           small
           fab
           :click="() => exportFile(format.JPG)"
@@ -21,7 +23,8 @@
         ></export-button>
         <export-button
           v-if="showPng"
-          color="secondary"
+          :button-style="secondaryButtonStyle"
+          :icon-style="secondaryIconStyle"
           small
           fab
           :click="() => exportFile(format.PNG)"
@@ -31,7 +34,8 @@
         ></export-button>
         <export-button
           v-if="showPdf"
-          color="secondary"
+          :button-style="secondaryButtonStyle"
+          :icon-style="secondaryIconStyle"
           small
           fab
           :click="() => exportFile(format.PDF)"
@@ -67,6 +71,26 @@ export default (Vue as VueConstructor<ExportComponent>).extend({
       'showPng',
     ]),
     ...mapGetters(['map']),
+    primaryButtonStyle() {
+      return `
+        background-color: var(--polar-primary) !important;
+        border-color: var(--polar-primary);
+        color: var(--polar-primary-contrast);
+      `
+    },
+    primaryIconStyle() {
+      return `color: var(--polar-primary-contrast);`
+    },
+    secondaryButtonStyle() {
+      return `
+        background-color: var(--polar-secondary) !important;
+        border-color: var(--polar-secondary);
+        color: var(--polar-secondary-contrast);
+      `
+    },
+    secondaryIconStyle() {
+      return `color: var(--polar-secondary-contrast);`
+    },
     format() {
       return ExportFormat
     },

@@ -3,7 +3,7 @@
     <template #activator="{ on, attrs }">
       <v-btn
         class="ma-2"
-        :color="color"
+        :style="buttonStyle"
         :small="small"
         :fab="fab"
         :aria-label="hint ? $t(hint) : ''"
@@ -11,9 +11,7 @@
         @click="click"
         v-on="on"
       >
-        <v-icon :small="smallIcon" :color="`${color}Contrast`">{{
-          icon
-        }}</v-icon>
+        <v-icon :small="smallIcon" :style="iconStyle">{{ icon }}</v-icon>
       </v-btn>
     </template>
     <span v-if="hint">{{ $t(hint) }}</span>
@@ -31,7 +29,11 @@ export default Vue.extend({
       type: Function,
       required: true,
     },
-    color: {
+    buttonStyle: {
+      type: String,
+      required: true,
+    },
+    iconStyle: {
       type: String,
       required: true,
     },
