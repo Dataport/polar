@@ -34,7 +34,6 @@
       </v-scroll-x-reverse-transition>
     </div>
     <v-btn
-      class="buttonSecondary"
       x-small
       fab
       color="secondary"
@@ -116,15 +115,5 @@ export default Vue.extend({
 
 .polar-scroll-box {
   overflow-y: scroll;
-}
-.buttonSecondary.v-btn:hover {
-  border: solid var(--polar-secondary-contrast) !important;
-  outline: solid var(--polar-secondary);
-  outline-offset: 1px;
-}
-.buttonSecondary.v-btn:focus {
-  border: solid var(--polar-secondary-contrast) !important;
-  outline: solid var(--polar-secondary);
-  outline-offset: 1px;
 }
 </style>
