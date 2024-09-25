@@ -9,7 +9,7 @@
               ? `polar-zoom-dependent${deviceIsHorizontal ? '-horizontal' : ''}`
               : 'ma-2'
           "
-          color="primary"
+          :style="buttonStyle"
           small
           fab
           :disabled="maximumZoomLevelActive"
@@ -17,7 +17,7 @@
           @click="increaseZoomLevel"
           v-on="on"
         >
-          <v-icon color="primaryContrast"> fa-plus </v-icon>
+          <v-icon :style="iconStyle"> fa-plus </v-icon>
         </v-btn>
       </template>
       <span>{{ $t('common:plugins.zoom.in') }}</span>
@@ -27,7 +27,7 @@
         <v-btn
           :aria-label="$t('common:plugins.zoom.out')"
           :class="{ 'ma-2': renderType === 'independent' }"
-          color="primary"
+          :style="buttonStyle"
           small
           fab
           :disabled="minimumZoomLevelActive"
@@ -35,7 +35,7 @@
           @click="decreaseZoomLevel"
           v-on="on"
         >
-          <v-icon color="primaryContrast"> fa-minus </v-icon>
+          <v-icon :style="iconStyle"> fa-minus </v-icon>
         </v-btn>
       </template>
       <span>{{ $t('common:plugins.zoom.out') }}</span>
@@ -68,11 +68,21 @@ export default Vue.extend({
       'showMobile',
       'showZoomSlider',
     ]),
-    showZoomButtons(): boolean {
-      return this.hasSmallHeight ? this.showMobile : true
-    },
     addZoomSlider(): boolean {
       return !this.hasSmallHeight && this.showZoomSlider
+    },
+    buttonStyle() {
+      return `
+        background-color: var(--polar-primary) !important;
+        border-color: var(--polar-primary);
+        color: var(--polar-primary-contrast);
+      `
+    },
+    iconStyle() {
+      return `color: var(--polar-primary-contrast);`
+    },
+    showZoomButtons(): boolean {
+      return this.hasSmallHeight ? this.showMobile : true
     },
   },
   methods: {
