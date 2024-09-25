@@ -8,14 +8,14 @@
             : $t('common:plugins.fullscreen.button.tooltip.activate')
         "
         :class="{ 'ma-2': renderType === 'independent' }"
-        color="primary"
+        :style="buttonStyle"
         small
         fab
         v-bind="attrs"
         v-on="on"
         @click="toggleFullscreen"
       >
-        <v-icon color="primaryContrast">
+        <v-icon :style="iconStyle">
           {{ isInFullscreen ? 'fa-compress' : 'fa-expand' }}
         </v-icon>
       </v-btn>
@@ -41,6 +41,16 @@ export default Vue.extend({
       'renderType',
       'targetContainerId',
     ]),
+    buttonStyle() {
+      return `
+        background-color: var(--polar-primary) !important;
+        border-color: var(--polar-primary);
+        color: var(--polar-primary-contrast);
+      `
+    },
+    iconStyle() {
+      return `color: var(--polar-primary-contrast);`
+    },
     targetContainer(): Element {
       if (this.targetContainerId.length > 0) {
         if (document.getElementById(this.targetContainerId)) {
