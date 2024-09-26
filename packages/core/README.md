@@ -21,7 +21,7 @@ It is important to note that the behaviour will be desktop-like on larger touchs
 
 It depends on the client how exactly the initialization will take place for the embedding programmer. However, the core mechanism remains the same.
 
-The exported default object is an extended masterportalAPI, adding the `addPlugins` and extending the `createMap` functions. For masterportalAPI details, [see their repository](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/).
+The exported default object is an extended masterportalapi, adding the `addPlugins` and extending the `createMap` functions. For masterportalapi details, [see their repository](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/).
 
 ### addPlugins
 
@@ -48,6 +48,17 @@ const Plugin = (options: PluginOptions) => (instance: Vue) =>
 
 If the storeModule features a `setupModule` action, it will be executed automatically after initialization.
 
+### initializeLayerList
+
+Layers intended to be used in the map have to be initialized by calling `initializeLayerList` with a service register.  
+This register may either be a link to a predefined service register like [the Hamburg service register](https://geodienste.hamburg.de/services-internet.json), or the custom service register that is also used in [mapConfiguration.layerConf](#mapconfigurationlayerconf).
+
+``js
+core.rawLayerList.initializeLayerList(services: mapConfiguration.layerConf | string, callback?: Function)
+``
+
+[createMap](#createmap) is usually called inside the callback or directly after this function call.  
+
 ### createMap
 
 The map is created by calling the `createMap` method. Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone HTML pages that do this for you.
@@ -69,11 +80,10 @@ The mapConfiguration allows controlling many client instance details.
 
 | fieldName | type | description |
 | - | - | - |
-| language | enum["de", "en"] | Initial language. |
-| layerConf | LayerConf | Layer configuration as required by masterportalAPI. |
-| <...masterportalAPI.fields> | various | The object is also used to initialize the masterportalAPI. Please refer to their documentation for options. |
+| <...masterportalapi.fields> | various | Multiple different parameters are required by the masterportalapi to be able to create the map. Also, some fields are optional but relevant and thus described here as well. For all additional options, refer to the documentation of the masterportalapi itself. |
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
-| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalAPI. |
+| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalapi. |
+| language | enum["de", "en"]? | Initial language. |
 | locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
 | <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
@@ -220,16 +230,65 @@ A full documentation of the masterportalapiPolygonFillHatch is available at the 
 >|patternColor|no|Number[]|`[255, 255, 255, 1]`|Fill color of pattern drawn on polygon.|
 >|size|no|Number|`30`|Edge length of a singular repeated pattern element.|
 
-##### mapConfiguration.LayerConf
+##### <...masterportalapi.fields>
 
-The layer configuration (or: service register) is read by the masterportalAPI. The full definition can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+The `<...masterportalapi.fields>` means that any masterportalapi field may also be used here _directly_ in the mapConfiguration. The fields described here are fields that are interesting for the usage of POLAR.
+Fields that are not set as required have default values.
 
-However, not all listed services have been implemented in the masterportalAPI yet, and no documentation regarding implemented properties exists there yet.
+| fieldName | type | description |
+| - | - | - |
+| layerConf | layerConf | Layer configuration of all available layers as a service register. Layers defined here are not directly shown in a client, see `mapconfiguration.layers` for that. |
+| layers | layer[] | Configuration of layers that are supposed to be used in the respective client. All layers defined here have to have an entry in `mapConfiguration.layerConf`. If `@polar/plugin-layer-chooser` is installed and configured, all these layers will be displayed in that menu. |
+| startCenter | number[] | Initial center coordinate. Needs to be defined in the chosen leading coordinate system. |
+| epsg | `EPSG:${string}`? | Leading coordinate system. The coordinate system has to be defined in `mapConfiguration.namedProjections` as well. Changing this value should also lead to changes in `mapConfiguration.startCenter`, `mapConfiguration.extent`, `mapConfiguration.options` and `mapConfiguration.startResolution` as they are described in or related to the leading coordinate system. Defaults to `'EPSG:25832'`. |
+| extent | number[]? | Map movement will be restricted to the rectangle described by the given coordinates. Unrestricted by default. |
+| namedProjections | Array<[string,string]>? | Array of usable coordinated systems mapped to a projection as a proj4 string. Defines `'EPSG:25832'`, `'EPSG:3857'`, `'EPSG:4326'`, `'EPSG:31467'` and `'EPSG:4647'` by default. If you set a value, please mind that all pre-configured projections are overridden, and requiring e.g. `'EPSG:4326'` will only work if it is also defined in your override. |
+| options | zoomOption[]? | Defines all available zoom levels mapped to the respective resolution and related scale. Defines 10 zoomLevels for `'EPSG:25832'` by default. |
+| startResolution | number? | Initial resolution; must be described in `mapConfiguration.options`. Defaults to `15.874991427504629` which is zoom level to in the default of `mapConfiguration.options`. |
+
+<details>
+<summary>Example configuration</summary>
+
+```js
+{
+  startResolution: 264.583190458,
+  startCenter: [553655.72, 6004479.25],
+  extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
+  epsg: 'EPSG:25832',
+  options: [
+    { resolution: 66.14579761460263, scale: 250000, zoomLevel: 0 },
+    { resolution: 26.458319045841044, scale: 100000, zoomLevel: 1 },
+    { resolution: 15.874991427504629, scale: 60000, zoomLevel: 2 },
+    { resolution: 10.583327618336419, scale: 40000, zoomLevel: 3 },
+    { resolution: 5.2916638091682096, scale: 20000, zoomLevel: 4 },
+    { resolution: 2.6458319045841048, scale: 10000, zoomLevel: 5 },
+    { resolution: 1.3229159522920524, scale: 5000, zoomLevel: 6 },
+    { resolution: 0.6614579761460262, scale: 2500, zoomLevel: 7 },
+    { resolution: 0.2645831904584105, scale: 1000, zoomLevel: 8 },
+    { resolution: 0.1322915952292052, scale: 500, zoomLevel: 9 },
+  ],
+  namedProjections: [
+    [
+      'EPSG:25832',
+      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+    ],
+  ],
+}
+```
+
+</details>
+
+##### mapConfiguration.layerConf
+
+The layer configuration (or: service register) is read by the masterportalapi. The full definition can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+
+However, not all listed services have been implemented in the masterportalapi yet, and no documentation regarding implemented properties exists there yet.
 
 Whitelisted and confirmed parameters include:
 
-- WMS: id, name, url, typ, format, version, transparent, layers, STYLES
-- WFS: id, name, url, typ, outputFormat, version, featureType
+- WMS:  id, name, url, typ, format, version, transparent, layers, STYLES
+- WFS:  id, name, url, typ, outputFormat, version, featureType
+- WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength
 
 ###### Example services register
 
@@ -253,48 +312,70 @@ Whitelisted and confirmed parameters include:
     "version": "1.3.0",
     "transparent": true,
     "layers": ["A", "B"]
+  },
+  {
+    "id": "my-self-defined-wmts",
+    "urls": [
+      "url1/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "url2/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "url3/{TileMatrix}/{TileCol}/{TileRow}.png"
+    ],
+    "typ": "WMTS",
+    "format": "image/png",
+    "coordinateSystem": "EPSG:3857",
+    "origin": [-20037508.3428, 20037508.3428],
+    "transparent": false,
+    "tileSize": "256",
+    "minScale": "1",
+    "maxScale": "2500000",
+    "tileMatrixSet": "google3857",
+    "requestEncoding": "REST",
+    "resLength": "20"
+  },
+  {
+    "id": "my-capabilities-wmts",
+    "capabilitiesUrl": "WMTS capabilities url",
+    "urls": "WMTS url",
+    "optionsFromCapabilities": true,
+    "tileMatrixSet": "EU_EPSG_25832_TOPPLUS",
+    "typ": "WMTS",
+    "layers": "layer-name",
+    "legendURL": "my-legend-url"
   }
 ]
 ```
 
-Since this is the base for many functions, the service ID set in this is used to reference map material in many places of the map client.
+Since this is the base for many functions, the service id set in this is used to reference map material in many places of the map client.
 
-##### <...masterportalAPI.fields>
-
-The `<...masterportalAPI.fields>` means that any masterportalAPI field may also be used here _directly_. The most common fields are the following ones; for more, see masterportalAPI.
+###### zoomOption
 
 | fieldName | type | description |
 | - | - | - |
-| epsg | string | Leading coordinate system, e.g. `"EPSG:25832"`. |
-| extent | number[] | Map movement will be restricted to this rectangle. |
-| namedProjections | Array | Array of usable projections by proj4 string. |
-| options | Array | Defines all available zoomLevels. Entries define `resolution`, `scale`, and `zoomLevel`. See masterportalAPI for details. |
-| startCenter | number[] | Initial center coordinate. |
-| startResolution | number | Initial resolution; must be in options. See below. |
+| resolution | number | Size of 1 pixel on the screen converted to map units (e.g. meters) depending on the used projection (`epsg`). |
+| scale | number | Scale in meters. |
+| zoomLevel | number | Zoom level. |
+
+##### layer
+
+| fieldName | type | description |
+| - | - | - |
+| id | string | Service register id in `mapConfiguration.layerConf`. |
+| name | string | Display name in UI. |
 
 <details>
 <summary>Example configuration</summary>
 
 ```js
-{
-  startResolution: 264.583190458,
-  startCenter: [553655.72, 6004479.25],
-  extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
-  epsg: 'EPSG:25832',
-  options: [
-    { resolution: 2.6458319045841048, scale: 10000, zoomLevel: zoomLevel++ },
-    { resolution: 1.3229159522920524, scale: 5000, zoomLevel: zoomLevel++ },
-    { resolution: 0.6614579761460262, scale: 2500, zoomLevel: zoomLevel++ },
-    { resolution: 0.2645831904584105, scale: 1000, zoomLevel: zoomLevel++ },
-    { resolution: 0.1322915952292052, scale: 500, zoomLevel: zoomLevel++ },
-  ],
-  namedProjections: [
-    [
-      'EPSG:25832',
-      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-    ],
-  ],
-}
+layers: [
+  {
+    id: 'basemap',
+    name: 'Basemap Grayscale',
+  },
+  {
+    id: 'my-wfs',
+    name: 'My WFS service',
+  },
+]
 ```
 
 </details>
