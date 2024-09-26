@@ -153,7 +153,6 @@ const gfiRequest =
       )
   }
 
-// TODO: Types are not properly displayed here as it is wrapped through debounce
 export const debouncedGfiRequest = (
   featureDisplayLayer: VectorLayer<Feature<Geometry>>
 ) => debounce(gfiRequest(featureDisplayLayer), 50)
