@@ -3,7 +3,6 @@ import { MasterportalApiConfig, PartialBy } from '@polar/lib-custom-types'
 // Default configuration parameters for @masterportal/masterportalapi
 export default {
   epsg: 'EPSG:25832',
-  backgroundImage: '',
   options: [
     { resolution: 66.14579761460263, scale: 250000, zoomLevel: 0 },
     { resolution: 26.458319045841044, scale: 100000, zoomLevel: 1 },
@@ -45,11 +44,7 @@ export default {
     Required<
       Pick<
         MasterportalApiConfig,
-        | 'backgroundImage'
-        | 'epsg'
-        | 'namedProjections'
-        | 'options'
-        | 'startResolution'
+        'epsg' | 'namedProjections' | 'options' | 'startResolution'
       >
     >,
   'layerConf' | 'startCenter'

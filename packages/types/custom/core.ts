@@ -583,8 +583,6 @@ export interface MasterportalApiConfig {
   layerConf: Record<string, unknown>[]
   /** Initial center coordinate for the mapView */
   startCenter: [number, number]
-  // Image to be displayed as a background of the map
-  backgroundImage?: string
   /** The epsg code of the projection that the map will use */
   epsg?: `EPSG:${string}`
   /** Extent in which the map can be viewed in; coordinates are written in the set projection of the map set through this config. */
@@ -666,11 +664,7 @@ export interface CoreState {
     Required<
       Pick<
         MasterportalApiConfig,
-        | 'backgroundImage'
-        | 'epsg'
-        | 'namedProjections'
-        | 'options'
-        | 'startResolution'
+        'epsg' | 'namedProjections' | 'options' | 'startResolution'
       >
     >
   errors: PolarError[]
