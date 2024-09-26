@@ -11,14 +11,8 @@ const uBahn = '23053'
 
 const hamburgBorder = '6074'
 
-/**
- * bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/src/defaults.js
- * implicitly using masterportalAPI HH defaults by fallback
- * they can be overwritten in this object
- */
 export const mapConfiguration = {
   language: 'en',
-  epsg: 'EPSG:25832',
   locales: language,
   vuetify: {
     theme: {
@@ -32,20 +26,6 @@ export const mapConfiguration = {
       },
     },
   },
-  namedProjections: [
-    [
-      'EPSG:25832',
-      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-    ],
-    [
-      'EPSG:4326',
-      '+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',
-    ],
-    [
-      'EPSG:4647',
-      '+proj=tmerc +lat_0=0 +lon_0=9 +k=0.9996 +x_0=32500000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-    ],
-  ],
   addressSearch: {
     searchMethods: [
       {
