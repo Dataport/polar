@@ -19,6 +19,7 @@ import { autocomplete, selectResult } from './utils/autocomplete'
 import DishModal from './plugins/Modal'
 import DishHeader from './plugins/Header'
 import DishGfiContent from './plugins/Gfi'
+import { MODE } from './enums'
 
 const defaultOptions = {
   displayComponent: true,
@@ -27,66 +28,80 @@ const defaultOptions = {
 
 // this is fine for list-like setup functions
 // eslint-disable-next-line max-lines-per-function
-export const addPlugins = (core) => {
-  const iconMenu = PolarPluginIconMenu(
-    merge({}, defaultOptions, {
-      menus: [
-        {
-          plugin: PolarPluginLayerChooser({}),
-          icon: 'fa-layer-group',
-          id: 'layerChooser',
-        },
-      ],
-      layoutTag: NineLayoutTag.TOP_RIGHT,
-    })
-  )
+export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
+  const iconMenu = PolarPluginIconMenu({
+    displayComponent: mode === MODE.EXTERN,
+    menus: [
+      {
+        plugin: PolarPluginLayerChooser({}),
+        icon: 'fa-layer-group',
+        id: 'layerChooser',
+      },
+    ],
+    layoutTag: NineLayoutTag.TOP_RIGHT,
+  })
 
   setLayout(NineLayout)
 
   core.addPlugins([
     iconMenu,
-    DishModal(defaultOptions),
+    DishModal({
+      displayComponent: mode === MODE.EXTERN,
+      layoutTag: NineLayoutTag.TOP_LEFT,
+    }),
     DishHeader({
-      ...defaultOptions,
+      displayComponent: mode === MODE.EXTERN,
       layoutTag: NineLayoutTag.TOP_MIDDLE,
     }),
     PolarPluginAddressSearch(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.TOP_LEFT,
-        addLoading: 'plugin/loadingIndicator/addLoadingKey',
-        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-        customSearchMethods: { dish: search, autocomplete },
-        customSelectResult: { categoryDenkmalsucheAutocomplete: selectResult },
-      })
+      merge(
+        {},
+        {
+          displayComponent: mode === MODE.EXTERN,
+          layoutTag: NineLayoutTag.TOP_LEFT,
+          addLoading: 'plugin/loadingIndicator/addLoadingKey',
+          removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+          customSearchMethods: { dish: search, autocomplete },
+          customSelectResult: {
+            categoryDenkmalsucheAutocomplete: selectResult,
+          },
+        }
+      )
     ),
-    PolarPluginPins(
-      merge({}, defaultOptions, {
-        appearOnClick: { show: true, atZoomLevel: 6 },
-        coordinateSource: 'plugin/addressSearch/chosenAddress',
-      })
-    ),
+    PolarPluginPins({
+      displayComponent: mode === MODE.EXTERN,
+      appearOnClick: { show: true, atZoomLevel: 6 },
+      coordinateSource: 'plugin/addressSearch/chosenAddress',
+    }),
     PolarPluginLegend(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        maxWidth: 500,
-      })
+      merge(
+        {},
+        {
+          displayComponent: mode === MODE.EXTERN,
+          layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+          maxWidth: 500,
+        }
+      )
     ),
-    PolarPluginAttributions(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        listenToChanges: [
-          'plugin/zoom/zoomLevel',
-          'plugin/layerChooser/activeBackgroundId',
-          'plugin/layerChooser/activeMaskIds',
-        ],
-      })
-    ),
+    PolarPluginAttributions({
+      displayComponent: mode === MODE.EXTERN,
+      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+      listenToChanges: [
+        'plugin/zoom/zoomLevel',
+        'plugin/layerChooser/activeBackgroundId',
+        'plugin/layerChooser/activeMaskIds',
+      ],
+    }),
     PolarPluginGfi(
-      merge({}, defaultOptions, {
-        coordinateSources: ['plugin/addressSearch/chosenAddress'],
-        gfiContentComponent: DishGfiContent,
-        afterLoadFunction: extendGfi,
-      })
+      merge(
+        {},
+        {
+          displayComponent: mode === MODE.EXTERN,
+          coordinateSources: ['plugin/addressSearch/chosenAddress'],
+          gfiContentComponent: DishGfiContent,
+          afterLoadFunction: extendGfi,
+        }
+      )
     ),
     PolarPluginLoadingIndicator(
       merge({}, defaultOptions, {
@@ -99,9 +114,13 @@ export const addPlugins = (core) => {
       })
     ),
     PolarPluginToast(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
-      })
+      merge(
+        {},
+        {
+          displayComponent: mode === MODE.EXTERN,
+          layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
+        }
+      )
     ),
     PolarPluginZoom(
       merge({}, defaultOptions, {
@@ -109,9 +128,13 @@ export const addPlugins = (core) => {
       })
     ),
     PolarPluginGeoLocation(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.MIDDLE_RIGHT,
-      })
+      merge(
+        {},
+        {
+          displayComponent: mode === MODE.EXTERN,
+          layoutTag: NineLayoutTag.MIDDLE_RIGHT,
+        }
+      )
     ),
   ])
 }
