@@ -583,30 +583,33 @@ export interface ExtendedMasterportalapiMarkers {
   dispatchOnMapSelect?: string
 }
 
-export interface MapConfig {
-  /** if true, all services' availability will be checked with head requests */
-  checkServiceAvailability?: boolean
-  /** The epsg code of the projection that the map will use */
-  epsg: `EPSG:${string}`
-  /** Configured layers */
-  layers: LayerConfiguration[]
+export interface MasterportalApiConfig {
   /** masterportalapi-type layer configuration */
   layerConf: Record<string, unknown>[]
-  extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
+  /** Initial center coordinate for the mapView */
+  startCenter: [number, number]
+  /** The epsg code of the projection that the map will use */
+  epsg?: `EPSG:${string}`
+  /** Extent in which the map can be viewed in; coordinates are written in the set projection of the map set through this config. */
+  extent?: [number, number, number, number]
   /** Enabled projections for the map; 2nd dimension of the array contains the epsg code as the first parameter and the proj4 definition as the second */
-  namedProjections: Array<[string, string]>
+  namedProjections?: Array<[string, string]>
   /** Mapped resolution to zoomLevel */
   options?: PolarMapOptions[]
-  renderFaToLightDom?: boolean
-  /** Extent in which the map can be viewed in; coordinates are written in the set projection of the map set through this config. */
-  extent?: number[]
-  language?: InitialLanguage
-  locales?: LanguageOption[]
-  /** Initial center coordinate for the mapView */
-  startCenter?: number[]
-  stylePath?: string
   /** Initial resolution the map should be rendered with */
   startResolution?: number
+}
+
+export interface MapConfig extends MasterportalApiConfig {
+  /** Configured layers */
+  layers: LayerConfiguration[]
+  /** if true, all services' availability will be checked with head requests */
+  checkServiceAvailability?: boolean
+  extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
+  language?: InitialLanguage
+  locales?: LanguageOption[]
+  renderFaToLightDom?: boolean
+  stylePath?: string
   vuetify?: UserVuetifyPreset
   addressSearch?: AddressSearchConfiguration
   loadingIndicator?: LoadingIndicatorConfiguration
@@ -661,7 +664,14 @@ export interface CoreState {
   clientHeight: number
   clientWidth: number
   components: number
-  configuration: MapConfig
+  // NOTE: The additional values are not required in the configuration but have default values.
+  configuration: MapConfig &
+    Required<
+      Pick<
+        MasterportalApiConfig,
+        'epsg' | 'namedProjections' | 'options' | 'startResolution'
+      >
+    >
   errors: PolarError[]
   hasSmallDisplay: boolean
   hovered: number
@@ -811,3 +821,12 @@ export declare class PolarStore<S, G> {
     modules?: PolarModuleTree<S, G>
   }): void
 }
+
+/**
+ * Copied from https://stackoverflow.com/a/54178819.#
+ *
+ * Makes the properties defined by type `K` optional in type `T`.
+ *
+ * Example: PartialBy\<CoreState, 'plugin' | 'language'\>
+ */
+export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
