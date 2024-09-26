@@ -1,7 +1,8 @@
 {
   "name": "@polar/client-afm",
   "version": "1.0.1",
-  "description": "Client Afm",
+  "description": "POLAR Client AfM. This client has been put together for use in citizen participation platforms and for making applications (referring to legal documents, not executables).",
+  "keywords": ["OpenLayers", "ol", "POLAR", "client"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

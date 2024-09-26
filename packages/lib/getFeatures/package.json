@@ -1,6 +1,8 @@
 {
   "name": "@polar/lib-get-features",
   "version": "1.0.1",
+  "description": "Provides feature information retrieval for WFS and gazetteers.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "lib", "GFI", "feature information"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
