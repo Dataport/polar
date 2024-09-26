@@ -13,10 +13,7 @@ import { ImageWMS, TileWMS } from 'ol/source'
 import Layer from 'ol/layer/Layer'
 import { LayerChooserGetters, LayerChooserState } from '../types'
 import { asIdList, areLayersActive } from '../utils/layerFolding'
-import {
-  findLayerTitleInCapabilitiesByName,
-  findLegendUrlInCapabilitiesByName,
-} from '../utils/findInCapabilities'
+import { getOpenedOptionsServiceLayers } from '../utils/getOpenedOptionsServiceLayers'
 
 export const getInitialState = (): LayerChooserState => ({
   openedOptions: null,
@@ -289,30 +286,11 @@ export const makeStoreModule = () => {
           return null
         }
 
-        const technicalLayerNames =
-          layers.order?.split?.(',') || serviceDefinition.layers.split(',')
-
-        return technicalLayerNames.map((technicalLayerName) => ({
-          layerName: technicalLayerName,
-          displayName:
-            (layers.title === true
-              ? findLayerTitleInCapabilitiesByName(
-                  wmsCapabilitiesJson,
-                  technicalLayerName
-                )
-              : layers.title === false
-              ? technicalLayerName
-              : layers.title?.[technicalLayerName]) || technicalLayerName,
-          layerImage:
-            layers.legend === false
-              ? null
-              : layers.legend === true
-              ? findLegendUrlInCapabilitiesByName(
-                  wmsCapabilitiesJson,
-                  technicalLayerName
-                )
-              : layers.legend?.[technicalLayerName] || null,
-        }))
+        return getOpenedOptionsServiceLayers(
+          layers.order?.split?.(',') || serviceDefinition.layers.split(','),
+          layers,
+          wmsCapabilitiesJson
+        )
       },
     },
   }

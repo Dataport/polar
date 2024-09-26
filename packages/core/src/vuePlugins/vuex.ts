@@ -67,10 +67,12 @@ const getInitialState = (): CoreState => ({
   moveHandleActionButton: 1,
   selected: 1,
   zoomLevel: 0,
-  // TODO: Add default values for epsg, layers, namedProjections, options and remove @ts-ignore for configuration
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  configuration: {},
+  // @ts-expect-error | Required values are set in utils/createMap/index.ts
+  configuration: {
+    layers: [],
+    layerConf: [],
+    startCenter: [0, 0],
+  },
   hasSmallDisplay: false,
   errors: [],
   language: '',

@@ -30,6 +30,8 @@ const xml2GeoJson = (
  * no new request should be started. Instead, wait for any running load to
  * finish and use feature at layer source coordinate. (Not trivial.)
  */
+// NOTE length comes from string build, not complexity – keep as it is
+// eslint-disable-next-line max-lines-per-function
 export default ({
   map,
   coordinate,
