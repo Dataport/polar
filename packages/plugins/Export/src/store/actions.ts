@@ -78,7 +78,7 @@ const getDataUrl = (size: number[], type: ExportFormat) => {
           matrix
         )
         mapContext.drawImage(canvas, 0, 0)
-      } else console.warn('@polar/plugin-export: canvas width is 0')
+      } else console.warn('@polar/plugin-export: canvas width is 0.')
     }
   )
 
