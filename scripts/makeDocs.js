@@ -157,9 +157,8 @@ if (!fs.existsSync(docPath)) {
 
 const adjustRelativePathsInHtml = (htmlContent) => {
   return htmlContent.replace(
-    /..\/..\/core\/README.md#global-plugin-parameters/g,
-    () =>
-      `https://dataport.github.io/polar/docs/${client}/core.html#global-plugin-parameters`
+    /..\/..\/core\/README.md/g,
+    () => `https://dataport.github.io/polar/docs/${client}/core.html`
   )
 }
 

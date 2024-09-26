@@ -4,6 +4,7 @@ import vuetify from '../../vuePlugins/vuetify'
 import language from '../../language'
 import { MapContainer } from '../../components'
 import { CreateOptions, MapInstance } from '../../types'
+import defaults from './defaults'
 import subscribeFunction from './subscribe'
 import { updateSizeOnReady } from './updateSizeOnReady'
 import { makeShadowRoot } from './makeShadowRoot'
@@ -32,7 +33,7 @@ export default async function createMap({
     render: (createElement) =>
       createElement(MapContainer, {
         props: {
-          mapConfiguration,
+          mapConfiguration: { ...defaults, ...mapConfiguration },
         },
       }),
     store: makeStore(),
