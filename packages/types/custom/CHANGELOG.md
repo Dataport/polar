@@ -11,6 +11,7 @@
 - Feature: Add new parameter `showZoomSlider` to `ZoomConfiguration`.
 - Feature: Add new types `LoaderStyles` and `LoadingIndicatorConfiguration`.
 - Feature: Add `loadingIndicator` to `MapConfig` to configure loader style.
+- Fix: Document missing return type to `afterLoadFunction`, which may also return a Promise.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 - Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.
 - Fix: Properly document optional parameters of interfaces `AddressSearchConfiguration`, `FeatureList`, `FilterConfigurationTime`, `FilterConfigurationTimeOption`, `GeoLocationConfiguration`, `LayerConfigurationOptionLayers` and `PinsConfiguration`
@@ -18,6 +19,8 @@
 - Fix: Remove mpapi-search specific parameters from general interface `QueryParameters`.
 - Fix: Extend `SelectResultPayload` with fitting vuex parameters, and `SelectResultFunction` with `title` field as used in `@polar/plugin-address-search`.
 - Fix: Use correct type `VueConstructor` for properties `GfiConfiguration.gfiContentComponent`, `MoveHandleProperties.component` and `MoveHandleActionButton.component`.
+- Fix: Add missing `gfiMode` to `LayerConfiguration`.
+- Fix: Add missing `maxFeatures` to `GfiLayerConfiguration`.
 
 ## 1.4.1
 
