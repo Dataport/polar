@@ -28,8 +28,10 @@
 <p>The LayerChooser offers an additive (usually Overlays, technically named with <code>type: 'mask'</code>) and an exclusive (usually background maps, <code>type: 'background'</code>) selection of layers to the users.</p>
 <p>Order of layers within a layer is currently always as initially configured.</p>
 <h2 id="configuration" tabindex="-1">Configuration</h2>
-<p>The tool does not require any configuration for itself, but is based on the <code>mapConfiguration.layers</code> array. It will infer its options from there, and change layer visibility and availability depending on <code>minZoom</code> and <code>maxZoom</code>.</p>
-<p>Each object in <code>mapConfiguration.layers</code> array fits this definition:</p>
+<p>The tool does not require any configuration for itself, but is based on the <a href="https://dataport.github.io/polar/docs/meldemichel/core.html#mapconfiguration.layers"><code>mapConfiguration.layers</code></a>.
+It will infer <code>id</code> and <code>name</code> from that configuration.</p>
+<p>This plugin requires the configuration of <code>mapConfiguration.layer.type</code>.
+Also, this plugin also supports the optional configuration parameters <code>mapConfiguration.layer.hideInMenu</code>, <code>mapConfiguration.layer.minZoom</code>, <code>mapConfiguration.layer.maxZoom</code>, <code>mapConfiguration.layer.options</code> and <code>mapConfiguration.layer.visibility</code> which are described in more depth in the following table.</p>
 <table>
 <thead>
 <tr>
@@ -39,16 +41,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>id</td>
-<td>string</td>
-<td>Service register id.</td>
-</tr>
-<tr>
-<td>name</td>
-<td>string</td>
-<td>Display name in UI.</td>
-</tr>
 <tr>
 <td>type</td>
 <td>enum[&quot;background&quot;, &quot;mask&quot;]</td>
@@ -62,7 +54,7 @@
 <tr>
 <td>maxZoom</td>
 <td>number?</td>
-<td>If set, layer only available (and selectable) to this zoom level.</td>
+<td>If set, layer only available (and selectable) up to this zoom level.</td>
 </tr>
 <tr>
 <td>minZoom</td>
@@ -82,8 +74,7 @@
 </tbody>
 </table>
 <p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/meldemichel/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
-<details>
-<summary>Example configuration</summary>
+<p><strong>Example configuration:</strong></p>
 <pre><code class="language-js">layers: [
   {
     id: backgroundmap,
@@ -99,32 +90,9 @@
     name: 'Memorial (WFS)',
     minZoom: 7,
   },
-  {
-    id: memorialsWMS,
-    visibility: true,
-    type: 'mask',
-    name: 'Cultural monuments (list)',
-    options: {
-      layers: {
-        order: '6,24,25,4,3,2,1,0',
-        title: {
-          '6': 'Monument area',
-          '24': 'Majority of structures',
-          '25': 'Material group',
-          '4': 'Architectural monument',
-          '3': 'Natural monument',
-          '2': 'Water bodies',
-          '1': 'Architectural monument (area)',
-          '0': 'Natural monument (area)',
-        },
-        legend: true,
-      },
-    },
-  },
 ]
 </code></pre>
-</details>
-<h3 id="mapconfiguration.layers.options" tabindex="-1">mapConfiguration.layers.options</h3>
+<h3 id="layer.options" tabindex="-1">layer.options</h3>
 <p>An option wheel will appear in the layer chooser that allows opening a sub-menu with configured configuration options for the end user.</p>
 <table>
 <thead>
@@ -137,7 +105,7 @@
 <tbody>
 <tr>
 <td>layers</td>
-<td>options.layers</td>
+<td>layer.options.layers</td>
 <td>If configured, all configured <em>layers of the layer</em> can be turned off and on by the user. ⚠️ Only implemented for WMS. Only implemented for top layers; that is, only first level of nesting is considered.</td>
 </tr>
 </tbody>
@@ -160,7 +128,7 @@
   },
 },
 </code></pre>
-<h4 id="mapconfiguration.layers.options.layers" tabindex="-1">mapConfiguration.layers.options.layers</h4>
+<h4 id="layer.options.layers" tabindex="-1">layer.options.layers</h4>
 <p>This field is named like this to match the OGC specification for their name; that is, layers have layers that may have layers that may have layers, and so on. However, only the first level (a layer's layers) is currently implemented.</p>
 <table>
 <thead>
