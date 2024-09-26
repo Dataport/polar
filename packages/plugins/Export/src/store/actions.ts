@@ -55,7 +55,7 @@ const getDataUrl = (size: number[], type: ExportFormat) => {
   const mapContext = mapCanvas.getContext('2d')
   if (!mapContext) {
     console.error(
-      '@polar/plugin-export: map does not of a 2d context, export failed.'
+      '@polar/plugin-export: map does not have a 2d context, export failed.'
     )
     return
   }
