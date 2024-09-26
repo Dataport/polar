@@ -5,7 +5,11 @@ import {
   GeoJsonProperties,
   Geometry as GeoJsonGeometry,
 } from 'geojson'
-import { MapConfig, PolarActionContext } from '@polar/lib-custom-types'
+import {
+  GfiConfiguration,
+  MapConfig,
+  PolarActionContext,
+} from '@polar/lib-custom-types'
 import { Map, Feature } from 'ol'
 import { Geometry } from 'ol/geom'
 import VectorLayer from 'ol/layer/Vector'
@@ -16,19 +20,19 @@ import { GfiGetters, GfiState } from '../../types'
 
 const mapFeaturesToLayerIds = (
   layerKeys: string[],
-  configuration: MapConfig,
+  gfiConfiguration: GfiConfiguration,
   features: (symbol | GeoJsonFeature<GeoJsonGeometry, GeoJsonProperties>[])[],
   srsName: string
 ): Record<string, GeoJsonFeature[] | symbol> => {
   const generalMaxFeatures: number =
-    configuration.gfi?.maxFeatures || Number.POSITIVE_INFINITY
+    gfiConfiguration.maxFeatures || Number.POSITIVE_INFINITY
   const featuresByLayerId = layerKeys.reduce(
     (accumulator, key, index) => ({
       ...accumulator,
       [key]: Array.isArray(features[index])
         ? (features[index] as []).slice(
             0,
-            configuration.gfi?.layers[key].maxFeatures || generalMaxFeatures
+            gfiConfiguration.layers[key].maxFeatures || generalMaxFeatures
           )
         : features[index],
     }),
@@ -133,7 +137,9 @@ const gfiRequest =
     const srsName: string = map.getView().getProjection().getCode()
     let featuresByLayerId = mapFeaturesToLayerIds(
       layerKeys,
-      configuration,
+      // NOTE if there was no configuration, we would not be here
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      configuration.gfi!,
       features,
       srsName
     )
