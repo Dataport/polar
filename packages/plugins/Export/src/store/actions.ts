@@ -1,6 +1,5 @@
 import { jsPDF } from 'jspdf'
 import { PolarActionTree } from '@polar/lib-custom-types'
-import { Map } from 'ol'
 import { ExportFormat, ExportGetters, ExportState } from '../types'
 
 // PDF options
@@ -16,16 +15,13 @@ const dims = {
 // Screenshot canvas
 const CANVAS_ID = 'export-canvas'
 
-const convertToPdf = (map: Map, src: string, size: number[]) => {
+const convertToPdf = (src: string) => {
   // NOTE: when supporting more formats, scale map accordingly
   const format = 'a4'
   const dim = dims[format]
   // Import of jspdf is in mounted.
   const jsPdf = new jsPDF('landscape', undefined, format) // eslint-disable-line
   jsPdf.addImage(src, 'JPEG', 0, 0, dim[0], dim[1])
-  // Reset original map size
-  map.setSize(size)
-  map.getView().setResolution(map.getView().getResolution())
 
   return {
     pdfSrc: jsPdf.output('datauristring'),
@@ -110,7 +106,7 @@ const actions: PolarActionTree<ExportState, ExportGetters> = {
       if (type === ExportFormat.JPG || type === ExportFormat.PNG) {
         if (download) downloadAsImage(src, type)
       } else {
-        const { pdfSrc, jsPdf } = convertToPdf(map, src, size)
+        const { pdfSrc, jsPdf } = convertToPdf(src)
         src = pdfSrc
 
         if (download) jsPdf.save('map.pdf')
