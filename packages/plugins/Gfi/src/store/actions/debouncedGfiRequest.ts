@@ -24,7 +24,7 @@ const mapFeaturesToLayerIds = (
   features: (symbol | GeoJsonFeature<GeoJsonGeometry, GeoJsonProperties>[])[],
   srsName: string
 ): Record<string, GeoJsonFeature[] | symbol> => {
-  const generalMaxFeatures: number =
+  const generalMaxFeatures =
     gfiConfiguration.maxFeatures || Number.POSITIVE_INFINITY
   const featuresByLayerId = layerKeys.reduce(
     (accumulator, key, index) => ({
