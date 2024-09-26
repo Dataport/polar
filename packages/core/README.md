@@ -368,12 +368,12 @@ Since this is the base for many functions, the service id set in this is used to
 ```js
 layers: [
   {
-    id: backgroundmap,
+    id: 'basemap',
     name: 'Basemap Grayscale',
   },
   {
-    id: memorialsWFS,
-    name: 'Memorial (WFS)',
+    id: 'my-wfs',
+    name: 'My WFS service',
   },
 ]
 ```
