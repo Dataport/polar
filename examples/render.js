@@ -1,4 +1,4 @@
-import client from '../node_modules/@polar/client-generic/dist/polar-client.js'
+import { createMap } from '../node_modules/@polar/client-generic/dist/polar-client.js'
 
 const commonParameters = {
   services: 'https://geodienste.hamburg.de/services-internet.json',
@@ -24,7 +24,7 @@ ${(typeof description === 'string' ? [description] : description)
   <summary>View configuration</summary>
   <pre>
     <code>
-client.createMap(${JSON.stringify(parameterObject, null, 2)})
+      createMap(${JSON.stringify(parameterObject, null, 2)})
     </code>
   </pre>
 </details>
@@ -80,7 +80,7 @@ export default ({
 
   document.getElementById('render-node').appendChild(card)
 
-  client.createMap(parameterObject).then((mapClient) => {
+  createMap(parameterObject).then((mapClient) => {
     if (postCreation) {
       postCreation({ mapClient, id })
     }
