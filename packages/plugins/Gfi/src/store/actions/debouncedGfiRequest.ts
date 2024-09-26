@@ -149,8 +149,7 @@ const gfiRequest =
     geometryLayerKeys
       .filter((key) => Array.isArray(featuresByLayerId[key]))
       .forEach((key) =>
-        // @ts-expect-error | Might be fixed through having all the types in the action. Otherwise: It works properly, as all the symbols are filtered before calling forEach
-        featuresByLayerId[key].forEach((feature) =>
+        filterFeatures(featuresByLayerId)[key].forEach((feature) =>
           addFeature(feature, featureDisplayLayer)
         )
       )
