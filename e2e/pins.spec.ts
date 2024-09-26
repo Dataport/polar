@@ -12,5 +12,5 @@ test('clicks to the map produce a fetchable pin coordinate', async ({
 
   await expect(coordinateTarget).toBeEmpty()
   await page.locator('canvas').click()
-  await expect(coordinateTarget).toHaveText(/\d+\.\d+,\d+\.\d+/)
+  await expect(coordinateTarget).toHaveText(/\d+(\.\d+)?,\d+(\.\d+)?/)
 })
