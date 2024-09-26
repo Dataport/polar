@@ -5,8 +5,8 @@ import {
   GeoJsonProperties,
   Geometry as GeoJsonGeometry,
 } from 'geojson'
-import { PolarActionContext } from '@polar/lib-custom-types'
-import { Feature } from 'ol'
+import { MapConfig, PolarActionContext } from '@polar/lib-custom-types'
+import { Map, Feature } from 'ol'
 import { Geometry } from 'ol/geom'
 import VectorLayer from 'ol/layer/Vector'
 import { addFeature } from '../../utils/displayFeatureLayer'
@@ -15,10 +15,8 @@ import sortFeatures from '../../utils/sortFeatures'
 import { GfiGetters, GfiState } from '../../types'
 
 const mapFeaturesToLayerIds = (
-  {
-    getters: { layerKeys },
-    rootGetters: { configuration },
-  }: PolarActionContext<GfiState, GfiGetters>,
+  layerKeys: string[],
+  configuration: MapConfig,
   features: (symbol | GeoJsonFeature<GeoJsonGeometry, GeoJsonProperties>[])[],
   srsName: string
 ): Record<string, GeoJsonFeature[] | symbol> => {
@@ -49,10 +47,9 @@ const mapFeaturesToLayerIds = (
 }
 
 const getPromisedFeatures = (
-  {
-    rootGetters: { map, configuration },
-    getters: { layerKeys },
-  }: PolarActionContext<GfiState, GfiGetters>,
+  map: Map,
+  configuration: MapConfig,
+  layerKeys: string[],
   coordinate: [number, number]
 ) =>
   layerKeys.map((key) => {
@@ -100,6 +97,8 @@ const filterFeatures = (
   return Object.fromEntries(filtered)
 }
 
+const errorSymbol = (err) => Symbol(err)
+
 /**
  * Code from `getFeatureInfo`, pulled to avoid overly requesting feature
  * information. Since sources in Pins plugin update right after each other
@@ -110,32 +109,34 @@ const filterFeatures = (
 const gfiRequest =
   (featureDisplayLayer: VectorLayer<Feature<Geometry>>) =>
   async (
-    actionContext: PolarActionContext<GfiState, GfiGetters>,
+    {
+      commit,
+      getters: { layerKeys },
+      rootGetters: { map, configuration },
+      getters: { geometryLayerKeys, afterLoadFunction },
+    }: PolarActionContext<GfiState, GfiGetters>,
     coordinate: [number, number]
   ): Promise<void> => {
-    const {
-      commit,
-      rootGetters: { map },
-      getters: { geometryLayerKeys, afterLoadFunction },
-    } = actionContext
     // fetch new feature information for all configured layers
-    const promisedFeatures = getPromisedFeatures(actionContext, coordinate)
-
-    const errorSymbol = (err) => Symbol(err)
+    const promisedFeatures = getPromisedFeatures(
+      map,
+      configuration,
+      layerKeys,
+      coordinate
+    )
     const features = (await Promise.allSettled(promisedFeatures)).map(
       (result) =>
         result.status === 'fulfilled'
           ? result.value
           : errorSymbol(result.reason.message)
     )
-
     const srsName: string = map.getView().getProjection().getCode()
     let featuresByLayerId = mapFeaturesToLayerIds(
-      actionContext,
+      layerKeys,
+      configuration,
       features,
       srsName
     )
-
     // store features in state, if configured via client after specific function
     if (typeof afterLoadFunction === 'function') {
       featuresByLayerId = await afterLoadFunction(
@@ -144,7 +145,6 @@ const gfiRequest =
       )
     }
     commit('setFeatureInformation', featuresByLayerId)
-
     // render feature geometries to help layer
     geometryLayerKeys
       .filter((key) => Array.isArray(featuresByLayerId[key]))
