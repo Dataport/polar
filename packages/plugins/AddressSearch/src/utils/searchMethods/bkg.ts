@@ -2,13 +2,11 @@ import { FeatureCollection } from 'geojson'
 import { transform as transformCoordinates } from 'ol/proj'
 import { BKGParameters } from '../../types'
 
-export default function (
-  signal: AbortSignal,
-  url: string,
+const getRequestUrlQuery = (
   inputValue: string,
   queryParameters: BKGParameters
-): Promise<FeatureCollection> {
-  let requestUrl = `${url}?query=${inputValue.replace(' ', '+')}`
+): string => {
+  let query = `query=${inputValue.replace(' ', '+')}`
   if (queryParameters) {
     for (const [key, value] of Object.entries(queryParameters).filter(
       ([key]) =>
@@ -17,18 +15,28 @@ export default function (
         key !== 'apiKey' &&
         key !== 'accessToken'
     )) {
-      requestUrl += `&${key}=${value}`
+      query += `&${key}=${value}`
     }
     if (
       queryParameters.filter &&
       Object.keys(queryParameters.filter).length > 0
     ) {
-      requestUrl += '&filter='
-      requestUrl = Object.entries(queryParameters.filter)
-        .reduce((prev, [key, value]) => `${prev + key}:${value}&`, requestUrl)
+      query += '&filter='
+      query = Object.entries(queryParameters.filter)
+        .reduce((prev, [key, value]) => `${prev + key}:${value}&`, query)
         .slice(0, -1)
     }
   }
+  return query
+}
+
+export default function (
+  signal: AbortSignal,
+  url: string,
+  inputValue: string,
+  queryParameters: BKGParameters
+): Promise<FeatureCollection> {
+  const requestUrl = `${url}?` + getRequestUrlQuery(inputValue, queryParameters)
   // TODO: Add proper type for fetch options
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const options: any = { signal }
