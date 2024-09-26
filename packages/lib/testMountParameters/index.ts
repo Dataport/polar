@@ -5,7 +5,7 @@ import VueI18Next from 'i18next-vue'
 import Vuetify from 'vuetify'
 import Vuex, { Store } from 'vuex'
 import { VueConstructor } from 'vue/types/umd'
-import { mpapiDefaults } from '@polar/core'
+import mpapiDefaults from '@polar/core/src/utils/createMap/defaults'
 import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
 
 Vue.use(VueI18Next, { i18next })
