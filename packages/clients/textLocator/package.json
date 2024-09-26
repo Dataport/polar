@@ -1,7 +1,8 @@
 {
   "name": "@polar/client-text-locator",
   "version": "1.0.0-alpha.0",
-  "description": "Client TextLocator",
+  "description": "POLAR Client TextLocator. This client helps research by connecting geospatial to literature information.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "client", "TextLocator", "AI", "toponyms", "literature"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
