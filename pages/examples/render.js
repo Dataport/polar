@@ -3,7 +3,6 @@ import { createMap } from '../node_modules/@polar/client-generic/dist/polar-clie
 const commonParameters = {
   services: 'https://geodienste.hamburg.de/services-internet.json',
   mapConfiguration: {
-    epsg: 'EPSG:25832',
     layers: [
       {
         id: '453',
