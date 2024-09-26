@@ -325,7 +325,9 @@ export interface FullscreenConfiguration extends PluginOptions {
 export type GfiAfterLoadFunction = (
   featureInformation: Record<string, GeoJsonFeature[]>,
   srsName: string // TODO: Might be interesting to overlap this with mapConfig.namedProjections for type safety in using only allowed epsg codes
-) => Record<string, GeoJsonFeature[] | symbol>
+) =>
+  | Record<string, GeoJsonFeature[] | symbol>
+  | Promise<Record<string, GeoJsonFeature[] | symbol>>
 
 /** GFI Module Configuration */
 export interface FeatureList {

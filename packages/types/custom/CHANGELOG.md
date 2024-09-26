@@ -11,6 +11,7 @@
 - Feature: Add new parameter `showZoomSlider` to `ZoomConfiguration`.
 - Feature: Add new types `LoaderStyles` and `LoadingIndicatorConfiguration`.
 - Feature: Add `loadingIndicator` to `MapConfig` to configure loader style.
+- Fix: Document missing return type to `afterLoadFunction`, which may also return a Promise.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 - Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.
 - Fix: Properly document optional parameters of interfaces `AddressSearchConfiguration`, `FeatureList`, `FilterConfigurationTime`, `FilterConfigurationTimeOption`, `GeoLocationConfiguration`, `LayerConfigurationOptionLayers` and `PinsConfiguration`
