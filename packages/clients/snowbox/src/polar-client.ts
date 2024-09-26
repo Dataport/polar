@@ -38,6 +38,11 @@ const createMap = (layerConf) => {
             document
               .getElementById('vuex-target-export-result')!
               .setAttribute('src', screenshot),
+        ],
+        [
+          'plugin/draw/featureCollection',
+          'vuex-target-draw-result',
+          (featureCollection) => JSON.stringify(featureCollection, null, 2),
         ]
       )(map)
     })
