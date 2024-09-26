@@ -21,7 +21,7 @@ const mapFeaturesToLayerIds = (
   }: PolarActionContext<GfiState, GfiGetters>,
   features: (symbol | GeoJsonFeature<GeoJsonGeometry, GeoJsonProperties>[])[],
   srsName: string
-) => {
+): Record<string, GeoJsonFeature[] | symbol> => {
   const generalMaxFeatures: number =
     configuration.gfi?.maxFeatures || Number.POSITIVE_INFINITY
   const featuresByLayerId = layerKeys.reduce(
@@ -130,8 +130,11 @@ const gfiRequest =
     )
 
     const srsName: string = map.getView().getProjection().getCode()
-    let featuresByLayerId: Record<string, GeoJsonFeature[] | symbol> =
-      mapFeaturesToLayerIds(actionContext, features, srsName)
+    let featuresByLayerId = mapFeaturesToLayerIds(
+      actionContext,
+      features,
+      srsName
+    )
 
     // store features in state, if configured via client after specific function
     if (typeof afterLoadFunction === 'function') {
