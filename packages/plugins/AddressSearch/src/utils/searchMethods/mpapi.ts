@@ -3,6 +3,23 @@ import { transform as transformCoordinates } from 'ol/proj'
 import { FeatureCollection, Feature } from 'geojson'
 import { MpApiParameters } from '../../types'
 
+const getFeatureEPSG = (srsName: string): string => {
+  if (srsName.includes('::')) {
+    // Case 1 example: "urn:ogc:def:crs:EPSG::25832"
+    const parts = srsName.split('::')
+
+    return `EPSG:${parts[1]}`
+  } else if (srsName.includes(':')) {
+    // Case 2 example: "EPSG:25832"
+    return srsName
+  }
+  console.error(
+    '@polar/plugin-address-search: Unknown formatting of projection:',
+    srsName
+  )
+  throw Error('Unknown formatting of projection: ' + srsName)
+}
+
 const mapFeatures = (
   results,
   signal: AbortSignal,
@@ -66,22 +83,7 @@ export default async function (
     const firstResult = results[0]
     const srsName = firstResult.properties.position.Point[0].$.srsName
 
-    let featureEPSG
-
-    if (srsName.includes('::')) {
-      // Case 1 example: "urn:ogc:def:crs:EPSG::25832"
-      const parts = srsName.split('::')
-
-      featureEPSG = `EPSG:${parts[1]}`
-    } else if (srsName.includes(':')) {
-      // Case 2 example: "EPSG:25832"
-      featureEPSG = srsName
-    } else {
-      console.error(
-        '@polar/plugin-address-search: Unknown formatting of projection:',
-        srsName
-      )
-    }
+    const featureEPSG = getFeatureEPSG(srsName)
 
     const featureCollection: FeatureCollection = {
       type: 'FeatureCollection',
