@@ -24,7 +24,7 @@ export interface DrawState {
   mode: Mode
   drawMode: DrawMode
   textInput: string
-  selectedStrokeColor: string
+  selectedStrokeColor: RgbaObject
   /* index in array of available sizes */
   selectedSize: number
   featureCollection: FeatureCollection

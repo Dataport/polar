@@ -1,8 +1,12 @@
+/* eslint-disable max-lines-per-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import createStyle from '@masterportal/masterportalapi/src/vectorStyle/createStyle'
 import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { Draw, Snap } from 'ol/interaction'
+// import { Stroke } from 'ol/style'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
+import { castRgbaToArray } from '../../utils/castColors'
 import createDeleteInteractions from './createDeleteInteractions'
 import createTextInteractions from './createTextInteractions'
 
@@ -41,20 +45,19 @@ export default function (
         configuration
       )
     }
-    const style = configuration
-      ? configuration[
-          `${drawMode.charAt(0).toLowerCase()}${drawMode.slice(1)}Style`
-        ]
-      : undefined
-    // TODO const style = createDrawStyle(
-    //   drawMode,
-    //   selectedStrokeColor,
-    //   configuration?.style
-    // )
+    const geomType = `${drawMode.charAt(0).toLowerCase()}${drawMode.slice(1)}`
+    const style = configuration ? configuration[`${geomType}Style`] : undefined
     const draw = new Draw({ source: drawSource, type: drawMode })
-    const vectorStyle = { rules: [{ style }] }
     if (style) {
+      const attributeStrokeColor =
+        drawMode === 'LineString'
+          ? 'lineStrokeColor'
+          : drawMode === 'Polygon'
+          ? `${geomType}StrokeColor`
+          : 'circleStrokeColor'
       draw.on('drawend', (event) => {
+        style[attributeStrokeColor] = castRgbaToArray(selectedStrokeColor)
+        const vectorStyle = { rules: [{ style }] }
         event.feature.setStyle(
           createStyle.createStyle(vectorStyle, event.feature)
         )

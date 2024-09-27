@@ -7,6 +7,7 @@ import VectorLayer from 'ol/layer/Vector'
 import { DrawGetters, DrawState } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
 import createDrawStyle from '../utils/createDrawStyle'
+import { castArrayToRgba } from '../utils/castColors'
 import createInteractions from './createInteractions'
 import createModifyInteractions from './createInteractions/createModifyInteractions'
 import modifyDrawStyle from './createInteractions/modifyDrawStyle'
@@ -71,17 +72,21 @@ export const makeActions = () => {
       { commit, dispatch, getters: { configuration, selectedFeature, mode } },
       selectedStrokeColor
     ) {
-      const featureStyle = selectedFeature?.getStyle()
+      const geomType = `${mode.charAt(0).toLowerCase()}${mode.slice(1)}`
+      const configStyle = configuration
+        ? configuration[`${geomType}Style`]
+        : undefined
       if (mode === 'draw') {
+        console.warn(selectedStrokeColor)
         commit('setSelectedStrokeColor', selectedStrokeColor)
         dispatch('updateInteractions')
-      } else if (selectedFeature && featureStyle) {
+      } else if (selectedFeature && configStyle) {
         const style = createDrawStyle(
           selectedFeature?.getGeometry()?.getType() || mode,
-          selectedStrokeColor,
-          configuration?.style
+          selectedStrokeColor.toString(),
+          configStyle
         )
-        selectedFeature.setStyle(style)
+        if (style) selectedFeature.setStyle(style)
       }
     },
     setSelectedSize(
@@ -163,10 +168,24 @@ export const makeActions = () => {
       drawSource.addFeatures(features)
       commit('updateFeatures')
     },
-    initializeConfigStyle: ({ commit, getters: { configuration } }) => {
-      if (configuration?.style?.stroke?.color) {
-        commit('setSelectedStrokeColor', configuration.style.stroke.color)
-      }
+    initializeConfigStyle: ({
+      commit,
+      getters: { drawMode, configuration },
+    }) => {
+      const geomType = `${drawMode.charAt(0).toLowerCase()}${drawMode.slice(1)}`
+      const style = configuration
+        ? configuration[`${geomType}Style`]
+        : undefined
+      const attributeStrokeColor =
+        drawMode === 'LineString'
+          ? 'lineStrokeColor'
+          : drawMode === 'Polygon'
+          ? `${geomType}StrokeColor`
+          : 'circleStrokeColor'
+      const strokeColor = style
+        ? style[attributeStrokeColor]
+        : { r: 0, g: 0, b: 0, a: 1 }
+      commit('setSelectedStrokeColor', castArrayToRgba(strokeColor))
     },
   }
 
