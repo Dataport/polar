@@ -84,7 +84,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       )
     ),
     PolarPluginAttributions({
-      displayComponent: mode === MODE.EXTERN,
+      displayComponent: true,
       layoutTag: NineLayoutTag.BOTTOM_RIGHT,
       listenToChanges: [
         'plugin/zoom/zoomLevel',
