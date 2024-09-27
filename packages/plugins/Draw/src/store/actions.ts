@@ -77,10 +77,9 @@ export const makeActions = () => {
         ? configuration[`${geomType}Style`]
         : undefined
       if (mode === 'draw') {
-        console.warn(selectedStrokeColor)
         commit('setSelectedStrokeColor', selectedStrokeColor)
         dispatch('updateInteractions')
-      } else if (selectedFeature && configStyle) {
+      } else if (selectedFeature) {
         const style = createDrawStyle(
           selectedFeature?.getGeometry()?.getType() || mode,
           selectedStrokeColor.toString(),
