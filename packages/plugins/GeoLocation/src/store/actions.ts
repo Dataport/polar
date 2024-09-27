@@ -16,6 +16,8 @@ import { GeoLocationState, GeoLocationGetters } from '../types'
 import geoLocationMarker from '../assets/geoLocationMarker'
 import positionChanged from '../utils/positionChanged'
 
+let boundaryCheckChanged = true
+
 const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   setupModule({ getters, commit, dispatch }): void {
     dispatch('addMarkerLayer')
@@ -126,7 +128,6 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       configuredEpsg,
       position,
       boundaryCheck,
-      boundaryCheckChanged,
     },
     commit,
     dispatch,
@@ -146,7 +147,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       boundaryLayerId,
       transformedCoords
     )
-    commit('setBoundaryCheckChanged', boundaryCheck !== boundaryCheckPassed)
+    boundaryCheckChanged = boundaryCheck !== boundaryCheckPassed
     commit('setBoundaryCheck', boundaryCheckPassed)
     const showBoundaryLayerError =
       typeof boundaryCheckPassed === 'symbol' && boundaryOnError === 'strict'

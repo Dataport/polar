@@ -6,7 +6,6 @@ const getInitialState = (): GeoLocationState => ({
   tracking: false,
   isGeolocationDenied: false,
   boundaryCheck: null,
-  boundaryCheckChanged: true,
 })
 
 export default getInitialState
