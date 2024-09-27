@@ -49,3 +49,10 @@ export interface DrawMutations extends MutationTree<DrawState> {
   setMode: Mutation<DrawState>
   updateFeatures: Mutation<DrawState>
 }
+
+export interface RgbaObject {
+  r: number
+  g: number
+  b: number
+  a: number
+}
