@@ -29,7 +29,6 @@ export const mapConfiguration = {
   startResolution: 264.583190458,
   startCenter: [553655.72, 6004479.25],
   extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
-  epsg: 'EPSG:25832',
   locales,
   layers: [
     {
@@ -229,19 +228,5 @@ export const mapConfiguration = {
     { resolution: 0.06614579761, scale: 250, zoomLevel: zoomLevel++ },
     { resolution: 0.02645831904, scale: 100, zoomLevel: zoomLevel++ },
     { resolution: 0.01322915952, scale: 50, zoomLevel: zoomLevel++ },
-  ],
-  namedProjections: [
-    [
-      'EPSG:31467',
-      '+proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=bessel +nadgrids=BETA2007.gsb +units=m +no_defs +type=crs',
-    ],
-    [
-      'EPSG:25832',
-      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-    ],
-    [
-      'EPSG:4326',
-      '+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',
-    ],
   ],
 }
