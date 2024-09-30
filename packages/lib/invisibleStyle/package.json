@@ -2,6 +2,7 @@
   "name": "@polar/lib-invisible-style",
   "version": "1.1.0-alpha.1",
   "description": "Exports a style for vector layer features that results in invisibility. Plugins that work with feature visibility ought to use this package to keep them interoperable.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "lib", "visiblity", "filter"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -28,7 +29,7 @@
     "directory": "packages/lib/invisibleStyle"
   },
   "peerDependencies": {
-    "ol": "^7.1.0"
+    "ol": "^9.2.4"
   },
   "nx": {
     "includedScripts": [

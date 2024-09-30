@@ -8,15 +8,12 @@ import {
   MapConfig,
   PolarModule,
 } from '@polar/lib-custom-types'
-import * as masterportalapi from '@masterportal/masterportalapi/src'
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { ImageWMS, TileWMS } from 'ol/source'
 import Layer from 'ol/layer/Layer'
 import { LayerChooserGetters, LayerChooserState } from '../types'
 import { asIdList, areLayersActive } from '../utils/layerFolding'
-import {
-  findLayerTitleInCapabilitiesByName,
-  findLegendUrlInCapabilitiesByName,
-} from '../utils/findInCapabilities'
+import { getOpenedOptionsServiceLayers } from '../utils/getOpenedOptionsServiceLayers'
 
 export const getInitialState = (): LayerChooserState => ({
   openedOptions: null,
@@ -34,7 +31,7 @@ const getBackgroundsAndMasks = (
 ): [LayerConfiguration[], LayerConfiguration[]] =>
   configuration.layers.reduce(
     ([backgrounds, masks], current) => {
-      const rawLayer = masterportalapi.rawLayerList.getLayerWhere({
+      const rawLayer = rawLayerList.getLayerWhere({
         id: current.id,
       })
 
@@ -91,7 +88,7 @@ export const makeStoreModule = () => {
         )
 
         configuration.layers.forEach((layer) => {
-          const rawLayer = masterportalapi.rawLayerList.getLayerWhere({
+          const rawLayer = rawLayerList.getLayerWhere({
             id: layer.id,
           })
 
@@ -264,7 +261,7 @@ export const makeStoreModule = () => {
           return null
         }
 
-        const serviceDefinition = masterportalapi.rawLayerList.getLayerWhere({
+        const serviceDefinition = rawLayerList.getLayerWhere({
           id: openedOptionsService.id,
         })
 
@@ -289,30 +286,11 @@ export const makeStoreModule = () => {
           return null
         }
 
-        const technicalLayerNames =
-          layers.order?.split?.(',') || serviceDefinition.layers.split(',')
-
-        return technicalLayerNames.map((technicalLayerName) => ({
-          layerName: technicalLayerName,
-          displayName:
-            (layers.title === true
-              ? findLayerTitleInCapabilitiesByName(
-                  wmsCapabilitiesJson,
-                  technicalLayerName
-                )
-              : layers.title === false
-              ? technicalLayerName
-              : layers.title?.[technicalLayerName]) || technicalLayerName,
-          layerImage:
-            layers.legend === false
-              ? null
-              : layers.legend === true
-              ? findLegendUrlInCapabilitiesByName(
-                  wmsCapabilitiesJson,
-                  technicalLayerName
-                )
-              : layers.legend?.[technicalLayerName] || null,
-        }))
+        return getOpenedOptionsServiceLayers(
+          layers.order?.split?.(',') || serviceDefinition.layers.split(','),
+          layers,
+          wmsCapabilitiesJson
+        )
       },
     },
   }

@@ -7,13 +7,8 @@ import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
 import { Feature as GeoJsonFeature } from 'geojson'
 import Geometry from 'ol/geom/Geometry'
-import TileLayer from 'ol/layer/Tile'
 import { TileWMS } from 'ol/source'
-import { RequestGfiParameters } from '../types'
-
-interface WmsRequestParameters extends RequestGfiParameters {
-  layer: TileLayer<TileWMS>
-}
+import { RequestGfiWmsParameters } from '../types'
 
 // list of supported reply formats that can be used from OL
 const formats = {
@@ -36,7 +31,6 @@ function readTextFeatures(text: string): Feature<Geometry>[] {
   const lines = text.split('\n')
   const features: Feature<Geometry>[] = []
   let feature: Feature<Geometry> | undefined
-
   /* TODO: Format supposedly looks like this – is this a standard or arbitrary?
       GetFeatureInfo results:
         LayerName:
@@ -81,7 +75,6 @@ function readTextFeatures(text: string): Feature<Geometry>[] {
       features.push(feature)
     }
   }
-
   return features
 }
 
@@ -135,17 +128,15 @@ function getParserFromFormat(format: string): Pick<WFS, 'readFeatures'> {
  * @returns url to request for feature information
  */
 function getWmsGfiUrl(
-  {
-    map,
-    layer,
-    coordinate,
-  }: Pick<WmsRequestParameters, 'map' | 'layer' | 'coordinate'>,
+  { map, layer, coordinate }: RequestGfiWmsParameters,
   { infoFormat }: Record<string, unknown>
 ): string {
+  // Only layers with a valid source reach this point
   const source = layer.getSource() as TileWMS
   const view = map.getView()
   const url = source.getFeatureInfoUrl(
     coordinate,
+    // The view always has a resolution if this function is called
     view.getResolution() as number,
     view.getProjection(),
     {
@@ -163,7 +154,7 @@ function getWmsGfiUrl(
  * @returns promise of all features that hold relevant feature information
  */
 export default (
-  parameters: WmsRequestParameters
+  parameters: RequestGfiWmsParameters
 ): Promise<GeoJsonFeature[]> => {
   const { coordinate, layerConfiguration, layerSpecification } = parameters
   const { filterBy, geometryName, format } = layerConfiguration

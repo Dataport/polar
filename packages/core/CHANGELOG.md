@@ -2,10 +2,18 @@
 
 ## unpublished
 
+- Breaking: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.
+- Breaking: Remove support for marking client CSS via `data-polar="true"`. Please use the configuration parameter `stylePath` instead.
 - Feature: Add new state parameter `mapHasDimensions` to let plugins have a "hook" to react on when the map is ready.
 - Feature: Add `deviceIsHorizontal` as a getter to have a more central place to check if the device is in landscape mode.
+- Feature: Add clearer documentation regarding `@masterportal/masterportalapi` related configuration parameters including examples.
+- Feature: Officially add support for WMTS layers.
+- Feature: Add reasonable default values for configuration parameters `epsg`, `options`, `namedProjections` and `startResolution`.
+- Fix: Document `rawLayerList.initializeLayerList` as an essential step when creating a client.
+- Fix: Move basic documentation of `layers` from `@polar/plugin-layer-chooser` to `@polar/core`.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Fix: Add package `events` as a dependency to fix issue with `xml2js`. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/697 for more information.
+- Fix: Adjust overlay to properly be displayed on macOS devices.
 - Chore: Update dependencies to latest versions.
 
 ## 2.0.0-alpha.13

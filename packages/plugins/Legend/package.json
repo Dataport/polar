@@ -1,7 +1,8 @@
 {
   "name": "@polar/plugin-legend",
   "version": "1.1.0",
-  "description": "Plugin Legend",
+  "description": "Legend plugin for POLAR that adds a simple legend overview referring to the services' provided infographics.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "legend", "infographic"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -32,7 +33,7 @@
     "preversion": "npm run bundle"
   },
   "peerDependencies": {
-    "@masterportal/masterportalapi": "2.8.0",
+    "@masterportal/masterportalapi": "2.40.0",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },

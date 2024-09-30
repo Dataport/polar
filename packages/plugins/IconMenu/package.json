@@ -1,7 +1,8 @@
 {
   "name": "@polar/plugin-icon-menu",
   "version": "2.0.0-alpha.3",
-  "description": "Plugin IconMenu",
+  "description": "IconMenu plugin for POLAR that adds a menu that may provide various plugins' functionality as openable menu points.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "icon menu", "menu"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

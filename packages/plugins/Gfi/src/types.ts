@@ -1,7 +1,7 @@
 import { Map, Feature } from 'ol'
-import { Coordinate } from 'ol/coordinate'
-import { Layer } from 'ol/layer'
-import { Source } from 'ol/source'
+import BaseLayer from 'ol/layer/Base'
+import TileLayer from 'ol/layer/Tile'
+import { TileWMS } from 'ol/source'
 import VectorSource from 'ol/source/Vector'
 import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import {
@@ -16,13 +16,21 @@ import {
 /** parameter specification for request method */
 export interface RequestGfiParameters {
   map: Map
-  layer: Layer<Source>
-  coordinate: Coordinate
+  layer: BaseLayer
+  coordinate: [number, number]
   layerConfiguration: GfiLayerConfiguration
   /** rawLayerList entry, see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md */
   layerSpecification: Record<string, unknown>
   /** defaults to bboxDot (get from minimal coordinate bbox) */
   mode?: 'bboxDot' | 'intersects' // TODO: Might be interesting to rather define this per service
+}
+
+export interface RequestGfiWmsParameters {
+  map: RequestGfiParameters['map']
+  coordinate: RequestGfiParameters['coordinate']
+  layerConfiguration: RequestGfiParameters['layerConfiguration']
+  layerSpecification: RequestGfiParameters['layerSpecification']
+  layer: TileLayer<TileWMS>
 }
 
 /** GFI Vuex Module State */

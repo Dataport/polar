@@ -14,4 +14,7 @@ logs
 /.idea/
 /.nx/
 **/.parcel-cache
-.nx/cache
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

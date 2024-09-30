@@ -1,7 +1,8 @@
 {
   "name": "@polar/plugin-reverse-geocoder",
   "version": "1.2.0",
-  "description": "Plugin Reverse Geocoder",
+  "description": "ReverseGeocoder plugin for POLAR that adds a ui-less reverse geocoding mechanism that can be adresses via store interactions.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "reverse geocoder"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -29,7 +30,7 @@
   },
   "//": "xml2js is considered a peerDependency as @masterportal/masterportalapi depends on it. If that changes at some point, it should become a dependency.",
   "peerDependencies": {
-    "ol": "^7.1.0",
+    "ol": "^9.2.4",
     "xml2js": "^0.4.23"
   },
   "dependencies": {

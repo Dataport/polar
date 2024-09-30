@@ -1,7 +1,8 @@
 {
   "name": "@polar/lib-passes-boundary-check",
   "version": "2.1.0-alpha.1",
-  "description": "Helper function to decide whether a coordinate is within the geometry of a vector layer.",
+  "description": "Provides a check function for whether something is in (potentially asynchronously available) boundaries.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "lib", "boundary"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -27,11 +28,9 @@
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/lib/passesBoundaryCheck"
   },
-  "peerDependencies": {
-    "ol": "^7.1.0"
-  },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.1.0"
+    "@polar/lib-custom-types": "^1.1.0",
+    "ol": "^9.2.4"
   },
   "nx": {
     "includedScripts": [

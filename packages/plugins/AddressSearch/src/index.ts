@@ -7,6 +7,12 @@ import { makeStoreModule } from './store'
 
 export { default as SearchResultSymbols } from './utils/searchResultSymbols'
 
+export type {
+  AddressSearchState,
+  AddressSearchGetters,
+  MpApiParameters,
+} from './types'
+
 export default (options: AddressSearchConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'addressSearch',

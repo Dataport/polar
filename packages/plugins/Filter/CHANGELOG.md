@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Breaking: Upgrade peerDependency `ol` from `^7.1.0` to `^9.2.4`.
+- Chore: Remove unused peerDependency `@masterportal/masterportalapi`.
+
 ## 2.0.0-alpha.3
 
 - Chore: Add `compileTemplate` to `rollup-plugin-vue`.

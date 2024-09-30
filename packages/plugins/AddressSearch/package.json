@@ -1,7 +1,8 @@
 {
   "name": "@polar/plugin-address-search",
   "version": "2.0.0-alpha.5",
-  "description": "Plugin AddressSearch",
+  "description": "AddressSearch plugin for POLAR that adds a user interface to search for various kinds of textual information to map it to a geometry; e.g. parcel numbers or addresses, but any kind of toponym mapping is possible.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "AddressSearch", "parcel", "address", "search"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -32,9 +33,9 @@
     "preversion": "npm run bundle"
   },
   "peerDependencies": {
-    "@masterportal/masterportalapi": "2.8.0",
+    "@masterportal/masterportalapi": "2.40.0",
     "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "7.1.0",
+    "ol": "^9.2.4",
     "vue": "^2.6.14",
     "vuetify": "^2.5.9",
     "vuex": "^3.6.2",

@@ -5,6 +5,7 @@ import VueI18Next from 'i18next-vue'
 import Vuetify from 'vuetify'
 import Vuex, { Store } from 'vuex'
 import { VueConstructor } from 'vue/types/umd'
+import mpapiDefaults from '@polar/core/src/utils/createMap/defaults'
 import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
 
 Vue.use(VueI18Next, { i18next })
@@ -18,7 +19,7 @@ export interface MockParameters {
   emptyRoot: CoreState
 }
 
-export default (): MockParameters => {
+const initializeI18n = (): Promise<void> =>
   i18next
     .init({
       lng: 'cimode',
@@ -31,6 +32,9 @@ export default (): MockParameters => {
     .catch((error: Error) => {
       console.error('i18next: Error while initializing for testing.', error)
     })
+
+export default (): MockParameters => {
+  initializeI18n()
   const localVue: VueConstructor<Vue> = createLocalVue()
   return {
     localVue,
@@ -41,6 +45,11 @@ export default (): MockParameters => {
           namespaced: true,
         },
       },
+      getters: {
+        // Base value. Should be adjusted in tests if necessary for the test.
+        hasSmallDisplay: () => false,
+        hasSmallHeight: () => false,
+      },
     }),
     emptyRoot: {
       map: 1,
@@ -49,11 +58,10 @@ export default (): MockParameters => {
       center: null,
       components: 1,
       configuration: {
-        epsg: 'EPSG:12345',
+        startCenter: [0, 0],
         layerConf: [],
-        namedProjections: [],
         layers: [],
-        options: [],
+        ...mpapiDefaults,
       },
       errors: [],
       hasSmallDisplay: false,

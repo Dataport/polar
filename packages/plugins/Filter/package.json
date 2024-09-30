@@ -1,7 +1,8 @@
 {
   "name": "@polar/plugin-filter",
   "version": "2.0.0-alpha.3",
-  "description": "Plugin Filter",
+  "description": "Filter plugin for POLAR that adds filter functionality to vector-data based layers.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "Filter"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -33,7 +34,7 @@
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "^7.1.0",
+    "ol": "^9.2.4",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },

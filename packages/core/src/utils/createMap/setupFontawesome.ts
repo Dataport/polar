@@ -1,4 +1,4 @@
-// @ts-expect-error | TS can't find the type definitions. This is fine, as this is css.
+// @ts-expect-error | This CSS package doesn't have any type declarations.
 import fontawesomeFree from '@fortawesome/fontawesome-free/css/all.css?inline'
 
 const outerNodeId = 'polar-fontawesome-outer-node'

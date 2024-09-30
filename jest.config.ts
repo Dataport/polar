@@ -5,7 +5,7 @@ const config: Config.InitialOptions = {
     '**/*.{js,ts,vue}',
     '!**/(node_modules|build|dist|dist-test|.cache|coverage|docs|tests_output)/**',
   ],
-  modulePathIgnorePatterns: ['<rootDir>/mpapi/'],
+  modulePathIgnorePatterns: ['<rootDir>/mpapi/', '<rootDir>/e2e/'],
   moduleFileExtensions: ['js', 'ts', 'json', 'vue'],
   moduleNameMapper: {
     'vuetify/lib': '<rootDir>/node_modules/vuetify/es5',
@@ -19,9 +19,11 @@ const config: Config.InitialOptions = {
     '^.+\\.tsx?$': 'ts-jest',
     '^.*\\.js$': 'babel-jest',
   },
+  // jest-canvas-mock and setup file is required because of @masterportal/masterportalapi; setup file is based on setup file from @masterportal/masterportalapi setup
+  setupFiles: ['jest-canvas-mock'],
+  setupFilesAfterEnv: ['./__mocks__/jest.setup.js'],
   transformIgnorePatterns: [
-    // TODO: Remove both geotiff and quick-lru once we upgraded masterportalapi; see https://github.com/geotiffjs/geotiff.js/issues/292 for more
-    '/node_modules/(?!(@repositoryname/vuex-generators|geotiff|quick-lru|ol|@masterportal/masterportalapi)/)',
+    '/node_modules/(?!(@repositoryname/vuex-generators|@masterportal/masterportalapi|ol|geotiff|quick-lru|color-(space|parse|rgba|name))/)',
   ],
 }
 

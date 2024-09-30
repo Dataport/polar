@@ -6,7 +6,7 @@
         class="polar-map-overlay"
       >
         <template v-if="noControlOnZoom">
-          {{ $t('common:overlay.noControlOnZoom') }}
+          {{ $t(overlayLocale) }}
         </template>
         <template v-else-if="oneFingerPan">
           {{ $t('common:overlay.oneFingerPan') }}
@@ -58,6 +58,8 @@ import MoveHandle from './MoveHandle.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
 
+const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
+
 export default Vue.extend({
   components: {
     MapUi,
@@ -91,6 +93,9 @@ export default Vue.extend({
       'moveHandle',
       'moveHandleActionButton',
     ]),
+    overlayLocale() {
+      return `common:overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
+    },
     renderMoveHandle() {
       return (
         this.moveHandle !== null && this.hasWindowSize && this.hasSmallWidth
@@ -203,9 +208,9 @@ export default Vue.extend({
         }
       }
     },
-    wheelEffect({ ctrlKey }) {
+    wheelEffect(event: WheelEvent) {
       clearTimeout(this.noControlOnZoomTimeout)
-      this.noControlOnZoom = !ctrlKey
+      this.noControlOnZoom = isMacOS ? !event.metaKey : !event.ctrlKey
       this.noControlOnZoomTimeout = setTimeout(
         () => (this.noControlOnZoom = false),
         2000

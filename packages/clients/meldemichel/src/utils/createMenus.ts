@@ -20,12 +20,15 @@ export default function (mode: keyof typeof MODE): Menu[] {
       id: 'layerChooser',
     },
     mode === MODE.COMPLETE && {
-      plugin: Filter({}),
+      plugin: Filter({
+        layers: {},
+      }),
       icon: 'fa-filter',
       id: 'filter',
     },
     mode === MODE.COMPLETE && {
       plugin: Gfi({
+        layers: {},
         gfiContentComponent: MeldemichelGfiFeature,
         renderType: 'iconMenu',
         coordinateSources: [

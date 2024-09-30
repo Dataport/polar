@@ -1,7 +1,8 @@
 {
   "name": "@polar/plugin-gfi",
   "version": "2.0.0-alpha.6",
-  "description": "Plugin Gfi",
+  "description": "Gfi plugin for POLAR that adds feature information retrieval. UI elements can be provided by configuration, else it works as a store integration.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "gfi", "feature information"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -32,10 +33,10 @@
     "preversion": "npm run bundle"
   },
   "peerDependencies": {
-    "@masterportal/masterportalapi": "2.8.0",
+    "@masterportal/masterportalapi": "2.40.0",
     "@repositoryname/vuex-generators": "^1.1.2",
     "i18next": "^23.7.16",
-    "ol": "^7.1.0",
+    "ol": "^9.2.4",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },

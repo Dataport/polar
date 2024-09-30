@@ -5,8 +5,7 @@ import {
 import { Feature } from 'geojson'
 import { PolarModule } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
-import Geometry from 'ol/geom/Geometry'
-import { Circle } from 'ol/geom'
+import { Circle, LineString, Point, Polygon } from 'ol/geom'
 import { DrawGetters, DrawMutations, DrawState } from '../types'
 import { makeActions } from './actions'
 
@@ -20,6 +19,7 @@ const getInitialState = (): DrawState => ({
     features: [],
   },
   selectedFeature: 1,
+  selectedStrokeColor: '#000000',
 })
 
 // OK for module creation
@@ -87,6 +87,16 @@ export const makeStoreModule = () => {
             typeof selectedFeature.get('text') === 'string')
         )
       },
+      showDrawOptions(
+        { mode },
+        { configuration, showTextInput, selectedFeature }
+      ) {
+        return (
+          configuration.enableOptions &&
+          !showTextInput &&
+          (mode === 'draw' || (mode === 'edit' && selectedFeature))
+        )
+      },
       configuration(_, __, ___, rootGetters) {
         return rootGetters.configuration.draw || {}
       },
@@ -111,8 +121,11 @@ export const makeStoreModule = () => {
       ...generateSimpleMutations(getInitialState()),
       updateFeatures(state) {
         const features = drawSource.getFeatures().map((feature) => {
-          // Only features including geometries exist in the drawSource
-          const geometry = feature.getGeometry() as Geometry
+          const geometry = feature.getGeometry() as
+            | Circle
+            | LineString
+            | Point
+            | Polygon
           const type = geometry.getType()
           const isCircle = type === 'Circle'
           const jsonFeature: Feature = {
@@ -123,10 +136,10 @@ export const makeStoreModule = () => {
             geometry: {
               // @ts-expect-error | A LinearRing can be defined by OpenLayers, but is a construct that is not present in GeoJSON.
               type: isCircle ? 'Point' : type,
+              // @ts-expect-error | The coordinates are in the correct format
               coordinates: isCircle
                 ? (geometry as Circle).getCenter()
-                : // @ts-expect-error | getCoordinates is a method implemented on all subclasses of Geometry.
-                  geometry.getCoordinates(),
+                : geometry.getCoordinates(),
             },
           }
           // NOTE: If one is checking if properties exists (which it clearly does), TS complains

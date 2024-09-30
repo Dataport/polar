@@ -6,6 +6,7 @@
 - Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Refactor: Remove redundant props regarding positioning of the tooltip.
+- Chore: Remove unused dependency `@masterportal/masterportalapi`.
 
 ## 1.2.1
 

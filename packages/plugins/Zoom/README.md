@@ -15,6 +15,17 @@ It can be configured as followed.
 | showMobile | boolean? | Whether the zoom related buttons should be displayed on smaller devices; defaults to `false`. |
 | showZoomSlider | boolean? | Whether a zoom slider should be displayed under the zoom buttons. Won't be rendered on smaller devices; defaults to `false`.|
 
+For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
+
+Example configuration:
+```js
+zoom: {
+  renderType: 'independent',
+  showMobile: false,
+  showZoomSlider: true,
+}
+```
+
 ## Store
 
 ### State
@@ -23,9 +34,9 @@ The map's zoom level can be listened to.
 
 | fieldName | type | description |
 | - | - | - |
-| zoomLevel | number | Current OpenLayers zoom level. |
 | maximumZoomLevel | number | Maximum OpenLayers zoom level. |
 | minimumZoomLevel | number | Minimum OpenLayers zoom level. |
+| zoomLevel | number | Current OpenLayers zoom level. |
 
 ```js
 map.subscribe('plugin/zoom/zoomLevel', (zoomLevel) => {

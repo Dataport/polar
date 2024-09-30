@@ -12,12 +12,12 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.TAGS }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ssh-key: ${{ secrets.MAIN_BOT_KEY_PRIVATE }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.13.0
+          node-version: 20.16.0
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: |

@@ -11,10 +11,10 @@ Map.prototype.addLayer = function (...parameters) {
     .call(this)
     .getArray() // Change layers with wrong crossOrigin
     .forEach((layer) => {
-      // @ts-expect-error | masterportalapi always produces layers including a source
+      // @ts-expect-error | All layers here are instantiated layers including a source.
       const source = layer.getSource()
       source.crossOrigin = 'anonymous'
-      // @ts-expect-error | masterportalapi always produces layers including a source
+      // @ts-expect-error | All layers here are instantiated layers including a source.
       layer.setSource(source)
     })
 }

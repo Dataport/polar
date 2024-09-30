@@ -1,4 +1,4 @@
-import * as mpapi from '@masterportal/masterportalapi/src'
+import * as mpapi from '@masterportal/masterportalapi'
 import addPlugins from './utils/addPlugins'
 import createMap from './utils/createMap'
 
@@ -9,6 +9,7 @@ import './monkeyHeaderLoader'
 
 export { NineLayout, NineLayoutTag } from './components/layouts'
 export { setLayout, getLayout } from './utils/layout'
+export { default as mpapiDefaults } from './utils/createMap/defaults'
 
 export type PolarCore = typeof mpapi & {
   // TODO add more

@@ -1,7 +1,8 @@
 {
   "name": "@polar/lib-get-features",
   "version": "2.0.0-alpha.1",
-  "description": "Helper functions to be able to send GetFeature-Requests to WFS-services.",
+  "description": "Provides feature information retrieval for WFS and gazetteers.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "lib", "GFI", "feature information"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -28,7 +29,7 @@
     "directory": "packages/lib/getFeatures"
   },
   "peerDependencies": {
-    "ol": "^7.1.0"
+    "ol": "^9.2.4"
   },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.0.0"

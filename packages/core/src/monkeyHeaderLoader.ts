@@ -1,5 +1,6 @@
 import { ImageTile, Map } from 'ol'
 
+// @ts-expect-error | Most modern browsers already support named capturing groups. This should be fine.
 const headerRegex = /{(?<key>[^=]+)=(?<value>[^}]+)}/gm
 
 /**
@@ -39,12 +40,12 @@ Map.prototype.addLayer = function (...parameters) {
     .call(this)
     .getArray()
     .forEach((layer) => {
-      // @ts-expect-error | masterportalapi always produces layers including a source
+      // @ts-expect-error | All layers here are instantiated layers including a source.
       const source = layer.getSource()
       const headerRequired = source?.urls?.some((url) => headerRegex.test(url))
       if (headerRequired && typeof source.setTileLoadFunction === 'function') {
         source.setTileLoadFunction(customLoader)
-        // @ts-expect-error | masterportalapi always produces layers including a source
+        // @ts-expect-error | All layers here are instantiated layers including a source.
         layer.setSource(source)
       }
     })
