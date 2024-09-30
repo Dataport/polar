@@ -15,7 +15,9 @@ const createMap = (layerConf) => {
         layerConf,
       },
     })
-    .then(
+    .then((map) => {
+      // @ts-expect-error | adding it intentionally for e2e testing
+      window.mapInstance = map
       addStoreSubscriptions(
         ['plugin/zoom/zoomLevel', 'vuex-target-zoom'],
         [
@@ -36,9 +38,14 @@ const createMap = (layerConf) => {
             document
               .getElementById('vuex-target-export-result')!
               .setAttribute('src', screenshot),
+        ],
+        [
+          'plugin/draw/featureCollection',
+          'vuex-target-draw-result',
+          (featureCollection) => JSON.stringify(featureCollection, null, 2),
         ]
-      )
-    )
+      )(map)
+    })
 }
 
 const addStoreSubscriptions =
