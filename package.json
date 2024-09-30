@@ -29,6 +29,7 @@
     "snowbox": "nx dev @polar/client-snowbox",
     "snowbox:build": "nx build @polar/client-snowbox",
     "snowbox:build:serve": "http-server packages/clients/snowbox -o /dist/index.html",
+    "snowbox:build:serve:e2e": "http-server packages/clients/snowbox",
     "textLocator:build": "nx build @polar/client-text-locator",
     "textLocator:build:serve": "http-server ./packages/clients/textLocator -o /dist/index.html",
     "textLocator:dev": "nx dev @polar/client-text-locator",
@@ -46,6 +47,7 @@
     "tsc:ci": "tsc --noEmit",
     "publishPackages": "node ./scripts/publishPackages",
     "test": "jest",
+    "test:e2e": "npx playwright test",
     "test:dev": "jest --coverage --coverageReporters=text --watchAll",
     "test:coverage": "jest --coverage"
   },
@@ -55,6 +57,7 @@
     "@babel/preset-env": "^7.24.8",
     "@cesium/engine": "^9.2.0",
     "@jest/types": "^29.3.1",
+    "@playwright/test": "^1.47.1",
     "@types/geojson": "^7946.0.8",
     "@types/jest": "^29.2.5",
     "@types/node": "^20.16.4",

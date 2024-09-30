@@ -54,7 +54,7 @@ Other clients with more specific code include the [Denkmalkarte Schleswig-Holste
 <table align="center">
   <tr align="center">
     <td align="center"><img src="./pages/assets/landessymbole/bremen.svg" alt="Bremer Wappenzeichen" height="120px" style="object-fit: contain;"><div>Freie Hansestadt Bremen</div></td>
-    <td align="center"><img src="./pages/assets/landessymbole/hamburg.svg" alt="Hamburg-Symbol" height="120px" style="object-fit: contain;"><div>Freie Freie und Hansestadt Hamburg</div></td>
+    <td align="center"><img src="./pages/assets/landessymbole/hamburg.svg" alt="Hamburg-Symbol" height="120px" style="object-fit: contain;"><div>Freie und Hansestadt Hamburg</div></td>
   </tr>
   <tr align="center">
     <td align="center"><img src="./pages/assets/landessymbole/sachsen-anhalt.svg" alt="Landessymbol Sachsen-Anhalt" height="120px" style="object-fit: contain;"><div>Sachsen-Anhalt</div></td>

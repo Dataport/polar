@@ -31,7 +31,6 @@ function readTextFeatures(text: string): Feature<Geometry>[] {
   const lines = text.split('\n')
   const features: Feature<Geometry>[] = []
   let feature: Feature<Geometry> | undefined
-
   /* TODO: Format supposedly looks like this – is this a standard or arbitrary?
       GetFeatureInfo results:
         LayerName:
@@ -76,7 +75,6 @@ function readTextFeatures(text: string): Feature<Geometry>[] {
       features.push(feature)
     }
   }
-
   return features
 }
 

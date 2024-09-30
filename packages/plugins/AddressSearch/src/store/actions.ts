@@ -1,5 +1,5 @@
 import debounce from 'lodash.debounce'
-import { FeatureCollection } from 'geojson'
+import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import { SearchResultSymbols } from '../'
 import { getMethodContainer } from '../utils/searchMethods/getSearchMethod'
@@ -8,6 +8,42 @@ import {
   AddressSearchState,
   AddressSearchAutoselect,
 } from '../types'
+
+const getResultsFromPromises = (
+  promises: PromiseSettledResult<
+    FeatureCollection<Geometry, GeoJsonProperties>
+  >[],
+  abortController: AbortController
+) => {
+  const results = promises.reduce((accumulator, promise, index) => {
+    if (promise.status === 'fulfilled') {
+      return [
+        ...accumulator,
+        {
+          value: promise.value,
+          index,
+        },
+      ]
+    }
+    return accumulator
+  }, [] as object[])
+
+  // only print errors if search was not aborted
+  if (!abortController.signal.aborted) {
+    ;(
+      promises.filter(
+        ({ status }) => status === 'rejected'
+      ) as PromiseRejectedResult[]
+    ).forEach(({ reason }) =>
+      console.error(
+        '@polar/plugin-address-search: An error occurred while sending a request: ',
+        reason
+      )
+    )
+  }
+
+  return results
+}
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -113,39 +149,12 @@ export const makeActions = () => {
           )
         )
       return Promise.allSettled(searchPromises)
-        .then((results) => {
-          const indexedFulfilledResults = results.reduce(
-            (accumulator, result, index) => {
-              if (result.status === 'fulfilled') {
-                return [
-                  ...accumulator,
-                  {
-                    value: result.value,
-                    index,
-                  },
-                ]
-              }
-              return accumulator
-            },
-            [] as object[]
+        .then((results) =>
+          commit(
+            'setSearchResults',
+            getResultsFromPromises(results, localAbortControllerReference)
           )
-
-          // only print errors if search was not aborted
-          if (!localAbortControllerReference.signal.aborted) {
-            ;(
-              results.filter(
-                ({ status }) => status === 'rejected'
-              ) as PromiseRejectedResult[]
-            ).forEach(({ reason }) =>
-              console.error(
-                '@polar/plugin-address-search: An error occurred while sending a request: ',
-                reason
-              )
-            )
-          }
-
-          commit('setSearchResults', indexedFulfilledResults)
-        })
+        )
         .catch((error: Error) => {
           console.error(
             '@polar/plugin-address-search: An error occurred while searching.',
@@ -153,9 +162,7 @@ export const makeActions = () => {
           )
           commit('setSearchResults', SearchResultSymbols.ERROR)
         })
-        .finally(() => {
-          dispatch('indicateLoading', false)
-        })
+        .finally(() => dispatch('indicateLoading', false))
     },
     indicateLoading(
       { getters: { addressSearchConfiguration }, commit },
@@ -182,6 +189,9 @@ export const makeActions = () => {
         commit('setInputValue', feature.title)
         commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
       }
+    },
+    escapeSelection({ commit }): void {
+      commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
     },
 
     /**
