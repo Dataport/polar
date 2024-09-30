@@ -1,6 +1,6 @@
-import union from '@turf/union'
-import flatten from '@turf/flatten'
-import { Feature, GeoJsonProperties, Geometry, Polygon } from 'geojson'
+import { union } from '@turf/union'
+import { flatten } from '@turf/flatten'
+import { Feature, Geometry, Polygon } from 'geojson'
 import { wgs84ProjectionCode } from '../common'
 import { geoJson, wellKnownText } from './common'
 import { MakeRequestBodyParameters, RequestPayload } from './types'
@@ -20,11 +20,8 @@ const searchRequestDefaultPayload: RequestPayload = {
  */
 const unify = (geometry: Geometry): Geometry => {
   if (geometry.type === 'MultiPolygon') {
-    return flatten(geometry).features.reduce(
-      (accumulator, current) =>
-        // NOTE: never null, input from flatten merges as expected
-        union(accumulator, current) as Feature<Polygon, GeoJsonProperties>
-    ).geometry
+    // NOTE: never null, input from flatten merges as expected
+    return (union(flatten(geometry)) as Feature<Polygon>).geometry
   }
   console.warn(
     `@polar/client-text-locator: Unexpected geometry in request body creation.`
