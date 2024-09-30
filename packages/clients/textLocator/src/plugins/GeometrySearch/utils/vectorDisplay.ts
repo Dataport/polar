@@ -5,7 +5,7 @@ import { Vector } from 'ol/source'
 import { createEmpty, extend } from 'ol/extent'
 import { geoJson, idPrefixes } from '../../../utils/coastalGazetteer/common'
 import { FeatureType, TreeViewItem } from '../types'
-import { TitleLocationFrequency } from '../../../utils/textLocatorBackend/literatureByToponym'
+import { TitleLocationFrequency } from '../../../types'
 import { heatStyles, typeToStyle } from './vectorStyles'
 
 const vectorSource = new Vector()
