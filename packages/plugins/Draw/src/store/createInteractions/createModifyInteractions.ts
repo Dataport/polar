@@ -38,9 +38,14 @@ export default function (
       }
     }
   })
-  return [
-    new Modify({ source: drawSource }),
-    new Snap({ source: drawSource }),
-    select,
-  ]
+
+  const modify = new Modify({ source: drawSource })
+  modify.on('modifystart', (event) => {
+    // NOTE: This prevents the user from dragging multiple features. Beware, as dragSegments is an internal property, this might break on an update of OpenLayers
+    if (event.target.dragSegments_[0]) {
+      event.target.dragSegments_ = [event.target.dragSegments_[0]]
+    }
+  })
+
+  return [modify, new Snap({ source: drawSource }), select]
 }
