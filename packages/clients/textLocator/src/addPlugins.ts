@@ -18,7 +18,8 @@ import {
   selectResult,
 } from './utils/coastalGazetteer/searchToponym'
 import { idRegister } from './services'
-import { searchLiterature, selectLiterature } from './utils/findLiterature'
+import { searchLiterature } from './utils/textLocatorBackend/findLiterature/searchLiterature'
+import { selectLiterature } from './utils/textLocatorBackend/findLiterature/selectLiterature'
 
 export const ids = {
   groupId: 'groupTL',

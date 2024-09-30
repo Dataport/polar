@@ -57,7 +57,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import { GeometrySearchState } from '../plugins/GeometrySearch/types'
-import { LiteratureFeature } from '../utils/findLiterature'
+import { LiteratureFeature } from '../types'
 
 export default Vue.extend({
   name: 'ResultInfo',
@@ -87,7 +87,7 @@ export default Vue.extend({
   computed: {
     // duck-typing
     isLiterature(): boolean {
-      return Boolean(this.feature.properties.location_hits_title)
+      return Boolean(this.feature.properties.location_hits)
     },
     // required TS support missing in template; workaround ...
     featureAsGeometry(): GeometrySearchState['featureCollection']['features'][number] {
