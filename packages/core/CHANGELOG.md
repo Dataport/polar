@@ -13,6 +13,7 @@
 - Fix: Move basic documentation of `layers` from `@polar/plugin-layer-chooser` to `@polar/core`.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Fix: Add package `events` as a dependency to fix issue with `xml2js`. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/697 for more information.
+- Fix: Adjust overlay to properly be displayed on macOS devices.
 - Chore: Update dependencies to latest versions.
 
 ## 1.4.1

@@ -11,6 +11,7 @@ const en: Resource = {
     },
     overlay: {
       noControlOnZoom: 'Use Ctrl+Mousewheel to zoom into the map',
+      noCommandOnZoom: 'Use Command ⌘ + Mousewheel to zoom into the map',
       oneFingerPan: 'Use at least two fingers to pan the map',
     },
   },
