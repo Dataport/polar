@@ -1,12 +1,28 @@
 {
   "name": "@polar/lib-passes-boundary-check",
-  "version": "2.0.0",
+  "version": "2.1.0-alpha.1",
   "description": "Provides a check function for whether something is in (potentially asynchronously available) boundaries.",
   "keywords": ["OpenLayers", "ol", "POLAR", "lib", "boundary"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/**",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "bundle": "tsc --declaration --emitDeclarationOnly && rollup -c",
+    "preversion": "npm run bundle"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Dataport/polar.git",
@@ -15,5 +31,10 @@
   "devDependencies": {
     "@polar/lib-custom-types": "^1.1.0",
     "ol": "^9.2.4"
+  },
+  "nx": {
+    "includedScripts": [
+      "bundle"
+    ]
   }
 }

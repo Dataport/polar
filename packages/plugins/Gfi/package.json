@@ -1,37 +1,59 @@
 {
   "name": "@polar/plugin-gfi",
-  "version": "1.2.2",
+  "version": "2.0.0-alpha.6",
   "description": "Gfi plugin for POLAR that adds feature information retrieval. UI elements can be provided by configuration, else it works as a store integration.",
   "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "gfi", "feature information"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./styles.css": {
+      "import": "./dist/index.css",
+      "require": "./dist/index.css"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/plugins/Gfi"
   },
   "files": [
-    "src/**/*",
+    "dist/**",
     "CHANGELOG.md"
   ],
+  "scripts": {
+    "bundle": "tsc --declaration --emitDeclarationOnly && rollup -c",
+    "preversion": "npm run bundle"
+  },
   "peerDependencies": {
     "@masterportal/masterportalapi": "2.40.0",
     "@repositoryname/vuex-generators": "^1.1.2",
+    "i18next": "^23.7.16",
     "ol": "^9.2.4",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },
   "dependencies": {
+    "@polar/lib-get-cluster": "1.1.0-alpha.1",
+    "@polar/lib-invisible-style": "1.1.0-alpha.1",
+    "@polar/lib-tooltip": "1.1.0-alpha.1",
     "just-compare": "^2.3.0",
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.2.0",
-    "@polar/lib-get-cluster": "^1.0.0",
-    "@polar/lib-invisible-style": "^1.0.0",
-    "@polar/lib-test-mount-parameters": "^1.1.0",
-    "@polar/lib-tooltip": "^1.0.0"
+    "@polar/lib-test-mount-parameters": "^1.1.0"
+  },
+  "nx": {
+    "includedScripts": [
+      "bundle"
+    ]
   }
 }

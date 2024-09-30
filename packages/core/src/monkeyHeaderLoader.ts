@@ -1,4 +1,4 @@
-import { Map } from 'ol'
+import { ImageTile, Map } from 'ol'
 
 // @ts-expect-error | Most modern browsers already support named capturing groups. This should be fine.
 const headerRegex = /{(?<key>[^=]+)=(?<value>[^}]+)}/gm
@@ -7,10 +7,8 @@ const headerRegex = /{(?<key>[^=]+)=(?<value>[^}]+)}/gm
  * A header is defined by `{key=value}` as part of the configured url of a service.
  * Note, that the parenthesis are necessary.
  */
-function customLoader(tile, url) {
-  // TODO: Check if type any is valid
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const headers: any = {}
+function customLoader(tile: ImageTile, url: string) {
+  const headers: HeadersInit = {}
   const src = url.replaceAll(headerRegex, (_, key, value) => {
     headers[key] = value
     return ''
@@ -26,7 +24,7 @@ function customLoader(tile, url) {
     )
     .then((blob) => {
       if (blob) {
-        tile.getImage().src = URL.createObjectURL(blob)
+        ;(tile.getImage() as HTMLImageElement).src = URL.createObjectURL(blob)
       }
     })
     .catch((e) => console.error('@polar/core', e))

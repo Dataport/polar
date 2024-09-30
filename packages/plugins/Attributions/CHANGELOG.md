@@ -2,6 +2,8 @@
 
 ## unpublished
 
+- Breaking: As a result of the bundling with `rollup`, the styles of the package need to be imported via `@polar/plugin-attributions/styles.css`.
+- Feature: The package is now being bundled by `rollup` before being published. This allows for a smaller package size and better compatibility with other packages.
 - Feature: Add new option `'footer'` to configuration parameter `renderType` that changes the attributions to be displayed as a small version of the information box that is always visible.
 - Refactor: Replace redundant props with computed properties.
 - Chore: Correctly model `ol` as a devDependency and upgrade from `^7.1.0` to `^9.2.4`.

@@ -5,8 +5,7 @@ import { AddressSearch } from './components'
 import language from './language'
 import { makeStoreModule } from './store'
 
-import SearchResultSymbols from './utils/searchResultSymbols'
-export { SearchResultSymbols }
+export { default as SearchResultSymbols } from './utils/searchResultSymbols'
 
 export type {
   AddressSearchState,

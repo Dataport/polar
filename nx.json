@@ -1,9 +1,38 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "affected": {
+    "defaultBase": "main"
+  },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default"
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["bundle"]
+      }
     }
   },
-  "defaultBase": "main"
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build",
+        "^bundle"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    },
+    "bundle": {
+      "dependsOn": [
+        "^bundle"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    },
+    "dev": {
+      "dependsOn": [
+        "^bundle"
+      ]
+    }
+  }
 }

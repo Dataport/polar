@@ -1,12 +1,28 @@
 {
   "name": "@polar/lib-invisible-style",
-  "version": "1.0.0",
-  "description": "Provides semantic styling for elements to remove visiblity from them in a detectable fashion that adds programmatic semantics, i.e. whether an element should be considered as visible or not to the user and should hence appear (or be considered) in user interfaces.",
+  "version": "1.1.0-alpha.1",
+  "description": "Exports a style for vector layer features that results in invisibility. Plugins that work with feature visibility ought to use this package to keep them interoperable.",
   "keywords": ["OpenLayers", "ol", "POLAR", "lib", "visiblity", "filter"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/**",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "bundle": "tsc --declaration --emitDeclarationOnly && rollup -c",
+    "preversion": "npm run bundle"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Dataport/polar.git",
@@ -14,5 +30,10 @@
   },
   "peerDependencies": {
     "ol": "^9.2.4"
+  },
+  "nx": {
+    "includedScripts": [
+      "bundle"
+    ]
   }
 }

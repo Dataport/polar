@@ -134,7 +134,7 @@ export const makeStoreModule = () => {
               ? { text: feature.get('text') }
               : {},
             geometry: {
-              // @ts-expect-error | A LinearRing can currently not be drawn
+              // @ts-expect-error | A LinearRing can be defined by OpenLayers, but is a construct that is not present in GeoJSON.
               type: isCircle ? 'Point' : type,
               // @ts-expect-error | The coordinates are in the correct format
               coordinates: isCircle
