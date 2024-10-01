@@ -80,4 +80,5 @@ export const selectResult: SelectResultFunction<
     { root: true }
   )
   dispatch('plugin/geometrySearch/updateFrequencies', null, { root: true })
+  commit('plugin/geometrySearch/setLastSearch', 'toponymSearch', { root: true })
 }
