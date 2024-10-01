@@ -32,7 +32,7 @@ const processLiteratureToponyms = (feature: LiteratureFeature) =>
       },
       [
         { type: 'FeatureCollection', features: [] } as FeatureCollection,
-        {} as TitleLocationFrequency['string'],
+        {} as TitleLocationFrequency['string']['location_frequency'],
       ]
     )
 
@@ -41,9 +41,15 @@ const processLiteratureToponyms = (feature: LiteratureFeature) =>
       featureCollection,
       { root: true }
     )
+    const nextTitleLocationFrequency: TitleLocationFrequency = {
+        [feature.id]: {
+          title: feature.title,
+          location_frequency: titleLocationFrequencyChild
+        }
+    }
     this.commit(
       'plugin/geometrySearch/setTitleLocationFrequency',
-      { [feature.title]: titleLocationFrequencyChild },
+      nextTitleLocationFrequency,
       { root: true }
     )
     this.dispatch('plugin/iconMenu/openMenuById', 'geometrySearch', {
