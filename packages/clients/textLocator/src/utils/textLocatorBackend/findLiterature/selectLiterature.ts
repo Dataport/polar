@@ -12,6 +12,7 @@ const processLiteratureToponyms = (feature: LiteratureFeature) =>
     this: PolarStore<GeometrySearchState, GeometrySearchState>,
     featureCollections: FeatureCollection[]
   ) {
+    const { commit, dispatch } = this
     const [featureCollection, titleLocationFrequencyChild] = Object.entries(
       feature.properties
     ).reduce(
@@ -36,28 +37,22 @@ const processLiteratureToponyms = (feature: LiteratureFeature) =>
       ]
     )
 
-    this.commit(
-      'plugin/geometrySearch/setFeatureCollection',
-      featureCollection,
-      { root: true }
-    )
+    commit('plugin/geometrySearch/setFeatureCollection', featureCollection, {
+      root: true,
+    })
     const nextTitleLocationFrequency: TitleLocationFrequency = {
-        [feature.id]: {
-          title: feature.title,
-          location_frequency: titleLocationFrequencyChild
-        }
+      [feature.id]: {
+        title: feature.title,
+        location_frequency: titleLocationFrequencyChild,
+      },
     }
-    this.commit(
+    commit(
       'plugin/geometrySearch/setTitleLocationFrequency',
       nextTitleLocationFrequency,
       { root: true }
     )
-    this.dispatch('plugin/iconMenu/openMenuById', 'geometrySearch', {
-      root: true,
-    })
-    this.dispatch('plugin/geometrySearch/changeActiveData', null, {
-      root: true,
-    })
+    dispatch('plugin/iconMenu/openMenuById', 'geometrySearch', { root: true })
+    dispatch('plugin/geometrySearch/changeActiveData', null, { root: true })
   }
 
 // change if `satisfies` is ever usable on functions
