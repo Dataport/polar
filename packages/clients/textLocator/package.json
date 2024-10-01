@@ -35,8 +35,8 @@
     "@polar/plugin-scale": "^1.1.0",
     "@polar/plugin-toast": "^1.1.0",
     "@polar/plugin-zoom": "^1.2.0",
-    "@turf/flatten": "^6.5.0",
-    "@turf/union": "^6.5.0",
+    "@turf/flatten": "^7.1.0",
+    "@turf/union": "^7.1.0",
     "js-levenshtein": "^1.1.6",
     "lodash.debounce": "^4.0.8"
   },
