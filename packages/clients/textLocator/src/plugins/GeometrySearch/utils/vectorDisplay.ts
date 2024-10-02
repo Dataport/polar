@@ -37,26 +37,17 @@ const getZoomFeatures = (features: OlFeature[], item: TreeViewItem | null) =>
 
 const featHeat = (
   olFeatures: OlFeature[],
-  titleLocationFrequency: TitleLocationFrequency
+  locationFrequency: TitleLocationFrequency['string']['location_frequency']
 ) => {
-  // TODO change id from name to something id-worthy
-  const sums: Record<string, number> = olFeatures.reduce(
-    (accumulator, current) => ({
-      ...accumulator,
-      // sum occurrence of toponyms cross-document
-      [current.get('title')]:
-        (accumulator[current.get('title')] || 0) +
-        Object.values(titleLocationFrequency).reduce(
-          (perTitleAccumulator, toponymToAmount) =>
-            perTitleAccumulator + (toponymToAmount[current.get('title')] || 0),
-          0
-        ),
-    }),
-    {} as Record<string, number>
-  )
-  const max = Math.max(...Object.values(sums))
+  console.error('olFeatures', olFeatures)
+  console.error('locationFrequency', locationFrequency)
+  const max = Math.max(...Object.values(locationFrequency))
+  console.error('mäx', max)
   olFeatures.forEach((feature) =>
-    feature.set('heat', Math.floor((sums[feature.get('title')] / max) * 9))
+    feature.set(
+      'heat',
+      Math.floor((locationFrequency[feature.getId() as string] / max) * 9)
+    )
   )
 }
 
@@ -91,7 +82,7 @@ export const updateVectorLayer = (
 
   preparedFeatures.forEach((feature) => feature.set('heat', undefined))
   if (item?.children?.length && item.type === 'text') {
-    featHeat(zoomFeatures, titleLocationFrequency)
+    featHeat(zoomFeatures, titleLocationFrequency[item.id].location_frequency)
   }
 
   vectorSource.addFeatures(preparedFeatures)
