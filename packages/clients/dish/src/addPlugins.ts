@@ -1,6 +1,9 @@
 import { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
 import PolarPluginAddressSearch from '@polar/plugin-address-search'
 import PolarPluginAttributions from '@polar/plugin-attributions'
+import PolarPluginDraw from '@polar/plugin-draw'
+import PolarPluginExport from '@polar/plugin-export'
+import PolarPluginFullscreen from '@polar/plugin-fullscreen'
 import PolarPluginGeoLocation from '@polar/plugin-geo-location'
 import PolarPluginGfi from '@polar/plugin-gfi'
 import PolarPluginIconMenu from '@polar/plugin-icon-menu'
@@ -29,15 +32,32 @@ const defaultOptions = {
 // this is fine for list-like setup functions
 // eslint-disable-next-line max-lines-per-function
 export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
+  const internalMenu = [
+    {
+      plugin: PolarPluginLayerChooser({}),
+      icon: 'fa-layer-group',
+      id: 'layerChooser',
+    },
+    {
+      plugin: PolarPluginDraw({}),
+      icon: 'fa-pencil',
+      id: 'draw',
+    },
+    {
+      plugin: PolarPluginFullscreen({ renderType: 'iconMenu' }),
+      id: 'fullscreen',
+    },
+  ]
+  const externalMenu = [
+    {
+      plugin: PolarPluginLayerChooser({}),
+      icon: 'fa-layer-group',
+      id: 'layerChooser',
+    },
+  ]
   const iconMenu = PolarPluginIconMenu({
-    displayComponent: mode === MODE.EXTERN,
-    menus: [
-      {
-        plugin: PolarPluginLayerChooser({}),
-        icon: 'fa-layer-group',
-        id: 'layerChooser',
-      },
-    ],
+    displayComponent: mode === MODE.INTERN,
+    menus: mode === MODE.INTERN ? internalMenu : externalMenu,
     layoutTag: NineLayoutTag.TOP_RIGHT,
   })
 
@@ -67,6 +87,12 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
           },
         }
       )
+    ),
+    PolarPluginExport(
+      merge({}, defaultOptions, {
+        displayComponent: mode === MODE.INTERN,
+        layoutTag: NineLayoutTag.BOTTOM_LEFT,
+      })
     ),
     PolarPluginPins({
       displayComponent: mode === MODE.EXTERN,
