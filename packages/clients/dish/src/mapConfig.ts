@@ -129,12 +129,11 @@ const internMapConfiguration = {
     zoomMethod: 'plugin/zoom/setZoomLevel',
   },
   attributions: {
-    initiallyOpen: true,
+    renderType: 'footer',
     layerAttributions: [
       {
         id: hintergrundkarte,
-        title:
-          'Karte Basemap.de Web Raster Grau: © <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <MONTH> <YEAR>',
+        title: 'Hintergrundkarten ©basemap.de/BKG;Geobasis-DE/LVermGeo SH',
       },
     ],
   },
@@ -159,6 +158,7 @@ const internMapConfiguration = {
     },
   },
   export: {
+    download: true,
     showPng: true,
     showJpg: false,
     showPdf: false,
