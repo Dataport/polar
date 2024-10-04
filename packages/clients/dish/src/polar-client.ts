@@ -4,7 +4,7 @@ import packageInfo from '../package.json'
 import { navigateToDenkmal } from './utils/navigateToDenkmal'
 import { addPlugins } from './addPlugins'
 import { services as layerConf } from './services'
-import { mapConfiguration } from './mapConfig'
+import { getMapConfiguration } from './mapConfig'
 import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
 
@@ -15,6 +15,7 @@ export default {
   createMap: async ({ containerId, mode, configOverride }) => {
     addPlugins(client, mode)
     client.rawLayerList.initializeLayerList(layerConf)
+    const mapConfiguration = getMapConfiguration(mode)
 
     const instance = await client.createMap({
       containerId,

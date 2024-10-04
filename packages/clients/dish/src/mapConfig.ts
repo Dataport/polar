@@ -1,3 +1,4 @@
+import merge from 'lodash.merge'
 // number-only keys needed in layers object
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
@@ -24,7 +25,7 @@ const unnamed = '#0089CA';
 
 let zoomLevel = 0
 
-export const mapConfiguration = {
+const commonMapConfiguration = {
   checkServiceAvailability: true,
   startResolution: 264.583190458,
   startCenter: [553655.72, 6004479.25],
@@ -80,6 +81,91 @@ export const mapConfiguration = {
       },
     },
   },
+  gfi: {
+    mode: 'intersects',
+    layers: {
+      [denkmaelerWFS]: {
+        geometry: true,
+        window: true,
+        maxFeatures: 10,
+        geometryName: 'app:geometry',
+        exportProperty: 'Export',
+      },
+    },
+    coordinateSources: [
+      'plugin/pins/transformedCoordinate',
+      'plugin/pins/coordinatesAfterDrag',
+    ],
+  },
+  pins: {
+    toZoomLevel: 7,
+    movable: 'drag',
+    style: {
+      fill: shBlue,
+    },
+  },
+  options: [
+    { resolution: 264.583190458, scale: 1000000, zoomLevel: zoomLevel++ },
+    { resolution: 132.291595229, scale: 500000, zoomLevel: zoomLevel++ },
+    { resolution: 66.14579761460263, scale: 250000, zoomLevel: zoomLevel++ },
+    { resolution: 26.458319045841044, scale: 100000, zoomLevel: zoomLevel++ },
+    { resolution: 15.874991427504629, scale: 60000, zoomLevel: zoomLevel++ },
+    { resolution: 10.583327618336419, scale: 40000, zoomLevel: zoomLevel++ },
+    { resolution: 5.2916638091682096, scale: 20000, zoomLevel: zoomLevel++ },
+    { resolution: 2.6458319045841048, scale: 10000, zoomLevel: zoomLevel++ },
+    { resolution: 1.3229159522920524, scale: 5000, zoomLevel: zoomLevel++ },
+    { resolution: 0.6614579761460262, scale: 2500, zoomLevel: zoomLevel++ },
+    { resolution: 0.2645831904584105, scale: 1000, zoomLevel: zoomLevel++ },
+    { resolution: 0.1322915952292052, scale: 500, zoomLevel: zoomLevel++ },
+    { resolution: 0.06614579761, scale: 250, zoomLevel: zoomLevel++ },
+    { resolution: 0.02645831904, scale: 100, zoomLevel: zoomLevel++ },
+    { resolution: 0.01322915952, scale: 50, zoomLevel: zoomLevel++ },
+  ],
+}
+
+const internMapConfiguration = {
+  scale: {
+    showScaleSwitcher: true,
+    zoomMethod: 'plugin/zoom/setZoomLevel',
+  },
+  attributions: {
+    initiallyOpen: true,
+    layerAttributions: [
+      {
+        id: hintergrundkarte,
+        title:
+          'Karte Basemap.de Web Raster Grau: © <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <MONTH> <YEAR>',
+      },
+    ],
+  },
+  draw: {
+    selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
+    textStyle: {
+      font: {
+        size: [10, 20, 30],
+        family: 'Arial',
+      },
+    },
+    style: {
+      fill: { color: 'rgba(255, 255, 255, 0.5)' },
+      stroke: {
+        color: '#e51313',
+        width: 2,
+      },
+      circle: {
+        radius: 7,
+        fillColor: '#e51313',
+      },
+    },
+  },
+  export: {
+    showPng: true,
+    showJpg: false,
+    showPdf: false,
+  },
+}
+
+const exportMapConfiguration = {
   geoLocation: {
     checkLocationInitially: false,
     toastAction: 'plugin/toast/addToast',
@@ -156,17 +242,6 @@ export const mapConfiguration = {
           topic: null,
         },
       },
-      /*
-      {
-        queryParameters: {
-          filter: {
-            bundesland: 'Schleswig-Holstein',
-          },
-        },
-        type: 'bkg',
-        url: '',
-      },
-      */
     ],
     groupProperties: {
       groupDenkmalsuche: {
@@ -189,44 +264,12 @@ export const mapConfiguration = {
     },
     minLength: 3,
   },
-  gfi: {
-    mode: 'intersects',
-    layers: {
-      [denkmaelerWFS]: {
-        geometry: true,
-        window: true,
-        maxFeatures: 10,
-        geometryName: 'app:geometry',
-        exportProperty: 'Export',
-      },
-    },
-    coordinateSources: [
-      'plugin/pins/transformedCoordinate',
-      'plugin/pins/coordinatesAfterDrag',
-    ],
-  },
-  pins: {
-    toZoomLevel: 7,
-    movable: 'drag',
-    style: {
-      fill: shBlue,
-    },
-  },
-  options: [
-    { resolution: 264.583190458, scale: 1000000, zoomLevel: zoomLevel++ },
-    { resolution: 132.291595229, scale: 500000, zoomLevel: zoomLevel++ },
-    { resolution: 66.14579761460263, scale: 250000, zoomLevel: zoomLevel++ },
-    { resolution: 26.458319045841044, scale: 100000, zoomLevel: zoomLevel++ },
-    { resolution: 15.874991427504629, scale: 60000, zoomLevel: zoomLevel++ },
-    { resolution: 10.583327618336419, scale: 40000, zoomLevel: zoomLevel++ },
-    { resolution: 5.2916638091682096, scale: 20000, zoomLevel: zoomLevel++ },
-    { resolution: 2.6458319045841048, scale: 10000, zoomLevel: zoomLevel++ },
-    { resolution: 1.3229159522920524, scale: 5000, zoomLevel: zoomLevel++ },
-    { resolution: 0.6614579761460262, scale: 2500, zoomLevel: zoomLevel++ },
-    { resolution: 0.2645831904584105, scale: 1000, zoomLevel: zoomLevel++ },
-    { resolution: 0.1322915952292052, scale: 500, zoomLevel: zoomLevel++ },
-    { resolution: 0.06614579761, scale: 250, zoomLevel: zoomLevel++ },
-    { resolution: 0.02645831904, scale: 100, zoomLevel: zoomLevel++ },
-    { resolution: 0.01322915952, scale: 50, zoomLevel: zoomLevel++ },
-  ],
+}
+
+export const getMapConfiguration = (mode: string) => {
+  const config = merge({
+    ...commonMapConfiguration,
+    ...(mode === 'INTERN' ? internMapConfiguration : exportMapConfiguration),
+  })
+  return config
 }

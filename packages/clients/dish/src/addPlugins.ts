@@ -56,7 +56,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
     },
   ]
   const iconMenu = PolarPluginIconMenu({
-    displayComponent: mode === MODE.INTERN,
+    displayComponent: true,
     menus: mode === MODE.INTERN ? internalMenu : externalMenu,
     layoutTag: NineLayoutTag.TOP_RIGHT,
   })
