@@ -15,8 +15,9 @@ let first = true
 
 /**
  * DISH backend is exotic. Its return value is read here.
- * Example return value from https://efi2.schleswig-holstein.de/dish/dish_suche/ergebnisse/text/Volltext1506.txt:
+ * Example return value from https://efi2.schleswig-holstein.de/dish/dish_suche/ergebnisse/text/Volltext1506.html:
  * ```txt
+ * <html>
  * eintrag.Wert->["Geschichtlich","Künstlerisch","Städtebaulich"]
  * eintrag.ObjektID->1506
  * eintrag.objektansprache->Kirche St. Secundus mit Ausstattung
@@ -29,16 +30,22 @@ let first = true
  * eintrag.objektplz->25779
  * eintrag.tbldlisteinaKurzBeschreibungen->Alteintragung (Aktualisierung vorgesehen)
  * eintrag.tbldlisteinaBeschreibungen->Alteintragung (Aktualisierung vorgesehen)
+ * </html>
  * ```
  * @param beschreibung - as returned by backend
  * @returns read contents
  */
 export const parseBeschreibung = (beschreibung: string): EfiBeschreibung =>
   Object.fromEntries(
-    beschreibung.split('\n').map((line) => {
-      const [k, v] = line.split('->')
-      return [k.substring(8), v]
-    })
+    beschreibung
+      .split('')
+      .slice(6, -7)
+      .join('')
+      .split('\n')
+      .map((line) => {
+        const [k, v] = line.split('->')
+        return [k.substring(8), v]
+      })
   ) as unknown as EfiBeschreibung
 
 async function parseText(
@@ -67,7 +74,7 @@ async function parseText(
 async function getText(identifier: string): Promise<DishFeatureProperties> {
   try {
     const response = await fetch(
-      `${dishBaseUrl}/dish_suche/ergebnisse/text/Volltext${identifier}.txt`
+      `${dishBaseUrl}/dish_suche/ergebnisse/text/Volltext${identifier}.html`
     )
     if (response.status !== 200) {
       console.error(
