@@ -241,6 +241,12 @@ export const makeStore = () => {
         }
         if (state.configuration[name].displayComponent) {
           commit('setComponents', [...components, component])
+
+          if (!state.configuration[name].layoutTag) {
+            console.warn(
+              `Component "${name}" was registered as visible ('displayComponent' had a truthy value), but no layout tag was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
+            )
+          }
         }
       },
       centerOnFeature({ rootGetters: { map } }, feature: Feature) {
