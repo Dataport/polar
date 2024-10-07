@@ -29,6 +29,18 @@ const defaultOptions = {
   layoutTag: NineLayoutTag.TOP_LEFT,
 }
 
+const pluginGfiExtern = {
+  coordinateSources: ['plugin/addressSearch/chosenAddress'],
+  gfiContentComponent: DishGfiContent,
+  afterLoadFunction: extendGfi,
+}
+
+const pluginGfiIntern = {}
+
+function getPluginGfiConfig(mode: keyof typeof MODE) {
+  return mode === 'EXTERN' ? pluginGfiExtern : pluginGfiIntern
+}
+
 // this is fine for list-like setup functions
 // eslint-disable-next-line max-lines-per-function
 export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
@@ -125,12 +137,10 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       merge(
         {},
         {
-          displayComponent: mode === MODE.EXTERN,
+          displayComponent: true,
           layoutTag: NineLayoutTag.TOP_LEFT,
-          coordinateSources: ['plugin/addressSearch/chosenAddress'],
-          gfiContentComponent: DishGfiContent,
-          afterLoadFunction: extendGfi,
-        }
+        },
+        getPluginGfiConfig(mode)
       )
     ),
     PolarPluginLoadingIndicator(
