@@ -126,6 +126,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
         {},
         {
           displayComponent: mode === MODE.EXTERN,
+          layoutTag: NineLayoutTag.TOP_LEFT,
           coordinateSources: ['plugin/addressSearch/chosenAddress'],
           gfiContentComponent: DishGfiContent,
           afterLoadFunction: extendGfi,
