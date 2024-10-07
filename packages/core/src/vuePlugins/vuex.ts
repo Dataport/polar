@@ -244,7 +244,7 @@ export const makeStore = () => {
 
           if (!state.configuration[name].layoutTag) {
             console.warn(
-              `Component "${name}" was registered as visible ('displayComponent' had a truthy value), but no layout tag was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
+              `@polar/core: Component "${name}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
             )
           }
         }
