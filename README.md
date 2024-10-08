@@ -104,19 +104,7 @@ To see our plugins in action, please visit our [documentation page](https://data
 
 ## Getting started (for developers)
 
-### Using POLAR
-
-First check if the generic map client fulfills your need. For this, see the section "Quick start" above. Should your project not use NPM, you may also select a client from our [releases](https://github.com/Dataport/polar/releases). On all client releases, the zipped client is downloadable and attached as an asset to the release.
-
-Client packages contain example files that illustrate how the client can be used. The `@polar/client-generic` package's use is furthermore illustrated on our [documentation page](https://dataport.github.io/polar/).
-
-### Developing POLAR
-
-Clone the repository and run `npm install && npm run snowbox`. This winds up our development client in a minimal test environment as a starting point.
-
-If you aim to create an additional plugin, you may now create and install it to the snowbox during development. To create a new client, it is advised to create a copy of e.g. `@polar/client-generic` as a base project and adjust it to your needs.
-
-Clients run anywhere, but their development requires further setup. Right now, clients should be developed in this repository or in a fork of it to make use of its setup.
+For a more detailed step-by-step guide, please refer to our comprehensive [Getting Started guide](https://github.com/Dataport/polar/tree/main/gettingStarted.md).
 
 ## Stay In Touch
 
