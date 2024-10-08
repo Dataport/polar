@@ -13,7 +13,7 @@
       </v-btn>
     </v-card-actions>
     <v-card-title class="dish-gfi-title">
-      Objektnummer {{ tableHead }}
+      {{ `${$t('common:dish.gfiHeader')} ${tableHead}` }}
     </v-card-title>
     <v-card-text>
       <v-simple-table dense>
