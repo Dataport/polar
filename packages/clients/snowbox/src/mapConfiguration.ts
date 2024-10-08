@@ -1,5 +1,4 @@
 import { Feature as GeoJsonFeature } from 'geojson'
-import { Feature as OlFeature } from 'ol'
 import {
   ExtendedMasterportalapiMarkersIsSelectableFunction,
   GfiIsSelectableFunction,
