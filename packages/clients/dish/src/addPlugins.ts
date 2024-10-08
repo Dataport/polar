@@ -38,7 +38,6 @@ const pluginGfiExtern = {
 
 const pluginGfiIntern = {
   gfiContentComponent: DishGfiIntern,
-  // afterLoadFunction: gfiForInternalUse,
 }
 
 function getPluginGfiConfig(mode: keyof typeof MODE) {

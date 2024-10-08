@@ -96,6 +96,15 @@ const commonMapConfiguration = {
       'plugin/pins/transformedCoordinate',
       'plugin/pins/coordinatesAfterDrag',
     ],
+    customHighlightStyle: {
+      stroke: {
+        color: '#ecec1c',
+        width: 3,
+      },
+      fill: {
+        color: 'rgb(255, 255, 255, 0.3)',
+      },
+    },
   },
   pins: {
     toZoomLevel: 7,
