@@ -4,6 +4,15 @@
     <v-card-title class="text-locator-collapse">
       {{ $t('common:plugins.geometrySearch.results.title') }}
     </v-card-title>
+    <v-card-subtitle v-if="lastSearch">
+      {{
+        $t('common:plugins.geometrySearch.results.source', {
+          searchType: $t(
+            `common:plugins.geometrySearch.results.sourceOptions.${lastSearch}`
+          ),
+        })
+      }}
+    </v-card-subtitle>
     <v-card-text>
       <ViewToggle />
       <TreeView v-if="treeViewItems.length" />
@@ -29,7 +38,7 @@ export default Vue.extend({
     ViewToggle,
   },
   computed: {
-    ...mapGetters('plugin/geometrySearch', ['treeViewItems']),
+    ...mapGetters('plugin/geometrySearch', ['treeViewItems', 'lastSearch']),
   },
 })
 </script>

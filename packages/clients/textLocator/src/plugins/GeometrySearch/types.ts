@@ -4,7 +4,7 @@ import {
   GeoJsonProperties,
   Geometry,
 } from 'geojson'
-import { TitleLocationFrequency } from '../../utils/literatureByToponym'
+import { TitleLocationFrequency } from '../../types'
 import { ResponseGeom, ResponseName } from '../../utils/coastalGazetteer/types'
 
 export type TextLocatorCategories = 'text' | 'toponym'
@@ -32,6 +32,7 @@ export interface GeometrySearchState {
   >
   titleLocationFrequency: TitleLocationFrequency
   byCategory: TextLocatorCategories
+  lastSearch: 'geometrySearch' | 'literatureSearch' | 'toponymSearch' | null
 }
 
 export type GeometrySearchGetters = GeometrySearchState
