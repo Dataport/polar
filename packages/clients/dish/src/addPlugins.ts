@@ -23,6 +23,7 @@ import DishModal from './plugins/Modal'
 import DishHeader from './plugins/Header'
 import DishGfiContent from './plugins/Gfi'
 import { MODE } from './enums'
+import DishGfiIntern from './plugins/internGfi'
 
 const defaultOptions = {
   displayComponent: true,
@@ -35,7 +36,10 @@ const pluginGfiExtern = {
   afterLoadFunction: extendGfi,
 }
 
-const pluginGfiIntern = {}
+const pluginGfiIntern = {
+  gfiContentComponent: DishGfiIntern,
+  // afterLoadFunction: gfiForInternalUse,
+}
 
 function getPluginGfiConfig(mode: keyof typeof MODE) {
   return mode === 'EXTERN' ? pluginGfiExtern : pluginGfiIntern
