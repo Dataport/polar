@@ -178,8 +178,9 @@ To figure out the name of the locales to override, inspect the matching plugin i
 | defaultStyle | MarkerStyle? | Used as the default marker style. The default fill color for these markers is `'#005CA9'`. |
 | dispatchOnMapSelect | string[]? | If set, the parameters will be spread to dispatchment on map selection. `['target', 'value']` will `dispatch(...['target', 'value'])`. This can be used to open the iconMenu's GFI with `['plugin/iconMenu/openMenuById', 'gfi']`, should the IconMenu exist and the gfi plugin be in it with this id. |
 | hoverStyle | MarkerStyle? | Used as map marker style for hovered features. The default fill color for these markers is `'#7B1045'`. |
+| isSelectable | ((feature: GeoJsonFeature) => boolean)? | If undefined, all features are selectable. If defined, this can be used to sort out features to be unselectable, and such features will be styled different and won't react on click. |
 | selectionStyle | MarkerStyle? | Used as map marker style for selected features. The default fill color for these markers is `'#679100'`. |
-
+| unselectableStyle | MarkerStyle? | Used as a map marker style for unselectable features. Features are unselectable if a given `isSelectable` method returns falsy for a feature. The default fill color for these markers is `'#333333'`. |
 
 Example configuration:
 ```js
@@ -197,6 +198,11 @@ extendedMasterportalapiMarkers: {
     stroke: '#FFFFFF',
     fill: '#E10019',
   },
+  unselectableStyle: {
+    stroke: '#FFFFFF',
+    fill: '#333333'
+  },
+  isSelectable: (feature: Feature) => feature.get('indicator')
   clusterClickZoom: true,
   dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
 },
