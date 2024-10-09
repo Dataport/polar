@@ -1,6 +1,7 @@
 export const hintergrundkarte = 'hintergrundkarte'
 export const denkmaelerWFS = 'denkmaelerWFS'
 export const denkmaelerWMS = 'denkmaelerWMS'
+export const denkmaelerWFSIntern = 'denkmaelerWFSIntern'
 
 export const servicePrefix = 'https://stage.afm.schleswig-holstein.de/bkg/'
 
@@ -43,6 +44,16 @@ export const denkmaelerWfsService = {
   featureType: 'app:dish_shp',
 }
 
+export const denkmaelerWfsServiceIntern = {
+  id: denkmaelerWFSIntern,
+  name: 'Denkmäler (WFS)',
+  url: 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/wfs',
+  typ: 'WFS',
+  version: '2.0.0',
+  transparent: true,
+  featureType: 'app:TBLGIS_ORA',
+}
+
 export const services = [
   {
     id: hintergrundkarte,
@@ -57,4 +68,5 @@ export const services = [
   },
   denkmaelerWfsService,
   denkmaelerWmsService,
+  denkmaelerWfsServiceIntern,
 ]

@@ -41,18 +41,21 @@ import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import ActionButton from '../Gfi/ActionButton.vue'
 import { getPhoto } from '../../utils/extendGfi'
-import { dishBaseUrl } from '../../services'
 
 export default Vue.extend({
   name: 'DishGfiIntern',
   components: { ActionButton },
   data: () => ({
     infoFields: {
-      denkmallis: 'Denkmalliste',
+      denkmalliste: 'Denkmalliste',
       einstufung: 'Einstufung',
       kategorie: 'Kategorie',
       kreis_kue: 'Kreis',
+      gemeinde: 'Gemeinde',
+      objektansprache: 'Ansprache',
+      zaehler: 'Zähler',
     },
+    infoFieldsAdress: ['strasse', 'hausnummer', 'hausnrzusatz'],
     photo: '',
   }),
   computed: {
@@ -60,9 +63,6 @@ export default Vue.extend({
     ...mapGetters('plugin/gfi', ['currentProperties']),
     objektIdentifier(): string {
       return this.currentProperties.objektid
-    },
-    dishBaseUrl(): string {
-      return dishBaseUrl
     },
     info(): Array<string[]> {
       return this.prepareTableData(this.currentProperties)
@@ -98,9 +98,20 @@ export default Vue.extend({
     ...mapActions('plugin/gfi', ['close']),
     prepareTableData(object: Record<string, string>): Array<string[]> {
       this.setImage()
-      return Object.entries(object)
+      const tableData = Object.entries(object)
         .filter(([key]) => Object.keys(this.infoFields).includes(key))
         .map(([key, value]) => [this.infoFields[key], value])
+
+      const adressData = [
+        'Strasse',
+        this.infoFieldsAdress
+          .map((field) => object[field])
+          .filter((value) => value)
+          .join(' '),
+      ]
+      tableData.push(adressData)
+
+      return tableData
     },
     async setImage() {
       this.photo = await getPhoto(this.objektIdentifier)
