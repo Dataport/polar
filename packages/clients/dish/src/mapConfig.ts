@@ -98,7 +98,7 @@ const commonMapConfiguration = {
     ],
     customHighlightStyle: {
       stroke: {
-        color: '#ecec1c',
+        color: '#FFFF00',
         width: 3,
       },
       fill: {

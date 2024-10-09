@@ -13,8 +13,14 @@
       </v-btn>
     </v-card-actions>
     <v-card-title class="dish-gfi-title">
-      {{ `${$t('common:dish.gfiHeader')} ${tableHead}` }}
+      {{ `${$t('common:dish.gfiHeader')} ${objektIdentifier}` }}
     </v-card-title>
+    <img
+      v-if="displayImage"
+      class="dish-fat-cell"
+      :style="`max-width: ${imgMaxWidth}; min-width: max(${imgMinWidth}, 15%); pointer-events: none; padding: 0 32px;`"
+      :src="photo"
+    />
     <v-card-text>
       <v-simple-table dense>
         <template #default>
@@ -34,6 +40,8 @@
 import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import ActionButton from '../Gfi/ActionButton.vue'
+import { getPhoto } from '../../utils/extendGfi'
+import { dishBaseUrl } from '../../services'
 
 export default Vue.extend({
   name: 'DishGfiIntern',
@@ -45,15 +53,34 @@ export default Vue.extend({
       kategorie: 'Kategorie',
       kreis_kue: 'Kreis',
     },
+    photo: '',
   }),
   computed: {
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
+    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', ['currentProperties']),
-    tableHead(): string {
+    objektIdentifier(): string {
       return this.currentProperties.objektid
+    },
+    dishBaseUrl(): string {
+      return dishBaseUrl
     },
     info(): Array<string[]> {
       return this.prepareTableData(this.currentProperties)
+    },
+    displayImage(): boolean {
+      return this.photo !== 'Kein Foto gefunden'
+    },
+    imgMinWidth(): string | undefined {
+      if (this.hasWindowSize && this.hasSmallWidth) {
+        return undefined
+      }
+      return 10 + 'px'
+    },
+    imgMaxWidth(): string | undefined {
+      if (this.hasWindowSize && this.hasSmallWidth) {
+        return '15%'
+      }
+      return 0.1 * this.clientWidth + 'px'
     },
   },
   mounted() {
@@ -70,9 +97,13 @@ export default Vue.extend({
     ...mapMutations(['setMoveHandleActionButton']),
     ...mapActions('plugin/gfi', ['close']),
     prepareTableData(object: Record<string, string>): Array<string[]> {
+      this.setImage()
       return Object.entries(object)
         .filter(([key]) => Object.keys(this.infoFields).includes(key))
         .map(([key, value]) => [this.infoFields[key], value])
+    },
+    async setImage() {
+      this.photo = await getPhoto(this.objektIdentifier)
     },
   },
 })
@@ -89,9 +120,7 @@ export default Vue.extend({
 
 .dish-gfi-title {
   margin: 0;
-  padding: 0;
-  text-align: center;
-  display: block;
+  padding: 0 32px;
   font-size: 1em;
   font-weight: bolder;
   word-break: break-word;

@@ -91,7 +91,7 @@ async function getText(identifier: string): Promise<DishFeatureProperties> {
   }
 }
 
-async function getPhoto(identifier: string): Promise<string> {
+export async function getPhoto(identifier: string): Promise<string> {
   const photoURL = `${dishBaseUrl}/dish_opendata/Foto/${identifier}.jpg`
   const response = await fetch(photoURL)
   if (response.status !== 200) {
