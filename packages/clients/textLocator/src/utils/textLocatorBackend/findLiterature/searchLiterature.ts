@@ -33,7 +33,7 @@ export function searchLiterature(
       // eslint-disable-next-line @typescript-eslint/naming-convention
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ search_word: inputValue }),
+    body: JSON.stringify({ search_word: `${inputValue}*` }),
     signal,
   })
     .then(async (response): Promise<TitleLocationFrequency> => {
