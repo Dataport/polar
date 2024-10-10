@@ -1,6 +1,6 @@
 import { getWfsFeatures } from '@polar/lib-get-features'
 import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
-import { denkmaelerWfsService } from '../services'
+import { denkmaelerWfsServiceExtern } from '../services'
 import { getMapConfiguration } from '../mapConfig'
 
 const mapConfiguration = getMapConfiguration('EXTERN')
@@ -19,7 +19,7 @@ export function navigateToDenkmal(instance, objektId: string) {
     )
   }
 
-  getWfsFeatures(null, denkmaelerWfsService.url, objektId, {
+  getWfsFeatures(null, denkmaelerWfsServiceExtern.url, objektId, {
     ...wfsConfig.queryParameters.wfsConfiguration,
     useRightHandWildcard: false,
   })

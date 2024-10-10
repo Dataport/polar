@@ -1,5 +1,5 @@
 export const hintergrundkarte = 'hintergrundkarte'
-export const denkmaelerWFS = 'denkmaelerWFS'
+export const denkmaelerWfsExtern = 'denkmaelerWfsExtern'
 export const denkmaelerWMS = 'denkmaelerWMS'
 export const denkmaelerWFSIntern = 'denkmaelerWFSIntern'
 
@@ -34,8 +34,8 @@ export const denkmaelerWmsService = {
   transparent: true,
 }
 
-export const denkmaelerWfsService = {
-  id: denkmaelerWFS,
+export const denkmaelerWfsServiceExtern = {
+  id: denkmaelerWfsExtern,
   name: 'Denkmäler (WFS)',
   url: `${dishDeegreeBaseUrl}/wfs_shp`,
   typ: 'WFS',
@@ -54,7 +54,7 @@ export const denkmaelerWfsServiceIntern = {
   featureType: 'app:TBLGIS_ORA',
 }
 
-export const services = [
+export const services = (mode: string) => [
   {
     id: hintergrundkarte,
     name: 'WMS DE BASEMAP.DE WEB RASTER',
@@ -66,7 +66,6 @@ export const services = [
     singleTile: false,
     transparent: true,
   },
-  denkmaelerWfsService,
   denkmaelerWmsService,
-  denkmaelerWfsServiceIntern,
+  mode === 'EXTERN' ? denkmaelerWfsServiceExtern : denkmaelerWfsServiceIntern,
 ]

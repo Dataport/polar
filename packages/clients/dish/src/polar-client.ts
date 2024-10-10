@@ -3,7 +3,7 @@ import merge from 'lodash.merge'
 import packageInfo from '../package.json'
 import { navigateToDenkmal } from './utils/navigateToDenkmal'
 import { addPlugins } from './addPlugins'
-import { services as layerConf } from './services'
+import { services } from './services'
 import { getMapConfiguration } from './mapConfig'
 import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
@@ -14,6 +14,7 @@ console.log(`DISH map client running in version ${packageInfo.version}.`)
 export default {
   createMap: async ({ containerId, mode, configOverride }) => {
     addPlugins(client, mode)
+    const layerConf = services(mode)
     client.rawLayerList.initializeLayerList(layerConf)
     const mapConfiguration = getMapConfiguration(mode)
 

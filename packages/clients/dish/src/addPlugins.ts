@@ -41,7 +41,7 @@ const pluginGfiIntern = {
 }
 
 function getPluginGfiConfig(mode: keyof typeof MODE) {
-  return mode === 'EXTERN' ? pluginGfiExtern : pluginGfiIntern
+  return mode === MODE.EXTERN ? pluginGfiExtern : pluginGfiIntern
 }
 
 // this is fine for list-like setup functions
