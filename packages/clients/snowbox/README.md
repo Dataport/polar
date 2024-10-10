@@ -8,3 +8,4 @@ This is
 - a showbox
 - a dev playground
 - an example client
+- an e2e test base client
