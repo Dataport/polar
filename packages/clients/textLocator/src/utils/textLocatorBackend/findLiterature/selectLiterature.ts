@@ -64,7 +64,7 @@ export const selectLiterature: SelectResultFunction<
   GeometrySearchState,
   GeometrySearchState
 > = function (
-  this: PolarStore<GeometrySearchState, GeometrySearchState>,
+  this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
   { commit, rootGetters },
   { feature }
 ) {
