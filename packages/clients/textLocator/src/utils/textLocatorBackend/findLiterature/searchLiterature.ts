@@ -52,7 +52,7 @@ export function searchLiterature(
         console.error(error)
         this.dispatch('plugin/toast/addToast', {
           type: 'warning',
-          text: 'common:textLocator.error.findLiterature',
+          text: 'common:textLocator.error.search',
         })
       }
 
