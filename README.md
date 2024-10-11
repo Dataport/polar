@@ -104,7 +104,7 @@ To see our plugins in action, please visit our [documentation page](https://data
 
 ## Getting started (for developers)
 
-For a more detailed step-by-step guide, please refer to our comprehensive [Getting Started guide](https://github.com/Dataport/polar/tree/main/gettingStarted.md).
+For a detailed step-by-step guide, please refer to our comprehensive [Getting Started guide](https://github.com/Dataport/polar/tree/main/gettingStarted.md).
 
 ## Stay In Touch
 
