@@ -1,11 +1,11 @@
 import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
-import { FeatureCollection, Point } from 'geojson'
+import { FeatureCollection } from 'geojson'
 import { TitleLocationFrequency } from '../../../types'
 import urlSuffix from '../urlSuffix'
 
 const mapResponseToFeatureCollection = (
   titleLocationFrequency: TitleLocationFrequency
-): FeatureCollection<Point, Record<string, number>> => ({
+): FeatureCollection => ({
   type: 'FeatureCollection',
   features: Object.entries(titleLocationFrequency).map(
     ([literatureId, { title, location_frequency: locationFrequency }]) => ({
