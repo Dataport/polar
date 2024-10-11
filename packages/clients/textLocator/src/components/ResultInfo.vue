@@ -85,16 +85,14 @@ export default Vue.extend({
     },
   },
   computed: {
-    // duck-typing
-    isLiterature(): boolean {
+    isLiterature() {
       return Boolean(this.feature.properties.location_hits)
     },
-    // required TS support missing in template; workaround ...
-    featureAsGeometry(): GeometrySearchState['featureCollection']['features'][number] {
+    featureAsGeometry() {
       return this
         .feature as GeometrySearchState['featureCollection']['features'][number]
     },
-    featureAsLiterature(): LiteratureFeature {
+    featureAsLiterature() {
       return this.feature as LiteratureFeature
     },
   },
