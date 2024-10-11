@@ -2,6 +2,9 @@
 
 ## unpublished
 
+- Feature: Add `selectedCoordinate` to core store getters; it returns `null` or the `selected` feature's point coordinates.
+- Feature: Add new parameters `unselectableStyle` and `isSelectable` with new type `ExtendedMasterportalapiMarkersIsSelectableFunction` to interface `ExtendedMasterportalapiMarkers`.
+- Feature: Add new parameter `isSelectable` with new type `GfiIsSelectableFunction` to interface `GfiLayerConfiguration`.
 - Feature: Add new parameter `enableOptions` to interface `DrawConfiguration`.
 - Feature: Add new interface `ScaleConfiguration` and new property `scale` to `mapConfiguration`.
 - Feature: Add `afterResultComponent` to `AddressSearchConfiguration` for custom search result suffixes.

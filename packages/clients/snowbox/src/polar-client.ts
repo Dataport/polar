@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import polarCore from '@polar/core'
 import { changeLanguage } from 'i18next'
+// NOTE bad pattern, but probably fine for a test client
+import { enableClustering } from '../../meldemichel/src/utils/enableClustering'
 import { addPlugins } from './addPlugins'
-import { mapConfiguration } from './mapConfiguration'
+import { mapConfiguration, reports } from './mapConfiguration'
 
 addPlugins(polarCore)
 
@@ -12,7 +14,7 @@ const createMap = (layerConf) => {
       containerId: 'polarstern',
       mapConfiguration: {
         ...mapConfiguration,
-        layerConf,
+        layerConf: (enableClustering(layerConf, reports), layerConf),
       },
     })
     .then((map) => {

@@ -4,6 +4,7 @@
 
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.
 - Breaking: Remove support for marking client CSS via `data-polar="true"`. Please use the configuration parameter `stylePath` instead.
+- Feature: The `extendedMasterportalapiFeatures` feature has been extended by a `isSelectable` function and `unselectableStyle` to style markers accordingly.
 - Feature: Add new state parameter `mapHasDimensions` to let plugins have a "hook" to react on when the map is ready.
 - Feature: Add `deviceIsHorizontal` as a getter to have a more central place to check if the device is in landscape mode.
 - Feature: Add clearer documentation regarding `@masterportal/masterportalapi` related configuration parameters including examples.

@@ -15,6 +15,7 @@ const defaultStrokeWidth = '2'
 const defaultFill = '#005CA9'
 const defaultHoverFill = '#7B1045'
 const defaultSelectionFill = '#679100'
+const defaultUnselectableFill = '#333333'
 
 const prefix = 'data:image/svg+xml,'
 
@@ -123,4 +124,8 @@ export const getHoveredStyle = memoizeStyle(getStyleFunction(defaultHoverFill))
 
 export const getSelectedStyle = memoizeStyle(
   getStyleFunction(defaultSelectionFill)
+)
+
+export const getUnselectableStyle = memoizeStyle(
+  getStyleFunction(defaultUnselectableFill)
 )
