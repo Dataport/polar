@@ -3,13 +3,16 @@ import { SearchResultSymbols } from '@polar/plugin-address-search'
 import { FeatureCollection } from 'geojson'
 import { searchCoastalGazetteerByToponym } from '../../coastalGazetteer/searchToponym'
 import { sorter } from '../../coastalGazetteer/responseInterpreter'
-import { GeometrySearchState } from '../../../plugins/GeometrySearch/types'
+import {
+  GeometrySearchGetters,
+  GeometrySearchState,
+} from '../../../plugins/GeometrySearch/types'
 import { LiteratureFeature, TitleLocationFrequency } from '../../../types'
 
 // NOTE hits (= feature.properties) and featureCollections are in sync; that is, hits[i] had findings featureCollections[i] in gazetteer
 const processLiteratureToponyms = (feature: LiteratureFeature) =>
   function (
-    this: PolarStore<GeometrySearchState, GeometrySearchState>,
+    this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
     featureCollections: FeatureCollection[]
   ) {
     const { commit, dispatch } = this
