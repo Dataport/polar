@@ -49,7 +49,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
     return properties
   },
   layerKeys(_, { gfiConfiguration }) {
-    return Object.keys(gfiConfiguration?.layers || {})
+    return Object.keys(gfiConfiguration.layers || {})
   },
   exportProperty(
     _,
@@ -70,7 +70,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
     return ''
   },
   exportPropertyLayerKeys(_, { gfiConfiguration }) {
-    return Object.entries(gfiConfiguration?.layers || {}).reduce(
+    return Object.entries(gfiConfiguration.layers || {}).reduce(
       (accumulator, [key, { exportProperty }]) => ({
         ...accumulator,
         [key]: typeof exportProperty === 'string' ? exportProperty : '',
@@ -83,7 +83,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
     return windowFeatures.length > 1
   },
   windowLayerKeys(_, { gfiConfiguration }) {
-    return Object.entries(gfiConfiguration?.layers || {}).reduce(
+    return Object.entries(gfiConfiguration.layers || {}).reduce(
       (accumulator, [key, { window }]) => {
         if (window) {
           return [...accumulator, key]
@@ -117,7 +117,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
     )
   },
   geometryLayerKeys(_, { gfiConfiguration }) {
-    return Object.entries(gfiConfiguration?.layers || {}).reduce(
+    return Object.entries(gfiConfiguration.layers || {}).reduce(
       (accumulator, [key, { geometry }]) => {
         if (geometry) {
           return [...accumulator, key]
