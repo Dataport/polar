@@ -1,14 +1,7 @@
-import Vue from 'vue'
 import { generateSimpleGetters } from '@repositoryname/vuex-generators'
-import { GeoJsonProperties } from 'geojson'
-import {
-  FeatureList,
-  GfiConfiguration,
-  PolarGetterTree,
-} from '@polar/lib-custom-types'
+import { GfiConfiguration, PolarGetterTree } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
 import { isVisible } from '@polar/lib-invisible-style'
-import { Feature } from 'ol'
 import { Cluster as ClusterSource } from 'ol/source'
 import { GfiGetters, GfiState } from '../types'
 import { listableLayersFilter } from '../utils/listableLayersFilter'
