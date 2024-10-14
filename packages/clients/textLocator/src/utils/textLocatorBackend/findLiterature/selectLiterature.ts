@@ -21,10 +21,13 @@ const processLiteratureToponyms = (feature: LiteratureFeature) =>
         [toponym, count],
         index
       ) => {
+        // if features found for current toponym, process them
         if (featureCollections[index].features.length) {
+          // best-fitting feature by toponym match is added as representant
           const feature = featureCollections[index].features.sort(
             sorter(toponym, 'title')
           )[0]
+          // the hit frequency is accumulated
           titleLocationFrequencyChild[feature.id || ''] =
             (titleLocationFrequencyChild[feature.id || ''] || 0) + count
           featureCollection.features.push(feature)
