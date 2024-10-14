@@ -177,12 +177,11 @@ export const makeActions = () => {
           ),
         10
       )
-      const usedLayers = Object.keys(getters.gfiConfiguration.layers)
       rootGetters.map
         .getLayers()
         .getArray()
         .forEach((layer) => {
-          if (usedLayers.includes(layer.get('id'))) {
+          if (getters.layerKeys.includes(layer.get('id'))) {
             layer
               // @ts-expect-error | layers reaching this have a source
               .getSource()
