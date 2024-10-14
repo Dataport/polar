@@ -33,7 +33,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       rootGetters.hasSmallWidth
     )
   },
-  gfiContentComponent(_, { gfiConfiguration }): Vue | null {
+  gfiContentComponent(_, { gfiConfiguration }) {
     return gfiConfiguration.gfiContentComponent || null
   },
   afterLoadFunction(_, { gfiConfiguration }) {
