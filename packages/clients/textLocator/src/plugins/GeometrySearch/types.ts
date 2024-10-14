@@ -4,7 +4,7 @@ import {
   GeoJsonProperties,
   Geometry,
 } from 'geojson'
-import { TitleLocationFrequency } from '../../utils/literatureByToponym'
+import { TitleLocationFrequency } from '../../types'
 import { ResponseGeom, ResponseName } from '../../utils/coastalGazetteer/types'
 
 export type TextLocatorCategories = 'text' | 'toponym'

@@ -1,8 +1,9 @@
 import client from '@polar/core'
 import packageInfo from '../package.json'
-import { addPlugins } from './addPlugins'
+import { addPlugins, ids } from './addPlugins'
 import { services as layerConf } from './services'
 import { mapConfiguration } from './mapConfig'
+import './styles.css'
 
 // eslint-disable-next-line no-console
 console.log(`TextLocator map client running in version ${packageInfo.version}.`)
@@ -20,7 +21,20 @@ export async function initializeClient({ urls }: TextLocatorParameters) {
   client.rawLayerList.initializeLayerList(layerConf)
   mapConfiguration.layerConf = layerConf
   mapConfiguration.addressSearch = {
-    searchMethods: [{ url: urls.gazetteerClient, type: 'coastalGazetteer' }],
+    searchMethods: [
+      {
+        groupId: ids.groupId,
+        categoryId: ids.categoryIdToponym,
+        url: urls.gazetteerClient,
+        type: ids.typeGazetteer,
+      },
+      {
+        groupId: ids.groupId,
+        categoryId: ids.categoryIdLiterature,
+        url: urls.textLocatorBackend,
+        type: ids.typeLiterature,
+      },
+    ],
     minLength: 3,
     waitMs: 500,
   }

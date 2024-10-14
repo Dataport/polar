@@ -13,7 +13,7 @@ import { geoJson, idPrefixes, wellKnownText } from './common'
 import { getPrimaryName } from './getPrimaryName'
 
 // arbitrary sort based on input – prefer 1. startsWith 2. closer string
-const sorter =
+export const sorter =
   (searchPhrase: string, sortKey: string) =>
   (a: ResponseName | Feature, b: ResponseName | Feature) => {
     const aStartsWith = a[sortKey].startsWith(searchPhrase)
