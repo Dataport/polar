@@ -12,6 +12,7 @@ import {
   RenderType,
   FeatureList,
 } from '@polar/lib-custom-types'
+import { VueConstructor } from 'vue'
 
 /** parameter specification for request method */
 export interface RequestGfiParameters {
@@ -56,6 +57,7 @@ export interface GfiGetters extends GfiState {
   geometryLayerKeys: string[]
   /** module configuration */
   gfiConfiguration: GfiConfiguration
+  gfiContentComponent: VueConstructor | null
   isFeatureHovered: (feature: Feature) => boolean
   /** all layer keys to retrieve GFI information for */
   layerKeys: string[]
