@@ -7,6 +7,7 @@ import {
   denkmaelerWMS,
   hintergrundkarte,
   dishBaseUrl,
+  alkisWfs,
 } from './services'
 
 export const exportMapConfiguration = {
@@ -51,6 +52,13 @@ export const exportMapConfiguration = {
           legend: true,
         },
       },
+    },
+    {
+      id: alkisWfs,
+      visibility: false,
+      type: 'mask',
+      name: 'ALKIS Katasterbezirke (WFS)',
+      minZoom: 7,
     },
   ],
   attributions: {

@@ -1,7 +1,12 @@
+import { MODE } from './enums'
+
 export const hintergrundkarte = 'hintergrundkarte'
 export const denkmaelerWfsExtern = 'denkmaelerWfsExtern'
 export const denkmaelerWMS = 'denkmaelerWMS'
+export const denkmaelerWmsIntern = 'denkmaelerWmsIntern'
 export const denkmaelerWFSIntern = 'denkmaelerWFSIntern'
+export const kontrollbedarfIntern = 'kontrollbedarfIntern'
+export const alkisWfs = 'alkisWfS'
 
 export const servicePrefix = 'https://stage.afm.schleswig-holstein.de/bkg/'
 
@@ -21,6 +26,13 @@ export const dishBaseUrl = isDevMode
   : `#{LS.EFI.IIS.App.URL}/dish`
 
 export const dishAutocompleteUrl = `${dishBaseUrl}/dish_suche/ergebnisse/json/alleBezeichnungenEindeutig.JSON`
+
+const dishCloudBaseUrl = 'https://dishreserveproxy.dsecurecloud.de/dish'
+
+// TODO
+const internServicesBaseUrl = isDevMode
+  ? 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/'
+  : `#{HIER MUSS NOCH DER RICHTIGE PLATZHALTER REIN}/dish`
 
 export const denkmaelerWmsService = {
   id: denkmaelerWMS,
@@ -47,14 +59,45 @@ export const denkmaelerWfsServiceExtern = {
 export const denkmaelerWfsServiceIntern = {
   id: denkmaelerWFSIntern,
   name: 'Denkmäler (WFS)',
-  url: 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/wfs',
+  url: `${internServicesBaseUrl}/wfs`,
   typ: 'WFS',
   version: '2.0.0',
   transparent: true,
   featureType: 'app:TBLGIS_ORA',
 }
+const denkmaelerWMsServiceIntern = {
+  id: denkmaelerWmsIntern,
+  name: 'Denkmäler (WMS)',
+  url: `${internServicesBaseUrl}/wms`,
+  typ: 'WMS',
+  layers: '0,1,2,3,4,6,24,25',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+}
+const kontrollbedarfServiceIntern = {
+  id: kontrollbedarfIntern,
+  name: 'Objekte mit Kontrollbedarf (WMS)',
+  url: `${internServicesBaseUrl}/wms`,
+  typ: 'WMS',
+  layers: '28,29,23,22,21,20,19',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+}
+const AlkisWfService = {
+  id: alkisWfs,
+  name: 'ALKIS',
+  url: `${dishCloudBaseUrl}/bkg/ALKIS_WFS`,
+  typ: 'WFS',
+  version: '2.0.0',
+  transparent: true,
+  featureType: 'ave:Flurstueck',
+}
 
-export const services = (mode: string) => [
+const servicesCommon = [
   {
     id: hintergrundkarte,
     name: 'WMS DE BASEMAP.DE WEB RASTER',
@@ -67,5 +110,17 @@ export const services = (mode: string) => [
     transparent: true,
   },
   denkmaelerWmsService,
-  mode === 'EXTERN' ? denkmaelerWfsServiceExtern : denkmaelerWfsServiceIntern,
+]
+
+const servicesExtern = [AlkisWfService, denkmaelerWfsServiceExtern]
+
+const servicesIntern = [
+  denkmaelerWfsServiceIntern,
+  denkmaelerWMsServiceIntern,
+  kontrollbedarfServiceIntern,
+]
+
+export const services = (mode: keyof typeof MODE) => [
+  ...servicesCommon,
+  ...(mode === MODE.EXTERN ? servicesExtern : servicesIntern),
 ]

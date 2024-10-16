@@ -3,8 +3,9 @@
 
 import {
   hintergrundkarte,
-  denkmaelerWMS,
+  denkmaelerWmsIntern,
   denkmaelerWFSIntern,
+  kontrollbedarfIntern,
 } from './services'
 import { shBlue } from './colors'
 
@@ -29,7 +30,7 @@ export const internMapConfiguration = {
       minZoom: 7,
     },
     {
-      id: denkmaelerWMS,
+      id: denkmaelerWmsIntern,
       visibility: true,
       type: 'mask',
       name: 'Kulturdenkmale (Denkmalliste)',
@@ -45,6 +46,27 @@ export const internMapConfiguration = {
             '2': 'Gewässer',
             '1': 'Baudenkmal (Fläche)',
             '0': 'Gründenkmal (Fläche)',
+          },
+          legend: true,
+        },
+      },
+    },
+    {
+      id: kontrollbedarfIntern,
+      visibility: false,
+      type: 'mask',
+      name: 'Objekte mit Kontrollbedarf',
+      options: {
+        layers: {
+          order: '28,29,23,22,21,20,19',
+          title: {
+            '28': 'Mehrheit von bauliche Anlagen mit Kontrollbedarf',
+            '29': 'Sachgesamtheit mit Kontrollbedarf',
+            '23': 'Baudenkmale (Einzel) mit Kontrollbedarf',
+            '22': 'Gartendenkmale (Elemente) mit Kontrollbedarf',
+            '21': 'Gewässer mit Kontrollbedarf',
+            '20': 'Baudenkmale (Flächen) mit Kontrollbedarf',
+            '19': 'Gartendenkmale (Flächen) mit Kontrollbedarf',
           },
           legend: true,
         },
