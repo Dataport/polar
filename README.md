@@ -14,7 +14,7 @@ POLAR is ...
 
 ## Quick Start
 
-Usage without NPM is documented [here](##getting-started-for-developers).
+Usage without NPM is documented [here](#getting-started-for-developers).
 
 ### Installation (via NPM) 
 
