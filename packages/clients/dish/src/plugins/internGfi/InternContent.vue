@@ -12,7 +12,7 @@
         <v-icon small>fa-xmark</v-icon>
       </v-btn>
     </v-card-actions>
-    <v-card-title class="dish-gfi-title">
+    <v-card-title v-if="objektIdentifier" class="dish-gfi-title">
       {{ `${$t('common:dish.gfiHeader')} ${objektIdentifier}` }}
     </v-card-title>
     <img
@@ -102,14 +102,18 @@ export default Vue.extend({
         .filter(([key]) => Object.keys(this.infoFields).includes(key))
         .map(([key, value]) => [this.infoFields[key], value])
 
-      const adressData = [
+      const address = this.infoFieldsAdress
+        .map((field) => object[field])
+        .filter((value) => value)
+        .join(' ')
+      const addressData = [
         'Strasse',
         this.infoFieldsAdress
           .map((field) => object[field])
           .filter((value) => value)
           .join(' '),
       ]
-      tableData.push(adressData)
+      if (address && address.trim() !== '') tableData.push(addressData)
 
       return tableData
     },
