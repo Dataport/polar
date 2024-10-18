@@ -14,12 +14,16 @@ POLAR is ...
 
 ## Quick Start
 
-Usage without NPM documented in chapter "Getting started (for developers)".
+Usage without NPM is documented [here](###using-polar).
+
+### Installation (via NPM) 
 
 ```bash
 npm i @polar/client-generic
 ```
 
+### Embedding POLAR
+#### .js
 ```js
 import polar from '@polar/client-generic'
 
@@ -37,6 +41,14 @@ polar.createMap({
     }]
   }
 })
+```
+
+#### .html
+```html
+<div
+  style="width: 680px; height: 420px; position: relative;"
+  id="polarstern"
+/>
 ```
 
 See our [documentation page](https://dataport.github.io/polar/) for all features and configuration options included in this modulith client, with running examples.
