@@ -157,15 +157,19 @@ export const exportMapConfiguration = {
         type: 'wfs',
         url: `${dishCloudBaseUrl}/bkg/ALKIS_WFS`,
         queryParameters: {
-          wfsConfiguration: {
-            id: alkisWfs,
-            srsName: 'EPSG:25832',
-            typeName: 'FlurstueckType',
-            fieldName: 'idflurst',
-            featurePrefix: 'ave',
-            xmlns:
-              'http://repository.gdi-de.org/schemas/adv/produkt/alkis-vereinfacht/2.0',
+          id: alkisWfs,
+          srsName: 'EPSG:25832',
+          typeName: 'Flurstueck',
+          featurePrefix: 'ave',
+          xmlns:
+            'http://repository.gdi-de.org/schemas/adv/produkt/alkis-vereinfacht/2.0',
+          patternKeys: {
+            flur: '([0-9]+)',
+            flstnrnen: '([0-9]+)',
+            flstnrzae: '([0-9]+)',
+            gemarkung: '([A-Za-z]+)',
           },
+          patterns: ['{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}'],
         },
       },
     ],
