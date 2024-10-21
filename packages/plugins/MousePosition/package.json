@@ -1,0 +1,22 @@
+{
+  "name": "@polar/plugin-mouse-position",
+  "version": "1.0",
+  "description": "Plugin MousePosition",
+  "license": "EUPL-1.2",
+  "type": "module",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dataport/polar.git",
+    "directory": "packages/plugins/MousePosition"
+  },
+  "files": [
+    "src/**/*",
+    "CHANGELOG.md"
+  ],
+  "devDependencies": {
+    "@polar/lib-custom-types": "^1.0.0"
+  }
+}
+  

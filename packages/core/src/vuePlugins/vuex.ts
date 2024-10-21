@@ -67,7 +67,7 @@ const getInitialState = (): CoreState => ({
   moveHandleActionButton: 1,
   selected: 1,
   zoomLevel: 0,
-  // TODO: Add default values for epsg, layers, namedProjections, options and remove @ts-ignore for configuration
+  // TODO: Add default values for epsg, layers, , options and remove @ts-ignore for configuration
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   configuration: {},

@@ -6,17 +6,16 @@ import Draw from '@polar/plugin-draw'
 import Export from '@polar/plugin-export'
 import Fullscreen from '@polar/plugin-fullscreen'
 import GeoLocation from '@polar/plugin-geo-location'
+import Pins from '@polar/plugin-pins'
 import Gfi from '@polar/plugin-gfi'
 import IconMenu from '@polar/plugin-icon-menu'
 import LayerChooser from '@polar/plugin-layer-chooser'
 import Legend from '@polar/plugin-legend'
 import LoadingIndicator from '@polar/plugin-loading-indicator'
-import Pins from '@polar/plugin-pins'
 import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
-import MousePosition from '@polar/plugin-mouse-position'
 
 const defaultOptions = {
   displayComponent: true,
@@ -121,10 +120,5 @@ export const addPlugins = (core) => {
       addressTarget: 'plugin/addressSearch/selectResult',
       zoomTo: 7,
     }),
-    MousePosition(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_LEFT,
-      })
-    ),
   ])
 }

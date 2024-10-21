@@ -22,6 +22,8 @@
     "snowbox": "cd packages/clients/snowbox/ && vite --host",
     "snowbox:build": "lerna run build --scope @polar/client-snowbox --stream",
     "snowbox:build:serve": "http-server packages/clients/snowbox -o /dist/index.html",
+    "snowbox2:build:serve": "http-server packages/clients/snowbox2 -o /dist/index.html",
+    "snowbox2:dev": "cd packages/clients/snowbox2/ && vite --host",
     "textLocator:build": "lerna run build --scope @polar/client-text-locator --stream",
     "textLocator:build:serve": "http-server ./packages/clients/textLocator -o /dist/index.html",
     "textLocator:dev": "cd packages/clients/textLocator/ && vite --host",

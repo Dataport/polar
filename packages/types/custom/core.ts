@@ -436,6 +436,11 @@ export interface ScaleConfiguration extends PluginOptions {
   zoomMethod?: string
 }
 
+/** MousePosition Module Configuration */
+export interface MousePositionConfiguration extends PluginOptions {
+  projections?: number[]
+}
+
 export interface ZoomConfiguration extends PluginOptions {
   renderType?: RenderType
   showMobile?: boolean
