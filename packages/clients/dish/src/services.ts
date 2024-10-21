@@ -7,6 +7,7 @@ export const denkmaelerWmsIntern = 'denkmaelerWmsIntern'
 export const denkmaelerWFSIntern = 'denkmaelerWFSIntern'
 export const kontrollbedarfIntern = 'kontrollbedarfIntern'
 export const alkisWfs = 'alkisWfS'
+export const dop20 = 'dop20'
 
 export const servicePrefix = 'https://stage.afm.schleswig-holstein.de/bkg/'
 
@@ -27,7 +28,7 @@ export const dishBaseUrl = isDevMode
 
 export const dishAutocompleteUrl = `${dishBaseUrl}/dish_suche/ergebnisse/json/alleBezeichnungenEindeutig.JSON`
 
-const dishCloudBaseUrl = 'https://dishreserveproxy.dsecurecloud.de/dish'
+export const dishCloudBaseUrl = 'https://dishreserveproxy.dsecurecloud.de/dish'
 
 // TODO
 const internServicesBaseUrl = isDevMode
@@ -97,6 +98,18 @@ const AlkisWfService = {
   featureType: 'ave:Flurstueck',
 }
 
+// const dop20Service = {
+//   id: dop20,
+//   name: 'DOP 20',
+//   url: `${dishCloudBaseUrl}/bkg/DOP`,
+//   typ: 'WMS',
+//   layers: 'DOP20COL',
+//   legendURL: 'ignore',
+//   format: 'image/png',
+//   version: '1.3.0',
+//   transparent: true,
+// }
+
 const servicesCommon = [
   {
     id: hintergrundkarte,
@@ -109,10 +122,14 @@ const servicesCommon = [
     singleTile: false,
     transparent: true,
   },
-  denkmaelerWmsService,
+  AlkisWfService,
 ]
 
-const servicesExtern = [AlkisWfService, denkmaelerWfsServiceExtern]
+const servicesExtern = [
+  denkmaelerWmsService,
+  denkmaelerWfsServiceExtern,
+  // dop20Service,
+]
 
 const servicesIntern = [
   denkmaelerWfsServiceIntern,

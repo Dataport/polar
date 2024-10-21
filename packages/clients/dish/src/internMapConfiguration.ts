@@ -6,6 +6,7 @@ import {
   denkmaelerWmsIntern,
   denkmaelerWFSIntern,
   kontrollbedarfIntern,
+  alkisWfs,
 } from './services'
 import { shBlue } from './colors'
 
@@ -22,12 +23,20 @@ export const internMapConfiguration = {
       name: 'Basemap Graustufen',
     },
     {
+      id: alkisWfs,
+      visibility: false,
+      gfiMode: 'bboxDot',
+      type: 'mask',
+      name: 'ALKIS Katasterbezirke (WFS)',
+      minZoom: 7,
+    },
+    {
       id: denkmaelerWFSIntern,
       visibility: false,
-      hideInMenu: true,
+      hideInMenu: false,
       type: 'mask',
       name: 'Denkmal (WFS) Intern',
-      minZoom: 7,
+      minZoom: 5,
     },
     {
       id: denkmaelerWmsIntern,
@@ -110,6 +119,7 @@ export const internMapConfiguration = {
   },
   gfi: {
     mode: 'intersects',
+    activeLayerPath: 'plugin/layerChooser/activeMaskIds',
     layers: {
       [denkmaelerWFSIntern]: {
         geometry: true,
@@ -117,6 +127,12 @@ export const internMapConfiguration = {
         maxFeatures: 10,
         geometryName: 'app:geometry',
         exportProperty: 'Export',
+      },
+      [alkisWfs]: {
+        geometry: true,
+        window: true,
+        maxFeatures: 10,
+        geometryName: 'geometry',
       },
     },
     coordinateSources: [

@@ -7,7 +7,9 @@ import {
   denkmaelerWMS,
   hintergrundkarte,
   dishBaseUrl,
+  dishCloudBaseUrl,
   alkisWfs,
+  // dop20,
 } from './services'
 
 export const exportMapConfiguration = {
@@ -23,6 +25,12 @@ export const exportMapConfiguration = {
       type: 'background',
       name: 'Basemap Graustufen',
     },
+    // {
+    //   id: dop20,
+    //   visibility: true,
+    //   type: 'background',
+    //   name: 'DOP 20',
+    // },
     {
       id: denkmaelerWfsExtern,
       visibility: false,
@@ -132,6 +140,17 @@ export const exportMapConfiguration = {
           topic: null,
         },
       },
+      {
+        groupId: 'groupDenkmalsuche',
+        categoryId: 'categoryBkgSuche',
+        queryParameters: {
+          filter: {
+            bundesland: 'Schleswig-Holstein',
+          },
+        },
+        type: 'bkg',
+        url: `${dishCloudBaseUrl}/bkg/search/geosearch.json`,
+      },
     ],
     groupProperties: {
       groupDenkmalsuche: {
@@ -150,6 +169,9 @@ export const exportMapConfiguration = {
       },
       categoryDenkmalsucheDish: {
         label: 'Denkmalsuche Treffer',
+      },
+      categoryBkgSuche: {
+        label: 'Adresssuche Treffer',
       },
     },
     minLength: 3,
