@@ -92,7 +92,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       merge(
         {},
         {
-          displayComponent: mode === MODE.EXTERN,
+          displayComponent: true,
           layoutTag: NineLayoutTag.TOP_LEFT,
           addLoading: 'plugin/loadingIndicator/addLoadingKey',
           removeLoading: 'plugin/loadingIndicator/removeLoadingKey',

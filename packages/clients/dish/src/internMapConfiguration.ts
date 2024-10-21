@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import {
+  dishCloudBaseUrl,
   hintergrundkarte,
   denkmaelerWmsIntern,
   denkmaelerWFSIntern,
@@ -117,9 +118,70 @@ export const internMapConfiguration = {
     showJpg: false,
     showPdf: false,
   },
+  addressSearch: {
+    searchMethods: [
+      {
+        groupId: 'groupDenkmalsuche',
+        categoryId: 'categoryBkgSuche',
+        queryParameters: {
+          filter: {
+            bundesland: 'Schleswig-Holstein',
+          },
+        },
+        type: 'bkg',
+        url: `${dishCloudBaseUrl}/bkg/search/geosearch.json`,
+      },
+      {
+        groupId: 'groupDenkmalsuche',
+        categoryId: 'categoryWfssuche',
+        type: 'wfs',
+        url: `${dishCloudBaseUrl}/bkg/ALKIS_WFS`,
+        queryParameters: {
+          id: alkisWfs,
+          srsName: 'EPSG:25832',
+          typeName: 'Flurstueck',
+          featurePrefix: 'ave',
+          xmlns:
+            'http://repository.gdi-de.org/schemas/adv/produkt/alkis-vereinfacht/2.0',
+          patternKeys: {
+            flur: '([0-9]+)',
+            flstnrnen: '([0-9]+)',
+            flstnrzae: '([0-9]+)',
+            gemarkung: '([A-Za-z]+)',
+          },
+          patterns: ['{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}'],
+        },
+      },
+    ],
+    groupProperties: {
+      groupDenkmalsuche: {
+        label: 'Denkmalsuche',
+        hint: 'common:dish.addressSearchHint',
+        resultDisplayMode: 'categorized',
+        limitResults: 3,
+      },
+      defaultGroup: {
+        limitResults: 5,
+      },
+    },
+    categoryProperties: {
+      categoryDenkmalsucheAutocomplete: {
+        label: 'Denkmalsuche Stichworte',
+      },
+      categoryDenkmalsucheDish: {
+        label: 'Denkmalsuche Treffer',
+      },
+      categoryBkgSuche: {
+        label: 'Adresssuche Treffer',
+      },
+      categoryWfssuche: {
+        label: 'Flurstückssuche Treffer',
+      },
+    },
+    minLength: 3,
+  },
   gfi: {
     mode: 'intersects',
-    activeLayerPath: 'plugin/layerChooser/activeMaskIds',
     layers: {
       [denkmaelerWFSIntern]: {
         geometry: true,
