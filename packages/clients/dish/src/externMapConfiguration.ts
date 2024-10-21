@@ -151,6 +151,23 @@ export const exportMapConfiguration = {
         type: 'bkg',
         url: `${dishCloudBaseUrl}/bkg/search/geosearch.json`,
       },
+      {
+        groupId: 'groupDenkmalsuche',
+        categoryId: 'categoryWfssuche',
+        type: 'wfs',
+        url: `${dishCloudBaseUrl}/bkg/ALKIS_WFS`,
+        queryParameters: {
+          wfsConfiguration: {
+            id: alkisWfs,
+            srsName: 'EPSG:25832',
+            typeName: 'FlurstueckType',
+            fieldName: 'idflurst',
+            featurePrefix: 'ave',
+            xmlns:
+              'http://repository.gdi-de.org/schemas/adv/produkt/alkis-vereinfacht/2.0',
+          },
+        },
+      },
     ],
     groupProperties: {
       groupDenkmalsuche: {
@@ -172,6 +189,9 @@ export const exportMapConfiguration = {
       },
       categoryBkgSuche: {
         label: 'Adresssuche Treffer',
+      },
+      categoryWfssuche: {
+        label: 'Flurstückssuche Treffer',
       },
     },
     minLength: 3,
