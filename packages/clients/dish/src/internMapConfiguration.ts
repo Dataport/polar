@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // number-only keys needed in layers object
 /* eslint-disable @typescript-eslint/naming-convention */
 
@@ -8,6 +9,7 @@ import {
   denkmaelerWFSIntern,
   kontrollbedarfIntern,
   alkisWfs,
+  verwaltung,
 } from './services'
 import { shBlue } from './colors'
 
@@ -34,7 +36,7 @@ export const internMapConfiguration = {
     {
       id: denkmaelerWFSIntern,
       visibility: false,
-      hideInMenu: false,
+      hideInMenu: true,
       type: 'mask',
       name: 'Denkmal (WFS) Intern',
       minZoom: 5,
@@ -81,6 +83,20 @@ export const internMapConfiguration = {
           legend: true,
         },
       },
+    },
+    {
+      id: verwaltung,
+      visibility: false,
+      type: 'mask',
+      name: 'Verwaltungsgrenzen',
+      order: 'Landesgrenzen,Kreisgrenzen,Aemtergrenzen,Gemeindegrenzen',
+      title: {
+        'Landesgrenzen': 'Landesgrenzen',
+        'Kreisgrenzen': 'Kreisgrenzen',
+        'Aemtergrenzen': 'Ämtergrenzen',
+        'Gemeindegrenzen': 'Gemeindegrenzen',
+      },
+      legend: true,
     },
   ],
   attributions: {
@@ -129,13 +145,13 @@ export const internMapConfiguration = {
           },
         },
         type: 'bkg',
-        url: `${dishCloudBaseUrl}/bkg/search/geosearch.json`,
+        url: `${dishCloudBaseUrl}/dish/bkg/search/geosearch.json`,
       },
       {
         groupId: 'groupDenkmalsuche',
         categoryId: 'categoryWfssuche',
         type: 'wfs',
-        url: `${dishCloudBaseUrl}/bkg/ALKIS_WFS`,
+        url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
         queryParameters: {
           id: alkisWfs,
           srsName: 'EPSG:25832',

@@ -7,7 +7,12 @@ export const denkmaelerWmsIntern = 'denkmaelerWmsIntern'
 export const denkmaelerWFSIntern = 'denkmaelerWFSIntern'
 export const kontrollbedarfIntern = 'kontrollbedarfIntern'
 export const alkisWfs = 'alkisWfS'
-export const dop20 = 'dop20'
+export const alkisWms = 'alkisWms'
+export const dop20col = 'dop20col'
+export const dop20sw = 'dop20sw'
+export const verwaltung = 'verwaltung'
+export const bddCol = 'bddCol'
+export const bddEin = 'bddEin'
 
 export const servicePrefix = 'https://stage.afm.schleswig-holstein.de/bkg/'
 
@@ -28,10 +33,10 @@ export const dishBaseUrl = isDevMode
 
 export const dishAutocompleteUrl = `${dishBaseUrl}/dish_suche/ergebnisse/json/alleBezeichnungenEindeutig.JSON`
 
-export const dishCloudBaseUrl = 'https://dishreserveproxy.dsecurecloud.de/dish'
+export const dishCloudBaseUrl = 'https://dishreserveproxy.dsecurecloud.de'
 
 // TODO
-const internServicesBaseUrl = isDevMode
+export const internServicesBaseUrl = isDevMode
   ? 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/'
   : `#{HIER MUSS NOCH DER RICHTIGE PLATZHALTER REIN}/dish`
 
@@ -91,24 +96,84 @@ const kontrollbedarfServiceIntern = {
 const AlkisWfService = {
   id: alkisWfs,
   name: 'ALKIS',
-  url: `${dishCloudBaseUrl}/bkg/ALKIS_WFS`,
+  url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
   typ: 'WFS',
   version: '2.0.0',
   transparent: true,
   featureType: 'ave:Flurstueck',
 }
 
-// const dop20Service = {
-//   id: dop20,
-//   name: 'DOP 20',
-//   url: `${dishCloudBaseUrl}/bkg/DOP`,
-//   typ: 'WMS',
-//   layers: 'DOP20COL',
-//   legendURL: 'ignore',
-//   format: 'image/png',
-//   version: '1.3.0',
-//   transparent: true,
-// }
+const AlkisWmService = {
+  id: alkisWms,
+  name: 'ALKIS WMS',
+  url: `${dishCloudBaseUrl}/bkg/ALKIS_FLST`,
+  typ: 'WMS',
+  layers: 'adv_alkis_flurstuecke',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+  STYLES: 'basemapde',
+}
+
+const dop20ColService = {
+  id: dop20col,
+  name: 'DOP 20 (Farbe)',
+  url: `${dishCloudBaseUrl}/dish/bkg/DOP20col`,
+  typ: 'WMS',
+  layers: 'DOP20COL',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+}
+
+const dop20swService = {
+  id: dop20sw,
+  name: 'DOP 20 (SW)',
+  url: `${dishCloudBaseUrl}/dish/bkg/DOP20sw`,
+  typ: 'WMS',
+  layers: 'DOP20sw',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+}
+
+const bddColService = {
+  id: bddCol,
+  name: 'BDD (Mehrfarbe)',
+  url: `${dishCloudBaseUrl}/dish/bkg/BDDcol`,
+  typ: 'WMS',
+  layers: 'BDDCOL_V2',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+}
+
+const bddEinService = {
+  id: bddEin,
+  name: 'BDD (Einfarbig)',
+  url: `${dishCloudBaseUrl}/dish/bkg/BDDein`,
+  typ: 'WMS',
+  layers: 'BDDEIN_V2',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+}
+
+const verwaltungsGrenzenService = {
+  id: verwaltung,
+  name: 'Verwaltungsgrenzen',
+  url: `https://intranet.gdi-sh.lr.landsh.de/WMS_SH_VwG`,
+  typ: 'WMS',
+  layers: 'Landesgrenzen,Kreisgrenzen,Aemtergrenzen,Gemeindegrenzen',
+  format: 'image/png',
+  version: '1.0.0',
+  transparent: true,
+}
 
 const servicesCommon = [
   {
@@ -123,18 +188,23 @@ const servicesCommon = [
     transparent: true,
   },
   AlkisWfService,
+  AlkisWmService,
 ]
 
 const servicesExtern = [
   denkmaelerWmsService,
   denkmaelerWfsServiceExtern,
-  // dop20Service,
+  dop20ColService,
+  dop20swService,
+  bddColService,
+  bddEinService,
 ]
 
 const servicesIntern = [
   denkmaelerWfsServiceIntern,
   denkmaelerWMsServiceIntern,
   kontrollbedarfServiceIntern,
+  verwaltungsGrenzenService,
 ]
 
 export const services = (mode: keyof typeof MODE) => [

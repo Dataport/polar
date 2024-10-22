@@ -9,7 +9,10 @@ import {
   dishBaseUrl,
   dishCloudBaseUrl,
   alkisWfs,
-  // dop20,
+  alkisWms,
+  dop20col,
+  bddCol,
+  bddEin,
 } from './services'
 
 export const exportMapConfiguration = {
@@ -25,12 +28,12 @@ export const exportMapConfiguration = {
       type: 'background',
       name: 'Basemap Graustufen',
     },
-    // {
-    //   id: dop20,
-    //   visibility: true,
-    //   type: 'background',
-    //   name: 'DOP 20',
-    // },
+    {
+      id: dop20col,
+      visibility: true,
+      type: 'background',
+      name: 'DOP 20',
+    },
     {
       id: denkmaelerWfsExtern,
       visibility: false,
@@ -62,11 +65,23 @@ export const exportMapConfiguration = {
       },
     },
     {
-      id: alkisWfs,
-      visibility: false,
+      id: alkisWms,
+      visibility: true,
       type: 'mask',
-      name: 'ALKIS Katasterbezirke (WFS)',
-      minZoom: 7,
+      name: 'ALKIS Flurstücke (WMS)',
+      minZoom: 10,
+    },
+    {
+      id: bddCol,
+      visibility: true,
+      type: 'background',
+      name: 'BDD (Mehrfarbe)',
+    },
+    {
+      id: bddEin,
+      visibility: true,
+      type: 'background',
+      name: 'BDD (Einfarbig)',
     },
   ],
   attributions: {
@@ -149,13 +164,13 @@ export const exportMapConfiguration = {
           },
         },
         type: 'bkg',
-        url: `${dishCloudBaseUrl}/bkg/search/geosearch.json`,
+        url: `${dishCloudBaseUrl}/dish/bkg/search/geosearch.json`,
       },
       {
         groupId: 'groupDenkmalsuche',
         categoryId: 'categoryWfssuche',
         type: 'wfs',
-        url: `${dishCloudBaseUrl}/bkg/ALKIS_WFS`,
+        url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
         queryParameters: {
           id: alkisWfs,
           srsName: 'EPSG:25832',
