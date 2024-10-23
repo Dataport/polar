@@ -3,10 +3,11 @@ import merge from 'lodash.merge'
 import packageInfo from '../package.json'
 import { navigateToDenkmal } from './utils/navigateToDenkmal'
 import { addPlugins } from './addPlugins'
-import { services } from './services'
+import { denkmaelerWfsServiceIntern, services } from './services'
 import { getMapConfiguration } from './mapConfig'
 import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
+import { zoomToFeatureById } from './utils/zoomToFeatureById'
 
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
@@ -34,7 +35,17 @@ export default {
     // using naming from backend to avoid multiple names for same thing
     const objektId = parameters.get('ObjektID')
 
-    if (typeof objektId === 'string') {
+    if (typeof objektId === 'string' && mode === 'INTERN') {
+      zoomToFeatureById(instance, objektId, denkmaelerWfsServiceIntern.url, {
+        fieldName: 'objektid',
+        featurePrefix: 'app',
+        typeName: 'TBLGIS_ORA',
+        xmlns: 'http://www.deegree.org/app',
+        useRightHandWildcard: false,
+      })
+    }
+
+    if (typeof objektId === 'string' && mode === 'EXTERN') {
       navigateToDenkmal(instance, objektId)
     }
 
