@@ -93,9 +93,9 @@ export const exportMapConfiguration = {
           'Karte Basemap.de Web Raster Grau: © <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <MONTH> <YEAR>',
       },
       {
-        id: denkmaelerWfsExtern,
+        id: alkisWms,
         title:
-          'Karte Kulturdenkmale (Denkmalliste) (WFS): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>',
+          'Karte Flurstücke gemäss ALKIS-Objektartenkatalog © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
       },
       {
         id: denkmaelerWMS,
@@ -179,12 +179,14 @@ export const exportMapConfiguration = {
           xmlns:
             'http://repository.gdi-de.org/schemas/adv/produkt/alkis-vereinfacht/2.0',
           patternKeys: {
-            flur: '([0-9]+)',
             flstnrnen: '([0-9]+)',
             flstnrzae: '([0-9]+)',
             gemarkung: '([A-Za-z]+)',
           },
-          patterns: ['{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}'],
+          patterns: [
+            '{{gemarkung}} {{flstnrzae}}/{{flstnrnen}}',
+            '{{gemarkung}} {{flstnrzae}}',
+          ],
         },
       },
     ],
