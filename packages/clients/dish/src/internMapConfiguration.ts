@@ -9,6 +9,7 @@ import {
   denkmaelerWFSIntern,
   kontrollbedarfIntern,
   alkisWfs,
+  alkisWms,
   verwaltung,
 } from './services'
 import { shBlue } from './colors'
@@ -28,10 +29,17 @@ export const internMapConfiguration = {
     {
       id: alkisWfs,
       visibility: false,
+      hideInMenu: true,
       gfiMode: 'bboxDot',
       type: 'mask',
       name: 'ALKIS Katasterbezirke (WFS)',
-      minZoom: 7,
+    },
+    {
+      id: alkisWms,
+      visibility: false,
+      type: 'mask',
+      name: 'ALKIS Flurstücke (WMS)',
+      minZoom: 10,
     },
     {
       id: denkmaelerWFSIntern,
@@ -160,12 +168,11 @@ export const internMapConfiguration = {
           xmlns:
             'http://repository.gdi-de.org/schemas/adv/produkt/alkis-vereinfacht/2.0',
           patternKeys: {
-            flur: '([0-9]+)',
             flstnrnen: '([0-9]+)',
             flstnrzae: '([0-9]+)',
             gemarkung: '([A-Za-z]+)',
           },
-          patterns: ['{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}'],
+          patterns: ['{{gemarkung}} {{flstnrzae}}/{{flstnrnen}}', '{{gemarkung}} {{flstnrzae}}'],
         },
       },
     ],
@@ -209,9 +216,10 @@ export const internMapConfiguration = {
       [alkisWfs]: {
         geometry: true,
         window: true,
-        maxFeatures: 10,
-        geometryName: 'geometry',
-      },
+        maxFeatures: 5,
+        geometryName: 'app:geometry',
+        exportProperty: 'Export',
+      }
     },
     coordinateSources: [
       'plugin/pins/transformedCoordinate',
