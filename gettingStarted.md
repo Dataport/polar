@@ -200,7 +200,7 @@ export const addPlugins = (core) => {
 - Import Plugins: Begin by importing all the plugins you wish to use.
 - Configure Plugins: Each plugin is configured with options like layoutTag, displayComponent, and other plugin-specific settings.
 - Add Plugins: Use core.addPlugins([...]) to add the configured plugins to the map.
-- Set Layout: Use setLayout(NineLayout) to define the map layout.
+- Set Layout: The `NineLayout` system provides a structured and flexible way to display plugins in 3x3 grid (nine sections) on the map within your map application.
 
 ### 4.4 Integrating Plugins into mapConfiguration.ts and polar-client.ts
 
@@ -251,42 +251,6 @@ polarCore.rawLayerList.initializeLayerList(
 - Centralized Configuration: Manage the primary map settings in mapConfiguration.ts for easy maintenance.
 - Modular Plugin Management: Use addPlugins.ts to separate plugin configurations, allowing for easier updates and modifications.
 - Testing: Regularly test your integrated plugins in the Snowbox environment to ensure compatibility and functionality.
-
-## 5. Using the Layout – The `NineLayout` System
-
-The `NineLayout` is a flexible layout system that allows plugins to be placed in a 3x3 grid (nine sections) on the map.
-
-### 5.1 How `NineLayout.vue` Works
-
-`NineLayout.vue` is the Vue component that represents the layout of the map and places plugins according to their configured positions.
-
-```vue
-<template>
-  <div class="wrapper">
-    <div
-      v-for="(tag, index) of tags"
-      :key="index"
-      :class="{
-        [tag]: true,
-        'has-window-size': hasWindowSize,
-      }"
-    >
-      <plugin-vessel
-        v-for="(pluginContainer, innerIndex) of getSortedTo(tag)"
-        :key="`${index}-${innerIndex}`"
-        v-bind="{ pluginContainer }"
-      />
-    </div>
-  </div>
-</template>
-```
-
-- The `wrapper` div is the container element for the entire layout.
-- Each plugin is positioned within the `plugin-vessel` component based on its `layoutTag`.
-
-### 5.2 Summary of the Layout System
-
-The `NineLayout` system provides a structured and flexible way to display plugins in one of nine defined positions within your map application. By using the `NineLayoutTag` enum and configuring it in `NineLayout.vue`, you can precisely control the placement of your plugins and customize them to fit the needs of your map application.
 
 ## Conclusion
 
