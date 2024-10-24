@@ -4,6 +4,7 @@
 
 import {
   dishCloudBaseUrl,
+  internServicesBaseUrl,
   hintergrundkarte,
   denkmaelerWmsIntern,
   denkmaelerWFSIntern,
@@ -146,6 +147,26 @@ export const internMapConfiguration = {
     searchMethods: [
       {
         groupId: 'groupDenkmalsuche',
+        categoryId: 'categoryDenkmalSuche',
+        type: 'wfs',
+        url: `${internServicesBaseUrl}/wfs`,
+        queryParameters: {
+          id: denkmaelerWFSIntern,
+          srsName: 'EPSG:25832',
+          typeName: 'TBLGIS_ORA',
+          featurePrefix: 'app',
+          xmlns:
+            'http://www.deegree.org/app',
+          patternKeys: {
+            hausnummer: '([0-9]+)',
+            strasse: '([A-Za-z]+)',
+            objektansprache: '([A-Za-z]+)',
+          },
+          patterns: ['{{objektansprache}} {{strasse}} {{hausnummer}}'],
+        },
+      },
+      {
+        groupId: 'groupDenkmalsuche',
         categoryId: 'categoryBkgSuche',
         queryParameters: {
           filter: {
@@ -157,7 +178,7 @@ export const internMapConfiguration = {
       },
       {
         groupId: 'groupDenkmalsuche',
-        categoryId: 'categoryWfssuche',
+        categoryId: 'categoryAlkisSuche',
         type: 'wfs',
         url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
         queryParameters: {
@@ -184,20 +205,17 @@ export const internMapConfiguration = {
         limitResults: 3,
       },
       defaultGroup: {
-        limitResults: 5,
+        limitResults: 3,
       },
     },
     categoryProperties: {
-      categoryDenkmalsucheAutocomplete: {
-        label: 'Denkmalsuche Stichworte',
-      },
-      categoryDenkmalsucheDish: {
+      categoryDenkmalSuche: {
         label: 'Denkmalsuche Treffer',
       },
       categoryBkgSuche: {
         label: 'Adresssuche Treffer',
       },
-      categoryWfssuche: {
+      categoryAlkisSuche: {
         label: 'Flurstückssuche Treffer',
       },
     },
