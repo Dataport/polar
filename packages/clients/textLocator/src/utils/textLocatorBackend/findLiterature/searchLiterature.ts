@@ -13,7 +13,6 @@ const mapResponseToFeatureCollection = (
       // fake geom to fit APIs; ignored by custom selectLiterature
       geometry: { type: 'Point', coordinates: [0, 0] },
       properties: locationFrequency,
-      epsg: null,
       id: literatureId,
       title,
     })
