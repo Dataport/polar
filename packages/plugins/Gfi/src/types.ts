@@ -18,7 +18,7 @@ import { VueConstructor } from 'vue'
 export interface RequestGfiParameters {
   map: Map
   layer: BaseLayer
-  coordinate: [number, number]
+  coordinateOrExtent: [number, number] | [number, number, number, number]
   layerConfiguration: GfiLayerConfiguration
   /** rawLayerList entry, see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md */
   layerSpecification: Record<string, unknown>
@@ -28,7 +28,7 @@ export interface RequestGfiParameters {
 
 export interface RequestGfiWmsParameters {
   map: RequestGfiParameters['map']
-  coordinate: RequestGfiParameters['coordinate']
+  coordinate: [number, number]
   layerConfiguration: RequestGfiParameters['layerConfiguration']
   layerSpecification: RequestGfiParameters['layerSpecification']
   layer: TileLayer<TileWMS>

@@ -364,6 +364,7 @@ export interface GfiConfiguration extends PluginOptions {
    * Otherwise, a default style is applied.
    */
   customHighlightStyle?: HighlightStyle
+  directSelect?: boolean
   featureList?: FeatureList
   /**
    * Optionally replace GfiContent component.

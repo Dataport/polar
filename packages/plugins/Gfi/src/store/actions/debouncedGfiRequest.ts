@@ -1,10 +1,6 @@
 import debounce from 'lodash.debounce'
 import { rawLayerList } from '@masterportal/masterportalapi'
-import {
-  Feature as GeoJsonFeature,
-  GeoJsonProperties,
-  Geometry as GeoJsonGeometry,
-} from 'geojson'
+import { Feature as GeoJsonFeature } from 'geojson'
 import {
   GfiConfiguration,
   MapConfig,
@@ -13,17 +9,28 @@ import {
 import { Map, Feature } from 'ol'
 import { Geometry } from 'ol/geom'
 import VectorLayer from 'ol/layer/Vector'
+import compare from 'just-compare'
+import { GeoJSON } from 'ol/format'
 import { addFeature } from '../../utils/displayFeatureLayer'
 import { requestGfi } from '../../utils/requestGfi'
 import sortFeatures from '../../utils/sortFeatures'
 import { GfiGetters, GfiState } from '../../types'
 
+interface GetFeatureInfoParameters {
+  coordinateOrExtent: [number, number] | [number, number, number, number]
+  modifierPressed?: boolean
+}
+
+type FeaturesByLayerId = Record<string, GeoJsonFeature[] | symbol>
+
+const writer = new GeoJSON()
+
 const filterAndMapFeaturesToLayerIds = (
   layerKeys: string[],
   gfiConfiguration: GfiConfiguration,
-  features: (symbol | GeoJsonFeature<GeoJsonGeometry, GeoJsonProperties>[])[],
+  features: (symbol | GeoJsonFeature[])[],
   srsName: string
-): Record<string, GeoJsonFeature[] | symbol> => {
+): FeaturesByLayerId => {
   const generalMaxFeatures =
     gfiConfiguration.maxFeatures || Number.POSITIVE_INFINITY
   const featuresByLayerId = layerKeys.reduce(
@@ -56,7 +63,7 @@ const getPromisedFeatures = (
   map: Map,
   configuration: MapConfig,
   layerKeys: string[],
-  coordinate: [number, number]
+  coordinateOrExtent: [number, number] | [number, number, number, number]
 ) =>
   layerKeys.map((key) => {
     const layer = map
@@ -82,7 +89,7 @@ const getPromisedFeatures = (
     return requestGfi({
       map,
       layer,
-      coordinate,
+      coordinateOrExtent,
       layerConfiguration,
       layerSpecification,
       mode: layerGfiMode,
@@ -90,18 +97,71 @@ const getPromisedFeatures = (
   })
 
 const filterFeatures = (
-  featuresByLayerId: Record<
-    string,
-    symbol | GeoJsonFeature<GeoJsonGeometry, GeoJsonProperties>[]
-  >
-): Record<string, GeoJsonFeature<GeoJsonGeometry, GeoJsonProperties>[]> => {
+  featuresByLayerId: FeaturesByLayerId
+): Record<string, GeoJsonFeature[]> => {
   const entries = Object.entries(featuresByLayerId)
   const filtered = entries.filter((keyValue) => Array.isArray(keyValue[1])) as [
     string,
-    GeoJsonFeature<GeoJsonGeometry, GeoJsonProperties>[]
+    GeoJsonFeature[]
   ][]
   return Object.fromEntries(filtered)
 }
+
+const getNestedFeatures = (
+  featuresByLayerId: FeaturesByLayerId
+): FeaturesByLayerId =>
+  Object.entries(featuresByLayerId).reduce(
+    (acc, [layerId, features]) => ({
+      ...acc,
+      [layerId]: Array.isArray(features)
+        ? features.reduce(
+            (acc, feature) => [
+              ...acc,
+              feature.properties === null
+                ? feature
+                : Object.prototype.hasOwnProperty.call(
+                    feature.properties,
+                    'features'
+                  )
+                ? feature.properties.features.map((f) => {
+                    // TODO: This doesn't lead anywhere useful so far - check with @warmcoolguy; if this shall not work, remove drag-feature and directSelect in combination with useExtendedMasterportalapiMarkers
+                    f.getId = () => Math.floor(Math.random() * 9999999)
+                    f.hasProperties = () => true
+                    f.getProperties = () => f.values_
+                    f.getGeometry = () => f.values_[f.geometryName_]
+                    return JSON.parse(writer.writeFeature(f))
+                  })
+                : feature,
+            ],
+            [] as GeoJsonFeature[]
+          )
+        : features,
+    }),
+    {}
+  )
+
+const createSelectionDiff = (
+  oldSelection: FeaturesByLayerId,
+  newSelection: FeaturesByLayerId
+): FeaturesByLayerId =>
+  Object.entries(newSelection).reduce(
+    (acc, [layerId, features]) => ({
+      ...acc,
+      [layerId]:
+        Array.isArray(features) && Array.isArray(oldSelection[layerId])
+          ? features.reduce((acc, newFeature) => {
+              // If the feature is already in the old selection, remove it
+              const oldFeatureIndex = acc.findIndex((oldFeature) =>
+                compare(oldFeature.properties, newFeature.properties)
+              )
+              return oldFeatureIndex === -1
+                ? [...acc, newFeature]
+                : acc.filter((_, i) => i !== oldFeatureIndex)
+            }, oldSelection[layerId] as GeoJsonFeature[])
+          : features,
+    }),
+    {}
+  )
 
 const errorSymbol = (err) => Symbol(err)
 
@@ -117,18 +177,23 @@ const gfiRequest =
   async (
     {
       commit,
-      getters: { layerKeys },
+      getters,
       rootGetters: { map, configuration },
-      getters: { geometryLayerKeys, afterLoadFunction },
     }: PolarActionContext<GfiState, GfiGetters>,
-    coordinate: [number, number]
+    { coordinateOrExtent, modifierPressed = false }: GetFeatureInfoParameters
   ): Promise<void> => {
+    const {
+      afterLoadFunction,
+      featureInformation,
+      geometryLayerKeys,
+      layerKeys,
+    } = getters
     // fetch new feature information for all configured layers
     const promisedFeatures = getPromisedFeatures(
       map,
       configuration,
       layerKeys,
-      coordinate
+      coordinateOrExtent
     )
     const features = (await Promise.allSettled(promisedFeatures)).map(
       (result) =>
@@ -145,11 +210,19 @@ const gfiRequest =
       features,
       srsName
     )
+    featuresByLayerId = getNestedFeatures(featuresByLayerId)
     // store features in state, if configured via client after specific function
     if (typeof afterLoadFunction === 'function') {
       featuresByLayerId = await afterLoadFunction(
         filterFeatures(featuresByLayerId),
         srsName
+      )
+    }
+    if (modifierPressed) {
+      console.warn(featuresByLayerId[6059])
+      featuresByLayerId = createSelectionDiff(
+        featureInformation,
+        featuresByLayerId
       )
     }
     commit('setFeatureInformation', featuresByLayerId)

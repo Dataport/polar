@@ -1,30 +1,34 @@
 import { Feature as GeoJsonFeature } from 'geojson'
 import { Feature, Map } from 'ol'
 import { GeoJSON } from 'ol/format'
-import BaseLayer from 'ol/layer/Base'
+import VectorLayer from 'ol/layer/Vector'
 
 /**
  * Returns features from GeoJSON layer as GeoJSON.
  */
 export default ({
   map,
-  coordinate,
+  coordinateOrExtent,
   layer,
 }: {
   map: Map
-  coordinate: [number, number]
-  layer: BaseLayer
+  coordinateOrExtent: [number, number] | [number, number, number, number]
+  layer: VectorLayer<Feature>
 }): Promise<GeoJsonFeature[]> =>
   Promise.resolve(
-    map
-      .getFeaturesAtPixel(map.getPixelFromCoordinate(coordinate), {
-        layerFilter: (candidate) => candidate === layer,
-      })
-      .map((feature) =>
-        feature instanceof Feature
-          ? JSON.parse(new GeoJSON().writeFeature(feature))
-          : false
-      )
-      // remove FeatureLikes
-      .filter((x) => x)
+    coordinateOrExtent.length === 2
+      ? map.getFeaturesAtPixel(map.getPixelFromCoordinate(coordinateOrExtent), {
+          layerFilter: (candidate) => candidate === layer,
+        })
+      : // @ts-expect-error | Layers reaching this place have a source TODO: Get a GeoJSON source and check if this works
+        layer
+          .getSource()
+          .getFeaturesInExtent(coordinateOrExtent)
+          .map((feature) =>
+            feature instanceof Feature
+              ? JSON.parse(new GeoJSON().writeFeature(feature))
+              : false
+          )
+          // remove FeatureLikes
+          .filter((x) => x)
   )
