@@ -12,6 +12,9 @@ const language: LanguageOption[] = [
             'Strecken U-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
           rapid:
             'Strecken S-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
+          reports: 'Meldungen durch Bürger',
+          ausgleichsflaechen:
+            'Ausgleichsflächen © Freie und Hansestadt Hamburg, Behörde für Umwelt und Energie',
           hamburgBorder: 'Landesgrenze Hamburg © Freie und Hansestadt Hamburg',
         },
         layers: {
@@ -19,6 +22,8 @@ const language: LanguageOption[] = [
           basemapGrey: 'Basemap.de (Grau)',
           underground: 'U-Bahn',
           rapid: 'S-Bahn',
+          reports: 'Anliegen (MML)',
+          ausgleichsflaechen: 'Ausgleichsflächen',
           hamburgBorder: 'Landesgrenze Hamburg',
         },
       },
@@ -43,6 +48,9 @@ const language: LanguageOption[] = [
             'Railway Lines U-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
           rapid:
             'Railway Lines S-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
+          reports: 'Reports by citizens',
+          ausgleichsflaechen:
+            'Compensation area © Freie und Hansestadt Hamburg, Behörde für Umwelt und Energie',
           hamburgBorder: 'City border Hamburg © Freie und Hansestadt Hamburg',
         },
         layers: {
@@ -50,6 +58,8 @@ const language: LanguageOption[] = [
           basemapGrey: 'Basemap.de (Grey)',
           underground: 'Underground railway (U-Bahn)',
           rapid: 'City rapid railway (S-Bahn)',
+          reports: 'Reports (MML)',
+          ausgleichsflaechen: 'Compensation area',
           hamburgBorder: 'City border Hamburg',
         },
       },

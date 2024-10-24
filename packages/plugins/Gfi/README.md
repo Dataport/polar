@@ -83,6 +83,7 @@ function afterLoadFunction(featuresByLayerId: Record<string, GeoJsonFeature[]>):
 | exportProperty | string? | Property of the features of a service having an url usable to trigger a download of features as a document. |
 | geometry | boolean? | If true, feature geometry will be highlighted within the map. Defaults to `false`. |
 | geometryName | string? | Name of the geometry property if not the default field. |
+| isSelectable | ((feature: GeoJsonFeature) => boolean)? | A function can be defined to allow filtering features to be either selectable (return `true`) or not. Unselectable features will be filtered out by the GFI plugin and have neither GFI display nor store presence, but may be visible in the map nonetheless, depending on your other configuration. Please also mind that usage in combination with `extendedMasterportalapiMarkers` requires further configuration of that feature for smooth UX; see the respective documentation of `@polar/core`. |
 | properties | Record<propertyName, displayName>/string[]? | In case `window` is `true`, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. Displays all properties by default. |
 | showTooltip | ((feature: Feature) => [string, string][])? | If given, a tooltip will be shown with the values calculated for the feature. The first string is the HTML tag to render, the second its contents; contants may be locale keys. For more information regarding the strings, see the documentation of the `@polar/lib-tooltip` package. Defaults to `undefined`. Please mind that tooltips will only be shown if a mouse is used or the hovering device could not be detected. Touch and pen interactions do not open tooltips since they will open the GFI window, rendering the gatherable information redundant. |
 | window | boolean? | If true, properties will be shown in the map client. Defaults to `false`. |
@@ -106,7 +107,8 @@ layers: {
         ['div', `Feature ID: ${feature.properties.id}`],
         ['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`]
       ];
-    };
+    },
+    isSelectable: (feature: Feature): boolean => Boolean(Math.random() < 0.5)
   },
 }
 ```

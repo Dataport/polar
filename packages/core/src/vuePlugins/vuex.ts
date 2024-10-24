@@ -141,6 +141,12 @@ export const makeStore = () => {
         noop(state.selected)
         return selected
       },
+      selectedCoordinates: (state) => {
+        noop(state.selected)
+        return selected === null
+          ? null
+          : (selected.getGeometry() as Point).getCoordinates()
+      },
       // hack: deliver components (outside vuex) based on counter; see NOTE above
       components: (state) => {
         noop(state.components)

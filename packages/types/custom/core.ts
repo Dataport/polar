@@ -20,6 +20,7 @@ import {
 } from 'vuex'
 import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
 import { VueConstructor, WatchOptions } from 'vue'
+import { Coordinate } from 'ol/coordinate'
 
 /**
  *
@@ -250,6 +251,7 @@ export interface GfiLayerConfiguration {
   geometry?: boolean
   // name of field to use for geometry, if not default field
   geometryName?: string
+  isSelectable?: GfiIsSelectableFunction
   maxFeatures?: number
   /**
    * If window is true, the properties are either
@@ -320,6 +322,12 @@ export interface FullscreenConfiguration extends PluginOptions {
   renderType?: RenderType
   targetContainerId?: string
 }
+
+export type ExtendedMasterportalapiMarkersIsSelectableFunction = (
+  feature: Feature
+) => boolean
+
+export type GfiIsSelectableFunction = (feature: GeoJsonFeature) => boolean
 
 /** configurable function to gather additional info */
 export type GfiAfterLoadFunction = (
@@ -579,8 +587,10 @@ export interface ExtendedMasterportalapiMarkers {
   defaultStyle: MarkerStyle
   hoverStyle: MarkerStyle
   selectionStyle: MarkerStyle
+  unselectableStyle: MarkerStyle
   clusterClickZoom?: boolean
   dispatchOnMapSelect?: string
+  isSelectable?: ExtendedMasterportalapiMarkersIsSelectableFunction
 }
 
 export interface MasterportalApiConfig {
@@ -705,6 +715,7 @@ export interface CoreGetters
   moveHandle: MoveHandleProperties
   moveHandleActionButton: MoveHandleActionButton
   selected: Feature | null
+  selectedCoordinate: Coordinate | null
 
   // regular getters
   deviceIsHorizontal: boolean
