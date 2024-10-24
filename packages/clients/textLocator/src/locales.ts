@@ -15,8 +15,6 @@ const locales: LanguageOption[] = [
     type: 'de',
     resources: {
       textLocator: {
-        // TODO temporary key, should be removed when no longer needed
-        notImplemented: 'Diese Funktion ist noch nicht implementiert.',
         layers: {
           [openStreetMap]: 'OpenStreetMap',
           [openSeaMap]: 'OpenSeaMap',
@@ -34,6 +32,9 @@ const locales: LanguageOption[] = [
             language: 'Sprache',
             timeFrame: 'Zeitraum',
           },
+          groupTL: 'Literatur- und Ortssuche',
+          toponym: 'Ortssuche',
+          literature: 'Literatursuche',
         },
         attributions: {
           [openStreetMap]: `$t(textLocator.layers.${openStreetMap}): © <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a> contributors`,
@@ -57,13 +58,8 @@ const locales: LanguageOption[] = [
             'Es gibt viele Ergebnisse zu der letzten Anfrage. Der Ladevorgang kann einen Moment länger dauern.',
         },
         error: {
-          searchCoastalGazetteer:
+          search:
             'Die Suche ist mit einem unbekannten Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut.',
-        },
-      },
-      plugins: {
-        addressSearch: {
-          defaultGroup: 'Ortssuche',
         },
       },
     },

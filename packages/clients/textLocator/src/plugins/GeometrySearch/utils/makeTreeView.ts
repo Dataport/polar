@@ -1,6 +1,6 @@
 import { FeatureCollection } from 'geojson'
 import { TextLocatorCategories, TreeViewItem } from '../types'
-import { TitleLocationFrequency } from '../../../utils/literatureByToponym'
+import { TitleLocationFrequency } from '../../../types'
 
 const sortByCount = (a: TreeViewItem, b: TreeViewItem) => b.count - a.count
 
@@ -52,29 +52,39 @@ export const makeTreeView = (
   const byTextTreeViewItems: TreeViewItem[] = Object.entries(
     titleLocationFrequency
   )
-    .map(
-      ([title, locations]): TreeViewItem => ({
-        id: title, // TODO additional ID requested; switch when available
-        name: title,
-        count: Object.values(locations).reduce((acc, curr) => acc + curr),
-        type: 'text',
-        children: Object.entries(locations)
-          .map(([locationId, count]): TreeViewItem => {
-            const feature = featureCollection.features.find(
-              (feature) => feature.id === locationId
-            )
-            return {
-              id: locationId,
-              name: featureCollection.features.find(
+    .reduce(
+      (
+        accumulator,
+        [literatureId, { title, location_frequency: locationFrequency }]
+      ): TreeViewItem[] => [
+        ...accumulator,
+        {
+          id: literatureId,
+          name: title,
+          count: Object.values(locationFrequency).reduce(
+            (acc, curr) => acc + curr,
+            0
+          ),
+          type: 'text',
+          children: Object.entries(locationFrequency)
+            .map(([locationId, count]): TreeViewItem => {
+              const feature = featureCollection.features.find(
                 (feature) => feature.id === locationId
-              )?.properties?.title,
-              feature,
-              count,
-              type: 'toponym',
-            }
-          })
-          .sort(sortByCount),
-      })
+              )
+              return {
+                id: locationId,
+                name: featureCollection.features.find(
+                  (feature) => feature.id === locationId
+                )?.properties?.title,
+                feature,
+                count,
+                type: 'toponym',
+              }
+            })
+            .sort(sortByCount),
+        },
+      ],
+      [] as TreeViewItem[]
     )
     .sort(sortByCount)
 
