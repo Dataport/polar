@@ -200,7 +200,7 @@ export const addPlugins = (core) => {
 - Import Plugins: Begin by importing all the plugins you wish to use.
 - Configure Plugins: Each plugin is configured with options like layoutTag, displayComponent, and other plugin-specific settings.
 - Add Plugins: Use core.addPlugins([...]) to add the configured plugins to the map.
-- Set Layout: The `NineLayout` system provides a structured and flexible way to display plugins in 3x3 grid (nine sections) on the map within your map application.
+- Set Layout: The `NineLayout` system provides a structured and flexible way to display plugins in a 3x3 grid (nine sections) on the map within your application.
 
 ### 4.4 Integrating Plugins into mapConfiguration.ts and polar-client.ts
 
