@@ -1,23 +1,7 @@
-import { PolarActionContext, PolarStore } from '@polar/lib-custom-types'
+import { PolarActionContext } from '@polar/lib-custom-types'
 import { GeometrySearchGetters, GeometrySearchState } from '../../types'
-import {
-  TitleLocationFrequency,
-  searchLiteratureByToponym,
-} from '../../../../utils/literatureByToponym'
-
-export function setupWatchers(
-  this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
-  {
-    dispatch,
-    rootGetters,
-  }: PolarActionContext<GeometrySearchState, GeometrySearchGetters>
-) {
-  // load titleLocationFrequency on each featureCollection update
-  this.watch(
-    () => rootGetters['plugin/geometrySearch/featureCollection'],
-    () => dispatch('updateFrequencies')
-  )
-}
+import { searchLiteratureByToponym } from '../../../../utils/textLocatorBackend/literatureByToponym'
+import { TitleLocationFrequency } from '../../../../types'
 
 const requestLiteraturePerFeature = (
   featureCollection: GeometrySearchState['featureCollection'],
@@ -28,35 +12,33 @@ const requestLiteraturePerFeature = (
     .filter((names) => names.length)
     .map((names) => searchLiteratureByToponym(textLocatorBackendUrl, names))
 
-const aggregatePerFeatureId =
-  (featureCollection: GeometrySearchState['featureCollection']) =>
-  (
-    featureFrequency: TitleLocationFrequency,
-    index: number
-  ): TitleLocationFrequency =>
-    Object.fromEntries(
-      Object.entries(featureFrequency).map(([literatureTitle, frequency]) => [
-        literatureTitle,
-        {
-          [featureCollection.features[index].id as string]: Object.values(
-            frequency
-          ).reduce((accumulator, current) => accumulator + current, 0),
-        },
-      ])
+const aggregateFeatureHitsByLocationOfLiterature = (
+  featureCollection: GeometrySearchState['featureCollection'],
+  titleLocationFrequencies: TitleLocationFrequency[]
+): TitleLocationFrequency =>
+  titleLocationFrequencies.reduce((accumulator, current, index) => {
+    Object.entries(current).forEach(
+      ([literatureId, { title, location_frequency: locationFrequency }]) => {
+        accumulator[literatureId] = {
+          title,
+          location_frequency: {
+            ...(accumulator[literatureId]?.location_frequency || {}),
+            ...Object.fromEntries(
+              Object.entries(locationFrequency).map((entry) => [
+                featureCollection.features[index].id as string,
+                entry[1] +
+                  (locationFrequency[
+                    featureCollection.features[index].id as string
+                  ] || 0),
+              ])
+            ),
+          },
+        }
+      }
     )
 
-const flattenFrequencies = (
-  accumulator: TitleLocationFrequency,
-  current: TitleLocationFrequency
-) => {
-  Object.entries(current).forEach(([title, findings]) => {
-    accumulator[title] = {
-      ...(accumulator[title] || {}),
-      ...findings,
-    }
-  })
-  return accumulator
-}
+    return accumulator
+  }, {} as TitleLocationFrequency)
 
 export async function updateFrequencies({
   commit,
@@ -78,7 +60,9 @@ export async function updateFrequencies({
     dispatch('changeActiveData', null)
     return
   }
-  const titleLocationFrequency = (
+
+  const titleLocationFrequency = aggregateFeatureHitsByLocationOfLiterature(
+    featureCollection,
     await Promise.all(
       requestLiteraturePerFeature(
         featureCollection,
@@ -87,8 +71,6 @@ export async function updateFrequencies({
       )
     )
   )
-    .map(aggregatePerFeatureId(featureCollection))
-    .reduce(flattenFrequencies, {})
 
   commit('setTitleLocationFrequency', titleLocationFrequency)
   if (Object.keys(titleLocationFrequency).length) {
