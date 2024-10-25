@@ -50,7 +50,7 @@ const loadErrorInfoToast: [string, object] = [
   'plugin/toast/addToast',
   {
     type: 'error',
-    text: 'textLocator.error.searchCoastalGazetteer',
+    text: 'textLocator.error.search',
   },
 ]
 
