@@ -85,16 +85,14 @@ export default Vue.extend({
     },
   },
   computed: {
-    // duck-typing
-    isLiterature(): boolean {
+    isLiterature() {
       return Boolean(this.feature.properties.location_hits)
     },
-    // required TS support missing in template; workaround ...
-    featureAsGeometry(): GeometrySearchState['featureCollection']['features'][number] {
+    featureAsGeometry() {
       return this
         .feature as GeometrySearchState['featureCollection']['features'][number]
     },
-    featureAsLiterature(): LiteratureFeature {
+    featureAsLiterature() {
       return this.feature as LiteratureFeature
     },
   },
@@ -105,6 +103,13 @@ export default Vue.extend({
 .v-icon {
   margin-left: 0.5em;
 }
+
+.result-info-title-display {
+  background: #f5f5f5;
+  color: #333;
+  max-width: 30ch;
+  padding: 0.5em 1em;
+}
 </style>
 
 <style>
@@ -113,12 +118,5 @@ export default Vue.extend({
   padding: 0 !important;
   margin: 0 !important;
   border: 0 !important;
-}
-
-.result-info-title-display {
-  background: #f5f5f5;
-  color: #333;
-  max-width: 30ch;
-  padding: 0.5em 1em;
 }
 </style>

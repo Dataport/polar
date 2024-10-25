@@ -1,11 +1,11 @@
 import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
-import { FeatureCollection, Point } from 'geojson'
+import { FeatureCollection } from 'geojson'
 import { TitleLocationFrequency } from '../../../types'
 import urlSuffix from '../urlSuffix'
 
 const mapResponseToFeatureCollection = (
   titleLocationFrequency: TitleLocationFrequency
-): FeatureCollection<Point, Record<string, number>> => ({
+): FeatureCollection => ({
   type: 'FeatureCollection',
   features: Object.entries(titleLocationFrequency).map(
     ([literatureId, { title, location_frequency: locationFrequency }]) => ({
@@ -13,7 +13,6 @@ const mapResponseToFeatureCollection = (
       // fake geom to fit APIs; ignored by custom selectLiterature
       geometry: { type: 'Point', coordinates: [0, 0] },
       properties: locationFrequency,
-      epsg: null,
       id: literatureId,
       title,
     })
@@ -33,7 +32,7 @@ export function searchLiterature(
       // eslint-disable-next-line @typescript-eslint/naming-convention
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ search_word: inputValue }),
+    body: JSON.stringify({ search_word: `${inputValue}*` }),
     signal,
   })
     .then(async (response): Promise<TitleLocationFrequency> => {
@@ -52,7 +51,7 @@ export function searchLiterature(
         console.error(error)
         this.dispatch('plugin/toast/addToast', {
           type: 'warning',
-          text: 'common:textLocator.error.findLiterature',
+          text: 'common:textLocator.error.search',
         })
       }
 

@@ -45,7 +45,7 @@ export async function searchCoastalGazetteerByToponym(
       console.error('@polar/client-text-locator', e)
       this.dispatch('plugin/toast/addToast', {
         type: 'error',
-        text: 'textLocator.error.searchCoastalGazetteer',
+        text: 'textLocator.error.search',
       })
     }
     return getEmptyFeatureCollection()

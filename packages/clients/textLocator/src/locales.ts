@@ -58,9 +58,7 @@ const locales: LanguageOption[] = [
             'Es gibt viele Ergebnisse zu der letzten Anfrage. Der Ladevorgang kann einen Moment länger dauern.',
         },
         error: {
-          searchCoastalGazetteer:
-            'Die Suche ist mit einem unbekannten Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut.',
-          findLiterature:
+          search:
             'Die Suche ist mit einem unbekannten Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut.',
         },
       },
