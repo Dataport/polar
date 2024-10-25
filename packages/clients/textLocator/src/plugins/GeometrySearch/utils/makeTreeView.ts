@@ -61,8 +61,8 @@ export const makeTreeView = (
         {
           id: literatureId,
           name: title,
-          count: Object.entries(locationFrequency).reduce(
-            (accumulator, current) => accumulator + current[1],
+          count: Object.values(locationFrequency).reduce(
+            (acc, curr) => acc + curr,
             0
           ),
           type: 'text',

@@ -3,13 +3,16 @@ import { SearchResultSymbols } from '@polar/plugin-address-search'
 import { FeatureCollection } from 'geojson'
 import { searchCoastalGazetteerByToponym } from '../../coastalGazetteer/searchToponym'
 import { sorter } from '../../coastalGazetteer/responseInterpreter'
-import { GeometrySearchState } from '../../../plugins/GeometrySearch/types'
+import {
+  GeometrySearchGetters,
+  GeometrySearchState,
+} from '../../../plugins/GeometrySearch/types'
 import { LiteratureFeature, TitleLocationFrequency } from '../../../types'
 
 // NOTE hits (= feature.properties) and featureCollections are in sync; that is, hits[i] had findings featureCollections[i] in gazetteer
 const processLiteratureToponyms = (feature: LiteratureFeature) =>
   function (
-    this: PolarStore<GeometrySearchState, GeometrySearchState>,
+    this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
     featureCollections: FeatureCollection[]
   ) {
     const { commit, dispatch } = this
@@ -21,10 +24,13 @@ const processLiteratureToponyms = (feature: LiteratureFeature) =>
         [toponym, count],
         index
       ) => {
+        // if features found for current toponym, process them
         if (featureCollections[index].features.length) {
+          // best-fitting feature by toponym match is added as representant
           const feature = featureCollections[index].features.sort(
             sorter(toponym, 'title')
           )[0]
+          // the hit frequency is accumulated
           titleLocationFrequencyChild[feature.id || ''] =
             (titleLocationFrequencyChild[feature.id || ''] || 0) + count
           featureCollection.features.push(feature)
@@ -62,7 +68,7 @@ export const selectLiterature: SelectResultFunction<
   GeometrySearchState,
   GeometrySearchState
 > = function (
-  this: PolarStore<GeometrySearchState, GeometrySearchState>,
+  this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
   { commit, rootGetters },
   { feature }
 ) {
