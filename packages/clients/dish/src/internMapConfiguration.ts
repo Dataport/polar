@@ -48,7 +48,6 @@ export const internMapConfiguration = {
       hideInMenu: true,
       type: 'mask',
       name: 'Denkmal (WFS) Intern',
-      minZoom: 5,
     },
     {
       id: denkmaelerWmsIntern,
@@ -74,7 +73,7 @@ export const internMapConfiguration = {
     },
     {
       id: kontrollbedarfIntern,
-      visibility: false,
+      visibility: true,
       type: 'mask',
       name: 'Objekte mit Kontrollbedarf',
       options: {
@@ -229,14 +228,12 @@ export const internMapConfiguration = {
         window: true,
         maxFeatures: 10,
         geometryName: 'app:geometry',
-        exportProperty: 'Export',
       },
       [alkisWfs]: {
         geometry: true,
         window: true,
         maxFeatures: 5,
-        geometryName: 'app:geometry',
-        exportProperty: 'Export',
+        geometryName: 'geometry',
       }
     },
     coordinateSources: [

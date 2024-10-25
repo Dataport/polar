@@ -37,6 +37,7 @@ const pluginGfiExtern = {
 }
 
 const pluginGfiIntern = {
+  coordinateSources: ['plugin/addressSearch/chosenAddress'],
   gfiContentComponent: DishGfiIntern,
 }
 

@@ -37,8 +37,8 @@ export const dishCloudBaseUrl = 'https://dishreserveproxy.dsecurecloud.de'
 
 // TODO
 export const internServicesBaseUrl = isDevMode
-  ? 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/'
-  : `#{HIER MUSS NOCH DER RICHTIGE PLATZHALTER REIN}/dish`
+  ? 'http://10.61.63.54:8081/dish-deegree-3.5.0/services'
+  : `#{HIER MUSS NOCH DER RICHTIGE PLATZHALTER REIN}`
 
 export const denkmaelerWmsService = {
   id: denkmaelerWMS,

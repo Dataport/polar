@@ -21,7 +21,7 @@
       :style="`max-width: ${imgMaxWidth}; min-width: max(${imgMinWidth}, 15%); pointer-events: none; padding: 0 32px;`"
       :src="photo"
     />
-    <v-card-text>
+    <v-card-text id="dish-switch-buttons">
       <v-simple-table dense>
         <template #default>
           <tbody>
@@ -32,6 +32,9 @@
           </tbody>
         </template>
       </v-simple-table>
+      <div id="dish-gfi-switch-buttons">
+        <InternSwitchButton v-if="showSwitchButtons"></InternSwitchButton>
+      </div>
     </v-card-text>
   </v-card>
 </template>
@@ -41,10 +44,11 @@ import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import ActionButton from '../Gfi/ActionButton.vue'
 import { getPhoto } from '../../utils/extendGfi'
+import InternSwitchButton from './InternSwitchButton.vue'
 
 export default Vue.extend({
   name: 'DishGfiIntern',
-  components: { ActionButton },
+  components: { ActionButton, InternSwitchButton },
   data: () => ({
     infoFields: {
       denkmalliste: 'Denkmalliste',
@@ -56,11 +60,12 @@ export default Vue.extend({
       zaehler: 'Zähler',
     },
     infoFieldsAdress: ['strasse', 'hausnummer', 'hausnrzusatz'],
+    infoFielsFlurstueck: ['flstnrzae', 'flstnrnen'],
     photo: '',
   }),
   computed: {
     ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
-    ...mapGetters('plugin/gfi', ['currentProperties']),
+    ...mapGetters('plugin/gfi', ['currentProperties', 'showSwitchButtons']),
     objektIdentifier(): string {
       return this.currentProperties.objektid
     },
@@ -115,6 +120,15 @@ export default Vue.extend({
       ]
       if (address && address.trim() !== '') tableData.push(addressData)
 
+      const flurStueck = this.infoFielsFlurstueck
+        .map((field) => object[field])
+        .filter((value) => value)
+        .join(' / ')
+
+      const flurStueckData = ['Flurstück', flurStueck]
+
+      if (flurStueck && flurStueck.trim() !== '') tableData.push(flurStueckData)
+
       return tableData
     },
     async setImage() {
@@ -139,5 +153,10 @@ export default Vue.extend({
   font-size: 1em;
   font-weight: bolder;
   word-break: break-word;
+}
+
+#dish-gfi-switch-buttons {
+  display: flex;
+  justify-content: right;
 }
 </style>
