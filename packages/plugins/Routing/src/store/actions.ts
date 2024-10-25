@@ -1,10 +1,9 @@
-import { PolarActionTree } from '@polar/lib-costum-types'
+import { PolarActionTree } from '@polar/lib-custom-types'
+import { RoutingState, RoutingGetters } from '../types'
 
 // TODO: <DrawState, DrawGetters> ersetzen
-const actions: PolarActionTree<DrawState, DrawGetters> = {
-  setupModule({ rootGetters: { configuration, map }, commit, getters }) {
-  
-  },
+const actions: PolarActionTree<RoutingState, RoutingGetters> = {
+  setupModule({ rootGetters: { configuration, map }, commit, getters }) {},
 }
 
 export default actions

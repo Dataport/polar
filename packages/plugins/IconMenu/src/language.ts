@@ -30,6 +30,7 @@ const language: LanguageOption[] = [
             filter: 'Filter',
             layerChooser: 'Choose map',
             gfi: 'Feature list',
+            routing: 'Routing tool'
           },
         },
       },

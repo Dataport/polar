@@ -25,6 +25,7 @@
     "@polar/plugin-loading-indicator": "*",
     "@polar/plugin-pins": "*",
     "@polar/plugin-reverse-geocoder": "*",
+    "@polar/plugin-routing": "../../plugins/Routing",
     "@polar/plugin-scale": "*",
     "@polar/plugin-toast": "*",
     "@polar/plugin-zoom": "*"

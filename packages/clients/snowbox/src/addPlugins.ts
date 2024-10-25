@@ -16,6 +16,7 @@ import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
+import Routing from '../../../plugins/Routing'
 
 const defaultOptions = {
   displayComponent: true,
@@ -50,6 +51,11 @@ export const addPlugins = (core) => {
       {
         plugin: GeoLocation({ renderType: 'iconMenu' }),
         id: 'geoLocation',
+      },
+      {
+        plugin: Routing({ renderType: 'iconMenu' }),
+        icon: 'fa-route',
+        id: 'routing',
       },
       {
         plugin: Attributions({

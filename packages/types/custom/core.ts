@@ -413,6 +413,9 @@ export interface ReverseGeocoderConfiguration {
   zoomTo?: number
 }
 
+/** Routing Module Configuration */
+export interface RoutingConfiguration {}
+
 /** Style of a toast */
 export interface ToastStyle {
   /** Color of the toast. */
