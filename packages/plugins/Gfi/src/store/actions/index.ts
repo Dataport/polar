@@ -91,8 +91,7 @@ export const makeActions = () => {
       rootGetters.map.addInteraction(dragBox)
 
       if (getters.gfiConfiguration.directSelect) {
-        // TODO: Check if 'click' event is fine as well
-        rootGetters.map.on('singleclick', ({ coordinate, originalEvent }) =>
+        rootGetters.map.on('click', ({ coordinate, originalEvent }) =>
           dispatch('getFeatureInfo', {
             coordinateOrExtent: coordinate,
             modifierPressed:
