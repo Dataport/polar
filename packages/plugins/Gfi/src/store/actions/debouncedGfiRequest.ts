@@ -185,7 +185,6 @@ const gfiRequest =
       )
     }
     if (modifierPressed) {
-      console.warn(featuresByLayerId[6059])
       featuresByLayerId = createSelectionDiff(
         featureInformation,
         featuresByLayerId
