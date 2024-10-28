@@ -107,39 +107,6 @@ const filterFeatures = (
   return Object.fromEntries(filtered)
 }
 
-const getNestedFeatures = (
-  featuresByLayerId: FeaturesByLayerId
-): FeaturesByLayerId =>
-  Object.entries(featuresByLayerId).reduce(
-    (acc, [layerId, features]) => ({
-      ...acc,
-      [layerId]: Array.isArray(features)
-        ? features.reduce(
-            (acc, feature) => [
-              ...acc,
-              feature.properties === null
-                ? feature
-                : Object.prototype.hasOwnProperty.call(
-                    feature.properties,
-                    'features'
-                  )
-                ? feature.properties.features.map((f) => {
-                    // TODO: This doesn't lead anywhere useful so far - check with @warmcoolguy; if this shall not work, remove drag-feature and directSelect in combination with useExtendedMasterportalapiMarkers
-                    f.getId = () => Math.floor(Math.random() * 9999999)
-                    f.hasProperties = () => true
-                    f.getProperties = () => f.values_
-                    f.getGeometry = () => f.values_[f.geometryName_]
-                    return JSON.parse(writer.writeFeature(f))
-                  })
-                : feature,
-            ],
-            [] as GeoJsonFeature[]
-          )
-        : features,
-    }),
-    {}
-  )
-
 const createSelectionDiff = (
   oldSelection: FeaturesByLayerId,
   newSelection: FeaturesByLayerId
@@ -210,7 +177,6 @@ const gfiRequest =
       features,
       srsName
     )
-    featuresByLayerId = getNestedFeatures(featuresByLayerId)
     // store features in state, if configured via client after specific function
     if (typeof afterLoadFunction === 'function') {
       featuresByLayerId = await afterLoadFunction(
