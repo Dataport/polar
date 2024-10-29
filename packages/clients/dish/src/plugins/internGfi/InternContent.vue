@@ -58,6 +58,8 @@ export default Vue.extend({
       gemeinde: 'Gemeinde',
       objektansprache: 'Ansprache',
       zaehler: 'Zähler',
+      gemarkung: 'Gemarkung',
+      flstkennz: 'Flurstückskennzeichen',
     },
     infoFieldsAdress: ['strasse', 'hausnummer', 'hausnrzusatz'],
     infoFielsFlurstueck: ['flstnrzae', 'flstnrnen'],
