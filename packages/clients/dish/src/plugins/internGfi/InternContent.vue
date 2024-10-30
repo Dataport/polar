@@ -113,13 +113,7 @@ export default Vue.extend({
         .map((field) => object[field])
         .filter((value) => value)
         .join(' ')
-      const addressData = [
-        'Strasse',
-        this.infoFieldsAdress
-          .map((field) => object[field])
-          .filter((value) => value)
-          .join(' '),
-      ]
+      const addressData = ['Strasse', address]
       if (address && address.trim() !== '') tableData.push(addressData)
 
       const flurStueck = this.infoFielsFlurstueck
