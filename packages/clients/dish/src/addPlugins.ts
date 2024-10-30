@@ -23,7 +23,8 @@ import DishModal from './plugins/Modal'
 import DishHeader from './plugins/Header'
 import DishGfiContent from './plugins/Gfi'
 import { MODE } from './enums'
-import DishGfiIntern from './plugins/internGfi'
+import DishGfiIntern from './plugins/InternGfi'
+import DishExportMap from './plugins/DishExportMap'
 
 const defaultOptions = {
   displayComponent: true,
@@ -88,6 +89,10 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
     DishHeader({
       displayComponent: mode === MODE.EXTERN,
       layoutTag: NineLayoutTag.TOP_MIDDLE,
+    }),
+    DishExportMap({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.BOTTOM_LEFT,
     }),
     PolarPluginAddressSearch(
       merge(
