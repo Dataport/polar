@@ -10,10 +10,35 @@
       color="primary"
       fab
       aria-label="Kartendruck"
-      @click="createURLforPrint()"
+      @click="
+        showRectangleAndDialog()
+        setTitle()
+      "
     >
       <v-icon>fa-regular fa-file-pdf</v-icon>
     </v-btn>
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-text>
+          <v-text-field v-model="title" required></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="
+              dialog = false
+              showOverlay = false
+            "
+            >Abbrechen</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="submitText"
+            >Karte drucken</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -31,6 +56,8 @@ export default Vue.extend({
     showOverlay: false,
     rectangleWidth: 893,
     rectangleHeight: 473,
+    dialog: false,
+    title: '',
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
@@ -42,6 +69,9 @@ export default Vue.extend({
     ]),
     ...mapGetters('plugin/gfi', ['currentProperties']),
     ...mapGetters('plugin/scale', ['scaleValue', 'scaleWithUnit']),
+    hasObjectProperties(): boolean {
+      return this.currentProperties && this.currentProperties.objektid
+    },
   },
   mounted() {
     const element = this.$refs.rectangle as HTMLElement
@@ -56,15 +86,29 @@ export default Vue.extend({
     }
   },
   methods: {
-    showRectangle() {
+    showRectangleAndDialog() {
       if (
         !this.transformedCoordinate ||
         this.transformedCoordinate.length === 0
       ) {
         return
       }
-      if (this.overlay && this.transformedCoordinate) {
+      if (this.overlay && this.hasObjectProperties) {
         this.showOverlay = true
+        this.dialog = true
+      }
+    },
+    setTitle() {
+      if (this.overlay && this.hasObjectProperties) {
+        const objectId = this.currentProperties.objektid
+        const address = [
+          this.currentProperties.strasse,
+          this.currentProperties.hausnummer,
+          this.currentProperties.hausnrzusatz,
+        ]
+          .join(' ')
+          .trim()
+        this.title = `${this.currentProperties.gemeinde}, ${address}, ${this.currentProperties.objektansprache}, ONR ${objectId}`
         this.overlay.setPosition(this.transformedCoordinate)
       }
     },
@@ -96,35 +140,24 @@ export default Vue.extend({
         }
       }
     },
-    // eslint-disable-next-line max-lines-per-function
+    openTextInputDialog() {
+      this.dialog = true
+    },
+    submitText() {
+      this.dialog = false
+      this.showOverlay = false
+      this.createURLforPrint()
+    },
     createURLforPrint() {
-      this.showRectangle()
       const bbox = this.getRectangleCoordinates()
-      let objInfos = ''
-      let objectId = ''
-      if (this.currentProperties.objektid) {
-        objectId = this.currentProperties.objektid
-        const address = [
-          this.currentProperties.strasse,
-          this.currentProperties.hausnummer,
-          this.currentProperties.hausnrzusatz,
-        ]
-          .join(' ')
-          .trim()
-        objInfos = `${this.currentProperties.gemeinde}, ${address}, ${this.currentProperties.objektansprache}, ONR ${objectId}`
-      } else {
-        console.warn('currentProperties is undefined')
-        // TODO Toast Information
-        return
-      }
       const baseUrl = 'http://10.61.63.54/Content/Objekt/Kartenausgabe.aspx'
       const printParams = {
         NewTab: true,
-        objektueberschrift: objInfos,
+        objektueberschrift: this.title,
         masssstab: this.scaleValue,
         printApproach: 'scale',
         printRequester: 'client',
-        id: objectId,
+        id: this.currentProperties.objektid,
         xPrint: 18,
         yPrint: 20,
         scale: this.scaleValue,
@@ -161,7 +194,7 @@ export default Vue.extend({
         .join('&')
       const encodedUrl = `${baseUrl}?${queryString}`
 
-      console.warn(encodedUrl)
+      window.open(encodedUrl, '_blank')
     },
   },
 })
