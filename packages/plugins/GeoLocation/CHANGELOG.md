@@ -2,7 +2,9 @@
 
 ## unpublished
 
+- Feature: Position is now tracked when user is outside of the boundary layer but inside the map extent.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
+- Fix: Add missing peerDependency `ol@^9.2.4`.
 
 ## 1.3.1
 

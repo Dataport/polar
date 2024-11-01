@@ -11,6 +11,8 @@ const de: Resource = {
     },
     overlay: {
       noControlOnZoom: 'Verwenden Sie Strg+Scrollen zum Zoomen der Karte',
+      noCommandOnZoom:
+        'Verwenden Sie Command ⌘ + Scrollen zum Zoomen der Karte',
       oneFingerPan:
         'Verwenden Sie mindestens zwei Finger zum Verschieben der Karte',
     },

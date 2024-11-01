@@ -15,32 +15,59 @@
  * docs and .md.)
  *
  * Call like `node ./scripts/makeDocs.js ./path/to/client`.
+ *
+ * Headings in markdowns will get a slugified ID by markdown-it-anchor to be linkable.
+ * It uses the default slugify function:
+ * (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
+ *
  */
 
 // IMPORTS
 const fs = require('fs')
-const markdownIt = require('markdown-it')()
+const MarkdownIt = require('markdown-it')
 
 // SETUP
 const fsOptions = { encoding: 'utf8' }
 const client = process.argv[2]
 const clientPath = `./packages/clients/${client}`
 const docPath = `${clientPath}/docs`
-const polarDependencyPathsBase = `${clientPath}/node_modules/@polar`
+const polarDependencyPathsBase = `node_modules/@polar`
 const cssFiles = [
   'github-markdown.css',
   'github-markdown-light.css',
   'github-markdown-dark.css',
 ]
+const markdownIt = new MarkdownIt({
+  html: true,
+  xhtmlOut: true,
+}).use(require('markdown-it-anchor'))
+
+const defaultHTMLRender = markdownIt.renderer.rules.html_block
+
+markdownIt.renderer.rules.html_block = (tokens, idx, options, env, self) => {
+  ;[...tokens[idx].content.matchAll(/.*src="([^"]*)".*/g)].forEach((match) => {
+    fs.cp(`${env.basePath}/${match[1]}`, `${docPath}/${match[1]}`, (err) => {
+      if (err) {
+        console.error(
+          `Asset copy failed: ${env.basePath}/${match[1]} not found! Please use a relative path and correct the path in ${match.input}`
+        )
+      }
+    })
+  })
+
+  return defaultHTMLRender(tokens, idx, options, env, self)
+}
 
 /**
  * HTMLifies and styles a markdown file.
- * @param {string} filePath path to markdown source file
+ * @param {string} basePath base path client or dependency
+ * @param {string} markdownFileName name of markdown file
  * @param {string[]} [children] files to link to at end of document
  * @returns {string} html document
  */
-function toHtml(filePath, children) {
-  const clientText = fs.readFileSync(filePath, fsOptions)
+function toHtml(basePath, markdownFileName, children) {
+  const markdownFilePath = `${basePath}/${markdownFileName}`
+  const clientText = fs.readFileSync(markdownFilePath, fsOptions)
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +92,7 @@ function toHtml(filePath, children) {
 </head>
 <body>
   <article class="markdown-body">
-    ${markdownIt.render(clientText)}
+    ${markdownIt.render(clientText, { basePath })}
     ${
       children
         ? `<h2>Child documents</h2><nav><ul>
@@ -110,9 +137,18 @@ const filter = (html) => {
 
 const getDistinguishingFileNameFromPath = (path) => path.split('/').slice(-1)[0]
 
+const polarDependencies = Object.keys(
+  JSON.parse(fs.readFileSync(`${clientPath}/package.json`, fsOptions))
+    .devDependencies
+).filter((dependency) => dependency.startsWith('@polar'))
+
 const dependencyPaths = fs
   .readdirSync(polarDependencyPathsBase, { ...fsOptions, withFileTypes: true })
-  .filter((dirent) => dirent.isSymbolicLink() || dirent.isDirectory())
+  .filter(
+    (dirent) =>
+      (dirent.isSymbolicLink() || dirent.isDirectory()) &&
+      polarDependencies.includes(`@polar/${dirent.name}`)
+  )
   .map((dirent) => `${polarDependencyPathsBase}/${dirent.name}`)
 
 if (!fs.existsSync(docPath)) {
@@ -121,18 +157,20 @@ if (!fs.existsSync(docPath)) {
 
 const adjustRelativePathsInHtml = (htmlContent) => {
   return htmlContent.replace(
-    /..\/..\/core\/README.md#global-plugin-parameters/g,
-    () =>
-      `https://dataport.github.io/polar/docs/${client}/core.html#global-plugin-parameters`
+    /..\/..\/core\/README.md/g,
+    () => `https://dataport.github.io/polar/docs/${client}/core.html`
   )
 }
 
-fs.readdirSync(docPath).forEach((f) => fs.rmSync(`${docPath}/${f}`))
-;[clientPath, ...dependencyPaths].forEach((path) => {
-  const isMain = path === clientPath
-  const markdownFile = `${path}/${isMain ? 'API.md' : 'README.md'}`
+fs.readdirSync(docPath).forEach((f) =>
+  fs.rmSync(`${docPath}/${f}`, { recursive: true })
+)
+;[clientPath, ...dependencyPaths].forEach((basePath) => {
+  const isMain = basePath === clientPath
+  const markdownFileName = `${isMain ? 'API.md' : 'README.md'}`
   let html = toHtml(
-    markdownFile,
+    basePath,
+    markdownFileName,
     isMain
       ? dependencyPaths.map(
           (path) => getDistinguishingFileNameFromPath(path) + '.html'
@@ -147,8 +185,8 @@ fs.readdirSync(docPath).forEach((f) => fs.rmSync(`${docPath}/${f}`))
   }
 
   const targetName = `${
-    path === clientPath ? 'client-' : ''
-  }${getDistinguishingFileNameFromPath(path)}`
+    basePath === clientPath ? 'client-' : ''
+  }${getDistinguishingFileNameFromPath(basePath)}`
   fs.writeFileSync(`${docPath}/${targetName}.html`, html, fsOptions)
 })
 

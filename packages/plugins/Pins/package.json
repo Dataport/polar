@@ -1,7 +1,8 @@
 {
   "name": "@polar/plugin-pins",
   "version": "1.3.1",
-  "description": "Plugin Pins",
+  "description": "Pins plugin for POLAR that adds map interactions to client that allow users to indicate a specific point on the map.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "pin", "coordinate"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -20,7 +21,7 @@
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "^7.1.0",
+    "ol": "^9.2.4",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },

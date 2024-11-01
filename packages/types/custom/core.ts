@@ -19,7 +19,7 @@ import {
   SubscribeOptions,
 } from 'vuex'
 import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
-import Vue, { VueConstructor, WatchOptions } from 'vue'
+import { VueConstructor, WatchOptions } from 'vue'
 
 /**
  *
@@ -34,8 +34,22 @@ export interface PluginOptions {
 
 export type RenderType = 'iconMenu' | 'independent' | 'footer'
 
+export type LoaderStyles =
+  | 'CircleLoader'
+  | 'BasicLoader'
+  | 'none'
+  | 'RingLoader'
+  | 'RollerLoader'
+  | 'SpinnerLoader'
+  | 'v-progress-linear'
+
+/** LoadingIndicator Module Configuration */
+export interface LoadingIndicatorConfiguration extends PluginOptions {
+  loaderStyle?: LoaderStyles
+}
+
 /** Possible search methods by type */
-export type SearchType = 'bkg' | 'gazetteer' | 'wfs' | 'mpapi' | string
+export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
 
 /**
  * Additional queryParameters for the GET-Request;
@@ -69,13 +83,13 @@ export type SearchMethodFunction = (
 ) => Promise<FeatureCollection> | never
 
 export interface SelectResultPayload {
-  feature: GeoJsonFeature
+  feature: GeoJsonFeature & { title: string }
   categoryId: number
 }
 
-export type SelectResultFunction = (
-  PolarActionContext,
-  SelectResultPayload
+export type SelectResultFunction<S, G> = (
+  context: PolarActionContext<S, G>,
+  payload: SelectResultPayload
 ) => void
 
 /**
@@ -107,8 +121,10 @@ export interface AddressSearchConfiguration extends PluginOptions {
   categoryProperties?: Record<string, AddressSearchCategoryProperties>
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
+  /** NOTE regarding \<any, any\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here; not using "unknown" since that errors in client configuration, not using "never" since that errors in AddressSearch plugin; this way, "any"thing goes */
   // optional selectResult overrides (client-side injections)
-  customSelectResult?: Record<string, SelectResultFunction>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  customSelectResult?: Record<string, SelectResultFunction<any, any>>
   focusAfterSearch?: boolean
   // definition of groups referred to in searchMethods
   groupProperties?: Record<string, AddressSearchGroupProperties>
@@ -167,6 +183,7 @@ export interface DrawConfiguration extends Partial<PluginOptions> {
   selectableDrawModes?: DrawMode[]
   style?: DrawStyle
   textStyle?: TextStyle
+  enableOptions?: boolean
 }
 
 export interface ExportConfiguration extends PluginOptions {
@@ -233,6 +250,7 @@ export interface GfiLayerConfiguration {
   geometry?: boolean
   // name of field to use for geometry, if not default field
   geometryName?: string
+  maxFeatures?: number
   /**
    * If window is true, the properties are either
    * 1. filtered by whether their key is in a string[]
@@ -307,7 +325,9 @@ export interface FullscreenConfiguration extends PluginOptions {
 export type GfiAfterLoadFunction = (
   featureInformation: Record<string, GeoJsonFeature[]>,
   srsName: string // TODO: Might be interesting to overlap this with mapConfig.namedProjections for type safety in using only allowed epsg codes
-) => Record<string, GeoJsonFeature[] | symbol>
+) =>
+  | Record<string, GeoJsonFeature[] | symbol>
+  | Promise<Record<string, GeoJsonFeature[] | symbol>>
 
 /** GFI Module Configuration */
 export interface FeatureList {
@@ -341,7 +361,7 @@ export interface GfiConfiguration extends PluginOptions {
    * Optionally replace GfiContent component.
    * Usable to completely redesign content of GFI window.
    */
-  gfiContentComponent?: Vue
+  gfiContentComponent?: VueConstructor
   /**
    * Limits the viewable GFIs per layer by this number. The first n elements
    * are chosen arbitrarily. Useful if you e.g. just want one result, or to
@@ -519,6 +539,8 @@ export interface LayerConfiguration {
   options?: LayerConfigurationOptions
   /** Whether the layer should be rendered; defaults to false */
   visibility?: boolean
+  /** layers may have their own gfiMode */
+  gfiMode?: 'bboxDot' | 'intersects'
 }
 
 export interface PolarMapOptions {
@@ -564,32 +586,36 @@ export interface ExtendedMasterportalapiMarkers {
   dispatchOnMapSelect?: string
 }
 
-export interface MapConfig {
-  /** if true, all services' availability will be checked with head requests */
-  checkServiceAvailability?: boolean
-  /** The epsg code of the projection that the map will use */
-  epsg: `EPSG:${string}`
-  /** Configured layers */
-  layers: LayerConfiguration[]
+export interface MasterportalApiConfig {
   /** masterportalapi-type layer configuration */
   layerConf: Record<string, unknown>[]
-  extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
+  /** Initial center coordinate for the mapView */
+  startCenter: [number, number]
+  /** The epsg code of the projection that the map will use */
+  epsg?: `EPSG:${string}`
+  /** Extent in which the map can be viewed in; coordinates are written in the set projection of the map set through this config. */
+  extent?: [number, number, number, number]
   /** Enabled projections for the map; 2nd dimension of the array contains the epsg code as the first parameter and the proj4 definition as the second */
-  namedProjections: Array<[string, string]>
+  namedProjections?: Array<[string, string]>
   /** Mapped resolution to zoomLevel */
   options?: PolarMapOptions[]
-  renderFaToLightDom?: boolean
-  /** Extent in which the map can be viewed in; coordinates are written in the set projection of the map set through this config. */
-  extent?: number[]
-  language?: InitialLanguage
-  locales?: LanguageOption[]
-  /** Initial center coordinate for the mapView */
-  startCenter?: number[]
-  stylePath?: string
   /** Initial resolution the map should be rendered with */
   startResolution?: number
+}
+
+export interface MapConfig extends MasterportalApiConfig {
+  /** Configured layers */
+  layers: LayerConfiguration[]
+  /** if true, all services' availability will be checked with head requests */
+  checkServiceAvailability?: boolean
+  extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
+  language?: InitialLanguage
+  locales?: LanguageOption[]
+  renderFaToLightDom?: boolean
+  stylePath?: string
   vuetify?: UserVuetifyPreset
   addressSearch?: AddressSearchConfiguration
+  loadingIndicator?: LoadingIndicatorConfiguration
   attributions?: AttributionsConfiguration
   draw?: DrawConfiguration
   export?: ExportConfiguration
@@ -624,7 +650,7 @@ type MoveHandleProps = object
 export interface MoveHandleProperties {
   closeLabel: string
   closeFunction: (...args: unknown[]) => unknown
-  component: Vue
+  component: VueConstructor
   // Plugin that added the moveHandle
   plugin: string
   closeIcon?: string
@@ -632,7 +658,7 @@ export interface MoveHandleProperties {
 }
 
 export interface MoveHandleActionButton {
-  component: Vue
+  component: VueConstructor
   props?: MoveHandleProps
 }
 
@@ -641,7 +667,14 @@ export interface CoreState {
   clientHeight: number
   clientWidth: number
   components: number
-  configuration: MapConfig
+  // NOTE: The additional values are not required in the configuration but have default values.
+  configuration: MapConfig &
+    Required<
+      Pick<
+        MasterportalApiConfig,
+        'epsg' | 'namedProjections' | 'options' | 'startResolution'
+      >
+    >
   errors: PolarError[]
   hasSmallDisplay: boolean
   hovered: number
@@ -650,7 +683,9 @@ export interface CoreState {
   mapHasDimensions: boolean
   moveHandle: number
   moveHandleActionButton: number
-  plugin: object
+  // NOTE truly any since external plugins may bring whatever; unknown will lead to further errors
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  plugin: Record<string, any>
   selected: number
   zoomLevel: number
 }
@@ -789,3 +824,12 @@ export declare class PolarStore<S, G> {
     modules?: PolarModuleTree<S, G>
   }): void
 }
+
+/**
+ * Copied from https://stackoverflow.com/a/54178819.#
+ *
+ * Makes the properties defined by type `K` optional in type `T`.
+ *
+ * Example: PartialBy\<CoreState, 'plugin' | 'language'\>
+ */
+export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>

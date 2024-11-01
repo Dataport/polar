@@ -9,7 +9,7 @@ import {
   PinsConfiguration,
   ReverseGeocoderConfiguration,
 } from '@polar/lib-custom-types'
-import { MpApiParameters } from '@polar/plugin-address-search/src/types'
+import { MpApiParameters } from '@polar/plugin-address-search'
 import { MODE, SKAT, REPORT_STATUS } from './enums'
 import language from './language'
 import { MeldemichelCreateMapParams } from './types'
@@ -25,7 +25,6 @@ const hamburgRed = '#ff0019'
 
 const commonMapConfiguration: Partial<MapConfig> = {
   checkServiceAvailability: false, // service register too long
-  epsg: 'EPSG:25832',
   locales: language,
   vuetify: {
     theme: {
@@ -39,16 +38,6 @@ const commonMapConfiguration: Partial<MapConfig> = {
       },
     },
   },
-  namedProjections: [
-    [
-      'EPSG:25832',
-      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-    ],
-    [
-      'EPSG:4326',
-      '+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',
-    ],
-  ],
 }
 
 const commonLayers: LayerConfiguration[] = [

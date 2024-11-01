@@ -14,12 +14,16 @@ POLAR is ...
 
 ## Quick Start
 
-Usage without NPM documented in chapter "Getting started (for developers)".
+Usage without NPM is documented [here](#getting-started-for-developers).
+
+### Installation (via NPM) 
 
 ```bash
 npm i @polar/client-generic
 ```
 
+### Embedding POLAR
+#### .js
 ```js
 import polar from '@polar/client-generic'
 
@@ -39,6 +43,14 @@ polar.createMap({
 })
 ```
 
+#### .html
+```html
+<div
+  style="width: 680px; height: 420px; position: relative;"
+  id="polarstern"
+/>
+```
+
 See our [documentation page](https://dataport.github.io/polar/) for all features and configuration options included in this modulith client, with running examples.
 
 ## Example clients
@@ -54,7 +66,7 @@ Other clients with more specific code include the [Denkmalkarte Schleswig-Holste
 <table align="center">
   <tr align="center">
     <td align="center"><img src="./pages/assets/landessymbole/bremen.svg" alt="Bremer Wappenzeichen" height="120px" style="object-fit: contain;"><div>Freie Hansestadt Bremen</div></td>
-    <td align="center"><img src="./pages/assets/landessymbole/hamburg.svg" alt="Hamburg-Symbol" height="120px" style="object-fit: contain;"><div>Freie Freie und Hansestadt Hamburg</div></td>
+    <td align="center"><img src="./pages/assets/landessymbole/hamburg.svg" alt="Hamburg-Symbol" height="120px" style="object-fit: contain;"><div>Freie und Hansestadt Hamburg</div></td>
   </tr>
   <tr align="center">
     <td align="center"><img src="./pages/assets/landessymbole/sachsen-anhalt.svg" alt="Landessymbol Sachsen-Anhalt" height="120px" style="object-fit: contain;"><div>Sachsen-Anhalt</div></td>
