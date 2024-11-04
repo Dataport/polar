@@ -68,11 +68,6 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['map', 'configuration']),
     ...mapGetters('plugin/pins', ['transformedCoordinate']),
-    ...mapGetters('plugin/layerChooser', [
-      'activeLayerIds',
-      'activeBackgroundId',
-      'activeMaskIds',
-    ]),
     ...mapGetters('plugin/gfi', ['currentProperties']),
     ...mapGetters('plugin/scale', ['scaleValue', 'scaleWithUnit']),
     hasObjectProperties(): boolean {
