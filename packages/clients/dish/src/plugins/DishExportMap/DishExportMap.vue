@@ -93,14 +93,23 @@ export default Vue.extend({
     }
   },
   methods: {
+    showUserInfo() {
+      this.$store.dispatch('plugin/toast/addToast', {
+        type: 'info',
+        text: 'Bitte wählen Sie ein Denkmalobjekt über Klicken in der Karte aus.',
+        timeout: 10000,
+      })
+    },
     showRectangleAndDialog() {
       if (
         !this.transformedCoordinate ||
-        this.transformedCoordinate.length === 0
+        this.transformedCoordinate.length === 0 ||
+        !this.hasObjectProperties
       ) {
+        this.showUserInfo()
         return
       }
-      if (this.overlay && this.hasObjectProperties) {
+      if (this.overlay) {
         this.showOverlay = true
         this.dialog = true
       }
