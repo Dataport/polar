@@ -1,9 +1,10 @@
 import client from '@polar/core'
 import merge from 'lodash.merge'
 import packageInfo from '../package.json'
+import { denkmaelerWfServiceIntern } from './servicesIntern'
 import { navigateToDenkmal } from './utils/navigateToDenkmal'
 import { addPlugins } from './addPlugins'
-import { denkmaelerWfsServiceIntern, services } from './services'
+import { services } from './services'
 import { getMapConfiguration } from './mapConfig'
 import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
@@ -36,7 +37,7 @@ export default {
     const objektId = parameters.get('ObjektID')
 
     if (typeof objektId === 'string' && mode === 'INTERN') {
-      zoomToFeatureById(instance, objektId, denkmaelerWfsServiceIntern.url, {
+      zoomToFeatureById(instance, objektId, denkmaelerWfServiceIntern.url, {
         fieldName: 'objektid',
         featurePrefix: 'app',
         typeName: 'TBLGIS_ORA',

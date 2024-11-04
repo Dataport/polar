@@ -5,16 +5,21 @@
 
 import {
   dishCloudBaseUrl,
-  internServicesBaseUrl,
-  hintergrundkarte,
-  denkmaelerWmsIntern,
-  denkmaelerWFSIntern,
-  kontrollbedarfIntern,
-  verlustIntern,
+  basemapGrau,
   alkisWfs,
   alkisWms,
-  verwaltung,
 } from './services'
+import { 
+  internServicesBaseUrl,
+  denkmaelerWmsIntern,
+  denkmaelerWfsIntern,
+  kontrollbedarfIntern,
+  verlustIntern,
+  verwaltung,
+  bddEinIntern,
+  bddColIntern,
+  aerialPhoto,
+ } from './servicesIntern'
 import { shBlue } from './colors'
 
 export const internMapConfiguration = {
@@ -24,10 +29,28 @@ export const internMapConfiguration = {
   },
   layers: [
     {
-      id: hintergrundkarte,
+      id: basemapGrau,
       visibility: true,
       type: 'background',
       name: 'Basemap Graustufen',
+    },
+    {
+      id: bddEinIntern,
+      visibility: false,
+      type: 'background',
+      name: 'Grundkarte Graustufen',
+    },
+    {
+      id: bddColIntern,
+      visibility: false,
+      type: 'background',
+      name: 'Grundkarte Farbe',
+    },
+    {
+      id: aerialPhoto,
+      visibility: false,
+      type: 'background',
+      name: 'Luftbilder Farbe',
     },
     {
       id: alkisWfs,
@@ -45,7 +68,7 @@ export const internMapConfiguration = {
       minZoom: 10,
     },
     {
-      id: denkmaelerWFSIntern,
+      id: denkmaelerWfsIntern,
       visibility: false,
       hideInMenu: true,
       type: 'mask',
@@ -143,10 +166,10 @@ export const internMapConfiguration = {
     },
   ],
   attributions: {
-    initiallyOpen: true,
+    initiallyOpen: false,
     layerAttributions: [
       {
-        id: hintergrundkarte,
+        id: basemapGrau,
         title:
           'Karte Basemap.de Web Raster Grau: © <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <MONTH> <YEAR>',
       },
@@ -196,7 +219,7 @@ export const internMapConfiguration = {
         type: 'wfs',
         url: `${internServicesBaseUrl}/wfs`,
         queryParameters: {
-          id: denkmaelerWFSIntern,
+          id: denkmaelerWfsIntern,
           srsName: 'EPSG:25832',
           typeName: 'TBLGIS_ORA',
           featurePrefix: 'app',
@@ -271,7 +294,7 @@ export const internMapConfiguration = {
   gfi: {
     mode: 'intersects',
     layers: {
-      [denkmaelerWFSIntern]: {
+      [denkmaelerWfsIntern]: {
         geometry: true,
         window: true,
         maxFeatures: 10,

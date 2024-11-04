@@ -1,17 +1,14 @@
 import { MODE } from './enums'
 
-export const hintergrundkarte = 'hintergrundkarte'
+import { servicesIntern } from './servicesIntern'
+
+export const basemapGrau = 'basemapGrau'
 export const denkmaelerWfsExtern = 'denkmaelerWfsExtern'
 export const denkmaelerWMS = 'denkmaelerWMS'
-export const denkmaelerWmsIntern = 'denkmaelerWmsIntern'
-export const denkmaelerWFSIntern = 'denkmaelerWFSIntern'
-export const kontrollbedarfIntern = 'kontrollbedarfIntern'
-export const verlustIntern = 'verlustIntern'
 export const alkisWfs = 'alkisWfS'
 export const alkisWms = 'alkisWms'
 export const dop20col = 'dop20col'
 export const dop20sw = 'dop20sw'
-export const verwaltung = 'verwaltung'
 export const bddCol = 'bddCol'
 export const bddEin = 'bddEin'
 
@@ -36,12 +33,10 @@ export const dishAutocompleteUrl = `${dishBaseUrl}/dish_suche/ergebnisse/json/al
 
 export const dishCloudBaseUrl = 'https://dishreserveproxy.dsecurecloud.de'
 
-// TODO
-export const internServicesBaseUrl = isDevMode
-  ? 'http://10.61.63.54:8081/dish-deegree-3.5.0/services'
-  : `#{HIER MUSS NOCH DER RICHTIGE PLATZHALTER REIN}`
+export const exportMapAsPdfUrl =
+  'http://10.61.63.54/Content/Objekt/Kartenausgabe.aspx'
 
-export const denkmaelerWmsService = {
+export const denkmaelerWmService = {
   id: denkmaelerWMS,
   name: 'Denkmal WMS',
   url: `${dishDeegreeBaseUrl}/wms_shp`,
@@ -53,7 +48,7 @@ export const denkmaelerWmsService = {
   transparent: true,
 }
 
-export const denkmaelerWfsServiceExtern = {
+export const denkmaelerWfServiceExtern = {
   id: denkmaelerWfsExtern,
   name: 'Denkmäler (WFS)',
   url: `${dishDeegreeBaseUrl}/wfs_shp`,
@@ -61,71 +56,6 @@ export const denkmaelerWfsServiceExtern = {
   version: '2.0.0',
   transparent: true,
   featureType: 'app:dish_shp',
-}
-
-export const denkmaelerWfsServiceIntern = {
-  id: denkmaelerWFSIntern,
-  name: 'Denkmäler (WFS)',
-  url: `${internServicesBaseUrl}/wfs`,
-  typ: 'WFS',
-  version: '2.0.0',
-  transparent: true,
-  featureType: 'app:TBLGIS_ORA',
-}
-const denkmaelerWMsServiceIntern = {
-  id: denkmaelerWmsIntern,
-  name: 'Denkmäler (WMS)',
-  url: `${internServicesBaseUrl}/wms`,
-  typ: 'WMS',
-  layers: '6,15,24,26,25,27,4,13,3,12,2,11,1,10,0,9',
-  legendURL: 'ignore',
-  format: 'image/png',
-  version: '1.3.0',
-  transparent: true,
-}
-const kontrollbedarfServiceIntern = {
-  id: kontrollbedarfIntern,
-  name: 'Objekte mit Kontrollbedarf (WMS)',
-  url: `${internServicesBaseUrl}/wms`,
-  typ: 'WMS',
-  layers: '28,35,29,36,23,34,22,33,21,32,20,31,19,30',
-  legendURL: 'ignore',
-  format: 'image/png',
-  version: '1.3.0',
-  transparent: true,
-}
-const verlustServiceIntern = {
-  id: verlustIntern,
-  name: 'Verlust',
-  url: `${internServicesBaseUrl}/wms`,
-  typ: 'WMS',
-  layers: '7,8,16,17',
-  legendURL: 'ignore',
-  format: 'image/png',
-  version: '1.3.0',
-  transparent: true,
-}
-const AlkisWfService = {
-  id: alkisWfs,
-  name: 'ALKIS',
-  url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
-  typ: 'WFS',
-  version: '2.0.0',
-  transparent: true,
-  featureType: 'ave:Flurstueck',
-}
-
-const AlkisWmService = {
-  id: alkisWms,
-  name: 'ALKIS WMS',
-  url: `${dishCloudBaseUrl}/bkg/ALKIS_FLST`,
-  typ: 'WMS',
-  layers: 'adv_alkis_flurstuecke',
-  legendURL: 'ignore',
-  format: 'image/png',
-  version: '1.3.0',
-  transparent: true,
-  STYLES: 'basemapde',
 }
 
 const dop20ColService = {
@@ -176,20 +106,41 @@ const bddEinService = {
   transparent: true,
 }
 
-const verwaltungsGrenzenService = {
-  id: verwaltung,
-  name: 'Verwaltungsgrenzen',
-  url: `https://intranet.gdi-sh.lr.landsh.de/WMS_SH_VwG`,
-  typ: 'WMS',
-  layers: 'Landesgrenzen,Kreisgrenzen,Aemtergrenzen,Gemeindegrenzen',
-  format: 'image/png',
-  version: '1.0.0',
+const servicesExtern = [
+  denkmaelerWmService,
+  denkmaelerWfServiceExtern,
+  dop20ColService,
+  dop20swService,
+  bddColService,
+  bddEinService,
+]
+
+const AlkisWfService = {
+  id: alkisWfs,
+  name: 'ALKIS',
+  url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
+  typ: 'WFS',
+  version: '2.0.0',
   transparent: true,
+  featureType: 'ave:Flurstueck',
+}
+
+const AlkisWmService = {
+  id: alkisWms,
+  name: 'ALKIS WMS',
+  url: `${dishCloudBaseUrl}/bkg/ALKIS_FLST`,
+  typ: 'WMS',
+  layers: 'adv_alkis_flurstuecke',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+  STYLES: 'basemapde',
 }
 
 const servicesCommon = [
   {
-    id: hintergrundkarte,
+    id: basemapGrau,
     name: 'WMS DE BASEMAP.DE WEB RASTER',
     url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
     typ: 'WMS',
@@ -201,23 +152,6 @@ const servicesCommon = [
   },
   AlkisWfService,
   AlkisWmService,
-]
-
-const servicesExtern = [
-  denkmaelerWmsService,
-  denkmaelerWfsServiceExtern,
-  dop20ColService,
-  dop20swService,
-  bddColService,
-  bddEinService,
-]
-
-const servicesIntern = [
-  denkmaelerWfsServiceIntern,
-  denkmaelerWMsServiceIntern,
-  kontrollbedarfServiceIntern,
-  verlustServiceIntern,
-  verwaltungsGrenzenService,
 ]
 
 export const services = (mode: keyof typeof MODE) => [
