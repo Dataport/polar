@@ -4,19 +4,26 @@
       ref="rectangle"
       :class="showOverlay ? 'rectangle_active' : 'rectangle_inactive'"
     ></div>
-    <v-btn
-      elevation="2"
-      class="ma-2"
-      color="primary"
-      fab
-      aria-label="Kartendruck"
-      @click="
-        showRectangleAndDialog()
-        setTitle()
-      "
-    >
-      <v-icon>fa-regular fa-file-pdf</v-icon>
-    </v-btn>
+    <v-tooltip top>
+      <template #activator="{ on, attrs }">
+        <v-btn
+          elevation="2"
+          class="ma-2"
+          color="primary"
+          fab
+          aria-label="Kartendruck"
+          v-bind="attrs"
+          v-on="on"
+          @click="
+            showRectangleAndDialog()
+            setTitle()
+          "
+        >
+          <v-icon>fa-regular fa-file-pdf</v-icon>
+        </v-btn>
+      </template>
+      <span>Kartendruck PDF</span>
+    </v-tooltip>
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
         <v-card-text>
