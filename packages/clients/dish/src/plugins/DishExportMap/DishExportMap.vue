@@ -52,12 +52,12 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
+import { exportMapAsPdfUrl } from '../../services'
 
 export default Vue.extend({
   name: 'DishExportMap',
   data: () => ({
-    exportBaseUrl:
-      'http://10.61.63.54/Content/Objekt/Kartenausgabe.aspx?NewTab=true&objektueberschrift=',
+    exportBaseUrl: `${exportMapAsPdfUrl}?NewTab=true&objektueberschrift=`,
     overlay: null as Overlay | null,
     showOverlay: false,
     rectangleWidth: 893,
