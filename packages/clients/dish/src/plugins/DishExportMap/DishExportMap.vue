@@ -32,7 +32,6 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="blue darken-1"
             text
             @click="
               dialog = false
@@ -40,7 +39,7 @@
             "
             >{{ $t('common:plugins.dish.exportPDF.buttonCancel') }}</v-btn
           >
-          <v-btn color="blue darken-1" text @click="submitText">{{
+          <v-btn text @click="submitText">{{
             $t('common:plugins.dish.exportPDF.buttonPrint')
           }}</v-btn>
         </v-card-actions>
