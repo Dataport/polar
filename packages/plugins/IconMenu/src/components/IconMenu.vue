@@ -113,6 +113,7 @@ export default Vue.extend({
       } else {
         this.setOpen(index)
         this.openInMoveHandle(index)
+        console.error(`opened index ${index}`)
       }
       this.updateMaxWidth()
     },

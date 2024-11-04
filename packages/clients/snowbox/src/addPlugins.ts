@@ -16,7 +16,7 @@ import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
-import Routing from '../../../plugins/Routing'
+import Routing from '@polar/plugin-routing'
 
 const defaultOptions = {
   displayComponent: true,

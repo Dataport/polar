@@ -168,4 +168,7 @@ export const mapConfiguration = {
       fill: '#ff0019',
     },
   },
+  routing: {
+    url: 'https://sg.geodatenzentrum.de/web_ors/v2/',
+  },
 }

@@ -13,6 +13,7 @@ const language: LanguageOption[] = [
             filter: 'Filter',
             layerChooser: 'Kartenauswahl',
             gfi: 'Objektliste',
+            routing: 'Routenplaner',
           },
         },
       },
@@ -30,7 +31,7 @@ const language: LanguageOption[] = [
             filter: 'Filter',
             layerChooser: 'Choose map',
             gfi: 'Feature list',
-            routing: 'Routing tool'
+            routing: 'Route Planner',
           },
         },
       },
