@@ -23,7 +23,7 @@ import DishModal from './plugins/Modal'
 import DishHeader from './plugins/Header'
 import DishGfiContent from './plugins/Gfi'
 import { MODE } from './enums'
-import DishGfiIntern from './plugins/InternGfi'
+import DishGfiIntern from './plugins/internGfi'
 import DishExportMap from './plugins/DishExportMap'
 
 const defaultOptions = {
