@@ -3,13 +3,13 @@
 
 import { shBlue } from './colors'
 import {
-  denkmaelerWfsExtern,
-  denkmaelerWMS,
-  hintergrundkarte,
+  basemapGrau,
   dishBaseUrl,
   dishCloudBaseUrl,
   alkisWfs,
   alkisWms,
+  denkmaelerWfsExtern,
+  denkmaelerWMS,
   dop20col,
   bddCol,
   bddEin,
@@ -23,7 +23,7 @@ export const exportMapConfiguration = {
   },
   layers: [
     {
-      id: hintergrundkarte,
+      id: basemapGrau,
       visibility: true,
       type: 'background',
       name: 'Basemap Graustufen',
@@ -88,7 +88,7 @@ export const exportMapConfiguration = {
     initiallyOpen: true,
     layerAttributions: [
       {
-        id: hintergrundkarte,
+        id: basemapGrau,
         title:
           'Karte Basemap.de Web Raster Grau: © <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <MONTH> <YEAR>',
       },

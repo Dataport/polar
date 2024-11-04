@@ -1,4 +1,4 @@
-import { denkmaelerWfsServiceExtern } from '../services'
+import { denkmaelerWfServiceExtern } from '../services'
 import { getMapConfiguration } from '../mapConfig'
 import { zoomToFeatureById } from './zoomToFeatureById'
 
@@ -17,7 +17,7 @@ export function navigateToDenkmal(instance, objektId: string) {
       'Client is missing wfsConfig.queryParameters on DISH search method.'
     )
   }
-  zoomToFeatureById(instance, objektId, denkmaelerWfsServiceExtern.url, {
+  zoomToFeatureById(instance, objektId, denkmaelerWfServiceExtern.url, {
     ...wfsConfig.queryParameters.wfsConfiguration,
     useRightHandWildcard: false,
   })

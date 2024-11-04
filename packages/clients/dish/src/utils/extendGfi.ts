@@ -8,12 +8,12 @@ import {
   DishFeatureProperties,
 } from '../types'
 import {
-  denkmaelerWmsService,
-  denkmaelerWfsExtern,
   dishBaseUrl,
+  denkmaelerWmService,
+  denkmaelerWfsExtern,
 } from '../services'
 
-const layerPool = denkmaelerWmsService.layers.split(',')
+const layerPool = denkmaelerWmService.layers.split(',')
 const sachgesamtheitPool = ['9', '10']
 let first = true
 
