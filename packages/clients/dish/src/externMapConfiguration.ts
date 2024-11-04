@@ -194,7 +194,7 @@ export const exportMapConfiguration = {
     ],
     groupProperties: {
       groupDenkmalsuche: {
-        label: 'Denkmalsuche',
+        label: 'Suche Denkmal, Adresse, Flurstück',
         hint: 'common:dish.addressSearchHint',
         resultDisplayMode: 'categorized',
         limitResults: 3,
