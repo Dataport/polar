@@ -22,7 +22,7 @@
           <v-icon>fa-regular fa-file-pdf</v-icon>
         </v-btn>
       </template>
-      <span>Kartendruck PDF</span>
+      <span>{{ $t('common:plugins.dish.exportPDF.tooltip') }}</span>
     </v-tooltip>
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
@@ -38,11 +38,11 @@
               dialog = false
               showOverlay = false
             "
-            >Abbrechen</v-btn
+            >{{ $t('common:plugins.dish.exportPDF.buttonCancel') }}</v-btn
           >
-          <v-btn color="blue darken-1" text @click="submitText"
-            >Karte drucken</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="submitText">{{
+            $t('common:plugins.dish.exportPDF.buttonPrint')
+          }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -96,7 +96,7 @@ export default Vue.extend({
     showUserInfo() {
       this.$store.dispatch('plugin/toast/addToast', {
         type: 'info',
-        text: 'Bitte wählen Sie ein Denkmalobjekt über Klicken in der Karte aus.',
+        text: 'common:plugins.dish.exportPDF.userInfo',
         timeout: 10000,
       })
     },
