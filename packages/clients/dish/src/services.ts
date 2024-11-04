@@ -6,6 +6,7 @@ export const denkmaelerWMS = 'denkmaelerWMS'
 export const denkmaelerWmsIntern = 'denkmaelerWmsIntern'
 export const denkmaelerWFSIntern = 'denkmaelerWFSIntern'
 export const kontrollbedarfIntern = 'kontrollbedarfIntern'
+export const verlustIntern = 'verlustIntern'
 export const alkisWfs = 'alkisWfS'
 export const alkisWms = 'alkisWms'
 export const dop20col = 'dop20col'
@@ -76,7 +77,7 @@ const denkmaelerWMsServiceIntern = {
   name: 'Denkmäler (WMS)',
   url: `${internServicesBaseUrl}/wms`,
   typ: 'WMS',
-  layers: '0,1,2,3,4,6,24,25',
+  layers: '6,15,24,26,25,27,4,13,3,12,2,11,1,10,0,9',
   legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',
@@ -87,7 +88,18 @@ const kontrollbedarfServiceIntern = {
   name: 'Objekte mit Kontrollbedarf (WMS)',
   url: `${internServicesBaseUrl}/wms`,
   typ: 'WMS',
-  layers: '28,29,23,22,21,20,19',
+  layers: '28,35,29,36,23,34,22,33,21,32,20,31,19,30',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+}
+const verlustServiceIntern = {
+  id: verlustIntern,
+  name: 'Verlust',
+  url: `${internServicesBaseUrl}/wms`,
+  typ: 'WMS',
+  layers: '7,8,16,17',
   legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',
@@ -204,6 +216,7 @@ const servicesIntern = [
   denkmaelerWfsServiceIntern,
   denkmaelerWMsServiceIntern,
   kontrollbedarfServiceIntern,
+  verlustServiceIntern,
   verwaltungsGrenzenService,
 ]
 
