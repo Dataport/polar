@@ -53,7 +53,7 @@ export const addPlugins = (core) => {
         id: 'geoLocation',
       },
       {
-        plugin: Routing({ renderType: 'iconMenu' }),
+        plugin: Routing({}),
         icon: 'fa-route',
         id: 'routing',
       },

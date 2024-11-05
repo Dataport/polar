@@ -7,6 +7,11 @@ const getters = {
   route: (_, __, ___, rootGetters): string | undefined => {
     return rootGetters.configuration?.routing?.route
   },
+  renderType: (_, __, ___, rootGetters) => {
+    return rootGetters.configuration?.routing?.renderType
+      ? rootGetters.configuration.routing.renderType
+      : 'independent'
+  },
 }
 
 export default getters
