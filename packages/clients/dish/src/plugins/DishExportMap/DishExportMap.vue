@@ -1,5 +1,5 @@
 <template>
-  <div id="dish-export-button">
+  <div v-if="hasObjectProperties" id="dish-export-button">
     <div
       ref="rectangle"
       :class="showOverlay ? 'rectangle_active' : 'rectangle_inactive'"
@@ -87,20 +87,11 @@ export default Vue.extend({
     }
   },
   methods: {
-    showUserInfo() {
-      this.$store.dispatch('plugin/toast/addToast', {
-        type: 'info',
-        text: 'common:plugins.dish.exportPDF.userInfo',
-        timeout: 10000,
-      })
-    },
     showRectangleAndDialog() {
       if (
         !this.transformedCoordinate ||
-        this.transformedCoordinate.length === 0 ||
-        !this.hasObjectProperties
+        this.transformedCoordinate.length === 0
       ) {
-        this.showUserInfo()
         return
       }
       if (this.overlay) {
