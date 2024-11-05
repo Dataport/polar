@@ -173,6 +173,7 @@ export const exportMapConfiguration = {
         url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
         queryParameters: {
           id: alkisWfs,
+          maxFeatures: 120,
           srsName: 'EPSG:25832',
           typeName: 'Flurstueck',
           featurePrefix: 'ave',
