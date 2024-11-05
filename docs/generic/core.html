@@ -233,9 +233,19 @@ const mapConfiguration = {
 <td>Used as map marker style for hovered features. The default fill color for these markers is <code>'#7B1045'</code>.</td>
 </tr>
 <tr>
+<td>isSelectable</td>
+<td>((feature: GeoJsonFeature) =&gt; boolean)?</td>
+<td>If undefined, all features are selectable. If defined, this can be used to sort out features to be unselectable, and such features will be styled different and won't react on click.</td>
+</tr>
+<tr>
 <td>selectionStyle</td>
 <td>MarkerStyle?</td>
 <td>Used as map marker style for selected features. The default fill color for these markers is <code>'#679100'</code>.</td>
+</tr>
+<tr>
+<td>unselectableStyle</td>
+<td>MarkerStyle?</td>
+<td>Used as a map marker style for unselectable features. Features are unselectable if a given <code>isSelectable</code> method returns falsy for a feature. The default fill color for these markers is <code>'#333333'</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -254,6 +264,11 @@ const mapConfiguration = {
     stroke: '#FFFFFF',
     fill: '#E10019',
   },
+  unselectableStyle: {
+    stroke: '#FFFFFF',
+    fill: '#333333'
+  },
+  isSelectable: (feature: Feature) =&gt; feature.get('indicator')
   clusterClickZoom: true,
   dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
 },

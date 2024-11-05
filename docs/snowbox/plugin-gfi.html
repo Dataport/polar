@@ -165,6 +165,11 @@ function afterLoadFunction(featuresByLayerId: Record&lt;string, GeoJsonFeature[]
 <td>Name of the geometry property if not the default field.</td>
 </tr>
 <tr>
+<td>isSelectable</td>
+<td>((feature: GeoJsonFeature) =&gt; boolean)?</td>
+<td>A function can be defined to allow filtering features to be either selectable (return <code>true</code>) or not. Unselectable features will be filtered out by the GFI plugin and have neither GFI display nor store presence, but may be visible in the map nonetheless, depending on your other configuration. Please also mind that usage in combination with <code>extendedMasterportalapiMarkers</code> requires further configuration of that feature for smooth UX; see the respective documentation of <code>@polar/core</code>.</td>
+</tr>
+<tr>
 <td>properties</td>
 <td>Record&lt;propertyName, displayName&gt;/string[]?</td>
 <td>In case <code>window</code> is <code>true</code>, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. Displays all properties by default.</td>
@@ -198,7 +203,8 @@ function afterLoadFunction(featuresByLayerId: Record&lt;string, GeoJsonFeature[]
         ['div', `Feature ID: ${feature.properties.id}`],
         ['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`]
       ];
-    };
+    },
+    isSelectable: (feature: Feature): boolean =&gt; Boolean(Math.random() &lt; 0.5)
   },
 }
 </code></pre>
