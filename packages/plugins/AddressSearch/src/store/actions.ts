@@ -182,7 +182,7 @@ export const makeActions = () => {
       const customMethod =
         getters.addressSearchConfiguration.customSelectResult?.[categoryId]
       if (customMethod) {
-        customMethod(actionContext, payload)
+        customMethod.call(this, actionContext, payload)
       } else {
         // default behaviour
         commit('setChosenAddress', feature)

@@ -8,6 +8,7 @@ export interface GeoLocationState {
   position: number[]
   tracking: boolean
   isGeolocationDenied: boolean
+  boundaryCheck: boolean | symbol | null
 }
 
 export interface GeoLocationGetters extends GeoLocationState {

@@ -12,7 +12,6 @@
         </template>
         {{ item.name }}
         <template v-if="item.type === 'toponym' && item.feature">
-          &nbsp;
           <ResultInfo
             :tab-index="0"
             :feature="item.feature"

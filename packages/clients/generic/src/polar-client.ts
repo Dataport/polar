@@ -156,38 +156,40 @@ const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
   )
 }
 
+export const createMap = ({
+  containerId,
+  services,
+  mapConfiguration,
+  enabledPlugins = [],
+  modifyLayerConfiguration = (x) => x,
+}: {
+  containerId: string
+  services: object[]
+  mapConfiguration: MapConfig
+  enabledPlugins: Array<PluginName>
+  modifyLayerConfiguration: (layerConf: object[]) => object[]
+}) =>
+  new Promise((resolve) => {
+    const coreInstance = { ...core }
+
+    addPlugins(coreInstance, enabledPlugins)
+
+    coreInstance.rawLayerList.initializeLayerList(
+      services,
+      async (layerConf) => {
+        const client = await coreInstance.createMap({
+          containerId,
+          mapConfiguration: {
+            ...mapConfiguration,
+            layerConf: modifyLayerConfiguration(layerConf),
+          },
+        })
+
+        resolve(client)
+      }
+    )
+  })
+
 export default {
-  createMap: ({
-    containerId,
-    services,
-    mapConfiguration,
-    enabledPlugins = [],
-    modifyLayerConfiguration = (x) => x,
-  }: {
-    containerId: string
-    services: object[]
-    mapConfiguration: MapConfig
-    enabledPlugins: Array<PluginName>
-    modifyLayerConfiguration: (layerConf: object[]) => object[]
-  }) =>
-    new Promise((resolve) => {
-      const coreInstance = { ...core }
-
-      addPlugins(coreInstance, enabledPlugins)
-
-      coreInstance.rawLayerList.initializeLayerList(
-        services,
-        async (layerConf) => {
-          const client = await coreInstance.createMap({
-            containerId,
-            mapConfiguration: {
-              ...mapConfiguration,
-              layerConf: modifyLayerConfiguration(layerConf),
-            },
-          })
-
-          resolve(client)
-        }
-      )
-    }),
+  createMap,
 }

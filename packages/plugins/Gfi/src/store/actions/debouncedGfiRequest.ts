@@ -18,7 +18,7 @@ import { requestGfi } from '../../utils/requestGfi'
 import sortFeatures from '../../utils/sortFeatures'
 import { GfiGetters, GfiState } from '../../types'
 
-const mapFeaturesToLayerIds = (
+const filterAndMapFeaturesToLayerIds = (
   layerKeys: string[],
   gfiConfiguration: GfiConfiguration,
   features: (symbol | GeoJsonFeature<GeoJsonGeometry, GeoJsonProperties>[])[],
@@ -30,10 +30,12 @@ const mapFeaturesToLayerIds = (
     (accumulator, key, index) => ({
       ...accumulator,
       [key]: Array.isArray(features[index])
-        ? (features[index] as []).slice(
-            0,
-            gfiConfiguration.layers[key].maxFeatures || generalMaxFeatures
-          )
+        ? (features[index] as [])
+            .filter(gfiConfiguration.layers[key].isSelectable || (() => true))
+            .slice(
+              0,
+              gfiConfiguration.layers[key].maxFeatures || generalMaxFeatures
+            )
         : features[index],
     }),
     {}
@@ -135,7 +137,7 @@ const gfiRequest =
           : errorSymbol(result.reason.message)
     )
     const srsName: string = map.getView().getProjection().getCode()
-    let featuresByLayerId = mapFeaturesToLayerIds(
+    let featuresByLayerId = filterAndMapFeaturesToLayerIds(
       layerKeys,
       // NOTE if there was no configuration, we would not be here
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
