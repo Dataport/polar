@@ -90,10 +90,6 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       displayComponent: mode === MODE.EXTERN,
       layoutTag: NineLayoutTag.TOP_MIDDLE,
     }),
-    DishExportMap({
-      displayComponent: true,
-      layoutTag: NineLayoutTag.BOTTOM_LEFT,
-    }),
     PolarPluginAddressSearch(
       merge(
         {},
@@ -108,12 +104,6 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
           },
         }
       )
-    ),
-    PolarPluginExport(
-      merge({}, defaultOptions, {
-        displayComponent: mode === MODE.INTERN,
-        layoutTag: NineLayoutTag.BOTTOM_LEFT,
-      })
     ),
     PolarPluginPins({
       displayComponent: mode === MODE.EXTERN,
@@ -181,6 +171,16 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
           layoutTag: NineLayoutTag.MIDDLE_RIGHT,
         }
       )
+    ),
+    DishExportMap({
+      displayComponent: mode === MODE.INTERN,
+      layoutTag: NineLayoutTag.BOTTOM_LEFT,
+    }),
+    PolarPluginExport(
+      merge({}, defaultOptions, {
+        displayComponent: mode === MODE.INTERN,
+        layoutTag: NineLayoutTag.BOTTOM_LEFT,
+      })
     ),
   ])
 }
