@@ -33,9 +33,6 @@ export const dishAutocompleteUrl = `${dishBaseUrl}/dish_suche/ergebnisse/json/al
 
 export const dishCloudBaseUrl = 'https://dishreserveproxy.dsecurecloud.de'
 
-export const exportMapAsPdfUrl =
-  'http://10.61.63.54/Content/Objekt/Kartenausgabe.aspx'
-
 export const denkmaelerWmService = {
   id: denkmaelerWMS,
   name: 'Denkmal WMS',
@@ -138,21 +135,19 @@ const AlkisWmService = {
   STYLES: 'basemapde',
 }
 
-const servicesCommon = [
-  {
-    id: basemapGrau,
-    name: 'WMS DE BASEMAP.DE WEB RASTER',
-    url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
-    typ: 'WMS',
-    layers: 'de_basemapde_web_raster_grau',
-    format: 'image/png',
-    version: '1.3.0',
-    singleTile: false,
-    transparent: true,
-  },
-  AlkisWfService,
-  AlkisWmService,
-]
+const basemapGrauService = {
+  id: basemapGrau,
+  name: 'WMS DE BASEMAP.DE WEB RASTER',
+  url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+  typ: 'WMS',
+  layers: 'de_basemapde_web_raster_grau',
+  format: 'image/png',
+  version: '1.3.0',
+  singleTile: false,
+  transparent: true,
+}
+
+const servicesCommon = [basemapGrauService, AlkisWfService, AlkisWmService]
 
 export const services = (mode: keyof typeof MODE) => [
   ...servicesCommon,

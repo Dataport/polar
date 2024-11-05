@@ -16,6 +16,13 @@ export const internServicesBaseUrl = isDevMode
   ? 'http://10.61.63.54:8081/dish-deegree-3.5.0/services'
   : `#{HIER MUSS NOCH DER RICHTIGE PLATZHALTER REIN}`
 
+// TODO do I need replacements here too?
+export const exportMapAsPdfUrl =
+  'http://10.61.63.54/Content/Objekt/Kartenausgabe.aspx'
+
+// TODO do I need replacements here too?
+export const printImageURL = 'http://10.61.134.23/Content/MapsTmp'
+
 export const denkmaelerWfServiceIntern = {
   id: denkmaelerWfsIntern,
   name: 'Denkmäler (WFS)',
