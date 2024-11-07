@@ -3,6 +3,7 @@ import { GfiConfiguration, PolarGetterTree } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
 import { isVisible } from '@polar/lib-invisible-style'
 import { Cluster as ClusterSource } from 'ol/source'
+import { GeoJSON } from 'ol/format'
 import { GfiGetters, GfiState } from '../types'
 import { listableLayersFilter } from '../utils/listableLayersFilter'
 import getInitialState from './getInitialState'
@@ -204,16 +205,18 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
   },
   listFeatures(
     { visibilityChangeIndicator },
-    { listableLayerSources, listMode },
+    { gfiConfiguration, listableLayerSources, listMode },
     __,
     rootGetters
   ) {
     const { map, clientHeight, clientWidth, center, zoomLevel } = rootGetters
+    const writer = new GeoJSON()
     // trigger getter on those who indicate feature change possibility
     noop(clientHeight, clientWidth, center, zoomLevel)
     noop(visibilityChangeIndicator)
     return listableLayerSources
       .map((source) => {
+        const layerId = source.get('_gfiLayerId')
         return (
           listMode === 'loaded'
             ? source.getFeatures()
@@ -223,9 +226,15 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
               )
         )
           .filter(isVisible)
+          .filter((feature) => {
+            const { isSelectable } = gfiConfiguration.layers[layerId]
+            return typeof isSelectable === 'function'
+              ? isSelectable(JSON.parse(writer.writeFeature(feature)))
+              : true
+          })
           .map((feature) => {
             // true = silent change (prevents cluster recomputation & rerender)
-            feature.set('_gfiLayerId', source.get('_gfiLayerId'), true)
+            feature.set('_gfiLayerId', layerId, true)
             return feature
           })
       })
