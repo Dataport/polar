@@ -146,31 +146,21 @@ const gfiRequest =
     }: PolarActionContext<GfiState, GfiGetters>,
     { coordinateOrExtent, modifierPressed = false }: GetFeatureInfoParameters
   ): Promise<void> => {
-    const {
-      afterLoadFunction,
-      featureInformation,
-      geometryLayerKeys,
-      layerKeys,
-    } = getters
+    const { afterLoadFunction, layerKeys } = getters
     // fetch new feature information for all configured layers
-    const promisedFeatures = getPromisedFeatures(
-      map,
-      configuration,
-      layerKeys,
-      coordinateOrExtent
-    )
-    const features = (await Promise.allSettled(promisedFeatures)).map(
-      (result) =>
-        result.status === 'fulfilled'
-          ? result.value
-          : errorSymbol(result.reason.message)
+    const features = (
+      await Promise.allSettled(
+        getPromisedFeatures(map, configuration, layerKeys, coordinateOrExtent)
+      )
+    ).map((result) =>
+      result.status === 'fulfilled'
+        ? result.value
+        : errorSymbol(result.reason.message)
     )
     const srsName: string = map.getView().getProjection().getCode()
     let featuresByLayerId = filterAndMapFeaturesToLayerIds(
       layerKeys,
-      // NOTE if there was no configuration, we would not be here
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      configuration.gfi!,
+      getters.gfiConfiguration,
       features,
       srsName
     )
@@ -183,13 +173,13 @@ const gfiRequest =
     }
     if (modifierPressed) {
       featuresByLayerId = createSelectionDiff(
-        featureInformation,
+        getters.featureInformation,
         featuresByLayerId
       )
     }
     commit('setFeatureInformation', featuresByLayerId)
     // render feature geometries to help layer
-    geometryLayerKeys
+    getters.geometryLayerKeys
       .filter((key) => Array.isArray(featuresByLayerId[key]))
       .forEach((key) =>
         filterFeatures(featuresByLayerId)[key].forEach((feature) =>
