@@ -81,15 +81,16 @@ export const makeActions = () => {
       }
     },
     setupMultiSelection({ dispatch, getters, rootGetters }) {
-      const dragBox = new DragBox({ condition: platformModifierKeyOnly })
-      dragBox.on('boxend', () =>
-        dispatch('getFeatureInfo', {
-          coordinateOrExtent: dragBox.getGeometry().getExtent(),
-          modifierPressed: true,
-        })
-      )
-      rootGetters.map.addInteraction(dragBox)
-
+      if (getters.gfiConfiguration.multiSelect) {
+        const dragBox = new DragBox({ condition: platformModifierKeyOnly })
+        dragBox.on('boxend', () =>
+          dispatch('getFeatureInfo', {
+            coordinateOrExtent: dragBox.getGeometry().getExtent(),
+            modifierPressed: true,
+          })
+        )
+        rootGetters.map.addInteraction(dragBox)
+      }
       if (getters.gfiConfiguration.directSelect) {
         rootGetters.map.on('click', ({ coordinate, originalEvent }) =>
           dispatch('getFeatureInfo', {
