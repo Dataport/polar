@@ -10,7 +10,6 @@ import { Map, Feature } from 'ol'
 import { Geometry } from 'ol/geom'
 import VectorLayer from 'ol/layer/Vector'
 import compare from 'just-compare'
-import { GeoJSON } from 'ol/format'
 import { addFeature } from '../../utils/displayFeatureLayer'
 import { requestGfi } from '../../utils/requestGfi'
 import sortFeatures from '../../utils/sortFeatures'
@@ -22,8 +21,6 @@ interface GetFeatureInfoParameters {
 }
 
 type FeaturesByLayerId = Record<string, GeoJsonFeature[] | symbol>
-
-const writer = new GeoJSON()
 
 const filterAndMapFeaturesToLayerIds = (
   layerKeys: string[],
