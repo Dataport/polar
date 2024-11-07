@@ -32,7 +32,7 @@ export default ({
       ? map.getFeaturesAtPixel(map.getPixelFromCoordinate(coordinateOrExtent), {
           layerFilter: (candidate) => candidate === layer,
         })
-      : // @ts-expect-error | Layers reaching this place have a source TODO: Get a GeoJSON source and check if this works
+      : // @ts-expect-error | Layers reaching this place have a source
         layer
           .getSource()
           .getFeaturesInExtent(coordinateOrExtent)
