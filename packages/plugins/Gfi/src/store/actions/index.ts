@@ -102,8 +102,6 @@ export const makeActions = () => {
           })
         )
       }
-      // TODO: Add information on how drag works for featureList UI if it works together with drag; also add this in MELMI in that case
-      // TODO: Test DISH and MELMI; fix if broken - currently testing DragSelection in Melmi (see TODO in debouncedGfiRequest)
     },
     setupZoomListeners({ dispatch, getters, rootGetters }) {
       if (getters.gfiConfiguration.featureList) {
