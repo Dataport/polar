@@ -20,7 +20,6 @@ export default {
     urlParamsForProd,
     configOverride,
   }) => {
-    console.warn(urlParamsForProd, mode)
     addPlugins(client, mode)
     const layerConf = services(mode, urlParamsForProd)
     client.rawLayerList.initializeLayerList(layerConf)
