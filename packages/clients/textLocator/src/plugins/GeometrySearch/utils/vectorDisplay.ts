@@ -40,7 +40,6 @@ const featHeat = (
   locationFrequency: TitleLocationFrequency['string']['location_frequency']
 ) => {
   const max = Math.max(...Object.values(locationFrequency))
-  console.error('mäx', max)
   olFeatures.forEach((feature) =>
     feature.set(
       'heat',
