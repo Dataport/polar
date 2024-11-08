@@ -378,7 +378,7 @@ export interface GfiConfiguration extends PluginOptions {
    */
   maxFeatures?: number
   mode?: 'bboxDot' | 'intersects'
-  multiSelect?: boolean
+  boxSelect?: boolean
   renderType?: RenderType
 }
 

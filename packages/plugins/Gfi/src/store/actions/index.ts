@@ -81,7 +81,7 @@ export const makeActions = () => {
       }
     },
     setupMultiSelection({ dispatch, getters, rootGetters }) {
-      if (getters.gfiConfiguration.multiSelect) {
+      if (getters.gfiConfiguration.boxSelect) {
         const dragBox = new DragBox({ condition: platformModifierKeyOnly })
         dragBox.on('boxend', () =>
           dispatch('getFeatureInfo', {
