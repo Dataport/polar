@@ -43,10 +43,12 @@ const commonMapConfiguration = {
   ],
 }
 
-export const getMapConfiguration = (mode: string) => {
+export const getMapConfiguration = (mode: string, urlParamsForProd) => {
   const config = merge({
     ...commonMapConfiguration,
-    ...(mode === 'INTERN' ? internMapConfiguration : exportMapConfiguration),
+    ...(mode === 'INTERN'
+      ? internMapConfiguration(urlParamsForProd)
+      : exportMapConfiguration),
   })
   return config
 }

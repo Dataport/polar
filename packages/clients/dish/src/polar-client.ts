@@ -1,7 +1,7 @@
+/* eslint-disable max-lines-per-function */
 import client from '@polar/core'
 import merge from 'lodash.merge'
 import packageInfo from '../package.json'
-import { denkmaelerWfServiceIntern } from './servicesIntern'
 import { navigateToDenkmal } from './utils/navigateToDenkmal'
 import { addPlugins } from './addPlugins'
 import { services } from './services'
@@ -14,11 +14,17 @@ import { zoomToFeatureById } from './utils/zoomToFeatureById'
 console.log(`DISH map client running in version ${packageInfo.version}.`)
 
 export default {
-  createMap: async ({ containerId, mode, configOverride }) => {
+  createMap: async ({
+    containerId,
+    mode,
+    urlParamsForProd,
+    configOverride,
+  }) => {
+    console.warn(urlParamsForProd, mode)
     addPlugins(client, mode)
-    const layerConf = services(mode)
+    const layerConf = services(mode, urlParamsForProd)
     client.rawLayerList.initializeLayerList(layerConf)
-    const mapConfiguration = getMapConfiguration(mode)
+    const mapConfiguration = getMapConfiguration(mode, urlParamsForProd)
 
     const instance = await client.createMap({
       containerId,
@@ -37,13 +43,18 @@ export default {
     const objektId = parameters.get('ObjektID')
 
     if (typeof objektId === 'string' && mode === 'INTERN') {
-      zoomToFeatureById(instance, objektId, denkmaelerWfServiceIntern.url, {
-        fieldName: 'objektid',
-        featurePrefix: 'app',
-        typeName: 'TBLGIS_ORA',
-        xmlns: 'http://www.deegree.org/app',
-        useRightHandWildcard: false,
-      })
+      zoomToFeatureById(
+        instance,
+        objektId,
+        configOverride.dishExportMap.denkmaelerWfServiceInternUrl,
+        {
+          fieldName: 'objektid',
+          featurePrefix: 'app',
+          typeName: 'TBLGIS_ORA',
+          xmlns: 'http://www.deegree.org/app',
+          useRightHandWildcard: false,
+        }
+      )
     }
 
     if (typeof objektId === 'string' && mode === 'EXTERN') {

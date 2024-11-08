@@ -1,5 +1,3 @@
-import { isDevMode } from './services'
-
 export const denkmaelerWmsIntern = 'denkmaelerWmsIntern'
 export const denkmaelerWfsIntern = 'denkmaelerWfsIntern'
 export const kontrollbedarfIntern = 'kontrollbedarfIntern'
@@ -12,21 +10,20 @@ export const aerialPhoto = 'aerialPhoto'
 export const intranetUrl = 'https://intranet.gdi-sh.lr.landsh.de'
 
 // TODO
-export const internServicesBaseUrl = isDevMode
-  ? 'http://10.61.63.54:8081/dish-deegree-3.5.0/services'
-  : `#{HIER MUSS NOCH DER RICHTIGE PLATZHALTER REIN}`
+// export const internServicesBaseUrl = isDevMode
+//   ? 'http://10.61.63.54:8081/dish-deegree-3.5.0/services'
+//   : `#{HIER MUSS NOCH DER RICHTIGE PLATZHALTER REIN}`
 
 // TODO do I need replacements here too?
-export const exportMapAsPdfUrl =
-  'http://10.61.63.54/Content/Objekt/Kartenausgabe.aspx'
+// export const exportMapAsPdfUrl =
+//   'http://10.61.63.54/Content/Objekt/Kartenausgabe.aspx'
 
 // TODO do I need replacements here too?
-export const printImageURL = 'http://10.61.134.23/Content/MapsTmp'
+// export const printImageURL = 'http://10.61.134.23/Content/MapsTmp'
 
 export const denkmaelerWfServiceIntern = {
   id: denkmaelerWfsIntern,
   name: 'Denkmäler (WFS)',
-  url: `${internServicesBaseUrl}/wfs`,
   typ: 'WFS',
   version: '2.0.0',
   transparent: true,
@@ -35,7 +32,6 @@ export const denkmaelerWfServiceIntern = {
 const denkmaelerWmServiceIntern = {
   id: denkmaelerWmsIntern,
   name: 'Denkmäler (WMS)',
-  url: `${internServicesBaseUrl}/wms`,
   typ: 'WMS',
   layers: '6,15,24,26,25,27,4,13,3,12,2,11,1,10,0,9',
   legendURL: 'ignore',
@@ -46,7 +42,6 @@ const denkmaelerWmServiceIntern = {
 const kontrollbedarfServiceIntern = {
   id: kontrollbedarfIntern,
   name: 'Objekte mit Kontrollbedarf (WMS)',
-  url: `${internServicesBaseUrl}/wms`,
   typ: 'WMS',
   layers: '28,35,29,36,23,34,22,33,21,32,20,31,19,30',
   legendURL: 'ignore',
@@ -57,7 +52,6 @@ const kontrollbedarfServiceIntern = {
 const verlustServiceIntern = {
   id: verlustIntern,
   name: 'Verlust',
-  url: `${internServicesBaseUrl}/wms`,
   typ: 'WMS',
   layers: '7,8,16,17',
   legendURL: 'ignore',

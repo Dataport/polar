@@ -149,7 +149,12 @@ const basemapGrauService = {
 
 const servicesCommon = [basemapGrauService, AlkisWfService, AlkisWmService]
 
-export const services = (mode: keyof typeof MODE) => [
+export const services = (mode: keyof typeof MODE, urlParamsForProd) => [
   ...servicesCommon,
-  ...(mode === MODE.EXTERN ? servicesExtern : servicesIntern),
+  ...(mode === MODE.EXTERN
+    ? servicesExtern
+    : servicesIntern.map((service) => ({
+        ...service,
+        url: urlParamsForProd[`${service.id}Url`],
+      }))),
 ]

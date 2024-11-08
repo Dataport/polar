@@ -52,11 +52,6 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
-import {
-  exportMapAsPdfUrl,
-  internServicesBaseUrl,
-  printImageURL,
-} from '../../servicesIntern'
 
 export default Vue.extend({
   name: 'DishExportMap',
@@ -91,6 +86,7 @@ export default Vue.extend({
   },
   methods: {
     showRectangleAndDialog() {
+      console.warn(this.configuration)
       if (
         !this.transformedCoordinate ||
         this.transformedCoordinate.length === 0
@@ -166,18 +162,18 @@ export default Vue.extend({
         LayerNameHintergrund: 'de_basemapde_web_raster_grau',
         VersionHintergrund: '1.1.1',
         ProxyHintergrund: 'y',
-        urlWMS: `${internServicesBaseUrl}/wms?`,
+        urlWMS: `${this.configuration.dishExportMap.denkmaelerWmsInternUrl}?`,
         VersionWMS: '1.1.1',
         LayerNameWMS:
           '0,9,1,10,2,11,3,12,4,13,25,27,24,26,6,15,19,30,20,31,21,32,22,33,23,34,29,36,28,35',
-        urlWFS: `${internServicesBaseUrl}/wfs?`,
+        urlWFS: `${this.configuration.dishExportMap.denkmaelerWfsInternUrl}?`,
         VersionWFS: '1.1.0',
         LayerNameWFS: 'TBLGIS_ORA',
         PropertyNameWFS: 'objektid',
         FilterTypeWFS: 'EQUAL_TO',
         scaleText: this.scaleWithUnit,
         proxyURL: 'zs-proxy.dataport.de:3128',
-        PrintImageURL: printImageURL,
+        PrintImageURL: this.configuration.dishExportMap.printImageUrlProd,
         PrintImagePath: 'ContentMapsTmp',
       }
       const queryString = Object.keys(printParams)
