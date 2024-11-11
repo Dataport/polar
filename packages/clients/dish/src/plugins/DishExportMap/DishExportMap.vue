@@ -182,7 +182,7 @@ export default Vue.extend({
             `${encodeURIComponent(key)}=${encodeURIComponent(printParams[key])}`
         )
         .join('&')
-      const encodedUrl = `${configuration.dishExportMap.exportMapAsPdfUrl}?${queryString}`
+      const encodedUrl = `${this.configuration.dishExportMap.exportMapAsPdfUrl}?${queryString}`
 
       window.open(encodedUrl, '_blank')
       this.showOverlay = false
