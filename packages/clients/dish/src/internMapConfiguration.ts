@@ -61,7 +61,7 @@ export const internMapConfiguration = (urlParamsForProd) => {
       searchMethods: [
         {
           groupId: 'groupDenkmalsuche',
-          categoryId: 'categoryDenkmalSuche',
+          categoryId: 'categoryDenkmalSucheIntern',
           type: 'wfs',
           url: urlParamsForProd.denkmaelerWfsInternUrl,
           queryParameters: {
@@ -131,7 +131,7 @@ export const internMapConfiguration = (urlParamsForProd) => {
         },
       },
       categoryProperties: {
-        categoryDenkmalSuche: {
+        categoryDenkmalSucheIntern: {
           label: 'Denkmalsuche Treffer',
         },
         categoryBkgSuche: {

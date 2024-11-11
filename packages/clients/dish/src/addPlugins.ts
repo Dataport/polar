@@ -19,6 +19,7 @@ import merge from 'lodash.merge'
 import { extendGfi } from './utils/extendGfi'
 import { search } from './utils/search'
 import { autocomplete, selectResult } from './utils/autocomplete'
+import { denkmalSearchResult } from './utils/denkmalSearchIntern'
 import DishModal from './plugins/Modal'
 import DishHeader from './plugins/Header'
 import DishGfiContent from './plugins/Gfi'
@@ -101,6 +102,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
           customSearchMethods: { dish: search, autocomplete },
           customSelectResult: {
             categoryDenkmalsucheAutocomplete: selectResult,
+            categoryDenkmalSucheIntern: denkmalSearchResult,
           },
         }
       )
