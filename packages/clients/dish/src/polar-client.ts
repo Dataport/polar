@@ -45,7 +45,7 @@ export default {
       zoomToFeatureById(
         instance,
         objektId,
-        configOverride.dishExportMap.denkmaelerWfServiceInternUrl,
+        urlParamsForProd.denkmaelerWfsInternUrl,
         {
           fieldName: 'objektid',
           featurePrefix: 'app',
