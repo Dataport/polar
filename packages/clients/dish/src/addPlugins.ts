@@ -99,14 +99,14 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
           layoutTag: NineLayoutTag.TOP_LEFT,
           addLoading: 'plugin/loadingIndicator/addLoadingKey',
           removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-          customSearchMethods: MODE.EXTERN
-            ? { dish: search, autocomplete }
-            : {},
-          customSelectResult: MODE.EXTERN
-            ? {
-                categoryDenkmalsucheAutocomplete: selectResult,
-              }
-            : { categoryDenkmalSucheIntern: denkmalSearchResult },
+          customSearchMethods:
+            mode === MODE.EXTERN ? { dish: search, autocomplete } : {},
+          customSelectResult:
+            mode === MODE.EXTERN
+              ? {
+                  categoryDenkmalsucheAutocomplete: selectResult,
+                }
+              : { categoryDenkmalSucheIntern: denkmalSearchResult },
         }
       )
     ),
