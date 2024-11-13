@@ -11,9 +11,11 @@ export interface FeatureIndexZip {
 
 export interface RoutingState {
   route: string[]
-  travelMode: string
-  displayPreferredRoute: boolean
-  preferredRoute: string
+  selectedTravelMode: string
+  selectableTravelModes: []
+  displayPreference: boolean
+  selectedPreference: string
+  selectablePreferences: string[]
   displayRouteTypesToAvoid: boolean
   serviceID: string
   numberOfKeysToTriggerSearch: number
@@ -29,6 +31,10 @@ export interface RoutingState {
 
 export interface RoutingGetters extends RoutingState {
   route: string[]
+  selectedTravelMode: string
+  selectedPreference: string
+  travelModeOptions: string[]
+  preferenceOptions: string[]
 }
 
 // TODO: entscheiden, ob ich das brauche

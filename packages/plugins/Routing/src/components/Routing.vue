@@ -6,18 +6,28 @@
       </v-text-field>
       <v-text-field :label="$t('common:plugins.routing.endLabel')">
       </v-text-field>
-      <v-actions>
-        <v-btn>{{ $t('common:plugins.routing.resetButton') }} </v-btn>
-      </v-actions>
+      <v-btn @click="resetCoordinates"
+        >{{ $t('common:plugins.routing.resetButton') }}
+      </v-btn>
       <v-select
+        v-model="selectedTravelModeItem"
         clearable
-        label="common:plugins.routing.modeLabel"
-        :items="$t('common:plugins.routing.travelMode')"
+        :label="$t('common:plugins.routing.modeLabel')"
+        :items="translatedTravelModes"
+        item-value="key"
+        item-text="translatedKey"
       ></v-select>
       <v-select
+        v-model="selectedPreferenceItem"
         clearable
-        label="common:plugins.routing.preferenceLabel"
-        :items="$t('common:plugins.routing.preference')"
+        :label="$t('common:plugins.routing.preferenceLabel')"
+        :items="
+          // mapping in template to guarantee update on language change
+          preferenceOptionsFromMapConfig.map(({ value, text }) => ({
+            value,
+            text: $t(text),
+          }))
+        "
       ></v-select>
       <!--
       //TODO: values definieren - wo?
@@ -43,7 +53,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default Vue.extend({
   name: 'RoutingPlugin',
@@ -52,23 +62,58 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters(['hasSmallDisplay']),
-    ...mapGetters('plugin/routing', ['renderType']),
+    ...mapGetters('plugin/routing', [
+      'renderType',
+      'travelModeOptionsFromMapConfig',
+      'preferenceOptionsFromMapConfig',
+      'selectableTravelModes',
+      'selectablePreferences',
+    ]),
+    selectedTravelModeItem: {
+      get(): string {
+        return this.selectedTravelMode
+      },
+      set(value: string): void {
+        this.setSelectedTravelMode(value)
+      },
+    },
+    selectedPreferenceItem: {
+      get(): string {
+        return this.selectedPreference
+      },
+      set(value: string): void {
+        this.setSelectedPreference(value)
+      },
+    },
+    translatedTravelModes() {
+      return this.selectableTravelModes.map((item) => ({
+        ...item,
+        translatedText: this.$t(item.localKey),
+      }))
+    },
   },
   mounted() {
     this.setupModule()
   },
   methods: {
-    ...mapActions('plugin/routing', ['setupModule']),
+    ...mapActions('plugin/routing', ['setupModule', 'resetCoordinates']),
+    ...mapMutations('plugin/routing', [
+      'setSelectedTravelMode',
+      'setSelectedPreference',
+      'resetCoordinates',
+    ]),
   },
 })
 </script>
 
 <style>
-.polar-plugin-routing-wrapper {
+.polar-routing-menu {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
+  padding-left: 20px;
+  padding-right: 5px;
 }
 </style>

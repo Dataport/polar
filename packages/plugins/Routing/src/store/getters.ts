@@ -12,6 +12,28 @@ const getters = {
       ? rootGetters.configuration.routing.renderType
       : 'independent'
   },
+  selectedTravelMode({ selectedTravelMode }, { selectableTravelModes }) {
+    return selectedTravelMode || selectableTravelModes[0]
+  },
+  selectedPreference({ selectedPreference }, { selectablePreferences }) {
+    return selectedPreference || selectablePreferences[0]
+  },
+  travelModeOptionsFromMapConfig: (
+    _,
+    __,
+    ___,
+    rootGetters
+  ): string[] | undefined => {
+    return rootGetters.configuration?.routing?.selectableTravelModes
+  },
+  preferenceOptionsFromMapConfig: (
+    _,
+    __,
+    ___,
+    rootGetters
+  ): string[] | undefined => {
+    return rootGetters.configuration?.routing?.selectablePreferences
+  },
 }
 
 export default getters

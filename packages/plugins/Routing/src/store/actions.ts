@@ -5,6 +5,9 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   setupModule({ rootGetters: { configuration, map }, commit, getters }) {
     console.error(configuration)
   },
+  resetCoordinates(commit) {
+    commit('setRoute', [0.0, 0.0])
+  },
 }
 
 // TODO: implementieren: updateTravelMode, updateDisplayPreferredRoute, updatePreferredRoute, updateRouteTypesToAvoid
