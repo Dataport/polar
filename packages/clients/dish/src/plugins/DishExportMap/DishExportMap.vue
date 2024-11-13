@@ -1,5 +1,5 @@
 <template>
-  <div v-show="hasObjectProperties" id="dish-export-button">
+  <div>
     <div
       ref="rectangle"
       :class="showOverlay ? 'rectangle_active' : 'rectangle_inactive'"
@@ -7,6 +7,7 @@
     <v-tooltip top>
       <template #activator="{ on, attrs }">
         <v-btn
+          :disabled="!hasObjectProperties"
           elevation="2"
           class="ma-2"
           color="primary"
@@ -22,7 +23,11 @@
           <v-icon>fa-regular fa-file-pdf</v-icon>
         </v-btn>
       </template>
-      <span>{{ $t('common:plugins.dish.exportPDF.tooltip') }}</span>
+      <span>{{
+        hasObjectProperties
+          ? $t('common:plugins.dish.exportPDF.tooltip')
+          : $t('common:plugins.dish.exportPDF.userInfo')
+      }}</span>
     </v-tooltip>
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
