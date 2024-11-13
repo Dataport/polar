@@ -14,12 +14,7 @@ import { zoomToFeatureById } from './utils/zoomToFeatureById'
 console.log(`DISH map client running in version ${packageInfo.version}.`)
 
 export default {
-  createMap: async ({
-    containerId,
-    mode,
-    urlParams,
-    configOverride,
-  }) => {
+  createMap: async ({ containerId, mode, urlParams, configOverride }) => {
     addPlugins(client, mode)
     const layerConf = services(mode, urlParams)
     client.rawLayerList.initializeLayerList(layerConf)
@@ -42,18 +37,13 @@ export default {
     const objektId = parameters.get('ObjektID')
 
     if (typeof objektId === 'string' && mode === 'INTERN') {
-      zoomToFeatureById(
-        instance,
-        objektId,
-        urlParams.denkmaelerWfsInternUrl,
-        {
-          fieldName: 'objektid',
-          featurePrefix: 'app',
-          typeName: 'TBLGIS_ORA',
-          xmlns: 'http://www.deegree.org/app',
-          useRightHandWildcard: false,
-        }
-      )
+      zoomToFeatureById(instance, objektId, urlParams.denkmaelerWfsInternUrl, {
+        fieldName: 'objektid',
+        featurePrefix: 'app',
+        typeName: 'TBLGIS_ORA',
+        xmlns: 'http://www.deegree.org/app',
+        useRightHandWildcard: false,
+      })
     }
 
     if (typeof objektId === 'string' && mode === 'EXTERN') {
