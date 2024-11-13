@@ -35,7 +35,7 @@
       const internalHostPrintImage = 'http://10.61.134.23/Content/MapsTmp'
       const denkmaelerWmsInternUrl = `${internServicesBaseUrl}/wms`
 
-      const urlParamsForProd = {
+      const urlParams = {
         denkmaelerWfsInternUrl: `${internServicesBaseUrl}/wfs`,
         denkmaelerWmsInternUrl,
         kontrollbedarfInternUrl: denkmaelerWmsInternUrl,
@@ -45,13 +45,13 @@
       client.createMap({
         containerId: 'polarstern',
         mode: 'INTERN', // INTERN, EXTERN
-        urlParamsForProd,
+        urlParams,
         configOverride: {
           // dishExportMap needs parameters to recreate url for backend print
           dishExportMap: {
             printImageUrlProd: internalHostPrintImage,
             exportMapAsPdfUrl: `${internalHost}/Content/Objekt/Kartenausgabe.aspx`,
-            denkmaelerWfsInternUrl: urlParamsForProd.denkmaelerWfsInternUrl,
+            denkmaelerWfsInternUrl: urlParams.denkmaelerWfsInternUrl,
             denkmaelerWmsInternUrl,
           },          
         }

@@ -17,13 +17,13 @@ export default {
   createMap: async ({
     containerId,
     mode,
-    urlParamsForProd,
+    urlParams,
     configOverride,
   }) => {
     addPlugins(client, mode)
-    const layerConf = services(mode, urlParamsForProd)
+    const layerConf = services(mode, urlParams)
     client.rawLayerList.initializeLayerList(layerConf)
-    const mapConfiguration = getMapConfiguration(mode, urlParamsForProd)
+    const mapConfiguration = getMapConfiguration(mode, urlParams)
 
     const instance = await client.createMap({
       containerId,
@@ -45,7 +45,7 @@ export default {
       zoomToFeatureById(
         instance,
         objektId,
-        urlParamsForProd.denkmaelerWfsInternUrl,
+        urlParams.denkmaelerWfsInternUrl,
         {
           fieldName: 'objektid',
           featurePrefix: 'app',
