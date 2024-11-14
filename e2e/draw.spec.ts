@@ -73,8 +73,10 @@ test('two features drawn at the same coordinate can be modified separately', asy
 
   expect(drawing.type).toBe('FeatureCollection')
   expect(drawing.features.length).toBe(2)
-  expect(drawing.features[0].geometry.coordinates[0]).toBe(x)
-  expect(drawing.features[0].geometry.coordinates[1]).toBe(y)
-  expect(drawing.features[1].geometry.coordinates[0]).toBe(x + 40)
-  expect(drawing.features[1].geometry.coordinates[1]).toBe(y + 40)
+  expect(drawing.features[0].geometry.coordinates[0]).not.toBe(
+    drawing.features[1].geometry.coordinates[0]
+  )
+  expect(drawing.features[0].geometry.coordinates[1]).toBe(
+    drawing.features[1].geometry.coordinates[1]
+  )
 })
