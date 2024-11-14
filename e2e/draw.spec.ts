@@ -40,3 +40,41 @@ test('clicks to the map produce a fetchable pin coordinate', async ({
   expect(drawing.features.length).toBe(1)
   expect(drawing.features[0].geometry.coordinates[0].length).toBe(7)
 })
+
+test('two features drawn at the same coordinate can be modified separately', async ({
+  page,
+}) => {
+  await openSnowbox(page)
+
+  const canvas = await page.locator('canvas')
+  const boundingBox = await canvas.boundingBox()
+  if (boundingBox === null) throw new Error('Canvas not found.')
+  const { width, height } = boundingBox
+  let { x, y } = boundingBox
+
+  x += width / 2
+  y += height / 2
+
+  await page.getByLabel('Draw tools').click()
+  await page.getByText('Draw and write').click()
+  await page.getByText('Point').click()
+
+  await page.mouse.click(x, y)
+  await page.mouse.click(x, y)
+
+  await page.getByText('Edit').click()
+
+  await page.mouse.move(x, y)
+  await page.mouse.down()
+  await page.mouse.move(x + 40, y + 40)
+  await page.mouse.up()
+
+  const drawing = JSON.parse(await page.locator(drawTargetId).innerText())
+
+  expect(drawing.type).toBe('FeatureCollection')
+  expect(drawing.features.length).toBe(2)
+  expect(drawing.features[0].geometry.coordinates[0]).toBe(x)
+  expect(drawing.features[0].geometry.coordinates[1]).toBe(y)
+  expect(drawing.features[1].geometry.coordinates[0]).toBe(x + 40)
+  expect(drawing.features[1].geometry.coordinates[1]).toBe(y + 40)
+})
