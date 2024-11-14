@@ -6,6 +6,7 @@ export const verwaltung = 'verwaltung'
 export const bddEinIntern = 'bddEinIntern'
 export const bddColIntern = 'bddColIntern'
 export const aerialPhoto = 'aerialPhoto'
+export const beschriftung = 'beschriftung'
 
 export const intranetUrl = 'https://intranet.gdi-sh.lr.landsh.de'
 
@@ -21,17 +22,28 @@ const denkmaelerWmServiceIntern = {
   id: denkmaelerWmsIntern,
   name: 'Denkmäler (WMS)',
   typ: 'WMS',
-  layers: '6,15,24,26,25,27,4,13,3,12,2,11,1,10,0,9',
+  layers: '6,24,25,4,3,2,1,0',
   legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
 }
+const beschriftungService = {
+  id: beschriftung,
+  name: 'Beschriftung',
+  typ: 'WMS',
+  layers: '9,10,11,12,13,15,16,17,26,27,35,36,34,33,32,31,30',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+}
+
 const kontrollbedarfServiceIntern = {
   id: kontrollbedarfIntern,
   name: 'Objekte mit Kontrollbedarf (WMS)',
   typ: 'WMS',
-  layers: '28,35,29,36,23,34,22,33,21,32,20,31,19,30',
+  layers: '28,29,23,22,21,20,19',
   legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',
@@ -41,7 +53,7 @@ const verlustServiceIntern = {
   id: verlustIntern,
   name: 'Verlust',
   typ: 'WMS',
-  layers: '7,8,16,17',
+  layers: '7,8',
   legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',
@@ -98,6 +110,7 @@ export const servicesIntern = [
   kontrollbedarfServiceIntern,
   verlustServiceIntern,
   verwaltungsGrenzenService,
+  beschriftungService,
   bddEinInternService,
   bddColInternService,
   aerialPhotoService,
