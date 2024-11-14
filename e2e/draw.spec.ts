@@ -76,7 +76,7 @@ test('two features drawn at the same coordinate can be modified separately', asy
   expect(drawing.features[0].geometry.coordinates[0]).not.toBe(
     drawing.features[1].geometry.coordinates[0]
   )
-  expect(drawing.features[0].geometry.coordinates[1]).toBe(
+  expect(drawing.features[0].geometry.coordinates[1]).not.toBe(
     drawing.features[1].geometry.coordinates[1]
   )
 })
