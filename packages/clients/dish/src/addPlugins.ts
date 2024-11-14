@@ -84,7 +84,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
   core.addPlugins([
     iconMenu,
     DishModal({
-      displayComponent: mode === MODE.EXTERN,
+      displayComponent: true,
       layoutTag: NineLayoutTag.TOP_LEFT,
     }),
     DishHeader({

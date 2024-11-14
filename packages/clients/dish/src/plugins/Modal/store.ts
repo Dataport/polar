@@ -8,6 +8,7 @@ import { ModalState } from '../../types'
 export const CONTENT_ENUM = {
   WELCOME: 0,
   HINTS: 1,
+  HINTSINTERN: 2,
 }
 
 const getInitialState = (): ModalState => ({

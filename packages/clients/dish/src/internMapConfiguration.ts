@@ -71,7 +71,11 @@ export const internMapConfiguration = (urlParams) => {
       ],
       staticAttributions: [
         `<span>Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/">BKG</a> 2024 <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf">Nutzungsbedingungen</a></span>`,
+        '<a href="#" onclick="window.openBenutzungshinweise(true)">Benutzungshinweise</a>',
       ],
+    },
+    dishModal: {
+      isInternMap: true,
     },
     draw: {
       selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],

@@ -51,8 +51,11 @@ export default {
     }
 
     // @ts-expect-error | intentionally expand window; no environment affected
-    window.openBenutzungshinweise = function () {
-      instance.$store.commit('plugin/modal/setContent', CONTENT_ENUM.HINTS)
+    window.openBenutzungshinweise = function (isIntern = false) {
+      instance.$store.commit(
+        'plugin/modal/setContent',
+        isIntern ? CONTENT_ENUM.HINTSINTERN : CONTENT_ENUM.HINTS
+      )
       instance.$store.commit('plugin/modal/setClosed', false)
     }
   },
