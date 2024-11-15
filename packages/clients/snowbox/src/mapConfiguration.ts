@@ -260,7 +260,7 @@ export const mapConfiguration = {
     },
   },
   routing: {
-    selectableTravelModes: ['Car', 'hdv', 'bike', 'walking', 'wheelchair'],
+    selectableTravelModes: ['walking', 'wheelchair'],
     selectablePreferences: ['recommended', 'fastest', 'shortest'],
     displayPreference: true,
     url: 'https://sg.geodatenzentrum.de/web_ors/v2/',

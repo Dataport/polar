@@ -13,7 +13,7 @@
         v-model="selectedTravelModeItem"
         clearable
         :label="$t('common:plugins.routing.modeLabel')"
-        :items="translatedTravelModes"
+        :items="translatedTravelModeOptions"
         item-value="key"
         item-text="translatedKey"
       ></v-select>
@@ -21,32 +21,25 @@
         v-model="selectedPreferenceItem"
         clearable
         :label="$t('common:plugins.routing.preferenceLabel')"
-        :items="
-          // mapping in template to guarantee update on language change
-          preferenceOptionsFromMapConfig.map(({ value, text }) => ({
-            value,
-            text: $t(text),
-          }))
-        "
+        :items="translatedPreferenceOptions"
+        item-value="key"
+        item-text="translatedKey"
       ></v-select>
-      <!--
-      //TODO: values definieren - wo?
       <v-radio-group
-        inline
-        title="common:plugins.routing.avoidRoutesTitle"
-        :aria-labelledby="`polar-routing-${id}`"
+        v-model="selectedRouteTypesToAvoid"
+        row
+        :label="$t('common:plugins.routing.avoidRoutesTitle')"
         dense
         hide-details
-        :value="initialValue"
-        @change="changeCallback"
       >
         <v-radio
-          v-for="[key, value] in Object.entries(values)"
-          :key="key"
-          :label="$t(value)"
-          :value="key"
+          v-for="route in selectableRouteTypesToAvoid"
+          :key="route.key"
+          :label="$t(translatedRouteTypeToAvoid(route.key))"
+          :value="route.key"
         ></v-radio>
-      </v-radio-group>-->
+      </v-radio-group>
+      <v-btn @click="sendRequest">send Request</v-btn>
     </v-card>
   </v-scroll-x-reverse-transition>
 </template>
@@ -59,6 +52,8 @@ export default Vue.extend({
   name: 'RoutingPlugin',
   data: () => ({
     isOpen: false,
+    // TODO: wieder rausnhemen, wenn es nicht funktioniert
+    inline: null,
   }),
   computed: {
     ...mapGetters(['hasSmallDisplay']),
@@ -68,6 +63,7 @@ export default Vue.extend({
       'preferenceOptionsFromMapConfig',
       'selectableTravelModes',
       'selectablePreferences',
+      'selectableRouteTypesToAvoid',
     ]),
     selectedTravelModeItem: {
       get(): string {
@@ -85,23 +81,49 @@ export default Vue.extend({
         this.setSelectedPreference(value)
       },
     },
-    translatedTravelModes() {
+    translatedTravelModeOptions() {
       return this.selectableTravelModes.map((item) => ({
         ...item,
-        translatedText: this.$t(item.localKey),
+        translatedKey: this.$t(item.localKey),
       }))
+    },
+    translatedPreferenceOptions() {
+      return this.selectablePreferences.map((item) => ({
+        ...item,
+        translatedKey: this.$t(item.localKey),
+      }))
+    },
+    selectedRouteTypesToAvoid: {
+      get(): string {
+        return this.selectedRouteTypesToAvoid
+      },
+      set(value: string): void {
+        this.setSelectedRouteTypesToAvoid(value)
+      },
     },
   },
   mounted() {
     this.setupModule()
   },
   methods: {
-    ...mapActions('plugin/routing', ['setupModule', 'resetCoordinates']),
+    ...mapActions('plugin/routing', [
+      'setupModule',
+      'resetCoordinates',
+      'sendRequest',
+    ]),
     ...mapMutations('plugin/routing', [
       'setSelectedTravelMode',
       'setSelectedPreference',
       'resetCoordinates',
+      'setSelectedRoutesToAvoid',
     ]),
+    translatedRouteTypeToAvoid(myKey) {
+      const localKey = this.selectableRouteTypesToAvoid.find(
+        (element) => element.key === myKey
+      ).localKey
+      console.error(localKey)
+      return localKey
+    },
   },
 })
 </script>
@@ -114,6 +136,6 @@ export default Vue.extend({
   justify-content: space-between;
   align-items: center;
   padding-left: 20px;
-  padding-right: 5px;
+  padding-right: 20px;
 }
 </style>

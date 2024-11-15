@@ -1,5 +1,5 @@
 // TODO: entscheiden, ob ich die LayerConfiguration brauche
-import { Feature, FeatureCollection } from 'geojson'
+import { Feature, FeatureCollection, RoutingConfiguration } from 'geojson'
 
 // TODO: entscheiden, ob ich den IdManipulator brauche
 export type IdManipulator = (ids: (string | number)[]) => (number | string)[]
@@ -15,8 +15,10 @@ export interface RoutingState {
   selectableTravelModes: []
   displayPreference: boolean
   selectedPreference: string
-  selectablePreferences: string[]
+  selectablePreferences: []
   displayRouteTypesToAvoid: boolean
+  selectableRouteTypesToAvoid: []
+  selectedRouteTypesToAvoid: []
   serviceID: string
   numberOfKeysToTriggerSearch: number
   // TODO: überprüfen, ob diese Angaben richtig sind:
@@ -30,11 +32,13 @@ export interface RoutingState {
 }
 
 export interface RoutingGetters extends RoutingState {
+  routingConfiguration: RoutingConfiguration
   route: string[]
+  renderType: string
   selectedTravelMode: string
   selectedPreference: string
-  travelModeOptions: string[]
-  preferenceOptions: string[]
+  travelModeOptionsFromMapConfig: string[]
+  preferenceOptionsFromMapConfig: string[]
 }
 
 // TODO: entscheiden, ob ich das brauche
