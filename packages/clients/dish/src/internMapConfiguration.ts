@@ -98,7 +98,7 @@ export const internMapConfiguration = (urlParams) => {
       },
     },
     export: {
-      download: true,
+      download: false,
       showPng: true,
       showJpg: false,
       showPdf: false,

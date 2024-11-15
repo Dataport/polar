@@ -20,16 +20,25 @@ export default {
     client.rawLayerList.initializeLayerList(layerConf)
     const mapConfiguration = getMapConfiguration(mode, urlParams)
 
-    const instance = await client.createMap({
-      containerId,
-      mapConfiguration: merge(
-        {
-          ...mapConfiguration,
-          layerConf,
-        },
-        configOverride || {}
-      ),
-    })
+    const instance = await client
+      .createMap({
+        containerId,
+        mapConfiguration: merge(
+          {
+            ...mapConfiguration,
+            layerConf,
+          },
+          configOverride || {}
+        ),
+      })
+      .then((map) => {
+        map.subscribe('plugin/export/exportedMap', (screenshot) => {
+          const newWindow = window.open()
+          newWindow?.document.write(
+            `<img src="${screenshot}" alt="Screenshot">`
+          )
+        })
+      })
 
     const parameters = new URL(document.location as unknown as string)
       .searchParams
