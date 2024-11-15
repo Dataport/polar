@@ -32,12 +32,14 @@ export default {
         ),
       })
       .then((map) => {
-        map.subscribe('plugin/export/exportedMap', (screenshot) => {
-          const newWindow = window.open()
-          newWindow?.document.write(
-            `<img src="${screenshot}" alt="Screenshot">`
-          )
-        })
+        if (mode === 'INTERN') {
+          map.subscribe('plugin/export/exportedMap', (screenshot) => {
+            const newWindow = window.open()
+            newWindow?.document.write(
+              `<img src="${screenshot}" alt="Screenshot">`
+            )
+          })
+        }
       })
 
     const parameters = new URL(document.location as unknown as string)
