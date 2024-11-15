@@ -34,13 +34,18 @@ const autocompleteSorter = (inputValue: string) => (a: string, b: string) => {
   const diffB = levenshtein(b, inputValue)
   return diffA - diffB
 }
-
-fetch(dishAutocompleteUrl)
-  .then((response) => response.json())
-  .then((json) => (lookup = json))
-  .catch((e) =>
-    console.error('@polar/client-dish: Autocomplete initialization failed.', e)
-  )
+// prevent error in intern mode because url is not replaced there
+if (!dishAutocompleteUrl.startsWith('#{')) {
+  fetch(dishAutocompleteUrl)
+    .then((response) => response.json())
+    .then((json) => (lookup = json))
+    .catch((e) =>
+      console.error(
+        '@polar/client-dish: Autocomplete initialization failed.',
+        e
+      )
+    )
+}
 
 /**
  * To be usable within the AddressSearch plugin, autocomplete
