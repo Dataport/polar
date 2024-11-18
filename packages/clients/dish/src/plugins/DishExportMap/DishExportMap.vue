@@ -70,6 +70,7 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
+    ...mapGetters('plugin/layerChooser', ['activeBackgroundId']),
     ...mapGetters('plugin/pins', ['transformedCoordinate']),
     ...mapGetters('plugin/gfi', ['currentProperties']),
     ...mapGetters('plugin/scale', ['scaleValue', 'scaleWithUnit']),
@@ -90,8 +91,12 @@ export default Vue.extend({
     }
   },
   methods: {
+    getBackgroundLayer() {
+      return this.configuration.layerConf.find(
+        (layer) => layer.id === this.activeBackgroundId
+      )
+    },
     showRectangleAndDialog() {
-      console.warn(this.configuration)
       if (
         !this.transformedCoordinate ||
         this.transformedCoordinate.length === 0
@@ -144,8 +149,8 @@ export default Vue.extend({
     },
     createURLforPrint() {
       this.dialog = false
+      const backgroundLayer = this.getBackgroundLayer()
       const bbox = this.getRectangleCoordinates()
-      if (!bbox) return
       const printParams = {
         NewTab: true,
         objektueberschrift: this.title,
@@ -163,9 +168,9 @@ export default Vue.extend({
         xCenter: this.transformedCoordinate[0],
         yCenter: this.transformedCoordinate[1],
         mapSRS: this.configuration.epsg,
-        urlHintergrund: 'https://sgx.geodatenzentrum.de/wms_basemapde?',
-        LayerNameHintergrund: 'de_basemapde_web_raster_grau',
-        VersionHintergrund: '1.1.1',
+        urlHintergrund: `${backgroundLayer.url}?`,
+        LayerNameHintergrund: backgroundLayer.layers,
+        VersionHintergrund: backgroundLayer.version,
         ProxyHintergrund: 'y',
         urlWMS: `${this.configuration.dishExportMap.denkmaelerWmsInternUrl}?`,
         VersionWMS: '1.1.1',
