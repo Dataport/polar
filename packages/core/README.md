@@ -53,9 +53,9 @@ If the storeModule features a `setupModule` action, it will be executed automati
 Layers intended to be used in the map have to be initialized by calling `initializeLayerList` with a service register.  
 This register may either be a link to a predefined service register like [the Hamburg service register](https://geodienste.hamburg.de/services-internet.json), or the custom service register that is also used in [mapConfiguration.layerConf](#mapconfigurationlayerconf).
 
-``js
+```js
 core.rawLayerList.initializeLayerList(services: mapConfiguration.layerConf | string, callback?: Function)
-``
+```
 
 [createMap](#createmap) is usually called inside the callback or directly after this function call.  
 
@@ -83,6 +83,7 @@ The mapConfiguration allows controlling many client instance details.
 | <...masterportalapi.fields> | various | Multiple different parameters are required by the masterportalapi to be able to create the map. Also, some fields are optional but relevant and thus described here as well. For all additional options, refer to the documentation of the masterportalapi itself. |
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalapi. |
+| featureStyles | string? | Optional path to define styles for vector features. See `mapConfiguration.featureStyles` for more information. May be a url or a path on the local file system. |
 | language | enum["de", "en"]? | Initial language. |
 | locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
 | <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
@@ -236,6 +237,43 @@ A full documentation of the masterportalapiPolygonFillHatch is available at the 
 >|patternColor|no|Number[]|`[255, 255, 255, 1]`|Fill color of pattern drawn on polygon.|
 >|size|no|Number|`30`|Edge length of a singular repeated pattern element.|
 
+##### mapConfiguration.featureStyles
+
+Vector Layers (GeoJSON and WFS) can also be styled on the client side.
+Configuration and implementation is based on [style.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/User/Global-Config/style.json.md) of `@masterportal/masterportalapi`.
+For the full documentation, including all rules that are applied when parsing the configuration, see the above linked documentation.
+
+Example styling some points of a layer gray that have the value `food` in the property `not bamboo`.
+All Other features will use the provided default green styling.
+A Layer needs to use the property `styleId` in its `mapConfiguration.layers` entry and set it to `panda` to use this styling.
+
+```json
+[
+  {
+    "styleId": "panda",
+    "rules": [
+      {
+        "conditions": {
+          "properties": {
+            "food": "bamboo"
+          }
+        },
+        "style": {
+          "circleStrokeColor": [3, 255, 1, 1],
+          "circleFillColor": [3, 255, 1, 1]
+        }
+      },
+      { 
+        "style": {
+          "circleStrokeColor": [128, 128, 128, 1],
+          "circleFillColor": [128, 128, 128, 1]
+        }
+      }
+    ]
+  }
+]
+```
+
 ##### <...masterportalapi.fields>
 
 The `<...masterportalapi.fields>` means that any masterportalapi field may also be used here _directly_ in the mapConfiguration. The fields described here are fields that are interesting for the usage of POLAR.
@@ -286,15 +324,16 @@ Fields that are not set as required have default values.
 
 ##### mapConfiguration.layerConf
 
-The layer configuration (or: service register) is read by the masterportalapi. The full definition can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+The layer configuration (or: service register) is read by the `@masterportal/masterportalapi`. The full definition can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
 
-However, not all listed services have been implemented in the masterportalapi yet, and no documentation regarding implemented properties exists there yet.
+However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet, and no documentation regarding implemented properties exists there yet.
 
 Whitelisted and confirmed parameters include:
 
 - WMS:  id, name, url, typ, format, version, transparent, layers, STYLES
 - WFS:  id, name, url, typ, outputFormat, version, featureType
 - WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength
+- GeoJSON: id, name, url, typ, format, version, minScale, maxScale, legendURL
 
 ###### Example services register
 
@@ -347,6 +386,17 @@ Whitelisted and confirmed parameters include:
     "typ": "WMTS",
     "layers": "layer-name",
     "legendURL": "my-legend-url"
+  },
+  {
+    "id": "my-geojson",
+    "name": "My GeoJSON data",
+    "url": "Service url",
+    "typ": "GeoJSON",
+    "format": "XML",
+    "version": "1.0",
+    "minScale": "0",
+    "maxScale": "2500000",
+    "legendURL": ""
   }
 ]
 ```
@@ -367,6 +417,7 @@ Since this is the base for many functions, the service id set in this is used to
 | - | - | - |
 | id | string | Service register id in `mapConfiguration.layerConf`. |
 | name | string | Display name in UI. |
+| styleId | string? | Id of the used style. May lead to unexpected results if the layer is also configured to be used with `mapConfiguration.extendedMasterportalapiMarkers`. Only applicable for vector-type layers. For more information and an example see `mapConfiguration.featureStyles`. Defaults and fallbacks to OpenLayers default styling. |
 
 <details>
 <summary>Example configuration</summary>
