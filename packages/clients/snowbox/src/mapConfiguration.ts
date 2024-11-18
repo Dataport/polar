@@ -160,6 +160,7 @@ export const mapConfiguration = {
   gfi: {
     mode: 'bboxDot',
     activeLayerPath: 'plugin/layerChooser/activeMaskIds',
+    boxSelect: true,
     layers: {
       [uBahn]: {
         geometry: true,

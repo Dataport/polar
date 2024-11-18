@@ -45,6 +45,7 @@ describe('GFI Actions', () => {
       layerKeys: ['layer1'],
       geometryLayerKeys: [],
       afterLoadFunction: null,
+      gfiConfiguration: configuration.gfi,
     }
 
     const context = {
@@ -64,6 +65,17 @@ describe('GFI Actions', () => {
   })
   it('should fetch and process features', async () => {
     const commit = jest.fn()
+    const configuration = {
+      gfi: {
+        layers: {
+          layer1: {
+            maxFeatures: 10,
+          },
+        },
+        mode: 'bboxDot',
+        maxFeatures: 10,
+      },
+    }
     const rootGetters = {
       map: {
         getLayers: () => ({
@@ -75,22 +87,13 @@ describe('GFI Actions', () => {
           }),
         }),
       },
-      configuration: {
-        gfi: {
-          layers: {
-            layer1: {
-              maxFeatures: 10,
-            },
-          },
-          mode: 'bboxDot',
-          maxFeatures: 10,
-        },
-      },
+      configuration,
     }
     const getters = {
       layerKeys: ['layer1'],
       geometryLayerKeys: ['layer1'],
       afterLoadFunction: null,
+      gfiConfiguration: configuration.gfi,
     }
 
     const context = {
@@ -127,6 +130,17 @@ describe('GFI Actions', () => {
   })
   it('should handle failed feature request', async () => {
     const commit = jest.fn()
+    const configuration = {
+      gfi: {
+        layers: {
+          layer1: {
+            maxFeatures: 10,
+          },
+        },
+        mode: 'bboxDot',
+        maxFeatures: 10,
+      },
+    }
     const rootGetters = {
       map: {
         getLayers: () => ({
@@ -138,22 +152,13 @@ describe('GFI Actions', () => {
           }),
         }),
       },
-      configuration: {
-        gfi: {
-          layers: {
-            layer1: {
-              maxFeatures: 10,
-            },
-          },
-          mode: 'bboxDot',
-          maxFeatures: 10,
-        },
-      },
+      configuration,
     }
     const getters = {
       layerKeys: ['layer1'],
       geometryLayerKeys: ['layer1'],
       afterLoadFunction: null,
+      gfiConfiguration: configuration.gfi,
     }
 
     const context = {

@@ -34,14 +34,25 @@ const xml2GeoJson = (
 // eslint-disable-next-line max-lines-per-function
 export default ({
   map,
-  coordinate,
+  coordinateOrExtent,
   layerConfiguration,
   layerSpecification,
   mode,
 }: Pick<
   RequestGfiParameters,
-  'map' | 'coordinate' | 'layerConfiguration' | 'layerSpecification' | 'mode'
+  | 'map'
+  | 'coordinateOrExtent'
+  | 'layerConfiguration'
+  | 'layerSpecification'
+  | 'mode'
 >): Promise<GeoJsonFeature[]> => {
+  if (coordinateOrExtent.length === 4 && mode !== 'bboxDot') {
+    return Promise.reject(
+      new Error(
+        `Configuration error in requestGfiWfs.ts: mode must be "bboxDot" to be able to use an extent for gfi requests, but was "${mode}".`
+      )
+    )
+  }
   const { featureType, url, version } = layerSpecification
   const { geometryName } = layerConfiguration
   const code = map.getView().getProjection().getCode()
@@ -49,16 +60,23 @@ export default ({
   let featureUrl = `${url}?service=WFS&version=${version}&request=GetFeature&${typeName}=${featureType}&srsName=${code}`
 
   if (mode === 'bboxDot') {
-    /* The extended extent is necessary because an extent with the same
-     * coordinates could lead to an empty featureCollection. */
-    featureUrl += `&bbox=${[
-      [coordinate[0] - 0.1, coordinate[1] - 0.1],
-      [coordinate[0] + 0.1, coordinate[1] + 0.1],
-    ]},${code}`
+    const extent =
+      coordinateOrExtent.length === 2
+        ? /* The extended extent is necessary because an extent with the same
+           * coordinates could lead to an empty featureCollection. */
+          [
+            coordinateOrExtent[0] - 0.1,
+            coordinateOrExtent[1] - 0.1,
+            coordinateOrExtent[0] + 0.1,
+            coordinateOrExtent[1] + 0.1,
+          ]
+        : coordinateOrExtent
+
+    featureUrl += `&bbox=${extent},${code}`
   } else if (mode === 'intersects') {
     const point =
       `<gml:Point srsName="${code}">` +
-      `<gml:coordinates>${coordinate[0]},${coordinate[1]}</gml:coordinates>` +
+      `<gml:coordinates>${coordinateOrExtent[0]},${coordinateOrExtent[1]}</gml:coordinates>` +
       '</gml:Point>'
     featureUrl +=
       '&FILTER=' +

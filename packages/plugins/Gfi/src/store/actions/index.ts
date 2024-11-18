@@ -1,5 +1,4 @@
 import debounce from 'lodash.debounce'
-import { Coordinate } from 'ol/coordinate'
 import { Style, Fill, Stroke } from 'ol/style'
 import Overlay from 'ol/Overlay'
 import { GeoJSON } from 'ol/format'
@@ -8,6 +7,8 @@ import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import getCluster from '@polar/lib-get-cluster'
 import { getTooltip, Tooltip } from '@polar/lib-tooltip'
+import { DragBox } from 'ol/interaction'
+import { platformModifierKeyOnly } from 'ol/events/condition'
 import { getFeatureDisplayLayer, clear } from '../../utils/displayFeatureLayer'
 import { GfiGetters, GfiState } from '../../types'
 import { getOriginalFeature } from '../../utils/getOriginalFeature'
@@ -40,7 +41,7 @@ export const makeActions = () => {
       const reaction = (coordinate) => {
         clear(featureDisplayLayer)
         if (coordinate && coordinate.length) {
-          dispatch('getFeatureInfo', coordinate)
+          dispatch('getFeatureInfo', { coordinateOrExtent: coordinate })
         }
       }
 
@@ -64,6 +65,7 @@ export const makeActions = () => {
       dispatch('setupFeatureVisibilityUpdates')
       dispatch('setupCoreListener')
       dispatch('setupZoomListeners')
+      dispatch('setupMultiSelection')
     },
     setupCoreListener({
       getters: { gfiConfiguration },
@@ -75,6 +77,29 @@ export const makeActions = () => {
           () => rootGetters.selected,
           (feature) => dispatch('setOlFeatureInformation', { feature }),
           { deep: true }
+        )
+      }
+    },
+    setupMultiSelection({ dispatch, getters, rootGetters }) {
+      if (getters.gfiConfiguration.boxSelect) {
+        const dragBox = new DragBox({ condition: platformModifierKeyOnly })
+        dragBox.on('boxend', () =>
+          dispatch('getFeatureInfo', {
+            coordinateOrExtent: dragBox.getGeometry().getExtent(),
+            modifierPressed: true,
+          })
+        )
+        rootGetters.map.addInteraction(dragBox)
+      }
+      if (getters.gfiConfiguration.directSelect) {
+        rootGetters.map.on('click', ({ coordinate, originalEvent }) =>
+          dispatch('getFeatureInfo', {
+            coordinateOrExtent: coordinate,
+            modifierPressed:
+              navigator.userAgent.indexOf('Mac') !== -1
+                ? originalEvent.metaKey
+                : originalEvent.ctrlKey,
+          })
         )
       }
     },
@@ -177,12 +202,11 @@ export const makeActions = () => {
           ),
         10
       )
-      const usedLayers = Object.keys(getters.gfiConfiguration.layers)
       rootGetters.map
         .getLayers()
         .getArray()
         .forEach((layer) => {
-          if (usedLayers.includes(layer.get('id'))) {
+          if (getters.layerKeys.includes(layer.get('id'))) {
             layer
               // @ts-expect-error | layers reaching this have a source
               .getSource()
@@ -211,13 +235,15 @@ export const makeActions = () => {
      */
     async getFeatureInfo(
       { commit, dispatch },
-      coordinate: Coordinate
+      coordinateOrExtent: [number, number] | [number, number, number, number]
     ): Promise<GeoJsonFeature[]> {
-      commit('clearFeatureInformation')
-      commit('setVisibleWindowFeatureIndex', 0)
+      if (coordinateOrExtent.length === 2) {
+        commit('clearFeatureInformation')
+        commit('setVisibleWindowFeatureIndex', 0)
+      }
       clear(featureDisplayLayer)
       // call further stepped in a debounced fashion to avoid a mess
-      return await dispatch('debouncedGfiRequest', coordinate)
+      return await dispatch('debouncedGfiRequest', coordinateOrExtent)
     },
     debouncedGfiRequest: debouncedGfiRequest(featureDisplayLayer),
     setCoreSelection(
