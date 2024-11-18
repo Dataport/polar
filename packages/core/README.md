@@ -417,7 +417,7 @@ Since this is the base for many functions, the service id set in this is used to
 | - | - | - |
 | id | string | Service register id in `mapConfiguration.layerConf`. |
 | name | string | Display name in UI. |
-| styleId | string? | Id of the used style. May lead to unexpected results if the layer is also configured to be used with `mapConfiguration.extendedMasterportalapiMarkers`. For more information and an example see `mapConfiguration.featureStyles`. Defaults and fallbacks to OpenLayers default styling. |
+| styleId | string? | Id of the used style. May lead to unexpected results if the layer is also configured to be used with `mapConfiguration.extendedMasterportalapiMarkers`. Only applicable for vector-type layers. For more information and an example see `mapConfiguration.featureStyles`. Defaults and fallbacks to OpenLayers default styling. |
 
 <details>
 <summary>Example configuration</summary>
