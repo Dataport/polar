@@ -32,6 +32,7 @@ export interface GeometrySearchState {
   >
   titleLocationFrequency: TitleLocationFrequency
   byCategory: TextLocatorCategories
+  lastSearch: 'geometrySearch' | 'literatureSearch' | 'toponymSearch' | null
 }
 
 export type GeometrySearchGetters = GeometrySearchState
