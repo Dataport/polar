@@ -12,6 +12,7 @@ import {
   denkmaelerWmService,
   denkmaelerWfsExtern,
 } from '../services'
+import { MODE } from '../enums'
 
 const layerPool = denkmaelerWmService.layers.split(',')
 const sachgesamtheitPool = ['9', '10']
@@ -57,7 +58,7 @@ async function parseText(
   )
   return {
     Bezeichnung: obj.objektansprache || '---',
-    Foto: await getPhoto(identifier),
+    Foto: await getPhoto(identifier, MODE.EXTERN),
     Kreis: obj.Kreis || '---',
     Gemeinde: obj.Gemeinde || '---',
     PLZ: obj.objektplz || '---',
@@ -95,8 +96,14 @@ async function getText(identifier: string): Promise<DishFeatureProperties> {
   }
 }
 
-export async function getPhoto(identifier: string): Promise<string> {
-  const photoURL = `${dishBaseUrl}/dish_opendata/Foto/${identifier}.jpg`
+export async function getPhoto(
+  identifier: string,
+  mode = MODE.EXTERN
+): Promise<string> {
+  const photoURL =
+    mode === MODE.EXTERN
+      ? `${dishBaseUrl}/dish_opendata/Foto/${identifier}.jpg`
+      : `./TitelBilder/${identifier}.jpg`
   const response = await fetch(photoURL)
   if (response.status !== 200) {
     const altText = 'Kein Foto gefunden'

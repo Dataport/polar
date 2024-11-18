@@ -44,6 +44,7 @@ import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import ActionButton from '../Gfi/ActionButton.vue'
 import { getPhoto } from '../../utils/extendGfi'
+import { MODE } from '../../enums'
 import InternSwitchButton from './InternSwitchButton.vue'
 
 export default Vue.extend({
@@ -67,7 +68,11 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
-    ...mapGetters('plugin/gfi', ['currentProperties', 'showSwitchButtons']),
+    ...mapGetters('plugin/gfi', [
+      'currentProperties',
+      'showSwitchButtons',
+      'windowFeatures',
+    ]),
     objektIdentifier(): string {
       return this.currentProperties.objektid
     },
@@ -89,6 +94,14 @@ export default Vue.extend({
       }
       return 0.1 * this.clientWidth + 'px'
     },
+    // isPartofLargerStructure(): boolean {
+    //   console.warn(this.windowFeatures)
+    //   return this.windowFeatures.some(
+    //     (obj) =>
+    //       obj.kategorie === 'Sachgesamtheit' ||
+    //       obj.kategorie === 'Mehrheit von baulichen Anlagen'
+    //   )
+    // },
   },
   mounted() {
     if (this.hasWindowSize && this.hasSmallWidth) {
@@ -128,7 +141,7 @@ export default Vue.extend({
       return tableData
     },
     async setImage() {
-      this.photo = await getPhoto(this.objektIdentifier)
+      this.photo = await getPhoto(this.objektIdentifier, MODE.INTERN)
     },
   },
 })
