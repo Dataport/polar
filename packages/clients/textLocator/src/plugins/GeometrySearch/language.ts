@@ -44,6 +44,12 @@ const language: LanguageOption[] = [
           },
           results: {
             title: 'Funde',
+            source: 'aus der {{ searchType }}',
+            sourceOptions: {
+              geometrySearch: 'Geometriesuche',
+              literatureSearch: 'Literatursuche',
+              toponymSearch: 'Ortssuche',
+            },
             byLocation: 'Ort',
             byText: 'Text',
             none: 'Keine Suchergebnisse',

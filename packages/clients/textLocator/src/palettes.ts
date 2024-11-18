@@ -30,7 +30,6 @@ export const pastelPalette = [
   '#b3b3b3',
 ]
 
-// TODO: Use later for text search result heatmaps
 export const heatPalette = [
   '#fff5f0',
   '#fee2d5',
