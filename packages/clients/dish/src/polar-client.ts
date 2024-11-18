@@ -34,10 +34,12 @@ export default {
       .then((map) => {
         if (mode === 'INTERN') {
           map.subscribe('plugin/export/exportedMap', (screenshot) => {
-            const newWindow = window.open()
-            newWindow?.document.write(
-              `<img src="${screenshot}" alt="Screenshot">`
-            )
+            if (screenshot) {
+              const newWindow = window.open()
+              newWindow?.document.write(
+                `<img src="${screenshot}" alt="Screenshot">`
+              )
+            }
           })
         }
       })
