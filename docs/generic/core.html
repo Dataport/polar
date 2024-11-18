@@ -57,7 +57,8 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <h3 id="initializelayerlist" tabindex="-1">initializeLayerList</h3>
 <p>Layers intended to be used in the map have to be initialized by calling <code>initializeLayerList</code> with a service register.<br />
 This register may either be a link to a predefined service register like <a href="https://geodienste.hamburg.de/services-internet.json">the Hamburg service register</a>, or the custom service register that is also used in <a href="#mapconfigurationlayerconf">mapConfiguration.layerConf</a>.</p>
-<p><code>js core.rawLayerList.initializeLayerList(services: mapConfiguration.layerConf | string, callback?: Function) </code></p>
+<pre><code class="language-js">core.rawLayerList.initializeLayerList(services: mapConfiguration.layerConf | string, callback?: Function)
+</code></pre>
 <p><a href="#createmap">createMap</a> is usually called inside the callback or directly after this function call.</p>
 <h3 id="createmap" tabindex="-1">createMap</h3>
 <p>The map is created by calling the <code>createMap</code> method. Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone HTML pages that do this for you.</p>
@@ -95,6 +96,11 @@ This register may either be a link to a predefined service register like <a href
 <td>extendedMasterportalapiMarkers</td>
 <td>extendedMasterportalapiMarkers?</td>
 <td>Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with <code>clusterDistance</code> will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalapi.</td>
+</tr>
+<tr>
+<td>featureStyles</td>
+<td>string?</td>
+<td>Optional path to define styles for vector features. See <code>mapConfiguration.featureStyles</code> for more information. May be a url or a path on the local file system.</td>
 </tr>
 <tr>
 <td>language</td>
@@ -367,6 +373,38 @@ const mapConfiguration = {
 </tbody>
 </table>
 </blockquote>
+<h5 id="mapconfiguration.featurestyles" tabindex="-1">mapConfiguration.featureStyles</h5>
+<p>Vector Layers (GeoJSON and WFS) can also be styled on the client side.
+Configuration and implementation is based on <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/User/Global-Config/style.json.md">style.json</a> of <code>@masterportal/masterportalapi</code>.
+For the full documentation, including all rules that are applied when parsing the configuration, see the above linked documentation.</p>
+<p>Example styling some points of a layer gray that have the value <code>food</code> in the property <code>not bamboo</code>.
+All Other features will use the provided default green styling.
+A Layer needs to use the property <code>styleId</code> in its <code>mapConfiguration.layers</code> entry and set it to <code>panda</code> to use this styling.</p>
+<pre><code class="language-json">[
+  {
+    &quot;styleId&quot;: &quot;panda&quot;,
+    &quot;rules&quot;: [
+      {
+        &quot;conditions&quot;: {
+          &quot;properties&quot;: {
+            &quot;food&quot;: &quot;bamboo&quot;
+          }
+        },
+        &quot;style&quot;: {
+          &quot;circleStrokeColor&quot;: [3, 255, 1, 1],
+          &quot;circleFillColor&quot;: [3, 255, 1, 1]
+        }
+      },
+      { 
+        &quot;style&quot;: {
+          &quot;circleStrokeColor&quot;: [128, 128, 128, 1],
+          &quot;circleFillColor&quot;: [128, 128, 128, 1]
+        }
+      }
+    ]
+  }
+]
+</code></pre>
 <h5 id="%3C...masterportalapi.fields%3E" tabindex="-1">&lt;...masterportalapi.fields&gt;</h5>
 <p>The <code>&lt;...masterportalapi.fields&gt;</code> means that any masterportalapi field may also be used here <em>directly</em> in the mapConfiguration. The fields described here are fields that are interesting for the usage of POLAR.
 Fields that are not set as required have default values.</p>
@@ -450,13 +488,14 @@ Fields that are not set as required have default values.</p>
 </code></pre>
 </details>
 <h5 id="mapconfiguration.layerconf" tabindex="-1">mapConfiguration.layerConf</h5>
-<p>The layer configuration (or: service register) is read by the masterportalapi. The full definition can be read <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md">here</a>.</p>
-<p>However, not all listed services have been implemented in the masterportalapi yet, and no documentation regarding implemented properties exists there yet.</p>
+<p>The layer configuration (or: service register) is read by the <code>@masterportal/masterportalapi</code>. The full definition can be read <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md">here</a>.</p>
+<p>However, not all listed services have been implemented in the <code>@masterportal/masterportalapi</code> yet, and no documentation regarding implemented properties exists there yet.</p>
 <p>Whitelisted and confirmed parameters include:</p>
 <ul>
 <li>WMS:  id, name, url, typ, format, version, transparent, layers, STYLES</li>
 <li>WFS:  id, name, url, typ, outputFormat, version, featureType</li>
 <li>WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength</li>
+<li>GeoJSON: id, name, url, typ, format, version, minScale, maxScale, legendURL</li>
 </ul>
 <h6 id="example-services-register" tabindex="-1">Example services register</h6>
 <pre><code class="language-json">[
@@ -507,6 +546,17 @@ Fields that are not set as required have default values.</p>
     &quot;typ&quot;: &quot;WMTS&quot;,
     &quot;layers&quot;: &quot;layer-name&quot;,
     &quot;legendURL&quot;: &quot;my-legend-url&quot;
+  },
+  {
+    &quot;id&quot;: &quot;my-geojson&quot;,
+    &quot;name&quot;: &quot;My GeoJSON data&quot;,
+    &quot;url&quot;: &quot;Service url&quot;,
+    &quot;typ&quot;: &quot;GeoJSON&quot;,
+    &quot;format&quot;: &quot;XML&quot;,
+    &quot;version&quot;: &quot;1.0&quot;,
+    &quot;minScale&quot;: &quot;0&quot;,
+    &quot;maxScale&quot;: &quot;2500000&quot;,
+    &quot;legendURL&quot;: &quot;&quot;
   }
 ]
 </code></pre>
@@ -557,6 +607,11 @@ Fields that are not set as required have default values.</p>
 <td>name</td>
 <td>string</td>
 <td>Display name in UI.</td>
+</tr>
+<tr>
+<td>styleId</td>
+<td>string?</td>
+<td>Id of the used style. May lead to unexpected results if the layer is also configured to be used with <code>mapConfiguration.extendedMasterportalapiMarkers</code>. Only applicable for vector-type layers. For more information and an example see <code>mapConfiguration.featureStyles</code>. Defaults and fallbacks to OpenLayers default styling.</td>
 </tr>
 </tbody>
 </table>
