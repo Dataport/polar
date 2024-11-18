@@ -42,10 +42,10 @@ const processLiteratureToponyms = (feature: LiteratureFeature) =>
         {} as TitleLocationFrequency['string']['location_frequency'],
       ]
     )
-
     commit('plugin/geometrySearch/setFeatureCollection', featureCollection, {
       root: true,
     })
+    commit('plugin/geometrySearch/setLastSearch', 'literatureSearch')
     const nextTitleLocationFrequency: TitleLocationFrequency = {
       [feature.id]: {
         title: feature.title,
