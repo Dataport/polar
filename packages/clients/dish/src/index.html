@@ -28,11 +28,12 @@
       import client from './polar-client.ts'
 
       // Edit URLs for PROD
+      // if no Port needed => `internalPort=''`
       const internalHost = 'http://10.61.63.54'
-      const internalPort = '8081'
+      const internalPort = ':8081'
       const internalPath = 'dish-deegree-3.5.0/services'
-      const internServicesBaseUrl = `${internalHost}:${internalPort}/${internalPath}`
-      const internalHostPrintImage = 'http://10.61.134.23/Content/MapsTmp'
+      const internServicesBaseUrl = `${internalHost}${internalPort}/${internalPath}`
+      const internalHostPrintImage = `${internalHost}/Content/MapsTmp`
       const denkmaelerWmsInternUrl = `${internServicesBaseUrl}/wms`
 
       const urlParams = {
