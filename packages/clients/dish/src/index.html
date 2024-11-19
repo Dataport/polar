@@ -37,6 +37,7 @@
       const denkmaelerWmsInternUrl = `${internServicesBaseUrl}/wms`
 
       const urlParams = {
+        internalHost: 'http://10.61.63.54',
         denkmaelerWfsInternUrl: `${internServicesBaseUrl}/wfs`,
         denkmaelerWmsInternUrl,
         kontrollbedarfInternUrl: denkmaelerWmsInternUrl,
@@ -49,12 +50,8 @@
         mode: 'INTERN', // INTERN, EXTERN
         urlParams,
         configOverride: {
-          // dishExportMap needs parameters to recreate url for backend print
           dishExportMap: {
-            printImageUrlProd: internalHostPrintImage,
-            exportMapAsPdfUrl: `${internalHost}/Content/Objekt/Kartenausgabe.aspx`,
-            denkmaelerWfsInternUrl: urlParams.denkmaelerWfsInternUrl,
-            denkmaelerWmsInternUrl,
+            internalHost: urlParams.internalHost,
           },          
         }
       })

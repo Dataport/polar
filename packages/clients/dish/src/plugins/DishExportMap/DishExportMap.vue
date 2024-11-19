@@ -57,6 +57,7 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
+import { denkmaelerWmsIntern, denkmaelerWfsIntern } from '../../servicesIntern'
 
 export default Vue.extend({
   name: 'DishExportMap',
@@ -67,6 +68,10 @@ export default Vue.extend({
     rectangleHeight: 473,
     dialog: false,
     title: '',
+    printImageUrlProd: '',
+    exportMapAsPdfUrl: '',
+    wmsLayerUrl: '',
+    wfsLayerUrl: '',
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
@@ -79,6 +84,14 @@ export default Vue.extend({
     },
   },
   mounted() {
+    this.wmsLayerUrl = this.configuration.layerConf.find(
+      (layer) => layer.id === denkmaelerWmsIntern
+    ).url
+    this.wfsLayerUrl = this.configuration.layerConf.find(
+      (layer) => layer.id === denkmaelerWfsIntern
+    ).url
+    this.printImageUrlProd = `${this.configuration.dishExportMap.internalHost}/Content/MapsTmp`
+    this.exportMapAsPdfUrl = `${this.configuration.dishExportMap.internalHost}/Content/Objekt/Kartenausgabe.aspx`
     const element = this.$refs.rectangle as HTMLElement
     if (!this.overlay) {
       this.overlay = new Overlay({
@@ -172,18 +185,18 @@ export default Vue.extend({
         LayerNameHintergrund: backgroundLayer.layers,
         VersionHintergrund: '1.1.1',
         ProxyHintergrund: 'y',
-        urlWMS: `${this.configuration.dishExportMap.denkmaelerWmsInternUrl}?`,
+        urlWMS: `${this.wmsLayerUrl}?`,
         VersionWMS: '1.1.1',
         LayerNameWMS:
           '0,9,1,10,2,11,3,12,4,13,25,27,24,26,6,15,19,30,20,31,21,32,22,33,23,34,29,36,28,35',
-        urlWFS: `${this.configuration.dishExportMap.denkmaelerWfsInternUrl}?`,
+        urlWFS: `${this.wfsLayerUrl}?`,
         VersionWFS: '1.1.0',
         LayerNameWFS: 'TBLGIS_ORA',
         PropertyNameWFS: 'objektid',
         FilterTypeWFS: 'EQUAL_TO',
         scaleText: this.scaleWithUnit,
         proxyURL: 'zs-proxy.dataport.de:3128',
-        PrintImageURL: this.configuration.dishExportMap.printImageUrlProd,
+        PrintImageURL: this.printImageUrlProd,
         PrintImagePath: 'ContentMapsTmp',
       }
       const queryString = Object.keys(printParams)
@@ -192,7 +205,7 @@ export default Vue.extend({
             `${encodeURIComponent(key)}=${encodeURIComponent(printParams[key])}`
         )
         .join('&')
-      const encodedUrl = `${this.configuration.dishExportMap.exportMapAsPdfUrl}?${queryString}`
+      const encodedUrl = `${this.exportMapAsPdfUrl}?${queryString}`
 
       window.open(encodedUrl, '_blank')
       this.showOverlay = false
