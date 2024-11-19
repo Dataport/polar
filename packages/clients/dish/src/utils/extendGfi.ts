@@ -58,7 +58,7 @@ async function parseText(
   )
   return {
     Bezeichnung: obj.objektansprache || '---',
-    Foto: await getPhoto(identifier, MODE.EXTERN),
+    Foto: await getPhoto(identifier),
     Kreis: obj.Kreis || '---',
     Gemeinde: obj.Gemeinde || '---',
     PLZ: obj.objektplz || '---',
@@ -98,12 +98,9 @@ async function getText(identifier: string): Promise<DishFeatureProperties> {
 
 export async function getPhoto(
   identifier: string,
-  mode = MODE.EXTERN
+  hostUrl = `${dishBaseUrl}/dish_opendata/Foto/`
 ): Promise<string> {
-  const photoURL =
-    mode === MODE.EXTERN
-      ? `${dishBaseUrl}/dish_opendata/Foto/${identifier}.jpg`
-      : `./TitelBilder/${identifier}.jpg`
+  const photoURL = `${hostUrl}${identifier}.jpg`
   const response = await fetch(photoURL)
   if (response.status !== 200) {
     const altText = 'Kein Foto gefunden'

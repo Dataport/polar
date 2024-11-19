@@ -67,7 +67,12 @@ export default Vue.extend({
     photo: '',
   }),
   computed: {
-    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
+    ...mapGetters([
+      'clientWidth',
+      'hasSmallWidth',
+      'hasWindowSize',
+      'configuration',
+    ]),
     ...mapGetters('plugin/gfi', [
       'currentProperties',
       'showSwitchButtons',
@@ -94,14 +99,6 @@ export default Vue.extend({
       }
       return 0.1 * this.clientWidth + 'px'
     },
-    // isPartofLargerStructure(): boolean {
-    //   console.warn(this.windowFeatures)
-    //   return this.windowFeatures.some(
-    //     (obj) =>
-    //       obj.kategorie === 'Sachgesamtheit' ||
-    //       obj.kategorie === 'Mehrheit von baulichen Anlagen'
-    //   )
-    // },
   },
   mounted() {
     if (this.hasWindowSize && this.hasSmallWidth) {
@@ -141,7 +138,10 @@ export default Vue.extend({
       return tableData
     },
     async setImage() {
-      this.photo = await getPhoto(this.objektIdentifier, MODE.INTERN)
+      this.photo = await getPhoto(
+        this.objektIdentifier,
+        `${this.configuration.gfi.internalHost}/TitelBilder/`
+      )
     },
   },
 })
