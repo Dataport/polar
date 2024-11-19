@@ -2,7 +2,12 @@
   <tbody>
     <tr v-for="[key, value] of Object.entries(filteredProperties)" :key="key">
       <td>{{ key }}</td>
-      <td v-if="value.match(/\.(jpeg|jpg|gif|png)$/) !== null">
+      <td
+        v-if="
+          typeof value === 'string' &&
+          value.match(/\.(jpeg|jpg|gif|png)$/) !== null
+        "
+      >
         <a :href="value" target="_blank">
           <img
             :src="value"

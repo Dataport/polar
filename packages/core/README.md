@@ -333,7 +333,7 @@ Whitelisted and confirmed parameters include:
 - WMS:  id, name, url, typ, format, version, transparent, layers, STYLES
 - WFS:  id, name, url, typ, outputFormat, version, featureType
 - WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength
-- GeoJSON: id, name, url, typ, format, version, minScale, maxScale, legendURL
+- GeoJSON: id, name, url, typ, version, minScale, maxScale, legendURL
 
 ###### Example services register
 
@@ -392,7 +392,6 @@ Whitelisted and confirmed parameters include:
     "name": "My GeoJSON data",
     "url": "Service url",
     "typ": "GeoJSON",
-    "format": "XML",
     "version": "1.0",
     "minScale": "0",
     "maxScale": "2500000",
