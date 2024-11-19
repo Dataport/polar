@@ -58,15 +58,14 @@ export default {
         } else if (typeof objektId === 'string' && mode === 'EXTERN') {
           navigateToDenkmal(map, objektId)
         }
+        // @ts-expect-error | intentionally expand window; no environment affected
+        window.openBenutzungshinweise = function (isIntern = false) {
+          map.$store.commit(
+            'plugin/modal/setContent',
+            isIntern ? CONTENT_ENUM.HINTSINTERN : CONTENT_ENUM.HINTS
+          )
+          map.$store.commit('plugin/modal/setClosed', false)
+        }
       })
-
-    // @ts-expect-error | intentionally expand window; no environment affected
-    window.openBenutzungshinweise = function (isIntern = false) {
-      instance.$store.commit(
-        'plugin/modal/setContent',
-        isIntern ? CONTENT_ENUM.HINTSINTERN : CONTENT_ENUM.HINTS
-      )
-      instance.$store.commit('plugin/modal/setClosed', false)
-    }
   },
 }
