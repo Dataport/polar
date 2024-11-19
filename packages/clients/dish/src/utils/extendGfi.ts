@@ -12,7 +12,6 @@ import {
   denkmaelerWmService,
   denkmaelerWfsExtern,
 } from '../services'
-import { MODE } from '../enums'
 
 const layerPool = denkmaelerWmService.layers.split(',')
 const sachgesamtheitPool = ['9', '10']
