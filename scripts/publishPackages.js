@@ -39,11 +39,6 @@ for (const path of packages) {
       tags.push(`${getPackageName(path)}@${nextVersion}`)
 
       cp.execSync('npm version ' + nextVersion, context)
-      cp.execSync(
-        'npm set //registry.npmjs.org/:_authToken ' +
-          process.env.NODE_AUTH_TOKEN,
-        { cwd: path }
-      )
       cp.execSync('npm publish --access=public', context)
     }
   } catch (e) {
