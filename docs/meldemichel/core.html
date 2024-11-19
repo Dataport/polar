@@ -495,7 +495,7 @@ Fields that are not set as required have default values.</p>
 <li>WMS:  id, name, url, typ, format, version, transparent, layers, STYLES</li>
 <li>WFS:  id, name, url, typ, outputFormat, version, featureType</li>
 <li>WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength</li>
-<li>GeoJSON: id, name, url, typ, format, version, minScale, maxScale, legendURL</li>
+<li>GeoJSON: id, name, url, typ, version, minScale, maxScale, legendURL</li>
 </ul>
 <h6 id="example-services-register" tabindex="-1">Example services register</h6>
 <pre><code class="language-json">[
@@ -552,7 +552,6 @@ Fields that are not set as required have default values.</p>
     &quot;name&quot;: &quot;My GeoJSON data&quot;,
     &quot;url&quot;: &quot;Service url&quot;,
     &quot;typ&quot;: &quot;GeoJSON&quot;,
-    &quot;format&quot;: &quot;XML&quot;,
     &quot;version&quot;: &quot;1.0&quot;,
     &quot;minScale&quot;: &quot;0&quot;,
     &quot;maxScale&quot;: &quot;2500000&quot;,
