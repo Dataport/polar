@@ -13,7 +13,7 @@ import {
 } from './servicesIntern'
 import { shBlue } from './colors'
 
-export const internMapConfiguration = (urlParams) => {
+export const internMapConfiguration = (internServicesBaseUrl: string) => {
   return {
     scale: {
       showScaleSwitcher: true,
@@ -109,7 +109,7 @@ export const internMapConfiguration = (urlParams) => {
           groupId: 'groupDenkmalsuche',
           categoryId: 'categoryDenkmalSucheIntern',
           type: 'wfs',
-          url: urlParams.denkmaelerWfsInternUrl,
+          url: `${internServicesBaseUrl}/wfs`,
           queryParameters: {
             id: 'denkmaelerWfsIntern',
             srsName: 'EPSG:25832',

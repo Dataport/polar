@@ -43,11 +43,14 @@ const commonMapConfiguration = {
   ],
 }
 
-export const getMapConfiguration = (mode: string, urlParams = null) => {
+export const getMapConfiguration = (
+  mode: string,
+  internServicesBaseUrl = ''
+) => {
   const config = merge({
     ...commonMapConfiguration,
     ...(mode === 'INTERN'
-      ? internMapConfiguration(urlParams)
+      ? internMapConfiguration(internServicesBaseUrl)
       : exportMapConfiguration),
   })
   return config

@@ -15,10 +15,11 @@ console.log(`DISH map client running in version ${packageInfo.version}.`)
 
 export default {
   createMap: async ({ containerId, mode, urlParams, configOverride }) => {
+    const internServicesBaseUrl = `${urlParams.internalHost}${urlParams.internalPort}/${urlParams.internalPath}`
     addPlugins(client, mode)
-    const layerConf = services(mode, urlParams)
+    const layerConf = services(mode, internServicesBaseUrl)
     client.rawLayerList.initializeLayerList(layerConf)
-    const mapConfiguration = getMapConfiguration(mode, urlParams)
+    const mapConfiguration = getMapConfiguration(mode, internServicesBaseUrl)
 
     const instance = await client
       .createMap({
