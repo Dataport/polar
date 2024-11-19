@@ -170,7 +170,7 @@ export default Vue.extend({
         mapSRS: this.configuration.epsg,
         urlHintergrund: `${backgroundLayer.url}?`,
         LayerNameHintergrund: backgroundLayer.layers,
-        VersionHintergrund: backgroundLayer.version,
+        VersionHintergrund: '1.1.1',
         ProxyHintergrund: 'y',
         urlWMS: `${this.configuration.dishExportMap.denkmaelerWmsInternUrl}?`,
         VersionWMS: '1.1.1',
