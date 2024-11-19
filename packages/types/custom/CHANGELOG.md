@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.5.0
 
 - Feature: Add `selectedCoordinate` to core store getters; it returns `null` or the `selected` feature's point coordinates.
 - Feature: Add new parameters `unselectableStyle` and `isSelectable` with new type `ExtendedMasterportalapiMarkersIsSelectableFunction` to interface `ExtendedMasterportalapiMarkers`.
