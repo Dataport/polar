@@ -32,6 +32,10 @@ export default {
         ),
       })
       .then((map) => {
+        const parameters = new URL(document.location as unknown as string)
+          .searchParams
+        // using naming from backend to avoid multiple names for same thing
+        const objektId = parameters.get('ObjektID')
         if (mode === 'INTERN') {
           map.subscribe('plugin/export/exportedMap', (screenshot) => {
             if (screenshot) {
@@ -41,27 +45,19 @@ export default {
               )
             }
           })
+          if (typeof objektId === 'string') {
+            zoomToFeatureById(map, objektId, urlParams.denkmaelerWfsInternUrl, {
+              fieldName: 'objektid',
+              featurePrefix: 'app',
+              typeName: 'TBLGIS_ORA',
+              xmlns: 'http://www.deegree.org/app',
+              useRightHandWildcard: false,
+            })
+          }
+        } else if (typeof objektId === 'string' && mode === 'EXTERN') {
+          navigateToDenkmal(map, objektId)
         }
       })
-
-    const parameters = new URL(document.location as unknown as string)
-      .searchParams
-    // using naming from backend to avoid multiple names for same thing
-    const objektId = parameters.get('ObjektID')
-
-    if (typeof objektId === 'string' && mode === 'INTERN') {
-      zoomToFeatureById(instance, objektId, urlParams.denkmaelerWfsInternUrl, {
-        fieldName: 'objektid',
-        featurePrefix: 'app',
-        typeName: 'TBLGIS_ORA',
-        xmlns: 'http://www.deegree.org/app',
-        useRightHandWildcard: false,
-      })
-    }
-
-    if (typeof objektId === 'string' && mode === 'EXTERN') {
-      navigateToDenkmal(instance, objektId)
-    }
 
     // @ts-expect-error | intentionally expand window; no environment affected
     window.openBenutzungshinweise = function (isIntern = false) {
