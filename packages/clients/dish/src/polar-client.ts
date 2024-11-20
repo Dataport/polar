@@ -21,7 +21,7 @@ export default {
     client.rawLayerList.initializeLayerList(layerConf)
     const mapConfiguration = getMapConfiguration(mode, internServicesBaseUrl)
 
-    const instance = await client
+    await client
       .createMap({
         containerId,
         mapConfiguration: merge(
