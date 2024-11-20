@@ -18,13 +18,13 @@ import { basemapGrau, alkisWfs, alkisWms } from './services'
 const internLayers = [
   {
     id: basemapGrau,
-    visibility: true,
+    visibility: false,
     type: 'background',
     name: 'Basemap Graustufen',
   },
   {
     id: bddEinIntern,
-    visibility: false,
+    visibility: true,
     type: 'background',
     name: 'Grundkarte Graustufen',
   },
