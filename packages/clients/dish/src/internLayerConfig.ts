@@ -67,7 +67,6 @@ const internLayers = [
     visibility: true,
     type: 'mask',
     name: 'Beschriftung',
-    maxZoom: 11,
   },
   {
     id: denkmaelerWmsIntern,
