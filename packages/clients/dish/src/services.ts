@@ -132,6 +132,7 @@ const AlkisWmService = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
+  singleTile: true,
   STYLES: 'basemapde',
 }
 
