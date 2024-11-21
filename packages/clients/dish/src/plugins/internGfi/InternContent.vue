@@ -44,7 +44,6 @@ import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import ActionButton from '../Gfi/ActionButton.vue'
 import { getPhoto } from '../../utils/extendGfi'
-import { MODE } from '../../enums'
 import InternSwitchButton from './InternSwitchButton.vue'
 
 export default Vue.extend({
@@ -97,7 +96,7 @@ export default Vue.extend({
       if (this.hasWindowSize && this.hasSmallWidth) {
         return '15%'
       }
-      return 0.1 * this.clientWidth + 'px'
+      return 0.2 * this.clientWidth + 'px'
     },
   },
   mounted() {
