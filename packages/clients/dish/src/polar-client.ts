@@ -9,6 +9,7 @@ import { getMapConfiguration } from './mapConfig'
 import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
 import { zoomToFeatureById } from './utils/zoomToFeatureById'
+import { denkmaelerWfsIntern } from './servicesIntern'
 
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
@@ -47,7 +48,10 @@ export default {
             }
           })
           if (typeof objektId === 'string') {
-            zoomToFeatureById(map, objektId, urlParams.denkmaelerWfsInternUrl, {
+            const denkmalLayerUrl =
+              layerConf.find((layer) => layer.id === denkmaelerWfsIntern)
+                ?.url || `${internServicesBaseUrl}/wfs`
+            zoomToFeatureById(map, objektId, denkmalLayerUrl, {
               fieldName: 'objektid',
               featurePrefix: 'app',
               typeName: 'TBLGIS_ORA',
