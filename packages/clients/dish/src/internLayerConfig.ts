@@ -77,11 +77,11 @@ const internLayers = [
       layers: {
         order: '6,24,25,4,3,2,1,0',
         title: {
-          '6': 'Denkmalbereichsverordnung',
+          '6': 'Denkmalbereich',
           '24': 'Mehrheit von baulichen Anlagen',
           '25': 'Sachgesamtheit',
-          '4': 'Baudenkmal (Einzeldenkmale)',
-          '3': 'Gründenkmal (Elemente)',
+          '4': 'Baudenkmal',
+          '3': 'Gründenkmal',
           '2': 'Gewässer',
           '1': 'Baudenkmal (Fläche)',
           '0': 'Gründenkmal (Fläche)',
