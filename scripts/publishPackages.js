@@ -4,6 +4,7 @@
 
 const cp = require('child_process')
 const fs = require('fs')
+const { releaseVersion, releasePublish } = require('nx/release')
 const packages = require('./packages')
 
 const tags = []
@@ -31,15 +32,30 @@ for (const path of packages) {
   try {
     const nextVersion = checkForNewVersion(path)
     if (nextVersion) {
-      /* NOTE
-       * throw away logs with `stdio: []`
-       * `npm version` ignored `--silent`, no matter what, hence this measure.
-       */
-      const context = { cwd: path, stdio: [] }
-      tags.push(`${getPackageName(path)}@${nextVersion}`)
+      const packageName = getPackageName(path)
+      // tags.push(`${packageName}@${nextVersion}`)
 
-      cp.execSync('npm version ' + nextVersion, context)
-      cp.execSync('npm publish --access=public', context)
+      releaseVersion({
+        specifier: nextVersion,
+        projects: [packageName],
+        generatorOptionsOverrides: { updateDependents: true },
+        gitCommitMessage: `Update package ${{ packageName }} to {version}.`,
+        verbose: true,
+      })
+        .then(() =>
+          releasePublish({
+            verbose: false,
+            projects: [packageName],
+          })
+        )
+        .then((success) => {
+          if (success !== 0) {
+            throw new Error(
+              `Failed to publish package ${packageName} with error code ${success}.`
+            )
+          }
+          console.log(`Package ${packageName} published successfully!`)
+        })
     }
   } catch (e) {
     console.error(e)
@@ -47,4 +63,4 @@ for (const path of packages) {
   }
 }
 
-process.stdout.write(tags.map((tag) => tag.trim()).join(' '))
+// process.stdout.write(tags.map((tag) => tag.trim()).join(' '))
