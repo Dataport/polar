@@ -1,6 +1,7 @@
 <template>
   <div id="dish-gfi-switch-buttons">
     <v-btn
+      :disabled="visibleWindowFeatureIndex <= 0"
       elevation="2"
       class="ma-2"
       fab
@@ -11,6 +12,7 @@
       <v-icon>fa-chevron-left</v-icon>
     </v-btn>
     <v-btn
+      :disabled="visibleWindowFeatureIndex === windowFeatures.length - 1"
       elevation="2"
       class="ma-2"
       fab
@@ -41,11 +43,14 @@ export default Vue.extend({
     ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
     /** switch to next or previous feature */
     switchFeature(by: GfiIndexStep): void {
+      this.disableLeftButton = false
+      this.disableRightButton = false
       const {
         visibleWindowFeatureIndex,
         windowFeatures,
         setVisibleWindowFeatureIndex,
       } = this
+
       const maxIndex = windowFeatures.length - 1
       const nextIndex = visibleWindowFeatureIndex + by
       if (nextIndex < 0) {
@@ -61,3 +66,10 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+#dish-gfi-switch-buttons {
+  display: flex;
+  justify-content: right;
+}
+</style>
