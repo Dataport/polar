@@ -137,10 +137,15 @@ export default Vue.extend({
       return tableData
     },
     async setImage() {
-      this.photo = await getPhoto(
-        this.objektIdentifier,
-        `${this.configuration.gfi.internalHost}/TitelBilder/`
-      )
+      try {
+        this.photo = await getPhoto(
+          this.objektIdentifier,
+          `${this.configuration.gfi.internalHost}/TitelBilder/`
+        )
+      } catch (error) {
+        console.error('Error loading image:', error)
+        this.photo = ''
+      }
     },
   },
 })
