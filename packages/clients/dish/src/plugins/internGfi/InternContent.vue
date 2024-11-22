@@ -167,9 +167,4 @@ export default Vue.extend({
   font-weight: bolder;
   word-break: break-word;
 }
-
-#dish-gfi-switch-buttons {
-  display: flex;
-  justify-content: right;
-}
 </style>
