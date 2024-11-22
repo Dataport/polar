@@ -154,9 +154,9 @@ export const services = (mode: keyof typeof MODE, urlParams) => {
   }
   // set urls that need to be configurable
   const denkmaelerWmsInternUrl = `${urlParams.internServicesBaseUrl}/wms`
-  const denkmaelerWfsInternUrl = `${urlParams.internServicesBaseUrl}/wfs`
+
   const servicesUrls = {
-    denkmaelerWfsInternUrl,
+    denkmaelerWfsInternUrl: `${urlParams.internServicesBaseUrl}/wfs`,
     denkmaelerWmsInternUrl,
     beschriftungUrl: denkmaelerWmsInternUrl,
     kontrollbedarfInternUrl: denkmaelerWmsInternUrl,
