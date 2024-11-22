@@ -9,18 +9,19 @@ import { getMapConfiguration } from './mapConfig'
 import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
 import { zoomToFeatureById } from './utils/zoomToFeatureById'
-import { denkmaelerWfsIntern } from './servicesIntern'
 
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
 
 export default {
   createMap: async ({ containerId, mode, urlParams, configOverride }) => {
-    const internServicesBaseUrl = `${urlParams.internalHost}${urlParams.internalPort}/${urlParams.internalPath}`
     addPlugins(client, mode)
-    const layerConf = services(mode, internServicesBaseUrl)
+    const layerConf = services(mode, urlParams)
     client.rawLayerList.initializeLayerList(layerConf)
-    const mapConfiguration = getMapConfiguration(mode, internServicesBaseUrl)
+    const mapConfiguration = getMapConfiguration(
+      mode,
+      urlParams.internServicesBaseUrl
+    )
 
     await client
       .createMap({
@@ -47,17 +48,19 @@ export default {
               )
             }
           })
-          if (typeof objektId === 'string') {
-            const denkmalLayerUrl =
-              layerConf.find((layer) => layer.id === denkmaelerWfsIntern)
-                ?.url || `${internServicesBaseUrl}/wfs`
-            zoomToFeatureById(map, objektId, denkmalLayerUrl, {
-              fieldName: 'objektid',
-              featurePrefix: 'app',
-              typeName: 'TBLGIS_ORA',
-              xmlns: 'http://www.deegree.org/app',
-              useRightHandWildcard: false,
-            })
+          if (typeof objektId === 'string' && objektId !== '') {
+            zoomToFeatureById(
+              map,
+              objektId,
+              `${urlParams.internServicesBaseUrl}/wfs`,
+              {
+                fieldName: 'objektid',
+                featurePrefix: 'app',
+                typeName: 'TBLGIS_ORA',
+                xmlns: 'http://www.deegree.org/app',
+                useRightHandWildcard: false,
+              }
+            )
           }
         } else if (typeof objektId === 'string' && mode === 'EXTERN') {
           navigateToDenkmal(map, objektId)

@@ -12,8 +12,6 @@ export const dop20sw = 'dop20sw'
 export const bddCol = 'bddCol'
 export const bddEin = 'bddEin'
 
-export const servicePrefix = 'https://stage.afm.schleswig-holstein.de/bkg/'
-
 export const isDevMode = process.env.NODE_ENV === 'development'
 
 /* NOTE
@@ -150,12 +148,25 @@ const basemapGrauService = {
 
 const servicesCommon = [basemapGrauService, AlkisWfService, AlkisWmService]
 
-export const services = (mode: keyof typeof MODE, internalHost: string) => [
-  ...servicesCommon,
-  ...(mode === MODE.EXTERN
-    ? servicesExtern
-    : servicesIntern.map((service) => ({
-        ...service,
-        url: service.url.replace(/#{Project.internalHost.URL}/, internalHost),
-      }))),
-]
+export const services = (mode: keyof typeof MODE, urlParams) => {
+  if (mode === MODE.EXTERN) {
+    return [...servicesCommon, ...servicesExtern]
+  }
+  // set urls that need to be configurable
+  const denkmaelerWmsInternUrl = `${urlParams.internServicesBaseUrl}/wms`
+  const denkmaelerWfsInternUrl = `${urlParams.internServicesBaseUrl}/wfs`
+  const servicesUrls = {
+    denkmaelerWfsInternUrl,
+    denkmaelerWmsInternUrl,
+    beschriftungUrl: denkmaelerWmsInternUrl,
+    kontrollbedarfInternUrl: denkmaelerWmsInternUrl,
+    verlustInternUrl: denkmaelerWmsInternUrl,
+  }
+
+  const internServicesWithUrls = servicesIntern.map((service) => ({
+    ...service,
+    url: servicesUrls[`${service.id}Url`],
+  }))
+
+  return [...servicesCommon, ...internServicesWithUrls]
+}

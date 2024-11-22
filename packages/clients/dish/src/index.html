@@ -27,10 +27,13 @@
     <script type="module">
       import client from './polar-client.ts'
 
+      const internalHost = 'http://10.61.63.54'
+      const internalPort = '8081'
+      const internalPath = 'dish-deegree-3.5.0/services'
+
       const urlParams = {
-        internalHost: 'http://10.61.63.54',
-        internalPort: ':8081',
-        internalPath: 'dish-deegree-3.5.0/services',
+        internalHost,
+        internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
       }
 
       client.createMap({

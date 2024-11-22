@@ -10,6 +10,8 @@ export const beschriftung = 'beschriftung'
 
 export const intranetUrl = 'https://intranet.gdi-sh.lr.landsh.de'
 
+// for servives without urls those will be set in the services.ts
+
 export const denkmaelerWfServiceIntern = {
   id: denkmaelerWfsIntern,
   name: 'Denkmäler (WFS)',
@@ -17,7 +19,6 @@ export const denkmaelerWfServiceIntern = {
   version: '2.0.0',
   transparent: true,
   featureType: 'app:TBLGIS_ORA',
-  url: '#{Project.internalHost.URL}/wfs',
 }
 const denkmaelerWmServiceIntern = {
   id: denkmaelerWmsIntern,
@@ -28,7 +29,6 @@ const denkmaelerWmServiceIntern = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
-  url: '#{Project.internalHost.URL}/wms',
 }
 const beschriftungService = {
   id: beschriftung,
@@ -40,7 +40,6 @@ const beschriftungService = {
   version: '1.3.0',
   transparent: true,
   singleTile: true,
-  url: '#{Project.internalHost.URL}/wms',
 }
 
 const kontrollbedarfServiceIntern = {
@@ -52,7 +51,6 @@ const kontrollbedarfServiceIntern = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
-  url: '#{Project.internalHost.URL}/wms',
 }
 const verlustServiceIntern = {
   id: verlustIntern,
@@ -63,7 +61,6 @@ const verlustServiceIntern = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
-  url: '#{Project.internalHost.URL}/wms',
 }
 
 const verwaltungsGrenzenService = {
