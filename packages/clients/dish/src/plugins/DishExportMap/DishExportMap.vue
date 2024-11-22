@@ -44,7 +44,7 @@
             "
             >{{ $t('common:plugins.dish.exportPDF.buttonCancel') }}</v-btn
           >
-          <v-btn text @click="createURLforPrint">{{
+          <v-btn text @click="printMapAsPdf">{{
             $t('common:plugins.dish.exportPDF.buttonPrint')
           }}</v-btn>
         </v-card-actions>
@@ -84,14 +84,6 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.wmsLayerUrl = this.configuration.layerConf.find(
-      (layer) => layer.id === denkmaelerWmsIntern
-    ).url
-    this.wfsLayerUrl = this.configuration.layerConf.find(
-      (layer) => layer.id === denkmaelerWfsIntern
-    ).url
-    this.printImageUrlProd = `${this.configuration.dishExportMap.internalHost}/Content/MapsTmp`
-    this.exportMapAsPdfUrl = `${this.configuration.dishExportMap.internalHost}/Content/Objekt/Kartenausgabe.aspx`
     const element = this.$refs.rectangle as HTMLElement
     if (!this.overlay) {
       this.overlay = new Overlay({
@@ -108,6 +100,16 @@ export default Vue.extend({
       return this.configuration.layerConf.find(
         (layer) => layer.id === this.activeBackgroundId
       )
+    },
+    setUrlsFromConfig() {
+      this.wmsLayerUrl ||= this.configuration.layerConf.find(
+        (layer) => layer.id === denkmaelerWmsIntern
+      ).url
+      this.wfsLayerUrl ||= this.configuration.layerConf.find(
+        (layer) => layer.id === denkmaelerWfsIntern
+      ).url
+      this.printImageUrlProd ||= `${this.configuration.dishExportMap.internalHost}/Content/MapsTmp`
+      this.exportMapAsPdfUrl ||= `${this.configuration.dishExportMap.internalHost}/Content/Objekt/Kartenausgabe.aspx`
     },
     showRectangleAndDialog() {
       if (
@@ -160,11 +162,10 @@ export default Vue.extend({
       }
       console.error('Center coordinates are undefined.')
     },
-    createURLforPrint() {
-      this.dialog = false
+    getPrintParams() {
       const backgroundLayer = this.getBackgroundLayer()
       const bbox = this.getRectangleCoordinates()
-      const printParams = {
+      return {
         NewTab: true,
         objektueberschrift: this.title,
         masssstab: this.scaleValue,
@@ -199,6 +200,11 @@ export default Vue.extend({
         PrintImageURL: this.printImageUrlProd,
         PrintImagePath: 'ContentMapsTmp',
       }
+    },
+    printMapAsPdf() {
+      this.setUrlsFromConfig()
+      this.dialog = false
+      const printParams = this.getPrintParams()
       const queryString = Object.keys(printParams)
         .map(
           (key) =>
