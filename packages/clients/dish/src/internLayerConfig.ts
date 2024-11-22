@@ -99,13 +99,13 @@ const internLayers = [
       layers: {
         order: '28,29,23,22,21,20,19',
         title: {
-          '28': 'Mehrheit von bauliche Anlagen mit Kontrollbedarf',
+          '28': 'Mehrheit von baulichen Anlagen mit Kontrollbedarf',
           '29': 'Sachgesamtheit mit Kontrollbedarf',
-          '23': 'Baudenkmale (Einzeldenkmale) mit Kontrollbedarf',
-          '22': 'Gartendenkmale (Elemente) mit Kontrollbedarf',
+          '23': 'Baudenkmale mit Kontrollbedarf',
+          '22': 'Gartendenkmale mit Kontrollbedarf',
           '21': 'Gewässer mit Kontrollbedarf',
-          '20': 'Baudenkmale (Flächen) mit Kontrollbedarf',
-          '19': 'Gartendenkmale (Flächen) mit Kontrollbedarf',
+          '20': 'Baudenkmale mit Kontrollbedarf (Flächen)',
+          '19': 'Gartendenkmale mit Kontrollbedarf (Flächen)',
         },
         legend: true,
       },
