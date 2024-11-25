@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const fs = require('fs')
-const { releaseVersion } = require('nx/release')
+const cp = require('child_process')
 const packages = require('./packages')
 
 const tags = []
@@ -34,13 +34,12 @@ for (const path of packages) {
       const packageName = getPackageName(path)
       tags.push(`${packageName}@${nextVersion}`)
 
-      releaseVersion({
-        specifier: nextVersion,
-        projects: [packageName],
-        generatorOptionsOverrides: { updateDependents: true },
-        gitCommitMessage: `Update package ${{ packageName }} to {version}.`,
-        verbose: true,
-      })
+      cp.execSync(
+        `npx nx release version --projects ${packageName} --specifier ${nextVersion} --git-commit-message "Update package ${{
+          packageName,
+        }} to {version}." --verbose false`,
+        { stdio: ['pipe', 'ignore', 'pipe'] }
+      )
     }
   } catch (e) {
     console.error(e)
