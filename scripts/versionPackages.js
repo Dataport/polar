@@ -2,12 +2,11 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-// const cp = require('child_process')
 const fs = require('fs')
 const { releaseVersion } = require('nx/release')
 const packages = require('./packages')
 
-// const tags = []
+const tags = []
 
 function checkForNewVersion(cwd) {
   const { version } = JSON.parse(
@@ -33,7 +32,7 @@ for (const path of packages) {
     const nextVersion = checkForNewVersion(path)
     if (nextVersion) {
       const packageName = getPackageName(path)
-      // tags.push(`${packageName}@${nextVersion}`)
+      tags.push(`${packageName}@${nextVersion}`)
 
       releaseVersion({
         specifier: nextVersion,
@@ -49,4 +48,4 @@ for (const path of packages) {
   }
 }
 
-// process.stdout.write(tags.map((tag) => tag.trim()).join(' '))
+process.stdout.write(tags.map((tag) => tag.trim()).join(' '))
