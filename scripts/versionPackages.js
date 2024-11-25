@@ -2,12 +2,12 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const cp = require('child_process')
+// const cp = require('child_process')
 const fs = require('fs')
-const { releaseVersion, releasePublish } = require('nx/release')
+const { releaseVersion } = require('nx/release')
 const packages = require('./packages')
 
-const tags = []
+// const tags = []
 
 function checkForNewVersion(cwd) {
   const { version } = JSON.parse(
@@ -42,20 +42,6 @@ for (const path of packages) {
         gitCommitMessage: `Update package ${{ packageName }} to {version}.`,
         verbose: true,
       })
-        .then(() =>
-          releasePublish({
-            verbose: false,
-            projects: [packageName],
-          })
-        )
-        .then((success) => {
-          if (success !== 0) {
-            throw new Error(
-              `Failed to publish package ${packageName} with error code ${success}.`
-            )
-          }
-          console.log(`Package ${packageName} published successfully!`)
-        })
     }
   } catch (e) {
     console.error(e)

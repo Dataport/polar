@@ -38,6 +38,7 @@ jobs:
       #      git push origin $TAG
       #      echo "Released and tagged $TAG"
       #    done
+      - run: nx release publish
       - run: node ./scripts/createRelease ${{ env.TAGS }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
