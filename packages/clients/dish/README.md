@@ -18,7 +18,9 @@ Name and casing of "ObjektID" have been directly taken from the backend to avoid
 
 The map for the internal DISH software uses different URLs in TEST and PROD systems which need to be defined in the index.html. 
 The WMS and WFS for monumental objects are composed from an internal host (`internalHost`) and a port (`internalPort`) as well as a path (`internalPath`). 
-The urls `internalHostPrintImage` and `exportMapAsPdfUrl` are needed to create the right url to send to the backend for to print a map in the specific DishExportMap plugin. The original function has been moved from the old openlayers map to the dish client.
+
+The `internalHost` is also needed as parameter for the DishExportMap plugin and the Gfi plugin to create urls needed for these features. 
+
 
 
 
