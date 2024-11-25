@@ -61,7 +61,6 @@ const internLayers = [
     hideInMenu: true,
     type: 'mask',
     name: 'Denkmal (WFS) Intern',
-    singleTile: true,
   },
   {
     id: beschriftung,
