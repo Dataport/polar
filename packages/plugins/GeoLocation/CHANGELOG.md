@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.4.0
 
 - Feature: Position is now tracked when user is outside of the boundary layer but inside the map extent.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
