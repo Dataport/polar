@@ -1,8 +1,15 @@
 {
   "name": "@polar/plugin-layer-chooser",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "LayerChooser plugin for POLAR that adds a layer selection and configuration UI element for both backgrounds and overlays.",
-  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "LayerChooser", "layer"],
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "LayerChooser",
+    "layer"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
