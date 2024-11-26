@@ -43,10 +43,10 @@ const internLayers = [
   {
     id: alkisWfs,
     visibility: false,
-    hideInMenu: true,
+    hideInMenu: false,
     gfiMode: 'bboxDot',
     type: 'mask',
-    name: 'ALKIS Katasterbezirke (WFS)',
+    name: 'ALKIS Katasterbezirke (WFS) Infoabfragelayer',
   },
   {
     id: alkisWms,
@@ -58,9 +58,9 @@ const internLayers = [
   {
     id: denkmaelerWfsIntern,
     visibility: false,
-    hideInMenu: true,
+    hideInMenu: false,
     type: 'mask',
-    name: 'Denkmal (WFS) Intern',
+    name: 'Denkmal (WFS) Infoabfragelayer',
   },
   {
     id: beschriftung,
@@ -101,11 +101,11 @@ const internLayers = [
         title: {
           '28': 'Mehrheit von baulichen Anlagen mit Kontrollbedarf',
           '29': 'Sachgesamtheit mit Kontrollbedarf',
-          '23': 'Baudenkmale mit Kontrollbedarf',
-          '22': 'Gartendenkmale mit Kontrollbedarf',
+          '23': 'Baudenkmal mit Kontrollbedarf',
+          '22': 'Gründenkmal mit Kontrollbedarf',
           '21': 'Gewässer mit Kontrollbedarf',
-          '20': 'Baudenkmale mit Kontrollbedarf (Flächen)',
-          '19': 'Gartendenkmale mit Kontrollbedarf (Flächen)',
+          '20': 'Baudenkmal mit Kontrollbedarf (Flächen)',
+          '19': 'Gründenkmal mit Kontrollbedarf (Flächen)',
         },
         legend: true,
       },
