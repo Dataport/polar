@@ -23,9 +23,6 @@ const unify = (geometry: Geometry): Geometry => {
     // NOTE: never null, input from flatten merges as expected
     return (union(flatten(geometry)) as Feature<Polygon>).geometry
   }
-  console.warn(
-    `@polar/client-text-locator: Unexpected geometry in request body creation.`
-  )
   return geometry
 }
 

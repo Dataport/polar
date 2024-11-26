@@ -10,6 +10,8 @@
 - Feature: Add clearer documentation regarding `@masterportal/masterportalapi` related configuration parameters including examples.
 - Feature: Officially add support for WMTS layers.
 - Feature: Add reasonable default values for configuration parameters `epsg`, `options`, `namedProjections` and `startResolution`.
+- Feature: Add new configuration parameter `featureStyles` in conjunction with the parameter `styleId` on layer configurations to be able to style vector features.
+- Feature: Officially add support for GeoJSON layers.
 - Fix: Document `rawLayerList.initializeLayerList` as an essential step when creating a client.
 - Fix: Move basic documentation of `layers` from `@polar/plugin-layer-chooser` to `@polar/core`.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.

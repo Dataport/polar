@@ -28,6 +28,7 @@ const getInitialState = (): GeometrySearchState => ({
   featureCollection: getEmptyFeatureCollection(),
   titleLocationFrequency: {},
   byCategory: 'text',
+  lastSearch: null,
 })
 
 // OK for module creation
@@ -64,11 +65,12 @@ export const makeStoreModule = () => {
             commit('setFeatureCollection', result)
             dispatch('updateFrequencies')
           })
-          .finally(() =>
+          .finally(() => {
             commit('plugin/loadingIndicator/removeLoadingKey', loadingKey, {
               root: true,
             })
-          )
+            commit('setLastSearch', 'geometrySearch')
+          })
       },
       changeActiveData(
         {
