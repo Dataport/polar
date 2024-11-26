@@ -1,9 +1,9 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.0
 
 - Breaking: Upgrade peerDependency of `ol` from `^7.1.0` to `^9.2.4`.
-- Breaking: `getGazetteerFeatures` has been removed. All uses within POLAR have been deprecated and replaced. If you still need this function, please refer to the masterportalApi implementation that features it as root export `search`.
+- Breaking: `getGazetteerFeatures` has been removed. All uses within POLAR have been deprecated and replaced. If you still need this function, please refer to the `@masterportal/masterportalapi` implementation that features it as root export `search`.
 - Breaking: `getWfsFeatures` now throws errors if required parameters on the wfs configuration are missing instead of only printing error messages on the console.
 - Feature: `getWfsFeatures` now offers the possibility to set custom attributes for the `PropertyIsLike` operator.
 - Fix: Properly extend interface `WfsParameters` from `QueryParameters` to reflect actual usage.
