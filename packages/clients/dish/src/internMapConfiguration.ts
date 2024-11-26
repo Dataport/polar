@@ -203,7 +203,7 @@ export const internMapConfiguration = (internServicesBaseUrl: string) => {
           geometryName: 'app:geometry',
         },
         [alkisWfs]: {
-          geometry: true,
+          geometry: false,
           window: true,
           maxFeatures: 5,
           geometryName: 'geometry',
