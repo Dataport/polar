@@ -1,8 +1,14 @@
 {
   "name": "@polar/core",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "POLAR core package. Provides POALR environment with store setup, localization, UI framework, and other basics.",
-  "keywords": ["OpenLayers", "ol", "POLAR", "core", "base"],
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "core",
+    "base"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -15,10 +21,10 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@masterportal/masterportalapi": "2.40.0",
-    "@polar/components": "^2.0.0",
+    "@polar/components": "^2.2.0",
     "@polar/lib-idx": "^1.0.0",
-    "@polar/lib-get-cluster": "^1.0.0",
-    "@polar/lib-invisible-style": "^1.0.0",
+    "@polar/lib-get-cluster": "^2.0.0",
+    "@polar/lib-invisible-style": "^2.0.0",
     "@repositoryname/noop": "^1.0.6",
     "@repositoryname/vuex-generators": "^1.1.2",
     "events": "^3.3.0",

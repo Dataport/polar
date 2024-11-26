@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.5.0
 
 - Feature: Add `selectedCoordinate` to core store getters; it returns `null` or the `selected` feature's point coordinates.
 - Feature: Add new parameters `unselectableStyle` and `isSelectable` with new type `ExtendedMasterportalapiMarkersIsSelectableFunction` to interface `ExtendedMasterportalapiMarkers`.
@@ -18,6 +18,8 @@
 - Feature: Add new type `MasterportalApiConfig`.
 - Feature: Change `MapConfig` to allow for partial configuration as some parameters have default values and have it be extended from `MasterportalApiConfig`.
 - Feature: Add new configuration parameter `directSelect` and `boxSelect` to `GfiConfiguration`.
+- Feature: Add new configuration parameter `featureStyles` to `MapConfig`.
+- Feature: Add new configuration parameter `styleId` to `LayerConfiguration`.
 - Fix: Document missing return type to `afterLoadFunction`, which may also return a Promise.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 - Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.

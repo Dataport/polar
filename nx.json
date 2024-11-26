@@ -5,5 +5,13 @@
       "runner": "nx/tasks-runners/default"
     }
   },
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "release": {
+    "projectsRelationship": "independent",
+    "version": {
+      "generatorOptions": {
+        "updateDependents": true
+      }
+    }
+  }
 }

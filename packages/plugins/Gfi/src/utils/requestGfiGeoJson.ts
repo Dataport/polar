@@ -28,7 +28,7 @@ export default ({
   layer: VectorLayer<Feature>
 }): Promise<GeoJsonFeature[]> =>
   Promise.resolve(
-    coordinateOrExtent.length === 2
+    (coordinateOrExtent.length === 2
       ? map.getFeaturesAtPixel(map.getPixelFromCoordinate(coordinateOrExtent), {
           layerFilter: (candidate) => candidate === layer,
         })
@@ -38,11 +38,12 @@ export default ({
           .getFeaturesInExtent(coordinateOrExtent)
           .map(getNestedFeatures)
           .flat(1)
-          .map((feature) =>
-            feature instanceof Feature
-              ? JSON.parse(writer.writeFeature(feature))
-              : false
-          )
-          // remove FeatureLikes
-          .filter((x) => x)
+    )
+      .map((feature) =>
+        feature instanceof Feature
+          ? JSON.parse(writer.writeFeature(feature))
+          : false
+      )
+      // remove FeatureLikes
+      .filter((x) => x)
   )

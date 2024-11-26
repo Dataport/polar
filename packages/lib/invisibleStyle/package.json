@@ -1,8 +1,15 @@
 {
   "name": "@polar/lib-invisible-style",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Provides semantic styling for elements to remove visiblity from them in a detectable fashion that adds programmatic semantics, i.e. whether an element should be considered as visible or not to the user and should hence appear (or be considered) in user interfaces.",
-  "keywords": ["OpenLayers", "ol", "POLAR", "lib", "visiblity", "filter"],
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "lib",
+    "visiblity",
+    "filter"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
