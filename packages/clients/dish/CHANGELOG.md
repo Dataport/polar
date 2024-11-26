@@ -18,7 +18,7 @@
 
 - Feature: Update icon of `layerChooser` in `iconMenu` to `fa-layer-group` to clear-up the content hidden behind the menu button.
 - Chore: Various small changes to keep up with library updates.
-- Chore: Changing internal URLs to new adresses.
+- Chore: Changing internal URLs to new addresses.
 
 ## 1.0.0
 
