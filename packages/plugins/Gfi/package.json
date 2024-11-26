@@ -1,8 +1,15 @@
 {
   "name": "@polar/plugin-gfi",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "description": "Gfi plugin for POLAR that adds feature information retrieval. UI elements can be provided by configuration, else it works as a store integration.",
-  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "gfi", "feature information"],
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "gfi",
+    "feature information"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
