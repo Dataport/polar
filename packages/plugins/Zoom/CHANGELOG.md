@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.3.0
 
 - Feature: Add easing between zoom levels.
 - Feature: Add new configuration parameter `showZoomSlider` to configure a zoom slider display.
