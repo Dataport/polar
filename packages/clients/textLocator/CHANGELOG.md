@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Chore: Update `@polar`-dependencies to the latest versions.
+
 ## 1.0.0
 
 - Breaking: Adapt client to new backend API. Previous versions are no longer runnable due the backend API change.

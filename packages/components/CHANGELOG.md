@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.2.0
 
 - Feature: Use newly added store parameter `deviceIsHorizontal` in place of computed value `isHorizontal`.
 

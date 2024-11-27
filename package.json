@@ -10,6 +10,7 @@
   },
   "workspaces": [
     "packages/clients/*",
+    "packages/components",
     "packages/core",
     "packages/lib/*",
     "packages/plugins/*",

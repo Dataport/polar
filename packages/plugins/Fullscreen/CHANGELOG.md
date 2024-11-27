@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.2
 
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Refactor: Remove redundant props regarding positioning of the tooltip.

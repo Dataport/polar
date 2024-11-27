@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.0
 
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.
 - Breaking: Remove support for marking client CSS via `data-polar="true"`. Please use the configuration parameter `stylePath` instead.
