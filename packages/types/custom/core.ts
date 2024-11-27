@@ -364,6 +364,7 @@ export interface GfiConfiguration extends PluginOptions {
    * Otherwise, a default style is applied.
    */
   customHighlightStyle?: HighlightStyle
+  directSelect?: boolean
   featureList?: FeatureList
   /**
    * Optionally replace GfiContent component.
@@ -377,6 +378,7 @@ export interface GfiConfiguration extends PluginOptions {
    */
   maxFeatures?: number
   mode?: 'bboxDot' | 'intersects'
+  boxSelect?: boolean
   renderType?: RenderType
 }
 
@@ -537,6 +539,8 @@ export interface LayerConfiguration {
   name: string
   /** Whether the layer is a background layer or a feature layer with specific information */
   type: LayerType
+  /** layers may have their own gfiMode */
+  gfiMode?: 'bboxDot' | 'intersects'
   /** Whether the mask-layer should be hidden from the LayerChooser selection menu */
   hideInMenu?: boolean
   /** The minimum zoom level the layer will be rendered in; defaults to 0 */
@@ -545,10 +549,9 @@ export interface LayerConfiguration {
   maxZoom?: number
   /** Enables a configuration feature for the layer in its selection. */
   options?: LayerConfigurationOptions
+  styleId?: string
   /** Whether the layer should be rendered; defaults to false */
   visibility?: boolean
-  /** layers may have their own gfiMode */
-  gfiMode?: 'bboxDot' | 'intersects'
 }
 
 export interface PolarMapOptions {
@@ -619,6 +622,7 @@ export interface MapConfig extends MasterportalApiConfig {
   /** if true, all services' availability will be checked with head requests */
   checkServiceAvailability?: boolean
   extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
+  featureStyles?: string
   language?: InitialLanguage
   locales?: LanguageOption[]
   renderFaToLightDom?: boolean

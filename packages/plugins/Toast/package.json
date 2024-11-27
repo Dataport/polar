@@ -1,8 +1,16 @@
 {
   "name": "@polar/plugin-toast",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Toast plugin for POLAR that adds toast elements (notification popups) to the client.",
-  "keywords": ["OpenLayers", "ol", "POLAR", "plugin", "toast", "notification", "popup"],
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "toast",
+    "notification",
+    "popup"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -25,7 +33,7 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.0.0",
-    "@polar/lib-test-mount-parameters": "^1.0.0"
+    "@polar/lib-custom-types": "^1.5.0",
+    "@polar/lib-test-mount-parameters": "^1.3.0"
   }
 }

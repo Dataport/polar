@@ -1,0 +1,73 @@
+[
+  {
+    "styleId": "panda",
+    "rules": [
+      {
+        "conditions": {
+          "properties": [
+            {
+              "attrName": "vorhaben_zulassung_am",
+              "type": "date",
+              "value": "08.07.1997"
+            }
+          ]
+        },
+        "style": {
+          "polygonStrokeColor": [3, 255, 1, 1],
+          "polygonFillColor": [3, 255, 1, 0.25]
+        }
+      },
+      {
+        "conditions": {
+          "properties": [
+            {
+              "attrName": "vorhaben_zulassung_am",
+              "type": "date",
+              "value": "02.05.1991"
+            }
+          ]
+        },
+        "style": {
+          "polygonStrokeColor": [3, 255, 1, 1],
+          "polygonFillColor": [3, 255, 1, 0.25]
+        }
+      },
+      {
+        "conditions": {
+          "properties": [
+            {
+              "attrName": "vorhaben_zulassung_am",
+              "type": "date",
+              "value": "21.02.2003"
+            }
+          ]
+        },
+        "style": {
+          "polygonStrokeColor": [3, 255, 1, 1],
+          "polygonFillColor": [3, 255, 1, 0.25]
+        }
+      },
+      {
+        "conditions": {
+          "properties": [
+            {
+              "attrName": "vorhaben_zulassung_am",
+              "type": "date",
+              "value": "08.12.1989"
+            }
+          ]
+        },
+        "style": {
+          "polygonStrokeColor": [3, 255, 1, 1],
+          "polygonFillColor": [3, 255, 1, 0.25]
+        }
+      },
+      {
+        "style": {
+          "polygonStrokeColor": [128, 128, 128, 1],
+          "polygonFillColor": [128, 128, 128, 0.5]
+        }
+      }
+    ]
+  }
+]

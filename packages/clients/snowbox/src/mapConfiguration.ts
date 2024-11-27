@@ -19,9 +19,9 @@ const ausgleichsflaechen = '1454'
 const hamburgBorder = '6074'
 
 const isAusgleichsflaecheActive = (feature: GeoJsonFeature) =>
-  new Date(
-    Date.parse(feature.properties?.vorhaben_zulassung_am.split('.')[2])
-  ).getFullYear() >= 2000
+  ['08.07.1997', '02.05.1991', '21.02.2003', '08.12.1989'].includes(
+    feature.properties?.vorhaben_zulassung_am
+  )
 
 // arbitrary condition for testing
 const isEvenId = (mmlid: string) => Number(mmlid.slice(-1)) % 2 === 0
@@ -62,6 +62,7 @@ export const mapConfiguration = {
       },
     },
   },
+  featureStyles: './style.json',
   extendedMasterportalapiMarkers: {
     layers: [reports],
     defaultStyle: {
@@ -160,6 +161,7 @@ export const mapConfiguration = {
   gfi: {
     mode: 'bboxDot',
     activeLayerPath: 'plugin/layerChooser/activeMaskIds',
+    boxSelect: true,
     layers: {
       [uBahn]: {
         geometry: true,
@@ -238,6 +240,7 @@ export const mapConfiguration = {
       id: ausgleichsflaechen,
       type: 'mask',
       name: 'snowbox.layers.ausgleichsflaechen',
+      styleId: 'panda',
     },
     {
       id: hamburgBorder,

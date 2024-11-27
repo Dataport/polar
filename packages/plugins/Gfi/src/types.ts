@@ -12,22 +12,23 @@ import {
   RenderType,
   FeatureList,
 } from '@polar/lib-custom-types'
+import { VueConstructor } from 'vue'
 
 /** parameter specification for request method */
 export interface RequestGfiParameters {
   map: Map
   layer: BaseLayer
-  coordinate: [number, number]
+  coordinateOrExtent: [number, number] | [number, number, number, number]
   layerConfiguration: GfiLayerConfiguration
   /** rawLayerList entry, see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md */
   layerSpecification: Record<string, unknown>
   /** defaults to bboxDot (get from minimal coordinate bbox) */
-  mode?: 'bboxDot' | 'intersects' // TODO: Might be interesting to rather define this per service
+  mode?: 'bboxDot' | 'intersects'
 }
 
 export interface RequestGfiWmsParameters {
   map: RequestGfiParameters['map']
-  coordinate: RequestGfiParameters['coordinate']
+  coordinate: [number, number]
   layerConfiguration: RequestGfiParameters['layerConfiguration']
   layerSpecification: RequestGfiParameters['layerSpecification']
   layer: TileLayer<TileWMS>
@@ -56,6 +57,7 @@ export interface GfiGetters extends GfiState {
   geometryLayerKeys: string[]
   /** module configuration */
   gfiConfiguration: GfiConfiguration
+  gfiContentComponent: VueConstructor | null
   isFeatureHovered: (feature: Feature) => boolean
   /** all layer keys to retrieve GFI information for */
   layerKeys: string[]

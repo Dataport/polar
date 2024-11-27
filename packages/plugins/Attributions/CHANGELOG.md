@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.3.0
 
 - Feature: Add new option `'footer'` to configuration parameter `renderType` that changes the attributions to be displayed as a small version of the information box that is always visible.
 - Refactor: Replace redundant props with computed properties.

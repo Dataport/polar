@@ -1,11 +1,14 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.0
 
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.
 - Feature: Add new configuration parameter `isSelectable` that can be used to filter features to be unselectable.
+- Feature: Add new configuration parameters `directSelect` and `boxSelect` to be able to select multiple features at once.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Fix: Add missing configuration parameters `featureList` and `maxFeatures` to the general documentation and `filterBy` and `format` to `gfi.gfiLayerConfiguration`
+- Fix: Add missing entry of `gfiContentComponent` to `GfiGetters`.
+- Fix: Fix issue rendering properties of a feature if a value is not a string.
 - Refactor: Replace redundant prop-forwarding with `getters`.
 - Refactor: Use core getter `clientWidth` instead of local computed value.
 - Chore: expand on the description to `gfiContentComponent` in the Readme.md.

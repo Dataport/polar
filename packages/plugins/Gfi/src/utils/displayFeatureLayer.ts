@@ -13,6 +13,8 @@ export function getFeatureDisplayLayer() {
 
   featureDisplayLayer.set('polarInternalId', 'pluginGfiFeatureDisplay')
   featureDisplayLayer.setZIndex(90)
+  // NOTE: This may be changed in the future to not use the default styling of @masterportal/masterportalapi
+  featureDisplayLayer.set('styleId', 'defaultHighlightFeaturesPoint')
 
   return featureDisplayLayer
 }
