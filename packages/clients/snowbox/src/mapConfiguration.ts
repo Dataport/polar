@@ -260,9 +260,16 @@ export const mapConfiguration = {
     },
   },
   routing: {
+    url: 'https://sg.geodatenzentrum.de/web_ors/v2/',
     selectableTravelModes: ['walking', 'wheelchair'],
     selectablePreferences: ['recommended', 'fastest', 'shortest'],
-    displayPreference: true,
-    url: 'https://sg.geodatenzentrum.de/web_ors/v2/',
+    displayPreferences: true,
+    displayRouteTypesToAvoid: true,
+    style: {
+      stroke: {
+        color: '#e51313',
+        width: 2,
+      },
+    },
   },
 }

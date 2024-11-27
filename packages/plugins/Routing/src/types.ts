@@ -1,5 +1,16 @@
 // TODO: entscheiden, ob ich die LayerConfiguration brauche
-import { Feature, FeatureCollection, RoutingConfiguration } from 'geojson'
+import { Feature, FeatureCollection } from 'geojson'
+import VectorSource from 'ol/source/Vector'
+import { StyleLike } from 'ol/style/Style'
+import { RoutingConfiguration } from '@polar/lib-custom-types'
+import { LineString } from 'ol/geom'
+
+// The options that can be given to an ol/VectorLayer. Somehow the direct import from ol doesn't work.
+// This is a copy with the things that we currently use
+export interface PolarVectorOptions {
+  source?: VectorSource
+  style?: StyleLike
+}
 
 // TODO: entscheiden, ob ich den IdManipulator brauche
 export type IdManipulator = (ids: (string | number)[]) => (number | string)[]
@@ -10,15 +21,17 @@ export interface FeatureIndexZip {
 }
 
 export interface RoutingState {
-  route: string[]
+  start: object
+  end: object
+  renderType: string
   selectedTravelMode: string
   selectableTravelModes: []
   displayPreference: boolean
   selectedPreference: string
   selectablePreferences: []
   displayRouteTypesToAvoid: boolean
-  selectableRouteTypesToAvoid: []
   selectedRouteTypesToAvoid: []
+  selectableRouteTypesToAvoid: []
   serviceID: string
   numberOfKeysToTriggerSearch: number
   // TODO: überprüfen, ob diese Angaben richtig sind:
@@ -28,17 +41,25 @@ export interface RoutingState {
    * b) nothing has been search yet
    * FeatureIndexZip[] | symbol
    */
-  searchResults: string[]
+  searchResponseData: []
 }
 
-export interface RoutingGetters extends RoutingState {
-  routingConfiguration: RoutingConfiguration
-  route: string[]
+export interface RoutingGetters extends Omit<RoutingState, 'selectedFeature'> {
+  start: object
+  end: object
   renderType: string
   selectedTravelMode: string
+  selectableTravelModes: []
   selectedPreference: string
-  travelModeOptionsFromMapConfig: string[]
-  preferenceOptionsFromMapConfig: string[]
+  selectablePreferences: []
+  displayRouteTypesToAvoid: boolean
+  selectedRouteTypesToAvoid: []
+  selectableRouteTypesToAvoid: []
+  serviceID: string
+  numberOfKeysToTriggerSearch: number
+  startAndEndCoordinates: []
+  searchResponseData: []
+  routingConfiguration: RoutingConfiguration
 }
 
 // TODO: entscheiden, ob ich das brauche

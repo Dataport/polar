@@ -18,22 +18,6 @@ const getters = {
   selectedPreference({ selectedPreference }, { selectablePreferences }) {
     return selectedPreference || selectablePreferences[0]
   },
-  travelModeOptionsFromMapConfig: (
-    _,
-    __,
-    ___,
-    rootGetters
-  ): string[] | undefined => {
-    return rootGetters.configuration?.routing?.selectableTravelModes
-  },
-  preferenceOptionsFromMapConfig: (
-    _,
-    __,
-    ___,
-    rootGetters
-  ): string[] | undefined => {
-    return rootGetters.configuration?.routing?.selectablePreferences
-  },
 }
 
 export default getters

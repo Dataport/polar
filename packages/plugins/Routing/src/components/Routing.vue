@@ -25,21 +25,22 @@
         item-value="key"
         item-text="translatedKey"
       ></v-select>
-      <v-radio-group
-        v-model="selectedRouteTypesToAvoid"
-        row
-        :label="$t('common:plugins.routing.avoidRoutesTitle')"
-        dense
-        hide-details
-      >
-        <v-radio
-          v-for="route in selectableRouteTypesToAvoid"
-          :key="route.key"
-          :label="$t(translatedRouteTypeToAvoid(route.key))"
-          :value="route.key"
-        ></v-radio>
-      </v-radio-group>
-      <v-btn @click="sendRequest">send Request</v-btn>
+      <div>
+        {{ $t('common:plugins.routing.avoidRoutesTitle') }}
+        <v-layout row wrap>
+          <v-flex>
+            <v-checkbox
+              v-for="routeType in selectableRouteTypesToAvoid"
+              :key="routeType.key"
+              v-model="selectedRouteTypesToAvoidItems"
+              :label="$t(translatedRouteTypeToAvoid(routeType.key))"
+              :value="routeType.key"
+            ></v-checkbox>
+          </v-flex>
+        </v-layout>
+      </div>
+      <v-btn @click="sendRequest">Send Request</v-btn>
+      <v-btn @click="drawRoute">Draw Route</v-btn>
     </v-card>
   </v-scroll-x-reverse-transition>
 </template>
@@ -93,7 +94,7 @@ export default Vue.extend({
         translatedKey: this.$t(item.localKey),
       }))
     },
-    selectedRouteTypesToAvoid: {
+    selectedRouteTypesToAvoidItems: {
       get(): string {
         return this.selectedRouteTypesToAvoid
       },
@@ -110,12 +111,14 @@ export default Vue.extend({
       'setupModule',
       'resetCoordinates',
       'sendRequest',
+      'drawRoute',
     ]),
     ...mapMutations('plugin/routing', [
       'setSelectedTravelMode',
       'setSelectedPreference',
-      'resetCoordinates',
-      'setSelectedRoutesToAvoid',
+      'resetCoordinates', // TODO: muss diese Mutation erstmal angelegt werden?
+      'setSelectedRouteTypesToAvoid',
+      'setSearchResponseData',
     ]),
     translatedRouteTypeToAvoid(myKey) {
       const localKey = this.selectableRouteTypesToAvoid.find(
