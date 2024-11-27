@@ -43,8 +43,6 @@ export default Vue.extend({
     ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
     /** switch to next or previous feature */
     switchFeature(by: GfiIndexStep): void {
-      this.disableLeftButton = false
-      this.disableRightButton = false
       const {
         visibleWindowFeatureIndex,
         windowFeatures,
