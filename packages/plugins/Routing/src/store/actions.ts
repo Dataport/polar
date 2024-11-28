@@ -19,31 +19,18 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     map.addLayer(drawLayer)
     console.error(map.getLayers().getArray())
   },
-  resetCoordinates({ commit }) {
+  resetCoordinates({ commit, state }) {
     // TODO: Fehler beheben: "unknown local mutation type: resetCoordinates"
-    commit('route/setRoute', [0.0, 0.0])
-  },
-  drawRoute({ rootGetters: { configuration }, state }, coordinates) {
-    const transformedCoordinates = state.coordinates.map((coordinate) =>
-      transform(coordinate, 'EPSG:4326', 'EPSG:25832')
+    commit('setStart', [0.0, ''])
+    commit('setEnd', [0.0, ''])
+    console.error(
+      'Start- und Endpunkt im Store nach reset:',
+      state.start,
+      state.end
     )
-    console.error(transformedCoordinates)
-    const routeLineString = new LineString(transformedCoordinates)
-
-    const routeFeature = new Feature({
-      geometry: routeLineString,
-      featureProjection: 'EPSG:25832',
-    })
-    routeFeature.setStyle(
-      createDrawStyle(
-        configuration?.routing?.style?.stroke?.color,
-        configuration?.routing?.style
-      )
-    )
-    drawSource.addFeature(routeFeature)
-    console.error(drawSource.getFeatures())
   },
-  sendRequest() {
+  sendRequest({ commit, dispatch }) {
+    const searchCoordinates = [[10.011687335562508, 53.553460000125064], [10.00032456432135, 53.54922700402619]]
     const fetchDirections = async () => {
       try {
         const response = await fetch(
@@ -54,7 +41,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              coordinates: this.startAndEndCoordinates,
+              coordinates: searchCoordinates,
               geometry: true,
               instructions: true,
               language: 'en',
@@ -73,14 +60,38 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
           throw new Error(`HTTP error! Status: ${response.status}`)
         }
         const data = await response.json()
-        console.log('Response:', data)
-        this.commit('setSearchResponseData', data)
+        console.error('Response:', data)
+        commit('setSearchResponseData', data)
+        dispatch('drawRoute')
       } catch (error) {
         console.error('Error:', error)
       }
     }
     fetchDirections()
-    drawRoute(data)
+  },
+  drawRoute({ rootGetters: { configuration }, state }) {
+    console.error(`stored response: `, state.searchResponseData)
+    const transformedCoordinates =
+      state.searchResponseData.features[0].geometry.coordinates.map((coordinate) =>
+      transform(coordinate, 'EPSG:4326', 'EPSG:25832')
+    )
+    console.error(
+      `coordinates transformed for drawing purpose: `,
+      transformedCoordinates
+    )
+    const routeLineString = new LineString(transformedCoordinates)
+
+    const routeFeature = new Feature({
+      geometry: routeLineString,
+    })
+    routeFeature.setStyle(
+      createDrawStyle(
+        configuration?.routing?.style?.stroke?.color,
+        configuration?.routing?.style
+      )
+    )
+    drawSource.addFeature(routeFeature)
+    console.error(drawSource.getFeatures())
   },
   checkConfig({ rootGetters: { configuration }, commit }) {
     if (configuration?.routing?.selectableTravelModes) {

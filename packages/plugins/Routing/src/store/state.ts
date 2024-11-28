@@ -47,7 +47,6 @@ export const getInitialState = (): RoutingState => ({
   ],
   serviceID: '',
   numberOfKeysToTriggerSearch: 3,
-  startAndEndCoordinates: [],
   searchResponseData: [],
   selectedFeature: 1,
 })

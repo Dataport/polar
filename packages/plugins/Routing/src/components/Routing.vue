@@ -40,7 +40,6 @@
         </v-layout>
       </div>
       <v-btn @click="sendRequest">Send Request</v-btn>
-      <v-btn @click="drawRoute">Draw Route</v-btn>
     </v-card>
   </v-scroll-x-reverse-transition>
 </template>
@@ -111,12 +110,10 @@ export default Vue.extend({
       'setupModule',
       'resetCoordinates',
       'sendRequest',
-      'drawRoute',
     ]),
     ...mapMutations('plugin/routing', [
       'setSelectedTravelMode',
       'setSelectedPreference',
-      'resetCoordinates', // TODO: muss diese Mutation erstmal angelegt werden?
       'setSelectedRouteTypesToAvoid',
       'setSearchResponseData',
     ]),

@@ -18,7 +18,7 @@ export default function (source, style?: RouteStyle) {
     })
   }
   return new VectorLayer({
-    name: 'drawRouteLayer',
+    name: 'RouteFeatureLayer',
     ...options,
   })
 }

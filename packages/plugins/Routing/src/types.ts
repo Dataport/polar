@@ -3,6 +3,7 @@ import { Feature, FeatureCollection } from 'geojson'
 import VectorSource from 'ol/source/Vector'
 import { StyleLike } from 'ol/style/Style'
 import { RoutingConfiguration } from '@polar/lib-custom-types'
+import { Coordinate } from 'ol/coordinate'
 import { LineString } from 'ol/geom'
 
 // The options that can be given to an ol/VectorLayer. Somehow the direct import from ol doesn't work.
@@ -21,8 +22,8 @@ export interface FeatureIndexZip {
 }
 
 export interface RoutingState {
-  start: object
-  end: object
+  start: Coordinate
+  end: Coordinate
   renderType: string
   selectedTravelMode: string
   selectableTravelModes: []
@@ -44,9 +45,9 @@ export interface RoutingState {
   searchResponseData: []
 }
 
-export interface RoutingGetters extends Omit<RoutingState, 'selectedFeature'> {
-  start: object
-  end: object
+export interface RoutingGetters extends RoutingState {
+  start: Coordinate
+  end: Coordinate
   renderType: string
   selectedTravelMode: string
   selectableTravelModes: []
@@ -57,7 +58,6 @@ export interface RoutingGetters extends Omit<RoutingState, 'selectedFeature'> {
   selectableRouteTypesToAvoid: []
   serviceID: string
   numberOfKeysToTriggerSearch: number
-  startAndEndCoordinates: []
   searchResponseData: []
   routingConfiguration: RoutingConfiguration
 }
