@@ -1,26 +1,26 @@
 <template>
-  <div id="dish-gfi-switch-buttons">
+  <div id="dish-gfi-switch-buttons-group">
     <v-btn
       :disabled="visibleWindowFeatureIndex <= 0"
       elevation="2"
-      class="ma-2"
+      class="ma-2 dish-gfi-switch-button"
       fab
       x-small
       :aria-label="$t('common:plugins.gfi.switch.previous')"
       @click="switchFeature(-1)"
     >
-      <v-icon>fa-chevron-left</v-icon>
+      <v-icon color="white">fa-chevron-left</v-icon>
     </v-btn>
     <v-btn
       :disabled="visibleWindowFeatureIndex === windowFeatures.length - 2"
       elevation="2"
-      class="ma-2"
+      class="ma-2 dish-gfi-switch-button"
       fab
       x-small
       :aria-label="$t('common:plugins.gfi.switch.next')"
       @click="switchFeature(1)"
     >
-      <v-icon>fa-chevron-right</v-icon>
+      <v-icon color="white">fa-chevron-right</v-icon>
     </v-btn>
   </div>
 </template>
@@ -66,8 +66,12 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-#dish-gfi-switch-buttons {
+#dish-gfi-switch-buttons-group {
   display: flex;
   justify-content: right;
+}
+
+.dish-gfi-switch-button {
+  background-color: #003064 !important; // shBlue
 }
 </style>
