@@ -195,6 +195,7 @@ export const internMapConfiguration = (internServicesBaseUrl: string) => {
     },
     gfi: {
       mode: 'intersects',
+      // alkisWfs needs to be last in layer array because of specific gfi display
       layers: {
         [denkmaelerWfsIntern]: {
           geometry: true,
