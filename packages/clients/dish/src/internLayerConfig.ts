@@ -43,7 +43,7 @@ const internLayers = [
   {
     id: alkisWfs,
     visibility: false,
-    hideInMenu: false,
+    hideInMenu: true,
     gfiMode: 'bboxDot',
     type: 'mask',
     name: 'ALKIS Katasterbezirke (WFS) Infoabfragelayer',
@@ -58,7 +58,7 @@ const internLayers = [
   {
     id: denkmaelerWfsIntern,
     visibility: false,
-    hideInMenu: false,
+    hideInMenu: true,
     type: 'mask',
     name: 'Denkmal (WFS) Infoabfragelayer',
   },
