@@ -1,5 +1,5 @@
 <template>
-  <v-card class="dish-gfi-content">
+  <v-card v-if="showGfi" class="dish-gfi-content">
     <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
       <ActionButton></ActionButton>
       <v-spacer></v-spacer>
@@ -12,30 +12,10 @@
         <v-icon small>fa-xmark</v-icon>
       </v-btn>
     </v-card-actions>
-    <v-card-title v-if="objektIdentifier" class="dish-gfi-title">
-      {{ `${$t('common:dish.gfiHeader')} ${objektIdentifier}` }}
-    </v-card-title>
-    <img
-      v-if="displayImage"
-      class="dish-fat-cell"
-      :style="`max-width: ${imgMaxWidth}; min-width: max(${imgMinWidth}, 15%); pointer-events: none; padding: 0 32px;`"
-      :src="photo"
-    />
-    <v-card-text id="dish-switch-buttons">
-      <v-simple-table dense>
-        <template #default>
-          <tbody>
-            <tr v-for="item in info" :key="item[0]">
-              <td class="dish-fat-cell">{{ item[0] }}</td>
-              <td>{{ item[1] }}</td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-      <div id="dish-gfi-switch-buttons">
-        <InternSwitchButton v-if="showSwitchButtons"></InternSwitchButton>
-      </div>
-    </v-card-text>
+    <MonumentContent></MonumentContent>
+    <div id="dish-gfi-switch-buttons">
+      <InternSwitchButton v-if="showDishSwitchButtons"></InternSwitchButton>
+    </div>
   </v-card>
 </template>
 
@@ -43,60 +23,45 @@
 import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import ActionButton from '../Gfi/ActionButton.vue'
-import { getPhoto } from '../../utils/extendGfi'
+import { denkmaelerWmsIntern } from '../../servicesIntern'
+import { alkisWms } from '../../services'
 import InternSwitchButton from './InternSwitchButton.vue'
+import MonumentContent from './monumentContent.vue'
 
 export default Vue.extend({
   name: 'DishGfiIntern',
-  components: { ActionButton, InternSwitchButton },
-  data: () => ({
-    infoFields: {
-      denkmalliste: 'Denkmalliste',
-      einstufung: 'Einstufung',
-      kategorie: 'Kategorie',
-      kreis_kue: 'Kreis',
-      gemeinde: 'Gemeinde',
-      objektansprache: 'Ansprache',
-      zaehler: 'Zähler',
-      gemarkung: 'Gemarkung',
-      flstkennz: 'Flurstückskennzeichen',
-    },
-    infoFieldsAdress: ['strasse', 'hausnummer', 'hausnrzusatz'],
-    infoFielsFlurstueck: ['flstnrzae', 'flstnrnen'],
-    photo: '',
-  }),
+  components: {
+    ActionButton,
+    InternSwitchButton,
+    MonumentContent,
+  },
+  data: () => ({}),
   computed: {
-    ...mapGetters([
-      'clientWidth',
-      'hasSmallWidth',
-      'hasWindowSize',
-      'configuration',
-    ]),
-    ...mapGetters('plugin/gfi', [
-      'currentProperties',
-      'showSwitchButtons',
-      'windowFeatures',
-    ]),
+    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
+    ...mapGetters('plugin/gfi', ['currentProperties', 'windowFeatures']),
+    ...mapGetters('plugin/layerChooser', ['activeMaskIds']),
     objektIdentifier(): string {
       return this.currentProperties.objektid
     },
-    info(): Array<string[]> {
-      return this.prepareTableData(this.currentProperties)
-    },
-    displayImage(): boolean {
-      return this.photo !== 'Kein Foto gefunden'
-    },
-    imgMinWidth(): string | undefined {
-      if (this.hasWindowSize && this.hasSmallWidth) {
-        return undefined
+    showDishSwitchButtons(): boolean {
+      if (
+        this.showInfoForActiveLayers('alkis') &&
+        !this.showInfoForActiveLayers('monument')
+      ) {
+        return false
       }
-      return 10 + 'px'
+      return this.windowFeatures.length > 2
     },
-    imgMaxWidth(): string | undefined {
-      if (this.hasWindowSize && this.hasSmallWidth) {
-        return '15%'
-      }
-      return 0.2 * this.clientWidth + 'px'
+    showGfi(): boolean {
+      return (
+        (this.showInfoForActiveLayers('monument') && this.objektIdentifier) ||
+        this.showInfoForActiveLayers('alkis')
+      )
+    },
+  },
+  watch: {
+    windowFeatures() {
+      this.setVisibleWindowFeatureIndex(0)
     },
   },
   mounted() {
@@ -111,60 +76,18 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations(['setMoveHandleActionButton']),
+    ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
     ...mapActions('plugin/gfi', ['close']),
-    prepareTableData(object: Record<string, string>): Array<string[]> {
-      this.setImage()
-      const tableData = Object.entries(object)
-        .filter(([key]) => Object.keys(this.infoFields).includes(key))
-        .map(([key, value]) => [this.infoFields[key], value])
-
-      const address = this.infoFieldsAdress
-        .map((field) => object[field])
-        .filter((value) => value)
-        .join(' ')
-      const addressData = ['Strasse', address]
-      if (address && address.trim() !== '') tableData.push(addressData)
-
-      const flurStueck = this.infoFielsFlurstueck
-        .map((field) => object[field])
-        .filter((value) => value)
-        .join(' / ')
-
-      const flurStueckData = ['Flurstück', flurStueck]
-
-      if (flurStueck && flurStueck.trim() !== '') tableData.push(flurStueckData)
-
-      return tableData
-    },
-    async setImage() {
-      try {
-        this.photo = await getPhoto(
-          this.objektIdentifier,
-          `${this.configuration.gfi.internalHost}/TitelBilder/`
-        )
-      } catch (error) {
-        console.error('Error loading image:', error)
-        this.photo = ''
+    showInfoForActiveLayers(topic: 'alkis' | 'monument') {
+      const layerMap = {
+        alkis: alkisWms,
+        monument: denkmaelerWmsIntern,
       }
+      const targetLayer = layerMap[topic]
+      return targetLayer ? this.activeMaskIds.includes(targetLayer) : false
     },
   },
 })
 </script>
 
-<style lang="scss" scoped>
-* {
-  color: #003064 !important;
-}
-
-.dish-fat-cell {
-  font-weight: bolder;
-}
-
-.dish-gfi-title {
-  margin: 0;
-  padding: 0 32px;
-  font-size: 1em;
-  font-weight: bolder;
-  word-break: break-word;
-}
-</style>
+<style lang="scss" scoped></style>

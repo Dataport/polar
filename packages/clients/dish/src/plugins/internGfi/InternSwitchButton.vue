@@ -12,7 +12,7 @@
       <v-icon>fa-chevron-left</v-icon>
     </v-btn>
     <v-btn
-      :disabled="visibleWindowFeatureIndex === windowFeatures.length - 1"
+      :disabled="visibleWindowFeatureIndex === windowFeatures.length - 2"
       elevation="2"
       class="ma-2"
       fab
@@ -49,7 +49,7 @@ export default Vue.extend({
         setVisibleWindowFeatureIndex,
       } = this
 
-      const maxIndex = windowFeatures.length - 1
+      const maxIndex = windowFeatures.length - 2
       const nextIndex = visibleWindowFeatureIndex + by
       if (nextIndex < 0) {
         setVisibleWindowFeatureIndex(windowFeatures.length - 1)
