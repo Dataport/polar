@@ -140,7 +140,7 @@ export const internMapConfiguration = (internServicesBaseUrl: string) => {
             },
           },
           type: 'bkg',
-          url: `${dishCloudBaseUrl}/dish/bkg/search/geosearch.json`,
+          url: `${dishCloudBaseUrl}/search/geosearch.json`,
         },
         {
           groupId: 'groupDenkmalsuche',
