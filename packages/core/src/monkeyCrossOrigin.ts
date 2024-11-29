@@ -14,7 +14,8 @@ Map.prototype.addLayer = function (...parameters) {
     .forEach((layer) => {
       // @ts-expect-error | All layers here are instantiated layers including a source.
       const source = layer.getSource()
-      // set private param for ol class ImageWMS to prevent error in canvas rendering | Undocumented.
+      // @ts-expect-error | Set private param for ol class ImageWMS to prevent error in canvas rendering.
+      // Might break after ol upgrade because its undocumented.
       if (source instanceof ImageWMS) source.crossOrigin_ = 'anonymous'
       else source.crossOrigin = 'anonymous'
       // @ts-expect-error | All layers here are instantiated layers including a source.
