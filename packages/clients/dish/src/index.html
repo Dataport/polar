@@ -31,6 +31,7 @@
       const internalPort = '8081'
       const internalPath = 'dish-deegree-3.5.0/services'
 
+// leave empty for external map
       const urlParams = {
         internalHost,
         internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
@@ -38,8 +39,9 @@
 
       client.createMap({
         containerId: 'polarstern',
-        mode: 'INTERN', // INTERN, EXTERN
+        mode: 'EXTERN', // INTERN, EXTERN
         urlParams,
+        //only needed for internal map
         configOverride: {
           dishExportMap: {
             internalHost: urlParams.internalHost,

@@ -27,34 +27,27 @@
     <script type="module">
       import client from './client-dish.js'
 
-      // Edit URLs for PROD
       const internalHost = 'http://10.61.63.54'
       const internalPort = '8081'
       const internalPath = 'dish-deegree-3.5.0/services'
-      const internServicesBaseUrl = `${internalHost}:${internalPort}/${internalPath}`
-      const internalHostPrintImage = 'http://10.61.134.23/Content/MapsTmp'
-      const denkmaelerWmsInternUrl = `${internServicesBaseUrl}/wms`
-
+// leave empty for external map
       const urlParams = {
-        denkmaelerWfsInternUrl: `${internServicesBaseUrl}/wfs`,
-        denkmaelerWmsInternUrl,
-        kontrollbedarfInternUrl: denkmaelerWmsInternUrl,
-        verlustInternUrl:  denkmaelerWmsInternUrl,
-        beschriftungUrl: denkmaelerWmsInternUrl
+        internalHost,
+        internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
       }
 
       client.createMap({
         containerId: 'polarstern',
-        mode: 'INTERN', // INTERN, EXTERN
+        mode: 'EXTERN', // INTERN, EXTERN
         urlParams,
+        //only needed for internal map
         configOverride: {
-          // dishExportMap needs parameters to recreate url for backend print
           dishExportMap: {
-            printImageUrlProd: internalHostPrintImage,
-            exportMapAsPdfUrl: `${internalHost}/Content/Objekt/Kartenausgabe.aspx`,
-            denkmaelerWfsInternUrl: urlParams.denkmaelerWfsInternUrl,
-            denkmaelerWmsInternUrl,
-          },          
+            internalHost: urlParams.internalHost,
+          },
+          gfi: {
+            internalHost: urlParams.internalHost,
+          }   
         }
       })
     </script>
