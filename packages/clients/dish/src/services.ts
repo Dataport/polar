@@ -110,7 +110,7 @@ const servicesExtern = [
   bddEinService,
 ]
 
-const AlkisWfService = {
+const alkisWfService = {
   id: alkisWfs,
   name: 'ALKIS',
   url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
@@ -120,7 +120,7 @@ const AlkisWfService = {
   featureType: 'ave:Flurstueck',
 }
 
-const AlkisWmService = {
+const alkisWmService = {
   id: alkisWms,
   name: 'ALKIS WMS',
   url: `${dishCloudBaseUrl}/bkg/ALKIS_FLST`,
@@ -146,7 +146,7 @@ const basemapGrauService = {
   transparent: true,
 }
 
-const servicesCommon = [basemapGrauService, AlkisWfService, AlkisWmService]
+const servicesCommon = [basemapGrauService, alkisWfService, alkisWmService]
 
 export const services = (mode: keyof typeof MODE, urlParams) => {
   if (mode === MODE.EXTERN) {
