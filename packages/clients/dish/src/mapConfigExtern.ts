@@ -3,10 +3,18 @@
 
 import { shBlue } from './colors'
 import {
+  bkgSearch,
+  alkisSearch,
+  groupProperties,
+  categoryAlkisSearch,
+  categoryBkgSearch,
+  categoryIdAlkisSearch,
+  categoryIdBkgSearch,
+} from './searchConfigParams'
+
+import {
   basemapGrau,
   dishBaseUrl,
-  dishCloudBaseUrl,
-  alkisWfs,
   alkisWms,
   denkmaelerWfsExtern,
   denkmaelerWMS,
@@ -155,55 +163,10 @@ export const mapConfigExtern = {
           topic: null,
         },
       },
-      {
-        groupId: 'groupDenkmalsuche',
-        categoryId: 'categoryBkgSuche',
-        queryParameters: {
-          filter: {
-            bundesland: 'Schleswig-Holstein',
-          },
-        },
-        type: 'bkg',
-        url: `${dishCloudBaseUrl}/search/geosearch.json`,
-      },
-      {
-        groupId: 'groupDenkmalsuche',
-        categoryId: 'categoryWfssuche',
-        type: 'wfs',
-        url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
-        queryParameters: {
-          id: alkisWfs,
-          maxFeatures: 120,
-          srsName: 'EPSG:25832',
-          typeName: 'Flurstueck',
-          featurePrefix: 'ave',
-          xmlns:
-            'http://repository.gdi-de.org/schemas/adv/produkt/alkis-vereinfacht/2.0',
-          patternKeys: {
-            flstnrnen: '([0-9]+)',
-            flstnrzae: '([0-9]+)',
-            gemarkung: '([A-Za-z]+)',
-            flstkennz: '([0-9_]+)',
-          },
-          patterns: [
-            '{{gemarkung}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
-            '{{gemarkung}} {{flstnrzae}}, {{flstkennz}}',
-            '{{flstkennz}}',
-          ],
-        },
-      },
+      bkgSearch,
+      alkisSearch,
     ],
-    groupProperties: {
-      groupDenkmalsuche: {
-        label: 'Suche Denkmal, Adresse, Flurstück',
-        hint: 'common:dish.addressSearchHint',
-        resultDisplayMode: 'categorized',
-        limitResults: 3,
-      },
-      defaultGroup: {
-        limitResults: 5,
-      },
-    },
+    groupProperties,
     categoryProperties: {
       categoryDenkmalsucheAutocomplete: {
         label: 'Denkmalsuche Stichworte',
@@ -211,12 +174,8 @@ export const mapConfigExtern = {
       categoryDenkmalsucheDish: {
         label: 'Denkmalsuche Treffer',
       },
-      categoryBkgSuche: {
-        label: 'Adresssuche Treffer',
-      },
-      categoryWfssuche: {
-        label: 'Flurstückssuche Treffer',
-      },
+      [categoryIdBkgSearch]: categoryBkgSearch,
+      [categoryIdAlkisSearch]: categoryAlkisSearch,
     },
     minLength: 3,
   },
