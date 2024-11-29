@@ -14,7 +14,7 @@
     </v-card-actions>
     <MonumentContent></MonumentContent>
     <div id="dish-gfi-switch-buttons">
-      <InternSwitchButton v-if="showDishSwitchButtons"></InternSwitchButton>
+      <SwitchButtonIntern v-if="showDishSwitchButtons"></SwitchButtonIntern>
     </div>
   </v-card>
 </template>
@@ -25,14 +25,14 @@ import { mapActions, mapMutations, mapGetters } from 'vuex'
 import ActionButton from '../Gfi/ActionButton.vue'
 import { denkmaelerWmsIntern } from '../../servicesIntern'
 import { alkisWms } from '../../services'
-import InternSwitchButton from './InternSwitchButton.vue'
-import MonumentContent from './monumentContent.vue'
+import SwitchButtonIntern from './SwitchButtonIntern.vue'
+import MonumentContent from './MonumentContent.vue'
 
 export default Vue.extend({
   name: 'DishGfiIntern',
   components: {
     ActionButton,
-    InternSwitchButton,
+    SwitchButtonIntern,
     MonumentContent,
   },
   data: () => ({}),
