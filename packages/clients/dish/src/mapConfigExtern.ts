@@ -15,7 +15,7 @@ import {
   bddEin,
 } from './services'
 
-export const exportMapConfiguration = {
+export const mapConfigExtern = {
   geoLocation: {
     checkLocationInitially: false,
     toastAction: 'plugin/toast/addToast',

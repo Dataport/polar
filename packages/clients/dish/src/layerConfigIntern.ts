@@ -15,7 +15,7 @@ import {
 
 import { basemapGrau, alkisWfs, alkisWms } from './services'
 
-const internLayers = [
+const layersIntern = [
   {
     id: basemapGrau,
     visibility: false,
@@ -143,4 +143,4 @@ const internLayers = [
   },
 ]
 
-export default internLayers
+export default layersIntern

@@ -1,8 +1,8 @@
 import merge from 'lodash.merge'
 import locales from './locales'
 import { shBlue, shWhite } from './colors'
-import { internMapConfiguration } from './internMapConfiguration'
-import { exportMapConfiguration } from './externMapConfiguration'
+import { mapConfigIntern } from './mapConfigIntern'
+import { mapConfigExtern } from './mapConfigExtern'
 
 let zoomLevel = 0
 
@@ -50,8 +50,8 @@ export const getMapConfiguration = (
   const config = merge({
     ...commonMapConfiguration,
     ...(mode === 'INTERN'
-      ? internMapConfiguration(internServicesBaseUrl)
-      : exportMapConfiguration),
+      ? mapConfigIntern(internServicesBaseUrl)
+      : mapConfigExtern),
   })
   return config
 }

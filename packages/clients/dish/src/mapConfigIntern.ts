@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import internLayers from './internLayerConfig'
+import layersIntern from './layerConfigIntern'
 import { dishCloudBaseUrl, basemapGrau, alkisWfs, alkisWms } from './services'
 import {
   denkmaelerWmsIntern,
@@ -13,13 +13,13 @@ import {
 } from './servicesIntern'
 import { shBlue } from './colors'
 
-export const internMapConfiguration = (internServicesBaseUrl: string) => {
+export const mapConfigIntern = (internServicesBaseUrl: string) => {
   return {
     scale: {
       showScaleSwitcher: true,
       zoomMethod: 'plugin/zoom/setZoomLevel',
     },
-    layers: internLayers,
+    layers: layersIntern,
     attributions: {
       initiallyOpen: false,
       layerAttributions: [
