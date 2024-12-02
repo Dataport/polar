@@ -21,7 +21,7 @@ import {
   attributionsCommon,
   denkmalAmtLink,
   vermessungsAmtLink,
-} from './layerAttributions'
+} from './attributionsConfig'
 
 export const mapConfigIntern = (internServicesBaseUrl: string) => {
   return {

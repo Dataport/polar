@@ -11,7 +11,7 @@ import {
   bddCol,
   bddEin,
 } from '../services'
-import { denkmalAmtLink } from './layerAttributions'
+import { denkmalAmtLink } from './attributionsConfig'
 import {
   searchMethods,
   categoryProps,
