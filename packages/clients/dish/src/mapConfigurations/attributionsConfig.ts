@@ -14,7 +14,6 @@ export const attributionsCommon = [
   },
   {
     id: alkisWms,
-    title:
-      'Karte Flurstücke gemäss ALKIS-Objektartenkatalog © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
+    title: `Karte Flurstücke gemäss ALKIS-Objektartenkatalog © ${vermessungsAmtLink} <MONTH> <YEAR>`,
   },
 ]
