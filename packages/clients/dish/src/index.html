@@ -39,16 +39,13 @@
 
       client.createMap({
         containerId: 'polarstern',
-        mode: 'EXTERN', // INTERN, EXTERN
+        mode: 'INTERN', // INTERN, EXTERN
         urlParams,
         //only needed for internal map
         configOverride: {
           dishExportMap: {
             internalHost: urlParams.internalHost,
           },
-          gfi: {
-            internalHost: urlParams.internalHost,
-          }   
         }
       })
     </script>

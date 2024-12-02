@@ -1,6 +1,7 @@
 import merge from 'lodash.merge'
 import locales from '../locales'
 import { shBlue, shWhite } from '../colors'
+import { DishUrlParams } from '../types'
 import { mapConfigIntern } from './mapConfigIntern'
 import { mapConfigExtern } from './mapConfigExtern'
 
@@ -45,13 +46,11 @@ const commonMapConfiguration = {
 
 export const getMapConfiguration = (
   mode: string,
-  internServicesBaseUrl = ''
+  urlParams: DishUrlParams = { internalHost: '', internServicesBaseUrl: '' }
 ) => {
   const config = merge({
     ...commonMapConfiguration,
-    ...(mode === 'INTERN'
-      ? mapConfigIntern(internServicesBaseUrl)
-      : mapConfigExtern),
+    ...(mode === 'INTERN' ? mapConfigIntern(urlParams) : mapConfigExtern),
   })
   return config
 }

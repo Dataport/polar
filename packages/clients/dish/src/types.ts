@@ -92,3 +92,10 @@ export interface ModalState {
   closed: boolean
   content: number
 }
+
+export interface UrlParams {
+  internalHost: string
+  internServicesBaseUrl: string
+}
+
+export type DishUrlParams = UrlParams

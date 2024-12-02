@@ -18,10 +18,7 @@ export default {
     addPlugins(client, mode)
     const layerConf = services(mode, urlParams)
     client.rawLayerList.initializeLayerList(layerConf)
-    const mapConfiguration = getMapConfiguration(
-      mode,
-      urlParams.internServicesBaseUrl
-    )
+    const mapConfiguration = getMapConfiguration(mode, urlParams)
 
     await client
       .createMap({

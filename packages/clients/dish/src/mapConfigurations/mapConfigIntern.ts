@@ -11,6 +11,7 @@ import {
   verwaltung,
 } from '../servicesIntern'
 import { shBlue } from '../colors'
+import { DishUrlParams } from '../types'
 import {
   categoryProps,
   groupProperties,
@@ -23,7 +24,7 @@ import {
   vermessungsAmtLink,
 } from './attributionsConfig'
 
-export const mapConfigIntern = (internServicesBaseUrl: string) => {
+export const mapConfigIntern = (urlParams: DishUrlParams) => {
   return {
     scale: {
       showScaleSwitcher: true,
@@ -101,7 +102,7 @@ export const mapConfigIntern = (internServicesBaseUrl: string) => {
       searchMethods: [
         {
           ...searchMethods.denkmalsucheDishIntern,
-          url: `${internServicesBaseUrl}/wfs`,
+          url: `${urlParams.internServicesBaseUrl}/wfs`,
         },
         searchMethods.bkgSearch,
         searchMethods.alkisSearch,
@@ -119,6 +120,7 @@ export const mapConfigIntern = (internServicesBaseUrl: string) => {
     },
     gfi: {
       mode: 'intersects',
+      internalHost: urlParams.internalHost,
       // alkisWfs needs to be last in layer array because of specific gfi display
       layers: {
         [denkmaelerWfsIntern]: {
