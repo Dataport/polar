@@ -11,7 +11,7 @@ import {
   bddCol,
   bddEin,
 } from '../services'
-import { denkmalAmtLink } from './attributionsConfig'
+import { denkmalAmtLink, vermessungsAmtLink } from './attributionsConfig'
 import {
   searchMethods,
   categoryProps,
@@ -103,6 +103,18 @@ export const mapConfigExtern = {
       {
         id: denkmaelerWMS,
         title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
+      },
+      {
+        id: dop20col,
+        title: `Digitale Orthophotos: © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+      },
+      {
+        id: bddCol,
+        title: `Karte BDD (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+      },
+      {
+        id: bddEin,
+        title: `Karte BDD (Einfarbig): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
       },
     ],
     staticAttributions: [
