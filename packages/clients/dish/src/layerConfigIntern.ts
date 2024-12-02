@@ -1,6 +1,7 @@
 // number-only keys needed in layers object
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { LayerConfiguration } from '@polar/lib-custom-types'
 import {
   denkmaelerWmsIntern,
   denkmaelerWfsIntern,
@@ -15,7 +16,7 @@ import {
 
 import { basemapGrau, alkisWfs, alkisWms } from './services'
 
-const layersIntern = [
+const layersIntern: LayerConfiguration[] = [
   {
     id: basemapGrau,
     visibility: false,
@@ -132,14 +133,18 @@ const layersIntern = [
     visibility: false,
     type: 'mask',
     name: 'Verwaltungsgrenzen',
-    order: 'Landesgrenzen,Kreisgrenzen,Aemtergrenzen,Gemeindegrenzen',
-    title: {
-      Landesgrenzen: 'Landesgrenzen',
-      Kreisgrenzen: 'Kreisgrenzen',
-      Aemtergrenzen: 'Ämtergrenzen',
-      Gemeindegrenzen: 'Gemeindegrenzen',
+    options: {
+      layers: {
+        order: 'Landesgrenzen,Kreisgrenzen,Aemtergrenzen,Gemeindegrenzen',
+        title: {
+          Landesgrenzen: 'Landesgrenzen',
+          Kreisgrenzen: 'Kreisgrenzen',
+          Aemtergrenzen: 'Ämtergrenzen',
+          Gemeindegrenzen: 'Gemeindegrenzen',
+        },
+        legend: true,
+      },
     },
-    legend: true,
   },
 ]
 
