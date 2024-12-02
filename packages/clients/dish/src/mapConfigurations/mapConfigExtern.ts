@@ -35,7 +35,7 @@ export const mapConfigExtern = {
       id: dop20col,
       visibility: true,
       type: 'background',
-      name: 'DOP 20',
+      name: 'Digitale Orthophotos',
     },
     {
       id: denkmaelerWfsExtern,
@@ -78,13 +78,13 @@ export const mapConfigExtern = {
       id: bddCol,
       visibility: true,
       type: 'background',
-      name: 'BDD (Mehrfarbe)',
+      name: 'Digitale Topographische Karten (Farbe)',
     },
     {
       id: bddEin,
       visibility: true,
       type: 'background',
-      name: 'BDD (Einfarbig)',
+      name: 'Digitale Topographische Karten (Graustufen)',
     },
   ],
   attributions: {
@@ -110,11 +110,11 @@ export const mapConfigExtern = {
       },
       {
         id: bddCol,
-        title: `Karte BDD (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        title: `Digitale Topographische Karten (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
       },
       {
         id: bddEin,
-        title: `Karte BDD (Einfarbig): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        title: `Digitale Topographische Karten (Graustufen): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
       },
     ],
     staticAttributions: [
