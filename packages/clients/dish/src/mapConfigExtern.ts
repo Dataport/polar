@@ -3,18 +3,13 @@
 
 import { shBlue } from './colors'
 import {
-  bkgSearch,
-  alkisSearch,
+  searchMethods,
+  categoryProps,
   groupProperties,
-  categoryAlkisSearch,
-  categoryBkgSearch,
-  categoryIdAlkisSearch,
-  categoryIdBkgSearch,
 } from './searchConfigParams'
 
 import {
   basemapGrau,
-  dishBaseUrl,
   alkisWms,
   denkmaelerWfsExtern,
   denkmaelerWMS,
@@ -136,46 +131,21 @@ export const mapConfigExtern = {
   },
   addressSearch: {
     searchMethods: [
-      {
-        groupId: 'groupDenkmalsuche',
-        categoryId: 'categoryDenkmalsucheAutocomplete',
-        type: 'autocomplete',
-        // NOTE exotic, doesn't need URL
-        url: 'example.com',
-      },
-      {
-        groupId: 'groupDenkmalsuche',
-        categoryId: 'categoryDenkmalsucheDish',
-        type: 'dish',
-        url: `${dishBaseUrl}/dish_service/service.aspx`,
-        queryParameters: {
-          wfsConfiguration: {
-            id: denkmaelerWfsExtern,
-            srsName: 'EPSG:25832',
-            typeName: 'dish_shp',
-            fieldName: 'objektid',
-            featurePrefix: 'app',
-            xmlns: 'http://www.deegree.org/app',
-          },
-          maxFeatures: 120,
-          searchKey: 'volltext',
-          addRightHandWildcard: true,
-          topic: null,
-        },
-      },
-      bkgSearch,
-      alkisSearch,
+      searchMethods.denkmalsucheAutocomplete,
+      searchMethods.denkmalsucheDishExtern,
+      searchMethods.bkgSearch,
+      searchMethods.alkisSearch,
     ],
     groupProperties,
     categoryProperties: {
-      categoryDenkmalsucheAutocomplete: {
-        label: 'Denkmalsuche Stichworte',
-      },
-      categoryDenkmalsucheDish: {
-        label: 'Denkmalsuche Treffer',
-      },
-      [categoryIdBkgSearch]: categoryBkgSearch,
-      [categoryIdAlkisSearch]: categoryAlkisSearch,
+      [searchMethods.denkmalsucheAutocomplete.categoryId]:
+        categoryProps[searchMethods.denkmalsucheAutocomplete.categoryId],
+      [searchMethods.denkmalsucheDishExtern.categoryId]:
+        categoryProps[searchMethods.denkmalsucheAutocomplete.categoryId],
+      [searchMethods.bkgSearch.categoryId]:
+        categoryProps[searchMethods.bkgSearch.categoryId],
+      [searchMethods.alkisSearch.categoryId]:
+        categoryProps[searchMethods.alkisSearch.categoryId],
     },
     minLength: 3,
   },

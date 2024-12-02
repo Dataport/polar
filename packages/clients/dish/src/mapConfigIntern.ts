@@ -2,13 +2,9 @@
 import layersIntern from './layerConfigIntern'
 import { basemapGrau, alkisWfs, alkisWms } from './services'
 import {
-  bkgSearch,
-  alkisSearch,
+  categoryProps,
   groupProperties,
-  categoryIdBkgSearch,
-  categoryBkgSearch,
-  categoryIdAlkisSearch,
-  categoryAlkisSearch,
+  searchMethods,
 } from './searchConfigParams'
 import {
   denkmaelerWmsIntern,
@@ -115,41 +111,20 @@ export const mapConfigIntern = (internServicesBaseUrl: string) => {
     addressSearch: {
       searchMethods: [
         {
-          groupId: 'groupDenkmalsuche',
-          categoryId: 'categoryDenkmalSucheIntern',
-          type: 'wfs',
+          ...searchMethods.denkmalsucheDishIntern,
           url: `${internServicesBaseUrl}/wfs`,
-          queryParameters: {
-            id: 'denkmaelerWfsIntern',
-            srsName: 'EPSG:25832',
-            typeName: 'TBLGIS_ORA',
-            featurePrefix: 'app',
-            xmlns: 'http://www.deegree.org/app',
-            useRightHandWildcard: true,
-            patternKeys: {
-              hausnummer: '([0-9]+)',
-              strasse: '([A-Za-z]+)',
-              objektansprache: '([A-Za-z]+)',
-              kreis_kue: '([A-Za-z]+)',
-              objektid: '([0-9]+)',
-            },
-            patterns: [
-              '{{objektansprache}}, {{strasse}} {{hausnummer}}, {{kreis_kue}}, {{objektid}}',
-              '{{strasse}} {{hausnummer}}, {{kreis_kue}}',
-              ' {{objektansprache}}, {{objektid}}',
-            ],
-          },
         },
-        bkgSearch,
-        alkisSearch,
+        searchMethods.bkgSearch,
+        searchMethods.alkisSearch,
       ],
       groupProperties,
       categoryProperties: {
-        categoryDenkmalSucheIntern: {
-          label: 'Denkmalsuche Treffer',
-        },
-        [categoryIdBkgSearch]: categoryBkgSearch,
-        [categoryIdAlkisSearch]: categoryAlkisSearch,
+        [searchMethods.denkmalsucheDishIntern.categoryId]:
+          categoryProps[searchMethods.denkmalsucheDishIntern.categoryId],
+        [searchMethods.bkgSearch.categoryId]:
+          categoryProps[searchMethods.bkgSearch.categoryId],
+        [searchMethods.alkisSearch.categoryId]:
+          categoryProps[searchMethods.alkisSearch.categoryId],
       },
       minLength: 3,
     },
