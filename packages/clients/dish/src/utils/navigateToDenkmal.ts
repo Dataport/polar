@@ -1,5 +1,5 @@
 import { denkmaelerWfServiceExtern } from '../services'
-import { getMapConfiguration } from '../mapConfig'
+import { getMapConfiguration } from '../mapConfigurations/mapConfig'
 import { zoomToFeatureById } from './zoomToFeatureById'
 
 const mapConfiguration = getMapConfiguration('EXTERN')

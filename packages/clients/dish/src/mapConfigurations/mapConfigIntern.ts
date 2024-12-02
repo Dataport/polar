@@ -1,11 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import layersIntern from './layerConfigIntern'
-import { basemapGrau, alkisWfs, alkisWms } from './services'
-import {
-  categoryProps,
-  groupProperties,
-  searchMethods,
-} from './searchConfigParams'
+import { alkisWfs } from '../services'
 import {
   denkmaelerWmsIntern,
   denkmaelerWfsIntern,
@@ -15,8 +9,19 @@ import {
   kontrollbedarfIntern,
   verlustIntern,
   verwaltung,
-} from './servicesIntern'
-import { shBlue } from './colors'
+} from '../servicesIntern'
+import { shBlue } from '../colors'
+import {
+  categoryProps,
+  groupProperties,
+  searchMethods,
+} from './searchConfigParams'
+import layersIntern from './layerConfigIntern'
+import {
+  attributionsCommon,
+  denkmalAmtLink,
+  vermessungsAmtLink,
+} from './layerAttributions'
 
 export const mapConfigIntern = (internServicesBaseUrl: string) => {
   return {
@@ -28,50 +33,34 @@ export const mapConfigIntern = (internServicesBaseUrl: string) => {
     attributions: {
       initiallyOpen: false,
       layerAttributions: [
-        {
-          id: basemapGrau,
-          title:
-            'Karte Basemap.de Web Raster Grau: © <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <MONTH> <YEAR>',
-        },
-        {
-          id: alkisWms,
-          title:
-            'Karte Flurstücke gemäss ALKIS-Objektartenkatalog © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
-        },
+        ...attributionsCommon,
         {
           id: denkmaelerWmsIntern,
-          title:
-            'Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>',
+          title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
         },
         {
           id: kontrollbedarfIntern,
-          title:
-            'Karte Objekte mit Kontrollbedarf: © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>',
+          title: `Karte Objekte mit Kontrollbedarf: © ${denkmalAmtLink} <MONTH> <YEAR>`,
         },
         {
           id: verlustIntern,
-          title:
-            'Karte Verlust: © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>',
+          title: `Karte Verlust: © ${denkmalAmtLink} <MONTH> <YEAR>`,
         },
         {
           id: verwaltung,
-          title:
-            'Verwaltungsgrenzen: © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
+          title: `Verwaltungsgrenzen: © ${vermessungsAmtLink}`,
         },
         {
           id: bddEinIntern,
-          title:
-            'Grundkarte Graustufen: © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
+          title: `Grundkarte Graustufen: © ${vermessungsAmtLink}`,
         },
         {
           id: bddColIntern,
-          title:
-            'Grundkarte Farbe: © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
+          title: `Grundkarte Farbe: © ${vermessungsAmtLink}`,
         },
         {
           id: aerialPhoto,
-          title:
-            'Luftbilder Farbe: © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
+          title: `Luftbilder Farbe: © ${vermessungsAmtLink}`,
         },
       ],
       staticAttributions: [

@@ -12,9 +12,9 @@ import {
   bddEinIntern,
   bddColIntern,
   aerialPhoto,
-} from './servicesIntern'
+} from '../servicesIntern'
 
-import { basemapGrau, alkisWfs, alkisWms } from './services'
+import { basemapGrau, alkisWfs, alkisWms } from '../services'
 
 const layersIntern: LayerConfiguration[] = [
   {

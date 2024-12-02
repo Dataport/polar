@@ -1,13 +1,7 @@
 // number-only keys needed in layers object
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { shBlue } from './colors'
-import {
-  searchMethods,
-  categoryProps,
-  groupProperties,
-} from './searchConfigParams'
-
+import { shBlue } from '../colors'
 import {
   basemapGrau,
   alkisWms,
@@ -16,7 +10,13 @@ import {
   dop20col,
   bddCol,
   bddEin,
-} from './services'
+} from '../services'
+import { denkmalAmtLink } from './layerAttributions'
+import {
+  searchMethods,
+  categoryProps,
+  groupProperties,
+} from './searchConfigParams'
 
 export const mapConfigExtern = {
   geoLocation: {
@@ -102,8 +102,7 @@ export const mapConfigExtern = {
       },
       {
         id: denkmaelerWMS,
-        title:
-          'Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>',
+        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
       },
     ],
     staticAttributions: [

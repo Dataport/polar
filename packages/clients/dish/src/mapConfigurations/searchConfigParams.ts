@@ -3,7 +3,7 @@ import {
   denkmaelerWfsExtern,
   dishBaseUrl,
   dishCloudBaseUrl,
-} from './services'
+} from '../services'
 
 const groupDenkmalsuche = 'groupDenkmalsuche'
 

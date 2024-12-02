@@ -1,6 +1,6 @@
 import merge from 'lodash.merge'
-import locales from './locales'
-import { shBlue, shWhite } from './colors'
+import locales from '../locales'
+import { shBlue, shWhite } from '../colors'
 import { mapConfigIntern } from './mapConfigIntern'
 import { mapConfigExtern } from './mapConfigExtern'
 
