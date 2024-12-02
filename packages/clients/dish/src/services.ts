@@ -8,7 +8,6 @@ export const denkmaelerWMS = 'denkmaelerWMS'
 export const alkisWfs = 'alkisWfs'
 export const alkisWms = 'alkisWms'
 export const dop20col = 'dop20col'
-export const dop20sw = 'dop20sw'
 export const bddCol = 'bddCol'
 export const bddEin = 'bddEin'
 
@@ -65,18 +64,6 @@ const dop20ColService = {
   transparent: true,
 }
 
-const dop20swService = {
-  id: dop20sw,
-  name: 'DOP 20 (SW)',
-  url: `${dishCloudBaseUrl}/dish/bkg/DOP20sw`,
-  typ: 'WMS',
-  layers: 'DOP20sw',
-  legendURL: 'ignore',
-  format: 'image/png',
-  version: '1.3.0',
-  transparent: true,
-}
-
 const bddColService = {
   id: bddCol,
   name: 'BDD (Mehrfarbe)',
@@ -105,7 +92,6 @@ const servicesExtern = [
   denkmaelerWmService,
   denkmaelerWfServiceExtern,
   dop20ColService,
-  dop20swService,
   bddColService,
   bddEinService,
 ]
