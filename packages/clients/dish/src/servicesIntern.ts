@@ -39,6 +39,7 @@ const beschriftungService = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
+  singleTile: true,
 }
 
 const kontrollbedarfServiceIntern = {
