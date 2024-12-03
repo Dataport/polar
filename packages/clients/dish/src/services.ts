@@ -57,7 +57,7 @@ const dop20ColService = {
   name: 'DOP 20 (Farbe)',
   url: `${dishCloudBaseUrl}/dish/bkg/DOP20col`,
   typ: 'WMS',
-  layers: 'DOP20COL',
+  layers: 'SH_DOP20_4,SH_DOP20_3,SH_DOP20_2,SH_DOP20_1',
   legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',
@@ -69,7 +69,8 @@ const bddColService = {
   name: 'BDD (Mehrfarbe)',
   url: `${dishCloudBaseUrl}/dish/bkg/BDDcol`,
   typ: 'WMS',
-  layers: 'BDDCOL_V2',
+  layers:
+    'DTK5col,DTK25col,DTK50col,DTK100col,Flaechen_250,Linien_250,Flaechen_1000,Linien_1000,Flaechen_1500,Linien_1500',
   legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',
@@ -81,7 +82,8 @@ const bddEinService = {
   name: 'BDD (Einfarbig)',
   url: `${dishCloudBaseUrl}/dish/bkg/BDDein`,
   typ: 'WMS',
-  layers: 'BDDEIN_V2',
+  layers:
+    'DTK5ein,DTK25ein,DTK50ein,DTK100ein,Flaechen_250,Linien_250,Flaechen_1000,Linien_1000,Flaechen_1500,Linien_1500',
   legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',

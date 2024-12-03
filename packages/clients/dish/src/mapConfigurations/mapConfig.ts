@@ -8,7 +8,6 @@ import { mapConfigExtern } from './mapConfigExtern'
 let zoomLevel = 0
 
 const commonMapConfiguration = {
-  checkServiceAvailability: true,
   startResolution: 264.583190458,
   startCenter: [553655.72, 6004479.25],
   extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],

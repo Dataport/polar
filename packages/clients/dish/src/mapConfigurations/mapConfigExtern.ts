@@ -19,6 +19,7 @@ import {
 } from './searchConfigParams'
 
 export const mapConfigExtern = {
+  checkServiceAvailability: false,
   geoLocation: {
     checkLocationInitially: false,
     toastAction: 'plugin/toast/addToast',

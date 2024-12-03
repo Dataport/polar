@@ -26,6 +26,7 @@ import {
 
 export const mapConfigIntern = (urlParams: DishUrlParams) => {
   return {
+    checkServiceAvailability: true,
     scale: {
       showScaleSwitcher: true,
       zoomMethod: 'plugin/zoom/setZoomLevel',
