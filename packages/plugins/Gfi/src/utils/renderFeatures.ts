@@ -10,10 +10,11 @@ export function renderFeatures(
   geometryLayerKeys: string[],
   features: FeaturesByLayerId
 ) {
+  const filteredFeatures = filterFeatures(features)
   geometryLayerKeys
     .filter((key) => Array.isArray(features[key]))
     .forEach((key) =>
-      filterFeatures(features)[key].forEach((feature) =>
+      filteredFeatures[key].forEach((feature) =>
         addFeature(feature, featureDisplayLayer)
       )
     )
