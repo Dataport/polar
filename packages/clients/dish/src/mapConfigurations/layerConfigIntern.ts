@@ -114,7 +114,7 @@ const layersIntern: LayerConfiguration[] = [
   },
   {
     id: verlustIntern,
-    visibility: false,
+    visibility: true,
     type: 'mask',
     name: 'Verlust',
     options: {
