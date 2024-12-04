@@ -4,7 +4,6 @@ import VectorSource from 'ol/source/Vector'
 import { StyleLike } from 'ol/style/Style'
 import { RoutingConfiguration } from '@polar/lib-custom-types'
 import { Coordinate } from 'ol/coordinate'
-import { LineString } from 'ol/geom'
 
 // The options that can be given to an ol/VectorLayer. Somehow the direct import from ol doesn't work.
 // This is a copy with the things that we currently use
@@ -23,7 +22,9 @@ export interface FeatureIndexZip {
 
 export interface RoutingState {
   start: Coordinate
+  startAddress: string
   end: Coordinate
+  endAddress: string
   renderType: string
   selectedTravelMode: string
   selectableTravelModes: []
@@ -42,7 +43,8 @@ export interface RoutingState {
    * b) nothing has been search yet
    * FeatureIndexZip[] | symbol
    */
-  searchResponseData: []
+  searchResponseData: object
+  mousePosition: []
 }
 
 export interface RoutingGetters extends RoutingState {
@@ -58,8 +60,9 @@ export interface RoutingGetters extends RoutingState {
   selectableRouteTypesToAvoid: []
   serviceID: string
   numberOfKeysToTriggerSearch: number
-  searchResponseData: []
+  searchResponseData: object
   routingConfiguration: RoutingConfiguration
+  mousePosition: []
 }
 
 // TODO: entscheiden, ob ich das brauche

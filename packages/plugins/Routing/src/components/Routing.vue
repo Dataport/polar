@@ -2,9 +2,17 @@
   <v-scroll-x-reverse-transition>
     <v-card class="polar-routing-menu">
       <v-card-title>{{ $t('common:plugins.routing.title') }} </v-card-title>
-      <v-text-field :label="$t('common:plugins.routing.startLabel')">
+      <v-text-field
+        v-model="startpointInput"
+        :label="$t('common:plugins.routing.startLabel')"
+        :hint="$t('common:plugins.routing.inputHint')"
+        persistent-hint
+      >
       </v-text-field>
-      <v-text-field :label="$t('common:plugins.routing.endLabel')">
+      <v-text-field
+        v-model="endpointInput"
+        :label="$t('common:plugins.routing.endLabel')"
+      >
       </v-text-field>
       <v-btn @click="resetCoordinates"
         >{{ $t('common:plugins.routing.resetButton') }}
@@ -30,9 +38,9 @@
         <v-layout row wrap>
           <v-flex>
             <v-checkbox
-              v-for="routeType in selectableRouteTypesToAvoid"
-              :key="routeType.key"
-              v-model="selectedRouteTypesToAvoidItems"
+              v-for="(routeType, i) in selectableRouteTypesToAvoid"
+              :key="i"
+              v-model="selectedRouteTypesToAvoidItem"
               :label="$t(translatedRouteTypeToAvoid(routeType.key))"
               :value="routeType.key"
             ></v-checkbox>
@@ -40,6 +48,14 @@
         </v-layout>
       </div>
       <v-btn @click="sendRequest">Send Request</v-btn>
+      <v-btn @click="showSteps = !showSteps">
+        {{ $t('common:plugins.routing.routeDetails') }}
+      </v-btn>
+      <div v-if="showSteps">
+        <v-list v-for="(step, i) in searchResponseSegments" :key="i">
+          {{ step }}
+        </v-list>
+      </div>
     </v-card>
   </v-scroll-x-reverse-transition>
 </template>
@@ -54,6 +70,7 @@ export default Vue.extend({
     isOpen: false,
     // TODO: wieder rausnhemen, wenn es nicht funktioniert
     inline: null,
+    showSteps: false,
   }),
   computed: {
     ...mapGetters(['hasSmallDisplay']),
@@ -64,7 +81,27 @@ export default Vue.extend({
       'selectableTravelModes',
       'selectablePreferences',
       'selectableRouteTypesToAvoid',
+      'selectedRouteTypesToAvoid',
+      'searchResponseData',
+      'start',
+      'end',
     ]),
+    startpointInput: {
+      get(): Coordinate {
+        return this.start
+      },
+      set(value: Coordinate): void {
+        this.start(value)
+      },
+    },
+    endpointInput: {
+      get(): Coordinate {
+        return this.end
+      },
+      set(value: Coordinate): void {
+        this.end(value)
+      },
+    },
     selectedTravelModeItem: {
       get(): string {
         return this.selectedTravelMode
@@ -93,21 +130,35 @@ export default Vue.extend({
         translatedKey: this.$t(item.localKey),
       }))
     },
-    selectedRouteTypesToAvoidItems: {
+    selectedRouteTypesToAvoidItem: {
       get(): string {
         return this.selectedRouteTypesToAvoid
       },
       set(value: string): void {
+        console.error(this.selectedRouteTypesToAvoid)
         this.setSelectedRouteTypesToAvoid(value)
       },
     },
+    searchResponseSegments: {
+      get(): object {
+        return this.searchResponseData?.features[0].properties.segments[0].steps
+      },
+    },
+  },
+  watch: {
+    search: function () {
+      // TODO: prüfen, ob die Koordinaten im richtigen Format sind
+      // TODO: Koordinaten an den Routingdienst übermitteln mit sendRequest() - zu vermeidende Routentypen mitsenden
+      this.sendRequest()
+    },
   },
   mounted() {
-    this.setupModule()
+    this.initializeTool()
+    console.error('jetzt bin ich gemounted')
   },
   methods: {
     ...mapActions('plugin/routing', [
-      'setupModule',
+      'initializeTool',
       'resetCoordinates',
       'sendRequest',
     ]),

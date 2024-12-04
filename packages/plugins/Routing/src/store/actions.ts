@@ -12,50 +12,98 @@ const drawSource = new VectorSource()
 let drawLayer
 
 const actions: PolarActionTree<RoutingState, RoutingGetters> = {
-  setupModule({ rootGetters: { configuration, map }, dispatch }) {
+  initializeTool({
+    rootGetters: { configuration, map },
+    dispatch,
+    commit,
+    state,
+  }) {
     console.error(configuration)
     dispatch('initializeConfigStyle')
     drawLayer = createDrawLayer(drawSource)
     map.addLayer(drawLayer)
     console.error(map.getLayers().getArray())
+    map.on('click', function (event) {
+      const formattedCoordinate = event.coordinate
+      console.error('formatierte Koordinate: ' + formattedCoordinate)
+
+      // prüfen, ob im state schon startAddress vorhanden ist - falls ja, die neue Koordinate als endAddress speichern
+      if (state.start.length === 0) {
+        commit('setStart', formattedCoordinate)
+      } else if (state.end.length === 0) {
+        commit('setEnd', formattedCoordinate)
+      }
+      console.error(event)
+      console.error('Start:' + state.start + 'Ende: ' + state.end)
+    })
+  },
+  limitNumberWithinRange(value) {
+    const MIN = 1
+    const MAX = 20
+    const parsed = parseInt(value)
+    return Math.min(Math.max(parsed, MIN), MAX)
+  },
+  translateCoordinateToWGS84({ rootGetters: { configuration } }, Coordinate) {
+    console.error('Translate Methode', configuration?.epsg, Coordinate)
+    const wgs84Coordinate = transform(
+      Coordinate,
+      configuration?.epsg,
+      'EPSG:4326'
+    )
+    console.error('Koordinate in WGS84: ', wgs84Coordinate)
+    return wgs84Coordinate
   },
   resetCoordinates({ commit, state }) {
     // TODO: Fehler beheben: "unknown local mutation type: resetCoordinates"
-    commit('setStart', [0.0, ''])
-    commit('setEnd', [0.0, ''])
+    commit('setStart', [])
+    commit('setEnd', [])
     console.error(
       'Start- und Endpunkt im Store nach reset:',
       state.start,
       state.end
     )
   },
-  sendRequest({ commit, dispatch }) {
-    const searchCoordinates = [[10.011687335562508, 53.553460000125064], [10.00032456432135, 53.54922700402619]]
+  createUrl({ rootGetters: { configuration }, state }) {
+    // TODO: Travel-Modes mit Switch Case (?) in finale Form bringen o. bessere Lösung finden
+    const url =
+      configuration?.routing?.serviceUrl +
+      state.selectedTravelMode +
+      '/' +
+      configuration?.routing?.format
+
+    console.error(url)
+    return url
+  },
+  async sendRequest({ commit, dispatch, state }) {
+    const searchCoordinates = [
+      await dispatch('translateCoordinateToWGS84', state.start),
+      await dispatch('translateCoordinateToWGS84', state.end),
+    ]
+    console.error(searchCoordinates)
+    const url = await dispatch('createUrl')
+    console.error('Die übergebene URL: ', url)
     const fetchDirections = async () => {
       try {
-        const response = await fetch(
-          'https://geodienste.hamburg.de/web_ors/v2/directions/driving-car/geojson',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              coordinates: searchCoordinates,
-              geometry: true,
-              instructions: true,
-              language: 'en',
-              options: {
-                avoid_polygons: {
-                  coordinates: [],
-                  type: 'MultiPolygon',
-                },
+        const response = await fetch( url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            coordinates: searchCoordinates,
+            geometry: true,
+            instructions: true,
+            language: 'en',
+            options: {
+              avoid_polygons: {
+                coordinates: [],
+                type: 'MultiPolygon',
               },
-              preference: 'recommended',
-              units: 'm',
-            }),
-          }
-        )
+            },
+            preference: 'recommended',
+            units: 'm',
+          }),
+        })
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`)
         }
@@ -63,6 +111,12 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
         console.error('Response:', data)
         commit('setSearchResponseData', data)
         dispatch('drawRoute')
+        console.error(
+          'Zu vermeidende Routen aus dem Store:',
+          state.selectedRouteTypesToAvoid
+        )
+        console.error('Travel Mode aus dem Store:', state.selectedTravelMode)
+        console.error('Preference aus dem Store:', state.selectedPreference)
       } catch (error) {
         console.error('Error:', error)
       }
@@ -72,9 +126,9 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   drawRoute({ rootGetters: { configuration }, state }) {
     console.error(`stored response: `, state.searchResponseData)
     const transformedCoordinates =
-      state.searchResponseData.features[0].geometry.coordinates.map((coordinate) =>
-      transform(coordinate, 'EPSG:4326', 'EPSG:25832')
-    )
+      state.searchResponseData.features[0].geometry.coordinates.map(
+        (coordinate) => transform(coordinate, 'EPSG:4326', 'EPSG:25832')
+      )
     console.error(
       `coordinates transformed for drawing purpose: `,
       transformedCoordinates

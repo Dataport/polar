@@ -263,7 +263,8 @@ export const mapConfiguration = {
     },
   },
   routing: {
-    url: 'https://sg.geodatenzentrum.de/web_ors/v2/',
+    serviceUrl: 'https://geodienste.hamburg.de/web_ors/v2/directions/',
+    format: 'geojson',
     selectableTravelModes: ['walking', 'wheelchair'],
     selectablePreferences: ['recommended', 'fastest', 'shortest'],
     displayPreferences: true,
