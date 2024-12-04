@@ -178,6 +178,52 @@ featureList: {
 
 ## Store
 
+### Actions
+
+#### setFeatureInformation
+
+This method can be used to set the feature information in the store and trigger all relevant processes so that the information displayed to the user is as if he has selected the features himself.
+
+```js
+map.$store.dispatch('plugin/gfi/setFeatureInformation', {
+  "anotherLayer": [],
+  "yetAnotherLayer": [],
+  "relevantInformation": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          565669.6521397199,
+          5930516.358614317
+        ]
+      },
+      "properties": {
+        "propertyOne": "B0",
+        "propertyTwo": "B1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          565594.9377660984,
+          5930524.52634174
+        ]
+      },
+      "properties": {
+        propertyOne: "A0",
+        propertyTwo: "A1"
+      }
+    }
+  ]
+})
+```
+
+The payload object has to include all layers configured to be used with this plugin.
+The value assigned to those keys is an array of GeoJSON-Features.
+
 ### State
 
 If a successful query has been sent and a response has been received, the result will be saved in the store and can be subscribed through the path `'plugin/gfi/featureInformation'`. If, however, a query for a layer fails, a `Symbol` containing the error will be saved in the store instead to indicate the error.
