@@ -5,6 +5,7 @@ import { changeLanguage } from 'i18next'
 import { enableClustering } from '../../meldemichel/src/utils/enableClustering'
 import { addPlugins } from './addPlugins'
 import { mapConfiguration, reports } from './mapConfiguration'
+import { exampleFeatureInformation } from './exampleFeatureInformation'
 
 addPlugins(polarCore)
 
@@ -20,6 +21,14 @@ const createMap = (layerConf) => {
     .then((map) => {
       // @ts-expect-error | adding it intentionally for e2e testing
       window.mapInstance = map
+      document
+        .getElementById('vuex-target-clicky')!
+        .addEventListener('click', () => {
+          map.$store.dispatch(
+            'plugin/gfi/setFeatureInformation',
+            exampleFeatureInformation
+          )
+        })
       addStoreSubscriptions(
         ['plugin/zoom/zoomLevel', 'vuex-target-zoom'],
         [
