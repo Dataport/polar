@@ -106,7 +106,7 @@ export function onSelect(
  */
 export function createDeleteInteraction(
   { dispatch }: PolarActionContext<MeasureState, MeasureGetters>,
-  drawLayer: VectorLayer<VectorSource>
+  drawLayer: VectorLayer<Feature>
 ): Interaction[] {
   // checks if Feature has still enough points
   // deletes if not

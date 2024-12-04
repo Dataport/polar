@@ -26,7 +26,7 @@ const getModify = (source: VectorSource) =>
   })
 
 const getSelect = (
-  drawLayer: VectorLayer<VectorSource>,
+  drawLayer: VectorLayer<Feature>,
   selectedFeature: Feature | null,
   specialStyle: StyleLike
 ) =>
@@ -48,7 +48,7 @@ export default async function (
     dispatch,
     getters: { mode, selectedFeature, measureMode },
   }: PolarActionContext<MeasureState, MeasureGetters>,
-  drawLayer: VectorLayer<VectorSource>
+  drawLayer: VectorLayer<Feature>
 ): Promise<Interaction[]> {
   let interactions: Interaction[] = []
   let styleFunc = await dispatch('createStyleFunc')
