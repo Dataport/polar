@@ -1,11 +1,13 @@
 import debounce from 'lodash.debounce'
+import { Feature as GeoJsonFeature } from 'geojson'
 import { Style, Fill, Stroke } from 'ol/style'
 import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
-import { Feature as GeoJsonFeature } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import { getFeatureDisplayLayer, clear } from '../../utils/displayFeatureLayer'
-import { GfiGetters, GfiState } from '../../types'
+import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
+import { filterFeatures } from '../../utils/filterFeatures'
+import { renderFeatures } from '../../utils/renderFeatures'
 import { debouncedGfiRequest } from './debouncedGfiRequest'
 import {
   setupCoreListener,
@@ -161,6 +163,34 @@ export const makeActions = () => {
         })
         dispatch('setCoreSelection', { feature, centerOnFeature })
       }
+    },
+    setFeatureInformation(
+      { commit, getters },
+      featuresByLayerId: FeaturesByLayerId
+    ) {
+      commit('clearFeatureInformation')
+      commit('setVisibleWindowFeatureIndex', 0)
+      clear(featureDisplayLayer)
+
+      const filteredFeatures = Object.fromEntries(
+        Object.entries(filterFeatures(featuresByLayerId)).map(
+          ([layerId, features]) => {
+            const { isSelectable } = getters.gfiConfiguration.layers[layerId]
+            return [
+              layerId,
+              typeof isSelectable === 'function'
+                ? features.filter((feature) => isSelectable(feature))
+                : features,
+            ]
+          }
+        )
+      )
+      commit('setFeatureInformation', filteredFeatures)
+      renderFeatures(
+        featureDisplayLayer,
+        getters.geometryLayerKeys,
+        filteredFeatures
+      )
     },
     hover({ commit, rootGetters }, feature: Feature) {
       if (rootGetters.configuration.extendedMasterportalapiMarkers) {
