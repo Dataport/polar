@@ -2,14 +2,17 @@ import debounce from 'lodash.debounce'
 import { Style, Fill, Stroke } from 'ol/style'
 import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
-import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
+import { Feature as GeoJsonFeature } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
-import getCluster from '@polar/lib-get-cluster'
 import { getFeatureDisplayLayer, clear } from '../../utils/displayFeatureLayer'
 import { GfiGetters, GfiState } from '../../types'
-import { getOriginalFeature } from '../../utils/getOriginalFeature'
 import { debouncedGfiRequest } from './debouncedGfiRequest'
-import { setupCoreListener, setupMultiSelection, setupTooltip } from './setup'
+import {
+  setupCoreListener,
+  setupMultiSelection,
+  setupTooltip,
+  setupZoomListeners,
+} from './setup'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -67,46 +70,7 @@ export const makeActions = () => {
     setupCoreListener,
     setupMultiSelection,
     setupTooltip,
-    setupZoomListeners({ dispatch, getters, rootGetters }) {
-      if (getters.gfiConfiguration.featureList) {
-        this.watch(
-          () => rootGetters.zoomLevel,
-          () => {
-            const {
-              featureInformation,
-              listableLayerSources,
-              visibleWindowFeatureIndex,
-              windowFeatures,
-            } = getters
-
-            if (windowFeatures.length) {
-              const layerId: string =
-                // @ts-expect-error | if windowFeatures has features, visibleWindowFeatureIndex is in the range of possible features
-                windowFeatures[visibleWindowFeatureIndex].polarInternalLayerKey
-              const selectedFeatureProperties: GeoJsonProperties = {
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                _gfiLayerId: layerId,
-                ...featureInformation[layerId][visibleWindowFeatureIndex]
-                  .properties,
-              }
-              const originalFeature = getOriginalFeature(
-                listableLayerSources,
-                selectedFeatureProperties
-              )
-              if (originalFeature) {
-                dispatch('setOlFeatureInformation', {
-                  feature: getCluster(
-                    rootGetters.map,
-                    originalFeature,
-                    '_gfiLayerId'
-                  ),
-                })
-              }
-            }
-          }
-        )
-      }
-    },
+    setupZoomListeners,
     setupFeatureVisibilityUpdates({ commit, state, getters, rootGetters }) {
       // debounce to prevent update spam
       debouncedVisibilityChangeIndicator = debounce(
