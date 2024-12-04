@@ -15,6 +15,7 @@ import { filterFeatures } from '../../utils/filterFeatures'
 import { requestGfi } from '../../utils/requestGfi'
 import sortFeatures from '../../utils/sortFeatures'
 import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
+import { renderFeatures } from '../../utils/renderFeatures'
 
 interface GetFeatureInfoParameters {
   coordinateOrExtent: [number, number] | [number, number, number, number]
@@ -166,14 +167,11 @@ const gfiRequest =
       )
     }
     commit('setFeatureInformation', featuresByLayerId)
-    // render feature geometries to help layer
-    getters.geometryLayerKeys
-      .filter((key) => Array.isArray(featuresByLayerId[key]))
-      .forEach((key) =>
-        filterFeatures(featuresByLayerId)[key].forEach((feature) =>
-          addFeature(feature, featureDisplayLayer)
-        )
-      )
+    renderFeatures(
+      featureDisplayLayer,
+      getters.geometryLayerKeys,
+      featuresByLayerId
+    )
   }
 
 export const debouncedGfiRequest = (
