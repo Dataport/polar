@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Fix: Set crossOrigin for ImageWMS to `anonymous` to prevent error in canvas rendering (e.g. when using export plugin).
+- Fix: Add `crossOrigin` differently to layer sources that are an instance of `ImageWMS` as they require it being set as `crossOrigin_` to be recognized.
 
 ## 2.0.0
 
