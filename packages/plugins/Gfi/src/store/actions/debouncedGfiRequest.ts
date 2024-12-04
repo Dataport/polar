@@ -11,6 +11,7 @@ import { Geometry } from 'ol/geom'
 import VectorLayer from 'ol/layer/Vector'
 import compare from 'just-compare'
 import { addFeature } from '../../utils/displayFeatureLayer'
+import { filterFeatures } from '../../utils/filterFeatures'
 import { requestGfi } from '../../utils/requestGfi'
 import sortFeatures from '../../utils/sortFeatures'
 import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
@@ -90,17 +91,6 @@ const getPromisedFeatures = (
       mode: layerGfiMode,
     })
   })
-
-const filterFeatures = (
-  featuresByLayerId: FeaturesByLayerId
-): Record<string, GeoJsonFeature[]> => {
-  const entries = Object.entries(featuresByLayerId)
-  const filtered = entries.filter((keyValue) => Array.isArray(keyValue[1])) as [
-    string,
-    GeoJsonFeature[]
-  ][]
-  return Object.fromEntries(filtered)
-}
 
 const createSelectionDiff = (
   oldSelection: FeaturesByLayerId,
