@@ -227,6 +227,8 @@ map.$store.dispatch('plugin/gfi/setFeatureInformation', {
 The payload object has to include all layers configured to be used with this plugin.
 The value assigned to those keys is an array of GeoJSON-Features.
 
+The selected feature information can be reset by calling the method with an empty object.
+
 ### State
 
 If a successful query has been sent and a response has been received, the result will be saved in the store and can be subscribed through the path `'plugin/gfi/featureInformation'`. If, however, a query for a layer fails, a `Symbol` containing the error will be saved in the store instead to indicate the error.
