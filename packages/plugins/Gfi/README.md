@@ -182,7 +182,10 @@ featureList: {
 
 #### setFeatureInformation
 
-This method can be used to set the feature information in the store and trigger all relevant processes so that the information displayed to the user is as if he has selected the features himself.
+This method can be used to set the feature information in the store and trigger all relevant processes so that the information displayed to the user is as if he has selected the features himself.  
+Note that calling this method completely overrides the previously set feature information.
+
+If a layer has a `isSelectable`-function configured, the features are filtered using that function.
 
 ```js
 map.$store.dispatch('plugin/gfi/setFeatureInformation', {
