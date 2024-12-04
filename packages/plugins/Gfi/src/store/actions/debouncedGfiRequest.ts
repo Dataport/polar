@@ -13,14 +13,12 @@ import compare from 'just-compare'
 import { addFeature } from '../../utils/displayFeatureLayer'
 import { requestGfi } from '../../utils/requestGfi'
 import sortFeatures from '../../utils/sortFeatures'
-import { GfiGetters, GfiState } from '../../types'
+import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
 
 interface GetFeatureInfoParameters {
   coordinateOrExtent: [number, number] | [number, number, number, number]
   modifierPressed?: boolean
 }
-
-type FeaturesByLayerId = Record<string, GeoJsonFeature[] | symbol>
 
 const filterAndMapFeaturesToLayerIds = (
   layerKeys: string[],
