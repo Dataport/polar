@@ -2,6 +2,8 @@ import { getTooltip, Tooltip } from '@polar/lib-tooltip'
 import Overlay from 'ol/Overlay'
 import { Feature } from 'ol'
 import { PolarActionContext, PolarStore } from '@polar/lib-custom-types'
+import { DragBox } from 'ol/interaction'
+import { platformModifierKeyOnly } from 'ol/events/condition'
 import { GfiGetters, GfiState } from '../../types'
 
 export function setupCoreListener(
@@ -17,6 +19,34 @@ export function setupCoreListener(
       () => rootGetters.selected,
       (feature) => dispatch('setOlFeatureInformation', { feature }),
       { deep: true }
+    )
+  }
+}
+
+export function setupMultiSelection({
+  dispatch,
+  getters,
+  rootGetters,
+}: PolarActionContext<GfiState, GfiGetters>) {
+  if (getters.gfiConfiguration.boxSelect) {
+    const dragBox = new DragBox({ condition: platformModifierKeyOnly })
+    dragBox.on('boxend', () =>
+      dispatch('getFeatureInfo', {
+        coordinateOrExtent: dragBox.getGeometry().getExtent(),
+        modifierPressed: true,
+      })
+    )
+    rootGetters.map.addInteraction(dragBox)
+  }
+  if (getters.gfiConfiguration.directSelect) {
+    rootGetters.map.on('click', ({ coordinate, originalEvent }) =>
+      dispatch('getFeatureInfo', {
+        coordinateOrExtent: coordinate,
+        modifierPressed:
+          navigator.userAgent.indexOf('Mac') !== -1
+            ? originalEvent.metaKey
+            : originalEvent.ctrlKey,
+      })
     )
   }
 }

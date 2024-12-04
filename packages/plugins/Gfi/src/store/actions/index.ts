@@ -5,13 +5,11 @@ import { Feature } from 'ol'
 import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import getCluster from '@polar/lib-get-cluster'
-import { DragBox } from 'ol/interaction'
-import { platformModifierKeyOnly } from 'ol/events/condition'
 import { getFeatureDisplayLayer, clear } from '../../utils/displayFeatureLayer'
 import { GfiGetters, GfiState } from '../../types'
 import { getOriginalFeature } from '../../utils/getOriginalFeature'
 import { debouncedGfiRequest } from './debouncedGfiRequest'
-import { setupCoreListener, setupTooltip } from './setup'
+import { setupCoreListener, setupMultiSelection, setupTooltip } from './setup'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -67,30 +65,8 @@ export const makeActions = () => {
       dispatch('setupMultiSelection')
     },
     setupCoreListener,
+    setupMultiSelection,
     setupTooltip,
-    setupMultiSelection({ dispatch, getters, rootGetters }) {
-      if (getters.gfiConfiguration.boxSelect) {
-        const dragBox = new DragBox({ condition: platformModifierKeyOnly })
-        dragBox.on('boxend', () =>
-          dispatch('getFeatureInfo', {
-            coordinateOrExtent: dragBox.getGeometry().getExtent(),
-            modifierPressed: true,
-          })
-        )
-        rootGetters.map.addInteraction(dragBox)
-      }
-      if (getters.gfiConfiguration.directSelect) {
-        rootGetters.map.on('click', ({ coordinate, originalEvent }) =>
-          dispatch('getFeatureInfo', {
-            coordinateOrExtent: coordinate,
-            modifierPressed:
-              navigator.userAgent.indexOf('Mac') !== -1
-                ? originalEvent.metaKey
-                : originalEvent.ctrlKey,
-          })
-        )
-      }
-    },
     setupZoomListeners({ dispatch, getters, rootGetters }) {
       if (getters.gfiConfiguration.featureList) {
         this.watch(
