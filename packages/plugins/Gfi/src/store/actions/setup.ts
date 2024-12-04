@@ -1,8 +1,25 @@
 import { getTooltip, Tooltip } from '@polar/lib-tooltip'
 import Overlay from 'ol/Overlay'
 import { Feature } from 'ol'
-import { PolarActionContext } from '@polar/lib-custom-types'
+import { PolarActionContext, PolarStore } from '@polar/lib-custom-types'
 import { GfiGetters, GfiState } from '../../types'
+
+export function setupCoreListener(
+  this: PolarStore<GfiState, GfiGetters>,
+  {
+    getters: { gfiConfiguration },
+    rootGetters,
+    dispatch,
+  }: PolarActionContext<GfiState, GfiGetters>
+) {
+  if (gfiConfiguration.featureList?.bindWithCoreHoverSelect) {
+    this.watch(
+      () => rootGetters.selected,
+      (feature) => dispatch('setOlFeatureInformation', { feature }),
+      { deep: true }
+    )
+  }
+}
 
 export function setupTooltip({
   getters: { gfiConfiguration },

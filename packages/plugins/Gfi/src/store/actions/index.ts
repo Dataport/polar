@@ -11,7 +11,7 @@ import { getFeatureDisplayLayer, clear } from '../../utils/displayFeatureLayer'
 import { GfiGetters, GfiState } from '../../types'
 import { getOriginalFeature } from '../../utils/getOriginalFeature'
 import { debouncedGfiRequest } from './debouncedGfiRequest'
-import { setupTooltip } from './setup'
+import { setupCoreListener, setupTooltip } from './setup'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -66,19 +66,8 @@ export const makeActions = () => {
       dispatch('setupZoomListeners')
       dispatch('setupMultiSelection')
     },
-    setupCoreListener({
-      getters: { gfiConfiguration },
-      rootGetters,
-      dispatch,
-    }) {
-      if (gfiConfiguration.featureList?.bindWithCoreHoverSelect) {
-        this.watch(
-          () => rootGetters.selected,
-          (feature) => dispatch('setOlFeatureInformation', { feature }),
-          { deep: true }
-        )
-      }
-    },
+    setupCoreListener,
+    setupTooltip,
     setupMultiSelection({ dispatch, getters, rootGetters }) {
       if (getters.gfiConfiguration.boxSelect) {
         const dragBox = new DragBox({ condition: platformModifierKeyOnly })
@@ -142,7 +131,6 @@ export const makeActions = () => {
         )
       }
     },
-    setupTooltip,
     setupFeatureVisibilityUpdates({ commit, state, getters, rootGetters }) {
       // debounce to prevent update spam
       debouncedVisibilityChangeIndicator = debounce(
