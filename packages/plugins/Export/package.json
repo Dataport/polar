@@ -1,7 +1,18 @@
 {
   "name": "@polar/plugin-export",
-  "version": "1.2.0",
-  "description": "Export the map in several formats",
+  "version": "1.2.1",
+  "description": "Export plugin for POLAR that adds export functionality in various formats to retrieve a screenshot-like graphic of the map without the buttons.",
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "Export",
+    "PDF",
+    "PNG",
+    "JPG",
+    "screenshot"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -16,7 +27,7 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "jspdf": "^2.5.1"
+    "jspdf": "^2.5.2"
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
@@ -24,6 +35,6 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.0.0"
+    "@polar/lib-custom-types": "^1.5.0"
   }
 }

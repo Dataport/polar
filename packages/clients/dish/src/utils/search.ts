@@ -1,6 +1,7 @@
 import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 import { getWfsFeatures } from '@polar/lib-get-features'
-import { getLayerWhere } from '@masterportal/masterportalapi/src/rawLayerList'
+import { rawLayerList } from '@masterportal/masterportalapi'
+import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
 import {
   WfsConfiguration,
   EfiSearchFeature,
@@ -21,7 +22,7 @@ const addGeometries =
   async (
     features: ParsedEfiSearchFeature[]
   ): Promise<ParsedEfiSearchFeature[]> => {
-    const { url } = getLayerWhere({ id: wfsConfiguration.id })
+    const { url } = rawLayerList.getLayerWhere({ id: wfsConfiguration.id })
 
     const wfsFeatures = await Promise.all(
       features.map((feature) =>
@@ -132,6 +133,7 @@ const sortAndShort =
  * DISH "Denkmalsuche" search method (injectable for plugin/AddressSearch)
  */
 export function search(
+  this: PolarStore<CoreState, CoreGetters>,
   signal: AbortSignal,
   url: string,
   inputValue: string,

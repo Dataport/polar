@@ -1,22 +1,16 @@
-import Vue from 'vue'
 import { generateSimpleGetters } from '@repositoryname/vuex-generators'
-import { GeoJsonProperties } from 'geojson'
-import {
-  FeatureList,
-  GfiConfiguration,
-  PolarGetterTree,
-} from '@polar/lib-custom-types'
+import { GfiConfiguration, PolarGetterTree } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
 import { isVisible } from '@polar/lib-invisible-style'
-import { Feature } from 'ol'
 import { Cluster as ClusterSource } from 'ol/source'
+import { GeoJSON } from 'ol/format'
 import { GfiGetters, GfiState } from '../types'
 import { listableLayersFilter } from '../utils/listableLayersFilter'
 import getInitialState from './getInitialState'
 
 const getters: PolarGetterTree<GfiState, GfiGetters> = {
   ...generateSimpleGetters(getInitialState()),
-  gfiConfiguration(_, __, ___, rootGetters): GfiConfiguration {
+  gfiConfiguration(_, __, ___, rootGetters) {
     return <GfiConfiguration>(rootGetters.configuration?.gfi || {
       afterLoadFunction: null,
       coordinateSources: [],
@@ -33,7 +27,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       rootGetters.hasSmallWidth
     )
   },
-  gfiContentComponent(_, { gfiConfiguration }): Vue | null {
+  gfiContentComponent(_, { gfiConfiguration }) {
     return gfiConfiguration.gfiContentComponent || null
   },
   afterLoadFunction(_, { gfiConfiguration }) {
@@ -56,7 +50,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
     return properties
   },
   layerKeys(_, { gfiConfiguration }) {
-    return Object.keys(gfiConfiguration?.layers || {})
+    return Object.keys(gfiConfiguration.layers)
   },
   exportProperty(
     _,
@@ -77,7 +71,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
     return ''
   },
   exportPropertyLayerKeys(_, { gfiConfiguration }) {
-    return Object.entries(gfiConfiguration?.layers || {}).reduce(
+    return Object.entries(gfiConfiguration.layers).reduce(
       (accumulator, [key, { exportProperty }]) => ({
         ...accumulator,
         [key]: typeof exportProperty === 'string' ? exportProperty : '',
@@ -89,8 +83,8 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
   showSwitchButtons(_, { windowFeatures }) {
     return windowFeatures.length > 1
   },
-  windowLayerKeys(_, { gfiConfiguration }): string[] {
-    return Object.entries(gfiConfiguration?.layers || {}).reduce(
+  windowLayerKeys(_, { gfiConfiguration }) {
+    return Object.entries(gfiConfiguration.layers).reduce(
       (accumulator, [key, { window }]) => {
         if (window) {
           return [...accumulator, key]
@@ -105,7 +99,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
     { windowLayerKeys, gfiConfiguration },
     __,
     rootGetters
-  ): boolean {
+  ) {
     const { activeLayerPath } = gfiConfiguration
     if (!activeLayerPath) {
       // if not configured, restriction does not apply
@@ -123,8 +117,8 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
         ).length
     )
   },
-  geometryLayerKeys(_, { gfiConfiguration }): string[] {
-    return Object.entries(gfiConfiguration?.layers || {}).reduce(
+  geometryLayerKeys(_, { gfiConfiguration }) {
+    return Object.entries(gfiConfiguration.layers).reduce(
       (accumulator, [key, { geometry }]) => {
         if (geometry) {
           return [...accumulator, key]
@@ -134,10 +128,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       [] as string[]
     )
   },
-  windowFeatures(
-    _,
-    { featureInformation, windowLayerKeys, gfiConfiguration }
-  ): GeoJsonProperties[] {
+  windowFeatures(_, { featureInformation, windowLayerKeys, gfiConfiguration }) {
     return Object.entries(featureInformation)
       .map(([key, features]) =>
         /*
@@ -182,7 +173,7 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
       )
       .flat(1)
   },
-  listMode(_, { gfiConfiguration }): FeatureList['mode'] | undefined {
+  listMode(_, { gfiConfiguration }) {
     if (gfiConfiguration.featureList && !gfiConfiguration.featureList.mode) {
       console.error(
         '@polar/plugin-gfi: When using featureList a mode has to be chosen.'
@@ -190,10 +181,10 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
     }
     return gfiConfiguration.featureList?.mode
   },
-  listText(_, { gfiConfiguration }): FeatureList['text'] {
+  listText(_, { gfiConfiguration }) {
     return gfiConfiguration.featureList?.text || []
   },
-  showList(_, { windowFeatures, gfiConfiguration }): boolean {
+  showList(_, { windowFeatures, gfiConfiguration }) {
     return Boolean(gfiConfiguration.featureList && !windowFeatures.length)
   },
   listableLayerSources(_, { layerKeys }, __, rootGetters) {
@@ -214,16 +205,18 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
   },
   listFeatures(
     { visibilityChangeIndicator },
-    { listableLayerSources, listMode },
+    { gfiConfiguration, listableLayerSources, listMode },
     __,
     rootGetters
-  ): Feature[] {
+  ) {
     const { map, clientHeight, clientWidth, center, zoomLevel } = rootGetters
+    const writer = new GeoJSON()
     // trigger getter on those who indicate feature change possibility
     noop(clientHeight, clientWidth, center, zoomLevel)
     noop(visibilityChangeIndicator)
     return listableLayerSources
       .map((source) => {
+        const layerId = source.get('_gfiLayerId')
         return (
           listMode === 'loaded'
             ? source.getFeatures()
@@ -233,9 +226,15 @@ const getters: PolarGetterTree<GfiState, GfiGetters> = {
               )
         )
           .filter(isVisible)
+          .filter((feature) => {
+            const { isSelectable } = gfiConfiguration.layers[layerId]
+            return typeof isSelectable === 'function'
+              ? isSelectable(JSON.parse(writer.writeFeature(feature)))
+              : true
+          })
           .map((feature) => {
             // true = silent change (prevents cluster recomputation & rerender)
-            feature.set('_gfiLayerId', source.get('_gfiLayerId'), true)
+            feature.set('_gfiLayerId', layerId, true)
             return feature
           })
       })

@@ -16,9 +16,11 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 | layers | Record<string, gfiLayerConfiguration> | Maps a string (must be a layer ID) to a behaviour configuration for that layer. |
 | activeLayerPath | string? | Optional store path to array of active mask layer ids. If used with `LayerChooser`, setting this to `'plugin/layerChooser/activeMaskIds'` will result in an info text in the GFI box, should no layer be active. If used without `LayerChooser`, the active mask layers have to be provided by another plugin or the client. If not set, the GFI plugin may e.g. show an empty list, which may be confusing to some users. |
 | afterLoadFunction | function (featuresByLayerId: Record<string, GeoJsonFeature[]>): Record<layerId, GeoJsonFeature[]>? | This method can be used to extend, filter, or otherwise modify a GFI result. |
+| boxSelect | boolean? | If set to `true`, multiple features can be selected at once by using the modifier key (CTRL on Windows or Command on macOS) and dragging the mouse. Similar to `gfi.directSelect`, features can be added and removed by selection / unselecting them. The features need to be distinguishable by their properties for the functionality to properly work. Does not work together with `extendedMasterportalapiMarkers` of `@polar/core`. Defaults to `false`. |
 | customHighlightStyle | customHighlighStyle? | If required a user can change the stroke and fill of the highlighted feature. The default style as seen in the example will be used for each part that is not customized. An empty object will return the complete default style while e.g. for an object without a configured fill the default fill will be applied. |
+| directSelect | boolean? | If set to `true`, a feature can be selected without defining a value in `gfi.coordinateSources`. It is also possible to add multiple features to the selection by using the modifier key (CTRL on Windows or Command on macOS). To delesect a feature, simply reclick it with the modifier key pressed. To create a new selection, click anywhere else without pressing the modifier key. Be careful when using this parameter together with some values set in `coordinateSources` as it may lead to unexpected results. The features need to be distinguishable by their properties for the functionality to properly work. Does not work together with `extendedMasterportalapiMarkers` of `@polar/core`. Defaults to `false`. |
 | featureList | featureList? | If defined, a list of available vector layer features is visible when no feature is selected. Only usable if `renderType` is set to `iconMenu` and `window` is set to `true` for at least one configured layer. |
-| gfiContentComponent | Vue? | Allows overriding the GfiContent.vue component for a custom design. Coding knowledge required to use this feature. |
+| gfiContentComponent | VueConstructor? | Allows overriding the GfiContent.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model. Please refer to the implementation. |
 | maxFeatures | number? | Limits the viewable GFIs per layer by this number. The first n elements are chosen arbitrarily. Useful if you e.g. just want one result, or to limit an endless stream of returns to e.g. 10. Infinite by default. |
 | mode | enum["bboxDot", "intersects"]? | Method of calculating which feature has been chosen by the user. `bboxDot` utilizes the `bbox`-url parameter using the clicked coordinate while `intersects` uses a `Filter` to calculate the intersected features. Layers can have their own `gfiMode` parameter which would override this global mode. To apply this, add the desired value to the parameter in the `mapConfiguration`. Defaults to `'bboxDot'`. |
 | renderType | ('iconMenu' \| 'independent')? | Only relevant if `window` is set to `true` for at least one layer. Whether the gfi plugin is rendered independently or as part of the IconMenu. Defaults to 'independent'. |
@@ -29,6 +31,8 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 <summary>Example configuration</summary>
 
 ```ts
+import Component from '.component/vue'
+
 gfi: {
   mode: 'bboxDot',
   activeLayerPath: 'plugin/layerChooser/activeMaskIds',
@@ -55,6 +59,7 @@ gfi: {
       color: 'rgb(255, 255, 255, 0.7)',
     },
   },
+  gfiContentComponent: Component,
 }
 
 function afterLoadFunction(featuresByLayerId: Record<string, GeoJsonFeature[]>): Record<string, GeoJsonFeature[]> {
@@ -80,6 +85,7 @@ function afterLoadFunction(featuresByLayerId: Record<string, GeoJsonFeature[]>):
 | exportProperty | string? | Property of the features of a service having an url usable to trigger a download of features as a document. |
 | geometry | boolean? | If true, feature geometry will be highlighted within the map. Defaults to `false`. |
 | geometryName | string? | Name of the geometry property if not the default field. |
+| isSelectable | ((feature: GeoJsonFeature) => boolean)? | A function can be defined to allow filtering features to be either selectable (return `true`) or not. Unselectable features will be filtered out by the GFI plugin and have neither GFI display nor store presence, but may be visible in the map nonetheless, depending on your other configuration. Please also mind that usage in combination with `extendedMasterportalapiMarkers` requires further configuration of that feature for smooth UX; see the respective documentation of `@polar/core`. |
 | properties | Record<propertyName, displayName>/string[]? | In case `window` is `true`, this will be used to determine which contents to show. In case of an array, keys are used to select properties. In case of an object, keys are used to select properties, but will be titles as their respective values. Displays all properties by default. |
 | showTooltip | ((feature: Feature) => [string, string][])? | If given, a tooltip will be shown with the values calculated for the feature. The first string is the HTML tag to render, the second its contents; contants may be locale keys. For more information regarding the strings, see the documentation of the `@polar/lib-tooltip` package. Defaults to `undefined`. Please mind that tooltips will only be shown if a mouse is used or the hovering device could not be detected. Touch and pen interactions do not open tooltips since they will open the GFI window, rendering the gatherable information redundant. |
 | window | boolean? | If true, properties will be shown in the map client. Defaults to `false`. |
@@ -103,7 +109,8 @@ layers: {
         ['div', `Feature ID: ${feature.properties.id}`],
         ['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`]
       ];
-    };
+    },
+    isSelectable: (feature: Feature): boolean => Boolean(Math.random() < 0.5)
   },
 }
 ```

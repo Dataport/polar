@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## unpublished
+## 1.3.0
 
 - Feature: Add new option `'footer'` to configuration parameter `renderType` that changes the attributions to be displayed as a small version of the information box that is always visible.
 - Refactor: Replace redundant props with computed properties.
+- Chore: Correctly model `ol` as a devDependency and upgrade from `^7.1.0` to `^9.2.4`.
 
 ## 1.2.1
 

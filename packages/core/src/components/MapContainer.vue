@@ -6,7 +6,7 @@
         class="polar-map-overlay"
       >
         <template v-if="noControlOnZoom">
-          {{ $t('common:overlay.noControlOnZoom') }}
+          {{ $t(overlayLocale) }}
         </template>
         <template v-else-if="oneFingerPan">
           {{ $t('common:overlay.oneFingerPan') }}
@@ -44,19 +44,26 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import api from '@masterportal/masterportalapi/src/maps/api'
 import { MoveHandle } from '@polar/components'
 import Hammer from 'hammerjs'
 import i18next from 'i18next'
 import { defaults } from 'ol/interaction'
-import { LanguageOption, MoveHandleProperties } from '@polar/lib-custom-types'
+import {
+  LanguageOption,
+  MapConfig,
+  MoveHandleProperties,
+} from '@polar/lib-custom-types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addClusterStyle } from '../utils/addClusterStyle'
+import { setupStyling } from '../utils/setupStyling'
 import MapUi from './MapUi.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
+
+const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 
 export default Vue.extend({
   components: {
@@ -65,7 +72,7 @@ export default Vue.extend({
   },
   props: {
     mapConfiguration: {
-      type: Object,
+      type: Object as PropType<MapConfig>,
       required: true,
     },
   },
@@ -91,6 +98,9 @@ export default Vue.extend({
       'moveHandle',
       'moveHandleActionButton',
     ]),
+    overlayLocale() {
+      return `common:overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
+    },
     renderMoveHandle() {
       return (
         this.moveHandle !== null && this.hasWindowSize && this.hasSmallWidth
@@ -138,7 +148,7 @@ export default Vue.extend({
         },
       }
     )
-
+    setupStyling(this.mapConfiguration, map)
     this.setMap(map)
     this.updateDragAndZoomInteractions()
     if (this.mapConfiguration.extendedMasterportalapiMarkers) {
@@ -203,9 +213,9 @@ export default Vue.extend({
         }
       }
     },
-    wheelEffect({ ctrlKey }) {
+    wheelEffect(event: WheelEvent) {
       clearTimeout(this.noControlOnZoomTimeout)
-      this.noControlOnZoom = !ctrlKey
+      this.noControlOnZoom = isMacOS ? !event.metaKey : !event.ctrlKey
       this.noControlOnZoomTimeout = setTimeout(
         () => (this.noControlOnZoom = false),
         2000

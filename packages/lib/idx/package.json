@@ -1,6 +1,8 @@
 {
   "name": "@polar/lib-idx",
   "version": "1.0.0",
+  "description": "Provides a function to step into objects and fetch whatever.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "lib", "getter"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",

@@ -2,7 +2,9 @@
 
 ## unpublished
 
+- Fix: Import type `MpApiParameters` from correct position.
 - Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
+- Chore: Update `@polar`-dependencies to the latest versions.
 
 ## 1.1.2
 

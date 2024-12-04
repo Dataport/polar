@@ -1,18 +1,35 @@
 # CHANGELOG
 
-## unpublished
+## 1.5.0
 
+- Feature: Add `selectedCoordinate` to core store getters; it returns `null` or the `selected` feature's point coordinates.
+- Feature: Add new parameters `unselectableStyle` and `isSelectable` with new type `ExtendedMasterportalapiMarkersIsSelectableFunction` to interface `ExtendedMasterportalapiMarkers`.
+- Feature: Add new parameter `isSelectable` with new type `GfiIsSelectableFunction` to interface `GfiLayerConfiguration`.
+- Feature: Add new parameter `enableOptions` to interface `DrawConfiguration`.
 - Feature: Add new interface `ScaleConfiguration` and new property `scale` to `mapConfiguration`.
 - Feature: Add `afterResultComponent` to `AddressSearchConfiguration` for custom search result suffixes.
 - Feature: Add `mapHasDimensions` to `CoreState` and `CoreGetters`.
 - Feature: Add new getter `deviceIsHorizontal` to `CoreGetters`.
 - Feature: Add `footer` to `RenderType` as an option to display attributions in a footer.
 - Feature: Add new parameter `showZoomSlider` to `ZoomConfiguration`.
+- Feature: Add new types `LoaderStyles` and `LoadingIndicatorConfiguration`.
+- Feature: Add `loadingIndicator` to `MapConfig` to configure loader style.
+- Feature: Add new utility type `PartialBy`.
+- Feature: Add new type `MasterportalApiConfig`.
+- Feature: Change `MapConfig` to allow for partial configuration as some parameters have default values and have it be extended from `MasterportalApiConfig`.
+- Feature: Add new configuration parameter `directSelect` and `boxSelect` to `GfiConfiguration`.
+- Feature: Add new configuration parameter `featureStyles` to `MapConfig`.
+- Feature: Add new configuration parameter `styleId` to `LayerConfiguration`.
+- Fix: Document missing return type to `afterLoadFunction`, which may also return a Promise.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 - Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.
 - Fix: Properly document optional parameters of interfaces `AddressSearchConfiguration`, `FeatureList`, `FilterConfigurationTime`, `FilterConfigurationTimeOption`, `GeoLocationConfiguration`, `LayerConfigurationOptionLayers` and `PinsConfiguration`
 - Fix: Add missing parameters `mode` and `renderType` to `GfiConfiguration`.
 - Fix: Remove mpapi-search specific parameters from general interface `QueryParameters`.
+- Fix: Extend `SelectResultPayload` with fitting vuex parameters, and `SelectResultFunction` with `title` field as used in `@polar/plugin-address-search`.
+- Fix: Use correct type `VueConstructor` for properties `GfiConfiguration.gfiContentComponent`, `MoveHandleProperties.component` and `MoveHandleActionButton.component`.
+- Fix: Add missing `gfiMode` to `LayerConfiguration`.
+- Fix: Add missing `maxFeatures` to `GfiLayerConfiguration`.
 
 ## 1.4.1
 

@@ -1,7 +1,8 @@
 {
   "name": "@polar/client-dish",
   "version": "1.1.1",
-  "description": "Client dish",
+  "description": "POLAR Client DISH. This client provides information about monuments in Schleswig-Holstein, Germany.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "client", "DISH", "monument", "memorial"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -10,33 +11,38 @@
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/clients/dish"
   },
+  "main": "dist/client-dish.js",
   "files": [
     "dist/**/**.*",
     "CHANGELOG.md"
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh"
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
+    "dev": "vite --host"
   },
   "devDependencies": {
-    "@masterportal/masterportalapi": "2.8.0",
-    "@polar/core": "^1.3.0",
-    "@polar/lib-custom-types": "^1.3.0",
-    "@polar/lib-get-features": "^1.0.0",
-    "@polar/plugin-address-search": "^1.2.0",
-    "@polar/plugin-attributions": "^1.2.0",
-    "@polar/plugin-geo-location": "^1.3.0",
-    "@polar/plugin-gfi": "^1.2.0",
-    "@polar/plugin-icon-menu": "^1.2.0",
-    "@polar/plugin-layer-chooser": "^1.2.0",
-    "@polar/plugin-legend": "^1.1.0",
-    "@polar/plugin-loading-indicator": "^1.1.0",
-    "@polar/plugin-pins": "^1.2.0",
-    "@polar/plugin-scale": "^1.1.0",
-    "@polar/plugin-toast": "^1.1.0",
-    "@polar/plugin-zoom": "^1.2.0",
-    "focus-trap": "^7.2.0",
+    "@masterportal/masterportalapi": "2.40.0",
+    "@polar/core": "^2.0.0",
+    "@polar/lib-custom-types": "^1.5.0",
+    "@polar/lib-get-features": "^2.0.0",
+    "@polar/plugin-address-search": "^2.0.0",
+    "@polar/plugin-attributions": "^1.3.0",
+    "@polar/plugin-geo-location": "^1.4.0",
+    "@polar/plugin-gfi": "^2.0.0",
+    "@polar/plugin-icon-menu": "^1.3.0",
+    "@polar/plugin-layer-chooser": "^1.2.1",
+    "@polar/plugin-legend": "^1.1.1",
+    "@polar/plugin-loading-indicator": "^1.2.0",
+    "@polar/plugin-pins": "^2.0.0",
+    "@polar/plugin-scale": "^2.0.0",
+    "@polar/plugin-toast": "^1.1.1",
+    "@polar/plugin-zoom": "^1.3.0",
+    "focus-trap": "^7.6.0",
     "js-levenshtein": "^1.1.6",
     "lodash.merge": "^4.6.2"
+  },
+  "nx": {
+    "includedScripts": ["build", "dev"]
   }
 }

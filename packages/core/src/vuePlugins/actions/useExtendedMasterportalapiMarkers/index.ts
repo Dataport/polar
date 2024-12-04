@@ -2,6 +2,7 @@ import { Feature, MapBrowserEvent } from 'ol'
 import {
   CoreGetters,
   CoreState,
+  ExtendedMasterportalapiMarkersIsSelectableFunction,
   MarkerStyle,
   PolarActionContext,
   PolarStore,
@@ -9,10 +10,13 @@ import {
 import RenderFeature from 'ol/render/Feature'
 import { isVisible } from '@polar/lib-invisible-style'
 import VectorLayer from 'ol/layer/Vector'
-import VectorSource from 'ol/source/Vector'
 import BaseLayer from 'ol/layer/Base'
 import getCluster from '@polar/lib-get-cluster'
-import { getHoveredStyle, getSelectedStyle } from '../../../utils/markers'
+import {
+  getHoveredStyle,
+  getSelectedStyle,
+  getUnselectableStyle,
+} from '../../../utils/markers'
 import { resolveClusterClick } from '../../../utils/resolveClusterClick'
 import { setLayerId } from './setLayerId'
 
@@ -71,12 +75,16 @@ export function useExtendedMasterportalapiMarkers(
   {
     hoverStyle = {},
     selectionStyle = {},
+    unselectableStyle = {},
+    isSelectable = () => true,
     layers,
     clusterClickZoom = false,
     dispatchOnMapSelect,
   }: {
     hoverStyle?: MarkerStyle
     selectionStyle?: MarkerStyle
+    unselectableStyle?: MarkerStyle
+    isSelectable?: ExtendedMasterportalapiMarkersIsSelectableFunction
     layers: string[]
     clusterClickZoom: boolean
     dispatchOnMapSelect?: string[]
@@ -94,7 +102,7 @@ export function useExtendedMasterportalapiMarkers(
     .filter(layerFilter)
     .forEach((layer) => {
       // only vector layers reach this
-      const source = (layer as VectorLayer<VectorSource>).getSource()
+      const source = (layer as VectorLayer<Feature>).getSource()
       if (source !== null) {
         // @ts-expect-error | Undocumented hook.
         source.geometryFunction =
@@ -102,6 +110,20 @@ export function useExtendedMasterportalapiMarkers(
           (feature: Feature) =>
             isVisible(feature) ? feature.getGeometry() : null
       }
+      const originalStyleFunction = (layer as VectorLayer<Feature>).getStyle()
+      ;(layer as VectorLayer<Feature>).setStyle((feature) => {
+        if (
+          typeof isSelectable === 'undefined' ||
+          isSelectable(feature as Feature)
+        ) {
+          // @ts-expect-error | always is a function due to masterportalapi design
+          return originalStyleFunction(feature)
+        }
+        return getUnselectableStyle(
+          unselectableStyle,
+          feature.get('features').length > 1
+        )
+      })
     })
 
   // // // STORE EVENT HANDLING
@@ -147,7 +169,7 @@ export function useExtendedMasterportalapiMarkers(
       hovered = null
       commit('setHovered', hovered)
     }
-    if (!feature) {
+    if (!feature || !isSelectable(feature)) {
       return
     }
     const isMultiFeature = feature.get('features')?.length > 1
@@ -165,7 +187,11 @@ export function useExtendedMasterportalapiMarkers(
       dispatch('updateSelection', { feature: selected })
     }
     const feature = map.getFeaturesAtPixel(event.pixel, { layerFilter })[0]
-    if (!feature || feature instanceof RenderFeature) {
+    if (
+      !feature ||
+      feature instanceof RenderFeature ||
+      !isSelectable(feature)
+    ) {
       return
     }
     const isMultiFeature = feature.get('features')?.length > 1

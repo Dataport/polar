@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.0
 
+- Breaking: Upgrade peerDependency `ol` from `^7.1.0` to `^9.2.4`.
 - Feature: Add the option to configure a scale switcher via the new configuration parameters `showScaleSwitcher` and `zoomMethod`.
 
 ## 1.1.0

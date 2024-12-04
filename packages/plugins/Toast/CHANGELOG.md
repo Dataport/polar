@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.1.1
 
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 

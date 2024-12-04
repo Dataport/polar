@@ -67,10 +67,12 @@ const getInitialState = (): CoreState => ({
   moveHandleActionButton: 1,
   selected: 1,
   zoomLevel: 0,
-  // TODO: Add default values for epsg, layers, namedProjections, options and remove @ts-ignore for configuration
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  configuration: {},
+  // @ts-expect-error | Required values are set in utils/createMap/index.ts
+  configuration: {
+    layers: [],
+    layerConf: [],
+    startCenter: [0, 0],
+  },
   hasSmallDisplay: false,
   errors: [],
   language: '',
@@ -138,6 +140,12 @@ export const makeStore = () => {
       selected: (state) => {
         noop(state.selected)
         return selected
+      },
+      selectedCoordinates: (state) => {
+        noop(state.selected)
+        return selected === null
+          ? null
+          : (selected.getGeometry() as Point).getCoordinates()
       },
       // hack: deliver components (outside vuex) based on counter; see NOTE above
       components: (state) => {
@@ -239,6 +247,12 @@ export const makeStore = () => {
         }
         if (state.configuration[name].displayComponent) {
           commit('setComponents', [...components, component])
+
+          if (!state.configuration[name].layoutTag) {
+            console.warn(
+              `@polar/core: Component "${name}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
+            )
+          }
         }
       },
       centerOnFeature({ rootGetters: { map } }, feature: Feature) {

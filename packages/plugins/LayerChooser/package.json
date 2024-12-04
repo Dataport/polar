@@ -1,7 +1,15 @@
 {
   "name": "@polar/plugin-layer-chooser",
-  "version": "1.2.0",
-  "description": "Plugin LayerChooser",
+  "version": "1.2.1",
+  "description": "LayerChooser plugin for POLAR that adds a layer selection and configuration UI element for both backgrounds and overlays.",
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "LayerChooser",
+    "layer"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -16,12 +24,14 @@
     "CHANGELOG.md"
   ],
   "peerDependencies": {
+    "@masterportal/masterportalapi": "2.40.0",
     "@repositoryname/vuex-generators": "^1.1.2",
+    "ol": "^9.2.4",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.0.0",
-    "@polar/lib-test-mount-parameters": "^1.0.0"
+    "@polar/lib-custom-types": "^1.5.0",
+    "@polar/lib-test-mount-parameters": "^1.3.0"
   }
 }

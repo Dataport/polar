@@ -10,7 +10,7 @@ Currently supported services:
 
 - BKG
 - WFS
-- Some gazetteers/WFS-G (please request a check or try yourself, not 100% done)
+- Hamburg WFS-G (`mpapi`), may fit some WFS-G outside HH, test advised
 
 ## Configuration
 
@@ -25,15 +25,15 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 | fieldName | type | description |
 | - | - | - |
 | searchMethods | searchMethodsObject[] | Array of search method descriptions. Only searches configured here can be used. |
+| addLoading | string? | Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when starting asynchronous procedures that are intended to be communicated to the user. |
 | afterResultComponent | VueConstructor? | If given, this component will be rendered in the last line of every single search result. It will be forwarded its search result feature as prop `feature` of type `GeoJSON.Feature`, and the focus state of the result as prop `focus` of type `boolean`. |
-| addLoading | string? | Optional loading action name to start loading. |
 | categoryProperties | Record<string, categoryProperties>? | An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category. |
 | customSearchMethods | Record<string, customSearchMethod>? | An object with named search functions added to the existing set of configurable search methods. (See `addressSearch.searchMethodsObject.type`) This record's keys are added to that enum. |
 | customSelectResult | Record<string, customSelectFunction>? | An object that maps categoryIds to functions. These functions are then called as vuex store actions instead of the `selectResult` default implementation. This allows overriding selection behaviour with full store access. Use `''` as key for categoryless results. |
 | focusAfterSearch | boolean? | Whether the focus should switch to the first result after a successful search. Defaults to `false`. |
 | groupProperties | Record<string, groupProperties>? | An object defining properties for a group. The searchMethod's groupId is used as identifier. All services without groupId fall back to the key `"defaultGroup"`. |
 | minLength | number? | Minimal input length after which searches are started. Defaults to 0. |
-| removeLoading | string? | Optional loading action name to end loading. |
+| removeLoading | string? | Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when finishing asynchronous procedures that are intended to be communicated to the user. |
 | waitMs | number? | Debounce time in ms for search requests after last user input. Defaults to 0. |
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
@@ -42,6 +42,8 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 <summary>Example configuration</summary>
 
 ```js
+import Component from './component.vue'
+
 addressSearch: {
   searchMethods: [
     {
@@ -74,6 +76,7 @@ addressSearch: {
       },
     }
   ],
+  afterResultComponent: Component,
   groupProperties: {
     defaultGroup: {
       limitResults: 5,
@@ -93,7 +96,7 @@ addressSearch: {
 
 | fieldName | type | description |
 | - | - | - |
-| type | enum["bkg", "gazetteer", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. ⚠️ "gazetteer" is deprecated. Please use "mpapi" instead. |
+| type | enum["bkg", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. |
 | url | string | Search service URL. Should you require a service provider, please contact us for further information. |
 | categoryId | string? | Grouped services can optionally be distinguished in the UI with categories. See `addressSearch.categoryProperties` for configuration options. |
 | groupId | string? | Default groupId is `"defaultGroup"`. All services with the same id are grouped and used together. See `addressSearch.groupProperties` for configuration options. If multiple groups exist, the UI offers a group switcher. |
@@ -265,22 +268,9 @@ queryParameters: {
 }
 ```
 
-##### addressSearch.searchMethodsObject.queryParameters (type:gazetteer)
-
-> ⚠️ "gazetteer" is deprecated. Please use "mpapi" instead.
-
-| fieldName | type | description |
-| - | - | - |
-| epsg | `EPSG:${string}` | EPSG code of the projection to use. |
-| fieldName | string[] | Field names of service to search in. |
-| memberSuffix | string | Elements to interpret are fetched from response XML as `wfs:memberSuffix`; fitting suffix must be configured. |
-| namespaces | string \| string[] | Namespaces to add to the request. |
-| storedQueryId | string | Name of the WFS-G stored query that is to be used. |
-| version | '1.1.0' \| '2.0.0'? | WFS version used. Defaults to `'2.0.0'`. |
-
 ##### addressSearch.searchMethodsObject.queryParameters (type:mpapi)
 
-> **Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the [masterportalApi](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/). This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.**
+> **Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the [masterportalapi](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/). This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.**
 
 | fieldName | Type | Description |
 | - | - | - |

@@ -1,7 +1,8 @@
 {
   "name": "@polar/client-text-locator",
-  "version": "0.1.0",
-  "description": "Client TextLocator",
+  "version": "1.0.0",
+  "description": "POLAR Client TextLocator. This client helps research by connecting geospatial to literature information.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "client", "TextLocator", "AI", "toponyms", "literature"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -10,31 +11,36 @@
     "url": "https://github.com/Dataport/polar.git",
     "directory": "packages/clients/textLocator"
   },
+  "main": "dist/client-text-locator.js",
   "files": [
     "dist/**/**.*",
     "CHANGELOG.md"
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "rimraf dist && vite build && bash ./scripts/injectFlag.sh"
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
+    "dev": "vite --host"
   },
   "devDependencies": {
-    "@polar/core": "^1.4.1",
-    "@polar/lib-custom-types": "^1.4.1",
+    "@polar/core": "^2.0.0",
+    "@polar/lib-custom-types": "^1.5.0",
     "@polar/lib-tooltip": "^1.0.0",
-    "@polar/plugin-address-search": "^1.2.1",
-    "@polar/plugin-attributions": "^1.2.1",
-    "@polar/plugin-draw": "1.1.0",
-    "@polar/plugin-icon-menu": "^1.2.0",
-    "@polar/plugin-layer-chooser": "^1.2.0",
-    "@polar/plugin-legend": "^1.1.0",
-    "@polar/plugin-loading-indicator": "^1.1.0",
-    "@polar/plugin-scale": "^1.1.0",
-    "@polar/plugin-toast": "^1.1.0",
-    "@polar/plugin-zoom": "^1.2.0",
-    "@turf/flatten": "^6.5.0",
-    "@turf/union": "^6.5.0",
+    "@polar/plugin-address-search": "^2.0.0",
+    "@polar/plugin-attributions": "^1.3.0",
+    "@polar/plugin-draw": "^2.0.0",
+    "@polar/plugin-icon-menu": "^1.3.0",
+    "@polar/plugin-layer-chooser": "^1.2.1",
+    "@polar/plugin-legend": "^1.1.1",
+    "@polar/plugin-loading-indicator": "^1.2.0",
+    "@polar/plugin-scale": "^2.0.0",
+    "@polar/plugin-toast": "^1.1.1",
+    "@polar/plugin-zoom": "^1.3.0",
+    "@turf/flatten": "^7.1.0",
+    "@turf/union": "^7.1.0",
     "js-levenshtein": "^1.1.6",
     "lodash.debounce": "^4.0.8"
+  },
+  "nx": {
+    "includedScripts": ["build", "dev"]
   }
 }

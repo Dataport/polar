@@ -1,7 +1,14 @@
 {
   "name": "@polar/plugin-loading-indicator",
-  "version": "1.1.0",
-  "description": "Plugin LoadingIndicator",
+  "version": "1.2.0",
+  "description": "LoadingIndicator plugin for POLAR that adds a configurable element to indicate something is loading.",
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "loading indicator"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -20,6 +27,6 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.0.0"
+    "@polar/lib-custom-types": "^1.5.0"
   }
 }

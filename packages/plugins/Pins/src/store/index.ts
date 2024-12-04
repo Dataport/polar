@@ -8,7 +8,6 @@ import { Draw, Modify, Select, Translate } from 'ol/interaction'
 import { PinsConfiguration, PolarModule } from '@polar/lib-custom-types'
 import { toLonLat, transform } from 'ol/proj'
 import { pointerMove } from 'ol/events/condition'
-import { Geometry } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
 import { PinsState, PinsGetters } from '../types'
 import getPointCoordinate from '../util/getPointCoordinate'
@@ -19,7 +18,7 @@ import getters from './getters'
 // OK for module creation
 // eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
-  let pinsLayer: VectorLayer<Vector<Geometry>>
+  let pinsLayer: VectorLayer<Feature<Point>>
   const move = new Select({
     layers: (l) => l === pinsLayer,
     style: null,
@@ -36,7 +35,7 @@ export const makeStoreModule = () => {
         rootGetters.map.addInteraction(move)
         move.on('select', ({ selected }) => {
           const { movable } = rootGetters.configuration.pins || {}
-          if (!movable || movable === 'none') {
+          if (movable === 'none') {
             document.body.style.cursor = selected.length ? 'not-allowed' : ''
           }
         })
@@ -49,11 +48,6 @@ export const makeStoreModule = () => {
       },
       setupClickInteraction({ rootGetters, getters, commit, dispatch }): void {
         const { appearOnClick, movable } = rootGetters.configuration.pins || {}
-        if (typeof movable === 'boolean') {
-          console.warn(
-            "@polar/plugin-pins: Using a boolean for the configuration parameter 'movable' has been deprecated and will be removed in the next major release."
-          )
-        }
         const interactions = rootGetters.map.getInteractions()
         const showPin = appearOnClick === undefined ? true : appearOnClick.show
         rootGetters.map.on('singleclick', async ({ coordinate }) => {
@@ -66,9 +60,7 @@ export const makeStoreModule = () => {
               interaction._isDeleteSelect
           )
           if (
-            ((typeof movable === 'boolean' && movable) ||
-              movable === 'drag' ||
-              movable === 'click') &&
+            (movable === 'drag' || movable === 'click') &&
             showPin &&
             // NOTE: It is assumed that getZoom actually returns the currentZoomLevel, thus the view has a constraint in the resolution.
             (rootGetters.map.getView().getZoom() as number) >=
@@ -180,7 +172,7 @@ export const makeStoreModule = () => {
         dispatch,
       }): void {
         const movable = configuration.pins?.movable
-        if (movable !== 'drag' && movable !== true) {
+        if (movable !== 'drag') {
           return
         }
         const { atZoomLevel } = getters

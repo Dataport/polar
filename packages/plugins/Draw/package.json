@@ -1,7 +1,15 @@
 {
   "name": "@polar/plugin-draw",
-  "version": "1.1.0",
-  "description": "Plugin Draw",
+  "version": "2.0.0",
+  "description": "Draw plugin for POLAR that adds draw interactions to the map, allowing users to place various shapes and texts.",
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "Draw",
+    "interaction"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -17,11 +25,11 @@
   ],
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "^7.1.0",
+    "ol": "^9.2.4",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.0.0"
+    "@polar/lib-custom-types": "^1.5.0"
   }
 }

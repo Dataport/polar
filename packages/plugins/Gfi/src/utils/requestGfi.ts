@@ -1,6 +1,6 @@
 import { Feature as GeoJsonFeature } from 'geojson'
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer'
-import { getLayerWhere } from '@masterportal/masterportalapi/src/rawLayerList'
+import { rawLayerList } from '@masterportal/masterportalapi'
 
 import { RequestGfiParameters } from '../types'
 
@@ -20,36 +20,45 @@ import requestGfiGeoJson from './requestGfiGeoJson'
 export function requestGfi({
   map,
   layer,
-  coordinate,
+  coordinateOrExtent,
   layerConfiguration,
   layerSpecification,
   mode,
 }: RequestGfiParameters): Promise<GeoJsonFeature[]> {
+  const layerId = layer.get('id')
   try {
-    const params = { map, coordinate, layerConfiguration, layerSpecification }
-    if (layer instanceof TileLayer) {
-      return requestGfiWms({ ...params, layer })
+    const params = {
+      map,
+      layerConfiguration,
+      layerSpecification,
     }
-    if (getLayerWhere({ id: layer.get('id') })?.typ === 'GeoJSON') {
-      return requestGfiGeoJson({ ...params, layer })
+    if (layer instanceof TileLayer) {
+      return coordinateOrExtent.length === 2
+        ? requestGfiWms({
+            ...params,
+            coordinate: coordinateOrExtent,
+            layer,
+          })
+        : Promise.reject(
+            new Error(
+              `An extent can not be used for ${layerId} as it is a WMS layer which only support coordinates for gfi requests.`
+            )
+          )
+    }
+    if (
+      rawLayerList.getLayerWhere({ id: layerId })?.typ === 'GeoJSON' &&
+      // NOTE: This is the case by design of @masterportal/masterportalapi but is added here for type safety
+      layer instanceof VectorLayer
+    ) {
+      return requestGfiGeoJson({ ...params, coordinateOrExtent, layer })
     }
     if (layer instanceof VectorLayer) {
-      return requestGfiWfs({ ...params, mode })
+      return requestGfiWfs({ ...params, coordinateOrExtent, mode })
     }
-    return Promise.reject(
-      new Error(
-        `Layer ${layer.get(
-          'id'
-        )} was neither a Tile- nor a VectorLayer. GFI not implemented.`
-      )
-    )
+    const notImplemented = `Layer ${layerId} was neither a Tile- nor a VectorLayer. GFI not implemented.`
+    return Promise.reject(new Error(notImplemented))
   } catch (e) {
-    return Promise.reject(
-      new Error(
-        `An error occurred while requesting features from layer with the id ${layer.get(
-          'id'
-        )}.`
-      )
-    )
+    const error = `An error occurred while requesting features from layer with the id ${layerId}.`
+    return Promise.reject(new Error(error))
   }
 }
