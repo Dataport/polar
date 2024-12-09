@@ -27,25 +27,13 @@
     <script type="module">
       import client from './client-dish.js'
 
-      const internalHost = 'http://10.61.63.54'
-      const internalPort = '8081'
-      const internalPath = 'dish-deegree-3.5.0/services'
-// leave empty for external map
-      const urlParams = {
-        internalHost,
-        internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
-      }
+      // leave empty for external map
+      const urlParams = {}
 
       client.createMap({
         containerId: 'polarstern',
         mode: 'EXTERN', // INTERN, EXTERN
         urlParams,
-        //only needed for internal map
-        configOverride: {
-          dishExportMap: {
-            internalHost: urlParams.internalHost,
-          },   
-        }
       })
     </script>
   </body>
