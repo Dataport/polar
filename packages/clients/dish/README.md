@@ -20,11 +20,11 @@ Add a query parameter, e.g. `?ObjektID=1506`, to the page's URL to initially foc
 
 Name and casing of "ObjektID" have been directly taken from the backend to avoid duplicate naming.
 
-Some service URLs for the internal DISH application need to be configurable. Therefore, the host (`internalHost`), port and first part of the path must be defined outside of the map. The `internalHost` and the combination of host, port and path as `internServicesBaseUrl` must be passed to the `createMap` call as attributes of the parameter `urlParams`. 
+The service URLs for the internal monumental WMS and WFS need to be configurable. Therefore, the host (`internalHost`), the port and the part of the path that is equal for both services must be defined outside of the map. The `internalHost` and the combination of host, port and path as `internServicesBaseUrl` must be passed to the `createMap` call as attributes of the parameter `urlParams`. 
 
-The `internalHost` is also needed as parameter for the DishExportMap plugin. 
+The `internalHost` is also needed as parameter for the DishExportMap plugin and is passed as attribute of `configOverride` in the `createMap` call.
 
-For external use as public webpage pass `urlParams` as empty object.
+The `urlParams` parameter and the configuration for the DishExportMap is only needed for the internal dish application and can be omitted otherwise.
 
 
 
