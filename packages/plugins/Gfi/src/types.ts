@@ -34,6 +34,8 @@ export interface RequestGfiWmsParameters {
   layer: TileLayer<TileWMS>
 }
 
+export type FeaturesByLayerId = Record<string, GeoJsonFeature[] | symbol>
+
 /** GFI Vuex Module State */
 export interface GfiState {
   /** default style for stroke and fill of the highlighted feature. */

@@ -1,18 +1,20 @@
 import debounce from 'lodash.debounce'
+import { Feature as GeoJsonFeature } from 'geojson'
 import { Style, Fill, Stroke } from 'ol/style'
-import Overlay from 'ol/Overlay'
 import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
-import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
-import getCluster from '@polar/lib-get-cluster'
-import { getTooltip, Tooltip } from '@polar/lib-tooltip'
-import { DragBox } from 'ol/interaction'
-import { platformModifierKeyOnly } from 'ol/events/condition'
 import { getFeatureDisplayLayer, clear } from '../../utils/displayFeatureLayer'
-import { GfiGetters, GfiState } from '../../types'
-import { getOriginalFeature } from '../../utils/getOriginalFeature'
+import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
+import { filterFeatures } from '../../utils/filterFeatures'
+import { renderFeatures } from '../../utils/renderFeatures'
 import { debouncedGfiRequest } from './debouncedGfiRequest'
+import {
+  setupCoreListener,
+  setupMultiSelection,
+  setupTooltip,
+  setupZoomListeners,
+} from './setup'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -67,131 +69,10 @@ export const makeActions = () => {
       dispatch('setupZoomListeners')
       dispatch('setupMultiSelection')
     },
-    setupCoreListener({
-      getters: { gfiConfiguration },
-      rootGetters,
-      dispatch,
-    }) {
-      if (gfiConfiguration.featureList?.bindWithCoreHoverSelect) {
-        this.watch(
-          () => rootGetters.selected,
-          (feature) => dispatch('setOlFeatureInformation', { feature }),
-          { deep: true }
-        )
-      }
-    },
-    setupMultiSelection({ dispatch, getters, rootGetters }) {
-      if (getters.gfiConfiguration.boxSelect) {
-        const dragBox = new DragBox({ condition: platformModifierKeyOnly })
-        dragBox.on('boxend', () =>
-          dispatch('getFeatureInfo', {
-            coordinateOrExtent: dragBox.getGeometry().getExtent(),
-            modifierPressed: true,
-          })
-        )
-        rootGetters.map.addInteraction(dragBox)
-      }
-      if (getters.gfiConfiguration.directSelect) {
-        rootGetters.map.on('click', ({ coordinate, originalEvent }) =>
-          dispatch('getFeatureInfo', {
-            coordinateOrExtent: coordinate,
-            modifierPressed:
-              navigator.userAgent.indexOf('Mac') !== -1
-                ? originalEvent.metaKey
-                : originalEvent.ctrlKey,
-          })
-        )
-      }
-    },
-    setupZoomListeners({ dispatch, getters, rootGetters }) {
-      if (getters.gfiConfiguration.featureList) {
-        this.watch(
-          () => rootGetters.zoomLevel,
-          () => {
-            const {
-              featureInformation,
-              listableLayerSources,
-              visibleWindowFeatureIndex,
-              windowFeatures,
-            } = getters
-
-            if (windowFeatures.length) {
-              const layerId: string =
-                // @ts-expect-error | if windowFeatures has features, visibleWindowFeatureIndex is in the range of possible features
-                windowFeatures[visibleWindowFeatureIndex].polarInternalLayerKey
-              const selectedFeatureProperties: GeoJsonProperties = {
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                _gfiLayerId: layerId,
-                ...featureInformation[layerId][visibleWindowFeatureIndex]
-                  .properties,
-              }
-              const originalFeature = getOriginalFeature(
-                listableLayerSources,
-                selectedFeatureProperties
-              )
-              if (originalFeature) {
-                dispatch('setOlFeatureInformation', {
-                  feature: getCluster(
-                    rootGetters.map,
-                    originalFeature,
-                    '_gfiLayerId'
-                  ),
-                })
-              }
-            }
-          }
-        )
-      }
-    },
-    setupTooltip({ getters: { gfiConfiguration }, rootGetters: { map } }) {
-      const tooltipLayerIds = Object.keys(gfiConfiguration.layers).filter(
-        (key) => gfiConfiguration.layers[key].showTooltip
-      )
-      if (!tooltipLayerIds.length) {
-        return
-      }
-
-      let element: Tooltip['element'], unregister: Tooltip['unregister']
-      const overlay = new Overlay({
-        positioning: 'bottom-center',
-        offset: [0, -5],
-      })
-      map.addOverlay(overlay)
-      map.on('pointermove', ({ pixel, dragging, originalEvent }) => {
-        if (dragging || ['touch', 'pen'].includes(originalEvent.pointerType)) {
-          return
-        }
-        let hasFeatureAtPixel = false
-        // stops on return `true`, thus only using the uppermost feature
-        map.forEachFeatureAtPixel(
-          pixel,
-          (feature, layer) => {
-            if (!(feature instanceof Feature)) {
-              return false
-            }
-            hasFeatureAtPixel = true
-            overlay.setPosition(map.getCoordinateFromPixel(pixel))
-            if (unregister) {
-              unregister()
-            }
-            ;({ element, unregister } = getTooltip({
-              localeKeys:
-                // @ts-expect-error | it exists by virtue of layerFilter below
-                gfiConfiguration.layers[layer.get('id')].showTooltip(
-                  feature,
-                  map
-                ),
-            }))
-            overlay.setElement(element)
-            return true
-          },
-          { layerFilter: (layer) => tooltipLayerIds.includes(layer.get('id')) }
-        )
-        if (!hasFeatureAtPixel) {
-          overlay.setPosition(undefined)
-        }
-      })
-    },
+    setupCoreListener,
+    setupMultiSelection,
+    setupTooltip,
+    setupZoomListeners,
     setupFeatureVisibilityUpdates({ commit, state, getters, rootGetters }) {
       // debounce to prevent update spam
       debouncedVisibilityChangeIndicator = debounce(
@@ -282,6 +163,34 @@ export const makeActions = () => {
         })
         dispatch('setCoreSelection', { feature, centerOnFeature })
       }
+    },
+    setFeatureInformation(
+      { commit, getters },
+      featuresByLayerId: FeaturesByLayerId
+    ) {
+      commit('clearFeatureInformation')
+      commit('setVisibleWindowFeatureIndex', 0)
+      clear(featureDisplayLayer)
+
+      const filteredFeatures = Object.fromEntries(
+        Object.entries(filterFeatures(featuresByLayerId)).map(
+          ([layerId, features]) => {
+            const { isSelectable } = getters.gfiConfiguration.layers[layerId]
+            return [
+              layerId,
+              typeof isSelectable === 'function'
+                ? features.filter((feature) => isSelectable(feature))
+                : features,
+            ]
+          }
+        )
+      )
+      commit('setFeatureInformation', filteredFeatures)
+      renderFeatures(
+        featureDisplayLayer,
+        getters.geometryLayerKeys,
+        filteredFeatures
+      )
     },
     hover({ commit, rootGetters }, feature: Feature) {
       if (rootGetters.configuration.extendedMasterportalapiMarkers) {

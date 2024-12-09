@@ -10,17 +10,16 @@ import { Map, Feature } from 'ol'
 import { Geometry } from 'ol/geom'
 import VectorLayer from 'ol/layer/Vector'
 import compare from 'just-compare'
-import { addFeature } from '../../utils/displayFeatureLayer'
+import { filterFeatures } from '../../utils/filterFeatures'
 import { requestGfi } from '../../utils/requestGfi'
 import sortFeatures from '../../utils/sortFeatures'
-import { GfiGetters, GfiState } from '../../types'
+import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
+import { renderFeatures } from '../../utils/renderFeatures'
 
 interface GetFeatureInfoParameters {
   coordinateOrExtent: [number, number] | [number, number, number, number]
   modifierPressed?: boolean
 }
-
-type FeaturesByLayerId = Record<string, GeoJsonFeature[] | symbol>
 
 const filterAndMapFeaturesToLayerIds = (
   layerKeys: string[],
@@ -92,17 +91,6 @@ const getPromisedFeatures = (
       mode: layerGfiMode,
     })
   })
-
-const filterFeatures = (
-  featuresByLayerId: FeaturesByLayerId
-): Record<string, GeoJsonFeature[]> => {
-  const entries = Object.entries(featuresByLayerId)
-  const filtered = entries.filter((keyValue) => Array.isArray(keyValue[1])) as [
-    string,
-    GeoJsonFeature[]
-  ][]
-  return Object.fromEntries(filtered)
-}
 
 const createSelectionDiff = (
   oldSelection: FeaturesByLayerId,
@@ -178,14 +166,11 @@ const gfiRequest =
       )
     }
     commit('setFeatureInformation', featuresByLayerId)
-    // render feature geometries to help layer
-    getters.geometryLayerKeys
-      .filter((key) => Array.isArray(featuresByLayerId[key]))
-      .forEach((key) =>
-        filterFeatures(featuresByLayerId)[key].forEach((feature) =>
-          addFeature(feature, featureDisplayLayer)
-        )
-      )
+    renderFeatures(
+      featureDisplayLayer,
+      getters.geometryLayerKeys,
+      featuresByLayerId
+    )
   }
 
 export const debouncedGfiRequest = (
