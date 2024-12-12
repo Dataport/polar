@@ -101,7 +101,7 @@ const servicesExtern = [
 const alkisWfService = {
   id: alkisWfs,
   name: 'ALKIS',
-  url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
+  url: `${dishCloudBaseUrl}/dishbkgALKIS_WFS`,
   typ: 'WFS',
   version: '2.0.0',
   transparent: true,

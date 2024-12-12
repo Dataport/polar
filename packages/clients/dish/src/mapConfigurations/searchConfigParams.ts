@@ -76,7 +76,7 @@ export const searchMethods = {
     groupId: groupDenkmalsuche,
     categoryId: 'categoryIdAlkisSearch',
     type: 'wfs',
-    url: `${dishCloudBaseUrl}/dish/bkg/ALKIS_WFS`,
+    url: `${dishCloudBaseUrl}/dishbkgALKIS_WFS`,
     queryParameters: {
       id: alkisWfs,
       maxFeatures: 120,
