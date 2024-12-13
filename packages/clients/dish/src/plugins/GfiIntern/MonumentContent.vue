@@ -37,11 +37,17 @@ import { mapActions, mapMutations, mapGetters } from 'vuex'
 import { getPhoto } from '../../utils/extendGfi'
 import { denkmaelerWmsIntern } from '../../servicesIntern'
 import { alkisWms } from '../../services'
+import {
+  prepareData,
+  addComposedField,
+  createComposedField,
+} from '../../utils/prepareGfiDataIntern'
 
 export default Vue.extend({
   name: 'MonumentContent',
   data: () => ({
-    orderedFields: [
+    photo: '',
+    infoFieldsMonuments: [
       { key: 'kreis_kue', label: 'Kreis' },
       { key: 'gemeinde', label: 'Gemeinde' },
       { key: 'objektid', label: 'Objektnummer' },
@@ -49,12 +55,11 @@ export default Vue.extend({
       { key: 'einstufung', label: 'Einstufung' },
     ],
     infoFieldsAdress: ['strasse', 'hausnummer', 'hausnrzusatz'],
-    photo: '',
-    parcelInfoFields: {
-      gemarkung: 'Gemarkung',
-      flstkennz: 'Flurstückskennzeichen',
-    },
-    infoFieldsFlurstueck: ['flstnrzae', 'flstnrnen'],
+    infoFieldsParcels: [
+      { key: 'gemarkung', label: 'Gemarkung' },
+      { key: 'flstkennz', label: 'Flurstückskennzeichen' },
+    ],
+    infoFieldsParcelNumber: ['flstnrzae', 'flstnrnen'],
   }),
   computed: {
     ...mapGetters([
@@ -75,7 +80,7 @@ export default Vue.extend({
       if (!this.showInfoForActiveLayers('monument') || !this.objectIdentifier) {
         return null
       }
-      return this.prepareMonumentData(this.currentProperties)
+      return this.prepareMonumentLocationData(this.currentProperties)
     },
     parcelInfo(): Array<string[]> | null {
       if (!this.showInfoForActiveLayers('alkis')) return null
@@ -114,37 +119,30 @@ export default Vue.extend({
       const targetLayer = layerMap[topic]
       return targetLayer ? this.activeMaskIds.includes(targetLayer) : false
     },
-    prepareMonumentData(object: Record<string, string>): Array<string[]> {
+    prepareMonumentLocationData(
+      currentProperties: Record<string, string>
+    ): Array<string[]> {
       this.setImage()
-      const tableData = this.orderedFields
-        .map(({ key, label }) => [label, object[key]])
-        .filter(([value]) => value !== undefined && value !== '')
-
-      const address = this.infoFieldsAdress
-        .map((field) => object[field])
-        .filter((value) => value)
-        .join(' ')
-      const addressData = ['Strasse', address]
-      if (address && address.trim() !== '') {
-        const gemeindeIndex = tableData.findIndex(([key]) => key === 'Gemeinde')
-        tableData.splice(gemeindeIndex + 1, 0, addressData)
-      }
+      const tableData = prepareData(currentProperties, this.infoFieldsMonuments)
+      const addressData = createComposedField(
+        this.infoFieldsAdress,
+        currentProperties,
+        'Strasse'
+      )
+      if (addressData) addComposedField(addressData, 'Gemeinde', tableData)
 
       return tableData
     },
-    prepareParcelData(object: Record<string, string>): Array<string[]> {
-      const tableData = Object.entries(object)
-        .filter(([key]) => Object.keys(this.parcelInfoFields).includes(key))
-        .map(([key, value]) => [this.parcelInfoFields[key], value])
-
-      const flurStueck = this.infoFieldsFlurstueck
-        .map((field) => object[field])
-        .filter((value) => value)
-        .join(' / ')
-
-      const flurStueckData = ['Flurstück', flurStueck]
-
-      if (flurStueck && flurStueck.trim() !== '') tableData.push(flurStueckData)
+    prepareParcelData(
+      currentProperties: Record<string, string>
+    ): Array<string[]> {
+      const tableData = prepareData(currentProperties, this.infoFieldsParcels)
+      const parcelNumber = createComposedField(
+        this.infoFieldsParcelNumber,
+        currentProperties,
+        'Flurstück'
+      )
+      if (parcelNumber) addComposedField(parcelNumber, 'Gemarkung', tableData)
 
       return tableData
     },
