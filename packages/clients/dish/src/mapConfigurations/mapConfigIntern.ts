@@ -152,7 +152,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams) => {
       },
     },
     pins: {
-      toZoomLevel: 7,
+      toZoomLevel: 8,
       movable: 'drag',
       style: {
         fill: shBlue,
