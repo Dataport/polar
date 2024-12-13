@@ -39,7 +39,7 @@ const layersIntern: LayerConfiguration[] = [
     id: aerialPhoto,
     visibility: false,
     type: 'background',
-    name: 'Luftbilder Farbe',
+    name: 'Luftbilder',
   },
   {
     id: alkisWfs,
@@ -53,7 +53,7 @@ const layersIntern: LayerConfiguration[] = [
     id: alkisWms,
     visibility: false,
     type: 'mask',
-    name: 'ALKIS Flurstücke (WMS)',
+    name: 'ALKIS Flurstücke (ab 1:1000)',
     minZoom: 10,
   },
   {

@@ -33,10 +33,22 @@ export const mapConfigExtern = {
       name: 'Basemap Graustufen',
     },
     {
+      id: bddCol,
+      visibility: true,
+      type: 'background',
+      name: 'Digitale Topographische Karten (Farbe)',
+    },
+    {
+      id: bddEin,
+      visibility: true,
+      type: 'background',
+      name: 'Digitale Topographische Karten (Graustufen)',
+    },
+    {
       id: dop20col,
       visibility: true,
       type: 'background',
-      name: 'Digitale Orthophotos',
+      name: 'Luftbilder',
     },
     {
       id: denkmaelerWfsExtern,
@@ -72,20 +84,8 @@ export const mapConfigExtern = {
       id: alkisWms,
       visibility: true,
       type: 'mask',
-      name: 'ALKIS Flurstücke (WMS)',
+      name: 'ALKIS Flurstücke (ab 1: 1000)',
       minZoom: 10,
-    },
-    {
-      id: bddCol,
-      visibility: true,
-      type: 'background',
-      name: 'Digitale Topographische Karten (Farbe)',
-    },
-    {
-      id: bddEin,
-      visibility: true,
-      type: 'background',
-      name: 'Digitale Topographische Karten (Graustufen)',
     },
   ],
   attributions: {
