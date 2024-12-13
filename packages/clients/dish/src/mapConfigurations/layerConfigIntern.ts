@@ -144,7 +144,8 @@ const layersIntern: LayerConfiguration[] = [
     id: beschriftung,
     visibility: true,
     type: 'mask',
-    name: 'Beschriftung',
+    name: 'Beschriftung (ab 1:5000)',
+    minZoom: 8,
   },
 ]
 

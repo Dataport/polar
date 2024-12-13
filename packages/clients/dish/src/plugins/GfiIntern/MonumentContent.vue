@@ -4,7 +4,7 @@
       v-if="showInfoForActiveLayers('monument') && objectIdentifier"
       class="dish-gfi-title"
     >
-      {{ `${$t('common:dish.gfiHeader')} ${objectIdentifier}` }}
+      {{ objektansprache }}
     </v-card-title>
     <img
       v-if="displayImage"
@@ -41,15 +41,13 @@ import { alkisWms } from '../../services'
 export default Vue.extend({
   name: 'MonumentContent',
   data: () => ({
-    infoFields: {
-      denkmalliste: 'Denkmalliste',
-      einstufung: 'Einstufung',
-      kategorie: 'Kategorie',
-      kreis_kue: 'Kreis',
-      gemeinde: 'Gemeinde',
-      objektansprache: 'Ansprache',
-      zaehler: 'Zähler',
-    },
+    orderedFields: [
+      { key: 'kreis_kue', label: 'Kreis' },
+      { key: 'gemeinde', label: 'Gemeinde' },
+      { key: 'objektid', label: 'Objektnummer' },
+      { key: 'denkmalliste', label: 'Denkmalliste' },
+      { key: 'einstufung', label: 'Einstufung' },
+    ],
     infoFieldsAdress: ['strasse', 'hausnummer', 'hausnrzusatz'],
     photo: '',
     parcelInfoFields: {
@@ -69,6 +67,9 @@ export default Vue.extend({
     ...mapGetters('plugin/gfi', ['currentProperties', 'windowFeatures']),
     objectIdentifier(): string {
       return this.currentProperties.objektid
+    },
+    objektansprache(): string {
+      return this.currentProperties.objektansprache
     },
     monumentInfo(): Array<string[]> | null {
       if (!this.showInfoForActiveLayers('monument')) return null
@@ -112,16 +113,19 @@ export default Vue.extend({
     },
     prepareMonumentData(object: Record<string, string>): Array<string[]> {
       this.setImage()
-      const tableData = Object.entries(object)
-        .filter(([key]) => Object.keys(this.infoFields).includes(key))
-        .map(([key, value]) => [this.infoFields[key], value])
+      const tableData = this.orderedFields
+        .map(({ key, label }) => [label, object[key]])
+        .filter(([value]) => value !== undefined && value !== '')
 
       const address = this.infoFieldsAdress
         .map((field) => object[field])
         .filter((value) => value)
         .join(' ')
       const addressData = ['Strasse', address]
-      if (address && address.trim() !== '') tableData.push(addressData)
+      if (address && address.trim() !== '') {
+        const gemeindeIndex = tableData.findIndex(([key]) => key === 'Gemeinde')
+        tableData.splice(gemeindeIndex + 1, 0, addressData)
+      }
 
       return tableData
     },
