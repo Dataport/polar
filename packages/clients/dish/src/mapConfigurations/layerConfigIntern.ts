@@ -67,7 +67,7 @@ const layersIntern: LayerConfiguration[] = [
     id: denkmaelerWmsIntern,
     visibility: true,
     type: 'mask',
-    name: 'Kulturdenkmale (Denkmalliste)',
+    name: 'Kulturdenkmale',
     options: {
       layers: {
         order: '6,24,25,4,3,2,1,0',
@@ -144,8 +144,8 @@ const layersIntern: LayerConfiguration[] = [
     id: beschriftung,
     visibility: true,
     type: 'mask',
-    name: 'Beschriftung (ab 1:5000)',
-    minZoom: 8,
+    name: 'Beschriftung (ab 1:2500)',
+    minZoom: 9,
   },
 ]
 
