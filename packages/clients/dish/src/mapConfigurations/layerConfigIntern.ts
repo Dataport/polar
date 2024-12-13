@@ -64,12 +64,6 @@ const layersIntern: LayerConfiguration[] = [
     name: 'Denkmal (WFS) Infoabfragelayer',
   },
   {
-    id: beschriftung,
-    visibility: true,
-    type: 'mask',
-    name: 'Beschriftung',
-  },
-  {
     id: denkmaelerWmsIntern,
     visibility: true,
     type: 'mask',
@@ -145,6 +139,12 @@ const layersIntern: LayerConfiguration[] = [
         legend: true,
       },
     },
+  },
+  {
+    id: beschriftung,
+    visibility: true,
+    type: 'mask',
+    name: 'Beschriftung',
   },
 ]
 

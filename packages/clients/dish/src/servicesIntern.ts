@@ -29,6 +29,7 @@ const denkmaelerWmServiceIntern = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
+  singleTile: true,
 }
 const beschriftungService = {
   id: beschriftung,
@@ -51,6 +52,7 @@ const kontrollbedarfServiceIntern = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
+  singleTile: true,
 }
 const verlustServiceIntern = {
   id: verlustIntern,
@@ -61,6 +63,7 @@ const verlustServiceIntern = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
+  singleTile: true,
 }
 
 const verwaltungsGrenzenService = {
