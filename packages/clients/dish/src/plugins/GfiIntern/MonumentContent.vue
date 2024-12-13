@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card-title
-      v-if="showInfoForActiveLayers('monument') && objectIdentifier"
+      v-if="showInfoForActiveLayers('monument') && objektansprache"
       class="dish-gfi-title"
     >
       {{ objektansprache }}
@@ -72,7 +72,9 @@ export default Vue.extend({
       return this.currentProperties.objektansprache
     },
     monumentInfo(): Array<string[]> | null {
-      if (!this.showInfoForActiveLayers('monument')) return null
+      if (!this.showInfoForActiveLayers('monument') || !this.objectIdentifier) {
+        return null
+      }
       return this.prepareMonumentData(this.currentProperties)
     },
     parcelInfo(): Array<string[]> | null {
@@ -84,7 +86,8 @@ export default Vue.extend({
     displayImage(): boolean {
       return (
         this.photo !== 'Kein Foto gefunden' &&
-        this.showInfoForActiveLayers('monument')
+        this.showInfoForActiveLayers('monument') &&
+        this.objectIdentifier
       )
     },
     imgMinWidth(): string | undefined {
