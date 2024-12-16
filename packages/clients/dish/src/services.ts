@@ -55,7 +55,7 @@ export const denkmaelerWfServiceExtern = {
 const dop20ColService = {
   id: dop20col,
   name: 'DOP 20 (Farbe)',
-  url: `${dishCloudBaseUrl}/dish/bkg/DOP20col`,
+  url: `${dishCloudBaseUrl}/dishbkgDOP20col`,
   typ: 'WMS',
   layers: 'SH_DOP20_4,SH_DOP20_3,SH_DOP20_2,SH_DOP20_1',
   legendURL: 'ignore',
@@ -67,7 +67,7 @@ const dop20ColService = {
 const bddColService = {
   id: bddCol,
   name: 'BDD (Mehrfarbe)',
-  url: `${dishCloudBaseUrl}/dish/bkg/BDDcol`,
+  url: `${dishCloudBaseUrl}/dishbkgBDDcol`,
   typ: 'WMS',
   layers:
     'DTK5col,DTK25col,DTK50col,DTK100col,Flaechen_250,Linien_250,Flaechen_1000,Linien_1000,Flaechen_1500,Linien_1500',
@@ -80,7 +80,7 @@ const bddColService = {
 const bddEinService = {
   id: bddEin,
   name: 'BDD (Einfarbig)',
-  url: `${dishCloudBaseUrl}/dish/bkg/BDDein`,
+  url: `${dishCloudBaseUrl}/dishbkgBDDein`,
   typ: 'WMS',
   layers:
     'DTK5ein,DTK25ein,DTK50ein,DTK100ein,Flaechen_250,Linien_250,Flaechen_1000,Linien_1000,Flaechen_1500,Linien_1500',
