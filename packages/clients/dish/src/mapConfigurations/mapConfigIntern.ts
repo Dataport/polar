@@ -9,6 +9,7 @@ import {
   kontrollbedarfIntern,
   verlustIntern,
   verwaltung,
+  alkisWmsIntern,
 } from '../servicesIntern'
 import { shBlue } from '../colors'
 import { DishUrlParams } from '../types'
@@ -37,6 +38,23 @@ export const mapConfigIntern = (urlParams: DishUrlParams) => {
       layerAttributions: [
         ...attributionsCommon,
         {
+          id: bddEinIntern,
+          title: `Grundkarte Graustufen: © ${vermessungsAmtLink}`,
+        },
+        {
+          id: bddColIntern,
+          title: `Grundkarte Farbe: © ${vermessungsAmtLink}`,
+        },
+        {
+          id: aerialPhoto,
+          title: `Luftbilder Farbe: © ${vermessungsAmtLink}`,
+        },
+        {
+          id: alkisWmsIntern,
+          title:
+            'Karte Flurstücke gemäss ALKIS-Objektartenkatalog © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
+        },
+        {
           id: denkmaelerWmsIntern,
           title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
         },
@@ -51,18 +69,6 @@ export const mapConfigIntern = (urlParams: DishUrlParams) => {
         {
           id: verwaltung,
           title: `Verwaltungsgrenzen: © ${vermessungsAmtLink}`,
-        },
-        {
-          id: bddEinIntern,
-          title: `Grundkarte Graustufen: © ${vermessungsAmtLink}`,
-        },
-        {
-          id: bddColIntern,
-          title: `Grundkarte Farbe: © ${vermessungsAmtLink}`,
-        },
-        {
-          id: aerialPhoto,
-          title: `Luftbilder Farbe: © ${vermessungsAmtLink}`,
         },
       ],
       staticAttributions: [

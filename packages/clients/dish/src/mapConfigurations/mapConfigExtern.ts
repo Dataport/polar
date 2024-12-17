@@ -4,14 +4,18 @@
 import { shBlue } from '../colors'
 import {
   basemapGrau,
-  alkisWms,
+  alkisWmsExtern,
   denkmaelerWfsExtern,
   denkmaelerWMS,
   dop20col,
   bddCol,
   bddEin,
 } from '../services'
-import { denkmalAmtLink, vermessungsAmtLink } from './attributionsConfig'
+import {
+  attributionsCommon,
+  denkmalAmtLink,
+  vermessungsAmtLink,
+} from './attributionsConfig'
 import {
   searchMethods,
   categoryProps,
@@ -81,7 +85,7 @@ export const mapConfigExtern = {
       },
     },
     {
-      id: alkisWms,
+      id: alkisWmsExtern,
       visibility: true,
       type: 'mask',
       name: 'ALKIS Flurstücke (ab 1: 1000)',
@@ -91,20 +95,7 @@ export const mapConfigExtern = {
   attributions: {
     initiallyOpen: true,
     layerAttributions: [
-      {
-        id: basemapGrau,
-        title:
-          'Karte Basemap.de Web Raster Grau: © <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <MONTH> <YEAR>',
-      },
-      {
-        id: alkisWms,
-        title:
-          'Karte Flurstücke gemäss ALKIS-Objektartenkatalog © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
-      },
-      {
-        id: denkmaelerWMS,
-        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
-      },
+      ...attributionsCommon,
       {
         id: dop20col,
         title: `Digitale Orthophotos: © ${vermessungsAmtLink} <MONTH> <YEAR>`,
@@ -116,6 +107,15 @@ export const mapConfigExtern = {
       {
         id: bddEin,
         title: `Digitale Topographische Karten (Graustufen): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+      },
+      {
+        id: alkisWmsExtern,
+        title:
+          'Karte Flurstücke gemäss ALKIS-Objektartenkatalog © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
+      },
+      {
+        id: denkmaelerWMS,
+        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
       },
     ],
     staticAttributions: [

@@ -5,7 +5,7 @@ import {
   AddressSearchState,
 } from '@polar/plugin-address-search'
 import levenshtein from 'js-levenshtein'
-import { dishAutocompleteUrl } from '../services'
+import { dishAutocompleteUrl } from '../serviceUrlconstants'
 import { DishAutocompleteFunction } from '../types'
 
 let lookup: string[] = []

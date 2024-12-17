@@ -23,8 +23,7 @@
 import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import ActionButton from '../Gfi/ActionButton.vue'
-import { denkmaelerWmsIntern } from '../../servicesIntern'
-import { alkisWms } from '../../services'
+import { denkmaelerWmsIntern, alkisWmsIntern } from '../../servicesIntern'
 import SwitchButtonIntern from './SwitchButtonIntern.vue'
 import MonumentContent from './MonumentContent.vue'
 
@@ -80,7 +79,7 @@ export default Vue.extend({
     ...mapActions('plugin/gfi', ['close']),
     showInfoForActiveLayers(topic: 'alkis' | 'monument') {
       const layerMap = {
-        alkis: alkisWms,
+        alkis: alkisWmsIntern,
         monument: denkmaelerWmsIntern,
       }
       const targetLayer = layerMap[topic]

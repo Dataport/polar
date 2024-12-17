@@ -1,3 +1,5 @@
+import { dishCloudBaseUrl, intranetUrl } from './serviceUrlconstants'
+
 export const denkmaelerWmsIntern = 'denkmaelerWmsIntern'
 export const denkmaelerWfsIntern = 'denkmaelerWfsIntern'
 export const kontrollbedarfIntern = 'kontrollbedarfIntern'
@@ -7,14 +9,14 @@ export const bddEinIntern = 'bddEinIntern'
 export const bddColIntern = 'bddColIntern'
 export const aerialPhoto = 'aerialPhoto'
 export const beschriftung = 'beschriftung'
+export const alkisWmsIntern = 'alkisWmsIntern'
 
-export const intranetUrl = 'https://intranet.gdi-sh.lr.landsh.de'
-
-// for servives without urls those will be set in the services.ts
+// services with url=null: those will be set in the services.ts
 
 export const denkmaelerWfServiceIntern = {
   id: denkmaelerWfsIntern,
   name: 'Denkmäler (WFS)',
+  url: null,
   typ: 'WFS',
   version: '2.0.0',
   transparent: true,
@@ -23,6 +25,7 @@ export const denkmaelerWfServiceIntern = {
 const denkmaelerWmServiceIntern = {
   id: denkmaelerWmsIntern,
   name: 'Denkmäler (WMS)',
+  url: null,
   typ: 'WMS',
   layers: '0,1,2,3,4,6,24,25',
   legendURL: 'ignore',
@@ -34,6 +37,7 @@ const denkmaelerWmServiceIntern = {
 const beschriftungService = {
   id: beschriftung,
   name: 'Beschriftung',
+  url: null,
   typ: 'WMS',
   layers: '9,10,11,12,13,15,16,17,26,27,35,36,34,33,32,31,30',
   legendURL: 'ignore',
@@ -46,6 +50,7 @@ const beschriftungService = {
 const kontrollbedarfServiceIntern = {
   id: kontrollbedarfIntern,
   name: 'Objekte mit Kontrollbedarf (WMS)',
+  url: null,
   typ: 'WMS',
   layers: '19,20,21,22,23,28,29',
   legendURL: 'ignore',
@@ -57,6 +62,7 @@ const kontrollbedarfServiceIntern = {
 const verlustServiceIntern = {
   id: verlustIntern,
   name: 'Verlust',
+  url: null,
   typ: 'WMS',
   layers: '7,8',
   legendURL: 'ignore',
@@ -110,7 +116,22 @@ const aerialPhotoService = {
   transparent: true,
 }
 
+const alkisWmServiceIntern = {
+  id: alkisWmsIntern,
+  name: 'ALKIS WMS',
+  url: `${dishCloudBaseUrl}/bkg/ALKIS_FLST`,
+  typ: 'WMS',
+  layers: 'adv_alkis_flurstuecke',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+  singleTile: true,
+  STYLES: 'basemapde',
+}
+
 export const servicesIntern = [
+  alkisWmServiceIntern,
   denkmaelerWfServiceIntern,
   denkmaelerWmServiceIntern,
   kontrollbedarfServiceIntern,

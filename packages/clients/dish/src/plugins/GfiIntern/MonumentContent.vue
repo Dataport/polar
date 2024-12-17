@@ -39,8 +39,7 @@
 import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import { getPhoto } from '../../utils/extendGfi'
-import { denkmaelerWmsIntern } from '../../servicesIntern'
-import { alkisWms } from '../../services'
+import { denkmaelerWmsIntern, alkisWmsIntern } from '../../servicesIntern'
 import {
   prepareData,
   addComposedField,
@@ -115,7 +114,7 @@ export default Vue.extend({
     ...mapActions('plugin/gfi', ['close']),
     showInfoForActiveLayers(topic: 'alkis' | 'monument') {
       const layerMap = {
-        alkis: alkisWms,
+        alkis: alkisWmsIntern,
         monument: denkmaelerWmsIntern,
       }
       const targetLayer = layerMap[topic]

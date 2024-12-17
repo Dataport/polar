@@ -1,34 +1,16 @@
 import { MODE } from './enums'
-
+import { dishDeegreeBaseUrl, dishCloudBaseUrl } from './serviceUrlconstants'
 import { servicesIntern } from './servicesIntern'
+import { DishUrlParams } from './types'
 
 export const basemapGrau = 'basemapGrau'
 export const denkmaelerWfsExtern = 'denkmaelerWfsExtern'
 export const denkmaelerWMS = 'denkmaelerWMS'
 export const alkisWfs = 'alkisWfs'
-export const alkisWms = 'alkisWms'
+export const alkisWmsExtern = 'alkisWmsExtern'
 export const dop20col = 'dop20col'
 export const bddCol = 'bddCol'
 export const bddEin = 'bddEin'
-
-export const isDevMode = process.env.NODE_ENV === 'development'
-
-/* NOTE
- * #{} codes are read by Octopus Deploy.
- * It injects the deployment environment in those locations.
- */
-
-export const dishDeegreeBaseUrl = isDevMode
-  ? 'https://efi2-deegree.schleswig-holstein.de/dish-deegree/services'
-  : `#{Project.deegree.URL}/dish-deegree/services`
-
-export const dishBaseUrl = isDevMode
-  ? 'https://efi2.schleswig-holstein.de/dish'
-  : `#{LS.EFI.IIS.App.URL}/dish`
-
-export const dishAutocompleteUrl = `${dishBaseUrl}/dish_suche/ergebnisse/json/alleBezeichnungenEindeutig.JSON`
-
-export const dishCloudBaseUrl = 'https://dishreserveproxy.dsecurecloud.de'
 
 export const denkmaelerWmService = {
   id: denkmaelerWMS,
@@ -90,12 +72,27 @@ const bddEinService = {
   transparent: true,
 }
 
+const alkisWmServiceExtern = {
+  id: alkisWmsExtern,
+  name: 'ALKIS WMS',
+  url: `${dishCloudBaseUrl}/bkgExtern/ALKIS_FLST`,
+  typ: 'WMS',
+  layers: 'adv_alkis_flurstuecke',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+  singleTile: true,
+  STYLES: 'basemapde',
+}
+
 const servicesExtern = [
   denkmaelerWmService,
   denkmaelerWfServiceExtern,
   dop20ColService,
   bddColService,
   bddEinService,
+  alkisWmServiceExtern,
 ]
 
 const alkisWfService = {
@@ -106,20 +103,6 @@ const alkisWfService = {
   version: '2.0.0',
   transparent: true,
   featureType: 'ave:Flurstueck',
-}
-
-const alkisWmService = {
-  id: alkisWms,
-  name: 'ALKIS WMS',
-  url: `${dishCloudBaseUrl}/bkg/ALKIS_FLST`,
-  typ: 'WMS',
-  layers: 'adv_alkis_flurstuecke',
-  legendURL: 'ignore',
-  format: 'image/png',
-  version: '1.3.0',
-  transparent: true,
-  singleTile: true,
-  STYLES: 'basemapde',
 }
 
 const basemapGrauService = {
@@ -134,9 +117,9 @@ const basemapGrauService = {
   transparent: true,
 }
 
-const servicesCommon = [basemapGrauService, alkisWfService, alkisWmService]
+const servicesCommon = [basemapGrauService, alkisWfService]
 
-export const services = (mode: keyof typeof MODE, urlParams) => {
+export const services = (mode: keyof typeof MODE, urlParams: DishUrlParams) => {
   if (mode === MODE.EXTERN) {
     return [...servicesCommon, ...servicesExtern]
   }
@@ -153,7 +136,7 @@ export const services = (mode: keyof typeof MODE, urlParams) => {
 
   const internServicesWithUrls = servicesIntern.map((service) => ({
     ...service,
-    url: servicesUrls[`${service.id}Url`],
+    url: service.url || servicesUrls[`${service.id}Url`],
   }))
 
   return [...servicesCommon, ...internServicesWithUrls]

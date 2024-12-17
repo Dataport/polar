@@ -7,11 +7,8 @@ import {
   DishFeaturePropertiesOnSuccess,
   DishFeatureProperties,
 } from '../types'
-import {
-  dishBaseUrl,
-  denkmaelerWmService,
-  denkmaelerWfsExtern,
-} from '../services'
+import { denkmaelerWmService, denkmaelerWfsExtern } from '../services'
+import { dishBaseUrl } from '../serviceUrlconstants'
 
 const layerPool = denkmaelerWmService.layers.split(',')
 const sachgesamtheitPool = ['9', '10']

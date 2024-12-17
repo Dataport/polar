@@ -1,4 +1,4 @@
-import { alkisWms, basemapGrau } from '../services'
+import { basemapGrau } from '../services'
 
 export const denkmalAmtLink =
   '<a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a>'
@@ -11,9 +11,5 @@ export const attributionsCommon = [
     id: basemapGrau,
     title:
       'Karte Basemap.de Web Raster Grau: © <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <MONTH> <YEAR>',
-  },
-  {
-    id: alkisWms,
-    title: `Karte Flurstücke gemäss ALKIS-Objektartenkatalog © ${vermessungsAmtLink} <MONTH> <YEAR>`,
   },
 ]

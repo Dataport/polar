@@ -1,9 +1,5 @@
-import {
-  alkisWfs,
-  denkmaelerWfsExtern,
-  dishBaseUrl,
-  dishCloudBaseUrl,
-} from '../services'
+import { alkisWfs, denkmaelerWfsExtern } from '../services'
+import { dishCloudBaseUrl, dishBaseUrl } from '../serviceUrlconstants'
 
 const groupDenkmalsuche = 'groupDenkmalsuche'
 
