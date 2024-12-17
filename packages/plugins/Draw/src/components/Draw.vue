@@ -2,7 +2,7 @@
   <v-scroll-x-reverse-transition>
     <v-card class="polar-draw-menu" :style="flexStyle">
       <RadioCard
-        id="mode"
+        id="draw-mode"
         title="common:plugins.draw.title.mode"
         :initial-value="mode"
         :values="selectableModes"
@@ -10,7 +10,7 @@
       ></RadioCard>
       <RadioCard
         v-if="mode === 'draw'"
-        id="drawMode"
+        id="draw-drawMode"
         title="common:plugins.draw.title.drawMode"
         :initial-value="drawMode"
         :values="selectableDrawModes"
@@ -46,7 +46,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import RadioCard from './RadioCard.vue'
+import { RadioCard } from '@polar/core'
 import DrawOptions from './DrawOptions.vue'
 
 export default Vue.extend({

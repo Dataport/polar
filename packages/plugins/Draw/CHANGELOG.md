@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Chore: Add `@polar/core` as a dependency as the component `RadioCard.vue` has been moved from this package to `@polar/core`.
+
 ## 2.0.0
 
 - Breaking: Upgrade peerDependency `ol` from `^7.1.0` to `^9.2.4`.
