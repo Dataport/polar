@@ -1,100 +1,48 @@
 <template>
   <v-scroll-x-reverse-transition>
-    <v-card class="polar-measure-card">
-      <v-expansion-panels accordion flat tile multiple>
-        <ExpansionPanel id="mode" title="common:plugins.measure.title.mode">
-          <v-radio-group
-            dense
-            hide-details
-            :value="mode"
-            @change="setMode($event)"
-          >
-            <v-radio
-              v-for="[key, value] in Object.entries(selectableModes)"
-              :key="key"
-              :label="$t(value)"
-              :value="key"
-            ></v-radio>
-          </v-radio-group>
-          <v-btn
-            v-if="mode === 'delete'"
-            class="text-none"
-            block
-            color="primary"
-            rounded
-            small
-            @click="clearLayer"
-          >
-            {{ $t('common:plugins.measure.label.buttons.deleteAll') }}
-          </v-btn>
-          <div
-            v-if="mode === 'draw'"
-            class="d-flex align-center justify-space-between"
-          >
-            <button class="text--secondary" @click="toggleMeasureMode">
-              {{ $t('common:plugins.measure.label.distance') }}
-            </button>
-            <v-switch
-              :input-value="measureMode === 'area'"
-              class="mt-0"
-              color="primary"
-              hide-details
-              @change="setMeasureMode(measure($event))"
-            ></v-switch>
-            <button class="text--secondary" @click="toggleMeasureMode">
-              {{ $t('common:plugins.measure.label.area') }}
-            </button>
-          </div>
-        </ExpansionPanel>
-        <ExpansionPanel id="unit" title="common:plugins.measure.title.unit">
-          <v-radio-group
-            dense
-            hide-details
-            :value="unit"
-            @change="setUnit($event)"
-          >
-            <v-radio
-              v-for="[key, value] in Object.entries(selectableUnits)"
-              :key="key"
-              :label="$t(value)"
-              :value="key"
-            ></v-radio>
-          </v-radio-group>
-        </ExpansionPanel>
-        <ExpansionPanel id="color" title="common:plugins.measure.title.color">
-          <span
-            class="d-block text-center"
-            :style="{
-              color: `rgb(${rgbTextColor})`,
-              'font-size': `15px`,
-              'text-shadow': `rgb(${rgbColor}) 0 0 3px`,
-            }"
-            >{{ $t('common:plugins.measure.label.text') }}</span
-          >
-          <div
-            :style="{
-              'background-color': `rgb(${rgbColor})`,
-              height: `3px`,
-            }"
-          ></div>
-          <ColorSlider
-            id="lineColor"
-            title="common:plugins.measure.label.line"
-            :initial-r="color.r"
-            :initial-g="color.g"
-            :initial-b="color.b"
-            :change-callback="setLineColor"
-          ></ColorSlider>
-          <ColorSlider
-            id="textColor"
-            title="common:plugins.measure.label.text"
-            :initial-r="textColor.r"
-            :initial-g="textColor.g"
-            :initial-b="textColor.b"
-            :change-callback="setTextColor"
-          ></ColorSlider>
-        </ExpansionPanel>
-      </v-expansion-panels>
+    <v-card id="polar-measure-card">
+      <RadioCard
+        id="measure-mode"
+        title="plugins.measure.title.mode"
+        :change-callback="setMode"
+        :initial-value="mode"
+        :values="selectableModes"
+      ></RadioCard>
+      <!-- TODO: Add invisible border here so that the whole container doesnt wiggle if hovering / focusing -->
+      <v-btn
+        v-if="mode === 'delete'"
+        id="polar-measure-delete-button"
+        class="text-none"
+        color="primary"
+        rounded
+        small
+        @click="clearLayer"
+      >
+        {{ $t('plugins.measure.label.deleteAll') }}
+      </v-btn>
+      <!-- TODO: Properly place this and check what to do with the v-labels; whitespace below this is too large -->
+      <!-- TODO: Deleting stuff is not consistent-->
+      <!-- TODO: Also just use a Radio here! -->
+      <v-switch
+        v-if="mode === 'draw'"
+        :input-value="measureMode === 'area'"
+        color="primary"
+        @change="setMeasureMode(measure($event))"
+      >
+        <template #prepend>
+          <v-label> {{ $t('plugins.measure.label.distance') }}</v-label>
+        </template>
+        <template #append>
+          <v-label>{{ $t('plugins.measure.label.area') }}</v-label>
+        </template>
+      </v-switch>
+      <RadioCard
+        id="measure-unit"
+        title="plugins.measure.title.unit"
+        :change-callback="setUnit"
+        :initial-value="unit"
+        :values="selectableUnits"
+      ></RadioCard>
     </v-card>
   </v-scroll-x-reverse-transition>
 </template>
@@ -102,84 +50,48 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
-import ColorSlider from './ColorSlider.vue'
-import ExpansionPanel from './ExpansionPanel.vue'
+import { RadioCard } from '@polar/core'
 
 export default Vue.extend({
   name: 'PolarMeasure',
   components: {
-    ColorSlider,
-    ExpansionPanel,
+    RadioCard,
   },
   computed: {
-    ...mapGetters('plugin/measure', [
-      'mode',
-      'selectableModes',
-      'measureMode',
-      'selectableMeasureMode',
-      'unit',
-      'selectableUnits',
-      'color',
-      'textColor',
-    ]),
-    rgbColor(): string {
-      return this.color.r + ',' + this.color.g + ',' + this.color.b
-    },
-    rgbTextColor(): string {
-      return this.textColor.r + ',' + this.textColor.g + ',' + this.textColor.b
-    },
+    ...mapGetters('plugin/measure', ['mode', 'measureMode', 'unit']),
+    selectableModes: () => ({
+      select: 'common:plugins.measure.mode.select',
+      draw: 'common:plugins.measure.mode.draw',
+      edit: 'common:plugins.measure.mode.edit',
+      delete: 'common:plugins.measure.mode.delete',
+    }),
+    selectableUnits: () => ({ m: 'm / m²', km: 'km / km²' }),
   },
-  watch: {},
   methods: {
     ...mapActions('plugin/measure', [
       'setMode',
       'setMeasureMode',
       'setUnit',
-      'setLineColor',
-      'setTextColor',
       'clearLayer',
     ]),
     measure(value: string): string {
       return value ? 'area' : 'distance'
-    },
-    toggleMeasureMode() {
-      this.setMeasureMode(this.measureMode === 'distance' ? 'area' : 'distance')
     },
   },
 })
 </script>
 
 <style lang="scss" scoped>
-.polar-measure-card {
-  min-width: 12em;
-
-  .v-expansion-panels {
-    margin-left: -2px;
-  }
+#polar-measure-card {
+  display: flex;
+  flex-direction: column;
+  overflow: inherit;
 }
 
-.v-input--radio-group {
-  margin-top: 0;
-  padding-top: 0;
-  padding-bottom: 0.5em;
-}
-
-.v-expansion-panel-content::v-deep .v-expansion-panel-content__wrap {
-  padding: 0;
-  padding-top: 0.5em;
-}
-
-.v-expansion-panel-header {
-  font-size: 100%;
-  min-height: 0;
-  padding: 0;
-}
-
-.v-expansion-panel {
-  padding: 0.5em;
-}
-
-.f1 {
-  font-size: 1em;
+#polar-measure-delete-button {
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  padding-left: 2em;
+  padding-right: 2em;
 }
 </style>

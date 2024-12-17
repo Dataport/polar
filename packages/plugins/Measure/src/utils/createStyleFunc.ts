@@ -2,6 +2,8 @@ import { PolarActionContext } from '@polar/lib-custom-types'
 import { LineString, MultiPoint, Polygon } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
 import Style, { StyleFunction } from 'ol/style/Style'
+import { getArea, getLength } from 'ol/sphere'
+import { Projection } from 'ol/proj'
 import { MeasureGetters, MeasureState, Mode } from '../types'
 import createStyle from './createStyle'
 
@@ -35,19 +37,33 @@ const getStyleTypeParameters = (styleType: Mode) =>
     },
   }[styleType])
 
-const calculatePartialDistances = (
+/**
+ * Calculates the measurement of the given geometry fixed to two decimal places.
+ */
+const getRoundedMeasure = (
+  geometry: LineString | Polygon,
+  unit: 'm' | 'km',
+  projection: Projection
+) =>
+  Math.round(
+    (geometry.getType() === 'Polygon'
+      ? getArea(geometry, { projection })
+      : getLength(geometry, { projection }) / (unit === 'km' ? 1000 : 1)) * 100
+  ) / 100
+
+function calculatePartialDistances(
   lineStyle: Style,
   coordinates: Coordinate[],
-  getRoundedMeasure: (geom: LineString) => number,
-  unit: string
-) => {
+  unit: 'm' | 'km',
+  projection: Projection
+) {
   const styles: Style[] = []
 
   for (let i = 1; i < coordinates.length; i++) {
     const l = new LineString([coordinates[i - 1], coordinates[i]])
     const s = lineStyle.clone()
     s.setGeometry(l)
-    const value = getRoundedMeasure(l)
+    const value = getRoundedMeasure(l, unit, projection)
     const text = value + unit
     s.getText().setText(text)
     styles.push(s)
@@ -63,18 +79,21 @@ const calculatePartialDistances = (
  * @returns StyleFunc
  */
 export default function (
-  { commit, getters }: PolarActionContext<MeasureState, MeasureGetters>,
+  {
+    commit,
+    getters,
+    rootGetters,
+  }: PolarActionContext<MeasureState, MeasureGetters>,
   styleType: Mode | undefined
 ): StyleFunction {
   const [polygonStyle, lineStyle, pointStyle] = createStyle({
-    color: getters.color,
-    text: getters.textColor,
     ...standardStyle,
     ...(styleType ? getStyleTypeParameters(styleType) : {}),
+    color: getters.color,
+    textColor: getters.textColor,
   })
 
-  // set corner-points and text
-  const styleFunc = (feature) => {
+  return (feature) => {
     // setting only polygon and point as standard
     const styles = [polygonStyle, pointStyle]
     const geom = feature.getGeometry() as Polygon | LineString
@@ -93,21 +112,21 @@ export default function (
     const ps = pointStyle.clone()
     ps.setGeometry(points)
     styles.push(ps)
+    const projection = rootGetters.map.getView().getProjection()
     // takes the parts between two coordinates and calculates the partial distance
     styles.push(
       ...calculatePartialDistances(
         lineStyle,
         coordinates,
-        getters.getRoundedMeasure,
-        getters.unit
+        getters.unit,
+        projection
       )
     )
     // updates the measured value of complete Length/Area, when Line/Polygon is selected
-    geom.set('measure', getters.getRoundedMeasure(geom))
+    geom.set('measure', getRoundedMeasure(geom, getters.unit, projection))
     if (feature === getters.selectedFeature) {
       commit('setMeasure')
     }
     return styles
   }
-  return styleFunc
 }

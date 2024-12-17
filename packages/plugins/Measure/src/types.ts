@@ -1,11 +1,7 @@
 import { Feature } from 'ol'
 import { LineString, Polygon } from 'ol/geom'
-
-export interface Color {
-  r: number
-  g: number
-  b: number
-}
+import { Color } from 'ol/color'
+import { ColorLike } from 'ol/colorlike'
 
 export type Mode = 'select' | 'draw' | 'edit' | 'delete'
 
@@ -21,21 +17,18 @@ export interface MeasureState {
   geometry: LineString | Polygon | null
   measure: number | null
   selectedUnit: null | string
-  color: Color
-  textColor: Color
   active: boolean
 }
 
 export interface MeasureGetters extends MeasureState {
-  getRoundedMeasure: (geometry: LineString | Polygon) => number
-  selectableModes: Mode[]
-  selectableUnits: Unit[]
+  color: string | number[]
+  textColor: string | number[]
 }
 
 export interface StyleParameter {
-  color: Color
-  text: Color
-  opacity: number
+  color: Color | ColorLike
   lineWidth: number
+  opacity: number
   pointWidth: number
+  textColor: Color | ColorLike
 }

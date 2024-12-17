@@ -1,6 +1,7 @@
 import { LanguageOption } from '@polar/lib-custom-types'
 
 const language: LanguageOption[] = [
+  // TODO: Reduce these to the ones needed once the rest is worked on
   {
     type: 'de',
     resources: {
@@ -15,17 +16,13 @@ const language: LanguageOption[] = [
           title: {
             mode: 'Modus',
             unit: 'Einheit',
-            color: 'Farbe',
           },
           label: {
             line: 'Linie',
             text: 'Text',
             distance: 'Entfernung',
             area: 'Fläche',
-            buttons: {
-              deleteAll: 'Alle löschen',
-              setColor: 'Setze {{ title }}-Farbe',
-            },
+            deleteAll: 'Alle löschen',
           },
         },
       },
@@ -45,17 +42,13 @@ const language: LanguageOption[] = [
           title: {
             mode: 'Mode',
             unit: 'Unit',
-            color: 'Color',
           },
           label: {
             line: 'Line',
             text: 'Text',
             distance: 'Distance',
             area: 'Area',
-            buttons: {
-              deleteAll: 'Delete all',
-              setColor: 'Set {{ title }}-Color',
-            },
+            deleteAll: 'Delete all',
           },
         },
       },
