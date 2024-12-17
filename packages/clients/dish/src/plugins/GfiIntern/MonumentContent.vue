@@ -16,11 +16,15 @@
       <v-simple-table dense>
         <template #default>
           <tbody>
-            <tr v-for="item in monumentInfo" :key="item[0]">
+            <tr v-for="item in monumentInfo('adminUnit')" :key="item[0]">
               <td class="dish-fat-cell">{{ item[0] }}</td>
               <td>{{ item[1] }}</td>
             </tr>
             <tr v-for="item in parcelInfo" :key="item[0]">
+              <td class="dish-fat-cell">{{ item[0] }}</td>
+              <td>{{ item[1] }}</td>
+            </tr>
+            <tr v-for="item in monumentInfo('objectProps')" :key="item[0]">
               <td class="dish-fat-cell">{{ item[0] }}</td>
               <td>{{ item[1] }}</td>
             </tr>
@@ -47,13 +51,17 @@ export default Vue.extend({
   name: 'MonumentContent',
   data: () => ({
     photo: '',
-    infoFieldsMonuments: [
-      { key: 'kreis_kue', label: 'Kreis' },
-      { key: 'gemeinde', label: 'Gemeinde' },
-      { key: 'objektid', label: 'Objektnummer' },
-      { key: 'denkmalliste', label: 'Denkmalliste' },
-      { key: 'einstufung', label: 'Einstufung' },
-    ],
+    infoFieldsMonuments: {
+      adminUnit: [
+        { key: 'kreis_kue', label: 'Kreis' },
+        { key: 'gemeinde', label: 'Gemeinde' },
+      ],
+      objectProps: [
+        { key: 'objektid', label: 'Objektnummer' },
+        { key: 'denkmalliste', label: 'Denkmalliste' },
+        { key: 'einstufung', label: 'Einstufung' },
+      ],
+    },
     infoFieldsAdress: ['strasse', 'hausnummer', 'hausnrzusatz'],
     infoFieldsParcels: [
       { key: 'gemarkung', label: 'Gemarkung' },
@@ -75,12 +83,6 @@ export default Vue.extend({
     },
     objektansprache(): string {
       return this.currentProperties.objektansprache
-    },
-    monumentInfo(): Array<string[]> | null {
-      if (!this.showInfoForActiveLayers('monument') || !this.objectIdentifier) {
-        return null
-      }
-      return this.prepareMonumentLocationData(this.currentProperties)
     },
     parcelInfo(): Array<string[]> | null {
       if (!this.showInfoForActiveLayers('alkis')) return null
@@ -119,17 +121,23 @@ export default Vue.extend({
       const targetLayer = layerMap[topic]
       return targetLayer ? this.activeMaskIds.includes(targetLayer) : false
     },
-    prepareMonumentLocationData(
-      currentProperties: Record<string, string>
+    prepareMonumentData(
+      currentProperties: Record<string, string>,
+      topic: 'adminUnit' | 'objectProps'
     ): Array<string[]> {
       this.setImage()
-      const tableData = prepareData(currentProperties, this.infoFieldsMonuments)
-      const addressData = createComposedField(
-        this.infoFieldsAdress,
+      const tableData = prepareData(
         currentProperties,
-        'Strasse'
+        this.infoFieldsMonuments[topic]
       )
-      if (addressData) addComposedField(addressData, 'Gemeinde', tableData)
+      if (topic === 'adminUnit') {
+        const addressData = createComposedField(
+          this.infoFieldsAdress,
+          currentProperties,
+          'Strasse'
+        )
+        if (addressData) addComposedField(addressData, 'Gemeinde', tableData)
+      }
 
       return tableData
     },
@@ -140,7 +148,8 @@ export default Vue.extend({
       const parcelNumber = createComposedField(
         this.infoFieldsParcelNumber,
         currentProperties,
-        'Flurstück'
+        'Flurstück',
+        '/'
       )
       if (parcelNumber) addComposedField(parcelNumber, 'Gemarkung', tableData)
 
@@ -156,6 +165,12 @@ export default Vue.extend({
         console.error('Error loading image:', error)
         this.photo = ''
       }
+    },
+    monumentInfo(topic: 'adminUnit' | 'objectProps'): Array<string[]> | null {
+      if (!this.showInfoForActiveLayers('monument') || !this.objectIdentifier) {
+        return null
+      }
+      return this.prepareMonumentData(this.currentProperties, topic)
     },
   },
 })

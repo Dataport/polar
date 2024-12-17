@@ -10,12 +10,13 @@ export const prepareData = (
 export const createComposedField = (
   infoFields: Array<string>,
   currentProperties: Record<string, string>,
-  label: string
+  label: string,
+  delimiter = ' '
 ) => {
   const composedDataField = infoFields
     .map((field) => currentProperties[field])
     .filter((value) => value)
-    .join(' ')
+    .join(delimiter)
   if (!composedDataField || composedDataField.trim() === '') return null
   return [label, composedDataField]
 }
