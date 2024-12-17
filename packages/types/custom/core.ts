@@ -395,6 +395,10 @@ export interface IconMenuConfiguration extends PluginOptions {
   initiallyOpen?: string
 }
 
+export interface MeasureConfiguration extends PluginOptions {
+  color?: Color | ColorLike
+  textColor?: Color | ColorLike
+}
 export interface AppearOnClick {
   /** Whether the pin should be set with a click on a map. */
   show: boolean
@@ -635,6 +639,7 @@ export interface MapConfig extends MasterportalApiConfig {
   geoLocation?: GeoLocationConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
+  measure?: MeasureConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
   scale?: ScaleConfiguration
