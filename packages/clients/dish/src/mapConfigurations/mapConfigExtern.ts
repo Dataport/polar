@@ -98,7 +98,7 @@ export const mapConfigExtern = {
       ...attributionsCommon,
       {
         id: dop20col,
-        title: `Digitale Orthophotos: © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        title: `Luftbilder: © ${vermessungsAmtLink} <MONTH> <YEAR>`,
       },
       {
         id: bddCol,
