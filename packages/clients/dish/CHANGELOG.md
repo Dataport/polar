@@ -6,7 +6,6 @@
 - Fix: Extend typing for search result function according to type package update.
 - Fix: Import types `AddressSearchState` and `AddressSearchGetters` from correct position.
 - Fix: Import enum `SearchResultSymbols` from correct position.
-- Fix: Add translations for scale switcher.
 - Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
 - Chore: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.
 - Chore: Update `@polar`-dependencies to the latest versions.
