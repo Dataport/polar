@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add new reusable component `RadioCard.vue` to the package.
+- Fix: Add `crossOrigin` differently to layer sources that are an instance of `ImageWMS` as they require it being set as `crossOrigin_` to be recognized.
 
 ## 2.0.0
 
