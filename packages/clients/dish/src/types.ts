@@ -2,7 +2,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { FeatureCollection, GeometryObject } from 'geojson'
-import { MapConfig, QueryParameters } from '@polar/lib-custom-types'
+import {
+  AddressSearchConfiguration,
+  MapConfig,
+  QueryParameters,
+} from '@polar/lib-custom-types'
 
 /* Search backend documentation:
  * https://efi2.schleswig-holstein.de/dish/dish_service/help.html
@@ -102,6 +106,7 @@ export type DishUrlParams = UrlParams
 
 export interface DishMapConfig
   extends Omit<MapConfig, 'startCenter' | 'layerConf'> {
+  addressSearch: AddressSearchConfiguration
   dishModal?: {
     isInternMap: boolean
   }
