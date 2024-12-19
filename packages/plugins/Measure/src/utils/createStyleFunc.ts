@@ -94,7 +94,6 @@ export default function (
   })
 
   return (feature) => {
-    // setting only polygon and point as standard
     const styles = [polygonStyle, pointStyle]
     const geom = feature.getGeometry() as Polygon | LineString
     if (
@@ -103,7 +102,7 @@ export default function (
     ) {
       return []
     }
-    const coordinates: Coordinate[] =
+    const coordinates =
       geom.getType() === 'Polygon'
         ? (geom as Polygon).getCoordinates()[0]
         : (geom as LineString).getCoordinates()
@@ -113,7 +112,6 @@ export default function (
     ps.setGeometry(points)
     styles.push(ps)
     const projection = rootGetters.map.getView().getProjection()
-    // takes the parts between two coordinates and calculates the partial distance
     styles.push(
       ...calculatePartialDistances(
         lineStyle,
