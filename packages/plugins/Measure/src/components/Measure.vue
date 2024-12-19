@@ -20,22 +20,14 @@
       >
         {{ $t('plugins.measure.deleteAllButton') }}
       </v-btn>
-      <!-- TODO: Properly place this and check what to do with the v-labels; whitespace below this is too large -->
-      <!-- TODO: Deleting stuff is not consistent-->
-      <!-- TODO: Also just use a Radio here! -->
-      <v-switch
+      <RadioCard
         v-if="mode === 'draw'"
-        :input-value="measureMode === 'area'"
-        color="primary"
-        @change="setMeasureMode(measure($event))"
-      >
-        <template #prepend>
-          <v-label> {{ $t('plugins.measure.label.distance') }}</v-label>
-        </template>
-        <template #append>
-          <v-label>{{ $t('plugins.measure.label.area') }}</v-label>
-        </template>
-      </v-switch>
+        id="measure-measureMode>"
+        title="plugins.measure.title.measureMode"
+        :change-callback="setMeasureMode"
+        :initial-value="measureMode"
+        :values="selectableMeasureModes"
+      ></RadioCard>
       <RadioCard
         id="measure-unit"
         title="plugins.measure.title.unit"
@@ -59,6 +51,10 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters('plugin/measure', ['mode', 'measureMode', 'unit']),
+    selectableMeasureModes: () => ({
+      distance: 'common:plugins.measure.measureMode.distance',
+      area: 'common:plugins.measure.measureMode.area',
+    }),
     selectableModes: () => ({
       select: 'common:plugins.measure.mode.select',
       draw: 'common:plugins.measure.mode.draw',
