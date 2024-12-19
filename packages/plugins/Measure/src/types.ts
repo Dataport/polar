@@ -7,12 +7,10 @@ export type Mode = 'select' | 'draw' | 'edit' | 'delete'
 
 export type Unit = 'm' | 'km'
 
-export type MeasureMode = 'distance' | 'area'
-
 export interface MeasureState {
   mode: Mode
   unit: Unit
-  measureMode: MeasureMode
+  measureMode: 'distance' | 'area'
   selectedFeature: Feature | null
   geometry: LineString | Polygon | null
   measure: number | null
@@ -21,8 +19,8 @@ export interface MeasureState {
 }
 
 export interface MeasureGetters extends MeasureState {
-  color: string | number[]
-  textColor: string | number[]
+  color: Color | ColorLike
+  textColor: Color | ColorLike
 }
 
 export interface StyleParameter {
