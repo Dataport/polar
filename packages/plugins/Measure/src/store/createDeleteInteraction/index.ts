@@ -6,7 +6,7 @@ import { Feature, MapBrowserEvent } from 'ol'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
-import { MeasureGetters, MeasureState } from '../types'
+import { MeasureGetters, MeasureState } from '../../types'
 
 // gets the outer Line as an LineString
 function getLine(feature: Feature): LineString {

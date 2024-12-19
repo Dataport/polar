@@ -3,10 +3,10 @@ import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import { Interaction } from 'ol/interaction'
 import Feature from 'ol/Feature'
-import { MeasureGetters, MeasureState, Mode, Unit } from '../types'
-import * as createDeleteInteractions from '../utils/createDeleteInteraction'
+import { MeasureGetters, MeasureMode, MeasureState, Mode, Unit } from '../types'
 import createInteractions from '../utils/createInteractions'
 import createStyleFunc from '../utils/createStyleFunc'
+import * as createDeleteInteractions from './createDeleteInteraction'
 
 // NOTE this is acceptable for list-like functions
 // eslint-disable-next-line max-lines-per-function
@@ -46,9 +46,7 @@ export const makeActions = () => {
       drawSource.clear()
     },
     async updateInteractions({ dispatch, rootGetters: { map } }) {
-      // clears existing interactions
       interactions.forEach((interaction) => map.removeInteraction(interaction))
-      // adds new interactions
       interactions = await dispatch('createInteractions', drawLayer)
       interactions.forEach((interaction) => {
         map.addInteraction(interaction)
