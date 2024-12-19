@@ -2,7 +2,7 @@
 
 ## Content
 
-The client can use two different configurations which are controlled by the parameter `MODE`. `MODE="EXTERN"` will apply the configuration for the map client as the website for the public, and `MODE="INTERN"` for the map used in the internal DISH application. `MODE` is initially set and cannot be changed after hosting.
+The client can use two different configurations which are controlled by the parameter `MODE`. `MODE="EXTERN"` will apply the configuration for the map client as the website for the public, and `MODE="INTERN"` for the map used in the internal DISH application. `MODE` is initially set and cannot be changed after hosting. It must be passed in the `createMap` call of the client.
 
 The DISH client differs from other POLAR clients in that it does not take any additional configuration, but is a closed product. All configuration is done dev-side and is versioned; updates require version updates.
 
@@ -20,12 +20,41 @@ Add a query parameter, e.g. `?ObjektID=1506`, to the page's URL to initially foc
 
 Name and casing of "ObjektID" have been directly taken from the backend to avoid duplicate naming.
 
-The service URLs for the internal monumental WMS and WFS need to be configurable. Therefore, the host (`internalHost`), the port and the part of the path that is equal for both services must be defined outside of the map. The `internalHost` and the combination of host, port and path as `internServicesBaseUrl` must be passed to the `createMap` call as attributes of the parameter `urlParams`. 
+## Configuration
 
-The `internalHost` is also needed as parameter for the DishExportMap plugin and is passed as attribute of `configOverride` in the `createMap` call.
+The service URLs for the internal monument services (WMS and WFS) need to be configurable. Therefore, the host (`internalHost`), the port and the part of the path that is equal for both services must be defined outside of the map. The `internalHost` and the combination of host, port and path as `internServicesBaseUrl` must be passed to the `createMap` call as attributes of the parameter `urlParams`. 
 
-The `urlParams` parameter and the configuration for the DishExportMap is only needed for the internal dish application and can be omitted otherwise.
+The `internalHost` is also needed as parameter for the DishExportMap plugin and the gfi plugin, and is passed as attribute of `configOverride` in the `createMap` call.
 
+The `urlParams` parameter and the configuration for the DishExportMap and supplemental configuration for the gfi plugin is only needed for the internal dish application and can be omitted otherwise.
 
+### urlParams
 
+| fieldName | type | description |
+| - | - | - |
+| internalHost | string | The URL of the server where the DISH software and the monument services are hostet. |
+| internServicesBaseUrl | string | A combination of host, port and path to create a basis URL that can be used for the monument services that run on the same server. |
 
+### Example configuration
+
+```js
+const urlParams = {
+    internalHost,
+    internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
+}
+
+client.createMap({
+    containerId: 'polarstern',
+    mode: 'INTERN', // INTERN, EXTERN
+    //only needed for internal map
+    urlParams,
+    configOverride: {
+        dishExportMap: {
+            internalHost: urlParams.internalHost,
+        },
+        gfi: {
+            internalHost: urlParams.internalHost,
+        }
+    }
+})
+```
