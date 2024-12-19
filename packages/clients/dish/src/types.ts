@@ -100,8 +100,9 @@ export interface UrlParams {
 
 export type DishUrlParams = UrlParams
 
-export interface DishInternMapConfig extends MapConfig {
-  dishModal: {
+export interface DishMapConfig
+  extends Omit<MapConfig, 'startCenter' | 'layerConf'> {
+  dishModal?: {
     isInternMap: boolean
   }
 }

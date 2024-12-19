@@ -1,7 +1,7 @@
 import { MapConfig } from '@polar/lib-custom-types'
 import locales from '../locales'
 import { shBlue, shWhite } from '../colors'
-import { DishUrlParams } from '../types'
+import { DishMapConfig, DishUrlParams } from '../types'
 import { mapConfigIntern } from './mapConfigIntern'
 import { mapConfigExtern } from './mapConfigExtern'
 
@@ -46,7 +46,10 @@ const commonMapConfiguration: Partial<MapConfig> = {
 export const getMapConfiguration = (
   mode: string,
   urlParams: DishUrlParams = { internalHost: '', internServicesBaseUrl: '' }
-): Exclude<MapConfig, 'layerConf'> => ({
+): DishMapConfig => ({
   ...commonMapConfiguration,
   ...(mode === 'INTERN' ? mapConfigIntern(urlParams) : mapConfigExtern),
+  dishModal: {
+    isInternMap: mode === 'INTERN',
+  },
 })

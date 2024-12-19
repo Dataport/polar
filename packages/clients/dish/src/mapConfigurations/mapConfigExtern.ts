@@ -1,7 +1,6 @@
 // number-only keys needed in layers object
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { MapConfig } from '@polar/lib-custom-types'
 import { shBlue } from '../colors'
 import {
   basemapGrau,
@@ -12,6 +11,7 @@ import {
   bddCol,
   bddEin,
 } from '../services'
+import { DishMapConfig } from '../types'
 import {
   attributionsCommon,
   denkmalAmtLink,
@@ -23,7 +23,7 @@ import {
   groupProperties,
 } from './searchConfigParams'
 
-export const mapConfigExtern: Partial<MapConfig> = {
+export const mapConfigExtern: DishMapConfig = {
   checkServiceAvailability: false,
   geoLocation: {
     checkLocationInitially: false,

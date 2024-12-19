@@ -13,7 +13,7 @@ import {
   alkisWmsIntern,
 } from '../servicesIntern'
 import { shBlue } from '../colors'
-import { DishInternMapConfig, DishUrlParams } from '../types'
+import { DishMapConfig, DishUrlParams } from '../types'
 import {
   categoryProps,
   groupProperties,
@@ -26,9 +26,7 @@ import {
   vermessungsAmtLink,
 } from './attributionsConfig'
 
-export const mapConfigIntern = (
-  urlParams: DishUrlParams
-): Partial<DishInternMapConfig> => ({
+export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
   checkServiceAvailability: true,
   scale: {
     showScaleSwitcher: true,
