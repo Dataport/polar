@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new interface `MeasureConfiguration` of the new plugin `@polar/plugin-measure`.
+- Feature: Add new property `measure` for the new plugin `@polar/plugin-measure` to `MapConfig`.
+
 ## 1.5.0
 
 - Feature: Add `selectedCoordinate` to core store getters; it returns `null` or the `selected` feature's point coordinates.

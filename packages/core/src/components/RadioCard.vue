@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-card-title :id="`polar-draw-${id}`">{{ $t(title) }}</v-card-title>
+    <v-card-title :id="`polar-${id}`">{{ $t(title) }}</v-card-title>
     <v-card-text>
       <v-radio-group
-        :aria-labelledby="`polar-draw-${id}`"
+        :aria-labelledby="`polar-${id}`"
         dense
         hide-details
         :value="initialValue"
