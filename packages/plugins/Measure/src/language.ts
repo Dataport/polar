@@ -1,12 +1,15 @@
 import { LanguageOption } from '@polar/lib-custom-types'
 
 const language: LanguageOption[] = [
-  // TODO: Reduce these to the ones needed once the rest is worked on
   {
     type: 'de',
     resources: {
       plugins: {
         measure: {
+          measureMode: {
+            area: 'Fläche',
+            distance: 'Entfernung',
+          },
           mode: {
             select: 'Auswählen',
             draw: 'Zeichnen',
@@ -14,16 +17,11 @@ const language: LanguageOption[] = [
             delete: 'Löschen',
           },
           title: {
+            measureMode: 'Messmodus',
             mode: 'Modus',
             unit: 'Einheit',
           },
-          label: {
-            line: 'Linie',
-            text: 'Text',
-            distance: 'Entfernung',
-            area: 'Fläche',
-            deleteAll: 'Alle löschen',
-          },
+          deleteAllButton: 'Alle löschen',
         },
       },
     },
@@ -33,6 +31,10 @@ const language: LanguageOption[] = [
     resources: {
       plugins: {
         measure: {
+          measureMode: {
+            area: 'Area',
+            distance: 'Distance',
+          },
           mode: {
             select: 'Select',
             draw: 'Draw',
@@ -40,16 +42,11 @@ const language: LanguageOption[] = [
             delete: 'Delete',
           },
           title: {
+            measureMode: 'Measure mode',
             mode: 'Mode',
             unit: 'Unit',
           },
-          label: {
-            line: 'Line',
-            text: 'Text',
-            distance: 'Distance',
-            area: 'Area',
-            deleteAll: 'Delete all',
-          },
+          deleteAllButton: 'Delete all',
         },
       },
     },

@@ -18,7 +18,7 @@
         small
         @click="clearLayer"
       >
-        {{ $t('plugins.measure.label.deleteAll') }}
+        {{ $t('plugins.measure.deleteAllButton') }}
       </v-btn>
       <!-- TODO: Properly place this and check what to do with the v-labels; whitespace below this is too large -->
       <!-- TODO: Deleting stuff is not consistent-->
