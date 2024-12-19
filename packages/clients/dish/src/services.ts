@@ -86,15 +86,6 @@ const alkisWmServiceExtern = {
   STYLES: 'basemapde',
 }
 
-const servicesExtern = [
-  denkmaelerWmService,
-  denkmaelerWfServiceExtern,
-  dop20ColService,
-  bddColService,
-  bddEinService,
-  alkisWmServiceExtern,
-]
-
 const alkisWfService = {
   id: alkisWfs,
   name: 'ALKIS',
@@ -104,6 +95,16 @@ const alkisWfService = {
   transparent: true,
   featureType: 'ave:Flurstueck',
 }
+
+const servicesExtern = [
+  denkmaelerWmService,
+  denkmaelerWfServiceExtern,
+  dop20ColService,
+  bddColService,
+  bddEinService,
+  alkisWmServiceExtern,
+  alkisWfService,
+]
 
 const basemapGrauService = {
   id: basemapGrau,
@@ -117,7 +118,7 @@ const basemapGrauService = {
   transparent: true,
 }
 
-const servicesCommon = [basemapGrauService, alkisWfService]
+const servicesCommon = [basemapGrauService]
 
 export const services = (mode: keyof typeof MODE, urlParams: DishUrlParams) => {
   if (mode === MODE.EXTERN) {

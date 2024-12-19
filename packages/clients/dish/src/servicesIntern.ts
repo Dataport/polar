@@ -10,6 +10,7 @@ export const bddColIntern = 'bddColIntern'
 export const aerialPhoto = 'aerialPhoto'
 export const beschriftung = 'beschriftung'
 export const alkisWmsIntern = 'alkisWmsIntern'
+export const alkisWfsIntern = 'alkisWfsIntern'
 
 // services with url=null: those will be set in the services.ts
 
@@ -130,8 +131,19 @@ const alkisWmServiceIntern = {
   STYLES: 'basemapde',
 }
 
+export const alkisWfServiceIntern = {
+  id: alkisWfsIntern,
+  name: 'ALKIS',
+  url: `${dishCloudBaseUrl}/dishintern_ALKIS_WFS`,
+  typ: 'WFS',
+  version: '2.0.0',
+  transparent: true,
+  featureType: 'ave:Flurstueck',
+}
+
 export const servicesIntern = [
   alkisWmServiceIntern,
+  alkisWfServiceIntern,
   denkmaelerWfServiceIntern,
   denkmaelerWmServiceIntern,
   kontrollbedarfServiceIntern,

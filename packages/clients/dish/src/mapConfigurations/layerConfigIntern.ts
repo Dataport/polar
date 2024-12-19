@@ -13,9 +13,10 @@ import {
   bddColIntern,
   aerialPhoto,
   alkisWmsIntern,
+  alkisWfsIntern,
 } from '../servicesIntern'
 
-import { basemapGrau, alkisWfs } from '../services'
+import { basemapGrau } from '../services'
 
 const layersIntern: LayerConfiguration[] = [
   {
@@ -43,7 +44,7 @@ const layersIntern: LayerConfiguration[] = [
     name: 'Luftbilder',
   },
   {
-    id: alkisWfs,
+    id: alkisWfsIntern,
     visibility: false,
     hideInMenu: true,
     gfiMode: 'bboxDot',
