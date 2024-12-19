@@ -2,6 +2,7 @@ import { AddressSearchGroupProperties } from '@polar/lib-custom-types'
 import { BKGParameters } from '@polar/plugin-address-search'
 import { alkisWfs, denkmaelerWfsExtern } from '../services'
 import { dishCloudBaseUrl, dishBaseUrl } from '../serviceUrlconstants'
+import { alkisWfServiceIntern } from '../servicesIntern'
 
 const groupDenkmalsuche = 'groupDenkmalsuche'
 
@@ -74,7 +75,7 @@ export const searchMethods = {
     groupId: groupDenkmalsuche,
     categoryId: 'categoryIdAlkisSearch',
     type: 'wfs',
-    url: `${dishCloudBaseUrl}/dishbkgALKIS_WFS`,
+    url: alkisWfServiceIntern.url,
     queryParameters: {
       id: alkisWfs,
       maxFeatures: 120,
@@ -122,11 +123,5 @@ export const groupProperties: Record<string, AddressSearchGroupProperties> = {
     hint: 'common:dish.addressSearchHint',
     resultDisplayMode: 'categorized',
     limitResults: 3,
-  },
-  defaultGroup: {
-    limitResults: 3,
-    label: 'Suche Denkmal, Adresse, Flurstück',
-    hint: 'common:dish.addressSearchHint',
-    resultDisplayMode: 'categorized',
   },
 }
