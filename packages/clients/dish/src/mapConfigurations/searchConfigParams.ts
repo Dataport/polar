@@ -1,3 +1,5 @@
+import { AddressSearchGroupProperties } from '@polar/lib-custom-types'
+import { BKGParameters } from '@polar/plugin-address-search'
 import { alkisWfs, denkmaelerWfsExtern } from '../services'
 import { dishCloudBaseUrl, dishBaseUrl } from '../serviceUrlconstants'
 
@@ -38,7 +40,7 @@ export const searchMethods = {
       filter: {
         bundesland: 'Schleswig-Holstein',
       },
-    },
+    } as BKGParameters,
     type: 'bkg',
     url: `${dishCloudBaseUrl}/search/geosearch.json`,
   },
@@ -114,7 +116,7 @@ export const categoryProps = {
   },
 }
 
-export const groupProperties = {
+export const groupProperties: Record<string, AddressSearchGroupProperties> = {
   [groupDenkmalsuche]: {
     label: 'Suche Denkmal, Adresse, Flurstück',
     hint: 'common:dish.addressSearchHint',
@@ -123,5 +125,8 @@ export const groupProperties = {
   },
   defaultGroup: {
     limitResults: 3,
+    label: 'Suche Denkmal, Adresse, Flurstück',
+    hint: 'common:dish.addressSearchHint',
+    resultDisplayMode: 'categorized',
   },
 }

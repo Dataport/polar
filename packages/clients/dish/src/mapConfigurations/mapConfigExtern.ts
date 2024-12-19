@@ -1,6 +1,7 @@
 // number-only keys needed in layers object
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { MapConfig } from '@polar/lib-custom-types'
 import { shBlue } from '../colors'
 import {
   basemapGrau,
@@ -22,7 +23,7 @@ import {
   groupProperties,
 } from './searchConfigParams'
 
-export const mapConfigExtern = {
+export const mapConfigExtern: Partial<MapConfig> = {
   checkServiceAvailability: false,
   geoLocation: {
     checkLocationInitially: false,

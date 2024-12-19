@@ -1,4 +1,4 @@
-import merge from 'lodash.merge'
+import { MapConfig } from '@polar/lib-custom-types'
 import locales from '../locales'
 import { shBlue, shWhite } from '../colors'
 import { DishUrlParams } from '../types'
@@ -7,7 +7,7 @@ import { mapConfigExtern } from './mapConfigExtern'
 
 let zoomLevel = 0
 
-const commonMapConfiguration = {
+const commonMapConfiguration: Partial<MapConfig> = {
   startResolution: 264.583190458,
   startCenter: [553655.72, 6004479.25],
   extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
@@ -46,10 +46,7 @@ const commonMapConfiguration = {
 export const getMapConfiguration = (
   mode: string,
   urlParams: DishUrlParams = { internalHost: '', internServicesBaseUrl: '' }
-) => {
-  const config = merge({
-    ...commonMapConfiguration,
-    ...(mode === 'INTERN' ? mapConfigIntern(urlParams) : mapConfigExtern),
-  })
-  return config
-}
+): Exclude<MapConfig, 'layerConf'> => ({
+  ...commonMapConfiguration,
+  ...(mode === 'INTERN' ? mapConfigIntern(urlParams) : mapConfigExtern),
+})

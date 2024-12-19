@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { FeatureCollection, GeometryObject } from 'geojson'
-import { QueryParameters } from '@polar/lib-custom-types'
+import { MapConfig, QueryParameters } from '@polar/lib-custom-types'
 
 /* Search backend documentation:
  * https://efi2.schleswig-holstein.de/dish/dish_service/help.html
@@ -99,3 +99,9 @@ export interface UrlParams {
 }
 
 export type DishUrlParams = UrlParams
+
+export interface DishInternMapConfig extends MapConfig {
+  dishModal: {
+    isInternMap: boolean
+  }
+}
