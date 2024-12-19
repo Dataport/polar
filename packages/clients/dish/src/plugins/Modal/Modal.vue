@@ -6,15 +6,17 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import * as focusTrap from 'focus-trap'
 import Hints from './Hints.vue'
 import Welcome from './Welcome.vue'
+import HintsIntern from './HintsIntern.vue'
 import { CONTENT_ENUM } from './store'
 
 const lookup = {
   [CONTENT_ENUM.WELCOME]: Welcome,
   [CONTENT_ENUM.HINTS]: Hints,
+  [CONTENT_ENUM.HINTSINTERN]: HintsIntern,
 }
 
 let trap
@@ -22,6 +24,7 @@ let trap
 export default Vue.extend({
   name: 'DishModal',
   computed: {
+    ...mapGetters(['map', 'configuration']),
     ...mapGetters('plugin/modal', ['confirmed', 'closed', 'content']),
     selectedContent() {
       return lookup[this.content]
@@ -39,15 +42,19 @@ export default Vue.extend({
     },
   },
   mounted() {
+    this.setClosed(this.configuration.dishModal?.isInternMap || false)
     this.trapFocus()
   },
   methods: {
+    ...mapMutations('plugin/modal', ['setClosed']),
     trapFocus() {
       const element = this.$refs.wrapper
-      trap = focusTrap.createFocusTrap(element, {
-        initialFocus: false,
-      })
-      trap.activate()
+      if (element) {
+        trap = focusTrap.createFocusTrap(element, {
+          initialFocus: false,
+        })
+        trap.activate()
+      }
     },
   },
 })

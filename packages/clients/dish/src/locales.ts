@@ -9,6 +9,7 @@ const locales = [
         idNotFound:
           'Die verlinkte ID konnte leider nicht aufgelöst werden. Bitte verwenden Sie Suche und Karte, um zum Denkmal zu navigieren.',
         addressSearchHint: 'Eingabe von z.B. Bezeichnung, Lage, Adresse, ...',
+        gfiHeader: 'Objektnummer',
       },
       plugins: {
         gfi: {
@@ -31,6 +32,7 @@ const locales = [
           'The linked ID could not be found. Please use the search function or map to navigate to your point of interest.',
         addressSearchHint:
           'Entry of e.g. monument names, location, address, ...',
+        gfiHeader: 'Object number',
       },
       plugins: {
         gfi: {
