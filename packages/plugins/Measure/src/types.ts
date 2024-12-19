@@ -3,6 +3,7 @@ import { LineString, Polygon } from 'ol/geom'
 import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
 
+export type MeasureMode = 'distance' | 'area'
 export type Mode = 'select' | 'draw' | 'edit' | 'delete'
 
 export type Unit = 'm' | 'km'
@@ -10,7 +11,7 @@ export type Unit = 'm' | 'km'
 export interface MeasureState {
   mode: Mode
   unit: Unit
-  measureMode: 'distance' | 'area'
+  measureMode: MeasureMode
   selectedFeature: Feature | null
   geometry: LineString | Polygon | null
   measure: number | null

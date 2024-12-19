@@ -28,7 +28,7 @@ export const makeActions = () => {
       commit('setMode', mode)
       dispatch('updateInteractions')
     },
-    setMeasureMode({ commit, dispatch }, measureMode) {
+    setMeasureMode({ commit, dispatch }, measureMode: MeasureMode) {
       commit('setMeasureMode', measureMode)
       dispatch('updateInteractions')
     },
