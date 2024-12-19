@@ -12,5 +12,3 @@ The measure plugin offers the possibility to measure distances in (kilometers or
 | - | - | - |
 | color | string? | Color in hex or rgb / rgba code of the lines, polygons and points drawn to measure the distance or the area. Defaults to '#118bee'. |
 | textColor | string? | Color in hex or rgb / rgba code of text displaying the measured distance or area. Defaults to '#118bee'. |
-
-// TODO: Alle Dateien durchgehen und Code ändern    
