@@ -8,7 +8,7 @@
         :initial-value="mode"
         :values="selectableModes"
       ></RadioCard>
-      <!-- TODO: Add invisible border here so that the whole container doesnt wiggle if hovering / focusing -->
+      <!-- TODO: Add information on how the deletion process works -->
       <v-btn
         v-if="mode === 'delete'"
         id="polar-measure-delete-button"
@@ -89,5 +89,6 @@ export default Vue.extend({
   margin-right: 1.5em;
   padding-left: 2em;
   padding-right: 2em;
+  border: solid transparent;
 }
 </style>
