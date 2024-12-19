@@ -2,6 +2,7 @@ import { PolarActionContext } from '@polar/lib-custom-types'
 import { LineString, MultiPoint, Polygon } from 'ol/geom'
 import { Coordinate } from 'ol/coordinate'
 import Style, { StyleFunction } from 'ol/style/Style'
+import { Text } from 'ol/style'
 import { getArea, getLength } from 'ol/sphere'
 import { Projection } from 'ol/proj'
 import { MeasureGetters, MeasureState, Mode } from '../types'
@@ -60,13 +61,19 @@ function calculatePartialDistances(
   const styles: Style[] = []
 
   for (let i = 1; i < coordinates.length; i++) {
-    const l = new LineString([coordinates[i - 1], coordinates[i]])
-    const s = lineStyle.clone()
-    s.setGeometry(l)
-    const value = getRoundedMeasure(l, unit, projection)
+    const lineString = new LineString([coordinates[i - 1], coordinates[i]])
+    const style = lineStyle.clone()
+    style.setGeometry(lineString)
+    const value = getRoundedMeasure(lineString, unit, projection)
     const text = value + unit
-    s.getText().setText(text)
-    styles.push(s)
+    const textStyle = style.getText()
+    if (textStyle === null) {
+      style.setText(new Text({ text }))
+    } else {
+      textStyle.setText(text)
+      style.setText(textStyle)
+    }
+    styles.push(style)
   }
 
   return styles
