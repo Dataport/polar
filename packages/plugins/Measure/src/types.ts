@@ -4,6 +4,7 @@ import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
 
 export type MeasureMode = 'distance' | 'area'
+
 export type Mode = 'select' | 'draw' | 'edit' | 'delete'
 
 export type Unit = 'm' | 'km'
