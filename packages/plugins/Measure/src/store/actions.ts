@@ -6,17 +6,19 @@ import Feature from 'ol/Feature'
 import { MeasureGetters, MeasureMode, MeasureState, Mode, Unit } from '../types'
 import createInteractions from '../utils/createInteractions'
 import createStyleFunc from '../utils/createStyleFunc'
-import * as createDeleteInteractions from './createDeleteInteraction'
+import {
+  createDeleteInteraction,
+  removeFeature,
+} from './createDeleteInteraction'
 
-// NOTE this is acceptable for list-like functions
-// eslint-disable-next-line max-lines-per-function
 export const makeActions = () => {
   let interactions: Interaction[] = []
   const drawSource = new VectorSource()
   const drawLayer = new VectorLayer({ source: drawSource })
 
   const actions: PolarActionTree<MeasureState, MeasureGetters> = {
-    ...createDeleteInteractions,
+    createDeleteInteraction,
+    removeFeature,
     createInteractions,
     createStyleFunc,
     // creates the drawing layer for measuring

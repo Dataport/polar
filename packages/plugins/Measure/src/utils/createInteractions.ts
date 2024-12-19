@@ -16,7 +16,6 @@ const getDraw = (source: VectorSource, measureMode: string, style: StyleLike) =>
     source,
   })
 
-// edits only the corner-points
 const getModify = (source: VectorSource) =>
   new Modify({
     source,
@@ -57,14 +56,11 @@ export default async function (
 
   if (mode === 'draw') {
     const draw = getDraw(drawSource, measureMode, specialStyle)
-    draw.on('drawend', ({ feature }) => {
-      dispatch('setSelectedFeature', feature)
-    })
+    draw.on('drawend', ({ feature }) => dispatch('setSelectedFeature', feature))
     interactions.push(draw)
   } else if (drawSource.getFeatures().length > 0) {
     if (mode === 'edit') {
       const modify = getModify(drawSource)
-      // selects edited feature
       modify.on('modifystart', ({ features }) =>
         dispatch('setSelectedFeature', features.item(0))
       )
