@@ -1,7 +1,7 @@
 import { Text, Fill, Stroke, Style, Circle } from 'ol/style'
 import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
-import { StyleParameter } from '../types'
+import { StyleParameters } from '../types'
 
 // TODO: Move me to a lib function (floppy-ears); based on https://stackoverflow.com/a/5624139
 /**
@@ -68,9 +68,7 @@ const makePointStyle = (
   })
 
 /**
- * Creates three styles Polygone, Lines with Text and Points with the given Parameter
- * @param styleParameter - Parameter for styling
- * @returns Array with three created styles
+ * Creates the styles for Polygons, LineStrings with Text and Points with the given parameters.
  */
 export default function ({
   color,
@@ -78,7 +76,7 @@ export default function ({
   opacity,
   pointWidth,
   textColor,
-}: StyleParameter): Style[] {
+}: StyleParameters): Style[] {
   // Only rgb, rgba and hex are currently allowed
   const rgb = (typeof color === 'string' ? hexToRgb(color) : color) as number[]
 

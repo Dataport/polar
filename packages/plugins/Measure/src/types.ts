@@ -25,7 +25,7 @@ export interface MeasureGetters extends MeasureState {
   textColor: Color | ColorLike
 }
 
-export interface StyleParameter {
+export interface StyleParameters {
   color: Color | ColorLike
   lineWidth: number
   opacity: number
