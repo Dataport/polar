@@ -3,7 +3,7 @@ import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import { Interaction } from 'ol/interaction'
 import Feature from 'ol/Feature'
-import { MeasureGetters, MeasureState, Mode, Unit, Color } from '../types'
+import { MeasureGetters, MeasureState, Mode, Unit } from '../types'
 import * as createDeleteInteractions from '../utils/createDeleteInteraction'
 import createInteractions from '../utils/createInteractions'
 import createStyleFunc from '../utils/createStyleFunc'
@@ -22,14 +22,6 @@ export const makeActions = () => {
     // creates the drawing layer for measuring
     setupModule({ dispatch, rootGetters: { map } }) {
       map.addLayer(drawLayer)
-      dispatch('updateInteractions')
-    },
-    setLineColor({ commit, dispatch }, color: Color) {
-      commit('setColor', color)
-      dispatch('updateInteractions')
-    },
-    setTextColor({ commit, dispatch }, color: Color) {
-      commit('setTextColor', color)
       dispatch('updateInteractions')
     },
     setMode({ commit, dispatch }, mode: Mode) {
