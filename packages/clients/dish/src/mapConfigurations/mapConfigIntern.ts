@@ -1,6 +1,5 @@
 /* eslint-disable max-lines-per-function */
 import { SearchMethodConfiguration } from '@polar/lib-custom-types'
-import { alkisWfs } from '../services'
 import {
   denkmaelerWmsIntern,
   denkmaelerWfsIntern,
@@ -11,6 +10,7 @@ import {
   verlustIntern,
   verwaltung,
   alkisWmsIntern,
+  alkisWfsIntern,
 } from '../servicesIntern'
 import { shBlue } from '../colors'
 import { DishMapConfig, DishUrlParams } from '../types'
@@ -127,7 +127,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
   },
   gfi: {
     mode: 'intersects',
-    // alkisWfs needs to be last in layer array because of specific gfi display
+    // alkisWfsIntern needs to be last in layer array because of specific gfi display
     layers: {
       [denkmaelerWfsIntern]: {
         geometry: true,
@@ -135,7 +135,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
         maxFeatures: 10,
         geometryName: 'app:geometry',
       },
-      [alkisWfs]: {
+      [alkisWfsIntern]: {
         geometry: false,
         window: true,
         maxFeatures: 5,
