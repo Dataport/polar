@@ -271,7 +271,7 @@ export default Vue.extend({
     maxFeatures() {
       return this.selectedGroup.find(
         (searchService) =>
-          searchService.categoryId === 'categoryDenkmalsucheDish'
+          searchService.categoryId === 'categoryDenkmalsucheDishExtern'
       ).queryParameters.maxFeatures
     },
   },

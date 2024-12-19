@@ -7,9 +7,10 @@ import {
   DishFeaturePropertiesOnSuccess,
   DishFeatureProperties,
 } from '../types'
-import { denkmaelerWmsService, denkmaelerWFS, dishBaseUrl } from '../services'
+import { denkmaelerWmService, denkmaelerWfsExtern } from '../services'
+import { dishBaseUrl } from '../serviceUrlconstants'
 
-const layerPool = denkmaelerWmsService.layers.split(',')
+const layerPool = denkmaelerWmService.layers.split(',')
 const sachgesamtheitPool = ['9', '10']
 let first = true
 
@@ -91,8 +92,11 @@ async function getText(identifier: string): Promise<DishFeatureProperties> {
   }
 }
 
-async function getPhoto(identifier: string): Promise<string> {
-  const photoURL = `${dishBaseUrl}/dish_opendata/Foto/${identifier}.jpg`
+export async function getPhoto(
+  identifier: string,
+  hostUrl = `${dishBaseUrl}/dish_opendata/Foto/`
+): Promise<string> {
+  const photoURL = `${hostUrl}${identifier}.jpg`
   const response = await fetch(photoURL)
   if (response.status !== 200) {
     const altText = 'Kein Foto gefunden'
@@ -133,10 +137,10 @@ export async function extendGfi(
     GeoJsonFeature<Geometry, DishFeatureProperties | GeoJsonProperties>[]
   >
 > {
-  let features = featuresByLayerId[denkmaelerWFS].filter((f) =>
+  let features = featuresByLayerId[denkmaelerWfsExtern].filter((f) =>
     layerPool.includes(f.properties?.kat)
   )
-  let sachgesamtheit = featuresByLayerId[denkmaelerWFS].find((f) =>
+  let sachgesamtheit = featuresByLayerId[denkmaelerWfsExtern].find((f) =>
     sachgesamtheitPool.includes(f.properties?.kat)
   )
 
@@ -173,7 +177,7 @@ export async function extendGfi(
   // if kat9/10 available, show nested
   if (features.length) {
     return {
-      [denkmaelerWFS]: await Promise.all([
+      [denkmaelerWfsExtern]: await Promise.all([
         ...features.slice(-1).map(async (feature) => ({
           ...feature,
           properties: {
@@ -193,7 +197,7 @@ export async function extendGfi(
   // if only kat9/10 available, show as singular feature is shown
   if (sachgesamtheit) {
     return {
-      [denkmaelerWFS]: [sachgesamtheit],
+      [denkmaelerWfsExtern]: [sachgesamtheit],
     }
   }
 
