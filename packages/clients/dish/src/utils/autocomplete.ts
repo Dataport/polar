@@ -5,8 +5,9 @@ import {
   AddressSearchState,
 } from '@polar/plugin-address-search'
 import levenshtein from 'js-levenshtein'
-import { dishAutocompleteUrl } from '../serviceUrlconstants'
+import { dishAutocompleteUrl, isDevMode } from '../serviceUrlconstants'
 import { DishAutocompleteFunction } from '../types'
+import { MODE } from '../enums'
 
 let lookup: string[] = []
 
@@ -35,7 +36,7 @@ const autocompleteSorter = (inputValue: string) => (a: string, b: string) => {
   return diffA - diffB
 }
 // prevent error in intern mode because url is not replaced there
-if (!dishAutocompleteUrl.startsWith('#{')) {
+if (!isDevMode && MODE.EXTERN) {
   fetch(dishAutocompleteUrl)
     .then((response) => response.json())
     .then((json) => (lookup = json))
