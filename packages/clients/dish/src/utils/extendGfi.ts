@@ -7,8 +7,8 @@ import {
   DishFeaturePropertiesOnSuccess,
   DishFeatureProperties,
 } from '../types'
-import { denkmaelerWmService, denkmaelerWfsExtern } from '../services'
-import { dishBaseUrl } from '../serviceUrlconstants'
+import { denkmaelerWmService } from '../services'
+import { dishBaseUrl, denkmaelerWFS } from '../servicesConstants'
 
 const layerPool = denkmaelerWmService.layers.split(',')
 const sachgesamtheitPool = ['9', '10']
@@ -137,10 +137,10 @@ export async function extendGfi(
     GeoJsonFeature<Geometry, DishFeatureProperties | GeoJsonProperties>[]
   >
 > {
-  let features = featuresByLayerId[denkmaelerWfsExtern].filter((f) =>
+  let features = featuresByLayerId[denkmaelerWFS].filter((f) =>
     layerPool.includes(f.properties?.kat)
   )
-  let sachgesamtheit = featuresByLayerId[denkmaelerWfsExtern].find((f) =>
+  let sachgesamtheit = featuresByLayerId[denkmaelerWFS].find((f) =>
     sachgesamtheitPool.includes(f.properties?.kat)
   )
 
@@ -177,7 +177,7 @@ export async function extendGfi(
   // if kat9/10 available, show nested
   if (features.length) {
     return {
-      [denkmaelerWfsExtern]: await Promise.all([
+      [denkmaelerWFS]: await Promise.all([
         ...features.slice(-1).map(async (feature) => ({
           ...feature,
           properties: {
@@ -197,7 +197,7 @@ export async function extendGfi(
   // if only kat9/10 available, show as singular feature is shown
   if (sachgesamtheit) {
     return {
-      [denkmaelerWfsExtern]: [sachgesamtheit],
+      [denkmaelerWFS]: [sachgesamtheit],
     }
   }
 

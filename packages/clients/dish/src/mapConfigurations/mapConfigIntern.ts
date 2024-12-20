@@ -1,16 +1,17 @@
 /* eslint-disable max-lines-per-function */
 import { SearchMethodConfiguration } from '@polar/lib-custom-types'
+import { alkisWfService } from '../services'
 import {
-  denkmaelerWmsIntern,
-  denkmaelerWfsIntern,
-  bddEinIntern,
-  bddColIntern,
-  aerialPhoto,
-  kontrollbedarfIntern,
-  verlustIntern,
+  alkisWfs,
+  bddEin,
+  bddCol,
+  dop20col,
+  denkmaelerWMS,
+  denkmaelerWFS,
+  kontrollbedarf,
+  verlust,
   verwaltung,
-} from '../servicesIntern'
-import { alkisWfs, alkisWfService } from '../services'
+} from '../servicesConstants'
 import { shBlue } from '../colors'
 import { DishMapConfig, DishUrlParams } from '../types'
 import {
@@ -37,27 +38,27 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
     layerAttributions: [
       ...attributionsCommon,
       {
-        id: bddEinIntern,
+        id: bddEin,
         title: `Grundkarte Graustufen: © ${vermessungsAmtLink}`,
       },
       {
-        id: bddColIntern,
+        id: bddCol,
         title: `Grundkarte Farbe: © ${vermessungsAmtLink}`,
       },
       {
-        id: aerialPhoto,
+        id: dop20col,
         title: `Luftbilder Farbe: © ${vermessungsAmtLink}`,
       },
       {
-        id: denkmaelerWmsIntern,
+        id: denkmaelerWMS,
         title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
       },
       {
-        id: kontrollbedarfIntern,
+        id: kontrollbedarf,
         title: `Karte Objekte mit Kontrollbedarf: © ${denkmalAmtLink} <MONTH> <YEAR>`,
       },
       {
-        id: verlustIntern,
+        id: verlust,
         title: `Karte Verlust: © ${denkmalAmtLink} <MONTH> <YEAR>`,
       },
       {
@@ -126,7 +127,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
     mode: 'intersects',
     // alkisWfs needs to be last in layer array because of specific gfi display
     layers: {
-      [denkmaelerWfsIntern]: {
+      [denkmaelerWFS]: {
         geometry: true,
         window: true,
         maxFeatures: 10,

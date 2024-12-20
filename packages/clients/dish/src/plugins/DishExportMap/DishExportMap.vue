@@ -57,7 +57,7 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
-import { denkmaelerWmsIntern, denkmaelerWfsIntern } from '../../servicesIntern'
+import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
 
 export default Vue.extend({
   name: 'DishExportMap',
@@ -103,10 +103,10 @@ export default Vue.extend({
     },
     setUrlsFromConfig() {
       this.wmsLayerUrl ||= this.configuration.layerConf.find(
-        (layer) => layer.id === denkmaelerWmsIntern
+        (layer) => layer.id === denkmaelerWMS
       ).url
       this.wfsLayerUrl ||= this.configuration.layerConf.find(
-        (layer) => layer.id === denkmaelerWfsIntern
+        (layer) => layer.id === denkmaelerWFS
       ).url
       this.printImageUrlProd ||= `${this.configuration.dishExportMap.internalHost}/Content/MapsTmp`
       this.exportMapAsPdfUrl ||= `${this.configuration.dishExportMap.internalHost}/Content/Objekt/Kartenausgabe.aspx`

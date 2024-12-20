@@ -1,4 +1,4 @@
-import { alkisWms, basemapGrau } from '../services'
+import { alkisWms, basemapGrau } from '../servicesConstants'
 
 export const denkmalAmtLink =
   '<a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a>'

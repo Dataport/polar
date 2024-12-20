@@ -3,18 +3,19 @@
 
 import { LayerConfiguration } from '@polar/lib-custom-types'
 import {
-  denkmaelerWmsIntern,
-  denkmaelerWfsIntern,
-  kontrollbedarfIntern,
-  verlustIntern,
+  denkmaelerWMS,
+  denkmaelerWFS,
+  bddEin,
+  bddCol,
+  dop20col,
+  basemapGrau,
+  alkisWms,
+  alkisWfs,
+  kontrollbedarf,
+  verlust,
   verwaltung,
   beschriftung,
-  bddEinIntern,
-  bddColIntern,
-  aerialPhoto,
-} from '../servicesIntern'
-
-import { basemapGrau, alkisWms, alkisWfs } from '../services'
+} from '../servicesConstants'
 
 const layersIntern: LayerConfiguration[] = [
   {
@@ -24,19 +25,19 @@ const layersIntern: LayerConfiguration[] = [
     name: 'Basemap Graustufen',
   },
   {
-    id: bddEinIntern,
+    id: bddEin,
     visibility: true,
     type: 'background',
     name: 'Grundkarte Graustufen',
   },
   {
-    id: bddColIntern,
+    id: bddCol,
     visibility: false,
     type: 'background',
     name: 'Grundkarte Farbe',
   },
   {
-    id: aerialPhoto,
+    id: dop20col,
     visibility: false,
     type: 'background',
     name: 'Luftbilder',
@@ -57,14 +58,14 @@ const layersIntern: LayerConfiguration[] = [
     minZoom: 10,
   },
   {
-    id: denkmaelerWfsIntern,
+    id: denkmaelerWFS,
     visibility: false,
     hideInMenu: true,
     type: 'mask',
     name: 'Denkmal (WFS) Infoabfragelayer',
   },
   {
-    id: denkmaelerWmsIntern,
+    id: denkmaelerWMS,
     visibility: true,
     type: 'mask',
     name: 'Kulturdenkmale',
@@ -86,7 +87,7 @@ const layersIntern: LayerConfiguration[] = [
     },
   },
   {
-    id: kontrollbedarfIntern,
+    id: kontrollbedarf,
     visibility: true,
     type: 'mask',
     name: 'Objekte mit Kontrollbedarf',
@@ -107,7 +108,7 @@ const layersIntern: LayerConfiguration[] = [
     },
   },
   {
-    id: verlustIntern,
+    id: verlust,
     visibility: true,
     type: 'mask',
     name: 'Verlust',

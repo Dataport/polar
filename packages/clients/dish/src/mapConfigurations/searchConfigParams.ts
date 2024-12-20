@@ -1,7 +1,11 @@
 import { AddressSearchGroupProperties } from '@polar/lib-custom-types'
 import { BKGParameters } from '@polar/plugin-address-search'
-import { denkmaelerWfsExtern, alkisWfs } from '../services'
-import { dishCloudBaseUrl, dishBaseUrl } from '../serviceUrlconstants'
+import {
+  dishCloudBaseUrl,
+  dishBaseUrl,
+  denkmaelerWFS,
+  alkisWfs,
+} from '../servicesConstants'
 
 const groupDenkmalsuche = 'groupDenkmalsuche'
 
@@ -20,7 +24,7 @@ export const searchMethods = {
     url: `${dishBaseUrl}/dish_service/service.aspx`,
     queryParameters: {
       wfsConfiguration: {
-        id: denkmaelerWfsExtern,
+        id: denkmaelerWFS,
         srsName: 'EPSG:25832',
         typeName: 'dish_shp',
         fieldName: 'objektid',
@@ -50,7 +54,7 @@ export const searchMethods = {
     type: 'wfs',
     // url is in mapConfig due to variable setting,
     queryParameters: {
-      id: 'denkmaelerWfsIntern',
+      id: denkmaelerWFS,
       srsName: 'EPSG:25832',
       typeName: 'TBLGIS_ORA',
       featurePrefix: 'app',

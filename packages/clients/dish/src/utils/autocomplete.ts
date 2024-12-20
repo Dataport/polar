@@ -5,7 +5,7 @@ import {
   AddressSearchState,
 } from '@polar/plugin-address-search'
 import levenshtein from 'js-levenshtein'
-import { dishAutocompleteUrl, isDevMode } from '../serviceUrlconstants'
+import { dishAutocompleteUrl, isDevMode } from '../servicesConstants'
 import { DishAutocompleteFunction } from '../types'
 import { MODE } from '../enums'
 

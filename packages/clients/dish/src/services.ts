@@ -1,16 +1,21 @@
 import { MODE } from './enums'
-import { dishDeegreeBaseUrl, dishCloudBaseUrl } from './serviceUrlconstants'
-import { servicesIntern } from './servicesIntern'
 import { DishUrlParams } from './types'
-
-export const basemapGrau = 'basemapGrau'
-export const denkmaelerWfsExtern = 'denkmaelerWfsExtern'
-export const denkmaelerWMS = 'denkmaelerWMS'
-export const alkisWfs = 'alkisWfs'
-export const alkisWms = 'alkisWms'
-export const dop20col = 'dop20col'
-export const bddCol = 'bddCol'
-export const bddEin = 'bddEin'
+import { servicesIntern } from './servicesIntern'
+import {
+  alkisWfs,
+  alkisWms,
+  dishDeegreeBaseUrl,
+  dishCloudBaseUrl,
+  bddEin,
+  bddCol,
+  dop20col,
+  denkmaelerWMS,
+  denkmaelerWFS,
+  basemapGrau,
+  kontrollbedarf,
+  verlust,
+  beschriftung,
+} from './servicesConstants'
 
 export const denkmaelerWmService = {
   id: denkmaelerWMS,
@@ -25,7 +30,7 @@ export const denkmaelerWmService = {
 }
 
 export const denkmaelerWfServiceExtern = {
-  id: denkmaelerWfsExtern,
+  id: denkmaelerWFS,
   name: 'Denkmäler (WFS)',
   url: `${dishDeegreeBaseUrl}/wfs_shp`,
   typ: 'WFS',
@@ -140,16 +145,16 @@ export const services = (mode: keyof typeof MODE, urlParams: DishUrlParams) => {
   const denkmaelerWmsInternUrl = `${urlParams.internServicesBaseUrl}/wms`
 
   const servicesUrls = {
-    denkmaelerWfsInternUrl: `${urlParams.internServicesBaseUrl}/wfs`,
-    denkmaelerWmsInternUrl,
-    beschriftungUrl: denkmaelerWmsInternUrl,
-    kontrollbedarfInternUrl: denkmaelerWmsInternUrl,
-    verlustInternUrl: denkmaelerWmsInternUrl,
+    [denkmaelerWFS]: `${urlParams.internServicesBaseUrl}/wfs`,
+    [denkmaelerWMS]: denkmaelerWmsInternUrl,
+    [beschriftung]: denkmaelerWmsInternUrl,
+    [kontrollbedarf]: denkmaelerWmsInternUrl,
+    [verlust]: denkmaelerWmsInternUrl,
   }
 
   const internServicesWithUrls = servicesIntern.map((service) => ({
     ...service,
-    url: service.url || servicesUrls[`${service.id}Url`],
+    url: service.url || servicesUrls[service.id],
   }))
 
   return [...servicesCommon(mode), ...internServicesWithUrls]

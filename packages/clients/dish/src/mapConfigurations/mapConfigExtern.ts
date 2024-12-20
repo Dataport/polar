@@ -2,16 +2,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { shBlue } from '../colors'
+import { alkisWfService } from '../services'
 import {
-  basemapGrau,
   alkisWms,
-  denkmaelerWfsExtern,
-  denkmaelerWMS,
-  dop20col,
-  bddCol,
+  basemapGrau,
   bddEin,
-  alkisWfService,
-} from '../services'
+  bddCol,
+  dop20col,
+  denkmaelerWMS,
+  denkmaelerWFS,
+} from '../servicesConstants'
 import { DishMapConfig } from '../types'
 import {
   attributionsCommon,
@@ -57,7 +57,7 @@ export const mapConfigExtern: DishMapConfig = {
       name: 'Luftbilder',
     },
     {
-      id: denkmaelerWfsExtern,
+      id: denkmaelerWFS,
       visibility: false,
       hideInMenu: true,
       type: 'mask',
@@ -164,7 +164,7 @@ export const mapConfigExtern: DishMapConfig = {
   gfi: {
     mode: 'intersects',
     layers: {
-      [denkmaelerWfsExtern]: {
+      [denkmaelerWFS]: {
         geometry: true,
         window: true,
         maxFeatures: 10,
