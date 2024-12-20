@@ -18,3 +18,4 @@ logs
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+packages/clients/dish/src/internalUrlConfig.ts
