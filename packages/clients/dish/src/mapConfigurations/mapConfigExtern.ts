@@ -10,6 +10,7 @@ import {
   dop20col,
   bddCol,
   bddEin,
+  alkisWfService,
 } from '../services'
 import { DishMapConfig } from '../types'
 import {
@@ -142,7 +143,10 @@ export const mapConfigExtern: DishMapConfig = {
       searchMethods.denkmalsucheAutocomplete,
       searchMethods.denkmalsucheDishExtern,
       searchMethods.bkgSearch,
-      searchMethods.alkisSearch,
+      {
+        ...searchMethods.alkisSearch,
+        url: alkisWfService('EXTERN').url,
+      },
     ],
     groupProperties,
     categoryProperties: {

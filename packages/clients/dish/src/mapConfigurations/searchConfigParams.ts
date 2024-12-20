@@ -1,8 +1,7 @@
 import { AddressSearchGroupProperties } from '@polar/lib-custom-types'
 import { BKGParameters } from '@polar/plugin-address-search'
-import { denkmaelerWfsExtern } from '../services'
+import { denkmaelerWfsExtern, alkisWfs } from '../services'
 import { dishCloudBaseUrl, dishBaseUrl } from '../serviceUrlconstants'
-import { alkisWfServiceIntern, alkisWfsIntern } from '../servicesIntern'
 
 const groupDenkmalsuche = 'groupDenkmalsuche'
 
@@ -75,9 +74,9 @@ export const searchMethods = {
     groupId: groupDenkmalsuche,
     categoryId: 'categoryIdAlkisSearch',
     type: 'wfs',
-    url: alkisWfServiceIntern.url,
+    url: null,
     queryParameters: {
-      id: alkisWfsIntern,
+      id: alkisWfs,
       maxFeatures: 120,
       srsName: 'EPSG:25832',
       typeName: 'Flurstueck',

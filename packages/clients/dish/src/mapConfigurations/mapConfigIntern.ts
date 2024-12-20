@@ -9,8 +9,8 @@ import {
   kontrollbedarfIntern,
   verlustIntern,
   verwaltung,
-  alkisWfsIntern,
 } from '../servicesIntern'
+import { alkisWfs, alkisWfService } from '../services'
 import { shBlue } from '../colors'
 import { DishMapConfig, DishUrlParams } from '../types'
 import {
@@ -106,7 +106,10 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
         url: `${urlParams.internServicesBaseUrl}/wfs`,
       } as SearchMethodConfiguration,
       searchMethods.bkgSearch,
-      searchMethods.alkisSearch,
+      {
+        ...searchMethods.alkisSearch,
+        url: alkisWfService('INTERN').url,
+      },
     ],
     groupProperties,
     categoryProperties: {
@@ -121,7 +124,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
   },
   gfi: {
     mode: 'intersects',
-    // alkisWfsIntern needs to be last in layer array because of specific gfi display
+    // alkisWfs needs to be last in layer array because of specific gfi display
     layers: {
       [denkmaelerWfsIntern]: {
         geometry: true,
@@ -129,7 +132,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
         maxFeatures: 10,
         geometryName: 'app:geometry',
       },
-      [alkisWfsIntern]: {
+      [alkisWfs]: {
         geometry: false,
         window: true,
         maxFeatures: 5,

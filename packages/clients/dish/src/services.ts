@@ -72,23 +72,12 @@ const bddEinService = {
   transparent: true,
 }
 
-const alkisWfService = {
-  id: alkisWfs,
-  name: 'ALKIS',
-  url: `${dishCloudBaseUrl}/dishbkgALKIS_WFS`,
-  typ: 'WFS',
-  version: '2.0.0',
-  transparent: true,
-  featureType: 'ave:Flurstueck',
-}
-
 const servicesExtern = [
   denkmaelerWmService,
   denkmaelerWfServiceExtern,
   dop20ColService,
   bddColService,
   bddEinService,
-  alkisWfService,
 ]
 
 const basemapGrauService = {
@@ -122,9 +111,25 @@ const alkisWmService = (mode: keyof typeof MODE) => {
   }
 }
 
+export const alkisWfService = (mode: keyof typeof MODE = 'INTERN') => {
+  return {
+    id: alkisWfs,
+    name: 'ALKIS',
+    url:
+      mode === MODE.EXTERN
+        ? `${dishCloudBaseUrl}/dishbkgALKIS_WFS`
+        : `${dishCloudBaseUrl}/dishintern_ALKIS_WFS`,
+    typ: 'WFS',
+    version: '2.0.0',
+    transparent: true,
+    featureType: 'ave:Flurstueck',
+  }
+}
+
 const servicesCommon = (mode: keyof typeof MODE) => [
   basemapGrauService,
   alkisWmService(mode),
+  alkisWfService(mode),
 ]
 
 export const services = (mode: keyof typeof MODE, urlParams: DishUrlParams) => {
