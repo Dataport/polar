@@ -7,7 +7,7 @@ export const basemapGrau = 'basemapGrau'
 export const denkmaelerWfsExtern = 'denkmaelerWfsExtern'
 export const denkmaelerWMS = 'denkmaelerWMS'
 export const alkisWfs = 'alkisWfs'
-export const alkisWmsExtern = 'alkisWmsExtern'
+export const alkisWms = 'alkisWms'
 export const dop20col = 'dop20col'
 export const bddCol = 'bddCol'
 export const bddEin = 'bddEin'
@@ -72,20 +72,6 @@ const bddEinService = {
   transparent: true,
 }
 
-const alkisWmServiceExtern = {
-  id: alkisWmsExtern,
-  name: 'ALKIS WMS',
-  url: `${dishCloudBaseUrl}/bkgExtern/ALKIS_FLST`,
-  typ: 'WMS',
-  layers: 'adv_alkis_flurstuecke',
-  legendURL: 'ignore',
-  format: 'image/png',
-  version: '1.3.0',
-  transparent: true,
-  singleTile: true,
-  STYLES: 'basemapde',
-}
-
 const alkisWfService = {
   id: alkisWfs,
   name: 'ALKIS',
@@ -102,7 +88,6 @@ const servicesExtern = [
   dop20ColService,
   bddColService,
   bddEinService,
-  alkisWmServiceExtern,
   alkisWfService,
 ]
 
@@ -118,11 +103,33 @@ const basemapGrauService = {
   transparent: true,
 }
 
-const servicesCommon = [basemapGrauService]
+const alkisWmService = (mode: keyof typeof MODE) => {
+  return {
+    id: alkisWms,
+    name: 'ALKIS WMS',
+    url:
+      mode === MODE.EXTERN
+        ? `${dishCloudBaseUrl}/bkgExtern/ALKIS_FLST`
+        : `${dishCloudBaseUrl}/bkg/ALKIS_FLST`,
+    typ: 'WMS',
+    layers: 'adv_alkis_flurstuecke',
+    legendURL: 'ignore',
+    format: 'image/png',
+    version: '1.3.0',
+    transparent: true,
+    singleTile: true,
+    STYLES: 'basemapde',
+  }
+}
+
+const servicesCommon = (mode: keyof typeof MODE) => [
+  basemapGrauService,
+  alkisWmService(mode),
+]
 
 export const services = (mode: keyof typeof MODE, urlParams: DishUrlParams) => {
   if (mode === MODE.EXTERN) {
-    return [...servicesCommon, ...servicesExtern]
+    return [...servicesCommon(mode), ...servicesExtern]
   }
   // set urls that need to be configurable
   const denkmaelerWmsInternUrl = `${urlParams.internServicesBaseUrl}/wms`
@@ -140,5 +147,5 @@ export const services = (mode: keyof typeof MODE, urlParams: DishUrlParams) => {
     url: service.url || servicesUrls[`${service.id}Url`],
   }))
 
-  return [...servicesCommon, ...internServicesWithUrls]
+  return [...servicesCommon(mode), ...internServicesWithUrls]
 }

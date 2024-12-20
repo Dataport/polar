@@ -9,7 +9,6 @@ import {
   kontrollbedarfIntern,
   verlustIntern,
   verwaltung,
-  alkisWmsIntern,
   alkisWfsIntern,
 } from '../servicesIntern'
 import { shBlue } from '../colors'
@@ -48,11 +47,6 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       {
         id: aerialPhoto,
         title: `Luftbilder Farbe: © ${vermessungsAmtLink}`,
-      },
-      {
-        id: alkisWmsIntern,
-        title:
-          'Karte Flurstücke gemäss ALKIS-Objektartenkatalog © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
       },
       {
         id: denkmaelerWmsIntern,

@@ -12,11 +12,10 @@ import {
   bddEinIntern,
   bddColIntern,
   aerialPhoto,
-  alkisWmsIntern,
   alkisWfsIntern,
 } from '../servicesIntern'
 
-import { basemapGrau } from '../services'
+import { basemapGrau, alkisWms } from '../services'
 
 const layersIntern: LayerConfiguration[] = [
   {
@@ -52,7 +51,7 @@ const layersIntern: LayerConfiguration[] = [
     name: 'ALKIS Katasterbezirke (WFS) Infoabfragelayer',
   },
   {
-    id: alkisWmsIntern,
+    id: alkisWms,
     visibility: false,
     type: 'mask',
     name: 'ALKIS Flurstücke (ab 1:1000)',

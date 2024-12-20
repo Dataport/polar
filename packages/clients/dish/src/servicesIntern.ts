@@ -117,20 +117,6 @@ const aerialPhotoService = {
   transparent: true,
 }
 
-const alkisWmServiceIntern = {
-  id: alkisWmsIntern,
-  name: 'ALKIS WMS',
-  url: `${dishCloudBaseUrl}/bkg/ALKIS_FLST`,
-  typ: 'WMS',
-  layers: 'adv_alkis_flurstuecke',
-  legendURL: 'ignore',
-  format: 'image/png',
-  version: '1.3.0',
-  transparent: true,
-  singleTile: true,
-  STYLES: 'basemapde',
-}
-
 export const alkisWfServiceIntern = {
   id: alkisWfsIntern,
   name: 'ALKIS',
@@ -142,7 +128,6 @@ export const alkisWfServiceIntern = {
 }
 
 export const servicesIntern = [
-  alkisWmServiceIntern,
   alkisWfServiceIntern,
   denkmaelerWfServiceIntern,
   denkmaelerWmServiceIntern,

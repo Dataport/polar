@@ -4,7 +4,7 @@
 import { shBlue } from '../colors'
 import {
   basemapGrau,
-  alkisWmsExtern,
+  alkisWms,
   denkmaelerWfsExtern,
   denkmaelerWMS,
   dop20col,
@@ -86,7 +86,7 @@ export const mapConfigExtern: DishMapConfig = {
       },
     },
     {
-      id: alkisWmsExtern,
+      id: alkisWms,
       visibility: true,
       type: 'mask',
       name: 'ALKIS Flurstücke (ab 1: 1000)',
@@ -108,11 +108,6 @@ export const mapConfigExtern: DishMapConfig = {
       {
         id: bddEin,
         title: `Digitale Topographische Karten (Graustufen): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
-      },
-      {
-        id: alkisWmsExtern,
-        title:
-          'Karte Flurstücke gemäss ALKIS-Objektartenkatalog © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LVERMGEOSH" target="_blank">Landesamt für Vermessung und Geoinformation</a>',
       },
       {
         id: denkmaelerWMS,
