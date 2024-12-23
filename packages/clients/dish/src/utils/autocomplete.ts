@@ -5,8 +5,9 @@ import {
   AddressSearchState,
 } from '@polar/plugin-address-search'
 import levenshtein from 'js-levenshtein'
-import { dishAutocompleteUrl } from '../services'
+import { dishAutocompleteUrl, isDevMode } from '../servicesConstants'
 import { DishAutocompleteFunction } from '../types'
+import { MODE } from '../enums'
 
 let lookup: string[] = []
 
@@ -34,13 +35,18 @@ const autocompleteSorter = (inputValue: string) => (a: string, b: string) => {
   const diffB = levenshtein(b, inputValue)
   return diffA - diffB
 }
-
-fetch(dishAutocompleteUrl)
-  .then((response) => response.json())
-  .then((json) => (lookup = json))
-  .catch((e) =>
-    console.error('@polar/client-dish: Autocomplete initialization failed.', e)
-  )
+// prevent error in intern mode because url is not replaced there
+if (!isDevMode && MODE.EXTERN) {
+  fetch(dishAutocompleteUrl)
+    .then((response) => response.json())
+    .then((json) => (lookup = json))
+    .catch((e) =>
+      console.error(
+        '@polar/client-dish: Autocomplete initialization failed.',
+        e
+      )
+    )
+}
 
 /**
  * To be usable within the AddressSearch plugin, autocomplete

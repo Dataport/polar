@@ -6,7 +6,7 @@ const language: LanguageOption[] = [
     resources: {
       plugins: {
         layerChooser: {
-          backgroundTitle: 'Hintergrundkarte',
+          backgroundTitle: 'Hintergrundkarten',
           maskTitle: 'Fachdaten',
           tooltipDisabledLayer: 'Auf der aktuellen Zoomstufe nicht verfügbar.',
           optionsHeader: 'Optionen für Layer "{{name}}"',
