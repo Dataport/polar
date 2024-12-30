@@ -25,7 +25,8 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "@polar/core": "^2.0.0"
+    "@polar/core": "^2.0.0",
+    "hex-rgb": "^5.0.0"
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",

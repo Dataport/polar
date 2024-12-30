@@ -1,32 +1,8 @@
+import hexToRgb from 'hex-rgb'
 import { Text, Fill, Stroke, Style, Circle } from 'ol/style'
 import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
 import { StyleParameters } from '../types'
-
-// TODO: Move me to a lib function (floppy-ears); based on https://stackoverflow.com/a/5624139
-/**
- *  First, expand the shorthand form (e.g. "03F") to the full form (e.g. "0033FF").
- *  Then extract the rgb values from the hex string.
- *  Lastly, parse the results as an integer and return is as a rgb array.
- * @param colorHex - Color encoded as a hex string.
- * @returns The given color hex string as a rgb array or null, if the hex couldn't be read.
- */
-function hexToRgb(colorHex: string) {
-  // TODO: The long format hex code already has the opacity -> if it is long, read it from there ._.
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
-    colorHex.replace(
-      /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-      (_, r, g, b) => r + r + g + g + b + b
-    )
-  )
-  return result
-    ? [
-        parseInt(result[1], 16),
-        parseInt(result[2], 16),
-        parseInt(result[3], 16),
-      ]
-    : null
-}
 
 const makePolygonStyle = (
   color: Color | ColorLike,
@@ -73,12 +49,18 @@ const makePointStyle = (
 export default function ({
   color,
   lineWidth,
-  opacity,
+  opacity: originalOpacity,
   pointWidth,
   textColor,
 }: StyleParameters): Style[] {
   // Only rgb, rgba and hex are currently allowed
-  const rgb = (typeof color === 'string' ? hexToRgb(color) : color) as number[]
+  let rgb = color as number[]
+  let opacity = originalOpacity
+  if (typeof color === 'string') {
+    const { red, green, blue, alpha } = hexToRgb(color)
+    rgb = [red, green, blue]
+    opacity = alpha
+  }
 
   return [
     makePolygonStyle([...rgb, opacity], [...rgb, opacity / 3], lineWidth),
