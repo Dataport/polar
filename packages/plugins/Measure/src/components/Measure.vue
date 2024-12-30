@@ -9,6 +9,7 @@
         :values="selectableModes"
       ></RadioCard>
       <!-- TODO: Add information on how the deletion process works -->
+      <!-- TODO: Add information for when something can be selected (min. one feature drawn) -->
       <v-btn
         v-if="mode === 'delete'"
         id="polar-measure-delete-button"
@@ -56,6 +57,7 @@ export default Vue.extend({
       area: 'common:plugins.measure.measureMode.area',
     }),
     selectableModes: () => ({
+      none: 'common:plugins.measure.mode.none',
       select: 'common:plugins.measure.mode.select',
       draw: 'common:plugins.measure.mode.draw',
       edit: 'common:plugins.measure.mode.edit',

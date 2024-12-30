@@ -8,7 +8,7 @@ import { MeasureGetters, MeasureState } from '../types'
 import { makeActions } from './actions'
 
 const getInitialState = (): MeasureState => ({
-  mode: 'select',
+  mode: 'none',
   unit: 'm',
   measureMode: 'distance',
   selectedFeature: null,

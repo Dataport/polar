@@ -11,6 +11,7 @@ const language: LanguageOption[] = [
             distance: 'Entfernung',
           },
           mode: {
+            none: 'Keine Interaktion',
             select: 'Auswählen',
             draw: 'Zeichnen',
             edit: 'Bearbeiten',
@@ -36,6 +37,7 @@ const language: LanguageOption[] = [
             distance: 'Distance',
           },
           mode: {
+            none: 'No interaction',
             select: 'Select',
             draw: 'Draw',
             edit: 'Edit',

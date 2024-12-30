@@ -102,7 +102,9 @@ export const makeActions = () => {
                 interaction instanceof Draw ||
                 interaction instanceof Modify ||
                 // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
-                interaction._isDeleteSelect
+                interaction._isDeleteSelect ||
+                // @ts-expect-error | internal hack to detect it from @polar/plugin-measure
+                interaction._isMeasureSelect
             )
           if (!isDrawing) {
             dispatch('getFeatureInfo', {

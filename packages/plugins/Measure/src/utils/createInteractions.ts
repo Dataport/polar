@@ -69,7 +69,7 @@ export default async function (
     } else if (mode === 'delete') {
       interactions = await dispatch('createDeleteInteraction', drawLayer)
       styleFunc = specialStyle
-    } else {
+    } else if (mode === 'select') {
       const select = getSelect(drawLayer, selectedFeature, specialStyle)
       // selects and deselects
       select
@@ -78,6 +78,9 @@ export default async function (
       select
         .getFeatures()
         .on('remove', () => dispatch('setSelectedFeature', null))
+
+      // @ts-expect-error | internal hack to detect it in other plugins
+      select._isMeasureSelect = true
       interactions.push(select)
     }
   }

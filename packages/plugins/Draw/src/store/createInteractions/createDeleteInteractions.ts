@@ -29,7 +29,7 @@ export default function (
     selectedFeatures.clear()
   })
 
-  // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
+  // @ts-expect-error | internal hack to detect it in other plugins
   selectInteraction._isDeleteSelect = true
 
   return [selectInteraction, dragBoxInteraction]
