@@ -28,22 +28,21 @@ export function removeFeature(
     pointAmount,
     drawSource,
   }: { feature: Feature; pointAmount: number; drawSource: VectorSource }
-): boolean {
+) {
   const minimum =
     (feature.getGeometry() as LineString | Polygon).getType() === 'Polygon'
-      ? 3
-      : 2
+      ? 4
+      : 3
   if (pointAmount < minimum) {
     drawSource.removeFeature(feature)
     dispatch('setSelectedFeature', null)
-    return false
+    return
   }
   if (selectedFeature === feature) {
     commit('setMeasure')
   } else {
     dispatch('setSelectedFeature', feature)
   }
-  return true
 }
 
 /**
@@ -59,13 +58,13 @@ export function createDeleteInteraction(
     insertVertexCondition: never,
     deleteCondition: singleClick,
   })
-  modify.on('modifyend', ({ features }) => {
+  modify.on('modifystart', ({ features }) => {
     if (features.getLength() === 1) {
       const feature = features.item(0) as Feature
       const line = getLine(feature)
       dispatch('removeFeature', {
         feature,
-        pointAmount: line.getCoordinates().length - 1,
+        pointAmount: line.getCoordinates().length,
         drawSource,
       })
     }
