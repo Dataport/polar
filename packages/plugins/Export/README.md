@@ -29,6 +29,8 @@ To remove user control, add `displayComponent: false` to the configuration and u
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
+## Store
+
 ### Actions
 
 To programmatically trigger a "screenshot", use this action.

@@ -8,7 +8,7 @@ either `true` or `false`. When a users denies the location tracking, the button 
 
 ## Configuration
 
-#### geoLocation
+### geoLocation
 
 | fieldName | type | description |
 | - | - | - |
