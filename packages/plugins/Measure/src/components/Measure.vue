@@ -8,19 +8,36 @@
         :initial-value="mode"
         :values="selectableModes"
       ></RadioCard>
-      <!-- TODO: Add information on how the deletion process works -->
-      <!-- TODO: Add information for when something can be selected (min. one feature drawn) -->
-      <v-btn
-        v-if="mode === 'delete'"
-        id="polar-measure-delete-button"
-        class="text-none"
-        color="primary"
-        rounded
-        small
-        @click="clearLayer"
-      >
-        {{ $t('plugins.measure.deleteAllButton') }}
-      </v-btn>
+      <template v-if="mode === 'delete'">
+        <v-card-text id="polar-measure-delete-alert">
+          <v-alert
+            v-model="deleteInformationVisibility"
+            width="200"
+            type="info"
+            prominent
+            dense
+            colored-border
+            :icon="false"
+            border="left"
+            dismissible
+            elevation="4"
+          >
+            {{ $t('plugins.measure.delete.information') }}
+          </v-alert>
+        </v-card-text>
+        <div id="polar-measure-delete-button-wrapper">
+          <v-btn
+            id="polar-measure-delete-button"
+            class="text-none"
+            color="primary"
+            rounded
+            small
+            @click="clearLayer"
+          >
+            {{ $t('plugins.measure.delete.button') }}
+          </v-btn>
+        </div>
+      </template>
       <RadioCard
         v-if="mode === 'draw'"
         id="measure-measureMode>"
@@ -50,6 +67,9 @@ export default Vue.extend({
   components: {
     RadioCard,
   },
+  data: () => ({
+    deleteInformationVisibility: true,
+  }),
   computed: {
     ...mapGetters('plugin/measure', ['mode', 'measureMode', 'unit']),
     selectableMeasureModes: () => ({
@@ -81,16 +101,27 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 #polar-measure-card {
-  display: flex;
-  flex-direction: column;
-  overflow: inherit;
+  white-space: pre-line;
+  min-width: 175px;
 }
 
-#polar-measure-delete-button {
-  margin-left: 1.5em;
-  margin-right: 1.5em;
-  padding-left: 2em;
-  padding-right: 2em;
-  border: solid transparent;
+#polar-measure-delete-alert {
+  min-width: 200px;
+  padding-top: 0;
+
+  .v-alert {
+    margin-bottom: 0;
+  }
+}
+
+#polar-measure-delete-button-wrapper {
+  display: flex;
+  justify-content: center;
+
+  button {
+    padding-left: 2em;
+    padding-right: 2em;
+    border: solid transparent;
+  }
 }
 </style>

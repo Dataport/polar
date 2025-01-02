@@ -22,7 +22,11 @@ const language: LanguageOption[] = [
             mode: 'Modus',
             unit: 'Einheit',
           },
-          deleteAllButton: 'Alle löschen',
+          delete: {
+            button: 'Alle löschen',
+            information:
+              'Klicke auf die Ecken einer Messung, um diese zu löschen.\nLinien benötigen mindestens 2, Polygone mindestens 3.',
+          },
         },
       },
     },
@@ -48,7 +52,11 @@ const language: LanguageOption[] = [
             mode: 'Mode',
             unit: 'Unit',
           },
-          deleteAllButton: 'Delete all',
+          delete: {
+            button: 'Delete all',
+            information:
+              'Click on the corners of a measurement to delete them.\nLines need at least 2, Polygons at least 3.',
+          },
         },
       },
     },
