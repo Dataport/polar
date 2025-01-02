@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.1
 
 - Fix: Move relevant documentation of `layers` to `@polar/core`.
 - Fix: The LayerChooser plugin will keep working on the error that a layer without entry in the service register has been configured. The layer will not be displayed.

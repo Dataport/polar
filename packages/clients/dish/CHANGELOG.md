@@ -8,6 +8,7 @@
 - Fix: Import enum `SearchResultSymbols` from correct position.
 - Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
 - Chore: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.
+- Chore: Update `@polar`-dependencies to the latest versions.
 
 ## 1.1.1
 
@@ -18,7 +19,7 @@
 
 - Feature: Update icon of `layerChooser` in `iconMenu` to `fa-layer-group` to clear-up the content hidden behind the menu button.
 - Chore: Various small changes to keep up with library updates.
-- Chore: Changing internal URLs to new adresses.
+- Chore: Changing internal URLs to new addresses.
 
 ## 1.0.0
 
