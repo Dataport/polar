@@ -7,7 +7,7 @@ import { Collection, Feature } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import { StyleLike } from 'ol/style/Style'
-import { MeasureGetters, MeasureState } from '../types'
+import { MeasureGetters, MeasureState } from '../../types'
 
 const getDraw = (source: VectorSource, measureMode: string, style: StyleLike) =>
   new Draw({
@@ -36,12 +36,6 @@ const getSelect = (
     style: specialStyle,
   })
 
-/**
- * Creates Interactions to interact with the drawing layer depending on the tool mode
- * @param context - ActionContext to have access to dispatch and getters
- * @param drawLayer - drawing layer
- * @returns Array with the created Interactions
- */
 export default async function (
   {
     dispatch,
@@ -67,7 +61,7 @@ export default async function (
       interactions.push(modify)
       styleFunc = specialStyle
     } else if (mode === 'delete') {
-      interactions = await dispatch('createDeleteInteraction', drawLayer)
+      interactions = await dispatch('createDeleteInteraction', drawSource)
       styleFunc = specialStyle
     } else if (mode === 'select') {
       const select = getSelect(drawLayer, selectedFeature, specialStyle)

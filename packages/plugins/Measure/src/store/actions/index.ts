@@ -3,13 +3,19 @@ import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import { Interaction } from 'ol/interaction'
 import Feature from 'ol/Feature'
-import { MeasureGetters, MeasureMode, MeasureState, Mode, Unit } from '../types'
-import createInteractions from '../utils/createInteractions'
-import createStyleFunc from '../utils/createStyleFunc'
+import {
+  MeasureGetters,
+  MeasureMode,
+  MeasureState,
+  Mode,
+  Unit,
+} from '../../types'
 import {
   createDeleteInteraction,
   removeFeature,
 } from './createDeleteInteraction'
+import createStyleFunc from './createStyleFunc'
+import createInteractions from './createInteractions'
 
 export const makeActions = () => {
   let interactions: Interaction[] = []

@@ -5,8 +5,8 @@ import Style, { StyleFunction } from 'ol/style/Style'
 import { Text } from 'ol/style'
 import { getArea, getLength } from 'ol/sphere'
 import { Projection } from 'ol/proj'
-import { MeasureGetters, MeasureState, Mode } from '../types'
-import createStyle from './createStyle'
+import { MeasureGetters, MeasureState, Mode } from '../../types'
+import createStyle from '../../utils/createStyle'
 
 const standardStyle = {
   opacity: 0.8,
@@ -79,12 +79,6 @@ function calculatePartialDistances(
   return styles
 }
 
-/**
- * Creates the interactions necessary to delete points or vertices of the drawn features
- * @param context - ActionContext to have access to dispatch, commit and getters
- * @param styleType - Tool-Mode
- * @returns StyleFunc
- */
 export default function (
   {
     commit,

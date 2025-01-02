@@ -3,9 +3,8 @@ import { never, singleClick } from 'ol/events/condition'
 import { LineString, Polygon } from 'ol/geom'
 import { Feature } from 'ol'
 import { PolarActionContext } from '@polar/lib-custom-types'
-import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
-import { MeasureGetters, MeasureState } from '../../types'
+import { MeasureGetters, MeasureState } from '../../../types'
 
 // gets the outer Line as an LineString
 function getLine(feature: Feature): LineString {
@@ -50,9 +49,8 @@ export function removeFeature(
  */
 export function createDeleteInteraction(
   { dispatch }: PolarActionContext<MeasureState, MeasureGetters>,
-  drawLayer: VectorLayer<Feature>
+  drawSource: VectorSource
 ): Interaction[] {
-  const drawSource = drawLayer.getSource() as VectorSource
   const modify = new Modify({
     source: drawSource,
     insertVertexCondition: never,
