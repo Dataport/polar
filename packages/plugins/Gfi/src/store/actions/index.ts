@@ -1,17 +1,16 @@
 import debounce from 'lodash.debounce'
 import { Style, Fill, Stroke } from 'ol/style'
-import Overlay from 'ol/Overlay'
 import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
 import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import getCluster from '@polar/lib-get-cluster'
-import { getTooltip, Tooltip } from '@polar/lib-tooltip'
-import { DragBox } from 'ol/interaction'
+import { DragBox, Draw, Modify } from 'ol/interaction'
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import { getFeatureDisplayLayer, clear } from '../../utils/displayFeatureLayer'
 import { GfiGetters, GfiState } from '../../types'
 import { getOriginalFeature } from '../../utils/getOriginalFeature'
+import { setupTooltip } from './setupTooltip'
 import { debouncedGfiRequest } from './debouncedGfiRequest'
 
 // OK for module action set creation
@@ -67,6 +66,7 @@ export const makeActions = () => {
       dispatch('setupZoomListeners')
       dispatch('setupMultiSelection')
     },
+    setupTooltip,
     setupCoreListener({
       getters: { gfiConfiguration },
       rootGetters,
@@ -92,15 +92,30 @@ export const makeActions = () => {
         rootGetters.map.addInteraction(dragBox)
       }
       if (getters.gfiConfiguration.directSelect) {
-        rootGetters.map.on('click', ({ coordinate, originalEvent }) =>
-          dispatch('getFeatureInfo', {
-            coordinateOrExtent: coordinate,
-            modifierPressed:
-              navigator.userAgent.indexOf('Mac') !== -1
-                ? originalEvent.metaKey
-                : originalEvent.ctrlKey,
-          })
-        )
+        rootGetters.map.on('click', ({ coordinate, originalEvent }) => {
+          const isDrawing = rootGetters.map
+            .getInteractions()
+            .getArray()
+            .some(
+              (interaction) =>
+                // these indicate other interactions are expected now
+                interaction instanceof Draw ||
+                interaction instanceof Modify ||
+                // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
+                interaction._isDeleteSelect ||
+                // @ts-expect-error | internal hack to detect it from @polar/plugin-measure
+                interaction._isMeasureSelect
+            )
+          if (!isDrawing) {
+            dispatch('getFeatureInfo', {
+              coordinateOrExtent: coordinate,
+              modifierPressed:
+                navigator.userAgent.indexOf('Mac') !== -1
+                  ? originalEvent.metaKey
+                  : originalEvent.ctrlKey,
+            })
+          }
+        })
       }
     },
     setupZoomListeners({ dispatch, getters, rootGetters }) {
@@ -142,55 +157,6 @@ export const makeActions = () => {
           }
         )
       }
-    },
-    setupTooltip({ getters: { gfiConfiguration }, rootGetters: { map } }) {
-      const tooltipLayerIds = Object.keys(gfiConfiguration.layers).filter(
-        (key) => gfiConfiguration.layers[key].showTooltip
-      )
-      if (!tooltipLayerIds.length) {
-        return
-      }
-
-      let element: Tooltip['element'], unregister: Tooltip['unregister']
-      const overlay = new Overlay({
-        positioning: 'bottom-center',
-        offset: [0, -5],
-      })
-      map.addOverlay(overlay)
-      map.on('pointermove', ({ pixel, dragging, originalEvent }) => {
-        if (dragging || ['touch', 'pen'].includes(originalEvent.pointerType)) {
-          return
-        }
-        let hasFeatureAtPixel = false
-        // stops on return `true`, thus only using the uppermost feature
-        map.forEachFeatureAtPixel(
-          pixel,
-          (feature, layer) => {
-            if (!(feature instanceof Feature)) {
-              return false
-            }
-            hasFeatureAtPixel = true
-            overlay.setPosition(map.getCoordinateFromPixel(pixel))
-            if (unregister) {
-              unregister()
-            }
-            ;({ element, unregister } = getTooltip({
-              localeKeys:
-                // @ts-expect-error | it exists by virtue of layerFilter below
-                gfiConfiguration.layers[layer.get('id')].showTooltip(
-                  feature,
-                  map
-                ),
-            }))
-            overlay.setElement(element)
-            return true
-          },
-          { layerFilter: (layer) => tooltipLayerIds.includes(layer.get('id')) }
-        )
-        if (!hasFeatureAtPixel) {
-          overlay.setPosition(undefined)
-        }
-      })
     },
     setupFeatureVisibilityUpdates({ commit, state, getters, rootGetters }) {
       // debounce to prevent update spam

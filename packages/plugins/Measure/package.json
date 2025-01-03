@@ -1,14 +1,15 @@
 {
-  "name": "@polar/plugin-draw",
-  "version": "2.0.0",
-  "description": "Draw plugin for POLAR that adds draw interactions to the map, allowing users to place various shapes and texts.",
+  "name": "@polar/plugin-measure",
+  "version": "1.0.0-alpha.0",
+  "description": "Measure plugin for POLAR that adds the possibility to measure distances and areas.",
   "keywords": [
     "OpenLayers",
     "ol",
     "POLAR",
     "plugin",
-    "Draw",
-    "interaction"
+    "measure",
+    "distance",
+    "area"
   ],
   "license": "EUPL-1.2",
   "type": "module",
@@ -16,15 +17,16 @@
   "main": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
-    "directory": "packages/plugins/Draw"
+    "url": "git+https://github.com/Dataport/polar.git",
+    "directory": "packages/plugins/Measure"
   },
   "files": [
     "src/**/*",
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "@polar/core": "^2.0.0"
+    "@polar/core": "^2.0.0",
+    "hex-rgb": "^5.0.0"
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
