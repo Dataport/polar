@@ -102,7 +102,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 #polar-measure-card {
   white-space: pre-line;
-  min-width: 175px;
+  min-width: 190px;
 }
 
 #polar-measure-delete-alert {
