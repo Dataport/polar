@@ -26,7 +26,10 @@
     </div>
     <script type="module">
       import client from './polar-client.ts'
-      import { internalHost, internalPort, internalPath } from './internalUrlConfig.ts'
+
+      const internalHost = 'http://10.61.63.54'
+      const internalPort = '8081'
+      const internalPath = 'dish-deegree-3.5.0/services'
 
       // leave empty for external map
       const urlParams = {
