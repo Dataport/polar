@@ -128,6 +128,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       displayComponent: mode === MODE.EXTERN,
       appearOnClick: { show: true, atZoomLevel: 6 },
       coordinateSource: 'plugin/addressSearch/chosenAddress',
+      layoutTag: NineLayoutTag.TOP_LEFT,
     }),
     PolarPluginLegend({
       displayComponent: mode === MODE.EXTERN,
