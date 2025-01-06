@@ -36,11 +36,6 @@ import DishGfiIntern from './plugins/GfiIntern'
 import DishExportMap from './plugins/DishExportMap'
 import { searchMethods } from './mapConfigurations/searchConfigParams'
 
-const defaultOptions = {
-  displayComponent: true,
-  layoutTag: NineLayoutTag.TOP_LEFT,
-}
-
 const pluginGfiExtern = {
   coordinateSources: ['plugin/addressSearch/chosenAddress'],
   gfiContentComponent: DishGfiContent,
@@ -134,16 +129,10 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       appearOnClick: { show: true, atZoomLevel: 6 },
       coordinateSource: 'plugin/addressSearch/chosenAddress',
     }),
-    PolarPluginLegend(
-      merge(
-        {},
-        {
-          displayComponent: mode === MODE.EXTERN,
-          layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-          maxWidth: 500,
-        }
-      )
-    ),
+    PolarPluginLegend({
+      displayComponent: mode === MODE.EXTERN,
+      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+    }),
     PolarPluginAttributions({
       displayComponent: true,
       layoutTag: NineLayoutTag.BOTTOM_RIGHT,
@@ -163,16 +152,14 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
         getPluginGfiConfig(mode)
       )
     ),
-    PolarPluginLoadingIndicator(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
-      })
-    ),
-    PolarPluginScale(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-      })
-    ),
+    PolarPluginLoadingIndicator({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
+    }),
+    PolarPluginScale({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+    }),
     PolarPluginToast(
       merge(
         {},
@@ -182,29 +169,21 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
         }
       )
     ),
-    PolarPluginZoom(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.MIDDLE_RIGHT,
-      })
-    ),
-    PolarPluginGeoLocation(
-      merge(
-        {},
-        {
-          displayComponent: mode === MODE.EXTERN,
-          layoutTag: NineLayoutTag.MIDDLE_RIGHT,
-        }
-      )
-    ),
+    PolarPluginZoom({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.MIDDLE_RIGHT,
+    }),
+    PolarPluginGeoLocation({
+      displayComponent: mode === MODE.EXTERN,
+      layoutTag: NineLayoutTag.MIDDLE_RIGHT,
+    }),
     DishExportMap({
       displayComponent: mode === MODE.INTERN,
       layoutTag: NineLayoutTag.BOTTOM_LEFT,
     }),
-    PolarPluginExport(
-      merge({}, defaultOptions, {
-        displayComponent: mode === MODE.INTERN,
-        layoutTag: NineLayoutTag.BOTTOM_LEFT,
-      })
-    ),
+    PolarPluginExport({
+      displayComponent: mode === MODE.INTERN,
+      layoutTag: NineLayoutTag.BOTTOM_LEFT,
+    }),
   ])
 }
