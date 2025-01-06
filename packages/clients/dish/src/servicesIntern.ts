@@ -23,7 +23,7 @@ const commonConfigDenkmaelWMS = {
   singleTile: true,
 }
 
-const denkmaelerWmServiceIntern = {
+const denkmaelerWmService = {
   ...commonConfigDenkmaelWMS,
   id: denkmaelerWMS,
   name: 'Denkmäler (WMS)',
@@ -37,21 +37,21 @@ const beschriftungService = {
   layers: '9,10,11,12,13,15,16,17,26,27,35,36,34,33,32,31,30',
 }
 
-const kontrollbedarfServiceIntern = {
+const kontrollbedarfService = {
   ...commonConfigDenkmaelWMS,
   id: kontrollbedarf,
   name: 'Objekte mit Kontrollbedarf (WMS)',
   layers: '19,20,21,22,23,28,29',
 }
 
-const verlustServiceIntern = {
+const verlustService = {
   ...commonConfigDenkmaelWMS,
   id: verlust,
   name: 'Verlust',
   layers: '7,8',
 }
 
-export const denkmaelerWfServiceIntern = {
+export const denkmaelerWfService = {
   id: denkmaelerWFS,
   name: 'Denkmäler (WFS)',
   url: null,
@@ -106,10 +106,10 @@ const dop20ColInternService = {
 }
 
 export const servicesIntern = [
-  denkmaelerWfServiceIntern,
-  denkmaelerWmServiceIntern,
-  kontrollbedarfServiceIntern,
-  verlustServiceIntern,
+  denkmaelerWfService,
+  denkmaelerWmService,
+  kontrollbedarfService,
+  verlustService,
   beschriftungService,
   verwaltungsGrenzenService,
   bddEinInternService,
