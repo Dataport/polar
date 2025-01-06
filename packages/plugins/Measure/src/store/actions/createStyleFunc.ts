@@ -26,8 +26,7 @@ const getStyleTypeParameters = (styleType: Mode) =>
       pointWidth: 5,
     },
     delete: {
-      // larger lines and points
-      lineWidth: 4,
+      // larger points for clearer deletion
       pointWidth: 5,
     },
     select: {
