@@ -24,7 +24,7 @@ let trap
 export default Vue.extend({
   name: 'DishModal',
   computed: {
-    ...mapGetters(['map', 'configuration']),
+    ...mapGetters(['configuration']),
     ...mapGetters('plugin/modal', ['confirmed', 'closed', 'content']),
     selectedContent() {
       return lookup[this.content]
