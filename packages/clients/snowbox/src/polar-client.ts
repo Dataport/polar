@@ -21,14 +21,6 @@ const createMap = (layerConf) => {
     .then((map) => {
       // @ts-expect-error | adding it intentionally for e2e testing
       window.mapInstance = map
-      document
-        .getElementById('vuex-target-clicky')!
-        .addEventListener('click', () => {
-          map.$store.dispatch(
-            'plugin/gfi/setFeatureInformation',
-            exampleFeatureInformation
-          )
-        })
       addStoreSubscriptions(
         ['plugin/zoom/zoomLevel', 'vuex-target-zoom'],
         [
@@ -89,3 +81,11 @@ document
       target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
     })
   })
+
+document.getElementById('vuex-target-clicky')!.addEventListener('click', () =>
+  // @ts-expect-error | added for e2e testing
+  window.mapInstance.$store.dispatch(
+    'plugin/gfi/setFeatureInformation',
+    exampleFeatureInformation
+  )
+)
