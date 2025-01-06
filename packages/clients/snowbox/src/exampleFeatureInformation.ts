@@ -535,5 +535,4 @@ export const exampleFeatureInformation: FeaturesByLayerId = {
       id: 'DE.HH.UP_AUSGLEICHSFLAECHEN_443871',
     },
   ],
-  6059: [],
 }
