@@ -27,13 +27,13 @@ const getModify = (source: VectorSource) =>
 const getSelect = (
   drawLayer: VectorLayer<Feature>,
   selectedFeature: Feature | null,
-  specialStyle: StyleLike
+  currentModeStyle: StyleLike
 ) =>
   new Select({
     layers: [drawLayer],
     // presets select if feature is selected
     features: selectedFeature ? new Collection([selectedFeature]) : undefined,
-    style: specialStyle,
+    style: currentModeStyle,
   })
 
 export default async function (
@@ -45,11 +45,11 @@ export default async function (
 ): Promise<Interaction[]> {
   let interactions: Interaction[] = []
   let styleFunc = await dispatch('createStyleFunc')
-  const specialStyle: StyleLike = await dispatch('createStyleFunc', mode)
+  const currentModeStyle: StyleLike = await dispatch('createStyleFunc', mode)
   const drawSource = drawLayer.getSource() as VectorSource
 
   if (mode === 'draw') {
-    const draw = getDraw(drawSource, measureMode, specialStyle)
+    const draw = getDraw(drawSource, measureMode, currentModeStyle)
     draw.on('drawend', ({ feature }) => dispatch('setSelectedFeature', feature))
     interactions.push(draw)
   } else if (drawSource.getFeatures().length > 0) {
@@ -59,12 +59,12 @@ export default async function (
         dispatch('setSelectedFeature', features.item(0))
       )
       interactions.push(modify)
-      styleFunc = specialStyle
+      styleFunc = currentModeStyle
     } else if (mode === 'delete') {
       interactions = await dispatch('createDeleteInteraction', drawSource)
-      styleFunc = specialStyle
+      styleFunc = currentModeStyle
     } else if (mode === 'select') {
-      const select = getSelect(drawLayer, selectedFeature, specialStyle)
+      const select = getSelect(drawLayer, selectedFeature, currentModeStyle)
       // selects and deselects
       select
         .getFeatures()
