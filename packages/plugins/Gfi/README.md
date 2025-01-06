@@ -224,8 +224,7 @@ map.$store.dispatch('plugin/gfi/setFeatureInformation', {
 })
 ```
 
-The payload object has to include all layers configured to be used with this plugin.
-The value assigned to those keys is an array of GeoJSON-Features.
+The payload object expects a layer id as a key and an array of GeoJSON-Features as its value.
 
 The selected feature information can be reset by calling the method with an empty object.
 
