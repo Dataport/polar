@@ -1,4 +1,4 @@
-import { DragBox, Draw } from 'ol/interaction'
+import { DragBox, Draw, Modify } from 'ol/interaction'
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import VectorSource from 'ol/source/Vector'
 import { Fill, Stroke, Style } from 'ol/style'
@@ -60,14 +60,29 @@ export function setupMultiSelection({
   }
 
   if (directSelect) {
-    map.on('click', ({ coordinate, originalEvent }) =>
-      dispatch('getFeatureInfo', {
-        coordinateOrExtent: coordinate,
-        modifierPressed:
-          navigator.userAgent.indexOf('Mac') !== -1
-            ? originalEvent.metaKey
-            : originalEvent.ctrlKey,
-      })
-    )
+    map.on('click', ({ coordinate, originalEvent }) => {
+      const isDrawing = map
+        .getInteractions()
+        .getArray()
+        .some(
+          (interaction) =>
+            // these indicate other interactions are expected now
+            interaction instanceof Draw ||
+            interaction instanceof Modify ||
+            // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
+            interaction._isDeleteSelect ||
+            // @ts-expect-error | internal hack to detect it from @polar/plugin-measure
+            interaction._isMeasureSelect
+        )
+      if (!isDrawing) {
+        dispatch('getFeatureInfo', {
+          coordinateOrExtent: coordinate,
+          modifierPressed:
+            navigator.userAgent.indexOf('Mac') !== -1
+              ? originalEvent.metaKey
+              : originalEvent.ctrlKey,
+        })
+      }
+    })
   }
 }

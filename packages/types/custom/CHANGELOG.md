@@ -2,7 +2,9 @@
 
 ## unpublished
 
-- Feature: Add new parameter `multiSelect` to `GfiConfiguration`.
+- Feature: Add new interface `MeasureConfiguration` of the new plugin `@polar/plugin-measure`.
+- Feature: Add new property `measure` for the new plugin `@polar/plugin-measure` to `MapConfig`.
+- Feature: Add new property `multiSelect` to `GfiConfiguration`.
 
 ## 1.5.0
 

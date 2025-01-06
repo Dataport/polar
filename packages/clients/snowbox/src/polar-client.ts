@@ -22,6 +22,8 @@ const createMap = (layerConf) => {
       window.mapInstance = map
       addStoreSubscriptions(
         ['plugin/zoom/zoomLevel', 'vuex-target-zoom'],
+        ['plugin/measure/measure', 'vuex-target-measure'],
+        ['plugin/measure/selectedUnit', 'vuex-target-unit'],
         [
           'plugin/gfi/featureInformation',
           'vuex-target-gfi',
