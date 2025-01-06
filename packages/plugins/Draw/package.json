@@ -23,10 +23,8 @@
     "src/**/*",
     "CHANGELOG.md"
   ],
-  "dependencies": {
-    "@polar/core": "^2.0.0"
-  },
   "peerDependencies": {
+    "@polar/core": "^2.0.0",
     "@repositoryname/vuex-generators": "^1.1.2",
     "ol": "^9.2.4",
     "vue": "^2.6.14",
