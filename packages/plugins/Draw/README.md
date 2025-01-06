@@ -70,7 +70,7 @@ draw: {
 
 </details>
 
-##### draw.textStyle
+#### draw.textStyle
 
 | fieldName | type | description |
 | - | - | - |
@@ -139,7 +139,7 @@ map.subscribe('plugin/draw/featureCollection', (featureCollection) => {
 
 The returned featureCollection is a [GeoJSON](https://geojson.org/) FeatureCollection. It includes all drawn features and updates on changes.
 
-## Actions
+### Actions
 
 ```js
 map.$store.dispatch('plugin/draw/addFeatures', {
