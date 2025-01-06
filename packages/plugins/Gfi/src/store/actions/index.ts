@@ -109,10 +109,9 @@ export const makeActions = () => {
           if (!isDrawing) {
             dispatch('getFeatureInfo', {
               coordinateOrExtent: coordinate,
-              modifierPressed:
-                navigator.userAgent.includes('Mac')
-                  ? originalEvent.metaKey
-                  : originalEvent.ctrlKey,
+              modifierPressed: navigator.userAgent.includes('Mac')
+                ? originalEvent.metaKey
+                : originalEvent.ctrlKey,
             })
           }
         })
