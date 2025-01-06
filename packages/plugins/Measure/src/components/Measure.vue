@@ -95,9 +95,6 @@ export default Vue.extend({
       'setUnit',
       'clearLayer',
     ]),
-    measure(value: string): string {
-      return value ? 'area' : 'distance'
-    },
   },
 })
 </script>
