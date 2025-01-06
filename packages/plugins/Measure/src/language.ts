@@ -17,6 +17,10 @@ const language: LanguageOption[] = [
             edit: 'Bearbeiten',
             delete: 'Löschen',
           },
+          unit: {
+            metres: 'm / m²',
+            kilometres: 'km / km²',
+          },
           title: {
             measureMode: 'Messmodus',
             mode: 'Modus',
@@ -46,6 +50,10 @@ const language: LanguageOption[] = [
             draw: 'Draw',
             edit: 'Edit',
             delete: 'Delete',
+          },
+          unit: {
+            metres: 'm / m²',
+            kilometres: 'km / km²',
           },
           title: {
             measureMode: 'Measure mode',

@@ -83,7 +83,10 @@ export default Vue.extend({
       edit: 'common:plugins.measure.mode.edit',
       delete: 'common:plugins.measure.mode.delete',
     }),
-    selectableUnits: () => ({ m: 'm / m²', km: 'km / km²' }),
+    selectableUnits: () => ({
+      m: 'common:plugins.measure.unit.metres',
+      km: 'common:plugins.measure.unit.kilometres',
+    }),
   },
   methods: {
     ...mapActions('plugin/measure', [
