@@ -110,7 +110,7 @@ export const makeActions = () => {
             dispatch('getFeatureInfo', {
               coordinateOrExtent: coordinate,
               modifierPressed:
-                navigator.userAgent.indexOf('Mac') !== -1
+                navigator.userAgent.includes('Mac')
                   ? originalEvent.metaKey
                   : originalEvent.ctrlKey,
             })
