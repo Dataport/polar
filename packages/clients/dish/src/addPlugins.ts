@@ -16,17 +16,25 @@ import PolarPluginToast from '@polar/plugin-toast'
 import PolarPluginZoom from '@polar/plugin-zoom'
 import merge from 'lodash.merge'
 
+import {
+  AddressSearchConfiguration,
+  SearchMethodFunction,
+} from '@polar/lib-custom-types'
 import { extendGfi } from './utils/extendGfi'
 import { search } from './utils/search'
-import { autocomplete, selectResult } from './utils/autocomplete'
+import {
+  autocomplete,
+  initializeAutocomplete,
+  selectResult,
+} from './utils/autocomplete'
 import { denkmalSearchResult } from './utils/denkmalSearchIntern'
-import { searchMethods } from './mapConfigurations/searchConfigParams'
 import DishModal from './plugins/Modal'
 import DishHeader from './plugins/Header'
 import DishGfiContent from './plugins/Gfi'
 import { MODE } from './enums'
 import DishGfiIntern from './plugins/GfiIntern'
 import DishExportMap from './plugins/DishExportMap'
+import { searchMethods } from './mapConfigurations/searchConfigParams'
 
 const defaultOptions = {
   displayComponent: true,
@@ -46,6 +54,32 @@ const pluginGfiIntern = {
 
 function getPluginGfiConfig(mode: keyof typeof MODE) {
   return mode === MODE.EXTERN ? pluginGfiExtern : pluginGfiIntern
+}
+
+function getAddressSearchConfig(
+  mode: keyof typeof MODE
+): Partial<AddressSearchConfiguration> {
+  const addressSearchConfig: Partial<AddressSearchConfiguration> = {
+    displayComponent: true,
+    layoutTag: NineLayoutTag.TOP_LEFT,
+    addLoading: 'plugin/loadingIndicator/addLoadingKey',
+    removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+    customSelectResult:
+      mode === MODE.EXTERN
+        ? { [searchMethods.denkmalsucheAutocomplete.categoryId]: selectResult }
+        : {
+            [searchMethods.denkmalsucheDishIntern.categoryId]:
+              denkmalSearchResult,
+          },
+  }
+  if (mode === MODE.EXTERN) {
+    initializeAutocomplete()
+    addressSearchConfig.customSearchMethods = {
+      dish: search as SearchMethodFunction,
+      autocomplete,
+    }
+  }
+  return addressSearchConfig
 }
 
 // this is fine for list-like setup functions
@@ -93,27 +127,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       layoutTag: NineLayoutTag.TOP_MIDDLE,
     }),
     PolarPluginAddressSearch(
-      merge(
-        {},
-        {
-          displayComponent: true,
-          layoutTag: NineLayoutTag.TOP_LEFT,
-          addLoading: 'plugin/loadingIndicator/addLoadingKey',
-          removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-          customSearchMethods:
-            mode === MODE.EXTERN ? { dish: search, autocomplete } : {},
-          customSelectResult:
-            mode === MODE.EXTERN
-              ? {
-                  [searchMethods.denkmalsucheAutocomplete.categoryId]:
-                    selectResult,
-                }
-              : {
-                  [searchMethods.denkmalsucheDishIntern.categoryId]:
-                    denkmalSearchResult,
-                },
-        }
-      )
+      getAddressSearchConfig(mode) as AddressSearchConfiguration
     ),
     PolarPluginPins({
       displayComponent: mode === MODE.EXTERN,
