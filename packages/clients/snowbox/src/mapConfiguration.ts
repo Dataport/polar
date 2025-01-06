@@ -161,7 +161,7 @@ export const mapConfiguration = {
   gfi: {
     mode: 'bboxDot',
     activeLayerPath: 'plugin/layerChooser/activeMaskIds',
-    boxSelect: true,
+    multiSelect: 'circle',
     layers: {
       [uBahn]: {
         geometry: true,

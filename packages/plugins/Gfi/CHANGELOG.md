@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new configuration parameter `multiSelect` to enable the possibility to choose between the selecting multiple features through a box or through a circle. The addition of this parameter deprecates the previously used parameter `boxSelect`.
+
 ## 2.0.0
 
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `^7.1.0` to `^9.2.4`.

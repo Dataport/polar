@@ -359,6 +359,7 @@ export interface GfiConfiguration extends PluginOptions {
   layers: Record<string, GfiLayerConfiguration>
   activeLayerPath?: string
   afterLoadFunction?: GfiAfterLoadFunction
+  boxSelect?: boolean
   /**
    * If required the stroke and fill of the highlighted feature can be configured.
    * Otherwise, a default style is applied.
@@ -378,7 +379,7 @@ export interface GfiConfiguration extends PluginOptions {
    */
   maxFeatures?: number
   mode?: 'bboxDot' | 'intersects'
-  boxSelect?: boolean
+  multiSelect?: 'box' | 'circle'
   renderType?: RenderType
 }
 
