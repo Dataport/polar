@@ -1,4 +1,5 @@
 /* eslint-disable max-lines-per-function */
+// function includes all plugin configs specifically for internal map use
 import { SearchMethodConfiguration } from '@polar/lib-custom-types'
 import { alkisWfService } from '../services'
 import {
