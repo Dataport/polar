@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import client from '@polar/core'
 import merge from 'lodash.merge'
 import packageInfo from '../package.json'
@@ -9,6 +8,7 @@ import { getMapConfiguration } from './mapConfigurations/mapConfig'
 import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
 import { zoomToFeatureById } from './utils/zoomToFeatureById'
+import { DishUrlParams } from './types'
 
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
@@ -37,27 +37,9 @@ export default {
         // using naming from backend to avoid multiple names for same thing
         const objektId = parameters.get('ObjektID')
         if (mode === 'INTERN') {
-          map.subscribe('plugin/export/exportedMap', (screenshot) => {
-            if (screenshot) {
-              const newWindow = window.open()
-              newWindow?.document.write(
-                `<img src="${screenshot}" alt="Screenshot">`
-              )
-            }
-          })
+          subscribeToExportedMap(map)
           if (typeof objektId === 'string' && objektId !== '') {
-            zoomToFeatureById(
-              map,
-              objektId,
-              `${urlParams.internServicesBaseUrl}/wfs`,
-              {
-                fieldName: 'objektid',
-                featurePrefix: 'app',
-                typeName: 'TBLGIS_ORA',
-                xmlns: 'http://www.deegree.org/app',
-                useRightHandWildcard: false,
-              }
-            )
+            zoomToInternalFeature(map, objektId, urlParams)
           }
         } else if (typeof objektId === 'string' && mode === 'EXTERN') {
           navigateToDenkmal(map, objektId)
@@ -72,4 +54,32 @@ export default {
         }
       })
   },
+}
+
+function subscribeToExportedMap(instance) {
+  instance.subscribe('plugin/export/exportedMap', (screenshot) => {
+    if (screenshot) {
+      const newWindow = window.open()
+      newWindow?.document.write(`<img src="${screenshot}" alt="Screenshot">`)
+    }
+  })
+}
+
+function zoomToInternalFeature(
+  instance,
+  objektId: string,
+  urlParams: DishUrlParams
+) {
+  zoomToFeatureById(
+    instance,
+    objektId,
+    `${urlParams.internServicesBaseUrl}/wfs`,
+    {
+      fieldName: 'objektid',
+      featurePrefix: 'app',
+      typeName: 'TBLGIS_ORA',
+      xmlns: 'http://www.deegree.org/app',
+      useRightHandWildcard: false,
+    }
+  )
 }
