@@ -97,12 +97,10 @@ export interface ModalState {
   content: number
 }
 
-export interface UrlParams {
+export interface DishUrlParams {
   internalHost: string
   internServicesBaseUrl: string
 }
-
-export type DishUrlParams = UrlParams
 
 export interface DishMapConfig
   extends Omit<MapConfig, 'startCenter' | 'layerConf'> {
