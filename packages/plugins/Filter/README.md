@@ -4,9 +4,9 @@
 
 The Filter plugin can be used to filter arbitrary configurable vector layers by their properties.
 
-### Configuration
+## Configuration
 
-#### filter
+### filter
 
 | fieldName | type | description |
 | - | - | - |
@@ -64,7 +64,7 @@ The following chapters contain drafts in this format. Please mind that they neit
 
 </details>
 
-##### filter.filterConfiguration
+#### filter.filterConfiguration
 
 | fieldName | type | description |
 | - | - | - |
@@ -86,7 +86,7 @@ time: {
 },
 ```
 
-###### filter.filterConfiguration.category
+##### filter.filterConfiguration.category
 
 | fieldName | type | description |
 | - | - | - |
@@ -114,7 +114,7 @@ This example configuration will add these checkboxes:
 ▢ Strawberry
 ```
 
-###### filter.filterConfiguration.time
+##### filter.filterConfiguration.time
 
 | fieldName | type | description |
 | - | - | - |
