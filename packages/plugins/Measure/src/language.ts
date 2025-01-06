@@ -25,7 +25,7 @@ const language: LanguageOption[] = [
           delete: {
             button: 'Alle löschen',
             information:
-              'Klicke auf die Ecken einer Messung, um diese zu löschen.\nLinien benötigen mindestens 2, Polygone mindestens 3.',
+              'Klicken Sie auf die Ecken einer Messung, um diese zu löschen.\nLinien benötigen mindestens 2, Polygone mindestens 3.',
           },
         },
       },
