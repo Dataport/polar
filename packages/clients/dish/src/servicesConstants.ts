@@ -1,4 +1,4 @@
-export const isDevMode = process.env.NODE_ENV === 'development'
+const isDevMode = process.env.NODE_ENV === 'development'
 
 /* NOTE
  * #{} codes are read by Octopus Deploy.
