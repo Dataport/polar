@@ -6,9 +6,9 @@ The GFI plugin can be used to fetch and optionally display GFI (GetFeatureInfo) 
 
 > ⚠️ The display feature is currently not meant for production. Please use data bindings for display to avoid obstructing the map client.
 
-### Configuration
+## Configuration
 
-#### gfi
+### gfi
 
 | fieldName | type | description |
 | - | - | - |
@@ -78,7 +78,7 @@ function afterLoadFunction(featuresByLayerId: Record<string, GeoJsonFeature[]>):
 
 </details>
 
-##### gfi.gfiLayerConfiguration
+#### gfi.gfiLayerConfiguration
 
 | fieldName | type | description |
 | - | - | - |
@@ -137,7 +137,7 @@ layers: {
 }
 ```
 
-##### gfi.customHighlightStyle
+#### gfi.customHighlightStyle
 
 | fieldName | type | description |
 | - | - | - |
@@ -157,7 +157,7 @@ customHighlightStyle: {
 },
 ```
 
-##### gfi.featureList
+#### gfi.featureList
 
 | fieldName | type | description |
 | - | - | - |
