@@ -1,3 +1,4 @@
+import { Map } from 'ol'
 import { DragBox, Draw, Modify } from 'ol/interaction'
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import VectorSource from 'ol/source/Vector'
@@ -15,6 +16,21 @@ const circleDraw = new Draw({
   condition: platformModifierKeyOnly,
 })
 const dragBox = new DragBox({ condition: platformModifierKeyOnly })
+
+const isDrawing = (map: Map) =>
+  map
+    .getInteractions()
+    .getArray()
+    .some(
+      (interaction) =>
+        // @ts-expect-error | internal hack to detect it from @polar/plugin-gfi
+        (interaction instanceof Draw && interaction._isMultiSelect) ||
+        interaction instanceof Modify ||
+        // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
+        interaction._isDeleteSelect ||
+        // @ts-expect-error | internal hack to detect it from @polar/plugin-measure
+        interaction._isMeasureSelect
+    )
 
 // Can be removed once boxSelect is no longer in use
 // eslint-disable-next-line max-lines-per-function
@@ -61,20 +77,7 @@ export function setupMultiSelection({
 
   if (directSelect) {
     map.on('click', ({ coordinate, originalEvent }) => {
-      const isDrawing = map
-        .getInteractions()
-        .getArray()
-        .some(
-          (interaction) =>
-            // these indicate other interactions are expected now
-            interaction instanceof Draw ||
-            interaction instanceof Modify ||
-            // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
-            interaction._isDeleteSelect ||
-            // @ts-expect-error | internal hack to detect it from @polar/plugin-measure
-            interaction._isMeasureSelect
-        )
-      if (!isDrawing) {
+      if (!isDrawing(map)) {
         dispatch('getFeatureInfo', {
           coordinateOrExtent: coordinate,
           modifierPressed:
