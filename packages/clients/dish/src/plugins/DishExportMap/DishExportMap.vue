@@ -73,6 +73,7 @@ export default Vue.extend({
     exportMapAsPdfUrl: '',
     wmsLayerUrl: '',
     wfsLayerUrl: '',
+    wfsLayerFeatureType: '',
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
@@ -90,7 +91,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.setUrlsFromConfig()
+    this.configureSettings()
     const element = this.$refs.rectangle as HTMLElement
     if (!this.overlay) {
       this.overlay = new Overlay({
@@ -103,13 +104,15 @@ export default Vue.extend({
     }
   },
   methods: {
-    setUrlsFromConfig() {
+    configureSettings() {
       this.wmsLayerUrl ||= this.configuration.layerConf.find(
         (layer) => layer.id === denkmaelerWMS
       ).url
-      this.wfsLayerUrl ||= this.configuration.layerConf.find(
+      const wfsLayer = this.configuration.layerConf.find(
         (layer) => layer.id === denkmaelerWFS
-      ).url
+      )
+      this.wfsLayerUrl = wfsLayer.url
+      this.wfsLayerFeatureType = wfsLayer.featureType
       this.printImageUrlProd ||= `${this.configuration.dishExportMap.internalHost}/Content/MapsTmp`
       this.exportMapAsPdfUrl ||= `${this.configuration.dishExportMap.internalHost}/Content/Objekt/Kartenausgabe.aspx`
     },
@@ -190,7 +193,7 @@ export default Vue.extend({
           '0,9,1,10,2,11,3,12,4,13,25,27,24,26,6,15,19,30,20,31,21,32,22,33,23,34,29,36,28,35',
         urlWFS: `${this.wfsLayerUrl}?`,
         VersionWFS: '1.1.0',
-        LayerNameWFS: 'TBLGIS_ORA',
+        LayerNameWFS: this.wfsLayerFeatureType,
         PropertyNameWFS: 'objektid',
         FilterTypeWFS: 'EQUAL_TO',
         scaleText: this.scaleWithUnit,
