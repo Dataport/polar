@@ -1,4 +1,4 @@
-import client from '@polar/core'
+import client, { MapInstance } from '@polar/core'
 import merge from 'lodash.merge'
 import packageInfo from '../package.json'
 import { navigateToDenkmal } from './utils/navigateToDenkmal'
@@ -54,7 +54,7 @@ export default {
   },
 }
 
-function subscribeToExportedMap(instance) {
+function subscribeToExportedMap(instance: MapInstance) {
   instance.subscribe('plugin/export/exportedMap', (screenshot) => {
     if (screenshot) {
       const newWindow = window.open()
@@ -64,7 +64,7 @@ function subscribeToExportedMap(instance) {
 }
 
 function zoomToInternalFeature(
-  instance,
+  instance: MapInstance,
   objektId: string,
   urlParams: DishUrlParams
 ) {
