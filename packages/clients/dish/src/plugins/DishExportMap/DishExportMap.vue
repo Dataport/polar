@@ -114,16 +114,11 @@ export default Vue.extend({
       this.exportMapAsPdfUrl ||= `${this.configuration.dishExportMap.internalHost}/Content/Objekt/Kartenausgabe.aspx`
     },
     showRectangleAndDialog() {
-      if (
-        !this.transformedCoordinate ||
-        this.transformedCoordinate.length === 0
-      ) {
+      if (this.transformedCoordinate.length === 0 || !this.overlay) {
         return
       }
-      if (this.overlay) {
-        this.showOverlay = true
-        this.dialog = true
-      }
+      this.showOverlay = true
+      this.dialog = true
     },
     setTitle() {
       if (this.overlay && this.hasObjectProperties) {
