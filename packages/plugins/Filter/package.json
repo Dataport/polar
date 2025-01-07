@@ -19,7 +19,7 @@
   ],
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "^9.2.4",
+    "ol": "^10.2.1",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },

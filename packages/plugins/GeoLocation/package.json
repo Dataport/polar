@@ -24,7 +24,7 @@
     "CHANGELOG.md"
   ],
   "peerDependencies": {
-    "ol": "^9.2.4"
+    "ol": "^10.2.1"
   },
   "devDependencies": {
     "@polar/lib-passes-boundary-check": "^2.0.0",

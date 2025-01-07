@@ -6,8 +6,7 @@ import {
   MapConfig,
   PolarActionContext,
 } from '@polar/lib-custom-types'
-import { Map, Feature } from 'ol'
-import { Geometry } from 'ol/geom'
+import { Map } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
 import compare from 'just-compare'
 import { addFeature } from '../../utils/displayFeatureLayer'
@@ -137,7 +136,7 @@ const errorSymbol = (err) => Symbol(err)
  */
 // eslint-disable-next-line max-lines-per-function
 const gfiRequest =
-  (featureDisplayLayer: VectorLayer<Feature<Geometry>>) =>
+  (featureDisplayLayer: VectorLayer) =>
   async (
     {
       commit,
@@ -188,6 +187,5 @@ const gfiRequest =
       )
   }
 
-export const debouncedGfiRequest = (
-  featureDisplayLayer: VectorLayer<Feature<Geometry>>
-) => debounce(gfiRequest(featureDisplayLayer), 50)
+export const debouncedGfiRequest = (featureDisplayLayer: VectorLayer) =>
+  debounce(gfiRequest(featureDisplayLayer), 50)

@@ -19,6 +19,6 @@
     "directory": "packages/lib/getCluster"
   },
   "peerDependencies": {
-    "ol": "^9.2.4"
+    "ol": "^10.2.1"
   }
 }

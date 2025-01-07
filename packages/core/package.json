@@ -20,7 +20,6 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",
-    "@masterportal/masterportalapi": "2.40.0",
     "@polar/components": "^2.2.0",
     "@polar/lib-idx": "^1.0.0",
     "@polar/lib-get-cluster": "^2.0.0",
@@ -39,7 +38,8 @@
     "vuex": "^3.6.2"
   },
   "peerDependencies": {
-    "ol": "^9.2.4"
+    "@masterportal/masterportalapi": "2.42.1",
+    "ol": "^10.2.1"
   },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.4.0"
