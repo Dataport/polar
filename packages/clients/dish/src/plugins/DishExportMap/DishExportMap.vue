@@ -221,8 +221,8 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .rectangle_inactive {
-  width: 0px;
-  height: 0px;
+  width: 0;
+  height: 0;
 }
 
 .rectangle_active {
