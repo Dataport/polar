@@ -157,7 +157,7 @@ export default Vue.extend({
           yMax: bottomRight[1],
         }
       }
-      console.error('Center coordinates are undefined.')
+      console.error('@polar/client-dish: Center coordinates are undefined.')
     },
     getPrintParams() {
       const backgroundLayer = this.backgroundLayer
