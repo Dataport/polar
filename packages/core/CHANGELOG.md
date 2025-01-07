@@ -3,6 +3,7 @@
 ## unpublished
 
 - Fix: Add `crossOrigin` differently to layer sources that are an instance of `ImageWMS` as they require it being set as `crossOrigin_` to be recognized.
+- Feature: Additionally export `MapInstance` type.
 
 ## 2.0.0
 
