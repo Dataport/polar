@@ -138,31 +138,34 @@ export default Vue.extend({
       }
     },
     getRectangleCoordinates() {
-      if (this.transformedCoordinate) {
-        const centerPixel = this.map.getPixelFromCoordinate(
-          this.transformedCoordinate
-        )
-        const topLeftPixel = [
-          centerPixel[0] - rectangleWidth / 2,
-          centerPixel[1] - rectangleHeight / 2,
-        ]
-        const bottomRightPixel = [
-          centerPixel[0] + rectangleWidth / 2,
-          centerPixel[1] + rectangleHeight / 2,
-        ]
-        const topLeft = this.map.getCoordinateFromPixel(topLeftPixel)
-        const bottomRight = this.map.getCoordinateFromPixel(bottomRightPixel)
+      const centerPixel = this.map.getPixelFromCoordinate(
+        this.transformedCoordinate
+      )
+      const topLeftPixel = [
+        centerPixel[0] - rectangleWidth / 2,
+        centerPixel[1] - rectangleHeight / 2,
+      ]
+      const bottomRightPixel = [
+        centerPixel[0] + rectangleWidth / 2,
+        centerPixel[1] + rectangleHeight / 2,
+      ]
+      const topLeft = this.map.getCoordinateFromPixel(topLeftPixel)
+      const bottomRight = this.map.getCoordinateFromPixel(bottomRightPixel)
 
-        return {
-          xMin: topLeft[0],
-          xMax: bottomRight[0],
-          yMin: topLeft[1],
-          yMax: bottomRight[1],
-        }
+      return {
+        xMin: topLeft[0],
+        xMax: bottomRight[0],
+        yMin: topLeft[1],
+        yMax: bottomRight[1],
       }
-      console.error('@polar/client-dish: Center coordinates are undefined.')
     },
     getPrintParams() {
+      if (!this.transformedCoordinate) {
+        console.error(
+          '@polar/client-dish: Center coordinates are undefined. Print aborted.'
+        )
+        return
+      }
       const backgroundLayer = this.backgroundLayer
       const bbox = this.getRectangleCoordinates()
       return {
