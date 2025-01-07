@@ -1,7 +1,10 @@
+import { GeoJsonProperties } from 'geojson'
+
 export const prepareData = (
-  currentProperties: Record<string, string>,
+  currentProperties: GeoJsonProperties,
   orderedFields: Array<{ key: string; label: string }>
 ): Array<string[]> => {
+  if (!currentProperties) return []
   return orderedFields
     .map(({ key, label }) => [label, currentProperties[key]])
     .filter(([value]) => value !== undefined && value !== '')
@@ -9,10 +12,11 @@ export const prepareData = (
 
 export const createComposedField = (
   infoFields: Array<string>,
-  currentProperties: Record<string, string>,
+  currentProperties: GeoJsonProperties,
   label: string,
   delimiter = ' '
 ) => {
+  if (!currentProperties) return null
   const composedDataField = infoFields
     .map((field) => currentProperties[field])
     .filter((value) => value)
