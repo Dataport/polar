@@ -165,6 +165,7 @@ export default Vue.extend({
       return {
         NewTab: true,
         objektueberschrift: this.title,
+        // incorrect spelling because of backend requirements
         masssstab: this.scaleValue,
         printApproach: 'scale',
         printRequester: 'client',
