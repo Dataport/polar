@@ -44,5 +44,8 @@
   },
   "nx": {
     "includedScripts": ["build", "dev"]
+  },
+  "dependencies": {
+    "@repositoryname/vuex-generators": "^1.1.2"
   }
 }
