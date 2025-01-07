@@ -77,6 +77,8 @@ A document rendering the map client could e.g. look like this:
       const meldemichelMapInstance = await meldemichelMapClient.createMap({
         containerId: 'meldemichel-map-client',
         mode: 'REPORT', // or 'SINGLE',
+        // This layer only works in 'SINGLE' mode and should not be activated in the others
+        stadtwaldActive: true, // or `false`; if not set, previous state is kept; off by default
         // For 'SINGLE' mode where a singular coordinate is inspected/worked on
         configOverride: {
           pins: {
@@ -102,6 +104,12 @@ A document rendering the map client could e.g. look like this:
         mapBaseLayer: 452,
         mapCenter: '566808.8386735287,5935896.23173797',
         // NOTE: vendor_maps_distance_to and -_plz are not read
+      })
+
+      /* To change the stadtwald layer's visibility in 'SINGLE' mode, use this;
+       * this key can be used standalone or within the call seen above */
+      meldemichelMapInstance.$store.dispatch('meldemichel/setMapState', {
+        stadtwaldActive: true, // or false
       })
 
       // to retrieve map state updates, use this snippet:
