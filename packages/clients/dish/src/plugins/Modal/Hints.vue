@@ -1,17 +1,5 @@
 <template>
-  <v-card elevation="12" class="modal-card">
-    <v-btn icon class="modal-info-close-button" @click="closed = true">
-      <v-icon>fa-xmark</v-icon>
-    </v-btn>
-    <v-card-title class="modal-title" tag="h1">
-      Denkmalkarte Schleswig-Holstein
-    </v-card-title>
-    <v-card-title class="modal-title" style="font-size: 1.3rem" tag="h2">
-      Benutzungshinweise
-    </v-card-title>
-    <v-card-title class="modal-title" style="font-size: 1.1rem" tag="h3">
-      Allgemeine Informationen
-    </v-card-title>
+  <SharedHints :main-title="mainTitle" :title="title" :sub-title="subTitle">
     <v-card-text>
       Kulturdenkmale sind nach dem
       <a
@@ -246,28 +234,30 @@
         SH 2021/22.
       </a>
     </v-card-text>
-    <v-card-actions class="modal-actions">
-      <v-btn
-        class="text-none primaryContrast--text"
-        color="primary"
-        @click="closed = true"
-      >
-        Textfenster schließen
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+  </SharedHints>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import { getSetGenerator } from '@repositoryname/vuex-generators'
+import SharedHints from './SharedHints.vue'
 
 export default Vue.extend({
   name: 'DishModalHints',
+  components: {
+    SharedHints,
+  },
   computed: {
-    ...getSetGenerator('plugin/modal', ['closed']),
     ...mapGetters('plugin/addressSearch', ['selectedGroup']),
+    mainTitle() {
+      return 'Denkmalkarte Schleswig-Holstein'
+    },
+    title() {
+      return 'Benutzungshinweise'
+    },
+    subTitle() {
+      return 'Allgemeine Informationen'
+    },
     maxFeatures() {
       return this.selectedGroup.find(
         (searchService) =>
@@ -282,18 +272,7 @@ export default Vue.extend({
 .polar-unwrappable {
   white-space: nowrap;
 }
-.modal-info-close-button {
-  position: absolute;
-  top: 2em;
-  right: 2em;
-}
 .modal-link {
   display: inline !important;
-}
-.modal-actions {
-  justify-content: end !important;
-  @media only screen and (max-width: 768px) {
-    justify-content: center !important;
-  }
 }
 </style>
