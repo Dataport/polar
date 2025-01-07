@@ -197,7 +197,6 @@ export default Vue.extend({
         PropertyNameWFS: 'objektid',
         FilterTypeWFS: 'EQUAL_TO',
         scaleText: this.scaleWithUnit,
-        proxyURL: 'zs-proxy.dataport.de:3128',
         PrintImageURL: this.printImageUrlProd,
         PrintImagePath: 'ContentMapsTmp',
       }
