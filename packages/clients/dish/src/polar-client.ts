@@ -20,39 +20,37 @@ export default {
     client.rawLayerList.initializeLayerList(layerConf)
     const mapConfiguration = getMapConfiguration(mode, urlParams)
 
-    await client
-      .createMap({
-        containerId,
-        mapConfiguration: merge(
-          {
-            ...mapConfiguration,
-            layerConf,
-          },
-          configOverride || {}
-        ),
-      })
-      .then((map) => {
-        const parameters = new URL(document.location as unknown as string)
-          .searchParams
-        // using naming from backend to avoid multiple names for same thing
-        const objektId = parameters.get('ObjektID')
-        if (mode === 'INTERN') {
-          subscribeToExportedMap(map)
-          if (typeof objektId === 'string' && objektId !== '') {
-            zoomToInternalFeature(map, objektId, urlParams)
-          }
-        } else if (typeof objektId === 'string' && mode === 'EXTERN') {
-          navigateToDenkmal(map, objektId)
-        }
-        // @ts-expect-error | intentionally expand window; no environment affected
-        window.openBenutzungshinweise = function (isIntern = false) {
-          map.$store.commit(
-            'plugin/modal/setContent',
-            isIntern ? CONTENT_ENUM.HINTSINTERN : CONTENT_ENUM.HINTS
-          )
-          map.$store.commit('plugin/modal/setClosed', false)
-        }
-      })
+    const map = await client.createMap({
+      containerId,
+      mapConfiguration: merge(
+        {
+          ...mapConfiguration,
+          layerConf,
+        },
+        configOverride || {}
+      ),
+    })
+
+    const parameters = new URL(document.location as unknown as string)
+      .searchParams
+    // using naming from backend to avoid multiple names for same thing
+    const objektId = parameters.get('ObjektID')
+    if (mode === 'INTERN') {
+      subscribeToExportedMap(map)
+      if (typeof objektId === 'string' && objektId !== '') {
+        zoomToInternalFeature(map, objektId, urlParams)
+      }
+    } else if (typeof objektId === 'string' && mode === 'EXTERN') {
+      navigateToDenkmal(map, objektId)
+    }
+    // @ts-expect-error | intentionally expand window; no environment affected
+    window.openBenutzungshinweise = function (isIntern = false) {
+      map.$store.commit(
+        'plugin/modal/setContent',
+        isIntern ? CONTENT_ENUM.HINTSINTERN : CONTENT_ENUM.HINTS
+      )
+      map.$store.commit('plugin/modal/setClosed', false)
+    }
   },
 }
 
