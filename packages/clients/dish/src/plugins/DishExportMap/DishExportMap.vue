@@ -90,6 +90,7 @@ export default Vue.extend({
     },
   },
   mounted() {
+    this.setUrlsFromConfig()
     const element = this.$refs.rectangle as HTMLElement
     if (!this.overlay) {
       this.overlay = new Overlay({
@@ -203,7 +204,6 @@ export default Vue.extend({
       }
     },
     printMapAsPdf() {
-      this.setUrlsFromConfig()
       this.dialog = false
       const printParams = this.getPrintParams()
       const queryString = Object.keys(printParams)
