@@ -204,10 +204,10 @@ export default Vue.extend({
     printMapAsPdf() {
       this.dialog = false
       const printParams = this.getPrintParams()
-      const queryString = Object.keys(printParams)
+      const queryString = Object.entries(printParams)
         .map(
-          (key) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(printParams[key])}`
+          ([key, value]) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
         )
         .join('&')
       const encodedUrl = `${this.exportMapAsPdfUrl}?${queryString}`
