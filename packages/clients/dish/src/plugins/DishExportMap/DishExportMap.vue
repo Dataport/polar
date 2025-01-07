@@ -59,13 +59,14 @@ import { mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
 import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
 
+const rectangleWidth = 893
+const rectangleHeight = 473
+
 export default Vue.extend({
   name: 'DishExportMap',
   data: () => ({
     overlay: null as Overlay | null,
     showOverlay: false,
-    rectangleWidth: 893,
-    rectangleHeight: 473,
     dialog: false,
     title: '',
     printImageUrlProd: '',
@@ -143,12 +144,12 @@ export default Vue.extend({
           this.transformedCoordinate
         )
         const topLeftPixel = [
-          centerPixel[0] - this.rectangleWidth / 2,
-          centerPixel[1] - this.rectangleHeight / 2,
+          centerPixel[0] - rectangleWidth / 2,
+          centerPixel[1] - rectangleHeight / 2,
         ]
         const bottomRightPixel = [
-          centerPixel[0] + this.rectangleWidth / 2,
-          centerPixel[1] + this.rectangleHeight / 2,
+          centerPixel[0] + rectangleWidth / 2,
+          centerPixel[1] + rectangleHeight / 2,
         ]
         const topLeft = this.map.getCoordinateFromPixel(topLeftPixel)
         const bottomRight = this.map.getCoordinateFromPixel(bottomRightPixel)
