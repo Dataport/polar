@@ -83,6 +83,11 @@ export default Vue.extend({
     hasObjectProperties(): boolean {
       return this.currentProperties && this.currentProperties.objektid
     },
+    backgroundLayer() {
+      return this.configuration.layerConf.find(
+        (layer) => layer.id === this.activeBackgroundId
+      )
+    },
   },
   mounted() {
     const element = this.$refs.rectangle as HTMLElement
@@ -97,11 +102,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    getBackgroundLayer() {
-      return this.configuration.layerConf.find(
-        (layer) => layer.id === this.activeBackgroundId
-      )
-    },
     setUrlsFromConfig() {
       this.wmsLayerUrl ||= this.configuration.layerConf.find(
         (layer) => layer.id === denkmaelerWMS
@@ -164,7 +164,7 @@ export default Vue.extend({
       console.error('Center coordinates are undefined.')
     },
     getPrintParams() {
-      const backgroundLayer = this.getBackgroundLayer()
+      const backgroundLayer = this.backgroundLayer
       const bbox = this.getRectangleCoordinates()
       return {
         NewTab: true,
