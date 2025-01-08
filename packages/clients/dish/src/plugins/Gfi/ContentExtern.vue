@@ -1,17 +1,5 @@
 <template>
-  <v-card class="dish-gfi-content">
-    <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
-      <ActionButton></ActionButton>
-      <v-spacer></v-spacer>
-      <v-btn
-        icon
-        small
-        :aria-label="$t('common:plugins.gfi.header.close')"
-        @click="close(true)"
-      >
-        <v-icon small>fa-xmark</v-icon>
-      </v-btn>
-    </v-card-actions>
+  <SharedContent>
     <v-card-title class="dish-gfi-title" :style="`max-width: ${imgMaxWidth}`">
       {{ currentProperties.Bezeichnung }}
     </v-card-title>
@@ -87,19 +75,19 @@
         </tbody>
       </v-simple-table>
     </v-card-text>
-  </v-card>
+  </SharedContent>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
-import ActionButton from './ActionButton.vue'
+import SharedContent from './SharedContent.vue'
 
 type GfiIndexStep = -1 | 1
 
 export default Vue.extend({
-  name: 'DishGfiContent',
-  components: { ActionButton },
+  name: 'DishGfiExtern',
+  components: { SharedContent },
   data: () => ({
     infoFields: [
       'Kreis',
@@ -112,7 +100,6 @@ export default Vue.extend({
     sachgesamtheitOpen: false,
   }),
   computed: {
-    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
       'currentProperties',
       'imageLoaded',
@@ -155,18 +142,7 @@ export default Vue.extend({
       return this.sachgesamtheit.properties.Foto !== 'Kein Foto gefunden'
     },
   },
-  mounted() {
-    if (this.hasWindowSize && this.hasSmallWidth) {
-      this.setMoveHandleActionButton({
-        component: ActionButton,
-      })
-    }
-  },
-  beforeDestroy() {
-    this.setMoveHandleActionButton(null)
-  },
   methods: {
-    ...mapMutations(['setMoveHandleActionButton']),
     ...mapMutations('plugin/gfi', [
       'setImageLoaded',
       'setVisibleWindowFeatureIndex',

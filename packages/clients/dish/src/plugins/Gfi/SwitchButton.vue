@@ -32,7 +32,7 @@ import { mapGetters, mapMutations } from 'vuex'
 type GfiIndexStep = -1 | 1
 
 export default Vue.extend({
-  name: 'GfiFeatureSwitchButtons',
+  name: 'SwitchButton',
   computed: {
     ...mapGetters('plugin/gfi', [
       'windowFeatures',

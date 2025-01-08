@@ -18,6 +18,7 @@ import merge from 'lodash.merge'
 
 import {
   AddressSearchConfiguration,
+  GfiConfiguration,
   SearchMethodFunction,
 } from '@polar/lib-custom-types'
 import { extendGfi } from './utils/extendGfi'
@@ -30,30 +31,25 @@ import {
 import { denkmalSearchResult } from './utils/denkmalSearchIntern'
 import DishModal from './plugins/Modal'
 import DishHeader from './plugins/Header'
-import DishGfiContent from './plugins/Gfi'
 import { MODE } from './enums'
-import DishGfiIntern from './plugins/GfiIntern'
+import { DishGfiIntern, DishGfiExtern } from './plugins/Gfi'
 import DishExportMap from './plugins/DishExportMap'
 import { searchMethods } from './mapConfigurations/searchConfigParams'
 
-const pluginGfiExtern = {
-  coordinateSources: ['plugin/addressSearch/chosenAddress'],
-  gfiContentComponent: DishGfiContent,
-  afterLoadFunction: extendGfi,
+const gfiConfig = (mode: keyof typeof MODE): Partial<GfiConfiguration> => {
+  const gfiConfig: Partial<GfiConfiguration> = {
+    coordinateSources: ['plugin/addressSearch/chosenAddress'],
+    gfiContentComponent: mode === MODE.EXTERN ? DishGfiExtern : DishGfiIntern,
+  }
+  if (mode === MODE.EXTERN) {
+    gfiConfig.afterLoadFunction = extendGfi
+  }
+  return gfiConfig
 }
 
-const pluginGfiIntern = {
-  coordinateSources: ['plugin/addressSearch/chosenAddress'],
-  gfiContentComponent: DishGfiIntern,
-}
-
-function getPluginGfiConfig(mode: keyof typeof MODE) {
-  return mode === MODE.EXTERN ? pluginGfiExtern : pluginGfiIntern
-}
-
-function getAddressSearchConfig(
+const addressSearchConfig = (
   mode: keyof typeof MODE
-): Partial<AddressSearchConfiguration> {
+): Partial<AddressSearchConfiguration> => {
   const addressSearchConfig: Partial<AddressSearchConfiguration> = {
     displayComponent: true,
     layoutTag: NineLayoutTag.TOP_LEFT,
@@ -122,7 +118,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       layoutTag: NineLayoutTag.TOP_MIDDLE,
     }),
     PolarPluginAddressSearch(
-      getAddressSearchConfig(mode) as AddressSearchConfiguration
+      addressSearchConfig(mode) as AddressSearchConfiguration
     ),
     PolarPluginPins({
       displayComponent: mode === MODE.EXTERN,
@@ -150,7 +146,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
           displayComponent: true,
           layoutTag: NineLayoutTag.TOP_LEFT,
         },
-        getPluginGfiConfig(mode)
+        gfiConfig(mode)
       )
     ),
     PolarPluginLoadingIndicator({

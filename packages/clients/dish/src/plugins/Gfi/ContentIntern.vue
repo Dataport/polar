@@ -1,46 +1,33 @@
 <template>
-  <v-card v-if="showGfi" class="dish-gfi-content">
-    <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
-      <ActionButton></ActionButton>
-      <v-spacer></v-spacer>
-      <v-btn
-        icon
-        small
-        :aria-label="$t('common:plugins.gfi.header.close')"
-        @click="close(true)"
-      >
-        <v-icon small>fa-xmark</v-icon>
-      </v-btn>
-    </v-card-actions>
+  <SharedContent :show-gfi="showGfi">
     <MonumentContent></MonumentContent>
     <div id="dish-gfi-switch-buttons">
-      <SwitchButtonIntern v-if="showDishSwitchButtons"></SwitchButtonIntern>
+      <SwitchButton v-if="showDishSwitchButtons"></SwitchButton>
     </div>
-  </v-card>
+  </SharedContent>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
-import ActionButton from '../Gfi/ActionButton.vue'
 import { denkmaelerWMS, alkisWms } from '../../servicesConstants'
-import SwitchButtonIntern from './SwitchButtonIntern.vue'
+import SharedContent from './SharedContent.vue'
+import SwitchButton from './SwitchButton.vue'
 import MonumentContent from './MonumentContent.vue'
 
 export default Vue.extend({
   name: 'DishGfiIntern',
   components: {
-    ActionButton,
-    SwitchButtonIntern,
+    SharedContent,
+    SwitchButton,
     MonumentContent,
   },
   data: () => ({}),
   computed: {
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', ['currentProperties', 'windowFeatures']),
     ...mapGetters('plugin/layerChooser', ['activeMaskIds']),
-    objektIdentifier(): string {
-      return this.currentProperties.objektid
+    objektIdentifier(): boolean {
+      return Boolean(this.currentProperties.objektid)
     },
     showDishSwitchButtons(): boolean {
       if (
@@ -63,18 +50,7 @@ export default Vue.extend({
       this.setVisibleWindowFeatureIndex(0)
     },
   },
-  mounted() {
-    if (this.hasWindowSize && this.hasSmallWidth) {
-      this.setMoveHandleActionButton({
-        component: ActionButton,
-      })
-    }
-  },
-  beforeDestroy() {
-    this.setMoveHandleActionButton(null)
-  },
   methods: {
-    ...mapMutations(['setMoveHandleActionButton']),
     ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
     ...mapActions('plugin/gfi', ['close']),
     showInfoForActiveLayers(topic: 'alkis' | 'monument') {
