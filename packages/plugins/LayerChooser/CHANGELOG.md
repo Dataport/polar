@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Use plural for german description of the localization key `common:plugins.layerChooser.backgroundTitle`.
+
 ## 1.2.1
 
 - Fix: Move relevant documentation of `layers` to `@polar/core`.
