@@ -26,7 +26,7 @@ Name and casing of "ObjektID" have been directly taken from the backend to avoid
 
 The service URLs for the internal monument services (WMS and WFS) need to be configurable. Therefore, the host (`internalHost`), the port and the part of the path that is equal for both services must be defined outside of the map. The `internalHost` and the combination of host, port and path as `internServicesBaseUrl` must be passed to the `createMap` call as attributes of the parameter `urlParams`. 
 
-The `internalHost` is also needed as parameter for the DishExportMap plugin and the gfi plugin, and is passed as attribute of `configOverride` in the `createMap` call.
+The `internalHost` is also needed as parameter for the DishExportMap plugin and the gfi plugin, and is passed as attribute of `configOverride` in the `createMap` call. DishExportMap needs this parameter to create the right URL for addressing the backend. The gfi displays photographs of the monuments and uses the parameter as path to the right folder on the server.
 
 The `urlParams` parameter and the configuration for the DishExportMap and supplemental configuration for the gfi plugin is only needed for the internal dish application and can be omitted otherwise.
 
@@ -59,7 +59,7 @@ client.createMap({
     urlParams,
     configOverride: {
         dishExportMap: {
-            internalHost: urlParams.internalHost,
+            internalHost: urlParams.internalHost + ':8082',
         },
         gfi: {
             internalHost: urlParams.internalHost,
