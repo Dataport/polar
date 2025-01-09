@@ -46,6 +46,11 @@ const Plugin = (options: PluginOptions) => (instance: Vue) =>
   })
 ```
 
+Please note that the order of certain plugins is relevant when other plugins are referenced, e.g. `@polar/plugin-gfi` `coordinateSources`.
+
+However, please note that the values are overwritten by the `mapConfiguration`.
+These values can be defined in both places.
+
 If the storeModule features a `setupModule` action, it will be executed automatically after initialization.
 
 ### initializeLayerList
@@ -510,3 +515,21 @@ map.$store.watch(
 This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.
 
 To add content to the `MoveHandle`, the mutation `setMoveHandle` can be used. The values needed are described in `@polar/lib-custom-types:MoveHandleProperties`.
+
+### Getters
+
+You may desire to listen to whether the loader is currently being shown.
+
+| fieldName | type | description |
+| - | - | - |
+| components | Array | Returns the components object. |
+| deviceIsHorizontal | boolean | Returns true if the device is horizontal based on small height and window size. |
+| hasSmallHeight | boolean | Returns true if the client height is less than or equal to the small display height. |
+| hasSmallWidth | boolean | Returns true if the client width is less than or equal to the small display width. |
+| hasWindowSize | boolean | Returns true if the window size matches the client size. |
+| hovered | Feature \| null | Returns the hovered object. |
+| map | Map \| null | Returns the map object. |
+| moveHandle | MoveHandleProperties \| null | Returns the move handle object. |
+| moveHandleActionButton | MoveHandleActionButton \| null | Returns the move handle action button object. |
+| selected | Feature \| null | Returns the selected object. |
+| selectedCoordinates | Array \| null | Returns the coordinates of the selected object if it is a Point geometry or null if no object is selected. |
