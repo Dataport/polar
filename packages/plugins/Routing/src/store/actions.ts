@@ -19,9 +19,9 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     state,
   }) {
     console.error(configuration)
-    dispatch('initializeConfigStyle')
+    dispatch('initializeConfigStyle') // testen
     drawLayer = createDrawLayer(drawSource)
-    map.addLayer(drawLayer)
+    map.addLayer(drawLayer) // testen, ob es passiert ist
     console.error(map.getLayers().getArray())
     map.on('click', function (event) {
       const formattedCoordinate = event.coordinate
@@ -29,7 +29,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
 
       // prüfen, ob im state schon startAddress vorhanden ist - falls ja, die neue Koordinate als endAddress speichern
       if (state.start.length === 0) {
-        commit('setStart', formattedCoordinate)
+        commit('setStart', formattedCoordinate) // wurde setStart als commit aufgerufen und meine formatierte Coordinate reingeschrieben? Im State überprüfen
       } else if (state.end.length === 0) {
         commit('setEnd', formattedCoordinate)
       }
@@ -84,7 +84,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     console.error('Die übergebene URL: ', url)
     const fetchDirections = async () => {
       try {
-        const response = await fetch( url, {
+        const response = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -122,6 +122,28 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       }
     }
     fetchDirections()
+  },
+  createSearchUrl(searchInput) {
+    const url =
+      'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0&StoredQuery_ID=findeStrasse&strassenname=' +
+      searchInput
+    return url
+  },
+  async sendSearchRequest({ dispatch, state }, searchInput) {
+    const url = dispatch('createSearchUrl', searchInput)
+    if (searchInput.length >= state.minLength) {
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+        })
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+        console.error(response.text())
+      } catch (error) {
+        console.error('send Search Error', error)
+      }
+    }
   },
   drawRoute({ rootGetters: { configuration }, state }) {
     console.error(`stored response: `, state.searchResponseData)
