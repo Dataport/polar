@@ -1,17 +1,20 @@
 import debounce from 'lodash.debounce'
+import { Feature as GeoJsonFeature } from 'geojson'
 import { Style, Fill, Stroke } from 'ol/style'
 import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
-import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
-import getCluster from '@polar/lib-get-cluster'
-import { DragBox, Draw, Modify } from 'ol/interaction'
-import { platformModifierKeyOnly } from 'ol/events/condition'
 import { getFeatureDisplayLayer, clear } from '../../utils/displayFeatureLayer'
-import { GfiGetters, GfiState } from '../../types'
-import { getOriginalFeature } from '../../utils/getOriginalFeature'
-import { setupTooltip } from './setupTooltip'
+import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
+import { filterFeatures } from '../../utils/filterFeatures'
+import { renderFeatures } from '../../utils/renderFeatures'
 import { debouncedGfiRequest } from './debouncedGfiRequest'
+import {
+  setupCoreListener,
+  setupMultiSelection,
+  setupTooltip,
+  setupZoomListeners,
+} from './setup'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -66,97 +69,10 @@ export const makeActions = () => {
       dispatch('setupZoomListeners')
       dispatch('setupMultiSelection')
     },
+    setupCoreListener,
+    setupMultiSelection,
     setupTooltip,
-    setupCoreListener({
-      getters: { gfiConfiguration },
-      rootGetters,
-      dispatch,
-    }) {
-      if (gfiConfiguration.featureList?.bindWithCoreHoverSelect) {
-        this.watch(
-          () => rootGetters.selected,
-          (feature) => dispatch('setOlFeatureInformation', { feature }),
-          { deep: true }
-        )
-      }
-    },
-    setupMultiSelection({ dispatch, getters, rootGetters }) {
-      if (getters.gfiConfiguration.boxSelect) {
-        const dragBox = new DragBox({ condition: platformModifierKeyOnly })
-        dragBox.on('boxend', () =>
-          dispatch('getFeatureInfo', {
-            coordinateOrExtent: dragBox.getGeometry().getExtent(),
-            modifierPressed: true,
-          })
-        )
-        rootGetters.map.addInteraction(dragBox)
-      }
-      if (getters.gfiConfiguration.directSelect) {
-        rootGetters.map.on('click', ({ coordinate, originalEvent }) => {
-          const isDrawing = rootGetters.map
-            .getInteractions()
-            .getArray()
-            .some(
-              (interaction) =>
-                // these indicate other interactions are expected now
-                interaction instanceof Draw ||
-                interaction instanceof Modify ||
-                // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
-                interaction._isDeleteSelect ||
-                // @ts-expect-error | internal hack to detect it from @polar/plugin-measure
-                interaction._isMeasureSelect
-            )
-          if (!isDrawing) {
-            dispatch('getFeatureInfo', {
-              coordinateOrExtent: coordinate,
-              modifierPressed: navigator.userAgent.includes('Mac')
-                ? originalEvent.metaKey
-                : originalEvent.ctrlKey,
-            })
-          }
-        })
-      }
-    },
-    setupZoomListeners({ dispatch, getters, rootGetters }) {
-      if (getters.gfiConfiguration.featureList) {
-        this.watch(
-          () => rootGetters.zoomLevel,
-          () => {
-            const {
-              featureInformation,
-              listableLayerSources,
-              visibleWindowFeatureIndex,
-              windowFeatures,
-            } = getters
-
-            if (windowFeatures.length) {
-              const layerId: string =
-                // @ts-expect-error | if windowFeatures has features, visibleWindowFeatureIndex is in the range of possible features
-                windowFeatures[visibleWindowFeatureIndex].polarInternalLayerKey
-              const selectedFeatureProperties: GeoJsonProperties = {
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                _gfiLayerId: layerId,
-                ...featureInformation[layerId][visibleWindowFeatureIndex]
-                  .properties,
-              }
-              const originalFeature = getOriginalFeature(
-                listableLayerSources,
-                selectedFeatureProperties
-              )
-              if (originalFeature) {
-                dispatch('setOlFeatureInformation', {
-                  feature: getCluster(
-                    rootGetters.map,
-                    originalFeature,
-                    '_gfiLayerId'
-                  ),
-                })
-              }
-            }
-          }
-        )
-      }
-    },
+    setupZoomListeners,
     setupFeatureVisibilityUpdates({ commit, state, getters, rootGetters }) {
       // debounce to prevent update spam
       debouncedVisibilityChangeIndicator = debounce(
@@ -247,6 +163,34 @@ export const makeActions = () => {
         })
         dispatch('setCoreSelection', { feature, centerOnFeature })
       }
+    },
+    setFeatureInformation(
+      { commit, getters },
+      featuresByLayerId: FeaturesByLayerId
+    ) {
+      commit('clearFeatureInformation')
+      commit('setVisibleWindowFeatureIndex', 0)
+      clear(featureDisplayLayer)
+
+      const filteredFeatures = Object.fromEntries(
+        Object.entries(filterFeatures(featuresByLayerId)).map(
+          ([layerId, features]) => {
+            const { isSelectable } = getters.gfiConfiguration.layers[layerId]
+            return [
+              layerId,
+              typeof isSelectable === 'function'
+                ? features.filter((feature) => isSelectable(feature))
+                : features,
+            ]
+          }
+        )
+      )
+      commit('setFeatureInformation', filteredFeatures)
+      renderFeatures(
+        featureDisplayLayer,
+        getters.geometryLayerKeys,
+        filteredFeatures
+      )
     },
     hover({ commit, rootGetters }, feature: Feature) {
       if (rootGetters.configuration.extendedMasterportalapiMarkers) {
