@@ -326,6 +326,48 @@ function afterLoadFunction(featuresByLayerId: Record&lt;string, GeoJsonFeature[]
 }
 </code></pre>
 <h2 id="store" tabindex="-1">Store</h2>
+<h3 id="actions" tabindex="-1">Actions</h3>
+<h4 id="setfeatureinformation" tabindex="-1">setFeatureInformation</h4>
+<p>This method can be used to set the feature information in the store and trigger all relevant processes so that the information displayed to the user is as if he has selected the features himself.<br />
+Note that calling this method completely overrides the previously set feature information.</p>
+<p>If a layer has a <code>isSelectable</code>-function configured, the features are filtered using that function.</p>
+<pre><code class="language-js">map.$store.dispatch('plugin/gfi/setFeatureInformation', {
+  &quot;anotherLayer&quot;: [],
+  &quot;yetAnotherLayer&quot;: [],
+  &quot;relevantInformation&quot;: [
+    {
+      &quot;type&quot;: &quot;Feature&quot;,
+      &quot;geometry&quot;: {
+        &quot;type&quot;: &quot;Point&quot;,
+        &quot;coordinates&quot;: [
+          565669.6521397199,
+          5930516.358614317
+        ]
+      },
+      &quot;properties&quot;: {
+        &quot;propertyOne&quot;: &quot;B0&quot;,
+        &quot;propertyTwo&quot;: &quot;B1&quot;
+      }
+    },
+    {
+      &quot;type&quot;: &quot;Feature&quot;,
+      &quot;geometry&quot;: {
+        &quot;type&quot;: &quot;Point&quot;,
+        &quot;coordinates&quot;: [
+          565594.9377660984,
+          5930524.52634174
+        ]
+      },
+      &quot;properties&quot;: {
+        propertyOne: &quot;A0&quot;,
+        propertyTwo: &quot;A1&quot;
+      }
+    }
+  ]
+})
+</code></pre>
+<p>The payload object expects a layer id as a key and an array of GeoJSON-Features as its value.</p>
+<p>The selected feature information can be reset by calling the method with an empty object.</p>
 <h3 id="state" tabindex="-1">State</h3>
 <p>If a successful query has been sent and a response has been received, the result will be saved in the store and can be subscribed through the path <code>'plugin/gfi/featureInformation'</code>. If, however, a query for a layer fails, a <code>Symbol</code> containing the error will be saved in the store instead to indicate the error.</p>
 <p>The exact value of <code>featureInformation</code> may vary wildly depending on the service used, but is always given as json representation here.</p>
