@@ -46,10 +46,11 @@ const Plugin = (options: PluginOptions) => (instance: Vue) =>
   })
 ```
 
-Please note that the order of certain plugins is relevant when other plugins are referenced, e.g. `@polar/plugin-gfi` `coordinateSources`.
+Please note that the order of certain plugins is relevant when other plugins are referenced, e.g. `@polar/plugin-gfi`'s `coordinateSources` requires the sources to have previously been set up.
 
-However, please note that the values are overwritten by the `mapConfiguration`.
-These values can be defined in both places.
+Please note that all configuration added via plugin constructors can be overridden in the `createMap`'s parameter `mapConfiguration`. You may use either object (or a mix of them) to create the configuration, e.g. use the constructors for a base configuration and the `mapConfiguration` object to override it for various use cases.
+
+How exactly you do this is up to you and influences the minimum API call requirements your client has.
 
 If the storeModule features a `setupModule` action, it will be executed automatically after initialization.
 
@@ -522,14 +523,7 @@ You may desire to listen to whether the loader is currently being shown.
 
 | fieldName | type | description |
 | - | - | - |
-| components | Array | Returns the components object. |
-| deviceIsHorizontal | boolean | Returns true if the device is horizontal based on small height and window size. |
-| hasSmallHeight | boolean | Returns true if the client height is less than or equal to the small display height. |
-| hasSmallWidth | boolean | Returns true if the client width is less than or equal to the small display width. |
-| hasWindowSize | boolean | Returns true if the window size matches the client size. |
-| hovered | Feature \| null | Returns the hovered object. |
-| map | Map \| null | Returns the map object. |
-| moveHandle | MoveHandleProperties \| null | Returns the move handle object. |
-| moveHandleActionButton | MoveHandleActionButton \| null | Returns the move handle action button object. |
-| selected | Feature \| null | Returns the selected object. |
-| selectedCoordinates | Array \| null | Returns the coordinates of the selected object if it is a Point geometry or null if no object is selected. |
+| map | Map \| null | Returns the openlayers map object. |
+| hovered | Feature \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the currently hovered marker. Please mind that it may be a clustered feature. |
+| selected | Feature \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the currently selected marker. Please mind that it may be a clustered feature. |
+| selectedCoordinates | Array \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the coordinates of the currently selected marker. |

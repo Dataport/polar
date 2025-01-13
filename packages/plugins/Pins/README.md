@@ -19,7 +19,7 @@ The usage of `displayComponent` has no influence on the creation of Pins on the 
 | initial | initial? | Configuration options for setting an initial pin. |
 | movable | enum["drag", "click", "none"]? | Whether a user may drag and re-click the pin (`drag`), only re-click it (`click`) or may only be placed programmatically (`none`). Defaults to 'none'. |
 | style | style? | Display style configuration. |
-| toastAction | string? | If `boundaryLayerId` is set, and the pin is moved or created outside the boundary,  this string will be used as the path to an action within the store to send a toast notification to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console. |
+| toastAction | string? | If `boundaryLayerId` is set, and the pin is moved or created outside the boundary, this string will be used as the path to an action within the store to send a toast notification to the user. If no toast notification is desired, leave this field undefined; for testing purposes, you can still find information in the console. |
 | toZoomLevel | number? | Zoom level to use on outside input by e.g. address search. Defaults to `0`. |
 
 
