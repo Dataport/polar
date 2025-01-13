@@ -298,7 +298,7 @@ function afterLoadFunction(featuresByLayerId: Record&lt;string, GeoJsonFeature[]
 <tr>
 <td>mode</td>
 <td>'visible' | 'loaded'</td>
-<td>Whether to show only features currently visible in the map view's bounding box or to display all loaded features. In the latter case, if you desire to display all features of a layer (seen or not), set its loading strategy to <code>'all'</code>.</td>
+<td>Whether to show only features currently visible in the map view's bounding box or to display all loaded features. In the latter case, if you desire to display all features of a layer (seen or not), set its loading strategy to <code>'all'</code>. The loading strategy is a value in the OpenLayers vector source configuration; see <a href="https://openlayers.org/en/latest/apidoc/module-ol_loadingstrategy.html">ol/loadingStrategy</a> for further details.</td>
 </tr>
 <tr>
 <td>bindWithCoreHoverSelect</td>

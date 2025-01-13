@@ -53,6 +53,9 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
     storeModule, // vuex store module, if required
   })
 </code></pre>
+<p>Please note that the order of certain plugins is relevant when other plugins are referenced, e.g. <code>@polar/plugin-gfi</code>'s <code>coordinateSources</code> requires the sources to have previously been set up.</p>
+<p>Please note that all configuration added via plugin constructors can be overridden in the <code>createMap</code>'s parameter <code>mapConfiguration</code>. You may use either object (or a mix of them) to create the configuration, e.g. use the constructors for a base configuration and the <code>mapConfiguration</code> object to override it for various use cases.</p>
+<p>How exactly you do this is up to you and influences the minimum API call requirements your client has.</p>
 <p>If the storeModule features a <code>setupModule</code> action, it will be executed automatically after initialization.</p>
 <h3 id="initializelayerlist" tabindex="-1">initializeLayerList</h3>
 <p>Layers intended to be used in the map have to be initialized by calling <code>initializeLayerList</code> with a service register.<br />
@@ -693,6 +696,39 @@ map.$store.watch(
 </code></pre>
 <p>This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.</p>
 <p>To add content to the <code>MoveHandle</code>, the mutation <code>setMoveHandle</code> can be used. The values needed are described in <code>@polar/lib-custom-types:MoveHandleProperties</code>.</p>
+<h3 id="getters" tabindex="-1">Getters</h3>
+<p>You may desire to listen to whether the loader is currently being shown.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>map</td>
+<td>Map | null</td>
+<td>Returns the openlayers map object.</td>
+</tr>
+<tr>
+<td>hovered</td>
+<td>Feature | null</td>
+<td>If <code>useExtendedMasterportalApiMarkers</code> is active, this will return the currently hovered marker. Please mind that it may be a clustered feature.</td>
+</tr>
+<tr>
+<td>selected</td>
+<td>Feature | null</td>
+<td>If <code>useExtendedMasterportalApiMarkers</code> is active, this will return the currently selected marker. Please mind that it may be a clustered feature.</td>
+</tr>
+<tr>
+<td>selectedCoordinates</td>
+<td>Array | null</td>
+<td>If <code>useExtendedMasterportalApiMarkers</code> is active, this will return the coordinates of the currently selected marker.</td>
+</tr>
+</tbody>
+</table>
 
     
   </article>
