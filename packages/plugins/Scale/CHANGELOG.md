@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Add missing translations for scale switcher.
+
 ## 2.0.0
 
 - Breaking: Upgrade peerDependency `ol` from `^7.1.0` to `^9.2.4`.

@@ -1,4 +1,5 @@
 import { Map } from 'ol'
+import { ImageWMS } from 'ol/source'
 
 // Original addLayer method
 const originalAddLayer = Map.prototype.addLayer
@@ -13,7 +14,10 @@ Map.prototype.addLayer = function (...parameters) {
     .forEach((layer) => {
       // @ts-expect-error | All layers here are instantiated layers including a source.
       const source = layer.getSource()
-      source.crossOrigin = 'anonymous'
+      // @ts-expect-error | Set private param for ol class ImageWMS to prevent error in canvas rendering.
+      // Might break after ol upgrade because its undocumented.
+      if (source instanceof ImageWMS) source.crossOrigin_ = 'anonymous'
+      else source.crossOrigin = 'anonymous'
       // @ts-expect-error | All layers here are instantiated layers including a source.
       layer.setSource(source)
     })

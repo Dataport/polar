@@ -1,6 +1,6 @@
 # Legend
 
-The Legend module offers legend images as supplied by OGC services.
+The Legend module offers legend images as supplied by OGC services via `GetLegendGraphic` and `GetLegendURL` calls.
 
 ## Configuration
 
