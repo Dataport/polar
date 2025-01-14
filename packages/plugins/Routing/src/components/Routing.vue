@@ -7,6 +7,7 @@
         :label="$t('common:plugins.routing.startLabel')"
         :hint="$t('common:plugins.routing.inputHint')"
         persistent-hint
+        @input="sendSearchRequest"
       >
       </v-text-field>
       <v-text-field
@@ -161,6 +162,7 @@ export default Vue.extend({
       'initializeTool',
       'resetCoordinates',
       'sendRequest',
+      'sendSearchRequest',
     ]),
     ...mapMutations('plugin/routing', [
       'setSelectedTravelMode',
@@ -179,7 +181,7 @@ export default Vue.extend({
 })
 </script>
 
-<style>
+<style lang="scss">
 .polar-routing-menu {
   display: flex;
   flex-direction: column;

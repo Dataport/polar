@@ -1,17 +1,19 @@
 import { RoutingState } from '../types'
-
-export const getInitialState = (): RoutingState => ({
+const state = {
   start: [],
   startAddress: '',
   end: [],
-  endAddess: '',
+  endAddress: '',
   selectedTravelMode: '',
   selectableTravelModes: [
     { key: 'car', localKey: 'common:plugins.routing.travelMode.car' },
     { key: 'hgv', localKey: 'common:plugins.routing.travelMode.hgv' },
     { key: 'bike', localKey: 'common:plugins.routing.travelMode.bike' },
     { key: 'walking', localKey: 'common:plugins.routing.travelMode.walking' },
-    {key: 'wheelchair', localKey: 'common:plugins.routing.travelMode.wheelchair',},
+    {
+      key: 'wheelchair',
+      localKey: 'common:plugins.routing.travelMode.wheelchair',
+    },
   ],
   displayPreferences: false,
   selectedPreference: '',
@@ -46,7 +48,17 @@ export const getInitialState = (): RoutingState => ({
     },
   ],
   serviceID: '',
-  numberOfKeysToTriggerSearch: 3,
+  queryParameters: {
+    searchAddress: true,
+    searchStreets: true,
+    searchHouseNumbers: true,
+  },
+  searchInput: '',
+  addressSearchUrl: '',
+  minLength: 3,
+  waitMs: 300,
   searchResponseData: {},
   mousePosition: [],
-})
+}
+
+export const getInitialState = (): RoutingState => state
