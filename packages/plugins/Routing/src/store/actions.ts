@@ -37,12 +37,12 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       console.error('Start:' + state.start + 'Ende: ' + state.end)
     })
   },
-  limitNumberWithinRange(value) {
-    const MIN = 1
-    const MAX = 20
-    const parsed = parseInt(value)
-    return Math.min(Math.max(parsed, MIN), MAX)
-  },
+  // limitNumberWithinRange(value) {
+  //   const MIN = 1
+  //   const MAX = 20
+  //   const parsed = parseInt(value)
+  //   return Math.min(Math.max(parsed, MIN), MAX)
+  // },
   translateCoordinateToWGS84({ rootGetters: { configuration } }, Coordinate) {
     console.error('Translate Methode', configuration?.epsg, Coordinate)
     const wgs84Coordinate = transform(

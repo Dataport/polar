@@ -265,7 +265,12 @@ export const mapConfiguration = {
   routing: {
     serviceUrl: 'https://geodienste.hamburg.de/web_ors/v2/directions/',
     format: 'geojson',
-    selectableTravelModes: ['walking', 'wheelchair'],
+    selectableTravelModes: [
+      'driving-car',
+      'driving-hgv',
+      'foot-walking',
+      'cycling-regular',
+    ],
     selectablePreferences: ['recommended', 'fastest', 'shortest'],
     displayPreferences: true,
     displayRouteTypesToAvoid: true,

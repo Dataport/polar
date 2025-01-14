@@ -443,8 +443,23 @@ export interface ReverseGeocoderConfiguration {
   zoomTo?: number
 }
 
-/** Routing Module Configuration */
-export interface RoutingConfiguration {}
+// type selectableTravelModes = 'driving-car' | 'driving-hgv' | 'foot-walking' | 'cycling-regular'
+// type selectablePreferences = 'recommended' | 'fastest' | 'shortest'
+
+export interface RoutingConfiguration {
+  serviceUrl: string
+  format: 'geojson' | string
+  selectableTravelModes: string[]
+  selectablePreferences: string[]
+  displayPreferences: boolean
+  displayRouteTypesToAvoid: boolean
+  style: {
+    stroke: {
+      color: string
+      width: number
+    }
+  }
+}
 
 /** Style of a toast */
 export interface ToastStyle {
@@ -636,6 +651,7 @@ export interface MapConfig extends MasterportalApiConfig {
   filter?: FilterConfiguration
   fullscreen?: FullscreenConfiguration
   geoLocation?: GeoLocationConfiguration
+  routing?: RoutingConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
   pins?: PinsConfiguration

@@ -25,44 +25,46 @@ export interface RoutingState {
   startAddress: string
   end: Coordinate
   endAddress: string
-  renderType: string
   selectedTravelMode: string
-  selectableTravelModes: []
-  displayPreference: boolean
+  selectableTravelModes: Array<{ key: string; localKey: string }>
+  displayPreferences: boolean
   selectedPreference: string
-  selectablePreferences: []
+  selectablePreferences: Array<{ key: string; localKey: string }>
   displayRouteTypesToAvoid: boolean
-  selectedRouteTypesToAvoid: []
-  selectableRouteTypesToAvoid: []
+  selectedRouteTypesToAvoid: string[]
+  selectableRouteTypesToAvoid: Array<{ key: string; localKey: string }>
   serviceID: string
-  numberOfKeysToTriggerSearch: number
-  // TODO: überprüfen, ob diese Angaben richtig sind:
-  /**
-   * Found features with groupIndex in selected group or a symbol indicating that
-   * a) an error occurred
-   * b) nothing has been search yet
-   * FeatureIndexZip[] | symbol
-   */
+  queryParameters: object
+  searchInput: string
+  addressSearchUrl: string
+  minLength: number
+  waitMs: number
   searchResponseData: object
-  mousePosition: []
+  mousePosition: Coordinate
 }
 
 export interface RoutingGetters extends RoutingState {
   start: Coordinate
+  startAddress: string
   end: Coordinate
-  renderType: string
+  endAddress: string
   selectedTravelMode: string
-  selectableTravelModes: []
+  selectableTravelModes: Array<{ key: string; localKey: string }>
+  displayPreferences: boolean
   selectedPreference: string
-  selectablePreferences: []
+  selectablePreferences: Array<{ key: string; localKey: string }>
   displayRouteTypesToAvoid: boolean
-  selectedRouteTypesToAvoid: []
-  selectableRouteTypesToAvoid: []
+  selectedRouteTypesToAvoid: string[]
+  selectableRouteTypesToAvoid: Array<{ key: string; localKey: string }>
   serviceID: string
-  numberOfKeysToTriggerSearch: number
+  queryParameters: object
+  searchInput: string
+  addressSearchUrl: string
+  minLength: number
+  waitMs: number
   searchResponseData: object
+  mousePosition: Coordinate
   routingConfiguration: RoutingConfiguration
-  mousePosition: []
 }
 
 // TODO: entscheiden, ob ich das brauche
