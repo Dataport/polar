@@ -21,9 +21,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     console.error(configuration)
     dispatch('initializeConfigStyle') // testen
     drawLayer = createDrawLayer(drawSource)
-    map.addLayer(drawLayer) // testen, ob es passiert ist
-    console.error(map.getLayers().getArray())
-    map.on('click', function (event) {
+    map?.addLayer(drawLayer) // testen, ob es passiert ist
+    map?.on('click', function (event) {
       const formattedCoordinate = event.coordinate
       console.error('formatierte Koordinate: ' + formattedCoordinate)
 
@@ -70,8 +69,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       state.selectedTravelMode +
       '/' +
       configuration?.routing?.format
-
-    console.error(url)
     return url
   },
   async sendRequest({ commit, dispatch, state }) {
@@ -186,8 +183,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       ? commit('setDisplayPreferences', true)
       : commit('setDisplayPreferences', false)
     configuration?.routing?.displayRouteTypesToAvoid
-      ? commit('setDisplayPreferences', true)
-      : commit('setDisplayPreferences', false)
+      ? commit('setDisplayRouteTypesToAvoid', true)
+      : commit('setDisplayRouteTypesToAvoid', false)
   },
   addFeatures({ commit }, { geoJSON, overwrite = false }) {
     const features = new GeoJSON().readFeatures(geoJSON).map((feature) => {
