@@ -37,11 +37,11 @@
     "pages:build": "rimraf ./pages/docs && npm run generic:build && bash ./scripts/buildPages.sh",
     "pages:build:serve": "http-server pages -o index.html",
     "clean": "nx reset && rimraf --glob packages/**/{.cache,dist,docs} && rimraf --glob {.cache,dist} && node ./scripts/clean",
-    "docs:afm": "node ./scripts/makeDocs afm",
-    "docs:generic": "node ./scripts/makeDocs generic",
-    "docs:meldemichel": "node ./scripts/makeDocs meldemichel && npm run meldemichel:build && cp -r ./packages/clients/meldemichel/dist ./packages/clients/meldemichel/example ./packages/clients/meldemichel/docs",
-    "docs:snowbox": "node ./scripts/makeDocs snowbox",
-    "docs:textLocator": "node ./scripts/makeDocs textLocator && npm run textLocator:build && cp -r ./packages/clients/textLocator/dist ./packages/clients/textLocator/docs",
+    "docs:afm": "npx tsx ./scripts/makeDocs afm",
+    "docs:generic": "npx tsx ./scripts/makeDocs generic",
+    "docs:meldemichel": "npx tsx ./scripts/makeDocs meldemichel && npm run meldemichel:build && cp -r ./packages/clients/meldemichel/dist ./packages/clients/meldemichel/example ./packages/clients/meldemichel/docs",
+    "docs:snowbox": "npx tsx ./scripts/makeDocs snowbox",
+    "docs:textLocator": "npx tsx ./scripts/makeDocs textLocator && npm run textLocator:build && cp -r ./packages/clients/textLocator/dist ./packages/clients/textLocator/docs",
     "lint": "npx eslint . --cache --ext .js,.ts,.vue",
     "lint:ci": "npx eslint . --ext .js,.ts,.vue",
     "lint:fix": "npx eslint . --fix --cache --ext .js,.ts,.vue",
@@ -102,10 +102,10 @@
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "tslib": "^2.3.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.2",
     "vite": "^5.4.8",
     "vite-plugin-commonjs": "^0.6.2",
     "vue-template-compiler": "^2.7.16"
-  },
-  "dependencies": {}
+  }
 }
