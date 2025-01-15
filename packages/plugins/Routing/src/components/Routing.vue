@@ -136,7 +136,6 @@ export default Vue.extend({
         return this.selectedRouteTypesToAvoid
       },
       set(value: string): void {
-        console.error(this.selectedRouteTypesToAvoid)
         this.setSelectedRouteTypesToAvoid(value)
       },
     },
@@ -155,7 +154,6 @@ export default Vue.extend({
   },
   mounted() {
     this.initializeTool()
-    console.error('jetzt bin ich gemounted')
   },
   methods: {
     ...mapActions('plugin/routing', [
@@ -174,7 +172,6 @@ export default Vue.extend({
       const localKey = this.selectableRouteTypesToAvoid.find(
         (element) => element.key === myKey
       ).localKey
-      console.error(localKey)
       return localKey
     },
   },

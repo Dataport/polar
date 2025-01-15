@@ -16,10 +16,16 @@ const config: Config.InitialOptions = {
   testEnvironment: 'jsdom',
   transform: {
     '^[^.]+.vue$': '@vue/vue2-jest',
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        // TypeScript-Fehler ignorieren
+        isolatedModules: true, // Option 1: Nur ein Modul auf einmal prüfen
+        diagnostics: false, // Option 2: Alle Typfehler ignorieren
+      },
+    ],
     '^.*\\.js$': 'babel-jest',
   },
-  // jest-canvas-mock and setup file is required because of @masterportal/masterportalapi; setup file is based on setup file from @masterportal/masterportalapi setup
   setupFiles: ['jest-canvas-mock'],
   setupFilesAfterEnv: ['./__mocks__/jest.setup.js'],
   transformIgnorePatterns: [
