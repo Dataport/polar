@@ -11,4 +11,11 @@ export const pullVuetifyStyleToShadow = (shadowRoot: ShadowRoot) => {
     return
   }
   shadowRoot.appendChild(vuetifyStyle)
+
+  // tooltips are technically a neighbour of the app; add missing font style
+  const tooltipStyle = document.createElement('style')
+  tooltipStyle.innerHTML = `.v-tooltip__content {
+  font-family: Arial, sans-serif;
+}`
+  shadowRoot.appendChild(tooltipStyle)
 }
