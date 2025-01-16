@@ -2,22 +2,62 @@
   <v-scroll-x-reverse-transition>
     <v-card class="polar-routing-menu">
       <v-card-title>{{ $t('common:plugins.routing.title') }} </v-card-title>
-      <v-text-field
-        v-model="startpointInput"
-        :label="$t('common:plugins.routing.startLabel')"
-        :hint="$t('common:plugins.routing.inputHint')"
-        persistent-hint
-        @input="sendSearchRequest"
-      >
-      </v-text-field>
-      <v-text-field
-        v-model="endpointInput"
-        :label="$t('common:plugins.routing.endLabel')"
-      >
-      </v-text-field>
-      <v-btn @click="resetCoordinates"
-        >{{ $t('common:plugins.routing.resetButton') }}
+
+      <!-- Start Point Input with Dropdown -->
+      <div style="position: relative">
+        <v-text-field
+          v-model="startpointInput"
+          :label="$t('common:plugins.routing.startLabel')"
+          @input="handleAddressSearch('start')"
+        ></v-text-field>
+        <v-list
+          v-if="startSearchResults.length && startDropdownOpen"
+          class="dropdown"
+        >
+          <v-list-item
+            v-for="(result, index) in startSearchResults"
+            :key="index"
+            @click="selectStart(result)"
+          >
+            <span>
+              {{ result.strassenname }}
+              <template v-if="result.hausnummer">
+                {{ result.hausnummer }}</template
+              >
+            </span>
+          </v-list-item>
+        </v-list>
+      </div>
+
+      <div style="position: relative">
+        <v-text-field
+          v-model="endpointInput"
+          :label="$t('common:plugins.routing.endLabel')"
+          @input="handleAddressSearch('end')"
+        ></v-text-field>
+        <v-list
+          v-if="endSearchResults.length && endDropdownOpen"
+          class="dropdown"
+        >
+          <v-list-item
+            v-for="(result, index) in endSearchResults"
+            :key="index"
+            @click="selectEnd(result)"
+          >
+            <span>
+              {{ result.strassenname }}
+              <template v-if="result.hausnummer">
+                {{ result.hausnummer }}</template
+              >
+            </span>
+          </v-list-item>
+        </v-list>
+      </div>
+
+      <v-btn @click="resetCoordinates">
+        {{ $t('common:plugins.routing.resetButton') }}
       </v-btn>
+
       <v-select
         v-model="selectedTravelModeItem"
         clearable
@@ -34,6 +74,7 @@
         item-value="key"
         item-text="translatedKey"
       ></v-select>
+
       <div>
         {{ $t('common:plugins.routing.avoidRoutesTitle') }}
         <v-layout row wrap>
@@ -48,10 +89,12 @@
           </v-flex>
         </v-layout>
       </div>
+
       <v-btn @click="sendRequest">Send Request</v-btn>
       <v-btn @click="showSteps = !showSteps">
         {{ $t('common:plugins.routing.routeDetails') }}
       </v-btn>
+
       <div v-if="showSteps">
         <v-list v-for="(step, i) in searchResponseSegments" :key="i">
           {{ step }}
@@ -64,58 +107,89 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
+import debounce from 'lodash.debounce'
 
 export default Vue.extend({
   name: 'RoutingPlugin',
   data: () => ({
-    isOpen: false,
-    // TODO: wieder rausnhemen, wenn es nicht funktioniert
-    inline: null,
     showSteps: false,
+    startDropdownOpen: false,
+    endDropdownOpen: false,
   }),
   computed: {
-    ...mapGetters(['hasSmallDisplay']),
     ...mapGetters('plugin/routing', [
-      'renderType',
-      'travelModeOptionsFromMapConfig',
-      'preferenceOptionsFromMapConfig',
       'selectableTravelModes',
       'selectablePreferences',
       'selectableRouteTypesToAvoid',
       'selectedRouteTypesToAvoid',
-      'searchResponseData',
+      'searchResults',
       'start',
       'end',
+      'startAddress',
+      'endAddress',
+      'waitMs',
     ]),
     startpointInput: {
-      get(): Coordinate {
-        return this.start
+      get() {
+        return this.startAddress ? this.startAddress : this.start
       },
-      set(value: Coordinate): void {
-        this.start(value)
+      set(value) {
+        console.error('Setting startpointInput to:', value)
+        this.setStart(value)
       },
     },
     endpointInput: {
-      get(): Coordinate {
-        return this.end
+      get() {
+        return this.endAddress ? this.endAddress : this.end
       },
-      set(value: Coordinate): void {
-        this.end(value)
+      set(value) {
+        this.setEnd(value)
       },
     },
+    startSearchResults() {
+      return this.searchResults
+        .flatMap((result) => {
+          const baseName = result.strassenname
+          if (result.hausnummern && result.hausnummern.length > 0) {
+            return result.hausnummern.map((hausnummer) => ({
+              displayName: `${baseName} ${hausnummer}`,
+              ...result,
+              hausnummer,
+            }))
+          }
+          return [{ displayName: baseName, ...result }]
+        })
+        .slice(0, 20)
+    },
+    endSearchResults() {
+      return this.searchResults
+        .flatMap((result) => {
+          const baseName = result.strassenname
+          if (result.hausnummern && result.hausnummern.length > 0) {
+            return result.hausnummern.map((hausnummer) => ({
+              displayName: `${baseName} ${hausnummer}`,
+              ...result,
+              hausnummer,
+            }))
+          }
+          return [{ displayName: baseName, ...result }]
+        })
+        .slice(0, 20)
+    },
+
     selectedTravelModeItem: {
-      get(): string {
+      get() {
         return this.selectedTravelMode
       },
-      set(value: string): void {
+      set(value) {
         this.setSelectedTravelMode(value)
       },
     },
     selectedPreferenceItem: {
-      get(): string {
+      get() {
         return this.selectedPreference
       },
-      set(value: string): void {
+      set(value) {
         this.setSelectedPreference(value)
       },
     },
@@ -132,24 +206,15 @@ export default Vue.extend({
       }))
     },
     selectedRouteTypesToAvoidItem: {
-      get(): string {
+      get() {
         return this.selectedRouteTypesToAvoid
       },
-      set(value: string): void {
+      set(value) {
         this.setSelectedRouteTypesToAvoid(value)
       },
     },
-    searchResponseSegments: {
-      get(): object {
-        return this.searchResponseData?.features[0].properties.segments[0].steps
-      },
-    },
-  },
-  watch: {
-    search: function () {
-      // TODO: prüfen, ob die Koordinaten im richtigen Format sind
-      // TODO: Koordinaten an den Routingdienst übermitteln mit sendRequest() - zu vermeidende Routentypen mitsenden
-      this.sendRequest()
+    searchResponseSegments() {
+      return this.searchResponseData?.features[0].properties.segments[0].steps
     },
   },
   mounted() {
@@ -157,22 +222,82 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions('plugin/routing', [
-      'initializeTool',
-      'resetCoordinates',
-      'sendRequest',
       'sendSearchRequest',
+      'initializeTool',
+      'sendRequest',
     ]),
     ...mapMutations('plugin/routing', [
+      'setStart',
+      'setEnd',
       'setSelectedTravelMode',
       'setSelectedPreference',
       'setSelectedRouteTypesToAvoid',
-      'setSearchResponseData',
+      'setStartAddress',
+      'setEndAddress',
     ]),
-    translatedRouteTypeToAvoid(myKey) {
-      const localKey = this.selectableRouteTypesToAvoid.find(
-        (element) => element.key === myKey
-      ).localKey
-      return localKey
+    debouncedSendSearchRequest: debounce(function (payload) {
+      this.sendSearchRequest(payload)
+    }, 300),
+    handleAddressSearch(type) {
+      const input = type === 'start' ? this.startpointInput : this.endpointInput
+
+      if (type === 'start') {
+        this.startDropdownOpen = true
+        this.endDropdownOpen = false
+      } else if (type === 'end') {
+        this.startDropdownOpen = false
+        this.endDropdownOpen = true
+      }
+
+      this.debouncedSendSearchRequest({ input, type })
+    },
+    toggleDropdown(type) {
+      if (type === 'start') {
+        this.startDropdownOpen = true
+        this.endDropdownOpen = false
+      } else if (type === 'end') {
+        this.startDropdownOpen = false
+        this.endDropdownOpen = true
+      }
+    },
+    resetCoordinates() {
+      this.setStart(null)
+      this.setEnd(null)
+      this.setStartAddress(null)
+      this.setEndAddress(null)
+    },
+    selectStart(result) {
+      if (result.strassenname) {
+        this.startpointInput = result.displayName
+        this.setStart(result.position)
+        this.setStartAddress(result.displayName)
+        this.startDropdownOpen = false
+        this.$nextTick(() => {
+          this.$store.commit('plugin/routing/setSearchResults', [])
+        })
+      } else {
+        console.error('No street name available for selected result:', result)
+      }
+    },
+    selectEnd(result) {
+      if (result.strassenname) {
+        this.endpointInput = result.displayName
+        this.setEnd(result.position)
+        this.setEndAddress(result.displayName)
+        this.endDropdownOpen = false
+        this.$nextTick(() => {
+          this.$store.commit('plugin/routing/setSearchResults', [])
+        })
+      } else {
+        console.error('No street name available for selected result:', result)
+      }
+    },
+
+    translatedRouteTypeToAvoid(key) {
+      const routeType = this.selectableRouteTypesToAvoid.find(
+        (type) => type.key === key
+      )
+      return routeType ? this.$t(routeType.localKey) : key
     },
   },
 })
@@ -187,5 +312,12 @@ export default Vue.extend({
   align-items: center;
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.dropdown {
+  max-height: 300px; /* Passt die Höhe an */
+  overflow-y: auto; /* Ermöglicht Scrollen */
+  border: 1px solid #ccc;
+  background-color: #fff;
 }
 </style>

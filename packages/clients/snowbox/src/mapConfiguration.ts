@@ -263,7 +263,7 @@ export const mapConfiguration = {
     },
   },
   routing: {
-    serviceUrl: 'https://geodienste.hamburg.de/web_ors/v2/directions/',
+    serviceUrl: 'https://geodienste.hamburg.de/web_ors//v2/directions/',
     format: 'geojson',
     selectableTravelModes: [
       'driving-car',
@@ -279,6 +279,21 @@ export const mapConfiguration = {
         color: '#e51313',
         width: 2,
       },
+    },
+    addressSearch: {
+      searchMethods: [
+        {
+          queryParameters: {
+            searchAddress: true,
+            searchStreets: true,
+            searchHouseNumbers: true,
+          },
+          type: 'mpapi',
+          url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+        },
+      ],
+      minLength: 3,
+      waitMs: 300,
     },
   },
 }

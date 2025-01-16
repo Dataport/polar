@@ -18,6 +18,15 @@ const getters = {
   selectedPreference({ selectedPreference }, { selectablePreferences }) {
     return selectedPreference || selectablePreferences[0]
   },
+  addressSearchConfig(state, getters, rootState) {
+    return (
+      rootState.configuration?.addressSearch || {
+        searchMethods: [],
+        minLength: 3,
+        waitMs: 300,
+      }
+    )
+  },
 }
 
 export default getters

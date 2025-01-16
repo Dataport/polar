@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+/* eslint-disable max-lines-per-function */
 import VectorSource from 'ol/source/Vector'
 import { LineString } from 'ol/geom'
 import Feature from 'ol/Feature'
@@ -18,112 +20,269 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     commit,
     state,
   }) {
-    dispatch('initializeConfigStyle') // testen
+
+    dispatch('initializeConfigStyle')
     drawLayer = createDrawLayer(drawSource)
-    map?.addLayer(drawLayer) // testen, ob es passiert ist
-    map?.on('click', function (event) {
+    map?.addLayer(drawLayer)
+
+    map?.on('click', (event) => {
       const formattedCoordinate = event.coordinate
 
-      // prüfen, ob im state schon startAddress vorhanden ist - falls ja, die neue Koordinate als endAddress speichern
-      if (state.start.length === 0) {
-        commit('setStart', formattedCoordinate) // wurde setStart als commit aufgerufen und meine formatierte Coordinate reingeschrieben? Im State überprüfen
-      } else if (state.end.length === 0) {
+      if (!state.start.length) {
+        commit('setStart', formattedCoordinate)
+      } else if (!state.end.length) {
         commit('setEnd', formattedCoordinate)
       }
     })
   },
-  // limitNumberWithinRange(value) {
-  //   const MIN = 1
-  //   const MAX = 20
-  //   const parsed = parseInt(value)
-  //   return Math.min(Math.max(parsed, MIN), MAX)
-  // },
-  translateCoordinateToWGS84({ rootGetters: { configuration } }, Coordinate) {
-    const wgs84Coordinate = transform(
-      Coordinate,
-      configuration?.epsg,
-      'EPSG:4326'
-    )
-    return wgs84Coordinate
+
+  translateCoordinateToWGS84({ rootGetters: { configuration } }, coordinate) {
+    return transform(coordinate, configuration?.epsg, 'EPSG:4326')
   },
-  resetCoordinates({ commit, state }) {
-    // TODO: Fehler beheben: "unknown local mutation type: resetCoordinates"
+
+  resetCoordinates({ commit }) {
     commit('setStart', [])
     commit('setEnd', [])
   },
+
   createUrl({ rootGetters: { configuration }, state }) {
-    // TODO: Travel-Modes mit Switch Case (?) in finale Form bringen o. bessere Lösung finden
-    const url =
-      configuration?.routing?.serviceUrl +
-      state.selectedTravelMode +
-      '/' +
-      configuration?.routing?.format
-
-    return url
+    return `${configuration?.routing?.serviceUrl}${state.selectedTravelMode}/${configuration?.routing?.format}`
   },
-  async sendRequest({ commit, dispatch, state }) {
-    const searchCoordinates = [
-      await dispatch('translateCoordinateToWGS84', state.start),
-      await dispatch('translateCoordinateToWGS84', state.end),
-    ]
-    const url = await dispatch('createUrl')
 
-    // Direkt auf die verschachtelte Funktion warten
+  async sendRequest({ commit, dispatch, state }) {
     try {
+      const searchCoordinates = [
+        await dispatch('translateCoordinateToWGS84', state.start),
+        await dispatch('translateCoordinateToWGS84', state.end),
+      ]
+      const url = await dispatch('createUrl')
+
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           coordinates: searchCoordinates,
           geometry: true,
           instructions: true,
           language: 'en',
           options: {
-            avoid_polygons: {
-              coordinates: [],
-              type: 'MultiPolygon',
-            },
+            avoid_polygons: { coordinates: [], type: 'MultiPolygon' },
           },
           preference: 'recommended',
           units: 'm',
         }),
       })
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
       }
+
       const data = await response.json()
       commit('setSearchResponseData', data)
       dispatch('drawRoute')
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Error in sendRequest:', error)
     }
   },
-  createSearchUrl(searchInput) {
-    const url =
-      'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0&StoredQuery_ID=findeStrasse&strassenname=' +
-      searchInput
-    return url
-  },
-  async sendSearchRequest({ dispatch, state }, searchInput) {
-    const url = dispatch('createSearchUrl', searchInput)
-    if (searchInput.length >= state.minLength) {
-      try {
-        const response = await fetch(url, {
-          method: 'GET',
-        })
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`)
-        }
-      } catch (error) {
-        console.error('send Search Error', error)
+
+  async fetchHausnummern(
+    { rootGetters: { configuration }, dispatch },
+    strassenname
+  ) {
+    const searchMethod = configuration.routing.addressSearch.searchMethods[0]
+
+    if (!strassenname) {
+      console.error('Strassenname ist leer.')
+      return
+    }
+
+    const storedQueryID = 'HausnummernZuStrasse'
+    const url = `${searchMethod.url}&${new URLSearchParams({
+      service: 'WFS',
+      request: 'GetFeature',
+      version: '2.0.0',
+      StoredQuery_ID: storedQueryID,
+      strassenname,
+    })}`
+
+    try {
+      const response = await fetch(url, { method: 'GET' })
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
       }
+
+      const text = await response.text()
+      const data = await dispatch('parseResponseHausnummern', text)
+      return data.features
+    } catch (error) {
+      console.error('Error in fetchHausnummern:', error)
+      return []
+    }
+  },
+
+  parseResponseHausnummern({}, responseText) {
+    try {
+      const parser = new DOMParser()
+      const xmlDoc = parser.parseFromString(responseText, 'application/xml')
+      const members = xmlDoc.getElementsByTagName('wfs:member')
+      const features = []
+
+      for (let i = 0; i < members.length; i++) {
+        const member = members[i]
+        const hauskoordinaten = member.getElementsByTagName(
+          'gages:Hauskoordinaten'
+        )[0]
+
+        if (hauskoordinaten) {
+          const hausnummer =
+            hauskoordinaten.getElementsByTagName('dog:hausnummer')[0]
+              ?.textContent || ''
+          const hausnummerZusatz =
+            hauskoordinaten.getElementsByTagName('dog:hausnummernzusatz')[0]
+              ?.textContent || ''
+
+          const geographicIdentifier =
+            hauskoordinaten.getElementsByTagName(
+              'iso19112:geographicIdentifier'
+            )[0]?.textContent || ''
+
+          const positionElement =
+            hauskoordinaten.getElementsByTagName('gml:pos')[0]
+          const position =
+            positionElement?.textContent.split(' ').map(Number) || []
+
+          const polygonElement =
+            hauskoordinaten.getElementsByTagName('gml:posList')[0]
+          const boundingPolygon =
+            polygonElement?.textContent.split(' ').map(Number) || []
+
+          features.push({
+            hausnummer,
+            hausnummerZusatz,
+            geographicIdentifier,
+            position,
+            boundingPolygon,
+          })
+        }
+      }
+
+      console.log('Parsed house numbers:', features)
+      return { features }
+    } catch (error) {
+      console.error('Error parsing house numbers response:', error)
+      return { features: [] }
+    }
+  },
+
+  async sendSearchRequest(
+    { state, commit, rootGetters: { configuration }, dispatch },
+    { input }
+  ) {
+    const config = configuration.routing.addressSearch
+    const searchMethod = config.searchMethods[0]
+
+    if (!input || input.length < config.minLength) {
+      console.error('Input is too short or missing.')
+      return
+    }
+
+    const storedQueryID = 'findeStrasse'
+    const urlParams = {
+      service: 'WFS',
+      request: 'GetFeature',
+      version: '2.0.0',
+      StoredQuery_ID: storedQueryID,
+      strassenname: input,
+    }
+
+    const url = `${searchMethod.url}&${new URLSearchParams(urlParams)}`
+
+    try {
+      const response = await fetch(url, { method: 'GET' })
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+
+      const text = await response.text()
+      const streetData = await dispatch('parseResponse', text)
+
+      const features = streetData.features || []
+
+      for (const feature of features) {
+        const hausnummern = await dispatch(
+          'fetchHausnummern',
+          feature.strassenname
+        )
+        feature.hausnummern = hausnummern.map((item) => item.hausnummer)
+      }
+
+      commit('setSearchResults', features)
+      console.log('Final search results with house numbers:', features)
+    } catch (error) {
+      console.error('Error in sendSearchRequest:', error)
+    }
+  },
+
+  async parseResponse({}, responseText) {
+    try {
+      const parser = new DOMParser()
+      const xmlDoc = parser.parseFromString(responseText, 'application/xml')
+
+      const members = xmlDoc.getElementsByTagName('wfs:member')
+      const features = []
+
+      for (let i = 0; i < members.length; i++) {
+        const member = members[i]
+        const strasseElement = member.getElementsByTagName('dog:Strassen')[0]
+
+        if (strasseElement) {
+          const strassenname =
+            strasseElement.getElementsByTagName('dog:strassenname')[0]
+              ?.textContent || 'Unbekannt'
+
+          const ortsteilname =
+            strasseElement.getElementsByTagName('dog:ortsteilname')[0]
+              ?.textContent || 'Unbekannt'
+
+          const position =
+            strasseElement.getElementsByTagName('gml:pos')[0]?.textContent ||
+            null
+
+          const boundingPolygon =
+            strasseElement.getElementsByTagName('gml:posList')[0]
+              ?.textContent || null
+
+          const hausnummern = []
+          const hausnummerElements =
+            strasseElement.getElementsByTagName('dog:hausnummer')
+          for (let j = 0; j < hausnummerElements.length; j++) {
+            hausnummern.push(hausnummerElements[j].textContent)
+          }
+
+          features.push({
+            strassenname,
+            ortsteilname,
+            position: position
+              ? position.split(' ').map((coord) => parseFloat(coord))
+              : null,
+            boundingPolygon: boundingPolygon
+              ? boundingPolygon.split(' ').map((coord) => parseFloat(coord))
+              : null,
+            hausnummern,
+          })
+        }
+      }
+
+      console.log('Extracted features:', features)
+      return { features }
+    } catch (error) {
+      console.error('Error parsing response:', error)
+      return { features: [] }
     }
   },
   drawRoute({ rootGetters: { configuration }, state }) {
     if (!state.searchResponseData?.features?.length) {
-      console.error('No features available for drawing')
+      console.error('No features available for drawing.')
       return
     }
 
@@ -133,9 +292,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       )
     const routeLineString = new LineString(transformedCoordinates)
 
-    const routeFeature = new Feature({
-      geometry: routeLineString,
-    })
+    const routeFeature = new Feature({ geometry: routeLineString })
     routeFeature.setStyle(
       createDrawStyle(
         configuration?.routing?.style?.stroke?.color,
@@ -149,25 +306,29 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     if (configuration?.routing?.selectableTravelModes) {
       commit(
         'setSelectableTravelModes',
-        configuration?.routing?.selectableTravelModes
+        configuration.routing.selectableTravelModes
       )
     }
     if (configuration?.routing?.selectablePreferences) {
       commit(
         'setSelectablePreferences',
-        configuration?.routing?.selectablePreferences
+        configuration.routing.selectablePreferences
       )
     }
-    configuration?.routing?.displayPreferences
-      ? commit('setDisplayPreferences', true)
-      : commit('setDisplayPreferences', false)
-    configuration?.routing?.displayRouteTypesToAvoid
-      ? commit('setDisplayPreferences', true)
-      : commit('setDisplayPreferences', false)
+
+    commit(
+      'setDisplayPreferences',
+      !!configuration?.routing?.displayPreferences
+    )
+    commit(
+      'setDisplayRouteTypesToAvoid',
+      !!configuration?.routing?.displayRouteTypesToAvoid
+    )
   },
+
   addFeatures({ commit }, { geoJSON, overwrite = false }) {
     if (!geoJSON || !geoJSON.features?.length) {
-      console.error('Invalid geoJSON data')
+      console.error('Invalid geoJSON data.')
       return
     }
 
@@ -178,7 +339,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     drawSource.addFeatures(features)
     commit('updateFeatures', drawSource)
   },
-  initializeConfigStyle: ({ commit, getters: { routingConfiguration } }) => {
+
+  initializeConfigStyle({ commit, getters: { routingConfiguration } }) {
     if (routingConfiguration?.style?.stroke?.color) {
       commit('setSelectedStrokeColor', routingConfiguration.style.stroke.color)
     }

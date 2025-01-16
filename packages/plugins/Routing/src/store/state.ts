@@ -6,10 +6,16 @@ const state = {
   endAddress: '',
   selectedTravelMode: '',
   selectableTravelModes: [
-    { key: 'car', localKey: 'common:plugins.routing.travelMode.car' },
-    { key: 'hgv', localKey: 'common:plugins.routing.travelMode.hgv' },
-    { key: 'bike', localKey: 'common:plugins.routing.travelMode.bike' },
-    { key: 'walking', localKey: 'common:plugins.routing.travelMode.walking' },
+    { key: 'driving-car', localKey: 'common:plugins.routing.travelMode.car' },
+    { key: 'driving-hgv', localKey: 'common:plugins.routing.travelMode.hgv' },
+    {
+      key: 'cycling-regular',
+      localKey: 'common:plugins.routing.travelMode.bike',
+    },
+    {
+      key: 'foot-walking',
+      localKey: 'common:plugins.routing.travelMode.walking',
+    },
     {
       key: 'wheelchair',
       localKey: 'common:plugins.routing.travelMode.wheelchair',
@@ -58,6 +64,7 @@ const state = {
   minLength: 3,
   waitMs: 300,
   searchResponseData: {},
+  searchResults: [],
   mousePosition: [],
 }
 
