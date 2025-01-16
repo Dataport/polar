@@ -1,14 +1,14 @@
 <template>
   <div
     id="polar-plugin-scales"
-    :title="$t('common:plugins.scale.label')"
-    :aria-label="$t('common:plugins.scale.label')"
+    :title="$t('plugins.scale.label')"
+    :aria-label="$t('plugins.scale.label')"
   >
     <select
       v-if="showSelectOptions"
       v-model="scale"
-      :title="$t('common:plugins.scale.scaleSwitcher')"
-      :aria-label="$t('common:plugins.scale.scaleSwitcher')"
+      :title="$t('plugins.scale.scaleSwitcher')"
+      :aria-label="$t('plugins.scale.scaleSwitcher')"
       class="scale-as-a-ratio scale-switcher"
       @change="setZoomLevelByScale($event.target.selectedIndex)"
     >

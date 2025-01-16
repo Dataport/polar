@@ -15,6 +15,7 @@
     "sourceMap": true,
     "isolatedModules": true,
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
-    "typeRoots": ["node_modules/@types", "@types"]
+    "typeRoots": ["node_modules/@types", "@types"],
+    "types": ["vue-shims", "jest"]
   }
 }

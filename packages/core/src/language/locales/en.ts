@@ -15,5 +15,6 @@ const en: Resource = {
       oneFingerPan: 'Use at least two fingers to pan the map',
     },
   },
-}
+} as const
+
 export default en

@@ -3,44 +3,44 @@
     <img
       class="landesdachmarke"
       src="./landesdachmarke_denkmalpflege.jpg"
-      :alt="$t('common:plugins.dish.modal.landesdachmarkeAlt')"
+      :alt="$t('plugins.dish.modal.welcome.landesdachmarkeAlt')"
     />
     <v-card-title class="modal-title" tag="h1">
-      {{ $t('common:plugins.dish.modal.welcome.header') }}
+      {{ $t('plugins.dish.modal.welcome.header') }}
     </v-card-title>
     <v-card-text>
-      {{ $t('common:plugins.dish.modal.welcome.p1') }}
+      {{ $t('plugins.dish.modal.welcome.p1') }}
     </v-card-text>
     <v-card-text>
-      {{ $t('common:plugins.dish.modal.welcome.p2') }}
+      {{ $t('plugins.dish.modal.welcome.p2') }}
     </v-card-text>
     <v-card-text>
-      {{ $t('common:plugins.dish.modal.welcome.p3') }}
+      {{ $t('plugins.dish.modal.welcome.p3') }}
       <a
         class="modal-link"
         href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/Kontakt/kontakt_node.html"
         target="_blank"
       >
         <v-icon x-small color="#0089ca">fa-chevron-right</v-icon>
-        {{ $t('common:plugins.dish.modal.welcome.link1') }}.
+        {{ $t('plugins.dish.modal.welcome.link1') }}.
       </a>
     </v-card-text>
     <v-card-text>
-      {{ $t('common:plugins.dish.modal.welcome.p4') }}
+      {{ $t('plugins.dish.modal.welcome.p4') }}
       <a
         class="modal-link"
         href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/Organisation/organisation_node.html"
         target="_blank"
       >
         <v-icon x-small color="#0089ca">fa-chevron-right</v-icon>
-        {{ $t('common:plugins.dish.modal.welcome.link2') }}.
+        {{ $t('plugins.dish.modal.welcome.link2') }}.
       </a>
     </v-card-text>
     <v-card-actions class="modal-actions">
       <v-checkbox
         v-model="confirmed"
         color="#003064"
-        :label="$t('common:plugins.dish.modal.welcome.confirmRead')"
+        :label="$t('plugins.dish.modal.welcome.confirmRead')"
       ></v-checkbox>
       <v-btn
         class="text-none primaryContrast--text closeButton"
@@ -48,7 +48,7 @@
         :disabled="!confirmed"
         @click="closed = true"
       >
-        {{ $t('common:plugins.dish.modal.welcome.closeInfo') }}
+        {{ $t('plugins.dish.modal.welcome.closeInfo') }}
       </v-btn>
     </v-card-actions>
   </v-card>

@@ -1,15 +1,19 @@
 import { LanguageOption } from '@polar/lib-custom-types'
 
+export const textLocatorDe = {
+  // remove lang="en" in component if this becomes German
+  header: {
+    text: 'TextLocator',
+  },
+} as const
+
 const lang: LanguageOption[] = [
   {
     type: 'de',
     resources: {
       plugins: {
         textLocator: {
-          header: {
-            // remove lang="en" in component if this becomes German
-            text: 'TextLocator',
-          },
+          ...textLocatorDe,
         },
       },
     },

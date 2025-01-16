@@ -24,7 +24,7 @@
       >
         {{ $t(category) }}
         {{
-          $t('common:plugins.addressSearch.resultCount', {
+          $t('plugins.addressSearch.resultCount', {
             count: features.length,
           })
         }}
@@ -86,7 +86,7 @@
         </v-icon>
         {{
           $t(
-            `common:plugins.addressSearch.resultList.${
+            `plugins.addressSearch.resultList.${
               areResultsExpanded(category)
                 ? 'reduce'
                 : `extend${hasMaximum(selectedGroup[index]) ? 'Max' : ''}`

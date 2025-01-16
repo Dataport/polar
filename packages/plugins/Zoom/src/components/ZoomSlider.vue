@@ -5,7 +5,7 @@
     class="polar-zoom-slider"
     :min="minimumZoomLevel"
     :max="maximumZoomLevel"
-    :aria-label="$t('common:plugins.zoom.slider')"
+    :aria-label="$t('plugins.zoom.slider')"
   ></v-slider>
 </template>
 

@@ -1,32 +1,34 @@
 import { LanguageOption } from '@polar/lib-custom-types'
 
+export const snowboxDe = {
+  attributions: {
+    basemap: 'Basemap © basemap.de / BKG <MONTH> <YEAR>',
+    basemapGrey: 'Basemap Grau © basemap.de / BKG <MONTH> <YEAR>',
+    underground:
+      'Strecken U-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
+    rapid:
+      'Strecken S-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
+    reports: 'Meldungen durch Bürger',
+    ausgleichsflaechen:
+      'Ausgleichsflächen © Freie und Hansestadt Hamburg, Behörde für Umwelt und Energie',
+    hamburgBorder: 'Landesgrenze Hamburg © Freie und Hansestadt Hamburg',
+  },
+  layers: {
+    basemap: 'Basemap.de (Farbe)',
+    basemapGrey: 'Basemap.de (Grau)',
+    underground: 'U-Bahn',
+    rapid: 'S-Bahn',
+    reports: 'Anliegen (MML)',
+    ausgleichsflaechen: 'Ausgleichsflächen',
+    hamburgBorder: 'Landesgrenze Hamburg',
+  },
+} as const
+
 const language: LanguageOption[] = [
   {
     type: 'de',
     resources: {
-      snowbox: {
-        attributions: {
-          basemap: 'Basemap © basemap.de / BKG <MONTH> <YEAR>',
-          basemapGrey: 'Basemap Grau © basemap.de / BKG <MONTH> <YEAR>',
-          underground:
-            'Strecken U-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
-          rapid:
-            'Strecken S-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
-          reports: 'Meldungen durch Bürger',
-          ausgleichsflaechen:
-            'Ausgleichsflächen © Freie und Hansestadt Hamburg, Behörde für Umwelt und Energie',
-          hamburgBorder: 'Landesgrenze Hamburg © Freie und Hansestadt Hamburg',
-        },
-        layers: {
-          basemap: 'Basemap.de (Farbe)',
-          basemapGrey: 'Basemap.de (Grau)',
-          underground: 'U-Bahn',
-          rapid: 'S-Bahn',
-          reports: 'Anliegen (MML)',
-          ausgleichsflaechen: 'Ausgleichsflächen',
-          hamburgBorder: 'Landesgrenze Hamburg',
-        },
-      },
+      snowbox: snowboxDe,
       plugins: {
         pins: {
           toast: {

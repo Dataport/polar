@@ -7,7 +7,7 @@ import {
   dishBaseUrl,
   // servicePrefix, s.u.
 } from './services'
-import locales from './locales'
+import locales from './language'
 
 const shBlue = '#003064'
 const shWhite = '#FFFFFF'
@@ -171,7 +171,7 @@ export const mapConfiguration = {
     groupProperties: {
       groupDenkmalsuche: {
         label: 'Denkmalsuche',
-        hint: 'common:dish.addressSearchHint',
+        hint: 'dish.addressSearchHint',
         resultDisplayMode: 'categorized',
         limitResults: 3,
       },
