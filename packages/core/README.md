@@ -46,6 +46,12 @@ const Plugin = (options: PluginOptions) => (instance: Vue) =>
   })
 ```
 
+Please note that the order of certain plugins is relevant when other plugins are referenced, e.g. `@polar/plugin-gfi`'s `coordinateSources` requires the sources to have previously been set up.
+
+Please note that all configuration added via plugin constructors can be overridden in the `createMap`'s parameter `mapConfiguration`. You may use either object (or a mix of them) to create the configuration, e.g. use the constructors for a base configuration and the `mapConfiguration` object to override it for various use cases.
+
+How exactly you do this is up to you and influences the minimum API call requirements your client has.
+
 If the storeModule features a `setupModule` action, it will be executed automatically after initialization.
 
 ### initializeLayerList
@@ -510,3 +516,14 @@ map.$store.watch(
 This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.
 
 To add content to the `MoveHandle`, the mutation `setMoveHandle` can be used. The values needed are described in `@polar/lib-custom-types:MoveHandleProperties`.
+
+### Getters
+
+You may desire to listen to whether the loader is currently being shown.
+
+| fieldName | type | description |
+| - | - | - |
+| map | Map \| null | Returns the openlayers map object. |
+| hovered | Feature \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the currently hovered marker. Please mind that it may be a clustered feature. |
+| selected | Feature \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the currently selected marker. Please mind that it may be a clustered feature. |
+| selectedCoordinates | Array \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the coordinates of the currently selected marker. |
