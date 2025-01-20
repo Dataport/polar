@@ -181,7 +181,7 @@ To also serve users with JS disabled some content, this fragment is common:
 
 ```html
 <div id="meldemichel-map-client">
-  <!-- Optional, may use if your page does not have its own <noscript> information -->
+  <!-- Optional, if your page does not have its own <noscript> information -->
   <noscript>Please use a browser with active JavaScript to use the map client.</noscript>
 </div>
 ```
