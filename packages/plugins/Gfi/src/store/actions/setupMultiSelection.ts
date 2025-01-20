@@ -8,6 +8,7 @@ import { GfiGetters, GfiState } from '../../types'
 
 const circleDraw = new Draw({
   source: new VectorSource(),
+  stopClick: true,
   type: 'Circle',
   style: new Style({
     stroke: new Stroke({ color: '#118bee', width: 2 }),
@@ -64,12 +65,10 @@ export function setupMultiSelection({
         // @ts-expect-error | A feature that is drawn has a geometry.
         coordinateOrExtent: e.feature.getGeometry().getExtent(),
         modifierPressed: true,
-      }).finally(() =>
-        // Needed so that no pin is set when finishing drawing the circle
-        setTimeout(() => {
+      }).finally(
+        () =>
           // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
-          circleDraw._isMultiSelect = false
-        }, 250)
+          (circleDraw._isMultiSelect = false)
       )
     )
     map.addInteraction(circleDraw)
