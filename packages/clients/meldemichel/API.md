@@ -169,7 +169,7 @@ The following script tag can then be used to render the productive services of t
 POLAR will rebuild the given div to contain a ShadowDOM that hosts the map. The outer div will change to have the id `meldemichel-map-client-wrapper` (resp. `${yourId}-wrapper`) and can be used to style the map's height and width with, for example:
 
 ```css
-#polarstern-wrapper {
+#meldemichel-map-client-wrapper {
   /* "position: relative;" is the minimum required styling */
   position: relative;
   height: 400px;
