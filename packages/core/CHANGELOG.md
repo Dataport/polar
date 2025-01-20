@@ -3,6 +3,7 @@
 ## unpublished
 
 - Fix: Add `crossOrigin` differently to layer sources that are an instance of `ImageWMS` as they require it being set as `crossOrigin_` to be recognized.
+- Fix: Add missing `font-family` css so that tooltips are always `Arial, sans-serif`.
 
 ## 2.0.0
 
