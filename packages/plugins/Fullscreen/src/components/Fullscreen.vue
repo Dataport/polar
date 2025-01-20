@@ -4,8 +4,8 @@
       <v-btn
         :aria-label="
           isInFullscreen
-            ? $t('common:plugins.fullscreen.button.tooltip.deactivate')
-            : $t('common:plugins.fullscreen.button.tooltip.activate')
+            ? $t('plugins.fullscreen.button.tooltip.deactivate')
+            : $t('plugins.fullscreen.button.tooltip.activate')
         "
         :class="{ 'ma-2': renderType === 'independent' }"
         color="primary"
@@ -22,8 +22,8 @@
     </template>
     <span>{{
       isInFullscreen
-        ? $t('common:plugins.fullscreen.button.tooltip.deactivate')
-        : $t('common:plugins.fullscreen.button.tooltip.activate')
+        ? $t('plugins.fullscreen.button.tooltip.deactivate')
+        : $t('plugins.fullscreen.button.tooltip.activate')
     }}</span>
   </v-tooltip>
 </template>

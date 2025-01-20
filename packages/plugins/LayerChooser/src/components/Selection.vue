@@ -1,7 +1,7 @@
 <template>
   <v-card class="layer-chooser-selection">
     <v-card-title v-if="backgrounds.length" id="polar-label-background-title">{{
-      $t('common:plugins.layerChooser.backgroundTitle')
+      $t('plugins.layerChooser.backgroundTitle')
     }}</v-card-title>
     <v-card-text v-if="backgrounds.length">
       <v-radio-group v-model="activeBackground" dense hide-details>
@@ -26,7 +26,7 @@
       </v-radio-group>
     </v-card-text>
     <v-card-title v-if="shownMasks.length" id="polar-label-mask-title">{{
-      $t('common:plugins.layerChooser.maskTitle')
+      $t('plugins.layerChooser.maskTitle')
     }}</v-card-title>
     <v-card-text v-if="shownMasks.length">
       <template v-for="({ name, id }, index) in shownMasks">

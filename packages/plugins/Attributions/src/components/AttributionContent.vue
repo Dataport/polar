@@ -9,7 +9,7 @@
       :max-width="maxWidth"
     >
       <v-card-title v-if="renderType !== 'footer'">
-        {{ $t('common:plugins.attributions.title') }}
+        {{ $t('plugins.attributions.title') }}
       </v-card-title>
       <!-- NOTE: The usage of v-html is considered unsafe as it
         opens a window for XSS attacks. In this case, the information is retrieved

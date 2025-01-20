@@ -9,11 +9,11 @@
         color="primary"
         :href="exportProperty"
         target="_blank"
-        :title="$t('common:plugins.gfi.property.linkTitle')"
-        :aria-label="$t('common:plugins.gfi.property.export')"
+        :title="$t('plugins.gfi.property.linkTitle')"
+        :aria-label="$t('plugins.gfi.property.export')"
         onmousedown="return false"
       >
-        {{ $t('common:plugins.gfi.property.export') }}
+        {{ $t('plugins.gfi.property.export') }}
       </v-btn>
     </div>
     <FeatureSwitchButtons v-if="showSwitchButtons"></FeatureSwitchButtons>

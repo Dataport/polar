@@ -5,11 +5,7 @@
     fab
     color="secondary"
     :title="
-      $t(
-        `common:plugins.attributions.button.${
-          windowIsOpen ? 'close' : 'open'
-        }Title`
-      )
+      $t(`plugins.attributions.button.${windowIsOpen ? 'close' : 'open'}Title`)
     "
     @click="toggleMapInfo"
   >

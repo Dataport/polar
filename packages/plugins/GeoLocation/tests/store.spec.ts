@@ -46,7 +46,7 @@ describe('plugin-geolocation', () => {
             'actionName',
             {
               type: 'error',
-              text: 'common:plugins.geoLocation.button.tooltip.locationAccessDenied',
+              text: 'plugins.geoLocation.button.tooltip.locationAccessDenied',
             },
             { root: true },
           ])

@@ -3,7 +3,7 @@
     <v-card class="polar-draw-menu" :style="flexStyle">
       <RadioCard
         id="mode"
-        title="common:plugins.draw.title.mode"
+        title="plugins.draw.title.mode"
         :initial-value="mode"
         :values="selectableModes"
         :change-callback="setMode"
@@ -11,14 +11,14 @@
       <RadioCard
         v-if="mode === 'draw'"
         id="drawMode"
-        title="common:plugins.draw.title.drawMode"
+        title="plugins.draw.title.drawMode"
         :initial-value="drawMode"
         :values="selectableDrawModes"
         :change-callback="setDrawMode"
       ></RadioCard>
       <DrawOptions v-if="showDrawOptions" />
       <v-subheader v-if="showSizeSlider" class="align-end">{{
-        $t('common:plugins.draw.label.textSize')
+        $t('plugins.draw.label.textSize')
       }}</v-subheader>
       <v-slider
         v-if="showSizeSlider"

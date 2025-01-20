@@ -4,7 +4,7 @@
       <v-card-text>
         <v-container>
           <v-row justify="center">
-            {{ $t('common:plugins.loadingIndicator.loading') }}
+            {{ $t('plugins.loadingIndicator.loading') }}
           </v-row>
           <v-row v-if="loaderStyle !== 'none'">
             <component

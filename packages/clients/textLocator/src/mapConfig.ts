@@ -1,5 +1,5 @@
 import { MapConfig } from '@polar/lib-custom-types'
-import locales from './locales'
+import locales from './language'
 import {
   openStreetMap,
   openSeaMap,

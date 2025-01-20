@@ -28,7 +28,7 @@ export default function (
             if (this.hasModule(['plugin', 'toast'])) {
               this.dispatch('plugin/toast/addToast', {
                 type: 'warning',
-                text: i18next.t('common:error.serviceUnavailable', {
+                text: i18next.t('error.serviceUnavailable', {
                   serviceId: service.id,
                   serviceName: service.name,
                 }),

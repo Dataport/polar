@@ -40,7 +40,7 @@ export default Vue.extend({
     FeatureTableBody,
     FeatureTableHead,
   },
-  data: () => ({ closeLabel: 'common:plugins.gfi.header.close' }),
+  data: () => ({ closeLabel: 'plugins.gfi.header.close' }),
   computed: {
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', ['exportProperty', 'showSwitchButtons']),

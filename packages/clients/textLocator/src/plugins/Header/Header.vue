@@ -1,6 +1,6 @@
 <template>
   <h1 class="polar-plugin-header" lang="en">
-    {{ $t('common:plugins.textLocator.header.text') }}
+    {{ $t('plugins.textLocator.header.text') }}
     &nbsp;
     <v-icon x-small color="white">fa-scroll</v-icon>
     <v-icon x-small color="white">fa-magnifying-glass</v-icon>

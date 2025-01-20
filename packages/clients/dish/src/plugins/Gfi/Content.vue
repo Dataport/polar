@@ -6,7 +6,7 @@
       <v-btn
         icon
         small
-        :aria-label="$t('common:plugins.gfi.header.close')"
+        :aria-label="$t('plugins.gfi.header.close')"
         @click="close(true)"
       >
         <v-icon small>fa-xmark</v-icon>
@@ -49,7 +49,7 @@
               <v-btn
                 icon
                 x-small
-                :aria-label="$t('common:plugins.gfi.toggle')"
+                :aria-label="$t('plugins.gfi.toggle')"
                 @click="toggleSachgesamtheit"
               >
                 <v-icon small>

@@ -2,6 +2,49 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { LanguageOption } from '@polar/lib-custom-types'
 
+export const geometrySearchDe = {
+  draw: {
+    title: 'Zeichenmodus',
+    description: {
+      Point:
+        'Klicken Sie in die Karte, um Ortsnamen und Literatur zu einer Punktkoordinate abzufragen. $t(plugins.geometrySearch.draw.description.Common)',
+      Polygon:
+        'Klicken Sie wiederholt in die Karte, um eine Fläche zu zeichnen, zu der Ortsnamen und Literatur abgefragt werden. Doppelklick beendet eine Zeichnung. $t(plugins.geometrySearch.draw.description.Common)',
+      Common: 'Neue Zeichnungen verwerfen vorangehende Ergebnisse.',
+    },
+  },
+  tooltip: {
+    title: 'Orte',
+    highlight: {
+      cold: 'Auf Fund zoomen',
+      heat: 'Auf Funde zoomen und nach Relevanz färben',
+    },
+    focusSearch: 'Neue Suche nach allen Geometrien zu dieser Geometrie',
+    textSearch: 'Suche nach allen Geometrien zu diesem Text',
+    badge: {
+      textToToponym:
+        'Anzahl der Ortsnennungen zu den aktuell angezeigten Geometrien in diesem Text',
+      toponymInText: 'Anzahl der Funde dieses Ortes im aktuell geöffneten Text',
+      toponymToText:
+        'Anzahl der Ortsnennungen dieses Ortes über alle aktuell betrachteten Texte',
+      textInToponym:
+        'Anzahl der Funde des aktuellen geöffneten Ortes in diesem Text',
+    },
+  },
+  results: {
+    title: 'Funde',
+    source: 'aus der {{ searchType }}',
+    sourceOptions: {
+      geometrySearch: 'Geometriesuche',
+      literatureSearch: 'Literatursuche',
+      toponymSearch: 'Ortssuche',
+    },
+    byLocation: 'Ort',
+    byText: 'Text',
+    none: 'Keine Suchergebnisse',
+  },
+} as const
+
 const language: LanguageOption[] = [
   {
     type: 'de',
@@ -13,47 +56,7 @@ const language: LanguageOption[] = [
           },
         },
         geometrySearch: {
-          draw: {
-            title: 'Zeichenmodus',
-            description: {
-              Point:
-                'Klicken Sie in die Karte, um Ortsnamen und Literatur zu einer Punktkoordinate abzufragen. $t(plugins.geometrySearch.draw.description.Common)',
-              Polygon:
-                'Klicken Sie wiederholt in die Karte, um eine Fläche zu zeichnen, zu der Ortsnamen und Literatur abgefragt werden. Doppelklick beendet eine Zeichnung. $t(plugins.geometrySearch.draw.description.Common)',
-              Common: 'Neue Zeichnungen verwerfen vorangehende Ergebnisse.',
-            },
-          },
-          tooltip: {
-            title: 'Orte',
-            highlight: {
-              cold: 'Auf Fund zoomen',
-              heat: 'Auf Funde zoomen und nach Relevanz färben',
-            },
-            focusSearch: 'Neue Suche nach allen Geometrien zu dieser Geometrie',
-            textSearch: 'Suche nach allen Geometrien zu diesem Text',
-            badge: {
-              textToToponym:
-                'Anzahl der Ortsnennungen zu den aktuell angezeigten Geometrien in diesem Text',
-              toponymInText:
-                'Anzahl der Funde dieses Ortes im aktuell geöffneten Text',
-              toponymToText:
-                'Anzahl der Ortsnennungen dieses Ortes über alle aktuell betrachteten Texte',
-              textInToponym:
-                'Anzahl der Funde des aktuellen geöffneten Ortes in diesem Text',
-            },
-          },
-          results: {
-            title: 'Funde',
-            source: 'aus der {{ searchType }}',
-            sourceOptions: {
-              geometrySearch: 'Geometriesuche',
-              literatureSearch: 'Literatursuche',
-              toponymSearch: 'Ortssuche',
-            },
-            byLocation: 'Ort',
-            byText: 'Text',
-            none: 'Keine Suchergebnisse',
-          },
+          ...geometrySearchDe,
         },
       },
     },

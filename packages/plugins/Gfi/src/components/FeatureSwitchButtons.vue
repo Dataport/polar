@@ -5,7 +5,7 @@
       class="ma-2"
       fab
       x-small
-      :aria-label="$t('common:plugins.gfi.switch.previous')"
+      :aria-label="$t('plugins.gfi.switch.previous')"
       @click="switchFeature(-1)"
     >
       <v-icon>fa-chevron-left</v-icon>
@@ -15,7 +15,7 @@
       class="ma-2"
       fab
       x-small
-      :aria-label="$t('common:plugins.gfi.switch.next')"
+      :aria-label="$t('plugins.gfi.switch.next')"
       @click="switchFeature(1)"
     >
       <v-icon>fa-chevron-right</v-icon>

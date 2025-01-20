@@ -5,13 +5,13 @@
     text
     :href="exportProperty"
     target="_blank"
-    :alt="$t('common:plugins.gfi.property.imageAlt')"
-    :title="$t('common:plugins.gfi.property.linkTitle')"
-    :aria-label="$t('common:plugins.gfi.property.export')"
+    :alt="$t('plugins.gfi.property.imageAlt')"
+    :title="$t('plugins.gfi.property.linkTitle')"
+    :aria-label="$t('plugins.gfi.property.export')"
     onmousedown="return false"
   >
     <v-icon small>fa-download</v-icon>
-    {{ $t('common:plugins.gfi.property.export') }}
+    {{ $t('plugins.gfi.property.export') }}
   </v-btn>
 </template>
 

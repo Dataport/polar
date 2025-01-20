@@ -46,46 +46,48 @@ const filterCategory = {
   title: { skat: 'Kategorien', statu: 'Status' },
 }
 
+export const meldemichelDe = {
+  attributions: {
+    stadtplan:
+      'Kartografie Stadtplan: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
+    luftbilder:
+      'Kartografie Luftbilder: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
+    reports: 'Meldungen durch Bürger',
+  },
+  gfi: {
+    title: 'Meldung',
+    skat: 'Kategorie',
+    beschr: 'Beschreibung',
+    rueck: 'Rückmeldung',
+    start: 'Gemeldet am',
+    statu: 'Status',
+    tooltip: {
+      multiHeader: 'Mehrere Anliegen',
+      multiBody: 'Klick zum Zoomen',
+      multiBodyUnresolvable: 'Klick zum Öffnen',
+    },
+  },
+  layers: {
+    stadtplan: 'Stadtplan',
+    luftbilder: 'Luftbildansicht',
+    reports: 'Meldungen',
+    hamburgBorder: 'Stadtgrenze Hamburg',
+  },
+  skat,
+  status,
+  time: {
+    [TIME_FILTER.NONE]: 'Keine Einschränkung',
+    [TIME_FILTER.DAYS_7]: 'Die letzten 7 Tage',
+    [TIME_FILTER.DAYS_30]: 'Die letzten 30 Tage',
+    [TIME_FILTER.SELECTABLE]: 'Zeitraum wählen',
+  },
+} as const
+
 const language: LanguageOption[] = [
   {
     type: 'de',
     resources: {
-      meldemichel: {
-        attributions: {
-          stadtplan:
-            'Kartografie Stadtplan: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
-          luftbilder:
-            'Kartografie Luftbilder: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
-          reports: 'Meldungen durch Bürger',
-        },
-        gfi: {
-          title: 'Meldung',
-          skat: 'Kategorie',
-          beschr: 'Beschreibung',
-          rueck: 'Rückmeldung',
-          start: 'Gemeldet am',
-          statu: 'Status',
-          tooltip: {
-            multiHeader: 'Mehrere Anliegen',
-            multiBody: 'Klick zum Zoomen',
-            multiBodyUnresolvable: 'Klick zum Öffnen',
-          },
-        },
-        layers: {
-          stadtplan: 'Stadtplan',
-          luftbilder: 'Luftbildansicht',
-          reports: 'Meldungen',
-          hamburgBorder: 'Stadtgrenze Hamburg',
-        },
-        skat,
-        status,
-        time: {
-          [TIME_FILTER.NONE]: 'Keine Einschränkung',
-          [TIME_FILTER.DAYS_7]: 'Die letzten 7 Tage',
-          [TIME_FILTER.DAYS_30]: 'Die letzten 30 Tage',
-          [TIME_FILTER.SELECTABLE]: 'Zeitraum wählen',
-        },
-      },
+      meldemichel: meldemichelDe,
       plugins: {
         filter: {
           layerName: {

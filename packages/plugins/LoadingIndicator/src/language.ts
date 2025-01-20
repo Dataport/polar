@@ -1,25 +1,29 @@
 import { LanguageOption } from '@polar/lib-custom-types'
 
+export const resourcesDe = {
+  plugins: {
+    loadingIndicator: {
+      loading: 'Lädt...',
+    },
+  },
+} as const
+
+export const resourcesEn = {
+  plugins: {
+    loadingIndicator: {
+      loading: 'Loading...',
+    },
+  },
+} as const
+
 const language: LanguageOption[] = [
   {
     type: 'de',
-    resources: {
-      plugins: {
-        loadingIndicator: {
-          loading: 'Lädt...',
-        },
-      },
-    },
+    resources: resourcesDe,
   },
   {
     type: 'en',
-    resources: {
-      plugins: {
-        loadingIndicator: {
-          loading: 'Loading...',
-        },
-      },
-    },
+    resources: resourcesEn,
   },
 ]
 

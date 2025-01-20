@@ -9,7 +9,7 @@
           {{ $t(overlayLocale) }}
         </template>
         <template v-else-if="oneFingerPan">
-          {{ $t('common:overlay.oneFingerPan') }}
+          {{ $t('overlay.oneFingerPan') }}
         </template>
       </div>
     </transition>
@@ -17,7 +17,7 @@
       ref="polar-map-container"
       class="polar-map"
       tabindex="0"
-      :aria-label="$t('common:canvas.label')"
+      :aria-label="$t('canvas.label')"
     ></div>
     <MapUi></MapUi>
     <MoveHandle
@@ -99,7 +99,7 @@ export default Vue.extend({
       'moveHandleActionButton',
     ]),
     overlayLocale() {
-      return `common:overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
+      return `overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
     },
     renderMoveHandle() {
       return (

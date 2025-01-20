@@ -26,6 +26,7 @@ const setInnerHtml =
     (tooltip.innerHTML = localeKeys
       .map(
         ([element, localeKey]) =>
+          // @ts-expect-error | can't control key configuration
           `<${element}>${i18next.t(localeKey)}</${element}>`
       )
       .join(''))

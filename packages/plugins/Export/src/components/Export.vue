@@ -17,7 +17,7 @@
           :click="() => exportFile(format.JPG)"
           icon="fa-image"
           small-icon
-          hint="common:plugins.export.buttons.jpg"
+          hint="plugins.export.buttons.jpg"
         ></export-button>
         <export-button
           v-if="showPng"
@@ -27,7 +27,7 @@
           :click="() => exportFile(format.PNG)"
           icon="fa-image"
           small-icon
-          hint="common:plugins.export.buttons.png"
+          hint="plugins.export.buttons.png"
         ></export-button>
         <export-button
           v-if="showPdf"
@@ -37,7 +37,7 @@
           :click="() => exportFile(format.PDF)"
           icon="fa-file"
           small-icon
-          hint="common:plugins.export.buttons.pdf"
+          hint="plugins.export.buttons.pdf"
         ></export-button>
       </div>
     </v-scroll-x-transition>
@@ -85,12 +85,12 @@ export default (Vue as VueConstructor<ExportComponent>).extend({
     },
     mainButtonHint() {
       if (!this.singleExport) {
-        return 'common:plugins.export.buttons.toggle'
+        return 'plugins.export.buttons.toggle'
       }
       return {
-        [ExportFormat.JPG]: 'common:plugins.export.buttons.jpg',
-        [ExportFormat.PNG]: 'common:plugins.export.buttons.png',
-        [ExportFormat.PDF]: 'common:plugins.export.buttons.pdf',
+        [ExportFormat.JPG]: 'plugins.export.buttons.jpg',
+        [ExportFormat.PNG]: 'plugins.export.buttons.png',
+        [ExportFormat.PDF]: 'plugins.export.buttons.pdf',
       }[this.singleExport]
     },
   },

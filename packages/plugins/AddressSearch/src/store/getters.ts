@@ -14,7 +14,7 @@ import {
 import { getInitialState } from './state'
 
 const defaultGroupProperties: AddressSearchGroupProperties = {
-  label: 'common:plugins.addressSearch.defaultGroup',
+  label: 'plugins.addressSearch.defaultGroup',
   placeholder: '',
   hint: '',
   resultDisplayMode: 'mixed',
@@ -159,19 +159,19 @@ const getters: PolarGetterTree<AddressSearchState, AddressSearchGetters> = {
     { selectedGroupHint, minLength, featuresAvailable, loading }
   ) {
     if (loading) {
-      return 'common:plugins.addressSearch.hint.loading'
+      return 'plugins.addressSearch.hint.loading'
     }
 
     if (searchResults === SearchResults.ERROR) {
-      return 'common:plugins.addressSearch.hint.error'
+      return 'plugins.addressSearch.hint.error'
     }
 
     if (inputValue && inputValue.length > 0 && inputValue.length < minLength) {
-      return 'common:plugins.addressSearch.hint.tooShort'
+      return 'plugins.addressSearch.hint.tooShort'
     }
 
     if (searchResults !== SearchResults.NO_SEARCH && !featuresAvailable) {
-      return 'common:plugins.addressSearch.hint.noResults'
+      return 'plugins.addressSearch.hint.noResults'
     }
 
     return selectedGroupHint

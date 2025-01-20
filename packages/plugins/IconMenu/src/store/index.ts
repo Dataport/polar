@@ -75,7 +75,7 @@ export const makeStoreModule = () => {
             'setMoveHandle',
             {
               closeLabel: t('plugins.iconMenu.mobileCloseButton', {
-                plugin: hint || `common:plugins.iconMenu.hints.${id}`,
+                plugin: hint || `plugins.iconMenu.hints.${id}`,
               }),
               closeFunction: () => commit('setOpen', null),
               component: plugin,

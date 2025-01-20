@@ -6,7 +6,7 @@
       dismissible
       dense
       class="v-alert"
-      :close-label="$t('common:plugins.toast.close')"
+      :close-label="$t('plugins.toast.close')"
       :type="toast.type"
       :color="toast.color"
       :icon="toast.icon"

@@ -9,7 +9,7 @@
         <v-btn
           class="ml-1"
           :class="!hasOptions && 'polar-layer-chooser-option-invisible'"
-          :aria-label="$t('common:plugins.layerChooser.layerOptions')"
+          :aria-label="$t('plugins.layerChooser.layerOptions')"
           icon
           small
           @click="setOpenedOptions(layerId)"
@@ -18,7 +18,7 @@
         </v-btn>
       </div>
     </template>
-    {{ $t('common:plugins.layerChooser.tooltipDisabledLayer') }}
+    {{ $t('plugins.layerChooser.tooltipDisabledLayer') }}
   </v-tooltip>
 </template>
 

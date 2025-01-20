@@ -11,9 +11,9 @@
         <a :href="value" target="_blank">
           <img
             :src="value"
-            :alt="$t('common:plugins.gfi.property.imageAlt')"
-            :title="$t('common:plugins.gfi.property.linkTitle')"
-            :aria-label="$t('common:plugins.gfi.property.linkTitle')"
+            :alt="$t('plugins.gfi.property.imageAlt')"
+            :title="$t('plugins.gfi.property.linkTitle')"
+            :aria-label="$t('plugins.gfi.property.linkTitle')"
             :height="photoHeight"
             width="auto"
           />
@@ -23,8 +23,8 @@
         <a
           :href="value"
           target="_blank"
-          :title="$t('common:plugins.gfi.property.linkTitle')"
-          :aria-label="$t('common:plugins.gfi.property.linkTitle')"
+          :title="$t('plugins.gfi.property.linkTitle')"
+          :aria-label="$t('plugins.gfi.property.linkTitle')"
         >
           {{ 'Link' }}
         </a>

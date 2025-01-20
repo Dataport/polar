@@ -223,7 +223,7 @@ export const makeStoreModule = () => {
               ? []
               : [
                   {
-                    label: 'common:plugins.filter.time.chooseTimeFrame.label',
+                    label: 'plugins.filter.time.chooseTimeFrame.label',
                     component: ChooseTimeFrame,
                     amount: null,
                     unit: timeConfig.freeSelection.unit || 'days',
