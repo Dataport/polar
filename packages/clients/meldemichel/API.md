@@ -16,6 +16,7 @@ The method expects a single object with the following parameters.
 | - | - | - |
 | containerId | string | ID of the container the map is supposed to render itself to. |
 | mode | enum["REPORT", "SINGLE", "COMPLETE"] | See chapters below for an overview of the modes. |
+| stadtwaldActive | boolean? | This layer only works in 'SINGLE' mode and should not be activated in the others. If not set, any existing previous state is kept; off by default. |
 | afmUrl | string? | `COMPLETE` mode only. The URL used here is the URL of the AfM service to open to create a new damage report. |
 | reportServiceId | string? | `COMPLETE` mode only. ID of the report layer to display. Both the Filter and the Feature List will work with this layer. The client will also provide tooltips and cluster the features. |
 | configOverride  | object? | This can be used to override the configuration of any installed plugin; see full documentation. It is also used to set initial pins in `SINGLE` mode. See documentation of `SINGLE` further below. |
