@@ -53,8 +53,9 @@ export const makeStoreModule = () => {
         rootGetters.map.on('singleclick', async ({ coordinate }) => {
           const isDrawing = interactions.getArray().some(
             (interaction) =>
-              // @ts-expect-error | internal hack to detect it from @polar/plugin-gfi
-              (interaction instanceof Draw && interaction._isMultiSelect) ||
+              (interaction instanceof Draw &&
+                // @ts-expect-error | internal hack to detect it from @polar/plugin-gfi and @polar/plugin-draw
+                (interaction._isMultiSelect || interaction._isDrawPlugin)) ||
               interaction instanceof Modify ||
               // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
               interaction._isDeleteSelect ||
