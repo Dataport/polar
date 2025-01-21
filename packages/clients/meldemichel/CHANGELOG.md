@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Add `stadtwaldActive` as startup parameter for `createMap` object and `meldemichel/setMapState` action. Refer to the API.md regarding further details.
 - Fix: Import type `MpApiParameters` from correct position.
 - Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
 - Chore: Update `@polar`-dependencies to the latest versions.
