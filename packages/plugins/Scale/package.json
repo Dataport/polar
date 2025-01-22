@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-scale",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Scale plugin for POLAR that adds a resolution display to the client.",
   "keywords": [
     "OpenLayers",
