@@ -17,7 +17,7 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "postversion": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
     "dev": "vite --host"
   },
