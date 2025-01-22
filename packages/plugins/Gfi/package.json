@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-gfi",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Gfi plugin for POLAR that adds feature information retrieval. UI elements can be provided by configuration, else it works as a store integration.",
   "keywords": [
     "OpenLayers",
