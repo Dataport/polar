@@ -1,6 +1,6 @@
 {
   "name": "@polar/client-meldemichel",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "POLAR Client Meldemichel. This client aids in crowd-sourcing the detection of Hamburg's infrastructure in need of repair or maintenance.",
   "keywords": [
     "OpenLayers",
