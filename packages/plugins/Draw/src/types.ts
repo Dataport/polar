@@ -7,6 +7,7 @@ import { StyleLike } from 'ol/style/Style'
 import {
   DrawConfiguration,
   DrawMode,
+  MeasureMode,
   MeasureOptions,
 } from '@polar/lib-custom-types'
 
@@ -18,8 +19,6 @@ export interface PolarVectorOptions {
 }
 
 export type Mode = 'none' | 'draw' | 'edit' | 'delete'
-
-export type MeasureMode = 'none' | 'metres' | 'kilometres' | 'hectares'
 
 export interface CreateInteractionsPayload {
   drawSource: VectorSource

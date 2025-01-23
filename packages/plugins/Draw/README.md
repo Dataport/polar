@@ -78,6 +78,7 @@ draw: {
 | metres | boolean? | Whether to show the measure option `'m / m²'` to the user. `false` by default. |
 | kilometres | boolean? | Whether to show the measure option `'km / km²'` to the user. `false` by default. |
 | hectares | boolean? | Whether to show the measure option `'km / ha‚'` to the user. `false` by default. |
+| initialOption | 'none' \| 'meters' \| 'kilometres' \| 'hectares' | The initial measure option to be selected. Defaults to `'none'`. |
 
 #### draw.textStyle
 

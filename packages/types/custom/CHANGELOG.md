@@ -4,6 +4,7 @@
 
 - Feature: Add new parameter `measureOptions` to `DrawConfiguration`.
 - Feature: Add new type `MeasureOptions`.
+- Feature: Add new type `MeasureMode`.
 
 ## 1.5.0
 

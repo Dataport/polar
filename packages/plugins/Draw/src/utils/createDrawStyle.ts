@@ -1,4 +1,4 @@
-import { type DrawStyle } from '@polar/lib-custom-types'
+import { type DrawStyle, type MeasureMode } from '@polar/lib-custom-types'
 import centerOfMass from '@turf/center-of-mass'
 import { Circle as CircleStyle, Fill, Stroke } from 'ol/style'
 import Style, { type Options, StyleFunction } from 'ol/style/Style'
@@ -9,7 +9,6 @@ import { LineString, Point, Polygon } from 'ol/geom'
 import { getArea, getLength } from 'ol/sphere'
 import { type Projection } from 'ol/proj'
 import { Coordinate } from 'ol/coordinate'
-import { type MeasureMode } from '../types'
 
 function calculatePartialDistances(
   styles: Style[],
