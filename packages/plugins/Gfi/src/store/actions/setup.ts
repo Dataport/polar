@@ -4,8 +4,6 @@ import getCluster from '@polar/lib-get-cluster'
 import { getTooltip, Tooltip } from '@polar/lib-tooltip'
 import Overlay from 'ol/Overlay'
 import { Feature } from 'ol'
-import { DragBox, Draw, Modify } from 'ol/interaction'
-import { platformModifierKeyOnly } from 'ol/events/condition'
 import { GfiGetters, GfiState } from '../../types'
 import { getOriginalFeature } from '../../utils/getOriginalFeature'
 
