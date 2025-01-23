@@ -4,7 +4,6 @@ import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'
 import Export from '@polar/plugin-export'
-import Measure from '@polar/plugin-measure'
 import Fullscreen from '@polar/plugin-fullscreen'
 import GeoLocation from '@polar/plugin-geo-location'
 import Gfi from '@polar/plugin-gfi'
@@ -39,11 +38,6 @@ export const addPlugins = (core) => {
         plugin: Draw({}),
         icon: 'fa-pencil',
         id: 'draw',
-      },
-      {
-        plugin: Measure({}),
-        icon: 'fa-pen-ruler',
-        id: 'measure',
       },
       {
         plugin: Zoom({ renderType: 'iconMenu' }),
