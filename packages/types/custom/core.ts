@@ -181,10 +181,11 @@ export interface FontStyle {
 export type DrawMode = 'Circle' | 'LineString' | 'Point' | 'Polygon' | 'Text'
 
 export interface DrawConfiguration extends Partial<PluginOptions> {
+  enableOptions?: boolean
+  measureOptions?: boolean
   selectableDrawModes?: DrawMode[]
   style?: DrawStyle
   textStyle?: TextStyle
-  enableOptions?: boolean
 }
 
 export interface ExportConfiguration extends PluginOptions {
