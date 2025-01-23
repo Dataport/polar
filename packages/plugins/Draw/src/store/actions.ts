@@ -27,7 +27,7 @@ export const makeActions = () => {
     setupModule({
       commit,
       dispatch,
-      getters: { configuration, selectableDrawModes },
+      getters: { configuration, measureOptions, selectableDrawModes },
       rootGetters: { map },
     }) {
       dispatch('initializeConfigStyle')
@@ -42,6 +42,9 @@ export const makeActions = () => {
       const drawModes = Object.keys(selectableDrawModes)
       if (!drawModes.includes('Point')) {
         commit('setDrawMode', drawModes[0])
+      }
+      if (measureOptions.initialOption) {
+        commit('setMeasureMode', measureOptions.initialOption)
       }
     },
     setDrawMode({ commit, dispatch }, drawMode: DrawMode) {

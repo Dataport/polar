@@ -90,7 +90,7 @@ export const makeStoreModule = () => {
         configuration.measureOptions || {},
       selectableMeasureModes: (_, { measureOptions }) =>
         Object.entries(measureOptions)
-          .filter(([_, value]) => value)
+          .filter(([_, value]) => typeof value === 'boolean' && value)
           .reduce(
             (acc, [option]) => ({
               ...acc,
@@ -100,7 +100,9 @@ export const makeStoreModule = () => {
           ),
       showMeasureOptions: ({ drawMode, mode }, { measureOptions }) =>
         measureOptions &&
-        Object.values(measureOptions).some((option: boolean) => option) &&
+        Object.values(measureOptions)
+          .filter((option) => typeof option === 'boolean')
+          .some((option) => option) &&
         mode === 'draw' &&
         ['LineString', 'Polygon'].includes(drawMode),
       showTextInput({ drawMode, mode }, { selectedFeature }) {
