@@ -12,6 +12,7 @@ export type {
   AddressSearchState,
   AddressSearchGetters,
   MpApiParameters,
+  BKGParameters,
 } from './types'
 
 export default (options: AddressSearchConfiguration) => (instance: Vue) =>
