@@ -16,7 +16,7 @@ All parameters are optional. However, setting neither `layerAttributions` nor `s
 | layerAttributions | layerAttribution[]? | List of attributions that are shown when the matching layer is visible. |
 | listenToChanges | string[]? | Store variable paths to listen to for changes. Will update the currently visible layers depending on the current map state on changes to these values. Please mind that, when referencing another plugin, that plugin must be in `addPlugins` before this one. |
 | renderType | 'iconMenu' \| 'independent'  \| 'footer'? | Defines whether this plugin ('independent') or the IconMenu ('iconMenu') should handle opening the information box or if a small information box should always be visible ('footer'). Defaults to 'independent'. |
-| staticAttributions | string[]? | List of static attributions that are always shown. |
+| staticAttributions | string[]? | List of static attributions that are always shown. May contain HTML elements. |
 | windowWidth | number? | If `renderType` is set to `independent`, sets the width of the container of the attributions. Defaults to 500. |
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.

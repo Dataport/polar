@@ -2,8 +2,9 @@
 
 ## unpublished
 
-- Feature: Add new interface `MeasureConfiguration` of the new plugin `@polar/plugin-measure`.
-- Feature: Add new property `measure` for the new plugin `@polar/plugin-measure` to `MapConfig`.
+- Feature: Add new parameter `measureOptions` to `DrawConfiguration`.
+- Feature: Add new type `MeasureOptions`.
+- Feature: Add new type `MeasureMode`.
 - Feature: Add new property `multiSelect` to `GfiConfiguration`.
 
 ## 1.5.0

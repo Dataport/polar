@@ -58,9 +58,7 @@ export const makeStoreModule = () => {
                 (interaction._isMultiSelect || interaction._isDrawPlugin)) ||
               interaction instanceof Modify ||
               // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
-              interaction._isDeleteSelect ||
-              // @ts-expect-error | internal hack to detect it from @polar/plugin-measure
-              interaction._isMeasureSelect
+              interaction._isDeleteSelect
           )
           if (
             (movable === 'drag' || movable === 'click') &&

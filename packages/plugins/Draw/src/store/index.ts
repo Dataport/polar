@@ -20,6 +20,7 @@ const getInitialState = (): DrawState => ({
   },
   selectedFeature: 1,
   selectedStrokeColor: '#000000',
+  measureMode: 'none',
 })
 
 // OK for module creation
@@ -69,16 +70,41 @@ export const makeStoreModule = () => {
       selectableModes(_, { configuration }) {
         const includesWrite =
           configuration.selectableDrawModes?.includes('Text')
-        const selectableModesDraw = {
+        const includesMeasure = configuration.measureOptions !== undefined
+        let drawLabel = 'draw'
+        if (includesWrite && includesMeasure) {
+          drawLabel = 'writeAndMeasure'
+        } else if (includesWrite) {
+          drawLabel = 'write'
+        } else if (includesMeasure) {
+          drawLabel = 'measure'
+        }
+        return {
           none: 'common:plugins.draw.mode.none',
-          draw: includesWrite
-            ? 'common:plugins.draw.mode.write'
-            : 'common:plugins.draw.mode.draw',
+          draw: `common:plugins.draw.mode.${drawLabel}`,
           edit: 'common:plugins.draw.mode.edit',
           delete: 'common:plugins.draw.mode.delete',
         }
-        return selectableModesDraw
       },
+      measureOptions: (_, { configuration }) =>
+        configuration.measureOptions || {},
+      selectableMeasureModes: (_, { measureOptions }) =>
+        Object.entries(measureOptions)
+          .filter((option) => typeof option[1] === 'boolean' && option[1])
+          .reduce(
+            (acc, [option]) => ({
+              ...acc,
+              [option]: `common:plugins.draw.measureMode.${option}`,
+            }),
+            { none: 'common:plugins.draw.measureMode.none' }
+          ),
+      showMeasureOptions: ({ drawMode, mode }, { measureOptions }) =>
+        measureOptions &&
+        Object.values(measureOptions)
+          .filter((option) => typeof option === 'boolean')
+          .some((option) => option) &&
+        mode === 'draw' &&
+        ['LineString', 'Polygon'].includes(drawMode),
       showTextInput({ drawMode, mode }, { selectedFeature }) {
         return (
           (drawMode === 'Text' && mode === 'draw') ||

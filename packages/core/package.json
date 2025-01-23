@@ -1,6 +1,6 @@
 {
   "name": "@polar/core",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "POLAR core package. Provides POALR environment with store setup, localization, UI framework, and other basics.",
   "keywords": [
     "OpenLayers",

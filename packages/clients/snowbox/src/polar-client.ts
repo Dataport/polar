@@ -5,6 +5,7 @@ import { changeLanguage } from 'i18next'
 import { enableClustering } from '../../meldemichel/src/utils/enableClustering'
 import { addPlugins } from './addPlugins'
 import { mapConfiguration, reports } from './mapConfiguration'
+import { exampleFeatureInformation } from './exampleFeatureInformation'
 
 addPlugins(polarCore)
 
@@ -22,8 +23,6 @@ const createMap = (layerConf) => {
       window.mapInstance = map
       addStoreSubscriptions(
         ['plugin/zoom/zoomLevel', 'vuex-target-zoom'],
-        ['plugin/measure/measure', 'vuex-target-measure'],
-        ['plugin/measure/selectedUnit', 'vuex-target-unit'],
         [
           'plugin/gfi/featureInformation',
           'vuex-target-gfi',
@@ -82,3 +81,11 @@ document
       target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
     })
   })
+
+document.getElementById('vuex-target-clicky')!.addEventListener('click', () =>
+  // @ts-expect-error | added for e2e testing
+  window.mapInstance.$store.dispatch(
+    'plugin/gfi/setFeatureInformation',
+    exampleFeatureInformation
+  )
+)

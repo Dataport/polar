@@ -130,6 +130,11 @@ export const mapConfiguration = {
     ],
   },
   draw: {
+    measureOptions: {
+      metres: true,
+      kilometres: true,
+      hectares: true,
+    },
     selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
     textStyle: {
       font: {

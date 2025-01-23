@@ -162,7 +162,7 @@ customHighlightStyle: {
 
 | fieldName | type | description |
 | - | - | - |
-| mode | 'visible' \| 'loaded' | Whether to show only features currently visible in the map view's bounding box or to display all loaded features. In the latter case, if you desire to display all features of a layer (seen or not), set its loading strategy to `'all'`. |
+| mode | 'visible' \| 'loaded' | Whether to show only features currently visible in the map view's bounding box or to display all loaded features. In the latter case, if you desire to display all features of a layer (seen or not), set its loading strategy to `'all'`. The loading strategy is a value in the OpenLayers vector source configuration; see [ol/loadingStrategy](https://openlayers.org/en/latest/apidoc/module-ol_loadingstrategy.html) for further details. |
 | bindWithCoreHoverSelect | boolean? | If `true`, the hover/select fields in the core's state will be listened to and interacted with. This will result in a bilateral hovering and selecting of features with the core. Defaults to `false`. |
 | pageLength | number? | A number >0 that sets the limit to the feature list's length. If the length is surpassed, additional features can be reached by using the pagination that is generated in such a case. If not defined, the list can be of arbitrary length. |
 | text | (function \| string)[]? | Array of one to three entries that will produce title, subtitle, and an additional subtitle for the list view. If string, the text item will simply be that feature's value for the denoted property. If function, it's assumed to match the function signature `(feature: OpenLayersFeature): string`, and the returned string will be used for the text item. |
@@ -178,6 +178,56 @@ featureList: {
 ```
 
 ## Store
+
+### Actions
+
+#### setFeatureInformation
+
+This method can be used to set the feature information in the store and trigger all relevant processes so that the information displayed to the user is as if he has selected the features himself.  
+Note that calling this method completely overrides the previously set feature information.
+
+If a layer has a `isSelectable`-function configured, the features are filtered using that function.
+
+```js
+map.$store.dispatch('plugin/gfi/setFeatureInformation', {
+  "anotherLayer": [],
+  "yetAnotherLayer": [],
+  "relevantInformation": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          565669.6521397199,
+          5930516.358614317
+        ]
+      },
+      "properties": {
+        "propertyOne": "B0",
+        "propertyTwo": "B1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          565594.9377660984,
+          5930524.52634174
+        ]
+      },
+      "properties": {
+        propertyOne: "A0",
+        propertyTwo: "A1"
+      }
+    }
+  ]
+})
+```
+
+The payload object expects a layer id as a key and an array of GeoJSON-Features as its value.
+
+The selected feature information can be reset by calling the method with an empty object.
 
 ### State
 
