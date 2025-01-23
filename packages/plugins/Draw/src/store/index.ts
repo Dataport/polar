@@ -80,14 +80,21 @@ export const makeStoreModule = () => {
         }
         return selectableModesDraw
       },
-      selectableMeasureModes: () => ({
-        none: 'common:plugins.draw.measureMode.none',
-        metres: 'common:plugins.draw.measureMode.metres',
-        kilometres: 'common:plugins.draw.measureMode.kilometres',
-        hectares: 'common:plugins.draw.measureMode.hectares',
-      }),
-      showMeasureOptions: ({ drawMode, mode }, { configuration }) =>
-        configuration.measureOptions &&
+      measureOptions: (_, { configuration }) =>
+        configuration.measureOptions || {},
+      selectableMeasureModes: (_, { measureOptions }) =>
+        Object.entries(measureOptions)
+          .filter(([_, value]) => value)
+          .reduce(
+            (acc, [option]) => ({
+              ...acc,
+              [option]: `common:plugins.draw.measureMode.${option}`,
+            }),
+            { none: 'common:plugins.draw.measureMode.none' }
+          ),
+      showMeasureOptions: ({ drawMode, mode }, { measureOptions }) =>
+        measureOptions &&
+        Object.values(measureOptions).some((option: boolean) => option) &&
         mode === 'draw' &&
         ['LineString', 'Polygon'].includes(drawMode),
       showTextInput({ drawMode, mode }, { selectedFeature }) {

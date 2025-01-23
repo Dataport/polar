@@ -180,9 +180,14 @@ export interface FontStyle {
 
 export type DrawMode = 'Circle' | 'LineString' | 'Point' | 'Polygon' | 'Text'
 
+export interface MeasureOptions {
+  metres?: boolean
+  kilometres?: boolean
+  hectares?: boolean
+}
 export interface DrawConfiguration extends Partial<PluginOptions> {
   enableOptions?: boolean
-  measureOptions?: boolean
+  measureOptions?: MeasureOptions
   selectableDrawModes?: DrawMode[]
   style?: DrawStyle
   textStyle?: TextStyle

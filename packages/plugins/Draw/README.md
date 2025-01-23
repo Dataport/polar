@@ -34,7 +34,7 @@ The styling of the drawn features can be configured to overwrite the default ol-
 | fieldName | type | description |
 | - | - | - |
 | enableOptions | boolean? | If `true`, draw options are displayed, like choosing and changing stroke color. Not available for texts features. Defaults to `false`. |
-| measureOptions | boolean? | If `true`, an additional radio is being shown to the user to be able to let the (then) drawn features display it's length and / or area. Defaults to `false`.|
+| measureOptions | measureOptions? | If set, an additional radio is being shown to the user to be able to let the (then) drawn features display it's length and / or area. See [draw.measureOptions](#drawmeasureoptions) for further information. Not shown by default. |
 | selectableDrawModes | string[]? | List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default. |
 | style | style? | Please see example below for styling options. Defaults to standard OpenLayers styling. |
 | textStyle | textStyle? | Use this object with properties 'font' and 'textColor' to style text feature. |
@@ -70,6 +70,14 @@ draw: {
 ```
 
 </details>
+
+#### draw.measureOptions
+
+| fieldName | type | description |
+| - | - | - |
+| metres | boolean? | Whether to show the measure option `'m / m²'` to the user. `false` by default. |
+| kilometres | boolean? | Whether to show the measure option `'km / km²'` to the user. `false` by default. |
+| hectares | boolean? | Whether to show the measure option `'km / ha‚'` to the user. `false` by default. |
 
 #### draw.textStyle
 
