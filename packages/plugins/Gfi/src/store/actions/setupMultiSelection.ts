@@ -1,22 +1,14 @@
 import { Map } from 'ol'
-import { DragBox, Draw, Modify } from 'ol/interaction'
+import { Modify } from 'ol/interaction'
+import Draw, {
+  createBox,
+  type Options as DrawOptions,
+} from 'ol/interaction/Draw'
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import VectorSource from 'ol/source/Vector'
 import { Fill, Stroke, Style } from 'ol/style'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { GfiGetters, GfiState } from '../../types'
-
-const circleDraw = new Draw({
-  source: new VectorSource(),
-  stopClick: true,
-  type: 'Circle',
-  style: new Style({
-    stroke: new Stroke({ color: 'white', width: 1.5 }),
-    fill: new Fill({ color: [255, 255, 255, 0.75] }),
-  }),
-  condition: platformModifierKeyOnly,
-})
-const dragBox = new DragBox({ condition: platformModifierKeyOnly })
 
 const isDrawing = (map: Map) =>
   map
@@ -34,8 +26,17 @@ const isDrawing = (map: Map) =>
         interaction._isMeasureSelect
     )
 
-// Can be removed once boxSelect is no longer in use
-// eslint-disable-next-line max-lines-per-function
+const drawOptions: DrawOptions = {
+  source: new VectorSource(),
+  stopClick: true,
+  type: 'Circle',
+  style: new Style({
+    stroke: new Stroke({ color: 'white', width: 1.5 }),
+    fill: new Fill({ color: [255, 255, 255, 0.75] }),
+  }),
+  condition: platformModifierKeyOnly,
+}
+
 export function setupMultiSelection({
   dispatch,
   getters: {
@@ -43,25 +44,21 @@ export function setupMultiSelection({
   },
   rootGetters: { map },
 }: PolarActionContext<GfiState, GfiGetters>) {
-  if (boxSelect || multiSelect === 'box') {
+  if (boxSelect || multiSelect === 'box' || multiSelect === 'circle') {
     if (boxSelect) {
       console.warn(
         '@polar/plugin-gfi: Configuration parameter "boxSelect" has been deprecated. Please use the new parameter "multiSelect" set to "box" instead.'
       )
     }
-    dragBox.on('boxend', () =>
-      dispatch('getFeatureInfo', {
-        coordinateOrExtent: dragBox.getGeometry().getExtent(),
-        modifierPressed: true,
-      })
-    )
-    map.addInteraction(dragBox)
-  } else if (multiSelect === 'circle') {
-    circleDraw.on('drawstart', () => {
+    if (multiSelect !== 'circle') {
+      drawOptions.geometryFunction = createBox()
+    }
+    const draw = new Draw(drawOptions)
+    draw.on('drawstart', () => {
       // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
-      circleDraw._isMultiSelect = true
+      draw._isMultiSelect = true
     })
-    circleDraw.on('drawend', (e) =>
+    draw.on('drawend', (e) =>
       dispatch('getFeatureInfo', {
         // @ts-expect-error | A feature that is drawn has a geometry.
         coordinateOrExtent: e.feature.getGeometry().getExtent(),
@@ -69,10 +66,10 @@ export function setupMultiSelection({
       }).finally(
         () =>
           // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
-          (circleDraw._isMultiSelect = false)
+          (draw._isMultiSelect = false)
       )
     )
-    map.addInteraction(circleDraw)
+    map.addInteraction(draw)
   }
 
   if (directSelect) {
