@@ -20,6 +20,7 @@ const getInitialState = (): DrawState => ({
   },
   selectedFeature: 1,
   selectedStrokeColor: '#000000',
+  measureMode: 'none',
 })
 
 // OK for module creation
@@ -79,6 +80,16 @@ export const makeStoreModule = () => {
         }
         return selectableModesDraw
       },
+      selectableMeasureModes: () => ({
+        none: 'common:plugins.draw.measureMode.none',
+        metres: 'common:plugins.draw.measureMode.metres',
+        kilometres: 'common:plugins.draw.measureMode.kilometres',
+        hectares: 'common:plugins.draw.measureMode.hectares',
+      }),
+      showMeasureOptions: ({ drawMode, mode }, { configuration }) =>
+        configuration.measureOptions &&
+        mode === 'draw' &&
+        ['LineString', 'Polygon'].includes(drawMode),
       showTextInput({ drawMode, mode }, { selectedFeature }) {
         return (
           (drawMode === 'Text' && mode === 'draw') ||

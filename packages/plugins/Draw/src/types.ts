@@ -15,6 +15,8 @@ export interface PolarVectorOptions {
 
 export type Mode = 'none' | 'draw' | 'edit' | 'delete'
 
+export type MeasureMode = 'none' | 'metres' | 'kilometres' | 'hectares'
+
 export interface CreateInteractionsPayload {
   drawSource: VectorSource
   drawLayer: VectorLayer<Feature>
@@ -29,12 +31,14 @@ export interface DrawState {
   selectedSize: number
   featureCollection: FeatureCollection
   selectedFeature: number
+  measureMode: MeasureMode
 }
 
 export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
   selectableDrawModes: DrawMode[]
   selectedFeature: Feature
   selectableModes: Mode[]
+  selectableMeasureModes: MeasureMode[]
   showTextInput: boolean
   configuration: DrawConfiguration
   fontSizes: number[]
@@ -42,6 +46,7 @@ export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
   /* actual text size to use */
   textSize: number
   showDrawOptions: boolean
+  showMeasureOptions: boolean
 }
 
 export interface DrawMutations extends MutationTree<DrawState> {
