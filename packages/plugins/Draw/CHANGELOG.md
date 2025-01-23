@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add new configuration parameter `measureOptions` to allow users to select a measurement mode when drawing feature. This way, a length / area in the selected unit is added to the drawn feature.
+- Fix: Fix types `selectableDrawModes` and `selectableModes` to correctly reflect that they represent an object.
 - Chore: Add `@polar/core` as a dependency as the component `RadioCard.vue` has been moved from this package to `@polar/core`.
 
 ## 2.0.0

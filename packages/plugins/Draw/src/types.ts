@@ -39,10 +39,10 @@ export interface DrawState {
 }
 
 export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
-  selectableDrawModes: DrawMode[]
+  selectableDrawModes: { [k in DrawMode]?: string }
   selectedFeature: Feature
-  selectableModes: Mode[]
-  selectableMeasureModes: MeasureMode[]
+  selectableModes: { [k in Mode]: string }
+  selectableMeasureModes: { [k in MeasureMode]?: string }
   showTextInput: boolean
   configuration: DrawConfiguration
   fontSizes: number[]
