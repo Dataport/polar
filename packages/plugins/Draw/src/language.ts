@@ -9,7 +9,7 @@ const language: LanguageOption[] = [
           mode: {
             none: 'Keine Interaktion',
             draw: 'Zeichnen',
-            write: 'Zeichnen und Schreiben',
+            write: 'Zeichnen, Messen und Schreiben',
             edit: 'Bearbeiten',
             delete: 'Löschen',
           },
@@ -20,12 +20,19 @@ const language: LanguageOption[] = [
             polygon: 'Polygon',
             text: 'Text',
           },
+          measureMode: {
+            none: 'Keine Messung',
+            metres: 'm / m²',
+            kilometres: 'km / km²',
+            hectares: 'km / ha',
+          },
           options: {
             stroke: 'Linienfarbe',
           },
           title: {
-            mode: 'Modus',
             drawMode: 'Zeichenmodus',
+            mode: 'Modus',
+            measureMode: 'Messmodus',
             options: 'Zeichenoptionen',
           },
           label: {
@@ -43,7 +50,7 @@ const language: LanguageOption[] = [
           mode: {
             none: 'No interaction',
             draw: 'Draw',
-            write: 'Draw and write',
+            write: 'Draw, measure and write',
             edit: 'Edit',
             delete: 'Delete',
           },
@@ -54,12 +61,19 @@ const language: LanguageOption[] = [
             polygon: 'Polygon',
             text: 'Text',
           },
+          measureMode: {
+            none: 'No measure',
+            metres: 'm / m²',
+            kilometres: 'km / km²',
+            hectares: 'km / ha',
+          },
           options: {
             stroke: 'Stroke color',
           },
           title: {
-            mode: 'Mode',
             drawMode: 'Drawing mode',
+            mode: 'Mode',
+            measureMode: 'Measure mode',
             options: 'Draw options',
           },
           label: {

@@ -1,10 +1,10 @@
 import VectorSource from 'ol/source/Vector'
 import { Interaction, Select } from 'ol/interaction'
-import { PolarActionTree } from '@polar/lib-custom-types'
+import { DrawMode, PolarActionTree } from '@polar/lib-custom-types'
 import GeoJSON from 'ol/format/GeoJSON'
 import { Circle, Point } from 'ol/geom'
 import createDrawLayer from '../utils/createDrawLayer'
-import { DrawGetters, DrawState } from '../types'
+import { DrawGetters, DrawState, MeasureMode, Mode } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
 import createDrawStyle from '../utils/createDrawStyle'
 import createInteractions from './createInteractions'
@@ -39,12 +39,16 @@ export const makeActions = () => {
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
     },
-    setMode({ commit, dispatch }, mode) {
-      commit('setMode', mode)
+    setDrawMode({ commit, dispatch }, drawMode: DrawMode) {
+      commit('setDrawMode', drawMode)
       dispatch('updateInteractions')
     },
-    setDrawMode({ commit, dispatch }, drawMode) {
-      commit('setDrawMode', drawMode)
+    setMeasureMode({ commit, dispatch }, measureMode: MeasureMode) {
+      commit('setMeasureMode', measureMode)
+      dispatch('updateInteractions')
+    },
+    setMode({ commit, dispatch }, mode: Mode) {
+      commit('setMode', mode)
       dispatch('updateInteractions')
     },
     setTextInput(
@@ -68,7 +72,12 @@ export const makeActions = () => {
       }
     },
     setSelectedStrokeColor(
-      { commit, dispatch, getters: { configuration, selectedFeature, mode } },
+      {
+        commit,
+        dispatch,
+        getters: { configuration, measureMode, mode, selectedFeature },
+        rootGetters: { map },
+      },
       selectedStrokeColor
     ) {
       const featureStyle = selectedFeature?.getStyle()
@@ -79,6 +88,8 @@ export const makeActions = () => {
         const style = createDrawStyle(
           selectedFeature?.getGeometry()?.getType() || mode,
           selectedStrokeColor,
+          measureMode,
+          map.getView().getProjection(),
           configuration?.style
         )
         selectedFeature.setStyle(style)
