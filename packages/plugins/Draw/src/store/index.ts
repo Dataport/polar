@@ -70,15 +70,21 @@ export const makeStoreModule = () => {
       selectableModes(_, { configuration }) {
         const includesWrite =
           configuration.selectableDrawModes?.includes('Text')
-        const selectableModesDraw = {
+        const includesMeasure = configuration.measureOptions !== undefined
+        let drawLabel = 'draw'
+        if (includesWrite && includesMeasure) {
+          drawLabel = 'writeAndMeasure'
+        } else if (includesWrite) {
+          drawLabel = 'write'
+        } else if (includesMeasure) {
+          drawLabel = 'measure'
+        }
+        return {
           none: 'common:plugins.draw.mode.none',
-          draw: includesWrite
-            ? 'common:plugins.draw.mode.write'
-            : 'common:plugins.draw.mode.draw',
+          draw: `common:plugins.draw.mode.${drawLabel}`,
           edit: 'common:plugins.draw.mode.edit',
           delete: 'common:plugins.draw.mode.delete',
         }
-        return selectableModesDraw
       },
       measureOptions: (_, { configuration }) =>
         configuration.measureOptions || {},

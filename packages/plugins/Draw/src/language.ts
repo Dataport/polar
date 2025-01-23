@@ -9,7 +9,9 @@ const language: LanguageOption[] = [
           mode: {
             none: 'Keine Interaktion',
             draw: 'Zeichnen',
-            write: 'Zeichnen, Messen und Schreiben',
+            measure: 'Zeichnen und Messen',
+            write: 'Zeichnen und Schreiben',
+            writeAndMeasure: 'Zeichnen, Schreiben und Messen',
             edit: 'Bearbeiten',
             delete: 'Löschen',
           },
@@ -50,7 +52,9 @@ const language: LanguageOption[] = [
           mode: {
             none: 'No interaction',
             draw: 'Draw',
-            write: 'Draw, measure and write',
+            measure: 'Draw and measure',
+            write: 'Draw and write',
+            writeAndMeasure: 'Draw, write and measure',
             edit: 'Edit',
             delete: 'Delete',
           },
