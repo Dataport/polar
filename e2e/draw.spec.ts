@@ -18,7 +18,7 @@ test('clicks to the map produce a fetchable pin coordinate', async ({
   y += height / 2
 
   await page.getByLabel('Draw tools').click()
-  await page.getByText('Draw and write').click()
+  await page.getByText('Draw, write and measure').click()
   await page.getByText('Polygon').click()
 
   const moves: [number, number, string][] = [
@@ -56,7 +56,7 @@ test('two features drawn at the same coordinate can be modified separately', asy
   y += height / 2
 
   await page.getByLabel('Draw tools').click()
-  await page.getByText('Draw and write').click()
+  await page.getByText('Draw, write and measure').click()
   await page.getByText('Point').click()
 
   await page.mouse.click(x, y)
