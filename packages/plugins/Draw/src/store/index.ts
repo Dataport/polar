@@ -90,7 +90,7 @@ export const makeStoreModule = () => {
         configuration.measureOptions || {},
       selectableMeasureModes: (_, { measureOptions }) =>
         Object.entries(measureOptions)
-          .filter(([_, value]) => typeof value === 'boolean' && value)
+          .filter((option) => typeof option[1] === 'boolean' && option[1])
           .reduce(
             (acc, [option]) => ({
               ...acc,
