@@ -55,7 +55,9 @@ function getAreaText(
     areaUnit = 'ha'
     divisor = 10000
   }
-  return `${Math.round(getArea(geometry, { projection }) / divisor)} ${areaUnit}`
+  return `${Math.round(
+    getArea(geometry, { projection }) / divisor
+  )} ${areaUnit}`
 }
 
 const measureStyle: (
