@@ -44,18 +44,18 @@ function getAreaText(
   measureMode: Exclude<MeasureMode, 'none'>
 ) {
   let areaUnit = ''
-  let factor: number
+  let divisor: number
   if (measureMode === 'metres') {
     areaUnit = 'm²'
-    factor = 1
+    divisor = 1
   } else if (measureMode === 'kilometres') {
     areaUnit = 'km²'
-    factor = 1000
+    divisor = 1000
   } else {
     areaUnit = 'ha'
-    factor = 10000
+    divisor = 10000
   }
-  return `${Math.round(getArea(geometry, { projection }) / factor)} ${areaUnit}`
+  return `${Math.round(getArea(geometry, { projection }) / divisor)} ${areaUnit}`
 }
 
 const measureStyle: (
