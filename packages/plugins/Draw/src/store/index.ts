@@ -101,8 +101,7 @@ export const makeStoreModule = () => {
       showMeasureOptions: ({ drawMode, mode }, { measureOptions }) =>
         measureOptions &&
         Object.values(measureOptions)
-          .filter((option) => typeof option === 'boolean')
-          .some((option) => option) &&
+          .some((option) => option === true) &&
         mode === 'draw' &&
         ['LineString', 'Polygon'].includes(drawMode),
       showTextInput({ drawMode, mode }, { selectedFeature }) {
