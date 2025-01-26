@@ -49,25 +49,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     console.error('Koordinate in WGS84: ', wgs84Coordinate)
     return wgs84Coordinate
   },
-  deleteRouteDrawing() {
-    drawSource.clear()
-    console.error('cleared features: ', drawSource.getFeatures())
-  },
-  resetCoordinates({ commit, dispatch, state }) {
-    commit('setStart', [])
-    commit('setEnd', [])
-    commit('setStartAddress', '')
-    commit('setEndAddress', '')
-    console.error(
-      'Start- und Endpunkt im Store nach reset:',
-      state.start,
-      state.end
-    )
-    dispatch('deleteRouteDrawing')
-  },
   // TODO: die nächsten 7 Funktionen in utils verschieben, da sie den state nicht verändern und auch von anderen Funktionen/dem core verwendet werden können?
   createUrl({ rootGetters: { configuration }, state }) {
-    // TODO: Travel-Modes mit Switch Case (?) in finale Form bringen o. bessere Lösung finden
     const url =
       configuration?.routing?.serviceUrl +
       state.selectedTravelMode +
@@ -96,12 +79,9 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
             instructions: true,
             language: 'en',
             options: {
-              avoid_polygons: {
-                coordinates: [],
-                type: 'MultiPolygon',
-              },
+              avoid_features: state.selectedRouteTypesToAvoid,
             },
-            preference: 'recommended',
+            preference: state.selectedPreference,
             units: 'm',
           }),
         })
@@ -341,26 +321,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     drawSource.addFeature(routeFeature)
     console.error('New feature: ',drawSource.getFeatures())
   },
-  checkConfig({ rootGetters: { configuration }, commit }) {
-    if (configuration?.routing?.selectableTravelModes) {
-      commit(
-        'setSelectableTravelModes',
-        configuration?.routing?.selectableTravelModes
-      )
-    }
-    if (configuration?.routing?.selectablePreferences) {
-      commit(
-        'setSelectablePreferences',
-        configuration?.routing?.selectablePreferences
-      )
-    }
-    configuration?.routing?.displayPreferences
-      ? commit('setDisplayPreferences', true)
-      : commit('setDisplayPreferences', false)
-    configuration?.routing?.displayRouteTypesToAvoid
-      ? commit('setDisplayRouteTypesToAvoid', true)
-      : commit('setDisplayRouteTypesToAvoid', false)
-  },
   addFeatures({ commit }, { geoJSON, overwrite = false }) {
     const features = new GeoJSON().readFeatures(geoJSON).map((feature) => {
       return feature
@@ -376,6 +336,28 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     if (routingConfiguration?.style?.stroke?.color) {
       commit('setSelectedStrokeColor', routingConfiguration.style.stroke.color)
     }
+  },
+  deleteRouteDrawing() {
+    drawSource.clear()
+    console.error('cleared features: ', drawSource.getFeatures())
+  },
+  resetCoordinates({ commit, dispatch, state }) {
+    commit('setStart', [])
+    commit('setEnd', [])
+    commit('setStartAddress', '')
+    commit('setEndAddress', '')
+    commit('setSelectedRouteTypesToAvoid', [])
+    commit('setSearchResponseData', {})
+    console.error(
+      'Start- und Endpunkt im Store nach reset:',
+      state.start,
+      state.end
+    )
+    console.error(
+      'searchResponseData im Store nach reset:',
+      state.searchResponseData
+    )
+    dispatch('deleteRouteDrawing')
   },
 }
 

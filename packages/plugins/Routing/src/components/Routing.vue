@@ -1,5 +1,6 @@
 <!-- eslint-disable max-lines -->
 <!-- eslint-disable max-lines -->
+<!-- eslint-disable max-lines -->
 <template>
   <v-scroll-x-reverse-transition>
     <v-card class="polar-routing-menu">
@@ -56,7 +57,7 @@
         </v-list>
       </div>
 
-      <v-btn @click="resetCoordinates"
+      <v-btn @click="reset"
         >{{ $t('common:plugins.routing.resetButton') }}
       </v-btn>
 
@@ -92,13 +93,14 @@
         </v-layout>
       </div>
 
-      <v-btn :disabled="false" @click="sendRequest">Send Request</v-btn>
+      <v-btn :disabled="disableSendButton" @click="sendRequest">{{
+        $t('common:plugins.routing.sendRequestButton')
+      }}</v-btn>
 
       <v-btn @click="showSteps = !showSteps">
         {{ $t('common:plugins.routing.routeDetails') }}
       </v-btn>
-
-      <div v-if="showSteps">
+      <div v-if="showSteps && Object.keys(searchResponseData).length !== 0">
         <v-list v-for="(step, i) in searchResponseSegments" :key="i">
           {{ step }}
         </v-list>
@@ -116,11 +118,10 @@ export default Vue.extend({
   name: 'RoutingPlugin',
   data: () => ({
     isOpen: false,
-    // TODO: wieder rausnhemen, wenn es nicht funktioniert
-    inline: null,
     showSteps: false,
     startDropdownOpen: false,
     endDropdownOpen: false,
+    disableSendButton: false,
   }),
   computed: {
     ...mapGetters(['hasSmallDisplay']),
@@ -131,13 +132,15 @@ export default Vue.extend({
       'selectableTravelModes',
       'selectablePreferences',
       'selectableRouteTypesToAvoid',
+      // TODO: warum ist selectedRTTA aufgezählt, aber selectedPreferences nicht? Kann beides raus?
       'selectedRouteTypesToAvoid',
       'searchResults',
+      'searchResponseData',
       'start',
       'end',
       'startAddress',
       'endAddress',
-      // TODO: wird das wirklich gebraucht?
+      // TODO: löschen, falls es sich in debouncedSendSearchRequest nicht einfügen lässt
       'waitMs',
     ]),
     startpointInput: {
@@ -223,19 +226,14 @@ export default Vue.extend({
         this.setSelectedRouteTypesToAvoid(value)
       },
     },
-    // TODO: herausfinden, warum nichts angezeigt wird. Der Pfad scheint laut Antwort/Netzanalyse zu stimmen.
     searchResponseSegments: {
       get(): object {
-        return this.searchResponseData?.features[0].properties.segments[0].steps
+        console.error(
+          'Search Response Segments or Steps: ',
+          this.searchResponseData.features[0].properties.segments[0].steps
+        )
+        return this.searchResponseData.features[0].properties.segments[0].steps
       },
-    },
-  },
-  watch: {
-    search: function () {
-      // TODO: brauche ich das noch?
-      // TODO: prüfen, ob die Koordinaten im richtigen Format sind
-      // TODO: Koordinaten an den Routingdienst übermitteln mit sendRequest() - zu vermeidende Routentypen mitsenden
-      this.sendRequest()
     },
   },
   mounted() {
@@ -274,22 +272,20 @@ export default Vue.extend({
       }
       this.debouncedSendSearchRequest({ input, inputType })
     },
-    // TODO: wird die benötigt o. ist sie doppelt?
-    toggleDropdown(inputType) {
-      if (inputType === 'start') {
-        this.startDropdownOpen = true
-        this.endDropdownOpen = false
-      } else if (inputType === 'end') {
-        this.startDropdownOpen = false
-        this.endDropdownOpen = true
-      }
+    disableSendRequest() {
+      console.error('Ist der Send-Button disabled?', this.disableSendButton)
+      (this.selectedTravelMode &&
+          this.selectedPreference &&
+          this.selectedRouteTypesToAvoid
+      )
+        ? this.disableSendButton = true
+        : this.disableSendButton = false
+      console.error('Ist der Send-Button disabled?', this.disableSendButton)
     },
-    /* resetCoordinates() {
-      this.setStart(null)
-      this.setEnd(null)
-      this.setStartAddress(null)
-      this.setEndAddress(null)
-    }, */
+    reset() {
+      this.showSteps = false
+      this.resetCoordinates()
+    },
     selectStart(result) {
       if (result.strassenname) {
         this.startpointInput = result.displayName
