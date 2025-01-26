@@ -1,6 +1,4 @@
 import { PolarActionHandler } from '@polar/lib-custom-types'
-import proj4 from 'proj4'
-import { register } from 'ol/proj/proj4'
 import { makeStoreModule } from '../store/index'
 import { getInitialState } from '../store/state'
 import { RoutingState, RoutingGetters } from '../types'
@@ -101,7 +99,7 @@ describe('plugin-routing', () => {
           }
         })
 
-        it('store selectableTravelModes from config in store', () => {
+        it('should store configurations from map.config in store', () => {
           checkConfig(actionContext)
           expect(actionContext.commit).toHaveBeenCalledWith(
             'setSelectableTravelModes',
@@ -119,6 +117,58 @@ describe('plugin-routing', () => {
             'setDisplayRouteTypesToAvoid',
             false
           )
+        })
+      })
+
+      describe('createSearchUrl', () => {
+        const routingStore = makeStoreModule()
+        const createSearchUrl = routingStore.actions
+          ?.checkConfig as PolarActionHandler<RoutingState, RoutingGetters>
+
+        if (typeof createSearchUrl === 'undefined') {
+          throw new Error(
+            'Action createSearchUrl is missing in RoutingStore. Tests could not be run.'
+          )
+        }
+
+        let actionContext
+        beforeEach(() => {
+          actionContext = {
+            searchInput: 'Hohe',
+          }
+        })
+
+        it('should create correct searchUrl with searchInput', () => {
+          const url = createSearchUrl(actionContext)
+          expect(url).toBe(
+            'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0&StoredQuery_ID=findeStrasse&strassenname=Hohe'
+          )
+        })
+      })
+
+      describe('sendSearchRequest', () => {
+        const routingStore = makeStoreModule()
+        const sendSearchRequest = routingStore.actions
+          ?.checkConfig as PolarActionHandler<RoutingState, RoutingGetters>
+
+        if (typeof sendSearchRequest === 'undefined') {
+          throw new Error(
+            'Action sendSearchRequest is missing in RoutingStore. Tests could not be run.'
+          )
+        }
+
+        let actionContext
+        beforeEach(() => {
+          actionContext = {
+            state: getInitialState(),
+            dispatch: jest.fn(),
+            searchInput: 'Hohe',
+          }
+        })
+
+        it('should fetch a response', () => {
+          const response = sendSearchRequest(actionContext)
+          expect(response).toBe('')
         })
       })
     })

@@ -65,6 +65,7 @@
     "@swc/helpers": "~0.5.11",
     "@types/geojson": "^7946.0.8",
     "@types/jest": "^29.5.13",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20.16.10",
     "@types/proj4": "^2.5.2",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
@@ -106,6 +107,5 @@
     "vite": "^5.4.8",
     "vite-plugin-commonjs": "^0.6.2",
     "vue-template-compiler": "^2.7.16"
-  },
-  "dependencies": {}
+  }
 }
