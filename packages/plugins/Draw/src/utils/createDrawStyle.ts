@@ -2,7 +2,7 @@ import { type DrawStyle, type MeasureMode } from '@polar/lib-custom-types'
 import centerOfMass from '@turf/center-of-mass'
 import { type Color } from 'ol/color'
 import { type ColorLike } from 'ol/colorlike'
-import { Coordinate } from 'ol/coordinate'
+import { Feature } from 'ol'
 import { LineString, Point, Polygon } from 'ol/geom'
 import { type Projection } from 'ol/proj'
 import { getArea, getLength } from 'ol/sphere'
@@ -14,21 +14,29 @@ function calculatePartialDistances(
   styles: Style[],
   styleOptions: Options,
   textOptions: TextOptions,
-  coordinates: Coordinate[],
+  feature: Feature,
   unit: 'm' | 'km',
   projection: Projection
 ) {
+  const geometry = feature.getGeometry() as LineString | Polygon
+  const coordinates =
+    geometry instanceof Polygon
+      ? geometry.getCoordinates()[0]
+      : geometry.getCoordinates()
+  // TODO: This runs once too often (e.g.: A Polygon with 3 sides has 4 lengths)
   for (let i = 1; i < coordinates.length; i++) {
     const lineString = new LineString([coordinates[i - 1], coordinates[i]])
+    const text = `${Math.round(
+      getLength(lineString, {
+        projection,
+      }) / (unit === 'km' ? 1000 : 1)
+    )} ${unit}`
+    feature.set(`length-${i}`, text)
     const style = new Style({
       ...styleOptions,
       text: new Text({
         ...textOptions,
-        text: `${Math.round(
-          getLength(lineString, {
-            projection,
-          }) / (unit === 'km' ? 1000 : 1)
-        )} ${unit}`,
+        text,
       }),
     })
     style.setGeometry(lineString)
@@ -80,13 +88,16 @@ const measureStyle: (
       }
       const lengthUnit = measureMode === 'metres' ? 'm' : 'km'
       if (geometry instanceof Polygon) {
+        const text = getAreaText(geometry, projection, measureMode)
         const style = new Style({
           text: new Text({
             ...textOptions,
             placement: 'point',
-            text: getAreaText(geometry, projection, measureMode),
+            text,
           }),
         })
+        // @ts-expect-error | Features in this StyleFunction are always of type Feature<Geometry>
+        feature.set('area', text)
         style.setGeometry(
           new Point(
             centerOfMass({
@@ -104,9 +115,7 @@ const measureStyle: (
         styles,
         styleOptions,
         textOptions,
-        geometry instanceof Polygon
-          ? geometry.getCoordinates()[0]
-          : geometry.getCoordinates(),
+        feature as Feature,
         lengthUnit,
         projection
       )

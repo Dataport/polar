@@ -161,9 +161,11 @@ export const makeStoreModule = () => {
           const isCircle = type === 'Circle'
           const jsonFeature: Feature = {
             type: 'Feature',
-            properties: feature.get('text')
-              ? { text: feature.get('text') }
-              : {},
+            properties: Object.fromEntries(
+              Object.entries(feature.getProperties()).filter(
+                ([property]) => property !== 'geometry'
+              )
+            ),
             geometry: {
               // @ts-expect-error | A LinearRing can currently not be drawn
               type: isCircle ? 'Point' : type,
