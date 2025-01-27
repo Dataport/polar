@@ -16,16 +16,14 @@ import Zoom from '@polar/plugin-zoom'
 import merge from 'lodash.merge'
 
 const defaultOptions = {
-    displayComponent: true,
-    layoutTag: NineLayoutTag.TOP_LEFT,
-  }
+  displayComponent: true,
+  layoutTag: NineLayoutTag.TOP_LEFT,
+}
 
 export default (core) => {
   setLayout(NineLayout)
 
-
-const iconMenu =  IconMenu({
-    displayComponent: true,
+  const iconMenu =  IconMenu({
     menus: [
       {
         plugin: LayerChooser({}),
@@ -34,36 +32,22 @@ const iconMenu =  IconMenu({
       },
       {
         plugin: Filter({
-            layers: {},
+          layers: {},
         }),
         icon: 'fa-filter',
         id: 'filter',
       },
       {
-        plugin: Zoom({ renderType: 'iconMenu' }),
-        id: 'zoom',
-      },
-      {
         plugin: Fullscreen({ renderType: 'iconMenu' }),
         id: 'fullscreen',
       },
-      {
-        plugin: GeoLocation({
-          renderType: 'iconMenu',
-        }),
-        id: 'geoLocation',
-      },
-      {
-        plugin: Attributions({
-          renderType: 'iconMenu',
-        }),
-        icon: 'fa-regular fa-copyright',
-        id: 'attributions',
-      }
     ],
-})
+    displayComponent: true,
+    initiallyOpen: 'layerChooser',
+    layoutTag: NineLayoutTag.TOP_RIGHT,
+  })
 
-core.addPlugins([
+  core.addPlugins([
     iconMenu,
     AddressSearch(
       merge({}, defaultOptions, {
@@ -95,15 +79,31 @@ core.addPlugins([
       layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
       }),
     ),
-    Scale(
-      merge({}, defaultOptions, {
-      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-    })
-    ),
     Toast(
       merge({}, defaultOptions, {
-      layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
-    }),
+        layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
+      }),
+    ),
+    Zoom(
+      merge({}, defaultOptions, {
+        renderType: 'independent', 
+        layoutTag: NineLayoutTag.MIDDLE_RIGHT, 
+      }),
+    ),
+    Attributions(
+      merge({}, defaultOptions, {
+        renderType: 'independent',
+        icon: 'fa-regular fa-copyright',
+        id: 'attributions',
+        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+      })
+    ),
+    Scale(
+      merge({}, defaultOptions,{
+        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+        showScaleSwitcher: true,
+        zoomMethod: 'plugin/zoom/setZoomLevel'
+      })
     ),
   ])
 }
