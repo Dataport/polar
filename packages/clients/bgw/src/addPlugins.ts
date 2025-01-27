@@ -16,8 +16,8 @@ import Zoom from '@polar/plugin-zoom'
 import merge from 'lodash.merge'
 
 const defaultOptions = {
-	displayComponent: true,
-	layoutTag: NineLayoutTag.TOP_LEFT,
+    displayComponent: true,
+    layoutTag: NineLayoutTag.TOP_LEFT,
   }
 
 export default (core) => {
@@ -38,17 +38,6 @@ const iconMenu =  IconMenu({
         }),
         icon: 'fa-filter',
         id: 'filter',
-      },
-      {
-        plugin: Gfi(
-            merge({}, defaultOptions, 
-          {
-            renderType: 'iconMenu',
-            coordinateSources: ['plugin/addressSearch/chosenAddress'],
-          })
-        ),
-        icon: 'fa-location-pin',
-        id: 'gfi',
       },
       {
         plugin: Zoom({ renderType: 'iconMenu' }),
@@ -80,6 +69,14 @@ core.addPlugins([
       merge({}, defaultOptions, {
         addLoading: 'plugin/loadingIndicator/addLoadingKey',
         removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+      })
+    ),
+    Gfi(
+        merge({}, defaultOptions,
+      {
+        layoutTag: NineLayoutTag.BOTTOM_LEFT,
+        renderType: 'iconMenu',
+        coordinateSources: ['plugin/addressSearch/chosenAddress'],
       })
     ),
     Pins({
