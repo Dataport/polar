@@ -19,7 +19,7 @@ async function initializeClient() {
 	  containerId,
 	  mapConfiguration: {
 		...mapConfiguration,
-		services,
+		layerConf: services,
 	  },
 	})
 }
