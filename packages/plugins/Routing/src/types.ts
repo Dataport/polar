@@ -1,5 +1,4 @@
-// TODO: entscheiden, ob ich die LayerConfiguration brauche
-import { Feature, FeatureCollection } from 'geojson'
+import { FeatureCollection } from 'geojson'
 import VectorSource from 'ol/source/Vector'
 import { StyleLike } from 'ol/style/Style'
 import { RoutingConfiguration } from '@polar/lib-custom-types'
@@ -11,9 +10,6 @@ export interface PolarVectorOptions {
   source?: VectorSource
   style?: StyleLike
 }
-
-// TODO: entscheiden, ob ich den IdManipulator brauche
-export type IdManipulator = (ids: (string | number)[]) => (number | string)[]
 
 export interface FeatureIndexZip {
   value: FeatureCollection
@@ -65,11 +61,4 @@ export interface RoutingGetters extends RoutingState {
   searchResponseData: object
   mousePosition: Coordinate
   routingConfiguration: RoutingConfiguration
-}
-
-// TODO: entscheiden, ob ich das brauche
-export interface FeatureListWithCategory {
-  features: Feature[]
-  categoryId: string
-  category: string
 }

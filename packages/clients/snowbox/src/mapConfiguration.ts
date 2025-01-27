@@ -281,6 +281,8 @@ export const mapConfiguration = {
       },
     },
     addressSearch: {
+      addLoading: 'plugin/loadingIndicator/addLoadingKey',
+      removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
       searchMethods: [
         {
           queryParameters: {
@@ -294,6 +296,10 @@ export const mapConfiguration = {
       ],
       minLength: 3,
       waitMs: 300,
+      loadingIndicator: {
+        loaderStyle: 'SpinnerLoader',
+        displayComponent: true,
+      },
     },
   },
 }

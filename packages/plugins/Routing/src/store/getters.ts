@@ -8,12 +8,6 @@ const getters = {
       ? rootGetters.configuration.routing.renderType
       : 'independent'
   },
-  selectedTravelMode({ selectedTravelMode }, { selectableTravelModes }) {
-    return selectedTravelMode || selectableTravelModes[0]
-  },
-  selectedPreference({ selectedPreference }, { selectablePreferences }) {
-    return selectedPreference || selectablePreferences[0]
-  },
 }
 
 export default getters

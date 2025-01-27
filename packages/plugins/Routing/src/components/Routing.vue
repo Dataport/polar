@@ -11,6 +11,7 @@
         <v-text-field
           v-model="startpointInput"
           :label="$t('common:plugins.routing.startLabel')"
+          :aria-label="$t('common:plugins.routing.startLabel')"
           @input="handleAddressSearch('start')"
         ></v-text-field>
         <v-list
@@ -36,6 +37,7 @@
         <v-text-field
           v-model="endpointInput"
           :label="$t('common:plugins.routing.endLabel')"
+          :aria-label="$t('common:plugins.routing.endLabel')"
           @input="handleAddressSearch('end')"
         ></v-text-field>
         <v-list
@@ -57,47 +59,60 @@
         </v-list>
       </div>
 
-      <v-btn @click="reset"
+      <v-btn
+        :aria-label="$t('common:plugins.routing.resetButton')"
+        @click="reset"
         >{{ $t('common:plugins.routing.resetButton') }}
       </v-btn>
 
       <v-select
         v-model="selectedTravelModeItem"
-        clearable
         :label="$t('common:plugins.routing.modeLabel')"
+        :aria-label="$t('common:plugins.routing.modeLabel')"
         :items="translatedTravelModeOptions"
         item-value="key"
         item-text="translatedKey"
       ></v-select>
       <v-select
         v-model="selectedPreferenceItem"
-        clearable
         :label="$t('common:plugins.routing.preferenceLabel')"
+        :aria-label="$t('common:plugins.routing.preferenceLabel')"
         :items="translatedPreferenceOptions"
         item-value="key"
         item-text="translatedKey"
       ></v-select>
 
-      <div>
+      <div class="select">
         {{ $t('common:plugins.routing.avoidRoutesTitle') }}
-        <v-layout row wrap>
-          <v-flex>
-            <v-checkbox
-              v-for="(routeType, i) in selectableRouteTypesToAvoid"
-              :key="i"
-              v-model="selectedRouteTypesToAvoidItem"
-              :label="$t(translatedRouteTypeToAvoid(routeType.key))"
-              :value="routeType.key"
-            ></v-checkbox>
-          </v-flex>
-        </v-layout>
+        <v-checkbox
+          v-for="(routeType, i) in RouteTypesToAvoidForSelectedProfile"
+          :key="i"
+          v-model="selectedRouteTypesToAvoidItem"
+          :label="$t(translatedRouteTypeToAvoid(routeType.key))"
+          :aria-label="$t(translatedRouteTypeToAvoid(routeType.key))"
+          :value="routeType.key"
+        ></v-checkbox>
+
       </div>
+      <v-tooltip left :disabled="!areFieldsMissing">
+        <template #activator="{ on }">
+          <div v-on="on">
+            <v-btn
+              :aria-label="$t('common:plugins.routing.sendRequestButton')"
+              :disabled="areFieldsMissing"
+              @click="sendRequest"
+            >
+              {{ $t('common:plugins.routing.sendRequestButton') }}
+            </v-btn>
+          </div>
+        </template>
+        <span>{{ $t('common:plugins.routing.toolTip') }}</span>
+      </v-tooltip>
 
-      <v-btn :disabled="disableSendButton" @click="sendRequest">{{
-        $t('common:plugins.routing.sendRequestButton')
-      }}</v-btn>
-
-      <v-btn @click="showSteps = !showSteps">
+      <v-btn
+        :aria-label="$t('common:plugins.routing.routeDetails')"
+        @click="showSteps = !showSteps"
+      >
         {{ $t('common:plugins.routing.routeDetails') }}
       </v-btn>
       <div v-if="showSteps && Object.keys(searchResponseData).length !== 0">
@@ -121,7 +136,6 @@ export default Vue.extend({
     showSteps: false,
     startDropdownOpen: false,
     endDropdownOpen: false,
-    disableSendButton: false,
   }),
   computed: {
     ...mapGetters(['hasSmallDisplay']),
@@ -132,16 +146,15 @@ export default Vue.extend({
       'selectableTravelModes',
       'selectablePreferences',
       'selectableRouteTypesToAvoid',
-      // TODO: warum ist selectedRTTA aufgezählt, aber selectedPreferences nicht? Kann beides raus?
       'selectedRouteTypesToAvoid',
+      'selectedTravelMode',
+      'selectedPreference',
       'searchResults',
       'searchResponseData',
       'start',
       'end',
       'startAddress',
       'endAddress',
-      // TODO: löschen, falls es sich in debouncedSendSearchRequest nicht einfügen lässt
-      'waitMs',
     ]),
     startpointInput: {
       get() {
@@ -222,18 +235,46 @@ export default Vue.extend({
         return this.selectedRouteTypesToAvoid
       },
       set(value: string): void {
-        console.error(this.selectedRouteTypesToAvoid)
         this.setSelectedRouteTypesToAvoid(value)
       },
     },
     searchResponseSegments: {
       get(): object {
-        console.error(
-          'Search Response Segments or Steps: ',
-          this.searchResponseData.features[0].properties.segments[0].steps
-        )
         return this.searchResponseData.features[0].properties.segments[0].steps
       },
+    },
+    RouteTypesToAvoidForSelectedProfile() {
+      if (
+        this.selectedTravelMode === 'driving-car' ||
+        this.selectedTravelMode === 'driving-hgv' ||
+        this.selectedTravelMode === ''
+      ) {
+        return this.selectableRouteTypesToAvoid
+      }
+      return [
+        {
+          key: 'ferries',
+          localKey: 'common:plugins.routing.avoidRoutes.ferries',
+        },
+      ]
+    },
+    areFieldsMissing() {
+      const areStartAndStartAddressMissing =
+        this.start.length === 0 && this.startAddress === ''
+      const areEndAndEndAddressMissing =
+        this.end.length === 0 && this.endAddress === ''
+      const isSelectedTravelModeMissing = this.selectedTravelMode === ''
+      const isSelectedPreferenceMissing = this.selectedPreference === ''
+      const isSelectedRouteTypesToAvoidMissing =
+        this.selectedRouteTypesToAvoid.length === 0
+
+      return Boolean(
+        areStartAndStartAddressMissing ||
+          areEndAndEndAddressMissing ||
+          isSelectedTravelModeMissing ||
+          isSelectedPreferenceMissing ||
+          isSelectedRouteTypesToAvoidMissing
+      )
     },
   },
   mounted() {
@@ -259,7 +300,6 @@ export default Vue.extend({
       this.sendSearchRequest(payload)
     }, 300),
     handleAddressSearch(inputType) {
-      console.error(inputType)
       const input =
         inputType === 'start' ? this.startpointInput : this.endpointInput
 
@@ -270,17 +310,9 @@ export default Vue.extend({
         this.startDropdownOpen = false
         this.endDropdownOpen = true
       }
-      this.debouncedSendSearchRequest({ input, inputType })
-    },
-    disableSendRequest() {
-      console.error('Ist der Send-Button disabled?', this.disableSendButton)
-      (this.selectedTravelMode &&
-          this.selectedPreference &&
-          this.selectedRouteTypesToAvoid
-      )
-        ? this.disableSendButton = true
-        : this.disableSendButton = false
-      console.error('Ist der Send-Button disabled?', this.disableSendButton)
+      this.$nextTick(() => {
+        this.debouncedSendSearchRequest({ input, inputType })
+      })
     },
     reset() {
       this.showSteps = false
@@ -290,7 +322,6 @@ export default Vue.extend({
       if (result.strassenname) {
         this.startpointInput = result.displayName
         this.setStart(result.position)
-        console.error('Result Position:', result.position)
         this.setStartAddress(result.displayName)
         this.startDropdownOpen = false
         this.$nextTick(() => {
@@ -317,7 +348,6 @@ export default Vue.extend({
       const localKey = this.selectableRouteTypesToAvoid.find(
         (element) => element.key === myKey
       ).localKey
-      console.error(localKey)
       return localKey
     },
   },
@@ -334,7 +364,11 @@ export default Vue.extend({
   padding-left: 20px;
   padding-right: 20px;
 }
-
+.select {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 .dropdown {
   max-height: 300px; /* adjusts the hight */
   overflow-y: auto; /* enables scrolling */

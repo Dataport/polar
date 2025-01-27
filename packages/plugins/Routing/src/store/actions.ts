@@ -20,33 +20,26 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     commit,
     state,
   }) {
-    console.error(configuration)
-    dispatch('initializeConfigStyle') // testen
+    dispatch('initializeConfigStyle')
     drawLayer = createDrawLayer(drawSource)
-    map?.addLayer(drawLayer) // testen, ob es passiert ist
+    map?.addLayer(drawLayer)
     map?.on('click', function (event) {
       const formattedCoordinate = event.coordinate
-      console.error('formatierte Koordinate: ' + formattedCoordinate)
 
-      // prüfen, ob im state schon startAddress vorhanden ist - falls ja, die neue Koordinate als endAddress speichern
       if (state.start.length === 0) {
-        commit('setStart', formattedCoordinate) // wurde setStart als commit aufgerufen und meine formatierte Coordinate reingeschrieben? Im State überprüfen
+        commit('setStart', formattedCoordinate)
       } else if (state.end.length === 0) {
         commit('setEnd', formattedCoordinate)
       }
-      console.error(event)
-      console.error('Start:' + state.start + 'Ende: ' + state.end)
     })
   },
   // TODO: in utils verschieben, da es den state nicht verändert und auch von anderen Funktionen verwendet werden kann?
   translateCoordinateToWGS84({ rootGetters: { configuration } }, Coordinate) {
-    console.error('Translate Methode', configuration?.epsg, Coordinate)
     const wgs84Coordinate = transform(
       Coordinate,
       configuration?.epsg,
       'EPSG:4326'
     )
-    console.error('Koordinate in WGS84: ', wgs84Coordinate)
     return wgs84Coordinate
   },
   // TODO: die nächsten 7 Funktionen in utils verschieben, da sie den state nicht verändern und auch von anderen Funktionen/dem core verwendet werden können?
@@ -63,9 +56,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       await dispatch('translateCoordinateToWGS84', state.start),
       await dispatch('translateCoordinateToWGS84', state.end),
     ]
-    console.error(searchCoordinates)
     const url = await dispatch('createUrl')
-    console.error('Die übergebene URL: ', url)
     const fetchDirections = async () => {
       try {
         const response = await fetch(url, {
@@ -89,7 +80,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
           throw new Error(`HTTP error! Status: ${response.status}`)
         }
         const data = await response.json()
-        console.error('Response:', data)
         commit('setSearchResponseData', data)
         dispatch('drawRoute')
       } catch (error) {
@@ -109,7 +99,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     strassenname
   ) {
     const searchMethod = configuration.routing.addressSearch.searchMethods[0]
-    console.error('Suchmethode:', searchMethod)
     if (!strassenname) {
       console.error('Strassenname ist leer.')
       return
@@ -221,22 +210,18 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       }
 
       const text = await response.text()
-      console.error('Text:', text)
       const streetData = await dispatch('parseResponse', text)
 
       const features = streetData.features || []
-      console.error('Features:', features)
       for (const feature of features) {
         const hausnummern = await dispatch(
           'fetchHausnummern',
           feature.strassenname
         )
-        console.error('hausnummern log', hausnummern)
         feature.hausnummern = hausnummern.map((item) => item.hausnummer)
       }
 
-      commit('setSearchResults', features)
-      console.log('Final search results with house numbers:', features)
+      commit('setSearchResults', features) // der Commit muss in die Componente -> features aus den utils zurückgeben lassen
     } catch (error) {
       console.error('Error in sendSearchRequest:', error)
     }
@@ -298,15 +283,10 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     }
   },
   drawRoute({ rootGetters: { configuration }, state }) {
-    console.error(`stored response: `, state.searchResponseData)
     const transformedCoordinates =
       state.searchResponseData.features[0].geometry.coordinates.map(
         (coordinate) => transform(coordinate, 'EPSG:4326', 'EPSG:25832')
       )
-    console.error(
-      `coordinates transformed for drawing purpose: `,
-      transformedCoordinates
-    )
     const routeLineString = new LineString(transformedCoordinates)
 
     const routeFeature = new Feature({
@@ -319,7 +299,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       )
     )
     drawSource.addFeature(routeFeature)
-    console.error('New feature: ',drawSource.getFeatures())
   },
   addFeatures({ commit }, { geoJSON, overwrite = false }) {
     const features = new GeoJSON().readFeatures(geoJSON).map((feature) => {
@@ -339,24 +318,16 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   },
   deleteRouteDrawing() {
     drawSource.clear()
-    console.error('cleared features: ', drawSource.getFeatures())
   },
   resetCoordinates({ commit, dispatch, state }) {
     commit('setStart', [])
     commit('setEnd', [])
     commit('setStartAddress', '')
     commit('setEndAddress', '')
+    commit('setSelectedTravelMode', '')
+    commit('setSelectedPreference', '')
     commit('setSelectedRouteTypesToAvoid', [])
     commit('setSearchResponseData', {})
-    console.error(
-      'Start- und Endpunkt im Store nach reset:',
-      state.start,
-      state.end
-    )
-    console.error(
-      'searchResponseData im Store nach reset:',
-      state.searchResponseData
-    )
     dispatch('deleteRouteDrawing')
   },
 }
