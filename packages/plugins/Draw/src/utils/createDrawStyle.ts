@@ -24,6 +24,9 @@ function calculatePartialDistances(
       ? geometry.getCoordinates()[0]
       : geometry.getCoordinates()
   // TODO: This runs once too often (e.g.: A Polygon with 3 sides has 4 lengths)
+  //  --> This occurs because a new coordinate is added when clicking, even on the double-click which ends the drawing.
+  //  This coordinate is afterwards deleted from the feature, but the setting of the property has already concluded here
+  console.warn('huh', coordinates)
   for (let i = 1; i < coordinates.length; i++) {
     const lineString = new LineString([coordinates[i - 1], coordinates[i]])
     const text = `${Math.round(
