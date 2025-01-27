@@ -589,7 +589,7 @@ export interface ExtendedMasterportalapiMarkers {
   layers: string[]
   defaultStyle?: MarkerStyle
   hoverStyle?: MarkerStyle
-  selectionStyle: MarkerStyle
+  selectionStyle?: MarkerStyle
   unselectableStyle?: MarkerStyle
   clusterClickZoom?: boolean
   dispatchOnMapSelect?: [string, any]
