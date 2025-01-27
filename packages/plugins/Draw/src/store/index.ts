@@ -88,13 +88,20 @@ export const makeStoreModule = () => {
       },
       measureOptions: (_, { configuration }) =>
         configuration.measureOptions || {},
-      selectableMeasureModes: (_, { measureOptions }) =>
-        Object.entries(measureOptions)
+      selectableMeasureModes: (_, { drawMode, measureOptions }) =>
+        (drawMode === 'LineString'
+          ? Object.entries(measureOptions).filter(
+              ([option]) => option !== 'hectares'
+            )
+          : Object.entries(measureOptions)
+        )
           .filter((option) => option[1] === true)
           .reduce(
             (acc, [option]) => ({
               ...acc,
-              [option]: `common:plugins.draw.measureMode.${option}`,
+              [option]:
+                `common:plugins.draw.measureMode.${option}` +
+                (drawMode === 'Polygon' && option !== 'hectares' ? 'Area' : ''),
             }),
             { none: 'common:plugins.draw.measureMode.none' }
           ),
