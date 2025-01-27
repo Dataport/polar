@@ -19,7 +19,7 @@
     "API.md"
   ],
   "scripts": {
-    "postversion": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "rimraf dist && vite build && cd ../../.. && npm run docs:generic"
   },
   "devDependencies": {

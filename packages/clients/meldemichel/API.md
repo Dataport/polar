@@ -16,6 +16,7 @@ The method expects a single object with the following parameters.
 | - | - | - |
 | containerId | string | ID of the container the map is supposed to render itself to. |
 | mode | enum["REPORT", "SINGLE", "COMPLETE"] | See chapters below for an overview of the modes. |
+| stadtwaldActive | boolean? | This layer only works in 'SINGLE' mode and should not be activated in the others. If not set, any existing previous state is kept; off by default. |
 | afmUrl | string? | `COMPLETE` mode only. The URL used here is the URL of the AfM service to open to create a new damage report. |
 | reportServiceId | string? | `COMPLETE` mode only. ID of the report layer to display. Both the Filter and the Feature List will work with this layer. The client will also provide tooltips and cluster the features. |
 | configOverride  | object? | This can be used to override the configuration of any installed plugin; see full documentation. It is also used to set initial pins in `SINGLE` mode. See documentation of `SINGLE` further below. |
@@ -77,6 +78,8 @@ A document rendering the map client could e.g. look like this:
       const meldemichelMapInstance = await meldemichelMapClient.createMap({
         containerId: 'meldemichel-map-client',
         mode: 'REPORT', // or 'SINGLE',
+        // This layer only works in 'SINGLE' mode and should not be activated in the others
+        stadtwaldActive: true, // or `false`; if not set, previous state is kept; off by default
         // For 'SINGLE' mode where a singular coordinate is inspected/worked on
         configOverride: {
           pins: {
@@ -102,6 +105,12 @@ A document rendering the map client could e.g. look like this:
         mapBaseLayer: 452,
         mapCenter: '566808.8386735287,5935896.23173797',
         // NOTE: vendor_maps_distance_to and -_plz are not read
+      })
+
+      /* To change the stadtwald layer's visibility in 'SINGLE' mode, use this;
+       * this key can be used standalone or within the call seen above */
+      meldemichelMapInstance.$store.dispatch('meldemichel/setMapState', {
+        stadtwaldActive: true, // or false
       })
 
       // to retrieve map state updates, use this snippet:
@@ -136,8 +145,54 @@ A document rendering the map client could e.g. look like this:
 </html>
 ```
 
-## Rendering COMPLETE mode
+## Rendering COMPLETE mode (full page)
 
 The `index.html` included in the package's `dist` folder has been prepared for this mode and must merely be hosted.
 
 Please see the table in chapter `Basic usage` about configuration options.
+
+## Rendering COMPLETE mode (embedded element)
+
+To embed the COMPLETE mode map on any page, provide a div with an id like `meldemichel-map-client`; you may choose any id you like.
+
+The following script tag can then be used to render the productive services of the Meldemichel map client.
+
+```html
+<script type="module">
+  // adjust path to where the client is
+  import meldemichelMapClient from '../dist/client-meldemichel.js'
+
+  meldemichelMapClient.createMap({
+    containerId: 'meldemichel-map-client', // the id you used
+    mode: 'COMPLETE',
+    afmUrl: `https://afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index`,
+    reportServiceId: '6059',
+    configOverride: {
+      // adjust path to where the client is
+      stylePath: '../dist/style.css'
+    }
+  })
+</script>
+```
+
+POLAR will rebuild the given div to contain a ShadowDOM that hosts the map. The outer div will change to have the id `meldemichel-map-client-wrapper` (resp. `${yourId}-wrapper`) and can be used to style the map's height and width with, for example:
+
+```css
+#meldemichel-map-client-wrapper {
+  /* "position: relative;" is the minimum required styling */
+  position: relative;
+  height: 400px;
+  width: 100%;
+}
+```
+
+To also serve users with JS disabled some content, this fragment is common:
+
+```html
+<div id="meldemichel-map-client">
+  <!-- Optional, if your page does not have its own <noscript> information -->
+  <noscript>Please use a browser with active JavaScript to use the map client.</noscript>
+</div>
+```
+
+For a complete example, you may also check [the running embedded scenario](https://dataport.github.io/polar/docs/meldemichel/example/complete_embedded.html) or its [source file](https://github.com/Dataport/polar/blob/main/packages/clients/meldemichel/example/complete_embedded.html).
