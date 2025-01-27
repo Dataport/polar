@@ -116,8 +116,6 @@ const mapConfig = {
     ],
   },
   addressSearch: {
-    addLoading: 'plugin/loadingIndicator/addLoadingKey',
-    removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
     minLength: 3,
     waitMs: 300,
     searchMethods: [
@@ -171,9 +169,7 @@ const mapConfig = {
     dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
   },
   gfi: {
-	coordinateSources: ['plugin/addressSearch/chosenAddress'],
     mode: 'bboxDot',
-    activeLayerPath: 'plugin/layerChooser/activeMaskIds',
     featureList: {
       mode: 'visible',
       pageLength: 10,
