@@ -1,14 +1,14 @@
 import { type DrawStyle, type MeasureMode } from '@polar/lib-custom-types'
 import centerOfMass from '@turf/center-of-mass'
+import { type Color } from 'ol/color'
+import { type ColorLike } from 'ol/colorlike'
+import { Coordinate } from 'ol/coordinate'
+import { LineString, Point, Polygon } from 'ol/geom'
+import { type Projection } from 'ol/proj'
+import { getArea, getLength } from 'ol/sphere'
 import { Circle as CircleStyle, Fill, Stroke } from 'ol/style'
 import Style, { type Options, StyleFunction } from 'ol/style/Style'
 import Text, { type Options as TextOptions } from 'ol/style/Text'
-import { type Color } from 'ol/color'
-import { type ColorLike } from 'ol/colorlike'
-import { LineString, Point, Polygon } from 'ol/geom'
-import { getArea, getLength } from 'ol/sphere'
-import { type Projection } from 'ol/proj'
-import { Coordinate } from 'ol/coordinate'
 
 function calculatePartialDistances(
   styles: Style[],
