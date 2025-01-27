@@ -131,8 +131,16 @@ For the time being, please use this example as a rough reference as to what can 
       circle: {
         radius: 7,
         fillColor: '#e51313'
+      },
+      // Styling for text of measurements; supports everything described at https://openlayers.org/en/v9.2.4/apidoc/module-ol_style_Text-Text.html
+      measure: {
+        font: '16px sans-serif',
+        placement: 'line',
+        fill: new Fill({ color: 'black' }),
+        stroke: new Stroke({ color: 'black' }),
+        offsetY: -5
       }
-    },
+    }
   }
 }
 ```

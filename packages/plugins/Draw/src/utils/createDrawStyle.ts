@@ -63,53 +63,56 @@ function getAreaText(
 const measureStyle: (
   styleOptions: Options,
   measureMode: Exclude<MeasureMode, 'none'>,
-  projection: Projection
-) => StyleFunction = (styleOptions, measureMode, projection) => (feature) => {
-  const geometry = feature.getGeometry()
-  if (geometry instanceof Polygon || geometry instanceof LineString) {
-    const styles = [new Style(styleOptions)]
-    const textOptions: TextOptions = {
-      font: '16px sans-serif',
-      placement: 'line',
-      fill: new Fill({ color: 'black' }),
-      stroke: new Stroke({ color: 'black' }),
-      offsetY: -5,
-    }
-    const lengthUnit = measureMode === 'metres' ? 'm' : 'km'
-    if (geometry instanceof Polygon) {
-      const style = new Style({
-        text: new Text({
-          ...textOptions,
-          placement: 'point',
-          text: getAreaText(geometry, projection, measureMode),
-        }),
-      })
-      style.setGeometry(
-        new Point(
-          centerOfMass({
-            type: 'Feature',
-            geometry: {
-              type: 'Polygon',
-              coordinates: geometry.getCoordinates(),
-            },
-          }).geometry.coordinates
+  projection: Projection,
+  measureStyleOptions?: TextOptions
+) => StyleFunction =
+  (styleOptions, measureMode, projection, measureStyleOptions) => (feature) => {
+    const geometry = feature.getGeometry()
+    if (geometry instanceof Polygon || geometry instanceof LineString) {
+      const styles = [new Style(styleOptions)]
+      const textOptions: TextOptions = {
+        font: '16px sans-serif',
+        placement: 'line',
+        fill: new Fill({ color: 'black' }),
+        stroke: new Stroke({ color: 'black' }),
+        offsetY: -5,
+        ...measureStyleOptions,
+      }
+      const lengthUnit = measureMode === 'metres' ? 'm' : 'km'
+      if (geometry instanceof Polygon) {
+        const style = new Style({
+          text: new Text({
+            ...textOptions,
+            placement: 'point',
+            text: getAreaText(geometry, projection, measureMode),
+          }),
+        })
+        style.setGeometry(
+          new Point(
+            centerOfMass({
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates: geometry.getCoordinates(),
+              },
+            }).geometry.coordinates
+          )
         )
+        styles.push(style)
+      }
+      return calculatePartialDistances(
+        styles,
+        styleOptions,
+        textOptions,
+        geometry instanceof Polygon
+          ? geometry.getCoordinates()[0]
+          : geometry.getCoordinates(),
+        lengthUnit,
+        projection
       )
-      styles.push(style)
     }
-    return calculatePartialDistances(
-      styles,
-      styleOptions,
-      textOptions,
-      geometry instanceof Polygon
-        ? geometry.getCoordinates()[0]
-        : geometry.getCoordinates(),
-      lengthUnit,
-      projection
-    )
+    return new Style(styleOptions)
   }
-  return new Style(styleOptions)
-}
 
 export default function (
   drawMode: string,
@@ -149,7 +152,7 @@ export default function (
   }
   return measureMode === 'none'
     ? new Style(styleOptions)
-    : measureStyle(styleOptions, measureMode, projection)
+    : measureStyle(styleOptions, measureMode, projection, drawStyle?.measure)
 }
 
 function createPointStyle(
