@@ -1,6 +1,6 @@
-import { MapConfig } from '../../../types/custom'
+import { BKGParameters } from '@polar/plugin-address-search/src/types'
 
-const mapConfig: MapConfig = {
+const mapConfig = {
   epsg: 'EPSG:25832',
   namedProjections: [
     [
@@ -126,14 +126,11 @@ const mapConfig: MapConfig = {
           filter: {
             bundesland: 'Schleswig-Holstein',
           },
-        },
+        } as BKGParameters,
         type: 'bkg',
         url: 'https://gisdemo.dp.dsecurecloud.de/bkg_geosearch3',
       },
     ],
-    // ?
-    // customSearchMethods: { dish: search, autocomplete },
-    // customSelectResult: { categoryDenkmalsucheAutocomplete: selectResult },
   },
   pins: {
     toZoomLevel: 7,
@@ -174,6 +171,7 @@ const mapConfig: MapConfig = {
     dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
   },
   gfi: {
+	coordinateSources: ['plugin/addressSearch/chosenAddress'],
     mode: 'bboxDot',
     activeLayerPath: 'plugin/layerChooser/activeMaskIds',
     featureList: {
