@@ -587,7 +587,7 @@ export interface MarkerStyle {
 
 export interface ExtendedMasterportalapiMarkers {
   layers: string[]
-  defaultStyle: MarkerStyle
+  defaultStyle?: MarkerStyle
   hoverStyle: MarkerStyle
   selectionStyle: MarkerStyle
   unselectableStyle?: MarkerStyle
