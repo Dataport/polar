@@ -592,7 +592,7 @@ export interface ExtendedMasterportalapiMarkers {
   selectionStyle?: MarkerStyle
   unselectableStyle?: MarkerStyle
   clusterClickZoom?: boolean
-  dispatchOnMapSelect?: [string, any]
+  dispatchOnMapSelect?: [string, unknown]
   isSelectable?: ExtendedMasterportalapiMarkersIsSelectableFunction
 }
 
