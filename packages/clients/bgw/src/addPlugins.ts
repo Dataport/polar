@@ -76,6 +76,7 @@ core.addPlugins([
       {
         layoutTag: NineLayoutTag.BOTTOM_LEFT,
         renderType: 'iconMenu',
+        activeLayerPath: 'plugin/layerChooser/activeMaskIds',
         coordinateSources: ['plugin/addressSearch/chosenAddress'],
       })
     ),
