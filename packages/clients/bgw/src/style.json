@@ -23,5 +23,16 @@
         }
       }
     ]
+  },
+  {
+    "styleId": "ausdehnungBadestellen",
+    "rules": [
+      {
+        "style": {
+          "lineStrokeColor": [255, 100, 0, 1],
+          "lineStrokeWidth": 3
+        }
+      }
+    ]
   }
 ]

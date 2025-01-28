@@ -74,6 +74,7 @@ const mapConfig = {
     },
     {
       id: '14001',
+      styleId: 'ausdehnungBadestellen',
       visibility: true,
       name: 'Ausdehnung der Badestellen',
       type: 'mask',
