@@ -67,6 +67,7 @@ const mapConfig = {
     { id: '14000', name: 'Verwaltungsgrenzen', type: 'mask' },
     {
       id: '14003',
+      styleId: 'badestellen',
       visibility: true,
       name: 'Badestellen',
       type: 'mask',
@@ -79,6 +80,7 @@ const mapConfig = {
     },
     {
       id: '14004',
+      styleId: 'probenahmestellen',
       visibility: true,
       name: 'Probenahmestellen',
       type: 'mask',
@@ -235,6 +237,7 @@ const mapConfig = {
       },
     },
   },
+  featureStyles: './style.json',
 }
 
 export default mapConfig

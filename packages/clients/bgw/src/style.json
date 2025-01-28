@@ -1,0 +1,27 @@
+[
+  {
+    "styleId": "probenahmestellen",
+    "rules": [
+      {
+        "style": {
+          "circleRadius": 5,
+          "circleStrokeColor": [128, 128, 128, 1],
+          "circleFillColor": [255, 100, 0, 1]
+        }
+      }
+    ]
+  },
+  {
+    "styleId": "badestellen",
+    "rules": [
+      {
+        "style": {
+          "type": "icon",
+          "imageName": "/assets/badestellen.png",
+          "clusterImageName": "/assets/badestellen.png",
+          "imageScale": 0.3
+        }
+      }
+    ]
+  }
+]
