@@ -199,7 +199,6 @@ export function useExtendedMasterportalapiMarkers(
       setLayerId(map, feature)
       selected = feature
       if (dispatchOnMapSelect) {
-        // @ts-expect-error | May be one or two elements, no fixed tuple.
         dispatch(...dispatchOnMapSelect)
       }
       hovered?.setStyle?.(undefined)
