@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Fix: Add necessary typecast in configuration examples for `bkg` search methods.
+- Fix: Add necessary typecast in configuration examples for `bkg` and `mpapi` search methods.
 
 ## 2.0.0
 
