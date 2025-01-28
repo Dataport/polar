@@ -85,6 +85,7 @@ const mapConfig = {
       visibility: true,
       name: 'Probenahmestellen',
       type: 'mask',
+      minZoom: 1,
     },
   ],
   attributions: {
