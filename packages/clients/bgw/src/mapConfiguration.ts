@@ -121,6 +121,7 @@ const mapConfig = {
     waitMs: 300,
     searchMethods: [
       {
+        groupId: 'addressSearch',
         queryParameters: {
           filter: {
             bundesland: 'Schleswig-Holstein',
@@ -129,7 +130,34 @@ const mapConfig = {
         type: 'bkg',
         url: 'https://gisdemo.dp.dsecurecloud.de/bkg_geosearch3',
       },
+      // TODO add customSearch for badestellenSearch to add epsg and ignore case
+      {
+        groupId: 'badestellenSearch',
+        categoryId: 'badestellen',
+        type: 'wfs',
+        url: 'https://umweltgeodienste.schleswig-holstein.de/WFS_BGW',
+        queryParameters: {
+          srsName: 'EPSG:25832',
+          typeName: 'badestellen',
+          fieldName: 'bgw_name',
+          featurePrefix: 'app',
+          xmlns: 'http://www.deegree.org/app',
+          useRightHandWildcard: true,
+        },
+      },
     ],
+    groupProperties: {
+      addressSearch: {
+        label: 'Adresssuche',
+        resultDisplayMode: 'categorized',
+        limitResults: 10,
+      },
+      badestellenSearch: {
+        label: 'Badestellensuche',
+        resultDisplayMode: 'categorized',
+        limitResults: 10,
+      },
+    },
   },
   pins: {
     toZoomLevel: 7,
