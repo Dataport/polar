@@ -2,7 +2,7 @@ import { Feature, MapBrowserEvent } from 'ol'
 import {
   CoreGetters,
   CoreState,
-  ExtendedMasterportalapiMarkersIsSelectableFunction,
+  ExtendedMasterportalapiMarkers,
   MarkerStyle,
   PolarActionContext,
   PolarStore,
@@ -80,15 +80,7 @@ export function useExtendedMasterportalapiMarkers(
     layers,
     clusterClickZoom = false,
     dispatchOnMapSelect,
-  }: {
-    hoverStyle?: MarkerStyle
-    selectionStyle?: MarkerStyle
-    unselectableStyle?: MarkerStyle
-    isSelectable?: ExtendedMasterportalapiMarkersIsSelectableFunction
-    layers: string[]
-    clusterClickZoom: boolean
-    dispatchOnMapSelect?: string[]
-  }
+  }: ExtendedMasterportalapiMarkers
 ) {
   localSelectionStyle = selectionStyle
   const { map } = getters
