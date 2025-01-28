@@ -60,7 +60,7 @@ addressSearch: {
         filter: {
           bundesland: 'Schleswig-Holstein',
         },
-      },
+      } as BKGParameters,
       type: 'bkg',
       url: 'other-example-url.com',
     },
@@ -119,7 +119,7 @@ Example configuration:
     queryParameters: {
       filter: {
         bundesland: 'Schleswig-Holstein',
-      },
+      } as BKGParameters,
     },
   },
 ],
@@ -294,7 +294,7 @@ queryParameters: {
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:bkg)
 
-In _BKG_ mode, queryParameter's key-value pairs are used in the service query. E.g. `{filter: { bundesland: 'Bremen' }}` results in the GET request URL having `&filter=bundesland:Bremen` as suffix.
+In _BKG_ mode, queryParameter's key-value pairs are used in the service query. E.g. `{filter: { bundesland: 'Bremen' }}` results in the GET request URL having `&filter=bundesland:Bremen` as suffix. Since `queryParameters` is a general type it has to be specified that in this case it is the type `BKGParameters`.
 
 For more options, please check the [official documentation](https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf) regarding what query parameters are interpreted.
 
@@ -306,7 +306,7 @@ type: 'bkg'
 queryParameters: {
   filter: {
     bundesland: 'Schleswig-Holstein',
-  },
+  } as BKGParameters,
 },
 ```
 
