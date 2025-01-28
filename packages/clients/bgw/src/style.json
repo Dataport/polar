@@ -5,8 +5,8 @@
       {
         "style": {
           "circleRadius": 5,
-          "circleStrokeColor": [128, 128, 128, 1],
-          "circleFillColor": [255, 100, 0, 1]
+          "circleStrokeColor": [64, 64, 64, 1],
+          "circleFillColor": [255, 69, 0, 0.8]
         }
       }
     ]
@@ -29,7 +29,7 @@
     "rules": [
       {
         "style": {
-          "lineStrokeColor": [255, 100, 0, 1],
+          "lineStrokeColor": [255, 69, 0, 1],
           "lineStrokeWidth": 3
         }
       }
