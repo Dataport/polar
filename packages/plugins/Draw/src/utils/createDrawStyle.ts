@@ -41,6 +41,14 @@ function calculatePartialDistances(
     style.setGeometry(lineString)
     styles.push(style)
   }
+  // This only happens once the drawing has been finished
+  if (
+    Object.keys(feature.getProperties()).filter((key) =>
+      key.startsWith('length-')
+    ).length === coordinates.length
+  ) {
+    feature.unset(`length-${coordinates.length}`)
+  }
 
   return styles
 }
