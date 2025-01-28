@@ -39,6 +39,16 @@ export default (core) => {
         id: 'filter',
       },
       {
+        plugin: Gfi({
+          layers: {},
+          renderType: 'iconMenu',
+          activeLayerPath: 'plugin/layerChooser/activeMaskIds',
+          coordinateSources: ['plugin/addressSearch/chosenAddress'],
+        }),
+        icon: 'fa-location-pin',
+        id: 'gfi',
+      },
+      {
         plugin: Fullscreen({ renderType: 'iconMenu' }),
         id: 'fullscreen',
       },
@@ -55,14 +65,6 @@ export default (core) => {
         addLoading: 'plugin/loadingIndicator/addLoadingKey',
         removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
         customSelectResult: { badestellen: badestellenSearchResult },
-      })
-    ),
-    Gfi(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_LEFT,
-        renderType: 'iconMenu',
-        activeLayerPath: 'plugin/layerChooser/activeMaskIds',
-        coordinateSources: ['plugin/addressSearch/chosenAddress'],
       })
     ),
     Pins({
