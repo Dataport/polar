@@ -51,7 +51,7 @@ addressSearch: {
         searchAddress: true,
         searchStreets: true,
         searchHouseNumbers: true,
-      },
+      } as MpApiParameters,
       type: 'mpapi',
       url: 'example-url.com',
     },
@@ -281,7 +281,7 @@ queryParameters: {
 | searchStreetKey | Boolean? | Defines whether streets should be searched for by key. |
 | searchStreets | Boolean? | Defines whether street search is active. Precondition to set `searchHouseNumbers` to `true`. |
 
-While all fields are optional, configuring none of them will yield undefined behaviour. At least one search instruction should be set to `true`.
+While all fields are optional, configuring none of them will yield undefined behaviour. At least one search instruction should be set to `true`. Since `queryParameters` is a general type it has to be specified that in this case it is of the type `MpApiParameters`.
 
 ```js
 type: 'mpapi'
@@ -289,12 +289,12 @@ queryParameters: {
   searchAddress: true,
   searchStreets: true,
   searchHouseNumbers: true,
-},
+} as MpApiParameters,
 ```
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:bkg)
 
-In _BKG_ mode, queryParameter's key-value pairs are used in the service query. E.g. `{filter: { bundesland: 'Bremen' }}` results in the GET request URL having `&filter=bundesland:Bremen` as suffix. Since `queryParameters` is a general type it has to be specified that in this case it is the type `BKGParameters`.
+In _BKG_ mode, queryParameter's key-value pairs are used in the service query. E.g. `{filter: { bundesland: 'Bremen' }}` results in the GET request URL having `&filter=bundesland:Bremen` as suffix. Since `queryParameters` is a general type it has to be specified that in this case it is of the type `BKGParameters`.
 
 For more options, please check the [official documentation](https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf) regarding what query parameters are interpreted.
 
