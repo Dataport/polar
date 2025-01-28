@@ -130,7 +130,6 @@ const mapConfig = {
         type: 'bkg',
         url: 'https://gisdemo.dp.dsecurecloud.de/bkg_geosearch3',
       },
-      // TODO add customSearch for badestellenSearch to add epsg and ignore case
       {
         groupId: 'badestellenSearch',
         categoryId: 'badestellen',
