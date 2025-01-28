@@ -3,7 +3,6 @@ import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Filter from '@polar/plugin-filter'
 import Fullscreen from '@polar/plugin-fullscreen'
-import GeoLocation from '@polar/plugin-geo-location'
 import Gfi from '@polar/plugin-gfi'
 import IconMenu from '@polar/plugin-icon-menu'
 import LayerChooser from '@polar/plugin-layer-chooser'
@@ -20,10 +19,11 @@ const defaultOptions = {
   layoutTag: NineLayoutTag.TOP_LEFT,
 }
 
+// eslint-disable-next-line max-lines-per-function
 export default (core) => {
   setLayout(NineLayout)
 
-  const iconMenu =  IconMenu({
+  const iconMenu = IconMenu({
     menus: [
       {
         plugin: LayerChooser({}),
@@ -56,8 +56,7 @@ export default (core) => {
       })
     ),
     Gfi(
-        merge({}, defaultOptions,
-      {
+      merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.BOTTOM_LEFT,
         renderType: 'iconMenu',
         activeLayerPath: 'plugin/layerChooser/activeMaskIds',
@@ -70,25 +69,25 @@ export default (core) => {
     }),
     Legend(
       merge({}, defaultOptions, {
-      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-      maxWidth: 500,
+        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+        maxWidth: 500,
       })
     ),
     LoadingIndicator(
       merge({}, defaultOptions, {
-      layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
-      }),
+        layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
+      })
     ),
     Toast(
       merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
-      }),
+      })
     ),
     Zoom(
       merge({}, defaultOptions, {
-        renderType: 'independent', 
-        layoutTag: NineLayoutTag.MIDDLE_RIGHT, 
-      }),
+        renderType: 'independent',
+        layoutTag: NineLayoutTag.MIDDLE_RIGHT,
+      })
     ),
     Attributions(
       merge({}, defaultOptions, {
@@ -99,10 +98,10 @@ export default (core) => {
       })
     ),
     Scale(
-      merge({}, defaultOptions,{
+      merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.BOTTOM_RIGHT,
         showScaleSwitcher: true,
-        zoomMethod: 'plugin/zoom/setZoomLevel'
+        zoomMethod: 'plugin/zoom/setZoomLevel',
       })
     ),
   ])

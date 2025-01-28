@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { BKGParameters } from '@polar/plugin-address-search/src/types'
 
 const mapConfig = {
