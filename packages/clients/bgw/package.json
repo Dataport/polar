@@ -14,9 +14,8 @@
   },
   "files": [
     "dist/**/**.*",
-    "docs/**/**.*",
-    "CHANGELOG.md",
-    "API.md"
+    "example/**/**.*",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -48,6 +47,6 @@
     "lodash.merge": "^4.6.2"
   },
   "nx": {
-    "includedScripts": ["dev"]
+    "includedScripts": ["build", "dev"]
   }
 }

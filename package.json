@@ -20,6 +20,8 @@
     "afm:build": "nx build @polar/client-afm && npm run docs:afm",
     "afm:build:serve": "http-server ./packages/clients/afm -o /example/prod-example.html",
     "afm:dev": "nx dev @polar/client-afm",
+    "bgw:build": "nx build @polar/client-bgw",
+    "bgw:build:serve": "http-server ./packages/clients/bgw -o /example/index.html",
     "bgw:dev": "nx dev @polar/client-bgw",
     "generic:build": "nx build @polar/client-generic",
     "dish:build": "nx build @polar/client-dish",
