@@ -39,16 +39,16 @@ export const mapConfigExtern: DishMapConfig = {
       name: 'Basemap Graustufen',
     },
     {
-      id: bddCol,
-      visibility: true,
-      type: 'background',
-      name: 'Digitale Topographische Karten (Farbe)',
-    },
-    {
       id: bddEin,
       visibility: true,
       type: 'background',
       name: 'Digitale Topographische Karten (Graustufen)',
+    },
+    {
+      id: bddCol,
+      visibility: true,
+      type: 'background',
+      name: 'Digitale Topographische Karten (Farbe)',
     },
     {
       id: dop20col,
