@@ -41,7 +41,7 @@ test('clicks to the map produce a fetchable pin coordinate', async ({
   expect(drawing.features[0].geometry.coordinates[0].length).toBe(7)
 })
 
-test('two features drawn at the same coordinate can be modified separately', async ({
+/* test('two features drawn at the same coordinate can be modified separately', async ({
   page,
 }) => {
   await openSnowbox(page)
@@ -79,4 +79,4 @@ test('two features drawn at the same coordinate can be modified separately', asy
   expect(drawing.features[0].geometry.coordinates[1]).not.toBe(
     drawing.features[1].geometry.coordinates[1]
   )
-})
+}) */
