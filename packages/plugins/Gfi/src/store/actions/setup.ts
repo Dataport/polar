@@ -1,11 +1,10 @@
 import { PolarActionContext, PolarStore } from '@polar/lib-custom-types'
 import { GeoJsonProperties } from 'geojson'
-
 import getCluster from '@polar/lib-get-cluster'
 import { getTooltip, Tooltip } from '@polar/lib-tooltip'
 import Overlay from 'ol/Overlay'
 import { Feature } from 'ol'
-import { DragBox } from 'ol/interaction'
+import { DragBox, Draw, Modify } from 'ol/interaction'
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import { GfiGetters, GfiState } from '../../types'
 import { getOriginalFeature } from '../../utils/getOriginalFeature'
@@ -43,15 +42,27 @@ export function setupMultiSelection({
     rootGetters.map.addInteraction(dragBox)
   }
   if (getters.gfiConfiguration.directSelect) {
-    rootGetters.map.on('click', ({ coordinate, originalEvent }) =>
-      dispatch('getFeatureInfo', {
-        coordinateOrExtent: coordinate,
-        modifierPressed:
-          navigator.userAgent.indexOf('Mac') !== -1
+    rootGetters.map.on('click', ({ coordinate, originalEvent }) => {
+      const isDrawing = rootGetters.map
+        .getInteractions()
+        .getArray()
+        .some(
+          (interaction) =>
+            // these indicate other interactions are expected now
+            interaction instanceof Draw ||
+            interaction instanceof Modify ||
+            // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
+            interaction._isDeleteSelect
+        )
+      if (!isDrawing) {
+        dispatch('getFeatureInfo', {
+          coordinateOrExtent: coordinate,
+          modifierPressed: navigator.userAgent.includes('Mac')
             ? originalEvent.metaKey
             : originalEvent.ctrlKey,
-      })
-    )
+        })
+      }
+    })
   }
 }
 
