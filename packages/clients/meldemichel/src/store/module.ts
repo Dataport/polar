@@ -2,11 +2,13 @@
 /* eslint-disable camelcase */
 
 import { PolarModule } from '@polar/lib-custom-types'
+import { stadtwald } from '../mapConfigurations'
 
 interface SetMapStatePayload {
   mapCenter?: string // resembling 'number,number'
   mapZoomLevel?: number | string
   mapBaseLayer?: number | string
+  stadtwaldActive?: boolean
   vendor_maps_position?: string // resembling 'number,number'
   vendor_maps_address_str?: string
   vendor_maps_address_hnr?: number | string
@@ -35,26 +37,32 @@ const meldemichelModule: PolarModule<
   namespaced: true,
   state: {},
   actions: {
-    // setupModule({ getters }): void {},
+    // length deemed acceptable due to function simplicity (forwarder)
+    // eslint-disable-next-line max-lines-per-function
     setMapState: (
-      { commit, dispatch, rootGetters: { map } },
+      { commit, dispatch, rootGetters },
       {
         mapCenter,
         mapZoomLevel,
         mapBaseLayer,
+        stadtwaldActive,
         vendor_maps_position,
         vendor_maps_address_str,
         vendor_maps_address_hnr,
       }: SetMapStatePayload
     ) => {
+      const { map } = rootGetters
+
       if (mapCenter) {
         map.getView().setCenter(readAfmCoordinate(mapCenter))
       }
+
       if (mapZoomLevel) {
         dispatch('plugin/zoom/setZoomLevel', Number(mapZoomLevel), {
           root: true,
         })
       }
+
       if (mapBaseLayer) {
         dispatch(
           'plugin/layerChooser/setActiveBackgroundId',
@@ -64,6 +72,18 @@ const meldemichelModule: PolarModule<
           }
         )
       }
+
+      if (typeof stadtwaldActive === 'boolean') {
+        const oldActiveMasks = rootGetters['plugin/layerChooser/activeMaskIds']
+        const newActiveMasks = stadtwaldActive
+          ? [...new Set([...oldActiveMasks, stadtwald])]
+          : oldActiveMasks.filter((id) => id !== stadtwald)
+
+        dispatch('plugin/layerChooser/setActiveMaskIds', newActiveMasks, {
+          root: true,
+        })
+      }
+
       if (vendor_maps_address_str && vendor_maps_address_hnr) {
         commit(
           'plugin/addressSearch/setInputValue',
@@ -71,6 +91,7 @@ const meldemichelModule: PolarModule<
           { root: true }
         )
       }
+
       if (vendor_maps_position) {
         dispatch(
           'plugin/pins/showMarker',

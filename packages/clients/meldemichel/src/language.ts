@@ -54,6 +54,8 @@ const language: LanguageOption[] = [
         attributions: {
           stadtplan:
             'Kartografie Stadtplan: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
+          stadtwald:
+            'Kartografie Stadtwald: <a target="_blank" href="https://www.hamburg.de/politik-und-verwaltung/behoerden/bukea">Freie und Hansestadt Hamburg, Behörde für Umwelt, Klima, Energie und Agrarwirtschaft (BUKEA)</a>',
           luftbilder:
             'Kartografie Luftbilder: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
           reports: 'Meldungen durch Bürger',
@@ -73,6 +75,7 @@ const language: LanguageOption[] = [
         },
         layers: {
           stadtplan: 'Stadtplan',
+          stadtwald: 'Stadtwald',
           luftbilder: 'Luftbildansicht',
           reports: 'Meldungen',
           hamburgBorder: 'Stadtgrenze Hamburg',

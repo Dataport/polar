@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.1
 
 - Fix: Add missing translations for scale switcher.
 

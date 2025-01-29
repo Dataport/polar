@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate, max-age=0"
+    />
+    <title>MML INTEGRATION TEST</title>
+    <style>
+      /* div with this id is created on `createMap` call to host shadow DOM */
+      #polarstern-wrapper {
+        position: relative;
+        height: 400px;
+        width: 100%;
+      }
+
+      /* the following styling is purely for surrounding example content */
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+
+      header {
+        padding: 0 2em;
+      }
+
+      #hh-bug {
+        height: 35px;
+        width: 400px;
+        margin-left: -280px;
+        transform: skew(-35deg);
+        background: #e10019;
+        border-bottom-right-radius: 6px;
+        margin-bottom: 1em;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+      }
+
+      .blue-content {
+        color: white;
+        background: #1a4573;
+      }
+
+      .padded-x {
+        padding-right: 10vw;
+        padding-left: 10vw;
+      }
+
+      .padded-y {
+        padding-top: 4em;
+        padding-bottom: 4em;
+      }
+
+      h2 {
+        font-size: 38pt;
+      }
+
+      p {
+        font-size: 32px;
+      }
+
+      footer {
+        color: white;
+        background: #003063;
+        padding: 1em 5vw;
+      }
+    </style>
+  </head>
+  <body>
+    <nav></nav>
+    <header>
+      <h1>Meldemichel-Einbindesimulation</h1>
+    </header>
+    <div id="hh-bug"></div>
+    <main>
+      <section class="blue-content padded-x padded-y">
+        <h2>Blindtext</h2>
+        <p>Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular.</p>
+      </section>
+      <section>
+        <h2 class="padded-x">Aktuell gemeldete Schäden</h2>
+        <!-- ID can be anything as long as it's used in .createMap, too -->
+        <div id="polarstern"></div>
+      </section>
+      <section class="padded-x padded-y">
+        <h2>Blindtext II.</h2>
+        <p>Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores.</p>
+      </section>
+    </main>
+    <footer>At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.</footer>
+    <script type="module">
+      import meldemichelMapClient from '../dist/client-meldemichel.js'
+
+      // toggle to switch between stage/prod layer and report system
+      const stage = true
+
+      meldemichelMapClient.createMap({
+        containerId: 'polarstern',
+        mode: 'COMPLETE',
+        afmUrl: `https://${
+          stage ? 'stage.' : ''
+        }afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index`,
+        reportServiceId: stage ? '6061' : '6059',
+        configOverride: {
+          stylePath: '../dist/style.css',
+          attributions: {
+            staticAttributions: [
+              `<a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md">Legal Notice (Impressum)</a>`
+            ]
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
