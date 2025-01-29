@@ -36,7 +36,7 @@ export const mapConfigExtern: DishMapConfig = {
       id: basemapGrau,
       visibility: true,
       type: 'background',
-      name: 'Basemap Graustufen',
+      name: 'Basemap.de (Graustufen)',
     },
     {
       id: bddEin,
@@ -54,7 +54,7 @@ export const mapConfigExtern: DishMapConfig = {
       id: dop20col,
       visibility: true,
       type: 'background',
-      name: 'Luftbilder',
+      name: 'Luftbilder (Farbe)',
     },
     {
       id: denkmaelerWFS,
@@ -90,7 +90,7 @@ export const mapConfigExtern: DishMapConfig = {
       id: alkisWms,
       visibility: true,
       type: 'mask',
-      name: 'ALKIS Flurstücke (ab 1: 1000)',
+      name: 'ALKIS Flurstücke (ab 1:1.000)',
       minZoom: 10,
     },
   ],
