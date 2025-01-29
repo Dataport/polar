@@ -14,7 +14,8 @@ import {
 } from '../servicesConstants'
 import { DishMapConfig } from '../types'
 import {
-  attributionsCommon,
+  attributionsBasemapGrau,
+  attributionsAlkisWms,
   denkmalAmtLink,
   vermessungsAmtLink,
 } from './attributionsConfig'
@@ -97,23 +98,24 @@ export const mapConfigExtern: DishMapConfig = {
   attributions: {
     initiallyOpen: true,
     layerAttributions: [
-      ...attributionsCommon,
+      attributionsBasemapGrau,
       {
-        id: dop20col,
-        title: `Karte Luftbilder (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        id: bddEin,
+        title: `Digitale Topographische Karten (Graustufen): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
       },
       {
         id: bddCol,
         title: `Digitale Topographische Karten (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
       },
       {
-        id: bddEin,
-        title: `Digitale Topographische Karten (Graustufen): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        id: dop20col,
+        title: `Karte Luftbilder (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
       },
       {
         id: denkmaelerWMS,
         title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
       },
+      attributionsAlkisWms,
     ],
     staticAttributions: [
       `<ul style="display: flex; flex-direction: row; flex-wrap: wrap; column-gap: 8px; list-style-type: none; padding: 0; margin: 0">
