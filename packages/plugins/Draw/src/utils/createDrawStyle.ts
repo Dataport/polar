@@ -10,6 +10,9 @@ import { Circle as CircleStyle, Fill, Stroke } from 'ol/style'
 import Style, { type Options, StyleFunction } from 'ol/style/Style'
 import Text, { type Options as TextOptions } from 'ol/style/Text'
 
+const roundMeasurement = (measurement: number, divisor: number) =>
+  Math.round(measurement / divisor + Number.EPSILON * 100) / 100
+
 function calculatePartialDistances(
   styles: Style[],
   styleOptions: Options,
@@ -25,12 +28,12 @@ function calculatePartialDistances(
       : geometry.getCoordinates()
   for (let i = 1; i < coordinates.length; i++) {
     const lineString = new LineString([coordinates[i - 1], coordinates[i]])
-    const text = `${Math.round(
-      getLength(lineString, {
-        projection,
-      }) / (unit === 'km' ? 1000 : 1)
-    )} ${unit}`
-    feature.set(`length-${i}`, text)
+    const lengthInMetres = getLength(lineString, {
+      projection,
+    })
+    const length = roundMeasurement(lengthInMetres, unit === 'km' ? 1000 : 1)
+    const text = `${length} ${unit}`
+    feature.set(`length-${i}`, roundMeasurement(lengthInMetres, 1))
     const style = new Style({
       ...styleOptions,
       text: new Text({
@@ -53,11 +56,7 @@ function calculatePartialDistances(
   return styles
 }
 
-function getAreaText(
-  geometry: Polygon,
-  projection: Projection,
-  measureMode: Exclude<MeasureMode, 'none'>
-) {
+function getAreaUnitAndDivisor(measureMode: Exclude<MeasureMode, 'none'>) {
   let areaUnit = ''
   let divisor: number
   if (measureMode === 'metres') {
@@ -70,9 +69,7 @@ function getAreaText(
     areaUnit = 'ha'
     divisor = 10000
   }
-  return `${Math.round(
-    getArea(geometry, { projection }) / divisor
-  )} ${areaUnit}`
+  return { areaUnit, divisor }
 }
 
 const measureStyle: (
@@ -93,9 +90,11 @@ const measureStyle: (
         offsetY: -5,
         ...measureStyleOptions,
       }
-      const lengthUnit = measureMode === 'metres' ? 'm' : 'km'
       if (geometry instanceof Polygon) {
-        const text = getAreaText(geometry, projection, measureMode)
+        const { areaUnit, divisor } = getAreaUnitAndDivisor(measureMode)
+        const areaInMetres = getArea(geometry, { projection })
+        const area = roundMeasurement(areaInMetres, divisor)
+        const text = `${area} ${areaUnit}`
         const style = new Style({
           text: new Text({
             ...textOptions,
@@ -104,7 +103,7 @@ const measureStyle: (
           }),
         })
         // @ts-expect-error | Features in this StyleFunction are always of type Feature<Geometry>
-        feature.set('area', text)
+        feature.set('area', roundMeasurement(areaInMetres, 1))
         style.setGeometry(
           new Point(
             centerOfMass({
@@ -123,7 +122,7 @@ const measureStyle: (
         styleOptions,
         textOptions,
         feature as Feature,
-        lengthUnit,
+        measureMode === 'metres' ? 'm' : 'km',
         projection
       )
     }

@@ -155,7 +155,7 @@ map.subscribe('plugin/draw/featureCollection', (featureCollection) => {
 })
 ```
 
-The returned featureCollection is a [GeoJSON](https://geojson.org/) FeatureCollection. It includes all drawn features (including possible measurements) and updates on changes.
+The returned featureCollection is a [GeoJSON](https://geojson.org/) FeatureCollection. It includes all drawn features (including possible measurements in meters with two decimals precision) and updates on changes.
 
 ### Actions
 
