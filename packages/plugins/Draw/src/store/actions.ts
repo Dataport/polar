@@ -94,7 +94,7 @@ export const makeActions = () => {
         dispatch('updateInteractions')
       } else if (selectedFeature && featureStyle) {
         const style = createDrawStyle(
-          selectedFeature?.getGeometry()?.getType() || mode,
+          selectedFeature.getGeometry()?.getType() || mode,
           selectedStrokeColor,
           measureMode,
           map.getView().getProjection(),

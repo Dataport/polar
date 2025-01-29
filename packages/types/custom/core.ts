@@ -4,6 +4,7 @@ import { Feature, Map } from 'ol'
 import { Resource } from 'i18next'
 import { Options as Fill } from 'ol/style/Fill'
 import { Options as Stroke } from 'ol/style/Stroke'
+import { type Options as TextOptions } from 'ol/style/Text'
 import { Size } from 'ol/size'
 import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
@@ -166,6 +167,7 @@ export interface DrawStyle {
   fill: Fill
   stroke: Stroke
   circle: PolarCircleStyle
+  measure?: TextOptions
 }
 
 export interface TextStyle {

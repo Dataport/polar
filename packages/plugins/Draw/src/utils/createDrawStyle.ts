@@ -1,113 +1,133 @@
 import { type DrawStyle, type MeasureMode } from '@polar/lib-custom-types'
 import centerOfMass from '@turf/center-of-mass'
+import { type Color } from 'ol/color'
+import { type ColorLike } from 'ol/colorlike'
+import { Feature } from 'ol'
+import { LineString, Point, Polygon } from 'ol/geom'
+import { type Projection } from 'ol/proj'
+import { getArea, getLength } from 'ol/sphere'
 import { Circle as CircleStyle, Fill, Stroke } from 'ol/style'
 import Style, { type Options, StyleFunction } from 'ol/style/Style'
 import Text, { type Options as TextOptions } from 'ol/style/Text'
-import { type Color } from 'ol/color'
-import { type ColorLike } from 'ol/colorlike'
-import { LineString, Point, Polygon } from 'ol/geom'
-import { getArea, getLength } from 'ol/sphere'
-import { type Projection } from 'ol/proj'
-import { Coordinate } from 'ol/coordinate'
+
+const roundMeasurement = (measurement: number, divisor: number) =>
+  Math.round(measurement / divisor + Number.EPSILON * 100) / 100
 
 function calculatePartialDistances(
   styles: Style[],
   styleOptions: Options,
   textOptions: TextOptions,
-  coordinates: Coordinate[],
+  feature: Feature,
   unit: 'm' | 'km',
   projection: Projection
 ) {
+  const geometry = feature.getGeometry() as LineString | Polygon
+  const coordinates =
+    geometry instanceof Polygon
+      ? geometry.getCoordinates()[0]
+      : geometry.getCoordinates()
   for (let i = 1; i < coordinates.length; i++) {
     const lineString = new LineString([coordinates[i - 1], coordinates[i]])
+    const lengthInMetres = getLength(lineString, {
+      projection,
+    })
+    const length = roundMeasurement(lengthInMetres, unit === 'km' ? 1000 : 1)
+    const text = `${length} ${unit}`
+    feature.set(`length-${i}`, roundMeasurement(lengthInMetres, 1))
     const style = new Style({
       ...styleOptions,
       text: new Text({
         ...textOptions,
-        text: `${Math.round(
-          getLength(lineString, {
-            projection,
-          }) / (unit === 'km' ? 1000 : 1)
-        )} ${unit}`,
+        text,
       }),
     })
     style.setGeometry(lineString)
     styles.push(style)
   }
+  // This only happens once the drawing has been finished
+  if (
+    Object.keys(feature.getProperties()).filter((key) =>
+      key.startsWith('length-')
+    ).length === coordinates.length
+  ) {
+    feature.unset(`length-${coordinates.length}`)
+  }
 
   return styles
 }
 
-function getAreaText(
-  geometry: Polygon,
-  projection: Projection,
-  measureMode: Exclude<MeasureMode, 'none'>
-) {
+function getAreaUnitAndDivisor(measureMode: Exclude<MeasureMode, 'none'>) {
   let areaUnit = ''
-  let factor: number
+  let divisor: number
   if (measureMode === 'metres') {
     areaUnit = 'm²'
-    factor = 1
+    divisor = 1
   } else if (measureMode === 'kilometres') {
     areaUnit = 'km²'
-    factor = 1000
+    divisor = 1000000
   } else {
     areaUnit = 'ha'
-    factor = 10000
+    divisor = 10000
   }
-  return `${Math.round(getArea(geometry, { projection }) / factor)} ${areaUnit}`
+  return { areaUnit, divisor }
 }
 
 const measureStyle: (
   styleOptions: Options,
   measureMode: Exclude<MeasureMode, 'none'>,
-  projection: Projection
-) => StyleFunction = (styleOptions, measureMode, projection) => (feature) => {
-  const geometry = feature.getGeometry()
-  if (geometry instanceof Polygon || geometry instanceof LineString) {
-    const styles = [new Style(styleOptions)]
-    const textOptions: TextOptions = {
-      font: '16px sans-serif',
-      placement: 'line',
-      fill: new Fill({ color: 'black' }),
-      stroke: new Stroke({ color: 'black' }),
-      offsetY: -5,
-    }
-    const lengthUnit = measureMode === 'metres' ? 'm' : 'km'
-    if (geometry instanceof Polygon) {
-      const style = new Style({
-        text: new Text({
-          ...textOptions,
-          placement: 'point',
-          text: getAreaText(geometry, projection, measureMode),
-        }),
-      })
-      style.setGeometry(
-        new Point(
-          centerOfMass({
-            type: 'Feature',
-            geometry: {
-              type: 'Polygon',
-              coordinates: geometry.getCoordinates(),
-            },
-          }).geometry.coordinates
+  projection: Projection,
+  measureStyleOptions?: TextOptions
+) => StyleFunction =
+  (styleOptions, measureMode, projection, measureStyleOptions) => (feature) => {
+    const geometry = feature.getGeometry()
+    if (geometry instanceof Polygon || geometry instanceof LineString) {
+      const styles = [new Style(styleOptions)]
+      const textOptions: TextOptions = {
+        font: '16px sans-serif',
+        placement: 'line',
+        fill: new Fill({ color: 'black' }),
+        stroke: new Stroke({ color: 'black' }),
+        offsetY: -5,
+        ...measureStyleOptions,
+      }
+      if (geometry instanceof Polygon) {
+        const { areaUnit, divisor } = getAreaUnitAndDivisor(measureMode)
+        const areaInMetres = getArea(geometry, { projection })
+        const area = roundMeasurement(areaInMetres, divisor)
+        const text = `${area} ${areaUnit}`
+        const style = new Style({
+          text: new Text({
+            ...textOptions,
+            placement: 'point',
+            text,
+          }),
+        })
+        // @ts-expect-error | Features in this StyleFunction are always of type Feature<Geometry>
+        feature.set('area', roundMeasurement(areaInMetres, 1))
+        style.setGeometry(
+          new Point(
+            centerOfMass({
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates: geometry.getCoordinates(),
+              },
+            }).geometry.coordinates
+          )
         )
+        styles.push(style)
+      }
+      return calculatePartialDistances(
+        styles,
+        styleOptions,
+        textOptions,
+        feature as Feature,
+        measureMode === 'metres' ? 'm' : 'km',
+        projection
       )
-      styles.push(style)
     }
-    return calculatePartialDistances(
-      styles,
-      styleOptions,
-      textOptions,
-      geometry instanceof Polygon
-        ? geometry.getCoordinates()[0]
-        : geometry.getCoordinates(),
-      lengthUnit,
-      projection
-    )
+    return new Style(styleOptions)
   }
-  return new Style(styleOptions)
-}
 
 export default function (
   drawMode: string,
@@ -147,7 +167,7 @@ export default function (
   }
   return measureMode === 'none'
     ? new Style(styleOptions)
-    : measureStyle(styleOptions, measureMode, projection)
+    : measureStyle(styleOptions, measureMode, projection, drawStyle?.measure)
 }
 
 function createPointStyle(

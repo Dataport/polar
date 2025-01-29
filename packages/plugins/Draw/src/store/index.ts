@@ -88,21 +88,26 @@ export const makeStoreModule = () => {
       },
       measureOptions: (_, { configuration }) =>
         configuration.measureOptions || {},
-      selectableMeasureModes: (_, { measureOptions }) =>
-        Object.entries(measureOptions)
-          .filter((option) => typeof option[1] === 'boolean' && option[1])
+      selectableMeasureModes: (_, { drawMode, measureOptions }) =>
+        (drawMode === 'LineString'
+          ? Object.entries(measureOptions).filter(
+              ([option]) => option !== 'hectares'
+            )
+          : Object.entries(measureOptions)
+        )
+          .filter((option) => option[1] === true)
           .reduce(
             (acc, [option]) => ({
               ...acc,
-              [option]: `common:plugins.draw.measureMode.${option}`,
+              [option]:
+                `common:plugins.draw.measureMode.${option}` +
+                (drawMode === 'Polygon' && option !== 'hectares' ? 'Area' : ''),
             }),
             { none: 'common:plugins.draw.measureMode.none' }
           ),
       showMeasureOptions: ({ drawMode, mode }, { measureOptions }) =>
         measureOptions &&
-        Object.values(measureOptions)
-          .filter((option) => typeof option === 'boolean')
-          .some((option) => option) &&
+        Object.values(measureOptions).some((option) => option === true) &&
         mode === 'draw' &&
         ['LineString', 'Polygon'].includes(drawMode),
       showTextInput({ drawMode, mode }, { selectedFeature }) {
@@ -156,9 +161,11 @@ export const makeStoreModule = () => {
           const isCircle = type === 'Circle'
           const jsonFeature: Feature = {
             type: 'Feature',
-            properties: feature.get('text')
-              ? { text: feature.get('text') }
-              : {},
+            properties: Object.fromEntries(
+              Object.entries(feature.getProperties()).filter(
+                ([property]) => property !== 'geometry'
+              )
+            ),
             geometry: {
               // @ts-expect-error | A LinearRing can currently not be drawn
               type: isCircle ? 'Point' : type,

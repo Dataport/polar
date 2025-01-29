@@ -34,7 +34,7 @@ The styling of the drawn features can be configured to overwrite the default ol-
 | fieldName | type | description |
 | - | - | - |
 | enableOptions | boolean? | If `true`, draw options are displayed, like choosing and changing stroke color. Not available for texts features. Defaults to `false`. |
-| measureOptions | measureOptions? | If set, an additional radio is being shown to the user to be able to let the (then) drawn features display it's length and / or area. See [draw.measureOptions](#drawmeasureoptions) for further information. Not shown by default. |
+| measureOptions | measureOptions? | If set, an additional radio is being shown to the user to be able to let the (then) drawn features display their length and / or area. See [draw.measureOptions](#drawmeasureoptions) for further information. Not shown by default. |
 | selectableDrawModes | string[]? | List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default. |
 | style | style? | Please see example below for styling options. Defaults to standard OpenLayers styling. |
 | textStyle | textStyle? | Use this object with properties 'font' and 'textColor' to style text feature. |
@@ -131,8 +131,16 @@ For the time being, please use this example as a rough reference as to what can 
       circle: {
         radius: 7,
         fillColor: '#e51313'
+      },
+      // Styling for text of measurements; supports everything described at https://openlayers.org/en/v9.2.4/apidoc/module-ol_style_Text-Text.html
+      measure: {
+        font: '16px sans-serif',
+        placement: 'line',
+        fill: new Fill({ color: 'black' }),
+        stroke: new Stroke({ color: 'black' }),
+        offsetY: -5
       }
-    },
+    }
   }
 }
 ```
@@ -147,7 +155,7 @@ map.subscribe('plugin/draw/featureCollection', (featureCollection) => {
 })
 ```
 
-The returned featureCollection is a [GeoJSON](https://geojson.org/) FeatureCollection. It includes all drawn features and updates on changes.
+The returned featureCollection is a [GeoJSON](https://geojson.org/) FeatureCollection. It includes all drawn features (including possible measurements in meters with two decimals precision) and updates on changes.
 
 ### Actions
 
