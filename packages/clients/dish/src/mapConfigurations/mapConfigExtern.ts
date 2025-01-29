@@ -100,7 +100,7 @@ export const mapConfigExtern: DishMapConfig = {
       ...attributionsCommon,
       {
         id: dop20col,
-        title: `Luftbilder: © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Luftbilder (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
       },
       {
         id: bddCol,
