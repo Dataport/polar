@@ -45,7 +45,6 @@ const dop20ColService = {
   url: `${dishCloudBaseUrl}/dishbkgDOP20col`,
   typ: 'WMS',
   layers: 'SH_DOP20_4,SH_DOP20_3,SH_DOP20_2,SH_DOP20_1',
-  legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
@@ -58,7 +57,6 @@ const bddColService = {
   typ: 'WMS',
   layers:
     'DTK5col,DTK25col,DTK50col,DTK100col,Flaechen_250,Linien_250,Flaechen_1000,Linien_1000,Flaechen_1500,Linien_1500',
-  legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
@@ -71,7 +69,6 @@ const bddEinService = {
   typ: 'WMS',
   layers:
     'DTK5ein,DTK25ein,DTK50ein,DTK100ein,Flaechen_250,Linien_250,Flaechen_1000,Linien_1000,Flaechen_1500,Linien_1500',
-  legendURL: 'ignore',
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
