@@ -178,15 +178,6 @@ export const mapConfigExtern: DishMapConfig = {
       'plugin/pins/transformedCoordinate',
       'plugin/pins/coordinatesAfterDrag',
     ],
-    customHighlightStyle: {
-      stroke: {
-        color: '#FFFF00',
-        width: 3,
-      },
-      fill: {
-        color: 'rgb(255, 255, 255, 0.3)',
-      },
-    },
   },
   pins: {
     toZoomLevel: 7,
