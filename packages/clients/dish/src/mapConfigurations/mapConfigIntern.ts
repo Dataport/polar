@@ -22,7 +22,8 @@ import {
 } from './searchConfigParams'
 import layersIntern from './layerConfigIntern'
 import {
-  attributionsCommon,
+  attributionsBasemapGrau,
+  attributionsAlkisWms,
   denkmalAmtLink,
   vermessungsAmtLink,
 } from './attributionsConfig'
@@ -37,7 +38,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
   attributions: {
     initiallyOpen: false,
     layerAttributions: [
-      ...attributionsCommon,
+      attributionsBasemapGrau,
       {
         id: bddEin,
         title: `Grundkarte Graustufen: © ${vermessungsAmtLink}`,
@@ -50,6 +51,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
         id: dop20col,
         title: `Luftbilder Farbe: © ${vermessungsAmtLink}`,
       },
+      attributionsAlkisWms,
       {
         id: denkmaelerWMS,
         title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
