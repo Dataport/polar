@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Correctly disable `directSelect` if the user is currently using functionality of `@polar/plugin-draw`.
+
 ## 2.1.0
 
 - Feature: Add new action `setFeatureInformation` to be able to set feature information in the store and trigger all relevant processes so that the information displayed to the user is as if he has selected the features himself.
