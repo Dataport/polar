@@ -57,6 +57,11 @@
 <td>If <code>true</code>, draw options are displayed, like choosing and changing stroke color. Not available for texts features. Defaults to <code>false</code>.</td>
 </tr>
 <tr>
+<td>measureOptions</td>
+<td>measureOptions?</td>
+<td>If set, an additional radio is being shown to the user to be able to let the (then) drawn features display their length and / or area. See <a href="#drawmeasureoptions">draw.measureOptions</a> for further information. Not shown by default.</td>
+</tr>
+<tr>
 <td>selectableDrawModes</td>
 <td>string[]?</td>
 <td>List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default.</td>
@@ -100,6 +105,38 @@
 },
 </code></pre>
 </details>
+<h4 id="draw.measureoptions" tabindex="-1">draw.measureOptions</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>metres</td>
+<td>boolean?</td>
+<td>Whether to show the measure option <code>'m / m²'</code> to the user. <code>false</code> by default.</td>
+</tr>
+<tr>
+<td>kilometres</td>
+<td>boolean?</td>
+<td>Whether to show the measure option <code>'km / km²'</code> to the user. <code>false</code> by default.</td>
+</tr>
+<tr>
+<td>hectares</td>
+<td>boolean?</td>
+<td>Whether to show the measure option <code>'km / ha‚'</code> to the user. <code>false</code> by default.</td>
+</tr>
+<tr>
+<td>initialOption</td>
+<td>'none' | 'meters' | 'kilometres' | 'hectares'</td>
+<td>The initial measure option to be selected. Defaults to <code>'none'</code>.</td>
+</tr>
+</tbody>
+</table>
 <h4 id="draw.textstyle" tabindex="-1">draw.textStyle</h4>
 <table>
 <thead>
@@ -173,8 +210,16 @@
       circle: {
         radius: 7,
         fillColor: '#e51313'
+      },
+      // Styling for text of measurements; supports everything described at https://openlayers.org/en/v9.2.4/apidoc/module-ol_style_Text-Text.html
+      measure: {
+        font: '16px sans-serif',
+        placement: 'line',
+        fill: new Fill({ color: 'black' }),
+        stroke: new Stroke({ color: 'black' }),
+        offsetY: -5
       }
-    },
+    }
   }
 }
 </code></pre>
@@ -184,7 +229,7 @@
   /* Your code. */
 })
 </code></pre>
-<p>The returned featureCollection is a <a href="https://geojson.org/">GeoJSON</a> FeatureCollection. It includes all drawn features and updates on changes.</p>
+<p>The returned featureCollection is a <a href="https://geojson.org/">GeoJSON</a> FeatureCollection. It includes all drawn features (including possible measurements in meters with two decimals precision) and updates on changes.</p>
 <h3 id="actions" tabindex="-1">Actions</h3>
 <pre><code class="language-js">map.$store.dispatch('plugin/draw/addFeatures', {
   geoJSON: {
