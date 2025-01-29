@@ -65,7 +65,7 @@ function getAreaText(
     divisor = 1
   } else if (measureMode === 'kilometres') {
     areaUnit = 'km²'
-    divisor = 1000
+    divisor = 1000000
   } else {
     areaUnit = 'ha'
     divisor = 10000
