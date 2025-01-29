@@ -145,6 +145,10 @@ export interface Attribution {
 
 /** Attributions Module Configuration */
 export interface AttributionsConfiguration extends PluginOptions {
+  icons?: {
+    open?: string
+    close?: string
+  }
   initiallyOpen?: boolean
   listenToChanges?: string[]
   layerAttributions?: Attribution[]
@@ -395,6 +399,13 @@ export interface IconMenuConfiguration extends PluginOptions {
   initiallyOpen?: string
 }
 
+export interface LegendConfiguration extends PluginOptions {
+  icons?: {
+    open?: string
+    close?: string
+  }
+}
+
 export interface AppearOnClick {
   /** Whether the pin should be set with a click on a map. */
   show: boolean
@@ -467,6 +478,10 @@ export interface ScaleConfiguration extends PluginOptions {
 }
 
 export interface ZoomConfiguration extends PluginOptions {
+  icons?: {
+    zoomIn?: string
+    zoomOut?: string
+  }
   renderType?: RenderType
   showMobile?: boolean
   showZoomSlider?: boolean
@@ -635,6 +650,7 @@ export interface MapConfig extends MasterportalApiConfig {
   geoLocation?: GeoLocationConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
+  legend?: LegendConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
   scale?: ScaleConfiguration

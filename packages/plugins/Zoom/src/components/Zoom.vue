@@ -17,7 +17,7 @@
           @click="increaseZoomLevel"
           v-on="on"
         >
-          <v-icon color="primaryContrast"> fa-plus </v-icon>
+          <v-icon color="primaryContrast"> {{ icons.zoomIn }} </v-icon>
         </v-btn>
       </template>
       <span>{{ $t('common:plugins.zoom.in') }}</span>
@@ -35,7 +35,7 @@
           @click="decreaseZoomLevel"
           v-on="on"
         >
-          <v-icon color="primaryContrast"> fa-minus </v-icon>
+          <v-icon color="primaryContrast"> {{ icons.zoomOut }} </v-icon>
         </v-btn>
       </template>
       <span>{{ $t('common:plugins.zoom.out') }}</span>
@@ -60,7 +60,12 @@ export default Vue.extend({
   name: 'PolarZoom',
   components: { ZoomSlider },
   computed: {
-    ...mapGetters(['deviceIsHorizontal', 'hasSmallDisplay', 'hasSmallHeight']),
+    ...mapGetters([
+      'configuration',
+      'deviceIsHorizontal',
+      'hasSmallDisplay',
+      'hasSmallHeight',
+    ]),
     ...mapGetters('plugin/zoom', [
       'maximumZoomLevelActive',
       'minimumZoomLevelActive',
@@ -73,6 +78,13 @@ export default Vue.extend({
     },
     addZoomSlider(): boolean {
       return !this.hasSmallHeight && this.showZoomSlider
+    },
+    icons() {
+      const icons = this.configuration.zoom?.icons
+      return {
+        zoomIn: icons?.zoomIn ?? 'fa-plus',
+        zoomOut: icons?.zoomOut ?? 'fa-minus',
+      }
     },
   },
   methods: {

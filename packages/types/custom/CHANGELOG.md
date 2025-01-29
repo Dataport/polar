@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Extend Attributions/Legend/Zoom configurations with icon override options. See plugin docs for details.
+
 ## 1.5.0
 
 - Feature: Add `selectedCoordinate` to core store getters; it returns `null` or the `selected` feature's point coordinates.
