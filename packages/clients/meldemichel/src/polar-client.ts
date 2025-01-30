@@ -1,7 +1,7 @@
 import core, { NineLayoutTag } from '@polar/core'
 import merge from 'lodash.merge'
 import { Vector } from 'ol/layer'
-import { Feature, Map } from 'ol'
+import { Map } from 'ol'
 import { MapInstance } from '@polar/core/src/types'
 import packageInfo from '../package.json'
 import { MODE } from './enums'
