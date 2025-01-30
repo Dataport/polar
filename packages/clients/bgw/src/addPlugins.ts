@@ -49,6 +49,12 @@ export default (core) => {
         id: 'gfi',
       },
       {
+        plugin: Zoom({
+          renderType: 'iconMenu',
+        }),
+        id: 'zoom',
+      },
+      {
         plugin: Fullscreen({ renderType: 'iconMenu' }),
         id: 'fullscreen',
       },
@@ -73,6 +79,7 @@ export default (core) => {
     }),
     Legend(
       merge({}, defaultOptions, {
+        renderType: 'independent',
         layoutTag: NineLayoutTag.BOTTOM_RIGHT,
         maxWidth: 500,
       })
@@ -85,12 +92,6 @@ export default (core) => {
     Toast(
       merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
-      })
-    ),
-    Zoom(
-      merge({}, defaultOptions, {
-        renderType: 'independent',
-        layoutTag: NineLayoutTag.MIDDLE_RIGHT,
       })
     ),
     Attributions(
