@@ -10,11 +10,16 @@ import Pins from '@polar/plugin-pins'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
-
 import merge from 'lodash.merge'
-import iconMap from '../assets/dist/iconMap'
-import cssVariables from '../assets/dist/cssVariables'
+
 import packageInfo from '../package.json'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore | intentional, file is created precompilation (not versioned)
+import iconMap from '../assets/dist/iconMap'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore | intentional, file is created precompilation (not versioned)
+import cssVariables from '../assets/dist/cssVariables'
+
 // TODO use when implemented
 // import GfiContent from './plugins/Gfi'
 
