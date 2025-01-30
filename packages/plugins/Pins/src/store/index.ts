@@ -18,7 +18,7 @@ import getters from './getters'
 // OK for module creation
 // eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
-  let pinsLayer: VectorLayer<Feature<Point>>
+  let pinsLayer: VectorLayer
   const move = new Select({
     layers: (l) => l === pinsLayer,
     style: null,

@@ -56,7 +56,7 @@
     "@actions/github": "^6.0.0",
     "@babel/core": "^7.24.8",
     "@babel/preset-env": "^7.24.8",
-    "@cesium/engine": "^9.2.0",
+    "@cesium/engine": "^13.0.0",
     "@jest/types": "^29.3.1",
     "@nx/js": "^19.8.2",
     "@playwright/test": "^1.47.2",
@@ -73,6 +73,7 @@
     "@vue/test-utils": "^1.2.2",
     "@vue/vue2-jest": "^28.1.0",
     "babel-core": "^7.0.0-bridge.0",
+    "cesium": "^1.125.0",
     "copyfiles": "^2.4.1",
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
@@ -106,6 +107,5 @@
     "vite": "^5.4.8",
     "vite-plugin-commonjs": "^0.6.2",
     "vue-template-compiler": "^2.7.16"
-  },
-  "dependencies": {}
+  }
 }

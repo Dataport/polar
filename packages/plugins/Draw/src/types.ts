@@ -17,7 +17,7 @@ export type Mode = 'none' | 'draw' | 'edit' | 'delete'
 
 export interface CreateInteractionsPayload {
   drawSource: VectorSource
-  drawLayer: VectorLayer<Feature>
+  drawLayer: VectorLayer
 }
 
 export interface DrawState {

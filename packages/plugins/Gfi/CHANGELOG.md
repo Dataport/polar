@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Breaking: Upgrade `@masterportal/masterportalapi` from `2.40.0` to `2.45.0` and subsequently `ol` from `^9.2.4` to `^10.3.1`.
+
 ## 2.1.0
 
 - Feature: Add new action `setFeatureInformation` to be able to set feature information in the store and trigger all relevant processes so that the information displayed to the user is as if he has selected the features himself.

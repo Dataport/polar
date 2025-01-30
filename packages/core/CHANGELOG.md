@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Breaking: Upgrade `@masterportal/masterportalapi` from `2.40.0` to `2.45.0` and subsequently `ol` from `^9.2.4` to `^10.3.1`.
+
 ## 2.0.1
 
 - Fix: Add `crossOrigin` differently to layer sources that are an instance of `ImageWMS` as they require it being set as `crossOrigin_` to be recognized.

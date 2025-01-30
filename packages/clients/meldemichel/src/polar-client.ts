@@ -26,7 +26,7 @@ const hideHamburgBorder = (map: Map) => {
     map
       .getLayers()
       .getArray()
-      .find((layer) => layer.get('id') === hamburgBorder) as Vector<Feature>
+      .find((layer) => layer.get('id') === hamburgBorder) as Vector
   ).setStyle(null)
 }
 

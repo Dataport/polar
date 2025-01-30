@@ -102,7 +102,7 @@ export function useExtendedMasterportalapiMarkers(
     .filter(layerFilter)
     .forEach((layer) => {
       // only vector layers reach this
-      const source = (layer as VectorLayer<Feature>).getSource()
+      const source = (layer as VectorLayer).getSource()
       if (source !== null) {
         // @ts-expect-error | Undocumented hook.
         source.geometryFunction =
@@ -110,8 +110,8 @@ export function useExtendedMasterportalapiMarkers(
           (feature: Feature) =>
             isVisible(feature) ? feature.getGeometry() : null
       }
-      const originalStyleFunction = (layer as VectorLayer<Feature>).getStyle()
-      ;(layer as VectorLayer<Feature>).setStyle((feature) => {
+      const originalStyleFunction = (layer as VectorLayer).getStyle()
+      ;(layer as VectorLayer).setStyle((feature) => {
         if (
           typeof isSelectable === 'undefined' ||
           isSelectable(feature as Feature)
