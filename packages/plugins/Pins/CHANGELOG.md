@@ -3,6 +3,7 @@
 ## unpublished
 
 - Breaking: Upgrade peerDependency `ol` from `^9.2.4` to `^10.3.1`.
+- Feature: Recognize the multi-select-`Draw` of `@polar/plugin-gfi`.
 
 ## 2.0.0
 

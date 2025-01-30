@@ -3,6 +3,7 @@
 ## unpublished
 
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.40.0` to `2.45.0` and subsequently `ol` from `^9.2.4` to `^10.3.1`.
+- Feature: Add new configuration parameter `multiSelect` to enable the possibility to choose between the selecting multiple features through a box or through a circle. The addition of this parameter deprecates the previously used parameter `boxSelect`.
 - Fix: Correctly disable `directSelect` if the user is currently using functionality of `@polar/plugin-draw`.
 
 ## 2.1.0
