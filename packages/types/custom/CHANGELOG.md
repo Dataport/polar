@@ -6,6 +6,7 @@
 - Feature: Add new type `MeasureOptions`.
 - Feature: Add new type `MeasureMode`.
 - Feature: Add optional property `measure` to `DrawStyle`.
+- Feature: Add new property `multiSelect` to `GfiConfiguration`.
 - Fix: Make `selectionStyle`, `hoverStyle`, `defaultStyle` and `unselectableStyle` optional and edit type for `dispatchOnMapSelect` in interface `ExtendedMasterportalapiMarkers`. 
 
 ## 1.5.0
