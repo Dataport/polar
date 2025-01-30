@@ -58,6 +58,8 @@ export function setupMultiSelection({
     }
     if (multiSelect !== 'circle') {
       drawOptions.geometryFunction = createBox()
+    } else {
+      delete drawOptions.geometryFunction
     }
     const draw = new Draw(drawOptions)
     draw.on('drawstart', () => {
@@ -77,7 +79,6 @@ export function setupMultiSelection({
     )
     map.addInteraction(draw)
   }
-
   if (directSelect) {
     map.on('click', ({ coordinate, originalEvent }) => {
       if (!isDrawing(map)) {
