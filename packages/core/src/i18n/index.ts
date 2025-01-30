@@ -2,27 +2,31 @@ import i18next, { init, use } from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import Vue from 'vue'
 import VueI18Next from 'i18next-vue'
-import de from './locales/de'
-import en from './locales/en'
+import language from '../language'
 
 use(LanguageDetector)
 Vue.use(VueI18Next, { i18next })
+
+const supportedLngs = language.map(({ type }) => type)
 
 /**
  * @param initialLanguage - If given, the initial language set in the mapConfiguration.
  */
 export default (initialLanguage?: string) =>
   init({
-    resources: { de, en },
+    resources: language.reduce((accumulator, { type, resources }) => {
+      accumulator[type] = resources
+      return accumulator
+    }, {}),
     detection: {
       lookupQuerystring: 'lng',
       order: ['querystring', 'navigator', 'htmlTag'],
     },
     load: 'languageOnly',
-    fallbackLng: 'de',
+    fallbackLng: supportedLngs[0],
     fallbackNS: 'common',
     ns: ['common'],
-    supportedLngs: ['de', 'en'],
+    supportedLngs,
     ...(initialLanguage ? { lng: initialLanguage } : {}),
   })
     .then(() => {

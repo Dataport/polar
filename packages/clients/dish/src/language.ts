@@ -1,4 +1,4 @@
-const locales = [
+const language = [
   {
     type: 'de',
     resources: {
@@ -44,4 +44,4 @@ const locales = [
   },
 ]
 
-export default locales
+export default language
