@@ -27,6 +27,12 @@ export default async function createMap({
 
   await language(mapConfiguration?.language)
 
+  // Do not break outside Vuetify app's theme
+  const externalStylesheet = document.getElementById('vuetify-theme-stylesheet')
+  if (externalStylesheet) {
+    externalStylesheet.id = 'vuetify-theme-stylesheet-external'
+  }
+
   const instance: MapInstance = new Vue({
     vuetify: vuetify(mapConfiguration?.vuetify),
     el: shadowRoot.appendChild(document.createElement('div')),
@@ -44,6 +50,11 @@ export default async function createMap({
   pullVuetifyStyleToShadow(shadowRoot)
   setupFontawesome(shadowRoot, mapConfiguration.renderFaToLightDom)
   updateSizeOnReady(instance)
+
+  // Restore theme ID such that external Vuetify app can find it again
+  if (externalStylesheet) {
+    externalStylesheet.id = 'vuetify-theme-stylesheet'
+  }
 
   return instance
 }
