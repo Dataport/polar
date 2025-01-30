@@ -603,12 +603,12 @@ export interface MarkerStyle {
 
 export interface ExtendedMasterportalapiMarkers {
   layers: string[]
-  defaultStyle: MarkerStyle
-  hoverStyle: MarkerStyle
-  selectionStyle: MarkerStyle
-  unselectableStyle: MarkerStyle
+  defaultStyle?: MarkerStyle
+  hoverStyle?: MarkerStyle
+  selectionStyle?: MarkerStyle
+  unselectableStyle?: MarkerStyle
   clusterClickZoom?: boolean
-  dispatchOnMapSelect?: string
+  dispatchOnMapSelect?: [string, unknown]
   isSelectable?: ExtendedMasterportalapiMarkersIsSelectableFunction
 }
 
