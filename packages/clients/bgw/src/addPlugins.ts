@@ -58,6 +58,11 @@ export default (core) => {
         plugin: Fullscreen({ renderType: 'iconMenu' }),
         id: 'fullscreen',
       },
+      {
+        plugin: Attributions({ renderType: 'iconMenu' }),
+        icon: 'fa-regular fa-copyright',
+        id: 'attributions',
+      },
     ],
     displayComponent: true,
     initiallyOpen: 'layerChooser',
@@ -92,14 +97,6 @@ export default (core) => {
     Toast(
       merge({}, defaultOptions, {
         layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
-      })
-    ),
-    Attributions(
-      merge({}, defaultOptions, {
-        renderType: 'independent',
-        icon: 'fa-regular fa-copyright',
-        id: 'attributions',
-        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
       })
     ),
     Scale(
