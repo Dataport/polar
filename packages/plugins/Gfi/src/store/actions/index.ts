@@ -1,20 +1,16 @@
 import debounce from 'lodash.debounce'
 import { Feature as GeoJsonFeature } from 'geojson'
-import { Style, Fill, Stroke } from 'ol/style'
+import { Fill, Stroke, Style } from 'ol/style'
 import { GeoJSON } from 'ol/format'
 import { Feature } from 'ol'
 import { PolarActionTree } from '@polar/lib-custom-types'
-import { getFeatureDisplayLayer, clear } from '../../utils/displayFeatureLayer'
-import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
 import { filterFeatures } from '../../utils/filterFeatures'
 import { renderFeatures } from '../../utils/renderFeatures'
+import { clear, getFeatureDisplayLayer } from '../../utils/displayFeatureLayer'
+import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
 import { debouncedGfiRequest } from './debouncedGfiRequest'
-import {
-  setupCoreListener,
-  setupMultiSelection,
-  setupTooltip,
-  setupZoomListeners,
-} from './setup'
+import { setupCoreListener, setupTooltip, setupZoomListeners } from './setup'
+import { setupMultiSelection } from './setupMultiSelection'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
