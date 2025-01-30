@@ -4,7 +4,7 @@ _Summarization of the changes in a short and concise sentence._
 
 ## Instructions for local reproduction and review
 
-## Pull Request Checklist (for Reviewee)
+## Pull Request Checklist (for Assignee)
 
 - [ ] Changelogs are maintained
 - [ ] Functionality has been tested in Firefox, Chrome, Safari

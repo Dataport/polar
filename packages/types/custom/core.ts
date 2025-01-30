@@ -4,6 +4,7 @@ import { Feature, Map } from 'ol'
 import { Resource } from 'i18next'
 import { Options as Fill } from 'ol/style/Fill'
 import { Options as Stroke } from 'ol/style/Stroke'
+import { type Options as TextOptions } from 'ol/style/Text'
 import { Size } from 'ol/size'
 import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
@@ -170,6 +171,7 @@ export interface DrawStyle {
   fill: Fill
   stroke: Stroke
   circle: PolarCircleStyle
+  measure?: TextOptions
 }
 
 export interface TextStyle {
@@ -184,11 +186,21 @@ export interface FontStyle {
 
 export type DrawMode = 'Circle' | 'LineString' | 'Point' | 'Polygon' | 'Text'
 
+export type MeasureMode = 'none' | 'metres' | 'kilometres' | 'hectares'
+
+export interface MeasureOptions {
+  metres?: boolean
+  kilometres?: boolean
+  hectares?: boolean
+  initialOption?: MeasureMode
+}
+
 export interface DrawConfiguration extends Partial<PluginOptions> {
+  enableOptions?: boolean
+  measureOptions?: MeasureOptions
   selectableDrawModes?: DrawMode[]
   style?: DrawStyle
   textStyle?: TextStyle
-  enableOptions?: boolean
 }
 
 export interface ExportConfiguration extends PluginOptions {
@@ -404,6 +416,11 @@ export interface LegendConfiguration extends PluginOptions {
     open?: string
     close?: string
   }
+}
+
+export interface MeasureConfiguration extends PluginOptions {
+  color?: Color | ColorLike
+  textColor?: Color | ColorLike
 }
 
 export interface AppearOnClick {
@@ -651,6 +668,7 @@ export interface MapConfig extends MasterportalApiConfig {
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
   legend?: LegendConfiguration
+  measure?: MeasureConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
   scale?: ScaleConfiguration
