@@ -4,6 +4,7 @@ import { Feature, Map } from 'ol'
 import { Resource } from 'i18next'
 import { Options as Fill } from 'ol/style/Fill'
 import { Options as Stroke } from 'ol/style/Stroke'
+import { type Options as TextOptions } from 'ol/style/Text'
 import { Size } from 'ol/size'
 import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
@@ -166,6 +167,7 @@ export interface DrawStyle {
   fill: Fill
   stroke: Stroke
   circle: PolarCircleStyle
+  measure?: TextOptions
 }
 
 export interface TextStyle {
@@ -180,11 +182,21 @@ export interface FontStyle {
 
 export type DrawMode = 'Circle' | 'LineString' | 'Point' | 'Polygon' | 'Text'
 
+export type MeasureMode = 'none' | 'metres' | 'kilometres' | 'hectares'
+
+export interface MeasureOptions {
+  metres?: boolean
+  kilometres?: boolean
+  hectares?: boolean
+  initialOption?: MeasureMode
+}
+
 export interface DrawConfiguration extends Partial<PluginOptions> {
+  enableOptions?: boolean
+  measureOptions?: MeasureOptions
   selectableDrawModes?: DrawMode[]
   style?: DrawStyle
   textStyle?: TextStyle
-  enableOptions?: boolean
 }
 
 export interface ExportConfiguration extends PluginOptions {
@@ -395,6 +407,10 @@ export interface IconMenuConfiguration extends PluginOptions {
   initiallyOpen?: string
 }
 
+export interface MeasureConfiguration extends PluginOptions {
+  color?: Color | ColorLike
+  textColor?: Color | ColorLike
+}
 export interface AppearOnClick {
   /** Whether the pin should be set with a click on a map. */
   show: boolean
@@ -635,6 +651,7 @@ export interface MapConfig extends MasterportalApiConfig {
   geoLocation?: GeoLocationConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
+  measure?: MeasureConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
   scale?: ScaleConfiguration
