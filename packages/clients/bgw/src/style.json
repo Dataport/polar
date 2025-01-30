@@ -12,19 +12,6 @@
     ]
   },
   {
-    "styleId": "badestellen",
-    "rules": [
-      {
-        "style": {
-          "type": "icon",
-          "imageName": "/assets/badestellen.png",
-          "clusterImageName": "/assets/badestellen.png",
-          "imageScale": 0.3
-        }
-      }
-    ]
-  },
-  {
     "styleId": "ausdehnungBadestellen",
     "rules": [
       {
