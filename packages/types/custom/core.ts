@@ -371,6 +371,7 @@ export interface GfiConfiguration extends PluginOptions {
   layers: Record<string, GfiLayerConfiguration>
   activeLayerPath?: string
   afterLoadFunction?: GfiAfterLoadFunction
+  boxSelect?: boolean
   /**
    * If required the stroke and fill of the highlighted feature can be configured.
    * Otherwise, a default style is applied.
@@ -390,7 +391,7 @@ export interface GfiConfiguration extends PluginOptions {
    */
   maxFeatures?: number
   mode?: 'bboxDot' | 'intersects'
-  boxSelect?: boolean
+  multiSelect?: 'box' | 'circle'
   renderType?: RenderType
 }
 
@@ -407,10 +408,6 @@ export interface IconMenuConfiguration extends PluginOptions {
   initiallyOpen?: string
 }
 
-export interface MeasureConfiguration extends PluginOptions {
-  color?: Color | ColorLike
-  textColor?: Color | ColorLike
-}
 export interface AppearOnClick {
   /** Whether the pin should be set with a click on a map. */
   show: boolean
@@ -651,7 +648,6 @@ export interface MapConfig extends MasterportalApiConfig {
   geoLocation?: GeoLocationConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
-  measure?: MeasureConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
   scale?: ScaleConfiguration
