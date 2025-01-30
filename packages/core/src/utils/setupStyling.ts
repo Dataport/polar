@@ -36,15 +36,14 @@ export async function setupStyling(mapConfiguration: MapConfig, map: Map) {
       }
       const styleObject = styleList.returnStyleObject(layer.get('styleId'))
       if (styleObject) {
-        ;(layer as VectorLayer<Feature>).setStyle(
-          (feature: Feature | FeatureLike) =>
-            createStyle.createStyle(
-              styleObject,
-              feature,
-              feature.get('features') !== undefined,
-              // NOTE: This field may be implemented in the future to be able to style points with graphics
-              ''
-            )
+        ;(layer as VectorLayer).setStyle((feature: Feature | FeatureLike) =>
+          createStyle.createStyle(
+            styleObject,
+            feature,
+            feature.get('features') !== undefined,
+            // NOTE: This field may be implemented in the future to be able to style points with graphics
+            ''
+          )
         )
       }
     })

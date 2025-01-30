@@ -56,7 +56,8 @@ export const updateVectorLayer = (
 ) => {
   vectorSource.clear()
   const preparedFeatures = features.map((feature) => {
-    const olFeature = geoJson.readFeature(feature)
+    // Since ol@10, readFeature may also return a Feature[]?
+    const olFeature = geoJson.readFeature(feature) as OlFeature
     olFeature.set('featureType', getFeatureType(olFeature))
     return olFeature
   })

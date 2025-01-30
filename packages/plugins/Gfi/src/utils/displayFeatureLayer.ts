@@ -26,7 +26,7 @@ function isVectorSource(source): source is Vector {
 /**
  * reset feature layer's features.
  */
-export function clear(featureDisplayLayer: VectorLayer<Feature>): void {
+export function clear(featureDisplayLayer: VectorLayer): void {
   const source = featureDisplayLayer.getSource()
   if (isVectorSource(source)) {
     source.clear()
@@ -38,10 +38,11 @@ export function clear(featureDisplayLayer: VectorLayer<Feature>): void {
  */
 export function addFeature(
   feature: GeoJsonFeature,
-  featureDisplayLayer: VectorLayer<Feature>
+  featureDisplayLayer: VectorLayer
 ): void {
   const source = featureDisplayLayer.getSource()
   if (isVectorSource(source)) {
-    source.addFeature(new GeoJSON().readFeature(feature))
+    // Since ol@10, readFeature may also return a Feature[]?
+    source.addFeature(new GeoJSON().readFeature(feature) as Feature)
   }
 }

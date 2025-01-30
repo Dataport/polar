@@ -23,7 +23,7 @@ const config: Config.InitialOptions = {
   setupFiles: ['jest-canvas-mock'],
   setupFilesAfterEnv: ['./__mocks__/jest.setup.js'],
   transformIgnorePatterns: [
-    '/node_modules/(?!(@repositoryname/vuex-generators|@masterportal/masterportalapi|ol|geotiff|quick-lru|color-(space|parse|rgba|name))/)',
+    '/node_modules/(?!(@repositoryname/vuex-generators|@masterportal/masterportalapi|ol|pbf|earcut|geotiff|rbush|quickselect|quick-lru|color-(space|parse|rgba|name))/)',
   ],
 }
 

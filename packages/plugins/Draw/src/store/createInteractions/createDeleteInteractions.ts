@@ -3,11 +3,10 @@ import VectorLayer from 'ol/layer/Vector'
 import Interaction from 'ol/interaction/Interaction'
 import { DragBox, Select } from 'ol/interaction'
 import { platformModifierKeyOnly } from 'ol/events/condition'
-import { Feature } from 'ol'
 
 export default function (
   drawSource: VectorSource,
-  drawLayer: VectorLayer<Feature>
+  drawLayer: VectorLayer
 ): Interaction[] {
   const selectInteraction = new Select({ layers: [drawLayer] })
   const selectedFeatures = selectInteraction.getFeatures()

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Breaking: Upgrade peerDependency `ol` from `^9.2.4` to `^10.3.1`.
+
 ## 1.4.0
 
 - Feature: Position is now tracked when user is outside of the boundary layer but inside the map extent.
