@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new parameter `measureOptions` to `DrawConfiguration`.
+- Feature: Add new type `MeasureOptions`.
+- Feature: Add new type `MeasureMode`.
+- Feature: Add optional property `measure` to `DrawStyle`.
+
 ## 1.5.0
 
 - Feature: Add `selectedCoordinate` to core store getters; it returns `null` or the `selected` feature's point coordinates.

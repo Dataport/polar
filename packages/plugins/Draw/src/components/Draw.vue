@@ -2,7 +2,7 @@
   <v-scroll-x-reverse-transition>
     <v-card class="polar-draw-menu" :style="flexStyle">
       <RadioCard
-        id="mode"
+        id="draw-mode"
         title="common:plugins.draw.title.mode"
         :initial-value="mode"
         :values="selectableModes"
@@ -10,13 +10,21 @@
       ></RadioCard>
       <RadioCard
         v-if="mode === 'draw'"
-        id="drawMode"
+        id="draw-drawMode"
         title="common:plugins.draw.title.drawMode"
         :initial-value="drawMode"
         :values="selectableDrawModes"
         :change-callback="setDrawMode"
       ></RadioCard>
       <DrawOptions v-if="showDrawOptions" />
+      <RadioCard
+        v-if="showMeasureOptions"
+        id="draw-measure"
+        title="common:plugins.draw.title.measureMode"
+        :initial-value="measureMode"
+        :values="selectableMeasureModes"
+        :change-callback="setMeasureMode"
+      ></RadioCard>
       <v-subheader v-if="showSizeSlider" class="align-end">{{
         $t('common:plugins.draw.label.textSize')
       }}</v-subheader>
@@ -46,7 +54,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import RadioCard from './RadioCard.vue'
+import { RadioCard } from '@polar/core'
 import DrawOptions from './DrawOptions.vue'
 
 export default Vue.extend({
@@ -61,16 +69,19 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['hasSmallHeight', 'hasWindowSize']),
     ...mapGetters('plugin/draw', [
-      'mode',
       'drawMode',
-      'selectableDrawModes',
-      'selectableModes',
-      'textInput',
-      'showTextInput',
-      'selectedSize',
       'fontSizes',
-      'showSizeSlider',
+      'measureMode',
+      'mode',
+      'selectableDrawModes',
+      'selectableMeasureModes',
+      'selectableModes',
       'showDrawOptions',
+      'showMeasureOptions',
+      'selectedSize',
+      'showSizeSlider',
+      'showTextInput',
+      'textInput',
     ]),
     flexStyle(): string {
       return `flex-direction: ${
@@ -80,10 +91,11 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions('plugin/draw', [
-      'setMode',
       'setDrawMode',
-      'setTextInput',
+      'setMeasureMode',
+      'setMode',
       'setSelectedSize',
+      'setTextInput',
     ]),
   },
 })
