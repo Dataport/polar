@@ -13,7 +13,7 @@ addPlugins(client)
 async function initializeClient() {
   client.rawLayerList.initializeLayerList(services)
 
-  const instance = await client.createMap({
+  await client.createMap({
     containerId,
     mapConfiguration: {
       ...mapConfiguration,
