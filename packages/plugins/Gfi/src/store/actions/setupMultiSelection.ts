@@ -5,7 +5,6 @@ import Draw, {
   type Options as DrawOptions,
 } from 'ol/interaction/Draw'
 import { platformModifierKeyOnly } from 'ol/events/condition'
-import VectorSource from 'ol/source/Vector'
 import { Fill, Stroke, Style } from 'ol/style'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { GfiGetters, GfiState } from '../../types'
@@ -27,14 +26,21 @@ const isDrawing = (map: Map) =>
     )
 
 const drawOptions: DrawOptions = {
-  source: new VectorSource(),
   stopClick: true,
   type: 'Circle',
   style: new Style({
     stroke: new Stroke({ color: 'white', width: 1.5 }),
     fill: new Fill({ color: [255, 255, 255, 0.75] }),
   }),
-  condition: platformModifierKeyOnly,
+  freehandCondition: (event) => {
+    if (event.type === 'pointermove') {
+      return false
+    } else if (event.type === 'pointerup') {
+      return true
+    }
+    return platformModifierKeyOnly(event)
+  },
+  condition: () => false,
 }
 
 export function setupMultiSelection({
