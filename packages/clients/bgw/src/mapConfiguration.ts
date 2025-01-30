@@ -66,17 +66,17 @@ const mapConfig = {
     { id: '9003', name: 'Luftbilder', type: 'background' },
     { id: '14000', name: 'Verwaltungsgrenzen', type: 'mask' },
     {
-      id: '14003',
-      styleId: 'badestellen',
-      visibility: true,
-      name: 'Badestellen',
-      type: 'mask',
-    },
-    {
       id: '14001',
       styleId: 'ausdehnungBadestellen',
       visibility: true,
       name: 'Ausdehnung der Badestellen',
+      type: 'mask',
+    },
+    {
+      id: '14003',
+      styleId: 'badestellen',
+      visibility: true,
+      name: 'Badestellen',
       type: 'mask',
     },
     {
