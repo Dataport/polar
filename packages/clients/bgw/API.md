@@ -1,4 +1,4 @@
-# POLAR client DiPlanKarten
+# POLAR client BGW
 
 This client is a work-in-progress. This document will contain use cases and configuration examples when done.
 
