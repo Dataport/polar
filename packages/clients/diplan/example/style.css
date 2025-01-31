@@ -2,6 +2,7 @@
  * not directly modify what the POLAR client looks like. Styling the client
  * itself is done in the src folder. */
 
+/* "polarstern" is the id of the div the component renders to */
 #polarstern-wrapper {
   position: relative;
   height: 400px;
