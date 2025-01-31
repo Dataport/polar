@@ -4,7 +4,7 @@
  * you may do this in any other format as long as all required contents arrive
  * in `initializeLayerList` and `createMap` */
 export default (client, layerConf, config) => {
-  /* The parameter may be an URL; in that case, a second parameter is a callback
+  /* The parameter may be a URL; in that case, a second parameter is a callback
    * function that provides the `layerConf` object as first parameter.
    * The code for that would look like this:
    * client.rawLayerList.initializeLayerList("url", (layerConf) => {
