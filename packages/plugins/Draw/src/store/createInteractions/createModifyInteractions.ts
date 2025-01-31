@@ -1,10 +1,55 @@
 import { Modify, Select, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
+import { Collection, Feature, MapBrowserEvent } from 'ol'
+import { Geometry } from 'ol/geom'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 
+const createModify = (
+  rootGetters: PolarActionContext<DrawState, DrawGetters>['rootGetters'],
+  drawLayer: CreateInteractionsPayload['drawLayer']
+) => {
+  let active = false
+  const features: Collection<Feature<Geometry>> = new Collection()
+  const modify = new Modify({ features })
+  modify.on('modifystart', () => {
+    active = true
+  })
+  modify.on('modifyend', () => {
+    active = false
+  })
+
+  const localSelector = (e: MapBrowserEvent<UIEvent>) => {
+    if (!active) {
+      rootGetters.map.forEachFeatureAtPixel(
+        e.pixel,
+        (f) => {
+          if (f !== features.item(0)) {
+            features.setAt(0, f as Feature<Geometry>)
+          }
+          return true
+        },
+        {
+          layerFilter: (l) => l === drawLayer,
+        }
+      )
+    }
+  }
+
+  rootGetters.map.on('pointermove', localSelector)
+  // @ts-expect-error | "un on removal" riding piggyback as _onRemove
+  modify._onRemove = () => rootGetters.map.un('pointermove', localSelector)
+
+  return modify
+}
+
 export default function (
-  { commit, dispatch, getters }: PolarActionContext<DrawState, DrawGetters>,
+  {
+    commit,
+    dispatch,
+    getters,
+    rootGetters,
+  }: PolarActionContext<DrawState, DrawGetters>,
   { drawSource, drawLayer }: CreateInteractionsPayload
 ): Interaction[] {
   const { drawMode } = getters
@@ -40,7 +85,7 @@ export default function (
   })
 
   return [
-    new Modify({ source: drawSource }),
+    createModify(rootGetters, drawLayer),
     new Snap({ source: drawSource }),
     select,
   ]

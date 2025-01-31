@@ -130,7 +130,11 @@ export const makeActions = () => {
       getters: { selectedFeature },
       rootGetters: { map },
     }) {
-      interactions.forEach((interaction) => map.removeInteraction(interaction))
+      interactions.forEach(
+        (interaction) =>
+          // @ts-expect-error | "un on removal" riding piggyback as _onRemove
+          map.removeInteraction(interaction) && interaction._onRemove?.()
+      )
       if (interactions.some((interaction) => interaction instanceof Select)) {
         if (selectedFeature && selectedFeature.get('text') === '') {
           // text nodes without text are considered deleted
