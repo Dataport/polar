@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Extend Attributions/Legend/Zoom configurations with icon override options. See plugin docs for details.
 - Feature: Add new parameter `measureOptions` to `DrawConfiguration`.
 - Feature: Add new type `MeasureOptions`.
 - Feature: Add new type `MeasureMode`.

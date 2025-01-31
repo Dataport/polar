@@ -49,6 +49,7 @@ export default (): MockParameters => {
         // Base value. Should be adjusted in tests if necessary for the test.
         hasSmallDisplay: () => false,
         hasSmallHeight: () => false,
+        configuration: () => ({}),
       },
     }),
     emptyRoot: {

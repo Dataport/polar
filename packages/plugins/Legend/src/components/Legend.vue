@@ -67,10 +67,11 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['clientHeight', 'configuration', 'hasSmallHeight']),
     mapLegendIcon() {
+      const icons = this.configuration.legend?.icons
       if (!this.isOpen) {
-        return `fa-info`
+        return icons?.open ?? `fa-info`
       }
-      return `fa-chevron-right`
+      return icons?.close ?? `fa-chevron-right`
     },
     maxHeight(): string {
       return `

@@ -6,11 +6,14 @@ The Zoom plugin offers functionality regarding map zooming.
 
 ## Configuration
 
+### zoom
+
 The Zoom plugin offers a plus/minus button, and will adjust itself to the map's zoom settings on initialization.  
 It can be configured as followed.
 
 | fieldName | type | description |
 | - | - | - |
+| icons | Record<string, string>? | Optional icon override. |
 | renderType | 'iconMenu' \| 'independent'? | Whether the zoom related buttons are being rendered independently or as part of the IconMenu. Defaults to `'independent'`. |
 | showMobile | boolean? | Whether the zoom related buttons should be displayed on smaller devices; defaults to `false`. |
 | showZoomSlider | boolean? | Whether a zoom slider should be displayed under the zoom buttons. Won't be rendered on smaller devices; defaults to `false`.|
@@ -25,6 +28,13 @@ zoom: {
   showZoomSlider: true,
 }
 ```
+
+#### zoom.icons
+
+| fieldName | type | description |
+| - | - | - |
+| zoomIn | string? | Icon shown on zoom-in (plus) button. Defaults to `'fa-plus'`. |
+| zoomOut | string? | Icon shown on zoom-out (minus) button. Defaults to `'fa-minus'`. |
 
 ## Store
 

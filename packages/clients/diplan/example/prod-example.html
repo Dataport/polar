@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <!-- test page for build -->
+  <head>
+    <meta charset="utf-8" />
+    <title>@polar/client-diplan</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <nav></nav>
+    <header>
+      <h1>Testseite <code>@polar/client-diplan</code> (build)</h1>
+    </header>
+    <div id="somethingnice"></div>
+    <main>
+      <section>
+        <h2 class="padded-x">Beispielinstanz</h2>
+        <div id="polarstern">
+          <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
+        </div>
+      </section>
+      <section class="padded-x">
+        <h2>Informationen aus Kartenklient</h2>
+        <p>Subscriptions werden i.d.R. mit JSON-fähigen Objekten beantwortet. Die untere Tabelle stellt einige ausgewählte Karteninhalte als Text dar.</p>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Schlüssel</th>
+              <th>Wert (als Text)</th>
+              <th>Kommentar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>plugin/zoom/zoomLevel</code></td>
+              <td id="subscribed-zoom">uninitialized</td>
+              <td>Zoomstufe der <a target="_blank" href="https://openlayers.org/en/latest/apidoc/module-ol_View-View.html#getZoom">OpenLayers/View</a> als <code>Number</code></td>
+            </tr>
+            <tr>
+              <td><code>plugin/gfi/featureInformation</code></td>
+              <td id="subscribed-gfi">uninitialized</td>
+              <td>Wert der aktuellen <code>GetFeatureInformation</code>-Antwort(en) als <code>Record&lt;LayerId, Feature[]&gt;</code></td>
+            </tr>
+            <tr>
+              <td><code>plugin/...</code></td>
+              <td id="subscribed-a">uninitialized</td>
+              <td>Text</td>
+            </tr>
+            <tr>
+              <td><code>plugin/...</code></td>
+              <td id="subscribed-b">uninitialized</td>
+              <td>Text</td>
+            </tr>
+            <tr>
+              <td><code>plugin/...</code></td>
+              <td id="subscribed-c">uninitialized</td>
+              <td>Text</td>
+            </tr>
+            <tr>
+              <td><code>plugin/...</code></td>
+              <td id="subscribed-d">uninitialized</td>
+              <td>Text</td>
+            </tr>
+            <tr>
+              <td><code>plugin/...</code></td>
+              <td id="subscribed-e">uninitialized</td>
+              <td>Text</td>
+            </tr>
+            <tr>
+              <td><code>plugin/...</code></td>
+              <td id="subscribed-f">uninitialized</td>
+              <td>Text</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <footer>At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.</footer>
+    <!-- Example without build tools. Most frameworks will allow importing this. (Try "* as MapClient".) -->
+    <script src="../dist/polar-client.js"></script>
+    <!-- → window.MapClient is now available. TODO: Choose a better name.  -->
+    <link rel="stylesheet" src="../dist/polar-client.css">
+    <script type="module">
+      import services from './services.js'
+      import config from './config.js'
+
+      import setup from './setup.js'
+      setup(MapClient, services, config)
+    </script>
+  </body>
+</html>
