@@ -6,7 +6,10 @@
     "OpenLayers",
     "ol",
     "POLAR",
-    "client"
+    "client",
+    "diplan",
+    "DiPlanung",
+    "DiPlanKarten"
   ],
   "license": "EUPL-1.2",
   "type": "module",
