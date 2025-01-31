@@ -17,7 +17,7 @@
   "main": "dist/client-meldemichel.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/clients/meldemichel"
   },
   "files": [
