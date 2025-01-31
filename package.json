@@ -41,6 +41,7 @@
     "pages:build:serve": "http-server pages -o index.html",
     "clean": "nx reset && rimraf --glob packages/**/{.cache,dist,docs} && rimraf --glob {.cache,dist} && node ./scripts/clean",
     "docs:afm": "node ./scripts/makeDocs afm",
+    "docs:bgw": "node ./scripts/makeDocs bgw",
     "docs:generic": "node ./scripts/makeDocs generic",
     "docs:meldemichel": "node ./scripts/makeDocs meldemichel && npm run meldemichel:build && cp -r ./packages/clients/meldemichel/dist ./packages/clients/meldemichel/example ./packages/clients/meldemichel/docs",
     "docs:snowbox": "node ./scripts/makeDocs snowbox",

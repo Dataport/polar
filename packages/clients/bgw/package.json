@@ -14,8 +14,9 @@
   },
   "files": [
     "dist/**/**.*",
-    "example/**/**.*",
-    "CHANGELOG.md"
+    "docs/**/**.*",
+    "CHANGELOG.md",
+    "API.md"
   ],
   "scripts": {
     "prepublishOnly": "npm run build",
