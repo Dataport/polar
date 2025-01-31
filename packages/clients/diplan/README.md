@@ -2,7 +2,7 @@
 
 ## Contents
 
-This clients is a reusable map solution intended for DiPlan. It contains a project-specific GFI template and default setup.
+This client is a reusable map solution intended for DiPlanKarten as part of the [DiPlanung project](https://www.diplanung.de/). It contains a project-specific GFI template and default setup.
 
 ## Configuration
 
