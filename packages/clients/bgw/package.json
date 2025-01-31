@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist && copyfiles -f src/style.json dist",
     "dev": "vite --host"
   },
   "devDependencies": {
