@@ -24,8 +24,10 @@ const language: LanguageOption[] = [
           },
           measureMode: {
             none: 'Keine Messung',
-            metres: 'm / m²',
-            kilometres: 'km / km²',
+            metres: 'm',
+            metresArea: 'm / m²',
+            kilometres: 'km',
+            kilometresArea: 'km / km²',
             hectares: 'km / ha',
           },
           options: {
