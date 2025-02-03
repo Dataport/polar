@@ -2,7 +2,6 @@ import { Modify, Select, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { Collection, Feature, MapBrowserEvent } from 'ol'
-import { Geometry } from 'ol/geom'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 
 const createModify = (
@@ -10,7 +9,7 @@ const createModify = (
   drawLayer: CreateInteractionsPayload['drawLayer']
 ) => {
   let active = false
-  const features: Collection<Feature<Geometry>> = new Collection()
+  const features: Collection<Feature> = new Collection()
   const modify = new Modify({ features })
   modify.on('modifystart', () => {
     active = true
@@ -25,7 +24,7 @@ const createModify = (
         e.pixel,
         (f) => {
           if (f !== features.item(0)) {
-            features.setAt(0, f as Feature<Geometry>)
+            features.setAt(0, f as Feature)
           }
           return true
         },
