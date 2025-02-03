@@ -17,6 +17,7 @@ export interface AttributionsGetters extends AttributionsState {
   /** Array on store paths to listen to for changes */
   listenToChanges: string[]
   mapInfo: string[]
+  mapInfoIcon: string
   initiallyOpen: boolean
   renderType: 'independent' | 'iconMenu' | 'footer'
   staticAttributions: string[]

@@ -24,8 +24,7 @@ import { mapGetters, mapMutations } from 'vuex'
 export default Vue.extend({
   name: 'AttributionButton',
   computed: {
-    ...mapGetters(['configuration']),
-    ...mapGetters('plugin/attributions', ['windowIsOpen', 'mapInfoIcon']),
+    ...mapGetters('plugin/attributions', ['mapInfoIcon', 'windowIsOpen']),
   },
   methods: {
     ...mapMutations('plugin/attributions', ['setWindowIsOpen']),

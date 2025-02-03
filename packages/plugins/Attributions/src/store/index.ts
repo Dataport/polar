@@ -77,7 +77,7 @@ export const makeStoreModule = () => {
         rootGetters.configuration.attributions?.listenToChanges || [],
       mapInfo: (_, { layer, attributions, staticAttributions }) =>
         lib.updateMapInfo(layer, attributions, staticAttributions),
-      mapInfoIcon: (_, __, getters, rootGetters) => {
+      mapInfoIcon: (_, getters, __, rootGetters) => {
         const icons = rootGetters.configuration.attributions?.icons
         return getters.windowIsOpen
           ? icons?.close ?? 'fa-chevron-right'
