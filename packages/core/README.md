@@ -174,7 +174,9 @@ const languageOptions: LanguageOption[] = [
 ]
 ```
 
-To figure out the name of the locales to override, inspect the matching plugin in GitHub's file browser. In `packages/plugins`, open the plugin you desire to override. Each plugin's `src` folder contains a `language.ts` listing all used locale keys with appropriate nesting.
+To figure out the name of overridable locales, inspect the documentation of your client; [for example, this is the documentation page of the snowbox](https://dataport.github.io/polar/docs/snowbox/client-snowbox.html). All child documents with locales feature a table of default translations at the end, and some clients bring their own locales and pre-existing overrides.
+
+When reading the locale tables, please mind that the dot notation (`a.b.c | value`) has to be written as separate keys in nested objects as seen in the example above (`{a: {b: {c: "value"}}}`).
 
 ##### mapConfiguration.extendedMasterportalapiMarkers
 
