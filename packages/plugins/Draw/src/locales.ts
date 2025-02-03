@@ -84,7 +84,7 @@ export const resourcesEn = {
   },
 } as const
 
-const language: Locale[] = [
+const locales: Locale[] = [
   {
     type: 'de',
     resources: resourcesDe,
@@ -95,4 +95,4 @@ const language: Locale[] = [
   },
 ]
 
-export default language
+export default locales

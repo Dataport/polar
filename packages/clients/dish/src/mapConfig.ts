@@ -7,7 +7,7 @@ import {
   dishBaseUrl,
   // servicePrefix, s.u.
 } from './services'
-import locales from './language'
+import locales from './locales'
 
 const shBlue = '#003064'
 const shWhite = '#FFFFFF'

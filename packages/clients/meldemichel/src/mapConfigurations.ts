@@ -11,7 +11,7 @@ import {
 } from '@polar/lib-custom-types'
 import { MpApiParameters } from '@polar/plugin-address-search'
 import { MODE, SKAT, REPORT_STATUS } from './enums'
-import language from './language'
+import locales from './locales'
 import { MeldemichelCreateMapParams } from './types'
 import { showTooltip } from './utils/showTooltip'
 
@@ -26,7 +26,7 @@ const hamburgRed = '#ff0019'
 
 const commonMapConfiguration: Partial<MapConfig> = {
   checkServiceAvailability: false, // service register too long
-  locales: language,
+  locales: locales,
   vuetify: {
     theme: {
       themes: {

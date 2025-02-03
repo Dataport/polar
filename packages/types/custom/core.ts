@@ -492,6 +492,8 @@ export interface Locale {
 }
 
 export interface PluginContainer {
+  locales: Locale[]
+  /** @deprecated Please use .locales instead */
   language: Locale[]
   name: string
   options: PluginOptions

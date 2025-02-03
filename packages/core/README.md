@@ -40,7 +40,8 @@ const Plugin = (options: PluginOptions) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'plugin', // unique technical name
     plugin: Plugin, // a vue component
-    language, // an i18n locale batch
+    locales, // an i18n Locale[]
+    language, // @deprecated an i18n locale batch
     options, // configuration; overriddable with mapConfiguration on createMap
     storeModule, // vuex store module, if required
   })

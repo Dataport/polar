@@ -37,7 +37,7 @@ export const resourcesEn = {
 }
 
 // first type will be used as fallback language
-const language: Locale[] = [
+const locales: Locale[] = [
   {
     type: 'de',
     resources: resourcesDe,
@@ -48,4 +48,4 @@ const language: Locale[] = [
   },
 ]
 
-export default language
+export default locales

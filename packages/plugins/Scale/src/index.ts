@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import { ScaleConfiguration } from '@polar/lib-custom-types'
 import { Scale } from './components'
-import language from './language'
+import locales from './locales'
 import { makeStoreModule } from './store'
 
 export default (options: ScaleConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'scale',
     plugin: Scale,
-    language,
+    locales,
     storeModule: makeStoreModule(),
     options,
   })

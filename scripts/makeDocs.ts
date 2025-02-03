@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-console */
 
-// keeping it simply stupid; .ts is just here to get to import language.ts files
+// keeping it simply stupid; .ts is just here to get to import locales.ts files
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
@@ -104,7 +104,7 @@ const flattenObject = (maybeObject) => {
 }
 
 /**
- * @param {Locale[]} locales as seen in the packages' language.ts files
+ * @param {Locale[]} locales as seen in the packages' locales.ts files
  * @returns {string} html table
  */
 function makeLocaleTable(locales) {
@@ -159,7 +159,7 @@ async function toHtml(basePath, markdownFileName, children) {
   const clientText = fs.readFileSync(markdownFilePath, fsOptions)
 
   let maybeLocales
-  const localesPath = path.join(basePath, 'src', 'language')
+  const localesPath = path.join(basePath, 'src', 'locales')
   if (fs.existsSync(`${localesPath}.ts`)) {
     maybeLocales = (await import(`../${localesPath.replaceAll('\\', '/')}.ts`))
       .default

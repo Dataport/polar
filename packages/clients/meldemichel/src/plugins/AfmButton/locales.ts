@@ -9,7 +9,7 @@ export const meldemichelDe = {
   },
 } as const
 
-const language: Locale[] = [
+const locales: Locale[] = [
   {
     type: 'de',
     resources: {
@@ -22,4 +22,4 @@ const language: Locale[] = [
   },
 ]
 
-export default language
+export default locales

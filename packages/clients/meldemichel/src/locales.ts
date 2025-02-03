@@ -86,7 +86,7 @@ export const meldemichelDe = {
   },
 } as const
 
-const language: Locale[] = [
+const locales: Locale[] = [
   {
     type: 'de',
     resources: {
@@ -149,12 +149,12 @@ const language: Locale[] = [
 ]
 
 // test for enum/locale synchronity; error on mismatch
-language.forEach((locale) => {
+locales.forEach((locale) => {
   const knownLocaleSKAT = Object.keys(skat)
   const knownEnumSKAT = SKAT.map((n) => String(n))
   if (knownLocaleSKAT.sort().join(',') !== knownEnumSKAT.sort().join(',')) {
     throw new Error(
-      `POLAR Meldemichel: Error in language.ts/enums.ts: SKAT and Locales not in sync for language "${
+      `POLAR Meldemichel: Error in locales.ts/enums.ts: SKAT and Locales not in sync for language "${
         locale.type
       }". Affected SKAT: ${knownLocaleSKAT
         .filter((x) => !knownEnumSKAT.includes(x))
@@ -163,4 +163,4 @@ language.forEach((locale) => {
   }
 })
 
-export default language
+export default locales

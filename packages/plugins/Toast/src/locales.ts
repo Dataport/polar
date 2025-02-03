@@ -2,25 +2,20 @@ import { Locale } from '@polar/lib-custom-types'
 
 export const resourcesDe = {
   plugins: {
-    zoom: {
-      in: 'Hinein zoomen',
-      out: 'Heraus zoomen',
-      slider: 'Zoomstufe wählen',
+    toast: {
+      close: 'Benachrichtigung ausblenden',
     },
   },
 } as const
-
 export const resourcesEn = {
   plugins: {
-    zoom: {
-      in: 'Zoom in',
-      out: 'Zoom out',
-      slider: 'Choose zoom level',
+    toast: {
+      close: 'Hide notification',
     },
   },
 } as const
 
-const language: Locale[] = [
+const locales: Locale[] = [
   {
     type: 'de',
     resources: resourcesDe,
@@ -31,4 +26,4 @@ const language: Locale[] = [
   },
 ]
 
-export default language
+export default locales

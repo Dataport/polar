@@ -6,7 +6,7 @@ export const dishHeaderDe = {
   },
 } as const
 
-const lang: Locale[] = [
+const locales: Locale[] = [
   {
     type: 'de',
     resources: {
@@ -29,4 +29,4 @@ const lang: Locale[] = [
   },
 ]
 
-export default lang
+export default locales
