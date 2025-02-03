@@ -1,11 +1,11 @@
 import { Modify, Select, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { Collection, Feature, MapBrowserEvent } from 'ol'
+import { Collection, Feature, Map, MapBrowserEvent } from 'ol'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 
 const createModify = (
-  rootGetters: PolarActionContext<DrawState, DrawGetters>['rootGetters'],
+  map: Map,
   drawLayer: CreateInteractionsPayload['drawLayer']
 ) => {
   let active = false
@@ -20,7 +20,7 @@ const createModify = (
 
   const localSelector = (e: MapBrowserEvent<UIEvent>) => {
     if (!active) {
-      rootGetters.map.forEachFeatureAtPixel(
+      map.forEachFeatureAtPixel(
         e.pixel,
         (f) => {
           if (f !== features.item(0)) {
@@ -35,9 +35,9 @@ const createModify = (
     }
   }
 
-  rootGetters.map.on('pointermove', localSelector)
+  map.on('pointermove', localSelector)
   // @ts-expect-error | "un on removal" riding piggyback as _onRemove
-  modify._onRemove = () => rootGetters.map.un('pointermove', localSelector)
+  modify._onRemove = () => map.un('pointermove', localSelector)
 
   return modify
 }
@@ -84,7 +84,7 @@ export default function (
   })
 
   return [
-    createModify(rootGetters, drawLayer),
+    createModify(rootGetters.map, drawLayer),
     new Snap({ source: drawSource }),
     select,
   ]
