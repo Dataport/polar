@@ -1,4 +1,6 @@
-const language = [
+import { LanguageOption } from '@polar/lib-custom-types'
+
+const language: LanguageOption[] = [
   {
     type: 'de',
     resources: {
