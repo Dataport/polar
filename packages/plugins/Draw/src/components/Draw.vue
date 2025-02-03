@@ -20,7 +20,7 @@
       <RadioCard
         v-if="showMeasureOptions"
         id="draw-measure"
-        title="common:plugins.draw.title.measureMode"
+        title="plugins.draw.title.measureMode"
         :initial-value="measureMode"
         :values="selectableMeasureModes"
         :change-callback="setMeasureMode"
