@@ -100,10 +100,10 @@ export const makeStoreModule = () => {
             (acc, [option]) => ({
               ...acc,
               [option]:
-                `common:plugins.draw.measureMode.${option}` +
+                `plugins.draw.measureMode.${option}` +
                 (drawMode === 'Polygon' && option !== 'hectares' ? 'Area' : ''),
             }),
-            { none: 'common:plugins.draw.measureMode.none' }
+            { none: 'plugins.draw.measureMode.none' }
           ),
       showMeasureOptions: ({ drawMode, mode }, { measureOptions }) =>
         measureOptions &&
