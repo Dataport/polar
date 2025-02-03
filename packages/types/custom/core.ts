@@ -490,11 +490,13 @@ export interface ScaleConfiguration extends PluginOptions {
   zoomMethod?: string
 }
 
+export interface ZoomIcons {
+  zoomIn: string
+  zoomOut: string
+}
+
 export interface ZoomConfiguration extends PluginOptions {
-  icons?: {
-    zoomIn?: string
-    zoomOut?: string
-  }
+  icons?: ZoomIcons
   renderType?: RenderType
   showMobile?: boolean
   showZoomSlider?: boolean
