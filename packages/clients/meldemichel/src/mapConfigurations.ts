@@ -15,6 +15,7 @@ import language from './language'
 import { MeldemichelCreateMapParams } from './types'
 import { showTooltip } from './utils/showTooltip'
 
+export const stadtwald = '18746'
 const stadtplan = '453'
 const luftbilder = '452'
 export const hamburgBorder = '1693' // boundary layer for pins / geolocalization
@@ -237,9 +238,24 @@ const mapConfigurations: Record<
   [MODE.SINGLE]: () => ({
     ...commonMapConfiguration,
     addressSearch,
-    layers: commonLayers,
+    layers: [
+      ...commonLayers,
+      {
+        id: stadtwald,
+        visibility: false,
+        type: 'mask',
+        name: 'meldemichel.layers.stadtwald',
+      } as LayerConfiguration,
+    ],
     attributions: {
       ...commonAttributions,
+      layerAttributions: [
+        ...(commonAttributions.layerAttributions as Attribution[]),
+        {
+          id: stadtwald,
+          title: 'meldemichel.attributions.stadtwald',
+        },
+      ],
     },
     pins: commonPins,
     reverseGeocoder,

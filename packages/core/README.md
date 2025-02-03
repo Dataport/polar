@@ -174,7 +174,9 @@ const languageOptions: LanguageOption[] = [
 ]
 ```
 
-To figure out the name of the locales to override, inspect the matching plugin in GitHub's file browser. In `packages/plugins`, open the plugin you desire to override. Each plugin's `src` folder contains a `language.ts` listing all used locale keys with appropriate nesting.
+To figure out the name of overridable locales, inspect the documentation of your client; [for example, this is the documentation page of the snowbox](https://dataport.github.io/polar/docs/snowbox/client-snowbox.html). All child documents with locales feature a table of default translations at the end, and some clients bring their own locales and pre-existing overrides.
+
+When reading the locale tables, please mind that the dot notation (`a.b.c | value`) has to be written as separate keys in nested objects as seen in the example above (`{a: {b: {c: "value"}}}`).
 
 ##### mapConfiguration.extendedMasterportalapiMarkers
 
@@ -183,7 +185,7 @@ To figure out the name of the locales to override, inspect the matching plugin i
 | layers | string[] | List of layer ids. The effect will only be applied to these layers. |
 | clusterClickZoom | boolean? | If `true`, clicking a cluster feature will zoom into the clustered features' bounding box (with padding) so that the cluster is "resolved". This happens until the maximum zoom level is reached, at which no further zooming can take place. Defaults to `false`. |
 | defaultStyle | MarkerStyle? | Used as the default marker style. The default fill color for these markers is `'#005CA9'`. |
-| dispatchOnMapSelect | string[]? | If set, the parameters will be spread to dispatchment on map selection. `['target', 'value']` will `dispatch(...['target', 'value'])`. This can be used to open the iconMenu's GFI with `['plugin/iconMenu/openMenuById', 'gfi']`, should the IconMenu exist and the gfi plugin be in it with this id. |
+| dispatchOnMapSelect | [string, unknown]? | If set, the parameters will be spread to dispatchment on map selection. `['target', 'value']` will `dispatch(...['target', 'value'])`. This can be used to open the iconMenu's GFI with `['plugin/iconMenu/openMenuById', 'gfi']`, should the IconMenu exist and the gfi plugin be in it with this id. |
 | hoverStyle | MarkerStyle? | Used as map marker style for hovered features. The default fill color for these markers is `'#7B1045'`. |
 | isSelectable | ((feature: GeoJsonFeature) => boolean)? | If undefined, all features are selectable. If defined, this can be used to sort out features to be unselectable, and such features will be styled different and won't react on click. |
 | selectionStyle | MarkerStyle? | Used as map marker style for selected features. The default fill color for these markers is `'#679100'`. |

@@ -25,6 +25,8 @@ export default function (
     type: 'Point',
     style: textStyle,
   })
+  // @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
+  draw._isDrawPlugin = true
   draw.on('drawend', function (e) {
     e.feature.setStyle(textStyle)
     e.feature.set('text', textInput)

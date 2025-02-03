@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { makeStore } from '../../vuePlugins/vuex'
 import vuetify from '../../vuePlugins/vuetify'
-import language from '../../language'
+import initializeI18n from '../../i18n'
 import { MapContainer } from '../../components'
 import { CreateOptions, MapInstance } from '../../types'
 import defaults from './defaults'
@@ -25,7 +25,13 @@ export default async function createMap({
 }: CreateOptions): Promise<MapInstance> {
   const shadowRoot = await makeShadowRoot(containerId)
 
-  await language(mapConfiguration?.language)
+  await initializeI18n(mapConfiguration?.language)
+
+  // Do not break outside Vuetify app's theme
+  const externalStylesheet = document.getElementById('vuetify-theme-stylesheet')
+  if (externalStylesheet) {
+    externalStylesheet.id = 'vuetify-theme-stylesheet-external'
+  }
 
   const instance: MapInstance = new Vue({
     vuetify: vuetify(mapConfiguration?.vuetify),
@@ -44,6 +50,11 @@ export default async function createMap({
   pullVuetifyStyleToShadow(shadowRoot)
   setupFontawesome(shadowRoot, mapConfiguration.renderFaToLightDom)
   updateSizeOnReady(instance)
+
+  // Restore theme ID such that external Vuetify app can find it again
+  if (externalStylesheet) {
+    externalStylesheet.id = 'vuetify-theme-stylesheet'
+  }
 
   return instance
 }
