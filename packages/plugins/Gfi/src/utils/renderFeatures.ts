@@ -1,12 +1,10 @@
 import VectorLayer from 'ol/layer/Vector'
-import { Feature } from 'ol'
-import { Geometry } from 'ol/geom'
 import { FeaturesByLayerId } from '../types'
 import { addFeature } from './displayFeatureLayer'
 import { filterFeatures } from './filterFeatures'
 
 export function renderFeatures(
-  featureDisplayLayer: VectorLayer<Feature<Geometry>>,
+  featureDisplayLayer: VectorLayer,
   geometryLayerKeys: string[],
   features: FeaturesByLayerId
 ) {

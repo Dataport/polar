@@ -40,6 +40,9 @@
     "js-levenshtein": "^1.1.6",
     "lodash.debounce": "^4.0.8"
   },
+  "peerDependencies": {
+    "ol": "^10.3.1"
+  },
   "nx": {
     "includedScripts": ["build", "dev"]
   }
