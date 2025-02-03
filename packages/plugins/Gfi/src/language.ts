@@ -1,4 +1,4 @@
-import { LanguageOption } from '@polar/lib-custom-types'
+import { Locale } from '@polar/lib-custom-types'
 
 export const resourcesDe = {
   plugins: {
@@ -76,7 +76,7 @@ export const resourcesEn = {
   },
 } as const
 
-const language: LanguageOption[] = [
+const language: Locale[] = [
   {
     type: 'de',
     resources: resourcesDe,

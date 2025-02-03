@@ -52,7 +52,7 @@ import Hammer from 'hammerjs'
 import i18next from 'i18next'
 import { defaults } from 'ol/interaction'
 import {
-  LanguageOption,
+  Locale,
   MapConfig,
   MoveHandleProperties,
 } from '@polar/lib-custom-types'
@@ -158,7 +158,7 @@ export default Vue.extend({
     }
     this.updateListeners(this.hasWindowSize)
     this.setConfiguration(this.mapConfiguration)
-    this.mapConfiguration.locales?.forEach?.((lng: LanguageOption) =>
+    this.mapConfiguration.locales?.forEach?.((lng: Locale) =>
       i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
     )
 

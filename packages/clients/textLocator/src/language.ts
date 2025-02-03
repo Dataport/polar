@@ -1,4 +1,4 @@
-import { LanguageOption } from '@polar/lib-custom-types'
+import { Locale } from '@polar/lib-custom-types'
 import {
   openStreetMap,
   openSeaMap,
@@ -58,7 +58,7 @@ export const textLocatorDe = {
   },
 } as const
 
-const locales: LanguageOption[] = [
+const locales: Locale[] = [
   {
     type: 'de',
     resources: {

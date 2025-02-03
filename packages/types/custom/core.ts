@@ -485,14 +485,14 @@ export interface ZoomConfiguration extends PluginOptions {
   showZoomSlider?: boolean
 }
 
-export interface LanguageOption {
+export interface Locale {
   resources: Resource
   /** Language key as described in the i18next documentation */
   type: string
 }
 
 export interface PluginContainer {
-  language: LanguageOption[]
+  language: Locale[]
   name: string
   options: PluginOptions
   plugin: object
@@ -634,7 +634,7 @@ export interface MapConfig extends MasterportalApiConfig {
   extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   featureStyles?: string
   language?: InitialLanguage
-  locales?: LanguageOption[]
+  locales?: Locale[]
   renderFaToLightDom?: boolean
   stylePath?: string
   vuetify?: UserVuetifyPreset

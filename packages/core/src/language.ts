@@ -1,4 +1,4 @@
-import { LanguageOption } from '@polar/lib-custom-types'
+import { Locale } from '@polar/lib-custom-types'
 
 export const resourcesDe = {
   common: {
@@ -37,7 +37,7 @@ export const resourcesEn = {
 }
 
 // first type will be used as fallback language
-const language: LanguageOption[] = [
+const language: Locale[] = [
   {
     type: 'de',
     resources: resourcesDe,

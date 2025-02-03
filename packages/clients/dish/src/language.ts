@@ -1,4 +1,4 @@
-import { LanguageOption } from '@polar/lib-custom-types'
+import { Locale } from '@polar/lib-custom-types'
 
 export const dishDe = {
   backendSizeError:
@@ -40,7 +40,7 @@ export const resourcesEn = {
   },
 } as const
 
-const locales: LanguageOption[] = [
+const locales: Locale[] = [
   {
     type: 'de',
     resources: resourcesDe,

@@ -1,6 +1,6 @@
 // other names required
 /* eslint-disable @typescript-eslint/naming-convention */
-import { LanguageOption } from '@polar/lib-custom-types'
+import { Locale } from '@polar/lib-custom-types'
 
 export const geometrySearchDe = {
   draw: {
@@ -45,7 +45,7 @@ export const geometrySearchDe = {
   },
 } as const
 
-const language: LanguageOption[] = [
+const language: Locale[] = [
   {
     type: 'de',
     resources: {

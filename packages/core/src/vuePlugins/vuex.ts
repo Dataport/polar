@@ -240,7 +240,7 @@ export const makeStore = () => {
           }
         }
         if (language) {
-          // NOTE: If somehow needed later, add the namespace to the LanguageOption as well
+          // NOTE: If somehow needed later, add the namespace to the Locale as well
           language.forEach((lng) => {
             i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
           })

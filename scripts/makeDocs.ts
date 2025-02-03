@@ -104,7 +104,7 @@ const flattenObject = (maybeObject) => {
 }
 
 /**
- * @param {LanguageOption[]} locales as seen in the packages' language.ts files
+ * @param {Locale[]} locales as seen in the packages' language.ts files
  * @returns {string} html table
  */
 function makeLocaleTable(locales) {

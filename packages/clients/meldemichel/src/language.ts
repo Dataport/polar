@@ -1,6 +1,6 @@
 // SKAT modeled by their ID; no semantic value for client
 /* eslint-disable @typescript-eslint/naming-convention */
-import { LanguageOption } from '@polar/lib-custom-types'
+import { Locale } from '@polar/lib-custom-types'
 import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
 
 const skat = {
@@ -86,7 +86,7 @@ export const meldemichelDe = {
   },
 } as const
 
-const language: LanguageOption[] = [
+const language: Locale[] = [
   {
     type: 'de',
     resources: {
@@ -149,13 +149,13 @@ const language: LanguageOption[] = [
 ]
 
 // test for enum/locale synchronity; error on mismatch
-language.forEach((languageOption) => {
+language.forEach((locale) => {
   const knownLocaleSKAT = Object.keys(skat)
   const knownEnumSKAT = SKAT.map((n) => String(n))
   if (knownLocaleSKAT.sort().join(',') !== knownEnumSKAT.sort().join(',')) {
     throw new Error(
       `POLAR Meldemichel: Error in language.ts/enums.ts: SKAT and Locales not in sync for language "${
-        languageOption.type
+        locale.type
       }". Affected SKAT: ${knownLocaleSKAT
         .filter((x) => !knownEnumSKAT.includes(x))
         .concat(knownEnumSKAT.filter((x) => !knownLocaleSKAT.includes(x)))}`

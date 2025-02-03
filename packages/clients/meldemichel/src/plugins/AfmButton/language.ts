@@ -1,4 +1,4 @@
-import { LanguageOption } from '@polar/lib-custom-types'
+import { Locale } from '@polar/lib-custom-types'
 
 export const meldemichelDe = {
   afmButton: {
@@ -9,7 +9,7 @@ export const meldemichelDe = {
   },
 } as const
 
-const language: LanguageOption[] = [
+const language: Locale[] = [
   {
     type: 'de',
     resources: {

@@ -1,4 +1,4 @@
-import { LanguageOption } from '@polar/lib-custom-types'
+import { Locale } from '@polar/lib-custom-types'
 
 export const snowboxDe = {
   attributions: {
@@ -24,7 +24,7 @@ export const snowboxDe = {
   },
 } as const
 
-const language: LanguageOption[] = [
+const language: Locale[] = [
   {
     type: 'de',
     resources: {
