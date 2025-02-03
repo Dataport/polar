@@ -25,13 +25,7 @@ export default Vue.extend({
   name: 'AttributionButton',
   computed: {
     ...mapGetters(['configuration']),
-    ...mapGetters('plugin/attributions', ['windowIsOpen']),
-    mapInfoIcon() {
-      const icons = this.configuration.attributions?.icons
-      return this.windowIsOpen
-        ? icons?.close ?? 'fa-chevron-right'
-        : icons?.open ?? 'fa-regular fa-copyright'
-    },
+    ...mapGetters('plugin/attributions', ['windowIsOpen', 'mapInfoIcon']),
   },
   methods: {
     ...mapMutations('plugin/attributions', ['setWindowIsOpen']),

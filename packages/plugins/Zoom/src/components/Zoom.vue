@@ -67,6 +67,7 @@ export default Vue.extend({
       'hasSmallHeight',
     ]),
     ...mapGetters('plugin/zoom', [
+      'icons',
       'maximumZoomLevelActive',
       'minimumZoomLevelActive',
       'renderType',
@@ -78,13 +79,6 @@ export default Vue.extend({
     },
     addZoomSlider(): boolean {
       return !this.hasSmallHeight && this.showZoomSlider
-    },
-    icons() {
-      const icons = this.configuration.zoom?.icons
-      return {
-        zoomIn: icons?.zoomIn ?? 'fa-plus',
-        zoomOut: icons?.zoomOut ?? 'fa-minus',
-      }
     },
   },
   methods: {
