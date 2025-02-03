@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Breaking: Upgrade `@masterportal/masterportalapi` from `2.40.0` to `2.45.0` and subsequently `ol` from `^9.2.4` to `^10.3.1`.
+
 ## 2.0.0
 
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.40.0` and subsequently `ol` from `7.1.0` to `^9.2.4`.
