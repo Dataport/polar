@@ -265,19 +265,14 @@ export const mapConfiguration = {
   routing: {
     serviceUrl: 'https://geodienste.hamburg.de/web_ors//v2/directions/',
     format: 'geojson',
-    selectableTravelModes: [
-      'driving-car',
-      'driving-hgv',
-      'foot-walking',
-      'cycling-regular',
-    ],
-    selectablePreferences: ['recommended', 'fastest', 'shortest'],
+    selectableTravelModes: [],
+    selectablePreferences: [],
     displayPreferences: true,
     displayRouteTypesToAvoid: true,
     style: {
       stroke: {
         color: '#e51313',
-        width: 2,
+        width: 6,
       },
     },
     addressSearch: {
@@ -296,10 +291,6 @@ export const mapConfiguration = {
       ],
       minLength: 3,
       waitMs: 300,
-      loadingIndicator: {
-        loaderStyle: 'SpinnerLoader',
-        displayComponent: true,
-      },
     },
   },
 }

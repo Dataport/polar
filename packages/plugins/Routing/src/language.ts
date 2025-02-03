@@ -16,7 +16,7 @@ const language: LanguageOption[] = [
           inputHint:
             'Wählen Sie durch Klicken einen Punkt auf der Karte aus oder geben Sie eine Adresse ein.',
           resetButton: 'Zurücksetzen',
-          modeLabel: 'Fortbewegungsmittel',
+          modeLabel: 'Fortbewegungsart',
           travelMode: {
             car: 'Auto',
             hgv: 'LKW',
@@ -37,7 +37,8 @@ const language: LanguageOption[] = [
             ferries: 'Fähren',
           },
           sendRequestButton: 'Absenden',
-          toolTip: 'Wähle für jede Kategorie mindestens eine Option.',
+          toolTip:
+            'Pflichtfelder: Startadresse, Zieladresse, Fortbewegungsart und bevorzugte Route.',
           routeDetails: 'Details zur Route',
         },
       },
@@ -78,7 +79,8 @@ const language: LanguageOption[] = [
             ferries: 'ferries',
           },
           sendRequestButton: 'Send',
-          toolTip: 'Choose at least one option for each category.',
+          toolTip:
+            'Required: Start Address, Destination Address, Travel Mode and Preferred Route.',
           routeDetails: 'Route Details',
         },
       },

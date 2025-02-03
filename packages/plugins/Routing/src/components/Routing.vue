@@ -1,13 +1,10 @@
-<!-- eslint-disable max-lines -->
-<!-- eslint-disable max-lines -->
-<!-- eslint-disable max-lines -->
 <template>
   <v-scroll-x-reverse-transition>
     <v-card class="polar-routing-menu">
       <v-card-title>{{ $t('common:plugins.routing.title') }} </v-card-title>
 
       <!-- Start Point with Dropdown -->
-      <div style="position: relative">
+      <div class="text-field" style="position: relative">
         <v-text-field
           v-model="startpointInput"
           :label="$t('common:plugins.routing.startLabel')"
@@ -33,7 +30,8 @@
         </v-list>
       </div>
 
-      <div style="position: relative">
+      <!-- End Point with Dropdown -->
+      <div class="text-field" style="position: relative">
         <v-text-field
           v-model="endpointInput"
           :label="$t('common:plugins.routing.endLabel')"
@@ -59,22 +57,28 @@
         </v-list>
       </div>
 
+      <!-- Reset Button -->
       <v-btn
         :aria-label="$t('common:plugins.routing.resetButton')"
         @click="reset"
         >{{ $t('common:plugins.routing.resetButton') }}
       </v-btn>
 
+      <!-- Selectable Options -->
       <v-select
         v-model="selectedTravelModeItem"
+        class="select"
         :label="$t('common:plugins.routing.modeLabel')"
         :aria-label="$t('common:plugins.routing.modeLabel')"
         :items="translatedTravelModeOptions"
         item-value="key"
         item-text="translatedKey"
       ></v-select>
+
       <v-select
+        v-if="displayPreferences"
         v-model="selectedPreferenceItem"
+        class="select"
         :label="$t('common:plugins.routing.preferenceLabel')"
         :aria-label="$t('common:plugins.routing.preferenceLabel')"
         :items="translatedPreferenceOptions"
@@ -82,18 +86,23 @@
         item-text="translatedKey"
       ></v-select>
 
-      <div class="select">
-        {{ $t('common:plugins.routing.avoidRoutesTitle') }}
-        <v-checkbox
-          v-for="(routeType, i) in RouteTypesToAvoidForSelectedProfile"
-          :key="i"
-          v-model="selectedRouteTypesToAvoidItem"
-          :label="$t(translatedRouteTypeToAvoid(routeType.key))"
-          :aria-label="$t(translatedRouteTypeToAvoid(routeType.key))"
-          :value="routeType.key"
-        ></v-checkbox>
-
+      <div v-if="displayRouteTypesToAvoid">
+        <p class="align-center">
+          {{ $t('common:plugins.routing.avoidRoutesTitle') }}
+        </p>
+        <div class="checkbox-container">
+          <v-checkbox
+            v-for="(routeType, i) in RouteTypesToAvoidForSelectedProfile"
+            :key="i"
+            v-model="selectedRouteTypesToAvoidItem"
+            :label="$t(translatedRouteTypeToAvoid(routeType['key']))"
+            :aria-label="$t(translatedRouteTypeToAvoid(routeType['key']))"
+            :value="routeType['key']"
+          ></v-checkbox>
+        </div>
       </div>
+
+      <!-- Send Button -->
       <v-tooltip left :disabled="!areFieldsMissing">
         <template #activator="{ on }">
           <div v-on="on">
@@ -109,15 +118,38 @@
         <span>{{ $t('common:plugins.routing.toolTip') }}</span>
       </v-tooltip>
 
+      <!-- Route Details Button -->
       <v-btn
         :aria-label="$t('common:plugins.routing.routeDetails')"
         @click="showSteps = !showSteps"
       >
         {{ $t('common:plugins.routing.routeDetails') }}
       </v-btn>
-      <div v-if="showSteps && Object.keys(searchResponseData).length !== 0">
-        <v-list v-for="(step, i) in searchResponseSegments" :key="i">
-          {{ step }}
+
+      <!-- List of Route Segments -->
+      <div
+        v-if="showSteps && Object.keys(searchResponseData).length !== 0"
+        class="details-container"
+      >
+        Duration:
+        {{ formatDuration(searchResponseTotalValues[0].duration) }} &nbsp;
+        Distance: {{ formatDistance(searchResponseTotalValues[0].distance) }}
+        <v-list
+          v-for="(step, i) in searchResponseSegments"
+          :key="i"
+          class="detail-list"
+        >
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ step['instruction'] }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                Distance: {{ formatDistance(step['distance']) }}, Duration:
+                {{ formatDuration(step['duration']) }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </div>
     </v-card>
@@ -136,6 +168,7 @@ export default Vue.extend({
     showSteps: false,
     startDropdownOpen: false,
     endDropdownOpen: false,
+    debouncedSendSearchRequest: null as unknown as (payload: string) => void,
   }),
   computed: {
     ...mapGetters(['hasSmallDisplay']),
@@ -144,7 +177,9 @@ export default Vue.extend({
       'travelModeOptionsFromMapConfig',
       'preferenceOptionsFromMapConfig',
       'selectableTravelModes',
+      'displayPreferences',
       'selectablePreferences',
+      'displayRouteTypesToAvoid',
       'selectableRouteTypesToAvoid',
       'selectedRouteTypesToAvoid',
       'selectedTravelMode',
@@ -158,7 +193,7 @@ export default Vue.extend({
     ]),
     startpointInput: {
       get() {
-        return this.startAddress? this.startAddress : this.start
+        return this.startAddress ? this.startAddress : this.start
       },
       set(value) {
         this.setStart(value)
@@ -166,7 +201,7 @@ export default Vue.extend({
     },
     endpointInput: {
       get() {
-        return this.endAddress? this.endAddress : this.end
+        return this.endAddress ? this.endAddress : this.end
       },
       set(value) {
         this.setEnd(value)
@@ -243,20 +278,28 @@ export default Vue.extend({
         return this.searchResponseData.features[0].properties.segments[0].steps
       },
     },
+    searchResponseTotalValues: {
+      get(): object {
+        return this.searchResponseData.features[0].properties.segments
+      },
+    },
     RouteTypesToAvoidForSelectedProfile() {
+      let availableOptions = []
       if (
         this.selectedTravelMode === 'driving-car' ||
         this.selectedTravelMode === 'driving-hgv' ||
         this.selectedTravelMode === ''
       ) {
-        return this.selectableRouteTypesToAvoid
-      }
-      return [
-        {
-          key: 'ferries',
-          localKey: 'common:plugins.routing.avoidRoutes.ferries',
-        },
-      ]
+        availableOptions = this.selectableRouteTypesToAvoid
+      } else {
+        availableOptions = [
+          {
+            key: 'ferries',
+            localKey: 'common:plugins.routing.avoidRoutes.ferries',
+          },
+        ]
+      }['']
+      return availableOptions
     },
     areFieldsMissing() {
       const areStartAndStartAddressMissing =
@@ -265,20 +308,24 @@ export default Vue.extend({
         this.end.length === 0 && this.endAddress === ''
       const isSelectedTravelModeMissing = this.selectedTravelMode === ''
       const isSelectedPreferenceMissing = this.selectedPreference === ''
-      const isSelectedRouteTypesToAvoidMissing =
-        this.selectedRouteTypesToAvoid.length === 0
-
       return Boolean(
         areStartAndStartAddressMissing ||
           areEndAndEndAddressMissing ||
           isSelectedTravelModeMissing ||
-          isSelectedPreferenceMissing ||
-          isSelectedRouteTypesToAvoidMissing
+          isSelectedPreferenceMissing
       )
+    },
+  },
+  watch: {
+    selectedTravelMode() {
+      this.selectedRouteTypesToAvoidItem = []
     },
   },
   mounted() {
     this.initializeTool()
+  },
+  created() {
+    this.debouncedSendSearchRequest = debounce(this.sendSearchRequest, 300)
   },
   methods: {
     ...mapActions('plugin/routing', [
@@ -296,13 +343,9 @@ export default Vue.extend({
       'setSelectedPreference',
       'setSelectedRouteTypesToAvoid',
     ]),
-    debouncedSendSearchRequest: debounce(function (payload) {
-      this.sendSearchRequest(payload)
-    }, 300),
     handleAddressSearch(inputType) {
       const input =
         inputType === 'start' ? this.startpointInput : this.endpointInput
-
       if (inputType === 'start') {
         this.startDropdownOpen = true
         this.endDropdownOpen = false
@@ -350,6 +393,20 @@ export default Vue.extend({
       ).localKey
       return localKey
     },
+    formatDistance(distance) {
+      if (distance >= 1000) {
+        return `${(distance / 1000).toFixed(1)}km`
+      }
+      return `${distance} m`
+    },
+    formatDuration(duration) {
+      if (duration >= 3600) {
+        return `${(duration / 3600).toFixed(2)} h`
+      } else if (duration >= 60) {
+        return `${(duration / 60).toFixed(1)} min`
+      }
+      return `${duration} sec`
+    },
   },
 })
 </script>
@@ -364,15 +421,34 @@ export default Vue.extend({
   padding-left: 20px;
   padding-right: 20px;
 }
-.select {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+.align-center {
+  text-align: center;
+}
+.text-field {
+  width: 65%;
 }
 .dropdown {
-  max-height: 300px; /* adjusts the hight */
+  max-height: 300px;
   overflow-y: auto; /* enables scrolling */
   border: 1px solid #ccc;
   background-color: #fff;
+}
+.select {
+  width: 65%;
+}
+.checkbox-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  justify-content: space-evenly;
+}
+.details-container {
+  max-height: 300px;
+  overflow-y: auto; /* enables scrolling */
+  padding-top: 10px;
+  text-align: center;
+}
+.detail-list {
+  text-align: left;
 }
 </style>

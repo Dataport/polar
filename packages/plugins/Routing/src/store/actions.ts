@@ -1,12 +1,10 @@
-/* eslint-disable max-lines-per-function */
-/* eslint-disable max-lines */
 import VectorSource from 'ol/source/Vector'
 import { LineString } from 'ol/geom'
 import Feature from 'ol/Feature'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import GeoJSON from 'ol/format/GeoJSON'
 import { transform } from 'ol/proj'
-import { RoutingState, RoutingGetters } from '../types'
+import { RoutingState, RoutingGetters, FeatureInterface, SearchResponseDataInterface } from '../types'
 import createDrawLayer from '../utils/createDrawLayer'
 import createDrawStyle from '../utils/createDrawStyle'
 
@@ -14,26 +12,63 @@ const drawSource = new VectorSource()
 let drawLayer
 
 const actions: PolarActionTree<RoutingState, RoutingGetters> = {
-  initializeTool({
-    rootGetters: { configuration, map },
-    dispatch,
-    commit,
-    state,
-  }) {
-    dispatch('initializeConfigStyle')
+  /**
+   * Initializes the tool by updating the state from mapConfig and by setting up the draw layer and click event listener.
+   * @param context - VueX action context.
+   * @param contextRootGetters - Global getters.
+   * @param contextDispatch - VueX dispatch function.
+   * @param contextCommit - VueX commit function.
+   * @param contextState - VueX state object.
+   */
+  initializeTool({ rootGetters: { map, configuration }, commit, state }) {
+    /* update state with configuration settings */
+
+    if(configuration?.routing?.selectableTravelModes.length > 0){
+      commit(
+        'setSelectableTravelModes',
+        configuration?.routing?.selectableTravelModes
+      )
+    }
+    if(configuration?.routing?.selectablePreferences.length > 0){
+      commit(
+        'setSelectablePreferences',
+        configuration?.routing?.selectablePreferences
+      )
+    }
+    commit('setDisplayPreferences', configuration?.routing?.displayPreferences)
+    commit(
+      'setDisplayRouteTypesToAvoid',
+      configuration?.routing?.displayRouteTypesToAvoid
+    )
+
+    /* setup drawLayer and click event listener */
+
     drawLayer = createDrawLayer(drawSource)
     map?.addLayer(drawLayer)
     map?.on('click', function (event) {
-      const formattedCoordinate = event.coordinate
-
+      const clickCoordinate = event.coordinate
       if (state.start.length === 0) {
-        commit('setStart', formattedCoordinate)
-      } else if (state.end.length === 0) {
-        commit('setEnd', formattedCoordinate)
+        commit('setStart', clickCoordinate)
+      } else if (
+        state.end.length === 0 &&
+        !state.start.every((v, i) => v === clickCoordinate[i]) // end Coordinate should not be the same as start Coordinate
+      ) {
+        commit('setEnd', clickCoordinate)
       }
     })
   },
-  // TODO: in utils verschieben, da es den state nicht verändert und auch von anderen Funktionen verwendet werden kann?
+
+  /* ROUTING REQUEST */
+
+  /**
+   * Translates a given coordinate to the WGS84 coordinate system (EPSG:4326).
+   *
+   * @param context - The Vuex action context.
+   * @param rootGetters - The root getters from Vuex store.
+   * @param contextRootGettersConfiguration - The configuration object containing the EPSG code.
+   * @param Coordinate - The coordinate to be transformed.
+   * @returns The transformed coordinate in the WGS84 coordinate system.
+   */
   translateCoordinateToWGS84({ rootGetters: { configuration } }, Coordinate) {
     const wgs84Coordinate = transform(
       Coordinate,
@@ -42,15 +77,31 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     )
     return wgs84Coordinate
   },
-  // TODO: die nächsten 7 Funktionen in utils verschieben, da sie den state nicht verändern und auch von anderen Funktionen/dem core verwendet werden können?
+  /**
+   * Creates a routing service URL based on the selected travel mode.
+   * @param context - VueX action context.
+   * @param contextRootGetters - Global getters.
+   * @param contextState - VueX state object.
+   * @returns The constructed URL or undefined if no travel mode is selected.
+   */
   createUrl({ rootGetters: { configuration }, state }) {
-    const url =
-      configuration?.routing?.serviceUrl +
-      state.selectedTravelMode +
-      '/' +
-      configuration?.routing?.format
-    return url
+    if (state.selectedTravelMode !== '') {
+      const url =
+        configuration?.routing?.serviceUrl +
+        state.selectedTravelMode +
+        '/' +
+        configuration?.routing?.format
+      return url
+    }
+    console.error('No travel mode selected for URL creation')
   },
+  /**
+   * Sends a routing request to the external service.
+   * @param context - VueX action context.
+   * @param contextCommit - VueX commit function.
+   * @param contextDispatch - VueX dispatch function.
+   * @param contextState - VueX state object.
+   */
   async sendRequest({ commit, dispatch, state }) {
     const searchCoordinates = [
       await dispatch('translateCoordinateToWGS84', state.start),
@@ -62,7 +113,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
         const response = await fetch(url, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            'Content-Type': 'application/json', // eslint error has to be ignored since name is determined by "BKG Routing-Dienst"
           },
           body: JSON.stringify({
             coordinates: searchCoordinates,
@@ -77,23 +129,48 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
           }),
         })
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`)
+          throw new Error(
+            'Route could not be determined. Try different coordinates.'
+          )
         }
         const data = await response.json()
         commit('setSearchResponseData', data)
         dispatch('drawRoute')
       } catch (error) {
-        console.error('Error:', error)
+        let errorMessage = ''
+        if (error instanceof Error) {
+          errorMessage = error.message
+          console.error(error.message)
+        } else {
+          console.error('Unexpected error', error)
+        }
+        dispatch(
+          'plugin/toast/addToast',
+          {
+            type: 'error',
+            text: errorMessage,
+          },
+          { root: true }
+        )
       }
     }
-    fetchDirections()
+    try {
+      await fetchDirections()
+    } catch (error) {
+      console.error('Error in sendRequest:', error)
+    }
   },
-  createSearchUrl(searchInput) {
-    const url =
-      'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0&StoredQuery_ID=findeStrasse&strassenname=' +
-      searchInput
-    return url
-  },
+
+  /* ADDRESS SEARCH */
+
+  /**
+   * Fetches house numbers for a given street name.
+   * @param context - VueX action context.
+   * @param contextRootGetters - Global getters.
+   * @param contextDispatch - VueX dispatch function.
+   * @param strassenname - The street name to search for.
+   * @returns A list of house numbers.
+   */
   async fetchHausnummern(
     { rootGetters: { configuration }, dispatch },
     strassenname
@@ -109,7 +186,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       service: 'WFS',
       request: 'GetFeature',
       version: '2.0.0',
-      StoredQuery_ID: storedQueryID,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      StoredQuery_ID: storedQueryID, // eslint error has to be ignored since name is determined by "AddressService HH"
       strassenname,
     })}`
 
@@ -127,12 +205,18 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       return []
     }
   },
+  /**
+   * Parses the response from the house number search.
+   * @param _context - Unused VueX action context.
+   * @param responseText - XML response text.
+   * @returns Parsed house numbers data.
+   */
   parseResponseHausnummern({}, responseText) {
     try {
       const parser = new DOMParser()
       const xmlDoc = parser.parseFromString(responseText, 'application/xml')
       const members = xmlDoc.getElementsByTagName('wfs:member')
-      const features = []
+      const features: SearchResponseDataInterface[] = []
 
       for (let i = 0; i < members.length; i++) {
         const member = members[i]
@@ -156,12 +240,12 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
           const positionElement =
             hauskoordinaten.getElementsByTagName('gml:pos')[0]
           const position =
-            positionElement?.textContent.split(' ').map(Number) || []
+            positionElement?.textContent?.split(' ').map(Number) || []
 
           const polygonElement =
             hauskoordinaten.getElementsByTagName('gml:posList')[0]
           const boundingPolygon =
-            polygonElement?.textContent.split(' ').map(Number) || []
+            polygonElement?.textContent?.split(' ').map(Number) || []
 
           features.push({
             hausnummer,
@@ -173,65 +257,26 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
         }
       }
 
-      console.log('Parsed house numbers:', features)
       return { features }
     } catch (error) {
       console.error('Error parsing house numbers response:', error)
       return { features: [] }
     }
   },
-  async sendSearchRequest(
-    { commit, rootGetters: { configuration }, dispatch },
-    { input }
-  ) {
-    const config = configuration.routing.addressSearch
-    const searchMethod = config.searchMethods[0]
-
-    if (!input || input.length < config.minLength) {
-      console.error('Input is too short or missing.')
-      return
-    }
-
-    const storedQueryID = 'findeStrasse'
-    const urlParams = {
-      service: 'WFS',
-      request: 'GetFeature',
-      version: '2.0.0',
-      StoredQuery_ID: storedQueryID,
-      strassenname: input,
-    }
-
-    const url = `${searchMethod.url}&${new URLSearchParams(urlParams)}`
-
-    try {
-      const response = await fetch(url, { method: 'GET' })
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`)
-      }
-
-      const text = await response.text()
-      const streetData = await dispatch('parseResponse', text)
-
-      const features = streetData.features || []
-      for (const feature of features) {
-        const hausnummern = await dispatch(
-          'fetchHausnummern',
-          feature.strassenname
-        )
-        feature.hausnummern = hausnummern.map((item) => item.hausnummer)
-      }
-
-      commit('setSearchResults', features) // der Commit muss in die Componente -> features aus den utils zurückgeben lassen
-    } catch (error) {
-      console.error('Error in sendSearchRequest:', error)
-    }
-  },
+  /**
+   * Parses XML response from the search request into structured data.
+   * @param context - empty VueX action context.
+   * @param text - XML response text.
+   * @returns Parsed street data.
+   */
+  // empty action context is necessary here
+  // eslint-disable-next-line no-empty-pattern
   parseResponse({}, text) {
     try {
       const parser = new DOMParser()
       const xmlDoc = parser.parseFromString(text, 'application/xml')
       const members = xmlDoc.getElementsByTagName('wfs:member')
-      const features = []
+      const features: FeatureInterface[] = []
 
       for (let i = 0; i < members.length; i++) {
         const member = members[i]
@@ -254,7 +299,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
             strasseElement.getElementsByTagName('gml:posList')[0]
               ?.textContent || null
 
-          const hausnummern = []
+          const hausnummern = (string | null)[]
 
           const hausnummerElements =
             strasseElement.getElementsByTagName('dog:hausnummer')
@@ -275,13 +320,96 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
           })
         }
       }
-      console.log('Extracted features:', features)
       return { features }
     } catch (error) {
       console.error('Error parsing response:', error)
       return { features: [] }
     }
   },
+  /**
+   * Sends a search request for streets based on user input.
+   * @param context - VueX action context.
+   * @param contextCommit - VueX commit function.
+   * @param contextRootGetters - Global getters.
+   * @param contextDispatch - VueX dispatch function.
+   * @param payload - Contains input search query.
+   * @param payloadInput - The street name input.
+   */
+  async sendSearchRequest(
+    { commit, rootGetters: { configuration }, dispatch },
+    { input }
+  ) {
+    const config = configuration.routing.addressSearch
+    const searchMethod = config.searchMethods[0]
+
+    if (!input || input.length < config.minLength) {
+      console.error('Input is too short or missing.')
+      return
+    }
+
+    const storedQueryID = 'findeStrasse'
+    const urlParams = {
+      service: 'WFS',
+      request: 'GetFeature',
+      version: '2.0.0',
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      StoredQuery_ID: storedQueryID, // eslint error has to be ignored, since name is determined by "AddresService HH"
+      strassenname: input,
+    }
+    const url = `${searchMethod.url}&${new URLSearchParams(urlParams)}`
+
+    try {
+      const response = await fetch(url, { method: 'GET' })
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+
+      const text = await response.text()
+      const streetData = await dispatch('parseResponse', text)
+
+      // extract the house numbers for each street of streetData
+      const features = streetData.features || []
+      for (const feature of features) {
+        const hausnummern = await dispatch(
+          'fetchHausnummern',
+          feature.strassenname
+        )
+        feature.hausnummern = hausnummern.map((item) => item.hausnummer)
+      }
+
+      commit('setSearchResults', features)
+    } catch (error) {
+      console.error('Error in sendSearchRequest:', error)
+    }
+  },
+
+  /* DRAW ROUTE ON MAP */
+
+  /**
+   * Adds features to the map.
+   * @param context - VueX action context.
+   * @param contextCommit - VueX commit function.
+   * @param payload - Feature data.
+   * @param payloadGeoJSON - GeoJSON data.
+   * @param payloadOverwrite - Whether to clear previous features.
+   */
+  addFeatures({ commit }, { geoJSON, overwrite = false }) {
+    const features = new GeoJSON().readFeatures(geoJSON).map((feature) => {
+      return feature
+    })
+
+    if (overwrite) {
+      drawSource.clear()
+    }
+    drawSource.addFeatures(features)
+    commit('updateFeatures', drawSource)
+  },
+  /**
+   * Draws the calculated route on the map.
+   * @param context - VueX action context.
+   * @param contextRootGetters - Global getters.
+   * @param contextState - VueX state object.
+   */
   drawRoute({ rootGetters: { configuration }, state }) {
     const transformedCoordinates =
       state.searchResponseData.features[0].geometry.coordinates.map(
@@ -300,26 +428,23 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     )
     drawSource.addFeature(routeFeature)
   },
-  addFeatures({ commit }, { geoJSON, overwrite = false }) {
-    const features = new GeoJSON().readFeatures(geoJSON).map((feature) => {
-      return feature
-    })
 
-    if (overwrite) {
-      drawSource.clear()
-    }
-    drawSource.addFeatures(features)
-    commit('updateFeatures', drawSource)
-  },
-  initializeConfigStyle: ({ commit, getters: { routingConfiguration } }) => {
-    if (routingConfiguration?.style?.stroke?.color) {
-      commit('setSelectedStrokeColor', routingConfiguration.style.stroke.color)
-    }
-  },
+  /* RESET */
+
+  /**
+   * Deletes the current route drawing from the map.
+   */
   deleteRouteDrawing() {
     drawSource.clear()
   },
-  resetCoordinates({ commit, dispatch, state }) {
+  /**
+   * Resets the selected coordinates and search settings.
+   * @param context - VueX action context.
+   * @param contextCommit - VueX commit function.
+   * @param contextDispatch - VueX dispatch function.
+   * @param contextState - VueX state object.
+   */
+  resetCoordinates({ commit, dispatch }) {
     commit('setStart', [])
     commit('setEnd', [])
     commit('setStartAddress', '')
