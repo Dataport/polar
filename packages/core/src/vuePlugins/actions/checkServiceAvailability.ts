@@ -28,6 +28,7 @@ export default function (
             if (this.hasModule(['plugin', 'toast'])) {
               this.dispatch('plugin/toast/addToast', {
                 type: 'warning',
+                // @ts-expect-error | t seems to be mistyped https://www.i18next.com/translation-function/interpolation#basic
                 text: i18next.t('error.serviceUnavailable', {
                   serviceId: service.id,
                   serviceName: service.name,
