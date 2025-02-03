@@ -18,7 +18,7 @@
   "main": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/plugins/AddressSearch"
   },
   "files": [
@@ -26,9 +26,9 @@
     "CHANGELOG.md"
   ],
   "peerDependencies": {
-    "@masterportal/masterportalapi": "2.40.0",
+    "@masterportal/masterportalapi": "2.45.0",
     "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "^9.2.4",
+    "ol": "^10.3.1",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },

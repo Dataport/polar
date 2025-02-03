@@ -16,7 +16,7 @@
   "main": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/plugins/GeoLocation"
   },
   "files": [
@@ -24,7 +24,7 @@
     "CHANGELOG.md"
   ],
   "peerDependencies": {
-    "ol": "^9.2.4"
+    "ol": "^10.3.1"
   },
   "devDependencies": {
     "@polar/lib-passes-boundary-check": "^2.0.0",

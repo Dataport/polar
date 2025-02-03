@@ -8,7 +8,7 @@
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/clients/textLocator"
   },
   "main": "dist/client-text-locator.js",
@@ -39,6 +39,9 @@
     "@turf/union": "^7.1.0",
     "js-levenshtein": "^1.1.6",
     "lodash.debounce": "^4.0.8"
+  },
+  "peerDependencies": {
+    "ol": "^10.3.1"
   },
   "nx": {
     "includedScripts": ["build", "dev"]

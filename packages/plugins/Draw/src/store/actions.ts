@@ -1,10 +1,10 @@
 import VectorSource from 'ol/source/Vector'
 import { Interaction, Select } from 'ol/interaction'
-import { PolarActionTree } from '@polar/lib-custom-types'
+import { DrawMode, MeasureMode, PolarActionTree } from '@polar/lib-custom-types'
 import GeoJSON from 'ol/format/GeoJSON'
 import { Circle, Point } from 'ol/geom'
 import createDrawLayer from '../utils/createDrawLayer'
-import { DrawGetters, DrawState } from '../types'
+import { DrawGetters, DrawState, Mode } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
 import createDrawStyle from '../utils/createDrawStyle'
 import createInteractions from './createInteractions'
@@ -27,7 +27,7 @@ export const makeActions = () => {
     setupModule({
       commit,
       dispatch,
-      getters: { configuration },
+      getters: { configuration, measureOptions, selectableDrawModes },
       rootGetters: { map },
     }) {
       dispatch('initializeConfigStyle')
@@ -38,13 +38,25 @@ export const makeActions = () => {
 
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
+
+      const drawModes = Object.keys(selectableDrawModes)
+      if (!drawModes.includes('Point')) {
+        commit('setDrawMode', drawModes[0])
+      }
+      if (measureOptions.initialOption) {
+        commit('setMeasureMode', measureOptions.initialOption)
+      }
     },
-    setMode({ commit, dispatch }, mode) {
-      commit('setMode', mode)
+    setDrawMode({ commit, dispatch }, drawMode: DrawMode) {
+      commit('setDrawMode', drawMode)
       dispatch('updateInteractions')
     },
-    setDrawMode({ commit, dispatch }, drawMode) {
-      commit('setDrawMode', drawMode)
+    setMeasureMode({ commit, dispatch }, measureMode: MeasureMode) {
+      commit('setMeasureMode', measureMode)
+      dispatch('updateInteractions')
+    },
+    setMode({ commit, dispatch }, mode: Mode) {
+      commit('setMode', mode)
       dispatch('updateInteractions')
     },
     setTextInput(
@@ -68,7 +80,12 @@ export const makeActions = () => {
       }
     },
     setSelectedStrokeColor(
-      { commit, dispatch, getters: { configuration, selectedFeature, mode } },
+      {
+        commit,
+        dispatch,
+        getters: { configuration, measureMode, mode, selectedFeature },
+        rootGetters: { map },
+      },
       selectedStrokeColor
     ) {
       const featureStyle = selectedFeature?.getStyle()
@@ -77,8 +94,10 @@ export const makeActions = () => {
         dispatch('updateInteractions')
       } else if (selectedFeature && featureStyle) {
         const style = createDrawStyle(
-          selectedFeature?.getGeometry()?.getType() || mode,
+          selectedFeature.getGeometry()?.getType() || mode,
           selectedStrokeColor,
+          measureMode,
+          map.getView().getProjection(),
           configuration?.style
         )
         selectedFeature.setStyle(style)

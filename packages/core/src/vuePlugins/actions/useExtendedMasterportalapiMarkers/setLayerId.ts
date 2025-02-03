@@ -13,7 +13,7 @@ export const setLayerId = (map: Map, feature: Feature): void => {
     .getArray()
     .find((layer) => {
       if (layer instanceof VectorLayer) {
-        let step: VectorLayer<Feature> | VectorSource | Cluster<Feature> = layer
+        let step: VectorLayer | VectorSource | Cluster<Feature> = layer
         while (step instanceof VectorLayer || step instanceof Cluster) {
           // @ts-expect-error | Clusters in masterportalapi always have a source.
           step = step.getSource()

@@ -1,4 +1,6 @@
-const locales = [
+import { LanguageOption } from '@polar/lib-custom-types'
+
+const language: LanguageOption[] = [
   {
     type: 'de',
     resources: {
@@ -44,4 +46,4 @@ const locales = [
   },
 ]
 
-export default locales
+export default language

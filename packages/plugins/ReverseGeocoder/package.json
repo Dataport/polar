@@ -15,7 +15,7 @@
   "main": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/plugins/ReverseGeocoder"
   },
   "files": [
@@ -23,7 +23,7 @@
     "CHANGELOG.md"
   ],
   "peerDependencies": {
-    "ol": "^9.2.4",
+    "ol": "^10.3.1",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {

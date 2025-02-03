@@ -9,11 +9,11 @@
   "main": "index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/lib/passesBoundaryCheck"
   },
   "devDependencies": {
     "@polar/lib-custom-types": "^1.1.0",
-    "ol": "^9.2.4"
+    "ol": "^10.3.1"
   }
 }

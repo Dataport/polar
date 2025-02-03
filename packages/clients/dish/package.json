@@ -8,7 +8,7 @@
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/clients/dish"
   },
   "main": "dist/client-dish.js",
@@ -22,7 +22,7 @@
     "dev": "vite --host"
   },
   "devDependencies": {
-    "@masterportal/masterportalapi": "2.40.0",
+    "@masterportal/masterportalapi": "2.45.0",
     "@polar/core": "^2.0.0",
     "@polar/lib-custom-types": "^1.5.0",
     "@polar/lib-get-features": "^2.0.0",

@@ -16,10 +16,10 @@
   "main": "index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/lib/invisibleStyle"
   },
   "peerDependencies": {
-    "ol": "^9.2.4"
+    "ol": "^10.3.1"
   }
 }

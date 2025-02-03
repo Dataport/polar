@@ -12,11 +12,13 @@ export default function (
     getters: {
       configuration,
       drawMode,
+      measureMode,
       mode,
+      selectedStrokeColor,
       textInput,
       textSize,
-      selectedStrokeColor,
     },
+    rootGetters: { map },
   }: PolarActionContext<DrawState, DrawGetters>,
   { drawSource, drawLayer }: CreateInteractionsPayload
 ): Interaction[] | Promise<Interaction[]> {
@@ -32,6 +34,8 @@ export default function (
     const style = createDrawStyle(
       drawMode,
       selectedStrokeColor,
+      measureMode,
+      map.getView().getProjection(),
       configuration?.style
     )
 
@@ -40,6 +44,8 @@ export default function (
       type: drawMode,
       style,
     })
+    // @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
+    draw._isDrawPlugin = true
     draw.on('drawend', (e) => e.feature.setStyle(style))
 
     return [draw, new Snap({ source: drawSource })]

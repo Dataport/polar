@@ -130,6 +130,11 @@ export const mapConfiguration = {
     ],
   },
   draw: {
+    measureOptions: {
+      metres: true,
+      kilometres: true,
+      hectares: true,
+    },
     selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
     textStyle: {
       font: {
@@ -161,7 +166,7 @@ export const mapConfiguration = {
   gfi: {
     mode: 'bboxDot',
     activeLayerPath: 'plugin/layerChooser/activeMaskIds',
-    boxSelect: true,
+    multiSelect: 'circle',
     layers: {
       [uBahn]: {
         geometry: true,
@@ -232,15 +237,15 @@ export const mapConfiguration = {
       name: 'snowbox.layers.rapid',
     },
     {
-      id: reports,
-      type: 'mask',
-      name: 'snowbox.layers.reports',
-    },
-    {
       id: ausgleichsflaechen,
       type: 'mask',
       name: 'snowbox.layers.ausgleichsflaechen',
       styleId: 'panda',
+    },
+    {
+      id: reports,
+      type: 'mask',
+      name: 'snowbox.layers.reports',
     },
     {
       id: hamburgBorder,
