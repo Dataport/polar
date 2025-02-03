@@ -14,10 +14,12 @@
  */
 
 const fs = require('fs')
+const path = require('path')
 const fsOptions = { encoding: 'utf8' }
 
 const sourceFile = process.argv[2]
 const targetFile = process.argv[3]
+const targetDirname = path.dirname(targetFile)
 
 const cssText = fs.readFileSync(sourceFile, fsOptions)
 
@@ -45,4 +47,7 @@ const targetFileContent = `const styleVariables: Record<string, string> = ${JSON
 export default styleVariables
 `
 
+if (!fs.existsSync(targetDirname)) {
+  fs.mkdirSync(targetDirname, { recursive: true })
+}
 fs.writeFileSync(targetFile, targetFileContent, fsOptions)
