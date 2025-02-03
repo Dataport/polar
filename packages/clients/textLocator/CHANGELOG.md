@@ -3,6 +3,7 @@
 ## unpublished
 
 - Chore: Update `@polar`-dependencies to the latest versions.
+- Chore: Add missing `ol` peerDependency.
 
 ## 1.0.0
 

@@ -2,11 +2,13 @@
 
 ## unpublished
 
+- Breaking: Upgrade `@masterportal/masterportalapi` from `2.40.0` to `2.45.0` and subsequently `ol` from `^9.2.4` to `^10.3.1`.
 - Feature: Add new reusable component `RadioCard.vue` to the package.
 - Fix: Do not break themes of external Vuetify apps.
 - Chore: Add documentation regarding icon override functionality.
 
 ## 2.0.1
+
 - Fix: Add `crossOrigin` differently to layer sources that are an instance of `ImageWMS` as they require it being set as `crossOrigin_` to be recognized.
 - Fix: Add missing `font-family` css so that tooltips are always `Arial, sans-serif`.
 

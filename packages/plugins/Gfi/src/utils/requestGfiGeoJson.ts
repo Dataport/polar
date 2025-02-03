@@ -25,7 +25,7 @@ export default ({
 }: {
   map: Map
   coordinateOrExtent: [number, number] | [number, number, number, number]
-  layer: VectorLayer<Feature>
+  layer: VectorLayer
 }): Promise<GeoJsonFeature[]> =>
   Promise.resolve(
     (coordinateOrExtent.length === 2
