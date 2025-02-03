@@ -205,7 +205,8 @@ const mapConfiguration = {
   },
 ]
 </code></pre>
-<p>To figure out the name of the locales to override, inspect the matching plugin in GitHub's file browser. In <code>packages/plugins</code>, open the plugin you desire to override. Each plugin's <code>src</code> folder contains a <code>language.ts</code> listing all used locale keys with appropriate nesting.</p>
+<p>To figure out the name of overridable locales, inspect the documentation of your client; <a href="https://dataport.github.io/polar/docs/snowbox/client-snowbox.html">for example, this is the documentation page of the snowbox</a>. All child documents with locales feature a table of default translations at the end, and some clients bring their own locales and pre-existing overrides.</p>
+<p>When reading the locale tables, please mind that the dot notation (<code>a.b.c | value</code>) has to be written as separate keys in nested objects as seen in the example above (<code>{a: {b: {c: &quot;value&quot;}}}</code>).</p>
 <h5 id="mapconfiguration.extendedmasterportalapimarkers" tabindex="-1">mapConfiguration.extendedMasterportalapiMarkers</h5>
 <table>
 <thead>
@@ -731,6 +732,50 @@ map.$store.watch(
 </table>
 
     
+    <h2>Locales</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Locale Key</th>
+          <th scope="col">German default</th>
+          <th scope="col">English default</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>common.canvas.label</td>
+          <td>Kartenanwendung</td>
+          <td>Map application</td>
+        </tr>
+        
+        <tr>
+          <td>common.error.serviceUnavailable</td>
+          <td>Der Kartendienst "{{serviceName}}" (ID: {{serviceId}}) ist derzeit nicht verfügbar. Dies kann die Funktionalität der Karte einschränken.</td>
+          <td>Service  "{{serviceName}}" (ID: {{serviceId}}) is unavailable. This may limit the map's functionality.</td>
+        </tr>
+        
+        <tr>
+          <td>common.overlay.noControlOnZoom</td>
+          <td>Verwenden Sie Strg+Scrollen zum Zoomen der Karte</td>
+          <td>Use Ctrl+Mousewheel to zoom into the map</td>
+        </tr>
+        
+        <tr>
+          <td>common.overlay.noCommandOnZoom</td>
+          <td>Verwenden Sie Command ⌘ + Scrollen zum Zoomen der Karte</td>
+          <td>Use Command ⌘ + Mousewheel to zoom into the map</td>
+        </tr>
+        
+        <tr>
+          <td>common.overlay.oneFingerPan</td>
+          <td>Verwenden Sie mindestens zwei Finger zum Verschieben der Karte</td>
+          <td>Use at least two fingers to pan the map</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
   </article>
   <hr>
   <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
