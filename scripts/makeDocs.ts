@@ -16,7 +16,7 @@
  * longer publish a client's API.md, as it will be included twice. (Generated
  * docs and .md.)
  *
- * Call like `npx tsx ./scripts/makeDocs.ts ./path/to/client`.
+ * Call like `tsx ./scripts/makeDocs.ts ./path/to/client`.
  *
  * Headings in markdowns will get a slugified ID by markdown-it-anchor to be linkable.
  * It uses the default slugify function:
