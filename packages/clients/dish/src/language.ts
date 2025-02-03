@@ -1,3 +1,5 @@
+import { LanguageOption } from '@polar/lib-custom-types'
+
 export const dishDe = {
   backendSizeError:
     'Die Suche ist zu allgemein. Bitte wählen Sie weitere Suchbegriffe oder schränken Sie die Suche über einen Filter ein.',
@@ -38,7 +40,7 @@ export const resourcesEn = {
   },
 } as const
 
-const locales = [
+const locales: LanguageOption[] = [
   {
     type: 'de',
     resources: resourcesDe,

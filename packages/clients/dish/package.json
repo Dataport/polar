@@ -8,7 +8,7 @@
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/clients/dish"
   },
   "main": "dist/client-dish.js",
@@ -17,7 +17,7 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "postversion": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
     "dev": "vite --host"
   },

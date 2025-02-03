@@ -52,7 +52,15 @@
           Simulate SPA-style rerendering
         </button>
       </fieldset>
-
+      <fieldset>
+        <legend>stadtwaldActive:</legend>
+        <button id="stadtwaldOn">
+          Enable stadtwald layer
+        </button>
+        <button id="stadtwaldOff">
+          Disable stadtwald layer
+        </button>
+      </fieldset>
       <h2>Subscribed data</h2>
       <ul id="subscribed-data-list"></ul>
     </div>
@@ -62,12 +70,14 @@
       import meldemichelMapClient from '../dist/client-meldemichel.js'
       import { makeSimulateRecreate } from './simulateRecreate.js'
 
+      let mapInstance
+
       const setup = async () => {
         const isMovable = document.querySelector('input[name="move"]:checked').value === 'movable'
         const fill = isMovable ? '#0392cf' : '#ff0019'
         const movable = isMovable ? 'drag' : 'none'
 
-        const mapInstance = await meldemichelMapClient.createMap({
+        mapInstance = await meldemichelMapClient.createMap({
           containerId: 'polarstern',
           mode: 'SINGLE',
           configOverride: {
@@ -105,6 +115,16 @@
       }
 
       document.getElementById('rerender').onclick = await makeSimulateRecreate(setup)
+
+      document.getElementById('stadtwaldOn').onclick = () => {
+        mapInstance.$store.dispatch('meldemichel/setMapState', {
+        stadtwaldActive: true,
+      })}
+
+      document.getElementById('stadtwaldOff').onclick = () => {
+        mapInstance.$store.dispatch('meldemichel/setMapState', {
+        stadtwaldActive: false,
+      })}
     </script>
   </body>
 </html>

@@ -20,6 +20,7 @@ const getInitialState = (): DrawState => ({
   },
   selectedFeature: 1,
   selectedStrokeColor: '#000000',
+  measureMode: 'none',
 })
 
 // OK for module creation
@@ -69,16 +70,46 @@ export const makeStoreModule = () => {
       selectableModes(_, { configuration }) {
         const includesWrite =
           configuration.selectableDrawModes?.includes('Text')
-        const selectableModesDraw = {
+        const includesMeasure = configuration.measureOptions !== undefined
+        let drawLabel = 'draw'
+        if (includesWrite && includesMeasure) {
+          drawLabel = 'writeAndMeasure'
+        } else if (includesWrite) {
+          drawLabel = 'write'
+        } else if (includesMeasure) {
+          drawLabel = 'measure'
+        }
+        return {
           none: 'plugins.draw.mode.none',
-          draw: includesWrite
-            ? 'plugins.draw.mode.write'
-            : 'plugins.draw.mode.draw',
+          draw: `plugins.draw.mode.${drawLabel}`,
           edit: 'plugins.draw.mode.edit',
           delete: 'plugins.draw.mode.delete',
         }
-        return selectableModesDraw
       },
+      measureOptions: (_, { configuration }) =>
+        configuration.measureOptions || {},
+      selectableMeasureModes: (_, { drawMode, measureOptions }) =>
+        (drawMode === 'LineString'
+          ? Object.entries(measureOptions).filter(
+              ([option]) => option !== 'hectares'
+            )
+          : Object.entries(measureOptions)
+        )
+          .filter((option) => option[1] === true)
+          .reduce(
+            (acc, [option]) => ({
+              ...acc,
+              [option]:
+                `common:plugins.draw.measureMode.${option}` +
+                (drawMode === 'Polygon' && option !== 'hectares' ? 'Area' : ''),
+            }),
+            { none: 'common:plugins.draw.measureMode.none' }
+          ),
+      showMeasureOptions: ({ drawMode, mode }, { measureOptions }) =>
+        measureOptions &&
+        Object.values(measureOptions).some((option) => option === true) &&
+        mode === 'draw' &&
+        ['LineString', 'Polygon'].includes(drawMode),
       showTextInput({ drawMode, mode }, { selectedFeature }) {
         return (
           (drawMode === 'Text' && mode === 'draw') ||
@@ -130,9 +161,11 @@ export const makeStoreModule = () => {
           const isCircle = type === 'Circle'
           const jsonFeature: Feature = {
             type: 'Feature',
-            properties: feature.get('text')
-              ? { text: feature.get('text') }
-              : {},
+            properties: Object.fromEntries(
+              Object.entries(feature.getProperties()).filter(
+                ([property]) => property !== 'geometry'
+              )
+            ),
             geometry: {
               // @ts-expect-error | A LinearRing can currently not be drawn
               type: isCircle ? 'Point' : type,

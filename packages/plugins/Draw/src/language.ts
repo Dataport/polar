@@ -6,7 +6,9 @@ export const resourcesDe = {
       mode: {
         none: 'Keine Interaktion',
         draw: 'Zeichnen',
+        measure: 'Zeichnen und Messen',
         write: 'Zeichnen und Schreiben',
+        writeAndMeasure: 'Zeichnen, Schreiben und Messen',
         edit: 'Bearbeiten',
         delete: 'Löschen',
       },
@@ -17,12 +19,19 @@ export const resourcesDe = {
         polygon: 'Polygon',
         text: 'Text',
       },
+      measureMode: {
+        none: 'Keine Messung',
+        metres: 'm / m²',
+        kilometres: 'km / km²',
+        hectares: 'km / ha',
+      },
       options: {
         stroke: 'Linienfarbe',
       },
       title: {
-        mode: 'Modus',
         drawMode: 'Zeichenmodus',
+        mode: 'Modus',
+        measureMode: 'Messmodus',
         options: 'Zeichenoptionen',
       },
       label: {
@@ -38,7 +47,9 @@ export const resourcesEn = {
       mode: {
         none: 'No interaction',
         draw: 'Draw',
+        measure: 'Draw and measure',
         write: 'Draw and write',
+        writeAndMeasure: 'Draw, write and measure',
         edit: 'Edit',
         delete: 'Delete',
       },
@@ -49,12 +60,21 @@ export const resourcesEn = {
         polygon: 'Polygon',
         text: 'Text',
       },
+      measureMode: {
+        none: 'No measure',
+        metres: 'm',
+        metresArea: 'm / m²',
+        kilometres: 'km',
+        kilometresArea: 'km / km²',
+        hectares: 'km / ha',
+      },
       options: {
         stroke: 'Stroke color',
       },
       title: {
-        mode: 'Mode',
         drawMode: 'Drawing mode',
+        mode: 'Mode',
+        measureMode: 'Measure mode',
         options: 'Draw options',
       },
       label: {
