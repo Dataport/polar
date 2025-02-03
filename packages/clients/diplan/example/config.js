@@ -81,8 +81,7 @@ export default {
     ],
   },
   gfi: {
-    // TODO seems to select too much; investigate when starting work on GFI
-    mode: 'intersects',
+    mode: 'bboxDot',
     layers: {
       [xplanwms]: {
         geometry: true,
