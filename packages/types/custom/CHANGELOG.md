@@ -3,6 +3,7 @@
 ## unpublished
 
 - Breaking: The type `LanguageOption` has been renamed to `Locale`.
+- Feature: The `PluginContainer` now specifies `language` as deprecated. Please use the new key `locales` instead.
 - Feature: Add new parameter `measureOptions` to `DrawConfiguration`.
 - Feature: Add new type `MeasureOptions`.
 - Feature: Add new type `MeasureMode`.
