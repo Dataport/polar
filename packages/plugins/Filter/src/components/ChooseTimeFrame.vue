@@ -10,21 +10,13 @@
       :max="maxDate"
       :first-day-of-week="1"
       :locale="language"
-      :next-month-aria-label="
-        $t('common:plugins.filter.time.vuetify.aria.nextMonth')
-      "
-      :next-year-aria-label="
-        $t('common:plugins.filter.time.vuetify.aria.nextYear')
-      "
-      :prev-month-aria-label="
-        $t('common:plugins.filter.time.vuetify.aria.prevMonth')
-      "
-      :prev-year-aria-label="
-        $t('common:plugins.filter.time.vuetify.aria.prevYear')
-      "
+      :next-month-aria-label="$t('plugins.filter.time.vuetify.aria.nextMonth')"
+      :next-year-aria-label="$t('plugins.filter.time.vuetify.aria.nextYear')"
+      :prev-month-aria-label="$t('plugins.filter.time.vuetify.aria.prevMonth')"
+      :prev-year-aria-label="$t('plugins.filter.time.vuetify.aria.prevYear')"
     ></v-date-picker>
     <p class="polar-filter-time-frame-explanation">
-      {{ $t('common:plugins.filter.time.chooseTimeFrame.info') }}
+      {{ $t('plugins.filter.time.chooseTimeFrame.info') }}
     </p>
   </div>
 </template>

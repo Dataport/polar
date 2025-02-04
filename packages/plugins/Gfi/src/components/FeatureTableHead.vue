@@ -1,8 +1,8 @@
 <template>
   <thead>
     <tr>
-      <th class="text-left">{{ $t('common:plugins.gfi.header.field') }}</th>
-      <th class="text-left">{{ $t('common:plugins.gfi.header.value') }}</th>
+      <th class="text-left">{{ $t('plugins.gfi.header.field') }}</th>
+      <th class="text-left">{{ $t('plugins.gfi.header.value') }}</th>
     </tr>
   </thead>
 </template>
