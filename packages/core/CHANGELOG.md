@@ -5,6 +5,7 @@
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.40.0` to `2.45.0` and subsequently `ol` from `^9.2.4` to `^10.3.1`.
 - Feature: Add new reusable component `RadioCard.vue` to the package.
 - Fix: Do not break themes of external Vuetify apps.
+- Chore: Add documentation regarding icon override functionality.
 
 ## 2.0.1
 

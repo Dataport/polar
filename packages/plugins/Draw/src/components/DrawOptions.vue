@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-card-title>{{ $t('common:plugins.draw.title.options') }}</v-card-title>
+    <v-card-title>{{ $t('plugins.draw.title.options') }}</v-card-title>
     <v-card-actions>
       <v-col>
         <v-btn
           class="polar-draw-color-picker-button"
           @click="toggleColorPicker"
         >
-          <v-label>{{ $t('common:plugins.draw.options.stroke') }}</v-label>
+          <v-label>{{ $t('plugins.draw.options.stroke') }}</v-label>
           <v-icon right>
             {{
               isColorPickerVisible

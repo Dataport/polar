@@ -4,20 +4,20 @@
       <v-btn
         icon
         small
-        :aria-label="$t('common:plugins.layerChooser.returnToLayers')"
+        :aria-label="$t('plugins.layerChooser.returnToLayers')"
         @click="setOpenedOptions(null)"
       >
         <v-icon small>fa-chevron-left</v-icon>
       </v-btn>
       <v-card-title class="layer-chooser-options-card-title">{{
-        $t('common:plugins.layerChooser.optionsHeader', openedOptionsService)
+        $t('plugins.layerChooser.optionsHeader', openedOptionsService)
       }}</v-card-title>
     </v-card-actions>
     <template
       v-if="openedOptionsService.options.layers && openedOptionsServiceLayers"
     >
       <v-card-title id="polar-label-options-layer-title">{{
-        $t('common:plugins.layerChooser.layerHeader')
+        $t('plugins.layerChooser.layerHeader')
       }}</v-card-title>
       <v-card-text>
         <template

@@ -18,16 +18,16 @@
         <thead>
           <tr>
             <th class="text-left">
-              {{ $t('common:textLocator.addressSearch.resultInfo.name') }}
+              {{ $t('textLocator.addressSearch.resultInfo.name') }}
             </th>
             <th class="text-left">
-              {{ $t('common:textLocator.addressSearch.resultInfo.type') }}
+              {{ $t('textLocator.addressSearch.resultInfo.type') }}
             </th>
             <th class="text-left">
-              {{ $t('common:textLocator.addressSearch.resultInfo.language') }}
+              {{ $t('textLocator.addressSearch.resultInfo.language') }}
             </th>
             <th class="text-left">
-              {{ $t('common:textLocator.addressSearch.resultInfo.timeFrame') }}
+              {{ $t('textLocator.addressSearch.resultInfo.timeFrame') }}
             </th>
           </tr>
         </thead>

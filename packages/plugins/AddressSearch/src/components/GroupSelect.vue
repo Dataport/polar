@@ -4,7 +4,7 @@
     v-model="selectedItem"
     dense
     class="polar-plugin-address-search-group-select"
-    :aria-label="$t('common:plugins.addressSearch.groupSelector')"
+    :aria-label="$t('plugins.addressSearch.groupSelector')"
     :items="
       // mapping in template to guarantee update on language change
       groupSelectOptions.map(({ value, text }) => ({ value, text: $t(text) }))

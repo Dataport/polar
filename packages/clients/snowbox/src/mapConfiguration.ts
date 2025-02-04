@@ -3,7 +3,7 @@ import {
   ExtendedMasterportalapiMarkersIsSelectableFunction,
   GfiIsSelectableFunction,
 } from '@polar/lib-custom-types'
-import language from './language'
+import locales from './locales'
 
 const eigengrau = '#16161d'
 const somewhatBlue = '#002177'
@@ -49,7 +49,7 @@ const isReportSelectable: ExtendedMasterportalapiMarkersIsSelectableFunction = (
 
 export const mapConfiguration = {
   language: 'en',
-  locales: language,
+  locales,
   vuetify: {
     theme: {
       themes: {

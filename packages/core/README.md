@@ -40,7 +40,8 @@ const Plugin = (options: PluginOptions) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'plugin', // unique technical name
     plugin: Plugin, // a vue component
-    language, // an i18n locale batch
+    locales, // an i18n Locale[]
+    language, // @deprecated an i18n locale batch
     options, // configuration; overriddable with mapConfiguration on createMap
     storeModule, // vuex store module, if required
   })
@@ -91,7 +92,7 @@ The mapConfiguration allows controlling many client instance details.
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalapi. |
 | featureStyles | string? | Optional path to define styles for vector features. See `mapConfiguration.featureStyles` for more information. May be a url or a path on the local file system. |
 | language | enum["de", "en"]? | Initial language. |
-| locales | LanguageOption[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
+| locales | Locale[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
 | <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
 | stylePath | string? | This path will be used to create the link node in the client itself. It defaults to `'./style.css'`. |
@@ -107,7 +108,7 @@ const mapConfiguration = {
   stylePath: '../dist/polar-client.css',
   checkServiceAvailability: true,
   language: 'de',
-  locales, // the languageOptions object will normally be outsourced to another file
+  locales, // the locales object will normally be outsourced to another file
   layerConf, // the layerConf object will normally be outsourced to another file - for more information, see the relevant chapter
   layers: [
     // parts of the layer configuration can be outsourced to another file
@@ -143,14 +144,14 @@ const mapConfiguration = {
 
 </details>
 
-##### mapConfiguration.LanguageOption
+##### mapConfiguration.Locale
 
 A language option is an object consisting of a type (its language key) and the i18next resource definition. You may e.g. decide that the texts offered in the LayerChooser do not fit the style of your client, or that they could be more precise in your situation since you're only using *very specific* overlays.
 
-An example for a LanguageOption array usable in `createMap` is this array:
+An example for a Locale array usable in `createMap` is this array:
 
 ```ts
-const languageOptions: LanguageOption[] = [
+const locales: Locale[] = [
   {
     type: 'de',
     resources: {
@@ -493,6 +494,23 @@ Additionally to the regular fields, `primaryContrast` and `secondaryContrast` ar
   }
 }
 ```
+
+Regarding icons, you may add `vuetifyOptions.icons.values` as `{"name": x}`, where `x` are the path commands (commonly '[d](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d)') of the SVG to draw. An icon 'pen' will then be available as `"$vuetify.icons.pen"` in `v-icon` (and all places in the configuration where icons can be set). Any required styling can be added via `.css`, appropriate classnames would be `.v-icon__svg` and its path child `.v-icon__svg path`.
+
+```js
+{
+  icons: {
+    values: {
+      // example path from icomoon free
+      "arrow-drop-up": "M298.667 341.333l213.333 213.333 213.333-213.333h-426.667z",
+    }
+  }
+}
+```
+
+This specific path would require resizing via CSS, e.g. `scale: 0.0234375;` on the path.
+
+If you need a compilation from [icomoon's](https://icomoon.io/) svg export (or samey format) to such an object, see `scripts/precompileSvg.js` in the root folder.
 
 ## Store
 

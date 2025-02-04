@@ -38,12 +38,12 @@ export default Vue.extend({
     ]),
     tooltipMessage() {
       if (this.isGeolocationDenied) {
-        return 'common:plugins.geoLocation.button.tooltip.locationAccessDenied'
+        return 'plugins.geoLocation.button.tooltip.locationAccessDenied'
       }
       if (this.tracking) {
-        return 'common:plugins.geoLocation.button.tooltip.removeLocationMarker'
+        return 'plugins.geoLocation.button.tooltip.removeLocationMarker'
       }
-      return 'common:plugins.geoLocation.button.tooltip.placeLocationMarker'
+      return 'plugins.geoLocation.button.tooltip.placeLocationMarker'
     },
   },
   methods: {
