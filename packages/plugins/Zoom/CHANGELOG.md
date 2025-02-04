@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add option to configure used icons.
+
 ## 1.3.0
 
 - Feature: Add easing between zoom levels.

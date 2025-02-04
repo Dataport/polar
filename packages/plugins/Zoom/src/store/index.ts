@@ -66,6 +66,13 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      icons: (_, __, ___, rootGetters) => {
+        const icons = rootGetters.configuration.zoom?.icons
+        return {
+          zoomIn: icons?.zoomIn ?? 'fa-plus',
+          zoomOut: icons?.zoomOut ?? 'fa-minus',
+        }
+      },
       maximumZoomLevelActive: (_, { zoomLevel, maximumZoomLevel }): boolean =>
         zoomLevel >= maximumZoomLevel,
       minimumZoomLevelActive: (_, { zoomLevel, minimumZoomLevel }): boolean =>

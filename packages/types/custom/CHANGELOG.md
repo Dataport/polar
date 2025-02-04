@@ -4,6 +4,10 @@
 
 - Breaking: The type `LanguageOption` has been renamed to `Locale`.
 - Feature: The `PluginContainer` now specifies `language` as deprecated. Please use the new key `locales` instead.
+- Feature: Add new optional parameters `icons` to `AttributionConfiguration` and `ZoomConfiguration` to override plugin specific icons.
+- Feature: Add new type `ZoomIcons`.
+- Feature: Add new interface `LegendConfiguration` including new available configuration options to override icons for `@polar/plugin-legend`.
+- Feature: Add new optional property `legend` to `MapConfig`.
 - Feature: Add new parameter `measureOptions` to `DrawConfiguration`.
 - Feature: Add new type `MeasureOptions`.
 - Feature: Add new type `MeasureMode`.
