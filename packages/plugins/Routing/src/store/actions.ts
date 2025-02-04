@@ -4,7 +4,12 @@ import Feature from 'ol/Feature'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import GeoJSON from 'ol/format/GeoJSON'
 import { transform } from 'ol/proj'
-import { RoutingState, RoutingGetters, FeatureInterface, SearchResponseDataInterface } from '../types'
+import {
+  RoutingState,
+  RoutingGetters,
+  FeatureInterface,
+  SearchResponseDataInterface,
+} from '../types'
 import createDrawLayer from '../utils/createDrawLayer'
 import createDrawStyle from '../utils/createDrawStyle'
 
@@ -16,20 +21,19 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
    * Initializes the tool by updating the state from mapConfig and by setting up the draw layer and click event listener.
    * @param context - VueX action context.
    * @param contextRootGetters - Global getters.
-   * @param contextDispatch - VueX dispatch function.
    * @param contextCommit - VueX commit function.
    * @param contextState - VueX state object.
    */
   initializeTool({ rootGetters: { map, configuration }, commit, state }) {
     /* update state with configuration settings */
 
-    if(configuration?.routing?.selectableTravelModes.length > 0){
+    if (configuration?.routing?.selectableTravelModes.length > 0) {
       commit(
         'setSelectableTravelModes',
         configuration?.routing?.selectableTravelModes
       )
     }
-    if(configuration?.routing?.selectablePreferences.length > 0){
+    if (configuration?.routing?.selectablePreferences.length > 0) {
       commit(
         'setSelectablePreferences',
         configuration?.routing?.selectablePreferences
@@ -299,7 +303,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
             strasseElement.getElementsByTagName('gml:posList')[0]
               ?.textContent || null
 
-          const hausnummern = (string | null)[]
+          const hausnummern: string | null = []
 
           const hausnummerElements =
             strasseElement.getElementsByTagName('dog:hausnummer')
