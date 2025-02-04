@@ -2,6 +2,7 @@ import polarCore, { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
 import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'
+import Export from '@polar/plugin-export'
 import Gfi from '@polar/plugin-gfi'
 import IconMenu from '@polar/plugin-icon-menu'
 import LayerChooser from '@polar/plugin-layer-chooser'
@@ -90,6 +91,14 @@ polarCore.addPlugins([
     layoutTag: NineLayoutTag.TOP_LEFT,
     coordinateSources: [],
     layers: {},
+  }),
+  Export({
+    layoutTag: NineLayoutTag.BOTTOM_LEFT,
+    /*
+     * icons: Currently not implemented, provided icon set has no fitting icon
+     * atm. Suggestion: Searching for "picture" on icomoon yields nice results.
+     * We should ask implementors of diplanung-style to add them eventually.
+     */
   }),
   Scale({
     displayComponent: true,

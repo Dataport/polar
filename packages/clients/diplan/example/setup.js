@@ -42,6 +42,7 @@ export default (client, layerConf, config) => {
 
       const htmlZoom = document.getElementById('subscribed-zoom')
       const htmlGfi = document.getElementById('subscribed-gfi')
+      const htmlExport = document.getElementById('subscribed-export')
 
       mapInstance.subscribe(
         'plugin/zoom/zoomLevel',
@@ -50,6 +51,9 @@ export default (client, layerConf, config) => {
       mapInstance.subscribe(
         'plugin/gfi/featureInformation',
         (v) => (htmlGfi.innerHTML = JSON.stringify(v, null, 2))
+      )
+      mapInstance.subscribe('plugin/export/exportedMap', (screenshot) =>
+        htmlExport.setAttribute('src', screenshot)
       )
 
       window.mapInstance = mapInstance
