@@ -13,7 +13,7 @@
     "directory": "packages/lib/passesBoundaryCheck"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.1.0",
+    "@polar/lib-custom-types": "^2.0.0",
     "ol": "^10.3.1"
   }
 }
