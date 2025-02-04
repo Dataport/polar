@@ -26,7 +26,7 @@ const hamburgRed = '#ff0019'
 
 const commonMapConfiguration: Partial<MapConfig> = {
   checkServiceAvailability: false, // service register too long
-  locales: locales,
+  locales,
   vuetify: {
     theme: {
       themes: {
