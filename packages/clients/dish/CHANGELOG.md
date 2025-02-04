@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: If a user is geolocated outside of the map's extent, the client will inform the user of why geolocation did not take effect via a textbox.
+- Feature: If a user is geolocated outside the map's extent, the client will inform the user of why geolocation did not take effect via a textbox.
 - Fix: Extend typing for search result function according to type package update.
 - Fix: Import types `AddressSearchState` and `AddressSearchGetters` from correct position.
 - Fix: Import enum `SearchResultSymbols` from correct position.
