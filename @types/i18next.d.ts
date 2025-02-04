@@ -2,7 +2,7 @@ import 'i18next'
 
 // // // core/plugins // // //
 
-import { resourcesDe as resourcesDeCore } from '../packages/core/src/locales'
+import { resourcesDe as resourcesDeCore } from '@polar/core/src/locales'
 import { resourcesDe as resourcesDeAddressSearch } from '@polar/plugin-address-search/src/locales'
 import { resourcesDe as resourcesDeAttributions } from '@polar/plugin-attributions/src/locales'
 import { resourcesDe as resourcesDeDraw } from '@polar/plugin-draw/src/locales'
