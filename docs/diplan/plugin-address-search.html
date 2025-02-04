@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1 id="addresssearch" tabindex="-1">AddressSearch</h1>
+<h2 id="scope" tabindex="-1">Scope</h2>
+<p>The AddressSearch plugin allows users to search for an address. If multiple addresses are returned by services, the user is prompted to select a result.</p>
+<p>The plugin saves the chosen information as GeoJSON to the store so that following procedures may grab it or so that other plugins may use it.</p>
+<p>Currently supported services:</p>
+<ul>
+<li>BKG</li>
+<li>WFS</li>
+<li>Hamburg WFS-G (<code>mpapi</code>), may fit some WFS-G outside HH, test advised</li>
+</ul>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="addresssearch-1" tabindex="-1">addressSearch</h3>
+<p>The configuration allows defining and grouping services. Grouped services can be requested in a search at the same time, and one group of searches can be active at a time. When multiple searches are in a group, they may be extended with category information to make the results easier to browse.</p>
+<p>It is advised to either use one-search-per-group <em>or</em> all services in a singular group to avoid an overly complex UI. Mixed configurations may be required for more complex search requirements.</p>
+<p>In <code>categoryProperties</code> and <code>groupProperties</code>, id strings called <code>groupId</code> and <code>categoryId</code> are used. These are arbitrary strings you can introduce and reuse to group or categorize elements together. Regarding what groups and categories are, see further below.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>searchMethods</td>
+<td>searchMethodsObject[]</td>
+<td>Array of search method descriptions. Only searches configured here can be used.</td>
+</tr>
+<tr>
+<td>addLoading</td>
+<td>string?</td>
+<td>Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when starting asynchronous procedures that are intended to be communicated to the user.</td>
+</tr>
+<tr>
+<td>afterResultComponent</td>
+<td>VueConstructor?</td>
+<td>If given, this component will be rendered in the last line of every single search result. It will be forwarded its search result feature as prop <code>feature</code> of type <code>GeoJSON.Feature</code>, and the focus state of the result as prop <code>focus</code> of type <code>boolean</code>.</td>
+</tr>
+<tr>
+<td>categoryProperties</td>
+<td>Record&lt;string, categoryProperties&gt;?</td>
+<td>An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category.</td>
+</tr>
+<tr>
+<td>customSearchMethods</td>
+<td>Record&lt;string, customSearchMethod&gt;?</td>
+<td>An object with named search functions added to the existing set of configurable search methods. (See <code>addressSearch.searchMethodsObject.type</code>) This record's keys are added to that enum.</td>
+</tr>
+<tr>
+<td>customSelectResult</td>
+<td>Record&lt;string, customSelectFunction&gt;?</td>
+<td>An object that maps categoryIds to functions. These functions are then called as vuex store actions instead of the <code>selectResult</code> default implementation. This allows overriding selection behaviour with full store access. Use <code>''</code> as key for categoryless results.</td>
+</tr>
+<tr>
+<td>focusAfterSearch</td>
+<td>boolean?</td>
+<td>Whether the focus should switch to the first result after a successful search. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>groupProperties</td>
+<td>Record&lt;string, groupProperties&gt;?</td>
+<td>An object defining properties for a group. The searchMethod's groupId is used as identifier. All services without groupId fall back to the key <code>&quot;defaultGroup&quot;</code>.</td>
+</tr>
+<tr>
+<td>minLength</td>
+<td>number?</td>
+<td>Minimal input length after which searches are started. Defaults to 0.</td>
+</tr>
+<tr>
+<td>removeLoading</td>
+<td>string?</td>
+<td>Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when finishing asynchronous procedures that are intended to be communicated to the user.</td>
+</tr>
+<tr>
+<td>waitMs</td>
+<td>number?</td>
+<td>Debounce time in ms for search requests after last user input. Defaults to 0.</td>
+</tr>
+</tbody>
+</table>
+<p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/diplan/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<details>
+<summary>Example configuration</summary>
+<pre><code class="language-js">import Component from './component.vue'
+
+addressSearch: {
+  searchMethods: [
+    {
+      queryParameters: {
+        searchAddress: true,
+        searchStreets: true,
+        searchHouseNumbers: true,
+      },
+      type: 'mpapi',
+      url: 'example-url.com',
+    },
+    {
+      queryParameters: {
+        filter: {
+          bundesland: 'Schleswig-Holstein',
+        },
+      },
+      type: 'bkg',
+      url: 'other-example-url.com',
+    },
+    {
+      type: 'wfs'
+      queryParameters: {
+        srsName: 'EPSG:25832',
+        typeName: 'address_shp',
+        fieldName: 'objektid',
+        featurePrefix: 'app',
+        xmlns: 'http://www.deegree.org/app',
+        useRightHandWildcard: true,
+      },
+    }
+  ],
+  afterResultComponent: Component,
+  groupProperties: {
+    defaultGroup: {
+      limitResults: 5,
+    },
+  },
+  focusAfterSearch: true,
+  minLength: 3,
+  waitMs: 300,
+  addLoading: 'plugin/loadingIndicator/addLoadingKey',
+  removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+},
+</code></pre>
+</details>
+<h4 id="addresssearch.searchmethodsobject" tabindex="-1">addressSearch.searchMethodsObject</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>enum[&quot;bkg&quot;, &quot;wfs&quot;, &quot;mpapi&quot;]</td>
+<td>Service type. Enum can be extended by configuration, see <code>addressSearch.customSearchMethods</code>.</td>
+</tr>
+<tr>
+<td>url</td>
+<td>string</td>
+<td>Search service URL. Should you require a service provider, please contact us for further information.</td>
+</tr>
+<tr>
+<td>categoryId</td>
+<td>string?</td>
+<td>Grouped services can optionally be distinguished in the UI with categories. See <code>addressSearch.categoryProperties</code> for configuration options.</td>
+</tr>
+<tr>
+<td>groupId</td>
+<td>string?</td>
+<td>Default groupId is <code>&quot;defaultGroup&quot;</code>. All services with the same id are grouped and used together. See <code>addressSearch.groupProperties</code> for configuration options. If multiple groups exist, the UI offers a group switcher.</td>
+</tr>
+<tr>
+<td>hint</td>
+<td>string?</td>
+<td>Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key. If grouped with other services, the group's hint will be used instead.</td>
+</tr>
+<tr>
+<td>label</td>
+<td>string?</td>
+<td>Display label. Can be a locale key. If grouped with other services, the group's label will be used instead.</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>string?</td>
+<td>Placeholder string to display on input element. Can be a locale key. If grouped with other services, the group's placeholder will be used instead.</td>
+</tr>
+<tr>
+<td>queryParameters</td>
+<td>object?</td>
+<td>The object further describes details for the search request. Its contents vary by service type, see documentation below.</td>
+</tr>
+</tbody>
+</table>
+<p>Example configuration:</p>
+<pre><code class="language-js"> searchMethods: [
+  {
+    groupId: 'groupAdressSearch',
+    categoryId: 'categoryAddressSearch',
+    type: 'bkg',
+    url: 'example.com',
+    hint: 'Input of e.g. street or address',
+    label: 'Street search',
+    placeholder: 'Street name',
+    queryParameters: {
+      filter: {
+        bundesland: 'Schleswig-Holstein',
+      },
+    },
+  },
+],
+
+#### addressSearch.customSearchMethod
+
+This is a function with the following signature:
+
+```ts
+(
+  // should be used to actually abort request
+  signal: AbortSignal,
+  // base url as configured
+  url: string,
+  // input value from address search input
+  inputValue: string,
+  // whatever was configured
+  queryParameters: any
+) =&gt; Promise&lt;FeatureCollection&gt; | never
+</code></pre>
+<p>With this, arbitrary services can be supported.</p>
+<h4 id="addresssearch.customselectfunction" tabindex="-1">addressSearch.customSelectFunction</h4>
+<p>This is a function with the following signature:</p>
+<pre><code class="language-ts">({
+  // VueX context object
+  context,
+  payload: {
+    feature, // GeoJSON feature
+    categoryId // if configured on searchService, else ''
+  }
+}) =&gt; void
+</code></pre>
+<p>With this, arbitrary click results can be supported. Please mind that undocumented mutations and actions fired in such a function are subject to change without further notice.</p>
+<h4 id="addresssearch.groupproperties" tabindex="-1">addressSearch.groupProperties</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>label</td>
+<td>string</td>
+<td>Display label. Can be a locale key.</td>
+</tr>
+<tr>
+<td>resultDisplayMode</td>
+<td>enum['mixed', 'categorized']</td>
+<td>Defaults to <code>'mixed'</code>. In <code>'mixed'</code>, results of all requested services are offered in a list in no specific order. In <code>'categorized'</code>, the results are listed by their searchService's categoryId.</td>
+</tr>
+<tr>
+<td>hint</td>
+<td>string?</td>
+<td>Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key.</td>
+</tr>
+<tr>
+<td>limitResults</td>
+<td>number?</td>
+<td>If set, only the first <code>n</code> results (per category in <code>categorized</code>) are displayed initially. All further results can be opened via UI.</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>string?</td>
+<td>Placeholder string to display on input element. Can be a locale key.</td>
+</tr>
+</tbody>
+</table>
+<p>Example configuration:</p>
+<pre><code class="language-js">groupProperties: {
+  groupAdressSearch: {
+    label: 'Street search',
+    hint: 'Please enter a street name',
+    resultDisplayMode: 'categorized',
+    limitResults: 3,
+  },
+  defaultGroup: {
+    limitResults: 5,
+  },
+}
+</code></pre>
+<h4 id="addresssearch.categoryproperties" tabindex="-1">addressSearch.categoryProperties</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>label</td>
+<td>string</td>
+<td>Category label to display next to results to identify the source. Can be a locale key. Only relevant if the search's <code>groupProperties</code> linked via <code>groupId</code> contain a <code>resultDisplayMode</code> scenario that uses categories.</td>
+</tr>
+</tbody>
+</table>
+<p>Example configuration:</p>
+<pre><code class="language-js">categoryProperties: {
+  categoryAddressSearchAutocomplete: {
+    label: 'Address search hits',
+  },
+}
+</code></pre>
+<h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Acommon)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:common)</h5>
+<p>These fields are interpreted by all implemented services.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>maxFeatures</td>
+<td>number?</td>
+<td>Maximum amount of features to retrieve. Doesn't limit results if not set.</td>
+</tr>
+</tbody>
+</table>
+<p>Example configuration:</p>
+<pre><code class="language-js">queryParameters: {
+  maxFeatures: 120,
+},
+</code></pre>
+<h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Awfs)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:wfs)</h5>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>featurePrefix</td>
+<td>string</td>
+<td>XML feature prefix for WFS service.</td>
+</tr>
+<tr>
+<td>typeName</td>
+<td>string</td>
+<td>Feature type to search for by name.</td>
+</tr>
+<tr>
+<td>xmlns</td>
+<td>string</td>
+<td>XML namespace to use in search.</td>
+</tr>
+<tr>
+<td>fieldName</td>
+<td>string?</td>
+<td>Name of the type's field to search in. Mutually exclusive to <code>patterns</code>.</td>
+</tr>
+<tr>
+<td>likeFilterAttributes</td>
+<td>Record&lt;string, string&gt;?</td>
+<td>As specified by the <a href="https://schemas.opengis.net/filter/">OGC-Standard for filters</a> the <code>PropertyIsLike</code> operator requires three attributes (e.g. in WFS 2.0.0: <code>wildCard</code>, <code>singleChar</code> and <code>escapeChar</code>). These may vary in value and (with other WFS versions) also in property definition. Therefore, it is possible to configure the values of the attributes needed for WFS 2.0.0 and also to add custom attributes needed for other versions. Defaults to <code>{wildCard: &quot;\*&quot;, singleChar: &quot;.&quot;, escapeChar: &quot;!&quot;}</code>.</td>
+</tr>
+<tr>
+<td>patternKeys</td>
+<td>Record&lt;string, string&gt;?</td>
+<td>Maps field names from patterns to regexes. Each field name has to have a definition. Each regex must have one capture group that is used to search. Contents next to it are ignored for the search and just used for matching. E.g. <code>'([0-9]+)$'</code> would be a value for a key that fits an arbitrary number string at the input's end.</td>
+</tr>
+<tr>
+<td>patterns</td>
+<td>string[]?</td>
+<td>Allows specifying input patterns. In a single-field search, a pattern can be as easy as <code>{{theWholeThing}}</code>, where <code>theWholeThing</code> is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. <code>{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}</code> would fit many parcel search services. Mutually exclusive to <code>fieldName</code>.</td>
+</tr>
+<tr>
+<td>srsName</td>
+<td>string?</td>
+<td>Name of the projection (srs) for the query.</td>
+</tr>
+<tr>
+<td>useRightHandWildcard?</td>
+<td>boolean?</td>
+<td>By default, if searching for &quot;search&quot;, it is sent as &quot;search*&quot;. This behaviour can be deactivated by setting this parameter to <code>false</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Since inputs may overlap with multiple patterns, multiple queries are fired and executed on the WFS until the <code>maxFeatures</code> requirement is met, beginning with the pattern that 'looks like the user input the most'. The best-fitting pattern on the returned features will be used to generate a display string. When two patterns fit best, the first one is used.</p>
+<p>Configuration examples for the likeFilterAttributes parameter:</p>
+<ul>
+<li>WFS 2.0.0 <code>{wildCard: &quot;%&quot;, singleChar: &quot;*&quot;, escapeChar: &quot;\&quot;}</code></li>
+<li>WFS 1.0.0 <code>{wildCard: &quot;*&quot;, singleChar: &quot;*&quot;, escape: &quot;\&quot;}</code></li>
+</ul>
+<p>Example configurations:</p>
+<pre><code class="language-js">type: 'wfs'
+queryParameters: {
+  srsName: 'EPSG:25832',
+  typeName: 'address_shp',
+  fieldName: 'objektid',
+  featurePrefix: 'app',
+  xmlns: 'http://www.deegree.org/app',
+  useRightHandWildcard: true,
+}
+</code></pre>
+<pre><code class="language-js">type: 'wfs'
+queryParameters: {
+  srsName: 'EPSG:25832',
+  typeName: 'address_shp',
+  featurePrefix: 'app',
+  xmlns: 'http://www.deegree.org/app',
+  patternKeys: {
+    streetName: '([A-Za-z]+)'
+    houseNumber: '([0-9]+)'
+    postalCode: '([0-9]+)'
+    city: '([A-Za-z]+)'
+  },
+  patterns: [
+    '{{streetName}} {{houseNumber}} {{postalCode}} {{city}}' 
+  ]
+}
+</code></pre>
+<h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Ampapi)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:mpapi)</h5>
+<blockquote>
+<p><strong>Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">masterportalapi</a>. This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>searchAddress</td>
+<td>Boolean?</td>
+<td>Defines whether address search is active. For backward compatibility, if &quot;searchAddress&quot; is not configured, the &quot;searchAddress&quot; attribute is set to &quot;true&quot; when &quot;searchStreets&quot; and &quot;searchHouseNumbers&quot; are set to &quot;true&quot;.</td>
+</tr>
+<tr>
+<td>searchDistricts</td>
+<td>Boolean?</td>
+<td>Defines whether district search is active.</td>
+</tr>
+<tr>
+<td>searchHouseNumbers</td>
+<td>Boolean?</td>
+<td>Defines whether house numbers should be searched for. Requires <code>searchStreets</code> to be set to <code>true</code>, too.</td>
+</tr>
+<tr>
+<td>searchParcels</td>
+<td>Boolean?</td>
+<td>Defines whether parcels search is active.</td>
+</tr>
+<tr>
+<td>searchStreetKey</td>
+<td>Boolean?</td>
+<td>Defines whether streets should be searched for by key.</td>
+</tr>
+<tr>
+<td>searchStreets</td>
+<td>Boolean?</td>
+<td>Defines whether street search is active. Precondition to set <code>searchHouseNumbers</code> to <code>true</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>While all fields are optional, configuring none of them will yield undefined behaviour. At least one search instruction should be set to <code>true</code>.</p>
+<pre><code class="language-js">type: 'mpapi'
+queryParameters: {
+  searchAddress: true,
+  searchStreets: true,
+  searchHouseNumbers: true,
+},
+</code></pre>
+<h5 id="addresssearch.searchmethodsobject.queryparameters-(type%3Abkg)" tabindex="-1">addressSearch.searchMethodsObject.queryParameters (type:bkg)</h5>
+<p>In <em>BKG</em> mode, queryParameter's key-value pairs are used in the service query. E.g. <code>{filter: { bundesland: 'Bremen' }}</code> results in the GET request URL having <code>&amp;filter=bundesland:Bremen</code> as suffix.</p>
+<p>For more options, please check the <a href="https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf">official documentation</a> regarding what query parameters are interpreted.</p>
+<p>Additionally, it is possible to configure the parameters <code>accesstoken</code> (<code>Authorization</code>) or <code>apiKey</code> (custom header <code>X-Api-Key</code>) to send the described headers to the search service for authentication purposes.
+Note that this changes the request to be non-simple. To be able to use the parameters, the request has to be sent in <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request/mode"><code>cors</code> mode</a> and has to support preflight request <code>OPTIONS</code>.</p>
+<pre><code class="language-js">type: 'bkg'
+queryParameters: {
+  filter: {
+    bundesland: 'Schleswig-Holstein',
+  },
+},
+</code></pre>
+<h2 id="store" tabindex="-1">Store</h2>
+<h3 id="mutations" tabindex="-1">Mutations</h3>
+<h4 id="setselectedgroupname" tabindex="-1">setSelectedGroupName</h4>
+<p>This can be used to change the selected search group by name.</p>
+<pre><code class="language-js">map.$store.commit(
+  'plugin/addressSearch/setSelectedGroupName',
+  'Parcel search'
+)
+</code></pre>
+<p>Please mind that programmatically changing the search group will <em>not</em> trigger a search, unlike a search group change by the user. If you need a search after change, consider the <code>search</code> action.</p>
+<h3 id="actions" tabindex="-1">Actions</h3>
+<h4 id="search" tabindex="-1">search</h4>
+<p>This is a purely programmatical search method. It is not used by user input.</p>
+<pre><code class="language-js">map.$store.dispatch('plugin/addressSearch/search', {
+  input: 'Station Road 12',
+  autoselect: 'first',
+})
+</code></pre>
+<p>The payload object supports the following fields:</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td>string</td>
+<td>Search string to be used.</td>
+</tr>
+<tr>
+<td>autoselect</td>
+<td>enum['first', 'only', 'never']</td>
+<td>By default, 'never' is selected, and results will be presented as if the user searched for them. Setting 'only' will autoselect if a single result was returned; setting 'first' will autoselect the first of an arbitrary amount of results &gt;=1.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="state" tabindex="-1">State</h3>
+<pre><code class="language-js">map.subscribe('plugin/addressSearch/chosenAddress', (chosenAddress) =&gt; {
+  /* Your code. */
+})
+</code></pre>
+<p>Address object <em>as returned by search service</em>. The result and its fields differ depending on the used backend. The callback is used whenever the user clicks on a search result or started a one-result search, which results in an auto-select of the singular result.</p>
+
+    
+    <h2>Locales</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Locale Key</th>
+          <th scope="col">German default</th>
+          <th scope="col">English default</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>plugins.addressSearch.hint.error</td>
+          <td>Etwas ist bei der Suche schiefgegangen.</td>
+          <td>Something went wrong.</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.addressSearch.hint.noResults</td>
+          <td>Keine Ergebnisse gefunden.</td>
+          <td>No results for the current query.</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.addressSearch.hint.loading</td>
+          <td>Suche ...</td>
+          <td>Searching ...</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.addressSearch.hint.tooShort</td>
+          <td>Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.</td>
+          <td>Please enter at least {{minLength}} characters.</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.addressSearch.defaultGroup</td>
+          <td>Adresssuche</td>
+          <td>Address Search</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.addressSearch.groupSelector</td>
+          <td>Suchthema auswählen</td>
+          <td>Select search topic</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.addressSearch.resultCount</td>
+          <td>({{count}} Ergebnisse)</td>
+          <td>({{count}} results)</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.addressSearch.resultList.extend</td>
+          <td>Alle Ergebnisse anzeigen</td>
+          <td>Show all results</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.addressSearch.resultList.extendMax</td>
+          <td>Alle Ergebnisse (max. {{queryParameters.maxFeatures}}) anzeigen</td>
+          <td>Show all results (max. {{queryParameters.maxFeatures}})</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.addressSearch.resultList.reduce</td>
+          <td>Ergebnisliste reduzieren</td>
+          <td>Reduce result list</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>

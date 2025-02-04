@@ -26,6 +26,7 @@
 <h2 id="scope" tabindex="-1">Scope</h2>
 <p>The Zoom plugin offers functionality regarding map zooming.</p>
 <h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="zoom-1" tabindex="-1">zoom</h3>
 <p>The Zoom plugin offers a plus/minus button, and will adjust itself to the map's zoom settings on initialization.<br />
 It can be configured as followed.</p>
 <table>
@@ -37,6 +38,11 @@ It can be configured as followed.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>icons</td>
+<td>Record&lt;string, string&gt;?</td>
+<td>Optional icon override.</td>
+</tr>
 <tr>
 <td>renderType</td>
 <td>'iconMenu' | 'independent'?</td>
@@ -62,6 +68,28 @@ It can be configured as followed.</p>
   showZoomSlider: true,
 }
 </code></pre>
+<h4 id="zoom.icons" tabindex="-1">zoom.icons</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zoomIn</td>
+<td>string?</td>
+<td>Icon shown on zoom-in (plus) button. Defaults to <code>'fa-plus'</code>.</td>
+</tr>
+<tr>
+<td>zoomOut</td>
+<td>string?</td>
+<td>Icon shown on zoom-out (minus) button. Defaults to <code>'fa-minus'</code>.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="store" tabindex="-1">Store</h2>
 <h3 id="state" tabindex="-1">State</h3>
 <p>The map's zoom level can be listened to.</p>

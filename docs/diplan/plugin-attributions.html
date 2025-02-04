@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1 id="attributions" tabindex="-1">Attributions</h1>
+<h2 id="scope" tabindex="-1">Scope</h2>
+<p>This plugin shows attributions (that is, legal information) regarding copyrights and sources of the currently visible layers.</p>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="attributions-1" tabindex="-1">attributions</h3>
+<p>All parameters are optional. However, setting neither <code>layerAttributions</code> nor <code>staticAttributions</code> results in an empty window.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>icons</td>
+<td>Record&lt;string, string&gt;?</td>
+<td>Optional icon override.</td>
+</tr>
+<tr>
+<td>initiallyOpen</td>
+<td>boolean?</td>
+<td>Whether the information box is open by default. Only usable when renderType is set to 'independent', otherwise the IconMenu handles this.</td>
+</tr>
+<tr>
+<td>layerAttributions</td>
+<td>layerAttribution[]?</td>
+<td>List of attributions that are shown when the matching layer is visible.</td>
+</tr>
+<tr>
+<td>listenToChanges</td>
+<td>string[]?</td>
+<td>Store variable paths to listen to for changes. Will update the currently visible layers depending on the current map state on changes to these values. Please mind that, when referencing another plugin, that plugin must be in <code>addPlugins</code> before this one.</td>
+</tr>
+<tr>
+<td>renderType</td>
+<td>'iconMenu' | 'independent'  | 'footer'?</td>
+<td>Defines whether this plugin ('independent') or the IconMenu ('iconMenu') should handle opening the information box or if a small information box should always be visible ('footer'). Defaults to 'independent'.</td>
+</tr>
+<tr>
+<td>staticAttributions</td>
+<td>string[]?</td>
+<td>List of static attributions that are always shown. May contain HTML elements.</td>
+</tr>
+<tr>
+<td>windowWidth</td>
+<td>number?</td>
+<td>If <code>renderType</code> is set to <code>independent</code>, sets the width of the container of the attributions. Defaults to 500.</td>
+</tr>
+</tbody>
+</table>
+<p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/diplan/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">attributions: {
+  initiallyOpen: false,
+  windowWidth: 300,
+  renderType: 'independent',
+  listenToChanges: [
+    'plugin/zoom/zoomLevel',
+    'plugin/layerChooser/activeBackgroundId',
+  ],
+  layerAttributions: [
+    {
+      id: basemapId,
+      title: 'Basemap',
+    },
+    {
+      id: subway,
+      title: 'Subway',
+    },
+  ],
+  staticAttributions: [
+    '&lt;a href=&quot;https://www.hamburg.de/impressum/&quot; target=&quot;_blank&quot;&gt;Impressum&lt;/a&gt;',
+  ],
+}
+</code></pre>
+<h4 id="attributions.icons" tabindex="-1">attributions.icons</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>close</td>
+<td>string?</td>
+<td>Icon shown when pressing the button closes the attributions. Defaults to <code>'fa-chevron-right'</code>.</td>
+</tr>
+<tr>
+<td>open</td>
+<td>string?</td>
+<td>Icon shown when pressing the button opens the attributions. Defaults to <code>'fa-regular fa-copyright'</code>.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="attributions.layerattribution" tabindex="-1">attributions.layerAttribution</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>ID of service the attribution relates to. The text will only be shown when the layer is visible.</td>
+</tr>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>Attribution text or localization key. May contain HTML. The tags <code>&lt;YEAR&gt;</code> and <code>&lt;MONTH&gt;</code> are translated to the current year or month respectively.</td>
+</tr>
+</tbody>
+</table>
+<p>Example configuration:</p>
+<pre><code class="language-js">layerAttributions: [
+  {
+    id: basemapId,
+    title: 'Basemap © &lt;YEAR&gt;',
+  },
+  {
+    id: subway,
+    title: 'Subway',
+  },
+]
+</code></pre>
+
+    
+    <h2>Locales</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Locale Key</th>
+          <th scope="col">German default</th>
+          <th scope="col">English default</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>plugins.attributions.button.closeTitle</td>
+          <td>Quellennachweis ausblenden</td>
+          <td>Hide Attributions</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.attributions.button.openTitle</td>
+          <td>Quellennachweis einblenden</td>
+          <td>Show Attributions</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.attributions.sourceCode</td>
+          <td><span><a href="https://github.com/Dataport/polar" target="_blank">Quellcode</a> lizenziert unter <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span></td>
+          <td><span><a href="https://github.com/Dataport/polar" target="_blank">Source code</a> licensed under <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.attributions.title</td>
+          <td>Quellennachweis</td>
+          <td>Attributions</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>

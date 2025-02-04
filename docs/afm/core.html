@@ -679,6 +679,18 @@ Fields that are not set as required have default values.</p>
   }
 }
 </code></pre>
+<p>Regarding icons, you may add <code>vuetifyOptions.icons.values</code> as <code>{&quot;name&quot;: x}</code>, where <code>x</code> are the path commands (commonly '<a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d">d</a>') of the SVG to draw. An icon 'pen' will then be available as <code>&quot;$vuetify.icons.pen&quot;</code> in <code>v-icon</code> (and all places in the configuration where icons can be set). Any required styling can be added via <code>.css</code>, appropriate classnames would be <code>.v-icon__svg</code> and its path child <code>.v-icon__svg path</code>.</p>
+<pre><code class="language-js">{
+  icons: {
+    values: {
+      // example path from icomoon free
+      &quot;arrow-drop-up&quot;: &quot;M298.667 341.333l213.333 213.333 213.333-213.333h-426.667z&quot;,
+    }
+  }
+}
+</code></pre>
+<p>This specific path would require resizing via CSS, e.g. <code>scale: 0.0234375;</code> on the path.</p>
+<p>If you need a compilation from <a href="https://icomoon.io/">icomoon's</a> svg export (or samey format) to such an object, see <code>scripts/precompileSvg.js</code> in the root folder.</p>
 <h2 id="store" tabindex="-1">Store</h2>
 <p>The core module features a vuex root store that all plugin vuex modules are plugged into. However, the root contents are only relevant to plugins. It is accessible with <code>map.$store</code>, and can be used as a starting point for plugin access.</p>
 <p>To ease use, the map instance also features a <code>subscribe</code> method that will register a watcher to any state field. Please mind that only documented paths should be used, and all others are subject to change without notice.</p>
