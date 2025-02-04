@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.2
+
+- Chore: Update `@polar/core` to `v3.0.0`.
+
 ## 1.3.1
 
 - Chore: Update `@polar/lib-custom-types` to `v2.0.0`.
