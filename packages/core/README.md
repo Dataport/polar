@@ -494,6 +494,23 @@ Additionally to the regular fields, `primaryContrast` and `secondaryContrast` ar
 }
 ```
 
+Regarding icons, you may add `vuetifyOptions.icons.values` as `{"name": x}`, where `x` are the path commands (commonly '[d](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d)') of the SVG to draw. An icon 'pen' will then be available as `"$vuetify.icons.pen"` in `v-icon` (and all places in the configuration where icons can be set). Any required styling can be added via `.css`, appropriate classnames would be `.v-icon__svg` and its path child `.v-icon__svg path`.
+
+```js
+{
+  icons: {
+    values: {
+      // example path from icomoon free
+      "arrow-drop-up": "M298.667 341.333l213.333 213.333 213.333-213.333h-426.667z",
+    }
+  }
+}
+```
+
+This specific path would require resizing via CSS, e.g. `scale: 0.0234375;` on the path.
+
+If you need a compilation from [icomoon's](https://icomoon.io/) svg export (or samey format) to such an object, see `scripts/precompileSvg.js` in the root folder.
+
 ## Store
 
 The core module features a vuex root store that all plugin vuex modules are plugged into. However, the root contents are only relevant to plugins. It is accessible with `map.$store`, and can be used as a starting point for plugin access.
