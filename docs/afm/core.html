@@ -48,7 +48,8 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
   instance.$store.dispatch('addComponent', {
     name: 'plugin', // unique technical name
     plugin: Plugin, // a vue component
-    language, // an i18n locale batch
+    locales, // an i18n Locale[]
+    language, // @deprecated an i18n locale batch
     options, // configuration; overriddable with mapConfiguration on createMap
     storeModule, // vuex store module, if required
   })
@@ -112,7 +113,7 @@ This register may either be a link to a predefined service register like <a href
 </tr>
 <tr>
 <td>locales</td>
-<td>LanguageOption[]?</td>
+<td>Locale[]?</td>
 <td>All locales in POLAR's plugins can be overridden to fit your needs.</td>
 </tr>
 <tr>
@@ -145,7 +146,7 @@ const mapConfiguration = {
   stylePath: '../dist/polar-client.css',
   checkServiceAvailability: true,
   language: 'de',
-  locales, // the languageOptions object will normally be outsourced to another file
+  locales, // the locales object will normally be outsourced to another file
   layerConf, // the layerConf object will normally be outsourced to another file - for more information, see the relevant chapter
   layers: [
     // parts of the layer configuration can be outsourced to another file
@@ -179,10 +180,10 @@ const mapConfiguration = {
 }
 </code></pre>
 </details>
-<h5 id="mapconfiguration.languageoption" tabindex="-1">mapConfiguration.LanguageOption</h5>
+<h5 id="mapconfiguration.locale" tabindex="-1">mapConfiguration.Locale</h5>
 <p>A language option is an object consisting of a type (its language key) and the i18next resource definition. You may e.g. decide that the texts offered in the LayerChooser do not fit the style of your client, or that they could be more precise in your situation since you're only using <em>very specific</em> overlays.</p>
-<p>An example for a LanguageOption array usable in <code>createMap</code> is this array:</p>
-<pre><code class="language-ts">const languageOptions: LanguageOption[] = [
+<p>An example for a Locale array usable in <code>createMap</code> is this array:</p>
+<pre><code class="language-ts">const locales: Locale[] = [
   {
     type: 'de',
     resources: {
