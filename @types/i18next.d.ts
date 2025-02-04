@@ -22,15 +22,15 @@ import { resourcesDe as resourcesDeZoom } from '@polar/plugin-zoom/src/locales'
 
 // // // clients // // //
 
-import { dishDe } from '../packages/clients/dish/src/locales'
-import { dishHeaderDe } from '../packages/clients/dish/src/plugins/Header/locales'
-import { dishModalDe } from '../packages/clients/dish/src/plugins/Modal/locales'
-import { meldemichelDe } from '../packages/clients/meldemichel/src/locales'
-import { meldemichelDe as meldemichelAfmButtonDe } from '../packages/clients/meldemichel/src/plugins/AfmButton/locales'
-import { snowboxDe } from '../packages/clients/snowbox/src/locales'
-import { textLocatorDe } from '../packages/clients/textLocator/src/locales'
-import { textLocatorDe as textLocatorHeaderDe } from '../packages/clients/textLocator/src/plugins/Header/locales'
-import { geometrySearchDe } from '../packages/clients/textLocator/src/plugins/GeometrySearch/locales'
+import { dishDe } from '@polar/client-dish/src/locales'
+import { dishHeaderDe } from '@polar/client-dish/src/plugins/Header/locales'
+import { dishModalDe } from '@polar/client-dish/src/plugins/Modal/locales'
+import { meldemichelDe } from '@polar/client-meldemichel/src/locales'
+import { meldemichelDe as meldemichelAfmButtonDe } from '@polar/client-meldemichel/src/plugins/AfmButton/locales'
+import { snowboxDe } from '@polar/client-snowbox/src/locales'
+import { textLocatorDe } from '@polar/client-text-locator/src/locales'
+import { textLocatorDe as textLocatorHeaderDe } from '@polar/client-text-locator/src/plugins/Header/locales'
+import { geometrySearchDe } from '@polar/client-text-locator/src/plugins/GeometrySearch/locales'
 
 // // // resources // // //
 
