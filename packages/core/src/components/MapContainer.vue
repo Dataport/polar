@@ -158,8 +158,8 @@ export default Vue.extend({
     }
     this.updateListeners(this.hasWindowSize)
     this.setConfiguration(this.mapConfiguration)
-    this.mapConfiguration.locales?.forEach?.((lng: Locale) =>
-      i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
+    this.mapConfiguration.locales?.forEach?.((locale: Locale) =>
+      i18next.addResourceBundle(locale.type, 'common', locale.resources, true)
     )
 
     i18next.on('languageChanged', (lang) => (this.lang = lang))
