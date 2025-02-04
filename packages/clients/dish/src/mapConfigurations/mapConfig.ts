@@ -1,5 +1,5 @@
 import { MapConfig } from '@polar/lib-custom-types'
-import locales from '../language'
+import locales from '../locales'
 import { shBlue, shWhite } from '../colors'
 import { DishMapConfig, DishUrlParams } from '../types'
 import { mapConfigIntern } from './mapConfigIntern'

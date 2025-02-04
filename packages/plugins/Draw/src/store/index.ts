@@ -44,11 +44,11 @@ export const makeStoreModule = () => {
         /* eslint-disable @typescript-eslint/naming-convention */
         // NOTE: Keys are directly used as technical keys for ol/interaction/Draw and are allowed to differ from the naming scheme.
         const allSelectableDrawModes = {
-          Circle: 'common:plugins.draw.drawMode.circle',
-          LineString: 'common:plugins.draw.drawMode.lineString',
-          Point: 'common:plugins.draw.drawMode.point',
-          Polygon: 'common:plugins.draw.drawMode.polygon',
-          Text: 'common:plugins.draw.drawMode.text',
+          Circle: 'plugins.draw.drawMode.circle',
+          LineString: 'plugins.draw.drawMode.lineString',
+          Point: 'plugins.draw.drawMode.point',
+          Polygon: 'plugins.draw.drawMode.polygon',
+          Text: 'plugins.draw.drawMode.text',
         }
         /* eslint-enable @typescript-eslint/naming-convention */
 
@@ -80,10 +80,10 @@ export const makeStoreModule = () => {
           drawLabel = 'measure'
         }
         return {
-          none: 'common:plugins.draw.mode.none',
-          draw: `common:plugins.draw.mode.${drawLabel}`,
-          edit: 'common:plugins.draw.mode.edit',
-          delete: 'common:plugins.draw.mode.delete',
+          none: 'plugins.draw.mode.none',
+          draw: `plugins.draw.mode.${drawLabel}`,
+          edit: 'plugins.draw.mode.edit',
+          delete: 'plugins.draw.mode.delete',
         }
       },
       measureOptions: (_, { configuration }) =>
@@ -100,10 +100,10 @@ export const makeStoreModule = () => {
             (acc, [option]) => ({
               ...acc,
               [option]:
-                `common:plugins.draw.measureMode.${option}` +
+                `plugins.draw.measureMode.${option}` +
                 (drawMode === 'Polygon' && option !== 'hectares' ? 'Area' : ''),
             }),
-            { none: 'common:plugins.draw.measureMode.none' }
+            { none: 'plugins.draw.measureMode.none' }
           ),
       showMeasureOptions: ({ drawMode, mode }, { measureOptions }) =>
         measureOptions &&

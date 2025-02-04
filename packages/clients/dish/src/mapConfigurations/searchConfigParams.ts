@@ -123,7 +123,7 @@ export const categoryProps = {
 export const groupProperties: Record<string, AddressSearchGroupProperties> = {
   [groupDenkmalsuche]: {
     label: 'Suche Denkmal, Adresse, Flurstück',
-    hint: 'common:dish.addressSearchHint',
+    hint: 'dish.addressSearchHint',
     resultDisplayMode: 'categorized',
     limitResults: 3,
   },

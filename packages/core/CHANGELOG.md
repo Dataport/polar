@@ -6,6 +6,7 @@
 - Feature: Add new reusable component `RadioCard.vue` to the package.
 - Feature: Additionally export `MapInstance` type.
 - Fix: Do not break themes of external Vuetify apps.
+- Chore: Add documentation regarding icon override functionality.
 
 ## 2.0.1
 

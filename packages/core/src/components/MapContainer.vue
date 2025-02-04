@@ -9,7 +9,7 @@
           {{ $t(overlayLocale) }}
         </template>
         <template v-else-if="oneFingerPan">
-          {{ $t('common:overlay.oneFingerPan') }}
+          {{ $t('overlay.oneFingerPan') }}
         </template>
       </div>
     </transition>
@@ -17,7 +17,7 @@
       ref="polar-map-container"
       class="polar-map"
       tabindex="0"
-      :aria-label="$t('common:canvas.label')"
+      :aria-label="$t('canvas.label')"
     ></div>
     <MapUi></MapUi>
     <MoveHandle
@@ -52,7 +52,7 @@ import Hammer from 'hammerjs'
 import i18next from 'i18next'
 import { defaults } from 'ol/interaction'
 import {
-  LanguageOption,
+  Locale,
   MapConfig,
   MoveHandleProperties,
 } from '@polar/lib-custom-types'
@@ -99,7 +99,7 @@ export default Vue.extend({
       'moveHandleActionButton',
     ]),
     overlayLocale() {
-      return `common:overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
+      return `overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
     },
     renderMoveHandle() {
       return (
@@ -158,8 +158,8 @@ export default Vue.extend({
     }
     this.updateListeners(this.hasWindowSize)
     this.setConfiguration(this.mapConfiguration)
-    this.mapConfiguration.locales?.forEach?.((lng: LanguageOption) =>
-      i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
+    this.mapConfiguration.locales?.forEach?.((locale: Locale) =>
+      i18next.addResourceBundle(locale.type, 'common', locale.resources, true)
     )
 
     i18next.on('languageChanged', (lang) => (this.lang = lang))

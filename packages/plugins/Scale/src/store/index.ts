@@ -47,7 +47,7 @@ export const makeStoreModule = () => {
       scaleToOne({ getters, commit }): string | void {
         let currentScaleValue = getters.scaleValue
         if (typeof currentScaleValue !== 'number' || currentScaleValue <= 0) {
-          return `1 : ${translate('common:plugins.scale.toOneNegative')}`
+          return `1 : ${translate('plugins.scale.toOneNegative')}`
         }
         currentScaleValue = beautifyScale(currentScaleValue)
 

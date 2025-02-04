@@ -32,7 +32,7 @@ export function zoomToFeatureById(
       console.error('@polar/client-dish', error)
       instance.$store.dispatch('plugin/toast/addToast', {
         type: 'warning',
-        text: 'common:dish.idNotFound',
+        text: 'dish.idNotFound',
       })
     })
 }

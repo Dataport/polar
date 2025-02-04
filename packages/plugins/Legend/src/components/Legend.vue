@@ -9,9 +9,9 @@
           filled
           color="#ffffffdd"
         >
-          <v-card-title>{{ $t('common:plugins.legend.title') }}</v-card-title>
+          <v-card-title>{{ $t('plugins.legend.title') }}</v-card-title>
           <v-card-text v-if="legends.length === 0">
-            {{ $t('common:plugins.legend.empty') }}
+            {{ $t('plugins.legend.empty') }}
           </v-card-text>
           <div class="polar-scroll-box" role="list" :style="maxHeight">
             <template v-for="({ legendUrl, name }, index) in legends">
@@ -20,17 +20,15 @@
                 <a
                   class="text-body-2"
                   :href="legendUrl"
-                  :aria-label="
-                    $t('common:plugins.legend.openLegendTo', { name })
-                  "
+                  :aria-label="$t('plugins.legend.openLegendTo', { name })"
                   target="_blank"
                 >
                   <v-img
                     contain
                     :max-width="250"
                     :src="legendUrl"
-                    :alt="$t('common:plugins.legend.legendTo', { name })"
-                    :title="$t('common:plugins.legend.openLegendTo', { name })"
+                    :alt="$t('plugins.legend.legendTo', { name })"
+                    :title="$t('plugins.legend.openLegendTo', { name })"
                   />
                 </a>
               </div>
@@ -44,9 +42,7 @@
       x-small
       fab
       color="secondary"
-      :title="
-        $t(`common:plugins.legend.button.${isOpen ? 'close' : 'open'}Title`)
-      "
+      :title="$t(`plugins.legend.button.${isOpen ? 'close' : 'open'}Title`)"
       @click="toggleMapLegend"
     >
       <v-icon color="secondaryContrast">{{ mapLegendIcon }}</v-icon>
@@ -67,10 +63,11 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['clientHeight', 'configuration', 'hasSmallHeight']),
     mapLegendIcon() {
+      const icons = this.configuration.legend?.icons
       if (!this.isOpen) {
-        return `fa-info`
+        return icons?.open ?? `fa-info`
       }
-      return `fa-chevron-right`
+      return icons?.close ?? `fa-chevron-right`
     },
     maxHeight(): string {
       return `

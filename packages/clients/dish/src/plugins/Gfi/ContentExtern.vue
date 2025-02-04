@@ -37,7 +37,7 @@
               <v-btn
                 icon
                 x-small
-                :aria-label="$t('common:plugins.gfi.toggle')"
+                :aria-label="$t('plugins.gfi.toggle')"
                 @click="toggleSachgesamtheit"
               >
                 <v-icon small>

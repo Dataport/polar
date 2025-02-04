@@ -25,8 +25,8 @@
       </template>
       <span>{{
         hasObjectProperties
-          ? $t('common:plugins.dish.exportPDF.tooltip')
-          : $t('common:plugins.dish.exportPDF.userInfo')
+          ? $t('plugins.dish.exportPDF.tooltip')
+          : $t('plugins.dish.exportPDF.userInfo')
       }}</span>
     </v-tooltip>
     <v-dialog v-model="dialog" max-width="500px">
@@ -42,10 +42,10 @@
               dialog = false
               showOverlay = false
             "
-            >{{ $t('common:plugins.dish.exportPDF.buttonCancel') }}</v-btn
+            >{{ $t('plugins.dish.exportPDF.buttonCancel') }}</v-btn
           >
           <v-btn text @click="printMapAsPdf">{{
-            $t('common:plugins.dish.exportPDF.buttonPrint')
+            $t('plugins.dish.exportPDF.buttonPrint')
           }}</v-btn>
         </v-card-actions>
       </v-card>

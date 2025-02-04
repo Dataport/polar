@@ -1,6 +1,6 @@
 <template>
   <h1 class="polar-plugin-header">
-    {{ $t('common:plugins.dish.header.text') }}
+    {{ $t('plugins.dish.header.text') }}
   </h1>
 </template>
 

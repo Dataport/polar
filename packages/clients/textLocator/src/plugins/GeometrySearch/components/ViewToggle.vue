@@ -2,11 +2,11 @@
   <v-btn-toggle v-model="_byCategory" dense>
     <v-btn class="text-locator-btn-group-button" value="text">
       <v-icon small>fa-book-open</v-icon>&nbsp;
-      {{ $t('common:plugins.geometrySearch.results.byText') }}
+      {{ $t('plugins.geometrySearch.results.byText') }}
     </v-btn>
     <v-btn class="text-locator-btn-group-button" value="toponym">
       <v-icon small>fa-location-pin</v-icon>&nbsp;
-      {{ $t('common:plugins.geometrySearch.results.byLocation') }}
+      {{ $t('plugins.geometrySearch.results.byLocation') }}
     </v-btn>
   </v-btn-toggle>
 </template>
