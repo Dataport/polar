@@ -18,10 +18,10 @@
         v-on="on"
       >
         <v-icon small>fa-map-location</v-icon>
-        {{ $t('common:plugins.meldemichel.afmButton.buttonText') }}
+        {{ $t('plugins.meldemichel.afmButton.buttonText') }}
       </v-btn>
     </template>
-    <span>{{ $t('common:plugins.meldemichel.afmButton.hint') }}</span>
+    <span>{{ $t('plugins.meldemichel.afmButton.hint') }}</span>
   </v-tooltip>
 </template>
 

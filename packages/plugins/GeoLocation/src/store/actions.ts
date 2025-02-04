@@ -255,7 +255,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
     if (toastAction) {
       const toast = {
         type: 'error',
-        text: 'common:plugins.geoLocation.button.tooltip.locationAccessDenied',
+        text: 'plugins.geoLocation.button.tooltip.locationAccessDenied',
       }
       dispatch(toastAction, toast, { root: true })
     } else {

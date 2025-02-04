@@ -2,13 +2,13 @@
   <v-card class="text-locator-search-card">
     <DrawMode />
     <v-card-title class="text-locator-collapse">
-      {{ $t('common:plugins.geometrySearch.results.title') }}
+      {{ $t('plugins.geometrySearch.results.title') }}
     </v-card-title>
     <v-card-subtitle v-if="lastSearch">
       {{
-        $t('common:plugins.geometrySearch.results.source', {
+        $t('plugins.geometrySearch.results.source', {
           searchType: $t(
-            `common:plugins.geometrySearch.results.sourceOptions.${lastSearch}`
+            `plugins.geometrySearch.results.sourceOptions.${lastSearch}`
           ),
         })
       }}
@@ -17,7 +17,7 @@
       <ViewToggle />
       <TreeView v-if="treeViewItems.length" />
       <v-card-text v-else>
-        {{ $t('common:plugins.geometrySearch.results.none') }}
+        {{ $t('plugins.geometrySearch.results.none') }}
       </v-card-text>
     </v-card-text>
   </v-card>

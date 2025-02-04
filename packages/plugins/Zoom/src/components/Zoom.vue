@@ -3,7 +3,7 @@
     <v-tooltip v-if="showZoomButtons" left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
-          :aria-label="$t('common:plugins.zoom.in')"
+          :aria-label="$t('plugins.zoom.in')"
           :class="
             renderType === 'iconMenu'
               ? `polar-zoom-dependent${deviceIsHorizontal ? '-horizontal' : ''}`
@@ -20,12 +20,12 @@
           <v-icon color="primaryContrast"> {{ icons.zoomIn }} </v-icon>
         </v-btn>
       </template>
-      <span>{{ $t('common:plugins.zoom.in') }}</span>
+      <span>{{ $t('plugins.zoom.in') }}</span>
     </v-tooltip>
     <v-tooltip v-if="showZoomButtons" left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
-          :aria-label="$t('common:plugins.zoom.out')"
+          :aria-label="$t('plugins.zoom.out')"
           :class="{ 'ma-2': renderType === 'independent' }"
           color="primary"
           small
@@ -38,7 +38,7 @@
           <v-icon color="primaryContrast"> {{ icons.zoomOut }} </v-icon>
         </v-btn>
       </template>
-      <span>{{ $t('common:plugins.zoom.out') }}</span>
+      <span>{{ $t('plugins.zoom.out') }}</span>
     </v-tooltip>
     <v-tooltip v-if="addZoomSlider" left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
@@ -46,7 +46,7 @@
           <ZoomSlider></ZoomSlider>
         </div>
       </template>
-      <span>{{ $t('common:plugins.zoom.slider') }}</span>
+      <span>{{ $t('plugins.zoom.slider') }}</span>
     </v-tooltip>
   </div>
 </template>
