@@ -132,8 +132,8 @@ layers: {
     window: true,
     maxFeatures: 10,
     geometryName: 'app:geometry',
-    filterBy: 'clickPosition'
-    format: 'text'
+    filterBy: 'clickPosition',
+    format: 'text',
   },
 }
 ```
