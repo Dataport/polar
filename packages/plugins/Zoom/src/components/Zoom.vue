@@ -17,7 +17,7 @@
           @click="increaseZoomLevel"
           v-on="on"
         >
-          <v-icon color="primaryContrast"> fa-plus </v-icon>
+          <v-icon color="primaryContrast"> {{ icons.zoomIn }} </v-icon>
         </v-btn>
       </template>
       <span>{{ $t('common:plugins.zoom.in') }}</span>
@@ -35,7 +35,7 @@
           @click="decreaseZoomLevel"
           v-on="on"
         >
-          <v-icon color="primaryContrast"> fa-minus </v-icon>
+          <v-icon color="primaryContrast"> {{ icons.zoomOut }} </v-icon>
         </v-btn>
       </template>
       <span>{{ $t('common:plugins.zoom.out') }}</span>
@@ -62,6 +62,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['deviceIsHorizontal', 'hasSmallDisplay', 'hasSmallHeight']),
     ...mapGetters('plugin/zoom', [
+      'icons',
       'maximumZoomLevelActive',
       'minimumZoomLevelActive',
       'renderType',
