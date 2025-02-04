@@ -477,7 +477,7 @@ export interface RoutingConfiguration {
   selectablePreferences: string[]
   displayPreferences: boolean
   displayRouteTypesToAvoid: boolean
-  style: {
+  routeStyle: {
     stroke: {
       color: string
       width: number

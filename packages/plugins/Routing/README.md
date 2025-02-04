@@ -17,10 +17,10 @@ This module has been written for the "BKG-Routing-Service" and uses the "Adresss
 |selectable Preferences|string[]|Specifies which preferences for the route are offered to the user.|
 |displayPreferences|bolean|Defines wether the preferences for the route are offered to the user for selection.|
 |displayRouteTypesToAvoid|boolean|Defines wether route types to avoid are offered to the user for selection.|
-|style|||
-|style.stroke|||
-|style.color|||
-|style.width|||
+|routeStyle|||
+|routeStyle.stroke|||
+|routeStyle.color|||
+|routeStyle.width|||
 |addressSearch|||
 |addressSearch.addLoading|||
 |addressSearch.removeLoading|||

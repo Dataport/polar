@@ -274,7 +274,7 @@ export const mapConfiguration = {
     selectablePreferences: [],
     displayPreferences: true,
     displayRouteTypesToAvoid: true,
-    style: {
+    routeStyle: {
       stroke: {
         color: '#e51313',
         width: 6,

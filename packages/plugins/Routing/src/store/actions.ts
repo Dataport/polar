@@ -25,6 +25,22 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
    * @param contextState - VueX state object.
    */
   initializeTool({ rootGetters: { map, configuration }, commit, state }) {
+    /* setup drawLayer and click event listener */
+
+    drawLayer = createDrawLayer(drawSource)
+    map?.addLayer(drawLayer)
+    map?.on('click', function (event) {
+      const clickCoordinate = event.coordinate
+      if (state.start.length === 0) {
+        commit('setStart', clickCoordinate)
+      } else if (
+        state.end.length === 0 &&
+        !state.start.every((v, i) => v === clickCoordinate[i]) // end Coordinate should not be the same as start Coordinate
+      ) {
+        commit('setEnd', clickCoordinate)
+      }
+    })
+
     /* update state with configuration settings */
 
     if (configuration?.routing?.selectableTravelModes.length > 0) {
@@ -44,22 +60,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       'setDisplayRouteTypesToAvoid',
       configuration?.routing?.displayRouteTypesToAvoid
     )
-
-    /* setup drawLayer and click event listener */
-
-    drawLayer = createDrawLayer(drawSource)
-    map?.addLayer(drawLayer)
-    map?.on('click', function (event) {
-      const clickCoordinate = event.coordinate
-      if (state.start.length === 0) {
-        commit('setStart', clickCoordinate)
-      } else if (
-        state.end.length === 0 &&
-        !state.start.every((v, i) => v === clickCoordinate[i]) // end Coordinate should not be the same as start Coordinate
-      ) {
-        commit('setEnd', clickCoordinate)
-      }
-    })
   },
 
   /* ROUTING REQUEST */
@@ -416,7 +416,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
    */
   drawRoute({ rootGetters: { configuration }, state }) {
     const transformedCoordinates =
-      state.searchResponseData.features[0].geometry.coordinates.map(
+      state.searchResponseData?.features[0].geometry.coordinates.map(
         (coordinate) => transform(coordinate, 'EPSG:4326', 'EPSG:25832')
       )
     const routeLineString = new LineString(transformedCoordinates)
@@ -426,8 +426,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     })
     routeFeature.setStyle(
       createDrawStyle(
-        configuration?.routing?.style?.stroke?.color,
-        configuration?.routing?.style
+        configuration?.routing?.routeStyle?.stroke?.color,
+        configuration?.routing?.routeStyle
       )
     )
     drawSource.addFeature(routeFeature)

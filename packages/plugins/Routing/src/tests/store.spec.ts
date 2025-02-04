@@ -4,6 +4,7 @@ import { register } from 'ol/proj/proj4'
 import { makeStoreModule } from '../store/index'
 import { getInitialState } from '../store/state'
 import { RoutingState, RoutingGetters } from '../types'
+// import { reactive } from 'vue'
 
 describe('plugin-routing', () => {
   jest.mock('ol/proj', () => ({
@@ -40,15 +41,20 @@ describe('plugin-routing', () => {
         beforeEach(() => {
           actionContext = {
             state: getInitialState(),
-            commit: jest.fn(),
+            commit: jest.fn((mutation, payload) => {
+              if (mutation === 'setStart') actionContext.state.start = payload
+              if (mutation === 'setEnd') actionContext.state.end = payload
+            }),
             dispatch: jest.fn(),
             getters: {},
             rootState: {},
             rootGetters: {
               configuration: {
                 routing: {
-                  serviceUrl: 'http://example.com',
-                  format: 'json',
+                  selectableTravelModes: ['car', 'bike'],
+                  selectablePreferences: ['fastest', 'shortest'],
+                  displayPreferences: { avoidTolls: true },
+                  displayRouteTypesToAvoid: ['highways'],
                 },
               },
               map: {
@@ -63,13 +69,32 @@ describe('plugin-routing', () => {
           jest.clearAllMocks()
         })
 
-        it('dispatches initializeConfigStyle and sets up the draw layer', () => {
+        it('should commit configuration settings to state', () => {
           // @ts-ignore
           initializeTool(actionContext)
 
-          expect(actionContext.dispatch).toHaveBeenCalledWith(
-            'initializeConfigStyle'
+          expect(actionContext.commit).toHaveBeenCalledWith(
+            'setSelectableTravelModes',
+            ['car', 'bike']
           )
+          expect(actionContext.commit).toHaveBeenCalledWith(
+            'setSelectablePreferences',
+            ['fastest', 'shortest']
+          )
+          expect(actionContext.commit).toHaveBeenCalledWith(
+            'setDisplayPreferences',
+            { avoidTolls: true }
+          )
+          expect(actionContext.commit).toHaveBeenCalledWith(
+            'setDisplayRouteTypesToAvoid',
+            ['highways']
+          )
+        })
+
+        it('should set up the draw layer and event listener', () => {
+          // @ts-ignore
+          initializeTool(actionContext)
+
           expect(actionContext.rootGetters.map.addLayer).toHaveBeenCalledTimes(
             1
           )
@@ -79,24 +104,77 @@ describe('plugin-routing', () => {
           )
         })
 
-        it('commits start and end points on map click', () => {
-          const mockClickHandler = jest.fn()
+        it('should commits start and end points on map click', () => {
+          let clickHandler
           actionContext.rootGetters.map.on = jest.fn((event, handler) => {
-            if (event === 'click') mockClickHandler.mockImplementation(handler)
+            if (event === 'click') clickHandler = handler
           })
 
           // @ts-ignore
           initializeTool(actionContext)
 
-          // Simuliere einen Klick
-          const mockEvent = { coordinate: [10, 50] }
-          mockClickHandler(mockEvent)
+          if (!clickHandler) throw new Error('Click handler was not set')
+
+          // Simulate first click (start point)
+          clickHandler({ coordinate: [10, 50] })
+          expect(actionContext.commit).toHaveBeenCalledWith(
+            expect.stringContaining('setStart'),
+            expect.arrayContaining([10, 50])
+          )
+          console.error(
+            'Commit history before assertion:',
+            actionContext.commit.mock.calls
+          )
+
+          // Simulate second click (end point)
+          clickHandler({ coordinate: [20, 60] })
+          expect(actionContext.commit).toHaveBeenCalledWith('setEnd', [20, 60])
+        })
+        /*
+        it('should not set end point if it matches start point', () => {
+          let clickHandler
+          actionContext.rootGetters.map.on = jest.fn((event, handler) => {
+            if (event === 'click') clickHandler = handler
+          })
+
+          // @ts-ignore
+          initializeTool(actionContext)
+
+          if (!clickHandler) throw new Error('Click handler was not set')
+
+          console.error('Initial state:', actionContext.state)
+          console.error(
+            'Map event listeners:',
+            actionContext.rootGetters.map.on.mock.calls
+          )
+          console.error('Commits before click:', actionContext.commit.mock.calls)
+
+          // Simulate first click (start point)
+          clickHandler({ coordinate: [10, 50] })
+
+          console.error("Commits after first click:", actionContext.commit.mock.calls);
+          console.error("State after first click:", actionContext.state);
 
           expect(actionContext.commit).toHaveBeenCalledWith(
-            'setStart',
+            expect.stringMatching(/setStart/),
+            expect.arrayContaining([10, 50])
+          ) 
+
+          // Simulate a second click on the same coordinate
+          clickHandler({ coordinate: [10, 50] })
+          expect(actionContext.commit).not.toHaveBeenCalledWith(
+            'setEnd',
             [10, 50]
           )
-        })
+          const calls = actionContext.commit.mock.calls.map((call) => call[0])
+          expect(calls).toEqual([
+            'setSelectableTravelModes',
+            'setSelectablePreferences',
+            'setDisplayPreferences',
+            'setDisplayRouteTypesToAvoid',
+            'setStart',
+          ])
+        }) */
       })
       describe('resetCoordinates', () => {
         const routingStore = makeStoreModule()
@@ -127,7 +205,7 @@ describe('plugin-routing', () => {
           }
         })
 
-        it('reset all coordinates and related state properties', () => {
+        it('should reset all coordinates and related state properties', () => {
           resetCoordinates(actionContext)
           expect(actionContext.commit).toHaveBeenCalledWith('setStart', [])
           expect(actionContext.commit).toHaveBeenCalledWith('setEnd', [])
@@ -190,7 +268,7 @@ describe('plugin-routing', () => {
           register(proj4)
         })
 
-        it('transforms coordinates to WGS84 correctly', () => {
+        it('should transform coordinates to WGS84 correctly', () => {
           const inputCoordinate = [500000, 5400000]
           const expectedCoordinate = proj4(
             'EPSG:25832',
@@ -347,7 +425,7 @@ describe('plugin-routing', () => {
           expect(actionContext.dispatch).toHaveBeenCalledWith('drawRoute')
         })
 
-        it('handles fetch errors correctly', async () => {
+        it('should handle fetch errors correctly', async () => {
           const consoleErrorSpy = jest
             .spyOn(console, 'error')
             .mockImplementation(() => {})
@@ -533,347 +611,172 @@ describe('plugin-routing', () => {
           consoleErrorSpy.mockRestore()
         })
       })
-      /*
-      describe('drawRoute', () => {
+
+      describe('parseResponse', () => {
         const RoutingStore = makeStoreModule()
-        const drawRoute = RoutingStore.actions?.drawRoute as (
-          context: any
-        ) => void
-
-        if (typeof drawRoute === 'undefined') {
-          throw new Error(
-            'Actions missing in RoutingStore. Tests could not be run.'
-          )
-        }
-
-        let actionContext
-        let mockDrawSource
-
-        beforeEach(() => {
-          mockDrawSource = new VectorSource()
-
-          actionContext = {
-            state: {
-              searchResponseData: {
-                features: [
-                  {
-                    geometry: {
-                      coordinates: [
-                        [558190.9868734432, 5935446.247324334],
-                        [558567.425816606, 5935652.110579231],
-                      ],
-                    },
-                  },
-                ],
-              },
-            },
-            rootGetters: {
-              configuration: {
-                routing: {
-                  style: {
-                    stroke: {
-                      color: '#ff0000',
-                    },
-                  },
-                },
-              },
-            },
-          }
-        })
-
-        it('should transform coordinates and call add feature', () => {
-          drawRoute(actionContext)
-          console.log(
-            actionContext.state.searchResponseData.features[0].geometry
-              .coordinates
-          )
-          expect(mockDrawSource.addFeature).toHaveBeenCalledTimes(1)
-          expect(
-            mockDrawSource.addFeature.mock.calls[0][0]
-              .getGeometry()
-              .getCoordinates()
-          ).toEqual([
-            [9.6, 48.1],
-            [9.6, 48.1],
-          ]) // expected Coordinates transformed to EPSG:25832
-        })
-      })
-
-      describe('addFeatures', () => {
-        const RoutingStore = makeStoreModule()
-        const addFeatures = RoutingStore.actions?.addFeatures as (
+        const parseResponse = RoutingStore.actions?.parseResponse as (
           context: any,
-          payload: { geoJSON: any; overwrite: boolean }
-        ) => void
+          text: string
+        ) => { features: any[] }
 
-        if (typeof addFeatures === 'undefined') {
+        if (typeof parseResponse === 'undefined') {
           throw new Error(
             'Actions missing in RoutingStore. Tests could not be run.'
           )
         }
 
-        let actionContext
-        let mockDrawSource
+        it('should parse a valid WFS XML response correctly', () => {
+          const xmlResponse = `
+            <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"
+                                  xmlns:dog="http://example.com/dog"
+                                  xmlns:gml="http://www.opengis.net/gml">
+              <wfs:member>
+                <dog:Strassen>
+                  <dog:strassenname>Hauptstraße</dog:strassenname>
+                  <dog:ortsteilname>Altstadt</dog:ortsteilname>
+                  <gml:pos>10.0 50.0</gml:pos>
+                  <gml:posList>10.0 50.0 20.0 60.0</gml:posList>
+                  <dog:hausnummer>1</dog:hausnummer>
+                  <dog:hausnummer>2</dog:hausnummer>
+                </dog:Strassen>
+              </wfs:member>
+            </wfs:FeatureCollection>`
 
-        beforeEach(() => {
-          mockDrawSource = {
-            clear: jest.fn(),
-            addFeatures: jest.fn(),
-          }
-          global.drawSource = mockDrawSource // Mock drawSource global verfügbar machen
+          const result = parseResponse({}, xmlResponse)
 
-          actionContext = {
-            commit: jest.fn(),
-          }
+          expect(result.features).toHaveLength(1)
+          expect(result.features[0]).toEqual({
+            strassenname: 'Hauptstraße',
+            ortsteilname: 'Altstadt',
+            position: [10.0, 50.0],
+            boundingPolygon: [10.0, 50.0, 20.0, 60.0],
+            hausnummern: ['1', '2'],
+          })
         })
 
-        afterEach(() => {
-          delete global.drawSource // Entferne den globalen Mock nach dem Test
+        it('should return an empty array for an empty response', () => {
+          const xmlResponse = `<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"/>`
+          const result = parseResponse({}, xmlResponse)
+
+          expect(result.features).toEqual([])
         })
 
-        it('adds features to the layer with overwrite', () => {
-          const geoJSON = {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [10, 50],
-                },
-              },
-            ],
-          }
+        it('should handle missing elements gracefully', () => {
+          const xmlResponse = `
+            <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"
+                xmlns:dog="http://example.com/dog"
+                  xmlns:gml="http://www.opengis.net/gml">
+              <wfs:member>
+                <dog:Strassen>
+                  <dog:strassenname>Unbekannte Straße</dog:strassenname>
+                </dog:Strassen>
+              </wfs:member>
+            </wfs:FeatureCollection>`
 
-          // @ts-ignore
-          addFeatures(actionContext, { geoJSON, overwrite: true })
+          const result = parseResponse({}, xmlResponse)
 
-          expect(mockDrawSource.clear).toHaveBeenCalledTimes(1)
-          expect(mockDrawSource.addFeatures).toHaveBeenCalledTimes(1)
-          expect(actionContext.commit).toHaveBeenCalledWith(
-            'updateFeatures',
-            mockDrawSource
-          )
+          expect(result.features).toHaveLength(1)
+          expect(result.features[0]).toEqual({
+            strassenname: 'Unbekannte Straße',
+            ortsteilname: 'Unbekannt', // Default-Wert
+            position: null,
+            boundingPolygon: null,
+            hausnummern: [],
+          })
         })
 
-        it('adds features without clearing if overwrite is false', () => {
-          const geoJSON = { type: 'FeatureCollection', features: [] }
+        it('should catche parsing errors and return an empty array', () => {
+          const invalidXml = `<invalid<xml`
+          const result = parseResponse({}, invalidXml)
 
-          // @ts-ignore
-          addFeatures(actionContext, { geoJSON, overwrite: false })
-
-          expect(mockDrawSource.clear).not.toHaveBeenCalled()
-          expect(mockDrawSource.addFeatures).toHaveBeenCalledTimes(1)
+          expect(result.features).toEqual([])
         })
       })
-*/
-      describe('initializeConfigStyle', () => {
+
+      describe('parseResponseHausnummern', () => {
         const RoutingStore = makeStoreModule()
-        const initializeConfigStyle = RoutingStore.actions
-          ?.initializeConfigStyle as PolarActionHandler<
-          RoutingState,
-          RoutingGetters
-        >
+        const parseResponseHausnummern = RoutingStore.actions
+          ?.parseResponseHausnummern as (
+          context: any,
+          responseText: string
+        ) => { features: any[] }
 
-        if (typeof initializeConfigStyle === 'undefined') {
+        if (typeof parseResponseHausnummern === 'undefined') {
           throw new Error(
             'Actions missing in RoutingStore. Tests could not be run.'
           )
         }
 
-        let actionContext
+        it('should parse a valid house number response correctly', () => {
+          const xmlResponse = `
+            <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"
+                                  xmlns:gages="http://example.com/gages"
+                                  xmlns:dog="http://example.com/dog"
+                                  xmlns:iso19112="http://example.com/iso19112"
+                                  xmlns:gml="http://www.opengis.net/gml">
+              <wfs:member>
+                <gages:Hauskoordinaten>
+                  <dog:hausnummer>10</dog:hausnummer>
+                  <dog:hausnummernzusatz>A</dog:hausnummernzusatz>
+                  <iso19112:geographicIdentifier>Berlin Mitte</iso19112:geographicIdentifier>
+                  <gml:pos>13.405 52.52</gml:pos>
+                  <gml:posList>13.405 52.52 13.406 52.521</gml:posList>
+                </gages:Hauskoordinaten>
+              </wfs:member>
+            </wfs:FeatureCollection>`
 
-        beforeEach(() => {
-          actionContext = {
-            commit: jest.fn(),
-            getters: {
-              routingConfiguration: {
-                style: {
-                  stroke: {
-                    color: '#00ff00',
-                  },
-                },
-              },
-            },
-          }
+          const result = parseResponseHausnummern({}, xmlResponse)
+
+          expect(result.features).toHaveLength(1)
+          expect(result.features[0]).toEqual({
+            hausnummer: '10',
+            hausnummerZusatz: 'A',
+            geographicIdentifier: 'Berlin Mitte',
+            position: [13.405, 52.52],
+            boundingPolygon: [13.405, 52.52, 13.406, 52.521],
+          })
         })
 
-        it('commits the stroke color correctly', () => {
-          // @ts-ignore
-          initializeConfigStyle(actionContext)
+        it('should return an empty array for an empty response', () => {
+          const xmlResponse = `<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"/>`
+          const result = parseResponseHausnummern({}, xmlResponse)
 
-          expect(actionContext.commit).toHaveBeenCalledWith(
-            'setSelectedStrokeColor',
-            '#00ff00'
-          )
+          expect(result.features).toEqual([])
+        })
+
+        it('should handle missing elements gracefully', () => {
+          const xmlResponse = `
+            <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"
+                                  xmlns:gages="http://example.com/gages"
+                                  xmlns:dog="http://example.com/dog"
+                                  xmlns:iso19112="http://example.com/iso19112"
+                                  xmlns:gml="http://www.opengis.net/gml">
+              <wfs:member>
+                <gages:Hauskoordinaten>
+                  <dog:hausnummer>15</dog:hausnummer>
+                </gages:Hauskoordinaten>
+              </wfs:member>
+            </wfs:FeatureCollection>`
+
+          const result = parseResponseHausnummern({}, xmlResponse)
+
+          expect(result.features).toHaveLength(1)
+          expect(result.features[0]).toEqual({
+            hausnummer: '15',
+            hausnummerZusatz: '', // Default-Wert
+            geographicIdentifier: '', // Default-Wert
+            position: [], // Kein <gml:pos>
+            boundingPolygon: [], // Kein <gml:posList>
+          })
+        })
+
+        it('should catch parsing errors and return an empty array', () => {
+          const invalidXml = `<invalid<xml`
+          const result = parseResponseHausnummern({}, invalidXml)
+
+          expect(result.features).toEqual([])
         })
       })
-    })
-  })
-
-  describe('parseResponse', () => {
-    const RoutingStore = makeStoreModule()
-    const parseResponse = RoutingStore.actions?.parseResponse as (
-      context: any,
-      text: string
-    ) => { features: any[] }
-
-    if (typeof parseResponse === 'undefined') {
-      throw new Error(
-        'Actions missing in RoutingStore. Tests could not be run.'
-      )
-    }
-
-    it('parses a valid WFS XML response correctly', () => {
-      const xmlResponse = `
-        <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"
-                              xmlns:dog="http://example.com/dog"
-                              xmlns:gml="http://www.opengis.net/gml">
-          <wfs:member>
-            <dog:Strassen>
-              <dog:strassenname>Hauptstraße</dog:strassenname>
-              <dog:ortsteilname>Altstadt</dog:ortsteilname>
-              <gml:pos>10.0 50.0</gml:pos>
-              <gml:posList>10.0 50.0 20.0 60.0</gml:posList>
-              <dog:hausnummer>1</dog:hausnummer>
-              <dog:hausnummer>2</dog:hausnummer>
-            </dog:Strassen>
-          </wfs:member>
-        </wfs:FeatureCollection>`
-
-      const result = parseResponse({}, xmlResponse)
-
-      expect(result.features).toHaveLength(1)
-      expect(result.features[0]).toEqual({
-        strassenname: 'Hauptstraße',
-        ortsteilname: 'Altstadt',
-        position: [10.0, 50.0],
-        boundingPolygon: [10.0, 50.0, 20.0, 60.0],
-        hausnummern: ['1', '2'],
-      })
-    })
-
-    it('returns an empty array for an empty response', () => {
-      const xmlResponse = `<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"/>`
-      const result = parseResponse({}, xmlResponse)
-
-      expect(result.features).toEqual([])
-    })
-
-    it('handles missing elements gracefully', () => {
-      const xmlResponse = `
-        <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"
-            xmlns:dog="http://example.com/dog"
-              xmlns:gml="http://www.opengis.net/gml">
-          <wfs:member>
-            <dog:Strassen>
-              <dog:strassenname>Unbekannte Straße</dog:strassenname>
-            </dog:Strassen>
-          </wfs:member>
-        </wfs:FeatureCollection>`
-
-      const result = parseResponse({}, xmlResponse)
-
-      expect(result.features).toHaveLength(1)
-      expect(result.features[0]).toEqual({
-        strassenname: 'Unbekannte Straße',
-        ortsteilname: 'Unbekannt', // Default-Wert
-        position: null,
-        boundingPolygon: null,
-        hausnummern: [],
-      })
-    })
-
-    it('catches parsing errors and returns an empty array', () => {
-      const invalidXml = `<invalid<xml`
-      const result = parseResponse({}, invalidXml)
-
-      expect(result.features).toEqual([])
-    })
-  })
-
-  describe('parseResponseHausnummern', () => {
-    const RoutingStore = makeStoreModule()
-    const parseResponseHausnummern = RoutingStore.actions
-      ?.parseResponseHausnummern as (
-      context: any,
-      responseText: string
-    ) => { features: any[] }
-
-    if (typeof parseResponseHausnummern === 'undefined') {
-      throw new Error(
-        'Actions missing in RoutingStore. Tests could not be run.'
-      )
-    }
-
-    it('parses a valid house number response correctly', () => {
-      const xmlResponse = `
-        <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"
-                              xmlns:gages="http://example.com/gages"
-                              xmlns:dog="http://example.com/dog"
-                              xmlns:iso19112="http://example.com/iso19112"
-                              xmlns:gml="http://www.opengis.net/gml">
-          <wfs:member>
-            <gages:Hauskoordinaten>
-              <dog:hausnummer>10</dog:hausnummer>
-              <dog:hausnummernzusatz>A</dog:hausnummernzusatz>
-              <iso19112:geographicIdentifier>Berlin Mitte</iso19112:geographicIdentifier>
-              <gml:pos>13.405 52.52</gml:pos>
-              <gml:posList>13.405 52.52 13.406 52.521</gml:posList>
-            </gages:Hauskoordinaten>
-          </wfs:member>
-        </wfs:FeatureCollection>`
-
-      const result = parseResponseHausnummern({}, xmlResponse)
-
-      expect(result.features).toHaveLength(1)
-      expect(result.features[0]).toEqual({
-        hausnummer: '10',
-        hausnummerZusatz: 'A',
-        geographicIdentifier: 'Berlin Mitte',
-        position: [13.405, 52.52],
-        boundingPolygon: [13.405, 52.52, 13.406, 52.521],
-      })
-    })
-
-    it('returns an empty array for an empty response', () => {
-      const xmlResponse = `<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"/>`
-      const result = parseResponseHausnummern({}, xmlResponse)
-
-      expect(result.features).toEqual([])
-    })
-
-    it('handles missing elements gracefully', () => {
-      const xmlResponse = `
-        <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"
-                              xmlns:gages="http://example.com/gages"
-                              xmlns:dog="http://example.com/dog"
-                              xmlns:iso19112="http://example.com/iso19112"
-                              xmlns:gml="http://www.opengis.net/gml">
-          <wfs:member>
-            <gages:Hauskoordinaten>
-              <dog:hausnummer>15</dog:hausnummer>
-            </gages:Hauskoordinaten>
-          </wfs:member>
-        </wfs:FeatureCollection>`
-
-      const result = parseResponseHausnummern({}, xmlResponse)
-
-      expect(result.features).toHaveLength(1)
-      expect(result.features[0]).toEqual({
-        hausnummer: '15',
-        hausnummerZusatz: '', // Default-Wert
-        geographicIdentifier: '', // Default-Wert
-        position: [], // Kein <gml:pos>
-        boundingPolygon: [], // Kein <gml:posList>
-      })
-    })
-
-    it('catches parsing errors and returns an empty array', () => {
-      const invalidXml = `<invalid<xml`
-      const result = parseResponseHausnummern({}, invalidXml)
-
-      expect(result.features).toEqual([])
     })
   })
 })

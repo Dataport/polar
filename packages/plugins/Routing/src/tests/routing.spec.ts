@@ -5,6 +5,12 @@ import createTestMountParameters, {
 import { Routing } from '../components/index'
 import { makeStoreModule } from '../store/index'
 
+/**
+ * Test suite for the 'plugin-routing' module.
+ *
+ * This suite includes tests for the Vue component integration and the store functionality
+ * within the 'plugin-routing' module.
+ */
 describe('plugin-routing', () => {
   let testParameters: MockParameters
 
@@ -17,6 +23,9 @@ describe('plugin-routing', () => {
     )
   })
 
+  /**
+   * Test suite for components within the 'plugin-routing' module.
+   */
   describe('components', () => {
     it('should define all elements', () => {
       const wrapper = mount(Routing, { ...testParameters }) // hier wird das mounten des Routing components vorgetäuscht

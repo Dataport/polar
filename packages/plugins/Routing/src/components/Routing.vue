@@ -107,6 +107,7 @@
         <template #activator="{ on }">
           <div v-on="on">
             <v-btn
+              class="sendButton"
               :aria-label="$t('common:plugins.routing.sendRequestButton')"
               :disabled="areFieldsMissing"
               @click="sendRequest"
@@ -420,6 +421,7 @@ export default Vue.extend({
   align-items: center;
   padding-left: 20px;
   padding-right: 20px;
+  padding-bottom: 20px;
 }
 .align-center {
   text-align: center;
@@ -441,6 +443,9 @@ export default Vue.extend({
   flex-wrap: nowrap;
   gap: 20px;
   justify-content: space-evenly;
+}
+.sendButton {
+  margin-bottom: 20px;
 }
 .details-container {
   max-height: 300px;
