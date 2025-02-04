@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-geo-location",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "GeoLocation plugin for POLAR that adds geographic user detection if the user so allows. The user position is indicated with a marker.",
   "keywords": [
     "OpenLayers",

@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-layer-chooser",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "LayerChooser plugin for POLAR that adds a layer selection and configuration UI element for both backgrounds and overlays.",
   "keywords": [
     "OpenLayers",

@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-reverse-geocoder",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "ReverseGeocoder plugin for POLAR that adds a ui-less reverse geocoding mechanism that can be adresses via store interactions.",
   "keywords": [
     "OpenLayers",

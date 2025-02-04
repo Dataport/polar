@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-fullscreen",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Fullscreen plugin for POLAR that adds a fullscreen button.",
   "keywords": [
     "OpenLayers",
