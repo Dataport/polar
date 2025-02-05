@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { PluginOptions } from '@polar/lib-custom-types'
 import { GeometrySearch } from './components'
-import language from './language'
+import locales from './locales'
 import { makeStoreModule } from './store'
 
 interface GeometrySearchConfiguration extends PluginOptions {
@@ -13,7 +13,7 @@ export default (options: Partial<GeometrySearchConfiguration>) =>
     instance.$store.dispatch('addComponent', {
       name: 'geometrySearch',
       plugin: GeometrySearch,
-      language,
+      locales,
       storeModule: makeStoreModule(),
       options,
     })

@@ -3,7 +3,7 @@
     <v-btn
       icon
       :small="showSmall"
-      :aria-label="$t('common:plugins.gfi.switch.previous')"
+      :aria-label="$t('plugins.gfi.switch.previous')"
       @click="switchFeature(-1)"
     >
       <v-icon :small="showSmall">fa-arrow-left-long</v-icon>
@@ -11,7 +11,7 @@
     <v-btn
       icon
       :small="showSmall"
-      :aria-label="$t('common:plugins.gfi.switch.next')"
+      :aria-label="$t('plugins.gfi.switch.next')"
       @click="switchFeature(1)"
     >
       <v-icon :small="showSmall">fa-arrow-right-long</v-icon>

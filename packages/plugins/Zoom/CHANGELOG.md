@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.4.0
 
 - Feature: Add option to configure used icons.
 

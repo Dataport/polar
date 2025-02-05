@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.4.0
 
 - Feature: Add option to configure used icons.
 - Chore: Upgrade `ol` from `^9.2.4` to `^10.3.1`.

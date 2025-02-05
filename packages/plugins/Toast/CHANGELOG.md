@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.2
+
+- Chore: Update `@polar/lib-custom-types` to `v2.0.0`.
+
 ## 1.1.1
 
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.

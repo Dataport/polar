@@ -35,9 +35,7 @@ for (const path of packages) {
       tags.push(`${packageName}@${nextVersion}`)
 
       cp.execSync(
-        `npx nx release version --projects ${packageName} --specifier ${nextVersion} --git-commit-message "Update package ${{
-          packageName,
-        }} to {version}." --verbose false`,
+        `npx nx release version --projects ${packageName} --specifier ${nextVersion} --git-commit-message "Update package ${packageName} to {version}." --verbose false`,
         { stdio: ['pipe', 'ignore', 'pipe'] }
       )
     }

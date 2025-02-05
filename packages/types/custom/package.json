@@ -1,6 +1,6 @@
 {
   "name": "@polar/lib-custom-types",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "global type package for overarching types in POLAR",
   "keywords": [
     "OpenLayers",

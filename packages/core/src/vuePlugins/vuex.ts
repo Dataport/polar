@@ -217,7 +217,7 @@ export const makeStore = () => {
     actions: {
       checkServiceAvailability,
       addComponent({ state, commit, dispatch }, component: PluginContainer) {
-        const { language, name, options, storeModule } = component
+        const { locales, language, name, options, storeModule } = component
 
         /* configuration merge – "options" are from client-code, "configuration"
          * is from mapConfiguration object and thus overrides */
@@ -239,9 +239,9 @@ export const makeStore = () => {
             dispatch(setupActionName, options)
           }
         }
-        if (language) {
-          // NOTE: If somehow needed later, add the namespace to the LanguageOption as well
-          language.forEach((lng) => {
+        if (locales ?? language) {
+          // NOTE: If somehow needed later, add the namespace to the Locale as well
+          ;(locales ?? language).forEach((lng) => {
             i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
           })
         }

@@ -44,7 +44,7 @@ export function navigateToDenkmal(instance, objektId: string) {
       console.error('@polar/client-dish', error)
       instance.$store.dispatch('plugin/toast/addToast', {
         type: 'warning',
-        text: 'common:dish.idNotFound',
+        text: 'dish.idNotFound',
       })
     })
 }

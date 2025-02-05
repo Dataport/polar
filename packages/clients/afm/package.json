@@ -1,8 +1,13 @@
 {
   "name": "@polar/client-afm",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "POLAR Client AfM. This client has been put together for use in citizen participation platforms and for making applications (referring to legal documents, not executables).",
-  "keywords": ["OpenLayers", "ol", "POLAR", "client"],
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "client"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
@@ -26,20 +31,20 @@
     "dev": "vite --host"
   },
   "devDependencies": {
-    "@polar/core": "^2.0.0",
-    "@polar/plugin-address-search": "^2.0.0",
-    "@polar/plugin-attributions": "^1.3.0",
-    "@polar/plugin-draw": "^2.0.0",
-    "@polar/plugin-export": "^1.2.1",
-    "@polar/plugin-gfi": "^2.0.0",
-    "@polar/plugin-icon-menu": "^1.3.0",
-    "@polar/plugin-layer-chooser": "^1.2.1",
-    "@polar/plugin-legend": "^1.1.1",
-    "@polar/plugin-loading-indicator": "^1.2.0",
-    "@polar/plugin-pins": "^2.0.0",
-    "@polar/plugin-scale": "^2.0.0",
-    "@polar/plugin-toast": "^1.1.1",
-    "@polar/plugin-zoom": "^1.3.0"
+    "@polar/core": "^3.0.0",
+    "@polar/plugin-address-search": "^3.0.0",
+    "@polar/plugin-attributions": "^1.4.0",
+    "@polar/plugin-draw": "^3.0.0",
+    "@polar/plugin-export": "^1.2.2",
+    "@polar/plugin-gfi": "^3.0.0",
+    "@polar/plugin-icon-menu": "^1.3.1",
+    "@polar/plugin-layer-chooser": "^2.0.0",
+    "@polar/plugin-legend": "^1.1.2",
+    "@polar/plugin-loading-indicator": "^1.2.1",
+    "@polar/plugin-pins": "^3.0.0",
+    "@polar/plugin-scale": "^3.0.0",
+    "@polar/plugin-toast": "^1.1.2",
+    "@polar/plugin-zoom": "^1.4.0"
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
@@ -48,6 +53,9 @@
     "lodash.merge": "^4.6.2"
   },
   "nx": {
-    "includedScripts": ["build", "dev"]
+    "includedScripts": [
+      "build",
+      "dev"
+    ]
   }
 }

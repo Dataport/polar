@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-zoom",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Zoom plugin for POLAR that adds zoom functionality via UI and store.",
   "keywords": [
     "OpenLayers",
@@ -28,7 +28,7 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.5.0",
-    "@polar/lib-test-mount-parameters": "^1.3.0"
+    "@polar/lib-custom-types": "^2.0.0",
+    "@polar/lib-test-mount-parameters": "^1.3.2"
   }
 }
