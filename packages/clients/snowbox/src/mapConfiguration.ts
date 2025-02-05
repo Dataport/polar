@@ -281,8 +281,6 @@ export const mapConfiguration = {
       },
     },
     addressSearch: {
-      addLoading: 'plugin/loadingIndicator/addLoadingKey',
-      removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
       searchMethods: [
         {
           queryParameters: {

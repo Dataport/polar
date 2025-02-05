@@ -132,9 +132,10 @@
         v-if="showSteps && Object.keys(searchResponseData).length !== 0"
         class="details-container"
       >
-        Duration:
+        {{ $t('common:plugins.routing.duration') }}
         {{ formatDuration(searchResponseTotalValues[0].duration) }} &nbsp;
-        Distance: {{ formatDistance(searchResponseTotalValues[0].distance) }}
+        {{ $t('common:plugins.routing.distance') }}
+        {{ formatDistance(searchResponseTotalValues[0].distance) }}
         <v-list
           v-for="(step, i) in searchResponseSegments"
           :key="i"
@@ -146,7 +147,9 @@
                 {{ step['instruction'] }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                Distance: {{ formatDistance(step['distance']) }}, Duration:
+                {{ $t('common:plugins.routing.distance') }}
+                {{ formatDistance(step['distance']) }},
+                {{ $t('common:plugins.routing.duration') }}
                 {{ formatDuration(step['duration']) }}
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -396,7 +399,7 @@ export default Vue.extend({
     },
     formatDistance(distance) {
       if (distance >= 1000) {
-        return `${(distance / 1000).toFixed(1)}km`
+        return `${(distance / 1000).toFixed(1)} km`
       }
       return `${distance} m`
     },
