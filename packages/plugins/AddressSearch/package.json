@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-address-search",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "AddressSearch plugin for POLAR that adds a user interface to search for various kinds of textual information to map it to a geometry; e.g. parcel numbers or addresses, but any kind of toponym mapping is possible.",
   "keywords": [
     "OpenLayers",
@@ -33,10 +33,10 @@
     "vuex": "^3.6.2"
   },
   "dependencies": {
-    "@polar/lib-get-features": "^2.0.0",
+    "@polar/lib-get-features": "^3.0.0",
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.5.0"
+    "@polar/lib-custom-types": "^2.0.0"
   }
 }

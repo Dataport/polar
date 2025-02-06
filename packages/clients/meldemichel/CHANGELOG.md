@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Chore: Update `@polar`-dependencies to the latest versions.
+
 ## 1.2.1
 
 - Feature: Add `stadtwaldActive` as startup parameter for `createMap` object and `meldemichel/setMapState` action. Refer to the API.md regarding further details.

@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-filter",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Filter plugin for POLAR that adds filter functionality to vector-data based layers.",
   "keywords": [
     "OpenLayers",
@@ -24,7 +24,7 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.5.0",
-    "@polar/lib-invisible-style": "^2.0.0"
+    "@polar/lib-custom-types": "^2.0.0",
+    "@polar/lib-invisible-style": "^3.0.0"
   }
 }

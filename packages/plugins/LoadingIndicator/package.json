@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-loading-indicator",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "LoadingIndicator plugin for POLAR that adds a configurable element to indicate something is loading.",
   "keywords": [
     "OpenLayers",
@@ -27,6 +27,6 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.5.0"
+    "@polar/lib-custom-types": "^2.0.0"
   }
 }
