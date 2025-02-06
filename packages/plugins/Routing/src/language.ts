@@ -40,6 +40,8 @@ const language: LanguageOption[] = [
           toolTip:
             'Pflichtfelder: Startadresse, Zieladresse, Fortbewegungsart und bevorzugte Route.',
           routeDetails: 'Details zur Route',
+          distance: 'Entfernung:',
+          duration: 'Dauer:',
         },
       },
     },
@@ -82,6 +84,8 @@ const language: LanguageOption[] = [
           toolTip:
             'Required: Start Address, Destination Address, Travel Mode and Preferred Route.',
           routeDetails: 'Route Details',
+          distance: 'Distance:',
+          duration: 'Duration:',
         },
       },
     },

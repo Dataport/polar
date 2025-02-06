@@ -215,6 +215,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
    * @param responseText - XML response text.
    * @returns Parsed house numbers data.
    */
+  // empty action context is necessary here
+  // eslint-disable-next-line no-empty-pattern
   parseResponseHausnummern({}, responseText) {
     try {
       const parser = new DOMParser()
@@ -222,8 +224,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       const members = xmlDoc.getElementsByTagName('wfs:member')
       const features: SearchResponseDataInterface[] = []
 
-      for (let i = 0; i < members.length; i++) {
-        const member = members[i]
+      for (const member of members) {
         const hauskoordinaten = member.getElementsByTagName(
           'gages:Hauskoordinaten'
         )[0]
@@ -282,8 +283,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       const members = xmlDoc.getElementsByTagName('wfs:member')
       const features: FeatureInterface[] = []
 
-      for (let i = 0; i < members.length; i++) {
-        const member = members[i]
+      for (const member of members) {
         const strasseElement = member.getElementsByTagName('dog:Strassen')[0]
 
         if (strasseElement) {
@@ -307,8 +307,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
 
           const hausnummerElements =
             strasseElement.getElementsByTagName('dog:hausnummer')
-          for (let j = 0; j < hausnummerElements.length; j++) {
-            hausnummern.push(hausnummerElements[j].textContent)
+          for (const hausnummer of hausnummerElements) {
+            hausnummern.push(hausnummer.textContent)
           }
 
           features.push({

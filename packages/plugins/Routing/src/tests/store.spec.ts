@@ -130,51 +130,6 @@ describe('plugin-routing', () => {
           clickHandler({ coordinate: [20, 60] })
           expect(actionContext.commit).toHaveBeenCalledWith('setEnd', [20, 60])
         })
-        /*
-        it('should not set end point if it matches start point', () => {
-          let clickHandler
-          actionContext.rootGetters.map.on = jest.fn((event, handler) => {
-            if (event === 'click') clickHandler = handler
-          })
-
-          // @ts-ignore
-          initializeTool(actionContext)
-
-          if (!clickHandler) throw new Error('Click handler was not set')
-
-          console.error('Initial state:', actionContext.state)
-          console.error(
-            'Map event listeners:',
-            actionContext.rootGetters.map.on.mock.calls
-          )
-          console.error('Commits before click:', actionContext.commit.mock.calls)
-
-          // Simulate first click (start point)
-          clickHandler({ coordinate: [10, 50] })
-
-          console.error("Commits after first click:", actionContext.commit.mock.calls);
-          console.error("State after first click:", actionContext.state);
-
-          expect(actionContext.commit).toHaveBeenCalledWith(
-            expect.stringMatching(/setStart/),
-            expect.arrayContaining([10, 50])
-          ) 
-
-          // Simulate a second click on the same coordinate
-          clickHandler({ coordinate: [10, 50] })
-          expect(actionContext.commit).not.toHaveBeenCalledWith(
-            'setEnd',
-            [10, 50]
-          )
-          const calls = actionContext.commit.mock.calls.map((call) => call[0])
-          expect(calls).toEqual([
-            'setSelectableTravelModes',
-            'setSelectablePreferences',
-            'setDisplayPreferences',
-            'setDisplayRouteTypesToAvoid',
-            'setStart',
-          ])
-        }) */
       })
       describe('resetCoordinates', () => {
         const routingStore = makeStoreModule()

@@ -1,6 +1,6 @@
 import VectorLayer from 'ol/layer/Vector'
 import { Stroke, Style } from 'ol/style'
-import { RouteStyle } from '@polar/lib-custom-types' // TODO: routeStyle aus der mapConfig?
+import { RouteStyle } from '@polar/lib-custom-types'
 import { PolarVectorOptions } from '../types'
 
 /**

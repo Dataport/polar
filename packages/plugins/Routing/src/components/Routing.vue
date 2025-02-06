@@ -302,7 +302,7 @@ export default Vue.extend({
             localKey: 'common:plugins.routing.avoidRoutes.ferries',
           },
         ]
-      }['']
+      }
       return availableOptions
     },
     areFieldsMissing() {
