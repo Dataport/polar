@@ -162,12 +162,12 @@ export function search(
         if (error.message === dishBackendSizeError) {
           this.dispatch('plugin/toast/addToast', {
             type: 'warning',
-            text: 'common:dish.backendSizeError',
+            text: 'dish.backendSizeError',
           })
         } else {
           this.dispatch('plugin/toast/addToast', {
             type: 'error',
-            text: 'common:dish.unknownError',
+            text: 'dish.unknownError',
           })
         }
       }

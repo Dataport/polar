@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.0
 
 - Breaking: Upgrade peerDependency `ol` from `^9.2.4` to `^10.3.1`.
 

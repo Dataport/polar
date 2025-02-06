@@ -1,7 +1,9 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.0
 
+- Breaking: The type `LanguageOption` has been renamed to `Locale`.
+- Feature: The `PluginContainer` now specifies `language` as deprecated. Please use the new key `locales` instead.
 - Feature: Add new optional parameters `icons` to `AttributionConfiguration` and `ZoomConfiguration` to override plugin specific icons.
 - Feature: Add new type `ZoomIcons`.
 - Feature: Add new interface `LegendConfiguration` including new available configuration options to override icons for `@polar/plugin-legend`.
@@ -11,7 +13,7 @@
 - Feature: Add new type `MeasureMode`.
 - Feature: Add optional property `measure` to `DrawStyle`.
 - Feature: Add new property `multiSelect` to `GfiConfiguration`.
-- Fix: Make `selectionStyle`, `hoverStyle`, `defaultStyle` and `unselectableStyle` optional and edit type for `dispatchOnMapSelect` in interface `ExtendedMasterportalapiMarkers`. 
+- Fix: Make `selectionStyle`, `hoverStyle`, `defaultStyle` and `unselectableStyle` optional and edit type for `dispatchOnMapSelect` in interface `ExtendedMasterportalapiMarkers`.
 
 ## 1.5.0
 

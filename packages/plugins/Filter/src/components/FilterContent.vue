@@ -2,7 +2,7 @@
   <v-card class="polar-plugin-filter-wrapper">
     <template v-for="(layerId, layerIndex) of layers">
       <v-card-title :key="`plugin-filter-layer-title-${layerIndex}`">
-        {{ $t(`common:plugins.filter.layerName.${layerId}`) }}
+        {{ $t(`plugins.filter.layerName.${layerId}`) }}
       </v-card-title>
       <v-divider :key="`plugin-filter-divider-${layerIndex}`"></v-divider>
       <v-expansion-panels
@@ -18,9 +18,7 @@
           >
             <v-expansion-panel-header>
               {{
-                $t(
-                  `common:plugins.filter.category.${layerId}.title.${targetProperty}`
-                )
+                $t(`plugins.filter.category.${layerId}.title.${targetProperty}`)
               }}
             </v-expansion-panel-header>
             <v-expansion-panel-content>
@@ -28,7 +26,7 @@
                 v-if="selectAll"
                 dense
                 hide-details
-                :label="$t('common:plugins.filter.category.deselectAll')"
+                :label="$t('plugins.filter.category.deselectAll')"
                 :indeterminate="
                   getActiveCategoryAll({ layerId, targetProperty }) ===
                   'indeterminate'
@@ -43,7 +41,7 @@
                 hide-details
                 :label="
                   $t(
-                    `common:plugins.filter.category.${layerId}.${targetProperty}.${knownValue}`
+                    `plugins.filter.category.${layerId}.${targetProperty}.${knownValue}`
                   )
                 "
                 :input-value="
@@ -58,7 +56,7 @@
         </template>
         <v-expansion-panel v-if="getTimeConfig(layerId)">
           <v-expansion-panel-header class="polar-plugin-filter-expansion">
-            {{ $t(`common:plugins.filter.time.header`) }}
+            {{ $t(`plugins.filter.time.header`) }}
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-radio-group
@@ -78,7 +76,7 @@
               "
             >
               <v-radio
-                :label="$t('common:plugins.filter.time.noRestriction')"
+                :label="$t('plugins.filter.time.noRestriction')"
                 :value="0"
               ></v-radio>
               <template

@@ -18,9 +18,7 @@
               :color="open === index ? 'primaryContrast' : 'primary'"
               fab
               small
-              :aria-label="
-                $t(hint ? hint : `common:plugins.iconMenu.hints.${id}`)
-              "
+              :aria-label="$t(hint ? hint : `plugins.iconMenu.hints.${id}`)"
               v-bind="attrs"
               @click="toggle(Number(index))"
               v-on="on"
@@ -30,9 +28,7 @@
               </v-icon>
             </v-btn>
           </template>
-          <span>{{
-            $t(hint ? hint : `common:plugins.iconMenu.hints.${id}`)
-          }}</span>
+          <span>{{ $t(hint ? hint : `plugins.iconMenu.hints.${id}`) }}</span>
         </v-tooltip>
         <!-- Content is displayed in MoveHandle of the core if hasWindowSize and hasSmallWidth are true -->
         <component
