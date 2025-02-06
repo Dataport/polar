@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.0
 
 - Breaking: The type `LanguageOption` has been renamed to `Locale`.
 - Feature: The `PluginContainer` now specifies `language` as deprecated. Please use the new key `locales` instead.
