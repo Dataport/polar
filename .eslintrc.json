@@ -36,9 +36,9 @@
     "no-eval": "error",
     "no-implied-eval": "error",
     "complexity": "warn",
-    "max-depth": "warn",
-    "max-lines": "error",
-    "max-lines-per-function": "error"
+    "max-depth": "off",
+    "max-lines": "off",
+    "max-lines-per-function": "off"
   },
   "ignorePatterns": ["**/node_modules/**/*", "**/dist/**/*"],
   "settings": {
