@@ -13,70 +13,70 @@ This module has been written for the "BKG-Routing-Service" and uses the "Adresss
 | - | - | - |
 |serviceUrl|string|The url of the routing service to be used.|
 |format|string|The format in which the answer of the routing service is expected in.|
-|selectableTravelModes|string[]|Specifies which selection of transportation modes (e.g. driving-car, driving-hgv, foot-walking, cycling-regular, wheelchair) is available to the user. In the default setting, all modes are offered.|
-|selectable Preferences|string[]|Specifies which preferences for the route are offered to the user.|
+|selectableTravelModes|string[]|Specifies which selection of transportation modes (driving-car, driving-hgv, foot-walking, cycling-regular, wheelchair) is available to the user. In the default setting, all modes are offered.|
+|selectable Preferences|string[]|Specifies which preferences for the route (recommended, fastest, shortest) are offered to the user.|
 |displayPreferences|bolean|Defines wether the preferences for the route are offered to the user for selection.|
 |displayRouteTypesToAvoid|boolean|Defines wether route types to avoid are offered to the user for selection.|
-|routeStyle|||
+|routeStyle|style? | Please see example below for styling options. Defaults to standard OpenLayers styling. |
 |routeStyle.stroke|||
-|routeStyle.color|||
-|routeStyle.width|||
 |addressSearch|||
-|addressSearch.addLoading|||
-|addressSearch.removeLoading|||
-|addressSearch.searchMethods|||
-|addressSearch.searchMethods.queryParameters|||
-|addressSearch.searchMethods.queryParameters.searchAddress|boolean||
-|addressSearch.searchMethods.queryParameters.searchStreets|boolean||
-|addressSearch.searchMethods.queryParameters.searchHouseNumbers|boolean||
-|addressSearch.searchMethods.type|string||
-|addressSearch.searchMethods.url|string|The url of the service to be used for the address search.|
-|addressSearch.minLength|number||
-|addressSearch.waitMs|number||
+|searchMethods | searchMethodsObject[] | Array of search method descriptions. Only searches configured here can be used. |
+|minLength | number? | Minimal input length after which searches are started. Defaults to 0. |
+|waitMs | number? | Debounce time in ms for search requests after last user input. Defaults to 0. |
 
-## Store // TODO: Ans Routing-Plugin anpassen
-
-### Mutations
-
-#### setSelectedGroupName
-
-This can be used to change the selected search group by name.
-
-```js
-map.$store.commit(
-  'plugin/addressSearch/setSelectedGroupName',
-  'Parcel search'
-)
-```
-
-Please mind that programmatically changing the search group will _not_ trigger a search, unlike a search group change by the user. If you need a search after change, consider the `search` action.
-
-### Actions
-
-#### search
-
-This is a purely programmatical search method. It is not used by user input.
-
-```js
-map.$store.dispatch('plugin/addressSearch/search', {
-  input: 'Station Road 12',
-  autoselect: 'first',
-})
-```
-
-The payload object supports the following fields:
+#### routeStyle.stroke
 
 | fieldName | type | description |
 | - | - | - |
-| input | string | Search string to be used. |
-| autoselect | enum['first', 'only', 'never'] | By default, 'never' is selected, and results will be presented as if the user searched for them. Setting 'only' will autoselect if a single result was returned; setting 'first' will autoselect the first of an arbitrary amount of results >=1. |
+|routeStyle.color|||
+|routeStyle.width|||
 
-### State
+<details>
+
+The `@masterportal/masterportalapi` has vectorStyles in development. As soon as that's done, we shall use its styling syntax and methods.
+
+For the time being, please use this example as a rough reference as to what can currently be done.
+
+<summary>Example configuration</summary>
 
 ```js
-map.subscribe('plugin/addressSearch/chosenAddress', (chosenAddress) => {
-  /* Your code. */
-})
+routing: {
+    routeStyle: {
+    stroke: {
+      color: '#e51313',
+      width: 6,
+    },
+  },
+}
 ```
 
-Address object _as returned by search service_. The result and its fields differ depending on the used backend. The callback is used whenever the user clicks on a search result or started a one-result search, which results in an auto-select of the singular result.
+</details>
+
+#### addressSearch.searchMethodsObject
+
+| fieldName | type | description |
+| - | - | - |
+| queryParameters | object? | The object further describes details for the search request. Its contents vary by service type, see documentation below. |
+| type | enum["bkg", "wfs", "mpapi"] | Service type. For now, mpapi is the only option. |
+| url | string | Search service URL. Should you require a service provider, please contact us for further information. |
+
+##### addressSearch.searchMethodsObject.queryParameters (type:mpapi)
+
+> **Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the [masterportalapi](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/). This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.**
+
+| fieldName | Type | Description |
+| - | - | - |
+| searchAddress | Boolean? | Defines whether address search is active. For backward compatibility, if "searchAddress" is not configured, the "searchAddress" attribute is set to "true" when "searchStreets" and "searchHouseNumbers" are set to "true". |
+| searchStreets | Boolean? | Defines whether street search is active. Precondition to set `searchHouseNumbers` to `true`. |
+| searchHouseNumbers | Boolean? | Defines whether house numbers should be searched for. Requires `searchStreets` to be set to `true`, too. |
+
+While all fields are optional, configuring none of them will yield undefined behaviour. At least one search instruction should be set to `true`.
+
+```js
+type: 'mpapi'
+queryParameters: {
+  searchAddress: true,
+  searchStreets: true,
+  searchHouseNumbers: true,
+},
+```
