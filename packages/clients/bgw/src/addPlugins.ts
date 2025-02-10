@@ -84,9 +84,7 @@ export default (core) => {
     }),
     Legend(
       merge({}, defaultOptions, {
-        renderType: 'independent',
         layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        maxWidth: 500,
       })
     ),
     LoadingIndicator(
