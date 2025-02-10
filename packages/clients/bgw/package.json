@@ -16,7 +16,7 @@
     "dist/**/**.*",
     "docs/**/**.*",
     "CHANGELOG.md",
-    "API.md"
+    "README.md"
   ],
   "scripts": {
     "prepublishOnly": "npm run build",
