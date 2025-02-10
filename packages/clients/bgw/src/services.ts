@@ -59,7 +59,6 @@ export default [
     transparent: true,
     layers: 'Kreise_Aemter_Gemeinden',
     singleTile: false,
-    tilesize: 256,
   },
   {
     id: '14001',
@@ -69,10 +68,7 @@ export default [
     featureType: 'app:badestraende',
     version: '1.1.0',
     outputFormat: 'XML',
-    gfiAttributes: 'showAll',
     layerAttribution: 'nicht vorhanden',
-    hitTolerance: '0',
-    datasets: [],
   },
   {
     id: '14002',
@@ -82,10 +78,7 @@ export default [
     featureType: 'app:betrachtungsbereiche',
     version: '1.1.0',
     outputFormat: 'XML',
-    gfiAttributes: 'showAll',
     layerAttribution: 'nicht vorhanden',
-    hitTolerance: '0',
-    datasets: [],
   },
   {
     id: '14003',
@@ -95,10 +88,7 @@ export default [
     featureType: 'app:badestellen',
     version: '1.1.0',
     outputFormat: 'XML',
-    gfiAttributes: 'showAll',
     layerAttribution: 'nicht vorhanden',
-    hitTolerance: '0',
-    datasets: [],
     clusterDistance: 20,
   },
   {
@@ -109,9 +99,6 @@ export default [
     featureType: 'app:probenahmestellen',
     version: '1.1.0',
     outputFormat: 'XML',
-    gfiAttributes: 'showAll',
     layerAttribution: 'nicht vorhanden',
-    hitTolerance: '0',
-    datasets: [],
   },
 ]
