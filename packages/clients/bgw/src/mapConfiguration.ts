@@ -2,17 +2,6 @@
 import { BKGParameters } from '@polar/plugin-address-search/src/types'
 
 const mapConfig = {
-  epsg: 'EPSG:25832',
-  namedProjections: [
-    [
-      'EPSG:25832',
-      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-    ],
-    [
-      'EPSG:4326',
-      '+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',
-    ],
-  ],
   extent: [106281, 5223179, 1021520, 6126916],
   startCenter: [552874, 6005140],
   startResolution: 260.591595229,
