@@ -1,6 +1,6 @@
 {
   "name": "@polar/client-bgw",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.0",
   "description": "POLAR Client Badegewässer.",
   "keywords": ["OpenLayers", "ol", "POLAR", "client", "Badegewässer", "bathing areas"],
   "license": "EUPL-1.2",
