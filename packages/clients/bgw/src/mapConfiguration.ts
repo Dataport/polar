@@ -32,7 +32,7 @@ const mapConfig = {
               '14003': 'Badestellen',
             },
             category: {
-              14003: {
+              '14003': {
                 title: {
                   bgw_gwkategory: 'Gewässerkategorie',
                 },
