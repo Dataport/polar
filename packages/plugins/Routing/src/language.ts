@@ -76,9 +76,9 @@ const language: LanguageOption[] = [
           },
           avoidRoutesTitle: 'Types of routes to avoid',
           avoidRoutes: {
-            highways: 'highways',
-            tollways: 'tollways',
-            ferries: 'ferries',
+            highways: 'Highways',
+            tollways: 'Tollways',
+            ferries: 'Ferries',
           },
           sendRequestButton: 'Send',
           toolTip:

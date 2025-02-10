@@ -447,6 +447,12 @@ export default Vue.extend({
   gap: 20px;
   justify-content: space-evenly;
 }
+@media (max-width: 600px) {
+  .checkbox-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
 .sendButton {
   margin-bottom: 20px;
 }
@@ -455,8 +461,30 @@ export default Vue.extend({
   overflow-y: auto; /* enables scrolling */
   padding-top: 10px;
   text-align: center;
+  max-width: 80%;
+  margin: 0 auto;
 }
 .detail-list {
   text-align: left;
+}
+@media (max-width: 600px) {
+  .details-container {
+    max-width: 95%;
+    max-height: 400px;
+    padding: 5px;
+  }
+
+  .detail-list {
+    font-size: 14px;
+  }
+
+  v-list-item-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  v-list-item-subtitle {
+    font-size: 14px;
+  }
 }
 </style>

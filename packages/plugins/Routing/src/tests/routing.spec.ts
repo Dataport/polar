@@ -16,7 +16,7 @@ describe('plugin-routing', () => {
 
   beforeEach(() => {
     testParameters = createTestMountParameters()
-    // täuscht die Erstellung des Stores vor
+    // simulates the store creation
     testParameters.store.registerModule(
       ['plugin', 'routing'],
       makeStoreModule()
@@ -28,7 +28,7 @@ describe('plugin-routing', () => {
    */
   describe('components', () => {
     it('should define all elements', () => {
-      const wrapper = mount(Routing, { ...testParameters }) // hier wird das mounten des Routing components vorgetäuscht
+      const wrapper = mount(Routing, { ...testParameters }) // simulates the mounting of the routing component
       const vBtn = wrapper.findAllComponents({ name: 'v-btn' })
       expect(vBtn.length).toBe(3)
     })
