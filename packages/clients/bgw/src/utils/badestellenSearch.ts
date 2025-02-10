@@ -4,7 +4,7 @@ import {
   AddressSearchGetters,
   AddressSearchState,
 } from '@polar/plugin-address-search'
-import { Feature, GeoJsonProperties, Geometry } from 'geojson'
+import { Feature } from 'geojson'
 
 export const badestellenSearchResult: SelectResultFunction<
   AddressSearchState,
@@ -14,7 +14,7 @@ export const badestellenSearchResult: SelectResultFunction<
   {
     feature,
   }: {
-    feature: Feature<Geometry, GeoJsonProperties> & {
+    feature: Feature & {
       title: string
       epsg?: string
     }
