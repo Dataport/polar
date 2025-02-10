@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-legend",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Legend plugin for POLAR that adds a simple legend overview referring to the services' provided infographics.",
   "keywords": [
     "OpenLayers",
@@ -24,9 +24,9 @@
     "CHANGELOG.md"
   ],
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.5.0"
+    "@polar/lib-custom-types": "^2.0.0"
   },
   "peerDependencies": {
-    "@masterportal/masterportalapi": "2.40.0"
+    "@masterportal/masterportalapi": "2.45.0"
   }
 }
