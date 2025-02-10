@@ -29,7 +29,7 @@ const mapConfig = {
         plugins: {
           filter: {
             layerName: {
-              14003: 'Badestellen',
+              '14003': 'Badestellen',
             },
             category: {
               14003: {
