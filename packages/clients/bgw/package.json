@@ -2,7 +2,7 @@
   "name": "@polar/client-bgw",
   "version": "1.0.0",
   "description": "POLAR Client BGW.",
-  "keywords": ["OpenLayers", "ol", "POLAR", "client", "Badegewässer"],
+  "keywords": ["OpenLayers", "ol", "POLAR", "client", "Badegewässer", "bathing areas"],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
