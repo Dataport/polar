@@ -42,7 +42,8 @@ export default (client, layerConf, config) => {
 
       const htmlZoom = document.getElementById('subscribed-zoom')
       const htmlGfi = document.getElementById('subscribed-gfi')
-      const htmlExport = document.getElementById('subscribed-export')
+      const htmlExportA = document.getElementById('subscribed-export-a')
+      const htmlExportImg = document.getElementById('subscribed-export-img')
 
       mapInstance.subscribe(
         'plugin/zoom/zoomLevel',
@@ -52,9 +53,17 @@ export default (client, layerConf, config) => {
         'plugin/gfi/featureInformation',
         (v) => (htmlGfi.innerHTML = JSON.stringify(v, null, 2))
       )
-      mapInstance.subscribe('plugin/export/exportedMap', (screenshot) =>
-        htmlExport.setAttribute('src', screenshot)
-      )
+      mapInstance.subscribe('plugin/export/exportedMap', (screenshot) => {
+        htmlExportImg.setAttribute('src', screenshot)
+        if (navigator.userAgent.toLowerCase().includes('firefox')) {
+          htmlExportImg.onclick = function () {
+            window.open(this.src, '_blank')
+          }
+          htmlExportA.onclick = () => false
+        } else {
+          htmlExportA.setAttribute('href', screenshot)
+        }
+      })
 
       window.mapInstance = mapInstance
     })
