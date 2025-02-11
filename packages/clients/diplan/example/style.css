@@ -63,6 +63,12 @@ h2 {
   width: 100%;
 }
 
+.styled-table img {
+  cursor: pointer;
+  width: 400px;
+  height: auto;
+}
+
 .styled-table thead tr {
   background-color: #2b3980;
   color: #ecf4ff;
