@@ -20,10 +20,6 @@ Name and casing of "ObjektID" have been directly taken from the backend to avoid
 
 ## Configuration
 
-The service URLs for the internal monument services (WMS and WFS) need to be configurable. Therefore, the host (`internalHost`), the port and the part of the path that is equal for both services must be defined outside of the map. The `internalHost` and the combination of host, port and path as `internServicesBaseUrl` must be passed to the `createMap` call as attributes of the parameter `urlParams`. 
-
-The `internalHost` is also needed as parameter for the DishExportMap plugin and the gfi plugin, and is passed as attribute of `configOverride` in the `createMap` call. DishExportMap needs this parameter to create the right URL for addressing the backend. The gfi displays photographs of the monuments and uses the parameter as path to the right folder on the server.
-
 | fieldName | type | description |
 | - | - | - |
 | containerId | string | ID of the container the map is supposed to render itself to. |
@@ -37,6 +33,8 @@ The `internalHost` is also needed as parameter for the DishExportMap plugin and 
 | - | - | - |
 | internalHost | string | The URL of the server where the DISH software and the monument services are hosted. |
 | internServicesBaseUrl | string | A combination of host, port and path to create a base URL that can be used for the monument services that run on the same server. |
+
+The `internalHost` is also needed as parameter for the DishExportMap plugin and the gfi plugin, and is passed as attribute of `configOverride` in the `createMap` call. DishExportMap needs this parameter to create the right URL for addressing the backend. The gfi displays photographs of the monuments and uses the parameter as path to the right folder on the server.
 
 ### Example configuration
 
