@@ -42,10 +42,10 @@
     "js-levenshtein": "^1.1.6",
     "lodash.merge": "^4.6.2"
   },
-  "nx": {
-    "includedScripts": ["build", "dev"]
-  },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2"
+  },
+  "nx": {
+    "includedScripts": ["build", "dev"]
   }
 }
