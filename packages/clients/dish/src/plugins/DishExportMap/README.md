@@ -30,8 +30,8 @@ The following properties need to be defined. Properties without fixed values can
 | VersionHintergrund | '1.1.1' | Version for background service ⚠️ Do not change. |
 | LayerNameWMS | '0,9,1,10,2,11,3,12,4,13,25,27,24,26,6,15,19,30,20,31,21,32,22,33,23,34,29,36,28,35' | Layers from the WMS to print. Since they differ from the monument configuration, they are hardcoded and taken from the configuration of the original application to recreate the right look for the map section. | 
 | urlWFS | - | URL of the monument wfs. |
-| VersionWFS | '1.1.0' |  Version for wfs ⚠️ Do not change. |
-| LayerNameWFS | - | Layer for the wfs |
+| VersionWFS | '1.1.0' |  Version for WFS ⚠️ Do not change. |
+| LayerNameWFS | - | Layer for the WFS. |
 | PropertyNameWFS | 'objektid' | No description available. |
 | FilterTypeWFS | 'EQUAL_TO' | No description available. |
 | scaleText | - | The scale with unit, e.g. 1000 m. |
