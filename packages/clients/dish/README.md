@@ -16,7 +16,7 @@ The product can be used for two use cases.
 
 One is a hostable HTML page for the public. Usually, we do not deliver full pages, but rather components. Due to this, it's just that component, but full page width and height. 
 
-The other one is a map that can be embedded in the dish application for internal use and as such is tailered for this specific use case.
+The other one is a map that can be embedded in the dish application for internal use and as such is tailored for this specific use case.
 
 Add a query parameter, e.g. `?ObjektID=1506`, to the page's URL to initially focus a feature and display its feature information by ObjektID.
 
