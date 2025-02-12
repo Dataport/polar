@@ -13,7 +13,7 @@ export const CONTENT_ENUM = {
 
 const getInitialState = (): ModalState => ({
   confirmed: false,
-  closed: false,
+  closed: true,
   content: CONTENT_ENUM.WELCOME,
 })
 
