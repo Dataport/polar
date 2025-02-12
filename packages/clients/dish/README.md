@@ -24,8 +24,6 @@ The service URLs for the internal monument services (WMS and WFS) need to be con
 
 The `internalHost` is also needed as parameter for the DishExportMap plugin and the gfi plugin, and is passed as attribute of `configOverride` in the `createMap` call. DishExportMap needs this parameter to create the right URL for addressing the backend. The gfi displays photographs of the monuments and uses the parameter as path to the right folder on the server.
 
-The `urlParams` parameter and the configuration for the DishExportMap and supplemental configuration for the gfi plugin is only needed for the internal dish application and can be omitted otherwise.
-
 | fieldName | type | description |
 | - | - | - |
 | containerId | string | ID of the container the map is supposed to render itself to. |
