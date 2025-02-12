@@ -6,7 +6,8 @@
 - Feature: The map can now be used for internal use with specific configurations. See the configuration section in the README for relevant configuration information.
 - Feature: Add new searches for address and parcels.
 - Feature: Add new background and specialist data layers.
-- Feature: Add new plugins DishExportMap and InternGfi for intern mode use.
+- Feature: Add new plugin `DishExportMap` for intern mode use.
+- Feature: Expand plugin `Gfi` for intern mode.
 - Fix: Extend typing for search result function according to type package update.
 - Fix: Import types `AddressSearchState` and `AddressSearchGetters` from correct position.
 - Fix: Import enum `SearchResultSymbols` from correct position.
