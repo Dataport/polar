@@ -35,7 +35,7 @@ The following properties need to be defined. Properties without fixed values can
 | PropertyNameWFS | 'objektid' | No description available. |
 | FilterTypeWFS | 'EQUAL_TO' | No description available. |
 | scaleText | - | The scale with unit, e.g. 1000 m. |
-| PrintImageURL | host + '/Content/MapsTmp' | Propably the URL to the created map section. The host is set in the configuration of DishMapExport within the `createMap` call. |
+| PrintImageURL | host + '/Content/MapsTmp' | Probably the URL to the created map section. The host is set in the configuration of DishMapExport within the `createMap` call. |
 | PrintImagePath | 'ContentMapsTmp' |  Propably the relative path to the created map section. |
 
 ## Usage
