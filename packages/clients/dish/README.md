@@ -2,7 +2,7 @@
 
 ## Content
 
-The DISH client differs from other POLAR clients in that it does not take any additional configuration, but is a closed product. All configuration is done dev-side and is versioned; updates require version updates.
+The DISH client is used to display information about monuments. It is versioned; updates require version updates.
 
 Please see the CHANGELOG.md for all changes after the initial release.
 
