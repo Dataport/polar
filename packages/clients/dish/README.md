@@ -2,10 +2,6 @@
 
 ## Content
 
-The client can use two different configurations which are controlled by the parameter `MODE`. `MODE="EXTERN"` will apply the configuration for the map client as the website for the public, and `MODE="INTERN"` for the map used in the internal DISH application. `MODE` is initially set and cannot be changed after hosting. It must be passed in the `createMap` call of the client.
-
-The `index.html` is only used in `EXTERN` mode. 
-
 The DISH client differs from other POLAR clients in that it does not take any additional configuration, but is a closed product. All configuration is done dev-side and is versioned; updates require version updates.
 
 Please see the CHANGELOG.md for all changes after the initial release.
