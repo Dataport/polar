@@ -1,6 +1,6 @@
 # DishExportMap
 
-DishExportMap is a plugin that was created specifically for the internal use of the dish client. It creates a URL to address a backend that triggeres a PDF print with information about a selected monument and a map section centering on the selected monument.
+DishExportMap is a plugin that was created specifically for the internal use of the DISH client. It creates a URL to address a backend that triggeres a PDF print with information about a selected monument and a map section centering on the selected monument.
 
 The original print feature was part of the outdated map in the internal dish software, so the focus was on recreating the old feature and implement it in the polar client. The backend expects specific values and does not leave much room for different configurations which is the reason for a lot of hardcoded values. Due to missing documentation of the original feature, it is not always clear as to why some values must be set or what their meaning is. The url has to be composed in a certain way to address the backend so that the print works successfully. 
 
