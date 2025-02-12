@@ -37,7 +37,7 @@ The `urlParams` parameter and the configuration for the DishExportMap and supple
 
 | fieldName | type | description |
 | - | - | - |
-| internalHost | string | The URL of the server where the DISH software and the monument services are hostet. |
+| internalHost | string | The URL of the server where the DISH software and the monument services are hosted. |
 | internServicesBaseUrl | string | A combination of host, port and path to create a basis URL that can be used for the monument services that run on the same server. |
 
 ### Example configuration
