@@ -6,7 +6,7 @@ The original print feature was part of the outdated map in the internal DISH sof
 
 ## URL composition
 
-The following properties need to be defined. Properties without fixed values can be taken from the map or the selected features from the wms (e.g. scale). The order of the table rows reflects the order in which the properties must appear in the URL.
+The following properties need to be defined. Properties without fixed values can be taken from the map or the selected features from the WMS (e.g. scale). The order of the table rows reflects the order in which the properties must appear in the URL.
 
 | parameter name | hardcoded value | description |
 | - | - | - |
