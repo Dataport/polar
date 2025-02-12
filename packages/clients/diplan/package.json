@@ -47,6 +47,7 @@
     "@polar/plugin-scale": "^3.0.0",
     "@polar/plugin-toast": "^1.1.2",
     "@polar/plugin-zoom": "^1.4.0",
+    "@polar/lib-custom-types": "^2.0.0",
     "diplanung-style": "^13.0.0",
     "lodash.merge": "^4.6.2"
   },
