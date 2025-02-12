@@ -28,7 +28,7 @@ The following properties need to be defined. Properties without fixed values can
 | urlHintergrund | - | URL of the selected background layer. |
 | LayerNameHintergrund | - | Name of the selected background layer. |
 | VersionHintergrund | '1.1.1' | Version for background service ⚠️ Do not change. |
-| LayerNameWMS | '0,9,1,10,2,11,3,12,4,13,25,27,24,26,6,15,19,30,20,31,21,32,22,33,23,34,29,36,28,35' | Layers from the wms to print. Since they differ from the monument configuration, they are hardcoded and taken from the configuration of the original application to recreate the right look for the map section. | 
+| LayerNameWMS | '0,9,1,10,2,11,3,12,4,13,25,27,24,26,6,15,19,30,20,31,21,32,22,33,23,34,29,36,28,35' | Layers from the WMS to print. Since they differ from the monument configuration, they are hardcoded and taken from the configuration of the original application to recreate the right look for the map section. | 
 | urlWFS | - | URL of the monument wfs. |
 | VersionWFS | '1.1.0' |  Version for wfs ⚠️ Do not change. |
 | LayerNameWFS | - | Layer for the wfs |
