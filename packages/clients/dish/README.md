@@ -31,7 +31,7 @@ The `urlParams` parameter and the configuration for the DishExportMap and supple
 | containerId | string | ID of the container the map is supposed to render itself to. |
 | mode |  enum["INTERN", "EXTERN"] | Defines the mode in which the map will be started. |
 | urlParams | DishUrlParams? | Object to define the internalHost and internServicesBaseUrl for internal services. Mandatory for the mode 'INTERN'. |
-| configOverride | object? | This can be used to override the configuration of any installed plugin; see full documentation. In this case, use this object with the plugin names 'dishExportMap' and 'gfi' as properties to define the internalHost for these plugins. Mandatory for the mode 'INTERN'.
+| configOverride | object? | This can be used to override the configuration of any installed plugin; see full documentation. In this case, use this object with the plugin names 'dishExportMap' and 'gfi' as properties to define the `internalHost` for these plugins. Mandatory for the mode 'INTERN'. |
 
 ### urlParams
 
