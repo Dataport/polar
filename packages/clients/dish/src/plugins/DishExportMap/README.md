@@ -22,7 +22,7 @@ The following properties need to be defined. Properties without fixed values can
 | yMin | - | Minimum y-value of the bounding box. |
 | xMax | - | Maximum x-value of the bounding box. |
 | yMax | - | Maximum y-value of the bounding box. |
-| xCenter | - | X-coordinate of the center for the map section. |
+| xCenter | - | x-coordinate of the center for the map section. |
 | yCenter | - | y-coordinate of the center for the map section. |
 | mapSRS | - | EPSG for the map. |
 | urlHintergrund | - | URL of the selected background layer. |
