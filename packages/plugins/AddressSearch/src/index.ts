@@ -11,8 +11,8 @@ export { SearchResultSymbols }
 export type {
   AddressSearchState,
   AddressSearchGetters,
-  MpApiParameters,
   BKGParameters,
+  MpApiParameters,
 } from './types'
 
 export default (options: AddressSearchConfiguration) => (instance: Vue) =>
