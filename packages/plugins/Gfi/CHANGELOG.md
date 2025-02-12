@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Adjust detection whether a user is drawing so that `directSelect` is not disabled when `multiSelect` is in use.
+
 ## 3.0.0
 
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.40.0` to `2.45.0` and subsequently `ol` from `^9.2.4` to `^10.3.1`.
