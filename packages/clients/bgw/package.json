@@ -1,7 +1,7 @@
 {
   "name": "@polar/client-bgw",
   "version": "1.0.0-alpha.0",
-  "description": "POLAR Client Badegewässer.",
+  "description": "POLAR Client Badegewässer. This client provides information about bathing areas in Schleswig-Holstein, Germany.",
   "keywords": ["OpenLayers", "ol", "POLAR", "client", "Badegewässer", "bathing areas"],
   "license": "EUPL-1.2",
   "type": "module",
