@@ -42,22 +42,22 @@ The `internalHost` is also needed as parameter for the DishExportMap plugin and 
 
 ```js
 const urlParams = {
-    internalHost,
-    internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
+  internalHost,
+  internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
 }
 
 client.createMap({
-    containerId: 'polarstern',
-    mode: 'INTERN', // INTERN, EXTERN
-    //only needed for internal map
-    urlParams,
-    configOverride: {
-        dishExportMap: {
-            internalHost: urlParams.internalHost + ':8082',
-        },
-        gfi: {
-            internalHost: urlParams.internalHost,
-        }
+  containerId: 'polarstern',
+  mode: 'INTERN', // INTERN, EXTERN
+  // only needed for internal map
+  urlParams,
+  configOverride: {
+    dishExportMap: {
+      internalHost: urlParams.internalHost + ':8082',
+    },
+    gfi: {
+      internalHost: urlParams.internalHost,
     }
+  }
 })
 ```
