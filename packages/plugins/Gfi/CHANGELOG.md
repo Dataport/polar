@@ -2,8 +2,7 @@
 
 ## unpublished
 
-- Fix: Adjust detection whether a user is drawing so that `directSelect` is not disabled when `multiSelect` is in use.
-- Fix: Refactor setup-function for multi selection so that a user can (again) select and deselect features via `directSelect`.
+- Fix: Clean-up internal flag used for `multiSelect` if a drawing is aborted. This is always the case if a user simply clicks into the map holding CTRL / Command.
 
 ## 3.0.0
 

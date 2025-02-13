@@ -15,8 +15,9 @@ const isDrawing = (map: Map) =>
     .getArray()
     .some(
       (interaction) =>
-        // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
-        (interaction instanceof Draw && interaction._isDrawPlugin) ||
+        (interaction instanceof Draw &&
+          // @ts-expect-error | internal hack to detect it from @polar/plugin-gfi and @polar/plugin-draw
+          (interaction._isMultiSelect || interaction._isDrawPlugin)) ||
         interaction instanceof Modify ||
         // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
         interaction._isDeleteSelect ||
@@ -42,6 +43,8 @@ const drawOptions: DrawOptions = {
   condition: () => false,
 }
 
+// NOTE: This disable can be removed once the deprecated parameter 'boxSelect' has been removed
+// eslint-disable-next-line max-lines-per-function
 export function setupMultiSelection({
   dispatch,
   getters: {
@@ -65,16 +68,19 @@ export function setupMultiSelection({
       // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
       draw._isMultiSelect = true
     })
+    draw.on('drawabort', () => {
+      // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
+      draw._isMultiSelect = false
+    })
     draw.on('drawend', (e) =>
       dispatch('getFeatureInfo', {
         // @ts-expect-error | A feature that is drawn has a geometry.
         coordinateOrExtent: e.feature.getGeometry().getExtent(),
         modifierPressed: true,
-      }).finally(
-        () =>
-          // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
-          (draw._isMultiSelect = false)
-      )
+      }).finally(() => {
+        // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
+        draw._isMultiSelect = false
+      })
     )
     rootGetters.map.addInteraction(draw)
   }
