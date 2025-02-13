@@ -120,6 +120,6 @@ For a detailed step-by-step guide, please refer to our comprehensive [Getting St
 
 ## Stay In Touch
 
-- [Contact us via email 📧](mailto:dataportpolarsupport@dataport.de)
+- [Contact us via email 📧](mailto:polar@dataport.de)
 
 made by [Dataport](https://www.dataport.de/) with ❤️

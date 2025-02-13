@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-If you discover a security vulnerability within this project, please send an e-mail to dataportpolarsupport@dataport.de.
+If you discover a security vulnerability within this project, please send an e-mail to polar@dataport.de.
 
 Please include, if available, the following information in your report:
 

@@ -5,7 +5,7 @@
   "keywords": ["OpenLayers", "ol", "POLAR", "client", "DISH", "monument", "memorial"],
   "license": "EUPL-1.2",
   "type": "module",
-  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "author": "Dataport AöR <polar@dataport.de>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dataport/polar.git",
