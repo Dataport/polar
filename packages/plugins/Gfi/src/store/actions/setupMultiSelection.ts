@@ -47,7 +47,7 @@ export function setupMultiSelection({
   getters: {
     gfiConfiguration: { boxSelect, directSelect, multiSelect },
   },
-  rootGetters: { map },
+  rootGetters,
 }: PolarActionContext<GfiState, GfiGetters>) {
   if (boxSelect || multiSelect === 'box' || multiSelect === 'circle') {
     if (boxSelect) {
@@ -76,11 +76,11 @@ export function setupMultiSelection({
           (draw._isMultiSelect = false)
       )
     )
-    map.addInteraction(draw)
+    rootGetters.map.addInteraction(draw)
   }
   if (directSelect) {
-    map.on('click', ({ coordinate, originalEvent }) => {
-      if (!isDrawing(map)) {
+    rootGetters.map.on('click', ({ coordinate, originalEvent }) => {
+      if (!isDrawing(rootGetters.map)) {
         dispatch('getFeatureInfo', {
           coordinateOrExtent: coordinate,
           modifierPressed:

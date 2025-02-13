@@ -3,6 +3,7 @@
 ## unpublished
 
 - Fix: Adjust detection whether a user is drawing so that `directSelect` is not disabled when `multiSelect` is in use.
+- Fix: Refactor setup-function for multi selection so that a user can (again) select and deselect features via `directSelect`.
 
 ## 3.0.0
 
