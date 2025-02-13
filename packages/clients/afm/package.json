@@ -1,6 +1,6 @@
 {
   "name": "@polar/client-afm",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "POLAR Client AfM. This client has been put together for use in citizen participation platforms and for making applications (referring to legal documents, not executables).",
   "keywords": [
     "OpenLayers",
