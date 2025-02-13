@@ -4,6 +4,7 @@ import { PolarActionContext } from '@polar/lib-custom-types'
 import { Collection, Feature, Map } from 'ol'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 import { makeLocalSelector } from './localSelector'
+import { getSchnaps } from './getSnaps'
 
 const createTranslate = (
   map: Map,
@@ -38,6 +39,10 @@ export default function (
 ): Interaction[] {
   return [
     createTranslate(rootGetters.map, drawLayer),
+    ...getSchnaps(
+      rootGetters.map,
+      rootGetters.configuration?.draw?.snapTo || []
+    ),
     new Snap({ source: drawSource }),
   ]
 }
