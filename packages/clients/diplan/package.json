@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "postversion": "npm run build",
-    "build": "npm run precompile && rimraf dist && vite build",
+    "build": "npm run precompile && rimraf dist && vite build && cd ../../../ && tsx ./scripts/makeDocs diplan",
     "dev": "npm run precompile && vite --host",
     "precompile": "node ../../../scripts/precompileSvg.js ../../../node_modules/diplanung-style/src/icons/dpsIcons.svg ./assets/dist/iconMap.ts && node ../../../scripts/precompileCss.js ../../../node_modules/diplanung-style/dist/style.css ./assets/dist/cssVariables.ts"
   },
