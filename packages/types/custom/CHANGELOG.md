@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add `snapTo` to `DrawConfiguration` for specification of layers to snap to.
+
 ## 2.0.0
 
 - Breaking: The type `LanguageOption` has been renamed to `Locale`.
