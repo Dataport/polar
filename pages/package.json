@@ -2,7 +2,7 @@
   "name": "polar-pages",
   "private": true,
   "description": "GitHub page for POLAR project",
-  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "author": "Dataport AöR <polar@dataport.de>",
   "license": "EUPL-1.2",
   "engines": {
     "node": "^18.13.0",
