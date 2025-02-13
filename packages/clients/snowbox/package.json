@@ -5,7 +5,7 @@
   "keywords": ["OpenLayers", "ol", "POLAR", "client", "Snowbox", "testing"],
   "license": "EUPL-1.2",
   "type": "module",
-  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "author": "Dataport AöR <polar@dataport.de>",
   "scripts": {
     "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
     "dev": "vite --host"
