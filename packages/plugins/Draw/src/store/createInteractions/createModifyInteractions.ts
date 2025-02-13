@@ -1,40 +1,30 @@
 import { Modify, Select, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { Collection, Feature, Map, MapBrowserEvent } from 'ol'
+import { Collection, Feature, Map } from 'ol'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
+import { makeLocalSelector } from './localSelector'
 
 const createModify = (
   map: Map,
   drawLayer: CreateInteractionsPayload['drawLayer']
 ) => {
-  let active = false
+  const activeContainer = { active: false }
   const features: Collection<Feature> = new Collection()
   const modify = new Modify({ features })
   modify.on('modifystart', () => {
-    active = true
+    activeContainer.active = true
   })
   modify.on('modifyend', () => {
-    active = false
+    activeContainer.active = false
   })
 
-  const localSelector = (e: MapBrowserEvent<UIEvent>) => {
-    if (!active) {
-      map.forEachFeatureAtPixel(
-        e.pixel,
-        (f) => {
-          if (f !== features.item(0)) {
-            features.setAt(0, f as Feature)
-          }
-          return true
-        },
-        {
-          layerFilter: (l) => l === drawLayer,
-        }
-      )
-    }
-  }
-
+  const localSelector = makeLocalSelector(
+    map,
+    activeContainer,
+    features,
+    drawLayer
+  )
   map.on('pointermove', localSelector)
   // @ts-expect-error | "un on removal" riding piggyback as _onRemove
   modify._onRemove = () => map.un('pointermove', localSelector)

@@ -9,6 +9,7 @@ import { createTextStyle } from '../utils/createTextStyle'
 import createDrawStyle from '../utils/createDrawStyle'
 import createInteractions from './createInteractions'
 import createModifyInteractions from './createInteractions/createModifyInteractions'
+import createTranslateInteractions from './createInteractions/createTranslateInteractions'
 import modifyDrawStyle from './createInteractions/modifyDrawStyle'
 import modifyTextStyle from './createInteractions/modifyTextStyle'
 
@@ -22,6 +23,7 @@ export const makeActions = () => {
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
     createModifyInteractions,
+    createTranslateInteractions,
     modifyDrawStyle,
     modifyTextStyle,
     setupModule({
