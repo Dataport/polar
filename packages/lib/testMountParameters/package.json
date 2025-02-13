@@ -10,7 +10,7 @@
     "testing"
   ],
   "license": "EUPL-1.2",
-  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "author": "Dataport AöR <polar@dataport.de>",
   "main": "index.ts",
   "repository": {
     "type": "git",

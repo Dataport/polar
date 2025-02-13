@@ -11,7 +11,7 @@
   ],
   "license": "EUPL-1.2",
   "type": "module",
-  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "author": "Dataport AöR <polar@dataport.de>",
   "main": "index.ts",
   "repository": {
     "type": "git",
