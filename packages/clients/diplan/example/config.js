@@ -30,6 +30,7 @@ export default {
     // TODO should we provide english locales?
   ],
   addressSearch: {
+    displayComponent: true,
     searchMethods: [
       {
         queryParameters: {
