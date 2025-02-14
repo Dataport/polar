@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Added a "Translate" mode that allows moving drawn features as-are.
+- Feature: Add a "Translate" mode that allows moving drawn features as they are.
 
 ## 3.0.0
 
