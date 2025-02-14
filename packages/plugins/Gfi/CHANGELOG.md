@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 3.0.1
 
 - Fix: Clean-up internal flag used for `multiSelect` if a drawing is aborted. This is always the case if a user simply clicks into the map holding CTRL / Command.
 
