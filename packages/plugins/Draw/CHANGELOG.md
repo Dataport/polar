@@ -2,7 +2,8 @@
 
 ## unpublished
 
-- Feature: Add a "Translate" mode that allows moving drawn features as they are.
+- Feature: Add a `"translate"` mode that allows moving drawn features as they are.
+- Feature: Add a `"snapTo"` key to the configuration that allows defining vector layers to snap to while drawing, editing, and translating.
 
 ## 3.0.0
 
