@@ -27,12 +27,12 @@ jobs:
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: Dataport Geo Bot
-          author_email: dataportpolarsupport@dataport.de
+          author_email: polar@dataport.de
       - run: |
           for TAG in ${{ env.TAGS }}
           do
             git config user.name "Dataport Geo Bot"
-            git config user.email "dataportpolarsupport@dataport.de"
+            git config user.email "polar@dataport.de"
             git tag $TAG
             git push origin $TAG
             echo "Released and tagged $TAG"

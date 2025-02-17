@@ -10,6 +10,7 @@ export const resourcesDe = {
         write: 'Zeichnen und Schreiben',
         writeAndMeasure: 'Zeichnen, Schreiben und Messen',
         edit: 'Bearbeiten',
+        translate: 'Verschieben',
         delete: 'Löschen',
       },
       drawMode: {
@@ -53,6 +54,7 @@ export const resourcesEn = {
         write: 'Draw and write',
         writeAndMeasure: 'Draw, write and measure',
         edit: 'Edit',
+        translate: 'Translate',
         delete: 'Delete',
       },
       drawMode: {

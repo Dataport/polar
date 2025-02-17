@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.1
+
+- Fix: Use v3.0.1 of `@polar/plugin-gfi` that includes a fix for the usage of `directSelect`, `multiSelect` and their usage in conjunction with `@polar/plugin-pins`.
+
 ## 2.0.0
 
 - Breaking: Update `@polar`-dependencies to the latest versions. This includes an update of `ol` from `^7.1.0` to `^10.3.1`.

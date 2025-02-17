@@ -83,6 +83,7 @@ export const makeStoreModule = () => {
           none: 'plugins.draw.mode.none',
           draw: `plugins.draw.mode.${drawLabel}`,
           edit: 'plugins.draw.mode.edit',
+          translate: 'plugins.draw.mode.translate',
           delete: 'plugins.draw.mode.delete',
         }
       },
