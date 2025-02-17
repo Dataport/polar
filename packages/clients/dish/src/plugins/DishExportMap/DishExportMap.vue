@@ -166,7 +166,6 @@ export default Vue.extend({
         )
         return
       }
-      const backgroundLayer = this.backgroundLayer
       const bbox = this.getRectangleCoordinates()
       return {
         NewTab: true,
@@ -186,8 +185,8 @@ export default Vue.extend({
         xCenter: this.transformedCoordinate[0],
         yCenter: this.transformedCoordinate[1],
         mapSRS: this.configuration.epsg,
-        urlHintergrund: `${backgroundLayer.url}?`,
-        LayerNameHintergrund: backgroundLayer.layers,
+        urlHintergrund: `${this.backgroundLayer.url}?`,
+        LayerNameHintergrund: this.backgroundLayer.layers,
         VersionHintergrund: '1.1.1',
         ProxyHintergrund: 'y',
         urlWMS: `${this.wmsLayerUrl}?`,
