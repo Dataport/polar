@@ -50,7 +50,6 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations('plugin/gfi', ['setVisibleWindowFeatureIndex']),
-    ...mapActions('plugin/gfi', ['close']),
     showInfoForActiveLayers(topic: 'alkis' | 'monument') {
       const layerMap = {
         alkis: alkisWms,
