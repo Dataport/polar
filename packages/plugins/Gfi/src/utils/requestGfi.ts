@@ -1,7 +1,8 @@
 import { Feature as GeoJsonFeature } from 'geojson'
-import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer'
+import ImageLayer from 'ol/layer/Image'
+import TileLayer from 'ol/layer/Tile'
+import VectorLayer from 'ol/layer/Vector'
 import { rawLayerList } from '@masterportal/masterportalapi'
-
 import { RequestGfiParameters } from '../types'
 
 import requestGfiWms from './requestGfiWms'
@@ -32,7 +33,7 @@ export function requestGfi({
       layerConfiguration,
       layerSpecification,
     }
-    if (layer instanceof TileLayer) {
+    if (layer instanceof TileLayer || layer instanceof ImageLayer) {
       return coordinateOrExtent.length === 2
         ? requestGfiWms({
             ...params,
