@@ -14,7 +14,6 @@ import PolarPluginPins from '@polar/plugin-pins'
 import PolarPluginScale from '@polar/plugin-scale'
 import PolarPluginToast from '@polar/plugin-toast'
 import PolarPluginZoom from '@polar/plugin-zoom'
-import merge from 'lodash.merge'
 
 import {
   AddressSearchConfiguration,
@@ -36,8 +35,11 @@ import { DishGfiIntern, DishGfiExtern } from './plugins/Gfi'
 import DishExportMap from './plugins/DishExportMap'
 import { searchMethods } from './mapConfigurations/searchConfigParams'
 
-const gfiConfig = (mode: keyof typeof MODE): Partial<GfiConfiguration> => {
-  const gfiConfig: Partial<GfiConfiguration> = {
+const gfiConfig = (mode: keyof typeof MODE) => {
+  const gfiConfig: GfiConfiguration = {
+    displayComponent: true,
+    layoutTag: NineLayoutTag.TOP_LEFT,
+    layers: {},
     coordinateSources: ['plugin/addressSearch/chosenAddress'],
     gfiContentComponent: mode === MODE.EXTERN ? DishGfiExtern : DishGfiIntern,
   }
@@ -139,16 +141,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
         'plugin/layerChooser/activeMaskIds',
       ],
     }),
-    PolarPluginGfi(
-      merge(
-        {},
-        {
-          displayComponent: true,
-          layoutTag: NineLayoutTag.TOP_LEFT,
-        },
-        gfiConfig(mode)
-      )
-    ),
+    PolarPluginGfi(gfiConfig(mode)),
     PolarPluginLoadingIndicator({
       displayComponent: true,
       layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
