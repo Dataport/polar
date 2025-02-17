@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable max-lines-per-function */
 // function includes all plugin configs specifically for internal map use
+/* eslint-disable max-lines-per-function */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { SearchMethodConfiguration } from '@polar/lib-custom-types'
 import { alkisWfService } from '../services'
 import {
