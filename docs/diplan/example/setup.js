@@ -1,5 +1,27 @@
 /* eslint-disable max-lines-per-function */
 
+const geoJSON = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'Polygon',
+        coordinates: [
+          [
+            [553702.4519707427, 5926504.665153537],
+            [549799.849911481, 5938873.929307467],
+            [582674.3113259386, 5942313.510783426],
+            [572421.7126956752, 5930142.68402234],
+            [553702.4519707427, 5926504.665153537],
+          ],
+        ],
+      },
+    },
+  ],
+}
+
 /* this is an example setup function displaying how POLAR is instantiated
  * you may do this in any other format as long as all required contents arrive
  * in `initializeLayerList` and `createMap` */
@@ -40,10 +62,46 @@ export default (client, layerConf, config) => {
 
       // TODO expand example bindings
 
+      const actionPlus = document.getElementById('action-plus')
+      const actionMinus = document.getElementById('action-minus')
+      const actionToast = document.getElementById('action-toast')
+      const actionLoadGeoJson = document.getElementById('action-load-geojson')
+      const actionZoomToAll = document.getElementById('action-zoom-to-all')
+      const actionFillAddressSearch = document.getElementById(
+        'action-address-search-filler'
+      )
+
+      actionPlus.onclick = () =>
+        mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
+      actionMinus.onclick = () =>
+        mapInstance.$store.dispatch('plugin/zoom/decreaseZoomLevel')
+      actionToast.onclick = () =>
+        mapInstance.$store.dispatch('plugin/toast/addToast', {
+          type: 'success',
+          text: 'Dies ist eine Beispielnachricht.',
+          timeout: 3000,
+        })
+      actionLoadGeoJson.onclick = () => {
+        mapInstance.$store.dispatch('plugin/draw/addFeatures', {
+          geoJSON,
+        })
+      }
+      actionZoomToAll.onclick = () =>
+        mapInstance.$store.dispatch('plugin/draw/zoomToAllFeatures', {
+          margin: 10, // defaults to 20
+        })
+      actionFillAddressSearch.addEventListener('input', (e) =>
+        mapInstance.$store.dispatch('plugin/addressSearch/search', {
+          input: e.target.value,
+          autoselect: 'first',
+        })
+      )
+
       const htmlZoom = document.getElementById('subscribed-zoom')
       const htmlGfi = document.getElementById('subscribed-gfi')
       const htmlExportA = document.getElementById('subscribed-export-a')
       const htmlExportImg = document.getElementById('subscribed-export-img')
+      const htmlDraw = document.getElementById('subscribed-draw')
 
       mapInstance.subscribe(
         'plugin/zoom/zoomLevel',
@@ -63,6 +121,9 @@ export default (client, layerConf, config) => {
         } else {
           htmlExportA.setAttribute('href', screenshot)
         }
+      })
+      mapInstance.subscribe('plugin/draw/featureCollection', (geojson) => {
+        htmlDraw.innerHTML = JSON.stringify(geojson, null, 2)
       })
 
       window.mapInstance = mapInstance
