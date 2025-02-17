@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Allow layers that have `singleTile` set to `true` and thus being an `ImageLayer` instead a `TileLayer` to be used for GFI-requests as well.
+
 ## 3.0.1
 
 - Fix: Clean-up internal flag used for `multiSelect` if a drawing is aborted. This is always the case if a user simply clicks into the map holding CTRL / Command.
