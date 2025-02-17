@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="showGfi" class="dish-gfi-content">
+  <v-card v-if="showGfi">
     <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
       <ActionButton></ActionButton>
       <v-spacer></v-spacer>
