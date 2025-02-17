@@ -1,7 +1,8 @@
 // service id map to avoid typos, ease renames
 const basemap = 'basemapde_farbe'
-const xplanwms = '1111'
-const xplanwfs = '1112'
+const xplanwms = 'xplanwms'
+const xplanwfs = 'xplanwfs'
+const flurstuecke = 'flurstuecke'
 
 export default {
   startResolution: 264.583190458,
@@ -18,11 +19,13 @@ export default {
             [basemap]: 'BasemapDE',
             [xplanwms]: 'XPlanWMS',
             [xplanwfs]: 'XPlanSynWFS',
+            [flurstuecke]: 'Flurstücke',
           },
           attributions: {
             [basemap]: `$t(diplan.layers.${basemap}) © GeoBasis-DE / BKG <YEAR> CC BY 4.0`,
             [xplanwms]: `$t(diplan.layers.${xplanwms}) © ???`,
             [xplanwfs]: `$t(diplan.layers.${xplanwfs}) © ???`,
+            [flurstuecke]: `$t(diplan.layers.${flurstuecke}) © ???`,
           },
         },
       },
@@ -60,9 +63,17 @@ export default {
     },
     {
       id: xplanwfs,
-      visibility: true,
+      visibility: false,
       type: 'mask',
       name: `diplan.layers.${xplanwfs}`,
+    },
+    {
+      id: flurstuecke,
+      visibility: false,
+      // TODO available from 7, but only starts loading from 8 - bug or skill issue?
+      minZoom: 7,
+      type: 'mask',
+      name: `diplan.layers.${flurstuecke}`,
     },
   ],
   attributions: {
@@ -79,7 +90,38 @@ export default {
         id: xplanwfs,
         title: `diplan.attributions.${xplanwfs}`,
       },
+      {
+        id: flurstuecke,
+        title: `diplan.attributions.${flurstuecke}`,
+      },
     ],
+  },
+  draw: {
+    enableOptions: true,
+    measureOptions: {
+      metres: true,
+      kilometres: true,
+      hectares: true,
+    },
+    selectableDrawModes: ['Point', 'LineString', 'Circle', 'Text', 'Polygon'],
+    snapTo: [xplanwfs, flurstuecke],
+    textStyle: {
+      font: {
+        size: [10, 20, 30],
+        family: 'Arial',
+      },
+    },
+    style: {
+      fill: { color: 'rgb(51 117 212 / 50%)' },
+      stroke: {
+        color: '#3375d4',
+        width: 2,
+      },
+      circle: {
+        radius: 7,
+        fillColor: 'rgb(51 117 212 / 50%)',
+      },
+    },
   },
   export: {
     displayComponent: true,

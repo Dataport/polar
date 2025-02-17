@@ -199,6 +199,7 @@ export interface DrawConfiguration extends Partial<PluginOptions> {
   enableOptions?: boolean
   measureOptions?: MeasureOptions
   selectableDrawModes?: DrawMode[]
+  snapTo?: string[]
   style?: DrawStyle
   textStyle?: TextStyle
 }

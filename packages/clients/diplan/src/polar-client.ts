@@ -3,6 +3,7 @@ import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'
 import Export from '@polar/plugin-export'
+import Fullscreen from '@polar/plugin-fullscreen'
 import Gfi from '@polar/plugin-gfi'
 import IconMenu from '@polar/plugin-icon-menu'
 import LayerChooser from '@polar/plugin-layer-chooser'
@@ -44,6 +45,11 @@ polarCore.addPlugins([
         plugin: Draw({}),
         icon: '$vuetify.icons.ruler',
         id: 'draw',
+      },
+      {
+        plugin: Fullscreen({ renderType: 'iconMenu' }),
+        // TODO icon: '$vuetify.icons.fullscreen',
+        id: 'fullscreen',
       },
       {
         plugin: Zoom({
