@@ -12,6 +12,7 @@ const createModify = (
   const activeContainer = { active: false }
   const features: Collection<Feature> = new Collection()
   const modify = new Modify({ features })
+  modify.set('_isPolarDragLikeInteraction', true, true)
   modify.on('modifystart', () => {
     activeContainer.active = true
   })

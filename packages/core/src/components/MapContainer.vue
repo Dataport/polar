@@ -95,6 +95,7 @@ export default Vue.extend({
     ...mapGetters([
       'hasSmallWidth',
       'hasWindowSize',
+      'map',
       'moveHandle',
       'moveHandleActionButton',
     ]),
@@ -207,8 +208,18 @@ export default Vue.extend({
           window.innerWidth <= SMALL_DISPLAY_WIDTH
         ) {
           new Hammer(mapContainer).on('pan', (e) => {
-            this.oneFingerPan = e.maxPointers === 1
-            setTimeout(() => (this.oneFingerPan = false), 2000)
+            if (
+              e.maxPointers === 1 &&
+              !this.map
+                .getInteractions()
+                .getArray()
+                .some((interaction) =>
+                  interaction.get('_isPolarDragLikeInteraction')
+                )
+            ) {
+              this.oneFingerPan = true
+              setTimeout(() => (this.oneFingerPan = false), 2000)
+            }
           })
         }
       }

@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add a "Translate" mode that allows moving drawn features as they are.
+- Feature: Interactions requiring dragging are now marked with the POLAR flag `_isPolarDragLikeInteraction`.
 
 ## 3.0.0
 
