@@ -74,6 +74,12 @@ export default Vue.extend({
     wmsLayerUrl: '',
     wfsLayerUrl: '',
     wfsLayerFeatureType: '',
+    defaultBackground: {
+      url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+      layers: 'de_basemapde_web_raster_grau',
+    },
+    internalHost: '',
+    internServicesBaseUrl: '',
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
@@ -85,8 +91,10 @@ export default Vue.extend({
       return this.currentProperties && this.currentProperties.objektid
     },
     backgroundLayer() {
-      return this.configuration.layerConf.find(
-        (layer) => layer.id === this.activeBackgroundId
+      return (
+        this.configuration.layerConf.find(
+          (layer) => layer.id === this.activeBackgroundId
+        ) || this.defaultBackground
       )
     },
   },
@@ -105,16 +113,21 @@ export default Vue.extend({
   },
   methods: {
     configureSettings() {
-      this.wmsLayerUrl ||= this.configuration.layerConf.find(
+      this.internServicesBaseUrl =
+        this.configuration.dishExportMap.urlParams.internServicesBaseUrl
+      this.internalHost =
+        this.configuration.dishExportMap.urlParams.internalHost
+      const wmsLayer = this.configuration.layerConf.find(
         (layer) => layer.id === denkmaelerWMS
-      ).url
+      )
       const wfsLayer = this.configuration.layerConf.find(
         (layer) => layer.id === denkmaelerWFS
       )
-      this.wfsLayerUrl = wfsLayer.url
-      this.wfsLayerFeatureType = wfsLayer.featureType
-      this.printImageUrlProd ||= `${this.configuration.dishExportMap.internalHost}/Content/MapsTmp`
-      this.exportMapAsPdfUrl ||= `${this.configuration.dishExportMap.internalHost}/Content/Objekt/Kartenausgabe.aspx`
+      this.wmsLayerUrl = wmsLayer.url || `${this.internServicesBaseUrl}/wms`
+      this.wfsLayerUrl = wfsLayer.url || `${this.internServicesBaseUrl}/wfs`
+      this.wfsLayerFeatureType = wfsLayer.featureType || 'app:dish_shp'
+      this.printImageUrlProd ||= `${this.internalHost}/Content/MapsTmp`
+      this.exportMapAsPdfUrl ||= `${this.internalHost}/Content/Objekt/Kartenausgabe.aspx`
     },
     showRectangleAndDialog() {
       if (this.transformedCoordinate.length === 0 || !this.overlay) {
@@ -168,6 +181,7 @@ export default Vue.extend({
       }
       const bbox = this.getRectangleCoordinates()
       return {
+        // order of the parameters must be maintained to create the url
         NewTab: true,
         objektueberschrift: this.title,
         // spelling is intentional because of backend requirements
