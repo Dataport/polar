@@ -38,7 +38,6 @@ export default function (
       map.getView().getProjection(),
       configuration?.style
     )
-
     const draw = new Draw({
       source: drawSource,
       type: drawMode,
@@ -47,10 +46,11 @@ export default function (
     // @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
     draw._isDrawPlugin = true
     draw.on('drawend', (e) => e.feature.setStyle(style))
-
     return [draw, new Snap({ source: drawSource })]
   } else if (mode === 'edit') {
     return dispatch('createModifyInteractions', { drawSource, drawLayer })
+  } else if (mode === 'translate') {
+    return dispatch('createTranslateInteractions', { drawSource, drawLayer })
   } else if (mode === 'delete') {
     return createDeleteInteractions(drawSource, drawLayer)
   }
