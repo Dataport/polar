@@ -25,7 +25,7 @@ Name and casing of "ObjektID" have been directly taken from the backend to avoid
 | containerId | string | ID of the container the map is supposed to render itself to. |
 | mode |  enum["INTERN", "EXTERN"] | Defines the mode in which the map will be started. |
 | urlParams | DishUrlParams? | Object to define the internalHost and internServicesBaseUrl for internal services. Mandatory for the mode 'INTERN'. |
-| configOverride | object? | This can be used to override the configuration of any installed plugin; see full documentation. In this case, use this object with the plugin names 'dishExportMap' and 'gfi' as properties to define the `internalHost` for these plugins. Mandatory for the mode 'INTERN'. |
+| configOverride | object? | This can be used to override the configuration of any installed plugin; see full documentation. In this case, use this object with the plugin name 'gfi' as property to define the `internalHost` for these plugin. Mandatory for the mode 'INTERN'. |
 
 ### urlParams
 
@@ -34,7 +34,7 @@ Name and casing of "ObjektID" have been directly taken from the backend to avoid
 | internalHost | string | The URL of the server where the DISH software and the monument services are hosted. |
 | internServicesBaseUrl | string | A combination of host, port and path to create a base URL that can be used for the monument services that run on the same server. |
 
-The `internalHost` is also needed as parameter for the DishExportMap plugin and the gfi plugin, and is passed as attribute of `configOverride` in the `createMap` call. DishExportMap needs this parameter to create the right URL for addressing the backend. The gfi displays photographs of the monuments and uses the parameter as path to the right folder on the server.
+The `internalHost` is also needed as parameter for the gfi plugin. It displays photographs of the monuments and uses the parameter as path to the right folder on the server.
 
 ### Example configuration
 
@@ -50,9 +50,6 @@ client.createMap({
   // only needed for internal map
   urlParams,
   configOverride: {
-    dishExportMap: {
-      internalHost: urlParams.internalHost + ':8082',
-    },
     gfi: {
       internalHost: urlParams.internalHost,
     }
