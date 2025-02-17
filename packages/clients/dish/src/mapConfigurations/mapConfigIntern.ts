@@ -178,5 +178,6 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
     propertyNameWFS: 'objektid',
     filterTypeWFS: 'EQUAL_TO',
     printImagePath: 'ContentMapsTmp',
+    urlParams,
   },
 })
