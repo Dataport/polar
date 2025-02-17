@@ -451,20 +451,5 @@ export default [
     crs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
     bboxCrs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
     gfiTheme: 'default',
-    datasets: [
-      {
-        md_id: '18E405F7-4566-42DF-BFD7-EC777C97923B',
-        csw_url: 'https://metaver.de/csw',
-        show_doc_url:
-          'https://metaver.de/trefferanzeige?cmd=doShowDocument&docuuid=',
-        rs_id:
-          'https://registry.gdi-de.org/id/de.hh/7e35a8e1-f324-4ceb-b438-7978fc86b6ef',
-        md_name: 'ALKIS - Liegenschaften und Verwaltungseinheiten',
-        bbox: '461468.96892897453,5916367.229806512,587010.9095989474,5980347.755797674',
-        kategorie_opendata: ['Umwelt'],
-        kategorie_inspire: ['kein INSPIRE-Thema'],
-        kategorie_organisation: 'Landesbetrieb Geoinformation und Vermessung',
-      },
-    ],
   },
 ]
