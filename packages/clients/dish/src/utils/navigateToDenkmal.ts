@@ -1,12 +1,11 @@
 import { MapInstance } from '@polar/core'
 import { denkmaelerWfServiceExtern } from '../services'
 import { getMapConfiguration } from '../mapConfigurations/mapConfig'
-import { DishMapConfig, DishParameters } from '../types'
+import { DishParameters } from '../types'
 import { zoomToFeatureById } from './zoomToFeatureById'
 
-const mapConfiguration = getMapConfiguration('EXTERN') as DishMapConfig
-
 export function navigateToDenkmal(instance: MapInstance, objektId: string) {
+  const mapConfiguration = getMapConfiguration('EXTERN')
   const wfsConfig = mapConfiguration.addressSearch.searchMethods.find(
     ({ type }) => type === 'dish'
   )
