@@ -157,15 +157,10 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       displayComponent: true,
       layoutTag: NineLayoutTag.BOTTOM_RIGHT,
     }),
-    PolarPluginToast(
-      merge(
-        {},
-        {
-          displayComponent: true,
-          layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
-        }
-      )
-    ),
+    PolarPluginToast({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
+    }),
     PolarPluginZoom({
       displayComponent: true,
       layoutTag: NineLayoutTag.MIDDLE_RIGHT,
