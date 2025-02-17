@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 import * as focusTrap from 'focus-trap'
 import Hints from './Hints.vue'
 import Welcome from './Welcome.vue'
@@ -24,37 +24,31 @@ let trap
 export default Vue.extend({
   name: 'DishModal',
   computed: {
-    ...mapGetters(['configuration']),
-    ...mapGetters('plugin/modal', ['confirmed', 'closed', 'content']),
+    ...mapGetters('plugin/modal', ['closed', 'content']),
     selectedContent() {
       return lookup[this.content]
     },
   },
   watch: {
     closed(newValue) {
-      if (newValue) {
-        trap.deactivate()
-        trap = null
-      } else {
-        // Vue must be done rendering before focus can be trapped
-        Vue.nextTick(this.trapFocus)
+      if (trap) {
+        if (newValue) {
+          trap.deactivate()
+          trap = null
+        } else {
+          // Vue must be done rendering before focus can be trapped
+          Vue.nextTick(this.trapFocus)
+        }
       }
     },
   },
-  mounted() {
-    this.setClosed(this.configuration.dishModal?.isInternMap || false)
-    this.trapFocus()
-  },
   methods: {
-    ...mapMutations('plugin/modal', ['setClosed']),
     trapFocus() {
       const element = this.$refs.wrapper
-      if (element) {
-        trap = focusTrap.createFocusTrap(element, {
-          initialFocus: false,
-        })
-        trap.activate()
-      }
+      trap = focusTrap.createFocusTrap(element, {
+        initialFocus: false,
+      })
+      trap.activate()
     },
   },
 })
