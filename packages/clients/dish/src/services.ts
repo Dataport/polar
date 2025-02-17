@@ -94,39 +94,35 @@ const basemapGrauService = {
   transparent: true,
 }
 
-const alkisWmService = (mode: keyof typeof MODE) => {
-  return {
-    id: alkisWms,
-    name: 'ALKIS WMS',
-    url:
-      mode === MODE.EXTERN
-        ? `${dishCloudBaseUrl}/bkgExtern/ALKIS_FLST`
-        : `${dishCloudBaseUrl}/bkg/ALKIS_FLST`,
-    typ: 'WMS',
-    layers: 'adv_alkis_flurstuecke',
-    legendURL: 'ignore',
-    format: 'image/png',
-    version: '1.3.0',
-    transparent: true,
-    singleTile: true,
-    STYLES: 'basemapde',
-  }
-}
+const alkisWmService = (mode: keyof typeof MODE) => ({
+  id: alkisWms,
+  name: 'ALKIS WMS',
+  url:
+    mode === MODE.EXTERN
+      ? `${dishCloudBaseUrl}/bkgExtern/ALKIS_FLST`
+      : `${dishCloudBaseUrl}/bkg/ALKIS_FLST`,
+  typ: 'WMS',
+  layers: 'adv_alkis_flurstuecke',
+  legendURL: 'ignore',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+  singleTile: true,
+  STYLES: 'basemapde',
+})
 
-export const alkisWfService = (mode: keyof typeof MODE = 'INTERN') => {
-  return {
-    id: alkisWfs,
-    name: 'ALKIS',
-    url:
-      mode === MODE.EXTERN
-        ? `${dishCloudBaseUrl}/dishbkgALKIS_WFS`
-        : `${dishCloudBaseUrl}/dishintern_ALKIS_WFS`,
-    typ: 'WFS',
-    version: '2.0.0',
-    transparent: true,
-    featureType: 'ave:Flurstueck',
-  }
-}
+export const alkisWfService = (mode: keyof typeof MODE = 'INTERN') => ({
+  id: alkisWfs,
+  name: 'ALKIS',
+  url:
+    mode === MODE.EXTERN
+      ? `${dishCloudBaseUrl}/dishbkgALKIS_WFS`
+      : `${dishCloudBaseUrl}/dishintern_ALKIS_WFS`,
+  typ: 'WFS',
+  version: '2.0.0',
+  transparent: true,
+  featureType: 'ave:Flurstueck',
+})
 
 const servicesCommon = (mode: keyof typeof MODE) => [
   basemapGrauService,
