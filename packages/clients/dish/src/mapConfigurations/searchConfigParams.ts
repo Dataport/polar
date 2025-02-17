@@ -78,6 +78,7 @@ export const searchMethods = {
     groupId: groupDenkmalsuche,
     categoryId: 'categoryIdAlkisSearch',
     type: 'wfs',
+    // will be set later due to mode setting
     url: null,
     queryParameters: {
       id: alkisWfs,
