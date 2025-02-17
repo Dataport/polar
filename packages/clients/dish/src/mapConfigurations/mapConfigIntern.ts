@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-lines-per-function */
 // function includes all plugin configs specifically for internal map use
 import { SearchMethodConfiguration } from '@polar/lib-custom-types'
@@ -163,5 +164,20 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
     style: {
       fill: shBlue,
     },
+  },
+  dishExportMap: {
+    printApproach: 'scale',
+    printRequester: 'client',
+    xPrint: 18,
+    yPrint: 20,
+    VersionHintergrund: '1.1.1',
+    ProxyHintergrund: 'y',
+    VersionWMS: '1.1.1',
+    LayerNameWMS:
+      '0,9,1,10,2,11,3,12,4,13,25,27,24,26,6,15,19,30,20,31,21,32,22,33,23,34,29,36,28,35',
+    VersionWFS: '1.1.0',
+    PropertyNameWFS: 'objektid',
+    FilterTypeWFS: 'EQUAL_TO',
+    PrintImagePath: 'ContentMapsTmp',
   },
 })

@@ -108,4 +108,18 @@ export interface DishMapConfig
   dishModal?: {
     isInternMap: boolean
   }
+  dishExportMap?: {
+    printApproach: string
+    printRequester: string
+    xPrint: number
+    yPrint: number
+    VersionHintergrund: string
+    ProxyHintergrund: string
+    VersionWMS: string
+    LayerNameWMS: string
+    VersionWFS: string
+    PropertyNameWFS: string
+    FilterTypeWFS: string
+    PrintImagePath: string
+  }
 }
