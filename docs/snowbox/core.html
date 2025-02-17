@@ -500,6 +500,7 @@ Fields that are not set as required have default values.</p>
 <li>WMS:  id, name, url, typ, format, version, transparent, layers, STYLES</li>
 <li>WFS:  id, name, url, typ, outputFormat, version, featureType</li>
 <li>WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength</li>
+<li>OAF: id, name, url, typ, collection, crs, bboxCrs</li>
 <li>GeoJSON: id, name, url, typ, version, minScale, maxScale, legendURL</li>
 </ul>
 <h6 id="example-services-register" tabindex="-1">Example services register</h6>
@@ -551,6 +552,16 @@ Fields that are not set as required have default values.</p>
     &quot;typ&quot;: &quot;WMTS&quot;,
     &quot;layers&quot;: &quot;layer-name&quot;,
     &quot;legendURL&quot;: &quot;my-legend-url&quot;
+  },
+  {
+    &quot;id&quot;: &quot;oaf&quot;,
+    &quot;typ&quot;: &quot;OAF&quot;,
+    &quot;name&quot;: &quot;My OAF&quot;,
+    &quot;url&quot;: &quot;https://api.hamburg.de/datasets/v1/stadtgruen&quot;,
+    &quot;collection&quot;: &quot;poi&quot;,
+    &quot;crs&quot;: &quot;http://www.opengis.net/def/crs/EPSG/0/25832&quot;,
+    &quot;bboxCrs&quot;: &quot;http://www.opengis.net/def/crs/EPSG/0/25832&quot;,
+    &quot;gfiTheme&quot;: &quot;default&quot;,
   },
   {
     &quot;id&quot;: &quot;my-geojson&quot;,

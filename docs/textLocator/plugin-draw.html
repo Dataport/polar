@@ -67,6 +67,11 @@
 <td>List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default.</td>
 </tr>
 <tr>
+<td>snapTo</td>
+<td>string[]?</td>
+<td>Accepts an array of layer IDs. If these layers are active, they are used as snapping material for geometry manipulation. The Draw layer will also always snap to its own features regardless. Please mind that used layers must provide vector data. The layers referred to must be configured in <code>mapConfiguration.layers</code>.</td>
+</tr>
+<tr>
 <td>style</td>
 <td>style?</td>
 <td>Please see example below for styling options. Defaults to standard OpenLayers styling.</td>
