@@ -450,6 +450,5 @@ export default [
     collection: 'Flurstueck',
     crs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
     bboxCrs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
-    gfiTheme: 'default',
   },
 ]
