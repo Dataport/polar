@@ -1,6 +1,7 @@
 import { Map } from 'ol'
 import { Snap } from 'ol/interaction'
 import VectorLayer from 'ol/layer/Vector'
+import VectorSource from 'ol/source/Vector'
 
 export const getSchnaps = (map: Map, snapIds: string[]): Snap[] =>
   snapIds.reduce((accumulator, layerId) => {
@@ -10,7 +11,7 @@ export const getSchnaps = (map: Map, snapIds: string[]): Snap[] =>
         .getArray()
         .find((layer) => layer.get('id') === layerId) as VectorLayer
     )?.getSource?.()
-    if (source) {
+    if (source instanceof VectorSource) {
       accumulator.push(new Snap({ source }))
     } else {
       console.warn(
