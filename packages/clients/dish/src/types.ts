@@ -2,7 +2,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { FeatureCollection, GeometryObject } from 'geojson'
-import { QueryParameters } from '@polar/lib-custom-types'
+import {
+  AddressSearchConfiguration,
+  MapConfig,
+  QueryParameters,
+} from '@polar/lib-custom-types'
 
 /* Search backend documentation:
  * https://efi2.schleswig-holstein.de/dish/dish_service/help.html
@@ -91,4 +95,32 @@ export interface ModalState {
   confirmed: boolean
   closed: boolean
   content: number
+}
+
+export interface DishUrlParams {
+  internalHost: string
+  internServicesBaseUrl: string
+}
+
+export interface DishMapConfig
+  extends Omit<MapConfig, 'startCenter' | 'layerConf'> {
+  addressSearch: AddressSearchConfiguration
+  dishModal?: {
+    isInternMap: boolean
+  }
+  dishExportMap?: {
+    printApproach: string
+    printRequester: string
+    xPrint: number
+    yPrint: number
+    versionHintergrund: string
+    proxyHintergrund: string
+    versionWMS: string
+    layerNameWMS: string
+    versionWFS: string
+    propertyNameWFS: string
+    filterTypeWFS: string
+    printImagePath: string
+    urlParams: DishUrlParams
+  }
 }

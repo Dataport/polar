@@ -1,17 +1,5 @@
 <template>
-  <v-card class="dish-gfi-content">
-    <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
-      <ActionButton></ActionButton>
-      <v-spacer></v-spacer>
-      <v-btn
-        icon
-        small
-        :aria-label="$t('plugins.gfi.header.close')"
-        @click="close(true)"
-      >
-        <v-icon small>fa-xmark</v-icon>
-      </v-btn>
-    </v-card-actions>
+  <SharedContent>
     <v-card-title class="dish-gfi-title" :style="`max-width: ${imgMaxWidth}`">
       {{ currentProperties.Bezeichnung }}
     </v-card-title>
@@ -87,19 +75,17 @@
         </tbody>
       </v-simple-table>
     </v-card-text>
-  </v-card>
+  </SharedContent>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapActions, mapMutations, mapGetters } from 'vuex'
-import ActionButton from './ActionButton.vue'
-
-type GfiIndexStep = -1 | 1
+import { mapMutations, mapGetters } from 'vuex'
+import SharedContent from './SharedContent.vue'
 
 export default Vue.extend({
-  name: 'DishGfiContent',
-  components: { ActionButton },
+  name: 'DishGfiExtern',
+  components: { SharedContent },
   data: () => ({
     infoFields: [
       'Kreis',
@@ -112,7 +98,6 @@ export default Vue.extend({
     sachgesamtheitOpen: false,
   }),
   computed: {
-    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
     ...mapGetters('plugin/gfi', [
       'currentProperties',
       'imageLoaded',
@@ -155,23 +140,11 @@ export default Vue.extend({
       return this.sachgesamtheit.properties.Foto !== 'Kein Foto gefunden'
     },
   },
-  mounted() {
-    if (this.hasWindowSize && this.hasSmallWidth) {
-      this.setMoveHandleActionButton({
-        component: ActionButton,
-      })
-    }
-  },
-  beforeDestroy() {
-    this.setMoveHandleActionButton(null)
-  },
   methods: {
-    ...mapMutations(['setMoveHandleActionButton']),
     ...mapMutations('plugin/gfi', [
       'setImageLoaded',
       'setVisibleWindowFeatureIndex',
     ]),
-    ...mapActions('plugin/gfi', ['close']),
     toggleSachgesamtheit() {
       this.sachgesamtheitOpen = !this.sachgesamtheitOpen
       Vue.nextTick(() => window.dispatchEvent(new Event('resize')))
@@ -192,23 +165,6 @@ export default Vue.extend({
         window.dispatchEvent(new Event('resize'))
       }
     },
-    /** switch to next or previous feature */
-    switchFeature(by: GfiIndexStep): void {
-      const {
-        visibleWindowFeatureIndex,
-        windowFeatures,
-        setVisibleWindowFeatureIndex,
-      } = this
-      const maxIndex = windowFeatures.length - 1
-      const nextIndex = visibleWindowFeatureIndex + by
-      if (nextIndex < 0) {
-        setVisibleWindowFeatureIndex(windowFeatures.length - 1)
-      } else if (nextIndex > maxIndex) {
-        setVisibleWindowFeatureIndex(0)
-      } else {
-        setVisibleWindowFeatureIndex(nextIndex)
-      }
-    },
   },
 })
 </script>
@@ -219,15 +175,6 @@ $sachgesamtheit-background: #e4f5f3;
 
 * {
   color: #003064 !important;
-}
-
-.dish-gfi-grip-icon {
-  left: 50%;
-  transition: translateX(-50%);
-}
-
-.dish-export-button .v-icon {
-  margin-right: 0.4em;
 }
 
 .dish-fat-cell {
