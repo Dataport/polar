@@ -113,13 +113,13 @@ export interface DishMapConfig
     printRequester: string
     xPrint: number
     yPrint: number
-    VersionHintergrund: string
-    ProxyHintergrund: string
-    VersionWMS: string
-    LayerNameWMS: string
-    VersionWFS: string
-    PropertyNameWFS: string
-    FilterTypeWFS: string
-    PrintImagePath: string
+    versionHintergrund: string
+    proxyHintergrund: string
+    versionWMS: string
+    layerNameWMS: string
+    versionWFS: string
+    propertyNameWFS: string
+    filterTypeWFS: string
+    printImagePath: string
   }
 }

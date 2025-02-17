@@ -1,6 +1,5 @@
 // function includes all plugin configs specifically for internal map use
 /* eslint-disable max-lines-per-function */
-/* eslint-disable @typescript-eslint/naming-convention */
 import { SearchMethodConfiguration } from '@polar/lib-custom-types'
 import { alkisWfService } from '../services'
 import {
@@ -170,14 +169,14 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
     printRequester: 'client',
     xPrint: 18,
     yPrint: 20,
-    VersionHintergrund: '1.1.1',
-    ProxyHintergrund: 'y',
-    VersionWMS: '1.1.1',
-    LayerNameWMS:
+    versionHintergrund: '1.1.1',
+    proxyHintergrund: 'y',
+    versionWMS: '1.1.1',
+    layerNameWMS:
       '0,9,1,10,2,11,3,12,4,13,25,27,24,26,6,15,19,30,20,31,21,32,22,33,23,34,29,36,28,35',
-    VersionWFS: '1.1.0',
-    PropertyNameWFS: 'objektid',
-    FilterTypeWFS: 'EQUAL_TO',
-    PrintImagePath: 'ContentMapsTmp',
+    versionWFS: '1.1.0',
+    propertyNameWFS: 'objektid',
+    filterTypeWFS: 'EQUAL_TO',
+    printImagePath: 'ContentMapsTmp',
   },
 })
