@@ -1,9 +1,7 @@
 <template>
   <SharedContent :show-gfi="showGfi">
     <MonumentContent></MonumentContent>
-    <div id="dish-gfi-switch-buttons">
-      <SwitchButton v-if="showDishSwitchButtons"></SwitchButton>
-    </div>
+    <SwitchButton v-if="showDishSwitchButtons"></SwitchButton>
   </SharedContent>
 </template>
 
