@@ -68,6 +68,7 @@ polarCore.addPlugins([
   AddressSearch({
     addLoading: 'plugin/loadingIndicator/addLoadingKey',
     removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+    layoutTag: NineLayoutTag.TOP_LEFT,
     // must be overridden by client-specific configuration
     searchMethods: [],
   }),
