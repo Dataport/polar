@@ -1,7 +1,8 @@
 import { Map, Feature } from 'ol'
 import BaseLayer from 'ol/layer/Base'
+import ImageLayer from 'ol/layer/Image'
 import TileLayer from 'ol/layer/Tile'
-import { TileWMS } from 'ol/source'
+import { ImageWMS, TileWMS } from 'ol/source'
 import VectorSource from 'ol/source/Vector'
 import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import {
@@ -31,7 +32,7 @@ export interface RequestGfiWmsParameters {
   coordinate: [number, number]
   layerConfiguration: RequestGfiParameters['layerConfiguration']
   layerSpecification: RequestGfiParameters['layerSpecification']
-  layer: TileLayer<TileWMS>
+  layer: TileLayer<TileWMS> | ImageLayer<ImageWMS>
 }
 
 export type FeaturesByLayerId = Record<string, GeoJsonFeature[] | symbol>
