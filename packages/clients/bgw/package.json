@@ -1,42 +1,37 @@
 {
-  "name": "@polar/client-afm",
-  "version": "2.0.1",
-  "description": "POLAR Client AfM. This client has been put together for use in citizen participation platforms and for making applications (referring to legal documents, not executables).",
-  "keywords": [
-    "OpenLayers",
-    "ol",
-    "POLAR",
-    "client"
-  ],
+  "name": "@polar/client-bgw",
+  "version": "1.0.0-alpha.0",
+  "description": "POLAR Client Badegewässer. This client provides information about bathing areas in Schleswig-Holstein, Germany.",
+  "keywords": ["OpenLayers", "ol", "POLAR", "client", "Badegewässer", "bathing areas"],
   "license": "EUPL-1.2",
   "type": "module",
-  "author": "Dataport AöR <polar@dataport.de>",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
   "main": "dist/polar-client.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dataport/polar.git",
-    "directory": "packages/clients/afm"
+    "directory": "packages/clients/bgw"
   },
   "files": [
     "dist/**/**.*",
     "docs/**/**.*",
-    "example/prod-example.html",
-    "example/polar-example.js",
     "CHANGELOG.md",
-    "API.md"
+    "README.md"
   ],
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm",
+    "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist && copyfiles -f src/style.json dist",
     "dev": "vite --host"
   },
   "devDependencies": {
     "@polar/core": "^3.0.0",
+    "@polar/lib-custom-types": "^2.0.0",
     "@polar/plugin-address-search": "^3.0.0",
     "@polar/plugin-attributions": "^1.4.0",
     "@polar/plugin-draw": "^3.0.0",
     "@polar/plugin-export": "^1.2.2",
-    "@polar/plugin-gfi": "^3.0.1",
+    "@polar/plugin-filter": "^3.0.0",
+    "@polar/plugin-gfi": "^3.0.0",
     "@polar/plugin-icon-menu": "^1.3.1",
     "@polar/plugin-layer-chooser": "^2.0.0",
     "@polar/plugin-legend": "^1.1.2",
@@ -53,9 +48,6 @@
     "lodash.merge": "^4.6.2"
   },
   "nx": {
-    "includedScripts": [
-      "build",
-      "dev"
-    ]
+    "includedScripts": ["build", "dev"]
   }
 }
