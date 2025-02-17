@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import { denkmaelerWMS, alkisWms } from '../../servicesConstants'
 import SharedContent from './SharedContent.vue'
 import SwitchButton from './SwitchButton.vue'
