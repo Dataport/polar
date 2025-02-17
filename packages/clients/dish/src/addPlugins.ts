@@ -47,10 +47,10 @@ const gfiConfig = (mode: keyof typeof MODE): Partial<GfiConfiguration> => {
   return gfiConfig
 }
 
-const addressSearchConfig = (
-  mode: keyof typeof MODE
-): Partial<AddressSearchConfiguration> => {
-  const addressSearchConfig: Partial<AddressSearchConfiguration> = {
+const addressSearchConfig = (mode: keyof typeof MODE) => {
+  const addressSearchConfig: AddressSearchConfiguration = {
+    // These will be set later on
+    searchMethods: [],
     displayComponent: true,
     layoutTag: NineLayoutTag.TOP_LEFT,
     addLoading: 'plugin/loadingIndicator/addLoadingKey',
