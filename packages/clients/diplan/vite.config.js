@@ -4,7 +4,7 @@ export default getClientConfig({
   root: 'example',
   build: {
     lib: {
-      name: 'MapClient',
+      name: 'PolarClientDiPlan',
       entry: '../src/polar-client.ts',
       fileName: () => 'polar-client.js',
     },

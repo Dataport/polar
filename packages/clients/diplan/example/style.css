@@ -92,6 +92,14 @@ h2 {
   border-bottom: 2px solid #2b3980;
 }
 
+#subscribed-draw, #subscribed-gfi {
+  display: block;
+  max-width: 600px;
+  max-height: 400px;
+  white-space: pre-wrap;
+  overflow-y: auto;
+}
+
 footer {
   color: #ecf4ff;
   background: #2b3980;

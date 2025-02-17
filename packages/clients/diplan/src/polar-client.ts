@@ -3,6 +3,7 @@ import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'
 import Export from '@polar/plugin-export'
+import Fullscreen from '@polar/plugin-fullscreen'
 import Gfi from '@polar/plugin-gfi'
 import IconMenu from '@polar/plugin-icon-menu'
 import LayerChooser from '@polar/plugin-layer-chooser'
@@ -46,6 +47,11 @@ polarCore.addPlugins([
         id: 'draw',
       },
       {
+        plugin: Fullscreen({ renderType: 'iconMenu' }),
+        // TODO icon: '$vuetify.icons.fullscreen',
+        id: 'fullscreen',
+      },
+      {
         plugin: Zoom({
           renderType: 'iconMenu',
           // showMobile: true, // TODO enable to check icons, maybe style them
@@ -62,6 +68,7 @@ polarCore.addPlugins([
   AddressSearch({
     addLoading: 'plugin/loadingIndicator/addLoadingKey',
     removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+    layoutTag: NineLayoutTag.TOP_LEFT,
     // must be overridden by client-specific configuration
     searchMethods: [],
   }),

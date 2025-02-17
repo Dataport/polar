@@ -6,7 +6,7 @@
 export default [
   {
     visibility: true,
-    id: '1111',
+    id: 'xplanwms',
     name: 'XPlanWMS',
     url: 'https://hh-qs.xplanungsplattform.de/xplan-wms/services/wms',
     typ: 'WMS',
@@ -137,7 +137,7 @@ export default [
   },
   {
     visibility: false,
-    id: '1112',
+    id: 'xplanwfs',
     name: 'XPlanSynWFS',
     url: 'https://hh-qs.xplanungsplattform.de/xplansyn-wfs/services/xplansynwfs',
     typ: 'WFS',
@@ -441,5 +441,14 @@ export default [
     layerAttribution: 'nicht vorhanden',
     legend: true,
     featureCount: 1,
+  },
+  {
+    id: 'flurstuecke',
+    typ: 'OAF',
+    name: 'Flurstueck',
+    url: 'https://api.hamburg.de/datasets/v1/alkis_vereinfacht',
+    collection: 'Flurstueck',
+    crs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
+    bboxCrs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
   },
 ]

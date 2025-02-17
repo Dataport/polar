@@ -342,6 +342,7 @@ Whitelisted and confirmed parameters include:
 - WMS:  id, name, url, typ, format, version, transparent, layers, STYLES, singleTile
 - WFS:  id, name, url, typ, outputFormat, version, featureType
 - WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength
+- OAF: id, name, url, typ, collection, crs, bboxCrs
 - GeoJSON: id, name, url, typ, version, minScale, maxScale, legendURL
 
 ###### Example services register
@@ -395,6 +396,16 @@ Whitelisted and confirmed parameters include:
     "typ": "WMTS",
     "layers": "layer-name",
     "legendURL": "my-legend-url"
+  },
+  {
+    "id": "oaf",
+    "typ": "OAF",
+    "name": "My OAF",
+    "url": "https://api.hamburg.de/datasets/v1/stadtgruen",
+    "collection": "poi",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/25832",
+    "bboxCrs": "http://www.opengis.net/def/crs/EPSG/0/25832",
+    "gfiTheme": "default",
   },
   {
     "id": "my-geojson",
