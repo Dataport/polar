@@ -196,12 +196,19 @@ export interface MeasureOptions {
 }
 
 export interface DrawConfiguration extends Partial<PluginOptions> {
+  addLoading?: string
   enableOptions?: boolean
+  lassos?: {
+    id: string
+    minZoom: boolean
+  }[]
   measureOptions?: MeasureOptions
+  removeLoading?: string
   selectableDrawModes?: DrawMode[]
   snapTo?: string[]
   style?: DrawStyle
   textStyle?: TextStyle
+  toastAction?: string
 }
 
 export interface ExportConfiguration extends PluginOptions {

@@ -42,7 +42,10 @@ polarCore.addPlugins([
         id: 'layerChooser',
       },
       {
-        plugin: Draw({}),
+        plugin: Draw({
+          addLoading: 'plugin/loadingIndicator/addLoadingKey',
+          removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+        }),
         icon: '$vuetify.icons.ruler',
         id: 'draw',
       },

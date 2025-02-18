@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add `snapTo` to `DrawConfiguration` for specification of layers to snap to.
+- Feature: Add `lassos` to `DrawConfiguration`. With this, `addLoading`, `removeLoading`, and `toastAction` have also been introduced to allow the feature to use other plugins via API calls.
 
 ## 2.0.0
 
