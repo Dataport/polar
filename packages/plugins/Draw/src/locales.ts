@@ -42,7 +42,7 @@ export const resourcesDe = {
       },
       lasso: {
         notInZoomRange:
-          'Der Layer "$t({{serviceName}})" wurde nicht für die Lasso-Funktion genutzt, da er auf der derzeitigen Zoomstufe nicht aktivierbar ist. Bitte zoomen Sie weiter rein.',
+          'Der Layer "$t({{serviceName}})" wurde nicht für die Lasso-Funktion genutzt, da er auf der derzeitigen Zoomstufe nicht aktivierbar ist. Bitte passen Sie die Zoomstufe an, um die Lasso-Funktion zu nutzen.',
       },
     },
   },
@@ -90,7 +90,7 @@ export const resourcesEn = {
       },
       lasso: {
         notInZoomRange:
-          'The layer "$t({{serviceName}})" was not used for the lasso as it is not activatable on the current zoom level. Please zoom in further.',
+          'The layer "$t({{serviceName}})" was not used for the lasso as it is not activatable on the current zoom level. Please change the zoom level to use the lasso.',
       },
     },
   },

@@ -78,6 +78,8 @@ draw: {
 
 #### draw.lasso
 
+This feature currently has no UI and can only be started with a programmatic `mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')` call.
+
 | fieldName | type | description |
 | - | - | - |
 | id | string | The layer id of a vector layer to copy up vector features from. |

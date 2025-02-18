@@ -4,6 +4,7 @@
 
 - Feature: Add a `"translate"` mode that allows moving drawn features as they are.
 - Feature: Add a `"snapTo"` key to the configuration that allows defining vector layers to snap to while drawing, editing, and translating.
+- Feature: Add a lasso mode that allows copying up features from a vector layer that are contained within the user's hand drawn polygon. This feature is currently without UI and needs to be started from the outside, see docs.
 
 ## 3.0.0
 
