@@ -102,6 +102,9 @@ export default {
       {
         id: flurstuecke,
       },
+      {
+        id: xplanwfs,
+      },
     ],
     measureOptions: {
       metres: true,

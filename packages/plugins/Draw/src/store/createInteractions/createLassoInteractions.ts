@@ -6,8 +6,10 @@ import { MapConfig, PolarActionContext } from '@polar/lib-custom-types'
 import { Dispatch } from 'vuex'
 import { Feature, Map } from 'ol'
 import { Polygon } from 'ol/geom'
-import { getWfsFeatures } from '@polar/lib-get-features'
+import { parseWfsResponse } from '@polar/lib-get-features/wfs/parse'
 import { FeatureCollection, Feature as GeoJsonFeature } from 'geojson'
+import VectorLayer from 'ol/layer/Vector'
+import VectorSource from 'ol/source/Vector'
 import { DrawGetters, DrawState } from '../../types'
 
 const loaderKey = 'drawLasso'
@@ -63,8 +65,17 @@ const getLassoRequests = (
   lassoIds.reduce((accumulator, id) => {
     const serviceDefinition = rawLayerList.getLayerWhere({ id })
 
-    // TODO add WFS support
-    // getWfsFeatures(null, serviceDefinition.url, ) FILTER-ONLY atm
+    const source = (
+      map
+        .getLayers()
+        .getArray()
+        .find((layer) => layer.get('id') === id) as VectorLayer
+    )?.getSource?.()
+    if (!(source instanceof VectorSource)) {
+      console.warn(
+        `@polar/plugin-draw: Layer with ID "${id}" configured for 'lasso', but it has no vector source. The layer does probably not hold any vector data.`
+      )
+    }
 
     const [codeName, codeNumber] = map
       .getView()
@@ -72,54 +83,37 @@ const getLassoRequests = (
       .getCode()
       .split(':')
 
-    const url = [
-      serviceDefinition.url,
-      'collections',
-      serviceDefinition.collection,
-      `items?f=json&limit=100&bbox=${lasso
-        .getGeometry()
-        ?.getExtent()}&bbox-crs=http://www.opengis.net/def/crs/${codeName}/0/${codeNumber}&crs=http://www.opengis.net/def/crs/${codeName}/0/${codeNumber}`,
-    ].join('/')
+    // TODO use ol/source/Vector::getFeaturesInExtent instead? not easy to ensure data was loaded in extent
+
+    if (!['OAF', 'WFS'].includes(serviceDefinition.typ)) {
+      throw new Error('AAAAAAAAAAAAAAAAAAAA')
+    }
+
+    const url =
+      serviceDefinition.typ === 'OAF'
+        ? [
+            serviceDefinition.url,
+            'collections',
+            serviceDefinition.collection,
+            `items?f=json&limit=100&bbox=${lasso
+              .getGeometry()
+              ?.getExtent()}&bbox-crs=http://www.opengis.net/def/crs/${codeName}/0/${codeNumber}&crs=http://www.opengis.net/def/crs/${codeName}/0/${codeNumber}`,
+          ].join('/')
+        : `${serviceDefinition.url}${[
+            `?service=${serviceDefinition.typ}`,
+            `version=${serviceDefinition.version}`,
+            `request=GetFeature`,
+            `srsName=${map.getView().getProjection().getCode()}`,
+            `typeName=${serviceDefinition.featureType}`,
+            `bbox=${lasso.getGeometry()?.getExtent()},${map
+              .getView()
+              .getProjection()
+              .getCode()}`,
+          ].join('&')}`
 
     accumulator.push(fetch(url))
     return accumulator
   }, [] as Promise<Response>[])
-
-/*
-TODO use snippet to confirm the layer type worked on
-    const source = (
-      map
-        .getLayers()
-        .getArray()
-        .find((layer) => layer.get('id') === layerId) as VectorLayer
-    )?.getSource?.()
-    if (source instanceof VectorSource) {
-      accumulator.push(new Snap({ source }))
-    } else {
-      console.warn(
-        `@polar/plugin-draw: Layer with ID "${layerId}" configured for 'snapTo', but it has no source to snap to. The layer does probably not hold any vector data.`
-      )
-    }
-      */
-
-const handleSettledRequests = (
-  resolutions: PromiseSettledResult<Response>[],
-  dispatch: Dispatch
-) =>
-  Promise.all(
-    (
-      resolutions.filter((promiseSettledResult) => {
-        if (promiseSettledResult.status === 'rejected') {
-          console.error(promiseSettledResult.reason)
-          // TODO toast
-          return false
-        }
-        return true
-      }) as PromiseFulfilledResult<Response>[]
-    ).map(
-      async (resolution) => (await resolution.value.json()) as FeatureCollection
-    )
-  )
 
 const handleFulfilledRequests = (
   featureCollections: FeatureCollection[],
@@ -162,7 +156,22 @@ export default function ({
     }
     Promise.allSettled(requests)
       .then((settledRequests) =>
-        handleSettledRequests(settledRequests, dispatch)
+        Promise.all(
+          (
+            settledRequests.filter((promiseSettledResult) => {
+              if (promiseSettledResult.status === 'rejected') {
+                console.error(promiseSettledResult.reason)
+                // TODO toast
+                return false
+              }
+              return true
+            }) as PromiseFulfilledResult<Response>[]
+          ).map(async (resolution, index) =>
+            rawLayerList.getLayerWhere({ id: lassoIds[index] }).typ === 'WFS'
+              ? await parseWfsResponse(resolution.value, undefined, false)
+              : ((await resolution.value.json()) as FeatureCollection)
+          )
+        )
       )
       .then((fulfilledRequests) =>
         handleFulfilledRequests(fulfilledRequests, dispatch)
