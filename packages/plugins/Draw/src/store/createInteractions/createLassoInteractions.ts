@@ -7,7 +7,12 @@ import { PolarActionContext } from '@polar/lib-custom-types'
 import { Feature } from 'ol'
 import { Polygon } from 'ol/geom'
 import { parseWfsResponse } from '@polar/lib-get-features/wfs/parse'
-import { FeatureCollection, Feature as GeoJsonFeature } from 'geojson'
+import {
+  FeatureCollection,
+  Feature as GeoJsonFeature,
+  Geometry,
+  GeometryCollection,
+} from 'geojson'
 import { getVectorFeaturesByFeatureRequest } from '@polar/lib-get-features'
 import { DrawGetters, DrawState } from '../../types'
 
@@ -27,22 +32,42 @@ const internalError = () => ({
 const buildAddFeaturesPayload = (
   featureCollections: FeatureCollection[],
   drawnLasso: Feature
-) => ({
-  geoJSON: {
-    type: 'FeatureCollection',
-    features: featureCollections
-      .reduce(
-        (accumulator, { features }) => accumulator.concat(features),
-        [] as GeoJsonFeature[]
-      )
-      .filter((feature) =>
-        booleanContains(
-          JSON.parse(new GeoJSON().writeFeature(drawnLasso)),
-          feature
+) => {
+  const drawnLassoGeoJson = JSON.parse(new GeoJSON().writeFeature(drawnLasso))
+
+  console.error(featureCollections)
+
+  return {
+    geoJSON: {
+      type: 'FeatureCollection',
+      features: featureCollections
+        .reduce(
+          (accumulator, { features }) => accumulator.concat(features),
+          [] as GeoJsonFeature[]
         )
-      ),
-  },
-})
+        .filter((feature) => {
+          if (feature.geometry.type.startsWith('Multi')) {
+            return (
+              // since .type on GeometryCollection doesn't start with 'Multi'
+              (
+                feature.geometry as Exclude<Geometry, GeometryCollection>
+              ).coordinates.every((partialCoordinates) =>
+                booleanContains(drawnLassoGeoJson, {
+                  type: 'Feature',
+                  geometry: {
+                    type: feature.geometry.type.slice(5), // un«Multi»ed
+                    coordinates: partialCoordinates,
+                  },
+                  properties: {},
+                })
+              )
+            )
+          }
+          return booleanContains(drawnLassoGeoJson, feature)
+        }),
+    },
+  }
+}
 
 // should be fine, surrounding method is only unpacking/packing, also see below
 // eslint-disable-next-line max-lines-per-function
