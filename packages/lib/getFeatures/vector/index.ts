@@ -15,7 +15,7 @@ export const getVectorFeaturesByBboxRequest = ({
   const serviceDefinition = rawLayerList.getLayerWhere({ id: fetchLayerId })
   if (!supportedFormats.includes(serviceDefinition.typ)) {
     throw new Error(
-      `@polar/lib-get-features#getVectorFeaturesByBboxRequest: Layer with ID "${fetchLayerId}" of type "${serviceDefinition.typ}" used to retrieve vector data, but is not within the range of supported types [${supportedFormats}].`
+      `@polar/lib-get-features#getVectorFeaturesByBboxRequest: Layer with ID "${fetchLayerId}" of type "${serviceDefinition.typ}" was used to retrieve vector data, but is not within the range of supported types [${supportedFormats}].`
     )
   }
 
