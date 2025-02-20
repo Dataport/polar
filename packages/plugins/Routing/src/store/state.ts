@@ -63,7 +63,7 @@ const state = {
   addressSearchUrl: '',
   minLength: 3,
   waitMs: 300,
-  searchResponseData: {},
+  routingResponseData: {},
   searchResults: [],
   mousePosition: [],
 }

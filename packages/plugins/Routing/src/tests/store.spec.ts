@@ -153,7 +153,7 @@ describe('plugin-routing', () => {
               selectedTravelMode: 'car',
               selectedPreference: 'fastest',
               selectedRouteTypesToAvoid: ['toll'],
-              searchResponseData: { data: 'some data' },
+              routingResponseData: { data: 'some data' },
             },
             commit: jest.fn(),
             dispatch: jest.fn(),
@@ -182,7 +182,7 @@ describe('plugin-routing', () => {
             []
           )
           expect(actionContext.commit).toHaveBeenCalledWith(
-            'setSearchResponseData',
+            'setRoutingResponseData',
             {}
           )
           expect(actionContext.dispatch).toHaveBeenCalledWith(
@@ -361,7 +361,7 @@ describe('plugin-routing', () => {
           // Expectation: commit is called correctly
           expect(actionContext.commit).toHaveBeenCalledTimes(1)
           expect(actionContext.commit).toHaveBeenCalledWith(
-            'setSearchResponseData',
+            'setRoutingResponseData',
             {
               features: [
                 {

@@ -129,7 +129,7 @@
 
       <!-- List of Route Segments -->
       <div
-        v-if="showSteps && Object.keys(searchResponseData).length !== 0"
+        v-if="showSteps && Object.keys(routingResponseData).length !== 0"
         class="details-container"
       >
         {{ $t('common:plugins.routing.duration') }}
@@ -189,7 +189,7 @@ export default Vue.extend({
       'selectedTravelMode',
       'selectedPreference',
       'searchResults',
-      'searchResponseData',
+      'routingResponseData',
       'start',
       'end',
       'startAddress',
@@ -279,12 +279,12 @@ export default Vue.extend({
     },
     searchResponseSegments: {
       get(): object {
-        return this.searchResponseData.features[0].properties.segments[0].steps
+        return this.routingResponseData.features[0].properties.segments[0].steps
       },
     },
     searchResponseTotalValues: {
       get(): object {
-        return this.searchResponseData.features[0].properties.segments
+        return this.routingResponseData.features[0].properties.segments
       },
     },
     RouteTypesToAvoidForSelectedProfile() {
