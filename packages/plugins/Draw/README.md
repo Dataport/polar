@@ -42,7 +42,7 @@ The styling of the drawn features can be configured to overwrite the default ol-
 | snapTo | string[]? | Accepts an array of layer IDs. If these layers are active, they are used as snapping material for geometry manipulation. The Draw layer will also always snap to its own features regardless. Please mind that used layers must provide vector data. The layers referred to must be configured in `mapConfiguration.layers`. |
 | style | style? | Please see example below for styling options. Defaults to standard OpenLayers styling. |
 | textStyle | textStyle? | Use this object with properties 'font' and 'textColor' to style text feature. |
-| toastAction | string? | This string will be used as action to send a toast information to the user to clarify why something happened in edge cases. If this is not defined, the information will be printed to the console for debugging purposes instead. |
+| toastAction | string? | This string will be used as action to send a toast information to the user to clarify why something happened in edge cases. If this is not defined, the information will only be printed to the console for debugging purposes instead. |
 
 For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
 
