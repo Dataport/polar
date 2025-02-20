@@ -79,13 +79,17 @@ export const makeStoreModule = () => {
         } else if (includesMeasure) {
           drawLabel = 'measure'
         }
-        return {
-          none: 'plugins.draw.mode.none',
-          draw: `plugins.draw.mode.${drawLabel}`,
-          edit: 'plugins.draw.mode.edit',
-          translate: 'plugins.draw.mode.translate',
-          delete: 'plugins.draw.mode.delete',
+        const modes = [
+          ['none', 'plugins.draw.mode.none'],
+          ['draw', `plugins.draw.mode.${drawLabel}`],
+          ['edit', 'plugins.draw.mode.edit'],
+          ['translate', 'plugins.draw.mode.translate'],
+          ['delete', 'plugins.draw.mode.delete'],
+        ]
+        if (configuration.lassos) {
+          modes.splice(4, 0, ['lasso', 'plugins.draw.mode.lasso'])
         }
+        return Object.fromEntries(modes)
       },
       measureOptions: (_, { configuration }) =>
         configuration.measureOptions || {},

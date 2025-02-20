@@ -35,7 +35,7 @@ The styling of the drawn features can be configured to overwrite the default ol-
 | - | - | - |
 | addLoading | string? | Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when starting asynchronous procedures that are intended to be communicated to the user. |
 | enableOptions | boolean? | If `true`, draw options are displayed, like choosing and changing stroke color. Not available for texts features. Defaults to `false`. |
-| lassos | lasso[]? | Allows configuring lasso options. The lasso function allows free-hand drawing a geometry on the map; features completely fitting into that geometry will be copied up to the draw layer from all configured layers. 💡 Please mind that the lasso function currently has no UI in the client, and the functionality must be triggered externally. |
+| lassos | lasso[]? | Allows configuring lasso options. The lasso function allows free-hand drawing a geometry on the map; features completely fitting into that geometry will be copied up to the draw layer from all configured layers. UI-wise, it is not intuitive for users do understand what a "Lasso" does. This feature currently requires further instructions by the outlying UI on what one is supposed to do with it. |
 | removeLoading | string? | Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when finishing asynchronous procedures that are intended to be communicated to the user. |
 | measureOptions | measureOptions? | If set, an additional radio is being shown to the user to be able to let the (then) drawn features display their length and / or area. See [draw.measureOptions](#drawmeasureoptions) for further information. Not shown by default. |
 | selectableDrawModes | string[]? | List 'Point', 'LineString', 'Circle', 'Text' and/or 'Polygon' as desired. All besides 'Text' are selectable by default. |
@@ -77,8 +77,6 @@ draw: {
 </details>
 
 #### draw.lasso
-
-This feature currently has no UI and can only be started with a programmatic `mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')` call.
 
 | fieldName | type | description |
 | - | - | - |
