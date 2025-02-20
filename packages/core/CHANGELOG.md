@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: If a flag `_isPolarDragLikeInteraction` is present on any interaction, the page will stop scrolling in mobile mode, and the interaction takes precendence. Especially, this is done to prevent the tooltip on how to pan the map on mobile devices to appear. This flag is documented at the end of the README.md.
+
 ## 3.0.0
 
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.40.0` to `2.45.0` and subsequently `ol` from `^9.2.4` to `^10.3.1`.

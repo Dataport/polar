@@ -13,6 +13,7 @@ const createTranslate = (
   const activeContainer = { active: false }
   const features: Collection<Feature> = new Collection()
   const translate = new Translate({ features })
+  translate.set('_isPolarDragLikeInteraction', true, true)
   translate.on('translatestart', () => {
     activeContainer.active = true
   })
