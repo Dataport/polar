@@ -24,6 +24,7 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
+    "@turf/boolean-contains": "^7.2.0",
     "@turf/center-of-mass": "^7.2.0",
     "@polar/lib-get-features": "^3.0.0"
   },
