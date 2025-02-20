@@ -3,6 +3,7 @@ const basemap = 'basemapde_farbe'
 const xplanwms = 'xplanwms'
 const xplanwfs = 'xplanwfs'
 const flurstuecke = 'flurstuecke'
+const bstgasleitung = 'bst_gasleitung'
 
 export default {
   startResolution: 264.583190458,
@@ -20,12 +21,14 @@ export default {
             [xplanwms]: 'XPlanWMS',
             [xplanwfs]: 'XPlanSynWFS',
             [flurstuecke]: 'Flurstücke',
+            [bstgasleitung]: 'BST Gasleitung',
           },
           attributions: {
             [basemap]: `$t(diplan.layers.${basemap}) © GeoBasis-DE / BKG <YEAR> CC BY 4.0`,
             [xplanwms]: `$t(diplan.layers.${xplanwms}) © ???`,
             [xplanwfs]: `$t(diplan.layers.${xplanwfs}) © ???`,
             [flurstuecke]: `$t(diplan.layers.${flurstuecke}) © ???`,
+            [bstgasleitung]: `$t(diplan.layers.${bstgasleitung}) © ???`,
           },
         },
       },
@@ -75,6 +78,12 @@ export default {
       type: 'mask',
       name: `diplan.layers.${flurstuecke}`,
     },
+    {
+      id: bstgasleitung,
+      visibility: false,
+      type: 'mask',
+      name: `diplan.layers.${bstgasleitung}`,
+    },
   ],
   attributions: {
     layerAttributions: [
@@ -93,6 +102,10 @@ export default {
       {
         id: flurstuecke,
         title: `diplan.attributions.${flurstuecke}`,
+      },
+      {
+        id: bstgasleitung,
+        title: `diplan.attributions.${bstgasleitung}`,
       },
     ],
   },

@@ -451,4 +451,13 @@ export default [
     crs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
     bboxCrs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
   },
+  {
+    id: 'bst_gasleitung',
+    typ: 'OAF',
+    name: 'bst_gasleitung',
+    url: 'https://xtrasse.ldproxy.develop.diplanung.de/xtrasse_PFS_gas',
+    collection: 'bst_gasleitung',
+    crs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
+    bboxCrs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
+  },
 ]
