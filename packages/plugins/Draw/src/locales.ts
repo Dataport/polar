@@ -44,9 +44,7 @@ export const resourcesDe = {
       lasso: {
         layerRejected:
           'Die Antwort des Layers "{{id}}" konnte nicht gelesen werden. Es wurden keine Geometrien aus diesem Layer bezogen.',
-        notInZoomRange:
-          'Der Layer "$t({{serviceName}})" wurde nicht für die Lasso-Funktion genutzt, da er auf der derzeitigen Zoomstufe nicht aktivierbar ist. Bitte passen Sie die Zoomstufe an, um die Lasso-Funktion zu nutzen.',
-        fatalError:
+        internalError:
           'Ein unerwarteter Fehler ist in der Verarbeitung der Lasso-Daten aufgetreten.',
       },
     },
@@ -97,9 +95,7 @@ export const resourcesEn = {
       lasso: {
         layerRejected:
           'The response of layer "{{id}}" could not be read. No geometries were fetched from that layer.',
-        notInZoomRange:
-          'The layer "$t({{serviceName}})" was not used for the lasso as it is not activatable on the current zoom level. Please change the zoom level to use the lasso.',
-        fatalError:
+        internalError:
           'An unexpected error occured in the processing of lasso data.',
       },
     },

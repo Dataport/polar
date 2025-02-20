@@ -49,6 +49,8 @@ export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
   showSizeSlider: boolean
   /* actual text size to use */
   textSize: number
+  activeLassoIds: string[]
+  toastAction: string
   showDrawOptions: boolean
   showMeasureOptions: boolean
 }

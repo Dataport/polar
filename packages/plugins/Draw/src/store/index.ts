@@ -91,6 +91,26 @@ export const makeStoreModule = () => {
         }
         return Object.fromEntries(modes)
       },
+      activeLassoIds: (_, { configuration }, __, rootGetters) =>
+        (configuration.lassos || []).reduce(
+          (accumulator, { id, minZoom = true }) => {
+            const layerConfig = rootGetters.configuration.layers?.find(
+              (layer) => id === layer.id
+            )
+            if (
+              minZoom &&
+              layerConfig &&
+              typeof layerConfig.minZoom !== 'undefined' &&
+              rootGetters.zoomLevel < layerConfig.minZoom
+            ) {
+              return accumulator
+            }
+            accumulator.push(id)
+            return accumulator
+          },
+          [] as string[]
+        ),
+      toastAction: (_, { configuration }) => configuration.toastAction || '',
       measureOptions: (_, { configuration }) =>
         configuration.measureOptions || {},
       selectableMeasureModes: (_, { drawMode, measureOptions }) =>
