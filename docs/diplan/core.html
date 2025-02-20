@@ -754,6 +754,24 @@ map.$store.watch(
 </tr>
 </tbody>
 </table>
+<h2 id="special-flags" tabindex="-1">Special Flags</h2>
+<p>POLAR uses flags on some OL elements to handle overarching issues. Those flags can be retrieved with <code>olThing.get('_flagName')</code>. These flags must not be specific to a plugin and must provide documentation in this place. They may yield uses outside of the POLAR application when further building upon the clients or creating new plugins.</p>
+<table>
+<thead>
+<tr>
+<th>flagName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_isPolarDragLikeInteraction</td>
+<td>true</td>
+<td>This flag is either <code>true</code> or absent. It must be present on drag-like interactions with the map to provide information to the core on when to display the map pan instructions on mobile devices. The instructions will not be shown if a single interaction with this flag is found, assuming that the interaction takes precendence over scrolling the page.</td>
+</tr>
+</tbody>
+</table>
 
     
     <h2>Locales</h2>
