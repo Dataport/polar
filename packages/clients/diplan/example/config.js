@@ -111,6 +111,14 @@ export default {
   },
   draw: {
     enableOptions: true,
+    lassos: [
+      {
+        id: flurstuecke,
+      },
+      {
+        id: xplanwfs,
+      },
+    ],
     measureOptions: {
       metres: true,
       kilometres: true,
@@ -124,6 +132,7 @@ export default {
         family: 'Arial',
       },
     },
+    toastAction: 'plugin/toast/addToast',
     style: {
       fill: { color: 'rgb(51 117 212 / 50%)' },
       stroke: {

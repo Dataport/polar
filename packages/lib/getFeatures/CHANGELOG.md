@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new methods `getVectorFeaturesByBboxRequest` and `getVectorFeaturesByFeatureRequest` that support both WFS and OAF layers.
+
 ## 3.0.0
 
 - Breaking: Upgrade peerDependency `ol` from `^9.2.4` to `^10.3.1`.
