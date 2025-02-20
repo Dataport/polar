@@ -4,6 +4,7 @@
 
 - Feature: Add a `"translate"` mode that allows moving drawn features as they are.
 - Feature: Add a `"snapTo"` key to the configuration that allows defining vector layers to snap to while drawing, editing, and translating.
+- Feature: Interactions requiring dragging are now marked with the POLAR flag `_isPolarDragLikeInteraction`.
 
 ## 3.0.0
 

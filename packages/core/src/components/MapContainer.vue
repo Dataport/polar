@@ -95,6 +95,7 @@ export default Vue.extend({
     ...mapGetters([
       'hasSmallWidth',
       'hasWindowSize',
+      'map',
       'moveHandle',
       'moveHandleActionButton',
     ]),
@@ -161,9 +162,7 @@ export default Vue.extend({
     this.mapConfiguration.locales?.forEach?.((locale: Locale) =>
       i18next.addResourceBundle(locale.type, 'common', locale.resources, true)
     )
-
     i18next.on('languageChanged', (lang) => (this.lang = lang))
-
     if (this.mapConfiguration.checkServiceAvailability) {
       this.checkServiceAvailability()
     }
@@ -172,7 +171,6 @@ export default Vue.extend({
   },
   beforeDestroy() {
     removeEventListener('resize', this.updateHasSmallDisplay)
-
     const mapContainer = this.$refs['polar-map-container']
     if (!this.hasWindowSize && mapContainer) {
       ;(mapContainer as HTMLDivElement).removeEventListener(
@@ -207,8 +205,18 @@ export default Vue.extend({
           window.innerWidth <= SMALL_DISPLAY_WIDTH
         ) {
           new Hammer(mapContainer).on('pan', (e) => {
-            this.oneFingerPan = e.maxPointers === 1
-            setTimeout(() => (this.oneFingerPan = false), 2000)
+            if (
+              e.maxPointers === 1 &&
+              !this.map
+                .getInteractions()
+                .getArray()
+                .some((interaction) =>
+                  interaction.get('_isPolarDragLikeInteraction')
+                )
+            ) {
+              this.oneFingerPan = true
+              setTimeout(() => (this.oneFingerPan = false), 2000)
+            }
           })
         }
       }
@@ -230,7 +238,6 @@ export default Vue.extend({
   position: absolute;
   height: 100%;
   width: 100%;
-
   .polar-map {
     width: 100%;
     height: 100%;
@@ -265,16 +272,13 @@ export default Vue.extend({
   height: 100%;
   width: 100%;
 }
-
 .v-tooltip__content {
   background-color: #595959;
   border: 2px solid #fff;
 }
-
 .v-application {
   font-family: sans-serif !important;
 }
-
 /* Override v-app default styling (must be global to take effect) */
 .polar-wrapper .v-application--wrap {
   min-height: initial;
