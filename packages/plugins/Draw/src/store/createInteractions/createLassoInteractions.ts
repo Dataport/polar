@@ -35,8 +35,6 @@ const buildAddFeaturesPayload = (
 ) => {
   const drawnLassoGeoJson = JSON.parse(new GeoJSON().writeFeature(drawnLasso))
 
-  console.error(featureCollections)
-
   return {
     geoJSON: {
       type: 'FeatureCollection',
