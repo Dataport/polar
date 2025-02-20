@@ -559,3 +559,11 @@ You may desire to listen to whether the loader is currently being shown.
 | hovered | Feature \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the currently hovered marker. Please mind that it may be a clustered feature. |
 | selected | Feature \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the currently selected marker. Please mind that it may be a clustered feature. |
 | selectedCoordinates | Array \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the coordinates of the currently selected marker. |
+
+## Special Flags
+
+POLAR uses flags on some OL elements to handle overarching issues. Those flags can be retrieved with `olThing.get('_flagName')`. These flags must not be specific to a plugin and must provide documentation in this place. They may yield uses outside of the POLAR application when further building upon the clients or creating new plugins.
+
+| flagName | type | description |
+| - | - | - |
+| _isPolarDragLikeInteraction | true | This flag is either `true` or absent. It must be present on drag-like interactions with the map to provide information to the core on when to display the map pan instructions on mobile devices. The instructions will not be shown if a single interaction with this flag is found, assuming that the interaction takes precendence over scrolling the page. |
