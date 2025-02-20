@@ -653,6 +653,7 @@ export interface MapConfig extends MasterportalApiConfig {
   checkServiceAvailability?: boolean
   extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   featureStyles?: string
+  interceptorUrlRegex?: string
   language?: InitialLanguage
   locales?: Locale[]
   renderFaToLightDom?: boolean

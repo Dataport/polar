@@ -11,6 +11,7 @@ import { makeShadowRoot } from './makeShadowRoot'
 import { pullPolarStyleToShadow } from './pullPolarStyleToShadow'
 import { pullVuetifyStyleToShadow } from './pullVuetifyStyleToShadow'
 import { setupFontawesome } from './setupFontawesome'
+import { addInterceptor } from './addInterceptor'
 
 /**
  * createMap handles plugging all the parts together to create a configured map.
@@ -51,6 +52,9 @@ export default async function createMap({
   setupFontawesome(shadowRoot, mapConfiguration.renderFaToLightDom)
   updateSizeOnReady(instance)
 
+  if (mapConfiguration.interceptorUrlRegex) {
+    addInterceptor(mapConfiguration.interceptorUrlRegex)
+  }
   // Restore theme ID such that external Vuetify app can find it again
   if (externalStylesheet) {
     externalStylesheet.id = 'vuetify-theme-stylesheet'
