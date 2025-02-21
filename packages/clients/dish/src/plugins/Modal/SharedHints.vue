@@ -37,7 +37,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
 import { getSetGenerator } from '@repositoryname/vuex-generators'
 
 export default Vue.extend({
