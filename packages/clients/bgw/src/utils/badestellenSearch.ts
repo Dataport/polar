@@ -19,7 +19,8 @@ export function badestellenSearch(
   inputValue: string,
   queryParameters: WfsParameters
 ) {
-  return getWfsFeatures(signal, url, inputValue.toUpperCase(), queryParameters)
+  const searchString = inputValue.toUpperCase() as string
+  return getWfsFeatures(signal, url, `*${searchString}*`, queryParameters)
 }
 
 export const badestellenSearchResult: SelectResultFunction<
