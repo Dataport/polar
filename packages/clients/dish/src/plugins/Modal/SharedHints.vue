@@ -60,7 +60,6 @@ export default Vue.extend({
   },
   computed: {
     ...getSetGenerator('plugin/modal', ['closed']),
-    ...mapGetters('plugin/addressSearch', ['selectedGroup']),
   },
 })
 </script>
