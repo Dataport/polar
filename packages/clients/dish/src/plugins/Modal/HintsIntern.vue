@@ -1,5 +1,5 @@
 <template>
-  <SharedHints :main-title="mainTitle" :sub-title="subTitle">
+  <SharedHints :main-title="mainTitle">
     <v-card-text>
       Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
       eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
