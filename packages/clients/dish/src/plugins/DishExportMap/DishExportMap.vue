@@ -150,10 +150,8 @@ export default Vue.extend({
         this.overlay.setPosition(this.transformedCoordinate)
       }
     },
-    getRectangleCoordinates() {
-      const centerPixel = this.map.getPixelFromCoordinate(
-        this.transformedCoordinate
-      )
+    getRectangleCoordinates(coordinate) {
+      const centerPixel = this.map.getPixelFromCoordinate(coordinate)
       const topLeftPixel = [
         centerPixel[0] - rectangleWidth / 2,
         centerPixel[1] - rectangleHeight / 2,
@@ -179,7 +177,7 @@ export default Vue.extend({
         )
         return
       }
-      const bbox = this.getRectangleCoordinates()
+      const bbox = this.getRectangleCoordinates(this.transformedCoordinate)
       return {
         // order of the parameters must be maintained to create the url
         NewTab: true,
