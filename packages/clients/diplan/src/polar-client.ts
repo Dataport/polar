@@ -43,6 +43,7 @@ polarCore.addPlugins([
       },
       {
         plugin: Draw({
+          toastAction: 'plugin/toast/addToast',
           addLoading: 'plugin/loadingIndicator/addLoadingKey',
           removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
         }),
