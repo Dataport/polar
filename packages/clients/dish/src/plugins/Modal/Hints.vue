@@ -250,13 +250,13 @@ export default Vue.extend({
   computed: {
     ...mapGetters('plugin/addressSearch', ['selectedGroup']),
     mainTitle() {
-      return 'Denkmalkarte Schleswig-Holstein'
+      return this.$t('plugins.dish.modal.hints.mainTitle')
     },
     title() {
-      return 'Benutzungshinweise'
+      return this.$t('plugins.dish.modal.hints.title')
     },
     subTitle() {
-      return 'Allgemeine Informationen'
+      return this.$t('plugins.dish.modal.hints.subTitle')
     },
     maxFeatures() {
       return this.selectedGroup.find(

@@ -44,7 +44,7 @@ export default Vue.extend({
   },
   computed: {
     mainTitle() {
-      return 'Interne Denkmalkarte Schleswig-Holstein'
+      return this.$t('plugins.dish.modal.hintsIntern.mainTitle')
     },
   },
 })
