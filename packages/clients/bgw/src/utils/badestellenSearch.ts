@@ -12,6 +12,14 @@ import {
 } from '@polar/plugin-address-search'
 import { WfsParameters, getWfsFeatures } from '@polar/lib-get-features'
 
+function replaceUmlauts(input: string): string {
+  return input
+    .replace(/Ä/g, 'AE')
+    .replace(/Ö/g, 'OE')
+    .replace(/Ü/g, 'UE')
+    .replace(/ß/g, 'SS')
+}
+
 export function badestellenSearch(
   this: PolarStore<CoreState, CoreGetters>,
   signal: AbortSignal,
@@ -19,7 +27,7 @@ export function badestellenSearch(
   inputValue: string,
   queryParameters: WfsParameters
 ) {
-  const searchString = inputValue.toUpperCase() as string
+  const searchString = replaceUmlauts(inputValue.toUpperCase())
   return getWfsFeatures(signal, url, `*${searchString}*`, queryParameters)
 }
 
