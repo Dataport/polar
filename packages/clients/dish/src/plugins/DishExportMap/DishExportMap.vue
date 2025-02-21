@@ -216,7 +216,7 @@ export default Vue.extend({
     },
     printMapAsPdf() {
       this.dialog = false
-      const printParams = this.getPrintParams()
+      const printParams = this.getPrintParams() || {}
       const queryString = Object.entries(printParams)
         .map(
           ([key, value]) =>
