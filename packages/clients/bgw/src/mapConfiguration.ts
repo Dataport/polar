@@ -126,7 +126,7 @@ const mapConfig = {
       {
         groupId: 'badestellenSearch',
         categoryId: 'badestellen',
-        type: 'wfs',
+        type: 'badestellenSearch',
         url: 'https://umweltgeodienste.schleswig-holstein.de/WFS_BGW',
         queryParameters: {
           srsName: 'EPSG:25832',
