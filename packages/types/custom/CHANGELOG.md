@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add `snapTo` to `DrawConfiguration` for specification of layers to snap to.
+- Feature: Add new configuration parameter `interceptorUrlRegex` to `MapConfig`.
 
 ## 2.0.0
 

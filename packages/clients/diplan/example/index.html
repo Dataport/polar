@@ -16,6 +16,22 @@
       <section>
         <h2 class="padded-x">Beispielinstanz</h2>
         <div class="padded-x">
+          <h3>Loginbeispiel</h3>
+          <form id="login-form" style="display: flex; gap: 10px;">
+            <label>
+              Nutzername:
+              <input type="text" id="username" name="username" required>
+            </label>
+            <label>
+              Passwort:
+              <input type="password" id="password" name="password" required>
+            </label>
+            <br>
+            <button id="login-button" type="button">Login</button>
+          </form>
+          <p id="error-message" style="color: red;"></p>
+        </div>
+        <div class="padded-x">
           <h3>Steuerung von außen</h3>
           <button id="action-plus">+</button>
           <button id="action-minus">-</button>
