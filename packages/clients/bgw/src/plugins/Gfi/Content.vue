@@ -3,7 +3,7 @@
     v-if="infoFields.length > 0 && currentProperties"
     class="bgw-gfi-content"
   >
-    <v-card-actions>
+    <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
       <v-spacer></v-spacer>
       <v-btn
         icon
@@ -45,6 +45,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['map', 'configuration']),
     ...mapGetters('plugin/gfi', ['currentProperties']),
+    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
     info(): Array<string[]> {
       return this.infoFields.map(({ key, label }) => [
         label,
