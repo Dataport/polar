@@ -51,6 +51,7 @@ export default {
     minLength: 3,
     waitMs: 300,
   },
+  interceptorUrlRegex: '',
   layers: [
     {
       id: basemap,
@@ -83,6 +84,12 @@ export default {
       visibility: false,
       type: 'mask',
       name: `diplan.layers.${bstgasleitung}`,
+    },
+    {
+      id: 'secureServiceTest',
+      visibility: false,
+      type: 'mask',
+      name: 'Secure Service Test',
     },
   ],
   attributions: {
