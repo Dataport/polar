@@ -1,5 +1,8 @@
 <template>
-  <v-card class="bgw-gfi-content">
+  <v-card
+    v-if="infoFields.length > 0 && currentProperties"
+    class="bgw-gfi-content"
+  >
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
