@@ -204,17 +204,6 @@ const mapConfig = {
       14003: {
         window: true,
         geometry: false,
-        properties: {
-          bgw_name: 'Name',
-          fid: 'EU-IRD',
-          ort: 'Gemeinde',
-          bgw_kreis: 'Kreis',
-          bgw_gwkategory: 'Gewässerkategorie',
-          bgw_laenge: 'geographische Länge',
-          bgw_breite: 'geographische Breite',
-          bgw_laenge_bgw: 'Länge Uferlinie (m)',
-          bgw_umfeld: 'Umfeld (Infrastruktur)',
-        },
         showTooltip: (feature) =>
           feature.get('features').length > 1
             ? [
