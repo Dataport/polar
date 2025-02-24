@@ -8,7 +8,6 @@
     aria-label="Details der Badestelle"
     onmousedown="return false"
   >
-    <v-icon small>fa-download</v-icon>
     Details der Badestelle
   </v-btn>
 </template>
@@ -27,3 +26,12 @@ export default Vue.extend({
   },
 })
 </script>
+<style lang="scss" scoped>
+.bgw-export-button {
+  margin-right: 0.4em;
+  margin-top: 0.5em;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  border: 3px solid transparent;
+}
+</style>
