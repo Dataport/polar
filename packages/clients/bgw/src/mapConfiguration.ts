@@ -233,6 +233,7 @@ const mapConfig = {
               ],
       },
     },
+    // client specific gfi configuration. See Readme for more information
     infoFields: [
       { key: 'fid', label: 'plugins.gfi.infoLabels.fid' },
       { key: 'ort', label: 'plugins.gfi.infoLabels.ort' },
