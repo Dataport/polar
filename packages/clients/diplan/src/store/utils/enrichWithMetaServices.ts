@@ -2,9 +2,11 @@ import isEqual from 'lodash.isequal'
 import { FeatureCollection, Feature as GeoJsonFeature } from 'geojson'
 import { Feature, Map } from 'ol'
 import { GeoJSON } from 'ol/format'
-import { getVectorFeaturesByFeatureRequest } from '@polar/lib-get-features'
+import {
+  getVectorFeaturesByFeatureRequest,
+  parseWfsResponse,
+} from '@polar/lib-get-features'
 import { rawLayerList } from '@masterportal/masterportalapi'
-import { parseWfsResponse } from '@polar/lib-get-features/wfs/parse'
 import { booleanIntersects } from '@turf/boolean-intersects'
 import { MetaService } from '../../types'
 
