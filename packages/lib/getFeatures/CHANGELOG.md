@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add new methods `getVectorFeaturesByBboxRequest` and `getVectorFeaturesByFeatureRequest` that support both WFS and OAF layers.
+- Feature: Add `parseWfsResponse` method to package re-exports.
 
 ## 3.0.0
 

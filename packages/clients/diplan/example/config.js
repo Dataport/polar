@@ -146,7 +146,6 @@ export default {
         family: 'Arial',
       },
     },
-    toastAction: 'plugin/toast/addToast',
     style: {
       fill: { color: 'rgb(51 117 212 / 50%)' },
       stroke: {
