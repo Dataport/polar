@@ -4,8 +4,6 @@ import Point from 'ol/geom/Point'
 import { reverseGeocode } from '../utils/reverseGeocode'
 import { ReverseGeocoderFeature } from '../types'
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   let loaderCounter = 0
 

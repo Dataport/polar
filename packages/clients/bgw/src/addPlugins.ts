@@ -23,7 +23,6 @@ const defaultOptions = {
   layoutTag: NineLayoutTag.TOP_LEFT,
 }
 
-// eslint-disable-next-line max-lines-per-function
 export default (core) => {
   setLayout(NineLayout)
 

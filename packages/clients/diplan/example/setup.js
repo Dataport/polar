@@ -1,5 +1,3 @@
-/* eslint-disable max-lines-per-function */
-
 const geoJSON = {
   type: 'FeatureCollection',
   features: [

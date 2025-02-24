@@ -1,5 +1,3 @@
-/* eslint-disable max-lines */
-
 // TODO reduce to information actually read by masterportalapi
 // TODO move information readable by POLAR to where it belongs in config
 

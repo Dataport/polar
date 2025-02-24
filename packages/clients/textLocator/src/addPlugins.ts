@@ -29,8 +29,6 @@ export const ids = {
   typeLiterature: 'literature',
 }
 
-// this is fine for list-like setup functions
-// eslint-disable-next-line max-lines-per-function
 export const addPlugins = (core) => {
   setLayout(NineLayout)
 

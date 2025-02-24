@@ -11,8 +11,6 @@ const getInitialState = (): ZoomState => ({
   minimumZoomLevel: 0,
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<ZoomState, ZoomGetters> = {
     namespaced: true,
