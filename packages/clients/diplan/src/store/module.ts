@@ -39,6 +39,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
     updateState: async ({ commit, dispatch, rootGetters, getters }) => {
       commit('setRevisionInProgress', true)
 
+      // clone to prevent accidentally messing with the draw tool's data
       let revisedFeatureCollection = cloneFeatureCollection(
         rootGetters[drawFeatureCollection]
       )
@@ -59,7 +60,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
 
       if (getters.configuration.metaServices.length) {
         try {
-          revisedFeatureCollection = await enrichWithMetaServices(
+          await enrichWithMetaServices(
             revisedFeatureCollection,
             rootGetters.map,
             getters.configuration.metaServices

@@ -17,7 +17,11 @@ export default {
     mergeMultiGeometries: true,
     validateGeoJson: true,
     metaServices: [
-      { id: flurstuecke, propertyNames: undefined, aggregationMode: 'unequal' },
+      {
+        id: flurstuecke,
+        propertyNames: ['land', 'gemarkung', 'regbezirk', 'kreis', 'gemeinde'],
+        aggregationMode: 'unequal',
+      },
     ],
   },
   // general POLAR parameters

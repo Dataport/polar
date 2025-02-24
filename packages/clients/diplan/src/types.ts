@@ -3,7 +3,7 @@ import { FeatureCollection } from 'geojson'
 export interface MetaService {
   id: string
   propertyNames?: string[]
-  aggregationMode: 'unequal' | 'all' | 'variants'
+  aggregationMode?: 'unequal' | 'all'
 }
 
 export interface DiplanConfiguration {

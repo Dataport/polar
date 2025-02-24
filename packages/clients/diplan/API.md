@@ -24,7 +24,7 @@ DiPlan-specific configuration parameters belong within the `mapConfiguration` ob
 | - | - | - |
 | id | string | Id of the vector layer to make use of in the meta service. |
 | propertyNames | string[]? | Names of the properties to build aggregations from. If left undefined, all found properties will be used. |
-| aggregationMode | enum['unequal', 'all', 'variants']? | Defaults to `'unequal'`. In mode `'unequal'`, one of each property set is kept; duplicate property sets are dropped. In mode `'all'`, all property sets are kept without further filtering. In mode `'variants'`, only one property set is kept, and all values of its keys are nested in an array, and to each such array, all property values not equal to present values are added. See example below for clarification. |
+| aggregationMode | enum['unequal', 'all']? | Defaults to `'unequal'`. In mode `'unequal'`, one of each property set is kept; duplicate property sets are dropped. In mode `'all'`, all property sets are kept without further filtering. |
 
 From all geometries of the service intersecting our geometries, properties are aggregated.
 
@@ -92,23 +92,6 @@ In mode `'all'`:
 }
 ```
 
-In mode `'variants'`:
-
-```json
-{
-  "type": "Feature",
-  "geometry": "...",
-  "properties": {
-    "metaProperties": {
-      "metaSourceExampleId": {
-        "a": [0, 1],
-        "b": [0, 1]
-      }
-    }
-  }
-}
-```
-
 ## State
 
 ### Getters
@@ -118,6 +101,8 @@ In mode `'variants'`:
 | revisedDrawExport | GeoJSON.FeatureCollection | Whether the current zoomLevel is the maximum. |
 | revisionInProgress | boolean | Returns `true` if there are ongoing asynchronous operations. While true, the `revisedDrawExport` variable shall not be considered finished. |
 | simpleGeometryValidity | boolean | Indicator of whether SimpleGeometry rules are fulfilled. |
+
+⚠️ Caveat: Please mind that there is currently no merge-logic for properties of features given from the outside. If `mergeMultiGeometries` is set true, an arbitrary set of properties will survive. If `metaServices` are set, `properties.metaProperties` will be overridden if they previously existed. It is assumed that incoming data shall only be recognized regarding its geometry.
 
 ```js
 mapInstance.$store.watch(
