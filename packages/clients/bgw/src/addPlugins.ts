@@ -13,7 +13,10 @@ import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
 import merge from 'lodash.merge'
-import { badestellenSearchResult } from './utils/badestellenSearch'
+import {
+  badestellenSearch,
+  badestellenSearchResult,
+} from './utils/badestellenSearch'
 
 const defaultOptions = {
   displayComponent: true,
@@ -74,6 +77,7 @@ export default (core) => {
       merge({}, defaultOptions, {
         addLoading: 'plugin/loadingIndicator/addLoadingKey',
         removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+        customSearchMethods: { badestellenSearch },
         customSelectResult: { badestellen: badestellenSearchResult },
       })
     ),
