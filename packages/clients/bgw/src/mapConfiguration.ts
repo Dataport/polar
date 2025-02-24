@@ -233,6 +233,22 @@ const mapConfig = {
               ],
       },
     },
+    infoFields: [
+      { key: 'fid', label: 'plugins.gfi.infoLabels.fid' },
+      { key: 'ort', label: 'plugins.gfi.infoLabels.ort' },
+      { key: 'bgw_kreis', label: 'plugins.gfi.infoLabels.bgw_kreis' },
+      {
+        key: 'bgw_gwkategory',
+        label: 'plugins.gfi.infoLabels.bgw_gwkategory',
+      },
+      { key: 'bgw_laenge', label: 'plugins.gfi.infoLabels.bgw_laenge' },
+      { key: 'bgw_breite', label: 'plugins.gfi.infoLabels.bgw_breite' },
+      {
+        key: 'bgw_laenge_bgw',
+        label: 'plugins.gfi.infoLabels.bgw_laenge_bgw',
+      },
+      { key: 'bgw_umfeld', label: 'plugins.gfi.infoLabels.bgw_umfeld' },
+    ],
   },
   featureStyles: './style.json',
 }
