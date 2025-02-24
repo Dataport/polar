@@ -23,7 +23,6 @@
           </tr>
         </tbody>
       </v-simple-table>
-      <v-spacer></v-spacer>
       <ActionButton></ActionButton>
     </v-card-text>
   </v-card>
@@ -52,6 +51,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters('plugin/gfi', ['currentProperties']),
     info(): Array<string[]> {
+      console.warn(this.currentProperties)
       return this.infoFields.map(({ key, label }) => [
         label,
         this.currentProperties[key],
@@ -63,3 +63,11 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.bgw-gfi-title {
+  word-break: break-word;
+  font-size: medium;
+  font-weight: bold;
+}
+</style>
