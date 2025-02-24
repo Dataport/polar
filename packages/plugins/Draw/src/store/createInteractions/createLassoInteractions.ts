@@ -6,14 +6,16 @@ import { rawLayerList } from '@masterportal/masterportalapi'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { Feature } from 'ol'
 import { Polygon } from 'ol/geom'
-import { parseWfsResponse } from '@polar/lib-get-features/wfs/parse'
+import {
+  parseWfsResponse,
+  getVectorFeaturesByFeatureRequest,
+} from '@polar/lib-get-features'
 import {
   FeatureCollection,
   Feature as GeoJsonFeature,
   Geometry,
   GeometryCollection,
 } from 'geojson'
-import { getVectorFeaturesByFeatureRequest } from '@polar/lib-get-features'
 import { DrawGetters, DrawState } from '../../types'
 
 let loaderKeyCounter = 0
