@@ -10,11 +10,13 @@ import { mapGetters } from 'vuex'
 import * as focusTrap from 'focus-trap'
 import Hints from './Hints.vue'
 import Welcome from './Welcome.vue'
+import HintsIntern from './HintsIntern.vue'
 import { CONTENT_ENUM } from './store'
 
 const lookup = {
   [CONTENT_ENUM.WELCOME]: Welcome,
   [CONTENT_ENUM.HINTS]: Hints,
+  [CONTENT_ENUM.HINTSINTERN]: HintsIntern,
 }
 
 let trap
@@ -22,24 +24,23 @@ let trap
 export default Vue.extend({
   name: 'DishModal',
   computed: {
-    ...mapGetters('plugin/modal', ['confirmed', 'closed', 'content']),
+    ...mapGetters('plugin/modal', ['closed', 'content']),
     selectedContent() {
       return lookup[this.content]
     },
   },
   watch: {
     closed(newValue) {
-      if (newValue) {
-        trap.deactivate()
-        trap = null
-      } else {
-        // Vue must be done rendering before focus can be trapped
-        Vue.nextTick(this.trapFocus)
+      if (trap) {
+        if (newValue) {
+          trap.deactivate()
+          trap = null
+        } else {
+          // Vue must be done rendering before focus can be trapped
+          Vue.nextTick(this.trapFocus)
+        }
       }
     },
-  },
-  mounted() {
-    this.trapFocus()
   },
   methods: {
     trapFocus() {

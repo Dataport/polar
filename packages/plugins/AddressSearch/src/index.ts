@@ -11,6 +11,7 @@ export { SearchResultSymbols }
 export type {
   AddressSearchState,
   AddressSearchGetters,
+  BKGParameters,
   MpApiParameters,
 } from './types'
 
