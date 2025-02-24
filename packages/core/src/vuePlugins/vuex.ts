@@ -79,8 +79,6 @@ const getInitialState = (): CoreState => ({
   mapHasDimensions: false,
 })
 
-// OK for store creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStore = () => {
   /*
    * NOTE: The following variables are used to store complex information

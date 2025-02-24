@@ -12,8 +12,6 @@ import { debouncedGfiRequest } from './debouncedGfiRequest'
 import { setupCoreListener, setupTooltip, setupZoomListeners } from './setup'
 import { setupMultiSelection } from './setupMultiSelection'
 
-// OK for module action set creation
-// eslint-disable-next-line max-lines-per-function
 export const makeActions = () => {
   const writer = new GeoJSON()
   const featureDisplayLayer = getFeatureDisplayLayer()

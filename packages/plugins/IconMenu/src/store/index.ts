@@ -11,8 +11,6 @@ const getInitialState = (): IconMenuState => ({
   open: null,
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<IconMenuState, IconMenuGetters> = {
     namespaced: true,

@@ -15,8 +15,6 @@ import modifyDrawStyle from './createInteractions/modifyDrawStyle'
 import modifyTextStyle from './createInteractions/modifyTextStyle'
 import createDrawInteractions from './createInteractions/createDrawInteractions'
 
-// OK for module action set creation
-// eslint-disable-next-line max-lines-per-function
 export const makeActions = () => {
   let interactions: Interaction[] = []
   let drawLayer
