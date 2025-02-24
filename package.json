@@ -14,7 +14,7 @@
     "packages/core",
     "packages/lib/*",
     "packages/plugins/*",
-    "packages/types"
+    "packages/types/custom"
   ],
   "scripts": {
     "afm:build": "nx build @polar/client-afm && npm run docs:afm",
