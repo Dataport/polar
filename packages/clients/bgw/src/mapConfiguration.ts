@@ -45,6 +45,23 @@ const mapConfig = {
               },
             },
           },
+          gfi: {
+            button: {
+              details: 'Details der Badestelle',
+            },
+            infoLabels: {
+              fid: 'EU-IRD',
+              name: 'Name',
+              ort: 'Gemeinde',
+              bgw_kreis: 'Kreis',
+              bgw_kategory: 'Kategorie',
+              bgw_gwkategory: 'Gewässerkategorie',
+              bgw_laenge: 'geographische Länge',
+              bgw_breite: 'geographische Breite',
+              bgw_laenge_bgw: 'Länge Uferlinie (m)',
+              bgw_umfeld: 'Umfeld (m)',
+            },
+          },
         },
       },
     },

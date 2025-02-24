@@ -4,11 +4,11 @@
     text
     :href="downloadLink"
     target="_blank"
-    title="Details der Badestelle"
-    aria-label="Details der Badestelle"
+    :title="$t('plugins.gfi.button.details')"
+    :aria-label="$t('plugins.gfi.button.details')"
     onmousedown="return false"
   >
-    Details der Badestelle
+    {{ $t('plugins.gfi.button.details') }}
   </v-btn>
 </template>
 
