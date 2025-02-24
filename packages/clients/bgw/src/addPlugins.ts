@@ -13,7 +13,7 @@ import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
 import merge from 'lodash.merge'
-import BgwGfiContent from '../gfi/Content.vue'
+import BgwGfiContent from './plugins/Gfi/Content.vue'
 import { badestellenSearchResult } from './utils/badestellenSearch'
 
 const defaultOptions = {
