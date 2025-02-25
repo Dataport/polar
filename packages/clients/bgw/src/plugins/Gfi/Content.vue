@@ -11,7 +11,7 @@
         :aria-label="$t('plugins.gfi.header.close')"
         @click="
           close(true)
-          updateFeatureStyles(null, defaultStyle)
+          updateBadestraendeStyles(null, defaultStyle)
         "
       >
         <v-icon small>fa-xmark</v-icon>
@@ -67,13 +67,16 @@ export default Vue.extend({
   },
   watch: {
     currentProperties(value) {
-      this.updateFeatureStyles(null, this.defaultStyle)
-      this.updateFeatureStyles(value.fid, this.highlightStyle)
+      this.updateBadestraendeStyles(null, this.defaultStyle)
+      this.updateBadestraendeStyles(value.fid, this.highlightStyle)
     },
   },
   mounted() {
     this.infoFields = this.configuration.gfi.infoFields
-    this.updateFeatureStyles(this.currentProperties.fid, this.highlightStyle)
+    this.updateBadestraendeStyles(
+      this.currentProperties.fid,
+      this.highlightStyle
+    )
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),
@@ -90,7 +93,7 @@ export default Vue.extend({
           return feature.get('BATHINGWAT') === badeStellenId
         })
     },
-    updateFeatureStyles(id: string | null, style: Style) {
+    updateBadestraendeStyles(id: string | null, style: Style) {
       if (id) {
         this.badestraendeFeatures = this.getBadeStellenFeatures(
           this.map,
