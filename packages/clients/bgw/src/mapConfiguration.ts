@@ -45,6 +45,23 @@ const mapConfig = {
               },
             },
           },
+          gfi: {
+            button: {
+              details: 'Details der Badestelle',
+            },
+            infoLabels: {
+              fid: 'EU-IRD',
+              name: 'Name',
+              ort: 'Gemeinde',
+              bgw_kreis: 'Kreis',
+              bgw_kategory: 'Kategorie',
+              bgw_gwkategory: 'Gewässerkategorie',
+              bgw_laenge: 'geographische Länge',
+              bgw_breite: 'geographische Breite',
+              bgw_laenge_bgw: 'Länge Uferlinie (m)',
+              bgw_umfeld: 'Umfeld (m)',
+            },
+          },
         },
       },
     },
@@ -204,17 +221,6 @@ const mapConfig = {
       14003: {
         window: true,
         geometry: false,
-        properties: {
-          bgw_name: 'Name',
-          fid: 'EU-IRD',
-          ort: 'Gemeinde',
-          bgw_kreis: 'Kreis',
-          bgw_gwkategory: 'Gewässerkategorie',
-          bgw_laenge: 'geographische Länge',
-          bgw_breite: 'geographische Breite',
-          bgw_laenge_bgw: 'Länge Uferlinie (m)',
-          bgw_umfeld: 'Umfeld (Infrastruktur)',
-        },
         showTooltip: (feature) =>
           feature.get('features').length > 1
             ? [
@@ -227,6 +233,23 @@ const mapConfig = {
               ],
       },
     },
+    // client specific gfi configuration. See Readme for more information
+    infoFields: [
+      { key: 'fid', label: 'plugins.gfi.infoLabels.fid' },
+      { key: 'ort', label: 'plugins.gfi.infoLabels.ort' },
+      { key: 'bgw_kreis', label: 'plugins.gfi.infoLabels.bgw_kreis' },
+      {
+        key: 'bgw_gwkategory',
+        label: 'plugins.gfi.infoLabels.bgw_gwkategory',
+      },
+      { key: 'bgw_laenge', label: 'plugins.gfi.infoLabels.bgw_laenge' },
+      { key: 'bgw_breite', label: 'plugins.gfi.infoLabels.bgw_breite' },
+      {
+        key: 'bgw_laenge_bgw',
+        label: 'plugins.gfi.infoLabels.bgw_laenge_bgw',
+      },
+      { key: 'bgw_umfeld', label: 'plugins.gfi.infoLabels.bgw_umfeld' },
+    ],
   },
   featureStyles: './style.json',
 }
