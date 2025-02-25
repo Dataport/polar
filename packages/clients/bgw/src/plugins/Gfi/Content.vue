@@ -46,9 +46,7 @@ export default Vue.extend({
   components: { ActionButton },
   data: () => ({
     infoFields: [],
-    defaultStyle: new Style({
-      stroke: new Stroke({ color: '#FF4500', width: 3 }),
-    }),
+    defaultStyle: {} as Style,
     highlightStyle: new Style({
       stroke: new Stroke({ color: '#FF4500', width: 10 }),
     }),
@@ -73,6 +71,15 @@ export default Vue.extend({
   },
   mounted() {
     this.infoFields = this.configuration.gfi.infoFields
+    this.defaultStyle =
+      this.getBadeStellenFeatures(
+        this.map,
+        '14001',
+        this.currentProperties.fid
+      )[0].getStyle() ||
+      new Style({
+        stroke: new Stroke({ color: '#FF4500', width: 3 }),
+      })
     this.updateBadestraendeStyles(
       this.currentProperties.fid,
       this.highlightStyle
