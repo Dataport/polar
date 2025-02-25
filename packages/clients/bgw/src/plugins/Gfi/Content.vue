@@ -69,29 +69,8 @@ export default Vue.extend({
   },
   mounted() {
     this.infoFields = this.configuration.gfi.infoFields
-    this.highlightStyle =
-      new Style({
-        stroke: new Stroke(
-          this.configuration.gfi.highlightStyleBadestraende.stroke
-        ),
-        fill: new Fill(this.configuration.gfi.highlightStyleBadestraende.fill),
-      }) ||
-      new Style({
-        stroke: new Stroke({ color: '#FF4500', width: 10 }),
-      })
-    this.defaultStyle =
-      this.getBadeStellenFeatures(
-        this.map,
-        '14001',
-        this.currentProperties.fid
-      )[0].getStyle() ||
-      new Style({
-        stroke: new Stroke({ color: '#FF4500', width: 3 }),
-      })
-    this.updateBadestraendeStyles(
-      this.currentProperties.fid,
-      this.highlightStyle
-    )
+    this.setHighlightStyle()
+    this.setDefaultStyle()
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),
@@ -119,6 +98,35 @@ export default Vue.extend({
       if (this.badestraendeFeatures.length > 0) {
         this.badestraendeFeatures.forEach((feature) => feature.setStyle(style))
       }
+    },
+    setHighlightStyle() {
+      this.highlightStyle =
+        new Style({
+          stroke: new Stroke(
+            this.configuration.gfi.highlightStyleBadestraende.stroke
+          ),
+          fill: new Fill(
+            this.configuration.gfi.highlightStyleBadestraende.fill
+          ),
+        }) ||
+        new Style({
+          stroke: new Stroke({ color: '#FF4500', width: 10 }),
+        })
+    },
+    setDefaultStyle() {
+      this.defaultStyle =
+        this.getBadeStellenFeatures(
+          this.map,
+          '14001',
+          this.currentProperties.fid
+        )[0].getStyle() ||
+        new Style({
+          stroke: new Stroke({ color: '#FF4500', width: 3 }),
+        })
+      this.updateBadestraendeStyles(
+        this.currentProperties.fid,
+        this.highlightStyle
+      )
     },
   },
 })
