@@ -126,11 +126,11 @@ export default function ({
               }
               return true
             }) as PromiseFulfilledResult<Response>[]
-          ).map(async (resolution, index) =>
+          ).map(async (result, index) =>
             rawLayerList.getLayerWhere({ id: getters.activeLassoIds[index] })
               .typ === 'WFS'
-              ? await parseWfsResponse(resolution.value, undefined, false)
-              : ((await resolution.value.json()) as FeatureCollection)
+              ? await parseWfsResponse(result.value, undefined, false)
+              : ((await result.value.json()) as FeatureCollection)
           )
         )
       )
