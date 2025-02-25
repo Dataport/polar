@@ -1,4 +1,4 @@
-import { eraseCookies, getCookie, setCookies } from './cookie'
+import { eraseCookies, getCookie, setCookies } from './cookie.js'
 
 const clientId = 'polar'
 const scope = 'openid'

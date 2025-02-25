@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 
-import { validateForm } from './authentication/validateForm'
+import { validateForm } from './authentication/validateForm.js'
 
 const geoJSON = {
   type: 'FeatureCollection',

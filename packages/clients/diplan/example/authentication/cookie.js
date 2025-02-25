@@ -1,4 +1,4 @@
-import { parseJWT } from './parseJWT'
+import { parseJWT } from './parseJWT.js'
 
 /*
  * Functions are based on https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/src/modules/login/js/utilsCookies.js
