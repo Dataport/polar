@@ -9,6 +9,7 @@ export const resourcesDe = {
         measure: 'Zeichnen und Messen',
         write: 'Zeichnen und Schreiben',
         writeAndMeasure: 'Zeichnen, Schreiben und Messen',
+        lasso: 'Lasso',
         edit: 'Bearbeiten',
         translate: 'Verschieben',
         delete: 'Löschen',
@@ -40,6 +41,12 @@ export const resourcesDe = {
       label: {
         textSize: 'Textgröße (px) wählen:',
       },
+      lasso: {
+        layerRejected:
+          'Die Antwort des Layers "{{id}}" konnte nicht gelesen werden. Es wurden keine Geometrien aus diesem Layer bezogen.',
+        internalError:
+          'Ein unerwarteter Fehler ist in der Verarbeitung der Lasso-Daten aufgetreten.',
+      },
     },
   },
 } as const
@@ -53,6 +60,7 @@ export const resourcesEn = {
         measure: 'Draw and measure',
         write: 'Draw and write',
         writeAndMeasure: 'Draw, write and measure',
+        lasso: 'Lasso',
         edit: 'Edit',
         translate: 'Translate',
         delete: 'Delete',
@@ -83,6 +91,12 @@ export const resourcesEn = {
       },
       label: {
         textSize: 'Choose text size (px):',
+      },
+      lasso: {
+        layerRejected:
+          'The response of layer "{{id}}" could not be read. No geometries were fetched from that layer.',
+        internalError:
+          'An unexpected error occured in the processing of lasso data.',
       },
     },
   },
