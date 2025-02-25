@@ -1,32 +1,33 @@
-import { Feature, FeatureCollection, GeoJsonTypes } from 'geojson'
-
-type GeometryType = Exclude<
+import {
+  Feature,
+  FeatureCollection,
   GeoJsonTypes,
-  'Feature' | 'FeatureCollection' | 'GeometryCollection'
->
+  Geometry,
+  GeometryCollection,
+} from 'geojson'
+
+type Type = Exclude<Geometry, GeometryCollection>
 
 const isMulti = (type: string) => type.startsWith('Multi')
 const multi = (type: string): string => (isMulti(type) ? type : `Multi${type}`)
 
-const mergeBin = (features: Feature[]): [Feature] | [] =>
+const mergeBin = (features: Feature<Type>[]): [Feature<Type>] | [] =>
   features.length === 0
     ? []
     : [
         {
           ...features[0],
           geometry: {
-            type: multi(features[0].geometry.type) as GeometryType,
+            type: multi(features[0].geometry.type),
             coordinates: [
               ...features.map(({ geometry }) =>
                 isMulti(geometry.type)
-                  ? // @ts-expect-error | We know it's no GeometryCollection
-                    geometry.coordinates[0]
-                  : // @ts-expect-error | We know it's no GeometryCollection
-                    geometry.coordinates
+                  ? geometry.coordinates[0]
+                  : geometry.coordinates
               ),
             ],
           },
-        },
+        } as Feature<Type>,
       ]
 
 const getGeometryBin = (type: GeoJsonTypes): string =>
