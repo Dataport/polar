@@ -15,8 +15,11 @@ export function addInterceptor(interceptorUrlRegex: string) {
   window.fetch = (resource, originalConfig) => {
     let config = originalConfig
 
-    // @ts-expect-error | Has worked like charm so far. If an error occurs if resource is of type RequestInfo, take another look
-    if (interceptorUrlRegex && resource?.match(interceptorUrlRegex)) {
+    if (
+      interceptorUrlRegex &&
+      typeof resource === 'string' &&
+      resource?.match(interceptorUrlRegex)
+    ) {
       config = {
         ...originalConfig,
         // eslint-disable-next-line @typescript-eslint/naming-convention
