@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    class="text-none bgw-export-button"
+    class="text-none bgw-link-button"
     text
     :href="link"
     target="_blank"
@@ -27,7 +27,7 @@ export default Vue.extend({
 })
 </script>
 <style lang="scss" scoped>
-.bgw-export-button {
+.bgw-link-button {
   margin-right: 0.4em;
   margin-top: 0.5em;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
