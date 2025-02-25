@@ -37,7 +37,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import { Stroke, Style } from 'ol/style'
+import { Fill, Stroke, Style } from 'ol/style'
 import { Feature } from 'ol'
 import ActionButton from './ActionButton.vue'
 
@@ -47,9 +47,7 @@ export default Vue.extend({
   data: () => ({
     infoFields: [],
     defaultStyle: {} as Style,
-    highlightStyle: new Style({
-      stroke: new Stroke({ color: '#FF4500', width: 10 }),
-    }),
+    highlightStyle: {} as Style,
     badestraendeFeatures: [] as Feature[],
   }),
   computed: {
@@ -71,6 +69,16 @@ export default Vue.extend({
   },
   mounted() {
     this.infoFields = this.configuration.gfi.infoFields
+    this.highlightStyle =
+      new Style({
+        stroke: new Stroke(
+          this.configuration.gfi.highlightStyleBadestraende.stroke
+        ),
+        fill: new Fill(this.configuration.gfi.highlightStyleBadestraende.fill),
+      }) ||
+      new Style({
+        stroke: new Stroke({ color: '#FF4500', width: 10 }),
+      })
     this.defaultStyle =
       this.getBadeStellenFeatures(
         this.map,
