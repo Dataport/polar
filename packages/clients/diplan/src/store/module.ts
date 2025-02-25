@@ -4,7 +4,7 @@ import {
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import { FeatureCollection } from 'geojson'
-import { DiplanGetters, DiplanState } from '../types'
+import { DiplanGetters, DiplanState, GeometryType } from '../types'
 import { mergeMultiGeometries } from './utils/mergeMultiGeometries'
 import { validateGeoJson } from './utils/validateGeoJson'
 import { enrichWithMetaServices } from './utils/enrichWithMetaServices'
@@ -42,7 +42,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
       // clone to prevent accidentally messing with the draw tool's data
       let revisedFeatureCollection = cloneFeatureCollection(
         rootGetters[drawFeatureCollection]
-      )
+      ) as FeatureCollection<GeometryType> // No GeometryCollection from Draw
 
       // merge first; relevant for both follow-up steps
       if (getters.configuration.mergeMultiGeometries) {

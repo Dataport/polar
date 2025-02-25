@@ -1,13 +1,5 @@
-import {
-  Feature,
-  FeatureCollection,
-  GeoJsonTypes,
-  Geometry,
-  GeometryCollection,
-  Position,
-} from 'geojson'
-
-type GeometryType = Exclude<Geometry, GeometryCollection>
+import { Feature, FeatureCollection, GeoJsonTypes, Position } from 'geojson'
+import { GeometryType } from '../../types'
 
 const isMulti = (type: GeometryType['type']) => type.startsWith('Multi')
 const multi = (type: GeometryType['type']) =>

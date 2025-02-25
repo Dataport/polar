@@ -1,4 +1,4 @@
-import { FeatureCollection } from 'geojson'
+import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
 
 export interface MetaService {
   id: string
@@ -21,3 +21,5 @@ export interface DiplanState {
 export interface DiplanGetters extends DiplanState {
   configuration: Required<DiplanConfiguration>
 }
+
+export type GeometryType = Exclude<Geometry, GeometryCollection>
