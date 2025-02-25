@@ -118,6 +118,14 @@ export default {
   },
   draw: {
     enableOptions: true,
+    lassos: [
+      {
+        id: flurstuecke,
+      },
+      {
+        id: xplanwfs,
+      },
+    ],
     measureOptions: {
       metres: true,
       kilometres: true,

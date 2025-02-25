@@ -75,6 +75,7 @@ export default (client, layerConf, config) => {
       const actionFillAddressSearch = document.getElementById(
         'action-address-search-filler'
       )
+      const actionLasso = document.getElementById('action-lasso')
 
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
@@ -101,6 +102,8 @@ export default (client, layerConf, config) => {
           autoselect: 'first',
         })
       )
+      actionLasso.onclick = () =>
+        mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')
 
       const htmlZoom = document.getElementById('subscribed-zoom')
       const htmlGfi = document.getElementById('subscribed-gfi')

@@ -79,14 +79,38 @@ export const makeStoreModule = () => {
         } else if (includesMeasure) {
           drawLabel = 'measure'
         }
-        return {
-          none: 'plugins.draw.mode.none',
-          draw: `plugins.draw.mode.${drawLabel}`,
-          edit: 'plugins.draw.mode.edit',
-          translate: 'plugins.draw.mode.translate',
-          delete: 'plugins.draw.mode.delete',
+        const modes = [
+          ['none', 'plugins.draw.mode.none'],
+          ['draw', `plugins.draw.mode.${drawLabel}`],
+          ['edit', 'plugins.draw.mode.edit'],
+          ['translate', 'plugins.draw.mode.translate'],
+          ['delete', 'plugins.draw.mode.delete'],
+        ]
+        if (configuration.lassos) {
+          modes.splice(4, 0, ['lasso', 'plugins.draw.mode.lasso'])
         }
+        return Object.fromEntries(modes)
       },
+      activeLassoIds: (_, { configuration }, __, rootGetters) =>
+        (configuration.lassos || []).reduce(
+          (accumulator, { id, minZoom = true }) => {
+            const layerConfig = rootGetters.configuration.layers?.find(
+              (layer) => id === layer.id
+            )
+            if (
+              minZoom &&
+              layerConfig &&
+              typeof layerConfig.minZoom !== 'undefined' &&
+              rootGetters.zoomLevel < layerConfig.minZoom
+            ) {
+              return accumulator
+            }
+            accumulator.push(id)
+            return accumulator
+          },
+          [] as string[]
+        ),
+      toastAction: (_, { configuration }) => configuration.toastAction || '',
       measureOptions: (_, { configuration }) =>
         configuration.measureOptions || {},
       selectableMeasureModes: (_, { drawMode, measureOptions }) =>
