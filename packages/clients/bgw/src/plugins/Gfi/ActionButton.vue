@@ -2,7 +2,7 @@
   <v-btn
     class="text-none bgw-export-button"
     text
-    :href="downloadLink"
+    :href="link"
     target="_blank"
     :title="$t('plugins.gfi.button.details')"
     :aria-label="$t('plugins.gfi.button.details')"
@@ -20,7 +20,7 @@ export default Vue.extend({
   name: 'ActionButton',
   computed: {
     ...mapGetters('plugin/gfi', ['currentProperties']),
-    downloadLink() {
+    link() {
       return `https://www.schleswig-holstein.de/DE/fachinhalte/B/badegewaesser/DarstellungBadestelle.html#bgst=${this.currentProperties.fid}`
     },
   },
