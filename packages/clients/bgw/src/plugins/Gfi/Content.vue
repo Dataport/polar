@@ -9,7 +9,10 @@
         icon
         small
         :aria-label="$t('plugins.gfi.header.close')"
-        @click="close(true)"
+        @click="
+          close(true)
+          updateFeatureStyles(null, defaultStyle)
+        "
       >
         <v-icon small>fa-xmark</v-icon>
       </v-btn>
@@ -34,6 +37,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
+import { Stroke, Style } from 'ol/style'
+import { Feature } from 'ol'
 import ActionButton from './ActionButton.vue'
 
 export default Vue.extend({
@@ -41,6 +46,13 @@ export default Vue.extend({
   components: { ActionButton },
   data: () => ({
     infoFields: [],
+    defaultStyle: new Style({
+      stroke: new Stroke({ color: '#FF4500', width: 3 }),
+    }),
+    highlightStyle: new Style({
+      stroke: new Stroke({ color: '#FF4500', width: 10 }),
+    }),
+    badestraendeFeatures: [] as Feature[],
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
@@ -53,11 +65,43 @@ export default Vue.extend({
       ])
     },
   },
+  watch: {
+    currentProperties(value) {
+      this.updateFeatureStyles(null, this.defaultStyle)
+      this.updateFeatureStyles(value.fid, this.highlightStyle)
+    },
+  },
   mounted() {
     this.infoFields = this.configuration.gfi.infoFields
+    this.updateFeatureStyles(this.currentProperties.fid, this.highlightStyle)
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),
+    getBadeStellenFeatures(map, layerId: string, badeStellenId: string) {
+      const layer = map
+        .getLayers()
+        .getArray()
+        .find((layer) => layer.get('id') === layerId)
+
+      return layer
+        .getSource()
+        .getFeatures()
+        .filter((feature) => {
+          return feature.get('BATHINGWAT') === badeStellenId
+        })
+    },
+    updateFeatureStyles(id: string | null, style: Style) {
+      if (id) {
+        this.badestraendeFeatures = this.getBadeStellenFeatures(
+          this.map,
+          '14001',
+          id
+        )
+      }
+      if (this.badestraendeFeatures.length > 0) {
+        this.badestraendeFeatures.forEach((feature) => feature.setStyle(style))
+      }
+    },
   },
 })
 </script>
