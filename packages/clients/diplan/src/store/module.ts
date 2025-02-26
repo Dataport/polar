@@ -5,7 +5,7 @@ import {
 } from '@repositoryname/vuex-generators'
 import { FeatureCollection } from 'geojson'
 import { DiplanGetters, DiplanState, GeometryType } from '../types'
-import { mergeMultiGeometries } from './utils/mergeMultiGeometries'
+import { mergeToMultiGeometries } from './utils/mergeToMultiGeometries'
 import { validateGeoJson } from './utils/validateGeoJson'
 import { enrichWithMetaServices } from './utils/enrichWithMetaServices'
 
@@ -46,7 +46,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
 
       // merge first; relevant for both follow-up steps
       if (getters.configuration.mergeMultiGeometries) {
-        revisedFeatureCollection = mergeMultiGeometries(
+        revisedFeatureCollection = mergeToMultiGeometries(
           revisedFeatureCollection
         )
       }
