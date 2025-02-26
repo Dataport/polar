@@ -18,7 +18,7 @@ export function addInterceptor(interceptorUrlRegex: string) {
     if (
       interceptorUrlRegex &&
       typeof resource === 'string' &&
-      resource?.match(interceptorUrlRegex)
+      resource.match(interceptorUrlRegex)
     ) {
       config = {
         ...originalConfig,
