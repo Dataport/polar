@@ -23,8 +23,8 @@ DiPlan-specific configuration parameters belong within the `mapConfiguration` ob
 | fieldName | type | description |
 | - | - | - |
 | id | string | Id of the vector layer to make use of in the meta service. |
-| propertyNames | string[]? | Names of the properties to build aggregations from. If left undefined, all found properties will be used. |
 | aggregationMode | enum['unequal', 'all']? | Defaults to `'unequal'`. In mode `'unequal'`, one of each property set is kept; duplicate property sets are dropped. In mode `'all'`, all property sets are kept without further filtering. |
+| propertyNames | string[]? | Names of the properties to build aggregations from. If left undefined, all found properties will be used. |
 
 From all geometries of the service intersecting our geometries, properties are aggregated.
 
