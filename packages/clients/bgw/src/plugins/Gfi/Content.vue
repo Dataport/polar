@@ -43,9 +43,7 @@ export default Vue.extend({
   components: { ActionButton },
   data: () => ({
     infoFields: [],
-    defaultStyle: new Style({
-      stroke: new Stroke({ color: '#FF4500', width: 3 }),
-    }),
+    defaultStyle: {} as Style,
     highlightStyle: {} as Style,
     badestraendeFeatures: [] as Feature[],
   }),
@@ -69,6 +67,7 @@ export default Vue.extend({
   },
   mounted() {
     this.infoFields = this.configuration.gfi.infoFields
+    this.setDefaultStyle(this.map, '14001')
     this.updateBadestraendeStyles(null, this.defaultStyle)
     this.setHighlightStyle()
     this.updateBadestraendeStyles(
@@ -118,6 +117,17 @@ export default Vue.extend({
         }) ||
         new Style({
           stroke: new Stroke({ color: '#FF4500', width: 10 }),
+        })
+    },
+    setDefaultStyle(map, layerId) {
+      const layer = map
+        .getLayers()
+        .getArray()
+        .find((layer) => layer.get('id') === layerId)
+      this.defaultStyle =
+        layer.getStyle() ||
+        new Style({
+          stroke: new Stroke({ color: '#FF4500', width: 3 }),
         })
     },
   },
