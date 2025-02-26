@@ -17,11 +17,13 @@ const mergeBin = (features: Feature<GeometryType>[]): Feature<GeometryType>[] =>
           geometry: {
             type: multi(features[0].geometry.type),
             coordinates: [
-              ...features.map(({ geometry }) =>
-                isMulti(geometry.type)
-                  ? geometry.coordinates[0]
-                  : geometry.coordinates
-              ),
+              ...features
+                .map(({ geometry }) =>
+                  isMulti(geometry.type)
+                    ? geometry.coordinates
+                    : [geometry.coordinates]
+                )
+                .flat(1),
             ],
           },
         } as Feature<GeometryType>,
