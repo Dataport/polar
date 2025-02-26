@@ -52,8 +52,8 @@ export default async function createMap({
   setupFontawesome(shadowRoot, mapConfiguration.renderFaToLightDom)
   updateSizeOnReady(instance)
 
-  if (mapConfiguration.interceptorUrlRegex) {
-    addInterceptor(mapConfiguration.interceptorUrlRegex)
+  if (mapConfiguration.authentication) {
+    addInterceptor(mapConfiguration.authentication)
   }
   // Restore theme ID such that external Vuetify app can find it again
   if (externalStylesheet) {

@@ -1,6 +1,6 @@
 import { authenticate } from './index.js'
 
-export function validateForm(interceptorUrlRegex) {
+export function validateForm() {
   const username = document.getElementById('username').value
   const password = document.getElementById('password').value
   const errorMessage = document.getElementById('error-message')
@@ -10,6 +10,6 @@ export function validateForm(interceptorUrlRegex) {
       'Bitte geben Sie sowohl einen Nutzernamen als auch ein Passwort ein.'
   } else {
     errorMessage.textContent = ''
-    authenticate(username, password, interceptorUrlRegex)
+    authenticate(username, password)
   }
 }

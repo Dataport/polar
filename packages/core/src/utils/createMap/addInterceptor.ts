@@ -1,3 +1,4 @@
+import { AuthenticationConfig } from '@polar/lib-custom-types'
 import { getCookie } from '../getCookie'
 
 /**
@@ -7,9 +8,12 @@ import { getCookie } from '../getCookie'
  * Function is based on functionality from
  * https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/src/modules/login/js/utilsAxios.js
  *
- * @param interceptorUrlRegex - URLs fitting this regular expression have the token added.
+ * @param authConfig - Configuration object of the authentication.
  */
-export function addInterceptor(interceptorUrlRegex: string) {
+export function addInterceptor({
+  interceptorUrlRegex,
+  tokenName,
+}: AuthenticationConfig) {
   const { fetch: originalFetch } = window
 
   window.fetch = (resource, originalConfig) => {
@@ -22,8 +26,11 @@ export function addInterceptor(interceptorUrlRegex: string) {
     ) {
       config = {
         ...originalConfig,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        headers: { Authorization: `Bearer ${getCookie('token')}` },
+        headers: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          Authorization: `Bearer ${getCookie(tokenName)}` || '',
+          ...originalConfig?.headers,
+        },
       }
     }
 
