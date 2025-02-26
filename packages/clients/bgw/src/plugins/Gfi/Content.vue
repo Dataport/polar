@@ -61,22 +61,21 @@ export default Vue.extend({
   },
   watch: {
     currentProperties(value) {
-      this.updateBadestraendeStyles(null, this.defaultStyle)
-      this.updateBadestraendeStyles(value.fid, this.highlightStyle)
+      this.updateBadestraendeStyles(this.defaultStyle)
+      this.updateBadestraendeFeature(value.fid)
+      this.updateBadestraendeStyles(this.highlightStyle)
     },
   },
   mounted() {
     this.infoFields = this.configuration.gfi.infoFields
     this.setDefaultStyle(this.map, '14001')
-    this.updateBadestraendeStyles(null, this.defaultStyle)
+    this.updateBadestraendeStyles(this.defaultStyle)
     this.setHighlightStyle()
-    this.updateBadestraendeStyles(
-      this.currentProperties.fid,
-      this.highlightStyle
-    )
+    this.updateBadestraendeFeature(this.currentProperties.fid)
+    this.updateBadestraendeStyles(this.highlightStyle)
   },
   beforeDestroy() {
-    if (!this.selected) this.updateBadestraendeStyles(null, this.defaultStyle)
+    if (!this.selected) this.updateBadestraendeStyles(this.defaultStyle)
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),
@@ -93,17 +92,15 @@ export default Vue.extend({
           return feature.get('BATHINGWAT') === badeStellenId
         })
     },
-    updateBadestraendeStyles(id: string | null, style: Style) {
-      if (id) {
-        this.badestraendeFeatures = this.getBadeStellenFeatures(
-          this.map,
-          '14001',
-          id
-        )
-      }
-      if (this.badestraendeFeatures.length > 0) {
-        this.badestraendeFeatures.forEach((feature) => feature.setStyle(style))
-      }
+    updateBadestraendeFeature(id) {
+      this.badestraendeFeatures = this.getBadeStellenFeatures(
+        this.map,
+        '14001',
+        id
+      )
+    },
+    updateBadestraendeStyles(style: Style) {
+      this.badestraendeFeatures.forEach((feature) => feature.setStyle(style))
     },
     setHighlightStyle() {
       this.highlightStyle = new Style({
