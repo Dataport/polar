@@ -34,7 +34,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import { Fill, Stroke, Style } from 'ol/style'
+import { Stroke, Style } from 'ol/style'
 import { Feature } from 'ol'
 import ActionButton from './ActionButton.vue'
 
@@ -110,9 +110,6 @@ export default Vue.extend({
         new Style({
           stroke: new Stroke(
             this.configuration.gfi.highlightStyleBadestraende.stroke
-          ),
-          fill: new Fill(
-            this.configuration.gfi.highlightStyleBadestraende.fill
           ),
         }) ||
         new Style({
