@@ -76,24 +76,27 @@ export const enrichWithMetaServices = (
                 ? parseWfsResponse(resolution, undefined, false)
                 : (resolution.json() as Promise<FeatureCollection>)
             )
-            .then(
-              (featuresFromBbox) =>
-                (feature.properties = {
-                  ...feature.properties,
-                  metaProperties: {
-                    ...(feature.properties?.metaProperties || {}),
-                    [id]: aggregateProperties(
-                      featuresFromBbox.features
-                        .filter((featureFromBbox) =>
-                          booleanIntersects(featureFromBbox, feature)
-                        )
-                        .map(({ properties }) => properties),
-                      propertyNames,
-                      aggregationMode
-                    ),
-                  },
-                })
-            )
+            .then((featuresFromBbox) => {
+              const applicableProperties = featuresFromBbox.features
+                .filter((featureFromBbox) =>
+                  booleanIntersects(featureFromBbox, feature)
+                )
+                .map(({ properties }) => properties)
+
+              const aggregatedProperties = aggregateProperties(
+                applicableProperties,
+                propertyNames,
+                aggregationMode
+              )
+
+              feature.properties = {
+                ...feature.properties,
+                metaProperties: {
+                  ...(feature.properties?.metaProperties || {}),
+                  [id]: aggregatedProperties,
+                },
+              }
+            })
         )
       )
     )
