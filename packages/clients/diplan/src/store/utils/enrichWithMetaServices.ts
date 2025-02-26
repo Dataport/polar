@@ -56,7 +56,7 @@ const aggregateProperties = (
       .filter((properties) => properties !== null)
   )
 
-/** @throws up */
+/** @throws */
 export const enrichWithMetaServices = (
   featureCollection: FeatureCollection,
   map: Map,
