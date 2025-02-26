@@ -98,7 +98,7 @@ In mode `'all'`:
 
 | fieldName | type | description |
 | - | - | - |
-| revisedDrawExport | GeoJSON.FeatureCollection | Whether the current zoomLevel is the maximum. |
+| revisedDrawExport | GeoJSON.FeatureCollection | The features produced with draw operations can be subscribed to via this getter. The "pure" variants can be fetched from the plugin `@polar/plugin-draw`, see its documentation. This "revised" variant includes all changes from the configuration of `mergeMultiGeometries` and `metaServices`, i.e. the features may be merged and enriched with additional information for further processing. |
 | revisionInProgress | boolean | Returns `true` if there are ongoing asynchronous operations. While true, the `revisedDrawExport` variable shall not be considered finished. |
 | simpleGeometryValidity | boolean | Indicator of whether SimpleGeometry rules are fulfilled. |
 
