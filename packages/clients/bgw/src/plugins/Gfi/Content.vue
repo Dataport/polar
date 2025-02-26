@@ -43,11 +43,14 @@ export default Vue.extend({
   components: { ActionButton },
   data: () => ({
     infoFields: [],
-    defaultStyle: {} as Style,
+    defaultStyle: new Style({
+      stroke: new Stroke({ color: '#FF4500', width: 3 }),
+    }),
     highlightStyle: {} as Style,
     badestraendeFeatures: [] as Feature[],
   }),
   computed: {
+    ...mapGetters(['selected']),
     ...mapGetters(['map', 'configuration']),
     ...mapGetters('plugin/gfi', ['currentProperties']),
     ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
@@ -66,11 +69,15 @@ export default Vue.extend({
   },
   mounted() {
     this.infoFields = this.configuration.gfi.infoFields
+    this.updateBadestraendeStyles(null, this.defaultStyle)
     this.setHighlightStyle()
-    this.setDefaultStyle()
+    this.updateBadestraendeStyles(
+      this.currentProperties.fid,
+      this.highlightStyle
+    )
   },
   beforeDestroy() {
-    this.updateBadestraendeStyles(null, this.defaultStyle)
+    if (!this.selected) this.updateBadestraendeStyles(null, this.defaultStyle)
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),
@@ -112,21 +119,6 @@ export default Vue.extend({
         new Style({
           stroke: new Stroke({ color: '#FF4500', width: 10 }),
         })
-    },
-    setDefaultStyle() {
-      this.defaultStyle =
-        this.getBadeStellenFeatures(
-          this.map,
-          '14001',
-          this.currentProperties.fid
-        )[0].getStyle() ||
-        new Style({
-          stroke: new Stroke({ color: '#FF4500', width: 3 }),
-        })
-      this.updateBadestraendeStyles(
-        this.currentProperties.fid,
-        this.highlightStyle
-      )
     },
   },
 })
