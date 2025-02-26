@@ -106,15 +106,11 @@ export default Vue.extend({
       }
     },
     setHighlightStyle() {
-      this.highlightStyle =
-        new Style({
-          stroke: new Stroke(
-            this.configuration.gfi.highlightStyleBadestraende.stroke
-          ),
-        }) ||
-        new Style({
-          stroke: new Stroke({ color: '#FF4500', width: 10 }),
-        })
+      this.highlightStyle = new Style({
+        stroke: new Stroke(
+          this.configuration.gfi.highlightStyleBadestraende.stroke
+        ),
+      })
     },
     setDefaultStyle(map, layerId) {
       const layer = map
