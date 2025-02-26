@@ -55,7 +55,7 @@
     "@turf/boolean-valid": "^7.2.0",
     "@types/geojson": "^7946.0.8",
     "diplanung-style": "^13.0.0",
-    "lodash.isequal": "^4.5.0",
+    "just-compare": "^2.3.0",
     "lodash.merge": "^4.6.2"
   },
   "peerDependencies": {

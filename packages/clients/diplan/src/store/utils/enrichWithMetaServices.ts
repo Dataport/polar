@@ -1,4 +1,4 @@
-import isEqual from 'lodash.isequal'
+import compare from 'just-compare'
 import { FeatureCollection, Feature as GeoJsonFeature } from 'geojson'
 import { Feature, Map } from 'ol'
 import { GeoJSON } from 'ol/format'
@@ -23,7 +23,7 @@ const aggregators: Record<
   all: (x) => x,
   unequal: (propertiesArray) =>
     propertiesArray.reduce((accumulator, current) => {
-      if (accumulator.every((entry) => !isEqual(entry, current))) {
+      if (accumulator.every((entry) => !compare(entry, current))) {
         accumulator.push(current)
       }
       return accumulator
