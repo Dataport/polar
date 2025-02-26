@@ -1,4 +1,4 @@
-import { Feature, FeatureCollection, GeoJsonTypes, Position } from 'geojson'
+import { Feature, FeatureCollection, GeoJsonTypes } from 'geojson'
 import { GeometryType } from '../../types'
 
 const isMulti = (type: GeometryType['type']) => type.startsWith('Multi')
@@ -8,27 +8,24 @@ const multi = (type: GeometryType['type']) =>
     | 'MultiLineString'
     | 'MultiPolygon'
 
-const mergeBin = (
-  features: Feature<GeometryType>[]
-): Feature<GeometryType>[] => {
-  if (!features.length) {
-    return []
-  }
-
-  const result = [features[0]]
-
-  result[0].geometry.type = multi(features[0].geometry.type)
-  result[0].geometry.coordinates = [
-    features.map(({ geometry }) => {
-      if (isMulti(geometry.type)) {
-        return geometry.coordinates[0]
-      }
-      return geometry.coordinates
-    }) as Position, // actually also (... | Position[] | Position[][]), but can't | those types here for reasons unknown, albeit every single one works
-  ]
-
-  return result
-}
+const mergeBin = (features: Feature<GeometryType>[]): Feature<GeometryType>[] =>
+  !features.length
+    ? []
+    : [
+        {
+          ...features[0],
+          geometry: {
+            type: multi(features[0].geometry.type),
+            coordinates: [
+              ...features.map(({ geometry }) =>
+                isMulti(geometry.type)
+                  ? geometry.coordinates[0]
+                  : geometry.coordinates
+              ),
+            ],
+          },
+        } as Feature<GeometryType>,
+      ]
 
 const getGeometryBin = (type: GeoJsonTypes) =>
   type.endsWith('Point')
