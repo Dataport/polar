@@ -1,13 +1,9 @@
-import { parseJWT } from './parseJWT.js'
-
 /*
  * Functions are based on https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/src/modules/login/js/utilsCookies.js
  * and https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/src/modules/login/js/utilsOIDC.js.
  */
 
 /**
- * Set a cookie value.
- *
  * @param {string} name of cookie to set.
  * @param {string} value to set into a cookie.
  */
@@ -21,8 +17,6 @@ export function setCookie(name, value) {
 }
 
 /**
- * Gets value of a cookie.
- *
  * @param {string} name of cookie to retrieve.
  * @returns {string} cookie value.
  */
@@ -43,28 +37,9 @@ export function getCookie(name) {
   return undefined
 }
 
-export function setCookies(token, expiresIn, refreshToken) {
-  setCookie('token', token)
-  setCookie('expires_in', expiresIn)
-  setCookie('refresh_token', refreshToken)
-
-  const account = parseJWT(token)
-
-  setCookie('name', account?.name)
-  setCookie('email', account?.email)
-  setCookie('username', account?.preferred_username)
-
-  setCookie('expiry', account?.exp)
-}
-
 /**
- * Delete all cookies with names given in list
- *
- * @param {String[]} names of cookies to delete
- * @return {void}
+ * @param {string} name of the cookie to delete.
  */
-export function eraseCookies(names) {
-  names.forEach((name) => {
-    document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`
-  })
+export function deleteCookie(name) {
+  document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`
 }
