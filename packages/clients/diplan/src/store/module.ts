@@ -69,7 +69,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
           )
         } catch (e) {
           console.error(
-            '@polar/client-diplan: An error occured when trying to fetch meta service data for the given feature collection.',
+            '@polar/client-diplan: An error occurred when trying to fetch meta service data for the given feature collection.',
             e
           )
           dispatch(
