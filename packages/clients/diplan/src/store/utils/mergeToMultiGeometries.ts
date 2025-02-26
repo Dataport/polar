@@ -39,7 +39,7 @@ const getGeometryBin = (type: GeoJsonTypes) =>
     ? 'polygons'
     : ''
 
-export const mergeMultiGeometries = (
+export const mergeToMultiGeometries = (
   featureCollection: FeatureCollection<GeometryType>
 ): FeatureCollection<GeometryType> => {
   const bins = featureCollection.features.reduce(
