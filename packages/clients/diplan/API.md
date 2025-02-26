@@ -100,7 +100,7 @@ In mode `'all'`:
 | - | - | - |
 | revisedDrawExport | GeoJSON.FeatureCollection | The features produced with draw operations can be subscribed to via this getter. The "pure" variants can be fetched from the plugin `@polar/plugin-draw`, see its documentation. This "revised" variant includes all changes from the configuration of `mergeMultiGeometries` and `metaServices`, i.e. the features may be merged and enriched with additional information for further processing. |
 | revisionInProgress | boolean | Returns `true` if there are ongoing asynchronous operations. While true, the `revisedDrawExport` variable shall not be considered finished. |
-| simpleGeometryValidity | boolean | Indicator of whether SimpleGeometry rules are fulfilled. |
+| simpleGeometryValidity | boolean | Indicator of whether the OGC Simple Feature Specification (part of [SFA](https://www.ogc.org/de/publications/standard/sfa/)) rules are fulfilled. |
 
 ⚠️ Caveat: Please mind that there is currently no merge-logic for properties of features given from the outside. If `mergeMultiGeometries` is set true, an arbitrary set of properties will survive. If `metaServices` are set, `properties.metaProperties` will be overridden if they previously existed. It is assumed that incoming data shall only be recognized regarding its geometry.
 
