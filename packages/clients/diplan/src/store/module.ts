@@ -13,8 +13,10 @@ const drawFeatureCollection = 'plugin/draw/featureCollection'
 
 // FeatureCollection is compatible to stupid clone
 const cloneFeatureCollection = (
-  featureCollection: FeatureCollection
-): FeatureCollection => JSON.parse(JSON.stringify(featureCollection))
+  // No GeometryCollection from Draw, hence the <GeometryType>
+  featureCollection: FeatureCollection<GeometryType>
+): FeatureCollection<GeometryType> =>
+  JSON.parse(JSON.stringify(featureCollection))
 
 const getInitialState = (): DiplanState => ({
   revisionInProgress: false,
@@ -42,7 +44,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
       // clone to prevent accidentally messing with the draw tool's data
       let revisedFeatureCollection = cloneFeatureCollection(
         rootGetters[drawFeatureCollection]
-      ) as FeatureCollection<GeometryType> // No GeometryCollection from Draw
+      )
 
       // merge first; relevant for both follow-up steps
       if (getters.configuration.mergeMultiGeometries) {
