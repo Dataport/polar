@@ -15,7 +15,7 @@ Usage as a HTML page is simply offered by hosting the client package with the in
 | fieldName | type | description |
 | - | - | - |
 | infoFields | object[] | Array of key-label pair objects. The property of the feature that should be displayed has to be set as `key`. The description of this property has to be set as `label`. |
-| highlightStyleBadestraende | object with attributes `stroke` and / or `fill`| highlight style for the layer 'Badestraende'. |
+| highlightStyleBadestraende | highlightStyleBadestraende? | Highlight style for the layer 'Badestraende'. |
 
 ### Example configuration:
 
@@ -32,6 +32,19 @@ infoFields: [
 ],
 highlightStyleBadestraende: {
   stroke: { color: '#FF4500', width: 10 },
-  fill: { color: '#FF0000'},
-},
+}
+```
+
+### gfi.highlightStyleBadestraende
+
+| fieldName | type | description |
+| - | - | - |
+| stroke | stroke | Stroke style for the layer 'Badestraende'. Please see example below for styling options. |
+
+####  Example configuration:
+
+```js
+highlightStyleBadestraende: {
+  stroke: { color: '#FF4500', width: 10 },
+}
 ```
