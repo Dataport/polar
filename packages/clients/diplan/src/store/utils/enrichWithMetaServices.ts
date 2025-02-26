@@ -71,10 +71,10 @@ export const enrichWithMetaServices = (
             fetchLayerId: id,
             projectionCode: map.getView().getProjection().getCode(),
           })
-            .then((resolution) =>
+            .then((response) =>
               rawLayerList.getLayerWhere({ id }).typ === 'WFS'
-                ? parseWfsResponse(resolution, undefined, false)
-                : (resolution.json() as Promise<FeatureCollection>)
+                ? parseWfsResponse(response, undefined, false)
+                : (response.json() as Promise<FeatureCollection>)
             )
             .then(
               (featuresFromBbox) =>
