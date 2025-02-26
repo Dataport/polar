@@ -15,6 +15,8 @@ export default function (
     return dispatch('createTranslateInteractions', { drawSource, drawLayer })
   } else if (mode === 'delete') {
     return createDeleteInteractions(drawSource, drawLayer)
+  } else if (mode === 'lasso') {
+    return dispatch('createLassoInteractions')
   }
   return []
 }
