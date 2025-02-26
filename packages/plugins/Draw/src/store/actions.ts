@@ -11,6 +11,7 @@ import createInteractions from './createInteractions'
 import createModifyInteractions from './createInteractions/createModifyInteractions'
 import createTextInteractions from './createInteractions/createTextInteractions'
 import createTranslateInteractions from './createInteractions/createTranslateInteractions'
+import createLassoInteractions from './createInteractions/createLassoInteractions'
 import modifyDrawStyle from './createInteractions/modifyDrawStyle'
 import modifyTextStyle from './createInteractions/modifyTextStyle'
 import createDrawInteractions from './createInteractions/createDrawInteractions'
@@ -23,6 +24,7 @@ export const makeActions = () => {
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
     createDrawInteractions,
+    createLassoInteractions,
     createModifyInteractions,
     createTranslateInteractions,
     createTextInteractions,
