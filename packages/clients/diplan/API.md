@@ -15,7 +15,7 @@ DiPlan-specific configuration parameters belong within the `mapConfiguration` ob
 | fieldName | type | description |
 | - | - | - |
 | mergeMultiGeometries | boolean? | Defaults to `false`. If `true`, the exported FeatureCollection will have merged geometries; that is, instead of Points, Lines, and Polygons, only MultiPoints, MultiLines, and MultiPolygons will be featured, created by merging the features of their respective geometry. All geometry types that are enabled in the `Draw` tool may occur. This step is executed before geometry validation and meta service usage. |
-| validateGeoJson | boolean? | Defaults to `true`. If `true`, all exports will undergo a validity check before they are exported. To inspect the validity of the offered geometries, inspect the `simpleGeometryValidity` that indicates validity with a `boolean`. |
+| validateGeoJson | boolean? | Defaults to `true`. If `true`, all exports will undergo a validity check before they are exported. To inspect the validity of the offered geometries, inspect the getter `simpleGeometryValidity` that indicates validity with a `boolean`. |
 | metaServices | metaService[] | Specification of a service that contains meta-information regarding geometries. |
 
 #### diplan.metaService
