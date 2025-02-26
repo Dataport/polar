@@ -102,7 +102,7 @@ In mode `'all'`:
 | revisionInProgress | boolean | Returns `true` if there are ongoing asynchronous operations. While true, the `revisedDrawExport` variable shall not be considered finished. |
 | simpleGeometryValidity | boolean | Indicator of whether the OGC Simple Feature Specification (part of [SFA](https://www.ogc.org/de/publications/standard/sfa/)) rules are fulfilled. |
 
-⚠️ Caveat: Please mind that there is currently no merge-logic for properties of features given from the outside. If `mergeMultiGeometries` is set true, an arbitrary set of properties will survive. If `metaServices` are set, `properties.metaProperties` will be overridden if they previously existed. It is assumed that incoming data shall only be recognized regarding its geometry.
+⚠️ Caveat: Please mind that there is currently no merge-logic for properties of features given via using the action `'plugin/draw/addFeatures'` of `@polar/plugin-draw`. If `mergeMultiGeometries` is set true, an arbitrary set of properties will survive. If `metaServices` are set, `properties.metaProperties` will be overridden if they previously existed. It is assumed that incoming data shall only be recognized regarding its geometry and holds no properties.
 
 ```js
 mapInstance.$store.watch(
