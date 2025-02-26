@@ -9,10 +9,7 @@
         icon
         small
         :aria-label="$t('plugins.gfi.header.close')"
-        @click="
-          close(true)
-          updateBadestraendeStyles(null, defaultStyle)
-        "
+        @click="close(true)"
       >
         <v-icon small>fa-xmark</v-icon>
       </v-btn>
@@ -71,6 +68,9 @@ export default Vue.extend({
     this.infoFields = this.configuration.gfi.infoFields
     this.setHighlightStyle()
     this.setDefaultStyle()
+  },
+  beforeDestroy() {
+    this.updateBadestraendeStyles(null, this.defaultStyle)
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),
