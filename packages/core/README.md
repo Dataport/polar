@@ -88,6 +88,7 @@ The mapConfiguration allows controlling many client instance details.
 | fieldName | type | description |
 | - | - | - |
 | <...masterportalapi.fields> | various | Multiple different parameters are required by the masterportalapi to be able to create the map. Also, some fields are optional but relevant and thus described here as well. For all additional options, refer to the documentation of the masterportalapi itself. |
+| authentication | authentication? | Optional. If set, the client will use the given authentication configuration. |
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalapi. |
 | featureStyles | string? | Optional path to define styles for vector features. See `mapConfiguration.featureStyles` for more information. May be a url or a path on the local file system. |
@@ -143,6 +144,16 @@ const mapConfiguration = {
 ```
 
 </details>
+
+##### mapConfiguration.authentication
+
+All requests sent to URLs that fit the regular expression will send the JSON Web Token (JWT) found as a cookie with the configured name as a Bearer token in the Authorization header of the request.
+Requests already including a Authorization header will keep the already present one.
+
+| fieldName | type | description |
+| - | - | - |
+| interceptorUrlRegex | string | Regular expression defining URLs that belong to secured services. |
+| tokenName | string | Name of the cookie that holds the JWT. |
 
 ##### mapConfiguration.Locale
 
