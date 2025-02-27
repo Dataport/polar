@@ -2,7 +2,7 @@
 
 This document describes the `@polar/client-diplan`-specific configuration options.
 
-For all additional details, check the [full documentation](https://dataport.github.io/polar/docs/diplan/client-diplan.html) that is also delivered as part of the package within the `./docs` folder.
+For all additional details, check the [full documentation](https://dataport.github.io/polar/docs/diplan/client-diplan.html).
 
 For our example clients, [see here](./example/overview.html).
 
