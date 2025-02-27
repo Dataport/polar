@@ -25,7 +25,7 @@
     "bgw:dev": "nx dev @polar/client-bgw",
     "generic:build": "nx build @polar/client-generic",
     "diplan:build": "nx build @polar/client-diplan",
-    "diplan:build:serve": "http-server ./packages/clients/diplan -o /example/prod-example.html",
+    "diplan:build:serve": "http-server ./packages/clients/diplan -o /example/overview.html",
     "diplan:dev": "nx dev @polar/client-diplan",
     "dish:build": "nx build @polar/client-dish",
     "dish:build:serve": "http-server ./packages/clients/dish -o /dist/index.html",
