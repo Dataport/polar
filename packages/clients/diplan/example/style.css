@@ -109,7 +109,7 @@ h2 {
   border-bottom: 2px solid #2b3980;
 }
 
-#subscribed-draw, #subscribed-gfi {
+#subscribed-draw, #subscribed-gfi, #subscribed-revised-draw-export, #subscribed-simple-geometry {
   display: block;
   max-width: 600px;
   max-height: 400px;

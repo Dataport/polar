@@ -35,6 +35,8 @@
   },
   "devDependencies": {
     "@polar/core": "^3.0.0",
+    "@polar/lib-custom-types": "^2.0.0",
+    "@polar/lib-get-features": "^3.0.0",
     "@polar/plugin-address-search": "^3.0.0",
     "@polar/plugin-attributions": "^1.4.0",
     "@polar/plugin-draw": "^3.0.0",
@@ -48,11 +50,18 @@
     "@polar/plugin-scale": "^3.0.0",
     "@polar/plugin-toast": "^1.1.2",
     "@polar/plugin-zoom": "^1.4.0",
+    "@repositoryname/vuex-generators": "^1.1.2",
+    "@turf/boolean-intersects": "^7.2.0",
+    "@turf/boolean-valid": "^7.2.0",
+    "@types/geojson": "^7946.0.8",
     "diplanung-style": "^13.0.0",
+    "just-compare": "^2.3.0",
+    "lodash.debounce": "^4.0.8",
     "lodash.merge": "^4.6.2"
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
+    "ol": "^10.3.1",
     "vue": "^2.x",
     "vuex": "^3.x"
   },
