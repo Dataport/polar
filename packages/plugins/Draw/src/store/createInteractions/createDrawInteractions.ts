@@ -3,7 +3,7 @@ import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 import createDrawStyle from '../../utils/createDrawStyle'
-import { getSchnaps } from './getSnaps'
+import { getSnaps } from './getSnaps'
 
 export default function (
   {
@@ -45,10 +45,7 @@ export default function (
   draw.on('drawend', (e) => e.feature.setStyle(style))
   return [
     draw,
-    ...getSchnaps(
-      rootGetters.map,
-      rootGetters.configuration?.draw?.snapTo || []
-    ),
+    ...getSnaps(rootGetters.map, rootGetters.configuration?.draw?.snapTo || []),
     new Snap({ source: drawSource }),
   ]
 }

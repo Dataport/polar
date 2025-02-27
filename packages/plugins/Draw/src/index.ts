@@ -5,6 +5,8 @@ import { Draw } from './components'
 import locales from './locales'
 import { makeStoreModule } from './store'
 
+export { getSnaps } from './store/createInteractions/getSnaps'
+
 // NOTE: Currently no options are specified here, variable is kept for integrity until options are needed
 export default (options: DrawConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
