@@ -14,7 +14,6 @@
   },
   "files": [
     "dist/**/**.*",
-    "docs/**/**.*",
     "CHANGELOG.md",
     "README.md"
   ],
@@ -45,6 +44,7 @@
     "@repositoryname/vuex-generators": "^1.1.2",
     "vue": "^2.x",
     "vuex": "^3.x",
+    "ol": "^10.3.1",
     "lodash.merge": "^4.6.2"
   },
   "nx": {
