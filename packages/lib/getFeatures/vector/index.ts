@@ -7,10 +7,12 @@ export const getVectorFeaturesByBboxRequest = ({
   bbox,
   fetchLayerId,
   projectionCode,
+  signal,
 }: {
   bbox: number[]
   fetchLayerId: string
   projectionCode: string
+  signal?: AbortSignal
 }) => {
   const serviceDefinition = rawLayerList.getLayerWhere({ id: fetchLayerId })
   if (!supportedFormats.includes(serviceDefinition.typ)) {
@@ -38,17 +40,19 @@ export const getVectorFeaturesByBboxRequest = ({
           `bbox=${bbox},${projectionCode}`,
         ].join('&')}`
 
-  return fetch(url)
+  return fetch(url, { signal })
 }
 
 export const getVectorFeaturesByFeatureRequest = ({
   feature,
   fetchLayerId,
   projectionCode,
+  signal,
 }: {
   feature: Feature
   fetchLayerId: string
   projectionCode: string
+  signal?: AbortSignal
 }) => {
   const bbox = feature.getGeometry()?.getExtent?.()
 
@@ -62,5 +66,6 @@ export const getVectorFeaturesByFeatureRequest = ({
     bbox,
     fetchLayerId,
     projectionCode,
+    signal,
   })
 }

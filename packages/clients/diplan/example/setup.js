@@ -105,6 +105,15 @@ export default (client, layerConf, config) => {
       actionLasso.onclick = () =>
         mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')
 
+      const htmlRevisedDrawExport = document.getElementById(
+        'subscribed-revised-draw-export'
+      )
+      const htmlRevisionInProgress = document.getElementById(
+        'subscribed-revision-in-progress'
+      )
+      const htmlSimpleGeometryValidity = document.getElementById(
+        'subscribed-simple-geometry-validity'
+      )
       const htmlZoom = document.getElementById('subscribed-zoom')
       const htmlGfi = document.getElementById('subscribed-gfi')
       const htmlExportA = document.getElementById('subscribed-export-a')
@@ -133,6 +142,25 @@ export default (client, layerConf, config) => {
       mapInstance.subscribe('plugin/draw/featureCollection', (geojson) => {
         htmlDraw.innerHTML = JSON.stringify(geojson, null, 2)
       })
+      mapInstance.subscribe('diplan/revisedDrawExport', (revisedDrawExport) => {
+        htmlRevisedDrawExport.innerHTML = JSON.stringify(
+          revisedDrawExport,
+          null,
+          2
+        )
+      })
+      mapInstance.subscribe(
+        'diplan/revisionInProgress',
+        (revisionInProgress) => {
+          htmlRevisionInProgress.innerHTML = revisionInProgress
+        }
+      )
+      mapInstance.subscribe(
+        'diplan/simpleGeometryValidity',
+        (simpleGeometryValidity) => {
+          htmlSimpleGeometryValidity.innerHTML = simpleGeometryValidity
+        }
+      )
 
       window.mapInstance = mapInstance
     })
