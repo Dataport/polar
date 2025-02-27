@@ -10,4 +10,4 @@ This folder holds the development example used during development time. You may 
 
 ## all others
 
-All other folders are examples used in the documentation deployed on the GitHub page. They are supposed to display usage variants and should be understandable/clean. These are supposed to be viewn both by the customer and integrators alike so that they can easily lift from the usage scenarios. They're also useful for testing PRs in build mode.
+All other folders are examples used in the documentation deployed on the [GitHub page](https://dataport.github.io/polar/docs/diplan/example/overview.html). They are supposed to display usage variants and should be understandable/clean. These are supposed to be viewn both by the customer and integrators alike so that they can easily lift from the usage scenarios. They're also useful for testing PRs in build mode.
