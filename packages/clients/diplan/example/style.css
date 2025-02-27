@@ -14,10 +14,20 @@
 html, body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
   font-family: sans-serif;
   font-size: 16px;
   color: #04071a;
   background-color: #f7f8fa;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
 }
 
 header {
@@ -42,6 +52,13 @@ main {
 .padded-x {
   padding-right: 10vw;
   padding-left: 10vw;
+}
+
+.todo {
+  background: #2b3980;
+  color: white;
+  padding: 0 0.2em;
+  border-radius: 8px;
 }
 
 h1 {

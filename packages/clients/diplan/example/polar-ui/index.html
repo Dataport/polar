@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
-  <!-- test page -->
+  <!-- test page for build -->
   <head>
     <meta charset="utf-8" />
     <title>@polar/client-diplan</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../style.css">
   </head>
   <body>
     <nav></nav>
     <header>
-      <h1>Testseite <code>@polar/client-diplan</code> (dev)</h1>
+      <h1>Testseite <code>@polar/client-diplan</code> (POLAR UI)</h1>
     </header>
     <div id="somethingnice"></div>
     <main>
@@ -96,13 +96,16 @@
       </section>
     </main>
     <footer>At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.</footer>
+    <!-- Example without build tools. Most frameworks will allow importing this. (Try "* as PolarClientDiPlan".) -->
+    <script src="../../dist/polar-client.js"></script>
+    <!-- → window.PolarClientDiPlan is now available. -->
+    <link rel="stylesheet" src="../../dist/polar-client.css">
     <script type="module">
-      import client from '../src/polar-client.ts'
-      import services from './services.js'
+      import services from '../services.js'
       import config from './config.js'
-
       import setup from './setup.js'
-      setup(client, services, config)
+
+      setup(PolarClientDiPlan, services, config)
     </script>
   </body>
 </html>
