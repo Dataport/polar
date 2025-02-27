@@ -1,4 +1,4 @@
-array=( afm bgw diplan generic meldemichel snowbox textLocator )
+array=( afm diplan generic meldemichel snowbox textLocator )
 for i in "${array[@]}"
 do
   echo "Building $i docs ..."
