@@ -47,7 +47,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
       )
 
       // merge first; relevant for both follow-up steps
-      if (getters.configuration.mergeMultiGeometries) {
+      if (getters.configuration.mergeToMultiGeometries) {
         revisedFeatureCollection = mergeToMultiGeometries(
           revisedFeatureCollection
         )
@@ -94,7 +94,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
   getters: {
     ...generateSimpleGetters(getInitialState()),
     configuration: (_, __, ___, rootGetters) => ({
-      mergeMultiGeometries: false,
+      mergeToMultiGeometries: false,
       validateGeometries: true,
       metaServices: [],
       // @ts-expect-error | local override for client

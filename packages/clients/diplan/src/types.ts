@@ -7,7 +7,7 @@ export interface MetaService {
 }
 
 export interface DiplanConfiguration {
-  mergeMultiGeometries?: boolean
+  mergeToMultiGeometries?: boolean
   validateGeoJson?: boolean
   metaServices?: MetaService[]
 }

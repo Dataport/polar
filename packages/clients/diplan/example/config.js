@@ -14,7 +14,7 @@ export default {
   ],
   // diplan-specific configuration example (see API.md)
   diplan: {
-    mergeMultiGeometries: true,
+    mergeToMultiGeometries: true,
     validateGeoJson: true,
     metaServices: [
       {
