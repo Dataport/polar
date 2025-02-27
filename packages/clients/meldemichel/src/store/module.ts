@@ -37,8 +37,6 @@ const meldemichelModule: PolarModule<
   namespaced: true,
   state: {},
   actions: {
-    // length deemed acceptable due to function simplicity (forwarder)
-    // eslint-disable-next-line max-lines-per-function
     setMapState: (
       { commit, dispatch, rootGetters },
       {

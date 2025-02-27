@@ -31,8 +31,6 @@ const getInitialState = (): GeometrySearchState => ({
   lastSearch: null,
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<GeometrySearchState, GeometrySearchGetters> = {
     namespaced: true,

@@ -122,7 +122,6 @@ const errorSymbol = (err) => Symbol(err)
  * (and such effects are to be expected across the system), we're debouncing
  * this *after* resetting the module state, as something is bound to happen.
  */
-// eslint-disable-next-line max-lines-per-function
 const gfiRequest =
   (featureDisplayLayer: VectorLayer) =>
   async (

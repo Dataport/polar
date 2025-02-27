@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { PolarActionTree } from '@polar/lib-custom-types'
 import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'

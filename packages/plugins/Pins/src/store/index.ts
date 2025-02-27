@@ -15,8 +15,6 @@ import { getPinStyle } from '../util/getPinStyle'
 import { getInitialState } from './state'
 import getters from './getters'
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   let pinsLayer: VectorLayer
   const move = new Select({

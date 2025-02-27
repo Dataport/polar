@@ -25,8 +25,6 @@ const getInitialState = (): FilterState => ({
   time: {},
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<FilterState, FilterGetters> = {
     namespaced: true,

@@ -12,8 +12,6 @@ const getInitialState = (): AttributionsState => ({
   windowIsOpen: false,
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<AttributionsState, AttributionsGetters> = {
     namespaced: true,

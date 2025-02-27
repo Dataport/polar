@@ -25,8 +25,6 @@ const defaultOptions = {
   layoutTag: NineLayoutTag.TOP_LEFT,
 }
 
-// this is fine for list-like setup functions
-// eslint-disable-next-line max-lines-per-function
 export const addPlugins = (core) => {
   const iconMenu = PolarPluginIconMenu(
     merge({}, defaultOptions, {
