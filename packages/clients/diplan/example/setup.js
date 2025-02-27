@@ -35,11 +35,6 @@ export default (client, layerConf, config) => {
    * However, we're working with a loaded object here, making the
    * masterportalapi's `initializeLayerList` synchronous:
    */
-  client.rawLayerList.initializeLayerList(layerConf)
-
-  // TODO can we encapsulate do the upper statement in the core? people
-  //      don't really need to do that manually, do they?
-
   client
     .createMap({
       // id of div to render in
@@ -60,8 +55,6 @@ export default (client, layerConf, config) => {
        * https://dataport.github.io/polar/docs/diplan/client-diplan.html
        */
 
-      // TODO expand example bindings
-
       const actionPlus = document.getElementById('action-plus')
       const actionMinus = document.getElementById('action-minus')
       const actionToast = document.getElementById('action-toast')
@@ -71,6 +64,11 @@ export default (client, layerConf, config) => {
         'action-address-search-filler'
       )
       const actionLasso = document.getElementById('action-lasso')
+      const actionCut = document.getElementById('action-cut-polygons')
+      const actionDuplicate = document.getElementById(
+        'action-duplicate-polygons'
+      )
+      const actionMerge = document.getElementById('action-merge-polygons')
 
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
@@ -99,6 +97,12 @@ export default (client, layerConf, config) => {
       )
       actionLasso.onclick = () =>
         mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')
+      actionCut.onclick = () =>
+        mapInstance.$store.dispatch('diplan/cutPolygons')
+      actionDuplicate.onclick = () =>
+        mapInstance.$store.dispatch('diplan/duplicatePolygons')
+      actionMerge.onclick = () =>
+        mapInstance.$store.dispatch('diplan/mergePolygons')
 
       const htmlRevisedDrawExport = document.getElementById(
         'subscribed-revised-draw-export'
