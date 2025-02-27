@@ -1,8 +1,5 @@
 <template>
-  <v-card
-    v-if="infoFields.length > 0 && currentProperties"
-    class="bgw-gfi-content"
-  >
+  <v-card v-if="info.length > 0 && currentProperties" class="bgw-gfi-content">
     <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
       <v-spacer></v-spacer>
       <v-btn
@@ -39,22 +36,16 @@ import ActionButton from './ActionButton.vue'
 export default Vue.extend({
   name: 'BgwGfiContent',
   components: { ActionButton },
-  data: () => ({
-    infoFields: [],
-  }),
   computed: {
-    ...mapGetters(['map', 'configuration']),
+    ...mapGetters([
+      'map',
+      'configuration',
+      'selected',
+      'hasSmallWidth',
+      'hasWindowSize',
+    ]),
     ...mapGetters('plugin/gfi', ['currentProperties']),
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
-    info(): Array<string[]> {
-      return this.infoFields.map(({ key, label }) => [
-        label,
-        this.currentProperties[key],
-      ])
-    },
-  },
-  mounted() {
-    this.infoFields = this.configuration.gfi.infoFields
+    ...mapGetters('bgw', ['info']),
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),
