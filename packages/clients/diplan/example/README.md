@@ -6,7 +6,7 @@ The root folder holds files used in all clients. Modify with care. If you need w
 
 ## `dev`
 
-This folder holds the development example used during development time. You may put anything in here as long as it serves the testing purposes. The client is not required to look good, but is a technical playground, aka "just trash in whatever you want to test, the end of the universe will clean it up".
+This folder holds the development example used during development time. You may put anything in here as long as it serves the testing purposes. The client is not required to look good, but is a technical playground.
 
 ## all others
 
