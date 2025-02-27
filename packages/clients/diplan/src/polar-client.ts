@@ -125,8 +125,8 @@ polarCore.addPlugins([
 
 const originalCreateMap = polarCore.createMap
 
-polarCore.createMap = (properties) =>
-  originalCreateMap(
+polarCore.createMap = (properties) => {
+  const clientPromise = originalCreateMap(
     merge(
       {
         mapConfiguration: {
@@ -163,5 +163,8 @@ polarCore.createMap = (properties) =>
     clientInstance.$store.dispatch('diplan/setupModule')
     return clientInstance
   })
+
+  return clientPromise
+}
 
 export default polarCore
