@@ -250,6 +250,9 @@ const mapConfig = {
       },
       { key: 'bgw_umfeld', label: 'plugins.gfi.infoLabels.bgw_umfeld' },
     ],
+    highlightStyleBadestraende: {
+      stroke: { color: '#FF4500', width: 10 },
+    },
   },
   featureStyles: './style.json',
 }
