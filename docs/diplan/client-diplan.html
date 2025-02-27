@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1 id="polar-client-diplankarten" tabindex="-1">POLAR client DiPlanKarten</h1>
+<p>This document describes the <code>@polar/client-diplan</code>-specific configuration options.</p>
+
+<p>For our example clients, <a href="./example/overview.html">see here</a>.</p>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<p>DiPlan-specific configuration parameters belong within the <code>mapConfiguration</code> object and are registered to the key <code>diplan</code>.</p>
+<h3 id="diplan" tabindex="-1">diplan</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mergeToMultiGeometries</td>
+<td>boolean?</td>
+<td>Defaults to <code>false</code>. If <code>true</code>, the exported FeatureCollection in getter <code>revisedDrawExport</code> will have merged geometries; that is, instead of Points, Lines, and Polygons, only MultiPoints, MultiLines, and MultiPolygons will be featured, created by merging the features of their respective geometry. All geometry types that are enabled in the <code>Draw</code> tool may occur. This step is executed before geometry validation and meta service usage.</td>
+</tr>
+<tr>
+<td>metaServices</td>
+<td>metaService[]?</td>
+<td>Specification of a service that contains meta-information regarding geometries. Information from there will be added to features in getter <code>revisedDrawExport</code>.</td>
+</tr>
+<tr>
+<td>validateGeoJson</td>
+<td>boolean?</td>
+<td>Defaults to <code>true</code>. If <code>true</code>, all geometries in getter <code>revisedDrawExport</code> will undergo a validity check before they are exported. To inspect the validity of the offered geometries, inspect the getter <code>simpleGeometryValidity</code> that indicates validity with a <code>boolean</code>.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="diplan.metaservice" tabindex="-1">diplan.metaService</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>Id of the vector layer to make use of in the meta service.</td>
+</tr>
+<tr>
+<td>aggregationMode</td>
+<td>enum['unequal', 'all']?</td>
+<td>Defaults to <code>'unequal'</code>. In mode <code>'unequal'</code>, one of each property set is kept; duplicate property sets are dropped. In mode <code>'all'</code>, all property sets are kept without further filtering.</td>
+</tr>
+<tr>
+<td>propertyNames</td>
+<td>string[]?</td>
+<td>Names of the properties to build aggregations from. If left undefined, all found properties will be used.</td>
+</tr>
+</tbody>
+</table>
+<p>From all geometries of the service intersecting our geometries, properties are aggregated.</p>
+<p>Example: Our drawing feature touches these features in the layer with id <code>&quot;metaSourceExampleId&quot;</code>:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: { &quot;a&quot;: 0, &quot;b&quot;: 0 }
+},
+{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: { &quot;a&quot;: 0, &quot;b&quot;: 1 }
+},
+{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: { &quot;a&quot;: 0, &quot;b&quot;: 1 }
+},
+{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: { &quot;a&quot;: 1, &quot;b&quot;: 1 }
+}
+</code></pre>
+<p>The feature will then have the following properties:</p>
+<p>In mode <code>'unequal'</code>:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: {
+    &quot;metaProperties&quot;: {
+      &quot;metaSourceExampleId&quot;: [
+        { &quot;a&quot;: 0, &quot;b&quot;: 0 },
+        { &quot;a&quot;: 0, &quot;b&quot;: 1 },
+        { &quot;a&quot;: 1, &quot;b&quot;: 1 }
+      ]
+    }
+  }
+}
+</code></pre>
+<p>In mode <code>'all'</code>:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: {
+    &quot;metaProperties&quot;: {
+      &quot;metaSourceExampleId&quot;: [
+        { &quot;a&quot;: 0, &quot;b&quot;: 0 },
+        { &quot;a&quot;: 0, &quot;b&quot;: 1 },
+        { &quot;a&quot;: 0, &quot;b&quot;: 1 },
+        { &quot;a&quot;: 1, &quot;b&quot;: 1 }
+      ]
+    }
+  }
+}
+</code></pre>
+<h2 id="state" tabindex="-1">State</h2>
+<h3 id="getters" tabindex="-1">Getters</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>revisedDrawExport</td>
+<td>GeoJSON.FeatureCollection</td>
+<td>The features produced with draw operations can be subscribed to via this getter. The &quot;pure&quot; variants can be fetched from the plugin <code>@polar/plugin-draw</code>, see its documentation. This &quot;revised&quot; variant includes all changes from the configuration of <code>mergeToMultiGeometries</code> and <code>metaServices</code>, i.e. the features may be merged and enriched with additional information for further processing.</td>
+</tr>
+<tr>
+<td>revisionInProgress</td>
+<td>boolean</td>
+<td>Returns <code>true</code> if there are ongoing asynchronous operations. While true, the <code>revisedDrawExport</code> variable shall not be considered finished.</td>
+</tr>
+<tr>
+<td>simpleGeometryValidity</td>
+<td>boolean</td>
+<td>Indicator of whether the OGC Simple Feature Specification (part of <a href="https://www.ogc.org/de/publications/standard/sfa/">SFA</a>) rules are fulfilled.</td>
+</tr>
+</tbody>
+</table>
+<p>⚠️ Caveat: Please mind that there is currently no merge-logic for properties of features given via using the action <code>'plugin/draw/addFeatures'</code> of <code>@polar/plugin-draw</code>. If <code>mergeToMultiGeometries</code> is set true, an arbitrary set of properties will survive. If <code>metaServices</code> are set, <code>properties.metaProperties</code> will be overridden if they previously existed. It is assumed that incoming data shall only be recognized regarding its geometry and holds no properties.</p>
+<pre><code class="language-js">mapInstance.$store.watch(
+  (_, getters) =&gt; getters['diplan/revisedDrawExport'],
+  (geoJsonFeatureCollection) =&gt; {
+    /* This code is called on value updates. */
+  }
+)
+</code></pre>
+
+    <h2>Child documents</h2><nav><ul>
+      <li><a href="core.html" target="_blank">core.html</a></li><li><a href="lib-custom-types.html" target="_blank">lib-custom-types.html</a></li><li><a href="lib-get-features.html" target="_blank">lib-get-features.html</a></li><li><a href="plugin-address-search.html" target="_blank">plugin-address-search.html</a></li><li><a href="plugin-attributions.html" target="_blank">plugin-attributions.html</a></li><li><a href="plugin-draw.html" target="_blank">plugin-draw.html</a></li><li><a href="plugin-export.html" target="_blank">plugin-export.html</a></li><li><a href="plugin-fullscreen.html" target="_blank">plugin-fullscreen.html</a></li><li><a href="plugin-gfi.html" target="_blank">plugin-gfi.html</a></li><li><a href="plugin-icon-menu.html" target="_blank">plugin-icon-menu.html</a></li><li><a href="plugin-layer-chooser.html" target="_blank">plugin-layer-chooser.html</a></li><li><a href="plugin-loading-indicator.html" target="_blank">plugin-loading-indicator.html</a></li><li><a href="plugin-pins.html" target="_blank">plugin-pins.html</a></li><li><a href="plugin-scale.html" target="_blank">plugin-scale.html</a></li><li><a href="plugin-toast.html" target="_blank">plugin-toast.html</a></li><li><a href="plugin-zoom.html" target="_blank">plugin-zoom.html</a></li>
+      </ul></nav>
+    <h2>Locales</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Locale Key</th>
+          <th scope="col">German default</th>
+          <th scope="col">English default</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>diplan.error.metaInformationRetrieval</td>
+          <td>Der Bezug von Metadaten zur gezeichneten Geometrie ist fehlgeschlagen. Die Geometrie wird ohne Metadaten weitergereicht.</td>
+          <td></td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>
