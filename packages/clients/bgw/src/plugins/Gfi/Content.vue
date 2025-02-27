@@ -1,8 +1,5 @@
 <template>
-  <v-card
-    v-if="infoFields.length > 0 && currentProperties"
-    class="bgw-gfi-content"
-  >
+  <v-card v-if="info.length > 0 && currentProperties" class="bgw-gfi-content">
     <v-card-actions v-if="!hasWindowSize || !hasSmallWidth">
       <v-spacer></v-spacer>
       <v-btn
@@ -34,92 +31,24 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import { Stroke, Style } from 'ol/style'
-import { Feature } from 'ol'
 import ActionButton from './ActionButton.vue'
 
 export default Vue.extend({
   name: 'BgwGfiContent',
   components: { ActionButton },
-  data: () => ({
-    infoFields: [],
-    defaultStyle: {} as Style,
-    highlightStyle: {} as Style,
-    badestraendeFeatures: [] as Feature[],
-  }),
   computed: {
-    ...mapGetters(['selected']),
-    ...mapGetters(['map', 'configuration']),
+    ...mapGetters([
+      'map',
+      'configuration',
+      'selected',
+      'hasSmallWidth',
+      'hasWindowSize',
+    ]),
     ...mapGetters('plugin/gfi', ['currentProperties']),
-    ...mapGetters(['hasSmallWidth', 'hasWindowSize']),
-    info(): Array<string[]> {
-      return this.infoFields.map(({ key, label }) => [
-        label,
-        this.currentProperties[key],
-      ])
-    },
-  },
-  watch: {
-    currentProperties(value) {
-      this.updateBadestraendeStyles(this.defaultStyle)
-      this.updateBadestraendeFeature(value.fid)
-      this.updateBadestraendeStyles(this.highlightStyle)
-    },
-  },
-  mounted() {
-    this.infoFields = this.configuration.gfi.infoFields
-    this.setDefaultStyle(this.map, '14001')
-    this.updateBadestraendeStyles(this.defaultStyle)
-    this.setHighlightStyle()
-    this.updateBadestraendeFeature(this.currentProperties.fid)
-    this.updateBadestraendeStyles(this.highlightStyle)
-  },
-  beforeDestroy() {
-    if (!this.selected) this.updateBadestraendeStyles(this.defaultStyle)
+    ...mapGetters('bgw', ['info']),
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),
-    getBadeStellenFeatures(map, layerId: string, badeStellenId: string) {
-      const layer = map
-        .getLayers()
-        .getArray()
-        .find((layer) => layer.get('id') === layerId)
-
-      return layer
-        .getSource()
-        .getFeatures()
-        .filter((feature) => {
-          return feature.get('BATHINGWAT') === badeStellenId
-        })
-    },
-    updateBadestraendeFeature(id) {
-      this.badestraendeFeatures = this.getBadeStellenFeatures(
-        this.map,
-        '14001',
-        id
-      )
-    },
-    updateBadestraendeStyles(style: Style) {
-      this.badestraendeFeatures.forEach((feature) => feature.setStyle(style))
-    },
-    setHighlightStyle() {
-      this.highlightStyle = new Style({
-        stroke: new Stroke(
-          this.configuration.gfi.highlightStyleBadestraende.stroke
-        ),
-      })
-    },
-    setDefaultStyle(map, layerId) {
-      const layer = map
-        .getLayers()
-        .getArray()
-        .find((layer) => layer.get('id') === layerId)
-      this.defaultStyle =
-        layer.getStyle() ||
-        new Style({
-          stroke: new Stroke({ color: '#FF4500', width: 3 }),
-        })
-    },
   },
 })
 </script>
