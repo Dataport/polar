@@ -60,7 +60,8 @@ const aggregateProperties = (
 export const enrichWithMetaServices = (
   featureCollection: FeatureCollection,
   map: Map,
-  metaServices: MetaService[]
+  metaServices: MetaService[],
+  signal: AbortSignal
 ) =>
   Promise.all(
     featureCollection.features.map((feature) =>
@@ -70,6 +71,7 @@ export const enrichWithMetaServices = (
             feature: reader.readFeature(JSON.stringify(feature)) as Feature,
             fetchLayerId: id,
             projectionCode: map.getView().getProjection().getCode(),
+            signal,
           })
             .then((response) =>
               rawLayerList.getLayerWhere({ id }).typ === 'WFS'

@@ -4,11 +4,13 @@ import {
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import { FeatureCollection } from 'geojson'
+import debounce from 'lodash.debounce'
 import { DiplanGetters, DiplanState, GeometryType } from '../types'
 import { mergeToMultiGeometries } from './utils/mergeToMultiGeometries'
 import { validateGeoJson } from './utils/validateGeoJson'
 import { enrichWithMetaServices } from './utils/enrichWithMetaServices'
 
+let abortController: AbortController | null = null
 const drawFeatureCollection = 'plugin/draw/featureCollection'
 
 // FeatureCollection is compatible to stupid clone
@@ -33,13 +35,18 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
   state: getInitialState(),
   actions: {
     setupModule({ dispatch, rootGetters }) {
-      this.watch(
-        () => rootGetters[drawFeatureCollection],
-        () => dispatch('updateState')
-      )
+      const debouncedUpdate = debounce(() => dispatch('updateState'), 50)
+      this.watch(() => rootGetters[drawFeatureCollection], debouncedUpdate)
     },
+    // complexity deemed acceptable, it's mostly chaining
+    // eslint-disable-next-line max-lines-per-function
     updateState: async ({ commit, dispatch, rootGetters, getters }) => {
       commit('setRevisionInProgress', true)
+
+      if (abortController) {
+        abortController.abort()
+      }
+      const thisController = (abortController = new AbortController())
 
       // clone to prevent accidentally messing with the draw tool's data
       let revisedFeatureCollection = cloneFeatureCollection(
@@ -65,9 +72,13 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
           await enrichWithMetaServices(
             revisedFeatureCollection,
             rootGetters.map,
-            getters.configuration.metaServices
+            getters.configuration.metaServices,
+            abortController.signal
           )
         } catch (e) {
+          if (thisController.signal.aborted) {
+            return
+          }
           console.error(
             '@polar/client-diplan: An error occurred when trying to fetch meta service data for the given feature collection.',
             e
@@ -84,8 +95,10 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
         }
       }
 
-      commit('setRevisedDrawExport', revisedFeatureCollection)
-      commit('setRevisionInProgress', false)
+      if (!thisController.signal.aborted) {
+        commit('setRevisedDrawExport', revisedFeatureCollection)
+        commit('setRevisionInProgress', false)
+      }
     },
   },
   mutations: {
