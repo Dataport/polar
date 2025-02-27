@@ -1,11 +1,12 @@
 import { getClientConfig } from '../../../viteConfigs'
 
 export default getClientConfig({
-  root: 'example',
+  root: 'example/dev',
   build: {
+    outDir: '../../dist',
     lib: {
       name: 'PolarClientDiPlan',
-      entry: '../src/polar-client.ts',
+      entry: '../../src/polar-client.ts',
       fileName: () => 'polar-client.js',
     },
     rollupOptions: {
