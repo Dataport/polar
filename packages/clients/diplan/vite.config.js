@@ -2,6 +2,11 @@ import { getClientConfig } from '../../../viteConfigs'
 
 export default getClientConfig({
   root: 'example',
+  server: {
+    fs: {
+      strict: false,
+    },
+  },
   build: {
     outDir: '../dist',
     lib: {
