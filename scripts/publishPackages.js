@@ -9,7 +9,7 @@ const packages = process.argv.slice(2).map((tag) => tag.split('@')[1])
 for (const packageName of packages) {
   try {
     cp.execSync(
-      `npx nx release publish --projects @${packageName} --verbose true`,
+      `npx nx release publish --projects @${packageName} --verbose false`,
       { stdio: ['pipe', 'ignore', 'pipe'] }
     )
   } catch (e) {
