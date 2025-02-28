@@ -7,10 +7,12 @@ import Feature from 'ol/Feature'
 import { DiplanGetters, DiplanState } from '../../types'
 
 export const cutPolygons = ({
+  commit,
   dispatch,
   rootGetters,
 }: PolarActionContext<DiplanState, DiplanGetters>) => {
   dispatch('plugin/draw/setMode', 'none', { root: true })
+  commit('setDrawMode', 'cut')
 
   const drawSource: VectorSource = rootGetters['plugin/draw/drawSource']
 
@@ -21,12 +23,17 @@ export const cutPolygons = ({
     const features = drawSource.getFeatures()
     const nextFeatures = features.reduce((accumulator, feature) => {
       // TODO cut feature with line if it's a polygon, add multiple features thereafter
+      // turf.polygonToLine(poly)
+      // cut lines with cutLine, then union with all affected
+      // turf.polygonize(unionedLines)
       console.error(cutLine)
       accumulator.push(feature)
       return accumulator
     }, [] as Feature[])
     drawSource.clear()
     drawSource.addFeatures(nextFeatures)
+
+    commit('setDrawMode', null)
   })
 
   dispatch(

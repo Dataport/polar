@@ -8,6 +8,7 @@
 - Feature: Interactions requiring dragging are now marked with the POLAR flag `_isPolarDragLikeInteraction`.
 - Feature: An action `setInteractions` has been added to allow clients to bring their own geometry operations.
 - Feature: Expose the `getSnaps` function. Intended to be used together with the `setInteractions` action only.
+- Feature: Expose `Mode` type of Draw plugin for client-side extensions.
 
 ## 3.0.0
 

@@ -40,6 +40,11 @@ export const updateState = async ({
     revisedFeatureCollection = mergeToMultiGeometries(revisedFeatureCollection)
   }
 
+  // TODO consider from turf:
+  // * cleanCoords
+  // * union? or even better, combine?
+  // * unkinkPolygon?
+
   if (getters.configuration.validateGeoJson) {
     commit(
       'setSimpleGeometryValidity',

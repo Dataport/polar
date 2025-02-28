@@ -69,6 +69,7 @@ export default (client, layerConf, config) => {
         'action-duplicate-polygons'
       )
       const actionMerge = document.getElementById('action-merge-polygons')
+      const activeExtendedDrawMode = document.getElementById('active-draw-mode')
 
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
@@ -103,6 +104,11 @@ export default (client, layerConf, config) => {
         mapInstance.$store.dispatch('diplan/duplicatePolygons')
       actionMerge.onclick = () =>
         mapInstance.$store.dispatch('diplan/mergePolygons')
+      mapInstance.$store.watch(
+        (_, getters) => getters['diplan/activeDrawMode'],
+        (activeDrawMode) => (activeExtendedDrawMode.innerHTML = activeDrawMode),
+        { immediate: true }
+      )
 
       const htmlRevisedDrawExport = document.getElementById(
         'subscribed-revised-draw-export'

@@ -4,13 +4,15 @@ import {
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import debounce from 'lodash.debounce'
-import { DiplanGetters, DiplanState } from '../types'
+import { Mode } from '@polar/plugin-draw'
+import { DiplanGetters, DiplanState, ExtendedDrawMode } from '../types'
 import { drawFeatureCollectionSource, updateState } from './updateState'
 import { cutPolygons } from './geoEditing/cutPolygons'
 import { duplicatePolygons } from './geoEditing/duplicatePolygons'
 import { mergePolygons } from './geoEditing/mergePolygons'
 
 const getInitialState = (): DiplanState => ({
+  drawMode: null,
   revisionInProgress: false,
   simpleGeometryValidity: true,
   revisedDrawExport: { type: 'FeatureCollection', features: [] },
@@ -48,6 +50,9 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
       // @ts-expect-error | local override for client
       ...(rootGetters.configuration?.diplan || {}),
     }),
+    // meant for internal usage in UI
+    activeDrawMode: (_, getters, ___, rootGetters): ExtendedDrawMode =>
+      getters.drawMode ?? (rootGetters['plugin/draw/mode'] as Mode),
   },
 }
 
