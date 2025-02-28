@@ -171,6 +171,8 @@ The returned featureCollection is a [GeoJSON](https://geojson.org/) FeatureColle
 
 ### Actions
 
+#### addFeatures
+
 ```js
 map.$store.dispatch('plugin/draw/addFeatures', {
   geoJSON: {
@@ -196,6 +198,23 @@ It adds the given features from the FeatureCollection to the drawn source. It is
 It's important to note that the GeoJSON Standard [RFC7946](https://www.rfc-editor.org/rfc/rfc7946) does not support circles.
 To add a circle to the map, it is assumed, that a feature being a circle has a property `radius` together with a point geometry.
 
+#### setInteractions
+
+>⚠️ This is a complex action and can not be used without further implementation in a client.
+
+```js
+// `yourInteractions` is of type `ol/interaction[]`
+map.$store.dispatch('plugin/draw/setInteractions', yourInteractions)
+```
+
+Allows interactions of other sources to take precedence without overlapping with the Draw interactions. By using this action, it is ensured both the draw interactions are cleared and the outside interactions are clearable by the draw tool. With this, you may write client-specific geometry operations of arbitrarily specific nature. Please mind that the Draw tool will display that no draw mode is active during this time, requiring you to provide a different UI.
+
+When setting drag-like interactions, add `_isPolarDragLikeInteraction` to the interaction. Regarding this, refer to the chapter "Special Flags" in the core documentation.
+
+If you need additional code executed on removal, you may add a method to `yourInteraction._onRemove`. It will be called on clean-up without parameters.
+
+#### zoomToFeature
+
 ```js
 map.$store.dispatch('plugin/draw/zoomToFeature', {
   index: 42, // defaults to 0
@@ -204,6 +223,8 @@ map.$store.dispatch('plugin/draw/zoomToFeature', {
 ```
 
 Calling the action `zoomToFeature` zooms to the feature with position `index`, if given, and fits the map view around it with a padding of size `margin` in every direction of the feature.
+
+#### zoomToAllFeatures
 
 ```js
 map.$store.dispatch('plugin/draw/zoomToAllFeatures', {

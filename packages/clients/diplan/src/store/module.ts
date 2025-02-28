@@ -3,22 +3,12 @@ import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { FeatureCollection } from 'geojson'
 import debounce from 'lodash.debounce'
-import { DiplanGetters, DiplanState, GeometryType } from '../types'
-import { mergeToMultiGeometries } from './utils/mergeToMultiGeometries'
-import { validateGeoJson } from './utils/validateGeoJson'
-import { enrichWithMetaServices } from './utils/enrichWithMetaServices'
-
-let abortController: AbortController | null = null
-const drawFeatureCollection = 'plugin/draw/featureCollection'
-
-// FeatureCollection is compatible to stupid clone
-const cloneFeatureCollection = (
-  // No GeometryCollection from Draw, hence the <GeometryType>
-  featureCollection: FeatureCollection<GeometryType>
-): FeatureCollection<GeometryType> =>
-  JSON.parse(JSON.stringify(featureCollection))
+import { DiplanGetters, DiplanState } from '../types'
+import { drawFeatureCollectionSource, updateState } from './updateState'
+import { cutPolygons } from './geoEditing/cutPolygons'
+import { duplicatePolygons } from './geoEditing/duplicatePolygons'
+import { mergePolygons } from './geoEditing/mergePolygons'
 
 const getInitialState = (): DiplanState => ({
   revisionInProgress: false,
@@ -36,70 +26,15 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
   actions: {
     setupModule({ dispatch, rootGetters }) {
       const debouncedUpdate = debounce(() => dispatch('updateState'), 50)
-      this.watch(() => rootGetters[drawFeatureCollection], debouncedUpdate)
-    },
-    // complexity deemed acceptable, it's mostly chaining
-    // eslint-disable-next-line max-lines-per-function
-    updateState: async ({ commit, dispatch, rootGetters, getters }) => {
-      commit('setRevisionInProgress', true)
-
-      if (abortController) {
-        abortController.abort()
-      }
-      const thisController = (abortController = new AbortController())
-
-      // clone to prevent accidentally messing with the draw tool's data
-      let revisedFeatureCollection = cloneFeatureCollection(
-        rootGetters[drawFeatureCollection]
+      this.watch(
+        () => rootGetters[drawFeatureCollectionSource],
+        debouncedUpdate
       )
-
-      // merge first; relevant for both follow-up steps
-      if (getters.configuration.mergeToMultiGeometries) {
-        revisedFeatureCollection = mergeToMultiGeometries(
-          revisedFeatureCollection
-        )
-      }
-
-      if (getters.configuration.validateGeoJson) {
-        commit(
-          'setSimpleGeometryValidity',
-          validateGeoJson(revisedFeatureCollection)
-        )
-      }
-
-      if (getters.configuration.metaServices.length) {
-        try {
-          await enrichWithMetaServices(
-            revisedFeatureCollection,
-            rootGetters.map,
-            getters.configuration.metaServices,
-            abortController.signal
-          )
-        } catch (e) {
-          if (thisController.signal.aborted) {
-            return
-          }
-          console.error(
-            '@polar/client-diplan: An error occurred when trying to fetch meta service data for the given feature collection.',
-            e
-          )
-          dispatch(
-            'plugin/toast/addToast',
-            {
-              type: 'warning',
-              text: 'diplan.error.metaInformationRetrieval',
-              timeout: 10000,
-            },
-            { root: true }
-          )
-        }
-      }
-
-      if (!thisController.signal.aborted) {
-        commit('setRevisedDrawExport', revisedFeatureCollection)
-        commit('setRevisionInProgress', false)
-      }
     },
+    cutPolygons,
+    duplicatePolygons,
+    mergePolygons,
+    updateState,
   },
   mutations: {
     ...generateSimpleMutations(getInitialState()),

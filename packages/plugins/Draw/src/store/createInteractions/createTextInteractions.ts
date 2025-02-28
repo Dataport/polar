@@ -4,7 +4,7 @@ import VectorSource from 'ol/source/Vector'
 import { DrawConfiguration, PolarActionContext } from '@polar/lib-custom-types'
 import { DrawGetters, DrawState } from '../../types'
 import { createTextStyle } from '../../utils/createTextStyle'
-import { getSchnaps } from './getSnaps'
+import { getSnaps } from './getSnaps'
 
 interface CreateTextInteractionsPayload {
   textInput: DrawState['textInput']
@@ -50,7 +50,7 @@ export default function (
   })
   return [
     draw,
-    ...getSchnaps(
+    ...getSnaps(
       rootGetters.map,
       rootGetters.configuration?.draw?.snapTo || []
     ),
