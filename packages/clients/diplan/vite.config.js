@@ -3,6 +3,7 @@ import { getClientConfig } from '../../../viteConfigs'
 export default getClientConfig({
   root: 'example',
   build: {
+    outDir: '../dist',
     lib: {
       name: 'PolarClientDiPlan',
       entry: '../src/polar-client.ts',

@@ -69,7 +69,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
 
       if (getters.configuration.metaServices.length) {
         try {
-          await enrichWithMetaServices(
+          revisedFeatureCollection.features = await enrichWithMetaServices(
             revisedFeatureCollection,
             rootGetters.map,
             getters.configuration.metaServices,
