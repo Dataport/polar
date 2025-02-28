@@ -1,6 +1,6 @@
 {
   "name": "@polar/client-diplan",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "POLAR Client tailored for DiPlanKarten",
   "keywords": [
     "OpenLayers",
