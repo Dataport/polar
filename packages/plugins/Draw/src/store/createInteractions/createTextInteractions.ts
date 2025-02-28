@@ -50,10 +50,7 @@ export default function (
   })
   return [
     draw,
-    ...getSnaps(
-      rootGetters.map,
-      rootGetters.configuration?.draw?.snapTo || []
-    ),
+    ...getSnaps(rootGetters.map, rootGetters.configuration?.draw?.snapTo || []),
     new Snap({ source: drawSource }),
   ]
 }

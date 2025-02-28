@@ -76,10 +76,7 @@ export default function (
   })
   return [
     createModify(rootGetters.map, drawLayer),
-    ...getSnaps(
-      rootGetters.map,
-      rootGetters.configuration?.draw?.snapTo || []
-    ),
+    ...getSnaps(rootGetters.map, rootGetters.configuration?.draw?.snapTo || []),
     new Snap({ source: drawSource }),
     select,
   ]
