@@ -9,7 +9,7 @@ export default (options: PluginOptions) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'geoEditing',
     plugin: GeoEditing,
-    locales,
+    // locales,
     // TODO: Use storeModule when it is merged. Move it from the general diplan-store here.
     // storeModule: makeStoreModule(),
     options,

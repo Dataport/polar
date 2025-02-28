@@ -14,6 +14,8 @@ import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
 import merge from 'lodash.merge'
 
+import 'diplanung-style/src/scss/main'
+
 import packageInfo from '../package.json'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore | intentional, file is created precompilation (not versioned)
@@ -21,6 +23,7 @@ import iconMap from '../assets/dist/iconMap'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore | intentional, file is created precompilation (not versioned)
 import cssVariables from '../assets/dist/cssVariables'
+import GeoEditing from './plugins/GeoEditing'
 import locales from './locales'
 
 // TODO use when implemented
@@ -35,6 +38,10 @@ console.log(`DiPlanKarten-POLAR-Client v${packageInfo.version}.`)
 setLayout(NineLayout)
 
 polarCore.addPlugins([
+  GeoEditing({
+    displayComponent: true,
+    layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
+  }),
   IconMenu({
     displayComponent: true,
     menus: [

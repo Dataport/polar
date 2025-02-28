@@ -1,10 +1,13 @@
 <template>
-  <div></div>
+  <button class="dps-button">ELLO THIS IS BUTTON</button>
 </template>
 
-<script>
-// TODO: Use the existing components of diplanung-style, if possible.
-// TODO: Otherwise, use the styling of the components and add new ones here.
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'GeoEditing',
+})
 </script>
 
 <style lang="scss" scoped></style>
