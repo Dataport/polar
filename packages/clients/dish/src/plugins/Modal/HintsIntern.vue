@@ -1,5 +1,5 @@
 <template>
-  <SharedHints :main-title="mainTitle">
+  <SharedHints :main-title="$t(mainTitle)">
     <v-card-text>
       Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
       eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
@@ -43,8 +43,8 @@ export default Vue.extend({
     SharedHints,
   },
   computed: {
-    mainTitle() {
-      return this.$t('plugins.dish.modal.hintsIntern.mainTitle')
+    mainTitle(): 'plugins.dish.modal.hintsIntern.mainTitle' {
+      return 'plugins.dish.modal.hintsIntern.mainTitle'
     },
   },
 })

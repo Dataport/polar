@@ -1,5 +1,9 @@
 <template>
-  <SharedHints :main-title="mainTitle" :title="title" :sub-title="subTitle">
+  <SharedHints
+    :main-title="$t(mainTitle)"
+    :title="$t(title)"
+    :sub-title="$t(subTitle)"
+  >
     <v-card-text>
       Kulturdenkmale sind nach dem
       <a
@@ -249,14 +253,14 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters('plugin/addressSearch', ['selectedGroup']),
-    mainTitle() {
-      return this.$t('plugins.dish.modal.hints.mainTitle')
+    mainTitle(): 'plugins.dish.modal.hints.mainTitle' {
+      return 'plugins.dish.modal.hints.mainTitle'
     },
-    title() {
-      return this.$t('plugins.dish.modal.hints.title')
+    title(): 'plugins.dish.modal.hints.title' {
+      return 'plugins.dish.modal.hints.title'
     },
-    subTitle() {
-      return this.$t('plugins.dish.modal.hints.subTitle')
+    subTitle(): 'plugins.dish.modal.hints.subTitle' {
+      return 'plugins.dish.modal.hints.subTitle'
     },
     maxFeatures() {
       return this.selectedGroup.find(
