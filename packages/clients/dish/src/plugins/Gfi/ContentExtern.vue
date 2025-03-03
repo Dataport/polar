@@ -99,6 +99,7 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters('plugin/gfi', ['currentProperties', 'imageLoaded']),
+    ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
     displayImage(): boolean {
       return this.currentProperties.Foto !== 'Kein Foto gefunden'
     },
