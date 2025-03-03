@@ -47,7 +47,6 @@ dishExportMap: {
 },
 ```
 
-
 ## Usage
 
 The user selects a feature from the monument WMS within the map that they want to print as a pdf. This selection activates the button "Kartendruck PDF". After pressing the button, a dialog with the editable title for the PDF and a rectangular overlay to show the extent for the map section is displayed. If the user confirms with pressing "Karte drucken", the browser opens a new tab while addressing the backend with the composed URL. The PDF-to-print is shown in this new browser tab.
