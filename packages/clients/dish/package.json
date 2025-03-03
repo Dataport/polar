@@ -21,6 +21,9 @@
     "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
     "dev": "vite --host"
   },
+  "peerDependencies": {
+    "@repositoryname/vuex-generators": "^1.1.2"
+  },
   "devDependencies": {
     "@masterportal/masterportalapi": "2.45.0",
     "@polar/core": "^3.0.0",
@@ -41,9 +44,6 @@
     "focus-trap": "^7.6.0",
     "js-levenshtein": "^1.1.6",
     "lodash.merge": "^4.6.2"
-  },
-  "peerDependencies": {
-    "@repositoryname/vuex-generators": "^1.1.2"
   },
   "nx": {
     "includedScripts": ["build", "dev"]
