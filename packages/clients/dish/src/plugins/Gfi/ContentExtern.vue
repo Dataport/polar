@@ -98,12 +98,7 @@ export default Vue.extend({
     sachgesamtheitOpen: false,
   }),
   computed: {
-    ...mapGetters('plugin/gfi', [
-      'currentProperties',
-      'imageLoaded',
-      'visibleWindowFeatureIndex',
-      'windowFeatures',
-    ]),
+    ...mapGetters('plugin/gfi', ['currentProperties', 'imageLoaded']),
     displayImage(): boolean {
       return this.currentProperties.Foto !== 'Kein Foto gefunden'
     },
@@ -141,10 +136,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapMutations('plugin/gfi', [
-      'setImageLoaded',
-      'setVisibleWindowFeatureIndex',
-    ]),
+    ...mapMutations('plugin/gfi', ['setImageLoaded']),
     toggleSachgesamtheit() {
       this.sachgesamtheitOpen = !this.sachgesamtheitOpen
       Vue.nextTick(() => window.dispatchEvent(new Event('resize')))
