@@ -180,9 +180,6 @@ $sachgesamtheit-background: #e4f5f3;
 .sachgesamtheit-table {
   background: $sachgesamtheit-background;
   border-left: 4px solid $sachgesamtheit-highlight;
-}
-
-.sachgesamtheit-table {
   padding: 0 16px;
 
   th,
