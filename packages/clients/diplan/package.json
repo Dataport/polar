@@ -55,6 +55,7 @@
     "@turf/boolean-intersects": "^7.2.0",
     "@turf/boolean-valid": "^7.2.0",
     "@types/geojson": "^7946.0.8",
+    "@polar/lib-custom-types": "^2.0.0",
     "diplanung-style": "^13.0.0",
     "just-compare": "^2.3.0",
     "lodash.debounce": "^4.0.8",

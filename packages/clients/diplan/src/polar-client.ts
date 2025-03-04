@@ -23,8 +23,7 @@ import iconMap from '../assets/dist/iconMap'
 import cssVariables from '../assets/dist/cssVariables'
 import locales from './locales'
 
-// TODO use when implemented
-// import GfiContent from './plugins/Gfi'
+import gfiContentComponent from './plugins/Gfi'
 
 import './index.css'
 import diplanModule from './store/module'
@@ -101,6 +100,7 @@ polarCore.addPlugins([
   }),
   Gfi({
     displayComponent: true,
+    gfiContentComponent,
     layoutTag: NineLayoutTag.TOP_LEFT,
     coordinateSources: [],
     layers: {},

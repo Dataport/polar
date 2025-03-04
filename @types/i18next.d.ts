@@ -22,6 +22,7 @@ import { resourcesDe as resourcesDeZoom } from '@polar/plugin-zoom/src/locales'
 
 // // // clients // // //
 
+import { resoucesDe as diplanGfiDe } from '@polar/client-diplan/src/plugins/Gfi/locales'
 import { dishDe } from '@polar/client-dish/src/locales'
 import { dishExportMapDe } from '@polar/client-dish/src/plugins/DishExportMap/locales'
 import { dishHeaderDe } from '@polar/client-dish/src/plugins/Header/locales'
@@ -38,6 +39,9 @@ import { geometrySearchDe } from '@polar/client-text-locator/src/plugins/Geometr
 const resources = {
   common: {
     ...resourcesDeCore,
+    diplan: {
+      gfi: diplanGfiDe.gfi
+    },
     dish: dishDe,
     meldemichel: meldemichelDe,
     snowbox: snowboxDe,
