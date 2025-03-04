@@ -105,7 +105,7 @@ export const searchMethods = {
 
 export const categoryProps = {
   categoryDenkmalsucheAutocomplete: {
-    label: 'Denkmalsuche Stichworte',
+    label: 'Denkmalsuche Stichworte Treffer',
   },
   categoryDenkmalsucheDishExtern: {
     label: 'Denkmalsuche Treffer',
