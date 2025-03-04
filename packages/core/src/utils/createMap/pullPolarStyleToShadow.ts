@@ -10,7 +10,18 @@ export const pullPolarStyleToShadow = (
     const polarStylesheets = stylesheets.filter((el) =>
       el.getAttribute('data-vite-dev-id')
     )
-    polarStylesheets.forEach((style) => shadowRoot.appendChild(style))
+    // TODO: This is a temporary workaround until diplanung-style provides the rule this way; this should not find it's way onto main
+    // TODO: For prod mode, add the :host to the polar.css by hand
+    polarStylesheets.forEach((style) => {
+      if (
+        style.attributes['data-vite-dev-id'].textContent.endsWith(
+          'diplanung-style/src/scss/main.scss'
+        )
+      ) {
+        style.textContent = `:host,${style.textContent}`
+      }
+      shadowRoot.appendChild(style)
+    })
   } else {
     const link = document.createElement('link')
     link.href = stylePath
