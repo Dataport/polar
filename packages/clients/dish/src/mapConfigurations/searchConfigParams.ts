@@ -16,6 +16,9 @@ export const searchMethods = {
     type: 'autocomplete',
     // NOTE exotic, doesn't need URL
     url: 'example.com',
+    queryParameters: {
+      maxFeatures: 120,
+    },
   },
   denkmalsucheDishExtern: {
     groupId: groupDenkmalsuche,
@@ -41,6 +44,7 @@ export const searchMethods = {
     groupId: groupDenkmalsuche,
     categoryId: 'categoryIdBkgSearch',
     queryParameters: {
+      maxFeatures: 120,
       filter: {
         bundesland: 'Schleswig-Holstein',
       },
