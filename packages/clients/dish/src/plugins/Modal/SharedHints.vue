@@ -4,7 +4,7 @@
       <v-icon>fa-xmark</v-icon>
     </v-btn>
     <v-card-title class="modal-title" tag="h1">
-      {{ mainTitle }}
+      {{ $t(mainTitle) }}
     </v-card-title>
     <v-card-title
       v-if="title"
@@ -12,7 +12,7 @@
       style="font-size: 1.3rem"
       tag="h2"
     >
-      {{ title }}
+      {{ $t(title) }}
     </v-card-title>
     <v-card-title
       v-if="subTitle"
@@ -20,7 +20,7 @@
       style="font-size: 1.1rem"
       tag="h3"
     >
-      {{ subTitle }}
+      {{ $t(subTitle) }}
     </v-card-title>
     <slot></slot>
     <v-card-actions class="modal-actions">
