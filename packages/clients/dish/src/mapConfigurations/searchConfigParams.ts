@@ -97,10 +97,11 @@ export const searchMethods = {
         flstnrzae: '([0-9]+)',
         gemarkung: '([A-Za-z]+)',
         flstkennz: '([0-9_]+)',
+        flur: '([0-9]+)',
       },
       patterns: [
-        '{{gemarkung}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
-        '{{gemarkung}} {{flstnrzae}}, {{flstkennz}}',
+        '{{gemarkung}} {{flur}}, {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+        '{{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
         '{{flstkennz}}',
       ],
     },
