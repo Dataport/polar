@@ -49,7 +49,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       },
       {
         id: dop20col,
-        title: `Luftbilder Farbe: © ${vermessungsAmtLink}`,
+        title: `Luftbild (Farbe): © ${vermessungsAmtLink}`,
       },
       attributionsAlkisWms,
       {
