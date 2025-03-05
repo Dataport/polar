@@ -22,7 +22,7 @@ const layersIntern: LayerConfiguration[] = [
     id: basemapGrau,
     visibility: false,
     type: 'background',
-    name: 'Basemap Graustufen',
+    name: 'Basemap.de Graustufen',
   },
   {
     id: bddEin,
@@ -40,7 +40,7 @@ const layersIntern: LayerConfiguration[] = [
     id: dop20col,
     visibility: false,
     type: 'background',
-    name: 'Luftbilder',
+    name: 'Luftbild (Farbe)',
   },
   {
     id: alkisWfs,
@@ -54,7 +54,7 @@ const layersIntern: LayerConfiguration[] = [
     id: alkisWms,
     visibility: false,
     type: 'mask',
-    name: 'ALKIS Flurstücke (ab 1:1000)',
+    name: 'ALKIS Flurstücke (ab 1:1.000)',
     minZoom: 10,
   },
   {
@@ -100,8 +100,8 @@ const layersIntern: LayerConfiguration[] = [
           '23': 'Baudenkmal mit Kontrollbedarf',
           '22': 'Gründenkmal mit Kontrollbedarf',
           '21': 'Gewässer mit Kontrollbedarf',
-          '20': 'Baudenkmal mit Kontrollbedarf (Flächen)',
-          '19': 'Gründenkmal mit Kontrollbedarf (Flächen)',
+          '20': 'Baudenkmal (Fläche) mit Kontrollbedarf',
+          '19': 'Gründenkmal (Fläche) mit Kontrollbedarf',
         },
         legend: true,
       },
@@ -145,7 +145,7 @@ const layersIntern: LayerConfiguration[] = [
     id: beschriftung,
     visibility: true,
     type: 'mask',
-    name: 'Beschriftung (ab 1:2500)',
+    name: 'Beschriftung (ab 1:2.500)',
     minZoom: 9,
   },
 ]
