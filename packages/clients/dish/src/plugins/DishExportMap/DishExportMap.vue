@@ -87,6 +87,7 @@ export default Vue.extend({
     ...mapGetters('plugin/pins', ['transformedCoordinate']),
     ...mapGetters('plugin/gfi', ['currentProperties']),
     ...mapGetters('plugin/scale', ['scaleValue', 'scaleWithUnit']),
+    ...mapGetters('plugin/fullscreen', ['isInFullscreen']),
     hasObjectProperties(): boolean {
       return this.currentProperties && this.currentProperties.objektid
     },
@@ -130,6 +131,7 @@ export default Vue.extend({
       this.exportMapAsPdfUrl ||= `${this.internalHost}/Content/Objekt/Kartenausgabe.aspx`
     },
     showRectangleAndDialog() {
+      if (this.isInFullscreen) document.exitFullscreen()
       if (this.transformedCoordinate.length === 0 || !this.overlay) {
         return
       }
