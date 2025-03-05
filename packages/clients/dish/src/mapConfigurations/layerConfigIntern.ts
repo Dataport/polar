@@ -43,19 +43,11 @@ const layersIntern: LayerConfiguration[] = [
     name: 'Luftbild (Farbe)',
   },
   {
-    id: alkisWfs,
-    visibility: false,
-    hideInMenu: true,
-    gfiMode: 'bboxDot',
+    id: beschriftung,
+    visibility: true,
     type: 'mask',
-    name: 'ALKIS Katasterbezirke (WFS) Infoabfragelayer',
-  },
-  {
-    id: alkisWms,
-    visibility: false,
-    type: 'mask',
-    name: 'ALKIS Flurstücke (ab 1:1.000)',
-    minZoom: 10,
+    name: 'Beschriftung (ab 1:2.500)',
+    minZoom: 9,
   },
   {
     id: denkmaelerWFS,
@@ -142,11 +134,19 @@ const layersIntern: LayerConfiguration[] = [
     },
   },
   {
-    id: beschriftung,
-    visibility: true,
+    id: alkisWfs,
+    visibility: false,
+    hideInMenu: true,
+    gfiMode: 'bboxDot',
     type: 'mask',
-    name: 'Beschriftung (ab 1:2.500)',
-    minZoom: 9,
+    name: 'ALKIS Katasterbezirke (WFS) Infoabfragelayer',
+  },
+  {
+    id: alkisWms,
+    visibility: false,
+    type: 'mask',
+    name: 'ALKIS Flurstücke (ab 1:1.000)',
+    minZoom: 10,
   },
 ]
 
