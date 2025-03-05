@@ -40,3 +40,11 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style lang="scss">
+@media (min-width: 1200px) {
+  .container {
+    padding: 0;
+  }
+}
+</style>
