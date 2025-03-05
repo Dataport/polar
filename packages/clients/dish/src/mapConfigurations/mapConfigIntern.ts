@@ -80,6 +80,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
   draw: {
     selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
     textStyle: {
+      textColor: '#e51313',
       font: {
         size: [10, 20, 30],
         family: 'Arial',
