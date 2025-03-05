@@ -49,9 +49,8 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       },
       {
         id: dop20col,
-        title: `Luftbilder Farbe: © ${vermessungsAmtLink}`,
+        title: `Luftbild (Farbe): © ${vermessungsAmtLink}`,
       },
-      attributionsAlkisWms,
       {
         id: denkmaelerWMS,
         title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
@@ -68,6 +67,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
         id: verwaltung,
         title: `Verwaltungsgrenzen: © ${vermessungsAmtLink}`,
       },
+      attributionsAlkisWms,
     ],
     staticAttributions: [
       `<span>Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/">BKG</a> 2024 <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf">Nutzungsbedingungen</a></span>`,
@@ -80,6 +80,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
   draw: {
     selectableDrawModes: ['Circle', 'LineString', 'Point', 'Polygon', 'Text'],
     textStyle: {
+      textColor: '#e51313',
       font: {
         size: [10, 20, 30],
         family: 'Arial',
