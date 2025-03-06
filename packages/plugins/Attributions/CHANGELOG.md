@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new configuration parameter `openLeft` to be able to configure the direction the attributions content opens in `renderType` `independent`.
+
 ## 1.4.0
 
 - Feature: Add option to configure used icons.

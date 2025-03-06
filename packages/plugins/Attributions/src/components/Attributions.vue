@@ -3,8 +3,14 @@
     v-if="renderType === 'independent'"
     class="polar-plugin-attributions-wrapper"
   >
-    <AttributionContent v-if="windowIsOpen" class="mr-2"></AttributionContent>
-    <AttributionButton></AttributionButton>
+    <template v-if="openLeft">
+      <AttributionContent v-if="windowIsOpen" class="mr-2" />
+      <AttributionButton />
+    </template>
+    <template v-else>
+      <AttributionButton />
+      <AttributionContent v-if="windowIsOpen" class="ml-2" />
+    </template>
   </div>
   <AttributionContent v-else></AttributionContent>
 </template>
@@ -22,7 +28,11 @@ export default Vue.extend({
     AttributionContent,
   },
   computed: {
-    ...mapGetters('plugin/attributions', ['renderType', 'windowIsOpen']),
+    ...mapGetters('plugin/attributions', [
+      'openLeft',
+      'renderType',
+      'windowIsOpen',
+    ]),
   },
 })
 </script>
