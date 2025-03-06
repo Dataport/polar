@@ -83,10 +83,6 @@ export const makeStoreModule = () => {
           ? icons?.close ?? 'fa-chevron-right'
           : icons?.open ?? 'fa-regular fa-copyright'
       },
-      openLeft: (_, __, ___, rootGetters) =>
-        typeof rootGetters.configuration.attributions?.openLeft === 'boolean'
-          ? rootGetters.configuration.attributions?.openLeft
-          : true,
       renderType: (_, __, ___, rootGetters) =>
         rootGetters.configuration.attributions?.renderType || 'independent',
       staticAttributions: (_, __, ___, rootGetters) =>

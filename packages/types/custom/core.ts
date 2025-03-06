@@ -153,7 +153,6 @@ export interface AttributionsConfiguration extends PluginOptions {
   initiallyOpen?: boolean
   listenToChanges?: string[]
   layerAttributions?: Attribution[]
-  openLeft?: boolean
   renderType?: RenderType
   staticAttributions?: string[]
   windowWidth?: number

@@ -28,11 +28,12 @@ export default Vue.extend({
     AttributionContent,
   },
   computed: {
-    ...mapGetters('plugin/attributions', [
-      'openLeft',
-      'renderType',
-      'windowIsOpen',
-    ]),
+    ...mapGetters(['configuration']),
+    ...mapGetters('plugin/attributions', ['renderType', 'windowIsOpen']),
+    // If the button is rendered independent and on the right, the content should be opened to the left
+    openLeft() {
+      return this.configuration.attributions.layoutTag?.includes('right')
+    },
   },
 })
 </script>
