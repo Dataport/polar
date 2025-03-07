@@ -419,6 +419,7 @@ export interface Menu {
 
 export interface IconMenuConfiguration extends PluginOptions {
   menus: Menu[]
+  component?: VueConstructor
   initiallyOpen?: string
 }
 

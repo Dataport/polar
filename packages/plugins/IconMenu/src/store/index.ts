@@ -91,8 +91,10 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      component: (_, __, ___, rootGetters) =>
+        rootGetters.configuration.iconMenu?.component || null,
       initiallyOpen: (_, __, ___, rootGetters) =>
-        rootGetters.configuration?.iconMenu?.initiallyOpen || '',
+        rootGetters.configuration.iconMenu?.initiallyOpen || '',
     },
   }
 

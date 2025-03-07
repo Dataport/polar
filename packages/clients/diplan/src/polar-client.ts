@@ -20,7 +20,6 @@ import iconMap from '../assets/dist/iconMap'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore | intentional, file is created precompilation (not versioned)
 import cssVariables from '../assets/dist/cssVariables'
-import DiplanIconMenu from './plugins/IconMenu'
 import GeoEditing from './plugins/GeoEditing'
 import locales from './locales'
 
@@ -44,7 +43,8 @@ polarCore.addPlugins([
     searchMethods: [],
   }),
   IconMenu({
-    displayComponent: false,
+    displayComponent: true,
+    layoutTag: NineLayoutTag.TOP_RIGHT,
     menus: [
       {
         plugin: LayerChooser({}),
@@ -57,10 +57,6 @@ polarCore.addPlugins([
         id: 'geoEditing',
       },
     ],
-  }),
-  DiplanIconMenu({
-    displayComponent: true,
-    layoutTag: NineLayoutTag.TOP_RIGHT,
   }),
   Attributions({
     displayComponent: true,

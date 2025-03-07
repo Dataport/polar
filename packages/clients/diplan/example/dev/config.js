@@ -1,3 +1,4 @@
+import { IconMenu } from '../../src/plugins/IconMenu'
 import { LayerChooser } from '../../src/plugins/LayerChooser'
 
 // service id map to avoid typos, ease renames
@@ -86,7 +87,6 @@ export default {
       name: `diplan.layers.${bstgasleitung}`,
     },
   ],
-  layerChooser: { component: LayerChooser },
   attributions: {
     layerAttributions: [
       {
@@ -170,6 +170,8 @@ export default {
       'plugin/pins/coordinatesAfterDrag',
     ],
   },
+  iconMenu: { component: IconMenu },
+  layerChooser: { component: LayerChooser },
   pins: {
     toZoomLevel: 9,
     movable: 'drag',

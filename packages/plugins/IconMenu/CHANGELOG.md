@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new configuration parameter `component` to be able to interchange the UI component of this plugin.
+
 ## 1.3.1
 
 - Chore: Update `@polar/lib-custom-types` to `v2.0.0`.
