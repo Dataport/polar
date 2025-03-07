@@ -511,6 +511,7 @@ export interface ZoomIcons {
 }
 
 export interface ZoomConfiguration extends PluginOptions {
+  component?: VueConstructor
   icons?: ZoomIcons
   renderType?: RenderType
   showMobile?: boolean
