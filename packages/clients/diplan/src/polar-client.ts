@@ -3,7 +3,6 @@ import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'
 import Export from '@polar/plugin-export'
-import Fullscreen from '@polar/plugin-fullscreen'
 import Gfi from '@polar/plugin-gfi'
 import IconMenu from '@polar/plugin-icon-menu'
 import LayerChooser from '@polar/plugin-layer-chooser'
@@ -21,6 +20,7 @@ import iconMap from '../assets/dist/iconMap'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore | intentional, file is created precompilation (not versioned)
 import cssVariables from '../assets/dist/cssVariables'
+import DiplanIconMenu from './plugins/IconMenu'
 import GeoEditing from './plugins/GeoEditing'
 import locales from './locales'
 
@@ -36,46 +36,6 @@ console.log(`DiPlanKarten-POLAR-Client v${packageInfo.version}.`)
 setLayout(NineLayout)
 
 polarCore.addPlugins([
-  GeoEditing({
-    displayComponent: true,
-    layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
-  }),
-  IconMenu({
-    displayComponent: true,
-    menus: [
-      {
-        plugin: LayerChooser({}),
-        icon: '$vuetify.icons.layer',
-        id: 'layerChooser',
-      },
-      {
-        plugin: Draw({
-          toastAction: 'plugin/toast/addToast',
-          addLoading: 'plugin/loadingIndicator/addLoadingKey',
-          removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-        }),
-        icon: '$vuetify.icons.ruler',
-        id: 'draw',
-      },
-      {
-        plugin: Fullscreen({ renderType: 'iconMenu' }),
-        // TODO icon: '$vuetify.icons.fullscreen',
-        id: 'fullscreen',
-      },
-      {
-        plugin: Zoom({
-          renderType: 'iconMenu',
-          // showMobile: true, // TODO enable to check icons, maybe style them
-          icons: {
-            zoomIn: '$vuetify.icons.plus',
-            zoomOut: '$vuetify.icons.minus',
-          },
-        }),
-        id: 'zoom',
-      },
-    ],
-    layoutTag: NineLayoutTag.TOP_RIGHT,
-  }),
   AddressSearch({
     addLoading: 'plugin/loadingIndicator/addLoadingKey',
     removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
@@ -83,18 +43,51 @@ polarCore.addPlugins([
     // must be overridden by client-specific configuration
     searchMethods: [],
   }),
+  IconMenu({
+    displayComponent: false,
+    menus: [
+      {
+        plugin: LayerChooser({}),
+        icon: '$vuetify.icons.layer-half',
+        id: 'layerChooser',
+      },
+      {
+        plugin: GeoEditing({}),
+        icon: '$vuetify.icons.placeholder',
+        id: 'geoEditing',
+      },
+    ],
+  }),
+  DiplanIconMenu({
+    displayComponent: true,
+    layoutTag: NineLayoutTag.TOP_RIGHT,
+  }),
   Attributions({
     displayComponent: true,
-    layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+    layoutTag: NineLayoutTag.BOTTOM_LEFT,
     listenToChanges: [
       'plugin/zoom/zoomLevel',
       'plugin/layerChooser/activeBackgroundId',
       'plugin/layerChooser/activeMaskIds',
     ],
     icons: {
-      close: '$vuetify.icons.chevron-right',
+      close: '$vuetify.icons.chevron-left',
       open: '$vuetify.icons.info',
     },
+  }),
+  Zoom({
+    layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+    displayComponent: true,
+    icons: {
+      zoomIn: '$vuetify.icons.plus',
+      zoomOut: '$vuetify.icons.minus',
+    },
+  }),
+  Draw({
+    displayComponent: false,
+    toastAction: 'plugin/toast/addToast',
+    addLoading: 'plugin/loadingIndicator/addLoadingKey',
+    removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
   }),
   LoadingIndicator({
     displayComponent: true,
