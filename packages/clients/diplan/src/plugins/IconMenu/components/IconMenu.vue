@@ -179,18 +179,4 @@ export default Vue.extend({
   top: calc(100% + 0.5em);
   right: -0.5em;
 }
-
-.icon-menu-list-item-content-scrollable-y {
-  z-index: 1;
-  overflow-y: auto;
-  scrollbar-gutter: stable;
-
-  &::v-deep > * {
-    /* required for v-card default shadow
-     * that, without, sometimes produces scrollbars */
-    margin: 2px;
-    top: -2px;
-    right: -2px;
-  }
-}
 </style>
