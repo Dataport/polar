@@ -21,7 +21,6 @@ import iconMap from '../assets/dist/iconMap'
 // @ts-ignore | intentional, file is created precompilation (not versioned)
 import cssVariables from '../assets/dist/cssVariables'
 import DiplanIconMenu from './plugins/IconMenu'
-import DiplanLayerChooser from './plugins/LayerChooser'
 import GeoEditing from './plugins/GeoEditing'
 import locales from './locales'
 
@@ -44,12 +43,11 @@ polarCore.addPlugins([
     // must be overridden by client-specific configuration
     searchMethods: [],
   }),
-  LayerChooser({ displayComponent: false }),
   IconMenu({
     displayComponent: false,
     menus: [
       {
-        plugin: DiplanLayerChooser({}),
+        plugin: LayerChooser({}),
         icon: '$vuetify.icons.layer-half',
         id: 'diplanLayerChooser',
       },

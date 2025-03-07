@@ -1,3 +1,5 @@
+import { LayerChooser } from '../../src/plugins/LayerChooser'
+
 // service id map to avoid typos, ease renames
 const basemap = 'basemapde_farbe'
 const xplanwms = 'xplanwms'
@@ -84,6 +86,7 @@ export default {
       name: `diplan.layers.${bstgasleitung}`,
     },
   ],
+  layerChooser: { component: LayerChooser },
   attributions: {
     layerAttributions: [
       {

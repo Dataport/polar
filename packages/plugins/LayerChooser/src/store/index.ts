@@ -225,6 +225,10 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      component: (_, __, ___, rootGetters) =>
+        rootGetters.configuration.layerChooser?.component
+          ? rootGetters.configuration.layerChooser.component
+          : null,
       disabledBackgrounds(_, { availableBackgrounds, backgrounds }) {
         return backgrounds
           .map(({ id }) =>

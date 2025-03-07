@@ -422,6 +422,10 @@ export interface IconMenuConfiguration extends PluginOptions {
   initiallyOpen?: string
 }
 
+export interface LayerChooserConfiguration {
+  component?: VueConstructor
+}
+
 export interface LegendConfiguration extends PluginOptions {
   icons?: {
     open?: string
@@ -677,6 +681,7 @@ export interface MapConfig extends MasterportalApiConfig {
   geoLocation?: GeoLocationConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
+  layerChooser?: LayerChooserConfiguration
   legend?: LegendConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
