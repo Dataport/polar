@@ -1,5 +1,11 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import client, { MapInstance } from '@polar/core'
 import merge from 'lodash.merge'
+import { getWfsFeatures } from '@polar/lib-get-features'
+import { getPointCoordinate } from '@polar/plugin-pins'
+import { Feature } from 'ol'
+import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
+import { GeoJSON } from 'ol/format'
 import packageInfo from '../package.json'
 import { navigateToDenkmal } from './utils/navigateToDenkmal'
 import { addPlugins } from './addPlugins'
@@ -7,9 +13,10 @@ import { services } from './services'
 import { getMapConfiguration } from './mapConfigurations/mapConfig'
 import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
-import { zoomToFeatureById } from './utils/zoomToFeatureById'
-import { DishUrlParams } from './types'
+import selectionLayer from './selectionLayer'
 
+// import { zoomToFeatureById } from './utils/zoomToFeatureById'
+import { DishUrlParams } from './types'
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
 
@@ -30,14 +37,13 @@ export default {
         configOverride || {}
       ),
     })
-
     const parameters = new URL(document.location as unknown as string)
       .searchParams
     // using naming from backend to avoid multiple names for same thing
     const objektId = parameters.get('ObjektID')
     if (mode === 'INTERN') {
       subscribeToExportedMap(map)
-      if (typeof objektId === 'string' && objektId !== '') {
+      if (typeof objektId === 'string') {
         zoomToInternalFeature(map, objektId, urlParams)
       }
     } else if (typeof objektId === 'string' && mode === 'EXTERN') {
@@ -71,16 +77,43 @@ function zoomToInternalFeature(
   objektId: string,
   urlParams: DishUrlParams
 ) {
-  zoomToFeatureById(
-    instance,
-    objektId,
-    `${urlParams.internServicesBaseUrl}/wfs`,
-    {
-      fieldName: 'objektid',
-      featurePrefix: 'app',
-      typeName: 'TBLGIS_ORA',
-      xmlns: 'http://www.deegree.org/app',
-      useRightHandWildcard: false,
-    }
-  )
+  getWfsFeatures(null, `${urlParams.internServicesBaseUrl}/wfs`, objektId, {
+    fieldName: 'objektid',
+    featurePrefix: 'app',
+    typeName: 'TBLGIS_ORA',
+    xmlns: 'http://www.deegree.org/app',
+    useRightHandWildcard: false,
+  })
+    .then((featureCollection: FeatureCollection) => {
+      const { features } = featureCollection
+      if (features.length === 0) {
+        throw Error(`No features for ID ${objektId} found.`)
+      }
+      if (features.length > 1) {
+        console.warn(
+          `@polar/client-dish: More than one feature found for id ${objektId}. Arbitrarily using first-returned.`
+        )
+      }
+      const feature = features[0]
+      const geometry = feature.geometry as Exclude<Geometry, GeometryCollection>
+      const centerCoord = getPointCoordinate(
+        'EPSG:25832',
+        'EPSG:25832',
+        geometry.type,
+        geometry.coordinates
+      )
+      instance.$store.getters.map.getView().setCenter(centerCoord)
+      instance.$store.getters.map.getView().setZoom(11)
+      selectionLayer
+        .getSource()
+        ?.addFeature(new GeoJSON().readFeature(feature) as Feature)
+      instance.$store.getters.map.addLayer(selectionLayer)
+    })
+    .catch((error) => {
+      console.error('@polar/client-dish', error)
+      instance.$store.dispatch('plugin/toast/addToast', {
+        type: 'warning',
+        text: 'dish.idNotFound',
+      })
+    })
 }
