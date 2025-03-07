@@ -14,8 +14,6 @@ import { getMapConfiguration } from './mapConfigurations/mapConfig'
 import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
 import selectionLayer from './selectionLayer'
-
-// import { zoomToFeatureById } from './utils/zoomToFeatureById'
 import { DishUrlParams } from './types'
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
