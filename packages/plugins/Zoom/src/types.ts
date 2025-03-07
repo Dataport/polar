@@ -12,4 +12,5 @@ export interface ZoomGetters extends ZoomState {
   minimumZoomLevelActive: boolean
   renderType: 'iconMenu' | 'independent'
   showMobile: boolean
+  showZoomSlider: boolean
 }
