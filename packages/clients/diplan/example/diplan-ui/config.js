@@ -1,5 +1,6 @@
 import { IconMenu } from '../../src/plugins/IconMenu'
 import { LayerChooser } from '../../src/plugins/LayerChooser'
+import { Zoom } from '../../src/plugins/Zoom'
 
 // service id map to avoid typos, ease renames
 const basemap = 'basemapde_farbe'
@@ -68,6 +69,7 @@ export default {
     minLength: 3,
     waitMs: 300,
   },
+  geoEditing: { displayComponent: true },
   layers: [
     {
       id: basemap,
@@ -195,4 +197,5 @@ export default {
       atZoomLevel: 0,
     },
   },
+  zoom: { component: Zoom },
 }
