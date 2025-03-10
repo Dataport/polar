@@ -21,6 +21,14 @@ export const diplanDe = {
       },
     },
   },
+  plugins: {
+    iconMenu: {
+      hints: {
+        diplanLayerChooser: 'Kartenauswahl',
+        geoEditing: 'Digitalisierungswerkzeuge',
+      },
+    },
+  },
 } as const
 
 const locales: Locale[] = [
