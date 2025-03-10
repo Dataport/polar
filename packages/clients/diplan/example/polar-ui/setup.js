@@ -69,6 +69,11 @@ export default (client, layerConf, config) => {
         'action-address-search-filler'
       )
       const actionLasso = document.getElementById('action-lasso')
+      const actionSetWidthHeight = document.getElementById(
+        'action-set-width-height'
+      )
+      const actionWidth = document.getElementById('action-width')
+      const actionHeight = document.getElementById('action-height')
 
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
@@ -97,6 +102,12 @@ export default (client, layerConf, config) => {
       )
       actionLasso.onclick = () =>
         mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')
+      actionSetWidthHeight.onclick = () => {
+        document.getElementById('polarstern-wrapper').style.width =
+          actionWidth.value
+        document.getElementById('polarstern-wrapper').style.height =
+          actionHeight.value
+      }
 
       const htmlRevisedDrawExport = document.getElementById(
         'subscribed-revised-draw-export'

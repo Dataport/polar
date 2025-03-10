@@ -27,6 +27,23 @@
             Adresssuche (erstbestes Ergebnis):
             <input id="action-address-search-filler"/>
           </label>
+          <fieldset>
+            <legend>Höhe/Breite setzen</legend>
+            <p>Die Festlegung der Größe des POLAR-Klienten erfolgt von außen. In diesem Beispiel können die CSS-Eigenschaften für Höhe/Breite zur Laufzeit überschrieben werden; eleganter für eine produktive Lösung wäre etwa ein Wechsel des Klassennamens auf dem Element `${gewaehlteID}-wrapper`.</p>
+            <ul>
+              <li>Beispieleingaben für Breite: "50%", "100%", "400px"</li>
+              <li>Beispieleingaben für Höhe: "400px", "90vh"</li>
+            </ul>
+            <label>
+              Breite:
+              <input id="action-width"/>
+            </label>
+            <label>
+              Höhe:
+              <input id="action-height"/>
+            </label>
+            <button id="action-set-width-height">Breite/Höhe im CSS überschreiben</button>
+          </fieldset>
           <br/>
         </div>
         <h3 class="padded-x">Klient</h3>
