@@ -6,6 +6,20 @@ export const diplanDe = {
       metaInformationRetrieval:
         'Der Bezug von Metadaten zur gezeichneten Geometrie ist fehlgeschlagen. Die Geometrie wird ohne Metadaten weitergereicht.',
     },
+    geoEditing: {
+      hints: {
+        parcel: 'Flurstücke anzeigen',
+        showCorners: 'Stützpunkte anzeigen',
+        drawPolygon: 'Neue Fläche einzeichnen',
+        drawCircle: 'Kreis einzeichnen',
+        merge: 'Flächen kombinieren',
+        cut: 'Durchschneiden',
+        lasso: 'Lasso',
+        edit: 'Bearbeiten',
+        revert: 'Rückgängig',
+        delete: 'Fläche entfernen',
+      },
+    },
   },
 } as const
 
