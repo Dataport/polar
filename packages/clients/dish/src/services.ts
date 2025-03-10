@@ -48,6 +48,7 @@ const dop20ColService = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
+  legendURL: 'ignore',
 }
 
 const bddColService = {
@@ -60,6 +61,7 @@ const bddColService = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
+  legendURL: 'ignore',
 }
 
 const bddEinService = {
@@ -72,6 +74,7 @@ const bddEinService = {
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
+  legendURL: 'ignore',
 }
 
 const servicesExtern = [
