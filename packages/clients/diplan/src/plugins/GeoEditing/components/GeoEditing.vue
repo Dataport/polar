@@ -1,12 +1,11 @@
 <template>
   <div>
     <ButtonView
-      v-if="configuration.geoEditingButtonView"
+      v-if="configuration.renderType === 'independent'"
       :method="updateOpenTool"
       :tools="tools"
     />
-    <!-- TODO: Implement MenuView which is default -->
-    <MenuView v-else />
+    <MenuView v-else :method="updateOpenTool" :tools="tools" />
   </div>
 </template>
 
