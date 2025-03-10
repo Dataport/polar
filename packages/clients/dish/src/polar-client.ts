@@ -41,6 +41,7 @@ export default {
     const objektId = parameters.get('ObjektID')
     if (mode === 'INTERN') {
       subscribeToExportedMap(map)
+      map.$store.commit('plugin/selectionChooser/setObjectId', objektId)
       if (typeof objektId === 'string') {
         zoomToInternalFeature(map, objektId, urlParams)
       }

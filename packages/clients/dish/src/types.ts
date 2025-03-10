@@ -124,3 +124,7 @@ export interface DishMapConfig
     urlParams: DishUrlParams
   }
 }
+
+export interface SelectionChooserState {
+  objectId: number
+}

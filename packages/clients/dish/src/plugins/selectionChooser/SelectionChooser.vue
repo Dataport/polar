@@ -1,0 +1,46 @@
+<template>
+  <div v-if="objectId">
+    <v-tooltip top>
+      <template #activator="{ on, attrs }">
+        <v-btn
+          elevation="2"
+          class="ma-2"
+          color="primary"
+          small
+          fab
+          aria-label="Auswahlobjekt"
+          v-bind="attrs"
+          v-on="on"
+          @click="toggleVisibility"
+        >
+          <v-icon>{{ isVisible ? 'fa fa-eye' : 'fa-eye-slash' }}</v-icon>
+        </v-btn>
+      </template>
+      <span>{{ $t('plugins.dish.selectionChooser.visibility') }}</span>
+    </v-tooltip>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import { mapGetters } from 'vuex'
+import selectionLayer from '../../selectionLayer'
+
+export default Vue.extend({
+  name: 'SelectionChooser',
+  data: () => ({
+    isVisible: true,
+  }),
+  computed: {
+    ...mapGetters('plugin/selectionChooser', ['objectId']),
+  },
+  methods: {
+    toggleVisibility() {
+      this.isVisible = !this.isVisible
+      selectionLayer.setVisible(this.isVisible)
+    },
+  },
+})
+</script>
+
+<style lang="scss" scoped></style>

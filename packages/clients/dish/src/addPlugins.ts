@@ -33,6 +33,7 @@ import DishHeader from './plugins/Header'
 import { MODE } from './enums'
 import { DishGfiIntern, DishGfiExtern } from './plugins/Gfi'
 import DishExportMap from './plugins/DishExportMap'
+import SelectionChooser from './plugins/selectionChooser'
 import { searchMethods } from './mapConfigurations/searchConfigParams'
 
 const gfiConfig = (mode: keyof typeof MODE) => {
@@ -111,6 +112,10 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
 
   core.addPlugins([
     iconMenu,
+    SelectionChooser({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.TOP_RIGHT,
+    }),
     DishModal({
       displayComponent: true,
       layoutTag: NineLayoutTag.TOP_LEFT,
