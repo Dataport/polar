@@ -7,7 +7,7 @@ export const diplanDe = {
         'Der Bezug von Metadaten zur gezeichneten Geometrie ist fehlgeschlagen. Die Geometrie wird ohne Metadaten weitergereicht.',
     },
     geoEditing: {
-      hints: {
+      tools: {
         parcel: 'Flurstücke anzeigen',
         showCorners: 'Stützpunkte anzeigen',
         drawPolygon: 'Neue Fläche einzeichnen',
