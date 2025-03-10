@@ -131,7 +131,16 @@ export default Vue.extend({
       this.exportMapAsPdfUrl ||= `${this.internalHost}/Content/Objekt/Kartenausgabe.aspx`
     },
     showRectangleAndDialog() {
-      if (this.isInFullscreen) document.exitFullscreen()
+      if (this.isInFullscreen) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen()
+          // @ts-expect-error | Error: 'TS2339: Property 'webkitExitFullscreen' does not exist on type 'Element'.'; For information refer to https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API#browser_compatibility
+        } else if (document.webkitExitFullscreen) {
+          // @ts-expect-error | Error: 'TS2339: Property 'webkitExitFullscreen' does not exist on type 'Element'.'; For information refer to https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API#browser_compatibility
+          document.webkitExitFullscreen() // iOS Safari
+        }
+        this.setIsInFullscreen(!this.isInFullscreen)
+      }
       if (this.transformedCoordinate.length === 0 || !this.overlay) {
         return
       }
