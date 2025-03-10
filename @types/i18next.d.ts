@@ -23,6 +23,7 @@ import { resourcesDe as resourcesDeZoom } from '@polar/plugin-zoom/src/locales'
 // // // clients // // //
 
 import { dishDe } from '@polar/client-dish/src/locales'
+import { dishExportMapDe } from '@polar/client-dish/src/plugins/DishExportMap/locales'
 import { dishHeaderDe } from '@polar/client-dish/src/plugins/Header/locales'
 import { dishModalDe } from '@polar/client-dish/src/plugins/Modal/locales'
 import { meldemichelDe } from '@polar/client-meldemichel/src/locales'
@@ -45,6 +46,7 @@ const resources = {
       addressSearch: resourcesDeAddressSearch.plugins.addressSearch,
       attributions: resourcesDeAttributions.plugins.attributions,
       dish: {
+        ...dishExportMapDe,
         ...dishHeaderDe,
         ...dishModalDe
       },

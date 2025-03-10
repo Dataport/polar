@@ -3,7 +3,7 @@ import { Locale } from '@polar/lib-custom-types'
 export const resourcesDe = {
   plugins: {
     layerChooser: {
-      backgroundTitle: 'Hintergrundkarte',
+      backgroundTitle: 'Hintergrundkarten',
       maskTitle: 'Fachdaten',
       tooltipDisabledLayer: 'Auf der aktuellen Zoomstufe nicht verfügbar.',
       optionsHeader: 'Optionen für Layer "{{name}}"',
