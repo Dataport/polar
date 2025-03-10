@@ -38,6 +38,7 @@ export default {
       },
     },
   ],
+  geoEditing: { displayComponent: true },
   addressSearch: {
     displayComponent: true,
     searchMethods: [
@@ -113,7 +114,6 @@ export default {
     ],
   },
   draw: {
-    enableOptions: true,
     lassos: [
       {
         id: flurstuecke,
@@ -122,19 +122,8 @@ export default {
         id: xplanwfs,
       },
     ],
-    measureOptions: {
-      metres: true,
-      kilometres: true,
-      hectares: true,
-    },
     selectableDrawModes: ['Point', 'LineString', 'Circle', 'Text', 'Polygon'],
     snapTo: [xplanwfs, flurstuecke],
-    textStyle: {
-      font: {
-        size: [10, 20, 30],
-        family: 'Arial',
-      },
-    },
     style: {
       fill: { color: 'rgb(51 117 212 / 50%)' },
       stroke: {
@@ -148,7 +137,7 @@ export default {
     },
   },
   export: {
-    displayComponent: true,
+    displayComponent: false,
     showJpg: false,
     showPdf: false,
   },
