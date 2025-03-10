@@ -6,6 +6,7 @@
 - Feature: Add a `"snapTo"` key to the configuration that allows defining vector layers to snap to while drawing, editing, and translating.
 - Feature: Add a lasso mode that allows copying up features from a vector layer that are contained within the user's hand drawn polygon. This also adds the fields `addLoading`, `removeLoading`, and `toastAction` for usage in the `lassos`.
 - Feature: Interactions requiring dragging are now marked with the POLAR flag `_isPolarDragLikeInteraction`.
+- Fix: Configured font colours were not used on Text draw. This has been resolved.
 
 ## 3.0.0
 
