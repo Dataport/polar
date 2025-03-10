@@ -13,6 +13,7 @@ export type ExtendedDrawMode = Mode | DrawExtension
 export interface DiplanConfiguration {
   mergeToMultiGeometries?: boolean
   validateGeoJson?: boolean
+  renderType?: 'iconMenu' | 'independent'
   metaServices?: MetaService[]
 }
 

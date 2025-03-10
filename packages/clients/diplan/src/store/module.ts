@@ -47,6 +47,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
       mergeToMultiGeometries: false,
       validateGeometries: true,
       metaServices: [],
+      renderType: 'iconMenu',
       // @ts-expect-error | local override for client
       ...(rootGetters.configuration?.diplan || {}),
     }),
