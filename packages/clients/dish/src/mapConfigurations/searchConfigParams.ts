@@ -16,6 +16,9 @@ export const searchMethods = {
     type: 'autocomplete',
     // NOTE exotic, doesn't need URL
     url: 'example.com',
+    queryParameters: {
+      maxFeatures: 120,
+    },
   },
   denkmalsucheDishExtern: {
     groupId: groupDenkmalsuche,
@@ -41,6 +44,7 @@ export const searchMethods = {
     groupId: groupDenkmalsuche,
     categoryId: 'categoryIdBkgSearch',
     queryParameters: {
+      maxFeatures: 120,
       filter: {
         bundesland: 'Schleswig-Holstein',
       },
@@ -93,10 +97,11 @@ export const searchMethods = {
         flstnrzae: '([0-9]+)',
         gemarkung: '([A-Za-z]+)',
         flstkennz: '([0-9_]+)',
+        flur: '([0-9]+)',
       },
       patterns: [
-        '{{gemarkung}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
-        '{{gemarkung}} {{flstnrzae}}, {{flstkennz}}',
+        '{{gemarkung}} {{flur}}, {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+        '{{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
         '{{flstkennz}}',
       ],
     },
@@ -105,7 +110,7 @@ export const searchMethods = {
 
 export const categoryProps = {
   categoryDenkmalsucheAutocomplete: {
-    label: 'Denkmalsuche Stichworte',
+    label: 'Denkmalsuche Stichworte Treffer',
   },
   categoryDenkmalsucheDishExtern: {
     label: 'Denkmalsuche Treffer',

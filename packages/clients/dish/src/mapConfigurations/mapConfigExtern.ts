@@ -155,7 +155,7 @@ export const mapConfigExtern: DishMapConfig = {
       [searchMethods.denkmalsucheAutocomplete.categoryId]:
         categoryProps[searchMethods.denkmalsucheAutocomplete.categoryId],
       [searchMethods.denkmalsucheDishExtern.categoryId]:
-        categoryProps[searchMethods.denkmalsucheAutocomplete.categoryId],
+        categoryProps[searchMethods.denkmalsucheDishExtern.categoryId],
       [searchMethods.bkgSearch.categoryId]:
         categoryProps[searchMethods.bkgSearch.categoryId],
       [searchMethods.alkisSearch.categoryId]:
