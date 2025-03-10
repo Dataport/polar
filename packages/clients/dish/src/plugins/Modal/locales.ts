@@ -17,12 +17,12 @@ export const dishModalDe = {
       closeInfo: "Los geht's!",
     },
     hints: {
-      /* NOTE
-       * There's lots of special formatting and links in that
-       * text block, and no multilingual support in sight.
-       * For that reason, this part is currently maintained
-       * in the Hints.vue file, until the need arises.
-       */
+      mainTitle: 'Denkmalkarte Schleswig-Holstein',
+      title: 'Benutzungshinweise',
+      subTitle: 'Allgemeine Informationen',
+    },
+    hintsIntern: {
+      mainTitle: 'Interne Denkmalkarte Schleswig-Holstein',
     },
   },
 } as const
