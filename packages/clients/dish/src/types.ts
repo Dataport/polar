@@ -127,11 +127,11 @@ export interface DishMapConfig
   }
 }
 
-export interface SelectionChooserState {
+export interface SelectionObjectState {
   objectId: number
 }
 
-export interface SelectionChooserOptions extends PluginOptions {
+export interface SelectionObjectOptions extends PluginOptions {
   renderType?: RenderType
   targetContainerId?: string
 }

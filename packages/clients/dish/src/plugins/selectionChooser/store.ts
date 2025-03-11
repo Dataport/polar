@@ -3,15 +3,15 @@ import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { SelectionChooserState } from '../../types'
+import { SelectionObjectState } from '../../types'
 
-const getInitialState = (): SelectionChooserState => ({
+const getInitialState = (): SelectionObjectState => ({
   objectId: 0,
 })
 
-const SelectionChooserModule: PolarModule<
-  SelectionChooserState,
-  SelectionChooserState
+const selectionObjectModule: PolarModule<
+  SelectionObjectState,
+  SelectionObjectState
 > = {
   namespaced: true,
   state: getInitialState,
@@ -19,4 +19,4 @@ const SelectionChooserModule: PolarModule<
   getters: { ...generateSimpleGetters(getInitialState()) },
 }
 
-export default SelectionChooserModule
+export default selectionObjectModule

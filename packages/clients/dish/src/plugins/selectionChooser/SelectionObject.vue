@@ -16,7 +16,7 @@
           <v-icon>{{ isVisible ? 'fa fa-eye' : 'fa-eye-slash' }}</v-icon>
         </v-btn>
       </template>
-      <span>{{ $t('plugins.dish.selectionChooser.visibility') }}</span>
+      <span>{{ $t('plugins.dish.selectionObject.visibility') }}</span>
     </v-tooltip>
   </div>
 </template>
@@ -27,12 +27,12 @@ import { mapGetters } from 'vuex'
 import selectionLayer from '../../selectionLayer'
 
 export default Vue.extend({
-  name: 'SelectionChooser',
+  name: 'SelectionObject',
   data: () => ({
     isVisible: true,
   }),
   computed: {
-    ...mapGetters('plugin/selectionChooser', ['objectId']),
+    ...mapGetters('plugin/selectionObject', ['objectId']),
   },
   methods: {
     toggleVisibility() {

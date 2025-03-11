@@ -1,13 +1,13 @@
 import { Locale } from '@polar/lib-custom-types'
 
 export const dishSelectionMapDe = {
-  selectionChooser: {
+  selectionObject: {
     visibility: 'Sichtbarkeit des Auswahlobjekts einstellen.',
   },
 } as const
 
 export const dishSelectionMapEn = {
-  selectionChooser: {
+  selectionObject: {
     visibility: 'Toggle visibility of selection object.',
   },
 } as const
