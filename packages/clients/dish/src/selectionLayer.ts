@@ -10,9 +10,6 @@ const selectionLayer = new VectorLayer({
       color: '#FFFF00',
       width: 3,
     }),
-    fill: new Fill({
-      color: 'rgb(255, 255, 255, 0.3)',
-    }),
   }),
 })
 
