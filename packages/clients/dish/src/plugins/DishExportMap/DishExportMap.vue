@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
 import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
 
@@ -113,6 +113,7 @@ export default Vue.extend({
     }
   },
   methods: {
+    ...mapMutations('plugin/fullscreen', ['setIsInFullscreen']),
     configureSettings() {
       this.internServicesBaseUrl =
         this.configuration.dishExportMap.urlParams.internServicesBaseUrl
