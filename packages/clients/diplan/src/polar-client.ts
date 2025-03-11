@@ -101,7 +101,7 @@ polarCore.addPlugins([
   Gfi({
     displayComponent: true,
     gfiContentComponent,
-    layoutTag: NineLayoutTag.TOP_LEFT,
+    layoutTag: NineLayoutTag.TOP_RIGHT,
     coordinateSources: [],
     layers: {},
   }),
