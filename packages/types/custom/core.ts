@@ -146,6 +146,7 @@ export interface Attribution {
 
 /** Attributions Module Configuration */
 export interface AttributionsConfiguration extends PluginOptions {
+  buttonComponent?: VueConstructor
   icons?: {
     open?: string
     close?: string

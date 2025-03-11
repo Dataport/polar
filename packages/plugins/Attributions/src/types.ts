@@ -1,4 +1,5 @@
 import { Attribution, AttributionsConfiguration } from '@polar/lib-custom-types'
+import { VueConstructor } from 'vue'
 
 export interface AttributionsState {
   attributions: Attribution[]
@@ -8,6 +9,7 @@ export interface AttributionsState {
 }
 
 export interface AttributionsGetters extends AttributionsState {
+  buttonComponent: VueConstructor
   configuration: AttributionsConfiguration
   initiallyOpen: boolean
   /** Array on store paths to listen to for changes */

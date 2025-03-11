@@ -5,10 +5,10 @@
   >
     <template v-if="openLeft">
       <AttributionContent v-if="windowIsOpen" class="mr-2" />
-      <AttributionButton />
+      <component :is="buttonComponent" />
     </template>
     <template v-else>
-      <AttributionButton />
+      <component :is="buttonComponent" />
       <AttributionContent v-if="windowIsOpen" class="ml-2" />
     </template>
   </div>
@@ -29,6 +29,7 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters('plugin/attributions', [
+      'buttonComponent',
       'configuration',
       'renderType',
       'windowIsOpen',

@@ -5,6 +5,7 @@ import {
 import { PolarModule } from '@polar/lib-custom-types'
 import * as lib from '../utils/lib'
 import { AttributionsGetters, AttributionsState } from '../types'
+import AttributionButton from '../components/AttributionButton.vue'
 
 const getInitialState = (): AttributionsState => ({
   layer: [],
@@ -73,6 +74,8 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      buttonComponent: (_, getters) =>
+        getters.configuration.buttonComponent || AttributionButton,
       configuration: (_, __, ___, rootGetters) =>
         rootGetters.configuration.attributions || {},
       listenToChanges: (_, getters) =>
