@@ -33,7 +33,7 @@ import DishHeader from './plugins/Header'
 import { MODE } from './enums'
 import { DishGfiIntern, DishGfiExtern } from './plugins/Gfi'
 import DishExportMap from './plugins/DishExportMap'
-import SelectionObject from './plugins/selectionChooser'
+import SelectionObject from './plugins/SelectionObject'
 import { searchMethods } from './mapConfigurations/searchConfigParams'
 
 const gfiConfig = (mode: keyof typeof MODE) => {
