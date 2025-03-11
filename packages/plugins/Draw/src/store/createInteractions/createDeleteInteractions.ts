@@ -12,9 +12,9 @@ const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {
   })
 
   if (found) {
-    map.getTargetElement().style = 'cursor: pointer'
+    map.getTargetElement().setAttribute('style', 'cursor: pointer')
   } else {
-    map.getTargetElement().style = ''
+    map.getTargetElement().setAttribute('style', '')
   }
 }
 
@@ -51,7 +51,7 @@ export default function (
   // @ts-expect-error | local piggyback
   selectInteraction._onRemove = () => {
     rootGetters.map.un('pointermove', boundPointerStyle)
-    rootGetters.map.getTargetElement().style = ''
+    rootGetters.map.getTargetElement().setAttribute('style', '')
   }
 
   return [selectInteraction, dragBoxInteraction]
