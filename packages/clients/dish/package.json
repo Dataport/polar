@@ -21,6 +21,9 @@
     "build": "rimraf dist && vite build && copyfiles -f src/html/**/* dist",
     "dev": "vite --host"
   },
+  "peerDependencies": {
+    "@repositoryname/vuex-generators": "^1.1.2"
+  },
   "devDependencies": {
     "@masterportal/masterportalapi": "2.45.0",
     "@polar/core": "^3.0.0",

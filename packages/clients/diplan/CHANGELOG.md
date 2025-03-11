@@ -1,5 +1,5 @@
 # CHANGELOG
 
-## unpublished
+## 1.0.0-alpha.4
 
-Initial release.
+Alpha release for integration test.

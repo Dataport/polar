@@ -25,7 +25,7 @@ export default function (
       textInput,
       textSize,
       drawSource,
-      configuration,
+      drawConfiguration: configuration,
     })
   }
   const style = createDrawStyle(

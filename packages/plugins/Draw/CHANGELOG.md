@@ -9,6 +9,7 @@
 - Feature: An action `setInteractions` has been added to allow clients to bring their own geometry operations.
 - Feature: Expose the `getSnaps` function. Intended to be used together with the `setInteractions` action only.
 - Feature: Expose `Mode` type of Draw plugin for client-side extensions.
+- Fix: Configured font colours were not used on Text draw. This has been resolved.
 
 ## 3.0.0
 
