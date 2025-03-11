@@ -15,6 +15,7 @@ import createLassoInteractions from './createInteractions/createLassoInteraction
 import modifyDrawStyle from './createInteractions/modifyDrawStyle'
 import modifyTextStyle from './createInteractions/modifyTextStyle'
 import createDrawInteractions from './createInteractions/createDrawInteractions'
+import createDeleteInteractions from './createInteractions/createDeleteInteractions'
 
 // OK for module action set creation
 // eslint-disable-next-line max-lines-per-function
@@ -29,6 +30,7 @@ export const makeActions = () => {
     createLassoInteractions,
     createModifyInteractions,
     createTranslateInteractions,
+    createDeleteInteractions,
     createTextInteractions,
     modifyDrawStyle,
     modifyTextStyle,
