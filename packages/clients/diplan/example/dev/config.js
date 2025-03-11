@@ -1,3 +1,4 @@
+import { AttributionButton } from '../../src/plugins/Attributions'
 import { IconMenu } from '../../src/plugins/IconMenu'
 import { LayerChooser } from '../../src/plugins/LayerChooser'
 import { Zoom } from '../../src/plugins/Zoom'
@@ -101,6 +102,7 @@ export default {
     },
   ],
   attributions: {
+    buttonComponent: AttributionButton,
     layerAttributions: [
       {
         id: basemap,
