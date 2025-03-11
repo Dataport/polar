@@ -8,7 +8,7 @@
           color="primary"
           small
           fab
-          aria-label="Auswahlobjekt"
+          :aria-label="$t('plugins.dish.selectionObject.object')"
           v-bind="attrs"
           v-on="on"
           @click="toggleVisibility"
