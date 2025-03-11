@@ -1,10 +1,4 @@
 import { Attribution } from '@polar/lib-custom-types'
-import Vue from 'vue'
-
-export interface AttributionInstance extends Vue {
-  isOpen: boolean
-  toggleMapInfo: () => void
-}
 
 export interface AttributionsState {
   layer: string[]
