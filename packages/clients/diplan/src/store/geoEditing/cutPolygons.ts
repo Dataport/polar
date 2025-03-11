@@ -6,6 +6,8 @@ import VectorSource from 'ol/source/Vector'
 import Feature from 'ol/Feature'
 import { DiplanGetters, DiplanState } from '../../types'
 
+// WIP
+// eslint-disable-next-line max-lines-per-function
 export const cutPolygons = ({
   commit,
   dispatch,
@@ -35,6 +37,16 @@ export const cutPolygons = ({
 
     commit('setDrawMode', null)
   })
+
+  dispatch(
+    'plugin/toast/addToast',
+    {
+      type: 'info',
+      text: 'Cut not yet implemented.',
+      timeout: 3000,
+    },
+    { root: true }
+  )
 
   dispatch(
     'plugin/draw/setInteractions',
