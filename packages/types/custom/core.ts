@@ -121,6 +121,7 @@ export interface AddressSearchConfiguration extends PluginOptions {
   addLoading?: string
   // definition of categories referred to in searchMethods
   categoryProperties?: Record<string, AddressSearchCategoryProperties>
+  component?: VueConstructor
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
   /** NOTE regarding \<any, any\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here; not using "unknown" since that errors in client configuration, not using "never" since that errors in AddressSearch plugin; this way, "any"thing goes */

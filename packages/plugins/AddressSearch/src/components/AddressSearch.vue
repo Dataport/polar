@@ -1,5 +1,6 @@
 <template>
-  <v-container :style="style">
+  <component :is="component" v-if="component" />
+  <v-container v-else :style="style">
     <v-toolbar
       class="polar-plugin-address-search-toolbar pt-1"
       :class="toolbarClass"
@@ -28,7 +29,7 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
-    ...mapGetters('plugin/addressSearch', ['featuresAvailable']),
+    ...mapGetters('plugin/addressSearch', ['component', 'featuresAvailable']),
     style(): string {
       return this.hasWindowSize && this.hasSmallWidth
         ? `max-width: ${this.clientWidth * 0.75}px`
