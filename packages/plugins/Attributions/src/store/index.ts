@@ -73,22 +73,23 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
-      listenToChanges: (_, __, ___, rootGetters) =>
-        rootGetters.configuration.attributions?.listenToChanges || [],
+      configuration: (_, __, ___, rootGetters) =>
+        rootGetters.configuration.attributions || {},
+      listenToChanges: (_, getters) =>
+        getters.configuration.listenToChanges || [],
       mapInfo: (_, { layer, attributions, staticAttributions }) =>
         lib.updateMapInfo(layer, attributions, staticAttributions),
-      mapInfoIcon: (_, getters, __, rootGetters) => {
-        const icons = rootGetters.configuration.attributions?.icons
+      mapInfoIcon: (_, getters) => {
+        const { icons } = getters.configuration
         return getters.windowIsOpen
           ? icons?.close ?? 'fa-chevron-right'
           : icons?.open ?? 'fa-regular fa-copyright'
       },
-      renderType: (_, __, ___, rootGetters) =>
-        rootGetters.configuration.attributions?.renderType || 'independent',
-      staticAttributions: (_, __, ___, rootGetters) =>
-        rootGetters.configuration.attributions?.staticAttributions || [],
-      windowWidth: (_, __, ___, rootGetters) =>
-        rootGetters.configuration.attributions?.windowWidth || 500,
+      renderType: (_, getters) =>
+        getters.configuration.renderType || 'independent',
+      staticAttributions: (_, getters) =>
+        getters.configuration.staticAttributions || [],
+      windowWidth: (_, getters) => getters.configuration.windowWidth || 500,
     },
   }
 

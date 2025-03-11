@@ -1,4 +1,4 @@
-import { Attribution } from '@polar/lib-custom-types'
+import { Attribution, AttributionsConfiguration } from '@polar/lib-custom-types'
 
 export interface AttributionsState {
   attributions: Attribution[]
@@ -8,6 +8,7 @@ export interface AttributionsState {
 }
 
 export interface AttributionsGetters extends AttributionsState {
+  configuration: AttributionsConfiguration
   initiallyOpen: boolean
   /** Array on store paths to listen to for changes */
   listenToChanges: string[]
