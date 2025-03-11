@@ -15,6 +15,17 @@ export default {
   extent: [
     248651.73157077, 5227198.20287631, 928366.12236557, 6118661.62507136,
   ],
+  diplan: {
+    mergeToMultiGeometries: true,
+    validateGeoJson: true,
+    metaServices: [
+      {
+        id: flurstuecke,
+        propertyNames: ['land', 'gemarkung', 'regbezirk', 'kreis', 'gemeinde'],
+        aggregationMode: 'unequal',
+      },
+    ],
+  },
   locales: [
     {
       type: 'de',

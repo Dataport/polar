@@ -54,7 +54,7 @@ export const updateState = async ({
 
   if (getters.configuration.metaServices.length) {
     try {
-      await enrichWithMetaServices(
+      revisedFeatureCollection.features = await enrichWithMetaServices(
         revisedFeatureCollection,
         rootGetters.map,
         getters.configuration.metaServices,

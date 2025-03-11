@@ -31,6 +31,8 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
   namespaced: true,
   state: getInitialState(),
   actions: {
+    // setup is long, not deep
+    // eslint-disable-next-line max-lines-per-function
     setupModule({ dispatch, rootGetters }) {
       const debouncedUpdate = debounce(() => dispatch('updateState'), 50)
       this.watch(
