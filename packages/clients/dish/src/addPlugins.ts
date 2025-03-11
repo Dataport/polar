@@ -86,6 +86,10 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       id: 'layerChooser',
     },
     {
+      plugin: SelectionChooser({ renderType: 'iconMenu' }),
+      id: 'selectionChooser',
+    },
+    {
       plugin: PolarPluginDraw({}),
       icon: 'fa-pencil',
       id: 'draw',
@@ -112,10 +116,6 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
 
   core.addPlugins([
     iconMenu,
-    SelectionChooser({
-      displayComponent: true,
-      layoutTag: NineLayoutTag.TOP_RIGHT,
-    }),
     DishModal({
       displayComponent: true,
       layoutTag: NineLayoutTag.TOP_LEFT,

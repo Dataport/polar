@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import { PluginOptions } from '@polar/lib-custom-types'
+import { SelectionChooserOptions } from '../../types'
 import SelectionChooser from './SelectionChooser.vue'
 import storeModule from './store'
 import locales from './locales'
 
-export default (options: PluginOptions) => (instance: Vue) =>
+export default (options: SelectionChooserOptions) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'selectionChooser',
     plugin: SelectionChooser,

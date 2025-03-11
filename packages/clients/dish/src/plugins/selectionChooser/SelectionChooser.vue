@@ -4,7 +4,7 @@
       <template #activator="{ on, attrs }">
         <v-btn
           elevation="2"
-          class="ma-2"
+          :class="{ 'ma-2': renderType === 'independent' }"
           color="primary"
           small
           fab
