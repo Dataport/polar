@@ -26,17 +26,8 @@ const geoJSON = {
 
 /* this is an example setup function displaying how POLAR is instantiated
  * you may do this in any other format as long as all required contents arrive
- * in `initializeLayerList` and `createMap` */
+ * in `createMap` */
 export default (client, layerConf, config) => {
-  /* The parameter may be a URL; in that case, a second parameter is a callback
-   * function that provides the `layerConf` object as first parameter.
-   * The code for that would look like this:
-   * client.rawLayerList.initializeLayerList("url", (layerConf) => {
-   *   client.createMap({...})
-   * })
-   * However, we're working with a loaded object here, making the
-   * masterportalapi's `initializeLayerList` synchronous:
-   */
   client
     .createMap({
       // id of div to render in
@@ -45,7 +36,7 @@ export default (client, layerConf, config) => {
        * version at https://dataport.github.io/polar/docs/diplan/client-diplan.html  */
       mapConfiguration: {
         stylePath: '../dist/polar-client.css',
-        layerConf,
+        layerConf, // either a Service[] or a link to a fitting json file
         ...config,
       },
     })
