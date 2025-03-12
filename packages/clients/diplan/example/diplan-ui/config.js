@@ -1,4 +1,5 @@
 import { AttributionButton } from '../../src/plugins/Attributions'
+import { AddressSearch } from '../../src/plugins/AddressSearch'
 import { IconMenu } from '../../src/plugins/IconMenu'
 import { LayerChooser } from '../../src/plugins/LayerChooser'
 import { Zoom } from '../../src/plugins/Zoom'
@@ -56,6 +57,7 @@ export default {
   ],
   addressSearch: {
     displayComponent: true,
+    component: AddressSearch,
     searchMethods: [
       {
         queryParameters: {
@@ -67,6 +69,11 @@ export default {
         url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
       },
     ],
+    groupProperties: {
+      defaultGroup: {
+        label: 'Suchbegriff',
+      },
+    },
     minLength: 3,
     waitMs: 300,
   },
