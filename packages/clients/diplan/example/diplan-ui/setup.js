@@ -26,22 +26,8 @@ const geoJSON = {
 
 /* this is an example setup function displaying how POLAR is instantiated
  * you may do this in any other format as long as all required contents arrive
- * in `initializeLayerList` and `createMap` */
+ * in `createMap` */
 export default (client, layerConf, config) => {
-  /* The parameter may be a URL; in that case, a second parameter is a callback
-   * function that provides the `layerConf` object as first parameter.
-   * The code for that would look like this:
-   * client.rawLayerList.initializeLayerList("url", (layerConf) => {
-   *   client.createMap({...})
-   * })
-   * However, we're working with a loaded object here, making the
-   * masterportalapi's `initializeLayerList` synchronous:
-   */
-  client.rawLayerList.initializeLayerList(layerConf)
-
-  // TODO can we encapsulate do the upper statement in the core? people
-  //      don't really need to do that manually, do they?
-
   client
     .createMap({
       // id of div to render in
@@ -62,8 +48,6 @@ export default (client, layerConf, config) => {
        * https://dataport.github.io/polar/docs/diplan/client-diplan.html
        */
 
-      // TODO expand example bindings
-
       const actionPlus = document.getElementById('action-plus')
       const actionMinus = document.getElementById('action-minus')
       const actionToast = document.getElementById('action-toast')
@@ -73,6 +57,12 @@ export default (client, layerConf, config) => {
         'action-address-search-filler'
       )
       const actionLasso = document.getElementById('action-lasso')
+      const actionCut = document.getElementById('action-cut-polygons')
+      const actionDuplicate = document.getElementById(
+        'action-duplicate-polygons'
+      )
+      const actionMerge = document.getElementById('action-merge-polygons')
+      const activeExtendedDrawMode = document.getElementById('active-draw-mode')
 
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
@@ -101,7 +91,27 @@ export default (client, layerConf, config) => {
       )
       actionLasso.onclick = () =>
         mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')
+      actionCut.onclick = () =>
+        mapInstance.$store.dispatch('diplan/cutPolygons')
+      actionDuplicate.onclick = () =>
+        mapInstance.$store.dispatch('diplan/duplicatePolygons')
+      actionMerge.onclick = () =>
+        mapInstance.$store.dispatch('diplan/mergePolygons')
+      mapInstance.$store.watch(
+        (_, getters) => getters['diplan/activeDrawMode'],
+        (activeDrawMode) => (activeExtendedDrawMode.innerHTML = activeDrawMode),
+        { immediate: true }
+      )
 
+      const htmlRevisedDrawExport = document.getElementById(
+        'subscribed-revised-draw-export'
+      )
+      const htmlRevisionInProgress = document.getElementById(
+        'subscribed-revision-in-progress'
+      )
+      const htmlSimpleGeometryValidity = document.getElementById(
+        'subscribed-simple-geometry-validity'
+      )
       const htmlZoom = document.getElementById('subscribed-zoom')
       const htmlGfi = document.getElementById('subscribed-gfi')
       const htmlExportA = document.getElementById('subscribed-export-a')
@@ -130,6 +140,25 @@ export default (client, layerConf, config) => {
       mapInstance.subscribe('plugin/draw/featureCollection', (geojson) => {
         htmlDraw.innerHTML = JSON.stringify(geojson, null, 2)
       })
+      mapInstance.subscribe('diplan/revisedDrawExport', (revisedDrawExport) => {
+        htmlRevisedDrawExport.innerHTML = JSON.stringify(
+          revisedDrawExport,
+          null,
+          2
+        )
+      })
+      mapInstance.subscribe(
+        'diplan/revisionInProgress',
+        (revisionInProgress) => {
+          htmlRevisionInProgress.innerHTML = revisionInProgress
+        }
+      )
+      mapInstance.subscribe(
+        'diplan/simpleGeometryValidity',
+        (simpleGeometryValidity) => {
+          htmlSimpleGeometryValidity.innerHTML = simpleGeometryValidity
+        }
+      )
 
       window.mapInstance = mapInstance
     })
