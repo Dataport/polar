@@ -8,6 +8,7 @@
 - Feature: Add new background and specialist data layers.
 - Feature: Add new plugin `DishExportMap` for intern mode use.
 - Feature: Expand plugin `Gfi` for intern mode.
+- Feature: dish search now disregards the character '/' in user inputs.
 - Feature: Add new plugin `SelectObject` for intern mode use.
 - Fix: Extend typing for search result function according to type package update.
 - Fix: Import types `AddressSearchState` and `AddressSearchGetters` from correct position.
