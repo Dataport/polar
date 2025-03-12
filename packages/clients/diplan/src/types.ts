@@ -20,7 +20,13 @@ export type GeoEditingMode =
   | 'edit'
   | 'delete'
 
+interface LinkConfig {
+  href: string
+  icon: string
+}
+
 export interface DiplanConfiguration {
+  link: LinkConfig
   mergeToMultiGeometries?: boolean
   validateGeoJson?: boolean
   renderType?: 'iconMenu' | 'independent'

@@ -21,6 +21,7 @@ import iconMap from '../assets/dist/iconMap'
 // @ts-ignore | intentional, file is created precompilation (not versioned)
 import cssVariables from '../assets/dist/cssVariables'
 import GeoEditing from './plugins/GeoEditing'
+import LinkButton from './plugins/LinkButton'
 import locales from './locales'
 
 // TODO use when implemented
@@ -98,6 +99,10 @@ polarCore.addPlugins([
     layoutTag: NineLayoutTag.TOP_LEFT,
     coordinateSources: [],
     layers: {},
+  }),
+  LinkButton({
+    displayComponent: true,
+    layoutTag: NineLayoutTag.BOTTOM_RIGHT,
   }),
   Export({
     layoutTag: NineLayoutTag.BOTTOM_LEFT,

@@ -20,6 +20,10 @@ export default {
   ],
   // diplan-specific configuration example (see API.md)
   diplan: {
+    link: {
+      href: 'https://example.com',
+      icon: '$vuetify.icons.fullscreen-exit',
+    },
     mergeToMultiGeometries: true,
     validateGeoJson: true,
     metaServices: [
