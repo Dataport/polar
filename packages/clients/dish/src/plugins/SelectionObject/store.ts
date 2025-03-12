@@ -16,7 +16,14 @@ const selectionObjectModule: PolarModule<
   namespaced: true,
   state: getInitialState,
   mutations: { ...generateSimpleMutations(getInitialState()) },
-  getters: { ...generateSimpleGetters(getInitialState()) },
+  getters: {
+    ...generateSimpleGetters(getInitialState()),
+    renderType: (_, __, ___, rootGetters) => {
+      return rootGetters.configuration?.selectionObject?.renderType
+        ? rootGetters.configuration.selectionObject.renderType
+        : 'iconMenu'
+    },
+  },
 }
 
 export default selectionObjectModule

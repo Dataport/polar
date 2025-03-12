@@ -32,7 +32,7 @@ export default Vue.extend({
     isVisible: true,
   }),
   computed: {
-    ...mapGetters('plugin/selectionObject', ['objectId']),
+    ...mapGetters('plugin/selectionObject', ['objectId', 'renderType']),
   },
   methods: {
     toggleVisibility() {
