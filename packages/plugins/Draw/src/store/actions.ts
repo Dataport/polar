@@ -61,6 +61,18 @@ export const makeActions = () => {
       commit('setDrawMode', drawMode)
       dispatch('updateInteractions')
     },
+    /** Please consult the README.md before usage. */
+    async setInteractions(
+      { dispatch, rootGetters },
+      newInteractions: Interaction[]
+    ) {
+      dispatch('setMode', 'none')
+      await dispatch('updateInteractions')
+      interactions = newInteractions
+      interactions.forEach((interaction) =>
+        rootGetters.map.addInteraction(interaction)
+      )
+    },
     setMeasureMode({ commit, dispatch }, measureMode: MeasureMode) {
       commit('setMeasureMode', measureMode)
       dispatch('updateInteractions')
