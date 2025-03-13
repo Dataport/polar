@@ -4,12 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <title>@polar/client-diplan</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../style.css">
   </head>
   <body>
     <nav></nav>
     <header>
-      <h1>Testseite <code>@polar/client-diplan</code> (build)</h1>
+      <h1>Testseite <code>@polar/client-diplan</code> (POLAR UI)</h1>
     </header>
     <div id="somethingnice"></div>
     <main>
@@ -97,35 +97,20 @@
               <td id="subscribed-draw">uninitialized</td>
               <td>Die hergestellte Zeichnung als GeoJSON (ohne diplanspezifische Metainformationen und Modifikationen).</td>
             </tr>
-            <tr>
-              <td><code>plugin/...</code></td>
-              <td id="subscribed-a">uninitialized</td>
-              <td>Platz für weitere Beispiele</td>
-            </tr>
-            <tr>
-              <td><code>plugin/...</code></td>
-              <td id="subscribed-b">uninitialized</td>
-              <td>Platz für weitere Beispiele</td>
-            </tr>
-            <tr>
-              <td><code>plugin/...</code></td>
-              <td id="subscribed-c">uninitialized</td>
-              <td>Platz für weitere Beispiele</td>
-            </tr>
           </tbody>
         </table>
       </section>
     </main>
     <footer>At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.</footer>
     <!-- Example without build tools. Most frameworks will allow importing this. (Try "* as PolarClientDiPlan".) -->
-    <script src="../dist/polar-client.js"></script>
+    <script src="../../dist/polar-client.js"></script>
     <!-- → window.PolarClientDiPlan is now available. -->
-    <link rel="stylesheet" src="../dist/polar-client.css">
+    <link rel="stylesheet" src="../../dist/polar-client.css">
     <script type="module">
-      import services from './services.js'
+      import services from '../services.js'
       import config from './config.js'
-
       import setup from './setup.js'
+
       setup(PolarClientDiPlan, services, config)
     </script>
   </body>

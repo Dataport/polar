@@ -350,7 +350,7 @@ However, not all listed services have been implemented in the `@masterportal/mas
 
 Whitelisted and confirmed parameters include:
 
-- WMS:  id, name, url, typ, format, version, transparent, layers, STYLES
+- WMS:  id, name, url, typ, format, version, transparent, layers, STYLES, singleTile
 - WFS:  id, name, url, typ, outputFormat, version, featureType
 - WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength
 - OAF: id, name, url, typ, collection, crs, bboxCrs

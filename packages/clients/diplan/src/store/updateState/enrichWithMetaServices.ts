@@ -8,7 +8,7 @@ import {
 } from '@polar/lib-get-features'
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { booleanIntersects } from '@turf/boolean-intersects'
-import { MetaService } from '../../types'
+import { GeometryType, MetaService } from '../../types'
 
 const reader = new GeoJSON()
 
@@ -58,48 +58,51 @@ const aggregateProperties = (
 
 /** @throws */
 export const enrichWithMetaServices = (
-  featureCollection: FeatureCollection,
+  featureCollection: FeatureCollection<GeometryType>,
   map: Map,
   metaServices: MetaService[],
   signal: AbortSignal
-) =>
+): Promise<GeoJsonFeature<GeometryType>[]> =>
   Promise.all(
-    featureCollection.features.map((feature) =>
-      Promise.all(
-        metaServices.map(({ id, propertyNames, aggregationMode }) =>
-          getVectorFeaturesByFeatureRequest({
-            feature: reader.readFeature(JSON.stringify(feature)) as Feature,
-            fetchLayerId: id,
-            projectionCode: map.getView().getProjection().getCode(),
-            signal,
-          })
-            .then((response) =>
-              rawLayerList.getLayerWhere({ id }).typ === 'WFS'
-                ? parseWfsResponse(response, undefined, false)
-                : (response.json() as Promise<FeatureCollection>)
-            )
-            .then((featuresFromBbox) => {
-              const applicableProperties = featuresFromBbox.features
-                .filter((featureFromBbox) =>
-                  booleanIntersects(featureFromBbox, feature)
-                )
-                .map(({ properties }) => properties)
-
-              const aggregatedProperties = aggregateProperties(
-                applicableProperties,
-                propertyNames,
-                aggregationMode
+    featureCollection.features.map(async (feature) => ({
+      ...feature,
+      properties: {
+        ...feature.properties,
+        metaProperties: {
+          ...(feature.properties?.metaProperties || {}),
+          ...Object.fromEntries(
+            await Promise.all(
+              metaServices.map(({ id, propertyNames, aggregationMode }) =>
+                getVectorFeaturesByFeatureRequest({
+                  feature: reader.readFeature(
+                    JSON.stringify(feature)
+                  ) as unknown as Feature,
+                  fetchLayerId: id,
+                  projectionCode: map.getView().getProjection().getCode(),
+                  signal,
+                })
+                  .then((response) =>
+                    rawLayerList.getLayerWhere({ id }).typ === 'WFS'
+                      ? parseWfsResponse(response, undefined, false)
+                      : (response.json() as Promise<FeatureCollection>)
+                  )
+                  .then((featuresFromBbox) => {
+                    const applicableProperties = featuresFromBbox.features
+                      .filter((featureFromBbox) =>
+                        booleanIntersects(featureFromBbox, feature)
+                      )
+                      .map(({ properties }) => properties)
+                    const aggregatedProperties = aggregateProperties(
+                      applicableProperties,
+                      propertyNames,
+                      aggregationMode
+                    )
+                    return [id, aggregatedProperties]
+                  })
               )
-
-              feature.properties = {
-                ...feature.properties,
-                metaProperties: {
-                  ...(feature.properties?.metaProperties || {}),
-                  [id]: aggregatedProperties,
-                },
-              }
-            })
-        )
-      )
-    )
+            )
+          ),
+        },
+      },
+    }))
   )
