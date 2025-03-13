@@ -599,11 +599,6 @@ export interface PolarMapOptions {
   zoomLevel: number
 }
 
-export interface AuthenticationConfig {
-  interceptorUrlRegex: string
-  tokenName: string
-}
-
 /** The initial language the client should be using; defaults to 'de' if not given */
 export type InitialLanguage = 'de' | 'en'
 
@@ -663,11 +658,11 @@ export interface MasterportalApiConfig {
 export interface MapConfig extends MasterportalApiConfig {
   /** Configured layers */
   layers: LayerConfiguration[]
-  authentication?: AuthenticationConfig
   /** if true, all services' availability will be checked with head requests */
   checkServiceAvailability?: boolean
   extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   featureStyles?: string
+  interceptorUrlRegex?: string
   language?: InitialLanguage
   locales?: Locale[]
   renderFaToLightDom?: boolean
@@ -743,6 +738,7 @@ export interface CoreState {
   mapHasDimensions: boolean
   moveHandle: number
   moveHandleActionButton: number
+  oidcToken: string
   // NOTE truly any since external plugins may bring whatever; unknown will lead to further errors
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   plugin: Record<string, any>

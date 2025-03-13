@@ -1,13 +1,12 @@
-import { deleteCookie, getCookie, setCookie } from './cookie.js'
-
 const clientId = 'polar'
 const scope = 'openid'
 
 let loggedIn = false
+let token
 
-export async function authenticate(username, password, { tokenName }) {
+export async function authenticate(username, password, setTokenMethod) {
   if (loggedIn) {
-    await reset(tokenName)
+    await reset()
     return
   }
 
@@ -24,9 +23,12 @@ export async function authenticate(username, password, { tokenName }) {
       password
     )}&scope=${encodeURIComponent(scope)}`,
   })
+  console.warn('aer')
   if (response.ok) {
     const data = await response.json()
-    setCookie(tokenName, data.access_token)
+    token = data.access_token
+    setTokenMethod(token)
+    // TODO: Readout timeout data and safe the refresh_token as well to be able to refresh the token
     document.getElementById('login-button').textContent = 'Logout'
     document.getElementById('username').disabled = true
     document.getElementById('password').disabled = true
@@ -38,13 +40,12 @@ export async function authenticate(username, password, { tokenName }) {
   // TODO: Add UI element to a layer if it can only be used via authentication (lock / unlock)
 }
 
-async function reset(tokenName) {
-  await revokeToken(getCookie('token'))
-  deleteCookie(tokenName)
+async function reset() {
+  await revokeToken()
   window.location.reload()
 }
 
-async function revokeToken(token) {
+async function revokeToken() {
   const url = ''
 
   const response = await fetch(url, {

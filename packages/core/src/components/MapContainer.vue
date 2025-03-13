@@ -168,6 +168,7 @@ export default Vue.extend({
     }
     addEventListener('resize', this.updateHasSmallDisplay)
     this.updateHasSmallDisplay()
+    this.addInterceptor()
   },
   beforeDestroy() {
     removeEventListener('resize', this.updateHasSmallDisplay)
@@ -182,9 +183,10 @@ export default Vue.extend({
   methods: {
     ...mapMutations(['setConfiguration', 'setHasSmallDisplay', 'setMap']),
     ...mapActions([
+      'addInterceptor',
+      'checkServiceAvailability',
       'updateDragAndZoomInteractions',
       'useExtendedMasterportalapiMarkers',
-      'checkServiceAvailability',
     ]),
     updateHasSmallDisplay() {
       this.setHasSmallDisplay(

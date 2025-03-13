@@ -49,7 +49,10 @@ export default (client, layerConf, config) => {
        */
 
       const loginButton = document.getElementById('login-button')
-      loginButton.onclick = () => validateForm()
+      loginButton.onclick = () =>
+        validateForm((token) =>
+          mapInstance.$store.commit('setOidcToken', token)
+        )
 
       const actionPlus = document.getElementById('action-plus')
       const actionMinus = document.getElementById('action-minus')
