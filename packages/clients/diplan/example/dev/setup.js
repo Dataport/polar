@@ -59,7 +59,7 @@ export default (client, layerConf, config) => {
       const actionLasso = document.getElementById('action-lasso')
       const actionCut = document.getElementById('action-cut-polygons')
       const actionDuplicate = document.getElementById(
-        'action-duplicate-polygons'
+        'action-duplicate-geometry'
       )
       const actionMerge = document.getElementById('action-merge-polygons')
       const activeExtendedDrawMode = document.getElementById('active-draw-mode')
