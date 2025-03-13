@@ -5,7 +5,7 @@ import { Map } from 'ol'
 import { DiplanGetters, DiplanState } from '../../types'
 
 const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {
-  const found = map.forEachFeatureAtPixel(e.pixel, () => true, {
+  const found = map.hasFeatureAtPixel(e.pixel, {
     layerFilter: (l) => l === drawLayer,
   })
 
