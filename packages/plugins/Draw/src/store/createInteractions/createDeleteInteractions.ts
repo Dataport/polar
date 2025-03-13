@@ -7,7 +7,7 @@ import { Map } from 'ol'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 
 const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {
-  const found = map.forEachFeatureAtPixel(e.pixel, () => true, {
+  const found = map.hasFeatureAtPixel(e.pixel, {
     layerFilter: (l) => l === drawLayer,
   })
 
