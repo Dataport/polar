@@ -1,5 +1,4 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
-
 import VectorLayer from 'ol/layer/Vector'
 import { Select } from 'ol/interaction'
 import { Map } from 'ol'
