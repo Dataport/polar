@@ -93,6 +93,7 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters([
+      'hasSmallDisplay',
       'hasSmallWidth',
       'hasWindowSize',
       'map',
@@ -168,6 +169,7 @@ export default Vue.extend({
     }
     addEventListener('resize', this.updateHasSmallDisplay)
     this.updateHasSmallDisplay()
+    this.addInterceptor()
   },
   beforeDestroy() {
     removeEventListener('resize', this.updateHasSmallDisplay)
@@ -182,9 +184,10 @@ export default Vue.extend({
   methods: {
     ...mapMutations(['setConfiguration', 'setHasSmallDisplay', 'setMap']),
     ...mapActions([
+      'addInterceptor',
+      'checkServiceAvailability',
       'updateDragAndZoomInteractions',
       'useExtendedMasterportalapiMarkers',
-      'checkServiceAvailability',
     ]),
     updateHasSmallDisplay() {
       this.setHasSmallDisplay(
@@ -200,10 +203,7 @@ export default Vue.extend({
           this.wheelEffect
         )
 
-        if (
-          window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
-          window.innerWidth <= SMALL_DISPLAY_WIDTH
-        ) {
+        if (this.hasSmallDisplay) {
           new Hammer(mapContainer).on('pan', (e) => {
             if (
               e.maxPointers === 1 &&

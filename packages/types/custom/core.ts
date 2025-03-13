@@ -662,6 +662,7 @@ export interface MapConfig extends MasterportalApiConfig {
   checkServiceAvailability?: boolean
   extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   featureStyles?: string
+  interceptorUrlRegex?: string
   language?: InitialLanguage
   locales?: Locale[]
   renderFaToLightDom?: boolean
@@ -737,6 +738,7 @@ export interface CoreState {
   mapHasDimensions: boolean
   moveHandle: number
   moveHandleActionButton: number
+  oidcToken: string
   // NOTE truly any since external plugins may bring whatever; unknown will lead to further errors
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   plugin: Record<string, any>

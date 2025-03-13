@@ -74,6 +74,7 @@ export default (): MockParameters => {
       zoomLevel: 0,
       hovered: 0,
       selected: 0,
+      oidcToken: '',
     },
   }
 }
