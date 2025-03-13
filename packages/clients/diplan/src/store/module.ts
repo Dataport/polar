@@ -39,6 +39,11 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
     duplicatePolygons,
     mergePolygons,
     updateState,
+    updateDrawMode({ dispatch, commit }, drawMode) {
+      // always reset draw plugin before starting something
+      dispatch('plugin/draw/setMode', 'none', { root: true })
+      commit('setDrawMode', drawMode)
+    },
   },
   mutations: {
     ...generateSimpleMutations(getInitialState()),
