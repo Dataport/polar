@@ -154,9 +154,6 @@ export default Vue.extend({
   mounted() {
     this.feature = this.featureItems[0]
   },
-  updated() {
-    this.feature = this.featureItems[0]
-  },
   methods: {
     ...mapMutations('plugin/gfi', ['setPage']),
     ...mapActions('plugin/gfi', ['close']),
