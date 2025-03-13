@@ -61,7 +61,9 @@ function subscribeToExportedMap(instance: MapInstance) {
   instance.subscribe('plugin/export/exportedMap', (screenshot) => {
     if (screenshot) {
       const newWindow = window.open()
-      newWindow?.document.write(`<img src="${screenshot}" alt="Screenshot">`)
+      newWindow?.document.write(
+        `<html><head><title>Kartenausgabe</title></head><body><img src="${screenshot}" alt="Screenshot"></body></html>`
+      )
     }
   })
 }
