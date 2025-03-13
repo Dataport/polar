@@ -39,7 +39,7 @@ export const duplicatePolygons = ({
   const boundPointerStyle = pointerStyle(rootGetters.map, drawLayer)
   rootGetters.map.on('pointermove', boundPointerStyle)
 
-  selectedFeatures.on(['add'], () => {
+  selectedFeatures.on('add', () => {
     drawSource.addFeature(selectedFeatures.getArray()[0].clone())
     selectedFeatures.clear()
     dispatch('updateDrawMode', null)
