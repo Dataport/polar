@@ -104,7 +104,7 @@ function zoomToInternalFeature(
         geometry.coordinates
       )
       instance.$store.getters.map.getView().setCenter(centerCoord)
-      instance.$store.getters.map.getView().setZoom(11)
+      instance.$store.getters.map.getView().setZoom(9)
       selectionLayer
         .getSource()
         ?.addFeature(new GeoJSON().readFeature(feature) as Feature)
