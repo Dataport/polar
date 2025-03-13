@@ -1,12 +1,11 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
-
 import VectorLayer from 'ol/layer/Vector'
 import { Select } from 'ol/interaction'
 import { Map } from 'ol'
 import { DiplanGetters, DiplanState } from '../../types'
 
 const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {
-  const found = map.forEachFeatureAtPixel(e.pixel, () => true, {
+  const found = map.hasFeatureAtPixel(e.pixel, {
     layerFilter: (l) => l === drawLayer,
   })
 
@@ -40,7 +39,7 @@ export const duplicatePolygons = ({
   const boundPointerStyle = pointerStyle(rootGetters.map, drawLayer)
   rootGetters.map.on('pointermove', boundPointerStyle)
 
-  selectedFeatures.on(['add'], () => {
+  selectedFeatures.on('add', () => {
     drawSource.addFeature(selectedFeatures.getArray()[0].clone())
     selectedFeatures.clear()
     dispatch('updateDrawMode', null)
