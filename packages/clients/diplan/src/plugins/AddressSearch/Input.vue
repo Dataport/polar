@@ -22,6 +22,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
+// TODO: This import should be refactored
 import { focusFirstResult } from '@polar/plugin-address-search/src/utils/focusFirstResult'
 
 export default Vue.extend({
