@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
 import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
 
@@ -87,6 +87,7 @@ export default Vue.extend({
     ...mapGetters('plugin/pins', ['transformedCoordinate']),
     ...mapGetters('plugin/gfi', ['currentProperties']),
     ...mapGetters('plugin/scale', ['scaleValue', 'scaleWithUnit']),
+    ...mapGetters('plugin/fullscreen', ['isInFullscreen']),
     hasObjectProperties(): boolean {
       return this.currentProperties && this.currentProperties.objektid
     },
@@ -112,6 +113,7 @@ export default Vue.extend({
     }
   },
   methods: {
+    ...mapMutations('plugin/fullscreen', ['setIsInFullscreen']),
     configureSettings() {
       this.internServicesBaseUrl =
         this.configuration.dishExportMap.urlParams.internServicesBaseUrl
@@ -130,6 +132,16 @@ export default Vue.extend({
       this.exportMapAsPdfUrl ||= `${this.internalHost}/Content/Objekt/Kartenausgabe.aspx`
     },
     showRectangleAndDialog() {
+      if (this.isInFullscreen) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen()
+          // @ts-expect-error | Error: 'TS2339: Property 'webkitExitFullscreen' does not exist on type 'Element'.'; For information refer to https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API#browser_compatibility
+        } else if (document.webkitExitFullscreen) {
+          // @ts-expect-error | Error: 'TS2339: Property 'webkitExitFullscreen' does not exist on type 'Element'.'; For information refer to https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API#browser_compatibility
+          document.webkitExitFullscreen() // iOS Safari
+        }
+        this.setIsInFullscreen(!this.isInFullscreen)
+      }
       if (this.transformedCoordinate.length === 0 || !this.overlay) {
         return
       }
