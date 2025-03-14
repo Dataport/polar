@@ -15,7 +15,7 @@ export default {
   // diplan-specific configuration example (see API.md)
   diplan: {
     link: {
-      href: 'https://example.com',
+      href: '../diplan-ui-small',
       icon: '$vuetify.icons.fullscreen-exit',
     },
     renderType: 'independent',
