@@ -46,10 +46,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
       if (mode === 'reset') {
         return
       }
-      if (mode === 'parcel') {
-        // TODO: Implement
-        console.error('Not implemented yet.')
-      } else if (mode === 'drawPolygon') {
+      if (mode === 'drawPolygon') {
         await dispatch('plugin/draw/setMode', 'draw', { root: true })
         dispatch('plugin/draw/setDrawMode', 'Polygon', { root: true })
       } else if (mode === 'drawCircle') {
