@@ -7,13 +7,6 @@
     />
     <MenuView v-else :method="updateOpenTool" :tools="tools" />
   </div>
-  <!-- TODO(ANDERER BRANCH): Diplan-UI nachbauen mit Header und Footer für diplan-ui example-->
-  <!-- TODO(ANDERER BRANCH): Zweites Diplan-UI example mit databindings (smol boy) -->
-
-  <!-- TODO(ANDERER BRANCH): Flurstücke-Button nutzbar machen; anpassen, dass dies dauerhaft sein kann ggü. den anderen Buttons -->
-
-  <!-- TODO(ANDERER BRANCH): (Optional:) LayerChooser View soll auch einen Extra-Knopf haben, welcher dann dahinter die Transparenz versteckt hat -->
-  <!-- TODO(ANDERER BRANCH): (Optional:) Legende direkt am Layer -->
 </template>
 
 <script lang="ts">
