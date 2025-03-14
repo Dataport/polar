@@ -1,5 +1,6 @@
 <template>
-  <component :is="wrapperComponent" class="icon-menu-list ma-2">
+  <component :is="component" v-if="component" />
+  <component :is="wrapperComponent" v-else class="icon-menu-list ma-2">
     <component
       :is="itemComponent"
       v-for="({ plugin, icon, id, hint }, index) of menus"
@@ -64,7 +65,12 @@ export default Vue.extend({
       'hasSmallWidth',
       'hasWindowSize',
     ]),
-    ...mapGetters('plugin/iconMenu', ['initiallyOpen', 'menus', 'open']),
+    ...mapGetters('plugin/iconMenu', [
+      'component',
+      'initiallyOpen',
+      'menus',
+      'open',
+    ]),
     asList() {
       return this.menus.length > 1
     },

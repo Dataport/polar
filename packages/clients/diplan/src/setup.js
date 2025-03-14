@@ -1,5 +1,7 @@
 /* eslint-disable max-lines-per-function */
 
+import 'diplanung-style/src/scss/main'
+
 const geoJSON = {
   type: 'FeatureCollection',
   features: [
@@ -27,17 +29,20 @@ const geoJSON = {
  * in `createMap` */
 export default (client, layerConf, config) => {
   client
-    .createMap({
-      // id of div to render in
-      containerId: 'polarstern',
-      /* see API.md for mapConfiguration options, especially the compiled
-       * version at https://dataport.github.io/polar/docs/diplan/client-diplan.html  */
-      mapConfiguration: {
-        stylePath: '../dist/polar-client.css',
-        layerConf, // either a Service[] or a link to a fitting json file
-        ...config,
+    .createMap(
+      {
+        // id of div to render in
+        containerId: 'polarstern',
+        /* see API.md for mapConfiguration options, especially the compiled
+         * version at https://dataport.github.io/polar/docs/diplan/client-diplan.html  */
+        mapConfiguration: {
+          stylePath: '../dist/polar-client.css',
+          layerConf, // either a Service[] or a link to a fitting json file
+          ...config,
+        },
       },
-    })
+      'DIPLAN_ONE'
+    )
     .then((mapInstance) => {
       /*
        * This is a binding example for the various data POLAR makes accessible.
@@ -112,8 +117,6 @@ export default (client, layerConf, config) => {
       )
       const htmlZoom = document.getElementById('subscribed-zoom')
       const htmlGfi = document.getElementById('subscribed-gfi')
-      const htmlExportA = document.getElementById('subscribed-export-a')
-      const htmlExportImg = document.getElementById('subscribed-export-img')
       const htmlDraw = document.getElementById('subscribed-draw')
 
       mapInstance.subscribe(
@@ -124,17 +127,6 @@ export default (client, layerConf, config) => {
         'plugin/gfi/featureInformation',
         (v) => (htmlGfi.innerHTML = JSON.stringify(v, null, 2))
       )
-      mapInstance.subscribe('plugin/export/exportedMap', (screenshot) => {
-        htmlExportImg.setAttribute('src', screenshot)
-        if (navigator.userAgent.toLowerCase().includes('firefox')) {
-          htmlExportImg.onclick = function () {
-            window.open(this.src, '_blank')
-          }
-          htmlExportA.onclick = () => false
-        } else {
-          htmlExportA.setAttribute('href', screenshot)
-        }
-      })
       mapInstance.subscribe('plugin/draw/featureCollection', (geojson) => {
         htmlDraw.innerHTML = JSON.stringify(geojson, null, 2)
       })
