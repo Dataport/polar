@@ -1,4 +1,5 @@
 import { Menu } from '@polar/lib-custom-types'
+import { VueConstructor } from 'vue'
 
 export interface IconMenuState {
   menus: Menu[]
@@ -6,5 +7,6 @@ export interface IconMenuState {
 }
 
 export interface IconMenuGetters extends IconMenuState {
+  component: VueConstructor | null
   initiallyOpen: string
 }
