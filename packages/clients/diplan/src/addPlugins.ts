@@ -49,26 +49,25 @@ export function addPlugins(core, mode: keyof typeof MODE) {
           displayComponent: true,
           layoutTag: NineLayoutTag.TOP_RIGHT,
         }),
-      mode !== MODE.DIPLAN_SMALL &&
-        Attributions({
-          displayComponent: true,
-          layoutTag:
-            mode === MODE.POLAR
-              ? NineLayoutTag.BOTTOM_RIGHT
-              : NineLayoutTag.BOTTOM_LEFT,
-          listenToChanges: [
-            'plugin/zoom/zoomLevel',
-            'plugin/layerChooser/activeBackgroundId',
-            'plugin/layerChooser/activeMaskIds',
-          ],
-          icons: {
-            close: `$vuetify.icons.chevron-${
-              mode === MODE.POLAR ? 'right' : 'left'
-            }`,
-            open: '$vuetify.icons.info',
-          },
-          buttonComponent: mode === MODE.POLAR ? undefined : AttributionButton,
-        }),
+      Attributions({
+        displayComponent: true,
+        layoutTag:
+          mode === MODE.POLAR
+            ? NineLayoutTag.BOTTOM_RIGHT
+            : NineLayoutTag.BOTTOM_LEFT,
+        listenToChanges: [
+          'plugin/zoom/zoomLevel',
+          'plugin/layerChooser/activeBackgroundId',
+          'plugin/layerChooser/activeMaskIds',
+        ],
+        icons: {
+          close: `$vuetify.icons.chevron-${
+            mode === MODE.POLAR ? 'right' : 'left'
+          }`,
+          open: '$vuetify.icons.info',
+        },
+        buttonComponent: mode === MODE.POLAR ? undefined : AttributionButton,
+      }),
       ZoomPlugin({
         layoutTag:
           mode === MODE.POLAR
