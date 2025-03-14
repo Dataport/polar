@@ -24,7 +24,6 @@ export default Vue.extend({
     ...mapGetters(['configuration']),
     tools(): Array<Array<{ id: GeoEditingMode; icon: string }>> {
       return [
-        [{ id: 'parcel', icon: '$vuetify.icons.flurstuecke-anzeigen' }],
         [
           { id: 'drawPolygon', icon: '$vuetify.icons.group' },
           { id: 'drawCircle', icon: '$vuetify.icons.kreis-einzeichnen' },
