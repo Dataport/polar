@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
-  <!-- test page for build -->
+  <!-- test page used during development -->
   <head>
     <meta charset="utf-8" />
     <title>@polar/client-diplan</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body>
     <nav></nav>
     <header>
-      <h1>Testseite <code>@polar/client-diplan</code> (POLAR UI)</h1>
+      <h1>Testseite <code>@polar/client-diplan</code> (dev)</h1>
     </header>
     <div id="somethingnice"></div>
     <main>
@@ -33,7 +33,7 @@
             <legend>DiPlan-Funktionen</legend>
             <button id="action-lasso">Lasso-Funktion</button>
             <button id="action-cut-polygons">Cut polygons</button>
-            <button id="action-duplicate-polygons">Duplicate polygons</button>
+            <button id="action-duplicate-geometry">Duplicate geometry</button>
             <button id="action-merge-polygons">Merge polygons</button>
           </fieldset>
           <div>Active extended draw mode: <span id="active-draw-mode"></span></div>
@@ -110,16 +110,13 @@
       </section>
     </main>
     <footer>At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.</footer>
-    <!-- Example without build tools. Most frameworks will allow importing this. (Try "* as PolarClientDiPlan".) -->
-    <script src="../../dist/polar-client.js"></script>
-    <!-- → window.PolarClientDiPlan is now available. -->
-    <link rel="stylesheet" src="../../dist/polar-client.css">
     <script type="module">
-      import services from '../services.js'
+      import client from './polar-client.ts'
+      import services from '../example/services.js'
       import config from './config.js'
-      import setup from './setup.js'
 
-      setup(PolarClientDiPlan, services, config)
+      import setup from './setup.js'
+      setup(client, services, config)
     </script>
   </body>
 </html>

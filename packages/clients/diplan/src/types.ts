@@ -11,13 +11,13 @@ export type DrawExtension = 'cut' | 'duplicate' | 'merge'
 export type ExtendedDrawMode = Mode | DrawExtension
 
 export type GeoEditingMode =
-  | 'parcel'
   | 'drawPolygon'
   | 'drawCircle'
   | 'merge'
   | 'cut'
   | 'lasso'
   | 'edit'
+  | 'translate'
   | 'delete'
 
 interface LinkConfig {

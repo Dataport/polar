@@ -1,9 +1,3 @@
-import { AttributionButton } from '../../src/plugins/Attributions'
-import { AddressSearch } from '../../src/plugins/AddressSearch'
-import { IconMenu } from '../../src/plugins/IconMenu'
-import { LayerChooser } from '../../src/plugins/LayerChooser'
-import { Zoom } from '../../src/plugins/Zoom'
-
 // service id map to avoid typos, ease renames
 const basemap = 'basemapde_farbe'
 const xplanwms = 'xplanwms'
@@ -55,10 +49,8 @@ export default {
       },
     },
   ],
-  geoEditing: { displayComponent: true },
   addressSearch: {
     displayComponent: true,
-    component: AddressSearch,
     searchMethods: [
       {
         queryParameters: {
@@ -113,7 +105,6 @@ export default {
     },
   ],
   attributions: {
-    buttonComponent: AttributionButton,
     layerAttributions: [
       {
         id: basemap,
@@ -146,7 +137,6 @@ export default {
         id: xplanwfs,
       },
     ],
-    selectableDrawModes: ['Point', 'LineString', 'Circle', 'Text', 'Polygon'],
     snapTo: [xplanwfs, flurstuecke],
     style: {
       fill: { color: 'rgb(51 117 212 / 50%)' },
@@ -159,11 +149,6 @@ export default {
         fillColor: 'rgb(51 117 212 / 50%)',
       },
     },
-  },
-  export: {
-    displayComponent: false,
-    showJpg: false,
-    showPdf: false,
   },
   gfi: {
     mode: 'bboxDot',
@@ -184,15 +169,4 @@ export default {
       'plugin/pins/coordinatesAfterDrag',
     ],
   },
-  iconMenu: { component: IconMenu },
-  layerChooser: { component: LayerChooser },
-  pins: {
-    toZoomLevel: 9,
-    movable: 'drag',
-    appearOnClick: {
-      show: true,
-      atZoomLevel: 0,
-    },
-  },
-  zoom: { component: Zoom },
 }

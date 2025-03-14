@@ -1,7 +1,7 @@
 <template>
   <div>
     <ButtonView
-      v-if="configuration.renderType === 'independent'"
+      v-if="configuration?.diplan?.renderType === 'independent'"
       :method="updateOpenTool"
       :tools="tools"
     />
@@ -21,10 +21,9 @@ export default Vue.extend({
   components: { MenuView, ButtonView },
   data: () => ({ open: '' }),
   computed: {
-    ...mapGetters('diplan', ['configuration']),
+    ...mapGetters(['configuration']),
     tools(): Array<Array<{ id: GeoEditingMode; icon: string }>> {
       return [
-        [{ id: 'parcel', icon: '$vuetify.icons.flurstuecke-anzeigen' }],
         [
           { id: 'drawPolygon', icon: '$vuetify.icons.group' },
           { id: 'drawCircle', icon: '$vuetify.icons.kreis-einzeichnen' },
@@ -32,7 +31,10 @@ export default Vue.extend({
           { id: 'cut', icon: '$vuetify.icons.durchschneiden' },
           { id: 'lasso', icon: '$vuetify.icons.map-lasso' },
         ],
-        [{ id: 'edit', icon: '$vuetify.icons.create' }],
+        [
+          { id: 'edit', icon: '$vuetify.icons.create' },
+          { id: 'translate', icon: 'fa-regular fa-hand' },
+        ],
         [{ id: 'delete', icon: '$vuetify.icons.delete' }],
       ]
     },

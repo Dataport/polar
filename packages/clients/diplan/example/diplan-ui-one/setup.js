@@ -35,11 +35,11 @@ export default (client, layerConf, config) => {
          * version at https://dataport.github.io/polar/docs/diplan/client-diplan.html  */
         mapConfiguration: {
           stylePath: '../../dist/polar-client.css',
-          layerConf, // either a Service[] or a link to a fitting json file
+          layerConf,
           ...config,
         },
       },
-      'POLAR'
+      'DIPLAN_ONE'
     )
     .then((mapInstance) => {
       /*
@@ -58,6 +58,12 @@ export default (client, layerConf, config) => {
         'action-address-search-filler'
       )
       const actionLasso = document.getElementById('action-lasso')
+      const actionCut = document.getElementById('action-cut-polygons')
+      const actionDuplicate = document.getElementById(
+        'action-duplicate-polygons'
+      )
+      const actionMerge = document.getElementById('action-merge-polygons')
+      const activeExtendedDrawMode = document.getElementById('active-draw-mode')
 
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
@@ -86,6 +92,17 @@ export default (client, layerConf, config) => {
       )
       actionLasso.onclick = () =>
         mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')
+      actionCut.onclick = () =>
+        mapInstance.$store.dispatch('diplan/cutPolygons')
+      actionDuplicate.onclick = () =>
+        mapInstance.$store.dispatch('diplan/duplicatePolygons')
+      actionMerge.onclick = () =>
+        mapInstance.$store.dispatch('diplan/mergePolygons')
+      mapInstance.$store.watch(
+        (_, getters) => getters['diplan/activeDrawMode'],
+        (activeDrawMode) => (activeExtendedDrawMode.innerHTML = activeDrawMode),
+        { immediate: true }
+      )
 
       const htmlRevisedDrawExport = document.getElementById(
         'subscribed-revised-draw-export'

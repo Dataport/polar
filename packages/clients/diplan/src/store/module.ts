@@ -46,10 +46,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
       if (mode === 'reset') {
         return
       }
-      if (mode === 'parcel') {
-        // TODO: Implement
-        console.error('Not implemented yet.')
-      } else if (mode === 'drawPolygon') {
+      if (mode === 'drawPolygon') {
         await dispatch('plugin/draw/setMode', 'draw', { root: true })
         dispatch('plugin/draw/setDrawMode', 'Polygon', { root: true })
       } else if (mode === 'drawCircle') {
@@ -62,8 +59,9 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
       } else if (mode === 'lasso') {
         dispatch('plugin/draw/setMode', 'lasso', { root: true })
       } else if (mode === 'edit') {
-        // TODO: Implement edit for diplan so that it has both translate and normal edit functionality
         dispatch('plugin/draw/setMode', 'edit', { root: true })
+      } else if (mode === 'translate') {
+        dispatch('plugin/draw/setMode', 'translate', { root: true })
       } else if (mode === 'delete') {
         dispatch('plugin/draw/setMode', 'delete', { root: true })
       }
