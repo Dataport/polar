@@ -18,6 +18,7 @@ export type GeoEditingMode =
   | 'cut'
   | 'lasso'
   | 'edit'
+  | 'translate'
   | 'delete'
 
 export interface DiplanConfiguration {

@@ -16,7 +16,7 @@ export const diplanDe = {
         cut: 'Durchschneiden',
         lasso: 'Lasso',
         edit: 'Bearbeiten',
-        revert: 'Rückgängig',
+        translate: 'Fläche bewegen',
         delete: 'Fläche entfernen',
       },
     },

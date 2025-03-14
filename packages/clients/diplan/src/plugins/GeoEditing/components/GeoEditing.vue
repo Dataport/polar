@@ -32,7 +32,10 @@ export default Vue.extend({
           { id: 'cut', icon: '$vuetify.icons.durchschneiden' },
           { id: 'lasso', icon: '$vuetify.icons.map-lasso' },
         ],
-        [{ id: 'edit', icon: '$vuetify.icons.create' }],
+        [
+          { id: 'edit', icon: '$vuetify.icons.create' },
+          { id: 'translate', icon: 'fa-regular fa-hand' },
+        ],
         [{ id: 'delete', icon: '$vuetify.icons.delete' }],
       ]
     },
