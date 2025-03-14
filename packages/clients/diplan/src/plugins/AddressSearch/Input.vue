@@ -2,7 +2,6 @@
   <v-text-field
     id="polar-plugin-address-search-input"
     append-outer-icon="fa-magnifying-glass"
-    single-line
     clearable
     :label="$t(label)"
     :placeholder="$t(placeholder)"
