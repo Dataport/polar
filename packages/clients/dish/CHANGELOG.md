@@ -13,6 +13,7 @@
 - Fix: Import types `AddressSearchState` and `AddressSearchGetters` from correct position.
 - Fix: Import enum `SearchResultSymbols` from correct position.
 - Fix: The alt text to the "Landesdachmarke" for screen readers was missing.
+- Fix: Image in gfi will only be shown if there is enough space for the minimum width.
 - Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
 - Chore: Upgrade `@masterportal/masterportalapi` from `2.8.0` to `2.45.0` and subsequently `ol` from `^7.1.0` to `^10.3.1`.
 - Chore: Update `@polar`-dependencies to the latest versions.
