@@ -1,7 +1,7 @@
 <template>
   <div>
     <ButtonView
-      v-if="configuration.renderType === 'independent'"
+      v-if="configuration?.diplan?.renderType === 'independent'"
       :method="updateOpenTool"
       :tools="tools"
     />
@@ -21,7 +21,7 @@ export default Vue.extend({
   components: { MenuView, ButtonView },
   data: () => ({ open: '' }),
   computed: {
-    ...mapGetters('diplan', ['configuration']),
+    ...mapGetters(['configuration']),
     tools(): Array<Array<{ id: GeoEditingMode; icon: string }>> {
       return [
         [{ id: 'parcel', icon: '$vuetify.icons.flurstuecke-anzeigen' }],

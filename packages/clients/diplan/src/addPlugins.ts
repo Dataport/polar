@@ -41,7 +41,11 @@ export function addPlugins(core, mode: keyof typeof MODE) {
           component: mode === MODE.POLAR ? undefined : AddressSearch,
         }),
       mode !== MODE.DIPLAN_SMALL && iconMenu,
-      mode === MODE.DIPLAN_TWO && GeoEditing({}),
+      mode === MODE.DIPLAN_TWO &&
+        GeoEditing({
+          displayComponent: true,
+          layoutTag: NineLayoutTag.TOP_RIGHT,
+        }),
       mode !== MODE.DIPLAN_SMALL &&
         Attributions({
           displayComponent: true,
