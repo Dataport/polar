@@ -5,8 +5,7 @@
 /* "polarstern" is the id of the div the component renders to */
 #polarstern-wrapper {
   position: relative;
-  /* Value based on figma */
-  height: 1035px;
+  height: 400px;
   width: 100%;
   box-shadow: 0 0 6px 0 rgba(51 117 212 / 60%);
 }
