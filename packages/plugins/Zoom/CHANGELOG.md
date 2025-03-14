@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new configuration parameter `component` to be able to interchange the UI component of this plugin.
+
 ## 1.4.0
 
 - Feature: Add option to configure used icons.

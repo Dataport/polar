@@ -1,5 +1,6 @@
 <template>
-  <div class="polar-zoom-wrap">
+  <component :is="component" v-if="component" />
+  <div v-else class="polar-zoom-wrap">
     <v-tooltip v-if="showZoomButtons" left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
@@ -62,6 +63,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['deviceIsHorizontal', 'hasSmallDisplay', 'hasSmallHeight']),
     ...mapGetters('plugin/zoom', [
+      'component',
       'icons',
       'maximumZoomLevelActive',
       'minimumZoomLevelActive',

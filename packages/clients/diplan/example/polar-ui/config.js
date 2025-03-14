@@ -124,6 +124,7 @@ export default {
     ],
   },
   draw: {
+    displayComponent: true,
     enableOptions: true,
     lassos: [
       {
