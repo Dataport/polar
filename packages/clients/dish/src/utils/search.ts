@@ -111,6 +111,7 @@ const prepareInputValue = (
     .replaceAll('.', ' ')
     .replaceAll('- ', ' ')
     .replaceAll(': ', ' ')
+    .replaceAll('/', ' ')
   while (cleanedInputValue.includes('  ')) {
     cleanedInputValue = cleanedInputValue.replaceAll('  ', ' ')
   }
