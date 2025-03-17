@@ -1,6 +1,10 @@
 const clientId = 'polar'
 const scope = 'openid'
 
+const authenticationUrl = ''
+const revokeTokenUrl = ''
+const refreshTokenUrl = ''
+
 let loggedIn = false
 let token
 let refreshToken
@@ -11,9 +15,7 @@ export async function authenticate(username, password, setTokenMethod) {
     return
   }
 
-  const url = ''
-
-  const response = await fetch(url, {
+  const response = await fetch(authenticationUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
@@ -51,9 +53,7 @@ async function reset() {
 }
 
 async function revokeToken() {
-  const url = ''
-
-  const response = await fetch(url, {
+  const response = await fetch(revokeTokenUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
@@ -70,9 +70,7 @@ async function revokeToken() {
 }
 
 async function requestNewToken(setTokenMethod) {
-  const url = ''
-
-  const response = await fetch(url, {
+  const response = await fetch(refreshTokenUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
