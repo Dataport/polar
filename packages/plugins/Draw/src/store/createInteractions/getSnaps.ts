@@ -3,7 +3,7 @@ import { Snap } from 'ol/interaction'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 
-export const getSchnaps = (map: Map, snapIds: string[]): Snap[] =>
+export const getSnaps = (map: Map, snapIds: string[]): Snap[] =>
   snapIds.reduce((accumulator, layerId) => {
     const source = (
       map
