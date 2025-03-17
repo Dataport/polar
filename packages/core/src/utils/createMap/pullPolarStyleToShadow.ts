@@ -10,7 +10,7 @@ export const pullPolarStyleToShadow = (
     const polarStylesheets = stylesheets.filter((el) =>
       el.getAttribute('data-vite-dev-id')
     )
-    // TODO: This is a temporary workaround until diplanung-style provides the rule this way; this should not find it's way onto main
+    // TODO: This is a temporary workaround until diplanung-style provides the rule this way; this should not find its way onto main, but it will, and, if you read it, probably did
     // TODO: For prod mode, add the :host to the polar.css by hand
     polarStylesheets.forEach((style) => {
       if (
