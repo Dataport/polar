@@ -23,7 +23,6 @@ export async function authenticate(username, password, setTokenMethod) {
       password
     )}&scope=${encodeURIComponent(scope)}`,
   })
-  console.warn('aer')
   if (response.ok) {
     const data = await response.json()
     token = data.access_token
