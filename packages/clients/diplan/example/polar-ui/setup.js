@@ -106,7 +106,6 @@ export default (client, layerConf, config) => {
 
       window.changeVisibility = (that, targetPlugin) => {
         const oldConfiguration = mapInstance.$store.state.configuration
-        console.log(oldConfiguration)
         mapInstance.$store.commit('setConfiguration', {
           ...oldConfiguration,
           [targetPlugin]: {
