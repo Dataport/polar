@@ -131,6 +131,7 @@ export default Vue.extend({
     },
   },
   mounted() {
+    this.addInterceptor()
     const map = api.map.createMap(
       {
         target: this.$refs['polar-map-container'],
@@ -169,7 +170,6 @@ export default Vue.extend({
     }
     addEventListener('resize', this.updateHasSmallDisplay)
     this.updateHasSmallDisplay()
-    this.addInterceptor()
   },
   beforeDestroy() {
     removeEventListener('resize', this.updateHasSmallDisplay)
