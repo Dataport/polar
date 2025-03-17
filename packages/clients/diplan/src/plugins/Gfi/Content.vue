@@ -1,7 +1,10 @@
 <template>
   <v-card class="diplan-gfi-content">
     <v-card-actions>
-      <v-card-title class="py-0">Dienstname</v-card-title>
+      <div>
+        <v-card-title class="py-0 pb-4">BPlan Vektor</v-card-title>
+        <v-card-subtitle class="py-0">1 Layer</v-card-subtitle>
+      </div>
       <v-spacer></v-spacer>
       <v-btn
         icon
@@ -14,10 +17,8 @@
     </v-card-actions>
     <v-divider class="mx-4" />
     <v-card-actions class="mx-4">
-      <v-card-subtitle>{{ features.length }} Layer</v-card-subtitle>
-      <v-divider vertical class="mx-2"></v-divider>
       <v-card-subtitle>
-        {{ featureInformation.xplanwms.length }} WMS-Features
+        {{ featureItems.length }} WMS-Features
         <v-tooltip bottom>
           <template #activator="{ on }">
             <v-icon small class="mb-1" v-on="on">fa-info-circle</v-icon>
@@ -64,6 +65,22 @@
         <b v-else>Keine Attribute vorhanden!</b>
       </v-tab-item>
     </v-tabs-items>
+    <div class="mt-4 d-flex">
+      <v-btn
+        style="flex: 1"
+        :disabled="featureIndex <= 0"
+        @click="navigate(-1)"
+      >
+        <v-icon small>fa-chevron-left</v-icon>
+      </v-btn>
+      <v-btn
+        style="flex: 1"
+        :disabled="featureIndex >= featureItems.length - 1 || featureIndex < 0"
+        @click="navigate(1)"
+      >
+        <v-icon small>fa-chevron-right</v-icon>
+      </v-btn>
+    </div>
   </v-card>
 </template>
 
@@ -150,6 +167,14 @@ export default Vue.extend({
           )}(${idx + 1})`,
         }))
     },
+    featureIndex() {
+      return this.featureItems.indexOf(this.feature)
+    },
+  },
+  watch: {
+    featureItems(newValue) {
+      this.feature = newValue?.[0]
+    },
   },
   mounted() {
     this.feature = this.featureItems[0]
@@ -162,6 +187,13 @@ export default Vue.extend({
         .sort(([a], [b]) => a.localeCompare(b))
         .filter(([label]) => filter(label))
         .map(([label, value]) => ({ label, value }))
+    },
+    navigate(offset) {
+      const nextIndex = this.featureIndex + offset
+      if (nextIndex < 0 || nextIndex >= this.featureItems.length) {
+        return
+      }
+      this.feature = this.featureItems[nextIndex]
     },
   },
 })
