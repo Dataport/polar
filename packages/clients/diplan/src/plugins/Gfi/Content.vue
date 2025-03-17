@@ -69,6 +69,8 @@
       <v-btn
         style="flex: 1"
         :disabled="featureIndex <= 0"
+        :aria-disabled="featureIndex <= 0"
+        aria-label="Vorheriges Feature aufrufen"
         @click="navigate(-1)"
       >
         <v-icon small>fa-chevron-left</v-icon>
@@ -76,6 +78,10 @@
       <v-btn
         style="flex: 1"
         :disabled="featureIndex >= featureItems.length - 1 || featureIndex < 0"
+        :aria-disabled="
+          featureIndex >= featureItems.length - 1 || featureIndex < 0
+        "
+        aria-label="Nächstes Feature aufrufen"
         @click="navigate(1)"
       >
         <v-icon small>fa-chevron-right</v-icon>
