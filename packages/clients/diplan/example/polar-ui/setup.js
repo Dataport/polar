@@ -60,6 +60,15 @@ export default (client, layerConf, config) => {
       )
       const actionWidth = document.getElementById('action-width')
       const actionHeight = document.getElementById('action-height')
+      const actionVisibilityAddressSearch = document.getElementById(
+        'action-visibility-address-search'
+      )
+      const actionVisibilityLayerChooser = document.getElementById(
+        'action-visibility-layer-chooser'
+      )
+      const actionVisibilityScale = document.getElementById(
+        'action-visibility-scale'
+      )
 
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
@@ -94,6 +103,31 @@ export default (client, layerConf, config) => {
         document.getElementById('polarstern-wrapper').style.height =
           actionHeight.value
       }
+
+      window.changeVisibility = (that, targetPlugin) => {
+        const oldConfiguration = mapInstance.$store.state.configuration
+        console.log(oldConfiguration)
+        mapInstance.$store.commit('setConfiguration', {
+          ...oldConfiguration,
+          [targetPlugin]: {
+            ...oldConfiguration[targetPlugin],
+            displayComponent: that.checked,
+          },
+        })
+      }
+
+      actionVisibilityAddressSearch.setAttribute(
+        'onChange',
+        'changeVisibility(this, "addressSearch");'
+      )
+      actionVisibilityLayerChooser.setAttribute(
+        'onChange',
+        'changeVisibility(this, "layerChooser");'
+      )
+      actionVisibilityScale.setAttribute(
+        'onChange',
+        'changeVisibility(this, "scale");'
+      )
 
       const htmlRevisedDrawExport = document.getElementById(
         'subscribed-revised-draw-export'
