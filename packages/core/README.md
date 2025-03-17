@@ -91,7 +91,7 @@ The mapConfiguration allows controlling many client instance details.
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalapi. |
 | featureStyles | string? | Optional path to define styles for vector features. See `mapConfiguration.featureStyles` for more information. May be a url or a path on the local file system. |
-| interceptorUrlRegex | string | Regular expression defining URLs that belong to secured services. All requests sent to URLs that fit the regular expression will send the JSON Web Token (JWT) found in the store parameter `oidcToken` as a Bearer token in the Authorization header of the request. Requests already including a Authorization header will keep the already present one. |
+| secureServiceUrlRegex | string | Regular expression defining URLs that belong to secured services. All requests sent to URLs that fit the regular expression will send the JSON Web Token (JWT) found in the store parameter `oidcToken` as a Bearer token in the Authorization header of the request. Requests already including a Authorization header will keep the already present one. |
 | language | enum["de", "en"]? | Initial language. |
 | locales | Locale[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
 | <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
@@ -558,7 +558,7 @@ map.$store.commit('setOidcToken', 'base64encodedOIDCtoken')
 ```
 
 Calling the mutation `setOidcToken` adds the given Base64-encoded OIDC token to the store.  
-If the configuration parameter `interceptorUrlRegex` is set, the token will be sent as a Bearer token in the Authorization header of all requests to URLs that match the regular expression.
+If the configuration parameter `secureServiceUrlRegex` is set, the token will be sent as a Bearer token in the Authorization header of all requests to URLs that match the regular expression.
 
 ### Getters
 

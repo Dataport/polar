@@ -7,7 +7,7 @@ import {
 export function addInterceptor({
   getters,
 }: PolarActionContext<CoreState, CoreGetters>) {
-  const { interceptorUrlRegex } = getters.configuration
+  const { secureServiceUrlRegex } = getters.configuration
   const { fetch: originalFetch } = window
 
   // If interceptors for XMLHttpRequest or axios are needed, add them here
@@ -15,9 +15,9 @@ export function addInterceptor({
     let config = originalConfig
 
     if (
-      interceptorUrlRegex &&
+      secureServiceUrlRegex &&
       typeof resource === 'string' &&
-      resource.match(interceptorUrlRegex)
+      resource.match(secureServiceUrlRegex)
     ) {
       config = {
         ...originalConfig,
