@@ -665,6 +665,7 @@ export interface MapConfig extends MasterportalApiConfig {
   secureServiceUrlRegex?: string
   language?: InitialLanguage
   locales?: Locale[]
+  oidcToken?: string
   renderFaToLightDom?: boolean
   stylePath?: string
   vuetify?: UserVuetifyPreset
