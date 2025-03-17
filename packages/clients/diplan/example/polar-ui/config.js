@@ -65,7 +65,6 @@ export default {
     minLength: 3,
     waitMs: 300,
   },
-  interceptorUrlRegex: '',
   layers: [
     {
       id: basemap,
