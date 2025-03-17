@@ -14,7 +14,7 @@
           small
           @click="setOpenedOptions(layerId)"
         >
-          <v-icon small>{{ '$vuetify.icons.gear-outline' }}</v-icon>
+          <v-icon small>$vuetify.icons.gear-outline</v-icon>
         </v-btn>
       </div>
     </template>
