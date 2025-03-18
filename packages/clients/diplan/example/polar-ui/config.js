@@ -159,11 +159,6 @@ export default {
       },
     },
   },
-  export: {
-    displayComponent: true,
-    showJpg: false,
-    showPdf: false,
-  },
   gfi: {
     mode: 'bboxDot',
     layers: {
