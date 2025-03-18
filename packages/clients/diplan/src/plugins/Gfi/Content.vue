@@ -17,7 +17,7 @@
     </v-card-actions>
     <v-divider class="mx-4" />
     <v-card-actions class="mx-4">
-      <v-card-subtitle>
+      <v-card-subtitle class="grow">
         {{ $t('diplan.gfi.headerLabelWmsFeature', { count: featureItems.length }) }}
         <v-tooltip bottom>
           <template #activator="{ on }">
