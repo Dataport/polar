@@ -85,7 +85,7 @@
         aria-label="Nächstes Feature aufrufen"
         @click="navigate(1)"
       >
-        <v-icon small>fa-chevron-right</v-icon>
+        <v-icon color="black">$vuetify.icons.chevron-left</v-icon>
       </v-btn>
     </div>
   </v-card>
