@@ -12,7 +12,7 @@
         :aria-label="$t('plugins.gfi.header.close')"
         @click="close(true)"
       >
-        <v-icon small>fa-xmark</v-icon>
+        <v-icon small color="black">$vuetify.icons.close</v-icon>
       </v-btn>
     </v-card-actions>
     <v-divider class="mx-4" />
