@@ -21,7 +21,9 @@
         {{ featureItems.length }} WMS-Features
         <v-tooltip bottom>
           <template #activator="{ on }">
-            <v-icon small class="mb-1" v-on="on">fa-info-circle</v-icon>
+            <v-icon small color="black" class="mb-1" v-on="on">
+              $vuetify.icons.info-fill
+            </v-icon>
           </template>
           <span>
             Die Anzahl der aufgeführten WMS-Features ist abhängig vom
