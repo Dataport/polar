@@ -5,7 +5,7 @@
         <v-card-title class="py-0 pb-4">BPlan Vektor</v-card-title>
         <v-card-subtitle class="py-0">1 Layer</v-card-subtitle>
       </div>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-btn
         icon
         small
