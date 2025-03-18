@@ -23,10 +23,10 @@
           <template #activator="{ on }">
             <v-icon small class="mb-1" v-on="on">fa-info-circle</v-icon>
           </template>
-          <span
-            >Die Anzahl der aufgeführten WMS-Features ist abhängig vom
-            Klickradius und der Zoomstufe.</span
-          >
+          <span>
+            Die Anzahl der aufgeführten WMS-Features ist abhängig vom
+            Klickradius und der Zoomstufe.
+          </span>
         </v-tooltip>
       </v-card-subtitle>
       <v-divider vertical class="mx-2" />
