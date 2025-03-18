@@ -53,11 +53,9 @@ export const cutCuttablesWithCutter = (
     return accumulator
   }, [] as GeoJsonFeature<GeoJsonPolygon>[])
 
-  const ret = unkinkedCuttables
+  return unkinkedCuttables
     .map((cuttable) => cutCuttableWithCutter(cuttable, cutter))
     .flat(1)
-
-  return ret
 }
 
 const intersectionCountImpliesCuttability = (count: number) =>
