@@ -1,4 +1,5 @@
 /* eslint-disable max-lines-per-function */
+
 const geoJSON = {
   type: 'FeatureCollection',
   features: [
@@ -44,6 +45,7 @@ export default (client, layerConf, config) => {
        * the API.md and nested documents in the compiled docs:
        * https://dataport.github.io/polar/docs/diplan/client-diplan.html
        */
+
       const actionPlus = document.getElementById('action-plus')
       const actionMinus = document.getElementById('action-minus')
       const actionToast = document.getElementById('action-toast')
