@@ -29,7 +29,7 @@
           >
         </v-tooltip>
       </v-card-subtitle>
-      <v-divider vertical class="mx-2"></v-divider>
+      <v-divider vertical class="mx-2" />
       <v-select
         v-model="feature"
         :items="featureItems"
