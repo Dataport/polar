@@ -63,12 +63,6 @@
     "lodash.debounce": "^4.0.8",
     "lodash.merge": "^4.6.2"
   },
-  "peerDependencies": {
-    "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "^10.3.1",
-    "vue": "^2.x",
-    "vuex": "^3.x"
-  },
   "nx": {
     "includedScripts": [
       "build",
