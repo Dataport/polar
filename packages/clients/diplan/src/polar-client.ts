@@ -14,6 +14,8 @@ import locales from './locales'
 // import GfiContent from './plugins/Gfi'
 
 import './index.css'
+import '../assets/dist/diplanStyle.css'
+
 import diplanModule from './store/module'
 import { addPlugins } from './addPlugins'
 import { MODE } from './mode'
@@ -21,49 +23,47 @@ import { MODE } from './mode'
 // eslint-disable-next-line no-console
 console.log(`DiPlanKarten-POLAR-Client v${packageInfo.version}.`)
 
-const diplanCore = { ...core }
-
-export default {
-  createMap: (properties, mode: keyof typeof MODE) => {
-    addPlugins(diplanCore, mode)
-    return diplanCore
-      .createMap(
-        merge(
-          {
-            mapConfiguration: {
-              locales,
-              vuetify: {
-                theme: {
-                  themes: {
-                    light: {
-                      primary: cssVariables.dpsColorDark,
-                      primaryContrast: cssVariables.dpsColorBackground,
-                      // secondary not defined; using same as primary
-                      secondary: cssVariables.dpsColorDark,
-                      secondaryContrast: cssVariables.dpsColorBackground,
-                      accent: cssVariables.dpsColorPrimaryTint,
-                      error: cssVariables.dpsColorError,
-                      info: cssVariables.dpsColorPrimaryDarker,
-                      success: cssVariables.dpsColorSuccess,
-                      warning: cssVariables.dpsColorWarning,
-                    },
+const createMap = (properties, mode: keyof typeof MODE) => {
+  addPlugins(core, mode)
+  return core
+    .createMap(
+      merge(
+        {
+          mapConfiguration: {
+            locales,
+            vuetify: {
+              theme: {
+                themes: {
+                  light: {
+                    primary: cssVariables.dpsColorDark,
+                    primaryContrast: cssVariables.dpsColorBackground,
+                    // secondary not defined; using same as primary
+                    secondary: cssVariables.dpsColorDark,
+                    secondaryContrast: cssVariables.dpsColorBackground,
+                    accent: cssVariables.dpsColorPrimaryTint,
+                    error: cssVariables.dpsColorError,
+                    info: cssVariables.dpsColorPrimaryDarker,
+                    success: cssVariables.dpsColorSuccess,
+                    warning: cssVariables.dpsColorWarning,
                   },
                 },
-                icons: {
-                  values: {
-                    ...iconMap,
-                  },
+              },
+              icons: {
+                values: {
+                  ...iconMap,
                 },
               },
             },
           },
-          properties
-        )
+        },
+        properties
       )
-      .then((clientInstance) => {
-        clientInstance.$store.registerModule('diplan', diplanModule)
-        clientInstance.$store.dispatch('diplan/setupModule')
-        return clientInstance
-      })
-  },
+    )
+    .then((clientInstance) => {
+      clientInstance.$store.registerModule('diplan', diplanModule)
+      clientInstance.$store.dispatch('diplan/setupModule')
+      return clientInstance
+    })
 }
+
+export { createMap }
