@@ -94,7 +94,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default Vue.extend({
   name: 'DiplanGfiContent',
@@ -176,7 +176,6 @@ export default Vue.extend({
     this.feature = this.featureItems[0]
   },
   methods: {
-    ...mapMutations('plugin/gfi', ['setPage']),
     ...mapActions('plugin/gfi', ['close']),
     getProperties(filter) {
       return Object.entries(this.feature?.properties || {})
