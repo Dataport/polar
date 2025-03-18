@@ -211,8 +211,4 @@ export default Vue.extend({
   z-index: 1;
   margin-top: 1em;
 }
-
-.diplan-fat-cell {
-  font-weight: 700;
-}
 </style>
