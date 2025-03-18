@@ -150,13 +150,7 @@ export default Vue.extend({
     feature: null,
   }),
   computed: {
-    ...mapGetters('plugin/gfi', [
-      'imageLoaded',
-      'visibleWindowFeatureIndex',
-      'windowFeatures',
-      'featureInformation',
-      'gfiConfiguration',
-    ]),
+    ...mapGetters('plugin/gfi', ['featureInformation']),
     features() {
       return [
         ...this.featureInformation.xplanwms.filter((_, idx) => idx === 0),
