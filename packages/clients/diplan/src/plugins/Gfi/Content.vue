@@ -44,8 +44,9 @@
         v-for="table of Object.keys(tables)"
         :key="table"
         class="text-none"
-        >{{ table }}</v-tab
       >
+        {{ table }}
+      </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab" class="mx-4">
       <v-tab-item v-for="[key, filter] of Object.entries(tables)" :key="key">
