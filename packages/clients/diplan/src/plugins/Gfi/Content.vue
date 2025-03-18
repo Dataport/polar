@@ -156,14 +156,14 @@ export default Vue.extend({
       // We want to show the <name> part
       return [...this.featureInformation.xplanwms]
         .reverse()
-        .map((feature, idx) => ({
+        .map((feature, i) => ({
           ...feature,
           text: `${
             feature.properties?.xpPlanName
           } - ${feature.properties.gmlId.substring(
             6,
             feature.properties.gmlId.length - 37
-          )}(${idx + 1})`,
+          )}(${i + 1})`,
         }))
     },
     featureIndex() {
