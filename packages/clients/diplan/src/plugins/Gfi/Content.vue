@@ -195,7 +195,7 @@ export default Vue.extend({
         .filter(([label]) => filter(label))
         .map(([label, value]) => ({ label, value }))
     },
-    navigate(offset) {
+    navigate(offset: number) {
       const nextIndex = this.featureIndex + offset
       if (nextIndex < 0 || nextIndex >= this.featureItems.length) {
         return
