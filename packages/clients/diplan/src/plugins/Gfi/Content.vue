@@ -151,6 +151,8 @@ export default Vue.extend({
   computed: {
     ...mapGetters('plugin/gfi', ['featureInformation']),
     featureItems() {
+      // gmlId has the following syntax: XPLAN_<name>_<UUID>
+      // We want to show the <name> part
       return [...this.featureInformation.xplanwms]
         .reverse()
         .map((feature, idx) => ({
