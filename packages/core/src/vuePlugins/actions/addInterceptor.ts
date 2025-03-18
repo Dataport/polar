@@ -16,6 +16,7 @@ export function addInterceptor({
       let config = originalConfig
 
       if (
+        getters.oidcToken &&
         typeof resource === 'string' &&
         resource.match(secureServiceUrlRegex)
       ) {
@@ -23,7 +24,7 @@ export function addInterceptor({
           ...originalConfig,
           headers: {
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            Authorization: `Bearer ${getters.oidcToken}` || '',
+            Authorization: `Bearer ${getters.oidcToken}`,
             ...originalConfig?.headers,
           },
         }
