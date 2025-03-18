@@ -74,7 +74,7 @@
         aria-label="Vorheriges Feature aufrufen"
         @click="navigate(-1)"
       >
-        <v-icon small>fa-chevron-left</v-icon>
+        <v-icon color="black">$vuetify.icons.chevron-right</v-icon>
       </v-btn>
       <v-btn
         style="flex: 1"
