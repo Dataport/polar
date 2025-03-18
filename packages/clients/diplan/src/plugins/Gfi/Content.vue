@@ -3,7 +3,7 @@
     <v-card-actions>
       <div>
         <v-card-title class="py-0 pb-4">BPlan Vektor</v-card-title>
-        <v-card-subtitle class="py-0">1 Layer</v-card-subtitle>
+        <v-card-subtitle class="py-0">{{ $t('diplan.gfi.headerLabelLayer', { count: 1 }) }}</v-card-subtitle>
       </div>
       <v-spacer />
       <v-btn
@@ -18,17 +18,14 @@
     <v-divider class="mx-4" />
     <v-card-actions class="mx-4">
       <v-card-subtitle>
-        {{ featureItems.length }} WMS-Features
+        {{ $t('diplan.gfi.headerLabelWmsFeature', { count: featureItems.length }) }}
         <v-tooltip bottom>
           <template #activator="{ on }">
             <v-icon small color="black" class="mb-1" v-on="on">
               $vuetify.icons.info-fill
             </v-icon>
           </template>
-          <span>
-            Die Anzahl der aufgeführten WMS-Features ist abhängig vom
-            Klickradius und der Zoomstufe.
-          </span>
+          <span>{{ $t('diplan.gfi.hintInfoWmsFeatures') }}</span>
         </v-tooltip>
       </v-card-subtitle>
       <v-divider vertical class="mx-2" />
@@ -65,7 +62,9 @@
             </tbody>
           </template>
         </v-simple-table>
-        <b v-else>Keine Attribute vorhanden!</b>
+        <div v-else class="mt-2">
+          <b>{{ $t('diplan.gfi.zeroAttributes') }}</b>
+        </div>
       </v-tab-item>
     </v-tabs-items>
     <div class="mt-4 d-flex">
