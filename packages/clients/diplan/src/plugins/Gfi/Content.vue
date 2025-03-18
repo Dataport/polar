@@ -151,12 +151,6 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters('plugin/gfi', ['featureInformation']),
-    features() {
-      return [
-        ...this.featureInformation.xplanwms.filter((_, idx) => idx === 0),
-        ...this.featureInformation.xplanwfs,
-      ].reverse()
-    },
     featureItems() {
       return [...this.featureInformation.xplanwms]
         .reverse()
