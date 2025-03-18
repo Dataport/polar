@@ -66,4 +66,4 @@ const createMap = (properties, mode: keyof typeof MODE) => {
     })
 }
 
-export { createMap }
+export default { createMap }
