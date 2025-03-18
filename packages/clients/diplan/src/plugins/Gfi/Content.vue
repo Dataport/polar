@@ -1,5 +1,5 @@
 <template>
-  <v-card class="diplan-gfi-content">
+  <v-card ref="container" class="diplan-gfi-content">
     <v-card-actions>
       <div>
         <v-card-title class="py-0 pb-4">BPlan Vektor</v-card-title>
@@ -150,6 +150,7 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters('plugin/gfi', ['featureInformation']),
+    ...mapGetters('plugin/iconMenu', ['open']),
     featureItems() {
       // gmlId has the following syntax: XPLAN_<name>_<UUID>
       // We want to show the <name> part
@@ -173,9 +174,13 @@ export default Vue.extend({
     featureItems(newValue) {
       this.feature = newValue?.[0]
     },
+    open() {
+      this.moveOverlay()
+    },
   },
   mounted() {
     this.feature = this.featureItems[0]
+    this.moveOverlay()
   },
   methods: {
     ...mapActions('plugin/gfi', ['close']),
@@ -192,6 +197,23 @@ export default Vue.extend({
       }
       this.feature = this.featureItems[nextIndex]
     },
+    async moveOverlay() {
+      await new Promise(this.$nextTick)
+      const gfiOverlay = this.$refs.container.$el
+
+      const getEffectiveWidth = el => {
+        const boundingRect = el.getBoundingClientRect()
+        const computedStyle = getComputedStyle(el)
+        return [ `${boundingRect.width}px`, computedStyle.marginLeft, computedStyle.marginRight ]
+      }
+
+      let width = getEffectiveWidth(gfiOverlay.getRootNode().querySelector('.icon-menu-list'))
+      if (this.open === 0) {
+        width.push(...getEffectiveWidth(gfiOverlay.getRootNode().querySelector('.layer-chooser-selection')))
+        width.push('0.5em')
+      }
+      gfiOverlay.style.right = `calc(${width.join(' + ')})`
+    },
   },
 })
 </script>
@@ -199,6 +221,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .diplan-gfi-content {
   z-index: 1;
-  margin-top: 1em;
+  position: absolute;
+  top: 0.5em;
 }
 </style>
