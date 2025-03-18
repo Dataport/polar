@@ -11,16 +11,16 @@ const colors = {
 }
 const width = 5
 
-export const fill = new Fill({
+const fill = new Fill({
   color: colors.fill,
 })
 
-export const circleStroke = new Stroke({
+const circleStroke = new Stroke({
   color: colors.circleStroke,
   width: width * 0.66,
 })
 
-export const dashStroke = new Stroke({
+const dashStroke = new Stroke({
   color: colors.strokeIneffective,
   lineDash: [10, 15],
   lineCap: 'square',
