@@ -425,7 +425,7 @@ export interface IconMenuConfiguration extends PluginOptions {
   initiallyOpen?: string
 }
 
-export interface LayerChooserConfiguration {
+export interface LayerChooserConfiguration extends PluginOptions {
   component?: VueConstructor
 }
 
