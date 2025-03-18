@@ -5,6 +5,8 @@ export const diplanDe = {
     error: {
       metaInformationRetrieval:
         'Der Bezug von Metadaten zur gezeichneten Geometrie ist fehlgeschlagen. Die Geometrie wird ohne Metadaten weitergereicht.',
+      cutFailed:
+        'Das Polygon konnte aufgrund eines unbekannten Fehlers leider nicht geschnitten werden.',
     },
     warn: {
       unevenCut:

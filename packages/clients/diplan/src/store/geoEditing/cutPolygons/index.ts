@@ -17,6 +17,8 @@ import { makeDraw } from './makeDraw'
 
 const wgs84Epsg = 'EPSG:4326'
 
+// length stems from toast dispatchments
+// eslint-disable-next-line max-lines-per-function
 export const cutPolygons = ({
   dispatch,
   rootGetters,
@@ -41,11 +43,22 @@ export const cutPolygons = ({
     )
 
     if (cuttables.length) {
-      const cuts = cutCuttablesWithCutter(cuttables, cutter).map(
-        (cut) => converter.readFeature(cut, projectionInfo) as Feature
-      )
-      drawSource.clear()
-      drawSource.addFeatures([...uncuttables, ...cuts])
+      try {
+        const cuts = cutCuttablesWithCutter(cuttables, cutter).map(
+          (cut) => converter.readFeature(cut, projectionInfo) as Feature
+        )
+        drawSource.clear()
+        drawSource.addFeatures([...uncuttables, ...cuts])
+      } catch (e) {
+        dispatch(
+          'plugin/toast/addToast',
+          {
+            type: 'error',
+            text: 'diplan.error.cutFailed',
+          },
+          { root: true }
+        )
+      }
     } else {
       dispatch(
         'plugin/toast/addToast',
