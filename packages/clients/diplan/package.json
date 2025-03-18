@@ -54,19 +54,15 @@
     "@repositoryname/vuex-generators": "^1.1.2",
     "@turf/boolean-intersects": "^7.2.0",
     "@turf/boolean-valid": "^7.2.0",
+    "@turf/clean-coords": "^7.2.0",
     "@turf/union": "^7.2.0",
+    "@turf/unkink-polygon": "^7.2.0",
     "@types/geojson": "^7946.0.8",
     "@polar/lib-custom-types": "^2.0.0",
     "diplanung-style": "^13.0.0",
     "just-compare": "^2.3.0",
     "lodash.debounce": "^4.0.8",
     "lodash.merge": "^4.6.2"
-  },
-  "peerDependencies": {
-    "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "^10.3.1",
-    "vue": "^2.x",
-    "vuex": "^3.x"
   },
   "nx": {
     "includedScripts": [
