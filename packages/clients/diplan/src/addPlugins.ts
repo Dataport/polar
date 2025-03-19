@@ -119,11 +119,10 @@ export function addPlugins(core, mode: keyof typeof MODE) {
           displayComponent: true,
           layoutTag: NineLayoutTag.BOTTOM_RIGHT,
         }),
-      mode !== MODE.DIPLAN_SMALL &&
-        Toast({
-          displayComponent: true,
-          layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
-        }),
+      Toast({
+        displayComponent: true,
+        layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
+      }),
     ].filter((x) => x /* remove `false` entries */)
   )
 }
