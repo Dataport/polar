@@ -1,7 +1,5 @@
 /* eslint-disable max-lines-per-function */
 
-import 'diplanung-style/src/scss/main'
-
 const geoJSON = {
   type: 'FeatureCollection',
   features: [
