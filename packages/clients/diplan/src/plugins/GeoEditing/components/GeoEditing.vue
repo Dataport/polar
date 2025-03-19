@@ -19,7 +19,7 @@ import MenuView from './MenuView.vue'
 export default Vue.extend({
   name: 'GeoEditing',
   components: { MenuView, ButtonView },
-  data: () => ({ open: '' }),
+  data: () => ({ active: '' }),
   computed: {
     ...mapGetters(['configuration']),
     tools(): Array<Array<{ id: GeoEditingMode; icon: string }>> {
@@ -42,12 +42,12 @@ export default Vue.extend({
   methods: {
     ...mapActions('diplan', ['trigger']),
     updateOpenTool(id: string) {
-      if (this.open === id) {
-        this.open = ''
+      if (this.active === id) {
+        this.active = ''
         this.trigger('reset')
         return
       }
-      this.open = id
+      this.active = id
       this.trigger(id)
     },
   },
