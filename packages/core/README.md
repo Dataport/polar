@@ -91,8 +91,10 @@ The mapConfiguration allows controlling many client instance details.
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalapi. |
 | featureStyles | string? | Optional path to define styles for vector features. See `mapConfiguration.featureStyles` for more information. May be a url or a path on the local file system. |
+| secureServiceUrlRegex | string | Regular expression defining URLs that belong to secured services. All requests sent to URLs that fit the regular expression will send the JSON Web Token (JWT) found in the store parameter `oidcToken` as a Bearer token in the Authorization header of the request. Requests already including a Authorization header will keep the already present one. |
 | language | enum["de", "en"]? | Initial language. |
 | locales | Locale[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
+| oidcToken | string? | If a secured layer is supposed to be visible on start, the token also has to be provided via this configuration parameter. Updates to the token have to be done by calling the mutation [`setOidcToken`](#setoidctoken). |
 | <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
 | stylePath | string? | This path will be used to create the link node in the client itself. It defaults to `'./style.css'`. |
@@ -547,6 +549,17 @@ map.$store.watch(
 This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.
 
 To add content to the `MoveHandle`, the mutation `setMoveHandle` can be used. The values needed are described in `@polar/lib-custom-types:MoveHandleProperties`.
+
+### Mutations
+
+#### setOidcToken
+
+```js
+map.$store.commit('setOidcToken', 'base64encodedOIDCtoken')
+```
+
+Calling the mutation `setOidcToken` adds the given Base64-encoded OIDC token to the store.  
+If the configuration parameter `secureServiceUrlRegex` is set, the token will be sent as a Bearer token in the Authorization header of all requests to URLs that match the regular expression.
 
 ### Getters
 
