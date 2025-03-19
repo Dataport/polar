@@ -99,6 +99,12 @@ export default {
       type: 'mask',
       name: `diplan.layers.${bstgasleitung}`,
     },
+    {
+      id: 'secureServiceTest',
+      visibility: false,
+      type: 'mask',
+      name: 'Secure Service Test',
+    },
   ],
   attributions: {
     layerAttributions: [

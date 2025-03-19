@@ -28,6 +28,7 @@ import {
   updateSelection,
   useExtendedMasterportalapiMarkers,
 } from './actions/useExtendedMasterportalapiMarkers'
+import { addInterceptor } from './actions/addInterceptor'
 import checkServiceAvailability from './actions/checkServiceAvailability'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
@@ -77,6 +78,7 @@ const getInitialState = (): CoreState => ({
   errors: [],
   language: '',
   mapHasDimensions: false,
+  oidcToken: '',
 })
 
 // OK for store creation
@@ -215,6 +217,7 @@ export const makeStore = () => {
       },
     },
     actions: {
+      addInterceptor,
       checkServiceAvailability,
       addComponent({ state, commit, dispatch }, component: PluginContainer) {
         const { locales, language, name, options, storeModule } = component
