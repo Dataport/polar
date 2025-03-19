@@ -114,7 +114,20 @@ In mode `'all'`:
 }
 ```
 
-## State
+
+## Usage of secured services
+
+To be able to use secured services, the map client has to receive an OIDC token from the integrating application.
+This can be done with the mutation `setOidcToken`.
+The mutation has to be called whenever the token has been refreshed so that the map client always has a valid token.
+
+```js
+mapInstance.$store.commit('setOidcToken', 'base64encodedOIDCtoken')
+```
+
+If, however, a secured layer is supposed to be visible on start, the token also has to be provided via the configuration parameter `oidcToken`.
+
+## Store
 
 ### Getters
 

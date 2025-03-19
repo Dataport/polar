@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 
-import 'diplanung-style/src/scss/main'
+import { validateForm } from '../example/authentication/validateForm.js'
 
 const geoJSON = {
   type: 'FeatureCollection',
@@ -50,6 +50,12 @@ export default (client, layerConf, config) => {
        * the API.md and nested documents in the compiled docs:
        * https://dataport.github.io/polar/docs/diplan/client-diplan.html
        */
+
+      const loginButton = document.getElementById('login-button')
+      loginButton.onclick = () =>
+        validateForm((token) =>
+          mapInstance.$store.commit('setOidcToken', token)
+        )
 
       const actionPlus = document.getElementById('action-plus')
       const actionMinus = document.getElementById('action-minus')

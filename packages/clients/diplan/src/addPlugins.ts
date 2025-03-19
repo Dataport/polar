@@ -2,6 +2,7 @@ import { NineLayout, NineLayoutTag, setLayout } from '@polar/core'
 import AddressSearchPlugin from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'
+import Export from '@polar/plugin-export'
 import Gfi from '@polar/plugin-gfi'
 import IconMenuPlugin from '@polar/plugin-icon-menu'
 import LoadingIndicator from '@polar/plugin-loading-indicator'
@@ -97,6 +98,15 @@ export function addPlugins(core, mode: keyof typeof MODE) {
           displayComponent: true,
           layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
         }),
+      Export({
+        layoutTag: NineLayoutTag.BOTTOM_LEFT,
+        displayComponent: false,
+        /*
+         * icons: Currently not implemented, provided icon set has no fitting icon
+         * atm. Suggestion: Searching for "picture" on icomoon yields nice results.
+         * We should ask implementors of diplanung-style to add them eventually.
+         */
+      }),
       mode !== MODE.DIPLAN_SMALL &&
         Pins({
           toZoomLevel: 9,
@@ -116,11 +126,10 @@ export function addPlugins(core, mode: keyof typeof MODE) {
           displayComponent: true,
           layoutTag: NineLayoutTag.BOTTOM_RIGHT,
         }),
-      mode !== MODE.DIPLAN_SMALL &&
-        Toast({
-          displayComponent: true,
-          layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
-        }),
+      Toast({
+        displayComponent: true,
+        layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
+      }),
     ].filter((x) => x /* remove `false` entries */)
   )
 }
