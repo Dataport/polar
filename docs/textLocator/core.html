@@ -107,6 +107,11 @@ This register may either be a link to a predefined service register like <a href
 <td>Optional path to define styles for vector features. See <code>mapConfiguration.featureStyles</code> for more information. May be a url or a path on the local file system.</td>
 </tr>
 <tr>
+<td>secureServiceUrlRegex</td>
+<td>string</td>
+<td>Regular expression defining URLs that belong to secured services. All requests sent to URLs that fit the regular expression will send the JSON Web Token (JWT) found in the store parameter <code>oidcToken</code> as a Bearer token in the Authorization header of the request. Requests already including a Authorization header will keep the already present one.</td>
+</tr>
+<tr>
 <td>language</td>
 <td>enum[&quot;de&quot;, &quot;en&quot;]?</td>
 <td>Initial language.</td>
@@ -115,6 +120,11 @@ This register may either be a link to a predefined service register like <a href
 <td>locales</td>
 <td>Locale[]?</td>
 <td>All locales in POLAR's plugins can be overridden to fit your needs.</td>
+</tr>
+<tr>
+<td>oidcToken</td>
+<td>string?</td>
+<td>If a secured layer is supposed to be visible on start, the token also has to be provided via this configuration parameter. Updates to the token have to be done by calling the mutation <a href="#setoidctoken"><code>setOidcToken</code></a>.</td>
 </tr>
 <tr>
 <td>&lt;plugin.fields&gt;</td>
@@ -721,6 +731,12 @@ map.$store.watch(
 </code></pre>
 <p>This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.</p>
 <p>To add content to the <code>MoveHandle</code>, the mutation <code>setMoveHandle</code> can be used. The values needed are described in <code>@polar/lib-custom-types:MoveHandleProperties</code>.</p>
+<h3 id="mutations" tabindex="-1">Mutations</h3>
+<h4 id="setoidctoken" tabindex="-1">setOidcToken</h4>
+<pre><code class="language-js">map.$store.commit('setOidcToken', 'base64encodedOIDCtoken')
+</code></pre>
+<p>Calling the mutation <code>setOidcToken</code> adds the given Base64-encoded OIDC token to the store.<br />
+If the configuration parameter <code>secureServiceUrlRegex</code> is set, the token will be sent as a Bearer token in the Authorization header of all requests to URLs that match the regular expression.</p>
 <h3 id="getters" tabindex="-1">Getters</h3>
 <p>You may desire to listen to whether the loader is currently being shown.</p>
 <table>
