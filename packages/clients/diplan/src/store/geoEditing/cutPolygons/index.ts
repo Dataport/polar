@@ -49,7 +49,7 @@ export const cutPolygons = ({
         )
         drawSource.clear()
         drawSource.addFeatures([...uncuttables, ...cuts])
-      } catch (e) {
+      } catch {
         dispatch(
           'plugin/toast/addToast',
           {
