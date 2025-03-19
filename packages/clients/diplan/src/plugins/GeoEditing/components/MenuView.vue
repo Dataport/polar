@@ -43,6 +43,10 @@ export default Vue.extend({
       required: true,
     },
   },
+  beforeDestroy() {
+    this.$parent.active = ''
+    this.$parent.trigger('reset')
+  },
 })
 </script>
 
