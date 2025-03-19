@@ -460,4 +460,12 @@ export default [
     crs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
     bboxCrs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
   },
+  {
+    id: 'secureServiceTest',
+    url: '',
+    typ: 'WMS',
+    layers: '',
+    format: 'image/png',
+    version: '1.3.0',
+  },
 ]
