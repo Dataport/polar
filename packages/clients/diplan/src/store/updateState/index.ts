@@ -1,5 +1,12 @@
-import { FeatureCollection } from 'geojson'
+import {
+  FeatureCollection,
+  Feature as GeoJsonFeature,
+  MultiPolygon,
+  Polygon,
+} from 'geojson'
 import { PolarActionContext } from '@polar/lib-custom-types'
+import { cleanCoords } from '@turf/clean-coords'
+import { unkinkPolygon } from '@turf/unkink-polygon'
 import { DiplanGetters, DiplanState, GeometryType } from '../../types'
 import { mergeToMultiGeometries } from './mergeToMultiGeometries'
 import { validateGeoJson } from './validateGeoJson'
@@ -35,15 +42,37 @@ export const updateState = async ({
     rootGetters[drawFeatureCollectionSource]
   )
 
+  revisedFeatureCollection = {
+    ...revisedFeatureCollection,
+    features: revisedFeatureCollection.features.reduce(
+      (accumulator, feature) => {
+        if (['Polygon', 'MultiPolygon'].includes(feature.geometry.type)) {
+          accumulator.push(
+            ...unkinkPolygon(feature as GeoJsonFeature<Polygon | MultiPolygon>)
+              .features
+          )
+        } else {
+          accumulator.push(feature)
+        }
+        return accumulator
+      },
+      [] as GeoJsonFeature<GeometryType>[]
+    ),
+  }
+
   // merge first; relevant for both follow-up steps
   if (getters.configuration.mergeToMultiGeometries) {
+    // TODO: turf provides "union" and "combine" methods, probably just use them
     revisedFeatureCollection = mergeToMultiGeometries(revisedFeatureCollection)
   }
 
-  // TODO consider from turf:
-  // * cleanCoords
-  // * union? or even better, combine?
-  // * unkinkPolygon?
+  // removes duplicate points from polygons
+  revisedFeatureCollection = {
+    ...revisedFeatureCollection,
+    features: revisedFeatureCollection.features.map((feature) =>
+      cleanCoords(feature)
+    ),
+  }
 
   if (getters.configuration.validateGeoJson) {
     commit(

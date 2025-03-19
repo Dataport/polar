@@ -83,7 +83,7 @@ export default {
     {
       id: flurstuecke,
       visibility: false,
-      // TODO available from 7, but only starts loading from 8 - bug or skill issue?
+      // TODO available from 7, but only starts loading from 8 - bug or skill issue? → POLAR-431
       minZoom: 7,
       type: 'mask',
       name: `diplan.layers.${flurstuecke}`,
@@ -93,6 +93,12 @@ export default {
       visibility: false,
       type: 'mask',
       name: `diplan.layers.${bstgasleitung}`,
+    },
+    {
+      id: 'secureServiceTest',
+      visibility: false,
+      type: 'mask',
+      name: 'Secure Service Test',
     },
   ],
   attributions: {
