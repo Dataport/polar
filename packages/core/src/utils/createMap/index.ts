@@ -46,6 +46,10 @@ export default async function createMap({
   })
   instance.subscribe = subscribeFunction
 
+  if (mapConfiguration.oidcToken) {
+    instance.$store.commit('setOidcToken', mapConfiguration.oidcToken)
+  }
+
   pullPolarStyleToShadow(shadowRoot, mapConfiguration.stylePath)
   pullVuetifyStyleToShadow(shadowRoot)
   setupFontawesome(shadowRoot, mapConfiguration.renderFaToLightDom)
