@@ -77,6 +77,9 @@ export default Vue.extend({
       bottom: 33%;
     }
 
+    &.mid-mid {
+    }
+
     &.left {
       left: 0;
       right: auto;
