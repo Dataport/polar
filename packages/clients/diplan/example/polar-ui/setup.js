@@ -55,6 +55,13 @@ export default (client, layerConf, config) => {
         'action-address-search-filler'
       )
       const actionLasso = document.getElementById('action-lasso')
+      const actionNone = document.getElementById('action-none')
+      const actionCut = document.getElementById('action-cut-polygons')
+      const actionDuplicate = document.getElementById(
+        'action-duplicate-geometry'
+      )
+      const actionMerge = document.getElementById('action-merge-polygons')
+      const activeExtendedDrawMode = document.getElementById('active-draw-mode')
 
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
@@ -83,6 +90,19 @@ export default (client, layerConf, config) => {
       )
       actionLasso.onclick = () =>
         mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')
+      actionCut.onclick = () =>
+        mapInstance.$store.dispatch('diplan/cutPolygons')
+      actionDuplicate.onclick = () =>
+        mapInstance.$store.dispatch('diplan/duplicatePolygons')
+      actionMerge.onclick = () =>
+        mapInstance.$store.dispatch('diplan/mergePolygons')
+      actionNone.onclick = () =>
+        mapInstance.$store.dispatch('diplan/updateDrawMode', null)
+      mapInstance.$store.watch(
+        (_, getters) => getters['diplan/activeDrawMode'],
+        (activeDrawMode) => (activeExtendedDrawMode.innerHTML = activeDrawMode),
+        { immediate: true }
+      )
 
       const htmlRevisedDrawExport = document.getElementById(
         'subscribed-revised-draw-export'
