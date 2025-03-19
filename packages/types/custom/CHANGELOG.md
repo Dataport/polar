@@ -4,6 +4,7 @@
 
 - Feature: Add `snapTo` to `DrawConfiguration` for specification of layers to snap to.
 - Feature: Add `lassos` to `DrawConfiguration`. With this, `addLoading`, `removeLoading`, and `toastAction` have also been introduced to allow the feature to use other plugins via API calls, and `Lasso` itself has been introduced.
+- Feature: Add new optional configuration parameters `secureServiceUrlRegex` and `oidcToken` to `MapConfig`.
 - Feature: Add new interface `LayerChooserConfiguration` and the parameter `layerChooser` to `MapConfig` for the configurability of `@polar/plugin-layer-chooser`.
 - Feature: Add new parameter `component` to `AddressSearchConfiguration` for the configurability of the shown component.
 - Feature: Add new parameter `component` to `IconMenuConfiguration` for the configurability of the shown component.

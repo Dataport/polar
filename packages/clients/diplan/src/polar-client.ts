@@ -14,6 +14,8 @@ import locales from './locales'
 // import GfiContent from './plugins/Gfi'
 
 import './index.css'
+import '../assets/dist/diplanStyle.css'
+
 import diplanModule from './store/module'
 import { addPlugins } from './addPlugins'
 import { MODE } from './mode'
