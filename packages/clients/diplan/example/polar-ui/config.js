@@ -53,7 +53,6 @@ export default {
     displayComponent: true,
     searchMethods: [
       {
-        groupId: 'diplan',
         categoryId: 'wfsg',
         queryParameters: {
           searchAddress: true,
@@ -64,7 +63,6 @@ export default {
         url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
       },
       {
-        groupId: 'diplan',
         categoryId: 'bkg',
         queryParameters: {
           filter: {
@@ -76,7 +74,7 @@ export default {
       },
     ],
     groupProperties: {
-      diplan: {
+      defaultGroup: {
         label: 'Suchbegriff',
         hint: 'Suchbegriff',
         resultDisplayMode: 'categorized',
