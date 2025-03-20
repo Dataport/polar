@@ -17,6 +17,7 @@ export default Vue.extend({
 
 <style lang="scss">
 #diplan-search-container {
+  z-index: 1;
   .v-toolbar {
     padding: 4px 16px 8px 16px;
 
