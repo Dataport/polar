@@ -6,6 +6,7 @@
 - Feature: Additionally export `MapInstance` type.
 - Feature: Add possibility of using OIDC secured services by using the configuration parameters `secureServiceUrlRegex` and `oidcToken` as well as the mutation `setOidcToken`.
 - Fix: If a flag `_isPolarDragLikeInteraction` is present on any interaction, the page will stop scrolling in mobile mode, and the interaction takes precendence. Especially, this is done to prevent the tooltip on how to pan the map on mobile devices to appear. This flag is documented at the end of the README.md.
+- Fix: Vector layers were loaded one zoom level too late despite being available for activation. This has been resolved. The POLAR values for `minZoom` and `maxZoom` on layers are both modeled to be inclusive now.
 
 ## 3.0.0
 
