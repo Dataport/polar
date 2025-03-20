@@ -53,7 +53,7 @@ export const updateState = async ({
             ).features
           )
         } else {
-          accumulator.push(feature)
+          accumulator.push(cleanCoords(feature))
         }
         return accumulator
       },
