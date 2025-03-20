@@ -42,7 +42,6 @@ export const duplicatePolygons = ({
   selectedFeatures.on('add', () => {
     drawSource.addFeature(selectedFeatures.getArray()[0].clone())
     selectedFeatures.clear()
-    dispatch('updateDrawMode', null)
   })
 
   // @ts-expect-error | local piggyback
