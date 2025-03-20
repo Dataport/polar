@@ -17,18 +17,28 @@
         <h2 class="padded-x">Beispielinstanz</h2>
         <div class="padded-x">
           <h3>Steuerung von außen</h3>
-          <button id="action-plus">+</button>
-          <button id="action-minus">-</button>
-          <button id="action-toast">Toast</button>
-          <button id="action-load-geojson">GeoJSON hinzufügen</button>
-          <button id="action-zoom-to-all">Zoome auf Zeichnung</button>
-          <button id="action-screenshot">Screenshot erstellen (siehe Tabelle unten)</button>
-          <button id="action-lasso">Lasso-Funktion</button>
-          <label>
-            Adresssuche (erstbestes Ergebnis):
-            <input id="action-address-search-filler"/>
-          </label>
-          <br/>
+          <fieldset>
+            <legend>POLAR-Standardfunktionen</legend>
+            <button id="action-plus">+</button>
+            <button id="action-minus">-</button>
+            <button id="action-toast">Toast</button>
+            <button id="action-load-geojson">GeoJSON hinzufügen</button>
+            <button id="action-zoom-to-all">Zoome auf Zeichnung</button>
+            <button id="action-screenshot">Screenshot erstellen (siehe Tabelle unten)</button>
+            <label>
+              Adresssuche (erstbestes Ergebnis):
+              <input id="action-address-search-filler"/>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>DiPlan-Funktionen</legend>
+            <button id="action-none">Aktive Funktion ausschalten</button>
+            <button id="action-lasso">Lasso-Funktion</button>
+            <button id="action-cut-polygons">Cut polygons</button>
+            <button id="action-duplicate-geometry">Duplicate geometry</button>
+            <button id="action-merge-polygons">Merge polygons</button>
+          </fieldset>
+          <div>Active extended draw mode: <span id="active-draw-mode"></span></div>
         </div>
         <h3 class="padded-x">Klient</h3>
         <div id="polarstern">
