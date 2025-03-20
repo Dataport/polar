@@ -188,9 +188,7 @@ export default {
     },
   },
   export: {
-    displayComponent: true,
-    showJpg: false,
-    showPdf: false,
+    displayComponent: false,
   },
   gfi: {
     mode: 'bboxDot',
