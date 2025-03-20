@@ -4,7 +4,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-// TODO: This import should be changed in the future
 import { SearchContainer } from '@polar/plugin-address-search'
 
 export default Vue.extend({
