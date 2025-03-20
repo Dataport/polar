@@ -48,8 +48,9 @@ export const updateState = async ({
       (accumulator, feature) => {
         if (['Polygon', 'MultiPolygon'].includes(feature.geometry.type)) {
           accumulator.push(
-            ...unkinkPolygon(feature as GeoJsonFeature<Polygon | MultiPolygon>)
-              .features
+            ...unkinkPolygon(
+              cleanCoords(feature) as GeoJsonFeature<Polygon | MultiPolygon>
+            ).features
           )
         } else {
           accumulator.push(feature)
@@ -64,14 +65,6 @@ export const updateState = async ({
   if (getters.configuration.mergeToMultiGeometries) {
     // TODO: turf provides "union" and "combine" methods, probably just use them
     revisedFeatureCollection = mergeToMultiGeometries(revisedFeatureCollection)
-  }
-
-  // removes duplicate points from polygons
-  revisedFeatureCollection = {
-    ...revisedFeatureCollection,
-    features: revisedFeatureCollection.features.map((feature) =>
-      cleanCoords(feature)
-    ),
   }
 
   if (getters.configuration.validateGeoJson) {
