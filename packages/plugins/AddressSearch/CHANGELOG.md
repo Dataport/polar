@@ -4,6 +4,7 @@
 
 - Feature: `BKGParameters` has been exposed as root export.
 - Feature: Add new configuration parameter `component` to be able to interchange the UI component of this plugin.
+- Feature: Expose `SearchContainer.vue` as a new export to use that component in custom implementations.
 
 ## 3.0.0
 
