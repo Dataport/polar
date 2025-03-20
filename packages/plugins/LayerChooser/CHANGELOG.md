@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add new configuration parameter `component` to be able to interchange the UI component of this plugin.
+- Chore: The documentation for `minZoom` and `maxZoom` has been updated regarding their inclusive interpretation of the zoom value.
 
 ## 2.0.0
 
