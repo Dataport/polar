@@ -28,6 +28,7 @@ import locales from './locales'
 
 import './index.css'
 import diplanModule from './store/module'
+import EditorMenu from './plugins/EditorMenu'
 
 // eslint-disable-next-line no-console
 console.log(`DiPlanKarten-POLAR-Client v${packageInfo.version}.`)
@@ -42,15 +43,6 @@ polarCore.addPlugins([
         plugin: LayerChooser({}),
         icon: '$vuetify.icons.layer',
         id: 'layerChooser',
-      },
-      {
-        plugin: Draw({
-          toastAction: 'plugin/toast/addToast',
-          addLoading: 'plugin/loadingIndicator/addLoadingKey',
-          removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-        }),
-        icon: '$vuetify.icons.ruler',
-        id: 'draw',
       },
       {
         plugin: Fullscreen({ renderType: 'iconMenu' }),
@@ -120,6 +112,16 @@ polarCore.addPlugins([
   Toast({
     displayComponent: true,
     layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
+  }),
+  Draw({
+    displayComponent: false,
+    toastAction: 'plugin/toast/addToast',
+    addLoading: 'plugin/loadingIndicator/addLoadingKey',
+    removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+  }),
+  EditorMenu({
+    displayComponent: true,
+    layoutTag: NineLayoutTag.TOP_MIDDLE,
   }),
 ])
 
