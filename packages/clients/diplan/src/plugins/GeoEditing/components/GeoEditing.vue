@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <ButtonView
-      v-if="configuration?.diplan?.renderType === 'independent'"
-      :method="updateOpenTool"
-      :tools="tools"
-    />
-    <MenuView v-else :method="updateOpenTool" :tools="tools" />
-  </div>
+  <ButtonView
+    v-if="configuration?.diplan?.renderType === 'independent'"
+    :method="updateOpenTool"
+    :tools="tools"
+  />
+  <MenuView v-else :method="updateOpenTool" :tools="tools" />
 </template>
 
 <script lang="ts">

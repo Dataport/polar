@@ -54,6 +54,7 @@ export default Vue.extend({
 .geo-editing-menu {
   z-index: 1;
   min-width: 300px;
+  overflow-y: inherit;
 
   ul {
     padding: 0;
