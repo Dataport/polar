@@ -62,6 +62,7 @@ export default (client, layerConf, config) => {
       const actionToast = document.getElementById('action-toast')
       const actionLoadGeoJson = document.getElementById('action-load-geojson')
       const actionZoomToAll = document.getElementById('action-zoom-to-all')
+      const actionScreenshot = document.getElementById('action-screenshot')
       const actionFillAddressSearch = document.getElementById(
         'action-address-search-filler'
       )
@@ -92,6 +93,8 @@ export default (client, layerConf, config) => {
         mapInstance.$store.dispatch('plugin/draw/zoomToAllFeatures', {
           margin: 10, // defaults to 20
         })
+      actionScreenshot.onclick = () =>
+        mapInstance.$store.dispatch('plugin/export/exportAs', 'Png')
       actionFillAddressSearch.addEventListener('input', (e) =>
         mapInstance.$store.dispatch('plugin/addressSearch/search', {
           input: e.target.value,

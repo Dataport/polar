@@ -20,8 +20,8 @@ Also, this plugin also supports the optional configuration parameters `mapConfig
 | - | - | - |
 | type | enum["background", "mask"] | Layer handling. Backgrounds are mutually exclusive, masks ("overlays") can be stacked. |
 | hideInMenu | boolean? | Can be set for layers of type `'mask'` to hide them in the selection menu. |
-| maxZoom | number? | If set, layer only available (and selectable) up to this zoom level. |
-| minZoom | number? | If set, layer only available (and selectable) from this zoom level on. |
+| maxZoom | number? | If set, layer only available (and selectable) up to this zoom level, inclusively. |
+| minZoom | number? | If set, layer only available (and selectable) from this zoom level on, inclusively. |
 | options | options? | Shows a layer-specific sub-menu; its contents are configurable. |
 | visibility | boolean? | Initial visibility. Defaults to `false`. |
 

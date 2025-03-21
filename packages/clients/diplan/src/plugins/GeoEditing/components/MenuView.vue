@@ -5,13 +5,13 @@
         <template v-for="(toolset, index) in tools">
           <v-list-item v-for="{ id, icon } of toolset" :key="id" tag="li">
             <v-btn
-              :color="$parent.open === id ? 'primary' : 'primaryContrast'"
+              :color="$parent.active === id ? 'primary' : 'primaryContrast'"
               depressed
               :aria-label="$t(`diplan.geoEditing.tools.${id}`)"
               @click="method(id)"
             >
               <v-icon
-                :color="$parent.open === id ? 'primaryContrast' : 'primary'"
+                :color="$parent.active === id ? 'primaryContrast' : 'primary'"
               >
                 {{ icon }}
               </v-icon>
@@ -42,6 +42,10 @@ export default Vue.extend({
       >,
       required: true,
     },
+  },
+  beforeDestroy() {
+    this.$parent.active = ''
+    this.$parent.trigger('reset')
   },
 })
 </script>

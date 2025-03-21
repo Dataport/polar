@@ -82,8 +82,6 @@ export default function ({
   // should be fine, line bloat is from error handling (only logging/toasting)
   // eslint-disable-next-line max-lines-per-function
   draw.on('drawend', (e) => {
-    dispatch('setMode', 'none')
-
     const toast = (toastObject) =>
       getters.toastAction &&
       dispatch(getters.toastAction, toastObject, { root: true })
