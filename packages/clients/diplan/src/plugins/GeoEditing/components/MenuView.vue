@@ -52,6 +52,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .geo-editing-menu {
+  z-index: 1;
   min-width: 300px;
 
   ul {
