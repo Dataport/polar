@@ -5,7 +5,12 @@ import {
 } from '@repositoryname/vuex-generators'
 import debounce from 'lodash.debounce'
 import { Mode } from '@polar/plugin-draw'
-import { DiplanGetters, DiplanState, ExtendedDrawMode } from '../types'
+import {
+  DiplanGetters,
+  DiplanState,
+  ExtendedDrawMode,
+  GeoEditingMode,
+} from '../types'
 import { drawFeatureCollectionSource, updateState } from './updateState'
 import { cutPolygons } from './geoEditing/cutPolygons'
 import { duplicatePolygons } from './geoEditing/duplicatePolygons'
@@ -35,6 +40,34 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
         debouncedUpdate
       )
     },
+    async trigger({ commit, dispatch }, mode: GeoEditingMode | 'reset') {
+      commit('setDrawMode', null)
+      dispatch('plugin/draw/setMode', 'none', { root: true })
+      if (mode === 'reset') {
+        return
+      }
+      if (mode === 'drawPolygon') {
+        await dispatch('plugin/draw/setMode', 'draw', { root: true })
+        dispatch('plugin/draw/setDrawMode', 'Polygon', { root: true })
+      } else if (mode === 'drawCircle') {
+        await dispatch('plugin/draw/setMode', 'draw', { root: true })
+        dispatch('plugin/draw/setDrawMode', 'Circle', { root: true })
+      } else if (mode === 'merge') {
+        dispatch('mergePolygons')
+      } else if (mode === 'cut') {
+        dispatch('cutPolygons')
+      } else if (mode === 'duplicate') {
+        dispatch('duplicatePolygons')
+      } else if (mode === 'lasso') {
+        dispatch('plugin/draw/setMode', 'lasso', { root: true })
+      } else if (mode === 'edit') {
+        dispatch('plugin/draw/setMode', 'edit', { root: true })
+      } else if (mode === 'translate') {
+        dispatch('plugin/draw/setMode', 'translate', { root: true })
+      } else if (mode === 'delete') {
+        dispatch('plugin/draw/setMode', 'delete', { root: true })
+      }
+    },
     cutPolygons,
     duplicatePolygons,
     mergePolygons,
@@ -54,6 +87,7 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
       mergeToMultiGeometries: false,
       validateGeometries: true,
       metaServices: [],
+      renderType: 'iconMenu',
       // @ts-expect-error | local override for client
       ...(rootGetters.configuration?.diplan || {}),
     }),

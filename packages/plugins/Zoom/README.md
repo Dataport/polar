@@ -13,6 +13,7 @@ It can be configured as followed.
 
 | fieldName | type | description |
 | - | - | - |
+| component | VueConstructor? | Allows overriding the Zoom.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model. Please refer to the implementation. |
 | icons | Record<string, string>? | Optional icon override. |
 | renderType | 'iconMenu' \| 'independent'? | Whether the zoom related buttons are being rendered independently or as part of the IconMenu. Defaults to `'independent'`. |
 | showMobile | boolean? | Whether the zoom related buttons should be displayed on smaller devices; defaults to `false`. |
