@@ -1,8 +1,8 @@
 <template>
-  <v-card class="layer-chooser-selection">
-    <v-expansion-panels accordion>
-      <template v-if="backgrounds.length">
-        <v-expansion-panel>
+  <div>
+    <v-card>
+      <v-expansion-panels class="layer-chooser-selection" accordion>
+        <v-expansion-panel v-if="backgrounds.length">
           <v-expansion-panel-header>
             {{ $t('plugins.layerChooser.backgroundTitle') }}
           </v-expansion-panel-header>
@@ -29,9 +29,7 @@
             </v-radio-group>
           </v-expansion-panel-content>
         </v-expansion-panel>
-      </template>
-      <template v-if="shownMasks.length">
-        <v-expansion-panel>
+        <v-expansion-panel v-if="shownMasks.length">
           <v-expansion-panel-header>
             {{ $t('plugins.layerChooser.maskTitle') }}
           </v-expansion-panel-header>
@@ -62,9 +60,9 @@
             <Options v-else />
           </v-expansion-panel-content>
         </v-expansion-panel>
-      </template>
-    </v-expansion-panels>
-  </v-card>
+      </v-expansion-panels>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
