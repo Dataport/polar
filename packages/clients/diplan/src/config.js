@@ -110,7 +110,7 @@ export default {
     {
       id: flurstuecke,
       visibility: false,
-      // TODO available from 7, but only starts loading from 8 - bug or skill issue? → POLAR-431
+      // TODO available from 7, but only starts loading from 8 - bug or skill issue?
       minZoom: 7,
       type: 'mask',
       name: `diplan.layers.${flurstuecke}`,
@@ -153,7 +153,6 @@ export default {
     ],
   },
   draw: {
-    enableOptions: true,
     lassos: [
       {
         id: flurstuecke,
@@ -162,19 +161,7 @@ export default {
         id: xplanwfs,
       },
     ],
-    measureOptions: {
-      metres: true,
-      kilometres: true,
-      hectares: true,
-    },
-    selectableDrawModes: ['Point', 'LineString', 'Circle', 'Text', 'Polygon'],
     snapTo: [xplanwfs, flurstuecke],
-    textStyle: {
-      font: {
-        size: [10, 20, 30],
-        family: 'Arial',
-      },
-    },
     style: {
       fill: { color: 'rgb(51 117 212 / 50%)' },
       stroke: {
@@ -186,9 +173,6 @@ export default {
         fillColor: 'rgb(51 117 212 / 50%)',
       },
     },
-  },
-  export: {
-    displayComponent: false,
   },
   gfi: {
     mode: 'bboxDot',
@@ -208,13 +192,5 @@ export default {
       'plugin/pins/transformedCoordinate',
       'plugin/pins/coordinatesAfterDrag',
     ],
-  },
-  pins: {
-    toZoomLevel: 9,
-    movable: 'drag',
-    appearOnClick: {
-      show: true,
-      atZoomLevel: 0,
-    },
   },
 }

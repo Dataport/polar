@@ -57,9 +57,9 @@ export const makeActions = () => {
         commit('setMeasureMode', measureOptions.initialOption)
       }
     },
-    setDrawMode({ commit, dispatch }, drawMode: DrawMode) {
+    async setDrawMode({ commit, dispatch }, drawMode: DrawMode) {
       commit('setDrawMode', drawMode)
-      dispatch('updateInteractions')
+      await dispatch('updateInteractions')
     },
     /** Please consult the README.md before usage. */
     async setInteractions(
@@ -77,9 +77,9 @@ export const makeActions = () => {
       commit('setMeasureMode', measureMode)
       dispatch('updateInteractions')
     },
-    setMode({ commit, dispatch }, mode: Mode) {
+    async setMode({ commit, dispatch }, mode: Mode) {
       commit('setMode', mode)
-      dispatch('updateInteractions')
+      await dispatch('updateInteractions')
     },
     setTextInput(
       {

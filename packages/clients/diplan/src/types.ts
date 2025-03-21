@@ -10,9 +10,21 @@ export interface MetaService {
 export type DrawExtension = 'cut' | 'duplicate' | 'merge'
 export type ExtendedDrawMode = Mode | DrawExtension
 
+export type GeoEditingMode =
+  | 'drawPolygon'
+  | 'drawCircle'
+  | 'merge'
+  | 'cut'
+  | 'duplicate'
+  | 'lasso'
+  | 'edit'
+  | 'translate'
+  | 'delete'
+
 export interface DiplanConfiguration {
   mergeToMultiGeometries?: boolean
   validateGeoJson?: boolean
+  renderType?: 'iconMenu' | 'independent'
   metaServices?: MetaService[]
 }
 
