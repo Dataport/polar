@@ -4,6 +4,9 @@ import { Zoom } from './components'
 import locales from './locales'
 import { makeStoreModule } from './store'
 
+import ZoomButtonContainer from './components/ZoomButtonContainer.vue'
+export { ZoomButtonContainer }
+
 export default (options: ZoomConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'zoom',

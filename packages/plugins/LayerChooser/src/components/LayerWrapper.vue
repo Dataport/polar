@@ -14,7 +14,7 @@
           small
           @click="setOpenedOptions(layerId)"
         >
-          <v-icon small>fa-gear</v-icon>
+          <v-icon small>{{ icon }}</v-icon>
         </v-btn>
       </div>
     </template>
@@ -43,6 +43,10 @@ export default Vue.extend({
     layerId: {
       type: String,
       required: true,
+    },
+    icon: {
+      type: String,
+      default: 'fa-gear',
     },
   },
   computed: {

@@ -1,4 +1,5 @@
 import { LayerConfiguration } from '@polar/lib-custom-types'
+import { VueConstructor } from 'vue'
 
 export type IdManipulator = (ids: (string | number)[]) => (number | string)[]
 
@@ -17,6 +18,7 @@ export interface LayerChooserState {
 }
 
 export interface LayerChooserGetters extends LayerChooserState {
+  component: VueConstructor | null
   disabledBackgrounds: boolean[]
   disabledMasks: boolean[]
   shownMasks: boolean[]
