@@ -1,52 +1,17 @@
 <template>
-  <div class="polar-zoom-wrap">
-    <v-tooltip v-if="showZoomButtons" left :disabled="hasSmallDisplay">
-      <template #activator="{ on, attrs }">
-        <v-btn
-          :aria-label="$t('plugins.zoom.in')"
-          class="ma-2 mb-1"
-          color="primaryContrast"
-          small
-          width="40"
-          height="40"
-          :disabled="maximumZoomLevelActive"
-          v-bind="attrs"
-          @click="increaseZoomLevel"
-          v-on="on"
-        >
-          <v-icon color="primary"> {{ icons.zoomIn }} </v-icon>
-        </v-btn>
-      </template>
-      <span>{{ $t('plugins.zoom.in') }}</span>
-    </v-tooltip>
-    <v-tooltip v-if="showZoomButtons" left :disabled="hasSmallDisplay">
-      <template #activator="{ on, attrs }">
-        <v-btn
-          :aria-label="$t('plugins.zoom.out')"
-          class="ma-2 mt-1"
-          color="primaryContrast"
-          small
-          width="40"
-          height="40"
-          :disabled="minimumZoomLevelActive"
-          v-bind="attrs"
-          @click="decreaseZoomLevel"
-          v-on="on"
-        >
-          <v-icon color="primary"> {{ icons.zoomOut }} </v-icon>
-        </v-btn>
-      </template>
-      <span>{{ $t('plugins.zoom.out') }}</span>
-    </v-tooltip>
-  </div>
+  <ZoomButtonContainer />
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
+import { ZoomButtonContainer } from '@polar/plugin-zoom'
 
 export default Vue.extend({
-  name: 'PolarZoom',
+  name: 'DiplanZoom',
+  components: {
+    ZoomButtonContainer,
+  },
   computed: {
     ...mapGetters(['hasSmallDisplay', 'hasSmallHeight']),
     ...mapGetters('plugin/zoom', [
@@ -66,24 +31,27 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.polar-zoom-dependent-horizontal {
-  margin-left: 0.5rem;
-}
-
-.polar-zoom-dependent {
-  margin-bottom: 0.5rem;
-}
 .polar-zoom-wrap {
-  display: flex;
-  flex-direction: column;
-
-  .v-btn::before {
+  :deep(.v-btn::before) {
     background-color: transparent;
   }
-  button {
-    border: solid transparent;
+  :deep(.v-btn) {
+    border: solid transparent !important;
+    width: 40px;
+    height: 40px;
+    background-color: var(--polar-primary-contrast) !important;
     padding: 0 !important;
     min-width: 0 !important;
+    border-radius: 4px !important;
+  }
+  :deep(.v-btn:nth-of-type(1)) {
+    margin-bottom: 4px !important;
+  }
+  :deep(.v-btn:nth-of-type(2)) {
+    margin-top: 4px !important;
+  }
+  :deep(.v-icon) {
+    color: var(--polar-primary) !important;
   }
 }
 </style>
