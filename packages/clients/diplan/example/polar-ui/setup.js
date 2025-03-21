@@ -54,10 +54,18 @@ export default (client, layerConf, config) => {
       const actionToast = document.getElementById('action-toast')
       const actionLoadGeoJson = document.getElementById('action-load-geojson')
       const actionZoomToAll = document.getElementById('action-zoom-to-all')
+      const actionScreenshot = document.getElementById('action-screenshot')
       const actionFillAddressSearch = document.getElementById(
         'action-address-search-filler'
       )
       const actionLasso = document.getElementById('action-lasso')
+      const actionNone = document.getElementById('action-none')
+      const actionCut = document.getElementById('action-cut-polygons')
+      const actionDuplicate = document.getElementById(
+        'action-duplicate-geometry'
+      )
+      const actionMerge = document.getElementById('action-merge-polygons')
+      const activeExtendedDrawMode = document.getElementById('active-draw-mode')
 
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
@@ -78,6 +86,8 @@ export default (client, layerConf, config) => {
         mapInstance.$store.dispatch('plugin/draw/zoomToAllFeatures', {
           margin: 10, // defaults to 20
         })
+      actionScreenshot.onclick = () =>
+        mapInstance.$store.dispatch('plugin/export/exportAs', 'Png')
       actionFillAddressSearch.addEventListener('input', (e) =>
         mapInstance.$store.dispatch('plugin/addressSearch/search', {
           input: e.target.value,
@@ -86,6 +96,19 @@ export default (client, layerConf, config) => {
       )
       actionLasso.onclick = () =>
         mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')
+      actionCut.onclick = () =>
+        mapInstance.$store.dispatch('diplan/cutPolygons')
+      actionDuplicate.onclick = () =>
+        mapInstance.$store.dispatch('diplan/duplicatePolygons')
+      actionMerge.onclick = () =>
+        mapInstance.$store.dispatch('diplan/mergePolygons')
+      actionNone.onclick = () =>
+        mapInstance.$store.dispatch('diplan/updateDrawMode', null)
+      mapInstance.$store.watch(
+        (_, getters) => getters['diplan/activeDrawMode'],
+        (activeDrawMode) => (activeExtendedDrawMode.innerHTML = activeDrawMode),
+        { immediate: true }
+      )
 
       const htmlRevisedDrawExport = document.getElementById(
         'subscribed-revised-draw-export'
