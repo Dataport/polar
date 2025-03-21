@@ -4,28 +4,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapActions } from 'vuex'
 import { ZoomButtonContainer } from '@polar/plugin-zoom'
 
 export default Vue.extend({
   name: 'DiplanZoom',
   components: {
     ZoomButtonContainer,
-  },
-  computed: {
-    ...mapGetters(['hasSmallDisplay', 'hasSmallHeight']),
-    ...mapGetters('plugin/zoom', [
-      'icons',
-      'maximumZoomLevelActive',
-      'minimumZoomLevelActive',
-      'showMobile',
-    ]),
-    showZoomButtons(): boolean {
-      return this.hasSmallHeight ? this.showMobile : true
-    },
-  },
-  methods: {
-    ...mapActions('plugin/zoom', ['increaseZoomLevel', 'decreaseZoomLevel']),
   },
 })
 </script>
