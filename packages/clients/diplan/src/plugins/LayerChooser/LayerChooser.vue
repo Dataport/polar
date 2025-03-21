@@ -56,7 +56,7 @@
               <v-divider :key="index" />
             </template>
           </template>
-          <Options v-else />
+          <LayerChooserOptions v-else />
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -66,14 +66,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
+import { LayerChooserOptions } from '@polar/plugin-layer-chooser'
 import LayerWrapper from './LayerWrapper.vue'
-import Options from './Options.vue'
 
 export default Vue.extend({
   name: 'LayerChooser',
   components: {
     LayerWrapper,
-    Options,
+    LayerChooserOptions,
   },
   computed: {
     ...mapGetters('plugin/layerChooser', [

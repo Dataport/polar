@@ -4,6 +4,9 @@ import { LayerChooser } from './components'
 import locales from './locales'
 import { makeStoreModule } from './store'
 
+import LayerChooserOptions from './components/Options.vue'
+export { LayerChooserOptions }
+
 export default (options: LayerChooserConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'layerChooser',
