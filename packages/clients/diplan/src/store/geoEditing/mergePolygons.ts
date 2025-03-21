@@ -58,8 +58,6 @@ export const mergePolygons = ({
 
     drawSource.clear()
     drawSource.addFeatures(nextFeatures)
-
-    dispatch('updateDrawMode', null)
   })
 
   dispatch(

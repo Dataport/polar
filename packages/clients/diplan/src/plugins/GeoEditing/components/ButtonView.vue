@@ -5,7 +5,7 @@
         <v-tooltip left :disabled="hasSmallDisplay">
           <template #activator="{ on, attrs }">
             <v-btn
-              :color="$parent.open === id ? 'primary' : 'primaryContrast'"
+              :color="$parent.active === id ? 'primary' : 'primaryContrast'"
               small
               depressed
               width="40"
@@ -16,7 +16,7 @@
               v-on="on"
             >
               <v-icon
-                :color="$parent.open === id ? 'primaryContrast' : 'primary'"
+                :color="$parent.active === id ? 'primaryContrast' : 'primary'"
               >
                 {{ icon }}
               </v-icon>

@@ -15,6 +15,7 @@ export type GeoEditingMode =
   | 'drawCircle'
   | 'merge'
   | 'cut'
+  | 'duplicate'
   | 'lasso'
   | 'edit'
   | 'translate'

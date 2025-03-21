@@ -56,6 +56,8 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
         dispatch('mergePolygons')
       } else if (mode === 'cut') {
         dispatch('cutPolygons')
+      } else if (mode === 'duplicate') {
+        dispatch('duplicatePolygons')
       } else if (mode === 'lasso') {
         dispatch('plugin/draw/setMode', 'lasso', { root: true })
       } else if (mode === 'edit') {

@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Add new configuration parameter `component` to be able to interchange the UI component of this plugin.
+- Feature: Expose `ZoomButtonContainer.vue` as a new export in order to use it in custom implementations.
 
 ## 1.4.0
 

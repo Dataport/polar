@@ -18,6 +18,7 @@ export const diplanDe = {
         drawCircle: 'Kreis einzeichnen',
         merge: 'Flächen kombinieren',
         cut: 'Durchschneiden',
+        duplicate: 'Duplizieren',
         lasso: 'Lasso',
         edit: 'Bearbeiten',
         translate: 'Fläche bewegen',
