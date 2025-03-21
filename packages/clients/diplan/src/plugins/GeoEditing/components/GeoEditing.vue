@@ -29,6 +29,7 @@ export default Vue.extend({
           { id: 'drawCircle', icon: '$vuetify.icons.kreis-einzeichnen' },
           { id: 'merge', icon: '$vuetify.icons.merge-polygon' },
           { id: 'cut', icon: '$vuetify.icons.durchschneiden' },
+          { id: 'duplicate', icon: '$vuetify.icons.copy' },
           { id: 'lasso', icon: '$vuetify.icons.map-lasso' },
         ],
         [
