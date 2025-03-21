@@ -134,7 +134,9 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.addInterceptor()
+    if (this.mapConfiguration.secureServiceUrlRegex) {
+      this.addInterceptor(this.mapConfiguration.secureServiceUrlRegex)
+    }
     const map = api.map.createMap(
       {
         target: this.$refs['polar-map-container'],

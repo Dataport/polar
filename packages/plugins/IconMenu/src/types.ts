@@ -7,6 +7,6 @@ export interface IconMenuState {
 }
 
 export interface IconMenuGetters extends IconMenuState {
-  component: VueConstructor | null
+  buttonComponent: VueConstructor | null
   initiallyOpen: string
 }

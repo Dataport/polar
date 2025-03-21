@@ -16,7 +16,7 @@ import { MODE } from './mode'
 
 import { AddressSearch } from './plugins/AddressSearch'
 import { AttributionButton } from './plugins/Attributions'
-import { IconMenu } from './plugins/IconMenu'
+import { IconMenuButton } from './plugins/IconMenu'
 import { Zoom } from './plugins/Zoom'
 
 import GeoEditing from './plugins/GeoEditing'
@@ -31,7 +31,7 @@ export function addPlugins(core, mode: keyof typeof MODE) {
     displayComponent: true,
     menus: createMenus(mode),
     layoutTag: NineLayoutTag.TOP_RIGHT,
-    component: mode === MODE.POLAR ? undefined : IconMenu,
+    buttonComponent: mode === MODE.POLAR ? undefined : IconMenuButton,
   })
   core.addPlugins(
     [
