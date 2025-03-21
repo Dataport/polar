@@ -21,7 +21,7 @@ For details on the `displayComponent` attribute, refer to the [Global Plugin Par
 | - | - | - |
 | layoutTag | enum['TOP_LEFT','TOP_MIDDLE','TOP_RIGHT','MIDDLE_LEFT','MIDDLE_MIDDLE','MIDDLE_RIGHT','BOTTOM_LEFT','BOTTOM_MIDDLE','BOTTOM_RIGHT'] | Defines where the icon menu is rendered. Only use `NineLayoutTag.TOP_RIGHT` here for the time being. |
 | menus | menuEntry[] | Defines which plugins should be rendered as part of the icon menu. |
-| component | VueConstructor? | Allows overriding the IconMenu.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model. Please refer to the implementation. |
+| buttonComponent | VueConstructor? | Allows overriding the IconMenuButton.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model and has to implement the same props as the default IconMenuButton.vue. Please refer to the implementation. |
 | initiallyOpen | string? | Id of the plugin which should be open on start; only applicable if the device doesn't have a small display. |
 
 Use the configuration during client build.
