@@ -1,68 +1,66 @@
 <template>
-  <div>
-    <v-card>
-      <v-expansion-panels class="layer-chooser-selection" accordion>
-        <v-expansion-panel v-if="backgrounds.length">
-          <v-expansion-panel-header>
-            {{ $t('plugins.layerChooser.backgroundTitle') }}
-          </v-expansion-panel-header>
-          <v-divider />
-          <v-expansion-panel-content>
-            <v-radio-group v-model="activeBackground" dense hide-details>
+  <v-card class="layer-chooser-selection">
+    <v-expansion-panels accordion>
+      <v-expansion-panel v-if="backgrounds.length">
+        <v-expansion-panel-header>
+          {{ $t('plugins.layerChooser.backgroundTitle') }}
+        </v-expansion-panel-header>
+        <v-divider />
+        <v-expansion-panel-content>
+          <v-radio-group v-model="activeBackground" dense hide-details>
+            <LayerWrapper
+              v-for="({ name, id }, index) in backgrounds"
+              :key="'disabled-background-' + index"
+              :index="index"
+              :disabled-layers="disabledBackgrounds"
+              :layer-id="id"
+            >
+              <v-radio
+                :key="index"
+                aria-describedby="polar-label-background-title"
+                dense
+                hide-details
+                :label="$t(name)"
+                :value="id"
+                :disabled="disabledBackgrounds[index]"
+              />
+            </LayerWrapper>
+          </v-radio-group>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel v-if="shownMasks.length">
+        <v-expansion-panel-header>
+          {{ $t('plugins.layerChooser.maskTitle') }}
+        </v-expansion-panel-header>
+        <v-divider />
+        <v-expansion-panel-content>
+          <template v-if="displaySelection">
+            <template v-for="({ name, id }, index) in shownMasks">
               <LayerWrapper
-                v-for="({ name, id }, index) in backgrounds"
-                :key="'disabled-background-' + index"
+                :key="'disabled-mask-' + index"
                 :index="index"
-                :disabled-layers="disabledBackgrounds"
+                :disabled-layers="disabledMasks"
                 :layer-id="id"
               >
-                <v-radio
-                  :key="index"
-                  aria-describedby="polar-label-background-title"
-                  dense
-                  hide-details
+                <v-checkbox
+                  v-model="activeMasks"
                   :label="$t(name)"
                   :value="id"
-                  :disabled="disabledBackgrounds[index]"
+                  aria-describedby="polar-label-mask-title"
+                  dense
+                  hide-details
+                  class="cut-off-top-space"
+                  :disabled="disabledMasks[index]"
                 />
               </LayerWrapper>
-            </v-radio-group>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <v-expansion-panel v-if="shownMasks.length">
-          <v-expansion-panel-header>
-            {{ $t('plugins.layerChooser.maskTitle') }}
-          </v-expansion-panel-header>
-          <v-divider />
-          <v-expansion-panel-content>
-            <template v-if="displaySelection">
-              <template v-for="({ name, id }, index) in shownMasks">
-                <LayerWrapper
-                  :key="'disabled-mask-' + index"
-                  :index="index"
-                  :disabled-layers="disabledMasks"
-                  :layer-id="id"
-                >
-                  <v-checkbox
-                    v-model="activeMasks"
-                    :label="$t(name)"
-                    :value="id"
-                    aria-describedby="polar-label-mask-title"
-                    dense
-                    hide-details
-                    class="cut-off-top-space"
-                    :disabled="disabledMasks[index]"
-                  />
-                </LayerWrapper>
-                <v-divider :key="index" />
-              </template>
+              <v-divider :key="index" />
             </template>
-            <Options v-else />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
-    </v-card>
-  </div>
+          </template>
+          <Options v-else />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -127,6 +125,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .layer-chooser-selection {
   min-width: 300px;
+  overflow-y: inherit;
 
   // tone down spacing
   .v-expansion-panel-header.v-expansion-panel-header--active {
