@@ -5,6 +5,7 @@
         class="ma-2"
         color="primaryContrast"
         :href="linkConfig.href"
+        :aria-label="$t(linkConfig.label)"
         small
         width="40"
         height="40"
