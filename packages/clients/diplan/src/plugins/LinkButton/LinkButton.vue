@@ -14,7 +14,7 @@
         <v-icon color="primary">{{ linkConfig.icon }}</v-icon>
       </v-btn>
     </template>
-    <span>{{ $t('TODO') }}</span>
+    <span>{{ $t(linkConfig.label) }}</span>
   </v-tooltip>
 </template>
 

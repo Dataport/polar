@@ -24,6 +24,7 @@ export type GeoEditingMode =
 interface LinkConfig {
   href: string
   icon: string
+  label: string
 }
 
 export interface DiplanConfiguration {

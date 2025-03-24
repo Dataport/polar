@@ -25,6 +25,9 @@ export const diplanDe = {
         delete: 'Fläche entfernen',
       },
     },
+    linkButton: {
+      label: 'Vollbildmodus verlassen',
+    },
   },
   plugins: {
     iconMenu: {

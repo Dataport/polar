@@ -17,6 +17,7 @@ export default {
     link: {
       href: 'https://example.com',
       icon: '$vuetify.icons.fullscreen-exit',
+      label: 'diplan.linkButton.label',
     },
     renderType: 'independent',
     mergeToMultiGeometries: true,
