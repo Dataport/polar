@@ -74,6 +74,7 @@ export const updateState = async ({
     // if this revision fails, errors are catastrophic and unfixable
     commit('setSimpleGeometryValidity', false)
     commit('setRevisionInProgress', false)
+    return
   }
 
   // merge first; relevant for both follow-up steps
