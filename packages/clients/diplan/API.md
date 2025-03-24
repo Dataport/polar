@@ -26,6 +26,7 @@ DiPlan-specific configuration parameters belong within the `mapConfiguration` ob
 | - | - | - |
 | href | string | URL the LinkButton should open. |
 | icon | string | Icon used for the LinkButton. |
+| label | string | Label for the LinkButton. Can be a locale key. |
 
 ```js
 {

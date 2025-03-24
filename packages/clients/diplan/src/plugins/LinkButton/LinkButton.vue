@@ -5,6 +5,7 @@
         class="ma-2"
         color="primaryContrast"
         :href="linkConfig.href"
+        :aria-label="$t(linkConfig.label)"
         small
         width="40"
         height="40"
@@ -14,7 +15,7 @@
         <v-icon color="primary">{{ linkConfig.icon }}</v-icon>
       </v-btn>
     </template>
-    <span>{{ $t('TODO') }}</span>
+    <span>{{ $t(linkConfig.label) }}</span>
   </v-tooltip>
 </template>
 

@@ -17,6 +17,7 @@ export default {
     link: {
       href: '../diplan-ui-small',
       icon: '$vuetify.icons.fullscreen-exit',
+      label: 'diplan.linkButton.label',
     },
     mergeToMultiGeometries: true,
     validateGeoJson: true,
@@ -56,6 +57,7 @@ export default {
     displayComponent: true,
     searchMethods: [
       {
+        categoryId: 'wfsg',
         queryParameters: {
           searchAddress: true,
           searchStreets: true,
@@ -64,10 +66,31 @@ export default {
         type: 'mpapi',
         url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
       },
+      {
+        categoryId: 'bkg',
+        queryParameters: {
+          filter: {
+            bundesland: 'Hamburg',
+          },
+        },
+        type: 'bkg',
+        url: 'https://gisdemo.dp.dsecurecloud.de/bkg_geosearch3',
+      },
     ],
     groupProperties: {
       defaultGroup: {
         label: 'Suchbegriff',
+        hint: 'Suchbegriff',
+        resultDisplayMode: 'categorized',
+        limitResults: 3,
+      },
+    },
+    categoryProperties: {
+      bkg: {
+        label: 'BKG Ergebnisse',
+      },
+      wfsg: {
+        label: 'Gazetteer Ergebnisse',
       },
     },
     minLength: 3,
