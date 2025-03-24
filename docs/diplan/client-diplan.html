@@ -39,6 +39,11 @@
 </thead>
 <tbody>
 <tr>
+<td>link</td>
+<td>link?</td>
+<td>If configured, the LinkButton will be rendered with the given URL and icon.</td>
+</tr>
+<tr>
 <td>mergeToMultiGeometries</td>
 <td>boolean?</td>
 <td>Defaults to <code>false</code>. If <code>true</code>, the exported FeatureCollection in getter <code>revisedDrawExport</code> will have merged geometries; that is, instead of Points, Lines, and Polygons, only MultiPoints, MultiLines, and MultiPolygons will be featured, created by merging the features of their respective geometry. All geometry types that are enabled in the <code>Draw</code> tool may occur. This step is executed before geometry validation and meta service usage.</td>
@@ -60,6 +65,44 @@
 </tr>
 </tbody>
 </table>
+<h4 id="diplan.link" tabindex="-1">diplan.link</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>href</td>
+<td>string</td>
+<td>URL the LinkButton should open.</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>string</td>
+<td>Icon used for the LinkButton.</td>
+</tr>
+<tr>
+<td>label</td>
+<td>string</td>
+<td>Label for the LinkButton. Can be a locale key.</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js">{
+  mapConfiguration: {
+    diplan: {
+      link: {
+        href: 'https://example.com',
+        icon: '$vuetify.icons.fullscreen-exit'
+      }
+    }
+  }
+}
+</code></pre>
 <h4 id="diplan.metaservice" tabindex="-1">diplan.metaService</h4>
 <table>
 <thead>
@@ -269,6 +312,12 @@ The mutation has to be called whenever the token has been refreshed so that the 
         <tr>
           <td>diplan.geoEditing.tools.delete</td>
           <td>Fläche entfernen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.linkButton.label</td>
+          <td>Vollbildmodus verlassen</td>
           <td></td>
         </tr>
         
