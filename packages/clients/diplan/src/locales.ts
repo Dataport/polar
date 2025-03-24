@@ -27,6 +27,7 @@ export const diplanDe = {
     },
     linkButton: {
       label: 'Vollbildmodus verlassen',
+      labelSmall: 'In den Vollbildmodus wechseln',
     },
   },
   plugins: {
