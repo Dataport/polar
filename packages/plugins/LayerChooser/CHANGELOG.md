@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Fix: Fixed a bug where keyboard navigation in radio groups didn't work.
 - Chore: The documentation for `minZoom` and `maxZoom` has been updated regarding their inclusive interpretation of the zoom value.
 
 ## 2.0.0

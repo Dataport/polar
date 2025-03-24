@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Fixed a bug where keyboard navigation in radio groups didn't work.
+
 ## 3.0.0
 
 - Breaking: Upgrade peerDependency `ol` from `^9.2.4` to `^10.3.1`.
