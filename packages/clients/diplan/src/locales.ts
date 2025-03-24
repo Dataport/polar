@@ -1,4 +1,5 @@
 import { Locale } from '@polar/lib-custom-types'
+import gfiLocales from './plugins/Gfi/locales'
 
 export const diplanDe = {
   diplan: {
@@ -20,6 +21,7 @@ const locales: Locale[] = [
     type: 'de',
     resources: diplanDe,
   },
+  ...gfiLocales,
 ]
 
 export default locales
