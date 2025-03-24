@@ -74,6 +74,9 @@ export const updateState = async ({
     // if this revision fails, errors are catastrophic and unfixable
     commit('setSimpleGeometryValidity', false)
     commit('setRevisionInProgress', false)
+    console.warn(
+      `@polar/client-diplan: Geometries entered were not valid. This may e.g. result from pulling points of a polygon in edit mode together until it's point-shaped.`
+    )
     return
   }
 
