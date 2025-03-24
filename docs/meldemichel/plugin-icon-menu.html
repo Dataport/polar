@@ -54,6 +54,11 @@ Currently, the IconMenu should only be rendered with <code>layoutTag</code> set 
 <td>Defines which plugins should be rendered as part of the icon menu.</td>
 </tr>
 <tr>
+<td>buttonComponent</td>
+<td>VueConstructor?</td>
+<td>Allows overriding the IconMenuButton.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model and has to implement the same props as the default IconMenuButton.vue. Please refer to the implementation.</td>
+</tr>
+<tr>
 <td>initiallyOpen</td>
 <td>string?</td>
 <td>Id of the plugin which should be open on start; only applicable if the device doesn't have a small display.</td>

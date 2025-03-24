@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <!-- test page for build -->
+  <head>
+    <meta charset="utf-8" />
+    <title>@polar/client-diplan</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+      #polarstern-wrapper {
+        height: 90vh;
+      }
+    </style>
+  </head>
+  <body>
+    <nav></nav>
+    <header>
+      <h1>Testseite <code>@polar/client-diplan</code> (Diplan UI - Variation Two)</h1>
+    </header>
+    <div id="somethingnice"></div>
+    <main>
+      <section>
+        <h2 class="padded-x">Beispielinstanz</h2>
+        <div class="padded-x">
+          <h3>Steuerung von außen</h3>
+          <fieldset>
+            <legend>POLAR-Standardfunktionen</legend>
+            <button id="action-plus">+</button>
+            <button id="action-minus">-</button>
+            <button id="action-toast">Toast</button>
+            <button id="action-load-geojson">GeoJSON hinzufügen</button>
+            <button id="action-zoom-to-all">Zoome auf Zeichnung</button>
+            <label>
+              Adresssuche (erstbestes Ergebnis):
+              <input id="action-address-search-filler"/>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>DiPlan-Funktionen</legend>
+            <button id="action-lasso">Lasso-Funktion</button>
+            <button id="action-cut-polygons">Cut polygons</button>
+            <button id="action-duplicate-polygons">Duplicate polygons</button>
+            <button id="action-merge-polygons">Merge polygons</button>
+          </fieldset>
+          <div>Active extended draw mode: <span id="active-draw-mode"></span></div>
+        </div>
+        <h3 class="padded-x">Klient</h3>
+        <div id="polarstern">
+          <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
+        </div>
+      </section>
+      <section class="padded-x">
+        <h2>Informationen aus Kartenklient</h2>
+        <p>Subscriptions werden i.d.R. mit JSON-fähigen Objekten beantwortet. Die untere Tabelle stellt einige ausgewählte Karteninhalte als Text dar.</p>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Schlüssel</th>
+              <th>Wert (als Text)</th>
+              <th>Kommentar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>diplan/revisedDrawExport</code></td>
+              <td id="subscribed-revised-draw-export">uninitialized</td>
+              <td>Der überarbeitete Export des Draw-Tools mit diplanspezifischen Anpassungen.</td>
+            </tr>
+            <tr>
+              <td><code>diplan/revisionInProgress</code></td>
+              <td id="subscribed-revision-in-progress">uninitialized</td>
+              <td>Indikator, ob ein Ladevorgang für die weiteren Anpassungen der Draw-Ausagbe gerade läuft.</td>
+            </tr>
+            <tr>
+              <td><code>diplan/simpleGeometryValidity</code></td>
+              <td id="subscribed-simple-geometry-validity">uninitialized</td>
+              <td>Simple-Geometry-Konformität</td>
+            </tr>
+            <tr>
+              <td><code>plugin/export/exportedMap</code></td>
+              <td><a id="subscribed-export-a" download="polar_screenshot.png" href=""><img id="subscribed-export-img" /></a></td>
+              <td>Screenshot des aktuellen Kartenausschnitts. Produzierbar durch Klick auf den unteren linken "Export"-Button.</td>
+            </tr>
+            <tr>
+              <td><code>plugin/zoom/zoomLevel</code></td>
+              <td id="subscribed-zoom">uninitialized</td>
+              <td>Zoomstufe der <a target="_blank" href="https://openlayers.org/en/latest/apidoc/module-ol_View-View.html#getZoom">OpenLayers/View</a> als <code>Number</code></td>
+            </tr>
+            <tr>
+              <td><code>plugin/gfi/featureInformation</code></td>
+              <td id="subscribed-gfi">uninitialized</td>
+              <td>Wert der aktuellen <code>GetFeatureInformation</code>-Antwort(en) als <code>Record&lt;LayerId, Feature[]&gt;</code></td>
+            </tr>
+            <tr>
+              <td><code>plugin/draw/featureCollection</code></td>
+              <td id="subscribed-draw">uninitialized</td>
+              <td>Die hergestellte Zeichnung als GeoJSON (ohne diplanspezifische Metainformationen und Modifikationen).</td>
+            </tr>
+            <tr>
+              <td><code>plugin/...</code></td>
+              <td id="subscribed-a">uninitialized</td>
+              <td>Platz für weitere Beispiele</td>
+            </tr>
+            <tr>
+              <td><code>plugin/...</code></td>
+              <td id="subscribed-b">uninitialized</td>
+              <td>Platz für weitere Beispiele</td>
+            </tr>
+            <tr>
+              <td><code>plugin/...</code></td>
+              <td id="subscribed-c">uninitialized</td>
+              <td>Platz für weitere Beispiele</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <footer>At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.</footer>
+    <link rel="stylesheet" src="../../dist/polar-client.css">
+    <script type="module">
+      import diplanMapClient from '../../dist/client-diplan.js'
+      import services from '../services.js'
+      import config from './config.js'
+      import setup from './setup.js'
+
+      setup(diplanMapClient, services, config)
+    </script>
+  </body>
+</html>

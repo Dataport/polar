@@ -67,6 +67,11 @@
 <td>An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category.</td>
 </tr>
 <tr>
+<td>component</td>
+<td>VueConstructor?</td>
+<td>Allows overriding the AddressSearch.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model. Please refer to the implementation.</td>
+</tr>
+<tr>
 <td>customSearchMethods</td>
 <td>Record&lt;string, customSearchMethod&gt;?</td>
 <td>An object with named search functions added to the existing set of configurable search methods. (See <code>addressSearch.searchMethodsObject.type</code>) This record's keys are added to that enum.</td>

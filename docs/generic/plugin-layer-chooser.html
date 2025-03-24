@@ -28,7 +28,7 @@
 <p>The LayerChooser offers an additive (usually Overlays, technically named with <code>type: 'mask'</code>) and an exclusive (usually background maps, <code>type: 'background'</code>) selection of layers to the users.</p>
 <p>Order of layers within a layer is currently always as initially configured.</p>
 <h2 id="configuration" tabindex="-1">Configuration</h2>
-<p>The tool does not require any configuration for itself, but is based on the <a href="https://dataport.github.io/polar/docs/generic/core.html#mapconfiguration.layers"><code>mapConfiguration.layers</code></a>.
+<p>The tool does not require any configuration for itself (for configuration options see further below), but is based on the <a href="https://dataport.github.io/polar/docs/generic/core.html#mapconfiguration.layers"><code>mapConfiguration.layers</code></a>.
 It will infer <code>id</code> and <code>name</code> from that configuration.</p>
 <p>This plugin requires the configuration of <code>mapConfiguration.layer.type</code>.
 Also, this plugin also supports the optional configuration parameters <code>mapConfiguration.layer.hideInMenu</code>, <code>mapConfiguration.layer.minZoom</code>, <code>mapConfiguration.layer.maxZoom</code>, <code>mapConfiguration.layer.options</code> and <code>mapConfiguration.layer.visibility</code> which are described in more depth in the following table.</p>
@@ -92,6 +92,23 @@ Also, this plugin also supports the optional configuration parameters <code>mapC
   },
 ]
 </code></pre>
+<h3 id="layerchooser-1" tabindex="-1">layerChooser</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>component</td>
+<td>VueConstructor?</td>
+<td>Allows overriding the LayerChooser.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model. Please refer to the implementation.</td>
+</tr>
+</tbody>
+</table>
 <h3 id="layer.options" tabindex="-1">layer.options</h3>
 <p>An option wheel will appear in the layer chooser that allows opening a sub-menu with configured configuration options for the end user.</p>
 <table>

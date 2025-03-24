@@ -49,6 +49,11 @@
 <td>Specification of a service that contains meta-information regarding geometries. Information from there will be added to features in getter <code>revisedDrawExport</code>.</td>
 </tr>
 <tr>
+<td>renderType</td>
+<td>'iconMenu' | 'independent'?</td>
+<td>If set to <code>independent</code>, the displayed view for the GeoEditing plugin is minified to a vertical list of buttons of icons instead of a list of buttons including descriptions. The plugin then may be used outside of an IconMenu. Defaults to <code>iconMenu</code>.</td>
+</tr>
+<tr>
 <td>validateGeoJson</td>
 <td>boolean?</td>
 <td>Defaults to <code>true</code>. If <code>true</code>, all geometries in getter <code>revisedDrawExport</code> will undergo a validity check before they are exported. To inspect the validity of the offered geometries, inspect the getter <code>simpleGeometryValidity</code> that indicates validity with a <code>boolean</code>.</td>
@@ -182,7 +187,7 @@ The mutation has to be called whenever the token has been refreshed so that the 
 </code></pre>
 
     <h2>Child documents</h2><nav><ul>
-      <li><a href="core.html" target="_blank">core.html</a></li><li><a href="lib-custom-types.html" target="_blank">lib-custom-types.html</a></li><li><a href="lib-get-features.html" target="_blank">lib-get-features.html</a></li><li><a href="plugin-address-search.html" target="_blank">plugin-address-search.html</a></li><li><a href="plugin-attributions.html" target="_blank">plugin-attributions.html</a></li><li><a href="plugin-draw.html" target="_blank">plugin-draw.html</a></li><li><a href="plugin-export.html" target="_blank">plugin-export.html</a></li><li><a href="plugin-fullscreen.html" target="_blank">plugin-fullscreen.html</a></li><li><a href="plugin-gfi.html" target="_blank">plugin-gfi.html</a></li><li><a href="plugin-icon-menu.html" target="_blank">plugin-icon-menu.html</a></li><li><a href="plugin-layer-chooser.html" target="_blank">plugin-layer-chooser.html</a></li><li><a href="plugin-loading-indicator.html" target="_blank">plugin-loading-indicator.html</a></li><li><a href="plugin-pins.html" target="_blank">plugin-pins.html</a></li><li><a href="plugin-scale.html" target="_blank">plugin-scale.html</a></li><li><a href="plugin-toast.html" target="_blank">plugin-toast.html</a></li><li><a href="plugin-zoom.html" target="_blank">plugin-zoom.html</a></li>
+      <li><a href="core.html" target="_blank">core.html</a></li><li><a href="lib-custom-types.html" target="_blank">lib-custom-types.html</a></li><li><a href="lib-get-features.html" target="_blank">lib-get-features.html</a></li><li><a href="plugin-address-search.html" target="_blank">plugin-address-search.html</a></li><li><a href="plugin-attributions.html" target="_blank">plugin-attributions.html</a></li><li><a href="plugin-draw.html" target="_blank">plugin-draw.html</a></li><li><a href="plugin-export.html" target="_blank">plugin-export.html</a></li><li><a href="plugin-gfi.html" target="_blank">plugin-gfi.html</a></li><li><a href="plugin-icon-menu.html" target="_blank">plugin-icon-menu.html</a></li><li><a href="plugin-layer-chooser.html" target="_blank">plugin-layer-chooser.html</a></li><li><a href="plugin-loading-indicator.html" target="_blank">plugin-loading-indicator.html</a></li><li><a href="plugin-pins.html" target="_blank">plugin-pins.html</a></li><li><a href="plugin-scale.html" target="_blank">plugin-scale.html</a></li><li><a href="plugin-toast.html" target="_blank">plugin-toast.html</a></li><li><a href="plugin-zoom.html" target="_blank">plugin-zoom.html</a></li>
       </ul></nav>
     <h2>Locales</h2>
     <table>
@@ -210,6 +215,72 @@ The mutation has to be called whenever the token has been refreshed so that the 
         <tr>
           <td>diplan.warn.unevenCut</td>
           <td>Leider konnte kein Schnitt hergestellt werden, da entweder der Start- oder Endpunkt der Schnittkante innerhalb des zu schneidenden Polygons lag, oder kein Polygon geschnitten wurde. Bitte versuchen Sie es erneut.</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.drawPolygon</td>
+          <td>Neue Fläche einzeichnen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.drawCircle</td>
+          <td>Kreis einzeichnen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.merge</td>
+          <td>Flächen kombinieren</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.cut</td>
+          <td>Durchschneiden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.duplicate</td>
+          <td>Duplizieren</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.lasso</td>
+          <td>Lasso</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.edit</td>
+          <td>Bearbeiten</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.translate</td>
+          <td>Fläche bewegen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.delete</td>
+          <td>Fläche entfernen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.iconMenu.hints.diplanLayerChooser</td>
+          <td>Kartenauswahl</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.iconMenu.hints.geoEditing</td>
+          <td>Digitalisierungswerkzeuge</td>
           <td></td>
         </tr>
         
