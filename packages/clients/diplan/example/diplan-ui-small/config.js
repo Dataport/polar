@@ -13,6 +13,7 @@ export default {
     link: {
       href: '../diplan-ui-one',
       icon: '$vuetify.icons.fullscreen',
+      label: 'diplan.linkButton.labelSmall',
     },
   },
   // general POLAR parameters
