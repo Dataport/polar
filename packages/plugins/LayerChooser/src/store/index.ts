@@ -3,9 +3,7 @@ import {
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import {
-  LayerConfiguration,
   LayerConfigurationOptionLayers,
-  MapConfig,
   PolarModule,
 } from '@polar/lib-custom-types'
 import { rawLayerList } from '@masterportal/masterportalapi'
@@ -13,6 +11,7 @@ import { ImageWMS, TileWMS } from 'ol/source'
 import Layer from 'ol/layer/Layer'
 import { LayerChooserGetters, LayerChooserState } from '../types'
 import { asIdList, areLayersActive } from '../utils/layerFolding'
+import { getBackgroundsAndMasks } from '../utils/getBackgroundsAndMasks'
 import { getOpenedOptionsServiceLayers } from '../utils/getOpenedOptionsServiceLayers'
 
 export const getInitialState = (): LayerChooserState => ({
@@ -25,36 +24,6 @@ export const getInitialState = (): LayerChooserState => ({
   activeMaskIds: [],
   activeLayerIds: {},
 })
-
-const getBackgroundsAndMasks = (
-  configuration: MapConfig
-): [LayerConfiguration[], LayerConfiguration[]] =>
-  configuration.layers.reduce(
-    ([backgrounds, masks], current) => {
-      const rawLayer = rawLayerList.getLayerWhere({
-        id: current.id,
-      })
-
-      if (rawLayer === null) {
-        console.error(
-          `@polar/plugin-layer-chooser: Layer ${current.id} not found in service register. This is a configuration issue. The map might behave in unexpected ways.`,
-          current
-        )
-
-        return [backgrounds, masks]
-      }
-      if (current.type === 'background') {
-        return [[...backgrounds, current], masks]
-      } else if (current.type === 'mask') {
-        return [backgrounds, [...masks, current]]
-      }
-      console.error(
-        `@polar/plugin-layer-chooser: Unknown layer type ${current.type}. Layer is ignored by plugin.`
-      )
-      return [backgrounds, masks]
-    },
-    [[] as LayerConfiguration[], [] as LayerConfiguration[]]
-  )
 
 // OK for module creation
 // eslint-disable-next-line max-lines-per-function
@@ -225,6 +194,10 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      component: (_, __, ___, rootGetters) =>
+        rootGetters.configuration.layerChooser?.component
+          ? rootGetters.configuration.layerChooser.component
+          : null,
       disabledBackgrounds(_, { availableBackgrounds, backgrounds }) {
         return backgrounds
           .map(({ id }) =>
