@@ -12,6 +12,11 @@ export default {
     248651.73157077, 5227198.20287631, 928366.12236557, 6118661.62507136,
   ],
   diplan: {
+    link: {
+      href: 'https://example.com',
+      icon: '$vuetify.icons.fullscreen-exit',
+      label: 'diplan.linkButton.label',
+    },
     mergeToMultiGeometries: true,
     validateGeoJson: true,
     metaServices: [

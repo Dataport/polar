@@ -13,11 +13,14 @@ import ZoomPlugin from '@polar/plugin-zoom'
 
 import createMenus from './createMenus'
 import { MODE } from './mode'
+
 import { AddressSearch } from './plugins/AddressSearch'
 import { AttributionButton } from './plugins/Attributions'
-import GeoEditing from './plugins/GeoEditing'
 import { IconMenuButton } from './plugins/IconMenu'
 import { Zoom } from './plugins/Zoom'
+
+import GeoEditing from './plugins/GeoEditing'
+import LinkButton from './plugins/LinkButton'
 
 // complexity deemed acceptable for this setup function
 // eslint-disable-next-line max-lines-per-function
@@ -79,6 +82,11 @@ export function addPlugins(core, mode: keyof typeof MODE) {
         },
         component: mode === MODE.POLAR ? undefined : Zoom,
       }),
+      mode !== MODE.POLAR &&
+        LinkButton({
+          displayComponent: true,
+          layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+        }),
       (mode === MODE.DIPLAN_ONE || mode === MODE.DIPLAN_TWO) &&
         Draw({
           displayComponent: false,
