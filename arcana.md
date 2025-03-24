@@ -28,4 +28,4 @@ All `v-radio` elements from vuetify require these event catchers:
   @keydown.left.stop
 ```
 
-This is due to how OL works since @10. If the events are not stops, OL consumes them to allow map panning by keyboard.
+This is due to how OL works since @10. If the events are not stopped, OL consumes them to allow map panning by keyboard.
