@@ -12,6 +12,30 @@ export const diplanDe = {
       unevenCut:
         'Leider konnte kein Schnitt hergestellt werden, da entweder der Start- oder Endpunkt der Schnittkante innerhalb des zu schneidenden Polygons lag, oder kein Polygon geschnitten wurde. Bitte versuchen Sie es erneut.',
     },
+    geoEditing: {
+      tools: {
+        drawPolygon: 'Neue Fläche einzeichnen',
+        drawCircle: 'Kreis einzeichnen',
+        merge: 'Flächen kombinieren',
+        cut: 'Durchschneiden',
+        duplicate: 'Duplizieren',
+        lasso: 'Lasso',
+        edit: 'Bearbeiten',
+        translate: 'Fläche bewegen',
+        delete: 'Fläche entfernen',
+      },
+    },
+    linkButton: {
+      label: 'Vollbildmodus verlassen',
+    },
+  },
+  plugins: {
+    iconMenu: {
+      hints: {
+        diplanLayerChooser: 'Kartenauswahl',
+        geoEditing: 'Digitalisierungswerkzeuge',
+      },
+    },
   },
 } as const
 

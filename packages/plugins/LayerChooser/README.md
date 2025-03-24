@@ -10,7 +10,7 @@ Order of layers within a layer is currently always as initially configured.
 
 ## Configuration
 
-The tool does not require any configuration for itself, but is based on the [`mapConfiguration.layers`](../../core/README.md#mapconfiguration.layers).
+The tool does not require any configuration for itself (for configuration options see further below), but is based on the [`mapConfiguration.layers`](../../core/README.md#mapconfiguration.layers).
 It will infer `id` and `name` from that configuration.
 
 This plugin requires the configuration of `mapConfiguration.layer.type`.
@@ -47,6 +47,12 @@ layers: [
   },
 ]
 ```
+
+### layerChooser
+
+| fieldName | type| description |
+| - | - | - |
+| component | VueConstructor? | Allows overriding the LayerChooser.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model. Please refer to the implementation. |
 
 ### layer.options
 

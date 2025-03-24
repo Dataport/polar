@@ -2,6 +2,9 @@
 
 ## unpublished
 
+- Feature: Add new configuration parameter `component` to be able to interchange the UI component of this plugin.
+- Feature: Expose `Options.vue` as new export `LayerChooserOptions` in order to use it in custom implementations.
+- Feature: Expose `LayerWrapper.vue` as new export `LayerChooserLayerWrapper` in order to use it in custom implementations.
 - Fix: Fix a bug where keyboard navigation in radio groups didn't work.
 - Chore: The documentation for `minZoom` and `maxZoom` has been updated regarding their inclusive interpretation of the zoom value.
 

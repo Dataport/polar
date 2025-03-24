@@ -11,6 +11,7 @@
 - Feature: Expose the `getSnaps` function. Intended to be used together with the `setInteractions` action only.
 - Feature: Expose `Mode` type of Draw plugin for client-side extensions.
 - Fix: Configured font colours were not used on Text draw. This has been resolved.
+- Fix: Make `setMode` and `setDrawMode` `async` actions to prevent race conditions if they are called in short succession.
 
 ## 3.0.0
 
