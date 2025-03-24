@@ -37,6 +37,9 @@ export const diplanDe = {
         geoEditing: 'Digitalisierungswerkzeuge',
       },
     },
+    layerChooser: {
+      xplanTitle: 'XPlanGML',
+    },
   },
 } as const
 
