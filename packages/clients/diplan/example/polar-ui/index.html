@@ -40,7 +40,7 @@
           </fieldset>
           <div>Active extended draw mode: <span id="active-draw-mode"></span></div>
         </div>
-        <h3 class="padded-x">Klient</h3>
+        <h3 class="padded-x">Klient (note that some CSS is currently overridden by diplanung-style)</h3>
         <div id="polarstern">
           <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
         </div>
@@ -97,16 +97,14 @@
       </section>
     </main>
     <footer>At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.</footer>
-    <!-- Example without build tools. Most frameworks will allow importing this. (Try "* as PolarClientDiPlan".) -->
-    <script src="../../dist/polar-client.js"></script>
-    <!-- → window.PolarClientDiPlan is now available. -->
     <link rel="stylesheet" src="../../dist/polar-client.css">
     <script type="module">
+      import diplanMapClient from '../../dist/client-diplan.js'
       import services from '../services.js'
       import config from './config.js'
       import setup from './setup.js'
 
-      setup(PolarClientDiPlan, services, config)
+      setup(diplanMapClient, services, config)
     </script>
   </body>
 </html>

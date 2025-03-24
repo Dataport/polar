@@ -6,12 +6,15 @@ const flurstuecke = 'flurstuecke'
 const bstgasleitung = 'bst_gasleitung'
 
 export default {
+  // masterportalAPI parameters
   startResolution: 264.583190458,
   startCenter: [561210, 5932600],
   extent: [
     248651.73157077, 5227198.20287631, 928366.12236557, 6118661.62507136,
   ],
+  // diplan-specific configuration example (see API.md)
   diplan: {
+    renderType: 'independent',
     mergeToMultiGeometries: true,
     validateGeoJson: true,
     metaServices: [
@@ -22,6 +25,7 @@ export default {
       },
     ],
   },
+  // general POLAR parameters
   locales: [
     {
       type: 'de',
@@ -49,7 +53,6 @@ export default {
     displayComponent: true,
     searchMethods: [
       {
-        categoryId: 'wfsg',
         queryParameters: {
           searchAddress: true,
           searchStreets: true,
@@ -58,31 +61,10 @@ export default {
         type: 'mpapi',
         url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
       },
-      {
-        categoryId: 'bkg',
-        queryParameters: {
-          filter: {
-            bundesland: 'Hamburg',
-          },
-        },
-        type: 'bkg',
-        url: 'https://gisdemo.dp.dsecurecloud.de/bkg_geosearch3',
-      },
     ],
     groupProperties: {
       defaultGroup: {
         label: 'Suchbegriff',
-        hint: 'Suchbegriff',
-        resultDisplayMode: 'categorized',
-        limitResults: 3,
-      },
-    },
-    categoryProperties: {
-      bkg: {
-        label: 'BKG Ergebnisse',
-      },
-      wfsg: {
-        label: 'Gazetteer Ergebnisse',
       },
     },
     minLength: 3,
@@ -110,6 +92,7 @@ export default {
     {
       id: flurstuecke,
       visibility: false,
+      // TODO available from 7, but only starts loading from 8 - bug or skill issue?
       minZoom: 7,
       type: 'mask',
       name: `diplan.layers.${flurstuecke}`,
@@ -119,12 +102,6 @@ export default {
       visibility: false,
       type: 'mask',
       name: `diplan.layers.${bstgasleitung}`,
-    },
-    {
-      id: 'secureServiceTest',
-      visibility: false,
-      type: 'mask',
-      name: 'Secure Service Test',
     },
   ],
   attributions: {
@@ -152,7 +129,6 @@ export default {
     ],
   },
   draw: {
-    enableOptions: true,
     lassos: [
       {
         id: flurstuecke,
@@ -161,19 +137,7 @@ export default {
         id: xplanwfs,
       },
     ],
-    measureOptions: {
-      metres: true,
-      kilometres: true,
-      hectares: true,
-    },
-    selectableDrawModes: ['Point', 'LineString', 'Circle', 'Text', 'Polygon'],
     snapTo: [xplanwfs, flurstuecke],
-    textStyle: {
-      font: {
-        size: [10, 20, 30],
-        family: 'Arial',
-      },
-    },
     style: {
       fill: { color: 'rgb(51 117 212 / 50%)' },
       stroke: {
@@ -185,9 +149,6 @@ export default {
         fillColor: 'rgb(51 117 212 / 50%)',
       },
     },
-  },
-  export: {
-    displayComponent: false,
   },
   gfi: {
     mode: 'bboxDot',
@@ -207,13 +168,5 @@ export default {
       'plugin/pins/transformedCoordinate',
       'plugin/pins/coordinatesAfterDrag',
     ],
-  },
-  pins: {
-    toZoomLevel: 9,
-    movable: 'drag',
-    appearOnClick: {
-      show: true,
-      atZoomLevel: 0,
-    },
   },
 }

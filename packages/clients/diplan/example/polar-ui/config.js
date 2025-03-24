@@ -150,6 +150,7 @@ export default {
     ],
   },
   draw: {
+    displayComponent: true,
     enableOptions: true,
     lassos: [
       {
@@ -183,9 +184,6 @@ export default {
         fillColor: 'rgb(51 117 212 / 50%)',
       },
     },
-  },
-  export: {
-    displayComponent: false,
   },
   gfi: {
     mode: 'bboxDot',
