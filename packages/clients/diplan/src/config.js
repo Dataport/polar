@@ -103,13 +103,13 @@ export default {
     {
       id: xplanwms,
       visibility: true,
-      type: 'mask',
+      type: 'xplan',
       name: `diplan.layers.${xplanwms}`,
     },
     {
       id: xplanwfs,
       visibility: false,
-      type: 'mask',
+      type: 'xplan',
       name: `diplan.layers.${xplanwfs}`,
     },
     {
