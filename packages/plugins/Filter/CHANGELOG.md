@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Fix: Fix a bug where keyboard navigation in radio groups didn't work.
+- Fix: Resolve a bug where keyboard navigation in radio groups didn't work.
 
 ## 3.0.0
 

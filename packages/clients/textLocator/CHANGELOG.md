@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Fix: Fix a bug where keyboard navigation in radio groups didn't work.
+- Fix: Resolve a bug where keyboard navigation in radio groups didn't work.
 - Chore: Update `@polar`-dependencies to the latest versions.
 - Chore: Add missing `ol` peerDependency.
 
