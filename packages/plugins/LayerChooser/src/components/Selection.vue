@@ -20,6 +20,10 @@
               :label="$t(name)"
               :value="id"
               :disabled="disabledBackgrounds[index]"
+              @keydown.up.stop
+              @keydown.right.stop
+              @keydown.down.stop
+              @keydown.left.stop
             ></v-radio>
           </LayerWrapper>
         </template>
