@@ -5,6 +5,7 @@ const drawTargetId = '#vuex-target-draw-result'
 
 test('clicks to the map produce a fetchable pin coordinate', async ({
   page,
+  isMobile,
 }) => {
   await openSnowbox(page)
 
@@ -20,6 +21,16 @@ test('clicks to the map produce a fetchable pin coordinate', async ({
   await page.getByLabel('Draw tools').click()
   await page.getByText('Draw, write and measure').click()
   await page.getByText('Polygon').click()
+
+  if (isMobile) {
+    // menu gets in the way in mobile
+    await page.getByLabel('Draw tools').click()
+    await expect(page.locator('.polar-draw-menu')).toHaveCount(0)
+    // canvas not fully visible initially in mobile
+    await canvas.scrollIntoViewIfNeeded()
+    const scrollY = await page.evaluate(() => window.scrollY)
+    y -= scrollY
+  }
 
   const moves: [number, number, string][] = [
     [0, 0, 'click'],
@@ -41,8 +52,11 @@ test('clicks to the map produce a fetchable pin coordinate', async ({
   expect(drawing.features[0].geometry.coordinates[0].length).toBe(7)
 })
 
-/* test('two features drawn at the same coordinate can be modified separately', async ({
+// it's fiiine
+// eslint-disable-next-line max-lines-per-function
+test('two features drawn at the same coordinate can be modified separately', async ({
   page,
+  isMobile,
 }) => {
   await openSnowbox(page)
 
@@ -59,14 +73,30 @@ test('clicks to the map produce a fetchable pin coordinate', async ({
   await page.getByText('Draw, write and measure').click()
   await page.getByText('Point').click()
 
+  if (isMobile) {
+    // menu gets in the way in mobile
+    await page.getByLabel('Draw tools').click()
+    await expect(page.locator('.polar-draw-menu')).toHaveCount(0)
+  }
+
   await page.mouse.click(x, y)
   await page.mouse.click(x, y)
+
+  if (isMobile) {
+    await page.getByLabel('Draw tools').click()
+    await expect(page.locator('.polar-draw-menu')).toHaveCount(1)
+  }
 
   await page.getByText('Edit').click()
 
+  if (isMobile) {
+    await page.getByLabel('Draw tools').click()
+    await expect(page.locator('.polar-draw-menu')).toHaveCount(0)
+  }
+
   await page.mouse.move(x, y)
   await page.mouse.down()
-  await page.mouse.move(x + 40, y + 40)
+  await page.mouse.move(x - 40, y - 40)
   await page.mouse.up()
 
   const drawing = JSON.parse(await page.locator(drawTargetId).innerText())
@@ -79,4 +109,4 @@ test('clicks to the map produce a fetchable pin coordinate', async ({
   expect(drawing.features[0].geometry.coordinates[1]).not.toBe(
     drawing.features[1].geometry.coordinates[1]
   )
-}) */
+})
