@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-attributions",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Attributions plugin for POLAR that adds copyright information regarding all currently active layers. Additionally, static information can be added.",
   "keywords": [
     "OpenLayers",
