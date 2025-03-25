@@ -18,7 +18,6 @@
     }}</v-card-title>
     <v-card-text>
       <template v-for="{ layerName, displayName, layerImage } in layers">
-        <!-- TODO: Style these like the other checkboxes -->
         <v-checkbox
           :key="`layer-chooser-layer-option-${layerName}`"
           v-model="activeLayers"
