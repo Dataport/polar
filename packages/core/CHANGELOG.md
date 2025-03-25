@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 3.1.0
 
 - Feature: Add `singleTile` as as usable parameter in the configuration of WMS-layers.
 - Feature: Additionally export `MapInstance` type.
