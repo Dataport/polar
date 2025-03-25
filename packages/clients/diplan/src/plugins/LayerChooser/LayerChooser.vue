@@ -100,6 +100,8 @@
 </template>
 
 <script lang="ts">
+// TODO Disabled for now, implementation is not final
+/* eslint-disable max-lines */
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import { rawLayerList } from '@masterportal/masterportalapi'
