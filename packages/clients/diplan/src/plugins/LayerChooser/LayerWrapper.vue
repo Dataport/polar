@@ -4,8 +4,19 @@
     :disabled-layers="disabledLayers"
     :layer-id="layerId"
     icon="$vuetify.icons.gear-outline"
+    :show-options-button="false"
   >
     <slot></slot>
+    <v-btn
+      v-if="hasOptions"
+      class="ml-1"
+      :aria-label="$t('plugins.layerChooser.layerOptions')"
+      icon
+      small
+      @click="setOpenedOptions(layerId)"
+    >
+      <v-icon small>$vuetify.icons.gear-outline</v-icon>
+    </v-btn>
   </LayerChooserLayerWrapper>
 </template>
 
@@ -33,6 +44,14 @@ export default Vue.extend({
     layerId: {
       type: String,
       required: true,
+    },
+    hasOptions: {
+      type: Boolean,
+      default: false,
+    },
+    setOpenedOptions: {
+      type: Function,
+      default: null,
     },
   },
 })

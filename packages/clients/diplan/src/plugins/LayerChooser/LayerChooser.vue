@@ -65,24 +65,34 @@
         </v-expansion-panel-header>
         <v-divider />
         <v-expansion-panel-content>
-          <template v-for="({ name, id }, index) in xplanLayers">
-            <LayerWrapper
-              :key="'disabled-xplan-' + index"
-              :index="index"
-              :layer-id="id"
-            >
-              <v-checkbox
-                v-model="activeXplanLayers"
-                :label="$t(name)"
-                :value="id"
-                aria-describedby="polar-label-xplan-title"
-                dense
-                hide-details
-                class="cut-off-top-space"
-              />
-            </LayerWrapper>
-            <v-divider :key="index" />
+          <template v-if="displayXplanSelection">
+            <template v-for="({ name, id }, index) in xplanLayers">
+              <LayerWrapper
+                :key="'disabled-xplan-' + index"
+                :index="index"
+                :layer-id="id"
+                :has-options="xplanLayerHasOptions(id)"
+                :set-opened-options="setOpenedXplanOptions"
+              >
+                <v-checkbox
+                  v-model="activeXplanLayers"
+                  :label="$t(name)"
+                  :value="id"
+                  aria-describedby="polar-label-xplan-title"
+                  dense
+                  hide-details
+                  class="cut-off-top-space"
+                />
+              </LayerWrapper>
+              <v-divider :key="index" />
+            </template>
           </template>
+          <XplanLayerChooserOptions
+            v-else
+            :layers="openedOptionsServiceLayers"
+            :service="openedXplanOptionsService"
+            :set-opened-options="setOpenedXplanOptions"
+          />
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -94,18 +104,29 @@ import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { LayerChooserOptions } from '@polar/plugin-layer-chooser'
-import { LayerConfiguration } from '@polar/lib-custom-types'
+import {
+  LayerConfiguration,
+  LayerConfigurationOptionLayers,
+} from '@polar/lib-custom-types'
 import { areLayersActive } from '@polar/plugin-layer-chooser/src/utils/layerFolding'
+import { getOpenedOptionsServiceLayers } from '@polar/plugin-layer-chooser/src/utils/getOpenedOptionsServiceLayers'
 import LayerWrapper from './LayerWrapper.vue'
+import XplanLayerChooserOptions from './Options.vue'
 
 export default Vue.extend({
   name: 'LayerChooser',
   components: {
     LayerWrapper,
     LayerChooserOptions,
+    XplanLayerChooserOptions,
   },
-  data: () => ({ activeXplanIds: [] }),
+  data: () => ({
+    activeXplanIds: [],
+    openedXplanOptions: null,
+    openedOptionsServiceLayers: [],
+  }),
   computed: {
+    ...mapGetters('capabilities', ['wmsCapabilitiesAsJsonById']),
     ...mapGetters(['configuration', 'map']),
     ...mapGetters('plugin/layerChooser', [
       'activeBackgroundId',
@@ -144,6 +165,9 @@ export default Vue.extend({
     displaySelection() {
       return this.openedOptions === null
     },
+    displayXplanSelection() {
+      return this.openedXplanOptions === null
+    },
     xplanLayers() {
       return areLayersActive(
         this.configuration.layers.reduce((acc, current) => {
@@ -166,13 +190,29 @@ export default Vue.extend({
         this.map.getView().getZoom() as number
       )
     },
+    xplanLayerIdsWithOptions() {
+      return this.xplanLayers
+        .filter((layer) => Boolean(layer.options))
+        .map((layer) => layer.id)
+    },
+    xplanLayerHasOptions() {
+      return (layerId) => this.xplanLayerIdsWithOptions.includes(layerId)
+    },
+    openedXplanOptionsService() {
+      if (!this.openedXplanOptions) {
+        return {}
+      }
+      return this.xplanLayers.find(({ id }) => id === this.openedXplanOptions)
+    },
   },
   mounted() {
     this.activeXplanLayers = this.xplanLayers
       .filter(({ visibility }) => visibility)
       .map(({ id }) => id)
+    this.xplanLayerIdsWithOptions.forEach((id) => this.loadCapabilities(id))
   },
   methods: {
+    ...mapActions('capabilities', ['loadCapabilities']),
     ...mapActions('plugin/layerChooser', [
       'setActiveBackgroundId',
       'setActiveMaskIds',
@@ -187,6 +227,50 @@ export default Vue.extend({
             layer.setVisible(ids.includes(layer.get('id')))
           }
         })
+    },
+    setOpenedXplanOptions(layerId: string | null) {
+      this.openedXplanOptions = layerId
+      if (layerId === null) {
+        return
+      }
+      this.openedOptionsServiceLayers = this.requestOptionsServiceLayers()
+    },
+    requestOptionsServiceLayers() {
+      const layers: LayerConfigurationOptionLayers | undefined =
+        this.openedXplanOptionsService?.options?.layers
+
+      if (typeof layers === 'undefined') {
+        return []
+      }
+
+      const serviceDefinition = rawLayerList.getLayerWhere({
+        id: this.openedXplanOptionsService.id,
+      })
+
+      if (!serviceDefinition.layers) {
+        console.error(
+          '@polar/plugin-layer-chooser: Trying to configure layers of a layer without "layers" field.',
+          serviceDefinition
+        )
+        return null
+      }
+      const wmsCapabilitiesJson = this.wmsCapabilitiesAsJsonById(
+        this.openedXplanOptionsService.id
+      )
+
+      if (wmsCapabilitiesJson === null) {
+        console.error(
+          `@polar/plugin-layer-chooser: CapabilitiesJson for layer ${JSON.stringify(
+            this.openedXplanOptionsService
+          )} is null.`
+        )
+        return null
+      }
+      return getOpenedOptionsServiceLayers(
+        layers.order?.split?.(',') || serviceDefinition.layers.split(','),
+        layers,
+        wmsCapabilitiesJson
+      )
     },
   },
 })

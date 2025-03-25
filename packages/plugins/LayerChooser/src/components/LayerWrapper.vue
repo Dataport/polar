@@ -7,6 +7,7 @@
       >
         <slot></slot>
         <v-btn
+          v-if="showOptionsButton"
           class="ml-1"
           :class="!hasOptions && 'polar-layer-chooser-option-invisible'"
           :aria-label="$t('plugins.layerChooser.layerOptions')"
@@ -47,6 +48,10 @@ export default Vue.extend({
     icon: {
       type: String,
       default: 'fa-gear',
+    },
+    showOptionsButton: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
