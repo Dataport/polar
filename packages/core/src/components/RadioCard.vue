@@ -14,6 +14,10 @@
           :key="key"
           :label="$t(value)"
           :value="key"
+          @keydown.up.stop
+          @keydown.right.stop
+          @keydown.down.stop
+          @keydown.left.stop
         ></v-radio>
       </v-radio-group>
     </v-card-text>

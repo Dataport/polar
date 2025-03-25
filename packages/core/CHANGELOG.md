@@ -8,6 +8,7 @@
 - Fix: If a flag `_isPolarDragLikeInteraction` is present on any interaction, the page will stop scrolling in mobile mode, and the interaction takes precendence. Especially, this is done to prevent the tooltip on how to pan the map on mobile devices to appear. This flag is documented at the end of the README.md.
 - Fix: Resolve issue of plugins being placed in either `NineLayoutTag.MIDDLE_LEFT` or `NineLayoutTag.MIDDLE_RIGHT` not being centered on the map-div.
 - Fix: Vector layers were loaded one zoom level too late despite being available for activation. This has been resolved. The POLAR values for `minZoom` and `maxZoom` on layers are both modeled to be inclusive now.
+- Fix: Resolve a bug where keyboard navigation in radio groups didn't work.
 
 ## 3.0.0
 

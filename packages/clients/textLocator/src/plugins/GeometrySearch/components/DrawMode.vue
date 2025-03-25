@@ -8,10 +8,18 @@
         <v-radio
           :label="$t('plugins.draw.drawMode.point')"
           value="Point"
+          @keydown.up.stop
+          @keydown.right.stop
+          @keydown.down.stop
+          @keydown.left.stop
         ></v-radio>
         <v-radio
           :label="$t('plugins.draw.drawMode.polygon')"
           value="Polygon"
+          @keydown.up.stop
+          @keydown.right.stop
+          @keydown.down.stop
+          @keydown.left.stop
         ></v-radio>
       </v-radio-group>
     </v-card-text>
