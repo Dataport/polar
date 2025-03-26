@@ -18,6 +18,8 @@ Add a query parameter, e.g. `?ObjektID=1506`, to the page's URL to initially foc
 
 Name and casing of "ObjektID" have been directly taken from the backend to avoid duplicate naming.
 
+For the internal map, another query parameter, e.g. `?NewTab=false`, can be given. This parameter is used in the URL for the plugin DishExportMap and defines if the backend creates a link to go back to the previous page (`NewTab=false`) or not (`NewTab=true`).
+
 ## Configuration
 
 | fieldName | type | description |
