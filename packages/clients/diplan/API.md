@@ -148,3 +148,17 @@ mapInstance.$store.watch(
   }
 )
 ```
+
+## Rerender hints
+
+In some SPA applications, the map client may produce unexpected behaviour on rerenders. Should this still occur in `1.0.0-beta.1` or later, please try these methods:
+
+* Use `mapInstance.$destroy()` in your framework's lifecycle's unmount method before new `createMap` calls.
+* In general, your calls to our `watch` or `subscribe` methods should also be cleaned up to avoid leaks. These methods return `unwatch` or `unsubscribe` methods respectively, and can be called on any cleanup.
+* Most frameworks will handle DOM regeneration on rerenders themselves. Should you need to clean up the DOM for arbitrary reasons yourself, this snippet may come in handy:
+  ```js
+    const polarstern = document.getElementById('polarstern-wrapper')
+    const stellamaris = document.createElement('div')
+    stellamaris.id = 'polarstern'
+    polarstern?.parentElement?.replaceChild(stellamaris, polarstern)
+  ```
