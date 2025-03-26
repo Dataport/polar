@@ -228,6 +228,18 @@ The mutation has to be called whenever the token has been refreshed so that the 
   }
 )
 </code></pre>
+<h2 id="rerender-hints" tabindex="-1">Rerender hints</h2>
+<p>In some SPA applications, the map client may produce unexpected behaviour on rerenders. Should this still occur in <code>1.0.0-beta.1</code> or later, please try these methods:</p>
+<ul>
+<li>Use <code>mapInstance.$destroy()</code> in your framework's lifecycle's unmount method before new <code>createMap</code> calls.</li>
+<li>In general, your calls to our <code>watch</code> or <code>subscribe</code> methods should also be cleaned up to avoid leaks. These methods return <code>unwatch</code> or <code>unsubscribe</code> methods respectively, and can be called on any cleanup.</li>
+<li>Most frameworks will handle DOM regeneration on rerenders themselves. Should you need to clean up the DOM for arbitrary reasons yourself, this snippet may come in handy:<pre><code class="language-js">  const polarstern = document.getElementById('polarstern-wrapper')
+  const stellamaris = document.createElement('div')
+  stellamaris.id = 'polarstern'
+  polarstern?.parentElement?.replaceChild(stellamaris, polarstern)
+</code></pre>
+</li>
+</ul>
 
     <h2>Child documents</h2><nav><ul>
       <li><a href="core.html" target="_blank">core.html</a></li><li><a href="lib-custom-types.html" target="_blank">lib-custom-types.html</a></li><li><a href="lib-get-features.html" target="_blank">lib-get-features.html</a></li><li><a href="plugin-address-search.html" target="_blank">plugin-address-search.html</a></li><li><a href="plugin-attributions.html" target="_blank">plugin-attributions.html</a></li><li><a href="plugin-draw.html" target="_blank">plugin-draw.html</a></li><li><a href="plugin-export.html" target="_blank">plugin-export.html</a></li><li><a href="plugin-gfi.html" target="_blank">plugin-gfi.html</a></li><li><a href="plugin-icon-menu.html" target="_blank">plugin-icon-menu.html</a></li><li><a href="plugin-layer-chooser.html" target="_blank">plugin-layer-chooser.html</a></li><li><a href="plugin-loading-indicator.html" target="_blank">plugin-loading-indicator.html</a></li><li><a href="plugin-pins.html" target="_blank">plugin-pins.html</a></li><li><a href="plugin-scale.html" target="_blank">plugin-scale.html</a></li><li><a href="plugin-toast.html" target="_blank">plugin-toast.html</a></li><li><a href="plugin-zoom.html" target="_blank">plugin-zoom.html</a></li>

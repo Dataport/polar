@@ -43,7 +43,7 @@
           </fieldset>
           <div>Active extended draw mode: <span id="active-draw-mode"></span></div>
         </div>
-        <h3 class="padded-x">Klient</h3>
+        <h3 class="padded-x">Klient <button onclick="resetup(false)">rerender</button><button onclick="resetup(true)">rerenderSmall</button></h3>
         <div id="polarstern">
           <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
         </div>
@@ -120,9 +120,37 @@
       import diplanMapClient from '../../dist/client-diplan.js'
       import services from '../services.js'
       import config from './config.js'
-      import setup from './setup.js'
+      import configSmall from '../diplan-ui-small/config.js'
+      import { setup, setdown } from './setup.js'
+      import setupSmall from '../diplan-ui-small/setup.js'
 
       setup(diplanMapClient, services, config)
+
+      // removeEventlistener, undo subscriptions, etc. – whenever you invoke `subscribe` or `watch` on our instance/store, an unwatch/-subscribe method is returned that should be used on e.g. unmount
+      let nextSetdown = setdown
+
+      window.resetup = (small) => {
+        window.mapInstance.$destroy()
+        setdown?.()
+        nextSetdown = null
+
+        const polarstern = document.getElementById('polarstern-wrapper')
+        const stellamaris = document.createElement('div')
+        stellamaris.id = 'polarstern'
+        polarstern?.parentElement?.replaceChild(stellamaris, polarstern)
+
+        if (small) {
+          setupSmall(diplanMapClient, services, configSmall)
+            .then(() => document
+              .getElementById('polarstern-wrapper')
+              .setAttribute('style', 'height: 300px; width: 300px; margin: 0 auto')
+            )
+        }
+        else {
+          setup(diplanMapClient, services, config)
+          nextSetdown = setdown
+        }
+      }
     </script>
   </body>
 </html>
