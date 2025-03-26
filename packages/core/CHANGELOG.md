@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## unpublished
+## 3.2.0
+
+- Feature: Default core export now contains a `resetPlugins` method that allows undoing all previous `addPlugins` calls.
+
+## 3.1.0
 
 - Feature: Add `singleTile` as as usable parameter in the configuration of WMS-layers.
 - Feature: Additionally export `MapInstance` type.

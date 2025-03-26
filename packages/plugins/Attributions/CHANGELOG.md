@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.5.0
 
 - Feature: Use the configured `layoutTag` to identify the direction the attributions content should open in `renderType` `independent`.
 - Feature: Add configuration parameter `buttonComponent` to use a different component as the button to open the attributions if `renderType` is set to `'independent'`.
