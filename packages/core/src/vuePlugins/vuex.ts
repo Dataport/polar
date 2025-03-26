@@ -102,7 +102,7 @@ export const makeStore = () => {
   let moveHandle: MoveHandleProperties | null = null
   let moveHandleActionButton: MoveHandleActionButton | null = null
   let selected: null | Feature = null
-  let components = []
+  let components: PluginContainer[] = []
   let interactions: Interaction[] = []
 
   const setCenter = ({ map }) =>
