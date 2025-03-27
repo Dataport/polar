@@ -125,6 +125,10 @@ export default Vue.extend({
   .v-expansion-panel-content__wrap {
     padding: 0;
   }
+
+  .v-label {
+    margin: 0 !important;
+  }
 }
 </style>
 
