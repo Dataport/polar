@@ -3,7 +3,7 @@ import { openSnowbox } from './utils/openSnowbox'
 
 const drawTargetId = '#vuex-target-draw-result'
 
-test('clicks to the map produce a fetchable pin coordinate', async ({
+test('the draw tool can be used to draw polygons on the map', async ({
   page,
   isMobile,
 }) => {
