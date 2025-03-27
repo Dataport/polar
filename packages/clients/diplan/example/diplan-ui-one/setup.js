@@ -22,10 +22,12 @@ const geoJSON = {
   ],
 }
 
+let unsubscriptions = []
+
 /* this is an example setup function displaying how POLAR is instantiated
  * you may do this in any other format as long as all required contents arrive
  * in `createMap` */
-export default (client, layerConf, config) => {
+export const setup = (client, layerConf, config) => {
   client
     .createMap(
       {
@@ -67,41 +69,56 @@ export default (client, layerConf, config) => {
 
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
+      unsubscriptions.push(() => actionPlus.removeAttribute('onclick'))
       actionMinus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/decreaseZoomLevel')
+      unsubscriptions.push(() => actionMinus.removeAttribute('onclick'))
       actionToast.onclick = () =>
         mapInstance.$store.dispatch('plugin/toast/addToast', {
           type: 'success',
           text: 'Dies ist eine Beispielnachricht.',
           timeout: 3000,
         })
+      unsubscriptions.push(() => actionToast.removeAttribute('onclick'))
       actionLoadGeoJson.onclick = () => {
         mapInstance.$store.dispatch('plugin/draw/addFeatures', {
           geoJSON,
         })
       }
+      unsubscriptions.push(() => actionLoadGeoJson.removeAttribute('onclick'))
       actionZoomToAll.onclick = () =>
         mapInstance.$store.dispatch('plugin/draw/zoomToAllFeatures', {
           margin: 10, // defaults to 20
         })
-      actionFillAddressSearch.addEventListener('input', (e) =>
+      unsubscriptions.push(() => actionZoomToAll.removeAttribute('onclick'))
+      const input = (e) =>
         mapInstance.$store.dispatch('plugin/addressSearch/search', {
           input: e.target.value,
           autoselect: 'first',
         })
+      actionFillAddressSearch.addEventListener('input', input)
+      unsubscriptions.push(() =>
+        actionFillAddressSearch.removeEventListener('input', input)
       )
       actionLasso.onclick = () =>
         mapInstance.$store.dispatch('plugin/draw/setMode', 'lasso')
+      unsubscriptions.push(() => actionLasso.removeAttribute('onclick'))
       actionCut.onclick = () =>
         mapInstance.$store.dispatch('diplan/cutPolygons')
+      unsubscriptions.push(() => actionCut.removeAttribute('onclick'))
       actionDuplicate.onclick = () =>
         mapInstance.$store.dispatch('diplan/duplicatePolygons')
+      unsubscriptions.push(() => actionDuplicate.removeAttribute('onclick'))
       actionMerge.onclick = () =>
         mapInstance.$store.dispatch('diplan/mergePolygons')
-      mapInstance.$store.watch(
-        (_, getters) => getters['diplan/activeDrawMode'],
-        (activeDrawMode) => (activeExtendedDrawMode.innerHTML = activeDrawMode),
-        { immediate: true }
+      unsubscriptions.push(() => actionMerge.removeAttribute('onclick'))
+      unsubscriptions.push(
+        mapInstance.$store.watch(
+          (_, getters) => getters['diplan/activeDrawMode'],
+          (activeDrawMode) =>
+            (activeExtendedDrawMode.innerHTML = activeDrawMode),
+          { immediate: true }
+        )
       )
 
       const htmlRevisedDrawExport = document.getElementById(
@@ -117,37 +134,57 @@ export default (client, layerConf, config) => {
       const htmlGfi = document.getElementById('subscribed-gfi')
       const htmlDraw = document.getElementById('subscribed-draw')
 
-      mapInstance.subscribe(
-        'plugin/zoom/zoomLevel',
-        (zoomLevel) => (htmlZoom.innerHTML = zoomLevel)
-      )
-      mapInstance.subscribe(
-        'plugin/gfi/featureInformation',
-        (v) => (htmlGfi.innerHTML = JSON.stringify(v, null, 2))
-      )
-      mapInstance.subscribe('plugin/draw/featureCollection', (geojson) => {
-        htmlDraw.innerHTML = JSON.stringify(geojson, null, 2)
-      })
-      mapInstance.subscribe('diplan/revisedDrawExport', (revisedDrawExport) => {
-        htmlRevisedDrawExport.innerHTML = JSON.stringify(
-          revisedDrawExport,
-          null,
-          2
+      unsubscriptions.push(
+        mapInstance.subscribe(
+          'plugin/zoom/zoomLevel',
+          (zoomLevel) => (htmlZoom.innerHTML = zoomLevel)
         )
-      })
-      mapInstance.subscribe(
-        'diplan/revisionInProgress',
-        (revisionInProgress) => {
-          htmlRevisionInProgress.innerHTML = revisionInProgress
-        }
       )
-      mapInstance.subscribe(
-        'diplan/simpleGeometryValidity',
-        (simpleGeometryValidity) => {
-          htmlSimpleGeometryValidity.innerHTML = simpleGeometryValidity
-        }
+      unsubscriptions.push(
+        mapInstance.subscribe(
+          'plugin/gfi/featureInformation',
+          (v) => (htmlGfi.innerHTML = JSON.stringify(v, null, 2))
+        )
+      )
+      unsubscriptions.push(
+        mapInstance.subscribe('plugin/draw/featureCollection', (geojson) => {
+          htmlDraw.innerHTML = JSON.stringify(geojson, null, 2)
+        })
+      )
+      unsubscriptions.push(
+        mapInstance.subscribe(
+          'diplan/revisedDrawExport',
+          (revisedDrawExport) => {
+            htmlRevisedDrawExport.innerHTML = JSON.stringify(
+              revisedDrawExport,
+              null,
+              2
+            )
+          }
+        )
+      )
+      unsubscriptions.push(
+        mapInstance.subscribe(
+          'diplan/revisionInProgress',
+          (revisionInProgress) => {
+            htmlRevisionInProgress.innerHTML = revisionInProgress
+          }
+        )
+      )
+      unsubscriptions.push(
+        mapInstance.subscribe(
+          'diplan/simpleGeometryValidity',
+          (simpleGeometryValidity) => {
+            htmlSimpleGeometryValidity.innerHTML = simpleGeometryValidity
+          }
+        )
       )
 
       window.mapInstance = mapInstance
     })
+}
+
+export const setdown = () => {
+  unsubscriptions.forEach((un) => un())
+  unsubscriptions = []
 }

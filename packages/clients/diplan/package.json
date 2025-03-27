@@ -1,6 +1,6 @@
 {
   "name": "@polar/client-diplan",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "description": "POLAR Client tailored for DiPlanKarten",
   "keywords": [
     "OpenLayers",
@@ -35,7 +35,7 @@
     "precompile": "node ../../../scripts/precompileSvg.js ../../../node_modules/diplanung-style/src/icons/dpsIcons.svg ./assets/dist/iconMap.ts && node ../../../scripts/precompileCss.js ../../../node_modules/diplanung-style/dist/style.css ./assets/dist/cssVariables.ts && node ./scripts/preTranspileDiPlanStyle.cjs"
   },
   "devDependencies": {
-    "@polar/core": "^3.1.0",
+    "@polar/core": "^3.2.0",
     "@polar/lib-custom-types": "^2.1.0",
     "@polar/lib-get-features": "^3.1.0",
     "@polar/plugin-address-search": "^3.1.0",
