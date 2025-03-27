@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 3.1.0
 
 - Feature: `BKGParameters` has been exposed as root export.
 - Feature: Add new configuration parameter `component` to be able to interchange the UI component of this plugin.

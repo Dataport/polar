@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.1.0
 
 - Feature: Add new configuration parameter `component` to be able to interchange the UI component of this plugin.
 - Feature: Expose `Options.vue` as new export `LayerChooserOptions` in order to use it in custom implementations.

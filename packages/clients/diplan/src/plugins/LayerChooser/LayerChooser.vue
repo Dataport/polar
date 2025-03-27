@@ -2,7 +2,7 @@
   <v-card class="layer-chooser-selection">
     <v-expansion-panels accordion>
       <v-expansion-panel v-if="backgrounds.length">
-        <v-expansion-panel-header>
+        <v-expansion-panel-header id="polar-label-background-title">
           {{ $t('plugins.layerChooser.backgroundTitle') }}
         </v-expansion-panel-header>
         <v-divider />
@@ -29,7 +29,7 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
       <v-expansion-panel v-if="shownMasks.length">
-        <v-expansion-panel-header>
+        <v-expansion-panel-header id="polar-label-mask-title">
           {{ $t('plugins.layerChooser.maskTitle') }}
         </v-expansion-panel-header>
         <v-divider />
@@ -59,6 +59,32 @@
           <LayerChooserOptions v-else />
         </v-expansion-panel-content>
       </v-expansion-panel>
+      <v-expansion-panel v-if="xplanLayers.length">
+        <v-expansion-panel-header id="polar-label-xplan-title">
+          {{ $t('plugins.layerChooser.xplanTitle') }}
+        </v-expansion-panel-header>
+        <v-divider />
+        <v-expansion-panel-content>
+          <template v-for="({ name, id }, index) in xplanLayers">
+            <LayerWrapper
+              :key="'disabled-xplan-' + index"
+              :index="index"
+              :layer-id="id"
+            >
+              <v-checkbox
+                v-model="activeXplanLayers"
+                :label="$t(name)"
+                :value="id"
+                aria-describedby="polar-label-xplan-title"
+                dense
+                hide-details
+                class="cut-off-top-space"
+              />
+            </LayerWrapper>
+            <v-divider :key="index" />
+          </template>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
     </v-expansion-panels>
   </v-card>
 </template>
@@ -66,7 +92,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { LayerChooserOptions } from '@polar/plugin-layer-chooser'
+import { LayerConfiguration } from '@polar/lib-custom-types'
+import { areLayersActive } from '@polar/plugin-layer-chooser/src/utils/layerFolding'
 import LayerWrapper from './LayerWrapper.vue'
 
 export default Vue.extend({
@@ -75,7 +104,9 @@ export default Vue.extend({
     LayerWrapper,
     LayerChooserOptions,
   },
+  data: () => ({ activeXplanIds: [] }),
   computed: {
+    ...mapGetters(['configuration', 'map']),
     ...mapGetters('plugin/layerChooser', [
       'activeBackgroundId',
       'activeMaskIds',
@@ -101,15 +132,62 @@ export default Vue.extend({
         this.setActiveMaskIds(value)
       },
     },
+    activeXplanLayers: {
+      get() {
+        return this.activeXplanIds
+      },
+      set(value) {
+        this.activeXplanIds = value
+        this.setActiveXplanIdsVisibility(value)
+      },
+    },
     displaySelection() {
       return this.openedOptions === null
     },
+    xplanLayers() {
+      return areLayersActive(
+        this.configuration.layers.reduce((acc, current) => {
+          const rawLayer = rawLayerList.getLayerWhere({
+            id: current.id,
+          })
+
+          if (rawLayer === null) {
+            console.error(
+              `@polar/plugin-layer-chooser: Layer ${current.id} not found in service register. This is a configuration issue. The map might behave in unexpected ways.`,
+              current
+            )
+            return acc
+          }
+          if (current.type === 'xplan') {
+            return [...acc, current]
+          }
+          return acc
+        }, [] as LayerConfiguration[]),
+        this.map.getView().getZoom() as number
+      )
+    },
+  },
+  mounted() {
+    this.activeXplanLayers = this.xplanLayers
+      .filter(({ visibility }) => visibility)
+      .map(({ id }) => id)
   },
   methods: {
     ...mapActions('plugin/layerChooser', [
       'setActiveBackgroundId',
       'setActiveMaskIds',
     ]),
+    setActiveXplanIdsVisibility(ids: string[]) {
+      this.map
+        .getLayers()
+        .getArray()
+        .forEach((layer) => {
+          // only influence visibility if layer is managed as background
+          if (this.xplanLayers.find(({ id }) => id === layer.get('id'))) {
+            layer.setVisible(ids.includes(layer.get('id')))
+          }
+        })
+    },
   },
 })
 </script>

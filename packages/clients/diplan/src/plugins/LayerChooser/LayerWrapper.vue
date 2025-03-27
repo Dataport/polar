@@ -28,7 +28,7 @@ export default Vue.extend({
     },
     disabledLayers: {
       type: Array,
-      required: true,
+      default: () => [],
     },
     layerId: {
       type: String,

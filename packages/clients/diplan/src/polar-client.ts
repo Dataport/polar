@@ -27,6 +27,7 @@ const diplanCore = { ...core }
 
 export default {
   createMap: (properties, mode: keyof typeof MODE) => {
+    diplanCore.resetPlugins() // cleanup for previous instances, if any
     addPlugins(diplanCore, mode)
     return diplanCore
       .createMap(

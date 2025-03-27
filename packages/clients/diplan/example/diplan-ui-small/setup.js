@@ -1,7 +1,7 @@
 /* this is an example setup function displaying how POLAR is instantiated
  * you may do this in any other format as long as all required contents arrive
  * in `createMap` */
-export default (client, layerConf, config) => {
+export default (client, layerConf, config) =>
   client
     .createMap(
       {
@@ -20,4 +20,3 @@ export default (client, layerConf, config) => {
     .then((mapInstance) => {
       window.mapInstance = mapInstance
     })
-}
