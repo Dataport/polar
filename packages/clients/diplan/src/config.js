@@ -105,6 +105,16 @@ export default {
       visibility: true,
       type: 'xplan',
       name: `diplan.layers.${xplanwms}`,
+      options: {
+        layers: {
+          order: 'BP_Planvektor,SO_Planvektor',
+          legend: true,
+          title: {
+            BP_Planvektor: 'BP Planvektor',
+            SO_Planvektor: 'SO Planvektor',
+          },
+        },
+      },
     },
     {
       id: xplanwfs,
