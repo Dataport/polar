@@ -1,4 +1,5 @@
 import { defineConfig } from '@playwright/test'
+// @ts-expect-error | correct, but it doesn't work with a regular module
 import globalConfig from '../../../playwright.config'
 
 const url = 'http://localhost:8080/'
