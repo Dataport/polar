@@ -543,7 +543,7 @@ export interface PluginContainer {
  */
 
 export type StrategyOptions = 'all' | 'tile' | 'bbox'
-export type LayerType = 'mask' | 'background'
+export type LayerType = 'background' | string
 
 export interface LayerConfigurationOptionLayers {
   /**

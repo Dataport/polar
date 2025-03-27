@@ -20,13 +20,9 @@ export const getBackgroundsAndMasks = (
       }
       if (current.type === 'background') {
         return [[...backgrounds, current], masks]
-      } else if (current.type === 'mask') {
-        return [backgrounds, [...masks, current]]
       }
-      console.error(
-        `@polar/plugin-layer-chooser: Unknown layer type ${current.type}. Layer is ignored by plugin.`
-      )
-      return [backgrounds, masks]
+
+      return [backgrounds, [...masks, current]]
     },
     [[] as LayerConfiguration[], [] as LayerConfiguration[]]
   )

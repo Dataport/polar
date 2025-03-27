@@ -9,7 +9,7 @@
           <template v-for="({ name, id }, index) in backgrounds">
             <LayerWrapper
               :key="'disabled-background-' + index"
-              :index="index"
+              :index="Number(index)"
               :disabled-layers="disabledBackgrounds"
               :layer-id="id"
             >
@@ -32,30 +32,35 @@
       </v-card-text>
     </template>
     <template v-if="shownMasks.length">
-      <v-card-title id="polar-label-mask-title">{{
-        $t('plugins.layerChooser.maskTitle')
-      }}</v-card-title>
-      <v-card-text>
-        <template v-for="({ name, id }, index) in shownMasks">
-          <LayerWrapper
-            :key="'disabled-mask-' + index"
-            :index="index"
-            :disabled-layers="disabledMasks"
-            :layer-id="id"
-          >
-            <v-checkbox
-              v-model="activeMasks"
-              :label="$t(name)"
-              :value="id"
-              aria-describedby="polar-label-mask-title"
-              dense
-              hide-details
-              class="cut-off-top-space"
-              :disabled="disabledMasks[index]"
-            />
-          </LayerWrapper>
-        </template>
-      </v-card-text>
+      <template v-for="[type, masks] in Object.entries(masksSeparatedByType)">
+        <v-card-title
+          :id="`polar-label-${type}-title`"
+          :key="`layer-chooser-mask-title-${type}`"
+        >
+          {{ $t(`plugins.layerChooser.${type}Title`) }}
+        </v-card-title>
+        <v-card-text :key="`layer-chooser-mask-text-${type}`">
+          <template v-for="({ name, id }, index) in masks">
+            <LayerWrapper
+              :key="`disabled-mask-${type}-${index}`"
+              :index="Number(index)"
+              :disabled-layers="disabledMasks"
+              :layer-id="id"
+            >
+              <v-checkbox
+                v-model="activeMasks"
+                :label="$t(name)"
+                :value="id"
+                :aria-describedby="`polar-label-${type}-title`"
+                dense
+                hide-details
+                class="cut-off-top-space"
+                :disabled="disabledMasks[index]"
+              />
+            </LayerWrapper>
+          </template>
+        </v-card-text>
+      </template>
     </template>
   </v-card>
 </template>
@@ -63,6 +68,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
+import { separateMasksByType } from '../utils/separateMasksByType'
 import LayerWrapper from './LayerWrapper.vue'
 
 export default Vue.extend({
@@ -75,6 +81,7 @@ export default Vue.extend({
       'backgrounds',
       'disabledBackgrounds',
       'disabledMasks',
+      'masksSeparatedByType',
       'shownMasks',
     ]),
     activeBackground: {
