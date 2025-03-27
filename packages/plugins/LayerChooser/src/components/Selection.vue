@@ -68,7 +68,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
-import { separateMasksByType } from '../utils/separateMasksByType'
 import LayerWrapper from './LayerWrapper.vue'
 
 export default Vue.extend({
