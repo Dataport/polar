@@ -43,8 +43,8 @@ Also, this plugin also supports the optional configuration parameters <code>mapC
 <tbody>
 <tr>
 <td>type</td>
-<td>enum[&quot;background&quot;, &quot;mask&quot;]</td>
-<td>Layer handling. Backgrounds are mutually exclusive, masks (&quot;overlays&quot;) can be stacked.</td>
+<td>'background' | string</td>
+<td>Layer handling. If set to <code>'background'</code>, the layers are mutually exclusive. All other layers are considered &quot;overlays&quot; and can be stacked. For the type <code>'mask'</code> locales are already implemented. For any additional type, these have to be added per client.</td>
 </tr>
 <tr>
 <td>hideInMenu</td>
