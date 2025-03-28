@@ -1,9 +1,15 @@
 // service id map to avoid typos, ease renames
 const basemap = 'basemapde_farbe'
+const stadtplan = '453'
+const luftbilder = '452'
+
 const xplanwms = 'xplanwms'
 const xplanwfs = 'xplanwfs'
+
 const flurstuecke = 'flurstuecke'
 const bstgasleitung = 'bst_gasleitung'
+const bauDenkmaeler = 'bauDenkmaeler'
+const bebauungsPlaene = 'bebauungsplaene'
 
 export default {
   startResolution: 264.583190458,
@@ -34,17 +40,25 @@ export default {
         diplan: {
           layers: {
             [basemap]: 'BasemapDE',
+            [stadtplan]: 'Stadtplan',
+            [luftbilder]: 'Luftbilder',
             [xplanwms]: 'XPlanWMS',
             [xplanwfs]: 'XPlanSynWFS',
             [flurstuecke]: 'Flurstücke',
             [bstgasleitung]: 'BST Gasleitung',
+            [bauDenkmaeler]: 'Denkmalkartierung Baudenkmale',
+            [bebauungsPlaene]: 'Bebauungspläne',
           },
           attributions: {
             [basemap]: `$t(diplan.layers.${basemap}) © GeoBasis-DE / BKG <YEAR> CC BY 4.0`,
+            [stadtplan]: `$t(diplan.layers.${stadtplan}): <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>`,
+            [luftbilder]: `$t(diplan.layers.${luftbilder}): <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>`,
             [xplanwms]: `$t(diplan.layers.${xplanwms}) © ???`,
             [xplanwfs]: `$t(diplan.layers.${xplanwfs}) © ???`,
             [flurstuecke]: `$t(diplan.layers.${flurstuecke}) © ???`,
             [bstgasleitung]: `$t(diplan.layers.${bstgasleitung}) © ???`,
+            [bauDenkmaeler]: `$t(diplan.layers.${bauDenkmaeler}): <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>`,
+            [bebauungsPlaene]: `$t(diplan.layers.${bebauungsPlaene}): <a target="_blank" href="https://www.hamburg.de/politik-und-verwaltung/behoerden/behoerde-fuer-stadtentwicklung-und-wohnen">Behörde für Stadtentwicklung und Wohnen</a>`,
           },
         },
       },
@@ -101,6 +115,16 @@ export default {
       name: `diplan.layers.${basemap}`,
     },
     {
+      id: stadtplan,
+      type: 'background',
+      name: `diplan.layers.${stadtplan}`,
+    },
+    {
+      id: luftbilder,
+      type: 'background',
+      name: `diplan.layers.${luftbilder}`,
+    },
+    {
       id: xplanwms,
       visibility: true,
       type: 'xplan',
@@ -125,7 +149,8 @@ export default {
     {
       id: flurstuecke,
       visibility: false,
-      minZoom: 7,
+      // TODO: Re-add once the ui has been fixed for this
+      // minZoom: 7,
       type: 'mask',
       name: `diplan.layers.${flurstuecke}`,
     },
@@ -134,6 +159,28 @@ export default {
       visibility: false,
       type: 'mask',
       name: `diplan.layers.${bstgasleitung}`,
+    },
+    {
+      id: bauDenkmaeler,
+      visibility: false,
+      type: 'mask',
+      name: `diplan.layers.${bauDenkmaeler}`,
+    },
+    {
+      id: bebauungsPlaene,
+      visibility: false,
+      type: 'mask',
+      name: `diplan.layers.${bebauungsPlaene}`,
+      options: {
+        layers: {
+          order: 'hh_hh_festgestellt,hh_lgv_imverfahren',
+          legend: true,
+          title: {
+            hh_hh_festgestellt: 'Festgestellte Bebauungspläne',
+            hh_lgv_imverfahren: 'Bebauungspläne im Verfahren',
+          },
+        },
+      },
     },
     {
       id: 'secureServiceTest',
@@ -147,6 +194,14 @@ export default {
       {
         id: basemap,
         title: `diplan.attributions.${basemap}`,
+      },
+      {
+        id: stadtplan,
+        title: `diplan.attributions.${stadtplan}`,
+      },
+      {
+        id: luftbilder,
+        title: `diplan.attributions.${luftbilder}`,
       },
       {
         id: xplanwms,
@@ -163,6 +218,14 @@ export default {
       {
         id: bstgasleitung,
         title: `diplan.attributions.${bstgasleitung}`,
+      },
+      {
+        id: bauDenkmaeler,
+        title: `diplan.attributions.${bauDenkmaeler}`,
+      },
+      {
+        id: bebauungsPlaene,
+        title: `diplan.attributions.${bebauungsPlaene}`,
       },
     ],
   },

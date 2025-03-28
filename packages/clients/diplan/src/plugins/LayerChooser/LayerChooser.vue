@@ -8,23 +8,25 @@
         <v-divider />
         <v-expansion-panel-content>
           <v-radio-group v-model="activeBackground" dense hide-details>
-            <LayerWrapper
-              v-for="({ name, id }, index) in backgrounds"
-              :key="'disabled-background-' + index"
-              :index="index"
-              :disabled-layers="disabledBackgrounds"
-              :layer-id="id"
-            >
-              <v-radio
-                :key="index"
-                aria-describedby="polar-label-background-title"
-                dense
-                hide-details
-                :label="$t(name)"
-                :value="id"
-                :disabled="disabledBackgrounds[index]"
-              />
-            </LayerWrapper>
+            <template v-for="({ name, id }, index) in backgrounds">
+              <LayerWrapper
+                :key="'disabled-background-' + index"
+                :index="index"
+                :disabled-layers="disabledBackgrounds"
+                :layer-id="id"
+              >
+                <v-radio
+                  :key="index"
+                  aria-describedby="polar-label-background-title"
+                  dense
+                  hide-details
+                  :label="$t(name)"
+                  :value="id"
+                  :disabled="disabledBackgrounds[index]"
+                />
+              </LayerWrapper>
+              <v-divider :key="index" />
+            </template>
           </v-radio-group>
         </v-expansion-panel-content>
       </v-expansion-panel>
