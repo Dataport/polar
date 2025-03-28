@@ -2,7 +2,8 @@
 
 ## unpublished
 
-- Feature: Use new implementation of `@polar/plugin-layer-chooser` in the custom component to be able to separate mask layers in different groups
+- Feature: Use new implementation of `@polar/plugin-layer-chooser` in the custom component to be able to separate mask layers in different groups.
+- Feature: Add visual dividers between radio elements of the background layers.
 
 ## 1.0.0-beta.1
 
