@@ -26,6 +26,7 @@
     "generic:build": "nx build @polar/client-generic",
     "diplan:build": "nx build @polar/client-diplan",
     "diplan:build:serve": "http-server ./packages/clients/diplan -o /example/overview.html",
+    "diplan:build:serve:e2e": "http-server ./packages/clients/diplan",
     "diplan:dev": "nx dev @polar/client-diplan",
     "dish:build": "nx build @polar/client-dish",
     "dish:build:serve": "http-server ./packages/clients/dish -o /dist/index.html",
@@ -56,6 +57,7 @@
     "publishPackages": "node ./scripts/publishPackages",
     "test": "jest",
     "test:e2e": "npx playwright test",
+    "test:e2e:diplan": "npm run diplan:build && cd ./packages/clients/diplan && npx playwright test",
     "test:dev": "jest --coverage --coverageReporters=text --watchAll",
     "test:coverage": "jest --coverage"
   },
