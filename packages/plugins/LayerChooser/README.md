@@ -18,7 +18,7 @@ Also, this plugin also supports the optional configuration parameters `mapConfig
 
 | fieldName | type | description |
 | - | - | - |
-| type | enum["background", "mask"] | Layer handling. Backgrounds are mutually exclusive, masks ("overlays") can be stacked. |
+| type | 'background' \| string | Layer handling. If set to `'background'`, the layers are mutually exclusive. All other layers are considered "overlays" and can be stacked. For the type `'mask'` locales are already implemented. For any additional type, these have to be added per client. |
 | hideInMenu | boolean? | Can be set for layers of type `'mask'` to hide them in the selection menu. |
 | maxZoom | number? | If set, layer only available (and selectable) up to this zoom level, inclusively. |
 | minZoom | number? | If set, layer only available (and selectable) from this zoom level on, inclusively. |

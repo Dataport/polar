@@ -1,58 +1,67 @@
 <template>
   <v-card class="layer-chooser-selection">
-    <v-card-title v-if="backgrounds.length" id="polar-label-background-title">{{
-      $t('plugins.layerChooser.backgroundTitle')
-    }}</v-card-title>
-    <v-card-text v-if="backgrounds.length">
-      <v-radio-group v-model="activeBackground" dense hide-details>
-        <template v-for="({ name, id }, index) in backgrounds">
-          <LayerWrapper
-            :key="'disabled-background-' + index"
-            :index="index"
-            :disabled-layers="disabledBackgrounds"
-            :layer-id="id"
-          >
-            <v-radio
-              :key="index"
-              aria-describedby="polar-label-background-title"
-              dense
-              hide-details
-              :label="$t(name)"
-              :value="id"
-              :disabled="disabledBackgrounds[index]"
-              @keydown.up.stop
-              @keydown.right.stop
-              @keydown.down.stop
-              @keydown.left.stop
-            ></v-radio>
-          </LayerWrapper>
-        </template>
-      </v-radio-group>
-    </v-card-text>
-    <v-card-title v-if="shownMasks.length" id="polar-label-mask-title">{{
-      $t('plugins.layerChooser.maskTitle')
-    }}</v-card-title>
-    <v-card-text v-if="shownMasks.length">
-      <template v-for="({ name, id }, index) in shownMasks">
-        <LayerWrapper
-          :key="'disabled-mask-' + index"
-          :index="index"
-          :disabled-layers="disabledMasks"
-          :layer-id="id"
+    <template v-if="backgrounds.length">
+      <v-card-title id="polar-label-background-title">{{
+        $t('plugins.layerChooser.backgroundTitle')
+      }}</v-card-title>
+      <v-card-text>
+        <v-radio-group v-model="activeBackground" dense hide-details>
+          <template v-for="({ name, id }, index) in backgrounds">
+            <LayerWrapper
+              :key="'disabled-background-' + index"
+              :index="Number(index)"
+              :disabled-layers="disabledBackgrounds"
+              :layer-id="id"
+            >
+              <v-radio
+                :key="index"
+                aria-describedby="polar-label-background-title"
+                dense
+                hide-details
+                :label="$t(name)"
+                :value="id"
+                :disabled="disabledBackgrounds[index]"
+                @keydown.up.stop
+                @keydown.right.stop
+                @keydown.down.stop
+                @keydown.left.stop
+              ></v-radio>
+            </LayerWrapper>
+          </template>
+        </v-radio-group>
+      </v-card-text>
+    </template>
+    <template v-if="shownMasks.length">
+      <template v-for="[type, masks] in Object.entries(masksSeparatedByType)">
+        <v-card-title
+          :id="`polar-label-${type}-title`"
+          :key="`layer-chooser-mask-title-${type}`"
         >
-          <v-checkbox
-            v-model="activeMasks"
-            :label="$t(name)"
-            :value="id"
-            aria-describedby="polar-label-mask-title"
-            dense
-            hide-details
-            class="cut-off-top-space"
-            :disabled="disabledMasks[index]"
-          />
-        </LayerWrapper>
+          {{ $t(`plugins.layerChooser.${type}Title`) }}
+        </v-card-title>
+        <v-card-text :key="`layer-chooser-mask-text-${type}`">
+          <template v-for="({ name, id }, index) in masks">
+            <LayerWrapper
+              :key="`disabled-mask-${type}-${index}`"
+              :index="Number(index)"
+              :disabled-layers="disabledMasks"
+              :layer-id="id"
+            >
+              <v-checkbox
+                v-model="activeMasks"
+                :label="$t(name)"
+                :value="id"
+                :aria-describedby="`polar-label-${type}-title`"
+                dense
+                hide-details
+                class="cut-off-top-space"
+                :disabled="disabledMasks[index]"
+              />
+            </LayerWrapper>
+          </template>
+        </v-card-text>
       </template>
-    </v-card-text>
+    </template>
   </v-card>
 </template>
 
@@ -71,6 +80,7 @@ export default Vue.extend({
       'backgrounds',
       'disabledBackgrounds',
       'disabledMasks',
+      'masksSeparatedByType',
       'shownMasks',
     ]),
     activeBackground: {

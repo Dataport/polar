@@ -213,14 +213,18 @@ export const makeStoreModule = () => {
           )
           .map((index) => index === -1)
       },
-      shownMasks({ masks }) {
-        return masks.filter(({ hideInMenu }) => !hideInMenu)
-      },
       idsWithOptions(_, { backgrounds, masks }) {
         return [...backgrounds, ...masks]
           .filter((layer) => Boolean(layer.options))
           .map((layer) => layer.id)
       },
+      masksSeparatedByType: (_, { shownMasks }) =>
+        shownMasks.reduce((acc, mask) => {
+          if (Object.keys(acc).includes(mask.type)) {
+            return { ...acc, [mask.type]: [...acc[mask.type], mask] }
+          }
+          return { ...acc, [mask.type]: [mask] }
+        }, {}),
       openedOptionsService(_, { backgrounds, masks, openedOptions }) {
         return [...backgrounds, ...masks].find(
           (service) => service.id === openedOptions
@@ -264,6 +268,9 @@ export const makeStoreModule = () => {
           layers,
           wmsCapabilitiesJson
         )
+      },
+      shownMasks({ masks }) {
+        return masks.filter(({ hideInMenu }) => !hideInMenu)
       },
     },
   }
