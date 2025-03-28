@@ -2,10 +2,14 @@
 const basemap = 'basemapde_farbe'
 const stadtplan = '453'
 const luftbilder = '452'
+
 const xplanwms = 'xplanwms'
 const xplanwfs = 'xplanwfs'
+
 const flurstuecke = 'flurstuecke'
 const bstgasleitung = 'bst_gasleitung'
+const bauDenkmaeler = 'bauDenkmaeler'
+const bebauungsPlaene = 'bebauungsplaene'
 
 export default {
   // masterportalAPI parameters
@@ -46,17 +50,19 @@ export default {
             [xplanwfs]: 'XPlanSynWFS',
             [flurstuecke]: 'Flurstücke',
             [bstgasleitung]: 'BST Gasleitung',
+            [bauDenkmaeler]: 'Denkmalkartierung Baudenkmale',
+            [bebauungsPlaene]: 'Bebauungspläne',
           },
           attributions: {
             [basemap]: `$t(diplan.layers.${basemap}) © GeoBasis-DE / BKG <YEAR> CC BY 4.0`,
-            [stadtplan]:
-              'Kartografie Stadtplan: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
-            [luftbilder]:
-              'Kartografie Luftbilder: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
+            [stadtplan]: `$t(diplan.layers.${stadtplan}): <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>`,
+            [luftbilder]: `$t(diplan.layers.${luftbilder}): <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>`,
             [xplanwms]: `$t(diplan.layers.${xplanwms}) © ???`,
             [xplanwfs]: `$t(diplan.layers.${xplanwfs}) © ???`,
             [flurstuecke]: `$t(diplan.layers.${flurstuecke}) © ???`,
             [bstgasleitung]: `$t(diplan.layers.${bstgasleitung}) © ???`,
+            [bauDenkmaeler]: `$t(diplan.layers.${bauDenkmaeler}): <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>`,
+            [bebauungsPlaene]: `$t(diplan.layers.${bebauungsPlaene}): <a target="_blank" href="https://www.hamburg.de/politik-und-verwaltung/behoerden/behoerde-fuer-stadtentwicklung-und-wohnen">Behörde für Stadtentwicklung und Wohnen</a>`,
           },
         },
       },
@@ -158,6 +164,28 @@ export default {
       type: 'mask',
       name: `diplan.layers.${bstgasleitung}`,
     },
+    {
+      id: bauDenkmaeler,
+      visibility: false,
+      type: 'mask',
+      name: `diplan.layers.${bauDenkmaeler}`,
+    },
+    {
+      id: bebauungsPlaene,
+      visibility: false,
+      type: 'mask',
+      name: `diplan.layers.${bebauungsPlaene}`,
+      options: {
+        layers: {
+          order: 'hh_hh_festgestellt,hh_lgv_imverfahren',
+          legend: true,
+          title: {
+            hh_hh_festgestellt: 'Festgestellte Bebauungspläne',
+            hh_lgv_imverfahren: 'Bebauungspläne im Verfahren',
+          },
+        },
+      },
+    },
   ],
   attributions: {
     layerAttributions: [
@@ -188,6 +216,14 @@ export default {
       {
         id: bstgasleitung,
         title: `diplan.attributions.${bstgasleitung}`,
+      },
+      {
+        id: bauDenkmaeler,
+        title: `diplan.attributions.${bauDenkmaeler}`,
+      },
+      {
+        id: bebauungsPlaene,
+        title: `diplan.attributions.${bebauungsPlaene}`,
       },
     ],
   },
