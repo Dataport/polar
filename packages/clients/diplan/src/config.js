@@ -143,7 +143,8 @@ export default {
     {
       id: flurstuecke,
       visibility: false,
-      minZoom: 7,
+      // TODO: Re-add once the ui has been fixed for this
+      // minZoom: 7,
       type: 'mask',
       name: `diplan.layers.${flurstuecke}`,
     },

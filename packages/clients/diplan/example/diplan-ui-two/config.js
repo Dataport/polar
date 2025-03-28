@@ -147,8 +147,8 @@ export default {
     {
       id: flurstuecke,
       visibility: false,
-      // TODO available from 7, but only starts loading from 8 - bug or skill issue?
-      minZoom: 7,
+      // TODO: Re-add once the ui has been fixed for this
+      // minZoom: 7,
       type: 'mask',
       name: `diplan.layers.${flurstuecke}`,
     },
