@@ -1,5 +1,7 @@
 // service id map to avoid typos, ease renames
 const basemap = 'basemapde_farbe'
+const stadtplan = '453'
+const luftbilder = '452'
 const xplanwms = 'xplanwms'
 const xplanwfs = 'xplanwfs'
 const flurstuecke = 'flurstuecke'
@@ -38,6 +40,8 @@ export default {
         diplan: {
           layers: {
             [basemap]: 'BasemapDE',
+            [stadtplan]: 'Stadtplan',
+            [luftbilder]: 'Luftbilder',
             [xplanwms]: 'XPlanWMS',
             [xplanwfs]: 'XPlanSynWFS',
             [flurstuecke]: 'Flurstücke',
@@ -45,6 +49,10 @@ export default {
           },
           attributions: {
             [basemap]: `$t(diplan.layers.${basemap}) © GeoBasis-DE / BKG <YEAR> CC BY 4.0`,
+            [stadtplan]:
+              'Kartografie Stadtplan: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
+            [luftbilder]:
+              'Kartografie Luftbilder: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>',
             [xplanwms]: `$t(diplan.layers.${xplanwms}) © ???`,
             [xplanwfs]: `$t(diplan.layers.${xplanwfs}) © ???`,
             [flurstuecke]: `$t(diplan.layers.${flurstuecke}) © ???`,
@@ -105,6 +113,16 @@ export default {
       name: `diplan.layers.${basemap}`,
     },
     {
+      id: stadtplan,
+      type: 'background',
+      name: `diplan.layers.${stadtplan}`,
+    },
+    {
+      id: luftbilder,
+      type: 'background',
+      name: `diplan.layers.${luftbilder}`,
+    },
+    {
       id: xplanwms,
       visibility: true,
       type: 'xplan',
@@ -146,6 +164,14 @@ export default {
       {
         id: basemap,
         title: `diplan.attributions.${basemap}`,
+      },
+      {
+        id: stadtplan,
+        title: `diplan.attributions.${stadtplan}`,
+      },
+      {
+        id: luftbilder,
+        title: `diplan.attributions.${luftbilder}`,
       },
       {
         id: xplanwms,

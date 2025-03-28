@@ -461,6 +461,30 @@ export default [
     bboxCrs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
   },
   {
+    id: '452',
+    name: 'Digitale Orthophotos (belaubt) Hamburg',
+    url: 'https://geodienste.hamburg.de/HH_WMS_DOP_belaubt',
+    typ: 'WMS',
+    layers: 'dop_belaubt',
+    format: 'image/png',
+    version: '1.3.0',
+    singleTile: false,
+    legendURL:
+      'https://geodienste.hamburg.de/HH_WMS_DOP_belaubt?language=ger&version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=dop_belaubt&format=image/png&STYLE=default',
+  },
+  {
+    id: '453',
+    name: 'Geobasiskarten (HamburgDE)',
+    url: 'https://geodienste.hamburg.de/HH_WMS_HamburgDE',
+    typ: 'WMS',
+    layers: 'geobasiskarten_hhde',
+    format: 'image/png',
+    version: '1.3.0',
+    singleTile: false,
+    legendURL:
+      'https://geodienste.hamburg.de/HH_WMS_HamburgDE?language=ger&version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=geobasiskarten_hhde&format=image/png&STYLE=default',
+  },
+  {
     id: 'secureServiceTest',
     url: '',
     typ: 'WMS',
