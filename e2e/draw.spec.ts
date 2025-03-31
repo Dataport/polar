@@ -45,6 +45,7 @@ test('two features drawn at the same coordinate can be modified separately', asy
   await openSnowbox(page)
 
   const canvas = await page.locator('canvas')
+  await canvas.scrollIntoViewIfNeeded()
   const boundingBox = await canvas.boundingBox()
   if (boundingBox === null) throw new Error('Canvas not found.')
   const { width, height } = boundingBox
