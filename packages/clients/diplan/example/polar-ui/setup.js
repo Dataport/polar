@@ -85,8 +85,6 @@ export default (client, layerConf, config) => {
         mapInstance.$store.dispatch('plugin/draw/zoomToAllFeatures', {
           margin: 10, // defaults to 20
         })
-      actionScreenshot.onclick = () =>
-        mapInstance.$store.dispatch('plugin/export/exportAs', 'Png')
       actionFillAddressSearch.addEventListener('input', (e) =>
         mapInstance.$store.dispatch('plugin/addressSearch/search', {
           input: e.target.value,
