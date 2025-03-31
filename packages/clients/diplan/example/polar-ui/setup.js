@@ -54,7 +54,6 @@ export default (client, layerConf, config) => {
       const actionToast = document.getElementById('action-toast')
       const actionLoadGeoJson = document.getElementById('action-load-geojson')
       const actionZoomToAll = document.getElementById('action-zoom-to-all')
-      const actionScreenshot = document.getElementById('action-screenshot')
       const actionFillAddressSearch = document.getElementById(
         'action-address-search-filler'
       )

@@ -64,9 +64,12 @@ export const setup = (client, layerConf, config) => {
       const actionDuplicate = document.getElementById(
         'action-duplicate-polygons'
       )
+      const actionScreenshot = document.getElementById('action-screenshot')
       const actionMerge = document.getElementById('action-merge-polygons')
       const activeExtendedDrawMode = document.getElementById('active-draw-mode')
 
+      actionScreenshot.onclick = () =>
+        mapInstance.$store.dispatch('plugin/export/exportAs', 'Png')
       actionPlus.onclick = () =>
         mapInstance.$store.dispatch('plugin/zoom/increaseZoomLevel')
       unsubscriptions.push(() => actionPlus.removeAttribute('onclick'))
@@ -124,6 +127,8 @@ export const setup = (client, layerConf, config) => {
       const htmlRevisedDrawExport = document.getElementById(
         'subscribed-revised-draw-export'
       )
+      const htmlExportA = document.getElementById('subscribed-export-a')
+      const htmlExportImg = document.getElementById('subscribed-export-img')
       const htmlRevisionInProgress = document.getElementById(
         'subscribed-revision-in-progress'
       )
@@ -178,6 +183,12 @@ export const setup = (client, layerConf, config) => {
             htmlSimpleGeometryValidity.innerHTML = simpleGeometryValidity
           }
         )
+      )
+      unsubscriptions.push(
+        mapInstance.subscribe('plugin/export/exportedMap', (img) => {
+          htmlExportA.setAttribute('href', img)
+          htmlExportImg.setAttribute('src', img)
+        })
       )
 
       window.mapInstance = mapInstance
