@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Change configuration of `layer.type` to be set to `background` or any other String. All layers that have their `type` not set to `background` are considered "overlays". For the type `mask` locales are already implemented. For any additional type, these have to be added separately.
+- Fix: Layer options layer names are now translated if they're locale keys.
+
 ## 2.1.0
 
 - Feature: Add new configuration parameter `component` to be able to interchange the UI component of this plugin.

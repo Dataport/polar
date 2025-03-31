@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Use new implementation of `@polar/plugin-layer-chooser` in the custom component to be able to separate mask layers in different groups.
+- Feature: Add visual dividers between radio elements of the background layers.
+- Feature: Add additional layers to the examples.
+
 ## 1.0.0-beta.1
 
 - Fix: The DiPlan client previously produced redundant plugins on rerenders. This issue has been resolved. The usage for this solution can be viewn in the example `diplan-ui-one`, with additional notes at the end of the `API.md`.
