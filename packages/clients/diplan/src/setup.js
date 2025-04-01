@@ -118,6 +118,8 @@ export default (client, layerConf, config) => {
       const htmlRevisedDrawExport = document.getElementById(
         'subscribed-revised-draw-export'
       )
+      const htmlExportA = document.getElementById('subscribed-export-a')
+      const htmlExportImg = document.getElementById('subscribed-export-img')
       const htmlRevisionInProgress = document.getElementById(
         'subscribed-revision-in-progress'
       )
@@ -158,6 +160,10 @@ export default (client, layerConf, config) => {
           htmlSimpleGeometryValidity.innerHTML = simpleGeometryValidity
         }
       )
+      mapInstance.subscribe('plugin/export/exportedMap', (img) => {
+        htmlExportA.setAttribute('href', img)
+        htmlExportImg.setAttribute('src', img)
+      })
 
       window.mapInstance = mapInstance
     })
