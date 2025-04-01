@@ -42,13 +42,9 @@ export default async function createMap({
           mapConfiguration: { ...defaults, ...mapConfiguration },
         },
       }),
-    store: makeStore(),
+    store: makeStore(mapConfiguration),
   })
   instance.subscribe = subscribeFunction
-
-  if (mapConfiguration.oidcToken) {
-    instance.$store.commit('setOidcToken', mapConfiguration.oidcToken)
-  }
 
   pullPolarStyleToShadow(shadowRoot, mapConfiguration.stylePath)
   pullVuetifyStyleToShadow(shadowRoot)
