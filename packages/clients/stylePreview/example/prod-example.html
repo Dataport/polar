@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>🗺️ Style Preview</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <h2>🛠️ WIP in Progress</h2>
+    <fieldset>
+      <legend>Eingaben</legend>
+      <label><input id="input-fill-color"> Farbe Fläche</label>
+      <label><input id="input-stroke-color"> Farbe Umrandung</label>
+      <label><input id="input-stroke-width"> Dicke Umrandung</label>
+    </fieldset>
+    <div id="polarstern">
+      <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
+    </div>
+    <script type="module">
+      import * as MapClient from "../dist/polar-client.js"
+      window.MapClient = MapClient
+      import "./polar-example.js"
+    </script>
+  </body>
+</html>
