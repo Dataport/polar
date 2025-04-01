@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: `getPointCoordinates` as been exposed as root export.
+- Feature: `getPointCoordinates` has been exposed as root export.
 
 ## 3.0.0
 
