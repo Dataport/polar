@@ -134,9 +134,6 @@ export default Vue.extend({
     },
   },
   mounted() {
-    if (this.mapConfiguration.secureServiceUrlRegex) {
-      this.addInterceptor(this.mapConfiguration.secureServiceUrlRegex)
-    }
     const map = api.map.createMap(
       {
         target: this.$refs['polar-map-container'],
@@ -167,7 +164,6 @@ export default Vue.extend({
       )
     }
     this.updateListeners(this.hasWindowSize)
-    this.setConfiguration(this.mapConfiguration)
     this.mapConfiguration.locales?.forEach?.((locale: Locale) =>
       i18next.addResourceBundle(locale.type, 'common', locale.resources, true)
     )
@@ -189,9 +185,8 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...mapMutations(['setConfiguration', 'setHasSmallDisplay', 'setMap']),
+    ...mapMutations(['setHasSmallDisplay', 'setMap']),
     ...mapActions([
-      'addInterceptor',
       'checkServiceAvailability',
       'updateDragAndZoomInteractions',
       'useExtendedMasterportalapiMarkers',
