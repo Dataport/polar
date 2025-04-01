@@ -1,7 +1,8 @@
 import { beautifyScale, getDpi, thousandsSeparator } from '@polar/plugin-scale'
 import * as olProj from 'ol/proj'
+import { options } from '../mapConfigurations/mapConfig'
 
-export function calculateScaleFromResolution(
+function calculateScaleFromResolution(
   unit: string,
   resolution: number
 ): string {
@@ -11,3 +12,6 @@ export function calculateScaleFromResolution(
   )
   return thousandsSeparator(beautifyScale(scale))
 }
+
+export const scaleFromZoomLevel = (zoomLevel: number) =>
+  calculateScaleFromResolution('m', options[zoomLevel].resolution)
