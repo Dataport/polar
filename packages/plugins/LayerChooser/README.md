@@ -10,7 +10,7 @@ Order of layers within a layer is currently always as initially configured.
 
 ## Configuration
 
-The tool does not require any configuration for itself, but is based on the [`mapConfiguration.layers`](../../core/README.md#mapconfiguration.layers).
+The tool does not require any configuration for itself (for configuration options see further below), but is based on the [`mapConfiguration.layers`](../../core/README.md#mapconfiguration.layers).
 It will infer `id` and `name` from that configuration.
 
 This plugin requires the configuration of `mapConfiguration.layer.type`.
@@ -18,10 +18,10 @@ Also, this plugin also supports the optional configuration parameters `mapConfig
 
 | fieldName | type | description |
 | - | - | - |
-| type | enum["background", "mask"] | Layer handling. Backgrounds are mutually exclusive, masks ("overlays") can be stacked. |
+| type | 'background' \| string | Layer handling. If set to `'background'`, the layers are mutually exclusive. All other layers are considered "overlays" and can be stacked. For the type `'mask'` locales are already implemented. For any additional type, these have to be added per client. |
 | hideInMenu | boolean? | Can be set for layers of type `'mask'` to hide them in the selection menu. |
-| maxZoom | number? | If set, layer only available (and selectable) up to this zoom level. |
-| minZoom | number? | If set, layer only available (and selectable) from this zoom level on. |
+| maxZoom | number? | If set, layer only available (and selectable) up to this zoom level, inclusively. |
+| minZoom | number? | If set, layer only available (and selectable) from this zoom level on, inclusively. |
 | options | options? | Shows a layer-specific sub-menu; its contents are configurable. |
 | visibility | boolean? | Initial visibility. Defaults to `false`. |
 
@@ -47,6 +47,12 @@ layers: [
   },
 ]
 ```
+
+### layerChooser
+
+| fieldName | type| description |
+| - | - | - |
+| component | VueConstructor? | Allows overriding the LayerChooser.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model. Please refer to the implementation. |
 
 ### layer.options
 

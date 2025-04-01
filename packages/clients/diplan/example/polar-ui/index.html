@@ -17,19 +17,29 @@
         <h2 class="padded-x">Beispielinstanz</h2>
         <div class="padded-x">
           <h3>Steuerung von außen</h3>
-          <button id="action-plus">+</button>
-          <button id="action-minus">-</button>
-          <button id="action-toast">Toast</button>
-          <button id="action-load-geojson">GeoJSON hinzufügen</button>
-          <button id="action-zoom-to-all">Zoome auf Zeichnung</button>
-          <button id="action-lasso">Lasso-Funktion</button>
-          <label>
-            Adresssuche (erstbestes Ergebnis):
-            <input id="action-address-search-filler"/>
-          </label>
-          <br/>
+          <fieldset>
+            <legend>POLAR-Standardfunktionen</legend>
+            <button id="action-plus">+</button>
+            <button id="action-minus">-</button>
+            <button id="action-toast">Toast</button>
+            <button id="action-load-geojson">GeoJSON hinzufügen</button>
+            <button id="action-zoom-to-all">Zoome auf Zeichnung</button>
+            <label>
+              Adresssuche (erstbestes Ergebnis):
+              <input id="action-address-search-filler"/>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>DiPlan-Funktionen</legend>
+            <button id="action-none">Aktive Funktion ausschalten</button>
+            <button id="action-lasso">Lasso-Funktion</button>
+            <button id="action-cut-polygons">Cut polygons</button>
+            <button id="action-duplicate-geometry">Duplicate geometry</button>
+            <button id="action-merge-polygons">Merge polygons</button>
+          </fieldset>
+          <div>Active extended draw mode: <span id="active-draw-mode"></span></div>
         </div>
-        <h3 class="padded-x">Klient</h3>
+        <h3 class="padded-x">Klient (note that some CSS is currently overridden by diplanung-style)</h3>
         <div id="polarstern">
           <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
         </div>
@@ -62,11 +72,6 @@
               <td>Simple-Geometry-Konformität</td>
             </tr>
             <tr>
-              <td><code>plugin/export/exportedMap</code></td>
-              <td><a id="subscribed-export-a" download="polar_screenshot.png" href=""><img id="subscribed-export-img" /></a></td>
-              <td>Screenshot des aktuellen Kartenausschnitts. Produzierbar durch Klick auf den unteren linken "Export"-Button.</td>
-            </tr>
-            <tr>
               <td><code>plugin/zoom/zoomLevel</code></td>
               <td id="subscribed-zoom">uninitialized</td>
               <td>Zoomstufe der <a target="_blank" href="https://openlayers.org/en/latest/apidoc/module-ol_View-View.html#getZoom">OpenLayers/View</a> als <code>Number</code></td>
@@ -86,16 +91,14 @@
       </section>
     </main>
     <footer>At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.</footer>
-    <!-- Example without build tools. Most frameworks will allow importing this. (Try "* as PolarClientDiPlan".) -->
-    <script src="../../dist/polar-client.js"></script>
-    <!-- → window.PolarClientDiPlan is now available. -->
     <link rel="stylesheet" src="../../dist/polar-client.css">
     <script type="module">
+      import diplanMapClient from '../../dist/client-diplan.js'
       import services from '../services.js'
       import config from './config.js'
       import setup from './setup.js'
 
-      setup(PolarClientDiPlan, services, config)
+      setup(diplanMapClient, services, config)
     </script>
   </body>
 </html>

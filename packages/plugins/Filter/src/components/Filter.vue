@@ -87,6 +87,10 @@
                 <v-radio
                   :label="$t('plugins.filter.time.noRestriction')"
                   :value="0"
+                  @keydown.up.stop
+                  @keydown.right.stop
+                  @keydown.down.stop
+                  @keydown.left.stop
                 ></v-radio>
                 <template
                   v-for="(
@@ -97,6 +101,10 @@
                     :key="`plugin-filter-checkbox-${layerIndex}-${timeIndex}`"
                     :label="$t(label, { count: amount })"
                     :value="timeIndex + 1"
+                    @keydown.up.stop
+                    @keydown.right.stop
+                    @keydown.down.stop
+                    @keydown.left.stop
                   ></v-radio>
                   <component
                     :is="component"

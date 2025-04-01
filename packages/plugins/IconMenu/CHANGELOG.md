@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.4.0
+
+- Feature: Add new configuration parameter `buttonComponent` to be able to interchange the UI component of the used (icon) buttons.
+- Feature: Expose `IconMenuButton.vue` as a new export in order to use it in custom implementations.
+
 ## 1.3.1
 
 - Chore: Update `@polar/lib-custom-types` to `v2.0.0`.

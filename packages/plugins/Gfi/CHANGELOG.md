@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 3.0.2
 
 - Fix: Allow layers that have `singleTile` set to `true` and thus being an `ImageLayer` instead a `TileLayer` to be used for GFI-requests as well.
 

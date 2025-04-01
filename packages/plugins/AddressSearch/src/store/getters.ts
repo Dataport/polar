@@ -64,6 +64,8 @@ const getters: PolarGetterTree<AddressSearchState, AddressSearchGetters> = {
   afterResultComponent(_, { addressSearchConfiguration }) {
     return addressSearchConfiguration.afterResultComponent || null
   },
+  component: (_, getters) =>
+    getters.addressSearchConfiguration.component || null,
   minLength(_, { addressSearchConfiguration }) {
     return addressSearchConfiguration.minLength
   },

@@ -30,7 +30,7 @@ export const duplicatePolygons = ({
       (layer) =>
         layer instanceof VectorLayer && layer.getSource() === drawSource
     ) as VectorLayer
-  const selectInteraction = new Select({ layers: [drawLayer] })
+  const selectInteraction = new Select({ layers: [drawLayer], style: null })
   const selectedFeatures = selectInteraction.getFeatures()
   // TODO temp solution, not actually _isDeleteSelect; normalizing these flags is part of a future effort
   // @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
@@ -42,7 +42,6 @@ export const duplicatePolygons = ({
   selectedFeatures.on('add', () => {
     drawSource.addFeature(selectedFeatures.getArray()[0].clone())
     selectedFeatures.clear()
-    dispatch('updateDrawMode', null)
   })
 
   // @ts-expect-error | local piggyback

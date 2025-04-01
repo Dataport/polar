@@ -14,9 +14,32 @@ DiPlan-specific configuration parameters belong within the `mapConfiguration` ob
 
 | fieldName | type | description |
 | - | - | - |
+| link | link? | If configured, the LinkButton will be rendered with the given URL and icon. |
 | mergeToMultiGeometries | boolean? | Defaults to `false`. If `true`, the exported FeatureCollection in getter `revisedDrawExport` will have merged geometries; that is, instead of Points, Lines, and Polygons, only MultiPoints, MultiLines, and MultiPolygons will be featured, created by merging the features of their respective geometry. All geometry types that are enabled in the `Draw` tool may occur. This step is executed before geometry validation and meta service usage. |
 | metaServices | metaService[]? | Specification of a service that contains meta-information regarding geometries. Information from there will be added to features in getter `revisedDrawExport`. |
+| renderType | 'iconMenu' \| 'independent'? | If set to `independent`, the displayed view for the GeoEditing plugin is minified to a vertical list of buttons of icons instead of a list of buttons including descriptions. The plugin then may be used outside of an IconMenu. Defaults to `iconMenu`. |
 | validateGeoJson | boolean? | Defaults to `true`. If `true`, all geometries in getter `revisedDrawExport` will undergo a validity check before they are exported. To inspect the validity of the offered geometries, inspect the getter `simpleGeometryValidity` that indicates validity with a `boolean`. |
+
+#### diplan.link
+
+| fieldName | type | description |
+| - | - | - |
+| href | string | URL the LinkButton should open. |
+| icon | string | Icon used for the LinkButton. |
+| label | string | Label for the LinkButton. Can be a locale key. |
+
+```js
+{
+  mapConfiguration: {
+    diplan: {
+      link: {
+        href: 'https://example.com',
+        icon: '$vuetify.icons.fullscreen-exit'
+      }
+    }
+  }
+}
+```
 
 #### diplan.metaService
 
@@ -125,3 +148,17 @@ mapInstance.$store.watch(
   }
 )
 ```
+
+## Rerender hints
+
+In some SPA applications, the map client may produce unexpected behaviour on rerenders. Should this still occur in `1.0.0-beta.1` or later, please try these methods:
+
+* Use `mapInstance.$destroy()` in your framework's lifecycle's unmount method before new `createMap` calls.
+* In general, your calls to our `watch` or `subscribe` methods should also be cleaned up to avoid leaks. These methods return `unwatch` or `unsubscribe` methods respectively, and can be called on any cleanup.
+* Most frameworks will handle DOM regeneration on rerenders themselves. Should you need to clean up the DOM for arbitrary reasons yourself, this snippet may come in handy:
+  ```js
+    const polarstern = document.getElementById('polarstern-wrapper')
+    const stellamaris = document.createElement('div')
+    stellamaris.id = 'polarstern'
+    polarstern?.parentElement?.replaceChild(stellamaris, polarstern)
+  ```
