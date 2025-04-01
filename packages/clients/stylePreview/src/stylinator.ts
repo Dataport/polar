@@ -62,7 +62,7 @@ export const addStylePreview = (mapInstance) => {
   map.addLayer(layer)
 
   map.on('moveend', center(map, feature))
-  center(map, feature)
+  center(map, feature)()
 
   mapInstance.setStyle = setStyle(feature)
 
