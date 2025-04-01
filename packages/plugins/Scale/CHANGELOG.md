@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Expose the `beautifyScale` function.
+- Feature: Expose the functions `beautifyScale`, `thousandsSeparator` and `getDpi`.
 
 ## 3.0.0
 
