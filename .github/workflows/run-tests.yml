@@ -39,8 +39,12 @@ jobs:
       run: npm run snowbox:build
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
+    - name: Run Playwright tests (common)
       run: npm run test:e2e
+    - name: Build DiPlan (started by playwright by itself)
+      run: npm run diplan:build
+    - name: Run Playwright tests (DiPlan)
+      run: npm run test:e2e:diplan
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

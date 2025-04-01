@@ -69,7 +69,6 @@ export const cutPolygons = ({
         { root: true }
       )
     }
-    dispatch('updateDrawMode', null)
   })
 
   dispatch('plugin/draw/setInteractions', [draw], { root: true })

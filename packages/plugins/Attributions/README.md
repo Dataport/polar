@@ -12,6 +12,7 @@ All parameters are optional. However, setting neither `layerAttributions` nor `s
 
 | fieldName | type | description |
 | - | - | - |
+| buttonComponent | VueContructor? | If `renderType` is set to `'independent'`, this component is used as the button to open the attributions. |
 | icons | Record<string, string>? | Optional icon override. |
 | initiallyOpen | boolean? | Whether the information box is open by default. Only usable when renderType is set to 'independent', otherwise the IconMenu handles this. |
 | layerAttributions | layerAttribution[]? | List of attributions that are shown when the matching layer is visible. |

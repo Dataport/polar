@@ -5,7 +5,7 @@ const config: Config.InitialOptions = {
     '**/*.{js,ts,vue}',
     '!**/(node_modules|build|dist|dist-test|.cache|coverage|docs|tests_output)/**',
   ],
-  modulePathIgnorePatterns: ['<rootDir>/mpapi/', '<rootDir>/e2e/'],
+  modulePathIgnorePatterns: ['<rootDir>/mpapi/', '/e2e/'],
   moduleFileExtensions: ['js', 'ts', 'json', 'vue'],
   moduleNameMapper: {
     'vuetify/lib': '<rootDir>/node_modules/vuetify/es5',
