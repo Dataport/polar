@@ -29,6 +29,7 @@
             <button id="action-toast">Toast</button>
             <button id="action-load-geojson">GeoJSON hinzufügen</button>
             <button id="action-zoom-to-all">Zoome auf Zeichnung</button>
+            <button id="action-screenshot">Screenshot erstellen (siehe Tabelle unten)</button>
             <label>
               Adresssuche (erstbestes Ergebnis):
               <input id="action-address-search-filler"/>
@@ -78,7 +79,7 @@
             <tr>
               <td><code>plugin/export/exportedMap</code></td>
               <td><a id="subscribed-export-a" download="polar_screenshot.png" href=""><img id="subscribed-export-img" /></a></td>
-              <td>Screenshot des aktuellen Kartenausschnitts. Produzierbar durch Klick auf den unteren linken "Export"-Button.</td>
+              <td>Screenshot des aktuellen Kartenausschnitts. Produzierbar durch Klick auf den Screenshot-Button über der Karte, der einen programmatischen Aufruf simuliert. Alternativ kann auch ein Button in der Karte eingeblendet werden.</td>
             </tr>
             <tr>
               <td><code>plugin/zoom/zoomLevel</code></td>
@@ -94,21 +95,6 @@
               <td><code>plugin/draw/featureCollection</code></td>
               <td id="subscribed-draw">uninitialized</td>
               <td>Die hergestellte Zeichnung als GeoJSON (ohne diplanspezifische Metainformationen und Modifikationen).</td>
-            </tr>
-            <tr>
-              <td><code>plugin/...</code></td>
-              <td id="subscribed-a">uninitialized</td>
-              <td>Platz für weitere Beispiele</td>
-            </tr>
-            <tr>
-              <td><code>plugin/...</code></td>
-              <td id="subscribed-b">uninitialized</td>
-              <td>Platz für weitere Beispiele</td>
-            </tr>
-            <tr>
-              <td><code>plugin/...</code></td>
-              <td id="subscribed-c">uninitialized</td>
-              <td>Platz für weitere Beispiele</td>
             </tr>
           </tbody>
         </table>
