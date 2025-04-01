@@ -6,7 +6,7 @@ import {
 import { SelectionObjectState } from '../../types'
 
 const getInitialState = (): SelectionObjectState => ({
-  objectId: 0,
+  objectId: '',
 })
 
 const selectionObjectModule: PolarModule<
