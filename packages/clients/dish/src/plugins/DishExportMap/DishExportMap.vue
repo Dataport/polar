@@ -57,6 +57,7 @@
 import Vue from 'vue'
 import { mapMutations, mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
+import { beautifyScale } from '@polar/plugin-scale'
 import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
 
 const rectangleWidth = 893
@@ -149,6 +150,7 @@ export default Vue.extend({
       this.dialog = true
     },
     setTitle() {
+      console.warn(beautifyScale(this.scaleValue))
       if (this.overlay && this.hasObjectProperties) {
         const objectId = this.currentProperties.objektid
         const address = [
@@ -195,7 +197,7 @@ export default Vue.extend({
         NewTab: true,
         objektueberschrift: this.title,
         // spelling is intentional because of backend requirements
-        masssstab: this.scaleValue,
+        masssstab: beautifyScale(this.scaleValue),
         printApproach: this.configuration.dishExportMap.printApproach,
         printRequester: this.configuration.dishExportMap.printRequester,
         id: this.currentProperties.objektid,
