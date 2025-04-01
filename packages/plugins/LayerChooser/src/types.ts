@@ -20,7 +20,7 @@ export interface LayerChooserState {
 export interface LayerChooserGetters extends LayerChooserState {
   component: VueConstructor | null
   disabledBackgrounds: boolean[]
-  disabledMasks: boolean[]
+  disabledMasks: Record<string, boolean>
   idsWithOptions: string[]
   masksSeparatedByType: Record<string, LayerConfiguration[]>
   openedOptionsService: LayerConfiguration

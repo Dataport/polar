@@ -11,7 +11,7 @@
             <template v-for="({ name, id }, index) in backgrounds">
               <LayerWrapper
                 :key="'disabled-background-' + index"
-                :index="index"
+                :index="Number(index)"
                 :disabled-layers="disabledBackgrounds"
                 :layer-id="id"
               >
@@ -56,7 +56,7 @@
                     dense
                     hide-details
                     class="cut-off-top-space"
-                    :disabled="disabledMasks[index]"
+                    :disabled="disabledMasks[id]"
                   />
                 </LayerWrapper>
                 <v-divider :key="index" />

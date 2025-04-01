@@ -208,10 +208,15 @@ export const makeStoreModule = () => {
       disabledMasks(_, { availableMasks, masks }) {
         return masks
           .filter(({ hideInMenu }) => !hideInMenu)
-          .map(({ id }) =>
-            availableMasks.findIndex((available) => available.id === id)
+          .reduce(
+            (acc, { id }) => ({
+              ...acc,
+              [id]:
+                availableMasks.findIndex((available) => available.id === id) ===
+                -1,
+            }),
+            {}
           )
-          .map((index) => index === -1)
       },
       idsWithOptions(_, { backgrounds, masks }) {
         return [...backgrounds, ...masks]

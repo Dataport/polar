@@ -55,7 +55,7 @@
                 dense
                 hide-details
                 class="cut-off-top-space"
-                :disabled="disabledMasks[index]"
+                :disabled="disabledMasks[id]"
               />
             </LayerWrapper>
           </template>

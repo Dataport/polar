@@ -1,10 +1,7 @@
 <template>
   <v-tooltip left :disabled="hasSmallDisplay">
     <template #activator="{ on }">
-      <div
-        class="polar-layer-chooser-option-line"
-        v-on="disabledLayers[index] && on"
-      >
+      <div class="polar-layer-chooser-option-line" v-on="disabled && on">
         <slot></slot>
         <v-btn
           class="ml-1"
@@ -37,7 +34,7 @@ export default Vue.extend({
       required: true,
     },
     disabledLayers: {
-      type: Array,
+      type: [Array, Object],
       required: true,
     },
     layerId: {
@@ -54,6 +51,11 @@ export default Vue.extend({
     ...mapGetters('plugin/layerChooser', ['idsWithOptions']),
     hasOptions() {
       return this.idsWithOptions.includes(this.layerId)
+    },
+    disabled() {
+      return Array.isArray(this.disabledLayers)
+        ? this.disabledLayers[this.index]
+        : this.disabledLayers[this.layerId]
     },
   },
   methods: {
