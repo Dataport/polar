@@ -13,6 +13,7 @@ import {
   denkmaelerWFS,
 } from '../servicesConstants'
 import { DishMapConfig } from '../types'
+import { calculateScaleFromResolution } from '../utils/calculateScaleFromResolution'
 import {
   attributionsBasemapGrau,
   attributionsAlkisWms,
@@ -91,7 +92,10 @@ export const mapConfigExtern: DishMapConfig = {
       id: alkisWms,
       visibility: true,
       type: 'mask',
-      name: 'ALKIS Flurstücke (ab 1:1.000)',
+      name: `ALKIS Flurstücke (ab 1:${calculateScaleFromResolution(
+        'm',
+        0.2645831904584105
+      )})`,
       minZoom: 10,
     },
   ],
