@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Extend mock state to match current core state type.
+
 ## 1.3.2
 
 - Chore: Update `@polar/core` to `v3.0.0`.

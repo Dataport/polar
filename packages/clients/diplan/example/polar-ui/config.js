@@ -53,6 +53,7 @@ export default {
     displayComponent: true,
     searchMethods: [
       {
+        categoryId: 'wfsg',
         queryParameters: {
           searchAddress: true,
           searchStreets: true,
@@ -61,7 +62,33 @@ export default {
         type: 'mpapi',
         url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
       },
+      {
+        categoryId: 'bkg',
+        queryParameters: {
+          filter: {
+            bundesland: 'Hamburg',
+          },
+        },
+        type: 'bkg',
+        url: 'https://gisdemo.dp.dsecurecloud.de/bkg_geosearch3',
+      },
     ],
+    groupProperties: {
+      defaultGroup: {
+        label: 'Suchbegriff',
+        hint: 'Suchbegriff',
+        resultDisplayMode: 'categorized',
+        limitResults: 3,
+      },
+    },
+    categoryProperties: {
+      bkg: {
+        label: 'BKG Ergebnisse',
+      },
+      wfsg: {
+        label: 'Gazetteer Ergebnisse',
+      },
+    },
     minLength: 3,
     waitMs: 300,
   },
@@ -77,6 +104,16 @@ export default {
       visibility: true,
       type: 'mask',
       name: `diplan.layers.${xplanwms}`,
+      options: {
+        layers: {
+          order: 'BP_Planvektor,SO_Planvektor',
+          legend: true,
+          title: {
+            BP_Planvektor: 'BP Planvektor',
+            SO_Planvektor: 'SO Planvektor',
+          },
+        },
+      },
     },
     {
       id: xplanwfs,
@@ -87,7 +124,6 @@ export default {
     {
       id: flurstuecke,
       visibility: false,
-      // TODO available from 7, but only starts loading from 8 - bug or skill issue?
       minZoom: 7,
       type: 'mask',
       name: `diplan.layers.${flurstuecke}`,
@@ -124,6 +160,7 @@ export default {
     ],
   },
   draw: {
+    displayComponent: true,
     enableOptions: true,
     lassos: [
       {
@@ -157,11 +194,6 @@ export default {
         fillColor: 'rgb(51 117 212 / 50%)',
       },
     },
-  },
-  export: {
-    displayComponent: true,
-    showJpg: false,
-    showPdf: false,
   },
   gfi: {
     mode: 'bboxDot',

@@ -113,6 +113,7 @@ export interface AddressSearchGetters extends AddressSearchState {
   featureListsWithCategory: FeatureListWithCategory[]
   focusAfterSearch: boolean
   afterResultComponent: VueConstructor | null
+  component: VueConstructor | null
 }
 
 export type AddressSearchAutoselect = 'first' | 'only' | 'never'

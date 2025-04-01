@@ -62,7 +62,7 @@ export default Vue.extend({
   .nine-layout {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     position: absolute;
 
@@ -75,10 +75,6 @@ export default Vue.extend({
       left: 33%;
       right: 33%;
       bottom: 33%;
-    }
-
-    &.mid-mid {
-      justify-content: center;
     }
 
     &.left {

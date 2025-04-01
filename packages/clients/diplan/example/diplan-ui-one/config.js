@@ -1,17 +1,30 @@
 // service id map to avoid typos, ease renames
 const basemap = 'basemapde_farbe'
+const stadtplan = '453'
+const luftbilder = '452'
+
 const xplanwms = 'xplanwms'
 const xplanwfs = 'xplanwfs'
+
 const flurstuecke = 'flurstuecke'
 const bstgasleitung = 'bst_gasleitung'
+const bauDenkmaeler = 'bauDenkmaeler'
+const bebauungsPlaene = 'bebauungsplaene'
 
 export default {
+  // masterportalAPI parameters
   startResolution: 264.583190458,
   startCenter: [561210, 5932600],
   extent: [
     248651.73157077, 5227198.20287631, 928366.12236557, 6118661.62507136,
   ],
+  // diplan-specific configuration example (see API.md)
   diplan: {
+    link: {
+      href: '../diplan-ui-small',
+      icon: '$vuetify.icons.fullscreen-exit',
+      label: 'diplan.linkButton.label',
+    },
     mergeToMultiGeometries: true,
     validateGeoJson: true,
     metaServices: [
@@ -22,6 +35,7 @@ export default {
       },
     ],
   },
+  // general POLAR parameters
   locales: [
     {
       type: 'de',
@@ -29,17 +43,25 @@ export default {
         diplan: {
           layers: {
             [basemap]: 'BasemapDE',
+            [stadtplan]: 'Stadtplan',
+            [luftbilder]: 'Luftbilder',
             [xplanwms]: 'XPlanWMS',
             [xplanwfs]: 'XPlanSynWFS',
             [flurstuecke]: 'Flurstücke',
             [bstgasleitung]: 'BST Gasleitung',
+            [bauDenkmaeler]: 'Denkmalkartierung Baudenkmale',
+            [bebauungsPlaene]: 'Bebauungspläne',
           },
           attributions: {
             [basemap]: `$t(diplan.layers.${basemap}) © GeoBasis-DE / BKG <YEAR> CC BY 4.0`,
+            [stadtplan]: `$t(diplan.layers.${stadtplan}): <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>`,
+            [luftbilder]: `$t(diplan.layers.${luftbilder}): <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>`,
             [xplanwms]: `$t(diplan.layers.${xplanwms}) © ???`,
             [xplanwfs]: `$t(diplan.layers.${xplanwfs}) © ???`,
             [flurstuecke]: `$t(diplan.layers.${flurstuecke}) © ???`,
             [bstgasleitung]: `$t(diplan.layers.${bstgasleitung}) © ???`,
+            [bauDenkmaeler]: `$t(diplan.layers.${bauDenkmaeler}): <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a>`,
+            [bebauungsPlaene]: `$t(diplan.layers.${bebauungsPlaene}): <a target="_blank" href="https://www.hamburg.de/politik-und-verwaltung/behoerden/behoerde-fuer-stadtentwicklung-und-wohnen">Behörde für Stadtentwicklung und Wohnen</a>`,
           },
         },
       },
@@ -49,6 +71,7 @@ export default {
     displayComponent: true,
     searchMethods: [
       {
+        categoryId: 'wfsg',
         queryParameters: {
           searchAddress: true,
           searchStreets: true,
@@ -57,7 +80,33 @@ export default {
         type: 'mpapi',
         url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
       },
+      {
+        categoryId: 'bkg',
+        queryParameters: {
+          filter: {
+            bundesland: 'Hamburg',
+          },
+        },
+        type: 'bkg',
+        url: 'https://gisdemo.dp.dsecurecloud.de/bkg_geosearch3',
+      },
     ],
+    groupProperties: {
+      defaultGroup: {
+        label: 'Suchbegriff',
+        hint: 'Suchbegriff',
+        resultDisplayMode: 'categorized',
+        limitResults: 3,
+      },
+    },
+    categoryProperties: {
+      bkg: {
+        label: 'BKG Ergebnisse',
+      },
+      wfsg: {
+        label: 'Gazetteer Ergebnisse',
+      },
+    },
     minLength: 3,
     waitMs: 300,
   },
@@ -69,22 +118,42 @@ export default {
       name: `diplan.layers.${basemap}`,
     },
     {
+      id: stadtplan,
+      type: 'background',
+      name: `diplan.layers.${stadtplan}`,
+    },
+    {
+      id: luftbilder,
+      type: 'background',
+      name: `diplan.layers.${luftbilder}`,
+    },
+    {
       id: xplanwms,
       visibility: true,
-      type: 'mask',
+      type: 'xplan',
       name: `diplan.layers.${xplanwms}`,
+      options: {
+        layers: {
+          order: 'BP_Planvektor,SO_Planvektor',
+          legend: true,
+          title: {
+            BP_Planvektor: 'BP Planvektor',
+            SO_Planvektor: 'SO Planvektor',
+          },
+        },
+      },
     },
     {
       id: xplanwfs,
       visibility: false,
-      type: 'mask',
+      type: 'xplan',
       name: `diplan.layers.${xplanwfs}`,
     },
     {
       id: flurstuecke,
       visibility: false,
-      // TODO available from 7, but only starts loading from 8 - bug or skill issue?
-      minZoom: 7,
+      // TODO: Re-add once the ui has been fixed for this
+      // minZoom: 7,
       type: 'mask',
       name: `diplan.layers.${flurstuecke}`,
     },
@@ -94,12 +163,42 @@ export default {
       type: 'mask',
       name: `diplan.layers.${bstgasleitung}`,
     },
+    {
+      id: bauDenkmaeler,
+      visibility: false,
+      type: 'mask',
+      name: `diplan.layers.${bauDenkmaeler}`,
+    },
+    {
+      id: bebauungsPlaene,
+      visibility: false,
+      type: 'mask',
+      name: `diplan.layers.${bebauungsPlaene}`,
+      options: {
+        layers: {
+          order: 'hh_hh_festgestellt,hh_lgv_imverfahren',
+          legend: true,
+          title: {
+            hh_hh_festgestellt: 'Festgestellte Bebauungspläne',
+            hh_lgv_imverfahren: 'Bebauungspläne im Verfahren',
+          },
+        },
+      },
+    },
   ],
   attributions: {
     layerAttributions: [
       {
         id: basemap,
         title: `diplan.attributions.${basemap}`,
+      },
+      {
+        id: stadtplan,
+        title: `diplan.attributions.${stadtplan}`,
+      },
+      {
+        id: luftbilder,
+        title: `diplan.attributions.${luftbilder}`,
       },
       {
         id: xplanwms,
@@ -117,10 +216,17 @@ export default {
         id: bstgasleitung,
         title: `diplan.attributions.${bstgasleitung}`,
       },
+      {
+        id: bauDenkmaeler,
+        title: `diplan.attributions.${bauDenkmaeler}`,
+      },
+      {
+        id: bebauungsPlaene,
+        title: `diplan.attributions.${bebauungsPlaene}`,
+      },
     ],
   },
   draw: {
-    enableOptions: true,
     lassos: [
       {
         id: flurstuecke,
@@ -129,19 +235,7 @@ export default {
         id: xplanwfs,
       },
     ],
-    measureOptions: {
-      metres: true,
-      kilometres: true,
-      hectares: true,
-    },
-    selectableDrawModes: ['Point', 'LineString', 'Circle', 'Text', 'Polygon'],
     snapTo: [xplanwfs, flurstuecke],
-    textStyle: {
-      font: {
-        size: [10, 20, 30],
-        family: 'Arial',
-      },
-    },
     style: {
       fill: { color: 'rgb(51 117 212 / 50%)' },
       stroke: {
@@ -153,11 +247,6 @@ export default {
         fillColor: 'rgb(51 117 212 / 50%)',
       },
     },
-  },
-  export: {
-    displayComponent: true,
-    showJpg: false,
-    showPdf: false,
   },
   gfi: {
     mode: 'bboxDot',
@@ -177,13 +266,5 @@ export default {
       'plugin/pins/transformedCoordinate',
       'plugin/pins/coordinatesAfterDrag',
     ],
-  },
-  pins: {
-    toZoomLevel: 9,
-    movable: 'drag',
-    appearOnClick: {
-      show: true,
-      atZoomLevel: 0,
-    },
   },
 }

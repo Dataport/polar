@@ -121,6 +121,7 @@ export interface AddressSearchConfiguration extends PluginOptions {
   addLoading?: string
   // definition of categories referred to in searchMethods
   categoryProperties?: Record<string, AddressSearchCategoryProperties>
+  component?: VueConstructor
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
   /** NOTE regarding \<any, any\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here; not using "unknown" since that errors in client configuration, not using "never" since that errors in AddressSearch plugin; this way, "any"thing goes */
@@ -146,6 +147,7 @@ export interface Attribution {
 
 /** Attributions Module Configuration */
 export interface AttributionsConfiguration extends PluginOptions {
+  buttonComponent?: VueConstructor
   icons?: {
     open?: string
     close?: string
@@ -419,7 +421,12 @@ export interface Menu {
 
 export interface IconMenuConfiguration extends PluginOptions {
   menus: Menu[]
+  buttonComponent?: VueConstructor
   initiallyOpen?: string
+}
+
+export interface LayerChooserConfiguration extends PluginOptions {
+  component?: VueConstructor
 }
 
 export interface LegendConfiguration extends PluginOptions {
@@ -506,6 +513,7 @@ export interface ZoomIcons {
 }
 
 export interface ZoomConfiguration extends PluginOptions {
+  component?: VueConstructor
   icons?: ZoomIcons
   renderType?: RenderType
   showMobile?: boolean
@@ -535,7 +543,7 @@ export interface PluginContainer {
  */
 
 export type StrategyOptions = 'all' | 'tile' | 'bbox'
-export type LayerType = 'mask' | 'background'
+export type LayerType = 'background' | string
 
 export interface LayerConfigurationOptionLayers {
   /**
@@ -662,8 +670,10 @@ export interface MapConfig extends MasterportalApiConfig {
   checkServiceAvailability?: boolean
   extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   featureStyles?: string
+  secureServiceUrlRegex?: string
   language?: InitialLanguage
   locales?: Locale[]
+  oidcToken?: string
   renderFaToLightDom?: boolean
   stylePath?: string
   vuetify?: UserVuetifyPreset
@@ -677,6 +687,7 @@ export interface MapConfig extends MasterportalApiConfig {
   geoLocation?: GeoLocationConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
+  layerChooser?: LayerChooserConfiguration
   legend?: LegendConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
@@ -737,6 +748,7 @@ export interface CoreState {
   mapHasDimensions: boolean
   moveHandle: number
   moveHandleActionButton: number
+  oidcToken: string
   // NOTE truly any since external plugins may bring whatever; unknown will lead to further errors
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   plugin: Record<string, any>

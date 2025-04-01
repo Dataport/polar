@@ -44,6 +44,8 @@
 </template>
 
 <script lang="ts">
+// it's complex, can't really be helped
+/* eslint-disable max-lines */
 import Vue, { PropType } from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import api from '@masterportal/masterportalapi/src/maps/api'
@@ -59,6 +61,7 @@ import {
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addClusterStyle } from '../utils/addClusterStyle'
 import { setupStyling } from '../utils/setupStyling'
+import { mapZoomOffset } from '../utils/mapZoomOffset'
 import MapUi from './MapUi.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
@@ -93,6 +96,7 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters([
+      'hasSmallDisplay',
       'hasSmallWidth',
       'hasWindowSize',
       'map',
@@ -130,12 +134,17 @@ export default Vue.extend({
     },
   },
   mounted() {
+    if (this.mapConfiguration.secureServiceUrlRegex) {
+      this.addInterceptor(this.mapConfiguration.secureServiceUrlRegex)
+    }
     const map = api.map.createMap(
       {
         target: this.$refs['polar-map-container'],
-        ...(this.mapConfiguration.extendedMasterportalapiMarkers
-          ? addClusterStyle(this.mapConfiguration)
-          : this.mapConfiguration),
+        ...mapZoomOffset(
+          this.mapConfiguration.extendedMasterportalapiMarkers
+            ? addClusterStyle(this.mapConfiguration)
+            : this.mapConfiguration
+        ),
       },
       '2D',
       {
@@ -182,9 +191,10 @@ export default Vue.extend({
   methods: {
     ...mapMutations(['setConfiguration', 'setHasSmallDisplay', 'setMap']),
     ...mapActions([
+      'addInterceptor',
+      'checkServiceAvailability',
       'updateDragAndZoomInteractions',
       'useExtendedMasterportalapiMarkers',
-      'checkServiceAvailability',
     ]),
     updateHasSmallDisplay() {
       this.setHasSmallDisplay(
@@ -200,10 +210,7 @@ export default Vue.extend({
           this.wheelEffect
         )
 
-        if (
-          window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
-          window.innerWidth <= SMALL_DISPLAY_WIDTH
-        ) {
+        if (this.hasSmallDisplay) {
           new Hammer(mapContainer).on('pan', (e) => {
             if (
               e.maxPointers === 1 &&
