@@ -150,7 +150,6 @@ export default Vue.extend({
       this.dialog = true
     },
     setTitle() {
-      console.warn(beautifyScale(this.scaleValue))
       if (this.overlay && this.hasObjectProperties) {
         const objectId = this.currentProperties.objektid
         const address = [
