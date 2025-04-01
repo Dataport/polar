@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { openSnowbox } from './utils/openSnowbox'
-import { draw } from './utils/draw'
+import { draw, drag } from './utils/draw'
 
 const drawTargetId = '#vuex-target-draw-result'
 
@@ -44,16 +44,6 @@ test('two features drawn at the same coordinate can be modified separately', asy
 }) => {
   await openSnowbox(page)
 
-  const canvas = await page.locator('canvas')
-  await canvas.scrollIntoViewIfNeeded()
-  const boundingBox = await canvas.boundingBox()
-  if (boundingBox === null) throw new Error('Canvas not found.')
-  const { width, height } = boundingBox
-  let { x, y } = boundingBox
-
-  x += width / 2
-  y += height / 2
-
   await page.getByLabel('Draw tools').click()
   await page.getByText('Draw, write and measure').click()
   await page.getByText('Point').click()
@@ -64,8 +54,10 @@ test('two features drawn at the same coordinate can be modified separately', asy
     await expect(page.locator('.polar-draw-menu')).toHaveCount(0)
   }
 
-  await page.mouse.click(x, y)
-  await page.mouse.click(x, y)
+  await draw(page, [
+    [0, 0, 'click'],
+    [0, 0, 'click'],
+  ])
 
   if (isMobile) {
     await page.getByLabel('Draw tools').click()
@@ -79,10 +71,10 @@ test('two features drawn at the same coordinate can be modified separately', asy
     await expect(page.locator('.polar-draw-menu')).toHaveCount(0)
   }
 
-  await page.mouse.move(x, y)
-  await page.mouse.down()
-  await page.mouse.move(x - 40, y - 40)
-  await page.mouse.up()
+  await drag(page, [
+    [0, 0],
+    [-40, -40],
+  ])
 
   const drawing = JSON.parse(await page.locator(drawTargetId).innerText())
 
