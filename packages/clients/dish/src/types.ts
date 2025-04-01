@@ -128,7 +128,7 @@ export interface DishMapConfig
 }
 
 export interface SelectionObjectState {
-  objectId: number
+  objectId: string
 }
 
 export interface SelectionObjectOptions extends PluginOptions {
