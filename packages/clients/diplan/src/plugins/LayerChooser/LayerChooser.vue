@@ -11,7 +11,7 @@
             <template v-for="({ name, id }, index) in backgrounds">
               <LayerWrapper
                 :key="'disabled-background-' + index"
-                :index="Number(index)"
+                :index="index"
                 :disabled-layers="disabledBackgrounds"
                 :layer-id="id"
               >
@@ -44,7 +44,7 @@
               <template v-for="({ name, id }, index) in masks">
                 <LayerWrapper
                   :key="`disabled-mask-${type}-${index}`"
-                  :index="Number(index)"
+                  :index="index"
                   :disabled-layers="disabledMasks"
                   :layer-id="id"
                 >
