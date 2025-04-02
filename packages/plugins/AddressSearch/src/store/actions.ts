@@ -45,8 +45,6 @@ const getResultsFromPromises = (
   return results
 }
 
-// OK for module action set creation
-// eslint-disable-next-line max-lines-per-function
 export const makeActions = () => {
   let abortController
   let debouncedLoad

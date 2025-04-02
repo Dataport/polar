@@ -75,8 +75,6 @@ const addressSearchConfig = (mode: keyof typeof MODE) => {
   return addressSearchConfig
 }
 
-// this is fine for list-like setup functions
-// eslint-disable-next-line max-lines-per-function
 export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
   const internalMenu = [
     {
