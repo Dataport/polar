@@ -13,6 +13,7 @@ import { LayerChooserGetters, LayerChooserState } from '../types'
 import { asIdList, areLayersActive } from '../utils/layerFolding'
 import { getBackgroundsAndMasks } from '../utils/getBackgroundsAndMasks'
 import { getOpenedOptionsServiceLayers } from '../utils/getOpenedOptionsServiceLayers'
+import { isLayerIdIncluded } from '../utils/isLayerIdIncluded'
 
 export const getInitialState = (): LayerChooserState => ({
   openedOptions: null,
@@ -199,11 +200,13 @@ export const makeStoreModule = () => {
           ? rootGetters.configuration.layerChooser.component
           : null,
       disabledBackgrounds(_, { availableBackgrounds, backgrounds }) {
-        return backgrounds
-          .map(({ id }) =>
-            availableBackgrounds.findIndex((available) => available.id === id)
-          )
-          .map((index) => index === -1)
+        return backgrounds.reduce(
+          (acc, { id }) => ({
+            ...acc,
+            [id]: isLayerIdIncluded(availableBackgrounds, id) === -1,
+          }),
+          {}
+        )
       },
       disabledMasks(_, { availableMasks, masks }) {
         return masks
@@ -211,9 +214,7 @@ export const makeStoreModule = () => {
           .reduce(
             (acc, { id }) => ({
               ...acc,
-              [id]:
-                availableMasks.findIndex((available) => available.id === id) ===
-                -1,
+              [id]: isLayerIdIncluded(availableMasks, id) === -1,
             }),
             {}
           )

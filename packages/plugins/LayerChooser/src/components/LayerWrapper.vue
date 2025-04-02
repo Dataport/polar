@@ -20,8 +20,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
+import { DisabledLayers } from '../types'
 
 /**
  * Adds tooltip and option action to arbitrary selection element.
@@ -29,12 +30,8 @@ import { mapGetters, mapMutations } from 'vuex'
 export default Vue.extend({
   name: 'LayerChooserLayerWrapper',
   props: {
-    index: {
-      type: Number,
-      required: true,
-    },
     disabledLayers: {
-      type: [Array, Object],
+      type: Object as PropType<DisabledLayers>,
       required: true,
     },
     layerId: {
@@ -53,9 +50,7 @@ export default Vue.extend({
       return this.idsWithOptions.includes(this.layerId)
     },
     disabled() {
-      return Array.isArray(this.disabledLayers)
-        ? this.disabledLayers[this.index]
-        : this.disabledLayers[this.layerId]
+      return this.disabledLayers[this.layerId]
     },
   },
   methods: {

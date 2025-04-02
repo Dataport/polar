@@ -1,6 +1,5 @@
 <template>
   <LayerChooserLayerWrapper
-    :index="index"
     :disabled-layers="disabledLayers"
     :layer-id="layerId"
     icon="$vuetify.icons.gear-outline"
@@ -10,8 +9,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { LayerChooserLayerWrapper } from '@polar/plugin-layer-chooser'
+import Vue, { PropType } from 'vue'
+import {
+  DisabledLayers,
+  LayerChooserLayerWrapper,
+} from '@polar/plugin-layer-chooser'
 
 /**
  * Adds tooltip and option action to arbitrary selection element.
@@ -22,12 +24,8 @@ export default Vue.extend({
     LayerChooserLayerWrapper,
   },
   props: {
-    index: {
-      type: Number,
-      required: true,
-    },
     disabledLayers: {
-      type: [Array, Object],
+      type: Object as PropType<DisabledLayers>,
       required: true,
     },
     layerId: {
