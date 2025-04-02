@@ -81,6 +81,10 @@ export default Vue.extend({
     },
     internalHost: '',
     internServicesBaseUrl: '',
+    newTab:
+      new URL(document.location as unknown as string).searchParams.get(
+        'NewTab'
+      ) || true,
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
@@ -193,7 +197,7 @@ export default Vue.extend({
       const bbox = this.getRectangleCoordinates(this.transformedCoordinate)
       return {
         // order of the parameters must be maintained to create the url
-        NewTab: true,
+        NewTab: this.newTab,
         objektueberschrift: this.title,
         // spelling is intentional because of backend requirements
         masssstab: beautifyScale(this.scaleValue),
