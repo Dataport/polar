@@ -33,6 +33,7 @@ import DishHeader from './plugins/Header'
 import { MODE } from './enums'
 import { DishGfiIntern, DishGfiExtern } from './plugins/Gfi'
 import DishExportMap from './plugins/DishExportMap'
+import SelectionObject from './plugins/SelectionObject'
 import { searchMethods } from './mapConfigurations/searchConfigParams'
 
 const gfiConfig = (mode: keyof typeof MODE) => {
@@ -83,6 +84,10 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       plugin: PolarPluginLayerChooser({}),
       icon: 'fa-layer-group',
       id: 'layerChooser',
+    },
+    {
+      plugin: SelectionObject({ renderType: 'iconMenu' }),
+      id: 'selectionObject',
     },
     {
       plugin: PolarPluginDraw({}),
