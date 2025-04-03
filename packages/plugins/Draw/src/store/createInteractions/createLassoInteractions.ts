@@ -69,8 +69,6 @@ const buildAddFeaturesPayload = (
   }
 }
 
-// should be fine, surrounding method is only unpacking/packing, also see below
-// eslint-disable-next-line max-lines-per-function
 export default function ({
   rootGetters,
   getters,
@@ -79,8 +77,6 @@ export default function ({
 }: PolarActionContext<DrawState, DrawGetters>) {
   const draw = new Draw({ type: 'Polygon', freehand: true })
 
-  // should be fine, line bloat is from error handling (only logging/toasting)
-  // eslint-disable-next-line max-lines-per-function
   draw.on('drawend', (e) => {
     const toast = (toastObject) =>
       getters.toastAction &&

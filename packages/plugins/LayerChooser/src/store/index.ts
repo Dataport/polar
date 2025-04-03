@@ -26,8 +26,6 @@ export const getInitialState = (): LayerChooserState => ({
   activeLayerIds: {},
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<LayerChooserState, LayerChooserGetters> = {
     namespaced: true,

@@ -36,8 +36,6 @@ test('the draw tool can be used to draw polygons on the map', async ({
   expect(drawing.features[0].geometry.coordinates[0].length).toBe(7)
 })
 
-// it's fiiine
-// eslint-disable-next-line max-lines-per-function
 test('two features drawn at the same coordinate can be modified separately', async ({
   page,
   isMobile,

@@ -36,9 +36,7 @@
     "no-eval": "error",
     "no-implied-eval": "error",
     "complexity": "warn",
-    "max-depth": "warn",
-    "max-lines": "error",
-    "max-lines-per-function": "error"
+    "max-depth": "warn"
   },
   "ignorePatterns": ["**/node_modules/**/*", "**/dist/**/*"],
   "settings": {
@@ -57,10 +55,7 @@
       "env": {
         "jest": true
       },
-      "plugins": ["jest"],
-      "rules": {
-        "max-lines-per-function": "off"
-      }
+      "plugins": ["jest"]
     },
     {
       "files": ["packages/**/*.js", "packages/**/*.vue"],
