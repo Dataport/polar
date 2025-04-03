@@ -43,8 +43,6 @@ const drawOptions: DrawOptions = {
   condition: () => false,
 }
 
-// NOTE: This disable can be removed once the deprecated parameter 'boxSelect' has been removed
-// eslint-disable-next-line max-lines-per-function
 export function setupMultiSelection({
   dispatch,
   getters: {

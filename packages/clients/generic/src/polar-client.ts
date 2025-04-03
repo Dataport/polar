@@ -56,8 +56,6 @@ console.info(`@polar/client-generic: running in v${packageInfo.version}.`)
 
 setLayout(NineLayout)
 
-// this is fine for list-like setup functions
-// eslint-disable-next-line max-lines-per-function
 const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
   const iconMenu =
     enabledPlugins.includes('icon-menu') &&

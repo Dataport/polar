@@ -44,8 +44,6 @@
 </template>
 
 <script lang="ts">
-// it's complex, can't really be helped
-/* eslint-disable max-lines */
 import Vue, { PropType } from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import api from '@masterportal/masterportalapi/src/maps/api'

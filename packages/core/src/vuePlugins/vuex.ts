@@ -82,8 +82,6 @@ const getInitialState = (): CoreState => ({
   oidcToken: '',
 })
 
-// OK for store creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStore = (mapConfiguration: MapConfig) => {
   /*
    * NOTE: The following variables are used to store complex information
