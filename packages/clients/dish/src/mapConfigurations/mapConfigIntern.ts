@@ -1,5 +1,3 @@
-// function includes all plugin configs specifically for internal map use
-/* eslint-disable max-lines-per-function */
 import { SearchMethodConfiguration } from '@polar/lib-custom-types'
 import { alkisWfService } from '../services'
 import {
@@ -148,15 +146,6 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       'plugin/pins/transformedCoordinate',
       'plugin/pins/coordinatesAfterDrag',
     ],
-    customHighlightStyle: {
-      stroke: {
-        color: '#FFFF00',
-        width: 3,
-      },
-      fill: {
-        color: 'rgb(255, 255, 255, 0.3)',
-      },
-    },
   },
   pins: {
     toZoomLevel: 8,

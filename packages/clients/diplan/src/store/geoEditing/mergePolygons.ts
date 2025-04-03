@@ -12,8 +12,6 @@ import { DiplanGetters, DiplanState } from '../../types'
 
 const converter = new GeoJSON()
 
-// acceptable complexity
-// eslint-disable-next-line max-lines-per-function
 export const mergePolygons = ({
   dispatch,
   rootGetters,

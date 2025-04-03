@@ -23,8 +23,6 @@ const getInitialState = (): DrawState => ({
   measureMode: 'none',
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   // NOTE hack to keep complex objects out of vuex
   let selectedFeature = null

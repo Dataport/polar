@@ -33,6 +33,7 @@ import DishHeader from './plugins/Header'
 import { MODE } from './enums'
 import { DishGfiIntern, DishGfiExtern } from './plugins/Gfi'
 import DishExportMap from './plugins/DishExportMap'
+import SelectionObject from './plugins/SelectionObject'
 import { searchMethods } from './mapConfigurations/searchConfigParams'
 
 const gfiConfig = (mode: keyof typeof MODE) => {
@@ -75,14 +76,16 @@ const addressSearchConfig = (mode: keyof typeof MODE) => {
   return addressSearchConfig
 }
 
-// this is fine for list-like setup functions
-// eslint-disable-next-line max-lines-per-function
 export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
   const internalMenu = [
     {
       plugin: PolarPluginLayerChooser({}),
       icon: 'fa-layer-group',
       id: 'layerChooser',
+    },
+    {
+      plugin: SelectionObject({ renderType: 'iconMenu' }),
+      id: 'selectionObject',
     },
     {
       plugin: PolarPluginDraw({}),

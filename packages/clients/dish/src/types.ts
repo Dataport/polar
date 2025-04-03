@@ -6,6 +6,8 @@ import {
   AddressSearchConfiguration,
   MapConfig,
   QueryParameters,
+  PluginOptions,
+  RenderType,
 } from '@polar/lib-custom-types'
 
 /* Search backend documentation:
@@ -123,4 +125,13 @@ export interface DishMapConfig
     printImagePath: string
     urlParams: DishUrlParams
   }
+}
+
+export interface SelectionObjectState {
+  objectId: string
+}
+
+export interface SelectionObjectOptions extends PluginOptions {
+  renderType?: RenderType
+  targetContainerId?: string
 }

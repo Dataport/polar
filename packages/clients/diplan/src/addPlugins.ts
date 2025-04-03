@@ -22,8 +22,6 @@ import { Zoom } from './plugins/Zoom'
 import GeoEditing from './plugins/GeoEditing'
 import LinkButton from './plugins/LinkButton'
 
-// complexity deemed acceptable for this setup function
-// eslint-disable-next-line max-lines-per-function
 export function addPlugins(core, mode: keyof typeof MODE) {
   setLayout(NineLayout)
 
