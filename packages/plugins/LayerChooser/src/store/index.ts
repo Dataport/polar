@@ -201,7 +201,7 @@ export const makeStoreModule = () => {
         return backgrounds.reduce(
           (acc, { id }) => ({
             ...acc,
-            [id]: isLayerIdIncluded(availableBackgrounds, id) === -1,
+            [id]: isLayerIdIncluded(availableBackgrounds, id),
           }),
           {}
         )
@@ -212,7 +212,7 @@ export const makeStoreModule = () => {
           .reduce(
             (acc, { id }) => ({
               ...acc,
-              [id]: isLayerIdIncluded(availableMasks, id) === -1,
+              [id]: isLayerIdIncluded(availableMasks, id),
             }),
             {}
           )
