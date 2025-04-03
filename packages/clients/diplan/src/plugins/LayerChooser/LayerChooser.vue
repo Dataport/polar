@@ -40,7 +40,8 @@
           </v-expansion-panel-header>
           <v-divider />
           <v-expansion-panel-content>
-            <template v-if="displaySelection">
+            <LayerChooserOptions v-if="displayOptionsForType[type]" />
+            <template v-else>
               <template v-for="({ name, id }, index) in masks">
                 <LayerWrapper
                   :key="`disabled-mask-${type}-${index}`"
@@ -62,7 +63,6 @@
                 <v-divider :key="index" />
               </template>
             </template>
-            <LayerChooserOptions v-else />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </template>
@@ -89,6 +89,7 @@ export default Vue.extend({
       'backgrounds',
       'disabledBackgrounds',
       'disabledMasks',
+      'displayOptionsForType',
       'masksSeparatedByType',
       'openedOptions',
       'shownMasks',
@@ -108,9 +109,6 @@ export default Vue.extend({
       set(value) {
         this.setActiveMaskIds(value)
       },
-    },
-    displaySelection() {
-      return this.openedOptions === null
     },
   },
   methods: {
