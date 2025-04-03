@@ -219,11 +219,11 @@ export const makeStoreModule = () => {
           .map((layer) => layer.id)
       },
       masksSeparatedByType: (_, { shownMasks }) =>
-        shownMasks.reduce((acc, mask) => {
-          if (Object.keys(acc).includes(mask.type)) {
-            return { ...acc, [mask.type]: [...acc[mask.type], mask] }
+        shownMasks.reduce((acc, masks) => {
+          if (Object.keys(acc).includes(masks.type)) {
+            return { ...acc, [masks.type]: [...acc[masks.type], masks] }
           }
-          return { ...acc, [mask.type]: [mask] }
+          return { ...acc, [masks.type]: [masks] }
         }, {}),
       openedOptionsService(_, { backgrounds, masks, openedOptions }) {
         return [...backgrounds, ...masks].find(
