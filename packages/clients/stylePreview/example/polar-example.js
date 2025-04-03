@@ -41,6 +41,46 @@ const mapConfiguration = {
   },
 }
 
+const writeIn = (path, target, value) => {
+  const [first, ...rest] = path
+  if (!rest.length) {
+    target[first] = value
+    return
+  }
+
+  if (!target[first]) {
+    target[first] = {}
+  }
+
+  writeIn(rest, target[first], value)
+}
+
+const parseDash = (input) => {
+  try {
+    const value = JSON.parse(input)
+    return value.length ? value : ''
+  } catch {
+    return ''
+  }
+}
+
+const overrideStyle = (mapInstance, styleInputs) => () => {
+  const nextStyle = {}
+  styleInputs.forEach((styleInput) => {
+    const id = styleInput.id
+    const value = id.endsWith('width')
+      ? parseFloat(styleInput.value)
+      : id.endsWith('lineDash') || id.endsWith('size')
+      ? parseDash(styleInput.value)
+      : styleInput.value
+    if (value !== '') {
+      const path = id.split('-').slice(1) // throw away 'style-' prefix
+      writeIn(path, nextStyle, value)
+    }
+  })
+  mapInstance.updateStyles(nextStyle)
+}
+
 // you may as well use a local array
 const servicesUrl = 'https://geodienste.hamburg.de/services-internet.json'
 
@@ -56,25 +96,13 @@ client.rawLayerList.initializeLayerList(servicesUrl, (layerConf) =>
     .then((mapInstance) => {
       window.mapInstance = mapInstance
 
-      const inputFillColor = document.getElementById('input-fill-color')
-      const inputStrokeColor = document.getElementById('input-stroke-color')
-      const inputStrokeWidth = document.getElementById('input-stroke-width')
+      const styleInputs = document.querySelectorAll(`[id^=${'style-'}]`)
 
-      const overrideStyle = () => {
-        mapInstance.setStyle({
-          fill: {
-            color: inputFillColor.value,
-          },
-          stroke: {
-            color: inputStrokeColor.value,
-            width: Number(inputStrokeWidth.value),
-          },
-        })
-      }
-
-      inputFillColor.addEventListener('input', overrideStyle)
-      inputStrokeColor.addEventListener('input', overrideStyle)
-      inputStrokeWidth.addEventListener('input', overrideStyle)
+      const boundUpdate = overrideStyle(mapInstance, styleInputs)
+      styleInputs.forEach((input) =>
+        input.addEventListener('input', boundUpdate)
+      )
+      boundUpdate()
     })
 )
 

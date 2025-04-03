@@ -3,6 +3,11 @@
   margin: 0;
 }
 
+main {
+  display: flex;
+  flex-direction: row;
+}
+
 fieldset {
   margin: 0 1em;
 }

@@ -5,7 +5,7 @@ import PolarPluginScale from '@polar/plugin-scale'
 import PolarPluginZoom from '@polar/plugin-zoom'
 
 import packageInfo from '../package.json'
-import { addStylePreview } from './stylinator'
+import { addStylePreview } from './stylePreview'
 
 // eslint-disable-next-line no-console
 console.log(`StylePreview-POLAR-Client v${packageInfo.version}.`)
