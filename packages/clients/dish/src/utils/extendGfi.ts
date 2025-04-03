@@ -127,8 +127,6 @@ async function getHitInSearch(identifier: string): Promise<string> {
   return resultURL
 }
 
-// length seems acceptable, it's just some if/else domain logic
-// eslint-disable-next-line max-lines-per-function
 export async function extendGfi(
   featuresByLayerId: Record<string, GeoJsonFeature[]>
 ): Promise<

@@ -17,8 +17,6 @@ import { makeDraw } from './makeDraw'
 
 const wgs84Epsg = 'EPSG:4326'
 
-// length stems from toast dispatchments
-// eslint-disable-next-line max-lines-per-function
 export const cutPolygons = ({
   dispatch,
   rootGetters,
