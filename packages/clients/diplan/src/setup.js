@@ -1,5 +1,3 @@
-/* eslint-disable max-lines-per-function */
-
 import { validateForm } from '../example/authentication/validateForm.js'
 
 const geoJSON = {
