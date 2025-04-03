@@ -5,5 +5,5 @@ export const features = {
   point: new Feature({ geometry: new Point([]) }),
   lineString: new Feature({ geometry: new LineString([]) }),
   polygon: new Feature({ geometry: new Polygon([]) }),
-  text: new Feature({ geometry: new Point([]) }),
+  text: new Feature({ geometry: new LineString([]) }),
 }

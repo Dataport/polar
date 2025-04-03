@@ -20,7 +20,8 @@ export const updatePositions = (map: Map, features: typeof feats) => () => {
       [center[0] - 2500, center[1] - 2000],
     ],
   ])
-  features.text
-    .getGeometry()
-    ?.setCoordinates([center[0] + 1000, center[1] - 1000])
+  features.text.getGeometry()?.setCoordinates([
+    [center[0] + 1000, center[1] - 1000],
+    [center[0] + 3000, center[1] - 3000],
+  ])
 }

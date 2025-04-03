@@ -29,20 +29,12 @@
         <label><input value="rgba(255, 255, 255, 0.4)" id="style-polygon-fill-color"> Farbe</label>
         <label><input value="cadetblue" id="style-polygon-stroke-color"> Umrandung Farbe</label>
         <label><input value="5" id="style-polygon-stroke-width"> Umrandung Dicke</label>
-        <!--
-        TODO
-          patternStyle (horizontal/vertikal/schrÃ¤g links/schrÃ¤g rechts/Raster gerade/Raster schrÃ¤g/Punkte/Punkte versetzt)
-          patternDensity
-          patternThickness
-          iconSize
-          iconRotation
-          dataUrl (Encodierter Inhalt des PolygonfÃ¼llmusters aus dem Canvas)
-          fileContentType(Content-Type des PolygonfÃ¼llmusters aus dem Canvas)
-          dataUrlExtIcon(Encodierter Inhalt des hochgeladenen externen Icons)
-          fileNameExtIcon(Dateiname des hochgeladenen Icons)
-          fileTypeExtIcon(Dateityp des hochgeladenen Icons)
-          fileContentTypeExtIcon(Content-Type des hochgeladenen externen Icons)
-        -->
+        <label><input value="5" id="style-polygon-stroke-width"> Umrandung Dicke</label>
+        <label><input value="diagonal" id="style-polygon-fill-hatch-pattern"> Muster</label>
+        <label><input value="" id="style-polygon-fill-hatch-size"> Muster (Größe)</label>
+        <label><input value="" id="style-polygon-fill-hatch-lineWidth"> Muster (Linienbreite)</label>
+        <label><input value="" placeholder="[r, g, b, a]" id="style-polygon-fill-hatch-backgroundColor"> Muster (Hintergrundfarbe)</label>
+        <label><input value="" placeholder="[r, g, b, a]" id="style-polygon-fill-hatch-patternColor"> Muster (Musterfarbe)</label>
 
         <h3>Text</h3>
         <label><input value="#FFAA00" id="style-text-text-fill-color"> Farbe</label>
@@ -52,10 +44,8 @@
         <label><input value="50" id="style-text-text-offsetX"> Ankerpunkt X</label>
         <label><input value="10" id="style-text-text-offsetY"> Ankerpunkt Y</label>
         <label><input value="0.3" id="style-text-text-rotation"> Rotation</label>
-        <!-- TODO -->
-        <!-- text-placement : 'point' | 'line' -->
-        <!-- repeat : number -->
-        <!-- initialGap, isAligned? -->
+        <label><input value="" placeholder="point | line" id="style-text-text-placement"> Platzierung</label>
+        <label><input value="#000000" id="style-text-stroke-color"> Farbe (Orientierungslinie)</label>
       </fieldset>
       <div id="polarstern">
         <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
@@ -64,6 +54,7 @@
     <h2>🗐 Testinhalte</h2>
     <aside>
       <label><input value="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOS4yIiBoZWlnaHQ9IjI1LjYiIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48cGF0aCBkPSJNMjE1LjcgNDk5LjJDMjY3IDQzNSAzODQgMjc5LjQgMzg0IDE5MkMzODQgODYgMjk4IDAgMTkyIDBTMCA4NiAwIDE5MmMwIDg3LjQgMTE3IDI0MyAxNjguMyAzMDcuMmMxMi4zIDE1LjMgMzUuMSAxNS4zIDQ3LjQgMHpNMTkyIDEyOGE2NCA2NCAwIDEgMSAwIDEyOCA2NCA2NCAwIDEgMSAwLTEyOHoiIC8+PC9zdmc+" /> Base64 Marker für Punkt Icon URL</label>
+      <label><input value="diagonal | diagonal-right | zig-line | zig-line-horizontal | circle | rectangle | triangle | diamond"> Valide Werte für Polygonmuster</label>
     </aside>
     <script type="module" src="./polar-example.js"></script>
   </body>

@@ -8,6 +8,11 @@ main {
   flex-direction: row;
 }
 
+aside {
+  display: flex;
+  flex-direction: column;
+}
+
 fieldset {
   margin: 0 1em;
 }

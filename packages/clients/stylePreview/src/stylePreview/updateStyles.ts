@@ -1,10 +1,19 @@
 import { Circle, Fill, Icon, Stroke, Style, Text } from 'ol/style'
+// TODO maybe refactor
+import { getPolygonFillHatch } from '@polar/core/src/utils/markers/hatches'
 import { features } from './features'
 
+// imitate class to match keyMap ...
+function Hatch(params) {
+  return getPolygonFillHatch(params)?.getContext('2d')?.fillStyle
+}
+
+// maps keys from source to key that's actually to be written
 const keyKey = (key) =>
   ({
     imageCircle: 'image',
     imageIcon: 'image',
+    hatch: 'color',
   }[key] || key)
 
 const keyMap = {
@@ -13,6 +22,7 @@ const keyMap = {
   text: Text,
   imageCircle: Circle,
   imageIcon: Icon,
+  hatch: Hatch,
 }
 
 const buildStyle = (style) =>

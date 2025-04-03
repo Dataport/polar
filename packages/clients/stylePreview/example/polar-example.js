@@ -55,10 +55,12 @@ const writeIn = (path, target, value) => {
   writeIn(rest, target[first], value)
 }
 
-const parseDash = (input) => {
+const parseJson = (input) => {
   try {
     const value = JSON.parse(input)
-    return value.length ? value : ''
+    if (typeof value === 'number') return value
+    if (Array.isArray(value) && value.length) return value
+    return ''
   } catch {
     return ''
   }
@@ -68,10 +70,8 @@ const overrideStyle = (mapInstance, styleInputs) => () => {
   const nextStyle = {}
   styleInputs.forEach((styleInput) => {
     const id = styleInput.id
-    const value = id.endsWith('width')
-      ? parseFloat(styleInput.value)
-      : id.endsWith('lineDash') || id.endsWith('size')
-      ? parseDash(styleInput.value)
+    const value = /(idth|repeat|lineDash|size|Color)$/.test(id)
+      ? parseJson(styleInput.value)
       : styleInput.value
     if (value !== '') {
       const path = id.split('-').slice(1) // throw away 'style-' prefix
