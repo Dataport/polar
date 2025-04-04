@@ -267,4 +267,5 @@ export const mapConfiguration = {
       fill: '#ff0019',
     },
   },
+  mousePosition: {},
 }

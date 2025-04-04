@@ -16,6 +16,7 @@ import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
+import MousePosition from '@polar/plugin-mouse-position'
 
 const defaultOptions = {
   displayComponent: true,
@@ -118,5 +119,10 @@ export const addPlugins = (core) => {
       addressTarget: 'plugin/addressSearch/selectResult',
       zoomTo: 7,
     }),
+    MousePosition(
+      merge({}, defaultOptions, {
+        layoutTag: NineLayoutTag.BOTTOM_LEFT,
+      })
+    ),
   ])
 }

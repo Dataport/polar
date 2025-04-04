@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new type `MousePositionConfiguration` for new plugin `@polar/plugin-mouse-position`.
+
 ## 2.1.0
 
 - Feature: Add `snapTo` to `DrawConfiguration` for specification of layers to snap to.

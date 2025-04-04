@@ -1,0 +1,28 @@
+{
+  "name": "@polar/plugin-mouse-position",
+  "version": "1.0.0-alpha.0",
+  "description": "MousePosition plugin for POLAR that adds the mouse's coordinate position as retrievable information or display information.",
+  "keyword": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "mouse position"
+  ],
+  "license": "EUPL-1.2",
+  "type": "module",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dataport/polar.git",
+    "directory": "packages/plugins/MousePosition"
+  },
+  "files": [
+    "src/**/*",
+    "CHANGELOG.md"
+  ],
+  "devDependencies": {
+    "@polar/lib-custom-types": "^2.1.0"
+  }
+}
