@@ -1,21 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
   <head>
     <meta charset="utf-8" />
-    <title>🗺️ Style Preview</title>
+    <title>🗺️ Gestaltungsvorschau</title>
     <link rel="stylesheet" href="./style.css">
   </head>
   <body>
-    <h2>🛠️ WIP in Progress</h2>
-    <fieldset>
-      <legend>Eingaben</legend>
-      <label><input id="input-fill-color"> Farbe Fläche</label>
-      <label><input id="input-stroke-color"> Farbe Umrandung</label>
-      <label><input id="input-stroke-width"> Dicke Umrandung</label>
-    </fieldset>
-    <div id="polarstern">
-      <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
-    </div>
+    <h2><span aria-hidden="true">(⌐■_■)</span> Gestaltungsvorschau</h2>
+    <main>
+      <fieldset>
+        <legend>Eingaben</legend>
+
+        <h3>Punkt</h3>
+        <label><input value="rgba(255, 255, 255, 0.6)" id="style-point-imageCircle-fill-color"> Farbe</label>
+        <label><input value="10" id="style-point-imageCircle-radius"> Radius</label>
+        <label><input value="#000000" id="style-point-imageCircle-stroke-color"> Umrandung Farbe</label>
+        <label><input value="2.5" id="style-point-imageCircle-stroke-width"> Umrandung Dicke</label>
+        <label><input value="" id="style-point-imageIcon-src"> Icon URL</label>
+        <label><input value="" id="style-point-imageIcon-size"> Icon Größe</label>
+        <label><input value="" id="style-point-imageIcon-rotation"> Icon Rotation</label>
+
+        <h3>Linie</h3>
+        <label><input value="#000000" id="style-lineString-stroke-color"> Farbe</label>
+        <label><input value="5.0" id="style-lineString-stroke-width"> Dicke</label>
+        <label><input value="[3, 10]" id="style-lineString-stroke-lineDash"> Strichelung (leer ≙ ohne)</label>
+
+        <h3>Polygon</h3>
+        <label><input value="rgba(255, 255, 255, 0.4)" id="style-polygon-fill-color"> Farbe</label>
+        <label><input value="cadetblue" id="style-polygon-stroke-color"> Umrandung Farbe</label>
+        <label><input value="5" id="style-polygon-stroke-width"> Umrandung Dicke</label>
+        <label><input value="diagonal" id="style-polygon-fill-hatch-pattern"> Muster</label>
+        <label><input value="" id="style-polygon-fill-hatch-size"> Muster (Größe)</label>
+        <label><input value="" id="style-polygon-fill-hatch-lineWidth"> Muster (Linienbreite)</label>
+        <label><input value="" placeholder="[r, g, b, a]" id="style-polygon-fill-hatch-backgroundColor"> Muster (Hintergrundfarbe)</label>
+        <label><input value="" placeholder="[r, g, b, a]" id="style-polygon-fill-hatch-patternColor"> Muster (Musterfarbe)</label>
+
+        <h3>Text</h3>
+        <label><input value="#FFAA00" id="style-text-text-fill-color"> Farbe</label>
+        <label><input value="bold 30px sans-serif" id="style-text-text-font"> Font</label>
+        <label><input value="#0055FF" id="style-text-text-stroke-color"> Farbe (Schatten)</label>
+        <label><input value="5" id="style-text-text-stroke-width"> Radius (Schatten)</label>
+        <label><input value="50" id="style-text-text-offsetX"> Ankerpunkt X</label>
+        <label><input value="10" id="style-text-text-offsetY"> Ankerpunkt Y</label>
+        <label><input value="0.3" id="style-text-text-rotation"> Rotation</label>
+        <label><input value="" placeholder="point | line" id="style-text-text-placement"> Platzierung</label>
+        <label><input value="#000000" id="style-text-stroke-color"> Farbe (Orientierungslinie)</label>
+      </fieldset>
+      <div id="polarstern">
+        <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
+      </div>
+    </main>
+    <h2>🗐 Testinhalte</h2>
+    <aside>
+      <label><input value="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOS4yIiBoZWlnaHQ9IjI1LjYiIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48cGF0aCBkPSJNMjE1LjcgNDk5LjJDMjY3IDQzNSAzODQgMjc5LjQgMzg0IDE5MkMzODQgODYgMjk4IDAgMTkyIDBTMCA4NiAwIDE5MmMwIDg3LjQgMTE3IDI0MyAxNjguMyAzMDcuMmMxMi4zIDE1LjMgMzUuMSAxNS4zIDQ3LjQgMHpNMTkyIDEyOGE2NCA2NCAwIDEgMSAwIDEyOCA2NCA2NCAwIDEgMSAwLTEyOHoiIC8+PC9zdmc+" /> Base64 Marker für Punkt Icon URL</label>
+      <label><input value="diagonal | diagonal-right | zig-line | zig-line-horizontal | circle | rectangle | triangle | diamond"> Valide Werte für Polygonmuster</label>
+    </aside>
     <script type="module">
       import * as MapClient from "../dist/polar-client.js"
       window.MapClient = MapClient
