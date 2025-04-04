@@ -217,6 +217,16 @@ export const makeStoreModule = () => {
             {}
           )
       },
+      displayOptionsForType: (_, { masksSeparatedByType, openedOptions }) =>
+        Object.entries(masksSeparatedByType).reduce(
+          (acc, [type, masks]) => ({
+            ...acc,
+            [type]:
+              openedOptions !== null &&
+              masks.map(({ id }) => id).includes(openedOptions),
+          }),
+          {}
+        ),
       idsWithOptions(_, { backgrounds, masks }) {
         return [...backgrounds, ...masks]
           .filter((layer) => Boolean(layer.options))

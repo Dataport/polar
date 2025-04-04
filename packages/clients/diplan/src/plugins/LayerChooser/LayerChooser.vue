@@ -38,7 +38,8 @@
           </v-expansion-panel-header>
           <v-divider />
           <v-expansion-panel-content>
-            <template v-if="displaySelection">
+            <LayerChooserOptions v-if="displayOptionsForType[type]" />
+            <template v-else>
               <template v-for="{ name, id } in masks">
                 <LayerWrapper
                   :key="`mask-layer-${type}-${id}`"
@@ -59,7 +60,6 @@
                 <v-divider :key="`mask-divider-${id}`" />
               </template>
             </template>
-            <LayerChooserOptions v-else />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </template>
@@ -86,8 +86,8 @@ export default Vue.extend({
       'backgrounds',
       'disabledBackgrounds',
       'disabledMasks',
+      'displayOptionsForType',
       'masksSeparatedByType',
-      'openedOptions',
       'shownMasks',
     ]),
     activeBackground: {
@@ -105,9 +105,6 @@ export default Vue.extend({
       set(value) {
         this.setActiveMaskIds(value)
       },
-    },
-    displaySelection() {
-      return this.openedOptions === null
     },
   },
   methods: {
