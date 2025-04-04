@@ -91,7 +91,6 @@ export default Vue.extend({
       'disabledMasks',
       'displayOptionsForType',
       'masksSeparatedByType',
-      'openedOptions',
       'shownMasks',
     ]),
     activeBackground: {
