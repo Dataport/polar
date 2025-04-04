@@ -25,8 +25,6 @@ export const getInitialState = (): ToastState => ({
   },
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<ToastState, ToastState> = {
     namespaced: true,

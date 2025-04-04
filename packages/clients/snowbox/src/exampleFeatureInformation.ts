@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, max-lines */
+/* eslint-disable @typescript-eslint/naming-convention */
 
 import { FeaturesByLayerId } from '@polar/plugin-gfi/src/types'
 

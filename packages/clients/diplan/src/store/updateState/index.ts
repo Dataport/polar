@@ -49,8 +49,6 @@ export const cloneFeatureCollection = (
 ): FeatureCollection<GeometryType> =>
   JSON.parse(JSON.stringify(featureCollection))
 
-// complexity deemed acceptable, it's mostly chaining
-// eslint-disable-next-line max-lines-per-function
 export const updateState = async ({
   commit,
   dispatch,

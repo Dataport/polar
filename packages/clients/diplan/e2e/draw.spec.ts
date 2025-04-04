@@ -1,5 +1,3 @@
-// it is what it is – a test file, specifically
-/* eslint-disable max-lines-per-function */
 import { test } from '@playwright/test'
 import { draw } from '../../../../e2e/utils/draw'
 import { openDiPlan } from './utils/openDiplan'
