@@ -15,6 +15,7 @@ import { resourcesDe as resourcesDeIconMenu } from '@polar/plugin-icon-menu/src/
 import { resourcesDe as resourcesDeLayerChooser } from '@polar/plugin-layer-chooser/src/locales'
 import { resourcesDe as resourcesDeLegend } from '@polar/plugin-legend/src/locales'
 import { resourcesDe as resourcesDeLoadingIndicator } from '@polar/plugin-loading-indicator/src/locales'
+import { resourcesDe as resourcesDeMousePosition } from '@polar/plugin-mouse-position/src/locales'
 import { resourcesDe as resourcesDePins } from '@polar/plugin-pins/src/locales'
 import { resourcesDe as resourcesDeScale } from '@polar/plugin-scale/src/locales'
 import { resourcesDe as resourcesDeToast } from '@polar/plugin-toast/src/locales'
@@ -67,6 +68,7 @@ const resources = {
       meldemichel: {
         ...meldemichelAfmButtonDe
       },
+      mousePosition: resourcesDeMousePosition.plugins.mousePosition,
       pins: resourcesDePins.plugins.pins,
       scale: resourcesDeScale.plugins.scale,
       textLocator: {

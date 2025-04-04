@@ -1,10 +1,11 @@
 <template>
-  <div id="mouse-position-tool">
-    <span class="mouse-position-element">
+  <div class="mouse-position">
+    <span class="mouse-position-coordinates">
       {{ mousePosition }}
     </span>
-    <v-tooltip top text="Select a coordinate reference system">
+    <v-tooltip top :text="$t('plugins.mousePosition.selectCrsTooltip')">
       <template #activator="{ hover, attrs }">
+        <!-- TODO remove form, it's not a form -->
         <form
           id="projection-form"
           class="mouse-position-element"
@@ -30,49 +31,46 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
-import { mapConfiguration } from '../../../../clients/snowbox/src/mapConfiguration'
 
 export default Vue.extend({
   name: 'MousePosition',
-  data() {
-    return { projection: mapConfiguration.epsg }
-  },
   computed: {
-    ...mapGetters(['hasSmallDisplay']),
+    ...mapGetters(['hasSmallDisplay', 'configuration']),
     ...mapGetters('plugin/mousePosition', [
       'projections',
       'mousePosition',
       'selectedProjection',
     ]),
-    tooltipMessage() {
-      return 'Select a coordinate reference system'
+    // TODO retrieve value from store
+    projection() {
+      return this.configuration.epsg
     },
   },
-  mounted() {
-    this.setupModule()
-  },
   methods: {
-    ...mapActions('plugin/mousePosition', ['setupModule', 'selectProjection']),
+    ...mapActions('plugin/mousePosition', ['selectProjection']),
   },
 })
 </script>
 
-<style>
-#mouse-position-tool {
+<style lang="scss" scoped>
+.mouse-position {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   margin: 4px;
+
+  .mouse-position-coordinates {
+    background-color: #fff;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
 }
+
 #projection-form {
   border-left: 2px solid #000;
 }
-.mouse-position-element {
-  background-color: #fff;
-  padding-left: 1em;
-  padding-right: 1em;
-}
+
 .tooltip-wrapper:hover .tooltip__text {
   visibility: visible;
   opacity: 1;
