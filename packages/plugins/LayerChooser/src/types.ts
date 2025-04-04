@@ -3,6 +3,8 @@ import { VueConstructor } from 'vue'
 
 export type IdManipulator = (ids: (string | number)[]) => (number | string)[]
 
+export type DisabledLayers = Record<string, boolean>
+
 export interface LayerChooserState {
   /** null indicates no options are open; string is layer ID of opened opts */
   openedOptions: null | string
@@ -19,8 +21,8 @@ export interface LayerChooserState {
 
 export interface LayerChooserGetters extends LayerChooserState {
   component: VueConstructor | null
-  disabledBackgrounds: boolean[]
-  disabledMasks: boolean[]
+  disabledBackgrounds: DisabledLayers
+  disabledMasks: DisabledLayers
   idsWithOptions: string[]
   masksSeparatedByType: Record<string, LayerConfiguration[]>
   openedOptionsService: LayerConfiguration
