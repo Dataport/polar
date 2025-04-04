@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Measurements were off. The calculation has been fixed.
+
 ## 3.1.0
 
 - Feature: Add a `"translate"` mode that allows moving drawn features as they are.
