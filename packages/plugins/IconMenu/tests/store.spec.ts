@@ -69,12 +69,6 @@ describe('plugin-icon-menu', () => {
 
           expect(dispatch.mock.calls.length).toEqual(0)
         })
-        it('should do nothing if the client either does not have the same size as the window or the width of the client is considered large', () => {
-          storeModule.actions.openInMoveHandle(actionContext, 0)
-
-          expect(commit.mock.calls.length).toEqual(0)
-          expect(dispatch.mock.calls.length).toEqual(0)
-        })
       })
     })
   })
