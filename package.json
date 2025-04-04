@@ -51,6 +51,7 @@
     "docs:diplan": "npm run diplan:build && cp -r ./packages/clients/diplan/dist ./packages/clients/diplan/example ./packages/clients/diplan/docs",
     "docs:generic": "tsx ./scripts/makeDocs generic",
     "docs:meldemichel": "tsx ./scripts/makeDocs meldemichel && npm run meldemichel:build && cp -r ./packages/clients/meldemichel/dist ./packages/clients/meldemichel/example ./packages/clients/meldemichel/docs",
+    "docs:stylePreview": "tsx ./scripts/makeDocs stylePreview && npm run stylePreview:build && cp -r ./packages/clients/stylePreview/dist ./packages/clients/stylePreview/example ./packages/clients/stylePreview/docs",
     "docs:snowbox": "tsx ./scripts/makeDocs snowbox",
     "docs:textLocator": "tsx ./scripts/makeDocs textLocator && npm run textLocator:build && cp -r ./packages/clients/textLocator/dist ./packages/clients/textLocator/docs",
     "lint": "npx eslint . --cache --ext .js,.ts,.vue",

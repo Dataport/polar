@@ -1,5 +1,9 @@
 # POLAR StylePreview client
 
+For all additional details, check the [full documentation](https://dataport.github.io/polar/docs/stylePreview/client-stylePreview.html).
+
+For our example client, [see here](./example/prod-example.html).
+
 ## Setup
 
 ### Start
