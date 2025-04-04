@@ -11,7 +11,7 @@ import Style, { type Options, StyleFunction } from 'ol/style/Style'
 import Text, { type Options as TextOptions } from 'ol/style/Text'
 
 const roundMeasurement = (measurement: number, divisor: number) =>
-  Math.round(measurement / divisor + Number.EPSILON * 100) / 100
+  Math.round((measurement * 100) / divisor + Number.EPSILON) / 100
 
 function calculatePartialDistances(
   styles: Style[],
