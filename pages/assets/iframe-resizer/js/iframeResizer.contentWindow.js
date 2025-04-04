@@ -911,7 +911,7 @@
     return maxVal
   }
 
-  function getAllments(dimensions) {
+  function getAllMeasurements(dimensions) {
     return [
       dimensions.bodyOffset(),
       dimensions.bodyScroll(),
