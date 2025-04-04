@@ -25,14 +25,11 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['moveHandle']),
     ...mapGetters('plugin/gfi', [
-      'currentProperties',
-      'exportPropertyLayerKeys',
       'gfiContentComponent',
       'gfiConfiguration',
       'renderMoveHandle',
       'renderType',
       'showList',
-      'visibleWindowFeatureIndex',
       'windowFeatures',
       'windowLayerKeysActive',
     ]),
