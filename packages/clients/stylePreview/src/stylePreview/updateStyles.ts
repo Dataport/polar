@@ -1,5 +1,5 @@
 import { Circle, Fill, Icon, Stroke, Style, Text } from 'ol/style'
-// TODO maybe refactor
+// TODO maybe refactor; there's also an implementation in the masterportalapi that could be used
 import { getPolygonFillHatch } from '@polar/core/src/utils/markers/hatches'
 import { features } from './features'
 

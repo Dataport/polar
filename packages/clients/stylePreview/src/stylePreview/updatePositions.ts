@@ -1,6 +1,7 @@
 import { Map } from 'ol'
 import { features as feats } from './features'
 
+// arbitrary positioning to keep everything somewhat centered
 export const updatePositions = (map: Map, features: typeof feats) => () => {
   const center = map.getView().getCenter() || [0, 0]
   features.point
