@@ -6,7 +6,7 @@ if (typeof MapClient !== 'undefined') {
   client = MapClient
 }
 
-// Code nur für Dev-Umgebung
+// dev mode code only
 if (!client) {
   console.warn(
     `@polar/client-afm: MapClient not found in environment. This is fine in dev mode, but an error in prod mode.`
@@ -35,7 +35,8 @@ const mapConfiguration = {
     layerAttributions: [
       {
         id: '453',
-        title: 'Copyrightinformationen zum Stadtplan Hamburg',
+        title:
+          'Stadtplan Hamburg: Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung',
       },
     ],
   },
@@ -70,6 +71,7 @@ const overrideStyle = (mapInstance, styleInputs) => () => {
   const nextStyle = {}
   styleInputs.forEach((styleInput) => {
     const id = styleInput.id
+    // some require parsing to match expected input in OL later down the stream
     const value = /(idth|repeat|lineDash|size|Color)$/.test(id)
       ? parseJson(styleInput.value)
       : styleInput.value
