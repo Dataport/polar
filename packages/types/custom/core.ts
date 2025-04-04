@@ -505,7 +505,7 @@ export interface ScaleConfiguration extends PluginOptions {
   zoomMethod?: string
 }
 
-/** MousePosition Module Configuration */
+// TODO in conflict with README.md of plugin
 export interface MousePositionConfiguration extends PluginOptions {
   projections?: number[]
 }

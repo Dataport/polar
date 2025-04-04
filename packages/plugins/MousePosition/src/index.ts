@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { MousePositionConfiguration } from '@polar/lib-custom-types'
-
 import { MousePosition } from './components'
 import { makeStoreModule } from './store'
 

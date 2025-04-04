@@ -2,11 +2,13 @@
 
 ## Scope
 
-The MousePosition plugin is responsible for displaying the current mouse position as coodinates in the buttom-left corner of the map. An optional select menue is configurable to give users the option of selecting their preferred coordinate reference system.
+The MousePosition plugin makes the current mouse position as coordinates available. An optional select menu is configurable to allow users to switch to their preferred coordinate reference system.
 
 ## Configuration
 
 ### mousePosition
+
+TODO this is in conflict to the type file
 
 | fieldName | type | description |
 | - | - | - |
