@@ -7,6 +7,7 @@
     :max-height="maxHeight"
     :ripple="false"
     tabindex="-1"
+    @keydown.escape.prevent.stop="escapeSelection"
   >
     <v-list
       v-for="(
@@ -23,7 +24,7 @@
       >
         {{ $t(category) }}
         {{
-          $t('common:plugins.addressSearch.resultCount', {
+          $t('plugins.addressSearch.resultCount', {
             count: features.length,
           })
         }}
@@ -85,7 +86,7 @@
         </v-icon>
         {{
           $t(
-            `common:plugins.addressSearch.resultList.${
+            `plugins.addressSearch.resultList.${
               areResultsExpanded(category)
                 ? 'reduce'
                 : `extend${hasMaximum(selectedGroup[index]) ? 'Max' : ''}`
@@ -144,7 +145,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapActions('plugin/addressSearch', ['selectResult']),
+    ...mapActions('plugin/addressSearch', ['selectResult', 'escapeSelection']),
     toggle(category: string): void {
       this.openCategories =
         this.openCategories.indexOf(category) === -1

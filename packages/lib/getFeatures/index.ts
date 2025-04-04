@@ -1,3 +1,7 @@
 export * from './types'
-export { getGazetteerFeatures } from './gazetteer'
 export { getWfsFeatures } from './wfs'
+export { parseWfsResponse } from './wfs/parse'
+export {
+  getVectorFeaturesByBboxRequest,
+  getVectorFeaturesByFeatureRequest,
+} from './vector'

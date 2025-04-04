@@ -1,14 +1,17 @@
 import Vue from 'vue'
 import { IconMenuConfiguration } from '@polar/lib-custom-types'
 import { IconMenu } from './components'
-import language from './language'
+import locales from './locales'
 import { makeStoreModule } from './store'
+
+import IconMenuButton from './components/IconMenuButton.vue'
+export { IconMenuButton }
 
 export default (options: IconMenuConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'iconMenu',
     plugin: IconMenu,
-    language,
+    locales,
     storeModule: makeStoreModule(),
     options,
   })

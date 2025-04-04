@@ -1,14 +1,20 @@
 {
   "name": "@polar/client-afm",
-  "version": "1.0.1",
-  "description": "Client Afm",
+  "version": "2.0.1",
+  "description": "POLAR Client AfM. This client has been put together for use in citizen participation platforms and for making applications (referring to legal documents, not executables).",
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "client"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
-  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
-  "main": "dist/afm.js",
+  "author": "Dataport AöR <polar@dataport.de>",
+  "main": "dist/polar-client.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/clients/afm"
   },
   "files": [
@@ -20,30 +26,36 @@
     "API.md"
   ],
   "scripts": {
-    "postversion": "npm run build",
-    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm"
+    "prepublishOnly": "npm run build",
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm",
+    "dev": "vite --host"
   },
   "devDependencies": {
-    "@polar/core": "^1.0.0",
-    "@polar/plugin-address-search": "^1.0.0",
-    "@polar/plugin-attributions": "^1.0.0",
-    "@polar/plugin-draw": "^1.0.0",
-    "@polar/plugin-export": "^1.0.0",
-    "@polar/plugin-gfi": "^1.0.0",
-    "@polar/plugin-icon-menu": "^1.0.0",
-    "@polar/plugin-layer-chooser": "^1.0.0",
-    "@polar/plugin-legend": "^1.0.0",
-    "@polar/plugin-loading-indicator": "^1.0.0",
-    "@polar/plugin-pins": "^1.0.0",
-    "@polar/plugin-scale": "^1.0.0",
-    "@polar/plugin-toast": "^1.0.0",
-    "@polar/plugin-zoom": "^1.0.0"
+    "@polar/core": "^3.0.0",
+    "@polar/plugin-address-search": "^3.0.0",
+    "@polar/plugin-attributions": "^1.4.0",
+    "@polar/plugin-draw": "^3.0.0",
+    "@polar/plugin-export": "^1.2.2",
+    "@polar/plugin-gfi": "^3.0.1",
+    "@polar/plugin-icon-menu": "^1.3.1",
+    "@polar/plugin-layer-chooser": "^2.0.0",
+    "@polar/plugin-legend": "^1.1.2",
+    "@polar/plugin-loading-indicator": "^1.2.1",
+    "@polar/plugin-pins": "^3.0.0",
+    "@polar/plugin-scale": "^3.0.0",
+    "@polar/plugin-toast": "^1.1.2",
+    "@polar/plugin-zoom": "^1.4.0"
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "^7.x",
     "vue": "^2.x",
     "vuex": "^3.x",
     "lodash.merge": "^4.6.2"
+  },
+  "nx": {
+    "includedScripts": [
+      "build",
+      "dev"
+    ]
   }
 }

@@ -1,14 +1,24 @@
 {
   "name": "@polar/plugin-address-search",
-  "version": "1.2.1",
-  "description": "Plugin AddressSearch",
+  "version": "3.1.0",
+  "description": "AddressSearch plugin for POLAR that adds a user interface to search for various kinds of textual information to map it to a geometry; e.g. parcel numbers or addresses, but any kind of toponym mapping is possible.",
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "AddressSearch",
+    "parcel",
+    "address",
+    "search"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
-  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "author": "Dataport AöR <polar@dataport.de>",
   "main": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/plugins/AddressSearch"
   },
   "files": [
@@ -16,17 +26,17 @@
     "CHANGELOG.md"
   ],
   "peerDependencies": {
-    "@masterportal/masterportalapi": "2.8.0",
+    "@masterportal/masterportalapi": "2.45.0",
     "@repositoryname/vuex-generators": "^1.1.2",
-    "ol": "7.1.0",
+    "ol": "^10.3.1",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },
   "dependencies": {
-    "@polar/lib-get-features": "^1.0.0",
+    "@polar/lib-get-features": "^3.0.0",
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.0.0"
+    "@polar/lib-custom-types": "^2.0.0"
   }
 }

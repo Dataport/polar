@@ -50,9 +50,7 @@ export const passesBoundaryCheck = async (
   const boundaryLayer = map
     .getLayers()
     .getArray()
-    .find(
-      (layer) => layer.get('id') === boundaryLayerId
-    ) as VectorLayer<VectorSource>
+    .find((layer) => layer.get('id') === boundaryLayerId) as VectorLayer
 
   if (!boundaryLayer) {
     console.error(

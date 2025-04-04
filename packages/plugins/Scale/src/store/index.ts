@@ -16,8 +16,6 @@ const getInitialState = (): ScaleState => ({
   scaleWithUnit: '',
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<ScaleState, ScaleGetters> = {
     namespaced: true,
@@ -47,7 +45,7 @@ export const makeStoreModule = () => {
       scaleToOne({ getters, commit }): string | void {
         let currentScaleValue = getters.scaleValue
         if (typeof currentScaleValue !== 'number' || currentScaleValue <= 0) {
-          return `1 : ${translate('common:plugins.scale.toOneNegative')}`
+          return `1 : ${translate('plugins.scale.toOneNegative')}`
         }
         currentScaleValue = beautifyScale(currentScaleValue)
 

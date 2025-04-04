@@ -1,7 +1,11 @@
 import { SelectResultFunction } from '@polar/lib-custom-types'
-import SearchResultSymbols from '@polar/plugin-address-search/src/utils/searchResultSymbols'
+import {
+  SearchResultSymbols,
+  AddressSearchGetters,
+  AddressSearchState,
+} from '@polar/plugin-address-search'
 import levenshtein from 'js-levenshtein'
-import { dishAutocompleteUrl } from '../services'
+import { dishAutocompleteUrl } from '../servicesConstants'
 import { DishAutocompleteFunction } from '../types'
 
 let lookup: string[] = []
@@ -30,13 +34,18 @@ const autocompleteSorter = (inputValue: string) => (a: string, b: string) => {
   const diffB = levenshtein(b, inputValue)
   return diffA - diffB
 }
-
-fetch(dishAutocompleteUrl)
-  .then((response) => response.json())
-  .then((json) => (lookup = json))
-  .catch((e) =>
-    console.error('@polar/client-dish: Autocomplete initialization failed.', e)
-  )
+// prevent error in intern mode because url is not replaced there
+export function initializeAutocomplete() {
+  fetch(dishAutocompleteUrl)
+    .then((response) => response.json())
+    .then((json) => (lookup = json))
+    .catch((e) =>
+      console.error(
+        '@polar/client-dish: Autocomplete initialization failed.',
+        e
+      )
+    )
+}
 
 /**
  * To be usable within the AddressSearch plugin, autocomplete
@@ -80,10 +89,10 @@ export const autocomplete: DishAutocompleteFunction = (_, __, inputValue) => {
 /**
  * selecting autocomplete offer re-triggers search
  */
-export const selectResult: SelectResultFunction = (
-  { commit, dispatch },
-  { feature }
-) => {
+export const selectResult: SelectResultFunction<
+  AddressSearchState,
+  AddressSearchGetters
+> = ({ commit, dispatch }, { feature }) => {
   commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
   commit('setChosenAddress', null)
   dispatch('input', feature.title)

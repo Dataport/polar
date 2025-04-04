@@ -1,16 +1,22 @@
 import VectorSource from 'ol/source/Vector'
 import { Interaction, Select } from 'ol/interaction'
-import { PolarActionTree } from '@polar/lib-custom-types'
+import { DrawMode, MeasureMode, PolarActionTree } from '@polar/lib-custom-types'
 import GeoJSON from 'ol/format/GeoJSON'
 import { Circle, Point } from 'ol/geom'
 import createDrawLayer from '../utils/createDrawLayer'
-import { DrawGetters, DrawState } from '../types'
+import { DrawGetters, DrawState, Mode } from '../types'
 import { createTextStyle } from '../utils/createTextStyle'
+import createDrawStyle from '../utils/createDrawStyle'
 import createInteractions from './createInteractions'
 import createModifyInteractions from './createInteractions/createModifyInteractions'
+import createTextInteractions from './createInteractions/createTextInteractions'
+import createTranslateInteractions from './createInteractions/createTranslateInteractions'
+import createLassoInteractions from './createInteractions/createLassoInteractions'
+import modifyDrawStyle from './createInteractions/modifyDrawStyle'
+import modifyTextStyle from './createInteractions/modifyTextStyle'
+import createDrawInteractions from './createInteractions/createDrawInteractions'
+import createDeleteInteractions from './createInteractions/createDeleteInteractions'
 
-// OK for module action set creation
-// eslint-disable-next-line max-lines-per-function
 export const makeActions = () => {
   let interactions: Interaction[] = []
   let drawLayer
@@ -18,23 +24,60 @@ export const makeActions = () => {
 
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
+    createDrawInteractions,
+    createLassoInteractions,
     createModifyInteractions,
-    setupModule({ commit, dispatch, rootGetters: { configuration, map } }) {
+    createTranslateInteractions,
+    createDeleteInteractions,
+    createTextInteractions,
+    modifyDrawStyle,
+    modifyTextStyle,
+    setupModule({
+      commit,
+      dispatch,
+      getters: { configuration, measureOptions, selectableDrawModes },
+      rootGetters: { map },
+    }) {
+      dispatch('initializeConfigStyle')
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
         commit('updateFeatures')
       )
-      drawLayer = createDrawLayer(drawSource, configuration?.draw?.style)
+      drawLayer = createDrawLayer(drawSource, configuration?.style)
 
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
+
+      const drawModes = Object.keys(selectableDrawModes)
+      if (!drawModes.includes('Point')) {
+        commit('setDrawMode', drawModes[0])
+      }
+      if (measureOptions.initialOption) {
+        commit('setMeasureMode', measureOptions.initialOption)
+      }
     },
-    setMode({ commit, dispatch }, mode) {
-      commit('setMode', mode)
-      dispatch('updateInteractions')
-    },
-    setDrawMode({ commit, dispatch }, drawMode) {
+    async setDrawMode({ commit, dispatch }, drawMode: DrawMode) {
       commit('setDrawMode', drawMode)
+      await dispatch('updateInteractions')
+    },
+    /** Please consult the README.md before usage. */
+    async setInteractions(
+      { dispatch, rootGetters },
+      newInteractions: Interaction[]
+    ) {
+      dispatch('setMode', 'none')
+      await dispatch('updateInteractions')
+      interactions = newInteractions
+      interactions.forEach((interaction) =>
+        rootGetters.map.addInteraction(interaction)
+      )
+    },
+    setMeasureMode({ commit, dispatch }, measureMode: MeasureMode) {
+      commit('setMeasureMode', measureMode)
       dispatch('updateInteractions')
+    },
+    async setMode({ commit, dispatch }, mode: Mode) {
+      commit('setMode', mode)
+      await dispatch('updateInteractions')
     },
     setTextInput(
       {
@@ -54,6 +97,30 @@ export const makeActions = () => {
         )
         selectedFeature.set('text', textInput)
         commit('updateFeatures')
+      }
+    },
+    setSelectedStrokeColor(
+      {
+        commit,
+        dispatch,
+        getters: { configuration, measureMode, mode, selectedFeature },
+        rootGetters: { map },
+      },
+      selectedStrokeColor
+    ) {
+      const featureStyle = selectedFeature?.getStyle()
+      if (mode === 'draw') {
+        commit('setSelectedStrokeColor', selectedStrokeColor)
+        dispatch('updateInteractions')
+      } else if (selectedFeature && featureStyle) {
+        const style = createDrawStyle(
+          selectedFeature.getGeometry()?.getType() || mode,
+          selectedStrokeColor,
+          measureMode,
+          map.getView().getProjection(),
+          configuration?.style
+        )
+        selectedFeature.setStyle(style)
       }
     },
     setSelectedSize(
@@ -83,7 +150,11 @@ export const makeActions = () => {
       getters: { selectedFeature },
       rootGetters: { map },
     }) {
-      interactions.forEach((interaction) => map.removeInteraction(interaction))
+      interactions.forEach(
+        (interaction) =>
+          // @ts-expect-error | "un on removal" riding piggyback as _onRemove
+          map.removeInteraction(interaction) && interaction._onRemove?.()
+      )
       if (interactions.some((interaction) => interaction instanceof Select)) {
         if (selectedFeature && selectedFeature.get('text') === '') {
           // text nodes without text are considered deleted
@@ -134,6 +205,11 @@ export const makeActions = () => {
       }
       drawSource.addFeatures(features)
       commit('updateFeatures')
+    },
+    initializeConfigStyle: ({ commit, getters: { configuration } }) => {
+      if (configuration?.style?.stroke?.color) {
+        commit('setSelectedStrokeColor', configuration.style.stroke.color)
+      }
     },
   }
 

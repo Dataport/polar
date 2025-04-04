@@ -1,6 +1,9 @@
 import { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
 import PolarPluginAddressSearch from '@polar/plugin-address-search'
 import PolarPluginAttributions from '@polar/plugin-attributions'
+import PolarPluginDraw from '@polar/plugin-draw'
+import PolarPluginExport from '@polar/plugin-export'
+import PolarPluginFullscreen from '@polar/plugin-fullscreen'
 import PolarPluginGeoLocation from '@polar/plugin-geo-location'
 import PolarPluginGfi from '@polar/plugin-gfi'
 import PolarPluginIconMenu from '@polar/plugin-icon-menu'
@@ -11,107 +14,164 @@ import PolarPluginPins from '@polar/plugin-pins'
 import PolarPluginScale from '@polar/plugin-scale'
 import PolarPluginToast from '@polar/plugin-toast'
 import PolarPluginZoom from '@polar/plugin-zoom'
-import merge from 'lodash.merge'
 
+import {
+  AddressSearchConfiguration,
+  GfiConfiguration,
+  SearchMethodFunction,
+} from '@polar/lib-custom-types'
 import { extendGfi } from './utils/extendGfi'
 import { search } from './utils/search'
-import { autocomplete, selectResult } from './utils/autocomplete'
+import {
+  autocomplete,
+  initializeAutocomplete,
+  selectResult,
+} from './utils/autocomplete'
+import { denkmalSearchResult } from './utils/denkmalSearchIntern'
 import DishModal from './plugins/Modal'
 import DishHeader from './plugins/Header'
-import DishGfiContent from './plugins/Gfi'
+import { MODE } from './enums'
+import { DishGfiIntern, DishGfiExtern } from './plugins/Gfi'
+import DishExportMap from './plugins/DishExportMap'
+import SelectionObject from './plugins/SelectionObject'
+import { searchMethods } from './mapConfigurations/searchConfigParams'
 
-const defaultOptions = {
-  displayComponent: true,
-  layoutTag: NineLayoutTag.TOP_LEFT,
+const gfiConfig = (mode: keyof typeof MODE) => {
+  const gfiConfig: GfiConfiguration = {
+    displayComponent: true,
+    layoutTag: NineLayoutTag.TOP_LEFT,
+    layers: {},
+    coordinateSources: ['plugin/addressSearch/chosenAddress'],
+    gfiContentComponent: mode === MODE.EXTERN ? DishGfiExtern : DishGfiIntern,
+  }
+  if (mode === MODE.EXTERN) {
+    gfiConfig.afterLoadFunction = extendGfi
+  }
+  return gfiConfig
 }
 
-// this is fine for list-like setup functions
-// eslint-disable-next-line max-lines-per-function
-export const addPlugins = (core) => {
-  const iconMenu = PolarPluginIconMenu(
-    merge({}, defaultOptions, {
-      menus: [
-        {
-          plugin: PolarPluginLayerChooser({}),
-          icon: 'fa-layer-group',
-          id: 'layerChooser',
-        },
-      ],
-      layoutTag: NineLayoutTag.TOP_RIGHT,
-    })
-  )
+const addressSearchConfig = (mode: keyof typeof MODE) => {
+  const addressSearchConfig: AddressSearchConfiguration = {
+    // These will be set later on
+    searchMethods: [],
+    displayComponent: true,
+    layoutTag: NineLayoutTag.TOP_LEFT,
+    addLoading: 'plugin/loadingIndicator/addLoadingKey',
+    removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+    customSelectResult:
+      mode === MODE.EXTERN
+        ? { [searchMethods.denkmalsucheAutocomplete.categoryId]: selectResult }
+        : {
+            [searchMethods.denkmalsucheDishIntern.categoryId]:
+              denkmalSearchResult,
+          },
+  }
+  if (mode === MODE.EXTERN) {
+    initializeAutocomplete()
+    addressSearchConfig.customSearchMethods = {
+      dish: search as SearchMethodFunction,
+      autocomplete,
+    }
+  }
+  return addressSearchConfig
+}
+
+export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
+  const internalMenu = [
+    {
+      plugin: PolarPluginLayerChooser({}),
+      icon: 'fa-layer-group',
+      id: 'layerChooser',
+    },
+    {
+      plugin: SelectionObject({ renderType: 'iconMenu' }),
+      id: 'selectionObject',
+    },
+    {
+      plugin: PolarPluginDraw({}),
+      icon: 'fa-pencil',
+      id: 'draw',
+    },
+    {
+      plugin: PolarPluginFullscreen({ renderType: 'iconMenu' }),
+      id: 'fullscreen',
+    },
+  ]
+  const externalMenu = [
+    {
+      plugin: PolarPluginLayerChooser({}),
+      icon: 'fa-layer-group',
+      id: 'layerChooser',
+    },
+  ]
+  const iconMenu = PolarPluginIconMenu({
+    displayComponent: true,
+    menus: mode === MODE.INTERN ? internalMenu : externalMenu,
+    layoutTag: NineLayoutTag.TOP_RIGHT,
+  })
 
   setLayout(NineLayout)
 
   core.addPlugins([
     iconMenu,
-    DishModal(defaultOptions),
+    DishModal({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.TOP_LEFT,
+    }),
     DishHeader({
-      ...defaultOptions,
+      displayComponent: mode === MODE.EXTERN,
       layoutTag: NineLayoutTag.TOP_MIDDLE,
     }),
     PolarPluginAddressSearch(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.TOP_LEFT,
-        addLoading: 'plugin/loadingIndicator/addLoadingKey',
-        removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-        customSearchMethods: { dish: search, autocomplete },
-        customSelectResult: { categoryDenkmalsucheAutocomplete: selectResult },
-      })
+      addressSearchConfig(mode) as AddressSearchConfiguration
     ),
-    PolarPluginPins(
-      merge({}, defaultOptions, {
-        appearOnClick: { show: true, atZoomLevel: 6 },
-        coordinateSource: 'plugin/addressSearch/chosenAddress',
-      })
-    ),
-    PolarPluginLegend(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        maxWidth: 500,
-      })
-    ),
-    PolarPluginAttributions(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-        listenToChanges: [
-          'plugin/zoom/zoomLevel',
-          'plugin/layerChooser/activeBackgroundId',
-          'plugin/layerChooser/activeMaskIds',
-        ],
-      })
-    ),
-    PolarPluginGfi(
-      merge({}, defaultOptions, {
-        coordinateSources: ['plugin/addressSearch/chosenAddress'],
-        gfiContentComponent: DishGfiContent,
-        afterLoadFunction: extendGfi,
-      })
-    ),
-    PolarPluginLoadingIndicator(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
-      })
-    ),
-    PolarPluginScale(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-      })
-    ),
-    PolarPluginToast(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
-      })
-    ),
-    PolarPluginZoom(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.MIDDLE_RIGHT,
-      })
-    ),
-    PolarPluginGeoLocation(
-      merge({}, defaultOptions, {
-        layoutTag: NineLayoutTag.MIDDLE_RIGHT,
-      })
-    ),
+    PolarPluginPins({
+      displayComponent: mode === MODE.EXTERN,
+      appearOnClick: { show: true, atZoomLevel: 6 },
+      coordinateSource: 'plugin/addressSearch/chosenAddress',
+      layoutTag: NineLayoutTag.TOP_LEFT,
+    }),
+    PolarPluginLegend({
+      displayComponent: mode === MODE.EXTERN,
+      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+    }),
+    PolarPluginAttributions({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+      listenToChanges: [
+        'plugin/zoom/zoomLevel',
+        'plugin/layerChooser/activeBackgroundId',
+        'plugin/layerChooser/activeMaskIds',
+      ],
+    }),
+    PolarPluginGfi(gfiConfig(mode)),
+    PolarPluginLoadingIndicator({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
+    }),
+    PolarPluginScale({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+    }),
+    PolarPluginToast({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
+    }),
+    PolarPluginZoom({
+      displayComponent: true,
+      layoutTag: NineLayoutTag.MIDDLE_RIGHT,
+    }),
+    PolarPluginGeoLocation({
+      displayComponent: mode === MODE.EXTERN,
+      layoutTag: NineLayoutTag.MIDDLE_RIGHT,
+    }),
+    DishExportMap({
+      displayComponent: mode === MODE.INTERN,
+      layoutTag: NineLayoutTag.BOTTOM_LEFT,
+    }),
+    PolarPluginExport({
+      displayComponent: mode === MODE.INTERN,
+      layoutTag: NineLayoutTag.BOTTOM_LEFT,
+    }),
   ])
 }

@@ -1,10 +1,15 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.1
 
+- Fix: Use v3.0.1 of `@polar/plugin-gfi` that includes a fix for the usage of `directSelect`, `multiSelect` and their usage in conjunction with `@polar/plugin-pins`.
+
+## 2.0.0
+
+- Breaking: Update `@polar`-dependencies to the latest versions. This includes an update of `ol` from `^7.1.0` to `^10.3.1`.
 - Feature: This client now supports the `@polar/core`'s field `stylePath`. The usage is documented in the API.md file.
 - Feature: Update icon of `layerChooser` in `iconMenu` to `fa-layer-group` to clear-up the content hidden behind the menu button.
-- Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated in a future release.
+- Chore: Change value of `pins.movable` configuration to `'drag'` as using a boolean has been deprecated.
 
 ## 1.0.1
 

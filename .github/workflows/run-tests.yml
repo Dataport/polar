@@ -1,17 +1,64 @@
-name: Run linter and tests
+name: Run linter, tests and type check
 
 on: push
 
 jobs:
-  lint-test:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.16.0
+          registry-url: https://registry.npmjs.org/
+      - run: |
+          npm ci
+          npm run lint:ci
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.13.0
+          node-version: 20.16.0
           registry-url: https://registry.npmjs.org/
       - run: |
           npm ci
-          npm run lint:ci
           npm run test
+  teste2e:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20.16.0
+    - name: Install dependencies
+      run: npm ci
+    - name: Build snowbox (started by playwright by itself)
+      run: npm run snowbox:build
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests (common)
+      run: npm run test:e2e
+    - name: Build DiPlan (started by playwright by itself)
+      run: npm run diplan:build
+    - name: Run Playwright tests (DiPlan)
+      run: npm run test:e2e:diplan
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.16.0
+          registry-url: https://registry.npmjs.org/
+      - run: |
+          npm ci
+          npm run tsc:ci

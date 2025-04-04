@@ -3,14 +3,14 @@
     <v-card class="plugin-gfi-list">
       <v-card-title>
         <v-icon>fa-list</v-icon>
-        {{ $t('common:plugins.gfi.list.header') }}
+        {{ $t('plugins.gfi.list.header') }}
       </v-card-title>
       <v-card-subtitle v-if="maxPage > 1">
         {{
-          `${$t('common:plugins.gfi.list.entry')} ${page * pageLength + 1} ${$t(
-            'common:plugins.gfi.list.to'
+          `${$t('plugins.gfi.list.entry')} ${page * pageLength + 1} ${$t(
+            'plugins.gfi.list.to'
           )} ${Math.min((page + 1) * pageLength, listFeatures.length)} ${$t(
-            'common:plugins.gfi.list.of'
+            'plugins.gfi.list.of'
           )} ${listFeatures.length}`
         }}
         <v-pagination
@@ -18,27 +18,25 @@
           color="primary"
           :length="maxPage"
           :current-page-aria-label="
-            $t('common:plugins.gfi.list.pagination.currentPage', {
+            $t('plugins.gfi.list.pagination.currentPage', {
               page: _page,
               maxPage,
             })
           "
           :page-aria-label="
-            $t('common:plugins.gfi.list.pagination.page', {
+            $t('plugins.gfi.list.pagination.page', {
               page: _page,
               maxPage,
             })
           "
-          :next-aria-label="$t('common:plugins.gfi.list.pagination.next')"
-          :previous-aria-label="
-            $t('common:plugins.gfi.list.pagination.previous')
-          "
-          :wrapper-aria-label="$t('common:plugins.gfi.list.pagination.wrapper')"
+          :next-aria-label="$t('plugins.gfi.list.pagination.next')"
+          :previous-aria-label="$t('plugins.gfi.list.pagination.previous')"
+          :wrapper-aria-label="$t('plugins.gfi.list.pagination.wrapper')"
         ></v-pagination>
       </v-card-subtitle>
       <v-list>
         <v-list-item v-if="!visibleListFeatures.length">
-          {{ $t('common:plugins.gfi.list.emptyView') }}
+          {{ $t('plugins.gfi.list.emptyView') }}
         </v-list-item>
         <v-list-item
           v-for="feature of visibleListFeatures"
@@ -192,12 +190,12 @@ export default Vue.extend({
 }
 
 .v-list-item {
+  // needed for FF
+  outline-offset: -2px;
+
   &::before {
     background: transparent;
   }
-
-  // needed for FF
-  outline-offset: -2px;
 
   &:hover {
     outline: dashed 2px #3fa535;

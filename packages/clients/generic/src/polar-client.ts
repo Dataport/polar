@@ -56,8 +56,6 @@ console.info(`@polar/client-generic: running in v${packageInfo.version}.`)
 
 setLayout(NineLayout)
 
-// this is fine for list-like setup functions
-// eslint-disable-next-line max-lines-per-function
 const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
   const iconMenu =
     enabledPlugins.includes('icon-menu') &&
@@ -85,7 +83,7 @@ const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
           plugin: Gfi({
             renderType: 'iconMenu',
             coordinateSources: [],
-            layers: [],
+            layers: {},
           }),
           icon: 'fa-location-pin',
           id: 'gfi',
@@ -121,6 +119,7 @@ const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
       enabledPlugins.includes('address-search') &&
         AddressSearch({
           layoutTag: NineLayoutTag.TOP_LEFT,
+          searchMethods: [],
         }),
       enabledPlugins.includes('pins') && Pins({}),
       enabledPlugins.includes('legend') &&
@@ -137,7 +136,10 @@ const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
         LoadingIndicator({
           layoutTag: NineLayoutTag.MIDDLE_MIDDLE,
         }),
-      enabledPlugins.includes('reverse-geocoder') && ReverseGeocoder({}),
+      enabledPlugins.includes('reverse-geocoder') &&
+        ReverseGeocoder({
+          url: '',
+        }),
       enabledPlugins.includes('scale') &&
         Scale({
           layoutTag: NineLayoutTag.BOTTOM_RIGHT,
@@ -152,38 +154,40 @@ const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
   )
 }
 
+export const createMap = ({
+  containerId,
+  services,
+  mapConfiguration,
+  enabledPlugins = [],
+  modifyLayerConfiguration = (x) => x,
+}: {
+  containerId: string
+  services: object[]
+  mapConfiguration: MapConfig
+  enabledPlugins: Array<PluginName>
+  modifyLayerConfiguration: (layerConf: object[]) => object[]
+}) =>
+  new Promise((resolve) => {
+    const coreInstance = { ...core }
+
+    addPlugins(coreInstance, enabledPlugins)
+
+    coreInstance.rawLayerList.initializeLayerList(
+      services,
+      async (layerConf) => {
+        const client = await coreInstance.createMap({
+          containerId,
+          mapConfiguration: {
+            ...mapConfiguration,
+            layerConf: modifyLayerConfiguration(layerConf),
+          },
+        })
+
+        resolve(client)
+      }
+    )
+  })
+
 export default {
-  createMap: ({
-    containerId,
-    services,
-    mapConfiguration,
-    enabledPlugins = [],
-    modifyLayerConfiguration = (x) => x,
-  }: {
-    containerId: string
-    services: object[]
-    mapConfiguration: MapConfig
-    enabledPlugins: Array<PluginName>
-    modifyLayerConfiguration: (layerConf: object[]) => object[]
-  }) =>
-    new Promise((resolve) => {
-      const coreInstance = { ...core }
-
-      addPlugins(coreInstance, enabledPlugins)
-
-      coreInstance.rawLayerList.initializeLayerList(
-        services,
-        async (layerConf) => {
-          const client = await coreInstance.createMap({
-            containerId,
-            mapConfiguration: {
-              ...mapConfiguration,
-              layerConf: modifyLayerConfiguration(layerConf),
-            },
-          })
-
-          resolve(client)
-        }
-      )
-    }),
+  createMap,
 }

@@ -1,0 +1,25 @@
+[
+  {
+    "styleId": "probenahmestellen",
+    "rules": [
+      {
+        "style": {
+          "circleRadius": 5,
+          "circleStrokeColor": [64, 64, 64, 1],
+          "circleFillColor": [255, 69, 0, 0.8]
+        }
+      }
+    ]
+  },
+  {
+    "styleId": "ausdehnungBadestellen",
+    "rules": [
+      {
+        "style": {
+          "lineStrokeColor": [255, 69, 0, 1],
+          "lineStrokeWidth": 3
+        }
+      }
+    ]
+  }
+]

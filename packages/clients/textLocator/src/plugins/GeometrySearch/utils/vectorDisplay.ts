@@ -5,7 +5,7 @@ import { Vector } from 'ol/source'
 import { createEmpty, extend } from 'ol/extent'
 import { geoJson, idPrefixes } from '../../../utils/coastalGazetteer/common'
 import { FeatureType, TreeViewItem } from '../types'
-import { TitleLocationFrequency } from '../../../utils/literatureByToponym'
+import { TitleLocationFrequency } from '../../../types'
 import { heatStyles, typeToStyle } from './vectorStyles'
 
 const vectorSource = new Vector()
@@ -37,26 +37,14 @@ const getZoomFeatures = (features: OlFeature[], item: TreeViewItem | null) =>
 
 const featHeat = (
   olFeatures: OlFeature[],
-  titleLocationFrequency: TitleLocationFrequency
+  locationFrequency: TitleLocationFrequency['string']['location_frequency']
 ) => {
-  // TODO change id from name to something id-worthy
-  const sums: Record<string, number> = olFeatures.reduce(
-    (accumulator, current) => ({
-      ...accumulator,
-      // sum occurrence of toponyms cross-document
-      [current.get('title')]:
-        (accumulator[current.get('title')] || 0) +
-        Object.values(titleLocationFrequency).reduce(
-          (perTitleAccumulator, toponymToAmount) =>
-            perTitleAccumulator + (toponymToAmount[current.get('title')] || 0),
-          0
-        ),
-    }),
-    {} as Record<string, number>
-  )
-  const max = Math.max(...Object.values(sums))
+  const max = Math.max(...Object.values(locationFrequency))
   olFeatures.forEach((feature) =>
-    feature.set('heat', Math.floor((sums[feature.get('title')] / max) * 9))
+    feature.set(
+      'heat',
+      Math.floor((locationFrequency[feature.getId() as string] / max) * 9)
+    )
   )
 }
 
@@ -68,7 +56,8 @@ export const updateVectorLayer = (
 ) => {
   vectorSource.clear()
   const preparedFeatures = features.map((feature) => {
-    const olFeature = geoJson.readFeature(feature)
+    // Since ol@10, readFeature may also return a Feature[]?
+    const olFeature = geoJson.readFeature(feature) as OlFeature
     olFeature.set('featureType', getFeatureType(olFeature))
     return olFeature
   })
@@ -91,7 +80,7 @@ export const updateVectorLayer = (
 
   preparedFeatures.forEach((feature) => feature.set('heat', undefined))
   if (item?.children?.length && item.type === 'text') {
-    featHeat(zoomFeatures, titleLocationFrequency)
+    featHeat(zoomFeatures, titleLocationFrequency[item.id].location_frequency)
   }
 
   vectorSource.addFeatures(preparedFeatures)

@@ -14,9 +14,11 @@ import { getEmptyFeatureCollection } from '../../../utils/coastalGazetteer/respo
 import { makeTreeView } from '../utils/makeTreeView'
 import { updateVectorLayer, vectorLayer } from '../utils/vectorDisplay'
 import { geoJson } from '../../../utils/coastalGazetteer/common'
+import { selectLiterature } from '../../../utils/textLocatorBackend/findLiterature/selectLiterature'
+import { searchToponymByLiterature } from '../../../utils/textLocatorBackend/toponymByLiterature'
 import { setupTooltip } from './actions/setupTooltip'
 import { setupDrawReaction } from './actions/setupDrawReaction'
-import { setupWatchers, updateFrequencies } from './actions/watchers'
+import { updateFrequencies } from './actions/updateFrequencies'
 
 let counter = 0
 const searchLoadingKey = 'geometrySearchLoadingKey'
@@ -26,10 +28,9 @@ const getInitialState = (): GeometrySearchState => ({
   featureCollection: getEmptyFeatureCollection(),
   titleLocationFrequency: {},
   byCategory: 'text',
+  lastSearch: null,
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<GeometrySearchState, GeometrySearchGetters> = {
     namespaced: true,
@@ -41,14 +42,11 @@ export const makeStoreModule = () => {
         dispatch('setupDrawReaction')
         dispatch('setupTooltip')
         map.addLayer(vectorLayer)
-        // register watchers after store is ready (else immediate-like firing on not-really change)
-        setTimeout(() => dispatch('setupWatchers'), 0)
       },
       setupTooltip,
       setupDrawReaction,
-      setupWatchers,
       updateFrequencies,
-      searchGeometry({ rootGetters, commit }, feature: Feature) {
+      searchGeometry({ rootGetters, commit, dispatch }, feature: Feature) {
         const loadingKey = getSearchLoadingKey()
         commit('plugin/loadingIndicator/addLoadingKey', loadingKey, {
           root: true,
@@ -61,12 +59,16 @@ export const makeStoreModule = () => {
             rootGetters.configuration.geometrySearch.url,
             rootGetters.configuration.epsg
           )
-          .then((result) => commit('setFeatureCollection', result))
-          .finally(() =>
+          .then((result) => {
+            commit('setFeatureCollection', result)
+            dispatch('updateFrequencies')
+          })
+          .finally(() => {
             commit('plugin/loadingIndicator/removeLoadingKey', loadingKey, {
               root: true,
             })
-          )
+            commit('setLastSearch', 'geometrySearch')
+          })
       },
       changeActiveData(
         {
@@ -85,16 +87,23 @@ export const makeStoreModule = () => {
       fullSearchOnToponym({ dispatch }, item: TreeViewItem) {
         dispatch('searchGeometry', geoJson.readFeature(item.feature))
       },
-      fullSearchLiterature({ dispatch }) {
-        dispatch(
-          'plugin/toast/addToast',
-          {
-            type: 'info',
-            text: 'common:textLocator.notImplemented',
-            timeout: 5000,
-          },
-          { root: true }
+      async fullSearchLiterature(actionContext, item: TreeViewItem) {
+        const titleLocationFrequency = await searchToponymByLiterature(
+          // @ts-expect-error | added in polar-client.ts locally
+          actionContext.rootGetters.configuration.textLocatorBackendUrl,
+          item.id
         )
+        selectLiterature.call(this, actionContext, {
+          categoryId: 0, // dummy to fit API
+          feature: {
+            type: 'Feature',
+            // fake geom to fit APIs; ignored by custom selectLiterature
+            geometry: { type: 'Point', coordinates: [0, 0] },
+            properties: titleLocationFrequency[item.id].location_frequency,
+            id: item.id,
+            title: item.name,
+          },
+        })
       },
     },
     mutations: {

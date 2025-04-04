@@ -1,15 +1,20 @@
 import Vue from 'vue'
-import { PluginOptions } from '@polar/lib-custom-types'
+import { LayerChooserConfiguration } from '@polar/lib-custom-types'
 import { LayerChooser } from './components'
-import language from './language'
+import locales from './locales'
 import { makeStoreModule } from './store'
 
-// NOTE: Currently no options are specified here, variable is kept for integrity until options are needed
-export default (options: Partial<PluginOptions>) => (instance: Vue) =>
+import { type DisabledLayers } from './types'
+import LayerChooserLayerWrapper from './components/LayerWrapper.vue'
+import LayerChooserOptions from './components/Options.vue'
+
+export { type DisabledLayers, LayerChooserLayerWrapper, LayerChooserOptions }
+
+export default (options: LayerChooserConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
     name: 'layerChooser',
     plugin: LayerChooser,
-    language,
+    locales,
     storeModule: makeStoreModule(),
     options,
   })

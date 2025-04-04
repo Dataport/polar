@@ -2,13 +2,18 @@
   <tbody>
     <tr v-for="[key, value] of Object.entries(filteredProperties)" :key="key">
       <td>{{ key }}</td>
-      <td v-if="value.match(/\.(jpeg|jpg|gif|png)$/) !== null">
+      <td
+        v-if="
+          typeof value === 'string' &&
+          value.match(/\.(jpeg|jpg|gif|png)$/) !== null
+        "
+      >
         <a :href="value" target="_blank">
           <img
             :src="value"
-            :alt="$t('common:plugins.gfi.property.imageAlt')"
-            :title="$t('common:plugins.gfi.property.linkTitle')"
-            :aria-label="$t('common:plugins.gfi.property.linkTitle')"
+            :alt="$t('plugins.gfi.property.imageAlt')"
+            :title="$t('plugins.gfi.property.linkTitle')"
+            :aria-label="$t('plugins.gfi.property.linkTitle')"
             :height="photoHeight"
             width="auto"
           />
@@ -18,8 +23,8 @@
         <a
           :href="value"
           target="_blank"
-          :title="$t('common:plugins.gfi.property.linkTitle')"
-          :aria-label="$t('common:plugins.gfi.property.linkTitle')"
+          :title="$t('plugins.gfi.property.linkTitle')"
+          :aria-label="$t('plugins.gfi.property.linkTitle')"
         >
           {{ 'Link' }}
         </a>

@@ -1,7 +1,7 @@
 <template>
   <div v-if="renderUi" id="polar-plugin-gfi">
     <v-card v-if="!windowLayerKeysActive">
-      <v-card-text>{{ $t('common:plugins.gfi.noActiveLayer') }}</v-card-text>
+      <v-card-text>{{ $t('plugins.gfi.noActiveLayer') }}</v-card-text>
     </v-card>
     <component
       :is="contentComponent"

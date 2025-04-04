@@ -11,8 +11,6 @@ const getInitialState = (): ZoomState => ({
   minimumZoomLevel: 0,
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<ZoomState, ZoomGetters> = {
     namespaced: true,
@@ -66,22 +64,31 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      configuration: (_, __, ___, rootGetters) =>
+        rootGetters.configuration.zoom || {},
+      component: (_, getters) => getters.configuration.component || null,
+      icons(_, getters) {
+        const icons = getters.configuration.icons
+        return {
+          zoomIn: icons?.zoomIn ?? 'fa-plus',
+          zoomOut: icons?.zoomOut ?? 'fa-minus',
+        }
+      },
       maximumZoomLevelActive: (_, { zoomLevel, maximumZoomLevel }): boolean =>
         zoomLevel >= maximumZoomLevel,
       minimumZoomLevelActive: (_, { zoomLevel, minimumZoomLevel }): boolean =>
         zoomLevel <= minimumZoomLevel,
-      renderType: (_, __, ___, rootGetters) => {
-        return rootGetters.configuration?.zoom?.renderType
-          ? rootGetters.configuration.zoom.renderType
-          : 'independent'
-      },
-      showMobile: (_, __, ___, rootGetters) =>
-        typeof rootGetters.configuration?.zoom?.showMobile === 'boolean'
-          ? rootGetters.configuration.zoom.showMobile
+      renderType: (_, getters) =>
+        getters.configuration.renderType
+          ? getters.configuration.renderType
+          : 'independent',
+      showMobile: (_, getters) =>
+        typeof getters.configuration.showMobile === 'boolean'
+          ? getters.configuration.showMobile
           : false,
-      showZoomSlider: (_, __, ___, rootGetters) =>
-        typeof rootGetters.configuration?.zoom?.showZoomSlider === 'boolean'
-          ? rootGetters.configuration.zoom.showZoomSlider
+      showZoomSlider: (_, getters) =>
+        typeof getters.configuration.showZoomSlider === 'boolean'
+          ? getters.configuration.showZoomSlider
           : false,
     },
   }

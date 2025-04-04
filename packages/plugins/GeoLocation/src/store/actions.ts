@@ -1,5 +1,4 @@
 import { PolarActionTree } from '@polar/lib-custom-types'
-import { passesBoundaryCheck } from '@polar/lib-passes-boundary-check'
 import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
 import { Vector } from 'ol/source'
@@ -11,8 +10,12 @@ import Geolocation from 'ol/Geolocation.js'
 import { transform as transformCoordinates } from 'ol/proj'
 import Overlay from 'ol/Overlay'
 import { getTooltip } from '@polar/lib-tooltip'
+import { passesBoundaryCheck } from '@polar/lib-passes-boundary-check'
 import { GeoLocationState, GeoLocationGetters } from '../types'
 import geoLocationMarker from '../assets/geoLocationMarker'
+import positionChanged from '../utils/positionChanged'
+
+let boundaryCheckChanged = true
 
 const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   setupModule({ getters, commit, dispatch }): void {
@@ -118,11 +121,12 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
   async positioning({
     rootGetters: { map, configuration },
     getters: {
-      boundaryLayerId,
       boundaryOnError,
+      boundaryLayerId,
       geolocation,
       configuredEpsg,
       position,
+      boundaryCheck,
     },
     commit,
     dispatch,
@@ -132,38 +136,36 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
       Proj.get('EPSG:4326') as Proj.Projection,
       configuredEpsg
     )
-
-    const boundaryCheckPassed =
-      typeof boundaryLayerId === 'string'
-        ? await passesBoundaryCheck(map, boundaryLayerId, transformedCoords)
-        : containsCoordinate(
-            // NOTE: The fallback is the default value set by @masterportal/masterportalApi
-            configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
-            transformedCoords
-          )
-    const boundaryErrorOccurred = typeof boundaryCheckPassed === 'symbol'
-
-    if (
-      boundaryCheckPassed === false ||
-      (boundaryErrorOccurred && boundaryOnError !== 'permissive')
-    ) {
-      dispatch('printPositioningFailed', boundaryErrorOccurred)
-      // if check initially breaks or user leaves boundary, turn off tracking
+    const coordinateInExtent = containsCoordinate(
+      // NOTE: The fallback is the default value set by @masterportal/masterportalApi
+      configuration?.extent || [510000.0, 5850000.0, 625000.4, 6000000.0],
+      transformedCoords
+    )
+    const boundaryCheckPassed = await passesBoundaryCheck(
+      map,
+      boundaryLayerId,
+      transformedCoords
+    )
+    boundaryCheckChanged = boundaryCheck !== boundaryCheckPassed
+    commit('setBoundaryCheck', boundaryCheckPassed)
+    const showBoundaryLayerError =
+      typeof boundaryCheckPassed === 'symbol' && boundaryOnError === 'strict'
+    if (!coordinateInExtent || showBoundaryLayerError) {
+      dispatch('printPositioningFailed', showBoundaryLayerError)
       dispatch('untrack')
       return
     }
-
-    if (
-      position[0] !== transformedCoords[0] ||
-      position[1] !== transformedCoords[1]
-    ) {
+    if (positionChanged(position, transformedCoords)) {
       commit('setPosition', transformedCoords)
       dispatch('addMarker', transformedCoords)
+      if (boundaryCheckChanged && !boundaryCheckPassed) {
+        dispatch('printPositioningFailed', false)
+      }
     }
   },
   printPositioningFailed(
     { dispatch, getters: { toastAction } },
-    boundaryErrorOccurred: string
+    boundaryErrorOccurred: boolean
   ) {
     if (toastAction) {
       const toast = boundaryErrorOccurred
@@ -194,7 +196,12 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
    */
   addMarker(
     {
-      getters: { geoLocationMarkerLayer, markerFeature, keepCentered },
+      getters: {
+        geoLocationMarkerLayer,
+        markerFeature,
+        keepCentered,
+        boundaryCheck,
+      },
       dispatch,
     },
     coordinates
@@ -213,8 +220,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
         }),
       })
     )
-
-    if (keepCentered || !hadPosition) {
+    if ((keepCentered || !hadPosition) && boundaryCheck) {
       dispatch('zoomAndCenter')
     }
   },
@@ -248,7 +254,7 @@ const actions: PolarActionTree<GeoLocationState, GeoLocationGetters> = {
     if (toastAction) {
       const toast = {
         type: 'error',
-        text: 'common:plugins.geoLocation.button.tooltip.locationAccessDenied',
+        text: 'plugins.geoLocation.button.tooltip.locationAccessDenied',
       }
       dispatch(toastAction, toast, { root: true })
     } else {

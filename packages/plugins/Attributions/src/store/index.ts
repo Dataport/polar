@@ -5,6 +5,7 @@ import {
 import { PolarModule } from '@polar/lib-custom-types'
 import * as lib from '../utils/lib'
 import { AttributionsGetters, AttributionsState } from '../types'
+import AttributionButton from '../components/AttributionButton.vue'
 
 const getInitialState = (): AttributionsState => ({
   layer: [],
@@ -12,8 +13,6 @@ const getInitialState = (): AttributionsState => ({
   windowIsOpen: false,
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<AttributionsState, AttributionsGetters> = {
     namespaced: true,
@@ -73,16 +72,25 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
-      listenToChanges: (_, __, ___, rootGetters) =>
-        rootGetters.configuration.attributions?.listenToChanges || [],
+      buttonComponent: (_, getters) =>
+        getters.configuration.buttonComponent || AttributionButton,
+      configuration: (_, __, ___, rootGetters) =>
+        rootGetters.configuration.attributions || {},
+      listenToChanges: (_, getters) =>
+        getters.configuration.listenToChanges || [],
       mapInfo: (_, { layer, attributions, staticAttributions }) =>
         lib.updateMapInfo(layer, attributions, staticAttributions),
-      renderType: (_, __, ___, rootGetters) =>
-        rootGetters.configuration.attributions?.renderType || 'independent',
-      staticAttributions: (_, __, ___, rootGetters) =>
-        rootGetters.configuration.attributions?.staticAttributions || [],
-      windowWidth: (_, __, ___, rootGetters) =>
-        rootGetters.configuration.attributions?.windowWidth || 500,
+      mapInfoIcon: (_, getters) => {
+        const { icons } = getters.configuration
+        return getters.windowIsOpen
+          ? icons?.close ?? 'fa-chevron-right'
+          : icons?.open ?? 'fa-regular fa-copyright'
+      },
+      renderType: (_, getters) =>
+        getters.configuration.renderType || 'independent',
+      staticAttributions: (_, getters) =>
+        getters.configuration.staticAttributions || [],
+      windowWidth: (_, getters) => getters.configuration.windowWidth || 500,
     },
   }
 

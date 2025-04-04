@@ -1,7 +1,10 @@
 <template>
   <v-scroll-x-reverse-transition>
-    <Selection v-if="displaySelection"></Selection>
-    <Options v-else></Options>
+    <component :is="component" v-if="component" />
+    <template v-else>
+      <Selection v-if="displaySelection"></Selection>
+      <Options v-else></Options>
+    </template>
   </v-scroll-x-reverse-transition>
 </template>
 
@@ -19,7 +22,7 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters(['clientWidth', 'hasSmallWidth', 'hasWindowSize']),
-    ...mapGetters('plugin/layerChooser', ['openedOptions']),
+    ...mapGetters('plugin/layerChooser', ['component', 'openedOptions']),
     displaySelection() {
       return this.openedOptions === null
     },

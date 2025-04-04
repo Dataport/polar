@@ -1,23 +1,30 @@
 {
   "name": "@polar/core",
-  "version": "1.4.1",
-  "description": "MapClient Core",
+  "version": "3.2.0",
+  "description": "POLAR core package. Provides POLAR environment with store setup, localization, UI framework, and other basics.",
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "core",
+    "base"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
-  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "author": "Dataport AöR <polar@dataport.de>",
   "main": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dataport/polar.git",
+    "url": "git+https://github.com/Dataport/polar.git",
     "directory": "packages/core"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",
-    "@masterportal/masterportalapi": "2.8.0",
-    "@polar/components": "^2.0.0",
+    "@masterportal/masterportalapi": "2.45.0",
+    "@polar/components": "^2.2.0",
     "@polar/lib-idx": "^1.0.0",
-    "@polar/lib-get-cluster": "^1.0.0",
-    "@polar/lib-invisible-style": "^1.0.0",
+    "@polar/lib-get-cluster": "^3.0.0",
+    "@polar/lib-invisible-style": "^3.0.0",
     "@repositoryname/noop": "^1.0.6",
     "@repositoryname/vuex-generators": "^1.1.2",
     "events": "^3.3.0",
@@ -27,16 +34,15 @@
     "i18next-vue": "^1.1.0",
     "lodash.merge": "^4.6.2",
     "lodash.kebabcase": "^4.1.1",
-    "olcs": "2.13.1",
     "vue": "^2.7.16",
     "vuetify": "^2.7.2",
     "vuex": "^3.6.2"
   },
   "peerDependencies": {
-    "ol": "^7.1.0"
+    "ol": "^10.3.1"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^1.4.0"
+    "@polar/lib-custom-types": "^2.0.0"
   },
   "files": [
     "src/**/*",

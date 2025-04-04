@@ -2,7 +2,6 @@ import core, { NineLayoutTag } from '@polar/core'
 import merge from 'lodash.merge'
 import { Vector } from 'ol/layer'
 import { Map } from 'ol'
-import Source from 'ol/source/Vector'
 import { MapInstance } from '@polar/core/src/types'
 import packageInfo from '../package.json'
 import { MODE } from './enums'
@@ -27,7 +26,7 @@ const hideHamburgBorder = (map: Map) => {
     map
       .getLayers()
       .getArray()
-      .find((layer) => layer.get('id') === hamburgBorder) as Vector<Source>
+      .find((layer) => layer.get('id') === hamburgBorder) as Vector
   ).setStyle(null)
 }
 
@@ -49,7 +48,7 @@ const memory: {
   client: null,
 }
 
-const rerender = (containerId, configOverride) => {
+const rerender = (containerId, configOverride, stadtwaldActive) => {
   document
     .getElementById(containerId)
     ?.replaceWith(memory.wrapper as HTMLElement)
@@ -62,6 +61,11 @@ const rerender = (containerId, configOverride) => {
     })
     client.$store.dispatch('plugin/pins/setupInitial')
   }
+  if (typeof stadtwaldActive === 'boolean' && memory.client) {
+    memory.client.$store.dispatch('meldemichel/setMapState', {
+      stadtwaldActive,
+    })
+  }
   return memory.client
 }
 
@@ -70,29 +74,26 @@ export default {
     containerId,
     mode,
     afmUrl,
+    stadtwaldActive,
     reportServiceId,
     configOverride,
   }: MeldemichelCreateMapParams) =>
     new Promise((resolve) => {
       if (memory.wrapper) {
-        return resolve(rerender(containerId, configOverride))
+        return resolve(rerender(containerId, configOverride, stadtwaldActive))
       }
-
       if (!Object.keys(MODE).includes(mode)) {
         console.error(
           `@polar/client-meldemichel: Critical error. Unknown mode "${mode}" configured. Please use 'COMPLETE', 'REPORT', or 'SINGLE'.`
         )
       }
-
       const meldemichelCore = { ...core }
       addPlugins(meldemichelCore, mode)
-
       // NOTE initializeLayerList is async in this scenario
       meldemichelCore.rawLayerList.initializeLayerList(
         serviceRegister,
         async (layerConf) => {
           enableClustering(layerConf, reportServiceId)
-
           const client = await meldemichelCore.createMap({
             containerId,
             mapConfiguration: merge(
@@ -103,15 +104,17 @@ export default {
               configOverride || {}
             ),
           })
-
           client.$store.registerModule('meldemichel', meldemichelModule)
           registerAfmButton(client, mode)
           hideHamburgBorder(client.$store.getters.map)
           setBackgroundImage(containerId)
-
+          if (typeof stadtwaldActive === 'boolean') {
+            client.$store.dispatch('meldemichel/setMapState', {
+              stadtwaldActive,
+            })
+          }
           memory.wrapper = document.getElementById(`${containerId}-wrapper`)
           memory.client = client
-
           resolve(client)
         }
       )

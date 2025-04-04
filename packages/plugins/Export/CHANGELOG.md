@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.2
+
+- Chore: Update `@polar/lib-custom-types` to `v2.0.0`.
+
+## 1.2.1
 
 - Fix: PDF export with download:false now works correctly.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.

@@ -11,32 +11,35 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.TAGS }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ssh-key: ${{ secrets.MAIN_BOT_KEY_PRIVATE }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.13.0
+          node-version: 20.16.0
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: |
-          RETURN_TAGS=$(node ./scripts/publishPackages)
+          RETURN_TAGS=$(node ./scripts/versionPackages)
           echo "TAGS=$RETURN_TAGS" >> $GITHUB_ENV
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: Dataport Geo Bot
-          author_email: dataportpolarsupport@dataport.de
+          author_email: polar@dataport.de
       - run: |
           for TAG in ${{ env.TAGS }}
           do
             git config user.name "Dataport Geo Bot"
-            git config user.email "dataportpolarsupport@dataport.de"
+            git config user.email "polar@dataport.de"
             git tag $TAG
             git push origin $TAG
             echo "Released and tagged $TAG"
           done
+      - run: node ./scripts/publishPackages ${{ env.TAGS }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: node ./scripts/createRelease ${{ env.TAGS }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

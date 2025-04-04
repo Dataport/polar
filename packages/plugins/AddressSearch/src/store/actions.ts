@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce'
-import { FeatureCollection } from 'geojson'
+import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
-import SearchResultSymbols from '../utils/searchResultSymbols'
+import { SearchResultSymbols } from '../'
 import { getMethodContainer } from '../utils/searchMethods/getSearchMethod'
 import {
   AddressSearchGetters,
@@ -9,8 +9,42 @@ import {
   AddressSearchAutoselect,
 } from '../types'
 
-// OK for module action set creation
-// eslint-disable-next-line max-lines-per-function
+const getResultsFromPromises = (
+  promises: PromiseSettledResult<
+    FeatureCollection<Geometry, GeoJsonProperties>
+  >[],
+  abortController: AbortController
+) => {
+  const results = promises.reduce((accumulator, promise, index) => {
+    if (promise.status === 'fulfilled') {
+      return [
+        ...accumulator,
+        {
+          value: promise.value,
+          index,
+        },
+      ]
+    }
+    return accumulator
+  }, [] as object[])
+
+  // only print errors if search was not aborted
+  if (!abortController.signal.aborted) {
+    ;(
+      promises.filter(
+        ({ status }) => status === 'rejected'
+      ) as PromiseRejectedResult[]
+    ).forEach(({ reason }) =>
+      console.error(
+        '@polar/plugin-address-search: An error occurred while sending a request: ',
+        reason
+      )
+    )
+  }
+
+  return results
+}
+
 export const makeActions = () => {
   let abortController
   let debouncedLoad
@@ -85,13 +119,12 @@ export const makeActions = () => {
       commit,
       dispatch,
     }): Promise<void> | void {
-      const { minLength } = getters.addressSearchConfiguration
       const activeSearchMethods = getters.selectedGroup
       // Value is null when the input is cleared; extra undefined check for safety
       if (
         typeof inputValue === 'undefined' ||
         inputValue === null ||
-        inputValue.length < minLength
+        inputValue.length < getters.minLength
       ) {
         commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
         dispatch('indicateLoading', false)
@@ -114,39 +147,12 @@ export const makeActions = () => {
           )
         )
       return Promise.allSettled(searchPromises)
-        .then((results) => {
-          const indexedFulfilledResults = results.reduce(
-            (accumulator, result, index) => {
-              if (result.status === 'fulfilled') {
-                return [
-                  ...accumulator,
-                  {
-                    value: result.value,
-                    index,
-                  },
-                ]
-              }
-              return accumulator
-            },
-            [] as object[]
+        .then((results) =>
+          commit(
+            'setSearchResults',
+            getResultsFromPromises(results, localAbortControllerReference)
           )
-
-          // only print errors if search was not aborted
-          if (!localAbortControllerReference.signal.aborted) {
-            ;(
-              results.filter(
-                ({ status }) => status === 'rejected'
-              ) as PromiseRejectedResult[]
-            ).forEach(({ reason }) =>
-              console.error(
-                '@polar/plugin-address-search: An error occurred while sending a request: ',
-                reason
-              )
-            )
-          }
-
-          commit('setSearchResults', indexedFulfilledResults)
-        })
+        )
         .catch((error: Error) => {
           console.error(
             '@polar/plugin-address-search: An error occurred while searching.',
@@ -154,9 +160,7 @@ export const makeActions = () => {
           )
           commit('setSearchResults', SearchResultSymbols.ERROR)
         })
-        .finally(() => {
-          dispatch('indicateLoading', false)
-        })
+        .finally(() => dispatch('indicateLoading', false))
     },
     indicateLoading(
       { getters: { addressSearchConfiguration }, commit },
@@ -176,13 +180,16 @@ export const makeActions = () => {
       const customMethod =
         getters.addressSearchConfiguration.customSelectResult?.[categoryId]
       if (customMethod) {
-        customMethod(actionContext, payload)
+        customMethod.call(this, actionContext, payload)
       } else {
         // default behaviour
         commit('setChosenAddress', feature)
         commit('setInputValue', feature.title)
         commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
       }
+    },
+    escapeSelection({ commit }): void {
+      commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
     },
 
     /**

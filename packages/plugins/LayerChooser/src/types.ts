@@ -1,6 +1,9 @@
 import { LayerConfiguration } from '@polar/lib-custom-types'
+import { VueConstructor } from 'vue'
 
 export type IdManipulator = (ids: (string | number)[]) => (number | string)[]
+
+export type DisabledLayers = Record<string, boolean>
 
 export interface LayerChooserState {
   /** null indicates no options are open; string is layer ID of opened opts */
@@ -17,12 +20,15 @@ export interface LayerChooserState {
 }
 
 export interface LayerChooserGetters extends LayerChooserState {
-  disabledBackgrounds: boolean[]
-  disabledMasks: boolean[]
-  shownMasks: boolean[]
+  component: VueConstructor | null
+  disabledBackgrounds: DisabledLayers
+  disabledMasks: DisabledLayers
+  displayOptionsForType: Record<string, boolean>
   idsWithOptions: string[]
+  masksSeparatedByType: Record<string, LayerConfiguration[]>
   openedOptionsService: LayerConfiguration
   openedOptionsServiceLayers: LayerOption[] | null
+  shownMasks: LayerConfiguration[]
 }
 
 export interface LayerOption {

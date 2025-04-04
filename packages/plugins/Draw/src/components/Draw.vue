@@ -2,22 +2,31 @@
   <v-scroll-x-reverse-transition>
     <v-card class="polar-draw-menu" :style="flexStyle">
       <RadioCard
-        id="mode"
-        title="common:plugins.draw.title.mode"
+        id="draw-mode"
+        title="plugins.draw.title.mode"
         :initial-value="mode"
         :values="selectableModes"
         :change-callback="setMode"
       ></RadioCard>
       <RadioCard
         v-if="mode === 'draw'"
-        id="drawMode"
-        title="common:plugins.draw.title.drawMode"
+        id="draw-drawMode"
+        title="plugins.draw.title.drawMode"
         :initial-value="drawMode"
         :values="selectableDrawModes"
         :change-callback="setDrawMode"
       ></RadioCard>
+      <DrawOptions v-if="showDrawOptions" />
+      <RadioCard
+        v-if="showMeasureOptions"
+        id="draw-measure"
+        title="plugins.draw.title.measureMode"
+        :initial-value="measureMode"
+        :values="selectableMeasureModes"
+        :change-callback="setMeasureMode"
+      ></RadioCard>
       <v-subheader v-if="showSizeSlider" class="align-end">{{
-        $t('common:plugins.draw.label.textSize')
+        $t('plugins.draw.label.textSize')
       }}</v-subheader>
       <v-slider
         v-if="showSizeSlider"
@@ -45,25 +54,34 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import RadioCard from './RadioCard.vue'
+import { RadioCard } from '@polar/core'
+import DrawOptions from './DrawOptions.vue'
 
 export default Vue.extend({
   name: 'PolarDraw',
   components: {
     RadioCard,
+    DrawOptions,
   },
+  data: () => ({
+    isColorPickerVisible: false,
+  }),
   computed: {
     ...mapGetters(['hasSmallHeight', 'hasWindowSize']),
     ...mapGetters('plugin/draw', [
-      'mode',
       'drawMode',
-      'selectableDrawModes',
-      'selectableModes',
-      'textInput',
-      'showTextInput',
-      'selectedSize',
       'fontSizes',
+      'measureMode',
+      'mode',
+      'selectableDrawModes',
+      'selectableMeasureModes',
+      'selectableModes',
+      'showDrawOptions',
+      'showMeasureOptions',
+      'selectedSize',
       'showSizeSlider',
+      'showTextInput',
+      'textInput',
     ]),
     flexStyle(): string {
       return `flex-direction: ${
@@ -73,10 +91,11 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions('plugin/draw', [
-      'setMode',
       'setDrawMode',
-      'setTextInput',
+      'setMeasureMode',
+      'setMode',
       'setSelectedSize',
+      'setTextInput',
     ]),
   },
 })

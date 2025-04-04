@@ -11,6 +11,7 @@ import noop from '@repositoryname/noop'
 import i18next from 'i18next'
 import {
   CoreState,
+  MapConfig,
   MoveHandleActionButton,
   MoveHandleProperties,
   PluginContainer,
@@ -28,6 +29,7 @@ import {
   updateSelection,
   useExtendedMasterportalapiMarkers,
 } from './actions/useExtendedMasterportalapiMarkers'
+import { addInterceptor } from './actions/addInterceptor'
 import checkServiceAvailability from './actions/checkServiceAvailability'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
@@ -67,19 +69,27 @@ const getInitialState = (): CoreState => ({
   moveHandleActionButton: 1,
   selected: 1,
   zoomLevel: 0,
+<<<<<<< HEAD
   // TODO: Add default values for epsg, layers, , options and remove @ts-ignore for configuration
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   configuration: {},
+=======
+  // @ts-expect-error | Required values are set in utils/createMap/index.ts
+  configuration: {
+    layers: [],
+    layerConf: [],
+    startCenter: [0, 0],
+  },
+>>>>>>> cef83d1831ec3aad4daf3f1af73db344e08bcae7
   hasSmallDisplay: false,
   errors: [],
   language: '',
   mapHasDimensions: false,
+  oidcToken: '',
 })
 
-// OK for store creation
-// eslint-disable-next-line max-lines-per-function
-export const makeStore = () => {
+export const makeStore = (mapConfiguration: MapConfig) => {
   /*
    * NOTE: The following variables are used to store complex information
    * retrievable from the store without actually adding them to the store.
@@ -98,7 +108,7 @@ export const makeStore = () => {
   let moveHandle: MoveHandleProperties | null = null
   let moveHandleActionButton: MoveHandleActionButton | null = null
   let selected: null | Feature = null
-  let components = []
+  let components: PluginContainer[] = []
   let interactions: Interaction[] = []
 
   const setCenter = ({ map }) =>
@@ -138,6 +148,12 @@ export const makeStore = () => {
       selected: (state) => {
         noop(state.selected)
         return selected
+      },
+      selectedCoordinates: (state) => {
+        noop(state.selected)
+        return selected === null
+          ? null
+          : (selected.getGeometry() as Point).getCoordinates()
       },
       // hack: deliver components (outside vuex) based on counter; see NOTE above
       components: (state) => {
@@ -207,9 +223,10 @@ export const makeStore = () => {
       },
     },
     actions: {
+      addInterceptor,
       checkServiceAvailability,
       addComponent({ state, commit, dispatch }, component: PluginContainer) {
-        const { language, name, options, storeModule } = component
+        const { locales, language, name, options, storeModule } = component
 
         /* configuration merge – "options" are from client-code, "configuration"
          * is from mapConfiguration object and thus overrides */
@@ -231,14 +248,20 @@ export const makeStore = () => {
             dispatch(setupActionName, options)
           }
         }
-        if (language) {
-          // NOTE: If somehow needed later, add the namespace to the LanguageOption as well
-          language.forEach((lng) => {
+        if (locales ?? language) {
+          // NOTE: If somehow needed later, add the namespace to the Locale as well
+          ;(locales ?? language).forEach((lng) => {
             i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
           })
         }
         if (state.configuration[name].displayComponent) {
           commit('setComponents', [...components, component])
+
+          if (!state.configuration[name].layoutTag) {
+            console.warn(
+              `@polar/core: Component "${name}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
+            )
+          }
         }
       },
       centerOnFeature({ rootGetters: { map } }, feature: Feature) {
@@ -264,5 +287,15 @@ export const makeStore = () => {
   i18next.on('languageChanged', (language) => {
     store.commit('setLanguage', language)
   })
+
+  store.commit('setConfiguration', mapConfiguration)
+  if (mapConfiguration.oidcToken) {
+    // copied to a separate spot for usage as it's changable data at run-time
+    store.commit('setOidcToken', mapConfiguration.oidcToken)
+  }
+  if (mapConfiguration.secureServiceUrlRegex) {
+    store.dispatch('addInterceptor', mapConfiguration.secureServiceUrlRegex)
+  }
+
   return store
 }

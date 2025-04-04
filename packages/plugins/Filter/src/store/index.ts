@@ -25,8 +25,6 @@ const getInitialState = (): FilterState => ({
   time: {},
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<FilterState, FilterGetters> = {
     namespaced: true,
@@ -223,7 +221,7 @@ export const makeStoreModule = () => {
               ? []
               : [
                   {
-                    label: 'common:plugins.filter.time.chooseTimeFrame.label',
+                    label: 'plugins.filter.time.chooseTimeFrame.label',
                     component: ChooseTimeFrame,
                     amount: null,
                     unit: timeConfig.freeSelection.unit || 'days',

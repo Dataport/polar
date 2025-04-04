@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import polarCore from '@polar/core'
 import { changeLanguage } from 'i18next'
+// NOTE bad pattern, but probably fine for a test client
+import { enableClustering } from '../../meldemichel/src/utils/enableClustering'
 import { addPlugins } from './addPlugins'
-import { mapConfiguration } from './mapConfiguration'
+import { mapConfiguration, reports } from './mapConfiguration'
+import { exampleFeatureInformation } from './exampleFeatureInformation'
 
 addPlugins(polarCore)
 
@@ -12,10 +15,12 @@ const createMap = (layerConf) => {
       containerId: 'polarstern',
       mapConfiguration: {
         ...mapConfiguration,
-        layerConf,
+        layerConf: (enableClustering(layerConf, reports), layerConf),
       },
     })
-    .then(
+    .then((map) => {
+      // @ts-expect-error | adding it intentionally for e2e testing
+      window.mapInstance = map
       addStoreSubscriptions(
         ['plugin/zoom/zoomLevel', 'vuex-target-zoom'],
         [
@@ -36,9 +41,14 @@ const createMap = (layerConf) => {
             document
               .getElementById('vuex-target-export-result')!
               .setAttribute('src', screenshot),
+        ],
+        [
+          'plugin/draw/featureCollection',
+          'vuex-target-draw-result',
+          (featureCollection) => JSON.stringify(featureCollection, null, 2),
         ]
-      )
-    )
+      )(map)
+    })
 }
 
 const addStoreSubscriptions =
@@ -71,3 +81,11 @@ document
       target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
     })
   })
+
+document.getElementById('vuex-target-clicky')!.addEventListener('click', () =>
+  // @ts-expect-error | added for e2e testing
+  window.mapInstance.$store.dispatch(
+    'plugin/gfi/setFeatureInformation',
+    exampleFeatureInformation
+  )
+)

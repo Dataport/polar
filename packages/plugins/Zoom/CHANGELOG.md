@@ -1,6 +1,15 @@
 # CHANGELOG
 
-## unpublished
+## 1.5.0
+
+- Feature: Add new configuration parameter `component` to be able to interchange the UI component of this plugin.
+- Feature: Expose `ZoomButtonContainer.vue` as a new export in order to use it in custom implementations.
+
+## 1.4.0
+
+- Feature: Add option to configure used icons.
+
+## 1.3.0
 
 - Feature: Add easing between zoom levels.
 - Feature: Add new configuration parameter `showZoomSlider` to configure a zoom slider display.

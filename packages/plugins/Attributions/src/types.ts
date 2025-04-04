@@ -1,23 +1,21 @@
-import { Attribution } from '@polar/lib-custom-types'
-import Vue from 'vue'
-
-export interface AttributionInstance extends Vue {
-  isOpen: boolean
-  toggleMapInfo: () => void
-}
+import { Attribution, AttributionsConfiguration } from '@polar/lib-custom-types'
+import { VueConstructor } from 'vue'
 
 export interface AttributionsState {
-  layer: string[]
   attributions: Attribution[]
+  layer: string[]
   // Parameter is only relevant if the attributions plugin controls the toggling of the window
   windowIsOpen: boolean
 }
 
 export interface AttributionsGetters extends AttributionsState {
+  buttonComponent: VueConstructor
+  configuration: AttributionsConfiguration
+  initiallyOpen: boolean
   /** Array on store paths to listen to for changes */
   listenToChanges: string[]
   mapInfo: string[]
-  initiallyOpen: boolean
+  mapInfoIcon: string
   renderType: 'independent' | 'iconMenu' | 'footer'
   staticAttributions: string[]
   windowWidth: number

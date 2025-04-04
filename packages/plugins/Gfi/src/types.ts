@@ -1,9 +1,8 @@
 import { Map, Feature } from 'ol'
-import { Coordinate } from 'ol/coordinate'
-import { SourceType } from 'ol/layer/WebGLTile'
-import { LayerType } from 'ol/renderer/webgl/TileLayer'
-import LayerRenderer from 'ol/renderer/Layer'
-import { Layer } from 'ol/layer'
+import BaseLayer from 'ol/layer/Base'
+import ImageLayer from 'ol/layer/Image'
+import TileLayer from 'ol/layer/Tile'
+import { ImageWMS, TileWMS } from 'ol/source'
 import VectorSource from 'ol/source/Vector'
 import { Feature as GeoJsonFeature, GeoJsonProperties } from 'geojson'
 import {
@@ -14,18 +13,29 @@ import {
   RenderType,
   FeatureList,
 } from '@polar/lib-custom-types'
+import { VueConstructor } from 'vue'
 
 /** parameter specification for request method */
 export interface RequestGfiParameters {
   map: Map
-  layer: Layer<SourceType, LayerRenderer<LayerType>>
-  coordinate: Coordinate
+  layer: BaseLayer
+  coordinateOrExtent: [number, number] | [number, number, number, number]
   layerConfiguration: GfiLayerConfiguration
   /** rawLayerList entry, see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md */
   layerSpecification: Record<string, unknown>
   /** defaults to bboxDot (get from minimal coordinate bbox) */
-  mode?: 'bboxDot' | 'intersects' // TODO: Might be interesting to rather define this per service
+  mode?: 'bboxDot' | 'intersects'
 }
+
+export interface RequestGfiWmsParameters {
+  map: RequestGfiParameters['map']
+  coordinate: [number, number]
+  layerConfiguration: RequestGfiParameters['layerConfiguration']
+  layerSpecification: RequestGfiParameters['layerSpecification']
+  layer: TileLayer<TileWMS> | ImageLayer<ImageWMS>
+}
+
+export type FeaturesByLayerId = Record<string, GeoJsonFeature[] | symbol>
 
 /** GFI Vuex Module State */
 export interface GfiState {
@@ -50,6 +60,7 @@ export interface GfiGetters extends GfiState {
   geometryLayerKeys: string[]
   /** module configuration */
   gfiConfiguration: GfiConfiguration
+  gfiContentComponent: VueConstructor | null
   isFeatureHovered: (feature: Feature) => boolean
   /** all layer keys to retrieve GFI information for */
   layerKeys: string[]

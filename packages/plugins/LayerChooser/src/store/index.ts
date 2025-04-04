@@ -3,20 +3,17 @@ import {
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import {
-  LayerConfiguration,
   LayerConfigurationOptionLayers,
-  MapConfig,
   PolarModule,
 } from '@polar/lib-custom-types'
-import * as masterportalapi from '@masterportal/masterportalapi/src'
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { ImageWMS, TileWMS } from 'ol/source'
 import Layer from 'ol/layer/Layer'
 import { LayerChooserGetters, LayerChooserState } from '../types'
 import { asIdList, areLayersActive } from '../utils/layerFolding'
-import {
-  findLayerTitleInCapabilitiesByName,
-  findLegendUrlInCapabilitiesByName,
-} from '../utils/findInCapabilities'
+import { getBackgroundsAndMasks } from '../utils/getBackgroundsAndMasks'
+import { getOpenedOptionsServiceLayers } from '../utils/getOpenedOptionsServiceLayers'
+import { isLayerIdIncluded } from '../utils/isLayerIdIncluded'
 
 export const getInitialState = (): LayerChooserState => ({
   openedOptions: null,
@@ -29,38 +26,6 @@ export const getInitialState = (): LayerChooserState => ({
   activeLayerIds: {},
 })
 
-const getBackgroundsAndMasks = (
-  configuration: MapConfig
-): [LayerConfiguration[], LayerConfiguration[]] =>
-  configuration.layers.reduce(
-    ([backgrounds, masks], current) => {
-      const rawLayer = masterportalapi.rawLayerList.getLayerWhere({
-        id: current.id,
-      })
-
-      if (rawLayer === null) {
-        console.error(
-          `@polar/plugin-layer-chooser: Layer ${current.id} not found in service register. This is a configuration issue. The map might behave in unexpected ways.`,
-          current
-        )
-
-        return [backgrounds, masks]
-      }
-      if (current.type === 'background') {
-        return [[...backgrounds, current], masks]
-      } else if (current.type === 'mask') {
-        return [backgrounds, [...masks, current]]
-      }
-      console.error(
-        `@polar/plugin-layer-chooser: Unknown layer type ${current.type}. Layer is ignored by plugin.`
-      )
-      return [backgrounds, masks]
-    },
-    [[] as LayerConfiguration[], [] as LayerConfiguration[]]
-  )
-
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<LayerChooserState, LayerChooserGetters> = {
     namespaced: true,
@@ -91,7 +56,7 @@ export const makeStoreModule = () => {
         )
 
         configuration.layers.forEach((layer) => {
-          const rawLayer = masterportalapi.rawLayerList.getLayerWhere({
+          const rawLayer = rawLayerList.getLayerWhere({
             id: layer.id,
           })
 
@@ -228,29 +193,52 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      component: (_, __, ___, rootGetters) =>
+        rootGetters.configuration.layerChooser?.component
+          ? rootGetters.configuration.layerChooser.component
+          : null,
       disabledBackgrounds(_, { availableBackgrounds, backgrounds }) {
-        return backgrounds
-          .map(({ id }) =>
-            availableBackgrounds.findIndex((available) => available.id === id)
-          )
-          .map((index) => index === -1)
+        return backgrounds.reduce(
+          (acc, { id }) => ({
+            ...acc,
+            [id]: isLayerIdIncluded(availableBackgrounds, id),
+          }),
+          {}
+        )
       },
       disabledMasks(_, { availableMasks, masks }) {
         return masks
           .filter(({ hideInMenu }) => !hideInMenu)
-          .map(({ id }) =>
-            availableMasks.findIndex((available) => available.id === id)
+          .reduce(
+            (acc, { id }) => ({
+              ...acc,
+              [id]: isLayerIdIncluded(availableMasks, id),
+            }),
+            {}
           )
-          .map((index) => index === -1)
       },
-      shownMasks({ masks }) {
-        return masks.filter(({ hideInMenu }) => !hideInMenu)
-      },
+      displayOptionsForType: (_, { masksSeparatedByType, openedOptions }) =>
+        Object.entries(masksSeparatedByType).reduce(
+          (acc, [type, masks]) => ({
+            ...acc,
+            [type]:
+              openedOptions !== null &&
+              masks.map(({ id }) => id).includes(openedOptions),
+          }),
+          {}
+        ),
       idsWithOptions(_, { backgrounds, masks }) {
         return [...backgrounds, ...masks]
           .filter((layer) => Boolean(layer.options))
           .map((layer) => layer.id)
       },
+      masksSeparatedByType: (_, { shownMasks }) =>
+        shownMasks.reduce((acc, mask) => {
+          if (Object.keys(acc).includes(mask.type)) {
+            return { ...acc, [mask.type]: [...acc[mask.type], mask] }
+          }
+          return { ...acc, [mask.type]: [mask] }
+        }, {}),
       openedOptionsService(_, { backgrounds, masks, openedOptions }) {
         return [...backgrounds, ...masks].find(
           (service) => service.id === openedOptions
@@ -264,7 +252,7 @@ export const makeStoreModule = () => {
           return null
         }
 
-        const serviceDefinition = masterportalapi.rawLayerList.getLayerWhere({
+        const serviceDefinition = rawLayerList.getLayerWhere({
           id: openedOptionsService.id,
         })
 
@@ -289,30 +277,14 @@ export const makeStoreModule = () => {
           return null
         }
 
-        const technicalLayerNames =
-          layers.order?.split?.(',') || serviceDefinition.layers.split(',')
-
-        return technicalLayerNames.map((technicalLayerName) => ({
-          layerName: technicalLayerName,
-          displayName:
-            (layers.title === true
-              ? findLayerTitleInCapabilitiesByName(
-                  wmsCapabilitiesJson,
-                  technicalLayerName
-                )
-              : layers.title === false
-              ? technicalLayerName
-              : layers.title?.[technicalLayerName]) || technicalLayerName,
-          layerImage:
-            layers.legend === false
-              ? null
-              : layers.legend === true
-              ? findLegendUrlInCapabilitiesByName(
-                  wmsCapabilitiesJson,
-                  technicalLayerName
-                )
-              : layers.legend?.[technicalLayerName] || null,
-        }))
+        return getOpenedOptionsServiceLayers(
+          layers.order?.split?.(',') || serviceDefinition.layers.split(','),
+          layers,
+          wmsCapabilitiesJson
+        )
+      },
+      shownMasks({ masks }) {
+        return masks.filter(({ hideInMenu }) => !hideInMenu)
       },
     },
   }

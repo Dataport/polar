@@ -70,16 +70,16 @@
       }
 
       #vuex-target-export-result {
-        width: 100%;
-        height: var(--map-height);
+        display: block;
+        width: 50%;
       }
-
     </style>
   </head>
   <body>
     <h1>POLAR Snowbox ❄️📦 Dev</h1>
     <p>Developer playground.</p>
     <h2><a id="docs-link" target="_blank">📚 Documentation</a></h2>
+    <p>
       Please mind you have to generate it locally first with `npm run docs:snowbox`, or use the public version <a target="_blank" href="https://dataport.github.io/polar/">here</a>.
     </p>
     <h2>🗺️ Map</h2>
@@ -95,6 +95,7 @@
       <noscript>Please use a browser with active JavaScript to use the map client.</noscript>
     </div>
     <h2>Example for programmatic information binding</h2>
+    <button id="vuex-target-clicky">Click here to programmatically select some features</button>
     <p>
       This illustrates which kind of data can be retrieved from the map client.
     </p>
@@ -106,8 +107,12 @@
       <pre id="vuex-target-address-search-result"></pre>
     </p>
     <p>
+      Drawing:
+      <pre id="vuex-target-draw-result"></pre>
+    </p>
+    <p>
       Map export:
-      <embed  id="vuex-target-export-result">
+      <img id="vuex-target-export-result">
     </p>
     <script type="module" src="./polar-client.ts"></script>
     <script>

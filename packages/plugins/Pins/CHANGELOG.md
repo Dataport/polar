@@ -2,6 +2,17 @@
 
 ## unpublished
 
+- Feature: `getPointCoordinates` has been exposed as root export.
+
+## 3.0.0
+
+- Breaking: Upgrade peerDependency `ol` from `^9.2.4` to `^10.3.1`.
+- Feature: Recognize the multi-select-`Draw` of `@polar/plugin-gfi`.
+
+## 2.0.0
+
+- Breaking: Upgrade peerDependency `ol` from `^7.1.0` to `^9.2.4`.
+- Breaking: Remove support of configuring `movable` with a `boolean`. Please see the documentation for more information on how to configure this parameter.
 - Fix: Adjust documentation to properly describe optionality of configuration parameters.
 - Chore: Refactor parts of the data handling.
 

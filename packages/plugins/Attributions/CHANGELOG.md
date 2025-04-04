@@ -1,9 +1,21 @@
 # CHANGELOG
 
-## unpublished
+## 1.5.0
+
+- Feature: Use the configured `layoutTag` to identify the direction the attributions content should open in `renderType` `independent`.
+- Feature: Add configuration parameter `buttonComponent` to use a different component as the button to open the attributions if `renderType` is set to `'independent'`.
+- Feature: Expose `AttributionButton.vue` as a new export in order to use it in custom implementations.
+
+## 1.4.0
+
+- Feature: Add option to configure used icons.
+- Chore: Upgrade `ol` from `^9.2.4` to `^10.3.1`.
+
+## 1.3.0
 
 - Feature: Add new option `'footer'` to configuration parameter `renderType` that changes the attributions to be displayed as a small version of the information box that is always visible.
 - Refactor: Replace redundant props with computed properties.
+- Chore: Correctly model `ol` as a devDependency and upgrade from `^7.1.0` to `^9.2.4`.
 
 ## 1.2.1
 

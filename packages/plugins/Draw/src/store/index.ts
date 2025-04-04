@@ -5,6 +5,7 @@ import {
 import { Feature } from 'geojson'
 import { PolarModule } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
+import { Circle, LineString, Point, Polygon } from 'ol/geom'
 import { DrawGetters, DrawMutations, DrawState } from '../types'
 import { makeActions } from './actions'
 
@@ -18,10 +19,10 @@ const getInitialState = (): DrawState => ({
     features: [],
   },
   selectedFeature: 1,
+  selectedStrokeColor: '#000000',
+  measureMode: 'none',
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   // NOTE hack to keep complex objects out of vuex
   let selectedFeature = null
@@ -41,11 +42,11 @@ export const makeStoreModule = () => {
         /* eslint-disable @typescript-eslint/naming-convention */
         // NOTE: Keys are directly used as technical keys for ol/interaction/Draw and are allowed to differ from the naming scheme.
         const allSelectableDrawModes = {
-          Circle: 'common:plugins.draw.drawMode.circle',
-          LineString: 'common:plugins.draw.drawMode.lineString',
-          Point: 'common:plugins.draw.drawMode.point',
-          Polygon: 'common:plugins.draw.drawMode.polygon',
-          Text: 'common:plugins.draw.drawMode.text',
+          Circle: 'plugins.draw.drawMode.circle',
+          LineString: 'plugins.draw.drawMode.lineString',
+          Point: 'plugins.draw.drawMode.point',
+          Polygon: 'plugins.draw.drawMode.polygon',
+          Text: 'plugins.draw.drawMode.text',
         }
         /* eslint-enable @typescript-eslint/naming-convention */
 
@@ -67,22 +68,87 @@ export const makeStoreModule = () => {
       selectableModes(_, { configuration }) {
         const includesWrite =
           configuration.selectableDrawModes?.includes('Text')
-        const selectableModesDraw = {
-          none: 'common:plugins.draw.mode.none',
-          draw: includesWrite
-            ? 'common:plugins.draw.mode.write'
-            : 'common:plugins.draw.mode.draw',
-          edit: 'common:plugins.draw.mode.edit',
-          delete: 'common:plugins.draw.mode.delete',
+        const includesMeasure = configuration.measureOptions !== undefined
+        let drawLabel = 'draw'
+        if (includesWrite && includesMeasure) {
+          drawLabel = 'writeAndMeasure'
+        } else if (includesWrite) {
+          drawLabel = 'write'
+        } else if (includesMeasure) {
+          drawLabel = 'measure'
         }
-        return selectableModesDraw
+        const modes = [
+          ['none', 'plugins.draw.mode.none'],
+          ['draw', `plugins.draw.mode.${drawLabel}`],
+          ['edit', 'plugins.draw.mode.edit'],
+          ['translate', 'plugins.draw.mode.translate'],
+          ['delete', 'plugins.draw.mode.delete'],
+        ]
+        if (configuration.lassos) {
+          modes.splice(4, 0, ['lasso', 'plugins.draw.mode.lasso'])
+        }
+        return Object.fromEntries(modes)
       },
+      activeLassoIds: (_, { configuration }, __, rootGetters) =>
+        (configuration.lassos || []).reduce(
+          (accumulator, { id, minZoom = true }) => {
+            const layerConfig = rootGetters.configuration.layers?.find(
+              (layer) => id === layer.id
+            )
+            if (
+              minZoom &&
+              layerConfig &&
+              typeof layerConfig.minZoom !== 'undefined' &&
+              rootGetters.zoomLevel < layerConfig.minZoom
+            ) {
+              return accumulator
+            }
+            accumulator.push(id)
+            return accumulator
+          },
+          [] as string[]
+        ),
+      toastAction: (_, { configuration }) => configuration.toastAction || '',
+      measureOptions: (_, { configuration }) =>
+        configuration.measureOptions || {},
+      selectableMeasureModes: (_, { drawMode, measureOptions }) =>
+        (drawMode === 'LineString'
+          ? Object.entries(measureOptions).filter(
+              ([option]) => option !== 'hectares'
+            )
+          : Object.entries(measureOptions)
+        )
+          .filter((option) => option[1] === true)
+          .reduce(
+            (acc, [option]) => ({
+              ...acc,
+              [option]:
+                `plugins.draw.measureMode.${option}` +
+                (drawMode === 'Polygon' && option !== 'hectares' ? 'Area' : ''),
+            }),
+            { none: 'plugins.draw.measureMode.none' }
+          ),
+      showMeasureOptions: ({ drawMode, mode }, { measureOptions }) =>
+        measureOptions &&
+        Object.values(measureOptions).some((option) => option === true) &&
+        mode === 'draw' &&
+        ['LineString', 'Polygon'].includes(drawMode),
       showTextInput({ drawMode, mode }, { selectedFeature }) {
         return (
           (drawMode === 'Text' && mode === 'draw') ||
           (mode === 'edit' &&
             selectedFeature &&
             typeof selectedFeature.get('text') === 'string')
+        )
+      },
+      showDrawOptions(
+        { mode },
+        { configuration, showTextInput, selectedFeature }
+      ) {
+        return (
+          configuration.enableOptions &&
+          !showTextInput &&
+          (mode === 'draw' || (mode === 'edit' && selectedFeature))
         )
       },
       configuration(_, __, ___, rootGetters) {
@@ -109,25 +175,33 @@ export const makeStoreModule = () => {
       ...generateSimpleMutations(getInitialState()),
       updateFeatures(state) {
         const features = drawSource.getFeatures().map((feature) => {
-          const geometry = feature.getGeometry()
+          const geometry = feature.getGeometry() as
+            | Circle
+            | LineString
+            | Point
+            | Polygon
           const type = geometry.getType()
           const isCircle = type === 'Circle'
           const jsonFeature: Feature = {
             type: 'Feature',
-            properties: feature.get('text')
-              ? { text: feature.get('text') }
-              : {},
+            properties: Object.fromEntries(
+              Object.entries(feature.getProperties()).filter(
+                ([property]) => property !== 'geometry'
+              )
+            ),
             geometry: {
+              // @ts-expect-error | A LinearRing can currently not be drawn
               type: isCircle ? 'Point' : type,
+              // @ts-expect-error | The coordinates are in the correct format
               coordinates: isCircle
-                ? geometry.getCenter()
+                ? (geometry as Circle).getCenter()
                 : geometry.getCoordinates(),
             },
           }
           // NOTE: If one is checking if properties exists (which it clearly does), TS complains
           // "TS2531: Object is possibly 'null'.". This is due to the structure of the type GeoJsonProperties.
           if (isCircle && jsonFeature.properties) {
-            jsonFeature.properties.radius = geometry.getRadius()
+            jsonFeature.properties.radius = (geometry as Circle).getRadius()
           }
           return jsonFeature
         })

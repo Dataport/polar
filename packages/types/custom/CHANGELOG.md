@@ -1,18 +1,61 @@
 # CHANGELOG
 
-## unpublished
+## 2.1.0
 
+- Feature: Add `snapTo` to `DrawConfiguration` for specification of layers to snap to.
+- Feature: Add `lassos` to `DrawConfiguration`. With this, `addLoading`, `removeLoading`, and `toastAction` have also been introduced to allow the feature to use other plugins via API calls, and `Lasso` itself has been introduced.
+- Feature: Add new optional configuration parameters `secureServiceUrlRegex` and `oidcToken` to `MapConfig`.
+- Feature: Add new interface `LayerChooserConfiguration` and the parameter `layerChooser` to `MapConfig` for the configurability of `@polar/plugin-layer-chooser`.
+- Feature: Add new parameter `component` to `AddressSearchConfiguration` for the configurability of the shown component.
+- Feature: Add new parameter `buttonComponent` to `IconMenuConfiguration` for the configurability of the shown button components.
+- Feature: Add new parameter `component` to `ZoomConfiguration` for the configurability of the shown component.
+- Feature: Add new parameter `buttonComponent` to `AttributionsConfiguration` for the configurability of the button component in `renderType` `independent`.
+
+## 2.0.0
+
+- Breaking: The type `LanguageOption` has been renamed to `Locale`.
+- Feature: The `PluginContainer` now specifies `language` as deprecated. Please use the new key `locales` instead.
+- Feature: Add new optional parameters `icons` to `AttributionConfiguration` and `ZoomConfiguration` to override plugin specific icons.
+- Feature: Add new type `ZoomIcons`.
+- Feature: Add new interface `LegendConfiguration` including new available configuration options to override icons for `@polar/plugin-legend`.
+- Feature: Add new optional property `legend` to `MapConfig`.
+- Feature: Add new parameter `measureOptions` to `DrawConfiguration`.
+- Feature: Add new type `MeasureOptions`.
+- Feature: Add new type `MeasureMode`.
+- Feature: Add optional property `measure` to `DrawStyle`.
+- Feature: Add new property `multiSelect` to `GfiConfiguration`.
+- Fix: Make `selectionStyle`, `hoverStyle`, `defaultStyle` and `unselectableStyle` optional and edit type for `dispatchOnMapSelect` in interface `ExtendedMasterportalapiMarkers`.
+
+## 1.5.0
+
+- Feature: Add `selectedCoordinate` to core store getters; it returns `null` or the `selected` feature's point coordinates.
+- Feature: Add new parameters `unselectableStyle` and `isSelectable` with new type `ExtendedMasterportalapiMarkersIsSelectableFunction` to interface `ExtendedMasterportalapiMarkers`.
+- Feature: Add new parameter `isSelectable` with new type `GfiIsSelectableFunction` to interface `GfiLayerConfiguration`.
+- Feature: Add new parameter `enableOptions` to interface `DrawConfiguration`.
 - Feature: Add new interface `ScaleConfiguration` and new property `scale` to `mapConfiguration`.
 - Feature: Add `afterResultComponent` to `AddressSearchConfiguration` for custom search result suffixes.
 - Feature: Add `mapHasDimensions` to `CoreState` and `CoreGetters`.
 - Feature: Add new getter `deviceIsHorizontal` to `CoreGetters`.
 - Feature: Add `footer` to `RenderType` as an option to display attributions in a footer.
 - Feature: Add new parameter `showZoomSlider` to `ZoomConfiguration`.
+- Feature: Add new types `LoaderStyles` and `LoadingIndicatorConfiguration`.
+- Feature: Add `loadingIndicator` to `MapConfig` to configure loader style.
+- Feature: Add new utility type `PartialBy`.
+- Feature: Add new type `MasterportalApiConfig`.
+- Feature: Change `MapConfig` to allow for partial configuration as some parameters have default values and have it be extended from `MasterportalApiConfig`.
+- Feature: Add new configuration parameter `directSelect` and `boxSelect` to `GfiConfiguration`.
+- Feature: Add new configuration parameter `featureStyles` to `MapConfig`.
+- Feature: Add new configuration parameter `styleId` to `LayerConfiguration`.
+- Fix: Document missing return type to `afterLoadFunction`, which may also return a Promise.
 - Fix: Add `string` as option for `SearchType` since arbitrary strings can be registered.
 - Fix: Remove unused parameters `proxyUrl` and `loadingStrategy` from `LayerConfigurationOptions`.
 - Fix: Properly document optional parameters of interfaces `AddressSearchConfiguration`, `FeatureList`, `FilterConfigurationTime`, `FilterConfigurationTimeOption`, `GeoLocationConfiguration`, `LayerConfigurationOptionLayers` and `PinsConfiguration`
 - Fix: Add missing parameters `mode` and `renderType` to `GfiConfiguration`.
 - Fix: Remove mpapi-search specific parameters from general interface `QueryParameters`.
+- Fix: Extend `SelectResultPayload` with fitting vuex parameters, and `SelectResultFunction` with `title` field as used in `@polar/plugin-address-search`.
+- Fix: Use correct type `VueConstructor` for properties `GfiConfiguration.gfiContentComponent`, `MoveHandleProperties.component` and `MoveHandleActionButton.component`.
+- Fix: Add missing `gfiMode` to `LayerConfiguration`.
+- Fix: Add missing `maxFeatures` to `GfiLayerConfiguration`.
 
 ## 1.4.1
 

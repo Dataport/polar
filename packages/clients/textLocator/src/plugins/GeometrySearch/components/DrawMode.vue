@@ -1,17 +1,25 @@
 <template>
   <div>
     <v-card-title class="text-locator-collapse">
-      {{ $t('common:plugins.geometrySearch.draw.title') }}
+      {{ $t('plugins.geometrySearch.draw.title') }}
     </v-card-title>
     <v-card-text class="text-locator-collapse">
       <v-radio-group v-model="_drawMode" dense hide-details>
         <v-radio
-          :label="$t('common:plugins.draw.drawMode.point')"
+          :label="$t('plugins.draw.drawMode.point')"
           value="Point"
+          @keydown.up.stop
+          @keydown.right.stop
+          @keydown.down.stop
+          @keydown.left.stop
         ></v-radio>
         <v-radio
-          :label="$t('common:plugins.draw.drawMode.polygon')"
+          :label="$t('plugins.draw.drawMode.polygon')"
           value="Polygon"
+          @keydown.up.stop
+          @keydown.right.stop
+          @keydown.down.stop
+          @keydown.left.stop
         ></v-radio>
       </v-radio-group>
     </v-card-text>
@@ -27,7 +35,7 @@
         dismissible
         elevation="4"
         >{{
-          $t(`common:plugins.geometrySearch.draw.description.${_drawMode}`)
+          $t(`plugins.geometrySearch.draw.description.${_drawMode}`)
         }}</v-alert
       >
     </v-card-text>

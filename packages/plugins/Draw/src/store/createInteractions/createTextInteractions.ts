@@ -1,15 +1,26 @@
 import { Draw, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import VectorSource from 'ol/source/Vector'
-import { DrawConfiguration } from '@polar/lib-custom-types'
+import { DrawConfiguration, PolarActionContext } from '@polar/lib-custom-types'
 import { DrawGetters, DrawState } from '../../types'
 import { createTextStyle } from '../../utils/createTextStyle'
+import { getSnaps } from './getSnaps'
+
+interface CreateTextInteractionsPayload {
+  textInput: DrawState['textInput']
+  textSize: DrawGetters['textSize']
+  drawSource: VectorSource
+  drawConfiguration?: DrawConfiguration
+}
 
 export default function (
-  textInput: DrawState['textInput'],
-  textSize: DrawGetters['textSize'],
-  drawSource: VectorSource,
-  drawConfiguration?: DrawConfiguration
+  { rootGetters }: PolarActionContext<DrawState, DrawGetters>,
+  {
+    textInput,
+    textSize,
+    drawSource,
+    drawConfiguration,
+  }: CreateTextInteractionsPayload
 ): Interaction[] {
   if (!textInput) {
     // nothing to draw yet
@@ -25,6 +36,8 @@ export default function (
     type: 'Point',
     style: textStyle,
   })
+  // @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
+  draw._isDrawPlugin = true
   draw.on('drawend', function (e) {
     e.feature.setStyle(textStyle)
     e.feature.set('text', textInput)
@@ -35,5 +48,9 @@ export default function (
       drawSource.removeFeature(event.feature)
     }
   })
-  return [draw, new Snap({ source: drawSource })]
+  return [
+    draw,
+    ...getSnaps(rootGetters.map, rootGetters.configuration?.draw?.snapTo || []),
+    new Snap({ source: drawSource }),
+  ]
 }

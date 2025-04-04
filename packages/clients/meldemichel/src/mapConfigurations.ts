@@ -9,12 +9,13 @@ import {
   PinsConfiguration,
   ReverseGeocoderConfiguration,
 } from '@polar/lib-custom-types'
-import { MpApiParameters } from '@polar/plugin-address-search/src/types'
+import { MpApiParameters } from '@polar/plugin-address-search'
 import { MODE, SKAT, REPORT_STATUS } from './enums'
-import language from './language'
+import locales from './locales'
 import { MeldemichelCreateMapParams } from './types'
 import { showTooltip } from './utils/showTooltip'
 
+export const stadtwald = '18746'
 const stadtplan = '453'
 const luftbilder = '452'
 export const hamburgBorder = '1693' // boundary layer for pins / geolocalization
@@ -25,8 +26,7 @@ const hamburgRed = '#ff0019'
 
 const commonMapConfiguration: Partial<MapConfig> = {
   checkServiceAvailability: false, // service register too long
-  epsg: 'EPSG:25832',
-  locales: language,
+  locales,
   vuetify: {
     theme: {
       themes: {
@@ -39,16 +39,6 @@ const commonMapConfiguration: Partial<MapConfig> = {
       },
     },
   },
-  namedProjections: [
-    [
-      'EPSG:25832',
-      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-    ],
-    [
-      'EPSG:4326',
-      '+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',
-    ],
-  ],
 }
 
 const commonLayers: LayerConfiguration[] = [
@@ -158,8 +148,6 @@ const mapConfigurations: Record<
   keyof typeof MODE,
   (reportServiceId: string, afmUrl: string) => object
 > = {
-  // this is acceptable for configuration
-  // eslint-disable-next-line max-lines-per-function
   [MODE.COMPLETE]: (reportServiceId: string, afmUrl: string) => {
     return {
       ...commonMapConfiguration,
@@ -248,9 +236,24 @@ const mapConfigurations: Record<
   [MODE.SINGLE]: () => ({
     ...commonMapConfiguration,
     addressSearch,
-    layers: commonLayers,
+    layers: [
+      ...commonLayers,
+      {
+        id: stadtwald,
+        visibility: false,
+        type: 'mask',
+        name: 'meldemichel.layers.stadtwald',
+      } as LayerConfiguration,
+    ],
     attributions: {
       ...commonAttributions,
+      layerAttributions: [
+        ...(commonAttributions.layerAttributions as Attribution[]),
+        {
+          id: stadtwald,
+          title: 'meldemichel.attributions.stadtwald',
+        },
+      ],
     },
     pins: commonPins,
     reverseGeocoder,

@@ -1,30 +1,28 @@
 <template>
   <v-tooltip left :disabled="hasSmallDisplay">
     <template #activator="{ on }">
-      <div
-        class="polar-layer-chooser-option-line"
-        v-on="disabledLayers[index] && on"
-      >
+      <div class="polar-layer-chooser-option-line" v-on="disabled && on">
         <slot></slot>
         <v-btn
           class="ml-1"
           :class="!hasOptions && 'polar-layer-chooser-option-invisible'"
-          :aria-label="$t('common:plugins.layerChooser.layerOptions')"
+          :aria-label="$t('plugins.layerChooser.layerOptions')"
           icon
           small
           @click="setOpenedOptions(layerId)"
         >
-          <v-icon small>fa-gear</v-icon>
+          <v-icon small>{{ icon }}</v-icon>
         </v-btn>
       </div>
     </template>
-    {{ $t('common:plugins.layerChooser.tooltipDisabledLayer') }}
+    {{ $t('plugins.layerChooser.tooltipDisabledLayer') }}
   </v-tooltip>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
+import { DisabledLayers } from '../types'
 
 /**
  * Adds tooltip and option action to arbitrary selection element.
@@ -32,17 +30,17 @@ import { mapGetters, mapMutations } from 'vuex'
 export default Vue.extend({
   name: 'LayerChooserLayerWrapper',
   props: {
-    index: {
-      type: Number,
-      required: true,
-    },
     disabledLayers: {
-      type: Array,
+      type: Object as PropType<DisabledLayers>,
       required: true,
     },
     layerId: {
       type: String,
       required: true,
+    },
+    icon: {
+      type: String,
+      default: 'fa-gear',
     },
   },
   computed: {
@@ -50,6 +48,9 @@ export default Vue.extend({
     ...mapGetters('plugin/layerChooser', ['idsWithOptions']),
     hasOptions() {
       return this.idsWithOptions.includes(this.layerId)
+    },
+    disabled() {
+      return this.disabledLayers[this.layerId]
     },
   },
   methods: {

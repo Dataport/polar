@@ -1,7 +1,11 @@
 import { FeatureCollection } from 'geojson'
 import { Map } from 'ol'
 import { PolarStore, SelectResultFunction } from '@polar/lib-custom-types'
-import SearchResultSymbols from '@polar/plugin-address-search/src/utils/searchResultSymbols'
+import {
+  SearchResultSymbols,
+  AddressSearchGetters,
+  AddressSearchState,
+} from '@polar/plugin-address-search'
 import VectorSource from 'ol/source/Vector'
 import {
   GeometrySearchGetters,
@@ -41,7 +45,7 @@ export async function searchCoastalGazetteerByToponym(
       console.error('@polar/client-text-locator', e)
       this.dispatch('plugin/toast/addToast', {
         type: 'error',
-        text: 'textLocator.error.searchCoastalGazetteer',
+        text: 'textLocator.error.search',
       })
     }
     return getEmptyFeatureCollection()
@@ -51,10 +55,10 @@ export async function searchCoastalGazetteerByToponym(
   )
 }
 
-export const selectResult: SelectResultFunction = (
-  { commit, rootGetters },
-  { feature }
-) => {
+export const selectResult: SelectResultFunction<
+  AddressSearchState,
+  AddressSearchGetters
+> = ({ commit, dispatch, rootGetters }, { feature }) => {
   // default behaviour (AddressSearch selects and is not involved in further behaviour)
   commit('plugin/addressSearch/setChosenAddress', feature, { root: true })
   commit('plugin/addressSearch/setInputValue', feature.title, { root: true })
@@ -75,4 +79,6 @@ export const selectResult: SelectResultFunction = (
     },
     { root: true }
   )
+  dispatch('plugin/geometrySearch/updateFrequencies', null, { root: true })
+  commit('plugin/geometrySearch/setLastSearch', 'toponymSearch', { root: true })
 }

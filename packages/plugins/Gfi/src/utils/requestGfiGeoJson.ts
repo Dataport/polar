@@ -1,28 +1,47 @@
 import { Feature as GeoJsonFeature } from 'geojson'
 import { Feature, Map } from 'ol'
 import { GeoJSON } from 'ol/format'
-import { Layer } from 'ol/layer'
+import VectorLayer from 'ol/layer/Vector'
+import { FeatureLike } from 'ol/Feature'
+
+const writer = new GeoJSON()
+
+const getNestedFeatures = (
+  feature: Feature | FeatureLike
+): Feature | Feature[] | FeatureLike =>
+  feature instanceof Feature
+    ? feature.get('features')?.length
+      ? feature.get('features')
+      : feature
+    : feature
 
 /**
  * Returns features from GeoJSON layer as GeoJSON.
  */
 export default ({
   map,
-  coordinate,
+  coordinateOrExtent,
   layer,
 }: {
   map: Map
-  coordinate: [number, number]
-  layer: Layer
+  coordinateOrExtent: [number, number] | [number, number, number, number]
+  layer: VectorLayer
 }): Promise<GeoJsonFeature[]> =>
   Promise.resolve(
-    map
-      .getFeaturesAtPixel(map.getPixelFromCoordinate(coordinate), {
-        layerFilter: (candidate) => candidate === layer,
-      })
+    (coordinateOrExtent.length === 2
+      ? map.getFeaturesAtPixel(map.getPixelFromCoordinate(coordinateOrExtent), {
+          layerFilter: (candidate) => candidate === layer,
+        })
+      : // @ts-expect-error | Layers reaching this place have a source
+        layer
+          .getSource()
+          .getFeaturesInExtent(coordinateOrExtent)
+          .map(getNestedFeatures)
+          .flat(1)
+    )
       .map((feature) =>
         feature instanceof Feature
-          ? JSON.parse(new GeoJSON().writeFeature(feature))
+          ? JSON.parse(writer.writeFeature(feature))
           : false
       )
       // remove FeatureLikes
