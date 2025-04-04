@@ -8,24 +8,22 @@
         <v-divider />
         <v-expansion-panel-content>
           <v-radio-group v-model="activeBackground" dense hide-details>
-            <template v-for="({ name, id }, index) in backgrounds">
+            <template v-for="{ name, id } in backgrounds">
               <LayerWrapper
-                :key="'disabled-background-' + index"
-                :index="index"
+                :key="`background-layer-${id}`"
                 :disabled-layers="disabledBackgrounds"
                 :layer-id="id"
               >
                 <v-radio
-                  :key="index"
                   aria-describedby="polar-label-background-title"
                   dense
                   hide-details
                   :label="$t(name)"
                   :value="id"
-                  :disabled="disabledBackgrounds[index]"
+                  :disabled="disabledBackgrounds[id]"
                 />
               </LayerWrapper>
-              <v-divider :key="index" />
+              <v-divider :key="`background-divider-${id}`" />
             </template>
           </v-radio-group>
         </v-expansion-panel-content>
@@ -40,11 +38,11 @@
           </v-expansion-panel-header>
           <v-divider />
           <v-expansion-panel-content>
-            <template v-if="displaySelection">
-              <template v-for="({ name, id }, index) in masks">
+            <LayerChooserOptions v-if="displayOptionsForType[type]" />
+            <template v-else>
+              <template v-for="{ name, id } in masks">
                 <LayerWrapper
-                  :key="`disabled-mask-${type}-${index}`"
-                  :index="Number(index)"
+                  :key="`mask-layer-${type}-${id}`"
                   :disabled-layers="disabledMasks"
                   :layer-id="id"
                 >
@@ -56,13 +54,12 @@
                     dense
                     hide-details
                     class="cut-off-top-space"
-                    :disabled="disabledMasks[index]"
+                    :disabled="disabledMasks[id]"
                   />
                 </LayerWrapper>
-                <v-divider :key="index" />
+                <v-divider :key="`mask-divider-${id}`" />
               </template>
             </template>
-            <LayerChooserOptions v-else />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </template>
@@ -89,8 +86,8 @@ export default Vue.extend({
       'backgrounds',
       'disabledBackgrounds',
       'disabledMasks',
+      'displayOptionsForType',
       'masksSeparatedByType',
-      'openedOptions',
       'shownMasks',
     ]),
     activeBackground: {
@@ -108,9 +105,6 @@ export default Vue.extend({
       set(value) {
         this.setActiveMaskIds(value)
       },
-    },
-    displaySelection() {
-      return this.openedOptions === null
     },
   },
   methods: {
