@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Add new mode `'duplicate'` to allow users to copy drawn features.
 - Fix: Measurements were off. The calculation has been fixed.
 
 ## 3.1.0

@@ -18,7 +18,14 @@ export interface PolarVectorOptions {
   style?: StyleLike
 }
 
-export type Mode = 'none' | 'draw' | 'edit' | 'translate' | 'delete' | 'lasso'
+export type Mode =
+  | 'none'
+  | 'draw'
+  | 'edit'
+  | 'translate'
+  | 'delete'
+  | 'lasso'
+  | 'duplicate'
 
 export interface CreateInteractionsPayload {
   drawSource: VectorSource

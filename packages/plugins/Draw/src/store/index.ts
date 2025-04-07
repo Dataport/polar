@@ -82,6 +82,7 @@ export const makeStoreModule = () => {
           ['draw', `plugins.draw.mode.${drawLabel}`],
           ['edit', 'plugins.draw.mode.edit'],
           ['translate', 'plugins.draw.mode.translate'],
+          ['duplicate', 'plugins.draw.mode.duplicate'],
           ['delete', 'plugins.draw.mode.delete'],
         ]
         if (configuration.lassos) {

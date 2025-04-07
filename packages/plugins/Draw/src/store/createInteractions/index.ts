@@ -16,6 +16,8 @@ export default function (
     return dispatch('createDeleteInteractions', { drawSource, drawLayer })
   } else if (mode === 'lasso') {
     return dispatch('createLassoInteractions')
+  } else if (mode === 'duplicate') {
+    return dispatch('createDuplicateInteractions', { drawSource, drawLayer })
   }
   return []
 }
