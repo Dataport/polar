@@ -18,14 +18,14 @@
           :id="id"
           :icon="icon"
           :hint="hint"
-          :index="Number(index)"
+          :index="index"
         />
         <IconMenuButton
           v-else
           :id="id"
           :icon="icon"
           :hint="hint"
-          :index="Number(index)"
+          :index="index"
         />
         <!-- Content displayed in MoveHandle of the core if has-window-size and has-small-width are true -->
         <component

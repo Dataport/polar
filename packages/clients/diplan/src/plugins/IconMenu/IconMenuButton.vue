@@ -7,7 +7,7 @@
         height="40"
         :aria-label="$t(hint ? hint : `plugins.iconMenu.hints.${id}`)"
         v-bind="attrs"
-        @click="toggle(Number(index))"
+        @click="toggle(index)"
         v-on="on"
       >
         <v-icon :color="open === index ? 'primaryContrast' : 'primary'">
