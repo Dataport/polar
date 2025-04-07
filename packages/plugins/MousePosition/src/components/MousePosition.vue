@@ -1,31 +1,28 @@
 <template>
-  <div class="mouse-position">
-    <span class="mouse-position-coordinates">
-      {{ mousePosition }}
-    </span>
-    <v-tooltip top :text="$t('plugins.mousePosition.selectCrsTooltip')">
-      <template #activator="{ hover, attrs }">
-        <!-- TODO remove form, it's not a form -->
-        <form
-          id="projection-form"
-          class="mouse-position-element"
+  <v-card class="mouse-position">
+    <!-- TODO: tooltip is obstructive regarding v-select -->
+    <v-tooltip v-if="showSelectionChooser" top>
+      <template #activator="{ on, attrs }">
+        <v-select
+          v-model="projection"
           v-bind="attrs"
-          v-on="hover"
-        >
-          <label for="projection"> Projection </label>
-          <select v-model="projection" @change="selectProjection(projection)">
-            <option
-              v-for="(namedProjection, i) in projections"
-              :key="i"
-              :value="namedProjection"
-            >
-              {{ namedProjection }}
-            </option>
-          </select>
-        </form>
+          :items="
+            projections.map((projection, index) => ({
+              value: index,
+              text: projection,
+            }))
+          "
+          dense
+          hide-details
+          v-on="on"
+        />
       </template>
+      <span>{{ $t('plugins.mousePosition.selectCrsTooltip') }}</span>
     </v-tooltip>
-  </div>
+    <span class="mouse-position-coordinates">
+      {{ coordinateString }}
+    </span>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -38,41 +35,52 @@ export default Vue.extend({
     ...mapGetters(['hasSmallDisplay', 'configuration']),
     ...mapGetters('plugin/mousePosition', [
       'projections',
-      'mousePosition',
+      'coordinateString',
       'selectedProjection',
     ]),
-    // TODO retrieve value from store
-    projection() {
-      return this.configuration.epsg
+    projection: {
+      get() {
+        return this.selectedProjection
+      },
+      set(value) {
+        this.setSelectedProjection(value)
+      },
+    },
+    showSelectionChooser() {
+      return this.projections.length > 1
     },
   },
   methods: {
-    ...mapActions('plugin/mousePosition', ['selectProjection']),
+    ...mapActions('plugin/mousePosition', ['setSelectedProjection']),
   },
 })
 </script>
+
+<style lang="scss">
+.mouse-position .v-select {
+  margin: 0;
+
+  .v-select__selections {
+    height: 0;
+    width: 0;
+  }
+
+  .v-input__slot::before,
+  .v-input__slot::after {
+    display: none;
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 .mouse-position {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
   margin: 4px;
 
   .mouse-position-coordinates {
-    background-color: #fff;
-    padding-left: 1em;
-    padding-right: 1em;
+    margin: 4px;
   }
-}
-
-#projection-form {
-  border-left: 2px solid #000;
-}
-
-.tooltip-wrapper:hover .tooltip__text {
-  visibility: visible;
-  opacity: 1;
 }
 </style>

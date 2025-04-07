@@ -505,9 +505,9 @@ export interface ScaleConfiguration extends PluginOptions {
   zoomMethod?: string
 }
 
-// TODO in conflict with README.md of plugin
 export interface MousePositionConfiguration extends PluginOptions {
-  projections?: number[]
+  projections?: `EPSG:${string}`[]
+  decimals?: Record<`EPSG:${string}`, number>
 }
 
 export interface ZoomIcons {
@@ -692,6 +692,7 @@ export interface MapConfig extends MasterportalApiConfig {
   iconMenu?: IconMenuConfiguration
   layerChooser?: LayerChooserConfiguration
   legend?: LegendConfiguration
+  mousePosition?: MousePositionConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
   scale?: ScaleConfiguration

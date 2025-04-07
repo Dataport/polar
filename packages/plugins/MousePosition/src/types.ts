@@ -1,7 +1,11 @@
+import { MousePositionConfiguration } from '@polar/lib-custom-types'
+
 export interface MousePositionState {
-  projections: any[] // TODO
-  selectedProjection: string // TODO
-  mousePosition: any[] // TODO
+  selectedProjection: number
+  mousePosition: number[]
 }
 
-export type MousePositionGetters = MousePositionState
+export interface MousePositionGetters extends MousePositionState {
+  configuration: Required<MousePositionConfiguration>
+  projections: Required<MousePositionConfiguration['projections']>
+}

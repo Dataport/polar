@@ -267,5 +267,7 @@ export const mapConfiguration = {
       fill: '#ff0019',
     },
   },
-  mousePosition: {},
+  mousePosition: {
+    projections: ['EPSG:4326', 'EPSG:25832', 'EPSG:3857', 'EPSG:31467'],
+  },
 }

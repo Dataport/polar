@@ -3,61 +3,64 @@ import {
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import { PolarModule } from '@polar/lib-custom-types'
-import { createStringXY } from 'ol/coordinate.js'
 import { transform } from 'ol/proj'
+import { Coordinate, createStringXY } from 'ol/coordinate.js'
+import { mpapiDefaults } from '@polar/core'
 import { MousePositionGetters, MousePositionState } from '../types'
 
 const getInitialState = (): MousePositionState => ({
-  projections: [],
-  selectedProjection: '',
+  selectedProjection: 0,
   mousePosition: [],
 })
+
+// TODO update per epsg from config, default to 4
+const formatCoordinate = createStringXY(4)
+// TODO should also convert on index change
+let converter: (coordinate: Coordinate) => Coordinate
 
 export const makeStoreModule = () => {
   const storeModule: PolarModule<MousePositionState, MousePositionGetters> = {
     namespaced: true,
     state: getInitialState(),
     actions: {
-      setupModule({ rootGetters: { configuration, map }, commit }) {
-        const projectionsFromMapConfig = configuration.namedProjections.map(
-          (x) => x[0]
+      setupModule({ state, rootGetters: { map }, commit, dispatch }) {
+        dispatch('setSelectedProjection', state.selectedProjection)
+        map.on('pointermove', (event) =>
+          commit('setMousePosition', converter?.(event.coordinate) || [])
         )
-        commit('setProjections', projectionsFromMapConfig)
-        const formatCoordinate = createStringXY(4)
-        map.on('pointermove', function (event) {
-          const formattedCoordinate = formatCoordinate(event.coordinate)
-          commit('setMousePosition', formattedCoordinate)
-        })
-        commit('setSelectedProjection', configuration.epsg)
       },
-      selectProjection(
+      setSelectedProjection(
         { rootGetters: { map }, commit, getters },
-        newProjection
+        projectionIndex: number
       ) {
-        const formatCoordinate = createStringXY(4)
-        map.on('pointermove', function (event) {
-          const almostNewCoordinate = event.coordinate
-          const newCoordinate = transform(
-            almostNewCoordinate,
-            getters.selectedProjection,
-            newProjection
+        converter = (coordinate) =>
+          transform(
+            coordinate,
+            map.getView().getProjection().getCode(),
+            getters.configuration.projections[projectionIndex]
           )
-          const formattedCoordinate = formatCoordinate(newCoordinate)
-          commit('setMousePosition', formattedCoordinate)
-        })
-        commit('setSelectedProjection', newProjection)
-
-        /* const extend = map.getView().calculateExtent()
-        const extendNewProj = transformExtent(
-          extend,
-          getters.selectedProjection,
-          newProjection
-        )
-      }, */
+        commit('setSelectedProjection', projectionIndex)
       },
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      configuration(_, __, ___, rootGetters) {
+        return {
+          projections: (
+            rootGetters.configuration?.namedProjections ||
+            mpapiDefaults.namedProjections
+          ).map((definitionArray) => definitionArray[0]),
+          ...(rootGetters.configuration?.mousePosition || {}),
+        }
+      },
+      projections(_, getters) {
+        return getters.configuration?.projections || []
+      },
+      coordinateString(_, getters) {
+        return getters.mousePosition.length
+          ? formatCoordinate(getters.mousePosition)
+          : 'X, Y'
+      },
     },
     mutations: {
       ...generateSimpleMutations(getInitialState()),
