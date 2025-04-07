@@ -38,6 +38,7 @@ export interface DrawState {
 }
 
 export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
+  drawSource: VectorSource
   selectableDrawModes: { [k in DrawMode]?: string }
   selectedFeature: Feature
   selectableModes: { [k in Mode]: string }
