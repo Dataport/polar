@@ -3,7 +3,10 @@ import { Locale } from '@polar/lib-custom-types'
 export const resourcesDe = {
   plugins: {
     mousePosition: {
-      selectCrsTooltip: 'Auswahl eines Koordinatenreferenzsystems',
+      label: 'Mausposition in {{epsg}}',
+      projectionSelect: {
+        ariaLabel: 'Auswahl des Koordinatenreferenzsystems',
+      },
     },
   },
 } as const
@@ -11,7 +14,10 @@ export const resourcesDe = {
 export const resourcesEn = {
   plugins: {
     mousePosition: {
-      selectCrsTooltip: 'Coordinate reference system selection',
+      label: 'Mouse position in {{epsg}}',
+      projectionSelect: {
+        ariaLabel: 'Auswahl des Koordinatenreferenzsystems',
+      },
     },
   },
 } as const

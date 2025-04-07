@@ -269,5 +269,14 @@ export const mapConfiguration = {
   },
   mousePosition: {
     projections: ['EPSG:4326', 'EPSG:25832', 'EPSG:3857', 'EPSG:31467'],
+    decimals: {
+      // that's what they're called, no use in circumventing that
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'EPSG:25832': 0,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'EPSG:3857': 1,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'EPSG:31467': 2,
+    },
   },
 }

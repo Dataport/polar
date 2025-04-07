@@ -13,9 +13,7 @@ const getInitialState = (): MousePositionState => ({
   mousePosition: [],
 })
 
-// TODO update per epsg from config, default to 4
-const formatCoordinate = createStringXY(4)
-// TODO should also convert on index change
+// putting this as a module variable to skip map .on/.un hassle
 let converter: (coordinate: Coordinate) => Coordinate
 
 export const makeStoreModule = () => {
@@ -31,15 +29,26 @@ export const makeStoreModule = () => {
       },
       setSelectedProjection(
         { rootGetters: { map }, commit, getters },
-        projectionIndex: number
+        nextSelectedProjection: number
       ) {
         converter = (coordinate) =>
           transform(
             coordinate,
             map.getView().getProjection().getCode(),
-            getters.configuration.projections[projectionIndex]
+            getters.configuration.projections[nextSelectedProjection]
           )
-        commit('setSelectedProjection', projectionIndex)
+        // one-time conversions on CRS change if previous value exists
+        if (getters.mousePosition.length) {
+          commit(
+            'setMousePosition',
+            transform(
+              getters.mousePosition,
+              getters.configuration.projections[getters.selectedProjection],
+              getters.configuration.projections[nextSelectedProjection]
+            )
+          )
+        }
+        commit('setSelectedProjection', nextSelectedProjection)
       },
     },
     getters: {
@@ -56,9 +65,16 @@ export const makeStoreModule = () => {
       projections(_, getters) {
         return getters.configuration?.projections || []
       },
+      decimals(_, getters) {
+        return getters.configuration?.decimals || {}
+      },
       coordinateString(_, getters) {
         return getters.mousePosition.length
-          ? formatCoordinate(getters.mousePosition)
+          ? createStringXY(
+              getters.decimals[
+                getters.projections[getters.selectedProjection]
+              ] ?? 4
+            )(getters.mousePosition)
           : 'X, Y'
       },
     },

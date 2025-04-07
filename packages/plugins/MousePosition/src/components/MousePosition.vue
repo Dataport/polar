@@ -1,27 +1,28 @@
 <template>
-  <v-card class="mouse-position">
-    <!-- TODO: tooltip is obstructive regarding v-select -->
-    <v-tooltip v-if="showSelectionChooser" top>
-      <template #activator="{ on, attrs }">
-        <v-select
-          v-model="projection"
-          v-bind="attrs"
-          :items="
-            projections.map((projection, index) => ({
-              value: index,
-              text: projection,
-            }))
-          "
-          dense
-          hide-details
-          v-on="on"
-        />
-      </template>
-      <span>{{ $t('plugins.mousePosition.selectCrsTooltip') }}</span>
-    </v-tooltip>
-    <span class="mouse-position-coordinates">
-      {{ coordinateString }}
-    </span>
+  <v-card class="polar-plugin-mouse-position">
+    <v-select
+      v-model="projection"
+      :aria-label="$t('plugins.mousePosition.projectionSelect.ariaLabel')"
+      :items="
+        projections.map((projection, index) => ({
+          value: index,
+          text: projection,
+        }))
+      "
+      dense
+      hide-details
+    />
+    <v-text-field
+      :label="
+        $t('plugins.mousePosition.label', {
+          epsg: projections[selectedProjection],
+        })
+      "
+      :value="coordinateString"
+      dense
+      hide-details
+      readonly
+    />
   </v-card>
 </template>
 
@@ -57,8 +58,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.mouse-position .v-select {
-  margin: 0;
+.polar-plugin-mouse-position .v-select {
+  margin-right: 4px;
 
   .v-select__selections {
     height: 0;
@@ -73,14 +74,11 @@ export default Vue.extend({
 </style>
 
 <style lang="scss" scoped>
-.mouse-position {
+.polar-plugin-mouse-position {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin: 4px;
-
-  .mouse-position-coordinates {
-    margin: 4px;
-  }
+  padding: 12px 12px 12px 0;
 }
 </style>

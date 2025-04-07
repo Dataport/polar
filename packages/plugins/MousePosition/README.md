@@ -15,8 +15,30 @@ The MousePosition plugin makes the current mouse position available as coordinat
 
 ## Store
 
-TODO
+### Actions
 
-### State
+#### setSelectedProjection
 
-TODO
+This sets the active EPSG to output coordinates in.
+
+```js
+map.$store.dispatch('plugin/mousePosition/setSelectedProjection', 0)
+```
+
+Dispatch the index from the `projections` that is to be used. If none are configured, see `mapConfiguration`'s `namedProjections`' for index order. If none is configured, see the `@polar/core`'s exported object `mpapiDefaults` for index order. The value is initially `0`.
+
+### Getters
+
+| fieldName | type | description |
+| - | - | - |
+| mousePosition | [number, number] | The coordinate converted to the selected projection. |
+| coordinateString | string | The `mousePosition` as `X, Y` string with configured `decimals` applied. |
+
+```js
+mapInstance.$store.watch(
+  (_, getters) => getters['plugins/mousePosition/coordinateString'],
+  (coordinateString) => {
+    /* This code is called on value updates. */
+  }
+)
+```
