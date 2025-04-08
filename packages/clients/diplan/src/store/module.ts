@@ -12,8 +12,6 @@ import {
   GeoEditingMode,
 } from '../types'
 import { drawFeatureCollectionSource, updateState } from './updateState'
-import { cutPolygons } from './geoEditing/cutPolygons'
-import { mergePolygons } from './geoEditing/mergePolygons'
 
 const getInitialState = (): DiplanState => ({
   drawMode: null,
@@ -50,9 +48,9 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
         await dispatch('plugin/draw/setMode', 'draw', { root: true })
         dispatch('plugin/draw/setDrawMode', 'Circle', { root: true })
       } else if (mode === 'merge') {
-        dispatch('mergePolygons')
+        dispatch('plugin/draw/setMode', 'merge', { root: true })
       } else if (mode === 'cut') {
-        dispatch('cutPolygons')
+        dispatch('plugin/draw/setMode', 'cut', { root: true })
       } else if (mode === 'duplicate') {
         dispatch('plugin/draw/setMode', 'duplicate', { root: true })
       } else if (mode === 'lasso') {

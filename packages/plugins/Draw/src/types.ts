@@ -26,6 +26,8 @@ export type Mode =
   | 'delete'
   | 'lasso'
   | 'duplicate'
+  | 'merge'
+  | 'cut'
 
 export interface CreateInteractionsPayload {
   drawSource: VectorSource
