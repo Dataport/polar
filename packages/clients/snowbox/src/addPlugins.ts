@@ -11,12 +11,12 @@ import IconMenu from '@polar/plugin-icon-menu'
 import LayerChooser from '@polar/plugin-layer-chooser'
 import Legend from '@polar/plugin-legend'
 import LoadingIndicator from '@polar/plugin-loading-indicator'
+import MousePosition from '@polar/plugin-mouse-position'
 import Pins from '@polar/plugin-pins'
 import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
-import MousePosition from '@polar/plugin-mouse-position'
 
 const defaultOptions = {
   displayComponent: true,
