@@ -3,16 +3,11 @@
     <v-card v-if="!windowLayerKeysActive">
       <v-card-text>{{ $t('plugins.gfi.noActiveLayer') }}</v-card-text>
     </v-card>
-    <component
-      :is="contentComponent"
-      v-else-if="!renderMoveHandle"
-      v-bind="contentProps"
-    />
+    <component :is="contentComponent" v-else-if="!renderMoveHandle" />
   </div>
 </template>
 
 <script lang="ts">
-import compare from 'just-compare'
 import { t } from 'i18next'
 import Vue from 'vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
@@ -25,51 +20,36 @@ export default Vue.extend({
   computed: {
     ...mapGetters(['moveHandle']),
     ...mapGetters('plugin/gfi', [
-      'currentProperties',
-      'exportPropertyLayerKeys',
       'gfiContentComponent',
       'gfiConfiguration',
       'renderMoveHandle',
       'renderType',
       'showList',
-      'visibleWindowFeatureIndex',
       'windowFeatures',
       'windowLayerKeysActive',
     ]),
     contentComponent(): Vue {
       return this.showList ? List : this.gfiContentComponent || Feature
     },
-    contentProps(): object {
-      return this.showList ? {} : {}
-    },
     moveHandleProperties() {
-      const properties: MoveHandleProperties = {
+      return {
         closeIcon: this.gfiConfiguration.featureList
           ? 'fa-angles-right'
           : 'fa-xmark',
         closeLabel: t('plugins.gfi.header.close'),
         closeFunction: this.closeWindow,
         component: this.contentComponent,
-        props: this.contentProps,
         plugin: this.renderType === 'independent' ? 'gfi' : 'iconMenu',
-      }
-
-      return properties
+      } as MoveHandleProperties
     },
     renderUi(): boolean {
       return this.windowFeatures.length > 0 || this.showList
     },
   },
   watch: {
-    moveHandleProperties(
-      newProperties: MoveHandleProperties,
-      oldProperties: MoveHandleProperties
-    ) {
-      if (
-        this.windowFeatures.length &&
-        !compare(newProperties, oldProperties)
-      ) {
-        this.setMoveHandle(newProperties)
+    windowFeatures() {
+      if (this.windowFeatures.length) {
+        this.setMoveHandle(this.moveHandleProperties)
       } else if (
         !this.windowFeatures.length &&
         this.moveHandle !== null &&
