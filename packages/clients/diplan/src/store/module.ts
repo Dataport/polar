@@ -63,8 +63,6 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
         dispatch('plugin/draw/setMode', 'delete', { root: true })
       }
     },
-    cutPolygons,
-    mergePolygons,
     updateState,
     updateDrawMode({ dispatch, commit }, drawMode) {
       // always reset draw plugin before starting something
