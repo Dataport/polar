@@ -1,11 +1,14 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
-import VectorSource from 'ol/source/Vector'
 import Feature from 'ol/Feature'
 import {
   Feature as GeoJsonFeature,
   LineString as GeoJsonLineString,
 } from 'geojson'
-import { DiplanGetters, DiplanState } from '../../../types'
+import {
+  CreateInteractionsPayload,
+  DrawState,
+  DrawGetters,
+} from '../../../types'
 import {
   converter,
   cutCuttablesWithCutter,
@@ -17,17 +20,18 @@ import { makeDraw } from './makeDraw'
 
 const wgs84Epsg = 'EPSG:4326'
 
-export const cutPolygons = ({
-  dispatch,
-  rootGetters,
-}: PolarActionContext<DiplanState, DiplanGetters>) => {
-  dispatch('updateDrawMode', 'cut')
-
+export const createCutInteractions = (
+  {
+    dispatch,
+    rootGetters,
+    getters,
+  }: PolarActionContext<DrawState, DrawGetters>,
+  { drawSource }: CreateInteractionsPayload
+) => {
   const projectionInfo = {
     featureProjection: rootGetters.map.getView().getProjection().getCode(),
     dataProjection: wgs84Epsg,
   }
-  const drawSource: VectorSource = rootGetters['plugin/draw/drawSource']
   const draw = makeDraw(projectionInfo, drawSource)
   draw.on('drawend', (e) => {
     const cutter = converter.writeFeatureObject(
@@ -48,26 +52,31 @@ export const cutPolygons = ({
         drawSource.clear()
         drawSource.addFeatures([...uncuttables, ...cuts])
       } catch {
-        dispatch(
-          'plugin/toast/addToast',
-          {
-            type: 'error',
-            text: 'diplan.error.cutFailed',
-          },
-          { root: true }
+        console.error(
+          `@polar/plugin-draw: Cut operation failed for unknown reason.`
         )
+        if (getters.toastAction) {
+          dispatch(
+            getters.toastAction,
+            {
+              type: 'error',
+              text: 'draw.cut.error.cutFailed',
+            },
+            { root: true }
+          )
+        }
       }
-    } else {
+    } else if (getters.toastAction) {
       dispatch(
-        'plugin/toast/addToast',
+        getters.toastAction,
         {
           type: 'info',
-          text: 'diplan.warn.unevenCut',
+          text: 'draw.cut.warn.unevenCut',
         },
         { root: true }
       )
     }
   })
 
-  dispatch('plugin/draw/setInteractions', [draw], { root: true })
+  return [draw]
 }
