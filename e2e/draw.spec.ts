@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test'
 import { openSnowbox } from './utils/openSnowbox'
 import { draw, drag } from './utils/draw'
 
-const drawTargetId = '#vuex-target-draw-result'
+const drawTargetId = 'vuex-target-draw-result'
+const drawTargetLocatorString = `#${drawTargetId}`
 
 test('the draw tool can be used to draw polygons on the map', async ({
   page,
@@ -29,7 +30,9 @@ test('the draw tool can be used to draw polygons on the map', async ({
     [40, -40, 'dblclick'],
   ])
 
-  const drawing = JSON.parse(await page.locator(drawTargetId).innerText())
+  const drawing = JSON.parse(
+    await page.locator(drawTargetLocatorString).innerText()
+  )
 
   expect(drawing.type).toBe('FeatureCollection')
   expect(drawing.features.length).toBe(1)
@@ -74,7 +77,9 @@ test('two features drawn at the same coordinate can be modified separately', asy
     [-40, -40],
   ])
 
-  const drawing = JSON.parse(await page.locator(drawTargetId).innerText())
+  const drawing = JSON.parse(
+    await page.locator(drawTargetLocatorString).innerText()
+  )
 
   expect(drawing.type).toBe('FeatureCollection')
   expect(drawing.features.length).toBe(2)
@@ -111,7 +116,7 @@ test('drawn polygons can be cut', async ({ page, isMobile }) => {
     await expect(page.locator('.polar-draw-menu')).toHaveCount(1)
   }
 
-  await page.getByLabel('Cut polygons').click()
+  await page.getByText('Cut polygons').click()
 
   if (isMobile) {
     await page.getByLabel('Draw tools').click()
@@ -157,7 +162,7 @@ test('drawn polygons can be duplicated', async ({ page, isMobile }) => {
     await expect(page.locator('.polar-draw-menu')).toHaveCount(1)
   }
 
-  await page.getByLabel('Duplicate').click()
+  await page.getByText('Duplicate').click()
 
   if (isMobile) {
     await page.getByLabel('Draw tools').click()
@@ -205,7 +210,7 @@ test('drawn polygons can be merged', async ({ page, isMobile }) => {
     await expect(page.locator('.polar-draw-menu')).toHaveCount(1)
   }
 
-  await page.getByLabel('Merge polygons').click()
+  await page.getByText('Merge polygons').click()
 
   if (isMobile) {
     await page.getByLabel('Draw tools').click()
