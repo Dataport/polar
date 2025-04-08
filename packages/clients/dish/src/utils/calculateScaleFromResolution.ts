@@ -20,7 +20,7 @@ export const options = [
   { resolution: 0.02645831904, scale: 100, zoomLevel: zoomLevel++ },
   { resolution: 0.01322915952, scale: 50, zoomLevel: zoomLevel++ },
 ]
-// inchesPerMetre is used to convert the resolution (distance in meters) to inches per pixel and can be multiplied with dpi.
+// inchesPerMetre is used to convert the resolution (distance in meters) to inches per pixel so that it can be multiplied with dpi.
 function calculateScaleFromResolution(
   unit: keyof MetersPerUnitLookup,
   resolution: number
