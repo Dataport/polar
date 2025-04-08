@@ -4,7 +4,7 @@
       {{ currentProperties.Bezeichnung }}
     </v-card-title>
     <img
-      v-if="displayImage && calculatedWidth > minWidth"
+      v-if="displayImage"
       :style="`max-width: ${imgMaxWidth}; min-width: max(${imgMinWidth}, 100%); pointer-events: none`"
       :src="currentProperties.Foto"
       @load="resizeImage"
@@ -96,7 +96,6 @@ export default Vue.extend({
       'Detailinformationen',
     ],
     sachgesamtheitOpen: false,
-    minWidth: 400,
   }),
   computed: {
     ...mapGetters('plugin/gfi', ['currentProperties', 'imageLoaded']),
@@ -104,20 +103,17 @@ export default Vue.extend({
     displayImage(): boolean {
       return this.currentProperties.Foto !== 'Kein Foto gefunden'
     },
-    calculatedWidth(): number {
-      return 0.33 * this.clientWidth
-    },
     imgMaxWidth(): string | undefined {
       if (this.hasWindowSize && this.hasSmallWidth) {
         return '100%'
       }
-      return this.calculatedWidth + 'px'
+      return 0.33 * this.clientWidth + 'px'
     },
     imgMinWidth(): string | undefined {
       if (this.hasWindowSize && this.hasSmallWidth) {
         return undefined
       }
-      return this.minWidth + 'px'
+      return 350 + 'px'
     },
     info(): Array<string[]> {
       return this.prepareTableData(this.currentProperties)
