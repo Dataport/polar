@@ -1,6 +1,5 @@
 import { beautifyScale, getDpi, thousandsSeparator } from '@polar/plugin-scale'
-import * as olProj from 'ol/proj'
-import { type MetersPerUnitLookup } from 'ol/proj/Units'
+import { METERS_PER_UNIT, type MetersPerUnitLookup } from 'ol/proj/Units'
 
 let zoomLevel = 0
 
@@ -28,7 +27,7 @@ function calculateScaleFromResolution(
 ): string {
   const inchesPerMetre = 39.37
   const scale = Math.round(
-    resolution * olProj.METERS_PER_UNIT[unit] * inchesPerMetre * getDpi()
+    resolution * METERS_PER_UNIT[unit] * inchesPerMetre * getDpi()
   )
   return thousandsSeparator(beautifyScale(scale))
 }
