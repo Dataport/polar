@@ -18,7 +18,16 @@ export interface PolarVectorOptions {
   style?: StyleLike
 }
 
-export type Mode = 'none' | 'draw' | 'edit' | 'translate' | 'delete' | 'lasso'
+export type Mode =
+  | 'none'
+  | 'draw'
+  | 'edit'
+  | 'translate'
+  | 'delete'
+  | 'lasso'
+  | 'duplicate'
+  | 'merge'
+  | 'cut'
 
 export interface CreateInteractionsPayload {
   drawSource: VectorSource
@@ -38,6 +47,7 @@ export interface DrawState {
 }
 
 export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
+  drawSource: VectorSource
   selectableDrawModes: { [k in DrawMode]?: string }
   selectedFeature: Feature
   selectableModes: { [k in Mode]: string }

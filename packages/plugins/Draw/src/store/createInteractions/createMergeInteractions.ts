@@ -7,18 +7,14 @@ import { booleanIntersects } from '@turf/boolean-intersects'
 import { union } from '@turf/union'
 import { GeoJSON } from 'ol/format'
 import Feature from 'ol/Feature'
-import VectorSource from 'ol/source/Vector'
-import { DiplanGetters, DiplanState } from '../../types'
+import { CreateInteractionsPayload, DrawState, DrawGetters } from '../../types'
 
 const converter = new GeoJSON()
 
-export const mergePolygons = ({
-  dispatch,
-  rootGetters,
-}: PolarActionContext<DiplanState, DiplanGetters>) => {
-  dispatch('updateDrawMode', 'merge')
-
-  const drawSource: VectorSource = rootGetters['plugin/draw/drawSource']
+export const createMergeInteractions = (
+  { rootGetters }: PolarActionContext<DrawState, DrawGetters>,
+  { drawSource }: CreateInteractionsPayload
+) => {
   const draw = new Draw({ type: 'Polygon' })
   // @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
   draw._isDrawPlugin = true
@@ -58,16 +54,9 @@ export const mergePolygons = ({
     drawSource.addFeatures(nextFeatures)
   })
 
-  dispatch(
-    'plugin/draw/setInteractions',
-    [
-      draw,
-      ...getSnaps(
-        rootGetters.map,
-        rootGetters.configuration?.draw?.snapTo || []
-      ),
-      new Snap({ source: drawSource }),
-    ],
-    { root: true }
-  )
+  return [
+    draw,
+    ...getSnaps(rootGetters.map, rootGetters.configuration?.draw?.snapTo || []),
+    new Snap({ source: drawSource }),
+  ]
 }
