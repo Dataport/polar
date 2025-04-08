@@ -25,7 +25,15 @@
   ],
   "dependencies": {
     "@turf/boolean-contains": "^7.2.0",
+    "@turf/boolean-intersects": "^7.2.0",
+    "@turf/boolean-point-in-polygon": "^7.2.0",
+    "@turf/buffer": "^7.2.0",
     "@turf/center-of-mass": "^7.2.0",
+    "@turf/difference": "^7.2.0",
+    "@turf/helpers": "^7.2.0",
+    "@turf/line-intersect": "^7.2.0",
+    "@turf/union": "^7.2.0",
+    "@turf/unkink-polygon": "^7.2.0",
     "@polar/lib-get-features": "^3.0.0"
   },
   "peerDependencies": {
