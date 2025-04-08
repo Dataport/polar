@@ -5,9 +5,9 @@ import {
   LineString as GeoJsonLineString,
 } from 'geojson'
 import {
+  CreateInteractionsPayload,
   DrawState,
   DrawGetters,
-  CreateInteractionsPayload,
 } from '../../../types'
 import {
   converter,
