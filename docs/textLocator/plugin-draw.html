@@ -373,6 +373,24 @@ map.$store.dispatch('plugin/draw/setInteractions', yourInteractions)
         </tr>
         
         <tr>
+          <td>plugins.draw.mode.duplicate</td>
+          <td>Duplizieren</td>
+          <td>Duplicate</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.draw.mode.cut</td>
+          <td>Polygone auftrennen</td>
+          <td>Cut polygons</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.draw.mode.merge</td>
+          <td>Polygone kombinieren</td>
+          <td>Merge polygons</td>
+        </tr>
+        
+        <tr>
           <td>plugins.draw.mode.edit</td>
           <td>Bearbeiten</td>
           <td>Edit</td>
@@ -502,6 +520,18 @@ map.$store.dispatch('plugin/draw/setInteractions', yourInteractions)
           <td>plugins.draw.lasso.internalError</td>
           <td>Ein unerwarteter Fehler ist in der Verarbeitung der Lasso-Daten aufgetreten.</td>
           <td>An unexpected error occured in the processing of lasso data.</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.draw.cut.error.cutFailed</td>
+          <td>Das Polygon konnte aufgrund eines unbekannten Fehlers leider nicht geschnitten werden.</td>
+          <td>The polygon could not be cut due to unknown reasons.</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.draw.cut.warn.unevenCut</td>
+          <td>Leider konnte kein Schnitt hergestellt werden, da entweder der Start- oder Endpunkt der Schnittkante innerhalb des zu schneidenden Polygons lag, oder kein Polygon geschnitten wurde. Bitte versuchen Sie es erneut.</td>
+          <td>No cut could be produced since either the start or end point of the cut line is within the polygon to cut, or no polygon was cut. Please try again.</td>
         </tr>
         
       </tbody>
