@@ -10,6 +10,9 @@ export const resourcesDe = {
         write: 'Zeichnen und Schreiben',
         writeAndMeasure: 'Zeichnen, Schreiben und Messen',
         lasso: 'Lasso',
+        duplicate: 'Duplizieren',
+        cut: 'Polygone auftrennen',
+        merge: 'Polygone kombinieren',
         edit: 'Bearbeiten',
         translate: 'Verschieben',
         delete: 'Löschen',
@@ -47,6 +50,16 @@ export const resourcesDe = {
         internalError:
           'Ein unerwarteter Fehler ist in der Verarbeitung der Lasso-Daten aufgetreten.',
       },
+      cut: {
+        error: {
+          cutFailed:
+            'Das Polygon konnte aufgrund eines unbekannten Fehlers leider nicht geschnitten werden.',
+        },
+        warn: {
+          unevenCut:
+            'Leider konnte kein Schnitt hergestellt werden, da entweder der Start- oder Endpunkt der Schnittkante innerhalb des zu schneidenden Polygons lag, oder kein Polygon geschnitten wurde. Bitte versuchen Sie es erneut.',
+        },
+      },
     },
   },
 } as const
@@ -61,6 +74,9 @@ export const resourcesEn = {
         write: 'Draw and write',
         writeAndMeasure: 'Draw, write and measure',
         lasso: 'Lasso',
+        duplicate: 'Duplicate',
+        cut: 'Cut polygons',
+        merge: 'Merge polygons',
         edit: 'Edit',
         translate: 'Translate',
         delete: 'Delete',
@@ -97,6 +113,15 @@ export const resourcesEn = {
           'The response of layer "{{id}}" could not be read. No geometries were fetched from that layer.',
         internalError:
           'An unexpected error occured in the processing of lasso data.',
+      },
+      cut: {
+        error: {
+          cutFailed: 'The polygon could not be cut due to unknown reasons.',
+        },
+        warn: {
+          unevenCut:
+            'No cut could be produced since either the start or end point of the cut line is within the polygon to cut, or no polygon was cut. Please try again.',
+        },
       },
     },
   },
