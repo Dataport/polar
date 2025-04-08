@@ -206,11 +206,24 @@ export interface DrawConfiguration extends Partial<PluginOptions> {
   lassos?: Lasso[]
   measureOptions?: MeasureOptions
   removeLoading?: string
+  revision?: DrawRevision
   selectableDrawModes?: DrawMode[]
   snapTo?: string[]
   style?: DrawStyle
   textStyle?: TextStyle
   toastAction?: string
+}
+
+export interface DrawRevision {
+  autofix?: boolean
+  metaServices?: DrawMetaService[]
+  validate?: boolean
+}
+
+export interface DrawMetaService {
+  id: string
+  aggregationMode: 'unequal' | 'all'
+  propertyNames?: string[]
 }
 
 export interface ExportConfiguration extends PluginOptions {

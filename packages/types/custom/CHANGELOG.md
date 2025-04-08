@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add `DrawRevision` to `DrawConfiguration`, including the nested `DrawMetaService`.
+
 ## 2.1.0
 
 - Feature: Add `snapTo` to `DrawConfiguration` for specification of layers to snap to.
