@@ -16,6 +16,12 @@ export default function (
     return dispatch('createDeleteInteractions', { drawSource, drawLayer })
   } else if (mode === 'lasso') {
     return dispatch('createLassoInteractions')
+  } else if (mode === 'duplicate') {
+    return dispatch('createDuplicateInteractions', { drawSource, drawLayer })
+  } else if (mode === 'cut') {
+    return dispatch('createCutInteractions', { drawSource })
+  } else if (mode === 'merge') {
+    return dispatch('createMergeInteractions', { drawSource })
   }
   return []
 }

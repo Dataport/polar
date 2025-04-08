@@ -16,6 +16,9 @@ import modifyDrawStyle from './createInteractions/modifyDrawStyle'
 import modifyTextStyle from './createInteractions/modifyTextStyle'
 import createDrawInteractions from './createInteractions/createDrawInteractions'
 import createDeleteInteractions from './createInteractions/createDeleteInteractions'
+import { createDuplicateInteractions } from './createInteractions/createDuplicateInteractions'
+import { createCutInteractions } from './createInteractions/createCutInteractions'
+import { createMergeInteractions } from './createInteractions/createMergeInteractions'
 
 export const makeActions = () => {
   let interactions: Interaction[] = []
@@ -24,6 +27,9 @@ export const makeActions = () => {
 
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
+    createDuplicateInteractions,
+    createCutInteractions,
+    createMergeInteractions,
     createDrawInteractions,
     createLassoInteractions,
     createModifyInteractions,
