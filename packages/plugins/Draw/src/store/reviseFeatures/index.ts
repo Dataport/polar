@@ -15,6 +15,11 @@ export const reviseFeatures = async ({
   rootGetters,
   getters,
 }: PolarActionContext<DrawState, DrawGetters>) => {
+  const { revision } = getters.configuration
+  if (!revision) {
+    return
+  }
+
   commit('setFeatureCollectionRevisionState', inProgress)
 
   if (abortController) {
@@ -27,7 +32,7 @@ export const reviseFeatures = async ({
     getters.featureCollection as FeatureCollection<GeometryType>
   )
 
-  if (getters.configuration.revision?.autofix) {
+  if (revision.autofix) {
     try {
       revisedFeatureCollection = autofixFeatureCollection(
         revisedFeatureCollection
@@ -41,16 +46,16 @@ export const reviseFeatures = async ({
     }
   }
 
-  if (getters.configuration.revision?.validate) {
+  if (revision.validate) {
     revisedFeatureCollection = validateGeoJson(revisedFeatureCollection)
   }
 
-  if (getters.configuration.revision?.metaServices?.length) {
+  if (revision.metaServices?.length) {
     try {
       revisedFeatureCollection.features = await enrichWithMetaServices(
         revisedFeatureCollection,
         rootGetters.map,
-        getters.configuration.revision.metaServices,
+        revision.metaServices,
         abortController.signal
       )
     } catch (e) {
