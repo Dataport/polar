@@ -31,8 +31,8 @@ Dispatch the index from the `projections` that is to be used. If none are config
 
 | fieldName | type | description |
 | - | - | - |
-| mousePosition | [number, number] | The coordinate converted to the selected projection. |
 | coordinateString | string | The `mousePosition` as `X, Y` string with configured `decimals` applied. |
+| mousePosition | [number, number] | The coordinate converted to the selected projection. |
 
 ```js
 mapInstance.$store.watch(
