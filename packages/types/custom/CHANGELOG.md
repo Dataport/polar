@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add new type `MousePositionConfiguration` for new plugin `@polar/plugin-mouse-position`, and add it as a potential entry of the `MapConfig`.
+- Feature: Add new interface `MousePositionConfiguration` for new plugin `@polar/plugin-mouse-position`, and add it as an optional entry of `MapConfig`.
 
 ## 2.1.0
 
