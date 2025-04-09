@@ -1,11 +1,12 @@
 import { Circle, Fill, Icon, Stroke, Style, Text } from 'ol/style'
-// TODO maybe refactor; there's also an implementation in the masterportalapi that could be used
-import { getPolygonFillHatch } from '@polar/core/src/utils/markers/hatches'
+import PolygonStyle from '@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon'
 import { features } from './features'
+
+const polygonStyle = new PolygonStyle()
 
 // imitate class to match keyMap ...
 function Hatch(params) {
-  return getPolygonFillHatch(params)?.getContext('2d')?.fillStyle
+  return polygonStyle.getPolygonFillHatch(params)?.getContext('2d')?.fillStyle
 }
 
 // maps keys from source to key that's actually to be written
