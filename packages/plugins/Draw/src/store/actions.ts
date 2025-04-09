@@ -59,7 +59,6 @@ export const makeActions = () => {
         commit('setMeasureMode', getters.measureOptions.initialOption)
       }
 
-      console.error(getters.configuration)
       if (getters.configuration.revision) {
         // not inactive, and initially complete due to still being empty
         commit('setFeatureCollectionRevisionState', complete)
