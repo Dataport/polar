@@ -58,7 +58,7 @@ export const reviseFeatures = async ({
         return
       }
       console.error(
-        '@polar/client-diplan: An error occurred when trying to fetch meta service data for the given feature collection.',
+        '@polar/plugin-draw: An error occurred when trying to fetch meta service data for the given feature collection.',
         e
       )
       if (getters.toastAction) {
