@@ -32,13 +32,10 @@ const aggregators: Record<
 }
 
 const filterProperties = (
-  properties: GeoJsonFeature['properties'],
+  properties: Exclude<GeoJsonFeature['properties'], null>,
   propertyNames?: string[]
 ) =>
-  typeof properties === 'object' &&
-  properties !== null &&
-  propertyNames &&
-  propertyNames.length
+  propertyNames && propertyNames.length
     ? Object.fromEntries(
         Object.entries(properties).filter(([key]) =>
           propertyNames.includes(key)
@@ -53,8 +50,8 @@ const aggregateProperties = (
 ) =>
   aggregators[mode](
     propertiesArray
-      .map((properties) => filterProperties(properties, propertyNames))
       .filter((properties) => properties !== null)
+      .map((properties) => filterProperties(properties, propertyNames))
   )
 
 /** @throws */

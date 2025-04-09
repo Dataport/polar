@@ -1,5 +1,6 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { DrawGetters, DrawState } from '../../types'
+import { FeatureCollection } from 'geojson'
+import { DrawGetters, DrawState, GeometryType } from '../../types'
 import { validateGeoJson } from './validateGeoJson'
 import { enrichWithMetaServices } from './enrichWithMetaServices'
 import { complete, error, inProgress } from './revisionStates'
@@ -23,7 +24,7 @@ export const reviseFeatures = async ({
 
   // clone to prevent accidentally messing with the draw tool's data
   let revisedFeatureCollection = cloneFeatureCollection(
-    rootGetters['plugin/draw/featureCollection']
+    getters.featureCollection as FeatureCollection<GeometryType>
   )
 
   if (getters.configuration.revision?.autofix) {
