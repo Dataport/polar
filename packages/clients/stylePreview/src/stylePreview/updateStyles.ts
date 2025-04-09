@@ -9,14 +9,14 @@ function Hatch(params) {
 }
 
 // maps keys from source to key that's actually to be written
-const keyKey = (key: string) =>
+const inputKeyToOpenLayersKey = (key: string) =>
   ({
     imageCircle: 'image',
     imageIcon: 'image',
     hatch: 'color',
   }[key] || key)
 
-const keyMap = {
+const inputKeyToOpenLayersClass = {
   fill: Fill,
   stroke: Stroke,
   text: Text,
@@ -28,13 +28,14 @@ const keyMap = {
 const buildStyle = (style) =>
   typeof style === 'object' && !Array.isArray(style)
     ? Object.entries(style).reduce((accumulator, [key, value]) => {
-        if (keyMap[key]) {
-          accumulator[keyKey(key)] = new keyMap[key]({
-            ...buildStyle(value),
-            ...(key === 'text' ? { text: 'Testtext' } : {}),
-          })
+        if (inputKeyToOpenLayersClass[key]) {
+          accumulator[inputKeyToOpenLayersKey(key)] =
+            new inputKeyToOpenLayersClass[key]({
+              ...buildStyle(value),
+              ...(key === 'text' ? { text: 'Testtext' } : {}),
+            })
         } else {
-          accumulator[keyKey(key)] = buildStyle(value)
+          accumulator[inputKeyToOpenLayersKey(key)] = buildStyle(value)
         }
         return accumulator
       }, {})
