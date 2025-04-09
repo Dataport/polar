@@ -114,7 +114,7 @@ To see our plugins in action, please visit our [documentation page](https://data
 |[LayerChooser](https://github.com/Dataport/polar/tree/main/packages/plugins/LayerChooser)|Allows choosing a background layer and an arbitrary amount of feature or overlay layers. WMS layers can optionally be filtered by sub-layers by the user.|
 |[Legend](https://github.com/Dataport/polar/tree/main/packages/plugins/Legend)|Displays an overview of layer legend images as delivered by the used WMS services. Images can be clicked for large view.|
 |[LoadingIndicator](https://github.com/Dataport/polar/tree/main/packages/plugins/LoadingIndicator)|Loading spinner. Only relevant for programming clients, no direct user feature.|
-|[MousePosition](https://github.com/Dataport/polar/tree/main/packages/plugins/MousePosition)|Display the current mouse position in a coordinate reference system of your choice.|
+|[MousePosition](https://github.com/Dataport/polar/tree/main/packages/plugins/MousePosition)|Displays the current mouse position in a coordinate reference system chosen by the user.|
 |[Pins](https://github.com/Dataport/polar/tree/main/packages/plugins/Pins)|Pin feature that allows users to set and move pins to indicate a position. Integration with AddressSearch and ReverseGeocoder configurable.|
 |[ReverseGeocoder](https://github.com/Dataport/polar/tree/main/packages/plugins/ReverseGeocoder)|Configurable to translate an arbitrary coordinate to an address. Integration with AddressSearch and Pins configurable.|
 |[Scale](https://github.com/Dataport/polar/tree/main/packages/plugins/Scale)|Shows current scale as ratio and size indicator.|
