@@ -113,7 +113,7 @@ export default Vue.extend({
       if (this.hasWindowSize && this.hasSmallWidth) {
         return undefined
       }
-      return 400 + 'px'
+      return 350 + 'px'
     },
     info(): Array<string[]> {
       return this.prepareTableData(this.currentProperties)
