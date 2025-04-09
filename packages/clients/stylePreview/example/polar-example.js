@@ -30,6 +30,11 @@ const mapConfiguration = {
       type: 'background',
       name: 'Stadtplan Hamburg',
     },
+    {
+      id: '94',
+      type: 'background',
+      name: 'Orthophotos',
+    },
   ],
   attributions: {
     layerAttributions: [
@@ -37,6 +42,11 @@ const mapConfiguration = {
         id: '453',
         title:
           'Stadtplan Hamburg: Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung',
+      },
+      {
+        id: '94',
+        title:
+          'Orthophotos: Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung',
       },
     ],
   },
