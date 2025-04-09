@@ -222,7 +222,7 @@ export interface DrawRevision {
 
 export interface DrawMetaService {
   id: string
-  aggregationMode: 'unequal' | 'all'
+  aggregationMode?: 'unequal' | 'all'
   propertyNames?: string[]
 }
 
