@@ -9,7 +9,7 @@ function Hatch(params) {
 }
 
 // maps keys from source to key that's actually to be written
-const keyKey = (key) =>
+const keyKey = (key: string) =>
   ({
     imageCircle: 'image',
     imageIcon: 'image',
