@@ -18,7 +18,7 @@ type Aggregator = (
 ) => GeoJsonFeature['properties'][] | GeoJsonFeature['properties']
 
 const aggregators: Record<
-  Exclude<DrawMetaService['aggregationMode'], undefined>,
+  Required<DrawMetaService>['aggregationMode'],
   Aggregator
 > = {
   all: (x) => x,
