@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Chore: Add teardown hints for single page application to README file.
+
 ## 3.2.0
 
 - Feature: Default core export now contains a `resetPlugins` method that allows undoing all previous `addPlugins` calls.

@@ -32,7 +32,7 @@ MapClient.rawLayerList.initializeLayerList(servicesUrl, (layerConf) =>
 
 ### Teardown
 
-Run `mapInstance.$destroy()` on unmount. All registered subscriptions need to be undone by calling the `un-` method returned by subscription calls.
+Run `mapInstance.$destroy()` on unmount. All registered subscriptions need to be undone by calling the `un-` method returned by subscription calls. See `@polar/core` docs chapter "Teardown" for additional information.
 
 ### updateStyles
 
