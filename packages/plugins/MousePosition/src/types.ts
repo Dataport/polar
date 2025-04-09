@@ -7,5 +7,5 @@ export interface MousePositionState {
 
 export interface MousePositionGetters extends MousePositionState {
   configuration: Required<MousePositionConfiguration>
-  projections: Required<MousePositionConfiguration['projections']>
+  projections: Required<MousePositionConfiguration>['projections']
 }
