@@ -26,9 +26,13 @@ const inputKeyToOpenLayersClass = {
   hatch: Hatch,
 }
 
-const buildStyle = (style) =>
-  typeof style === 'object' && !Array.isArray(style)
-    ? Object.entries(style).reduce((accumulator, [key, value]) => {
+/**
+ * This function builds the parameter tree to an `ol/Style` instantiation.
+ * @param styleFragment - This may be anything (except for actual ol instances) that resides at any nesting level in `ol/Style`'s instantiation parameter, which is named `options` in ol's documentation. @see https://openlayers.org/en/latest/apidoc/module-ol_style_Style-Style.html Please mind that only a finite set of nested classes is currently supported, see above function definition and API.md file.
+ */
+const buildStyle = (styleFragment) =>
+  typeof styleFragment === 'object' && !Array.isArray(styleFragment)
+    ? Object.entries(styleFragment).reduce((accumulator, [key, value]) => {
         if (inputKeyToOpenLayersClass[key]) {
           accumulator[inputKeyToOpenLayersKey(key)] =
             new inputKeyToOpenLayersClass[key]({
@@ -40,7 +44,7 @@ const buildStyle = (style) =>
         }
         return accumulator
       }, {})
-    : style
+    : styleFragment
 
 export const updateStyles = (styles) =>
   Object.entries(features).forEach(([key, feature]) =>
