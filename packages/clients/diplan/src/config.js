@@ -77,16 +77,6 @@ export default {
         type: 'mpapi',
         url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
       },
-      {
-        categoryId: 'bkg',
-        queryParameters: {
-          filter: {
-            bundesland: 'Hamburg',
-          },
-        },
-        type: 'bkg',
-        url: 'https://gisdemo.dp.dsecurecloud.de/bkg_geosearch3',
-      },
     ],
     groupProperties: {
       defaultGroup: {
@@ -97,9 +87,6 @@ export default {
       },
     },
     categoryProperties: {
-      bkg: {
-        label: 'BKG Ergebnisse',
-      },
       wfsg: {
         label: 'Gazetteer Ergebnisse',
       },
@@ -149,8 +136,7 @@ export default {
     {
       id: flurstuecke,
       visibility: false,
-      // TODO: Re-add once the ui has been fixed for this
-      // minZoom: 7,
+      minZoom: 7,
       type: 'mask',
       name: `diplan.layers.${flurstuecke}`,
     },

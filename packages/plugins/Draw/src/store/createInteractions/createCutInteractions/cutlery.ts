@@ -31,7 +31,7 @@ const cutCuttableWithCutter = (
   if (cuts === null) {
     const errorText = 'Cutting resulted in geometry destruction.'
     console.error(
-      '@polar/client-diplan: ',
+      '@polar/plugin-draw: ',
       errorText,
       'cuttable: ',
       cuttable,

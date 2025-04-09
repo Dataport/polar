@@ -1,10 +1,10 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
-import VectorLayer from 'ol/layer/Vector'
-import { Select } from 'ol/interaction'
 import { Map } from 'ol'
-import { DiplanGetters, DiplanState } from '../../types'
+import { Select } from 'ol/interaction'
+import { Vector } from 'ol/layer'
+import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 
-const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {
+const pointerStyle = (map: Map, drawLayer: Vector) => (e) => {
   const found = map.hasFeatureAtPixel(e.pixel, {
     layerFilter: (l) => l === drawLayer,
   })
@@ -16,20 +16,10 @@ const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {
   }
 }
 
-export const duplicatePolygons = ({
-  dispatch,
-  rootGetters,
-}: PolarActionContext<DiplanState, DiplanGetters>) => {
-  dispatch('updateDrawMode', 'duplicate')
-
-  const drawSource = rootGetters['plugin/draw/drawSource']
-  const drawLayer = rootGetters.map
-    .getLayers()
-    .getArray()
-    .find(
-      (layer) =>
-        layer instanceof VectorLayer && layer.getSource() === drawSource
-    ) as VectorLayer
+export function createDuplicateInteractions(
+  { rootGetters }: PolarActionContext<DrawState, DrawGetters>,
+  { drawSource, drawLayer }: CreateInteractionsPayload
+) {
   const selectInteraction = new Select({ layers: [drawLayer], style: null })
   const selectedFeatures = selectInteraction.getFeatures()
   // TODO temp solution, not actually _isDeleteSelect; normalizing these flags is part of a future effort
@@ -50,5 +40,5 @@ export const duplicatePolygons = ({
     rootGetters.map.getTargetElement().setAttribute('style', '')
   }
 
-  dispatch('plugin/draw/setInteractions', [selectInteraction], { root: true })
+  return [selectInteraction]
 }

@@ -13,6 +13,7 @@ import { LayerChooserGetters, LayerChooserState } from '../types'
 import { asIdList, areLayersActive } from '../utils/layerFolding'
 import { getBackgroundsAndMasks } from '../utils/getBackgroundsAndMasks'
 import { getOpenedOptionsServiceLayers } from '../utils/getOpenedOptionsServiceLayers'
+import { isLayerIdIncluded } from '../utils/isLayerIdIncluded'
 
 export const getInitialState = (): LayerChooserState => ({
   openedOptions: null,
@@ -197,20 +198,35 @@ export const makeStoreModule = () => {
           ? rootGetters.configuration.layerChooser.component
           : null,
       disabledBackgrounds(_, { availableBackgrounds, backgrounds }) {
-        return backgrounds
-          .map(({ id }) =>
-            availableBackgrounds.findIndex((available) => available.id === id)
-          )
-          .map((index) => index === -1)
+        return backgrounds.reduce(
+          (acc, { id }) => ({
+            ...acc,
+            [id]: isLayerIdIncluded(availableBackgrounds, id),
+          }),
+          {}
+        )
       },
       disabledMasks(_, { availableMasks, masks }) {
         return masks
           .filter(({ hideInMenu }) => !hideInMenu)
-          .map(({ id }) =>
-            availableMasks.findIndex((available) => available.id === id)
+          .reduce(
+            (acc, { id }) => ({
+              ...acc,
+              [id]: isLayerIdIncluded(availableMasks, id),
+            }),
+            {}
           )
-          .map((index) => index === -1)
       },
+      displayOptionsForType: (_, { masksSeparatedByType, openedOptions }) =>
+        Object.entries(masksSeparatedByType).reduce(
+          (acc, [type, masks]) => ({
+            ...acc,
+            [type]:
+              openedOptions !== null &&
+              masks.map(({ id }) => id).includes(openedOptions),
+          }),
+          {}
+        ),
       idsWithOptions(_, { backgrounds, masks }) {
         return [...backgrounds, ...masks]
           .filter((layer) => Boolean(layer.options))

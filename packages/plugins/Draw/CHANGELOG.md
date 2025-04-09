@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add new mode `'cut'` to allow users to cut polygons in parts.
+- Feature: Add new mode `'merge'` to allow users to merge drawn polygons with a then-to-be-drawn merge polygon.
+- Feature: Add new mode `'duplicate'` to allow users to copy drawn features.
+- Fix: Measurements were off. The calculation has been fixed.
+
 ## 3.1.0
 
 - Feature: Add a `"translate"` mode that allows moving drawn features as they are.
