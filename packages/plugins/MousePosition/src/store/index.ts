@@ -35,7 +35,7 @@ export const makeStoreModule = () => {
           transform(
             coordinate,
             map.getView().getProjection().getCode(),
-            getters.configuration.projections[nextSelectedProjection]
+            getters.projections[nextSelectedProjection]
           )
         // one-time conversions on CRS change if previous value exists
         if (getters.mousePosition.length) {
@@ -43,8 +43,8 @@ export const makeStoreModule = () => {
             'setMousePosition',
             transform(
               getters.mousePosition,
-              getters.configuration.projections[getters.selectedProjection],
-              getters.configuration.projections[nextSelectedProjection]
+              getters.projections[getters.selectedProjection],
+              getters.projections[nextSelectedProjection]
             )
           )
         }
