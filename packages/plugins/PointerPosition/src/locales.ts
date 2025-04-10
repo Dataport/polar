@@ -3,9 +3,9 @@ import { Locale } from '@polar/lib-custom-types'
 export const resourcesDe = {
   plugins: {
     pointerPosition: {
-      label: 'Zeigerposition in {{epsg}}',
+      label: 'Zeigerposition: {{value}}',
       projectionSelect: {
-        ariaLabel: 'Auswahl des Koordinatenreferenzsystems',
+        label: 'Koordinatenreferenzsystem',
       },
     },
   },
@@ -14,9 +14,9 @@ export const resourcesDe = {
 export const resourcesEn = {
   plugins: {
     pointerPosition: {
-      label: 'Pointer position in {{epsg}}',
+      label: 'Pointer position: {{value}}',
       projectionSelect: {
-        ariaLabel: 'Coordinate reference system selection',
+        label: 'Coordinate reference system',
       },
     },
   },

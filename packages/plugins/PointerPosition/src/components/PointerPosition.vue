@@ -1,8 +1,12 @@
 <template>
   <v-card class="polar-plugin-pointer-position">
+    <span class="polar-plugin-coordinate-display">
+      {{ $t('plugins.pointerPosition.label', { value: coordinateString }) }}
+    </span>
     <v-select
       v-model="projection"
-      :aria-label="$t('plugins.pointerPosition.projectionSelect.ariaLabel')"
+      class="polar-plugin-epsg-select"
+      :label="$t('plugins.pointerPosition.projectionSelect.label')"
       :items="
         projections.map((projection, index) => ({
           value: index,
@@ -11,17 +15,10 @@
       "
       dense
       hide-details
-    />
-    <v-text-field
-      :label="
-        $t('plugins.pointerPosition.label', {
-          epsg: projections[selectedProjection].code,
-        })
-      "
-      :value="coordinateString"
-      dense
-      hide-details
-      readonly
+      @keydown.up.stop
+      @keydown.right.stop
+      @keydown.down.stop
+      @keydown.left.stop
     />
   </v-card>
 </template>
@@ -57,28 +54,16 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss">
-.polar-plugin-pointer-position .v-select {
-  margin-right: 4px;
-
-  .v-select__selections {
-    height: 0;
-    width: 0;
-  }
-
-  .v-input__slot::before,
-  .v-input__slot::after {
-    display: none;
-  }
-}
-</style>
-
 <style lang="scss" scoped>
 .polar-plugin-pointer-position {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  gap: 1em;
   margin: 4px;
-  padding: 12px 12px 12px 0;
+  padding: 12px;
+
+  .polar-plugin-epsg-select {
+    max-width: 250px;
+  }
 }
 </style>
