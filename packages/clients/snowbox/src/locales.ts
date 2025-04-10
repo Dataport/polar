@@ -4,6 +4,8 @@ export const snowboxDe = {
   attributions: {
     basemap: 'Basemap © basemap.de / BKG <MONTH> <YEAR>',
     basemapGrey: 'Basemap Grau © basemap.de / BKG <MONTH> <YEAR>',
+    flurstuecke:
+      'Flurstücke © Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung (LGV)',
     underground:
       'Strecken U-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
     rapid:
@@ -16,6 +18,7 @@ export const snowboxDe = {
   layers: {
     basemap: 'Basemap.de (Farbe)',
     basemapGrey: 'Basemap.de (Grau)',
+    flurstuecke: 'Flurstücke',
     underground: 'U-Bahn',
     rapid: 'S-Bahn',
     reports: 'Anliegen (MML)',
@@ -46,6 +49,8 @@ const locales: Locale[] = [
         attributions: {
           basemap: 'Basemap © basemap.de / BKG <MONTH> <YEAR>',
           basemapGrey: 'Basemap Grey © basemap.de / BKG <MONTH> <YEAR>',
+          flurstuecke:
+            'Parcels © Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung (LGV)',
           underground:
             'Railway Lines U-Bahn © Freie und Hansestadt Hamburg, Behörde für Wirtschaft, Verkehr und Innovation',
           rapid:
@@ -58,6 +63,7 @@ const locales: Locale[] = [
         layers: {
           basemap: 'Basemap.de (Coloured)',
           basemapGrey: 'Basemap.de (Grey)',
+          flurstuecke: 'Parcels',
           underground: 'Underground railway (U-Bahn)',
           rapid: 'City rapid railway (S-Bahn)',
           reports: 'Reports (MML)',
