@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { RoutingConfiguration } from '@polar/lib-custom-types'
 import { makeStoreModule } from './store'
 import { Routing } from './components'
-import language from './language'
+import locales from './locales'
 
 /**
  * A function that dispatches an action to add the routing component to the Vuex store.
@@ -18,7 +18,7 @@ export default (options: RoutingConfiguration) => (instance: Vue) => {
   return instance.$store.dispatch('addComponent', {
     name: 'routing',
     plugin: Routing,
-    language,
+    locales,
     storeModule: makeStoreModule(),
     options,
   })
