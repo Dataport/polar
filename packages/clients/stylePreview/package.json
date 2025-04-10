@@ -1,0 +1,47 @@
+{
+  "name": "@polar/client-style-preview",
+  "version": "1.0.0-alpha",
+  "description": "POLAR Client Style Preview. Made to preview styles in OpenLayers.",
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "client",
+    "style"
+  ],
+  "license": "EUPL-1.2",
+  "type": "module",
+  "author": "Dataport AöR <polar@dataport.de>",
+  "main": "dist/polar-client.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dataport/polar.git",
+    "directory": "packages/clients/stylePreview"
+  },
+  "files": [
+    "dist/**/**.*",
+    "docs/**/**.*",
+    "example/prod-example.html",
+    "example/polar-example.js",
+    "CHANGELOG.md",
+    "API.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm",
+    "dev": "vite --host"
+  },
+  "devDependencies": {
+    "@polar/core": "^3.0.0",
+    "@polar/plugin-attributions": "^1.4.0",
+    "@polar/plugin-layer-chooser": "^2.0.0",
+    "@polar/plugin-scale": "^3.0.0",
+    "@polar/plugin-zoom": "^1.4.0"
+  },
+  "nx": {
+    "includedScripts": [
+      "build",
+      "dev"
+    ]
+  }
+}
