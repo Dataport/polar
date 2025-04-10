@@ -2,8 +2,8 @@ import { mount } from '@vue/test-utils'
 import createTestMountParameters, {
   MockParameters,
 } from '@polar/lib-test-mount-parameters'
-import { Routing } from '../components/index'
-import { makeStoreModule } from '../store/index'
+import { Routing } from '../src/components/index'
+import { makeStoreModule } from '../src/store/index'
 
 /**
  * Test suite for the 'plugin-routing' module.

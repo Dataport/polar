@@ -1,4 +1,4 @@
-import { makeStoreModule } from '../../store'
+import { makeStoreModule } from '../../src/store'
 
 describe('parseResponse', () => {
   const RoutingStore = makeStoreModule()

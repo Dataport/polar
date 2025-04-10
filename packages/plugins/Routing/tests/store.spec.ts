@@ -1,9 +1,9 @@
 import { PolarActionHandler } from '@polar/lib-custom-types'
 import proj4 from 'proj4'
 import { register } from 'ol/proj/proj4'
-import { makeStoreModule } from '../store/index'
-import { getInitialState } from '../store/state'
-import { RoutingState, RoutingGetters } from '../types'
+import { makeStoreModule } from '../src/store/index'
+import { getInitialState } from '../src/store/state'
+import { RoutingState, RoutingGetters } from '../src/types'
 // import { reactive } from 'vue'
 
 describe('plugin-routing', () => {
