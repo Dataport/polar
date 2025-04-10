@@ -1,13 +1,13 @@
 {
-  "name": "@polar/plugin-mouse-position",
+  "name": "@polar/plugin-pointer-position",
   "version": "1.0.0-alpha.0",
-  "description": "MousePosition plugin for POLAR that adds the mouse's coordinate position as retrievable information or display information.",
+  "description": "PointerPosition plugin for POLAR that adds the pointer's (last) coordinate position as retrievable information or display information.",
   "keyword": [
     "OpenLayers",
     "ol",
     "POLAR",
     "plugin",
-    "mouse position"
+    "pointer position"
   ],
   "license": "EUPL-1.2",
   "type": "module",
@@ -16,15 +16,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Dataport/polar.git",
-    "directory": "packages/plugins/MousePosition"
+    "directory": "packages/plugins/PointerPosition"
   },
   "files": [
     "src/**/*",
     "CHANGELOG.md"
   ],
-  "peerDependencies": {
-    "@polar/core": "^3.0.0"
-  },
   "devDependencies": {
     "@polar/lib-custom-types": "^2.1.0"
   }

@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add new interface `MousePositionConfiguration` for new plugin `@polar/plugin-mouse-position`, and add it as an optional entry of `MapConfig`.
+- Feature: Add new interface `PointerPositionConfiguration` and `PointerPositionProjection` for new plugin `@polar/plugin-pointer-position`, and add `PointerPositionConfiguration` as an optional entry of `MapConfig`.
 - Feature: Add `DrawRevision` to `DrawConfiguration`, including the nested `DrawMetaService`.
 
 ## 2.1.0

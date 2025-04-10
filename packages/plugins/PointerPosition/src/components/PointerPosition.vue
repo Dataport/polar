@@ -1,12 +1,12 @@
 <template>
-  <v-card class="polar-plugin-mouse-position">
+  <v-card class="polar-plugin-pointer-position">
     <v-select
       v-model="projection"
-      :aria-label="$t('plugins.mousePosition.projectionSelect.ariaLabel')"
+      :aria-label="$t('plugins.pointerPosition.projectionSelect.ariaLabel')"
       :items="
         projections.map((projection, index) => ({
           value: index,
-          text: projection,
+          text: projection.code,
         }))
       "
       dense
@@ -14,8 +14,8 @@
     />
     <v-text-field
       :label="
-        $t('plugins.mousePosition.label', {
-          epsg: projections[selectedProjection],
+        $t('plugins.pointerPosition.label', {
+          epsg: projections[selectedProjection].code,
         })
       "
       :value="coordinateString"
@@ -31,10 +31,10 @@ import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default Vue.extend({
-  name: 'MousePosition',
+  name: 'PointerPosition',
   computed: {
     ...mapGetters(['hasSmallDisplay', 'configuration']),
-    ...mapGetters('plugin/mousePosition', [
+    ...mapGetters('plugin/pointerPosition', [
       'projections',
       'coordinateString',
       'selectedProjection',
@@ -52,13 +52,13 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapActions('plugin/mousePosition', ['setSelectedProjection']),
+    ...mapActions('plugin/pointerPosition', ['setSelectedProjection']),
   },
 })
 </script>
 
 <style lang="scss">
-.polar-plugin-mouse-position .v-select {
+.polar-plugin-pointer-position .v-select {
   margin-right: 4px;
 
   .v-select__selections {
@@ -74,7 +74,7 @@ export default Vue.extend({
 </style>
 
 <style lang="scss" scoped>
-.polar-plugin-mouse-position {
+.polar-plugin-pointer-position {
   display: flex;
   flex-direction: row;
   align-items: center;

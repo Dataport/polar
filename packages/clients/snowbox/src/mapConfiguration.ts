@@ -295,16 +295,12 @@ export const mapConfiguration = {
       fill: '#ff0019',
     },
   },
-  mousePosition: {
-    projections: ['EPSG:4326', 'EPSG:25832', 'EPSG:3857', 'EPSG:31467'],
-    decimals: {
-      // that's what they're called, no use in circumventing that
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      'EPSG:25832': 0,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      'EPSG:3857': 1,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      'EPSG:31467': 2,
-    },
+  pointerPosition: {
+    projections: [
+      { code: 'EPSG:4326' },
+      { code: 'EPSG:25832', decimals: 0 },
+      { code: 'EPSG:3857', decimals: 1 },
+      { code: 'EPSG:31467', decimals: 2 },
+    ],
   },
 }

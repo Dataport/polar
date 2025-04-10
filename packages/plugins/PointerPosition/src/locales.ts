@@ -2,8 +2,8 @@ import { Locale } from '@polar/lib-custom-types'
 
 export const resourcesDe = {
   plugins: {
-    mousePosition: {
-      label: 'Mausposition in {{epsg}}',
+    pointerPosition: {
+      label: 'Zeigerposition in {{epsg}}',
       projectionSelect: {
         ariaLabel: 'Auswahl des Koordinatenreferenzsystems',
       },
@@ -13,8 +13,8 @@ export const resourcesDe = {
 
 export const resourcesEn = {
   plugins: {
-    mousePosition: {
-      label: 'Mouse position in {{epsg}}',
+    pointerPosition: {
+      label: 'Pointer position in {{epsg}}',
       projectionSelect: {
         ariaLabel: 'Coordinate reference system selection',
       },

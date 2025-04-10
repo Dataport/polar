@@ -25,7 +25,7 @@
     "@polar/plugin-layer-chooser": "*",
     "@polar/plugin-legend": "*",
     "@polar/plugin-loading-indicator": "*",
-    "@polar/plugin-mouse-position": "*",
+    "@polar/plugin-pointer-position": "*",
     "@polar/plugin-pins": "*",
     "@polar/plugin-reverse-geocoder": "*",
     "@polar/plugin-scale": "*",
