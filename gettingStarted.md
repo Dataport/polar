@@ -240,7 +240,7 @@ const createMap = (layerConf) => {
 }
 
 // Initializes the layer list and creates the map instance.
-// This is becomes obsolete once one uses a local service register.
+// This becomes obsolete if a local service register is used.
 polarCore.rawLayerList.initializeLayerList(
   'https://geodienste.hamburg.de/services-internet.json',
   createMap
