@@ -1,6 +1,6 @@
 <template>
   <v-card class="polar-plugin-pointer-position">
-    <span class="polar-plugin-coordinate-display">
+    <span>
       {{ $t('plugins.pointerPosition.label', { value: coordinateString }) }}
     </span>
     <v-select
@@ -31,7 +31,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default Vue.extend({
   name: 'PointerPosition',
   computed: {
-    ...mapGetters(['hasSmallDisplay', 'configuration']),
     ...mapGetters('plugin/pointerPosition', [
       'projections',
       'coordinateString',
