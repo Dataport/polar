@@ -2,10 +2,11 @@
   <v-card class="layer-chooser-options">
     <v-card-actions>
       <v-btn
+        id="polar-layer-chooser-options-back-button"
         icon
         small
         :aria-label="$t('plugins.layerChooser.returnToLayers')"
-        @click="setOpenedOptions(null)"
+        @click="closeOptions"
       >
         <v-icon small>fa-chevron-left</v-icon>
       </v-btn>
@@ -57,9 +58,10 @@ export default Vue.extend({
   name: 'LayerChooserOptions',
   computed: {
     ...mapGetters('plugin/layerChooser', [
+      'activeLayerIds',
+      'openedOptions',
       'openedOptionsService',
       'openedOptionsServiceLayers',
-      'activeLayerIds',
     ]),
     activeLayers: {
       get() {
@@ -73,6 +75,19 @@ export default Vue.extend({
   methods: {
     ...mapMutations('plugin/layerChooser', ['setOpenedOptions']),
     ...mapActions('plugin/layerChooser', ['toggleOpenedOptionsServiceLayer']),
+    closeOptions() {
+      const previousOptions = this.openedOptions
+      this.setOpenedOptions(null)
+      this.$nextTick(() => {
+        const button = (
+          document.querySelector('[data-app]') as ShadowRoot
+        ).getElementById(
+          `polar-layer-chooser-options-${previousOptions}-button`
+        )
+        // Sadly needed as the button is not focused otherwise.
+        setTimeout(() => button?.focus(), 0)
+      })
+    },
   },
 })
 </script>
