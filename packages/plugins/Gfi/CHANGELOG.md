@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: When using the gfi with `renderType` set to `'independent'` the window was not added to the MoveHandle to be displayed on mobile devices. Also, the closeIcon was incorrectly set if `ƒeatureList` was configured. This has been fixed by watching for changes to `windowFeatures`.
+
+## 3.0.2
+
+- Fix: Allow layers that have `singleTile` set to `true` and thus being an `ImageLayer` instead a `TileLayer` to be used for GFI-requests as well.
+
+## 3.0.1
+
+- Fix: Clean-up internal flag used for `multiSelect` if a drawing is aborted. This is always the case if a user simply clicks into the map holding CTRL / Command.
+
 ## 3.0.0
 
 - Breaking: Upgrade `@masterportal/masterportalapi` from `2.40.0` to `2.45.0` and subsequently `ol` from `^9.2.4` to `^10.3.1`.

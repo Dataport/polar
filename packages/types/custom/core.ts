@@ -1,5 +1,3 @@
-// pushing this boundary is fine for a type register
-/* eslint-disable max-lines */
 import { Feature, Map } from 'ol'
 import { Resource } from 'i18next'
 import { Options as Fill } from 'ol/style/Fill'
@@ -121,6 +119,7 @@ export interface AddressSearchConfiguration extends PluginOptions {
   addLoading?: string
   // definition of categories referred to in searchMethods
   categoryProperties?: Record<string, AddressSearchCategoryProperties>
+  component?: VueConstructor
   // optional additional search methods (client-side injections)
   customSearchMethods?: Record<string, SearchMethodFunction>
   /** NOTE regarding \<any, any\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here; not using "unknown" since that errors in client configuration, not using "never" since that errors in AddressSearch plugin; this way, "any"thing goes */
@@ -146,6 +145,7 @@ export interface Attribution {
 
 /** Attributions Module Configuration */
 export interface AttributionsConfiguration extends PluginOptions {
+  buttonComponent?: VueConstructor
   icons?: {
     open?: string
     close?: string
@@ -195,12 +195,35 @@ export interface MeasureOptions {
   initialOption?: MeasureMode
 }
 
+export interface Lasso {
+  id: string
+  minZoom: boolean
+}
+
 export interface DrawConfiguration extends Partial<PluginOptions> {
+  addLoading?: string
   enableOptions?: boolean
+  lassos?: Lasso[]
   measureOptions?: MeasureOptions
+  removeLoading?: string
+  revision?: DrawRevision
   selectableDrawModes?: DrawMode[]
+  snapTo?: string[]
   style?: DrawStyle
   textStyle?: TextStyle
+  toastAction?: string
+}
+
+export interface DrawRevision {
+  autofix?: boolean
+  metaServices?: DrawMetaService[]
+  validate?: boolean
+}
+
+export interface DrawMetaService {
+  id: string
+  aggregationMode?: 'unequal' | 'all'
+  propertyNames?: string[]
 }
 
 export interface ExportConfiguration extends PluginOptions {
@@ -409,7 +432,12 @@ export interface Menu {
 
 export interface IconMenuConfiguration extends PluginOptions {
   menus: Menu[]
+  buttonComponent?: VueConstructor
   initiallyOpen?: string
+}
+
+export interface LayerChooserConfiguration extends PluginOptions {
+  component?: VueConstructor
 }
 
 export interface LegendConfiguration extends PluginOptions {
@@ -514,6 +542,7 @@ export interface ZoomIcons {
 }
 
 export interface ZoomConfiguration extends PluginOptions {
+  component?: VueConstructor
   icons?: ZoomIcons
   renderType?: RenderType
   showMobile?: boolean
@@ -543,7 +572,7 @@ export interface PluginContainer {
  */
 
 export type StrategyOptions = 'all' | 'tile' | 'bbox'
-export type LayerType = 'mask' | 'background'
+export type LayerType = 'background' | string
 
 export interface LayerConfigurationOptionLayers {
   /**
@@ -670,8 +699,10 @@ export interface MapConfig extends MasterportalApiConfig {
   checkServiceAvailability?: boolean
   extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   featureStyles?: string
+  secureServiceUrlRegex?: string
   language?: InitialLanguage
   locales?: Locale[]
+  oidcToken?: string
   renderFaToLightDom?: boolean
   stylePath?: string
   vuetify?: UserVuetifyPreset
@@ -686,6 +717,7 @@ export interface MapConfig extends MasterportalApiConfig {
   routing?: RoutingConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
+  layerChooser?: LayerChooserConfiguration
   legend?: LegendConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
@@ -746,6 +778,7 @@ export interface CoreState {
   mapHasDimensions: boolean
   moveHandle: number
   moveHandleActionButton: number
+  oidcToken: string
   // NOTE truly any since external plugins may bring whatever; unknown will lead to further errors
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   plugin: Record<string, any>

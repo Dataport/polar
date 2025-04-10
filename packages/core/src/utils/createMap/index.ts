@@ -33,22 +33,24 @@ export default async function createMap({
     externalStylesheet.id = 'vuetify-theme-stylesheet-external'
   }
 
+  const defaultedConfiguration = { ...defaults, ...mapConfiguration }
+
   const instance: MapInstance = new Vue({
-    vuetify: vuetify(mapConfiguration?.vuetify),
+    vuetify: vuetify(defaultedConfiguration?.vuetify),
     el: shadowRoot.appendChild(document.createElement('div')),
     render: (createElement) =>
       createElement(MapContainer, {
         props: {
-          mapConfiguration: { ...defaults, ...mapConfiguration },
+          mapConfiguration: defaultedConfiguration,
         },
       }),
-    store: makeStore(),
+    store: makeStore(defaultedConfiguration),
   })
   instance.subscribe = subscribeFunction
 
-  pullPolarStyleToShadow(shadowRoot, mapConfiguration.stylePath)
+  pullPolarStyleToShadow(shadowRoot, defaultedConfiguration.stylePath)
   pullVuetifyStyleToShadow(shadowRoot)
-  setupFontawesome(shadowRoot, mapConfiguration.renderFaToLightDom)
+  setupFontawesome(shadowRoot, defaultedConfiguration.renderFaToLightDom)
   updateSizeOnReady(instance)
 
   // Restore theme ID such that external Vuetify app can find it again

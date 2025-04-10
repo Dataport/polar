@@ -24,6 +24,13 @@
         <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
       </div>
     </div>
-    <script type="module" src="./client-dish.js"></script>
+    <script type="module">
+      import client from './client-dish.js'
+
+      client.createMap({
+        containerId: 'polarstern',
+        mode: 'EXTERN',
+      })
+    </script>
   </body>
 </html>

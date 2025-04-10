@@ -24,6 +24,30 @@
         <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
       </div>
     </div>
-    <script type="module" src="./polar-client.ts"></script>
+    <script type="module">
+      import client from './polar-client.ts'
+
+      const internalHost = 'http://10.61.63.54'
+      const internalPort = '8081'
+      const internalPath = 'dish-deegree-3.5.0/services'
+
+      // leave empty for external map
+      const urlParams = {
+        internalHost,
+        internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
+      }
+
+      client.createMap({
+        containerId: 'polarstern',
+        mode: 'EXTERN', // INTERN, EXTERN
+        urlParams,
+        // only needed for the internal map
+        configOverride: {
+          gfi: {
+            internalHost: urlParams.internalHost,
+          }
+        }
+      })
+    </script>
   </body>
 </html>

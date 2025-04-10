@@ -5,12 +5,14 @@ import { AddressSearch } from './components'
 import locales from './locales'
 import { makeStoreModule } from './store'
 
+import SearchContainer from './components/SearchContainer.vue'
 import SearchResultSymbols from './utils/searchResultSymbols'
-export { SearchResultSymbols }
+export { SearchContainer, SearchResultSymbols }
 
 export type {
   AddressSearchState,
   AddressSearchGetters,
+  BKGParameters,
   MpApiParameters,
 } from './types'
 

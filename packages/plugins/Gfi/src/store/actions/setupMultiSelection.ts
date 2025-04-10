@@ -48,7 +48,7 @@ export function setupMultiSelection({
   getters: {
     gfiConfiguration: { boxSelect, directSelect, multiSelect },
   },
-  rootGetters: { map },
+  rootGetters,
 }: PolarActionContext<GfiState, GfiGetters>) {
   if (boxSelect || multiSelect === 'box' || multiSelect === 'circle') {
     if (boxSelect) {
@@ -66,22 +66,25 @@ export function setupMultiSelection({
       // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
       draw._isMultiSelect = true
     })
+    draw.on('drawabort', () => {
+      // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
+      draw._isMultiSelect = false
+    })
     draw.on('drawend', (e) =>
       dispatch('getFeatureInfo', {
         // @ts-expect-error | A feature that is drawn has a geometry.
         coordinateOrExtent: e.feature.getGeometry().getExtent(),
         modifierPressed: true,
-      }).finally(
-        () =>
-          // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
-          (draw._isMultiSelect = false)
-      )
+      }).finally(() => {
+        // @ts-expect-error | internal hack to detect it in @polar/plugin-pins
+        draw._isMultiSelect = false
+      })
     )
-    map.addInteraction(draw)
+    rootGetters.map.addInteraction(draw)
   }
   if (directSelect) {
-    map.on('click', ({ coordinate, originalEvent }) => {
-      if (!isDrawing(map)) {
+    rootGetters.map.on('click', ({ coordinate, originalEvent }) => {
+      if (!isDrawing(rootGetters.map)) {
         dispatch('getFeatureInfo', {
           coordinateOrExtent: coordinate,
           modifierPressed:

@@ -1,6 +1,6 @@
 # Contributing
 
-There is no formally defined process about contributions to the POLAR repository yet. For any contributions, please contact dataportpolarsupport@dataport.de with your matter in question.
+There is no formally defined process about contributions to the POLAR repository yet. For any contributions, please contact polar@dataport.de with your matter in question.
 
 ## Issues
 

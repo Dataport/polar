@@ -1,3 +1,4 @@
-import DishGfiContent from './Content.vue'
+import DishGfiExtern from './ContentExtern.vue'
+import DishGfiIntern from './ContentIntern.vue'
 
-export default DishGfiContent
+export { DishGfiIntern, DishGfiExtern }

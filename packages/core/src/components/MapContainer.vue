@@ -59,6 +59,7 @@ import {
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addClusterStyle } from '../utils/addClusterStyle'
 import { setupStyling } from '../utils/setupStyling'
+import { mapZoomOffset } from '../utils/mapZoomOffset'
 import MapUi from './MapUi.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
@@ -93,8 +94,10 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters([
+      'hasSmallDisplay',
       'hasSmallWidth',
       'hasWindowSize',
+      'map',
       'moveHandle',
       'moveHandleActionButton',
     ]),
@@ -132,9 +135,11 @@ export default Vue.extend({
     const map = api.map.createMap(
       {
         target: this.$refs['polar-map-container'],
-        ...(this.mapConfiguration.extendedMasterportalapiMarkers
-          ? addClusterStyle(this.mapConfiguration)
-          : this.mapConfiguration),
+        ...mapZoomOffset(
+          this.mapConfiguration.extendedMasterportalapiMarkers
+            ? addClusterStyle(this.mapConfiguration)
+            : this.mapConfiguration
+        ),
       },
       '2D',
       {
@@ -157,13 +162,10 @@ export default Vue.extend({
       )
     }
     this.updateListeners(this.hasWindowSize)
-    this.setConfiguration(this.mapConfiguration)
     this.mapConfiguration.locales?.forEach?.((locale: Locale) =>
       i18next.addResourceBundle(locale.type, 'common', locale.resources, true)
     )
-
     i18next.on('languageChanged', (lang) => (this.lang = lang))
-
     if (this.mapConfiguration.checkServiceAvailability) {
       this.checkServiceAvailability()
     }
@@ -172,7 +174,6 @@ export default Vue.extend({
   },
   beforeDestroy() {
     removeEventListener('resize', this.updateHasSmallDisplay)
-
     const mapContainer = this.$refs['polar-map-container']
     if (!this.hasWindowSize && mapContainer) {
       ;(mapContainer as HTMLDivElement).removeEventListener(
@@ -182,11 +183,11 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...mapMutations(['setConfiguration', 'setHasSmallDisplay', 'setMap']),
+    ...mapMutations(['setHasSmallDisplay', 'setMap']),
     ...mapActions([
+      'checkServiceAvailability',
       'updateDragAndZoomInteractions',
       'useExtendedMasterportalapiMarkers',
-      'checkServiceAvailability',
     ]),
     updateHasSmallDisplay() {
       this.setHasSmallDisplay(
@@ -202,13 +203,20 @@ export default Vue.extend({
           this.wheelEffect
         )
 
-        if (
-          window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
-          window.innerWidth <= SMALL_DISPLAY_WIDTH
-        ) {
+        if (this.hasSmallDisplay) {
           new Hammer(mapContainer).on('pan', (e) => {
-            this.oneFingerPan = e.maxPointers === 1
-            setTimeout(() => (this.oneFingerPan = false), 2000)
+            if (
+              e.maxPointers === 1 &&
+              !this.map
+                .getInteractions()
+                .getArray()
+                .some((interaction) =>
+                  interaction.get('_isPolarDragLikeInteraction')
+                )
+            ) {
+              this.oneFingerPan = true
+              setTimeout(() => (this.oneFingerPan = false), 2000)
+            }
           })
         }
       }
@@ -230,7 +238,6 @@ export default Vue.extend({
   position: absolute;
   height: 100%;
   width: 100%;
-
   .polar-map {
     width: 100%;
     height: 100%;
@@ -265,16 +272,13 @@ export default Vue.extend({
   height: 100%;
   width: 100%;
 }
-
 .v-tooltip__content {
   background-color: #595959;
   border: 2px solid #fff;
 }
-
 .v-application {
   font-family: sans-serif !important;
 }
-
 /* Override v-app default styling (must be global to take effect) */
 .polar-wrapper .v-application--wrap {
   min-height: initial;

@@ -8,6 +8,7 @@ import noop from '@repositoryname/noop'
 import { Circle, LineString, Point, Polygon } from 'ol/geom'
 import { DrawGetters, DrawMutations, DrawState } from '../types'
 import { makeActions } from './actions'
+import { inactive } from './reviseFeatures/revisionStates'
 
 const getInitialState = (): DrawState => ({
   mode: 'none',
@@ -18,13 +19,16 @@ const getInitialState = (): DrawState => ({
     type: 'FeatureCollection',
     features: [],
   },
+  revisedFeatureCollection: {
+    type: 'FeatureCollection',
+    features: [],
+  },
+  featureCollectionRevisionState: inactive,
   selectedFeature: 1,
   selectedStrokeColor: '#000000',
   measureMode: 'none',
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   // NOTE hack to keep complex objects out of vuex
   let selectedFeature = null
@@ -79,13 +83,41 @@ export const makeStoreModule = () => {
         } else if (includesMeasure) {
           drawLabel = 'measure'
         }
-        return {
-          none: 'plugins.draw.mode.none',
-          draw: `plugins.draw.mode.${drawLabel}`,
-          edit: 'plugins.draw.mode.edit',
-          delete: 'plugins.draw.mode.delete',
+        const modes = [
+          ['none', 'plugins.draw.mode.none'],
+          ['draw', `plugins.draw.mode.${drawLabel}`],
+          ['edit', 'plugins.draw.mode.edit'],
+          ['translate', 'plugins.draw.mode.translate'],
+          ['duplicate', 'plugins.draw.mode.duplicate'],
+          ['cut', 'plugins.draw.mode.cut'],
+          ['merge', 'plugins.draw.mode.merge'],
+          ['delete', 'plugins.draw.mode.delete'],
+        ]
+        if (configuration.lassos) {
+          modes.splice(4, 0, ['lasso', 'plugins.draw.mode.lasso'])
         }
+        return Object.fromEntries(modes)
       },
+      activeLassoIds: (_, { configuration }, __, rootGetters) =>
+        (configuration.lassos || []).reduce(
+          (accumulator, { id, minZoom = true }) => {
+            const layerConfig = rootGetters.configuration.layers?.find(
+              (layer) => id === layer.id
+            )
+            if (
+              minZoom &&
+              layerConfig &&
+              typeof layerConfig.minZoom !== 'undefined' &&
+              rootGetters.zoomLevel < layerConfig.minZoom
+            ) {
+              return accumulator
+            }
+            accumulator.push(id)
+            return accumulator
+          },
+          [] as string[]
+        ),
+      toastAction: (_, { configuration }) => configuration.toastAction || '',
       measureOptions: (_, { configuration }) =>
         configuration.measureOptions || {},
       selectableMeasureModes: (_, { drawMode, measureOptions }) =>

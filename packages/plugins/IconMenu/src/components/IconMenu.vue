@@ -12,25 +12,22 @@
     >
       <component :is="plugin" v-if="icon === undefined" />
       <template v-else>
-        <v-tooltip left :disabled="hasSmallDisplay">
-          <template #activator="{ on, attrs }">
-            <v-btn
-              :color="open === index ? 'primaryContrast' : 'primary'"
-              fab
-              small
-              :aria-label="$t(hint ? hint : `plugins.iconMenu.hints.${id}`)"
-              v-bind="attrs"
-              @click="toggle(Number(index))"
-              v-on="on"
-            >
-              <v-icon :color="open === index ? 'primary' : 'primaryContrast'">
-                {{ icon }}
-              </v-icon>
-            </v-btn>
-          </template>
-          <span>{{ $t(hint ? hint : `plugins.iconMenu.hints.${id}`) }}</span>
-        </v-tooltip>
-        <!-- Content is displayed in MoveHandle of the core if hasWindowSize and hasSmallWidth are true -->
+        <component
+          :is="buttonComponent"
+          v-if="buttonComponent"
+          :id="id"
+          :icon="icon"
+          :hint="hint"
+          :index="index"
+        />
+        <IconMenuButton
+          v-else
+          :id="id"
+          :icon="icon"
+          :hint="hint"
+          :index="index"
+        />
+        <!-- Content displayed in MoveHandle of the core if has-window-size and has-small-width are true -->
         <component
           :is="plugin"
           v-if="open === index && (!hasWindowSize || !hasSmallWidth)"
@@ -50,21 +47,21 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
+import IconMenuButton from './IconMenuButton.vue'
 
 export default Vue.extend({
   name: 'IconMenu',
+  components: { IconMenuButton },
   data: () => ({ maxWidth: 'inherit' }),
   computed: {
     ...mapGetters([
       'clientHeight',
       'deviceIsHorizontal',
-      'hasSmallDisplay',
-      'hasSmallHeight',
       'hasSmallWidth',
       'hasWindowSize',
     ]),
-    ...mapGetters('plugin/iconMenu', ['initiallyOpen', 'menus', 'open']),
+    ...mapGetters('plugin/iconMenu', ['buttonComponent', 'menus', 'open']),
     asList() {
       return this.menus.length > 1
     },
@@ -99,20 +96,6 @@ export default Vue.extend({
     removeEventListener('resize', this.updateMaxWidth)
   },
   methods: {
-    ...mapMutations(['setMoveHandle']),
-    ...mapMutations('plugin/iconMenu', ['setOpen']),
-    ...mapActions('plugin/iconMenu', ['openInMoveHandle', 'openMenuById']),
-    toggle(index: number) {
-      if (this.open === index) {
-        this.setOpen(null)
-        this.setMoveHandle(null)
-      } else {
-        this.setOpen(index)
-        this.openInMoveHandle(index)
-        console.error(`opened index ${index}`)
-      }
-      this.updateMaxWidth()
-    },
     updateMaxWidth() {
       this.$nextTick(() => {
         const plugin = this.$refs['item-component']
@@ -140,7 +123,7 @@ export default Vue.extend({
 }
 </style>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .icon-menu-list {
   position: relative;
   list-style: none;
@@ -175,13 +158,5 @@ export default Vue.extend({
   z-index: 1;
   overflow-y: auto;
   scrollbar-gutter: stable;
-
-  &::v-deep > * {
-    /* required for v-card default shadow
-     * that, without, sometimes produces scrollbars */
-    margin: 2px;
-    top: -2px;
-    right: -2px;
-  }
 }
 </style>

@@ -1,5 +1,5 @@
 import { Mutation, MutationTree } from 'vuex'
-import { FeatureCollection } from 'geojson'
+import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
 import { Feature } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
@@ -10,6 +10,14 @@ import {
   MeasureMode,
   MeasureOptions,
 } from '@polar/lib-custom-types'
+import {
+  inactive,
+  inProgress,
+  complete,
+  error,
+} from './store/reviseFeatures/revisionStates'
+
+export type GeometryType = Exclude<Geometry, GeometryCollection>
 
 // The options that can be given to an ol/VectorLayer. Somehow the direct import from ol doesn't work.
 // This is a copy with the things that we currently use
@@ -18,7 +26,16 @@ export interface PolarVectorOptions {
   style?: StyleLike
 }
 
-export type Mode = 'none' | 'draw' | 'edit' | 'delete'
+export type Mode =
+  | 'none'
+  | 'draw'
+  | 'edit'
+  | 'translate'
+  | 'delete'
+  | 'lasso'
+  | 'duplicate'
+  | 'merge'
+  | 'cut'
 
 export interface CreateInteractionsPayload {
   drawSource: VectorSource
@@ -35,9 +52,16 @@ export interface DrawState {
   featureCollection: FeatureCollection
   selectedFeature: number
   measureMode: MeasureMode
+  revisedFeatureCollection: FeatureCollection
+  featureCollectionRevisionState:
+    | typeof inactive
+    | typeof inProgress
+    | typeof complete
+    | typeof error
 }
 
 export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
+  drawSource: VectorSource
   selectableDrawModes: { [k in DrawMode]?: string }
   selectedFeature: Feature
   selectableModes: { [k in Mode]: string }
@@ -49,6 +73,8 @@ export interface DrawGetters extends Omit<DrawState, 'selectedFeature'> {
   showSizeSlider: boolean
   /* actual text size to use */
   textSize: number
+  activeLassoIds: string[]
+  toastAction: string
   showDrawOptions: boolean
   showMeasureOptions: boolean
 }

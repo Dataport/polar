@@ -9,11 +9,19 @@ import { createTextStyle } from '../utils/createTextStyle'
 import createDrawStyle from '../utils/createDrawStyle'
 import createInteractions from './createInteractions'
 import createModifyInteractions from './createInteractions/createModifyInteractions'
+import createTextInteractions from './createInteractions/createTextInteractions'
+import createTranslateInteractions from './createInteractions/createTranslateInteractions'
+import createLassoInteractions from './createInteractions/createLassoInteractions'
 import modifyDrawStyle from './createInteractions/modifyDrawStyle'
 import modifyTextStyle from './createInteractions/modifyTextStyle'
+import createDrawInteractions from './createInteractions/createDrawInteractions'
+import createDeleteInteractions from './createInteractions/createDeleteInteractions'
+import { createDuplicateInteractions } from './createInteractions/createDuplicateInteractions'
+import { createCutInteractions } from './createInteractions/createCutInteractions'
+import { createMergeInteractions } from './createInteractions/createMergeInteractions'
+import { reviseFeatures } from './reviseFeatures'
+import { complete } from './reviseFeatures/revisionStates'
 
-// OK for module action set creation
-// eslint-disable-next-line max-lines-per-function
 export const makeActions = () => {
   let interactions: Interaction[] = []
   let drawLayer
@@ -21,43 +29,68 @@ export const makeActions = () => {
 
   const actions: PolarActionTree<DrawState, DrawGetters> = {
     createInteractions,
+    createDuplicateInteractions,
+    createCutInteractions,
+    createMergeInteractions,
+    createDrawInteractions,
+    createLassoInteractions,
     createModifyInteractions,
+    createTranslateInteractions,
+    createDeleteInteractions,
+    createTextInteractions,
     modifyDrawStyle,
     modifyTextStyle,
-    setupModule({
-      commit,
-      dispatch,
-      getters: { configuration, measureOptions, selectableDrawModes },
-      rootGetters: { map },
-    }) {
+    reviseFeatures,
+    setupModule({ commit, dispatch, getters, rootGetters: { map } }) {
       dispatch('initializeConfigStyle')
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
         commit('updateFeatures')
       )
-      drawLayer = createDrawLayer(drawSource, configuration?.style)
+      drawLayer = createDrawLayer(drawSource, getters.configuration?.style)
 
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
 
-      const drawModes = Object.keys(selectableDrawModes)
+      const drawModes = Object.keys(getters.selectableDrawModes)
       if (!drawModes.includes('Point')) {
         commit('setDrawMode', drawModes[0])
       }
-      if (measureOptions.initialOption) {
-        commit('setMeasureMode', measureOptions.initialOption)
+      if (getters.measureOptions.initialOption) {
+        commit('setMeasureMode', getters.measureOptions.initialOption)
+      }
+
+      if (getters.configuration.revision) {
+        // not inactive, and initially complete due to still being empty
+        commit('setFeatureCollectionRevisionState', complete)
+        this.watch(
+          () => getters.featureCollection,
+          () => dispatch('reviseFeatures')
+        )
       }
     },
-    setDrawMode({ commit, dispatch }, drawMode: DrawMode) {
+    async setDrawMode({ commit, dispatch }, drawMode: DrawMode) {
       commit('setDrawMode', drawMode)
-      dispatch('updateInteractions')
+      await dispatch('updateInteractions')
+    },
+    /** Please consult the README.md before usage. */
+    async setInteractions(
+      { dispatch, rootGetters },
+      newInteractions: Interaction[]
+    ) {
+      dispatch('setMode', 'none')
+      await dispatch('updateInteractions')
+      interactions = newInteractions
+      interactions.forEach((interaction) =>
+        rootGetters.map.addInteraction(interaction)
+      )
     },
     setMeasureMode({ commit, dispatch }, measureMode: MeasureMode) {
       commit('setMeasureMode', measureMode)
       dispatch('updateInteractions')
     },
-    setMode({ commit, dispatch }, mode: Mode) {
+    async setMode({ commit, dispatch }, mode: Mode) {
       commit('setMode', mode)
-      dispatch('updateInteractions')
+      await dispatch('updateInteractions')
     },
     setTextInput(
       {

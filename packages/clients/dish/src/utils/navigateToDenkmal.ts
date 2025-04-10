@@ -1,9 +1,11 @@
-import { getWfsFeatures } from '@polar/lib-get-features'
-import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
-import { denkmaelerWfsService } from '../services'
-import { mapConfiguration } from '../mapConfig'
+import { MapInstance } from '@polar/core'
+import { denkmaelerWfServiceExtern } from '../services'
+import { getMapConfiguration } from '../mapConfigurations/mapConfig'
+import { DishParameters } from '../types'
+import { zoomToFeatureById } from './zoomToFeatureById'
 
-export function navigateToDenkmal(instance, objektId: string) {
+export function navigateToDenkmal(instance: MapInstance, objektId: string) {
+  const mapConfiguration = getMapConfiguration('EXTERN')
   const wfsConfig = mapConfiguration.addressSearch.searchMethods.find(
     ({ type }) => type === 'dish'
   )
@@ -16,35 +18,9 @@ export function navigateToDenkmal(instance, objektId: string) {
       'Client is missing wfsConfig.queryParameters on DISH search method.'
     )
   }
-
-  getWfsFeatures(null, denkmaelerWfsService.url, objektId, {
-    ...wfsConfig.queryParameters.wfsConfiguration,
+  const { wfsConfiguration } = wfsConfig.queryParameters as DishParameters
+  zoomToFeatureById(instance, objektId, denkmaelerWfServiceExtern.url, {
+    ...wfsConfiguration,
     useRightHandWildcard: false,
   })
-    .then((featureCollection: FeatureCollection) => {
-      const { features } = featureCollection
-      if (features.length === 0) {
-        throw Error(`No features for ID ${objektId} found.`)
-      }
-      if (features.length > 1) {
-        console.warn(
-          `@polar/client-dish: More than one feature found for id ${objektId}. Arbitrarily using first-returned.`
-        )
-      }
-      const feature = features[0]
-      const geometry = feature.geometry as Exclude<Geometry, GeometryCollection>
-      instance.$store.dispatch('plugin/pins/showMarker', {
-        coordinates: geometry.coordinates,
-        epsg: 'EPSG:25832',
-        type: geometry.type,
-        clicked: false,
-      })
-    })
-    .catch((error) => {
-      console.error('@polar/client-dish', error)
-      instance.$store.dispatch('plugin/toast/addToast', {
-        type: 'warning',
-        text: 'dish.idNotFound',
-      })
-    })
 }

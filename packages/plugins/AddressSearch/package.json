@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-address-search",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "AddressSearch plugin for POLAR that adds a user interface to search for various kinds of textual information to map it to a geometry; e.g. parcel numbers or addresses, but any kind of toponym mapping is possible.",
   "keywords": [
     "OpenLayers",
@@ -14,7 +14,7 @@
   ],
   "license": "EUPL-1.2",
   "type": "module",
-  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "author": "Dataport AöR <polar@dataport.de>",
   "main": "src/index.ts",
   "repository": {
     "type": "git",

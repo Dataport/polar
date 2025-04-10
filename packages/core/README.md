@@ -91,8 +91,10 @@ The mapConfiguration allows controlling many client instance details.
 | checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
 | extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalapi. |
 | featureStyles | string? | Optional path to define styles for vector features. See `mapConfiguration.featureStyles` for more information. May be a url or a path on the local file system. |
+| secureServiceUrlRegex | string | Regular expression defining URLs that belong to secured services. All requests sent to URLs that fit the regular expression will send the JSON Web Token (JWT) found in the store parameter `oidcToken` as a Bearer token in the Authorization header of the request. Requests already including a Authorization header will keep the already present one. |
 | language | enum["de", "en"]? | Initial language. |
 | locales | Locale[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
+| oidcToken | string? | If a secured layer is supposed to be visible on start, the token also has to be provided via this configuration parameter. Updates to the token have to be done by calling the mutation [`setOidcToken`](#setoidctoken). |
 | <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
 | renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
 | stylePath | string? | This path will be used to create the link node in the client itself. It defaults to `'./style.css'`. |
@@ -339,9 +341,10 @@ However, not all listed services have been implemented in the `@masterportal/mas
 
 Whitelisted and confirmed parameters include:
 
-- WMS:  id, name, url, typ, format, version, transparent, layers, STYLES
+- WMS:  id, name, url, typ, format, version, transparent, layers, STYLES, singleTile
 - WFS:  id, name, url, typ, outputFormat, version, featureType
 - WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength
+- OAF: id, name, url, typ, collection, crs, bboxCrs
 - GeoJSON: id, name, url, typ, version, minScale, maxScale, legendURL
 
 ###### Example services register
@@ -395,6 +398,16 @@ Whitelisted and confirmed parameters include:
     "typ": "WMTS",
     "layers": "layer-name",
     "legendURL": "my-legend-url"
+  },
+  {
+    "id": "oaf",
+    "typ": "OAF",
+    "name": "My OAF",
+    "url": "https://api.hamburg.de/datasets/v1/stadtgruen",
+    "collection": "poi",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/25832",
+    "bboxCrs": "http://www.opengis.net/def/crs/EPSG/0/25832",
+    "gfiTheme": "default",
   },
   {
     "id": "my-geojson",
@@ -512,6 +525,20 @@ This specific path would require resizing via CSS, e.g. `scale: 0.0234375;` on t
 
 If you need a compilation from [icomoon's](https://icomoon.io/) svg export (or samey format) to such an object, see `scripts/precompileSvg.js` in the root folder.
 
+## Teardown
+
+In some single page applications, the map client may produce unexpected behaviour on rerenders. Should this occur in your environment, these hints should help:
+
+* Use `mapInstance.$destroy()` in your framework's lifecycle's unmount method before new `createMap` calls.
+* In general, your calls to our `watch` or `subscribe` methods should also be cleaned up to avoid leaks. These methods return `unwatch` or `unsubscribe` methods respectively, and can be called on any cleanup.
+* Most frameworks will handle DOM regeneration on rerenders themselves. Should you need to clean up the DOM for arbitrary reasons yourself, this snippet may come in handy:
+  ```js
+    const polarstern = document.getElementById('polarstern-wrapper')
+    const stellamaris = document.createElement('div')
+    stellamaris.id = 'polarstern'
+    polarstern?.parentElement?.replaceChild(stellamaris, polarstern)
+  ```
+
 ## Store
 
 The core module features a vuex root store that all plugin vuex modules are plugged into. However, the root contents are only relevant to plugins. It is accessible with `map.$store`, and can be used as a starting point for plugin access.
@@ -537,6 +564,17 @@ This is, for example, useful to listen to search results, draw features, or mark
 
 To add content to the `MoveHandle`, the mutation `setMoveHandle` can be used. The values needed are described in `@polar/lib-custom-types:MoveHandleProperties`.
 
+### Mutations
+
+#### setOidcToken
+
+```js
+map.$store.commit('setOidcToken', 'base64encodedOIDCtoken')
+```
+
+Calling the mutation `setOidcToken` adds the given Base64-encoded OIDC token to the store.  
+If the configuration parameter `secureServiceUrlRegex` is set, the token will be sent as a Bearer token in the Authorization header of all requests to URLs that match the regular expression.
+
 ### Getters
 
 You may desire to listen to whether the loader is currently being shown.
@@ -547,3 +585,11 @@ You may desire to listen to whether the loader is currently being shown.
 | hovered | Feature \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the currently hovered marker. Please mind that it may be a clustered feature. |
 | selected | Feature \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the currently selected marker. Please mind that it may be a clustered feature. |
 | selectedCoordinates | Array \| null | If `useExtendedMasterportalApiMarkers` is active, this will return the coordinates of the currently selected marker. |
+
+## Special Flags
+
+POLAR uses flags on some OL elements to handle overarching issues. Those flags can be retrieved with `olThing.get('_flagName')`. These flags must not be specific to a plugin and must provide documentation in this place. They may yield uses outside of the POLAR application when further building upon the clients or creating new plugins.
+
+| flagName | type | description |
+| - | - | - |
+| _isPolarDragLikeInteraction | true | This flag is either `true` or absent. It must be present on drag-like interactions with the map to provide information to the core on when to display the map pan instructions on mobile devices. The instructions will not be shown if a single interaction with this flag is found, assuming that the interaction takes precendence over scrolling the page. |

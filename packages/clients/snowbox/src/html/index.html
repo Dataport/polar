@@ -70,10 +70,9 @@
       }
 
       #vuex-target-export-result {
-        width: 100%;
-        height: var(--map-height);
+        display: block;
+        width: 50%;
       }
-
     </style>
   </head>
   <body>
@@ -111,8 +110,12 @@
       <pre id="vuex-target-draw-result"></pre>
     </p>
     <p>
+      Drawing revision:
+      <pre id="vuex-target-draw-revision-result"></pre>
+    </p>
+    <p>
       Map export:
-      <embed  id="vuex-target-export-result">
+      <img id="vuex-target-export-result">
     </p>
     <script type="module" src="./client-snowbox.js"></script>
     <script>

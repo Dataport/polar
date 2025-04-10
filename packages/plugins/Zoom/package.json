@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-zoom",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Zoom plugin for POLAR that adds zoom functionality via UI and store.",
   "keywords": [
     "OpenLayers",
@@ -11,7 +11,7 @@
   ],
   "license": "EUPL-1.2",
   "type": "module",
-  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "author": "Dataport AöR <polar@dataport.de>",
   "main": "src/index.ts",
   "repository": {
     "type": "git",

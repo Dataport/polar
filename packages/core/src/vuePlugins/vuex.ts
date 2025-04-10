@@ -11,6 +11,7 @@ import noop from '@repositoryname/noop'
 import i18next from 'i18next'
 import {
   CoreState,
+  MapConfig,
   MoveHandleActionButton,
   MoveHandleProperties,
   PluginContainer,
@@ -28,6 +29,7 @@ import {
   updateSelection,
   useExtendedMasterportalapiMarkers,
 } from './actions/useExtendedMasterportalapiMarkers'
+import { addInterceptor } from './actions/addInterceptor'
 import checkServiceAvailability from './actions/checkServiceAvailability'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
@@ -77,11 +79,10 @@ const getInitialState = (): CoreState => ({
   errors: [],
   language: '',
   mapHasDimensions: false,
+  oidcToken: '',
 })
 
-// OK for store creation
-// eslint-disable-next-line max-lines-per-function
-export const makeStore = () => {
+export const makeStore = (mapConfiguration: MapConfig) => {
   /*
    * NOTE: The following variables are used to store complex information
    * retrievable from the store without actually adding them to the store.
@@ -100,7 +101,7 @@ export const makeStore = () => {
   let moveHandle: MoveHandleProperties | null = null
   let moveHandleActionButton: MoveHandleActionButton | null = null
   let selected: null | Feature = null
-  let components = []
+  let components: PluginContainer[] = []
   let interactions: Interaction[] = []
 
   const setCenter = ({ map }) =>
@@ -215,6 +216,7 @@ export const makeStore = () => {
       },
     },
     actions: {
+      addInterceptor,
       checkServiceAvailability,
       addComponent({ state, commit, dispatch }, component: PluginContainer) {
         const { locales, language, name, options, storeModule } = component
@@ -278,5 +280,15 @@ export const makeStore = () => {
   i18next.on('languageChanged', (language) => {
     store.commit('setLanguage', language)
   })
+
+  store.commit('setConfiguration', mapConfiguration)
+  if (mapConfiguration.oidcToken) {
+    // copied to a separate spot for usage as it's changable data at run-time
+    store.commit('setOidcToken', mapConfiguration.oidcToken)
+  }
+  if (mapConfiguration.secureServiceUrlRegex) {
+    store.dispatch('addInterceptor', mapConfiguration.secureServiceUrlRegex)
+  }
+
   return store
 }

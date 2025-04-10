@@ -11,8 +11,6 @@ const getInitialState = (): IconMenuState => ({
   open: null,
 })
 
-// OK for module creation
-// eslint-disable-next-line max-lines-per-function
 export const makeStoreModule = () => {
   const storeModule: PolarModule<IconMenuState, IconMenuGetters> = {
     namespaced: true,
@@ -68,22 +66,20 @@ export const makeStoreModule = () => {
           dispatch('openInMoveHandle', index)
         }
       },
-      openInMoveHandle({ commit, getters, rootGetters }, index: number) {
-        if (rootGetters.hasWindowSize && rootGetters.hasSmallWidth) {
-          const { hint, id, plugin } = getters.menus[index]
-          commit(
-            'setMoveHandle',
-            {
-              closeLabel: t('plugins.iconMenu.mobileCloseButton', {
-                plugin: hint || `plugins.iconMenu.hints.${id}`,
-              }),
-              closeFunction: () => commit('setOpen', null),
-              component: plugin,
-              plugin: 'iconMenu',
-            },
-            { root: true }
-          )
-        }
+      openInMoveHandle({ commit, getters }, index: number) {
+        const { hint, id, plugin } = getters.menus[index]
+        commit(
+          'setMoveHandle',
+          {
+            closeLabel: t('plugins.iconMenu.mobileCloseButton', {
+              plugin: hint || `plugins.iconMenu.hints.${id}`,
+            }),
+            closeFunction: () => commit('setOpen', null),
+            component: plugin,
+            plugin: 'iconMenu',
+          },
+          { root: true }
+        )
       },
     },
     mutations: {
@@ -91,8 +87,10 @@ export const makeStoreModule = () => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
+      buttonComponent: (_, __, ___, rootGetters) =>
+        rootGetters.configuration.iconMenu?.buttonComponent || null,
       initiallyOpen: (_, __, ___, rootGetters) =>
-        rootGetters.configuration?.iconMenu?.initiallyOpen || '',
+        rootGetters.configuration.iconMenu?.initiallyOpen || '',
     },
   }
 
