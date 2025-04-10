@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { FeatureCollection } from 'geojson'
 import { transform as transformCoordinates } from 'ol/proj'
 import { BKGParameters } from '../../types'

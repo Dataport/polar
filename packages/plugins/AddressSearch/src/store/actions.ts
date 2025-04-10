@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import debounce from 'lodash.debounce'
 import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
