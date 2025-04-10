@@ -16,8 +16,8 @@ The PointerPosition plugin makes the current/last pointer position available as 
 
 | fieldName | type | description |
 | - | - | - |
-| decimals | number? | If no decimal count is given for a projection, the decimals are defaulted to 4. |
 | code | `EPSG:${string}` | Configured codes must be defined via the core's configuration field `namedProjections` or its default value; i.e., only a subset can be chosen here. If not given, all EPSG systems configured in `namedProjections` will be chosen. In both cases, the coordinate reference system that is first in the list will be used as initial selection. If only one system is available, the selection element will be omitted. |
+| decimals | number? | If no decimal count is given for a projection, the decimals are defaulted to 4. |
 
 ## Store
 
