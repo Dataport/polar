@@ -19,6 +19,7 @@ const config: Config.InitialOptions = {
     '^.+\\.tsx?$': 'ts-jest',
     '^.*\\.js$': 'babel-jest',
   },
+  // jest-canvas-mock and setup file is required because of @masterportal/masterportalapi; setup file is based on setup file from @masterportal/masterportalapi setup
   setupFiles: ['jest-canvas-mock'],
   setupFilesAfterEnv: ['./__mocks__/jest.setup.js'],
   transformIgnorePatterns: [
