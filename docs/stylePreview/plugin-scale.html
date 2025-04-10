@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1 id="scale" tabindex="-1">Scale</h1>
+<blockquote>
+<p>⚠ The Scale plugin is currently meant for passive usage only. It's API has not yet been finally defined, and is subject to change without further notice.</p>
+</blockquote>
+<h2 id="scope" tabindex="-1">Scope</h2>
+<p>The scale plugin shows the current map resolution as relative scale (1:x) and/or absolute scale (a drawn line has length x units).</p>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="scale-1" tabindex="-1">scale</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>showScaleSwitcher</td>
+<td>boolean?</td>
+<td>If set to <code>true</code>, a button to switch to a specific scale will be rendered. Defaults to <code>false</code>. Requires the configuration parameter <code>options</code> set in the <code>mapConfiguration</code>, see <code>&lt;...masterportalAPI.fields&gt;</code> in the <code>@polar/core</code> package documentation for more information. Also requires the parameter <code>zoomMethod</code> to be configured.</td>
+</tr>
+<tr>
+<td>zoomMethod</td>
+<td>string?</td>
+<td>Path to the action that is used for the zoom of the scale switcher. Has to take <code>zoomLevel</code> as payload. Must be configured for the scale switcher, otherwise it will not be rendered.</td>
+</tr>
+</tbody>
+</table>
+<p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/stylePreview/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">scale: {
+  showScaleSwitcher: true,
+  zoomMethod: 'plugin/zoom/setZoomLevel'
+}
+</code></pre>
+
+    
+    <h2>Locales</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Locale Key</th>
+          <th scope="col">German default</th>
+          <th scope="col">English default</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>plugins.scale.toOneNegative</td>
+          <td>Skalierung muss eine positive Zahl sein</td>
+          <td>scale must be a positive number</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.scale.label</td>
+          <td>Skala</td>
+          <td>Scale</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.scale.scaleSwitcher</td>
+          <td>Maßstab ändern</td>
+          <td>Change scale</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>

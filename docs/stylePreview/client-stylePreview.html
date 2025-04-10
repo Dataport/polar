@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1 id="polar-stylepreview-client" tabindex="-1">POLAR StylePreview client</h1>
+
+<p>For our example client, <a href="./example/prod-example.html">see here</a>.</p>
+<h2 id="setup" tabindex="-1">Setup</h2>
+<h3 id="start" tabindex="-1">Start</h3>
+<p>Run e.g. the following lines to get the client running:</p>
+<pre><code class="language-js">import MapClient from &quot;@polar/client-style-preview&quot;
+
+const servicesUrl = 'https://geodienste.hamburg.de/services-internet.json'
+
+MapClient.rawLayerList.initializeLayerList(servicesUrl, (layerConf) =&gt;
+  MapClient
+    .createMap({
+      containerId: 'polarstern',
+      mapConfiguration: {
+        ...mapConfiguration, // see client docs for full info
+        layerConf,
+      },
+    })
+    .then((mapInstance) =&gt; {
+      // run mapInstance.updateStyles(nextStyle) to update map style; see docs below
+    })
+)
+</code></pre>
+<h3 id="teardown" tabindex="-1">Teardown</h3>
+<p>Run <code>mapInstance.$destroy()</code> on unmount. All registered subscriptions need to be undone by calling the <code>un-</code> method returned by subscription calls. See <code>@polar/core</code> docs chapter &quot;Teardown&quot; for additional information.</p>
+<h3 id="updatestyles" tabindex="-1">updateStyles</h3>
+<p>This expects an object of the following format:</p>
+<pre><code class="language-json">{
+  &quot;point&quot;: { /* ... */ },
+  &quot;lineString&quot;: { /* ... */ },
+  &quot;polygon&quot;: { /* ... */ },
+  &quot;text&quot;: { /* ... */ }
+}
+</code></pre>
+<p>The nested objects are the parameter objects to the <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_Style-Style.html">OpenLayers Style Class</a> with a twist: All class indicators that are met on the way will be constructed. (For implemented cases, that is.)</p>
+<p>For example,</p>
+<pre><code class="language-json">{
+  &quot;polygon&quot;: {
+    &quot;fill&quot;: {
+      &quot;color&quot;: &quot;#000000&quot;
+    }
+  }
+}
+</code></pre>
+<p>will produce the following style for polygons:</p>
+<pre><code class="language-js">new Style({
+  fill: new Fill({
+    color: '#000000'
+  })
+})
+</code></pre>
+<p>The following keys are implemented classes:</p>
+<ul>
+<li><code>Fill</code> (from <code>&quot;fill&quot;</code> key)</li>
+<li><code>Stroke</code> (from <code>&quot;stroke&quot;</code> key)</li>
+<li><code>Text</code> (from <code>&quot;text&quot;</code> key)</li>
+</ul>
+<p>Sometimes, multiple classes may fit.</p>
+<ul>
+<li><code>&quot;imageCircle&quot;</code> will create a <code>Circle</code> class instance in the <code>&quot;image&quot;</code> key</li>
+<li><code>&quot;imageIcon&quot;</code> will create an <code>Icon</code> class instance in the <code>&quot;image&quot;</code> key</li>
+</ul>
+<p>Also, there are hatches for polygons that can be used in <code>Fill</code>.</p>
+<pre><code class="language-json">{
+  &quot;polygon&quot;: {
+    &quot;fill&quot;: {
+      &quot;hatch&quot;: { /* hatchParams */ }
+    }
+  }
+}
+</code></pre>
+<p>will be turned into</p>
+<pre><code class="language-js">new Style({
+  fill: new Fill({
+    // Hatch returns renderable color in OL's sense
+    color: new Hatch({ /* hatchParams */ })
+  })
+})
+</code></pre>
+<p>The <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/docs/User/Global-Config/style.json.md#polygonpolygonfillhatch">hatch parameters</a> are defined in the Masterportal documentation.</p>
+
+    <h2>Child documents</h2><nav><ul>
+      <li><a href="core.html" target="_blank">core.html</a></li><li><a href="plugin-attributions.html" target="_blank">plugin-attributions.html</a></li><li><a href="plugin-layer-chooser.html" target="_blank">plugin-layer-chooser.html</a></li><li><a href="plugin-scale.html" target="_blank">plugin-scale.html</a></li><li><a href="plugin-zoom.html" target="_blank">plugin-zoom.html</a></li>
+      </ul></nav>
+    
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>
