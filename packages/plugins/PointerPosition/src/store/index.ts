@@ -4,7 +4,7 @@ import {
 } from '@repositoryname/vuex-generators'
 import { PolarModule } from '@polar/lib-custom-types'
 import { transform } from 'ol/proj'
-import { Coordinate, createStringXY } from 'ol/coordinate.js'
+import { Coordinate, createStringXY } from 'ol/coordinate'
 import { PointerPositionGetters, PointerPositionState } from '../types'
 
 const getInitialState = (): PointerPositionState => ({
