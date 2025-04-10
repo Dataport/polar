@@ -8,6 +8,7 @@ import noop from '@repositoryname/noop'
 import { Circle, LineString, Point, Polygon } from 'ol/geom'
 import { DrawGetters, DrawMutations, DrawState } from '../types'
 import { makeActions } from './actions'
+import { inactive } from './reviseFeatures/revisionStates'
 
 const getInitialState = (): DrawState => ({
   mode: 'none',
@@ -18,6 +19,11 @@ const getInitialState = (): DrawState => ({
     type: 'FeatureCollection',
     features: [],
   },
+  revisedFeatureCollection: {
+    type: 'FeatureCollection',
+    features: [],
+  },
+  featureCollectionRevisionState: inactive,
   selectedFeature: 1,
   selectedStrokeColor: '#000000',
   measureMode: 'none',

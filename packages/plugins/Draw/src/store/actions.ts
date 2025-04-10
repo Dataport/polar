@@ -19,6 +19,8 @@ import createDeleteInteractions from './createInteractions/createDeleteInteracti
 import { createDuplicateInteractions } from './createInteractions/createDuplicateInteractions'
 import { createCutInteractions } from './createInteractions/createCutInteractions'
 import { createMergeInteractions } from './createInteractions/createMergeInteractions'
+import { reviseFeatures } from './reviseFeatures'
+import { complete } from './reviseFeatures/revisionStates'
 
 export const makeActions = () => {
   let interactions: Interaction[] = []
@@ -38,27 +40,32 @@ export const makeActions = () => {
     createTextInteractions,
     modifyDrawStyle,
     modifyTextStyle,
-    setupModule({
-      commit,
-      dispatch,
-      getters: { configuration, measureOptions, selectableDrawModes },
-      rootGetters: { map },
-    }) {
+    reviseFeatures,
+    setupModule({ commit, dispatch, getters, rootGetters: { map } }) {
       dispatch('initializeConfigStyle')
       drawSource.on(['addfeature', 'changefeature', 'removefeature'], () =>
         commit('updateFeatures')
       )
-      drawLayer = createDrawLayer(drawSource, configuration?.style)
+      drawLayer = createDrawLayer(drawSource, getters.configuration?.style)
 
       map.addLayer(drawLayer)
       dispatch('updateInteractions')
 
-      const drawModes = Object.keys(selectableDrawModes)
+      const drawModes = Object.keys(getters.selectableDrawModes)
       if (!drawModes.includes('Point')) {
         commit('setDrawMode', drawModes[0])
       }
-      if (measureOptions.initialOption) {
-        commit('setMeasureMode', measureOptions.initialOption)
+      if (getters.measureOptions.initialOption) {
+        commit('setMeasureMode', getters.measureOptions.initialOption)
+      }
+
+      if (getters.configuration.revision) {
+        // not inactive, and initially complete due to still being empty
+        commit('setFeatureCollectionRevisionState', complete)
+        this.watch(
+          () => getters.featureCollection,
+          () => dispatch('reviseFeatures')
+        )
       }
     },
     async setDrawMode({ commit, dispatch }, drawMode: DrawMode) {

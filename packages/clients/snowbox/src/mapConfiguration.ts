@@ -11,6 +11,7 @@ const notQuiteWhite = '#f2f3f4'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
+export const flurstuecke = '27607'
 const sBahn = '23050'
 const uBahn = '23053'
 export const reports = '6059'
@@ -112,6 +113,10 @@ export const mapConfiguration = {
         title: 'snowbox.attributions.basemapGrey',
       },
       {
+        id: flurstuecke,
+        title: 'snowbox.attributions.flurstuecke',
+      },
+      {
         id: uBahn,
         title: 'snowbox.attributions.underground',
       },
@@ -141,6 +146,23 @@ export const mapConfiguration = {
         size: [10, 20, 30],
         family: 'Arial',
       },
+    },
+    revision: {
+      autofix: true,
+      metaServices: [
+        {
+          id: flurstuecke,
+          propertyNames: [
+            'land',
+            'gemarkung',
+            'regbezirk',
+            'kreis',
+            'gemeinde',
+          ],
+          aggregationMode: 'unequal',
+        },
+      ],
+      validate: true,
     },
     style: {
       fill: { color: 'rgba(255, 255, 255, 0.5)' },
@@ -235,6 +257,12 @@ export const mapConfiguration = {
       id: sBahn,
       type: 'mask',
       name: 'snowbox.layers.rapid',
+    },
+    {
+      id: flurstuecke,
+      type: 'mask',
+      name: 'snowbox.layers.flurstuecke',
+      minZoom: 7,
     },
     {
       id: ausgleichsflaechen,
