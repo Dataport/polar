@@ -16,7 +16,7 @@ export const resourcesEn = {
     mousePosition: {
       label: 'Mouse position in {{epsg}}',
       projectionSelect: {
-        ariaLabel: 'Auswahl des Koordinatenreferenzsystems',
+        ariaLabel: 'Coordinate reference system selection',
       },
     },
   },
