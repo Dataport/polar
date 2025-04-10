@@ -3,6 +3,7 @@
 ## unpublished
 
 - Fix: Change `EPSG:31467` projection definition string to be usable for `proj` conversions.
+- Chore: Add teardown hints for single page application to README file.
 
 ## 3.2.0
 
