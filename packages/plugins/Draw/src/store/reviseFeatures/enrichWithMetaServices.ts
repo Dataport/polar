@@ -8,7 +8,8 @@ import {
 } from '@polar/lib-get-features'
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { booleanIntersects } from '@turf/boolean-intersects'
-import { GeometryType, MetaService } from '../../types'
+import { DrawMetaService } from '@polar/lib-custom-types'
+import { GeometryType } from '../../types'
 
 const reader = new GeoJSON()
 
@@ -17,7 +18,7 @@ type Aggregator = (
 ) => GeoJsonFeature['properties'][] | GeoJsonFeature['properties']
 
 const aggregators: Record<
-  Exclude<MetaService['aggregationMode'], undefined>,
+  Required<DrawMetaService>['aggregationMode'],
   Aggregator
 > = {
   all: (x) => x,
@@ -31,13 +32,10 @@ const aggregators: Record<
 }
 
 const filterProperties = (
-  properties: GeoJsonFeature['properties'],
+  properties: Exclude<GeoJsonFeature['properties'], null>,
   propertyNames?: string[]
 ) =>
-  typeof properties === 'object' &&
-  properties !== null &&
-  propertyNames &&
-  propertyNames.length
+  propertyNames && propertyNames.length
     ? Object.fromEntries(
         Object.entries(properties).filter(([key]) =>
           propertyNames.includes(key)
@@ -48,19 +46,19 @@ const filterProperties = (
 const aggregateProperties = (
   propertiesArray: GeoJsonFeature['properties'][],
   propertyNames?: string[],
-  mode: MetaService['aggregationMode'] = 'unequal'
+  mode: DrawMetaService['aggregationMode'] = 'unequal'
 ) =>
   aggregators[mode](
     propertiesArray
-      .map((properties) => filterProperties(properties, propertyNames))
       .filter((properties) => properties !== null)
+      .map((properties) => filterProperties(properties, propertyNames))
   )
 
 /** @throws */
 export const enrichWithMetaServices = (
   featureCollection: FeatureCollection<GeometryType>,
   map: Map,
-  metaServices: MetaService[],
+  metaServices: DrawMetaService[],
   signal: AbortSignal
 ): Promise<GeoJsonFeature<GeometryType>[]> =>
   Promise.all(

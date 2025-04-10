@@ -4,12 +4,19 @@ import { changeLanguage } from 'i18next'
 // NOTE bad pattern, but probably fine for a test client
 import { enableClustering } from '../../meldemichel/src/utils/enableClustering'
 import { addPlugins } from './addPlugins'
-import { mapConfiguration, reports } from './mapConfiguration'
+import { flurstuecke, mapConfiguration, reports } from './mapConfiguration'
 import { exampleFeatureInformation } from './exampleFeatureInformation'
 
 addPlugins(polarCore)
 
 const createMap = (layerConf) => {
+  // NOTE This seems to be missing in the layer specs
+  const flurLayer = layerConf.find(({ id }) => id === flurstuecke)
+  if (flurLayer) {
+    flurLayer.crs = 'http://www.opengis.net/def/crs/EPSG/0/25832'
+    flurLayer.bboxCrs = 'http://www.opengis.net/def/crs/EPSG/0/25832'
+  }
+
   polarCore
     .createMap({
       containerId: 'polarstern',
@@ -45,6 +52,11 @@ const createMap = (layerConf) => {
         [
           'plugin/draw/featureCollection',
           'vuex-target-draw-result',
+          (featureCollection) => JSON.stringify(featureCollection, null, 2),
+        ],
+        [
+          'plugin/draw/revisedFeatureCollection',
+          'vuex-target-draw-revision-result',
           (featureCollection) => JSON.stringify(featureCollection, null, 2),
         ]
       )(map)
