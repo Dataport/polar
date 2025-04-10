@@ -1,6 +1,6 @@
 {
   "name": "@polar/client-style-preview",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.0",
   "description": "POLAR Client Style Preview. Made to preview styles in OpenLayers.",
   "keywords": [
     "OpenLayers",
@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:afm",
+    "build": "rimraf dist && vite build && cd ../../.. && npm run docs:stylePreview",
     "dev": "vite --host"
   },
   "devDependencies": {
