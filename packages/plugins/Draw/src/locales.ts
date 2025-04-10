@@ -32,6 +32,10 @@ export const resourcesDe = {
         kilometresArea: 'km / km²',
         hectares: 'km / ha',
       },
+      metaInformationRetrieval: {
+        errorToast:
+          'Der Bezug von Metadaten zur gezeichneten Geometrie ist fehlgeschlagen. Die Geometrie wird ohne Metadaten weitergereicht.',
+      },
       options: {
         stroke: 'Linienfarbe',
       },
