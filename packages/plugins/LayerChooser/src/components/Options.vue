@@ -56,7 +56,6 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default Vue.extend({
   name: 'LayerChooserOptions',
   computed: {
-    ...mapGetters(['clientWidth']),
     ...mapGetters('plugin/layerChooser', [
       'openedOptionsService',
       'openedOptionsServiceLayers',
