@@ -16,14 +16,7 @@ const config: Config.InitialOptions = {
   testEnvironment: 'jsdom',
   transform: {
     '^[^.]+.vue$': '@vue/vue2-jest',
-    '^.+\\.tsx?$': [
-      'ts-jest',
-      {
-        // TypeScript-Fehler ignorieren
-        isolatedModules: true, // Option 1: Nur ein Modul auf einmal prüfen
-        diagnostics: false, // Option 2: Alle Typfehler ignorieren
-      },
-    ],
+    '^.+\\.tsx?$': 'ts-jest',
     '^.*\\.js$': 'babel-jest',
   },
   setupFiles: ['jest-canvas-mock'],
