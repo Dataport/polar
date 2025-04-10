@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Remove need of calling `rawLayerList.initializeLayerList` when creating a client using a local service register.
 - Chore: Add teardown hints for single page application to README file.
 
 ## 3.2.0
