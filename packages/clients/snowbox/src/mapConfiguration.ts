@@ -308,6 +308,7 @@ export const mapConfiguration = {
         width: 6,
       },
     },
+    // TODO duplicate declaration – should refer to existing plugin, and if AddressSearch isn't there, it only works with coordinates; I GUESS ...
     addressSearch: {
       searchMethods: [
         {
