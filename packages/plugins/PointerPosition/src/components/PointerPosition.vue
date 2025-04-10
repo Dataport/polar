@@ -4,6 +4,7 @@
       {{ $t('plugins.pointerPosition.label', { value: coordinateString }) }}
     </span>
     <v-select
+      v-if="projections.length > 1"
       v-model="projection"
       class="polar-plugin-epsg-select"
       :label="$t('plugins.pointerPosition.projectionSelect.label')"
