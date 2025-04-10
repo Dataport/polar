@@ -495,6 +495,7 @@ export interface ReverseGeocoderConfiguration {
   zoomTo?: number
 }
 
+// TODO finish implementation, add effective changes to changelog
 // type selectableTravelModes = 'driving-car' | 'driving-hgv' | 'foot-walking' | 'cycling-regular'
 // type selectablePreferences = 'recommended' | 'fastest' | 'shortest'
 
