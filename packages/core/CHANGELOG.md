@@ -4,6 +4,7 @@
 
 - Fix: Change `EPSG:31467` projection definition string to be usable for `proj` conversions.
 - Fix: List items that are currently highlighted according to vuetify (e.g. options in a select element) now by default have the primary color as outline to improve accessibility.
+- Fix: Add role "region" to render div for a broader screen reader support on its aria-label.
 - Chore: Add teardown hints for single page application to README file.
 
 ## 3.2.0

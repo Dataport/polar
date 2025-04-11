@@ -17,6 +17,7 @@
       ref="polar-map-container"
       class="polar-map"
       tabindex="0"
+      role="region"
       :aria-label="$t('canvas.label')"
     ></div>
     <MapUi></MapUi>
