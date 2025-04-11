@@ -4,12 +4,13 @@
       <div class="polar-layer-chooser-option-line" v-on="disabled && on">
         <slot></slot>
         <v-btn
+          :id="`polar-layer-chooser-options-${layerId}-button`"
           class="ml-1"
           :class="!hasOptions && 'polar-layer-chooser-option-invisible'"
           :aria-label="$t('plugins.layerChooser.layerOptions')"
           icon
           small
-          @click="setOpenedOptions(layerId)"
+          @click="updateOpenedOptions(layerId)"
         >
           <v-icon small>{{ icon }}</v-icon>
         </v-btn>
@@ -55,6 +56,14 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations('plugin/layerChooser', ['setOpenedOptions']),
+    updateOpenedOptions(layerId: string) {
+      this.setOpenedOptions(layerId)
+      this.$nextTick(() =>
+        (document.querySelector('[data-app]') as ShadowRoot)
+          .getElementById('polar-layer-chooser-options-back-button')
+          ?.focus()
+      )
+    },
   },
 })
 </script>
