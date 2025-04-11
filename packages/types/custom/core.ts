@@ -518,6 +518,15 @@ export interface ScaleConfiguration extends PluginOptions {
   zoomMethod?: string
 }
 
+export interface PointerPositionProjection {
+  code: `EPSG:${string}`
+  decimals?: number
+}
+
+export interface PointerPositionConfiguration extends PluginOptions {
+  projections?: PointerPositionProjection[]
+}
+
 export interface ZoomIcons {
   zoomIn: string
   zoomOut: string
@@ -700,6 +709,7 @@ export interface MapConfig extends MasterportalApiConfig {
   iconMenu?: IconMenuConfiguration
   layerChooser?: LayerChooserConfiguration
   legend?: LegendConfiguration
+  pointerPosition?: PointerPositionConfiguration
   pins?: PinsConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
   scale?: ScaleConfiguration
