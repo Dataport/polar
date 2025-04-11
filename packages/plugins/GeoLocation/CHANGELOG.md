@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Adding missing `aria-label` on geolocation button for screen readers.
+
 ## 2.0.0
 
 - Breaking: Upgrade peerDependency `ol` from `^9.2.4` to `^10.3.1`.

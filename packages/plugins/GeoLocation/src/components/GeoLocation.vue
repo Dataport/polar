@@ -3,6 +3,7 @@
     <v-tooltip left :disabled="hasSmallDisplay">
       <template #activator="{ on, attrs }">
         <v-btn
+          :aria-label="$t(tooltipMessage)"
           :class="{
             'ma-2': renderType !== 'iconMenu',
           }"
