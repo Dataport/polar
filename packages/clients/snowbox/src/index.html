@@ -82,6 +82,20 @@
     <p>
       Please mind you have to generate it locally first with `npm run docs:snowbox`, or use the public version <a target="_blank" href="https://dataport.github.io/polar/">here</a>.
     </p>
+    <h2>🔒 Loginbeispiel</h2>
+    <form id="login-form" style="display: flex; gap: 10px;">
+      <label>
+        Nutzername:
+        <input type="text" id="username" name="username" required>
+      </label>
+      <label>
+        Passwort:
+        <input type="password" id="password" name="password" required>
+      </label>
+      <br>
+      <button id="login-button" type="button">Login</button>
+    </form>
+    <p id="error-message" style="color: red;"></p>
     <h2>🗺️ Map</h2>
     <p>In this example, the map client is used as an element on a website.</p>
     <label id="language-switcher-label">
