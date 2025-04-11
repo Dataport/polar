@@ -295,4 +295,12 @@ export const mapConfiguration = {
       fill: '#ff0019',
     },
   },
+  pointerPosition: {
+    projections: [
+      { code: 'EPSG:4326' },
+      { code: 'EPSG:25832', decimals: 0 },
+      { code: 'EPSG:3857', decimals: 1 },
+      { code: 'EPSG:31467', decimals: 2 },
+    ],
+  },
 }

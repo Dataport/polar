@@ -6,6 +6,7 @@ import { enableClustering } from '../../meldemichel/src/utils/enableClustering'
 import { addPlugins } from './addPlugins'
 import { flurstuecke, mapConfiguration, reports } from './mapConfiguration'
 import { exampleFeatureInformation } from './exampleFeatureInformation'
+import { validateForm } from './validateForm'
 
 addPlugins(polarCore)
 
@@ -28,6 +29,13 @@ const createMap = (layerConf) => {
     .then((map) => {
       // @ts-expect-error | adding it intentionally for e2e testing
       window.mapInstance = map
+
+      const loginButton = document.getElementById(
+        'login-button'
+      ) as HTMLButtonElement
+      loginButton.onclick = () =>
+        validateForm((token) => map.$store.commit('setOidcToken', token))
+
       addStoreSubscriptions(
         ['plugin/zoom/zoomLevel', 'vuex-target-zoom'],
         [

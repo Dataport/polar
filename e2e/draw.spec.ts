@@ -47,7 +47,7 @@ test('two features drawn at the same coordinate can be modified separately', asy
 
   await page.getByLabel('Draw tools').click()
   await page.getByText('Draw, write and measure').click()
-  await page.getByText('Point').click()
+  await page.getByText('Point', { exact: true }).click()
 
   if (isMobile) {
     // menu gets in the way in mobile
