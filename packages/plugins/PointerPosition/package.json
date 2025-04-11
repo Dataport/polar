@@ -1,0 +1,28 @@
+{
+  "name": "@polar/plugin-pointer-position",
+  "version": "1.0.0-alpha.0",
+  "description": "PointerPosition plugin for POLAR that adds the pointer's (last) coordinate position as retrievable information or display information.",
+  "keyword": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "pointer position"
+  ],
+  "license": "EUPL-1.2",
+  "type": "module",
+  "author": "Dataport AöR <dataportpolarsupport@dataport.de>",
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dataport/polar.git",
+    "directory": "packages/plugins/PointerPosition"
+  },
+  "files": [
+    "src/**/*",
+    "CHANGELOG.md"
+  ],
+  "devDependencies": {
+    "@polar/lib-custom-types": "^2.1.0"
+  }
+}
