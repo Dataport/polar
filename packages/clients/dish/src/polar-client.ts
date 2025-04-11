@@ -22,7 +22,6 @@ export default {
   createMap: async ({ containerId, mode, urlParams, configOverride }) => {
     addPlugins(client, mode)
     const layerConf = services(mode, urlParams)
-    client.rawLayerList.initializeLayerList(layerConf)
     const mapConfiguration = getMapConfiguration(mode, urlParams)
 
     const map = await client.createMap({

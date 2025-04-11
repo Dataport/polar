@@ -18,7 +18,6 @@ interface TextLocatorParameters {
 }
 
 export async function initializeClient({ urls }: TextLocatorParameters) {
-  client.rawLayerList.initializeLayerList(layerConf)
   mapConfiguration.layerConf = layerConf
   mapConfiguration.addressSearch = {
     searchMethods: [
