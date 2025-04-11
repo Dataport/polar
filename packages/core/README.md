@@ -57,11 +57,12 @@ If the storeModule features a `setupModule` action, it will be executed automati
 
 ### initializeLayerList
 
-Layers intended to be used in the map have to be initialized by calling `initializeLayerList` with a service register.  
-This register may either be a link to a predefined service register like [the Hamburg service register](https://geodienste.hamburg.de/services-internet.json), or the custom service register that is also used in [mapConfiguration.layerConf](#mapconfigurationlayerconf).
+Layer registers to be fetched from remote sources have to be initialized by calling `initializeLayerList` with their respective URL.
+The URL may e.g. point to a predefined service register like [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
+In this case, `initializeLayerList` needs to be called before `createMap` and `initializeLayerList`'s callback will receive the retrieved [`mapConfiguration.layerConf`](#mapconfigurationlayerconf) as its first parameter.
 
-This is an optional step as `@masterportal/masterportalapi` already handles this.
-However, it becomes required again to call this an additional time when using a URL for the service register as some setups need to be done first before anything polar-related can be set up.
+If a local custom service register is being used, i.e. the [`mapConfiguration.layerConf`](#mapconfigurationlayerconf) is locally available as an array before calling `createMap`, it can be directly used as [`mapConfiguration.layerConf`](#mapconfigurationlayerconf) without calling `initializeLayerList`.
+The `@masterportal/masterportalapi` then handles the layer list setup in time.
 
 ```js
 core.rawLayerList.initializeLayerList(services: mapConfiguration.layerConf | string, callback?: Function)
