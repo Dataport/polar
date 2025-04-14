@@ -59,8 +59,11 @@ If it's part of another page, drag-panning on mobile devices is only usable if a
 <p>How exactly you do this is up to you and influences the minimum API call requirements your client has.</p>
 <p>If the storeModule features a <code>setupModule</code> action, it will be executed automatically after initialization.</p>
 <h3 id="initializelayerlist" tabindex="-1">initializeLayerList</h3>
-<p>Layers intended to be used in the map have to be initialized by calling <code>initializeLayerList</code> with a service register.<br />
-This register may either be a link to a predefined service register like <a href="https://geodienste.hamburg.de/services-internet.json">the Hamburg service register</a>, or the custom service register that is also used in <a href="#mapconfigurationlayerconf">mapConfiguration.layerConf</a>.</p>
+<p>Layer registers to be fetched from remote sources have to be initialized by calling <code>initializeLayerList</code> with their respective URL.
+The URL may e.g. point to a predefined service register like <a href="https://geodienste.hamburg.de/services-internet.json">the service register of the city of Hamburg</a>.
+In this case, <code>initializeLayerList</code> needs to be called before <code>createMap</code> and <code>initializeLayerList</code>'s callback will receive the retrieved <a href="#mapconfigurationlayerconf"><code>mapConfiguration.layerConf</code></a> as its first parameter.</p>
+<p>If a local custom service register is being used, i.e. the <a href="#mapconfigurationlayerconf"><code>mapConfiguration.layerConf</code></a> is locally available as an array before calling <code>createMap</code>, it can be directly used as <a href="#mapconfigurationlayerconf"><code>mapConfiguration.layerConf</code></a> without calling <code>initializeLayerList</code>.
+The <code>@masterportal/masterportalapi</code> then handles the layer list setup in time.</p>
 <pre><code class="language-js">core.rawLayerList.initializeLayerList(services: mapConfiguration.layerConf | string, callback?: Function)
 </code></pre>
 <p><a href="#createmap">createMap</a> is usually called inside the callback or directly after this function call.</p>
