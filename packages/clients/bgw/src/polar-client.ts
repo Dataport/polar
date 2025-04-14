@@ -12,8 +12,6 @@ const containerId = 'polarstern'
 addPlugins(client)
 
 async function initializeClient() {
-  client.rawLayerList.initializeLayerList(services)
-
   const clientInstance = await client.createMap({
     containerId,
     mapConfiguration: {
