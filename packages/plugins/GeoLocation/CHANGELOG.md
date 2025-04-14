@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Fix: Adding missing `aria-label` on geolocation button for screen readers.
+- Fix: Add missing `aria-label` on geolocation button for screen readers.
 
 ## 2.0.0
 
