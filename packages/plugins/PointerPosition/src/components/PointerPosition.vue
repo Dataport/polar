@@ -32,8 +32,8 @@ export default Vue.extend({
   name: 'PointerPosition',
   computed: {
     ...mapGetters('plugin/pointerPosition', [
-      'projections',
       'coordinateString',
+      'projections',
       'selectedProjection',
     ]),
     projection: {
