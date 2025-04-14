@@ -63,7 +63,7 @@
     "@actions/github": "^6.0.0",
     "@babel/core": "^7.24.8",
     "@babel/preset-env": "^7.24.8",
-    "@cesium/engine": "^13.0.0",
+    "@cesium/engine": "^15.0.0",
     "@jest/types": "^29.3.1",
     "@nx/js": "^19.8.2",
     "@playwright/test": "^1.47.2",

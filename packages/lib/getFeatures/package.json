@@ -20,7 +20,7 @@
     "directory": "packages/lib/getFeatures"
   },
   "peerDependencies": {
-    "ol": "^10.3.1"
+    "ol": "^10.4.0"
   },
   "devDependencies": {
     "@polar/lib-custom-types": "^2.0.0"
