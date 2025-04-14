@@ -5,6 +5,7 @@
 - Feature: Change configuration of `layer.type` to be set to `background` or any other String. All layers that have their `type` not set to `background` are considered "overlays". For the type `mask` locales are already implemented. For any additional type, these have to be added separately.
 - Feature: Add new exported type `DisabledLayers` describing an object structure mapping layerIds to whether the respective layer is disabled or not.
 - Fix: Layer options layer names are now translated if they're locale keys.
+- Fix: Resolve an issue of loosing visible focus when using the keyboard to open or close the layer options menu.
 
 ## 2.1.0
 
