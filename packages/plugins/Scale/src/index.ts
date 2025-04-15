@@ -7,6 +7,7 @@ import { makeStoreModule } from './store'
 export { default as beautifyScale } from './utils/beautifyScale'
 export { default as thousandsSeparator } from './utils/thousandsSeperator'
 export { default as getDpi } from './utils/getDpi'
+export { default as getBestMatchingScale } from './utils/getBestMatchingScale'
 
 export default (options: ScaleConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {
