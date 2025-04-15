@@ -10,7 +10,6 @@ export const resourcesDe = {
         filter: 'Filter',
         layerChooser: 'Kartenauswahl',
         gfi: 'Objektliste',
-        // TODO add addition to changelog when we're there (not doing it now or it slides through with the unpublisheds ...)
         routing: 'Routenplaner',
       },
     },
