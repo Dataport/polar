@@ -1,5 +1,5 @@
-import { Feature, Map } from 'ol'
 import { isVisible } from '@polar/lib-invisible-style'
+import { Feature, Map } from 'ol'
 
 export function showTooltip(feature: Feature, map: Map) {
   const visibleFeatures = (feature.get('features') || []).filter(isVisible)

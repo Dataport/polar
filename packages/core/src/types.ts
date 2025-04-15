@@ -1,5 +1,5 @@
-import Vue from 'vue'
 import { MapConfig } from '@polar/lib-custom-types'
+import Vue from 'vue'
 import subscribeFunction from './utils/createMap/subscribe'
 
 export interface MapInstance extends Vue {

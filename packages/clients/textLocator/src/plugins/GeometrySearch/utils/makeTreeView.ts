@@ -1,6 +1,6 @@
 import { FeatureCollection } from 'geojson'
-import { TextLocatorCategories, TreeViewItem } from '../types'
 import { TitleLocationFrequency } from '../../../types'
+import { TextLocatorCategories, TreeViewItem } from '../types'
 
 const sortByCount = (a: TreeViewItem, b: TreeViewItem) => b.count - a.count
 

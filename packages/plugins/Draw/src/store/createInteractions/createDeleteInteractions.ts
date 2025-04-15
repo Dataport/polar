@@ -1,9 +1,9 @@
-import VectorLayer from 'ol/layer/Vector'
-import Interaction from 'ol/interaction/Interaction'
-import { DragBox, Select } from 'ol/interaction'
-import { platformModifierKeyOnly } from 'ol/events/condition'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { Map } from 'ol'
+import { platformModifierKeyOnly } from 'ol/events/condition'
+import { DragBox, Select } from 'ol/interaction'
+import Interaction from 'ol/interaction/Interaction'
+import VectorLayer from 'ol/layer/Vector'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 
 const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {

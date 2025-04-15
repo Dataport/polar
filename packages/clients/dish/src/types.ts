@@ -1,14 +1,14 @@
 // naming convention doesn't hold since backend names are used in Beschreibung
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { FeatureCollection, GeometryObject } from 'geojson'
 import {
   AddressSearchConfiguration,
   MapConfig,
-  QueryParameters,
   PluginOptions,
+  QueryParameters,
   RenderType,
 } from '@polar/lib-custom-types'
+import { FeatureCollection, GeometryObject } from 'geojson'
 
 /* Search backend documentation:
  * https://efi2.schleswig-holstein.de/dish/dish_service/help.html

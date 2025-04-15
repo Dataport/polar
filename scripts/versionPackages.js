@@ -2,8 +2,8 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const fs = require('fs')
 const cp = require('child_process')
+const fs = require('fs')
 const packages = require('./packages')
 
 const tags = []

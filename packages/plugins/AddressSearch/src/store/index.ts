@@ -1,5 +1,5 @@
-import { generateSimpleMutations } from '@repositoryname/vuex-generators'
 import { PolarModule } from '@polar/lib-custom-types'
+import { generateSimpleMutations } from '@repositoryname/vuex-generators'
 import { AddressSearchGetters, AddressSearchState } from '../types'
 import { makeActions } from './actions'
 import getters from './getters'

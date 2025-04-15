@@ -1,22 +1,22 @@
-import { FeatureCollection } from 'geojson'
-import { Map } from 'ol'
 import { PolarStore, SelectResultFunction } from '@polar/lib-custom-types'
 import {
-  SearchResultSymbols,
   AddressSearchGetters,
   AddressSearchState,
+  SearchResultSymbols,
 } from '@polar/plugin-address-search'
+import { FeatureCollection } from 'geojson'
+import { Map } from 'ol'
 import VectorSource from 'ol/source/Vector'
 import {
   GeometrySearchGetters,
   GeometrySearchState,
 } from '../../plugins/GeometrySearch/types'
-import { ResponsePayload } from './types'
 import { getAllPages } from './getAllPages'
 import {
-  getEmptyFeatureCollection,
   featureCollectionify,
+  getEmptyFeatureCollection,
 } from './responseInterpreter'
+import { ResponsePayload } from './types'
 
 interface CoastalGazetteerParameters {
   epsg: `EPSG:${string}`

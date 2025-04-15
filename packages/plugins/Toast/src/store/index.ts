@@ -1,6 +1,6 @@
-import merge from 'lodash.merge'
-import { generateSimpleGetters } from '@repositoryname/vuex-generators'
 import { PolarModule } from '@polar/lib-custom-types'
+import { generateSimpleGetters } from '@repositoryname/vuex-generators'
+import merge from 'lodash.merge'
 import { Toast, ToastState } from '../types'
 
 export const getInitialState = (): ToastState => ({

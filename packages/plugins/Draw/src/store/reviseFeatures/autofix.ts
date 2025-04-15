@@ -1,11 +1,11 @@
+import { cleanCoords } from '@turf/clean-coords'
+import { unkinkPolygon } from '@turf/unkink-polygon'
 import {
-  FeatureCollection,
   Feature as GeoJsonFeature,
+  FeatureCollection,
   MultiPolygon,
   Polygon,
 } from 'geojson'
-import { cleanCoords } from '@turf/clean-coords'
-import { unkinkPolygon } from '@turf/unkink-polygon'
 import { GeometryType } from '../../types'
 
 export const autofixFeatureCollection = (

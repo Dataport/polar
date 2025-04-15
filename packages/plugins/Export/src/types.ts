@@ -1,5 +1,5 @@
-import Vue from 'vue'
 import { ExportConfiguration } from '@polar/lib-custom-types'
+import Vue from 'vue'
 
 export enum ExportFormat {
   JPG = 'Jpg',

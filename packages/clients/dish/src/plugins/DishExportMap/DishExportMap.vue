@@ -54,11 +54,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { mapMutations, mapGetters } from 'vuex'
-import Overlay from 'ol/Overlay'
 import { beautifyScale } from '@polar/plugin-scale'
-import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
+import Overlay from 'ol/Overlay'
+import Vue from 'vue'
+import { mapGetters, mapMutations } from 'vuex'
+import { denkmaelerWFS, denkmaelerWMS } from '../../servicesConstants'
 
 const rectangleWidth = 893
 const rectangleHeight = 473

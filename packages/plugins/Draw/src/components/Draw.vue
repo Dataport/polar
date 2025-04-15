@@ -52,9 +52,9 @@
 </template>
 
 <script lang="ts">
+import { RadioCard } from '@polar/core'
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import { RadioCard } from '@polar/core'
 import DrawOptions from './DrawOptions.vue'
 
 export default Vue.extend({

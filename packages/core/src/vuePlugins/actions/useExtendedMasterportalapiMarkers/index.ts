@@ -1,4 +1,3 @@
-import { Feature, MapBrowserEvent } from 'ol'
 import {
   CoreGetters,
   CoreState,
@@ -7,11 +6,12 @@ import {
   PolarActionContext,
   PolarStore,
 } from '@polar/lib-custom-types'
-import RenderFeature from 'ol/render/Feature'
-import { isVisible } from '@polar/lib-invisible-style'
-import VectorLayer from 'ol/layer/Vector'
-import BaseLayer from 'ol/layer/Base'
 import getCluster from '@polar/lib-get-cluster'
+import { isVisible } from '@polar/lib-invisible-style'
+import { Feature, MapBrowserEvent } from 'ol'
+import BaseLayer from 'ol/layer/Base'
+import VectorLayer from 'ol/layer/Vector'
+import RenderFeature from 'ol/render/Feature'
 import {
   getHoveredStyle,
   getSelectedStyle,

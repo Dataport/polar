@@ -1,4 +1,9 @@
-import { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
+import { NineLayout, NineLayoutTag, setLayout } from '@polar/core'
+import {
+  AddressSearchConfiguration,
+  GfiConfiguration,
+  SearchMethodFunction,
+} from '@polar/lib-custom-types'
 import PolarPluginAddressSearch from '@polar/plugin-address-search'
 import PolarPluginAttributions from '@polar/plugin-attributions'
 import PolarPluginDraw from '@polar/plugin-draw'
@@ -15,26 +20,21 @@ import PolarPluginScale from '@polar/plugin-scale'
 import PolarPluginToast from '@polar/plugin-toast'
 import PolarPluginZoom from '@polar/plugin-zoom'
 
-import {
-  AddressSearchConfiguration,
-  GfiConfiguration,
-  SearchMethodFunction,
-} from '@polar/lib-custom-types'
-import { extendGfi } from './utils/extendGfi'
-import { search } from './utils/search'
+import { MODE } from './enums'
+import { searchMethods } from './mapConfigurations/searchConfigParams'
+import DishExportMap from './plugins/DishExportMap'
+import { DishGfiExtern, DishGfiIntern } from './plugins/Gfi'
+import DishHeader from './plugins/Header'
+import DishModal from './plugins/Modal'
+import SelectionObject from './plugins/SelectionObject'
 import {
   autocomplete,
   initializeAutocomplete,
   selectResult,
 } from './utils/autocomplete'
 import { denkmalSearchResult } from './utils/denkmalSearchIntern'
-import DishModal from './plugins/Modal'
-import DishHeader from './plugins/Header'
-import { MODE } from './enums'
-import { DishGfiIntern, DishGfiExtern } from './plugins/Gfi'
-import DishExportMap from './plugins/DishExportMap'
-import SelectionObject from './plugins/SelectionObject'
-import { searchMethods } from './mapConfigurations/searchConfigParams'
+import { extendGfi } from './utils/extendGfi'
+import { search } from './utils/search'
 
 const gfiConfig = (mode: keyof typeof MODE) => {
   const gfiConfig: GfiConfiguration = {

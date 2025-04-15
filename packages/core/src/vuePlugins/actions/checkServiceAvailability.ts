@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { ping } from '@masterportal/masterportalapi'
 import {
   CoreGetters,
@@ -7,6 +6,7 @@ import {
   PolarError,
   PolarStore,
 } from '@polar/lib-custom-types'
+import i18next from 'i18next'
 import { ServiceAvailabilityCheck } from '../../types'
 
 export default function (

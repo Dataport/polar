@@ -1,19 +1,19 @@
-import {
-  generateSimpleGetters,
-  generateSimpleMutations,
-} from '@repositoryname/vuex-generators'
+import { rawLayerList } from '@masterportal/masterportalapi'
 import {
   LayerConfigurationOptionLayers,
   PolarModule,
 } from '@polar/lib-custom-types'
-import { rawLayerList } from '@masterportal/masterportalapi'
-import { ImageWMS, TileWMS } from 'ol/source'
+import {
+  generateSimpleGetters,
+  generateSimpleMutations,
+} from '@repositoryname/vuex-generators'
 import Layer from 'ol/layer/Layer'
+import { ImageWMS, TileWMS } from 'ol/source'
 import { LayerChooserGetters, LayerChooserState } from '../types'
-import { asIdList, areLayersActive } from '../utils/layerFolding'
 import { getBackgroundsAndMasks } from '../utils/getBackgroundsAndMasks'
 import { getOpenedOptionsServiceLayers } from '../utils/getOpenedOptionsServiceLayers'
 import { isLayerIdIncluded } from '../utils/isLayerIdIncluded'
+import { areLayersActive, asIdList } from '../utils/layerFolding'
 
 export const getInitialState = (): LayerChooserState => ({
   openedOptions: null,

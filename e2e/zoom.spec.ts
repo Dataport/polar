@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test'
-import { openSnowbox } from './utils/openSnowbox'
+import { expect, test } from '@playwright/test'
 import { clickTimes } from './utils/clickTimes'
+import { openSnowbox } from './utils/openSnowbox'
 
 const zoomTargetId = '#vuex-target-zoom'
 

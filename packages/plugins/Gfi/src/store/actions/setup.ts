@@ -1,9 +1,9 @@
 import { PolarActionContext, PolarStore } from '@polar/lib-custom-types'
-import { GeoJsonProperties } from 'geojson'
 import getCluster from '@polar/lib-get-cluster'
-import { getTooltip, Tooltip } from '@polar/lib-tooltip'
-import Overlay from 'ol/Overlay'
+import { Tooltip, getTooltip } from '@polar/lib-tooltip'
+import { GeoJsonProperties } from 'geojson'
 import { Feature } from 'ol'
+import Overlay from 'ol/Overlay'
 import { GfiGetters, GfiState } from '../../types'
 import { getOriginalFeature } from '../../utils/getOriginalFeature'
 

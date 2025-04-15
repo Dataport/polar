@@ -1,5 +1,5 @@
-import { Circle, Fill, Icon, Stroke, Style, Text } from 'ol/style'
 import PolygonStyle from '@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon'
+import { Circle, Fill, Icon, Stroke, Style, Text } from 'ol/style'
 import { features } from './features'
 
 const polygonStyle = new PolygonStyle()

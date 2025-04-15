@@ -1,5 +1,5 @@
-import Style from 'ol/style/Style'
 import { Feature } from 'ol'
+import Style from 'ol/style/Style'
 
 export const InvisibleStyle = new Style()
 export const isInvisible = (feature: Feature): boolean =>

@@ -1,5 +1,5 @@
-import Vue from 'vue'
 import { DrawConfiguration } from '@polar/lib-custom-types'
+import Vue from 'vue'
 
 import { Draw } from './components'
 import locales from './locales'

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { openSnowbox } from './utils/openSnowbox'
 
 const pinsTargetId = '#vuex-target-pin-coordinate'

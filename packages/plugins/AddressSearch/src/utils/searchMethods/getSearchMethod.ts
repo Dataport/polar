@@ -1,5 +1,5 @@
-import { getWfsFeatures as wfs } from '@polar/lib-get-features'
 import { SearchMethodFunction } from '@polar/lib-custom-types'
+import { getWfsFeatures as wfs } from '@polar/lib-get-features'
 import bkg from './bkg'
 import mpapi from './mpapi'
 

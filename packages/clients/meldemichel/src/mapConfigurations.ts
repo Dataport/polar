@@ -10,7 +10,7 @@ import {
   ReverseGeocoderConfiguration,
 } from '@polar/lib-custom-types'
 import { MpApiParameters } from '@polar/plugin-address-search'
-import { MODE, SKAT, REPORT_STATUS } from './enums'
+import { MODE, REPORT_STATUS, SKAT } from './enums'
 import locales from './locales'
 import { MeldemichelCreateMapParams } from './types'
 import { showTooltip } from './utils/showTooltip'

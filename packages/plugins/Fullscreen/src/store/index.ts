@@ -1,8 +1,8 @@
+import { PolarModule } from '@polar/lib-custom-types'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { PolarModule } from '@polar/lib-custom-types'
 import { FullscreenGetters, FullscreenState } from '../types'
 
 export const getInitialState = (): FullscreenState => ({

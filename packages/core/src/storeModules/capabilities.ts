@@ -1,7 +1,7 @@
-import { generateSimpleGetters } from '@repositoryname/vuex-generators'
 import { rawLayerList } from '@masterportal/masterportalapi'
-import { Module } from 'vuex'
+import { generateSimpleGetters } from '@repositoryname/vuex-generators'
 import WMSCapabilities from 'ol/format/WMSCapabilities'
+import { Module } from 'vuex'
 
 const parser = new WMSCapabilities()
 

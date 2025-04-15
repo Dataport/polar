@@ -1,5 +1,5 @@
-import { generateSimpleGetters } from '@repositoryname/vuex-generators'
 import { PolarGetterTree, RenderType } from '@polar/lib-custom-types'
+import { generateSimpleGetters } from '@repositoryname/vuex-generators'
 import { GeoLocationGetters, GeoLocationState } from '../types'
 import getInitialState from './getInitialState'
 

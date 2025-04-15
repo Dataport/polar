@@ -1,8 +1,8 @@
 import { PolarModule } from '@polar/lib-custom-types'
 import { easeOut } from 'ol/easing'
 import Point from 'ol/geom/Point'
-import { reverseGeocode } from '../utils/reverseGeocode'
 import { ReverseGeocoderFeature } from '../types'
+import { reverseGeocode } from '../utils/reverseGeocode'
 
 export const makeStoreModule = () => {
   let loaderCounter = 0

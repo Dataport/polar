@@ -1,6 +1,6 @@
+import { PolarActionContext } from '@polar/lib-custom-types'
 import { Draw, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
-import { PolarActionContext } from '@polar/lib-custom-types'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 import createDrawStyle from '../../utils/createDrawStyle'
 import { getSnaps } from './getSnaps'

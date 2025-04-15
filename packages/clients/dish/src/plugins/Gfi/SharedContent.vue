@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import ActionButton from './ActionButton.vue'
 
 export default Vue.extend({

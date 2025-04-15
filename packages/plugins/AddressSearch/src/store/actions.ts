@@ -1,13 +1,13 @@
-import debounce from 'lodash.debounce'
-import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
+import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
+import debounce from 'lodash.debounce'
 import { SearchResultSymbols } from '../'
-import { getMethodContainer } from '../utils/searchMethods/getSearchMethod'
 import {
+  AddressSearchAutoselect,
   AddressSearchGetters,
   AddressSearchState,
-  AddressSearchAutoselect,
 } from '../types'
+import { getMethodContainer } from '../utils/searchMethods/getSearchMethod'
 
 const getResultsFromPromises = (
   promises: PromiseSettledResult<

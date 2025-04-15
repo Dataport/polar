@@ -1,5 +1,5 @@
-import { GeoJSON, WFS } from 'ol/format'
 import { FeatureCollection } from 'geojson'
+import { GeoJSON, WFS } from 'ol/format'
 import { PolarGeoJsonFeature } from '../types'
 import { getFeatureTitleFromPattern } from './getFeatureTitleFromPattern'
 

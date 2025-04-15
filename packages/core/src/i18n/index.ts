@@ -1,7 +1,7 @@
 import i18next, { init, use } from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import Vue from 'vue'
 import VueI18Next from 'i18next-vue'
+import Vue from 'vue'
 import locales from '../locales'
 
 use(LanguageDetector)

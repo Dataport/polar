@@ -1,17 +1,17 @@
-import Vue from 'vue'
 import { AddressSearchConfiguration } from '@polar/lib-custom-types'
+import Vue from 'vue'
 
 import { AddressSearch } from './components'
+import SearchContainer from './components/SearchContainer.vue'
 import locales from './locales'
 import { makeStoreModule } from './store'
 
-import SearchContainer from './components/SearchContainer.vue'
 import SearchResultSymbols from './utils/searchResultSymbols'
 export { SearchContainer, SearchResultSymbols }
 
 export type {
-  AddressSearchState,
   AddressSearchGetters,
+  AddressSearchState,
   BKGParameters,
   MpApiParameters,
 } from './types'

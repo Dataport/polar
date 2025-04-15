@@ -1,6 +1,6 @@
 import { MapConfig } from '@polar/lib-custom-types'
-import { Feature } from 'ol'
 import { InvisibleStyle, isVisible } from '@polar/lib-invisible-style'
+import { Feature } from 'ol'
 import { getDefaultStyle } from './markers'
 
 // optimization to keep getDefaultStyle memoization intact

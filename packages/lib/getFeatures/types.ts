@@ -1,5 +1,5 @@
-import { Feature as GeoJsonFeature } from 'geojson'
 import { QueryParameters } from '@polar/lib-custom-types'
+import { Feature as GeoJsonFeature } from 'geojson'
 
 /** Optional options related to a GetFeature request */
 export interface AdditionalSearchOptions {

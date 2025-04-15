@@ -1,5 +1,5 @@
-import Vue from 'vue'
 import { FullscreenConfiguration } from '@polar/lib-custom-types'
+import Vue from 'vue'
 
 import { Fullscreen } from './components'
 import locales from './locales'

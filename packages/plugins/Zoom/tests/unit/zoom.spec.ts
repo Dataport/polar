@@ -1,7 +1,7 @@
-import { mount } from '@vue/test-utils'
 import createTestMountParameters, {
   MockParameters,
 } from '@polar/lib-test-mount-parameters'
+import { mount } from '@vue/test-utils'
 import Zoom from '../../src/components/Zoom.vue'
 import { makeStoreModule } from '../../src/store/index'
 

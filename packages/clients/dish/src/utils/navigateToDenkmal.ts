@@ -1,6 +1,6 @@
 import { MapInstance } from '@polar/core'
-import { denkmaelerWfServiceExtern } from '../services'
 import { getMapConfiguration } from '../mapConfigurations/mapConfig'
+import { denkmaelerWfServiceExtern } from '../services'
 import { DishParameters } from '../types'
 import { zoomToFeatureById } from './zoomToFeatureById'
 

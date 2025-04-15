@@ -1,18 +1,18 @@
-import { polygon, featureCollection } from '@turf/helpers'
+import { booleanPointInPolygon } from '@turf/boolean-point-in-polygon'
 import { buffer } from '@turf/buffer'
 import { difference } from '@turf/difference'
+import { featureCollection, polygon } from '@turf/helpers'
+import { lineIntersect } from '@turf/line-intersect'
 import { unkinkPolygon } from '@turf/unkink-polygon'
 import {
   Feature as GeoJsonFeature,
-  Polygon as GeoJsonPolygon,
-  MultiPolygon as GeoJsonMultiPolygon,
   LineString as GeoJsonLineString,
+  MultiPolygon as GeoJsonMultiPolygon,
+  Polygon as GeoJsonPolygon,
 } from 'geojson'
-import { booleanPointInPolygon } from '@turf/boolean-point-in-polygon'
-import { lineIntersect } from '@turf/line-intersect'
-import VectorSource from 'ol/source/Vector'
 import Feature from 'ol/Feature'
 import { GeoJSON } from 'ol/format'
+import VectorSource from 'ol/source/Vector'
 import { ProjectionInfo } from './types'
 
 const polygonTypes = ['Polygon', 'MultiPolygon']

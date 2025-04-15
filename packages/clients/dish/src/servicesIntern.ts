@@ -1,14 +1,14 @@
 import {
-  intranetUrl,
-  bddEin,
   bddCol,
-  dop20col,
-  denkmaelerWMS,
+  bddEin,
+  beschriftung,
   denkmaelerWFS,
+  denkmaelerWMS,
+  dop20col,
+  intranetUrl,
   kontrollbedarf,
   verlust,
   verwaltung,
-  beschriftung,
 } from './servicesConstants'
 
 // services with url=null: those will be set in the services.ts

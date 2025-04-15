@@ -105,9 +105,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapActions } from 'vuex'
-import { focusFirstResult } from '../utils/focusFirstResult'
+import { mapActions, mapGetters } from 'vuex'
 import { emTitleByInput } from '../utils/emTitleByInput'
+import { focusFirstResult } from '../utils/focusFirstResult'
 
 export default Vue.extend({
   name: 'AddressSearchResults',

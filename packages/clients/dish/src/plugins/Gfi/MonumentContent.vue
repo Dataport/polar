@@ -37,13 +37,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { alkisWms, denkmaelerWMS } from '../../servicesConstants'
 import { getPhoto } from '../../utils/extendGfi'
-import { denkmaelerWMS, alkisWms } from '../../servicesConstants'
 import {
-  prepareData,
   addComposedField,
   createComposedField,
+  prepareData,
 } from '../../utils/prepareGfiDataIntern'
 
 export default Vue.extend({

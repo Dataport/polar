@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { Page, expect, test } from '@playwright/test'
 import { openSnowbox } from './utils/openSnowbox'
 
 const expectOpenContentWindows = async (page: Page, amount: number) =>

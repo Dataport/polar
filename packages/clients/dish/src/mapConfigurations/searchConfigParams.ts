@@ -1,10 +1,10 @@
 import { AddressSearchGroupProperties } from '@polar/lib-custom-types'
 import { BKGParameters } from '@polar/plugin-address-search'
 import {
-  dishCloudBaseUrl,
-  dishBaseUrl,
-  denkmaelerWFS,
   alkisWfs,
+  denkmaelerWFS,
+  dishBaseUrl,
+  dishCloudBaseUrl,
 } from '../servicesConstants'
 
 const groupDenkmalsuche = 'groupDenkmalsuche'

@@ -1,12 +1,12 @@
-import { createLocalVue } from '@vue/test-utils'
-import i18next from 'i18next'
-import Vue from 'vue'
-import VueI18Next from 'i18next-vue'
-import Vuetify from 'vuetify'
-import Vuex, { Store } from 'vuex'
-import { VueConstructor } from 'vue/types/umd'
 import mpapiDefaults from '@polar/core/src/utils/createMap/defaults'
 import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
+import { createLocalVue } from '@vue/test-utils'
+import i18next from 'i18next'
+import VueI18Next from 'i18next-vue'
+import Vue from 'vue'
+import { VueConstructor } from 'vue/types/umd'
+import Vuetify from 'vuetify'
+import Vuex, { Store } from 'vuex'
 
 Vue.use(VueI18Next, { i18next })
 Vue.use(Vuetify)

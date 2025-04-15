@@ -1,8 +1,8 @@
+import { PolarModule } from '@polar/lib-custom-types'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { PolarModule } from '@polar/lib-custom-types'
 import { ZoomGetters, ZoomState } from '../types'
 
 const getInitialState = (): ZoomState => ({

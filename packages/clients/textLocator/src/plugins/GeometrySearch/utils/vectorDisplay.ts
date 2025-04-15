@@ -1,11 +1,11 @@
 import { Feature } from 'geojson'
 import { Feature as OlFeature, Map } from 'ol'
+import { createEmpty, extend } from 'ol/extent'
 import VectorLayer from 'ol/layer/Vector'
 import { Vector } from 'ol/source'
-import { createEmpty, extend } from 'ol/extent'
+import { TitleLocationFrequency } from '../../../types'
 import { geoJson, idPrefixes } from '../../../utils/coastalGazetteer/common'
 import { FeatureType, TreeViewItem } from '../types'
-import { TitleLocationFrequency } from '../../../types'
 import { heatStyles, typeToStyle } from './vectorStyles'
 
 const vectorSource = new Vector()

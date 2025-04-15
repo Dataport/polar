@@ -1,14 +1,14 @@
+import { PolarModule } from '@polar/lib-custom-types'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import * as olProj from 'ol/proj'
 import { t as translate } from 'i18next'
-import { PolarModule } from '@polar/lib-custom-types'
-import thousandsSeparator from '../utils/thousandsSeperator'
+import * as olProj from 'ol/proj'
+import { ScaleGetters, ScaleState } from '../types'
 import beautifyScale from '../utils/beautifyScale'
 import getDpi from '../utils/getDpi'
-import { ScaleState, ScaleGetters } from '../types'
+import thousandsSeparator from '../utils/thousandsSeperator'
 
 const getInitialState = (): ScaleState => ({
   scaleValue: 0,

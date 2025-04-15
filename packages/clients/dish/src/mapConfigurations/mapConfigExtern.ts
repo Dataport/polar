@@ -6,24 +6,24 @@ import { alkisWfService } from '../services'
 import {
   alkisWms,
   basemapGrau,
-  bddEin,
   bddCol,
-  dop20col,
-  denkmaelerWMS,
+  bddEin,
   denkmaelerWFS,
+  denkmaelerWMS,
+  dop20col,
 } from '../servicesConstants'
 import { DishMapConfig } from '../types'
 import { scaleFromZoomLevel } from '../utils/calculateScaleFromResolution'
 import {
-  attributionsBasemapGrau,
   attributionsAlkisWms,
+  attributionsBasemapGrau,
   denkmalAmtLink,
   vermessungsAmtLink,
 } from './attributionsConfig'
 import {
-  searchMethods,
   categoryProps,
   groupProperties,
+  searchMethods,
 } from './searchConfigParams'
 
 const alkisMinZoom = 10

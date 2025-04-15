@@ -1,5 +1,5 @@
-import Vue from 'vue'
 import { GeoLocationConfiguration } from '@polar/lib-custom-types'
+import Vue from 'vue'
 
 import { GeoLocation } from './components'
 import locales from './locales'

@@ -1,30 +1,30 @@
 import { SearchMethodConfiguration } from '@polar/lib-custom-types'
+import { shBlue } from '../colors'
 import { alkisWfService } from '../services'
 import {
   alkisWfs,
-  bddEin,
   bddCol,
-  dop20col,
-  denkmaelerWMS,
+  bddEin,
   denkmaelerWFS,
+  denkmaelerWMS,
+  dop20col,
   kontrollbedarf,
   verlust,
   verwaltung,
 } from '../servicesConstants'
-import { shBlue } from '../colors'
 import { DishMapConfig, DishUrlParams } from '../types'
+import {
+  attributionsAlkisWms,
+  attributionsBasemapGrau,
+  denkmalAmtLink,
+  vermessungsAmtLink,
+} from './attributionsConfig'
+import layersIntern from './layerConfigIntern'
 import {
   categoryProps,
   groupProperties,
   searchMethods,
 } from './searchConfigParams'
-import layersIntern from './layerConfigIntern'
-import {
-  attributionsBasemapGrau,
-  attributionsAlkisWms,
-  denkmalAmtLink,
-  vermessungsAmtLink,
-} from './attributionsConfig'
 
 export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
   checkServiceAvailability: true,

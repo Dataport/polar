@@ -5,12 +5,12 @@
 </template>
 
 <script lang="ts">
+import * as focusTrap from 'focus-trap'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import * as focusTrap from 'focus-trap'
 import Hints from './Hints.vue'
-import Welcome from './Welcome.vue'
 import HintsIntern from './HintsIntern.vue'
+import Welcome from './Welcome.vue'
 import { CONTENT_ENUM } from './store'
 
 const lookup = {

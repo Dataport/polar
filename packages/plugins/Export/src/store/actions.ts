@@ -1,5 +1,5 @@
-import { jsPDF } from 'jspdf'
 import { PolarActionTree } from '@polar/lib-custom-types'
+import { jsPDF } from 'jspdf'
 import { ExportFormat, ExportGetters, ExportState } from '../types'
 
 // PDF options

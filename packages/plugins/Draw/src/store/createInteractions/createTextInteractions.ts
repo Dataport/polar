@@ -1,7 +1,7 @@
+import { DrawConfiguration, PolarActionContext } from '@polar/lib-custom-types'
 import { Draw, Snap } from 'ol/interaction'
 import Interaction from 'ol/interaction/Interaction'
 import VectorSource from 'ol/source/Vector'
-import { DrawConfiguration, PolarActionContext } from '@polar/lib-custom-types'
 import { DrawGetters, DrawState } from '../../types'
 import { createTextStyle } from '../../utils/createTextStyle'
 import { getSnaps } from './getSnaps'

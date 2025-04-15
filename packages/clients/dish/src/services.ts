@@ -1,21 +1,21 @@
 import { MODE } from './enums'
-import { DishUrlParams } from './types'
-import { servicesIntern } from './servicesIntern'
 import {
   alkisWfs,
   alkisWms,
-  dishDeegreeBaseUrl,
-  dishCloudBaseUrl,
-  bddEin,
-  bddCol,
-  dop20col,
-  denkmaelerWMS,
-  denkmaelerWFS,
   basemapGrau,
+  bddCol,
+  bddEin,
+  beschriftung,
+  denkmaelerWFS,
+  denkmaelerWMS,
+  dishCloudBaseUrl,
+  dishDeegreeBaseUrl,
+  dop20col,
   kontrollbedarf,
   verlust,
-  beschriftung,
 } from './servicesConstants'
+import { servicesIntern } from './servicesIntern'
+import { DishUrlParams } from './types'
 
 export const denkmaelerWmService = {
   id: denkmaelerWMS,

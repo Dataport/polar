@@ -1,23 +1,23 @@
+import { PolarModule } from '@polar/lib-custom-types'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { PolarModule } from '@polar/lib-custom-types'
 import { Feature } from 'ol'
-import {
-  GeometrySearchState,
-  GeometrySearchGetters,
-  TreeViewItem,
-} from '../types'
-import { searchGeometry } from '../../../utils/coastalGazetteer/searchGeometry'
-import { getEmptyFeatureCollection } from '../../../utils/coastalGazetteer/responseInterpreter'
-import { makeTreeView } from '../utils/makeTreeView'
-import { updateVectorLayer, vectorLayer } from '../utils/vectorDisplay'
 import { geoJson } from '../../../utils/coastalGazetteer/common'
+import { getEmptyFeatureCollection } from '../../../utils/coastalGazetteer/responseInterpreter'
+import { searchGeometry } from '../../../utils/coastalGazetteer/searchGeometry'
 import { selectLiterature } from '../../../utils/textLocatorBackend/findLiterature/selectLiterature'
 import { searchToponymByLiterature } from '../../../utils/textLocatorBackend/toponymByLiterature'
-import { setupTooltip } from './actions/setupTooltip'
+import {
+  GeometrySearchGetters,
+  GeometrySearchState,
+  TreeViewItem,
+} from '../types'
+import { makeTreeView } from '../utils/makeTreeView'
+import { updateVectorLayer, vectorLayer } from '../utils/vectorDisplay'
 import { setupDrawReaction } from './actions/setupDrawReaction'
+import { setupTooltip } from './actions/setupTooltip'
 import { updateFrequencies } from './actions/updateFrequencies'
 
 let counter = 0

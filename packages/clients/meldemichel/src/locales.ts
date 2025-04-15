@@ -1,7 +1,7 @@
 // SKAT modeled by their ID; no semantic value for client
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Locale } from '@polar/lib-custom-types'
-import { REPORT_STATUS, TIME_FILTER, SKAT } from './enums'
+import { REPORT_STATUS, SKAT, TIME_FILTER } from './enums'
 
 const skat = {
   100: 'Wege und Straßen',

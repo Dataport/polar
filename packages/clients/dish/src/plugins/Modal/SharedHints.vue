@@ -36,8 +36,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import { getSetGenerator } from '@repositoryname/vuex-generators'
+import Vue from 'vue'
 
 export default Vue.extend({
   name: 'SharedHints',

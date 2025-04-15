@@ -27,8 +27,8 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import DrawMode from './DrawMode.vue'
-import ViewToggle from './ViewToggle.vue'
 import TreeView from './Tree.vue'
+import ViewToggle from './ViewToggle.vue'
 
 export default Vue.extend({
   name: 'GeometrySearchPlugin',

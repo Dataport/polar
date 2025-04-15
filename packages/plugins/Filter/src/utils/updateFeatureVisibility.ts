@@ -1,8 +1,8 @@
-import { Feature, Map } from 'ol'
-import { InvisibleStyle } from '@polar/lib-invisible-style'
 import { FilterConfiguration } from '@polar/lib-custom-types'
-import ClusterSource from 'ol/source/Cluster'
+import { InvisibleStyle } from '@polar/lib-invisible-style'
+import { Feature, Map } from 'ol'
 import BaseLayer from 'ol/layer/Base'
+import ClusterSource from 'ol/source/Cluster'
 import { DatePattern, FilterState, LayerId, TimeOption } from '../types'
 
 const doesFeaturePassCategoryFilter = (

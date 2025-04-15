@@ -1,14 +1,14 @@
-import Draw from 'ol/interaction/Draw'
-import LineString from 'ol/geom/LineString'
-import Feature from 'ol/Feature'
 import {
   Feature as GeoJsonFeature,
   LineString as GeoJsonLineString,
 } from 'geojson'
+import Feature from 'ol/Feature'
+import LineString from 'ol/geom/LineString'
+import Draw from 'ol/interaction/Draw'
 import VectorSource from 'ol/source/Vector'
+import { converter, splitByCuttability } from './cutlery'
 import { cutStyle, styleCut } from './style'
 import { ProjectionInfo } from './types'
-import { converter, splitByCuttability } from './cutlery'
 
 export const makeDraw = (
   projectionInfo: ProjectionInfo,

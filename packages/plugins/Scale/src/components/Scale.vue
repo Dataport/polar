@@ -32,9 +32,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import thousandsSeparator from '../utils/thousandsSeperator'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import beautifyScale from '../utils/beautifyScale'
+import thousandsSeparator from '../utils/thousandsSeperator'
 
 export default Vue.extend({
   name: 'PolarScale',

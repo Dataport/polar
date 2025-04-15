@@ -2,13 +2,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { Feature as GeoJsonFeature, GeoJsonProperties, Geometry } from 'geojson'
-import {
-  EfiBeschreibung,
-  DishFeaturePropertiesOnSuccess,
-  DishFeatureProperties,
-} from '../types'
 import { denkmaelerWmService } from '../services'
-import { dishBaseUrl, denkmaelerWFS } from '../servicesConstants'
+import { denkmaelerWFS, dishBaseUrl } from '../servicesConstants'
+import {
+  DishFeatureProperties,
+  DishFeaturePropertiesOnSuccess,
+  EfiBeschreibung,
+} from '../types'
 
 const layerPool = denkmaelerWmService.layers.split(',')
 const sachgesamtheitPool = ['9', '10']

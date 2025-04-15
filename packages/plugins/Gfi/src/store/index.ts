@@ -1,10 +1,10 @@
 import { PolarModule } from '@polar/lib-custom-types'
 import { GfiGetters, GfiState } from '../types'
 
-import getInitialState from './getInitialState'
 import { makeActions } from './actions'
-import mutations from './mutations'
+import getInitialState from './getInitialState'
 import getters from './getters'
+import mutations from './mutations'
 
 export const makeStoreModule = () => {
   const storeModule: PolarModule<GfiState, GfiGetters> = {

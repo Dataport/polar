@@ -18,11 +18,11 @@
 </template>
 
 <script lang="ts">
+import { PluginContainer } from '@polar/lib-custom-types'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import { PluginContainer } from '@polar/lib-custom-types'
-import PluginVessel from '../MapPlugin.vue'
 import { sortPlugins } from '../../utils/sortPluginsByLayout'
+import PluginVessel from '../MapPlugin.vue'
 import { NineLayoutTag } from './NineLayoutTag'
 
 const tags = Object.values(NineLayoutTag)

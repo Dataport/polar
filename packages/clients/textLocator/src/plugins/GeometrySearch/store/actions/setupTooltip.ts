@@ -1,9 +1,9 @@
+import { PolarActionContext } from '@polar/lib-custom-types'
 import { Tooltip, getTooltip } from '@polar/lib-tooltip'
 import { Feature, Overlay } from 'ol'
-import { PolarActionContext } from '@polar/lib-custom-types'
-import { vectorLayer } from '../../utils/vectorDisplay'
 import { getPrimaryName } from '../../../../utils/coastalGazetteer/getPrimaryName'
 import { GeometrySearchGetters, GeometrySearchState } from '../../types'
+import { vectorLayer } from '../../utils/vectorDisplay'
 
 const localeKeys: [string, string][] = [
   ['h2', 'plugins.geometrySearch.tooltip.title'],

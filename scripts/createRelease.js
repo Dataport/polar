@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const fs = require('fs')
-const { getOctokit, context } = require('@actions/github')
+const { context, getOctokit } = require('@actions/github')
 
 const tags = process.argv.slice(2)
 const github = getOctokit(process.env.GITHUB_TOKEN)

@@ -3,18 +3,18 @@
 
 import { LayerConfiguration } from '@polar/lib-custom-types'
 import {
-  denkmaelerWMS,
-  denkmaelerWFS,
-  bddEin,
-  bddCol,
-  dop20col,
-  basemapGrau,
-  alkisWms,
   alkisWfs,
+  alkisWms,
+  basemapGrau,
+  bddCol,
+  bddEin,
+  beschriftung,
+  denkmaelerWFS,
+  denkmaelerWMS,
+  dop20col,
   kontrollbedarf,
   verlust,
   verwaltung,
-  beschriftung,
 } from '../servicesConstants'
 
 const layersIntern: LayerConfiguration[] = [

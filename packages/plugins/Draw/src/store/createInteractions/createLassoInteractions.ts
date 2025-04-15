@@ -1,21 +1,21 @@
-import Draw from 'ol/interaction/Draw'
-import i18next from 'i18next'
-import { GeoJSON } from 'ol/format'
-import { booleanContains } from '@turf/boolean-contains'
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { Feature } from 'ol'
-import { Polygon } from 'ol/geom'
 import {
-  parseWfsResponse,
   getVectorFeaturesByFeatureRequest,
+  parseWfsResponse,
 } from '@polar/lib-get-features'
+import { booleanContains } from '@turf/boolean-contains'
 import {
-  FeatureCollection,
   Feature as GeoJsonFeature,
+  FeatureCollection,
   Geometry,
   GeometryCollection,
 } from 'geojson'
+import i18next from 'i18next'
+import { Feature } from 'ol'
+import { GeoJSON } from 'ol/format'
+import { Polygon } from 'ol/geom'
+import Draw from 'ol/interaction/Draw'
 import { DrawGetters, DrawState } from '../../types'
 
 let loaderKeyCounter = 0

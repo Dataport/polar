@@ -1,9 +1,9 @@
+import { Menu } from '@polar/lib-custom-types'
 import Filter from '@polar/plugin-filter'
 import Fullscreen from '@polar/plugin-fullscreen'
 import Gfi from '@polar/plugin-gfi'
 import LayerChooser from '@polar/plugin-layer-chooser'
 import Zoom from '@polar/plugin-zoom'
-import { Menu } from '@polar/lib-custom-types'
 import { MODE } from '../enums'
 import MeldemichelGfiFeature from '../plugins/Gfi'
 

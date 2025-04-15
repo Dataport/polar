@@ -1,13 +1,13 @@
 import { PolarStore, SelectResultFunction } from '@polar/lib-custom-types'
 import { SearchResultSymbols } from '@polar/plugin-address-search'
 import { FeatureCollection } from 'geojson'
-import { searchCoastalGazetteerByToponym } from '../../coastalGazetteer/searchToponym'
-import { sorter } from '../../coastalGazetteer/responseInterpreter'
 import {
   GeometrySearchGetters,
   GeometrySearchState,
 } from '../../../plugins/GeometrySearch/types'
 import { LiteratureFeature, TitleLocationFrequency } from '../../../types'
+import { sorter } from '../../coastalGazetteer/responseInterpreter'
+import { searchCoastalGazetteerByToponym } from '../../coastalGazetteer/searchToponym'
 
 // NOTE hits (= feature.properties) and featureCollections are in sync; that is, hits[i] had findings featureCollections[i] in gazetteer
 const processLiteratureToponyms = (feature: LiteratureFeature) =>

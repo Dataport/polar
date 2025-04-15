@@ -1,5 +1,5 @@
-import Vue from 'vue'
 import { PluginOptions } from '@polar/lib-custom-types'
+import Vue from 'vue'
 import { GeometrySearch } from './components'
 import locales from './locales'
 import { makeStoreModule } from './store'

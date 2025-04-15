@@ -24,7 +24,12 @@
     "no-multi-spaces": "error",
     "vue/multi-word-component-names": "warn",
     "vue/order-in-components": "error",
-    "import/order": "error",
+    "import/order": ["error", {
+      "alphabetize": {
+        "order": "asc"
+      },
+      "named": true
+    }],
     "curly": "error",
     "brace-style": "error",
     "no-else-return": "error",

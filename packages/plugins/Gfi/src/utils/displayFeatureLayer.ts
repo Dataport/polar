@@ -1,8 +1,8 @@
+import { Feature as GeoJsonFeature } from 'geojson'
 import { Feature } from 'ol'
+import { GeoJSON } from 'ol/format'
 import VectorLayer from 'ol/layer/Vector'
 import { Vector } from 'ol/source'
-import { GeoJSON } from 'ol/format'
-import { Feature as GeoJsonFeature } from 'geojson'
 
 export function getFeatureDisplayLayer() {
   const featureDisplayLayer = new VectorLayer({

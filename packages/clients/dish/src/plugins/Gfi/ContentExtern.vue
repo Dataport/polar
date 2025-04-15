@@ -80,7 +80,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapMutations, mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import SharedContent from './SharedContent.vue'
 
 export default Vue.extend({

@@ -9,7 +9,7 @@ import './monkeyHeaderLoader'
 
 export { NineLayout, NineLayoutTag } from './components/layouts'
 export { RadioCard } from './components'
-export { setLayout, getLayout } from './utils/layout'
+export { getLayout, setLayout } from './utils/layout'
 export { default as mpapiDefaults } from './utils/createMap/defaults'
 export type { MapInstance } from './types'
 

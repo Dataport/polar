@@ -1,14 +1,14 @@
-import compare from 'just-compare'
-import { FeatureCollection, Feature as GeoJsonFeature } from 'geojson'
-import { Feature, Map } from 'ol'
-import { GeoJSON } from 'ol/format'
+import { rawLayerList } from '@masterportal/masterportalapi'
+import { DrawMetaService } from '@polar/lib-custom-types'
 import {
   getVectorFeaturesByFeatureRequest,
   parseWfsResponse,
 } from '@polar/lib-get-features'
-import { rawLayerList } from '@masterportal/masterportalapi'
 import { booleanIntersects } from '@turf/boolean-intersects'
-import { DrawMetaService } from '@polar/lib-custom-types'
+import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
+import compare from 'just-compare'
+import { Feature, Map } from 'ol'
+import { GeoJSON } from 'ol/format'
 import { GeometryType } from '../../types'
 
 const reader = new GeoJSON()

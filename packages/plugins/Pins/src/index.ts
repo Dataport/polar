@@ -1,7 +1,7 @@
-import Vue from 'vue'
 import { PinsConfiguration } from '@polar/lib-custom-types'
-import { makeStoreModule } from './store'
+import Vue from 'vue'
 import locales from './locales'
+import { makeStoreModule } from './store'
 
 export { default as getPointCoordinate } from './util/getPointCoordinate'
 

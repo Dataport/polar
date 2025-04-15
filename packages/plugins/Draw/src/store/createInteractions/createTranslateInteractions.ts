@@ -1,10 +1,10 @@
-import { Translate, Snap } from 'ol/interaction'
-import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { Collection, Feature, Map } from 'ol'
+import { Snap, Translate } from 'ol/interaction'
+import Interaction from 'ol/interaction/Interaction'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
-import { makeLocalSelector } from './localSelector'
 import { getSnaps } from './getSnaps'
+import { makeLocalSelector } from './localSelector'
 
 const createTranslate = (
   map: Map,

@@ -1,17 +1,17 @@
-import { Feature } from 'ol'
 import { PolarStore } from '@polar/lib-custom-types'
 import { FeatureCollection } from 'geojson'
+import { Feature } from 'ol'
 import {
   GeometrySearchGetters,
   GeometrySearchState,
 } from '../../plugins/GeometrySearch/types'
-import { getAllPages } from './getAllPages'
 import { geoJson } from './common'
-import { ResponsePayload } from './types'
+import { getAllPages } from './getAllPages'
 import {
   featureCollectionify,
   getEmptyFeatureCollection,
 } from './responseInterpreter'
+import { ResponsePayload } from './types'
 
 let abortController: AbortController | null = null
 

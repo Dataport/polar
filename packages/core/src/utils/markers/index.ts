@@ -1,6 +1,6 @@
-import Style from 'ol/style/Style'
-import Icon from 'ol/style/Icon'
 import { MarkerStyle } from '@polar/lib-custom-types'
+import Icon from 'ol/style/Icon'
+import Style from 'ol/style/Style'
 import { getPolygonFillHatch } from './hatches'
 
 type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style

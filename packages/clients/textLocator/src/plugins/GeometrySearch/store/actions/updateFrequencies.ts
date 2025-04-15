@@ -1,7 +1,7 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { GeometrySearchGetters, GeometrySearchState } from '../../types'
-import { searchLiteratureByToponym } from '../../../../utils/textLocatorBackend/literatureByToponym'
 import { TitleLocationFrequency } from '../../../../types'
+import { searchLiteratureByToponym } from '../../../../utils/textLocatorBackend/literatureByToponym'
+import { GeometrySearchGetters, GeometrySearchState } from '../../types'
 
 const requestLiteraturePerFeature = (
   featureCollection: GeometrySearchState['featureCollection'],

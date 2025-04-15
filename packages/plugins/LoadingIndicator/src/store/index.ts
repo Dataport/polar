@@ -5,8 +5,8 @@
 import { PolarModule } from '@polar/lib-custom-types'
 import { LoadingIndicatorGetters, LoadingIndicatorState } from '../types'
 import getters from './getters'
-import { getInitialState } from './state'
 import mutations from './mutations'
+import { getInitialState } from './state'
 
 export const makeStoreModule = () => {
   const storeModule: PolarModule<

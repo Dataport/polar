@@ -1,5 +1,5 @@
-import { union } from '@turf/union'
 import { flatten } from '@turf/flatten'
+import { union } from '@turf/union'
 import { Feature, Geometry, Polygon } from 'geojson'
 import { wgs84ProjectionCode } from '../common'
 import { geoJson, wellKnownText } from './common'

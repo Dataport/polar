@@ -1,14 +1,5 @@
 // console is a vital feature for this
 /* eslint-disable no-console */
-import Vue from 'vue'
-import Vuex, { Store } from 'vuex'
-import merge from 'lodash.merge'
-import {
-  generateSimpleGetters,
-  generateSimpleMutations,
-} from '@repositoryname/vuex-generators'
-import noop from '@repositoryname/noop'
-import i18next from 'i18next'
 import {
   CoreState,
   MapConfig,
@@ -17,20 +8,29 @@ import {
   PluginContainer,
   PolarError,
 } from '@polar/lib-custom-types'
-import { Interaction } from 'ol/interaction'
-import { Feature, Map } from 'ol'
-import { Point } from 'ol/geom'
-import { easeOut } from 'ol/easing'
 import getCluster from '@polar/lib-get-cluster'
+import noop from '@repositoryname/noop'
+import {
+  generateSimpleGetters,
+  generateSimpleMutations,
+} from '@repositoryname/vuex-generators'
+import i18next from 'i18next'
+import merge from 'lodash.merge'
+import { Feature, Map } from 'ol'
+import { easeOut } from 'ol/easing'
+import { Point } from 'ol/geom'
+import { Interaction } from 'ol/interaction'
+import Vue from 'vue'
+import Vuex, { Store } from 'vuex'
 import { CapabilitiesModule } from '../storeModules/capabilities'
-import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
+import { createPanAndZoomInteractions } from '../utils/interactions'
+import { addInterceptor } from './actions/addInterceptor'
+import checkServiceAvailability from './actions/checkServiceAvailability'
 import {
   updateSelection,
   useExtendedMasterportalapiMarkers,
 } from './actions/useExtendedMasterportalapiMarkers'
-import { addInterceptor } from './actions/addInterceptor'
-import checkServiceAvailability from './actions/checkServiceAvailability'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
 const devMode = import.meta.env.DEV

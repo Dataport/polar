@@ -4,8 +4,8 @@ import { changeLanguage } from 'i18next'
 // NOTE bad pattern, but probably fine for a test client
 import { enableClustering } from '../../meldemichel/src/utils/enableClustering'
 import { addPlugins } from './addPlugins'
-import { flurstuecke, mapConfiguration, reports } from './mapConfiguration'
 import { exampleFeatureInformation } from './exampleFeatureInformation'
+import { flurstuecke, mapConfiguration, reports } from './mapConfiguration'
 import { validateForm } from './validateForm'
 
 addPlugins(polarCore)

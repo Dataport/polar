@@ -7,11 +7,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapMutations, mapGetters } from 'vuex'
-import { denkmaelerWMS, alkisWms } from '../../servicesConstants'
+import { mapGetters, mapMutations } from 'vuex'
+import { alkisWms, denkmaelerWMS } from '../../servicesConstants'
+import MonumentContent from './MonumentContent.vue'
 import SharedContent from './SharedContent.vue'
 import SwitchButton from './SwitchButton.vue'
-import MonumentContent from './MonumentContent.vue'
 
 export default Vue.extend({
   name: 'DishGfiIntern',

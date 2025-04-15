@@ -1,7 +1,7 @@
 import 'ol/ol.css'
 import { Vector as VectorLayer } from 'ol/layer'
 import VectorSource from 'ol/source/Vector'
-import { Style, Stroke } from 'ol/style'
+import { Stroke, Style } from 'ol/style'
 
 const selectionLayer = new VectorLayer({
   source: new VectorSource({}),

@@ -1,8 +1,8 @@
+import { FilterConfiguration, PolarModule } from '@polar/lib-custom-types'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { FilterConfiguration, PolarModule } from '@polar/lib-custom-types'
 import ClusterSource from 'ol/source/Cluster'
 import ChooseTimeFrame from '../components/ChooseTimeFrame.vue'
 import {
@@ -12,13 +12,13 @@ import {
   LayerId,
   TargetProperty,
 } from '../types'
+import { arrayOnlyContains } from '../utils/arrayOnlyContains'
+import { parseTimeOption } from '../utils/parseTimeOption'
+import { setState } from '../utils/setState'
 import {
   getLayer,
   updateFeatureVisibility,
 } from '../utils/updateFeatureVisibility'
-import { setState } from '../utils/setState'
-import { arrayOnlyContains } from '../utils/arrayOnlyContains'
-import { parseTimeOption } from '../utils/parseTimeOption'
 
 const getInitialState = (): FilterState => ({
   category: {},

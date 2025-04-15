@@ -1,16 +1,16 @@
 import { Feature, FeatureCollection } from 'geojson'
 import levenshtein from 'js-levenshtein'
 import { MultiPolygon } from 'ol/geom'
-import { wgs84ProjectionCode } from '../common'
 import { GeometrySearchState } from '../../plugins/GeometrySearch/types'
+import { wgs84ProjectionCode } from '../common'
+import { geoJson, idPrefixes, wellKnownText } from './common'
+import { getPrimaryName } from './getPrimaryName'
 import {
   ResponseGeom,
   ResponseName,
   ResponsePayload,
   ResponseResult,
 } from './types'
-import { geoJson, idPrefixes, wellKnownText } from './common'
-import { getPrimaryName } from './getPrimaryName'
 
 // arbitrary sort based on input – prefer 1. startsWith 2. closer string
 export const sorter =

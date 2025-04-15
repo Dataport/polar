@@ -1,13 +1,13 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { getSnaps } from '@polar/plugin-draw'
-import Draw from 'ol/interaction/Draw'
-import Snap from 'ol/interaction/Snap'
-import { Feature as GeoJsonFeature, MultiPolygon, Polygon } from 'geojson'
 import { booleanIntersects } from '@turf/boolean-intersects'
 import { union } from '@turf/union'
-import { GeoJSON } from 'ol/format'
+import { Feature as GeoJsonFeature, MultiPolygon, Polygon } from 'geojson'
 import Feature from 'ol/Feature'
-import { CreateInteractionsPayload, DrawState, DrawGetters } from '../../types'
+import { GeoJSON } from 'ol/format'
+import Draw from 'ol/interaction/Draw'
+import Snap from 'ol/interaction/Snap'
+import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 
 const converter = new GeoJSON()
 

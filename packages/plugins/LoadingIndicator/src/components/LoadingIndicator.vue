@@ -23,11 +23,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import RollerLoader from './loaderStyles/Roller.vue'
-import CircleLoader from './loaderStyles/Circle.vue'
-import SpinnerLoader from './loaderStyles/Spinner.vue'
-import RingLoader from './loaderStyles/Ring.vue'
 import BasicLoader from './loaderStyles/Basic.vue'
+import CircleLoader from './loaderStyles/Circle.vue'
+import RingLoader from './loaderStyles/Ring.vue'
+import RollerLoader from './loaderStyles/Roller.vue'
+import SpinnerLoader from './loaderStyles/Spinner.vue'
 
 export default Vue.extend({
   name: 'LoadingIndicator',

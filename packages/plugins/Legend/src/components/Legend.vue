@@ -51,9 +51,9 @@
 </template>
 
 <script lang="ts">
+import * as masterportalapi from '@masterportal/masterportalapi'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import * as masterportalapi from '@masterportal/masterportalapi'
 
 export default Vue.extend({
   name: 'LegendPlugin',

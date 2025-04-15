@@ -1,16 +1,16 @@
-import { Feature } from 'geojson'
 import {
   CoreGetters,
   CoreState,
   PolarStore,
   SelectResultFunction,
 } from '@polar/lib-custom-types'
+import { WfsParameters, getWfsFeatures } from '@polar/lib-get-features'
 import {
-  SearchResultSymbols,
   AddressSearchGetters,
   AddressSearchState,
+  SearchResultSymbols,
 } from '@polar/plugin-address-search'
-import { WfsParameters, getWfsFeatures } from '@polar/lib-get-features'
+import { Feature } from 'geojson'
 
 function replaceUmlauts(input: string): string {
   return input

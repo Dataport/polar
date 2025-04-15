@@ -79,10 +79,10 @@
 </template>
 
 <script lang="ts">
+import getCluster from '@polar/lib-get-cluster'
 import { Feature } from 'ol'
 import Vue from 'vue'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import getCluster from '@polar/lib-get-cluster'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default Vue.extend({
   name: 'GfiList',

@@ -1,5 +1,5 @@
-import { match, getBlocks } from '../wfs/match'
 import { buildWfsFilter } from '../wfs/buildWfsFilter'
+import { getBlocks, match } from '../wfs/match'
 
 // mock result from pattern.matchAll(/{{(.*?)}}/g) for test comparison
 const mockRegExpMatchArray = (find, inner, index, input, groups?) => {

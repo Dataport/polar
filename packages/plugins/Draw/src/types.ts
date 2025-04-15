@@ -1,20 +1,20 @@
-import { Mutation, MutationTree } from 'vuex'
-import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
-import { Feature } from 'ol'
-import VectorLayer from 'ol/layer/Vector'
-import VectorSource from 'ol/source/Vector'
-import { StyleLike } from 'ol/style/Style'
 import {
   DrawConfiguration,
   DrawMode,
   MeasureMode,
   MeasureOptions,
 } from '@polar/lib-custom-types'
+import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
+import { Feature } from 'ol'
+import VectorLayer from 'ol/layer/Vector'
+import VectorSource from 'ol/source/Vector'
+import { StyleLike } from 'ol/style/Style'
+import { Mutation, MutationTree } from 'vuex'
 import {
-  inactive,
-  inProgress,
   complete,
   error,
+  inProgress,
+  inactive,
 } from './store/reviseFeatures/revisionStates'
 
 export type GeometryType = Exclude<Geometry, GeometryCollection>

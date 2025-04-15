@@ -1,12 +1,12 @@
-import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
-import { getWfsFeatures } from '@polar/lib-get-features'
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
+import { getWfsFeatures } from '@polar/lib-get-features'
+import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 import {
-  WfsConfiguration,
+  DishParameters,
   EfiSearchFeature,
   ParsedEfiSearchFeature,
-  DishParameters,
+  WfsConfiguration,
 } from '../types'
 import { parseBeschreibung } from './extendGfi'
 

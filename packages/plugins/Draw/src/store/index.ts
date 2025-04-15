@@ -1,10 +1,10 @@
+import { PolarModule } from '@polar/lib-custom-types'
+import noop from '@repositoryname/noop'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import { Feature } from 'geojson'
-import { PolarModule } from '@polar/lib-custom-types'
-import noop from '@repositoryname/noop'
 import { Circle, LineString, Point, Polygon } from 'ol/geom'
 import { DrawGetters, DrawMutations, DrawState } from '../types'
 import { makeActions } from './actions'

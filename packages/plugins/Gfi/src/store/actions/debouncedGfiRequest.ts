@@ -1,19 +1,19 @@
-import debounce from 'lodash.debounce'
 import { rawLayerList } from '@masterportal/masterportalapi'
-import { Feature as GeoJsonFeature } from 'geojson'
 import {
   GfiConfiguration,
   MapConfig,
   PolarActionContext,
 } from '@polar/lib-custom-types'
+import { Feature as GeoJsonFeature } from 'geojson'
+import compare from 'just-compare'
+import debounce from 'lodash.debounce'
 import { Map } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
-import compare from 'just-compare'
+import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
 import { filterFeatures } from '../../utils/filterFeatures'
+import { renderFeatures } from '../../utils/renderFeatures'
 import { requestGfi } from '../../utils/requestGfi'
 import sortFeatures from '../../utils/sortFeatures'
-import { FeaturesByLayerId, GfiGetters, GfiState } from '../../types'
-import { renderFeatures } from '../../utils/renderFeatures'
 
 interface GetFeatureInfoParameters {
   coordinateOrExtent: [number, number] | [number, number, number, number]

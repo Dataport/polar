@@ -1,5 +1,5 @@
-import { generateSimpleMutations } from '@repositoryname/vuex-generators'
 import { LoaderStyles } from '@polar/lib-custom-types'
+import { generateSimpleMutations } from '@repositoryname/vuex-generators'
 import { LoadingIndicatorMutations } from '../types'
 import { getInitialState } from './state'
 const styles = [

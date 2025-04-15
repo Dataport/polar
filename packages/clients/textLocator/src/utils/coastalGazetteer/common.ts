@@ -1,4 +1,4 @@
-import { WKT, GeoJSON } from 'ol/format'
+import { GeoJSON, WKT } from 'ol/format'
 
 export const idPrefixes = {
   country: 'EuroNat-',

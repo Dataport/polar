@@ -21,10 +21,10 @@
 </template>
 
 <script lang="ts">
+import noop from '@repositoryname/noop'
 import { t } from 'i18next'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import noop from '@repositoryname/noop'
 
 export default Vue.extend({
   name: 'AttributionContent',

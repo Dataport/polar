@@ -1,7 +1,7 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
-import { Style } from 'ol/style'
 import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
+import { Style } from 'ol/style'
 import { DrawGetters, DrawState } from '../../types'
 
 export default function (

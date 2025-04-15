@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import client, { MapInstance } from '@polar/core'
-import merge from 'lodash.merge'
 import { getWfsFeatures } from '@polar/lib-get-features'
 import { getPointCoordinate } from '@polar/plugin-pins'
-import { Feature } from 'ol'
 import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
+import merge from 'lodash.merge'
+import { Feature } from 'ol'
 import { GeoJSON } from 'ol/format'
 import packageInfo from '../package.json'
-import { navigateToDenkmal } from './utils/navigateToDenkmal'
 import { addPlugins } from './addPlugins'
-import { services } from './services'
 import { getMapConfiguration } from './mapConfigurations/mapConfig'
 import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
 import selectionLayer from './selectionLayer'
+import { services } from './services'
 import { DishUrlParams } from './types'
+import { navigateToDenkmal } from './utils/navigateToDenkmal'
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
 

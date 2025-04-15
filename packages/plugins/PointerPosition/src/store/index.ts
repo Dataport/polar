@@ -1,10 +1,10 @@
+import { PolarModule } from '@polar/lib-custom-types'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { PolarModule } from '@polar/lib-custom-types'
-import { transform } from 'ol/proj'
 import { Coordinate, createStringXY } from 'ol/coordinate'
+import { transform } from 'ol/proj'
 import { PointerPositionGetters, PointerPositionState } from '../types'
 
 const getInitialState = (): PointerPositionState => ({

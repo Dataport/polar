@@ -1,6 +1,6 @@
+import { DrawStyle } from '@polar/lib-custom-types'
 import VectorLayer from 'ol/layer/Vector'
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style'
-import { DrawStyle } from '@polar/lib-custom-types'
 import { PolarVectorOptions } from '../types'
 
 /**

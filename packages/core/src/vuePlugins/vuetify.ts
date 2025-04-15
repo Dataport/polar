@@ -1,7 +1,7 @@
+import kebabCase from 'lodash.kebabcase'
+import merge from 'lodash.merge'
 import Vue from 'vue'
 import Vuetify, { UserVuetifyPreset } from 'vuetify'
-import merge from 'lodash.merge'
-import kebabCase from 'lodash.kebabcase'
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)

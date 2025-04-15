@@ -1,16 +1,16 @@
-import { generateSimpleGetters } from '@repositoryname/vuex-generators'
 import {
   AddressSearchConfiguration,
   AddressSearchGroupProperties,
   PolarGetterTree,
   SearchMethodConfiguration,
 } from '@polar/lib-custom-types'
-import SearchResults from '../utils/searchResultSymbols'
+import { generateSimpleGetters } from '@repositoryname/vuex-generators'
 import {
   AddressSearchGetters,
   AddressSearchState,
   FeatureListWithCategory,
 } from '../types'
+import SearchResults from '../utils/searchResultSymbols'
 import { getInitialState } from './state'
 
 const defaultGroupProperties: AddressSearchGroupProperties = {

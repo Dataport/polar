@@ -1,7 +1,7 @@
-import Vue from 'vue'
 import { PluginOptions } from '@polar/lib-custom-types'
-import locales from './locales'
+import Vue from 'vue'
 import DishExportMap from './DishExportMap.vue'
+import locales from './locales'
 
 export default (options: PluginOptions) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {

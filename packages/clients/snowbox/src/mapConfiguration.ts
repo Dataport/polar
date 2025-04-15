@@ -1,8 +1,8 @@
-import { Feature as GeoJsonFeature } from 'geojson'
 import {
   ExtendedMasterportalapiMarkersIsSelectableFunction,
   GfiIsSelectableFunction,
 } from '@polar/lib-custom-types'
+import { Feature as GeoJsonFeature } from 'geojson'
 import locales from './locales'
 
 const eigengrau = '#16161d'

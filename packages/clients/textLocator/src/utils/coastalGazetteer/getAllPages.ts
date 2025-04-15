@@ -3,8 +3,8 @@ import {
   GeometrySearchGetters,
   GeometrySearchState,
 } from '../../plugins/GeometrySearch/types'
-import { MakeRequestBodyParameters, ResponsePayload } from './types'
 import { makeRequestBody } from './makeRequestBody'
+import { MakeRequestBodyParameters, ResponsePayload } from './types'
 
 const getEmptyResponsePayload = (): ResponsePayload => ({
   count: '',

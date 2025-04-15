@@ -1,5 +1,5 @@
-import Vue from 'vue'
 import idx from '@polar/lib-idx'
+import Vue from 'vue'
 
 type SubscribeCallback = (value: unknown, oldValue: unknown) => void
 

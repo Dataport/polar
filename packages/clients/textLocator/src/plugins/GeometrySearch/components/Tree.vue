@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import ResultInfo from '../../../components/ResultInfo.vue'
 import { TreeViewItem } from '../types'
 import Action from './Action.vue'

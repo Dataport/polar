@@ -1,6 +1,6 @@
+import { Attribution } from '@polar/lib-custom-types'
 import { Collection } from 'ol'
 import BaseLayer from 'ol/layer/Base'
-import { Attribution } from '@polar/lib-custom-types'
 
 /**
  * Returns a string which contains the attributions for every visible Layer

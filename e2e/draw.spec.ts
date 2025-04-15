@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
+import { drag, draw } from './utils/draw'
 import { openSnowbox } from './utils/openSnowbox'
-import { draw, drag } from './utils/draw'
 
 const drawTargetId = 'vuex-target-draw-result'
 const drawTargetLocatorString = `#${drawTargetId}`

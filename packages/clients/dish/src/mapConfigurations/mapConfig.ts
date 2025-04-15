@@ -1,10 +1,10 @@
 import { MapConfig } from '@polar/lib-custom-types'
-import locales from '../locales'
 import { shBlue, shWhite } from '../colors'
+import locales from '../locales'
 import { DishMapConfig, DishUrlParams } from '../types'
 import { options } from '../utils/calculateScaleFromResolution'
-import { mapConfigIntern } from './mapConfigIntern'
 import { mapConfigExtern } from './mapConfigExtern'
+import { mapConfigIntern } from './mapConfigIntern'
 
 const commonMapConfiguration: Partial<MapConfig> = {
   startResolution: 264.583190458,

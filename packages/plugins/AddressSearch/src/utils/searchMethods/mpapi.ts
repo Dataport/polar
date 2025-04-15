@@ -1,6 +1,6 @@
 import { search, setGazetteerUrl } from '@masterportal/masterportalapi'
+import { Feature, FeatureCollection } from 'geojson'
 import { transform as transformCoordinates } from 'ol/proj'
-import { FeatureCollection, Feature } from 'geojson'
 import { MpApiParameters } from '../../types'
 
 const getFeatureEPSG = (srsName: string): string => {

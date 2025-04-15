@@ -45,22 +45,22 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
 import api from '@masterportal/masterportalapi/src/maps/api'
 import { MoveHandle } from '@polar/components'
-import Hammer from 'hammerjs'
-import i18next from 'i18next'
-import { defaults } from 'ol/interaction'
 import {
   Locale,
   MapConfig,
   MoveHandleProperties,
 } from '@polar/lib-custom-types'
-import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
+import Hammer from 'hammerjs'
+import i18next from 'i18next'
+import { defaults } from 'ol/interaction'
+import Vue, { PropType } from 'vue'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { addClusterStyle } from '../utils/addClusterStyle'
-import { setupStyling } from '../utils/setupStyling'
+import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
+import { setupStyling } from '../utils/setupStyling'
 import MapUi from './MapUi.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'

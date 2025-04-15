@@ -16,8 +16,8 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import GroupSelect from './GroupSelect.vue'
-import Results from './Results.vue'
 import SearchInput from './Input.vue'
+import Results from './Results.vue'
 
 export default Vue.extend({
   name: 'SearchContainer',

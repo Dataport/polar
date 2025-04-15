@@ -1,9 +1,9 @@
-import { t } from 'i18next'
+import { PolarModule } from '@polar/lib-custom-types'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { PolarModule } from '@polar/lib-custom-types'
+import { t } from 'i18next'
 import { IconMenuGetters, IconMenuState } from '../types'
 
 const getInitialState = (): IconMenuState => ({

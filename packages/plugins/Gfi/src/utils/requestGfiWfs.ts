@@ -1,5 +1,5 @@
-import { GeoJSON, WFS } from 'ol/format'
 import { Feature as GeoJsonFeature } from 'geojson'
+import { GeoJSON, WFS } from 'ol/format'
 import { RequestGfiParameters } from '../types'
 
 /**

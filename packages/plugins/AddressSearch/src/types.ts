@@ -1,12 +1,12 @@
 import {
+  AddressSearchCategoryProperties,
   AddressSearchConfiguration,
+  AddressSearchGroupProperties,
   QueryParameters,
   SearchMethodConfiguration,
-  AddressSearchGroupProperties,
-  AddressSearchCategoryProperties,
 } from '@polar/lib-custom-types'
-import { VueConstructor } from 'vue'
 import { Feature, FeatureCollection } from 'geojson'
+import { VueConstructor } from 'vue'
 
 /** Federal states of Germany */
 export type Bundesland =

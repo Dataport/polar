@@ -1,13 +1,13 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
-import Feature from 'ol/Feature'
 import {
   Feature as GeoJsonFeature,
   LineString as GeoJsonLineString,
 } from 'geojson'
+import Feature from 'ol/Feature'
 import {
   CreateInteractionsPayload,
-  DrawState,
   DrawGetters,
+  DrawState,
 } from '../../../types'
 import {
   converter,

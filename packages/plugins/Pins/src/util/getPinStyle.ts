@@ -1,4 +1,4 @@
-import { Style, Icon } from 'ol/style'
+import { Icon, Style } from 'ol/style'
 import { getPinSvg } from './getPinSvg'
 
 export const getPinStyle = (style) =>

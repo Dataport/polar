@@ -1,5 +1,5 @@
-import Interaction from 'ol/interaction/Interaction'
 import { PolarActionContext } from '@polar/lib-custom-types'
+import Interaction from 'ol/interaction/Interaction'
 import { CreateInteractionsPayload, DrawGetters, DrawState } from '../../types'
 
 export default function (

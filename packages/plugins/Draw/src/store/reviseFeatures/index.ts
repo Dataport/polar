@@ -1,11 +1,11 @@
 import { PolarActionContext } from '@polar/lib-custom-types'
 import { FeatureCollection } from 'geojson'
 import { DrawGetters, DrawState, GeometryType } from '../../types'
-import { validateGeoJson } from './validateGeoJson'
+import { autofixFeatureCollection } from './autofix'
+import { cloneFeatureCollection } from './cloneFeatureCollection'
 import { enrichWithMetaServices } from './enrichWithMetaServices'
 import { complete, error, inProgress } from './revisionStates'
-import { cloneFeatureCollection } from './cloneFeatureCollection'
-import { autofixFeatureCollection } from './autofix'
+import { validateGeoJson } from './validateGeoJson'
 
 let abortController: AbortController | null = null
 

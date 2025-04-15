@@ -1,16 +1,16 @@
 import { MapConfig } from '@polar/lib-custom-types'
 import locales from './locales'
+import { theme } from './palettes'
 import {
-  openStreetMap,
-  openSeaMap,
+  aerial,
   mdiSeaNames,
-  wmtsTopplusOpenWeb,
-  wmtsTopplusOpenWebGrey,
+  openSeaMap,
+  openStreetMap,
   wmtsTopplusOpenLight,
   wmtsTopplusOpenLightGrey,
-  aerial,
+  wmtsTopplusOpenWeb,
+  wmtsTopplusOpenWebGrey,
 } from './services'
-import { theme } from './palettes'
 
 let zoomLevel = 0
 

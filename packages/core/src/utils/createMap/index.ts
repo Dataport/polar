@@ -1,16 +1,16 @@
 import Vue from 'vue'
-import { makeStore } from '../../vuePlugins/vuex'
-import vuetify from '../../vuePlugins/vuetify'
-import initializeI18n from '../../i18n'
 import { MapContainer } from '../../components'
+import initializeI18n from '../../i18n'
 import { CreateOptions, MapInstance } from '../../types'
+import vuetify from '../../vuePlugins/vuetify'
+import { makeStore } from '../../vuePlugins/vuex'
 import defaults from './defaults'
-import subscribeFunction from './subscribe'
-import { updateSizeOnReady } from './updateSizeOnReady'
 import { makeShadowRoot } from './makeShadowRoot'
 import { pullPolarStyleToShadow } from './pullPolarStyleToShadow'
 import { pullVuetifyStyleToShadow } from './pullVuetifyStyleToShadow'
 import { setupFontawesome } from './setupFontawesome'
+import subscribeFunction from './subscribe'
+import { updateSizeOnReady } from './updateSizeOnReady'
 
 /**
  * createMap handles plugging all the parts together to create a configured map.

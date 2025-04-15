@@ -1,12 +1,12 @@
+import { PolarActionContext } from '@polar/lib-custom-types'
 import { Map } from 'ol'
+import { platformModifierKeyOnly } from 'ol/events/condition'
 import { Modify } from 'ol/interaction'
 import Draw, {
-  createBox,
   type Options as DrawOptions,
+  createBox,
 } from 'ol/interaction/Draw'
-import { platformModifierKeyOnly } from 'ol/events/condition'
 import { Fill, Stroke, Style } from 'ol/style'
-import { PolarActionContext } from '@polar/lib-custom-types'
 import { GfiGetters, GfiState } from '../../types'
 
 const isDrawing = (map: Map) =>

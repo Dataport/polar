@@ -1,10 +1,10 @@
+import createStyle from '@masterportal/masterportalapi/src/vectorStyle/createStyle'
+import styleList from '@masterportal/masterportalapi/src/vectorStyle/styleList'
 import { MapConfig } from '@polar/lib-custom-types'
 import noop from '@repositoryname/noop'
-import styleList from '@masterportal/masterportalapi/src/vectorStyle/styleList'
-import createStyle from '@masterportal/masterportalapi/src/vectorStyle/createStyle'
-import VectorLayer from 'ol/layer/Vector'
 import { Feature, Map } from 'ol'
 import { FeatureLike } from 'ol/Feature'
+import VectorLayer from 'ol/layer/Vector'
 
 export async function setupStyling(mapConfiguration: MapConfig, map: Map) {
   if (mapConfiguration.featureStyles) {

@@ -1,9 +1,9 @@
-import { GeoJSON } from 'ol/format'
-import { Geometry } from 'ol/geom'
-import { Feature } from 'ol'
-import compare from 'just-compare'
 import { isVisible } from '@polar/lib-invisible-style'
 import { GeoJsonProperties } from 'geojson'
+import compare from 'just-compare'
+import { Feature } from 'ol'
+import { GeoJSON } from 'ol/format'
+import { Geometry } from 'ol/geom'
 import VectorSource from 'ol/source/Vector'
 
 export const getOriginalFeature = (

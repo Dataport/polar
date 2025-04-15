@@ -1,9 +1,9 @@
 import { Map } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
+import { features } from './features'
 import { updatePositions } from './updatePositions'
 import { updateStyles } from './updateStyles'
-import { features } from './features'
 
 export const addStylePreview = (mapInstance) => {
   const map: Map = mapInstance.$store.getters.map

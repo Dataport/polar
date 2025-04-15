@@ -1,5 +1,4 @@
-import merge from 'lodash.merge'
-import { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
+import { NineLayout, NineLayoutTag, setLayout } from '@polar/core'
 import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'
@@ -17,6 +16,7 @@ import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
+import merge from 'lodash.merge'
 
 const defaultOptions = {
   displayComponent: true,

@@ -1,8 +1,8 @@
+import { LayerBoundPluginOptions } from '@polar/lib-custom-types'
 import { Map } from 'ol'
 import { Coordinate } from 'ol/coordinate'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
-import { LayerBoundPluginOptions } from '@polar/lib-custom-types'
 
 // arbitrarily give up after 10s of stalling
 let readinessChecks = 0

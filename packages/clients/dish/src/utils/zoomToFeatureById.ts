@@ -1,5 +1,5 @@
-import { getWfsFeatures, WfsParameters } from '@polar/lib-get-features'
 import { MapInstance } from '@polar/core'
+import { WfsParameters, getWfsFeatures } from '@polar/lib-get-features'
 import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
 
 export function zoomToFeatureById(

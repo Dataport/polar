@@ -1,11 +1,14 @@
-import { Feature, Map } from 'ol'
+import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
 import { Resource } from 'i18next'
+import { Feature, Map } from 'ol'
+import { Color } from 'ol/color'
+import { ColorLike } from 'ol/colorlike'
+import { Coordinate } from 'ol/coordinate'
+import { Size } from 'ol/size'
 import { Options as Fill } from 'ol/style/Fill'
 import { Options as Stroke } from 'ol/style/Stroke'
 import { type Options as TextOptions } from 'ol/style/Text'
-import { Size } from 'ol/size'
-import { Color } from 'ol/color'
-import { ColorLike } from 'ol/colorlike'
+import { VueConstructor, WatchOptions } from 'vue'
 import { UserVuetifyPreset } from 'vuetify/types/services/presets'
 import {
   ActionPayload,
@@ -17,9 +20,6 @@ import {
   SubscribeActionOptions,
   SubscribeOptions,
 } from 'vuex'
-import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
-import { VueConstructor, WatchOptions } from 'vue'
-import { Coordinate } from 'ol/coordinate'
 
 /**
  *

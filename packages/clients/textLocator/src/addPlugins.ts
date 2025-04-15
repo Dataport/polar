@@ -1,4 +1,4 @@
-import { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
+import { NineLayout, NineLayoutTag, setLayout } from '@polar/core'
 import AddressSearch from '@polar/plugin-address-search'
 import Attributions from '@polar/plugin-attributions'
 import Draw from '@polar/plugin-draw'
@@ -10,14 +10,14 @@ import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
 
-import Header from './plugins/Header'
-import GeometrySearch from './plugins/GeometrySearch'
 import ResultInfo from './components/ResultInfo.vue'
+import GeometrySearch from './plugins/GeometrySearch'
+import Header from './plugins/Header'
+import { idRegister } from './services'
 import {
   searchCoastalGazetteerByToponym,
   selectResult,
 } from './utils/coastalGazetteer/searchToponym'
-import { idRegister } from './services'
 import { searchLiterature } from './utils/textLocatorBackend/findLiterature/searchLiterature'
 import { selectLiterature } from './utils/textLocatorBackend/findLiterature/selectLiterature'
 

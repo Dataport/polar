@@ -1,13 +1,13 @@
 import { Locale } from '@polar/lib-custom-types'
 import {
-  openStreetMap,
-  openSeaMap,
+  aerial,
   mdiSeaNames,
-  wmtsTopplusOpenWeb,
-  wmtsTopplusOpenWebGrey,
+  openSeaMap,
+  openStreetMap,
   wmtsTopplusOpenLight,
   wmtsTopplusOpenLightGrey,
-  aerial,
+  wmtsTopplusOpenWeb,
+  wmtsTopplusOpenWebGrey,
 } from './services'
 
 export const textLocatorDe = {

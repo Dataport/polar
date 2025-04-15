@@ -1,5 +1,5 @@
-import Vue from 'vue'
 import { PluginOptions } from '@polar/lib-custom-types'
+import Vue from 'vue'
 import Header from './Header.vue'
 import locales from './locales'
 

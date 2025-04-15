@@ -1,8 +1,8 @@
 import { createRequire } from 'module'
 import { resolve } from 'path'
+import vuePlugin from '@vitejs/plugin-vue2'
 import { defineConfig } from 'vite'
 import commonJs from 'vite-plugin-commonjs'
-import vuePlugin from '@vitejs/plugin-vue2'
 
 const require = createRequire(import.meta.url)
 

@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { transform } from 'ol/proj'
 import { getCenter } from 'ol/extent'
 
 import {
   Circle,
-  LinearRing,
   LineString,
+  LinearRing,
   MultiLineString,
   MultiPoint,
   MultiPolygon,
   Point,
   Polygon,
 } from 'ol/geom'
+import { transform } from 'ol/proj'
 
 const geoms = {
   Circle,

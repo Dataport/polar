@@ -1,8 +1,8 @@
-import Vue from 'vue'
 import { PointerPositionConfiguration } from '@polar/lib-custom-types'
+import Vue from 'vue'
 import { PointerPosition } from './components'
-import { makeStoreModule } from './store'
 import locales from './locales'
+import { makeStoreModule } from './store'
 
 export default (options: PointerPositionConfiguration) => (instance: Vue) =>
   instance.$store.dispatch('addComponent', {

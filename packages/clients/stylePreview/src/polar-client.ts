@@ -1,4 +1,4 @@
-import polarCore, { setLayout, NineLayout, NineLayoutTag } from '@polar/core'
+import polarCore, { NineLayout, NineLayoutTag, setLayout } from '@polar/core'
 import PolarPluginAttributions from '@polar/plugin-attributions'
 import PolarPluginLayerChooser from '@polar/plugin-layer-chooser'
 import PolarPluginScale from '@polar/plugin-scale'

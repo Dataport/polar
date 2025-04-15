@@ -1,8 +1,8 @@
 import client from '@polar/core'
 import packageInfo from '../package.json'
 import { addPlugins, ids } from './addPlugins'
-import { services as layerConf } from './services'
 import { mapConfiguration } from './mapConfig'
+import { services as layerConf } from './services'
 import './styles.css'
 
 // eslint-disable-next-line no-console

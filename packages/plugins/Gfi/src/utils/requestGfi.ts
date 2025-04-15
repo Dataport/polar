@@ -1,13 +1,13 @@
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { Feature as GeoJsonFeature } from 'geojson'
 import ImageLayer from 'ol/layer/Image'
 import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
-import { rawLayerList } from '@masterportal/masterportalapi'
 import { RequestGfiParameters } from '../types'
 
-import requestGfiWms from './requestGfiWms'
-import requestGfiWfs from './requestGfiWfs'
 import requestGfiGeoJson from './requestGfiGeoJson'
+import requestGfiWfs from './requestGfiWfs'
+import requestGfiWms from './requestGfiWms'
 
 /**
  * The requestGfi method abstracts from service-specific implementation and
