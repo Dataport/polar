@@ -709,8 +709,8 @@ export interface MapConfig extends MasterportalApiConfig {
   iconMenu?: IconMenuConfiguration
   layerChooser?: LayerChooserConfiguration
   legend?: LegendConfiguration
-  pointerPosition?: PointerPositionConfiguration
   pins?: PinsConfiguration
+  pointerPosition?: PointerPositionConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
   scale?: ScaleConfiguration
   toast?: ToastConfiguration
