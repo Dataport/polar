@@ -57,7 +57,7 @@
 import Vue from 'vue'
 import { mapMutations, mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
-import { beautifyScale } from '@polar/plugin-scale'
+import { getBestMatchingScale } from '@polar/plugin-scale'
 import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
 import { options } from '../../utils/calculateScaleFromResolution'
 
@@ -105,14 +105,7 @@ export default Vue.extend({
       )
     },
     scaleForPrint(): number {
-      const scaleToCompare = beautifyScale(this.scaleValue)
-      const bestMatchingScale = options.reduce((prev, curr) => {
-        return Math.abs(curr.scale - scaleToCompare) <
-          Math.abs(prev.scale - scaleToCompare)
-          ? curr
-          : prev
-      })
-      return bestMatchingScale.scale
+      return getBestMatchingScale(this.scaleValue, options)
     },
   },
   mounted() {
