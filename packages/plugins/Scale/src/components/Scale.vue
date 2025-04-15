@@ -34,7 +34,7 @@
 import Vue from 'vue'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import thousandsSeparator from '../utils/thousandsSeperator'
-import beautifyScale from '../utils/beautifyScale'
+import getBestMatchingScale from '../utils/getBestMatchingScale'
 
 export default Vue.extend({
   name: 'PolarScale',
@@ -59,14 +59,7 @@ export default Vue.extend({
     },
     scale: {
       get() {
-        const scaleToCompare = beautifyScale(this.scaleValue)
-        const bestMatchingScale = this.zoomOptions.reduce((prev, curr) => {
-          return Math.abs(curr.scale - scaleToCompare) <
-            Math.abs(prev.scale - scaleToCompare)
-            ? curr
-            : prev
-        })
-        return bestMatchingScale.scale
+        return getBestMatchingScale(this.scaleValue, this.zoomOptions)
       },
       set(value: number) {
         this.setScaleValue(value)
