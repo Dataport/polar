@@ -59,6 +59,7 @@ import { mapMutations, mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
 import { beautifyScale } from '@polar/plugin-scale'
 import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
+import { options } from '../../utils/calculateScaleFromResolution'
 
 const rectangleWidth = 893
 const rectangleHeight = 473
@@ -102,6 +103,16 @@ export default Vue.extend({
           (layer) => layer.id === this.activeBackgroundId
         ) || this.defaultBackground
       )
+    },
+    scaleForPrint(): number {
+      const scaleToCompare = beautifyScale(this.scaleValue)
+      const bestMatchingScale = options.reduce((prev, curr) => {
+        return Math.abs(curr.scale - scaleToCompare) <
+          Math.abs(prev.scale - scaleToCompare)
+          ? curr
+          : prev
+      })
+      return bestMatchingScale.scale
     },
   },
   mounted() {
@@ -200,13 +211,13 @@ export default Vue.extend({
         NewTab: this.newTab,
         objektueberschrift: this.title,
         // spelling is intentional because of backend requirements
-        masssstab: beautifyScale(this.scaleValue),
+        masssstab: this.scaleForPrint,
         printApproach: this.configuration.dishExportMap.printApproach,
         printRequester: this.configuration.dishExportMap.printRequester,
         id: this.currentProperties.objektid,
         xPrint: this.configuration.dishExportMap.xPrint,
         yPrint: this.configuration.dishExportMap.yPrint,
-        scale: this.scaleValue,
+        scale: this.scaleForPrint,
         xMin: bbox?.xMin,
         yMin: bbox?.yMin,
         xMax: bbox?.xMax,
