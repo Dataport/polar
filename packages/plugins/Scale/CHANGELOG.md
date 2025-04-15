@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Expose the functions `beautifyScale`, `thousandsSeparator` and `getDpi`.
+- Feature: Expose the function `getBestMatchingScale`.
 
 ## 3.0.0
 
