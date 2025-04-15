@@ -17,6 +17,7 @@
       ref="polar-map-container"
       class="polar-map"
       tabindex="0"
+      role="region"
       :aria-label="$t('canvas.label')"
     ></div>
     <MapUi></MapUi>
@@ -278,6 +279,10 @@ export default Vue.extend({
 }
 .v-application {
   font-family: sans-serif !important;
+}
+.v-list-item--highlighted {
+  outline: 2px solid var(--polar-primary);
+  outline-offset: -2px;
 }
 /* Override v-app default styling (must be global to take effect) */
 .polar-wrapper .v-application--wrap {

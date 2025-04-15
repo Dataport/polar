@@ -39,11 +39,11 @@
     "@polar/lib-get-features": "^3.0.0"
   },
   "peerDependencies": {
-    "@masterportal/masterportalapi": "2.45.0",
+    "@masterportal/masterportalapi": "2.48.0",
     "@polar/core": "^3.0.0",
     "@repositoryname/vuex-generators": "^1.1.2",
     "i18next": "^23.11.5",
-    "ol": "^10.3.1",
+    "ol": "^10.4.0",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },

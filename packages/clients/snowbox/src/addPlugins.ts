@@ -12,6 +12,7 @@ import LayerChooser from '@polar/plugin-layer-chooser'
 import Legend from '@polar/plugin-legend'
 import LoadingIndicator from '@polar/plugin-loading-indicator'
 import Pins from '@polar/plugin-pins'
+import PointerPosition from '@polar/plugin-pointer-position'
 import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
@@ -124,5 +125,10 @@ export const addPlugins = (core) => {
       addressTarget: 'plugin/addressSearch/selectResult',
       zoomTo: 7,
     }),
+    PointerPosition(
+      merge({}, defaultOptions, {
+        layoutTag: NineLayoutTag.BOTTOM_LEFT,
+      })
+    ),
   ])
 }

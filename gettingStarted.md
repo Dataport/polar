@@ -239,7 +239,10 @@ const createMap = (layerConf) => {
     .then(addStoreSubscriptions(/* subscription logic */))
 }
 
-// Initializes the layer list and creates the map instance
+/* Initializes the layer list and creates the map instance.
+ * This becomes obsolete if a local service register is used.
+ * In that case, that service register can be directly used as `layerConf` on the `createMap` call.
+ */
 polarCore.rawLayerList.initializeLayerList(
   'https://geodienste.hamburg.de/services-internet.json',
   createMap
