@@ -18,7 +18,7 @@
         :value="option.scale"
         class="scale-as-a-ratio"
       >
-        {{ scaleNumberToScale(option.scale) }}
+        {{ calculateScaleFromResolution(option.resolution) }}
       </option>
     </select>
     <span v-else class="scale-as-a-ratio">
@@ -34,6 +34,7 @@
 import Vue from 'vue'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import thousandsSeparator from '../utils/thousandsSeperator'
+import calculateScaleFromResolution from '../utils/calculateScaleFromResolution'
 import getBestMatchingScale from '../utils/getBestMatchingScale'
 
 export default Vue.extend({
@@ -44,6 +45,7 @@ export default Vue.extend({
     }
   },
   computed: {
+    ...mapGetters(['map']),
     ...mapGetters('plugin/scale', [
       'scaleToOne',
       'scaleValue',
@@ -56,6 +58,9 @@ export default Vue.extend({
       return (scale: number) => {
         return '1 : ' + thousandsSeparator(scale)
       }
+    },
+    unit() {
+      return this.map.getView().getProjection().getUnits()
     },
     scale: {
       get() {
@@ -74,6 +79,9 @@ export default Vue.extend({
     ...mapActions('plugin/scale', ['zoomToScale']),
     setZoomLevelByScale(index: number) {
       this.zoomToScale(this.zoomOptions[index].zoomLevel)
+    },
+    calculateScaleFromResolution(resolution: number): string {
+      return calculateScaleFromResolution(this.unit, resolution)
     },
   },
 })
