@@ -495,6 +495,25 @@ export interface ReverseGeocoderConfiguration {
   zoomTo?: number
 }
 
+// TODO finish implementation, add effective changes to changelog
+// type selectableTravelModes = 'driving-car' | 'driving-hgv' | 'foot-walking' | 'cycling-regular'
+// type selectablePreferences = 'recommended' | 'fastest' | 'shortest'
+
+export interface RoutingConfiguration {
+  serviceUrl: string
+  format: 'geojson' | string
+  selectableTravelModes: string[]
+  selectablePreferences: string[]
+  displayPreferences: boolean
+  displayRouteTypesToAvoid: boolean
+  routeStyle: {
+    stroke: {
+      color: string
+      width: number
+    }
+  }
+}
+
 /** Style of a toast */
 export interface ToastStyle {
   /** Color of the toast. */
@@ -705,6 +724,7 @@ export interface MapConfig extends MasterportalApiConfig {
   filter?: FilterConfiguration
   fullscreen?: FullscreenConfiguration
   geoLocation?: GeoLocationConfiguration
+  routing?: RoutingConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
   layerChooser?: LayerChooserConfiguration

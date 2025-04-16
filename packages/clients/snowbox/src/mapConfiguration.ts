@@ -295,6 +295,36 @@ export const mapConfiguration = {
       fill: '#ff0019',
     },
   },
+  routing: {
+    serviceUrl: 'https://geodienste.hamburg.de/web_ors//v2/directions/',
+    format: 'geojson',
+    selectableTravelModes: [],
+    selectablePreferences: [],
+    displayPreferences: true,
+    displayRouteTypesToAvoid: true,
+    routeStyle: {
+      stroke: {
+        color: '#e51313',
+        width: 6,
+      },
+    },
+    // TODO duplicate declaration – should refer to existing plugin, and if AddressSearch isn't there, it only works with coordinates; I GUESS ...
+    addressSearch: {
+      searchMethods: [
+        {
+          queryParameters: {
+            searchAddress: true,
+            searchStreets: true,
+            searchHouseNumbers: true,
+          },
+          type: 'mpapi',
+          url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+        },
+      ],
+      minLength: 3,
+      waitMs: 300,
+    },
+  },
   pointerPosition: {
     projections: [
       { code: 'EPSG:4326' },
