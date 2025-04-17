@@ -724,7 +724,6 @@ export interface MapConfig extends MasterportalApiConfig {
   filter?: FilterConfiguration
   fullscreen?: FullscreenConfiguration
   geoLocation?: GeoLocationConfiguration
-  routing?: RoutingConfiguration
   gfi?: GfiConfiguration
   iconMenu?: IconMenuConfiguration
   layerChooser?: LayerChooserConfiguration
@@ -732,6 +731,7 @@ export interface MapConfig extends MasterportalApiConfig {
   pins?: PinsConfiguration
   pointerPosition?: PointerPositionConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
+  routing?: RoutingConfiguration
   scale?: ScaleConfiguration
   toast?: ToastConfiguration
   zoom?: ZoomConfiguration
