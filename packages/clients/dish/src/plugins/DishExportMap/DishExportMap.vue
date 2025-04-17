@@ -103,6 +103,9 @@ export default Vue.extend({
         ) || this.defaultBackground
       )
     },
+    scaleForPrint(): number {
+      return beautifyScale(this.scaleValue)
+    },
   },
   mounted() {
     this.configureSettings()
@@ -200,13 +203,13 @@ export default Vue.extend({
         NewTab: this.newTab,
         objektueberschrift: this.title,
         // spelling is intentional because of backend requirements
-        masssstab: beautifyScale(this.scaleValue),
+        masssstab: this.scaleForPrint,
         printApproach: this.configuration.dishExportMap.printApproach,
         printRequester: this.configuration.dishExportMap.printRequester,
         id: this.currentProperties.objektid,
         xPrint: this.configuration.dishExportMap.xPrint,
         yPrint: this.configuration.dishExportMap.yPrint,
-        scale: this.scaleValue,
+        scale: this.scaleForPrint,
         xMin: bbox?.xMin,
         yMin: bbox?.yMin,
         xMax: bbox?.xMax,

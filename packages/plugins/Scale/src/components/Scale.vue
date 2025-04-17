@@ -18,7 +18,7 @@
         :value="option.scale"
         class="scale-as-a-ratio"
       >
-        {{ scaleNumberToScale(option.scale) }}
+        {{ thousandsSeparator(option.scale) }}
       </option>
     </select>
     <span v-else class="scale-as-a-ratio">
@@ -34,7 +34,7 @@
 import Vue from 'vue'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import thousandsSeparator from '../utils/thousandsSeperator'
-import beautifyScale from '../utils/beautifyScale'
+import getBestMatchingScale from '../utils/getBestMatchingScale'
 
 export default Vue.extend({
   name: 'PolarScale',
@@ -44,6 +44,7 @@ export default Vue.extend({
     }
   },
   computed: {
+    ...mapGetters(['map']),
     ...mapGetters('plugin/scale', [
       'scaleToOne',
       'scaleValue',
@@ -59,16 +60,10 @@ export default Vue.extend({
     },
     scale: {
       get() {
-        const scaleToCompare = beautifyScale(this.scaleValue)
-        const bestMatchingScale = this.zoomOptions.reduce((prev, curr) => {
-          return Math.abs(curr.scale - scaleToCompare) <
-            Math.abs(prev.scale - scaleToCompare)
-            ? curr
-            : prev
-        })
-        return bestMatchingScale.scale
+        return getBestMatchingScale(this.scaleValue, this.zoomOptions)
       },
       set(value: number) {
+        console.warn('scale changed to', value)
         this.setScaleValue(value)
       },
     },
@@ -77,10 +72,13 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapMutations('plugin/scale', ['setScaleValue']),
+    ...mapMutations('plugin/scale', ['setScaleValue', 'setZoomOptions']),
     ...mapActions('plugin/scale', ['zoomToScale']),
     setZoomLevelByScale(index: number) {
       this.zoomToScale(this.zoomOptions[index].zoomLevel)
+    },
+    thousandsSeparator(value: number) {
+      return thousandsSeparator(value)
     },
   },
 })
