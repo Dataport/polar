@@ -1,8 +1,9 @@
+import { PolarMapOptions } from '@polar/lib-custom-types'
 import beautifyScale from './beautifyScale'
 
 function getBestMatchingScale(
   scaleValue: number,
-  zoomOptions: { resolution: number; scale: number; zoomLevel: number }[]
+  zoomOptions: PolarMapOptions[]
 ): number {
   const scaleToCompare = beautifyScale(scaleValue)
   const bestMatchingScale = zoomOptions.reduce((prev, curr) => {
