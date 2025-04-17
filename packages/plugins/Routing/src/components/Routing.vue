@@ -1,7 +1,7 @@
 <template>
   <v-scroll-x-reverse-transition>
     <v-card class="polar-routing-menu">
-      <v-card-title>{{ $t('common:plugins.routing.title') }} </v-card-title>
+      <v-card-title>{{ $t('common:plugins.routing.title') }}</v-card-title>
 
       <!-- Start Point with Dropdown -->
       <div class="text-field" style="position: relative">
