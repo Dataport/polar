@@ -136,7 +136,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       commit('setRoutingResponseData', data)
       dispatch('drawRoute')
     } catch (error) {
-      dispatch('handleError', error)
+      dispatch('handleErrors', error)
     }
   },
 
