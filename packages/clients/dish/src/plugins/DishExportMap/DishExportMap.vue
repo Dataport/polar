@@ -57,9 +57,8 @@
 import Vue from 'vue'
 import { mapMutations, mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
-import { getBestMatchingScale } from '@polar/plugin-scale'
+import { beautifyScale } from '@polar/plugin-scale'
 import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
-import { options } from '../../utils/calculateScaleFromResolution'
 
 const rectangleWidth = 893
 const rectangleHeight = 473
@@ -105,7 +104,7 @@ export default Vue.extend({
       )
     },
     scaleForPrint(): number {
-      return getBestMatchingScale(this.scaleValue, options)
+      return beautifyScale(this.scaleValue)
     },
   },
   mounted() {
