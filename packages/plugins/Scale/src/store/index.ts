@@ -5,10 +5,12 @@ import {
 import * as olProj from 'ol/proj'
 import { t as translate } from 'i18next'
 import { PolarModule } from '@polar/lib-custom-types'
+import { type MetersPerUnitLookup } from 'ol/proj/Units'
 import thousandsSeparator from '../utils/thousandsSeperator'
 import beautifyScale from '../utils/beautifyScale'
 import getDpi from '../utils/getDpi'
 import { ScaleState, ScaleGetters } from '../types'
+import calculateScaleFromResolution from '../utils/calculateScaleFromResolution'
 
 const getInitialState = (): ScaleState => ({
   scaleValue: 0,
@@ -85,7 +87,18 @@ export const makeStoreModule = () => {
           )
           return []
         }
-        return options
+        return options.map((option) => {
+          return {
+            ...option,
+            scale: calculateScaleFromResolution(
+              rootGetters.map
+                .getView()
+                .getProjection()
+                .getUnits() as keyof MetersPerUnitLookup,
+              option.resolution
+            ),
+          }
+        })
       },
       showScaleSwitcher: (_, getters, ___, rootGetters) => {
         return (
