@@ -166,7 +166,7 @@ import { mapGetters, mapActions, mapMutations } from 'vuex'
 import debounce from 'lodash.debounce'
 
 export default Vue.extend({
-  name: 'RoutingPlugin',
+  name: 'PolarRouting',
   data: () => ({
     isOpen: false,
     showSteps: false,
