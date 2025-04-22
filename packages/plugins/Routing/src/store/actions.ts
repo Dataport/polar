@@ -23,10 +23,6 @@ let drawLayer
 const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   /**
    * Initializes the tool by updating the state from mapConfig and by setting up the draw layer and click event listener.
-   * @param context - VueX action context.
-   * @param contextRootGetters - Global getters.
-   * @param contextCommit - VueX commit function.
-   * @param contextState - VueX state object.
    */
   initializeTool({ rootGetters: { map, configuration }, commit, state }) {
     /* setup drawLayer and click event listener */
@@ -60,9 +56,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
 
   /**
    * Creates a routing service URL based on the selected travel mode.
-   * @param context - VueX action context.
-   * @param contextRootGetters - Global getters.
-   * @param contextState - VueX state object.
+   *
    * @returns The constructed URL or undefined if no travel mode is selected.
    */
   createUrl({ rootGetters: { configuration }, state }) {
@@ -103,10 +97,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   },
   /**
    * Sends a routing request to the external service.
-   * @param context - VueX action context.
-   * @param contextCommit - VueX commit function.
-   * @param contextDispatch - VueX dispatch function.
-   * @param contextState - VueX state object.
    */
   async sendRequest({ commit, dispatch, state }) {
     try {
@@ -130,16 +120,10 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
 
   /**
    * Sends a search request for streets based on user input.
-   * @param context - VueX action context.
-   * @param contextCommit - VueX commit function.
-   * @param contextRootGetters - Global getters.
-   * @param contextDispatch - VueX dispatch function.
-   * @param payload - Contains input search query.
-   * @param payloadInput - The street name input.
    */
   async sendSearchRequest(
     { commit, rootGetters: { configuration }, state },
-    { input }
+    input: string
   ) {
     if (
       !input ||
@@ -170,16 +154,11 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
 
   /**
    * Adds features to the map.
-   * @param context - VueX action context.
-   * @param contextCommit - VueX commit function.
-   * @param payload - Feature data.
-   * @param payloadGeoJSON - GeoJSON data.
-   * @param payloadOverwrite - Whether to clear previous features.
+   * @param geoJSON - GeoJSON data.
+   * @param overwrite - Whether to clear previous features.
    */
   addFeatures({ commit }, { geoJSON, overwrite = false }) {
-    const features = new GeoJSON().readFeatures(geoJSON).map((feature) => {
-      return feature
-    })
+    const features = new GeoJSON().readFeatures(geoJSON)
 
     if (overwrite) {
       drawSource.clear()
@@ -189,9 +168,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   },
   /**
    * Draws the calculated route on the map.
-   * @param context - VueX action context.
-   * @param contextRootGetters - Global getters.
-   * @param contextState - VueX state object.
    */
   drawRoute({ rootGetters: { configuration }, state }) {
     const transformedCoordinates =
@@ -222,10 +198,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   },
   /**
    * Resets the selected coordinates and search settings.
-   * @param context - VueX action context.
-   * @param contextCommit - VueX commit function.
-   * @param contextDispatch - VueX dispatch function.
-   * @param contextState - VueX state object.
    */
   resetCoordinates({ commit, dispatch }) {
     commit('setStart', [])
