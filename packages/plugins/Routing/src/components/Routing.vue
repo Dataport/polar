@@ -168,7 +168,6 @@ import debounce from 'lodash.debounce'
 export default Vue.extend({
   name: 'PolarRouting',
   data: () => ({
-    isOpen: false,
     showSteps: false,
     startDropdownOpen: false,
     endDropdownOpen: false,
