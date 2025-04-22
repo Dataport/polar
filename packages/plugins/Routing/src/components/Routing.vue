@@ -175,11 +175,7 @@ export default Vue.extend({
     debouncedSendSearchRequest: null as unknown as (payload: string) => void,
   }),
   computed: {
-    ...mapGetters(['hasSmallDisplay']),
     ...mapGetters('plugin/routing', [
-      'renderType',
-      'travelModeOptionsFromMapConfig',
-      'preferenceOptionsFromMapConfig',
       'selectableTravelModes',
       'displayPreferences',
       'selectablePreferences',
