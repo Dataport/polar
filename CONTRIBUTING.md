@@ -5,7 +5,7 @@ Before proceeding, please mind our [code of conduct](https://github.com/Dataport
 
 ## Reporting Issues
 
-Should you find bugs, feel free to add them as issues. A bug template is provided.
+Should you find bugs, feel free to add them as [issues](https://github.com/Dataport/polar/issues). A bug template is provided.
 You may also contact us via polar@dataport.de.
 
 ## Contributing Code
