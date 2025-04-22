@@ -45,20 +45,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       }
     })
 
-    /* update state with configuration settings */
-
-    if (configuration?.routing?.selectableTravelModes.length > 0) {
-      commit(
-        'setSelectableTravelModes',
-        configuration?.routing?.selectableTravelModes
-      )
-    }
-    if (configuration?.routing?.selectablePreferences.length > 0) {
-      commit(
-        'setSelectablePreferences',
-        configuration?.routing?.selectablePreferences
-      )
-    }
     commit('setDisplayPreferences', configuration?.routing?.displayPreferences)
     commit(
       'setDisplayRouteTypesToAvoid',

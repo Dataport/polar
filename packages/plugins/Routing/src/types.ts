@@ -37,10 +37,8 @@ export interface RoutingState {
   end: Coordinate
   endAddress: string
   selectedTravelMode: string
-  selectableTravelModes: Selectable[]
   displayPreferences: boolean
   selectedPreference: string
-  selectablePreferences: Selectable[]
   displayRouteTypesToAvoid: boolean
   selectedRouteTypesToAvoid: string[]
   selectableRouteTypesToAvoid: Selectable[]
@@ -57,4 +55,6 @@ export interface RoutingState {
 
 export interface RoutingGetters extends RoutingState {
   configuration: RoutingConfiguration
+  selectablePreferences: Selectable[]
+  selectableTravelModes: Selectable[]
 }

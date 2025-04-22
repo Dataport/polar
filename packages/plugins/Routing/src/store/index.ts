@@ -7,6 +7,37 @@ import { RoutingGetters, RoutingState } from '../types'
 import { getInitialState } from './state'
 import actions from './actions'
 
+const defaultSelectablePreferences = [
+  {
+    key: 'recommended',
+    localKey: 'common:plugins.routing.preference.recommended',
+  },
+  {
+    key: 'fastest',
+    localKey: 'common:plugins.routing.preference.fastest',
+  },
+  {
+    key: 'shortest',
+    localKey: 'common:plugins.routing.preference.shortest',
+  },
+]
+const defaultSelectableTravelModes = [
+  { key: 'driving-car', localKey: 'common:plugins.routing.travelMode.car' },
+  { key: 'driving-hgv', localKey: 'common:plugins.routing.travelMode.hgv' },
+  {
+    key: 'cycling-regular',
+    localKey: 'common:plugins.routing.travelMode.bike',
+  },
+  {
+    key: 'foot-walking',
+    localKey: 'common:plugins.routing.travelMode.walking',
+  },
+  {
+    key: 'wheelchair',
+    localKey: 'common:plugins.routing.travelMode.wheelchair',
+  },
+]
+
 /**
  * Creates and returns a Vuex store module with namespacing enabled.
  *
@@ -25,26 +56,16 @@ export const makeStoreModule = (): PolarModule<
     ...generateSimpleGetters(getInitialState()),
     configuration: (_, __, ___, rootGetters) =>
       rootGetters.configuration.routing,
+    selectablePreferences: (_, getters) =>
+      getters.configuration.selectableTravelModes.length
+        ? getters.configuration.selectablePreferences
+        : defaultSelectablePreferences,
+    selectableTravelModes: (_, getters) =>
+      getters.configuration.selectableTravelModes.length
+        ? getters.configuration.selectableTravelModes
+        : defaultSelectableTravelModes,
   },
   mutations: {
     ...generateSimpleMutations(getInitialState()),
-    /**
-     * Updates 'selectableTravelModes' in the state by keeping only the travelModes
-     * whose 'key' is included in 'selectedTravelModes'. The 'key' and 'localKey' properties are retained.
-     */
-    setSelectableTravelModes(state, selectedTravelModes: string[]) {
-      state.selectableTravelModes = state.selectableTravelModes
-        .filter((travelMode) => selectedTravelModes.includes(travelMode.key))
-        .map(({ key, localKey }) => ({ key, localKey }))
-    },
-    /**
-     * Updates 'selectablePreferences' in the state by keeping only the preferences
-     * whose 'key' is included in 'selectedPreferences'. The 'key' and 'localKey' properties are retained.
-     */
-    setSelectablePreferences(state, selectedPreferences: string[]) {
-      state.selectablePreferences = state.selectablePreferences
-        .filter((preference) => selectedPreferences.includes(preference.key))
-        .map(({ key, localKey }) => ({ key, localKey }))
-    },
   },
 })
