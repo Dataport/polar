@@ -12,16 +12,15 @@ import mutations from './mutations'
  *
  * @returns A Vuex store module configured with state, actions, getters, and mutations.
  */
-export const makeStoreModule = () => {
-  const storeModule: PolarModule<RoutingState, RoutingGetters> = {
-    namespaced: true,
-    state: getInitialState(),
-    actions,
-    getters: {
-      ...generateSimpleGetters(getInitialState()),
-    },
-    mutations,
-  }
-
-  return storeModule
-}
+export const makeStoreModule = (): PolarModule<
+  RoutingState,
+  RoutingGetters
+> => ({
+  namespaced: true,
+  state: getInitialState(),
+  actions,
+  getters: {
+    ...generateSimpleGetters(getInitialState()),
+  },
+  mutations,
+})
