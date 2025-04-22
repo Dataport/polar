@@ -146,6 +146,15 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       'plugin/pins/transformedCoordinate',
       'plugin/pins/coordinatesAfterDrag',
     ],
+    customHighlightStyle: {
+      stroke: {
+        color: '#FFFF00',
+        width: 3,
+      },
+      fill: {
+        color: 'rgb(255, 255, 255, 0.7)',
+      },
+    },
   },
   pins: {
     toZoomLevel: 8,
