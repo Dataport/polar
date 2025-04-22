@@ -255,13 +255,13 @@ export default Vue.extend({
     translatedTravelModeOptions() {
       return this.selectableTravelModes.map((item) => ({
         ...item,
-        translatedKey: this.$t(item.localKey),
+        translatedKey: this.$t(item.locale),
       }))
     },
     translatedPreferenceOptions() {
       return this.selectablePreferences.map((item) => ({
         ...item,
-        translatedKey: this.$t(item.localKey),
+        translatedKey: this.$t(item.locale),
       }))
     },
     selectedRouteTypesToAvoidItem: {
@@ -294,7 +294,7 @@ export default Vue.extend({
         availableOptions = [
           {
             key: 'ferries',
-            localKey: 'common:plugins.routing.avoidRoutes.ferries',
+            locale: 'common:plugins.routing.avoidRoutes.ferries',
           },
         ]
       }
@@ -387,10 +387,9 @@ export default Vue.extend({
       }
     },
     translatedRouteTypeToAvoid(myKey) {
-      const localKey = this.selectableRouteTypesToAvoid.find(
+      return this.selectableRouteTypesToAvoid.find(
         (element) => element.key === myKey
-      ).localKey
-      return localKey
+      ).locale
     },
     formatDistance(distance) {
       if (distance >= 1000) {

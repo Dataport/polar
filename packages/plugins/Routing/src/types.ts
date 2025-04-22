@@ -28,7 +28,7 @@ export interface FeatureInterface {
 
 interface Selectable {
   key: string
-  localKey: string
+  locale: string
 }
 
 export interface RoutingState {

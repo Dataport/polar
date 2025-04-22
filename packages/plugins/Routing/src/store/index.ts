@@ -10,31 +10,31 @@ import actions from './actions'
 const defaultSelectablePreferences = [
   {
     key: 'recommended',
-    localKey: 'common:plugins.routing.preference.recommended',
+    locale: 'common:plugins.routing.preference.recommended',
   },
   {
     key: 'fastest',
-    localKey: 'common:plugins.routing.preference.fastest',
+    locale: 'common:plugins.routing.preference.fastest',
   },
   {
     key: 'shortest',
-    localKey: 'common:plugins.routing.preference.shortest',
+    locale: 'common:plugins.routing.preference.shortest',
   },
 ]
 const defaultSelectableTravelModes = [
-  { key: 'driving-car', localKey: 'common:plugins.routing.travelMode.car' },
-  { key: 'driving-hgv', localKey: 'common:plugins.routing.travelMode.hgv' },
+  { key: 'driving-car', locale: 'common:plugins.routing.travelMode.car' },
+  { key: 'driving-hgv', locale: 'common:plugins.routing.travelMode.hgv' },
   {
     key: 'cycling-regular',
-    localKey: 'common:plugins.routing.travelMode.bike',
+    locale: 'common:plugins.routing.travelMode.bike',
   },
   {
     key: 'foot-walking',
-    localKey: 'common:plugins.routing.travelMode.walking',
+    locale: 'common:plugins.routing.travelMode.walking',
   },
   {
     key: 'wheelchair',
-    localKey: 'common:plugins.routing.travelMode.wheelchair',
+    locale: 'common:plugins.routing.travelMode.wheelchair',
   },
 ]
 
