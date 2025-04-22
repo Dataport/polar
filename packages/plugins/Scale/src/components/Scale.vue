@@ -18,7 +18,7 @@
         :value="option.scale"
         class="scale-as-a-ratio"
       >
-        {{ thousandsSeparator(option.scale) }}
+        {{ '1 : ' + thousandsSeparator(option.scale) }}
       </option>
     </select>
     <span v-else class="scale-as-a-ratio">
