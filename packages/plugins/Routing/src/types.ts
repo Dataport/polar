@@ -42,15 +42,9 @@ export interface RoutingState {
   displayRouteTypesToAvoid: boolean
   selectedRouteTypesToAvoid: string[]
   selectableRouteTypesToAvoid: Selectable[]
-  serviceID: string
-  queryParameters: object
-  searchInput: string
   addressSearchUrl: string
   minLength: number
-  waitMs: number
-  searchResponseData: SearchResponseDataInterface
   searchResults: Array<object>
-  mousePosition: Coordinate
 }
 
 export interface RoutingGetters extends RoutingState {

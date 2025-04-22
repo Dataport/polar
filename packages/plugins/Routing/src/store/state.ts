@@ -23,19 +23,10 @@ const state = {
       localKey: 'common:plugins.routing.avoidRoutes.ferries',
     },
   ],
-  serviceID: '',
-  queryParameters: {
-    searchAddress: true,
-    searchStreets: true,
-    searchHouseNumbers: true,
-  },
-  searchInput: '',
   addressSearchUrl: '',
   minLength: 3,
-  waitMs: 300,
   routingResponseData: {},
   searchResults: [],
-  mousePosition: [],
 }
 
 export const getInitialState = (): RoutingState => state
