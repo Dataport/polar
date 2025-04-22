@@ -51,26 +51,5 @@ export interface RoutingState {
 }
 
 export interface RoutingGetters extends RoutingState {
-  start: Coordinate
-  startAddress: string
-  end: Coordinate
-  endAddress: string
-  selectedTravelMode: string
-  selectableTravelModes: Array<{ key: string; localKey: string }>
-  displayPreferences: boolean
-  selectedPreference: string
-  selectablePreferences: Array<{ key: string; localKey: string }>
-  displayRouteTypesToAvoid: boolean
-  selectedRouteTypesToAvoid: string[]
-  selectableRouteTypesToAvoid: Array<{ key: string; localKey: string }>
-  serviceID: string
-  queryParameters: object
-  searchInput: string
-  addressSearchUrl: string
-  minLength: number
-  waitMs: number
-  searchResponseData: SearchResponseDataInterface
-  searchResults: Array<object>
-  mousePosition: Coordinate
   routingConfiguration: RoutingConfiguration
 }
