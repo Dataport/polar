@@ -23,6 +23,8 @@ export const makeStoreModule = (): PolarModule<
   actions,
   getters: {
     ...generateSimpleGetters(getInitialState()),
+    configuration: (_, __, ___, rootGetters) =>
+      rootGetters.configuration.routing,
   },
   mutations: {
     ...generateSimpleMutations(getInitialState()),
