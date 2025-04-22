@@ -1,7 +1,7 @@
-import VectorSource from 'ol/source/Vector'
-import { StyleLike } from 'ol/style/Style'
-import { RoutingConfiguration } from '@polar/lib-custom-types' // Wird erst nach mergen des Pull Requests upgedated
-import { Coordinate } from 'ol/coordinate'
+import { type RoutingConfiguration } from '@polar/lib-custom-types'
+import type VectorSource from 'ol/source/Vector'
+import { type StyleLike } from 'ol/style/Style'
+import { type Coordinate } from 'ol/coordinate'
 
 // The options that can be given to an ol/VectorLayer. Somehow the direct import from ol doesn't work.
 // This is a copy with the things that we currently use
@@ -26,19 +26,24 @@ export interface FeatureInterface {
   hausnummern: (string | null)[]
 }
 
+interface Selectable {
+  key: string
+  localKey: string
+}
+
 export interface RoutingState {
   start: Coordinate
   startAddress: string
   end: Coordinate
   endAddress: string
   selectedTravelMode: string
-  selectableTravelModes: Array<{ key: string; localKey: string }>
+  selectableTravelModes: Selectable[]
   displayPreferences: boolean
   selectedPreference: string
-  selectablePreferences: Array<{ key: string; localKey: string }>
+  selectablePreferences: Selectable[]
   displayRouteTypesToAvoid: boolean
   selectedRouteTypesToAvoid: string[]
-  selectableRouteTypesToAvoid: Array<{ key: string; localKey: string }>
+  selectableRouteTypesToAvoid: Selectable[]
   serviceID: string
   queryParameters: object
   searchInput: string
