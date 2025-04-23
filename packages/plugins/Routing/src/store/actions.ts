@@ -24,9 +24,12 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   /**
    * Initializes the tool by updating the state from mapConfig and by setting up the draw layer and click event listener.
    */
-  setupModule({ rootGetters: { map, configuration }, commit, state }) {
-    /* setup drawLayer and click event listener */
-
+  setupModule({
+    rootGetters: { map },
+    getters: { configuration },
+    commit,
+    state,
+  }) {
     drawLayer = createDrawLayer(drawSource)
     map?.addLayer(drawLayer)
     map?.on('click', function (event) {
@@ -41,14 +44,14 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       }
     })
 
-    commit('setDisplayPreferences', configuration?.routing?.displayPreferences)
+    commit('setDisplayPreferences', configuration.displayPreferences)
     commit(
       'setDisplayRouteTypesToAvoid',
-      configuration?.routing?.displayRouteTypesToAvoid
+      configuration.displayRouteTypesToAvoid
     )
     commit(
       'setAddressSearchUrl',
-      configuration?.routing?.addressSearch.searchMethods[0].url
+      configuration?.addressSearch.searchMethods[0].url
     )
   },
 
@@ -59,14 +62,14 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
    *
    * @returns The constructed URL or undefined if no travel mode is selected.
    */
-  createUrl({ rootGetters: { configuration }, state }) {
+  createUrl({ getters: { configuration }, state }) {
     if (state.selectedTravelMode !== '') {
-      const url =
-        configuration?.routing?.serviceUrl +
+      return (
+        configuration.serviceUrl +
         state.selectedTravelMode +
         '/' +
-        configuration?.routing?.format
-      return url
+        configuration.format
+      )
     }
     console.error('No travel mode selected for URL creation')
   },
@@ -122,13 +125,10 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
    * Sends a search request for streets based on user input.
    */
   async sendSearchRequest(
-    { commit, rootGetters: { configuration }, state },
+    { commit, getters: { configuration }, state },
     input: string
   ) {
-    if (
-      !input ||
-      input.length < configuration?.routing?.addressSearch.minLength
-    ) {
+    if (!input || input.length < configuration?.addressSearch.minLength) {
       console.error('Input is too short or missing.')
       return
     }
@@ -169,7 +169,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   /**
    * Draws the calculated route on the map.
    */
-  drawRoute({ rootGetters: { configuration }, state }) {
+  drawRoute({ getters: { configuration }, state }) {
     const transformedCoordinates =
       state.routingResponseData?.features[0].geometry.coordinates.map(
         (coordinate) => transform(coordinate, 'EPSG:4326', 'EPSG:25832')
@@ -181,8 +181,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     })
     routeFeature.setStyle(
       createDrawStyle(
-        configuration?.routing?.routeStyle?.stroke?.color,
-        configuration?.routing?.routeStyle
+        configuration.routeStyle?.stroke?.color,
+        configuration.routeStyle
       )
     )
     drawSource.addFeature(routeFeature)
