@@ -70,7 +70,7 @@
         class="select"
         :label="$t('common:plugins.routing.modeLabel')"
         :aria-label="$t('common:plugins.routing.modeLabel')"
-        :items="translatedTravelModeOptions"
+        :items="travelModes"
         item-value="key"
         item-text="translatedKey"
       ></v-select>
@@ -175,7 +175,6 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters('plugin/routing', [
-      'selectableTravelModes',
       'displayPreferences',
       'displayRouteTypesToAvoid',
       'selectableRouteTypesToAvoid',
@@ -189,7 +188,7 @@ export default Vue.extend({
       'startAddress',
       'endAddress',
     ]),
-    // TODO: This is only an ORS option
+    // TODO: preferences and travelModes are only ORS options
     preferences() {
       return [
         {
@@ -203,6 +202,30 @@ export default Vue.extend({
         {
           key: 'shortest',
           translatedKey: 'plugins.routing.preference.shortest',
+        },
+      ]
+    },
+    travelModes() {
+      return [
+        {
+          key: 'driving-car',
+          translatedKey: 'plugins.routing.travelMode.car',
+        },
+        {
+          key: 'driving-hgv',
+          translatedKey: 'plugins.routing.travelMode.hgv',
+        },
+        {
+          key: 'cycling-regular',
+          translatedKey: 'plugins.routing.travelMode.bike',
+        },
+        {
+          key: 'foot-walking',
+          translatedKey: 'plugins.routing.travelMode.walking',
+        },
+        {
+          key: 'wheelchair',
+          translatedKey: 'plugins.routing.travelMode.wheelchair',
         },
       ]
     },
@@ -267,12 +290,6 @@ export default Vue.extend({
       set(value: string): void {
         this.setSelectedPreference(value)
       },
-    },
-    translatedTravelModeOptions() {
-      return this.selectableTravelModes.map((item) => ({
-        ...item,
-        translatedKey: this.$t(item.locale),
-      }))
     },
     selectedRouteTypesToAvoidItem: {
       get(): string {

@@ -49,6 +49,5 @@ export interface RoutingState {
 
 export interface RoutingGetters extends RoutingState {
   configuration: RoutingConfiguration
-  selectableTravelModes: Selectable[]
   url: string
 }

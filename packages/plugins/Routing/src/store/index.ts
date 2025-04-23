@@ -7,23 +7,6 @@ import { RoutingGetters, RoutingState } from '../types'
 import { getInitialState } from './state'
 import actions from './actions'
 
-const defaultSelectableTravelModes = [
-  { key: 'driving-car', locale: 'common:plugins.routing.travelMode.car' },
-  { key: 'driving-hgv', locale: 'common:plugins.routing.travelMode.hgv' },
-  {
-    key: 'cycling-regular',
-    locale: 'common:plugins.routing.travelMode.bike',
-  },
-  {
-    key: 'foot-walking',
-    locale: 'common:plugins.routing.travelMode.walking',
-  },
-  {
-    key: 'wheelchair',
-    locale: 'common:plugins.routing.travelMode.wheelchair',
-  },
-]
-
 /**
  * Creates and returns a Vuex store module with namespacing enabled.
  *
@@ -42,10 +25,6 @@ export const makeStoreModule = (): PolarModule<
     ...generateSimpleGetters(getInitialState()),
     configuration: (_, __, ___, rootGetters) =>
       rootGetters.configuration.routing,
-    selectableTravelModes: (_, getters) =>
-      getters.configuration.selectableTravelModes.length
-        ? getters.configuration.selectableTravelModes
-        : defaultSelectableTravelModes,
     url: (_, getters) =>
       getters.configuration.serviceUrl +
       getters.selectedTravelMode +

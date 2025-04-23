@@ -51,7 +51,6 @@ describe('plugin-routing', () => {
             rootGetters: {
               configuration: {
                 routing: {
-                  selectableTravelModes: ['car', 'bike'],
                   displayPreferences: { avoidTolls: true },
                   displayRouteTypesToAvoid: ['highways'],
                 },
