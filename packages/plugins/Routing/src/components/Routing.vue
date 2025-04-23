@@ -320,15 +320,11 @@ export default Vue.extend({
       this.selectedRouteTypesToAvoidItem = []
     },
   },
-  mounted() {
-    this.initializeTool()
-  },
   created() {
     this.debouncedSendSearchRequest = debounce(this.sendSearchRequest, 300)
   },
   methods: {
     ...mapActions('plugin/routing', [
-      'initializeTool',
       'sendRequest',
       'sendSearchRequest',
       'resetCoordinates',

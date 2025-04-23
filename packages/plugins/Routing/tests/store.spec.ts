@@ -25,12 +25,12 @@ describe('plugin-routing', () => {
 
   describe('store', () => {
     describe('actions', () => {
-      describe('initializeTool', () => {
+      describe('setupModule', () => {
         const RoutingStore = makeStoreModule()
-        const initializeTool = RoutingStore.actions
-          ?.initializeTool as PolarActionHandler<RoutingState, RoutingGetters>
+        const setupModule = RoutingStore.actions
+          ?.setupModule as PolarActionHandler<RoutingState, RoutingGetters>
 
-        if (typeof initializeTool === 'undefined') {
+        if (typeof setupModule === 'undefined') {
           throw new Error(
             'Actions missing in RoutingStore. Tests could not be run.'
           )
@@ -71,7 +71,7 @@ describe('plugin-routing', () => {
 
         it('should commit configuration settings to state', () => {
           // @ts-ignore
-          initializeTool(actionContext)
+          setupModule(actionContext)
 
           expect(actionContext.commit).toHaveBeenCalledWith(
             'setSelectableTravelModes',
@@ -93,7 +93,7 @@ describe('plugin-routing', () => {
 
         it('should set up the draw layer and event listener', () => {
           // @ts-ignore
-          initializeTool(actionContext)
+          setupModule(actionContext)
 
           expect(actionContext.rootGetters.map.addLayer).toHaveBeenCalledTimes(
             1
@@ -111,7 +111,7 @@ describe('plugin-routing', () => {
           })
 
           // @ts-ignore
-          initializeTool(actionContext)
+          setupModule(actionContext)
 
           if (!clickHandler) throw new Error('Click handler was not set')
 

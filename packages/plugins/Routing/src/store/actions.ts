@@ -24,7 +24,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   /**
    * Initializes the tool by updating the state from mapConfig and by setting up the draw layer and click event listener.
    */
-  initializeTool({ rootGetters: { map, configuration }, commit, state }) {
+  setupModule({ rootGetters: { map, configuration }, commit, state }) {
     /* setup drawLayer and click event listener */
 
     drawLayer = createDrawLayer(drawSource)
