@@ -501,6 +501,7 @@ export interface ReverseGeocoderConfiguration {
 
 export interface RoutingConfiguration {
   serviceUrl: string
+  type: 'ors'
   format: 'geojson' | string
   selectableTravelModes: string[]
   selectablePreferences: string[]
