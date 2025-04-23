@@ -309,9 +309,6 @@ describe('plugin-routing', () => {
                   ? [19.6, 48.1]
                   : [19.5, 47.1] // example coordinates in WGS84
               }
-              if (action === 'createUrl') {
-                return 'http://example.com/json'
-              }
             })
 
           // Mock for fetch
@@ -396,50 +393,6 @@ describe('plugin-routing', () => {
 
           expect(consoleErrorSpy).toHaveBeenCalledWith(
             expect.stringContaining('Route could not be determined')
-          )
-
-          consoleErrorSpy.mockRestore()
-        })
-      })
-
-      describe('createUrl', () => {
-        const RoutingStore = makeStoreModule()
-        let actionContext
-
-        beforeEach(() => {
-          actionContext = {
-            state: {
-              selectedTravelMode: 'car', // Beispielwert
-            },
-            rootGetters: {
-              configuration: {
-                routing: {
-                  serviceUrl: 'http://example.com/',
-                  format: 'json',
-                },
-              },
-            },
-          }
-        })
-
-        it('should return the correct URL when a travel mode is selected', () => {
-          const url = RoutingStore.actions.createUrl(actionContext)
-
-          expect(url).toBe('http://example.com/car/json')
-        })
-
-        it('should log an error when no travel mode is selected', () => {
-          const consoleErrorSpy = jest
-            .spyOn(console, 'error')
-            .mockImplementation(() => {})
-
-          actionContext.state.selectedTravelMode = ''
-
-          const url = RoutingStore.actions.createUrl(actionContext)
-
-          expect(url).toBeUndefined()
-          expect(consoleErrorSpy).toHaveBeenCalledWith(
-            'No travel mode selected for URL creation'
           )
 
           consoleErrorSpy.mockRestore()

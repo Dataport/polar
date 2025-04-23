@@ -64,6 +64,11 @@ export const makeStoreModule = (): PolarModule<
       getters.configuration.selectableTravelModes.length
         ? getters.configuration.selectableTravelModes
         : defaultSelectableTravelModes,
+    url: (_, getters) =>
+      getters.configuration.serviceUrl +
+      getters.selectedTravelMode +
+      '/' +
+      getters.configuration.format,
   },
   mutations: {
     ...generateSimpleMutations(getInitialState()),

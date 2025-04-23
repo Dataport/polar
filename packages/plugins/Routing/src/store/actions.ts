@@ -57,22 +57,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
 
   /* ROUTING REQUEST */
 
-  /**
-   * Creates a routing service URL based on the selected travel mode.
-   *
-   * @returns The constructed URL or undefined if no travel mode is selected.
-   */
-  createUrl({ getters: { configuration }, state }) {
-    if (state.selectedTravelMode !== '') {
-      return (
-        configuration.serviceUrl +
-        state.selectedTravelMode +
-        '/' +
-        configuration.format
-      )
-    }
-    console.error('No travel mode selected for URL creation')
-  },
   // TODO: add tsDoc comment
   getTransformedCoordinates({ rootGetters: { configuration }, state }) {
     return [
@@ -101,12 +85,11 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   /**
    * Sends a routing request to the external service.
    */
-  async sendRequest({ commit, dispatch, state }) {
+  async sendRequest({ commit, dispatch, state, getters }) {
     try {
       const transformedCoordinates = await dispatch('getTransformedCoordinates')
-      const url = await dispatch('createUrl')
       const response = await fetchRoutingDirections(
-        url,
+        getters.url,
         transformedCoordinates,
         state.selectedRouteTypesToAvoid,
         state.selectedPreference
