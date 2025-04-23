@@ -7,20 +7,6 @@ import { RoutingGetters, RoutingState } from '../types'
 import { getInitialState } from './state'
 import actions from './actions'
 
-const defaultSelectablePreferences = [
-  {
-    key: 'recommended',
-    locale: 'common:plugins.routing.preference.recommended',
-  },
-  {
-    key: 'fastest',
-    locale: 'common:plugins.routing.preference.fastest',
-  },
-  {
-    key: 'shortest',
-    locale: 'common:plugins.routing.preference.shortest',
-  },
-]
 const defaultSelectableTravelModes = [
   { key: 'driving-car', locale: 'common:plugins.routing.travelMode.car' },
   { key: 'driving-hgv', locale: 'common:plugins.routing.travelMode.hgv' },
@@ -56,10 +42,6 @@ export const makeStoreModule = (): PolarModule<
     ...generateSimpleGetters(getInitialState()),
     configuration: (_, __, ___, rootGetters) =>
       rootGetters.configuration.routing,
-    selectablePreferences: (_, getters) =>
-      getters.configuration.selectableTravelModes.length
-        ? getters.configuration.selectablePreferences
-        : defaultSelectablePreferences,
     selectableTravelModes: (_, getters) =>
       getters.configuration.selectableTravelModes.length
         ? getters.configuration.selectableTravelModes

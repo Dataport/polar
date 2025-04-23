@@ -14,7 +14,6 @@ This module has been written for the "BKG-Routing-Service" and uses the "Adresss
 |serviceUrl|string|The url of the routing service to be used.|
 |format|string|The format in which the answer of the routing service is expected in.|
 |selectableTravelModes|string[]?|Specifies which selection of transportation modes (driving-car, driving-hgv, foot-walking, cycling-regular, wheelchair) is available to the user. In the default setting, all modes are offered.|
-|selectablePreferences|string[]?|Specifies which preferences for the route (recommended, fastest, shortest) are offered to the user. By default, all are offered. |
 |displayPreferences|bolean|Defines wether the preferences for the route are offered to the user for selection.|
 |displayRouteTypesToAvoid|boolean|Defines wether route types to avoid are offered to the user for selection.|
 |routeStyle|style? | Please see example below for styling options. Defaults to standard OpenLayers styling. |

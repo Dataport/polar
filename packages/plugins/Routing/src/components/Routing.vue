@@ -81,7 +81,7 @@
         class="select"
         :label="$t('common:plugins.routing.preferenceLabel')"
         :aria-label="$t('common:plugins.routing.preferenceLabel')"
-        :items="translatedPreferenceOptions"
+        :items="preferences"
         item-value="key"
         item-text="translatedKey"
       ></v-select>
@@ -177,7 +177,6 @@ export default Vue.extend({
     ...mapGetters('plugin/routing', [
       'selectableTravelModes',
       'displayPreferences',
-      'selectablePreferences',
       'displayRouteTypesToAvoid',
       'selectableRouteTypesToAvoid',
       'selectedRouteTypesToAvoid',
@@ -190,6 +189,23 @@ export default Vue.extend({
       'startAddress',
       'endAddress',
     ]),
+    // TODO: This is only an ORS option
+    preferences() {
+      return [
+        {
+          key: 'recommended',
+          translatedKey: 'plugins.routing.preference.recommended',
+        },
+        {
+          key: 'fastest',
+          translatedKey: 'plugins.routing.preference.fastest',
+        },
+        {
+          key: 'shortest',
+          translatedKey: 'plugins.routing.preference.shortest',
+        },
+      ]
+    },
     startpointInput: {
       get() {
         return this.startAddress ? this.startAddress : this.start
@@ -254,12 +270,6 @@ export default Vue.extend({
     },
     translatedTravelModeOptions() {
       return this.selectableTravelModes.map((item) => ({
-        ...item,
-        translatedKey: this.$t(item.locale),
-      }))
-    },
-    translatedPreferenceOptions() {
-      return this.selectablePreferences.map((item) => ({
         ...item,
         translatedKey: this.$t(item.locale),
       }))

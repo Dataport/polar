@@ -52,7 +52,6 @@ describe('plugin-routing', () => {
               configuration: {
                 routing: {
                   selectableTravelModes: ['car', 'bike'],
-                  selectablePreferences: ['fastest', 'shortest'],
                   displayPreferences: { avoidTolls: true },
                   displayRouteTypesToAvoid: ['highways'],
                 },
