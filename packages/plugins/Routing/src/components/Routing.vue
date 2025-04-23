@@ -190,20 +190,10 @@ export default Vue.extend({
     ]),
     // TODO: preferences and travelModes are only ORS options
     preferences() {
-      return [
-        {
-          key: 'recommended',
-          translatedKey: 'plugins.routing.preference.recommended',
-        },
-        {
-          key: 'fastest',
-          translatedKey: 'plugins.routing.preference.fastest',
-        },
-        {
-          key: 'shortest',
-          translatedKey: 'plugins.routing.preference.shortest',
-        },
-      ]
+      return ['recommended', 'fastest', 'shortest'].map((key) => ({
+        key,
+        translatedKey: `plugins.routing.preference.${key}`,
+      }))
     },
     travelModes() {
       return [
