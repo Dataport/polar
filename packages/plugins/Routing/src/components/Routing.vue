@@ -189,7 +189,6 @@ export default Vue.extend({
       'startAddress',
       'endAddress',
     ]),
-    // TODO: preferences and travelModes are only ORS options
     preferences() {
       return ['recommended', 'fastest', 'shortest'].map((key) => ({
         key,
