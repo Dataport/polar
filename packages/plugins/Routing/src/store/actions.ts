@@ -2,7 +2,6 @@ import VectorSource from 'ol/source/Vector'
 import { LineString } from 'ol/geom'
 import Feature from 'ol/Feature'
 import { PolarActionTree } from '@polar/lib-custom-types'
-import GeoJSON from 'ol/format/GeoJSON'
 import { transform } from 'ol/proj'
 import { RoutingState, RoutingGetters } from '../types'
 import {
@@ -135,20 +134,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
 
   /* DRAW ROUTE ON MAP */
 
-  /**
-   * Adds features to the map.
-   * @param geoJSON - GeoJSON data.
-   * @param overwrite - Whether to clear previous features.
-   */
-  addFeatures({ commit }, { geoJSON, overwrite = false }) {
-    const features = new GeoJSON().readFeatures(geoJSON)
-
-    if (overwrite) {
-      drawSource.clear()
-    }
-    drawSource.addFeatures(features)
-    commit('updateFeatures', drawSource)
-  },
   /**
    * Draws the calculated route on the map.
    */

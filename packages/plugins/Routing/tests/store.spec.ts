@@ -19,7 +19,6 @@ describe('plugin-routing', () => {
     return jest.fn().mockImplementation(() => ({
       addFeature: jest.fn(),
       clear: jest.fn(),
-      addFeatures: jest.fn(),
     }))
   })
 
