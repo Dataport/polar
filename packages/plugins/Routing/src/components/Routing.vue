@@ -161,9 +161,10 @@
 </template>
 
 <script lang="ts">
+import debounce from 'lodash.debounce'
+import { t } from 'i18next'
 import Vue from 'vue'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
-import debounce from 'lodash.debounce'
 
 export default Vue.extend({
   name: 'PolarRouting',
@@ -192,30 +193,30 @@ export default Vue.extend({
     preferences() {
       return ['recommended', 'fastest', 'shortest'].map((key) => ({
         key,
-        translatedKey: `plugins.routing.preference.${key}`,
+        translatedKey: t(`plugins.routing.preference.${key}`),
       }))
     },
     travelModes() {
       return [
         {
           key: 'driving-car',
-          translatedKey: 'plugins.routing.travelMode.car',
+          translatedKey: t('plugins.routing.travelMode.car'),
         },
         {
           key: 'driving-hgv',
-          translatedKey: 'plugins.routing.travelMode.hgv',
+          translatedKey: t('plugins.routing.travelMode.hgv'),
         },
         {
           key: 'cycling-regular',
-          translatedKey: 'plugins.routing.travelMode.bike',
+          translatedKey: t('plugins.routing.travelMode.bike'),
         },
         {
           key: 'foot-walking',
-          translatedKey: 'plugins.routing.travelMode.walking',
+          translatedKey: t('plugins.routing.travelMode.walking'),
         },
         {
           key: 'wheelchair',
-          translatedKey: 'plugins.routing.travelMode.wheelchair',
+          translatedKey: t('plugins.routing.travelMode.wheelchair'),
         },
       ]
     },
