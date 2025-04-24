@@ -366,7 +366,7 @@ export default Vue.extend({
         this.endDropdownOpen = true
       }
       this.$nextTick(() => {
-        this.debouncedSendSearchRequest({ input, inputType })
+        this.debouncedSendSearchRequest(input)
       })
     },
     reset() {
