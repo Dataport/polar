@@ -30,7 +30,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       configuration.displayRouteTypesToAvoid
     )
   },
-  initializeDraw({ rootGetters: { map }, commit }) {
+  initializeDraw({ commit }) {
     draw = new Draw({
       stopClick: true,
       type: 'Point',
@@ -49,7 +49,15 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       // @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
       draw._isRoutingDraw = false
     })
-    map.addInteraction(draw)
+  },
+  setCurrentlyFocusedInput({ commit, getters, rootGetters }, index: number) {
+    const previousIndex = getters.currentlyFocusedInput
+    commit('setCurrentlyFocusedInput', index)
+    if (previousIndex === -1 && index !== -1) {
+      rootGetters.map.addInteraction(draw)
+    } else if (previousIndex !== -1 && index === -1) {
+      rootGetters.map.removeInteraction(draw)
+    }
   },
   async search({ dispatch, getters }, input: string) {
     if (getters.searchConfiguration) {
@@ -129,6 +137,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
    */
   reset({ commit, dispatch }) {
     commit('resetRoute')
+    commit('setCurrentlyFocusedInput', -1)
     commit('setSelectedTravelMode', '')
     commit('setSelectedPreference', '')
     commit('setSelectedRouteTypesToAvoid', [])

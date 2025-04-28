@@ -271,10 +271,17 @@ export default Vue.extend({
       this.selectedRouteTypesToAvoidItem = []
     },
   },
+  beforeDestroy() {
+    this.setCurrentlyFocusedInput(-1)
+  },
   methods: {
-    ...mapActions('plugin/routing', ['getRoute', 'reset', 'search']),
-    ...mapMutations('plugin/routing', [
+    ...mapActions('plugin/routing', [
+      'getRoute',
+      'reset',
+      'search',
       'setCurrentlyFocusedInput',
+    ]),
+    ...mapMutations('plugin/routing', [
       'setRoute',
       'setSelectedTravelMode',
       'setSelectedPreference',

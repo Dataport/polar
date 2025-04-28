@@ -1,6 +1,6 @@
 import { RoutingState } from '../types'
 const state = {
-  currentlyFocusedInput: 0,
+  currentlyFocusedInput: -1,
   route: [[], []],
   selectedTravelMode: '',
   displayPreferences: false,
