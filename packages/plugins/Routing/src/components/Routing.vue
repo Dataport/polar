@@ -327,9 +327,7 @@ export default Vue.extend({
   padding-right: 20px;
   padding-bottom: 20px;
 }
-.align-center {
-  text-align: center;
-}
+
 .text-field {
   width: 65%;
 }
