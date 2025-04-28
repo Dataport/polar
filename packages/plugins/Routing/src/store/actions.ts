@@ -106,7 +106,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
    */
   drawRoute({ getters }) {
     const transformedCoordinates =
-      // TODO: This seems to specific
+      // TODO: This seems too specific
       getters.routingResponseData?.features[0].geometry.coordinates.map(
         (coordinate) => transform(coordinate, 'EPSG:4326', 'EPSG:25832')
       )
