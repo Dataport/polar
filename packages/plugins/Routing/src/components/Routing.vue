@@ -272,7 +272,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapActions('plugin/routing', ['getRoute', 'resetCoordinates', 'search']),
+    ...mapActions('plugin/routing', ['getRoute', 'reset', 'search']),
     ...mapMutations('plugin/routing', [
       'setCurrentlyFocusedInput',
       'setRoute',
@@ -291,7 +291,7 @@ export default Vue.extend({
     },
     reset() {
       this.showSteps = false
-      this.resetCoordinates()
+      this.reset()
     },
     translatedRouteTypeToAvoid(myKey) {
       return this.selectableRouteTypesToAvoid.find(

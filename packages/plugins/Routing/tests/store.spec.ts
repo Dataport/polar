@@ -128,14 +128,16 @@ describe('plugin-routing', () => {
           expect(actionContext.commit).toHaveBeenCalledWith('setEnd', [20, 60])
         })
       })
-      describe('resetCoordinates', () => {
+      describe('reset', () => {
         const routingStore = makeStoreModule()
-        const resetCoordinates = routingStore.actions
-          ?.resetCoordinates as PolarActionHandler<RoutingState, RoutingGetters>
+        const reset = routingStore.actions?.reset as PolarActionHandler<
+          RoutingState,
+          RoutingGetters
+        >
 
-        if (typeof resetCoordinates === 'undefined') {
+        if (typeof reset === 'undefined') {
           throw new Error(
-            'Action resetCoordinates is missing in RoutingStore. Tests could not be run.'
+            'Action reset is missing in RoutingStore. Tests could not be run.'
           )
         }
 
@@ -158,7 +160,7 @@ describe('plugin-routing', () => {
         })
 
         it('should reset all coordinates and related state properties', () => {
-          resetCoordinates(actionContext)
+          reset(actionContext)
           expect(actionContext.commit).toHaveBeenCalledWith('setStart', [])
           expect(actionContext.commit).toHaveBeenCalledWith('setEnd', [])
           expect(actionContext.commit).toHaveBeenCalledWith(

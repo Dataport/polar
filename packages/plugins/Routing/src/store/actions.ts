@@ -127,7 +127,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   /**
    * Resets the selected coordinates and search settings.
    */
-  resetCoordinates({ commit, dispatch }) {
+  reset({ commit, dispatch }) {
     commit('resetRoute')
     commit('setSelectedTravelMode', '')
     commit('setSelectedPreference', '')
