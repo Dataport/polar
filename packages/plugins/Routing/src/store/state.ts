@@ -1,4 +1,5 @@
 import { RoutingState } from '../types'
+
 const state = {
   currentlyFocusedInput: -1,
   route: [[], []],
