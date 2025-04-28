@@ -4,7 +4,6 @@ import Feature from 'ol/Feature'
 import { LineString, Point } from 'ol/geom'
 import { transform } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
-import { Fill, Stroke, Style } from 'ol/style'
 import { RoutingState, RoutingGetters } from '../types'
 import { fetchRoutingDirections } from '../utils/routingServiceUtils'
 import createRouteLayer from '../utils/createRouteLayer'
@@ -31,14 +30,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     )
   },
   initializeDraw({ commit }) {
-    draw = new Draw({
-      stopClick: true,
-      type: 'Point',
-      style: new Style({
-        stroke: new Stroke({ color: 'blue', width: 1.5 }),
-        fill: new Fill({ color: [255, 255, 255, 0.75] }),
-      }),
-    })
+    draw = new Draw({ stopClick: true, type: 'Point' })
     // @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
     draw._isRoutingDraw = true
     draw.on('drawend', (e) => {
