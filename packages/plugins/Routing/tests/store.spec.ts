@@ -243,12 +243,14 @@ describe('plugin-routing', () => {
         })
       })
 
-      describe('sendRequest', () => {
+      describe('getRoute', () => {
         const RoutingStore = makeStoreModule()
-        const sendRequest = RoutingStore.actions
-          ?.sendRequest as PolarActionHandler<RoutingState, RoutingGetters>
+        const getRoute = RoutingStore.actions?.getRoute as PolarActionHandler<
+          RoutingState,
+          RoutingGetters
+        >
 
-        if (typeof sendRequest === 'undefined') {
+        if (typeof getRoute === 'undefined') {
           throw new Error(
             'Actions missing in RoutingStore. Tests could not be run.'
           )
@@ -328,7 +330,7 @@ describe('plugin-routing', () => {
             })
           )
 
-          await sendRequest(actionContext)
+          await getRoute(actionContext)
 
           // Erwartung: fetch wird korrekt aufgerufen
           expect(fetch).toHaveBeenCalledWith('http://example.com/json', {
@@ -386,132 +388,11 @@ describe('plugin-routing', () => {
             })
           )
 
-          await sendRequest(actionContext)
+          await getRoute(actionContext)
 
           expect(consoleErrorSpy).toHaveBeenCalledWith(
             expect.stringContaining('Route could not be determined')
           )
-
-          consoleErrorSpy.mockRestore()
-        })
-      })
-
-      describe('sendSearchRequest', () => {
-        const RoutingStore = makeStoreModule()
-        let actionContext
-        let mockResponseXML
-
-        beforeEach(() => {
-          actionContext = {
-            commit: jest.fn(),
-            dispatch: jest.fn().mockResolvedValue({ features: [] }), // Mock für `parseResponse`
-            rootGetters: {
-              configuration: {
-                routing: {
-                  addressSearch: {
-                    searchMethods: [{ url: 'http://example.com/wfs' }],
-                    minLength: 3,
-                  },
-                },
-              },
-            },
-          }
-
-          mockResponseXML = `
-            <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs/2.0">
-              <wfs:member>
-                <dog:Strasse xmlns:dog="http://example.com/dog">
-                  <dog:strassenname>Main Street</dog:strassenname>
-                </dog:Strasse>
-              </wfs:member>
-            </wfs:FeatureCollection>
-          `
-
-          global.fetch = jest.fn(() =>
-            Promise.resolve({
-              ok: true,
-              text: () => Promise.resolve(mockResponseXML),
-            })
-          )
-        })
-
-        afterEach(() => {
-          jest.clearAllMocks()
-        })
-
-        it('should fetch and process street search results correctly', async () => {
-          actionContext.dispatch.mockResolvedValueOnce({
-            features: [{ strassenname: 'Main Street' }],
-          })
-
-          actionContext.dispatch.mockResolvedValueOnce([{ hausnummer: '10' }])
-
-          await RoutingStore.actions.sendSearchRequest(actionContext, {
-            input: 'Mai',
-          })
-
-          expect(fetch).toHaveBeenCalledWith(
-            'http://example.com/wfs&service=WFS&request=GetFeature&version=2.0.0&StoredQuery_ID=findeStrasse&strassenname=Mai',
-            { method: 'GET' }
-          )
-
-          expect(actionContext.dispatch).toHaveBeenCalledWith(
-            'parseResponse',
-            expect.any(String)
-          )
-
-          expect(actionContext.dispatch).toHaveBeenCalledWith(
-            'fetchHausnummern',
-            'Main Street'
-          )
-
-          expect(actionContext.commit).toHaveBeenCalledWith(
-            'setSearchResults',
-            [{ strassenname: 'Main Street', hausnummern: ['10'] }]
-          )
-        })
-
-        it('should log an error when input is too short', async () => {
-          const consoleErrorSpy = jest
-            .spyOn(console, 'error')
-            .mockImplementation(() => {})
-
-          await RoutingStore.actions.sendSearchRequest(actionContext, {
-            input: 'Ma',
-          })
-
-          expect(consoleErrorSpy).toHaveBeenCalledWith(
-            'Input is too short or missing.'
-          )
-
-          expect(fetch).not.toHaveBeenCalled()
-          expect(actionContext.commit).not.toHaveBeenCalled()
-
-          consoleErrorSpy.mockRestore()
-        })
-
-        it('should handle fetch errors correctly', async () => {
-          global.fetch = jest.fn(() =>
-            Promise.resolve({
-              ok: false,
-              status: 500,
-            })
-          )
-
-          const consoleErrorSpy = jest
-            .spyOn(console, 'error')
-            .mockImplementation(() => {})
-
-          await RoutingStore.actions.sendSearchRequest(actionContext, {
-            input: 'Main Street',
-          })
-
-          expect(consoleErrorSpy).toHaveBeenCalledWith(
-            'Error in sendSearchRequest:',
-            expect.any(Error) // allows for any Error-Objekt
-          )
-
-          expect(actionContext.commit).not.toHaveBeenCalled()
 
           consoleErrorSpy.mockRestore()
         })

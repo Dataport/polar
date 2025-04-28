@@ -8,12 +8,16 @@ export const resourcesDe = {
         closeTitle: 'Routenplanung schließen',
         openTitle: 'Routenplanung öffnen',
       },
-      startLabel: 'Startadresse',
-      endLabel: 'Zieladresse',
+      label: {
+        start: 'Startadresse',
+        middle: 'Wegpunkt',
+        end: 'Zieladresse',
+        mode: 'Fortbewegungsart',
+        preference: 'Bevorzugte Route',
+      },
       inputHint:
         'Wählen Sie durch Klicken einen Punkt auf der Karte aus oder geben Sie eine Adresse ein.',
       resetButton: 'Zurücksetzen',
-      modeLabel: 'Fortbewegungsart',
       travelMode: {
         car: 'Auto',
         hgv: 'LKW',
@@ -21,7 +25,6 @@ export const resourcesDe = {
         walking: 'Zu Fuß',
         wheelchair: 'Rollstuhl',
       },
-      preferenceLabel: 'Bevorzugte Route',
       preference: {
         recommended: 'Empfohlene',
         fastest: 'Schnellste',
@@ -51,11 +54,15 @@ export const resourcesEn = {
         closeTitle: 'Hide routing tool',
         openTitle: 'Show rooting tool',
       },
-      startLabel: 'Start Address',
-      endLabel: 'Destination Address',
+      label: {
+        start: 'Start Address',
+        middle: 'Waypoint',
+        end: 'Destination Address',
+        mode: 'Travel Mode',
+        preference: 'Preferred Route',
+      },
       inputHint: 'Click the map to choose a point or enter an Ad',
       resetButton: 'Reset',
-      modeLabel: 'Travel Mode',
       travelMode: {
         car: 'Car',
         hgv: 'Heavy Goods Vehicle',
@@ -63,7 +70,6 @@ export const resourcesEn = {
         walking: 'Walking',
         wheelchair: 'Wheelchair',
       },
-      preferenceLabel: 'Preferred Route',
       preference: {
         recommended: 'Recommended',
         fastest: 'Fastest',

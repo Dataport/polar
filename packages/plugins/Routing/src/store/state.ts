@@ -1,9 +1,7 @@
 import { RoutingState } from '../types'
 const state = {
-  start: [],
-  startAddress: '',
-  end: [],
-  endAddress: '',
+  currentlyFocusedInput: 0,
+  route: [[], []],
   selectedTravelMode: '',
   displayPreferences: false,
   selectedPreference: '',
@@ -23,8 +21,6 @@ const state = {
       locale: 'common:plugins.routing.avoidRoutes.ferries',
     },
   ],
-  addressSearchUrl: '',
-  minLength: 3,
   routingResponseData: {},
   searchResults: [],
 }

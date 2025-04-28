@@ -2,74 +2,58 @@
   <v-scroll-x-reverse-transition>
     <v-card class="polar-routing-menu">
       <v-card-title>{{ $t('common:plugins.routing.title') }}</v-card-title>
-
-      <!-- Start Point with Dropdown -->
-      <div class="text-field" style="position: relative">
+      <!-- TODO: Add the styling to the <style> tag -->
+      <div
+        v-for="(_, index) in route"
+        :key="`route-container-${index}`"
+        style="display: flex; align-items: center; gap: 1.5em"
+      >
         <v-text-field
-          v-model="startpointInput"
-          :label="$t('common:plugins.routing.startLabel')"
-          :aria-label="$t('common:plugins.routing.startLabel')"
-          @input="handleAddressSearch('start')"
-        ></v-text-field>
-        <v-list
-          v-if="startSearchResults.length && startDropdownOpen"
-          class="dropdown"
-        >
-          <v-list-item
-            v-for="(result, index) in startSearchResults"
-            :key="index"
-            @click="selectStart(result)"
+          v-model="route[index]"
+          :label="$t(getRouteLabel(index))"
+          :aria-label="$t(getRouteLabel(index))"
+          @input="search"
+          @focus="setCurrentlyFocusedInput(index)"
+        />
+        <div>
+          <v-btn
+            icon
+            small
+            :disabled="addWaypointButtonDisabled"
+            @click="setRoute({ index })"
           >
-            <span>
-              {{ result.strassenname }}
-              <template v-if="result.hausnummer">
-                {{ result.hausnummer }}
-              </template>
-            </span>
-          </v-list-item>
-        </v-list>
-      </div>
-
-      <!-- End Point with Dropdown -->
-      <div class="text-field" style="position: relative">
-        <v-text-field
-          v-model="endpointInput"
-          :label="$t('common:plugins.routing.endLabel')"
-          :aria-label="$t('common:plugins.routing.endLabel')"
-          @input="handleAddressSearch('end')"
-        ></v-text-field>
-        <v-list
-          v-if="endSearchResults.length && endDropdownOpen"
-          class="dropdown"
-        >
-          <v-list-item
-            v-for="(result, index) in endSearchResults"
-            :key="index"
-            @click="selectEnd(result)"
+            <v-icon small>fa-plus</v-icon>
+          </v-btn>
+          <v-btn
+            icon
+            small
+            :disabled="route.length === 2"
+            @click="setRoute({ index, remove: true })"
           >
-            <span>
-              {{ result.strassenname }}
-              <template v-if="result.hausnummer">
-                {{ result.hausnummer }}
-              </template>
-            </span>
-          </v-list-item>
-        </v-list>
+            <v-icon small>fa-minus</v-icon>
+          </v-btn>
+        </div>
       </div>
-
-      <!-- Reset Button -->
-      <v-btn
-        :aria-label="$t('common:plugins.routing.resetButton')"
-        @click="reset"
-        >{{ $t('common:plugins.routing.resetButton') }}
-      </v-btn>
-
+      <v-list v-if="false" class="dropdown">
+        <v-list-item
+          v-for="(result, index) in searchResults"
+          :key="index"
+          @click="selectEnd(result)"
+        >
+          <span>
+            {{ result.strassenname }}
+            <template v-if="result.hausnummer">
+              {{ result.hausnummer }}
+            </template>
+          </span>
+        </v-list-item>
+      </v-list>
       <!-- Selectable Options -->
       <v-select
         v-model="selectedTravelModeItem"
         class="select"
-        :label="$t('common:plugins.routing.modeLabel')"
-        :aria-label="$t('common:plugins.routing.modeLabel')"
+        :label="$t('plugins.routing.label.mode')"
+        :aria-label="$t('plugins.routing.label.mode')"
         :items="travelModes"
         item-value="key"
         item-text="translatedKey"
@@ -79,8 +63,8 @@
         v-if="displayPreferences"
         v-model="selectedPreferenceItem"
         class="select"
-        :label="$t('common:plugins.routing.preferenceLabel')"
-        :aria-label="$t('common:plugins.routing.preferenceLabel')"
+        :label="$t('plugins.routing.label.preference')"
+        :aria-label="$t('plugins.routing.label.preference')"
         :items="preferences"
         item-value="key"
         item-text="translatedKey"
@@ -110,7 +94,7 @@
               class="sendButton"
               :aria-label="$t('common:plugins.routing.sendRequestButton')"
               :disabled="areFieldsMissing"
-              @click="sendRequest"
+              @click="getRoute"
             >
               {{ $t('common:plugins.routing.sendRequestButton') }}
             </v-btn>
@@ -118,6 +102,9 @@
         </template>
         <span>{{ $t('common:plugins.routing.toolTip') }}</span>
       </v-tooltip>
+      <v-btn :aria-label="$t('plugins.routing.resetButton')" @click="reset">
+        {{ $t('plugins.routing.resetButton') }}
+      </v-btn>
 
       <!-- Route Details Button -->
       <v-btn
@@ -161,19 +148,13 @@
 </template>
 
 <script lang="ts">
-import debounce from 'lodash.debounce'
 import { t } from 'i18next'
 import Vue from 'vue'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default Vue.extend({
   name: 'PolarRouting',
-  data: () => ({
-    showSteps: false,
-    startDropdownOpen: false,
-    endDropdownOpen: false,
-    debouncedSendSearchRequest: null as unknown as (payload: string) => void,
-  }),
+  data: () => ({ showSteps: false }),
   computed: {
     ...mapGetters('plugin/routing', [
       'displayPreferences',
@@ -184,11 +165,14 @@ export default Vue.extend({
       'selectedPreference',
       'searchResults',
       'routingResponseData',
-      'start',
-      'end',
-      'startAddress',
-      'endAddress',
+      'route',
     ]),
+    addWaypointButtonDisabled() {
+      return (
+        this.route.filter((part) => Boolean(part.length)).length <
+        this.route.length - 1
+      )
+    },
     preferences() {
       return ['recommended', 'fastest', 'shortest'].map((key) => ({
         key,
@@ -218,52 +202,6 @@ export default Vue.extend({
           translatedKey: t('plugins.routing.travelMode.wheelchair'),
         },
       ]
-    },
-    startpointInput: {
-      get() {
-        return this.startAddress ? this.startAddress : this.start
-      },
-      set(value) {
-        this.setStart(value)
-      },
-    },
-    endpointInput: {
-      get() {
-        return this.endAddress ? this.endAddress : this.end
-      },
-      set(value) {
-        this.setEnd(value)
-      },
-    },
-    startSearchResults() {
-      return this.searchResults
-        .flatMap((result) => {
-          const baseName = result.strassenname
-          if (result.hausnummern && result.hausnummern.length > 0) {
-            return result.hausnummern.map((hausnummer) => ({
-              displayName: `${baseName} ${hausnummer}`,
-              ...result,
-              hausnummer,
-            }))
-          }
-          return [{ displayName: baseName, ...result }]
-        })
-        .slice(0, 20)
-    },
-    endSearchResults() {
-      return this.searchResults
-        .flatMap((result) => {
-          const baseName = result.strassenname
-          if (result.hausnummern && result.hausnummern.length > 0) {
-            return result.hausnummern.map((hausnummer) => ({
-              displayName: `${baseName} ${hausnummer}`,
-              ...result,
-              hausnummer,
-            }))
-          }
-          return [{ displayName: baseName, ...result }]
-        })
-        .slice(0, 20)
     },
     selectedTravelModeItem: {
       get(): string {
@@ -318,15 +256,11 @@ export default Vue.extend({
       return availableOptions
     },
     areFieldsMissing() {
-      const areStartAndStartAddressMissing =
-        this.start.length === 0 && this.startAddress === ''
-      const areEndAndEndAddressMissing =
-        this.end.length === 0 && this.endAddress === ''
+      const routeNotComplete = this.route.some((part) => part.length === 0)
       const isSelectedTravelModeMissing = this.selectedTravelMode === ''
       const isSelectedPreferenceMissing = this.selectedPreference === ''
       return Boolean(
-        areStartAndStartAddressMissing ||
-          areEndAndEndAddressMissing ||
+        routeNotComplete ||
           isSelectedTravelModeMissing ||
           isSelectedPreferenceMissing
       )
@@ -337,67 +271,27 @@ export default Vue.extend({
       this.selectedRouteTypesToAvoidItem = []
     },
   },
-  created() {
-    this.debouncedSendSearchRequest = debounce(this.sendSearchRequest, 300)
-  },
   methods: {
-    ...mapActions('plugin/routing', [
-      'sendRequest',
-      'sendSearchRequest',
-      'resetCoordinates',
-    ]),
+    ...mapActions('plugin/routing', ['getRoute', 'resetCoordinates', 'search']),
     ...mapMutations('plugin/routing', [
-      'setStart',
-      'setEnd',
-      'setStartAddress',
-      'setEndAddress',
+      'setCurrentlyFocusedInput',
+      'setRoute',
       'setSelectedTravelMode',
       'setSelectedPreference',
       'setSelectedRouteTypesToAvoid',
     ]),
-    handleAddressSearch(inputType) {
-      const input =
-        inputType === 'start' ? this.startpointInput : this.endpointInput
-      if (inputType === 'start') {
-        this.startDropdownOpen = true
-        this.endDropdownOpen = false
-      } else if (inputType === 'end') {
-        this.startDropdownOpen = false
-        this.endDropdownOpen = true
-      }
-      this.$nextTick(() => {
-        this.debouncedSendSearchRequest(input)
-      })
+    getRouteLabel(index: number) {
+      return `plugins.routing.label.${
+        index === 0
+          ? 'start'
+          : index === this.route.length - 1
+          ? 'end'
+          : 'middle'
+      }`
     },
     reset() {
       this.showSteps = false
       this.resetCoordinates()
-    },
-    selectStart(result) {
-      if (result.strassenname) {
-        this.startpointInput = result.displayName
-        this.setStart(result.position)
-        this.setStartAddress(result.displayName)
-        this.startDropdownOpen = false
-        this.$nextTick(() => {
-          this.$store.commit('plugin/routing/setSearchResults', [])
-        })
-      } else {
-        console.error('No street name available for selected result:', result)
-      }
-    },
-    selectEnd(result) {
-      if (result.strassenname) {
-        this.endpointInput = result.displayName
-        this.setEnd(result.position)
-        this.setEndAddress(result.displayName)
-        this.endDropdownOpen = false
-        this.$nextTick(() => {
-          this.$store.commit('plugin/routing/setSearchResults', [])
-        })
-      } else {
-        console.error('No street name available for selected result:', result)
-      }
     },
     translatedRouteTypeToAvoid(myKey) {
       return this.selectableRouteTypesToAvoid.find(

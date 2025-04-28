@@ -12,6 +12,7 @@ import { PolarVectorOptions } from '../types'
  * @returns A new 'VectorLayer' instance containing the route with the provided options.
  */
 export default function (source, style?: RouteStyle) {
+  // TODO: Style currently not added. Check if this can be added here or has to be added to every feature
   const options: PolarVectorOptions = { source }
   if (style) {
     const { stroke } = style

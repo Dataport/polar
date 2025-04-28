@@ -499,6 +499,11 @@ export interface ReverseGeocoderConfiguration {
 // type selectableTravelModes = 'driving-car' | 'driving-hgv' | 'foot-walking' | 'cycling-regular'
 // type selectablePreferences = 'recommended' | 'fastest' | 'shortest'
 
+export interface RoutingSearchConfiguration {
+  method: string
+  result
+}
+
 export interface RoutingConfiguration {
   serviceUrl: string
   type: 'ors'
@@ -513,6 +518,9 @@ export interface RoutingConfiguration {
       width: number
     }
   }
+  // TODO: Add proper configuration for the connection of search
+  // searchConfiguration:
+  searchMethod?: string
 }
 
 /** Style of a toast */

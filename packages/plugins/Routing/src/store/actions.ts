@@ -1,69 +1,62 @@
-import VectorSource from 'ol/source/Vector'
-import { LineString } from 'ol/geom'
+import { type PolarActionTree } from '@polar/lib-custom-types'
+import Draw from 'ol/interaction/Draw'
 import Feature from 'ol/Feature'
-import { PolarActionTree } from '@polar/lib-custom-types'
+import { LineString, Point } from 'ol/geom'
 import { transform } from 'ol/proj'
+import VectorSource from 'ol/source/Vector'
+import { Fill, Stroke, Style } from 'ol/style'
 import { RoutingState, RoutingGetters } from '../types'
-import {
-  fetchSearchData,
-  createSearchUrl,
-  processSearchResults,
-} from '../utils/addressSearchUtils'
-import {
-  fetchRoutingDirections,
-  transformCoordinateToWGS84,
-} from '../utils/routingServiceUtils'
-import createDrawLayer from '../utils/createDrawLayer'
+import { fetchRoutingDirections } from '../utils/routingServiceUtils'
+import createRouteLayer from '../utils/createRouteLayer'
 import createDrawStyle from '../utils/createDrawStyle'
 
-const drawSource = new VectorSource()
-let drawLayer
+const routeSource = new VectorSource()
+let routeLayer
+let draw: Draw
 
 const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   /**
    * Initializes the tool by updating the state from mapConfig and by setting up the draw layer and click event listener.
    */
-  setupModule({
-    rootGetters: { map },
-    getters: { configuration },
-    commit,
-    state,
-  }) {
-    drawLayer = createDrawLayer(drawSource)
-    map?.addLayer(drawLayer)
-    map?.on('click', function (event) {
-      const clickCoordinate = event.coordinate
-      if (state.start.length === 0) {
-        commit('setStart', clickCoordinate)
-      } else if (
-        state.end.length === 0 &&
-        !state.start.every((v, i) => v === clickCoordinate[i]) // end Coordinate should not be the same as start Coordinate
-      ) {
-        commit('setEnd', clickCoordinate)
-      }
-    })
+  setupModule({ rootGetters, getters: { configuration }, commit, dispatch }) {
+    routeLayer = createRouteLayer(routeSource)
+    rootGetters.map.addLayer(routeLayer)
+
+    dispatch('initializeDraw')
 
     commit('setDisplayPreferences', configuration.displayPreferences)
     commit(
       'setDisplayRouteTypesToAvoid',
       configuration.displayRouteTypesToAvoid
     )
-    commit(
-      'setAddressSearchUrl',
-      configuration?.addressSearch.searchMethods[0].url
-    )
   },
-
-  /* ROUTING REQUEST */
-
-  // TODO: add tsDoc comment
-  getTransformedCoordinates({ rootGetters: { configuration }, state }) {
-    return [
-      transformCoordinateToWGS84(state.start, configuration?.epsg),
-      transformCoordinateToWGS84(state.end, configuration?.epsg),
-    ]
+  initializeDraw({ rootGetters: { map }, commit }) {
+    draw = new Draw({
+      stopClick: true,
+      type: 'Point',
+      style: new Style({
+        stroke: new Stroke({ color: 'blue', width: 1.5 }),
+        fill: new Fill({ color: [255, 255, 255, 0.75] }),
+      }),
+    })
+    // @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
+    draw._isRoutingDraw = true
+    draw.on('drawend', (e) => {
+      commit(
+        'addCoordinateToRoute',
+        (e.feature.getGeometry() as Point).getCoordinates()
+      )
+      // @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
+      draw._isRoutingDraw = false
+    })
+    map.addInteraction(draw)
   },
-  // TODO: add tsDoc comment
+  async search({ dispatch, getters }, input: string) {
+    if (getters.searchConfiguration) {
+      await dispatch(getters.searchConfiguration.method, input, { root: true })
+      // TODO: Await above and then check for 'featuresAvailable' and if true, then add 'searchResults' to results in UI here
+    }
+  },
   handleErrors({ dispatch }, error) {
     let errorMessage = ''
     if (error instanceof Error) {
@@ -82,14 +75,14 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     )
   },
   /**
-   * Sends a routing request to the external service.
+   * Sends a routing request to the configured service.
    */
-  async sendRequest({ commit, dispatch, state, getters }) {
+  async getRoute({ commit, dispatch, state, getters }) {
+    dispatch('clearRoute')
     try {
-      const transformedCoordinates = await dispatch('getTransformedCoordinates')
       const response = await fetchRoutingDirections(
         getters.url,
-        transformedCoordinates,
+        getters.routeAsWGS84,
         state.selectedRouteTypesToAvoid,
         state.selectedPreference
       )
@@ -101,45 +94,15 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     }
   },
 
-  /* ADDRESS SEARCH */
-
-  /**
-   * Sends a search request for streets based on user input.
-   */
-  async sendSearchRequest(
-    { commit, getters: { configuration }, state },
-    input: string
-  ) {
-    if (!input || input.length < configuration?.addressSearch.minLength) {
-      console.error('Input is too short or missing.')
-      return
-    }
-
-    try {
-      const addressSearchUrl = state.addressSearchUrl
-      const storedQueryID = 'findeStrasse'
-      const url = createSearchUrl(addressSearchUrl, storedQueryID, input)
-      const responseText = await fetchSearchData(url)
-
-      const features = await processSearchResults(
-        responseText,
-        addressSearchUrl
-      )
-
-      commit('setSearchResults', features)
-    } catch (error) {
-      console.error('Error in sendSearchRequest:', error)
-    }
-  },
-
   /* DRAW ROUTE ON MAP */
 
   /**
    * Draws the calculated route on the map.
    */
-  drawRoute({ getters: { configuration }, state }) {
+  drawRoute({ getters: { configuration }, getters }) {
     const transformedCoordinates =
-      state.routingResponseData?.features[0].geometry.coordinates.map(
+      // TODO: This seems to specific
+      getters.routingResponseData?.features[0].geometry.coordinates.map(
         (coordinate) => transform(coordinate, 'EPSG:4326', 'EPSG:25832')
       )
     const routeLineString = new LineString(transformedCoordinates)
@@ -153,30 +116,24 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
         configuration.routeStyle
       )
     )
-    drawSource.addFeature(routeFeature)
+    routeSource.addFeature(routeFeature)
   },
-
-  /* RESET */
-
   /**
    * Deletes the current route drawing from the map.
    */
-  deleteRouteDrawing() {
-    drawSource.clear()
+  clearRoute() {
+    routeSource.clear()
   },
   /**
    * Resets the selected coordinates and search settings.
    */
   resetCoordinates({ commit, dispatch }) {
-    commit('setStart', [])
-    commit('setEnd', [])
-    commit('setStartAddress', '')
-    commit('setEndAddress', '')
+    commit('resetRoute')
     commit('setSelectedTravelMode', '')
     commit('setSelectedPreference', '')
     commit('setSelectedRouteTypesToAvoid', [])
     commit('setRoutingResponseData', {})
-    dispatch('deleteRouteDrawing')
+    dispatch('clearRoute')
   },
 }
 

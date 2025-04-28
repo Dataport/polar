@@ -1,7 +1,10 @@
-import { type RoutingConfiguration } from '@polar/lib-custom-types'
+import {
+  type RoutingConfiguration,
+  RoutingSearchConfiguration,
+} from '@polar/lib-custom-types'
+import { type Coordinate } from 'ol/coordinate'
 import type VectorSource from 'ol/source/Vector'
 import { type StyleLike } from 'ol/style/Style'
-import { type Coordinate } from 'ol/coordinate'
 
 // The options that can be given to an ol/VectorLayer. Somehow the direct import from ol doesn't work.
 // This is a copy with the things that we currently use
@@ -32,22 +35,20 @@ interface Selectable {
 }
 
 export interface RoutingState {
-  start: Coordinate
-  startAddress: string
-  end: Coordinate
-  endAddress: string
+  currentlyFocusedInput: number
+  route: Coordinate[]
+  routeAsWGS84: Coordinate[]
   selectedTravelMode: string
   displayPreferences: boolean
   selectedPreference: string
   displayRouteTypesToAvoid: boolean
   selectedRouteTypesToAvoid: string[]
   selectableRouteTypesToAvoid: Selectable[]
-  addressSearchUrl: string
-  minLength: number
   searchResults: Array<object>
 }
 
 export interface RoutingGetters extends RoutingState {
   configuration: RoutingConfiguration
+  searchConfiguration: RoutingSearchConfiguration | null
   url: string
 }

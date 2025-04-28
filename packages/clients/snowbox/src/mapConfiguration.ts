@@ -309,22 +309,7 @@ export const mapConfiguration = {
         width: 6,
       },
     },
-    // TODO duplicate declaration – should refer to existing plugin, and if AddressSearch isn't there, it only works with coordinates; I GUESS ...
-    addressSearch: {
-      searchMethods: [
-        {
-          queryParameters: {
-            searchAddress: true,
-            searchStreets: true,
-            searchHouseNumbers: true,
-          },
-          type: 'mpapi',
-          url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
-        },
-      ],
-      minLength: 3,
-      waitMs: 300,
-    },
+    searchMethod: 'plugin/addressSearch/search',
   },
   pointerPosition: {
     projections: [
