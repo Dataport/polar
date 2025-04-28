@@ -28,7 +28,6 @@ interface Selectable {
 export interface RoutingState {
   currentlyFocusedInput: number
   route: Coordinate[]
-  routeAsWGS84: Coordinate[]
   selectedTravelMode: string
   displayPreferences: boolean
   selectedPreference: string
@@ -40,6 +39,7 @@ export interface RoutingState {
 
 export interface RoutingGetters extends RoutingState {
   configuration: RoutingConfiguration
+  routeAsWGS84: Coordinate[]
   searchConfiguration: RoutingSearchConfiguration | null
   url: string
 }
