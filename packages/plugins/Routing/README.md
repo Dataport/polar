@@ -15,34 +15,4 @@ This module has been written for the "BKG-Routing-Service" and uses the "Adresss
 |format|string|The format in which the answer of the routing service is expected in.|
 |displayPreferences|bolean|Defines wether the preferences for the route are offered to the user for selection.|
 |displayRouteTypesToAvoid|boolean|Defines wether route types to avoid are offered to the user for selection.|
-|routeStyle|style? | Please see example below for styling options. Defaults to standard OpenLayers styling. |
 | searchMethod | string? | Path of an action to call to search for addresses on input. Must accept a string as a payload. If not configured, only coordinates can be used for routing. |
-
-#### routeStyle.stroke
-
-| fieldName | type | description |
-| - | - | - |
-|routeStyle.color|||
-|routeStyle.width|||
-
-<details>
-
-The `@masterportal/masterportalapi` has vectorStyles in development. As soon as that's done, we shall use its styling syntax and methods.
-
-For the time being, please use this example as a rough reference as to what can currently be done.
-
-<summary>Example configuration</summary>
-
-```js
-routing: {
-    routeStyle: {
-    stroke: {
-      color: '#e51313',
-      width: 6,
-    },
-  },
-}
-```
-
-</details>
-

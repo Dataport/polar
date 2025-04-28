@@ -1,13 +1,13 @@
 import { type PolarActionTree } from '@polar/lib-custom-types'
-import Draw from 'ol/interaction/Draw'
 import Feature from 'ol/Feature'
 import { LineString, Point } from 'ol/geom'
+import Draw from 'ol/interaction/Draw'
+import VectorLayer from 'ol/layer/Vector'
 import { transform } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
+import { Stroke, Style } from 'ol/style'
 import { RoutingState, RoutingGetters } from '../types'
 import { fetchRoutingDirections } from '../utils/routingServiceUtils'
-import createRouteLayer from '../utils/createRouteLayer'
-import createDrawStyle from '../utils/createDrawStyle'
 
 const routeSource = new VectorSource()
 let routeLayer
@@ -18,7 +18,12 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
    * Initializes the tool by updating the state from mapConfig and by setting up the draw layer and click event listener.
    */
   setupModule({ rootGetters, getters: { configuration }, commit, dispatch }) {
-    routeLayer = createRouteLayer(routeSource)
+    routeLayer = new VectorLayer({
+      source: routeSource,
+      style: new Style({
+        stroke: new Stroke({ color: 'blue', width: 6 }),
+      }),
+    })
     rootGetters.map.addLayer(routeLayer)
 
     dispatch('initializeDraw')
@@ -99,7 +104,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   /**
    * Draws the calculated route on the map.
    */
-  drawRoute({ getters: { configuration }, getters }) {
+  drawRoute({ getters }) {
     const transformedCoordinates =
       // TODO: This seems to specific
       getters.routingResponseData?.features[0].geometry.coordinates.map(
@@ -110,12 +115,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     const routeFeature = new Feature({
       geometry: routeLineString,
     })
-    routeFeature.setStyle(
-      createDrawStyle(
-        configuration.routeStyle?.stroke?.color,
-        configuration.routeStyle
-      )
-    )
     routeSource.addFeature(routeFeature)
   },
   /**

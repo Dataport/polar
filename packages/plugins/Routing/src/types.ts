@@ -3,15 +3,6 @@ import {
   RoutingSearchConfiguration,
 } from '@polar/lib-custom-types'
 import { type Coordinate } from 'ol/coordinate'
-import type VectorSource from 'ol/source/Vector'
-import { type StyleLike } from 'ol/style/Style'
-
-// The options that can be given to an ol/VectorLayer. Somehow the direct import from ol doesn't work.
-// This is a copy with the things that we currently use
-export interface PolarVectorOptions {
-  source?: VectorSource
-  style?: StyleLike
-}
 
 export interface SearchResponseDataInterface {
   hausnummer: string
