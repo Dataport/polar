@@ -8,6 +8,7 @@
         :key="`route-container-${index}`"
         style="display: flex; align-items: center; gap: 1.5em"
       >
+        <!-- TODO: This should display the address if reverse geocoding is configured -->
         <v-text-field
           v-model="route[index]"
           :label="$t(getRouteLabel(index))"
@@ -48,44 +49,6 @@
           </span>
         </v-list-item>
       </v-list>
-      <!-- Selectable Options -->
-      <v-select
-        v-model="selectedTravelModeItem"
-        class="select"
-        :label="$t('plugins.routing.label.mode')"
-        :aria-label="$t('plugins.routing.label.mode')"
-        :items="travelModes"
-        item-value="key"
-        item-text="translatedKey"
-      ></v-select>
-
-      <v-select
-        v-if="displayPreferences"
-        v-model="selectedPreferenceItem"
-        class="select"
-        :label="$t('plugins.routing.label.preference')"
-        :aria-label="$t('plugins.routing.label.preference')"
-        :items="preferences"
-        item-value="key"
-        item-text="translatedKey"
-      ></v-select>
-
-      <div v-if="displayRouteTypesToAvoid">
-        <p class="align-center">
-          {{ $t('plugins.routing.avoidRoutesTitle') }}
-        </p>
-        <div class="checkbox-container">
-          <v-checkbox
-            v-for="(routeType, i) in routeTypesToAvoidForSelectedProfile"
-            :key="i"
-            v-model="selectedRouteTypesToAvoidItem"
-            :label="$t(translatedRouteTypeToAvoid(routeType['key']))"
-            :aria-label="$t(translatedRouteTypeToAvoid(routeType['key']))"
-            :value="routeType['key']"
-          ></v-checkbox>
-        </div>
-      </div>
-
       <!-- Send Button -->
       <v-tooltip left :disabled="!areFieldsMissing">
         <template #activator="{ on }">
@@ -157,75 +120,17 @@ export default Vue.extend({
   data: () => ({ showSteps: false }),
   computed: {
     ...mapGetters('plugin/routing', [
-      'displayPreferences',
-      'displayRouteTypesToAvoid',
-      'selectableRouteTypesToAvoid',
-      'selectedRouteTypesToAvoid',
+      'route',
+      'routingResponseData',
+      'searchResults',
       'selectedTravelMode',
       'selectedPreference',
-      'searchResults',
-      'routingResponseData',
-      'route',
     ]),
     addWaypointButtonDisabled() {
       return (
         this.route.filter((part) => Boolean(part.length)).length <
         this.route.length - 1
       )
-    },
-    preferences() {
-      return ['recommended', 'fastest', 'shortest'].map((key) => ({
-        key,
-        translatedKey: t(`plugins.routing.preference.${key}`),
-      }))
-    },
-    travelModes() {
-      return [
-        {
-          key: 'driving-car',
-          translatedKey: t('plugins.routing.travelMode.car'),
-        },
-        {
-          key: 'driving-hgv',
-          translatedKey: t('plugins.routing.travelMode.hgv'),
-        },
-        {
-          key: 'cycling-regular',
-          translatedKey: t('plugins.routing.travelMode.bike'),
-        },
-        {
-          key: 'foot-walking',
-          translatedKey: t('plugins.routing.travelMode.walking'),
-        },
-        {
-          key: 'wheelchair',
-          translatedKey: t('plugins.routing.travelMode.wheelchair'),
-        },
-      ]
-    },
-    selectedTravelModeItem: {
-      get(): string {
-        return this.selectedTravelMode
-      },
-      set(value: string): void {
-        this.setSelectedTravelMode(value)
-      },
-    },
-    selectedPreferenceItem: {
-      get(): string {
-        return this.selectedPreference
-      },
-      set(value: string): void {
-        this.setSelectedPreference(value)
-      },
-    },
-    selectedRouteTypesToAvoidItem: {
-      get(): string {
-        return this.selectedRouteTypesToAvoid
-      },
-      set(value: string): void {
-        this.setSelectedRouteTypesToAvoid(value)
-      },
     },
     searchResponseSegments: {
       get(): object {
@@ -236,18 +141,6 @@ export default Vue.extend({
       get(): object {
         return this.routingResponseData.features[0].properties.segments
       },
-    },
-    routeTypesToAvoidForSelectedProfile() {
-      return this.selectedTravelMode === 'driving-car' ||
-        this.selectedTravelMode === 'driving-hgv' ||
-        this.selectedTravelMode === ''
-        ? this.selectableRouteTypesToAvoid
-        : [
-            {
-              key: 'ferries',
-              locale: 'plugins.routing.avoidRoutes.ferries',
-            },
-          ]
     },
     areFieldsMissing() {
       const routeNotComplete = this.route.some((part) => part.length === 0)
@@ -260,11 +153,6 @@ export default Vue.extend({
       )
     },
   },
-  watch: {
-    selectedTravelMode() {
-      this.selectedRouteTypesToAvoidItem = []
-    },
-  },
   beforeDestroy() {
     this.setCurrentlyFocusedInput(-1)
   },
@@ -275,12 +163,21 @@ export default Vue.extend({
       'search',
       'setCurrentlyFocusedInput',
     ]),
-    ...mapMutations('plugin/routing', [
-      'setRoute',
-      'setSelectedTravelMode',
-      'setSelectedPreference',
-      'setSelectedRouteTypesToAvoid',
-    ]),
+    ...mapMutations('plugin/routing', ['setRoute']),
+    formatDistance(distance: number) {
+      if (distance >= 1000) {
+        return `${(distance / 1000).toFixed(1)} km`
+      }
+      return `${distance} m`
+    },
+    formatDuration(duration: number) {
+      if (duration >= 3600) {
+        return `${(duration / 3600).toFixed(2)} h`
+      } else if (duration >= 60) {
+        return `${(duration / 60).toFixed(1)} min`
+      }
+      return `${duration} sec`
+    },
     getRouteLabel(index: number) {
       return `plugins.routing.label.${
         index === 0
@@ -293,25 +190,6 @@ export default Vue.extend({
     reset() {
       this.showSteps = false
       this.reset()
-    },
-    translatedRouteTypeToAvoid(myKey) {
-      return this.selectableRouteTypesToAvoid.find(
-        (element) => element.key === myKey
-      ).locale
-    },
-    formatDistance(distance) {
-      if (distance >= 1000) {
-        return `${(distance / 1000).toFixed(1)} km`
-      }
-      return `${distance} m`
-    },
-    formatDuration(duration) {
-      if (duration >= 3600) {
-        return `${(duration / 3600).toFixed(2)} h`
-      } else if (duration >= 60) {
-        return `${(duration / 60).toFixed(1)} min`
-      }
-      return `${duration} sec`
     },
   },
 })
@@ -338,21 +216,7 @@ export default Vue.extend({
   border: 1px solid #ccc;
   background-color: #fff;
 }
-.select {
-  width: 65%;
-}
-.checkbox-container {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 20px;
-  justify-content: space-evenly;
-}
-@media (max-width: 600px) {
-  .checkbox-container {
-    flex-direction: column;
-    align-items: center;
-  }
-}
+
 .sendButton {
   margin-bottom: 20px;
 }
