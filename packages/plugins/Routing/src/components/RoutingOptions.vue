@@ -36,8 +36,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import { t } from 'i18next'
+import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default Vue.extend({
