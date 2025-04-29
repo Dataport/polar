@@ -76,7 +76,7 @@
         </p>
         <div class="checkbox-container">
           <v-checkbox
-            v-for="(routeType, i) in RouteTypesToAvoidForSelectedProfile"
+            v-for="(routeType, i) in routeTypesToAvoidForSelectedProfile"
             :key="i"
             v-model="selectedRouteTypesToAvoidItem"
             :label="$t(translatedRouteTypeToAvoid(routeType['key']))"
@@ -237,7 +237,7 @@ export default Vue.extend({
         return this.routingResponseData.features[0].properties.segments
       },
     },
-    RouteTypesToAvoidForSelectedProfile() {
+    routeTypesToAvoidForSelectedProfile() {
       let availableOptions = []
       if (
         this.selectedTravelMode === 'driving-car' ||
