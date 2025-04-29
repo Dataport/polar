@@ -49,6 +49,7 @@
           </span>
         </v-list-item>
       </v-list>
+      <RoutingOptions />
       <!-- Send Button -->
       <v-tooltip left :disabled="!areFieldsMissing">
         <template #activator="{ on }">
@@ -113,9 +114,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
+import RoutingOptions from './RoutingOptions.vue'
 
 export default Vue.extend({
   name: 'PolarRouting',
+  components: {
+    RoutingOptions,
+  },
   data: () => ({ showSteps: false }),
   computed: {
     ...mapGetters('plugin/routing', [
@@ -200,7 +205,6 @@ export default Vue.extend({
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: center;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
