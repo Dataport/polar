@@ -238,22 +238,16 @@ export default Vue.extend({
       },
     },
     routeTypesToAvoidForSelectedProfile() {
-      let availableOptions = []
-      if (
-        this.selectedTravelMode === 'driving-car' ||
+      return this.selectedTravelMode === 'driving-car' ||
         this.selectedTravelMode === 'driving-hgv' ||
         this.selectedTravelMode === ''
-      ) {
-        availableOptions = this.selectableRouteTypesToAvoid
-      } else {
-        availableOptions = [
-          {
-            key: 'ferries',
-            locale: 'plugins.routing.avoidRoutes.ferries',
-          },
-        ]
-      }
-      return availableOptions
+        ? this.selectableRouteTypesToAvoid
+        : [
+            {
+              key: 'ferries',
+              locale: 'plugins.routing.avoidRoutes.ferries',
+            },
+          ]
     },
     areFieldsMissing() {
       const routeNotComplete = this.route.some((part) => part.length === 0)
