@@ -1,7 +1,7 @@
 <template>
   <v-scroll-x-reverse-transition>
     <v-card class="polar-routing-menu">
-      <v-card-title>{{ $t('common:plugins.routing.title') }}</v-card-title>
+      <v-card-title>{{ $t('plugins.routing.title') }}</v-card-title>
       <!-- TODO: Add the styling to the <style> tag -->
       <div
         v-for="(_, index) in route"
@@ -72,7 +72,7 @@
 
       <div v-if="displayRouteTypesToAvoid">
         <p class="align-center">
-          {{ $t('common:plugins.routing.avoidRoutesTitle') }}
+          {{ $t('plugins.routing.avoidRoutesTitle') }}
         </p>
         <div class="checkbox-container">
           <v-checkbox
@@ -92,15 +92,15 @@
           <div v-on="on">
             <v-btn
               class="sendButton"
-              :aria-label="$t('common:plugins.routing.sendRequestButton')"
+              :aria-label="$t('plugins.routing.sendRequestButton')"
               :disabled="areFieldsMissing"
               @click="getRoute"
             >
-              {{ $t('common:plugins.routing.sendRequestButton') }}
+              {{ $t('plugins.routing.sendRequestButton') }}
             </v-btn>
           </div>
         </template>
-        <span>{{ $t('common:plugins.routing.toolTip') }}</span>
+        <span>{{ $t('plugins.routing.toolTip') }}</span>
       </v-tooltip>
       <v-btn :aria-label="$t('plugins.routing.resetButton')" @click="reset">
         {{ $t('plugins.routing.resetButton') }}
@@ -108,10 +108,10 @@
 
       <!-- Route Details Button -->
       <v-btn
-        :aria-label="$t('common:plugins.routing.routeDetails')"
+        :aria-label="$t('plugins.routing.routeDetails')"
         @click="showSteps = !showSteps"
       >
-        {{ $t('common:plugins.routing.routeDetails') }}
+        {{ $t('plugins.routing.routeDetails') }}
       </v-btn>
 
       <!-- List of Route Segments -->
@@ -119,9 +119,9 @@
         v-if="showSteps && Object.keys(routingResponseData).length !== 0"
         class="details-container"
       >
-        {{ $t('common:plugins.routing.duration') }}
+        {{ $t('plugins.routing.duration') }}
         {{ formatDuration(searchResponseTotalValues[0].duration) }} &nbsp;
-        {{ $t('common:plugins.routing.distance') }}
+        {{ $t('plugins.routing.distance') }}
         {{ formatDistance(searchResponseTotalValues[0].distance) }}
         <v-list
           v-for="(step, i) in searchResponseSegments"
@@ -134,9 +134,9 @@
                 {{ step['instruction'] }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('common:plugins.routing.distance') }}
+                {{ $t('plugins.routing.distance') }}
                 {{ formatDistance(step['distance']) }},
-                {{ $t('common:plugins.routing.duration') }}
+                {{ $t('plugins.routing.duration') }}
                 {{ formatDuration(step['duration']) }}
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -249,7 +249,7 @@ export default Vue.extend({
         availableOptions = [
           {
             key: 'ferries',
-            locale: 'common:plugins.routing.avoidRoutes.ferries',
+            locale: 'plugins.routing.avoidRoutes.ferries',
           },
         ]
       }

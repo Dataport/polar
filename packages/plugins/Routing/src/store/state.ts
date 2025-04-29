@@ -11,15 +11,15 @@ const state = {
   selectableRouteTypesToAvoid: [
     {
       key: 'highways',
-      locale: 'common:plugins.routing.avoidRoutes.highways',
+      locale: 'plugins.routing.avoidRoutes.highways',
     },
     {
       key: 'tollways',
-      locale: 'common:plugins.routing.avoidRoutes.tollways',
+      locale: 'plugins.routing.avoidRoutes.tollways',
     },
     {
       key: 'ferries',
-      locale: 'common:plugins.routing.avoidRoutes.ferries',
+      locale: 'plugins.routing.avoidRoutes.ferries',
     },
   ],
   routingResponseData: {},
