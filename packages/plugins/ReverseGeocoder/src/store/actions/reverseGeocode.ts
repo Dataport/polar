@@ -1,6 +1,7 @@
 import mapValues from 'lodash.mapvalues'
 import xml2js from 'xml2js'
-import { ReverseGeocoderFeature } from '../types'
+import { PolarActionContext } from '@polar/lib-custom-types'
+import { ReverseGeocoderFeature } from '../../types'
 
 const { parseString, processors } = xml2js
 
@@ -33,10 +34,18 @@ const readResponseText = (xmlString: string): Promise<object> =>
     )
   )
 
-export const reverseGeocode = async (
-  url: string,
+export async function reverseGeocode(
+  {
+    rootGetters: { configuration },
+  }: PolarActionContext<Record<string, never>, Record<string, never>>,
   coordinate: [number, number]
-): Promise<ReverseGeocoderFeature> => {
+): Promise<ReverseGeocoderFeature> {
+  const url = configuration.reverseGeocoder?.url
+
+  if (!url) {
+    throw new Error('POLAR ReverseGeocoder#reverseGeocode: No URL specified.')
+  }
+
   const response = await fetch(url, {
     method: 'POST',
     body: buildPostBody(coordinate),
@@ -62,7 +71,8 @@ export const reverseGeocode = async (
     Zusatz: address.Zusatz,
   }
   /* eslint-enable @typescript-eslint/naming-convention */
-  const resultObject: ReverseGeocoderFeature = {
+
+  return {
     type: 'reverse_geocoded',
     title: `${properties.Strasse} ${properties.Hausnr}${properties.Zusatz}`,
     properties,
@@ -77,5 +87,4 @@ export const reverseGeocode = async (
       type: 'Point',
     },
   }
-  return resultObject
 }
