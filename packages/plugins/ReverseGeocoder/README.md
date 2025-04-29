@@ -42,8 +42,6 @@ The ReverseGeocoder plugin does not hold any state.
 // result contains the resolved address (exact format depends on WPS)
 const result = await map.$store.dispatch(
   'plugin/reverseGeocoder/reverseGeocode',
-  {
-    coordinate, // [number, number]
-  }
+  coordinate, // [number, number]
 )
 ```
