@@ -146,10 +146,6 @@ export default Vue.extend({
   padding-bottom: 20px;
 }
 
-.text-field {
-  width: 65%;
-}
-
 .dropdown {
   max-height: 300px;
   overflow-y: auto; /* enables scrolling */
