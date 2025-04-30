@@ -50,25 +50,18 @@
         </v-list-item>
       </v-list>
       <RoutingOptions />
-      <!-- Send Button -->
-      <v-tooltip left :disabled="!areFieldsMissing">
-        <template #activator="{ on }">
-          <div v-on="on">
-            <v-btn
-              class="sendButton"
-              :aria-label="$t('plugins.routing.sendRequestButton')"
-              :disabled="areFieldsMissing"
-              @click="getRoute"
-            >
-              {{ $t('plugins.routing.sendRequestButton') }}
-            </v-btn>
-          </div>
-        </template>
-        <span>{{ $t('plugins.routing.toolTip') }}</span>
-      </v-tooltip>
-      <v-btn :aria-label="$t('plugins.routing.resetButton')" @click="reset">
-        {{ $t('plugins.routing.resetButton') }}
-      </v-btn>
+      <div id="polar-plugin-routing-button-group">
+        <v-btn :aria-label="$t('plugins.routing.resetButton')" @click="reset">
+          {{ $t('plugins.routing.resetButton') }}
+        </v-btn>
+        <v-btn
+          :aria-label="$t('plugins.routing.sendRequestButton')"
+          :disabled="areFieldsMissing"
+          @click="getRoute"
+        >
+          {{ $t('plugins.routing.sendRequestButton') }}
+        </v-btn>
+      </div>
       <RoutingDetails />
     </v-card>
   </v-scroll-x-reverse-transition>
@@ -144,6 +137,16 @@ export default Vue.extend({
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
+
+  #polar-plugin-routing-button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+
+    .v-btn {
+      width: 45%;
+    }
+  }
 }
 
 .dropdown {
@@ -151,9 +154,5 @@ export default Vue.extend({
   overflow-y: auto; /* enables scrolling */
   border: 1px solid #ccc;
   background-color: #fff;
-}
-
-.sendButton {
-  margin-bottom: 20px;
 }
 </style>
