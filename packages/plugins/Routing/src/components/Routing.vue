@@ -1,6 +1,6 @@
 <template>
   <v-scroll-x-reverse-transition>
-    <v-card class="polar-routing-menu">
+    <v-card id="polar-plugin-routing-card">
       <v-card-title>{{ $t('plugins.routing.title') }}</v-card-title>
       <!-- TODO: Add the styling to the <style> tag -->
       <div
@@ -136,7 +136,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.polar-routing-menu {
+#polar-plugin-routing-card {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
