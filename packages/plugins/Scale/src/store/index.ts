@@ -37,7 +37,7 @@ export const makeStoreModule = () => {
           resolution * olProj.METERS_PER_UNIT[unit] * inchesPerMetre * getDpi()
         )
 
-        commit('setScaleValue', scale)
+        commit('setScaleValue', beautifyScale(scale))
         dispatch('scaleWithUnit')
         dispatch('scaleToOne')
       },
@@ -90,12 +90,14 @@ export const makeStoreModule = () => {
         return options.map((option) => {
           return {
             ...option,
-            scale: calculateScaleFromResolution(
-              rootGetters.map
-                .getView()
-                .getProjection()
-                .getUnits() as keyof MetersPerUnitLookup,
-              option.resolution
+            scale: beautifyScale(
+              calculateScaleFromResolution(
+                rootGetters.map
+                  .getView()
+                  .getProjection()
+                  .getUnits() as keyof MetersPerUnitLookup,
+                option.resolution
+              )
             ),
           }
         })

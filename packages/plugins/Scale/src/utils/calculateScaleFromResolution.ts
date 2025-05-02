@@ -1,5 +1,4 @@
 import { METERS_PER_UNIT, type MetersPerUnitLookup } from 'ol/proj/Units'
-import beautifyScale from './beautifyScale'
 import getDpi from './getDpi'
 
 function calculateScaleFromResolution(
@@ -12,7 +11,7 @@ function calculateScaleFromResolution(
   const scale = Math.round(
     resolution * METERS_PER_UNIT[unit] * inchesPerMetre * getDpi()
   )
-  return beautifyScale(scale)
+  return scale
 }
 
 export default calculateScaleFromResolution
