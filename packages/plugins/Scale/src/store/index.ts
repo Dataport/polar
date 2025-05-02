@@ -5,7 +5,6 @@ import {
 import * as olProj from 'ol/proj'
 import { t as translate } from 'i18next'
 import { PolarModule } from '@polar/lib-custom-types'
-import { type MetersPerUnitLookup } from 'ol/proj/Units'
 import thousandsSeparator from '../utils/thousandsSeperator'
 import beautifyScale from '../utils/beautifyScale'
 import getDpi from '../utils/getDpi'
