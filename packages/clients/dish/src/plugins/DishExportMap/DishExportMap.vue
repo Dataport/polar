@@ -57,7 +57,6 @@
 import Vue from 'vue'
 import { mapMutations, mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
-import { beautifyScale } from '@polar/plugin-scale'
 import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
 
 const rectangleWidth = 893
@@ -102,9 +101,6 @@ export default Vue.extend({
           (layer) => layer.id === this.activeBackgroundId
         ) || this.defaultBackground
       )
-    },
-    scaleForPrint(): number {
-      return beautifyScale(this.scaleValue)
     },
   },
   mounted() {
@@ -203,13 +199,13 @@ export default Vue.extend({
         NewTab: this.newTab,
         objektueberschrift: this.title,
         // spelling is intentional because of backend requirements
-        masssstab: this.scaleForPrint,
+        masssstab: this.scaleValue,
         printApproach: this.configuration.dishExportMap.printApproach,
         printRequester: this.configuration.dishExportMap.printRequester,
         id: this.currentProperties.objektid,
         xPrint: this.configuration.dishExportMap.xPrint,
         yPrint: this.configuration.dishExportMap.yPrint,
-        scale: this.scaleForPrint,
+        scale: this.scaleValue,
         xMin: bbox?.xMin,
         yMin: bbox?.yMin,
         xMax: bbox?.xMax,
