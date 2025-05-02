@@ -92,10 +92,7 @@ export const makeStoreModule = () => {
             ...option,
             scale: beautifyScale(
               calculateScaleFromResolution(
-                rootGetters.map
-                  .getView()
-                  .getProjection()
-                  .getUnits() as keyof MetersPerUnitLookup,
+                rootGetters.map.getView().getProjection().getUnits(),
                 option.resolution
               )
             ),
