@@ -1,4 +1,7 @@
-import { calculateScaleFromResolution } from '@polar/plugin-scale'
+import {
+  calculateScaleFromResolution,
+  beautifyScale,
+} from '@polar/plugin-scale'
 
 let zoomLevel = 0
 
@@ -21,4 +24,6 @@ export const options = [
 ]
 
 export const scaleFromZoomLevel = (zoomLevel: number) =>
-  calculateScaleFromResolution('m', options[zoomLevel].resolution)
+  beautifyScale(
+    calculateScaleFromResolution('m', options[zoomLevel].resolution)
+  )
