@@ -6,10 +6,10 @@
   >
     <select
       v-if="showSelectOptions"
-      v-model="scale"
       :title="$t('plugins.scale.scaleSwitcher')"
       :aria-label="$t('plugins.scale.scaleSwitcher')"
       class="scale-as-a-ratio scale-switcher"
+      :value="beautifyScale(scaleValue)"
       @change="setZoomLevelByScale($event.target.selectedIndex)"
     >
       <option
@@ -32,19 +32,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import thousandsSeparator from '../utils/thousandsSeperator'
-import getBestMatchingScale from '../utils/getBestMatchingScale'
+import beautifyScale from '../utils/beautifyScale'
 
 export default Vue.extend({
   name: 'PolarScale',
-  data() {
-    return {
-      zoomPluginAvailable: false,
-    }
-  },
   computed: {
-    ...mapGetters(['map']),
     ...mapGetters('plugin/scale', [
       'scaleToOne',
       'scaleValue',
@@ -53,33 +47,17 @@ export default Vue.extend({
       'zoomOptions',
       'zoomMethod',
     ]),
-    scaleNumberToScale() {
-      return (scale: number) => {
-        return '1 : ' + thousandsSeparator(scale)
-      }
-    },
-    scale: {
-      get() {
-        return getBestMatchingScale(this.scaleValue, this.zoomOptions)
-      },
-      set(value: number) {
-        console.warn('scale changed to', value)
-        this.setScaleValue(value)
-      },
-    },
     showSelectOptions() {
       return this.showScaleSwitcher && this.zoomMethod
     },
   },
   methods: {
-    ...mapMutations('plugin/scale', ['setScaleValue', 'setZoomOptions']),
     ...mapActions('plugin/scale', ['zoomToScale']),
     setZoomLevelByScale(index: number) {
       this.zoomToScale(this.zoomOptions[index].zoomLevel)
     },
-    thousandsSeparator(value: number) {
-      return thousandsSeparator(value)
-    },
+    thousandsSeparator,
+    beautifyScale,
   },
 })
 </script>
