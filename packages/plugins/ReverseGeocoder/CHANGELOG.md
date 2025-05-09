@@ -1,5 +1,9 @@
 # Changelog
 
+## unpublished
+
+- Fix: Make action `reverseGeocode` actually callable like it is documented and fix its payload documentation.
+
 ## 3.0.0
 
 - Breaking: Upgrade peerDependency `ol` from `^9.2.4` to `^10.3.1`.
