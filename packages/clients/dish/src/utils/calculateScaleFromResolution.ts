@@ -1,5 +1,7 @@
-import { beautifyScale, getDpi, thousandsSeparator } from '@polar/plugin-scale'
-import { METERS_PER_UNIT, type MetersPerUnitLookup } from 'ol/proj/Units'
+import {
+  calculateScaleFromResolution,
+  beautifyScale,
+} from '@polar/plugin-scale'
 
 let zoomLevel = 0
 
@@ -20,18 +22,8 @@ export const options = [
   { resolution: 0.02645831904, scale: 100, zoomLevel: zoomLevel++ },
   { resolution: 0.01322915952, scale: 50, zoomLevel: zoomLevel++ },
 ]
-function calculateScaleFromResolution(
-  unit: keyof MetersPerUnitLookup,
-  resolution: number
-): string {
-  // inchesPerMetre is used to convert the resolution (distance in meters) to
-  // inches per pixel (1in = 96px) so that it can be multiplied with dpi.
-  const inchesPerMetre = 39.37
-  const scale = Math.round(
-    resolution * METERS_PER_UNIT[unit] * inchesPerMetre * getDpi()
-  )
-  return thousandsSeparator(beautifyScale(scale))
-}
 
 export const scaleFromZoomLevel = (zoomLevel: number) =>
-  calculateScaleFromResolution('m', options[zoomLevel].resolution)
+  beautifyScale(
+    calculateScaleFromResolution('m', options[zoomLevel].resolution)
+  )

@@ -57,7 +57,6 @@
 import Vue from 'vue'
 import { mapMutations, mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
-import { beautifyScale } from '@polar/plugin-scale'
 import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
 
 const rectangleWidth = 893
@@ -200,7 +199,7 @@ export default Vue.extend({
         NewTab: this.newTab,
         objektueberschrift: this.title,
         // spelling is intentional because of backend requirements
-        masssstab: beautifyScale(this.scaleValue),
+        masssstab: this.scaleValue,
         printApproach: this.configuration.dishExportMap.printApproach,
         printRequester: this.configuration.dishExportMap.printRequester,
         id: this.currentProperties.objektid,

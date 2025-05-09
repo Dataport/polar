@@ -1,6 +1,7 @@
 // number-only keys needed in layers object
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { thousandsSeparator } from '@polar/plugin-scale'
 import { shBlue } from '../colors'
 import { alkisWfService } from '../services'
 import {
@@ -94,7 +95,9 @@ export const mapConfigExtern: DishMapConfig = {
       id: alkisWms,
       visibility: true,
       type: 'mask',
-      name: `ALKIS Flurstücke (ab 1:${scaleFromZoomLevel(alkisMinZoom)})`,
+      name: `ALKIS Flurstücke (ab 1:${thousandsSeparator(
+        scaleFromZoomLevel(alkisMinZoom)
+      )})`,
       minZoom: alkisMinZoom,
     },
   ],
