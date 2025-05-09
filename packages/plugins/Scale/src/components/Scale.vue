@@ -6,10 +6,10 @@
   >
     <select
       v-if="showSelectOptions"
-      v-model="scale"
       :title="$t('plugins.scale.scaleSwitcher')"
       :aria-label="$t('plugins.scale.scaleSwitcher')"
       class="scale-as-a-ratio scale-switcher"
+      :value="beautifyScale(scaleValue)"
       @change="setZoomLevelByScale($event.target.selectedIndex)"
     >
       <option
@@ -18,7 +18,7 @@
         :value="option.scale"
         class="scale-as-a-ratio"
       >
-        {{ scaleNumberToScale(option.scale) }}
+        {{ '1 : ' + thousandsSeparator(option.scale) }}
       </option>
     </select>
     <span v-else class="scale-as-a-ratio">
@@ -32,17 +32,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import thousandsSeparator from '../utils/thousandsSeperator'
 import beautifyScale from '../utils/beautifyScale'
 
 export default Vue.extend({
   name: 'PolarScale',
-  data() {
-    return {
-      zoomPluginAvailable: false,
-    }
-  },
   computed: {
     ...mapGetters('plugin/scale', [
       'scaleToOne',
@@ -52,36 +47,17 @@ export default Vue.extend({
       'zoomOptions',
       'zoomMethod',
     ]),
-    scaleNumberToScale() {
-      return (scale: number) => {
-        return '1 : ' + thousandsSeparator(scale)
-      }
-    },
-    scale: {
-      get() {
-        const scaleToCompare = beautifyScale(this.scaleValue)
-        const bestMatchingScale = this.zoomOptions.reduce((prev, curr) => {
-          return Math.abs(curr.scale - scaleToCompare) <
-            Math.abs(prev.scale - scaleToCompare)
-            ? curr
-            : prev
-        })
-        return bestMatchingScale.scale
-      },
-      set(value: number) {
-        this.setScaleValue(value)
-      },
-    },
     showSelectOptions() {
       return this.showScaleSwitcher && this.zoomMethod
     },
   },
   methods: {
-    ...mapMutations('plugin/scale', ['setScaleValue']),
     ...mapActions('plugin/scale', ['zoomToScale']),
     setZoomLevelByScale(index: number) {
       this.zoomToScale(this.zoomOptions[index].zoomLevel)
     },
+    thousandsSeparator,
+    beautifyScale,
   },
 })
 </script>
