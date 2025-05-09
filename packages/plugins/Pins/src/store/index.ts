@@ -52,8 +52,12 @@ export const makeStoreModule = () => {
           const isDrawing = interactions.getArray().some(
             (interaction) =>
               (interaction instanceof Draw &&
-                // @ts-expect-error | internal hack to detect it from @polar/plugin-gfi and @polar/plugin-draw
-                (interaction._isMultiSelect || interaction._isDrawPlugin)) ||
+                // @ts-expect-error | internal hack to detect it from @polar/plugin-gfi
+                (interaction._isMultiSelect ||
+                  // @ts-expect-error | internal hack to detect it from @polar/plugin-routing
+                  interaction._isRoutingDraw ||
+                  // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
+                  interaction._isDrawPlugin)) ||
               interaction instanceof Modify ||
               // @ts-expect-error | internal hack to detect it from @polar/plugin-draw
               interaction._isDeleteSelect

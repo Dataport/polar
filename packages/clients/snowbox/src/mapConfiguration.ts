@@ -295,6 +295,16 @@ export const mapConfiguration = {
       fill: '#ff0019',
     },
   },
+  routing: {
+    serviceUrl: 'https://geodienste.hamburg.de/web_ors//v2/directions/',
+    format: 'geojson',
+    type: 'ors',
+    selectableTravelModes: [],
+    selectablePreferences: [],
+    displayPreferences: true,
+    displayRouteTypesToAvoid: true,
+    searchMethod: 'plugin/addressSearch/search',
+  },
   pointerPosition: {
     projections: [
       { code: 'EPSG:4326' },

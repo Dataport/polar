@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { reverseGeocode } from '../src/utils/reverseGeocode'
+import { reverseGeocode } from '../src/store/actions/reverseGeocode'
 
 const testUrl = 'www.example.com/WPS'
 
@@ -66,8 +66,8 @@ const wpsMockResponse = `<?xml version='1.0' encoding='UTF-8'?>
 </wps:ExecuteResponse>`
 
 describe('plugin-reversegeocoder', () => {
-  describe('utils', () => {
-    describe('resolve', () => {
+  describe('actions', () => {
+    describe('reverseGeocode', () => {
       let fetch
       beforeEach(() => {
         fetch = global.fetch
@@ -82,7 +82,15 @@ describe('plugin-reversegeocoder', () => {
         global.fetch = fetch
       })
       it('fetches with the appropriate body', () => {
-        reverseGeocode(testUrl, testCoordinates)
+        reverseGeocode(
+          {
+            rootGetters: {
+              // @ts-ignore
+              configuration: { reverseGeocoder: { url: testUrl } },
+            },
+          },
+          testCoordinates
+        )
 
         // @ts-ignore | it's a mock
         const calls: Array = global.fetch.mock.calls
@@ -96,7 +104,15 @@ describe('plugin-reversegeocoder', () => {
         ])
       })
       it('reformats the return values correctly', async () => {
-        const feature = await reverseGeocode(testUrl, testCoordinates)
+        const feature = await reverseGeocode(
+          {
+            rootGetters: {
+              // @ts-ignore
+              configuration: { reverseGeocoder: { url: testUrl } },
+            },
+          },
+          testCoordinates
+        )
 
         expect(feature).toEqual({
           type: 'reverse_geocoded',
