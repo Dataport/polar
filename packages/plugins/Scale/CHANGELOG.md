@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Expose the functions `beautifyScale`, `thousandsSeparator` and `getDpi`.
+- Feature: Expose the functions `beautifyScale`, `thousandsSeparator`, `getDpi` and `calculateScaleFromResolution`.
 
 ## 3.0.0
 
