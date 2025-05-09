@@ -2,12 +2,10 @@ import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import * as olProj from 'ol/proj'
 import { t as translate } from 'i18next'
 import { PolarModule } from '@polar/lib-custom-types'
 import thousandsSeparator from '../utils/thousandsSeperator'
 import beautifyScale from '../utils/beautifyScale'
-import getDpi from '../utils/getDpi'
 import { ScaleState, ScaleGetters } from '../types'
 import calculateScaleFromResolution from '../utils/calculateScaleFromResolution'
 
@@ -31,12 +29,8 @@ export const makeStoreModule = () => {
       getScale({ rootGetters: { map }, commit, dispatch }): void {
         const unit = map.getView().getProjection().getUnits()
         const resolution: number = map.getView().getResolution() as number
-        const inchesPerMetre = 39.37
-        const scale: number = Math.round(
-          resolution * olProj.METERS_PER_UNIT[unit] * inchesPerMetre * getDpi()
-        )
-
-        commit('setScaleValue', beautifyScale(scale))
+        const scale: number = calculateScaleFromResolution(unit, resolution)
+        commit('setScaleValue', scale)
         dispatch('scaleWithUnit')
         dispatch('scaleToOne')
       },
