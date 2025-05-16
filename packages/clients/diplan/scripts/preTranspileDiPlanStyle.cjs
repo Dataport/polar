@@ -7,7 +7,7 @@ const fs = require('fs')
 const path = require('path')
 const fsOptions = { encoding: 'utf8' }
 
-const sourceFile = '../../../node_modules/diplanung-style/dist/style.css'
+const sourceFile = '../../../node_modules/diplanung-style/dist/index.css'
 const targetFile = './assets/dist/diplanStyle.css'
 const targetDirname = path.dirname(targetFile)
 
