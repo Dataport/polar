@@ -155,7 +155,7 @@ export default Vue.extend({
     margin-bottom: 1em;
 
     .v-btn {
-      width: 45%;
+      width: 47.5%;
     }
   }
 }
