@@ -54,13 +54,6 @@
         <v-btn :aria-label="$t('plugins.routing.resetButton')" @click="reset">
           {{ $t('plugins.routing.resetButton') }}
         </v-btn>
-        <v-btn
-          :aria-label="$t('plugins.routing.sendRequestButton')"
-          :disabled="areFieldsMissing"
-          @click="getRoute"
-        >
-          {{ $t('plugins.routing.sendRequestButton') }}
-        </v-btn>
       </div>
       <RoutingDetails />
     </v-card>
@@ -84,8 +77,9 @@ export default Vue.extend({
       'route',
       'routingResponseData',
       'searchResults',
-      'selectedTravelMode',
       'selectedPreference',
+      'selectedRouteTypesToAvoid',
+      'selectedTravelMode',
     ]),
     addWaypointButtonDisabled() {
       return (
@@ -93,15 +87,25 @@ export default Vue.extend({
         this.route.length - 1
       )
     },
-    areFieldsMissing() {
-      const routeNotComplete = this.route.some((part) => part.length === 0)
-      const isSelectedTravelModeMissing = this.selectedTravelMode === ''
-      const isSelectedPreferenceMissing = this.selectedPreference === ''
-      return Boolean(
-        routeNotComplete ||
-          isSelectedTravelModeMissing ||
-          isSelectedPreferenceMissing
-      )
+    routeIncomplete() {
+      return this.route.some((part) => part.length === 0)
+    },
+  },
+  watch: {
+    route() {
+      if (!this.routeIncomplete) {
+        this.getRoute()
+      }
+    },
+    selectedRouteTypesToAvoid() {
+      if (!this.routeIncomplete) {
+        this.getRoute()
+      }
+    },
+    selectedPreference() {
+      if (!this.routeIncomplete) {
+        this.getRoute()
+      }
     },
   },
   beforeDestroy() {

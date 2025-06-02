@@ -28,7 +28,12 @@ interface Selectable {
 export interface RoutingState {
   currentlyFocusedInput: number
   route: Coordinate[]
-  selectedTravelMode: string
+  selectedTravelMode:
+    | 'driving-car'
+    | 'driving-hgv'
+    | 'cycling-regular'
+    | 'foot-walking'
+    | 'wheelchair'
   displayPreferences: boolean
   selectedPreference: 'recommended' | 'fastest' | 'shortest'
   displayRouteTypesToAvoid: boolean

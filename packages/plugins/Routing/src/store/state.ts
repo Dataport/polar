@@ -3,7 +3,7 @@ import { RoutingState } from '../types'
 export const getInitialState = (): RoutingState => ({
   currentlyFocusedInput: -1,
   route: [[], []],
-  selectedTravelMode: '',
+  selectedTravelMode: 'driving-car',
   displayPreferences: false,
   selectedPreference: 'recommended',
   displayRouteTypesToAvoid: false,

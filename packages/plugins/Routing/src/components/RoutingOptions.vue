@@ -91,8 +91,7 @@ export default Vue.extend({
 
     routeTypesToAvoidForSelectedProfile() {
       return this.selectedTravelMode === 'driving-car' ||
-        this.selectedTravelMode === 'driving-hgv' ||
-        this.selectedTravelMode === ''
+        this.selectedTravelMode === 'driving-hgv'
         ? this.selectableRouteTypesToAvoid
         : [
             {

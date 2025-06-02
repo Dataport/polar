@@ -149,7 +149,7 @@ describe('plugin-routing', () => {
               end: [3, 4],
               startAddress: 'Start Adresse',
               endAddress: 'End Adresse',
-              selectedTravelMode: 'car',
+              selectedTravelMode: 'driving-car',
               selectedPreference: 'fastest',
               selectedRouteTypesToAvoid: ['toll'],
               routingResponseData: { data: 'some data' },
