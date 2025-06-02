@@ -1,11 +1,11 @@
 import { RoutingState } from '../types'
 
-const state = {
+export const getInitialState = (): RoutingState => ({
   currentlyFocusedInput: -1,
   route: [[], []],
   selectedTravelMode: '',
   displayPreferences: false,
-  selectedPreference: '',
+  selectedPreference: 'recommended',
   displayRouteTypesToAvoid: false,
   selectedRouteTypesToAvoid: [],
   selectableRouteTypesToAvoid: [
@@ -24,6 +24,4 @@ const state = {
   ],
   routingResponseData: {},
   searchResults: [],
-}
-
-export const getInitialState = (): RoutingState => state
+})

@@ -30,7 +30,7 @@ export interface RoutingState {
   route: Coordinate[]
   selectedTravelMode: string
   displayPreferences: boolean
-  selectedPreference: string
+  selectedPreference: 'recommended' | 'fastest' | 'shortest'
   displayRouteTypesToAvoid: boolean
   selectedRouteTypesToAvoid: string[]
   selectableRouteTypesToAvoid: Selectable[]
