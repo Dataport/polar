@@ -129,8 +129,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   reset({ commit, dispatch }) {
     commit('resetRoute')
     commit('setCurrentlyFocusedInput', -1)
-    commit('setSelectedTravelMode', '')
-    commit('setSelectedPreference', '')
+    commit('setSelectedTravelMode', 'driving-car')
+    commit('setSelectedPreference', 'recommended')
     commit('setSelectedRouteTypesToAvoid', [])
     commit('setRoutingResponseData', {})
     dispatch('clearRoute')
