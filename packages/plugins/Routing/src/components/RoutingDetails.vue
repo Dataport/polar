@@ -1,39 +1,31 @@
 <template>
-  <div>
-    <v-btn
-      :aria-label="$t('plugins.routing.routeDetails')"
-      @click="showSteps = !showSteps"
+  <div
+    v-if="showSteps && Object.keys(routingResponseData).length !== 0"
+    class="details-container"
+  >
+    {{ $t('plugins.routing.duration') }}
+    {{ formatDuration(searchResponseTotalValues[0].duration) }} &nbsp;
+    {{ $t('plugins.routing.distance') }}
+    {{ formatDistance(searchResponseTotalValues[0].distance) }}
+    <v-list
+      v-for="(step, i) in searchResponseSegments"
+      :key="i"
+      class="detail-list"
     >
-      {{ $t('plugins.routing.routeDetails') }}
-    </v-btn>
-    <div
-      v-if="showSteps && Object.keys(routingResponseData).length !== 0"
-      class="details-container"
-    >
-      {{ $t('plugins.routing.duration') }}
-      {{ formatDuration(searchResponseTotalValues[0].duration) }} &nbsp;
-      {{ $t('plugins.routing.distance') }}
-      {{ formatDistance(searchResponseTotalValues[0].distance) }}
-      <v-list
-        v-for="(step, i) in searchResponseSegments"
-        :key="i"
-        class="detail-list"
-      >
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ step['instruction'] }}
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              {{ $t('plugins.routing.distance') }}
-              {{ formatDistance(step['distance']) }},
-              {{ $t('plugins.routing.duration') }}
-              {{ formatDuration(step['duration']) }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </div>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ step['instruction'] }}
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            {{ $t('plugins.routing.distance') }}
+            {{ formatDistance(step['distance']) }},
+            {{ $t('plugins.routing.duration') }}
+            {{ formatDuration(step['duration']) }}
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
   </div>
 </template>
 
@@ -43,9 +35,8 @@ import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   name: 'RoutingDetails',
-  data: () => ({ showSteps: false }),
   computed: {
-    ...mapGetters('plugin/routing', ['routingResponseData']),
+    ...mapGetters('plugin/routing', ['routingResponseData', 'showSteps']),
     searchResponseSegments: {
       get(): object {
         return this.routingResponseData.features[0].properties.segments[0].steps

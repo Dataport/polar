@@ -23,5 +23,6 @@ export const getInitialState = (): RoutingState => ({
     },
   ],
   routingResponseData: {},
+  showSteps: false,
   searchResults: [],
 })

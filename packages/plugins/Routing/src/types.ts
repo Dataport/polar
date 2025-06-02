@@ -40,6 +40,7 @@ export interface RoutingState {
   selectedRouteTypesToAvoid: string[]
   selectableRouteTypesToAvoid: Selectable[]
   searchResults: Array<object>
+  showSteps: boolean
   routingResponseData: Record<string, any>
 }
 

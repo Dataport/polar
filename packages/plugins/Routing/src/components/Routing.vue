@@ -54,6 +54,13 @@
         <v-btn :aria-label="$t('plugins.routing.resetButton')" @click="reset">
           {{ $t('plugins.routing.resetButton') }}
         </v-btn>
+        <v-btn
+          :aria-label="$t('plugins.routing.routeDetails')"
+          :disabled="Object.keys(routingResponseData).length === 0"
+          @click="updateShowSteps"
+        >
+          {{ $t('plugins.routing.routeDetails') }}
+        </v-btn>
       </div>
       <RoutingDetails />
     </v-card>
@@ -118,7 +125,7 @@ export default Vue.extend({
       'search',
       'setCurrentlyFocusedInput',
     ]),
-    ...mapMutations('plugin/routing', ['setRoute']),
+    ...mapMutations('plugin/routing', ['setRoute', 'updateShowSteps']),
     getRouteLabel(index: number) {
       return `plugins.routing.label.${
         index === 0

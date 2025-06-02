@@ -64,5 +64,8 @@ export const makeStoreModule = (): PolarModule<
       }
       state.route = state.route.toSpliced(index, 0, [])
     },
+    updateShowSteps(state) {
+      state.showSteps = !state.showSteps
+    },
   },
 })
