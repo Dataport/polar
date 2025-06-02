@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { LayerConfiguration } from '@polar/lib-custom-types'
+import { thousandsSeparator } from '@polar/plugin-scale'
 import {
   denkmaelerWMS,
   denkmaelerWFS,
@@ -16,17 +17,21 @@ import {
   verwaltung,
   beschriftung,
 } from '../servicesConstants'
+import { scaleFromZoomLevel } from '../utils/calculateScaleFromResolution'
+
+const alkisMinZoom = 10
+const beschriftungMinZoom = 9
 
 const layersIntern: LayerConfiguration[] = [
   {
     id: basemapGrau,
-    visibility: false,
+    visibility: true,
     type: 'background',
     name: 'Basemap.de Graustufen',
   },
   {
     id: bddEin,
-    visibility: true,
+    visibility: false,
     type: 'background',
     name: 'Grundkarte Graustufen',
   },
@@ -46,7 +51,9 @@ const layersIntern: LayerConfiguration[] = [
     id: beschriftung,
     visibility: true,
     type: 'mask',
-    name: 'Beschriftung (ab 1:2.500)',
+    name: `Beschriftung (ab 1:${thousandsSeparator(
+      scaleFromZoomLevel(beschriftungMinZoom)
+    )})`,
     minZoom: 9,
   },
   {
@@ -145,8 +152,10 @@ const layersIntern: LayerConfiguration[] = [
     id: alkisWms,
     visibility: false,
     type: 'mask',
-    name: 'ALKIS Flurstücke (ab 1:1.000)',
-    minZoom: 10,
+    name: `ALKIS Flurstücke (ab 1:${thousandsSeparator(
+      scaleFromZoomLevel(alkisMinZoom)
+    )})`,
+    minZoom: alkisMinZoom,
   },
 ]
 
