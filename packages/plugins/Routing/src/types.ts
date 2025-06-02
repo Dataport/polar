@@ -35,6 +35,7 @@ export interface RoutingState {
   selectedRouteTypesToAvoid: string[]
   selectableRouteTypesToAvoid: Selectable[]
   searchResults: Array<object>
+  routingResponseData: Record<string, any>
 }
 
 export interface RoutingGetters extends RoutingState {
