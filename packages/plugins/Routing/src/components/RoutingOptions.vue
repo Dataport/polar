@@ -1,18 +1,20 @@
 <template>
   <div>
-    <v-select
-      v-model="selectedTravelModeItem"
-      class="select"
-      :label="$t('plugins.routing.label.mode')"
-      :aria-label="$t('plugins.routing.label.mode')"
-      :items="travelModes"
-      item-value="key"
-      item-text="translatedKey"
-    ></v-select>
+    <v-btn-toggle v-model="selectedTravelModeItem" mandatory>
+      <v-btn
+        v-for="mode in travelModes"
+        :key="mode.key"
+        :value="mode.key"
+        :label="mode.translatedKey"
+        :aria-label="mode.translatedKey"
+        style="border: solid medium transparent !important"
+      >
+        <v-icon>{{ mode.icon }}</v-icon>
+      </v-btn>
+    </v-btn-toggle>
     <v-select
       v-if="displayPreferences"
       v-model="selectedPreferenceItem"
-      class="select"
       :label="$t('plugins.routing.label.preference')"
       :aria-label="$t('plugins.routing.label.preference')"
       :items="preferences"
@@ -21,7 +23,7 @@
     ></v-select>
     <div v-if="displayRouteTypesToAvoid">
       <p>{{ $t('plugins.routing.avoidRoutesTitle') }}</p>
-      <div class="checkbox-container">
+      <div class="polar-routing-checkbox-container">
         <v-checkbox
           v-for="(routeType, i) in routeTypesToAvoidForSelectedProfile"
           :key="i"
@@ -62,22 +64,27 @@ export default Vue.extend({
         {
           key: 'driving-car',
           translatedKey: t('plugins.routing.travelMode.car'),
+          icon: 'fa-car',
         },
         {
           key: 'driving-hgv',
           translatedKey: t('plugins.routing.travelMode.hgv'),
+          icon: 'fa-truck',
         },
         {
           key: 'cycling-regular',
           translatedKey: t('plugins.routing.travelMode.bike'),
+          icon: 'fa-person-biking',
         },
         {
           key: 'foot-walking',
           translatedKey: t('plugins.routing.travelMode.walking'),
+          icon: 'fa-person-walking',
         },
         {
           key: 'wheelchair',
           translatedKey: t('plugins.routing.travelMode.wheelchair'),
+          icon: 'fa-wheelchair-move',
         },
       ]
     },
@@ -140,7 +147,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.checkbox-container {
+.polar-routing-checkbox-container {
   display: flex;
   flex-wrap: nowrap;
   gap: 20px;
@@ -148,13 +155,18 @@ export default Vue.extend({
 }
 
 @media (max-width: 600px) {
-  .checkbox-container {
+  .polar-routing-checkbox-container {
     flex-direction: column;
     align-items: center;
   }
 }
 
-.select {
-  width: 65%;
+.v-btn-toggle > .v-btn.v-btn {
+  min-width: 64px;
+
+  &:focus,
+  &:hover {
+    z-index: 1;
+  }
 }
 </style>
