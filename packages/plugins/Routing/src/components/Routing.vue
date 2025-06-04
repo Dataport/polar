@@ -2,11 +2,10 @@
   <v-scroll-x-reverse-transition>
     <v-card id="polar-plugin-routing-card">
       <v-card-title>{{ $t('plugins.routing.title') }}</v-card-title>
-      <!-- TODO: Add the styling to the <style> tag -->
       <div
         v-for="(_, index) in route"
-        :key="`route-container-${index}`"
-        style="display: flex; align-items: center; gap: 1.5em"
+        :key="`polar-plugin-routing-route-container-${index}`"
+        class="polar-plugin-routing-route-container"
       >
         <!-- TODO: This should display the address if reverse geocoding is configured -->
         <v-text-field
@@ -148,6 +147,12 @@ export default Vue.extend({
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
+
+  .polar-plugin-routing-route-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+  }
 
   #polar-plugin-routing-button-group {
     display: flex;
