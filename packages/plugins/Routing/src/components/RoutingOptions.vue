@@ -18,6 +18,7 @@
         <v-icon>{{ mode.icon }}</v-icon>
       </v-btn>
     </v-btn-toggle>
+    <!-- NOTE: Adding @keydown.prevent.stop here would prevent the map movement but would also prevent the tabbing -->
     <v-select
       v-if="displayPreferences"
       v-model="selectedPreferenceItem"
@@ -29,7 +30,6 @@
           text: $t(`plugins.routing.preference.${value}`),
         }))
       "
-      @keydown.prevent.stop="noop"
     />
     <div
       v-if="displayRouteTypesToAvoid"
