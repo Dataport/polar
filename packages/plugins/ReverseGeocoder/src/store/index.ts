@@ -1,8 +1,8 @@
 import { PolarModule } from '@polar/lib-custom-types'
 import { easeOut } from 'ol/easing'
 import Point from 'ol/geom/Point'
-import { reverseGeocode } from '../utils/reverseGeocode'
 import { ReverseGeocoderFeature } from '../types'
+import { reverseGeocode } from './actions/reverseGeocode'
 
 export const makeStoreModule = () => {
   let loaderCounter = 0
@@ -38,15 +38,9 @@ export const makeStoreModule = () => {
         { rootGetters, commit, dispatch },
         coordinate: [number, number]
       ): Promise<ReverseGeocoderFeature | null> {
-        const { url, addressTarget, addLoading, removeLoading, zoomTo } =
+        const { addressTarget, addLoading, removeLoading, zoomTo } =
           rootGetters.configuration.reverseGeocoder || {}
         const { map } = rootGetters
-
-        if (!url) {
-          throw new Error(
-            'POLAR ReverseGeocoder#resolveCoordinate: No URL specified.'
-          )
-        }
 
         const localLoaderCounter = ++loaderCounter
         const loaderKey = `reverse-geocoder-load-${localLoaderCounter}`
@@ -58,7 +52,7 @@ export const makeStoreModule = () => {
         let feature: ReverseGeocoderFeature | null = null
 
         try {
-          feature = await reverseGeocode(url, coordinate)
+          feature = await dispatch('reverseGeocode', coordinate)
           if (localLoaderCounter === loaderCounter) {
             if (addressTarget) {
               dispatch(addressTarget, { feature }, { root: true })
@@ -84,6 +78,7 @@ export const makeStoreModule = () => {
 
         return feature
       },
+      reverseGeocode,
     },
     getters: {},
     mutations: {},
