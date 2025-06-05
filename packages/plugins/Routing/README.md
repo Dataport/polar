@@ -4,7 +4,13 @@ The Routing Plugin offers a routing functionality to the user.
 
 ## Scope
 
-The user can choose the start and endpoint of the route either with a click on the map, by entering coordinates or by entering an address. The User has to choose a travel mode and a preferred route before the request can be processed. The user can optionally choose a route type to avoid. The requested route is drawn on the map. The user can reset the form and clear the map at the same time. Once a route is requested by the user, a detailed listing of every route segment is available including instructions, distance and duration.
+A user can select multiple waypoints by clicking on the map, which then are converted to an address, if a reverse geocoder is configured.
+If at least two waypoints have been added, the route is automatically calculated and displayed on the map.
+
+The travel mode can be adjusted as well as the types of routes to avoid.
+Similarly, the route preference is set to 'recommended' by default, but can be changed to 'fastest' or 'shortest'.
+
+Once a route is available, a detailed listing of every route segment is available including instructions, distance and duration.
 
 ## Configuration
 
