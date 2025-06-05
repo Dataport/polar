@@ -46,6 +46,8 @@ export interface RoutingState {
 
 export interface RoutingGetters extends RoutingState {
   configuration: RoutingConfiguration
+  displayPreferences: boolean
+  displayRouteTypesToAvoid: boolean
   routeAsWGS84: Coordinate[]
   searchConfiguration: RoutingSearchConfiguration | null
   url: string

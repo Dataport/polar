@@ -27,12 +27,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     rootGetters.map.addLayer(routeLayer)
 
     dispatch('initializeDraw')
-
-    commit('setDisplayPreferences', configuration.displayPreferences)
-    commit(
-      'setDisplayRouteTypesToAvoid',
-      configuration.displayRouteTypesToAvoid
-    )
   },
   initializeDraw({ commit }) {
     draw = new Draw({ stopClick: true, type: 'Point' })
