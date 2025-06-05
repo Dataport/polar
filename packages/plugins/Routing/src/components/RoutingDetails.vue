@@ -68,7 +68,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 .polar-plugin-routing-details-container {
   max-height: 300px;
-  overflow-y: auto; /* enables scrolling */
+  overflow-y: scroll;
   padding-top: 10px;
   text-align: center;
 }
