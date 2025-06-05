@@ -52,7 +52,6 @@
 
 <script lang="ts">
 import noop from '@repositoryname/noop'
-import { t } from 'i18next'
 import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
 
