@@ -105,9 +105,6 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
       dispatch('handleErrors', error)
     }
   },
-
-  /* DRAW ROUTE ON MAP */
-
   /**
    * Draws the calculated route on the map.
    */
