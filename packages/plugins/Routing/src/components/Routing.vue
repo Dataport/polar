@@ -145,6 +145,7 @@ export default Vue.extend({
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
+  min-width: 360px;
 
   .polar-plugin-routing-route-container {
     display: flex;
