@@ -1,13 +1,19 @@
 <template>
   <div>
-    <v-btn-toggle v-model="selectedTravelModeItem" mandatory>
+    <v-btn-toggle
+      v-model="selectedTravelModeItem"
+      class="polar-plugin-routing-travel-mode-container"
+      mandatory
+    >
+      <!-- NOTE: Inline style is needed as otherwise another class overrides this. -->
       <v-btn
         v-for="mode in travelModes"
         :key="mode.key"
         :value="mode.key"
         :label="$t(mode.translatedKey)"
         :aria-label="$t(mode.translatedKey)"
-        style="border: solid medium transparent !important"
+        style="border: solid medium transparent !important; min-width: 64px"
+        class="polar-plugin-routing-travel-mode-button"
       >
         <v-icon>{{ mode.icon }}</v-icon>
       </v-btn>
@@ -25,7 +31,10 @@
       "
       @keydown.prevent.stop="noop"
     />
-    <div v-if="displayRouteTypesToAvoid">
+    <div
+      v-if="displayRouteTypesToAvoid"
+      class="polar-plugin-routing-route-types-to-avoid-container"
+    >
       <p>{{ $t('plugins.routing.avoidRoutesTitle') }}</p>
       <div class="polar-routing-checkbox-container">
         <v-checkbox
@@ -147,26 +156,34 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.polar-routing-checkbox-container {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 20px;
-  justify-content: space-evenly;
-}
+.polar-plugin-routing-travel-mode-container {
+  display: inline grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  width: 100%;
+  margin-bottom: 1em;
 
-@media (max-width: 600px) {
-  .polar-routing-checkbox-container {
-    flex-direction: column;
-    align-items: center;
+  .polar-plugin-routing-travel-mode-button {
+    &:focus,
+    &:hover {
+      z-index: 1;
+    }
   }
 }
 
-.v-btn-toggle > .v-btn.v-btn {
-  min-width: 64px;
+.polar-plugin-routing-route-types-to-avoid-container {
+  p {
+    margin: 0;
+  }
+  .polar-routing-checkbox-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    justify-content: space-evenly;
 
-  &:focus,
-  &:hover {
-    z-index: 1;
+    .v-input {
+      margin-top: 0.5em;
+    }
   }
 }
 </style>
