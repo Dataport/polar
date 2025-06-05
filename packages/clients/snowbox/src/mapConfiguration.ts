@@ -296,7 +296,7 @@ export const mapConfiguration = {
     },
   },
   routing: {
-    serviceUrl: 'https://geodienste.hamburg.de/web_ors//v2/directions/',
+    url: 'https://api.openrouteservice.org/v2/directions/',
     format: 'geojson',
     type: 'ors',
     displayPreferences: true,
