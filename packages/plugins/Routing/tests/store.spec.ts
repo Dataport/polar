@@ -71,14 +71,6 @@ describe('plugin-routing', () => {
           setupModule(actionContext)
 
           expect(actionContext.commit).toHaveBeenCalledWith(
-            'setSelectableTravelModes',
-            ['car', 'bike']
-          )
-          expect(actionContext.commit).toHaveBeenCalledWith(
-            'setSelectablePreferences',
-            ['fastest', 'shortest']
-          )
-          expect(actionContext.commit).toHaveBeenCalledWith(
             'setDisplayPreferences',
             { avoidTolls: true }
           )
@@ -271,7 +263,7 @@ describe('plugin-routing', () => {
             dispatch: jest.fn().mockResolvedValue([9.6, 48.1]), // Beispiel: Umgewandelte Koordinaten in WGS84
             rootGetters: {
               configuration: {
-                routing: { serviceUrl: 'http://example.com', format: 'json' },
+                routing: { url: 'http://example.com', format: 'json' },
               },
             },
           }

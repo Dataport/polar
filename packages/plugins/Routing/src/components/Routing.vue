@@ -12,7 +12,6 @@
           v-model="route[index]"
           :label="$t(getRouteLabel(index))"
           :aria-label="$t(getRouteLabel(index))"
-          @input="search"
           @focus="setCurrentlyFocusedInput(index)"
         />
         <div>
@@ -121,7 +120,6 @@ export default Vue.extend({
     ...mapActions('plugin/routing', [
       'getRoute',
       'reset',
-      'search',
       'setCurrentlyFocusedInput',
     ]),
     ...mapMutations('plugin/routing', ['setRoute', 'updateShowSteps']),

@@ -495,32 +495,20 @@ export interface ReverseGeocoderConfiguration {
   zoomTo?: number
 }
 
-// TODO finish implementation, add effective changes to changelog
-// type selectableTravelModes = 'driving-car' | 'driving-hgv' | 'foot-walking' | 'cycling-regular'
-// type selectablePreferences = 'recommended' | 'fastest' | 'shortest'
-
-export interface RoutingSearchConfiguration {
-  method: string
-  result
-}
+export type SelectableTravelMode =
+  | 'driving-car'
+  | 'driving-hgv'
+  | 'cycling-regular'
+  | 'foot-walking'
+  | 'wheelchair'
 
 export interface RoutingConfiguration {
-  serviceUrl: string
+  format: 'json' | 'geojson' | 'gpx'
   type: 'ors'
-  format: 'geojson' | string
-  selectableTravelModes: string[]
-  selectablePreferences: string[]
-  displayPreferences: boolean
-  displayRouteTypesToAvoid: boolean
-  routeStyle: {
-    stroke: {
-      color: string
-      width: number
-    }
-  }
-  // TODO: Add proper configuration for the connection of search
-  // searchConfiguration:
-  searchMethod?: string
+  url: string
+  displayPreferences?: boolean
+  displayRouteTypesToAvoid?: boolean
+  selectableTravelModes?: SelectableTravelMode[]
 }
 
 /** Style of a toast */

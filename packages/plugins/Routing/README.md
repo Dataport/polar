@@ -3,16 +3,18 @@
 The Routing Plugin offers a routing functionality to the user.
 
 ## Scope
-The user can choose the start and endpoint of the route either with a click on the map, by entering coordinates or by entering an address. The User has to choose a travel mode and a preferred route before the request can be processed. The user can optionally choose a route type to avoid. The requested route is drawn on the map. The user can reset the form and clear the map at the same time. Once a route is requested by the user, a detailed listing of every route segment is available including instructions, distance and duration.
 
-This module has been written for the "BKG-Routing-Service" and uses the "Adressservice Hamburg" for the address search. The return format is custom and no other Services are currently supported. Please mind this when trying to use this plugin with any other routing or address search services. For usage with other services, those must either fit the current ones, or a generalization of this plugin is required.
+The user can choose the start and endpoint of the route either with a click on the map, by entering coordinates or by entering an address. The User has to choose a travel mode and a preferred route before the request can be processed. The user can optionally choose a route type to avoid. The requested route is drawn on the map. The user can reset the form and clear the map at the same time. Once a route is requested by the user, a detailed listing of every route segment is available including instructions, distance and duration.
 
 ## Configuration
 
+### routing
+
 | fieldName | type | description |
 | - | - | - |
-|serviceUrl|string|The url of the routing service to be used.|
-|format|string|The format in which the answer of the routing service is expected in.|
-|displayPreferences|bolean|Defines wether the preferences for the route are offered to the user for selection.|
-|displayRouteTypesToAvoid|boolean|Defines wether route types to avoid are offered to the user for selection.|
-| searchMethod | string? | Path of an action to call to search for addresses on input. Must accept a string as a payload. If not configured, only coordinates can be used for routing. |
+| format | 'json' \| 'geojson' \| 'gpx' | The format in which the answer of the routing service is expected in. |
+| type | 'ors' | The type of routing service to be used. Currently, only the [OpenRouteService](https://openrouteservice.org/) (`'ors'`) is implemented. |
+| url | string | The url of the routing service to be used. |
+| displayPreferences | boolean? | Defines whether the user can choose their route preference. Defaults to `false`. |
+| displayRouteTypesToAvoid | boolean? |Defines whether the user can select types of routes to avoid. Defaults to `false`. |
+| selectableTravelModes | string[]? | List of available travel modes. Accepts `'driving-car'`, `'driving-hgv'`, `'cycling-regular'`, `'foot-walking'` and `'wheelchair'`. Defaults to `['driving-car', 'cycling-regular', 'foot-walking']`. |

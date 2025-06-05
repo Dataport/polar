@@ -54,6 +54,7 @@ export default Vue.extend({
       'displayPreferences',
       'displayRouteTypesToAvoid',
       'selectableRouteTypesToAvoid',
+      'selectableTravelModes',
       'selectedPreference',
       'selectedRouteTypesToAvoid',
       'selectedTravelMode',
@@ -85,7 +86,7 @@ export default Vue.extend({
           translatedKey: 'plugins.routing.travelMode.wheelchair',
           icon: 'fa-wheelchair-move',
         },
-      ]
+      ].filter(({ key }) => this.selectableTravelModes.includes(key))
     },
 
     routeTypesToAvoidForSelectedProfile() {

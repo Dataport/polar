@@ -45,8 +45,14 @@ export const makeStoreModule = (): PolarModule<
       ),
     /* searchConfiguration: (_, getters) =>
       getters.configuration.searchConfiguration || null, */
+    selectableTravelModes: (_, { configuration }) =>
+      configuration.selectableTravelModes || [
+        'driving-car',
+        'cycling-regular',
+        'foot-walking',
+      ],
     url: (_, getters) =>
-      getters.configuration.serviceUrl +
+      getters.configuration.url +
       getters.selectedTravelMode +
       '/' +
       getters.configuration.format,

@@ -3,11 +3,7 @@ import { RoutingState } from '../types'
 export const getInitialState = (): RoutingState => ({
   currentlyFocusedInput: -1,
   route: [[], []],
-  selectedTravelMode: 'driving-car',
-  displayPreferences: false,
-  selectedPreference: 'recommended',
-  displayRouteTypesToAvoid: false,
-  selectedRouteTypesToAvoid: [],
+  routingResponseData: {},
   selectableRouteTypesToAvoid: [
     {
       key: 'highways',
@@ -22,7 +18,8 @@ export const getInitialState = (): RoutingState => ({
       locale: 'plugins.routing.avoidRoutes.ferries',
     },
   ],
-  routingResponseData: {},
+  selectedPreference: 'recommended',
+  selectedRouteTypesToAvoid: [],
+  selectedTravelMode: 'driving-car',
   showSteps: false,
-  searchResults: [],
 })
