@@ -37,7 +37,10 @@ async function fetchRoutingDirections(
  * @param sourceEpsg - The source EPSG code (e.g., "EPSG:3857").
  * @returns The transformed coordinate in WGS84 format.
  */
-function transformCoordinateToWGS84(coordinate: number[], sourceEpsg: string): number[] {
+function transformCoordinateToWGS84(
+  coordinate: number[],
+  sourceEpsg: string
+): number[] {
   if (!sourceEpsg) {
     throw new Error('Source EPSG code is required')
   }
