@@ -10,7 +10,7 @@ async function fetchRoutingDirections(
     method: 'POST',
     headers: {
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      'Content-Type': 'application/json', // eslint error has to be ignored since name is determined by "BKG Routing-Dienst"
+      'Content-Type': 'application/json', // eslint error has to be ignored since name is determined by ORS
     },
     body: JSON.stringify({
       coordinates: searchCoordinates,
