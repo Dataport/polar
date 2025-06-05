@@ -7,12 +7,13 @@
         :key="`polar-plugin-routing-route-container-${index}`"
         class="polar-plugin-routing-route-container"
       >
-        <!-- TODO: This should display the address if reverse geocoding is configured -->
         <v-text-field
+          :id="`polar-plugin-routing-input-${index}`"
           v-model="route[index]"
+          class="polar-plugin-routing-input"
           :label="$t(getRouteLabel(index))"
           :aria-label="$t(getRouteLabel(index))"
-          @focus="setCurrentlyFocusedInput(index)"
+          @focus="(e) => focusInput(e, index)"
         />
         <div>
           <v-btn
@@ -65,6 +66,7 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters('plugin/routing', [
+      'currentlyFocusedInput',
       'route',
       'routingResponseData',
       'searchResults',
@@ -109,6 +111,17 @@ export default Vue.extend({
       'setCurrentlyFocusedInput',
     ]),
     ...mapMutations('plugin/routing', ['setRoute', 'updateShowSteps']),
+    focusInput(e: FocusEvent, index: number) {
+      const previousIndex = this.currentlyFocusedInput
+      if (previousIndex !== -1) {
+        // @ts-expect-error | Type conversion is fine here as the querySelector method is monkeyPatched in core/Maaceeprt
+        ;(document.querySelector('[data-app]') as ShadowRoot)
+          .getElementById(`polar-plugin-routing-input-${previousIndex}`)
+          ?.classList.remove('polar-plugin-routing-input-focused')
+      }
+      e.currentTarget.classList.add('polar-plugin-routing-input-focused')
+      this.setCurrentlyFocusedInput(index)
+    },
     getRouteLabel(index: number) {
       return `plugins.routing.label.${
         index === 0
@@ -148,5 +161,13 @@ export default Vue.extend({
       width: 47.5%;
     }
   }
+}
+
+.polar-plugin-routing-input {
+  border: solid transparent;
+}
+
+.polar-plugin-routing-input-focused {
+  border: solid var(--polar-primary);
 }
 </style>
