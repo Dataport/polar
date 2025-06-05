@@ -17,7 +17,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
   /**
    * Initializes the tool by updating the state from mapConfig and by setting up the draw layer and click event listener.
    */
-  setupModule({ rootGetters, getters: { configuration }, commit, dispatch }) {
+  setupModule({ rootGetters, dispatch }) {
     routeLayer = new VectorLayer({
       source: routeSource,
       style: new Style({
