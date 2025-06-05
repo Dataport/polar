@@ -5,8 +5,8 @@
         v-for="mode in travelModes"
         :key="mode.key"
         :value="mode.key"
-        :label="mode.translatedKey"
-        :aria-label="mode.translatedKey"
+        :label="$t(mode.translatedKey)"
+        :aria-label="$t(mode.translatedKey)"
         style="border: solid medium transparent !important"
       >
         <v-icon>{{ mode.icon }}</v-icon>
