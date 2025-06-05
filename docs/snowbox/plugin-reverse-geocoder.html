@@ -85,9 +85,7 @@
 <pre><code class="language-js">// result contains the resolved address (exact format depends on WPS)
 const result = await map.$store.dispatch(
   'plugin/reverseGeocoder/reverseGeocode',
-  {
-    coordinate, // [number, number]
-  }
+  coordinate, // [number, number]
 )
 </code></pre>
 
