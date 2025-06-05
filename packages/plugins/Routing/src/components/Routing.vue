@@ -33,20 +33,6 @@
           </v-btn>
         </div>
       </div>
-      <v-list v-if="false" class="dropdown">
-        <v-list-item
-          v-for="(result, index) in searchResults"
-          :key="index"
-          @click="selectEnd(result)"
-        >
-          <span>
-            {{ result.strassenname }}
-            <template v-if="result.hausnummer">
-              {{ result.hausnummer }}
-            </template>
-          </span>
-        </v-list-item>
-      </v-list>
       <RoutingOptions />
       <div id="polar-plugin-routing-button-group">
         <v-btn :aria-label="$t('plugins.routing.resetButton')" @click="reset">
@@ -162,12 +148,5 @@ export default Vue.extend({
       width: 47.5%;
     }
   }
-}
-
-.dropdown {
-  max-height: 300px;
-  overflow-y: auto; /* enables scrolling */
-  border: 1px solid #ccc;
-  background-color: #fff;
 }
 </style>
