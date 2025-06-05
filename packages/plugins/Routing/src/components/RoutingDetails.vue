@@ -1,18 +1,14 @@
 <template>
   <div
     v-if="showSteps && Object.keys(routingResponseData).length !== 0"
-    class="details-container"
+    class="polar-plugin-routing-details-container"
   >
     {{ $t('plugins.routing.duration') }}
-    {{ formatDuration(searchResponseTotalValues[0].duration) }} &nbsp;
+    {{ formatDuration(duration) }} &nbsp;
     {{ $t('plugins.routing.distance') }}
-    {{ formatDistance(searchResponseTotalValues[0].distance) }}
-    <v-list
-      v-for="(step, i) in searchResponseSegments"
-      :key="i"
-      class="detail-list"
-    >
-      <v-list-item>
+    {{ formatDistance(distance) }}
+    <v-list class="polar-plugin-routing-detail-list">
+      <v-list-item v-for="(step, i) in steps" :key="i">
         <v-list-item-content>
           <v-list-item-title>
             {{ step['instruction'] }}
@@ -37,15 +33,17 @@ export default Vue.extend({
   name: 'RoutingDetails',
   computed: {
     ...mapGetters('plugin/routing', ['routingResponseData', 'showSteps']),
-    searchResponseSegments: {
-      get(): object {
-        return this.routingResponseData.features[0].properties.segments[0].steps
-      },
+    distance() {
+      return this.segments.reduce((acc, segment) => acc + segment.distance, 0)
     },
-    searchResponseTotalValues: {
-      get(): object {
-        return this.routingResponseData.features[0].properties.segments
-      },
+    duration() {
+      return this.segments.reduce((acc, segment) => acc + segment.duration, 0)
+    },
+    segments() {
+      return this.routingResponseData.features[0].properties.segments
+    },
+    steps() {
+      return this.segments.flatMap((segment) => segment.steps)
     },
   },
   methods: {
@@ -68,13 +66,13 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.details-container {
+.polar-plugin-routing-details-container {
   max-height: 300px;
   overflow-y: auto; /* enables scrolling */
   padding-top: 10px;
   text-align: center;
 }
-.detail-list {
+.polar-plugin-routing-detail-list {
   text-align: left;
 }
 </style>
