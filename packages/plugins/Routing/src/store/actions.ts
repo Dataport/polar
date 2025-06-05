@@ -124,7 +124,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
     routeSource.clear()
   },
   /**
-   * Resets the selected coordinates and search settings.
+   * Resets the selected coordinates and routing settings.
    */
   reset({ commit, dispatch }) {
     commit('resetRoute')
