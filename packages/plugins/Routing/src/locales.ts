@@ -26,7 +26,7 @@ export const resourcesDe = {
         wheelchair: 'Rollstuhl',
       },
       preference: {
-        recommended: 'Empfohlene',
+        recommended: 'Empfohlen',
         fastest: 'Schnellste',
         shortest: 'Kürzeste',
       },

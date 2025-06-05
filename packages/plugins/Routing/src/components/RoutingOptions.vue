@@ -17,9 +17,12 @@
       v-model="selectedPreferenceItem"
       :label="$t('plugins.routing.label.preference')"
       :aria-label="$t('plugins.routing.label.preference')"
-      :items="preferences"
-      item-value="key"
-      item-text="translatedKey"
+      :items="
+        ['recommended', 'fastest', 'shortest'].map((value) => ({
+          value,
+          text: $t(`plugins.routing.preference.${value}`),
+        }))
+      "
       @keydown.prevent.stop="noop"
     />
     <div v-if="displayRouteTypesToAvoid">
@@ -55,37 +58,31 @@ export default Vue.extend({
       'selectedRouteTypesToAvoid',
       'selectedTravelMode',
     ]),
-    preferences() {
-      return ['recommended', 'fastest', 'shortest'].map((key) => ({
-        key,
-        translatedKey: t(`plugins.routing.preference.${key}`),
-      }))
-    },
     travelModes() {
       return [
         {
           key: 'driving-car',
-          translatedKey: t('plugins.routing.travelMode.car'),
+          translatedKey: 'plugins.routing.travelMode.car',
           icon: 'fa-car',
         },
         {
           key: 'driving-hgv',
-          translatedKey: t('plugins.routing.travelMode.hgv'),
+          translatedKey: 'plugins.routing.travelMode.hgv',
           icon: 'fa-truck',
         },
         {
           key: 'cycling-regular',
-          translatedKey: t('plugins.routing.travelMode.bike'),
+          translatedKey: 'plugins.routing.travelMode.bike',
           icon: 'fa-person-biking',
         },
         {
           key: 'foot-walking',
-          translatedKey: t('plugins.routing.travelMode.walking'),
+          translatedKey: 'plugins.routing.travelMode.walking',
           icon: 'fa-person-walking',
         },
         {
           key: 'wheelchair',
-          translatedKey: t('plugins.routing.travelMode.wheelchair'),
+          translatedKey: 'plugins.routing.travelMode.wheelchair',
           icon: 'fa-wheelchair-move',
         },
       ]
