@@ -20,7 +20,8 @@
       :items="preferences"
       item-value="key"
       item-text="translatedKey"
-    ></v-select>
+      @keydown.prevent.stop="noop"
+    />
     <div v-if="displayRouteTypesToAvoid">
       <p>{{ $t('plugins.routing.avoidRoutesTitle') }}</p>
       <div class="polar-routing-checkbox-container">
@@ -38,6 +39,7 @@
 </template>
 
 <script lang="ts">
+import noop from '@repositoryname/noop'
 import { t } from 'i18next'
 import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
@@ -136,6 +138,7 @@ export default Vue.extend({
       'setSelectedPreference',
       'setSelectedRouteTypesToAvoid',
     ]),
+    noop,
     translatedRouteTypeToAvoid(myKey: string) {
       return this.selectableRouteTypesToAvoid.find(
         (element) => element.key === myKey
