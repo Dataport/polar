@@ -1,9 +1,10 @@
+import { FeatureCollection } from 'geojson'
 import { RoutingState } from '../types'
 
 export const getInitialState = (): RoutingState => ({
   currentlyFocusedInput: -1,
   route: [[], []],
-  routingResponseData: {},
+  routingResponseData: {} as FeatureCollection,
   selectableRouteTypesToAvoid: [
     {
       key: 'highways',
