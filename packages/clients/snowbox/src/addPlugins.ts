@@ -52,7 +52,11 @@ export const addPlugins = (core) => {
         id: 'geoLocation',
       },
       {
-        plugin: Routing({}),
+        plugin: Routing({
+          url: 'https://api.openrouteservice.org/v2/directions/',
+          format: 'geojson',
+          type: 'ors',
+        }),
         icon: 'fa-route',
         id: 'routing',
       },

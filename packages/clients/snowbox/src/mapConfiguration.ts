@@ -296,9 +296,6 @@ export const mapConfiguration = {
     },
   },
   routing: {
-    url: 'https://api.openrouteservice.org/v2/directions/',
-    format: 'geojson',
-    type: 'ors',
     displayPreferences: true,
     displayRouteTypesToAvoid: true,
   },
