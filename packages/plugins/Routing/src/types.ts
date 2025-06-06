@@ -3,7 +3,7 @@ import type {
   SelectableTravelMode,
 } from '@polar/lib-custom-types'
 import { type Coordinate } from 'ol/coordinate'
-import { FeatureCollection } from 'geojson'
+import { FeatureCollection, LineString } from 'geojson'
 
 type SelectablePreference = 'recommended' | 'fastest' | 'shortest'
 
@@ -15,7 +15,7 @@ interface Selectable {
 export interface RoutingState {
   currentlyFocusedInput: number
   route: Coordinate[]
-  routingResponseData: FeatureCollection
+  routingResponseData: FeatureCollection<LineString>
   selectableRouteTypesToAvoid: Selectable[]
   selectedPreference: SelectablePreference
   selectedRouteTypesToAvoid: string[]

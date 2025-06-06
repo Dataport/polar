@@ -110,7 +110,7 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
    */
   drawRoute({ getters }) {
     const transformedCoordinates =
-      getters.routingResponseData?.features[0].geometry.coordinates.map(
+      getters.routingResponseData.features[0].geometry.coordinates.map(
         (coordinate) => transform(coordinate, 'EPSG:4326', 'EPSG:25832')
       )
     const routeLineString = new LineString(transformedCoordinates)
