@@ -18,7 +18,7 @@ Once a route is available, a detailed listing of every route segment is availabl
 
 | fieldName | type | description |
 | - | - | - |
-| format | 'json' \| 'geojson' \| 'gpx' | The format in which the answer of the routing service is expected in. |
+| format | 'geojson' | The format in which the answer of the routing service is expected in. The OpenRouteService also support `'json'` and `'gpx'`, which are currently not supported. |
 | type | 'ors' | The type of routing service to be used. Currently, only the [OpenRouteService](https://openrouteservice.org/) (`'ors'`) is implemented. |
 | url | string | The url of the routing service to be used. |
 | displayPreferences | boolean? | Defines whether the user can choose their route preference. Defaults to `false`. |
