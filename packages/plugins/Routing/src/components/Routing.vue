@@ -12,7 +12,11 @@
           v-model="route[index]"
           class="polar-plugin-routing-input"
           :label="$t(getRouteLabel(index))"
-          :aria-label="$t(getRouteLabel(index))"
+          :aria-label="
+            $t('plugins.routing.label.aria', {
+              position: $t(getRouteLabel(index)),
+            })
+          "
           @focus="(e) => focusInput(e, index)"
         />
         <div>

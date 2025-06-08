@@ -9,6 +9,7 @@ export const resourcesDe = {
         openTitle: 'Routenplanung öffnen',
       },
       label: {
+        aria: 'Durch Klicken in die Karte eine Koordinate als {{position}} auswählen.',
         start: 'Startadresse',
         middle: 'Wegpunkt',
         end: 'Zieladresse',
@@ -53,6 +54,7 @@ export const resourcesEn = {
         openTitle: 'Show rooting tool',
       },
       label: {
+        aria: 'Add a coordinate as {{position}} by clicking in the map.',
         start: 'Start Address',
         middle: 'Waypoint',
         end: 'Destination Address',
