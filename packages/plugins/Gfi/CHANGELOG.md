@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Extend detection if a `Draw`-interaction is currently active to also check for `@polar/plugin-routing`.
 - Fix: When using the gfi with `renderType` set to `'independent'` the window was not added to the MoveHandle to be displayed on mobile devices. Also, the closeIcon was incorrectly set if `ƒeatureList` was configured. This has been fixed by watching for changes to `windowFeatures`.
 
 ## 3.0.2
