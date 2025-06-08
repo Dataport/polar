@@ -10,6 +10,8 @@ export const resourcesDe = {
       },
       label: {
         aria: 'Durch Klicken in die Karte eine Koordinate als {{position}} auswählen.',
+        add: 'Wegpunkt hinzufügen',
+        remove: 'Wegpunkt entfernen',
         start: 'Startadresse',
         middle: 'Wegpunkt',
         end: 'Zieladresse',
@@ -55,6 +57,8 @@ export const resourcesEn = {
       },
       label: {
         aria: 'Add a coordinate as {{position}} by clicking in the map.',
+        add: 'Add waypoint',
+        remove: 'Remove waypoint',
         start: 'Start Address',
         middle: 'Waypoint',
         end: 'Destination Address',

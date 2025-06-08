@@ -24,6 +24,7 @@
             icon
             small
             :disabled="addWaypointButtonDisabled"
+            :aria-label="$t('plugins.routing.label.add')"
             @click="setRoute({ index })"
           >
             <v-icon small>fa-plus</v-icon>
@@ -32,6 +33,7 @@
             icon
             small
             :disabled="route.length === 2"
+            :aria-label="$t('plugins.routing.label.remove')"
             @click="setRoute({ index, remove: true })"
           >
             <v-icon small>fa-minus</v-icon>
