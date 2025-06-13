@@ -179,7 +179,6 @@ describe('plugin-routing', () => {
           // @ts-ignore
           await getRoute(actionContext)
 
-          // Erwartung: fetch wird korrekt aufgerufen
           expect(fetch).toHaveBeenCalledWith(
             'http://example.com/driving-car/json',
             {
