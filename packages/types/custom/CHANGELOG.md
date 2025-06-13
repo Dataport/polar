@@ -4,6 +4,7 @@
 
 - Feature: Add new interface `PointerPositionConfiguration` and `PointerPositionProjection` for new plugin `@polar/plugin-pointer-position`, and add `PointerPositionConfiguration` as an optional entry of `MapConfig`.
 - Feature: Add `DrawRevision` to `DrawConfiguration`, including the nested `DrawMetaService`.
+- Feature: Add new interface `RoutingConfiguration` and type `SelectableTravelMode` for new plugin `@polar/plugin-routing`, and add `RoutingConfiguration` as an optional entry of `MapConfig`.
 
 ## 2.1.0
 
