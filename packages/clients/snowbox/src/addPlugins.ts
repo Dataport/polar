@@ -53,6 +53,8 @@ export const addPlugins = (core) => {
       },
       {
         plugin: Routing({
+          // Will be set later
+          apiKey: '',
           url: 'https://api.openrouteservice.org/v2/directions/',
           format: 'geojson',
           type: 'ors',
