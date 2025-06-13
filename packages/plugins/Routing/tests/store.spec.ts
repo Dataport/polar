@@ -142,6 +142,9 @@ describe('plugin-routing', () => {
             commit,
             dispatch,
             getters: {
+              configuration: {
+                apiKey: 'my-secure-key',
+              },
               url: 'http://example.com/driving-car/json',
               routeAsWGS84: [
                 [19.6, 48.1],
@@ -184,8 +187,10 @@ describe('plugin-routing', () => {
             {
               method: 'POST',
               headers: {
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                'Content-Type': 'application/json', // eslint error has to be ignored since name is determined by ORS
+                /* eslint-disable @typescript-eslint/naming-convention */
+                'Content-Type': 'application/json',
+                Authorization: 'my-secure-key',
+                /* eslint-enable @typescript-eslint/naming-convention */
               },
               body: JSON.stringify({
                 coordinates: [

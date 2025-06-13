@@ -11,7 +11,7 @@ async function fetchRoutingDirections(
     method: 'POST',
     headers: {
       /* eslint-disable @typescript-eslint/naming-convention */
-      'Content-Type': 'application/json', // eslint error has to be ignored since name is determined by ORS
+      'Content-Type': 'application/json',
       Authorization: apiKey,
       /* eslint-enable @typescript-eslint/naming-convention */
     },
