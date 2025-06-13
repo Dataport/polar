@@ -96,7 +96,8 @@ const actions: PolarActionTree<RoutingState, RoutingGetters> = {
         getters.url,
         getters.routeAsWGS84,
         state.selectedRouteTypesToAvoid,
-        state.selectedPreference
+        state.selectedPreference,
+        getters.configuration.apiKey
       )
       const data = await response.json()
       commit('setRoutingResponseData', data)

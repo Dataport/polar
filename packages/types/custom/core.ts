@@ -503,6 +503,7 @@ export type SelectableTravelMode =
   | 'wheelchair'
 
 export interface RoutingConfiguration {
+  apiKey: string
   format: 'geojson'
   type: 'ors'
   url: string

@@ -4,13 +4,16 @@ async function fetchRoutingDirections(
   url: string,
   searchCoordinates: number[][],
   selectedRouteTypesToAvoid: string[],
-  selectedPreference: string
+  selectedPreference: string,
+  apiKey: string
 ) {
   const response = await fetch(url, {
     method: 'POST',
     headers: {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
+      /* eslint-disable @typescript-eslint/naming-convention */
       'Content-Type': 'application/json', // eslint error has to be ignored since name is determined by ORS
+      Authorization: apiKey,
+      /* eslint-enable @typescript-eslint/naming-convention */
     },
     body: JSON.stringify({
       coordinates: searchCoordinates,
