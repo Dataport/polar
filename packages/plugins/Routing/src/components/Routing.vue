@@ -141,6 +141,16 @@ export default Vue.extend({
 })
 </script>
 
+<style lang="scss">
+.polar-plugin-routing-input {
+  border: solid transparent;
+}
+
+.polar-plugin-routing-input-focused {
+  border: solid var(--polar-primary);
+}
+</style>
+
 <style lang="scss" scoped>
 #polar-plugin-routing-card {
   display: flex;
@@ -167,13 +177,5 @@ export default Vue.extend({
       width: 47.5%;
     }
   }
-}
-
-.polar-plugin-routing-input {
-  border: solid transparent;
-}
-
-.polar-plugin-routing-input-focused {
-  border: solid var(--polar-primary);
 }
 </style>
