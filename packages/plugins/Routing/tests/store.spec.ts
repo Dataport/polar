@@ -199,7 +199,6 @@ describe('plugin-routing', () => {
                 ],
                 geometry: true,
                 instructions: true,
-                language: 'en',
                 options: {
                   avoid_features: ['tollways'],
                 },
