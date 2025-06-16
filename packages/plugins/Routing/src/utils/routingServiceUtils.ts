@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { transform } from 'ol/proj'
 
 async function fetchRoutingDirections(
@@ -19,7 +20,7 @@ async function fetchRoutingDirections(
       coordinates: searchCoordinates,
       geometry: true,
       instructions: true,
-      language: 'en',
+      language: i18next.language,
       options: {
         avoid_features: selectedRouteTypesToAvoid,
       },
