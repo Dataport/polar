@@ -15,7 +15,7 @@
     </transition>
     <div
       ref="polar-map-container"
-      class="polar-map"
+      class="polar-map already-migrated"
       tabindex="0"
       role="region"
       :aria-label="$t('canvas.label')"

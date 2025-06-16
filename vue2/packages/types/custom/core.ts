@@ -1,5 +1,4 @@
 import { Feature, Map } from 'ol'
-import { Resource } from 'i18next'
 import { Options as Fill } from 'ol/style/Fill'
 import { Options as Stroke } from 'ol/style/Stroke'
 import { type Options as TextOptions } from 'ol/style/Text'
@@ -538,12 +537,6 @@ export interface ZoomConfiguration extends PluginOptions {
   renderType?: RenderType
   showMobile?: boolean
   showZoomSlider?: boolean
-}
-
-export interface Locale {
-  resources: Resource
-  /** Language key as described in the i18next documentation */
-  type: string
 }
 
 export interface PluginContainer {

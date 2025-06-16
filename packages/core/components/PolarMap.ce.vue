@@ -31,9 +31,10 @@ function demo () {
 		ref="polar-map-container"
 		tabindex="0"
 		role="region"
+		:aria-label="$t('canvas.label')"
 	)
 	KolButton(
-		_label="Demo"
+		:_label="$t('canvas.label')"
 		@click="demo"
 	)
 </template>
