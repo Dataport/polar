@@ -1,0 +1,22 @@
+{
+	"name": "polar",
+	"description": "masterportalAPI-based map client library",
+	"author": "Dataport AöR <polar@dataport.de>",
+	"license": "EUPL-1.2",
+	"type": "module",
+	"engines": {
+		"node": "^22.16.0",
+		"npm": "^10.9.2"
+	},
+	"scripts": {
+		"lint": "eslint --cache .",
+		"lint:ci": "eslint .",
+		"lint:fix": "npm run lint -- --fix",
+		"tsc:ci": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"@dataport/eslint-config-geodev": "^0.3.1",
+		"eslint": "^9.29.0",
+		"typescript": "~5.8.3"
+	}
+}
