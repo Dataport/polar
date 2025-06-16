@@ -1,31 +1,21 @@
 <script setup lang="ts">
-import { onMounted, useTemplateRef } from 'vue'
+import { onMounted, useHost, useTemplateRef } from 'vue'
 import api from '@masterportal/masterportalapi/src/maps/api'
 
 const polarMapContainer = useTemplateRef('polar-map-container')
 
-const basemapId = '23420'
-const basemapGreyId = '23421'
-
-onMounted(() => {
+function init(config) {
 	const map = api.map.createMap({
 		target: polarMapContainer.value,
-		layers: [
-			{
-				id: basemapId,
-				visibility: true,
-				type: 'background',
-				name: 'snowbox.layers.basemap',
-			},
-			{
-				id: basemapGreyId,
-				type: 'background',
-				name: 'snowbox.layers.basemapGrey',
-			},
-		],
+		...config,
 	}, '2D', {
 		mapParams: {},
 	})
+}
+
+onMounted(() => {
+	const host = useHost()
+	host.init = init
 })
 </script>
 
