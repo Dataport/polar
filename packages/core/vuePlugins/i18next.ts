@@ -6,6 +6,8 @@ import locales from '../locales'
 
 export const I18Next: Plugin = {
 	async install (app, options: { initialLanguage?: string } = {}) {
+		app.use(I18NextVue, { i18next })
+
 		const supportedLngs = locales.map(({ type }) => type)
 
 		i18next.use(LanguageDetector)
@@ -25,7 +27,5 @@ export const I18Next: Plugin = {
 			supportedLngs,
 			...(options.initialLanguage ? { lng: options.initialLanguage } : {}),
 		})
-
-		app.use(I18NextVue, { i18next })
 	},
 }
