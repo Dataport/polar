@@ -17,6 +17,12 @@ onMounted(() => {
 	const host = useHost()
 	host.init = init
 })
+
+import { KolButton } from '@public-ui/vue'
+
+function demo() {
+	console.log('Button clicked')
+}
 </script>
 
 <template lang="pug">
@@ -25,6 +31,10 @@ onMounted(() => {
 		ref="polar-map-container"
 		tabindex="0"
 		role="region"
+	)
+	KolButton(
+		_label="Demo"
+		@click="demo"
 	)
 </template>
 

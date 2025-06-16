@@ -9,7 +9,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
 	plugins: [
-		vue(),
+		vue({
+			template: {
+				compilerOptions: {
+					isCustomElement: (tag) => tag.includes('-'),
+				},
+			},
+		}),
 	],
 	build: {
 		lib: {

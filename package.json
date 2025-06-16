@@ -24,6 +24,9 @@
 	},
 	"dependencies": {
 		"@masterportal/masterportalapi": "2.49.0",
+		"@public-ui/components": "^3.0.0",
+		"@public-ui/themes": "^3.0.0",
+		"@public-ui/vue": "^3.0.0",
 		"buffer": "^6.0.3",
 		"events": "^3.3.0",
 		"patch-package": "^8.0.0",
