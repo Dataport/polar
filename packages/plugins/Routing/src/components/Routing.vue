@@ -71,6 +71,7 @@ export default Vue.extend({
     RoutingOptions,
   },
   computed: {
+    ...mapGetters(['language']),
     ...mapGetters('plugin/routing', [
       'currentlyFocusedInput',
       'route',
@@ -91,6 +92,11 @@ export default Vue.extend({
     },
   },
   watch: {
+    language() {
+      if (!this.routeIncomplete) {
+        this.getRoute()
+      }
+    },
     route() {
       if (!this.routeIncomplete) {
         this.getRoute()
