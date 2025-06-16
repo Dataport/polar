@@ -4,7 +4,7 @@ import { register } from '@public-ui/components'
 import { DEFAULT } from '@public-ui/themes'
 
 export const ComponentLibrary: Plugin = {
-	async install() {
+	async install () {
 		await register(DEFAULT, defineCustomElements)
 	},
 }

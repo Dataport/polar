@@ -2,9 +2,11 @@
 import { onMounted, useHost, useTemplateRef } from 'vue'
 import api from '@masterportal/masterportalapi/src/maps/api'
 
+import { KolButton } from '@public-ui/vue'
+
 const polarMapContainer = useTemplateRef('polar-map-container')
 
-function init(config) {
+function init (config) {
 	const map = api.map.createMap({
 		target: polarMapContainer.value,
 		...config,
@@ -18,9 +20,7 @@ onMounted(() => {
 	host.init = init
 })
 
-import { KolButton } from '@public-ui/vue'
-
-function demo() {
+function demo () {
 	console.log('Button clicked')
 }
 </script>

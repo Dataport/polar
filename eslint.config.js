@@ -4,6 +4,7 @@ import browserConfig from '@dataport/eslint-config-geodev/browser'
 import tsConfig from '@dataport/eslint-config-geodev/typescript'
 import vueConfig from '@dataport/eslint-config-geodev/vue'
 import tseslint from 'typescript-eslint'
+import vueTsEslintConfig from '@vue/eslint-config-typescript'
 
 export default defineConfig([
 	{
@@ -48,6 +49,6 @@ export default defineConfig([
 					extraFileExtensions: ['.vue'],
 				},
 			},
-		}],
+		}, vueTsEslintConfig()],
 	},
 ])
