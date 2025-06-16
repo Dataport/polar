@@ -56,7 +56,6 @@
     "@types/geojson": "^7946.0.8",
     "diplanung-style": "^13.0.0",
     "just-compare": "^2.3.0",
-    "lodash.debounce": "^4.0.8",
     "lodash.merge": "^4.6.2"
   },
   "nx": {

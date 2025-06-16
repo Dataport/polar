@@ -1,5 +1,12 @@
-import { Feature, FeatureCollection, GeoJsonTypes } from 'geojson'
-import { GeometryType } from '../../types'
+import {
+  Feature,
+  FeatureCollection,
+  GeoJsonTypes,
+  Geometry,
+  GeometryCollection,
+} from 'geojson'
+
+type GeometryType = Exclude<Geometry, GeometryCollection>
 
 const isMulti = (type: GeometryType['type']) => type.startsWith('Multi')
 const multi = (type: GeometryType['type']) =>
@@ -48,7 +55,7 @@ export const mergeToMultiGeometries = (
         accumulator[bin].push(current)
       } else {
         console.warn(
-          `@polar/client-diplan: Unsupported geometry input "${current.geometry.type}" in multi geometry merge skipped.`
+          `@polar/plugin-draw: Unsupported geometry input "${current.geometry.type}" in multi geometry merge skipped.`
         )
       }
       return accumulator

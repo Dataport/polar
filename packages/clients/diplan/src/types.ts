@@ -1,11 +1,5 @@
-import { Mode } from '@polar/plugin-draw'
-import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
-
-export interface MetaService {
-  id: string
-  propertyNames?: string[]
-  aggregationMode?: 'unequal' | 'all'
-}
+import type { Mode } from '@polar/plugin-draw'
+import type { FeatureCollection } from 'geojson'
 
 export type DrawExtension = 'cut' | 'duplicate' | 'merge'
 export type ExtendedDrawMode = Mode | DrawExtension
@@ -29,10 +23,7 @@ interface LinkConfig {
 
 export interface DiplanConfiguration {
   link: LinkConfig
-  mergeToMultiGeometries?: boolean
-  validateGeoJson?: boolean
   renderType?: 'iconMenu' | 'independent'
-  metaServices?: MetaService[]
 }
 
 export interface DiplanState {
@@ -46,5 +37,3 @@ export interface DiplanGetters extends DiplanState {
   configuration: Required<DiplanConfiguration>
   activeDrawMode: ExtendedDrawMode
 }
-
-export type GeometryType = Exclude<Geometry, GeometryCollection>

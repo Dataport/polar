@@ -216,6 +216,7 @@ export interface DrawConfiguration extends Partial<PluginOptions> {
 
 export interface DrawRevision {
   autofix?: boolean
+  mergeToMultiGeometries?: boolean
   metaServices?: DrawMetaService[]
   validate?: boolean
 }

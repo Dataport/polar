@@ -3,7 +3,6 @@ import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import debounce from 'lodash.debounce'
 import { Mode } from '@polar/plugin-draw'
 import {
   DiplanGetters,
@@ -11,7 +10,6 @@ import {
   ExtendedDrawMode,
   GeoEditingMode,
 } from '../types'
-import { drawFeatureCollectionSource, updateState } from './updateState'
 
 const getInitialState = (): DiplanState => ({
   drawMode: null,
@@ -28,13 +26,6 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
   namespaced: true,
   state: getInitialState(),
   actions: {
-    setupModule({ dispatch, rootGetters }) {
-      const debouncedUpdate = debounce(() => dispatch('updateState'), 50)
-      this.watch(
-        () => rootGetters[drawFeatureCollectionSource],
-        debouncedUpdate
-      )
-    },
     async trigger({ commit, dispatch }, mode: GeoEditingMode | 'reset') {
       commit('setDrawMode', null)
       dispatch('plugin/draw/setMode', 'none', { root: true })
@@ -63,7 +54,6 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
         dispatch('plugin/draw/setMode', 'delete', { root: true })
       }
     },
-    updateState,
     updateDrawMode({ dispatch, commit }, drawMode) {
       // always reset draw plugin before starting something
       dispatch('plugin/draw/setMode', 'none', { root: true })
@@ -76,9 +66,6 @@ const diplanModule: PolarModule<DiplanState, DiplanGetters> = {
   getters: {
     ...generateSimpleGetters(getInitialState()),
     configuration: (_, __, ___, rootGetters) => ({
-      mergeToMultiGeometries: false,
-      validateGeometries: true,
-      metaServices: [],
       renderType: 'iconMenu',
       // @ts-expect-error | local override for client
       ...(rootGetters.configuration?.diplan || {}),

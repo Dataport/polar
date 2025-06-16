@@ -12,18 +12,6 @@ export default {
   extent: [
     248651.73157077, 5227198.20287631, 928366.12236557, 6118661.62507136,
   ],
-  // diplan-specific configuration example (see API.md)
-  diplan: {
-    mergeToMultiGeometries: true,
-    validateGeoJson: true,
-    metaServices: [
-      {
-        id: flurstuecke,
-        propertyNames: ['land', 'gemarkung', 'regbezirk', 'kreis', 'gemeinde'],
-        aggregationMode: 'unequal',
-      },
-    ],
-  },
   // general POLAR parameters
   locales: [
     {
@@ -157,6 +145,24 @@ export default {
         id: xplanwfs,
       },
     ],
+    revision: {
+      autofix: true,
+      mergeToMultiGeometries: true,
+      metaServices: [
+        {
+          id: flurstuecke,
+          propertyNames: [
+            'land',
+            'gemarkung',
+            'regbezirk',
+            'kreis',
+            'gemeinde',
+          ],
+          aggregationMode: 'unequal',
+        },
+      ],
+      validate: true,
+    },
     measureOptions: {
       metres: true,
       kilometres: true,

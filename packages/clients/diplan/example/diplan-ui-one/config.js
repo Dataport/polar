@@ -25,15 +25,6 @@ export default {
       icon: '$vuetify.icons.fullscreen-exit',
       label: 'diplan.linkButton.label',
     },
-    mergeToMultiGeometries: true,
-    validateGeoJson: true,
-    metaServices: [
-      {
-        id: flurstuecke,
-        propertyNames: ['land', 'gemarkung', 'regbezirk', 'kreis', 'gemeinde'],
-        aggregationMode: 'unequal',
-      },
-    ],
   },
   // general POLAR parameters
   locales: [
@@ -221,6 +212,24 @@ export default {
         id: xplanwfs,
       },
     ],
+    revision: {
+      autofix: true,
+      mergeToMultiGeometries: true,
+      metaServices: [
+        {
+          id: flurstuecke,
+          propertyNames: [
+            'land',
+            'gemarkung',
+            'regbezirk',
+            'kreis',
+            'gemeinde',
+          ],
+          aggregationMode: 'unequal',
+        },
+      ],
+      validate: true,
+    },
     snapTo: [xplanwfs, flurstuecke],
     style: {
       fill: { color: 'rgb(51 117 212 / 50%)' },

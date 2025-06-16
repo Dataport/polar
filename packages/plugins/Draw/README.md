@@ -128,6 +128,7 @@ font: {
 | fieldName | type | description |
 | - | - | - |
 | autofix | boolean? | If `true`, an automatic attempt at repairing the given geometries is executed regarding fulfillment of the OGC Simple Feature Specification (part of [SFA](https://www.ogc.org/de/publications/standard/sfa/)). Defaults to `false`. |
+| mergeToMultiGeometries | boolean? | Defaults to `false`. If `true`, the exported FeatureCollection in getter `revisedFeatureCollection` will have merged geometries; that is, instead of Points, Lines, and Polygons, only MultiPoints, MultiLines, and MultiPolygons will be featured, created by merging the features of their respective geometry. All geometry types that are enabled may occur. This step is executed before geometry validation and meta service usage. |
 | metaServices | metaService[]? | Specification of meta services that are requested with the spatial position of each geometry. |
 | validate | boolean? | If `true`, a `sfaValidity` flag is added to each feature's attributes that indicates whether the geometry is valid respective the OGC Simple Feature Specification (part of [SFA](https://www.ogc.org/de/publications/standard/sfa/)). This will override any other `sfaValidity` property. Defaults to `false`. |
 
@@ -140,6 +141,70 @@ font: {
 | propertyNames | string[]? | Names of the properties to build aggregations from. If left undefined, all found properties will be used. |
 
 From all geometries of the service intersecting our geometries, properties are aggregated.
+
+Example: Our drawing feature touches these features in the layer with id `"metaSourceExampleId"`:
+
+```json
+{
+  "type": "Feature",
+  "geometry": "...",
+  "properties": { "a": 0, "b": 0 }
+},
+{
+  "type": "Feature",
+  "geometry": "...",
+  "properties": { "a": 0, "b": 1 }
+},
+{
+  "type": "Feature",
+  "geometry": "...",
+  "properties": { "a": 0, "b": 1 }
+},
+{
+  "type": "Feature",
+  "geometry": "...",
+  "properties": { "a": 1, "b": 1 }
+}
+```
+
+The feature will then have the following properties:
+
+In mode `'unequal'`:
+
+```json
+{
+  "type": "Feature",
+  "geometry": "...",
+  "properties": {
+    "metaProperties": {
+      "metaSourceExampleId": [
+        { "a": 0, "b": 0 },
+        { "a": 0, "b": 1 },
+        { "a": 1, "b": 1 }
+      ]
+    }
+  }
+}
+```
+
+In mode `'all'`:
+
+```json
+{
+  "type": "Feature",
+  "geometry": "...",
+  "properties": {
+    "metaProperties": {
+      "metaSourceExampleId": [
+        { "a": 0, "b": 0 },
+        { "a": 0, "b": 1 },
+        { "a": 0, "b": 1 },
+        { "a": 1, "b": 1 }
+      ]
+    }
+  }
+}
+```
 
 #### draw.style (by example)
 
