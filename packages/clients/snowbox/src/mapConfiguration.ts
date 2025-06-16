@@ -295,6 +295,10 @@ export const mapConfiguration = {
       fill: '#ff0019',
     },
   },
+  routing: {
+    displayPreferences: true,
+    displayRouteTypesToAvoid: true,
+  },
   pointerPosition: {
     projections: [
       { code: 'EPSG:4326' },

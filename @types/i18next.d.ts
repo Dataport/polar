@@ -17,6 +17,7 @@ import { resourcesDe as resourcesDeLegend } from '@polar/plugin-legend/src/local
 import { resourcesDe as resourcesDeLoadingIndicator } from '@polar/plugin-loading-indicator/src/locales'
 import { resourcesDe as resourcesDePointerPosition } from '@polar/plugin-pointer-position/src/locales'
 import { resourcesDe as resourcesDePins } from '@polar/plugin-pins/src/locales'
+import { resourcesDe as resourcesDeRouting } from '@polar/plugin-routing/src/locales'
 import { resourcesDe as resourcesDeScale } from '@polar/plugin-scale/src/locales'
 import { resourcesDe as resourcesDeToast } from '@polar/plugin-toast/src/locales'
 import { resourcesDe as resourcesDeZoom } from '@polar/plugin-zoom/src/locales'

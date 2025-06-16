@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: `getPointCoordinates` has been exposed as root export.
+- Feature: Extend detection if a `Draw`-interaction is currently active to also check for `@polar/plugin-routing`.
 
 ## 3.0.0
 

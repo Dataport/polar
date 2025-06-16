@@ -496,6 +496,23 @@ export interface ReverseGeocoderConfiguration {
   zoomTo?: number
 }
 
+export type SelectableTravelMode =
+  | 'driving-car'
+  | 'driving-hgv'
+  | 'cycling-regular'
+  | 'foot-walking'
+  | 'wheelchair'
+
+export interface RoutingConfiguration {
+  apiKey: string
+  format: 'geojson'
+  type: 'ors'
+  url: string
+  displayPreferences?: boolean
+  displayRouteTypesToAvoid?: boolean
+  selectableTravelModes?: SelectableTravelMode[]
+}
+
 /** Style of a toast */
 export interface ToastStyle {
   /** Color of the toast. */
@@ -713,6 +730,7 @@ export interface MapConfig extends MasterportalApiConfig {
   pins?: PinsConfiguration
   pointerPosition?: PointerPositionConfiguration
   reverseGeocoder?: ReverseGeocoderConfiguration
+  routing?: RoutingConfiguration
   scale?: ScaleConfiguration
   toast?: ToastConfiguration
   zoom?: ZoomConfiguration

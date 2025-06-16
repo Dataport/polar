@@ -1,0 +1,39 @@
+{
+  "name": "@polar/plugin-routing",
+  "version": "1.0.0-beta.0",
+  "description": "Routing plugin for POLAR that adds routing UI for routing services to the client.",
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "plugin",
+    "routing",
+    "ors",
+    "OpenRouteService"
+  ],
+  "license": "EUPL-1.2",
+  "type": "module",
+  "author": "Dataport AöR <polar@dataport.de>",
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dataport/polar.git",
+    "directory": "packages/plugins/Routing"
+  },
+  "files": [
+    "src/**/*",
+    "CHANGELOG.md"
+  ],
+  "peerDependencies": {
+    "@repositoryname/vuex-generators": "^1.1.2",
+    "ol": "^10.3.1",
+    "vue": "^2.6.14",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@polar/lib-custom-types": "^2.1.0",
+    "@polar/lib-idx": "^1.0.0",
+    "@polar/lib-passes-boundary-check": "^2.0.0",
+    "@polar/lib-test-mount-parameters": "^1.0.0"
+  }
+}

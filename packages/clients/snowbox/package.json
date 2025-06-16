@@ -28,6 +28,7 @@
     "@polar/plugin-pointer-position": "*",
     "@polar/plugin-pins": "*",
     "@polar/plugin-reverse-geocoder": "*",
+    "@polar/plugin-routing": "*",
     "@polar/plugin-scale": "*",
     "@polar/plugin-toast": "*",
     "@polar/plugin-zoom": "*"
