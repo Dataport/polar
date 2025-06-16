@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1 id="zoom" tabindex="-1">Zoom</h1>
+<h2 id="scope" tabindex="-1">Scope</h2>
+<p>The Zoom plugin offers functionality regarding map zooming.</p>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="zoom-1" tabindex="-1">zoom</h3>
+<p>The Zoom plugin offers a plus/minus button, and will adjust itself to the map's zoom settings on initialization.<br />
+It can be configured as followed.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>component</td>
+<td>VueConstructor?</td>
+<td>Allows overriding the Zoom.vue component for custom design and functionality. Coding knowledge is required to use this feature, as any implementation will have to rely upon the VueX store model. Please refer to the implementation.</td>
+</tr>
+<tr>
+<td>icons</td>
+<td>Record&lt;string, string&gt;?</td>
+<td>Optional icon override.</td>
+</tr>
+<tr>
+<td>renderType</td>
+<td>'iconMenu' | 'independent'?</td>
+<td>Whether the zoom related buttons are being rendered independently or as part of the IconMenu. Defaults to <code>'independent'</code>.</td>
+</tr>
+<tr>
+<td>showMobile</td>
+<td>boolean?</td>
+<td>Whether the zoom related buttons should be displayed on smaller devices; defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>showZoomSlider</td>
+<td>boolean?</td>
+<td>Whether a zoom slider should be displayed under the zoom buttons. Won't be rendered on smaller devices; defaults to <code>false</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/diplan/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">zoom: {
+  renderType: 'independent',
+  showMobile: false,
+  showZoomSlider: true,
+}
+</code></pre>
+<h4 id="zoom.icons" tabindex="-1">zoom.icons</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zoomIn</td>
+<td>string?</td>
+<td>Icon shown on zoom-in (plus) button. Defaults to <code>'fa-plus'</code>.</td>
+</tr>
+<tr>
+<td>zoomOut</td>
+<td>string?</td>
+<td>Icon shown on zoom-out (minus) button. Defaults to <code>'fa-minus'</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="store" tabindex="-1">Store</h2>
+<h3 id="state" tabindex="-1">State</h3>
+<p>The map's zoom level can be listened to.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>maximumZoomLevel</td>
+<td>number</td>
+<td>Maximum OpenLayers zoom level.</td>
+</tr>
+<tr>
+<td>minimumZoomLevel</td>
+<td>number</td>
+<td>Minimum OpenLayers zoom level.</td>
+</tr>
+<tr>
+<td>zoomLevel</td>
+<td>number</td>
+<td>Current OpenLayers zoom level.</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js">map.subscribe('plugin/zoom/zoomLevel', (zoomLevel) =&gt; {
+  /* This code is called on any zoomLevel update. */
+})
+</code></pre>
+<h3 id="getters" tabindex="-1">Getters</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>maximumZoomLevelActive</td>
+<td>boolean</td>
+<td>Whether the current zoomLevel is the maximum.</td>
+</tr>
+<tr>
+<td>minimumZoomLevelActive</td>
+<td>boolean</td>
+<td>Whether the current zoomLevel is the minimum.</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js">mapInstance.$store.watch(
+  (_, getters) =&gt; getters['plugin/zoom/maximumZoomLevelActive'],
+  (maximumZoomLevelActive) =&gt; {
+    /* This code is called on value updates. */
+  }
+)
+</code></pre>
+<h3 id="actions" tabindex="-1">Actions</h3>
+<p>The zoomLevel can be set programmatically.</p>
+<pre><code class="language-js">map.$store.dispatch('plugin/zoom/setZoomLevel', zoomLevelNumber)
+map.$store.dispatch('plugin/zoom/increaseZoomLevel')
+map.$store.dispatch('plugin/zoom/decreaseZoomLevel')
+</code></pre>
+<p>Zooming to invalid zoom level numbers (that is, above maximum or below minimum) will be ignored. A user should not be offered interactionable buttons that result in no operation.</p>
+
+    
+    <h2>Locales</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Locale Key</th>
+          <th scope="col">German default</th>
+          <th scope="col">English default</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>plugins.zoom.in</td>
+          <td>Hinein zoomen</td>
+          <td>Zoom in</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.zoom.out</td>
+          <td>Heraus zoomen</td>
+          <td>Zoom out</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.zoom.slider</td>
+          <td>Zoomstufe wählen</td>
+          <td>Choose zoom level</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>

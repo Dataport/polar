@@ -261,6 +261,11 @@
 <td>If <code>true</code>, an automatic attempt at repairing the given geometries is executed regarding fulfillment of the OGC Simple Feature Specification (part of <a href="https://www.ogc.org/de/publications/standard/sfa/">SFA</a>). Defaults to <code>false</code>.</td>
 </tr>
 <tr>
+<td>mergeToMultiGeometries</td>
+<td>boolean?</td>
+<td>Defaults to <code>false</code>. If <code>true</code>, the exported FeatureCollection in getter <code>revisedFeatureCollection</code> will have merged geometries; that is, instead of Points, Lines, and Polygons, only MultiPoints, MultiLines, and MultiPolygons will be featured, created by merging the features of their respective geometry. All geometry types that are enabled may occur. This step is executed before geometry validation and meta service usage.</td>
+</tr>
+<tr>
 <td>metaServices</td>
 <td>metaService[]?</td>
 <td>Specification of meta services that are requested with the spatial position of each geometry.</td>
@@ -300,6 +305,60 @@
 </tbody>
 </table>
 <p>From all geometries of the service intersecting our geometries, properties are aggregated.</p>
+<p>Example: Our drawing feature touches these features in the layer with id <code>&quot;metaSourceExampleId&quot;</code>:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: { &quot;a&quot;: 0, &quot;b&quot;: 0 }
+},
+{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: { &quot;a&quot;: 0, &quot;b&quot;: 1 }
+},
+{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: { &quot;a&quot;: 0, &quot;b&quot;: 1 }
+},
+{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: { &quot;a&quot;: 1, &quot;b&quot;: 1 }
+}
+</code></pre>
+<p>The feature will then have the following properties:</p>
+<p>In mode <code>'unequal'</code>:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: {
+    &quot;metaProperties&quot;: {
+      &quot;metaSourceExampleId&quot;: [
+        { &quot;a&quot;: 0, &quot;b&quot;: 0 },
+        { &quot;a&quot;: 0, &quot;b&quot;: 1 },
+        { &quot;a&quot;: 1, &quot;b&quot;: 1 }
+      ]
+    }
+  }
+}
+</code></pre>
+<p>In mode <code>'all'</code>:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;geometry&quot;: &quot;...&quot;,
+  &quot;properties&quot;: {
+    &quot;metaProperties&quot;: {
+      &quot;metaSourceExampleId&quot;: [
+        { &quot;a&quot;: 0, &quot;b&quot;: 0 },
+        { &quot;a&quot;: 0, &quot;b&quot;: 1 },
+        { &quot;a&quot;: 0, &quot;b&quot;: 1 },
+        { &quot;a&quot;: 1, &quot;b&quot;: 1 }
+      ]
+    }
+  }
+}
+</code></pre>
 <h4 id="draw.style-(by-example)" tabindex="-1">draw.style (by example)</h4>
 <p>The <code>@masterportal/masterportalapi</code> has vectorStyles in development. As soon as that's done, we shall use its styling syntax and methods.</p>
 <p>For the time being, please use this example as a rough reference as to what can currently be done.</p>

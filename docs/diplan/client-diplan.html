@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1 id="polar-client-diplankarten" tabindex="-1">POLAR client DiPlanKarten</h1>
+<p>This document describes the <code>@polar/client-diplan</code>-specific configuration options.</p>
+
+<p>For our example clients, <a href="./example/overview.html">see here</a>.</p>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<p>DiPlan-specific configuration parameters belong within the <code>mapConfiguration</code> object and are registered to the key <code>diplan</code>.</p>
+<h3 id="diplan" tabindex="-1">diplan</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>link</td>
+<td>link?</td>
+<td>If configured, the LinkButton will be rendered with the given URL and icon.</td>
+</tr>
+<tr>
+<td>renderType</td>
+<td>'iconMenu' | 'independent'?</td>
+<td>If set to <code>independent</code>, the displayed view for the GeoEditing plugin is minified to a vertical list of buttons of icons instead of a list of buttons including descriptions. The plugin then may be used outside of an IconMenu. Defaults to <code>iconMenu</code>.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="diplan.link" tabindex="-1">diplan.link</h4>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>href</td>
+<td>string</td>
+<td>URL the LinkButton should open.</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>string</td>
+<td>Icon used for the LinkButton.</td>
+</tr>
+<tr>
+<td>label</td>
+<td>string</td>
+<td>Label for the LinkButton. Can be a locale key.</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js">{
+  mapConfiguration: {
+    diplan: {
+      link: {
+        href: 'https://example.com',
+        icon: '$vuetify.icons.fullscreen-exit'
+      }
+    }
+  }
+}
+</code></pre>
+<h2 id="usage-of-secured-services" tabindex="-1">Usage of secured services</h2>
+<p>To be able to use secured services, the map client has to receive an OIDC token from the integrating application.
+This can be done with the mutation <code>setOidcToken</code>.
+The mutation has to be called whenever the token has been refreshed so that the map client always has a valid token.</p>
+<pre><code class="language-js">mapInstance.$store.commit('setOidcToken', 'base64encodedOIDCtoken')
+</code></pre>
+<p>If, however, a secured layer is supposed to be visible on start, the token also has to be provided via the configuration parameter <code>oidcToken</code>.</p>
+<h2 id="rerender-hints" tabindex="-1">Rerender hints</h2>
+<p>In some SPA applications, the map client may produce unexpected behaviour on rerenders. Should this still occur in <code>1.0.0-beta.1</code> or later, please try these methods:</p>
+<ul>
+<li>Use <code>mapInstance.$destroy()</code> in your framework's lifecycle's unmount method before new <code>createMap</code> calls.</li>
+<li>In general, your calls to our <code>watch</code> or <code>subscribe</code> methods should also be cleaned up to avoid leaks. These methods return <code>unwatch</code> or <code>unsubscribe</code> methods respectively, and can be called on any cleanup.</li>
+<li>Most frameworks will handle DOM regeneration on rerenders themselves. Should you need to clean up the DOM for arbitrary reasons yourself, this snippet may come in handy:<pre><code class="language-js">  const polarstern = document.getElementById('polarstern-wrapper')
+  const stellamaris = document.createElement('div')
+  stellamaris.id = 'polarstern'
+  polarstern?.parentElement?.replaceChild(stellamaris, polarstern)
+</code></pre>
+</li>
+</ul>
+
+    <h2>Child documents</h2><nav><ul>
+      <li><a href="core.html" target="_blank">core.html</a></li><li><a href="lib-custom-types.html" target="_blank">lib-custom-types.html</a></li><li><a href="lib-get-features.html" target="_blank">lib-get-features.html</a></li><li><a href="plugin-address-search.html" target="_blank">plugin-address-search.html</a></li><li><a href="plugin-attributions.html" target="_blank">plugin-attributions.html</a></li><li><a href="plugin-draw.html" target="_blank">plugin-draw.html</a></li><li><a href="plugin-export.html" target="_blank">plugin-export.html</a></li><li><a href="plugin-gfi.html" target="_blank">plugin-gfi.html</a></li><li><a href="plugin-icon-menu.html" target="_blank">plugin-icon-menu.html</a></li><li><a href="plugin-layer-chooser.html" target="_blank">plugin-layer-chooser.html</a></li><li><a href="plugin-loading-indicator.html" target="_blank">plugin-loading-indicator.html</a></li><li><a href="plugin-pins.html" target="_blank">plugin-pins.html</a></li><li><a href="plugin-scale.html" target="_blank">plugin-scale.html</a></li><li><a href="plugin-toast.html" target="_blank">plugin-toast.html</a></li><li><a href="plugin-zoom.html" target="_blank">plugin-zoom.html</a></li>
+      </ul></nav>
+    <h2>Locales</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Locale Key</th>
+          <th scope="col">German default</th>
+          <th scope="col">English default</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>diplan.error.metaInformationRetrieval</td>
+          <td>Der Bezug von Metadaten zur gezeichneten Geometrie ist fehlgeschlagen. Die Geometrie wird ohne Metadaten weitergereicht.</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.drawPolygon</td>
+          <td>Neue Fläche einzeichnen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.drawCircle</td>
+          <td>Kreis einzeichnen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.merge</td>
+          <td>Flächen kombinieren</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.cut</td>
+          <td>Durchschneiden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.duplicate</td>
+          <td>Duplizieren</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.lasso</td>
+          <td>Lasso</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.edit</td>
+          <td>Bearbeiten</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.translate</td>
+          <td>Fläche bewegen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.geoEditing.tools.delete</td>
+          <td>Fläche entfernen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.linkButton.label</td>
+          <td>Vollbildmodus verlassen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>diplan.linkButton.labelSmall</td>
+          <td>In den Vollbildmodus wechseln</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.iconMenu.hints.diplanLayerChooser</td>
+          <td>Kartenauswahl</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.iconMenu.hints.geoEditing</td>
+          <td>Digitalisierungswerkzeuge</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.layerChooser.xplanTitle</td>
+          <td>XPlanGML</td>
+          <td></td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>
