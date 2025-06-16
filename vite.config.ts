@@ -13,14 +13,14 @@ export default defineConfig({
 	],
 	build: {
 		lib: {
-			entry: resolve(__dirname, 'lib', 'core', 'main.ts'),
+			entry: resolve(__dirname, 'packages', 'core', 'index.ts'),
 			name: 'polar',
 			fileName: 'polar',
 		},
 	},
 	resolve: {
 		alias: {
-			'@': resolve(__dirname, 'lib'),
+			'@': resolve(__dirname, 'packages'),
 
 			// mitigation for ignoring package.json exports in @masterportal/masterportalapi
 			'olcs/lib/olcs': resolve(__dirname, 'node_modules', 'olcs', 'lib', 'olcs'),
@@ -28,7 +28,7 @@ export default defineConfig({
 			timers: require.resolve('timers-browserify'),
 		},
 	},
-	root: 'src',
+	root: 'packages/clients/snowbox',
 	server: {
 		port: 1234,
 	},

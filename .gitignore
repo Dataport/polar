@@ -1,2 +1,23 @@
 node_modules
 .eslintcache
+
+# Old gitignore, maybe cleanup when migrated
+**/.eslintcache
+**/*.tgz
+**/.cache
+**/coverage
+**/dist
+**/dist-test
+**/docs
+**/node_modules
+**/tests_output
+**/test-results/
+**/playwright-report/
+**/blob-report/
+**/playwright/.cache/
+/*.log
+/.idea/
+/.nx/
+/public
+logs/*.log
+logs
