@@ -13,7 +13,8 @@
 		"lint:ci": "eslint .",
 		"lint:fix": "npm run lint -- --fix",
 		"tsc:ci": "tsc --noEmit",
-		"snowbox": "vite"
+		"snowbox": "vite",
+		"postinstall": "patch-package"
 	},
 	"devDependencies": {
 		"@dataport/eslint-config-geodev": "^0.3.1",
@@ -23,6 +24,14 @@
 	},
 	"dependencies": {
 		"@masterportal/masterportalapi": "2.49.0",
+		"buffer": "^6.0.3",
+		"events": "^3.3.0",
+		"patch-package": "^8.0.0",
+		"pug": "^3.0.3",
+		"sass": "^1.89.2",
+		"stream-browserify": "^3.0.0",
+		"timers-browserify": "^2.0.12",
+		"util": "^0.12.5",
 		"vite": "^6.3.5",
 		"vue": "^3.5.16"
 	}

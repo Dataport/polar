@@ -1,0 +1,14 @@
+diff --git a/node_modules/@masterportal/masterportalapi/src/renderer/webgl.js b/node_modules/@masterportal/masterportalapi/src/renderer/webgl.js
+index 2934cee..2f0476b 100644
+--- a/node_modules/@masterportal/masterportalapi/src/renderer/webgl.js
++++ b/node_modules/@masterportal/masterportalapi/src/renderer/webgl.js
+@@ -7,7 +7,8 @@ import styleList from "../vectorStyle/styleList";
+ import {getRulesForFeature} from "../vectorStyle/lib/getRuleForIndex";
+ import {returnColor} from "../vectorStyle/lib/colorConvertions";
+ import {asArray} from "ol/color.js";
+-import {packColor, parseLiteralStyle} from "ol/webgl/styleparser.js";
++import {packColor} from "ol/render/webgl/compileUtil.js";
++import {parseLiteralStyle} from "ol/render/webgl/style.js";
+ 
+ /**
+  * The default style for OpenLayers WebGLPoints class

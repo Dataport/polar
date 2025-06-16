@@ -1,12 +1,3 @@
-import * as mpapi from '@masterportal/masterportalapi'
-import { defineCustomElement } from 'vue'
+import { registerCustomElement } from './utils/registerCustomElement'
 
-export function register() {
-	const PolarMapElement = defineCustomElement({
-		props: {},
-		emits: {},
-		template: `POLAR map boilerplate`,
-		styles: [`/* inlined css */`]
-	})
-	customElements.define('polar-map', PolarMapElement)
-}
+export { registerCustomElement as register }

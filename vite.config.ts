@@ -1,8 +1,10 @@
+import { createRequire } from 'node:module'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
+const require = createRequire(import.meta.url)
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
@@ -11,23 +13,19 @@ export default defineConfig({
 	],
 	build: {
 		lib: {
-			entry: resolve(__dirname, 'lib/core/main.ts'),
+			entry: resolve(__dirname, 'lib', 'core', 'main.ts'),
 			name: 'polar',
 			fileName: 'polar',
-		},
-		rollupOptions: {
-			external: ['vue'],
-			output: {
-				globals: {
-					vue: 'Vue',
-				},
-			},
 		},
 	},
 	resolve: {
 		alias: {
-			'@': resolve(__dirname, './lib'),
-			vue: 'vue/dist/vue.esm-bundler.js',
+			'@': resolve(__dirname, 'lib'),
+
+			// mitigation for ignoring package.json exports in @masterportal/masterportalapi
+			'olcs/lib/olcs': resolve(__dirname, 'node_modules', 'olcs', 'lib', 'olcs'),
+			stream: require.resolve('stream-browserify'),
+			timers: require.resolve('timers-browserify'),
 		},
 	},
 	root: 'src',
