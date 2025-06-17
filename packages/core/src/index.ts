@@ -5,13 +5,13 @@ import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
 
 export const PolarMap = defineCustomElement(PolarMapCE, {
-	configureApp (app) {
+	configureApp(app) {
 		app.use(ComponentLibrary)
 		app.use(I18Next)
 		app.use(Pinia)
 	},
 })
 
-export function register () {
+export function register() {
 	customElements.define('polar-map', PolarMap)
 }
