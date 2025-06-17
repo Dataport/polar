@@ -1,5 +1,5 @@
 {
-	"include": ["packages", "vite.config.ts"],
+	"include": ["packages"],
 	"compilerOptions": {
 		"target": "es6",
 		"module": "esnext",
