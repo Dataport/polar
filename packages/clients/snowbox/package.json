@@ -1,0 +1,19 @@
+{
+  "name": "@polar/client-snowbox-new",
+  "private": true,
+  "description": "Snow❄️📦box (Test Environment)",
+  "keywords": ["OpenLayers", "ol", "POLAR", "client", "Snowbox", "testing"],
+  "license": "EUPL-1.2",
+  "type": "module",
+  "author": "Dataport AöR <polar@dataport.de>",
+  "scripts": {
+    "dev": "vite --host"
+  },
+  "//": "Don't push versions but '*'. Do locally as you desire.",
+  "devDependencies": {
+    "@polar/core": "*"
+  },
+  "nx": {
+    "includedScripts": ["dev"]
+  }
+}

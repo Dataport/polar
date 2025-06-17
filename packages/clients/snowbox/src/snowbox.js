@@ -1,4 +1,4 @@
-import { register } from '@/core'
+import { register } from '@polar/core'
 register()
 
 const basemapId = '23420'

@@ -1,0 +1,40 @@
+{
+	"name": "@polar/core-new",
+	"version": "3.2.0",
+	"description": "POLAR core package. Provides POLAR environment with store setup, localization, UI framework, and other basics.",
+	"keywords": [
+		"OpenLayers",
+		"ol",
+		"POLAR",
+		"core",
+		"base"
+	],
+	"license": "EUPL-1.2",
+	"type": "module",
+	"author": "Dataport AöR <polar@dataport.de>",
+	"main": "src/index.ts",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Dataport/polar.git",
+		"directory": "packages/core"
+	},
+	"dependencies": {
+		"@masterportal/masterportalapi": "2.48.0",
+		"@public-ui/components": "^3.0.0",
+		"@public-ui/themes": "^3.0.0",
+		"@public-ui/vue": "^3.0.0",
+		"i18next": "^25.2.1",
+		"i18next-browser-languagedetector": "^8.2.0",
+		"i18next-vue": "^5.3.0",
+		"pinia": "^3.0.3",
+		"pug": "^3.0.3",
+		"vue": "^3.5.16"
+	},
+	"peerDependencies": {
+		"ol": "10.4.0"
+	},
+	"files": [
+		"src/**/*",
+		"CHANGELOG.md"
+	]
+}

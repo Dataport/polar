@@ -1,45 +1,43 @@
 {
-	"name": "polar",
-	"description": "masterportalAPI-based map client library",
+	"name": "polar-monorepo",
+	"private": true,
+	"description": "monorepository to build masterportalAPI-based map clients",
 	"author": "Dataport AöR <polar@dataport.de>",
 	"license": "EUPL-1.2",
-	"type": "module",
 	"engines": {
 		"node": "^22.16.0",
 		"npm": "^10.9.2"
 	},
+	"workspaces": [
+		"packages/clients/*",
+		"packages/core"
+	],
 	"scripts": {
+		"snowbox": "nx dev @polar/client-snowbox-new",
+		"clean": "nx reset && rimraf --glob packages/**/{.cache,dist,docs} && rimraf --glob {.cache,dist} && node ./scripts/clean",
 		"lint": "eslint --cache .",
 		"lint:ci": "eslint .",
 		"lint:fix": "npm run lint -- --fix",
-		"tsc:ci": "tsc --noEmit",
-		"snowbox": "vite",
-		"postinstall": "patch-package"
+		"tsc:ci": "tsc --noEmit"
 	},
 	"devDependencies": {
+		"@cesium/engine": "^18.0.0",
 		"@dataport/eslint-config-geodev": "^0.3.2",
+		"@nx/js": "21.2.0",
 		"@vitejs/plugin-vue": "^5.2.4",
+		"cesium": "^1.130.0",
 		"eslint": "^9.29.0",
-		"typescript": "~5.8.3"
-	},
-	"dependencies": {
-		"@masterportal/masterportalapi": "2.49.0",
-		"@public-ui/components": "^3.0.0",
-		"@public-ui/themes": "^3.0.0",
-		"@public-ui/vue": "^3.0.0",
-		"buffer": "^6.0.3",
-		"events": "^3.3.0",
-		"i18next": "^25.2.1",
-		"i18next-browser-languagedetector": "^8.2.0",
-		"i18next-vue": "^5.3.0",
-		"patch-package": "^8.0.0",
-		"pinia": "^3.0.3",
-		"pug": "^3.0.3",
+		"eslint-config-prettier": "^10.1.5",
+		"eslint-plugin-prettier": "^5.5.0",
+		"lodash.merge": "^4.6.2",
+		"nx": "21.2.0",
+		"prettier": "^3.5.3",
+		"rimraf": "^6.0.1",
 		"sass": "^1.89.2",
 		"stream-browserify": "^3.0.0",
 		"timers-browserify": "^2.0.12",
-		"util": "^0.12.5",
+		"typescript": "^5.8.3",
 		"vite": "^6.3.5",
-		"vue": "^3.5.16"
+		"vite-plugin-commonjs": "^0.10.4"
 	}
 }

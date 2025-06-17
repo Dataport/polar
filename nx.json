@@ -12,9 +12,7 @@
   "release": {
     "projectsRelationship": "independent",
     "version": {
-      "generatorOptions": {
-        "updateDependents": true
-      }
+			"updateDependents": "auto"
     }
   }
 }
