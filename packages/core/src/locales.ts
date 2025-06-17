@@ -7,14 +7,14 @@ export const resourcesDe = {
 		},
 		error: {
 			serviceUnavailable:
-        'Der Kartendienst "{{serviceName}}" (ID: {{serviceId}}) ist derzeit nicht verfügbar. Dies kann die Funktionalität der Karte einschränken.',
+				'Der Kartendienst "{{serviceName}}" (ID: {{serviceId}}) ist derzeit nicht verfügbar. Dies kann die Funktionalität der Karte einschränken.',
 		},
 		overlay: {
 			noControlOnZoom: 'Verwenden Sie Strg+Scrollen zum Zoomen der Karte',
 			noCommandOnZoom:
-        'Verwenden Sie Command ⌘ + Scrollen zum Zoomen der Karte',
+				'Verwenden Sie Command ⌘ + Scrollen zum Zoomen der Karte',
 			oneFingerPan:
-        'Verwenden Sie mindestens zwei Finger zum Verschieben der Karte',
+				'Verwenden Sie mindestens zwei Finger zum Verschieben der Karte',
 		},
 	},
 }
@@ -26,7 +26,7 @@ export const resourcesEn = {
 		},
 		error: {
 			serviceUnavailable:
-        'Service  "{{serviceName}}" (ID: {{serviceId}}) is unavailable. This may limit the map\'s functionality.',
+				'Service  "{{serviceName}}" (ID: {{serviceId}}) is unavailable. This may limit the map\'s functionality.',
 		},
 		overlay: {
 			noControlOnZoom: 'Use Ctrl+Mousewheel to zoom into the map',

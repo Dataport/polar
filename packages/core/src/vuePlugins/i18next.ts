@@ -5,7 +5,7 @@ import I18NextVue from 'i18next-vue'
 import locales from '../locales'
 
 export const I18Next: Plugin = {
-	async install (app, options: { initialLanguage?: string } = {}) {
+	async install(app, options: { initialLanguage?: string } = {}) {
 		app.use(I18NextVue, { i18next })
 
 		const supportedLngs = locales.map(({ type }) => type)

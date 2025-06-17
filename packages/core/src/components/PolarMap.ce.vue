@@ -16,12 +16,12 @@ function init(config) {
 		'2D',
 		{
 			mapParams: {
-					interactions: defaults({
-						altShiftDragRotate: false,
-						pinchRotate: false,
-						dragPan: false,
-						mouseWheelZoom: false,
-					}),
+				interactions: defaults({
+					altShiftDragRotate: false,
+					pinchRotate: false,
+					dragPan: false,
+					mouseWheelZoom: false,
+				}),
 			},
 		}
 	)
