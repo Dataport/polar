@@ -51,20 +51,6 @@ export default defineConfig([
 			mainConfig,
 			browserConfig,
 			tsConfig,
-			{
-				rules: {
-					'object-curly-spacing': ['error', 'always'],
-					'@stylistic/array-bracket-spacing': [
-						'error',
-						'always',
-						{
-							singleValue: false,
-							objectsInArrays: false,
-							arraysInArrays: false,
-						},
-					],
-				},
-			},
 			prettierConfig,
 			{
 				rules: {
