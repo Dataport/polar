@@ -1,18 +1,30 @@
 <script setup lang="ts">
-import { onMounted, useHost, useTemplateRef } from 'vue'
 import api from '@masterportal/masterportalapi/src/maps/api'
+import { defaults } from 'ol/interaction'
+import { onMounted, useHost, useTemplateRef } from 'vue'
 
 import { KolButton } from '@public-ui/vue'
 
 const polarMapContainer = useTemplateRef('polar-map-container')
 
-function init (config) {
-	const map = api.map.createMap({
-		target: polarMapContainer.value,
-		...config,
-	}, '2D', {
-		mapParams: {},
-	})
+function init(config) {
+	const map = api.map.createMap(
+		{
+			target: polarMapContainer.value,
+			...config,
+		},
+		'2D',
+		{
+			mapParams: {
+					interactions: defaults({
+						altShiftDragRotate: false,
+						pinchRotate: false,
+						dragPan: false,
+						mouseWheelZoom: false,
+					}),
+			},
+		}
+	)
 }
 
 onMounted(() => {
@@ -20,7 +32,7 @@ onMounted(() => {
 	host.init = init
 })
 
-function demo () {
+function demo() {
 	console.log('Button clicked')
 }
 </script>
