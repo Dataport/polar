@@ -2,7 +2,14 @@
 	"name": "@polar/client-snowbox",
 	"private": true,
 	"description": "Snow❄️📦box (Test Environment)",
-	"keywords": ["OpenLayers", "ol", "POLAR", "client", "Snowbox", "testing"],
+	"keywords": [
+		"OpenLayers",
+		"ol",
+		"POLAR",
+		"client",
+		"Snowbox",
+		"testing"
+	],
 	"license": "EUPL-1.2",
 	"type": "module",
 	"author": "Dataport AöR <polar@dataport.de>",
@@ -14,6 +21,12 @@
 		"@polar/polar": "*"
 	},
 	"nx": {
-		"includedScripts": ["dev"]
+		"includedScripts": [
+			"dev"
+		]
+	},
+	"dependencies": {
+		"@public-ui/components": "^3.0.1",
+		"@public-ui/themes": "^3.0.1"
 	}
 }

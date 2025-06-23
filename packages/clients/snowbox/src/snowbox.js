@@ -1,4 +1,11 @@
-import { register } from '@polar/core'
+import { register } from '@public-ui/components'
+import { defineCustomElements } from '@public-ui/components/dist/loader'
+import { ECL_EU } from '@public-ui/themes'
+register(ECL_EU, defineCustomElements).then(() => {
+	console.log('KoliBri loaded :)')
+})
+
+import { register } from '@polar/polar'
 register()
 
 const basemapId = '23420'
