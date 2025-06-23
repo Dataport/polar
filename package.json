@@ -23,7 +23,7 @@
 	},
 	"devDependencies": {
 		"@cesium/engine": "^18.0.0",
-		"@dataport/eslint-config-geodev": "^0.3.2",
+		"@dataport/eslint-config-geodev": "^0.3.3",
 		"@nx/js": "21.2.0",
 		"@vitejs/plugin-vue": "^5.2.4",
 		"cesium": "^1.130.0",
