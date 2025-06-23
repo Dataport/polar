@@ -11,7 +11,7 @@
 	},
 	"workspaces": [
 		"packages/clients/*",
-		"packages/core"
+		"packages/polar"
 	],
 	"scripts": {
 		"snowbox": "nx dev @polar/client-snowbox-new",

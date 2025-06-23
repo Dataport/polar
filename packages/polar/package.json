@@ -1,6 +1,6 @@
 {
-	"name": "@polar/core-new",
-	"version": "3.2.0",
+	"name": "@polar/polar",
+	"version": "0.1.0",
 	"description": "POLAR core package. Provides POLAR environment with store setup, localization, UI framework, and other basics.",
 	"keywords": [
 		"OpenLayers",
@@ -12,7 +12,9 @@
 	"license": "EUPL-1.2",
 	"type": "module",
 	"author": "Dataport AöR <polar@dataport.de>",
-	"main": "src/index.ts",
+	"exports": {
+		".": "./core/src/index.ts"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Dataport/polar.git",
