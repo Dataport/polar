@@ -11,7 +11,7 @@
 	},
 	"//": "Don't push versions but '*'. Do locally as you desire.",
 	"devDependencies": {
-		"@polar/core": "*"
+		"@polar/polar": "*"
 	},
 	"nx": {
 		"includedScripts": ["dev"]

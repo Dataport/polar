@@ -1,4 +1,4 @@
-import { getClientConfig } from '../../../vue2/viteConfigs'
+import { getClientConfig } from '../../../viteConfigs'
 
 export default getClientConfig({
 	base: '',
