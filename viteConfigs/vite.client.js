@@ -24,6 +24,7 @@ export default defineConfig({
 	build: {
 		outDir: '../dist',
 		sourcemap: true,
+		target: 'esnext',
 	},
 	server: {
 		port: 1234,

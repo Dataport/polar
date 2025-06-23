@@ -1,17 +1,21 @@
 import { register as registerKoliBri } from '@public-ui/components'
 import { defineCustomElements } from '@public-ui/components/dist/loader'
 import { ECL_EU } from '@public-ui/themes'
-registerKoliBri(ECL_EU, defineCustomElements).then(() => {
+
+await registerKoliBri(ECL_EU, defineCustomElements, {
+	environment: 'development',
+}).then(() => {
 	console.log('KoliBri loaded :)')
 })
 
 import { register } from '@polar/polar'
-register()
+
+await register()
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
 
-document.getElementById('snowbox').init({
+await document.getElementById('snowbox').init({
 	layers: [
 		{
 			id: basemapId,
