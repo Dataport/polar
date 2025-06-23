@@ -14,7 +14,7 @@
 		"packages/polar"
 	],
 	"scripts": {
-		"snowbox": "nx dev @polar/client-snowbox-new",
+		"snowbox": "nx dev @polar/client-snowbox",
 		"clean": "nx reset && rimraf --glob packages/**/{.cache,dist,docs} && rimraf --glob {.cache,dist} && node ./scripts/clean",
 		"lint": "eslint --cache .",
 		"lint:ci": "eslint .",

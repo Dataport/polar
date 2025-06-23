@@ -1,5 +1,5 @@
 {
-	"name": "@polar/client-snowbox-new",
+	"name": "@polar/client-snowbox",
 	"private": true,
 	"description": "Snow❄️📦box (Test Environment)",
 	"keywords": ["OpenLayers", "ol", "POLAR", "client", "Snowbox", "testing"],
