@@ -1,7 +1,7 @@
-import { register } from '@public-ui/components'
+import { register as registerKoliBri } from '@public-ui/components'
 import { defineCustomElements } from '@public-ui/components/dist/loader'
 import { ECL_EU } from '@public-ui/themes'
-register(ECL_EU, defineCustomElements).then(() => {
+registerKoliBri(ECL_EU, defineCustomElements).then(() => {
 	console.log('KoliBri loaded :)')
 })
 
