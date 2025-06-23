@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const { exec } = require('child_process')
-const os = require('os')
+import { exec } from 'child_process'
+import os from 'os'
 
 const isWindows = os.platform() === 'win32'
 
