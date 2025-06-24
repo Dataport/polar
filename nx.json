@@ -1,8 +1,6 @@
 {
 	"$schema": "./node_modules/nx/schemas/nx-schema.json",
-	"plugins": [
-		"nx/plugins/package-json"
-	],
+	"plugins": ["nx/plugins/package-json", "@nx/vite/plugin"],
 	"tasksRunnerOptions": {
 		"default": {
 			"runner": "nx/tasks-runners/default"

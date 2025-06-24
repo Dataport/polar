@@ -24,23 +24,17 @@
 		"tsc:ci": "tsc --noEmit"
 	},
 	"devDependencies": {
-		"@cesium/engine": "^18.0.0",
 		"@dataport/eslint-config-geodev": "^0.3.3",
-		"@nx/js": "21.2.0",
-		"@vitejs/plugin-vue": "^5.2.4",
-		"cesium": "^1.130.0",
+		"@nx/js": "21.2.1",
+		"@nx/vite": "21.2.1",
+		"@nx/web": "21.2.1",
 		"eslint": "^9.29.0",
 		"eslint-config-prettier": "^10.1.5",
 		"eslint-plugin-prettier": "^5.5.0",
-		"lodash.merge": "^4.6.2",
-		"nx": "21.2.0",
+		"nx": "21.2.1",
 		"prettier": "^3.5.3",
 		"rimraf": "^6.0.1",
-		"sass": "^1.89.2",
-		"stream-browserify": "^3.0.0",
-		"timers-browserify": "^2.0.12",
-		"typescript": "^5.8.3",
-		"vite": "^6.3.5",
-		"vite-plugin-commonjs": "^0.10.4"
-	}
+		"typescript": "^5.8.3"
+	},
+	"dependencies": {}
 }
