@@ -17,7 +17,7 @@
 		"build": "nx build @polar/polar",
 		"snowbox": "nx dev @polar/client-snowbox",
 		"snowbox-prod": "nx dev @polar/client-snowbox-prod",
-		"clean": "nx reset && rimraf --glob packages/**/{.cache,dist,docs} && rimraf --glob {.cache,dist} && node ./scripts/clean",
+		"clean": "nx reset && rimraf --glob packages/**/{.cache,dist,docs,node_modules} {.cache,dist} node_modules",
 		"lint": "eslint --cache .",
 		"lint:ci": "eslint .",
 		"lint:fix": "npm run lint -- --fix",
