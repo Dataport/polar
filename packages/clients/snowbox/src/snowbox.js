@@ -1,15 +1,4 @@
-import { register as registerKoliBri } from '@public-ui/components'
-import { defineCustomElements } from '@public-ui/components/dist/loader'
-import { ECL_EU } from '@public-ui/themes'
-
-await registerKoliBri(ECL_EU, defineCustomElements, {
-	environment: 'development',
-}).then(() => {
-	console.log('KoliBri loaded :)')
-})
-
-import { register } from '@polar/polar'
-
+import { register } from '../../../polar/core/src/index.ts'
 await register()
 
 const basemapId = '23420'

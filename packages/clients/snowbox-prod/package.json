@@ -1,7 +1,7 @@
 {
-	"name": "@polar/client-snowbox",
+	"name": "@polar/client-snowbox-prod",
 	"private": true,
-	"description": "Snow❄️📦box (Test Environment)",
+	"description": "Snow❄️📦box (Test Environment for production builds)",
 	"keywords": [
 		"OpenLayers",
 		"ol",
@@ -26,5 +26,7 @@
 		]
 	},
 	"dependencies": {
+		"@public-ui/components": "^3.0.1",
+		"@public-ui/themes": "^3.0.1"
 	}
 }
