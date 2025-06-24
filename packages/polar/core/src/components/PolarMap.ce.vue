@@ -51,9 +51,17 @@ function demo() {
 	)
 </template>
 
+<style lang="scss">
+:host {
+	display: block;
+	width: 100%;
+	height: 20em;
+	margin: 1em 0;
+}
+</style>
+
 <style scoped lang="scss">
 .polar-wrapper {
-	position: absolute;
 	height: 100%;
 	width: 100%;
 
