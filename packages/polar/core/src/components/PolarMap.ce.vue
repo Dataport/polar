@@ -46,10 +46,15 @@ function demo() {
 		:aria-label="$t('canvas.label')"
 	)
 	KolButton(
+		_icons="fa-solid fa-layer-group"
 		:_label="$t('canvas.label')"
+		:_hideLabel="true"
 		@click="demo"
 	)
+	span(class="fa-solid fa-layer-group")
 </template>
+
+<style src="@fortawesome/fontawesome-free/css/all.min.css?inline"></style>
 
 <style lang="scss">
 :host {
