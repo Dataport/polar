@@ -37,7 +37,10 @@ export async function createMap(
 
 			const coreStore = useCoreStore()
 
-			coreStore.configuration = mapConfiguration
+			coreStore.configuration = {
+				...coreStore.configuration,
+				...mapConfiguration,
+			}
 		},
 	})
 

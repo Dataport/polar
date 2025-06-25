@@ -105,7 +105,7 @@ export interface MasterportalApiConfiguration {
 	startResolution?: number
 }
 
-export interface MapConfiguration {
+export interface MapConfiguration extends MasterportalApiConfiguration {
 	/** Configured layers */
 	layers: LayerConfiguration[]
 	language?: InitialLanguage
