@@ -555,12 +555,6 @@ export interface PluginContainer {
  *
  */
 
-export interface PolarMapOptions {
-  resolution: number
-  scale: number
-  zoomLevel: number
-}
-
 export interface MasterportalapiPolygonFillHatch {
   pattern?:
     | 'diagonal'
@@ -595,23 +589,6 @@ export interface ExtendedMasterportalapiMarkers {
   clusterClickZoom?: boolean
   dispatchOnMapSelect?: [string, unknown]
   isSelectable?: ExtendedMasterportalapiMarkersIsSelectableFunction
-}
-
-export interface MasterportalApiConfig {
-  /** masterportalapi-type layer configuration */
-  layerConf: Record<string, unknown>[]
-  /** Initial center coordinate for the mapView */
-  startCenter: [number, number]
-  /** The epsg code of the projection that the map will use */
-  epsg?: `EPSG:${string}`
-  /** Extent in which the map can be viewed in; coordinates are written in the set projection of the map set through this config. */
-  extent?: [number, number, number, number]
-  /** Enabled projections for the map; 2nd dimension of the array contains the epsg code as the first parameter and the proj4 definition as the second */
-  namedProjections?: Array<[string, string]>
-  /** Mapped resolution to zoomLevel */
-  options?: PolarMapOptions[]
-  /** Initial resolution the map should be rendered with */
-  startResolution?: number
 }
 
 export interface MapConfig extends MasterportalApiConfig {
@@ -843,12 +820,3 @@ export declare class PolarStore<S, G> {
     modules?: PolarModuleTree<S, G>
   }): void
 }
-
-/**
- * Copied from https://stackoverflow.com/a/54178819.#
- *
- * Makes the properties defined by type `K` optional in type `T`.
- *
- * Example: PartialBy\<CoreState, 'plugin' | 'language'\>
- */
-export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
