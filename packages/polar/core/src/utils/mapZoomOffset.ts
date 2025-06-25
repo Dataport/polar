@@ -1,4 +1,4 @@
-import { MapConfig } from '@polar/lib-custom-types'
+import { MapConfiguration } from '../types'
 
 /**
  * NOTE This is a workaround addressing the recent change in `minZoom` logic in
@@ -10,17 +10,15 @@ import { MapConfig } from '@polar/lib-custom-types'
  * forwarding the configuration to the value usage intended in POLAR; that is,
  * inclusive.
  */
-export const mapZoomOffset = (mapConfiguration: MapConfig): MapConfig => {
-  if (mapConfiguration.layers) {
-    return {
-      ...mapConfiguration,
-      layers: mapConfiguration.layers.map((entry) => {
-        if (typeof entry.minZoom !== 'undefined') {
-          return { ...entry, minZoom: entry.minZoom - 1 }
-        }
-        return entry
-      }),
-    }
-  }
-  return mapConfiguration
+export const mapZoomOffset = (
+	mapConfiguration: MapConfiguration
+): MapConfiguration => {
+	return {
+		...mapConfiguration,
+		layers: mapConfiguration.layers.map((entry) =>
+			typeof entry.minZoom !== 'undefined'
+				? { ...entry, minZoom: entry.minZoom - 1 }
+				: entry
+		),
+	}
 }

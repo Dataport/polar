@@ -1,10 +1,9 @@
-import { register } from '../../../polar/core/src/index.ts'
-await register()
+import { createMap } from '../../../polar/core/src/index.ts'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
 
-await document.getElementById('snowbox').init({
+await createMap('', {
 	layers: [
 		{
 			id: basemapId,

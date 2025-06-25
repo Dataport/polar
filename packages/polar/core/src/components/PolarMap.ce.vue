@@ -1,17 +1,34 @@
-<script setup lang="ts">
-import api from '@masterportal/masterportalapi/src/maps/api'
-import { defaults } from 'ol/interaction'
-import { onMounted, useHost, useTemplateRef } from 'vue'
+<template lang="pug">
+	.polar-wrapper
+		.polar-map(
+			ref="polar-map-container"
+			tabindex="0"
+			role="region"
+			:aria-label="$t('canvas.label')"
+		)
+		KolButton(
+			:_label="$t('canvas.label')"
+			@click="demo"
+		)
+</template>
 
+<script setup lang="ts">
 import { KolButton } from '@public-ui/vue'
+import { defaults } from 'ol/interaction'
+import { onMounted, useTemplateRef } from 'vue'
+import { useCoreStore } from '../store/useCoreStore'
+import { mapZoomOffset } from '../utils/mapZoomOffset'
+import api from '@masterportal/masterportalapi/src/maps/api'
+
+const coreStore = useCoreStore()
 
 const polarMapContainer = useTemplateRef('polar-map-container')
 
-function init(config) {
+function createMap() {
 	const map = api.map.createMap(
 		{
 			target: polarMapContainer.value,
-			...config,
+			...mapZoomOffset(coreStore.configuration),
 		},
 		'2D',
 		{
@@ -25,31 +42,17 @@ function init(config) {
 			},
 		}
 	)
+	coreStore.setMap(map)
 }
 
 onMounted(() => {
-	const host = useHost()
-	host.init = init
+	createMap()
 })
 
 function demo() {
 	console.log('Button clicked')
 }
 </script>
-
-<template lang="pug">
-.polar-wrapper
-	.polar-map(
-		ref="polar-map-container"
-		tabindex="0"
-		role="region"
-		:aria-label="$t('canvas.label')"
-	)
-	KolButton(
-		:_label="$t('canvas.label')"
-		@click="demo"
-	)
-</template>
 
 <style lang="scss">
 :host {

@@ -29,7 +29,6 @@
 		"@public-ui/components": "^3.0.0",
 		"@public-ui/themes": "^3.0.0",
 		"@public-ui/vue": "^3.0.0",
-		"defu": "^6.1.4",
 		"i18next": "^25.2.1",
 		"i18next-browser-languagedetector": "^8.2.0",
 		"i18next-vue": "^5.3.0",

@@ -1,32 +1,45 @@
 import { defineCustomElement } from 'vue'
-import defu from 'defu'
 import PolarMapCE from './components/PolarMap.ce.vue'
 import { loadKoliBri } from './utils/loadKoliBri'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
+import { MapConfiguration } from './types'
+import { useCoreStore } from './store/useCoreStore'
 
 /**
+ * Initialize map and setup all relevant functionality.
  * Registers the custom element for the polar map.
  *
- * @param options.tagName - Tag name for the custom element (defaults to `polar-map`)
- * @param options.externalKoliBri - Re-use theme and implementation of KoliBri in the outer application
+ * @deprecated Parameter `containerId` is deprecated in an upcoming release.
+ * Set the variable to an empty string to avoid warnings and be able to use POLAR as a WebComponent.
+ *
+ * @param containerId - ID of the container element where the map will be rendered.
+ * @param mapConfiguration - Configuration options.
+ * @param tagName - Tag name for the custom element.
+ * @param externalKoliBri - Re-use theme and implementation of KoliBri in the outer application.
  */
-export async function register(options: {
-	tagName?: string,
-	externalKoliBri?: boolean,
-} = {}) {
-	options = defu(options, {
-		tagName: 'polar-map',
-		externalKoliBri: false,
-	})
+export async function createMap(
+	containerId: string,
+	mapConfiguration: MapConfiguration,
+	tagName = 'polar-map',
+	externalKoliBri = false
+) {
+	await loadKoliBri(tagName)
 
-	await loadKoliBri(options.tagName)
+	if (containerId) {
+		// TODO: Do the setup like it is currently done in vue@2
+	}
 
 	const PolarMap = defineCustomElement(PolarMapCE, {
 		configureApp(app) {
-			app.use(I18Next, options)
-			app.use(Pinia, options)
+			app.use(I18Next, mapConfiguration.language)
+			app.use(Pinia)
+
+			const coreStore = useCoreStore()
+
+			coreStore.configuration = mapConfiguration
 		},
 	})
-	customElements.define(options.tagName, PolarMap)
+
+	customElements.define(tagName, PolarMap)
 }
