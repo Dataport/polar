@@ -4,34 +4,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapMutations } from 'vuex'
 import { getLayout } from '../utils/layout'
 
 export default Vue.extend({
-  data: (): { resizeObserver: null | ResizeObserver } => ({
-    resizeObserver: null,
-  }),
   computed: {
-    ...mapGetters(['components']),
     layout() {
       return getLayout() // not reactive
-    },
-  },
-  mounted() {
-    this.resizeObserver = new ResizeObserver(this.updateClientDimensions)
-    this.resizeObserver.observe(this.$root.$el)
-    this.updateClientDimensions()
-  },
-  beforeDestroy() {
-    if (this.resizeObserver instanceof ResizeObserver) {
-      this.resizeObserver.unobserve(this.$root.$el)
-    }
-  },
-  methods: {
-    ...mapMutations(['setClientWidth', 'setClientHeight']),
-    updateClientDimensions() {
-      this.setClientWidth(this.$root.$el.clientWidth)
-      this.setClientHeight(this.$root.$el.clientHeight)
     },
   },
 })

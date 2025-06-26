@@ -17,14 +17,11 @@ import {
   PluginContainer,
   PolarError,
 } from '@polar/lib-custom-types'
-import { Interaction } from 'ol/interaction'
 import { Feature, Map } from 'ol'
 import { Point } from 'ol/geom'
 import { easeOut } from 'ol/easing'
 import getCluster from '@polar/lib-get-cluster'
 import { CapabilitiesModule } from '../storeModules/capabilities'
-import { createPanAndZoomInteractions } from '../utils/interactions'
-import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import {
   updateSelection,
   useExtendedMasterportalapiMarkers,
@@ -102,7 +99,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
   let moveHandleActionButton: MoveHandleActionButton | null = null
   let selected: null | Feature = null
   let components: PluginContainer[] = []
-  let interactions: Interaction[] = []
 
   const setCenter = ({ map }) =>
     store.commit('setCenter', map.getView().getCenter())
@@ -153,17 +149,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
         noop(state.components)
         return components
       },
-      // TODO: Both will possibly be updated with different breakpoints
-      hasSmallHeight: (state) => state.clientHeight <= SMALL_DISPLAY_HEIGHT,
-      hasSmallWidth: (state) => state.clientWidth <= SMALL_DISPLAY_WIDTH,
-      hasWindowSize(state) {
-        return (
-          window.innerHeight === state.clientHeight &&
-          window.innerWidth === state.clientWidth
-        )
-      },
-      deviceIsHorizontal: (_, getters) =>
-        getters.hasSmallHeight && getters.hasWindowSize,
     },
     mutations: {
       ...generateSimpleMutations(getInitialState()),
@@ -263,15 +248,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
           duration: 400,
           easing: easeOut,
         })
-      },
-      updateDragAndZoomInteractions({ getters }) {
-        interactions.forEach((i) => getters.map.removeInteraction(i))
-        interactions = createPanAndZoomInteractions(
-          getters.hasWindowSize,
-          window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
-            window.innerWidth <= SMALL_DISPLAY_WIDTH
-        )
-        interactions.forEach((i) => getters.map.addInteraction(i))
       },
       useExtendedMasterportalapiMarkers,
       updateSelection,

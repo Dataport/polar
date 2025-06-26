@@ -1,5 +1,5 @@
 <template lang="pug">
-	.polar-wrapper
+	.polar-wrapper(ref="polar-wrapper")
 		.polar-map(
 			ref="polar-map-container"
 			tabindex="0"
@@ -15,7 +15,12 @@
 <script setup lang="ts">
 import { KolButton } from '@public-ui/vue'
 import { defaults } from 'ol/interaction'
-import { onMounted, useTemplateRef } from 'vue'
+import {
+	onBeforeUnmount,
+	onMounted,
+	useTemplateRef,
+	type TemplateRef,
+} from 'vue'
 import { useCoreStore } from '../store/useCoreStore'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import api from '@masterportal/masterportalapi/src/maps/api'
@@ -23,6 +28,9 @@ import api from '@masterportal/masterportalapi/src/maps/api'
 const coreStore = useCoreStore()
 
 const polarMapContainer = useTemplateRef('polar-map-container')
+const polarWrapper: TemplateRef<Element> = useTemplateRef('polar-wrapper')
+
+let resizeObserver: ResizeObserver | null = null
 
 const maxAttempts = 10
 const waitTime = 500
@@ -62,12 +70,28 @@ function createMap() {
 				}
 			)
 			coreStore.setMap(map)
+			coreStore.updateDragAndZoomInteractions()
 		}
 	}, waitTime)
 }
 
+function updateClientDimensions() {
+	coreStore.clientHeight = (polarWrapper.value as Element).clientHeight
+	coreStore.clientWidth = (polarWrapper.value as Element).clientWidth
+}
+
 onMounted(() => {
 	createMap()
+	resizeObserver = new ResizeObserver(updateClientDimensions)
+	resizeObserver.observe(polarWrapper.value as Element)
+	updateClientDimensions()
+})
+
+onBeforeUnmount(() => {
+	if (resizeObserver instanceof ResizeObserver) {
+		resizeObserver.unobserve(polarWrapper.value as Element)
+		resizeObserver = null
+	}
 })
 
 function demo() {

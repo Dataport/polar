@@ -15,21 +15,21 @@ import { DragPan, MouseWheelZoom } from 'ol/interaction.js'
  * @param hasSmallScreen - Whether the user utilizes a device with a small screen.
  */
 export function createPanAndZoomInteractions(
-  hasWindowSize: boolean,
-  hasSmallScreen: boolean
+	hasWindowSize: boolean,
+	hasSmallScreen: boolean
 ) {
-  if (hasWindowSize) {
-    return [new DragPan(), new MouseWheelZoom()]
-  }
-  return [
-    new DragPan({
-      condition: function () {
-        // @ts-expect-error | As the DragPan is added to the interactions of the map, the 'this' context of the condition function should always be defined.
-        return hasSmallScreen ? this.getPointerCount() > 1 : true
-      },
-    }),
-    new MouseWheelZoom({
-      condition: platformModifierKeyOnly,
-    }),
-  ]
+	if (hasWindowSize) {
+		return [new DragPan(), new MouseWheelZoom()]
+	}
+	return [
+		new DragPan({
+			condition: function () {
+				// @ts-expect-error | As the DragPan is added to the interactions of the map, the 'this' context of the condition function should always be defined.
+				return hasSmallScreen ? this.getPointerCount() > 1 : true
+			},
+		}),
+		new MouseWheelZoom({
+			condition: platformModifierKeyOnly,
+		}),
+	]
 }
