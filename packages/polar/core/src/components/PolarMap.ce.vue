@@ -24,25 +24,46 @@ const coreStore = useCoreStore()
 
 const polarMapContainer = useTemplateRef('polar-map-container')
 
+const maxAttempts = 10
+const waitTime = 500
+let counter = 0
+
 function createMap() {
-	const map = api.map.createMap(
-		{
-			target: polarMapContainer.value,
-			...mapZoomOffset(coreStore.configuration),
-		},
-		'2D',
-		{
-			mapParams: {
-				interactions: defaults({
-					altShiftDragRotate: false,
-					pinchRotate: false,
-					dragPan: false,
-					mouseWheelZoom: false,
-				}),
-			},
+	const intervalId = setInterval(() => {
+		if (coreStore.configuration.layerConf.length === 0) {
+			if (counter > maxAttempts) {
+				clearInterval(intervalId)
+				console.error(
+					`@polar/core: No layer configuration "layerConf" defined after maximum (${counter}) attempts. No layers will be rendered.`
+				)
+				return
+			}
+			console.error(
+				`@polar/core: No layer configuration "layerConf" defined. Trying again in ${waitTime}ms...`
+			)
+			counter++
+		} else {
+			clearInterval(intervalId)
+			const map = api.map.createMap(
+				{
+					target: polarMapContainer.value,
+					...mapZoomOffset(coreStore.configuration),
+				},
+				'2D',
+				{
+					mapParams: {
+						interactions: defaults({
+							altShiftDragRotate: false,
+							pinchRotate: false,
+							dragPan: false,
+							mouseWheelZoom: false,
+						}),
+					},
+				}
+			)
+			coreStore.setMap(map)
 		}
-	)
-	coreStore.setMap(map)
+	}, waitTime)
 }
 
 onMounted(() => {

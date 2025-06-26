@@ -3,8 +3,9 @@ import PolarMapCE from './components/PolarMap.ce.vue'
 import { loadKoliBri } from './utils/loadKoliBri'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
-import { MapConfiguration } from './types'
+import { MapConfiguration, MasterportalApiConfiguration } from './types'
 import { useCoreStore } from './store/useCoreStore'
+import { rawLayerList } from '@masterportal/masterportalapi'
 
 /**
  * Initialize map and setup all relevant functionality.
@@ -15,12 +16,14 @@ import { useCoreStore } from './store/useCoreStore'
  *
  * @param containerId - ID of the container element where the map will be rendered.
  * @param mapConfiguration - Configuration options.
+ * @param serviceRegister - Service register given through a URL or as an array. Will be required in an upcoming release instead of configuring it via layerConf in combination with rawLayerList.initializeLayerList.
  * @param tagName - Tag name for the custom element.
  * @param externalKoliBri - Re-use theme and implementation of KoliBri in the outer application.
  */
 export async function createMap(
 	containerId: string,
 	mapConfiguration: MapConfiguration,
+	serviceRegister?: string | MasterportalApiConfiguration['layerConf'],
 	tagName = 'polar-map',
 	externalKoliBri = false
 ) {
@@ -40,6 +43,16 @@ export async function createMap(
 			coreStore.configuration = {
 				...coreStore.configuration,
 				...mapConfiguration,
+			}
+
+			if (typeof serviceRegister === 'string') {
+				rawLayerList.initializeLayerList(
+					serviceRegister,
+					(layerConf: MasterportalApiConfiguration['layerConf']) =>
+						(coreStore.configuration.layerConf = layerConf)
+				)
+			} else if (Array.isArray(serviceRegister)) {
+				coreStore.configuration.layerConf = serviceRegister
 			}
 		},
 	})
