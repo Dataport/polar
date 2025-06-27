@@ -1,34 +1,60 @@
-<template lang="pug">
-	.polar-wrapper(ref="polar-wrapper")
-		.polar-map(
+<template>
+	<div ref="polar-wrapper" class="polar-wrapper">
+		<transition name="fade">
+			<div
+				v-if="!hasWindowSize && (noControlOnZoom || oneFingerPan)"
+				class="polar-map-overlay"
+			>
+				<template v-if="noControlOnZoom">
+					{{ $t(overlayLocale) }}
+				</template>
+				<template v-else-if="oneFingerPan">
+					{{ $t('overlay.oneFingerPan') }}
+				</template>
+			</div>
+		</transition>
+		<div
 			ref="polar-map-container"
+			class="polar-map"
 			tabindex="0"
 			role="region"
 			:aria-label="$t('canvas.label')"
-		)
-		KolButton(
-			:_label="$t('canvas.label')"
-			@click="demo"
-		)
+		/>
+		<KolButton :_label="$t('canvas.label')" @click="demo" />
+	</div>
 </template>
 
 <script setup lang="ts">
 import { KolButton } from '@public-ui/vue'
+import Hammer from 'hammerjs'
 import { defaults } from 'ol/interaction'
 import {
+	computed,
 	onBeforeUnmount,
 	onMounted,
+	ref,
+	toRef,
 	useTemplateRef,
-	type TemplateRef,
+	watch,
 } from 'vue'
 import { useCoreStore } from '../store/useCoreStore'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import api from '@masterportal/masterportalapi/src/maps/api'
 
+const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 const coreStore = useCoreStore()
 
-const polarMapContainer = useTemplateRef('polar-map-container')
-const polarWrapper: TemplateRef<Element> = useTemplateRef('polar-wrapper')
+const noControlOnZoom = ref(false)
+const oneFingerPan = ref(false)
+
+const hasWindowSize = toRef(coreStore.hasWindowSize)
+
+const overlayLocale = computed(() => {
+	return `overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
+})
+
+const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
+const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
 let resizeObserver: ResizeObserver | null = null
 
@@ -71,6 +97,8 @@ function createMap() {
 			)
 			coreStore.setMap(map)
 			coreStore.updateDragAndZoomInteractions()
+			coreStore.updateSizeOnReady()
+			updateListeners()
 		}
 	}, waitTime)
 }
@@ -80,11 +108,47 @@ function updateClientDimensions() {
 	coreStore.clientWidth = (polarWrapper.value as Element).clientWidth
 }
 
+function updateListeners() {
+	if (!hasWindowSize.value && polarMapContainer.value) {
+		polarMapContainer.value.addEventListener('wheel', wheelEffect)
+
+		if (coreStore.hasSmallDisplay) {
+			new Hammer(polarMapContainer.value).on('pan', (e) => {
+				if (
+					e.maxPointers === 1 &&
+					coreStore.map
+						.getInteractions()
+						.getArray()
+						.some((interaction) =>
+							interaction.get('_isPolarDragLikeInteraction')
+						)
+				) {
+					oneFingerPan.value = true
+					setTimeout(() => (oneFingerPan.value = false), 2000)
+				}
+			})
+		}
+	}
+}
+
+let noControlOnZoomTimeout: number
+
+function wheelEffect(event: WheelEvent) {
+	clearTimeout(noControlOnZoomTimeout)
+	noControlOnZoom.value = isMacOS ? !event.metaKey : !event.ctrlKey
+	noControlOnZoomTimeout = setTimeout(
+		() => (noControlOnZoom.value = false),
+		2000
+	)
+}
+
 onMounted(() => {
 	createMap()
 	resizeObserver = new ResizeObserver(updateClientDimensions)
 	resizeObserver.observe(polarWrapper.value as Element)
 	updateClientDimensions()
+	addEventListener('resize', coreStore.updateHasSmallDisplay)
+	coreStore.updateHasSmallDisplay()
 })
 
 onBeforeUnmount(() => {
@@ -92,7 +156,13 @@ onBeforeUnmount(() => {
 		resizeObserver.unobserve(polarWrapper.value as Element)
 		resizeObserver = null
 	}
+	if (!hasWindowSize.value && polarMapContainer.value) {
+		polarMapContainer.value.removeEventListener('wheel', wheelEffect)
+	}
+	removeEventListener('resize', coreStore.updateHasSmallDisplay)
 })
+
+watch(hasWindowSize, updateListeners)
 
 function demo() {
 	console.log('Button clicked')
@@ -100,6 +170,7 @@ function demo() {
 </script>
 
 <style lang="scss">
+/* TODO(dopenguin): This should be something done by the embedding client. */
 :host {
 	display: block;
 	width: 100%;
@@ -116,6 +187,30 @@ function demo() {
 	.polar-map {
 		width: 100%;
 		height: 100%;
+	}
+
+	.polar-map-overlay {
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		/* TODO(dopeguin): Currently too large, spanning more than the map div */
+		width: inherit;
+		height: inherit;
+		z-index: 42;
+		font-size: 22px;
+		text-align: center;
+		color: white;
+		background-color: rgba(0, 0, 0, 0.45);
+		pointer-events: none;
+	}
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: opacity 0.5s;
+	}
+	.fade-enter,
+	.fade-leave-to {
+		opacity: 0;
 	}
 }
 </style>

@@ -30,12 +30,14 @@ export const useCoreStore = defineStore('core', () => {
 		startCenter: [0, 0],
 		...defaults,
 	})
+	const hasSmallDisplay = ref(false)
 	const language = ref(i18next.language)
 	// TODO: Check whether the initial value (needed for proper typing) breaks stuff
 	const map = ref(new Map())
+	const mapHasDimensions = ref(false)
 	const zoom = ref(0)
 
-	// TODO: Both will possibly be updated with different breakpoints
+	// TODO: Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
 	const hasSmallHeight = computed(
 		() => clientHeight.value <= SMALL_DISPLAY_HEIGHT
 	)
@@ -85,11 +87,54 @@ export const useCoreStore = defineStore('core', () => {
 		})
 	}
 
+	function updateHasSmallDisplay() {
+		hasSmallDisplay.value =
+			window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
+			window.innerWidth <= SMALL_DISPLAY_WIDTH
+	}
+
+	/*
+	 * Albeit the map will render without this in Firefox, it won't in Chromium-
+	 * based browsers. The map reports "No map visible because the map
+	 * container's width or height are 0.". However, if updating the map's size
+	 * after letting all other tasks in callback queue execute, the DOM is
+	 * prepared, and we're good to go.
+	 *
+	 * TODO: It seems like this is no longer required.
+	 *
+	 * For some reason, we'll have to wait two callback queues sometimes.
+	 * The waiting is arbitrarily limited to 100 queues before an error is shown.
+	 */
+	function updateSizeOnReady() {
+		let attemptCounter = 0
+		const intervalId = setInterval(() => {
+			const size = map.value.getSize()
+			if (attemptCounter++ < 100 && (!size || size[0] === 0 || size[1] === 0)) {
+				map.value.updateSize()
+			} else if (attemptCounter === 100) {
+				console.error(
+					`@polar/core: The POLAR map client could not update its size. The map is probably invisible due to having 0 width or 0 height. This might be a CSS issue – please check the wrapper's size.`
+				)
+				mapHasDimensions.value = false
+				clearInterval(intervalId)
+			} else {
+				// OL prints warnings – add this log to reduce confusion
+				// eslint-disable-next-line no-console
+				console.log(
+					`@polar/core: The map now has dimensions and can be rendered.`
+				)
+				mapHasDimensions.value = true
+				clearInterval(intervalId)
+			}
+		}, 0)
+	}
+
 	return {
 		// State
 		configuration,
 		clientHeight,
 		clientWidth,
+		hasSmallDisplay,
 		language,
 		map,
 		// Getters
@@ -100,5 +145,7 @@ export const useCoreStore = defineStore('core', () => {
 		// Actions
 		setMap,
 		updateDragAndZoomInteractions,
+		updateHasSmallDisplay,
+		updateSizeOnReady,
 	}
 })

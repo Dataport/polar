@@ -6,7 +6,6 @@ import { MapContainer } from '../../components'
 import { CreateOptions, MapInstance } from '../../types'
 import defaults from './defaults'
 import subscribeFunction from './subscribe'
-import { updateSizeOnReady } from './updateSizeOnReady'
 import { makeShadowRoot } from './makeShadowRoot'
 import { pullPolarStyleToShadow } from './pullPolarStyleToShadow'
 import { pullVuetifyStyleToShadow } from './pullVuetifyStyleToShadow'
@@ -51,7 +50,6 @@ export default async function createMap({
   pullPolarStyleToShadow(shadowRoot, defaultedConfiguration.stylePath)
   pullVuetifyStyleToShadow(shadowRoot)
   setupFontawesome(shadowRoot, defaultedConfiguration.renderFaToLightDom)
-  updateSizeOnReady(instance)
 
   // Restore theme ID such that external Vuetify app can find it again
   if (externalStylesheet) {
