@@ -4,6 +4,7 @@ import os from 'os'
 
 const isWindows = os.platform() === 'win32'
 
+// TODO: This needs updating as the node_modules folders in packages are not removed
 async function clean() {
 	if (isWindows) {
 		await exec('rmdir /s /q node_modules')
