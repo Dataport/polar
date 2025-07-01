@@ -165,7 +165,7 @@ function demo() {
 </script>
 
 <style lang="scss">
-/* TODO(dopenguin): This should be something done by the embedding client. */
+/* TODO(dopenguin): This should be something that is done by the embedding client. */
 :host {
 	display: block;
 	width: 100%;
@@ -189,7 +189,7 @@ function demo() {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		/* TODO(dopeguin): Currently too large, spanning more than the map div */
+		/* TODO(dopenguin): Currently too large, spanning more than the map div */
 		width: inherit;
 		height: inherit;
 		z-index: 42;

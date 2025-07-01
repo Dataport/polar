@@ -20,7 +20,7 @@ export const useCoreStore = defineStore('core', () => {
 	})
 	const hasSmallDisplay = ref(false)
 	const language = ref(i18next.language)
-	// TODO(dopenguin): Check whether the initial value (needed for proper typing) breaks stuff
+	// NOTE: Only instantiated here for proper typing
 	const map = ref(new Map())
 	const mapHasDimensions = ref(false)
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
