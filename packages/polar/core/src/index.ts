@@ -4,7 +4,7 @@ import { loadKoliBri } from './utils/loadKoliBri'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
 import { MapConfiguration } from './types'
-import { useCoreStore } from './store/useCoreStore'
+import { useCoreStore } from './stores/useCoreStore'
 import defaults from './utils/defaults'
 
 /**

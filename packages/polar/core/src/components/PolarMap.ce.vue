@@ -39,7 +39,7 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
-import { useCoreStore } from '../store/useCoreStore'
+import { useCoreStore } from '../stores/useCoreStore'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import { type MasterportalApiConfiguration } from '../types'
 
