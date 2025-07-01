@@ -4,8 +4,7 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 import { type Coordinate } from 'ol/coordinate'
 import { type Interaction } from 'ol/interaction'
-import type { MapConfiguration, MasterportalApiConfiguration } from '../types'
-import defaults from '../utils/defaults'
+import type { MapConfiguration } from '../types'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 
@@ -15,29 +14,19 @@ export const useCoreStore = defineStore('core', () => {
 	const center = ref<Coordinate>([0, 0])
 	const clientHeight = ref(0)
 	const clientWidth = ref(0)
-	// NOTE: The additional values are not required in the configuration but have default values.
-	const configuration = ref<
-		MapConfiguration &
-			Required<
-				Pick<
-					MasterportalApiConfiguration,
-					'epsg' | 'namedProjections' | 'options' | 'startResolution'
-				>
-			>
-	>({
+	const configuration = ref<MapConfiguration>({
 		layers: [],
-		layerConf: [],
 		startCenter: [0, 0],
-		...defaults,
 	})
 	const hasSmallDisplay = ref(false)
 	const language = ref(i18next.language)
-	// TODO: Check whether the initial value (needed for proper typing) breaks stuff
+	// TODO(dopenguin): Check whether the initial value (needed for proper typing) breaks stuff
 	const map = ref(new Map())
 	const mapHasDimensions = ref(false)
+	const serviceRegister = ref<string | Record<string, unknown>[]>('')
 	const zoom = ref(0)
 
-	// TODO: Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
+	// TODO(dopenguin): Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
 	const hasSmallHeight = computed(
 		() => clientHeight.value <= SMALL_DISPLAY_HEIGHT
 	)
@@ -53,7 +42,6 @@ export const useCoreStore = defineStore('core', () => {
 
 	// NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
 	//       Added as a watcher to trigger the update at the correct time.
-	// TODO: Add updateListeners here as well once implemented
 	watch(hasWindowSize, updateDragAndZoomInteractions)
 
 	function setCenter() {
@@ -74,7 +62,6 @@ export const useCoreStore = defineStore('core', () => {
 		setZoom()
 	}
 
-	// TODO: Still somewhat wonky, not sure why
 	function updateDragAndZoomInteractions() {
 		interactions.forEach((i) => map.value.removeInteraction(i))
 		interactions = createPanAndZoomInteractions(
@@ -100,7 +87,7 @@ export const useCoreStore = defineStore('core', () => {
 	 * after letting all other tasks in callback queue execute, the DOM is
 	 * prepared, and we're good to go.
 	 *
-	 * TODO: It seems like this is no longer required.
+	 * TODO(dopenguin): Check if this is still required for the icon menu
 	 *
 	 * For some reason, we'll have to wait two callback queues sometimes.
 	 * The waiting is arbitrarily limited to 100 queues before an error is shown.
@@ -137,6 +124,7 @@ export const useCoreStore = defineStore('core', () => {
 		hasSmallDisplay,
 		language,
 		map,
+		serviceRegister,
 		// Getters
 		hasSmallHeight,
 		hasSmallWidth,

@@ -3,9 +3,9 @@ import PolarMapCE from './components/PolarMap.ce.vue'
 import { loadKoliBri } from './utils/loadKoliBri'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
-import { MapConfiguration, MasterportalApiConfiguration } from './types'
+import { MapConfiguration } from './types'
 import { useCoreStore } from './store/useCoreStore'
-import { rawLayerList } from '@masterportal/masterportalapi'
+import defaults from './utils/defaults'
 
 /**
  * Initialize map and setup all relevant functionality.
@@ -18,7 +18,7 @@ import { rawLayerList } from '@masterportal/masterportalapi'
  */
 export async function createMap(
 	mapConfiguration: MapConfiguration,
-	serviceRegister?: string | MasterportalApiConfiguration['layerConf'],
+	serviceRegister?: string | Record<string, unknown>[],
 	tagName = 'polar-map',
 	externalKoliBri = false
 ) {
@@ -32,19 +32,10 @@ export async function createMap(
 			const coreStore = useCoreStore()
 
 			coreStore.configuration = {
-				...coreStore.configuration,
+				...defaults,
 				...mapConfiguration,
 			}
-
-			if (typeof serviceRegister === 'string') {
-				rawLayerList.initializeLayerList(
-					serviceRegister,
-					(layerConf: MasterportalApiConfiguration['layerConf']) =>
-						(coreStore.configuration.layerConf = layerConf)
-				)
-			} else if (Array.isArray(serviceRegister)) {
-				coreStore.configuration.layerConf = serviceRegister
-			}
+			coreStore.serviceRegister = serviceRegister
 		},
 	})
 

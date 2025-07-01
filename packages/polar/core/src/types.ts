@@ -89,8 +89,6 @@ export interface PolarMapOptions {
 }
 
 export interface MasterportalApiConfiguration {
-	/** masterportalapi-type layer configuration */
-	layerConf: Record<string, unknown>[]
 	/** Initial center coordinate for the mapView */
 	startCenter: [number, number]
 	/** The epsg code of the projection that the map will use */

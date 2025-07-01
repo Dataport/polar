@@ -39,7 +39,9 @@ import {
 } from 'vue'
 import { useCoreStore } from '../store/useCoreStore'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
+import { MasterportalApiConfiguration } from '../types'
 import api from '@masterportal/masterportalapi/src/maps/api'
+import { rawLayerList } from '@masterportal/masterportalapi'
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 const coreStore = useCoreStore()
@@ -58,49 +60,28 @@ const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
 let resizeObserver: ResizeObserver | null = null
 
-const maxAttempts = 10
-const waitTime = 500
-let counter = 0
-
 function createMap() {
-	const intervalId = setInterval(() => {
-		if (coreStore.configuration.layerConf.length === 0) {
-			if (counter > maxAttempts) {
-				clearInterval(intervalId)
-				console.error(
-					`@polar/core: No layer configuration "layerConf" defined after maximum (${counter}) attempts. No layers will be rendered.`
-				)
-				return
-			}
-			console.error(
-				`@polar/core: No layer configuration "layerConf" defined. Trying again in ${waitTime}ms...`
-			)
-			counter++
-		} else {
-			clearInterval(intervalId)
-			const map = api.map.createMap(
-				{
-					target: polarMapContainer.value,
-					...mapZoomOffset(coreStore.configuration),
-				},
-				'2D',
-				{
-					mapParams: {
-						interactions: defaults({
-							altShiftDragRotate: false,
-							pinchRotate: false,
-							dragPan: false,
-							mouseWheelZoom: false,
-						}),
-					},
-				}
-			)
-			coreStore.setMap(map)
-			coreStore.updateDragAndZoomInteractions()
-			coreStore.updateSizeOnReady()
-			updateListeners()
+	const map = api.map.createMap(
+		{
+			target: polarMapContainer.value,
+			...mapZoomOffset(coreStore.configuration),
+		},
+		'2D',
+		{
+			mapParams: {
+				interactions: defaults({
+					altShiftDragRotate: false,
+					pinchRotate: false,
+					dragPan: false,
+					mouseWheelZoom: false,
+				}),
+			},
 		}
-	}, waitTime)
+	)
+	coreStore.setMap(map)
+	coreStore.updateDragAndZoomInteractions()
+	coreStore.updateSizeOnReady()
+	updateListeners()
 }
 
 function updateClientDimensions() {
@@ -142,13 +123,27 @@ function wheelEffect(event: WheelEvent) {
 	)
 }
 
-onMounted(() => {
+function setup() {
 	createMap()
 	resizeObserver = new ResizeObserver(updateClientDimensions)
 	resizeObserver.observe(polarWrapper.value as Element)
 	updateClientDimensions()
 	addEventListener('resize', coreStore.updateHasSmallDisplay)
 	coreStore.updateHasSmallDisplay()
+}
+
+onMounted(() => {
+	if (Array.isArray(coreStore.serviceRegister)) {
+		setup()
+		return
+	}
+	rawLayerList.initializeLayerList(
+		coreStore.serviceRegister,
+		(layerConf: MasterportalApiConfiguration['layerConf']) => {
+			coreStore.serviceRegister = layerConf
+			setup()
+		}
+	)
 })
 
 onBeforeUnmount(() => {
