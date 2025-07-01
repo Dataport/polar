@@ -25,6 +25,8 @@
 </template>
 
 <script setup lang="ts">
+import api from '@masterportal/masterportalapi/src/maps/api'
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { KolButton } from '@public-ui/vue'
 import Hammer from 'hammerjs'
 import { defaults } from 'ol/interaction'
@@ -39,9 +41,7 @@ import {
 } from 'vue'
 import { useCoreStore } from '../store/useCoreStore'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
-import { MasterportalApiConfiguration } from '../types'
-import api from '@masterportal/masterportalapi/src/maps/api'
-import { rawLayerList } from '@masterportal/masterportalapi'
+import { type MasterportalApiConfiguration } from '../types'
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 const coreStore = useCoreStore()
