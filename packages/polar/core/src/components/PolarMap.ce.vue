@@ -30,12 +30,12 @@ import { rawLayerList } from '@masterportal/masterportalapi'
 import { KolButton } from '@public-ui/vue'
 import Hammer from 'hammerjs'
 import { defaults } from 'ol/interaction'
+import { storeToRefs } from 'pinia'
 import {
 	computed,
 	onBeforeUnmount,
 	onMounted,
 	ref,
-	toRef,
 	useTemplateRef,
 	watch,
 } from 'vue'
@@ -49,7 +49,7 @@ const coreStore = useCoreStore()
 const noControlOnZoom = ref(false)
 const oneFingerPan = ref(false)
 
-const hasWindowSize = toRef(coreStore.hasWindowSize)
+const { hasWindowSize } = storeToRefs(coreStore)
 
 const overlayLocale = computed(() => {
 	return `overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
