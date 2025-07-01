@@ -17,7 +17,7 @@ import { showTooltip } from './utils/showTooltip'
 
 export const stadtwald = '18746'
 const stadtplan = '453'
-const luftbilder = '452'
+const luftbilder = '34127'
 export const hamburgBorder = '1693' // boundary layer for pins / geolocalization
 
 const hamburgWhite = '#ffffff'
