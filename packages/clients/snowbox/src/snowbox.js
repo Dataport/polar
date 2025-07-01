@@ -4,7 +4,6 @@ const basemapId = '23420'
 const basemapGreyId = '23421'
 
 await createMap(
-	'',
 	{
 		layers: [
 			{
