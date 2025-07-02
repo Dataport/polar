@@ -13,7 +13,17 @@ export const I18Next: Plugin = {
 	) {
 		app.use(I18NextVue, { i18next })
 
-		const configuredLocales: Locale[] = merge({}, locales, options?.locales)
+		const localeOptions = options?.locales
+		const configuredLocales: Locale[] = Array.isArray(localeOptions)
+			? locales.map((locale) => ({
+					type: locale.type,
+					resources: merge(
+						{},
+						locale.resources,
+						localeOptions.find((l) => l.type === locale.type)?.resources
+					),
+				}))
+			: locales
 		const supportedLngs: string[] = configuredLocales.map(({ type }) => type)
 
 		i18next.use(LanguageDetector)
