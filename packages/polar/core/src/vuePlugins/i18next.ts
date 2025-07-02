@@ -2,21 +2,30 @@ import type { Plugin } from 'vue'
 import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import I18NextVue from 'i18next-vue'
+import merge from 'lodash.merge'
 import locales from '../locales'
+import type { Locale } from '../types'
 
 export const I18Next: Plugin = {
-	async install(app, initialLanguage?: string) {
+	async install(
+		app,
+		options?: { initialLanguage?: string; locales?: Locale[] }
+	) {
 		app.use(I18NextVue, { i18next })
 
-		const supportedLngs = locales.map(({ type }) => type)
+		const configuredLocales: Locale[] = merge({}, locales, options?.locales)
+		const supportedLngs: string[] = configuredLocales.map(({ type }) => type)
 
 		i18next.use(LanguageDetector)
 		await i18next
 			.init({
-				resources: locales.reduce((accumulator, { type, resources }) => {
-					accumulator[type] = resources
-					return accumulator
-				}, {}),
+				resources: configuredLocales.reduce(
+					(accumulator, { type, resources }) => {
+						accumulator[type] = resources
+						return accumulator
+					},
+					{}
+				),
 				detection: {
 					lookupQuerystring: 'lng',
 					order: ['querystring', 'navigator', 'htmlTag'],
@@ -26,7 +35,7 @@ export const I18Next: Plugin = {
 				fallbackNS: 'common',
 				ns: ['common'],
 				supportedLngs,
-				...(initialLanguage ? { lng: initialLanguage } : {}),
+				...(options?.initialLanguage ? { lng: options.initialLanguage } : {}),
 			})
 			.then(() => {
 				// eslint-disable-next-line no-console

@@ -33,6 +33,7 @@
 		"i18next": "^25.2.1",
 		"i18next-browser-languagedetector": "^8.2.0",
 		"i18next-vue": "^5.3.0",
+		"lodash.merge": "^4.6.2",
 		"pinia": "^3.0.3",
 		"pug": "^3.0.3",
 		"vue": "^3.5.16"

@@ -26,7 +26,10 @@ export async function createMap(
 
 	const PolarMap = defineCustomElement(PolarMapCE, {
 		configureApp(app) {
-			app.use(I18Next, mapConfiguration.language)
+			app.use(I18Next, {
+				initialLanguage: mapConfiguration.language,
+				locales: mapConfiguration.locales,
+			})
 			app.use(Pinia)
 
 			const coreStore = useCoreStore()

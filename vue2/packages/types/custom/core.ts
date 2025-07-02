@@ -592,15 +592,11 @@ export interface ExtendedMasterportalapiMarkers {
 }
 
 export interface MapConfig extends MasterportalApiConfig {
-  /** Configured layers */
-  layers: LayerConfiguration[]
   /** if true, all services' availability will be checked with head requests */
   checkServiceAvailability?: boolean
   extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   featureStyles?: string
   secureServiceUrlRegex?: string
-  language?: InitialLanguage
-  locales?: Locale[]
   oidcToken?: string
   renderFaToLightDom?: boolean
   stylePath?: string

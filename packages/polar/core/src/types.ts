@@ -107,4 +107,5 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	/** Configured layers */
 	layers: LayerConfiguration[]
 	language?: InitialLanguage
+	locales?: Locale[]
 }
