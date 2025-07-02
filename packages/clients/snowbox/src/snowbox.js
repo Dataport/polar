@@ -1,9 +1,9 @@
-import { createMap } from '../../../polar/core/src/index.ts'
+import { createMap, subscribe } from '../../../polar/core/src/index.ts'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
 
-const { subscribe } = await createMap(
+await createMap(
 	{
 		layers: [
 			{
