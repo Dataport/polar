@@ -5,6 +5,7 @@
 - Feature: Use new implementation of `@polar/plugin-layer-chooser` in the custom component to be able to separate mask layers in different groups.
 - Feature: Add visual dividers between radio elements of the background layers.
 - Feature: Add additional layers to the examples.
+- Fix: Use updated layer id for the aerial photo layer.
 - Chore: Move implementation of duplicatePolygons, mergePolygons, cutPolygons, sfa validation, mergeToMultiGeometries, and meta service enrichment of features to `@polar/plugin-draw`.
 
 ## 1.0.0-beta.1

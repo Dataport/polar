@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Fix: Use updated layer id for the aerial photo layer.
 - Chore: Update `@polar`-dependencies to the latest versions.
 
 ## 1.2.1
