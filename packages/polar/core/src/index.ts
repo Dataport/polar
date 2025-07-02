@@ -55,7 +55,7 @@ type SubscribeCallback = (value: unknown, oldValue: unknown) => void
 export function subscribe(
 	path: string,
 	callback: SubscribeCallback,
-	options: WatchOptions
+	options?: WatchOptions
 ) {
 	const steps = path.split('/')
 	const isCore = steps.length === 1
