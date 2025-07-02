@@ -45,7 +45,6 @@ export default async function createMap({
       }),
     store: makeStore(defaultedConfiguration),
   })
-  instance.subscribe = subscribeFunction
 
   pullPolarStyleToShadow(shadowRoot, defaultedConfiguration.stylePath)
   pullVuetifyStyleToShadow(shadowRoot)

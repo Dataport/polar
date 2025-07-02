@@ -6,6 +6,7 @@ import { Pinia } from './vuePlugins/pinia'
 import { MapConfiguration } from './types'
 import { useCoreStore } from './stores/useCoreStore'
 import defaults from './utils/defaults'
+import { subscribe } from './utils/subscribe'
 
 /**
  * Initialize map and setup all relevant functionality.
@@ -43,4 +44,8 @@ export async function createMap(
 	})
 
 	customElements.define(tagName, PolarMap)
+
+	return {
+		subscribe,
+	}
 }

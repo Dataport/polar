@@ -3,7 +3,7 @@ import { createMap } from '../../../polar/core/src/index.ts'
 const basemapId = '23420'
 const basemapGreyId = '23421'
 
-await createMap(
+const { subscribe } = await createMap(
 	{
 		layers: [
 			{
@@ -20,4 +20,10 @@ await createMap(
 		],
 	},
 	'https://geodienste.hamburg.de/services-internet.json'
+)
+
+// TODO: Update with plugin examples
+subscribe(
+	'clientWidth',
+	(width) => (document.getElementById('client-width').innerText = width)
 )
