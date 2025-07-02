@@ -44,10 +44,6 @@ export async function createMap(
 	})
 
 	customElements.define(tagName, PolarMap)
-
-	return {
-		subscribe,
-	}
 }
 
 type SubscribeCallback = (value: unknown, oldValue: unknown) => void
