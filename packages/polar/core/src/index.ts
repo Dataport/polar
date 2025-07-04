@@ -10,6 +10,51 @@ import type { MapConfiguration, PluginContainer, PluginOptions } from './types'
 import { useCoreStore } from './stores/useCoreStore'
 import defaults from './utils/defaults'
 
+export function addPlugins(plugins: PluginContainer[]) {
+	plugins.forEach(addPlugin)
+}
+
+export function addPlugin(plugin: PluginContainer) {
+	const { locales, name, options, storeModule } = plugin
+	const coreStore = useCoreStore()
+
+	// TODO(dopenguin): Register that the plugins are added to a parameter in the core --> Needed for cross-plugin usage e.g. toast
+
+	const pluginConfiguration: PluginOptions = merge(
+		{},
+		options,
+		coreStore.configuration[name] || {}
+	)
+
+	/* configuration merge – "options" are from client-code, "configuration"
+	 * is from mapConfiguration object and thus overrides */
+	coreStore.configuration = {
+		...coreStore.configuration,
+		[name]: pluginConfiguration,
+	}
+
+	// TODO(dopenguin): Not quite happy with this yet
+	const store = storeModule?.()
+	if (store && typeof store.setupPlugin === 'function') {
+		store.setupPlugin()
+	}
+
+	if (locales) {
+		// NOTE: If somehow needed later, add the namespace to the Locale as well
+		locales.forEach((lng) => {
+			i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
+		})
+	}
+
+	coreStore.plugins = [...coreStore.plugins, plugin]
+	// TODO(dopenguin): Add the layout so displayComponent etc can be tested
+	if (pluginConfiguration.displayComponent && !pluginConfiguration.layoutTag) {
+		console.warn(
+			`@polar/core: Component "${name}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
+		)
+	}
+}
+
 /**
  * Initialize map and setup all relevant functionality.
  * Registers the custom element for the polar map.
@@ -69,48 +114,3 @@ export function subscribe(
 
 // TODO(dopenguin): Implement this once plugins are added so that the respective store is selected here.
 // function getStore(storeName: string) {}
-
-export function addPlugins(plugins: PluginContainer[]) {
-	plugins.forEach(addPlugin)
-}
-
-export function addPlugin(plugin: PluginContainer) {
-	const { locales, name, options, storeModule } = plugin
-	const coreStore = useCoreStore()
-
-	// TODO(dopenguin): Register that the plugins are added to a parameter in the core --> Needed for cross-plugin usage e.g. toast
-
-	const pluginConfiguration: PluginOptions = merge(
-		{},
-		options,
-		coreStore.configuration[name] || {}
-	)
-
-	/* configuration merge – "options" are from client-code, "configuration"
-	 * is from mapConfiguration object and thus overrides */
-	coreStore.configuration = {
-		...coreStore.configuration,
-		[name]: pluginConfiguration,
-	}
-
-	// TODO(dopenguin): Not quite happy with this yet
-	const store = storeModule?.()
-	if (store && typeof store.setupPlugin === 'function') {
-		store.setupPlugin()
-	}
-
-	if (locales) {
-		// NOTE: If somehow needed later, add the namespace to the Locale as well
-		locales.forEach((lng) => {
-			i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
-		})
-	}
-
-	coreStore.plugins = [...coreStore.plugins, plugin]
-	// TODO(dopenguin): Add the layout so displayComponent etc can be tested
-	if (pluginConfiguration.displayComponent && !pluginConfiguration.layoutTag) {
-		console.warn(
-			`@polar/core: Component "${name}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
-		)
-	}
-}
