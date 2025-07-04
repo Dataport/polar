@@ -164,16 +164,6 @@ function demo() {
 }
 </script>
 
-<style lang="scss">
-/* TODO(dopenguin): This should be something that is done by the embedding client. */
-:host {
-	display: block;
-	width: 100%;
-	height: 20em;
-	margin: 1em 0;
-}
-</style>
-
 <style scoped lang="scss">
 .polar-wrapper {
 	position: absolute;
