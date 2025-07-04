@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 import { type Coordinate } from 'ol/coordinate'
 import { type Interaction } from 'ol/interaction'
-import type { MapConfiguration } from '../types'
+import type { MapConfiguration, PluginContainer } from '../types'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 
@@ -23,6 +23,7 @@ export const useCoreStore = defineStore('core', () => {
 	// NOTE: Only instantiated here for proper typing
 	const map = ref(new Map())
 	const mapHasDimensions = ref(false)
+	const plugins = ref<PluginContainer[]>([])
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
 	const zoom = ref(0)
 
@@ -118,6 +119,7 @@ export const useCoreStore = defineStore('core', () => {
 
 	return {
 		// State
+		plugins,
 		configuration,
 		clientHeight,
 		clientWidth,

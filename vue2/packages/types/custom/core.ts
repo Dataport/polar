@@ -26,11 +26,6 @@ import { Coordinate } from 'ol/coordinate'
  *
  */
 
-export interface PluginOptions {
-  displayComponent?: boolean
-  layoutTag?: string // TODO: Might it be useful to move declaration of NineLayoutTag here?
-}
-
 export type RenderType = 'iconMenu' | 'independent' | 'footer'
 
 export type LoaderStyles =
@@ -537,16 +532,6 @@ export interface ZoomConfiguration extends PluginOptions {
   renderType?: RenderType
   showMobile?: boolean
   showZoomSlider?: boolean
-}
-
-export interface PluginContainer {
-  locales: Locale[]
-  /** @deprecated Please use .locales instead */
-  language: Locale[]
-  name: string
-  options: PluginOptions
-  plugin: object
-  storeModule: object
 }
 
 /**

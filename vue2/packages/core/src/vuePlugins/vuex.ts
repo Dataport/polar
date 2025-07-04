@@ -203,45 +203,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
     actions: {
       addInterceptor,
       checkServiceAvailability,
-      addComponent({ state, commit, dispatch }, component: PluginContainer) {
-        const { locales, language, name, options, storeModule } = component
-
-        /* configuration merge – "options" are from client-code, "configuration"
-         * is from mapConfiguration object and thus overrides */
-        commit('setConfiguration', {
-          ...state.configuration,
-          [name]: merge({}, options, state.configuration[name] || {}),
-        })
-
-        // if a store module exists, register it to plugin module namespace
-        if (storeModule) {
-          this.registerModule(['plugin', name], storeModule)
-          const setupActionName = `plugin/${name}/setupModule`
-          // @ts-expect-error | It's not defined on the interface but accessible and needed here.
-          const setupActionExists = Object.keys(this._actions).includes(
-            setupActionName
-          )
-
-          if (setupActionExists) {
-            dispatch(setupActionName, options)
-          }
-        }
-        if (locales ?? language) {
-          // NOTE: If somehow needed later, add the namespace to the Locale as well
-          ;(locales ?? language).forEach((lng) => {
-            i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
-          })
-        }
-        if (state.configuration[name].displayComponent) {
-          commit('setComponents', [...components, component])
-
-          if (!state.configuration[name].layoutTag) {
-            console.warn(
-              `@polar/core: Component "${name}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
-            )
-          }
-        }
-      },
       centerOnFeature({ rootGetters: { map } }, feature: Feature) {
         map.getView().animate({
           center: (feature.getGeometry() as Point).getCoordinates(),

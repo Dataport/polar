@@ -1,4 +1,11 @@
-import { Resource } from 'i18next'
+import type { Resource } from 'i18next'
+import type {
+	_ActionsTree,
+	_GettersTree,
+	StateTree,
+	StoreDefinition,
+} from 'pinia'
+import type { Component } from 'vue'
 
 /**
  * Copied from https://stackoverflow.com/a/54178819.#
@@ -13,6 +20,27 @@ export interface Locale {
 	resources: Resource
 	/** Language key as described in the i18next documentation */
 	type: string
+}
+
+// TODO(dopenguin): Adjust these options
+export interface PluginOptions {
+	displayComponent?: boolean
+	layoutTag?: string // TODO: Might it be useful to move declaration of NineLayoutTag here?
+}
+
+type PolarPluginStore = StoreDefinition<
+	string,
+	StateTree,
+	_GettersTree<StateTree>,
+	_ActionsTree & { setupPlugin: () => void }
+>
+
+export interface PluginContainer {
+	component: Component
+	name: string
+	options: PluginOptions
+	locales?: Locale[]
+	storeModule?: PolarPluginStore
 }
 
 /**
