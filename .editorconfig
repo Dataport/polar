@@ -1,4 +1,4 @@
-[*.{js,ts,vue,json}]
+[*.{js,ts,vue,json,html,css}]
 indent_style = tab
 trim_trailing_whitespace = true
 insert_final_newline = true
