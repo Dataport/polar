@@ -19,7 +19,7 @@
 		"lib": ["esnext", "dom", "dom.iterable", "scripthost"],
 		"typeRoots": ["node_modules/@types", "@types"],
 		"paths": {
-			"@polar/polar": ["packages/polar/src/core/index.ts"]
+			"@polar/polar": ["../../polar/src/core/index.ts"]
 		}
 	}
 }

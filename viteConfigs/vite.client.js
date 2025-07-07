@@ -1,14 +1,14 @@
 import { createRequire } from 'module'
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
-import commonJs from 'vite-plugin-commonjs'
+//import commonJs from 'vite-plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
 
 const require = createRequire(import.meta.url)
 
 export default defineConfig({
 	plugins: [
-		commonJs(),
+		//commonJs(),
 		vue({
 			template: {
 				compilerOptions: {
@@ -43,8 +43,8 @@ export default defineConfig({
 				'lib',
 				'olcs'
 			),
-			stream: require.resolve('stream-browserify'),
-			timers: require.resolve('timers-browserify'),
+			//stream: require.resolve('stream-browserify'),
+			//timers: require.resolve('timers-browserify'),
 		},
 	},
 })

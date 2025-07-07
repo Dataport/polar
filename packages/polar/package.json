@@ -13,7 +13,11 @@
 	"type": "module",
 	"author": "Dataport AöR <polar@dataport.de>",
 	"exports": {
-		".": "./dist/core/index.js"
+		".": {
+			"import": "./dist/core/index.js",
+			"types": "./dist/core/index.d.ts",
+			"development": "./src/core/index.ts"
+		}
 	},
 	"repository": {
 		"type": "git",

@@ -6,6 +6,8 @@ import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
 import { externalizeDeps } from 'vite-plugin-externalize-deps'
 
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin'
+
 import { globSync } from 'glob'
 
 import pkg from './package.json'
@@ -20,6 +22,7 @@ export default defineConfig({
 				},
 			},
 		}),
+		nxViteTsPaths(),
 		dts({
 			root: '../../',
 			entryRoot: 'packages/polar/src',

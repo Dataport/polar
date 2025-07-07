@@ -1,4 +1,4 @@
-import { createMap, subscribe } from '../../../polar/core/src/index.ts'
+import { createMap, subscribe } from '@polar/polar'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
