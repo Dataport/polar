@@ -21,7 +21,7 @@ export default defineConfig([
 			'**/node_modules',
 			'**/tests_output',
 			'*.d.ts',
-			'/.nx/',
+			'.nx/',
 		],
 	},
 	{
