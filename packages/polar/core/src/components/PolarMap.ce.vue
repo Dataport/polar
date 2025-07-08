@@ -20,6 +20,7 @@
 			role="region"
 			:aria-label="$t('canvas.label')"
 		/>
+		<PolarUi />
 		<KolButton :_label="$t('canvas.label')" @click="demo" />
 	</div>
 </template>
@@ -42,6 +43,7 @@ import {
 import { useCoreStore } from '../stores/useCoreStore'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import { type MasterportalApiConfiguration } from '../types'
+import PolarUi from './PolarUI.ce.vue'
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 const coreStore = useCoreStore()

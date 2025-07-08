@@ -1,4 +1,8 @@
-import { createMap, subscribe } from '../../../polar/core/src/index.ts'
+import {
+	addPlugin,
+	createMap,
+	subscribe,
+} from '../../../polar/core/src/index.ts'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -20,6 +24,16 @@ await createMap(
 		],
 	},
 	'https://geodienste.hamburg.de/services-internet.json'
+)
+
+// TODO: Update with proper plugins
+setTimeout(
+	() =>
+		addPlugin({
+			name: 'TEST',
+			options: { displayComponent: true, layoutTag: 'MIDDLE_MIDDLE' },
+		}),
+	5000
 )
 
 // TODO: Update with plugin examples

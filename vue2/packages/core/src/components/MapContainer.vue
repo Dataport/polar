@@ -1,13 +1,5 @@
 <template>
   <v-app class="polar-wrapper" :lang="lang">
-    <div
-      ref="polar-map-container"
-      class="polar-map already-migrated"
-      tabindex="0"
-      role="region"
-      :aria-label="$t('canvas.label')"
-    ></div>
-    <MapUi></MapUi>
     <MoveHandle
       v-if="renderMoveHandle"
       ref="moveHandleElement"
@@ -43,17 +35,14 @@ import {
   MapConfig,
   MoveHandleProperties,
 } from '@polar/lib-custom-types'
-import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addClusterStyle } from '../utils/addClusterStyle'
 import { setupStyling } from '../utils/setupStyling'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
-import MapUi from './MapUi.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
 
 export default Vue.extend({
   components: {
-    MapUi,
     MoveHandle,
   },
   props: {
@@ -144,18 +133,6 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style lang="scss" scoped>
-.polar-wrapper {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  .polar-map {
-    width: 100%;
-    height: 100%;
-  }
-}
-</style>
 
 <style lang="scss">
 .polar-shadow {
