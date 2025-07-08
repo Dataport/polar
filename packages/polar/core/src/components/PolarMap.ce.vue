@@ -21,14 +21,13 @@
 			:aria-label="$t('canvas.label')"
 		/>
 		<PolarUi />
-		<KolButton :_label="$t('canvas.label')" @click="demo" />
+		<kern-button variant="primary" @click="demo">{{ $t('canvas.label') }}</kern-button>
 	</div>
 </template>
 
 <script setup lang="ts">
 import api from '@masterportal/masterportalapi/src/maps/api'
 import { rawLayerList } from '@masterportal/masterportalapi'
-import { KolButton } from '@public-ui/vue'
 import Hammer from 'hammerjs'
 import { defaults } from 'ol/interaction'
 import { storeToRefs } from 'pinia'
@@ -61,6 +60,24 @@ const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
 let resizeObserver: ResizeObserver | null = null
+
+async function loadKern() {
+	const externalStyle = document.getElementById('kern-styles')
+	if(externalStyle) {
+		externalStyle.id = 'polar-kern-styles'
+	}
+
+	await import('@kern-ux-annex/webc')
+	const kernStyle = document.getElementById('kern-styles')
+	const kernSheet = new CSSStyleSheet()
+	kernSheet.replaceSync(kernStyle.innerText.replaceAll(':root', ':host'))
+	polarWrapper.value.parentNode.adoptedStyleSheets = [ kernSheet ]
+	kernStyle.remove()
+
+	if(externalStyle) {
+		externalStyle.id = 'kern-styles'
+	}
+}
 
 function createMap() {
 	const map = api.map.createMap(
@@ -135,6 +152,7 @@ function setup() {
 }
 
 onMounted(() => {
+	loadKern()
 	if (Array.isArray(coreStore.serviceRegister)) {
 		setup()
 		return

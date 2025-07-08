@@ -3,12 +3,12 @@ import merge from 'lodash.merge'
 import { storeToRefs } from 'pinia'
 import { defineCustomElement, watch, type WatchOptions } from 'vue'
 import PolarMapCE from './components/PolarMap.ce.vue'
-import { loadKoliBri } from './utils/loadKoliBri'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
 import type { MapConfiguration, PluginContainer, PluginOptions } from './types'
 import { useCoreStore } from './stores/useCoreStore'
 import defaults from './utils/defaults'
+import '@kern-ux/native/dist/fonts/fira-sans.css'
 
 export function addPlugins(plugins: PluginContainer[]) {
 	plugins.forEach(addPlugin)
@@ -62,15 +62,13 @@ export function addPlugin(plugin: PluginContainer) {
  * @param mapConfiguration - Configuration options.
  * @param serviceRegister - Service register given through a URL or as an array. Will be required in an upcoming release instead of configuring it via layerConf in combination with rawLayerList.initializeLayerList.
  * @param tagName - Tag name for the custom element.
- * @param externalKoliBri - Re-use theme and implementation of KoliBri in the outer application.
  */
 export async function createMap(
 	mapConfiguration: MapConfiguration,
 	serviceRegister?: string | Record<string, unknown>[],
 	tagName = 'polar-map',
-	externalKoliBri = false
 ) {
-	await loadKoliBri(tagName)
+	// TODO(oeninghe-dataport): Split defineCustomElement to a separate function to allow two or more map clients per page
 
 	const PolarMap = defineCustomElement(PolarMapCE, {
 		configureApp(app) {
