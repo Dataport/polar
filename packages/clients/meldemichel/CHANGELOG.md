@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.2
 
 - Fix: Use updated layer id for the aerial photo layer.
 - Chore: Update `@polar`-dependencies to the latest versions.
