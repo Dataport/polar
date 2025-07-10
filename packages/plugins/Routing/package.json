@@ -31,9 +31,9 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^2.1.0",
+    "@polar/lib-custom-types": "^2.2.0",
     "@polar/lib-idx": "^1.0.0",
     "@polar/lib-passes-boundary-check": "^2.0.0",
-    "@polar/lib-test-mount-parameters": "^1.0.0"
+    "@polar/lib-test-mount-parameters": "^1.4.0"
   }
 }

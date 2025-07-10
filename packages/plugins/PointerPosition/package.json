@@ -23,6 +23,6 @@
     "CHANGELOG.md"
   ],
   "devDependencies": {
-    "@polar/lib-custom-types": "^2.1.0"
+    "@polar/lib-custom-types": "^2.2.0"
   }
 }
