@@ -42,7 +42,7 @@
     "ol": "^10.4.0"
   },
   "devDependencies": {
-    "@polar/lib-custom-types": "^2.0.0"
+    "@polar/lib-custom-types": "^2.2.0"
   },
   "files": [
     "src/**/*",

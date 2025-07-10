@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 3.2.1
 
 - Fix: Change `EPSG:31467` projection definition string to be usable for `proj` conversions.
 - Fix: List items that are currently highlighted according to vuetify (e.g. options in a select element) now by default have the primary color as outline to improve accessibility.
