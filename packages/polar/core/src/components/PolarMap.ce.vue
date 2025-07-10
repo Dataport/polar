@@ -21,7 +21,9 @@
 			:aria-label="$t('canvas.label')"
 		/>
 		<PolarUi />
-		<kern-button variant="primary" @click="demo">{{ $t('canvas.label') }}</kern-button>
+		<kern-button variant="primary" @click="demo">
+			{{ $t('canvas.label') }}
+		</kern-button>
 	</div>
 </template>
 
@@ -63,7 +65,7 @@ let resizeObserver: ResizeObserver | null = null
 
 async function loadKern() {
 	const externalStyle = document.getElementById('kern-styles')
-	if(externalStyle) {
+	if (externalStyle) {
 		externalStyle.id = 'polar-kern-styles'
 	}
 
@@ -71,10 +73,10 @@ async function loadKern() {
 	const kernStyle = document.getElementById('kern-styles')
 	const kernSheet = new CSSStyleSheet()
 	kernSheet.replaceSync(kernStyle.innerText.replaceAll(':root', ':host'))
-	polarWrapper.value.parentNode.adoptedStyleSheets = [ kernSheet ]
+	polarWrapper.value.parentNode.adoptedStyleSheets = [kernSheet]
 	kernStyle.remove()
 
-	if(externalStyle) {
+	if (externalStyle) {
 		externalStyle.id = 'kern-styles'
 	}
 }
