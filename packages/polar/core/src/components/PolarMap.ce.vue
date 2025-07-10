@@ -153,8 +153,8 @@ function setup() {
 	coreStore.updateHasSmallDisplay()
 }
 
-onMounted(() => {
-	loadKern()
+onMounted(async () => {
+	await loadKern()
 	if (Array.isArray(coreStore.serviceRegister)) {
 		setup()
 		return
