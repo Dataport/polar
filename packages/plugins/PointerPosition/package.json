@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-pointer-position",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0",
   "description": "PointerPosition plugin for POLAR that adds the pointer's (last) coordinate position as retrievable information or display information.",
   "keyword": [
     "OpenLayers",
