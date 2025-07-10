@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 3.1.0
 
 - Feature: Expose the functions `beautifyScale`, `thousandsSeparator`, `getDpi` and `calculateScaleFromResolution`.
 

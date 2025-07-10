@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 3.2.0
 
 - Feature: Add new `revision` parameter that, if set, adds another export with modifications and additional information to the drawn geometries.
 - Feature: Add new mode `'cut'` to allow users to cut polygons in parts.
