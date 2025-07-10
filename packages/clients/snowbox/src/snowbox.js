@@ -1,6 +1,7 @@
 import {
 	addPlugin,
 	createMap,
+	removePlugin,
 	subscribe,
 } from '../../../polar/core/src/index.ts'
 
@@ -35,6 +36,8 @@ setTimeout(
 		}),
 	5000
 )
+
+setTimeout(() => removePlugin('TEST'), 10000)
 
 // TODO: Update with plugin examples
 subscribe(

@@ -33,7 +33,6 @@ export function addPlugin(plugin: PluginContainer) {
 		[name]: pluginConfiguration,
 	}
 
-	// TODO(dopenguin): Not quite happy with this yet
 	const store = storeModule?.()
 	if (store && typeof store.setupPlugin === 'function') {
 		store.setupPlugin()
@@ -55,6 +54,24 @@ export function addPlugin(plugin: PluginContainer) {
 	}
 }
 
+export function removePlugin(pluginName: string) {
+	const coreStore = useCoreStore()
+	const plugin = coreStore.plugins.find((p) => p.name === pluginName)
+
+	if (!plugin) {
+		console.error(`@polar/core:removePlugin: Plugin "${pluginName}" not found.`)
+		return
+	}
+	const store = plugin.storeModule?.()
+	if (store) {
+		// TODO(dopenguin): Might need to be extended depending on the plugin
+		store.$reset()
+	}
+	coreStore.plugins = coreStore.plugins.filter(
+		(plugin) => plugin.name !== pluginName
+	)
+}
+
 /**
  * Initialize map and setup all relevant functionality.
  * Registers the custom element for the polar map.
@@ -66,7 +83,7 @@ export function addPlugin(plugin: PluginContainer) {
 export async function createMap(
 	mapConfiguration: MapConfiguration,
 	serviceRegister?: string | Record<string, unknown>[],
-	tagName = 'polar-map',
+	tagName = 'polar-map'
 ) {
 	// TODO(oeninghe-dataport): Split defineCustomElement to a separate function to allow two or more map clients per page
 
