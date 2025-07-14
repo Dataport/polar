@@ -10,10 +10,20 @@
 				height: 20em;
 				margin: 1em 0;
 			}
+			#language-switcher {
+				outline: solid black;
+			}
 		</style>
 	</head>
 	<body>
 		<h1>POLAR map client</h1>
+		<label id="language-switcher-label">
+			Language in map client:
+			<select id="language-switcher">
+				<option value="en">English</option>
+				<option value="de">German</option>
+			</select>
+		</label>
 		<div>
 			Current client width: <span id="client-width"></span>px
 		</div>

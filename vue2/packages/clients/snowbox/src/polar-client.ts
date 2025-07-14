@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import polarCore from '@polar/core'
-import { changeLanguage } from 'i18next'
 // NOTE bad pattern, but probably fine for a test client
 import { enableClustering } from '../../meldemichel/src/utils/enableClustering'
 import { addPlugins } from './addPlugins'
@@ -87,20 +86,6 @@ polarCore.rawLayerList.initializeLayerList(
   'https://geodienste.hamburg.de/services-internet.json',
   createMap
 )
-
-/* simple language switcher attached for demo purposes;
- * language switching is considered a global concern and
- * should be handled by the leading application */
-document
-  .getElementById('language-switcher')!
-  .addEventListener('change', (event) => {
-    const target = event.target as HTMLOptionElement
-    const { value } = target
-    changeLanguage(value).then(() => {
-      target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
-      target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
-    })
-  })
 
 document.getElementById('vuex-target-clicky')!.addEventListener('click', () =>
   // @ts-expect-error | added for e2e testing

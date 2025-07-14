@@ -1,3 +1,4 @@
+import { changeLanguage } from 'i18next'
 import {
 	addPlugin,
 	createMap,
@@ -44,3 +45,17 @@ subscribe(
 	'clientWidth',
 	(width) => (document.getElementById('client-width').innerText = width)
 )
+
+/* simple language switcher attached for demo purposes;
+ * language switching is considered a global concern and
+ * should be handled by the leading application */
+document
+	.getElementById('language-switcher')
+	.addEventListener('change', (event) => {
+		const target = event.target
+		const { value } = target
+		changeLanguage(value).then(() => {
+			target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
+			target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
+		})
+	})
