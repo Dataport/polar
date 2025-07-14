@@ -98,11 +98,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
   let selected: null | Feature = null
   let components: PluginContainer[] = []
 
-  const setCenter = ({ map }) =>
-    store.commit('setCenter', map.getView().getCenter())
-  const setZoom = ({ map }) =>
-    store.commit('setZoomLevel', map.getView().getZoom())
-
   const store = new Store({
     state: getInitialState(),
     plugins: [mutationLogger], // vuex plugins, not polar plugins
@@ -150,21 +145,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
     },
     mutations: {
       ...generateSimpleMutations(getInitialState()),
-      setMap: (state, payload) => {
-        if (map) {
-          map.un('moveend', setCenter)
-          map.un('moveend', setZoom)
-        }
-        map = payload
-        if (map) {
-          map.on('moveend', setCenter)
-          map.on('moveend', setZoom)
-          setCenter({ map })
-          setZoom({ map })
-        }
-        // NOTE: hack: don't put map in vuex (complex object); see NOTE above
-        state.map = state.map + 1
-      },
       setHovered: (state, payload) => {
         if (payload === null || payload.get('features')) {
           hovered = payload
@@ -188,11 +168,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
       setSelected: (state, payload) => {
         selected = payload
         state.selected = state.selected + 1
-      },
-      setComponents: (state, payload) => {
-        components = payload
-        // NOTE: hack: don't put components in vuex (complex objects); see NOTE above
-        state.components = state.components + 1
       },
       addError: (state, error: PolarError) => {
         state.errors.push(error)
