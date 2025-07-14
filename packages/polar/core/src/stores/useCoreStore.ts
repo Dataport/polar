@@ -45,6 +45,10 @@ export const useCoreStore = defineStore('core', () => {
 	//       Added as a watcher to trigger the update at the correct time.
 	watch(hasWindowSize, updateDragAndZoomInteractions)
 
+	i18next.on('languageChanged', (newLanguage) => {
+		language.value = newLanguage
+	})
+
 	function setCenter() {
 		// @ts-expect-error | map always has a center
 		center.value = map.value.getView().getCenter()

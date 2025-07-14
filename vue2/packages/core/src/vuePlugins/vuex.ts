@@ -2,13 +2,11 @@
 /* eslint-disable no-console */
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import merge from 'lodash.merge'
 import {
   generateSimpleGetters,
   generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
 import noop from '@repositoryname/noop'
-import i18next from 'i18next'
 import {
   CoreState,
   MapConfig,
@@ -214,11 +212,7 @@ export const makeStore = (mapConfiguration: MapConfig) => {
       updateSelection,
     },
   })
-  i18next.on('languageChanged', (language) => {
-    store.commit('setLanguage', language)
-  })
 
-  store.commit('setConfiguration', mapConfiguration)
   if (mapConfiguration.oidcToken) {
     // copied to a separate spot for usage as it's changable data at run-time
     store.commit('setOidcToken', mapConfiguration.oidcToken)
