@@ -80,7 +80,7 @@ export function removePlugin(pluginName: string) {
  * @param serviceRegister - Service register given through a URL or as an array. Will be required in an upcoming release instead of configuring it via layerConf in combination with rawLayerList.initializeLayerList.
  * @param tagName - Tag name for the custom element.
  */
-export async function createMap(
+export function createMap(
 	mapConfiguration: MapConfiguration,
 	serviceRegister?: string | Record<string, unknown>[],
 	tagName = 'polar-map'
