@@ -86,6 +86,7 @@ function createMap() {
 		{
 			target: polarMapContainer.value,
 			...mapZoomOffset(coreStore.configuration),
+			layerConf: coreStore.serviceRegister,
 		},
 		'2D',
 		{
