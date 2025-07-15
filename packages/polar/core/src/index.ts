@@ -74,12 +74,12 @@ export function removePlugin(pluginName: string) {
  * Registers the custom element for the polar map.
  *
  * @param mapConfiguration - Configuration options.
- * @param serviceRegister - Service register given through a URL or as an array. Will be required in an upcoming release instead of configuring it via layerConf in combination with rawLayerList.initializeLayerList.
+ * @param serviceRegister - Service register given through a URL or as an array.
  * @param tagName - Tag name for the custom element.
  */
 export function createMap(
 	mapConfiguration: MapConfiguration,
-	serviceRegister?: string | Record<string, unknown>[],
+	serviceRegister: string | Record<string, unknown>[],
 	tagName = 'polar-map'
 ) {
 	// TODO(oeninghe-dataport): Split defineCustomElement to a separate function to allow two or more map clients per page
