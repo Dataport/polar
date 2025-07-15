@@ -154,7 +154,6 @@ export const useCoreStore = defineStore('core', () => {
 
 	return {
 		// State
-		plugins,
 		configuration,
 		clientHeight,
 		clientWidth,
@@ -162,6 +161,7 @@ export const useCoreStore = defineStore('core', () => {
 		language,
 		map,
 		oidcToken,
+		plugins,
 		serviceRegister,
 		// Getters
 		hasSmallHeight,
