@@ -18,8 +18,6 @@ export function addPlugin(plugin: PluginContainer) {
 	const { locales, name, options, storeModule } = plugin
 	const coreStore = useCoreStore()
 
-	// TODO(dopenguin): Register that the plugins are added to a parameter in the core --> Needed for cross-plugin usage e.g. toast
-
 	const pluginConfiguration: PluginOptions = merge(
 		{},
 		options,
@@ -46,7 +44,6 @@ export function addPlugin(plugin: PluginContainer) {
 	}
 
 	coreStore.plugins = [...coreStore.plugins, plugin]
-	// TODO(dopenguin): Add the layout so displayComponent etc can be tested
 	if (pluginConfiguration.displayComponent && !pluginConfiguration.layoutTag) {
 		console.warn(
 			`@polar/core: Component "${name}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
