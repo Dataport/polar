@@ -23,6 +23,7 @@ export const useCoreStore = defineStore('core', () => {
 	// NOTE: Only instantiated here for proper typing
 	const map = ref(new Map())
 	const mapHasDimensions = ref(false)
+	const oidcToken = ref('')
 	const plugins = ref<PluginContainer[]>([])
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
 	const zoom = ref(0)
@@ -48,6 +49,36 @@ export const useCoreStore = defineStore('core', () => {
 	i18next.on('languageChanged', (newLanguage) => {
 		language.value = newLanguage
 	})
+
+	function addInterceptor(secureServiceUrlRegex: string) {
+		// NOTE: Not applicable here.
+		// eslint-disable-next-line @typescript-eslint/unbound-method
+		const { fetch: originalFetch } = window
+
+		// If interceptors for XMLHttpRequest or axios are needed, add them here.
+		window.fetch = (resource, originalConfig) => {
+			let config = originalConfig
+
+			if (
+				oidcToken.value &&
+				typeof resource === 'string' &&
+				resource.match(secureServiceUrlRegex)
+			) {
+				config = {
+					...originalConfig,
+					headers: {
+						// eslint-disable-next-line @typescript-eslint/naming-convention
+						Authorization: `Bearer ${oidcToken.value}`,
+						// NOTE: Currently expected that the headers are given as an object.
+						// eslint-disable-next-line @typescript-eslint/no-misused-spread
+						...originalConfig?.headers,
+					},
+				}
+			}
+
+			return originalFetch(resource, config)
+		}
+	}
 
 	function setCenter() {
 		// @ts-expect-error | map always has a center
@@ -130,6 +161,7 @@ export const useCoreStore = defineStore('core', () => {
 		hasSmallDisplay,
 		language,
 		map,
+		oidcToken,
 		serviceRegister,
 		// Getters
 		hasSmallHeight,
@@ -137,6 +169,7 @@ export const useCoreStore = defineStore('core', () => {
 		hasWindowSize,
 		deviceIsHorizontal,
 		// Actions
+		addInterceptor,
 		setMap,
 		updateDragAndZoomInteractions,
 		updateHasSmallDisplay,

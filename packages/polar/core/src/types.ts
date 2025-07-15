@@ -136,4 +136,6 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	layers: LayerConfiguration[]
 	language?: InitialLanguage
 	locales?: Locale[]
+	oidcToken?: string
+	secureServiceUrlRegex?: string
 }

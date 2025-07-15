@@ -581,8 +581,6 @@ export interface MapConfig extends MasterportalApiConfig {
   checkServiceAvailability?: boolean
   extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   featureStyles?: string
-  secureServiceUrlRegex?: string
-  oidcToken?: string
   renderFaToLightDom?: boolean
   stylePath?: string
   vuetify?: UserVuetifyPreset

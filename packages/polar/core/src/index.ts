@@ -99,6 +99,11 @@ export function createMap(
 				...mapConfiguration,
 			}
 			coreStore.serviceRegister = serviceRegister
+
+			if (coreStore.configuration.oidcToken) {
+				// copied to a separate spot for usage as it's changeable data at run-time
+				coreStore.oidcToken = coreStore.configuration.oidcToken
+			}
 		},
 	})
 

@@ -145,6 +145,9 @@ function wheelEffect(event: WheelEvent) {
 }
 
 function setup() {
+	if (coreStore.configuration.secureServiceUrlRegex) {
+		coreStore.addInterceptor(coreStore.configuration.secureServiceUrlRegex)
+	}
 	createMap()
 	resizeObserver = new ResizeObserver(updateClientDimensions)
 	resizeObserver.observe(polarWrapper.value as Element)

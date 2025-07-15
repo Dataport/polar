@@ -24,7 +24,6 @@ import {
   updateSelection,
   useExtendedMasterportalapiMarkers,
 } from './actions/useExtendedMasterportalapiMarkers'
-import { addInterceptor } from './actions/addInterceptor'
 import checkServiceAvailability from './actions/checkServiceAvailability'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
@@ -174,7 +173,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
       },
     },
     actions: {
-      addInterceptor,
       checkServiceAvailability,
       centerOnFeature({ rootGetters: { map } }, feature: Feature) {
         map.getView().animate({
@@ -187,14 +185,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
       updateSelection,
     },
   })
-
-  if (mapConfiguration.oidcToken) {
-    // copied to a separate spot for usage as it's changable data at run-time
-    store.commit('setOidcToken', mapConfiguration.oidcToken)
-  }
-  if (mapConfiguration.secureServiceUrlRegex) {
-    store.dispatch('addInterceptor', mapConfiguration.secureServiceUrlRegex)
-  }
 
   return store
 }
