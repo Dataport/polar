@@ -1,9 +1,11 @@
 import i18next from 'i18next'
-import { Map } from 'ol'
+import { type Feature, Map } from 'ol'
+import { type Coordinate } from 'ol/coordinate'
+import { easeOut } from 'ol/easing'
+import { type Point } from 'ol/geom'
+import { type Interaction } from 'ol/interaction'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import { type Coordinate } from 'ol/coordinate'
-import { type Interaction } from 'ol/interaction'
 import type { MapConfiguration, PluginContainer } from '../types'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
@@ -78,6 +80,14 @@ export const useCoreStore = defineStore('core', () => {
 
 			return originalFetch(resource, config)
 		}
+	}
+
+	function centerOnFeature(feature: Feature) {
+		map.value.getView().animate({
+			center: (feature.getGeometry() as Point).getCoordinates(),
+			duration: 400,
+			easing: easeOut,
+		})
 	}
 
 	function setCenter() {
@@ -170,6 +180,7 @@ export const useCoreStore = defineStore('core', () => {
 		deviceIsHorizontal,
 		// Actions
 		addInterceptor,
+		centerOnFeature,
 		setMap,
 		updateDragAndZoomInteractions,
 		updateHasSmallDisplay,

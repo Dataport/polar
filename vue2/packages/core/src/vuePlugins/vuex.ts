@@ -174,13 +174,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
     },
     actions: {
       checkServiceAvailability,
-      centerOnFeature({ rootGetters: { map } }, feature: Feature) {
-        map.getView().animate({
-          center: (feature.getGeometry() as Point).getCoordinates(),
-          duration: 400,
-          easing: easeOut,
-        })
-      },
       useExtendedMasterportalapiMarkers,
       updateSelection,
     },
