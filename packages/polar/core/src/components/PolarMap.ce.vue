@@ -86,6 +86,7 @@ function createMap() {
 	const map = api.map.createMap(
 		{
 			target: polarMapContainer.value,
+			// TODO(dopenguin): Do the mapZoomOffset call earlier, not in the component
 			...mapZoomOffset(coreStore.configuration),
 			layerConf: coreStore.serviceRegister,
 		},
