@@ -64,6 +64,7 @@ const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 let resizeObserver: ResizeObserver | null = null
 
 async function loadKern() {
+	// TODO: HMR is broken, getting the following error: TypeError: can't access property "innerText", kernStyle is null
 	const externalStyle = document.getElementById('kern-styles')
 	if (externalStyle) {
 		externalStyle.id = 'polar-kern-styles'
