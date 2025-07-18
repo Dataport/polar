@@ -11,6 +11,7 @@ import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 
 let interactions: Interaction[] = []
+let map: Map
 
 export const useCoreStore = defineStore('core', () => {
 	const center = ref<Coordinate>([0, 0])
@@ -22,8 +23,6 @@ export const useCoreStore = defineStore('core', () => {
 	})
 	const hasSmallDisplay = ref(false)
 	const language = ref(i18next.language)
-	// NOTE: Only instantiated here for proper typing
-	const map = ref(new Map())
 	const mapHasDimensions = ref(false)
 	const oidcToken = ref('')
 	const plugins = ref<PluginContainer[]>([])
@@ -83,7 +82,7 @@ export const useCoreStore = defineStore('core', () => {
 	}
 
 	function centerOnFeature(feature: Feature) {
-		map.value.getView().animate({
+		map.getView().animate({
 			center: (feature.getGeometry() as Point).getCoordinates(),
 			duration: 400,
 			easing: easeOut,
@@ -92,31 +91,40 @@ export const useCoreStore = defineStore('core', () => {
 
 	function setCenter() {
 		// @ts-expect-error | map always has a center
-		center.value = map.value.getView().getCenter()
+		center.value = map.getView().getCenter()
 	}
 	function setZoom() {
 		// @ts-expect-error | map always has a zoom level defined
-		zoom.value = map.value.getView().getZoom()
+		zoom.value = map.getView().getZoom()
 	}
+
+	function getMap() {
+		return map
+	}
+
 	function setMap(newMap: Map) {
-		map.value.un('moveend', setCenter)
-		map.value.un('moveend', setZoom)
-		map.value = newMap
-		map.value.on('moveend', setCenter)
-		map.value.on('moveend', setZoom)
+		// NOTE: Not defined in the beginning
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		if (map) {
+			map.un('moveend', setCenter)
+			map.un('moveend', setZoom)
+		}
+		map = newMap
+		map.on('moveend', setCenter)
+		map.on('moveend', setZoom)
 		setCenter()
 		setZoom()
 	}
 
 	function updateDragAndZoomInteractions() {
-		interactions.forEach((i) => map.value.removeInteraction(i))
+		interactions.forEach((i) => map.removeInteraction(i))
 		interactions = createPanAndZoomInteractions(
 			hasWindowSize.value,
 			window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
 				window.innerWidth <= SMALL_DISPLAY_WIDTH
 		)
 		interactions.forEach((i) => {
-			map.value.addInteraction(i)
+			map.addInteraction(i)
 		})
 	}
 
@@ -141,9 +149,9 @@ export const useCoreStore = defineStore('core', () => {
 	function updateSizeOnReady() {
 		let attemptCounter = 0
 		const intervalId = setInterval(() => {
-			const size = map.value.getSize()
+			const size = map.getSize()
 			if (attemptCounter++ < 100 && (!size || size[0] === 0 || size[1] === 0)) {
-				map.value.updateSize()
+				map.updateSize()
 			} else if (attemptCounter === 100) {
 				console.error(
 					`@polar/core: The POLAR map client could not update its size. The map is probably invisible due to having 0 width or 0 height. This might be a CSS issue – please check the wrapper's size.`
@@ -169,7 +177,6 @@ export const useCoreStore = defineStore('core', () => {
 		clientWidth,
 		hasSmallDisplay,
 		language,
-		map,
 		oidcToken,
 		plugins,
 		serviceRegister,
@@ -181,6 +188,7 @@ export const useCoreStore = defineStore('core', () => {
 		// Actions
 		addInterceptor,
 		centerOnFeature,
+		getMap,
 		setMap,
 		updateDragAndZoomInteractions,
 		updateHasSmallDisplay,

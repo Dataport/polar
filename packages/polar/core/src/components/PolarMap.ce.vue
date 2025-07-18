@@ -119,7 +119,8 @@ function updateListeners() {
 			new Hammer(polarMapContainer.value).on('pan', (e) => {
 				if (
 					e.maxPointers === 1 &&
-					coreStore.map
+					coreStore
+						.getMap()
 						.getInteractions()
 						.getArray()
 						.some((interaction) =>
