@@ -46,6 +46,10 @@ import { mapZoomOffset } from '../utils/mapZoomOffset'
 import { type MasterportalApiConfiguration } from '../types'
 import PolarUi from './PolarUI.ce.vue'
 
+defineOptions({
+	inheritAttrs: false,
+})
+
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 const coreStore = useCoreStore()
 
