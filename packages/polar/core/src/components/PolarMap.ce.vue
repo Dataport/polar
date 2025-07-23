@@ -181,6 +181,10 @@ function demo() {
 
 <style scoped lang="scss">
 .polar-wrapper {
+	--brand-color-l: 0.4671;
+	--brand-color-c: 0.1532;
+	--brand-color-h: 24.57;
+
 	position: absolute;
 	height: inherit;
 	width: inherit;

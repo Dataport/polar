@@ -1,5 +1,22 @@
 const theme = {
 	color: {
+		action: {
+			default: 'oklch(var(--brand-color-l) var(--brand-color-c) var(--brand-color-h))',
+			stateIndicator: {
+				shade: {
+					hover: 'oklch(calc(var(--brand-color-l) + 0.1) var(--brand-color-c) var(--brand-color-h))',
+					active: 'oklch(calc(var(--brand-color-l) + 0.14) var(--brand-color-c) var(--brand-color-h))',
+				},
+			},
+		},
+	},
+	metric: {
+		space: {
+			default: '8px',
+		},
+		borderRadius: {
+			default: '0 20px 0 0',
+		}
 	},
 }
 
