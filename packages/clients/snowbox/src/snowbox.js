@@ -60,7 +60,8 @@ await createMap(
 				stroke: '#FFFFFF',
 				fill: '#333333',
 			},
-			isSelectable: isReportSelectable,
+			// TODO(dopenguin): Has some HMR issues, needs to be fixed
+			// isSelectable: isReportSelectable,
 			clusterClickZoom: true,
 		},
 	},
