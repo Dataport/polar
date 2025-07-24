@@ -42,7 +42,6 @@ import {
 	watch,
 } from 'vue'
 import { useCoreStore } from '../stores/useCoreStore'
-import { mapZoomOffset } from '../utils/mapZoomOffset'
 import { loadKern } from '../utils/loadKern'
 import { type MasterportalApiConfiguration } from '../types'
 import { useMarkerStore } from '../stores/useMarkerStore'
@@ -73,8 +72,7 @@ function createMap() {
 	const map = api.map.createMap(
 		{
 			target: polarMapContainer.value,
-			// TODO(dopenguin): Do the mapZoomOffset call earlier, not in the component
-			...mapZoomOffset(coreStore.configuration),
+			...coreStore.configuration,
 			layerConf: coreStore.serviceRegister,
 		},
 		'2D',

@@ -10,6 +10,7 @@ import type { MapConfiguration, PluginContainer, PluginOptions } from './types'
 import { useCoreStore } from './stores/useCoreStore'
 import { useMarkerStore } from './stores/useMarkerStore'
 import defaults from './utils/defaults'
+import { mapZoomOffset } from './utils/mapZoomOffset'
 
 export function addPlugins(plugins: PluginContainer[]) {
 	plugins.forEach(addPlugin)
@@ -95,10 +96,10 @@ export function createMap(
 
 			const coreStore = useCoreStore()
 
-			coreStore.configuration = {
+			coreStore.configuration = mapZoomOffset({
 				...defaults,
 				...mapConfiguration,
-			}
+			})
 			coreStore.serviceRegister = serviceRegister
 
 			if (coreStore.configuration.oidcToken) {
