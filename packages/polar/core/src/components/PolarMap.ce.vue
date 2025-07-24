@@ -209,7 +209,6 @@ function demo() {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		/* TODO(dopenguin): Currently too large, spanning more than the map div */
 		width: inherit;
 		height: inherit;
 		z-index: 42;
