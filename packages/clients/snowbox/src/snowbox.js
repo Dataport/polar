@@ -8,6 +8,18 @@ import {
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
+const reports = '6059'
+
+// arbitrary condition for testing
+const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
+
+const isReportSelectable = (feature) =>
+	feature
+		.get('features')
+		.reduce(
+			(accumulator, current) => isEvenId(current.get('mmlid')) || accumulator,
+			false
+		)
 
 await createMap(
 	{
@@ -23,7 +35,34 @@ await createMap(
 				type: 'background',
 				name: 'snowbox.layers.basemapGrey',
 			},
+			{
+				id: reports,
+				type: 'mask',
+				name: 'snowbox.layers.reports',
+				visibility: true,
+			},
 		],
+		markers: {
+			layers: [reports],
+			defaultStyle: {
+				stroke: '#FFFFFF',
+				fill: '#005CA9',
+			},
+			hoverStyle: {
+				stroke: '#46688E',
+				fill: '#8BA1B8',
+			},
+			selectionStyle: {
+				stroke: '#FFFFFF',
+				fill: '#E10019',
+			},
+			unselectableStyle: {
+				stroke: '#FFFFFF',
+				fill: '#333333',
+			},
+			isSelectable: isReportSelectable,
+			clusterClickZoom: true,
+		},
 	},
 	'https://geodienste.hamburg.de/services-internet.json'
 )
@@ -40,10 +79,11 @@ setTimeout(
 
 setTimeout(() => removePlugin('TEST'), 10000)
 
-// TODO: Update with plugin examples
 subscribe(
-	'clientWidth',
-	(width) => (document.getElementById('client-width').innerText = width)
+	'markers/selectedCoordinates',
+	(coordinates) =>
+		(document.getElementById('selected-feature-coordinates').innerText =
+			JSON.stringify(coordinates))
 )
 
 /* simple language switcher attached for demo purposes;

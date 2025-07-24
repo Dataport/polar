@@ -7,21 +7,9 @@ const polygonStyle = new PolygonStyle()
 
 type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
 
-// these have been measured to fit once and influence marker size
-const imgSize: [number, number] = [26, 36]
-const imgSizeMulti: [number, number] = [40, 36]
-
-const defaultStroke = '#FFFFFF'
-const defaultStrokeWidth = '2'
-
-const defaultFill = '#005CA9'
-const defaultHoverFill = '#7B1045'
-const defaultSelectionFill = '#679100'
-const defaultUnselectableFill = '#333333'
-
 const prefix = 'data:image/svg+xml,'
 
-const getImagePattern = (fill: Exclude<MarkerStyle['fill'], undefined>) =>
+const getImagePattern = (fill: MarkerStyle['fill']) =>
 	typeof fill === 'string'
 		? ''
 		: `<defs>
@@ -37,12 +25,7 @@ const getImagePattern = (fill: Exclude<MarkerStyle['fill'], undefined>) =>
 /* Path of marker svg used in this file copied and adapted from
  * @masterportal/masterportalapi/public/marker.svg. */
 
-const makeMarker = ({
-	fill = defaultFill,
-	size = imgSize,
-	stroke = defaultStroke,
-	strokeWidth = defaultStrokeWidth,
-}: MarkerStyle) =>
+const makeMarker = ({ fill, size, stroke, strokeWidth }: MarkerStyle) =>
 	`${prefix}${encodeURIComponent(`
 <svg width="${size[0]}" height="${
 		size[1]
@@ -60,10 +43,10 @@ const makeMarker = ({
 `)}`
 
 const makeMultiMarker = ({
-	clusterSize = imgSizeMulti,
-	fill = defaultFill,
-	stroke = defaultStroke,
-	strokeWidth = defaultStrokeWidth,
+	fill,
+	clusterSize,
+	stroke,
+	strokeWidth,
 }: MarkerStyle) =>
 	`${prefix}${encodeURIComponent(`
 <svg width="${clusterSize[0]}" height="${
@@ -107,27 +90,12 @@ const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
 	}
 }
 
-const getStyleFunction =
-	(fallbackFill: string): GetMarkerFunction =>
-	(style, multi = false) =>
-		new Style({
-			image: new Icon({
-				src: (multi ? makeMultiMarker : makeMarker)({
-					fill: fallbackFill,
-					...style,
-				}),
-				anchor,
-			}),
-		})
+const getStyleFunction: GetMarkerFunction = (style, multi = false) =>
+	new Style({
+		image: new Icon({
+			src: (multi ? makeMultiMarker : makeMarker)(style),
+			anchor,
+		}),
+	})
 
-export const getDefaultStyle = memoizeStyle(getStyleFunction(defaultFill))
-
-export const getHoveredStyle = memoizeStyle(getStyleFunction(defaultHoverFill))
-
-export const getSelectedStyle = memoizeStyle(
-	getStyleFunction(defaultSelectionFill)
-)
-
-export const getUnselectableStyle = memoizeStyle(
-	getStyleFunction(defaultUnselectableFill)
-)
+export const getMarkerStyle = memoizeStyle(getStyleFunction)

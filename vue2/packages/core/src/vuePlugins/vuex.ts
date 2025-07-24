@@ -15,15 +15,8 @@ import {
   PluginContainer,
   PolarError,
 } from '@polar/lib-custom-types'
-import { Feature, Map } from 'ol'
-import { Point } from 'ol/geom'
-import { easeOut } from 'ol/easing'
-import getCluster from '@polar/lib-get-cluster'
+import { Map } from 'ol'
 import { CapabilitiesModule } from '../storeModules/capabilities'
-import {
-  updateSelection,
-  useExtendedMasterportalapiMarkers,
-} from './actions/useExtendedMasterportalapiMarkers'
 import checkServiceAvailability from './actions/checkServiceAvailability'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
@@ -58,10 +51,8 @@ const getInitialState = (): CoreState => ({
   clientWidth: 0,
   components: 1,
   center: null,
-  hovered: 1,
   moveHandle: 1,
   moveHandleActionButton: 1,
-  selected: 1,
   zoomLevel: 0,
   // @ts-expect-error | Required values are set in utils/createMap/index.ts
   configuration: {
@@ -91,10 +82,8 @@ export const makeStore = (mapConfiguration: MapConfig) => {
    * This is intended.
    */
   let map: null | Map = null
-  let hovered: null | Feature = null
   let moveHandle: MoveHandleProperties | null = null
   let moveHandleActionButton: MoveHandleActionButton | null = null
-  let selected: null | Feature = null
   let components: PluginContainer[] = []
 
   const store = new Store({
@@ -122,20 +111,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
         noop(state.moveHandleActionButton)
         return moveHandleActionButton
       },
-      hovered: (state) => {
-        noop(state.hovered)
-        return hovered
-      },
-      selected: (state) => {
-        noop(state.selected)
-        return selected
-      },
-      selectedCoordinates: (state) => {
-        noop(state.selected)
-        return selected === null
-          ? null
-          : (selected.getGeometry() as Point).getCoordinates()
-      },
       // hack: deliver components (outside vuex) based on counter; see NOTE above
       components: (state) => {
         noop(state.components)
@@ -144,15 +119,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
     },
     mutations: {
       ...generateSimpleMutations(getInitialState()),
-      setHovered: (state, payload) => {
-        if (payload === null || payload.get('features')) {
-          hovered = payload
-        } else if (map !== null) {
-          // nested features are invisible and hence unfit for styling
-          hovered = getCluster(map, payload, '_gfiLayerId')
-        }
-        state.hovered = state.hovered + 1
-      },
       setMoveHandle: (state, payload: MoveHandleProperties | null) => {
         moveHandle = payload
         state.moveHandle += 1
@@ -164,18 +130,12 @@ export const makeStore = (mapConfiguration: MapConfig) => {
         moveHandleActionButton = payload
         state.moveHandleActionButton += 1
       },
-      setSelected: (state, payload) => {
-        selected = payload
-        state.selected = state.selected + 1
-      },
       addError: (state, error: PolarError) => {
         state.errors.push(error)
       },
     },
     actions: {
       checkServiceAvailability,
-      useExtendedMasterportalapiMarkers,
-      updateSelection,
     },
   })
 

@@ -44,6 +44,7 @@ import {
 import { useCoreStore } from '../stores/useCoreStore'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import { type MasterportalApiConfiguration } from '../types'
+import { useMarkerStore } from '../stores/useMarkerStore'
 import PolarUi from './PolarUI.ce.vue'
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
@@ -152,7 +153,12 @@ function setup() {
 	if (coreStore.configuration.secureServiceUrlRegex) {
 		coreStore.addInterceptor(coreStore.configuration.secureServiceUrlRegex)
 	}
+	const markerStore = useMarkerStore()
+	markerStore.addClusterStyle()
 	createMap()
+	if (coreStore.configuration.markers) {
+		markerStore.setupMarkers(coreStore.configuration.markers)
+	}
 	resizeObserver = new ResizeObserver(updateClientDimensions)
 	resizeObserver.observe(polarWrapper.value as Element)
 	updateClientDimensions()

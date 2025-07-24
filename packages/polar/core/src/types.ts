@@ -1,4 +1,5 @@
 import type { Resource } from 'i18next'
+import { Feature } from 'ol'
 import type {
 	_ActionsTree,
 	_GettersTree,
@@ -51,6 +52,53 @@ export interface PluginContainer {
 
 /** The initial language the client should be using; defaults to 'de' if not given */
 export type InitialLanguage = 'de' | 'en'
+
+export type MarkersIsSelectableFunction = (feature: Feature) => boolean
+
+interface PolygonFillHatch {
+	pattern?:
+		| 'diagonal'
+		| 'diagonal-right'
+		| 'zig-line'
+		| 'zig-line-horizontal'
+		| 'circle'
+		| 'rectangle'
+		| 'triangle'
+		| 'diamond'
+		| object
+	size?: number
+	lineWidth?: number
+	backgroundColor?: [number, number, number, number]
+	patternColor?: [number, number, number, number]
+}
+
+export interface MarkerStyle {
+	clusterSize: [number, number]
+	fill: string | PolygonFillHatch
+	size: [number, number]
+	strokeWidth: string | number
+	stroke: string
+}
+
+interface CallOnMapSelect {
+	action: string
+	payload: unknown
+	pluginName?: string
+}
+
+// TODO(dopenguin): Also allow for the styling to happen per layer; also allow the markers themselves to be changeable
+export interface Markers {
+	layers: string[]
+	// Various styles
+	defaultStyle?: Partial<MarkerStyle>
+	hoverStyle?: Partial<MarkerStyle>
+	selectionStyle?: Partial<MarkerStyle>
+	unselectableStyle?: Partial<MarkerStyle>
+	// Behaviour
+	callOnMapSelect?: CallOnMapSelect
+	clusterClickZoom?: boolean
+	isSelectable?: MarkersIsSelectableFunction
+}
 
 export interface LayerConfigurationOptionLayers {
 	/**
@@ -136,6 +184,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	layers: LayerConfiguration[]
 	language?: InitialLanguage
 	locales?: Locale[]
+	markers?: Markers
 	oidcToken?: string
 	secureServiceUrlRegex?: string
 }

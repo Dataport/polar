@@ -1,3 +1,4 @@
+import '@kern-ux/native/dist/fonts/fira-sans.css'
 import i18next from 'i18next'
 import merge from 'lodash.merge'
 import { storeToRefs } from 'pinia'
@@ -7,8 +8,8 @@ import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
 import type { MapConfiguration, PluginContainer, PluginOptions } from './types'
 import { useCoreStore } from './stores/useCoreStore'
+import { useMarkerStore } from './stores/useMarkerStore'
 import defaults from './utils/defaults'
-import '@kern-ux/native/dist/fonts/fira-sans.css'
 
 export function addPlugins(plugins: PluginContainer[]) {
 	plugins.forEach(addPlugin)
@@ -120,14 +121,16 @@ export function subscribe(
 	const steps = path.split('/')
 	const isCore = steps.length === 1
 
-	// const store = isCore ? useCoreStore() : getStore(steps[0])
+	const store = isCore ? useCoreStore() : getStore(steps[0])
 	const parameterName = steps[isCore ? 0 : 1]
 
-	return watch(storeToRefs(useCoreStore())[parameterName], callback, {
+	return watch(storeToRefs(store)[parameterName], callback, {
 		immediate: true,
 		...options,
 	})
 }
 
 // TODO(dopenguin): Implement this once plugins are added so that the respective store is selected here.
-// function getStore(storeName: string) {}
+function getStore(storeName: string) {
+	return useMarkerStore()
+}

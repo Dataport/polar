@@ -35,7 +35,6 @@ import {
   MapConfig,
   MoveHandleProperties,
 } from '@polar/lib-custom-types'
-import { addClusterStyle } from '../utils/addClusterStyle'
 import { setupStyling } from '../utils/setupStyling'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
@@ -91,11 +90,7 @@ export default Vue.extend({
     const map = api.map.createMap(
       {
         target: this.$refs['polar-map-container'],
-        ...mapZoomOffset(
-          this.mapConfiguration.extendedMasterportalapiMarkers
-            ? addClusterStyle(this.mapConfiguration)
-            : this.mapConfiguration
-        ),
+        ...mapZoomOffset(this.mapConfiguration),
       },
       '2D',
       {
@@ -111,11 +106,6 @@ export default Vue.extend({
     )
     setupStyling(this.mapConfiguration, map)
     this.setMap(map)
-    if (this.mapConfiguration.extendedMasterportalapiMarkers) {
-      this.useExtendedMasterportalapiMarkers(
-        this.mapConfiguration.extendedMasterportalapiMarkers
-      )
-    }
     this.mapConfiguration.locales?.forEach?.((locale: Locale) =>
       i18next.addResourceBundle(locale.type, 'common', locale.resources, true)
     )
@@ -126,10 +116,7 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations(['setMap']),
-    ...mapActions([
-      'checkServiceAvailability',
-      'useExtendedMasterportalapiMarkers',
-    ]),
+    ...mapActions(['checkServiceAvailability',]),
   },
 })
 </script>

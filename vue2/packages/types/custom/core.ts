@@ -356,10 +356,6 @@ export interface FullscreenConfiguration extends PluginOptions {
   targetContainerId?: string
 }
 
-export type ExtendedMasterportalapiMarkersIsSelectableFunction = (
-  feature: Feature
-) => boolean
-
 export type GfiIsSelectableFunction = (feature: GeoJsonFeature) => boolean
 
 /** configurable function to gather additional info */
@@ -540,46 +536,9 @@ export interface ZoomConfiguration extends PluginOptions {
  *
  */
 
-export interface MasterportalapiPolygonFillHatch {
-  pattern?:
-    | 'diagonal'
-    | 'diagonal-right'
-    | 'zig-line'
-    | 'zig-line-horizontal'
-    | 'circle'
-    | 'rectangle'
-    | 'triangle'
-    | 'diamond'
-    | object
-  size?: number
-  lineWidth?: number
-  backgroundColor?: [number, number, number, number]
-  patternColor?: [number, number, number, number]
-}
-
-export interface MarkerStyle {
-  clusterSize?: [number, number]
-  fill?: string | MasterportalapiPolygonFillHatch
-  size?: [number, number]
-  strokeWidth?: string | number
-  stroke?: string
-}
-
-export interface ExtendedMasterportalapiMarkers {
-  layers: string[]
-  defaultStyle?: MarkerStyle
-  hoverStyle?: MarkerStyle
-  selectionStyle?: MarkerStyle
-  unselectableStyle?: MarkerStyle
-  clusterClickZoom?: boolean
-  dispatchOnMapSelect?: [string, unknown]
-  isSelectable?: ExtendedMasterportalapiMarkersIsSelectableFunction
-}
-
 export interface MapConfig extends MasterportalApiConfig {
   /** if true, all services' availability will be checked with head requests */
   checkServiceAvailability?: boolean
-  extendedMasterportalapiMarkers?: ExtendedMasterportalapiMarkers
   featureStyles?: string
   renderFaToLightDom?: boolean
   stylePath?: string
