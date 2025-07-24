@@ -1,6 +1,5 @@
 const theme = {
-	color: {
-	},
+	color: {},
 }
 
 export async function loadKern(host: ShadowRoot) {
