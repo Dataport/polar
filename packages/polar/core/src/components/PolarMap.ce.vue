@@ -43,9 +43,14 @@ import {
 } from 'vue'
 import { useCoreStore } from '../stores/useCoreStore'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
+import { loadKern } from '../utils/loadKern'
 import { type MasterportalApiConfiguration } from '../types'
 import { useMarkerStore } from '../stores/useMarkerStore'
 import PolarUi from './PolarUI.ce.vue'
+
+defineOptions({
+	inheritAttrs: false,
+})
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 const coreStore = useCoreStore()
@@ -63,25 +68,6 @@ const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
 let resizeObserver: ResizeObserver | null = null
-
-async function loadKern() {
-	// TODO: HMR is broken, getting the following error: TypeError: can't access property "innerText", kernStyle is null
-	const externalStyle = document.getElementById('kern-styles')
-	if (externalStyle) {
-		externalStyle.id = 'polar-kern-styles'
-	}
-
-	await import('@kern-ux-annex/webc')
-	const kernStyle = document.getElementById('kern-styles')
-	const kernSheet = new CSSStyleSheet()
-	kernSheet.replaceSync(kernStyle.innerText.replaceAll(':root', ':host'))
-	polarWrapper.value.parentNode.adoptedStyleSheets = [kernSheet]
-	kernStyle.remove()
-
-	if (externalStyle) {
-		externalStyle.id = 'kern-styles'
-	}
-}
 
 function createMap() {
 	const map = api.map.createMap(
@@ -167,7 +153,7 @@ function setup() {
 }
 
 onMounted(async () => {
-	await loadKern()
+	await loadKern(polarWrapper.value.parentNode)
 	if (Array.isArray(coreStore.serviceRegister)) {
 		setup()
 		return
