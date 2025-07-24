@@ -58,7 +58,8 @@ export const useMarkerStore = defineStore('markers', () => {
 
 	let lastZoom = 0
 
-	// NOTE: This needs to be doubled to be able to compare OpenLayers objects and have reactivity to watch for changes.
+	// NOTE: This needs to be doubled to be able to compare OpenLayers objects
+	// and have reactivity to watch for changes.
 	let hoveredValue: Feature | null = null
 	let selectedValue: Feature | null = null
 	const hovered = ref<Feature | null>(null)
@@ -257,8 +258,10 @@ export const useMarkerStore = defineStore('markers', () => {
 		map.on('moveend', mapMoveEnd)
 		map.on('pointermove', mapPointerMove)
 		map.on('click', mapClick)
-		/* click leads to singlelick; if an element is selectedValue, to not let other
-		 * plugins pick it up, something was already done with it */
+		/*
+		 * click leads to singlelick; if an element is selected,
+		 * to not let other plugins pick it up, something was already done with it
+		 */
 		map.on('singleclick', mapSingleClick)
 	}
 
