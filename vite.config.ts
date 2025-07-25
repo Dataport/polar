@@ -18,4 +18,7 @@ export default defineConfig({
 			entry: 'core/src/index.ts',
 		},
 	},
+	server: {
+		port: 1234,
+	},
 })
