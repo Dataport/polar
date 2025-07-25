@@ -136,7 +136,7 @@ export const useMarkerStore = defineStore('markers', () => {
 		const selectedValueCluster = getCluster(
 			coreStore.getMap(),
 			feature,
-			'_gfiLayerId'
+			'_polarLayerId'
 		)
 
 		selectedValueCluster.setStyle(
@@ -153,9 +153,8 @@ export const useMarkerStore = defineStore('markers', () => {
 		}
 	}
 
-	// NOTE: key `_gfiLayerId` required for GFI plugin interconnection
 	function setLayerId(feature: Feature) {
-		if (feature.get('_gfiLayerId')) {
+		if (feature.get('_polarLayerId')) {
 			return
 		}
 
@@ -180,7 +179,7 @@ export const useMarkerStore = defineStore('markers', () => {
 			})
 			?.get('id') as string | undefined
 		if (layerId) {
-			feature.set('_gfiLayerId', layerId, true)
+			feature.set('_polarLayerId', layerId, true)
 		}
 	}
 
