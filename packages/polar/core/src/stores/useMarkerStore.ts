@@ -104,21 +104,22 @@ export const useMarkerStore = defineStore('markers', () => {
 			return
 		}
 
-		const selectedValueCluster = getCluster(
-			coreStore.getMap(),
-			feature,
-			'_polarLayerId'
-		)
+		// If clustering is not enabled, the feature can not be part of a cluster
+		// and doesn't have the property 'feature' defined.
+		const selectedCluster =
+			feature.get('features') === undefined
+				? feature
+				: getCluster(coreStore.getMap(), feature, '_polarLayerId')
 
-		selectedValueCluster.setStyle(
+		selectedCluster.setStyle(
 			getMarkerStyle(
 				selectionStyle,
-				selectedValueCluster.get('features')?.length > 1
+				selectedCluster.get('features')?.length > 1
 			)
 		)
 
-		selectedValue = selectedValueCluster
-		selected.value = selectedValueCluster
+		selectedValue = selectedCluster
+		selected.value = selectedCluster
 		if (centerOnFeature) {
 			coreStore.centerOnFeature(selectedValue)
 		}
