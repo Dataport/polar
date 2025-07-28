@@ -9,7 +9,7 @@ import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 import getCluster from '../../../lib/getCluster'
-import { InvisibleStyle, isVisible } from '../../../lib/invisibleStyle'
+import { isVisible } from '../../../lib/invisibleStyle'
 import { Markers, MarkersIsSelectableFunction, MarkerStyle } from '../types'
 import { getMarkerStyle } from '../utils/markers'
 import { useCoreStore } from './useCoreStore'
@@ -195,29 +195,12 @@ export const useMarkerStore = defineStore('markers', () => {
 						(feature: Feature) =>
 							isVisible(feature) ? feature.getGeometry() : null
 				}
-				;(layer as VectorLayer).setStyle((feature) => {
-					if (isSelectable(feature as Feature)) {
-						// Features may be invisible if their layer has clustering enabled
-						// and thus a feature includes its feature(s) as their 'features' property.
-						const clusteredFeatures = feature.get('features') as
-							| Feature[]
-							| undefined
-						if (
-							Array.isArray(clusteredFeatures) &&
-							clusteredFeatures.filter(isVisible).length === 0
-						) {
-							return InvisibleStyle
-						}
-						return getMarkerStyle(
-							defaultStyle,
-							feature.get('features')?.length > 1
-						)
-					}
-					return getMarkerStyle(
-						unselectableStyle,
-						feature.get('features').length > 1
+				;(layer as VectorLayer).setStyle((feature) =>
+					getMarkerStyle(
+						isSelectable(feature as Feature) ? defaultStyle : unselectableStyle,
+						feature.get('features')?.length > 1
 					)
-				})
+				)
 			})
 
 		// // // STORE EVENT HANDLING
