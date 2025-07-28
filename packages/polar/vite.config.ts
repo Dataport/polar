@@ -17,5 +17,6 @@ export default defineConfig({
 			fileName: 'polar',
 			entry: 'core/src/index.ts',
 		},
+		sourcemap: true,
 	},
 })

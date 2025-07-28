@@ -186,8 +186,10 @@ function demo() {
 <style scoped lang="scss">
 .polar-wrapper {
 	position: absolute;
-	height: inherit;
-	width: inherit;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 
 	.polar-map {
 		width: 100%;
