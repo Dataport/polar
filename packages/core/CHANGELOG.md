@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Chore: Document that `stylePath` has to be updated with a different path in most client configurations.
+
 ## 3.2.1
 
 - Fix: Change `EPSG:31467` projection definition string to be usable for `proj` conversions.
