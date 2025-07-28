@@ -1,5 +1,6 @@
 import { Feature, MapBrowserEvent } from 'ol'
 import { createEmpty, extend } from 'ol/extent'
+import { Point } from 'ol/geom'
 import type BaseLayer from 'ol/layer/Base'
 import VectorLayer from 'ol/layer/Vector'
 import RenderFeature from 'ol/render/Feature'
@@ -7,7 +8,6 @@ import Cluster from 'ol/source/Cluster'
 import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import { Point } from 'ol/geom'
 import getCluster from '../../../lib/getCluster'
 import { InvisibleStyle, isVisible } from '../../../lib/invisibleStyle'
 import { Markers, MarkersIsSelectableFunction, MarkerStyle } from '../types'
@@ -70,35 +70,6 @@ export const useMarkerStore = defineStore('markers', () => {
 			? null
 			: (selected.value.getGeometry() as Point).getCoordinates()
 	)
-
-	function addClusterStyle() {
-		const coreStore = useCoreStore()
-
-		const serviceRegister = coreStore.serviceRegister
-		if (typeof serviceRegister === 'string') {
-			console.error(
-				'@polar/core: The service register has not been instantiated yet, please call this action at a later time.'
-			)
-			return serviceRegister
-		}
-		return serviceRegister.map((service) => {
-			if (service.clusterDistance !== undefined) {
-				// @masterportal/masterportalapi hook
-				service.style = (feature: Feature) => {
-					const visibleFeaturesCount: number = (
-						feature.get('features') || []
-					).filter(isVisible).length
-
-					if (visibleFeaturesCount === 0) {
-						return InvisibleStyle
-					}
-					return getMarkerStyle(defaultStyle, visibleFeaturesCount > 1)
-				}
-			}
-
-			return service
-		})
-	}
 
 	function layerFilter(layer: BaseLayer) {
 		return layers.includes(layer.get('id'))
@@ -223,11 +194,19 @@ export const useMarkerStore = defineStore('markers', () => {
 						(feature: Feature) =>
 							isVisible(feature) ? feature.getGeometry() : null
 				}
-				const originalStyleFunction = (layer as VectorLayer).getStyle()
 				;(layer as VectorLayer).setStyle((feature) => {
 					if (isSelectable(feature as Feature)) {
-						// @ts-expect-error | always is a function due to masterportalapi design
-						return originalStyleFunction(feature)
+						const visibleFeaturesCount: number = (
+							feature.get('features') || []
+						).filter(isVisible).length
+
+						if (visibleFeaturesCount === 0) {
+							return InvisibleStyle
+						}
+						return getMarkerStyle(
+							defaultStyle,
+							feature.get('features')?.length > 1
+						)
 					}
 					return getMarkerStyle(
 						unselectableStyle,
@@ -374,7 +353,6 @@ export const useMarkerStore = defineStore('markers', () => {
 	}
 
 	return {
-		addClusterStyle,
 		setupMarkers,
 		hovered,
 		selected,
