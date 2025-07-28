@@ -196,11 +196,15 @@ export const useMarkerStore = defineStore('markers', () => {
 				}
 				;(layer as VectorLayer).setStyle((feature) => {
 					if (isSelectable(feature as Feature)) {
-						const visibleFeaturesCount: number = (
-							feature.get('features') || []
-						).filter(isVisible).length
-
-						if (visibleFeaturesCount === 0) {
+						// Features may be invisible if their layer has clustering enabled
+						// and thus a feature includes its feature(s) as their 'features' property.
+						const clusteredFeatures = feature.get('features') as
+							| Feature[]
+							| undefined
+						if (
+							Array.isArray(clusteredFeatures) &&
+							clusteredFeatures.filter(isVisible).length === 0
+						) {
 							return InvisibleStyle
 						}
 						return getMarkerStyle(
