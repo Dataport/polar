@@ -13,7 +13,8 @@
 	"type": "module",
 	"author": "Dataport AöR <polar@dataport.de>",
 	"exports": {
-		".": "./dist/polar.js"
+		".": "./dist/polar.js",
+		"./polar.css": "./dist/polar.css"
 	},
 	"scripts": {
 		"build": "vite build --watch",
