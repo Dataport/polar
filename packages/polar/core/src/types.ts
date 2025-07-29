@@ -80,24 +80,34 @@ export interface MarkerStyle {
 	stroke: string
 }
 
-interface CallOnMapSelect {
+export interface CallOnMapSelect {
 	action: string
 	payload: unknown
 	pluginName?: string
 }
 
-// TODO(dopenguin): Also allow for the styling to happen per layer; also allow the markers themselves to be changeable
-export interface Markers {
-	layers: string[]
-	// Various styles
+export interface MarkerLayer {
+	id: string
+	defaultStyle: MarkerStyle
+	hoverStyle: MarkerStyle
+	selectionStyle: MarkerStyle
+	unselectableStyle: MarkerStyle
+	isSelectable: MarkersIsSelectableFunction
+}
+
+interface MarkerLayerConfiguration {
+	id: string
 	defaultStyle?: Partial<MarkerStyle>
 	hoverStyle?: Partial<MarkerStyle>
 	selectionStyle?: Partial<MarkerStyle>
 	unselectableStyle?: Partial<MarkerStyle>
-	// Behaviour
+	isSelectable?: MarkersIsSelectableFunction
+}
+
+export interface MarkerConfiguration {
+	layers: MarkerLayerConfiguration[]
 	callOnMapSelect?: CallOnMapSelect
 	clusterClickZoom?: boolean
-	isSelectable?: MarkersIsSelectableFunction
 }
 
 export interface LayerConfigurationOptionLayers {
@@ -184,7 +194,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	layers: LayerConfiguration[]
 	language?: InitialLanguage
 	locales?: Locale[]
-	markers?: Markers
+	markers?: MarkerConfiguration
 	oidcToken?: string
 	secureServiceUrlRegex?: string
 }

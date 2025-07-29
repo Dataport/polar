@@ -1,3 +1,4 @@
+import merge from 'lodash.merge'
 import { Feature, MapBrowserEvent } from 'ol'
 import { createEmpty, extend } from 'ol/extent'
 import { Point } from 'ol/geom'
@@ -10,7 +11,12 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 import getCluster from '../../../lib/getCluster'
 import { isVisible } from '../../../lib/invisibleStyle'
-import { Markers, MarkersIsSelectableFunction, MarkerStyle } from '../types'
+import {
+	CallOnMapSelect,
+	MarkerConfiguration,
+	MarkerLayer,
+	MarkerStyle,
+} from '../types'
 import { getMarkerStyle } from '../utils/markers'
 import { useCoreStore } from './useCoreStore'
 
@@ -22,39 +28,38 @@ export const useMarkerStore = defineStore('markers', () => {
 	const defaultStroke = '#FFFFFF'
 	const defaultStrokeWidth = '2'
 
-	// These are all configurable parameters
-	let layers: Markers['layers'] = []
-	let defaultStyle: MarkerStyle = {
+	const defaultStyle: MarkerStyle = {
 		clusterSize: imgSizeMulti,
 		fill: '#005CA9',
 		size: imgSize,
 		stroke: defaultStroke,
 		strokeWidth: defaultStrokeWidth,
 	}
-	let hoverStyle: MarkerStyle = {
+	const hoverStyle: MarkerStyle = {
 		clusterSize: imgSizeMulti,
 		fill: '#7B1045',
 		size: imgSize,
 		stroke: defaultStroke,
 		strokeWidth: defaultStrokeWidth,
 	}
-	let selectionStyle: MarkerStyle = {
+	const selectionStyle: MarkerStyle = {
 		clusterSize: imgSizeMulti,
 		fill: '#679100',
 		size: imgSize,
 		stroke: defaultStroke,
 		strokeWidth: defaultStrokeWidth,
 	}
-	let unselectableStyle: MarkerStyle = {
+	const unselectableStyle: MarkerStyle = {
 		clusterSize: imgSizeMulti,
 		fill: '#333333',
 		size: imgSize,
 		stroke: defaultStroke,
 		strokeWidth: defaultStrokeWidth,
 	}
-	let callOnMapSelect: Markers['callOnMapSelect']
-	let clusterClickZoom: Markers['clusterClickZoom'] = false
-	let isSelectable: MarkersIsSelectableFunction = () => true
+
+	let layers: MarkerLayer[] = []
+	let callOnMapSelect: CallOnMapSelect
+	let clusterClickZoom: MarkerConfiguration['clusterClickZoom'] = false
 
 	let lastZoom = 0
 
@@ -71,8 +76,13 @@ export const useMarkerStore = defineStore('markers', () => {
 			: (selected.value.getGeometry() as Point).getCoordinates()
 	)
 
+	// As this function is only internally used, it is expected that a layer is found.
+	function getLayerConfiguration(id: string) {
+		return layers.find((layer) => layer.id === id) as MarkerLayer
+	}
+
 	function layerFilter(layer: BaseLayer) {
-		return layers.includes(layer.get('id'))
+		return layers.some(({ id }) => id === (layer.get('id') as string))
 	}
 
 	function findLayer(layerId: string) {
@@ -121,7 +131,8 @@ export const useMarkerStore = defineStore('markers', () => {
 
 		selectedCluster.setStyle(
 			getMarkerStyle(
-				selectionStyle,
+				getLayerConfiguration(feature.get('_polarLayerId') as string)
+					.selectionStyle,
 				selectedCluster.get('features')?.length > 1
 			)
 		)
@@ -163,17 +174,22 @@ export const useMarkerStore = defineStore('markers', () => {
 		}
 	}
 
-	function setupMarkers(configuration: Markers) {
+	function setupMarkers(configuration: MarkerConfiguration) {
 		const map = useCoreStore().getMap()
 
-		layers = configuration.layers
-		defaultStyle = { ...defaultStyle, ...configuration.defaultStyle }
-		hoverStyle = { ...hoverStyle, ...configuration.hoverStyle }
-		selectionStyle = { ...selectionStyle, ...configuration.selectionStyle }
-		unselectableStyle = {
-			...unselectableStyle,
-			...configuration.unselectableStyle,
-		}
+		layers = configuration.layers.map(
+			(layer) =>
+				merge(
+					{
+						defaultStyle,
+						hoverStyle,
+						selectionStyle,
+						unselectableStyle,
+						isSelectable: () => true,
+					},
+					layer
+				) as MarkerLayer
+		)
 		callOnMapSelect =
 			typeof configuration.callOnMapSelect === 'function'
 				? configuration.callOnMapSelect
@@ -182,10 +198,6 @@ export const useMarkerStore = defineStore('markers', () => {
 			typeof configuration.clusterClickZoom === 'boolean'
 				? configuration.clusterClickZoom
 				: clusterClickZoom
-		isSelectable =
-			typeof configuration.isSelectable === 'function'
-				? configuration.isSelectable
-				: isSelectable
 
 		lastZoom = map.getView().getZoom() as number
 
@@ -203,9 +215,14 @@ export const useMarkerStore = defineStore('markers', () => {
 						(feature: Feature) =>
 							isVisible(feature) ? feature.getGeometry() : null
 				}
+				const layerConfiguration = getLayerConfiguration(
+					layer.get('id') as string
+				)
 				;(layer as VectorLayer).setStyle((feature) =>
 					getMarkerStyle(
-						isSelectable(feature as Feature) ? defaultStyle : unselectableStyle,
+						layerConfiguration.isSelectable(feature as Feature)
+							? layerConfiguration.defaultStyle
+							: layerConfiguration.unselectableStyle,
 						feature.get('features')?.length > 1
 					)
 				)
@@ -224,8 +241,13 @@ export const useMarkerStore = defineStore('markers', () => {
 				hoveredValue = feature
 				hovered.value = feature
 				const isMultiFeature = hoveredValue.get('features')?.length > 1
-				hoveredValue.setStyle(getMarkerStyle(hoverStyle, isMultiFeature))
-				hovered.value.setStyle(getMarkerStyle(hoverStyle, isMultiFeature))
+				const style = getMarkerStyle(
+					getLayerConfiguration(feature.get('_polarLayerId') as string)
+						.hoverStyle,
+					isMultiFeature
+				)
+				hoveredValue.setStyle(style)
+				hovered.value.setStyle(style)
 			}
 		})
 
@@ -272,12 +294,20 @@ export const useMarkerStore = defineStore('markers', () => {
 		}
 		// NOTE: Not all pixels include features.
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (!feature || !isSelectable(feature)) {
+		if (!feature) {
+			return
+		}
+		setLayerId(feature)
+		const layerConfiguration = getLayerConfiguration(
+			feature.get('_polarLayerId') as string
+		)
+		if (!layerConfiguration.isSelectable(feature)) {
 			return
 		}
 		const isMultiFeature = feature.get('features')?.length > 1
-		setLayerId(feature)
-		feature.setStyle(getMarkerStyle(hoverStyle, isMultiFeature))
+		feature.setStyle(
+			getMarkerStyle(layerConfiguration.hoverStyle, isMultiFeature)
+		)
 		hoveredValue = feature
 		hovered.value = feature
 	}
@@ -294,9 +324,15 @@ export const useMarkerStore = defineStore('markers', () => {
 			// NOTE: Not all pixels include features.
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			!feature ||
-			feature instanceof RenderFeature ||
-			!isSelectable(feature)
+			feature instanceof RenderFeature
 		) {
+			return
+		}
+		setLayerId(feature)
+		const layerConfiguration = getLayerConfiguration(
+			feature.get('_polarLayerId') as string
+		)
+		if (!layerConfiguration.isSelectable(feature)) {
 			return
 		}
 
@@ -314,7 +350,6 @@ export const useMarkerStore = defineStore('markers', () => {
 		hovered.value?.setStyle(undefined)
 		hoveredValue = null
 		hovered.value = null
-		setLayerId(feature)
 		updateSelection(feature, true)
 
 		if (callOnMapSelect) {

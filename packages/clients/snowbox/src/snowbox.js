@@ -43,25 +43,29 @@ await createMap(
 			},
 		],
 		markers: {
-			layers: [reports],
-			defaultStyle: {
-				stroke: '#FFFFFF',
-				fill: '#005CA9',
-			},
-			hoverStyle: {
-				stroke: '#46688E',
-				fill: '#8BA1B8',
-			},
-			selectionStyle: {
-				stroke: '#FFFFFF',
-				fill: '#E10019',
-			},
-			unselectableStyle: {
-				stroke: '#FFFFFF',
-				fill: '#333333',
-			},
-			// TODO(dopenguin): Has some HMR issues, needs to be fixed
-			// isSelectable: isReportSelectable,
+			layers: [
+				{
+					id: reports,
+					defaultStyle: {
+						stroke: '#FFFFFF',
+						fill: '#005CA9',
+					},
+					hoverStyle: {
+						stroke: '#46688E',
+						fill: '#8BA1B8',
+					},
+					selectionStyle: {
+						stroke: '#FFFFFF',
+						fill: '#E10019',
+					},
+					unselectableStyle: {
+						stroke: '#FFFFFF',
+						fill: '#333333',
+					},
+					// TODO(dopenguin): Has some HMR issues, needs to be fixed
+					// isSelectable: isReportSelectable,
+				},
+			],
 			clusterClickZoom: true,
 		},
 	},
