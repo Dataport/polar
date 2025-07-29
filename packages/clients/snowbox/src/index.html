@@ -1,15 +1,64 @@
 <!doctype html>
 <html>
 	<head>
-		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+		<meta
+			http-equiv="Cache-Control"
+			content="no-cache, no-store, must-revalidate, max-age=0"
+		/>
 		<script type="module" defer src="snowbox.js"></script>
 		<style>
-			#snowbox {
-				display: block;
-				width: 100%;
-				height: 20em;
-				margin: 1em 0;
+			/* style just for example page, not directly related to POLAR */
+			:root {
+				--not-quite-white: #f2f3f4;
+				--eigengrau: #16161d;
+				--map-height: 600px;
 			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: sans-serif;
+				padding: 2em;
+				background: var(--not-quite-white);
+				color: var(--eigengrau);
+			}
+
+			h1 {
+				margin-bottom: 0.5em;
+			}
+
+			h2 {
+				margin: 0.5em 0;
+			}
+
+			p {
+				margin: 0.2em 0;
+			}
+
+			/* directly related to POLAR - something like this must be
+       * available for map client to render in (see core docs for
+       * more details on requirements) */
+			.snowbox {
+				display: block;
+				width: 100vw;
+				max-width: calc(100% + 64px);
+				height: var(--map-height);
+				position: relative;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				left: -32px;
+				outline: solid var(--eigengrau);
+			}
+
 			#language-switcher {
 				outline: solid black;
 			}
@@ -28,6 +77,6 @@
 			Coordinates of currently selected feature: <span id="selected-feature-coordinates"></span>
 		</div>
 		<h2>Demo application ("Snowbox")</h2>
-		<polar-map id="snowbox"></polar-map>
+		<polar-map id="snowbox" class="snowbox"></polar-map>
 	</body>
 </html>
