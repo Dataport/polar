@@ -75,6 +75,14 @@ export const useMarkerStore = defineStore('markers', () => {
 		return layers.includes(layer.get('id'))
 	}
 
+	function findLayer(layerId: string) {
+		return useCoreStore()
+			.getMap()
+			.getLayers()
+			.getArray()
+			.find((layer) => layer.get('id') === layerId) as VectorLayer | undefined
+	}
+
 	function resolveClusterClick(feature: Feature) {
 		const features = feature.get('features') as Feature[]
 
@@ -104,12 +112,12 @@ export const useMarkerStore = defineStore('markers', () => {
 			return
 		}
 
-		// If clustering is not enabled, the feature can not be part of a cluster
-		// and doesn't have the property 'feature' defined.
+		const layerId = feature.get('_polarLayerId') as string
 		const selectedCluster =
-			feature.get('features') === undefined
-				? feature
-				: getCluster(coreStore.getMap(), feature, '_polarLayerId')
+			// @ts-expect-error | Found layers always have a source and getDistance is defined on cluster sources.
+			typeof findLayer(layerId)?.getSource().getDistance === 'function'
+				? getCluster(coreStore.getMap(), feature, '_polarLayerId')
+				: feature
 
 		selectedCluster.setStyle(
 			getMarkerStyle(
