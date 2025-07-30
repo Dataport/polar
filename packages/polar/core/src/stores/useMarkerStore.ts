@@ -58,7 +58,7 @@ export const useMarkerStore = defineStore('markers', () => {
 	}
 
 	let layers: MarkerLayer[] = []
-	let callOnMapSelect: CallOnMapSelect
+	let callOnMapSelect: CallOnMapSelect | null = null
 	let clusterClickZoom: MarkerConfiguration['clusterClickZoom'] = false
 
 	let lastZoom = 0
