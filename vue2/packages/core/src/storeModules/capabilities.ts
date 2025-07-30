@@ -3,6 +3,8 @@ import { rawLayerList } from '@masterportal/masterportalapi'
 import { Module } from 'vuex'
 import WMSCapabilities from 'ol/format/WMSCapabilities'
 
+// TODO: Add this directly to plugin/layer-chooser as that is the only place where it is currently used
+
 const parser = new WMSCapabilities()
 
 export interface CoreCapabilitiesState {
