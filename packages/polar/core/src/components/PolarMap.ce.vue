@@ -1,5 +1,5 @@
 <template>
-	<div ref="polar-wrapper" class="polar-wrapper">
+	<div ref="polar-wrapper" class="polar-wrapper" :lang="language">
 		<transition name="fade">
 			<div
 				v-if="!hasWindowSize && (noControlOnZoom || oneFingerPan)"
@@ -57,7 +57,7 @@ const coreStore = useCoreStore()
 const noControlOnZoom = ref(false)
 const oneFingerPan = ref(false)
 
-const { hasWindowSize } = storeToRefs(coreStore)
+const { hasWindowSize, language } = storeToRefs(coreStore)
 
 const overlayLocale = computed(() => {
 	return `overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
