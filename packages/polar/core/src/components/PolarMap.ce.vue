@@ -122,7 +122,7 @@ function updateListeners() {
 	}
 }
 
-let noControlOnZoomTimeout: number
+let noControlOnZoomTimeout: ReturnType<typeof setTimeout>
 
 function wheelEffect(event: WheelEvent) {
 	clearTimeout(noControlOnZoomTimeout)
