@@ -108,13 +108,9 @@ export default Vue.extend({
       i18next.addResourceBundle(locale.type, 'common', locale.resources, true)
     )
     i18next.on('languageChanged', (lang) => (this.lang = lang))
-    if (this.mapConfiguration.checkServiceAvailability) {
-      this.checkServiceAvailability()
-    }
   },
   methods: {
     ...mapMutations(['setMap']),
-    ...mapActions(['checkServiceAvailability',]),
   },
 })
 </script>

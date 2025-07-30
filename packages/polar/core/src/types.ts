@@ -23,6 +23,18 @@ export interface Locale {
 	type: string
 }
 
+export interface PolarError {
+	type: 'connection' | 'uncategorized'
+	statusCode: number | null
+	text: string
+}
+
+export interface ServiceAvailabilityCheck {
+	ping: Promise<number>
+	serviceId: string
+	serviceName: string
+}
+
 // TODO(dopenguin): Adjust these options
 export interface PluginOptions {
 	displayComponent?: boolean
@@ -192,6 +204,7 @@ export interface MasterportalApiConfiguration {
 export interface MapConfiguration extends MasterportalApiConfiguration {
 	/** Configured layers */
 	layers: LayerConfiguration[]
+	checkServiceAvailability?: boolean
 	featureStyles?: string
 	language?: InitialLanguage
 	locales?: Locale[]

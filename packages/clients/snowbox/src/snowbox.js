@@ -51,6 +51,7 @@ await createMap(
 				visibility: true,
 			},
 		],
+		checkServiceAvailability: true,
 		featureStyles: './style.json',
 		markers: {
 			layers: [

@@ -138,6 +138,9 @@ async function setup() {
 		coreStore.addInterceptor(coreStore.configuration.secureServiceUrlRegex)
 	}
 	createMap()
+	if (coreStore.configuration.checkServiceAvailability) {
+		coreStore.checkServiceAvailability()
+	}
 	if (coreStore.configuration.markers) {
 		useMarkerStore().setupMarkers(coreStore.configuration.markers)
 	}
