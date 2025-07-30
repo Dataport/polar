@@ -133,7 +133,7 @@ function wheelEffect(event: WheelEvent) {
 	)
 }
 
-function setup() {
+async function setup() {
 	if (coreStore.configuration.secureServiceUrlRegex) {
 		coreStore.addInterceptor(coreStore.configuration.secureServiceUrlRegex)
 	}
@@ -141,6 +141,7 @@ function setup() {
 	if (coreStore.configuration.markers) {
 		useMarkerStore().setupMarkers(coreStore.configuration.markers)
 	}
+	await coreStore.setupStyling()
 	resizeObserver = new ResizeObserver(updateClientDimensions)
 	resizeObserver.observe(polarWrapper.value as Element)
 	updateClientDimensions()
@@ -149,16 +150,15 @@ function setup() {
 }
 
 onMounted(async () => {
-	await loadKern(polarWrapper.value.parentNode)
+	await loadKern(polarWrapper.value?.parentNode as ShadowRoot)
 	if (Array.isArray(coreStore.serviceRegister)) {
-		setup()
-		return
+		return setup()
 	}
 	rawLayerList.initializeLayerList(
 		coreStore.serviceRegister,
 		(layerConf: MasterportalApiConfiguration['layerConf']) => {
 			coreStore.serviceRegister = layerConf
-			setup()
+			return setup()
 		}
 	)
 })

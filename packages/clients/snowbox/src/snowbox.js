@@ -8,6 +8,7 @@ import {
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
+const ausgleichsflaechen = '1454'
 const reports = '6059'
 
 // arbitrary condition for testing
@@ -40,8 +41,17 @@ await createMap(
 				type: 'mask',
 				name: 'snowbox.layers.reports',
 				visibility: true,
+				styleId: 'panda',
+			},
+			{
+				id: ausgleichsflaechen,
+				type: 'mask',
+				name: 'snowbox.layers.ausgleichsflaechen',
+				styleId: 'panda',
+				visibility: true,
 			},
 		],
+		featureStyles: './style.json',
 		markers: {
 			layers: [
 				{

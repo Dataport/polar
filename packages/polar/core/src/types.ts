@@ -192,6 +192,7 @@ export interface MasterportalApiConfiguration {
 export interface MapConfiguration extends MasterportalApiConfiguration {
 	/** Configured layers */
 	layers: LayerConfiguration[]
+	featureStyles?: string
 	language?: InitialLanguage
 	locales?: Locale[]
 	markers?: MarkerConfiguration
