@@ -15,8 +15,11 @@ export default defineConfig({
 		lib: {
 			name: '@polar/polar',
 			fileName: 'polar',
-			entry: 'core/src/index.ts',
+			entry: 'src/core/index.ts',
 		},
 		sourcemap: true,
+	},
+	server: {
+		port: 1234,
 	},
 })

@@ -9,6 +9,7 @@ import Cluster from 'ol/source/Cluster'
 import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
+<<<<<<< HEAD:packages/polar/core/src/stores/useMarkerStore.ts
 import getCluster from '../../../lib/getCluster'
 import { isVisible } from '../../../lib/invisibleStyle'
 import {
@@ -17,6 +18,11 @@ import {
 	MarkerLayer,
 	MarkerStyle,
 } from '../types'
+=======
+import getCluster from '../../lib/getCluster'
+import { isVisible } from '../../lib/invisibleStyle'
+import { Markers, MarkersIsSelectableFunction, MarkerStyle } from '../types'
+>>>>>>> 62cef819 (Migrate to single-repo structure):src/core/stores/useMarkerStore.ts
 import { getMarkerStyle } from '../utils/markers'
 import { useCoreStore } from './useCoreStore'
 
