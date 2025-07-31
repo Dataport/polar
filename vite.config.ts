@@ -8,7 +8,7 @@ import vue from '@vitejs/plugin-vue'
 
 const require = createRequire(import.meta.url)
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
 	plugins: [
 		commonJs(),
 		vue({
@@ -36,9 +36,12 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
+			...(mode === 'development' ? {
+				'@polar/polar': resolve(__dirname, 'src', 'core', 'index.ts'),
+			} : {}),
 			'@': resolve(__dirname, 'src'),
 			stream: require.resolve('stream-browserify'),
 			timers: require.resolve('timers-browserify'),
 		},
 	},
-})
+}))

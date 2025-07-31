@@ -4,7 +4,7 @@ import {
 	createMap,
 	removePlugin,
 	subscribe,
-} from './src/core/index.ts'
+} from '@polar/polar'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -52,7 +52,7 @@ await createMap(
 			},
 		],
 		checkServiceAvailability: true,
-		featureStyles: './style.json',
+		featureStyles: './snowbox/style.json',
 		markers: {
 			layers: [
 				{
