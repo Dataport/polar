@@ -32,6 +32,7 @@
 		"lint:ci": "eslint .",
 		"lint:fix": "npm run lint -- --fix",
 		"tsc:ci": "tsc --noEmit",
+		"clean": "node scripts/clean.js",
 		"postinstall": "patch-package"
 	},
 	"dependencies": {
