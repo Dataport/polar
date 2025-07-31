@@ -64,7 +64,9 @@
 		"CHANGELOG.md"
 	],
 	"devDependencies": {
+		"@cesium/engine": "^15.0.0",
 		"buffer": "^6.0.3",
+		"cesium": "^1.131.0",
 		"events": "^3.3.0",
 		"stream-browserify": "^3.0.0",
 		"timers-browserify": "^2.0.12",
