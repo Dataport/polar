@@ -66,6 +66,7 @@
 		"events": "^3.3.0",
 		"stream-browserify": "^3.0.0",
 		"timers-browserify": "^2.0.12",
+		"typescript": "^5.8.3",
 		"util": "^0.12.5",
 		"vite-plugin-commonjs": "^0.10.4"
 	}
