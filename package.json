@@ -35,13 +35,13 @@
 		"clean": "node scripts/clean.js",
 		"postinstall": "patch-package"
 	},
-	"peerDependencies": {
-		"ol": "10.4.0"
-	},
 	"files": [
 		"dist/**/*",
 		"CHANGELOG.md"
 	],
+	"peerDependencies": {
+		"ol": "10.4.0"
+	},
 	"devDependencies": {
 		"@cesium/engine": "^15.0.0",
 		"@dataport/eslint-config-geodev": "^0.3.3",
