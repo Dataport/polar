@@ -1,3 +1,9 @@
+/**
+ * This is the main export for the NPM package @polar/polar.
+ *
+ * @module @polar/polar
+ */
+
 import '@kern-ux/native/dist/fonts/fira-sans.css'
 import i18next from 'i18next'
 import merge from 'lodash.merge'
@@ -135,3 +141,5 @@ export function subscribe(
 function getStore(storeName: string) {
 	return useMarkerStore()
 }
+
+export type * from './types'
