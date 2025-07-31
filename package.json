@@ -60,5 +60,8 @@
 	"files": [
 		"dist/**/*",
 		"CHANGELOG.md"
-	]
+	],
+	"devDependencies": {
+		"vite-plugin-commonjs": "^0.10.4"
+	}
 }

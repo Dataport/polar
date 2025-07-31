@@ -1,8 +1,11 @@
 import { defineConfig } from 'vite'
+
+import commonJs from 'vite-plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
 	plugins: [
+		commonJs(),
 		vue({
 			template: {
 				compilerOptions: {
