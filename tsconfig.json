@@ -2,6 +2,7 @@
 	"include": [
 		"src"
 	],
+	"exclude": [],
 	"compilerOptions": {
 		"target": "es6",
 		"module": "esnext",

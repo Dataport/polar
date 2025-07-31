@@ -21,8 +21,12 @@ export default defineConfig({
 			entry: 'src/core/index.ts',
 		},
 		sourcemap: true,
+		target: 'esnext',
 	},
 	server: {
 		port: 1234,
+	},
+	optimizeDeps: {
+		exclude: ['geojson'],
 	},
 })
