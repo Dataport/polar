@@ -1,7 +1,12 @@
+import { createRequire } from 'node:module'
+import { resolve } from 'node:path'
+
 import { defineConfig } from 'vite'
 
 import commonJs from 'vite-plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
+
+const require = createRequire(import.meta.url)
 
 export default defineConfig({
 	plugins: [
@@ -28,5 +33,11 @@ export default defineConfig({
 	},
 	optimizeDeps: {
 		exclude: ['geojson'],
+	},
+	resolve: {
+		alias: {
+			stream: require.resolve('stream-browserify'),
+			timers: require.resolve('timers-browserify'),
+		},
 	},
 })
