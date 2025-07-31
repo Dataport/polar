@@ -36,6 +36,7 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
+			'@': resolve(__dirname, 'src'),
 			stream: require.resolve('stream-browserify'),
 			timers: require.resolve('timers-browserify'),
 		},
