@@ -32,6 +32,7 @@ export default defineConfig(({ mode }) => ({
 		port: 1234,
 	},
 	optimizeDeps: {
+		entries: ['!vue2'],
 		exclude: ['geojson'],
 	},
 	resolve: {
