@@ -35,7 +35,6 @@ import {
   MapConfig,
   MoveHandleProperties,
 } from '@polar/lib-custom-types'
-import { setupStyling } from '../utils/setupStyling'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
@@ -104,19 +103,14 @@ export default Vue.extend({
         },
       }
     )
-    setupStyling(this.mapConfiguration, map)
     this.setMap(map)
     this.mapConfiguration.locales?.forEach?.((locale: Locale) =>
       i18next.addResourceBundle(locale.type, 'common', locale.resources, true)
     )
     i18next.on('languageChanged', (lang) => (this.lang = lang))
-    if (this.mapConfiguration.checkServiceAvailability) {
-      this.checkServiceAvailability()
-    }
   },
   methods: {
     ...mapMutations(['setMap']),
-    ...mapActions(['checkServiceAvailability',]),
   },
 })
 </script>

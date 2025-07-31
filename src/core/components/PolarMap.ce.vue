@@ -1,5 +1,5 @@
 <template>
-	<div ref="polar-wrapper" class="polar-wrapper">
+	<div ref="polar-wrapper" class="polar-wrapper" :lang="language">
 		<transition name="fade">
 			<div
 				v-if="!hasWindowSize && (noControlOnZoom || oneFingerPan)"
@@ -57,7 +57,7 @@ const coreStore = useCoreStore()
 const noControlOnZoom = ref(false)
 const oneFingerPan = ref(false)
 
-const { hasWindowSize } = storeToRefs(coreStore)
+const { hasWindowSize, language } = storeToRefs(coreStore)
 
 const overlayLocale = computed(() => {
 	return `overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
@@ -122,7 +122,7 @@ function updateListeners() {
 	}
 }
 
-let noControlOnZoomTimeout: number
+let noControlOnZoomTimeout: ReturnType<typeof setTimeout>
 
 function wheelEffect(event: WheelEvent) {
 	clearTimeout(noControlOnZoomTimeout)
@@ -133,14 +133,18 @@ function wheelEffect(event: WheelEvent) {
 	)
 }
 
-function setup() {
+async function setup() {
 	if (coreStore.configuration.secureServiceUrlRegex) {
 		coreStore.addInterceptor(coreStore.configuration.secureServiceUrlRegex)
 	}
 	createMap()
+	if (coreStore.configuration.checkServiceAvailability) {
+		coreStore.checkServiceAvailability()
+	}
 	if (coreStore.configuration.markers) {
 		useMarkerStore().setupMarkers(coreStore.configuration.markers)
 	}
+	await coreStore.setupStyling()
 	resizeObserver = new ResizeObserver(updateClientDimensions)
 	resizeObserver.observe(polarWrapper.value as Element)
 	updateClientDimensions()
@@ -149,16 +153,15 @@ function setup() {
 }
 
 onMounted(async () => {
-	await loadKern(polarWrapper.value.parentNode)
+	await loadKern(polarWrapper.value?.parentNode as ShadowRoot)
 	if (Array.isArray(coreStore.serviceRegister)) {
-		setup()
-		return
+		return setup()
 	}
 	rawLayerList.initializeLayerList(
 		coreStore.serviceRegister,
 		(layerConf: MasterportalApiConfiguration['layerConf']) => {
 			coreStore.serviceRegister = layerConf
-			setup()
+			return setup()
 		}
 	)
 })

@@ -10,8 +10,3 @@ export interface CreateOptions {
   containerId: string
   mapConfiguration: MapConfig
 }
-
-export interface ServiceAvailabilityCheck {
-  ping: Promise<number>
-  service: Record<string, unknown>
-}

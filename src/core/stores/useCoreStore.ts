@@ -1,12 +1,23 @@
+import { ping } from '@masterportal/masterportalapi'
+import createStyle from '@masterportal/masterportalapi/src/vectorStyle/createStyle'
+import styleList from '@masterportal/masterportalapi/src/vectorStyle/styleList'
+import noop from '@repositoryname/noop'
 import i18next from 'i18next'
-import { type Feature, Map } from 'ol'
+import type { Feature, Map } from 'ol'
 import { type Coordinate } from 'ol/coordinate'
 import { easeOut } from 'ol/easing'
+import { type FeatureLike } from 'ol/Feature'
 import { type Point } from 'ol/geom'
+import type VectorLayer from 'ol/layer/Vector'
 import { type Interaction } from 'ol/interaction'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import type { MapConfiguration, PluginContainer } from '../types'
+import type {
+	MapConfiguration,
+	PluginContainer,
+	PolarError,
+	ServiceAvailabilityCheck,
+} from '../types'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 
@@ -21,6 +32,7 @@ export const useCoreStore = defineStore('core', () => {
 		layers: [],
 		startCenter: [0, 0],
 	})
+	const errors = ref<PolarError[]>([])
 	const hasSmallDisplay = ref(false)
 	const language = ref(i18next.language)
 	const mapHasDimensions = ref(false)
@@ -89,6 +101,68 @@ export const useCoreStore = defineStore('core', () => {
 		})
 	}
 
+	function checkServiceAvailability() {
+		const register = serviceRegister.value
+		if (typeof register === 'string') {
+			console.error(
+				'polar/core.checkServiceAvailability: Action was called when the parameter serviceRegister was not yet set to an array of services.'
+			)
+			return
+		}
+
+		configuration.value.layers
+			.map(({ id }) => register.find(({ id: serviceId }) => serviceId === id))
+			.filter((service) => {
+				if (!service) {
+					console.warn(
+						`polar/core.checkServiceAvailability: Service with id "${service.id}" not found in service register.`
+					)
+					return false
+				}
+				return true
+			})
+			.map(
+				(service): ServiceAvailabilityCheck => ({
+					ping: ping(service),
+					serviceId: service.id,
+					serviceName: service.name,
+				})
+			)
+			.forEach(({ ping, serviceId, serviceName }) => {
+				ping
+					.then((statusCode) => {
+						if (statusCode !== 200) {
+							const toastStore = plugins.value.find(
+								({ name }) => name === 'toast'
+							)?.storeModule
+							if (toastStore) {
+								// TODO: Uncomment when toast plugin is implemented
+								/* toastStore().addToast({
+                    type: 'warning',
+                    text: i18next.t('error.serviceUnavailable', {
+                      serviceId,
+                      serviceName,
+                    }),
+                  }) */
+							}
+							// always print status code for debugging purposes
+							console.error(
+								`polar/core: Ping to "${serviceId}" returned "${statusCode}".`
+							)
+							// always add to error log for listener purposes
+							errors.value.push({
+								type: 'connection',
+								statusCode,
+								text: `Ping to "${serviceId}" returned "${statusCode}".`,
+							})
+						}
+					})
+					.catch((e) => {
+						console.error('polar/core', e)
+					})
+			})
+	}
+
 	function setCenter() {
 		// @ts-expect-error | map always has a center
 		center.value = map.getView().getCenter()
@@ -100,6 +174,59 @@ export const useCoreStore = defineStore('core', () => {
 
 	function getMap() {
 		return map
+	}
+
+	async function setupStyling() {
+		const register = serviceRegister.value
+
+		if (configuration.value.featureStyles && Array.isArray(register)) {
+			await styleList.initializeStyleList(
+				// Masterportal specific field not required by POLAR
+				{},
+				{ styleConf: configuration.value.featureStyles },
+				configuration.value.layers.map((layer) => {
+					const layerConfig = register.find((l) => l.id === layer.id)
+					if (layerConfig) {
+						return {
+							...layer,
+							// Required by @masterportal/masterportalapi
+							typ: layerConfig.typ,
+						}
+					}
+					return layer
+				}),
+				// Masterportal specific field not required by POLAR
+				[],
+				// Callback currently yields no relevant benefit
+				noop
+			)
+			// A layer can either be styled through the provided styles or through the markers configuration; markers takes precedence.
+			const markerLayers = configuration.value.markers
+				? configuration.value.markers.layers.map(({ id }) => id)
+				: []
+			map
+				.getLayers()
+				.getArray()
+				.filter(
+					(layer) =>
+						typeof layer.get('styleId') === 'string' &&
+						!markerLayers.includes(layer.get('id') as string)
+				)
+				.forEach((layer) => {
+					const styleObject = styleList.returnStyleObject(layer.get('styleId'))
+					if (styleObject) {
+						;(layer as VectorLayer).setStyle((feature: Feature | FeatureLike) =>
+							createStyle.createStyle(
+								styleObject,
+								feature,
+								feature.get('features') !== undefined,
+								// NOTE: This field may be implemented in the future to be able to style points with graphics
+								''
+							)
+						)
+					}
+				})
+		}
 	}
 
 	function setMap(newMap: Map) {
@@ -188,8 +315,10 @@ export const useCoreStore = defineStore('core', () => {
 		// Actions
 		addInterceptor,
 		centerOnFeature,
+		checkServiceAvailability,
 		getMap,
 		setMap,
+		setupStyling,
 		updateDragAndZoomInteractions,
 		updateHasSmallDisplay,
 		updateSizeOnReady,

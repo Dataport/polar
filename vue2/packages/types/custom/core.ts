@@ -538,8 +538,6 @@ export interface ZoomConfiguration extends PluginOptions {
 
 export interface MapConfig extends MasterportalApiConfig {
   /** if true, all services' availability will be checked with head requests */
-  checkServiceAvailability?: boolean
-  featureStyles?: string
   renderFaToLightDom?: boolean
   stylePath?: string
   vuetify?: UserVuetifyPreset
@@ -571,12 +569,6 @@ export interface MapConfig extends MasterportalApiConfig {
  *
  */
 
-export interface PolarError {
-  type: 'connection' | 'uncategorized'
-  statusCode: number | null
-  text: string
-}
-
 type MoveHandleProps = object
 
 export interface MoveHandleProperties {
@@ -607,7 +599,6 @@ export interface CoreState {
         'epsg' | 'namedProjections' | 'options' | 'startResolution'
       >
     >
-  errors: PolarError[]
   hasSmallDisplay: boolean
   hovered: number
   language: string

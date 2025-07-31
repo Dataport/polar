@@ -13,11 +13,9 @@ import {
   MoveHandleActionButton,
   MoveHandleProperties,
   PluginContainer,
-  PolarError,
 } from '@polar/lib-custom-types'
 import { Map } from 'ol'
 import { CapabilitiesModule } from '../storeModules/capabilities'
-import checkServiceAvailability from './actions/checkServiceAvailability'
 
 // @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
 const devMode = import.meta.env.DEV
@@ -61,7 +59,6 @@ const getInitialState = (): CoreState => ({
     startCenter: [0, 0],
   },
   hasSmallDisplay: false,
-  errors: [],
   language: '',
   mapHasDimensions: false,
   oidcToken: '',
@@ -130,12 +127,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
         moveHandleActionButton = payload
         state.moveHandleActionButton += 1
       },
-      addError: (state, error: PolarError) => {
-        state.errors.push(error)
-      },
-    },
-    actions: {
-      checkServiceAvailability,
     },
   })
 

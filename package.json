@@ -48,6 +48,7 @@
 		"@kern-ux-annex/webc": "^2.14.9",
 		"@kern-ux/native": "^2.2.0",
 		"@masterportal/masterportalapi": "2.48.0",
+		"@repositoryname/noop": "^1.0.6",
 		"@vitejs/plugin-vue": "^6.0.0",
 		"buffer": "^6.0.3",
 		"cesium": "^1.131.0",
