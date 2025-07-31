@@ -12,6 +12,10 @@
 	"license": "EUPL-1.2",
 	"type": "module",
 	"author": "Dataport AöR <polar@dataport.de>",
+	"engines": {
+		"node": "^22.16.0",
+		"npm": "^10.9.2"
+	},
 	"exports": {
 		".": "./dist/polar.js",
 		"./polar.css": "./dist/polar.css"
