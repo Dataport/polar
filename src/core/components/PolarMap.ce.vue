@@ -43,7 +43,7 @@ import {
 } from 'vue'
 import { useCoreStore } from '../stores/useCoreStore'
 import { loadKern } from '../utils/loadKern'
-import { type MasterportalApiConfiguration } from '../types'
+import type { MasterportalApiService } from '../types'
 import { useMarkerStore } from '../stores/useMarkerStore'
 import PolarUi from './PolarUI.ce.vue'
 
@@ -159,7 +159,7 @@ onMounted(async () => {
 	}
 	rawLayerList.initializeLayerList(
 		coreStore.serviceRegister,
-		(layerConf: MasterportalApiConfiguration['layerConf']) => {
+		(layerConf: MasterportalApiService[]) => {
 			coreStore.serviceRegister = layerConf
 			return setup()
 		}
@@ -180,6 +180,8 @@ onBeforeUnmount(() => {
 watch(hasWindowSize, updateListeners)
 
 function demo() {
+	// TODO: Remove
+	// eslint-disable-next-line no-console
 	console.log('Button clicked')
 }
 </script>

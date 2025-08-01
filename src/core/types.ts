@@ -201,6 +201,13 @@ export interface MasterportalApiConfiguration {
 	startResolution?: number
 }
 
+export interface MasterportalApiService {
+	id: string
+	name: string
+	url: string
+	typ: string
+}
+
 export interface MapConfiguration extends MasterportalApiConfiguration {
 	/** Configured layers */
 	layers: LayerConfiguration[]

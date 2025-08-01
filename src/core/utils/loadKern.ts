@@ -1,6 +1,4 @@
-const theme = {
-	color: {},
-}
+const theme = {}
 
 export async function loadKern(host: ShadowRoot) {
 	const externalStyle = document.getElementById('kern-styles')
@@ -9,7 +7,7 @@ export async function loadKern(host: ShadowRoot) {
 	}
 
 	const { applyKernTheme } = await import('@kern-ux-annex/webc')
-	applyKernTheme({ theme }, host.querySelector('.polar-wrapper'))
+	applyKernTheme({ theme }, host.querySelector('.polar-wrapper') as HTMLElement)
 
 	const kernStyle = document.getElementById('kern-styles')
 	if (kernStyle) {

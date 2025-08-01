@@ -7,6 +7,39 @@ import jsonConfig from '@dataport/eslint-config-geodev/json'
 import markdownConfig from '@dataport/eslint-config-geodev/markdown'
 import prettierConfig from 'eslint-plugin-prettier/recommended'
 
+const polarConfig = {
+	rules: {
+		'prettier/prettier': [
+			'error',
+			{
+				semi: false,
+				trailingComma: 'es5',
+				singleQuote: true,
+				printWidth: 80,
+				tabWidth: 2,
+				useTabs: true,
+			},
+		],
+	},
+}
+
+const polarTsConfig = {
+	rules: {
+		'@typescript-eslint/no-unsafe-argument': 'off',
+		'@typescript-eslint/no-unsafe-assignment': 'off',
+		'@typescript-eslint/no-unsafe-call': 'off',
+		'@typescript-eslint/no-unsafe-member-access': 'off',
+		'@typescript-eslint/no-unsafe-return': 'off',
+		'@typescript-eslint/restrict-template-expressions': [
+			'error',
+			{
+				allowAny: true,
+				allowNumber: true,
+			},
+		],
+	},
+}
+
 export default defineConfig([
 	{
 		ignores: [
@@ -21,30 +54,12 @@ export default defineConfig([
 			'**/tests_output',
 			'*.d.ts',
 			'.nx/',
+			'docs-html/',
 		],
 	},
 	{
 		files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
-		extends: [
-			mainConfig,
-			browserConfig,
-			prettierConfig,
-			{
-				rules: {
-					'prettier/prettier': [
-						'error',
-						{
-							semi: false,
-							trailingComma: 'es5',
-							singleQuote: true,
-							printWidth: 80,
-							tabWidth: 2,
-							useTabs: true,
-						},
-					],
-				},
-			},
-		],
+		extends: [mainConfig, browserConfig, prettierConfig, polarConfig],
 	},
 	{
 		files: ['**/*.ts'],
@@ -53,21 +68,8 @@ export default defineConfig([
 			browserConfig,
 			tsConfig,
 			prettierConfig,
-			{
-				rules: {
-					'prettier/prettier': [
-						'error',
-						{
-							semi: false,
-							trailingComma: 'es5',
-							singleQuote: true,
-							printWidth: 80,
-							tabWidth: 2,
-							useTabs: true,
-						},
-					],
-				},
-			},
+			polarConfig,
+			polarTsConfig,
 		],
 	},
 	{
@@ -78,21 +80,8 @@ export default defineConfig([
 			tsConfig,
 			vueConfig,
 			prettierConfig,
-			{
-				rules: {
-					'prettier/prettier': [
-						'error',
-						{
-							semi: false,
-							trailingComma: 'es5',
-							singleQuote: true,
-							printWidth: 80,
-							tabWidth: 2,
-							useTabs: true,
-						},
-					],
-				},
-			},
+			polarConfig,
+			polarTsConfig,
 		],
 	},
 	{

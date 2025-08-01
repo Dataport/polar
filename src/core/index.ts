@@ -6,7 +6,12 @@ import { defineCustomElement, watch, type WatchOptions } from 'vue'
 import PolarMapCE from './components/PolarMap.ce.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
-import type { MapConfiguration, PluginContainer, PluginOptions } from './types'
+import type {
+	MapConfiguration,
+	PluginContainer,
+	PluginOptions,
+	MasterportalApiService,
+} from './types'
 import { useCoreStore } from './stores/useCoreStore'
 import { useMarkerStore } from './stores/useMarkerStore'
 import defaults from './utils/defaults'
@@ -83,7 +88,7 @@ export function removePlugin(pluginName: string) {
  */
 export function createMap(
 	mapConfiguration: MapConfiguration,
-	serviceRegister: string | Record<string, unknown>[],
+	serviceRegister: string | MasterportalApiService[],
 	tagName = 'polar-map'
 ) {
 	// TODO(oeninghe-dataport): Split defineCustomElement to a separate function to allow two or more map clients per page
@@ -134,6 +139,7 @@ export function subscribe(
 }
 
 // TODO(dopenguin): Implement this once plugins are added so that the respective store is selected here.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getStore(storeName: string) {
 	return useMarkerStore()
 }

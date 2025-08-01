@@ -9,9 +9,7 @@ import Cluster from 'ol/source/Cluster'
 import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import getCluster from '@/lib/getCluster'
-import { isVisible } from '@/lib/invisibleStyle'
-import {
+import type {
 	CallOnMapSelect,
 	MarkerConfiguration,
 	MarkerLayer,
@@ -19,6 +17,8 @@ import {
 } from '../types'
 import { getMarkerStyle } from '../utils/markers'
 import { useCoreStore } from './useCoreStore'
+import { isVisible } from '@/lib/invisibleStyle'
+import getCluster from '@/lib/getCluster'
 
 export const useMarkerStore = defineStore('markers', () => {
 	// these have been measured to fit once and influence marker size
@@ -238,7 +238,7 @@ export const useMarkerStore = defineStore('markers', () => {
 				hovered.value = null
 			}
 			if (feature !== null && feature !== selectedValue) {
-				hoveredValue = feature
+				hoveredValue = feature as Feature
 				hovered.value = feature
 				const isMultiFeature = hoveredValue.get('features')?.length > 1
 				const style = getMarkerStyle(

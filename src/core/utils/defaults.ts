@@ -1,4 +1,4 @@
-import { MasterportalApiConfiguration, PartialBy } from '../types'
+import type { MasterportalApiConfiguration, PartialBy } from '../types'
 
 // Default configuration parameters for @masterportal/masterportalapi
 export default {
@@ -47,5 +47,5 @@ export default {
 				'epsg' | 'namedProjections' | 'options' | 'startResolution'
 			>
 		>,
-	'layerConf' | 'startCenter'
+	'startCenter'
 >

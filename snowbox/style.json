@@ -1,17 +1,17 @@
 [
-  {
-    "styleId": "panda",
-    "rules": [
-      {
-        "style": {
-          "polygonStrokeColor": [3, 255, 1, 1],
+	{
+		"styleId": "panda",
+		"rules": [
+			{
+				"style": {
+					"polygonStrokeColor": [3, 255, 1, 1],
 					"polygonFillHatch": {
 						"backgroundColor": [0, 0, 0, 0.25],
 						"pattern": "diagonal-right",
 						"patternColor": [3, 255, 1, 1]
 					}
-        }
-      }
-    ]
-  }
+				}
+			}
+		]
+	}
 ]

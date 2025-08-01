@@ -31,7 +31,7 @@
 		"lint": "eslint --cache .",
 		"lint:ci": "eslint .",
 		"lint:fix": "npm run lint -- --fix",
-		"tsc:ci": "tsc --noEmit",
+		"tsc:ci": "vue-tsc",
 		"clean": "node scripts/clean.js",
 		"postinstall": "patch-package"
 	},
@@ -47,6 +47,7 @@
 		"@masterportal/masterportalapi": "2.48.0",
 		"@repositoryname/noop": "^1.0.6",
 		"@vitejs/plugin-vue": "^6.0.0",
+		"@vue/tsconfig": "^0.7.0",
 		"buffer": "^6.0.3",
 		"cesium": "^1.131.0",
 		"eslint": "^9.31.0",
@@ -68,7 +69,9 @@
 		"typescript": "^5.8.3",
 		"util": "^0.12.5",
 		"vite": "^7.0.6",
+		"vite-plugin-checker": "^0.10.2",
 		"vite-plugin-commonjs": "^0.10.4",
-		"vue": "^3.5.18"
+		"vue": "^3.5.18",
+		"vue-tsc": "^3.0.4"
 	}
 }

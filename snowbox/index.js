@@ -1,16 +1,13 @@
 import { changeLanguage } from 'i18next'
-import {
-	addPlugin,
-	createMap,
-	removePlugin,
-	subscribe,
-} from '@polar/polar'
+import { addPlugin, createMap, removePlugin, subscribe } from '@polar/polar'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 
+// TODO: Re-enable with isSelectable
+/*
 // arbitrary condition for testing
 const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
 
@@ -21,6 +18,7 @@ const isReportSelectable = (feature) =>
 			(accumulator, current) => isEvenId(current.get('mmlid')) || accumulator,
 			false
 		)
+*/
 
 await createMap(
 	{

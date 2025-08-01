@@ -17,6 +17,7 @@ import type {
 	PluginContainer,
 	PolarError,
 	ServiceAvailabilityCheck,
+	MasterportalApiService,
 } from '../types'
 import { createPanAndZoomInteractions } from '../utils/interactions'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
@@ -38,7 +39,7 @@ export const useCoreStore = defineStore('core', () => {
 	const mapHasDimensions = ref(false)
 	const oidcToken = ref('')
 	const plugins = ref<PluginContainer[]>([])
-	const serviceRegister = ref<string | Record<string, unknown>[]>('')
+	const serviceRegister = ref<string | MasterportalApiService[]>('')
 	const zoom = ref(0)
 
 	// TODO(dopenguin): Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
@@ -111,24 +112,29 @@ export const useCoreStore = defineStore('core', () => {
 		}
 
 		configuration.value.layers
-			.map(({ id }) => register.find(({ id: serviceId }) => serviceId === id))
-			.filter((service) => {
-				if (!service) {
-					console.warn(
-						`polar/core.checkServiceAvailability: Service with id "${service.id}" not found in service register.`
-					)
-					return false
+			.map(({ id }) => ({
+				id,
+				service: register.find(({ id: serviceId }) => serviceId === id),
+			}))
+			.filter(
+				(layer): layer is { id: string; service: MasterportalApiService } => {
+					if (!layer.service) {
+						console.warn(
+							`polar/core.checkServiceAvailability: Service with id "${layer.id}" not found in service register.`
+						)
+						return false
+					}
+					return true
 				}
-				return true
-			})
+			)
 			.map(
-				(service): ServiceAvailabilityCheck => ({
+				({ service }): ServiceAvailabilityCheck => ({
 					ping: ping(service),
 					serviceId: service.id,
 					serviceName: service.name,
 				})
 			)
-			.forEach(({ ping, serviceId, serviceName }) => {
+			.forEach(({ ping, serviceId /* TODO: see below  , serviceName */ }) => {
 				ping
 					.then((statusCode) => {
 						if (statusCode !== 200) {
@@ -138,12 +144,12 @@ export const useCoreStore = defineStore('core', () => {
 							if (toastStore) {
 								// TODO: Uncomment when toast plugin is implemented
 								/* toastStore().addToast({
-                    type: 'warning',
-                    text: i18next.t('error.serviceUnavailable', {
-                      serviceId,
-                      serviceName,
-                    }),
-                  }) */
+									type: 'warning',
+									text: i18next.t('error.serviceUnavailable', {
+										serviceId,
+										serviceName,
+									}),
+								}) */
 							}
 							// always print status code for debugging purposes
 							console.error(
@@ -157,7 +163,7 @@ export const useCoreStore = defineStore('core', () => {
 							})
 						}
 					})
-					.catch((e) => {
+					.catch((e: unknown) => {
 						console.error('polar/core', e)
 					})
 			})
