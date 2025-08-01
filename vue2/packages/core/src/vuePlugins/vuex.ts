@@ -17,30 +17,6 @@ import {
 import { Map } from 'ol'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 
-// @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
-const devMode = import.meta.env.DEV
-
-const mutationLogger = (store) => {
-  if (devMode) {
-    console.log('DEV MODE DETECTED - VUEX LOGGING ENABLED')
-    store.subscribe(({ type, payload }) => {
-      let fixedPayload
-      // "fix" in the sense of "screenshot" – print doesn't change anymore
-      if (typeof payload === 'undefined') {
-        fixedPayload = undefined
-      } else {
-        try {
-          fixedPayload = JSON.parse(JSON.stringify(payload))
-        } catch (e) {
-          // e.g. cyclic objects can't be fixed
-          fixedPayload = payload
-        }
-      }
-      console.log(`Mutation: '${type}'; Payload:`, fixedPayload)
-    })
-  }
-}
-
 Vue.use(Vuex)
 
 const getInitialState = (): CoreState => ({
@@ -85,7 +61,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
 
   const store = new Store({
     state: getInitialState(),
-    plugins: [mutationLogger], // vuex plugins, not polar plugins
     modules: {
       capabilities: CapabilitiesModule,
       /* reserved for plugins */
