@@ -1,3 +1,4 @@
+import type { KernTheme } from '@kern-ux-annex/webc'
 import type { Resource } from 'i18next'
 import { Feature } from 'ol'
 import type {
@@ -186,6 +187,28 @@ export interface PolarMapOptions {
 	zoomLevel: number
 }
 
+export interface OklchColor {
+	l: string
+	c: string
+	h: string
+}
+
+/**
+ * A theme for the POLAR map client.
+ */
+export interface PolarTheme {
+	/**
+	 * This color will be defined as `--brand-color-{l,c,h}` CSS variable inside POLAR's shadow DOM.
+	 * It can especially be used to define the KERN theme via OKLCH.
+	 */
+	brandColor?: OklchColor
+
+	/**
+	 * Theme for KERN UX library as defined by `@kern-ux-annex/webc`.
+	 */
+	kern?: KernTheme
+}
+
 export interface MasterportalApiConfiguration {
 	/** Initial center coordinate for the mapView */
 	startCenter: [number, number]
@@ -211,4 +234,11 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	markers?: MarkerConfiguration
 	oidcToken?: string
 	secureServiceUrlRegex?: string
+
+	/**
+	 * Custom theme for POLAR.
+	 *
+	 * The default is to use KERN's standard theme.
+	 */
+	theme?: PolarTheme
 }
