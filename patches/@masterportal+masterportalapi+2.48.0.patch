@@ -1,0 +1,42 @@
+diff --git a/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/fixedOverlaySynchronizer.js b/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/fixedOverlaySynchronizer.js
+index 6613447..cc83711 100644
+--- a/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/fixedOverlaySynchronizer.js
++++ b/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/fixedOverlaySynchronizer.js
+@@ -1,4 +1,4 @@
+-import OverlaySynchronizer from "olcs/lib/olcs/OverlaySynchronizer.js";
++import OverlaySynchronizer from "olcs/OverlaySynchronizer";
+ 
+ /**
+  * Represents a FixedOverlaySynchronizer.
+diff --git a/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js b/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js
+index aeebfaf..de492e6 100644
+--- a/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js
++++ b/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js
+@@ -2,12 +2,12 @@
+  * @module olcs.WMSRasterSynchronizer
+  */
+ import olLayerGroup from "ol/layer/Group.js";
+-import {getUid} from "olcs/lib/olcs/util.js";
++import {getUid} from "olcs/util";
+ import TileWMS from "ol/source/TileWMS.js";
+ import ImageWMS from "ol/source/ImageWMS.js";
+ import WMTS from "ol/source/WMTS.js";
+-import AbstractSynchronizer from "olcs/lib/olcs/AbstractSynchronizer.js";
+-import {extentToRectangle, tileLayerToImageryLayer, updateCesiumLayerProperties} from "olcs/lib/olcs/core.js";
++import AbstractSynchronizer from "olcs/AbstractSynchronizer";
++import {extentToRectangle, tileLayerToImageryLayer, updateCesiumLayerProperties} from "olcs/core";
+ import {Tile, Image as ImageLayer} from "ol/layer.js";
+ import {stableSort} from "ol/array.js";
+ import {getBottomLeft, getBottomRight, getTopRight, getTopLeft} from "ol/extent.js";
+diff --git a/node_modules/@masterportal/masterportalapi/src/maps/olcs/olcsMap.js b/node_modules/@masterportal/masterportalapi/src/maps/olcs/olcsMap.js
+index 2192925..685cc9a 100644
+--- a/node_modules/@masterportal/masterportalapi/src/maps/olcs/olcsMap.js
++++ b/node_modules/@masterportal/masterportalapi/src/maps/olcs/olcsMap.js
+@@ -1,6 +1,6 @@
+ import OLCesium from "olcs";
+ import {transform, get} from "ol/proj.js";
+-import VectorSynchronizer from "olcs/lib/olcs/VectorSynchronizer.js";
++import VectorSynchronizer from "olcs/VectorSynchronizer";
+ 
+ import FixedOverlaySynchronizer from "./3dUtils/fixedOverlaySynchronizer.js";
+ import WMSRasterSynchronizer from "./3dUtils/wmsRasterSynchronizer.js";
