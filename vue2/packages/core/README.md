@@ -23,86 +23,12 @@ It depends on the client how exactly the initialization will take place for the 
 
 The exported default object is an extended masterportalapi, adding the `addPlugins` and extending the `createMap` functions. For masterportalapi details, [see their repository](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/).
 
-### addPlugins
-
-Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared. You may add further plugins or proceed with `createMap`.
-
-In case you're integrating new plugins, call `addPlugins` with an array of instances.
-
-```js
-client.addPlugins([Plugin({ pluginConfig })])
-```
-
-In case you're writing a new plugin, it must fulfill the following API:
-
-```js
-const Plugin = (options: PluginOptions) => (instance: Vue) =>
-  instance.$store.dispatch('addComponent', {
-    name: 'plugin', // unique technical name
-    plugin: Plugin, // a vue component
-    locales, // an i18n Locale[]
-    language, // @deprecated an i18n locale batch
-    options, // configuration; overriddable with mapConfiguration on createMap
-    storeModule, // vuex store module, if required
-  })
-```
-
-Please note that the order of certain plugins is relevant when other plugins are referenced, e.g. `@polar/plugin-gfi`'s `coordinateSources` requires the sources to have previously been set up.
-
-Please note that all configuration added via plugin constructors can be overridden in the `createMap`'s parameter `mapConfiguration`. You may use either object (or a mix of them) to create the configuration, e.g. use the constructors for a base configuration and the `mapConfiguration` object to override it for various use cases.
-
-How exactly you do this is up to you and influences the minimum API call requirements your client has.
-
-If the storeModule features a `setupModule` action, it will be executed automatically after initialization.
-
-### initializeLayerList
-
-Layer registers to be fetched from remote sources have to be initialized by calling `initializeLayerList` with their respective URL.
-The URL may e.g. point to a predefined service register like [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
-In this case, `initializeLayerList` needs to be called before `createMap` and `initializeLayerList`'s callback will receive the retrieved [`mapConfiguration.layerConf`](#mapconfigurationlayerconf) as its first parameter.
-
-If a local custom service register is being used, i.e. the [`mapConfiguration.layerConf`](#mapconfigurationlayerconf) is locally available as an array before calling `createMap`, it can be directly used as [`mapConfiguration.layerConf`](#mapconfigurationlayerconf) without calling `initializeLayerList`.
-The `@masterportal/masterportalapi` then handles the layer list setup in time.
-
-```js
-core.rawLayerList.initializeLayerList(services: mapConfiguration.layerConf | string, callback?: Function)
-```
-
-[createMap](#createmap) is usually called inside the callback or directly after this function call.  
-
-### createMap
-
-The map is created by calling the `createMap` method. Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone HTML pages that do this for you.
-
-```js
-MapClient.createMap({
-  // arbitrary id, must point to a div
-  containerId: 'polarstern',
-  // see below
-  mapConfiguration,
-}).then((map) => {
-  /* Your Code, e.g. for setting up callbacks. */
-})
-```
-
 #### mapConfiguration
-
-The mapConfiguration allows controlling many client instance details.
 
 | fieldName | type | description |
 | - | - | - |
 | <...masterportalapi.fields> | various | Multiple different parameters are required by the masterportalapi to be able to create the map. Also, some fields are optional but relevant and thus described here as well. For all additional options, refer to the documentation of the masterportalapi itself. |
-| checkServiceAvailability | boolean? | If set to `true`, all services' availability will be checked with head requests. |
-| extendedMasterportalapiMarkers | extendedMasterportalapiMarkers? | Optional. If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively. They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker that supports the same features. Please mind that this only works properly if you configure nothing but point marker vector layers styled by the masterportalapi. |
-| featureStyles | string? | Optional path to define styles for vector features. See `mapConfiguration.featureStyles` for more information. May be a url or a path on the local file system. |
-| secureServiceUrlRegex | string | Regular expression defining URLs that belong to secured services. All requests sent to URLs that fit the regular expression will send the JSON Web Token (JWT) found in the store parameter `oidcToken` as a Bearer token in the Authorization header of the request. Requests already including a Authorization header will keep the already present one. |
-| language | enum["de", "en"]? | Initial language. |
-| locales | Locale[]? | All locales in POLAR's plugins can be overridden to fit your needs.|
-| oidcToken | string? | If a secured layer is supposed to be visible on start, the token also has to be provided via this configuration parameter. Updates to the token have to be done by calling the mutation [`setOidcToken`](#setoidctoken). |
 | <plugin.fields> | various? | Fields for configuring plugins added with `addPlugins`. Refer to each plugin's documentation for specific fields and options. Global plugin parameters are described [below](#global-plugin-parameters). |
-| renderFaToLightDom | boolean? | POLAR requires FontAwesome in the Light/Root DOM due to an [unfixed bug in many browsers](https://bugs.chromium.org/p/chromium/issues/detail?id=336876). This value defaults to `true`. POLAR will, by default, just add the required CSS by itself. Should you have a version of Fontawesome already included, you can try to set this to `false` to check whether the versions are interoperable. |
-| stylePath | string? | This path will be used to create the link node in the client itself. It defaults to `'./style.css'`. |
-| vuetify | object? | You may add vuetify configuration here. |
 
 <details>
 <summary>Example configuration</summary>
@@ -151,8 +77,6 @@ const mapConfiguration = {
 </details>
 
 ##### mapConfiguration.Locale
-
-A language option is an object consisting of a type (its language key) and the i18next resource definition. You may e.g. decide that the texts offered in the LayerChooser do not fit the style of your client, or that they could be more precise in your situation since you're only using *very specific* overlays.
 
 An example for a Locale array usable in `createMap` is this array:
 
@@ -291,20 +215,6 @@ A Layer needs to use the property `styleId` in its `mapConfiguration.layers` ent
 
 ##### <...masterportalapi.fields>
 
-The `<...masterportalapi.fields>` means that any masterportalapi field may also be used here _directly_ in the mapConfiguration. The fields described here are fields that are interesting for the usage of POLAR.
-Fields that are not set as required have default values.
-
-| fieldName | type | description |
-| - | - | - |
-| layerConf | layerConf | Layer configuration of all available layers as a service register. Layers defined here are not directly shown in a client, see `mapconfiguration.layers` for that. |
-| layers | layer[] | Configuration of layers that are supposed to be used in the respective client. All layers defined here have to have an entry in `mapConfiguration.layerConf`. If `@polar/plugin-layer-chooser` is installed and configured, all these layers will be displayed in that menu. |
-| startCenter | number[] | Initial center coordinate. Needs to be defined in the chosen leading coordinate system. |
-| epsg | `EPSG:${string}`? | Leading coordinate system. The coordinate system has to be defined in `mapConfiguration.namedProjections` as well. Changing this value should also lead to changes in `mapConfiguration.startCenter`, `mapConfiguration.extent`, `mapConfiguration.options` and `mapConfiguration.startResolution` as they are described in or related to the leading coordinate system. Defaults to `'EPSG:25832'`. |
-| extent | number[]? | Map movement will be restricted to the rectangle described by the given coordinates. Unrestricted by default. |
-| namedProjections | Array<[string,string]>? | Array of usable coordinated systems mapped to a projection as a proj4 string. Defines `'EPSG:25832'`, `'EPSG:3857'`, `'EPSG:4326'`, `'EPSG:31467'` and `'EPSG:4647'` by default. If you set a value, please mind that all pre-configured projections are overridden, and requiring e.g. `'EPSG:4326'` will only work if it is also defined in your override. |
-| options | zoomOption[]? | Defines all available zoom levels mapped to the respective resolution and related scale. Defines 10 zoomLevels for `'EPSG:25832'` by default. |
-| startResolution | number? | Initial resolution; must be described in `mapConfiguration.options`. Defaults to `15.874991427504629` which is zoom level to in the default of `mapConfiguration.options`. |
-
 <details>
 <summary>Example configuration</summary>
 
@@ -339,17 +249,7 @@ Fields that are not set as required have default values.
 
 ##### mapConfiguration.layerConf
 
-The layer configuration (or: service register) is read by the `@masterportal/masterportalapi`. The full definition can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
-
-However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet, and no documentation regarding implemented properties exists there yet.
-
-Whitelisted and confirmed parameters include:
-
-- WMS:  id, name, url, typ, format, version, transparent, layers, STYLES, singleTile
-- WFS:  id, name, url, typ, outputFormat, version, featureType
-- WMTS: id, name, urls, typ, capabilitiesUrl, optionsFromCapabilities, tileMatrixSet, layers, legendURL, format, coordinateSystem, origin, transparent, tileSize, minScale, maxScale, requestEncoding, resLength
-- OAF: id, name, url, typ, collection, crs, bboxCrs
-- GeoJSON: id, name, url, typ, version, minScale, maxScale, legendURL
+The layer configuration (or: service register) is read by the `@masterportal/masterportalapi`. 
 
 ###### Example services register
 
@@ -428,21 +328,7 @@ Whitelisted and confirmed parameters include:
 
 Since this is the base for many functions, the service id set in this is used to reference map material in many places of the map client.
 
-###### zoomOption
-
-| fieldName | type | description |
-| - | - | - |
-| resolution | number | Size of 1 pixel on the screen converted to map units (e.g. meters) depending on the used projection (`epsg`). |
-| scale | number | Scale in meters. |
-| zoomLevel | number | Zoom level. |
-
 ##### layer
-
-| fieldName | type | description |
-| - | - | - |
-| id | string | Service register id in `mapConfiguration.layerConf`. |
-| name | string | Display name in UI. |
-| styleId | string? | Id of the used style. May lead to unexpected results if the layer is also configured to be used with `mapConfiguration.extendedMasterportalapiMarkers`. Only applicable for vector-type layers. For more information and an example see `mapConfiguration.featureStyles`. Defaults and fallbacks to OpenLayers default styling. |
 
 <details>
 <summary>Example configuration</summary>
@@ -489,45 +375,6 @@ For example, a `@polar/plugin-address-search` plugin can be configured like this
   }
 }
 ```
-
-
-##### mapConfiguration.vuetify
-
-These fields let you e.g. specify a [Vuetify-Theme](https://vuetifyjs.com/en/features/theme/). For more options, refer to the official vuetify documentation.
-
-Additionally to the regular fields, `primaryContrast` and `secondaryContrast` are interpreted. They serve as contrast colors to their respective fields and are used for e.g. button icons.
-
-```js
-{
-  theme: {
-    themes: {
-      light: {
-        primary: "black",
-        primaryContrast: "white",
-        secondary: "#c0ffee",
-        secondaryContrast: "#de1e7e"
-      }
-    }
-  }
-}
-```
-
-Regarding icons, you may add `vuetifyOptions.icons.values` as `{"name": x}`, where `x` are the path commands (commonly '[d](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d)') of the SVG to draw. An icon 'pen' will then be available as `"$vuetify.icons.pen"` in `v-icon` (and all places in the configuration where icons can be set). Any required styling can be added via `.css`, appropriate classnames would be `.v-icon__svg` and its path child `.v-icon__svg path`.
-
-```js
-{
-  icons: {
-    values: {
-      // example path from icomoon free
-      "arrow-drop-up": "M298.667 341.333l213.333 213.333 213.333-213.333h-426.667z",
-    }
-  }
-}
-```
-
-This specific path would require resizing via CSS, e.g. `scale: 0.0234375;` on the path.
-
-If you need a compilation from [icomoon's](https://icomoon.io/) svg export (or samey format) to such an object, see `scripts/precompileSvg.js` in the root folder.
 
 ## Teardown
 
