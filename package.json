@@ -25,7 +25,11 @@
 		"url": "git+https://github.com/Dataport/polar.git"
 	},
 	"scripts": {
-		"snowbox": "vite",
+		"dev": "vite dev",
+		"snowbox": "npm run dev",
+		"preview:build-snowbox": "vite build --watch -c vite.config.snowbox.ts",
+		"preview:preview-snowbox": "vite preview -c vite.config.snowbox.ts",
+		"preview": "conc --kill-others 'npm run build' 'npm run preview:build-snowbox' 'npm run preview:preview-snowbox'",
 		"build": "vite build --watch",
 		"build:ci": "vite build",
 		"lint": "eslint --cache .",
@@ -49,6 +53,7 @@
 		"@vitejs/plugin-vue": "^6.0.0",
 		"buffer": "^6.0.3",
 		"cesium": "^1.131.0",
+		"concurrently": "^9.2.0",
 		"eslint": "^9.31.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.3",

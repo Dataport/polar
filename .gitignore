@@ -1,6 +1,8 @@
 node_modules
 .eslintcache
 
+.dist.snowbox
+
 # Old gitignore, maybe cleanup when migrated
 **/.eslintcache
 **/*.tgz

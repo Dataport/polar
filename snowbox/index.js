@@ -5,6 +5,7 @@ import {
 	removePlugin,
 	subscribe,
 } from '@polar/polar'
+import styleJsonUrl from './style.json?url'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -52,7 +53,7 @@ await createMap(
 			},
 		],
 		checkServiceAvailability: true,
-		featureStyles: './snowbox/style.json',
+		featureStyles: styleJsonUrl,
 		markers: {
 			layers: [
 				{
