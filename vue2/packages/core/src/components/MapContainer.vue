@@ -1,5 +1,5 @@
 <template>
-  <v-app class="polar-wrapper" :lang="lang">
+  <v-app class="polar-wrapper">
     <MoveHandle
       v-if="renderMoveHandle"
       ref="moveHandleElement"
@@ -24,18 +24,10 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
-import api from '@masterportal/masterportalapi/src/maps/api'
+import Vue from 'vue'
+import { mapGetters } from 'vuex'
 import { MoveHandle } from '@polar/components'
-import i18next from 'i18next'
-import { defaults } from 'ol/interaction'
-import {
-  Locale,
-  MapConfig,
-  MoveHandleProperties,
-} from '@polar/lib-custom-types'
-import { mapZoomOffset } from '../utils/mapZoomOffset'
+import { MoveHandleProperties } from '@polar/lib-custom-types'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
 
@@ -43,24 +35,15 @@ export default Vue.extend({
   components: {
     MoveHandle,
   },
-  props: {
-    mapConfiguration: {
-      type: Object as PropType<MapConfig>,
-      required: true,
-    },
-  },
   data: (): {
-    lang: 'de' | 'en'
     moveHandleKey: number
   } => ({
-    lang: 'de',
     moveHandleKey: 0,
   }),
   computed: {
     ...mapGetters([
       'hasSmallWidth',
       'hasWindowSize',
-      'map',
       'moveHandle',
       'moveHandleActionButton',
     ]),
@@ -85,60 +68,10 @@ export default Vue.extend({
       this.moveHandleKey += 1
     },
   },
-  mounted() {
-    const map = api.map.createMap(
-      {
-        target: this.$refs['polar-map-container'],
-        ...mapZoomOffset(this.mapConfiguration),
-      },
-      '2D',
-      {
-        mapParams: {
-          interactions: defaults({
-            altShiftDragRotate: false,
-            pinchRotate: false,
-            dragPan: false,
-            mouseWheelZoom: false,
-          }),
-        },
-      }
-    )
-    this.setMap(map)
-    this.mapConfiguration.locales?.forEach?.((locale: Locale) =>
-      i18next.addResourceBundle(locale.type, 'common', locale.resources, true)
-    )
-    i18next.on('languageChanged', (lang) => (this.lang = lang))
-  },
-  methods: {
-    ...mapMutations(['setMap']),
-  },
 })
 </script>
 
 <style lang="scss">
-.polar-shadow {
-  height: 100%;
-  width: 100%;
-}
-.v-tooltip__content {
-  background-color: #595959;
-  border: 2px solid #fff;
-}
-.v-application {
-  font-family: sans-serif !important;
-}
-.v-list-item--highlighted {
-  outline: 2px solid var(--polar-primary);
-  outline-offset: -2px;
-}
-/* Override v-app default styling (must be global to take effect) */
-.polar-wrapper .v-application--wrap {
-  min-height: initial;
-  max-height: 100%;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
 .polar-wrapper.v-application .v-btn:focus {
   border: solid var(--polar-primary-contrast) !important;
   outline: solid var(--polar-primary);

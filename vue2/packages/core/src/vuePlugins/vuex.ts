@@ -12,32 +12,14 @@ import {
   MapConfig,
   MoveHandleActionButton,
   MoveHandleProperties,
-  PluginContainer,
 } from '@polar/lib-custom-types'
-import { Map } from 'ol'
 import { CapabilitiesModule } from '../storeModules/capabilities'
 
 Vue.use(Vuex)
 
 const getInitialState = (): CoreState => ({
-  map: 1,
-  clientHeight: 0,
-  clientWidth: 0,
-  components: 1,
-  center: null,
   moveHandle: 1,
   moveHandleActionButton: 1,
-  zoomLevel: 0,
-  // @ts-expect-error | Required values are set in utils/createMap/index.ts
-  configuration: {
-    layers: [],
-    layerConf: [],
-    startCenter: [0, 0],
-  },
-  hasSmallDisplay: false,
-  language: '',
-  mapHasDimensions: false,
-  oidcToken: '',
 })
 
 export const makeStore = (mapConfiguration: MapConfig) => {
@@ -54,10 +36,8 @@ export const makeStore = (mapConfiguration: MapConfig) => {
    * They must be set via setter to let getters toggle through.
    * This is intended.
    */
-  let map: null | Map = null
   let moveHandle: MoveHandleProperties | null = null
   let moveHandleActionButton: MoveHandleActionButton | null = null
-  let components: PluginContainer[] = []
 
   const store = new Store({
     state: getInitialState(),
@@ -70,11 +50,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
     },
     getters: {
       ...generateSimpleGetters(getInitialState()),
-      // hack: deliver map (outside vuex) based on counter; see NOTE above
-      map: (state) => {
-        noop(state.map)
-        return map
-      },
       moveHandle: (state) => {
         noop(state.moveHandle)
         return moveHandle
@@ -82,11 +57,6 @@ export const makeStore = (mapConfiguration: MapConfig) => {
       moveHandleActionButton: (state) => {
         noop(state.moveHandleActionButton)
         return moveHandleActionButton
-      },
-      // hack: deliver components (outside vuex) based on counter; see NOTE above
-      components: (state) => {
-        noop(state.components)
-        return components
       },
     },
     mutations: {
