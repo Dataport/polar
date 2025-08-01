@@ -1,6 +1,6 @@
-import merge from 'lodash.merge'
+import { toMerged } from 'es-toolkit'
 import clientConfiguration from './vite.client'
 
 export function getClientConfig(options = {}) {
-	return merge(clientConfiguration, options)
+	return toMerged(clientConfiguration, options)
 }

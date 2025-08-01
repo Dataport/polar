@@ -1,6 +1,6 @@
 import '@kern-ux/native/dist/fonts/fira-sans.css'
+import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
-import merge from 'lodash.merge'
 import { storeToRefs } from 'pinia'
 import { defineCustomElement, watch, type WatchOptions } from 'vue'
 import PolarMapCE from './components/PolarMap.ce.vue'
@@ -59,10 +59,9 @@ export function addPlugin(plugin: PluginContainer) {
 	const { id, locales, options, storeModule } = plugin
 	const coreStore = useCoreStore()
 
-	const pluginConfiguration: PluginOptions = merge(
-		{},
-		options,
-		coreStore.configuration[id] || {}
+	const pluginConfiguration = toMerged(
+		options || {},
+		(coreStore.configuration[id] || {}) as PluginOptions
 	)
 
 	/* configuration merge – "options" are from client-code, "configuration"

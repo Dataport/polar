@@ -1,8 +1,8 @@
-import type { Plugin } from 'vue'
+import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import I18NextVue from 'i18next-vue'
-import merge from 'lodash.merge'
+import type { Plugin } from 'vue'
 import locales from '../locales'
 import type { Locale } from '../types'
 
@@ -14,15 +14,17 @@ export const I18Next: Plugin = {
 		app.use(I18NextVue, { i18next })
 
 		const localeOptions = options?.locales
-		const configuredLocales: Locale[] = Array.isArray(localeOptions)
-			? locales.map((locale) => ({
-					type: locale.type,
-					resources: merge(
-						{},
-						locale.resources,
-						localeOptions.find((l) => l.type === locale.type)?.resources
-					),
-				}))
+		const configuredLocales = Array.isArray(localeOptions)
+			? locales.map((locale) => {
+					const localeOption = localeOptions.find((l) => l.type === locale.type)
+					return {
+						type: locale.type,
+						resources: toMerged(
+							locale.resources,
+							localeOption ? localeOption.resources : {}
+						),
+					}
+				})
 			: locales
 		const supportedLngs: string[] = configuredLocales.map(({ type }) => type)
 
