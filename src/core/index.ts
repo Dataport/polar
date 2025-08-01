@@ -86,8 +86,6 @@ export function createMap(
 	serviceRegister: string | Record<string, unknown>[],
 	tagName = 'polar-map'
 ) {
-	// TODO(oeninghe-dataport): Split defineCustomElement to a separate function to allow two or more map clients per page
-
 	const PolarMap = defineCustomElement(PolarMapCE, {
 		configureApp(app) {
 			app.use(I18Next, {

@@ -81,8 +81,32 @@ await createMap(
 			clusterClickZoom: true,
 		},
 	},
-	'https://geodienste.hamburg.de/services-internet.json'
+	'https://geodienste.hamburg.de/services-internet.json',
 )
+
+await createMap(
+	{
+		layers: [
+			{
+				id: basemapId,
+				visibility: true,
+				type: 'background',
+				name: 'snowbox.layers.basemap',
+			},
+		],
+	},
+	'https://geodienste.hamburg.de/services-internet.json',
+	'dataport-map',
+)
+
+document.getElementById('secondMap').addEventListener('click', () => {
+	const secondMap = document.createElement('dataport-map')
+	secondMap.classList.add('snowbox')
+	document.getElementById('secondMapContainer').appendChild(secondMap)
+})
+document.getElementById('secondMapClean').addEventListener('click', () => {
+	document.getElementById('secondMapContainer').innerText = ''
+})
 
 // TODO: Update with proper plugins
 setTimeout(
