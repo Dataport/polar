@@ -1,6 +1,10 @@
 import { Map } from 'ol'
 import { ImageWMS } from 'ol/source'
 
+// TODO: Check whether this is still needed for the export plugin
+
+// NOTE: This is needed to be able to properly use the export
+
 // Original addLayer method
 const originalAddLayer = Map.prototype.addLayer
 // Monkey patch

@@ -12,6 +12,8 @@ import { useMarkerStore } from './stores/useMarkerStore'
 import defaults from './utils/defaults'
 import { mapZoomOffset } from './utils/mapZoomOffset'
 
+import './monkeyHeaderLoader'
+
 export function addPlugins(plugins: PluginContainer[]) {
 	plugins.forEach(addPlugin)
 }
