@@ -25,7 +25,7 @@
 		"url": "git+https://github.com/Dataport/polar.git"
 	},
 	"scripts": {
-		"snowbox": "vite",
+		"snowbox": "vite dev snowbox -c ./vite.config.ts",
 		"build": "vite build --watch",
 		"build:ci": "vite build",
 		"lint": "eslint --cache .",

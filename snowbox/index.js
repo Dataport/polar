@@ -52,7 +52,7 @@ await createMap(
 			},
 		],
 		checkServiceAvailability: true,
-		featureStyles: './snowbox/style.json',
+		featureStyles: './style.json',
 		markers: {
 			layers: [
 				{
