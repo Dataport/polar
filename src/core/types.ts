@@ -58,7 +58,7 @@ export interface PluginContainer {
 	locales?: Locale[]
 	/**
 	 * Configuration options. Please also note that all configuration added via plugin constructors can be overridden in
-	 * the `createMap`'s parameter `mapConfiguration`.
+	 * the {@link createMap | `createMap`'s parameter `mapConfiguration`} .
 	 *
 	 * You may use either object (or a mix of them) to create the configuration, e.g. use the constructors for a base
 	 * configuration and the `mapConfiguration` object to override it for various use cases.
@@ -133,7 +133,7 @@ export interface MarkerLayer {
 }
 
 export interface MarkerLayerConfiguration {
-	/** Unique identifier of a layer configured in `mapConfiguration.layers`. */
+	/** Unique identifier of a layer configured in {@link MapConfiguration.layers | `mapConfiguration.layers`}. */
 	id: string
 	/**
 	 * Used as the default marker style.
@@ -152,8 +152,8 @@ export interface MarkerLayerConfiguration {
 	selectionStyle?: Partial<MarkerStyle>
 	/**
 	 * Used as a map marker style for unselectable features.
-	 * Features are unselectable if a given `isSelectable` method returns falsy
-	 * for a feature.
+	 * Features are unselectable if a given {@link MarkerLayerConfiguration.isSelectable | `isSelectable`} method returns
+	 * falsy for a feature.
 	 * The default fill color for these markers is `'#333333'`.
 	 */
 	unselectableStyle?: Partial<MarkerStyle>
@@ -258,9 +258,10 @@ export interface LayerConfiguration {
 	/** Enables a configuration feature for the layer in its selection. */
 	options?: LayerConfigurationOptions
 	/**
-	 * ID of the used style. If the layer is also configured in `mapConfiguration.markers`, that configuration takes
-	 * precedence over the configured `styleId`. Only applicable for vector-type layers. For more information and an
-	 * example see `mapConfiguration.featureStyles`. Defaults and fallbacks to OpenLayers default styling.
+	 * ID of the used style. If the layer is also configured in {@link MapConfiguration.markers | `mapConfiguration.markers`},
+	 * that configuration takes precedence over the configured `styleId`. Only applicable for vector-type layers.
+	 * For more information and an example see {@link MapConfiguration.featureStyles | `mapConfiguration.featureStyles`}.
+	 * Defaults and fallbacks to OpenLayers default styling.
 	 */
 	styleId?: string
 	/** Whether the layer should be rendered; defaults to false */
@@ -268,7 +269,10 @@ export interface LayerConfiguration {
 }
 
 export interface PolarMapOptions {
-	/** Size of 1 pixel on the screen converted to map units (e.g. meters) depending on the used projection (`epsg`). */
+	/**
+	 * Size of 1 pixel on the screen converted to map units (e.g. meters) depending on the used projection
+	 * ({@link MasterportalApiConfiguration.epsg} | `epsg`).
+	 */
 	resolution: number
 	/** Scale in meters. */
 	scale: number
@@ -288,25 +292,27 @@ export interface OklchColor {
 export interface PolarTheme {
 	/**
 	 * This color will be defined as `--brand-color-{l,c,h}` CSS variable inside POLAR's shadow DOM.
-	 * It can especially be used to define the KERN theme via OKLCH.
+	 * It can especially be used to define the KERN theme via {@link https://developer.mozilla.org/de/docs/Web/CSS/color_value/oklch | oklch}.
 	 */
 	brandColor?: OklchColor
 
 	/**
-	 * Theme for KERN UX library as defined by `@kern-ux-annex/webc`.
+	 * Theme for KERN UX library as defined by {@link https://www.npmjs.com/package/@kern-ux-annex/webc | `@kern-ux-annex/webc`}.
 	 */
 	kern?: KernTheme
 }
 
 /**
  * The `<...masterportalapi.fields>` means that any \@masterportal/masterportalapi field may also be used here _directly_
- * in the mapConfiguration. The fields described here are fields that are interesting for the usage of POLAR.
+ * in the {@link MapConfiguration | `mapConfiguration`}. The fields described here are fields that are interesting for
+ * the usage of POLAR.
  * Fields that are not set as required have default values.
  */
 export interface MasterportalApiConfiguration {
 	/**
 	 * Initial center coordinate.
-	 * Coordinate needs to be defined in the chosen leading coordinate system configured by `mapConfiguration.epsg`.
+	 * Coordinate needs to be defined in the chosen leading coordinate system configured by
+	 * {@link MasterportalApiConfiguration.epsg | `mapConfiguration.epsg`}.
 	 *
 	 * @example
 	 * ```
@@ -315,10 +321,16 @@ export interface MasterportalApiConfiguration {
 	 */
 	startCenter: [number, number]
 	/**
-	 * Leading coordinate system. The coordinate system has to be defined in `mapConfiguration.namedProjections` as well.
-	 * Changing this value should also lead to changes in `mapConfiguration.startCenter`, `mapConfiguration.extent`,
-	 * `mapConfiguration.options` and `mapConfiguration.startResolution` as they are described in or are related to the
-	 * leading coordinate system. Defaults to `'EPSG:25832'`.
+	 * Leading coordinate system. The coordinate system has to be defined in
+	 * {@link MasterportalApiConfiguration.namedProjections | `mapConfiguration.namedProjections`} as well.
+	 * Changing this value should also lead to changes in
+	 * {@link MasterportalApiConfiguration.startCenter | `mapConfiguration.startCenter`},
+	 * {@link MasterportalApiConfiguration.extent | `mapConfiguration.extent`},
+	 * {@link MasterportalApiConfiguration.options | `mapConfiguration.options`} and
+	 * {@link MasterportalApiConfiguration.startResolution | `mapConfiguration.startResolution`} as they are described in
+	 * or are related to the leading coordinate system.
+	 *
+	 * Defaults to `'EPSG:25832'`.
 	 *
 	 * @example
 	 * ```
@@ -328,7 +340,8 @@ export interface MasterportalApiConfiguration {
 	epsg?: `EPSG:${string}`
 	/**
 	 * Map movement will be restricted to the rectangle described by the given coordinates. Unrestricted by default.
-	 * Coordinates need to be defined in the chosen leading coordinate system configured by `mapConfiguration.epsg`.
+	 * Coordinates need to be defined in the chosen leading coordinate system configured by
+	 * {@link MasterportalApiConfiguration.epsg | `mapConfiguration.epsg`}.
 	 *
 	 * @example
 	 * ```
@@ -354,7 +367,8 @@ export interface MasterportalApiConfiguration {
 	namedProjections?: Array<[string, string]>
 	/**
 	 * Defines all available zoom levels mapped to the respective resolution and related scale.
-	 * The resolution is dependent on the chosen leading coordinate system configured by `mapConfiguration.epsg`.
+	 * The resolution is dependent on the chosen leading coordinate system configured by
+	 * {@link MasterportalApiConfiguration.epsg | `mapConfiguration.epsg`}.
 	 * Defines 10 zoomLevels for `'EPSG:25832'` by default.
 	 *
 	 * @example
@@ -375,8 +389,9 @@ export interface MasterportalApiConfiguration {
 	 */
 	options?: PolarMapOptions[]
 	/**
-	 * Initial resolution; must be described in `mapConfiguration.options`.
-	 * Defaults to `15.874991427504629` which is a zoom level defined in the default configuration of `mapConfiguration.options`.
+	 * Initial resolution; must be described in {@link MasterportalApiConfiguration.options | `mapConfiguration.options`}.
+	 * Defaults to `15.874991427504629` which is a zoom level defined in the default configuration of
+	 * {@link MasterportalApiConfiguration.options | `mapConfiguration.options`}.
 	 *
 	 * @example
 	 * ```
@@ -390,8 +405,8 @@ export interface MasterportalApiConfiguration {
 export interface MapConfiguration extends MasterportalApiConfiguration {
 	/**
 	 * Configuration of layers that are supposed to be used in the respective client. All layers defined here have to have
-	 * an entry in the `serviceRegister` parameter of `createMap`. If `@polar/plugin-layer-chooser` is installed and configured,
-	 * all these layers will be displayed in that menu.
+	 * an entry in the {@link createMap | `serviceRegister` parameter of `createMap`}. If `@polar/plugin-layer-chooser` is
+	 * installed and configured, all these layers will be displayed in that menu.
 	 *
 	 * @example
 	 * ```
@@ -460,8 +475,10 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively.
 	 * They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker
 	 * that supports the same features. Please mind that only point marker vector layers are supported.
-	 * For all other layers, take a look at the configuration of `mapConfiguration.featureStyles`.
-	 * Note, that this configuration parameter takes precedence over the configuration of `mapConfiguration.featureStyles`.
+	 * For all other layers, take a look at the configuration of
+	 * {@link MapConfiguration.featureStyles | `mapConfiguration.featureStyles`}.
+	 * Note, that this configuration parameter takes precedence over the configuration of
+	 * {@link MapConfiguration.featureStyles | `mapConfiguration.featureStyles`}.
 	 */
 	markers?: MarkerConfiguration
 	/**
