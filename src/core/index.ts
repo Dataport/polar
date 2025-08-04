@@ -174,7 +174,7 @@ export function createMap(
 	customElements.define(tagName, PolarMap)
 }
 
-type SubscribeCallback = (value: unknown, oldValue: unknown) => void
+export type SubscribeCallback = (value: unknown, oldValue: unknown) => void
 
 export function subscribe(
 	path: string,

@@ -42,7 +42,7 @@ export interface PluginOptions {
 	layoutTag?: string // TODO: Might it be useful to move declaration of NineLayoutTag here?
 }
 
-type PolarPluginStore = StoreDefinition<
+export type PolarPluginStore = StoreDefinition<
 	string,
 	StateTree,
 	_GettersTree<StateTree>,
@@ -87,7 +87,7 @@ export type MarkersIsSelectableFunction = (feature: Feature) => boolean
  * A full documentation of the parameters is available at the Masterportal's https://www.masterportal.org/mkdocs/doc/Latest/User/Global-Config/style.json/.
  * For more details, visual examples, and expert features, see there.
  */
-interface PolygonFillHatch {
+export interface PolygonFillHatch {
 	pattern?:
 		| 'diagonal'
 		| 'diagonal-right'
@@ -132,7 +132,7 @@ export interface MarkerLayer {
 	isSelectable: MarkersIsSelectableFunction
 }
 
-interface MarkerLayerConfiguration {
+export interface MarkerLayerConfiguration {
 	/** Unique identifier of a layer configured in `mapConfiguration.layers`. */
 	id: string
 	/**
