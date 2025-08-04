@@ -1,6 +1,6 @@
 import '@kern-ux/native/dist/fonts/fira-sans.css'
+import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
-import merge from 'lodash.merge'
 import { storeToRefs } from 'pinia'
 import { defineCustomElement, watch, type WatchOptions } from 'vue'
 import PolarMapCE from './components/PolarMap.ce.vue'
@@ -14,25 +14,61 @@ import { mapZoomOffset } from './utils/mapZoomOffset'
 
 import './monkeyHeaderLoader'
 
+/**
+ * Calls `addPlugin` for each plugin in the array.
+ *
+ * @param plugins - Plugins to be added.
+ */
 export function addPlugins(plugins: PluginContainer[]) {
 	plugins.forEach(addPlugin)
 }
 
+/**
+ * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
+ * already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared.
+ *
+ * You may add further plugins or proceed with `createMap`.
+ *
+ * Please note that the order of certain plugins is relevant when other plugins are referenced,
+ * e.g. `@polar/plugin-gfi`'s `coordinateSources` requires the configured sources to have previously been set up.
+ *
+ * In case you're integrating new plugins, call `addPlugin` with a plugin instance.
+ *
+ * If you want to add multiple plugins at once, you can use `addPlugins` instead.
+ *
+ * @example
+ * ```
+ * addPlugin(Plugin(pluginOptions: PluginOptions))
+ * ```
+ *
+ * @remarks
+ * In case you're writing a new plugin, it must fulfill the following API:
+ * ```
+ * const Plugin = (options: PluginOptions): PluginContainer => ({
+ * 	id,
+ * 	component,
+ * 	locales,
+ * 	options,
+ * 	storeModule,
+ * })
+ * ```
+ *
+ * @param plugin - Plugin to be added.
+ */
 export function addPlugin(plugin: PluginContainer) {
-	const { locales, name, options, storeModule } = plugin
+	const { id, locales, options, storeModule } = plugin
 	const coreStore = useCoreStore()
 
-	const pluginConfiguration: PluginOptions = merge(
-		{},
-		options,
-		coreStore.configuration[name] || {}
+	const pluginConfiguration = toMerged(
+		options || {},
+		(coreStore.configuration[id] || {}) as PluginOptions
 	)
 
 	/* configuration merge – "options" are from client-code, "configuration"
 	 * is from mapConfiguration object and thus overrides */
 	coreStore.configuration = {
 		...coreStore.configuration,
-		[name]: pluginConfiguration,
+		[id]: pluginConfiguration,
 	}
 
 	const store = storeModule?.()
@@ -50,17 +86,17 @@ export function addPlugin(plugin: PluginContainer) {
 	coreStore.plugins = [...coreStore.plugins, plugin]
 	if (pluginConfiguration.displayComponent && !pluginConfiguration.layoutTag) {
 		console.warn(
-			`@polar/core: Component "${name}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
+			`@polar/core: Component of plugin "${id}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
 		)
 	}
 }
 
-export function removePlugin(pluginName: string) {
+export function removePlugin(pluginId: string) {
 	const coreStore = useCoreStore()
-	const plugin = coreStore.plugins.find((p) => p.name === pluginName)
+	const plugin = coreStore.plugins.find((p) => p.id === pluginId)
 
 	if (!plugin) {
-		console.error(`@polar/core:removePlugin: Plugin "${pluginName}" not found.`)
+		console.error(`@polar/core:removePlugin: Plugin "${pluginId}" not found.`)
 		return
 	}
 	const store = plugin.storeModule?.()
@@ -69,16 +105,34 @@ export function removePlugin(pluginName: string) {
 		store.$reset()
 	}
 	coreStore.plugins = coreStore.plugins.filter(
-		(plugin) => plugin.name !== pluginName
+		(plugin) => plugin.id !== pluginId
 	)
 }
 
 /**
- * Initialize map and setup all relevant functionality.
- * Registers the custom element for the polar map.
+ * The map is created by calling the `createMap` method.
+ * Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone
+ * HTML pages that do this for you.
+ *
+ * Initializes map and setup all relevant functionality.
+ * Also registers the custom element for the polar map.
+ *
+ * @remarks
+ * Whitelisted and confirmed parameters for {@link serviceRegister} include:
+ * - WMS:  		`id`, `name`, `url`, `typ`, `format`, `version`, `transparent`, `layers`, `styles`, `singleTile`
+ * - WFS:  		`id`, `name`, `url`, `typ`,  `outputFormat`, `version`, `featureType`
+ * - WMTS: 		`id`, `name`, `urls`, `typ`, `capabilitiesUrl`, `optionsFromCapabilities`, `tileMatrixSet`, `layers`,
+ * 						`legendURL`, `format`, `coordinateSystem`, `origin`, `transparent`, `tileSize`, `minScale`, `maxScale`,
+ * 						`requestEncoding`, `resLength`
+ * - OAF: 		`id`, `name`, `url`, `typ`, `collection`, `crs`, `bboxCrs`
+ * - GeoJSON: `id`, `name`, `url`, `typ`, `version`, `minScale`, `maxScale`, `legendURL`
  *
  * @param mapConfiguration - Configuration options.
- * @param serviceRegister - Service register given through a URL or as an array.
+ * @param serviceRegister - Service register given through a URL or as an array
+ * 													An example for a predefined service register is [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
+ * 													Full documentation regarding the configuration can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+ * 													However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet,
+ * 													and no documentation regarding implemented properties exists there yet.
  * @param tagName - Tag name for the custom element.
  */
 export function createMap(

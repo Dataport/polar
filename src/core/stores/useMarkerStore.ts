@@ -1,4 +1,4 @@
-import merge from 'lodash.merge'
+import { toMerged } from 'es-toolkit'
 import { Feature, MapBrowserEvent } from 'ol'
 import { createEmpty, extend } from 'ol/extent'
 import { Point } from 'ol/geom'
@@ -11,7 +11,7 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 import getCluster from '@/lib/getCluster'
 import { isVisible } from '@/lib/invisibleStyle'
-import {
+import type {
 	CallOnMapSelect,
 	MarkerConfiguration,
 	MarkerLayer,
@@ -177,18 +177,17 @@ export const useMarkerStore = defineStore('markers', () => {
 	function setupMarkers(configuration: MarkerConfiguration) {
 		const map = useCoreStore().getMap()
 
-		layers = configuration.layers.map(
-			(layer) =>
-				merge(
-					{
-						defaultStyle,
-						hoverStyle,
-						selectionStyle,
-						unselectableStyle,
-						isSelectable: () => true,
-					},
-					layer
-				) as MarkerLayer
+		layers = configuration.layers.map((layer) =>
+			toMerged(
+				{
+					defaultStyle,
+					hoverStyle,
+					selectionStyle,
+					unselectableStyle,
+					isSelectable: () => true,
+				},
+				layer
+			)
 		)
 		callOnMapSelect =
 			typeof configuration.callOnMapSelect === 'function'

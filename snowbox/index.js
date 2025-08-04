@@ -87,7 +87,7 @@ await createMap(
 setTimeout(
 	() =>
 		addPlugin({
-			name: 'TEST',
+			id: 'TEST',
 			options: { displayComponent: true, layoutTag: 'MIDDLE_MIDDLE' },
 		}),
 	5000
