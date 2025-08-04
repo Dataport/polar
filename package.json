@@ -13,8 +13,8 @@
 	"type": "module",
 	"author": "Dataport AöR <polar@dataport.de>",
 	"engines": {
-		"node": "^22.16.0",
-		"npm": "^10.9.2"
+		"node": "^22.18.0",
+		"npm": "^10.9.3"
 	},
 	"exports": {
 		".": {
