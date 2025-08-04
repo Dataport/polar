@@ -1,2 +1,14 @@
 #!/bin/sh
+set -e
+
+git rev-parse --verify HEAD >/dev/null || exit 1
+git update-index -q --ignore-submodules --refresh
+
+if ! git diff-files --quiet --ignore-submodules
+then
+	echo "Cannot commit: You have unstaged changes." >&2
+	echo "Please stage, stash or drop these changes." >&2
+	exit 1
+fi
+
 npm test

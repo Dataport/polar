@@ -37,11 +37,12 @@
 		"lint": "eslint --cache .",
 		"lint:ci": "eslint .",
 		"lint:fix": "npm run lint -- --fix",
+		"tsc": "tsc --noEmit",
 		"tsc:ci": "tsc --noEmit",
 		"docs": "typedoc",
 		"clean": "node scripts/clean.js",
 		"postinstall": "patch-package",
-		"test": "npm run lint:ci && npm run tsc:ci",
+		"test": "npm run lint && npm run tsc",
 		"prepare": "node .husky/install.js"
 	},
 	"files": [
