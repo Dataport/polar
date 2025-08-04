@@ -196,6 +196,28 @@ export function subscribe(
 
 // TODO(dopenguin): Implement this once plugins are added so that the respective store is selected here.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+/**
+ * Updates the parameter {@link parameterName | parameter} in the {@link storeName | store} with the {@link payload}.
+ *
+ * @remarks
+ * An error is logged if no store can be found with the given name {@link storeName}.
+ *
+ * @param storeName - Name of the store.
+ * @param parameterName - Name of the parameter to update.
+ * @param payload - The payload to update the given parameter with.
+ */
+export function updateState(
+	storeName: string,
+	parameterName: string,
+	payload: unknown
+) {
+	try {
+		getStore(storeName)[parameterName] = payload
+	} catch (e) {
+		console.error(e)
+	}
+}
+
 function getStore(storeName: string) {
 	return useMarkerStore()
 }
