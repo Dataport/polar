@@ -177,25 +177,31 @@ export function createMap(
 
 export type SubscribeCallback = (value: unknown, oldValue: unknown) => void
 
+/**
+ * @remarks
+ * An error is logged if no store can be found with the given name {@link storeName}.
+ *
+ * @param storeName - Name of the store.
+ * @param parameterName - Name of the parameter to update.
+ * @param callback - Function to call on updates.
+ * @param options - Additional options to give to `watch`.
+ */
 export function subscribe(
-	path: string,
+	storeName: string,
+	parameterName: string,
 	callback: SubscribeCallback,
 	options?: WatchOptions
 ) {
-	const steps = path.split('/')
-	const isCore = steps.length === 1
-
-	const store = isCore ? useCoreStore() : getStore(steps[0])
-	const parameterName = steps[isCore ? 0 : 1]
-
-	return watch(storeToRefs(store)[parameterName], callback, {
-		immediate: true,
-		...options,
-	})
+	try {
+		return watch(storeToRefs(getStore(storeName))[parameterName], callback, {
+			immediate: true,
+			...options,
+		})
+	} catch (e) {
+		console.error(e)
+	}
 }
 
-// TODO(dopenguin): Implement this once plugins are added so that the respective store is selected here.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 /**
  * Updates the parameter {@link parameterName | parameter} in the {@link storeName | store} with the {@link payload}.
  *
@@ -218,8 +224,20 @@ export function updateState(
 	}
 }
 
+/**
+ * Return the Store instance of the store with the given {@link storeName}.
+ *
+ * @param storeName - Name of the store to retrieve.
+ * @throws Error - If no store with the given name can be found.
+ */
 function getStore(storeName: string) {
-	return useMarkerStore()
+	if (storeName === 'core') {
+		return useCoreStore()
+	}
+	if (storeName === 'markers') {
+		return useMarkerStore()
+	}
+	throw new Error(`getStore: Store ${storeName} not found.`)
 }
 
 export type * from './types'
