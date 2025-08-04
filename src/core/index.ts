@@ -1,8 +1,11 @@
+/* eslint-disable tsdoc/syntax */
 /**
- * This is the main export for the NPM package @polar/polar.
+ * This is the main export for the NPM package \@polar/polar.
  *
- * @module @polar/polar
+ * @packageDocumentation
+ * @module \@polar/polar
  */
+/* eslint-enable tsdoc/syntax */
 
 import '@kern-ux/native/dist/fonts/fira-sans.css'
 import { toMerged } from 'es-toolkit'
@@ -146,8 +149,6 @@ export function createMap(
 	serviceRegister: string | Record<string, unknown>[],
 	tagName = 'polar-map'
 ) {
-	// TODO(oeninghe-dataport): Split defineCustomElement to a separate function to allow two or more map clients per page
-
 	const PolarMap = defineCustomElement(PolarMapCE, {
 		configureApp(app) {
 			app.use(I18Next, {
@@ -194,6 +195,7 @@ export function subscribe(
 }
 
 // TODO(dopenguin): Implement this once plugins are added so that the respective store is selected here.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getStore(storeName: string) {
 	return useMarkerStore()
 }

@@ -31,15 +31,20 @@
 		"url": "git+https://github.com/Dataport/polar.git"
 	},
 	"scripts": {
-		"snowbox": "vite dev snowbox -c ./vite.config.ts",
+		"dev": "vite",
+		"snowbox": "VITE_DEV_LANDING=\"snowbox\" vite",
+		"preview:build": "vite build --watch -c vite.config.preview.ts",
+		"preview:preview": "vite preview -c vite.config.preview.ts",
+		"preview": "conc --kill-others 'npm run build' 'npm run preview:build' 'npm run preview:preview'",
 		"build": "vite build --watch",
 		"build:ci": "vite build",
 		"lint": "eslint --cache .",
 		"lint:ci": "eslint .",
 		"lint:fix": "npm run lint -- --fix",
-		"tsc": "tsc --noEmit",
-		"tsc:ci": "tsc --noEmit",
-		"docs": "typedoc --sort kind --sort instance-first --sort required-first --sort alphabetical-ignoring-documents",
+		"tsc": "vue-tsc",
+		"tsc:ci": "vue-tsc",
+		"docs": "typedoc --watch",
+		"docs:ci": "typedoc",
 		"clean": "node scripts/clean.js",
 		"postinstall": "patch-package",
 		"test": "npm run lint && npm run tsc",
@@ -57,8 +62,10 @@
 		"@masterportal/masterportalapi": "2.48.0",
 		"@repositoryname/noop": "^1.0.6",
 		"@vitejs/plugin-vue": "^6.0.0",
+		"@vue/tsconfig": "^0.7.0",
 		"buffer": "^6.0.3",
 		"cesium": "^1.131.0",
+		"concurrently": "^9.2.0",
 		"eslint": "^9.31.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.3",
@@ -80,9 +87,11 @@
 		"typescript": "^5.8.3",
 		"util": "^0.12.5",
 		"vite": "^7.0.6",
+		"vite-plugin-checker": "^0.10.2",
 		"vite-plugin-commonjs": "^0.10.4",
 		"vite-plugin-dts": "^4.5.4",
 		"vite-plugin-vue-devtools": "^8.0.0",
-		"vue": "^3.5.18"
+		"vue": "^3.5.18",
+		"vue-tsc": "^3.0.4"
 	}
 }

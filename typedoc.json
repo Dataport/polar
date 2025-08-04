@@ -1,7 +1,17 @@
 {
-	"entryPoints": ["src/core/index.ts"],
+	"entryPoints": [
+		"src/core/index.ts"
+	],
 	"out": "docs-html",
 	"skipErrorChecking": true,
-	"projectDocuments": ["docs/*.md"],
-	"name": "POLAR documentation"
+	"projectDocuments": [
+		"docs/*.md"
+	],
+	"name": "POLAR documentation",
+	"sort": [
+		"kind",
+		"instance-first",
+		"required-first",
+		"alphabetical-ignoring-documents"
+	]
 }

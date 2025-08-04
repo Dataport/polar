@@ -1,10 +1,6 @@
 import { changeLanguage } from 'i18next'
-import {
-	addPlugin,
-	createMap,
-	removePlugin,
-	subscribe,
-} from '@polar/polar'
+import styleJsonUrl from './style.json?url'
+import { addPlugin, createMap, removePlugin, subscribe } from '@polar/polar'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -20,11 +16,14 @@ const dataportTheme = {
 	kern: {
 		color: {
 			action: {
-				default: 'oklch(var(--brand-color-l) var(--brand-color-c) var(--brand-color-h))',
+				default:
+					'oklch(var(--brand-color-l) var(--brand-color-c) var(--brand-color-h))',
 				stateIndicator: {
 					shade: {
-						hover: 'oklch(calc(var(--brand-color-l) + 0.1) var(--brand-color-c) var(--brand-color-h))',
-						active: 'oklch(calc(var(--brand-color-l) + 0.14) var(--brand-color-c) var(--brand-color-h))',
+						hover:
+							'oklch(calc(var(--brand-color-l) + 0.1) var(--brand-color-c) var(--brand-color-h))',
+						active:
+							'oklch(calc(var(--brand-color-l) + 0.14) var(--brand-color-c) var(--brand-color-h))',
 					},
 				},
 			},
@@ -35,11 +34,13 @@ const dataportTheme = {
 			},
 			borderRadius: {
 				default: '0 10px 10px 10px',
-			}
+			},
 		},
 	},
 }
 
+// TODO: Re-enable with isSelectable
+/*
 // arbitrary condition for testing
 const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
 
@@ -50,6 +51,7 @@ const isReportSelectable = (feature) =>
 			(accumulator, current) => isEvenId(current.get('mmlid')) || accumulator,
 			false
 		)
+*/
 
 await createMap(
 	{
@@ -81,7 +83,7 @@ await createMap(
 			},
 		],
 		checkServiceAvailability: true,
-		featureStyles: './style.json',
+		featureStyles: styleJsonUrl,
 		markers: {
 			layers: [
 				{
@@ -112,6 +114,30 @@ await createMap(
 	},
 	'https://geodienste.hamburg.de/services-internet.json'
 )
+
+await createMap(
+	{
+		layers: [
+			{
+				id: basemapId,
+				visibility: true,
+				type: 'background',
+				name: 'snowbox.layers.basemap',
+			},
+		],
+	},
+	'https://geodienste.hamburg.de/services-internet.json',
+	'dataport-map'
+)
+
+document.getElementById('secondMap').addEventListener('click', () => {
+	const secondMap = document.createElement('dataport-map')
+	secondMap.classList.add('snowbox')
+	document.getElementById('secondMapContainer').appendChild(secondMap)
+})
+document.getElementById('secondMapClean').addEventListener('click', () => {
+	document.getElementById('secondMapContainer').innerText = ''
+})
 
 // TODO: Update with proper plugins
 setTimeout(

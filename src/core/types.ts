@@ -1,4 +1,4 @@
-import type { KernTheme } from '@kern-ux-annex/webc'
+import type { KernThemeOverride } from '@kern-ux-annex/webc'
 import type { Resource } from 'i18next'
 import { Feature } from 'ol'
 import type {
@@ -299,7 +299,7 @@ export interface PolarTheme {
 	/**
 	 * Theme for KERN UX library as defined by {@link https://www.npmjs.com/package/@kern-ux-annex/webc | `@kern-ux-annex/webc`}.
 	 */
-	kern?: KernTheme
+	kern?: KernThemeOverride
 }
 
 /**

@@ -29,12 +29,11 @@ const coreStore = useCoreStore()
 const { hasWindowSize, plugins } = storeToRefs(coreStore)
 
 const regions = computed(() =>
-	// @ts-expect-error | Not sure why the type is scuffed in this file
 	tags.reduce(
 		(acc, [name]) => ({
 			...acc,
 			[name]: plugins.value.filter(
-				({ options }) => options.displayComponent && options.layoutTag === name
+				({ options }) => options?.displayComponent && options.layoutTag === name
 			),
 		}),
 		{}

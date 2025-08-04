@@ -2,6 +2,7 @@ node_modules
 .eslintcache
 
 /docs-html
+.dist.preview
 
 # Old gitignore, maybe cleanup when migrated
 **/.eslintcache

@@ -43,7 +43,6 @@ import {
 } from 'vue'
 import { useCoreStore } from '../stores/useCoreStore'
 import { loadKern } from '../utils/loadKern'
-import { type MasterportalApiConfiguration } from '../types'
 import { useMarkerStore } from '../stores/useMarkerStore'
 import PolarUi from './PolarUI.ce.vue'
 
@@ -155,14 +154,14 @@ async function setup() {
 onMounted(async () => {
 	await loadKern(
 		polarWrapper.value?.parentNode as ShadowRoot,
-		coreStore.configuration.theme?.kern || {},
+		coreStore.configuration.theme?.kern || {}
 	)
 	if (Array.isArray(coreStore.serviceRegister)) {
 		return setup()
 	}
 	rawLayerList.initializeLayerList(
 		coreStore.serviceRegister,
-		(layerConf: MasterportalApiConfiguration['layerConf']) => {
+		(layerConf: string | Record<string, unknown>[]) => {
 			coreStore.serviceRegister = layerConf
 			return setup()
 		}
@@ -183,6 +182,7 @@ onBeforeUnmount(() => {
 watch(hasWindowSize, updateListeners)
 
 function demo() {
+	// eslint-disable-next-line no-console
 	console.log('Button clicked')
 }
 </script>

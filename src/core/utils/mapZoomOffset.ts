@@ -1,4 +1,4 @@
-import { MapConfiguration } from '../types'
+import type { MapConfiguration } from '../types'
 
 /**
  * NOTE This is a workaround addressing the recent change in `minZoom` logic in
