@@ -189,9 +189,9 @@ function demo() {
 
 <style scoped lang="scss">
 .polar-wrapper {
-	--brand-color-l: v-bind('coreStore.configuration.theme.brandColor.l');
-	--brand-color-c: v-bind('coreStore.configuration.theme.brandColor.c');
-	--brand-color-h: v-bind('coreStore.configuration.theme.brandColor.h');
+	--brand-color-l: v-bind('coreStore.configuration.theme?.brandColor?.l');
+	--brand-color-c: v-bind('coreStore.configuration.theme?.brandColor?.c');
+	--brand-color-h: v-bind('coreStore.configuration.theme?.brandColor?.h');
 
 	position: absolute;
 	height: inherit;
