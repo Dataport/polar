@@ -15,8 +15,6 @@ export default defineConfig({
 		port: 1235,
 	},
 	optimizeDeps: {
-		entries: [
-			'snowbox',
-		],
+		entries: ['snowbox'],
 	},
 })

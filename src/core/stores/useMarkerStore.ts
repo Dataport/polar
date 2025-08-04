@@ -9,8 +9,6 @@ import Cluster from 'ol/source/Cluster'
 import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import getCluster from '@/lib/getCluster'
-import { isVisible } from '@/lib/invisibleStyle'
 import type {
 	CallOnMapSelect,
 	MarkerConfiguration,
@@ -19,6 +17,8 @@ import type {
 } from '../types'
 import { getMarkerStyle } from '../utils/markers'
 import { useCoreStore } from './useCoreStore'
+import { isVisible } from '@/lib/invisibleStyle'
+import getCluster from '@/lib/getCluster'
 
 export const useMarkerStore = defineStore('markers', () => {
 	// these have been measured to fit once and influence marker size
@@ -237,7 +237,7 @@ export const useMarkerStore = defineStore('markers', () => {
 				hovered.value = null
 			}
 			if (feature !== null && feature !== selectedValue) {
-				hoveredValue = feature
+				hoveredValue = feature as Feature
 				hovered.value = feature
 				const isMultiFeature = hoveredValue.get('features')?.length > 1
 				const style = getMarkerStyle(
@@ -358,7 +358,7 @@ export const useMarkerStore = defineStore('markers', () => {
 				return
 			}
 
-			const plugin = coreStore.plugins.find(({ name }) => name === pluginName)
+			const plugin = coreStore.plugins.find(({ id }) => id === pluginName)
 			if (!plugin) {
 				console.error(
 					`@polar/core:callOnMapSelect: Plugin ${pluginName} does not exist or is not configured. Action ${action} could not be called.`

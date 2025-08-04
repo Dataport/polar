@@ -1,11 +1,6 @@
 import { changeLanguage } from 'i18next'
-import {
-	addPlugin,
-	createMap,
-	removePlugin,
-	subscribe,
-} from '@polar/polar'
 import styleJsonUrl from './style.json?url'
+import { addPlugin, createMap, removePlugin, subscribe } from '@polar/polar'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -21,11 +16,14 @@ const dataportTheme = {
 	kern: {
 		color: {
 			action: {
-				default: 'oklch(var(--brand-color-l) var(--brand-color-c) var(--brand-color-h))',
+				default:
+					'oklch(var(--brand-color-l) var(--brand-color-c) var(--brand-color-h))',
 				stateIndicator: {
 					shade: {
-						hover: 'oklch(calc(var(--brand-color-l) + 0.1) var(--brand-color-c) var(--brand-color-h))',
-						active: 'oklch(calc(var(--brand-color-l) + 0.14) var(--brand-color-c) var(--brand-color-h))',
+						hover:
+							'oklch(calc(var(--brand-color-l) + 0.1) var(--brand-color-c) var(--brand-color-h))',
+						active:
+							'oklch(calc(var(--brand-color-l) + 0.14) var(--brand-color-c) var(--brand-color-h))',
 					},
 				},
 			},
@@ -36,7 +34,7 @@ const dataportTheme = {
 			},
 			borderRadius: {
 				default: '0 10px 10px 10px',
-			}
+			},
 		},
 	},
 }
@@ -114,7 +112,7 @@ await createMap(
 		},
 		theme: dataportTheme,
 	},
-	'https://geodienste.hamburg.de/services-internet.json',
+	'https://geodienste.hamburg.de/services-internet.json'
 )
 
 await createMap(
@@ -129,7 +127,7 @@ await createMap(
 		],
 	},
 	'https://geodienste.hamburg.de/services-internet.json',
-	'dataport-map',
+	'dataport-map'
 )
 
 document.getElementById('secondMap').addEventListener('click', () => {

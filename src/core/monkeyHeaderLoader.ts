@@ -4,7 +4,6 @@ import { type TileWMS } from 'ol/source'
 
 // NOTE: This monkey patch allows url parameters of tiled WMS layers to become headers if used like `{key=value}`
 
-// @ts-expect-error | Most modern browsers already support named capturing groups. This should be fine.
 const headerRegex = /{(?<key>[^=]+)=(?<value>[^}]+)}/gm
 
 /**
@@ -35,6 +34,7 @@ function customLoader(tile: ImageTile, url: string) {
 }
 
 // Original addLayer method
+// eslint-disable-next-line @typescript-eslint/unbound-method
 const originalAddLayer = Map.prototype.addLayer
 // Monkey patch
 Map.prototype.addLayer = function (...parameters) {

@@ -111,39 +111,46 @@ export const useCoreStore = defineStore('core', () => {
 		}
 
 		configuration.value.layers
-			.map(({ id }) => register.find(({ id: serviceId }) => serviceId === id))
-			.filter((service) => {
-				if (!service) {
-					console.warn(
-						`polar/core.checkServiceAvailability: Service with id "${service.id}" not found in service register.`
-					)
-					return false
+			.map(({ id }) => ({
+				id,
+				service: register.find(({ id: serviceId }) => serviceId === id),
+			}))
+			.filter(
+				(
+					service
+				): service is { id: string; service: Record<string, unknown> } => {
+					if (!service.service) {
+						console.warn(
+							`polar/core.checkServiceAvailability: Service with id "${service.id}" not found in service register.`
+						)
+						return false
+					}
+					return true
 				}
-				return true
-			})
+			)
 			.map(
-				(service): ServiceAvailabilityCheck => ({
+				({ service }): ServiceAvailabilityCheck => ({
 					ping: ping(service),
-					serviceId: service.id,
-					serviceName: service.name,
+					serviceId: service.id as string,
+					serviceName: service.name as string,
 				})
 			)
-			.forEach(({ ping, serviceId, serviceName }) => {
+			.forEach(({ ping, serviceId /*, serviceName */ }) => {
 				ping
 					.then((statusCode) => {
 						if (statusCode !== 200) {
 							const toastStore = plugins.value.find(
-								({ name }) => name === 'toast'
+								({ id }) => id === 'toast'
 							)?.storeModule
 							if (toastStore) {
 								// TODO: Uncomment when toast plugin is implemented
 								/* toastStore().addToast({
-                    type: 'warning',
-                    text: i18next.t('error.serviceUnavailable', {
-                      serviceId,
-                      serviceName,
-                    }),
-                  }) */
+									type: 'warning',
+									text: i18next.t('error.serviceUnavailable', {
+										serviceId,
+										serviceName,
+									}),
+								}) */
 							}
 							// always print status code for debugging purposes
 							console.error(
@@ -157,7 +164,7 @@ export const useCoreStore = defineStore('core', () => {
 							})
 						}
 					})
-					.catch((e) => {
+					.catch((e: unknown) => {
 						console.error('polar/core', e)
 					})
 			})
