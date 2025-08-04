@@ -43,7 +43,7 @@
 		"lint:fix": "npm run lint -- --fix",
 		"tsc": "vue-tsc",
 		"tsc:ci": "vue-tsc",
-		"docs": "typedoc --sort kind --sort instance-first --sort required-first --sort alphabetical-ignoring-documents",
+		"docs": "typedoc",
 		"clean": "node scripts/clean.js",
 		"postinstall": "patch-package",
 		"test": "npm run lint && npm run tsc",
