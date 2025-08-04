@@ -82,6 +82,10 @@ export type InitialLanguage = 'de' | 'en'
 
 export type MarkersIsSelectableFunction = (feature: Feature) => boolean
 
+/**
+ * A full documentation of the parameters is available at the Masterportal's https://www.masterportal.org/mkdocs/doc/Latest/User/Global-Config/style.json/.
+ * For more details, visual examples, and expert features, see there.
+ */
 interface PolygonFillHatch {
 	pattern?:
 		| 'diagonal'
@@ -100,11 +104,16 @@ interface PolygonFillHatch {
 }
 
 export interface MarkerStyle {
+	/** `width` and `height` of the `<svg>`-cluster-marker. Defaults to `[40, 36]`. */
 	clusterSize: [number, number]
+	/** Fill color (or hatch pattern) for map marker. */
 	fill: string | PolygonFillHatch
+	/** `width` and `height` of the `<svg>`-marker. Defaults to `[26, 36]`. */
 	size: [number, number]
-	strokeWidth: string | number
+	/** Color of marker stroke (outer line). Defaults to `'#FFFFFF'`. */
 	stroke: string
+	/** Width of marker stroke (outer line). Defaults to `'2'`. */
+	strokeWidth: string | number
 }
 
 export interface CallOnMapSelect {
@@ -123,17 +132,74 @@ export interface MarkerLayer {
 }
 
 interface MarkerLayerConfiguration {
+	/** Unique identifier of a layer configured in `mapConfiguration.layers`. */
 	id: string
+	/**
+	 * Used as the default marker style.
+	 * The default fill color for these markers is `'#005CA9'`.
+	 */
 	defaultStyle?: Partial<MarkerStyle>
+	/**
+	 * Used as map marker style for hovered features.
+	 * The default fill color for these markers is `'#7B1045'`.
+	 */
 	hoverStyle?: Partial<MarkerStyle>
+	/**
+	 * Used as map marker style for selected features.
+	 * The default fill color for these markers is `'#679100'`.
+	 */
 	selectionStyle?: Partial<MarkerStyle>
+	/**
+	 * Used as a map marker style for unselectable features.
+	 * Features are unselectable if a given `isSelectable` method returns falsy
+	 * for a feature.
+	 * The default fill color for these markers is `'#333333'`.
+	 */
 	unselectableStyle?: Partial<MarkerStyle>
+	/**
+	 * If undefined, all features are selectable.
+	 * If defined, this can be used to sort out features to be unselectable,
+	 * and such features will be styled differently and won't react on click.
+	 *
+	 * @example
+	 * ```
+	 * isSelectable: (feature: Feature) => feature.get('indicator')
+	 * ```
+	 */
 	isSelectable?: MarkersIsSelectableFunction
 }
 
 export interface MarkerConfiguration {
+	/**
+	 * List of layers including optional style information and under which
+	 * condition a feature is selectable.
+	 */
 	layers: MarkerLayerConfiguration[]
+	/**
+	 * If set, the given `action` will be called with the given `payload`. If the
+	 * `pluginName` is set, the action will be called in the respective plugin,
+	 * otherwise the core store is used.
+	 *
+	 * @example
+	 * ```
+	 * callOnMapSelect: {
+	 *   action: 'openMenuById',
+	 *   payload: 'gfi',
+	 *   pluginName: 'iconMenu'
+	 * }
+	 * ```
+	 *
+	 * @remarks
+	 * The example open the gfi window in the iconMenu, if the IconMenu exists
+	 * with the gfi plugin registered under the id `gfi`.
+	 */
 	callOnMapSelect?: CallOnMapSelect
+	/**
+	 * If `true`, clicking a cluster feature will zoom into the clustered features'
+	 * bounding box (with padding) so that the cluster is "resolved". This happens
+	 * until the maximum zoom level is reached, at which no further zooming can
+	 * take place. Defaults to `false`.
+	 */
 	clusterClickZoom?: boolean
 }
 
@@ -218,6 +284,11 @@ export interface MasterportalApiConfiguration {
 	/**
 	 * Initial center coordinate.
 	 * Coordinate needs to be defined in the chosen leading coordinate system configured by `mapConfiguration.epsg`.
+	 *
+	 * @example
+	 * ```
+	 * startCenter: [553655.72, 6004479.25]
+	 * ```
 	 */
 	startCenter: [number, number]
 	/**
@@ -225,28 +296,69 @@ export interface MasterportalApiConfiguration {
 	 * Changing this value should also lead to changes in `mapConfiguration.startCenter`, `mapConfiguration.extent`,
 	 * `mapConfiguration.options` and `mapConfiguration.startResolution` as they are described in or are related to the
 	 * leading coordinate system. Defaults to `'EPSG:25832'`.
+	 *
+	 * @example
+	 * ```
+	 * epsg: 'EPSG:4326'
+	 * ```
 	 */
 	epsg?: `EPSG:${string}`
 	/**
 	 * Map movement will be restricted to the rectangle described by the given coordinates. Unrestricted by default.
 	 * Coordinates need to be defined in the chosen leading coordinate system configured by `mapConfiguration.epsg`.
+	 *
+	 * @example
+	 * ```
+	 * extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776]
+	 * ```
 	 */
 	extent?: [number, number, number, number]
 	/**
 	 * Array of usable coordinated systems mapped to a projection as a proj4 string. Defines `'EPSG:25832'`, `'EPSG:3857'`,
 	 * `'EPSG:4326'`, `'EPSG:31467'` and `'EPSG:4647'` by default. If you set a value, please mind that all pre-configured
 	 * projections are overridden, and requiring e.g. `'EPSG:4326'` will only work if it is also defined in your override.
+	 *
+	 * @example
+	 * ```
+	 * namedProjections: [
+	 * 	[
+	 * 		'EPSG:25832',
+	 *		'+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+	 * 	],
+	 * ]
+	 * ```
 	 */
 	namedProjections?: Array<[string, string]>
 	/**
 	 * Defines all available zoom levels mapped to the respective resolution and related scale.
 	 * The resolution is dependent on the chosen leading coordinate system configured by `mapConfiguration.epsg`.
 	 * Defines 10 zoomLevels for `'EPSG:25832'` by default.
+	 *
+	 * @example
+	 * ```
+	 * options: [
+	 * 	{ resolution: 66.14579761460263, scale: 250000, zoomLevel: 0 },
+	 * 	{ resolution: 26.458319045841044, scale: 100000, zoomLevel: 1 },
+	 * 	{ resolution: 15.874991427504629, scale: 60000, zoomLevel: 2 },
+	 * 	{ resolution: 10.583327618336419, scale: 40000, zoomLevel: 3 },
+	 * 	{ resolution: 5.2916638091682096, scale: 20000, zoomLevel: 4 },
+	 * 	{ resolution: 2.6458319045841048, scale: 10000, zoomLevel: 5 },
+	 * 	{ resolution: 1.3229159522920524, scale: 5000, zoomLevel: 6 },
+	 * 	{ resolution: 0.6614579761460262, scale: 2500, zoomLevel: 7 },
+	 * 	{ resolution: 0.2645831904584105, scale: 1000, zoomLevel: 8 },
+	 * 	{ resolution: 0.1322915952292052, scale: 500, zoomLevel: 9 },
+	 * ]
+	 * ```
 	 */
 	options?: PolarMapOptions[]
 	/**
 	 * Initial resolution; must be described in `mapConfiguration.options`.
 	 * Defaults to `15.874991427504629` which is a zoom level defined in the default configuration of `mapConfiguration.options`.
+	 *
+	 * @example
+	 * ```
+	 * startResolution: 264.583190458
+	 * ```
 	 */
 	startResolution?: number
 }
@@ -256,7 +368,22 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	/**
 	 * Configuration of layers that are supposed to be used in the respective client. All layers defined here have to have
 	 * an entry in the `serviceRegister` parameter of `createMap`. If `@polar/plugin-layer-chooser` is installed and configured,
-	 * all these layers will be displayed in that menu. */
+	 * all these layers will be displayed in that menu.
+	 *
+	 * @example
+	 * ```
+	 * layers: [
+	 * 	{
+	 * 		id: 'basemap',
+	 * 		name: 'Basemap Grayscale',
+	 * 	},
+	 * 	{
+	 * 		id: 'my-wfs',
+	 * 		name: 'My WFS service',
+	 * 	},
+	 * ]
+	 * ```
+	 */
 	layers: LayerConfiguration[]
 	/** If set to `true`, all services' availability will be checked with head requests. */
 	checkServiceAvailability?: boolean
@@ -274,6 +401,36 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * A language option is an object consisting of a type (its language key) and the i18next resource definition.
 	 * You may e.g. decide that the texts offered in the LayerChooser do not fit the style of your client, or that they
 	 * could be more precise in your situation since you're only using *very specific* overlays.
+	 *
+	 * @example
+	 * ```
+	 * locales: [
+	 * 	{
+	 * 		type: 'de',
+	 * 		resources: {
+	 * 			plugins: {
+	 * 				layerChooser: {
+	 * 					maskTitle: 'Bahnstrecken',
+	 * 				},
+	 * 			},
+	 * 		},
+	 * 	},
+	 * 	{
+	 * 		type: 'en',
+	 * 		resources: {
+	 * 			plugins: {
+	 * 				layerChooser: {
+	 * 					maskTitle: 'Railway lines',
+	 * 				},
+	 * 			},
+	 * 		},
+	 * 	},
+	 * ],
+	 * ```
+	 *
+	 * @remarks
+	 * When reading the locale tables, please mind that the dot notation (`a.b.c | value`) has to be written as separate
+	 * keys in nested objects as seen in the example above (`{a: {b: {c: "value"}}}`).
 	 */
 	locales?: Locale[]
 	/**

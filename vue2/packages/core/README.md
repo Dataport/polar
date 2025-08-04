@@ -76,106 +76,6 @@ const mapConfiguration = {
 
 </details>
 
-##### mapConfiguration.Locale
-
-An example for a Locale array usable in `createMap` is this array:
-
-```ts
-const locales: Locale[] = [
-  {
-    type: 'de',
-    resources: {
-      plugins: {
-        layerChooser: {
-          maskTitle: 'Bahnstrecken',
-        },
-      },
-    },
-  },
-  {
-    type: 'en',
-    resources: {
-      plugins: {
-        layerChooser: {
-          maskTitle: 'Railway lines',
-        },
-      },
-    },
-  },
-]
-```
-
-To figure out the name of overridable locales, inspect the documentation of your client; [for example, this is the documentation page of the snowbox](https://dataport.github.io/polar/docs/snowbox/client-snowbox.html). All child documents with locales feature a table of default translations at the end, and some clients bring their own locales and pre-existing overrides.
-
-When reading the locale tables, please mind that the dot notation (`a.b.c | value`) has to be written as separate keys in nested objects as seen in the example above (`{a: {b: {c: "value"}}}`).
-
-##### mapConfiguration.extendedMasterportalapiMarkers
-
-| fieldName | type |description |
-| - | - | - |
-| layers | string[] | List of layer ids. The effect will only be applied to these layers. |
-| clusterClickZoom | boolean? | If `true`, clicking a cluster feature will zoom into the clustered features' bounding box (with padding) so that the cluster is "resolved". This happens until the maximum zoom level is reached, at which no further zooming can take place. Defaults to `false`. |
-| defaultStyle | MarkerStyle? | Used as the default marker style. The default fill color for these markers is `'#005CA9'`. |
-| dispatchOnMapSelect | [string, unknown]? | If set, the parameters will be spread to dispatchment on map selection. `['target', 'value']` will `dispatch(...['target', 'value'])`. This can be used to open the iconMenu's GFI with `['plugin/iconMenu/openMenuById', 'gfi']`, should the IconMenu exist and the gfi plugin be in it with this id. |
-| hoverStyle | MarkerStyle? | Used as map marker style for hovered features. The default fill color for these markers is `'#7B1045'`. |
-| isSelectable | ((feature: GeoJsonFeature) => boolean)? | If undefined, all features are selectable. If defined, this can be used to sort out features to be unselectable, and such features will be styled different and won't react on click. |
-| selectionStyle | MarkerStyle? | Used as map marker style for selected features. The default fill color for these markers is `'#679100'`. |
-| unselectableStyle | MarkerStyle? | Used as a map marker style for unselectable features. Features are unselectable if a given `isSelectable` method returns falsy for a feature. The default fill color for these markers is `'#333333'`. |
-
-Example configuration:
-```js
-extendedMasterportalapiMarkers: {
-  layers: ['reportServiceLayerId'],
-  defaultStyle: {
-    stroke: '#FFFFFF',
-    fill: '#005CA9',
-  },
-  hoverStyle: {
-    stroke: '#46688E',
-    fill: '#8BA1B8',
-  },
-  selectionStyle: {
-    stroke: '#FFFFFF',
-    fill: '#E10019',
-  },
-  unselectableStyle: {
-    stroke: '#FFFFFF',
-    fill: '#333333'
-  },
-  isSelectable: (feature: Feature) => feature.get('indicator')
-  clusterClickZoom: true,
-  dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
-},
-```
-
-###### mapConfiguration.extendedMasterportalapiMarkers.MarkerStyle
-
-| fieldName | type |description |
-| - | - | - |
-| clusterSize | [number, number]? | `width` and `height` of the `<svg>`-cluster-marker. |
-| fill | (string \| masterportalapiPolygonFillHatch)? | Fill color (or hatch pattern) for map marker. |
-| size | [number, number]? | `width` and `height` of the `<svg>`-marker. |
-| stroke | string? | Color of marker stroke (outer line). Defaults to `'#ffffff'`. |
-| strokeWidth | (string \| number)? | Width of marker stroke (outer line). Defaults to `'2'`. |
-
-Example configuration:
-```js
-defaultStyle: {
-  stroke: '#FFFFFF',
-  fill: '#005CA9',
-},
-```
-
-A full documentation of the masterportalapiPolygonFillHatch is available at the Masterportal's documentation file [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md), chapter 'Polygon.polygonFillHatch'. The basic usage is quoted below for quick lookup. For more details, visual examples, and expert features, see there.
-
->|Name|Required|Type|Default|Description|
->| - | - | - | - | - |
->|backgroundColor|no|Number[]|`[0, 0, 0, 1]`|Background color of polygon.|
->|lineWidth|no|Number|`10`|Line width of drawn pattern. To achieve an even distribution in diagonal and zig-line pattern, choose lineWidth as (1/3 * size). For triangle and diamond, a lineWidth of 1 must be chosen. For rectangle, a lineWidth of at most (1/4 * size) should be chosen. Deviating from these rules is not harmful, but patterns may seem off.|
->|pattern|no|enum["diagonal", "diagonal-right", "zig-line", "zig-line-horizontal", "circle", "rectangle", "triangle", "diamond"]/Object|`"diagonal"`|Draw pattern. You may either use a pre-defined pattern from the enum or specify one yourself.|
->|patternColor|no|Number[]|`[255, 255, 255, 1]`|Fill color of pattern drawn on polygon.|
->|size|no|Number|`30`|Edge length of a singular repeated pattern element.|
-
 ##### mapConfiguration.featureStyles
 
 Vector Layers (GeoJSON and WFS) can also be styled on the client side.
@@ -212,40 +112,6 @@ A Layer needs to use the property `styleId` in its `mapConfiguration.layers` ent
   }
 ]
 ```
-
-##### <...masterportalapi.fields>
-
-<details>
-<summary>Example configuration</summary>
-
-```js
-{
-  startResolution: 264.583190458,
-  startCenter: [553655.72, 6004479.25],
-  extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
-  epsg: 'EPSG:25832',
-  options: [
-    { resolution: 66.14579761460263, scale: 250000, zoomLevel: 0 },
-    { resolution: 26.458319045841044, scale: 100000, zoomLevel: 1 },
-    { resolution: 15.874991427504629, scale: 60000, zoomLevel: 2 },
-    { resolution: 10.583327618336419, scale: 40000, zoomLevel: 3 },
-    { resolution: 5.2916638091682096, scale: 20000, zoomLevel: 4 },
-    { resolution: 2.6458319045841048, scale: 10000, zoomLevel: 5 },
-    { resolution: 1.3229159522920524, scale: 5000, zoomLevel: 6 },
-    { resolution: 0.6614579761460262, scale: 2500, zoomLevel: 7 },
-    { resolution: 0.2645831904584105, scale: 1000, zoomLevel: 8 },
-    { resolution: 0.1322915952292052, scale: 500, zoomLevel: 9 },
-  ],
-  namedProjections: [
-    [
-      'EPSG:25832',
-      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-    ],
-  ],
-}
-```
-
-</details>
 
 ##### mapConfiguration.layerConf
 
@@ -327,26 +193,6 @@ The layer configuration (or: service register) is read by the `@masterportal/mas
 ```
 
 Since this is the base for many functions, the service id set in this is used to reference map material in many places of the map client.
-
-##### layer
-
-<details>
-<summary>Example configuration</summary>
-
-```js
-layers: [
-  {
-    id: 'basemap',
-    name: 'Basemap Grayscale',
-  },
-  {
-    id: 'my-wfs',
-    name: 'My WFS service',
-  },
-]
-```
-
-</details>
 
 ##### <plugin.fields>
 
