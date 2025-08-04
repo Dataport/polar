@@ -45,7 +45,7 @@
 		"tsc:ci": "vue-tsc",
 		"docs": "typedoc --watch",
 		"docs:ci": "typedoc",
-		"clean": "node scripts/clean.js",
+		"clean": "node scripts/clean.ts",
 		"postinstall": "patch-package",
 		"test": "npm run lint && npm run tsc",
 		"prepare": "node .husky/install.js"
