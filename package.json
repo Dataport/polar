@@ -39,7 +39,7 @@
 		"lint:fix": "npm run lint -- --fix",
 		"tsc": "tsc --noEmit",
 		"tsc:ci": "tsc --noEmit",
-		"docs": "typedoc",
+		"docs": "typedoc --sort kind --sort instance-first --sort required-first --sort alphabetical-ignoring-documents",
 		"clean": "node scripts/clean.js",
 		"postinstall": "patch-package",
 		"test": "npm run lint && npm run tsc",
