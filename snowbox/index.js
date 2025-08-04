@@ -4,7 +4,7 @@ import {
 	createMap,
 	removePlugin,
 	subscribe,
-} from '../../../polar/core/src/index.ts'
+} from '@polar/polar'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'

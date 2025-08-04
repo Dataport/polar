@@ -9,8 +9,8 @@ import Cluster from 'ol/source/Cluster'
 import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import getCluster from '../../../lib/getCluster'
-import { isVisible } from '../../../lib/invisibleStyle'
+import getCluster from '@/lib/getCluster'
+import { isVisible } from '@/lib/invisibleStyle'
 import type {
 	CallOnMapSelect,
 	MarkerConfiguration,
