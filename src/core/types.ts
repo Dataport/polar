@@ -7,7 +7,7 @@ import type {
 	StateTree,
 	StoreDefinition,
 } from 'pinia'
-import type { Component } from 'vue'
+import type { Component, VueElement } from 'vue'
 
 /**
  * Copied from https://stackoverflow.com/a/54178819.#
@@ -432,6 +432,10 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	featureStyles?: string
 	/** The initial language the client should be using; defaults to 'de' if not given. */
 	language?: InitialLanguage
+	/**
+	 * Choose between the standard sidebar layout, the oldschool nine region layout or add a custom layout as Vue component.
+	 */
+	layout?: 'standard' | 'nineRegions' | VueElement
 	/**
 	 * All locales in POLAR and its plugins can be overridden to fit your needs.
 	 * Take a look at the respective documentation for all values that can be overridden.

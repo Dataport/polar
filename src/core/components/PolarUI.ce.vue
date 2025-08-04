@@ -1,17 +1,29 @@
 <template>
 	<div class="polar-ui">
-		<component :is="NineLayout" />
+		<component :is="layout" />
 	</div>
 </template>
 
 <script lang="ts" setup>
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
+import { useCoreStore } from '../stores/useCoreStore.ts'
 import NineLayout from './layouts/NineLayout.ce.vue'
+import SidebarLayout from './layouts/SidebarLayout.ce.vue'
 
-// TODO: Use this implementation once the SidebarLayout is implemented
-/* const { hasWindowSize } = storeToRefs(useCoreStore())
-const layout = computed(() =>
-	hasWindowSize.value ? SidebarLayout : NineLayout
-) */
+const { configuration } = storeToRefs(useCoreStore())
+
+const layout = computed(() => {
+	const configuredLayout = configuration.value.layout
+
+	if (!configuredLayout || configuredLayout === 'standard') {
+		return SidebarLayout
+	}
+	if (configuredLayout === 'nineRegions') {
+		return NineLayout
+	}
+	return configuredLayout
+})
 </script>
 
 <style lang="scss" scoped>
