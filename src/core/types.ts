@@ -1,3 +1,4 @@
+import type { KernTheme } from '@kern-ux-annex/webc'
 import type { Resource } from 'i18next'
 import { Feature } from 'ol'
 import type {
@@ -275,6 +276,28 @@ export interface PolarMapOptions {
 	zoomLevel: number
 }
 
+export interface OklchColor {
+	l: string
+	c: string
+	h: string
+}
+
+/**
+ * A theme for the POLAR map client.
+ */
+export interface PolarTheme {
+	/**
+	 * This color will be defined as `--brand-color-{l,c,h}` CSS variable inside POLAR's shadow DOM.
+	 * It can especially be used to define the KERN theme via OKLCH.
+	 */
+	brandColor?: OklchColor
+
+	/**
+	 * Theme for KERN UX library as defined by `@kern-ux-annex/webc`.
+	 */
+	kern?: KernTheme
+}
+
 /**
  * The `<...masterportalapi.fields>` means that any \@masterportal/masterportalapi field may also be used here _directly_
  * in the mapConfiguration. The fields described here are fields that are interesting for the usage of POLAR.
@@ -452,4 +475,11 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * Authorization header of the request. Requests already including an Authorization header will keep the already present one.
 	 */
 	secureServiceUrlRegex?: string
+
+	/**
+	 * Custom theme for POLAR.
+	 *
+	 * The default is to use KERN's standard theme.
+	 */
+	theme?: PolarTheme
 }

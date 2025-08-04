@@ -1,0 +1,7 @@
+{
+	"entryPoints": ["src/core/index.ts"],
+	"out": "docs-html",
+	"skipErrorChecking": true,
+	"projectDocuments": ["docs/*.md"],
+	"name": "POLAR documentation"
+}

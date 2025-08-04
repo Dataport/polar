@@ -17,7 +17,13 @@
 		"npm": "^10.9.2"
 	},
 	"exports": {
-		".": "./dist/polar.js",
+		".": {
+			"import": {
+				"types": "./dist/polar.d.ts",
+				"default": "./dist/polar.js"
+			},
+			"require": "./dist/polar.umd.cjs"
+		},
 		"./polar.css": "./dist/polar.css"
 	},
 	"repository": {
@@ -32,6 +38,7 @@
 		"lint:ci": "eslint .",
 		"lint:fix": "npm run lint -- --fix",
 		"tsc:ci": "tsc --noEmit",
+		"docs": "typedoc",
 		"clean": "node scripts/clean.js",
 		"postinstall": "patch-package"
 	},
@@ -65,10 +72,13 @@
 		"sass": "^1.89.2",
 		"stream-browserify": "^3.0.0",
 		"timers-browserify": "^2.0.12",
+		"typedoc": "^0.28.8",
 		"typescript": "^5.8.3",
 		"util": "^0.12.5",
 		"vite": "^7.0.6",
 		"vite-plugin-commonjs": "^0.10.4",
+		"vite-plugin-dts": "^4.5.4",
+		"vite-plugin-vue-devtools": "^8.0.0",
 		"vue": "^3.5.18"
 	}
 }

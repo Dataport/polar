@@ -5,6 +5,8 @@ import { defineConfig } from 'vite'
 
 import commonJs from 'vite-plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+import dts from 'vite-plugin-dts'
 
 const require = createRequire(import.meta.url)
 
@@ -18,6 +20,8 @@ export default defineConfig(({ mode }) => ({
 				},
 			},
 		}),
+		vueDevTools(),
+		dts({ rollupTypes: true }),
 	],
 	build: {
 		lib: {
