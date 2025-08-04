@@ -433,7 +433,8 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	/** The initial language the client should be using; defaults to 'de' if not given. */
 	language?: InitialLanguage
 	/**
-	 * Choose between the standard sidebar layout, the oldschool nine region layout or add a custom layout as Vue component.
+	 * Choose between the standard sidebar layout with fixed positioning, the oldschool nine region layout with full
+	 * configurability regarding positioning or add a custom layout as Vue component.
 	 */
 	layout?: 'standard' | 'nineRegions' | VueElement
 	/**
