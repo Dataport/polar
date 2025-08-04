@@ -33,6 +33,9 @@
 	"scripts": {
 		"dev": "vite",
 		"snowbox": "VITE_DEV_LANDING=\"snowbox\" vite",
+		"preview:build": "vite build --watch -c vite.config.preview.ts",
+		"preview:preview": "vite preview -c vite.config.preview.ts",
+		"preview": "conc --kill-others 'npm run build' 'npm run preview:build' 'npm run preview:preview'",
 		"build": "vite build --watch",
 		"build:ci": "vite build",
 		"lint": "eslint --cache .",
@@ -60,6 +63,7 @@
 		"@vitejs/plugin-vue": "^6.0.0",
 		"buffer": "^6.0.3",
 		"cesium": "^1.131.0",
+		"concurrently": "^9.2.0",
 		"eslint": "^9.31.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.3",

@@ -10,6 +10,7 @@
 			http-equiv="Cache-Control"
 			content="no-cache, no-store, must-revalidate, max-age=0"
 		/>
+		<link rel="stylesheet" href="@polar/polar/polar.css" />
 		<script type="module" defer src="index.js"></script>
 		<style>
 			/* style just for example page, not directly related to POLAR */
@@ -45,8 +46,8 @@
 			}
 
 			/* directly related to POLAR - something like this must be
-       * available for map client to render in (see core docs for
-       * more details on requirements) */
+			 * available for map client to render in (see core docs for
+			 * more details on requirements) */
 			.snowbox {
 				display: block;
 				width: 100vw;
@@ -78,5 +79,10 @@
 		</div>
 		<h2>Demo application ("Snowbox")</h2>
 		<polar-map id="snowbox" class="snowbox"></polar-map>
+		<div style="margin-top: 4em"></div>
+		<h2>Second map</h2>
+		<button id="secondMap">Add a map client</button>
+		<button id="secondMapClean">Remove all map clients below</button>
+		<div id="secondMapContainer"></div>
 	</body>
 </html>
