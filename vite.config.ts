@@ -7,6 +7,7 @@ import commonJs from 'vite-plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import dts from 'vite-plugin-dts'
+import checker from 'vite-plugin-checker'
 
 const require = createRequire(import.meta.url)
 
@@ -22,6 +23,14 @@ export default defineConfig(({ mode }) => ({
 		}),
 		vueDevTools(),
 		dts({ rollupTypes: true }),
+		checker({
+			vueTsc: true,
+			eslint: {
+				lintCommand: 'eslint .',
+				useFlatConfig: true,
+				watchPath: ['./src', './snowbox', './scripts', './vite.config.ts'],
+			},
+		}),
 	],
 	build: {
 		lib: {
@@ -41,12 +50,16 @@ export default defineConfig(({ mode }) => ({
 	},
 	resolve: {
 		alias: {
-			...(mode === 'development' ? {
-				'@polar/polar': resolve(__dirname, 'src', 'core', 'index.ts'),
-			} : {}),
+			/* eslint-disable @typescript-eslint/naming-convention */
+			...(mode === 'development'
+				? {
+						'@polar/polar': resolve(__dirname, 'src', 'core', 'index.ts'),
+					}
+				: {}),
 			'@': resolve(__dirname, 'src'),
 			stream: require.resolve('stream-browserify'),
 			timers: require.resolve('timers-browserify'),
+			/* eslint-enable @typescript-eslint/naming-convention */
 		},
 	},
 }))

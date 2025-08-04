@@ -41,6 +41,8 @@ const dataportTheme = {
 	},
 }
 
+// TODO: Re-enable with isSelectable
+/*
 // arbitrary condition for testing
 const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
 
@@ -51,6 +53,7 @@ const isReportSelectable = (feature) =>
 			(accumulator, current) => isEvenId(current.get('mmlid')) || accumulator,
 			false
 		)
+*/
 
 await createMap(
 	{
