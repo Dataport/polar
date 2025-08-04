@@ -11,6 +11,35 @@ const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 
+const dataportTheme = {
+	brandColor: {
+		l: '0.4671',
+		c: '0.1532',
+		h: '24.57',
+	},
+	kern: {
+		color: {
+			action: {
+				default: 'oklch(var(--brand-color-l) var(--brand-color-c) var(--brand-color-h))',
+				stateIndicator: {
+					shade: {
+						hover: 'oklch(calc(var(--brand-color-l) + 0.1) var(--brand-color-c) var(--brand-color-h))',
+						active: 'oklch(calc(var(--brand-color-l) + 0.14) var(--brand-color-c) var(--brand-color-h))',
+					},
+				},
+			},
+		},
+		metric: {
+			space: {
+				default: '24px',
+			},
+			borderRadius: {
+				default: '0 10px 10px 10px',
+			}
+		},
+	},
+}
+
 // arbitrary condition for testing
 const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
 
@@ -79,6 +108,7 @@ await createMap(
 			],
 			clusterClickZoom: true,
 		},
+		theme: dataportTheme,
 	},
 	'https://geodienste.hamburg.de/services-internet.json'
 )
