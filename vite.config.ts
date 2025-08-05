@@ -13,6 +13,7 @@ const require = createRequire(import.meta.url)
 
 export default defineConfig(({ mode }) => ({
 	plugins: [
+		// @ts-expect-error | commonJs dts is broken
 		commonJs(),
 		vue({
 			template: {

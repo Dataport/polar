@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"noImplicitAny": false,
+		"importHelpers": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"noEmit": true,
+		"strictNullChecks": true,
+		"isolatedModules": true
+	}
+}
