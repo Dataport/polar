@@ -188,6 +188,8 @@ function demo() {
 </script>
 
 <style scoped lang="scss">
+@import url('ol/ol.css');
+
 .polar-wrapper {
 	--brand-color-l: v-bind('coreStore.configuration.theme?.brandColor?.l');
 	--brand-color-c: v-bind('coreStore.configuration.theme?.brandColor?.c');
