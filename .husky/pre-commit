@@ -11,4 +11,6 @@ then
 	exit 1
 fi
 
+npm run lint
+npm run tsc
 npm test
