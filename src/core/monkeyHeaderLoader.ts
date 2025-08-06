@@ -29,7 +29,7 @@ function customLoader(tile: ImageTile, url: string) {
 			;(tile.getImage() as HTMLImageElement).src = URL.createObjectURL(blob)
 		})
 		.catch((e: unknown) => {
-			console.error('@polar/core', e)
+			console.error(e)
 		})
 }
 

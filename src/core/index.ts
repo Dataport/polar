@@ -95,7 +95,7 @@ export function addPlugin(plugin: PluginContainer) {
 	coreStore.plugins = [...coreStore.plugins, plugin]
 	if (pluginConfiguration.displayComponent && !pluginConfiguration.layoutTag) {
 		console.warn(
-			`@polar/core: Component of plugin "${id}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
+			`Component of plugin "${id}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
 		)
 	}
 }
@@ -105,7 +105,7 @@ export function removePlugin(pluginId: string) {
 	const plugin = coreStore.plugins.find((p) => p.id === pluginId)
 
 	if (!plugin) {
-		console.error(`@polar/core:removePlugin: Plugin "${pluginId}" not found.`)
+		console.error(`Plugin "${pluginId}" not found.`)
 		return
 	}
 	const store = plugin.storeModule?.()

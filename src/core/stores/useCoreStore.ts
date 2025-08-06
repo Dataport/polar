@@ -105,7 +105,7 @@ export const useCoreStore = defineStore('core', () => {
 		const register = serviceRegister.value
 		if (typeof register === 'string') {
 			console.error(
-				'polar/core.checkServiceAvailability: Action was called when the parameter serviceRegister was not yet set to an array of services.'
+				'Action was called when the parameter serviceRegister was not yet set to an array of services.'
 			)
 			return
 		}
@@ -121,7 +121,7 @@ export const useCoreStore = defineStore('core', () => {
 				): service is { id: string; service: Record<string, unknown> } => {
 					if (!service.service) {
 						console.warn(
-							`polar/core.checkServiceAvailability: Service with id "${service.id}" not found in service register.`
+							`Service with id "${service.id}" not found in service register.`
 						)
 						return false
 					}
@@ -153,9 +153,7 @@ export const useCoreStore = defineStore('core', () => {
 								}) */
 							}
 							// always print status code for debugging purposes
-							console.error(
-								`polar/core: Ping to "${serviceId}" returned "${statusCode}".`
-							)
+							console.error(`Ping to "${serviceId}" returned "${statusCode}".`)
 							// always add to error log for listener purposes
 							errors.value.push({
 								type: 'connection',
@@ -165,7 +163,7 @@ export const useCoreStore = defineStore('core', () => {
 						}
 					})
 					.catch((e: unknown) => {
-						console.error('polar/core', e)
+						console.error(e)
 					})
 			})
 	}
@@ -288,16 +286,14 @@ export const useCoreStore = defineStore('core', () => {
 				map.updateSize()
 			} else if (attemptCounter === 100) {
 				console.error(
-					`@polar/core: The POLAR map client could not update its size. The map is probably invisible due to having 0 width or 0 height. This might be a CSS issue – please check the wrapper's size.`
+					`The POLAR map client could not update its size. The map is probably invisible due to having 0 width or 0 height. This might be a CSS issue – please check the wrapper's size.`
 				)
 				mapHasDimensions.value = false
 				clearInterval(intervalId)
 			} else {
 				// OL prints warnings – add this log to reduce confusion
 				// eslint-disable-next-line no-console
-				console.log(
-					`@polar/core: The map now has dimensions and can be rendered.`
-				)
+				console.log(`The map now has dimensions and can be rendered.`)
 				mapHasDimensions.value = true
 				clearInterval(intervalId)
 			}

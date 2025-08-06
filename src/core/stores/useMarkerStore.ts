@@ -361,14 +361,14 @@ export const useMarkerStore = defineStore('markers', () => {
 			const plugin = coreStore.plugins.find(({ id }) => id === pluginName)
 			if (!plugin) {
 				console.error(
-					`@polar/core:callOnMapSelect: Plugin ${pluginName} does not exist or is not configured. Action ${action} could not be called.`
+					`Plugin ${pluginName} does not exist or is not configured. Action ${action} could not be called.`
 				)
 				return
 			}
 			const pluginStore = plugin.storeModule?.()
 			if (!pluginStore) {
 				console.error(
-					`@polar/core:callOnMapSelect: Plugin ${pluginName} does not have a store module. Action ${action} could not be called.`
+					`Plugin ${pluginName} does not have a store module. Action ${action} could not be called.`
 				)
 				return
 			}
