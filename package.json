@@ -18,13 +18,22 @@
 	},
 	"exports": {
 		".": {
-			"import": {
-				"types": "./dist/polar.d.ts",
-				"default": "./dist/polar.js"
-			},
-			"require": "./dist/polar.umd.cjs"
+			"types": "./dist/polar.d.ts",
+			"default": "./dist/polar.js"
 		},
-		"./polar.css": "./dist/polar.css"
+		"./polar.css": "./dist/polar.css",
+		"./store": {
+			"types": "./dist/store.d.ts",
+			"default": "./dist/store.js"
+		},
+		"./plugins/fullscreen": {
+			"types": "./dist/plugin-fullscreen.d.ts",
+			"default": "./dist/plugin-fullscreen.js"
+		},
+		"./plugins/fullscreen/store": {
+			"types": "./dist/plugin-fullscreen-store.d.ts",
+			"default": "./dist/plugin-fullscreen-store.js"
+		}
 	},
 	"repository": {
 		"type": "git",
@@ -77,6 +86,7 @@
 		"i18next": "^25.2.1",
 		"i18next-browser-languagedetector": "^8.2.0",
 		"i18next-vue": "^5.3.0",
+		"magic-string": "^0.30.17",
 		"ol": "10.4.0",
 		"patch-package": "^8.0.0",
 		"pinia": "^3.0.3",

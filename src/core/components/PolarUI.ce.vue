@@ -7,11 +7,11 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { useCoreStore } from '../stores/core.ts'
+import { useMainStore } from '../stores/main.ts'
 import NineLayout from './layouts/NineLayout.ce.vue'
 import SidebarLayout from './layouts/SidebarLayout.ce.vue'
 
-const { configuration } = storeToRefs(useCoreStore())
+const { configuration } = storeToRefs(useMainStore())
 
 const layout = computed(() => {
 	const configuredLayout = configuration.value.layout

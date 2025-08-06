@@ -21,11 +21,11 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { NineLayoutTag } from '../../utils/NineLayoutTag'
-import { useCoreStore } from '../../stores/core'
+import { useMainStore } from '../../stores/main'
 
 const tags = Object.entries(NineLayoutTag)
 
-const coreStore = useCoreStore()
+const coreStore = useMainStore()
 const { hasWindowSize, plugins } = storeToRefs(coreStore)
 
 const regions = computed(() =>

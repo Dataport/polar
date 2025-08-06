@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+import MagicString from 'magic-string'
 
 const fileRegex = /\.(ts|js|vue)$/
 const consoleRegex = /console\.(log|warn|error|info)\(/g
@@ -35,9 +36,10 @@ export default function enrichedConsole() {
 		transform(code: string, id: string) {
 			const shortId = stripId(id)
 			if (fileRegex.exec(id) && shortId !== null) {
+				const s = new MagicString(code)
 				let match: RegExpExecArray | null
 				while ((match = consoleRegex.exec(code)) !== null) {
-					const linebreaks = [...code.slice(0, match.index).matchAll(/\n/g)]
+					const linebreaks = [...s.slice(0, match.index).matchAll(/\n/g)]
 					const hint = generateConsolePrefix({
 						type: match[1] as ConsoleType,
 						id: shortId,
@@ -46,9 +48,12 @@ export default function enrichedConsole() {
 					})
 					const hintJs = `${JSON.stringify(hint)} + `
 					const index = match.index + match[0].length
-					code = code.slice(0, index) + hintJs + code.slice(index)
+					s.appendLeft(index, hintJs)
 				}
-				return { code }
+				return {
+					code: s.toString(),
+					map: s.generateMap(),
+				}
 			}
 			return { code, map: null }
 		},

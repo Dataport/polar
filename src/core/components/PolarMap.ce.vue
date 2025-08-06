@@ -41,7 +41,7 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
-import { useCoreStore } from '../stores/core'
+import { useMainStore } from '../stores/main'
 import { loadKern } from '../utils/loadKern'
 import { useMarkerStore } from '../stores/marker'
 import PolarUi from './PolarUI.ce.vue'
@@ -51,7 +51,7 @@ defineOptions({
 })
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
-const coreStore = useCoreStore()
+const coreStore = useMainStore()
 
 const noControlOnZoom = ref(false)
 const oneFingerPan = ref(false)

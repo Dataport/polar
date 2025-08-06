@@ -50,12 +50,21 @@ export type PolarPluginStore = StoreDefinition<
 >
 
 export interface PluginContainer {
-	/** Unique technical identifier. */
+	/**
+	 * Unique technical identifier.
+	 *
+	 * The recommended strategy for ensuring uniqueness is using the package name (including scope, if scoped) as a prefix.
+	 *
+	 * @example `@polar/polar/plugins/fullscreen`
+	 */
 	id: string
+
 	/** A Vue component if required. */
 	component?: Component
+
 	/** Locales used in the plugin. */
 	locales?: Locale[]
+
 	/**
 	 * Configuration options. Please also note that all configuration added via plugin constructors can be overridden in
 	 * the {@link createMap | `createMap`'s parameter `mapConfiguration`} .
@@ -66,6 +75,7 @@ export interface PluginContainer {
 	 * How exactly you do this is up to you and influences the minimum API call requirements your client has.
 	 */
 	options?: PluginOptions
+
 	/**
 	 * Pinia store module if required. If the storeModule features a `setupPlugin` action, it will be executed
 	 * automatically after initialization.

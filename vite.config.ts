@@ -24,22 +24,42 @@ export default defineConfig(({ mode }) => ({
 			},
 		}),
 		vueDevTools(),
-		dts({ rollupTypes: true }),
-		checker({
-			vueTsc: true,
-			eslint: {
-				lintCommand: 'eslint .',
-				useFlatConfig: true,
-				watchPath: ['./src', './snowbox', './scripts', './vite.config.ts'],
-			},
+		dts({
+			rollupTypes: true,
+			tsconfigPath: './src/tsconfig.json',
 		}),
+		...(mode === 'development'
+			? [
+					checker({
+						vueTsc: true,
+						eslint: {
+							lintCommand: 'eslint .',
+							useFlatConfig: true,
+							watchPath: [
+								'./src',
+								'./snowbox',
+								'./scripts',
+								'./vite.config.ts',
+							],
+						},
+					}),
+				]
+			: []),
 		enrichedConsole(),
 	],
 	build: {
 		lib: {
 			name: '@polar/polar',
-			fileName: 'polar',
-			entry: 'src/core/index.ts',
+			formats: ['es'],
+			entry: {
+				// TODO(oeninghe-dataport): Generate this code
+				/* eslint-disable @typescript-eslint/naming-convention */
+				polar: 'src/core/index.ts',
+				store: 'src/core/stores/export.ts',
+				'plugin-fullscreen': 'src/plugins/fullscreen/index.ts',
+				'plugin-fullscreen-store': 'src/plugins/fullscreen/stores/export.ts',
+				/* eslint-enable @typescript-eslint/naming-convention */
+			},
 		},
 		sourcemap: true,
 		target: 'esnext',
@@ -56,6 +76,29 @@ export default defineConfig(({ mode }) => ({
 			/* eslint-disable @typescript-eslint/naming-convention */
 			...(mode === 'development'
 				? {
+						// TODO(oeninghe-dataport): Generate this code
+						'@polar/polar/plugins/fullscreen/store': resolve(
+							__dirname,
+							'src',
+							'plugins',
+							'fullscreen',
+							'stores',
+							'export.ts'
+						),
+						'@polar/polar/plugins/fullscreen': resolve(
+							__dirname,
+							'src',
+							'plugins',
+							'fullscreen',
+							'index.ts'
+						),
+						'@polar/polar/store': resolve(
+							__dirname,
+							'src',
+							'core',
+							'stores',
+							'export.ts'
+						),
 						'@polar/polar': resolve(__dirname, 'src', 'core', 'index.ts'),
 					}
 				: {}),

@@ -8,6 +8,14 @@
 			"cwd": "${workspaceFolder}",
 			"runtimeExecutable": "npm",
 			"runtimeArgs": ["run", "dev"]
+		},
+		{
+			"name": "Run production server",
+			"type": "node",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"runtimeExecutable": "npm",
+			"runtimeArgs": ["run", "preview"]
 		}
 	]
 }

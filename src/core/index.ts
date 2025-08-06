@@ -16,7 +16,7 @@ import PolarMapCE from './components/PolarMap.ce.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
 import type { MapConfiguration, PluginContainer, PluginOptions } from './types'
-import { useCoreStore } from './stores/core'
+import { useMainStore } from './stores/main'
 import { useMarkerStore } from './stores/marker'
 import defaults from './utils/defaults'
 import { mapZoomOffset } from './utils/mapZoomOffset'
@@ -66,7 +66,7 @@ export function addPlugins(plugins: PluginContainer[]) {
  */
 export function addPlugin(plugin: PluginContainer) {
 	const { id, locales, options, storeModule } = plugin
-	const coreStore = useCoreStore()
+	const coreStore = useMainStore()
 
 	const pluginConfiguration = toMerged(
 		options || {},
@@ -101,7 +101,7 @@ export function addPlugin(plugin: PluginContainer) {
 }
 
 export function removePlugin(pluginId: string) {
-	const coreStore = useCoreStore()
+	const coreStore = useMainStore()
 	const plugin = coreStore.plugins.find((p) => p.id === pluginId)
 
 	if (!plugin) {
@@ -157,7 +157,7 @@ export function createMap(
 			})
 			app.use(Pinia)
 
-			const coreStore = useCoreStore()
+			const coreStore = useMainStore()
 
 			coreStore.configuration = mapZoomOffset({
 				...defaults,
@@ -232,7 +232,7 @@ export function updateState(
  */
 function getStore(storeName: string) {
 	if (storeName === 'core') {
-		return useCoreStore()
+		return useMainStore()
 	}
 	if (storeName === 'markers') {
 		return useMarkerStore()

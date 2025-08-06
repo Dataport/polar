@@ -24,7 +24,7 @@ import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 let interactions: Interaction[] = []
 let map: Map
 
-export const useCoreStore = defineStore('core', () => {
+export const useMainStore = defineStore('main', () => {
 	const center = ref<Coordinate>([0, 0])
 	const clientHeight = ref(0)
 	const clientWidth = ref(0)

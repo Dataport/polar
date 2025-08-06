@@ -16,7 +16,7 @@ import type {
 	MarkerStyle,
 } from '../types'
 import { getMarkerStyle } from '../utils/markers'
-import { useCoreStore } from './core'
+import { useMainStore } from './main'
 import { isVisible } from '@/lib/invisibleStyle'
 import getCluster from '@/lib/getCluster'
 
@@ -86,7 +86,7 @@ export const useMarkerStore = defineStore('marker', () => {
 	}
 
 	function findLayer(layerId: string) {
-		return useCoreStore()
+		return useMainStore()
 			.getMap()
 			.getLayers()
 			.getArray()
@@ -101,7 +101,7 @@ export const useMarkerStore = defineStore('marker', () => {
 			extend(extent, feature.getGeometry()?.getExtent() || [])
 		)
 
-		useCoreStore()
+		useMainStore()
 			.getMap()
 			.getView()
 			.fit(extent, {
@@ -111,7 +111,7 @@ export const useMarkerStore = defineStore('marker', () => {
 	}
 
 	function updateSelection(feature: Feature | null, centerOnFeature = false) {
-		const coreStore = useCoreStore()
+		const coreStore = useMainStore()
 
 		selectedValue?.setStyle(undefined)
 		selected.value?.setStyle(undefined)
@@ -149,7 +149,7 @@ export const useMarkerStore = defineStore('marker', () => {
 			return
 		}
 
-		const layerId = useCoreStore()
+		const layerId = useMainStore()
 			.getMap()
 			.getLayers()
 			.getArray()
@@ -175,7 +175,7 @@ export const useMarkerStore = defineStore('marker', () => {
 	}
 
 	function setupMarkers(configuration: MarkerConfiguration) {
-		const map = useCoreStore().getMap()
+		const map = useMainStore().getMap()
 
 		layers = configuration.layers.map((layer) =>
 			toMerged(
@@ -265,7 +265,7 @@ export const useMarkerStore = defineStore('marker', () => {
 	let lastClickEvent: MapBrowserEvent<MouseEvent | TouchEvent> | null = null
 
 	function mapMoveEnd() {
-		const zoom = useCoreStore().getMap().getView().getZoom() as number
+		const zoom = useMainStore().getMap().getView().getZoom() as number
 		if (zoom !== lastZoom) {
 			lastZoom = zoom
 			if (selectedValue) {
@@ -278,7 +278,7 @@ export const useMarkerStore = defineStore('marker', () => {
 	}
 
 	function mapPointerMove(event: MapBrowserEvent<MouseEvent>) {
-		const feature = useCoreStore().getMap().getFeaturesAtPixel(event.pixel, {
+		const feature = useMainStore().getMap().getFeaturesAtPixel(event.pixel, {
 			layerFilter,
 		})[0]
 
@@ -312,7 +312,7 @@ export const useMarkerStore = defineStore('marker', () => {
 	}
 
 	function mapClick(event: MapBrowserEvent<MouseEvent | TouchEvent>) {
-		const coreStore = useCoreStore()
+		const coreStore = useMainStore()
 		const map = coreStore.getMap()
 		if (selectedValue !== null) {
 			updateSelection(null)

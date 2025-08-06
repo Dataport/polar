@@ -1,6 +1,7 @@
 import { changeLanguage } from 'i18next'
 import styleJsonUrl from './style.json?url'
 import { addPlugin, createMap, removePlugin, subscribe } from '@polar/polar'
+import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -82,6 +83,7 @@ await createMap(
 				visibility: true,
 			},
 		],
+		layout: 'nineRegions',
 		checkServiceAvailability: true,
 		featureStyles: styleJsonUrl,
 		markers: {
@@ -138,6 +140,8 @@ document.getElementById('secondMap').addEventListener('click', () => {
 document.getElementById('secondMapClean').addEventListener('click', () => {
 	document.getElementById('secondMapContainer').innerText = ''
 })
+
+addPlugin(pluginFullscreen())
 
 // TODO: Update with proper plugins
 setTimeout(
