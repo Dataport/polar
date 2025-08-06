@@ -2,7 +2,6 @@ import type { Plugin } from 'vue'
 import { createPinia, type PiniaPluginContext } from 'pinia'
 
 function actionLogger({ store }: PiniaPluginContext) {
-	// @ts-expect-error | 'TS2339: Property 'env' does not exist on type 'ImportMeta'.' - It does since we're using vite as a bundler.
 	if (import.meta.env.DEV) {
 		/* eslint-disable no-console */
 		console.log('DEV MODE DETECTED - PINIA LOGGING ENABLED')
