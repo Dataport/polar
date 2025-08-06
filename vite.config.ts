@@ -8,6 +8,7 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import dts from 'vite-plugin-dts'
 import checker from 'vite-plugin-checker'
+import enrichedConsole from './vitePlugins/enrichedConsole.js'
 
 const require = createRequire(import.meta.url)
 
@@ -32,6 +33,7 @@ export default defineConfig(({ mode }) => ({
 				watchPath: ['./src', './snowbox', './scripts', './vite.config.ts'],
 			},
 		}),
+		enrichedConsole(),
 	],
 	build: {
 		lib: {
