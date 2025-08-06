@@ -41,9 +41,9 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
-import { useCoreStore } from '../stores/useCoreStore'
+import { useCoreStore } from '../stores/core'
 import { loadKern } from '../utils/loadKern'
-import { useMarkerStore } from '../stores/useMarkerStore'
+import { useMarkerStore } from '../stores/marker'
 import PolarUi from './PolarUI.ce.vue'
 
 defineOptions({

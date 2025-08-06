@@ -16,11 +16,11 @@ import type {
 	MarkerStyle,
 } from '../types'
 import { getMarkerStyle } from '../utils/markers'
-import { useCoreStore } from './useCoreStore'
+import { useCoreStore } from './core'
 import { isVisible } from '@/lib/invisibleStyle'
 import getCluster from '@/lib/getCluster'
 
-export const useMarkerStore = defineStore('markers', () => {
+export const useMarkerStore = defineStore('marker', () => {
 	// these have been measured to fit once and influence marker size
 	const imgSize: [number, number] = [26, 36]
 	const imgSizeMulti: [number, number] = [40, 36]

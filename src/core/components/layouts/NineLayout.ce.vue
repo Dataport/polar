@@ -21,7 +21,7 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { NineLayoutTag } from '../../utils/NineLayoutTag'
-import { useCoreStore } from '../../stores/useCoreStore'
+import { useCoreStore } from '../../stores/core'
 
 const tags = Object.entries(NineLayoutTag)
 

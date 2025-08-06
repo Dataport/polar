@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { useCoreStore } from '../stores/useCoreStore.ts'
+import { useCoreStore } from '../stores/core.ts'
 import NineLayout from './layouts/NineLayout.ce.vue'
 import SidebarLayout from './layouts/SidebarLayout.ce.vue'
 
