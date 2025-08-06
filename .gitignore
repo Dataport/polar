@@ -3,6 +3,7 @@ node_modules
 
 /docs-html
 .dist.preview
+.vscode/settings.json
 
 # Old gitignore, maybe cleanup when migrated
 **/.eslintcache
