@@ -1,7 +1,7 @@
 import { changeLanguage } from 'i18next'
+import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import styleJsonUrl from './style.json?url'
 import { addPlugin, createMap, removePlugin, subscribe } from '@polar/polar'
-import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -156,7 +156,7 @@ setTimeout(
 setTimeout(() => removePlugin('TEST'), 10000)
 
 subscribe(
-	'markers',
+	'marker',
 	'selectedCoordinates',
 	(coordinates) =>
 		(document.getElementById('selected-feature-coordinates').innerText =
