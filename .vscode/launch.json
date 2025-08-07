@@ -16,6 +16,14 @@
 			"cwd": "${workspaceFolder}",
 			"runtimeExecutable": "npm",
 			"runtimeArgs": ["run", "preview"]
+		},
+		{
+			"name": "Generate docs",
+			"type": "node",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"runtimeExecutable": "npm",
+			"runtimeArgs": ["run", "docs"]
 		}
 	]
 }

@@ -1,6 +1,10 @@
 {
+	"tsconfig": "src/tsconfig.json",
 	"entryPoints": [
-		"src/core/index.ts"
+		"src/core/index.ts",
+		"src/core/stores/export.ts",
+		"src/plugins/fullscreen/index.ts",
+		"src/plugins/fullscreen/stores/export.ts"
 	],
 	"out": "docs-html",
 	"skipErrorChecking": true,
