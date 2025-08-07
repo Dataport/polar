@@ -33,20 +33,21 @@ function generateConsolePrefix(info: {
 export default function enrichedConsole() {
 	return {
 		name: 'enriched-console',
+		enforce: 'pre',
 		transform(code: string, id: string) {
 			const shortId = stripId(id)
 			if (fileRegex.exec(id) && shortId !== null) {
 				const s = new MagicString(code)
 				let match: RegExpExecArray | null
 				while ((match = consoleRegex.exec(code)) !== null) {
-					const linebreaks = [...s.slice(0, match.index).matchAll(/\n/g)]
+					const linebreaks = [...code.slice(0, match.index).matchAll(/\n/g)]
 					const hint = generateConsolePrefix({
 						type: match[1] as ConsoleType,
 						id: shortId,
-						line: linebreaks.length,
+						line: linebreaks.length + 1,
 						col: match.index - linebreaks[linebreaks.length - 1].index,
 					})
-					const hintJs = `${JSON.stringify(hint)} + `
+					const hintJs = `${JSON.stringify(hint)}, `
 					const index = match.index + match[0].length
 					s.appendLeft(index, hintJs)
 				}
