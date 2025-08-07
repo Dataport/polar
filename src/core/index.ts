@@ -11,7 +11,7 @@ import '@kern-ux/native/dist/fonts/fira-sans.css'
 import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import { storeToRefs } from 'pinia'
-import { defineCustomElement, watch, type WatchOptions } from 'vue'
+import { defineCustomElement, markRaw, watch, type WatchOptions } from 'vue'
 import PolarMapCE from './components/PolarMap.ce.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
@@ -92,7 +92,13 @@ export function addPlugin(plugin: PluginContainer) {
 		})
 	}
 
-	coreStore.plugins = [...coreStore.plugins, plugin]
+	coreStore.plugins = [
+		...coreStore.plugins,
+		{
+			...plugin,
+			...(plugin.component ? { component: markRaw(plugin.component) } : {}),
+		},
+	]
 	if (pluginConfiguration.displayComponent && !pluginConfiguration.layoutTag) {
 		console.warn(
 			`Component of plugin "${id}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
