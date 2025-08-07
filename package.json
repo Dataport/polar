@@ -52,7 +52,7 @@
 		"lint:fix": "npm run lint -- --fix",
 		"tsc": "tsc && vue-tsc -p src",
 		"tsc:ci": "tsc && vue-tsc -p src",
-		"docs": "typedoc --watch",
+		"docs": "node scripts/typedoc-install-vue-tsc.ts && typedoc --watch",
 		"docs:ci": "typedoc",
 		"clean": "node scripts/clean.ts",
 		"postinstall": "patch-package",
