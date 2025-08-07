@@ -141,7 +141,11 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 	document.getElementById('secondMapContainer').innerText = ''
 })
 
-addPlugin(pluginFullscreen())
+addPlugin(
+	pluginFullscreen({
+		layoutTag: 'TOP_RIGHT',
+	})
+)
 
 // TODO: Update with proper plugins
 setTimeout(

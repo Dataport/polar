@@ -38,6 +38,8 @@ import {
 	onBeforeUnmount,
 	onMounted,
 	ref,
+	useHost,
+	useShadowRoot,
 	useTemplateRef,
 	watch,
 } from 'vue'
@@ -152,8 +154,10 @@ async function setup() {
 }
 
 onMounted(async () => {
+	coreStore.lightElement = useHost()
+	coreStore.shadowRoot = useShadowRoot()
 	await loadKern(
-		polarWrapper.value?.parentNode as ShadowRoot,
+		coreStore.shadowRoot as ShadowRoot,
 		coreStore.configuration.theme?.kern || {}
 	)
 	if (Array.isArray(coreStore.serviceRegister)) {

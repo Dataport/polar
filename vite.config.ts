@@ -57,7 +57,7 @@ export default defineConfig(({ mode }) => ({
 				polar: 'src/core/index.ts',
 				store: 'src/core/stores/export.ts',
 				'plugin-fullscreen': 'src/plugins/fullscreen/index.ts',
-				'plugin-fullscreen-store': 'src/plugins/fullscreen/stores/export.ts',
+				'plugin-fullscreen-store': 'src/plugins/fullscreen/store.ts',
 				/* eslint-enable @typescript-eslint/naming-convention */
 			},
 		},
@@ -82,8 +82,7 @@ export default defineConfig(({ mode }) => ({
 							'src',
 							'plugins',
 							'fullscreen',
-							'stores',
-							'export.ts'
+							'store.ts'
 						),
 						'@polar/polar/plugins/fullscreen': resolve(
 							__dirname,

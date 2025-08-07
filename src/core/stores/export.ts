@@ -5,6 +5,9 @@ export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 
 	return {
+		configuration: mainStore.configuration,
 		oidcToken: mainStore.oidcToken,
+		lightElement: mainStore.lightElement,
+		shadowRoot: mainStore.shadowRoot,
 	}
 })

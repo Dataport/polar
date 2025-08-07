@@ -46,7 +46,10 @@ export type PolarPluginStore = StoreDefinition<
 	string,
 	StateTree,
 	_GettersTree<StateTree>,
-	_ActionsTree & { setupPlugin: () => void }
+	_ActionsTree & {
+		setupPlugin: () => void
+		teardownPlugin: () => void
+	}
 >
 
 export interface PluginContainer {

@@ -116,7 +116,7 @@ export function removePlugin(pluginId: string) {
 	}
 	const store = plugin.storeModule?.()
 	if (store) {
-		// TODO(dopenguin): Might need to be extended depending on the plugin
+		store.teardownPlugin()
 		store.$reset()
 	}
 	coreStore.plugins = coreStore.plugins.filter(

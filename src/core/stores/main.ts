@@ -35,10 +35,12 @@ export const useMainStore = defineStore('main', () => {
 	const errors = ref<PolarError[]>([])
 	const hasSmallDisplay = ref(false)
 	const language = ref(i18next.language)
+	const lightElement = ref<HTMLElement | null>(null)
 	const mapHasDimensions = ref(false)
 	const oidcToken = ref('')
 	const plugins = ref<PluginContainer[]>([])
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
+	const shadowRoot = ref<ShadowRoot | null>(null)
 	const zoom = ref(0)
 
 	// TODO(dopenguin): Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
@@ -307,9 +309,11 @@ export const useMainStore = defineStore('main', () => {
 		clientWidth,
 		hasSmallDisplay,
 		language,
+		lightElement,
 		oidcToken,
 		plugins,
 		serviceRegister,
+		shadowRoot,
 		// Getters
 		hasSmallHeight,
 		hasSmallWidth,

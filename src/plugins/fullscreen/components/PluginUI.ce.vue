@@ -1,9 +1,12 @@
 <template>
-	<button class="kern-btn kern-btn--primary" @click="toggleFullscreen">
+	<button
+		class="kern-btn kern-btn--primary"
+		@click="store.fullscreenEnabled = !store.fullscreenEnabled"
+	>
 		<span
 			:class="[
 				'kern-icon',
-				fullscreenEnabled
+				store.fullscreenEnabled
 					? 'kern-icon--fullscreen-exit'
 					: 'kern-icon--fullscreen',
 			]"
@@ -14,12 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-const fullscreenEnabled = ref(false)
-
-function toggleFullscreen() {
-	fullscreenEnabled.value = !fullscreenEnabled.value
-}
+import { useFullscreenStore } from '../store'
+const store = useFullscreenStore()
 </script>
 
 <style lang="scss" scoped>
