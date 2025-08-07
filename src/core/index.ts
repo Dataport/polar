@@ -134,20 +134,20 @@ export function removePlugin(pluginId: string) {
  *
  * @remarks
  * Whitelisted and confirmed parameters for {@link serviceRegister} include:
- * - WMS:  		`id`, `name`, `url`, `typ`, `format`, `version`, `transparent`, `layers`, `styles`, `singleTile`
- * - WFS:  		`id`, `name`, `url`, `typ`,  `outputFormat`, `version`, `featureType`
- * - WMTS: 		`id`, `name`, `urls`, `typ`, `capabilitiesUrl`, `optionsFromCapabilities`, `tileMatrixSet`, `layers`,
- * 						`legendURL`, `format`, `coordinateSystem`, `origin`, `transparent`, `tileSize`, `minScale`, `maxScale`,
- * 						`requestEncoding`, `resLength`
- * - OAF: 		`id`, `name`, `url`, `typ`, `collection`, `crs`, `bboxCrs`
- * - GeoJSON: `id`, `name`, `url`, `typ`, `version`, `minScale`, `maxScale`, `legendURL`
+ * - WMS:      `id`, `name`, `url`, `typ`, `format`, `version`, `transparent`, `layers`, `styles`, `singleTile`
+ * - WFS:      `id`, `name`, `url`, `typ`,  `outputFormat`, `version`, `featureType`
+ * - WMTS:     `id`, `name`, `urls`, `typ`, `capabilitiesUrl`, `optionsFromCapabilities`, `tileMatrixSet`, `layers`,
+ *             `legendURL`, `format`, `coordinateSystem`, `origin`, `transparent`, `tileSize`, `minScale`, `maxScale`,
+ *             `requestEncoding`, `resLength`
+ * - OAF:      `id`, `name`, `url`, `typ`, `collection`, `crs`, `bboxCrs`
+ * - GeoJSON:  `id`, `name`, `url`, `typ`, `version`, `minScale`, `maxScale`, `legendURL`
  *
  * @param mapConfiguration - Configuration options.
  * @param serviceRegister - Service register given through a URL or as an array
- * 													An example for a predefined service register is [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
- * 													Full documentation regarding the configuration can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
- * 													However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet,
- * 													and no documentation regarding implemented properties exists there yet.
+ *                          An example for a predefined service register is [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
+ *                          Full documentation regarding the configuration can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+ *                          However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet,
+ *                          and no documentation regarding implemented properties exists there yet.
  * @param tagName - Tag name for the custom element.
  */
 export function createMap(
