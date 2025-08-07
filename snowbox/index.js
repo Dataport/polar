@@ -1,6 +1,6 @@
 import { changeLanguage } from 'i18next'
-import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import styleJsonUrl from './style.json?url'
+import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import { addPlugin, createMap, removePlugin, subscribe } from '@polar/polar'
 
 const basemapId = '23420'

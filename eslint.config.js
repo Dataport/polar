@@ -44,17 +44,20 @@ export default defineConfig([
 	{
 		ignores: [
 			'vue2/',
+			'node_modules/',
+			'docs/assets/',
+			'docs-html/',
+			'.vscode/',
+			'dist/',
+			'.dist.preview/',
+
+			// Legacy list
 			'**/build',
 			'**/.cache',
 			'**/coverage',
-			'**/dist',
-			'**/dist-test',
-			'**/docs',
-			'**/node_modules',
 			'**/tests_output',
 			'*.d.ts',
 			'.nx/',
-			'docs-html/',
 		],
 	},
 	{
