@@ -1,4 +1,4 @@
-import component from './components/PluginUI.vue'
+import component from './components/PluginUI.ce.vue'
 import type { PluginContainer } from '@/core'
 
 export default function pluginFullscreen(): PluginContainer {

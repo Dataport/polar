@@ -5,10 +5,6 @@
 		:class="{ [classes]: true, 'has-window-size': hasWindowSize }"
 		class="layout-region"
 	>
-		<!-- TODO(dopenguin): The component previously had this styling. Still needed?
-		.polar-clickable > * {
-  		pointer-events: all;
-		} -->
 		<component
 			:is="plugin.component"
 			v-for="(plugin, innerIndex) of regions[name]"
@@ -49,6 +45,10 @@ const regions = computed(() =>
 	align-items: center;
 	position: absolute;
 	max-width: 100%;
+
+	& > * {
+		pointer-events: all;
+	}
 
 	&.has-window-size {
 		max-height: 100%;
