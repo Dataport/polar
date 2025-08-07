@@ -115,15 +115,37 @@ export interface PolygonFillHatch {
 }
 
 export interface MarkerStyle {
-	/** `width` and `height` of the `<svg>`-cluster-marker. Defaults to `[40, 36]`. */
+	/**
+	 * `width` and `height` of the `<svg>`-cluster-marker.
+	 *
+	 * @defaultValue `[40, 36]`
+	 */
 	clusterSize: [number, number]
-	/** Fill color (or hatch pattern) for map marker. */
+
+	/**
+	 * Fill color (or hatch pattern) for map marker.
+	 */
 	fill: string | PolygonFillHatch
-	/** `width` and `height` of the `<svg>`-marker. Defaults to `[26, 36]`. */
+
+	/**
+	 * `width` and `height` of the `<svg>`-marker.
+	 *
+	 * @defaultValue `[26, 36]`
+	 */
 	size: [number, number]
-	/** Color of marker stroke (outer line). Defaults to `'#FFFFFF'`. */
+
+	/**
+	 * Color of marker stroke (outer line).
+	 *
+	 * @defaultValue `'#FFFFFF'`
+	 */
 	stroke: string
-	/** Width of marker stroke (outer line). Defaults to `'2'`. */
+
+	/**
+	 * Width of marker stroke (outer line).
+	 *
+	 * @defaultValue `'2'`
+	 */
 	strokeWidth: string | number
 }
 
@@ -145,21 +167,25 @@ export interface MarkerLayer {
 export interface MarkerLayerConfiguration {
 	/** Unique identifier of a layer configured in {@link MapConfiguration.layers | `mapConfiguration.layers`}. */
 	id: string
+
 	/**
 	 * Used as the default marker style.
 	 * The default fill color for these markers is `'#005CA9'`.
 	 */
 	defaultStyle?: Partial<MarkerStyle>
+
 	/**
 	 * Used as map marker style for hovered features.
 	 * The default fill color for these markers is `'#7B1045'`.
 	 */
 	hoverStyle?: Partial<MarkerStyle>
+
 	/**
 	 * Used as map marker style for selected features.
 	 * The default fill color for these markers is `'#679100'`.
 	 */
 	selectionStyle?: Partial<MarkerStyle>
+
 	/**
 	 * Used as a map marker style for unselectable features.
 	 * Features are unselectable if a given {@link MarkerLayerConfiguration.isSelectable | `isSelectable`} method returns
@@ -167,6 +193,7 @@ export interface MarkerLayerConfiguration {
 	 * The default fill color for these markers is `'#333333'`.
 	 */
 	unselectableStyle?: Partial<MarkerStyle>
+
 	/**
 	 * If undefined, all features are selectable.
 	 * If defined, this can be used to sort out features to be unselectable,
@@ -186,6 +213,7 @@ export interface MarkerConfiguration {
 	 * condition a feature is selectable.
 	 */
 	layers: MarkerLayerConfiguration[]
+
 	/**
 	 * If set, the given `action` will be called with the given `payload`. If the
 	 * `pluginName` is set, the action will be called in the respective plugin,
@@ -205,6 +233,7 @@ export interface MarkerConfiguration {
 	 * with the gfi plugin registered under the id `gfi`.
 	 */
 	callOnMapSelect?: CallOnMapSelect
+
 	/**
 	 * If `true`, clicking a cluster feature will zoom into the clustered features'
 	 * bounding box (with padding) so that the cluster is "resolved". This happens
@@ -221,6 +250,7 @@ export interface LayerConfigurationOptionLayers {
 	 * that will be used. If Record, it maps the layer name to a linked image.
 	 */
 	legend?: boolean | Record<string, string>
+
 	/**
 	 * Comma-separated re-ordering of service layer's 'layer' specification.
 	 * Layer's not specified in service definition, but in order, are initially
@@ -229,6 +259,7 @@ export interface LayerConfigurationOptionLayers {
 	 * specified in neither are always invisible.
 	 */
 	order?: string
+
 	/**
 	 * Title to be displayed for sub-layer. If false, layer name itself will
 	 * be used as given in service description 'layers' field. If true, it is
@@ -251,22 +282,50 @@ export interface LayerConfigurationOptions {
 }
 
 export interface LayerConfiguration {
-	/** Unique id to identify the layer. */
+	/**
+	 * Unique id to identify the layer.
+	 */
 	id: string
-	/** Human-readable identifier and value to be display in the UI. */
+
+	/**
+	 * Human-readable identifier and value to be display in the UI.
+	 */
 	name: string
-	/** Whether the layer is a background layer or a feature layer with specific information. */
+
+	/**
+	 * Whether the layer is a background layer or a feature layer with specific information.
+	 */
 	type: LayerType
-	/** layers may have their own gfiMode. */
+
+	/**
+	 * layers may have their own gfiMode.
+	 */
 	gfiMode?: 'bboxDot' | 'intersects'
-	/** Whether the mask-layer should be hidden from the LayerChooser selection menu. */
+
+	/**
+	 * Whether the mask-layer should be hidden from the LayerChooser selection menu.
+	 */
 	hideInMenu?: boolean
-	/** The minimum zoom level the layer will be rendered in; defaults to 0. */
+
+	/**
+	 * The minimum zoom level the layer will be rendered in.
+	 *
+	 * @defaultValue 0
+	 */
 	minZoom?: number
-	/** The maximum zoom level the layer will be rendered in; defaults to Number.MAX_SAFE_INTEGER. */
+
+	/**
+	 * The maximum zoom level the layer will be rendered in.
+	 *
+	 * @defaultValue Number.MAX_SAFE_INTEGER
+	 */
 	maxZoom?: number
-	/** Enables a configuration feature for the layer in its selection. */
+
+	/**
+	 * Enables a configuration feature for the layer in its selection.
+	 */
 	options?: LayerConfigurationOptions
+
 	/**
 	 * ID of the used style. If the layer is also configured in {@link MapConfiguration.markers | `mapConfiguration.markers`},
 	 * that configuration takes precedence over the configured `styleId`. Only applicable for vector-type layers.
@@ -274,7 +333,12 @@ export interface LayerConfiguration {
 	 * Defaults and fallbacks to OpenLayers default styling.
 	 */
 	styleId?: string
-	/** Whether the layer should be rendered; defaults to false */
+
+	/**
+	 * Whether the layer should be rendered
+	 *
+	 * @defaultValue false
+	 */
 	visibility?: boolean
 }
 
@@ -284,9 +348,15 @@ export interface PolarMapOptions {
 	 * ({@link MasterportalApiConfiguration.epsg} | `epsg`).
 	 */
 	resolution: number
-	/** Scale in meters. */
+
+	/**
+	 * Scale in meters.
+	 */
 	scale: number
-	/** Zoom level. */
+
+	/**
+	 * Zoom level.
+	 */
 	zoomLevel: number
 }
 
@@ -340,7 +410,7 @@ export interface MasterportalApiConfiguration {
 	 * {@link MasterportalApiConfiguration.startResolution | `mapConfiguration.startResolution`} as they are described in
 	 * or are related to the leading coordinate system.
 	 *
-	 * Defaults to `'EPSG:25832'`.
+	 * @defaultValue `'EPSG:25832'`
 	 *
 	 * @example
 	 * ```
@@ -403,6 +473,7 @@ export interface MasterportalApiConfiguration {
 	 * Defaults to `15.874991427504629` which is a zoom level defined in the default configuration of
 	 * {@link MasterportalApiConfiguration.options | `mapConfiguration.options`}.
 	 *
+	 * @defaultValue `15.874991427504629`
 	 * @example
 	 * ```
 	 * startResolution: 264.583190458
@@ -440,8 +511,14 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * See `mapConfiguration.featureStyles` for more information.
 	 */
 	featureStyles?: string
-	/** The initial language the client should be using; defaults to 'de' if not given. */
+
+	/**
+	 * The initial language the client should be using.
+	 *
+	 * @defaultValue `'de'` (German)
+	 */
 	language?: InitialLanguage
+
 	/**
 	 * Choose between the standard sidebar layout with fixed positioning, the oldschool nine region layout with full
 	 * configurability regarding positioning or add a custom layout as Vue component.
