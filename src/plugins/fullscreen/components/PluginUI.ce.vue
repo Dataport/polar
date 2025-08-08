@@ -1,12 +1,12 @@
 <template>
 	<button
 		class="kern-btn kern-btn--primary"
-		@click="store.fullscreenEnabled = !store.fullscreenEnabled"
+		@click="fullscreenEnabled = !fullscreenEnabled"
 	>
 		<span
 			:class="[
 				'kern-icon',
-				store.fullscreenEnabled
+				fullscreenEnabled
 					? 'kern-icon--fullscreen-exit'
 					: 'kern-icon--fullscreen',
 			]"
@@ -17,8 +17,9 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useFullscreenStore } from '../store'
-const store = useFullscreenStore()
+const { fullscreenEnabled } = storeToRefs(useFullscreenStore())
 </script>
 
 <style lang="scss" scoped>
