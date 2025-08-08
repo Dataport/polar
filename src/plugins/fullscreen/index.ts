@@ -41,8 +41,6 @@ export default function pluginFullscreen(
 	return {
 		id: PluginId,
 		component,
-		// TODO(oeninghe-dataport): Fix type error here...
-		// @ts-expect-error | I don't know why this is here yet
 		storeModule: useFullscreenStore,
 		options: {
 			displayComponent: true,

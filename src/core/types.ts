@@ -1,12 +1,7 @@
 import type { KernThemeOverride } from '@kern-ux-annex/webc'
 import type { Resource } from 'i18next'
 import { Feature } from 'ol'
-import type {
-	_ActionsTree,
-	_GettersTree,
-	StateTree,
-	StoreDefinition,
-} from 'pinia'
+import type { SetupStoreDefinition } from 'pinia'
 import type { Component, VueElement } from 'vue'
 
 /**
@@ -42,11 +37,9 @@ export interface PluginOptions {
 	layoutTag?: string // TODO: Might it be useful to move declaration of NineLayoutTag here?
 }
 
-export type PolarPluginStore = StoreDefinition<
+export type PolarPluginStore = SetupStoreDefinition<
 	string,
-	StateTree,
-	_GettersTree<StateTree>,
-	_ActionsTree & {
+	{
 		setupPlugin: () => void
 		teardownPlugin: () => void
 	}
