@@ -12,12 +12,18 @@
 			]"
 			aria-hidden="true"
 		/>
-		<span class="kern-label kern-sr-only">Vollbildmodus</span>
+		<span class="kern-label kern-sr-only">{{
+			$t('button.label', {
+				ns: PluginId,
+				context: fullscreenEnabled ? 'off' : 'on',
+			})
+		}}</span>
 	</button>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useFullscreenStore } from '../store'
+import { PluginId } from '..'
 const { fullscreenEnabled } = storeToRefs(useFullscreenStore())
 </script>

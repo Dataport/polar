@@ -90,7 +90,7 @@ export function addPlugin(plugin: PluginContainer) {
 	if (locales) {
 		// NOTE: If somehow needed later, add the namespace to the Locale as well
 		locales.forEach((lng) => {
-			i18next.addResourceBundle(lng.type, 'common', lng.resources, true)
+			i18next.addResourceBundle(lng.type, id, lng.resources, true)
 		})
 	}
 

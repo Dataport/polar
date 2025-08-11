@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import component from './components/PluginUI.ce.vue'
+import locales from './locales'
 import { useFullscreenStore } from './store'
 import type { PluginContainer, PluginOptions } from '@/core'
 
@@ -47,6 +48,7 @@ export default function pluginFullscreen(
 	return {
 		id: PluginId,
 		component,
+		locales,
 		storeModule: useFullscreenStore,
 		options: {
 			displayComponent: true,
