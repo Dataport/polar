@@ -13,4 +13,4 @@ fi
 
 npm run lint
 npm run tsc
-npm test
+npm run test:ci

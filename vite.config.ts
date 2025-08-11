@@ -115,4 +115,7 @@ export default defineConfig(({ mode }) => ({
 			/* eslint-enable @typescript-eslint/naming-convention */
 		},
 	},
+	test: {
+		include: ['src/**/*.spec.ts'],
+	},
 }))
