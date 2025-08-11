@@ -21,9 +21,6 @@
 			:aria-label="$t('canvas.label')"
 		/>
 		<PolarUi />
-		<kern-button variant="primary" @click="demo">
-			{{ $t('canvas.label') }}
-		</kern-button>
 	</div>
 </template>
 
@@ -184,11 +181,6 @@ onBeforeUnmount(() => {
 })
 
 watch(hasWindowSize, updateListeners)
-
-function demo() {
-	// eslint-disable-next-line no-console
-	console.log('Button clicked')
-}
 </script>
 
 <style scoped lang="scss">
