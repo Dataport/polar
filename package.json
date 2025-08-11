@@ -97,6 +97,7 @@
 		"sass": "^1.89.2",
 		"stream-browserify": "^3.0.0",
 		"timers-browserify": "^2.0.12",
+		"tsarch": "^5.4.1",
 		"typedoc": "^0.28.8",
 		"typedoc-plugin-vue": "^1.5.0",
 		"typescript": "^5.8.3",

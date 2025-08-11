@@ -24,6 +24,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useFullscreenStore } from '../store'
-import { PluginId } from '..'
+import { PluginId } from '../types'
 const { fullscreenEnabled } = storeToRefs(useFullscreenStore())
 </script>

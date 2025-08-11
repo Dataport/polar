@@ -6,7 +6,7 @@
 
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { PluginId, type FullscreenPluginOptions } from '.'
+import { PluginId, type FullscreenPluginOptions } from './types'
 import { useCoreStore } from '@/core/stores/export'
 
 /* eslint-disable tsdoc/syntax */

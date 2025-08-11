@@ -1,5 +1,20 @@
-import { expect, test } from 'vitest'
+import { resolve } from 'node:path'
+import { beforeAll, describe, expect, test } from 'vitest'
+import { FileConditionBuilder, filesOfProject } from 'tsarch'
 
-test('Vitest is setup properly', () => {
-	expect(1).toBe(1)
+describe('Architectural checks', () => {
+	let files: FileConditionBuilder
+
+	beforeAll(() => {
+		files = filesOfProject(resolve(__dirname, 'tsconfig.json'))
+	})
+
+	test('POLAR should be cycle-free', async () => {
+		const violations = await files
+			.matchingPattern('.*')
+			.should()
+			.beFreeOfCycles()
+			.check()
+		expect(violations).toEqual([])
+	})
 })
