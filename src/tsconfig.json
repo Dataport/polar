@@ -5,6 +5,10 @@
 		"../tsconfig.settings.json"
 	],
 	"compilerOptions": {
+		"types": [
+			"vitest/importMeta",
+			"vitest/jsdom"
+		],
 		"lib": [
 			"ESNext",
 			"DOM",

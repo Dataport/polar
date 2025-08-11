@@ -116,6 +116,8 @@ export default defineConfig(({ mode }) => ({
 		},
 	},
 	test: {
+		environment: 'jsdom',
 		include: ['src/**/*.spec.ts'],
+		includeSource: ['src/**/*.ts'],
 	},
 }))
