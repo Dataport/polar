@@ -17,4 +17,25 @@ describe('Architectural checks', () => {
 			.check()
 		expect(violations).toEqual([])
 	})
+
+	test('Core should not depend on plugins', async () => {
+		const violations = await files
+			.matchingPattern('core/.*')
+			.shouldNot()
+			.dependOnFiles()
+			.matchingPattern('plugins/.*')
+			.check()
+		expect(violations).toEqual([])
+	})
+
+	test('Plugin file structure', async () => {
+		const violations = await files
+			.matchingPattern('plugins/.*')
+			.should()
+			.matchPattern(
+				'plugins/[^/]+/((index|locales|store|types)\\.ts|utils/.*\\.ts)'
+			)
+			.check()
+		expect(violations).toEqual([])
+	})
 })
