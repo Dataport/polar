@@ -1,0 +1,14 @@
+{
+	"extends": [
+		"@vue/tsconfig/tsconfig.dom.json",
+		"@vue/tsconfig/tsconfig.lib.json",
+		"../../tsconfig.settings.json"
+	],
+	"compilerOptions": {
+		"lib": [
+			"ESNext",
+			"DOM",
+			"DOM.Iterable"
+		]
+	}
+}

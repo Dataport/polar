@@ -100,6 +100,12 @@ export default defineConfig(({ mode }) => ({
 							'stores',
 							'export.ts'
 						),
+						'@polar/polar/polar.css': resolve(
+							__dirname,
+							'src',
+							'core',
+							'.polar-dev.css'
+						),
 						'@polar/polar': resolve(__dirname, 'src', 'core', 'index.ts'),
 					}
 				: {}),

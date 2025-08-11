@@ -41,7 +41,7 @@
 	},
 	"scripts": {
 		"dev": "vite",
-		"snowbox": "VITE_DEV_LANDING=\"snowbox\" vite",
+		"snowbox": "VITE_DEV_LANDING=\"examples/snowbox\" vite",
 		"preview:build": "vite build --watch -c vite.config.preview.ts",
 		"preview:preview": "vite preview -c vite.config.preview.ts",
 		"preview": "conc --kill-others 'npm run build' 'npm run preview:build' 'npm run preview:preview'",

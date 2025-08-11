@@ -4,7 +4,7 @@
 	],
 	"exclude": [
 		"src",
-		"snowbox",
+		"examples",
 		"vue2"
 	],
 	"compilerOptions": {
