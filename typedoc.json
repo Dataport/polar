@@ -4,7 +4,7 @@
 		"src/core/index.ts",
 		"src/core/stores/export.ts",
 		"src/plugins/fullscreen/index.ts",
-		"src/plugins/fullscreen/stores/export.ts"
+		"src/plugins/fullscreen/store.ts"
 	],
 	"out": "docs-html",
 	"skipErrorChecking": true,
@@ -17,5 +17,12 @@
 		"instance-first",
 		"required-first",
 		"alphabetical-ignoring-documents"
+	],
+	"excludeInternal": true,
+	"navigation": {
+		"includeFolders": false
+	},
+	"plugin": [
+		"typedoc-plugin-vue"
 	]
 }

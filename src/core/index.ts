@@ -2,6 +2,8 @@
 /**
  * This is the main export for the NPM package \@polar/polar.
  *
+ * Lost? You probably want to start at {@link createMap}.
+ *
  * @packageDocumentation
  * @module \@polar/polar
  */

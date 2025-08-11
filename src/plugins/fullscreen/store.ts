@@ -1,8 +1,21 @@
+/* eslint-disable tsdoc/syntax */
+/**
+ * @module \@polar/polar/plugins/fullscreen/store
+ */
+/* eslint-enable tsdoc/syntax */
+
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { PluginId, type FullscreenPluginOptions } from '.'
 import { useCoreStore } from '@/core/stores/export'
 
+/* eslint-disable tsdoc/syntax */
+/**
+ * @function
+ *
+ * Plugin store for fullscreen mode detection and enablement.
+ */
+/* eslint-enable tsdoc/syntax */
 export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	const coreStore = useCoreStore()
 
@@ -78,9 +91,18 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	}
 
 	return {
+		/**
+		 * Reading this property describes if fullscreen mode is enabled or disabled.
+		 * Writing this property enables or disables fullscreen mode, respectively.
+		 *
+		 * @defaultValue false
+		 */
 		fullscreenEnabled,
 
+		/** @internal */
 		setupPlugin,
+
+		/** @internal */
 		teardownPlugin,
 	}
 })
