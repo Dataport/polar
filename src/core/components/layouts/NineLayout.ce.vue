@@ -22,15 +22,25 @@ import { NineLayoutTag } from '@/core/utils/NineLayoutTag'
 const tags = Object.entries(NineLayoutTag)
 
 const coreStore = useMainStore()
-const { hasWindowSize, plugins } = storeToRefs(coreStore)
+const { hasWindowSize } = storeToRefs(coreStore)
 
 const regions = computed(() =>
 	tags.reduce(
 		(acc, [name]) => ({
 			...acc,
-			[name]: plugins.value.filter(
-				({ options }) => options?.displayComponent && options.layoutTag === name
-			),
+			[name]: coreStore.plugins
+				.filter(({ id, options }) => {
+					if (options?.displayComponent && !options.layoutTag) {
+						console.warn(
+							`Component of plugin "${id}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
+						)
+						return false
+					}
+					return typeof options?.displayComponent === 'boolean'
+						? options.displayComponent
+						: false
+				})
+				.filter(({ options }) => options?.layoutTag === name),
 		}),
 		{}
 	)
