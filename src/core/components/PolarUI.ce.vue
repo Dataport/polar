@@ -1,10 +1,6 @@
 <template>
 	<div class="polar-ui">
-		<component
-			:is="layout"
-			class="layout"
-			:class="{ 'has-window-size': hasWindowSize }"
-		/>
+		<component :is="layout" />
 	</div>
 </template>
 
@@ -15,7 +11,7 @@ import { useMainStore } from '../stores/main.ts'
 import NineLayout from './layouts/NineLayout.ce.vue'
 import StandardLayout from './layouts/StandardLayout.ce.vue'
 
-const { configuration, hasWindowSize } = storeToRefs(useMainStore())
+const { configuration } = storeToRefs(useMainStore())
 
 const layout = computed(() => {
 	const configuredLayout = configuration.value.layout
@@ -41,17 +37,5 @@ const layout = computed(() => {
 
 	width: 100%;
 	height: 100%;
-
-	& > * {
-		pointer-events: all;
-	}
-
-	.layout {
-		max-width: 100%;
-
-		&.has-window-size {
-			max-height: 100%;
-		}
-	}
 }
 </style>

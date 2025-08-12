@@ -3,6 +3,7 @@
 		:is="component"
 		v-for="({ component, id }, index) of uiPlugins"
 		:key="`${id}-${index}`"
+		class="layout"
 	/>
 </template>
 
@@ -17,4 +18,16 @@ const uiPlugins = computed(() =>
 )
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.layout {
+	max-width: 100%;
+
+	& > * {
+		pointer-events: all;
+	}
+
+	&.has-window-size {
+		max-height: 100%;
+	}
+}
+</style>
