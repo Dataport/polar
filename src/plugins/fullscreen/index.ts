@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import component from './components/PluginUI.ce.vue'
+import component from './components/FullscreenUI.ce.vue'
 import locales from './locales'
 import { useFullscreenStore } from './store'
 import { PluginId, type FullscreenPluginOptions } from './types'
