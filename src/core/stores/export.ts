@@ -32,11 +32,15 @@ export const useCoreStore = defineStore('core', () => {
 
 		/**
 		 * Allows accessing the POLAR DOM element (`<polar-map>`).
+		 *
+		 * @alpha
 		 */
 		lightElement: mainStore.lightElement,
 
 		/**
 		 * Allows accessing the Shadow DOM root of POLAR.
+		 *
+		 * @alpha
 		 */
 		shadowRoot: mainStore.shadowRoot,
 	}

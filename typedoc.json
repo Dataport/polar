@@ -18,11 +18,11 @@
 		"required-first",
 		"alphabetical-ignoring-documents"
 	],
-	"excludeInternal": true,
 	"navigation": {
 		"includeFolders": false
 	},
 	"plugin": [
-		"typedoc-plugin-vue"
+		"typedoc-plugin-vue",
+		"./typedocPlugins/targetAudience.ts"
 	]
 }

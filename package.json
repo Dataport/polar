@@ -53,6 +53,8 @@
 		"tsc": "tsc && vue-tsc -p src",
 		"tsc:ci": "tsc && vue-tsc -p src",
 		"docs": "node scripts/typedoc-install-vue-tsc.ts && typedoc --watch",
+		"docs:core": "node scripts/typedoc-install-vue-tsc.ts && typedoc --watch --targetAudience core",
+		"docs:plugin": "node scripts/typedoc-install-vue-tsc.ts && typedoc --watch --targetAudience plugin",
 		"docs:ci": "typedoc",
 		"clean": "node scripts/clean.ts",
 		"postinstall": "patch-package",
