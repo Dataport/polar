@@ -7,7 +7,7 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: resolve(__dirname, 'index.html'),
-				snowbox: resolve(__dirname, 'snowbox', 'index.html'),
+				snowbox: resolve(__dirname, 'examples', 'snowbox', 'index.html'),
 			},
 		},
 	},
