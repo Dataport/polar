@@ -113,6 +113,19 @@ await createMap(
 			clusterClickZoom: true,
 		},
 		theme: dataportTheme,
+		locales: [
+			{
+				type: 'de',
+				resources: {
+					'plugins/fullscreen': {
+						button: {
+							label_on: 'Mach groß',
+							label_off: 'Mach klein',
+						},
+					},
+				},
+			},
+		],
 	},
 	'https://geodienste.hamburg.de/services-internet.json'
 )

@@ -17,12 +17,17 @@ export const I18Next: Plugin = {
 		const configuredLocales = Array.isArray(localeOptions)
 			? locales.map((locale) => {
 					const localeOption = localeOptions.find((l) => l.type === locale.type)
+					const overrideResources = Object.fromEntries(
+						Object.entries(localeOption?.resources || {}).map(
+							([key, value]) => [
+								key.match(/plugins\/.+/) ? `@polar/polar/${key}` : key,
+								value,
+							]
+						)
+					)
 					return {
 						type: locale.type,
-						resources: toMerged(
-							locale.resources,
-							localeOption ? localeOption.resources : {}
-						),
+						resources: toMerged(locale.resources, overrideResources),
 					}
 				})
 			: locales
@@ -44,8 +49,8 @@ export const I18Next: Plugin = {
 				},
 				load: 'languageOnly',
 				fallbackLng: supportedLngs[0],
-				fallbackNS: 'common',
-				ns: ['common'],
+				fallbackNS: 'core',
+				ns: ['core'],
 				supportedLngs,
 				...(options?.initialLanguage ? { lng: options.initialLanguage } : {}),
 			})

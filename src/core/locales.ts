@@ -1,7 +1,7 @@
 import type { Locale } from './types'
 
 export const resourcesDe = {
-	common: {
+	core: {
 		canvas: {
 			label: 'Kartenanwendung',
 		},
@@ -20,7 +20,7 @@ export const resourcesDe = {
 }
 
 export const resourcesEn = {
-	common: {
+	core: {
 		canvas: {
 			label: 'Map application',
 		},
