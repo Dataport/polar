@@ -70,8 +70,7 @@
 	"devDependencies": {
 		"@cesium/engine": "^15.0.0",
 		"@dataport/eslint-config-geodev": "^0.3.3",
-		"@kern-ux-annex/webc": "^2.14.9",
-		"@kern-ux/native": "^2.2.0",
+		"@kern-ux/native": "^2.3.0",
 		"@masterportal/masterportalapi": "2.48.0",
 		"@material-symbols/svg-400": "^0.33.0",
 		"@repositoryname/noop": "^1.0.6",
@@ -103,7 +102,7 @@
 		"tsarch": "^5.4.1",
 		"typedoc": "^0.28.8",
 		"typedoc-plugin-vue": "^1.5.0",
-		"typescript": "^5.8.3",
+		"typescript": "~5.8.3",
 		"util": "^0.12.5",
 		"vite": "^7.0.6",
 		"vite-plugin-checker": "^0.10.2",

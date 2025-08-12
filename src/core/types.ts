@@ -1,4 +1,3 @@
-import type { KernThemeOverride } from '@kern-ux-annex/webc'
 import type { Resource } from 'i18next'
 import { Feature } from 'ol'
 import type { SetupStoreDefinition } from 'pinia'
@@ -362,6 +361,19 @@ export interface OklchColor {
 	h: string
 }
 
+export interface KernThemeTree {
+	[key: string]: string | KernThemeTree
+}
+
+/**
+ * Describes the theming options of KERN.
+ * The exhaustive list of parameters is documented in `@kern-ux/native`.
+ */
+export interface KernTheme {
+	color: KernThemeTree
+	metric: KernThemeTree
+}
+
 /**
  * A theme for the POLAR map client.
  */
@@ -373,9 +385,9 @@ export interface PolarTheme {
 	brandColor?: OklchColor
 
 	/**
-	 * Theme for KERN UX library as defined by {@link https://www.npmjs.com/package/@kern-ux-annex/webc | `@kern-ux-annex/webc`}.
+	 * Theme for KERN UX library.
 	 */
-	kern?: KernThemeOverride
+	kern?: KernTheme
 }
 
 /**

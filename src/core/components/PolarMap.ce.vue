@@ -153,7 +153,7 @@ async function setup() {
 onMounted(async () => {
 	coreStore.lightElement = useHost()
 	coreStore.shadowRoot = useShadowRoot()
-	await loadKern(
+	loadKern(
 		coreStore.shadowRoot as ShadowRoot,
 		coreStore.configuration.theme?.kern || {}
 	)
@@ -183,14 +183,18 @@ onBeforeUnmount(() => {
 watch(hasWindowSize, updateListeners)
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import url('ol/ol.css');
 
-.polar-wrapper {
+:host {
 	--brand-color-l: v-bind('coreStore.configuration.theme?.brandColor?.l');
 	--brand-color-c: v-bind('coreStore.configuration.theme?.brandColor?.c');
 	--brand-color-h: v-bind('coreStore.configuration.theme?.brandColor?.h');
+}
+</style>
 
+<style scoped lang="scss">
+.polar-wrapper {
 	position: absolute;
 	height: inherit;
 	width: inherit;
