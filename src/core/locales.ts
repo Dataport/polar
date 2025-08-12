@@ -1,5 +1,18 @@
+/* eslint-disable tsdoc/syntax */
+/**
+ * This is the documentation for the locales keys in POLAR core.
+ * These locales are *NOT* exported, but documented only.
+ *
+ * @module locales/core
+ */
+/* eslint-enable tsdoc/syntax */
+
 import type { Locale } from './types'
 
+/**
+ * German locales for POLAR core.
+ * For overwriting these values, pass a partial object of this in `locales`.
+ */
 export const resourcesDe = {
 	core: {
 		canvas: {
@@ -17,8 +30,12 @@ export const resourcesDe = {
 				'Verwenden Sie mindestens zwei Finger zum Verschieben der Karte',
 		},
 	},
-}
+} as const
 
+/**
+ * English locales for POLAR core.
+ * For overwriting these values, pass a partial object of this in `locales`.
+ */
 export const resourcesEn = {
 	core: {
 		canvas: {
@@ -34,9 +51,16 @@ export const resourcesEn = {
 			oneFingerPan: 'Use at least two fingers to pan the map',
 		},
 	},
-}
+} as const
 
-// first type will be used as fallback language
+/**
+ * Core locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
 const locales: Locale[] = [
 	{
 		type: 'de',

@@ -2,8 +2,10 @@
 	"tsconfig": "src/tsconfig.json",
 	"entryPoints": [
 		"src/core/index.ts",
+		"src/core/locales.ts",
 		"src/core/stores/export.ts",
 		"src/plugins/fullscreen/index.ts",
+		"src/plugins/fullscreen/locales.ts",
 		"src/plugins/fullscreen/store.ts"
 	],
 	"out": "docs-html",
