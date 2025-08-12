@@ -2,7 +2,7 @@
 	<div
 		v-for="([name, classes], index) of tags"
 		:key="index"
-		:class="{ [classes]: true, 'has-window-size': hasWindowSize }"
+		:class="classes"
 		class="layout-region"
 	>
 		<component
@@ -16,13 +16,13 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { NineLayoutTag } from '../../utils/NineLayoutTag'
-import { useMainStore } from '../../stores/main'
+import { useMainStore } from '@/core/stores/main.ts'
+import { NineLayoutTag } from '@/core/utils/NineLayoutTag'
 
 const tags = Object.entries(NineLayoutTag)
 
 const coreStore = useMainStore()
-const { hasWindowSize, plugins } = storeToRefs(coreStore)
+const { plugins } = storeToRefs(coreStore)
 
 const regions = computed(() =>
 	tags.reduce(
@@ -44,15 +44,6 @@ const regions = computed(() =>
 	justify-content: center;
 	align-items: center;
 	position: absolute;
-	max-width: 100%;
-
-	& > * {
-		pointer-events: all;
-	}
-
-	&.has-window-size {
-		max-height: 100%;
-	}
 
 	&.mid {
 		top: 33%;
