@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module'
-import { resolve } from 'node:path'
+import { resolve, basename, sep } from 'node:path'
+import { globSync } from 'node:fs'
 
 import { defineConfig } from 'vite'
 
@@ -54,13 +55,14 @@ export default defineConfig(({ mode }) => ({
 			name: '@polar/polar',
 			formats: ['es'],
 			entry: {
-				// TODO(oeninghe-dataport): Generate this code
-				/* eslint-disable @typescript-eslint/naming-convention */
 				polar: 'src/core/index.ts',
 				store: 'src/core/stores/export.ts',
-				'plugin-fullscreen': 'src/plugins/fullscreen/index.ts',
-				'plugin-fullscreen-store': 'src/plugins/fullscreen/store.ts',
-				/* eslint-enable @typescript-eslint/naming-convention */
+				...Object.fromEntries(
+					globSync('src/plugins/*/').flatMap((path) => [
+						[`plugin-${basename(path)}`, [path, 'index.ts'].join(sep)],
+						[`plugin-${basename(path)}-store`, [path, 'store.ts'].join(sep)],
+					])
+				),
 			},
 		},
 		sourcemap: true,
@@ -78,20 +80,18 @@ export default defineConfig(({ mode }) => ({
 			/* eslint-disable @typescript-eslint/naming-convention */
 			...(mode === 'development'
 				? {
-						// TODO(oeninghe-dataport): Generate this code
-						'@polar/polar/plugins/fullscreen/store': resolve(
-							__dirname,
-							'src',
-							'plugins',
-							'fullscreen',
-							'store.ts'
-						),
-						'@polar/polar/plugins/fullscreen': resolve(
-							__dirname,
-							'src',
-							'plugins',
-							'fullscreen',
-							'index.ts'
+						// The order matters! Most specific paths need to be on the top.
+						...Object.fromEntries(
+							globSync('src/plugins/*/').flatMap((path) => [
+								[
+									`@polar/polar/plugins/${basename(path)}/store`,
+									resolve(path, 'store.ts'),
+								],
+								[
+									`@polar/polar/plugins/${basename(path)}`,
+									resolve(path, 'index.ts'),
+								],
+							])
 						),
 						'@polar/polar/store': resolve(
 							__dirname,

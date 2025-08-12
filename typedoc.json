@@ -4,9 +4,9 @@
 		"src/core/index.ts",
 		"src/core/locales.ts",
 		"src/core/stores/export.ts",
-		"src/plugins/fullscreen/index.ts",
-		"src/plugins/fullscreen/locales.ts",
-		"src/plugins/fullscreen/store.ts"
+		"src/plugins/*/index.ts",
+		"src/plugins/*/locales.ts",
+		"src/plugins/*/store.ts"
 	],
 	"out": "docs-html",
 	"skipErrorChecking": true,

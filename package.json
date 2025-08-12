@@ -26,13 +26,13 @@
 			"types": "./dist/store.d.ts",
 			"default": "./dist/store.js"
 		},
-		"./plugins/fullscreen": {
-			"types": "./dist/plugin-fullscreen.d.ts",
-			"default": "./dist/plugin-fullscreen.js"
+		"./plugins/*": {
+			"types": "./dist/plugin-*.d.ts",
+			"default": "./dist/plugin-*.js"
 		},
-		"./plugins/fullscreen/store": {
-			"types": "./dist/plugin-fullscreen-store.d.ts",
-			"default": "./dist/plugin-fullscreen-store.js"
+		"./plugins/*/store": {
+			"types": "./dist/plugin-*-store.d.ts",
+			"default": "./dist/plugin-*-store.js"
 		}
 	},
 	"repository": {
