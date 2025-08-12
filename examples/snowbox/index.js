@@ -160,7 +160,7 @@ setTimeout(
 setTimeout(() => removePlugin('TEST'), 10000)
 
 subscribe(
-	'marker',
+	'markers',
 	'selectedCoordinates',
 	(coordinates) =>
 		(document.getElementById('selected-feature-coordinates').innerText =
