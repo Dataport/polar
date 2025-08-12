@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import component from './components/IconMenu.vue'
+import component from './components/IconMenu.ce.vue'
 import locales from './locales'
 import { useIconMenuStore } from './store'
 import { PluginId, type IconMenuPluginOptions } from './types'
