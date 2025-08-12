@@ -32,8 +32,8 @@ async function loadKernIconCss(icon: string) {
 	)
 	const iconSvg = iconBuffer
 		.toString()
-		.replaceAll('width="48"', 'width="24"')
-		.replaceAll('height="48"', 'height="24"')
+		.replaceAll('width="48"', 'width=""')
+		.replaceAll('height="48"', 'height=""')
 	const iconUrl = 'data:image/svg+xml;base64,' + btoa(iconSvg)
 	return `
 		.kern-icon--${icon} {
