@@ -38,4 +38,14 @@ describe('Architectural checks', () => {
 			.check()
 		expect(violations).toEqual([])
 	})
+
+	test('Plugins should only depend on public core API', async () => {
+		const violations = await files
+			.matchingPattern('plugins/.*')
+			.shouldNot()
+			.dependOnFiles()
+			.matchingPattern('core/(?!(index|stores/export)\\.ts$).*')
+			.check()
+		expect(violations).toEqual([])
+	})
 })
