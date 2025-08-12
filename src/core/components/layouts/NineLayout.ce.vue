@@ -37,7 +37,7 @@ const regions = computed(() =>
 )
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .layout-region {
 	display: flex;
 	flex-direction: column;

@@ -24,7 +24,7 @@ createMap(
 )
 </script>
 
-<style lang="scss">
+<style>
 @import url('@kern-ux/native/dist/kern.css');
 @import url('@kern-ux/native/dist/fonts/fira-sans.css');
 @import url('@polar/polar/polar.css');

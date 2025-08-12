@@ -26,7 +26,7 @@ const layout = computed(() => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .polar-ui {
 	position: absolute;
 	top: 0;

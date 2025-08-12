@@ -18,7 +18,7 @@ const uiPlugins = computed(() =>
 )
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .layout {
 	max-width: 100%;
 

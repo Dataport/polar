@@ -183,7 +183,7 @@ onBeforeUnmount(() => {
 watch(hasWindowSize, updateListeners)
 </script>
 
-<style lang="scss">
+<style>
 @import url('ol/ol.css');
 
 :host {
@@ -193,7 +193,7 @@ watch(hasWindowSize, updateListeners)
 }
 </style>
 
-<style scoped lang="scss">
+<style scoped>
 .polar-wrapper {
 	position: absolute;
 	height: inherit;

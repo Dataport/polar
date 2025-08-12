@@ -96,7 +96,6 @@
 		"patch-package": "^8.0.0",
 		"pinia": "^3.0.3",
 		"prettier": "^3.6.2",
-		"sass": "^1.89.2",
 		"stream-browserify": "^3.0.0",
 		"timers-browserify": "^2.0.12",
 		"tsarch": "^5.4.1",
