@@ -18,15 +18,15 @@ export interface Menu {
 	plugin: PluginContainer
 	/**
 	 * Overrides the default hint displayed for the icon menu button.
-	 * Ff not given the locale in `plugins.iconMenu.hints.${id}` is used.
+	 * If not given, the locale in `plugins.iconMenu.hints.${id}` is used.
 	 */
 	hint?: string
 	/**
-	 * Icon for icon menu button. If given, render a button with the icon. When
-	 * clicked, open the content of the configured plugin. If not given, render
-	 * the plugin content as is inside the IconMenu.
+	 * Icon for icon menu button. If given, render a button with the icon. When clicked, open the content of the
+	 * configured plugin. If not given, render the plugin content as is inside the IconMenu.
 	 *
-	 * Current examples for the usage without icon include Zoom and Fullscreen.
+	 * Current examples for the usage without icon include Zoom and Fullscreen if
+	 * {@link MapConfiguration.layout | `mapConfiguration.layers`} is set to `'nineRegions'`
 	 */
 	icon?: string
 	position?: 'sidebar' | 'topRight'
