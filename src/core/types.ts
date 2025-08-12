@@ -2,6 +2,7 @@ import type { Resource } from 'i18next'
 import { Feature } from 'ol'
 import type { SetupStoreDefinition } from 'pinia'
 import type { Component, VueElement } from 'vue'
+import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
 
 /**
  * Copied from https://stackoverflow.com/a/54178819.#
@@ -33,7 +34,7 @@ export interface ServiceAvailabilityCheck {
 // TODO(dopenguin): Adjust these options
 export interface PluginOptions {
 	displayComponent?: boolean
-	layoutTag?: string // TODO: Might it be useful to move declaration of NineLayoutTag here?
+	layoutTag?: keyof typeof NineLayoutTag
 }
 
 export type PolarPluginStore = SetupStoreDefinition<
