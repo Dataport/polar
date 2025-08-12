@@ -5,8 +5,6 @@
 /* eslint-enable tsdoc/syntax */
 
 import { defineStore } from 'pinia'
-import type { Reactive } from 'vue'
-import { PluginId } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**
