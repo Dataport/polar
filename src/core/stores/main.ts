@@ -1,27 +1,14 @@
-import { ping } from '@masterportal/masterportalapi'
-import createStyle from '@masterportal/masterportalapi/src/vectorStyle/createStyle'
-import styleList from '@masterportal/masterportalapi/src/vectorStyle/styleList'
-import noop from '@repositoryname/noop'
-import i18next from 'i18next'
 import type { Feature, Map } from 'ol'
-import { type Coordinate } from 'ol/coordinate'
-import { easeOut } from 'ol/easing'
-import { type FeatureLike } from 'ol/Feature'
-import { type Point } from 'ol/geom'
-import type VectorLayer from 'ol/layer/Vector'
-import { type Interaction } from 'ol/interaction'
+import type { Coordinate } from 'ol/coordinate'
+import type { Point } from 'ol/geom'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import type {
-	MapConfiguration,
-	PluginContainer,
-	PolarError,
-	ServiceAvailabilityCheck,
-} from '../types'
-import { createPanAndZoomInteractions } from '../utils/interactions'
+import type { MapConfiguration, PluginContainer } from '../types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
+import { addInterceptor } from '../utils/addInterceptor'
 
-let interactions: Interaction[] = []
+// TODO(oeninghe-dataport): Remove this from store
+// Currently, this is still needed for the marker store
 let map: Map
 
 export const useMainStore = defineStore('main', () => {
@@ -32,11 +19,10 @@ export const useMainStore = defineStore('main', () => {
 		layers: [],
 		startCenter: [0, 0],
 	})
-	const errors = ref<PolarError[]>([])
 	const hasSmallDisplay = ref(false)
-	const language = ref(i18next.language)
+	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
-	const mapHasDimensions = ref(false)
+	const mapHasDimensions = ref<boolean>(false)
 	const oidcToken = ref('')
 	const plugins = ref<PluginContainer[]>([])
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
@@ -57,209 +43,20 @@ export const useMainStore = defineStore('main', () => {
 		() => hasSmallHeight.value && hasWindowSize.value
 	)
 
-	// NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
-	//       Added as a watcher to trigger the update at the correct time.
-	watch(hasWindowSize, updateDragAndZoomInteractions)
-
-	i18next.on('languageChanged', (newLanguage) => {
-		language.value = newLanguage
-	})
-
-	function addInterceptor(secureServiceUrlRegex: string) {
-		// NOTE: Not applicable here.
-		// eslint-disable-next-line @typescript-eslint/unbound-method
-		const { fetch: originalFetch } = window
-
-		// If interceptors for XMLHttpRequest or axios are needed, add them here.
-		window.fetch = (resource, originalConfig) => {
-			let config = originalConfig
-
-			if (
-				oidcToken.value &&
-				typeof resource === 'string' &&
-				resource.match(secureServiceUrlRegex)
-			) {
-				config = {
-					...originalConfig,
-					headers: {
-						// eslint-disable-next-line @typescript-eslint/naming-convention
-						Authorization: `Bearer ${oidcToken.value}`,
-						// NOTE: Currently expected that the headers are given as an object.
-						// eslint-disable-next-line @typescript-eslint/no-misused-spread
-						...originalConfig?.headers,
-					},
-				}
+	watch(
+		() => configuration.value.secureServiceUrlRegex,
+		(urlRegex) => {
+			if (urlRegex) {
+				addInterceptor(
+					urlRegex,
+					() => new Headers([['Authorization', `Bearer ${oidcToken.value}`]])
+				)
 			}
-
-			return originalFetch(resource, config)
 		}
-	}
+	)
 
 	function centerOnFeature(feature: Feature) {
-		map.getView().animate({
-			center: (feature.getGeometry() as Point).getCoordinates(),
-			duration: 400,
-			easing: easeOut,
-		})
-	}
-
-	function checkServiceAvailability() {
-		const register = serviceRegister.value
-		if (typeof register === 'string') {
-			console.error(
-				'Action was called when the parameter serviceRegister was not yet set to an array of services.'
-			)
-			return
-		}
-
-		configuration.value.layers
-			.map(({ id }) => ({
-				id,
-				service: register.find(({ id: serviceId }) => serviceId === id),
-			}))
-			.filter(
-				(
-					service
-				): service is { id: string; service: Record<string, unknown> } => {
-					if (!service.service) {
-						console.warn(
-							`Service with id "${service.id}" not found in service register.`
-						)
-						return false
-					}
-					return true
-				}
-			)
-			.map(
-				({ service }): ServiceAvailabilityCheck => ({
-					ping: ping(service),
-					serviceId: service.id as string,
-					serviceName: service.name as string,
-				})
-			)
-			.forEach(({ ping, serviceId /*, serviceName */ }) => {
-				ping
-					.then((statusCode) => {
-						if (statusCode !== 200) {
-							const toastStore = plugins.value.find(
-								({ id }) => id === 'toast'
-							)?.storeModule
-							if (toastStore) {
-								// TODO: Uncomment when toast plugin is implemented
-								/* toastStore().addToast({
-									type: 'warning',
-									text: i18next.t('error.serviceUnavailable', {
-										serviceId,
-										serviceName,
-									}),
-								}) */
-							}
-							// always print status code for debugging purposes
-							console.error(`Ping to "${serviceId}" returned "${statusCode}".`)
-							// always add to error log for listener purposes
-							errors.value.push({
-								type: 'connection',
-								statusCode,
-								text: `Ping to "${serviceId}" returned "${statusCode}".`,
-							})
-						}
-					})
-					.catch((e: unknown) => {
-						console.error(e)
-					})
-			})
-	}
-
-	function setCenter() {
-		// @ts-expect-error | map always has a center
-		center.value = map.getView().getCenter()
-	}
-	function setZoom() {
-		// @ts-expect-error | map always has a zoom level defined
-		zoom.value = map.getView().getZoom()
-	}
-
-	function getMap() {
-		return map
-	}
-
-	async function setupStyling() {
-		const register = serviceRegister.value
-
-		if (configuration.value.featureStyles && Array.isArray(register)) {
-			await styleList.initializeStyleList(
-				// Masterportal specific field not required by POLAR
-				{},
-				{ styleConf: configuration.value.featureStyles },
-				configuration.value.layers.map((layer) => {
-					const layerConfig = register.find((l) => l.id === layer.id)
-					if (layerConfig) {
-						return {
-							...layer,
-							// Required by @masterportal/masterportalapi
-							typ: layerConfig.typ,
-						}
-					}
-					return layer
-				}),
-				// Masterportal specific field not required by POLAR
-				[],
-				// Callback currently yields no relevant benefit
-				noop
-			)
-			// A layer can either be styled through the provided styles or through the markers configuration; markers takes precedence.
-			const markerLayers = configuration.value.markers
-				? configuration.value.markers.layers.map(({ id }) => id)
-				: []
-			map
-				.getLayers()
-				.getArray()
-				.filter(
-					(layer) =>
-						typeof layer.get('styleId') === 'string' &&
-						!markerLayers.includes(layer.get('id') as string)
-				)
-				.forEach((layer) => {
-					const styleObject = styleList.returnStyleObject(layer.get('styleId'))
-					if (styleObject) {
-						;(layer as VectorLayer).setStyle((feature: Feature | FeatureLike) =>
-							createStyle.createStyle(
-								styleObject,
-								feature,
-								feature.get('features') !== undefined,
-								// NOTE: This field may be implemented in the future to be able to style points with graphics
-								''
-							)
-						)
-					}
-				})
-		}
-	}
-
-	function setMap(newMap: Map) {
-		// NOTE: Not defined in the beginning
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (map) {
-			map.un('moveend', setCenter)
-			map.un('moveend', setZoom)
-		}
-		map = newMap
-		map.on('moveend', setCenter)
-		map.on('moveend', setZoom)
-		setCenter()
-		setZoom()
-	}
-
-	function updateDragAndZoomInteractions() {
-		interactions.forEach((i) => map.removeInteraction(i))
-		interactions = createPanAndZoomInteractions(
-			hasWindowSize.value,
-			window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
-				window.innerWidth <= SMALL_DISPLAY_WIDTH
-		)
-		interactions.forEach((i) => {
-			map.addInteraction(i)
-		})
+		center.value = (feature.getGeometry() as Point).getCoordinates()
 	}
 
 	function updateHasSmallDisplay() {
@@ -268,38 +65,11 @@ export const useMainStore = defineStore('main', () => {
 			window.innerWidth <= SMALL_DISPLAY_WIDTH
 	}
 
-	/*
-	 * Albeit the map will render without this in Firefox, it won't in Chromium-
-	 * based browsers. The map reports "No map visible because the map
-	 * container's width or height are 0.". However, if updating the map's size
-	 * after letting all other tasks in callback queue execute, the DOM is
-	 * prepared, and we're good to go.
-	 *
-	 * TODO(dopenguin): Check if this is still required for the icon menu
-	 *
-	 * For some reason, we'll have to wait two callback queues sometimes.
-	 * The waiting is arbitrarily limited to 100 queues before an error is shown.
-	 */
-	function updateSizeOnReady() {
-		let attemptCounter = 0
-		const intervalId = setInterval(() => {
-			const size = map.getSize()
-			if (attemptCounter++ < 100 && (!size || size[0] === 0 || size[1] === 0)) {
-				map.updateSize()
-			} else if (attemptCounter === 100) {
-				console.error(
-					`The POLAR map client could not update its size. The map is probably invisible due to having 0 width or 0 height. This might be a CSS issue – please check the wrapper's size.`
-				)
-				mapHasDimensions.value = false
-				clearInterval(intervalId)
-			} else {
-				// OL prints warnings – add this log to reduce confusion
-				// eslint-disable-next-line no-console
-				console.log(`The map now has dimensions and can be rendered.`)
-				mapHasDimensions.value = true
-				clearInterval(intervalId)
-			}
-		}, 0)
+	function getMap() {
+		return map
+	}
+	function setMap(_map: Map) {
+		map = _map
 	}
 
 	return {
@@ -310,24 +80,22 @@ export const useMainStore = defineStore('main', () => {
 		hasSmallDisplay,
 		language,
 		lightElement,
+		mapHasDimensions,
 		oidcToken,
 		plugins,
 		serviceRegister,
 		shadowRoot,
+		center,
+		zoom,
 		// Getters
 		hasSmallHeight,
 		hasSmallWidth,
 		hasWindowSize,
 		deviceIsHorizontal,
-		// Actions
-		addInterceptor,
-		centerOnFeature,
-		checkServiceAvailability,
 		getMap,
-		setMap,
-		setupStyling,
-		updateDragAndZoomInteractions,
+		// Actions
+		centerOnFeature,
 		updateHasSmallDisplay,
-		updateSizeOnReady,
+		setMap,
 	}
 })

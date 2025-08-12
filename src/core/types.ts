@@ -19,12 +19,6 @@ export interface Locale {
 	type: string
 }
 
-export interface PolarError {
-	type: 'connection' | 'uncategorized'
-	statusCode: number | null
-	text: string
-}
-
 export interface ServiceAvailabilityCheck {
 	ping: Promise<number>
 	serviceId: string
@@ -592,7 +586,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * expression will send the JSON Web Token (JWT) found in the store parameter `oidcToken` as a Bearer token in the
 	 * Authorization header of the request. Requests already including an Authorization header will keep the already present one.
 	 */
-	secureServiceUrlRegex?: string
+	secureServiceUrlRegex?: RegExp
 
 	/**
 	 * Custom theme for POLAR.

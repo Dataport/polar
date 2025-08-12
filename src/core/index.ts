@@ -14,7 +14,7 @@ import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import { storeToRefs } from 'pinia'
 import { defineCustomElement, markRaw, watch, type WatchOptions } from 'vue'
-import PolarMapCE from './components/PolarMap.ce.vue'
+import PolarContainer from './components/PolarContainer.ce.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
 import type { MapConfiguration, PluginContainer, PluginOptions } from './types'
@@ -157,16 +157,18 @@ export function createMap(
 	serviceRegister: string | Record<string, unknown>[],
 	tagName = 'polar-map'
 ) {
-	const PolarMap = defineCustomElement(PolarMapCE, {
+	const PolarMap = defineCustomElement(PolarContainer, {
 		configureApp(app) {
+			app.use(Pinia)
 			app.use(I18Next, {
 				initialLanguage: mapConfiguration.language,
 				locales: mapConfiguration.locales,
 			})
-			app.use(Pinia)
 
 			const coreStore = useMainStore()
 
+			// TODO(oeninghe-dataport): Pass configuration as CE properties.
+			// createMap may survive as a convenience wrapper.
 			coreStore.configuration = mapZoomOffset({
 				...defaults,
 				...mapConfiguration,

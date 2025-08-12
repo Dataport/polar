@@ -1,27 +1,13 @@
 <template>
-	<div ref="polar-wrapper" class="polar-wrapper" :lang="language">
-		<transition name="fade">
-			<div
-				v-if="!hasWindowSize && (noControlOnZoom || oneFingerPan)"
-				class="polar-map-overlay"
-			>
-				<template v-if="noControlOnZoom">
-					{{ $t(overlayLocale) }}
-				</template>
-				<template v-else-if="oneFingerPan">
-					{{ $t('overlay.oneFingerPan') }}
-				</template>
-			</div>
-		</transition>
-		<div
-			ref="polar-map-container"
-			class="polar-map"
-			tabindex="0"
-			role="region"
-			:aria-label="$t('canvas.label')"
-		/>
-		<PolarUi />
-	</div>
+	<PolarMapOverlay ref="polar-map-overlay" />
+	<div
+		ref="polar-map-container"
+		class="polar-map"
+		tabindex="0"
+		role="region"
+		:aria-label="$t('canvas.label')"
+		@wheel="wheelEffect"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -30,44 +16,36 @@ import { rawLayerList } from '@masterportal/masterportalapi'
 import Hammer from 'hammerjs'
 import { defaults } from 'ol/interaction'
 import { storeToRefs } from 'pinia'
-import {
-	computed,
-	onBeforeUnmount,
-	onMounted,
-	ref,
-	useHost,
-	useShadowRoot,
-	useTemplateRef,
-	watch,
-} from 'vue'
+import { computed, onMounted, useTemplateRef, watch } from 'vue'
+import type { Map } from 'ol'
+import { easeOut } from 'ol/easing'
 import { useMainStore } from '../stores/main'
-import { loadKern } from '../utils/loadKern'
 import { useMarkerStore } from '../stores/marker'
-import PolarUi from './PolarUI.ce.vue'
 
-defineOptions({
-	inheritAttrs: false,
-})
+import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
+import { updateSizeOnReady } from '../utils/map/updateSizeOnReady'
+import { setupStyling } from '../utils/map/setupStyling'
 
-const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
+import { checkServiceAvailability } from '../utils/checkServiceAvailability'
+import PolarMapOverlay from './PolarMapOverlay.ce.vue'
+
 const coreStore = useMainStore()
-
-const noControlOnZoom = ref(false)
-const oneFingerPan = ref(false)
-
-const { hasWindowSize, language } = storeToRefs(coreStore)
-
-const overlayLocale = computed(() => {
-	return `overlay.${isMacOS ? 'noCommandOnZoom' : 'noControlOnZoom'}`
-})
+const { hasWindowSize, hasSmallDisplay, center, zoom, mapHasDimensions } =
+	storeToRefs(coreStore)
 
 const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
-const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
+const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
 
-let resizeObserver: ResizeObserver | null = null
+let map: Map | null = null
+
+function onMove() {
+	if (!map) return
+	center.value = map.getView().getCenter() || center.value
+	zoom.value = map.getView().getZoom() || zoom.value
+}
 
 function createMap() {
-	const map = api.map.createMap(
+	map = api.map.createMap(
 		{
 			target: polarMapContainer.value,
 			...coreStore.configuration,
@@ -84,147 +62,106 @@ function createMap() {
 				}),
 			},
 		}
-	)
-	coreStore.setMap(map)
-	coreStore.updateDragAndZoomInteractions()
-	coreStore.updateSizeOnReady()
+	) as Map
+	map.on('moveend', onMove)
+
+	updateDragAndZoomInteractions(map, hasWindowSize.value, hasSmallDisplay.value)
+	updateSizeOnReady(map)
+		.then(() => {
+			// OL prints warnings – add this log to reduce confusion
+			// eslint-disable-next-line no-console
+			console.log(`The map now has dimensions and can be rendered.`)
+			mapHasDimensions.value = true
+		})
+		.catch(() => {
+			console.error(
+				`The POLAR map client could not update its size. The map is probably invisible due to having 0 width or 0 height. This might be a CSS issue – please check the wrapper's size.`
+			)
+		})
+
 	updateListeners()
+
+	coreStore.setMap(map)
 }
 
-function updateClientDimensions() {
-	coreStore.clientHeight = (polarWrapper.value as Element).clientHeight
-	coreStore.clientWidth = (polarWrapper.value as Element).clientWidth
-}
+// NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
+//       Added as a watcher to trigger the update at the correct time.
+watch(hasWindowSize, (value) => {
+	if (!map) return
+	updateDragAndZoomInteractions(map, value, hasSmallDisplay.value)
+})
 
-function updateListeners() {
-	if (!hasWindowSize.value && polarMapContainer.value) {
-		polarMapContainer.value.addEventListener('wheel', wheelEffect)
+watch(center, (center) => {
+	if (!map) return
+	map.getView().animate({
+		center,
+		duration: 400,
+		easing: easeOut,
+	})
+})
 
-		if (coreStore.hasSmallDisplay) {
-			new Hammer(polarMapContainer.value).on('pan', (e) => {
-				if (
-					e.maxPointers === 1 &&
-					coreStore
-						.getMap()
-						.getInteractions()
-						.getArray()
-						.some((interaction) =>
-							interaction.get('_isPolarDragLikeInteraction')
-						)
-				) {
-					oneFingerPan.value = true
-					setTimeout(() => (oneFingerPan.value = false), 2000)
-				}
-			})
-		}
-	}
-}
-
-let noControlOnZoomTimeout: ReturnType<typeof setTimeout>
-
+const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 function wheelEffect(event: WheelEvent) {
-	clearTimeout(noControlOnZoomTimeout)
-	noControlOnZoom.value = isMacOS ? !event.metaKey : !event.ctrlKey
-	noControlOnZoomTimeout = setTimeout(
-		() => (noControlOnZoom.value = false),
-		2000
-	)
+	if (hasWindowSize.value) return
+	const condition = computed(() => !hasWindowSize.value)
+	if (isMacOS && !event.metaKey) {
+		overlay.value?.show('overlay.noCommandOnZoom', condition)
+	} else if (!isMacOS && !event.ctrlKey) {
+		overlay.value?.show('overlay.noControlOnZoom', condition)
+	}
 }
 
-async function setup() {
-	if (coreStore.configuration.secureServiceUrlRegex) {
-		coreStore.addInterceptor(coreStore.configuration.secureServiceUrlRegex)
+onMounted(async () => {
+	if (typeof coreStore.serviceRegister === 'string') {
+		coreStore.serviceRegister = await new Promise<Record<string, unknown>[]>(
+			(resolve) =>
+				rawLayerList.initializeLayerList(coreStore.serviceRegister, resolve)
+		)
 	}
+
 	createMap()
 	if (coreStore.configuration.checkServiceAvailability) {
-		coreStore.checkServiceAvailability()
+		checkServiceAvailability(coreStore.configuration, coreStore.serviceRegister)
 	}
 	if (coreStore.configuration.markers) {
 		useMarkerStore().setupMarkers(coreStore.configuration.markers)
 	}
-	await coreStore.setupStyling()
-	resizeObserver = new ResizeObserver(updateClientDimensions)
-	resizeObserver.observe(polarWrapper.value as Element)
-	updateClientDimensions()
-	addEventListener('resize', coreStore.updateHasSmallDisplay)
-	coreStore.updateHasSmallDisplay()
+	if (map && Array.isArray(coreStore.serviceRegister)) {
+		await setupStyling(map, coreStore.configuration, coreStore.serviceRegister)
+	}
+})
+
+function updateListeners() {
+	if (
+		!hasWindowSize.value &&
+		polarMapContainer.value &&
+		coreStore.hasSmallDisplay
+	) {
+		new Hammer(polarMapContainer.value).on('pan', (e) => {
+			if (
+				e.maxPointers === 1 &&
+				map &&
+				map
+					.getInteractions()
+					.getArray()
+					.some((interaction) => interaction.get('_isPolarDragLikeInteraction'))
+			) {
+				overlay.value?.show('overlay.oneFingerPan')
+			}
+		})
+	}
 }
-
-onMounted(async () => {
-	coreStore.lightElement = useHost()
-	coreStore.shadowRoot = useShadowRoot()
-	loadKern(
-		coreStore.shadowRoot as ShadowRoot,
-		coreStore.configuration.theme?.kern || {}
-	)
-	if (Array.isArray(coreStore.serviceRegister)) {
-		return setup()
-	}
-	rawLayerList.initializeLayerList(
-		coreStore.serviceRegister,
-		(layerConf: string | Record<string, unknown>[]) => {
-			coreStore.serviceRegister = layerConf
-			return setup()
-		}
-	)
-})
-
-onBeforeUnmount(() => {
-	if (resizeObserver instanceof ResizeObserver) {
-		resizeObserver.unobserve(polarWrapper.value as Element)
-		resizeObserver = null
-	}
-	if (!hasWindowSize.value && polarMapContainer.value) {
-		polarMapContainer.value.removeEventListener('wheel', wheelEffect)
-	}
-	removeEventListener('resize', coreStore.updateHasSmallDisplay)
-})
 
 watch(hasWindowSize, updateListeners)
 </script>
 
 <style>
 @import url('ol/ol.css');
-
-:host {
-	--brand-color-l: v-bind('coreStore.configuration.theme?.brandColor?.l');
-	--brand-color-c: v-bind('coreStore.configuration.theme?.brandColor?.c');
-	--brand-color-h: v-bind('coreStore.configuration.theme?.brandColor?.h');
-}
 </style>
 
 <style scoped>
-.polar-wrapper {
-	position: absolute;
-	height: inherit;
-	width: inherit;
-
-	.polar-map {
-		width: 100%;
-		height: 100%;
-	}
-
-	.polar-map-overlay {
-		position: absolute;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: inherit;
-		height: inherit;
-		z-index: 42;
-		font-size: 22px;
-		text-align: center;
-		color: white;
-		background-color: rgba(0, 0, 0, 0.45);
-		pointer-events: none;
-	}
-	.fade-enter-active,
-	.fade-leave-active {
-		transition: opacity 0.5s;
-	}
-	.fade-enter,
-	.fade-leave-to {
-		opacity: 0;
-	}
+.polar-map {
+	width: 100%;
+	height: 100%;
 }
 </style>
