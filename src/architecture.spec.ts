@@ -33,7 +33,7 @@ describe('Architectural checks', () => {
 			.matchingPattern('plugins/.*')
 			.should()
 			.matchPattern(
-				'plugins/[^/]+/((index|locales|store|types)\\.ts|utils/.*\\.ts)'
+				'plugins/[^/]+/((index|locales|store|types)\\.ts|utils/.*\\.ts|components/.*\\.spec\\.ts)'
 			)
 			.check()
 		expect(violations).toEqual([])
