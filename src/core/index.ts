@@ -67,25 +67,6 @@ export function addPlugins(plugins: PluginContainer[]) {
  * @param plugin - Plugin to be added.
  */
 export function addPlugin(plugin: PluginContainer) {
-	const coreStore = useMainStore()
-
-	instantiatePlugin(plugin)
-
-	coreStore.plugins = [
-		...coreStore.plugins,
-		{
-			...plugin,
-			...(plugin.component ? { component: markRaw(plugin.component) } : {}),
-		},
-	]
-}
-
-/**
- * @internal
- *
- * @param plugin - Plugin to be instantiated.
- */
-export function instantiatePlugin(plugin: PluginContainer) {
 	const { id, locales, options, storeModule } = plugin
 	const coreStore = useMainStore()
 
@@ -111,6 +92,14 @@ export function instantiatePlugin(plugin: PluginContainer) {
 			i18next.addResourceBundle(lng.type, id, lng.resources, true)
 		})
 	}
+
+	coreStore.plugins = [
+		...coreStore.plugins,
+		{
+			...plugin,
+			...(plugin.component ? { component: markRaw(plugin.component) } : {}),
+		},
+	]
 }
 
 export function removePlugin(pluginId: string) {
