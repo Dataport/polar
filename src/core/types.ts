@@ -31,7 +31,6 @@ export interface ServiceAvailabilityCheck {
 	serviceName: string
 }
 
-// TODO(dopenguin): Adjust these options
 export interface PluginOptions {
 	displayComponent?: boolean
 	layoutTag?: keyof typeof NineLayoutTag
