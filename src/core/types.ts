@@ -1,5 +1,5 @@
 import type { Resource } from 'i18next'
-import { Feature } from 'ol'
+import type { Feature } from 'ol'
 import type { SetupStoreDefinition } from 'pinia'
 import type { Component, VueElement } from 'vue'
 import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
