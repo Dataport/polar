@@ -20,18 +20,18 @@ import { computed, onMounted, useTemplateRef, watch } from 'vue'
 import type { Map } from 'ol'
 import { easeOut } from 'ol/easing'
 import { useMainStore } from '../stores/main'
-import { useMarkerStore } from '../stores/marker'
 
 import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
 import { updateSizeOnReady } from '../utils/map/updateSizeOnReady'
 import { setupStyling } from '../utils/map/setupStyling'
 
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
+import { setupMarkers } from '../utils/map/setupMarkers'
 import PolarMapOverlay from './PolarMapOverlay.ce.vue'
 
-const coreStore = useMainStore()
+const mainStore = useMainStore()
 const { hasWindowSize, hasSmallDisplay, center, zoom, mapHasDimensions } =
-	storeToRefs(coreStore)
+	storeToRefs(mainStore)
 
 const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
 const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
@@ -48,8 +48,8 @@ function createMap() {
 	map = api.map.createMap(
 		{
 			target: polarMapContainer.value,
-			...coreStore.configuration,
-			layerConf: coreStore.serviceRegister,
+			...mainStore.configuration,
+			layerConf: mainStore.serviceRegister,
 		},
 		'2D',
 		{
@@ -80,8 +80,6 @@ function createMap() {
 		})
 
 	updateListeners()
-
-	coreStore.setMap(map)
 }
 
 // NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
@@ -112,22 +110,22 @@ function wheelEffect(event: WheelEvent) {
 }
 
 onMounted(async () => {
-	if (typeof coreStore.serviceRegister === 'string') {
-		coreStore.serviceRegister = await new Promise<Record<string, unknown>[]>(
+	if (typeof mainStore.serviceRegister === 'string') {
+		mainStore.serviceRegister = await new Promise<Record<string, unknown>[]>(
 			(resolve) =>
-				rawLayerList.initializeLayerList(coreStore.serviceRegister, resolve)
+				rawLayerList.initializeLayerList(mainStore.serviceRegister, resolve)
 		)
 	}
 
 	createMap()
-	if (coreStore.configuration.checkServiceAvailability) {
-		checkServiceAvailability(coreStore.configuration, coreStore.serviceRegister)
+	if (mainStore.configuration.checkServiceAvailability) {
+		checkServiceAvailability(mainStore.configuration, mainStore.serviceRegister)
 	}
-	if (coreStore.configuration.markers) {
-		useMarkerStore().setupMarkers(coreStore.configuration.markers)
+	if (map && mainStore.configuration.markers) {
+		setupMarkers(map)
 	}
-	if (map && Array.isArray(coreStore.serviceRegister)) {
-		await setupStyling(map, coreStore.configuration, coreStore.serviceRegister)
+	if (map && Array.isArray(mainStore.serviceRegister)) {
+		await setupStyling(map, mainStore.configuration, mainStore.serviceRegister)
 	}
 })
 
@@ -135,7 +133,7 @@ function updateListeners() {
 	if (
 		!hasWindowSize.value &&
 		polarMapContainer.value &&
-		coreStore.hasSmallDisplay
+		mainStore.hasSmallDisplay
 	) {
 		new Hammer(polarMapContainer.value).on('pan', (e) => {
 			if (

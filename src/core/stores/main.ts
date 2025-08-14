@@ -1,4 +1,4 @@
-import type { Feature, Map } from 'ol'
+import type { Feature } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { defineStore } from 'pinia'
@@ -6,10 +6,6 @@ import { computed, ref, watch } from 'vue'
 import type { MapConfiguration, PluginContainer } from '../types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addInterceptor } from '../utils/addInterceptor'
-
-// TODO(oeninghe-dataport): Remove this from store
-// Currently, this is still needed for the marker store
-let map: Map
 
 export const useMainStore = defineStore('main', () => {
 	const center = ref<Coordinate>([0, 0])
@@ -65,13 +61,6 @@ export const useMainStore = defineStore('main', () => {
 			window.innerWidth <= SMALL_DISPLAY_WIDTH
 	}
 
-	function getMap() {
-		return map
-	}
-	function setMap(_map: Map) {
-		map = _map
-	}
-
 	return {
 		// State
 		configuration,
@@ -92,10 +81,8 @@ export const useMainStore = defineStore('main', () => {
 		hasSmallWidth,
 		hasWindowSize,
 		deviceIsHorizontal,
-		getMap,
 		// Actions
 		centerOnFeature,
 		updateHasSmallDisplay,
-		setMap,
 	}
 })
