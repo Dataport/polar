@@ -5,6 +5,7 @@ import I18NextVue from 'i18next-vue'
 import type { Plugin } from 'vue'
 import locales from '../locales'
 import type { Locale } from '../types'
+import { useMainStore } from '../stores/main'
 
 export const I18Next: Plugin = {
 	async install(
@@ -61,5 +62,11 @@ export const I18Next: Plugin = {
 			.catch((error: unknown) => {
 				console.error('i18next: Error while initializing.', error)
 			})
+
+		const mainStore = useMainStore()
+		mainStore.language = i18next.language
+		i18next.on('languageChanged', (newLanguage) => {
+			mainStore.language = newLanguage
+		})
 	},
 }
