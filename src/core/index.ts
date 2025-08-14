@@ -74,7 +74,6 @@ export function addPlugin(plugin: PluginContainer) {
 		options || {},
 		(coreStore.configuration[id] || {}) as PluginOptions
 	)
-
 	/* configuration merge – "options" are from client-code, "configuration"
 	 * is from mapConfiguration object and thus overrides */
 	coreStore.configuration = {
@@ -101,11 +100,6 @@ export function addPlugin(plugin: PluginContainer) {
 			...(plugin.component ? { component: markRaw(plugin.component) } : {}),
 		},
 	]
-	if (pluginConfiguration.displayComponent && !pluginConfiguration.layoutTag) {
-		console.warn(
-			`Component of plugin "${id}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
-		)
-	}
 }
 
 export function removePlugin(pluginId: string) {
