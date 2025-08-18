@@ -23,35 +23,32 @@ defineOptions({
 	inheritAttrs: false,
 })
 
-const coreStore = useMainStore()
-
-const { language } = storeToRefs(coreStore)
+const mainStore = useMainStore()
+const { language } = storeToRefs(mainStore)
 
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
 let resizeObserver: ResizeObserver | null = null
 
 function updateClientDimensions() {
-	coreStore.clientHeight = (polarWrapper.value as Element).clientHeight
-	coreStore.clientWidth = (polarWrapper.value as Element).clientWidth
-}
-
-function setup() {
-	resizeObserver = new ResizeObserver(updateClientDimensions)
-	resizeObserver.observe(polarWrapper.value as Element)
-	updateClientDimensions()
-	addEventListener('resize', coreStore.updateHasSmallDisplay)
-	coreStore.updateHasSmallDisplay()
+	mainStore.clientHeight = (polarWrapper.value as Element).clientHeight
+	mainStore.clientWidth = (polarWrapper.value as Element).clientWidth
 }
 
 onMounted(() => {
-	coreStore.lightElement = useHost()
-	coreStore.shadowRoot = useShadowRoot()
+	mainStore.lightElement = useHost()
+	mainStore.shadowRoot = useShadowRoot()
+
 	loadKern(
-		coreStore.shadowRoot as ShadowRoot,
-		coreStore.configuration.theme?.kern || {}
+		mainStore.shadowRoot as ShadowRoot,
+		mainStore.configuration.theme?.kern || {}
 	)
-	setup()
+
+	mainStore.setup()
+
+	resizeObserver = new ResizeObserver(updateClientDimensions)
+	resizeObserver.observe(polarWrapper.value as Element)
+	updateClientDimensions()
 })
 
 onBeforeUnmount(() => {
@@ -59,15 +56,16 @@ onBeforeUnmount(() => {
 		resizeObserver.unobserve(polarWrapper.value as Element)
 		resizeObserver = null
 	}
-	removeEventListener('resize', coreStore.updateHasSmallDisplay)
+
+	mainStore.teardown()
 })
 </script>
 
 <style>
 :host {
-	--brand-color-l: v-bind('coreStore.configuration.theme?.brandColor?.l');
-	--brand-color-c: v-bind('coreStore.configuration.theme?.brandColor?.c');
-	--brand-color-h: v-bind('coreStore.configuration.theme?.brandColor?.h');
+	--brand-color-l: v-bind('mainStore.configuration.theme?.brandColor?.l');
+	--brand-color-c: v-bind('mainStore.configuration.theme?.brandColor?.c');
+	--brand-color-h: v-bind('mainStore.configuration.theme?.brandColor?.h');
 }
 </style>
 

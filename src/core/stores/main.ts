@@ -8,24 +8,21 @@ import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addInterceptor } from '../utils/addInterceptor'
 
 export const useMainStore = defineStore('main', () => {
-	const center = ref<Coordinate>([0, 0])
-	const clientHeight = ref(0)
-	const clientWidth = ref(0)
 	const configuration = ref<MapConfiguration>({
 		layers: [],
 		startCenter: [0, 0],
 	})
-	const hasSmallDisplay = ref(false)
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const mapHasDimensions = ref<boolean>(false)
-	const oidcToken = ref('')
 	const plugins = ref<PluginContainer[]>([])
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
 	const shadowRoot = ref<ShadowRoot | null>(null)
 	const zoom = ref(0)
 
 	// TODO(dopenguin): Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
+	const clientHeight = ref(0)
+	const clientWidth = ref(0)
 	const hasSmallHeight = computed(
 		() => clientHeight.value <= SMALL_DISPLAY_HEIGHT
 	)
@@ -39,6 +36,14 @@ export const useMainStore = defineStore('main', () => {
 		() => hasSmallHeight.value && hasWindowSize.value
 	)
 
+	const hasSmallDisplay = ref(false)
+	function updateHasSmallDisplay() {
+		hasSmallDisplay.value =
+			window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
+			window.innerWidth <= SMALL_DISPLAY_WIDTH
+	}
+
+	const oidcToken = ref('')
 	watch(
 		() => configuration.value.secureServiceUrlRegex,
 		(urlRegex) => {
@@ -51,14 +56,18 @@ export const useMainStore = defineStore('main', () => {
 		}
 	)
 
+	const center = ref<Coordinate>([0, 0])
 	function centerOnFeature(feature: Feature) {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
 	}
 
-	function updateHasSmallDisplay() {
-		hasSmallDisplay.value =
-			window.innerHeight <= SMALL_DISPLAY_HEIGHT ||
-			window.innerWidth <= SMALL_DISPLAY_WIDTH
+	function setup() {
+		addEventListener('resize', updateHasSmallDisplay)
+		updateHasSmallDisplay()
+	}
+
+	function teardown() {
+		removeEventListener('resize', updateHasSmallDisplay)
 	}
 
 	return {
@@ -84,5 +93,7 @@ export const useMainStore = defineStore('main', () => {
 		// Actions
 		centerOnFeature,
 		updateHasSmallDisplay,
+		setup,
+		teardown,
 	}
 })
