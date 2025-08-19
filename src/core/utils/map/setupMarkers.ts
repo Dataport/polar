@@ -139,7 +139,7 @@ function setLayerId(map: Map, feature: Feature) {
 						return true
 					}
 				}
-				return Boolean(step.hasFeature(feature))
+				return step.hasFeature(feature)
 			}
 			return false
 		})
@@ -264,7 +264,6 @@ function mapPointerMove({ map, pixel }: MapBrowserEvent<MouseEvent>) {
 	}
 
 	// NOTE: Not all pixels include features.
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (!feature) {
 		return
 	}
@@ -292,7 +291,6 @@ function mapClick(event: MapBrowserEvent<MouseEvent | TouchEvent>) {
 
 	if (
 		// NOTE: Not all pixels include features.
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		!feature ||
 		feature instanceof RenderFeature
 	) {
