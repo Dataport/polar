@@ -65,7 +65,9 @@
 	},
 	"files": [
 		"dist/**/*",
-		"CHANGELOG.md"
+		"README.md",
+		"CHANGELOG.md",
+		"security.md"
 	],
 	"devDependencies": {
 		"@cesium/engine": "^15.0.0",
