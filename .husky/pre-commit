@@ -1,16 +1,54 @@
 #!/bin/sh
 set -e
+eval `node .husky/prepareConfig.js`
 
-git rev-parse --verify HEAD >/dev/null || exit 1
-git update-index -q --ignore-submodules --refresh
-
-if ! git diff-files --quiet --ignore-submodules
+if [ "$POLAR_ALLOW_DIRTY_COMMIT" = "no" ]
 then
-	echo "Cannot commit: You have unstaged changes." >&2
-	echo "Please stage, stash or drop these changes." >&2
-	exit 1
+	git rev-parse --verify HEAD >/dev/null || exit 1
+	git update-index -q --ignore-submodules --refresh
+
+	if ! git diff-files --quiet --ignore-submodules
+	then
+		echo "Cannot commit: You have unstaged changes." >&2
+		echo "Please stage, stash or drop these changes." >&2
+		echo >&2
+		echo "If you want to commit anyway, set POLAR_ALLOW_DIRTY_COMMIT=yes" >&2
+		exit 1
+	fi
 fi
 
-npm run lint
-npm run tsc
-npm run test:ci
+if [ "$POLAR_LINT_ON_COMMIT" = "yes" ]
+then
+	if ! npm run lint
+	then
+		echo "Cannot commit: Linting failed." >&2
+		echo "Please fix the above error(s)." >&2
+		echo >&2
+		echo "If you want to commit anyway, set POLAR_LINT_ON_COMMIT=no" >&2
+		exit 1
+	fi
+fi
+
+if [ "$POLAR_TYPECHECK_ON_COMMIT" = "yes" ]
+then
+	if ! npm run tsc
+	then
+		echo "Cannot commit: Type checking failed." >&2
+		echo "Please fix the above error(s)." >&2
+		echo >&2
+		echo "If you want to commit anyway, set POLAR_TYPECHECK_ON_COMMIT=no" >&2
+		exit 1
+	fi
+fi
+
+if [ "$POLAR_TEST_ON_COMMIT" = "yes" ]
+then
+	if ! npm run test:ci
+	then
+		echo "Cannot commit: Unit testing failed." >&2
+		echo "Please fix the above error(s)." >&2
+		echo >&2
+		echo "If you want to commit anyway, set POLAR_TEST_ON_COMMIT=no" >&2
+		exit 1
+	fi
+fi
