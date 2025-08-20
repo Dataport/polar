@@ -1,4 +1,4 @@
-import { Map, type Feature } from 'ol'
+import type { Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { defineStore } from 'pinia'
