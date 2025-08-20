@@ -263,7 +263,6 @@ function mapPointerMove({ map, pixel }: MapBrowserEvent<MouseEvent>) {
 		store.hovered = null
 	}
 
-	// NOTE: Not all pixels include features.
 	if (!feature) {
 		return
 	}
@@ -289,11 +288,7 @@ function mapClick(event: MapBrowserEvent<MouseEvent | TouchEvent>) {
 	}
 	const feature = map.getFeaturesAtPixel(event.pixel, { layerFilter })[0]
 
-	if (
-		// NOTE: Not all pixels include features.
-		!feature ||
-		feature instanceof RenderFeature
-	) {
+	if (!feature || feature instanceof RenderFeature) {
 		return
 	}
 	setLayerId(map, feature)
