@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { defineStore } from 'pinia'
+import { computed } from 'vue'
 import { useMainStore } from './main'
 
 /* eslint-disable tsdoc/syntax */
@@ -23,7 +24,7 @@ export const useCoreStore = defineStore('core', () => {
 		 *
 		 * @readonly
 		 */
-		configuration: mainStore.configuration,
+		configuration: computed(() => mainStore.configuration),
 
 		/**
 		 * Allows reading or setting the OIDC token used for service accesses.
@@ -33,15 +34,25 @@ export const useCoreStore = defineStore('core', () => {
 		/**
 		 * Allows accessing the POLAR DOM element (`<polar-map>`).
 		 *
+		 * @readonly
 		 * @alpha
 		 */
-		lightElement: mainStore.lightElement,
+		lightElement: computed(() => mainStore.lightElement),
+
+		/**
+		 * Allows accessing the OpenLayers Map element.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		map: computed(() => mainStore.map),
 
 		/**
 		 * Allows accessing the Shadow DOM root of POLAR.
 		 *
+		 * @readonly
 		 * @alpha
 		 */
-		shadowRoot: mainStore.shadowRoot,
+		shadowRoot: computed(() => mainStore.shadowRoot),
 	}
 })

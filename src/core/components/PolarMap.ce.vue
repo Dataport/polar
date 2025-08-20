@@ -16,7 +16,7 @@ import { rawLayerList } from '@masterportal/masterportalapi'
 import Hammer from 'hammerjs'
 import { defaults } from 'ol/interaction'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted, useTemplateRef, watch } from 'vue'
+import { computed, markRaw, onMounted, useTemplateRef, watch } from 'vue'
 import type { Map } from 'ol'
 import { easeOut } from 'ol/easing'
 import { useMainStore } from '../stores/main'
@@ -80,6 +80,7 @@ function createMap() {
 		})
 
 	updateListeners()
+	mainStore.map = markRaw(map)
 }
 
 // NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.

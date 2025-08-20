@@ -1,4 +1,4 @@
-import type { Feature } from 'ol'
+import { Map, type Feature } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { defineStore } from 'pinia'
@@ -14,6 +14,7 @@ export const useMainStore = defineStore('main', () => {
 	})
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
+	const map = ref<Map | null>(null)
 	const mapHasDimensions = ref<boolean>(false)
 	const plugins = ref<PluginContainer[]>([])
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
@@ -78,6 +79,7 @@ export const useMainStore = defineStore('main', () => {
 		hasSmallDisplay,
 		language,
 		lightElement,
+		map,
 		mapHasDimensions,
 		oidcToken,
 		plugins,
