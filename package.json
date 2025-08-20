@@ -70,6 +70,8 @@
 	],
 	"devDependencies": {
 		"@cesium/engine": "^15.0.0",
+		"@commitlint/cli": "^19.8.1",
+		"@commitlint/config-conventional": "^19.8.1",
 		"@dataport/eslint-config-geodev": "^0.3.3",
 		"@kern-ux/native": "^2.3.0",
 		"@masterportal/masterportalapi": "2.48.0",
@@ -84,6 +86,8 @@
 		"buffer": "^6.0.3",
 		"cesium": "^1.131.0",
 		"concurrently": "^9.2.0",
+		"conventional-changelog": "^7.1.1",
+		"conventional-changelog-conventionalcommits": "^9.1.0",
 		"es-toolkit": "^1.39.8",
 		"eslint": "^9.31.0",
 		"eslint-config-prettier": "^10.1.8",
