@@ -2,23 +2,14 @@ import type { Component } from 'vue'
 import type { PluginContainer, PluginOptions } from '@/core'
 import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
 
-/**
- * Plugin identifier.
- */
-export const PluginId = 'iconMenu'
-
 export interface Menu {
-	/**
-	 * Unique identifier of the plugin. Also used to resolve hint locale.
-	 */
-	id: string
 	/**
 	 * The plugin that should be part of the icon menu.
 	 */
 	plugin: PluginContainer
 	/**
 	 * Overrides the default hint displayed for the icon menu button.
-	 * If not given, the locale in `plugins.iconMenu.hints.${id}` is used.
+	 * If not given, the locale in `hints.${id}` is used.
 	 */
 	hint?: string
 	/**
@@ -65,9 +56,9 @@ export interface IconMenuPluginOptions extends PluginOptions {
 	menus: Menu[]
 	/**
 	 * If {@link MapConfiguration.layout | `mapConfiguration.layers`} is set to `'nineRegions'`, then this parameter
-	 * allows overriding the IconMenuButton.vue component for custom design and functionality. Coding knowledge is required
+	 * allows overriding the `IconMenuButton.vue` component for custom design and functionality. Coding knowledge is required
 	 * to use this feature, as any implementation will have to rely upon the Pinia store model and has to implement the
-	 * same props as the default IconMenuButton.vue. Please refer to the implementation.
+	 * same props as the default `IconMenuButton.vue`. Please refer to the implementation.
 	 */
 	buttonComponent?: Component
 	/**

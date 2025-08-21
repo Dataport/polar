@@ -4,6 +4,7 @@ import type { SetupStoreDefinition } from 'pinia'
 import type { Component, VueElement } from 'vue'
 import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
+import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 
 /**
  * Copied from https://stackoverflow.com/a/54178819.#
@@ -48,13 +49,17 @@ export interface PluginContainer {
 	 * @example `@polar/polar/plugins/fullscreen`
 	 */
 	id: string
-
 	/** A Vue component if required. */
 	component?: Component
-
+	/**
+	 * Whether the plugin is independently rendered.
+	 *
+	 * @internal
+	 * @defaultValue true
+	 */
+	independent?: boolean
 	/** Locales used in the plugin. */
 	locales?: Locale[]
-
 	/**
 	 * Configuration options. Please also note that all configuration added via plugin constructors can be overridden in
 	 * the {@link createMap | `createMap`'s parameter `mapConfiguration`} .
@@ -65,7 +70,6 @@ export interface PluginContainer {
 	 * How exactly you do this is up to you and influences the minimum API call requirements your client has.
 	 */
 	options?: PluginOptions
-
 	/**
 	 * Pinia store module if required. If the storeModule features a `setupPlugin` action, it will be executed
 	 * automatically after initialization.
@@ -514,14 +518,12 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * See `mapConfiguration.featureStyles` for more information.
 	 */
 	featureStyles?: string
-
 	/**
 	 * The initial language the client should be using.
 	 *
 	 * @defaultValue `'de'` (German)
 	 */
 	language?: InitialLanguage
-
 	/**
 	 * Choose between the standard sidebar layout with fixed positioning, the oldschool nine region layout with full
 	 * configurability regarding positioning or add a custom layout as Vue component.
@@ -587,16 +589,18 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * Authorization header of the request. Requests already including an Authorization header will keep the already present one.
 	 */
 	secureServiceUrlRegex?: RegExp
-
 	/**
 	 * Custom theme for POLAR.
 	 *
 	 * The default is to use KERN's standard theme.
 	 */
 	theme?: PolarTheme
-
 	/**
 	 * Configuration for fullscreen plugin.
 	 */
 	fullscreen?: FullscreenPluginOptions
+	/**
+	 * IconMenu Plugin configuration.
+	 */
+	iconMenu?: IconMenuPluginOptions
 }

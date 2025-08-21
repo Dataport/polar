@@ -1,7 +1,10 @@
 import { changeLanguage } from 'i18next'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
+import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import { addPlugin, createMap, removePlugin, subscribe } from '@polar/polar'
+import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
+import AnotherEmptyComponent from './AnotherEmptyComponent.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -112,7 +115,10 @@ await createMap(
 			],
 			clusterClickZoom: true,
 		},
-		theme: dataportTheme,
+		// theme: dataportTheme,
+		/*
+			TODO(dopenguin): Surrounding application should be able give information about dark or light mode via update of a state parameter; light mode by default
+		 */
 		locales: [
 			{
 				type: 'de',
@@ -155,22 +161,37 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 })
 
 addPlugin(
-	pluginFullscreen({
+	pluginIconMenu({
+		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
+		initiallyOpen: 'kewl',
+		menus: [
+			{
+				plugin: pluginFullscreen(),
+				hint: 'Full of yourself',
+			},
+			// TODO: Delete these two including the component once another plugin is implemented
+			{
+				plugin: {
+					component: EmptyComponent,
+					id: 'kewl',
+					locales: [],
+				},
+				icon: 'kern-icon--layers',
+				hint: 'Something layered',
+			},
+			{
+				plugin: {
+					component: AnotherEmptyComponent,
+					id: 'realKewl',
+					locales: [],
+				},
+				icon: 'kern-icon--layers',
+				hint: 'Something kewl',
+			},
+		],
 	})
 )
-
-// TODO: Update with proper plugins
-setTimeout(
-	() =>
-		addPlugin({
-			id: 'TEST',
-			options: { displayComponent: true, layoutTag: 'MIDDLE_MIDDLE' },
-		}),
-	5000
-)
-
-setTimeout(() => removePlugin('TEST'), 10000)
 
 subscribe(
 	'markers',

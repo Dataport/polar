@@ -29,16 +29,20 @@ const regions = computed(() =>
 		(acc, [name]) => ({
 			...acc,
 			[name]: coreStore.plugins
-				.filter(({ id, options }) => {
+				.filter(({ id, independent, options }) => {
 					if (options?.displayComponent && !options.layoutTag) {
 						console.warn(
 							`Component of plugin "${id}" was registered as visible ('displayComponent' had a truthy value), but no 'layoutTag' was associated. This may be an error in configuration and will lead to the component not being visible in the UI.`
 						)
 						return false
 					}
-					return typeof options?.displayComponent === 'boolean'
-						? options.displayComponent
-						: false
+					const display =
+						typeof options?.displayComponent === 'boolean'
+							? options.displayComponent
+							: false
+					return typeof independent === 'boolean'
+						? display && independent
+						: display
 				})
 				.filter(({ options }) => options?.layoutTag === name),
 		}),
