@@ -11,8 +11,8 @@
 			"DOM.Iterable"
 		],
 		"paths": {
-			"@polar/polar": ["../../src/core/index.js"],
-			"@polar/polar/plugins/*": ["../../src/plugins/*/index.js"]
+			"@polar/polar": ["../../src/core/index.ts"],
+			"@polar/polar/plugins/*": ["../../src/plugins/*/index.ts"]
 		}
 	}
 }
