@@ -1,13 +1,12 @@
 {
 	"name": "@polar/polar",
-	"version": "0.1.0",
-	"description": "POLAR core package. Provides POLAR environment with store setup, localization, UI framework, and other basics.",
+	"version": "3.0.0-alpha.0",
+	"description": "Configurable map client based on OpenLayers",
 	"keywords": [
 		"OpenLayers",
 		"ol",
-		"POLAR",
-		"core",
-		"base"
+		"MasterportalAPI",
+		"POLAR"
 	],
 	"license": "EUPL-1.2",
 	"type": "module",
