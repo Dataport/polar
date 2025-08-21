@@ -22,7 +22,6 @@ import { easeOut } from 'ol/easing'
 import { useMainStore } from '../stores/main'
 
 import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
-import { updateSizeOnReady } from '../utils/map/updateSizeOnReady'
 import { setupStyling } from '../utils/map/setupStyling'
 
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
@@ -30,8 +29,7 @@ import { setupMarkers } from '../utils/map/setupMarkers'
 import PolarMapOverlay from './PolarMapOverlay.ce.vue'
 
 const mainStore = useMainStore()
-const { hasWindowSize, hasSmallDisplay, center, zoom, mapHasDimensions } =
-	storeToRefs(mainStore)
+const { hasWindowSize, hasSmallDisplay, center, zoom } = storeToRefs(mainStore)
 
 const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
 const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
@@ -66,19 +64,6 @@ function createMap() {
 	map.on('moveend', onMove)
 
 	updateDragAndZoomInteractions(map, hasWindowSize.value, hasSmallDisplay.value)
-	updateSizeOnReady(map)
-		.then(() => {
-			// OL prints warnings – add this log to reduce confusion
-			// eslint-disable-next-line no-console
-			console.log(`The map now has dimensions and can be rendered.`)
-			mapHasDimensions.value = true
-		})
-		.catch(() => {
-			console.error(
-				`The POLAR map client could not update its size. The map is probably invisible due to having 0 width or 0 height. This might be a CSS issue – please check the wrapper's size.`
-			)
-		})
-
 	updateListeners()
 	mainStore.map = markRaw(map)
 }
