@@ -5,7 +5,7 @@ import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
 /**
  * Plugin identifier.
  */
-export const PluginId = '@polar/polar/plugins/iconMenu'
+export const PluginId = 'iconMenu'
 
 export interface Menu {
 	/**

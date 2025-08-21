@@ -3,7 +3,7 @@ import type { PluginOptions } from '@/core'
 /**
  * Plugin identifier.
  */
-export const PluginId = '@polar/polar/plugins/fullscreen'
+export const PluginId = 'fullscreen'
 
 /**
  * Plugin options for fullscreen plugin.

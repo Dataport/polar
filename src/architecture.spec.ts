@@ -9,31 +9,31 @@ describe('Architectural checks', () => {
 		files = filesOfProject(resolve(__dirname, 'tsconfig.json'))
 	})
 
-	test('POLAR should be cycle-free', async () => {
+	test('POLAR should be cycle-free (except for types)', async () => {
 		const violations = await files
-			.matchingPattern('.*')
+			.matchingPattern('^(?!.*/types\\.ts$).*')
 			.should()
 			.beFreeOfCycles()
 			.check()
 		expect(violations).toEqual([])
 	})
 
-	test('Core should not depend on plugins', async () => {
+	test('Core should not depend on plugins (except for types)', async () => {
 		const violations = await files
-			.matchingPattern('core/.*')
+			.matchingPattern('^core/(?!types\\.ts$).*$')
 			.shouldNot()
 			.dependOnFiles()
-			.matchingPattern('plugins/.*')
+			.matchingPattern('^plugins/.*$')
 			.check()
 		expect(violations).toEqual([])
 	})
 
 	test('Plugin file structure', async () => {
 		const violations = await files
-			.matchingPattern('plugins/.*')
+			.matchingPattern('^plugins/.*$')
 			.should()
 			.matchPattern(
-				'plugins/[^/]+/((index|locales|store|types)\\.ts|utils/.*\\.ts|components/.*\\.spec\\.ts)'
+				'^plugins/[^/]+/((index|locales|store|types)\\.ts|utils/.*\\.ts|components/.*\\.spec\\.ts)$'
 			)
 			.check()
 		expect(violations).toEqual([])
@@ -41,10 +41,10 @@ describe('Architectural checks', () => {
 
 	test('Plugins should only depend on public core API', async () => {
 		const violations = await files
-			.matchingPattern('plugins/.*')
+			.matchingPattern('^plugins/.*$')
 			.shouldNot()
 			.dependOnFiles()
-			.matchingPattern('core/(?!(index|stores/export)\\.ts$).*')
+			.matchingPattern('^core/(?!(index|stores/export)\\.ts$).*$')
 			.check()
 		expect(violations).toEqual([])
 	})

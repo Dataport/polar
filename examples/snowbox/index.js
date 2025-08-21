@@ -117,7 +117,7 @@ await createMap(
 			{
 				type: 'de',
 				resources: {
-					'plugins/fullscreen': {
+					fullscreen: {
 						button: {
 							label_on: 'Mach groß',
 							label_off: 'Mach klein',

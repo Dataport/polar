@@ -3,6 +3,7 @@ import type { Feature } from 'ol'
 import type { SetupStoreDefinition } from 'pinia'
 import type { Component, VueElement } from 'vue'
 import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
+import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 
 /**
  * Copied from https://stackoverflow.com/a/54178819.#
@@ -595,4 +596,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * The default is to use KERN's standard theme.
 	 */
 	theme?: PolarTheme
+
+	/**
+	 * Configuration for fullscreen plugin.
+	 */
+	fullscreen?: FullscreenPluginOptions
 }
