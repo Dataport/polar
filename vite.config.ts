@@ -9,8 +9,8 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import dts from 'vite-plugin-dts'
 import checker from 'vite-plugin-checker'
+import kernExtraIcons from 'vite-plugin-kern-extra-icons'
 import enrichedConsole from './vitePlugins/enrichedConsole.js'
-import kernExtraIcons from './vitePlugins/kernExtraIcons.js'
 
 const require = createRequire(import.meta.url)
 
@@ -47,8 +47,8 @@ export default defineConfig(({ mode }) => ({
 					}),
 				]
 			: []),
-		enrichedConsole(),
 		kernExtraIcons(),
+		enrichedConsole(),
 	],
 	build: {
 		lib: {
