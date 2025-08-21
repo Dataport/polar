@@ -1,5 +1,6 @@
 import { ping } from '@masterportal/masterportalapi'
 import type { MapConfiguration, ServiceAvailabilityCheck } from '../types'
+import { notifyUser } from '@/lib/notifyUser'
 
 export function checkServiceAvailability(
 	configuration: MapConfiguration,
@@ -30,23 +31,15 @@ export function checkServiceAvailability(
 				serviceName: service.name as string,
 			})
 		)
-		.forEach(({ ping, serviceId /*, serviceName */ }) => {
+		.forEach(({ ping, serviceId, serviceName }) => {
 			ping
 				.then((statusCode) => {
 					if (statusCode !== 200) {
-						// TODO: Uncomment when toast plugin is implemented
-						/* const toastStore = plugins.value.find(
-							({ id }) => id === 'toast'
-						)?.storeModule
-						if (toastStore) {
-							toastStore().addToast({
-								type: 'warning',
-								text: i18next.t('error.serviceUnavailable', {
-									serviceId,
-									serviceName,
-								}),
-							})
-						} */
+						notifyUser('warning', 'error.serviceUnavailable', {
+							serviceId,
+							serviceName,
+						})
+
 						// always print status code for debugging purposes
 						console.error(`Ping to "${serviceId}" returned "${statusCode}".`)
 					}
