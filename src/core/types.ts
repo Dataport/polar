@@ -36,8 +36,6 @@ export type PolarPluginStore = SetupStoreDefinition<
 	{
 		setupPlugin: () => void
 		teardownPlugin: () => void
-		// Allow additional actions to be exported
-		[key: string]: (...args: unknown[]) => unknown
 	}
 >
 
