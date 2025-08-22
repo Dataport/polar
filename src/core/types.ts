@@ -10,7 +10,7 @@ import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
  *
  * Makes the properties defined by type `K` optional in type `T`.
  *
- * Example: PartialBy\<LayerConfiguration, 'id' | 'name'\>
+ * @example `PartialBy<LayerConfiguration, 'id' | 'name'>`
  */
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
