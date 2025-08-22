@@ -1,4 +1,4 @@
-import type { Resource } from 'i18next'
+import type { ResourceKey } from 'i18next'
 import type { Feature } from 'ol'
 import type { SetupStoreDefinition } from 'pinia'
 import type { Component, VueElement } from 'vue'
@@ -15,7 +15,7 @@ import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export interface Locale {
-	resources: Resource
+	resources: ResourceKey
 	/** Language key as described in the i18next documentation */
 	type: string
 }
