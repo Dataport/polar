@@ -48,4 +48,14 @@ describe('Architectural checks', () => {
 			.check()
 		expect(violations).toEqual([])
 	})
+
+	test('Lib utils should only depend on public core API', async () => {
+		const violations = await files
+			.matchingPattern('^lib/.*$')
+			.shouldNot()
+			.dependOnFiles()
+			.matchingPattern('^core/(?!(index|stores/export)\\.ts$).*$')
+			.check()
+		expect(violations).toEqual([])
+	})
 })
