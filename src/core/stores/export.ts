@@ -6,6 +6,12 @@
 
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
+import type {
+	PluginId,
+	BundledPluginId,
+	BundledPluginStores,
+	PolarPluginStore,
+} from '../types'
 import { useMainStore } from './main'
 
 /* eslint-disable tsdoc/syntax */
@@ -18,6 +24,18 @@ import { useMainStore } from './main'
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 
+	function getPluginStore<T extends PluginId>(
+		id: T
+	): ReturnType<
+		T extends BundledPluginId
+			? BundledPluginStores<typeof id>
+			: PolarPluginStore
+	> | null {
+		const plugin = mainStore.plugins.find((plugin) => plugin.id === id)
+		// @ts-expect-error | We trust that our internal IDs work.
+		return plugin?.storeModule?.() || null
+	}
+
 	return {
 		/**
 		 * Returns the current runtime configuration.
@@ -25,6 +43,15 @@ export const useCoreStore = defineStore('core', () => {
 		 * @readonly
 		 */
 		configuration: computed(() => mainStore.configuration),
+
+		/**
+		 * Returns a plugin's store by its ID.
+		 *
+		 * For bundled plugins, the return value is typed.
+		 *
+		 * If no plugin with the specified ID is loaded, `null` is returned instead.
+		 */
+		getPluginStore,
 
 		/**
 		 * Allows reading or setting the OIDC token used for service accesses.

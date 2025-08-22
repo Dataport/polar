@@ -1,6 +1,8 @@
 import { changeLanguage } from 'i18next'
+import pluginToast from '@polar/polar/plugins/toast'
+import { useToastStore } from '@polar/polar/plugins/toast/store'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
-import { addPlugin, createMap, removePlugin, subscribe } from '@polar/polar'
+import { addPlugin, createMap, subscribe } from '@polar/polar'
 import styleJsonUrl from './style.json?url'
 
 const basemapId = '23420'
@@ -160,17 +162,21 @@ addPlugin(
 	})
 )
 
-// TODO: Update with proper plugins
-setTimeout(
-	() =>
-		addPlugin({
-			id: 'TEST',
-			options: { displayComponent: true, layoutTag: 'MIDDLE_MIDDLE' },
-		}),
-	5000
+addPlugin(
+	pluginToast({
+		layoutTag: 'BOTTOM_MIDDLE',
+	})
 )
 
-setTimeout(() => removePlugin('TEST'), 10000)
+const toastStore = useToastStore()
+toastStore.addToast({
+	text: 'Hallo Welt',
+	severity: 'info',
+})
+toastStore.addToast({
+	text: 'Achtung! Dies ist ein Toast!',
+	severity: 'error',
+})
 
 subscribe(
 	'markers',
