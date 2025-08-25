@@ -1,5 +1,6 @@
 site_name: POLAR
 site_url: https://dataport.github.io/polar/docs/
+site_dir: docs-html/docs
 
 theme: material
 

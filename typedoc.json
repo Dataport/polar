@@ -8,7 +8,7 @@
 		"src/plugins/*/locales.ts",
 		"src/plugins/*/store.ts"
 	],
-	"out": "docs-html",
+	"out": "docs-html/reference",
 	"skipErrorChecking": true,
 	"projectDocuments": [],
 	"name": "POLAR reference",
