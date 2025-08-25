@@ -20,7 +20,7 @@
 					:hint="hint"
 					:index="index"
 				/>
-				<IconMenuButton
+				<NineRegionsButton
 					v-else
 					:id="plugin.id"
 					:icon="icon"
@@ -57,7 +57,7 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
-import IconMenuButton from './IconMenuButton.ce.vue'
+import NineRegionsButton from './NineRegionsButton.ce.vue'
 import { useCoreStore } from '@/core/stores/export.ts'
 import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
 
