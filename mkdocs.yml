@@ -1,0 +1,28 @@
+site_name: POLAR
+site_url: https://dataport.github.io/polar/docs/
+
+theme: material
+
+exclude_docs: |
+  /assets/**/*.md
+
+nav:
+  - index.md
+  - configuration.md
+  - API Reference: ../reference/
+  - Architecture:
+    - Overview: architecture/index.md
+    - Architectural Decisions:
+      - architecture/decisions/ADR-0001.md
+      - architecture/decisions/ADR-0002.md
+      - architecture/decisions/ADR-0003.md
+      - architecture/decisions/ADR-0004.md
+      - architecture/decisions/ADR-0005.md
+      - architecture/decisions/ADR-0006.md
+      - architecture/decisions/ADR-0007.md
+      - architecture/decisions/ADR-0008.md
+      - architecture/decisions/ADR-0009.md
+      - architecture/decisions/ADR-0010.md
+  - development.md
+  - contact.md
+  - legal-notice.md

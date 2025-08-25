@@ -10,10 +10,8 @@
 	],
 	"out": "docs-html",
 	"skipErrorChecking": true,
-	"projectDocuments": [
-		"docs/*.md"
-	],
-	"name": "POLAR documentation",
+	"projectDocuments": [],
+	"name": "POLAR reference",
 	"sort": [
 		"kind",
 		"instance-first",
