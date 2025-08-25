@@ -8,12 +8,10 @@
 		"src/plugins/*/locales.ts",
 		"src/plugins/*/store.ts"
 	],
-	"out": "docs-html",
+	"out": "docs-html/reference",
 	"skipErrorChecking": true,
-	"projectDocuments": [
-		"docs/*.md"
-	],
-	"name": "POLAR documentation",
+	"projectDocuments": [],
+	"name": "POLAR reference",
 	"sort": [
 		"kind",
 		"instance-first",

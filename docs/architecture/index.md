@@ -10,7 +10,7 @@ It may either work standalone, in which case there are only inputs for configura
 
 The purpose of POLAR is to handle all geospatial interactions of a user and utilize the decentralized geospatial infrastructure for that end.
 
-![POLAR architecture as viewn from a user perspective](./assets/polar-outer-architecture.png)
+![POLAR architecture as viewn from a user perspective](../assets/polar-outer-architecture.png)
 
 *Viewn from the outside, POLAR is just a component*
 
@@ -19,6 +19,7 @@ POLAR is designed to increase *application efficiency* and *correctness* for the
 The provided _visualisations_ ease communication between citizens and administrative staff, allowing them to effectively share the *where*.
 
 POLAR is already in use for ...
+
 - ... **citizens** to ...
     - communicate parcel data in applications.
     - mark their current position for reports.
@@ -40,6 +41,6 @@ For client-specific business logic, this can be placed in the very client itself
 
 All in all, this makes POLAR a versatile map client factory.
 
-![POLAR architecture of the software itself](./assets/polar-architecture.png)
+![POLAR architecture of the software itself](../assets/polar-architecture.png)
 
 *Viewn from the inside, POLAR is a map client factory*
