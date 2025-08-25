@@ -80,4 +80,9 @@
          <lastmod>2025-08-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://dataport.github.io/polar/docs/architecture/decisions/ADR-0011/</loc>
+         <lastmod>2025-08-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>
