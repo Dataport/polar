@@ -5,12 +5,15 @@ import type { Locale } from './main'
 
 import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
 import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
+import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
 
 import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
-import { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
+import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
+import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
 
-import { PluginId as ToastPluginId } from '@/plugins/toast'
-import { useToastStore as ToastStore } from '@/plugins/toast/store'
+import type { PluginId as ToastPluginId } from '@/plugins/toast'
+import type { useToastStore as ToastStore } from '@/plugins/toast/store'
+import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
 
 export interface PluginOptions {
 	displayComponent?: boolean
@@ -31,16 +34,29 @@ export type BundledPluginId =
 	| typeof IconMenuPluginId
 	| typeof ToastPluginId
 
-type CheckPlugin<
+type GetPluginStore<
 	T extends BundledPluginId,
 	I extends BundledPluginId,
 	S extends PolarPluginStore,
 > = T extends I ? S : never
 
+/** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
-	| CheckPlugin<T, typeof FullscreenPluginId, typeof FullscreenStore>
-	| CheckPlugin<T, typeof IconMenuPluginId, typeof IconMenuStore>
-	| CheckPlugin<T, typeof ToastPluginId, typeof ToastStore>
+	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
+	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
+	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
+
+type GetPluginResources<
+	T extends BundledPluginId,
+	I extends BundledPluginId,
+	S extends Locale['resources'],
+> = T extends I ? S : never
+
+/** @internal */
+export type BundledPluginLocaleResources<T extends BundledPluginId> =
+	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
+	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
+	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 
 /** @internal */
 export type ExternalPluginId = `external-${string}`

@@ -21,7 +21,9 @@ export const I18Next: Plugin = {
 					const overrideResources = localeOption?.resources || {}
 					return {
 						type: locale.type,
-						resources: toMerged(locale.resources, overrideResources),
+						resources: {
+							core: toMerged(locale.resources, overrideResources),
+						},
 					}
 				})
 			: locales
@@ -43,7 +45,6 @@ export const I18Next: Plugin = {
 				},
 				load: 'languageOnly',
 				fallbackLng: supportedLngs[0],
-				fallbackNS: 'core',
 				ns: ['core'],
 				supportedLngs,
 				...(options?.initialLanguage ? { lng: options.initialLanguage } : {}),
