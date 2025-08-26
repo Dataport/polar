@@ -154,10 +154,7 @@ export function createMap(
 	const PolarMap = defineCustomElement(PolarContainer, {
 		configureApp(app) {
 			app.use(Pinia)
-			app.use(I18Next, {
-				initialLanguage: mapConfiguration.language,
-				locales: mapConfiguration.locales,
-			})
+			app.use(I18Next)
 
 			const coreStore = useMainStore()
 

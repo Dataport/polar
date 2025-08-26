@@ -14,6 +14,7 @@ import {
 	useShadowRoot,
 	useTemplateRef,
 } from 'vue'
+import i18next from 'i18next'
 import { useMainStore } from '../stores/main'
 import { loadKern } from '../utils/loadKern'
 import PolarMap from './PolarMap.ce.vue'
@@ -25,6 +26,25 @@ defineOptions({
 
 const mainStore = useMainStore()
 const { language } = storeToRefs(mainStore)
+
+if (mainStore.configuration.locales) {
+	mainStore.configuration.locales.forEach((locale) => {
+		Object.entries(locale.resources).forEach(([ns, resources]) => {
+			i18next.addResourceBundle(locale.type, ns, resources, true, true)
+		})
+	})
+}
+if (mainStore.configuration.language) {
+	i18next
+		.changeLanguage(mainStore.configuration.language)
+		.catch((error: unknown) => {
+			console.error('Failed to set initial language:', error)
+		})
+}
+mainStore.language = i18next.language
+i18next.on('languageChanged', (newLanguage) => {
+	mainStore.language = newLanguage
+})
 
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
