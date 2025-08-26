@@ -117,6 +117,7 @@ To see our plugins in action, please visit our [documentation page](https://data
 |[PointerPosition](https://github.com/Dataport/polar/tree/main/packages/plugins/PointerPosition)|Displays the current/last pointer position in a coordinate reference system chosen by the user.|
 |[Pins](https://github.com/Dataport/polar/tree/main/packages/plugins/Pins)|Pin feature that allows users to set and move pins to indicate a position. Integration with AddressSearch and ReverseGeocoder configurable.|
 |[ReverseGeocoder](https://github.com/Dataport/polar/tree/main/packages/plugins/ReverseGeocoder)|Configurable to translate an arbitrary coordinate to an address. Integration with AddressSearch and Pins configurable.|
+|[Routing](https://github.com/Dataport/polar/tree/main/packages/plugins/Routing)|Offers routing functionality based on the [OpenRouteService](https://openrouteservice.org/) (`'ors'`) to the user.|
 |[Scale](https://github.com/Dataport/polar/tree/main/packages/plugins/Scale)|Shows current scale as ratio and size indicator.|
 |[Toast](https://github.com/Dataport/polar/tree/main/packages/plugins/Toast)|Shows information to the user. Configurable in many plugins to communicate status updates or procedural advice.|
 |[Zoom](https://github.com/Dataport/polar/tree/main/packages/plugins/Zoom)|Allows zooming in and out of the client with buttons.|
