@@ -63,18 +63,18 @@ export interface LayerConfiguration {
 	hideInMenu?: boolean
 
 	/**
-	 * The minimum zoom level the layer will be rendered in.
-	 *
-	 * @defaultValue 0
-	 */
-	minZoom?: number
-
-	/**
 	 * The maximum zoom level the layer will be rendered in.
 	 *
 	 * @defaultValue Number.MAX_SAFE_INTEGER
 	 */
 	maxZoom?: number
+
+	/**
+	 * The minimum zoom level the layer will be rendered in.
+	 *
+	 * @defaultValue 0
+	 */
+	minZoom?: number
 
 	/**
 	 * Enables a configuration feature for the layer in its selection.
