@@ -17,6 +17,9 @@ const polarConfig = {
 
 		// Re-enable rules that are disabled by prettier but do not collide
 		curly: ['error', 'all'],
+
+		// POLAR-specific rules
+		'no-warning-comments': 'warn',
 	},
 }
 
