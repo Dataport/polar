@@ -22,8 +22,8 @@ export interface ToastTheme {
  * Toast.
  */
 export interface Toast {
-	text: string
 	severity: ToastSeverity
+	text: string
 	theme?: ToastTheme
 }
 
