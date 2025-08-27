@@ -1,6 +1,6 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @module \@polar/polar/plugins/fullscreen/store
+ * @module \@polar/polar/plugins/toast/store
  */
 /* eslint-enable tsdoc/syntax */
 
