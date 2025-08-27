@@ -8,11 +8,7 @@
 		role="alert"
 	>
 		<div class="kern-alert__header">
-			<span
-				class="kern-icon"
-				:class="toast.iconClass"
-				aria-hidden="true"
-			></span>
+			<span class="kern-icon" :class="toast.iconClass" aria-hidden="true" />
 			<span class="kern-title">{{ toast.text }}</span>
 			<span style="flex: 1" aria-hidden="true"></span>
 			<button class="kern-btn" @click="store.removeToast(toast.originalToast)">
