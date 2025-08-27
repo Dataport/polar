@@ -1,7 +1,7 @@
 import type { SetupStoreDefinition } from 'pinia'
 import type { Component } from 'vue'
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
-import type { Locale } from './main'
+import type { Locale } from './locales'
 
 import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
 import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'

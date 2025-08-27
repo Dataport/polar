@@ -3,7 +3,7 @@ import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import type { MapConfiguration, PluginContainer } from '../types'
+import type { MapConfiguration } from '../types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addInterceptor } from '../utils/addInterceptor'
 
@@ -16,7 +16,6 @@ export const useMainStore = defineStore('main', () => {
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = ref<Map | null>(null)
 	const mapHasDimensions = ref<boolean>(false)
-	const plugins = ref<PluginContainer[]>([])
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
 	const shadowRoot = ref<ShadowRoot | null>(null)
 	const zoom = ref(0)
@@ -82,7 +81,6 @@ export const useMainStore = defineStore('main', () => {
 		map,
 		mapHasDimensions,
 		oidcToken,
-		plugins,
 		serviceRegister,
 		shadowRoot,
 		center,

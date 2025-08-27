@@ -1,88 +1,85 @@
 <!doctype html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-		/>
-		<meta
-			http-equiv="Cache-Control"
-			content="no-cache, no-store, must-revalidate, max-age=0"
-		/>
-		<link rel="stylesheet" href="@polar/polar/polar.css" />
-		<script type="module" defer src="index.js"></script>
-		<style>
-			/* style just for example page, not directly related to POLAR */
-			:root {
-				--not-quite-white: #f2f3f4;
-				--eigengrau: #16161d;
-				--map-height: 600px;
-			}
 
-			* {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-			}
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
+	<link rel="stylesheet" href="@polar/polar/polar.css" />
+	<script type="module" defer src="index.js"></script>
+	<style>
+		/* style just for example page, not directly related to POLAR */
+		:root {
+			--not-quite-white: #f2f3f4;
+			--eigengrau: #16161d;
+			--map-height: 600px;
+		}
 
-			body {
-				font-family: sans-serif;
-				padding: 2em;
-				background: var(--not-quite-white);
-				color: var(--eigengrau);
-			}
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
-			h1 {
-				margin-bottom: 0.5em;
-			}
+		body {
+			font-family: sans-serif;
+			padding: 2em;
+			background: var(--not-quite-white);
+			color: var(--eigengrau);
+		}
 
-			h2 {
-				margin: 0.5em 0;
-			}
+		h1 {
+			margin-bottom: 0.5em;
+		}
 
-			p {
-				margin: 0.2em 0;
-			}
+		h2 {
+			margin: 0.5em 0;
+		}
 
-			/* directly related to POLAR - something like this must be
+		p {
+			margin: 0.2em 0;
+		}
+
+		/* directly related to POLAR - something like this must be
 			 * available for map client to render in (see core docs for
 			 * more details on requirements) */
-			.snowbox {
-				display: block;
-				width: 100vw;
-				max-width: calc(100% + 64px);
-				height: var(--map-height);
-				position: relative;
-				margin-top: 10px;
-				margin-bottom: 10px;
-				left: -32px;
-				outline: solid var(--eigengrau);
-			}
+		.snowbox {
+			display: block;
+			width: 100vw;
+			max-width: calc(100% + 64px);
+			height: var(--map-height);
+			position: relative;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			left: -32px;
+			outline: solid var(--eigengrau);
+		}
 
-			#language-switcher {
-				outline: solid black;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>POLAR map client</h1>
-		<label id="language-switcher-label">
-			Language in map client:
-			<select id="language-switcher">
-				<option value="en">English</option>
-				<option value="de">German</option>
-			</select>
-		</label>
-		<div>
-			Coordinates of currently selected feature: <span id="selected-feature-coordinates"></span>
-		</div>
-		<h2>Demo application ("Snowbox")</h2>
-		<polar-map id="snowbox" class="snowbox"></polar-map>
-		<div style="margin-top: 4em"></div>
-		<h2>Second map</h2>
-		<button id="secondMap">Add a map client</button>
-		<button id="secondMapClean">Remove all map clients below</button>
-		<div id="secondMapContainer"></div>
-	</body>
+		#language-switcher {
+			outline: solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>POLAR map client</h1>
+	<label id="language-switcher-label">
+		Language in map client:
+		<select id="language-switcher">
+			<option value="en">English</option>
+			<option value="de">German</option>
+		</select>
+	</label>
+	<div>
+		Coordinates of currently selected feature: <span id="selected-feature-coordinates"></span>
+	</div>
+	<h2>Demo application ("Snowbox")</h2>
+	<div id="snowbox"></div>
+	<div style="margin-top: 4em"></div>
+	<h2>Second map</h2>
+	<button id="secondMap">Add a map client</button>
+	<button id="secondMapClean">Remove all map clients below</button>
+	<div id="secondMapContainer"></div>
+</body>
+
 </html>

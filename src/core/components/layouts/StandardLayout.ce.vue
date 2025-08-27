@@ -9,12 +9,12 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useMainStore } from '@/core/stores/main.ts'
+import { usePluginStore } from '@/core/stores/plugin'
 
-const coreStore = useMainStore()
+const pluginStore = usePluginStore()
 
 const uiPlugins = computed(() =>
-	coreStore.plugins.filter((plugin) => plugin.component)
+	pluginStore.plugins.filter((plugin) => plugin.component)
 )
 </script>
 

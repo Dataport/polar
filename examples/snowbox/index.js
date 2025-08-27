@@ -1,8 +1,7 @@
 import { changeLanguage } from 'i18next'
 import pluginToast from '@polar/polar/plugins/toast'
-import { useToastStore } from '@polar/polar/plugins/toast/store'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
-import { addPlugin, createMap, subscribe } from '@polar/polar'
+import { addPlugin, createMap, subscribe, register } from '@polar/polar'
 import styleJsonUrl from './style.json?url'
 
 const basemapId = '23420'
@@ -56,7 +55,8 @@ const isReportSelectable = (feature) =>
 		)
 */
 
-await createMap(
+await register()
+const map = await createMap(
 	{
 		layers: [
 			{
@@ -131,44 +131,53 @@ await createMap(
 	},
 	'https://geodienste.hamburg.de/services-internet.json'
 )
+map.id = 'snowbox'
+map.classList.add('snowbox')
+document.getElementById('snowbox').replaceWith(map)
 
-await createMap(
-	{
-		layers: [
-			{
-				id: basemapId,
-				visibility: true,
-				type: 'background',
-				name: 'snowbox.layers.basemap',
-			},
-		],
-	},
-	'https://geodienste.hamburg.de/services-internet.json',
-	'dataport-map'
-)
-
-document.getElementById('secondMap').addEventListener('click', () => {
-	const secondMap = document.createElement('dataport-map')
+document.getElementById('secondMap').addEventListener('click', async () => {
+	const secondMap = await createMap(
+		{
+			layers: [
+				{
+					id: basemapId,
+					visibility: true,
+					type: 'background',
+					name: 'snowbox.layers.basemap',
+				},
+			],
+		},
+		'https://geodienste.hamburg.de/services-internet.json',
+		'dataport-map'
+	)
 	secondMap.classList.add('snowbox')
 	document.getElementById('secondMapContainer').appendChild(secondMap)
+	addPlugin(
+		secondMap,
+		pluginFullscreen({
+			layoutTag: 'TOP_RIGHT',
+		})
+	)
 })
 document.getElementById('secondMapClean').addEventListener('click', () => {
 	document.getElementById('secondMapContainer').innerText = ''
 })
 
 addPlugin(
+	map,
 	pluginFullscreen({
 		layoutTag: 'TOP_RIGHT',
 	})
 )
 
 addPlugin(
+	map,
 	pluginToast({
 		layoutTag: 'BOTTOM_MIDDLE',
 	})
 )
 
-const toastStore = useToastStore()
+const toastStore = map.store.getPluginStore('toast')
 toastStore.addToast({
 	text: 'Hallo Welt',
 	severity: 'info',

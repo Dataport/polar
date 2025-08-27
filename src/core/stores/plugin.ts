@@ -1,0 +1,83 @@
+import { defineStore } from 'pinia'
+import { markRaw, ref } from 'vue'
+import { toMerged } from 'es-toolkit'
+import i18next from 'i18next'
+import type {
+	PluginContainer,
+	PluginId,
+	BundledPluginId,
+	BundledPluginStores,
+	PolarPluginStore,
+	PluginOptions,
+} from '../types'
+import { useMainStore } from './main'
+
+export const usePluginStore = defineStore('plugin', () => {
+	const plugins = ref<PluginContainer[]>([])
+
+	function addPlugin(plugin: PluginContainer) {
+		const { id, locales, options, storeModule } = plugin
+		const mainStore = useMainStore()
+
+		/* configuration merge – "options" are from client-code, "configuration"
+		 * is from mapConfiguration object and thus overrides */
+		const pluginConfiguration = toMerged(
+			options || {},
+			(mainStore.configuration[id] || {}) as PluginOptions
+		)
+		mainStore.configuration[id] = pluginConfiguration
+
+		const store = storeModule?.()
+		if (store && typeof store.setupPlugin === 'function') {
+			store.setupPlugin()
+		}
+
+		if (locales) {
+			locales.forEach((lng) => {
+				i18next.addResourceBundle(lng.type, id, lng.resources, true)
+			})
+		}
+
+		plugins.value.push({
+			...plugin,
+			...(plugin.component ? { component: markRaw(plugin.component) } : {}),
+		})
+	}
+
+	function removePlugin(pluginId: string) {
+		const plugin = plugins.value.find(({ id }) => id === pluginId)
+		if (!plugin) {
+			console.error(`Plugin "${pluginId}" not found.`)
+			return
+		}
+
+		const store = plugin.storeModule?.()
+		if (store) {
+			if (typeof store.teardownPlugin === 'function') {
+				store.teardownPlugin()
+			}
+			store.$reset()
+		}
+
+		plugins.value = plugins.value.filter(({ id }) => id !== pluginId)
+	}
+
+	function getPluginStore<T extends PluginId>(
+		id: T
+	): ReturnType<
+		T extends BundledPluginId
+			? BundledPluginStores<typeof id>
+			: PolarPluginStore
+	> | null {
+		const plugin = plugins.value.find((plugin) => plugin.id === id)
+		// @ts-expect-error | We trust that our internal IDs work.
+		return plugin?.storeModule?.() || null
+	}
+
+	return {
+		plugins,
+		addPlugin,
+		removePlugin,
+		getPluginStore,
+	}
+})

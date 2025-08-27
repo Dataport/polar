@@ -6,13 +6,8 @@
 
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
-import type {
-	PluginId,
-	BundledPluginId,
-	BundledPluginStores,
-	PolarPluginStore,
-} from '../types'
 import { useMainStore } from './main'
+import { usePluginStore } from './plugin'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -23,18 +18,7 @@ import { useMainStore } from './main'
 /* eslint-enable tsdoc/syntax */
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
-
-	function getPluginStore<T extends PluginId>(
-		id: T
-	): ReturnType<
-		T extends BundledPluginId
-			? BundledPluginStores<typeof id>
-			: PolarPluginStore
-	> | null {
-		const plugin = mainStore.plugins.find((plugin) => plugin.id === id)
-		// @ts-expect-error | We trust that our internal IDs work.
-		return plugin?.storeModule?.() || null
-	}
+	const pluginStore = usePluginStore()
 
 	return {
 		/**
@@ -45,13 +29,47 @@ export const useCoreStore = defineStore('core', () => {
 		configuration: computed(() => mainStore.configuration),
 
 		/**
+		 * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
+		 * already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared.
+		 *
+		 * You may add further plugins.
+		 *
+		 * Please note that the order of certain plugins is relevant when other plugins are referenced,
+		 * e.g. `@polar/plugin-gfi`'s `coordinateSources` requires the configured sources to have previously been set up.
+		 *
+		 * In case you're integrating new plugins, call `addPlugin` with a plugin instance.
+		 *
+		 * @example
+		 * ```
+		 * addPlugin(Plugin(pluginOptions: PluginOptions))
+		 * ```
+		 *
+		 * @remarks
+		 * In case you're writing a new plugin, it must fulfill the following API:
+		 * ```
+		 * const Plugin = (options: PluginOptions): PluginContainer => ({
+		 * 	id,
+		 * 	component,
+		 * 	locales,
+		 * 	options,
+		 * 	storeModule,
+		 * })
+		 * ```
+		 *
+		 * @param plugin - Plugin to be added.
+		 */
+		addPlugin: pluginStore.addPlugin,
+
+		removePlugin: pluginStore.removePlugin,
+
+		/**
 		 * Returns a plugin's store by its ID.
 		 *
 		 * For bundled plugins, the return value is typed.
 		 *
 		 * If no plugin with the specified ID is loaded, `null` is returned instead.
 		 */
-		getPluginStore,
+		getPluginStore: pluginStore.getPluginStore,
 
 		/**
 		 * Allows reading or setting the OIDC token used for service accesses.

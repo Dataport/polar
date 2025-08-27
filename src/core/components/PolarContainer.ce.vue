@@ -17,15 +17,36 @@ import {
 import i18next from 'i18next'
 import { useMainStore } from '../stores/main'
 import { loadKern } from '../utils/loadKern'
-import PolarMap from './PolarMap.ce.vue'
+import { mapZoomOffset } from '../utils/mapZoomOffset'
+import defaults from '../utils/defaults'
+import type { MapConfiguration } from '../types'
+import { useCoreStore } from '../stores/export'
 import PolarUI from './PolarUI.ce.vue'
+import PolarMap from './PolarMap.ce.vue'
 
 defineOptions({
 	inheritAttrs: false,
 })
 
+const props = defineProps<{
+	mapConfiguration: MapConfiguration
+	serviceRegister: string | Record<string, unknown>[]
+}>()
+
 const mainStore = useMainStore()
 const { language } = storeToRefs(mainStore)
+
+// TODO: Allow live-updates of configuration, if possible
+mainStore.configuration = mapZoomOffset({
+	...defaults,
+	...props.mapConfiguration,
+})
+mainStore.serviceRegister = props.serviceRegister
+
+if (mainStore.configuration.oidcToken) {
+	// copied to a separate spot for usage as it's changeable data at run-time
+	mainStore.oidcToken = mainStore.configuration.oidcToken
+}
 
 if (mainStore.configuration.locales) {
 	mainStore.configuration.locales.forEach((locale) => {
@@ -69,6 +90,9 @@ onMounted(() => {
 	resizeObserver = new ResizeObserver(updateClientDimensions)
 	resizeObserver.observe(polarWrapper.value as Element)
 	updateClientDimensions()
+
+	// FIXME: Improve types for lightElement
+	;(mainStore.lightElement as { store?: unknown }).store = useCoreStore()
 })
 
 onBeforeUnmount(() => {
