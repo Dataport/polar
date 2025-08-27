@@ -24,7 +24,7 @@
 					v-else
 					:id="plugin.id"
 					:icon="icon"
-					:hint="hint"
+					:hint="hint ? hint : `hints.${plugin.id}`"
 					:index="index"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
