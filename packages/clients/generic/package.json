@@ -1,8 +1,14 @@
 {
   "name": "@polar/client-generic",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "POLAR Client Generic. General purpose client with everything plugged in.",
-  "keywords": ["OpenLayers", "ol", "POLAR", "client", "generic"],
+  "keywords": [
+    "OpenLayers",
+    "ol",
+    "POLAR",
+    "client",
+    "generic"
+  ],
   "license": "EUPL-1.2",
   "type": "module",
   "author": "Dataport AöR <polar@dataport.de>",
@@ -46,6 +52,8 @@
     "@polar/plugin-zoom": "^1.5.0"
   },
   "nx": {
-    "includedScripts": ["build"]
+    "includedScripts": [
+      "build"
+    ]
   }
 }
