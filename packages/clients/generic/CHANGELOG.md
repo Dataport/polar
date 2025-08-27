@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.0.0
 
 - Breaking: Change name of exported style file from `polar-client.css` to `style.css`. This is to be consistent with documentation of `@polar/core` and this client.
 - Feature: Directly expose `createMap` to be able to import it directly when using this client.
