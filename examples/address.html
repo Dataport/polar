@@ -23,7 +23,7 @@
   import render from './render.js'
 
   render({
-    name: 'Address Search & Reverse Geocoder & Pins & Loading Indicator',
+    name: 'Address Search & Reverse Geocoder & Pins & Loading Indicator & Pointer Position',
     description: 'These plugins can be mixed to help with locating a coordinate and/or address. Users may use either the address search element directly, or create/move a pin to get an address. Click anywhere in the map to get started.',
     useCases: [
       'Finding an address on the map, or a coordinate of an address.',
@@ -33,6 +33,7 @@
       'address-search',
       'loading-indicator',
       'pins',
+      'pointer-position',
       'reverse-geocoder',
     ],
     mapConfiguration: {
@@ -77,7 +78,7 @@
       const paragraph = document.createElement('p')
       const card = document.getElementById(id).parentElement.parentElement
       card.appendChild(paragraph)
-      mapClient.subscribe('plugin/pins/latLon', (pinCoordinate) => {
+      mapClient.subscribe('plugin/pins/transformedCoordinate', (pinCoordinate) => {
         if (pinCoordinate.length) {
           paragraph.innerHTML = `The pin is at coordinate ${pinCoordinate.map(number => number.toFixed(4)).join(', ')}.`
           paragraph.style.cssText = 'outline: 2px dashed black'
