@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, inject } from 'vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+// import { useCoreStore } from '@/core/stores/export.ts'
 import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
 
 const props = defineProps<{
@@ -22,8 +22,11 @@ const props = defineProps<{
 	hint?: string
 }>()
 
+/*
+ * TODO: Enable when used
 const coreStore = useCoreStore()
 const { hasSmallDisplay } = storeToRefs(coreStore)
+*/
 
 const iconMenuStore = useIconMenuStore()
 const { open } = storeToRefs(iconMenuStore)
