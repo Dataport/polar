@@ -7,7 +7,7 @@ import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { ToastPluginOptions } from '@/plugins/toast'
 
 /**
- * Copied from https://stackoverflow.com/a/54178819.#
+ * Copied from https://stackoverflow.com/a/54178819.
  *
  * Makes the properties defined by type `K` optional in type `T`.
  *
