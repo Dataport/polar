@@ -209,20 +209,16 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * 	{
 	 * 		type: 'de',
 	 * 		resources: {
-	 * 			plugins: {
-	 * 				layerChooser: {
-	 * 					maskTitle: 'Bahnstrecken',
-	 * 				},
+	 * 			layerChooser: {
+	 * 				maskTitle: 'Bahnstrecken',
 	 * 			},
 	 * 		},
 	 * 	},
 	 * 	{
 	 * 		type: 'en',
 	 * 		resources: {
-	 * 			plugins: {
-	 * 				layerChooser: {
-	 * 					maskTitle: 'Railway lines',
-	 * 				},
+	 * 			layerChooser: {
+	 * 				maskTitle: 'Railway lines',
 	 * 			},
 	 * 		},
 	 * 	},
