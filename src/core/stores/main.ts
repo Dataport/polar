@@ -15,7 +15,6 @@ export const useMainStore = defineStore('main', () => {
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = ref<Map | null>(null)
-	const mapHasDimensions = ref<boolean>(false)
 	const plugins = ref<PluginContainer[]>([])
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
 	const shadowRoot = ref<ShadowRoot | null>(null)
@@ -82,7 +81,6 @@ export const useMainStore = defineStore('main', () => {
 		language,
 		lightElement,
 		map,
-		mapHasDimensions,
 		oidcToken,
 		plugins,
 		serviceRegister,

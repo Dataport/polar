@@ -1,0 +1,7 @@
+{
+	"allowDirtyCommit": true,
+	"lintOnCommit": false,
+	"typecheckOnCommit": false,
+	"testOnCommit": false,
+	"lintCommitMessage": true
+}

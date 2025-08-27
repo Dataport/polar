@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+eval `node .husky/prepareConfig.js`
+
+if [ "$POLAR_LINT_COMMIT_MESSAGE" = "yes" ]
+then
+	if ! npx --no -- commitlint --edit $1
+	then
+		echo "Cannot commit: Invalid commit message." >&2
+		echo "Please edit your commit message appropriately." >&2
+		echo >&2
+		echo "If you want to commit anyway, set POLAR_LINT_COMMIT_MESSAGE=no" >&2
+		exit 1
+	fi
+fi

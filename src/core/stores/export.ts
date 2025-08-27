@@ -38,12 +38,47 @@ export const useCoreStore = defineStore('core', () => {
 
 	return {
 		/**
+		 * The current height of the map.
+		 *
+		 * @internal
+		 * @readonly
+		 */
+		clientHeight: computed(() => mainStore.clientHeight),
+		/**
 		 * Returns the current runtime configuration.
 		 *
 		 * @readonly
 		 */
 		configuration: computed(() => mainStore.configuration),
-
+		/**
+		 * Whether a mobile device is held horizontally.
+		 * True if {@link hasSmallHeight} and {@link hasWindowSize} are true.
+		 *
+		 * @internal
+		 * @readonly
+		 */
+		deviceIsHorizontal: computed(() => mainStore.deviceIsHorizontal),
+		/**
+		 * Whether the height of the map is smaller than 480px.
+		 *
+		 * @internal
+		 * @readonly
+		 */
+		hasSmallHeight: computed(() => mainStore.hasSmallHeight),
+		/**
+		 * Whether the width of the map is smaller than 768px.
+		 *
+		 * @internal
+		 * @readonly
+		 */
+		hasSmallWidth: computed(() => mainStore.hasSmallWidth),
+		/**
+		 * Whether the size of the map equals the size of the browser window.
+		 *
+		 * @internal
+		 * @readonly
+		 */
+		hasWindowSize: computed(() => mainStore.hasWindowSize),
 		/**
 		 * Returns a plugin's store by its ID.
 		 *
@@ -57,7 +92,6 @@ export const useCoreStore = defineStore('core', () => {
 		 * Allows reading or setting the OIDC token used for service accesses.
 		 */
 		oidcToken: mainStore.oidcToken,
-
 		/**
 		 * Allows accessing the POLAR DOM element (`<polar-map>`).
 		 *
@@ -65,7 +99,6 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		lightElement: computed(() => mainStore.lightElement),
-
 		/**
 		 * The currently used layout.
 		 * Either a string indicating `standard` or `nineRegions` or a custom Vue component.
@@ -82,7 +115,6 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		map: computed(() => mainStore.map),
-
 		/**
 		 * Allows accessing the Shadow DOM root of POLAR.
 		 *

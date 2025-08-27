@@ -7,10 +7,10 @@ import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
 import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
 
 import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
-import { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
+import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
 
-import { PluginId as ToastPluginId } from '@/plugins/toast'
-import { useToastStore as ToastStore } from '@/plugins/toast/store'
+import type { PluginId as ToastPluginId } from '@/plugins/toast'
+import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 
 export interface PluginOptions {
 	displayComponent?: boolean
@@ -72,6 +72,14 @@ export interface PluginContainer {
 	 * or will be determined by the layout.
 	 */
 	component?: Component
+
+	/**
+	 * Whether the plugin is independently rendered.
+	 *
+	 * @internal
+	 * @defaultValue true
+	 */
+	independent?: boolean
 
 	/**
 	 * Locales used in the plugin.
