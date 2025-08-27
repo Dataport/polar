@@ -67,6 +67,15 @@ export const useCoreStore = defineStore('core', () => {
 		lightElement: computed(() => mainStore.lightElement),
 
 		/**
+		 * The currently used layout.
+		 * Either a string indicating `standard` or `nineRegions` or a custom Vue component.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		layout: mainStore.layout,
+
+		/**
 		 * Allows accessing the OpenLayers Map element.
 		 *
 		 * @readonly

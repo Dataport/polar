@@ -21,6 +21,8 @@ export const useMainStore = defineStore('main', () => {
 	const shadowRoot = ref<ShadowRoot | null>(null)
 	const zoom = ref(0)
 
+	const layout = computed(() => configuration.value.layout ?? 'standard')
+
 	// TODO(dopenguin): Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
 	const clientHeight = ref(0)
 	const clientWidth = ref(0)
@@ -88,6 +90,7 @@ export const useMainStore = defineStore('main', () => {
 		center,
 		zoom,
 		// Getters
+		layout,
 		hasSmallHeight,
 		hasSmallWidth,
 		hasWindowSize,
