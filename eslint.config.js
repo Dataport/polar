@@ -9,17 +9,10 @@ import prettierConfig from 'eslint-plugin-prettier/recommended'
 
 const polarConfig = {
 	rules: {
-		'prettier/prettier': [
-			'error',
-			{
-				semi: false,
-				trailingComma: 'es5',
-				singleQuote: true,
-				printWidth: 80,
-				tabWidth: 2,
-				useTabs: true,
-			},
-		],
+		'prettier/prettier': 'error',
+
+		// Re-enable rules that are disabled by prettier but do not collide
+		curly: ['error', 'all'],
 	},
 }
 

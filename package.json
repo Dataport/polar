@@ -71,7 +71,7 @@
 	],
 	"devDependencies": {
 		"@cesium/engine": "^15.0.0",
-		"@dataport/eslint-config-geodev": "^0.3.3",
+		"@dataport/eslint-config-geodev": "^0.4.0",
 		"@kern-ux/native": "^2.3.0",
 		"@masterportal/masterportalapi": "2.48.0",
 		"@material-symbols/svg-400": "^0.34.1",

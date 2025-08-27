@@ -8,7 +8,9 @@ export function notifyUser(
 ) {
 	const coreStore = useCoreStore()
 	const toastStore = coreStore.getPluginStore('toast')
-	if (!toastStore) return
+	if (!toastStore) {
+		return
+	}
 	const text = i18next.t(translationKey, translationContext)
 	toastStore.addToast({ severity, text })
 }
