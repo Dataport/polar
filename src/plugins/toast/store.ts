@@ -25,7 +25,7 @@ interface ToastItem {
 /**
  * @function
  *
- * Plugin store for fullscreen mode detection and enablement.
+ * Plugin store for showing messages to the user.
  */
 /* eslint-enable tsdoc/syntax */
 export const useToastStore = defineStore('plugins/toast', () => {
