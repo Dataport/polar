@@ -23,10 +23,7 @@ export default function pluginToast(
 		component,
 		locales,
 		storeModule: useToastStore as PolarPluginStore,
-		options: {
-			displayComponent: true,
-			...options,
-		},
+		options,
 	}
 }
 
