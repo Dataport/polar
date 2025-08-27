@@ -32,7 +32,7 @@ export interface Toast {
  */
 export interface ToastPluginOptions extends PluginOptions {
 	error?: ToastTheme
-	warning?: ToastTheme
 	info?: ToastTheme
 	success?: ToastTheme
+	warning?: ToastTheme
 }
