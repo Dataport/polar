@@ -20,6 +20,9 @@ const polarConfig = {
 				useTabs: true,
 			},
 		],
+
+		// POLAR-specific rules
+		'no-warning-comments': 'warn',
 	},
 }
 
