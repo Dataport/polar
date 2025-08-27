@@ -1,7 +1,10 @@
 export interface OklchColor {
+	// It is called lch, so you expect that order.
+	/* eslint-disable perfectionist/sort-interfaces */
 	l: string
 	c: string
 	h: string
+	/* eslint-enable perfectionist/sort-interfaces */
 }
 
 export interface KernThemeTree {
@@ -21,10 +24,13 @@ export interface KernTheme {
  * Color expressed as RGB(A).
  */
 export interface RgbaColor {
+	// It is called rgb(a), so you expect that order.
+	/* eslint-disable perfectionist/sort-interfaces */
 	r: string
 	g: string
 	b: string
 	a?: string
+	/* eslint-enable perfectionist/sort-interfaces */
 }
 
 /**

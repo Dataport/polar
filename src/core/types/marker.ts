@@ -13,6 +13,8 @@ export interface CallOnMapSelect {
  * For more details, visual examples, and expert features, see there.
  */
 export interface PolygonFillHatch {
+	backgroundColor?: [number, number, number, number]
+	lineWidth?: number
 	pattern?:
 		| 'diagonal'
 		| 'diagonal-right'
@@ -23,10 +25,8 @@ export interface PolygonFillHatch {
 		| 'triangle'
 		| 'diamond'
 		| object
-	size?: number
-	lineWidth?: number
-	backgroundColor?: [number, number, number, number]
 	patternColor?: [number, number, number, number]
+	size?: number
 }
 
 export interface MarkerStyle {
@@ -65,12 +65,12 @@ export interface MarkerStyle {
 }
 
 export interface MarkerLayer {
-	id: string
 	defaultStyle: MarkerStyle
 	hoverStyle: MarkerStyle
+	id: string
+	isSelectable: MarkersIsSelectableFunction
 	selectionStyle: MarkerStyle
 	unselectableStyle: MarkerStyle
-	isSelectable: MarkersIsSelectableFunction
 }
 
 export interface MarkerLayerConfiguration {
@@ -90,6 +90,18 @@ export interface MarkerLayerConfiguration {
 	hoverStyle?: Partial<MarkerStyle>
 
 	/**
+	 * If undefined, all features are selectable.
+	 * If defined, this can be used to sort out features to be unselectable,
+	 * and such features will be styled differently and won't react on click.
+	 *
+	 * @example
+	 * ```
+	 * isSelectable: (feature: Feature) => feature.get('indicator')
+	 * ```
+	 */
+	isSelectable?: MarkersIsSelectableFunction
+
+	/**
 	 * Used as map marker style for selected features.
 	 * The default fill color for these markers is `'#679100'`.
 	 */
@@ -102,18 +114,6 @@ export interface MarkerLayerConfiguration {
 	 * The default fill color for these markers is `'#333333'`.
 	 */
 	unselectableStyle?: Partial<MarkerStyle>
-
-	/**
-	 * If undefined, all features are selectable.
-	 * If defined, this can be used to sort out features to be unselectable,
-	 * and such features will be styled differently and won't react on click.
-	 *
-	 * @example
-	 * ```
-	 * isSelectable: (feature: Feature) => feature.get('indicator')
-	 * ```
-	 */
-	isSelectable?: MarkersIsSelectableFunction
 }
 
 export interface MarkerConfiguration {
