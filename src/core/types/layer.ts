@@ -43,7 +43,7 @@ export interface LayerConfiguration {
 	id: string
 
 	/**
-	 * Human-readable identifier and value to be display in the UI.
+	 * Human-readable identifier and value to be displayed in the UI.
 	 */
 	name: string
 
