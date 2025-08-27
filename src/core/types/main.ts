@@ -17,7 +17,7 @@ export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export interface Locale {
 	resources: Record<string, ResourceKey>
-	/** Language key as described in the i18next documentation */
+	/** Language key as described in the i18next documentation. */
 	type: string
 }
 
