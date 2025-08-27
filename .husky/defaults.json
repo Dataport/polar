@@ -3,5 +3,5 @@
 	"lintOnCommit": false,
 	"typecheckOnCommit": false,
 	"testOnCommit": false,
-	"lintCommitMessage": false
+	"lintCommitMessage": true
 }
