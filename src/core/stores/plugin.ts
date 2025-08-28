@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { markRaw, ref } from 'vue'
+import { markRaw, reactive } from 'vue'
 import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import type {
@@ -13,7 +13,7 @@ import type {
 import { useMainStore } from './main'
 
 export const usePluginStore = defineStore('plugin', () => {
-	const plugins = ref<PluginContainer[]>([])
+	const plugins = reactive<PluginContainer[]>([])
 
 	function addPlugin(plugin: PluginContainer) {
 		const { id, locales, options, storeModule } = plugin
@@ -38,14 +38,16 @@ export const usePluginStore = defineStore('plugin', () => {
 			})
 		}
 
-		plugins.value.push({
+		plugins.push({
 			...plugin,
+			options: pluginConfiguration,
 			...(plugin.component ? { component: markRaw(plugin.component) } : {}),
 		})
 	}
 
 	function removePlugin(pluginId: string) {
-		const plugin = plugins.value.find(({ id }) => id === pluginId)
+		const pluginIndex = plugins.findIndex(({ id }) => id === pluginId)
+		const plugin = plugins[pluginIndex]
 		if (!plugin) {
 			console.error(`Plugin "${pluginId}" not found.`)
 			return
@@ -59,7 +61,7 @@ export const usePluginStore = defineStore('plugin', () => {
 			store.$reset()
 		}
 
-		plugins.value = plugins.value.filter(({ id }) => id !== pluginId)
+		plugins.splice(pluginIndex, 1)
 	}
 
 	function getPluginStore<T extends PluginId>(
@@ -69,7 +71,7 @@ export const usePluginStore = defineStore('plugin', () => {
 			? BundledPluginStores<typeof id>
 			: PolarPluginStore
 	> | null {
-		const plugin = plugins.value.find((plugin) => plugin.id === id)
+		const plugin = plugins.find((plugin) => plugin.id === id)
 		// @ts-expect-error | We trust that our internal IDs work.
 		return plugin?.storeModule?.() || null
 	}
