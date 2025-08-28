@@ -10,13 +10,18 @@
 	<button
 		ref="button"
 		class="kern-btn kern-btn--secondary polar-icon-button"
+		:class="{ 'polar-icon-button-active': active }"
 		@click="action"
 		@mouseover="hoveredOrFocused = true"
 		@mouseout="hoveredOrFocused = false"
 		@focus="hoveredOrFocused = true"
 		@blur="hoveredOrFocused = false"
 	>
-		<span class="kern-icon" :class="$props.icon" aria-hidden="true" />
+		<span
+			class="kern-icon"
+			:class="{ [$props.icon]: true, 'polar-icon-button-icon-active': active }"
+			aria-hidden="true"
+		/>
 		<span class="kern-label kern-sr-only">{{ hint }}</span>
 	</button>
 	<span
@@ -44,6 +49,7 @@ const props = defineProps<{
 	hint: string
 	hintNamespace: string
 	icon: string
+	active?: boolean
 	tooltipPosition?: 'left' | 'right'
 }>()
 
@@ -75,6 +81,21 @@ onMounted(() => {
 		border: solid var(--kern-color-action-on-default);
 		outline: solid var(--kern-color-action-default);
 	}
+}
+
+.polar-icon-button-active {
+	background: var(--kern-color-action-default) !important;
+
+	&:focus,
+	&:hover {
+		background: var(--kern-color-action-default) !important;
+		border: solid var(--kern-color-action-on-default);
+		outline: solid var(--kern-color-action-default);
+	}
+}
+
+.polar-icon-button-icon-active {
+	background: var(--kern-color-layout-background-default) !important;
 }
 
 .polar-tooltip {
