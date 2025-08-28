@@ -9,7 +9,7 @@
 			>
 				<input
 					:id="`${id}-${layout.value}`"
-					v-model="model"
+					v-model="store.mapConfiguration.layout"
 					class="kern-form-check__radio"
 					:name="`${id}-layout`"
 					type="radio"
@@ -26,11 +26,10 @@
 <script setup lang="ts">
 import type { MapConfiguration } from '@polar/polar'
 import { useId } from 'vue'
+import { useIcebergStore } from '../stores/iceberg'
 
 const id = useId()
-const model = defineModel<MapConfiguration['layout']>({
-	required: true,
-})
+const store = useIcebergStore()
 
 const layouts = [
 	{

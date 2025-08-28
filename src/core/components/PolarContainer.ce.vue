@@ -131,6 +131,8 @@ onBeforeUnmount(() => {
 	--brand-color-l: v-bind('mainStore.configuration.theme?.brandColor?.l');
 	--brand-color-c: v-bind('mainStore.configuration.theme?.brandColor?.c');
 	--brand-color-h: v-bind('mainStore.configuration.theme?.brandColor?.h');
+
+	display: block;
 }
 </style>
 
