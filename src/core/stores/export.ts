@@ -106,7 +106,7 @@ export const useCoreStore = defineStore('core', () => {
 		 * @readonly
 		 * @alpha
 		 */
-		layout: mainStore.layout,
+		layout: computed(() => mainStore.layout),
 
 		/**
 		 * Allows accessing the OpenLayers Map element.
