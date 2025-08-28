@@ -17,7 +17,7 @@
 					v-if="buttonComponent"
 					:id="plugin.id"
 					:icon="icon"
-					:hint="hint"
+					:hint="hint ? hint : `hints.${plugin.id}`"
 					:index="index"
 				/>
 				<NineRegionsButton
