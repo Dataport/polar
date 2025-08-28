@@ -15,5 +15,3 @@ import { useCoreStore } from '@/core/stores/export.ts'
 
 const { configuration } = storeToRefs(useCoreStore())
 </script>
-
-<style scoped></style>

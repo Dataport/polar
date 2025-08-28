@@ -155,6 +155,7 @@ function updateListeners() {
 watch(hasWindowSize, updateListeners)
 </script>
 
+<!-- eslint-disable-next-line vue/enforce-style-attribute -->
 <style>
 @import url('ol/ol.css');
 </style>
