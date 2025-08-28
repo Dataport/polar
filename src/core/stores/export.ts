@@ -22,7 +22,7 @@ export const useCoreStore = defineStore('core', () => {
 		/**
 		 * The current height of the map.
 		 *
-		 * @internal
+		 * @alpha
 		 * @readonly
 		 */
 		clientHeight: computed(() => mainStore.clientHeight),
@@ -36,28 +36,28 @@ export const useCoreStore = defineStore('core', () => {
 		 * Whether a mobile device is held horizontally.
 		 * True if {@link hasSmallHeight} and {@link hasWindowSize} are true.
 		 *
-		 * @internal
+		 * @alpha
 		 * @readonly
 		 */
 		deviceIsHorizontal: computed(() => mainStore.deviceIsHorizontal),
 		/**
 		 * Whether the height of the map is smaller than 480px.
 		 *
-		 * @internal
+		 * @alpha
 		 * @readonly
 		 */
 		hasSmallHeight: computed(() => mainStore.hasSmallHeight),
 		/**
 		 * Whether the width of the map is smaller than 768px.
 		 *
-		 * @internal
+		 * @alpha
 		 * @readonly
 		 */
 		hasSmallWidth: computed(() => mainStore.hasSmallWidth),
 		/**
 		 * Whether the size of the map equals the size of the browser window.
 		 *
-		 * @internal
+		 * @alpha
 		 * @readonly
 		 */
 		hasWindowSize: computed(() => mainStore.hasWindowSize),
