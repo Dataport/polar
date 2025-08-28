@@ -1,18 +1,18 @@
 <template>
-	<!-- TODO(dopenguin): Tooltip is missing; tooltip is disabled if hasSmallDisplay is true -->
-	<!-- TODO(dopenguin): Possible colour change is missing -->
-	<button class="kern-btn kern-btn--primary" @click="toggle">
-		<span class="kern-icon" :class="$props.icon" aria-hidden="true" />
-		<span class="kern-label kern-sr-only">
-			{{ $t(hint, { ns: 'iconMenu' }) }}
-		</span>
-	</button>
+	<PolarIconButton
+		:active="active"
+		:action="toggle"
+		:hint="hint"
+		hint-namespace="iconMenu"
+		:icon="icon"
+		tooltip-position="left"
+	/>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { inject } from 'vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { inject, onMounted, ref } from 'vue'
+import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
 
 const props = defineProps<{
@@ -22,25 +22,30 @@ const props = defineProps<{
 	hint: string
 }>()
 
-const coreStore = useCoreStore()
-const { hasSmallDisplay } = storeToRefs(coreStore)
-
 const iconMenuStore = useIconMenuStore()
 const { open } = storeToRefs(iconMenuStore)
+const active = ref(false)
 
 const updateMaxWidth = inject('updateMaxWidth') as () => void
 
 function toggle() {
 	if (open.value === props.index) {
 		open.value = -1
+		active.value = false
 		// TODO(dopenguin): This is called in mainStore
 		// setMoveHandle(null)
 	} else {
 		open.value = props.index
+		active.value = true
 		// iconMenuStore.openInMoveHandle(index)
 	}
 	updateMaxWidth()
 }
+onMounted(() => {
+	if (open.value === props.index) {
+		active.value = true
+	}
+})
 </script>
 
 <style scoped></style>
