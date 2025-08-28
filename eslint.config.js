@@ -43,6 +43,36 @@ const polarTsConfig = {
 	},
 }
 
+const polarVueConfig = {
+	rules: {
+		// POLAR-specific rules
+		'vue/no-empty-component-block': 'error',
+		'vue/block-order': [
+			'error',
+			{
+				order: ['template', 'script', 'style'],
+			},
+		],
+		'vue/block-lang': [
+			'error',
+			{
+				template: {
+					allowNoLang: true,
+				},
+				script: {
+					lang: 'ts',
+				},
+				style: {
+					allowNoLang: true,
+				},
+			},
+		],
+		'vue/component-api-style': ['error', ['script-setup', 'composition']],
+		'vue/require-default-export': 'error',
+		'vue/enforce-style-attribute': ['error', { allow: ['scoped'] }],
+	},
+}
+
 export default defineConfig([
 	{
 		ignores: [
@@ -88,6 +118,7 @@ export default defineConfig([
 			prettierConfig,
 			polarConfig,
 			polarTsConfig,
+			polarVueConfig,
 		],
 	},
 	{
