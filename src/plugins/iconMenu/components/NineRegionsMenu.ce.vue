@@ -66,10 +66,10 @@ const { clientHeight, deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
 const { buttonComponent, menus, open } = storeToRefs(useIconMenuStore())
 
 const maxWidth = ref('inherit')
-const pluginComponents =
-	useTemplateRef<(typeof menus.value)[number]['plugin']['component'][]>(
-		'pluginComponent'
-	)
+const pluginComponent =
+	useTemplateRef<
+		[(typeof menus.value)[number]['plugin']['component'] | undefined]
+	>('pluginComponent')
 
 const asList = computed(() => menus.value.length > 1)
 const maxHeight = computed(() =>
@@ -99,10 +99,10 @@ function updateMaxWidth() {
 	// Note: Not relevant here as nothing is followed by the nextTick call.
 	// eslint-disable-next-line @typescript-eslint/no-floating-promises
 	nextTick(() => {
-		if (pluginComponents.value?.[0]) {
+		if (pluginComponent.value?.[0]) {
 			if (!hasWindowSize.value) {
 				const { left, width } = (
-					pluginComponents.value[0]['$el'] as HTMLElement
+					pluginComponent.value[0]['$el'] as HTMLElement
 				).getBoundingClientRect()
 				maxWidth.value = `${width + left}px`
 			} else {
