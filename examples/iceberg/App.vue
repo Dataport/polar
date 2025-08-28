@@ -24,6 +24,7 @@ createMap(
 )
 </script>
 
+<!-- eslint-disable-next-line vue/enforce-style-attribute -->
 <style>
 @import url('@kern-ux/native/dist/kern.css');
 @import url('@kern-ux/native/dist/fonts/fira-sans.css');

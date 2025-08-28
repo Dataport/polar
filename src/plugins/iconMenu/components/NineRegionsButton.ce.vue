@@ -45,5 +45,3 @@ function toggle() {
 	updateMaxWidth()
 }
 </script>
-
-<style scoped></style>

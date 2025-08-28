@@ -114,6 +114,7 @@ function updateMaxWidth() {
 provide('updateMaxWidth', updateMaxWidth)
 </script>
 
+<!-- eslint-disable-next-line vue/enforce-style-attribute -->
 <style>
 .polar-plugin-icon-menu-list-item-content,
 .polar-plugin-icon-menu-list-item-horizontal {

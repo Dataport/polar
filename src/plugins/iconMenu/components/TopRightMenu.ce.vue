@@ -2,6 +2,6 @@
 	<div>Implement me!</div>
 </template>
 
-<script setup lang="ts"></script>
-
-<style scoped></style>
+<script setup lang="ts">
+// keep this block to allow TypeScript linting
+</script>
