@@ -5,24 +5,21 @@
 </template>
 
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useMainStore } from '../stores/main.ts'
 import NineLayout from './layouts/NineLayout.ce.vue'
 import StandardLayout from './layouts/StandardLayout.ce.vue'
 
-const { configuration } = storeToRefs(useMainStore())
+const mainStore = useMainStore()
 
 const layout = computed(() => {
-	const configuredLayout = configuration.value.layout
-
-	if (!configuredLayout || configuredLayout === 'standard') {
+	if (mainStore.layout === 'standard') {
 		return StandardLayout
 	}
-	if (configuredLayout === 'nineRegions') {
+	if (mainStore.layout === 'nineRegions') {
 		return NineLayout
 	}
-	return configuredLayout
+	return mainStore.layout
 })
 </script>
 

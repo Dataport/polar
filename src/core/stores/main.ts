@@ -15,10 +15,11 @@ export const useMainStore = defineStore('main', () => {
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = ref<Map | null>(null)
-	const mapHasDimensions = ref<boolean>(false)
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
 	const shadowRoot = ref<ShadowRoot | null>(null)
 	const zoom = ref(0)
+
+	const layout = computed(() => configuration.value.layout ?? 'standard')
 
 	// TODO(dopenguin): Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
 	const clientHeight = ref(0)
@@ -79,13 +80,13 @@ export const useMainStore = defineStore('main', () => {
 		language,
 		lightElement,
 		map,
-		mapHasDimensions,
 		oidcToken,
 		serviceRegister,
 		shadowRoot,
 		center,
 		zoom,
 		// Getters
+		layout,
 		hasSmallHeight,
 		hasSmallWidth,
 		hasWindowSize,

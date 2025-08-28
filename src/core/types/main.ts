@@ -4,6 +4,7 @@ import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
 import type { LocaleOverride } from './locales'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
+import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { ToastPluginOptions } from '@/plugins/toast'
 
 export interface ServiceAvailabilityCheck {
@@ -238,13 +239,25 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 */
 	theme?: PolarTheme
 
+	// Plugins are not sorted alphabetical, but listed last.
+	// Remember to sort them alphabetical inside their space.
+	// TODO: Generate this section via types/plugin.ts
+	/* eslint-disable perfectionist/sort-interfaces */
+
 	/**
 	 * Configuration for fullscreen plugin.
 	 */
 	fullscreen?: FullscreenPluginOptions
 
 	/**
+	 * Configuration for iconMenu plugin.
+	 */
+	iconMenu?: IconMenuPluginOptions
+
+	/**
 	 * Configuration for toast plugin.
 	 */
 	toast?: ToastPluginOptions
+
+	/* eslint-enable perfectionist/sort-interfaces */
 }

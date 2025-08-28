@@ -23,7 +23,6 @@ import { t } from 'i18next'
 import { useMainStore } from '../stores/main'
 
 import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
-import { updateSizeOnReady } from '../utils/map/updateSizeOnReady'
 import { setupStyling } from '../utils/map/setupStyling'
 
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
@@ -31,8 +30,7 @@ import { setupMarkers } from '../utils/map/setupMarkers'
 import PolarMapOverlay from './PolarMapOverlay.ce.vue'
 
 const mainStore = useMainStore()
-const { hasWindowSize, hasSmallDisplay, center, zoom, mapHasDimensions } =
-	storeToRefs(mainStore)
+const { hasWindowSize, hasSmallDisplay, center, zoom } = storeToRefs(mainStore)
 
 const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
 const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
@@ -40,7 +38,9 @@ const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
 let map: Map | null = null
 
 function onMove() {
-	if (!map) return
+	if (!map) {
+		return
+	}
 	center.value = map.getView().getCenter() || center.value
 	zoom.value = map.getView().getZoom() || zoom.value
 }
@@ -67,19 +67,6 @@ function createMap() {
 	map.on('moveend', onMove)
 
 	updateDragAndZoomInteractions(map, hasWindowSize.value, hasSmallDisplay.value)
-	updateSizeOnReady(map)
-		.then(() => {
-			// OL prints warnings – add this log to reduce confusion
-			// eslint-disable-next-line no-console
-			console.log(`The map now has dimensions and can be rendered.`)
-			mapHasDimensions.value = true
-		})
-		.catch(() => {
-			console.error(
-				`The POLAR map client could not update its size. The map is probably invisible due to having 0 width or 0 height. This might be a CSS issue – please check the wrapper's size.`
-			)
-		})
-
 	updateListeners()
 	mainStore.map = markRaw(map)
 }
@@ -87,12 +74,16 @@ function createMap() {
 // NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
 //       Added as a watcher to trigger the update at the correct time.
 watch(hasWindowSize, (value) => {
-	if (!map) return
+	if (!map) {
+		return
+	}
 	updateDragAndZoomInteractions(map, value, hasSmallDisplay.value)
 })
 
 watch(center, (center) => {
-	if (!map) return
+	if (!map) {
+		return
+	}
 	map.getView().animate({
 		center,
 		duration: 400,
@@ -102,7 +93,9 @@ watch(center, (center) => {
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 function wheelEffect(event: WheelEvent) {
-	if (hasWindowSize.value || !overlay.value) return
+	if (hasWindowSize.value || !overlay.value) {
+		return
+	}
 	const condition = computed(() => !hasWindowSize.value)
 	if (isMacOS && !event.metaKey) {
 		overlay.value.show(

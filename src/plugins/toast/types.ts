@@ -22,8 +22,8 @@ export interface ToastTheme {
  * Toast.
  */
 export interface Toast {
-	text: string
 	severity: ToastSeverity
+	text: string
 	theme?: ToastTheme
 }
 
@@ -32,7 +32,7 @@ export interface Toast {
  */
 export interface ToastPluginOptions extends PluginOptions {
 	error?: ToastTheme
-	warning?: ToastTheme
 	info?: ToastTheme
 	success?: ToastTheme
+	warning?: ToastTheme
 }

@@ -1,6 +1,8 @@
 node_modules
 .eslintcache
 
+git-hooks.config.json
+
 /docs-html
 .dist.preview
 .vscode/settings.json

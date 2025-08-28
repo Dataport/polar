@@ -6,6 +6,8 @@ export function notifyUser(
 ) {
 	const coreStore = useCoreStore()
 	const toastStore = coreStore.getPluginStore('toast')
-	if (!toastStore) return
+	if (!toastStore) {
+		return
+	}
 	toastStore.addToast({ severity, text })
 }

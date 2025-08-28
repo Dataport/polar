@@ -13,6 +13,10 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 /**
  * Creates a plugin which provides toast messages.
  *
+ * The plugin offers global functionality to display text messages to the user.
+ * These are the classic success, warning, info, and error messages,
+ * helping to understand what's going on or why something happened.
+ *
  * @returns Plugin for use with {@link addPlugin}
  */
 export default function pluginToast(
@@ -23,10 +27,7 @@ export default function pluginToast(
 		component,
 		locales,
 		storeModule: useToastStore as PolarPluginStore,
-		options: {
-			displayComponent: true,
-			...options,
-		},
+		options,
 	}
 }
 

@@ -14,7 +14,10 @@ import { usePluginStore } from '@/core/stores/plugin'
 const pluginStore = usePluginStore()
 
 const uiPlugins = computed(() =>
-	pluginStore.plugins.filter((plugin) => plugin.component)
+	pluginStore.plugins.filter(
+		({ component, independent }) =>
+			component && (typeof independent === 'boolean' ? independent : true)
+	)
 )
 </script>
 

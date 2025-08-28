@@ -1,5 +1,5 @@
 <template>
-	<div v-if="configuration.layout === 'standard'" class="standard-layout">
+	<div v-if="layout === 'standard'" class="standard-layout">
 		<ToastUI />
 	</div>
 	<ToastUI v-else />
@@ -10,7 +10,7 @@ import { storeToRefs } from 'pinia'
 import ToastUI from './ToastUI.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
 
-const { configuration } = storeToRefs(useCoreStore())
+const { layout } = storeToRefs(useCoreStore())
 </script>
 
 <style scoped>

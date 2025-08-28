@@ -1,6 +1,6 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @module \@polar/polar/plugins/fullscreen/store
+ * @module \@polar/polar/plugins/toast/store
  */
 /* eslint-enable tsdoc/syntax */
 
@@ -25,7 +25,7 @@ interface ToastItem {
 /**
  * @function
  *
- * Plugin store for fullscreen mode detection and enablement.
+ * Plugin store for showing messages to the user.
  */
 /* eslint-enable tsdoc/syntax */
 export const useToastStore = defineStore('plugins/toast', () => {
@@ -69,7 +69,9 @@ export const useToastStore = defineStore('plugins/toast', () => {
 		const index = toasts.value.findIndex(
 			(item) => toRaw(item.toast) === toRaw(toast)
 		)
-		if (index < 0) return false
+		if (index < 0) {
+			return false
+		}
 		const [toastItem] = toasts.value.splice(index, 1)
 		if (toastItem?.timeout) {
 			clearTimeout(toastItem.timeout)

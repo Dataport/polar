@@ -153,7 +153,9 @@ function setLayerId(map: Map, feature: Feature) {
 export function setupMarkers(map: Map) {
 	const store = useMarkerStore()
 	const configuration = store.configuration
-	if (!configuration) return
+	if (!configuration) {
+		return
+	}
 
 	layers = configuration.layers.map((layer) =>
 		toMerged(

@@ -23,10 +23,7 @@ export default function pluginFullscreen(
 		component,
 		locales,
 		storeModule: useFullscreenStore as PolarPluginStore,
-		options: {
-			displayComponent: true,
-			...options,
-		},
+		options,
 	}
 }
 

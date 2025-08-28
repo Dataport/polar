@@ -20,13 +20,15 @@ export interface PluginOptions {
 	layoutTag?: keyof typeof NineLayoutTag
 }
 
-export type PolarPluginStore = SetupStoreDefinition<
-	string,
-	{
+export type PolarPluginStore<
+	T extends {
 		setupPlugin?: () => void
 		teardownPlugin?: () => void
-	}
->
+	} = {
+		setupPlugin?: () => void
+		teardownPlugin?: () => void
+	},
+> = SetupStoreDefinition<string, T>
 
 /** @internal */
 export type BundledPluginId =
@@ -37,7 +39,10 @@ export type BundledPluginId =
 type GetPluginStore<
 	T extends BundledPluginId,
 	I extends BundledPluginId,
-	S extends PolarPluginStore,
+	// TODO: This fixes the type error, but relaxes type-checking for the plugin store too much.
+	// However, it is not clear if Pinia's type system allows for stronger checks at the moment.
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	S extends PolarPluginStore<any>,
 > = T extends I ? S : never
 
 /** @internal */
@@ -88,6 +93,14 @@ export interface PluginContainer {
 	 * or will be determined by the layout.
 	 */
 	component?: Component
+
+	/**
+	 * Whether the plugin is independently rendered.
+	 *
+	 * @internal
+	 * @defaultValue true
+	 */
+	independent?: boolean
 
 	/**
 	 * Locales used in the plugin.
