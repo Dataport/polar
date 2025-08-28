@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { inject, onMounted, ref } from 'vue'
+import { inject, onMounted, ref, watch } from 'vue'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
 
@@ -41,10 +41,13 @@ function toggle() {
 	}
 	updateMaxWidth()
 }
+
+watch(open, (openMenu) => {
+	active.value = openMenu === props.index
+})
+
 onMounted(() => {
-	if (open.value === props.index) {
-		active.value = true
-	}
+	active.value = open.value === props.index
 })
 </script>
 
