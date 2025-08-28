@@ -111,17 +111,6 @@ function updateMaxWidth() {
 provide('updateMaxWidth', updateMaxWidth)
 </script>
 
-<style>
-.polar-plugin-icon-menu-list-item-content,
-.polar-plugin-icon-menu-list-item-horizontal {
-	/* TODO(dopenguin): Probably no longer needed, check if something else should be used. */
-	.v-card__text {
-		/* Prevents a x-scrollbar being shown if not necessary */
-		width: inherit;
-	}
-}
-</style>
-
 <style scoped>
 .polar-plugin-icon-menu-list {
 	position: relative;
