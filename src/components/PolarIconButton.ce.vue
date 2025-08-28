@@ -9,7 +9,7 @@
 	</span>
 	<button
 		ref="button"
-		class="kern-btn kern-btn--primary polar-icon-button"
+		class="kern-btn kern-btn--secondary polar-icon-button"
 		@click="action"
 		@mouseover="hoveredOrFocused = true"
 		@mouseout="hoveredOrFocused = false"
@@ -35,7 +35,9 @@ import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref, useTemplateRef } from 'vue'
 import { useCoreStore } from '@/core/stores/export.ts'
 
-// TODO(dopenguin): Implementation will need some updates when using with layout 'standard'
+/*
+ * TODO(dopenguin): Implementation will need some updates when using with layout 'standard'
+ */
 
 const props = defineProps<{
 	action: () => void
@@ -60,9 +62,17 @@ onMounted(() => {
 
 <style scoped>
 .polar-icon-button {
+	background: var(--kern-color-layout-background-default);
+	box-shadow:
+		0 1px 1px 0 rgba(53, 57, 86, 0.16),
+		0 1px 2px 0 rgba(53, 57, 86, 0.25),
+		0 1px 6px 0 rgba(110, 117, 151, 0.25);
+	border: none;
+
 	&:focus,
 	&:hover {
-		border: solid var(--kern-color-action-on-default) !important;
+		background: var(--kern-color-layout-background-default) !important;
+		border: solid var(--kern-color-action-on-default);
 		outline: solid var(--kern-color-action-default);
 	}
 }
