@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { t } from 'i18next'
+import { t, type TOptions } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref, useTemplateRef } from 'vue'
 import { useCoreStore } from '@/core/stores/export.ts'
@@ -50,13 +50,16 @@ const props = defineProps<{
 	hintNamespace: string
 	icon: string
 	active?: boolean
+	hintOptions?: TOptions
 	tooltipPosition?: 'left' | 'right'
 }>()
 
 const hoveredOrFocused = ref(false)
 const position = ref('')
 
-const hint = computed(() => t(props.hint, { ns: props.hintNamespace }))
+const hint = computed(() =>
+	t(props.hint, { ns: props.hintNamespace, ...props.hintOptions })
+)
 const { hasSmallDisplay } = storeToRefs(useCoreStore())
 
 const button = useTemplateRef<HTMLButtonElement>('button')
