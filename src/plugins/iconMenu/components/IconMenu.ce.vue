@@ -1,4 +1,5 @@
 <template>
+	<!-- TODO(dopenguin): Use getter added in vue3/migrate-plugin-toast -->
 	<StandardMenu v-if="configuration.layout === 'standard'" />
 	<NineRegionsMenu v-else />
 </template>
