@@ -198,6 +198,7 @@ addPlugin(
 
 addPlugin(
 	pluginToast({
+		displayComponent: true,
 		layoutTag: 'BOTTOM_MIDDLE',
 	})
 )
