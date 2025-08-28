@@ -86,7 +86,7 @@ await createMap(
 				visibility: true,
 			},
 		],
-		layout: 'nineRegions',
+		layout: 'standard',
 		checkServiceAvailability: true,
 		featureStyles: styleJsonUrl,
 		markers: {
@@ -161,15 +161,18 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 })
 
 addPlugin(
+	pluginFullscreen({
+		displayComponent: true,
+		layoutTag: 'TOP_RIGHT',
+	})
+)
+
+addPlugin(
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
 		initiallyOpen: 'kewl',
 		menus: [
-			{
-				plugin: pluginFullscreen(),
-				hint: 'Full of yourself',
-			},
 			// TODO: Delete these two including the component once another plugin is implemented
 			{
 				plugin: {
