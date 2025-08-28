@@ -33,6 +33,10 @@ const props = defineProps<{
 	serviceRegister: string | Record<string, unknown>[]
 }>()
 
+defineExpose<{
+	store: ReturnType<typeof useCoreStore>
+}>()
+
 const mainStore = useMainStore()
 const { language } = storeToRefs(mainStore)
 
