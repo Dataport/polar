@@ -41,6 +41,14 @@ export const useCoreStore = defineStore('core', () => {
 		 */
 		deviceIsHorizontal: computed(() => mainStore.deviceIsHorizontal),
 		/**
+		 * Whether the map has a maximum height of {@link SMALL_DISPLAY_HEIGHT} and
+		 * a maximum width of {@link SMALL_DISPLAY_WIDTH}.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		hasSmallDisplay: computed(() => mainStore.hasSmallDisplay),
+		/**
 		 * Whether the height of the map is smaller than 480px.
 		 *
 		 * @alpha
