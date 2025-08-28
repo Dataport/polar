@@ -1,7 +1,7 @@
 <template>
 	<div ref="polar-wrapper" class="polar-wrapper" :lang="language">
-		<PolarMap />
-		<PolarUI />
+		<PolarMap :key="JSON.stringify(mainStore.configuration)" />
+		<PolarUI :key="JSON.stringify(mainStore.configuration)" />
 	</div>
 </template>
 
@@ -13,6 +13,7 @@ import {
 	useHost,
 	useShadowRoot,
 	useTemplateRef,
+	watch,
 } from 'vue'
 import i18next from 'i18next'
 import { useMainStore } from '../stores/main'
@@ -41,31 +42,46 @@ const mainStore = useMainStore()
 const { language } = storeToRefs(mainStore)
 
 // TODO: Allow live-updates of configuration, if possible
-mainStore.configuration = mapZoomOffset({
-	...defaults,
-	...props.mapConfiguration,
-})
-mainStore.serviceRegister = props.serviceRegister
 
-if (mainStore.configuration.oidcToken) {
-	// copied to a separate spot for usage as it's changeable data at run-time
-	mainStore.oidcToken = mainStore.configuration.oidcToken
-}
+watch(
+	() => props.mapConfiguration,
+	(mapConfiguration) => {
+		mainStore.configuration = mapZoomOffset({
+			...defaults,
+			...mapConfiguration,
+		})
 
-if (mainStore.configuration.locales) {
-	mainStore.configuration.locales.forEach((locale) => {
-		Object.entries(locale.resources).forEach(([ns, resources]) => {
-			i18next.addResourceBundle(locale.type, ns, resources, true, true)
-		})
-	})
-}
-if (mainStore.configuration.language) {
-	i18next
-		.changeLanguage(mainStore.configuration.language)
-		.catch((error: unknown) => {
-			console.error('Failed to set initial language:', error)
-		})
-}
+		if (mainStore.configuration.oidcToken) {
+			// copied to a separate spot for usage as it's changeable data at run-time
+			mainStore.oidcToken = mainStore.configuration.oidcToken
+		}
+
+		if (mainStore.configuration.locales) {
+			mainStore.configuration.locales.forEach((locale) => {
+				Object.entries(locale.resources).forEach(([ns, resources]) => {
+					i18next.addResourceBundle(locale.type, ns, resources, true, true)
+				})
+			})
+		}
+		if (mainStore.configuration.language) {
+			i18next
+				.changeLanguage(mainStore.configuration.language)
+				.catch((error: unknown) => {
+					console.error('Failed to set initial language:', error)
+				})
+		}
+	},
+	{ immediate: true, deep: true }
+)
+
+watch(
+	() => props.serviceRegister,
+	(serviceRegister) => {
+		mainStore.serviceRegister = serviceRegister
+	},
+	{ immediate: true, deep: true }
+)
+
 mainStore.language = i18next.language
 i18next.on('languageChanged', (newLanguage) => {
 	mainStore.language = newLanguage

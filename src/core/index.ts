@@ -190,3 +190,4 @@ function getStore(storeName: string) {
 }
 
 export type * from './types'
+export { type PolarContainer }
