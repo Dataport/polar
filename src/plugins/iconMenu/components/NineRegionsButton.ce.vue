@@ -16,7 +16,6 @@ import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
 
 const props = defineProps<{
-	id: string
 	icon: string
 	index: number
 	hint: string

@@ -22,7 +22,6 @@
 				/>
 				<NineRegionsButton
 					v-else
-					:id="plugin.id"
 					:icon="icon"
 					:hint="hint ? hint : `hints.${plugin.id}`"
 					:index="index"
