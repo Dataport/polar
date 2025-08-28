@@ -10,7 +10,6 @@
 		<div class="kern-alert__header">
 			<span class="kern-icon" :class="toast.iconClass" aria-hidden="true" />
 			<span class="kern-title">{{ toast.text }}</span>
-			<span style="flex: 1" aria-hidden="true"></span>
 			<button class="kern-btn" @click="store.removeToast(toast.originalToast)">
 				<span class="kern-icon kern-icon--close" aria-hidden="true" />
 				<span class="kern-label kern-sr-only">{{
@@ -60,6 +59,10 @@ const toasts = computed(() =>
 <style scoped>
 .kern-alert {
 	margin: 0.5em 0;
+
+	& > .kern-alert__header > .kern-title {
+		flex: 1;
+	}
 }
 
 .kern-btn {
