@@ -102,6 +102,7 @@ onMounted(() => {
 }
 
 .polar-tooltip {
+	z-index: 42;
 	display: inline-block;
 	position: absolute;
 	width: auto;
