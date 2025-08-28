@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, inject } from 'vue'
+import { inject } from 'vue'
 // import { useCoreStore } from '@/core/stores/export.ts'
 import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
 
@@ -19,7 +19,7 @@ const props = defineProps<{
 	id: string
 	icon: string
 	index: number
-	hint?: string
+	hint: string
 }>()
 
 /*
@@ -32,8 +32,6 @@ const iconMenuStore = useIconMenuStore()
 const { open } = storeToRefs(iconMenuStore)
 
 const updateMaxWidth = inject('updateMaxWidth') as () => void
-
-const hint = computed(() => (props.hint ? props.hint : `hints.${props.id}`))
 
 function toggle() {
 	if (open.value === props.index) {
