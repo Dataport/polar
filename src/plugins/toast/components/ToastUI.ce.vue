@@ -60,8 +60,12 @@ const toasts = computed(() =>
 .kern-alert {
 	margin: 0.5em 0;
 
-	& > .kern-alert__header > .kern-title {
-		flex: 1;
+	& > .kern-alert__header {
+		padding: 4px 16px;
+
+		& > .kern-title {
+			flex: 1;
+		}
 	}
 }
 
