@@ -10,7 +10,10 @@
 	<button
 		ref="button"
 		class="kern-btn kern-btn--secondary polar-icon-button"
-		:class="{ 'polar-icon-button-active': active }"
+		:class="{
+			'polar-icon-button-active': active,
+			[$props.buttonClass ? $props.buttonClass : '']: true,
+		}"
 		@click="action"
 		@mouseover="hoveredOrFocused = true"
 		@mouseout="hoveredOrFocused = false"
@@ -50,6 +53,7 @@ const props = defineProps<{
 	hintNamespace: string
 	icon: string
 	active?: boolean
+	buttonClass?: string
 	hintOptions?: TOptions
 	tooltipPosition?: 'left' | 'right'
 }>()
