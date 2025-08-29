@@ -47,7 +47,9 @@ export default defineConfig(({ mode }) => ({
 					}),
 				]
 			: []),
-		kernExtraIcons(),
+		kernExtraIcons({
+			cssLayer: 'kern-ux-icons',
+		}),
 		enrichedConsole(),
 	],
 	build: {

@@ -7,7 +7,8 @@
 	"compilerOptions": {
 		"types": [
 			"vitest/importMeta",
-			"vitest/jsdom"
+			"vitest/jsdom",
+			"vite-plugin-kern-extra-icons/client"
 		],
 		"lib": [
 			"ESNext",

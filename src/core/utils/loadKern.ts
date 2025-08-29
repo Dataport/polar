@@ -16,22 +16,28 @@ function buildKernTheme(theme: Partial<KernTheme>): CSSStyleSheet {
 	const sheet = new CSSStyleSheet()
 	const flatTheme = flattenKernTheme(theme)
 	sheet.replaceSync(`
-		:host {
-			${flatTheme.map(([k, v]) => `--${k}: ${v} !important;`).join('\n')}
+		@layer kern-ux-theme {
+			:host {
+				${flatTheme.map(([k, v]) => `--${k}: ${v} !important;`).join('\n')}
+			}
 		}
 	`)
 	return sheet
 }
 
 export function loadKern(host: ShadowRoot, theme: Partial<KernTheme> = {}) {
+	host.adoptedStyleSheets.push(kernExtraIcons)
+
 	const kernSheet = new CSSStyleSheet()
-	kernSheet.replaceSync(kernCss.replaceAll(':root', ':host'))
+	kernSheet.replaceSync(`
+		@layer kern-ux {
+			${kernCss.replaceAll(':root', ':host')}
+		}
+	`)
 	host.adoptedStyleSheets.push(kernSheet)
 
 	const kernTheme = buildKernTheme(theme)
 	host.adoptedStyleSheets.push(kernTheme)
-
-	host.adoptedStyleSheets.push(kernExtraIcons)
 }
 
 if (import.meta.hot) {
