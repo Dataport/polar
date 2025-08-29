@@ -61,6 +61,7 @@ onBeforeUnmount(() => {
 })
 </script>
 
+<!-- eslint-disable-next-line vue/enforce-style-attribute -->
 <style>
 :host {
 	--brand-color-l: v-bind('mainStore.configuration.theme?.brandColor?.l');

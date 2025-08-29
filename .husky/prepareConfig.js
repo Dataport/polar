@@ -8,23 +8,32 @@ if (existsSync('git-hooks.config.json')) {
 	}
 }
 
-Object.entries(config).forEach(([key, value]) => {
-	const formattedKey =
+function formatKey(key) {
+	return (
 		'POLAR_' + key.replace(/[A-Z]/g, (m) => '_' + m.toLowerCase()).toUpperCase()
-	if (process.env[formattedKey]) {
-		const envValue = process.env[formattedKey]
-		if (['yes', 'YES', 'true', 'TRUE', '1', 'on', 'ON'].includes(envValue)) {
-			value = true
-		} else if (
-			['no', 'NO', 'false', 'FALSE', '0', 'off', 'OFF'].includes(envValue)
-		) {
-			value = false
-		} else {
-			process.stderr.write(
-				`Expected either "yes" or "no" for ${formattedKey}, got ${envValue}`
-			)
-			process.exit(1)
-		}
+	)
+}
+
+function getEnvValue(key) {
+	if (!process.env[key]) {
+		return null
 	}
-	process.stdout.write(`${formattedKey}=${value ? 'yes' : 'no'}\n`)
+	const envValue = process.env[key]
+	if (['yes', 'YES', 'true', 'TRUE', '1', 'on', 'ON'].includes(envValue)) {
+		return true
+	} else if (
+		['no', 'NO', 'false', 'FALSE', '0', 'off', 'OFF'].includes(envValue)
+	) {
+		return false
+	}
+	process.stderr.write(
+		`Expected either "yes" or "no" for ${key}, got ${JSON.stringify(envValue)}`
+	)
+	process.exit(1)
+}
+
+Object.entries(config).forEach(([key, value]) => {
+	const formattedKey = formatKey(key)
+	const effectiveValue = getEnvValue(formattedKey) ?? value
+	process.stdout.write(`${formattedKey}=${effectiveValue ? 'yes' : 'no'}\n`)
 })

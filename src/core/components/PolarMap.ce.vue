@@ -37,7 +37,9 @@ const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
 let map: Map | null = null
 
 function onMove() {
-	if (!map) return
+	if (!map) {
+		return
+	}
 	center.value = map.getView().getCenter() || center.value
 	zoom.value = map.getView().getZoom() || zoom.value
 }
@@ -71,12 +73,16 @@ function createMap() {
 // NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
 //       Added as a watcher to trigger the update at the correct time.
 watch(hasWindowSize, (value) => {
-	if (!map) return
+	if (!map) {
+		return
+	}
 	updateDragAndZoomInteractions(map, value, hasSmallDisplay.value)
 })
 
 watch(center, (center) => {
-	if (!map) return
+	if (!map) {
+		return
+	}
 	map.getView().animate({
 		center,
 		duration: 400,
@@ -86,7 +92,9 @@ watch(center, (center) => {
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 function wheelEffect(event: WheelEvent) {
-	if (hasWindowSize.value) return
+	if (hasWindowSize.value) {
+		return
+	}
 	const condition = computed(() => !hasWindowSize.value)
 	if (isMacOS && !event.metaKey) {
 		overlay.value?.show('overlay.noCommandOnZoom', condition)
@@ -139,6 +147,7 @@ function updateListeners() {
 watch(hasWindowSize, updateListeners)
 </script>
 
+<!-- eslint-disable-next-line vue/enforce-style-attribute -->
 <style>
 @import url('ol/ol.css');
 </style>

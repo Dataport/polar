@@ -7,7 +7,7 @@
 import component from './components/IconMenu.ce.vue'
 import locales from './locales'
 import { useIconMenuStore } from './store'
-import type { IconMenuPluginOptions } from './types'
+import { PluginId, type IconMenuPluginOptions } from './types'
 import type { PluginContainer, PolarPluginStore } from '@/core'
 
 /**
@@ -24,7 +24,7 @@ export default function pluginIconMenu(
 	options: IconMenuPluginOptions
 ): PluginContainer {
 	return {
-		id: 'iconMenu',
+		id: PluginId,
 		component,
 		locales,
 		storeModule: useIconMenuStore as PolarPluginStore,

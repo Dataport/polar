@@ -6,20 +6,17 @@ import vueConfig from '@dataport/eslint-config-geodev/vue'
 import jsonConfig from '@dataport/eslint-config-geodev/json'
 import markdownConfig from '@dataport/eslint-config-geodev/markdown'
 import prettierConfig from 'eslint-plugin-prettier/recommended'
+import perfectionist from 'eslint-plugin-perfectionist'
 
 const polarConfig = {
+	plugins: {
+		perfectionist,
+	},
 	rules: {
-		'prettier/prettier': [
-			'error',
-			{
-				semi: false,
-				trailingComma: 'es5',
-				singleQuote: true,
-				printWidth: 80,
-				tabWidth: 2,
-				useTabs: true,
-			},
-		],
+		'prettier/prettier': 'error',
+
+		// Re-enable rules that are disabled by prettier but do not collide
+		curly: ['error', 'all'],
 
 		// POLAR-specific rules
 		'no-warning-comments': 'warn',
@@ -28,6 +25,7 @@ const polarConfig = {
 
 const polarTsConfig = {
 	rules: {
+		// Relaxed rules
 		'@typescript-eslint/no-unsafe-argument': 'off',
 		'@typescript-eslint/no-unsafe-assignment': 'off',
 		'@typescript-eslint/no-unsafe-call': 'off',
@@ -40,6 +38,45 @@ const polarTsConfig = {
 				allowNumber: true,
 			},
 		],
+
+		// POLAR-specific rules
+		'perfectionist/sort-interfaces': [
+			'error',
+			{
+				type: 'natural',
+				groups: ['required-member', 'unknown'],
+			},
+		],
+	},
+}
+
+const polarVueConfig = {
+	rules: {
+		// POLAR-specific rules
+		'vue/no-empty-component-block': 'error',
+		'vue/block-order': [
+			'error',
+			{
+				order: ['template', 'script', 'style'],
+			},
+		],
+		'vue/block-lang': [
+			'error',
+			{
+				template: {
+					allowNoLang: true,
+				},
+				script: {
+					lang: 'ts',
+				},
+				style: {
+					allowNoLang: true,
+				},
+			},
+		],
+		'vue/component-api-style': ['error', ['script-setup', 'composition']],
+		'vue/require-default-export': 'error',
+		'vue/enforce-style-attribute': ['error', { allow: ['scoped'] }],
 	},
 }
 
@@ -88,6 +125,7 @@ export default defineConfig([
 			prettierConfig,
 			polarConfig,
 			polarTsConfig,
+			polarVueConfig,
 		],
 	},
 	{

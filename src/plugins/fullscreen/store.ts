@@ -68,7 +68,9 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	const fullscreenEnabled = computed({
 		get: () => _fullscreenEnabled.value,
 		set: (value) => {
-			if (value === _fullscreenEnabled.value) return
+			if (value === _fullscreenEnabled.value) {
+				return
+			}
 			;(value ? enableFullscreen : disableFullscreen)().catch(() => {
 				console.warn('Failed to toggle fullscreen mode')
 			})
@@ -199,8 +201,12 @@ if (import.meta.vitest) {
 					resolve()
 				})
 			})
-			if (native) jsdom.window.document.exitFullscreen = exitFullscreen
-			if (webkit) jsdom.window.document.webkitExitFullscreen = exitFullscreen
+			if (native) {
+				jsdom.window.document.exitFullscreen = exitFullscreen
+			}
+			if (webkit) {
+				jsdom.window.document.webkitExitFullscreen = exitFullscreen
+			}
 			store.fullscreenEnabled = false
 			expect(exitFullscreen).toHaveBeenCalled()
 			await vi.waitUntil(() => !store.fullscreenEnabled)

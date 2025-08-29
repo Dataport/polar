@@ -49,5 +49,3 @@ onMounted(() => {
 	active.value = open.value === props.index
 })
 </script>
-
-<style scoped></style>

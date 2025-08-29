@@ -103,7 +103,7 @@ export function addPlugin(plugin: PluginContainer) {
 
 export function removePlugin(pluginId: string) {
 	const coreStore = useMainStore()
-	const plugin = coreStore.plugins.find((p) => p.id === pluginId)
+	const plugin = coreStore.plugins.find(({ id }) => id === pluginId)
 
 	if (!plugin) {
 		console.error(`Plugin "${pluginId}" not found.`)
@@ -111,12 +111,12 @@ export function removePlugin(pluginId: string) {
 	}
 	const store = plugin.storeModule?.()
 	if (store) {
-		store.teardownPlugin()
+		if (typeof store.teardownPlugin === 'function') {
+			store.teardownPlugin()
+		}
 		store.$reset()
 	}
-	coreStore.plugins = coreStore.plugins.filter(
-		(plugin) => plugin.id !== pluginId
-	)
+	coreStore.plugins = coreStore.plugins.filter(({ id }) => id !== pluginId)
 }
 
 /**

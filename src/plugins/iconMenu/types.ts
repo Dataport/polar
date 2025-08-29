@@ -2,6 +2,8 @@ import type { Component } from 'vue'
 import type { PluginContainer, PluginOptions } from '@/core'
 import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
 
+export const PluginId = 'iconMenu'
+
 export interface Menu {
 	/**
 	 * The plugin that should be part of the icon menu.
