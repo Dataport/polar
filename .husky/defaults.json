@@ -1,7 +1,10 @@
 {
+	"skipPreCommit": false,
 	"allowDirtyCommit": true,
 	"lintOnCommit": false,
 	"typecheckOnCommit": false,
 	"testOnCommit": false,
+
+	"skipCommitMsg": false,
 	"lintCommitMessage": true
 }
