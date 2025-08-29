@@ -75,6 +75,7 @@
 		"security.md"
 	],
 	"devDependencies": {
+		"@actions/github": "^6.0.1",
 		"@cesium/engine": "^15.0.0",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
