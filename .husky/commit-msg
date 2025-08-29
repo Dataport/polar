@@ -1,6 +1,10 @@
 #!/bin/sh
 set -e
 eval `node .husky/prepareConfig.js`
+if [ "$POLAR_SKIP_COMMIT_MSG" = "yes" ]
+then
+	exit 0
+fi
 
 if [ "$POLAR_LINT_COMMIT_MESSAGE" = "yes" ]
 then
@@ -10,6 +14,7 @@ then
 		echo "Please edit your commit message appropriately." >&2
 		echo >&2
 		echo "If you want to commit anyway, set POLAR_LINT_COMMIT_MESSAGE=no" >&2
+		echo "If you want to skip all commit-msg checks, set POLAR_SKIP_COMMIT_MSG=yes" >&2
 		exit 1
 	fi
 fi
