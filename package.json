@@ -1,6 +1,6 @@
 {
 	"name": "@polar/polar",
-	"version": "3.0.0-alpha.0",
+	"version": "3.0.0-alpha.1",
 	"description": "Configurable map client based on OpenLayers",
 	"keywords": [
 		"OpenLayers",
@@ -75,6 +75,7 @@
 		"security.md"
 	],
 	"devDependencies": {
+		"@actions/github": "^6.0.1",
 		"@cesium/engine": "^15.0.0",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
@@ -122,7 +123,7 @@
 		"vite-plugin-checker": "^0.10.2",
 		"vite-plugin-commonjs": "^0.10.4",
 		"vite-plugin-dts": "^4.5.4",
-		"vite-plugin-kern-extra-icons": "^0.1.0",
+		"vite-plugin-kern-extra-icons": "^0.2.0",
 		"vite-plugin-vue-devtools": "^8.0.0",
 		"vitest": "^3.2.4",
 		"vue": "^3.5.18",
