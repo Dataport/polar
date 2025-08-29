@@ -1,6 +1,5 @@
 <template>
-	<!-- TODO(dopenguin): Use getter added in vue3/migrate-plugin-toast -->
-	<StandardMenu v-if="configuration.layout === 'standard'" />
+	<StandardMenu v-if="layout === 'standard'" />
 	<NineRegionsMenu v-else />
 </template>
 
@@ -10,5 +9,5 @@ import NineRegionsMenu from './NineRegionsMenu.ce.vue'
 import StandardMenu from './StandardMenu.ce.vue'
 import { useCoreStore } from '@/core/stores/export.ts'
 
-const { configuration } = storeToRefs(useCoreStore())
+const { layout } = storeToRefs(useCoreStore())
 </script>

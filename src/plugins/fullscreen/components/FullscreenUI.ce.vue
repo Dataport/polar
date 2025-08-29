@@ -1,11 +1,8 @@
 <template>
-	<!-- TODO(dopenguin): Use getter for layout added in vue3/migrate-plugin-toast -->
 	<PolarIconButton
 		:action="() => (fullscreenEnabled = !fullscreenEnabled)"
 		:button-class="
-			configuration.layout === 'standard'
-				? 'polar-plugin-fullscreen-standard'
-				: ''
+			layout === 'standard' ? 'polar-plugin-fullscreen-standard' : ''
 		"
 		hint="button.label"
 		:hint-options="{ context: fullscreenEnabled ? 'off' : 'on' }"
@@ -24,7 +21,7 @@ import { PluginId } from '../types'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores/export.ts'
 
-const { configuration } = storeToRefs(useCoreStore())
+const { layout } = storeToRefs(useCoreStore())
 const { fullscreenEnabled } = storeToRefs(useFullscreenStore())
 </script>
 
