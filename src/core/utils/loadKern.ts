@@ -5,7 +5,9 @@ import type { KernTheme, KernThemeTree } from '../types'
 function flattenKernTheme(theme: KernThemeTree, prefix: string[] = []) {
 	return Object.entries(theme).flatMap(([k, v]) => {
 		const keys = [...prefix, k.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())]
-		if (typeof v === 'string') return [[`kern-${keys.join('-')}`, v]]
+		if (typeof v === 'string') {
+			return [[`kern-${keys.join('-')}`, v]]
+		}
 		return flattenKernTheme(v, keys)
 	})
 }

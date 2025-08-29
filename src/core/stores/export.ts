@@ -6,6 +6,12 @@
 
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
+import type {
+	PluginId,
+	BundledPluginId,
+	BundledPluginStores,
+	PolarPluginStore,
+} from '../types'
 import { useMainStore } from './main'
 
 /* eslint-disable tsdoc/syntax */
@@ -17,6 +23,18 @@ import { useMainStore } from './main'
 /* eslint-enable tsdoc/syntax */
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
+
+	function getPluginStore<T extends PluginId>(
+		id: T
+	): ReturnType<
+		T extends BundledPluginId
+			? BundledPluginStores<typeof id>
+			: PolarPluginStore
+	> | null {
+		const plugin = mainStore.plugins.find((plugin) => plugin.id === id)
+		// @ts-expect-error | We trust that our internal IDs work.
+		return plugin?.storeModule?.() || null
+	}
 
 	return {
 		/**
@@ -62,6 +80,15 @@ export const useCoreStore = defineStore('core', () => {
 		 */
 		hasWindowSize: computed(() => mainStore.hasWindowSize),
 		/**
+		 * Returns a plugin's store by its ID.
+		 *
+		 * For bundled plugins, the return value is typed.
+		 *
+		 * If no plugin with the specified ID is loaded, `null` is returned instead.
+		 */
+		getPluginStore,
+
+		/**
 		 * Allows reading or setting the OIDC token used for service accesses.
 		 */
 		oidcToken: mainStore.oidcToken,
@@ -72,6 +99,15 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		lightElement: computed(() => mainStore.lightElement),
+		/**
+		 * The currently used layout.
+		 * Either a string indicating `standard` or `nineRegions` or a custom Vue component.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		layout: computed(() => mainStore.layout),
+
 		/**
 		 * Allows accessing the OpenLayers Map element.
 		 *

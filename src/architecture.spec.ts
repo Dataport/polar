@@ -9,18 +9,18 @@ describe('Architectural checks', () => {
 		files = filesOfProject(resolve(__dirname, 'tsconfig.json'))
 	})
 
-	test('POLAR should be cycle-free (except for types)', async () => {
+	test('POLAR should be cycle-free', async () => {
 		const violations = await files
-			.matchingPattern('^(?!.*/types\\.ts$).*')
+			.matchingPattern('.*')
 			.should()
 			.beFreeOfCycles()
 			.check()
 		expect(violations).toEqual([])
 	})
 
-	test('Core should not depend on plugins (except for types)', async () => {
+	test('Core should not depend on plugins (except for plugin types)', async () => {
 		const violations = await files
-			.matchingPattern('^core/(?!types\\.ts$).*$')
+			.matchingPattern('^core/(?!types/.*\\.ts$).*$')
 			.shouldNot()
 			.dependOnFiles()
 			.matchingPattern('^plugins/.*$')

@@ -1,7 +1,9 @@
 import { changeLanguage } from 'i18next'
+import pluginToast from '@polar/polar/plugins/toast'
+import { useToastStore } from '@polar/polar/plugins/toast/store'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
-import { addPlugin, createMap, removePlugin, subscribe } from '@polar/polar'
+import { addPlugin, createMap, subscribe } from '@polar/polar'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
 import AnotherEmptyComponent from './AnotherEmptyComponent.vue'
@@ -11,6 +13,7 @@ const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 
+// eslint-disable-next-line no-unused-vars
 const dataportTheme = {
 	brandColor: {
 		l: '0.4671',
@@ -192,6 +195,23 @@ addPlugin(
 		],
 	})
 )
+
+addPlugin(
+	pluginToast({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_MIDDLE',
+	})
+)
+
+const toastStore = useToastStore()
+toastStore.addToast({
+	text: 'Hallo Welt',
+	severity: 'info',
+})
+toastStore.addToast({
+	text: 'Achtung! Dies ist ein Toast!',
+	severity: 'error',
+})
 
 subscribe(
 	'markers',

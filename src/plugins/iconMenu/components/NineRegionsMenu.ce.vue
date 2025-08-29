@@ -66,7 +66,10 @@ const { clientHeight, deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
 const { buttonComponent, menus, open } = storeToRefs(useIconMenuStore())
 
 const maxWidth = ref('inherit')
-const pluginComponent = useTemplateRef('pluginComponent')
+const pluginComponent =
+	useTemplateRef<
+		[(typeof menus.value)[number]['plugin']['component'] | undefined]
+	>('pluginComponent')
 
 const asList = computed(() => menus.value.length > 1)
 const maxHeight = computed(() =>
@@ -98,9 +101,9 @@ function updateMaxWidth() {
 	nextTick(() => {
 		if (pluginComponent.value?.[0]) {
 			if (!hasWindowSize.value) {
-				// IntelliSense works, but the type is not correctly asserted so typing is required
-				const { left, width }: DOMRect =
-					pluginComponent.value[0].$el.getBoundingClientRect()
+				const { left, width } = (
+					pluginComponent.value[0]['$el'] as HTMLElement
+				).getBoundingClientRect()
 				maxWidth.value = `${width + left}px`
 			} else {
 				maxWidth.value = 'inherit'

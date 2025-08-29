@@ -34,7 +34,9 @@ function show(
 		conditionWatcher.value = watch(
 			condition,
 			(value) => {
-				if (!value) hide()
+				if (!value) {
+					hide()
+				}
 			},
 			{ immediate: true }
 		)
