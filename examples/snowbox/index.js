@@ -164,13 +164,6 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 })
 
 addPlugin(
-	pluginFullscreen({
-		displayComponent: true,
-		layoutTag: 'TOP_RIGHT',
-	})
-)
-
-addPlugin(
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
@@ -196,6 +189,13 @@ addPlugin(
 				hint: 'Something kewl',
 			},
 		],
+	})
+)
+// TODO(dopenguin): Order of plugins is relevant in the DOM when using layout standard
+addPlugin(
+	pluginFullscreen({
+		displayComponent: true,
+		layoutTag: 'TOP_RIGHT',
 	})
 )
 
