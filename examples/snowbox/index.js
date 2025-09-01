@@ -1,12 +1,14 @@
 import { changeLanguage } from 'i18next'
-import pluginToast from '@polar/polar/plugins/toast'
-import { useToastStore } from '@polar/polar/plugins/toast/store'
+import { addPlugin, createMap, subscribe } from '@polar/polar'
+
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
-import { addPlugin, createMap, subscribe } from '@polar/polar'
+import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
+import pluginToast from '@polar/polar/plugins/toast'
+import { useToastStore } from '@polar/polar/plugins/toast/store'
+
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
-import AnotherEmptyComponent from './AnotherEmptyComponent.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -180,11 +182,7 @@ addPlugin(
 				hint: 'Something layered',
 			},
 			{
-				plugin: {
-					component: AnotherEmptyComponent,
-					id: 'realKewl',
-					locales: [],
-				},
+				plugin: pluginLayerChooser({}),
 				icon: 'kern-icon--layers',
 				hint: 'Something kewl',
 			},
