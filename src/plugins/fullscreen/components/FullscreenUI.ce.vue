@@ -26,10 +26,11 @@ const { fullscreenEnabled } = storeToRefs(useFullscreenStore())
 </script>
 
 <style>
+/* TODO: For some reason, this style doesn't work scoped and with :deep yet. */
 .polar-plugin-fullscreen-standard {
-	position: absolute !important;
+	position: absolute;
 	right: 0;
 	margin: 8px;
-	pointer-events: all !important;
+	pointer-events: all;
 }
 </style>
