@@ -84,25 +84,25 @@ onMounted(() => {
 
 	&:focus,
 	&:hover {
-		background: var(--kern-color-layout-background-default) !important;
+		background: var(--kern-color-layout-background-default);
 		border: solid var(--kern-color-action-on-default);
 		outline: solid var(--kern-color-action-default);
 	}
 }
 
 .polar-icon-button-active {
-	background: var(--kern-color-action-default) !important;
+	background: var(--kern-color-action-default);
 
 	&:focus,
 	&:hover {
-		background: var(--kern-color-action-default) !important;
+		background: var(--kern-color-action-default);
 		border: solid var(--kern-color-action-on-default);
 		outline: solid var(--kern-color-action-default);
 	}
 }
 
 .polar-icon-button-icon-active {
-	background: var(--kern-color-layout-background-default) !important;
+	background: var(--kern-color-layout-background-default);
 }
 
 .polar-tooltip {
