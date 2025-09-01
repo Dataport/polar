@@ -1,6 +1,7 @@
 import { expect, test as _test, vi } from 'vitest'
 import { mount, VueWrapper } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
+import i18next from 'i18next'
 import { nextTick } from 'vue'
 import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'
@@ -12,12 +13,12 @@ const test = _test.extend<{
 	store: ReturnType<typeof useFullscreenStore>
 }>({
 	wrapper: async ({}, use) => {
+		vi.mock('i18next', () => ({
+			t: (key, { ns, context }) => `$t(${ns}:${key}_${context})`,
+		}))
 		const wrapper = mount(FullscreenUI, {
 			global: {
 				plugins: [createTestingPinia({ createSpy: vi.fn })],
-				mocks: {
-					$t: (key, { ns, context }) => `$t(${ns}:${key}_${context})`,
-				},
 			},
 		})
 		await use(wrapper)
