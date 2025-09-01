@@ -161,7 +161,6 @@ function toggle(index: number) {
 			position: absolute;
 			top: 0;
 			left: calc(100% + 0.5em);
-			white-space: nowrap;
 			overflow-y: auto;
 			scrollbar-gutter: stable;
 		}
