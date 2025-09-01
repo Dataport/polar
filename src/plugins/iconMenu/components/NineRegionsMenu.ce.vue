@@ -65,10 +65,7 @@ const { clientHeight, deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
 const { buttonComponent, menus, open } = storeToRefs(useIconMenuStore())
 
 const maxWidth = ref('inherit')
-const pluginComponent =
-	useTemplateRef<
-		[(typeof menus.value)[number]['plugin']['component'] | undefined]
-	>('pluginComponent')
+const pluginComponent = useTemplateRef('pluginComponent')
 
 const asList = computed(() => menus.value.length > 1)
 const maxHeight = computed(() =>
