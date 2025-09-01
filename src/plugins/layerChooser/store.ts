@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -14,10 +15,13 @@ import { defineStore } from 'pinia'
  */
 /* eslint-enable tsdoc/syntax */
 export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
+	const openedOptions = ref('')
 	function setupPlugin() {}
 	function teardownPlugin() {}
 
 	return {
+		/** @internal */
+		openedOptions,
 		/** @internal */
 		setupPlugin,
 		/** @internal */
