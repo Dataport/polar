@@ -102,9 +102,9 @@ function updateMaxWidth() {
 	nextTick(() => {
 		if (pluginComponent.value?.[0]) {
 			if (!hasWindowSize.value) {
-				// IntelliSense works, but the type is not correctly asserted so typing is required
-				const { left, width }: DOMRect =
-					pluginComponent.value[0].$el.getBoundingClientRect()
+				const { left, width } = (
+					pluginComponent.value[0]['$el'] as HTMLElement
+				).getBoundingClientRect()
 				maxWidth.value = `${width + left}px`
 			} else {
 				maxWidth.value = 'inherit'
