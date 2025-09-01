@@ -1,7 +1,6 @@
 import { expect, test as _test, vi } from 'vitest'
 import { mount, VueWrapper } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
-import i18next from 'i18next'
 import { nextTick } from 'vue'
 import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'
