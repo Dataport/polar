@@ -25,6 +25,7 @@ export interface LayerConfigurationOptionLayers {
 	title?: boolean | Record<string, string>
 }
 
+// TODO: It should be allowed to set LayerType to a random string to allow for the grouping of different mask layers
 export type LayerType = 'background' | 'mask'
 
 export interface LayerConfigurationOptions {
