@@ -178,7 +178,8 @@ addPlugin(
 					id: 'kewl',
 					locales: [],
 				},
-				icon: 'kern-icon--layers',
+				// TODO: Multi-word icons can't be used yet (e.g. near_me)
+				icon: 'kern-icon--east',
 				hint: 'Something layered',
 			},
 			{
