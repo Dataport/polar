@@ -13,6 +13,6 @@ import PolarCard from '@/components/PolarCard.ce.vue'
 import { useLayerChooserStore } from '@/plugins/layerChooser/store.ts'
 
 const displaySelection = computed(
-	() => useLayerChooserStore().openedOptions.length > 0
+	() => useLayerChooserStore().openedOptions.length === 0
 )
 </script>
