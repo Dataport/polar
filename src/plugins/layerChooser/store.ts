@@ -104,7 +104,6 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 				const [configuredBackgrounds, configuredMasks] = getBackgroundsAndMasks(
 					coreStore.configuration.layers
 				)
-				console.warn('nani', configuredBackgrounds, configuredMasks)
 				backgrounds.value = configuredBackgrounds
 				masks.value = configuredMasks
 
