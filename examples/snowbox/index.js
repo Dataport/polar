@@ -184,7 +184,6 @@ addPlugin(
 			{
 				plugin: pluginLayerChooser({}),
 				icon: 'kern-icon--layers',
-				hint: 'Something kewl',
 			},
 		],
 	})
