@@ -1,4 +1,4 @@
-import type { Feature, Map } from 'ol'
+import { type Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { defineStore } from 'pinia'
@@ -14,7 +14,8 @@ export const useMainStore = defineStore('main', () => {
 	})
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
-	const map = ref<Map | null>(null)
+	// TODO(dopenguin): Revert to initially null if weird behaviour occurs; needed to not always have to call "if (map !== null) {...}"
+	const map = ref(new Map())
 	const plugins = ref<PluginContainer[]>([])
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
 	const shadowRoot = ref<ShadowRoot | null>(null)
