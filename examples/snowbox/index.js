@@ -169,7 +169,7 @@ addPlugin(
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
-		initiallyOpen: 'kewl',
+		initiallyOpen: 'layerChooser',
 		menus: [
 			// TODO: Delete these two including the component once another plugin is implemented
 			{
