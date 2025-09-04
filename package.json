@@ -76,7 +76,6 @@
 	],
 	"devDependencies": {
 		"@actions/github": "^6.0.1",
-		"@cesium/engine": "^15.0.0",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
 		"@dataport/eslint-config-geodev": "^0.4.0",
@@ -91,7 +90,6 @@
 		"@vue/test-utils": "^2.4.6",
 		"@vue/tsconfig": "^0.8.1",
 		"buffer": "^6.0.3",
-		"cesium": "^1.133.0",
 		"concurrently": "^9.2.1",
 		"conventional-changelog": "^7.1.1",
 		"conventional-changelog-conventionalcommits": "^9.1.0",
