@@ -28,6 +28,7 @@
 					v-if="$props.options"
 					class="kern-btn kern-btn--tertiary"
 					:disabled="disabled"
+					@click="$props.options.action(value)"
 				>
 					<span
 						:class="`kern-icon ${$props.options.icon}`"
@@ -52,6 +53,7 @@ defineProps<{
 		disabled?: boolean
 	}[]
 	options?: {
+		action: (id: string) => void
 		icon: string
 		label: string
 	}
