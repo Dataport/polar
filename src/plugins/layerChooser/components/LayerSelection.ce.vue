@@ -19,7 +19,7 @@
 				:key="`polar-layer-chooser-mask-${type}`"
 				v-model="activeMasks"
 				:legend="`${type}Title`"
-				:legend-ns="PluginId"
+				:locale-ns="PluginId"
 				:values="
 					masks.map(({ name, id }) => ({
 						disabled: disabledMasks[id],
