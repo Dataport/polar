@@ -44,6 +44,7 @@ const model = defineModel<string>({ required: true })
 }
 
 .kern-form-check {
+	align-items: center;
 	gap: var(--kern-metric-space-large, 1.5rem);
 	padding-left: 0.75rem;
 	padding-right: 0;
