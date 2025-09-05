@@ -27,6 +27,7 @@
 						value: id,
 					}))
 				"
+				:options="{ icon: 'kern-icon--settings', label: 'layerOptions' }"
 			/>
 		</template>
 	</PolarCard>
