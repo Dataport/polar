@@ -46,20 +46,18 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 			{}
 		)
 	})
-	const disabledMasks = computed(() => {
-		return masks.value
-			.filter(({ hideInMenu }) => !hideInMenu)
-			.reduce(
-				(acc, { id }) => ({
-					...acc,
-					[id]:
-						availableMasks.value.findIndex(
-							({ id: availableId }) => availableId === id
-						) === -1,
-				}),
-				{}
-			)
-	})
+	const disabledMasks = computed(() =>
+		shownMasks.value.reduce(
+			(acc, { id }) => ({
+				...acc,
+				[id]:
+					availableMasks.value.findIndex(
+						({ id: availableId }) => availableId === id
+					) === -1,
+			}),
+			{}
+		)
+	)
 	const shownMasks = computed(() =>
 		masks.value.filter(({ hideInMenu }) => !hideInMenu)
 	)
