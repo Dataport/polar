@@ -1,7 +1,7 @@
 <template>
 	<fieldset class="kern-fieldset">
 		<legend class="kern-label">
-			{{ $t($props.legend, { ns: $props.legendNs }) }}
+			{{ $t($props.legend, { ns: $props.localeNs }) }}
 		</legend>
 		<div class="kern-fieldset__body">
 			<div
@@ -32,7 +32,7 @@ import { computed, useSlots } from 'vue'
 
 defineProps<{
 	legend: string
-	legendNs: string
+	localeNs: string
 	modelValue: string[]
 	values: {
 		label: string
