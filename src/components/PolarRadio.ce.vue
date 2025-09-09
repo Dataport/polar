@@ -26,3 +26,12 @@ defineProps<{
 }>()
 const model = defineModel<string>({ required: true })
 </script>
+
+<style scoped>
+.kern-form-check__radio[disabled] {
+	&:hover {
+		border: var(--kern-metric-border-width-default) solid
+			var(--kern-color-form-input-border);
+	}
+}
+</style>

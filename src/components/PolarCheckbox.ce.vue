@@ -25,3 +25,16 @@ defineProps<{
 
 const model = defineModel<string[]>({ required: true })
 </script>
+
+<style scoped>
+.kern-form-check__checkbox[disabled] {
+	&:hover {
+		border: var(--kern-metric-border-width-default) solid
+			var(--kern-color-form-input-border);
+	}
+
+	&:checked:hover::before {
+		margin: 4px;
+	}
+}
+</style>
