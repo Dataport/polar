@@ -43,10 +43,6 @@ import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref, useTemplateRef } from 'vue'
 import { useCoreStore } from '@/core/stores/export.ts'
 
-/*
- * TODO(dopenguin): Implementation will need some updates when using with layout 'standard'
- */
-
 const props = defineProps<{
 	action: () => void
 	hint: string
