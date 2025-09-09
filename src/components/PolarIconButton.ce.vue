@@ -1,6 +1,6 @@
 <template>
 	<span
-		v-if="$props.tooltipPosition === 'left' && !hasSmallDisplay"
+		v-if="tooltipPosition === 'left' && !hasSmallDisplay"
 		class="polar-tooltip"
 		:style="`opacity: ${hoveredOrFocused ? '1' : '0'}; ${position}`"
 		aria-hidden="true"
@@ -12,7 +12,7 @@
 		class="kern-btn kern-btn--secondary polar-icon-button"
 		:class="{
 			'polar-icon-button-active': active,
-			[$props.buttonClass ? $props.buttonClass : '']: true,
+			[buttonClass ? buttonClass : '']: true,
 		}"
 		@click="action"
 		@mouseover="hoveredOrFocused = true"
@@ -22,13 +22,13 @@
 	>
 		<span
 			class="kern-icon"
-			:class="{ [$props.icon]: true, 'polar-icon-button-icon-active': active }"
+			:class="{ [icon]: true, 'polar-icon-button-icon-active': active }"
 			aria-hidden="true"
 		/>
 		<span class="kern-label kern-sr-only">{{ hint }}</span>
 	</button>
 	<span
-		v-if="$props.tooltipPosition === 'right' && !hasSmallDisplay"
+		v-if="tooltipPosition === 'right' && !hasSmallDisplay"
 		class="polar-tooltip"
 		:style="`opacity: ${hoveredOrFocused ? '1' : '0'}; ${position}`"
 		aria-hidden="true"
