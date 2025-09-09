@@ -32,7 +32,7 @@ export interface LayerConfigurationOptions {
 	/**
 	 * Named matching OGC-specification of a WMS layer's layers.
 	 */
-	layers?: LayerConfigurationOptionLayers
+	layers: LayerConfigurationOptionLayers
 	// NOT IMPLEMENTED
 	// transparency: boolean
 }
