@@ -22,9 +22,8 @@
 				<component
 					:is="plugin.component"
 					v-if="open === index && (!hasWindowSize || !hasSmallWidth)"
-					ref="pluginComponent"
 					class="polar-plugin-icon-menu-list-item-content"
-					:style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
+					:style="`max-height: ${maxHeight};`"
 				/>
 			</template>
 		</li>
@@ -33,15 +32,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import {
-	computed,
-	nextTick,
-	onBeforeUnmount,
-	onMounted,
-	ref,
-	useTemplateRef,
-	watch,
-} from 'vue'
+import { computed } from 'vue'
 import { toMerged } from 'es-toolkit'
 import { useCoreStore } from '@/core/stores/export.ts'
 import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
@@ -70,9 +61,6 @@ const menus = computed(() =>
 
 // TODO(dopenguin): Menu bar is shown at the bottom on mobile
 
-const maxWidth = ref('inherit')
-const pluginComponent = useTemplateRef('pluginComponent')
-
 const maxHeight = computed(() =>
 	hasWindowSize.value
 		? 'inherit'
@@ -80,38 +68,6 @@ const maxHeight = computed(() =>
 				deviceIsHorizontal.value ? 'calc(100% + 1.5em)' : '1em'
 			})`
 )
-
-// Fixes an issue if the orientation of a mobile device is changed while a plugin is open.
-watch(deviceIsHorizontal, (newValue) => {
-	if (!newValue) {
-		updateMaxWidth()
-	}
-})
-
-onMounted(() => {
-	addEventListener('resize', updateMaxWidth)
-	updateMaxWidth()
-})
-onBeforeUnmount(() => {
-	removeEventListener('resize', updateMaxWidth)
-})
-
-function updateMaxWidth() {
-	// Note: Not relevant here as nothing is followed by the nextTick call.
-	// eslint-disable-next-line @typescript-eslint/no-floating-promises
-	nextTick(() => {
-		if (pluginComponent.value?.[0]) {
-			if (!hasWindowSize.value) {
-				const { left, width } = (
-					pluginComponent.value[0]['$el'] as HTMLElement
-				).getBoundingClientRect()
-				maxWidth.value = `${width + left}px`
-			} else {
-				maxWidth.value = 'inherit'
-			}
-		}
-	})
-}
 
 function toggle(index: number) {
 	if (open.value === index) {
@@ -122,7 +78,6 @@ function toggle(index: number) {
 		open.value = index
 		// iconMenuStore.openInMoveHandle(index)
 	}
-	updateMaxWidth()
 }
 </script>
 
