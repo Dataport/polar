@@ -92,7 +92,7 @@ onBeforeUnmount(() => {
 })
 
 function updateMaxWidth() {
-	// Note: Not relevant here as nothing is followed by the nextTick call.
+	// NOTE: Not relevant here as nothing is followed by the nextTick call.
 	// eslint-disable-next-line @typescript-eslint/no-floating-promises
 	nextTick(() => {
 		if (pluginComponent.value?.[0]) {
