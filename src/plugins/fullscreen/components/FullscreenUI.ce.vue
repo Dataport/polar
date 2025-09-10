@@ -25,6 +25,7 @@ const { layout } = storeToRefs(useCoreStore())
 const { fullscreenEnabled } = storeToRefs(useFullscreenStore())
 </script>
 
+<!-- eslint-disable-next-line vue/enforce-style-attribute -->
 <style>
 /* TODO: For some reason, this style doesn't work scoped and with :deep yet. */
 .polar-plugin-fullscreen-standard {
