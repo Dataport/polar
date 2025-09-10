@@ -3,21 +3,17 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	backgroundTitle: 'Hintergrundkarten',
 	maskTitle: 'Fachdaten',
-	tooltipDisabledLayer: 'Auf der aktuellen Zoomstufe nicht verfügbar.',
-	optionsHeader: 'Optionen für Layer "$t({{name}})"',
-	layerHeader: 'Auswahl sichtbarer Ebenen',
+	layerHeader: 'Auswahl sichtbarer Ebenen für Layer "$t({{name}})"',
 	layerOptions: 'Optionen für Kartenmaterial',
-	returnToLayers: 'Zurück zur Auswahl',
+	returnToLayers: 'Zurück',
 } as const
 
 export const resourcesEn = {
 	backgroundTitle: 'Background maps',
 	maskTitle: 'Subject data',
-	tooltipDisabledLayer: 'Not available on the current zoom level.',
-	optionsHeader: '"{{name}}" layer options',
-	layerHeader: 'Visible layer selection',
+	layerHeader: 'Visible layer selection for layer "{{name}}"',
 	layerOptions: 'Map data options',
-	returnToLayers: 'Return to selection',
+	returnToLayers: 'Back',
 } as const
 
 // first type will be used as fallback language
