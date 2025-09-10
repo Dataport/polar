@@ -115,7 +115,7 @@ provide('updateMaxWidth', updateMaxWidth)
 	position: relative;
 	list-style: none;
 	padding: 0;
-	margin: 8px;
+	margin: 0.5rem;
 }
 
 .polar-plugin-icon-menu-list-item-horizontal {
