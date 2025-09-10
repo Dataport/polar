@@ -18,7 +18,7 @@ import { computed } from 'vue'
 import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores/export'
 
 const coreStore = useCoreStore()
 const fullscreenStore = useFullscreenStore()

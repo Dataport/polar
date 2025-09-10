@@ -45,7 +45,7 @@ import { type LayerOptions, PluginId } from '../types'
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarInput from '@/components/PolarInput.ce.vue'
 import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores/export'
 
 const coreStore = useCoreStore()
 const layerChooserStore = useLayerChooserStore()

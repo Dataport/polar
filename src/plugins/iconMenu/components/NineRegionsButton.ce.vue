@@ -13,7 +13,7 @@
 import { storeToRefs } from 'pinia'
 import { inject, onMounted, ref, watch } from 'vue'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
+import { useIconMenuStore } from '@/plugins/iconMenu/store'
 
 const props = defineProps<{
 	icon: string

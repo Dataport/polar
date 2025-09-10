@@ -57,8 +57,8 @@ import {
 	watch,
 } from 'vue'
 import NineRegionsButton from './NineRegionsButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
-import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
+import { useCoreStore } from '@/core/stores/export'
+import { useIconMenuStore } from '@/plugins/iconMenu/store'
 
 const { clientHeight, deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
 	storeToRefs(useCoreStore())

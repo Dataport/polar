@@ -17,7 +17,7 @@ import { getBackgroundsAndMasks } from './utils/getBackgroundsAndMasks'
 import {
 	findLayerTitleInCapabilitiesByName,
 	findLegendUrlInCapabilitiesByName,
-} from './utils/findInCapabilities.ts'
+} from './utils/findInCapabilities'
 import type { LayerConfiguration } from '@/core'
 import { useCoreStore } from '@/core/stores/export'
 

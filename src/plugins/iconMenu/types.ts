@@ -1,6 +1,6 @@
 import type { Component } from 'vue'
 import type { PluginContainer, PluginOptions } from '@/core'
-import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
+import type { NineLayoutTag } from '@/core/utils/NineLayoutTag'
 
 export const PluginId = 'iconMenu'
 

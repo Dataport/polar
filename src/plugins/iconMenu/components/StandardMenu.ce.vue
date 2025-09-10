@@ -34,8 +34,8 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { toMerged } from 'es-toolkit'
-import { useCoreStore } from '@/core/stores/export.ts'
-import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
+import { useCoreStore } from '@/core/stores/export'
+import { useIconMenuStore } from '@/plugins/iconMenu/store'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 
 const {

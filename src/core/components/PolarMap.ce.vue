@@ -105,6 +105,7 @@ function wheelEffect(event: WheelEvent) {
 
 onMounted(async () => {
 	if (typeof mainStore.serviceRegister === 'string') {
+		// TODO: Add a general loader that shows until this is resolved - dem LLamas need food
 		mainStore.serviceRegister = await new Promise<Record<string, unknown>[]>(
 			(resolve) =>
 				rawLayerList.initializeLayerList(mainStore.serviceRegister, resolve)

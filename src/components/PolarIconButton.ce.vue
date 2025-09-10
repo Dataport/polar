@@ -41,7 +41,7 @@
 import { t, type TOptions } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref, useTemplateRef } from 'vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores/export'
 
 const props = defineProps<{
 	action: () => void

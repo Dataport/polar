@@ -7,9 +7,9 @@
 import { toMerged } from 'es-toolkit'
 import { defineStore } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
-import type { Menu } from './types.ts'
+import type { Menu } from './types'
 import { addPlugin } from '@/core'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores/export'
 
 /* eslint-disable tsdoc/syntax */
 /**
