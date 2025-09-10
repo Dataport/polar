@@ -9,8 +9,15 @@ import { toMerged } from 'es-toolkit'
 import WMSCapabilities from 'ol/format/WMSCapabilities'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import Layer from 'ol/layer/Layer'
+import { ImageWMS, TileWMS } from 'ol/source'
+import type { LayerOptions } from './types'
 import { areLayersActive } from './utils/areLayersActive'
 import { getBackgroundsAndMasks } from './utils/getBackgroundsAndMasks'
+import {
+	findLayerTitleInCapabilitiesByName,
+	findLegendUrlInCapabilitiesByName,
+} from './utils/findInCapabilities.ts'
 import type { LayerConfiguration } from '@/core'
 import { useCoreStore } from '@/core/stores/export'
 
@@ -24,15 +31,17 @@ import { useCoreStore } from '@/core/stores/export'
 export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 	const coreStore = useCoreStore()
 
-	const backgrounds = ref<LayerConfiguration[]>([])
 	const capabilities = ref<Record<string, string | null>>({})
+
+	const backgrounds = ref<LayerConfiguration[]>([])
 	const masks = ref<LayerConfiguration[]>([])
 	const availableBackgrounds = ref<LayerConfiguration[]>([])
 	const availableMasks = ref<LayerConfiguration[]>([])
-	const activeLayerIds = ref<Record<string, string>>({})
 	const activeBackgroundId = ref('')
 	const activeMaskIds = ref<string[]>([])
-	const openedOptions = ref('')
+
+	const layersWithOptions = ref<Record<string, LayerOptions[]>>({})
+	const openedOptionsId = ref('')
 
 	const disabledBackgrounds = computed(() => {
 		return backgrounds.value.reduce(
@@ -90,6 +99,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 	function setupPlugin() {
 		let attemptCounter = 0
+		// NOTE: Currently needed as the whole application no longer waits on the retrieval of the layerList
 		const intervalId = setInterval(() => {
 			if (attemptCounter < 100 && rawLayerList.getLayerList().length === 0) {
 				attemptCounter += 1
@@ -122,38 +132,6 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		}, 100)
 	}
 	function teardownPlugin() {}
-
-	function loadCapabilities(id: string) {
-		const previous = capabilities.value[id]
-		if (typeof previous !== 'undefined' && previous !== null) {
-			console.warn(
-				`Re-fired loadCapabilities on id '${id}' albeit the GetCapabilities have already been successfully fetched. No re-fetch will occur.`
-			)
-			return
-		}
-
-		// block access to prevent duplicate requests
-		capabilities.value[id] = null
-
-		const service = rawLayerList.getLayerWhere({ id })
-		if (!service || !service.url || !service.version || !service.typ) {
-			console.error(`Missing data for service '${service}' with id '${id}'.`)
-			return
-		}
-
-		const capabilitiesUrl = `${service.url}?service=${service.typ}&version=${service.version}&request=GetCapabilities`
-
-		fetch(capabilitiesUrl)
-			.then((response) => response.text())
-			.then((string) => (capabilities.value[id] = string))
-			.catch((e: unknown) => {
-				console.error(
-					`@polar/core: Capabilities from ${capabilitiesUrl} could not be fetched.`,
-					e
-				)
-				capabilities.value[id] = null
-			})
-	}
 
 	function setActiveBackgroundId(id: string | null) {
 		if (id === null) {
@@ -225,27 +203,116 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		)
 	}
 
-	function prepareLayersWithOptions() {
-		useCoreStore().configuration.layers.forEach((layer) => {
-			const rawLayer = rawLayerList.getLayerWhere({
-				id: layer.id,
+	function loadCapabilities(id: string) {
+		const previous = capabilities.value[id]
+		if (typeof previous !== 'undefined' && previous !== null) {
+			console.warn(
+				`Re-fired loadCapabilities on id '${id}' albeit the GetCapabilities have already been successfully fetched. No re-fetch will occur.`
+			)
+			return new Promise<void>((resolve) => {
+				resolve()
 			})
+		}
 
-			// Store preparation needed when `layers` is an option
-			if (layer.options?.layers) {
-				activeLayerIds.value = toMerged(activeLayerIds.value, {
-					[layer.id]: rawLayer.layers.split(','),
+		// block access to prevent duplicate requests
+		capabilities.value[id] = null
+
+		const service = rawLayerList.getLayerWhere({ id })
+		if (!service || !service.url || !service.version || !service.typ) {
+			console.error(`Missing data for service '${service}' with id '${id}'.`)
+			return
+		}
+
+		const capabilitiesUrl = `${service.url}?service=${service.typ}&version=${service.version}&request=GetCapabilities`
+
+		return fetch(capabilitiesUrl)
+			.then((response) => response.text())
+			.then((string) => (capabilities.value[id] = string))
+			.catch((e: unknown) => {
+				console.error(
+					`@polar/core: Capabilities from ${capabilitiesUrl} could not be fetched.`,
+					e
+				)
+				capabilities.value[id] = null
+			})
+	}
+
+	function prepareLayersWithOptions() {
+		const configuredLayers = coreStore.configuration.layers
+
+		// NOTE: Not relevant to be awaited.
+		// eslint-disable-next-line @typescript-eslint/no-floating-promises
+		Promise.allSettled(
+			configuredLayers.map(
+				(layer) =>
+					// NOTE: It may result in void.
+					// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+					new Promise<string | void>((resolve) => {
+						const layerOptions = layer.options?.layers
+						if (
+							layerOptions &&
+							(layerOptions.title === true || layerOptions.legend === true)
+						) {
+							resolve(loadCapabilities(layer.id))
+						}
+						resolve()
+					})
+			)
+		).then(() => {
+			configuredLayers.forEach((layer) => {
+				const rawLayer: { layers: string } = rawLayerList.getLayerWhere({
+					id: layer.id,
 				})
-			}
-			// GetCapabilities exactly needed when `true` set for an inferrable option
-			if (
-				typeof layer.options?.layers === 'object' &&
-				(layer.options.layers.title === true ||
-					layer.options.layers.legend === true)
-			) {
-				loadCapabilities(layer.id)
-			}
+				const layerOptions = layer.options?.layers
+				if (layerOptions) {
+					const wmsCapabilitiesJson = wmsCapabilitiesAsJsonById.value(layer.id)
+					layersWithOptions.value = toMerged(layersWithOptions.value, {
+						[layer.id]: (
+							layerOptions.order?.split(',') || rawLayer.layers.split(',')
+						).map((layerName) => ({
+							layerName,
+							displayName:
+								layerOptions.title === true && wmsCapabilitiesJson
+									? findLayerTitleInCapabilitiesByName(
+											wmsCapabilitiesJson,
+											layerName
+										)
+									: layerOptions.title === false
+										? layerName
+										: layerOptions.title?.[layerName] || layerName,
+							layerImage:
+								layerOptions.legend === true && wmsCapabilitiesJson
+									? findLegendUrlInCapabilitiesByName(
+											wmsCapabilitiesJson,
+											layerName
+										)
+									: layerOptions.legend === false
+										? null
+										: layerOptions.legend?.[layerName] || null,
+						})),
+					})
+				}
+			})
 		})
+	}
+
+	function toggleOpenedOptionsServiceLayer(layerIds: string[]) {
+		const olSource = (
+			coreStore.map
+				.getLayers()
+				.getArray()
+				.find((l) => l.get('id') === openedOptionsId.value) as Layer<
+				ImageWMS | TileWMS
+			>
+		).getSource()
+
+		if (!olSource) {
+			console.error(
+				`Action 'toggleOpenedOptionsServiceLayer' failed on ${openedOptionsId.value}. Layer not found in OpenLayers or source not initialized in OpenLayers.`
+			)
+			return
+		}
+		olSource.updateParams({ ...olSource.getParams(), LAYERS: layerIds })
 	}
 
 	return {
@@ -268,11 +335,13 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		/** @internal */
 		disabledMasks,
 		/** @internal */
+		layersWithOptions,
+		/** @internal */
 		masksSeparatedByType,
 		/** @internal */
 		shownMasks,
 		/** @internal */
-		openedOptions,
+		openedOptionsId,
 		/** @internal */
 		setupPlugin,
 		/** @internal */
@@ -281,5 +350,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		setActiveBackgroundId,
 		/** @internal */
 		setActiveMaskIds,
+		/** @internal */
+		toggleOpenedOptionsServiceLayer,
 	}
 })
