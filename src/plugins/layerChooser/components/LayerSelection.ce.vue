@@ -1,34 +1,40 @@
 <template>
-	<PolarCard>
-		<PolarRadioGroup
+	<PolarCard class="polar-layer-chooser-card">
+		<PolarInputGroup
 			v-if="backgrounds.length"
-			v-model="activeBackground"
 			legend="backgroundTitle"
-			:legend-ns="PluginId"
-			:values="
-				backgrounds.map(({ name, id }) => ({
-					disabled: disabledBackgrounds[id],
-					label: name,
-					value: id,
-				}))
-			"
-		/>
+			:legend-options="{ ns: PluginId }"
+		>
+			<PolarRadio
+				v-for="{ name, id } in backgrounds"
+				:key="`polar-layer-chooser-background-radio-${id}`"
+				v-model="activeBackground"
+				:id-suffix="`polar-layer-chooser-background`"
+				:label="name"
+				:value="id"
+				:disabled="disabledBackgrounds[id]"
+			/>
+		</PolarInputGroup>
 		<template v-if="shownMasks.length">
-			<PolarCheckboxes
+			<template
 				v-for="[type, masks] in Object.entries(masksSeparatedByType)"
 				:key="`polar-layer-chooser-mask-${type}`"
-				v-model="activeMasks"
-				:legend="`${type}Title`"
-				:locale-ns="PluginId"
-				:values="
-					masks.map(({ name, id }) => ({
-						disabled: disabledMasks[id],
-						label: name,
-						value: id,
-					}))
-				"
-				:options="{ icon: 'kern-icon--settings', label: 'layerOptions' }"
-			/>
+			>
+				<PolarInputGroup
+					:legend="`${type}Title`"
+					:legend-options="{ ns: PluginId }"
+				>
+					<PolarCheckbox
+						v-for="{ name, id } in masks"
+						:key="`polar-layer-chooser-mask-${type}-checkbox-${id}`"
+						v-model="activeMasks"
+						:id-suffix="`polar-layer-chooser-mask-${type}`"
+						:label="name"
+						:value="id"
+						:disabled="disabledMasks[id]"
+					/>
+				</PolarInputGroup>
+			</template>
 		</template>
 	</PolarCard>
 </template>
@@ -39,8 +45,9 @@ import { storeToRefs } from 'pinia'
 import { useLayerChooserStore } from '../store'
 import { PluginId } from '../types'
 import PolarCard from '@/components/PolarCard.ce.vue'
-import PolarCheckboxes from '@/components/PolarCheckboxes.ce.vue'
-import PolarRadioGroup from '@/components/PolarRadioGroup.ce.vue'
+import PolarCheckbox from '@/components/PolarCheckbox.ce.vue'
+import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
+import PolarRadio from '@/components/PolarRadio.ce.vue'
 
 const layerChooserStore = useLayerChooserStore()
 const {
@@ -64,3 +71,9 @@ const activeMasks = computed({
 	},
 })
 </script>
+
+<style scoped>
+.polar-layer-chooser-card {
+	overflow-y: inherit !important;
+}
+</style>
