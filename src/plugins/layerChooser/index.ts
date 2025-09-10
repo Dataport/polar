@@ -8,7 +8,7 @@ import component from './components/LayerChooser.ce.vue'
 import locales from './locales'
 import { useLayerChooserStore } from './store'
 import { PluginId } from './types'
-import type { PluginContainer, PluginOptions } from '@/core'
+import type { PluginContainer, PluginOptions, PolarPluginStore } from '@/core'
 
 /**
  * Creates a plugin that offers an additive (usually Overlays, technically named
@@ -30,7 +30,7 @@ export default function pluginLayerChooser(
 		id: PluginId,
 		component,
 		locales,
-		storeModule: useLayerChooserStore,
+		storeModule: useLayerChooserStore as PolarPluginStore,
 		options,
 	}
 }
