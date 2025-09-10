@@ -98,10 +98,10 @@ function toggle(index: number) {
 .polar-plugin-icon-menu-list {
 	position: absolute;
 	list-style: none;
-	height: calc(100% - 16px);
+	height: calc(100% - 1rem);
 	padding: 0;
-	margin: 8px;
-	border-radius: 8px;
+	margin: 0.5rem;
+	border-radius: 0.5rem;
 	background: var(--kern-color-layout-background-default);
 	box-shadow:
 		0 1px 1px 0 rgba(53, 57, 86, 0.16),
@@ -123,6 +123,6 @@ function toggle(index: number) {
 }
 
 .polar-plugin-icon-menu-list-full-page {
-	padding: 8px;
+	padding: 0.5rem;
 }
 </style>
