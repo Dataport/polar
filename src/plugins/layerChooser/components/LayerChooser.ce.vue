@@ -10,6 +10,6 @@ import LayerSelection from './LayerSelection.ce.vue'
 import LayerOptions from './LayerOptions.ce.vue'
 
 const displaySelection = computed(
-	() => useLayerChooserStore().openedOptions.length === 0
+	() => useLayerChooserStore().openedOptionsId.length === 0
 )
 </script>
