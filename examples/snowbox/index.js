@@ -67,16 +67,18 @@ const isReportSelectable = (feature) =>
 await createMap(
 	{
 		layers: [
+			// TODO: Add internalization to snowbox
 			{
 				id: basemapId,
 				visibility: true,
 				type: 'background',
-				name: 'snowbox.layers.basemap',
+				name: 'Basemap.de (Farbe)',
 			},
 			{
 				id: basemapGreyId,
 				type: 'background',
-				name: 'snowbox.layers.basemapGrey',
+				name: 'Basemap.de (Grau)',
+				maxZoom: 6,
 			},
 			{
 				id: reports,
