@@ -24,15 +24,31 @@
 					:legend="`${type}Title`"
 					:legend-options="{ ns: PluginId }"
 				>
-					<PolarCheckbox
+					<div
 						v-for="{ name, id } in masks"
 						:key="`polar-layer-chooser-mask-${type}-checkbox-${id}`"
-						v-model="activeMasks"
-						:id-suffix="`polar-layer-chooser-mask-${type}`"
-						:label="name"
-						:value="id"
-						:disabled="disabledMasks[id]"
-					/>
+						class="polar-layer-chooser-checkbox-wrapper"
+					>
+						<PolarCheckbox
+							v-model="activeMasks"
+							:id-suffix="`polar-layer-chooser-mask-${type}`"
+							:label="name"
+							:value="id"
+							:disabled="disabledMasks[id]"
+						/>
+						<button
+							v-if="Object.keys(layersWithOptions).includes(id)"
+							:id="`polar-layer-chooser-options-${id}-button`"
+							class="kern-btn kern-btn--tertiary"
+							:disabled="disabledMasks[id]"
+							@click="() => updateOpenedOptions(id)"
+						>
+							<span class="kern-icon kern-icon--settings" aria-hidden="true" />
+							<span class="kern-label kern-sr-only">
+								{{ $t('layerOptions', { ns: PluginId }) }}
+							</span>
+						</button>
+					</div>
 				</PolarInputGroup>
 			</template>
 		</template>
@@ -54,6 +70,7 @@ const {
 	backgrounds,
 	disabledBackgrounds,
 	disabledMasks,
+	layersWithOptions,
 	masksSeparatedByType,
 	shownMasks,
 } = storeToRefs(layerChooserStore)
@@ -70,10 +87,28 @@ const activeMasks = computed({
 		layerChooserStore.setActiveMaskIds(newValue)
 	},
 })
+
+function updateOpenedOptions(layerId: string) {
+	layerChooserStore.openedOptionsId = layerId
+}
 </script>
 
 <style scoped>
 .polar-layer-chooser-card {
 	overflow-y: inherit !important;
+}
+
+.polar-layer-chooser-checkbox-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--kern-metric-space-large, 1.5rem);
+}
+
+.kern-btn {
+	width: var(--kern-metric-dimension-large);
+	min-height: var(--kern-metric-dimension-large);
+	border: none;
+	border-radius: 50%;
 }
 </style>
