@@ -42,7 +42,7 @@ const model = defineModel<
 
 .kern-form-check__checkbox[disabled] {
 	&:checked:hover::before {
-		margin: 4px;
+		margin: 0.25rem;
 	}
 }
 </style>

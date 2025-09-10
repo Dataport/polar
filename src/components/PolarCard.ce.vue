@@ -13,7 +13,7 @@
 <style scoped>
 .kern-card {
 	height: inherit;
-	min-width: 300px;
+	min-width: 25rem;
 	border-radius: 0.5rem;
 	box-shadow:
 		0 1px 1px 0 rgba(53, 57, 86, 0.16),
