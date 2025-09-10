@@ -7,8 +7,8 @@
 import component from './components/LayerChooser.ce.vue'
 import locales from './locales'
 import { useLayerChooserStore } from './store'
-import { PluginId, type LayerChooserPluginOptions } from './types'
-import type { PluginContainer } from '@/core'
+import { PluginId } from './types'
+import type { PluginContainer, PluginOptions } from '@/core'
 
 /**
  * Creates a plugin that offers an additive (usually Overlays, technically named
@@ -20,7 +20,7 @@ import type { PluginContainer } from '@/core'
  * @returns Plugin for use with {@link addPlugin}.
  */
 export default function pluginLayerChooser(
-	options: LayerChooserPluginOptions
+	options: PluginOptions
 ): PluginContainer {
 	return {
 		id: PluginId,
