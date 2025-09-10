@@ -9,11 +9,13 @@ import { useToastStore } from '@polar/polar/plugins/toast/store'
 
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
+import services from './services.js'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
+const denkmal = 'denkmaelerWMS'
 
 // eslint-disable-next-line no-unused-vars
 const dataportTheme = {
@@ -79,16 +81,37 @@ await createMap(
 			{
 				id: reports,
 				type: 'mask',
-				name: 'snowbox.layers.reports',
-				visibility: true,
-				styleId: 'panda',
+				name: 'Anliegen (MML)',
+				visibility: false,
 			},
 			{
 				id: ausgleichsflaechen,
 				type: 'mask',
-				name: 'snowbox.layers.ausgleichsflaechen',
+				name: 'Ausgleichsflächen',
 				styleId: 'panda',
 				visibility: true,
+				minZoom: 5,
+			},
+			{
+				id: denkmal,
+				type: 'mask',
+				name: 'Kulturdenkmale',
+				options: {
+					layers: {
+						order: '6,24,25,4,3,2,1,0',
+						title: {
+							6: 'Denkmalbereich',
+							24: 'Mehrheit von baulichen Anlagen',
+							25: 'Sachgesamtheit',
+							4: 'Baudenkmal',
+							3: 'Gründenkmal',
+							2: 'Gewässer',
+							1: 'Baudenkmal (Fläche)',
+							0: 'Gründenkmal (Fläche)',
+						},
+						legend: true,
+					},
+				},
 			},
 		],
 		layout: 'standard',
@@ -138,7 +161,7 @@ await createMap(
 			},
 		],
 	},
-	'https://geodienste.hamburg.de/services-internet.json'
+	services
 )
 
 await createMap(
@@ -171,7 +194,7 @@ addPlugin(
 		layoutTag: 'TOP_RIGHT',
 		initiallyOpen: 'layerChooser',
 		menus: [
-			// TODO: Delete these two including the component once another plugin is implemented
+			// TODO: Delete this plugin including the component once another plugin is implemented
 			{
 				plugin: {
 					component: EmptyComponent,
