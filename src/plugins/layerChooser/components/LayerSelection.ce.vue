@@ -5,12 +5,13 @@
 			legend="backgroundTitle"
 			:legend-options="{ ns: PluginId }"
 		>
-			<PolarRadio
+			<PolarInput
 				v-for="{ name, id } in backgrounds"
 				:key="`polar-layer-chooser-background-radio-${id}`"
 				v-model="activeBackground"
 				:id-suffix="`polar-layer-chooser-background`"
 				:label="name"
+				type="radio"
 				:value="id"
 				:disabled="disabledBackgrounds[id]"
 			/>
@@ -29,10 +30,11 @@
 						:key="`polar-layer-chooser-mask-${type}-checkbox-${id}`"
 						class="polar-layer-chooser-checkbox-wrapper"
 					>
-						<PolarCheckbox
+						<PolarInput
 							v-model="activeMasks"
 							:id-suffix="`polar-layer-chooser-mask-${type}`"
 							:label="name"
+							type="checkbox"
 							:value="id"
 							:disabled="disabledMasks[id]"
 						/>
@@ -61,9 +63,8 @@ import { storeToRefs } from 'pinia'
 import { useLayerChooserStore } from '../store'
 import { PluginId } from '../types'
 import PolarCard from '@/components/PolarCard.ce.vue'
-import PolarCheckbox from '@/components/PolarCheckbox.ce.vue'
+import PolarInput from '@/components/PolarInput.ce.vue'
 import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
-import PolarRadio from '@/components/PolarRadio.ce.vue'
 
 const layerChooserStore = useLayerChooserStore()
 const {

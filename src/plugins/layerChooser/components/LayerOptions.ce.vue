@@ -20,10 +20,11 @@
 				class="polar-layer-chooser-options-checkbox-wrapper"
 			>
 				<img v-if="layerImage" :src="layerImage" :alt="layerName" />
-				<PolarCheckbox
+				<PolarInput
 					v-model="activeLayers"
 					id-suffix="polar-layer-chooser-mask-options"
 					:label="displayName"
+					type="checkbox"
 					:value="layerName"
 					:class="
 						options.some(({ layerImage }) => layerImage !== null)
@@ -42,7 +43,7 @@ import { storeToRefs } from 'pinia'
 import { useLayerChooserStore } from '../store'
 import { type LayerOptions, PluginId } from '../types'
 import PolarCard from '@/components/PolarCard.ce.vue'
-import PolarCheckbox from '@/components/PolarCheckbox.ce.vue'
+import PolarInput from '@/components/PolarInput.ce.vue'
 import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
 import { useCoreStore } from '@/core/stores/export.ts'
 
