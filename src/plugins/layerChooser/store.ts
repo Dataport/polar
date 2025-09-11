@@ -13,6 +13,7 @@ import Layer from 'ol/layer/Layer'
 import { ImageWMS, TileWMS } from 'ol/source'
 import type { LayerOptions } from './types'
 import { areLayersActive } from './utils/areLayersActive'
+import { loadCapabilities } from './utils/capabilities'
 import { getBackgroundsAndMasks } from './utils/getBackgroundsAndMasks'
 import {
 	findLayerTitleInCapabilitiesByName,
@@ -207,61 +208,24 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		)
 	}
 
-	function loadCapabilities(id: string) {
-		const previous = capabilities.value[id]
-		if (typeof previous !== 'undefined' && previous !== null) {
-			console.warn(
-				`Re-fired loadCapabilities on id '${id}' albeit the GetCapabilities have already been successfully fetched. No re-fetch will occur.`
-			)
-			return new Promise<void>((resolve) => {
-				resolve()
-			})
-		}
-
-		// block access to prevent duplicate requests
-		capabilities.value[id] = null
-
-		const service = rawLayerList.getLayerWhere({ id })
-		if (!service || !service.url || !service.version || !service.typ) {
-			console.error(`Missing data for service '${service}' with id '${id}'.`)
-			return
-		}
-
-		const capabilitiesUrl = `${service.url}?service=${service.typ}&version=${service.version}&request=GetCapabilities`
-
-		return fetch(capabilitiesUrl)
-			.then((response) => response.text())
-			.then((string) => (capabilities.value[id] = string))
-			.catch((e: unknown) => {
-				console.error(
-					`@polar/core: Capabilities from ${capabilitiesUrl} could not be fetched.`,
-					e
-				)
-				capabilities.value[id] = null
-			})
-	}
-
 	function prepareLayersWithOptions() {
 		const configuredLayers = coreStore.configuration.layers
 
 		// NOTE: Not relevant to be awaited.
 		// eslint-disable-next-line @typescript-eslint/no-floating-promises
 		Promise.allSettled(
-			configuredLayers.map(
-				(layer) =>
-					// NOTE: It may result in void.
-					// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-					new Promise<string | void>((resolve) => {
-						const layerOptions = layer.options?.layers
-						if (
-							layerOptions &&
-							(layerOptions.title === true || layerOptions.legend === true)
-						) {
-							resolve(loadCapabilities(layer.id))
-						}
-						resolve()
-					})
-			)
+			configuredLayers.map(async (layer) => {
+				const layerOptions = layer.options?.layers
+				if (
+					layerOptions &&
+					(layerOptions.title === true || layerOptions.legend === true)
+				) {
+					capabilities.value[layer.id] = await loadCapabilities(
+						layer.id,
+						capabilities.value[layer.id]
+					)
+				}
+			})
 		).then(() => {
 			configuredLayers.forEach((layer) => {
 				const rawLayer: { layers: string } = rawLayerList.getLayerWhere({
