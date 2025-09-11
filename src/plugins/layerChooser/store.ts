@@ -6,19 +6,17 @@
 
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
-import WMSCapabilities from 'ol/format/WMSCapabilities'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import Layer from 'ol/layer/Layer'
 import { ImageWMS, TileWMS } from 'ol/source'
 import type { LayerOptions } from './types'
 import { areLayersActive } from './utils/areLayersActive'
-import { loadCapabilities } from './utils/capabilities'
-import { getBackgroundsAndMasks } from './utils/getBackgroundsAndMasks'
 import {
-	findLayerTitleInCapabilitiesByName,
-	findLegendUrlInCapabilitiesByName,
-} from './utils/findInCapabilities'
+	loadCapabilities,
+	prepareLayersWithOptions,
+} from './utils/capabilities'
+import { getBackgroundsAndMasks } from './utils/getBackgroundsAndMasks'
 import type { LayerConfiguration } from '@/core'
 import { useCoreStore } from '@/core/stores/export'
 
@@ -83,20 +81,6 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 			{}
 		)
 	)
-	const wmsCapabilitiesAsJsonById = computed(
-		() =>
-			(id: string): object | null => {
-				const xml = capabilities.value[id]
-				if (xml) {
-					try {
-						return new WMSCapabilities().read(xml)
-					} catch (e) {
-						console.error(`Error reading xml '${xml}' for id '${id}'.`, e)
-					}
-				}
-				return null
-			}
-	)
 
 	function setupPlugin() {
 		let attemptCounter = 0
@@ -131,8 +115,29 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 				)
 				updateActiveAndAvailableLayersByZoom()
 				coreStore.map.on('moveend', updateActiveAndAvailableLayersByZoom)
-				prepareLayersWithOptions()
-				clearInterval(intervalId)
+				// NOTE: Not relevant to be awaited.
+				// eslint-disable-next-line @typescript-eslint/no-floating-promises
+				loadCapabilities(
+					coreStore.configuration.layers,
+					capabilities.value
+				).then((newCapabilities) => {
+					capabilities.value = newCapabilities
+
+					coreStore.configuration.layers.forEach((layer) => {
+						const layerOptions = layer.options?.layers
+						if (layerOptions) {
+							layersWithOptions.value = toMerged(
+								layersWithOptions.value,
+								prepareLayersWithOptions(
+									layer.id,
+									newCapabilities,
+									layerOptions
+								)
+							)
+						}
+					})
+					clearInterval(intervalId)
+				})
 			}
 		}, 100)
 	}
@@ -206,62 +211,6 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 				.map(({ id }) => id)
 				.filter((id) => activeMaskIds.value.includes(id))
 		)
-	}
-
-	function prepareLayersWithOptions() {
-		const configuredLayers = coreStore.configuration.layers
-
-		// NOTE: Not relevant to be awaited.
-		// eslint-disable-next-line @typescript-eslint/no-floating-promises
-		Promise.allSettled(
-			configuredLayers.map(async (layer) => {
-				const layerOptions = layer.options?.layers
-				if (
-					layerOptions &&
-					(layerOptions.title === true || layerOptions.legend === true)
-				) {
-					capabilities.value[layer.id] = await loadCapabilities(
-						layer.id,
-						capabilities.value[layer.id]
-					)
-				}
-			})
-		).then(() => {
-			configuredLayers.forEach((layer) => {
-				const rawLayer: { layers: string } = rawLayerList.getLayerWhere({
-					id: layer.id,
-				})
-				const layerOptions = layer.options?.layers
-				if (layerOptions) {
-					const wmsCapabilitiesJson = wmsCapabilitiesAsJsonById.value(layer.id)
-					layersWithOptions.value = toMerged(layersWithOptions.value, {
-						[layer.id]: (
-							layerOptions.order?.split(',') || rawLayer.layers.split(',')
-						).map((layerName) => ({
-							layerName,
-							displayName:
-								layerOptions.title === true && wmsCapabilitiesJson
-									? findLayerTitleInCapabilitiesByName(
-											wmsCapabilitiesJson,
-											layerName
-										)
-									: layerOptions.title === false
-										? layerName
-										: layerOptions.title?.[layerName] || layerName,
-							layerImage:
-								layerOptions.legend === true && wmsCapabilitiesJson
-									? findLegendUrlInCapabilitiesByName(
-											wmsCapabilitiesJson,
-											layerName
-										)
-									: layerOptions.legend === false
-										? null
-										: layerOptions.legend?.[layerName] || null,
-						})),
-					})
-				}
-			})
-		})
 	}
 
 	function toggleOpenedOptionsServiceLayer(layerIds: string[]) {
