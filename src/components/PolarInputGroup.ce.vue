@@ -8,6 +8,7 @@
 		</div>
 	</fieldset>
 </template>
+
 <script setup lang="ts">
 import { type TOptions } from 'i18next'
 
