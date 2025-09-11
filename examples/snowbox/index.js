@@ -98,6 +98,7 @@ await createMap(
 				id: denkmal,
 				type: 'mask',
 				name: 'Kulturdenkmale',
+				visibility: true,
 				options: {
 					layers: {
 						order: '6,24,25,4,3,2,1,0',
