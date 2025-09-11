@@ -115,6 +115,10 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 				backgrounds.value = configuredBackgrounds
 				masks.value = configuredMasks
 
+				if (configuredBackgrounds.length === 0) {
+					console.error('No layers of type "background" have been configured.')
+				}
+
 				// At most one background, arbitrarily many masks
 				setActiveBackgroundId(
 					configuredBackgrounds.find(({ visibility }) => visibility)?.id || null
