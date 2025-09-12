@@ -215,7 +215,6 @@ addPlugin(
 		],
 	})
 )
-// TODO(dopenguin): Order of plugins is relevant in the DOM when using layout standard
 addPlugin(
 	pluginToast({
 		displayComponent: true,

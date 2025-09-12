@@ -35,13 +35,17 @@ export function addPlugins(plugins: PluginContainer[]) {
 }
 
 /**
- * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
- * already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared.
+ * Before instantiating the map, all required plugins have to be added.
+ * Depending on how you use POLAR, this may already have been done. Ready-made
+ * clients (that is, packages prefixed `@polar/client-`) come with plugins prepared.
  *
  * You may add further plugins or proceed with `createMap`.
  *
- * Please note that the order of certain plugins is relevant when other plugins are referenced,
- * e.g. `@polar/plugin-gfi`'s `coordinateSources` requires the configured sources to have previously been set up.
+ * Please note that the order of addPlugin calls directly correlates to the DOM
+ * order if {@link MapConfiguration.layout | `mapConfiguration.layout`} is set to `'standard'`.
+ * The order may also be relevant for certain plugins when other plugins are referenced,
+ * e.g. `@polar/plugin-gfi`'s `coordinateSources` requires the configured sources
+ * to have previously been set up.
  *
  * In case you're integrating new plugins, call `addPlugin` with a plugin instance.
  *
@@ -121,8 +125,8 @@ export function removePlugin(pluginId: string) {
 
 /**
  * The map is created by calling the `createMap` method.
- * Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone
- * HTML pages that do this for you.
+ * Depending on how you use POLAR, this may already have been done, as some
+ * clients come as ready-made standalone HTML pages that do this for you.
  *
  * Initializes map and setup all relevant functionality.
  * Also registers the custom element for the polar map.
@@ -206,7 +210,8 @@ export function subscribe(
 }
 
 /**
- * Updates the parameter {@link parameterName | parameter} in the {@link storeName | store} with the {@link payload}.
+ * Updates the parameter {@link parameterName | parameter} in the
+ * {@link storeName | store} with the {@link payload}.
  *
  * @remarks
  * An error is logged if no store can be found with the given name {@link storeName}.
