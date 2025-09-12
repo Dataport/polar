@@ -215,18 +215,16 @@ addPlugin(
 		],
 	})
 )
-// TODO(dopenguin): Order of plugins is relevant in the DOM when using layout standard
-addPlugin(
-	pluginFullscreen({
-		displayComponent: true,
-		layoutTag: 'TOP_RIGHT',
-	})
-)
-
 addPlugin(
 	pluginToast({
 		displayComponent: true,
 		layoutTag: 'BOTTOM_MIDDLE',
+	})
+)
+addPlugin(
+	pluginFullscreen({
+		displayComponent: true,
+		layoutTag: 'TOP_RIGHT',
 	})
 )
 
