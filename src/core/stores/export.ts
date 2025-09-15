@@ -13,6 +13,7 @@ import type {
 	PolarPluginStore,
 } from '../types'
 import { useMainStore } from './main'
+import { useMoveHandleStore } from './moveHandle'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -23,6 +24,7 @@ import { useMainStore } from './main'
 /* eslint-enable tsdoc/syntax */
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
+	const moveHandleStore = useMoveHandleStore()
 
 	function getPluginStore<T extends PluginId>(
 		id: T
@@ -130,5 +132,19 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		shadowRoot: computed(() => mainStore.shadowRoot),
+		/**
+		 * Allows setting content to the MoveHandle to be displayed on small devices
+		 * if the application has the same size as the window.
+		 *
+		 * @alpha
+		 */
+		setMoveHandle: moveHandleStore.setMoveHandle,
+		/**
+		 * Allows setting an additional action button to be displayed as part of the
+		 * MoveHandle.
+		 *
+		 * @alpha
+		 */
+		setMoveHandleActionButton: moveHandleStore.setMoveHandleActionButton,
 	}
 })
