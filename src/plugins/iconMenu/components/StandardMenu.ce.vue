@@ -38,13 +38,14 @@ import { useCoreStore } from '@/core/stores/export'
 import { useIconMenuStore } from '@/plugins/iconMenu/store'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 
+const coreStore = useCoreStore()
 const {
 	clientHeight,
 	deviceIsHorizontal,
 	hasSmallWidth,
 	hasWindowSize,
 	layout,
-} = storeToRefs(useCoreStore())
+} = storeToRefs(coreStore)
 const iconMenuStore = useIconMenuStore()
 const { open } = storeToRefs(iconMenuStore)
 
@@ -72,11 +73,10 @@ const maxHeight = computed(() =>
 function toggle(index: number) {
 	if (open.value === index) {
 		open.value = -1
-		// TODO(dopenguin): This is called in mainStore
-		// setMoveHandle(null)
+		coreStore.setMoveHandle(null)
 	} else {
 		open.value = index
-		// iconMenuStore.openInMoveHandle(index)
+		iconMenuStore.openInMoveHandle(index)
 	}
 }
 </script>

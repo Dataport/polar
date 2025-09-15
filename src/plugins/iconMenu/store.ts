@@ -81,30 +81,38 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 			// openInMoveHandle(index)
 		}
 	}
-	// TODO(dopenguin): Implement once MoveHandle is implemented
-	/* function openInMoveHandle(index: number) {
-		const { hint, plugin } = menus.value[index]
-		commit(
-			'setMoveHandle',
-			{
-				closeLabel: t('mobileCloseButton', {
-					ns: 'iconMenu',
-					plugin: hint || `plugins.iconMenu.hints.${plugin.id}`,
-				}),
-				closeFunction: () => {
-					open.value = -1
-				},
-				component: plugin,
-				plugin: 'iconMenu',
+
+	function openInMoveHandle(index: number) {
+		const menu = menus.value[index]
+		if (!menu) {
+			console.error(`Menu with index ${index} could not be found.`)
+			return
+		}
+		if (!menu.plugin.component) {
+			console.error(
+				`The plugin ${menu.plugin.id} does not have any component to display and thus can not be opened in the moveHandle.`
+			)
+			return
+		}
+		coreStore.setMoveHandle({
+			closeFunction: () => {
+				open.value = -1
 			},
-			{ root: true }
-		)
-	} */
+			closeLabel: 'mobileCloseButton',
+			closeLabelOptions: {
+				ns: 'iconMenu',
+				plugin: menu.hint || `plugins.iconMenu.hints.${menu.plugin.id}`,
+			},
+			component: menu.plugin.component,
+			plugin: 'iconMenu',
+		})
+	}
 
 	return {
 		menus,
 		open,
 		buttonComponent,
+		openInMoveHandle,
 		openMenuById,
 		/** @internal */
 		setupPlugin,
