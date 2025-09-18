@@ -12,9 +12,35 @@ import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 
+import type { PluginId as GeoLocationPluginId } from '@/plugins/geoLocation'
+import type { useGeoLocationStore as GeoLocationStore } from '@/plugins/geoLocation/store'
+
 export interface PluginOptions {
 	displayComponent?: boolean
 	layoutTag?: keyof typeof NineLayoutTag
+}
+
+export type BoundaryOnError = 'strict' | 'permissive'
+
+export interface LayerBoundPluginOptions extends PluginOptions {
+	/**
+	 * Set to check whether something is within the layer's boundaries.
+	 * The layer must contain vectors. This is useful for restricted maps to avoid
+	 * selecting unfit coordinates.
+	 */
+	boundaryLayerId?: string
+	/**
+	 * If the boundary layer check does not work due to loading or configuration
+	 * errors, style `'strict'` will disable the affected feature, and style
+	 * `'permissive'` will act as if no boundaryLayerId was set.
+	 * @defaultValue `'permissive'`
+	 */
+	boundaryOnError?: BoundaryOnError
+	/**
+	 * Whether the user should, in error cases, be informed with a toast.
+	 * @defaultValue `false`
+	 */
+	toast?: boolean
 }
 
 export type PolarPluginStore<
@@ -32,6 +58,7 @@ export type BundledPluginId =
 	| typeof FullscreenPluginId
 	| typeof IconMenuPluginId
 	| typeof ToastPluginId
+	| typeof GeoLocationPluginId
 
 type CheckPlugin<
 	T extends BundledPluginId,
@@ -46,6 +73,7 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	| CheckPlugin<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| CheckPlugin<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| CheckPlugin<T, typeof ToastPluginId, typeof ToastStore>
+	| CheckPlugin<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
 
 /** @internal */
 export type ExternalPluginId = `external-${string}`

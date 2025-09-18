@@ -1,17 +1,19 @@
 import { changeLanguage } from 'i18next'
-import pluginToast from '@polar/polar/plugins/toast'
-import { useToastStore } from '@polar/polar/plugins/toast/store'
-import pluginFullscreen from '@polar/polar/plugins/fullscreen'
-import pluginIconMenu from '@polar/polar/plugins/iconMenu'
-import { addPlugin, createMap, subscribe } from '@polar/polar'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
 import AnotherEmptyComponent from './AnotherEmptyComponent.vue'
+import pluginToast from '@polar/polar/plugins/toast'
+import { useToastStore } from '@polar/polar/plugins/toast/store'
+import pluginFullscreen from '@polar/polar/plugins/fullscreen'
+import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
+import pluginIconMenu from '@polar/polar/plugins/iconMenu'
+import { addPlugin, createMap, subscribe } from '@polar/polar'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
+const hamburgBorder = '1693' // boundary layer for pins / geolocalization
 
 // eslint-disable-next-line no-unused-vars
 const dataportTheme = {
@@ -196,6 +198,20 @@ addPlugin(
 	pluginFullscreen({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
+	})
+)
+
+addPlugin(
+	pluginGeoLocation({
+		checkLocationInitially: false,
+		keepCentered: false,
+		renderType: 'independent',
+		showTooltip: true,
+		zoomLevel: 7,
+		// usable when you're in HH or fake your geolocation to HH
+		// boundaryLayerId: hamburgBorder,
+		// boundaryOnError: 'strict',
+		// toast: true,
 	})
 )
 

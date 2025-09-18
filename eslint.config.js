@@ -20,6 +20,7 @@ const polarConfig = {
 
 		// POLAR-specific rules
 		'no-warning-comments': 'warn',
+		'no-void': 'off',
 	},
 }
 
