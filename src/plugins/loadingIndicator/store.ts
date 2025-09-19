@@ -6,6 +6,17 @@
 
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { useCoreStore } from '@/core/stores/export.ts'
+
+const styles = [
+	'CircleLoader',
+	'BasicLoader',
+	'none',
+	'RingLoader',
+	'RollerLoader',
+	'SpinnerLoader',
+	'kern-loader',
+]
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -17,17 +28,42 @@ import { computed, ref } from 'vue'
 export const useLoadingIndicatorStore = defineStore(
 	'plugins/loadingIndicator',
 	() => {
+		const loadKeys = ref(new Set<string>())
 		const loaderStyle = ref('kern-loader')
-		const loaderIsShown = computed(() => {})
+		const loaderIsShown = computed(() => loadKeys.value.size > 0)
 
-		function setupPlugin() {}
-		function teardownPlugin() {}
+		function setupPlugin() {
+			const configuredStyle =
+				useCoreStore().configuration.loadingIndicator?.loaderStyle
+			if (configuredStyle) {
+				setLoaderStyle(configuredStyle)
+			}
+		}
+		function teardownPlugin() {
+			setLoaderStyle('kern-loader')
+		}
 
-		function addLoadingKey(key: string) {}
+		function addLoadingKey(key: string) {
+			loadKeys.value = new Set([...loadKeys.value, key])
+		}
 
-		function removeLoadingKey(key: string) {}
+		function removeLoadingKey(key: string) {
+			const newLoadKeys = new Set(loadKeys.value)
+			newLoadKeys.delete(key)
+			loadKeys.value = newLoadKeys
+		}
 
-		function setLoaderStyle(loaderStyle: string) {}
+		function setLoaderStyle(style: string) {
+			if (style) {
+				if (styles.includes(style)) {
+					loaderStyle.value = style
+				} else {
+					console.error(
+						`Loader style ${style} does not exist. Falling back to default.`
+					)
+				}
+			}
+		}
 
 		return {
 			/** The current loader style. */

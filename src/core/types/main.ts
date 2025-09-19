@@ -5,6 +5,7 @@ import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
+import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
 import type { ToastPluginOptions } from '@/plugins/toast'
 
 /**
@@ -183,14 +184,12 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * See `mapConfiguration.featureStyles` for more information.
 	 */
 	featureStyles?: string
-
 	/**
 	 * The initial language the client should be using.
 	 *
 	 * @defaultValue `'de'` (German)
 	 */
 	language?: InitialLanguage
-
 	/**
 	 * Choose between the standard sidebar layout with fixed positioning, the oldschool nine region layout with full
 	 * configurability regarding positioning or add a custom layout as Vue component.
@@ -252,33 +251,31 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * Authorization header of the request. Requests already including an Authorization header will keep the already present one.
 	 */
 	secureServiceUrlRegex?: RegExp
-
 	/**
 	 * Custom theme for POLAR.
 	 *
 	 * The default is to use KERN's standard theme.
 	 */
 	theme?: PolarTheme
-
 	// Plugins are not sorted alphabetical, but listed last.
 	// Remember to sort them alphabetical inside their space.
 	// TODO: Generate this section via types/plugin.ts
 	/* eslint-disable perfectionist/sort-interfaces */
-
 	/**
 	 * Configuration for fullscreen plugin.
 	 */
 	fullscreen?: FullscreenPluginOptions
-
 	/**
 	 * Configuration for iconMenu plugin.
 	 */
 	iconMenu?: IconMenuPluginOptions
-
+	/**
+	 * Configuration for loadingIndicator plugin.
+	 */
+	loadingIndicator?: LoadingIndicatorOptions
 	/**
 	 * Configuration for toast plugin.
 	 */
 	toast?: ToastPluginOptions
-
 	/* eslint-enable perfectionist/sort-interfaces */
 }
