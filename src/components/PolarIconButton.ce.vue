@@ -1,43 +1,34 @@
 <template>
-	<div class="polar-icon-button-wrapper">
-		<button
-			ref="button"
-			class="kern-btn kern-btn--secondary polar-icon-button"
-			:class="{ 'polar-icon-button-active': active }"
-			@click="action"
+	<button
+		class="kern-btn kern-btn--secondary polar-icon-button"
+		:class="{ 'polar-icon-button-active': active }"
+		@click="action"
+	>
+		<span
+			class="kern-icon"
+			:class="{ [icon]: true, 'polar-icon-button-icon-active': active }"
+			aria-hidden="true"
+		/>
+		<span class="kern-label kern-sr-only">
+			{{ t(hint, { ns: hintNamespace, ...hintOptions }) }}
+		</span>
+		<span
+			v-if="tooltipPosition && !hasSmallDisplay"
+			class="polar-tooltip"
+			:class="`polar-tooltip-${tooltipPosition}`"
+			aria-hidden="true"
 		>
-			<span
-				class="kern-icon"
-				:class="{
-					[$props.icon]: true,
-					'polar-icon-button-icon-active': active,
-				}"
-				aria-hidden="true"
-			/>
-			<span class="kern-label kern-sr-only">{{ hint }}</span>
-			<span
-				v-if="$props.tooltipPosition && !hasSmallDisplay"
-				class="polar-tooltip"
-				:class="`polar-tooltip-${$props.tooltipPosition}`"
-				aria-hidden="true"
-			>
-				{{ hint }}
-			</span>
-		</button>
-	</div>
+			{{ t(hint, { ns: hintNamespace, ...hintOptions }) }}
+		</span>
+	</button>
 </template>
 
 <script setup lang="ts">
 import { t, type TOptions } from 'i18next'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores/export'
 
-/*
- * TODO(dopenguin): Implementation will need some updates when using with layout 'standard'
- */
-
-const props = defineProps<{
+defineProps<{
 	action: () => void
 	hint: string
 	hintNamespace: string
@@ -46,17 +37,12 @@ const props = defineProps<{
 	hintOptions?: TOptions
 	tooltipPosition?: 'left' | 'right'
 }>()
-
-const hint = computed(() =>
-	t(props.hint, { ns: props.hintNamespace, ...props.hintOptions })
-)
 const { hasSmallDisplay } = storeToRefs(useCoreStore())
 </script>
 
 <style scoped>
 .polar-icon-button {
 	position: relative;
-
 	background: var(--kern-color-layout-background-default);
 	box-shadow:
 		0 1px 1px 0 rgba(53, 57, 86, 0.16),
@@ -87,6 +73,7 @@ const { hasSmallDisplay } = storeToRefs(useCoreStore())
 	}
 
 	.polar-tooltip {
+		z-index: 42;
 		position: absolute;
 		padding: 5px 16px;
 		font-family: sans-serif;
@@ -98,15 +85,16 @@ const { hasSmallDisplay } = storeToRefs(useCoreStore())
 		line-height: 22px;
 		white-space: nowrap;
 		pointer-events: none;
-		transition: opacity 250ms ease;
+		transition-property: opacity, right, left;
+		transition-duration: 250ms;
+		transition-timing-function: ease;
 		opacity: 0;
 
 		&.polar-tooltip-left {
-			right: calc(100% + 0.5rem);
+			right: calc(100% + 0.75rem);
 		}
-
 		&.polar-tooltip-right {
-			left: calc(100% + 0.5rem);
+			left: calc(100% + 0.75rem);
 		}
 	}
 
