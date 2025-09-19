@@ -1,6 +1,5 @@
 <template>
 	<PolarIconButton
-		:action="() => (fullscreenEnabled = !fullscreenEnabled)"
 		:class="layout === 'standard' ? 'polar-plugin-fullscreen-standard' : ''"
 		hint="button.label"
 		:hint-options="{ context: fullscreenEnabled ? 'off' : 'on' }"
@@ -9,6 +8,7 @@
 			fullscreenEnabled ? 'kern-icon--fullscreen-exit' : 'kern-icon--fullscreen'
 		"
 		tooltip-position="left"
+		@click="() => (fullscreenEnabled = !fullscreenEnabled)"
 	/>
 </template>
 

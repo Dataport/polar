@@ -1,11 +1,11 @@
 <template>
 	<PolarIconButton
 		:active="active"
-		:action="toggle"
 		:hint="hint"
 		hint-namespace="iconMenu"
 		:icon="icon"
 		tooltip-position="left"
+		@click="toggle"
 	/>
 </template>
 

@@ -2,7 +2,6 @@
 	<button
 		class="kern-btn kern-btn--secondary polar-icon-button"
 		:class="{ 'polar-icon-button-active': active }"
-		@click="action"
 	>
 		<span
 			class="kern-icon"
@@ -29,7 +28,6 @@ import { storeToRefs } from 'pinia'
 import { useCoreStore } from '@/core/stores/export'
 
 defineProps<{
-	action: () => void
 	hint: string
 	hintNamespace: string
 	icon: string

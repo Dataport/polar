@@ -11,12 +11,12 @@
 			<component :is="plugin.component" v-if="icon === undefined" />
 			<template v-else>
 				<PolarIconButton
-					:action="() => toggle(index)"
 					:class="buttonClass"
 					:hint="hint ? hint : `hints.${plugin.id}`"
 					hint-namespace="iconMenu"
 					:icon="icon"
 					tooltip-position="right"
+					@click="() => toggle(index)"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
 				<component
