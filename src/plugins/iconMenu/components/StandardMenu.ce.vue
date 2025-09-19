@@ -11,12 +11,12 @@
 			<component :is="plugin.component" v-if="icon === undefined" />
 			<template v-else>
 				<PolarIconButton
-					:action="() => toggle(index)"
-					:button-class="buttonClass"
+					:class="buttonClass"
 					:hint="hint ? hint : `hints.${plugin.id}`"
 					hint-namespace="iconMenu"
 					:icon="icon"
 					tooltip-position="right"
+					@click="() => toggle(index)"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
 				<component
@@ -82,11 +82,11 @@ function toggle(index: number) {
 </script>
 
 <style scoped>
-:deep(.polar-plugin-icon-menu-button) {
+.polar-icon-button.polar-plugin-icon-menu-button {
 	box-shadow: none;
 }
 
-:deep(.polar-plugin-icon-menu-button-active) {
+.polar-icon-button.polar-plugin-icon-menu-button-active {
 	background: oklch(var(--theme-action-default) / 0.12);
 
 	&:focus,
@@ -115,7 +115,7 @@ function toggle(index: number) {
 			z-index: 1;
 			position: absolute;
 			top: 0;
-			left: calc(100% + 0.5em);
+			left: calc(100% + 0.5rem);
 			overflow-y: auto;
 			scrollbar-gutter: stable;
 		}

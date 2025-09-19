@@ -33,21 +33,6 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	function setupPlugin() {
 		menus.value = (coreStore.configuration.iconMenu?.menus || []).filter(
 			({ plugin: { id } }) => {
-				if (coreStore.layout === 'standard') {
-					// TODO(dopenguin): Seems off to list them here -> Better place?
-					const independentPlugin = [
-						'fullscreen',
-						'geoLocation',
-						'zoom',
-					].includes(id)
-
-					if (independentPlugin) {
-						console.error(
-							`Plugin with id ${id} will not be rendered as part of the iconMenu if layout is set to 'standard'. Please add it independently.`
-						)
-					}
-					return !independentPlugin
-				}
 				const display = coreStore.configuration[id]?.displayComponent
 				return typeof display === 'boolean' ? display : true
 			}
