@@ -30,12 +30,10 @@ const updateMaxWidth = inject('updateMaxWidth') as () => void
 function toggle() {
 	if (open.value === props.index) {
 		open.value = -1
-		active.value = false
 		// TODO(dopenguin): This is called in mainStore
 		// setMoveHandle(null)
 	} else {
 		open.value = props.index
-		active.value = true
 		// iconMenuStore.openInMoveHandle(index)
 	}
 	updateMaxWidth()
