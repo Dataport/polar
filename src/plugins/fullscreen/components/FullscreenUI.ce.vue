@@ -40,7 +40,7 @@ const buttonClass = computed(() =>
 	margin: 0.5rem;
 	pointer-events: all;
 }
-.polar-plugin-fullscreen-nine-regions {
+.polar-icon-button.polar-plugin-fullscreen-nine-regions {
 	margin: 0.5rem;
 }
 </style>
