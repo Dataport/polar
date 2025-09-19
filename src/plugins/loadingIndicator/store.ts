@@ -5,7 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { defineStore } from 'pinia'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -17,7 +17,7 @@ import { computed } from 'vue'
 export const useLoadingIndicatorStore = defineStore(
 	'plugins/loadingIndicator',
 	() => {
-		const loaderStyle = computed(() => {})
+		const loaderStyle = ref('kern-loader')
 		const loaderIsShown = computed(() => {})
 
 		function setupPlugin() {}
