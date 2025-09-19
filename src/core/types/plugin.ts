@@ -12,6 +12,9 @@ import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store
 import type { PluginId as LayerChooserPluginId } from '@/plugins/layerChooser'
 import type { useLayerChooserStore as LayerChooserStore } from '@/plugins/layerChooser/store'
 
+import type { PluginId as LoadingIndicatorId } from '@/plugins/loadingIndicator'
+import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugins/loadingIndicator/store'
+
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 
@@ -35,6 +38,7 @@ export type BundledPluginId =
 	| typeof FullscreenPluginId
 	| typeof IconMenuPluginId
 	| typeof LayerChooserPluginId
+	| typeof LoadingIndicatorId
 	| typeof ToastPluginId
 
 type CheckPlugin<
@@ -50,6 +54,7 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	| CheckPlugin<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| CheckPlugin<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| CheckPlugin<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
+	| CheckPlugin<T, typeof LayerChooserPluginId, typeof LoadingIndicatorStore>
 	| CheckPlugin<T, typeof ToastPluginId, typeof ToastStore>
 
 /** @internal */
