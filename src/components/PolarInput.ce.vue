@@ -15,15 +15,19 @@
 	</div>
 </template>
 
-<script setup lang="ts">
-defineProps<{
+<script setup lang="ts" generic="T extends 'checkbox' | 'radio'">
+// NOTE: It is fine here that props is only used as a type in the script.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const props = defineProps<{
 	idSuffix: string
 	label: string
-	type: 'checkbox' | 'radio'
+	type: T
 	value: string
 	disabled?: boolean
 }>()
-const model = defineModel<string | string[]>({ required: true })
+const model = defineModel<
+	typeof props.type extends 'checkbox' ? string[] : string
+>({ required: true })
 </script>
 
 <style scoped>
