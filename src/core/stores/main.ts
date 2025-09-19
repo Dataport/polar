@@ -2,7 +2,7 @@ import type { Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { defineStore } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import type { MapConfiguration, PluginContainer } from '../types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addInterceptor } from '../utils/addInterceptor'
@@ -14,7 +14,7 @@ export const useMainStore = defineStore('main', () => {
 	})
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
-	const map = ref<Map | null>(null)
+	const map = shallowRef({} as Map)
 	const plugins = ref<PluginContainer[]>([])
 	const serviceRegister = ref<string | Record<string, unknown>[]>('')
 	const shadowRoot = ref<ShadowRoot | null>(null)
