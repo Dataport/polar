@@ -1,7 +1,6 @@
 <template>
 	<PolarIconButton
-		:action="() => (fullscreenEnabled = !fullscreenEnabled)"
-		:button-class="buttonClass"
+		:class="buttonClass"
 		hint="button.label"
 		:hint-options="{ context: fullscreenEnabled ? 'off' : 'on' }"
 		:hint-namespace="PluginId"
@@ -9,6 +8,7 @@
 			fullscreenEnabled ? 'kern-icon--fullscreen-exit' : 'kern-icon--fullscreen'
 		"
 		tooltip-position="left"
+		@click="() => (fullscreenEnabled = !fullscreenEnabled)"
 	/>
 </template>
 
@@ -33,16 +33,14 @@ const buttonClass = computed(() =>
 )
 </script>
 
-<!-- eslint-disable-next-line vue/enforce-style-attribute -->
-<style>
-/* TODO: For some reason, these styles don't work scoped and with :deep. */
-.polar-plugin-fullscreen-standard {
+<style scoped>
+.polar-icon-button.polar-plugin-fullscreen-standard {
 	position: absolute;
 	right: 0;
 	margin: 0.5rem;
 	pointer-events: all;
 }
-.polar-plugin-fullscreen-nine-regions {
+.polar-icon-button.polar-plugin-fullscreen-nine-regions {
 	margin: 0.5rem;
 }
 </style>
