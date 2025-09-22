@@ -180,7 +180,7 @@ addPlugin(
 					id: 'kewl',
 					locales: [],
 				},
-				icon: 'kern-icon--layers',
+				icon: 'kern-icon-fill--layers',
 				hint: 'Something layered',
 			},
 			{
