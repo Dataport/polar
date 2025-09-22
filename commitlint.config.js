@@ -12,6 +12,7 @@ export default {
 				'release',
 				'core',
 				...globSync('src/plugins/*/').map((path) => basename(path)),
+				...globSync('examples/*/').map((path) => basename(path)),
 			],
 		],
 	},
