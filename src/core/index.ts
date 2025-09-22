@@ -2,7 +2,7 @@
 /**
  * This is the main export for the NPM package \@polar/polar.
  *
- * Lost? You probably want to start at {@link createMap}.
+ * Lost? You probably want to start at {@link register} and {@link createMap}.
  *
  * @packageDocumentation
  * @module \@polar/polar
@@ -73,10 +73,22 @@ export function addPlugin(map: typeof PolarContainer, plugin: PluginContainer) {
 	map.store.addPlugin(plugin)
 }
 
+/**
+ * Remove a plugin from a map by its ID.
+ *
+ * @param map - Map to remove the plugin from.
+ * @param pluginId - ID of the plugin to be removed.
+ */
 export function removePlugin(map: typeof PolarContainer, pluginId: string) {
 	map.store.removePlugin(pluginId)
 }
 
+/**
+ * Custom element of the POLAR map.
+ *
+ * You will probably need this to have TypeScript support on `polar-map` elements
+ * if you want to do so.
+ */
 export const PolarMap = defineCustomElement(PolarContainer, {
 	configureApp(app) {
 		app.use(Pinia)
@@ -84,17 +96,23 @@ export const PolarMap = defineCustomElement(PolarContainer, {
 	},
 })
 
+/**
+ * Registers the custom element for POLAR (i.e., `polar-map`).
+ *
+ * This has to be called before using POLAR in any way.
+ */
 export function register() {
 	customElements.define('polar-map', PolarMap)
 }
 
 /**
- * The map is created by calling the `createMap` method.
- * Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone
- * HTML pages that do this for you.
+ * Creates an HTML map element with a given configuration.
  *
- * Initializes map and setup all relevant functionality.
- * Also registers the custom element for the polar map.
+ * Instead of calling this function, you may also create the element yourself.
+ * Creating the element yourself yields benefits especially when you use a framework
+ * that is more used to creating elements itself and adding properties to them.
+ *
+ * Remember to always call `register` first.
  *
  * @remarks
  * Whitelisted and confirmed parameters for {@link serviceRegister} include:
@@ -105,6 +123,10 @@ export function register() {
  *             `requestEncoding`, `resLength`
  * - OAF:      `id`, `name`, `url`, `typ`, `collection`, `crs`, `bboxCrs`
  * - GeoJSON:  `id`, `name`, `url`, `typ`, `version`, `minScale`, `maxScale`, `legendURL`
+ *
+ * @privateRemarks
+ * In earlier versions of POLAR, this function did a lot of magic.
+ * However, the magic moved to the custom element itself, therefore, you may create the element by yourself now.
  *
  * @param mapConfiguration - Configuration options.
  * @param serviceRegister - Service register given through a URL or as an array
