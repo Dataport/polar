@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.2
+
+- Fix: Use v3.1.1 of `polar/lib-get-features` that includes a fix for reading a service's WFS response's CRS from its features if it's not available on the root node.
+
 ## 2.0.1
 
 - Fix: Use v3.0.1 of `@polar/plugin-gfi` that includes a fix for the usage of `directSelect`, `multiSelect` and their usage in conjunction with `@polar/plugin-pins`.
