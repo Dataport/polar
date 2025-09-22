@@ -13,9 +13,7 @@
 			<button class="kern-btn" @click="store.removeToast(toast.originalToast)">
 				<span class="kern-icon kern-icon--close" aria-hidden="true" />
 				<span class="kern-label kern-sr-only">{{
-					$t('dismissButton.label', {
-						ns: PluginId,
-					})
+					$t(($) => $.dismissButton.label, { ns: PluginId })
 				}}</span>
 			</button>
 		</div>

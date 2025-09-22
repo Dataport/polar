@@ -16,7 +16,8 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { useMainStore } from '@/core/stores/main.ts'
+import { useMainStore } from '@/core/stores/main'
+import { usePluginStore } from '@/core/stores/plugin'
 import { NineLayoutTag } from '@/core/utils/NineLayoutTag'
 
 const tags = Object.entries(NineLayoutTag)
@@ -24,11 +25,13 @@ const tags = Object.entries(NineLayoutTag)
 const coreStore = useMainStore()
 const { hasWindowSize } = storeToRefs(coreStore)
 
+const pluginStore = usePluginStore()
+
 const regions = computed(() =>
 	tags.reduce(
 		(acc, [name]) => ({
 			...acc,
-			[name]: coreStore.plugins
+			[name]: pluginStore.plugins
 				.filter(({ id, independent, options }) => {
 					if (options?.displayComponent && !options.layoutTag) {
 						console.warn(

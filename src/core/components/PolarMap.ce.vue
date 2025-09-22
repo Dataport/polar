@@ -5,7 +5,7 @@
 		class="polar-map"
 		tabindex="0"
 		role="region"
-		:aria-label="$t('canvas.label')"
+		:aria-label="$t(($) => $.canvas.label, { ns: 'core' })"
 		@wheel="wheelEffect"
 	/>
 </template>
@@ -19,6 +19,7 @@ import { storeToRefs } from 'pinia'
 import { computed, markRaw, onMounted, useTemplateRef, watch } from 'vue'
 import type { Map } from 'ol'
 import { easeOut } from 'ol/easing'
+import { t } from 'i18next'
 import { useMainStore } from '../stores/main'
 
 import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
@@ -92,14 +93,20 @@ watch(center, (center) => {
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 function wheelEffect(event: WheelEvent) {
-	if (hasWindowSize.value) {
+	if (hasWindowSize.value || !overlay.value) {
 		return
 	}
 	const condition = computed(() => !hasWindowSize.value)
 	if (isMacOS && !event.metaKey) {
-		overlay.value?.show('overlay.noCommandOnZoom', condition)
+		overlay.value.show(
+			t(($) => $.overlay.noCommandOnZoom, { ns: 'core' }),
+			condition
+		)
 	} else if (!isMacOS && !event.ctrlKey) {
-		overlay.value?.show('overlay.noControlOnZoom', condition)
+		overlay.value.show(
+			t(($) => $.overlay.noControlOnZoom, { ns: 'core' }),
+			condition
+		)
 	}
 }
 
@@ -131,6 +138,7 @@ function updateListeners() {
 	) {
 		new Hammer(polarMapContainer.value).on('pan', (e) => {
 			if (
+				overlay.value &&
 				e.maxPointers === 1 &&
 				map &&
 				map
@@ -138,7 +146,7 @@ function updateListeners() {
 					.getArray()
 					.some((interaction) => interaction.get('_isPolarDragLikeInteraction'))
 			) {
-				overlay.value?.show('overlay.oneFingerPan')
+				overlay.value.show(t(($) => $.overlay.oneFingerPan, { ns: 'core' }))
 			}
 		})
 	}

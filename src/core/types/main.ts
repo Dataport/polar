@@ -1,38 +1,17 @@
-import type { ResourceKey } from 'i18next'
 import type { VueElement } from 'vue'
 import type { MarkerConfiguration } from './marker'
 import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
+import type { LocaleOverride } from './locales'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { ToastPluginOptions } from '@/plugins/toast'
-
-/**
- * Copied from https://stackoverflow.com/a/54178819.
- *
- * Makes the properties defined by type `K` optional in type `T`.
- *
- * @example `PartialBy<LayerConfiguration, 'id' | 'name'>`
- */
-export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
-
-export interface Locale {
-	resources: Record<string, ResourceKey>
-	/** Language key as described in the i18next documentation. */
-	type: string
-}
 
 export interface ServiceAvailabilityCheck {
 	ping: Promise<number>
 	serviceId: string
 	serviceName: string
 }
-
-/**
- *
- * Map-Config
- *
- */
 
 export type InitialLanguage = 'de' | 'en'
 
@@ -230,7 +209,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * When reading the locale tables, please mind that the dot notation (`a.b.c | value`) has to be written as separate
 	 * keys in nested objects as seen in the example above (`{a: {b: {c: "value"}}}`).
 	 */
-	locales?: Locale[]
+	locales?: LocaleOverride[]
 	/**
 	 * If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively.
 	 * They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker

@@ -1,7 +1,7 @@
 <template>
 	<transition name="fade">
 		<div v-if="message" class="polar-map-overlay">
-			{{ $t(message) }}
+			{{ message }}
 		</div>
 	</transition>
 </template>

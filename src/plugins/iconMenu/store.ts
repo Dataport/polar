@@ -8,7 +8,6 @@ import { toMerged } from 'es-toolkit'
 import { defineStore } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
 import type { Menu } from './types.ts'
-import { addPlugin } from '@/core'
 import { useCoreStore } from '@/core/stores/export.ts'
 
 /* eslint-disable tsdoc/syntax */
@@ -38,7 +37,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 			}
 		)
 		menus.value.forEach(({ plugin }) => {
-			addPlugin(toMerged(plugin, { independent: false }))
+			coreStore.addPlugin(toMerged(plugin, { independent: false }))
 		})
 		// Otherwise, the component itself is made reactive
 		menus.value.map((menuItem) =>

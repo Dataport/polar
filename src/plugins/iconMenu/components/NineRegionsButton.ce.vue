@@ -3,9 +3,7 @@
 	<!-- TODO(dopenguin): Possible colour change is missing -->
 	<button class="kern-btn kern-btn--primary" @click="toggle">
 		<span class="kern-icon" :class="$props.icon" aria-hidden="true" />
-		<span class="kern-label kern-sr-only">
-			{{ $t(hint, { ns: 'iconMenu' }) }}
-		</span>
+		<span class="kern-label kern-sr-only">{{ hint }}</span>
 	</button>
 </template>
 

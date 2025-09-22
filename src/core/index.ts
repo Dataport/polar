@@ -2,7 +2,7 @@
 /**
  * This is the main export for the NPM package \@polar/polar.
  *
- * Lost? You probably want to start at {@link createMap}.
+ * Lost? You probably want to start at {@link register} and {@link createMap}.
  *
  * @packageDocumentation
  * @module \@polar/polar
@@ -10,28 +10,30 @@
 /* eslint-enable tsdoc/syntax */
 
 import '@kern-ux/native/dist/fonts/fira-sans.css'
-import { toMerged } from 'es-toolkit'
-import i18next from 'i18next'
 import { storeToRefs } from 'pinia'
-import { defineCustomElement, markRaw, watch, type WatchOptions } from 'vue'
+import { defineCustomElement, watch, type WatchOptions } from 'vue'
 import PolarContainer from './components/PolarContainer.ce.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
-import type { MapConfiguration, PluginContainer, PluginOptions } from './types'
+import type { MapConfiguration, PluginContainer } from './types'
 import { useMainStore } from './stores/main'
 import { useMarkerStore } from './stores/marker'
-import defaults from './utils/defaults'
-import { mapZoomOffset } from './utils/mapZoomOffset'
 
 import './monkeyHeaderLoader'
 
 /**
  * Calls `addPlugin` for each plugin in the array.
  *
+ * @param map - Map to add the plugin to.
  * @param plugins - Plugins to be added.
  */
-export function addPlugins(plugins: PluginContainer[]) {
-	plugins.forEach(addPlugin)
+export function addPlugins(
+	map: typeof PolarContainer,
+	plugins: PluginContainer[]
+) {
+	plugins.forEach((plugin) => {
+		addPlugin(map, plugin)
+	})
 }
 
 /**
@@ -64,68 +66,53 @@ export function addPlugins(plugins: PluginContainer[]) {
  * })
  * ```
  *
+ * @param map - Map to add the plugin to.
  * @param plugin - Plugin to be added.
  */
-export function addPlugin(plugin: PluginContainer) {
-	const { id, locales, options, storeModule } = plugin
-	const coreStore = useMainStore()
-
-	const pluginConfiguration = toMerged(
-		options || {},
-		(coreStore.configuration[id] || {}) as PluginOptions
-	)
-	/* configuration merge – "options" are from client-code, "configuration"
-	 * is from mapConfiguration object and thus overrides */
-	coreStore.configuration = {
-		...coreStore.configuration,
-		[id]: pluginConfiguration,
-	}
-
-	const store = storeModule?.()
-	if (store && typeof store.setupPlugin === 'function') {
-		store.setupPlugin()
-	}
-
-	if (locales) {
-		locales.forEach((lng) => {
-			i18next.addResourceBundle(lng.type, id, lng.resources, true)
-		})
-	}
-
-	coreStore.plugins = [
-		...coreStore.plugins,
-		{
-			...plugin,
-			...(plugin.component ? { component: markRaw(plugin.component) } : {}),
-		},
-	]
-}
-
-export function removePlugin(pluginId: string) {
-	const coreStore = useMainStore()
-	const plugin = coreStore.plugins.find(({ id }) => id === pluginId)
-
-	if (!plugin) {
-		console.error(`Plugin "${pluginId}" not found.`)
-		return
-	}
-	const store = plugin.storeModule?.()
-	if (store) {
-		if (typeof store.teardownPlugin === 'function') {
-			store.teardownPlugin()
-		}
-		store.$reset()
-	}
-	coreStore.plugins = coreStore.plugins.filter(({ id }) => id !== pluginId)
+export function addPlugin(map: typeof PolarContainer, plugin: PluginContainer) {
+	map.store.addPlugin(plugin)
 }
 
 /**
- * The map is created by calling the `createMap` method.
- * Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone
- * HTML pages that do this for you.
+ * Remove a plugin from a map by its ID.
  *
- * Initializes map and setup all relevant functionality.
- * Also registers the custom element for the polar map.
+ * @param map - Map to remove the plugin from.
+ * @param pluginId - ID of the plugin to be removed.
+ */
+export function removePlugin(map: typeof PolarContainer, pluginId: string) {
+	map.store.removePlugin(pluginId)
+}
+
+/**
+ * Custom element of the POLAR map.
+ *
+ * You will probably need this to have TypeScript support on `polar-map` elements
+ * if you want to do so.
+ */
+export const PolarMap = defineCustomElement(PolarContainer, {
+	configureApp(app) {
+		app.use(Pinia)
+		app.use(I18Next)
+	},
+})
+
+/**
+ * Registers the custom element for POLAR (i.e., `polar-map`).
+ *
+ * This has to be called before using POLAR in any way.
+ */
+export function register() {
+	customElements.define('polar-map', PolarMap)
+}
+
+/**
+ * Creates an HTML map element with a given configuration.
+ *
+ * Instead of calling this function, you may also create the element yourself.
+ * Creating the element yourself yields benefits especially when you use a framework
+ * that is more used to creating elements itself and adding properties to them.
+ *
+ * Remember to always call `register` first.
  *
  * @remarks
  * Whitelisted and confirmed parameters for {@link serviceRegister} include:
@@ -137,45 +124,26 @@ export function removePlugin(pluginId: string) {
  * - OAF:      `id`, `name`, `url`, `typ`, `collection`, `crs`, `bboxCrs`
  * - GeoJSON:  `id`, `name`, `url`, `typ`, `version`, `minScale`, `maxScale`, `legendURL`
  *
+ * @privateRemarks
+ * In earlier versions of POLAR, this function did a lot of magic.
+ * However, the magic moved to the custom element itself, therefore, you may create the element by yourself now.
+ *
  * @param mapConfiguration - Configuration options.
  * @param serviceRegister - Service register given through a URL or as an array
  *                          An example for a predefined service register is [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
  *                          Full documentation regarding the configuration can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
  *                          However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet,
  *                          and no documentation regarding implemented properties exists there yet.
- * @param tagName - Tag name for the custom element.
  */
 export function createMap(
 	mapConfiguration: MapConfiguration,
-	serviceRegister: string | Record<string, unknown>[],
-	tagName = 'polar-map'
+	serviceRegister: string | Record<string, unknown>[]
 ) {
-	const PolarMap = defineCustomElement(PolarContainer, {
-		configureApp(app) {
-			app.use(Pinia)
-			app.use(I18Next, {
-				initialLanguage: mapConfiguration.language,
-				locales: mapConfiguration.locales,
-			})
-
-			const coreStore = useMainStore()
-
-			// TODO(oeninghe-dataport): Pass configuration as CE properties.
-			// createMap may survive as a convenience wrapper.
-			coreStore.configuration = mapZoomOffset({
-				...defaults,
-				...mapConfiguration,
-			})
-			coreStore.serviceRegister = serviceRegister
-
-			if (coreStore.configuration.oidcToken) {
-				// copied to a separate spot for usage as it's changeable data at run-time
-				coreStore.oidcToken = coreStore.configuration.oidcToken
-			}
-		},
-	})
-
-	customElements.define(tagName, PolarMap)
+	// @ts-expect-error | We trust that the element is registered
+	const map = document.createElement('polar-map') as typeof PolarContainer
+	map.mapConfiguration = mapConfiguration
+	map.serviceRegister = serviceRegister
+	return map
 }
 
 export type SubscribeCallback = (value: unknown, oldValue: unknown) => void
@@ -244,3 +212,4 @@ function getStore(storeName: string) {
 }
 
 export type * from './types'
+export { type PolarContainer }
