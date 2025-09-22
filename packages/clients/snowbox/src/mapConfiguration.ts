@@ -96,6 +96,37 @@ export const mapConfiguration = {
         type: 'mpapi',
         url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
       },
+      {
+        queryParameters: {
+          typeName: 'Flurstueck',
+          featurePrefix: 'adv',
+          xmlns:
+            'http://repository.gdi-de.org/schemas/adv/produkt/alkis-vereinfacht/2.0',
+          maxFeatures: 20,
+          patterns: [
+            '{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+            '{{gemarkung}} {{flur}} {{flstnrzae}}, {{flstkennz}}',
+            '{{gemarkung}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+            '{{gemarkung}} {{flstnrzae}}, {{flstkennz}}',
+            '{{gemarkung}} {{flstnrzae}}',
+            '{{flstkennz}}',
+            '{{flstnrzae}}',
+          ],
+          patternKeys: {
+            // only capturing group content is used
+            gemarkung: '([^0-9]+)',
+            flur: '([0-9]+)',
+            flstnrzae: '([0-9]+)',
+            flstnrnen: '([0-9]+)',
+            flstkennz: '([0-9_]+)$',
+          },
+        },
+        placeholder: 'Schiffbek 996',
+        type: 'wfs',
+        groupId: 'wfs_search',
+        label: 'Flurstückssuche',
+        url: 'https://geodienste.hamburg.de/WFS_HH_ALKIS_vereinfacht',
+      },
     ],
     minLength: 3,
     waitMs: 300,

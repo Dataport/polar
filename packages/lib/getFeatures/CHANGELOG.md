@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: On server returns with the CRS not indicated on the root element, but on its children, the projection is now inferred from those.
+
 ## 3.1.0
 
 - Feature: Add new methods `getVectorFeaturesByBboxRequest` and `getVectorFeaturesByFeatureRequest` that support both WFS and OAF layers.
