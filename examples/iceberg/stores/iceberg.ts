@@ -20,7 +20,7 @@ export const useIcebergStore = defineStore('iceberg', () => {
 		},
 	})
 
-	const serviceRegister = ref<string>(
+	const serviceRegister = ref(
 		'https://geodienste.hamburg.de/services-internet.json'
 	)
 
