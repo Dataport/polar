@@ -10,6 +10,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import '@kern-ux/native/dist/fonts/fira-sans.css'
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import { storeToRefs } from 'pinia'
@@ -20,6 +21,7 @@ import { Pinia } from './vuePlugins/pinia'
 import type { MapConfiguration, PluginContainer, PluginOptions } from './types'
 import { useMainStore } from './stores/main'
 import { useMarkerStore } from './stores/marker'
+import { checkServiceAvailability } from './utils/checkServiceAvailability'
 import defaults from './utils/defaults'
 import { mapZoomOffset } from './utils/mapZoomOffset'
 
@@ -145,10 +147,24 @@ export function removePlugin(pluginId: string) {
  *                          and no documentation regarding implemented properties exists there yet.
  * @param tagName - Tag name for the custom element.
  */
-export function createMap(
+export async function createMap(
 	mapConfiguration: MapConfiguration,
 	serviceRegister: string | Record<string, unknown>[],
 	tagName = 'polar-map'
+) {
+	let usedRegister = serviceRegister
+	if (typeof usedRegister === 'string') {
+		usedRegister = await new Promise<Record<string, unknown>[]>((resolve) =>
+			rawLayerList.initializeLayerList(usedRegister, resolve)
+		)
+	}
+	createMapElement(mapConfiguration, usedRegister, tagName)
+}
+
+function createMapElement(
+	mapConfiguration: MapConfiguration,
+	serviceRegister: Record<string, unknown>[],
+	tagName: string
 ) {
 	const PolarMap = defineCustomElement(PolarContainer, {
 		configureApp(app) {
@@ -160,8 +176,6 @@ export function createMap(
 
 			const coreStore = useMainStore()
 
-			// TODO(oeninghe-dataport): Pass configuration as CE properties.
-			// createMap may survive as a convenience wrapper.
 			coreStore.configuration = mapZoomOffset({
 				...defaults,
 				...mapConfiguration,
@@ -171,6 +185,9 @@ export function createMap(
 			if (coreStore.configuration.oidcToken) {
 				// copied to a separate spot for usage as it's changeable data at run-time
 				coreStore.oidcToken = coreStore.configuration.oidcToken
+			}
+			if (coreStore.configuration.checkServiceAvailability) {
+				checkServiceAvailability(coreStore.configuration, serviceRegister)
 			}
 		},
 	})
