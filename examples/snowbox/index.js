@@ -244,9 +244,9 @@ toastStore.addToast({
 	severity: 'error',
 })
 
-// TODO(dopenguin): Update this to use the getStore function
 const loadingIndicatorStore = useLoadingIndicatorStore()
-loadingIndicatorStore.addLoadingKey('LMAO')
+loadingIndicatorStore.addLoadingKey('loadingTest')
+setTimeout(() => loadingIndicatorStore.removeLoadingKey('loadingTest'), 2000)
 
 subscribe(
 	'markers',
