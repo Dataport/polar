@@ -1,6 +1,9 @@
 <template>
 	<div v-if="showLoader" class="polar-plugin-loading-indicator-wrapper">
-		<div class="polar-plugin-loading-indicator-overlay" />
+		<div
+			v-if="layout === 'standard'"
+			class="polar-plugin-loading-indicator-overlay"
+		/>
 		<PolarCard>
 			<div
 				v-if="loaderStyle === 'kern-loader'"
@@ -28,7 +31,9 @@ import {
 	SpinnerLoader,
 } from './loaderStyles'
 import PolarCard from '@/components/PolarCard.ce.vue'
+import { useCoreStore } from '@/core/stores/export.ts'
 
+const { layout } = storeToRefs(useCoreStore())
 const { loaderStyle, showLoader } = storeToRefs(useLoadingIndicatorStore())
 const customStyles = {
 	BasicLoader,
