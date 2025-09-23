@@ -178,7 +178,7 @@ await createMap(
 			},
 		],
 	},
-	'https://geodienste.hamburg.de/services-internet.json',
+	services,
 	'dataport-map'
 )
 
