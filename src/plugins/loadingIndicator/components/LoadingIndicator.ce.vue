@@ -69,7 +69,7 @@ const customStyles = {
 	}
 
 	:deep(.kern-card__container) {
-		padding: var(--kern-metric-space-small);
+		padding: var(--kern-metric-space-small) !important;
 	}
 }
 </style>
