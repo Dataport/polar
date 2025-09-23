@@ -17,6 +17,8 @@ export default {}
 .lds-circle {
 	display: inline-block;
 	transform: translateZ(1px);
+	width: 80px;
+	height: 80px;
 }
 .lds-circle > div {
 	display: inline-block;
