@@ -5,7 +5,6 @@ export const PluginId = 'loadingIndicator'
 export type LoaderStyles =
 	| 'CircleLoader'
 	| 'BasicLoader'
-	| 'none'
 	| 'RingLoader'
 	| 'RollerLoader'
 	| 'SpinnerLoader'

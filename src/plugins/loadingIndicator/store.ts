@@ -12,7 +12,6 @@ import type { LoaderStyles } from '@/plugins/loadingIndicator/types.ts'
 const styles = [
 	'CircleLoader',
 	'BasicLoader',
-	'none',
 	'RingLoader',
 	'RollerLoader',
 	'SpinnerLoader',
