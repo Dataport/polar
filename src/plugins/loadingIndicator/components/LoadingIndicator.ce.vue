@@ -7,9 +7,8 @@
 				class="kern-loader kern-loader--visible"
 				role="status"
 			/>
-			<!-- TODO(dopenguin): Properly map the components here -->
 			<component
-				:is="loaderStyle"
+				:is="customStyles[loaderStyle]"
 				v-else
 				class="kern-loader--visible"
 				role="status"
@@ -21,8 +20,23 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useLoadingIndicatorStore } from '../store'
+import {
+	BasicLoader,
+	CircleLoader,
+	RingLoader,
+	RollerLoader,
+	SpinnerLoader,
+} from './loaderStyles'
 import PolarCard from '@/components/PolarCard.ce.vue'
+
 const { loaderStyle, showLoader } = storeToRefs(useLoadingIndicatorStore())
+const customStyles = {
+	BasicLoader,
+	CircleLoader,
+	RingLoader,
+	RollerLoader,
+	SpinnerLoader,
+}
 </script>
 
 <style scoped>
