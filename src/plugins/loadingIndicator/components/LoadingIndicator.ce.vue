@@ -1,12 +1,7 @@
 <template>
-	<PolarCard v-if="showLoader">
-		<header class="kern-card__header">
-			<h2 class="kern-title">
-				{{ $t('loading', { ns: PluginId }) }}
-			</h2>
-		</header>
-		<section class="kern-card__body">
-			<!-- TODO(dopenguin): place the loader in the center of the map -->
+	<div v-if="showLoader" class="polar-plugin-loading-indicator-wrapper">
+		<div class="polar-plugin-loading-indicator-overlay" />
+		<PolarCard>
 			<div
 				v-if="loaderStyle === 'kern-loader'"
 				class="kern-loader kern-loader--visible"
@@ -19,21 +14,43 @@
 				class="kern-loader--visible"
 				role="status"
 			/>
-		</section>
-	</PolarCard>
+		</PolarCard>
+	</div>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { PluginId } from '../types'
 import { useLoadingIndicatorStore } from '../store'
 import PolarCard from '@/components/PolarCard.ce.vue'
 const { loaderStyle, showLoader } = storeToRefs(useLoadingIndicatorStore())
-// TODO(dopenguin): Adjust size (both of the container and the loader itself)
 </script>
 
 <style scoped>
-.kern-card__header {
+.polar-plugin-loading-indicator-wrapper {
+	z-index: 100;
+	position: absolute;
+	display: flex;
 	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+
+	.polar-plugin-loading-indicator-overlay {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		opacity: var(--kern-color-action-state-opacity-overlay);
+		background: #fff;
+	}
+
+	.kern-card {
+		min-width: fit-content;
+		height: fit-content;
+		border-radius: 50%;
+	}
+
+	:deep(.kern-card__container) {
+		padding: var(--kern-metric-space-small);
+	}
 }
 </style>

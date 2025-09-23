@@ -5,7 +5,6 @@
 /* eslint-enable tsdoc/syntax */
 
 import component from './components/LoadingIndicator.ce.vue'
-import locales from './locales'
 import { useLoadingIndicatorStore } from './store'
 import { type LoadingIndicatorOptions, PluginId } from './types'
 import type { PluginContainer, PolarPluginStore } from '@/core'
@@ -22,7 +21,6 @@ export default function pluginLoadingIndicator(
 	return {
 		id: PluginId,
 		component,
-		locales,
 		storeModule: useLoadingIndicatorStore as PolarPluginStore,
 		options,
 	}
