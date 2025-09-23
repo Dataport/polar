@@ -4,6 +4,8 @@ import { addPlugin, createMap, subscribe } from '@polar/polar'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
+import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
+import { useLoadingIndicatorStore } from '@polar/polar/plugins/loadingIndicator/store'
 import pluginToast from '@polar/polar/plugins/toast'
 import { useToastStore } from '@polar/polar/plugins/toast/store'
 
@@ -192,6 +194,11 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 })
 
 addPlugin(
+	pluginLoadingIndicator({
+		loaderStyle: 'BasicLoader',
+	})
+)
+addPlugin(
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
@@ -236,6 +243,10 @@ toastStore.addToast({
 	text: 'Achtung! Dies ist ein Toast!',
 	severity: 'error',
 })
+
+// TODO(dopenguin): Update this to use the getStore function
+const loadingIndicatorStore = useLoadingIndicatorStore()
+loadingIndicatorStore.addLoadingKey('LMAO')
 
 subscribe(
 	'markers',
