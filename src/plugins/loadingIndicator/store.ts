@@ -7,6 +7,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { useCoreStore } from '@/core/stores/export.ts'
+import type { LoaderStyles } from '@/plugins/loadingIndicator/types.ts'
 
 const styles = [
 	'CircleLoader',
@@ -30,7 +31,7 @@ export const useLoadingIndicatorStore = defineStore(
 	() => {
 		const loadKeys = ref(new Set<string>())
 		const loaderStyle = ref('kern-loader')
-		const loaderIsShown = computed(() => loadKeys.value.size > 0)
+		const showLoader = computed(() => loadKeys.value.size > 0)
 
 		function setupPlugin() {
 			const configuredStyle =
@@ -68,8 +69,8 @@ export const useLoadingIndicatorStore = defineStore(
 		return {
 			/** The current loader style. */
 			loaderStyle,
-			/** Whether the layer is currently shown. */
-			loaderIsShown,
+			/** Whether the loader should currently be shown. */
+			showLoader,
 			/**
 			 * Adds a loading indicator with the given `key`.
 			 *
