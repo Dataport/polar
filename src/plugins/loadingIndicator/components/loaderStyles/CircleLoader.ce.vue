@@ -1,5 +1,5 @@
 <template>
-	<div class="lds-circle"><div></div></div>
+	<div class="lds-circle"><div /></div>
 </template>
 
 <script lang="ts">
