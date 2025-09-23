@@ -53,7 +53,7 @@ export const useLoadingIndicatorStore = defineStore(
 			loadKeys.value = newLoadKeys
 		}
 
-		function setLoaderStyle(style: string) {
+		function setLoaderStyle(style: LoaderStyles) {
 			if (style) {
 				if (styles.includes(style)) {
 					loaderStyle.value = style
