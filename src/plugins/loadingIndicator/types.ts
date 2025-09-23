@@ -15,7 +15,7 @@ export interface LoadingIndicatorOptions extends PluginOptions {
 	 * Choose between different loader styles.
 	 *
 	 * Supported options:
-	 * TODO(dopenguin): Update KernLoader gif to include the text.
+	 * TODO(dopenguin): Add PolarLoader that includes the Logo
 	 * <table align="center">
 	 *   <tr align="center">
 	 *     <td width="33%" align="center"><img src="./assets/KernLoader.gif" alt="kern-loader" height="120px" style="object-fit: none;"><div>kern-loader</div></td>
