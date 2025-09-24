@@ -5,6 +5,7 @@ import {
   KeyboardZoom,
   MouseWheelZoom,
 } from 'ol/interaction.js'
+import type { MapBrowserEvent } from 'ol'
 
 /**
  * Desktop:
@@ -44,8 +45,8 @@ export function createPanAndZoomInteractions(
  * to correctly detect editable elements inside a ShadowDOM, as needed in this
  * situation.
  */
-function targetNotEditable(mapBrowserEvent) {
-  const target = mapBrowserEvent.originalEvent.composedPath()[0]
+function targetNotEditable(mapBrowserEvent: MapBrowserEvent<KeyboardEvent>) {
+  const target = mapBrowserEvent.originalEvent.composedPath()[0] as HTMLElement
   const tagName = target.tagName
   return (
     tagName !== 'INPUT' &&
