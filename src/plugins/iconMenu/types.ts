@@ -30,6 +30,9 @@ export interface Menu {
 export interface IconMenuPluginOptions extends PluginOptions {
 	/**
 	 * Defines which plugins should be rendered as part of the icon menu.
+	 * If {@link MapConfiguration.layout | `mapConfiguration.layers`} is set to `'standard'`, multiple groups can be
+	 * added through different arrays to differentiate plugins visually. Using multiple groups (arrays) doesn't yield any
+	 * change if {@link MapConfiguration.layout | `mapConfiguration.layers`} is set to `'nineRegions'`.
 	 *
 	 * @example
 	 * ```
@@ -37,22 +40,24 @@ export interface IconMenuPluginOptions extends PluginOptions {
 	 *   initiallyOpen: 'draw',
 	 *   displayComponent: true,
 	 *   menus: [
-	 *     {
-	 *       plugin: PolarPluginFullscreen({}),
-	 *       icon: 'kern-icon--fullscreen',
-	 *       id: 'fullscreen',
-	 *     },
-	 *     {
-	 *       plugin: PolarPluginDraw({}),
-	 *       icon: 'kern-icon--draw',
-	 *       id: 'draw',
-	 *       hint: 'Draw or write something on the map'
-	 *     },
+	 *     [
+	 *       {
+	 *         plugin: PolarPluginFullscreen({}),
+	 *         icon: 'kern-icon--fullscreen',
+	 *         id: 'fullscreen',
+	 *       },
+	 *       {
+	 *         plugin: PolarPluginDraw({}),
+	 *         icon: 'kern-icon--draw',
+	 *         id: 'draw',
+	 *         hint: 'Draw or write something on the map'
+	 *       },
+	 *     ]
 	 *   ]
 	 * }
 	 * ```
 	 */
-	menus: Menu[]
+	menus: Array<Menu[]>
 	/**
 	 * If {@link MapConfiguration.layout | `mapConfiguration.layers`} is set to `'nineRegions'`, then this parameter
 	 * allows overriding the `IconMenuButton.vue` component for custom design and functionality. Coding knowledge is required

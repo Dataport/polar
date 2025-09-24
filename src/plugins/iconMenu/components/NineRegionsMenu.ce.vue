@@ -2,7 +2,7 @@
 	<component :is="asList ? 'ul' : 'div'" class="polar-plugin-icon-menu-list">
 		<component
 			:is="asList ? 'li' : 'div'"
-			v-for="({ plugin, icon, hint }, index) of menus"
+			v-for="({ plugin, icon, hint }, index) of menus.flat()"
 			:key="index"
 			:class="
 				deviceIsHorizontal

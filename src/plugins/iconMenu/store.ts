@@ -21,7 +21,7 @@ import { useCoreStore } from '@/core/stores/export.ts'
 export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	const coreStore = useCoreStore()
 
-	const menus = ref<Menu[]>([])
+	const menus = ref<Array<Menu[]>>([])
 	const open = ref(-1)
 
 	const buttonComponent = computed(() =>
@@ -31,20 +31,25 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	)
 
 	function setupPlugin() {
-		menus.value = (coreStore.configuration.iconMenu?.menus || []).filter(
-			({ plugin: { id } }) => {
-				const display = coreStore.configuration[id]?.displayComponent
-				return typeof display === 'boolean' ? display : true
-			}
+		menus.value = (coreStore.configuration.iconMenu?.menus || []).map(
+			(menuGroup) =>
+				menuGroup.filter(({ plugin: { id } }) => {
+					const display = coreStore.configuration[id]?.displayComponent
+					return typeof display === 'boolean' ? display : true
+				})
 		)
-		menus.value.forEach(({ plugin }) => {
+		menus.value.flat().forEach(({ plugin }) => {
 			addPlugin(toMerged(plugin, { independent: false }))
 		})
 		// Otherwise, the component itself is made reactive
-		menus.value.map((menuItem) =>
-			toMerged(menuItem, {
-				plugin: { component: markRaw(menuItem.plugin.component as Component) },
-			})
+		menus.value.map((menuGroup) =>
+			menuGroup.map((menuItem) =>
+				toMerged(menuItem, {
+					plugin: {
+						component: markRaw(menuItem.plugin.component as Component),
+					},
+				})
+			)
 		)
 
 		const initiallyOpen = coreStore.configuration.iconMenu?.initiallyOpen
@@ -59,7 +64,18 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	function teardownPlugin() {}
 
 	function openMenuById(openId: string) {
-		const index = menus.value.findIndex(({ plugin: { id } }) => id === openId)
+		const index = menus.value.reduce((foundIndex, menuGroup, outerIndex) => {
+			const innerIndex = menuGroup.findIndex(
+				({ plugin: { id } }) => id === openId
+			)
+			if (innerIndex === -1) {
+				if (foundIndex !== -1) {
+					return foundIndex
+				}
+				return -1
+			}
+			return outerIndex + innerIndex
+		}, -1)
 
 		if (index !== -1) {
 			open.value = index

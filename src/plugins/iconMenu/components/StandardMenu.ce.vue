@@ -1,31 +1,39 @@
 <template>
-	<ul class="polar-plugin-icon-menu-list">
-		<li
-			v-for="({ buttonClass, hint, icon, plugin }, index) of menus"
-			:key="index"
-			class="polar-plugin-icon-menu-list-item"
+	<div class="polar-plugin-icon-menu-list-wrapper">
+		<ul
+			v-for="(menu, outerIndex) of menus"
+			:key="outerIndex"
+			class="polar-plugin-icon-menu-list"
 		>
-			<component :is="plugin.component" v-if="icon === undefined" />
-			<template v-else>
-				<PolarIconButton
-					:class="buttonClass"
-					:hint="hint ? hint : `hints.${plugin.id}`"
-					hint-namespace="iconMenu"
-					:icon="icon"
-					tooltip-position="left"
-					@click="() => toggle(index)"
-				/>
-				<!-- Content is otherwise displayed in MoveHandle of the core. -->
-				<component
-					:is="plugin.component"
-					v-if="open === index && (!hasWindowSize || !hasSmallWidth)"
-					ref="pluginComponent"
-					class="polar-plugin-icon-menu-list-item-content"
-					:style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
-				/>
-			</template>
-		</li>
-	</ul>
+			<li
+				v-for="({ buttonClass, hint, icon, plugin }, index) of menu"
+				:key="index"
+				class="polar-plugin-icon-menu-list-item"
+			>
+				<component :is="plugin.component" v-if="icon === undefined" />
+				<template v-else>
+					<PolarIconButton
+						:class="buttonClass"
+						:hint="hint ? hint : `hints.${plugin.id}`"
+						hint-namespace="iconMenu"
+						:icon="icon"
+						tooltip-position="left"
+						@click="() => toggle(outerIndex + index)"
+					/>
+					<!-- Content is otherwise displayed in MoveHandle of the core. -->
+					<component
+						:is="plugin.component"
+						v-if="
+							open === outerIndex + index && (!hasWindowSize || !hasSmallWidth)
+						"
+						ref="pluginComponent"
+						class="polar-plugin-icon-menu-list-item-content"
+						:style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
+					/>
+				</template>
+			</li>
+		</ul>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -51,13 +59,19 @@ const iconMenuStore = useIconMenuStore()
 const { open } = storeToRefs(iconMenuStore)
 
 const menus = computed(() =>
-	iconMenuStore.menus.map((menu, index) =>
-		toMerged(menu, {
-			buttonClass: [
-				coreStore.layout === 'standard' ? 'polar-plugin-icon-menu-button' : '',
-				open.value === index ? ' polar-plugin-icon-menu-button-active' : '',
-			].reduce((a, b) => a.concat(' ', b)),
-		})
+	iconMenuStore.menus.map((menuGroup, outerIndex) =>
+		menuGroup.map((menu, index) =>
+			toMerged(menu, {
+				buttonClass: [
+					coreStore.layout === 'standard'
+						? 'polar-plugin-icon-menu-button'
+						: '',
+					open.value === outerIndex + index
+						? ' polar-plugin-icon-menu-button-active'
+						: '',
+				].reduce((a, b) => a.concat(' ', b)),
+			})
+		)
 	)
 )
 
@@ -131,35 +145,43 @@ function toggle(index: number) {
 	}
 }
 
-.polar-plugin-icon-menu-list {
+.polar-plugin-icon-menu-list-wrapper {
 	position: absolute;
-	list-style: none;
 	right: 0;
-	padding: 0;
-	margin: 8px;
-	border-radius: 8px;
-	background: var(--kern-color-layout-background-default);
-	box-shadow:
-		0 1px 1px 0 rgba(53, 57, 86, 0.16),
-		0 1px 2px 0 rgba(53, 57, 86, 0.25),
-		0 1px 6px 0 rgba(110, 117, 151, 0.25);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.25rem;
+	margin: 0.5rem;
 
-	.polar-plugin-icon-menu-list-item {
-		float: left;
-		margin-bottom: 0;
+	.polar-plugin-icon-menu-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-radius: 0.5rem;
+		background: var(--kern-color-layout-background-default);
+		box-shadow:
+			0 1px 1px 0 rgba(53, 57, 86, 0.16),
+			0 1px 2px 0 rgba(53, 57, 86, 0.25),
+			0 1px 6px 0 rgba(110, 117, 151, 0.25);
 
-		.polar-plugin-icon-menu-list-item-content {
-			z-index: 1;
-			position: absolute;
-			top: calc(100% + 0.5rem);
-			right: 0;
-			white-space: nowrap;
-			overflow-y: auto;
-			scrollbar-gutter: stable;
+		.polar-plugin-icon-menu-list-item {
+			float: left;
+			margin-bottom: 0;
+
+			.polar-plugin-icon-menu-list-item-content {
+				z-index: 1;
+				position: absolute;
+				top: calc(100% + 0.5rem);
+				right: 0;
+				white-space: nowrap;
+				overflow-y: auto;
+				scrollbar-gutter: stable;
+			}
 		}
-	}
-	.polar-plugin-icon-menu-list-item:nth-child(n + 2) {
-		margin-left: 3px;
+		.polar-plugin-icon-menu-list-item:nth-child(n + 2) {
+			margin-left: 3px;
+		}
 	}
 }
 </style>
