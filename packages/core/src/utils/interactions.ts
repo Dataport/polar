@@ -4,7 +4,7 @@ import {
   KeyboardPan,
   KeyboardZoom,
   MouseWheelZoom,
-} from 'ol/interaction.js'
+} from 'ol/interaction'
 import type { MapBrowserEvent } from 'ol'
 
 /**
