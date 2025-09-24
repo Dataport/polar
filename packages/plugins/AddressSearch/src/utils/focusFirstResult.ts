@@ -1,6 +1,6 @@
 export function focusFirstResult(
   featureListsLength: number,
-  event: KeyboardEvent
+  event?: KeyboardEvent
 ) {
   for (let i = 0; i < featureListsLength; i++) {
     const firstFocusableElement =
@@ -11,7 +11,7 @@ export function focusFirstResult(
     if (firstFocusableElement) {
       firstFocusableElement.focus()
       // prevent list scrolling on newly focused element
-      event.preventDefault()
+      event?.preventDefault()
       break
     }
   }
