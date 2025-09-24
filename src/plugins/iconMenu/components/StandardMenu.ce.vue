@@ -1,8 +1,5 @@
 <template>
-	<ul
-		class="polar-plugin-icon-menu-list"
-		:class="{ 'polar-plugin-icon-menu-list-full-page': hasWindowSize }"
-	>
+	<ul class="polar-plugin-icon-menu-list">
 		<li
 			v-for="({ buttonClass, hint, icon, plugin }, index) of menus"
 			:key="index"
@@ -15,7 +12,7 @@
 					:hint="hint ? hint : `hints.${plugin.id}`"
 					hint-namespace="iconMenu"
 					:icon="icon"
-					tooltip-position="right"
+					tooltip-position="left"
 					@click="() => toggle(index)"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
@@ -32,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+import { toMerged } from 'es-toolkit'
 import { storeToRefs } from 'pinia'
 import {
 	computed,
@@ -42,18 +40,13 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
-import { toMerged } from 'es-toolkit'
-import { useCoreStore } from '@/core/stores/export.ts'
-import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
+import { useIconMenuStore } from '../store'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import { useCoreStore } from '@/core/stores/export'
 
-const {
-	clientHeight,
-	deviceIsHorizontal,
-	hasSmallWidth,
-	hasWindowSize,
-	layout,
-} = storeToRefs(useCoreStore())
+const coreStore = useCoreStore()
+const { deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
+	storeToRefs(coreStore)
 const iconMenuStore = useIconMenuStore()
 const { open } = storeToRefs(iconMenuStore)
 
@@ -61,14 +54,12 @@ const menus = computed(() =>
 	iconMenuStore.menus.map((menu, index) =>
 		toMerged(menu, {
 			buttonClass: [
-				layout.value === 'standard' ? 'polar-plugin-icon-menu-button' : '',
+				coreStore.layout === 'standard' ? 'polar-plugin-icon-menu-button' : '',
 				open.value === index ? ' polar-plugin-icon-menu-button-active' : '',
 			].reduce((a, b) => a.concat(' ', b)),
 		})
 	)
 )
-
-// TODO(dopenguin): Menu bar is shown at the bottom on mobile
 
 const maxWidth = ref('inherit')
 const pluginComponent = useTemplateRef('pluginComponent')
@@ -76,7 +67,7 @@ const pluginComponent = useTemplateRef('pluginComponent')
 const maxHeight = computed(() =>
 	hasWindowSize.value
 		? 'inherit'
-		: `calc(${clientHeight.value}px - ${
+		: `calc(${coreStore.clientHeight}px - ${
 				deviceIsHorizontal.value ? 'calc(100% + 1.5em)' : '1em'
 			})`
 )
@@ -143,7 +134,7 @@ function toggle(index: number) {
 .polar-plugin-icon-menu-list {
 	position: absolute;
 	list-style: none;
-	height: calc(100% - 16px);
+	right: 0;
 	padding: 0;
 	margin: 8px;
 	border-radius: 8px;
@@ -154,21 +145,21 @@ function toggle(index: number) {
 		0 1px 6px 0 rgba(110, 117, 151, 0.25);
 
 	.polar-plugin-icon-menu-list-item {
-		margin-bottom: 3px;
+		float: left;
+		margin-bottom: 0;
 
 		.polar-plugin-icon-menu-list-item-content {
 			z-index: 1;
 			position: absolute;
-			top: 0;
-			left: calc(100% + 0.5rem);
+			top: calc(100% + 0.5rem);
+			right: 0;
 			white-space: nowrap;
 			overflow-y: auto;
 			scrollbar-gutter: stable;
 		}
 	}
-}
-
-.polar-plugin-icon-menu-list-full-page {
-	padding: 8px;
+	.polar-plugin-icon-menu-list-item:nth-child(n + 2) {
+		margin-left: 3px;
+	}
 }
 </style>

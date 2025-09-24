@@ -22,7 +22,6 @@ export interface Menu {
 	 * {@link MapConfiguration.layout | `mapConfiguration.layers`} is set to `'nineRegions'`
 	 */
 	icon?: string
-	position?: 'sidebar' | 'topRight'
 }
 
 /**
@@ -42,14 +41,12 @@ export interface IconMenuPluginOptions extends PluginOptions {
 	 *       plugin: PolarPluginFullscreen({}),
 	 *       icon: 'kern-icon--fullscreen',
 	 *       id: 'fullscreen',
-	 *       position: 'topRight'
 	 *     },
 	 *     {
 	 *       plugin: PolarPluginDraw({}),
 	 *       icon: 'kern-icon--draw',
 	 *       id: 'draw',
 	 *       hint: 'Draw or write something on the map'
-	 *       position: 'sidebar'
 	 *     },
 	 *   ]
 	 * }

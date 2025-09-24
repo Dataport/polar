@@ -25,9 +25,6 @@ const { fullscreenEnabled } = storeToRefs(useFullscreenStore())
 
 <style scoped>
 .polar-icon-button.polar-plugin-fullscreen-standard {
-	position: absolute;
-	right: 0;
-	margin: 8px;
-	pointer-events: all;
+	box-shadow: none;
 }
 </style>
