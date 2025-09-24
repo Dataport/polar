@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 3.1.1
+## unpublished
 
 - Fix: The `ArrowDown` key now has its original behaviour for an input element when no results are available; that is, one can use it to jump to the end of one's input.
 
