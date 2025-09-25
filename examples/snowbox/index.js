@@ -1,17 +1,25 @@
 import { changeLanguage } from 'i18next'
-import pluginToast from '@polar/polar/plugins/toast'
-import { useToastStore } from '@polar/polar/plugins/toast/store'
+import { addPlugin, createMap, subscribe } from '@polar/polar'
+
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
-import { addPlugin, createMap, subscribe } from '@polar/polar'
+import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
+import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
+import { useLoadingIndicatorStore } from '@polar/polar/plugins/loadingIndicator/store'
+import pluginToast from '@polar/polar/plugins/toast'
+import { useToastStore } from '@polar/polar/plugins/toast/store'
+
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
-import AnotherEmptyComponent from './AnotherEmptyComponent.vue'
+import services from './services.js'
+import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
+import GeoLocationMockCe from './GeoLocationMock.ce.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
+const denkmal = 'denkmaelerWMS'
 
 // eslint-disable-next-line no-unused-vars
 const dataportTheme = {
@@ -63,33 +71,57 @@ const isReportSelectable = (feature) =>
 await createMap(
 	{
 		layers: [
+			// TODO: Add internalization to snowbox
 			{
 				id: basemapId,
 				visibility: true,
 				type: 'background',
-				name: 'snowbox.layers.basemap',
+				name: 'Basemap.de (Farbe)',
 			},
 			{
 				id: basemapGreyId,
 				type: 'background',
-				name: 'snowbox.layers.basemapGrey',
+				name: 'Basemap.de (Grau)',
+				maxZoom: 6,
 			},
 			{
 				id: reports,
 				type: 'mask',
-				name: 'snowbox.layers.reports',
-				visibility: true,
-				styleId: 'panda',
+				name: 'Anliegen (MML)',
+				visibility: false,
 			},
 			{
 				id: ausgleichsflaechen,
 				type: 'mask',
-				name: 'snowbox.layers.ausgleichsflaechen',
+				name: 'Ausgleichsflächen',
 				styleId: 'panda',
 				visibility: true,
+				minZoom: 5,
+			},
+			{
+				id: denkmal,
+				type: 'mask',
+				name: 'Kulturdenkmale',
+				visibility: true,
+				options: {
+					layers: {
+						order: '6,24,25,4,3,2,1,0',
+						title: {
+							6: 'Denkmalbereich',
+							24: 'Mehrheit von baulichen Anlagen',
+							25: 'Sachgesamtheit',
+							4: 'Baudenkmal',
+							3: 'Gründenkmal',
+							2: 'Gewässer',
+							1: 'Baudenkmal (Fläche)',
+							0: 'Gründenkmal (Fläche)',
+						},
+						legend: true,
+					},
+				},
 			},
 		],
-		layout: 'nineRegions',
+		layout: 'standard',
 		checkServiceAvailability: true,
 		featureStyles: styleJsonUrl,
 		markers: {
@@ -136,7 +168,7 @@ await createMap(
 			},
 		],
 	},
-	'https://geodienste.hamburg.de/services-internet.json'
+	services
 )
 
 await createMap(
@@ -150,7 +182,7 @@ await createMap(
 			},
 		],
 	},
-	'https://geodienste.hamburg.de/services-internet.json',
+	services,
 	'dataport-map'
 )
 
@@ -164,42 +196,65 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 })
 
 addPlugin(
-	pluginIconMenu({
-		displayComponent: true,
-		layoutTag: 'TOP_RIGHT',
-		initiallyOpen: 'kewl',
-		menus: [
-			{
-				plugin: pluginFullscreen(),
-				hint: 'Full of yourself',
-			},
-			// TODO: Delete these two including the component once another plugin is implemented
-			{
-				plugin: {
-					component: EmptyComponent,
-					id: 'kewl',
-					locales: [],
-				},
-				icon: 'kern-icon-fill--layers',
-				hint: 'Something layered',
-			},
-			{
-				plugin: {
-					component: AnotherEmptyComponent,
-					id: 'realKewl',
-					locales: [],
-				},
-				icon: 'kern-icon--layers',
-				hint: 'Something kewl',
-			},
-		],
-	})
-)
-
-addPlugin(
 	pluginToast({
 		displayComponent: true,
 		layoutTag: 'BOTTOM_MIDDLE',
+	})
+)
+addPlugin(
+	pluginLoadingIndicator({
+		loaderStyle: 'BasicLoader',
+	})
+)
+addPlugin(
+	pluginIconMenu({
+		displayComponent: true,
+		layoutTag: 'TOP_RIGHT',
+		initiallyOpen: 'layerChooser',
+		focusMenus: [
+			{
+				plugin: {
+					component: YetAnotherEmptyComponent,
+					id: 'awesome',
+					locales: [],
+				},
+				icon: 'kern-icon--near-me',
+				hint: 'Something awesome',
+			},
+		],
+		menus: [
+			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
+			[
+				{
+					plugin: {
+						component: GeoLocationMockCe,
+						id: 'geoLocationMock',
+						locales: [],
+					},
+				},
+			],
+			[
+				{
+					plugin: {
+						component: EmptyComponent,
+						id: 'realKewl',
+						locales: [],
+					},
+					icon: 'kern-icon--share',
+					hint: 'Something kewl',
+				},
+			],
+			[
+				{
+					plugin: pluginLayerChooser({}),
+					icon: 'kern-icon--layers',
+				},
+				{
+					plugin: pluginFullscreen({}),
+					hint: 'BEEEEEG YOSHEEEEE',
+				},
+			],
+		],
 	})
 )
 
@@ -212,6 +267,10 @@ toastStore.addToast({
 	text: 'Achtung! Dies ist ein Toast!',
 	severity: 'error',
 })
+
+const loadingIndicatorStore = useLoadingIndicatorStore()
+loadingIndicatorStore.addLoadingKey('loadingTest')
+setTimeout(() => loadingIndicatorStore.removeLoadingKey('loadingTest'), 2000)
 
 subscribe(
 	'markers',

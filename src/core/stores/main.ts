@@ -1,4 +1,4 @@
-import type { Feature, Map } from 'ol'
+import { type Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { defineStore } from 'pinia'
@@ -16,7 +16,7 @@ export const useMainStore = defineStore('main', () => {
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)
 	const plugins = ref<PluginContainer[]>([])
-	const serviceRegister = ref<string | Record<string, unknown>[]>('')
+	const serviceRegister = ref<Record<string, unknown>[]>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
 	const zoom = ref(0)
 

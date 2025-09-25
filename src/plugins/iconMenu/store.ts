@@ -7,9 +7,9 @@
 import { toMerged } from 'es-toolkit'
 import { defineStore } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
-import type { Menu } from './types.ts'
+import type { Menu } from './types'
 import { addPlugin } from '@/core'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores/export'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -21,8 +21,10 @@ import { useCoreStore } from '@/core/stores/export.ts'
 export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	const coreStore = useCoreStore()
 
-	const menus = ref<Menu[]>([])
+	const menus = ref<Array<Menu[]>>([])
+	const focusMenus = ref<(Menu & { icon: string })[]>([])
 	const open = ref(-1)
+	const focusOpen = ref(-1)
 
 	const buttonComponent = computed(() =>
 		coreStore.configuration.iconMenu?.buttonComponent
@@ -31,19 +33,42 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	)
 
 	function setupPlugin() {
-		menus.value = (coreStore.configuration.iconMenu?.menus || []).filter(
-			({ plugin: { id } }) => {
-				const display = coreStore.configuration[id]?.displayComponent
-				return typeof display === 'boolean' ? display : true
-			}
+		menus.value = (coreStore.configuration.iconMenu?.menus || []).map(
+			(menuGroup) =>
+				menuGroup.filter(({ plugin: { id } }) => {
+					const display = coreStore.configuration[id]?.displayComponent
+					return typeof display === 'boolean' ? display : true
+				})
 		)
-		menus.value.forEach(({ plugin }) => {
-			addPlugin(toMerged(plugin, { independent: false }))
+		focusMenus.value = (
+			coreStore.configuration.iconMenu?.focusMenus || []
+		).filter(({ plugin: { id } }) => {
+			const display = coreStore.configuration[id]?.displayComponent
+			return typeof display === 'boolean' ? display : true
 		})
+
+		menus.value
+			.concat(focusMenus.value)
+			.flat()
+			.forEach(({ plugin }) => {
+				addPlugin(toMerged(plugin, { independent: false }))
+			})
+
 		// Otherwise, the component itself is made reactive
-		menus.value.map((menuItem) =>
+		menus.value.map((menuGroup) =>
+			menuGroup.map((menuItem) =>
+				toMerged(menuItem, {
+					plugin: {
+						component: markRaw(menuItem.plugin.component as Component),
+					},
+				})
+			)
+		)
+		focusMenus.value.map((menuItem) =>
 			toMerged(menuItem, {
-				plugin: { component: markRaw(menuItem.plugin.component as Component) },
+				plugin: {
+					component: markRaw(menuItem.plugin.component as Component),
+				},
 			})
 		)
 
@@ -55,42 +80,88 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		) {
 			openMenuById(initiallyOpen)
 		}
+		const focusInitiallyOpen =
+			coreStore.configuration.iconMenu?.focusInitiallyOpen
+		if (
+			!coreStore.hasSmallHeight &&
+			!coreStore.hasSmallWidth &&
+			focusInitiallyOpen
+		) {
+			openFocusMenuById(focusInitiallyOpen)
+		}
 	}
 	function teardownPlugin() {}
 
 	function openMenuById(openId: string) {
-		const index = menus.value.findIndex(({ plugin: { id } }) => id === openId)
+		const index = menus.value.reduce((foundIndex, menuGroup, outerIndex) => {
+			const innerIndex = menuGroup.findIndex(
+				({ plugin: { id } }) => id === openId
+			)
+			if (innerIndex === -1) {
+				if (foundIndex !== -1) {
+					return foundIndex
+				}
+				return -1
+			}
+			return outerIndex + innerIndex
+		}, -1)
 
 		if (index !== -1) {
 			open.value = index
-			// openInMoveHandle(index)
+			openInMoveHandle(index)
 		}
 	}
-	// TODO(dopenguin): Implement once MoveHandle is implemented
-	/* function openInMoveHandle(index: number) {
-		const { hint, plugin } = menus.value[index]
-		commit(
-			'setMoveHandle',
-			{
-				closeLabel: t('mobileCloseButton', {
-					ns: 'iconMenu',
-					plugin: hint || `plugins.iconMenu.hints.${plugin.id}`,
-				}),
-				closeFunction: () => {
-					open.value = -1
-				},
-				component: plugin,
-				plugin: 'iconMenu',
-			},
-			{ root: true }
+
+	function openFocusMenuById(openId: string) {
+		const index = focusMenus.value.findIndex(
+			({ plugin: { id } }) => id === openId
 		)
-	} */
+
+		if (index !== -1) {
+			focusOpen.value = index
+			openInMoveHandle(index, true)
+		}
+	}
+
+	function openInMoveHandle(index: number, focusMenu = false) {
+		const menu = focusMenu ? focusMenus.value[index] : menus.value.flat()[index]
+		if (!menu) {
+			console.error(`Menu with index ${index} could not be found.`)
+			return
+		}
+		if (!menu.plugin.component) {
+			console.error(
+				`The plugin ${menu.plugin.id} does not have any component to display and thus can not be opened in the moveHandle.`
+			)
+			return
+		}
+		coreStore.setMoveHandle({
+			closeFunction: () => {
+				if (focusMenu) {
+					focusOpen.value = -1
+					return
+				}
+				open.value = -1
+			},
+			closeLabel: 'mobileCloseButton',
+			closeLabelOptions: {
+				ns: 'iconMenu',
+				plugin: menu.hint || `plugins.iconMenu.hints.${menu.plugin.id}`,
+			},
+			component: menu.plugin.component,
+			plugin: 'iconMenu',
+		})
+	}
 
 	return {
 		menus,
+		focusMenus,
 		open,
+		focusOpen,
 		buttonComponent,
+		openInMoveHandle,
 		openMenuById,
+		openFocusMenuById,
 		/** @internal */
 		setupPlugin,
 		/** @internal */
