@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.3
+
+- Fix: Use v3.2.2 of `@polar/core` and v3.1.1 of `@polar/plugin-address-search` to resolve issues when using `+` and `-` characters in the search window or using the arrow keys to navigate the entered input.
+
 ## 2.0.2
 
 - Fix: Use v3.1.1 of `polar/lib-get-features` that includes a fix for reading a service's WFS response's CRS from its features if it's not available on the root node.
