@@ -28,10 +28,7 @@ export default function pluginIconMenu(
 		component,
 		locales,
 		storeModule: useIconMenuStore as PolarPluginStore,
-		options: {
-			displayComponent: true,
-			...options,
-		},
+		options,
 	}
 }
 

@@ -1,5 +1,5 @@
 <template>
-	<div style="background: #fff">WOWY</div>
+	<div style="background: #fff">Awesome</div>
 </template>
 
 <script setup lang="ts">

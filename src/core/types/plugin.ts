@@ -9,6 +9,9 @@ import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen
 import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
 import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
 
+import type { PluginId as LayerChooserPluginId } from '@/plugins/layerChooser'
+import type { useLayerChooserStore as LayerChooserStore } from '@/plugins/layerChooser/store'
+
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 
@@ -31,6 +34,7 @@ export type PolarPluginStore<
 export type BundledPluginId =
 	| typeof FullscreenPluginId
 	| typeof IconMenuPluginId
+	| typeof LayerChooserPluginId
 	| typeof ToastPluginId
 
 type CheckPlugin<
@@ -45,6 +49,7 @@ type CheckPlugin<
 export type BundledPluginStores<T extends BundledPluginId> =
 	| CheckPlugin<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| CheckPlugin<T, typeof IconMenuPluginId, typeof IconMenuStore>
+	| CheckPlugin<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
 	| CheckPlugin<T, typeof ToastPluginId, typeof ToastStore>
 
 /** @internal */
