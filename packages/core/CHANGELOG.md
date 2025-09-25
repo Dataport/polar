@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Fix: The OpenLayers interactions `KeyboardPan` and `KeyboardZoom` are now added to the map with a condition that prevents the map from taking over the events to pan and zoom when the user's focus is on an editable element.
 - Chore: Document that `stylePath` has to be updated with a different path in most client configurations.
 
 ## 3.2.1
