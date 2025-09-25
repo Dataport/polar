@@ -7,6 +7,8 @@ import { addPlugin, createMap, subscribe } from '@polar/polar'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
 import AnotherEmptyComponent from './AnotherEmptyComponent.vue'
+import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
+import GeoLocationMockCe from './GeoLocationMock.ce.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -89,7 +91,7 @@ await createMap(
 				visibility: true,
 			},
 		],
-		layout: 'nineRegions',
+		layout: 'standard',
 		checkServiceAvailability: true,
 		featureStyles: styleJsonUrl,
 		markers: {
@@ -164,42 +166,65 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 })
 
 addPlugin(
+	pluginToast({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_MIDDLE',
+	})
+)
+addPlugin(
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
 		initiallyOpen: 'kewl',
-		menus: [
-			{
-				plugin: pluginFullscreen(),
-				hint: 'Full of yourself',
-			},
-			// TODO: Delete these two including the component once another plugin is implemented
+		focusMenus: [
 			{
 				plugin: {
-					component: EmptyComponent,
-					id: 'kewl',
+					component: YetAnotherEmptyComponent,
+					id: 'awesome',
 					locales: [],
 				},
-				icon: 'kern-icon-fill--layers',
-				hint: 'Something layered',
-			},
-			{
-				plugin: {
-					component: AnotherEmptyComponent,
-					id: 'realKewl',
-					locales: [],
-				},
-				icon: 'kern-icon--layers',
-				hint: 'Something kewl',
+				icon: 'kern-icon--near-me',
+				hint: 'Something awesome',
 			},
 		],
-	})
-)
-
-addPlugin(
-	pluginToast({
-		displayComponent: true,
-		layoutTag: 'BOTTOM_MIDDLE',
+		menus: [
+			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
+			[
+				{
+					plugin: {
+						component: GeoLocationMockCe,
+						id: 'geoLocationMock',
+						locales: [],
+					},
+				},
+			],
+			[
+				{
+					plugin: {
+						component: AnotherEmptyComponent,
+						id: 'realKewl',
+						locales: [],
+					},
+					icon: 'kern-icon--share',
+					hint: 'Something kewl',
+				},
+			],
+			[
+				{
+					plugin: {
+						component: EmptyComponent,
+						id: 'kewl',
+						locales: [],
+					},
+					icon: 'kern-icon-fill--layers',
+					hint: 'Something layered',
+				},
+				{
+					plugin: pluginFullscreen({}),
+					hint: 'BEEEEEG YOSHEEEEE',
+				},
+			],
+		],
 	})
 )
 
