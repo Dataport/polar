@@ -33,6 +33,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import {
+	type Component,
 	computed,
 	nextTick,
 	onBeforeUnmount,
@@ -61,7 +62,7 @@ const iconMenuStore = useIconMenuStore()
 const { open } = storeToRefs(iconMenuStore)
 
 const maxWidth = ref('inherit')
-const pluginComponent = useTemplateRef('pluginComponent')
+const pluginComponent = useTemplateRef<[Component]>('pluginComponent')
 
 const maxHeight = computed(() =>
 	hasWindowSize.value
