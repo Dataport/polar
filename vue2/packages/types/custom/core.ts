@@ -554,23 +554,6 @@ export interface MapConfig extends MasterportalApiConfig {
  *
  */
 
-type MoveHandleProps = object
-
-export interface MoveHandleProperties {
-	closeLabel: string
-	closeFunction: (...args: unknown[]) => unknown
-	component: VueConstructor
-	// Plugin that added the moveHandle
-	plugin: string
-	closeIcon?: string
-	props?: MoveHandleProps
-}
-
-export interface MoveHandleActionButton {
-	component: VueConstructor
-	props?: MoveHandleProps
-}
-
 export interface CoreState {
 	center: [number, number] | null
 	clientHeight: number
@@ -589,8 +572,6 @@ export interface CoreState {
 	language: string
 	map: number
 	mapHasDimensions: boolean
-	moveHandle: number
-	moveHandleActionButton: number
 	oidcToken: string
 	// NOTE truly any since external plugins may bring whatever; unknown will lead to further errors
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -600,22 +581,12 @@ export interface CoreState {
 }
 
 export interface CoreGetters
-	extends Omit<
-		CoreState,
-		| 'components'
-		| 'hovered'
-		| 'map'
-		| 'moveHandle'
-		| 'moveHandleActionButton'
-		| 'selected'
-	> {
+	extends Omit<CoreState, 'components' | 'hovered' | 'map' | 'selected'> {
 	// omitted from CoreState as actual getter type diverges
 	components: PluginContainer[]
 	hovered: Feature | null
 	map: Map
 	mapHasDimensions: boolean
-	moveHandle: MoveHandleProperties
-	moveHandleActionButton: MoveHandleActionButton
 	selected: Feature | null
 	selectedCoordinate: Coordinate | null
 

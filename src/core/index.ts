@@ -10,6 +10,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import '@kern-ux/native/dist/fonts/fira-sans.css'
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import { storeToRefs } from 'pinia'
@@ -20,6 +21,7 @@ import { Pinia } from './vuePlugins/pinia'
 import type { MapConfiguration, PluginContainer, PluginOptions } from './types'
 import { useMainStore } from './stores/main'
 import { useMarkerStore } from './stores/marker'
+import { checkServiceAvailability } from './utils/checkServiceAvailability'
 import defaults from './utils/defaults'
 import { mapZoomOffset } from './utils/mapZoomOffset'
 
@@ -35,13 +37,17 @@ export function addPlugins(plugins: PluginContainer[]) {
 }
 
 /**
- * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
- * already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared.
+ * Before instantiating the map, all required plugins have to be added.
+ * Depending on how you use POLAR, this may already have been done. Ready-made
+ * clients (that is, packages prefixed `@polar/client-`) come with plugins prepared.
  *
  * You may add further plugins or proceed with `createMap`.
  *
- * Please note that the order of certain plugins is relevant when other plugins are referenced,
- * e.g. `@polar/plugin-gfi`'s `coordinateSources` requires the configured sources to have previously been set up.
+ * Please note that the order of addPlugin calls directly correlates to the DOM
+ * order if {@link MapConfiguration.layout | `mapConfiguration.layout`} is set to `'standard'`.
+ * The order may also be relevant for certain plugins when other plugins are referenced,
+ * e.g. `@polar/plugin-gfi`'s `coordinateSources` requires the configured sources
+ * to have previously been set up.
  *
  * In case you're integrating new plugins, call `addPlugin` with a plugin instance.
  *
@@ -121,8 +127,8 @@ export function removePlugin(pluginId: string) {
 
 /**
  * The map is created by calling the `createMap` method.
- * Depending on how you use POLAR, this may already have been done, as some clients come as ready-made standalone
- * HTML pages that do this for you.
+ * Depending on how you use POLAR, this may already have been done, as some
+ * clients come as ready-made standalone HTML pages that do this for you.
  *
  * Initializes map and setup all relevant functionality.
  * Also registers the custom element for the polar map.
@@ -145,10 +151,24 @@ export function removePlugin(pluginId: string) {
  *                          and no documentation regarding implemented properties exists there yet.
  * @param tagName - Tag name for the custom element.
  */
-export function createMap(
+export async function createMap(
 	mapConfiguration: MapConfiguration,
 	serviceRegister: string | Record<string, unknown>[],
 	tagName = 'polar-map'
+) {
+	let usedRegister = serviceRegister
+	if (typeof usedRegister === 'string') {
+		usedRegister = await new Promise<Record<string, unknown>[]>((resolve) =>
+			rawLayerList.initializeLayerList(usedRegister, resolve)
+		)
+	}
+	createMapElement(mapConfiguration, usedRegister, tagName)
+}
+
+function createMapElement(
+	mapConfiguration: MapConfiguration,
+	serviceRegister: Record<string, unknown>[],
+	tagName: string
 ) {
 	const PolarMap = defineCustomElement(PolarContainer, {
 		configureApp(app) {
@@ -160,8 +180,6 @@ export function createMap(
 
 			const coreStore = useMainStore()
 
-			// TODO(oeninghe-dataport): Pass configuration as CE properties.
-			// createMap may survive as a convenience wrapper.
 			coreStore.configuration = mapZoomOffset({
 				...defaults,
 				...mapConfiguration,
@@ -171,6 +189,9 @@ export function createMap(
 			if (coreStore.configuration.oidcToken) {
 				// copied to a separate spot for usage as it's changeable data at run-time
 				coreStore.oidcToken = coreStore.configuration.oidcToken
+			}
+			if (coreStore.configuration.checkServiceAvailability) {
+				checkServiceAvailability(coreStore.configuration, serviceRegister)
 			}
 		},
 	})
@@ -206,7 +227,8 @@ export function subscribe(
 }
 
 /**
- * Updates the parameter {@link parameterName | parameter} in the {@link storeName | store} with the {@link payload}.
+ * Updates the parameter {@link parameterName | parameter} in the
+ * {@link storeName | store} with the {@link payload}.
  *
  * @remarks
  * An error is logged if no store can be found with the given name {@link storeName}.

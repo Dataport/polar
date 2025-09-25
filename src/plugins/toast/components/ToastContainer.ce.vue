@@ -1,5 +1,5 @@
 <template>
-	<div v-if="layout === 'standard'" class="standard-layout">
+	<div v-if="layout === 'standard'" class="polar-plugin-toast-standard-layout">
 		<ToastUI />
 	</div>
 	<ToastUI v-else />
@@ -14,8 +14,9 @@ const { layout } = storeToRefs(useCoreStore())
 </script>
 
 <style scoped>
-.standard-layout {
+.polar-plugin-toast-standard-layout {
 	position: absolute;
+	z-index: 40;
 	top: 0;
 	left: 25%;
 	right: 25%;

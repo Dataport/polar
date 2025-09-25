@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useMainStore } from '@/core/stores/main.ts'
+import { useMainStore } from '../../stores/main'
 
 const coreStore = useMainStore()
 
