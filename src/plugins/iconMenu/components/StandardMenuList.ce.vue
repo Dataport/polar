@@ -44,7 +44,7 @@ import {
 import { useIconMenuStore } from '../store'
 import type { Menu } from '../types'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores/export'
 
 withDefaults(
 	defineProps<{
