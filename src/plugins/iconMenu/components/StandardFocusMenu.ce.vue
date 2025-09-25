@@ -120,7 +120,7 @@ function toggle(index: number) {
 	.polar-plugin-icon-menu-focus-list-content {
 		z-index: 1;
 		position: absolute;
-		/** TODO(dopenguin): Update values depending on whether the search is displayed or not */
+		/** TODO(dopenguin): Update values depending on whether the search is displayed or not. It should generally be displayed below the toasts. */
 		top: 0;
 		left: 0;
 		margin: 0.5rem;
