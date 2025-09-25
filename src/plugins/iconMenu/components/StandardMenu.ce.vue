@@ -7,12 +7,14 @@
 			:base-index="outerIndex"
 		/>
 	</div>
+	<StandardFocusMenu v-if="focusMenus.length" :menus="focusMenus" />
 </template>
 
 <script setup lang="ts">
 import { toMerged } from 'es-toolkit'
 import { computed } from 'vue'
 import { useIconMenuStore } from '../store'
+import StandardFocusMenu from './StandardFocusMenu.ce.vue'
 import StandardMenuList from './StandardMenuList.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
 
@@ -32,6 +34,16 @@ const menus = computed(() =>
 				].reduce((a, b) => a.concat(' ', b)),
 			})
 		)
+	)
+)
+const focusMenus = computed(() =>
+	iconMenuStore.focusMenus.map((menu, index) =>
+		toMerged(menu, {
+			buttonClass:
+				iconMenuStore.focusOpen === index
+					? 'polar-plugin-icon-menu-button-active'
+					: '',
+		})
 	)
 )
 </script>

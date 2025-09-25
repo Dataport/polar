@@ -7,7 +7,7 @@
 import { storeToRefs } from 'pinia'
 import NineRegionsMenu from './NineRegionsMenu.ce.vue'
 import StandardMenu from './StandardMenu.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores/export'
 
 const { layout } = storeToRefs(useCoreStore())
 </script>

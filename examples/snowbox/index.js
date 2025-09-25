@@ -8,6 +8,7 @@ import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
 import AnotherEmptyComponent from './AnotherEmptyComponent.vue'
 import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
+import GeoLocationMockCe from './GeoLocationMock.ce.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -175,17 +176,26 @@ addPlugin(
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
 		initiallyOpen: 'kewl',
+		labeledMenus: [
+			{
+				plugin: {
+					component: YetAnotherEmptyComponent,
+					id: 'awesome',
+					locales: [],
+				},
+				icon: 'kern-icon--near-me',
+				hint: 'Something awesome',
+			},
+		],
 		menus: [
 			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
 			[
 				{
 					plugin: {
-						component: YetAnotherEmptyComponent,
-						id: 'awesome',
+						component: GeoLocationMockCe,
+						id: 'geoLocationMock',
 						locales: [],
 					},
-					icon: 'kern-icon--near-me',
-					hint: 'Something awesome',
 				},
 			],
 			[

@@ -9,7 +9,7 @@
 			<template v-else>
 				<PolarIconButton
 					:class="buttonClass"
-					:hint="hint ? hint : `hints.${plugin.id}`"
+					:hint="hint ?? `hints.${plugin.id}`"
 					hint-namespace="iconMenu"
 					:icon="icon"
 					tooltip-position="left"
