@@ -4,7 +4,6 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
