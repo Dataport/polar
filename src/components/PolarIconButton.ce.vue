@@ -47,6 +47,7 @@ const { hasSmallDisplay } = storeToRefs(useCoreStore())
 		0 1px 2px 0 rgba(53, 57, 86, 0.25),
 		0 1px 6px 0 rgba(110, 117, 151, 0.25);
 	border: none;
+	pointer-events: all;
 
 	&:focus,
 	&:hover {
