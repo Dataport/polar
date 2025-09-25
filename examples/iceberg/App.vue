@@ -9,7 +9,7 @@ import { useTemplateRef } from 'vue'
 import { createMap } from '@polar/polar'
 const map = useTemplateRef('map')
 
-createMap(
+await createMap(
 	{
 		layers: [
 			{

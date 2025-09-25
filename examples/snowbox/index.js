@@ -12,6 +12,8 @@ import { useToastStore } from '@polar/polar/plugins/toast/store'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
 import services from './services.js'
+import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
+import GeoLocationMockCe from './GeoLocationMock.ce.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -180,7 +182,7 @@ await createMap(
 			},
 		],
 	},
-	'https://geodienste.hamburg.de/services-internet.json',
+	services,
 	'dataport-map'
 )
 
@@ -194,6 +196,12 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 })
 
 addPlugin(
+	pluginToast({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_MIDDLE',
+	})
+)
+addPlugin(
 	pluginLoadingIndicator({
 		loaderStyle: 'BasicLoader',
 	})
@@ -203,34 +211,50 @@ addPlugin(
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
 		initiallyOpen: 'layerChooser',
-		menus: [
-			// TODO: Delete this plugin including the component once another plugin is implemented
+		focusMenus: [
 			{
 				plugin: {
-					component: EmptyComponent,
-					id: 'kewl',
+					component: YetAnotherEmptyComponent,
+					id: 'awesome',
 					locales: [],
 				},
-				icon: 'kern-icon--drag-handle',
-				hint: 'Something layered',
-			},
-			{
-				plugin: pluginLayerChooser({}),
-				icon: 'kern-icon--layers',
+				icon: 'kern-icon--near-me',
+				hint: 'Something awesome',
 			},
 		],
-	})
-)
-addPlugin(
-	pluginToast({
-		displayComponent: true,
-		layoutTag: 'BOTTOM_MIDDLE',
-	})
-)
-addPlugin(
-	pluginFullscreen({
-		displayComponent: true,
-		layoutTag: 'TOP_RIGHT',
+		menus: [
+			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
+			[
+				{
+					plugin: {
+						component: GeoLocationMockCe,
+						id: 'geoLocationMock',
+						locales: [],
+					},
+				},
+			],
+			[
+				{
+					plugin: {
+						component: EmptyComponent,
+						id: 'realKewl',
+						locales: [],
+					},
+					icon: 'kern-icon--share',
+					hint: 'Something kewl',
+				},
+			],
+			[
+				{
+					plugin: pluginLayerChooser({}),
+					icon: 'kern-icon--layers',
+				},
+				{
+					plugin: pluginFullscreen({}),
+					hint: 'BEEEEEG YOSHEEEEE',
+				},
+			],
+		],
 	})
 )
 

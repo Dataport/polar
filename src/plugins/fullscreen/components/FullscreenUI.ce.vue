@@ -35,10 +35,7 @@ const buttonClass = computed(() =>
 
 <style scoped>
 .polar-icon-button.polar-plugin-fullscreen-standard {
-	position: absolute;
-	right: 0;
-	margin: 0.5rem;
-	pointer-events: all;
+	box-shadow: none;
 }
 .polar-icon-button.polar-plugin-fullscreen-nine-regions {
 	margin: 0.5rem;
