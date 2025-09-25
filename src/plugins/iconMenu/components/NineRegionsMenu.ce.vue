@@ -2,7 +2,7 @@
 	<component :is="asList ? 'ul' : 'div'" class="polar-plugin-icon-menu-list">
 		<component
 			:is="asList ? 'li' : 'div'"
-			v-for="({ plugin, icon, hint }, index) of menus"
+			v-for="({ plugin, icon, hint }, index) of menus.flat()"
 			:key="index"
 			:class="
 				deviceIsHorizontal
@@ -56,9 +56,9 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
+import { useIconMenuStore } from '../store'
 import NineRegionsButton from './NineRegionsButton.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
-import { useIconMenuStore } from '@/plugins/iconMenu/store'
 
 const { clientHeight, deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
 	storeToRefs(useCoreStore())

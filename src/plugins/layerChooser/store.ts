@@ -4,7 +4,6 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
@@ -83,63 +82,42 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 	)
 
 	function setupPlugin() {
-		let attemptCounter = 0
-		// NOTE: Currently needed as the whole application no longer waits on the retrieval of the layerList
-		const intervalId = setInterval(() => {
-			if (attemptCounter < 100 && rawLayerList.getLayerList().length === 0) {
-				attemptCounter += 1
-			} else if (attemptCounter === 100) {
-				console.error(
-					'The serviceRegister does not yield any layer information. This seems to be a configuration or network error.'
-				)
-				clearInterval(intervalId)
-			} else {
-				const [configuredBackgrounds, configuredMasks] = getBackgroundsAndMasks(
-					coreStore.configuration.layers
-				)
-				backgrounds.value = configuredBackgrounds
-				masks.value = configuredMasks
+		const [configuredBackgrounds, configuredMasks] = getBackgroundsAndMasks(
+			coreStore.configuration.layers
+		)
+		backgrounds.value = configuredBackgrounds
+		masks.value = configuredMasks
 
-				if (configuredBackgrounds.length === 0) {
-					console.error('No layers of type "background" have been configured.')
-				}
+		if (configuredBackgrounds.length === 0) {
+			console.error('No layers of type "background" have been configured.')
+		}
 
-				// At most one background, arbitrarily many masks
-				setActiveBackgroundId(
-					configuredBackgrounds.find(({ visibility }) => visibility)?.id || null
-				)
-				setActiveMaskIds(
-					configuredMasks
-						.filter(({ visibility }) => visibility)
-						.map(({ id }) => id)
-				)
-				updateActiveAndAvailableLayersByZoom()
-				coreStore.map.on('moveend', updateActiveAndAvailableLayersByZoom)
-				// NOTE: Not relevant to be awaited.
-				// eslint-disable-next-line @typescript-eslint/no-floating-promises
-				loadCapabilities(
-					coreStore.configuration.layers,
-					capabilities.value
-				).then((newCapabilities) => {
-					capabilities.value = newCapabilities
+		// At most one background, arbitrarily many masks
+		setActiveBackgroundId(
+			configuredBackgrounds.find(({ visibility }) => visibility)?.id || null
+		)
+		setActiveMaskIds(
+			configuredMasks.filter(({ visibility }) => visibility).map(({ id }) => id)
+		)
+		updateActiveAndAvailableLayersByZoom()
+		coreStore.map.on('moveend', updateActiveAndAvailableLayersByZoom)
+		// NOTE: Not relevant to be awaited.
+		// eslint-disable-next-line @typescript-eslint/no-floating-promises
+		loadCapabilities(coreStore.configuration.layers, capabilities.value).then(
+			(newCapabilities) => {
+				capabilities.value = newCapabilities
 
-					coreStore.configuration.layers.forEach((layer) => {
-						const layerOptions = layer.options?.layers
-						if (layerOptions) {
-							layersWithOptions.value = toMerged(
-								layersWithOptions.value,
-								prepareLayersWithOptions(
-									layer.id,
-									newCapabilities,
-									layerOptions
-								)
-							)
-						}
-					})
-					clearInterval(intervalId)
+				coreStore.configuration.layers.forEach((layer) => {
+					const layerOptions = layer.options?.layers
+					if (layerOptions) {
+						layersWithOptions.value = toMerged(
+							layersWithOptions.value,
+							prepareLayersWithOptions(layer.id, newCapabilities, layerOptions)
+						)
+					}
 				})
 			}
-		}, 100)
+		)
 	}
 	function teardownPlugin() {}
 
