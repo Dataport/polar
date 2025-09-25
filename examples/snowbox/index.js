@@ -176,7 +176,7 @@ addPlugin(
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
 		initiallyOpen: 'kewl',
-		labeledMenus: [
+		focusMenus: [
 			{
 				plugin: {
 					component: YetAnotherEmptyComponent,
