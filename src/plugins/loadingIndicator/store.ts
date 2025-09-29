@@ -54,14 +54,12 @@ export const useLoadingIndicatorStore = defineStore(
 		}
 
 		function setLoaderStyle(style: LoaderStyles) {
-			if (style) {
-				if (styles.includes(style)) {
-					loaderStyle.value = style
-				} else {
-					console.error(
-						`Loader style ${style} does not exist. Falling back to default.`
-					)
-				}
+			if (styles.includes(style)) {
+				loaderStyle.value = style
+			} else {
+				console.error(
+					`Loader style ${style} does not exist. Falling back to default.`
+				)
 			}
 		}
 
