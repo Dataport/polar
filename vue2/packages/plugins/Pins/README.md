@@ -1,12 +1,6 @@
 # Pins
 
-## Scope
-
-The pins plugin handles marking locations. Embedding processes can then use that coordinate for further steps. The plugin may react to other plugins, especially address searches.
-
 ## Configuration
-
-The usage of `displayComponent` has no influence on the creation of Pins on the Map if this plugin is being used.
 
 ### pins
 

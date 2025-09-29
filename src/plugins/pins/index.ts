@@ -10,7 +10,12 @@ import { PluginId, type PinsPluginOptions } from './types'
 import type { PluginContainer, PolarPluginStore } from '@/core'
 
 /**
- * TODO
+ * Pins plugin for POLAR that adds map interactions to client that allow users
+ * to indicate a specific point on the map.
+ *
+ * The plugin handles marking locations. Embedding processes can then use that
+ * coordinate for further steps. The plugin may react to other plugins,
+ * especially address searches.
  *
  * @returns Plugin for use with {@link addPlugin}.
  */
