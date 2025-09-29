@@ -5,6 +5,7 @@ import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
+import type { PinsPluginOptions } from '@/plugins/pins'
 import type { ToastPluginOptions } from '@/plugins/toast'
 
 /**
@@ -42,12 +43,10 @@ export interface PolarMapOptions {
 	 * ({@link MasterportalApiConfiguration.epsg} | `epsg`).
 	 */
 	resolution: number
-
 	/**
 	 * Scale in meters.
 	 */
 	scale: number
-
 	/**
 	 * Zoom level.
 	 */
@@ -183,7 +182,6 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * See `mapConfiguration.featureStyles` for more information.
 	 */
 	featureStyles?: string
-
 	/**
 	 * The initial language the client should be using.
 	 *
@@ -252,33 +250,22 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * Authorization header of the request. Requests already including an Authorization header will keep the already present one.
 	 */
 	secureServiceUrlRegex?: RegExp
-
 	/**
 	 * Custom theme for POLAR.
 	 *
 	 * The default is to use KERN's standard theme.
 	 */
 	theme?: PolarTheme
-
 	// Plugins are not sorted alphabetical, but listed last.
 	// Remember to sort them alphabetical inside their space.
 	// TODO: Generate this section via types/plugin.ts
 	/* eslint-disable perfectionist/sort-interfaces */
-
-	/**
-	 * Configuration for fullscreen plugin.
-	 */
+	/**  Configuration for fullscreen plugin. */
 	fullscreen?: FullscreenPluginOptions
-
-	/**
-	 * Configuration for iconMenu plugin.
-	 */
+	/** Configuration for iconMenu plugin. */
 	iconMenu?: IconMenuPluginOptions
-
-	/**
-	 * Configuration for toast plugin.
-	 */
+	pins?: PinsPluginOptions
+	/** Configuration for toast plugin. */
 	toast?: ToastPluginOptions
-
 	/* eslint-enable perfectionist/sort-interfaces */
 }
