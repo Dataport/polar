@@ -55,7 +55,7 @@ export const useToastStore = defineStore('plugins/toast', () => {
 		)
 
 		const toastItem: ToastItem = { toast }
-		toasts.value.push(toastItem)
+		toasts.value.push(toastItem as (typeof toasts.value)[number])
 
 		if (typeof optionsWithDefaults.timeout === 'number') {
 			toastItem.timeout = setTimeout(

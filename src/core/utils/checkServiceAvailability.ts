@@ -1,6 +1,8 @@
 import { ping } from '@masterportal/masterportalapi'
 import { t } from 'i18next'
+import { computed } from 'vue'
 import type { MapConfiguration, ServiceAvailabilityCheck } from '../types'
+import { useMainStore } from '../stores/main'
 import { notifyUser } from '@/lib/notifyUser'
 
 export function checkServiceAvailability(
@@ -38,10 +40,18 @@ export function checkServiceAvailability(
 					if (statusCode !== 200) {
 						notifyUser(
 							'warning',
-							t(($) => $.error.serviceUnavailable, {
-								ns: 'core',
-								serviceId,
-								serviceName,
+							computed(() => {
+								const mainStore = useMainStore()
+
+								// This reactive value needs to recompute on language changes.
+								// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+								mainStore.language
+
+								return t(($) => $.error.serviceUnavailable, {
+									ns: 'core',
+									serviceId,
+									serviceName,
+								})
 							})
 						)
 
