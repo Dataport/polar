@@ -224,6 +224,7 @@ export function setupMarkers(map: Map) {
 	map.on('moveend', mapMoveEnd)
 	map.on('pointermove', mapPointerMove)
 	map.on('click', mapClick)
+
 	/*
 	 * click leads to singlelick; if an element is selected,
 	 * to not let other plugins pick it up, something was already done with it

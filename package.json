@@ -78,7 +78,7 @@
 		"@actions/github": "^6.0.1",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
-		"@dataport/eslint-config-geodev": "^0.4.0",
+		"@dataport/eslint-config-geodev": "^0.4.1",
 		"@kern-ux/native": "^2.3.0",
 		"@masterportal/masterportalapi": "2.48.0",
 		"@material-symbols/svg-400": "^0.35.0",

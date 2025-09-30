@@ -90,8 +90,10 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		open,
 		buttonComponent,
 		openMenuById,
+
 		/** @internal */
 		setupPlugin,
+
 		/** @internal */
 		teardownPlugin,
 	}
