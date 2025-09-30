@@ -27,6 +27,7 @@ import { setupStyling } from '../utils/map/setupStyling'
 
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
 import { setupMarkers } from '../utils/map/setupMarkers'
+import { useT } from '../composables/useT'
 import PolarMapOverlay from './PolarMapOverlay.ce.vue'
 
 const mainStore = useMainStore()
@@ -92,21 +93,21 @@ watch(center, (center) => {
 })
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
+const noCommandOnZoom = useT(() =>
+	t(($) => $.overlay.noCommandOnZoom, { ns: 'core' })
+)
+const noControlOnZoom = useT(() =>
+	t(($) => $.overlay.noControlOnZoom, { ns: 'core' })
+)
 function wheelEffect(event: WheelEvent) {
 	if (hasWindowSize.value || !overlay.value) {
 		return
 	}
 	const condition = computed(() => !hasWindowSize.value)
 	if (isMacOS && !event.metaKey) {
-		overlay.value.show(
-			t(($) => $.overlay.noCommandOnZoom, { ns: 'core' }),
-			condition
-		)
+		overlay.value.show(noCommandOnZoom, condition)
 	} else if (!isMacOS && !event.ctrlKey) {
-		overlay.value.show(
-			t(($) => $.overlay.noControlOnZoom, { ns: 'core' }),
-			condition
-		)
+		overlay.value.show(noControlOnZoom, condition)
 	}
 }
 
@@ -130,6 +131,9 @@ onMounted(async () => {
 	}
 })
 
+const oneFingerPan = useT(() =>
+	t(($) => $.overlay.oneFingerPan, { ns: 'core' })
+)
 function updateListeners() {
 	if (
 		!hasWindowSize.value &&
@@ -146,7 +150,7 @@ function updateListeners() {
 					.getArray()
 					.some((interaction) => interaction.get('_isPolarDragLikeInteraction'))
 			) {
-				overlay.value.show(t(($) => $.overlay.oneFingerPan, { ns: 'core' }))
+				overlay.value.show(oneFingerPan)
 			}
 		})
 	}

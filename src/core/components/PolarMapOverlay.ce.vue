@@ -10,10 +10,14 @@
 import { ref, type Ref, watch, type WatchHandle } from 'vue'
 
 const message = ref('')
+const messageWatcher = ref<WatchHandle | null>(null)
 const conditionWatcher = ref<WatchHandle | null>(null)
 const hideMessageTimeout = ref<ReturnType<typeof setTimeout> | null>(null)
 
 function hide() {
+	if (messageWatcher.value) {
+		messageWatcher.value()
+	}
 	message.value = ''
 	if (conditionWatcher.value) {
 		conditionWatcher.value()
@@ -24,11 +28,17 @@ function hide() {
 }
 
 function show(
-	messageText: string,
+	messageText: Ref<string>,
 	condition: Ref<boolean> | null = null,
 	displayTime: number = 2000
 ) {
-	message.value = messageText
+	messageWatcher.value = watch(
+		messageText,
+		(value) => {
+			message.value = value
+		},
+		{ immediate: true }
+	)
 
 	if (condition) {
 		conditionWatcher.value = watch(
