@@ -1,7 +1,7 @@
 <template>
 	<h1 class="kern-heading-display">Eisberg-Register</h1>
 	<h2 class="kern-heading-large">Nicht genehmigten Eisberg melden</h2>
-	<div style="margin: 4em; position: relative">
+	<main :class="$style.main">
 		<div v-if="view !== 'menu'" style="margin-bottom: 2em">
 			<a href="#" class="kern-link" @click.prevent="view = 'menu'">
 				<span class="kern-icon kern-icon--arrow-back" aria-hidden="true" />
@@ -38,7 +38,7 @@
 				<span class="kern-icon kern-icon--arrow-forward" aria-hidden="true" />
 			</button>
 		</div>
-	</div>
+	</main>
 </template>
 
 <script setup lang="ts">
@@ -84,6 +84,17 @@ const configTaskComponent = computed(
 	color: blue !important;
 	& > .kern-icon {
 		background-color: blue !important;
+	}
+}
+</style>
+
+<style module>
+.main {
+	position: relative;
+	margin: 2em 4em;
+
+	@media (max-width: 65em) {
+		margin: 1.5em 0.5em;
 	}
 }
 </style>
