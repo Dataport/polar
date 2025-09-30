@@ -5,7 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { toMerged } from 'es-toolkit'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
 import type { Menu } from './types.ts'
 import { useCoreStore } from '@/core/stores/export.ts'
@@ -96,3 +96,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		teardownPlugin,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useIconMenuStore, import.meta.hot))
+}

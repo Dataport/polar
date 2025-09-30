@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { markRaw, reactive } from 'vue'
 import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
@@ -83,3 +83,7 @@ export const usePluginStore = defineStore('plugin', () => {
 		getPluginStore,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(usePluginStore, import.meta.hot))
+}

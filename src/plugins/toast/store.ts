@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, toRaw, type Reactive } from 'vue'
 import { toMerged } from 'es-toolkit'
 import {
@@ -216,4 +216,8 @@ if (import.meta.vitest) {
 			expect(store.toasts[0]?.theme).toEqual(result)
 		}
 	)
+}
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useToastStore, import.meta.hot))
 }

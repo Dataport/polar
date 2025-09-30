@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 import { useMainStore } from './main'
 import { usePluginStore } from './plugin'
@@ -142,3 +142,7 @@ export const useCoreStore = defineStore('core', () => {
 		shadowRoot: computed(() => mainStore.shadowRoot),
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useCoreStore, import.meta.hot))
+}
