@@ -5,6 +5,7 @@ import tsConfig from '@dataport/eslint-config-geodev/typescript'
 import vueConfig from '@dataport/eslint-config-geodev/vue'
 import jsonConfig from '@dataport/eslint-config-geodev/json'
 import markdownConfig from '@dataport/eslint-config-geodev/markdown'
+import htmlConfig from '@dataport/eslint-config-geodev/html'
 import prettierConfig from 'eslint-plugin-prettier/recommended'
 import perfectionist from 'eslint-plugin-perfectionist'
 
@@ -136,5 +137,9 @@ export default defineConfig([
 	{
 		files: ['**/*.md'],
 		extends: [markdownConfig],
+	},
+	{
+		files: ['**/*.html'],
+		extends: [htmlConfig],
 	},
 ])
