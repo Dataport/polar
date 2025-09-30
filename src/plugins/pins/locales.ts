@@ -13,13 +13,21 @@ import type { Locale } from '@/core'
  * German locales for pins plugin.
  * For overwriting these values, use the plugin's ID as namespace.
  */
-export const resourcesDe = {} as const
+export const resourcesDe = {
+	boundaryError:
+		'Die Überprüfung der Koordinate ist fehlgeschlagen. Bitte versuchen Sie es später erneut oder wenden Sie sich an einen Administrator, wenn das Problem bestehen bleibt.',
+	notInBoundary: 'Diese Koordinate kann nicht gewählt werden.',
+} as const
 
 /**
  * English locales for pins plugin.
  * For overwriting these values, use the plugin's ID as namespace.
  */
-export const resourcesEn = {} as const
+export const resourcesEn = {
+	boundaryError:
+		'Validating the coordinate failed. Please try again later or contact an administrator if the issue persists.',
+	notInBoundary: 'It is not possible to select this coordinate.',
+} as const
 
 /**
  * Pins plugin locales.
