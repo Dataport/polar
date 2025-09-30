@@ -74,6 +74,7 @@ export function addPlugin(plugin: PluginContainer) {
 		options || {},
 		(coreStore.configuration[id] || {}) as PluginOptions
 	)
+
 	/* configuration merge – "options" are from client-code, "configuration"
 	 * is from mapConfiguration object and thus overrides */
 	coreStore.configuration = {

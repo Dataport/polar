@@ -18,6 +18,7 @@ export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export interface Locale {
 	resources: Record<string, ResourceKey>
+
 	/** Language key as described in the i18next documentation. */
 	type: string
 }
@@ -72,6 +73,7 @@ export interface MasterportalApiConfiguration {
 	 * ```
 	 */
 	startCenter: [number, number]
+
 	/**
 	 * Leading coordinate system. The coordinate system has to be defined in
 	 * {@link MasterportalApiConfiguration.namedProjections | `mapConfiguration.namedProjections`} as well.
@@ -90,6 +92,7 @@ export interface MasterportalApiConfiguration {
 	 * ```
 	 */
 	epsg?: `EPSG:${string}`
+
 	/**
 	 * Map movement will be restricted to the rectangle described by the given coordinates. Unrestricted by default.
 	 * Coordinates need to be defined in the chosen leading coordinate system configured by
@@ -101,6 +104,7 @@ export interface MasterportalApiConfiguration {
 	 * ```
 	 */
 	extent?: [number, number, number, number]
+
 	/**
 	 * Array of usable coordinated systems mapped to a projection as a proj4 string. Defines `'EPSG:25832'`, `'EPSG:3857'`,
 	 * `'EPSG:4326'`, `'EPSG:31467'` and `'EPSG:4647'` by default. If you set a value, please mind that all pre-configured
@@ -117,6 +121,7 @@ export interface MasterportalApiConfiguration {
 	 * ```
 	 */
 	namedProjections?: Array<[string, string]>
+
 	/**
 	 * Defines all available zoom levels mapped to the respective resolution and related scale.
 	 * The resolution is dependent on the chosen leading coordinate system configured by
@@ -140,6 +145,7 @@ export interface MasterportalApiConfiguration {
 	 * ```
 	 */
 	options?: PolarMapOptions[]
+
 	/**
 	 * Initial resolution; must be described in {@link MasterportalApiConfiguration.options | `mapConfiguration.options`}.
 	 * Defaults to `15.874991427504629` which is a zoom level defined in the default configuration of
@@ -176,8 +182,10 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * ```
 	 */
 	layers: LayerConfiguration[]
+
 	/** If set to `true`, all services' availability will be checked with head requests. */
 	checkServiceAvailability?: boolean
+
 	/**
 	 * Optional path to define styles for vector features. The parameter may be a url or a path on the local file system.
 	 * See `mapConfiguration.featureStyles` for more information.
@@ -196,6 +204,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * configurability regarding positioning or add a custom layout as Vue component.
 	 */
 	layout?: 'standard' | 'nineRegions' | VueElement
+
 	/**
 	 * All locales in POLAR and its plugins can be overridden to fit your needs.
 	 * Take a look at the respective documentation for all values that can be overridden.
@@ -231,6 +240,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * keys in nested objects as seen in the example above (`{a: {b: {c: "value"}}}`).
 	 */
 	locales?: Locale[]
+
 	/**
 	 * If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively.
 	 * They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker
@@ -241,11 +251,13 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * {@link MapConfiguration.featureStyles | `mapConfiguration.featureStyles`}.
 	 */
 	markers?: MarkerConfiguration
+
 	/**
 	 * If a secured layer is supposed to be visible on start, the token also has to be provided via this configuration parameter.
 	 * Updates to the token have to be done by updating the store parameter `oidcToken`.
 	 */
 	oidcToken?: string
+
 	/**
 	 * Regular expression defining URLs that belong to secured services. All requests sent to URLs that fit the regular
 	 * expression will send the JSON Web Token (JWT) found in the store parameter `oidcToken` as a Bearer token in the
