@@ -20,6 +20,7 @@ import type {
 	MapConfiguration,
 	PluginContainer,
 	PluginId,
+	PolarPluginStore,
 } from './types'
 
 import './monkeyHeaderLoader'
@@ -170,6 +171,20 @@ type StoreParameter<T extends StoreId> = T extends 'core' | BundledPluginId
 	: string
 
 /**
+ * Returns the store module for the core or for an active plugin.
+ *
+ * @param map - Map to get the corresponding store for.
+ * @param storeName - Either `'core'` for the core store or the plugin ID for a plugin's store.
+ * @returns Core store for the map if `'core'` is given, or the plugin's store else.
+ */
+export function getStore<T extends StoreId>(
+	map: typeof PolarContainer,
+	storeName: T
+): T extends 'core' | BundledPluginId ? StoreType<T> : PolarPluginStore {
+	return storeName === 'core' ? map.store : map.store.getPluginStore(storeName)
+}
+
+/**
  * Subscribe to a store value of the core store or any plugin's store.
  *
  * @param map - Map to subscribe the value at.
@@ -185,8 +200,8 @@ export function subscribe<T extends StoreId>(
 	callback: SubscribeCallback,
 	options?: WatchOptions
 ) {
-	const store =
-		storeName === 'core' ? map.store : map.store.getPluginStore(storeName)
+	const store = getStore(map, storeName)
+	// @ts-expect-error | Parameter name is checked, but TS does not infer this
 	return watch(() => store[parameterName], callback, {
 		immediate: true,
 		...options,
@@ -207,8 +222,8 @@ export function updateState<T extends StoreId>(
 	parameterName: StoreParameter<T>,
 	payload: unknown
 ) {
-	const store =
-		storeName === 'core' ? map.store : map.store.getPluginStore(storeName)
+	const store = getStore(map, storeName)
+	// @ts-expect-error | Parameter name is checked, but TS does not infer this
 	store[parameterName] = payload
 }
 

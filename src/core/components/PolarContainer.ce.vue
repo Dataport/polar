@@ -86,6 +86,15 @@ mainStore.language = i18next.language
 i18next.on('languageChanged', (newLanguage) => {
 	mainStore.language = newLanguage
 })
+watch(
+	() => mainStore.language,
+	async (newLanguage) => {
+		if (i18next.language === newLanguage) {
+			return
+		}
+		await i18next.changeLanguage(newLanguage)
+	}
+)
 
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 

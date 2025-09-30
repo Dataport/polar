@@ -129,6 +129,12 @@ export default defineConfig([
 		],
 	},
 	{
+		files: ['**/examples/**/*.vue'],
+		rules: {
+			'vue/enforce-style-attribute': ['error', { allow: ['scoped', 'module'] }],
+		},
+	},
+	{
 		files: ['**/*.json'],
 		ignores: ['package-lock.json'],
 		extends: [jsonConfig],

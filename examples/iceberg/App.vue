@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import kernExtraIcons from 'virtual:kern-extra-icons'
 import LayoutChooser from './components/LayoutChooser.vue'
 import TaskMenu from './components/TaskMenu.vue'
 import IcebergMap from './components/IcebergMap.vue'
@@ -71,6 +72,13 @@ const viewIndex = computed({
 const configTaskComponent = computed(
 	() => configTasks.find((task) => task.id === view.value)?.component
 )
+
+document.adoptedStyleSheets.push(kernExtraIcons)
+if (import.meta.hot) {
+	import.meta.hot.on('kern-extra-icons', ({ icons }) => {
+		icons.forEach((icon) => kernExtraIcons.insertRule(icon))
+	})
+}
 </script>
 
 <!-- eslint-disable-next-line vue/enforce-style-attribute -->

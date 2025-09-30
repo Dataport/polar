@@ -63,6 +63,19 @@ export const useCoreStore = defineStore('core', () => {
 		 * @readonly
 		 */
 		hasWindowSize: computed(() => mainStore.hasWindowSize),
+
+		/**
+		 * Configured language.
+		 *
+		 * @internal
+		 */
+		language: computed({
+			get: () => mainStore.language,
+			set: (value) => {
+				mainStore.language = value
+			},
+		}),
+
 		/**
 		 * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
 		 * already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared.
