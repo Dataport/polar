@@ -10,16 +10,20 @@
 /* eslint-enable tsdoc/syntax */
 
 import '@kern-ux/native/dist/fonts/fira-sans.css'
-import { storeToRefs } from 'pinia'
 import { defineCustomElement, watch, type WatchOptions } from 'vue'
 import PolarContainer from './components/PolarContainer.ce.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
-import type { MapConfiguration, PluginContainer } from './types'
-import { useMainStore } from './stores/main'
-import { useMarkerStore } from './stores/marker'
+import type {
+	BundledPluginId,
+	BundledPluginStores,
+	MapConfiguration,
+	PluginContainer,
+	PluginId,
+} from './types'
 
 import './monkeyHeaderLoader'
+import type { useCoreStore } from './stores/export'
 
 /**
  * Calls `addPlugin` for each plugin in the array.
@@ -148,67 +152,64 @@ export function createMap(
 
 export type SubscribeCallback = (value: unknown, oldValue: unknown) => void
 
+type StoreType<T extends 'core' | BundledPluginId> = T extends BundledPluginId
+	? ReturnType<BundledPluginStores<T>>
+	: ReturnType<typeof useCoreStore>
+type ExtractStateAndGetters<T extends { $state: unknown }> =
+	| keyof T['$state']
+	| {
+			[K in keyof T]: T[K] extends (..._args) => unknown
+				? never
+				: K extends `$${string}` | `_${string}`
+					? never
+					: K
+	  }[keyof T]
+type StoreId = 'core' | PluginId
+type StoreParameter<T extends StoreId> = T extends 'core' | BundledPluginId
+	? ExtractStateAndGetters<StoreType<T>>
+	: string
+
 /**
- * @remarks
- * An error is logged if no store can be found with the given name {@link storeName}.
+ * Subscribe to a store value of the core store or any plugin's store.
  *
- * @param storeName - Name of the store.
+ * @param map - Map to subscribe the value at.
+ * @param storeName - Either `'core'` for the core store or the plugin ID for a plugin's store.
  * @param parameterName - Name of the parameter to update.
  * @param callback - Function to call on updates.
  * @param options - Additional options to give to `watch`.
  */
-export function subscribe(
-	storeName: string,
-	parameterName: string,
+export function subscribe<T extends StoreId>(
+	map: typeof PolarContainer,
+	storeName: T,
+	parameterName: StoreParameter<T>,
 	callback: SubscribeCallback,
 	options?: WatchOptions
 ) {
-	try {
-		return watch(storeToRefs(getStore(storeName))[parameterName], callback, {
-			immediate: true,
-			...options,
-		})
-	} catch (e) {
-		console.error(e)
-	}
+	const store =
+		storeName === 'core' ? map.store : map.store.getPluginStore(storeName)
+	return watch(() => store[parameterName], callback, {
+		immediate: true,
+		...options,
+	})
 }
 
 /**
  * Updates the parameter {@link parameterName | parameter} in the {@link storeName | store} with the {@link payload}.
  *
- * @remarks
- * An error is logged if no store can be found with the given name {@link storeName}.
- *
- * @param storeName - Name of the store.
+ * @param map - Map to update the value at.
+ * @param storeName - Either `'core'` for the core store or the plugin ID for a plugin's store.
  * @param parameterName - Name of the parameter to update.
  * @param payload - The payload to update the given parameter with.
  */
-export function updateState(
-	storeName: string,
-	parameterName: string,
+export function updateState<T extends StoreId>(
+	map: typeof PolarContainer,
+	storeName: T,
+	parameterName: StoreParameter<T>,
 	payload: unknown
 ) {
-	try {
-		getStore(storeName)[parameterName] = payload
-	} catch (e) {
-		console.error(e)
-	}
-}
-
-/**
- * Return the Store instance of the store with the given {@link storeName}.
- *
- * @param storeName - Name of the store to retrieve.
- * @throws Error - If no store with the given name can be found.
- */
-function getStore(storeName: string) {
-	if (storeName === 'core') {
-		return useMainStore()
-	}
-	if (storeName === 'markers') {
-		return useMarkerStore()
-	}
-	throw new Error(`getStore: Store ${storeName} not found.`)
+	const store =
+		storeName === 'core' ? map.store : map.store.getPluginStore(storeName)
+	store[parameterName] = payload
 }
 
 export type * from './types'
