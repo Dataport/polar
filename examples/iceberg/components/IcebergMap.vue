@@ -8,6 +8,7 @@
 		</button>
 	</div>
 	<polar-map
+		v-if="store.serviceRegister.length"
 		ref="map"
 		:map-configuration="store.mapConfiguration"
 		:service-register="store.serviceRegister"
@@ -15,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, useTemplateRef } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
 
 import { addPlugins, getStore, subscribe } from '@polar/polar'
 import type { PolarContainer } from '@polar/polar'
@@ -30,11 +31,11 @@ const store = useIcebergStore()
 const language = ref('de')
 
 const map = useTemplateRef<typeof PolarContainer>('map')
-onMounted(() => {
-	if (!map.value) {
+watch(map, (map) => {
+	if (!map) {
 		return
 	}
-	addPlugins(map.value, [
+	addPlugins(map, [
 		pluginIconMenu({
 			displayComponent: true,
 			layoutTag: 'TOP_RIGHT',
@@ -51,7 +52,7 @@ onMounted(() => {
 		}),
 	])
 
-	subscribe(map.value, 'core', 'language', (newLanguage) => {
+	subscribe(map, 'core', 'language', (newLanguage) => {
 		language.value = newLanguage as string
 	})
 })

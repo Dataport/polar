@@ -31,7 +31,7 @@ defineOptions({
 
 const props = defineProps<{
 	mapConfiguration: MapConfiguration
-	serviceRegister: string | Record<string, unknown>[]
+	serviceRegister: Record<string, unknown>[]
 }>()
 
 defineExpose<{

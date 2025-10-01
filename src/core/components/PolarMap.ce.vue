@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import api from '@masterportal/masterportalapi/src/maps/api'
-import { rawLayerList } from '@masterportal/masterportalapi'
 import Hammer from 'hammerjs'
 import { defaults } from 'ol/interaction'
 import { storeToRefs } from 'pinia'
@@ -112,13 +111,6 @@ function wheelEffect(event: WheelEvent) {
 }
 
 onMounted(async () => {
-	if (typeof mainStore.serviceRegister === 'string') {
-		mainStore.serviceRegister = await new Promise<Record<string, unknown>[]>(
-			(resolve) =>
-				rawLayerList.initializeLayerList(mainStore.serviceRegister, resolve)
-		)
-	}
-
 	createMap()
 	if (mainStore.configuration.checkServiceAvailability) {
 		checkServiceAvailability(mainStore.configuration, mainStore.serviceRegister)

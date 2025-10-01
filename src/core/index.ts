@@ -134,7 +134,8 @@ export function register() {
  * However, the magic moved to the custom element itself, therefore, you may create the element by yourself now.
  *
  * @param mapConfiguration - Configuration options.
- * @param serviceRegister - Service register given through a URL or as an array
+ * @param serviceRegister - Service register given as an array.
+ *                          To load this from an URL, pass the awaited promise returned by {@link fetchServiceRegister}.
  *                          An example for a predefined service register is [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
  *                          Full documentation regarding the configuration can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
  *                          However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet,
@@ -142,7 +143,7 @@ export function register() {
  */
 export function createMap(
 	mapConfiguration: MapConfiguration,
-	serviceRegister: string | Record<string, unknown>[]
+	serviceRegister: Record<string, unknown>[]
 ) {
 	// @ts-expect-error | We trust that the element is registered
 	const map = document.createElement('polar-map') as typeof PolarContainer
@@ -226,6 +227,8 @@ export function updateState<T extends StoreId>(
 	// @ts-expect-error | Parameter name is checked, but TS does not infer this
 	store[parameterName] = payload
 }
+
+export { fetchServiceRegister } from './utils/fetchServiceRegister'
 
 export type * from './types'
 export { type PolarContainer }

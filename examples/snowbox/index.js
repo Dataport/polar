@@ -1,5 +1,11 @@
 import { changeLanguage } from 'i18next'
-import { addPlugin, createMap, subscribe, register } from '@polar/polar'
+import {
+	addPlugin,
+	createMap,
+	fetchServiceRegister,
+	subscribe,
+	register,
+} from '@polar/polar'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginToast from '@polar/polar/plugins/toast'
@@ -60,7 +66,7 @@ const isReportSelectable = (feature) =>
 */
 
 await register()
-const map = await createMap(
+const map = createMap(
 	{
 		layers: [
 			{
@@ -136,7 +142,9 @@ const map = await createMap(
 			},
 		],
 	},
-	'https://geodienste.hamburg.de/services-internet.json'
+	await fetchServiceRegister(
+		'https://geodienste.hamburg.de/services-internet.json'
+	)
 )
 map.id = 'snowbox'
 map.classList.add('snowbox')

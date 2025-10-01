@@ -15,7 +15,7 @@ export const useMainStore = defineStore('main', () => {
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)
-	const serviceRegister = ref<string | Record<string, unknown>[]>('')
+	const serviceRegister = ref<Record<string, unknown>[]>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
 	const zoom = ref(0)
 
