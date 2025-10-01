@@ -15,7 +15,7 @@ import api from '@masterportal/masterportalapi/src/maps/api'
 import Hammer from 'hammerjs'
 import { defaults } from 'ol/interaction'
 import { storeToRefs } from 'pinia'
-import { computed, markRaw, onMounted, useTemplateRef, watch } from 'vue'
+import { computed, onMounted, useTemplateRef, watch } from 'vue'
 import type { Map } from 'ol'
 import { easeOut } from 'ol/easing'
 import { t } from 'i18next'
@@ -35,18 +35,13 @@ const { hasWindowSize, hasSmallDisplay, center, zoom } = storeToRefs(mainStore)
 const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
 const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
 
-let map: Map | null = null
-
 function onMove() {
-	if (!map) {
-		return
-	}
-	center.value = map.getView().getCenter() || center.value
-	zoom.value = map.getView().getZoom() || zoom.value
+	center.value = mainStore.map.getView().getCenter() || center.value
+	zoom.value = mainStore.map.getView().getZoom() || zoom.value
 }
 
 function createMap() {
-	map = api.map.createMap(
+	mainStore.map = api.map.createMap(
 		{
 			target: polarMapContainer.value,
 			...mainStore.configuration,
@@ -64,27 +59,24 @@ function createMap() {
 			},
 		}
 	) as Map
-	map.on('moveend', onMove)
+	mainStore.map.on('moveend', onMove)
 
-	updateDragAndZoomInteractions(map, hasWindowSize.value, hasSmallDisplay.value)
+	updateDragAndZoomInteractions(
+		mainStore.map,
+		hasWindowSize.value,
+		hasSmallDisplay.value
+	)
 	updateListeners()
-	mainStore.map = markRaw(map)
 }
 
 // NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
 //       Added as a watcher to trigger the update at the correct time.
 watch(hasWindowSize, (value) => {
-	if (!map) {
-		return
-	}
-	updateDragAndZoomInteractions(map, value, hasSmallDisplay.value)
+	updateDragAndZoomInteractions(mainStore.map, value, hasSmallDisplay.value)
 })
 
 watch(center, (center) => {
-	if (!map) {
-		return
-	}
-	map.getView().animate({
+	mainStore.map.getView().animate({
 		center,
 		duration: 400,
 		easing: easeOut,
@@ -115,12 +107,14 @@ onMounted(async () => {
 	if (mainStore.configuration.checkServiceAvailability) {
 		checkServiceAvailability(mainStore.configuration, mainStore.serviceRegister)
 	}
-	if (map && mainStore.configuration.markers) {
-		setupMarkers(map)
+	if (mainStore.configuration.markers) {
+		setupMarkers(mainStore.map)
 	}
-	if (map && Array.isArray(mainStore.serviceRegister)) {
-		await setupStyling(map, mainStore.configuration, mainStore.serviceRegister)
-	}
+	await setupStyling(
+		mainStore.map,
+		mainStore.configuration,
+		mainStore.serviceRegister
+	)
 })
 
 const oneFingerPan = useT(() =>
@@ -136,8 +130,7 @@ function updateListeners() {
 			if (
 				overlay.value &&
 				e.maxPointers === 1 &&
-				map &&
-				map
+				mainStore.map
 					.getInteractions()
 					.getArray()
 					.some((interaction) => interaction.get('_isPolarDragLikeInteraction'))
