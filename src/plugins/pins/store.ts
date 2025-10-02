@@ -19,9 +19,8 @@ import { computed, ref, watch, type WatchHandle } from 'vue'
 import type { PinMovable, PinsPluginOptions } from './types'
 import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
+import { isCoordinateInBoundaryLayer } from './utils/isCoordinateInBoundaryLayer'
 import { useCoreStore } from '@/core/stores/export'
-
-// TODO(dopenguin): Check if some functions may be moved to a different file
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -158,7 +157,11 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 				).getCoordinates()
 
 				addPin(
-					!isCoordinateInBoundaryLayer(geometryCoordinates)
+					!isCoordinateInBoundaryLayer(
+						geometryCoordinates,
+						coreStore.map,
+						configuration.value.boundary
+					)
 						? coordinate.value
 						: geometryCoordinates
 				)
@@ -186,7 +189,11 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			// NOTE: It is assumed that getZoom actually returns the currentZoomLevel, thus the view has a constraint in the resolution.
 			(coreStore.map.getView().getZoom() as number) >= minZoomLevel &&
 			!isDrawing &&
-			isCoordinateInBoundaryLayer(coordinate)
+			isCoordinateInBoundaryLayer(
+				coordinate,
+				coreStore.map,
+				configuration.value.boundary
+			)
 		) {
 			addPin(coordinate)
 		}
@@ -225,43 +232,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 
 	function removePin() {
 		;(pinLayer.getSource() as Vector).clear()
-	}
-
-	/**
-	 * Checks if boundary layer conditions are met; returns false if not and
-	 * toasts to the user about why the action was blocked, if `toastAction` is
-	 * configured. If no boundaryLayer configured, always returns true.
-	 */
-	function isCoordinateInBoundaryLayer(coordinate: Coordinate) {
-		const { boundary } = configuration.value
-		if (!boundary) {
-			return true
-		}
-		console.warn('coordinate', coordinate)
-		return true
-		// TODO(dopenguin): passesBoundaryCheck is being migrated on vue3/migration-plugin-geo-location. Uncomment afterwards.
-		/* const boundaryCheckResult = await passesBoundaryCheck(
-			coreStore.map,
-			boundary.layerId,
-			coordinate
-		)
-		if (
-			boundaryCheckResult === true ||
-			// If a setup error occurred, client will act as if no boundary was specified.
-			(typeof boundaryCheckResult === 'symbol' && boundary.onError !== 'strict')
-		) {
-			return true
-		}
-
-		if (typeof boundaryCheckResult === 'symbol') {
-			notifyUser('error', 'boundaryError', { ns: 'pins' })
-			console.error('Checking boundary layer failed.')
-		} else {
-			notifyUser('info', 'notInBoundary', { ns: 'pins' })
-			// eslint-disable-next-line no-console
-			console.info('Pin position outside of boundary layer:', coordinate)
-		}
-		return false */
 	}
 
 	return {

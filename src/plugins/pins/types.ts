@@ -77,6 +77,21 @@ export interface PinsPluginOptions extends PluginOptions {
 	toZoomLevel?: number
 }
 
+export interface PinBoundary {
+	/**
+	 * ID of the vector layer to restrict pins to.
+	 */
+	layerId: string
+	/**
+	 * If the boundary layer check does not work due to loading or configuration
+	 * errors, style `'strict'` will disable the pins feature, and style
+	 * `'permissive'` will act as if no boundaryLayerId was set.
+	 *
+	 *@defaultValue 'permissive'
+	 */
+	onError?: 'strict' | 'permissive'
+}
+
 // TODO(dopenguin): Expand this to also be able to change the SVG
 export interface PinStyle {
 	/**
@@ -108,19 +123,4 @@ interface InitialPin {
 	 * Defaults to {@link MapConfiguration.epsg | `mapConfiguration.epsg`}.
 	 */
 	epsg?: string
-}
-
-interface PinBoundary {
-	/**
-	 * ID of the vector layer to restrict pins to.
-	 */
-	layerId: string
-	/**
-	 * If the boundary layer check does not work due to loading or configuration
-	 * errors, style `'strict'` will disable the pins feature, and style
-	 * `'permissive'` will act as if no boundaryLayerId was set.
-	 *
-	 *@defaultValue 'permissive'
-	 */
-	onError?: 'strict' | 'permissive'
 }
