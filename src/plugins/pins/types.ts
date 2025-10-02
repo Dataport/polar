@@ -1,7 +1,9 @@
-import type { Color, PluginOptions } from '@/core'
+import type { Color, PluginId as PolarPluginId, PluginOptions } from '@/core'
 
 /** Plugin identifier. */
 export const PluginId = 'pins'
+
+export type PinMovable = 'drag' | 'click' | 'none'
 
 /** Plugin options for pins plugin. */
 export interface PinsPluginOptions extends PluginOptions {
@@ -38,7 +40,7 @@ export interface PinsPluginOptions extends PluginOptions {
 	 * }
 	 * ```
 	 */
-	coordinateSource?: { pluginName: string; getterName: string }
+	coordinateSource?: { pluginName: PolarPluginId; getterName: string }
 	/**
 	 * Configuration options for setting an initial pin.
 	 *
@@ -64,7 +66,7 @@ export interface PinsPluginOptions extends PluginOptions {
 	 *
 	 * @defaultValue 'none'
 	 */
-	movable?: 'drag' | 'click' | 'none'
+	movable?: PinMovable
 	/** Display style configuration. */
 	style?: PinStyle
 	/**
@@ -75,9 +77,25 @@ export interface PinsPluginOptions extends PluginOptions {
 	toZoomLevel?: number
 }
 
+// TODO(dopenguin): Expand this to also be able to change the SVG
+export interface PinStyle {
+	/**
+	 * Fill color of the pin.
+	 *
+	 * @defaultValue '#005CA9'
+	 */
+	fill?: Color
+	/**
+	 * Stroke (that is, border) color of the pin.
+	 *
+	 * @defaultValue '#FFF'
+	 */
+	stroke?: Color
+}
+
 interface InitialPin {
 	/** Coordinate pair for the pin. */
-	coordinates: number[]
+	coordinate: number[]
 	/**
 	 * If set to true, center on and zoom to the given coordinates on start
 	 *
@@ -105,22 +123,4 @@ interface PinBoundary {
 	 *@defaultValue 'permissive'
 	 */
 	onError?: 'strict' | 'permissive'
-}
-
-// TODO(dopenguin): Expand this to also be able to change the SVG
-interface PinStyle {
-	/**
-	 * Fill color of the pin.
-	 * All colors will be converted to {@link https://developer.mozilla.org/de/docs/Web/CSS/color_value/oklch | oklch}.
-	 *
-	 * @defaultValue 'oklch(0.4736 0.143574 252.4396)' (blue)
-	 */
-	fill?: Color
-	/**
-	 * Stroke (that is, border) color of the pin.
-	 * All colors will be converted to {@link https://developer.mozilla.org/de/docs/Web/CSS/color_value/oklch | oklch}.
-	 *
-	 * @defaultValue 'oklch(1 0 0)' (white)
-	 */
-	stroke?: Color
 }
