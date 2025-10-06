@@ -2,9 +2,10 @@ import {
 	addPlugin,
 	createMap,
 	fetchServiceRegister,
+	getStore,
+	register,
 	subscribe,
 	updateState,
-	register,
 } from '@polar/polar'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
@@ -220,7 +221,7 @@ addPlugin(
 	})
 )
 
-const toastStore = map.store.getPluginStore('toast')
+const toastStore = getStore(map, 'toast')
 toastStore.addToast({
 	text: 'Hallo Welt',
 	severity: 'info',
