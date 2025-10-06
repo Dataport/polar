@@ -26,7 +26,8 @@ import { useCoreStore } from '@/core/stores/export'
 /**
  * @function
  *
- * TODO(dopenguin)
+ * Plugin store for adding a pin to the map for e.g. coordinate retrieval or
+ * marking the location of a found address.
  */
 /* eslint-enable tsdoc/syntax */
 export const usePinsStore = defineStore('plugins/pins', () => {
