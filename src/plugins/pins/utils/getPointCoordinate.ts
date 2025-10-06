@@ -13,7 +13,7 @@ import {
 import { transform } from 'ol/proj'
 import { getCenter } from 'ol/extent'
 
-// TODO(dopenguin): This function is exported as part of the module -> Currently used in DISH
+// TODO: This function is exported as part of the module -> Currently used in DISH
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const geometries = {
