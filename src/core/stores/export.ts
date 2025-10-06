@@ -8,6 +8,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 import { useMainStore } from './main'
 import { usePluginStore } from './plugin'
+import { useMarkerStore } from './marker'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -19,6 +20,7 @@ import { usePluginStore } from './plugin'
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 	const pluginStore = usePluginStore()
+	const markerStore = useMarkerStore()
 
 	return {
 		/**
@@ -153,6 +155,14 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		map: computed(() => mainStore.map),
+
+		/**
+		 * Coordinates that were selected by the user with a marker.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		selectedCoordinates: computed(() => markerStore.selectedCoordinates),
 
 		/**
 		 * Allows accessing the Shadow DOM root of POLAR.

@@ -231,7 +231,8 @@ toastStore.addToast({
 })
 
 subscribe(
-	'markers',
+	map,
+	'core',
 	'selectedCoordinates',
 	(coordinates) =>
 		(document.getElementById('selected-feature-coordinates').innerText =
