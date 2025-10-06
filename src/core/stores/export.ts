@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useMainStore } from './main'
 import { usePluginStore } from './plugin'
@@ -19,7 +19,10 @@ import { useMarkerStore } from './marker'
 /* eslint-enable tsdoc/syntax */
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
+	const mainStoreRefs = storeToRefs(mainStore)
+
 	const pluginStore = usePluginStore()
+
 	const markerStore = useMarkerStore()
 
 	return {
@@ -76,12 +79,7 @@ export const useCoreStore = defineStore('core', () => {
 		 *
 		 * @internal
 		 */
-		language: computed({
-			get: () => mainStore.language,
-			set: (value) => {
-				mainStore.language = value
-			},
-		}),
+		language: mainStoreRefs.language,
 
 		/**
 		 * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
@@ -115,6 +113,11 @@ export const useCoreStore = defineStore('core', () => {
 		 */
 		addPlugin: pluginStore.addPlugin,
 
+		/**
+		 * Removes a plugin by its ID.
+		 *
+		 * @param pluginId - ID of the plugin to be removed.
+		 */
 		removePlugin: pluginStore.removePlugin,
 
 		/**
@@ -123,6 +126,8 @@ export const useCoreStore = defineStore('core', () => {
 		 * For bundled plugins, the return value is typed.
 		 *
 		 * If no plugin with the specified ID is loaded, `null` is returned instead.
+		 *
+		 * @param pluginId - ID of the plugin whose store is requested.
 		 */
 		getPluginStore: pluginStore.getPluginStore,
 
