@@ -1,9 +1,9 @@
-import { changeLanguage } from 'i18next'
 import {
 	addPlugin,
 	createMap,
 	fetchServiceRegister,
 	subscribe,
+	updateState,
 	register,
 } from '@polar/polar'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
@@ -247,8 +247,7 @@ document
 	.addEventListener('change', (event) => {
 		const target = event.target
 		const { value } = target
-		changeLanguage(value).then(() => {
-			target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
-			target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
-		})
+		updateState(map, 'core', 'language', value)
+		target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
+		target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
 	})
