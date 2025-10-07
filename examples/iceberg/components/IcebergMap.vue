@@ -71,6 +71,7 @@ function switchLanguage() {
 @import url('@polar/polar/polar.css');
 
 polar-map {
+	display: block;
 	width: 100%;
 	height: 20em;
 }
