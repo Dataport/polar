@@ -1,7 +1,7 @@
 <template>
 	<div ref="polar-wrapper" class="polar-wrapper" :lang="language">
-		<PolarMap :key="JSON.stringify(mainStore.configuration)" />
-		<PolarUI :key="JSON.stringify(mainStore.configuration)" />
+		<PolarMap />
+		<PolarUI />
 	</div>
 </template>
 
@@ -40,8 +40,6 @@ defineExpose<{
 
 const mainStore = useMainStore()
 const { language } = storeToRefs(mainStore)
-
-// TODO: Allow live-updates of configuration, if possible
 
 watch(
 	() => props.mapConfiguration,
