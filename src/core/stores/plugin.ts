@@ -10,14 +10,13 @@ import type {
 	PolarPluginStore,
 	PluginOptions,
 } from '../types'
-import type { PiniaSavedInstance } from '../piniaPlugins/saveInstance'
 import { useMainStore } from './main'
 
 export const usePluginStore = defineStore('plugin', () => {
 	const plugins = reactive<PluginContainer[]>([])
 	const mainStore = useMainStore()
 
-	function addPlugin(this: unknown, plugin: PluginContainer) {
+	function addPlugin(plugin: PluginContainer) {
 		const { id, locales, options, storeModule } = plugin
 
 		/* configuration merge – "options" are from client-code, "configuration"
@@ -28,7 +27,7 @@ export const usePluginStore = defineStore('plugin', () => {
 		)
 		mainStore.configuration[id] = pluginConfiguration
 
-		const store = storeModule?.((this as PiniaSavedInstance)._instance)
+		const store = storeModule?.(mainStore._instance)
 		if (store && typeof store.setupPlugin === 'function') {
 			store.setupPlugin()
 		}
@@ -46,7 +45,7 @@ export const usePluginStore = defineStore('plugin', () => {
 		})
 	}
 
-	function removePlugin(this: unknown, pluginId: string) {
+	function removePlugin(pluginId: string) {
 		const pluginIndex = plugins.findIndex(({ id }) => id === pluginId)
 		const plugin = plugins[pluginIndex]
 		if (!plugin) {
@@ -54,7 +53,7 @@ export const usePluginStore = defineStore('plugin', () => {
 			return
 		}
 
-		const store = plugin.storeModule?.((this as PiniaSavedInstance)._instance)
+		const store = plugin.storeModule?.(mainStore._instance)
 		if (store) {
 			if (typeof store.teardownPlugin === 'function') {
 				store.teardownPlugin()
@@ -66,7 +65,6 @@ export const usePluginStore = defineStore('plugin', () => {
 	}
 
 	function getPluginStore<T extends PluginId>(
-		this: unknown,
 		id: T
 	): ReturnType<
 		T extends BundledPluginId
@@ -75,7 +73,7 @@ export const usePluginStore = defineStore('plugin', () => {
 	> | null {
 		const plugin = plugins.find((plugin) => plugin.id === id)
 		// @ts-expect-error | We trust that our internal IDs work.
-		return plugin?.storeModule?.((this as PiniaSavedInstance)._instance) || null
+		return plugin?.storeModule?.(mainStore._instance) || null
 	}
 
 	return {
