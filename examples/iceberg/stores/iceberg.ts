@@ -8,6 +8,7 @@ import { defineStore } from 'pinia'
 
 export const useIcebergStore = defineStore('iceberg', () => {
 	const mapConfiguration = reactive<MapConfiguration>({
+		checkServiceAvailability: true,
 		layers: [
 			{
 				id: '23420',
