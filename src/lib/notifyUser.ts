@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import { useCoreStore } from '@/core/stores/export'
-import { computedT } from '@/core/composables/computedT'
+import { computedT } from '@/lib/computedT'
 
 export function notifyUser(
 	severity: 'error' | 'warning' | 'info' | 'success',

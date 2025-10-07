@@ -1,13 +1,13 @@
 import { computed } from 'vue'
-import { useMainStore } from '../stores/main'
+import { useCoreStore } from '@/core/stores/export'
 
 export function computedT(translator: () => string) {
 	return computed(() => {
-		const mainStore = useMainStore()
+		const coreStore = useCoreStore()
 
 		// This reactive value needs to recompute on language changes.
 		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-		mainStore.language
+		coreStore.language
 
 		return translator()
 	})
