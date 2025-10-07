@@ -121,6 +121,7 @@ onMounted(() => {
 	updateClientDimensions()
 
 	// FIXME: Improve types for lightElement
+	// This is necessary for making `getStore` work
 	;(mainStore.lightElement as { store?: unknown }).store = useCoreStore()
 })
 
