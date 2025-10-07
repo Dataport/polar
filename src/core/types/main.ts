@@ -34,6 +34,28 @@ export interface PolarMapOptions {
 }
 
 /**
+ * Service register for use with `@masterportal/masterportalapi`.
+ *
+ * Whitelisted and confirmed parameters include:
+ * - WMS:      `id`, `name`, `url`, `typ`, `format`, `version`, `transparent`, `layers`, `styles`, `singleTile`
+ * - WFS:      `id`, `name`, `url`, `typ`,  `outputFormat`, `version`, `featureType`
+ * - WMTS:     `id`, `name`, `urls`, `typ`, `capabilitiesUrl`, `optionsFromCapabilities`, `tileMatrixSet`, `layers`,
+ *             `legendURL`, `format`, `coordinateSystem`, `origin`, `transparent`, `tileSize`, `minScale`, `maxScale`,
+ *             `requestEncoding`, `resLength`
+ * - OAF:      `id`, `name`, `url`, `typ`, `collection`, `crs`, `bboxCrs`
+ * - GeoJSON:  `id`, `name`, `url`, `typ`, `version`, `minScale`, `maxScale`, `legendURL`
+ *
+ * To load this from an URL, call {@link fetchServiceRegister}.
+ * You may also pass the URL directly to the `serviceRegister` parameter of {@link createMap}.
+ *
+ * An example for a predefined service register is [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
+ * Full documentation regarding the configuration can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+ * However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet,
+ * and no documentation regarding implemented properties exists there yet.
+ */
+export type MasterportalApiServiceRegister = Record<string, unknown>[]
+
+/**
  * The `<...masterportalapi.fields>` means that any \@masterportal/masterportalapi field may also be used here _directly_
  * in the {@link MapConfiguration | `mapConfiguration`}. The fields described here are fields that are interesting for
  * the usage of POLAR.

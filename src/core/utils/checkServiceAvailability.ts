@@ -1,13 +1,17 @@
 import { ping } from '@masterportal/masterportalapi'
 import { t } from 'i18next'
 import { computed } from 'vue'
-import type { MapConfiguration, ServiceAvailabilityCheck } from '../types'
+import type {
+	MapConfiguration,
+	MasterportalApiServiceRegister,
+	ServiceAvailabilityCheck,
+} from '../types'
 import { useMainStore } from '../stores/main'
 import { notifyUser } from '@/lib/notifyUser'
 
 export function checkServiceAvailability(
 	configuration: MapConfiguration,
-	register: Record<string, unknown>[]
+	register: MasterportalApiServiceRegister
 ) {
 	configuration.layers
 		.map(({ id }) => ({

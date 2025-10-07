@@ -18,6 +18,7 @@ import type {
 	BundledPluginId,
 	BundledPluginStores,
 	MapConfiguration,
+	MasterportalApiServiceRegister,
 	PluginContainer,
 	PluginId,
 	PolarPluginStore,
@@ -25,6 +26,7 @@ import type {
 
 import './monkeyHeaderLoader'
 import type { useCoreStore } from './stores/export'
+import { fetchServiceRegister } from './utils/fetchServiceRegister'
 
 /**
  * Calls `addPlugin` for each plugin in the array.
@@ -119,36 +121,57 @@ export function register() {
  *
  * Remember to always call `register` first.
  *
- * @remarks
- * Whitelisted and confirmed parameters for {@link serviceRegister} include:
- * - WMS:      `id`, `name`, `url`, `typ`, `format`, `version`, `transparent`, `layers`, `styles`, `singleTile`
- * - WFS:      `id`, `name`, `url`, `typ`,  `outputFormat`, `version`, `featureType`
- * - WMTS:     `id`, `name`, `urls`, `typ`, `capabilitiesUrl`, `optionsFromCapabilities`, `tileMatrixSet`, `layers`,
- *             `legendURL`, `format`, `coordinateSystem`, `origin`, `transparent`, `tileSize`, `minScale`, `maxScale`,
- *             `requestEncoding`, `resLength`
- * - OAF:      `id`, `name`, `url`, `typ`, `collection`, `crs`, `bboxCrs`
- * - GeoJSON:  `id`, `name`, `url`, `typ`, `version`, `minScale`, `maxScale`, `legendURL`
- *
  * @privateRemarks
  * In earlier versions of POLAR, this function did a lot of magic.
  * However, the magic moved to the custom element itself, therefore, you may create the element by yourself now.
  *
  * @param mapConfiguration - Configuration options.
- * @param serviceRegister - Service register given as an array.
- *                          To load this from an URL, pass the awaited promise returned by {@link fetchServiceRegister}.
- *                          An example for a predefined service register is [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
- *                          Full documentation regarding the configuration can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
- *                          However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet,
- *                          and no documentation regarding implemented properties exists there yet.
+ * @param serviceRegister - Service register.
  */
-export function createMap(
+export function createMapElement(
 	mapConfiguration: MapConfiguration,
-	serviceRegister: Record<string, unknown>[]
+	serviceRegister: MasterportalApiServiceRegister
 ) {
 	// @ts-expect-error | We trust that the element is registered
 	const map = document.createElement('polar-map') as typeof PolarContainer
 	map.mapConfiguration = mapConfiguration
 	map.serviceRegister = serviceRegister
+	return map
+}
+
+/**
+ * Creates an HTML map element with a given configuration and inserts this at a given ID.
+ *
+ * This is a convenience function that combines `register`, `createMap` and `fetchServiceRegister`.
+ *
+ * It inserts the map element by replacing the element with the given ID.
+ * The ID and the classes of the container are transferred to the map element.
+ *
+ * @param mapConfiguration - Configuration options.
+ * @param serviceRegister - Service register given as an array, or an URL to fetch this from.
+ */
+export async function createMap(
+	containerId: string,
+	mapConfiguration: MapConfiguration,
+	serviceRegister: MasterportalApiServiceRegister | string
+) {
+	if (!customElements.get('polar-map')) {
+		register()
+	}
+
+	if (typeof serviceRegister === 'string') {
+		serviceRegister = await fetchServiceRegister(serviceRegister)
+	}
+
+	const map = createMapElement(mapConfiguration, serviceRegister)
+
+	const container = document.getElementById(containerId)
+	if (!container) {
+		throw new Error(`Container with ID '${containerId}' not found`)
+	}
+	map.id = container.id
+	container.classList.forEach((c) => map.classList.add(c))
+	container.replaceWith(map as unknown as HTMLElement)
 	return map
 }
 

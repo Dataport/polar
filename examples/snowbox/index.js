@@ -1,9 +1,8 @@
 import {
 	addPlugin,
 	createMap,
-	fetchServiceRegister,
+	createMapElement,
 	getStore,
-	register,
 	subscribe,
 	updateState,
 } from '@polar/polar'
@@ -66,8 +65,8 @@ const isReportSelectable = (feature) =>
 		)
 */
 
-await register()
-const map = createMap(
+const map = await createMap(
+	'snowbox',
 	{
 		layers: [
 			{
@@ -143,16 +142,11 @@ const map = createMap(
 			},
 		],
 	},
-	await fetchServiceRegister(
-		'https://geodienste.hamburg.de/services-internet.json'
-	)
+	'https://geodienste.hamburg.de/services-internet.json'
 )
-map.id = 'snowbox'
-map.classList.add('snowbox')
-document.getElementById('snowbox').replaceWith(map)
 
 document.getElementById('secondMap').addEventListener('click', async () => {
-	const secondMap = await createMap(
+	const secondMap = await createMapElement(
 		{
 			layers: [
 				{
@@ -163,8 +157,7 @@ document.getElementById('secondMap').addEventListener('click', async () => {
 				},
 			],
 		},
-		'https://geodienste.hamburg.de/services-internet.json',
-		'dataport-map'
+		'https://geodienste.hamburg.de/services-internet.json'
 	)
 	secondMap.classList.add('snowbox')
 	document.getElementById('secondMapContainer').appendChild(secondMap)

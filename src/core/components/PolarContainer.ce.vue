@@ -20,7 +20,7 @@ import { useMainStore } from '../stores/main'
 import { loadKern } from '../utils/loadKern'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import defaults from '../utils/defaults'
-import type { MapConfiguration } from '../types'
+import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
 import { useCoreStore } from '../stores/export'
 import PolarUI from './PolarUI.ce.vue'
 import PolarMap from './PolarMap.ce.vue'
@@ -31,7 +31,7 @@ defineOptions({
 
 const props = defineProps<{
 	mapConfiguration: MapConfiguration
-	serviceRegister: Record<string, unknown>[]
+	serviceRegister: MasterportalApiServiceRegister
 }>()
 
 defineExpose<{

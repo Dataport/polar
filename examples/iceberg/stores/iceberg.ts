@@ -1,5 +1,9 @@
 import { ref, reactive, watch } from 'vue'
-import { fetchServiceRegister, type MapConfiguration } from '@polar/polar'
+import {
+	fetchServiceRegister,
+	type MapConfiguration,
+	type MasterportalApiServiceRegister,
+} from '@polar/polar'
 import { defineStore } from 'pinia'
 
 export const useIcebergStore = defineStore('iceberg', () => {
@@ -24,7 +28,7 @@ export const useIcebergStore = defineStore('iceberg', () => {
 		'https://geodienste.hamburg.de/services-internet.json'
 	)
 
-	const serviceRegister = ref<Record<string, unknown>[]>([])
+	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	watch(
 		serviceRegisterUrl,
 		async (url) => {

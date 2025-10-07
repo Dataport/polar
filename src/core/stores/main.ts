@@ -3,7 +3,7 @@ import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
-import type { MapConfiguration } from '../types'
+import type { MasterportalApiServiceRegister, MapConfiguration } from '../types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addInterceptor } from '../utils/addInterceptor'
 
@@ -15,7 +15,7 @@ export const useMainStore = defineStore('main', () => {
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)
-	const serviceRegister = ref<Record<string, unknown>[]>([])
+	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
 	const zoom = ref(0)
 
