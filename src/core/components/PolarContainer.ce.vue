@@ -41,44 +41,33 @@ defineExpose<{
 const mainStore = useMainStore()
 const { language } = storeToRefs(mainStore)
 
-watch(
-	() => props.mapConfiguration,
-	(mapConfiguration) => {
-		mainStore.configuration = mapZoomOffset({
-			...defaults,
-			...mapConfiguration,
+mainStore.configuration = mapZoomOffset({
+	...defaults,
+	...props.mapConfiguration,
+})
+
+if (mainStore.configuration.oidcToken) {
+	// copied to a separate spot for usage as it's changeable data at run-time
+	mainStore.oidcToken = mainStore.configuration.oidcToken
+}
+
+if (mainStore.configuration.locales) {
+	mainStore.configuration.locales.forEach((locale) => {
+		Object.entries(locale.resources).forEach(([ns, resources]) => {
+			i18next.addResourceBundle(locale.type, ns, resources, true, true)
 		})
+	})
+}
 
-		if (mainStore.configuration.oidcToken) {
-			// copied to a separate spot for usage as it's changeable data at run-time
-			mainStore.oidcToken = mainStore.configuration.oidcToken
-		}
+if (mainStore.configuration.language) {
+	i18next
+		.changeLanguage(mainStore.configuration.language)
+		.catch((error: unknown) => {
+			console.error('Failed to set initial language:', error)
+		})
+}
 
-		if (mainStore.configuration.locales) {
-			mainStore.configuration.locales.forEach((locale) => {
-				Object.entries(locale.resources).forEach(([ns, resources]) => {
-					i18next.addResourceBundle(locale.type, ns, resources, true, true)
-				})
-			})
-		}
-		if (mainStore.configuration.language) {
-			i18next
-				.changeLanguage(mainStore.configuration.language)
-				.catch((error: unknown) => {
-					console.error('Failed to set initial language:', error)
-				})
-		}
-	},
-	{ immediate: true, deep: true }
-)
-
-watch(
-	() => props.serviceRegister,
-	(serviceRegister) => {
-		mainStore.serviceRegister = serviceRegister
-	},
-	{ immediate: true, deep: true }
-)
+mainStore.serviceRegister = props.serviceRegister
 
 mainStore.language = i18next.language
 i18next.on('languageChanged', (newLanguage) => {
