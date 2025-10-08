@@ -1,39 +1,17 @@
-import type { ResourceKey } from 'i18next'
 import type { VueElement } from 'vue'
 import type { MarkerConfiguration } from './marker'
 import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
+import type { LocaleOverride } from './locales'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { ToastPluginOptions } from '@/plugins/toast'
-
-/**
- * Copied from https://stackoverflow.com/a/54178819.
- *
- * Makes the properties defined by type `K` optional in type `T`.
- *
- * @example `PartialBy<LayerConfiguration, 'id' | 'name'>`
- */
-export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
-
-export interface Locale {
-	resources: Record<string, ResourceKey>
-
-	/** Language key as described in the i18next documentation. */
-	type: string
-}
 
 export interface ServiceAvailabilityCheck {
 	ping: Promise<number>
 	serviceId: string
 	serviceName: string
 }
-
-/**
- *
- * Map-Config
- *
- */
 
 export type InitialLanguage = 'de' | 'en'
 
@@ -54,6 +32,28 @@ export interface PolarMapOptions {
 	 */
 	zoomLevel: number
 }
+
+/**
+ * Service register for use with `@masterportal/masterportalapi`.
+ *
+ * Whitelisted and confirmed parameters include:
+ * - WMS:      `id`, `name`, `url`, `typ`, `format`, `version`, `transparent`, `layers`, `styles`, `singleTile`
+ * - WFS:      `id`, `name`, `url`, `typ`,  `outputFormat`, `version`, `featureType`
+ * - WMTS:     `id`, `name`, `urls`, `typ`, `capabilitiesUrl`, `optionsFromCapabilities`, `tileMatrixSet`, `layers`,
+ *             `legendURL`, `format`, `coordinateSystem`, `origin`, `transparent`, `tileSize`, `minScale`, `maxScale`,
+ *             `requestEncoding`, `resLength`
+ * - OAF:      `id`, `name`, `url`, `typ`, `collection`, `crs`, `bboxCrs`
+ * - GeoJSON:  `id`, `name`, `url`, `typ`, `version`, `minScale`, `maxScale`, `legendURL`
+ *
+ * To load this from an URL, call {@link fetchServiceRegister}.
+ * You may also pass the URL directly to the `serviceRegister` parameter of {@link createMap}.
+ *
+ * An example for a predefined service register is [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
+ * Full documentation regarding the configuration can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+ * However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet,
+ * and no documentation regarding implemented properties exists there yet.
+ */
+export type MasterportalApiServiceRegister = Record<string, unknown>[]
 
 /**
  * The `<...masterportalapi.fields>` means that any \@masterportal/masterportalapi field may also be used here _directly_
@@ -239,7 +239,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * When reading the locale tables, please mind that the dot notation (`a.b.c | value`) has to be written as separate
 	 * keys in nested objects as seen in the example above (`{a: {b: {c: "value"}}}`).
 	 */
-	locales?: Locale[]
+	locales?: LocaleOverride[]
 
 	/**
 	 * If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively.

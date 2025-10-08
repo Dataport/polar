@@ -82,6 +82,17 @@ const polarVueConfig = {
 	},
 }
 
+const polarHtmlConfig = {
+	rules: {
+		// POLAR-specific rules
+		'@html-eslint/require-closing-tags': ['error', { selfClosing: 'always' }],
+		'@html-eslint/no-extra-spacing-attrs': [
+			'error',
+			{ enforceBeforeSelfClose: true },
+		],
+	},
+}
+
 export default defineConfig([
 	{
 		ignores: [
@@ -131,6 +142,12 @@ export default defineConfig([
 		],
 	},
 	{
+		files: ['**/examples/**/*.vue'],
+		rules: {
+			'vue/enforce-style-attribute': ['error', { allow: ['scoped', 'module'] }],
+		},
+	},
+	{
 		files: ['**/*.json'],
 		ignores: ['package-lock.json'],
 		extends: [jsonConfig],
@@ -141,6 +158,6 @@ export default defineConfig([
 	},
 	{
 		files: ['**/*.html'],
-		extends: [htmlConfig],
+		extends: [htmlConfig, polarHtmlConfig],
 	},
 ])

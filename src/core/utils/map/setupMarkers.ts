@@ -7,12 +7,13 @@ import RenderFeature from 'ol/render/Feature'
 import Cluster from 'ol/source/Cluster'
 import VectorSource from 'ol/source/Vector'
 import { watch, markRaw, toRaw } from 'vue'
-import type { MarkerLayer, MarkerStyle } from '../../types'
+import type { MarkerLayer, MarkerStyle, PluginId } from '../../types'
 import { getMarkerStyle } from '../../utils/markers'
 import { useMainStore } from '../../stores/main'
 import { isVisible } from '@/lib/invisibleStyle'
 import getCluster from '@/lib/getCluster'
 import { useMarkerStore } from '@/core/stores/marker'
+import { usePluginStore } from '@/core/stores/plugin'
 
 // these have been measured to fit once and influence marker size
 const imgSize: [number, number] = [26, 36]
@@ -324,17 +325,11 @@ function mapClick(event: MapBrowserEvent<MouseEvent | TouchEvent>) {
 			return
 		}
 
-		const plugin = mainStore.plugins.find(({ id }) => id === pluginName)
-		if (!plugin) {
-			console.error(
-				`Plugin ${pluginName} does not exist or is not configured. Action ${action} could not be called.`
-			)
-			return
-		}
-		const pluginStore = plugin.storeModule?.()
+		const pluginListStore = usePluginStore()
+		const pluginStore = pluginListStore.getPluginStore(pluginName as PluginId)
 		if (!pluginStore) {
 			console.error(
-				`Plugin ${pluginName} does not have a store module. Action ${action} could not be called.`
+				`Plugin ${pluginName} does not exist or is not configured or has no store module. Action ${action} could not be called.`
 			)
 			return
 		}

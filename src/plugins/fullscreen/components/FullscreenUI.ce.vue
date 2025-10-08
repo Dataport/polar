@@ -13,7 +13,7 @@
 			aria-hidden="true"
 		/>
 		<span class="kern-label kern-sr-only">{{
-			$t('button.label', {
+			$t(($) => $.button.label, {
 				ns: PluginId,
 				context: fullscreenEnabled ? 'off' : 'on',
 			})
