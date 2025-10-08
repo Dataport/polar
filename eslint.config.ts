@@ -9,7 +9,10 @@ import htmlConfig from '@dataport/eslint-config-geodev/html'
 import prettierConfig from 'eslint-plugin-prettier/recommended'
 import perfectionist from 'eslint-plugin-perfectionist'
 
-const polarConfig = {
+/**
+ * POLAR-specific ESLint configuration
+ */
+const polarConfig = defineConfig({
 	plugins: {
 		perfectionist,
 	},
@@ -23,9 +26,12 @@ const polarConfig = {
 		'no-warning-comments': 'warn',
 		'no-void': 'off',
 	},
-}
+})
 
-const polarTsConfig = {
+/**
+ * POLAR-specific TypeScript ESLint configuration
+ */
+const polarTsConfig = defineConfig({
 	rules: {
 		// Relaxed rules
 		'@typescript-eslint/no-unsafe-argument': 'off',
@@ -50,9 +56,12 @@ const polarTsConfig = {
 			},
 		],
 	},
-}
+})
 
-const polarVueConfig = {
+/**
+ * POLAR-specific Vue ESLint configuration
+ */
+const polarVueConfig = defineConfig({
 	rules: {
 		// POLAR-specific rules
 		'vue/no-empty-component-block': 'error',
@@ -80,9 +89,12 @@ const polarVueConfig = {
 		'vue/require-default-export': 'error',
 		'vue/enforce-style-attribute': ['error', { allow: ['scoped'] }],
 	},
-}
+})
 
-const polarHtmlConfig = {
+/**
+ * POLAR-specific HTML ESLint configuration
+ */
+const polarHtmlConfig = defineConfig({
 	rules: {
 		// POLAR-specific rules
 		'@html-eslint/require-closing-tags': ['error', { selfClosing: 'always' }],
@@ -91,7 +103,7 @@ const polarHtmlConfig = {
 			{ enforceBeforeSelfClose: true },
 		],
 	},
-}
+})
 
 export default defineConfig([
 	{
@@ -127,6 +139,12 @@ export default defineConfig([
 			polarConfig,
 			polarTsConfig,
 		],
+	},
+	{
+		files: ['**/eslint.config.ts'],
+		rules: {
+			'@typescript-eslint/naming-convention': 'off',
+		},
 	},
 	{
 		files: ['**/*.vue'],
