@@ -13,7 +13,6 @@
 			:root {
 				--not-quite-white: #f2f3f4;
 				--eigengrau: #16161d;
-				--map-height: 600px;
 			}
 
 			* {
@@ -39,21 +38,6 @@
 
 			p {
 				margin: 0.2em 0;
-			}
-
-			/* directly related to POLAR - something like this must be
-			 * available for map client to render in (see core docs for
-			 * more details on requirements) */
-			.snowbox {
-				display: block;
-				width: 100vw;
-				max-width: calc(100% + 64px);
-				height: var(--map-height);
-				position: relative;
-				margin-top: 10px;
-				margin-bottom: 10px;
-				left: -32px;
-				outline: solid var(--eigengrau);
 			}
 
 			#language-switcher {
