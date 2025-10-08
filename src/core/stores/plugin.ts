@@ -40,6 +40,7 @@ export const usePluginStore = defineStore('plugin', () => {
 
 		plugins.push({
 			...plugin,
+			// This is added for consistency. However, the options should be accessed via configuration.
 			options: pluginConfiguration,
 			...(plugin.component ? { component: markRaw(plugin.component) } : {}),
 		})
