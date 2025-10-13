@@ -1,9 +1,12 @@
 <template>
 	<PolarIconButton
 		:class="layout === 'standard' ? 'polar-plugin-fullscreen-standard' : ''"
-		hint="button.label"
-		:hint-options="{ context: fullscreenEnabled ? 'off' : 'on' }"
-		:hint-namespace="PluginId"
+		:hint="
+			$t(($) => $.button.label, {
+				ns: PluginId,
+				context: fullscreenEnabled ? 'off' : 'on',
+			})
+		"
 		:icon="
 			fullscreenEnabled ? 'kern-icon--fullscreen-exit' : 'kern-icon--fullscreen'
 		"

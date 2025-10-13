@@ -107,11 +107,19 @@ function toggle(index: number) {
 			}
 
 			.polar-plugin-icon-menu-button-active {
-				background: oklch(var(--theme-action-default) / 0.12);
+				background: color-mix(
+					in oklch,
+					var(--kern-color-action-default) 12%,
+					transparent
+				);
 
 				&:focus,
 				&:hover {
-					background: oklch(var(--theme-action-default) / 0.12);
+					background: color-mix(
+						in oklch,
+						var(--kern-color-action-default) 12%,
+						transparent
+					);
 				}
 			}
 		}

@@ -1,9 +1,9 @@
 import type { Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
-import type { MapConfiguration, PluginContainer } from '../types'
+import type { MasterportalApiServiceRegister, MapConfiguration } from '../types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addInterceptor } from '../utils/addInterceptor'
 
@@ -15,8 +15,7 @@ export const useMainStore = defineStore('main', () => {
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)
-	const plugins = ref<PluginContainer[]>([])
-	const serviceRegister = ref<string | Record<string, unknown>[]>('')
+	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
 	const zoom = ref(0)
 
@@ -82,7 +81,6 @@ export const useMainStore = defineStore('main', () => {
 		lightElement,
 		map,
 		oidcToken,
-		plugins,
 		serviceRegister,
 		shadowRoot,
 		center,
@@ -100,3 +98,7 @@ export const useMainStore = defineStore('main', () => {
 		teardown,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useMainStore, import.meta.hot))
+}

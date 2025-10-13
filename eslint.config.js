@@ -5,6 +5,7 @@ import tsConfig from '@dataport/eslint-config-geodev/typescript'
 import vueConfig from '@dataport/eslint-config-geodev/vue'
 import jsonConfig from '@dataport/eslint-config-geodev/json'
 import markdownConfig from '@dataport/eslint-config-geodev/markdown'
+import htmlConfig from '@dataport/eslint-config-geodev/html'
 import prettierConfig from 'eslint-plugin-prettier/recommended'
 import perfectionist from 'eslint-plugin-perfectionist'
 
@@ -20,6 +21,7 @@ const polarConfig = {
 
 		// POLAR-specific rules
 		'no-warning-comments': 'warn',
+		'no-void': 'off',
 	},
 }
 
@@ -80,6 +82,17 @@ const polarVueConfig = {
 	},
 }
 
+const polarHtmlConfig = {
+	rules: {
+		// POLAR-specific rules
+		'@html-eslint/require-closing-tags': ['error', { selfClosing: 'always' }],
+		'@html-eslint/no-extra-spacing-attrs': [
+			'error',
+			{ enforceBeforeSelfClose: true },
+		],
+	},
+}
+
 export default defineConfig([
 	{
 		ignores: [
@@ -129,6 +142,12 @@ export default defineConfig([
 		],
 	},
 	{
+		files: ['**/examples/**/*.vue'],
+		rules: {
+			'vue/enforce-style-attribute': ['error', { allow: ['scoped', 'module'] }],
+		},
+	},
+	{
 		files: ['**/*.json'],
 		ignores: ['package-lock.json'],
 		extends: [jsonConfig],
@@ -136,5 +155,9 @@ export default defineConfig([
 	{
 		files: ['**/*.md'],
 		extends: [markdownConfig],
+	},
+	{
+		files: ['**/*.html'],
+		extends: [htmlConfig, polarHtmlConfig],
 	},
 ])

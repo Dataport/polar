@@ -23,7 +23,11 @@
 				<NineRegionsButton
 					v-else
 					:icon="icon"
-					:hint="hint ? hint : `hints.${plugin.id}`"
+					:hint="
+						$t(hint ?? (($) => $.hints[plugin.id]), {
+							ns: 'iconMenu',
+						})
+					"
 					:index="index"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->

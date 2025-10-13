@@ -13,18 +13,75 @@ import {
 	useHost,
 	useShadowRoot,
 	useTemplateRef,
+	watch,
 } from 'vue'
+import i18next from 'i18next'
 import { useMainStore } from '../stores/main'
 import { loadKern } from '../utils/loadKern'
-import PolarMap from './PolarMap.ce.vue'
+import { mapZoomOffset } from '../utils/mapZoomOffset'
+import defaults from '../utils/defaults'
+import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
+import { useCoreStore } from '../stores/export'
 import PolarUI from './PolarUI.ce.vue'
+import PolarMap from './PolarMap.ce.vue'
 
 defineOptions({
 	inheritAttrs: false,
 })
 
+const props = defineProps<{
+	mapConfiguration: MapConfiguration
+	serviceRegister: MasterportalApiServiceRegister
+}>()
+
+defineExpose<{
+	store: ReturnType<typeof useCoreStore>
+}>()
+
 const mainStore = useMainStore()
 const { language } = storeToRefs(mainStore)
+
+mainStore.configuration = mapZoomOffset({
+	...defaults,
+	...props.mapConfiguration,
+})
+
+if (mainStore.configuration.oidcToken) {
+	// copied to a separate spot for usage as it's changeable data at run-time
+	mainStore.oidcToken = mainStore.configuration.oidcToken
+}
+
+if (mainStore.configuration.locales) {
+	mainStore.configuration.locales.forEach((locale) => {
+		Object.entries(locale.resources).forEach(([ns, resources]) => {
+			i18next.addResourceBundle(locale.type, ns, resources, true, true)
+		})
+	})
+}
+
+if (mainStore.configuration.language) {
+	i18next
+		.changeLanguage(mainStore.configuration.language)
+		.catch((error: unknown) => {
+			console.error('Failed to set initial language:', error)
+		})
+}
+
+mainStore.serviceRegister = props.serviceRegister
+
+mainStore.language = i18next.language
+i18next.on('languageChanged', (newLanguage) => {
+	mainStore.language = newLanguage
+})
+watch(
+	() => mainStore.language,
+	async (newLanguage) => {
+		if (i18next.language === newLanguage) {
+			return
+		}
+		await i18next.changeLanguage(newLanguage)
+	}
+)
 
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
@@ -49,6 +106,10 @@ onMounted(() => {
 	resizeObserver = new ResizeObserver(updateClientDimensions)
 	resizeObserver.observe(polarWrapper.value as Element)
 	updateClientDimensions()
+
+	// FIXME: Improve types for lightElement
+	// This is necessary for making `getStore` work
+	;(mainStore.lightElement as { store?: unknown }).store = useCoreStore()
 })
 
 onBeforeUnmount(() => {

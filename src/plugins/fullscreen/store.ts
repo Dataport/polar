@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Reactive } from 'vue'
 import { PluginId, type FullscreenPluginOptions } from './types'
@@ -215,4 +215,8 @@ if (import.meta.vitest) {
 			delete jsdom.window.document.webkitExitFullscreen
 		}
 	)
+}
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useFullscreenStore, import.meta.hot))
 }
