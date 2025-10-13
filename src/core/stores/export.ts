@@ -58,6 +58,7 @@ export const useCoreStore = defineStore('core', () => {
 		 * @readonly
 		 */
 		hasSmallDisplay: computed(() => mainStore.hasSmallDisplay),
+
 		/**
 		 * Whether the height of the map is smaller than 480px.
 		 *
