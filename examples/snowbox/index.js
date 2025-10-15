@@ -140,6 +140,12 @@ const map = await createMap(
 							label_off: 'Mach klein',
 						},
 					},
+					iconMenu: {
+						hints: {
+							attributions: 'LMAO',
+							fullscreen: 'BEEEEEG YOSHEEEEE',
+						},
+					},
 				},
 			},
 		],
@@ -191,11 +197,10 @@ addPlugin(
 			{
 				plugin: {
 					component: YetAnotherEmptyComponent,
-					id: 'awesome',
+					id: 'attributions',
 					locales: [],
 				},
 				icon: 'kern-icon--near-me',
-				hint: 'Something awesome',
 			},
 		],
 		menus: [
@@ -217,7 +222,6 @@ addPlugin(
 						locales: [],
 					},
 					icon: 'kern-icon--share',
-					hint: 'Something kewl',
 				},
 			],
 			[
@@ -228,11 +232,9 @@ addPlugin(
 						locales: [],
 					},
 					icon: 'kern-icon-fill--layers',
-					hint: 'Something layered',
 				},
 				{
 					plugin: pluginFullscreen({}),
-					hint: 'BEEEEEG YOSHEEEEE',
 				},
 			],
 		],

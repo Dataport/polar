@@ -1,7 +1,7 @@
 <template>
 	<ul class="polar-plugin-icon-menu-list">
 		<li
-			v-for="({ buttonClass, hint, icon, plugin }, index) of menus"
+			v-for="({ buttonClass, icon, plugin }, index) of menus"
 			:key="index"
 			class="polar-plugin-icon-menu-list-item"
 		>
@@ -10,7 +10,7 @@
 				<PolarIconButton
 					:class="buttonClass"
 					:hint="
-						$t(hint ?? (($) => $.hints[plugin.id]), {
+						$t(($) => $.hints[plugin.id], {
 							ns: 'iconMenu',
 						})
 					"

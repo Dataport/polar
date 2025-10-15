@@ -20,7 +20,7 @@
 				>
 					<span class="kern-icon" :class="icon" aria-hidden="true" />
 					<span class="kern-label">
-						{{ t(hint ?? `hints.${plugin.id}`, { ns: 'iconMenu' }) }}
+						{{ t(($) => $.hints[plugin.id], { ns: 'iconMenu' }) }}
 					</span>
 				</button>
 			</li>

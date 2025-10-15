@@ -11,12 +11,6 @@ export interface Menu {
 	plugin: PluginContainer
 
 	/**
-	 * Overrides the default hint displayed for the icon menu button.
-	 * If not given, the locale in `hints.${id}` is used.
-	 */
-	hint?: string
-
-	/**
 	 * Icon for icon menu button. If given, render a button with the icon. When clicked, open the content of the
 	 * configured plugin. If not given, render the plugin content as is inside the IconMenu.
 	 *
