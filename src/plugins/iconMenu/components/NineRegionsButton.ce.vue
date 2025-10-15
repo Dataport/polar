@@ -2,7 +2,6 @@
 	<PolarIconButton
 		:active="active"
 		:hint="hint"
-		hint-namespace="iconMenu"
 		:icon="icon"
 		tooltip-position="left"
 		@click="toggle"

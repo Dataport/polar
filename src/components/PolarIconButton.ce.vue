@@ -8,31 +8,26 @@
 			:class="{ [icon]: true, 'polar-icon-button-icon-active': active }"
 			aria-hidden="true"
 		/>
-		<span class="kern-label kern-sr-only">
-			{{ t(hint, { ns: hintNamespace, ...hintOptions }) }}
-		</span>
+		<span class="kern-label kern-sr-only">{{ hint }}</span>
 		<span
 			v-if="tooltipPosition && !hasSmallDisplay"
 			class="polar-tooltip"
 			:class="`polar-tooltip-${tooltipPosition}`"
 			aria-hidden="true"
 		>
-			{{ t(hint, { ns: hintNamespace, ...hintOptions }) }}
+			{{ hint }}
 		</span>
 	</button>
 </template>
 
 <script setup lang="ts">
-import { t, type TOptions } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { useCoreStore } from '@/core/stores/export'
 
 defineProps<{
 	hint: string
-	hintNamespace: string
 	icon: string
 	active?: boolean
-	hintOptions?: TOptions
 	tooltipPosition?: 'left' | 'right'
 }>()
 const { hasSmallDisplay } = storeToRefs(useCoreStore())

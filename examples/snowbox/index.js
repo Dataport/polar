@@ -1,14 +1,16 @@
-import { changeLanguage } from 'i18next'
-import { addPlugin, createMap, subscribe } from '@polar/polar'
-
+import {
+	addPlugin,
+	createMap,
+	createMapElement,
+	getStore,
+	subscribe,
+	updateState,
+} from '@polar/polar'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
-import { useLoadingIndicatorStore } from '@polar/polar/plugins/loadingIndicator/store'
 import pluginToast from '@polar/polar/plugins/toast'
-import { useToastStore } from '@polar/polar/plugins/toast/store'
-
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
 import services from './services.js'
@@ -68,7 +70,8 @@ const isReportSelectable = (feature) =>
 		)
 */
 
-await createMap(
+const map = await createMap(
+	'snowbox',
 	{
 		layers: [
 			// TODO: Add internalization to snowbox
@@ -164,6 +167,12 @@ await createMap(
 							label_off: 'Mach klein',
 						},
 					},
+					iconMenu: {
+						hints: {
+							attributions: 'LMAO',
+							fullscreen: 'BEEEEEG YOSHEEEEE',
+						},
+					},
 				},
 			},
 		],
@@ -171,42 +180,48 @@ await createMap(
 	services
 )
 
-await createMap(
-	{
-		layers: [
-			{
-				id: basemapId,
-				visibility: true,
-				type: 'background',
-				name: 'snowbox.layers.basemap',
-			},
-		],
-	},
-	services,
-	'dataport-map'
-)
-
-document.getElementById('secondMap').addEventListener('click', () => {
-	const secondMap = document.createElement('dataport-map')
+document.getElementById('secondMap').addEventListener('click', async () => {
+	const secondMap = await createMapElement(
+		{
+			layers: [
+				{
+					id: basemapId,
+					visibility: true,
+					type: 'background',
+					name: 'snowbox.layers.basemap',
+				},
+			],
+		},
+		'https://geodienste.hamburg.de/services-internet.json'
+	)
 	secondMap.classList.add('snowbox')
 	document.getElementById('secondMapContainer').appendChild(secondMap)
+	addPlugin(
+		secondMap,
+		pluginFullscreen({
+			layoutTag: 'TOP_RIGHT',
+		})
+	)
 })
 document.getElementById('secondMapClean').addEventListener('click', () => {
 	document.getElementById('secondMapContainer').innerText = ''
 })
 
 addPlugin(
+	map,
 	pluginToast({
 		displayComponent: true,
 		layoutTag: 'BOTTOM_MIDDLE',
 	})
 )
 addPlugin(
+	map,
 	pluginLoadingIndicator({
 		loaderStyle: 'BasicLoader',
 	})
 )
 addPlugin(
+	map,
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
@@ -215,11 +230,10 @@ addPlugin(
 			{
 				plugin: {
 					component: YetAnotherEmptyComponent,
-					id: 'awesome',
+					id: 'attributions',
 					locales: [],
 				},
 				icon: 'kern-icon--near-me',
-				hint: 'Something awesome',
 			},
 		],
 		menus: [
@@ -241,7 +255,6 @@ addPlugin(
 						locales: [],
 					},
 					icon: 'kern-icon--share',
-					hint: 'Something kewl',
 				},
 			],
 			[
@@ -251,14 +264,13 @@ addPlugin(
 				},
 				{
 					plugin: pluginFullscreen({}),
-					hint: 'BEEEEEG YOSHEEEEE',
 				},
 			],
 		],
 	})
 )
 
-const toastStore = useToastStore()
+const toastStore = getStore(map, 'toast')
 toastStore.addToast({
 	text: 'Hallo Welt',
 	severity: 'info',
@@ -268,12 +280,13 @@ toastStore.addToast({
 	severity: 'error',
 })
 
-const loadingIndicatorStore = useLoadingIndicatorStore()
+const loadingIndicatorStore = getStore(map, 'loadingIndicator')
 loadingIndicatorStore.addLoadingKey('loadingTest')
 setTimeout(() => loadingIndicatorStore.removeLoadingKey('loadingTest'), 2000)
 
 subscribe(
-	'markers',
+	map,
+	'core',
 	'selectedCoordinates',
 	(coordinates) =>
 		(document.getElementById('selected-feature-coordinates').innerText =
@@ -288,8 +301,7 @@ document
 	.addEventListener('change', (event) => {
 		const target = event.target
 		const { value } = target
-		changeLanguage(value).then(() => {
-			target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
-			target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
-		})
+		updateState(map, 'core', 'language', value)
+		target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
+		target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
 	})

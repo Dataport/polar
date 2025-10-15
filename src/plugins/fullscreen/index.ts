@@ -16,7 +16,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
  * @returns Plugin for use with {@link addPlugin}
  */
 export default function pluginFullscreen(
-	options: FullscreenPluginOptions
+	options: FullscreenPluginOptions = {}
 ): PluginContainer {
 	return {
 		id: PluginId,
