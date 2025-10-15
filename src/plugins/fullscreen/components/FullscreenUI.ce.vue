@@ -1,29 +1,33 @@
 <template>
-	<button
-		class="kern-btn kern-btn--primary"
-		@click="fullscreenEnabled = !fullscreenEnabled"
-	>
-		<span
-			:class="[
-				'kern-icon',
-				fullscreenEnabled
-					? 'kern-icon--fullscreen-exit'
-					: 'kern-icon--fullscreen',
-			]"
-			aria-hidden="true"
-		/>
-		<span class="kern-label kern-sr-only">{{
+	<PolarIconButton
+		:class="layout === 'standard' ? 'polar-plugin-fullscreen-standard' : ''"
+		:hint="
 			$t(($) => $.button.label, {
 				ns: PluginId,
 				context: fullscreenEnabled ? 'off' : 'on',
 			})
-		}}</span>
-	</button>
+		"
+		:icon="
+			fullscreenEnabled ? 'kern-icon--fullscreen-exit' : 'kern-icon--fullscreen'
+		"
+		tooltip-position="left"
+		@click="() => (fullscreenEnabled = !fullscreenEnabled)"
+	/>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'
+import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import { useCoreStore } from '@/core/stores/export.ts'
+
+const { layout } = storeToRefs(useCoreStore())
 const { fullscreenEnabled } = storeToRefs(useFullscreenStore())
 </script>
+
+<style scoped>
+.polar-icon-button.polar-plugin-fullscreen-standard {
+	box-shadow: none;
+}
+</style>

@@ -13,6 +13,9 @@ const test = _test.extend<{
 	store: ReturnType<typeof useFullscreenStore>
 }>({
 	wrapper: async ({}, use) => {
+		vi.mock('i18next', () => ({
+			t: (key, { ns, context }) => `$t(${ns}:${key}_${context})`,
+		}))
 		const wrapper = mount(FullscreenUI, {
 			global: {
 				plugins: [createTestingPinia({ createSpy: vi.fn })],

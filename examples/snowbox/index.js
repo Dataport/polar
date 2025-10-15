@@ -12,6 +12,8 @@ import pluginToast from '@polar/polar/plugins/toast'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
 import AnotherEmptyComponent from './AnotherEmptyComponent.vue'
+import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
+import GeoLocationMockCe from './GeoLocationMock.ce.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -95,7 +97,7 @@ const map = await createMap(
 				visibility: true,
 			},
 		],
-		layout: 'nineRegions',
+		layout: 'standard',
 		checkServiceAvailability: true,
 		featureStyles: styleJsonUrl,
 		markers: {
@@ -138,6 +140,12 @@ const map = await createMap(
 							label_off: 'Mach klein',
 						},
 					},
+					iconMenu: {
+						hints: {
+							attributions: 'LMAO',
+							fullscreen: 'BEEEEEG YOSHEEEEE',
+						},
+					},
 				},
 			},
 		],
@@ -174,43 +182,62 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 
 addPlugin(
 	map,
+	pluginToast({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_MIDDLE',
+	})
+)
+addPlugin(
+	map,
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
 		initiallyOpen: 'kewl',
-		menus: [
-			{
-				plugin: pluginFullscreen(),
-				hint: 'Full of yourself',
-			},
-			// TODO: Delete these two including the component once another plugin is implemented
+		focusMenus: [
 			{
 				plugin: {
-					component: EmptyComponent,
-					id: 'kewl',
+					component: YetAnotherEmptyComponent,
+					id: 'attributions',
 					locales: [],
 				},
-				icon: 'kern-icon-fill--layers',
-				hint: 'Something layered',
-			},
-			{
-				plugin: {
-					component: AnotherEmptyComponent,
-					id: 'realKewl',
-					locales: [],
-				},
-				icon: 'kern-icon--layers',
-				hint: 'Something kewl',
+				icon: 'kern-icon--near-me',
 			},
 		],
-	})
-)
-
-addPlugin(
-	map,
-	pluginToast({
-		displayComponent: true,
-		layoutTag: 'BOTTOM_MIDDLE',
+		menus: [
+			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
+			[
+				{
+					plugin: {
+						component: GeoLocationMockCe,
+						id: 'geoLocationMock',
+						locales: [],
+					},
+				},
+			],
+			[
+				{
+					plugin: {
+						component: AnotherEmptyComponent,
+						id: 'realKewl',
+						locales: [],
+					},
+					icon: 'kern-icon--share',
+				},
+			],
+			[
+				{
+					plugin: {
+						component: EmptyComponent,
+						id: 'kewl',
+						locales: [],
+					},
+					icon: 'kern-icon-fill--layers',
+				},
+				{
+					plugin: pluginFullscreen({}),
+				},
+			],
+		],
 	})
 )
 
