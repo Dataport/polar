@@ -4,6 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import { t } from 'i18next'
 import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
@@ -142,11 +143,10 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 				}
 				open.value = -1
 			},
-			closeLabel: 'mobileCloseButton',
-			closeLabelOptions: {
+			closeLabel: t(($) => $.mobileCloseButton, {
 				ns: 'iconMenu',
-				plugin: menu.hint || `plugins.iconMenu.hints.${menu.plugin.id}`,
-			},
+				plugin: t(($) => $.hints[menu.plugin.id], { ns: 'iconMenu' }),
+			}),
 			component: menu.plugin.component,
 			plugin: 'iconMenu',
 		})
