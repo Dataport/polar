@@ -28,20 +28,6 @@ import { Coordinate } from 'ol/coordinate'
 
 export type RenderType = 'iconMenu' | 'independent' | 'footer'
 
-export type LoaderStyles =
-	| 'CircleLoader'
-	| 'BasicLoader'
-	| 'none'
-	| 'RingLoader'
-	| 'RollerLoader'
-	| 'SpinnerLoader'
-	| 'v-progress-linear'
-
-/** LoadingIndicator Module Configuration */
-export interface LoadingIndicatorConfiguration extends PluginOptions {
-	loaderStyle?: LoaderStyles
-}
-
 /** Possible search methods by type */
 export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
 
@@ -528,7 +514,6 @@ export interface MapConfig extends MasterportalApiConfig {
 	stylePath?: string
 	vuetify?: UserVuetifyPreset
 	addressSearch?: AddressSearchConfiguration
-	loadingIndicator?: LoadingIndicatorConfiguration
 	attributions?: AttributionsConfiguration
 	draw?: DrawConfiguration
 	export?: ExportConfiguration
@@ -554,23 +539,6 @@ export interface MapConfig extends MasterportalApiConfig {
  *
  */
 
-type MoveHandleProps = object
-
-export interface MoveHandleProperties {
-	closeLabel: string
-	closeFunction: (...args: unknown[]) => unknown
-	component: VueConstructor
-	// Plugin that added the moveHandle
-	plugin: string
-	closeIcon?: string
-	props?: MoveHandleProps
-}
-
-export interface MoveHandleActionButton {
-	component: VueConstructor
-	props?: MoveHandleProps
-}
-
 export interface CoreState {
 	center: [number, number] | null
 	clientHeight: number
@@ -589,8 +557,6 @@ export interface CoreState {
 	language: string
 	map: number
 	mapHasDimensions: boolean
-	moveHandle: number
-	moveHandleActionButton: number
 	oidcToken: string
 	// NOTE truly any since external plugins may bring whatever; unknown will lead to further errors
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -600,22 +566,12 @@ export interface CoreState {
 }
 
 export interface CoreGetters
-	extends Omit<
-		CoreState,
-		| 'components'
-		| 'hovered'
-		| 'map'
-		| 'moveHandle'
-		| 'moveHandleActionButton'
-		| 'selected'
-	> {
+	extends Omit<CoreState, 'components' | 'hovered' | 'map' | 'selected'> {
 	// omitted from CoreState as actual getter type diverges
 	components: PluginContainer[]
 	hovered: Feature | null
 	map: Map
 	mapHasDimensions: boolean
-	moveHandle: MoveHandleProperties
-	moveHandleActionButton: MoveHandleActionButton
 	selected: Feature | null
 	selectedCoordinate: Coordinate | null
 

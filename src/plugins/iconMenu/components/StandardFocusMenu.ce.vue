@@ -58,15 +58,14 @@ function toggle(index: number) {
 	if (iconMenuStore.focusOpen === index) {
 		iconMenuStore.focusOpen = -1
 		pluginComponent.value = null
-		// TODO(dopenguin): This is called in mainStore
-		// setMoveHandle(null)
+		coreStore.setMoveHandle(null)
 	} else {
 		iconMenuStore.focusOpen = index
 		pluginComponent.value = markRaw(
 			(props.menus.find((_, i) => i === index) as Menu).plugin
 				.component as Component
 		)
-		// iconMenuStore.openInMoveHandle(index, true)
+		iconMenuStore.openInMoveHandle(index, true)
 	}
 }
 </script>
