@@ -16,7 +16,7 @@
 			<button class="kern-btn kern-btn--tertiary" @click="close(true)">
 				<span :class="`kern-icon ${closeIcon}`" aria-hidden="true" />
 				<span class="kern-label kern-sr-only">
-					{{ $t(closeLabel, { ...closeLabelOptions }) }}
+					{{ closeLabel }}
 				</span>
 			</button>
 		</div>
@@ -55,7 +55,7 @@ let touchDevice = false
 const coreStore = useCoreStore()
 const moveHandleStore = useMoveHandleStore()
 const { deviceIsHorizontal } = storeToRefs(coreStore)
-const { actionButton, closeLabel, closeLabelOptions, closeIcon, component } =
+const { actionButton, closeLabel, closeIcon, component } =
 	storeToRefs(moveHandleStore)
 
 const handleElement = useTemplateRef<HTMLDivElement>('handleElement')

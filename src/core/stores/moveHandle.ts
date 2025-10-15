@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { type Component, markRaw, ref } from 'vue'
-import type { TOptions } from 'i18next'
 import type { MoveHandleProperties } from '../types'
 
 export const useMoveHandleStore = defineStore('moveHandle', () => {
@@ -8,7 +7,6 @@ export const useMoveHandleStore = defineStore('moveHandle', () => {
 	const closeFunction = ref<(userInteraction: boolean) => void>(() => {})
 	const closeIcon = ref('kern-icon--close')
 	const closeLabel = ref('')
-	const closeLabelOptions = ref<TOptions>({})
 	const component = ref<Component | null>(null)
 	const isActive = ref(false)
 	const plugin = ref('')
@@ -26,7 +24,6 @@ export const useMoveHandleStore = defineStore('moveHandle', () => {
 		isActive.value = true
 		closeFunction.value = moveHandle.closeFunction
 		closeLabel.value = moveHandle.closeLabel
-		closeLabelOptions.value = moveHandle.closeLabelOptions
 		component.value = markRaw(moveHandle.component)
 		plugin.value = moveHandle.plugin
 		if (moveHandle.closeIcon) {
@@ -43,7 +40,6 @@ export const useMoveHandleStore = defineStore('moveHandle', () => {
 		closeFunction.value = () => {}
 		closeIcon.value = 'kern-icon--close'
 		closeLabel.value = ''
-		closeLabelOptions.value = {}
 		component.value = null
 		isActive.value = false
 		plugin.value = ''
@@ -54,7 +50,6 @@ export const useMoveHandleStore = defineStore('moveHandle', () => {
 		closeFunction,
 		closeIcon,
 		closeLabel,
-		closeLabelOptions,
 		component,
 		isActive,
 		plugin,
