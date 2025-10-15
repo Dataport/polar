@@ -66,8 +66,10 @@ export const useLoadingIndicatorStore = defineStore(
 		return {
 			/** The current loader style. */
 			loaderStyle,
+
 			/** Whether the loader should currently be shown. */
 			showLoader,
+
 			/**
 			 * Adds a loading indicator with the given `key`.
 			 *
@@ -82,6 +84,7 @@ export const useLoadingIndicatorStore = defineStore(
 			 * to avoid name conflicts.
 			 */
 			addLoadingKey,
+
 			/**
 			 * Removes the loading indicator with the given `key`.
 			 *
@@ -90,10 +93,13 @@ export const useLoadingIndicatorStore = defineStore(
 			 * to prevent hanging loading indicators.
 			 */
 			removeLoadingKey,
+
 			/** Change the loader style at runtime. */
 			setLoaderStyle,
+
 			/** @internal */
 			setupPlugin,
+
 			/** @internal */
 			teardownPlugin,
 		}

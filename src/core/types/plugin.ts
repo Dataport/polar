@@ -17,7 +17,6 @@ import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChoose
 
 import type { PluginId as LoadingIndicatorId } from '@/plugins/loadingIndicator'
 import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugins/loadingIndicator/store'
-import type { resourcesEn as LoadingIndicatorResources } from '@/plugins/loadingIndicator/locales'
 
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
@@ -77,11 +76,6 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			T,
 			typeof LayerChooserPluginId,
 			typeof LayerChooserResources
-	  >
-	| GetPluginResources<
-			T,
-			typeof LoadingIndicatorId,
-			typeof LoadingIndicatorResources
 	  >
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 

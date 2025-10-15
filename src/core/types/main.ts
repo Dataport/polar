@@ -192,12 +192,14 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * See `mapConfiguration.featureStyles` for more information.
 	 */
 	featureStyles?: string
+
 	/**
 	 * The initial language the client should be using.
 	 *
 	 * @defaultValue `'de'` (German)
 	 */
 	language?: InitialLanguage
+
 	/**
 	 * Choose between the standard sidebar layout with fixed positioning, the oldschool nine region layout with full
 	 * configurability regarding positioning or add a custom layout as Vue component.
@@ -263,6 +265,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * Authorization header of the request. Requests already including an Authorization header will keep the already present one.
 	 */
 	secureServiceUrlRegex?: RegExp
+
 	/**
 	 * Custom theme for POLAR.
 	 *
@@ -273,18 +276,22 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	// Remember to sort them alphabetical inside their space.
 	// TODO: Generate this section via types/plugin.ts
 	/* eslint-disable perfectionist/sort-interfaces */
+
 	/**
 	 * Configuration for fullscreen plugin.
 	 */
 	fullscreen?: FullscreenPluginOptions
+
 	/**
 	 * Configuration for iconMenu plugin.
 	 */
 	iconMenu?: IconMenuPluginOptions
+
 	/**
 	 * Configuration for loadingIndicator plugin.
 	 */
 	loadingIndicator?: LoadingIndicatorOptions
+
 	/**
 	 * Configuration for toast plugin.
 	 */

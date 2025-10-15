@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+// eslint-ignore-next-line @stylistic/lines-around-comment
 /**
  * This loader is the lds-default loader from https://loading.io/css/.
  * It was renamed to BasicLoaderLoader to avoid confusion with the default loader.
