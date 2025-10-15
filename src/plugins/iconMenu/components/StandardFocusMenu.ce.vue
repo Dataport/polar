@@ -9,7 +9,7 @@
 		/>
 		<ul class="polar-plugin-icon-menu-focus-list">
 			<li
-				v-for="({ buttonClass, hint, icon, plugin }, index) of menus"
+				v-for="({ buttonClass, icon, plugin }, index) of menus"
 				:key="index"
 				class="polar-plugin-icon-menu-focus-list-item"
 			>
