@@ -72,7 +72,7 @@ defineExpose({
 	width: inherit;
 	height: inherit;
 	z-index: 42;
-	font-size: 22px;
+	font-size: var(--kern-typography-font-size-static-large);
 	text-align: center;
 	color: white;
 	background-color: rgba(0, 0, 0, 0.45);
