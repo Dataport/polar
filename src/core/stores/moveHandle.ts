@@ -54,8 +54,10 @@ export const useMoveHandleStore = defineStore('moveHandle', () => {
 		isActive,
 		plugin,
 		$reset,
+
 		/** @alpha */
 		setMoveHandle,
+
 		/** @alpha */
 		setMoveHandleActionButton,
 	}
