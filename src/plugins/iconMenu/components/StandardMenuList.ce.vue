@@ -1,7 +1,7 @@
 <template>
 	<ul class="polar-plugin-icon-menu-list">
 		<li
-			v-for="({ buttonClass, hint, icon, plugin }, index) of menus"
+			v-for="({ buttonClass, icon, plugin }, index) of menus"
 			:key="index"
 			class="polar-plugin-icon-menu-list-item"
 		>
@@ -9,8 +9,11 @@
 			<template v-else>
 				<PolarIconButton
 					:class="buttonClass"
-					:hint="hint ?? `hints.${plugin.id}`"
-					hint-namespace="iconMenu"
+					:hint="
+						$t(($) => $.hints[plugin.id], {
+							ns: 'iconMenu',
+						})
+					"
 					:icon="icon"
 					tooltip-position="left"
 					@click="() => toggle(baseIndex + index)"
@@ -123,11 +126,19 @@ function toggle(index: number) {
 }
 
 .polar-icon-button.polar-plugin-icon-menu-button-active {
-	background: oklch(var(--theme-action-default) / 0.12);
+	background: color-mix(
+		in oklch,
+		var(--kern-color-action-default) 12%,
+		transparent
+	);
 
 	&:focus,
 	&:hover {
-		background: oklch(var(--theme-action-default) / 0.12);
+		background: color-mix(
+			in oklch,
+			var(--kern-color-action-default) 12%,
+			transparent
+		);
 	}
 }
 

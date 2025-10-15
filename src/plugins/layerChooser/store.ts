@@ -213,38 +213,52 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 	return {
 		/** Id of the currently active background layer. */
 		activeBackgroundId,
+
 		/**
 		 * Ids of the currently active mask layers without distinction between mask groups.
 		 */
 		activeMaskIds,
+
 		/** @internal */
 		backgrounds,
+
 		/**
 		 * Maps a layer id to its GetCapabilities xml return value or null if an error happened.
 		 *
 		 * @internal
 		 */
 		capabilities,
+
 		/** @internal */
 		disabledBackgrounds,
+
 		/** @internal */
 		disabledMasks,
+
 		/** @internal */
 		layersWithOptions,
+
 		/** @internal */
 		masksSeparatedByType,
+
 		/** @internal */
 		shownMasks,
+
 		/** @internal */
 		openedOptionsId,
+
 		/** @internal */
 		setupPlugin,
+
 		/** @internal */
 		teardownPlugin,
+
 		/** @internal */
 		setActiveBackgroundId,
+
 		/** @internal */
 		setActiveMaskIds,
+
 		/** @internal */
 		toggleOpenedOptionsServiceLayer,
 	}

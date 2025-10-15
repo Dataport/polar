@@ -1,9 +1,12 @@
 <template>
 	<PolarIconButton
 		:class="buttonClass"
-		hint="button.label"
-		:hint-options="{ context: fullscreenEnabled ? 'off' : 'on' }"
-		:hint-namespace="PluginId"
+		:hint="
+			$t(($) => $.button.label, {
+				ns: PluginId,
+				context: fullscreenEnabled ? 'off' : 'on',
+			})
+		"
 		:icon="
 			fullscreenEnabled ? 'kern-icon--fullscreen-exit' : 'kern-icon--fullscreen'
 		"
@@ -18,7 +21,7 @@ import { computed } from 'vue'
 import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores/export.ts'
 
 const coreStore = useCoreStore()
 const fullscreenStore = useFullscreenStore()

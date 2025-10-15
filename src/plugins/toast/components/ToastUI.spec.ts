@@ -4,6 +4,7 @@ import { createTestingPinia } from '@pinia/testing'
 import { nextTick } from 'vue'
 import { useToastStore } from '../store'
 import ToastUI from './ToastUI.ce.vue'
+import { mockedT } from '@/test/utils/mockI18n'
 
 /* eslint-disable no-empty-pattern */
 const test = _test.extend<{
@@ -15,7 +16,7 @@ const test = _test.extend<{
 			global: {
 				plugins: [createTestingPinia({ createSpy: vi.fn })],
 				mocks: {
-					$t: (key, { ns, context }) => `$t(${ns}:${key}_${context})`,
+					$t: mockedT,
 				},
 			},
 		})
