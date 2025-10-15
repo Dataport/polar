@@ -13,6 +13,7 @@
 			:root {
 				--not-quite-white: #f2f3f4;
 				--eigengrau: #16161d;
+				--map-height: 600px;
 			}
 
 			* {
@@ -42,6 +43,17 @@
 
 			#language-switcher {
 				outline: solid black;
+			}
+
+			.snowbox {
+				width: 100vw;
+				max-width: calc(100% + 64px);
+				height: var(--map-height);
+				position: relative;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				left: -32px;
+				outline: solid var(--eigengrau);
 			}
 		</style>
 	</head>
