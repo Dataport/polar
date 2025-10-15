@@ -1,7 +1,7 @@
 <template>
 	<fieldset class="kern-fieldset">
 		<legend class="kern-label">
-			{{ $t(legend, legendOptions) }}
+			{{ legend }}
 		</legend>
 		<div class="kern-fieldset__body">
 			<slot />
@@ -10,11 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { type TOptions } from 'i18next'
-
 defineProps<{
 	legend: string
-	legendOptions?: TOptions
 }>()
 </script>
 

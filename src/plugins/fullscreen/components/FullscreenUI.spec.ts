@@ -5,6 +5,7 @@ import { nextTick } from 'vue'
 import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'
 import FullscreenUI from './FullscreenUI.ce.vue'
+import { mockedT } from '@/test/utils/mockI18n'
 
 /* eslint-disable no-empty-pattern */
 const test = _test.extend<{
@@ -18,6 +19,9 @@ const test = _test.extend<{
 		const wrapper = mount(FullscreenUI, {
 			global: {
 				plugins: [createTestingPinia({ createSpy: vi.fn })],
+				mocks: {
+					$t: mockedT,
+				},
 			},
 		})
 		await use(wrapper)

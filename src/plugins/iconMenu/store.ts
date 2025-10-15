@@ -5,10 +5,9 @@
 /* eslint-enable tsdoc/syntax */
 
 import { toMerged } from 'es-toolkit'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
 import type { Menu } from './types'
-import { addPlugin } from '@/core'
 import { useCoreStore } from '@/core/stores/export'
 
 /* eslint-disable tsdoc/syntax */
@@ -51,7 +50,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 			.concat(focusMenus.value)
 			.flat()
 			.forEach(({ plugin }) => {
-				addPlugin(toMerged(plugin, { independent: false }))
+				coreStore.addPlugin(toMerged(plugin, { independent: false }))
 			})
 
 		// Otherwise, the component itself is made reactive
@@ -162,9 +161,15 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		openInMoveHandle,
 		openMenuById,
 		openFocusMenuById,
+
 		/** @internal */
 		setupPlugin,
+
 		/** @internal */
 		teardownPlugin,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useIconMenuStore, import.meta.hot))
+}

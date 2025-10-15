@@ -9,7 +9,7 @@
 		/>
 		<ul class="polar-plugin-icon-menu-focus-list">
 			<li
-				v-for="({ buttonClass, hint, icon, plugin }, index) of menus"
+				v-for="({ buttonClass, icon, plugin }, index) of menus"
 				:key="index"
 				class="polar-plugin-icon-menu-focus-list-item"
 			>
@@ -20,7 +20,7 @@
 				>
 					<span class="kern-icon" :class="icon" aria-hidden="true" />
 					<span class="kern-label">
-						{{ t(hint ?? `hints.${plugin.id}`, { ns: 'iconMenu' }) }}
+						{{ t(($) => $.hints[plugin.id], { ns: 'iconMenu' }) }}
 					</span>
 				</button>
 			</li>
@@ -106,11 +106,19 @@ function toggle(index: number) {
 			}
 
 			.polar-plugin-icon-menu-button-active {
-				background: oklch(var(--theme-action-default) / 0.12);
+				background: color-mix(
+					in oklch,
+					var(--kern-color-action-default) 12%,
+					transparent
+				);
 
 				&:focus,
 				&:hover {
-					background: oklch(var(--theme-action-default) / 0.12);
+					background: color-mix(
+						in oklch,
+						var(--kern-color-action-default) 12%,
+						transparent
+					);
 				}
 			}
 		}

@@ -7,13 +7,10 @@
 		>
 			<span class="kern-icon kern-icon--arrow-back" aria-hidden="true" />
 			<span class="kern-label">
-				{{ $t('returnToLayers', { ns: PluginId }) }}
+				{{ $t(($) => $.returnToLayers, { ns: PluginId }) }}
 			</span>
 		</button>
-		<PolarInputGroup
-			legend="layerHeader"
-			:legend-options="{ ns: PluginId, name }"
-		>
+		<PolarInputGroup :legend="$t(($) => $.layerHeader, { ns: PluginId, name })">
 			<div
 				v-for="{ displayName, layerImage, layerName } in options"
 				:key="`polar-layer-chooser-mask-options-checkbox-${layerName}`"

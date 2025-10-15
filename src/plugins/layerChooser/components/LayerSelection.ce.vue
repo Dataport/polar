@@ -2,8 +2,7 @@
 	<PolarCard class="polar-layer-chooser-card">
 		<PolarInputGroup
 			v-if="backgrounds.length"
-			legend="backgroundTitle"
-			:legend-options="{ ns: PluginId }"
+			:legend="$t(($) => $.backgroundTitle, { ns: PluginId })"
 		>
 			<PolarInput
 				v-for="{ name, id } in backgrounds"
@@ -22,8 +21,7 @@
 				:key="`polar-layer-chooser-mask-${type}`"
 			>
 				<PolarInputGroup
-					:legend="`${type}Title`"
-					:legend-options="{ ns: PluginId }"
+					:legend="$t(($) => $[`${type}Title`], { ns: PluginId })"
 				>
 					<div
 						v-for="{ name, id } in masks"
@@ -47,7 +45,7 @@
 						>
 							<span class="kern-icon kern-icon--settings" aria-hidden="true" />
 							<span class="kern-label kern-sr-only">
-								{{ $t('layerOptions', { ns: PluginId }) }}
+								{{ $t(($) => $.layerOptions, { ns: PluginId }) }}
 							</span>
 						</button>
 					</div>
