@@ -22,6 +22,20 @@ const polarConfig = {
 		// POLAR-specific rules
 		'no-warning-comments': 'warn',
 		'no-void': 'off',
+		'@stylistic/lines-around-comment': [
+			'error',
+			{
+				beforeBlockComment: true,
+				allowBlockStart: true,
+				allowObjectStart: true,
+				allowArrayStart: true,
+				allowClassStart: true,
+				allowEnumStart: true,
+				allowInterfaceStart: true,
+				allowModuleStart: true,
+				allowTypeStart: true,
+			},
+		],
 	},
 }
 
