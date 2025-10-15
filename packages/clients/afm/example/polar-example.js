@@ -44,7 +44,19 @@ const mapConfiguration = {
     ],
   },
   addressSearch: {
-    displayComponent: false,
+    searchMethods: [
+      {
+        queryParameters: {
+          searchAddress: true,
+          searchStreets: true,
+          searchHouseNumbers: true,
+        },
+        type: 'mpapi',
+        url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+      },
+    ],
+    minLength: 3,
+    waitMs: 300,
   },
   export: {
     showPdf: false,
@@ -72,6 +84,14 @@ const mapConfiguration = {
       show: true,
       atZoomLevel: 3,
     },
+  },
+  reverseGeocoder: {
+    url: 'https://geodienste.hamburg.de/HH_WPS',
+    addLoading: 'plugin/loadingIndicator/addLoadingKey',
+    removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
+    zoomTo: 7,
+    coordinateSource: 'plugin/pins/transformedCoordinate',
+    addressTarget: 'plugin/addressSearch/selectResult',
   },
 }
 

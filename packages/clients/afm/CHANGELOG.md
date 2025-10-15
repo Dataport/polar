@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add `@polar/plugin-reverse-geocoder` to the client. For details about this plugin, see [the plugin's documentation](https://dataport.github.io/polar/docs/afm/plugin-reverse-geocoder.html).
+
 ## 2.0.3
 
 - Fix: Use v3.2.2 of `@polar/core` and v3.1.1 of `@polar/plugin-address-search` to resolve issues when using `+` and `-` characters in the search window or using the arrow keys to navigate the entered input.
