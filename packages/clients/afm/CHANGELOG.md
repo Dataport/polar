@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.1.0
 
 - Feature: Add `@polar/plugin-reverse-geocoder` to the client. For details about this plugin, see [the plugin's documentation](https://dataport.github.io/polar/docs/afm/plugin-reverse-geocoder.html).
 - Chore: `AddressSearch` is now visible by default in the example configuration to illustrate a working default scenario for the added `ReverseGeocoder`. This did not result in a change to the software's defaults, but merely to the example.
