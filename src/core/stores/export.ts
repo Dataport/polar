@@ -9,6 +9,7 @@ import { computed } from 'vue'
 import { useMainStore } from './main'
 import { usePluginStore } from './plugin'
 import { useMarkerStore } from './marker'
+import { useMoveHandleStore } from './moveHandle'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -20,6 +21,7 @@ import { useMarkerStore } from './marker'
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 	const mainStoreRefs = storeToRefs(mainStore)
+	const moveHandleStore = useMoveHandleStore()
 
 	const pluginStore = usePluginStore()
 
@@ -171,6 +173,15 @@ export const useCoreStore = defineStore('core', () => {
 		map: computed(() => mainStore.map),
 
 		/**
+		 * The current top position value in px of the MoveHandle.
+		 * Is null if the MoveHandle is currently not visible.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		moveHandleTop: computed(() => moveHandleStore.top),
+
+		/**
 		 * Coordinates that were selected by the user with a marker.
 		 *
 		 * @readonly
@@ -185,6 +196,22 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		shadowRoot: computed(() => mainStore.shadowRoot),
+
+		/**
+		 * Allows setting content to the MoveHandle to be displayed on small devices
+		 * if the application has the same size as the window.
+		 *
+		 * @alpha
+		 */
+		setMoveHandle: moveHandleStore.setMoveHandle,
+
+		/**
+		 * Allows setting an additional action button to be displayed as part of the
+		 * MoveHandle.
+		 *
+		 * @alpha
+		 */
+		setMoveHandleActionButton: moveHandleStore.setMoveHandleActionButton,
 	}
 })
 

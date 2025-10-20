@@ -2,28 +2,35 @@
 	<div ref="polar-wrapper" class="polar-wrapper" :lang="language">
 		<PolarMap />
 		<PolarUI />
+		<MoveHandle
+			v-if="isActive && hasWindowSize && hasSmallWidth"
+			:key="moveHandleKey"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts">
+import i18next from 'i18next'
 import { storeToRefs } from 'pinia'
 import {
 	onBeforeUnmount,
 	onMounted,
+	ref,
 	useHost,
 	useShadowRoot,
 	useTemplateRef,
 	watch,
 } from 'vue'
-import i18next from 'i18next'
+import { useCoreStore } from '../stores/export'
 import { useMainStore } from '../stores/main'
+import { useMoveHandleStore } from '../stores/moveHandle'
+import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
+import defaults from '../utils/defaults'
 import { loadKern } from '../utils/loadKern'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
-import defaults from '../utils/defaults'
-import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
-import { useCoreStore } from '../stores/export'
-import PolarUI from './PolarUI.ce.vue'
+import MoveHandle from './MoveHandle.ce.vue'
 import PolarMap from './PolarMap.ce.vue'
+import PolarUI from './PolarUI.ce.vue'
 
 defineOptions({
 	inheritAttrs: false,
@@ -39,7 +46,7 @@ defineExpose<{
 }>()
 
 const mainStore = useMainStore()
-const { language } = storeToRefs(mainStore)
+const { hasSmallWidth, hasWindowSize, language } = storeToRefs(mainStore)
 
 mainStore.configuration = mapZoomOffset({
 	...defaults,
@@ -86,6 +93,11 @@ watch(
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
 let resizeObserver: ResizeObserver | null = null
+
+const { isActive } = storeToRefs(useMoveHandleStore())
+const moveHandleKey = ref(0)
+// Make sure the element is properly updated.
+watch(isActive, () => (moveHandleKey.value += 1))
 
 function updateClientDimensions() {
 	mainStore.clientHeight = (polarWrapper.value as Element).clientHeight
