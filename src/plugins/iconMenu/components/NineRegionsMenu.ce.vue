@@ -2,7 +2,7 @@
 	<component :is="asList ? 'ul' : 'div'" class="polar-plugin-icon-menu-list">
 		<component
 			:is="asList ? 'li' : 'div'"
-			v-for="({ plugin, icon, hint }, index) of menus"
+			v-for="({ plugin, icon }, index) of menus.flat()"
 			:key="index"
 			:class="
 				deviceIsHorizontal
@@ -17,14 +17,21 @@
 					v-if="buttonComponent"
 					:id="plugin.id"
 					:icon="icon"
-					:hint="hint"
+					:hint="
+						$t(($) => $.hints[plugin.id], {
+							ns: 'iconMenu',
+						})
+					"
 					:index="index"
 				/>
 				<NineRegionsButton
 					v-else
-					:id="plugin.id"
 					:icon="icon"
-					:hint="hint ?? $t(($) => $.hints[plugin.id], { ns: 'iconMenu' })"
+					:hint="
+						$t(($) => $.hints[plugin.id], {
+							ns: 'iconMenu',
+						})
+					"
 					:index="index"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
@@ -57,19 +64,16 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
+import { useIconMenuStore } from '../store'
 import NineRegionsButton from './NineRegionsButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
-import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
+import { useCoreStore } from '@/core/stores/export'
 
 const { clientHeight, deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
 	storeToRefs(useCoreStore())
 const { buttonComponent, menus, open } = storeToRefs(useIconMenuStore())
 
 const maxWidth = ref('inherit')
-const pluginComponent =
-	useTemplateRef<
-		[(typeof menus.value)[number]['plugin']['component'] | undefined]
-	>('pluginComponent')
+const pluginComponent = useTemplateRef('pluginComponent')
 
 const asList = computed(() => menus.value.length > 1)
 const maxHeight = computed(() =>
@@ -114,24 +118,12 @@ function updateMaxWidth() {
 provide('updateMaxWidth', updateMaxWidth)
 </script>
 
-<!-- eslint-disable-next-line vue/enforce-style-attribute -->
-<style>
-.polar-plugin-icon-menu-list-item-content,
-.polar-plugin-icon-menu-list-item-horizontal {
-	/* TODO(dopenguin): Probably no longer needed, check if something else should be used. */
-	.v-card__text {
-		/* Prevents a x-scrollbar being shown if not necessary */
-		width: inherit;
-	}
-}
-</style>
-
 <style scoped>
 .polar-plugin-icon-menu-list {
 	position: relative;
 	list-style: none;
 	padding: 0;
-	margin: 8px;
+	margin: 0.5rem;
 }
 
 .polar-plugin-icon-menu-list-item-horizontal {

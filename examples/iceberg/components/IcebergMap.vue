@@ -51,10 +51,11 @@ watch(map, (map) => {
 			displayComponent: true,
 			layoutTag: 'TOP_RIGHT',
 			menus: [
-				{
-					plugin: pluginFullscreen(),
-					hint: 'Full of yourself',
-				},
+				[
+					{
+						plugin: pluginFullscreen(),
+					},
+				],
 			],
 		}),
 		pluginToast({
