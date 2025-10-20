@@ -135,6 +135,14 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 			)
 			return
 		}
+		// Content is displayed in the MoveHandle in this case. Thus, only one menu can be open at a time.
+		if (coreStore.hasWindowSize && coreStore.hasSmallWidth) {
+			if (focusMenu && open.value !== -1) {
+				open.value = -1
+			} else if (!focusMenu && focusOpen.value !== -1) {
+				focusOpen.value = -1
+			}
+		}
 		coreStore.setMoveHandle({
 			closeFunction: () => {
 				if (focusMenu) {
