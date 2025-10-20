@@ -1,15 +1,25 @@
 <template>
-	<div :class="$style['language-chooser']">
+	<div :class="$style['action-bar']">
 		<button class="kern-btn kern-btn--secondary" @click="switchLanguage">
 			<span class="kern-icon kern-icon--flag" />
 			<span class="kern-label">{{
 				language === 'de' ? 'Switch to English' : 'Zu Deutsch wechseln'
 			}}</span>
 		</button>
+		<button
+			class="kern-btn kern-btn--secondary"
+			@click="splitScreen = !splitScreen"
+		>
+			<span class="kern-icon kern-icon--splitscreen-left" />
+			<span class="kern-label">{{
+				splitScreen ? 'Exit split screen' : 'Enter split screen'
+			}}</span>
+		</button>
 	</div>
 	<polar-map
 		v-if="store.serviceRegister.length"
 		ref="map"
+		:class="{ [$style['split-screen']]: splitScreen }"
 		:map-configuration="store.mapConfiguration"
 		:service-register="store.serviceRegister"
 	/>
@@ -29,6 +39,7 @@ import { useIcebergStore } from '../stores/iceberg'
 const store = useIcebergStore()
 
 const language = ref('de')
+const splitScreen = ref(false)
 
 const map = useTemplateRef<typeof PolarContainer>('map')
 watch(map, (map) => {
@@ -70,16 +81,16 @@ function switchLanguage() {
 
 <style scoped>
 @import url('@polar/polar/polar.css');
-
-polar-map {
-	display: block;
-	width: 100%;
-	height: 20em;
-}
 </style>
 
 <style module>
-.language-chooser {
+.action-bar {
+	display: flex;
+	gap: 1em;
 	margin-bottom: 1em;
+}
+
+.split-screen {
+	width: 50%;
 }
 </style>

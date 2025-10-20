@@ -10,6 +10,7 @@ export const useMoveHandleStore = defineStore('moveHandle', () => {
 	const component = ref<Component | null>(null)
 	const isActive = ref(false)
 	const plugin = ref('')
+	const top = ref<number | null>(null)
 
 	function setMoveHandle(moveHandle: MoveHandleProperties | null) {
 		if (moveHandle === null) {
@@ -53,6 +54,7 @@ export const useMoveHandleStore = defineStore('moveHandle', () => {
 		component,
 		isActive,
 		plugin,
+		top,
 		$reset,
 
 		/** @alpha */

@@ -173,6 +173,15 @@ export const useCoreStore = defineStore('core', () => {
 		map: computed(() => mainStore.map),
 
 		/**
+		 * The current top position value in px of the MoveHandle.
+		 * Is null if the MoveHandle is currently not visible.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		moveHandleTop: computed(() => moveHandleStore.top),
+
+		/**
 		 * Coordinates that were selected by the user with a marker.
 		 *
 		 * @readonly

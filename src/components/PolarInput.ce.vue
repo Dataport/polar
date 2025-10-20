@@ -3,7 +3,7 @@
 		<input
 			:id="`polar-${type}-${value}-${idSuffix}`"
 			v-model="model"
-			:class="`kern-form-check__${type}`"
+			:class="`polar-input kern-form-check__${type}`"
 			:name="value"
 			:value="value"
 			:type="type"
@@ -31,6 +31,10 @@ const model = defineModel<
 </script>
 
 <style scoped>
+.polar-input {
+	pointer-events: all;
+}
+
 .kern-form-check__radio[disabled],
 .kern-form-check__checkbox[disabled] {
 	&:hover {

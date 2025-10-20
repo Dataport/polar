@@ -49,13 +49,12 @@ const minHeight = 0.1
 let initialCursorY = 0
 let preMoveHandleTop = 0
 let resizeObserver: null | ResizeObserver = null
-let top: null | number = null
 let touchDevice = false
 
 const coreStore = useCoreStore()
 const moveHandleStore = useMoveHandleStore()
 const { deviceIsHorizontal } = storeToRefs(coreStore)
-const { actionButton, closeLabel, closeIcon, component } =
+const { actionButton, closeLabel, closeIcon, component, top } =
 	storeToRefs(moveHandleStore)
 
 const handleElement = useTemplateRef<HTMLDivElement>('handleElement')
@@ -71,15 +70,15 @@ const moveEventNames = computed<MoveEventNames>(() => {
 
 onMounted(() => {
 	const { clientHeight } = (coreStore.shadowRoot as ShadowRoot).host
-	if (top === null) {
-		top = clientHeight * 0.55
+	if (top.value === null) {
+		top.value = clientHeight * 0.55
 	}
 	const handle = handleElement.value as HTMLDivElement
 	handle.style.position = 'fixed'
 	handle.style.width = '100%'
 	handle.style['z-index'] = 1
 	handle.style.left = '0'
-	handle.style.top = `${calculateTop(top, clientHeight, maxHeight.value)}px`
+	handle.style.top = `${calculateTop(top.value, clientHeight, maxHeight.value)}px`
 	resizeObserver = new ResizeObserver(updateMaxHeight)
 	resizeObserver.observe(handle)
 	handle.focus()
@@ -90,7 +89,7 @@ onBeforeUnmount(() => {
 		resizeObserver.disconnect()
 		resizeObserver = null
 	}
-	top = null
+	top.value = null
 })
 
 // Fixes an issue if the orientation of a mobile device is changed while a plugin is open
@@ -142,7 +141,7 @@ function calculateTop(
 	if (containerHeight - newTop > containerHeight * maxHeight) {
 		newTop = containerHeight - containerHeight * maxHeight
 	}
-	top = newTop
+	top.value = newTop
 	return newTop
 }
 
