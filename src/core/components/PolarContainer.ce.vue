@@ -129,12 +129,20 @@ onBeforeUnmount(() => {
 	--brand-color-c: v-bind('mainStore.configuration.theme?.brandColor?.c');
 	--brand-color-h: v-bind('mainStore.configuration.theme?.brandColor?.h');
 }
+
+@layer polar-map {
+	:host {
+		display: block;
+		width: 100%;
+		height: 30em;
+	}
+}
 </style>
 
 <style scoped>
 .polar-wrapper {
-	position: absolute;
-	height: inherit;
-	width: inherit;
+	position: relative;
+	height: 100%;
+	width: 100%;
 }
 </style>
