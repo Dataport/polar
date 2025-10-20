@@ -105,6 +105,7 @@ function closeOptions() {
 	border: none;
 	min-height: inherit;
 	padding: 0.25rem;
+	pointer-events: all;
 }
 
 .kern-label {
