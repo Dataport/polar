@@ -6,7 +6,7 @@
 
 import { toMerged } from 'es-toolkit'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import Layer from 'ol/layer/Layer'
 import { ImageWMS, TileWMS } from 'ol/source'
 import type { LayerOptions } from './types'
@@ -93,9 +93,8 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		}
 
 		// At most one background, arbitrarily many masks
-		setActiveBackgroundId(
-			configuredBackgrounds.find(({ visibility }) => visibility)?.id || null
-		)
+		activeBackgroundId.value =
+			configuredBackgrounds.find(({ visibility }) => visibility)?.id || ''
 		setActiveMaskIds(
 			configuredMasks.filter(({ visibility }) => visibility).map(({ id }) => id)
 		)
@@ -121,13 +120,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 	}
 	function teardownPlugin() {}
 
-	function setActiveBackgroundId(id: string | null) {
-		if (id === null) {
-			console.error(
-				'Trying to set null as the active background layer is not possible. This is probably a configuration issue.'
-			)
-			return
-		}
+	watch(activeBackgroundId, (id) => {
 		coreStore.map
 			.getLayers()
 			.getArray()
@@ -137,8 +130,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 					layer.setVisible(layer.get('id') === id)
 				}
 			})
-		activeBackgroundId.value = id
-	}
+	})
 
 	function setActiveMaskIds(ids: string[]) {
 		setActiveMaskIdsVisibility(ids)
@@ -176,7 +168,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 		// If the background map is no longer available, switch to first-best or none
 		if (!availableBackgroundIds.includes(activeBackgroundId.value)) {
-			setActiveBackgroundId(availableBackgroundIds[0] || null)
+			activeBackgroundId.value = availableBackgroundIds[0] || ''
 		}
 
 		/*
@@ -252,9 +244,6 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 		/** @internal */
 		teardownPlugin,
-
-		/** @internal */
-		setActiveBackgroundId,
 
 		/** @internal */
 		setActiveMaskIds,

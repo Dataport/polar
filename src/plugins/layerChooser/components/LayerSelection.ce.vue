@@ -7,7 +7,7 @@
 			<PolarInput
 				v-for="{ name, id } in backgrounds"
 				:key="`polar-layer-chooser-background-radio-${id}`"
-				v-model="activeBackground"
+				v-model="activeBackgroundId"
 				:id-suffix="`polar-layer-chooser-background`"
 				:label="name"
 				type="radio"
@@ -66,6 +66,7 @@ import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
 
 const layerChooserStore = useLayerChooserStore()
 const {
+	activeBackgroundId,
 	backgrounds,
 	disabledBackgrounds,
 	disabledMasks,
@@ -74,12 +75,6 @@ const {
 	shownMasks,
 } = storeToRefs(layerChooserStore)
 
-const activeBackground = computed({
-	get: () => layerChooserStore.activeBackgroundId,
-	set: (newValue) => {
-		layerChooserStore.setActiveBackgroundId(newValue)
-	},
-})
 const activeMasks = computed({
 	get: () => layerChooserStore.activeMaskIds,
 	set: (newValue) => {
