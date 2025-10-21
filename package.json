@@ -81,7 +81,7 @@
 		"@dataport/eslint-config-geodev": "^1.0.0-alpha.1",
 		"@kern-ux/native": "^2.3.0",
 		"@masterportal/masterportalapi": "2.48.0",
-		"@material-symbols/svg-400": "^0.35.0",
+		"@material-symbols/svg-400": "^0.38.0",
 		"@pinia/testing": "^1.0.2",
 		"@repositoryname/noop": "^1.0.6",
 		"@types/node": "^24.3.1",
