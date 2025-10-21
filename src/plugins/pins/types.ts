@@ -94,7 +94,7 @@ export interface PinBoundary {
 	 * errors, style `'strict'` will disable the pins feature, and style
 	 * `'permissive'` will act as if no boundaryLayerId was set.
 	 *
-	 *@defaultValue 'permissive'
+	 * @defaultValue 'permissive'
 	 */
 	onError?: 'strict' | 'permissive'
 }
