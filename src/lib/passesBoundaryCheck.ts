@@ -48,7 +48,7 @@ export async function passesBoundaryCheck(
 	coordinate: Coordinate
 ) {
 	if (typeof boundaryLayerId === 'undefined') {
-		return Promise.resolve(true)
+		return true
 	}
 
 	const boundaryLayer = map
@@ -60,7 +60,7 @@ export async function passesBoundaryCheck(
 		console.error(
 			`No layer configured to match boundaryLayerId "${boundaryLayerId}".`
 		)
-		return Promise.resolve(errors.undefinedBoundaryLayer)
+		return errors.undefinedBoundaryLayer
 	}
 
 	const boundaryLayerSource = boundaryLayer.getSource()
@@ -69,7 +69,7 @@ export async function passesBoundaryCheck(
 		console.error(
 			`Layer with boundaryLayerId "${boundaryLayerId}" missing source.`
 		)
-		return Promise.resolve(errors.undefinedBoundarySource)
+		return errors.undefinedBoundarySource
 	}
 
 	const sourceReady = await isReady(boundaryLayerSource)
@@ -78,13 +78,11 @@ export async function passesBoundaryCheck(
 		console.error(
 			`Layer with boundaryLayerId "${boundaryLayerId}" did not load or is featureless.`
 		)
-		return Promise.resolve(errors.sourceNotReady)
+		return errors.sourceNotReady
 	}
 
 	const features = boundaryLayerSource.getFeatures() as Feature[]
-	return Promise.resolve(
-		features.some((feature) =>
-			feature.getGeometry()?.intersectsCoordinate(coordinate)
-		)
+	return features.some((feature) =>
+		feature.getGeometry()?.intersectsCoordinate(coordinate)
 	)
 }
