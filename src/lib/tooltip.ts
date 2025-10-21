@@ -21,11 +21,11 @@ const setInnerHtml =
 			.join(''))
 
 const defaultStyle = `
-  background: rgba(255, 255, 255, 0.8);
-  padding: 0.2em 0.5em;
-  border-radius: 4px;
-  color: #16161d;
-  box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.5);
+	background: rgba(255, 255, 255, 0.8);
+	padding: 0.2em 0.5em;
+	border-radius: 4px;
+	color: #16161d;
+	box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.5);
 `
 
 /**
