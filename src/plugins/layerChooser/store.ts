@@ -41,8 +41,8 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 	const layersWithOptions = ref<Record<string, LayerOptions[]>>({})
 	const openedOptionsId = ref('')
 
-	const disabledBackgrounds = computed(() => {
-		return backgrounds.value.reduce(
+	const disabledBackgrounds = computed(() =>
+		backgrounds.value.reduce(
 			(acc, { id }) => ({
 				...acc,
 				[id]:
@@ -52,7 +52,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 			}),
 			{}
 		)
-	})
+	)
 	const disabledMasks = computed(() =>
 		shownMasks.value.reduce(
 			(acc, { id }) => ({
