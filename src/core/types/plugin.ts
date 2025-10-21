@@ -13,6 +13,7 @@ import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locale
 
 import type { PluginId as PinsPluginId } from '@/plugins/pins'
 import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
+import type { resourcesEn as PinsResources } from '@/plugins/pins/locales'
 
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
@@ -66,6 +67,7 @@ type GetPluginResources<
 export type BundledPluginLocaleResources<T extends BundledPluginId> =
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
 	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
+	| GetPluginResources<T, typeof PinsPluginId, typeof PinsResources>
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 
 /** @internal */
