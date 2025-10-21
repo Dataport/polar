@@ -72,8 +72,8 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	function setupPlugin() {
 		coreStore.map.addLayer(pinLayer)
 		pinLayer.setZIndex(100)
-		coreStore.map.on('singleclick', ({ coordinate }) => {
-			click(coordinate)
+		coreStore.map.on('singleclick', async ({ coordinate }) => {
+			await click(coordinate)
 		})
 		setupCoordinateSource()
 		setupInitial()
@@ -82,8 +82,8 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 
 	function teardownPlugin() {
 		const { map } = coreStore
-		map.un('singleclick', ({ coordinate }) => {
-			click(coordinate)
+		map.un('singleclick', async ({ coordinate }) => {
+			await click(coordinate)
 		})
 		removePin()
 		map.removeLayer(pinLayer)
@@ -152,17 +152,17 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		translate.on('translateend', ({ features }) => {
 			getsDragged.value = false
 
-			features.forEach((feature) => {
+			features.forEach(async (feature) => {
 				const geometryCoordinates = (
 					feature.getGeometry() as Point
 				).getCoordinates()
 
 				addPin(
-					!isCoordinateInBoundaryLayer(
+					!(await isCoordinateInBoundaryLayer(
 						geometryCoordinates,
 						coreStore.map,
 						configuration.value.boundary
-					)
+					))
 						? coordinate.value
 						: geometryCoordinates
 				)
@@ -171,7 +171,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		coreStore.map.addInteraction(translate)
 	}
 
-	function click(coordinate: Coordinate) {
+	async function click(coordinate: Coordinate) {
 		const isDrawing = coreStore.map
 			.getInteractions()
 			.getArray()
@@ -190,11 +190,11 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			// NOTE: It is assumed that getZoom actually returns the currentZoomLevel, thus the view has a constraint in the resolution.
 			(coreStore.map.getView().getZoom() as number) >= minZoomLevel &&
 			!isDrawing &&
-			isCoordinateInBoundaryLayer(
+			(await isCoordinateInBoundaryLayer(
 				coordinate,
 				coreStore.map,
 				configuration.value.boundary
-			)
+			))
 		) {
 			addPin(coordinate)
 		}
