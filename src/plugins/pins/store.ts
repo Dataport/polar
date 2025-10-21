@@ -237,12 +237,15 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 
 	return {
 		coordinate,
+
 		/**
 		 * The {@link coordinate | pinCoordinate} transcribed to latitude / longitude.
 		 */
 		latLon,
+
 		/** @internal */
 		setupPlugin,
+
 		/** @internal */
 		teardownPlugin,
 	}
