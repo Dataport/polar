@@ -76,8 +76,8 @@
 	],
 	"devDependencies": {
 		"@actions/github": "^6.0.1",
-		"@commitlint/cli": "^19.8.1",
-		"@commitlint/config-conventional": "^19.8.1",
+		"@commitlint/cli": "^20.1.0",
+		"@commitlint/config-conventional": "^20.0.0",
 		"@dataport/eslint-config-geodev": "^1.0.0-alpha.1",
 		"@kern-ux/native": "^2.3.0",
 		"@masterportal/masterportalapi": "2.48.0",
