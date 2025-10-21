@@ -3,6 +3,7 @@
 	<div
 		ref="polar-map-container"
 		class="polar-map"
+		:class="{ 'polar-shadow': !hasWindowSize }"
 		tabindex="0"
 		role="region"
 		:aria-label="$t(($) => $.canvas.label, { ns: 'core' })"
@@ -147,6 +148,13 @@ watch(hasWindowSize, updateListeners)
 <!-- eslint-disable-next-line vue/enforce-style-attribute -->
 <style>
 @import url('ol/ol.css');
+
+.polar-shadow {
+	.ol-viewport {
+		border-radius: var(--kern-metric-border-radius-large) !important;
+		overflow: hidden;
+	}
+}
 </style>
 
 <style scoped>
