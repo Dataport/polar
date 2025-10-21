@@ -1,38 +1,17 @@
-import type { ResourceKey } from 'i18next'
 import type { VueElement } from 'vue'
 import type { MarkerConfiguration } from './marker'
 import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
+import type { LocaleOverride } from './locales'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { ToastPluginOptions } from '@/plugins/toast'
-
-/**
- * Copied from https://stackoverflow.com/a/54178819.
- *
- * Makes the properties defined by type `K` optional in type `T`.
- *
- * @example `PartialBy<LayerConfiguration, 'id' | 'name'>`
- */
-export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
-
-export interface Locale {
-	resources: Record<string, ResourceKey>
-	/** Language key as described in the i18next documentation. */
-	type: string
-}
 
 export interface ServiceAvailabilityCheck {
 	ping: Promise<number>
 	serviceId: string
 	serviceName: string
 }
-
-/**
- *
- * Map-Config
- *
- */
 
 export type InitialLanguage = 'de' | 'en'
 
@@ -55,6 +34,28 @@ export interface PolarMapOptions {
 }
 
 /**
+ * Service register for use with `@masterportal/masterportalapi`.
+ *
+ * Whitelisted and confirmed parameters include:
+ * - WMS:      `id`, `name`, `url`, `typ`, `format`, `version`, `transparent`, `layers`, `styles`, `singleTile`
+ * - WFS:      `id`, `name`, `url`, `typ`,  `outputFormat`, `version`, `featureType`
+ * - WMTS:     `id`, `name`, `urls`, `typ`, `capabilitiesUrl`, `optionsFromCapabilities`, `tileMatrixSet`, `layers`,
+ *             `legendURL`, `format`, `coordinateSystem`, `origin`, `transparent`, `tileSize`, `minScale`, `maxScale`,
+ *             `requestEncoding`, `resLength`
+ * - OAF:      `id`, `name`, `url`, `typ`, `collection`, `crs`, `bboxCrs`
+ * - GeoJSON:  `id`, `name`, `url`, `typ`, `version`, `minScale`, `maxScale`, `legendURL`
+ *
+ * To load this from an URL, call {@link fetchServiceRegister}.
+ * You may also pass the URL directly to the `serviceRegister` parameter of {@link createMap}.
+ *
+ * An example for a predefined service register is [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
+ * Full documentation regarding the configuration can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+ * However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet,
+ * and no documentation regarding implemented properties exists there yet.
+ */
+export type MasterportalApiServiceRegister = Record<string, unknown>[]
+
+/**
  * The `<...masterportalapi.fields>` means that any \@masterportal/masterportalapi field may also be used here _directly_
  * in the {@link MapConfiguration | `mapConfiguration`}. The fields described here are fields that are interesting for
  * the usage of POLAR.
@@ -72,6 +73,7 @@ export interface MasterportalApiConfiguration {
 	 * ```
 	 */
 	startCenter: [number, number]
+
 	/**
 	 * Leading coordinate system. The coordinate system has to be defined in
 	 * {@link MasterportalApiConfiguration.namedProjections | `mapConfiguration.namedProjections`} as well.
@@ -90,6 +92,7 @@ export interface MasterportalApiConfiguration {
 	 * ```
 	 */
 	epsg?: `EPSG:${string}`
+
 	/**
 	 * Map movement will be restricted to the rectangle described by the given coordinates. Unrestricted by default.
 	 * Coordinates need to be defined in the chosen leading coordinate system configured by
@@ -101,6 +104,7 @@ export interface MasterportalApiConfiguration {
 	 * ```
 	 */
 	extent?: [number, number, number, number]
+
 	/**
 	 * Array of usable coordinated systems mapped to a projection as a proj4 string. Defines `'EPSG:25832'`, `'EPSG:3857'`,
 	 * `'EPSG:4326'`, `'EPSG:31467'` and `'EPSG:4647'` by default. If you set a value, please mind that all pre-configured
@@ -117,6 +121,7 @@ export interface MasterportalApiConfiguration {
 	 * ```
 	 */
 	namedProjections?: Array<[string, string]>
+
 	/**
 	 * Defines all available zoom levels mapped to the respective resolution and related scale.
 	 * The resolution is dependent on the chosen leading coordinate system configured by
@@ -140,6 +145,7 @@ export interface MasterportalApiConfiguration {
 	 * ```
 	 */
 	options?: PolarMapOptions[]
+
 	/**
 	 * Initial resolution; must be described in {@link MasterportalApiConfiguration.options | `mapConfiguration.options`}.
 	 * Defaults to `15.874991427504629` which is a zoom level defined in the default configuration of
@@ -176,8 +182,10 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * ```
 	 */
 	layers: LayerConfiguration[]
+
 	/** If set to `true`, all services' availability will be checked with head requests. */
 	checkServiceAvailability?: boolean
+
 	/**
 	 * Optional path to define styles for vector features. The parameter may be a url or a path on the local file system.
 	 * See `mapConfiguration.featureStyles` for more information.
@@ -196,6 +204,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * configurability regarding positioning or add a custom layout as Vue component.
 	 */
 	layout?: 'standard' | 'nineRegions' | VueElement
+
 	/**
 	 * All locales in POLAR and its plugins can be overridden to fit your needs.
 	 * Take a look at the respective documentation for all values that can be overridden.
@@ -230,7 +239,8 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * When reading the locale tables, please mind that the dot notation (`a.b.c | value`) has to be written as separate
 	 * keys in nested objects as seen in the example above (`{a: {b: {c: "value"}}}`).
 	 */
-	locales?: Locale[]
+	locales?: LocaleOverride[]
+
 	/**
 	 * If set, all configured visible vector layers' features can be hovered and selected by mouseover and click respectively.
 	 * They are available as features in the store. Layers with `clusterDistance` will be clustered to a multi-marker
@@ -241,11 +251,13 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * {@link MapConfiguration.featureStyles | `mapConfiguration.featureStyles`}.
 	 */
 	markers?: MarkerConfiguration
+
 	/**
 	 * If a secured layer is supposed to be visible on start, the token also has to be provided via this configuration parameter.
 	 * Updates to the token have to be done by updating the store parameter `oidcToken`.
 	 */
 	oidcToken?: string
+
 	/**
 	 * Regular expression defining URLs that belong to secured services. All requests sent to URLs that fit the regular
 	 * expression will send the JSON Web Token (JWT) found in the store parameter `oidcToken` as a Bearer token in the

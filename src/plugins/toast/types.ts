@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 import type { Color, Icon, PluginOptions } from '@/core'
 
 /**
@@ -23,7 +24,7 @@ export interface ToastTheme {
  */
 export interface Toast {
 	severity: ToastSeverity
-	text: string
+	text: string | Ref<string>
 	theme?: ToastTheme
 }
 

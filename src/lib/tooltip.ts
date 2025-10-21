@@ -1,24 +1,12 @@
-import i18next, { type TOptions } from 'i18next'
+import i18next from 'i18next'
 
-/**
- * The first entry is an HTML element tag, and the second entry is a locale key
- * used as (translated) child of that tag. May also include values that are
- * not locale keys. Translation will be tried on anything that's given. If a
- * third object is present, it's assumed to be translation options.
- */
-export type TooltipLocaleKeys = [string, string, TOptions?][]
-
-export interface GetTooltipParams {
-	/** Wrapper elements and locale keys to use in the tooltip. */
-	localeKeys: TooltipLocaleKeys
-	/** Inline style string. If none used, default styling is applied. */
-	style?: string
-}
+type TooltipLocaleKeys = [string, string][]
 
 export interface Tooltip {
-	/** Tooltip as a div, bound to inputs. */
+	/** tooltip as a div, bound to inputs */
 	element: HTMLDivElement
-	/** Unregisters i18next listeners so garbage collection may pick tooltip up when you no longer need it. Usage only required on dynamic div creation. */
+
+	/** unregisters i18next listeners so garbage collection may pick tooltip up when you no longer need it. usage only required on dynamic div creation. */
 	unregister: () => void
 }
 
@@ -26,8 +14,9 @@ const setInnerHtml =
 	(tooltip: HTMLDivElement, localeKeys: TooltipLocaleKeys) => () =>
 		(tooltip.innerHTML = localeKeys
 			.map(
-				([element, localeKey, options]) =>
-					`<${element}>${i18next.t(localeKey, options)}</${element}>`
+				([element, localeKey]) =>
+					// @ts-expect-error | Locale keys are dynamic.
+					`<${element}>${i18next.t(localeKey)}</${element}>`
 			)
 			.join(''))
 
@@ -39,32 +28,38 @@ const defaultStyle = `
 	box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.5);
 `
 
-/*
- * Minimal package that provides a `div` element factory bound to `i18next`
+/**
+ * This function is basically a `div` element factory bound to `i18next`
  * translations. The element is supposed to be used in `ol/Overlay`, but may be
- * used in any context.
+ * used in any context. The typical use case is to add information when hovering
+ * features in the map.
  *
- * Usage example:
+ * @param localeKeys - Locale keys to use in the tooltip. In the format
+ * [string, string][], the first entry is an HTML element tag, and the second
+ * entry is a locale key used as (translated) child of that tag. May also
+ * include values that are not locale keys. Translation will be tried on anything.
+ * @param style - Inline style string. If none used, default styling is applied.
  *
- * ```js
- * import { getTooltip } from '@polar/lib-tooltip'
+ * @example
+ * ```
+ * import { getTooltip } from '@/lib/tooltip'
  *
  * // 'unregister' to drop locale listener after usage of 'element' (div) ends
- * const {element, unregister} = getTooltip({
- *  // optional inline style string; undefined for default, '' for none
- * 	style: '',
- * 	localeKeys: [
+ * const { element, unregister } = getTooltip(
+ * 	[
  * 		// tag/content pairs
  * 		['h2', 'plugins.myPlugin.header'],
- * 		['p', 'plugins.myPlugin.body']
+ * 		['p', 'plugins.myPlugin.body'],
  * 	],
- * })
+ * 	// optional inline style string; undefined for default, '' for none
+ * 	''
+ * )
  * ```
  */
-export const getTooltip = ({
-	style = defaultStyle,
-	localeKeys,
-}: GetTooltipParams): Tooltip => {
+export function getTooltip(
+	localeKeys: TooltipLocaleKeys,
+	style = defaultStyle
+): Tooltip {
 	const element = document.createElement('div')
 	element.style.cssText = style
 

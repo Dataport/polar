@@ -1,102 +1,73 @@
 <template>
-	<div class="polar-icon-button-wrapper">
-		<div class="polar-icon-button-anchor">
-			<button
-				ref="button"
-				class="kern-btn kern-btn--secondary polar-icon-button"
-				:disabled="disabled"
-				:class="{ 'polar-icon-button-active': active }"
-				@click="action"
-			>
-				<span
-					class="kern-icon"
-					:class="{
-						[$props.icon]: true,
-						'polar-icon-button-icon-active': active,
-					}"
-					aria-hidden="true"
-				/>
-				<span class="kern-label kern-sr-only">{{ hint }}</span>
-			</button>
-			<span
-				v-if="$props.tooltipPosition && !hasSmallDisplay"
-				class="polar-tooltip"
-				:class="`polar-tooltip-${$props.tooltipPosition}`"
-				aria-hidden="true"
-			>
-				{{ hint }}
-			</span>
-		</div>
-	</div>
+	<button
+		class="kern-btn kern-btn--secondary polar-icon-button"
+		:class="{ 'polar-icon-button-active': active }"
+	>
+		<span
+			class="kern-icon"
+			:class="{ [icon]: true, 'polar-icon-button-icon-active': active }"
+			aria-hidden="true"
+		/>
+		<span class="kern-label kern-sr-only">{{ hint }}</span>
+		<span
+			v-if="tooltipPosition && !hasSmallDisplay"
+			class="polar-tooltip"
+			:class="`polar-tooltip-${tooltipPosition}`"
+			aria-hidden="true"
+		>
+			{{ hint }}
+		</span>
+	</button>
 </template>
 
 <script setup lang="ts">
-import { t, type TOptions } from 'i18next'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores/export'
 
-/*
- * TODO(dopenguin): Implementation will need some updates when using with layout 'standard'
- */
-
-const props = defineProps<{
-	action: () => void
+defineProps<{
 	hint: string
-	hintNamespace: string
 	icon: string
 	active?: boolean
-	disabled?: boolean
-	hintOptions?: TOptions
 	tooltipPosition?: 'left' | 'right'
 }>()
-
-const hint = computed(
-	() =>
-		console.error(props) ||
-		t(props.hint, { ns: props.hintNamespace, ...props.hintOptions })
-)
 const { hasSmallDisplay } = storeToRefs(useCoreStore())
 </script>
 
 <style scoped>
-.polar-icon-button-anchor {
-	display: flex;
-	align-items: center;
+.polar-icon-button {
 	position: relative;
+	background: var(--kern-color-layout-background-default);
+	box-shadow:
+		0 1px 1px 0 rgba(53, 57, 86, 0.16),
+		0 1px 2px 0 rgba(53, 57, 86, 0.25),
+		0 1px 6px 0 rgba(110, 117, 151, 0.25);
+	border: none;
+	pointer-events: all;
 
-	.polar-icon-button {
+	&:focus,
+	&:hover {
 		background: var(--kern-color-layout-background-default);
-		box-shadow:
-			0 1px 1px 0 rgba(53, 57, 86, 0.16),
-			0 1px 2px 0 rgba(53, 57, 86, 0.25),
-			0 1px 6px 0 rgba(110, 117, 151, 0.25);
-		border: none;
+		border: solid var(--kern-color-action-on-default);
+		outline: solid var(--kern-color-action-default);
+	}
+
+	.polar-icon-button-active {
+		background: var(--kern-color-action-default);
 
 		&:focus,
 		&:hover {
-			background: var(--kern-color-layout-background-default);
+			background: var(--kern-color-action-default);
 			border: solid var(--kern-color-action-on-default);
 			outline: solid var(--kern-color-action-default);
 		}
+	}
 
-		.polar-icon-button-active {
-			background: var(--kern-color-action-default);
-
-			&:focus,
-			&:hover {
-				background: var(--kern-color-action-default);
-				border: solid var(--kern-color-action-on-default);
-				outline: solid var(--kern-color-action-default);
-			}
-		}
-
-		.polar-icon-button-icon-active {
-			background: var(--kern-color-layout-background-default);
-		}
+	.polar-icon-button-icon-active {
+		background: var(--kern-color-layout-background-default);
 	}
 
 	.polar-tooltip {
+		z-index: 42;
 		position: absolute;
 		padding: 5px 16px;
 		font-family: sans-serif;
@@ -108,20 +79,21 @@ const { hasSmallDisplay } = storeToRefs(useCoreStore())
 		line-height: 22px;
 		white-space: nowrap;
 		pointer-events: none;
-		transition: opacity 250ms ease;
+		transition-property: opacity, right, left;
+		transition-duration: 250ms;
+		transition-timing-function: ease;
 		opacity: 0;
 
 		&.polar-tooltip-left {
-			right: calc(100% + 0.5rem);
+			right: calc(100% + 0.75rem);
 		}
-
 		&.polar-tooltip-right {
-			left: calc(100% + 0.5rem);
+			left: calc(100% + 0.75rem);
 		}
 	}
 
 	&:hover .polar-tooltip,
-	&:has(button:focus-visible) .polar-tooltip {
+	&:focus-visible .polar-tooltip {
 		opacity: 1;
 	}
 }

@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, toRaw, type Reactive } from 'vue'
 import { toMerged } from 'es-toolkit'
 import {
@@ -51,7 +51,7 @@ export const useToastStore = defineStore('plugins/toast', () => {
 		)
 
 		const toastItem: ToastItem = { toast }
-		toasts.value.push(toastItem)
+		toasts.value.push(toastItem as (typeof toasts.value)[number])
 
 		if (typeof optionsWithDefaults.timeout === 'number') {
 			toastItem.timeout = setTimeout(
@@ -212,4 +212,8 @@ if (import.meta.vitest) {
 			expect(store.toasts[0]?.theme).toEqual(result)
 		}
 	)
+}
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useToastStore, import.meta.hot))
 }

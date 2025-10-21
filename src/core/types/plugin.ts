@@ -1,19 +1,23 @@
 import type { SetupStoreDefinition } from 'pinia'
 import type { Component } from 'vue'
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
-import type { Locale } from './main'
+import type { Locale } from './locales'
 
 import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
 import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
-
-import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
-import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
-
-import type { PluginId as ToastPluginId } from '@/plugins/toast'
-import type { useToastStore as ToastStore } from '@/plugins/toast/store'
+import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
 
 import type { PluginId as GeoLocationPluginId } from '@/plugins/geoLocation'
 import type { useGeoLocationStore as GeoLocationStore } from '@/plugins/geoLocation/store'
+import type { resourcesEn as GeoLocationResources } from '@/plugins/geoLocation/locales'
+
+import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
+import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
+import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
+
+import type { PluginId as ToastPluginId } from '@/plugins/toast'
+import type { useToastStore as ToastStore } from '@/plugins/toast/store'
+import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
 
 export interface PluginOptions {
 	displayComponent?: boolean
@@ -29,13 +33,16 @@ export interface LayerBoundPluginOptions extends PluginOptions {
 	 * selecting unfit coordinates.
 	 */
 	boundaryLayerId?: string
+
 	/**
 	 * If the boundary layer check does not work due to loading or configuration
 	 * errors, style `'strict'` will disable the affected feature, and style
 	 * `'permissive'` will act as if no boundaryLayerId was set.
 	 * @defaultValue `'permissive'`
 	 */
+
 	boundaryOnError?: BoundaryOnError
+
 	/**
 	 * Whether the user should, in error cases, be informed with a toast.
 	 * @defaultValue `false`
@@ -56,11 +63,11 @@ export type PolarPluginStore<
 /** @internal */
 export type BundledPluginId =
 	| typeof FullscreenPluginId
+	| typeof GeoLocationPluginId
 	| typeof IconMenuPluginId
 	| typeof ToastPluginId
-	| typeof GeoLocationPluginId
 
-type CheckPlugin<
+type GetPluginStore<
 	T extends BundledPluginId,
 	I extends BundledPluginId,
 	// TODO: This fixes the type error, but relaxes type-checking for the plugin store too much.
@@ -69,11 +76,29 @@ type CheckPlugin<
 	S extends PolarPluginStore<any>,
 > = T extends I ? S : never
 
+/** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
-	| CheckPlugin<T, typeof FullscreenPluginId, typeof FullscreenStore>
-	| CheckPlugin<T, typeof IconMenuPluginId, typeof IconMenuStore>
-	| CheckPlugin<T, typeof ToastPluginId, typeof ToastStore>
-	| CheckPlugin<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
+	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
+	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
+	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
+	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
+
+type GetPluginResources<
+	T extends BundledPluginId,
+	I extends BundledPluginId,
+	S extends Locale['resources'],
+> = T extends I ? S : never
+
+/** @internal */
+export type BundledPluginLocaleResources<T extends BundledPluginId> =
+	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
+	| GetPluginResources<
+			T,
+			typeof GeoLocationPluginId,
+			typeof GeoLocationResources
+	  >
+	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
+	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 
 /** @internal */
 export type ExternalPluginId = `external-${string}`

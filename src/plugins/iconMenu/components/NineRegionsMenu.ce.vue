@@ -2,7 +2,7 @@
 	<component :is="asList ? 'ul' : 'div'" class="polar-plugin-icon-menu-list">
 		<component
 			:is="asList ? 'li' : 'div'"
-			v-for="({ plugin, icon, hint }, index) of menus"
+			v-for="({ plugin, icon }, index) of menus.flat()"
 			:key="index"
 			:class="
 				deviceIsHorizontal
@@ -17,13 +17,21 @@
 					v-if="buttonComponent"
 					:id="plugin.id"
 					:icon="icon"
-					:hint="hint ? hint : `hints.${plugin.id}`"
+					:hint="
+						$t(($) => $.hints[plugin.id], {
+							ns: 'iconMenu',
+						})
+					"
 					:index="index"
 				/>
 				<NineRegionsButton
 					v-else
 					:icon="icon"
-					:hint="hint ? hint : `hints.${plugin.id}`"
+					:hint="
+						$t(($) => $.hints[plugin.id], {
+							ns: 'iconMenu',
+						})
+					"
 					:index="index"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
@@ -56,9 +64,9 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
+import { useIconMenuStore } from '../store'
 import NineRegionsButton from './NineRegionsButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
-import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
+import { useCoreStore } from '@/core/stores/export'
 
 const { clientHeight, deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
 	storeToRefs(useCoreStore())
@@ -115,7 +123,7 @@ provide('updateMaxWidth', updateMaxWidth)
 	position: relative;
 	list-style: none;
 	padding: 0;
-	margin: 8px;
+	margin: 0.5rem;
 }
 
 .polar-plugin-icon-menu-list-item-horizontal {

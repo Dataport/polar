@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-/* keep this block to enforce language */
+// keep this block to enforce language
 </script>

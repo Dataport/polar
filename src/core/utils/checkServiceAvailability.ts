@@ -1,10 +1,15 @@
 import { ping } from '@masterportal/masterportalapi'
-import type { MapConfiguration, ServiceAvailabilityCheck } from '../types'
+import { t } from 'i18next'
+import type {
+	MapConfiguration,
+	MasterportalApiServiceRegister,
+	ServiceAvailabilityCheck,
+} from '../types'
 import { notifyUser } from '@/lib/notifyUser'
 
 export function checkServiceAvailability(
 	configuration: MapConfiguration,
-	register: Record<string, unknown>[]
+	register: MasterportalApiServiceRegister
 ) {
 	configuration.layers
 		.map(({ id }) => ({
@@ -35,10 +40,13 @@ export function checkServiceAvailability(
 			ping
 				.then((statusCode) => {
 					if (statusCode !== 200) {
-						notifyUser('warning', 'error.serviceUnavailable', {
-							serviceId,
-							serviceName,
-						})
+						notifyUser('warning', () =>
+							t(($) => $.error.serviceUnavailable, {
+								ns: 'core',
+								serviceId,
+								serviceName,
+							})
+						)
 
 						// always print status code for debugging purposes
 						console.error(`Ping to "${serviceId}" returned "${statusCode}".`)

@@ -1,7 +1,11 @@
-import type { Map } from 'ol'
+import type { Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
-import { Vector as VectorLayer } from 'ol/layer'
-import { Vector as VectorSource } from 'ol/source'
+import VectorLayer from 'ol/layer/Vector'
+import VectorSource from 'ol/source/Vector'
+
+// arbitrarily give up after 10s of stalling (100 * 100ms)
+const readinessCheckLimit = 100
+const readinessWaitTime = 100
 
 export const errors = {
 	undefinedBoundaryLayer: Symbol.for('Boundary Layer undefined'),
@@ -9,16 +13,12 @@ export const errors = {
 	sourceNotReady: Symbol.for('Source not ready'),
 } as const
 
-// arbitrarily give up after 10s of stalling (100 * 100ms)
-const readinessCheckLimit = 100
-const readinessWaitTime = 100
-
 /**
  * @param source - source to check for readiness
  * @returns Promise that resolves true if source is in 'ready' state with at
  * least one feature within time limit; else resolves false.
  */
-const isReady = async (source: VectorSource): Promise<boolean> => {
+async function isReady(source: VectorSource) {
 	let readinessChecks = 0
 
 	while (source.getState() !== 'ready' || source.getFeatures().length === 0) {
@@ -35,17 +35,20 @@ const isReady = async (source: VectorSource): Promise<boolean> => {
 }
 
 /**
+ * Checks whether the given coordinate is withing the boundary of the layer that
+ * has the given layer id.
+ *
  * @returns Resolves true if coordinate is within boundary, false if outside of
  * boundary, and an error symbol if something about the check broke. If no
- * boundaryLayerId is set, it always resolves true, think "no boundary exists".
+ * boundaryLayerId is set, it always resolves true, as in "no boundary exists".
  */
-export const passesBoundaryCheck = async (
+export async function passesBoundaryCheck(
 	map: Map,
 	boundaryLayerId: string | undefined,
 	coordinate: Coordinate
-): Promise<boolean | symbol> => {
+) {
 	if (typeof boundaryLayerId === 'undefined') {
-		return Promise.resolve(true)
+		return true
 	}
 
 	const boundaryLayer = map
@@ -55,33 +58,31 @@ export const passesBoundaryCheck = async (
 
 	if (!(boundaryLayer instanceof VectorLayer)) {
 		console.error(
-			`@polar/polar/lib/passesBoundaryCheck: No layer configured to match boundaryLayerId "${boundaryLayerId}".`
+			`No layer configured to match boundaryLayerId "${boundaryLayerId}".`
 		)
-		return Promise.resolve(errors.undefinedBoundaryLayer)
+		return errors.undefinedBoundaryLayer
 	}
 
 	const boundaryLayerSource = boundaryLayer.getSource()
 
 	if (!(boundaryLayerSource instanceof VectorSource)) {
 		console.error(
-			`@polar/polar/lib/passesBoundaryCheck: Layer with boundaryLayerId "${boundaryLayerId}" missing source.`
+			`Layer with boundaryLayerId "${boundaryLayerId}" missing source.`
 		)
-		return Promise.resolve(errors.undefinedBoundarySource)
+		return errors.undefinedBoundarySource
 	}
 
 	const sourceReady = await isReady(boundaryLayerSource)
 
 	if (!sourceReady) {
 		console.error(
-			`@polar/polar/lib/passesBoundaryCheck: Layer with boundaryLayerId "${boundaryLayerId}" did not load or is featureless.`
+			`Layer with boundaryLayerId "${boundaryLayerId}" did not load or is featureless.`
 		)
-		return Promise.resolve(errors.sourceNotReady)
+		return errors.sourceNotReady
 	}
 
-	const features = boundaryLayerSource.getFeatures()
-	return Promise.resolve(
-		features.some((feature) =>
-			feature.getGeometry()?.intersectsCoordinate(coordinate)
-		)
+	const features = boundaryLayerSource.getFeatures() as Feature[]
+	return features.some((feature) =>
+		feature.getGeometry()?.intersectsCoordinate(coordinate)
 	)
 }

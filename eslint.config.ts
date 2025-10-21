@@ -5,10 +5,14 @@ import tsConfig from '@dataport/eslint-config-geodev/typescript'
 import vueConfig from '@dataport/eslint-config-geodev/vue'
 import jsonConfig from '@dataport/eslint-config-geodev/json'
 import markdownConfig from '@dataport/eslint-config-geodev/markdown'
+import htmlConfig from '@dataport/eslint-config-geodev/html'
 import prettierConfig from 'eslint-plugin-prettier/recommended'
 import perfectionist from 'eslint-plugin-perfectionist'
 
-const polarConfig = {
+/**
+ * POLAR-specific ESLint configuration
+ */
+const polarConfig = defineConfig({
 	plugins: {
 		perfectionist,
 	},
@@ -21,10 +25,27 @@ const polarConfig = {
 		// POLAR-specific rules
 		'no-warning-comments': 'warn',
 		'no-void': 'off',
+		'@stylistic/lines-around-comment': [
+			'error',
+			{
+				beforeBlockComment: true,
+				allowBlockStart: true,
+				allowObjectStart: true,
+				allowArrayStart: true,
+				allowClassStart: true,
+				allowEnumStart: true,
+				allowInterfaceStart: true,
+				allowModuleStart: true,
+				allowTypeStart: true,
+			},
+		],
 	},
-}
+})
 
-const polarTsConfig = {
+/**
+ * POLAR-specific TypeScript ESLint configuration
+ */
+const polarTsConfig = defineConfig({
 	rules: {
 		// Relaxed rules
 		'@typescript-eslint/no-unsafe-argument': 'off',
@@ -49,9 +70,12 @@ const polarTsConfig = {
 			},
 		],
 	},
-}
+})
 
-const polarVueConfig = {
+/**
+ * POLAR-specific Vue ESLint configuration
+ */
+const polarVueConfig = defineConfig({
 	rules: {
 		// POLAR-specific rules
 		'vue/no-empty-component-block': 'error',
@@ -79,7 +103,21 @@ const polarVueConfig = {
 		'vue/require-default-export': 'error',
 		'vue/enforce-style-attribute': ['error', { allow: ['scoped'] }],
 	},
-}
+})
+
+/**
+ * POLAR-specific HTML ESLint configuration
+ */
+const polarHtmlConfig = defineConfig({
+	rules: {
+		// POLAR-specific rules
+		'@html-eslint/require-closing-tags': ['error', { selfClosing: 'always' }],
+		'@html-eslint/no-extra-spacing-attrs': [
+			'error',
+			{ enforceBeforeSelfClose: true },
+		],
+	},
+})
 
 export default defineConfig([
 	{
@@ -117,6 +155,12 @@ export default defineConfig([
 		],
 	},
 	{
+		files: ['**/eslint.config.ts'],
+		rules: {
+			'@typescript-eslint/naming-convention': 'off',
+		},
+	},
+	{
 		files: ['**/*.vue'],
 		extends: [
 			mainConfig,
@@ -130,6 +174,12 @@ export default defineConfig([
 		],
 	},
 	{
+		files: ['**/examples/**/*.vue'],
+		rules: {
+			'vue/enforce-style-attribute': ['error', { allow: ['scoped', 'module'] }],
+		},
+	},
+	{
 		files: ['**/*.json'],
 		ignores: ['package-lock.json'],
 		extends: [jsonConfig],
@@ -137,5 +187,9 @@ export default defineConfig([
 	{
 		files: ['**/*.md'],
 		extends: [markdownConfig],
+	},
+	{
+		files: ['**/*.html'],
+		extends: [htmlConfig, polarHtmlConfig],
 	},
 ])

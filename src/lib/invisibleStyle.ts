@@ -16,6 +16,7 @@ import { Feature } from 'ol'
  *
  */
 export const InvisibleStyle = new Style()
+
 /**
  * Checks if a feature is invisible.
  *
@@ -23,6 +24,7 @@ export const InvisibleStyle = new Style()
  */
 export const isInvisible = (feature: Feature) =>
 	feature.getStyle() === InvisibleStyle
+
 /**
  * Checks if a feature is visible.
  *

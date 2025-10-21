@@ -1,6 +1,6 @@
 import { Feature } from 'ol'
 import { Point } from 'ol/geom'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { CallOnMapSelect } from '../types'
 import { useMainStore } from './main'
@@ -36,3 +36,7 @@ export const useMarkerStore = defineStore('marker', () => {
 		selectedCoordinates,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useMarkerStore, import.meta.hot))
+}

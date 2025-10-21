@@ -1,14 +1,17 @@
 <template>
 	<PolarIconButton
-		:action="() => (fullscreenEnabled = !fullscreenEnabled)"
 		:class="layout === 'standard' ? 'polar-plugin-fullscreen-standard' : ''"
-		hint="button.label"
-		:hint-options="{ context: fullscreenEnabled ? 'off' : 'on' }"
-		:hint-namespace="PluginId"
+		:hint="
+			$t(($) => $.button.label, {
+				ns: PluginId,
+				context: fullscreenEnabled ? 'off' : 'on',
+			})
+		"
 		:icon="
 			fullscreenEnabled ? 'kern-icon--fullscreen-exit' : 'kern-icon--fullscreen'
 		"
 		tooltip-position="left"
+		@click="() => (fullscreenEnabled = !fullscreenEnabled)"
 	/>
 </template>
 
@@ -24,10 +27,7 @@ const { fullscreenEnabled } = storeToRefs(useFullscreenStore())
 </script>
 
 <style scoped>
-.polar-plugin-fullscreen-standard {
-	position: absolute;
-	right: 0;
-	margin: 8px;
-	pointer-events: all;
+.polar-icon-button.polar-plugin-fullscreen-standard {
+	box-shadow: none;
 }
 </style>
