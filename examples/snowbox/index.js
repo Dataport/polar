@@ -8,6 +8,7 @@ import {
 } from '@polar/polar'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
+import pluginPins from '@polar/polar/plugins/pins'
 import pluginToast from '@polar/polar/plugins/toast'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
@@ -19,6 +20,7 @@ const basemapId = '23420'
 const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
+const hamburgBorder = '1693'
 
 // eslint-disable-next-line no-unused-vars
 const dataportTheme = {
@@ -81,6 +83,13 @@ const map = await createMap(
 				id: basemapGreyId,
 				type: 'background',
 				name: 'snowbox.layers.basemapGrey',
+			},
+			{
+				id: hamburgBorder,
+				visibility: true,
+				hideInMenu: true,
+				type: 'mask',
+				name: 'meldemichel.layers.hamburgBorder',
 			},
 			{
 				id: reports,
@@ -185,6 +194,19 @@ addPlugin(
 	pluginToast({
 		displayComponent: true,
 		layoutTag: 'BOTTOM_MIDDLE',
+	})
+)
+addPlugin(
+	map,
+	pluginPins({
+		boundary: {
+			layerId: hamburgBorder,
+		},
+		movable: 'drag',
+		style: {
+			fill: '#FF0019',
+		},
+		toZoomLevel: 7,
 	})
 )
 addPlugin(
