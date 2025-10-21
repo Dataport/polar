@@ -12,7 +12,6 @@
 			/* style just for example page, not directly related to POLAR */
 			:root {
 				--not-quite-white: #f2f3f4;
-				--eigengrau: #16161d;
 				--map-height: 600px;
 			}
 
@@ -46,14 +45,11 @@
 			}
 
 			.snowbox {
-				width: 100vw;
-				max-width: calc(100% + 64px);
+				width: 90vw;
+				max-width: 100%;
 				height: var(--map-height);
-				position: relative;
 				margin-top: 10px;
 				margin-bottom: 10px;
-				left: -32px;
-				outline: solid var(--eigengrau);
 			}
 		</style>
 	</head>
@@ -71,7 +67,9 @@
 			Coordinates of currently selected feature: <span id="selected-feature-coordinates"></span>
 		</div>
 		<h2>Demo application ("Snowbox")</h2>
-		<div id="snowbox" class="snowbox"></div>
+		<div style="display: flex; justify-content: center;">
+			<div id="snowbox" class="snowbox"></div>
+		</div>
 		<div style="margin-top: 4em"></div>
 		<h2>Second map</h2>
 		<button id="secondMap">Add a map client</button>
