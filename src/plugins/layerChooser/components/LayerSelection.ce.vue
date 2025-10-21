@@ -29,7 +29,7 @@
 						class="polar-layer-chooser-checkbox-wrapper"
 					>
 						<PolarInput
-							v-model="activeMasks"
+							v-model="activeMaskIds"
 							:id-suffix="`polar-layer-chooser-mask-${type}`"
 							:label="name"
 							type="checkbox"
@@ -56,7 +56,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useLayerChooserStore } from '../store'
 import { PluginId } from '../types'
@@ -67,6 +66,7 @@ import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
 const layerChooserStore = useLayerChooserStore()
 const {
 	activeBackgroundId,
+	activeMaskIds,
 	backgrounds,
 	disabledBackgrounds,
 	disabledMasks,
@@ -74,13 +74,6 @@ const {
 	masksSeparatedByType,
 	shownMasks,
 } = storeToRefs(layerChooserStore)
-
-const activeMasks = computed({
-	get: () => layerChooserStore.activeMaskIds,
-	set: (newValue) => {
-		layerChooserStore.setActiveMaskIds(newValue)
-	},
-})
 
 function updateOpenedOptions(layerId: string) {
 	layerChooserStore.openedOptionsId = layerId

@@ -95,9 +95,9 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		// At most one background, arbitrarily many masks
 		activeBackgroundId.value =
 			configuredBackgrounds.find(({ visibility }) => visibility)?.id || ''
-		setActiveMaskIds(
-			configuredMasks.filter(({ visibility }) => visibility).map(({ id }) => id)
-		)
+		activeMaskIds.value = configuredMasks
+			.filter(({ visibility }) => visibility)
+			.map(({ id }) => id)
 		updateActiveAndAvailableLayersByZoom()
 		coreStore.map.on('moveend', updateActiveAndAvailableLayersByZoom)
 		// NOTE: Not relevant to be awaited.
@@ -132,10 +132,9 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 			})
 	})
 
-	function setActiveMaskIds(ids: string[]) {
+	watch(activeMaskIds, (ids) => {
 		setActiveMaskIdsVisibility(ids)
-		activeMaskIds.value = ids
-	}
+	})
 
 	function setActiveMaskIdsVisibility(ids: string[]) {
 		coreStore.map
@@ -244,9 +243,6 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 		/** @internal */
 		teardownPlugin,
-
-		/** @internal */
-		setActiveMaskIds,
 
 		/** @internal */
 		toggleOpenedOptionsServiceLayer,
