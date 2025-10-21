@@ -12,7 +12,7 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	backgroundTitle: 'Hintergrundkarten',
 	maskTitle: 'Fachdaten',
-	layerHeader: 'Auswahl sichtbarer Ebenen für Layer "$t({{name}})"',
+	layerHeader: 'Auswahl sichtbarer Ebenen für Layer "{{name}}"',
 	layerOptions: 'Optionen für Kartenmaterial',
 	returnToLayers: 'Zurück',
 } as const
