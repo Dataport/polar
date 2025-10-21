@@ -110,5 +110,6 @@ function closeOptions() {
 
 .kern-label {
 	padding: 0;
+	padding-left: var(--kern-metric-space-small);
 }
 </style>
