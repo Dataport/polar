@@ -117,7 +117,9 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 			})
 		})
 	}
-	function teardownPlugin() {}
+	function teardownPlugin() {
+		coreStore.map.un('moveend', updateActiveAndAvailableLayersByZoom)
+	}
 
 	watch(activeBackgroundId, (id) => {
 		coreStore.map
