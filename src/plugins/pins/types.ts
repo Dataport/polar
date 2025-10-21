@@ -49,7 +49,7 @@ export interface PinsPluginOptions extends PluginOptions {
 	 * @example
 	 * ```
 	 * {
-	 *   coordinates: [611694.909470, 5975658.233007],
+	 *   coordinate: [611694.909470, 5975658.233007],
 	 *   centerOn: true,
 	 *   epsg: 'EPSG:25832'
 	 * }
