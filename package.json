@@ -119,7 +119,7 @@
 		"typescript": "~5.9.2",
 		"util": "^0.12.5",
 		"vite": "^7.1.5",
-		"vite-plugin-checker": "^0.10.3",
+		"vite-plugin-checker": "^0.11.0",
 		"vite-plugin-commonjs": "^0.10.4",
 		"vite-plugin-dts": "^4.5.4",
 		"vite-plugin-kern-extra-icons": "^0.3.0",
