@@ -57,11 +57,11 @@ export default defineConfig(({ mode }) => ({
 			name: '@polar/polar',
 			formats: ['es'],
 			entry: {
-				polar: 'src/core/tooltip.ts',
+				polar: 'src/core/index.ts',
 				store: 'src/core/stores/export.ts',
 				...Object.fromEntries(
 					globSync('src/plugins/*/').flatMap((path) => [
-						[`plugin-${basename(path)}`, [path, 'tooltip.ts'].join(sep)],
+						[`plugin-${basename(path)}`, [path, 'index.ts'].join(sep)],
 						[`plugin-${basename(path)}-store`, [path, 'store.ts'].join(sep)],
 					])
 				),
@@ -91,7 +91,7 @@ export default defineConfig(({ mode }) => ({
 								],
 								[
 									`@polar/polar/plugins/${basename(path)}`,
-									resolve(path, 'tooltip.ts'),
+									resolve(path, 'index.ts'),
 								],
 							])
 						),
@@ -108,7 +108,7 @@ export default defineConfig(({ mode }) => ({
 							'core',
 							'.polar-dev.css'
 						),
-						'@polar/polar': resolve(__dirname, 'src', 'core', 'tooltip.ts'),
+						'@polar/polar': resolve(__dirname, 'src', 'core', 'index.ts'),
 					}
 				: {}),
 			'@': resolve(__dirname, 'src'),
