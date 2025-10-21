@@ -1,19 +1,22 @@
 import type { SetupStoreDefinition } from 'pinia'
 import type { Component } from 'vue'
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
-import type { Locale } from './main'
+import type { Locale } from './locales'
 
 import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
 import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
+import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
 
 import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
 import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
+import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
 
 import type { PluginId as PinsPluginId } from '@/plugins/pins'
 import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
 
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
+import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
 
 export interface PluginOptions {
 	displayComponent?: boolean
@@ -37,7 +40,7 @@ export type BundledPluginId =
 	| typeof PinsPluginId
 	| typeof ToastPluginId
 
-type CheckPlugin<
+type GetPluginStore<
 	T extends BundledPluginId,
 	I extends BundledPluginId,
 	// TODO: This fixes the type error, but relaxes type-checking for the plugin store too much.
@@ -46,11 +49,24 @@ type CheckPlugin<
 	S extends PolarPluginStore<any>,
 > = T extends I ? S : never
 
+/** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
-	| CheckPlugin<T, typeof FullscreenPluginId, typeof FullscreenStore>
-	| CheckPlugin<T, typeof IconMenuPluginId, typeof IconMenuStore>
-	| CheckPlugin<T, typeof PinsPluginId, typeof PinsStore>
-	| CheckPlugin<T, typeof ToastPluginId, typeof ToastStore>
+	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
+	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
+	| GetPluginStore<T, typeof PinsPluginId, typeof PinsStore>
+	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
+
+type GetPluginResources<
+	T extends BundledPluginId,
+	I extends BundledPluginId,
+	S extends Locale['resources'],
+> = T extends I ? S : never
+
+/** @internal */
+export type BundledPluginLocaleResources<T extends BundledPluginId> =
+	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
+	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
+	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 
 /** @internal */
 export type ExternalPluginId = `external-${string}`
@@ -73,6 +89,7 @@ export interface PluginContainer {
 	 * @example `fullscreen`
 	 */
 	id: PluginId
+
 	/**
 	 * A Vue component if required.
 	 *
@@ -81,6 +98,7 @@ export interface PluginContainer {
 	 * or will be determined by the layout.
 	 */
 	component?: Component
+
 	/**
 	 * Whether the plugin is independently rendered.
 	 *
@@ -88,12 +106,14 @@ export interface PluginContainer {
 	 * @defaultValue true
 	 */
 	independent?: boolean
+
 	/**
 	 * Locales used in the plugin.
 	 *
 	 * The locales will be loaded to the namespace that equals the plugin's ID.
 	 */
 	locales?: Locale[]
+
 	/**
 	 * Configuration options. Please also note that all configuration added via plugin constructors can be overridden in
 	 * the {@link createMap | `createMap`'s parameter `mapConfiguration`} .
@@ -104,6 +124,7 @@ export interface PluginContainer {
 	 * How exactly you do this is up to you and influences the minimum API call requirements your client has.
 	 */
 	options?: PluginOptions
+
 	/**
 	 * Pinia store module if required.
 	 * If the storeModule features a `setupPlugin` action, it will be executed automatically after initialization.

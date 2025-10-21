@@ -1,5 +1,7 @@
+export * from './types/utils'
 export * from './types/marker'
 export * from './types/plugin'
 export * from './types/layer'
 export * from './types/theme'
+export * from './types/locales'
 export * from './types/main'

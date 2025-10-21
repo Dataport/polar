@@ -1,35 +1,28 @@
 <template>
-	<!-- TODO(dopenguin): Tooltip is missing; tooltip is disabled if hasSmallDisplay is true -->
-	<!-- TODO(dopenguin): Possible colour change is missing -->
-	<button class="kern-btn kern-btn--primary" @click="toggle">
-		<span class="kern-icon" :class="$props.icon" aria-hidden="true" />
-		<span class="kern-label kern-sr-only">
-			{{ $t(hint, { ns: 'iconMenu' }) }}
-		</span>
-	</button>
+	<PolarIconButton
+		:active="active"
+		:hint="hint"
+		:icon="icon"
+		tooltip-position="left"
+		@click="toggle"
+	/>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { inject } from 'vue'
-// import { useCoreStore } from '@/core/stores/export.ts'
-import { useIconMenuStore } from '@/plugins/iconMenu/store.ts'
+import { computed, inject } from 'vue'
+import { useIconMenuStore } from '../store'
+import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 
 const props = defineProps<{
-	id: string
 	icon: string
 	index: number
 	hint: string
 }>()
 
-/*
- * TODO: Enable when used
-const coreStore = useCoreStore()
-const { hasSmallDisplay } = storeToRefs(coreStore)
-*/
-
 const iconMenuStore = useIconMenuStore()
 const { open } = storeToRefs(iconMenuStore)
+const active = computed(() => open.value === props.index)
 
 const updateMaxWidth = inject('updateMaxWidth') as () => void
 

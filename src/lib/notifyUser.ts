@@ -1,16 +1,18 @@
-import i18next, { type TOptions } from 'i18next'
+import type { Ref } from 'vue'
 import { useCoreStore } from '@/core/stores/export'
+import { computedT } from '@/lib/computedT'
 
 export function notifyUser(
 	severity: 'error' | 'warning' | 'info' | 'success',
-	translationKey: string,
-	translationContext?: TOptions
+	text: string | Ref<string> | (() => string)
 ) {
 	const coreStore = useCoreStore()
 	const toastStore = coreStore.getPluginStore('toast')
 	if (!toastStore) {
 		return
 	}
-	const text = i18next.t(translationKey, translationContext)
+	if (typeof text === 'function') {
+		text = computedT(text)
+	}
 	toastStore.addToast({ severity, text })
 }

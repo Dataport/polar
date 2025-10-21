@@ -1,12 +1,19 @@
-import { changeLanguage } from 'i18next'
-import pluginToast from '@polar/polar/plugins/toast'
-import { useToastStore } from '@polar/polar/plugins/toast/store'
+import {
+	addPlugin,
+	createMap,
+	createMapElement,
+	getStore,
+	subscribe,
+	updateState,
+} from '@polar/polar'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
-import { addPlugin, createMap, subscribe } from '@polar/polar'
+import pluginToast from '@polar/polar/plugins/toast'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
 import AnotherEmptyComponent from './AnotherEmptyComponent.vue'
+import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
+import GeoLocationMockCe from './GeoLocationMock.ce.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -60,7 +67,8 @@ const isReportSelectable = (feature) =>
 		)
 */
 
-await createMap(
+const map = await createMap(
+	'snowbox',
 	{
 		layers: [
 			{
@@ -89,7 +97,7 @@ await createMap(
 				visibility: true,
 			},
 		],
-		layout: 'nineRegions',
+		layout: 'standard',
 		checkServiceAvailability: true,
 		featureStyles: styleJsonUrl,
 		markers: {
@@ -132,6 +140,12 @@ await createMap(
 							label_off: 'Mach klein',
 						},
 					},
+					iconMenu: {
+						hints: {
+							attributions: 'LMAO',
+							fullscreen: 'BEEEEEG YOSHEEEEE',
+						},
+					},
 				},
 			},
 		],
@@ -139,71 +153,95 @@ await createMap(
 	'https://geodienste.hamburg.de/services-internet.json'
 )
 
-await createMap(
-	{
-		layers: [
-			{
-				id: basemapId,
-				visibility: true,
-				type: 'background',
-				name: 'snowbox.layers.basemap',
-			},
-		],
-	},
-	'https://geodienste.hamburg.de/services-internet.json',
-	'dataport-map'
-)
-
-document.getElementById('secondMap').addEventListener('click', () => {
-	const secondMap = document.createElement('dataport-map')
+document.getElementById('secondMap').addEventListener('click', async () => {
+	const secondMap = await createMapElement(
+		{
+			layers: [
+				{
+					id: basemapId,
+					visibility: true,
+					type: 'background',
+					name: 'snowbox.layers.basemap',
+				},
+			],
+		},
+		'https://geodienste.hamburg.de/services-internet.json'
+	)
 	secondMap.classList.add('snowbox')
 	document.getElementById('secondMapContainer').appendChild(secondMap)
+	addPlugin(
+		secondMap,
+		pluginFullscreen({
+			layoutTag: 'TOP_RIGHT',
+		})
+	)
 })
 document.getElementById('secondMapClean').addEventListener('click', () => {
 	document.getElementById('secondMapContainer').innerText = ''
 })
 
 addPlugin(
-	pluginIconMenu({
-		displayComponent: true,
-		layoutTag: 'TOP_RIGHT',
-		initiallyOpen: 'kewl',
-		menus: [
-			{
-				plugin: pluginFullscreen(),
-				hint: 'Full of yourself',
-			},
-			// TODO: Delete these two including the component once another plugin is implemented
-			{
-				plugin: {
-					component: EmptyComponent,
-					id: 'kewl',
-					locales: [],
-				},
-				icon: 'kern-icon-fill--layers',
-				hint: 'Something layered',
-			},
-			{
-				plugin: {
-					component: AnotherEmptyComponent,
-					id: 'realKewl',
-					locales: [],
-				},
-				icon: 'kern-icon--layers',
-				hint: 'Something kewl',
-			},
-		],
-	})
-)
-
-addPlugin(
+	map,
 	pluginToast({
 		displayComponent: true,
 		layoutTag: 'BOTTOM_MIDDLE',
 	})
 )
+addPlugin(
+	map,
+	pluginIconMenu({
+		displayComponent: true,
+		layoutTag: 'TOP_RIGHT',
+		initiallyOpen: 'kewl',
+		focusMenus: [
+			{
+				plugin: {
+					component: YetAnotherEmptyComponent,
+					id: 'attributions',
+					locales: [],
+				},
+				icon: 'kern-icon--near-me',
+			},
+		],
+		menus: [
+			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
+			[
+				{
+					plugin: {
+						component: GeoLocationMockCe,
+						id: 'geoLocationMock',
+						locales: [],
+					},
+				},
+			],
+			[
+				{
+					plugin: {
+						component: AnotherEmptyComponent,
+						id: 'realKewl',
+						locales: [],
+					},
+					icon: 'kern-icon--share',
+				},
+			],
+			[
+				{
+					plugin: {
+						component: EmptyComponent,
+						id: 'kewl',
+						locales: [],
+					},
+					icon: 'kern-icon-fill--layers',
+				},
+				{
+					plugin: pluginFullscreen({}),
+				},
+			],
+		],
+	})
+)
 
-const toastStore = useToastStore()
+const toastStore = getStore(map, 'toast')
 toastStore.addToast({
 	text: 'Hallo Welt',
 	severity: 'info',
@@ -214,7 +252,8 @@ toastStore.addToast({
 })
 
 subscribe(
-	'markers',
+	map,
+	'core',
 	'selectedCoordinates',
 	(coordinates) =>
 		(document.getElementById('selected-feature-coordinates').innerText =
@@ -229,8 +268,7 @@ document
 	.addEventListener('change', (event) => {
 		const target = event.target
 		const { value } = target
-		changeLanguage(value).then(() => {
-			target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
-			target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
-		})
+		updateState(map, 'core', 'language', value)
+		target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
+		target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
 	})
