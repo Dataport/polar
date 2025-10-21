@@ -5,6 +5,7 @@ import { getPinSvg } from './getPinSvg'
 export const getPinStyle = ({
 	fill = '#005CA9',
 	stroke = '#FFF',
+	svg,
 }: PinStyle) => {
 	let usedFill = ''
 	if (typeof fill === 'string') {
@@ -26,7 +27,7 @@ export const getPinStyle = ({
 
 	return new Style({
 		image: new Icon({
-			src: `data:image/svg+xml;base64,${btoa(getPinSvg(usedFill, usedStroke))}`,
+			src: `data:image/svg+xml;base64,${btoa(getPinSvg(usedFill, usedStroke, svg))}`,
 			scale: 2,
 			anchor: [0.5, 1],
 		}),

@@ -11,7 +11,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
 */
 
-export const getPinSvg = (fill: string, stroke: string) => `
+export const getPinSvg = (fill: string, stroke: string, svg?: string) => {
+	if (svg) {
+		const document = new DOMParser().parseFromString(svg, 'image/svg+xml')
+		// Update fill and stroke values
+		document.querySelectorAll<SVGElement>('[fill]').forEach((el) => {
+			el.setAttribute('fill', fill)
+		})
+		document.querySelectorAll<SVGElement>('[stroke]').forEach((el) => {
+			el.setAttribute('stroke', stroke)
+		})
+		// Set fill and stoke values on elements that do not have it.
+		document
+			.querySelectorAll<SVGElement>('path, circle, rect, polygon, ellipse')
+			.forEach((el) => {
+				if (!el.hasAttribute('fill')) {
+					el.setAttribute('fill', fill)
+				}
+				if (!el.hasAttribute('stroke')) {
+					el.setAttribute('stroke', stroke)
+				}
+			})
+		return new XMLSerializer().serializeToString(document)
+	}
+	return `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -26,6 +49,7 @@ export const getPinSvg = (fill: string, stroke: string) => `
     />
   </svg>
 `
+}
 
 /*
 

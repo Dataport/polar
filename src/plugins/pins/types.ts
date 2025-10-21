@@ -114,6 +114,11 @@ export interface PinStyle {
 	 * @defaultValue '#FFF'
 	 */
 	stroke?: Color
+
+	/**
+	 * Custom SVG icon for the pin icon.
+	 */
+	svg?: string
 }
 
 interface InitialPin {
