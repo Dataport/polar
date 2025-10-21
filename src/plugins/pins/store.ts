@@ -238,6 +238,9 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	}
 
 	return {
+		/**
+		 * Current coordinate of the pin.
+		 */
 		coordinate,
 
 		/**
