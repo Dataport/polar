@@ -1,3 +1,12 @@
+/* eslint-disable tsdoc/syntax */
+/**
+ * This is the documentation for the locales keys in the layerChooser plugin.
+ * These locales are *NOT* exported, but documented only.
+ *
+ * @module locales/plugins/layerChooser
+ */
+/* eslint-enable tsdoc/syntax */
+
 import type { Locale } from '@/core'
 
 export const resourcesDe = {
