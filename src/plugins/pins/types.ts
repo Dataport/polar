@@ -23,6 +23,7 @@ export interface PinsPluginOptions extends PluginOptions {
 	 * ```
 	 */
 	boundary?: PinBoundary
+
 	/**
 	 * The pins plugin may react to changes in other plugins.
 	 * This parameter specifies the path to such store positions.
@@ -41,6 +42,7 @@ export interface PinsPluginOptions extends PluginOptions {
 	 * ```
 	 */
 	coordinateSource?: { pluginName: PolarPluginId; getterName: string }
+
 	/**
 	 * Configuration options for setting an initial pin.
 	 *
@@ -54,12 +56,14 @@ export interface PinsPluginOptions extends PluginOptions {
 	 * ```
 	 */
 	initial?: InitialPin
+
 	/**
 	 * Minimum zoom level for sensible marking.
 	 *
 	 * @defaultValue 0
 	 */
 	minZoomLevel?: number
+
 	/**
 	 * Whether a user may drag and re-click the pin (`'drag'`), only re-click it
 	 * (`'click'`) or may only be placed programmatically (`'none'`).
@@ -67,8 +71,10 @@ export interface PinsPluginOptions extends PluginOptions {
 	 * @defaultValue 'none'
 	 */
 	movable?: PinMovable
+
 	/** Display style configuration. */
 	style?: PinStyle
+
 	/**
 	 * Zoom level to use on outside input by e.g. address search.
 	 *
@@ -82,6 +88,7 @@ export interface PinBoundary {
 	 * ID of the vector layer to restrict pins to.
 	 */
 	layerId: string
+
 	/**
 	 * If the boundary layer check does not work due to loading or configuration
 	 * errors, style `'strict'` will disable the pins feature, and style
@@ -100,6 +107,7 @@ export interface PinStyle {
 	 * @defaultValue '#005CA9'
 	 */
 	fill?: Color
+
 	/**
 	 * Stroke (that is, border) color of the pin.
 	 *
@@ -111,12 +119,14 @@ export interface PinStyle {
 interface InitialPin {
 	/** Coordinate pair for the pin. */
 	coordinate: number[]
+
 	/**
 	 * If set to true, center on and zoom to the given coordinates on start
 	 *
 	 * @defaultValue false
 	 */
 	centerOn?: boolean
+
 	/**
 	 * Coordinate reference system in which the given coordinates are encoded.
 	 *

@@ -22,10 +22,12 @@ export interface PolarMapOptions {
 	 * ({@link MasterportalApiConfiguration.epsg} | `epsg`).
 	 */
 	resolution: number
+
 	/**
 	 * Scale in meters.
 	 */
 	scale: number
+
 	/**
 	 * Zoom level.
 	 */
@@ -190,6 +192,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * See `mapConfiguration.featureStyles` for more information.
 	 */
 	featureStyles?: string
+
 	/**
 	 * The initial language the client should be using.
 	 *
@@ -262,6 +265,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * Authorization header of the request. Requests already including an Authorization header will keep the already present one.
 	 */
 	secureServiceUrlRegex?: RegExp
+
 	/**
 	 * Custom theme for POLAR.
 	 *
@@ -274,9 +278,11 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	/* eslint-disable perfectionist/sort-interfaces */
 	/**  Configuration for fullscreen plugin. */
 	fullscreen?: FullscreenPluginOptions
+
 	/** Configuration for iconMenu plugin. */
 	iconMenu?: IconMenuPluginOptions
 	pins?: PinsPluginOptions
+
 	/** Configuration for toast plugin. */
 	toast?: ToastPluginOptions
 	/* eslint-enable perfectionist/sort-interfaces */
