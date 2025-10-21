@@ -26,7 +26,7 @@ export interface PinsPluginOptions extends PluginOptions {
 
 	/**
 	 * The pins plugin may react to changes in other plugins.
-	 * This parameter specifies the path to such store positions.
+	 * This parameter specifies the paths to such store positions.
 	 *
 	 * The position must, when subscribed to, return a GeoJSON feature.
 	 *
@@ -35,13 +35,13 @@ export interface PinsPluginOptions extends PluginOptions {
 	 *
 	 * @example
 	 * ```
-	 * {
+	 * [{
 	 *   pluginName: 'addressSearch',
 	 *   getterName: 'chosenAddress'
-	 * }
+	 * }]
 	 * ```
 	 */
-	coordinateSource?: { pluginName: PolarPluginId; getterName: string }
+	coordinateSources?: { pluginName: PolarPluginId; getterName: string }[]
 
 	/**
 	 * Configuration options for setting an initial pin.

@@ -95,29 +95,31 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	}
 
 	function setupCoordinateSource() {
-		const { coordinateSource } = configuration.value
-		if (!coordinateSource) {
+		const { coordinateSources } = configuration.value
+		if (!coordinateSources) {
 			return
 		}
-		const pluginStore = coreStore.getPluginStore(coordinateSource.pluginName)
-		if (!pluginStore) {
-			return
-		}
-		// TODO: After e.g. AddressSearch has been implemented, check if {deep: true} is needed as an option for watch
-		// redo pin if source (e.g. from addressSearch) changes
-		coordinateSourceWatcher = watch(
-			() => pluginStore[coordinateSource.getterName],
-			(feature) => {
-				// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
-				// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
-				if (feature && feature.type !== 'reverse_geocoded') {
-					addPin(feature.geometry.coordinates, false, {
-						epsg: feature.epsg,
-						type: feature.geometry.type,
-					})
-				}
+		coordinateSources.forEach((source) => {
+			const pluginStore = coreStore.getPluginStore(source.pluginName)
+			if (!pluginStore) {
+				return
 			}
-		)
+			// TODO: After e.g. AddressSearch has been implemented, check if {deep: true} is needed as an option for watch
+			// redo pin if source (e.g. from addressSearch) changes
+			coordinateSourceWatcher = watch(
+				() => pluginStore[source.getterName],
+				(feature) => {
+					// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
+					// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
+					if (feature && feature.type !== 'reverse_geocoded') {
+						addPin(feature.geometry.coordinates, false, {
+							epsg: feature.epsg,
+							type: feature.geometry.type,
+						})
+					}
+				}
+			)
+		})
 	}
 
 	function setupInitial() {
