@@ -1,4 +1,4 @@
-import { type Feature, Map } from 'ol'
+import type { Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
