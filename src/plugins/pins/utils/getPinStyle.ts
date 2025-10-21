@@ -1,6 +1,6 @@
 import { Style, Icon } from 'ol/style'
+import type { PinStyle } from '../types'
 import { getPinSvg } from './getPinSvg'
-import type { PinStyle } from '@/plugins/pins'
 
 export const getPinStyle = ({
 	fill = '#005CA9',
