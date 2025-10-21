@@ -157,7 +157,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 
 		const boundaryCheckPassed = await passesBoundaryCheck(
 			coreStore.map,
-			configuration.value.boundaryLayerId,
+			configuration.value.boundary.layerId,
 			coordinatesInMapCrs
 		)
 
@@ -166,7 +166,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 
 		const showBoundaryLayerError =
 			typeof boundaryCheckPassed === 'symbol' &&
-			configuration.value.boundaryOnError === 'strict'
+			configuration.value.boundary.onError === 'strict'
 
 		if (!isCoordinateInExtent || showBoundaryLayerError) {
 			printPositioningFailed(showBoundaryLayerError)
@@ -314,8 +314,10 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	return {
 		/** @internal */
 		setupPlugin,
+
 		/** @internal */
 		teardownPlugin,
+
 		/**
 		 * The plugin's current state. It can either currently have the user's
 		 * position ('LOCATED'), be ready to retrieve it ('LOCATABLE'), or be
@@ -323,17 +325,20 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		 * the Geolocation API access.
 		 */
 		state,
+
 		/**
 		 * The action that would currently unfold upon clicking the icon, depending
 		 * on the state. If the state is 'DISABLED', nothing is done. In the other
 		 * states, the geolocation procedure is (re-)run.
 		 */
 		action,
+
 		/**
 		 * While in state 'LOCATED', the user's location's coordinated are available
 		 * as [number, number] of the map's configured CRS.
 		 */
 		position,
+
 		/**
 		 * Initially null. If no boundary check is configured or the check is
 		 * passed, this field holds `true`. If the boundary check is not passed,

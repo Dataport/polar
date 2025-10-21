@@ -24,15 +24,22 @@ export interface PluginOptions {
 	layoutTag?: keyof typeof NineLayoutTag
 }
 
-export type BoundaryOnError = 'strict' | 'permissive'
-
-export interface LayerBoundPluginOptions extends PluginOptions {
+interface BoundaryOptions {
 	/**
-	 * Set to check whether something is within the layer's boundaries.
+	 * ID of the vector layer to restrict requests to.
 	 * The layer must contain vectors. This is useful for restricted maps to avoid
 	 * selecting unfit coordinates.
 	 */
-	boundaryLayerId?: string
+	layerId: string
+
+	/**
+	 * If the boundary layer check does not work due to loading or configuration
+	 * errors, style `'strict'` will disable the affected feature, and style
+	 * `'permissive'` will act as if no {@link layerId} was set.
+	 *
+	 * @defaultValue 'permissive'
+	 */
+	onError?: 'strict' | 'permissive'
 
 	/**
 	 * If the boundary layer check does not work due to loading or configuration
@@ -40,14 +47,13 @@ export interface LayerBoundPluginOptions extends PluginOptions {
 	 * `'permissive'` will act as if no boundaryLayerId was set.
 	 * @defaultValue `'permissive'`
 	 */
+}
 
-	boundaryOnError?: BoundaryOnError
-
+export interface LayerBoundPluginOptions extends PluginOptions {
 	/**
-	 * Whether the user should, in error cases, be informed with a toast.
-	 * @defaultValue `false`
+	 * Set to check whether something is within the layer's boundaries.
 	 */
-	toast?: boolean
+	boundary?: BoundaryOptions
 }
 
 export type PolarPluginStore<
