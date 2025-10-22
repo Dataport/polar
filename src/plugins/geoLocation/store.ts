@@ -102,9 +102,9 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	let teardownTooltip = noop
 	function setupTooltip() {
 		if (showTooltip.value) {
-			const { unregister, element } = getTooltip({
-				localeKeys: [['h2', 'markerText', { ns: 'geoLocation' }]],
-			})
+			const { unregister, element } = getTooltip([
+				['h2', 'markerText', { ns: 'geoLocation' }],
+			])
 			const overlay = new Overlay({
 				element,
 				positioning: 'bottom-center',
