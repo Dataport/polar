@@ -1,11 +1,10 @@
 <template>
 	<PolarIconButton
 		v-if="state !== 'DISABLED'"
-		:action="action"
-		hint="button.tooltip"
-		:hint-namespace="PluginId"
+		:hint="$t(($) => $.button.tooltip, { ns: PluginId })"
 		:icon="icon"
 		:tooltip-position="tooltipPosition"
+		@click="geoLocationStore.locate"
 	/>
 </template>
 
@@ -19,7 +18,7 @@ import { useCoreStore } from '@/core/stores/export'
 
 const { layout } = storeToRefs(useCoreStore())
 const geoLocationStore = useGeoLocationStore()
-const { action, state } = storeToRefs(geoLocationStore)
+const { state } = storeToRefs(geoLocationStore)
 // TODO: Place plugin in IconMenu; make it work if NineRegions if it is independent
 
 const icon = computed(() =>

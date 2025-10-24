@@ -42,15 +42,6 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	const lastBoundaryCheck = ref<boolean | symbol | null>(null)
 	const position = ref<number[]>([])
 
-	// TODO: change action, click shall always track or re-track, untracking is probably not a feature anymore
-	const action = computed(
-		() =>
-			({
-				LOCATABLE: track,
-				LOCATED: untrack,
-				DISABLED: noop,
-			})[state.value]
-	)
 	const configuration = computed<
 		GeoLocationPluginOptions & { showTooltip: boolean; zoomLevel: number }
 	>(() =>
@@ -137,9 +128,12 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		}
 	}
 
+	function locate() {
+		;(state.value === 'LOCATABLE' ? track : untrack)()
+	}
+
 	/** Enable tracking of geo position */
 	function track() {
-		alert('HUH')
 		if (isGeolocationDenied.value) {
 			onError({
 				message: 'Geolocation API usage was denied by user or configuration.',
@@ -284,12 +278,17 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 
 		/**
 		 * The action that would currently unfold upon clicking the icon, depending
-		 * on the state. If the state is 'DISABLED', nothing is done. In the other
-		 * states, the geolocation procedure is (re-)run.
+		 * on the state.
 		 *
 		 * @internal
 		 */
-		action,
+		locate,
+
+		/**
+		 * GeoLocation plugin configuration including default values.
+		 *
+		 * @internal
+		 */
 		configuration,
 
 		/**
