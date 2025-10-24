@@ -16,12 +16,13 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	markerText: 'Aktuelle Position',
 	button: {
+		locationAccessDenied: 'Standortzugriff nutzerseitig abgelehnt',
 		tooltip: 'Eigene Position markieren',
 	},
 	toast: {
-		notInBoundary: 'Sie befinden sich nicht im Kartengebiet.',
 		boundaryError:
 			'Die Überprüfung Ihrer Position ist fehlgeschlagen. Bitte versuchen Sie es später erneut oder wenden Sie sich an einen Administrator, wenn das Problem bestehen bleibt.',
+		notInBoundary: 'Sie befinden sich nicht im Kartengebiet.',
 	},
 } as const
 
@@ -32,12 +33,13 @@ export const resourcesDe = {
 export const resourcesEn = {
 	markerText: 'Current location',
 	button: {
+		locationAccessDenied: 'Location access denied by user',
 		tooltip: 'Mark own location',
 	},
 	toast: {
-		notInBoundary: "You are not within the map's boundaries.",
 		boundaryError:
 			'Validating your position failed. Please try later again or contact an administrator if the issue persists.',
+		notInBoundary: "You are not within the map's boundaries.",
 	},
 } as const
 
