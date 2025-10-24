@@ -7,6 +7,10 @@ import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
 import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
 import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
 
+import type { PluginId as GeoLocationPluginId } from '@/plugins/geoLocation'
+import type { useGeoLocationStore as GeoLocationStore } from '@/plugins/geoLocation/store'
+import type { resourcesEn as GeoLocationResources } from '@/plugins/geoLocation/locales'
+
 import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
 import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
 import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
@@ -18,6 +22,38 @@ import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
 export interface PluginOptions {
 	displayComponent?: boolean
 	layoutTag?: keyof typeof NineLayoutTag
+}
+
+interface BoundaryOptions {
+	/**
+	 * ID of the vector layer to restrict requests to.
+	 * The layer must contain vectors. This is useful for restricted maps to avoid
+	 * selecting unfit coordinates.
+	 */
+	layerId: string
+
+	/**
+	 * If the boundary layer check does not work due to loading or configuration
+	 * errors, style `'strict'` will disable the affected feature, and style
+	 * `'permissive'` will act as if no {@link layerId} was set.
+	 *
+	 * @defaultValue 'permissive'
+	 */
+	onError?: 'strict' | 'permissive'
+
+	/**
+	 * If the boundary layer check does not work due to loading or configuration
+	 * errors, style `'strict'` will disable the affected feature, and style
+	 * `'permissive'` will act as if no boundaryLayerId was set.
+	 * @defaultValue `'permissive'`
+	 */
+}
+
+export interface LayerBoundPluginOptions extends PluginOptions {
+	/**
+	 * Set to check whether something is within the layer's boundaries.
+	 */
+	boundary?: BoundaryOptions
 }
 
 export type PolarPluginStore<
@@ -33,6 +69,7 @@ export type PolarPluginStore<
 /** @internal */
 export type BundledPluginId =
 	| typeof FullscreenPluginId
+	| typeof GeoLocationPluginId
 	| typeof IconMenuPluginId
 	| typeof ToastPluginId
 
@@ -48,6 +85,7 @@ type GetPluginStore<
 /** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
+	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
 
@@ -60,6 +98,11 @@ type GetPluginResources<
 /** @internal */
 export type BundledPluginLocaleResources<T extends BundledPluginId> =
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
+	| GetPluginResources<
+			T,
+			typeof GeoLocationPluginId,
+			typeof GeoLocationResources
+	  >
 	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 

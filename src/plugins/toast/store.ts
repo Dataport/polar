@@ -10,6 +10,7 @@ import { toMerged } from 'es-toolkit'
 import {
 	PluginId,
 	type Toast,
+	type ToastOptions,
 	type ToastPluginOptions,
 	type ToastSeverity,
 	type ToastTheme,
@@ -37,12 +38,7 @@ export const useToastStore = defineStore('plugins/toast', () => {
 
 	const toasts = ref<ToastItem[]>([])
 
-	function addToast(
-		toast: Toast,
-		options?: {
-			timeout?: number | null
-		}
-	) {
+	function addToast(toast: Toast, options?: ToastOptions) {
 		const optionsWithDefaults = toMerged(
 			{
 				timeout: toast.severity === 'error' ? null : 5000,
