@@ -251,9 +251,10 @@ addPlugin(
 		showTooltip: true,
 		zoomLevel: 7,
 		// usable when you're in HH or fake your geolocation to HH
-		// boundaryLayerId: hamburgBorder,
-		// boundaryOnError: 'strict',
-		// toast: true,
+		/* boundary: {
+			layerId: hamburgBorder,
+			onError: 'strict',
+		}, */
 	})
 )
 
