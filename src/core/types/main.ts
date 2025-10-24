@@ -4,6 +4,7 @@ import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
 import type { LocaleOverride } from './locales'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
+import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { ToastPluginOptions } from '@/plugins/toast'
 
@@ -281,6 +282,11 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * Configuration for fullscreen plugin.
 	 */
 	fullscreen?: FullscreenPluginOptions
+
+	/**
+	 * Configuration for geoLocation plugin.
+	 */
+	geoLocation?: GeoLocationPluginOptions
 
 	/**
 	 * Configuration for iconMenu plugin.
