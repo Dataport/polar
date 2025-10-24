@@ -22,7 +22,6 @@ import { useCoreStore } from '@/core/stores/export'
 const { layout } = storeToRefs(useCoreStore())
 const geoLocationStore = useGeoLocationStore()
 const { state } = storeToRefs(geoLocationStore)
-// TODO: Place plugin in IconMenu; make it work if NineRegions if it is independent
 
 const icon = computed(() =>
 	state.value === 'LOCATED' ? 'kern-icon-fill--near-me' : 'kern-icon--near-me'
