@@ -1,6 +1,9 @@
 <template>
 	<PolarIconButton
 		v-if="state !== 'DISABLED'"
+		:class="
+			layout === 'nineRegions' ? 'polar-plugin-geoLocation-nineRegions' : ''
+		"
 		:hint="$t(($) => $.button.tooltip, { ns: PluginId })"
 		:icon="icon"
 		:tooltip-position="tooltipPosition"
@@ -34,11 +37,7 @@ const tooltipPosition = computed(() =>
 </script>
 
 <style scoped>
-.polar-plugin-geoLocation-standard {
-	position: absolute;
-	right: 0;
-	top: 4em;
-	margin: 8px;
-	pointer-events: all;
+.polar-plugin-geoLocation-nineRegions {
+	margin: 0.5rem;
 }
 </style>
