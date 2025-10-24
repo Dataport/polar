@@ -143,7 +143,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		if (geolocation.value === null) {
 			geolocation.value = new Geolocation({
 				trackingOptions: {
-					// required for heading TODO: should probably be configurable
+					// required for heading
 					enableHighAccuracy: true,
 				},
 				tracking: true,
