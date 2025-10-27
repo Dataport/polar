@@ -22,10 +22,9 @@ import { easeOut } from 'ol/easing'
 import { t } from 'i18next'
 import { useMainStore } from '../stores/main'
 
+import { checkServiceAvailability } from '../utils/checkServiceAvailability'
 import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
 import { setupStyling } from '../utils/map/setupStyling'
-
-import { checkServiceAvailability } from '../utils/checkServiceAvailability'
 import { setupMarkers } from '../utils/map/setupMarkers'
 import { useT } from '../composables/useT'
 import PolarMapOverlay from './PolarMapOverlay.ce.vue'
