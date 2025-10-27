@@ -79,9 +79,7 @@ onMounted(() => {
 function closeOptions() {
 	const previousOptions = openedOptionsId.value
 	openedOptionsId.value = ''
-	// NOTE: Not relevant here as nothing is followed by the nextTick call.
-	// eslint-disable-next-line @typescript-eslint/no-floating-promises
-	nextTick(() => {
+	void nextTick(() => {
 		coreStore.shadowRoot
 			?.getElementById(`polar-layer-chooser-options-${previousOptions}-button`)
 			?.focus()
@@ -110,5 +108,6 @@ function closeOptions() {
 
 .kern-label {
 	padding: 0;
+	padding-left: var(--kern-metric-space-small);
 }
 </style>

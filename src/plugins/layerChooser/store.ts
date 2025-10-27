@@ -6,7 +6,7 @@
 
 import { toMerged } from 'es-toolkit'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import Layer from 'ol/layer/Layer'
 import { ImageWMS, TileWMS } from 'ol/source'
 import type { LayerOptions } from './types'
@@ -41,8 +41,8 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 	const layersWithOptions = ref<Record<string, LayerOptions[]>>({})
 	const openedOptionsId = ref('')
 
-	const disabledBackgrounds = computed(() => {
-		return backgrounds.value.reduce(
+	const disabledBackgrounds = computed(() =>
+		backgrounds.value.reduce(
 			(acc, { id }) => ({
 				...acc,
 				[id]:
@@ -52,7 +52,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 			}),
 			{}
 		)
-	})
+	)
 	const disabledMasks = computed(() =>
 		shownMasks.value.reduce(
 			(acc, { id }) => ({
@@ -93,41 +93,35 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		}
 
 		// At most one background, arbitrarily many masks
-		setActiveBackgroundId(
-			configuredBackgrounds.find(({ visibility }) => visibility)?.id || null
-		)
-		setActiveMaskIds(
-			configuredMasks.filter(({ visibility }) => visibility).map(({ id }) => id)
-		)
+		activeBackgroundId.value =
+			configuredBackgrounds.find(({ visibility }) => visibility)?.id || ''
+		activeMaskIds.value = configuredMasks
+			.filter(({ visibility }) => visibility)
+			.map(({ id }) => id)
 		updateActiveAndAvailableLayersByZoom()
 		coreStore.map.on('moveend', updateActiveAndAvailableLayersByZoom)
-		// NOTE: Not relevant to be awaited.
-		// eslint-disable-next-line @typescript-eslint/no-floating-promises
-		loadCapabilities(coreStore.configuration.layers, capabilities.value).then(
-			(newCapabilities) => {
-				capabilities.value = newCapabilities
+		void loadCapabilities(
+			coreStore.configuration.layers,
+			capabilities.value
+		).then((newCapabilities) => {
+			capabilities.value = newCapabilities
 
-				coreStore.configuration.layers.forEach((layer) => {
-					const layerOptions = layer.options?.layers
-					if (layerOptions) {
-						layersWithOptions.value = toMerged(
-							layersWithOptions.value,
-							prepareLayersWithOptions(layer.id, newCapabilities, layerOptions)
-						)
-					}
-				})
-			}
-		)
+			coreStore.configuration.layers.forEach((layer) => {
+				const layerOptions = layer.options?.layers
+				if (layerOptions) {
+					layersWithOptions.value = toMerged(
+						layersWithOptions.value,
+						prepareLayersWithOptions(layer.id, newCapabilities, layerOptions)
+					)
+				}
+			})
+		})
 	}
-	function teardownPlugin() {}
+	function teardownPlugin() {
+		coreStore.map.un('moveend', updateActiveAndAvailableLayersByZoom)
+	}
 
-	function setActiveBackgroundId(id: string | null) {
-		if (id === null) {
-			console.error(
-				'Trying to set null as the active background layer is not possible. This is probably a configuration issue.'
-			)
-			return
-		}
+	watch(activeBackgroundId, (id) => {
 		coreStore.map
 			.getLayers()
 			.getArray()
@@ -137,13 +131,11 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 					layer.setVisible(layer.get('id') === id)
 				}
 			})
-		activeBackgroundId.value = id
-	}
+	})
 
-	function setActiveMaskIds(ids: string[]) {
+	watch(activeMaskIds, (ids) => {
 		setActiveMaskIdsVisibility(ids)
-		activeMaskIds.value = ids
-	}
+	})
 
 	function setActiveMaskIdsVisibility(ids: string[]) {
 		coreStore.map
@@ -176,7 +168,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 		// If the background map is no longer available, switch to first-best or none
 		if (!availableBackgroundIds.includes(activeBackgroundId.value)) {
-			setActiveBackgroundId(availableBackgroundIds[0] || null)
+			activeBackgroundId.value = availableBackgroundIds[0] || ''
 		}
 
 		/*
@@ -252,12 +244,6 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 		/** @internal */
 		teardownPlugin,
-
-		/** @internal */
-		setActiveBackgroundId,
-
-		/** @internal */
-		setActiveMaskIds,
 
 		/** @internal */
 		toggleOpenedOptionsServiceLayer,

@@ -9,7 +9,10 @@
 			:type="type"
 			:disabled="disabled"
 		/>
-		<label class="kern-label" :for="`polar-${type}-${value}-${idSuffix}`">
+		<label
+			class="polar-input kern-label"
+			:for="`polar-${type}-${value}-${idSuffix}`"
+		>
 			{{ label }}
 		</label>
 	</div>
