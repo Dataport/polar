@@ -110,11 +110,10 @@ function updateMaxWidth() {
 function toggle(index: number) {
 	if (open.value === index) {
 		open.value = -1
-		// TODO(dopenguin): This is called in mainStore
-		// setMoveHandle(null)
+		coreStore.setMoveHandle(null)
 	} else {
 		open.value = index
-		// iconMenuStore.openInMoveHandle(index)
+		iconMenuStore.openInMoveHandle(index)
 	}
 	updateMaxWidth()
 }
