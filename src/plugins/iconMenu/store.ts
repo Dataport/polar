@@ -4,6 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import { t } from 'i18next'
 import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
@@ -107,9 +108,10 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 
 		if (index !== -1) {
 			open.value = index
-			// openInMoveHandle(index)
+			openInMoveHandle(index)
 		}
 	}
+
 	function openFocusMenuById(openId: string) {
 		const index = focusMenus.value.findIndex(
 			({ plugin: { id } }) => id === openId
@@ -117,34 +119,46 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 
 		if (index !== -1) {
 			focusOpen.value = index
-			// openInMoveHandle(index, true)
+			openInMoveHandle(index, true)
 		}
 	}
-	// TODO(dopenguin): Implement once MoveHandle is implemented
-	/* function openInMoveHandle(index: number, focusMenu = false) {
-		const { hint, plugin } = focusMenu
-			? focusMenus.value[index]
-			: menus.value[index]
-		commit(
-			'setMoveHandle',
-			{
-				closeLabel: t('mobileCloseButton', {
-					ns: 'iconMenu',
-					plugin: hint || `plugins.iconMenu.hints.${plugin.id}`,
-				}),
-				closeFunction: () => {
-					if (focusMenu) {
-						focusOpen.value = -1
-						return
-					}
-					open.value = -1
-				},
-				component: plugin,
-				plugin: 'iconMenu',
+
+	function openInMoveHandle(index: number, focusMenu = false) {
+		const menu = focusMenu ? focusMenus.value[index] : menus.value.flat()[index]
+		if (!menu) {
+			console.error(`Menu with index ${index} could not be found.`)
+			return
+		}
+		if (!menu.plugin.component) {
+			console.error(
+				`The plugin ${menu.plugin.id} does not have any component to display and thus can not be opened in the moveHandle.`
+			)
+			return
+		}
+		// Content is displayed in the MoveHandle in this case. Thus, only one menu can be open at a time.
+		if (coreStore.hasWindowSize && coreStore.hasSmallWidth) {
+			if (focusMenu && open.value !== -1) {
+				open.value = -1
+			} else if (!focusMenu && focusOpen.value !== -1) {
+				focusOpen.value = -1
+			}
+		}
+		coreStore.setMoveHandle({
+			closeFunction: () => {
+				if (focusMenu) {
+					focusOpen.value = -1
+					return
+				}
+				open.value = -1
 			},
-			{ root: true }
-		)
-	} */
+			closeLabel: t(($) => $.mobileCloseButton, {
+				ns: 'iconMenu',
+				plugin: t(($) => $.hints[menu.plugin.id], { ns: 'iconMenu' }),
+			}),
+			component: menu.plugin.component,
+			plugin: 'iconMenu',
+		})
+	}
 
 	return {
 		menus,
@@ -152,6 +166,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		open,
 		focusOpen,
 		buttonComponent,
+		openInMoveHandle,
 		openMenuById,
 		openFocusMenuById,
 

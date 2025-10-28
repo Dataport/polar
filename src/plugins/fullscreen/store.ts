@@ -23,6 +23,7 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	const configuration = computed(
 		() => coreStore.configuration[PluginId] as FullscreenPluginOptions
 	)
+	const renderType = computed(() => configuration.value.renderType)
 
 	const targetContainer = computed(() => {
 		if (typeof configuration.value.targetContainer === 'string') {
@@ -101,6 +102,9 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 		 * @defaultValue false
 		 */
 		fullscreenEnabled,
+
+		/** @internal */
+		renderType,
 
 		/** @internal */
 		setupPlugin,
