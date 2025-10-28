@@ -15,6 +15,10 @@ import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
 import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
 import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
 
+import type { PluginId as LayerChooserPluginId } from '@/plugins/layerChooser'
+import type { useLayerChooserStore as LayerChooserStore } from '@/plugins/layerChooser/store'
+import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChooser/locales'
+
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
@@ -71,6 +75,7 @@ export type BundledPluginId =
 	| typeof FullscreenPluginId
 	| typeof GeoLocationPluginId
 	| typeof IconMenuPluginId
+	| typeof LayerChooserPluginId
 	| typeof ToastPluginId
 
 type GetPluginStore<
@@ -87,6 +92,7 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
+	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
 
 type GetPluginResources<
@@ -104,6 +110,11 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof GeoLocationResources
 	  >
 	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
+	| GetPluginResources<
+			T,
+			typeof LayerChooserPluginId,
+			typeof LayerChooserResources
+	  >
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 
 /** @internal */

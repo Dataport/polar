@@ -7,7 +7,7 @@
 			class="polar-plugin-icon-menu-focus-list-content"
 			:style="`max-height: ${maxHeight}`"
 		/>
-		<ul class="polar-plugin-icon-menu-focus-list">
+		<ul class="polar-plugin-icon-menu-focus-list" :style="bottom">
 			<li
 				v-for="({ buttonClass, icon, plugin }, index) of menus"
 				:key="index"
@@ -41,11 +41,23 @@ const props = defineProps<{
 }>()
 
 const coreStore = useCoreStore()
-const { hasSmallWidth, hasWindowSize } = storeToRefs(coreStore)
+const { clientHeight, hasSmallWidth, hasWindowSize, moveHandleTop } =
+	storeToRefs(coreStore)
 const iconMenuStore = useIconMenuStore()
 
 const pluginComponent = ref<Component | null>(null)
 
+const bottom = computed(
+	() =>
+		`bottom: ${
+			hasWindowSize.value && moveHandleTop.value !== null
+				? Math.min(
+						clientHeight.value - moveHandleTop.value,
+						clientHeight.value / 4
+					)
+				: 0
+		}px`
+)
 const maxHeight = computed(() =>
 	hasWindowSize.value
 		? 'inherit'
@@ -58,15 +70,14 @@ function toggle(index: number) {
 	if (iconMenuStore.focusOpen === index) {
 		iconMenuStore.focusOpen = -1
 		pluginComponent.value = null
-		// TODO(dopenguin): This is called in mainStore
-		// setMoveHandle(null)
+		coreStore.setMoveHandle(null)
 	} else {
 		iconMenuStore.focusOpen = index
 		pluginComponent.value = markRaw(
 			(props.menus.find((_, i) => i === index) as Menu).plugin
 				.component as Component
 		)
-		// iconMenuStore.openInMoveHandle(index, true)
+		iconMenuStore.openInMoveHandle(index, true)
 	}
 }
 </script>
@@ -81,7 +92,6 @@ function toggle(index: number) {
 	.polar-plugin-icon-menu-focus-list {
 		list-style: none;
 		position: absolute;
-		bottom: 0;
 		padding: 0;
 		border-radius: 0.5rem;
 		background: var(--kern-color-layout-background-default);
@@ -89,6 +99,7 @@ function toggle(index: number) {
 			0 1px 1px 0 rgba(53, 57, 86, 0.16),
 			0 1px 2px 0 rgba(53, 57, 86, 0.25),
 			0 1px 6px 0 rgba(110, 117, 151, 0.25);
+		transition: bottom 0.25s ease;
 
 		.polar-plugin-icon-menu-focus-list-item {
 			margin-bottom: 0;
