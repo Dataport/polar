@@ -44,6 +44,7 @@ function createMap() {
 	mainStore.map = api.map.createMap(
 		{
 			target: polarMapContainer.value,
+			extent: undefined,
 			...mainStore.configuration,
 			layerConf: mainStore.serviceRegister,
 		},

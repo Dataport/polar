@@ -17,7 +17,7 @@ export const useIcebergStore = defineStore('iceberg', () => {
 				name: 'snowbox.layers.basemap',
 			},
 		],
-		startCenter: [0, 0],
+		startCenter: [573364, 6028874],
 		layout: 'nineRegions',
 		fullscreen: {
 			displayComponent: true,
