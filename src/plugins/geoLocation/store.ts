@@ -152,7 +152,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		} else {
 			void positioning()
 		}
-		geolocation.value.on('change:position', positioning) // TODO: Kinda jitters a lot in FF ... :<
+		geolocation.value.on('change:position', positioning)
 		geolocation.value.on('change:heading', ({ target }) => {
 			markerFeature.set('heading', target.getHeading())
 		})
