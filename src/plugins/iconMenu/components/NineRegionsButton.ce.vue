@@ -13,6 +13,7 @@ import { storeToRefs } from 'pinia'
 import { computed, inject } from 'vue'
 import { useIconMenuStore } from '../store'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import { useCoreStore } from '@/core/stores/export'
 
 const props = defineProps<{
 	icon: string
@@ -29,11 +30,10 @@ const updateMaxWidth = inject('updateMaxWidth') as () => void
 function toggle() {
 	if (open.value === props.index) {
 		open.value = -1
-		// TODO(dopenguin): This is called in mainStore
-		// setMoveHandle(null)
+		useCoreStore().setMoveHandle(null)
 	} else {
 		open.value = props.index
-		// iconMenuStore.openInMoveHandle(index)
+		iconMenuStore.openInMoveHandle(props.index)
 	}
 	updateMaxWidth()
 }
