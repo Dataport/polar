@@ -2,7 +2,7 @@ export interface LayerConfigurationOptionLayers {
 	/**
 	 * Legend image to be used for sub-layer. If false, no image is displayed.
 	 * If true, it is assumed an image exists in the layer's GetCapabilities, and
-	 * that will be used. If Record, it maps the layer name to a linked image.
+	 * that will be used. If Record, it maps the layer name to a linked image url.
 	 */
 	legend?: boolean | Record<string, string>
 
@@ -25,15 +25,40 @@ export interface LayerConfigurationOptionLayers {
 	title?: boolean | Record<string, string>
 }
 
+// TODO: It should be allowed to set LayerType to a random string to allow for the grouping of different mask layers
 export type LayerType = 'background' | 'mask'
 
 export interface LayerConfigurationOptions {
 	/**
 	 * Named matching OGC-specification of a WMS layer's layers.
+	 *
+	 * If configured, all configured _layers of the layer_ can be turned off and
+	 * on by the user.
+	 *
+	 * ⚠️ Only implemented for WMS. Only implemented for top layers; that is, only
+	 * first level of nesting is considered.
+	 *
+	 * @example
+	 * ```
+	 * options: {
+	 *   layers: {
+	 *     order: '6,24,25,4,3,2,1,0',
+	 *     title: {
+	 *       '6': 'Monument area',
+	 *       '24': 'Majority of structures',
+	 *       '25': 'Material group',
+	 *       '4': 'Architectural monument',
+	 *       '3': 'Natural monument',
+	 *       '2': 'Water bodies',
+	 *       '1': 'Architectural monument (area)',
+	 *       '0': 'Natural monument (area)',
+	 *     },
+	 *     legend: true,
+	 *   },
+	 * },
+	 * ```
 	 */
-	layers?: LayerConfigurationOptionLayers
-	// NOT IMPLEMENTED
-	// transparency: boolean
+	layers: LayerConfigurationOptionLayers
 }
 
 export interface LayerConfiguration {
@@ -77,7 +102,8 @@ export interface LayerConfiguration {
 	minZoom?: number
 
 	/**
-	 * Enables a configuration feature for the layer in its selection.
+	 * Enables a configuration feature for the layer in its selection in the UI of
+	 * the LayerChooser.
 	 */
 	options?: LayerConfigurationOptions
 
@@ -90,7 +116,7 @@ export interface LayerConfiguration {
 	styleId?: string
 
 	/**
-	 * Whether the layer should be rendered
+	 * Initial visibility of the layers.
 	 *
 	 * @defaultValue false
 	 */

@@ -11,6 +11,10 @@ import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
 import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
 import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
 
+import type { PluginId as LayerChooserPluginId } from '@/plugins/layerChooser'
+import type { useLayerChooserStore as LayerChooserStore } from '@/plugins/layerChooser/store'
+import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChooser/locales'
+
 import type { PluginId as PinsPluginId } from '@/plugins/pins'
 import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
 import type { resourcesEn as PinsResources } from '@/plugins/pins/locales'
@@ -38,6 +42,7 @@ export type PolarPluginStore<
 export type BundledPluginId =
 	| typeof FullscreenPluginId
 	| typeof IconMenuPluginId
+	| typeof LayerChooserPluginId
 	| typeof PinsPluginId
 	| typeof ToastPluginId
 
@@ -54,6 +59,7 @@ type GetPluginStore<
 export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
+	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
 	| GetPluginStore<T, typeof PinsPluginId, typeof PinsStore>
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
 
@@ -67,6 +73,11 @@ type GetPluginResources<
 export type BundledPluginLocaleResources<T extends BundledPluginId> =
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
 	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
+	| GetPluginResources<
+			T,
+			typeof LayerChooserPluginId,
+			typeof LayerChooserResources
+	  >
 	| GetPluginResources<T, typeof PinsPluginId, typeof PinsResources>
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 

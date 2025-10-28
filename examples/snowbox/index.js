@@ -8,11 +8,12 @@ import {
 } from '@polar/polar'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
+import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginPins from '@polar/polar/plugins/pins'
 import pluginToast from '@polar/polar/plugins/toast'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
-import AnotherEmptyComponent from './AnotherEmptyComponent.vue'
+import services from './services.js'
 import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
 import GeoLocationMockCe from './GeoLocationMock.ce.vue'
 
@@ -20,6 +21,7 @@ const basemapId = '23420'
 const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
+const denkmal = 'denkmaelerWMS'
 const hamburgBorder = '1693'
 
 // eslint-disable-next-line no-unused-vars
@@ -73,16 +75,18 @@ const map = await createMap(
 	'snowbox',
 	{
 		layers: [
+			// TODO: Add internalization to snowbox
 			{
 				id: basemapId,
 				visibility: true,
 				type: 'background',
-				name: 'snowbox.layers.basemap',
+				name: 'Basemap.de (Farbe)',
 			},
 			{
 				id: basemapGreyId,
 				type: 'background',
-				name: 'snowbox.layers.basemapGrey',
+				name: 'Basemap.de (Grau)',
+				maxZoom: 6,
 			},
 			{
 				id: hamburgBorder,
@@ -94,16 +98,38 @@ const map = await createMap(
 			{
 				id: reports,
 				type: 'mask',
-				name: 'snowbox.layers.reports',
-				visibility: true,
-				styleId: 'panda',
+				name: 'Anliegen (MML)',
+				visibility: false,
 			},
 			{
 				id: ausgleichsflaechen,
 				type: 'mask',
-				name: 'snowbox.layers.ausgleichsflaechen',
+				name: 'Ausgleichsflächen',
 				styleId: 'panda',
 				visibility: true,
+				minZoom: 5,
+			},
+			{
+				id: denkmal,
+				type: 'mask',
+				name: 'Kulturdenkmale',
+				visibility: true,
+				options: {
+					layers: {
+						order: '6,24,25,4,3,2,1,0',
+						title: {
+							6: 'Denkmalbereich',
+							24: 'Mehrheit von baulichen Anlagen',
+							25: 'Sachgesamtheit',
+							4: 'Baudenkmal',
+							3: 'Gründenkmal',
+							2: 'Gewässer',
+							1: 'Baudenkmal (Fläche)',
+							0: 'Gründenkmal (Fläche)',
+						},
+						legend: true,
+					},
+				},
 			},
 		],
 		layout: 'standard',
@@ -159,7 +185,7 @@ const map = await createMap(
 			},
 		],
 	},
-	'https://geodienste.hamburg.de/services-internet.json'
+	services
 )
 
 document.getElementById('secondMap').addEventListener('click', async () => {
@@ -214,7 +240,7 @@ addPlugin(
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
-		initiallyOpen: 'kewl',
+		initiallyOpen: 'layerChooser',
 		focusMenus: [
 			{
 				plugin: {
@@ -239,7 +265,7 @@ addPlugin(
 			[
 				{
 					plugin: {
-						component: AnotherEmptyComponent,
+						component: EmptyComponent,
 						id: 'realKewl',
 						locales: [],
 					},
@@ -248,12 +274,8 @@ addPlugin(
 			],
 			[
 				{
-					plugin: {
-						component: EmptyComponent,
-						id: 'kewl',
-						locales: [],
-					},
-					icon: 'kern-icon-fill--layers',
+					plugin: pluginLayerChooser({}),
+					icon: 'kern-icon--layers',
 				},
 				{
 					plugin: pluginFullscreen({}),

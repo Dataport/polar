@@ -39,8 +39,8 @@
 		"url": "git+https://github.com/Dataport/polar.git"
 	},
 	"scripts": {
-		"dev": "vite",
-		"snowbox": "cross-env VITE_DEV_LANDING=examples/snowbox vite",
+		"dev": "vite --host",
+		"snowbox": "cross-env VITE_DEV_LANDING=examples/snowbox vite --host",
 		"preview:build": "vite build --watch -c vite.config.preview.ts",
 		"preview:preview": "vite preview -c vite.config.preview.ts",
 		"preview": "conc --kill-others 'npm run build' 'npm run preview:build' 'npm run preview:preview'",
