@@ -292,6 +292,11 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		configuration,
 
 		/**
+		 * @internal
+		 */
+		isGeolocationDenied,
+
+		/**
 		 * The plugin's current state. It can either currently have the user's
 		 * position ('LOCATED'), be ready to retrieve it ('LOCATABLE'), or be
 		 * disabled ('DISABLED') due to the user or browser settings not allowing
