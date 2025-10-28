@@ -1,12 +1,12 @@
 <template>
 	<PolarIconButton
-		v-if="state !== 'DISABLED'"
 		:class="
 			layout === 'nineRegions' ? 'polar-plugin-geoLocation-nineRegions' : ''
 		"
 		:hint="$t(($) => $.button.tooltip, { ns: PluginId })"
 		:icon="icon"
 		:tooltip-position="tooltipPosition"
+		:disabled="state === 'DISABLED'"
 		@click="geoLocationStore.locate"
 	/>
 </template>
@@ -23,9 +23,14 @@ const { layout } = storeToRefs(useCoreStore())
 const geoLocationStore = useGeoLocationStore()
 const { state } = storeToRefs(geoLocationStore)
 
-const icon = computed(() =>
-	state.value === 'LOCATED' ? 'kern-icon-fill--near-me' : 'kern-icon--near-me'
-)
+const icon = computed(() => {
+	if (state.value === 'LOCATED') {
+		return 'kern-icon-fill--near-me'
+	} else if (state.value === 'LOCATABLE') {
+		return 'kern-icon--near-me'
+	}
+	return 'kern-icon--near-me-disabled'
+})
 const tooltipPosition = computed(() =>
 	layout.value === 'standard' ||
 	(geoLocationStore.configuration.renderType === 'independent' &&
