@@ -58,7 +58,7 @@ export function getGeoLocationStyle() {
 			image: new Circle({
 				fill,
 				stroke,
-				radius: 8,
+				radius: 12,
 			}),
 			fill,
 			stroke,
