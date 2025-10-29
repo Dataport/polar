@@ -8,10 +8,7 @@ import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addInterceptor } from '../utils/addInterceptor'
 
 export const useMainStore = defineStore('main', () => {
-	const configuration = ref<MapConfiguration>({
-		layers: [],
-		startCenter: [0, 0],
-	})
+	const configuration = ref<MapConfiguration>({ layers: [] })
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)
