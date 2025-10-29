@@ -236,7 +236,6 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		const hadPosition = Boolean(markerFeature.getGeometry())
 		markerFeature.setGeometry(new Point(coordinate))
 
-		// TODO: This logic is to be changed. Keep stuck on the zoomedAndCentered position until the user manually pans. In that case, stop following.
 		if (
 			(configuration.value.keepCentered || !hadPosition) &&
 			lastBoundaryCheck.value
