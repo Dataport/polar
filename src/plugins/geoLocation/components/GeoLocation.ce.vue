@@ -32,11 +32,12 @@ const icon = computed(() => {
 	return 'kern-icon--near-me-disabled'
 })
 const tooltipPosition = computed(() =>
-	layout.value === 'standard' ||
-	(geoLocationStore.configuration.renderType === 'independent' &&
-		geoLocationStore.configuration.layoutTag?.includes('RIGHT'))
-		? 'left'
-		: 'right'
+	geoLocationStore.configuration.renderType === 'iconMenu'
+		? undefined
+		: layout.value === 'standard' ||
+			  geoLocationStore.configuration.layoutTag?.includes('RIGHT')
+			? 'left'
+			: 'right'
 )
 </script>
 
