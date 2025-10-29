@@ -72,6 +72,7 @@ const isReportSelectable = (feature) =>
 const map = await createMap(
 	'snowbox',
 	{
+		colorScheme: 'light',
 		layers: [
 			// TODO: Add internalization to snowbox
 			{
