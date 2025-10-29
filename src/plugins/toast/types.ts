@@ -29,6 +29,13 @@ export interface Toast {
 }
 
 /**
+ * Options for adding a toast.
+ */
+export interface ToastOptions {
+	timeout?: number | null
+}
+
+/**
  * Plugin options for toast plugin.
  */
 export interface ToastPluginOptions extends PluginOptions {
