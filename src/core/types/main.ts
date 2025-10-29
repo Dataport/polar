@@ -187,6 +187,14 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	checkServiceAvailability?: boolean
 
 	/**
+	 * Color scheme the client should be using.
+	 * If set to `system`, the color scheme is chosen according to the user's system preferences.
+	 *
+	 * @defaultValue `'system'`
+	 */
+	colorScheme?: 'dark' | 'light' | 'system'
+
+	/**
 	 * Optional path to define styles for vector features. The parameter may be a url or a path on the local file system.
 	 * See `mapConfiguration.featureStyles` for more information.
 	 */
