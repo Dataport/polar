@@ -5,6 +5,16 @@ import RegularShape from 'ol/style/RegularShape'
 import Stroke from 'ol/style/Stroke'
 import Style from 'ol/style/Style'
 
+/*
+ * TODO: The colors here should stem from KERN e.g. received by:
+ * getComputedStyle(
+ * 	(
+ * 		(document.querySelector('polar-map') as HTMLDivElement)
+ * 			.shadowRoot as ShadowRoot
+ * 	).firstChild as HTMLStyleElement
+ * ).getPropertyValue('--kern-color-action-default')
+ */
+
 function createLinearGradient(radians: number, radius: number) {
 	const sideLength = (radius / 2) * Math.sqrt(3)
 
@@ -38,14 +48,14 @@ function dropDirectionalShadow(feature: FeatureLike) {
 			radius,
 			rotation: heading,
 			fill: new Fill({ color: createLinearGradient(heading, radius) }),
-			displacement: [0, -(radius - 8)],
+			displacement: [0, -(radius - 12)],
 		}),
 	})
 }
 
 export function getGeoLocationStyle() {
 	const fill = new Fill({
-		color: '#0078D4', // polar-blue/500 – TODO: take from uhhh style system?
+		color: '#0078D4', // polar-blue/500
 	})
 	const stroke = new Stroke({
 		color: '#FFFFFF',
