@@ -112,10 +112,12 @@ onMounted(() => {
 		mainStore.shadowRoot as ShadowRoot,
 		mainStore.configuration.theme?.kern || {}
 	)
-	;(polarWrapper.value as HTMLDivElement).setAttribute(
-		'data-kern-theme',
-		mainStore.configuration.colorScheme
-	)
+	if (mainStore.configuration.colorScheme) {
+		;(polarWrapper.value as HTMLDivElement).setAttribute(
+			'data-kern-theme',
+			mainStore.configuration.colorScheme
+		)
+	}
 
 	mainStore.setup()
 
