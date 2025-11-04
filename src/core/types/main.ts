@@ -160,6 +160,8 @@ export interface MasterportalApiConfiguration {
 	startResolution?: number
 }
 
+export type ColorScheme = 'dark' | 'light' | 'system'
+
 /** The mapConfiguration allows controlling many client instance details. */
 export interface MapConfiguration extends MasterportalApiConfiguration {
 	/**
@@ -192,7 +194,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 *
 	 * @defaultValue `'system'`
 	 */
-	colorScheme?: 'dark' | 'light' | 'system'
+	colorScheme?: ColorScheme
 
 	/**
 	 * Optional path to define styles for vector features. The parameter may be a url or a path on the local file system.

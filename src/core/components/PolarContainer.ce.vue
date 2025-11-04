@@ -89,6 +89,15 @@ watch(
 		await i18next.changeLanguage(newLanguage)
 	}
 )
+watch(
+	() => mainStore.colorScheme,
+	(newColorScheme) => {
+		;(polarWrapper.value as HTMLDivElement).setAttribute(
+			'data-kern-theme',
+			newColorScheme
+		)
+	}
+)
 
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
@@ -113,11 +122,12 @@ onMounted(() => {
 		mainStore.configuration.theme?.kern || {}
 	)
 	if (mainStore.configuration.colorScheme) {
-		;(polarWrapper.value as HTMLDivElement).setAttribute(
-			'data-kern-theme',
-			mainStore.configuration.colorScheme
-		)
+		mainStore.colorScheme = mainStore.configuration.colorScheme
 	}
+	;(polarWrapper.value as HTMLDivElement).setAttribute(
+		'data-kern-theme',
+		mainStore.colorScheme
+	)
 
 	mainStore.setup()
 

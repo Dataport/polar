@@ -3,11 +3,16 @@ import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
-import type { MasterportalApiServiceRegister, MapConfiguration } from '../types'
+import type {
+	ColorScheme,
+	MasterportalApiServiceRegister,
+	MapConfiguration,
+} from '../types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addInterceptor } from '../utils/addInterceptor'
 
 export const useMainStore = defineStore('main', () => {
+	const colorScheme = ref<ColorScheme>('system')
 	const configuration = ref<MapConfiguration>({
 		layers: [],
 		startCenter: [0, 0],
@@ -73,6 +78,7 @@ export const useMainStore = defineStore('main', () => {
 
 	return {
 		// State
+		colorScheme,
 		configuration,
 		clientHeight,
 		clientWidth,
