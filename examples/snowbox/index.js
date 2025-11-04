@@ -22,6 +22,7 @@ const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
 
+let colorScheme = 'light'
 // eslint-disable-next-line no-unused-vars
 const dataportTheme = {
 	brandColor: {
@@ -72,6 +73,7 @@ const isReportSelectable = (feature) =>
 const map = await createMap(
 	'snowbox',
 	{
+		colorScheme,
 		layers: [
 			// TODO: Add internalization to snowbox
 			{
@@ -293,4 +295,12 @@ document
 		updateState(map, 'core', 'language', value)
 		target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
 		target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
+	})
+
+document
+	.getElementById('color-scheme-switcher')
+	.addEventListener('click', ({ target }) => {
+		target.innerHTML = `Switch to ${colorScheme} mode`
+		colorScheme = colorScheme === 'light' ? 'dark' : 'light'
+		updateState(map, 'core', 'colorScheme', colorScheme)
 	})

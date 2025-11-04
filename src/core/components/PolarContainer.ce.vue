@@ -89,6 +89,15 @@ watch(
 		await i18next.changeLanguage(newLanguage)
 	}
 )
+watch(
+	() => mainStore.colorScheme,
+	(newColorScheme) => {
+		;(polarWrapper.value as HTMLDivElement).setAttribute(
+			'data-kern-theme',
+			newColorScheme
+		)
+	}
+)
 
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
@@ -111,6 +120,13 @@ onMounted(() => {
 	loadKern(
 		mainStore.shadowRoot as ShadowRoot,
 		mainStore.configuration.theme?.kern || {}
+	)
+	if (mainStore.configuration.colorScheme) {
+		mainStore.colorScheme = mainStore.configuration.colorScheme
+	}
+	;(polarWrapper.value as HTMLDivElement).setAttribute(
+		'data-kern-theme',
+		mainStore.colorScheme
 	)
 
 	mainStore.setup()
@@ -147,6 +163,8 @@ onBeforeUnmount(() => {
 		display: block;
 		width: 100%;
 		height: 30em;
+		border-radius: var(--kern-metric-border-radius-large);
+		overflow: hidden;
 	}
 }
 </style>

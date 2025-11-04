@@ -29,6 +29,13 @@ export const useCoreStore = defineStore('core', () => {
 
 	return {
 		/**
+		 * Color scheme the client should be using.
+		 *
+		 * @internal
+		 */
+		colorScheme: mainStoreRefs.colorScheme,
+
+		/**
 		 * The current height of the map.
 		 *
 		 * @alpha
