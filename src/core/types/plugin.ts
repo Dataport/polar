@@ -3,6 +3,10 @@ import type { Component } from 'vue'
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
 
+import type { PluginId as AddressSearchPluginId } from '@/plugins/addressSearch'
+import type { useAddressSearchStore as AddressSearchStore } from '@/plugins/addressSearch/store'
+import type { resourcesEn as AddressSearchResources } from '@/plugins/addressSearch/locales'
+
 import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
 import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
 import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
@@ -36,6 +40,7 @@ export type PolarPluginStore<
 
 /** @internal */
 export type BundledPluginId =
+	| typeof AddressSearchPluginId
 	| typeof FullscreenPluginId
 	| typeof IconMenuPluginId
 	| typeof LayerChooserPluginId
@@ -52,6 +57,7 @@ type GetPluginStore<
 
 /** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
+	| GetPluginStore<T, typeof AddressSearchPluginId, typeof AddressSearchStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
@@ -65,6 +71,11 @@ type GetPluginResources<
 
 /** @internal */
 export type BundledPluginLocaleResources<T extends BundledPluginId> =
+	| GetPluginResources<
+			T,
+			typeof AddressSearchPluginId,
+			typeof AddressSearchResources
+	  >
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
 	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
 	| GetPluginResources<
