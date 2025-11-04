@@ -11,7 +11,8 @@ import { PluginId } from './types'
 import type { PluginContainer, PluginOptions, PolarPluginStore } from '@/core'
 
 /**
- * Creates a plugin which adds the possibility to search for addresses.
+ * Creates a plugin which adds a user interface to search for various kinds of textual information to map it to a
+ * geometry; e.g. parcel numbers or addresses, but any kind of toponym mapping is possible.
  *
  * @returns Plugin for use with {@link addPlugin}.
  */
