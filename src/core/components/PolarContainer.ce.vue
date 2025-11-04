@@ -153,6 +153,8 @@ onBeforeUnmount(() => {
 		display: block;
 		width: 100%;
 		height: 30em;
+		border-radius: var(--kern-metric-border-radius-large);
+		overflow: hidden;
 	}
 }
 </style>
