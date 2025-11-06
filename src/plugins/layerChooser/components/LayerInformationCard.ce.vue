@@ -30,7 +30,7 @@ const layerChooserStore = useLayerChooserStore()
 
 onMounted(() => {
 	coreStore.shadowRoot
-		?.getElementById('polar-layer-chooser-options-back-button')
+		?.getElementById(`polar-layer-chooser-${props.identifier}-back-button`)
 		?.focus()
 })
 
