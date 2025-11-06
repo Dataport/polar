@@ -1,15 +1,5 @@
 <template>
-	<PolarCard>
-		<button
-			id="polar-layer-chooser-options-back-button"
-			class="kern-btn kern-btn--secondary"
-			@click="closeOptions"
-		>
-			<span class="kern-icon kern-icon--arrow-back" aria-hidden="true" />
-			<span class="kern-label">
-				{{ $t(($) => $.returnToLayers, { ns: PluginId }) }}
-			</span>
-		</button>
+	<LayerInformationCard identifier="options" id-name="openedOptionsId">
 		<PolarInputGroup :legend="$t(($) => $.layerHeader, { ns: PluginId, name })">
 			<div
 				v-for="{ displayName, layerImage, layerName } in options"
@@ -31,15 +21,15 @@
 				/>
 			</div>
 		</PolarInputGroup>
-	</PolarCard>
+	</LayerInformationCard>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useLayerChooserStore } from '../store'
 import { type LayerOptions, PluginId } from '../types'
-import PolarCard from '@/components/PolarCard.ce.vue'
+import LayerInformationCard from './LayerInformationCard.ce.vue'
 import PolarInput from '@/components/PolarInput.ce.vue'
 import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
@@ -69,22 +59,6 @@ const name = computed(
 			({ id }) => id === openedOptionsId.value
 		)?.name || ''
 )
-
-onMounted(() => {
-	coreStore.shadowRoot
-		?.getElementById('polar-layer-chooser-options-back-button')
-		?.focus()
-})
-
-function closeOptions() {
-	const previousOptions = openedOptionsId.value
-	openedOptionsId.value = ''
-	void nextTick(() => {
-		coreStore.shadowRoot
-			?.getElementById(`polar-layer-chooser-options-${previousOptions}-button`)
-			?.focus()
-	})
-}
 </script>
 
 <style scoped>
