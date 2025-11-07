@@ -25,13 +25,13 @@ const beschriftungMinZoom = 9
 const layersIntern: LayerConfiguration[] = [
   {
     id: basemapGrau,
-    visibility: true,
+    visibility: false,
     type: 'background',
     name: 'Basemap.de Graustufen',
   },
   {
     id: bddEin,
-    visibility: false,
+    visibility: true,
     type: 'background',
     name: 'Grundkarte Graustufen',
   },
@@ -46,15 +46,6 @@ const layersIntern: LayerConfiguration[] = [
     visibility: false,
     type: 'background',
     name: 'Luftbild (Farbe)',
-  },
-  {
-    id: beschriftung,
-    visibility: true,
-    type: 'mask',
-    name: `Beschriftung (ab 1:${thousandsSeparator(
-      scaleFromZoomLevel(beschriftungMinZoom)
-    )})`,
-    minZoom: 9,
   },
   {
     id: denkmaelerWFS,
@@ -156,6 +147,15 @@ const layersIntern: LayerConfiguration[] = [
       scaleFromZoomLevel(alkisMinZoom)
     )})`,
     minZoom: alkisMinZoom,
+  },
+  {
+    id: beschriftung,
+    visibility: true,
+    type: 'mask',
+    name: `Beschriftung (ab 1:${thousandsSeparator(
+      scaleFromZoomLevel(beschriftungMinZoom)
+    )})`,
+    minZoom: 9,
   },
 ]
 
