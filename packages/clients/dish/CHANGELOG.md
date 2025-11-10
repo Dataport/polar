@@ -2,6 +2,8 @@
 
 ## unpublished
 
+## 1.2.0
+
 - Feature: If a user is geolocated outside the map's extent, the client will inform the user of why geolocation did not take effect via a textbox.
 - Feature: The map can now be used for internal use with specific configurations. See the configuration section in the README for relevant configuration information.
 - Feature: Add new searches for address and parcels.
