@@ -106,11 +106,11 @@ const dop20ColInternService = {
 }
 
 export const servicesIntern = [
+  beschriftungService,
   denkmaelerWfService,
   denkmaelerWmService,
   kontrollbedarfService,
   verlustService,
-  beschriftungService,
   verwaltungsGrenzenService,
   bddEinInternService,
   bddColInternService,

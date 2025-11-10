@@ -48,15 +48,6 @@ const layersIntern: LayerConfiguration[] = [
     name: 'Luftbild (Farbe)',
   },
   {
-    id: beschriftung,
-    visibility: true,
-    type: 'mask',
-    name: `Beschriftung (ab 1:${thousandsSeparator(
-      scaleFromZoomLevel(beschriftungMinZoom)
-    )})`,
-    minZoom: 9,
-  },
-  {
     id: denkmaelerWFS,
     visibility: false,
     hideInMenu: true,
@@ -156,6 +147,15 @@ const layersIntern: LayerConfiguration[] = [
       scaleFromZoomLevel(alkisMinZoom)
     )})`,
     minZoom: alkisMinZoom,
+  },
+  {
+    id: beschriftung,
+    visibility: true,
+    type: 'mask',
+    name: `Beschriftung (ab 1:${thousandsSeparator(
+      scaleFromZoomLevel(beschriftungMinZoom)
+    )})`,
+    minZoom: 9,
   },
 ]
 
