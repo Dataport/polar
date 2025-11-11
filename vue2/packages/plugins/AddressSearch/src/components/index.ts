@@ -1,1 +1,1 @@
-export { default as AddressSearch } from './AddressSearch.vue'
+export { default as AddressSearch } from './SearchContainer.vue'
