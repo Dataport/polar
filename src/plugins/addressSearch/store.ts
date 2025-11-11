@@ -5,7 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -17,14 +17,30 @@ import { ref } from 'vue'
 export const useAddressSearchStore = defineStore(
 	'plugins/addressSearch',
 	() => {
-		const inputValue = ref('')
+		const _inputValue = ref('')
+
+		const inputValue = computed({
+			get: () => _inputValue.value,
+			set: (value) => {
+				if (value === _inputValue.value) {
+					return
+				}
+				_inputValue.value = value
+				abortAndRequest()
+			},
+		})
 
 		function setupPlugin() {}
 
 		function teardownPlugin() {}
 
+		function abortAndRequest() {
+			console.warn('IMPLEMENT SEARCH')
+		}
+
 		return {
 			inputValue,
+			abortAndRequest,
 
 			/** @internal */
 			setupPlugin,

@@ -90,107 +90,103 @@ export const makeActions = () => {
     ): void {
       commit('setSelectedGroupId', selectedGroupId)
 
-      /* whenever the selected search group name changes,
-       * redo input – if it triggers a search, the user
-       * will probably want to see the results in new
-       * search service group */
-      commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
-      dispatch('input', state.inputValue)
-    },
-    input({ commit, dispatch }, input: string): void {
-      commit('setInputValue', input)
-      dispatch('abortAndRequest')
-    },
-    abortAndRequest() {
-      if (abortController) {
-        abortController.abort()
-        abortController = undefined
-      }
-      debouncedLoad()
-    },
-    clear({ commit }): void {
-      commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
-      commit('setChosenAddress', null)
-    },
-    load({
-      state: { inputValue },
-      rootGetters,
-      getters,
-      commit,
-      dispatch,
-    }): Promise<void> | void {
-      const activeSearchMethods = getters.selectedGroup
-      // Value is null when the input is cleared; extra undefined check for safety
-      if (
-        typeof inputValue === 'undefined' ||
-        inputValue === null ||
-        inputValue.length < getters.minLength
-      ) {
-        commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
-        dispatch('indicateLoading', false)
-        return
-      }
-      dispatch('indicateLoading', true)
-      abortController = new AbortController()
-      const localAbortControllerReference = abortController
-      const searchPromises: Promise<FeatureCollection>[] =
-        activeSearchMethods.map((method) =>
-          methodContainer.getSearchMethod(method.type)(
-            abortController.signal,
-            method.url,
-            inputValue,
-            {
-              ...method.queryParameters,
-              epsg: rootGetters.configuration.epsg,
-              map: rootGetters.map,
-            }
-          )
-        )
-      return Promise.allSettled(searchPromises)
-        .then((results) =>
-          commit(
-            'setSearchResults',
-            getResultsFromPromises(results, localAbortControllerReference)
-          )
-        )
-        .catch((error: Error) => {
-          console.error(
-            '@polar/plugin-address-search: An error occurred while searching.',
-            error
-          )
-          commit('setSearchResults', SearchResultSymbols.ERROR)
-        })
-        .finally(() => dispatch('indicateLoading', false))
-    },
-    indicateLoading(
-      { getters: { addressSearchConfiguration }, commit },
-      loading: boolean
-    ): void {
-      commit('setLoading', loading)
-      const { addLoading, removeLoading } = addressSearchConfiguration
-      if (loading && addLoading && addLoading.length > 0) {
-        commit(addLoading, 'AddressSearch', { root: true })
-      } else if (!loading && removeLoading && removeLoading.length > 0) {
-        commit(removeLoading, 'AddressSearch', { root: true })
-      }
-    },
-    selectResult(actionContext, payload): void {
-      const { commit, getters } = actionContext
-      const { feature, categoryId } = payload
-      const customMethod =
-        getters.addressSearchConfiguration.customSelectResult?.[categoryId]
-      if (customMethod) {
-        customMethod.call(this, actionContext, payload)
-      } else {
-        // default behaviour
-        commit('setChosenAddress', feature)
-        commit('setInputValue', feature.title)
-        commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
-      }
-    },
-    escapeSelection({ commit }): void {
-      commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
-    },
+			/* whenever the selected search group name changes,
+			 * redo input – if it triggers a search, the user
+			 * will probably want to see the results in new
+			 * search service group */
+			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
+			dispatch('input', state.inputValue)
+		},
+		abortAndRequest() {
+			if (abortController) {
+				abortController.abort()
+				abortController = undefined
+			}
+			debouncedLoad()
+		},
+		clear({ commit }): void {
+			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
+			commit('setChosenAddress', null)
+		},
+		load({
+			state: { inputValue },
+			rootGetters,
+			getters,
+			commit,
+			dispatch,
+		}): Promise<void> | void {
+			const activeSearchMethods = getters.selectedGroup
+			// Value is null when the input is cleared; extra undefined check for safety
+			if (
+				typeof inputValue === 'undefined' ||
+				inputValue === null ||
+				inputValue.length < getters.minLength
+			) {
+				commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
+				dispatch('indicateLoading', false)
+				return
+			}
+			dispatch('indicateLoading', true)
+			abortController = new AbortController()
+			const localAbortControllerReference = abortController
+			const searchPromises: Promise<FeatureCollection>[] =
+				activeSearchMethods.map((method) =>
+					methodContainer.getSearchMethod(method.type)(
+						abortController.signal,
+						method.url,
+						inputValue,
+						{
+							...method.queryParameters,
+							epsg: rootGetters.configuration.epsg,
+							map: rootGetters.map,
+						}
+					)
+				)
+			return Promise.allSettled(searchPromises)
+				.then((results) =>
+					commit(
+						'setSearchResults',
+						getResultsFromPromises(results, localAbortControllerReference)
+					)
+				)
+				.catch((error: Error) => {
+					console.error(
+						'@polar/plugin-address-search: An error occurred while searching.',
+						error
+					)
+					commit('setSearchResults', SearchResultSymbols.ERROR)
+				})
+				.finally(() => dispatch('indicateLoading', false))
+		},
+		indicateLoading(
+			{ getters: { addressSearchConfiguration }, commit },
+			loading: boolean
+		): void {
+			commit('setLoading', loading)
+			const { addLoading, removeLoading } = addressSearchConfiguration
+			if (loading && addLoading && addLoading.length > 0) {
+				commit(addLoading, 'AddressSearch', { root: true })
+			} else if (!loading && removeLoading && removeLoading.length > 0) {
+				commit(removeLoading, 'AddressSearch', { root: true })
+			}
+		},
+		selectResult(actionContext, payload): void {
+			const { commit, getters } = actionContext
+			const { feature, categoryId } = payload
+			const customMethod =
+				getters.addressSearchConfiguration.customSelectResult?.[categoryId]
+			if (customMethod) {
+				customMethod.call(this, actionContext, payload)
+			} else {
+				// default behaviour
+				commit('setChosenAddress', feature)
+				commit('setInputValue', feature.title)
+				commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
+			}
+		},
+		escapeSelection({ commit }): void {
+			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
+		},
 
     /**
      * `search` is meant for programmatic access. User search is triggered from

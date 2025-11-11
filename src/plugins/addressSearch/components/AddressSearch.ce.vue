@@ -12,6 +12,7 @@
 			v-model="inputValue"
 			class="kern-form-input__input"
 			type="text"
+			@keydown.enter="addressSearchStore.abortAndRequest"
 			@focusout="updateStatus"
 		/>
 		<button
@@ -38,8 +39,8 @@ import { useCoreStore } from '@/core/stores/export'
 // TODO: Show results from separate groups not visually divided. They should be distinguishable by an icon and an (Aria-)label
 
 const coreStore = useCoreStore()
-
-const { inputValue } = storeToRefs(useAddressSearchStore())
+const addressSearchStore = useAddressSearchStore()
+const { inputValue } = storeToRefs(addressSearchStore)
 
 const open = ref(false)
 
