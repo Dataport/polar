@@ -1,7 +1,100 @@
 <template>
-	<div>IMPLEMENT ME</div>
+	<PolarIconButton
+		v-if="showButton"
+		id="polar-plugin-address-search-icon-button"
+		:hint="$t(($) => $.hint.button, { ns: PluginId })"
+		icon="kern-icon--search"
+		@click="updateStatus"
+	/>
+	<div v-else class="polar-plugin-address-search-input-wrapper">
+		<input
+			id="polar-plugin-address-search-input"
+			v-model="searchInput"
+			class="kern-form-input__input"
+			type="text"
+			@focusout="updateStatus"
+		/>
+		<button
+			class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
+			@click="clear"
+		>
+			<span class="kern-icon kern-icon--close" aria-hidden="true" />
+			<span class="kern-label kern-sr-only">
+				{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
+			</span>
+		</button>
+	</div>
 </template>
 
 <script setup lang="ts">
-// TODO
+import { computed, nextTick, ref } from 'vue'
+import { PluginId } from '../types'
+import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import { useCoreStore } from '@/core/stores/export'
+
+// TODO: Add information below input field for error
+// TODO: Show results from separate groups not visually divided. They should be distinguishable by an icon and an (Aria-)label
+
+const open = ref(false)
+const searchInput = ref('')
+
+const coreStore = useCoreStore()
+const showButton = computed(
+	() => (coreStore.hasSmallDisplay || !coreStore.hasWindowSize) && !open.value
+)
+
+function clear() {
+	searchInput.value = ''
+}
+
+function updateStatus() {
+	if (!open.value || !searchInput.value.length) {
+		open.value = !open.value
+		void nextTick(() => {
+			;(
+				coreStore.shadowRoot?.getElementById(
+					`polar-plugin-address-search-${open.value ? 'input' : 'icon-button'}`
+				) as HTMLElement
+			).focus()
+		})
+	}
+}
 </script>
+
+<style scoped>
+#polar-plugin-address-search-icon-button {
+	position: absolute;
+	margin: 0.5rem;
+}
+
+.polar-plugin-address-search-input-wrapper {
+	position: absolute;
+	padding: 0.5rem;
+	margin: 0.5rem;
+
+	width: 25rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.5rem;
+
+	border-radius: var(--kern-metric-border-radius-large);
+	background: var(--kern-color-layout-background-default);
+
+	#polar-plugin-address-search-input {
+		pointer-events: all;
+		border-radius: var(--kern-metric-border-radius-small);
+		background: var(--kern-color-form-input-background);
+	}
+
+	.polar-plugin-address-search-input-button {
+		position: absolute;
+		right: 0;
+		border-radius: var(--kern-metric-border-radius-small);
+		margin: var(--kern-metric-space-small);
+		margin-right: var(--kern-metric-space-default);
+		width: var(--kern-metric-dimension-large);
+		min-height: var(--kern-metric-dimension-large);
+	}
+}
+</style>
