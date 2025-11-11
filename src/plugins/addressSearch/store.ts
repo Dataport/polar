@@ -38,9 +38,14 @@ export const useAddressSearchStore = defineStore(
 			console.warn('IMPLEMENT SEARCH')
 		}
 
+		function clear() {
+			inputValue.value = ''
+		}
+
 		return {
 			inputValue,
 			abortAndRequest,
+			clear,
 
 			/** @internal */
 			setupPlugin,

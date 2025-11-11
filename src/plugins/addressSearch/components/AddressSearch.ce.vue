@@ -17,7 +17,7 @@
 		/>
 		<button
 			class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
-			@click="clear"
+			@click="addressSearchStore.clear"
 		>
 			<span class="kern-icon kern-icon--close" aria-hidden="true" />
 			<span class="kern-label kern-sr-only">
@@ -47,10 +47,6 @@ const open = ref(false)
 const showButton = computed(
 	() => (coreStore.hasSmallDisplay || !coreStore.hasWindowSize) && !open.value
 )
-
-function clear() {
-	inputValue.value = ''
-}
 
 function updateStatus() {
 	if (!open.value || !inputValue.value.length) {
