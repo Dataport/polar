@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -16,11 +17,15 @@ import { defineStore } from 'pinia'
 export const useAddressSearchStore = defineStore(
 	'plugins/addressSearch',
 	() => {
+		const inputValue = ref('')
+
 		function setupPlugin() {}
 
 		function teardownPlugin() {}
 
 		return {
+			inputValue,
+
 			/** @internal */
 			setupPlugin,
 

@@ -9,7 +9,7 @@
 	<div v-else class="polar-plugin-address-search-input-wrapper">
 		<input
 			id="polar-plugin-address-search-input"
-			v-model="searchInput"
+			v-model="inputValue"
 			class="kern-form-input__input"
 			type="text"
 			@focusout="updateStatus"
@@ -28,6 +28,8 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
@@ -35,20 +37,22 @@ import { useCoreStore } from '@/core/stores/export'
 // TODO: Add information below input field for error
 // TODO: Show results from separate groups not visually divided. They should be distinguishable by an icon and an (Aria-)label
 
-const open = ref(false)
-const searchInput = ref('')
-
 const coreStore = useCoreStore()
+
+const { inputValue } = storeToRefs(useAddressSearchStore())
+
+const open = ref(false)
+
 const showButton = computed(
 	() => (coreStore.hasSmallDisplay || !coreStore.hasWindowSize) && !open.value
 )
 
 function clear() {
-	searchInput.value = ''
+	inputValue.value = ''
 }
 
 function updateStatus() {
-	if (!open.value || !searchInput.value.length) {
+	if (!open.value || !inputValue.value.length) {
 		open.value = !open.value
 		void nextTick(() => {
 			;(
