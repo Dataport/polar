@@ -4,91 +4,91 @@ import { PolarActionTree } from '@polar/lib-custom-types'
 import { SearchResultSymbols } from '../'
 import { getMethodContainer } from '../utils/searchMethods/getSearchMethod'
 import {
-  AddressSearchGetters,
-  AddressSearchState,
-  AddressSearchAutoselect,
+	AddressSearchGetters,
+	AddressSearchState,
+	AddressSearchAutoselect,
 } from '../types'
 
 const getResultsFromPromises = (
-  promises: PromiseSettledResult<
-    FeatureCollection<Geometry, GeoJsonProperties>
-  >[],
-  abortController: AbortController
+	promises: PromiseSettledResult<
+		FeatureCollection<Geometry, GeoJsonProperties>
+	>[],
+	abortController: AbortController
 ) => {
-  const results = promises.reduce((accumulator, promise, index) => {
-    if (promise.status === 'fulfilled') {
-      return [
-        ...accumulator,
-        {
-          value: promise.value,
-          index,
-        },
-      ]
-    }
-    return accumulator
-  }, [] as object[])
+	const results = promises.reduce((accumulator, promise, index) => {
+		if (promise.status === 'fulfilled') {
+			return [
+				...accumulator,
+				{
+					value: promise.value,
+					index,
+				},
+			]
+		}
+		return accumulator
+	}, [] as object[])
 
-  // only print errors if search was not aborted
-  if (!abortController.signal.aborted) {
-    ;(
-      promises.filter(
-        ({ status }) => status === 'rejected'
-      ) as PromiseRejectedResult[]
-    ).forEach(({ reason }) =>
-      console.error(
-        '@polar/plugin-address-search: An error occurred while sending a request: ',
-        reason
-      )
-    )
-  }
+	// only print errors if search was not aborted
+	if (!abortController.signal.aborted) {
+		;(
+			promises.filter(
+				({ status }) => status === 'rejected'
+			) as PromiseRejectedResult[]
+		).forEach(({ reason }) =>
+			console.error(
+				'@polar/plugin-address-search: An error occurred while sending a request: ',
+				reason
+			)
+		)
+	}
 
-  return results
+	return results
 }
 
 export const makeActions = () => {
-  let abortController
-  let debouncedLoad
-  let methodContainer
+	let abortController
+	let debouncedLoad
+	let methodContainer
 
-  const actions: PolarActionTree<AddressSearchState, AddressSearchGetters> = {
-    setupModule({ getters }): void {
-      debouncedLoad = debounce(
-        () => this.dispatch('plugin/addressSearch/load'),
-        getters.waitMs
-      ).bind(this)
+	const actions: PolarActionTree<AddressSearchState, AddressSearchGetters> = {
+		setupModule({ getters }): void {
+			debouncedLoad = debounce(
+				() => this.dispatch('plugin/addressSearch/load'),
+				getters.waitMs
+			).bind(this)
 
-      // searchMethod without url is invalid – print error
-      getters.searchMethods
-        .filter(({ url }) => !url)
-        .forEach((miss) =>
-          console.error(
-            `@polar/plugin-address-search: A specification is missing an URL: (${JSON.stringify(
-              miss
-            )})`
-          )
-        )
+			// searchMethod without url is invalid – print error
+			getters.searchMethods
+				.filter(({ url }) => !url)
+				.forEach((miss) =>
+					console.error(
+						`@polar/plugin-address-search: A specification is missing an URL: (${JSON.stringify(
+							miss
+						)})`
+					)
+				)
 
-      methodContainer = getMethodContainer()
+			methodContainer = getMethodContainer()
 
-      // add custom added search implementations, if any configured
-      const customSearchMethods =
-        getters.addressSearchConfiguration.customSearchMethods
-      if (customSearchMethods) {
-        methodContainer.registerSearchMethods(
-          Object.fromEntries(
-            Object.entries(customSearchMethods).map(([key, value]) => [
-              key,
-              value.bind(this),
-            ])
-          )
-        )
-      }
-    },
-    setSelectedGroupId(
-      { commit, dispatch, state },
-      selectedGroupId: string
-    ): void {
-      commit('setSelectedGroupId', selectedGroupId)
+			// add custom added search implementations, if any configured
+			const customSearchMethods =
+				getters.addressSearchConfiguration.customSearchMethods
+			if (customSearchMethods) {
+				methodContainer.registerSearchMethods(
+					Object.fromEntries(
+						Object.entries(customSearchMethods).map(([key, value]) => [
+							key,
+							value.bind(this),
+						])
+					)
+				)
+			}
+		},
+		setSelectedGroupId(
+			{ commit, dispatch, state },
+			selectedGroupId: string
+		): void {
+			commit('setSelectedGroupId', selectedGroupId)
 
 			/* whenever the selected search group name changes,
 			 * redo input – if it triggers a search, the user
@@ -96,13 +96,6 @@ export const makeActions = () => {
 			 * search service group */
 			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
 			dispatch('input', state.inputValue)
-		},
-		abortAndRequest() {
-			if (abortController) {
-				abortController.abort()
-				abortController = undefined
-			}
-			debouncedLoad()
 		},
 		clear({ commit }): void {
 			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
@@ -188,48 +181,48 @@ export const makeActions = () => {
 			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
 		},
 
-    /**
-     * `search` is meant for programmatic access. User search is triggered from
-     * the `input` action effects and features a debouncing mechanism.
-     * @param vuexParameters - vuex standard parameter object
-     * @param payload - input to search for and an autoselect mode
-     */
-    async search(
-      { state, commit, dispatch, getters },
-      {
-        input,
-        autoselect,
-      }: { input: string; autoselect: AddressSearchAutoselect }
-    ): Promise<void> {
-      commit('setInputValue', input)
-      if (abortController) {
-        abortController.abort()
-        abortController = undefined
-      }
-      await dispatch('load')
+		/**
+		 * `search` is meant for programmatic access. User search is triggered from
+		 * the `input` action effects and features a debouncing mechanism.
+		 * @param vuexParameters - vuex standard parameter object
+		 * @param payload - input to search for and an autoselect mode
+		 */
+		async search(
+			{ state, commit, dispatch, getters },
+			{
+				input,
+				autoselect,
+			}: { input: string; autoselect: AddressSearchAutoselect }
+		): Promise<void> {
+			commit('setInputValue', input)
+			if (abortController) {
+				abortController.abort()
+				abortController = undefined
+			}
+			await dispatch('load')
 
-      if (typeof state.searchResults === 'symbol') {
-        // error or word too short, nothing to do
-        return
-      }
+			if (typeof state.searchResults === 'symbol') {
+				// error or word too short, nothing to do
+				return
+			}
 
-      const firstFound = state.searchResults.find(
-        ({ value }) => value.features.length
-      )
-      const firstFeatures = firstFound?.value?.features || []
+			const firstFound = state.searchResults.find(
+				({ value }) => value.features.length
+			)
+			const firstFeatures = firstFound?.value?.features || []
 
-      if (
-        (autoselect === 'first' && firstFeatures.length >= 1) ||
-        (autoselect === 'only' && firstFeatures.length === 1)
-      ) {
-        dispatch('selectResult', {
-          feature: firstFeatures[0],
-          categoryId:
-            getters.selectedGroup[firstFound?.index || 0].categoryId || '',
-        })
-      }
-    },
-  }
+			if (
+				(autoselect === 'first' && firstFeatures.length >= 1) ||
+				(autoselect === 'only' && firstFeatures.length === 1)
+			) {
+				dispatch('selectResult', {
+					feature: firstFeatures[0],
+					categoryId:
+						getters.selectedGroup[firstFound?.index || 0].categoryId || '',
+				})
+			}
+		},
+	}
 
-  return actions
+	return actions
 }

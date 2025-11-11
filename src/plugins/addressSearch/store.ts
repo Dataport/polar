@@ -4,6 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import debounce from 'just-debounce-it'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
@@ -17,6 +18,9 @@ import { computed, ref } from 'vue'
 export const useAddressSearchStore = defineStore(
 	'plugins/addressSearch',
 	() => {
+		let abortController: AbortController | null = null
+		let debouncedSearch: typeof _search
+
 		const _inputValue = ref('')
 
 		const inputValue = computed({
@@ -30,17 +34,29 @@ export const useAddressSearchStore = defineStore(
 			},
 		})
 
-		function setupPlugin() {}
+		function setupPlugin() {
+			// TODO: Implement waitMs getter from configuration
+			debouncedSearch = debounce(_search, 300)
+		}
 
 		function teardownPlugin() {}
 
 		function abortAndRequest() {
-			console.warn('IMPLEMENT SEARCH')
+			if (abortController) {
+				abortController.abort()
+				abortController = null
+			}
+			debouncedSearch()
 		}
 
 		function clear() {
 			inputValue.value = ''
 		}
+
+		function _search() {}
+
+		// TODO: External method
+		function search() {}
 
 		return {
 			inputValue,
