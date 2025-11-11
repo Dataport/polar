@@ -6,6 +6,7 @@ import {
 	subscribe,
 	updateState,
 } from '@polar/polar'
+import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
@@ -213,6 +214,7 @@ addPlugin(
 		layoutTag: 'BOTTOM_MIDDLE',
 	})
 )
+addPlugin(map, pluginAddressSearch({}))
 addPlugin(
 	map,
 	pluginIconMenu({
