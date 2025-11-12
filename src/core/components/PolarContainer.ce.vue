@@ -10,6 +10,7 @@
 </template>
 
 <script setup lang="ts">
+import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import { storeToRefs } from 'pinia'
 import {
@@ -25,7 +26,6 @@ import { useCoreStore } from '../stores/export'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
 import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
-import defaults from '../utils/defaults'
 import { loadKern } from '../utils/loadKern'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import MoveHandle from './MoveHandle.ce.vue'
@@ -48,10 +48,9 @@ defineExpose<{
 const mainStore = useMainStore()
 const { hasSmallWidth, hasWindowSize, language } = storeToRefs(mainStore)
 
-mainStore.configuration = mapZoomOffset({
-	...defaults,
-	...props.mapConfiguration,
-})
+mainStore.configuration = mapZoomOffset(
+	toMerged(mainStore.configuration, props.mapConfiguration)
+)
 
 if (mainStore.configuration.oidcToken) {
 	// copied to a separate spot for usage as it's changeable data at run-time
