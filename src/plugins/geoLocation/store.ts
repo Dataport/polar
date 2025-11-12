@@ -189,7 +189,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		const coordinatesInMapCrs = transformCoordinates(
 			geolocation.value?.getPosition() as number[],
 			Proj.get('EPSG:4326') as Proj.Projection,
-			coreStore.configuration.epsg as string
+			coreStore.configuration.epsg
 		)
 
 		const isCoordinateInExtent = coreStore.configuration.extent
