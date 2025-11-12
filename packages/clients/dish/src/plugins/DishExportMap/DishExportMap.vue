@@ -57,7 +57,6 @@
 import Vue from 'vue'
 import { mapMutations, mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
-import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
 
 const rectangleWidth = 893
 const rectangleHeight = 473
@@ -69,17 +68,27 @@ export default Vue.extend({
     showOverlay: false,
     dialog: false,
     title: '',
-    printImageUrlProd: '',
-    exportMapAsPdfUrl: '',
+    printApproach: '',
+    printRequester: '',
+    xPrint: '',
+    yPrint: '',
+    versionHintergrund: '',
+    proxyHintergrund: '',
+    versionWMS: '',
+    layerNameWMS: '',
+    versionWFS: '',
+    propertyNameWFS: '',
+    filterTypeWFS: '',
+    printImagePath: '',
     wmsLayerUrl: '',
     wfsLayerUrl: '',
     wfsLayerFeatureType: '',
+    printImageUrlProd: '',
+    exportMapAsPdfUrl: '',
     defaultBackground: {
       url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
       layers: 'de_basemapde_web_raster_grau',
     },
-    internalHost: '',
-    internServicesBaseUrl: '',
     newTab:
       new URL(document.location as unknown as string).searchParams.get(
         'NewTab'
@@ -119,21 +128,7 @@ export default Vue.extend({
   methods: {
     ...mapMutations('plugin/fullscreen', ['setIsInFullscreen']),
     configureSettings() {
-      this.internServicesBaseUrl =
-        this.configuration.dishExportMap.urlParams.internServicesBaseUrl
-      this.internalHost =
-        this.configuration.dishExportMap.urlParams.internalHost
-      const wmsLayer = this.configuration.layerConf.find(
-        (layer) => layer.id === denkmaelerWMS
-      )
-      const wfsLayer = this.configuration.layerConf.find(
-        (layer) => layer.id === denkmaelerWFS
-      )
-      this.wmsLayerUrl = wmsLayer.url || `${this.internServicesBaseUrl}/wms`
-      this.wfsLayerUrl = wfsLayer.url || `${this.internServicesBaseUrl}/wfs`
-      this.wfsLayerFeatureType = wfsLayer.featureType || 'app:dish_shp'
-      this.printImageUrlProd ||= `${this.internalHost}/Content/MapsTmp`
-      this.exportMapAsPdfUrl ||= `${this.internalHost}/Content/Objekt/Kartenausgabe.aspx`
+      Object.assign(this, this.configuration.dishExportMap)
     },
     showRectangleAndDialog() {
       if (this.isInFullscreen) {
@@ -200,11 +195,11 @@ export default Vue.extend({
         objektueberschrift: this.title,
         // spelling is intentional because of backend requirements
         masssstab: this.scaleValue,
-        printApproach: this.configuration.dishExportMap.printApproach,
-        printRequester: this.configuration.dishExportMap.printRequester,
+        printApproach: this.printApproach,
+        printRequester: this.printRequester,
         id: this.currentProperties.objektid,
-        xPrint: this.configuration.dishExportMap.xPrint,
-        yPrint: this.configuration.dishExportMap.yPrint,
+        xPrint: this.xPrint,
+        yPrint: this.yPrint,
         scale: this.scaleValue,
         xMin: bbox?.xMin,
         yMin: bbox?.yMin,
@@ -215,19 +210,19 @@ export default Vue.extend({
         mapSRS: this.configuration.epsg,
         urlHintergrund: `${this.backgroundLayer.url}?`,
         LayerNameHintergrund: this.backgroundLayer.layers,
-        VersionHintergrund: this.configuration.dishExportMap.versionHintergrund,
-        ProxyHintergrund: this.configuration.dishExportMap.proxyHintergrund,
+        VersionHintergrund: this.versionHintergrund,
+        ProxyHintergrund: this.proxyHintergrund,
         urlWMS: `${this.wmsLayerUrl}?`,
-        VersionWMS: this.configuration.dishExportMap.versionWMS,
-        LayerNameWMS: this.configuration.dishExportMap.layerNameWMS,
+        VersionWMS: this.versionWMS,
+        LayerNameWMS: this.layerNameWMS,
         urlWFS: `${this.wfsLayerUrl}?`,
-        VersionWFS: this.configuration.dishExportMap.versionWFS,
+        VersionWFS: this.versionWFS,
         LayerNameWFS: this.wfsLayerFeatureType,
-        PropertyNameWFS: this.configuration.dishExportMap.propertyNameWFS,
-        FilterTypeWFS: this.configuration.dishExportMap.filterTypeWFS,
+        PropertyNameWFS: this.propertyNameWFS,
+        FilterTypeWFS: this.filterTypeWFS,
         scaleText: this.scaleWithUnit,
         PrintImageURL: this.printImageUrlProd,
-        PrintImagePath: this.configuration.dishExportMap.printImagePath,
+        PrintImagePath: this.printImagePath,
       }
     },
     printMapAsPdf() {
