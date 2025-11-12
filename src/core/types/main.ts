@@ -3,6 +3,7 @@ import type { MarkerConfiguration } from './marker'
 import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
 import type { LocaleOverride } from './locales'
+import type { AddressSearchOptions } from '@/plugins/addressSearch'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { ToastPluginOptions } from '@/plugins/toast'
@@ -276,6 +277,11 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	// Remember to sort them alphabetical inside their space.
 	// TODO: Generate this section via types/plugin.ts
 	/* eslint-disable perfectionist/sort-interfaces */
+
+	/**
+	 * Configuration for addressSearch plugin.
+	 */
+	addressSearch?: AddressSearchOptions
 
 	/**
 	 * Configuration for fullscreen plugin.
