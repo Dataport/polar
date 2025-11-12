@@ -177,6 +177,10 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
     propertyNameWFS: 'objektid',
     filterTypeWFS: 'EQUAL_TO',
     printImagePath: 'ContentMapsTmp',
-    urlParams,
+    wmsLayerUrl: 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/wms',
+    wfsLayerUrl: 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/wfs',
+    wfsLayerFeatureType: 'app:dish_shp',
+    printImageUrlProd: `${urlParams.internalHost}/Content/MapsTmp`,
+    exportMapAsPdfUrl: `${urlParams.internalHost}/Content/Objekt/Kartenausgabe.aspx`,
   },
 })
