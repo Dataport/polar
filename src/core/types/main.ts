@@ -1,4 +1,5 @@
 import type { VueElement } from 'vue'
+import type defaults from '../utils/defaults'
 import type { MarkerConfiguration } from './marker'
 import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
@@ -300,3 +301,6 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/* eslint-enable perfectionist/sort-interfaces */
 }
+
+export type MapConfigurationIncludingDefaults = MapConfiguration &
+	typeof defaults

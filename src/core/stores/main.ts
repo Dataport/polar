@@ -1,17 +1,27 @@
+import { toMerged } from 'es-toolkit'
 import type { Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
-import type { MasterportalApiServiceRegister, MapConfiguration } from '../types'
+import type {
+	MapConfigurationIncludingDefaults,
+	MasterportalApiServiceRegister,
+} from '../types'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addInterceptor } from '../utils/addInterceptor'
+import defaults from '../utils/defaults'
 
 export const useMainStore = defineStore('main', () => {
-	const configuration = ref<MapConfiguration>({
-		layers: [],
-		startCenter: [0, 0],
-	})
+	const configuration = ref<MapConfigurationIncludingDefaults>(
+		toMerged(
+			{
+				layers: [],
+				startCenter: [0, 0],
+			},
+			defaults
+		)
+	)
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)
