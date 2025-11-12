@@ -7,6 +7,7 @@
 import debounce from 'just-debounce-it'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { useCoreStore } from '@/core/stores/export'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -18,6 +19,8 @@ import { computed, ref } from 'vue'
 export const useAddressSearchStore = defineStore(
 	'plugins/addressSearch',
 	() => {
+		const coreStore = useCoreStore()
+
 		let abortController: AbortController | null = null
 		let debouncedSearch: typeof _search
 
@@ -33,10 +36,14 @@ export const useAddressSearchStore = defineStore(
 				abortAndRequest()
 			},
 		})
+		const waitMs = computed(() =>
+			typeof coreStore.configuration.addressSearch?.waitMs === 'number'
+				? coreStore.configuration.addressSearch.waitMs
+				: 0
+		)
 
 		function setupPlugin() {
-			// TODO: Implement waitMs getter from configuration
-			debouncedSearch = debounce(_search, 300)
+			debouncedSearch = debounce(_search, waitMs.value)
 		}
 
 		function teardownPlugin() {}

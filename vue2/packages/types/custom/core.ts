@@ -128,8 +128,6 @@ export interface AddressSearchConfiguration extends PluginOptions {
 	// optional loading action name to end loading
 	removeLoading?: string
 	afterResultComponent?: VueConstructor
-	// Time passed in milliseconds before another search is started
-	waitMs?: number
 }
 
 export interface Attribution {
