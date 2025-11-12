@@ -49,7 +49,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		)
 	)
 	const latLon = computed(() =>
-		toLonLat(coordinate.value, coreStore.configuration.epsg as string)
+		toLonLat(coordinate.value, coreStore.configuration.epsg)
 	)
 
 	const pinLayer = new VectorLayer({
@@ -129,7 +129,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 
 			if (centerOn) {
 				addPin(coordinate, false, {
-					epsg: epsg || (coreStore.configuration.epsg as string),
+					epsg: epsg || coreStore.configuration.epsg,
 					type: 'Point',
 				})
 				return
@@ -216,7 +216,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		if (!clicked && pinInformation) {
 			coordinate.value = getPointCoordinate(
 				pinInformation.epsg,
-				coreStore.configuration.epsg as string,
+				coreStore.configuration.epsg,
 				pinInformation.type,
 				newCoordinate
 			)
