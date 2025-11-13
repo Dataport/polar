@@ -68,23 +68,6 @@ export default Vue.extend({
     showOverlay: false,
     dialog: false,
     title: '',
-    printApproach: '',
-    printRequester: '',
-    xPrint: '',
-    yPrint: '',
-    versionHintergrund: '',
-    proxyHintergrund: '',
-    versionWMS: '',
-    layerNameWMS: '',
-    versionWFS: '',
-    propertyNameWFS: '',
-    filterTypeWFS: '',
-    printImagePath: '',
-    wmsLayerUrl: '',
-    wfsLayerUrl: '',
-    wfsLayerFeatureType: '',
-    printImageUrlProd: '',
-    exportMapAsPdfUrl: '',
     defaultBackground: {
       url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
       layers: 'de_basemapde_web_raster_grau',
@@ -111,9 +94,11 @@ export default Vue.extend({
         ) || this.defaultBackground
       )
     },
+    dishExportMap() {
+      return this.configuration.dishExportMap
+    },
   },
   mounted() {
-    this.configureSettings()
     const element = this.$refs.rectangle as HTMLElement
     if (!this.overlay) {
       this.overlay = new Overlay({
@@ -127,9 +112,6 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations('plugin/fullscreen', ['setIsInFullscreen']),
-    configureSettings() {
-      Object.assign(this, this.configuration.dishExportMap)
-    },
     showRectangleAndDialog() {
       if (this.isInFullscreen) {
         if (document.exitFullscreen) {
@@ -195,11 +177,11 @@ export default Vue.extend({
         objektueberschrift: this.title,
         // spelling is intentional because of backend requirements
         masssstab: this.scaleValue,
-        printApproach: this.printApproach,
-        printRequester: this.printRequester,
+        printApproach: this.dishExportMap.printApproach,
+        printRequester: this.dishExportMap.printRequester,
         id: this.currentProperties.objektid,
-        xPrint: this.xPrint,
-        yPrint: this.yPrint,
+        xPrint: this.dishExportMap.xPrint,
+        yPrint: this.dishExportMap.yPrint,
         scale: this.scaleValue,
         xMin: bbox?.xMin,
         yMin: bbox?.yMin,
@@ -210,19 +192,19 @@ export default Vue.extend({
         mapSRS: this.configuration.epsg,
         urlHintergrund: `${this.backgroundLayer.url}?`,
         LayerNameHintergrund: this.backgroundLayer.layers,
-        VersionHintergrund: this.versionHintergrund,
-        ProxyHintergrund: this.proxyHintergrund,
-        urlWMS: `${this.wmsLayerUrl}?`,
-        VersionWMS: this.versionWMS,
-        LayerNameWMS: this.layerNameWMS,
-        urlWFS: `${this.wfsLayerUrl}?`,
-        VersionWFS: this.versionWFS,
-        LayerNameWFS: this.wfsLayerFeatureType,
-        PropertyNameWFS: this.propertyNameWFS,
-        FilterTypeWFS: this.filterTypeWFS,
+        VersionHintergrund: this.dishExportMap.versionHintergrund,
+        ProxyHintergrund: this.dishExportMap.proxyHintergrund,
+        urlWMS: `${this.dishExportMap.wmsLayerUrl}?`,
+        VersionWMS: this.dishExportMap.versionWMS,
+        LayerNameWMS: this.dishExportMap.layerNameWMS,
+        urlWFS: `${this.dishExportMap.wfsLayerUrl}?`,
+        VersionWFS: this.dishExportMap.versionWFS,
+        LayerNameWFS: this.dishExportMap.wfsLayerFeatureType,
+        PropertyNameWFS: this.dishExportMap.propertyNameWFS,
+        FilterTypeWFS: this.dishExportMap.filterTypeWFS,
         scaleText: this.scaleWithUnit,
-        PrintImageURL: this.printImageUrlProd,
-        PrintImagePath: this.printImagePath,
+        PrintImageURL: this.dishExportMap.printImageUrlProd,
+        PrintImagePath: this.dishExportMap.printImagePath,
       }
     },
     printMapAsPdf() {
@@ -234,7 +216,7 @@ export default Vue.extend({
             `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
         )
         .join('&')
-      const encodedUrl = `${this.exportMapAsPdfUrl}?${queryString}`
+      const encodedUrl = `${this.dishExportMap.exportMapAsPdfUrl}?${queryString}`
 
       window.open(encodedUrl, '_blank')
       this.showOverlay = false
