@@ -8,6 +8,7 @@ import debounce from 'just-debounce-it'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { SearchResult } from './types'
+import { getMethodContainer } from './utils/methodContainer/getSearchMethod'
 import SearchResultSymbols from './utils/searchResultSymbols'
 import { useCoreStore } from '@/core/stores/export'
 
@@ -25,6 +26,7 @@ export const useAddressSearchStore = defineStore(
 
 		let abortController: AbortController | null = null
 		let debouncedSearch: typeof _search
+		let methodContainer: ReturnType<typeof getMethodContainer>
 
 		const _inputValue = ref('')
 		const searchResults = ref<SearchResult[] | symbol>([])
@@ -47,6 +49,9 @@ export const useAddressSearchStore = defineStore(
 
 		function setupPlugin() {
 			debouncedSearch = debounce(_search, waitMs.value)
+			methodContainer = getMethodContainer()
+			// TODO: Register customSearchMethods as callable ones
+			// TODO: Set both searchMethods and customSearchMethods to the state variable
 		}
 
 		function teardownPlugin() {}
