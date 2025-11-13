@@ -10,3 +10,9 @@ export interface AddressSearchOptions extends PluginOptions {
 	 */
 	waitMs?: number
 }
+
+export interface SearchResult {
+	categoryId: string
+	categoryLabel: string
+	features: FeatureCollection[]
+}
