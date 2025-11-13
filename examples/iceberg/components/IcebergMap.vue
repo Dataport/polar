@@ -1,7 +1,7 @@
 <template>
 	<div :class="$style['action-bar']">
 		<button class="kern-btn kern-btn--secondary" @click="switchLanguage">
-			<span class="kern-icon kern-icon--flag" />
+			<span class="kern-icon kern-icon-fill--flag" />
 			<span class="kern-label">{{
 				language === 'de' ? 'Switch to English' : 'Zu Deutsch wechseln'
 			}}</span>

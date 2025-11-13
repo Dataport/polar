@@ -44,7 +44,7 @@ export interface IconMenuPluginOptions extends PluginOptions {
 	 *       },
 	 *       {
 	 *         plugin: PolarPluginDraw({}),
-	 *         icon: 'kern-icon--draw',
+	 *         icon: 'kern-icon-fill--draw',
 	 *         id: 'draw',
 	 *         hint: 'Draw or write something on the map'
 	 *       },
