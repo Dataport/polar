@@ -8,7 +8,7 @@ import debounce from 'just-debounce-it'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { SearchResult } from './types'
-import { getMethodContainer } from './utils/methodContainer/getSearchMethod'
+import { getMethodContainer } from './utils/searchMethods/methodContainer'
 import SearchResultSymbols from './utils/searchResultSymbols'
 import { useCoreStore } from '@/core/stores/export'
 
