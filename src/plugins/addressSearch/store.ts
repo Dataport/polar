@@ -7,6 +7,8 @@
 import debounce from 'just-debounce-it'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import type { SearchResult } from './types'
+import SearchResultSymbols from './utils/searchResultSymbols'
 import { useCoreStore } from '@/core/stores/export'
 
 /* eslint-disable tsdoc/syntax */
@@ -25,6 +27,7 @@ export const useAddressSearchStore = defineStore(
 		let debouncedSearch: typeof _search
 
 		const _inputValue = ref('')
+		const searchResults = ref<SearchResult[] | symbol>([])
 
 		const inputValue = computed({
 			get: () => _inputValue.value,
@@ -58,6 +61,8 @@ export const useAddressSearchStore = defineStore(
 
 		function clear() {
 			inputValue.value = ''
+			searchResults.value = SearchResultSymbols.NO_SEARCH
+			// TODO: Reset chosenAddress (chosen feature)
 		}
 
 		function _search() {}

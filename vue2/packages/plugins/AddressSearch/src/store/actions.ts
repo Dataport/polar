@@ -97,10 +97,6 @@ export const makeActions = () => {
 			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
 			dispatch('input', state.inputValue)
 		},
-		clear({ commit }): void {
-			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
-			commit('setChosenAddress', null)
-		},
 		load({
 			state: { inputValue },
 			rootGetters,

@@ -32,7 +32,6 @@ export default Vue.extend({
 		]),
 	},
 	methods: {
-		...mapActions('plugin/addressSearch', ['clear']),
 		focusFirstResult,
 	},
 })
