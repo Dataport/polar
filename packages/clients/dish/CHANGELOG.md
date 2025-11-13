@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## unpublished
+- Fix: Add new configuration parameters for DishExportMap to prevent further errors with services that use a different `internalHost` and to simplify adjustments for backend changes.
+
 ## 1.2.0
 
 - Feature: If a user is geolocated outside the map's extent, the client will inform the user of why geolocation did not take effect via a textbox.

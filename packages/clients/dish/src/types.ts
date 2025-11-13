@@ -123,7 +123,11 @@ export interface DishMapConfig
     propertyNameWFS: string
     filterTypeWFS: string
     printImagePath: string
-    urlParams: DishUrlParams
+    wmsLayerUrl: string
+    wfsLayerUrl: string
+    wfsLayerFeatureType: string
+    printImageUrlProd: string
+    exportMapAsPdfUrl: string
   }
 }
 
