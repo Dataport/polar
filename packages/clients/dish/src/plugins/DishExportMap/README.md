@@ -49,7 +49,7 @@ dishExportMap: {
   printImagePath: 'ContentMapsTmp',
   wmsLayerUrl: 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/wms', // ⚠️ Do not change
   wfsLayerUrl: 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/wfs', // ⚠️ Do not change
-  wfsLayerFeatureType: 'app:dish_shp',
+  wfsLayerFeatureType: 'app:TBLGIS_ORA',
   printImageUrlProd: `${urlParams.internalHost}/Content/MapsTmp`,
   exportMapAsPdfUrl: `${urlParams.internalHost}/Content/Objekt/Kartenausgabe.aspx`,
 },
