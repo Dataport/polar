@@ -74,6 +74,7 @@ const isReportSelectable = (feature) =>
 const map = await createMap(
 	'snowbox',
 	{
+		startCenter: [573364, 6028874],
 		layers: [
 			// TODO: Add internalization to snowbox
 			{
