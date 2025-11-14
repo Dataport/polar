@@ -6,24 +6,35 @@
 		icon="kern-icon--search"
 		@click="updateStatus"
 	/>
-	<div v-else class="polar-plugin-address-search-input-wrapper">
-		<input
-			id="polar-plugin-address-search-input"
-			v-model="inputValue"
-			class="kern-form-input__input"
-			type="text"
-			@keydown.enter="addressSearchStore.abortAndRequest"
-			@focusout="updateStatus"
-		/>
-		<button
-			class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
-			@click="addressSearchStore.clear"
-		>
-			<span class="kern-icon kern-icon--close" aria-hidden="true" />
-			<span class="kern-label kern-sr-only">
-				{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
-			</span>
-		</button>
+	<div v-else class="polar-plugin-address-search">
+		<div class="polar-plugin-address-search-input-wrapper">
+			<!--
+				TODO:
+					- Add aria-description
+					- Add label
+					- Add placeholder
+					- Show inline-loader
+					- Focus first result on arrow-down
+			-->
+			<input
+				id="polar-plugin-address-search-input"
+				v-model="inputValue"
+				class="kern-form-input__input"
+				type="text"
+				@keydown.enter="addressSearchStore.abortAndRequest"
+				@focusout="updateStatus"
+			/>
+			<!-- TODO: Show a loader inline here while requests are sent -->
+			<button
+				class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
+				@click="addressSearchStore.clear"
+			>
+				<span class="kern-icon kern-icon--close" aria-hidden="true" />
+				<span class="kern-label kern-sr-only">
+					{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
+				</span>
+			</button>
+		</div>
 	</div>
 </template>
 
@@ -68,34 +79,37 @@ function updateStatus() {
 	margin: 0.5rem;
 }
 
-.polar-plugin-address-search-input-wrapper {
+.polar-plugin-address-search {
 	position: absolute;
 	padding: 0.5rem;
 	margin: 0.5rem;
-
 	width: 25rem;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 0.5rem;
 
 	border-radius: var(--kern-metric-border-radius-large);
 	background: var(--kern-color-layout-background-default);
+	box-shadow: var(--polar-shadow);
 
-	#polar-plugin-address-search-input {
-		pointer-events: all;
-		border-radius: var(--kern-metric-border-radius-small);
-		background: var(--kern-color-form-input-background);
-	}
+	.polar-plugin-address-search-input-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
 
-	.polar-plugin-address-search-input-button {
-		position: absolute;
-		right: 0;
-		border-radius: var(--kern-metric-border-radius-small);
-		margin: var(--kern-metric-space-small);
-		margin-right: var(--kern-metric-space-default);
-		width: var(--kern-metric-dimension-large);
-		min-height: var(--kern-metric-dimension-large);
+		#polar-plugin-address-search-input {
+			pointer-events: all;
+			border-radius: var(--kern-metric-border-radius-small);
+			background: var(--kern-color-form-input-background);
+		}
+
+		.polar-plugin-address-search-input-button {
+			position: absolute;
+			right: 0;
+			border-radius: var(--kern-metric-border-radius-small);
+			margin: var(--kern-metric-space-small);
+			margin-right: var(--kern-metric-space-default);
+			width: var(--kern-metric-dimension-large);
+			min-height: var(--kern-metric-dimension-large);
+		}
 	}
 }
 </style>
