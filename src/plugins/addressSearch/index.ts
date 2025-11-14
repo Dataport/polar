@@ -16,7 +16,9 @@ import type { PluginContainer, PluginOptions, PolarPluginStore } from '@/core'
  *
  * @returns Plugin for use with {@link addPlugin}.
  */
-export default function pluginAddressSearch(options: PluginOptions): PluginContainer {
+export default function pluginAddressSearch(
+	options: PluginOptions
+): PluginContainer {
 	return {
 		id: PluginId,
 		component,
