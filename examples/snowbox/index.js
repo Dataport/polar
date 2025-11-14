@@ -9,6 +9,7 @@ import {
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
+import pluginPins from '@polar/polar/plugins/pins'
 import pluginToast from '@polar/polar/plugins/toast'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
@@ -21,6 +22,7 @@ const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
+const hamburgBorder = '1693'
 
 // eslint-disable-next-line no-unused-vars
 const dataportTheme = {
@@ -72,6 +74,7 @@ const isReportSelectable = (feature) =>
 const map = await createMap(
 	'snowbox',
 	{
+		startCenter: [573364, 6028874],
 		layers: [
 			// TODO: Add internalization to snowbox
 			{
@@ -85,6 +88,13 @@ const map = await createMap(
 				type: 'background',
 				name: 'Basemap.de (Grau)',
 				maxZoom: 6,
+			},
+			{
+				id: hamburgBorder,
+				visibility: true,
+				hideInMenu: true,
+				type: 'mask',
+				name: 'meldemichel.layers.hamburgBorder',
 			},
 			{
 				id: reports,
@@ -211,6 +221,19 @@ addPlugin(
 	pluginToast({
 		displayComponent: true,
 		layoutTag: 'BOTTOM_MIDDLE',
+	})
+)
+addPlugin(
+	map,
+	pluginPins({
+		boundary: {
+			layerId: hamburgBorder,
+		},
+		movable: 'drag',
+		style: {
+			fill: '#FF0019',
+		},
+		toZoomLevel: 7,
 	})
 )
 addPlugin(
