@@ -1,8 +1,22 @@
+import type { FeatureCollection } from 'geojson'
 import type { PluginOptions } from '@/core'
 
 export const PluginId = 'addressSearch'
 
 export interface AddressSearchOptions extends PluginOptions {
+	/** Configured search methods. */
+	searchMethods: SearchMethodConfiguration[]
+
+	/** Additional search methods (client-side injection). */
+	customSearchMethods?: Record<string, SearchMethodFunction>
+
+	/**
+	 * Minimal input length before the search starts.
+	 *
+	 * @defaultValue 0
+	 */
+	minLength?: number
+
 	/**
 	 * Time passed in milliseconds before another search is started.
 	 *
@@ -11,8 +25,42 @@ export interface AddressSearchOptions extends PluginOptions {
 	waitMs?: number
 }
 
+/** Possible search methods by type. */
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
+
+/**
+ * Additional queryParameters for the GET-Request;
+ * for the specific parameters for each request,
+ * please refer to the types in the plugin
+ */
+export interface QueryParameters {
+	/** Sets the maximum number of features to retrieve. */
+	maxFeatures?: number
+}
+
+export type SearchDisplayMode = 'mixed' | 'categorized'
+
+/** Object containing information for a specific search method */
+export interface SearchMethodConfiguration {
+	type: SearchType
+	url: string
+	categoryId?: string
+	hint?: string
+	label?: string
+	placeholder?: string
+	queryParameters?: QueryParameters
+}
+
+export type SearchMethodFunction = (
+	signal: AbortSignal,
+	url: SearchMethodConfiguration['url'],
+	inputValue: string,
+	queryParameters: SearchMethodConfiguration['queryParameters']
+) => Promise<FeatureCollection> | never
+
 export interface SearchResult {
 	categoryId: string
 	categoryLabel: string
-	features: FeatureCollection[]
+	features: FeatureCollection
 }

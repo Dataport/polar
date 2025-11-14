@@ -1,62 +1,17 @@
-import debounce from 'lodash.debounce'
-import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import { SearchResultSymbols } from '../'
-import { getMethodContainer } from '../utils/searchMethods/getSearchMethod'
 import {
 	AddressSearchGetters,
 	AddressSearchState,
 	AddressSearchAutoselect,
 } from '../types'
 
-const getResultsFromPromises = (
-	promises: PromiseSettledResult<
-		FeatureCollection<Geometry, GeoJsonProperties>
-	>[],
-	abortController: AbortController
-) => {
-	const results = promises.reduce((accumulator, promise, index) => {
-		if (promise.status === 'fulfilled') {
-			return [
-				...accumulator,
-				{
-					value: promise.value,
-					index,
-				},
-			]
-		}
-		return accumulator
-	}, [] as object[])
-
-	// only print errors if search was not aborted
-	if (!abortController.signal.aborted) {
-		;(
-			promises.filter(
-				({ status }) => status === 'rejected'
-			) as PromiseRejectedResult[]
-		).forEach(({ reason }) =>
-			console.error(
-				'@polar/plugin-address-search: An error occurred while sending a request: ',
-				reason
-			)
-		)
-	}
-
-	return results
-}
-
 export const makeActions = () => {
 	let abortController
-	let debouncedLoad
 	let methodContainer
 
 	const actions: PolarActionTree<AddressSearchState, AddressSearchGetters> = {
 		setupModule({ getters }): void {
-			debouncedLoad = debounce(
-				() => this.dispatch('plugin/addressSearch/load'),
-				getters.waitMs
-			).bind(this)
-
 			// searchMethod without url is invalid – print error
 			getters.searchMethods
 				.filter(({ url }) => !url)
@@ -67,8 +22,6 @@ export const makeActions = () => {
 						)})`
 					)
 				)
-
-			methodContainer = getMethodContainer()
 
 			// add custom added search implementations, if any configured
 			const customSearchMethods =
@@ -96,56 +49,6 @@ export const makeActions = () => {
 			 * search service group */
 			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
 			dispatch('input', state.inputValue)
-		},
-		load({
-			state: { inputValue },
-			rootGetters,
-			getters,
-			commit,
-			dispatch,
-		}): Promise<void> | void {
-			const activeSearchMethods = getters.selectedGroup
-			// Value is null when the input is cleared; extra undefined check for safety
-			if (
-				typeof inputValue === 'undefined' ||
-				inputValue === null ||
-				inputValue.length < getters.minLength
-			) {
-				commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
-				dispatch('indicateLoading', false)
-				return
-			}
-			dispatch('indicateLoading', true)
-			abortController = new AbortController()
-			const localAbortControllerReference = abortController
-			const searchPromises: Promise<FeatureCollection>[] =
-				activeSearchMethods.map((method) =>
-					methodContainer.getSearchMethod(method.type)(
-						abortController.signal,
-						method.url,
-						inputValue,
-						{
-							...method.queryParameters,
-							epsg: rootGetters.configuration.epsg,
-							map: rootGetters.map,
-						}
-					)
-				)
-			return Promise.allSettled(searchPromises)
-				.then((results) =>
-					commit(
-						'setSearchResults',
-						getResultsFromPromises(results, localAbortControllerReference)
-					)
-				)
-				.catch((error: Error) => {
-					console.error(
-						'@polar/plugin-address-search: An error occurred while searching.',
-						error
-					)
-					commit('setSearchResults', SearchResultSymbols.ERROR)
-				})
-				.finally(() => dispatch('indicateLoading', false))
 		},
 		indicateLoading(
 			{ getters: { addressSearchConfiguration }, commit },
