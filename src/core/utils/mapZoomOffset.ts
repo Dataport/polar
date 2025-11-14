@@ -1,4 +1,4 @@
-import type { MapConfiguration } from '../types'
+import type { MapConfigurationIncludingDefaults } from '../types'
 
 /**
  * NOTE This is a workaround addressing the recent change in `minZoom` logic in
@@ -11,8 +11,8 @@ import type { MapConfiguration } from '../types'
  * inclusive.
  */
 export const mapZoomOffset = (
-	mapConfiguration: MapConfiguration
-): MapConfiguration => {
+	mapConfiguration: MapConfigurationIncludingDefaults
+): MapConfigurationIncludingDefaults => {
 	return {
 		...mapConfiguration,
 		layers: mapConfiguration.layers.map((entry) =>
