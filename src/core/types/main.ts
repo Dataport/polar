@@ -1,9 +1,11 @@
 import type { VueElement } from 'vue'
+import type defaults from '../utils/defaults'
 import type { MarkerConfiguration } from './marker'
 import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
 import type { LocaleOverride } from './locales'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
+import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { ToastPluginOptions } from '@/plugins/toast'
 
@@ -283,6 +285,11 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	fullscreen?: FullscreenPluginOptions
 
 	/**
+	 * Configuration for geoLocation plugin.
+	 */
+	geoLocation?: GeoLocationPluginOptions
+
+	/**
 	 * Configuration for iconMenu plugin.
 	 */
 	iconMenu?: IconMenuPluginOptions
@@ -294,3 +301,6 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/* eslint-enable perfectionist/sort-interfaces */
 }
+
+export type MapConfigurationIncludingDefaults = MapConfiguration &
+	typeof defaults
