@@ -31,9 +31,16 @@
       const internalPort = '8081'
       const internalPath = 'dish-deegree-3.5.0/services'
 
+      // configuration for backend print services
+      const printHost = "http://10.61.63.54"
+      const printHostPort = "8081"
+      const printPath = "dish-deegree-3.5.0/services"
+
       // leave empty for external map
       const urlParams = {
         internalHost,
+        printHost,
+        printServicesBaseUrl: `${printHost}:${printHostPort}/${printPath}`,
         internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
       }
 

@@ -102,6 +102,8 @@ export interface ModalState {
 export interface DishUrlParams {
   internalHost: string
   internServicesBaseUrl: string
+  printHost: string
+  printServicesBaseUrl: string
 }
 
 export interface DishMapConfig
