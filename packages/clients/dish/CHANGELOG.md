@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ## unpublished
-- Fix: Add new configuration parameters for DishExportMap to prevent further errors with services that use a different `internalHost` and to simplify adjustments for backend changes.
+- Fix: Add new configuration parameters for DishExportMap to configure different host (backend host might differ from `internalHost`) and to simplify adjustments for backend changes.
 
 ## 1.2.0
 
