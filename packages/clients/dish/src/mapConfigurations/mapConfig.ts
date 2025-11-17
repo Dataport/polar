@@ -28,7 +28,12 @@ const commonMapConfiguration: Partial<MapConfig> = {
 
 export const getMapConfiguration = (
   mode: string,
-  urlParams: DishUrlParams = { internalHost: '', internServicesBaseUrl: '' }
+  urlParams: DishUrlParams = {
+    internalHost: '',
+    internServicesBaseUrl: '',
+    printHost: '',
+    printServicesBaseUrl: '',
+  }
 ): DishMapConfig => ({
   ...commonMapConfiguration,
   ...(mode === 'INTERN' ? mapConfigIntern(urlParams) : mapConfigExtern),
