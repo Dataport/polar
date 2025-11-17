@@ -156,6 +156,12 @@ onBeforeUnmount(() => {
 	--brand-color-l: v-bind('mainStore.configuration.theme?.brandColor?.l');
 	--brand-color-c: v-bind('mainStore.configuration.theme?.brandColor?.c');
 	--brand-color-h: v-bind('mainStore.configuration.theme?.brandColor?.h');
+	--polar-shadow-color: 0deg 0% 63%;
+	--polar-shadow:
+		0 0.5px 0.5px hsl(var(--polar-shadow-color) / 0.43),
+		0 1.5px 1.6px -1px hsl(var(--polar-shadow-color) / 0.4),
+		0 4px 4.2px -2px hsl(var(--polar-shadow-color) / 0.36),
+		-0.1px 10.1px 10.6px -3px hsl(var(--polar-shadow-color) / 0.32);
 }
 
 @layer polar-map {
