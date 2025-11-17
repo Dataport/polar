@@ -248,13 +248,13 @@ addPlugin(
 						id: 'realKewl',
 						locales: [],
 					},
-					icon: 'kern-icon--share',
+					icon: 'kern-icon-fill--share',
 				},
 			],
 			[
 				{
 					plugin: pluginLayerChooser({}),
-					icon: 'kern-icon--layers',
+					icon: 'kern-icon-fill--layers',
 				},
 				{
 					plugin: pluginFullscreen({}),
