@@ -46,6 +46,7 @@ const toasts = computed(() =>
 						'background-color': getCssColor(toast.theme.color),
 					}
 				: {},
+			// NOTE: The default icons are directly incorporated in KERN.
 			iconClass: toast.theme?.icon || `kern-icon--${kernSeverity}`,
 			text: toast.text,
 			originalToast: toast,
