@@ -1,5 +1,10 @@
 <template>
-	<div ref="polar-wrapper" class="polar-wrapper" :lang="language">
+	<div
+		ref="polar-wrapper"
+		class="polar-wrapper"
+		:lang="language"
+		:data-kern-theme="mainStore.colorScheme"
+	>
 		<PolarMap />
 		<PolarUI />
 		<MoveHandle
@@ -89,15 +94,6 @@ watch(
 		await i18next.changeLanguage(newLanguage)
 	}
 )
-watch(
-	() => mainStore.colorScheme,
-	(newColorScheme) => {
-		;(polarWrapper.value as HTMLDivElement).setAttribute(
-			'data-kern-theme',
-			newColorScheme
-		)
-	}
-)
 
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
@@ -124,10 +120,6 @@ onMounted(() => {
 	if (mainStore.configuration.colorScheme) {
 		mainStore.colorScheme = mainStore.configuration.colorScheme
 	}
-	;(polarWrapper.value as HTMLDivElement).setAttribute(
-		'data-kern-theme',
-		mainStore.colorScheme
-	)
 
 	mainStore.setup()
 
