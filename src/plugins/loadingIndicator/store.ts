@@ -29,8 +29,10 @@ export const useLoadingIndicatorStore = defineStore(
 	'plugins/loadingIndicator',
 	() => {
 		const loadKeys = ref(new Set<string>())
-		const loaderStyle = ref('kern-loader')
-		const showLoader = computed(() => loadKeys.value.size > 0)
+		const loaderStyle = ref<LoaderStyles | null>('kern-loader')
+		const showLoader = computed(
+			() => loadKeys.value.size > 0 && loaderStyle.value !== null
+		)
 
 		function setupPlugin() {
 			const configuredStyle =

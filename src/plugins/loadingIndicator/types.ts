@@ -29,9 +29,9 @@ export interface LoadingIndicatorOptions extends PluginOptions {
 	 *   </tr>
 	 * </table>
 	 *
-	 * It is also possible to choose `none` as a `loaderStyle` to hide the loader.
+	 * It is also possible to choose `null` as a `loaderStyle` to hide the loader.
 	 *
 	 * @defaultValue `'kern-loader'`
 	 */
-	loaderStyle?: LoaderStyles
+	loaderStyle?: LoaderStyles | null
 }
