@@ -10,12 +10,12 @@ import { useCoreStore } from '@/core/stores/export.ts'
 import type { LoaderStyles } from '@/plugins/loadingIndicator/types.ts'
 
 const styles = [
-	'CircleLoader',
+	'KernLoader',
 	'BasicLoader',
 	'RingLoader',
 	'RollerLoader',
+	'CircleLoader',
 	'SpinnerLoader',
-	'kern-loader',
 ]
 
 /* eslint-disable tsdoc/syntax */
@@ -29,7 +29,7 @@ export const useLoadingIndicatorStore = defineStore(
 	'plugins/loadingIndicator',
 	() => {
 		const loadKeys = ref(new Set<string>())
-		const loaderStyle = ref<LoaderStyles | null>('kern-loader')
+		const loaderStyle = ref<LoaderStyles | null>('KernLoader')
 		const showLoader = computed(() => loadKeys.value.size > 0)
 
 		function setupPlugin() {
@@ -40,7 +40,7 @@ export const useLoadingIndicatorStore = defineStore(
 			}
 		}
 		function teardownPlugin() {
-			setLoaderStyle('kern-loader')
+			setLoaderStyle('KernLoader')
 		}
 
 		function addLoadingKey(key: string) {

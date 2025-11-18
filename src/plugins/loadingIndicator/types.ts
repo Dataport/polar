@@ -3,12 +3,12 @@ import type { PluginOptions } from '@/core'
 export const PluginId = 'loadingIndicator'
 
 export type LoaderStyles =
-	| 'CircleLoader'
+	| 'KernLoader'
 	| 'BasicLoader'
 	| 'RingLoader'
 	| 'RollerLoader'
+	| 'CircleLoader'
 	| 'SpinnerLoader'
-	| 'kern-loader'
 
 export interface LoadingIndicatorOptions extends PluginOptions {
 	/**
@@ -17,7 +17,7 @@ export interface LoadingIndicatorOptions extends PluginOptions {
 	 * Supported options:
 	 * <table align="center">
 	 *   <tr align="center">
-	 *     <td width="33%" align="center"><img src="./assets/KernLoader.gif" alt="kern-loader" height="120px" style="object-fit: none;"><div>kern-loader</div></td>
+	 *     <td width="33%" align="center"><img src="./assets/KernLoader.gif" alt="KernLoader" height="120px" style="object-fit: none;"><div>KernLoader</div></td>
 	 *     <td width="33%" align="center"><img src="./assets/BasicLoader.gif" alt="BasicLoader" height="120px" style="object-fit: contain;"><div>BasicLoader</div></td>
 	 *     <td width="33%" align="center"><img src="./assets/RingLoader.gif" alt="RingLoader" height="120px" style="object-fit: contain;"><div>RingLoader</div></td>
 	 *   </tr>
@@ -30,7 +30,7 @@ export interface LoadingIndicatorOptions extends PluginOptions {
 	 *
 	 * It is also possible to choose `null` as a `loaderStyle` to hide the loader.
 	 *
-	 * @defaultValue `'kern-loader'`
+	 * @defaultValue `'KernLoader'`
 	 * @privateRemarks
 	 * TODO(dopenguin): Add PolarLoader that includes the Logo
 	 */
