@@ -1,5 +1,8 @@
 <template>
-	<div v-if="showLoader" class="polar-plugin-loading-indicator-wrapper">
+	<div
+		v-if="showLoader && loaderStyle !== null"
+		class="polar-plugin-loading-indicator-wrapper"
+	>
 		<div
 			v-if="layout === 'standard'"
 			class="polar-plugin-loading-indicator-overlay"
