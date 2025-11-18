@@ -32,6 +32,7 @@ const menus = computed(() =>
 						? ' polar-plugin-icon-menu-button-active'
 						: '',
 				].reduce((a, b) => a.concat(' ', b)),
+				icon: 'icon' in menu ? menu.icon : menu.plugin.icon,
 			})
 		)
 	)

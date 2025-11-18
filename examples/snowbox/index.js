@@ -253,7 +253,6 @@ addPlugin(
 			[
 				{
 					plugin: pluginLayerChooser({}),
-					icon: 'kern-icon-fill--layers',
 				},
 				{
 					plugin: pluginFullscreen({}),
