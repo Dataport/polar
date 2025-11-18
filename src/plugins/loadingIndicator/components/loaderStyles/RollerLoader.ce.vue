@@ -1,6 +1,6 @@
 <template>
 	<div class="lds-roller">
-		<div v-for="i in 8" />
+		<div v-for="i in 8" :key="i" />
 	</div>
 </template>
 

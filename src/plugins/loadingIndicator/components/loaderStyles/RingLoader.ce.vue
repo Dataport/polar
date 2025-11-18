@@ -1,6 +1,6 @@
 <template>
 	<div class="lds-ring">
-		<div v-for="i in 4" />
+		<div v-for="i in 4" :key="i" />
 	</div>
 </template>
 
