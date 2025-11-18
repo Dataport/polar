@@ -15,7 +15,6 @@ export interface LoadingIndicatorOptions extends PluginOptions {
 	 * Choose between different loader styles.
 	 *
 	 * Supported options:
-	 * TODO(dopenguin): Add PolarLoader that includes the Logo
 	 * <table align="center">
 	 *   <tr align="center">
 	 *     <td width="33%" align="center"><img src="./assets/KernLoader.gif" alt="kern-loader" height="120px" style="object-fit: none;"><div>kern-loader</div></td>
@@ -32,6 +31,8 @@ export interface LoadingIndicatorOptions extends PluginOptions {
 	 * It is also possible to choose `null` as a `loaderStyle` to hide the loader.
 	 *
 	 * @defaultValue `'kern-loader'`
+	 * @privateRemarks
+	 * TODO(dopenguin): Add PolarLoader that includes the Logo
 	 */
 	loaderStyle?: LoaderStyles | null
 }
