@@ -1,13 +1,6 @@
 <template>
 	<div class="lds-roller">
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
+		<div v-for="i in 8" />
 	</div>
 </template>
 

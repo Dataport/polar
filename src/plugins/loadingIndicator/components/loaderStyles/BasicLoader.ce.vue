@@ -1,17 +1,6 @@
 <template>
 	<div class="lds-default">
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
-		<div />
+		<div v-for="i in 12" />
 	</div>
 </template>
 

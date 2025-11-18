@@ -1,9 +1,6 @@
 <template>
 	<div class="lds-ring">
-		<div />
-		<div />
-		<div />
-		<div />
+		<div v-for="i in 4" />
 	</div>
 </template>
 
