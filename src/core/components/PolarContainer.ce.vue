@@ -58,6 +58,10 @@ mainStore.configuration = mapZoomOffset({
 	...props.mapConfiguration,
 })
 
+if (mainStore.configuration.colorScheme) {
+	mainStore.colorScheme = mainStore.configuration.colorScheme
+}
+
 if (mainStore.configuration.oidcToken) {
 	// copied to a separate spot for usage as it's changeable data at run-time
 	mainStore.oidcToken = mainStore.configuration.oidcToken
@@ -117,9 +121,6 @@ onMounted(() => {
 		mainStore.shadowRoot as ShadowRoot,
 		mainStore.configuration.theme?.kern || {}
 	)
-	if (mainStore.configuration.colorScheme) {
-		mainStore.colorScheme = mainStore.configuration.colorScheme
-	}
 
 	mainStore.setup()
 
