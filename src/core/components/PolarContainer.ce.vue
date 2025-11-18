@@ -48,8 +48,9 @@ defineExpose<{
 const mainStore = useMainStore()
 const { hasSmallWidth, hasWindowSize, language } = storeToRefs(mainStore)
 
-mainStore.configuration = mapZoomOffset(
-	toMerged(mainStore.configuration, props.mapConfiguration)
+mainStore.configuration = toMerged(
+	mainStore.configuration,
+	mapZoomOffset(props.mapConfiguration)
 )
 
 if (mainStore.configuration.oidcToken) {
