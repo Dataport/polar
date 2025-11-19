@@ -12,13 +12,11 @@ import type { MapConfiguration } from '../types'
  */
 export const mapZoomOffset = (
 	mapConfiguration: MapConfiguration
-): MapConfiguration => {
-	return {
-		...mapConfiguration,
-		layers: mapConfiguration.layers.map((entry) =>
-			typeof entry.minZoom !== 'undefined'
-				? { ...entry, minZoom: entry.minZoom - 1 }
-				: entry
-		),
-	}
-}
+): MapConfiguration => ({
+	...mapConfiguration,
+	layers: mapConfiguration.layers.map((entry) =>
+		typeof entry.minZoom !== 'undefined'
+			? { ...entry, minZoom: entry.minZoom - 1 }
+			: entry
+	),
+})

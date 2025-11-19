@@ -74,6 +74,7 @@ const map = await createMap(
 	'snowbox',
 	{
 		colorScheme,
+		startCenter: [573364, 6028874],
 		layers: [
 			// TODO: Add internalization to snowbox
 			{
