@@ -1,14 +1,7 @@
+import type { LoaderStyles } from './store'
 import type { PluginOptions } from '@/core'
 
 export const PluginId = 'loadingIndicator'
-
-export type LoaderStyles =
-	| 'KernLoader'
-	| 'BasicLoader'
-	| 'RingLoader'
-	| 'RollerLoader'
-	| 'CircleLoader'
-	| 'SpinnerLoader'
 
 export interface LoadingIndicatorOptions extends PluginOptions {
 	/**

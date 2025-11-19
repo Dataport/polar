@@ -7,7 +7,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { useCoreStore } from '@/core/stores/export.ts'
-import type { LoaderStyles } from '@/plugins/loadingIndicator/types.ts'
 
 const styles = [
 	'KernLoader',
@@ -16,7 +15,9 @@ const styles = [
 	'RollerLoader',
 	'CircleLoader',
 	'SpinnerLoader',
-]
+] as const
+
+export type LoaderStyles = (typeof styles)[number]
 
 /* eslint-disable tsdoc/syntax */
 /**
