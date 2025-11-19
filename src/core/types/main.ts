@@ -1,4 +1,5 @@
 import type { VueElement } from 'vue'
+import type defaults from '../utils/defaults'
 import type { MarkerConfiguration } from './marker'
 import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
@@ -161,6 +162,8 @@ export interface MasterportalApiConfiguration {
 	startResolution?: number
 }
 
+export type ColorScheme = 'dark' | 'light' | 'system'
+
 /** The mapConfiguration allows controlling many client instance details. */
 export interface MapConfiguration extends MasterportalApiConfiguration {
 	/**
@@ -186,6 +189,14 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** If set to `true`, all services' availability will be checked with head requests. */
 	checkServiceAvailability?: boolean
+
+	/**
+	 * Color scheme the client should be using.
+	 * If set to `system`, the color scheme is chosen according to the user's system preferences.
+	 *
+	 * @defaultValue `'system'`
+	 */
+	colorScheme?: ColorScheme
 
 	/**
 	 * Optional path to define styles for vector features. The parameter may be a url or a path on the local file system.
@@ -298,3 +309,6 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	toast?: ToastPluginOptions
 	/* eslint-enable perfectionist/sort-interfaces */
 }
+
+export type MapConfigurationIncludingDefaults = MapConfiguration &
+	typeof defaults

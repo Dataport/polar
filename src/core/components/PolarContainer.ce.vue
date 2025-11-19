@@ -1,5 +1,10 @@
 <template>
-	<div ref="polar-wrapper" class="polar-wrapper" :lang="language">
+	<div
+		ref="polar-wrapper"
+		class="polar-wrapper"
+		:lang="language"
+		:data-kern-theme="mainStore.colorScheme"
+	>
 		<PolarMap />
 		<PolarUI />
 		<MoveHandle
@@ -10,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import { storeToRefs } from 'pinia'
 import {
@@ -25,7 +31,6 @@ import { useCoreStore } from '../stores/export'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
 import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
-import defaults from '../utils/defaults'
 import { loadKern } from '../utils/loadKern'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import MoveHandle from './MoveHandle.ce.vue'
@@ -48,10 +53,14 @@ defineExpose<{
 const mainStore = useMainStore()
 const { hasSmallWidth, hasWindowSize, language } = storeToRefs(mainStore)
 
-mainStore.configuration = mapZoomOffset({
-	...defaults,
-	...props.mapConfiguration,
-})
+mainStore.configuration = toMerged(
+	mainStore.configuration,
+	mapZoomOffset(props.mapConfiguration)
+)
+
+if (mainStore.configuration.colorScheme) {
+	mainStore.colorScheme = mainStore.configuration.colorScheme
+}
 
 if (mainStore.configuration.oidcToken) {
 	// copied to a separate spot for usage as it's changeable data at run-time
@@ -153,6 +162,8 @@ onBeforeUnmount(() => {
 		display: block;
 		width: 100%;
 		height: 30em;
+		border-radius: var(--kern-metric-border-radius-large);
+		overflow: hidden;
 	}
 }
 </style>
