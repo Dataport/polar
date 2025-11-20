@@ -231,6 +231,8 @@ addPlugin(
 				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
 			},
 		],
+		minLength: 3,
+		waitMs: 300,
 	})
 )
 addPlugin(
