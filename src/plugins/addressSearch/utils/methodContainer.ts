@@ -1,7 +1,8 @@
-import type { SearchMethodFunction } from '../../types'
+import type { SearchMethodFunction } from '../types'
+import mpapi from '@/lib/getFeatures/mpapi'
 
 export function getMethodContainer() {
-	const methods = {}
+	const methods = { mpapi }
 
 	return {
 		registerSearchMethods: (

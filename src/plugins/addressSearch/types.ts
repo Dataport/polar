@@ -1,5 +1,6 @@
 import type { FeatureCollection } from 'geojson'
 import type { PluginOptions } from '@/core'
+import type { QueryParameters } from '@/lib/getFeatures/types'
 
 export const PluginId = 'addressSearch'
 
@@ -28,16 +29,6 @@ export interface AddressSearchOptions extends PluginOptions {
 /** Possible search methods by type. */
 // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
-
-/**
- * Additional queryParameters for the GET-Request;
- * for the specific parameters for each request,
- * please refer to the types in the plugin
- */
-export interface QueryParameters {
-	/** Sets the maximum number of features to retrieve. */
-	maxFeatures?: number
-}
 
 export type SearchDisplayMode = 'mixed' | 'categorized'
 

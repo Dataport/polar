@@ -14,9 +14,9 @@ import {
 	type SearchMethodConfiguration,
 	type SearchResult,
 } from './types'
+import { getMethodContainer } from './utils/methodContainer'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import SearchResultSymbols from './utils/searchResultSymbols'
-import { getMethodContainer } from './utils/searchMethods/methodContainer'
 import { useCoreStore } from '@/core/stores/export'
 
 /* eslint-disable tsdoc/syntax */
