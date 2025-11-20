@@ -1,5 +1,10 @@
 <template>
-	<div ref="polar-wrapper" class="polar-wrapper" :lang="language">
+	<div
+		ref="polar-wrapper"
+		class="polar-wrapper"
+		:lang="language"
+		:data-kern-theme="mainStore.colorScheme"
+	>
 		<PolarMap />
 		<PolarUI />
 		<MoveHandle
@@ -48,9 +53,14 @@ defineExpose<{
 const mainStore = useMainStore()
 const { hasSmallWidth, hasWindowSize, language } = storeToRefs(mainStore)
 
-mainStore.configuration = mapZoomOffset(
-	toMerged(mainStore.configuration, props.mapConfiguration)
+mainStore.configuration = toMerged(
+	mainStore.configuration,
+	mapZoomOffset(props.mapConfiguration)
 )
+
+if (mainStore.configuration.colorScheme) {
+	mainStore.colorScheme = mainStore.configuration.colorScheme
+}
 
 if (mainStore.configuration.oidcToken) {
 	// copied to a separate spot for usage as it's changeable data at run-time
@@ -152,6 +162,8 @@ onBeforeUnmount(() => {
 		display: block;
 		width: 100%;
 		height: 30em;
+		border-radius: var(--kern-metric-border-radius-large);
+		overflow: hidden;
 	}
 }
 </style>
