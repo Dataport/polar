@@ -10,6 +10,7 @@ import type { Feature } from 'geojson'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import {
+	type AddressSearchOptions,
 	PluginId,
 	type SearchMethodConfiguration,
 	type SearchResult,
@@ -36,7 +37,6 @@ export const useAddressSearchStore = defineStore(
 		let methodContainer: ReturnType<typeof getMethodContainer>
 
 		const _inputValue = ref('')
-		const searchMethods = ref<SearchMethodConfiguration[]>([])
 		const searchResults = ref<SearchResult[] | symbol>([])
 
 		const inputValue = computed({
@@ -80,12 +80,16 @@ export const useAddressSearchStore = defineStore(
 				? coreStore.configuration.addressSearch.waitMs
 				: 0
 		)
+		const searchMethods = computed(
+			() =>
+				(coreStore.configuration.addressSearch as AddressSearchOptions)
+					.searchMethods
+		)
 
 		function setupPlugin() {
 			debouncedSearch = debounce(_search, waitMs.value)
 			methodContainer = getMethodContainer()
 			// TODO: Register customSearchMethods as callable ones to the methodContainer
-			// TODO: Set both searchMethods to the state variable (it includes both custom and normal ones)
 		}
 
 		function teardownPlugin() {}
