@@ -9,12 +9,7 @@ import { t } from 'i18next'
 import type { Feature } from 'geojson'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import {
-	type AddressSearchOptions,
-	PluginId,
-	type SearchMethodConfiguration,
-	type SearchResult,
-} from './types'
+import { type AddressSearchOptions, PluginId, type SearchResult } from './types'
 import { getMethodContainer } from './utils/methodContainer'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import SearchResultSymbols from './utils/searchResultSymbols'
