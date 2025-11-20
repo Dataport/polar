@@ -217,7 +217,22 @@ addPlugin(
 		layoutTag: 'BOTTOM_MIDDLE',
 	})
 )
-addPlugin(map, pluginAddressSearch({}))
+addPlugin(
+	map,
+	pluginAddressSearch({
+		searchMethods: [
+			{
+				queryParameters: {
+					searchAddress: true,
+					searchStreets: true,
+					searchHouseNumbers: true,
+				},
+				type: 'mpapi',
+				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+			},
+		],
+	})
+)
 addPlugin(
 	map,
 	pluginIconMenu({
