@@ -6,7 +6,7 @@
 		icon="kern-icon--search"
 		@click="updateStatus"
 	/>
-	<PolarCard>
+	<PolarCard v-else>
 		<!--
 				TODO:
 					- Add aria-description
