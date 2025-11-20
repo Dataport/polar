@@ -10,7 +10,7 @@
 import type { Locale } from '@/core'
 
 export const resourcesDe = {
-	defaultGroup: 'Adresssuche',
+	defaultCategory: 'Adresssuche',
 	hint: {
 		button: 'Eingabefeld der Addresssuche anzeigen',
 		clear: 'Das Eingabefeld der Addresssuche leeren',
@@ -19,7 +19,6 @@ export const resourcesDe = {
 		noResults: 'Keine Ergebnisse gefunden.',
 		tooShort: 'Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.',
 	},
-	groupSelector: 'Suchthema auswählen',
 	resultCount: '({{count}} Ergebnisse)',
 	resultList: {
 		extend: 'Alle Ergebnisse anzeigen',
@@ -30,7 +29,7 @@ export const resourcesDe = {
 } as const
 
 export const resourcesEn = {
-	defaultGroup: 'Address Search',
+	defaultCategory: 'Address Search',
 	hint: {
 		button: 'Show address search input field',
 		clear: 'Clear address search input field',
@@ -39,7 +38,6 @@ export const resourcesEn = {
 		noResults: 'No results for the current query.',
 		tooShort: 'Please enter at least {{minLength}} characters.',
 	},
-	groupSelector: 'Select search topic',
 	resultCount: '({{count}} results)',
 	resultList: {
 		extend: 'Show all results',

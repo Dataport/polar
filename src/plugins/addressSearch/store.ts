@@ -5,9 +5,15 @@
 /* eslint-enable tsdoc/syntax */
 
 import { debounce, toMerged } from 'es-toolkit'
+import { t } from 'i18next'
+import type { Feature } from 'geojson'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import type { SearchMethodConfiguration, SearchResult } from './types'
+import {
+	PluginId,
+	type SearchMethodConfiguration,
+	type SearchResult,
+} from './types'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import SearchResultSymbols from './utils/searchResultSymbols'
 import { getMethodContainer } from './utils/searchMethods/methodContainer'
@@ -43,11 +49,32 @@ export const useAddressSearchStore = defineStore(
 				abortAndRequest()
 			},
 		})
+
+		const featuresAvailable = computed(
+			() =>
+				Array.isArray(searchResults.value) &&
+				searchResults.value.length > 0 &&
+				searchResults.value.some(
+					({ features: { features } }) =>
+						Array.isArray(features) && features.length > 0
+				)
+		)
 		const minLength = computed(() =>
 			typeof coreStore.configuration.addressSearch?.minLength === 'number'
 				? coreStore.configuration.addressSearch.minLength
 				: 0
 		)
+		// TODO: only needed if question answered on Figma is "yes"
+		const orderedSearchResults = computed<Feature[]>(() => {
+			if (Array.isArray(searchResults.value)) {
+				const results = searchResults.value.map((res) => res.features.features)
+				return Array.from(
+					{ length: Math.max(...results.map((res) => res.length)) },
+					(_, i) => results.flatMap((arr) => arr[i] ?? [])
+				).flat()
+			}
+			return []
+		})
 		const waitMs = computed(() =>
 			typeof coreStore.configuration.addressSearch?.waitMs === 'number'
 				? coreStore.configuration.addressSearch.waitMs
@@ -99,8 +126,10 @@ export const useAddressSearchStore = defineStore(
 							})
 						)
 						return {
-							categoryId: categoryId || '',
-							categoryLabel: '',
+							// TODO: Add information, that the defaulted categoryId is 'default'
+							categoryId: categoryId || 'default',
+							// TODO: Add information, that this is the defaulted label and this can be configured similar to categoryId
+							categoryLabel: t(($) => $.defaultCategory, { ns: PluginId }),
 							features,
 						}
 					}
@@ -127,6 +156,17 @@ export const useAddressSearchStore = defineStore(
 
 		return {
 			inputValue,
+
+			/**
+			 * `true` if any service yielded features.
+			 *
+			 * @internal
+			 */
+			featuresAvailable,
+
+			/** @internal */
+			orderedSearchResults,
+			searchResults,
 
 			/** @alpha */
 			abortAndRequest,

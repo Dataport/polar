@@ -1,0 +1,56 @@
+<template>
+	<!-- TODO: migrate search functionality one after another -->
+	<!-- TODO: All search functions should be moved to the lib package so they may be used in Routing as well  -->
+	<!--
+		Additionally set here as featuresAvailable would not ensure type safety.
+		featuresAvailable also already ensures that searchResults has at least one element.
+	-->
+	<div v-if="Array.isArray(searchResults)">
+		<template v-for="result in searchResults" :key="result.categoryId">
+			<!-- TODO: Style this like v-subheader before -->
+			<span v-if="searchResults.length > 1">
+				{{ result.categoryLabel }}
+				{{
+					$t(($) => $.resultCount, {
+						count: result.features.features.length,
+						ns: PluginId,
+					})
+				}}
+			</span>
+			<!-- TODO: Add styling to ul and li -->
+			<!-- TODO: Use a separate component for <ul> to be able to more easily use it in StandardResults -->
+			<ul>
+				<template
+					v-for="(feature, index) in result.features.features"
+					:key="index"
+				>
+					<!-- TODO: Add things to be done on keydown etc. -->
+					<li>
+						<!-- TODO: Update the type so that properties always includes title -->
+						<!-- TODO: Add styling like v-list-item-title -->
+						<!-- eslint-disable vue/no-v-html -->
+						<span
+							v-html="emTitleByInput(feature.properties.title, inputValue)"
+						/>
+						<!-- eslint-enable vue/no-v-html -->
+						<!-- TODO: Add afterResultComponent, if configured -->
+					</li>
+					<!-- TODO: Implement button that expands the results -->
+					<!-- TODO: Add divider -->
+				</template>
+			</ul>
+		</template>
+	</div>
+</template>
+
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
+import { useAddressSearchStore } from '../store'
+import { PluginId } from '../types'
+import { emTitleByInput } from '../utils/emTitleByInput'
+
+const { inputValue, searchResults } = storeToRefs(useAddressSearchStore())
+
+const openCategories = ref<string[]>([])
+</script>
