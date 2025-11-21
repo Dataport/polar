@@ -29,9 +29,7 @@
 						<!-- TODO: Update the type so that properties always includes title -->
 						<!-- TODO: Add styling like v-list-item-title -->
 						<!-- eslint-disable vue/no-v-html -->
-						<span
-							v-html="emTitleByInput(feature.properties.title, inputValue)"
-						/>
+						<span v-html="strongTitleByInput(feature.title, inputValue)" />
 						<!-- eslint-enable vue/no-v-html -->
 						<!-- TODO: Add afterResultComponent, if configured -->
 					</li>
@@ -48,7 +46,7 @@ import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
-import { emTitleByInput } from '../utils/emTitleByInput'
+import { strongTitleByInput } from '../utils/strongTitleByInput'
 
 const { inputValue, searchResults } = storeToRefs(useAddressSearchStore())
 
