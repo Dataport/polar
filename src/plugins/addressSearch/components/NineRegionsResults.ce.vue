@@ -5,7 +5,10 @@
 		Additionally set here as featuresAvailable would not ensure type safety.
 		featuresAvailable also already ensures that searchResults has at least one element.
 	-->
-	<div v-if="Array.isArray(searchResults)">
+	<div
+		v-if="Array.isArray(searchResults)"
+		class="polar-plugin-address-search-result-wrapper"
+	>
 		<template v-for="result in searchResults" :key="result.categoryId">
 			<!-- TODO: Style this like v-subheader before -->
 			<span v-if="searchResults.length > 1">
@@ -17,7 +20,6 @@
 					})
 				}}
 			</span>
-			<!-- TODO: Add styling to ul and li -->
 			<!-- TODO: Use a separate component for <ul> to be able to more easily use it in StandardResults -->
 			<ul>
 				<template
@@ -26,10 +28,14 @@
 				>
 					<!-- TODO: Add things to be done on keydown etc. -->
 					<li>
-						<!-- TODO: Update the type so that properties always includes title -->
+						<!-- TODO: Improve the type so relevant stuff is there -->
 						<!-- TODO: Add styling like v-list-item-title -->
 						<!-- eslint-disable vue/no-v-html -->
-						<span v-html="strongTitleByInput(feature.title, inputValue)" />
+						<!-- TODO: Talk with design regarding button style -->
+						<button
+							class="kern-btn kern-btn--tertiary"
+							v-html="strongTitleByInput(feature.title, inputValue)"
+						/>
 						<!-- eslint-enable vue/no-v-html -->
 						<!-- TODO: Add afterResultComponent, if configured -->
 					</li>
@@ -52,3 +58,19 @@ const { inputValue, searchResults } = storeToRefs(useAddressSearchStore())
 
 const openCategories = ref<string[]>([])
 </script>
+
+<style scoped>
+.polar-plugin-address-search-result-wrapper {
+	width: 100%;
+
+	ul {
+		margin-top: var(--kern-metric-space-small);
+		padding: 0;
+
+		li {
+			display: flex;
+			margin: 0 var(--kern-metric-space-default);
+		}
+	}
+}
+</style>

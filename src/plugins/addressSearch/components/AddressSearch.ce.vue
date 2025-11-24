@@ -33,6 +33,7 @@
 				{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
 			</span>
 		</button>
+		<NineRegionsResults />
 	</PolarCard>
 </template>
 
@@ -41,6 +42,7 @@ import { computed, nextTick, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
+import NineRegionsResults from './NineRegionsResults.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
