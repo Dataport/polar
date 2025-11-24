@@ -3,6 +3,10 @@ import type { Component } from 'vue'
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
 
+import type { PluginId as FooterPluginId } from '@/plugins/footer'
+import type { useFooterStore as FooterStore } from '@/plugins/footer/store'
+import type { resourcesEn as FooterResources } from '@/plugins/footer/locales'
+
 import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
 import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
 import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
@@ -36,6 +40,7 @@ export type PolarPluginStore<
 
 /** @internal */
 export type BundledPluginId =
+	| typeof FooterPluginId
 	| typeof FullscreenPluginId
 	| typeof IconMenuPluginId
 	| typeof LayerChooserPluginId
@@ -52,6 +57,7 @@ type GetPluginStore<
 
 /** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
+	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
@@ -65,6 +71,7 @@ type GetPluginResources<
 
 /** @internal */
 export type BundledPluginLocaleResources<T extends BundledPluginId> =
+	| GetPluginResources<T, typeof FooterPluginId, typeof FooterResources>
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
 	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
 	| GetPluginResources<
