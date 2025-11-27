@@ -5,7 +5,8 @@
 /* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref } from 'vue'
+import { type Component, markRaw, ref } from 'vue'
+import { toMerged } from 'es-toolkit'
 import type { PluginContainer } from '@/core'
 import { useCoreStore } from '@/core/stores/export'
 
@@ -35,6 +36,16 @@ export const useFooterStore = defineStore('plugins/footer', () => {
 			const display = coreStore.configuration[id]?.displayComponent
 			return typeof display === 'boolean' ? display : true
 		})
+		leftEntries.value.concat(rightEntries.value).forEach((plugin) => {
+			coreStore.addPlugin(plugin)
+		})
+		// Otherwise, the component itself is made reactive
+		leftEntries.value.map((plugin) =>
+			toMerged(plugin, { component: markRaw(plugin.component as Component) })
+		)
+		rightEntries.value.map((plugin) =>
+			toMerged(plugin, { component: markRaw(plugin.component as Component) })
+		)
 	}
 
 	function teardownPlugin() {}
