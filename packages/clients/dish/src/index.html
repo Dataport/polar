@@ -27,31 +27,31 @@
     <script type="module">
       import client from './polar-client.ts'
 
-      const internalHost = 'http://10.61.63.54'
-      const internalPort = '8081'
+      const internalHost = 'https://dish-testumgebung.dsc.dataport.de/deegree'
+      const internalPort = ''
       const internalPath = 'dish-deegree-3.5.0/services'
 
       // configuration for backend print services
-      const printHost = "http://10.61.63.54"
+      const printHostDeegree = "http://10.61.63.54"
       const printHostPort = "8081"
       const printPath = "dish-deegree-3.5.0/services"
 
       // leave empty for external map
       const urlParams = {
         internalHost,
-        printHost,
-        printServicesBaseUrl: `${printHost}:${printHostPort}/${printPath}`,
-        internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
+        printHostDeegree,
+        printServicesBaseUrl: `${printHostDeegree}:${printHostPort}/${printPath}`,
+        internServicesBaseUrl: `${internalHost}/${internalPath}`
       }
 
       client.createMap({
         containerId: 'polarstern',
-        mode: 'EXTERN', // INTERN, EXTERN
+        mode: 'INTERN', // INTERN, EXTERN
         urlParams,
         // only needed for the internal map
         configOverride: {
           gfi: {
-            internalHost: urlParams.internalHost,
+            internalHost: 'https://dish-testumgebung.dsc.dataport.de',
           }
         }
       })

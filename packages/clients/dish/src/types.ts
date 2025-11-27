@@ -102,7 +102,7 @@ export interface ModalState {
 export interface DishUrlParams {
   internalHost: string
   internServicesBaseUrl: string
-  printHost: string
+  printHostDeegree: string
   printServicesBaseUrl: string
 }
 
