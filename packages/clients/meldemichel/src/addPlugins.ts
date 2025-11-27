@@ -8,6 +8,7 @@ import Pins from '@polar/plugin-pins'
 import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
+import Zoom from '@polar/plugin-zoom'
 
 import { MODE } from './enums'
 import createMenus from './utils/createMenus'
@@ -37,6 +38,8 @@ export const addPlugins = (core, mode: keyof typeof MODE) => {
         toastAction: 'plugin/toast/addToast',
       }),
       iconMenu,
+      // adding hidden for Jenfeld since zoom's store is needed for AfmButton
+      mode === MODE.JENFELD && Zoom({ displayComponent: false }),
       Attributions({
         displayComponent: true,
         layoutTag: NineLayoutTag.BOTTOM_RIGHT,

@@ -26,7 +26,7 @@ const getResultsFromPromises = (
       ]
     }
     return accumulator
-  }, [] as object[])
+  }, [] as { index: number; value: object }[])
 
   // only print errors if search was not aborted
   if (!abortController.signal.aborted) {
@@ -147,12 +147,21 @@ export const makeActions = () => {
           )
         )
       return Promise.allSettled(searchPromises)
-        .then((results) =>
-          commit(
-            'setSearchResults',
-            getResultsFromPromises(results, localAbortControllerReference)
-          )
-        )
+        .then((results) => {
+          const searchResults = getResultsFromPromises(
+            results,
+            localAbortControllerReference
+          ).map(({ index, value }) => {
+            const config = activeSearchMethods[index]
+
+            return {
+              index,
+              value: config.filter ? config.filter(value) : value,
+            }
+          })
+
+          commit('setSearchResults', searchResults)
+        })
         .catch((error: Error) => {
           console.error(
             '@polar/plugin-address-search: An error occurred while searching.',

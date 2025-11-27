@@ -105,6 +105,7 @@ addressSearch: {
 | label | string? | Display label. Can be a locale key. If grouped with other services, the group's label will be used instead. |
 | placeholder | string? | Placeholder string to display on input element. Can be a locale key. If grouped with other services, the group's placeholder will be used instead. |
 | queryParameters | object? | The object further describes details for the search request. Its contents vary by service type, see documentation below. |
+| filter | function? | Optional filter function. It will get the full FeatureCollection object that may be reduced before returning it. The filter function will be called before adding anything to the store. Programming knowledge required. |
 
 Example configuration:
 ```js

@@ -11,22 +11,27 @@ import {
 } from '@polar/lib-custom-types'
 import { MpApiParameters } from '@polar/plugin-address-search'
 import { MODE, SKAT, REPORT_STATUS } from './enums'
-import locales from './locales'
+import locales, { jenfeldLocales } from './locales'
 import { MeldemichelCreateMapParams } from './types'
 import { showTooltip } from './utils/showTooltip'
+import { id as jenfeldBoundaryId } from './utils/jenfeld/addJenfeldBoundary'
 
 export const stadtwald = '18746'
 const stadtplan = '453'
 const luftbilder = '34127'
-export const hamburgBorder = '1693' // boundary layer for pins / geolocalization
+const hamburgBorder = '1693' // boundary layer for pins / geolocalization
+export const getBoundaryId = (mode: keyof typeof MODE) =>
+  mode === 'JENFELD' ? jenfeldBoundaryId : hamburgBorder
 
 const hamburgWhite = '#ffffff'
 const hamburgDarkBlue = '#003063'
 const hamburgRed = '#ff0019'
 
-const commonMapConfiguration: Partial<MapConfig> = {
+const commonMapConfiguration = (
+  mode: keyof typeof MODE
+): Partial<MapConfig> => ({
   checkServiceAvailability: false, // service register too long
-  locales,
+  locales: mode === MODE.JENFELD ? jenfeldLocales : locales,
   vuetify: {
     theme: {
       themes: {
@@ -39,7 +44,7 @@ const commonMapConfiguration: Partial<MapConfig> = {
       },
     },
   },
-}
+})
 
 const commonLayers: LayerConfiguration[] = [
   {
@@ -92,14 +97,14 @@ const addressSearch: AddressSearchConfiguration = {
   waitMs: 300,
 }
 
-const commonPins: Partial<PinsConfiguration> = {
+const commonPins = (mode: keyof typeof MODE): Partial<PinsConfiguration> => ({
   toZoomLevel: 7,
   movable: 'drag',
   style: {
     fill: hamburgRed,
   },
-  boundaryLayerId: hamburgBorder,
-}
+  boundaryLayerId: getBoundaryId(mode),
+})
 
 const reverseGeocoder: Partial<ReverseGeocoderConfiguration> = {
   coordinateSource: 'plugin/pins/transformedCoordinate',
@@ -136,13 +141,15 @@ const getFilterConfiguration = (id: string): FilterConfiguration => ({
   },
 })
 
-const geoLocation: Partial<GeoLocationConfiguration> = {
+const geoLocation = (
+  mode: keyof typeof MODE
+): Partial<GeoLocationConfiguration> => ({
   checkLocationInitially: true,
   zoomLevel: 7,
-  boundaryLayerId: hamburgBorder,
+  boundaryLayerId: getBoundaryId(mode),
   boundaryOnError: 'strict',
   showTooltip: true,
-}
+})
 
 const mapConfigurations: Record<
   keyof typeof MODE,
@@ -150,7 +157,7 @@ const mapConfigurations: Record<
 > = {
   [MODE.COMPLETE]: (reportServiceId: string, afmUrl: string) => {
     return {
-      ...commonMapConfiguration,
+      ...commonMapConfiguration(MODE.COMPLETE),
       extendedMasterportalapiMarkers: {
         layers: [reportServiceId],
         defaultStyle: {
@@ -192,7 +199,7 @@ const mapConfigurations: Record<
         ],
       },
       filter: getFilterConfiguration(reportServiceId),
-      geoLocation,
+      geoLocation: geoLocation(MODE.COMPLETE),
       gfi: {
         mode: 'bboxDot',
         activeLayerPath: 'plugin/layerChooser/activeMaskIds',
@@ -215,7 +222,119 @@ const mapConfigurations: Record<
           },
         },
       },
-      pins: commonPins,
+      pins: commonPins(MODE.COMPLETE),
+      reverseGeocoder,
+      meldemichel: {
+        afmButton: { afmUrl },
+      },
+    }
+  },
+  [MODE.JENFELD]: (reportServiceId: string, afmUrl: string) => {
+    return {
+      ...commonMapConfiguration(MODE.JENFELD),
+      startResolution: 0.6614579761460262,
+      startCenter: [574779.93, 5936743.88],
+      extent: [573113.0, 5935603.15, 576367.37, 5938307.19],
+      options: [{ resolution: 0.6614579761460262, scale: 2500, zoomLevel: 7 }],
+      extendedMasterportalapiMarkers: {
+        layers: [reportServiceId],
+        defaultStyle: {
+          stroke: '#FFFFFF',
+          fill: '#005CA9',
+        },
+        hoverStyle: {
+          stroke: '#46688E',
+          fill: '#8BA1B8',
+        },
+        selectionStyle: {
+          stroke: '#FFFFFF',
+          fill: '#E10019',
+        },
+        clusterClickZoom: true,
+        dispatchOnMapSelect: ['plugin/iconMenu/openMenuById', 'gfi'],
+      },
+      addressSearch: {
+        ...addressSearch,
+        searchMethods: [
+          {
+            ...addressSearch.searchMethods[0],
+            filter: (featureCollection) => ({
+              ...featureCollection,
+              features: featureCollection.features.filter((feature) => {
+                // for return type 'street'
+                if (feature.properties.postOrtsteil) {
+                  return (
+                    // avoid e.g. "Rodigallee" (also in Jenfeld, but center is outside of it) as result by ignoring arrays
+                    feature.properties.postOrtsteil === 'Jenfeld'
+                  )
+                }
+                // for return type 'houseNumbersForStreet', 'addressUnaffixed', and maybe more
+                if (feature.properties.geographicIdentifier) {
+                  //                                            ._. <(^_^<) aw don't be sad mr. smiley man
+                  return feature.properties.geographicIdentifier._.includes(
+                    '(OT Jenfeld)'
+                  )
+                }
+
+                console.warn(
+                  '@polar/client-meldemichel: AddressSearch filter found unfilterable feature; skipping.',
+                  feature
+                )
+
+                // when in doubt, assume it's invalid to prevent users from flying to the map's edge
+                return false
+              }),
+            }),
+          },
+        ],
+      },
+      layers: [
+        ...commonLayers.filter(({ id }) => id !== hamburgBorder),
+        {
+          id: reportServiceId,
+          visibility: true,
+          type: 'mask',
+          name: 'meldemichel.layers.reports',
+        } as LayerConfiguration,
+      ],
+      attributions: {
+        ...commonAttributions,
+        layerAttributions: [
+          ...(commonAttributions.layerAttributions as Attribution[]),
+          {
+            id: reportServiceId,
+            title: 'meldemichel.attributions.reports',
+          },
+        ],
+        staticAttributions: [
+          '<a href="https://www.hamburg.de/impressum/" target="_blank">Impressum</a>',
+        ],
+      },
+      filter: getFilterConfiguration(reportServiceId),
+      geoLocation: geoLocation(MODE.JENFELD),
+      gfi: {
+        mode: 'bboxDot',
+        activeLayerPath: 'plugin/layerChooser/activeMaskIds',
+        layers: {
+          [reportServiceId]: {
+            geometry: false,
+            window: true,
+            // translation in meldemichel's local gfi override
+            properties: [
+              'str',
+              'hsnr',
+              'pic',
+              'skat',
+              'beschr',
+              'rueck',
+              'start',
+              'statu',
+            ],
+            showTooltip,
+          },
+        },
+      },
+      pins: commonPins(MODE.JENFELD),
       reverseGeocoder,
       meldemichel: {
         afmButton: { afmUrl },
@@ -223,18 +342,18 @@ const mapConfigurations: Record<
     }
   },
   [MODE.REPORT]: () => ({
-    ...commonMapConfiguration,
+    ...commonMapConfiguration(MODE.REPORT),
     addressSearch,
     layers: commonLayers,
     attributions: {
       ...commonAttributions,
     },
-    geoLocation,
-    pins: commonPins,
+    geoLocation: geoLocation(MODE.REPORT),
+    pins: commonPins(MODE.REPORT),
     reverseGeocoder,
   }),
   [MODE.SINGLE]: () => ({
-    ...commonMapConfiguration,
+    ...commonMapConfiguration(MODE.SINGLE),
     addressSearch,
     layers: [
       ...commonLayers,
@@ -255,7 +374,7 @@ const mapConfigurations: Record<
         },
       ],
     },
-    pins: commonPins,
+    pins: commonPins(MODE.SINGLE),
     reverseGeocoder,
   }),
 }
@@ -268,9 +387,12 @@ export const getMapConfiguration = ({
   MeldemichelCreateMapParams,
   'mode' | 'afmUrl' | 'reportServiceId'
 >): Partial<MapConfig> => {
-  if (mode === MODE.COMPLETE && typeof reportServiceId === 'undefined') {
+  if (
+    (mode === MODE.COMPLETE || mode === MODE.JENFELD) &&
+    typeof reportServiceId === 'undefined'
+  ) {
     throw new Error(
-      'POLAR Meldemichel Client: Missing reportServiceId configuration in mode COMPLETE.'
+      `POLAR Meldemichel Client: Missing reportServiceId configuration in mode ${mode}.`
     )
   }
   return {

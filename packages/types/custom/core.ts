@@ -73,6 +73,7 @@ export interface SearchMethodConfiguration {
   label?: string
   placeholder?: string
   queryParameters?: QueryParameters
+  filter?: (object) => object
 }
 
 export type SearchMethodFunction = (
