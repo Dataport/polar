@@ -2,7 +2,12 @@
 	<div class="polar-plugin-footer-wrapper">
 		<!-- TODO: Add Polar-Repo-Icon as last entry -->
 		<ul>
-			<li v-for="(entry, index) in entries" :key="index">
+			<li v-for="(entry, index) in leftEntries" :key="index">
+				<component :is="entry.component" />
+			</li>
+		</ul>
+		<ul>
+			<li v-for="(entry, index) in rightEntries" :key="index">
 				<component :is="entry.component" />
 			</li>
 		</ul>
@@ -13,7 +18,7 @@
 import { storeToRefs } from 'pinia'
 import { useFooterStore } from '../store'
 
-const { entries } = storeToRefs(useFooterStore())
+const { leftEntries, rightEntries } = storeToRefs(useFooterStore())
 </script>
 
 <style scoped>
@@ -39,9 +44,8 @@ const { entries } = storeToRefs(useFooterStore())
 
 	ul {
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
-		width: 100%;
+		gap: var(--kern-metric-space-small);
 		padding: 0;
 
 		li {

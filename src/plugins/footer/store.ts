@@ -19,20 +19,32 @@ import { useCoreStore } from '@/core/stores/export'
 export const useFooterStore = defineStore('plugins/footer', () => {
 	const coreStore = useCoreStore()
 
-	const entries = ref<PluginContainer[]>([])
+	const leftEntries = ref<PluginContainer[]>([])
+	const rightEntries = ref<PluginContainer[]>([])
 
 	function setupPlugin() {
-		entries.value = (coreStore.configuration.footer?.entries || []).filter(
-			({ id }) => {
-				const display = coreStore.configuration[id]?.displayComponent
-				return typeof display === 'boolean' ? display : true
-			}
-		)
+		leftEntries.value = (
+			coreStore.configuration.footer?.leftEntries || []
+		).filter(({ id }) => {
+			const display = coreStore.configuration[id]?.displayComponent
+			return typeof display === 'boolean' ? display : true
+		})
+		rightEntries.value = (
+			coreStore.configuration.footer?.rightEntries || []
+		).filter(({ id }) => {
+			const display = coreStore.configuration[id]?.displayComponent
+			return typeof display === 'boolean' ? display : true
+		})
 	}
+
 	function teardownPlugin() {}
+
 	return {
 		/** @internal */
-		entries,
+		leftEntries,
+
+		/** @internal */
+		rightEntries,
 
 		/** @internal */
 		setupPlugin,

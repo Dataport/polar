@@ -272,8 +272,8 @@ addPlugin(
 addPlugin(
 	map,
 	pluginFooter({
-		entries: [
-			{ id: 'mockPointer', component: MockPointerPosition },
+		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
+		rightEntries: [
 			{ id: 'mockScale', component: MockScale },
 			{ id: 'mockAttributions', component: MockAttributions },
 		],

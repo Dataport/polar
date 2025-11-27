@@ -7,7 +7,12 @@ export const PluginId = 'footer'
  */
 export interface FooterPluginOptions extends PluginOptions {
 	/**
-	 * Plugins that are going to be directly rendered as part of the footer.
+	 * Plugins that are going to be directly rendered on the left side of the footer.
 	 */
-	entries: PluginContainer[]
+	leftEntries: PluginContainer[]
+
+	/**
+	 * Plugins that are going to be directly rendered on the right side of the footer.
+	 */
+	rightEntries: PluginContainer[]
 }
