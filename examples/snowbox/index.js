@@ -18,6 +18,7 @@ import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
 import GeoLocationMockCe from './GeoLocationMock.ce.vue'
 import MockPointerPosition from './MockPointerPosition.ce.vue'
 import MockScale from './MockScale.ce.vue'
+import MockAttributions from './MockAttributions.ce.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -274,6 +275,7 @@ addPlugin(
 		entries: [
 			{ id: 'mockPointer', component: MockPointerPosition },
 			{ id: 'mockScale', component: MockScale },
+			{ id: 'mockAttributions', component: MockAttributions },
 		],
 	})
 )
