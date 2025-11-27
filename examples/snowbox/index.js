@@ -6,6 +6,7 @@ import {
 	subscribe,
 	updateState,
 } from '@polar/polar'
+import pluginFooter from '@polar/polar/plugins/footer'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
@@ -15,6 +16,8 @@ import styleJsonUrl from './style.json?url'
 import services from './services.js'
 import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
 import GeoLocationMockCe from './GeoLocationMock.ce.vue'
+import MockPointerPosition from './MockPointerPosition.ce.vue'
+import MockScale from './MockScale.ce.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -262,6 +265,15 @@ addPlugin(
 					plugin: pluginFullscreen({}),
 				},
 			],
+		],
+	})
+)
+addPlugin(
+	map,
+	pluginFooter({
+		entries: [
+			{ id: 'mockPointer', component: MockPointerPosition },
+			{ id: 'mockScale', component: MockScale },
 		],
 	})
 )
