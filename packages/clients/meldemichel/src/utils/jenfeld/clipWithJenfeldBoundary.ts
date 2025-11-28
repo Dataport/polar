@@ -8,7 +8,7 @@ const simplifiedBoundary = (
   jenfeldBoundaryPolygon.simplify(5) as Polygon
 ).getCoordinates()[0]
 
-export function clipWithJenfeldBoundary(map: Map): void {
+export function clipWithJenfeldBoundary(map: Map) {
   const backgroundLayers = map
     .getLayers()
     .getArray()
