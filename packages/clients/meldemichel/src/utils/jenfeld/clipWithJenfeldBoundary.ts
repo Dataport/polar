@@ -1,5 +1,5 @@
 import Polygon from 'ol/geom/Polygon'
-import { Map } from 'ol'
+import Map from 'ol/Map'
 import TileLayer from 'ol/layer/Tile'
 import { jenfeldCoordinates } from '../jenfeld'
 
@@ -8,7 +8,7 @@ const simplifiedBoundary = (
   jenfeldBoundaryPolygon.simplify(5) as Polygon
 ).getCoordinates()[0]
 
-export function clipWithJenfeldBoundary(map: Map): void {
+export function clipWithJenfeldBoundary(map: Map) {
   const backgroundLayers = map
     .getLayers()
     .getArray()
