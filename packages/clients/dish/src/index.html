@@ -35,6 +35,7 @@
       const printHostDeegree = "http://10.61.63.54"
       const printHostPort = "8081"
       const printPath = "dish-deegree-3.5.0/services"
+      const internalHostForGfi = 'https://dish-testumgebung.dsc.dataport.de'
 
       // leave empty for external map
       const urlParams = {
@@ -51,7 +52,7 @@
         // only needed for the internal map
         configOverride: {
           gfi: {
-            internalHost: 'https://dish-testumgebung.dsc.dataport.de',
+            internalHost: internalHostForGfi,
           }
         }
       })
