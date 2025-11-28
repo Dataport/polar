@@ -1,5 +1,5 @@
 import Polygon from 'ol/geom/Polygon'
-import { Map } from 'ol'
+import Map from 'ol/Map'
 import TileLayer from 'ol/layer/Tile'
 import { jenfeldCoordinates } from '../jenfeld'
 
