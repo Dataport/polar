@@ -26,7 +26,7 @@ const getResultsFromPromises = (
       ]
     }
     return accumulator
-  }, [] as { index: number; value: object }[])
+  }, [] as { index: number; value: FeatureCollection }[])
 
   // only print errors if search was not aborted
   if (!abortController.signal.aborted) {
