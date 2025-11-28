@@ -19,19 +19,14 @@ import { jenfeldBoundaryId } from './utils/jenfeld/addJenfeldBoundary'
 export const stadtwald = '18746'
 const stadtplan = '453'
 const luftbilder = '34127'
-const hamburgBorder = '1693' // boundary layer for pins / geolocalization
-export const getBoundaryId = (mode: keyof typeof MODE) =>
-  mode === 'JENFELD' ? jenfeldBoundaryId : hamburgBorder
-
+export const hamburgBorder = '1693' // boundary layer for pins / geolocalization
 const hamburgWhite = '#ffffff'
 const hamburgDarkBlue = '#003063'
 const hamburgRed = '#ff0019'
 
-const commonMapConfiguration = (
-  mode: keyof typeof MODE
-): Partial<MapConfig> => ({
+const commonMapConfiguration: Partial<MapConfig> = {
   checkServiceAvailability: false, // service register too long
-  locales: mode === MODE.JENFELD ? jenfeldLocales : locales,
+  locales,
   vuetify: {
     theme: {
       themes: {
@@ -44,7 +39,7 @@ const commonMapConfiguration = (
       },
     },
   },
-})
+}
 
 const commonLayers: LayerConfiguration[] = [
   {
@@ -97,14 +92,14 @@ const addressSearch: AddressSearchConfiguration = {
   waitMs: 300,
 }
 
-const commonPins = (mode: keyof typeof MODE): Partial<PinsConfiguration> => ({
+const commonPins: Partial<PinsConfiguration> = {
   toZoomLevel: 7,
   movable: 'drag',
   style: {
     fill: hamburgRed,
   },
-  boundaryLayerId: getBoundaryId(mode),
-})
+  boundaryLayerId: hamburgBorder,
+}
 
 const reverseGeocoder: Partial<ReverseGeocoderConfiguration> = {
   coordinateSource: 'plugin/pins/transformedCoordinate',
@@ -141,15 +136,13 @@ const getFilterConfiguration = (id: string): FilterConfiguration => ({
   },
 })
 
-const geoLocation = (
-  mode: keyof typeof MODE
-): Partial<GeoLocationConfiguration> => ({
+const geoLocation: Partial<GeoLocationConfiguration> = {
   checkLocationInitially: true,
   zoomLevel: 7,
-  boundaryLayerId: getBoundaryId(mode),
+  boundaryLayerId: hamburgBorder,
   boundaryOnError: 'strict',
   showTooltip: true,
-})
+}
 
 const mapConfigurations: Record<
   keyof typeof MODE,
@@ -157,7 +150,7 @@ const mapConfigurations: Record<
 > = {
   [MODE.COMPLETE]: (reportServiceId: string, afmUrl: string) => {
     return {
-      ...commonMapConfiguration(MODE.COMPLETE),
+      ...commonMapConfiguration,
       extendedMasterportalapiMarkers: {
         layers: [reportServiceId],
         defaultStyle: {
@@ -199,7 +192,7 @@ const mapConfigurations: Record<
         ],
       },
       filter: getFilterConfiguration(reportServiceId),
-      geoLocation: geoLocation(MODE.COMPLETE),
+      geoLocation,
       gfi: {
         mode: 'bboxDot',
         activeLayerPath: 'plugin/layerChooser/activeMaskIds',
@@ -222,7 +215,7 @@ const mapConfigurations: Record<
           },
         },
       },
-      pins: commonPins(MODE.COMPLETE),
+      pins: commonPins,
       reverseGeocoder,
       meldemichel: {
         afmButton: { afmUrl },
@@ -231,7 +224,8 @@ const mapConfigurations: Record<
   },
   [MODE.JENFELD]: (reportServiceId: string, afmUrl: string) => {
     return {
-      ...commonMapConfiguration(MODE.JENFELD),
+      ...commonMapConfiguration,
+      locales: jenfeldLocales,
       startResolution: 0.6614579761460262,
       startCenter: [574779.93, 5936743.88],
       extent: [573113.0, 5935603.15, 576367.37, 5938307.19],
@@ -311,7 +305,10 @@ const mapConfigurations: Record<
         ],
       },
       filter: getFilterConfiguration(reportServiceId),
-      geoLocation: geoLocation(MODE.JENFELD),
+      geoLocation: {
+        ...geoLocation,
+        boundaryLayerId: jenfeldBoundaryId,
+      },
       gfi: {
         mode: 'bboxDot',
         activeLayerPath: 'plugin/layerChooser/activeMaskIds',
@@ -334,7 +331,10 @@ const mapConfigurations: Record<
           },
         },
       },
-      pins: commonPins(MODE.JENFELD),
+      pins: {
+        ...commonPins,
+        boundaryLayerId: jenfeldBoundaryId,
+      },
       reverseGeocoder,
       meldemichel: {
         afmButton: { afmUrl },
@@ -342,18 +342,18 @@ const mapConfigurations: Record<
     }
   },
   [MODE.REPORT]: () => ({
-    ...commonMapConfiguration(MODE.REPORT),
+    ...commonMapConfiguration,
     addressSearch,
     layers: commonLayers,
     attributions: {
       ...commonAttributions,
     },
-    geoLocation: geoLocation(MODE.REPORT),
-    pins: commonPins(MODE.REPORT),
+    geoLocation,
+    pins: commonPins,
     reverseGeocoder,
   }),
   [MODE.SINGLE]: () => ({
-    ...commonMapConfiguration(MODE.SINGLE),
+    ...commonMapConfiguration,
     addressSearch,
     layers: [
       ...commonLayers,
@@ -374,7 +374,7 @@ const mapConfigurations: Record<
         },
       ],
     },
-    pins: commonPins(MODE.SINGLE),
+    pins: commonPins,
     reverseGeocoder,
   }),
 }
