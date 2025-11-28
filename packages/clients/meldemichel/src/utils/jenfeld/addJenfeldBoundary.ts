@@ -7,7 +7,7 @@ import Polygon from 'ol/geom/Polygon'
 
 import { jenfeldCoordinates } from '../jenfeld'
 
-export const id = 'hamburgBorder'
+export const jenfeldBoundaryId = 'hamburgBorder'
 
 export const addJenfeldBoundary = (map: Map) =>
   map.addLayer(
@@ -19,6 +19,6 @@ export const addJenfeldBoundary = (map: Map) =>
           }),
         ],
       }),
-      properties: { id },
+      properties: { id: jenfeldBoundaryId },
     })
   )

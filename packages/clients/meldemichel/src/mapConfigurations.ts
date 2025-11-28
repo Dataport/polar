@@ -14,7 +14,7 @@ import { MODE, SKAT, REPORT_STATUS } from './enums'
 import locales, { jenfeldLocales } from './locales'
 import { MeldemichelCreateMapParams } from './types'
 import { showTooltip } from './utils/showTooltip'
-import { id as jenfeldBoundaryId } from './utils/jenfeld/addJenfeldBoundary'
+import { jenfeldBoundaryId } from './utils/jenfeld/addJenfeldBoundary'
 
 export const stadtwald = '18746'
 const stadtplan = '453'
