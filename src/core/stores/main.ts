@@ -5,6 +5,7 @@ import type { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 import type {
+	ColorScheme,
 	MapConfigurationIncludingDefaults,
 	MasterportalApiServiceRegister,
 } from '../types'
@@ -13,6 +14,7 @@ import { addInterceptor } from '../utils/addInterceptor'
 import defaults from '../utils/defaults'
 
 export const useMainStore = defineStore('main', () => {
+	const colorScheme = ref<ColorScheme>('system')
 	const configuration = ref<MapConfigurationIncludingDefaults>(
 		toMerged(
 			{
@@ -83,6 +85,7 @@ export const useMainStore = defineStore('main', () => {
 
 	return {
 		// State
+		colorScheme,
 		configuration,
 		clientHeight,
 		clientWidth,

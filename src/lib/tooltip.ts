@@ -1,6 +1,6 @@
-import i18next from 'i18next'
+import i18next, { type TOptions } from 'i18next'
 
-type TooltipLocaleKeys = [string, string][]
+type TooltipLocaleKeys = [string, string, TOptions?][]
 
 export interface Tooltip {
 	/** tooltip as a div, bound to inputs */
@@ -14,9 +14,9 @@ const setInnerHtml =
 	(tooltip: HTMLDivElement, localeKeys: TooltipLocaleKeys) => () =>
 		(tooltip.innerHTML = localeKeys
 			.map(
-				([element, localeKey]) =>
+				([element, localeKey, options = {}]) =>
 					// @ts-expect-error | Locale keys are dynamic.
-					`<${element}>${i18next.t(localeKey)}</${element}>`
+					`<${element}>${i18next.t(localeKey, options)}</${element}>`
 			)
 			.join(''))
 
