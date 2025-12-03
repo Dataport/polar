@@ -22,6 +22,10 @@ import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChoose
 import type { PluginId as LoadingIndicatorId } from '@/plugins/loadingIndicator'
 import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugins/loadingIndicator/store'
 
+import type { PluginId as PinsPluginId } from '@/plugins/pins'
+import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
+import type { resourcesEn as PinsResources } from '@/plugins/pins/locales'
+
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
@@ -80,6 +84,7 @@ export type BundledPluginId =
 	| typeof IconMenuPluginId
 	| typeof LayerChooserPluginId
 	| typeof LoadingIndicatorId
+	| typeof PinsPluginId
 	| typeof ToastPluginId
 
 type GetPluginStore<
@@ -98,6 +103,7 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
 	| GetPluginStore<T, typeof LoadingIndicatorId, typeof LoadingIndicatorStore>
+	| GetPluginStore<T, typeof PinsPluginId, typeof PinsStore>
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
 
 type GetPluginResources<
@@ -120,6 +126,7 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof LayerChooserPluginId,
 			typeof LayerChooserResources
 	  >
+	| GetPluginResources<T, typeof PinsPluginId, typeof PinsResources>
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 
 /** @internal */
