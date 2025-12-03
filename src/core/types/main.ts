@@ -6,6 +6,7 @@ import type { PolarTheme } from './theme'
 import type { LocaleOverride } from './locales'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
+import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
 import type { ToastPluginOptions } from '@/plugins/toast'
 
 export interface ServiceAvailabilityCheck {
@@ -282,7 +283,6 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * The default is to use KERN's standard theme.
 	 */
 	theme?: PolarTheme
-
 	// Plugins are not sorted alphabetical, but listed last.
 	// Remember to sort them alphabetical inside their space.
 	// TODO: Generate this section via types/plugin.ts
@@ -299,10 +299,14 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	iconMenu?: IconMenuPluginOptions
 
 	/**
+	 * Configuration for loadingIndicator plugin.
+	 */
+	loadingIndicator?: LoadingIndicatorOptions
+
+	/**
 	 * Configuration for toast plugin.
 	 */
 	toast?: ToastPluginOptions
-
 	/* eslint-enable perfectionist/sort-interfaces */
 }
 

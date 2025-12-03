@@ -9,6 +9,7 @@ import {
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
+import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
 import pluginToast from '@polar/polar/plugins/toast'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
@@ -218,6 +219,12 @@ addPlugin(
 )
 addPlugin(
 	map,
+	pluginLoadingIndicator({
+		loaderStyle: 'BasicLoader',
+	})
+)
+addPlugin(
+	map,
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
@@ -275,6 +282,10 @@ toastStore.addToast({
 	text: 'Achtung! Dies ist ein Toast!',
 	severity: 'error',
 })
+
+const loadingIndicatorStore = getStore(map, 'loadingIndicator')
+loadingIndicatorStore.addLoadingKey('loadingTest')
+setTimeout(() => loadingIndicatorStore.removeLoadingKey('loadingTest'), 2000)
 
 subscribe(
 	map,
