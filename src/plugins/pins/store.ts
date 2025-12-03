@@ -48,9 +48,10 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			coreStore.configuration.pins || {}
 		)
 	)
-	const latLon = computed(() =>
-		toLonLat(coordinate.value, coreStore.configuration.epsg)
-	)
+	const latLon = computed(() => {
+		const lonLat = toLonLat(coordinate.value, coreStore.configuration.epsg)
+		return [lonLat[1], lonLat[0]]
+	})
 
 	const pinLayer = new VectorLayer({
 		source: new Vector(),
