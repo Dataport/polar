@@ -28,20 +28,6 @@ import { Coordinate } from 'ol/coordinate'
 
 export type RenderType = 'iconMenu' | 'independent' | 'footer'
 
-export type LoaderStyles =
-	| 'CircleLoader'
-	| 'BasicLoader'
-	| 'none'
-	| 'RingLoader'
-	| 'RollerLoader'
-	| 'SpinnerLoader'
-	| 'v-progress-linear'
-
-/** LoadingIndicator Module Configuration */
-export interface LoadingIndicatorConfiguration extends PluginOptions {
-	loaderStyle?: LoaderStyles
-}
-
 /** Possible search methods by type */
 export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
 
@@ -309,23 +295,6 @@ export interface GfiLayerConfiguration {
 	window?: boolean
 }
 
-export type BoundaryOnError = 'strict' | 'permissive'
-
-export interface LayerBoundPluginOptions extends PluginOptions {
-	/**
-	 * If set, feature will only be applicable within the layer's features.
-	 * The layer must contain vectors. This is useful for restricted maps to avoid
-	 * selecting unfit coordinates.
-	 */
-	boundaryLayerId?: string
-	boundaryOnError?: BoundaryOnError
-	/**
-	 * Used if boundaryLayer does not contain the plugin information to inform
-	 * the user that something could not be set/updated.
-	 */
-	toastAction?: string
-}
-
 export interface GeoLocationConfiguration extends LayerBoundPluginOptions {
 	/**
 	 * Source paths through store to listen to for changes; it is assumed values
@@ -528,7 +497,6 @@ export interface MapConfig extends MasterportalApiConfig {
 	stylePath?: string
 	vuetify?: UserVuetifyPreset
 	addressSearch?: AddressSearchConfiguration
-	loadingIndicator?: LoadingIndicatorConfiguration
 	attributions?: AttributionsConfiguration
 	draw?: DrawConfiguration
 	export?: ExportConfiguration
