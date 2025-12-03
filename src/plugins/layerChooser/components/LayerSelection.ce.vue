@@ -53,7 +53,10 @@
 							:disabled="disabledMasks[id]"
 							@click="() => updateOpenedOptions(id)"
 						>
-							<span class="kern-icon kern-icon--settings" aria-hidden="true" />
+							<span
+								class="kern-icon kern-icon-fill--settings"
+								aria-hidden="true"
+							/>
 							<span class="kern-label kern-sr-only">
 								{{ $t(($) => $.layerOptions, { ns: PluginId }) }}
 							</span>

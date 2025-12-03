@@ -15,10 +15,7 @@
 	height: inherit;
 	min-width: 25rem;
 	border-radius: 0.5rem;
-	box-shadow:
-		0 1px 1px 0 rgba(53, 57, 86, 0.16),
-		0 1px 2px 0 rgba(53, 57, 86, 0.25),
-		0 1px 6px 0 rgba(110, 117, 151, 0.25);
+	box-shadow: var(--polar-shadow);
 
 	.kern-card__container {
 		padding: var(--kern-metric-space-small);
