@@ -295,23 +295,6 @@ export interface GfiLayerConfiguration {
 	window?: boolean
 }
 
-export type BoundaryOnError = 'strict' | 'permissive'
-
-export interface LayerBoundPluginOptions extends PluginOptions {
-	/**
-	 * If set, feature will only be applicable within the layer's features.
-	 * The layer must contain vectors. This is useful for restricted maps to avoid
-	 * selecting unfit coordinates.
-	 */
-	boundaryLayerId?: string
-	boundaryOnError?: BoundaryOnError
-	/**
-	 * Used if boundaryLayer does not contain the plugin information to inform
-	 * the user that something could not be set/updated.
-	 */
-	toastAction?: string
-}
-
 export interface GeoLocationConfiguration extends LayerBoundPluginOptions {
 	/**
 	 * Source paths through store to listen to for changes; it is assumed values
