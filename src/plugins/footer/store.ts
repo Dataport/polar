@@ -37,7 +37,7 @@ export const useFooterStore = defineStore('plugins/footer', () => {
 			return typeof display === 'boolean' ? display : true
 		})
 		leftEntries.value.concat(rightEntries.value).forEach((plugin) => {
-			coreStore.addPlugin(plugin)
+			coreStore.addPlugin(toMerged(plugin, { independent: false }))
 		})
 		// Otherwise, the component itself is made reactive
 		leftEntries.value.map((plugin) =>
