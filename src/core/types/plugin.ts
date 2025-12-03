@@ -19,6 +19,9 @@ import type { PluginId as LayerChooserPluginId } from '@/plugins/layerChooser'
 import type { useLayerChooserStore as LayerChooserStore } from '@/plugins/layerChooser/store'
 import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChooser/locales'
 
+import type { PluginId as LoadingIndicatorId } from '@/plugins/loadingIndicator'
+import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugins/loadingIndicator/store'
+
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
@@ -76,6 +79,7 @@ export type BundledPluginId =
 	| typeof GeoLocationPluginId
 	| typeof IconMenuPluginId
 	| typeof LayerChooserPluginId
+	| typeof LoadingIndicatorId
 	| typeof ToastPluginId
 
 type GetPluginStore<
@@ -93,6 +97,7 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
+	| GetPluginStore<T, typeof LoadingIndicatorId, typeof LoadingIndicatorStore>
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
 
 type GetPluginResources<

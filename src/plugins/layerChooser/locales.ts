@@ -7,6 +7,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import { PluginId } from './types'
 import type { Locale } from '@/core'
 
 export const resourcesDe = {
@@ -14,6 +15,11 @@ export const resourcesDe = {
 	maskTitle: 'Fachdaten',
 	layerHeader: 'Auswahl sichtbarer Ebenen für Layer "{{name}}"',
 	layerOptions: 'Optionen für Kartenmaterial',
+	legend: {
+		title: 'Legende',
+		to: 'Legendenbild zu "{{name}}"',
+		open: `$t(legend.to, {ns: ${PluginId}}) öffnen`,
+	},
 	returnToLayers: 'Zurück',
 } as const
 
@@ -22,6 +28,11 @@ export const resourcesEn = {
 	maskTitle: 'Subject data',
 	layerHeader: 'Visible layer selection for layer "{{name}}"',
 	layerOptions: 'Map data options',
+	legend: {
+		title: 'Legend',
+		to: '"{{name}}" legend image',
+		open: `Open $t(legend.to, {ns: ${PluginId}})`,
+	},
 	returnToLayers: 'Back',
 } as const
 

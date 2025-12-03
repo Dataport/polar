@@ -1,5 +1,10 @@
 export const PluginId = 'layerChooser'
 
+export interface LayerLegend {
+	name: string
+	url: string
+}
+
 export interface LayerOptions {
 	/**
 	 * Name to be displayed in the layer options menu.

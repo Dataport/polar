@@ -10,6 +10,7 @@ import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
+import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
 import pluginToast from '@polar/polar/plugins/toast'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
@@ -23,6 +24,7 @@ const reports = '6059'
 const denkmal = 'denkmaelerWMS'
 // const hamburgBorder = '1693' // boundary layer for pins / geolocalization
 
+let colorScheme = 'light'
 // eslint-disable-next-line no-unused-vars
 const dataportTheme = {
 	brandColor: {
@@ -73,6 +75,7 @@ const isReportSelectable = (feature) =>
 const map = await createMap(
 	'snowbox',
 	{
+		colorScheme,
 		startCenter: [573364, 6028874],
 		layers: [
 			// TODO: Add internalization to snowbox
@@ -217,6 +220,12 @@ addPlugin(
 )
 addPlugin(
 	map,
+	pluginLoadingIndicator({
+		loaderStyle: 'BasicLoader',
+	})
+)
+addPlugin(
+	map,
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
@@ -255,13 +264,13 @@ addPlugin(
 						id: 'realKewl',
 						locales: [],
 					},
-					icon: 'kern-icon--share',
+					icon: 'kern-icon-fill--share',
 				},
 			],
 			[
 				{
 					plugin: pluginLayerChooser({}),
-					icon: 'kern-icon--layers',
+					icon: 'kern-icon-fill--layers',
 				},
 				{
 					plugin: pluginFullscreen({}),
@@ -280,6 +289,10 @@ toastStore.addToast({
 	text: 'Achtung! Dies ist ein Toast!',
 	severity: 'error',
 })
+
+const loadingIndicatorStore = getStore(map, 'loadingIndicator')
+loadingIndicatorStore.addLoadingKey('loadingTest')
+setTimeout(() => loadingIndicatorStore.removeLoadingKey('loadingTest'), 2000)
 
 subscribe(
 	map,
@@ -301,4 +314,12 @@ document
 		updateState(map, 'core', 'language', value)
 		target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
 		target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
+	})
+
+document
+	.getElementById('color-scheme-switcher')
+	.addEventListener('click', ({ target }) => {
+		target.innerHTML = `Switch to ${colorScheme} mode`
+		colorScheme = colorScheme === 'light' ? 'dark' : 'light'
+		updateState(map, 'core', 'colorScheme', colorScheme)
 	})

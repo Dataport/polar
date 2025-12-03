@@ -9,12 +9,13 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 import Layer from 'ol/layer/Layer'
 import { ImageWMS, TileWMS } from 'ol/source'
-import type { LayerOptions } from './types'
+import type { LayerLegend, LayerOptions } from './types'
 import { areLayersActive } from './utils/areLayersActive'
 import {
 	loadCapabilities,
 	prepareLayersWithOptions,
 } from './utils/capabilities'
+import { prepareLegends } from './utils/prepareLegends'
 import { getBackgroundsAndMasks } from './utils/getBackgroundsAndMasks'
 import type { LayerConfiguration } from '@/core'
 import { useCoreStore } from '@/core/stores/export'
@@ -37,6 +38,9 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 	const availableMasks = ref<LayerConfiguration[]>([])
 	const activeBackgroundId = ref('')
 	const activeMaskIds = ref<string[]>([])
+
+	const layersWithLegends = ref<Record<string, LayerLegend>>({})
+	const openedLegendId = ref('')
 
 	const layersWithOptions = ref<Record<string, LayerOptions[]>>({})
 	const openedOptionsId = ref('')
@@ -100,6 +104,9 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 			.map(({ id }) => id)
 		updateActiveAndAvailableLayersByZoom()
 		coreStore.map.on('moveend', updateActiveAndAvailableLayersByZoom)
+
+		layersWithLegends.value = prepareLegends(coreStore.configuration.layers)
+
 		void loadCapabilities(
 			coreStore.configuration.layers,
 			capabilities.value
@@ -228,6 +235,9 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		disabledMasks,
 
 		/** @internal */
+		layersWithLegends,
+
+		/** @internal */
 		layersWithOptions,
 
 		/** @internal */
@@ -235,6 +245,9 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 		/** @internal */
 		shownMasks,
+
+		/** @internal */
+		openedLegendId,
 
 		/** @internal */
 		openedOptionsId,

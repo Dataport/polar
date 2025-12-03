@@ -28,20 +28,6 @@ import { Coordinate } from 'ol/coordinate'
 
 export type RenderType = 'iconMenu' | 'independent' | 'footer'
 
-export type LoaderStyles =
-	| 'CircleLoader'
-	| 'BasicLoader'
-	| 'none'
-	| 'RingLoader'
-	| 'RollerLoader'
-	| 'SpinnerLoader'
-	| 'v-progress-linear'
-
-/** LoadingIndicator Module Configuration */
-export interface LoadingIndicatorConfiguration extends PluginOptions {
-	loaderStyle?: LoaderStyles
-}
-
 /** Possible search methods by type */
 export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
 
@@ -511,7 +497,6 @@ export interface MapConfig extends MasterportalApiConfig {
 	stylePath?: string
 	vuetify?: UserVuetifyPreset
 	addressSearch?: AddressSearchConfiguration
-	loadingIndicator?: LoadingIndicatorConfiguration
 	attributions?: AttributionsConfiguration
 	draw?: DrawConfiguration
 	export?: ExportConfiguration
