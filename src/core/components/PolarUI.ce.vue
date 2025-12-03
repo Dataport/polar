@@ -39,10 +39,20 @@ const layout = computed(() => {
 }
 
 .polar-shadow {
-	border-radius: var(--kern-metric-border-radius-large);
-	box-shadow:
-		inset 0 1px 1px 0 rgba(53, 57, 86, 0.5),
-		inset 0 1px 2px 0 rgba(53, 57, 86, 0.5),
-		inset 0 1px 6px 0 rgba(110, 117, 151, 0.5);
+	&::before {
+		content: '';
+		position: absolute;
+		box-shadow:
+			inset 0 1px 1px 0 rgba(53, 57, 86, 0.5),
+			inset 0 1px 2px 0 rgba(53, 57, 86, 0.5),
+			inset 0 1px 6px 0 rgba(110, 117, 151, 0.5);
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+		z-index: 1;
+		border-radius: var(--kern-metric-border-radius-large);
+		pointer-events: none;
+	}
 }
 </style>

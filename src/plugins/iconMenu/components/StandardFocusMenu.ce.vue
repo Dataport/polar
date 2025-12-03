@@ -55,7 +55,9 @@ const bottom = computed(
 						clientHeight.value - moveHandleTop.value,
 						clientHeight.value / 4
 					)
-				: 0
+				: coreStore.getPluginStore('footer') === null
+					? 0
+					: 32
 		}px`
 )
 const maxHeight = computed(() =>
