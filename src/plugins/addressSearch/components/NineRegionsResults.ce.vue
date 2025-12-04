@@ -38,6 +38,7 @@
 							(event) => focusNextElement(true, event)
 						"
 						@keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
+						@keydown.escape.prevent.stop="escapeResults"
 						v-html="strongTitleByInput(feature.title, inputValue)"
 					/>
 					<!-- eslint-enable vue/no-v-html -->
@@ -69,6 +70,13 @@ const maxHeight = computed(() =>
 		? 'inherit'
 		: `calc(${coreStore.clientHeight}px - 5.75em)`
 )
+
+function escapeResults() {
+	addressSearchStore.clear()
+	;(coreStore.shadowRoot as ShadowRoot)
+		.getElementById('polar-plugin-address-search-input')
+		?.focus()
+}
 
 function focusNextElement(down: boolean, { target }: KeyboardEvent): void {
 	console.warn('HUH')

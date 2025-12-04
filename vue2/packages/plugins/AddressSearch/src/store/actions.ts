@@ -76,9 +76,6 @@ export const makeActions = () => {
 				commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
 			}
 		},
-		escapeSelection({ commit }): void {
-			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
-		},
 
 		/**
 		 * `search` is meant for programmatic access. User search is triggered from

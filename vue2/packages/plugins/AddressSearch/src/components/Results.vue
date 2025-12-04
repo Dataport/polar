@@ -7,7 +7,6 @@
 		:max-height="maxHeight"
 		:ripple="false"
 		tabindex="-1"
-		@keydown.escape.prevent.stop="escapeSelection"
 	>
 		<v-list
 			v-for="(
