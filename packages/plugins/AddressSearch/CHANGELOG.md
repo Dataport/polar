@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 3.2.0
 
 - Feature: Add optional `resultModifier` option to `searchMethodsObject` that allows modifying a result before adding it to the store.
 
