@@ -185,6 +185,11 @@ addressSearch: {
 <td>Grouped services can optionally be distinguished in the UI with categories. See <code>addressSearch.categoryProperties</code> for configuration options.</td>
 </tr>
 <tr>
+<td>resultModifier</td>
+<td>(function (object: FeatureCollection) =&gt; FeatureCollection)?</td>
+<td>Optional resultModifier function. It will get the full FeatureCollection object that may be reduced before returning it. The resultModifier function will be called before adding anything to the store. Programming knowledge required.</td>
+</tr>
+<tr>
 <td>groupId</td>
 <td>string?</td>
 <td>Default groupId is <code>&quot;defaultGroup&quot;</code>. All services with the same id are grouped and used together. See <code>addressSearch.groupProperties</code> for configuration options. If multiple groups exist, the UI offers a group switcher.</td>
