@@ -31,7 +31,7 @@ export const getMapConfiguration = (
   urlParams: DishUrlParams = {
     internalHost: '',
     internServicesBaseUrl: '',
-    printHost: '',
+    printHostDeegree: '',
     printServicesBaseUrl: '',
   }
 ): DishMapConfig => ({
