@@ -156,7 +156,9 @@ export const makeActions = () => {
 
             return {
               index,
-              value: config.filter ? config.filter(value) : value,
+              value: config.resultModifier
+                ? config.resultModifier(value)
+                : value,
             }
           })
 

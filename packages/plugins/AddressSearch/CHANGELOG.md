@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add optional `filter` option to `searchMethodsObject` that allows modifying a result before adding it to the store.
+- Feature: Add optional `resultModifier` option to `searchMethodsObject` that allows modifying a result before adding it to the store.
 
 ## 3.1.1
 

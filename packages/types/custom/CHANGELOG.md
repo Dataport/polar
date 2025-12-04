@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Add optional `filter` field to `SearchMethodConfiguration`.
+- Feature: Add optional `resultModifier` field to `SearchMethodConfiguration`.
 
 ## 2.2.0
 

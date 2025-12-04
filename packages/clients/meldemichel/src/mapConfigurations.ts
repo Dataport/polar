@@ -252,7 +252,7 @@ const mapConfigurations: Record<
         searchMethods: [
           {
             ...addressSearch.searchMethods[0],
-            filter: (featureCollection) => ({
+            resultModifier: (featureCollection) => ({
               ...featureCollection,
               features: featureCollection.features.filter((feature) => {
                 // for return type 'street'
@@ -271,7 +271,7 @@ const mapConfigurations: Record<
                 }
 
                 console.warn(
-                  '@polar/client-meldemichel: AddressSearch filter found unfilterable feature; skipping.',
+                  '@polar/client-meldemichel: AddressSearch.resultFilter found unfilterable feature; skipping.',
                   feature
                 )
 
