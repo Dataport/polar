@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useAddressSearchStore } from '../store'
 import { PluginId, type SearchResult } from '../types'
 import { focusFirstResult } from '../utils/focusFirstResult'
