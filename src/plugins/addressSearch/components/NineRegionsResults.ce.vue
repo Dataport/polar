@@ -64,7 +64,7 @@ const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
 const { inputValue, searchResults } = storeToRefs(addressSearchStore)
 
-const openCategories = ref<string[]>([])
+// const openCategories = ref<string[]>([])
 const maxHeight = computed(() =>
 	coreStore.hasWindowSize
 		? 'inherit'
