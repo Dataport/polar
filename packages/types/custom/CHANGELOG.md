@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 2.3.0
 
 - Feature: Add optional `resultModifier` field to `SearchMethodConfiguration`.
 
