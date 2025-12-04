@@ -15,12 +15,14 @@
 					- Show inline-loader
 					- Focus first result on arrow-down
 			-->
+		<!-- TODO: Using the arrow keys move the map instead of getting to the next character -->
 		<input
 			id="polar-plugin-address-search-input"
 			v-model="inputValue"
 			class="kern-form-input__input"
 			type="text"
 			@keydown.enter="addressSearchStore.abortAndRequest"
+			@keydown.down.prevent.stop="inputDown"
 			@focusout="updateStatus"
 		/>
 		<!-- TODO: Show a loader inline here while requests are sent -->
@@ -38,10 +40,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { computed, nextTick, ref } from 'vue'
 import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
+import { focusFirstResult } from '../utils/focusFirstResult'
 import NineRegionsResults from './NineRegionsResults.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
@@ -70,6 +73,15 @@ function updateStatus() {
 				) as HTMLElement
 			).focus()
 		})
+	}
+}
+
+function inputDown() {
+	if (Array.isArray(addressSearchStore.searchResults)) {
+		focusFirstResult(
+			addressSearchStore.searchResults.length,
+			coreStore.shadowRoot as ShadowRoot
+		)
 	}
 }
 </script>

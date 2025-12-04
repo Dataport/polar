@@ -146,41 +146,6 @@ export default Vue.extend({
 		areResultsExpanded(category: string): boolean {
 			return this.openCategories.includes(category)
 		},
-		focusNextElement(down: boolean, { target }: { target: HTMLElement }): void {
-			const focus = ['BUTTON', 'LI']
-			const sibling = down ? 'nextElementSibling' : 'previousElementSibling'
-
-			let searchBase: Element = target
-			let candidateElement: Element | null = searchBase[sibling]
-
-			while (candidateElement && !focus.includes(candidateElement.tagName)) {
-				candidateElement = candidateElement[sibling]
-
-				if (!candidateElement) {
-					const children = searchBase?.parentElement?.[sibling]?.children
-					if (children) {
-						searchBase = children[down ? 0 : children.length - 1]
-						candidateElement = searchBase
-					}
-				}
-			}
-
-			if (candidateElement) {
-				// @ts-expect-error | we have no non-HTML elements in this DOM part
-				candidateElement.focus()
-				return
-			}
-
-			if (down) {
-				focusFirstResult(this.featureListsWithCategory.length)
-				return
-			}
-
-			// @ts-expect-error | Type conversion is fine here as the querySelector method is monkeyPatched in core/createMap
-			;(document.querySelector('[data-app]') as ShadowRoot)
-				.getElementById('polar-plugin-address-search-input')
-				?.focus()
-		},
 	},
 })
 </script>
