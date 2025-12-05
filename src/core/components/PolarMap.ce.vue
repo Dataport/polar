@@ -23,6 +23,7 @@ import { t } from 'i18next'
 import { useMainStore } from '../stores/main'
 
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
+import { createKeyboardInteractions } from '../utils/interactions'
 import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
 import { setupStyling } from '../utils/map/setupStyling'
 import { setupMarkers } from '../utils/map/setupMarkers'
@@ -56,6 +57,7 @@ function createMap() {
 					pinchRotate: false,
 					dragPan: false,
 					mouseWheelZoom: false,
+					keyboard: false,
 				}),
 			},
 		}
@@ -67,6 +69,9 @@ function createMap() {
 		hasWindowSize.value,
 		hasSmallDisplay.value
 	)
+	createKeyboardInteractions().forEach((interaction) => {
+		mainStore.map.addInteraction(interaction)
+	})
 	updateListeners()
 }
 

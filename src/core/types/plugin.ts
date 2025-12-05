@@ -11,6 +11,10 @@ import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
 import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
 import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
 
+import type { PluginId as GeoLocationPluginId } from '@/plugins/geoLocation'
+import type { useGeoLocationStore as GeoLocationStore } from '@/plugins/geoLocation/store'
+import type { resourcesEn as GeoLocationResources } from '@/plugins/geoLocation/locales'
+
 import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
 import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
 import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
@@ -19,6 +23,9 @@ import type { PluginId as LayerChooserPluginId } from '@/plugins/layerChooser'
 import type { useLayerChooserStore as LayerChooserStore } from '@/plugins/layerChooser/store'
 import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChooser/locales'
 
+import type { PluginId as LoadingIndicatorId } from '@/plugins/loadingIndicator'
+import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugins/loadingIndicator/store'
+
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
@@ -26,6 +33,38 @@ import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
 export interface PluginOptions {
 	displayComponent?: boolean
 	layoutTag?: keyof typeof NineLayoutTag
+}
+
+interface BoundaryOptions {
+	/**
+	 * ID of the vector layer to restrict requests to.
+	 * The layer must contain vectors. This is useful for restricted maps to avoid
+	 * selecting unfit coordinates.
+	 */
+	layerId: string
+
+	/**
+	 * If the boundary layer check does not work due to loading or configuration
+	 * errors, style `'strict'` will disable the affected feature, and style
+	 * `'permissive'` will act as if no {@link layerId} was set.
+	 *
+	 * @defaultValue 'permissive'
+	 */
+	onError?: 'strict' | 'permissive'
+
+	/**
+	 * If the boundary layer check does not work due to loading or configuration
+	 * errors, style `'strict'` will disable the affected feature, and style
+	 * `'permissive'` will act as if no boundaryLayerId was set.
+	 * @defaultValue `'permissive'`
+	 */
+}
+
+export interface LayerBoundPluginOptions extends PluginOptions {
+	/**
+	 * Set to check whether something is within the layer's boundaries.
+	 */
+	boundary?: BoundaryOptions
 }
 
 export type PolarPluginStore<
@@ -42,8 +81,10 @@ export type PolarPluginStore<
 export type BundledPluginId =
 	| typeof AddressSearchPluginId
 	| typeof FullscreenPluginId
+	| typeof GeoLocationPluginId
 	| typeof IconMenuPluginId
 	| typeof LayerChooserPluginId
+	| typeof LoadingIndicatorId
 	| typeof ToastPluginId
 
 type GetPluginStore<
@@ -59,8 +100,10 @@ type GetPluginStore<
 export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof AddressSearchPluginId, typeof AddressSearchStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
+	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
+	| GetPluginStore<T, typeof LoadingIndicatorId, typeof LoadingIndicatorStore>
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
 
 type GetPluginResources<
@@ -77,6 +120,11 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof AddressSearchResources
 	  >
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
+	| GetPluginResources<
+			T,
+			typeof GeoLocationPluginId,
+			typeof GeoLocationResources
+	  >
 	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
 	| GetPluginResources<
 			T,

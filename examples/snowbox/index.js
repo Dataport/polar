@@ -8,20 +8,22 @@ import {
 } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
+import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
+import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
 import pluginToast from '@polar/polar/plugins/toast'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
 import services from './services.js'
 import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
-import GeoLocationMockCe from './GeoLocationMock.ce.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
+// const hamburgBorder = '1693' // boundary layer for pins / geolocalization
 
 let colorScheme = 'light'
 // eslint-disable-next-line no-unused-vars
@@ -219,6 +221,12 @@ addPlugin(
 )
 addPlugin(
 	map,
+	pluginLoadingIndicator({
+		loaderStyle: 'BasicLoader',
+	})
+)
+addPlugin(
+	map,
 	pluginAddressSearch({
 		searchMethods: [
 			{
@@ -255,11 +263,17 @@ addPlugin(
 			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
 			[
 				{
-					plugin: {
-						component: GeoLocationMockCe,
-						id: 'geoLocationMock',
-						locales: [],
-					},
+					plugin: pluginGeoLocation({
+						checkLocationInitially: false,
+						keepCentered: false,
+						showTooltip: true,
+						zoomLevel: 7,
+						// usable when you're in HH or fake your geolocation to HH
+						/* boundary: {
+							layerId: hamburgBorder,
+							onError: 'strict',
+						}, */
+					}),
 				},
 			],
 			[
@@ -294,6 +308,10 @@ toastStore.addToast({
 	text: 'Achtung! Dies ist ein Toast!',
 	severity: 'error',
 })
+
+const loadingIndicatorStore = getStore(map, 'loadingIndicator')
+loadingIndicatorStore.addLoadingKey('loadingTest')
+setTimeout(() => loadingIndicatorStore.removeLoadingKey('loadingTest'), 2000)
 
 subscribe(
 	map,
