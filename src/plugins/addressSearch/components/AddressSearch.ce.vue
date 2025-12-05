@@ -15,7 +15,6 @@
 					- Show inline-loader
 					- Focus first result on arrow-down
 			-->
-		<!-- TODO: Using the arrow keys move the map instead of getting to the next character -->
 		<input
 			id="polar-plugin-address-search-input"
 			v-model="inputValue"
