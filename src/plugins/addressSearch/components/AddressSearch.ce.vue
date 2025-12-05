@@ -76,11 +76,12 @@ function updateStatus() {
 	}
 }
 
-function inputDown() {
+function inputDown(event: KeyboardEvent) {
 	if (Array.isArray(addressSearchStore.searchResults)) {
 		focusFirstResult(
 			addressSearchStore.searchResults.length,
-			coreStore.shadowRoot as ShadowRoot
+			coreStore.shadowRoot as ShadowRoot,
+			event
 		)
 	}
 }

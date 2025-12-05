@@ -78,10 +78,10 @@ function escapeResults() {
 		?.focus()
 }
 
-function focusNextElement(down: boolean, { target }: KeyboardEvent): void {
-	console.warn('HUH')
+function focusNextElement(down: boolean, event: KeyboardEvent): void {
 	const focus = ['BUTTON', 'LI']
 	const sibling = down ? 'nextElementSibling' : 'previousElementSibling'
+	const { target } = event
 
 	if (target === null) {
 		console.warn('Could not focus any element.')
@@ -112,7 +112,8 @@ function focusNextElement(down: boolean, { target }: KeyboardEvent): void {
 	if (down) {
 		focusFirstResult(
 			(addressSearchStore.searchResults as SearchResult[]).length,
-			coreStore.shadowRoot as ShadowRoot
+			coreStore.shadowRoot as ShadowRoot,
+			event
 		)
 		return
 	}

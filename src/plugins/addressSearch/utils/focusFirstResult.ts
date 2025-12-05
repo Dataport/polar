@@ -1,6 +1,7 @@
 export function focusFirstResult(
 	searchResultsLength: number,
-	shadowRoot: ShadowRoot
+	shadowRoot: ShadowRoot,
+	event?: KeyboardEvent
 ) {
 	for (let i = 0; i < searchResultsLength; i++) {
 		const firstFocusableElement = shadowRoot.getElementById(
@@ -9,6 +10,8 @@ export function focusFirstResult(
 		console.warn(firstFocusableElement)
 		if (firstFocusableElement) {
 			firstFocusableElement.focus()
+			// prevent list scrolling on newly focused element
+			event?.preventDefault()
 			break
 		}
 	}
