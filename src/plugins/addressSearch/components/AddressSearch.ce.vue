@@ -9,22 +9,18 @@
 	<PolarCard v-else>
 		<!--
 				TODO:
-					- Add aria-description
-					- Add label
-					- Add placeholder
 					- Show inline-loader
-					- Focus first result on arrow-down
 			-->
 		<input
 			id="polar-plugin-address-search-input"
 			v-model="inputValue"
 			class="kern-form-input__input"
 			type="text"
+			:aria-description="$t(($) => $.ariaDescription, { ns: PluginId })"
 			@keydown.enter="addressSearchStore.abortAndRequest"
 			@keydown.down.prevent.stop="inputDown"
 			@focusout="updateStatus"
 		/>
-		<!-- TODO: Show a loader inline here while requests are sent -->
 		<button
 			class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
 			@click="addressSearchStore.clear"
@@ -50,7 +46,6 @@ import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
 
 // TODO: Add information below input field for error
-// TODO: Show results from separate groups not visually divided. They should be distinguishable by an icon and an (Aria-)label
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
