@@ -1,7 +1,7 @@
 import { t } from 'i18next'
 import type { Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
-import type { PinBoundary } from '../types'
+import type { BoundaryOptions } from '@/core'
 import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
 
@@ -13,7 +13,7 @@ import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
 export async function isCoordinateInBoundaryLayer(
 	coordinate: Coordinate,
 	map: Map,
-	boundary?: PinBoundary
+	boundary?: BoundaryOptions
 ) {
 	if (!boundary) {
 		return true

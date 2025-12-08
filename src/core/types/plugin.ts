@@ -35,7 +35,7 @@ export interface PluginOptions {
 	layoutTag?: keyof typeof NineLayoutTag
 }
 
-interface BoundaryOptions {
+export interface BoundaryOptions {
 	/**
 	 * ID of the vector layer to restrict requests to.
 	 * The layer must contain vectors. This is useful for restricted maps to avoid
