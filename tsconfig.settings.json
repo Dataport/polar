@@ -8,7 +8,7 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"noEmit": true,
-		"strictNullChecks": true,
+		"strict": true,
 		"isolatedModules": true
 	}
 }
