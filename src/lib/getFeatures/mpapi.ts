@@ -2,7 +2,7 @@ import { search, setGazetteerUrl } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import type { FeatureCollection, Feature } from 'geojson'
 import { transform } from 'ol/proj'
-import type { MpapiParameters } from './types'
+import type { MpapiParameters, MpapiResult } from './types'
 
 export default async function (
 	signal: AbortSignal,
