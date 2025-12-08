@@ -51,18 +51,20 @@ interface BoundaryOptions {
 	 * @defaultValue 'permissive'
 	 */
 	onError?: 'strict' | 'permissive'
-
-	/**
-	 * If the boundary layer check does not work due to loading or configuration
-	 * errors, style `'strict'` will disable the affected feature, and style
-	 * `'permissive'` will act as if no boundaryLayerId was set.
-	 * @defaultValue `'permissive'`
-	 */
 }
 
 export interface LayerBoundPluginOptions extends PluginOptions {
 	/**
-	 * Set to check whether something is within the layer's boundaries.
+	 * Set to check whether something should be restricted to an area defined by a layer.
+	 *
+	 * If
+	 *
+	 * @example
+	 * ```
+	 * {
+	 *   layerId: 'hamburgBorder',
+	 * }
+	 * ```
 	 */
 	boundary?: BoundaryOptions
 }

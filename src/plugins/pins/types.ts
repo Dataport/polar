@@ -1,4 +1,8 @@
-import type { Color, PluginId as PolarPluginId, PluginOptions } from '@/core'
+import type {
+	Color,
+	LayerBoundPluginOptions,
+	PluginId as PolarPluginId,
+} from '@/core'
 
 /** Plugin identifier. */
 export const PluginId = 'pins'
@@ -6,24 +10,7 @@ export const PluginId = 'pins'
 export type PinMovable = 'drag' | 'click' | 'none'
 
 /** Plugin options for pins plugin. */
-export interface PinsPluginOptions extends PluginOptions {
-	/**
-	 * Whether the pins should be restricted to an area defined by a layer.
-	 *
-	 * When pins are moved or created outside the boundary, an information will be
-	 * shown and the pin is reset to its previous state. The map will wait at most
-	 * 10s for the layer to load; should it not happen, the boundary feature is
-	 * turned off.
-	 *
-	 * @example
-	 * ```
-	 * {
-	 *   layerId: 'hamburgBorder',
-	 * }
-	 * ```
-	 */
-	boundary?: PinBoundary
-
+export interface PinsPluginOptions extends LayerBoundPluginOptions {
 	/**
 	 * The pins plugin may react to changes in other plugins.
 	 * This parameter specifies the paths to such store positions.
@@ -81,22 +68,6 @@ export interface PinsPluginOptions extends PluginOptions {
 	 * @defaultValue 0
 	 */
 	toZoomLevel?: number
-}
-
-export interface PinBoundary {
-	/**
-	 * ID of the vector layer to restrict pins to.
-	 */
-	layerId: string
-
-	/**
-	 * If the boundary layer check does not work due to loading or configuration
-	 * errors, style `'strict'` will disable the pins feature, and style
-	 * `'permissive'` will act as if no boundaryLayerId was set.
-	 *
-	 * @defaultValue 'permissive'
-	 */
-	onError?: 'strict' | 'permissive'
 }
 
 // TODO(dopenguin): Expand this to also be able to change the SVG
