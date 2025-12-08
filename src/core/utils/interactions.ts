@@ -1,5 +1,11 @@
 import { platformModifierKeyOnly } from 'ol/events/condition'
-import { DragPan, MouseWheelZoom } from 'ol/interaction.js'
+import {
+	DragPan,
+	KeyboardPan,
+	KeyboardZoom,
+	MouseWheelZoom,
+} from 'ol/interaction'
+import type { MapBrowserEvent } from 'ol'
 
 /**
  * Desktop:
@@ -33,3 +39,24 @@ export function createPanAndZoomInteractions(
 		}),
 	]
 }
+
+/**
+ * Modified version of `ol/events/condition.js#targetNotEditable` that is able
+ * to correctly detect editable elements inside a ShadowDOM, as needed in this
+ * situation.
+ */
+function targetNotEditable(mapBrowserEvent: MapBrowserEvent<KeyboardEvent>) {
+	const target = mapBrowserEvent.originalEvent.composedPath()[0] as HTMLElement
+	const { tagName } = target
+	return (
+		tagName !== 'INPUT' &&
+		tagName !== 'SELECT' &&
+		tagName !== 'TEXTAREA' &&
+		!target.isContentEditable
+	)
+}
+
+export const createKeyboardInteractions = () => [
+	new KeyboardPan({ condition: targetNotEditable }),
+	new KeyboardZoom({ condition: targetNotEditable }),
+]
