@@ -170,6 +170,12 @@ export interface PluginContainer {
 	component?: Component
 
 	/**
+	 * Icon class for the plugin.
+	 * This icon will be used as the default for rendering in menus.
+	 */
+	icon?: string
+
+	/**
 	 * Whether the plugin is independently rendered.
 	 *
 	 * @internal
