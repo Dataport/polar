@@ -10,6 +10,10 @@
 import { PluginId } from './types'
 import type { Locale } from '@/core'
 
+/**
+ * German locales for layerChooser plugin.
+ * For overwriting these values, use the plugin's ID as namespace.
+ */
 export const resourcesDe = {
 	backgroundTitle: 'Hintergrundkarten',
 	maskTitle: 'Fachdaten',
@@ -23,6 +27,10 @@ export const resourcesDe = {
 	returnToLayers: 'Zurück',
 } as const
 
+/**
+ * English locales for layerChooser plugin.
+ * For overwriting these values, use the plugin's ID as namespace.
+ */
 export const resourcesEn = {
 	backgroundTitle: 'Background maps',
 	maskTitle: 'Subject data',
