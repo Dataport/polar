@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.3.1-alpha.1
+## 2.3.1-alpha.2
 
 - Testing new deployment strategy.
 
