@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.3.1-void.0
+
+- Testing new deployment strategy.
+
 ## 2.3.0
 
 - Feature: Add optional `resultModifier` field to `SearchMethodConfiguration`.

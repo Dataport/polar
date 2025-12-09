@@ -6,6 +6,7 @@ on:
       - main
 
 permissions:
+  id-token: write
   contents: write
 
 jobs:
@@ -26,8 +27,6 @@ jobs:
       - run: |
           RETURN_TAGS=$(node ./scripts/versionPackages)
           echo "TAGS=$RETURN_TAGS" >> $GITHUB_ENV
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5
         with:
           author_name: Dataport Geo Bot
@@ -42,8 +41,6 @@ jobs:
             echo "Released and tagged $TAG"
           done
       - run: node ./scripts/publishPackages ${{ env.TAGS }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: node ./scripts/createRelease ${{ env.TAGS }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
