@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   publish:
+    environment: npm-publish
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix.outputs.TAGS }}
