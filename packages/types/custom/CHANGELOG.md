@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.3.1-void.0
+## 2.3.1-alpha.0
 
 - Testing new deployment strategy.
 
