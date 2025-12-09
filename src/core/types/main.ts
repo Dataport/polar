@@ -9,6 +9,7 @@ import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
+import type { PinsPluginOptions } from '@/plugins/pins'
 import type { ToastPluginOptions } from '@/plugins/toast'
 
 export interface ServiceAvailabilityCheck {
@@ -290,34 +291,25 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	// TODO: Generate this section via types/plugin.ts
 	/* eslint-disable perfectionist/sort-interfaces */
 
-	/**
-	 * Configuration for footer plugin.
-	 */
+	/** Configuration for footer plugin. */
 	footer?: FooterPluginOptions
 
-	/**
-	 * Configuration for fullscreen plugin.
-	 */
+	/**  Configuration for fullscreen plugin. */
 	fullscreen?: FullscreenPluginOptions
 
-	/**
-	 * Configuration for geoLocation plugin.
-	 */
+	/** Configuration for geoLocation plugin. */
 	geoLocation?: GeoLocationPluginOptions
 
-	/**
-	 * Configuration for iconMenu plugin.
-	 */
+	/** Configuration for iconMenu plugin. */
 	iconMenu?: IconMenuPluginOptions
 
-	/**
-	 * Configuration for loadingIndicator plugin.
-	 */
+	/** Configuration for loadingIndicator plugin. */
 	loadingIndicator?: LoadingIndicatorOptions
 
-	/**
-	 * Configuration for toast plugin.
-	 */
+	/** Configuration for pins plugin. */
+	pins?: PinsPluginOptions
+
+	/** Configuration for toast plugin. */
 	toast?: ToastPluginOptions
 	/* eslint-enable perfectionist/sort-interfaces */
 }

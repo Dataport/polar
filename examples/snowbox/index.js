@@ -12,6 +12,7 @@ import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
+import pluginPins from '@polar/polar/plugins/pins'
 import pluginToast from '@polar/polar/plugins/toast'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
@@ -26,7 +27,7 @@ const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
-// const hamburgBorder = '1693' // boundary layer for pins / geolocalization
+const hamburgBorder = '1693'
 
 let colorScheme = 'light'
 // eslint-disable-next-line no-unused-vars
@@ -94,6 +95,13 @@ const map = await createMap(
 				type: 'background',
 				name: 'Basemap.de (Grau)',
 				maxZoom: 6,
+			},
+			{
+				id: hamburgBorder,
+				visibility: true,
+				hideInMenu: true,
+				type: 'mask',
+				name: 'meldemichel.layers.hamburgBorder',
 			},
 			{
 				id: reports,
@@ -226,6 +234,19 @@ addPlugin(
 	map,
 	pluginLoadingIndicator({
 		loaderStyle: 'BasicLoader',
+	})
+)
+addPlugin(
+	map,
+	pluginPins({
+		boundary: {
+			layerId: hamburgBorder,
+		},
+		movable: 'drag',
+		style: {
+			fill: '#FF0019',
+		},
+		toZoomLevel: 7,
 	})
 )
 addPlugin(

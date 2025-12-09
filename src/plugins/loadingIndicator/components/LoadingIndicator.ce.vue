@@ -9,7 +9,7 @@
 		/>
 		<PolarCard>
 			<div
-				v-if="loaderStyle === 'KernLoader'"
+				v-if="loaderStyle === 'Kernt puLoader'"
 				class="kern-loader kern-loader--visible"
 				role="status"
 			/>
