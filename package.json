@@ -5,7 +5,7 @@
   "author": "Dataport AöR <polar@dataport.de>",
   "license": "EUPL-1.2",
   "engines": {
-    "node": "^20.16.0",
+    "node": "^20.17.0",
     "npm": "^10.8.1"
   },
   "workspaces": [
