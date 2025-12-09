@@ -33,8 +33,7 @@ const test = _test.extend<{
 })
 /* eslint-enable no-empty-pattern */
 
-// TODO: These tests currently fail as the import of useCoreStore fails. Importing useMainStore yields no problems on the other hand
-test.skip('Component listens to store changes', async ({ wrapper, store }) => {
+test('Component listens to store changes', async ({ wrapper, store }) => {
 	store.fullscreenEnabled = false
 	await nextTick()
 	expect(wrapper.find('.kern-label').text()).toContain(
@@ -48,7 +47,7 @@ test.skip('Component listens to store changes', async ({ wrapper, store }) => {
 	)
 })
 
-test.skip('Component triggers store changes', async ({ wrapper, store }) => {
+test('Component triggers store changes', async ({ wrapper, store }) => {
 	store.fullscreenEnabled = false
 	await nextTick()
 

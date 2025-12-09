@@ -118,11 +118,7 @@ if (import.meta.vitest) {
 	const { expect, test: _test, vi } = import.meta.vitest
 	const { createPinia, setActivePinia } = await import('pinia')
 	const { reactive } = await import('vue')
-
-	const mockedUseCoreStore = vi.hoisted(() => vi.fn())
-	vi.mock('@/core/stores/export', () => ({
-		useCoreStore: mockedUseCoreStore,
-	}))
+	const useCoreStoreFile = await import('@/core/stores/export')
 
 	/* eslint-disable no-empty-pattern */
 	const test = _test.extend<{
@@ -134,7 +130,8 @@ if (import.meta.vitest) {
 				const coreStore = reactive({
 					configuration: { [PluginId]: {} },
 				})
-				mockedUseCoreStore.mockReturnValue(coreStore)
+				// @ts-expect-error | Mocking useCoreStore
+				vi.spyOn(useCoreStoreFile, 'useCoreStore').mockReturnValue(coreStore)
 				await use(coreStore)
 			},
 			{ auto: true },
