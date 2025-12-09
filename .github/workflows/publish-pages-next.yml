@@ -5,19 +5,22 @@ on:
     branches:
       - next
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
         with:
-          node-version: 22.18.0
+          node-version: 24.11.1
           registry-url: https://registry.npmjs.org/
       - run: sudo apt install mkdocs mkdocs-material
       - run: npm ci
       - run: npm run docs:ci
-      - uses: JamesIves/github-pages-deploy-action@v4
+      - uses: JamesIves/github-pages-deploy-action@4a3abc783e1a24aeb44c16e869ad83caf6b4cc23
         with:
           folder: docs-html
           target-folder: next
