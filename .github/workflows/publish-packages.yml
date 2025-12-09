@@ -23,6 +23,8 @@ jobs:
         with:
           node-version: 20.16.0
           registry-url: https://registry.npmjs.org/
+      - name: Update npm
+        run: npm install -g npm@latest
       - run: npm ci
       - run: |
           RETURN_TAGS=$(node ./scripts/versionPackages)
