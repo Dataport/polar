@@ -1,9 +1,5 @@
 # CHANGELOG
 
-## 2.3.0-void.0
-
-- Finalize workflow testing.
-
 ## 2.3.0
 
 - Feature: Add optional `resultModifier` field to `SearchMethodConfiguration`.
