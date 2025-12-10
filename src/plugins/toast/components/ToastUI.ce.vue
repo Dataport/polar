@@ -62,8 +62,18 @@ const toasts = computed(() =>
 	& > .kern-alert__header {
 		padding: 4px 16px;
 
+		& > .kern-icon {
+			display: none;
+
+			@media (min-width: 30em) {
+				display: initial;
+			}
+		}
+
 		& > .kern-title {
 			flex: 1;
+			max-width: calc(100% - 2.5em);
+			overflow-wrap: break-word;
 		}
 	}
 }
