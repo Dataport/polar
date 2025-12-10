@@ -39,13 +39,37 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	})
 
 	const _fullscreenEnabled = ref(false)
+	const simulatedFullscreenSavedStyle = ref<string | null>(null)
+
+	function enableSimulatedFullscreen() {
+		if (!coreStore.lightElement) {
+			return
+		}
+
+		simulatedFullscreenSavedStyle.value = coreStore.lightElement.style.cssText
+
+		coreStore.lightElement.style.position = 'fixed'
+		coreStore.lightElement.style.margin = '0'
+		coreStore.lightElement.style.top = '0'
+		coreStore.lightElement.style.left = '0'
+		coreStore.lightElement.style.width = '100%'
+		coreStore.lightElement.style.height = '100%'
+		coreStore.lightElement.style.zIndex = '9999'
+	}
 
 	async function enableFullscreen() {
-		// @ts-expect-error | WebKit is still needed for iOS Safari
-		if (targetContainer.value.webkitRequestFullscreen) {
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		if (!targetContainer.value.requestFullscreen) {
 			// @ts-expect-error | WebKit is still needed for iOS Safari
-			await targetContainer.value.webkitRequestFullscreen()
-			updateFullscreenState()
+			if (targetContainer.value.webkitRequestFullscreen) {
+				// @ts-expect-error | WebKit is still needed for iOS Safari
+				await targetContainer.value.webkitRequestFullscreen()
+				updateFullscreenState()
+				return
+			}
+
+			// Fallback to simulated fullscreen
+			enableSimulatedFullscreen()
 			return
 		}
 
@@ -54,6 +78,15 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	}
 
 	async function disableFullscreen() {
+		if (simulatedFullscreenSavedStyle.value !== null) {
+			if (coreStore.lightElement) {
+				coreStore.lightElement.style.cssText =
+					simulatedFullscreenSavedStyle.value
+			}
+			simulatedFullscreenSavedStyle.value = null
+			return
+		}
+
 		// @ts-expect-error | WebKit is still needed for iOS Safari
 		if (document.webkitExitFullscreen) {
 			// @ts-expect-error | WebKit is still needed for iOS Safari
@@ -67,11 +100,9 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	}
 
 	const fullscreenEnabled = computed({
-		get: () => _fullscreenEnabled.value,
+		get: () =>
+			simulatedFullscreenSavedStyle.value !== null || _fullscreenEnabled.value,
 		set: (value) => {
-			if (value === _fullscreenEnabled.value) {
-				return
-			}
 			;(value ? enableFullscreen : disableFullscreen)().catch(() => {
 				console.warn('Failed to toggle fullscreen mode')
 			})
@@ -102,6 +133,15 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 		 * @defaultValue false
 		 */
 		fullscreenEnabled,
+
+		/**
+		 * Enable simulated fullscreen mode (without using the Fullscreen API).
+		 * This is usually not necessary to call manually, as the plugin handles it automatically
+		 * if the Fullscreen API is not available.
+		 *
+		 * @alpha
+		 */
+		enableSimulatedFullscreen,
 
 		/** @internal */
 		renderType,
@@ -216,6 +256,21 @@ if (import.meta.vitest) {
 			delete jsdom.window.document.webkitExitFullscreen
 		}
 	)
+
+	test('Enable simulated fullscreen if Fullscreen API is not available', ({
+		store,
+		coreStore,
+	}) => {
+		const style = new CSSStyleDeclaration()
+		coreStore.lightElement = { style }
+		style.cssText = 'position: relative; width: 400px; height: 300px;'
+		store.fullscreenEnabled = true
+		expect(store.fullscreenEnabled).toBeTruthy()
+		expect(style.position).toBe('fixed')
+		store.fullscreenEnabled = false
+		expect(store.fullscreenEnabled).toBeFalsy()
+		expect(style.position).toBe('relative')
+	})
 }
 
 if (import.meta.hot) {
