@@ -18,7 +18,12 @@ const { layout } = storeToRefs(useCoreStore())
 	position: absolute;
 	z-index: 40;
 	top: 0;
-	left: 25%;
-	right: 25%;
+	left: 0.5em;
+	right: 0.5em;
+
+	@media (min-width: 50em) {
+		left: 25%;
+		right: 25%;
+	}
 }
 </style>
