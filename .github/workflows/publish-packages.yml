@@ -21,10 +21,8 @@ jobs:
           ssh-key: ${{ secrets.MAIN_BOT_KEY_PRIVATE }}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 20.17.0
+          node-version: 24.11.1
           registry-url: https://registry.npmjs.org/
-      - name: Update npm
-        run: npm install -g npm@latest
       - run: npm ci
       - run: |
           RETURN_TAGS=$(node ./scripts/versionPackages)

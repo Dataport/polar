@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 20.16.0
+          node-version: 24.11.1
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm run pages:build
