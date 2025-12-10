@@ -6,6 +6,7 @@ on:
       - main
 
 permissions:
+  contents: write
   pages: write
 
 jobs:
@@ -23,5 +24,4 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@373f7f263a76c20808c831209c920827a82a2847
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./pages

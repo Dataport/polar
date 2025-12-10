@@ -17,8 +17,6 @@ jobs:
       matrix: ${{ steps.matrix.outputs.TAGS }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
-        with:
-          ssh-key: ${{ secrets.MAIN_BOT_KEY_PRIVATE }}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 24.11.1
@@ -42,5 +40,3 @@ jobs:
           done
       - run: node ./scripts/publishPackages ${{ env.TAGS }}
       - run: node ./scripts/createRelease ${{ env.TAGS }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
