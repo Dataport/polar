@@ -8,29 +8,9 @@
 		:ripple="false"
 		tabindex="-1"
 	>
-		<v-list
-			v-for="(
-				{ features, category, categoryId }, index
-			) in featureListsWithCategory"
-			:key="['results-list', index].join('-')"
-			tag="ul"
-			class="polar-plugin-address-search-results-list"
-			subheader
-		>
+		<v-list>
 			<template v-for="(feature, innerDex) in features">
 				<v-list-item
-					v-if="innerDex < limitResults || areResultsExpanded(category)"
-					:id="
-						[
-							'polar-plugin-address-search-results-feature',
-							index,
-							innerDex,
-						].join('-')
-					"
-					:key="['results-feature', index, innerDex].join('-')"
-					:ripple="false"
-					tag="li"
-					tabindex="-1"
 					:class="{
 						'polar-plugin-address-search-hidden-result':
 							innerDex >=
@@ -38,11 +18,6 @@
 								? Number.MAX_SAFE_INTEGER
 								: limitResults),
 					}"
-					@keydown.down.prevent.stop="(event) => focusNextElement(true, event)"
-					@keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
-					@click="selectResult({ feature, categoryId })"
-					@focus="focusIndex = `${index}-${innerDex}`"
-					@blur="focusIndex = ''"
 				>
 					<component
 						:is="afterResultComponent"
@@ -169,11 +144,5 @@ export default Vue.extend({
 	max-height: 0;
 	height: 0;
 	min-height: 0;
-}
-</style>
-
-<style lang="scss" scoped>
-.polar-plugin-address-search-results-list {
-	padding-left: 0;
 }
 </style>
