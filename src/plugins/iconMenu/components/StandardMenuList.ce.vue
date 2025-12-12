@@ -5,7 +5,7 @@
 			:key="index"
 			class="polar-plugin-icon-menu-list-item"
 		>
-			<component :is="plugin.component" v-if="icon === undefined" />
+			<component :is="plugin.component" v-if="typeof icon === 'undefined'" />
 			<template v-else>
 				<PolarIconButton
 					:class="buttonClass"

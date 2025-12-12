@@ -9,6 +9,10 @@ import type { Locale } from '@/core'
  */
 /* eslint-enable tsdoc/syntax */
 
+/**
+ * German locales for iconMenu plugin.
+ * For overwriting these values, use the plugin's ID as namespace.
+ */
 export const resourcesDe = {
 	mobileCloseButton: '{{plugin}} schließen',
 
@@ -22,6 +26,10 @@ export const resourcesDe = {
 	},
 } as const
 
+/**
+ * English locales for iconMenu plugin.
+ * For overwriting these values, use the plugin's ID as namespace.
+ */
 export const resourcesEn = {
 	mobileCloseButton: 'Close {{plugin}}',
 

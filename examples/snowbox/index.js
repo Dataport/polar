@@ -7,23 +7,28 @@ import {
 	updateState,
 } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
+import pluginFooter from '@polar/polar/plugins/footer'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
+import pluginPins from '@polar/polar/plugins/pins'
 import pluginToast from '@polar/polar/plugins/toast'
 import EmptyComponent from './EmptyComponent.vue'
 import styleJsonUrl from './style.json?url'
 import services from './services.js'
 import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
+import MockPointerPosition from './MockPointerPosition.ce.vue'
+import MockScale from './MockScale.ce.vue'
+import MockAttributions from './MockAttributions.ce.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
-// const hamburgBorder = '1693' // boundary layer for pins / geolocalization
+const hamburgBorder = '1693'
 
 let colorScheme = 'light'
 // eslint-disable-next-line no-unused-vars
@@ -91,6 +96,13 @@ const map = await createMap(
 				type: 'background',
 				name: 'Basemap.de (Grau)',
 				maxZoom: 6,
+			},
+			{
+				id: hamburgBorder,
+				visibility: true,
+				hideInMenu: true,
+				type: 'mask',
+				name: 'meldemichel.layers.hamburgBorder',
 			},
 			{
 				id: reports,
@@ -227,6 +239,19 @@ addPlugin(
 )
 addPlugin(
 	map,
+	pluginPins({
+		boundary: {
+			layerId: hamburgBorder,
+		},
+		movable: 'drag',
+		style: {
+			fill: '#FF0019',
+		},
+		toZoomLevel: 7,
+	})
+)
+addPlugin(
+	map,
 	pluginAddressSearch({
 		searchMethods: [
 			{
@@ -289,12 +314,21 @@ addPlugin(
 			[
 				{
 					plugin: pluginLayerChooser({}),
-					icon: 'kern-icon-fill--layers',
 				},
 				{
 					plugin: pluginFullscreen({}),
 				},
 			],
+		],
+	})
+)
+addPlugin(
+	map,
+	pluginFooter({
+		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
+		rightEntries: [
+			{ id: 'mockScale', component: MockScale },
+			{ id: 'mockAttributions', component: MockAttributions },
 		],
 	})
 )

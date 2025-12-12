@@ -7,6 +7,10 @@ import type { PluginId as AddressSearchPluginId } from '@/plugins/addressSearch'
 import type { useAddressSearchStore as AddressSearchStore } from '@/plugins/addressSearch/store'
 import type { resourcesEn as AddressSearchResources } from '@/plugins/addressSearch/locales'
 
+import type { PluginId as FooterPluginId } from '@/plugins/footer'
+import type { useFooterStore as FooterStore } from '@/plugins/footer/store'
+import type { resourcesEn as FooterResources } from '@/plugins/footer/locales'
+
 import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
 import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
 import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
@@ -26,6 +30,10 @@ import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChoose
 import type { PluginId as LoadingIndicatorId } from '@/plugins/loadingIndicator'
 import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugins/loadingIndicator/store'
 
+import type { PluginId as PinsPluginId } from '@/plugins/pins'
+import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
+import type { resourcesEn as PinsResources } from '@/plugins/pins/locales'
+
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
@@ -35,7 +43,7 @@ export interface PluginOptions {
 	layoutTag?: keyof typeof NineLayoutTag
 }
 
-interface BoundaryOptions {
+export interface BoundaryOptions {
 	/**
 	 * ID of the vector layer to restrict requests to.
 	 * The layer must contain vectors. This is useful for restricted maps to avoid
@@ -51,18 +59,20 @@ interface BoundaryOptions {
 	 * @defaultValue 'permissive'
 	 */
 	onError?: 'strict' | 'permissive'
-
-	/**
-	 * If the boundary layer check does not work due to loading or configuration
-	 * errors, style `'strict'` will disable the affected feature, and style
-	 * `'permissive'` will act as if no boundaryLayerId was set.
-	 * @defaultValue `'permissive'`
-	 */
 }
 
 export interface LayerBoundPluginOptions extends PluginOptions {
 	/**
-	 * Set to check whether something is within the layer's boundaries.
+	 * Set to check whether something should be restricted to an area defined by a layer.
+	 *
+	 * If
+	 *
+	 * @example
+	 * ```
+	 * {
+	 *   layerId: 'hamburgBorder',
+	 * }
+	 * ```
 	 */
 	boundary?: BoundaryOptions
 }
@@ -80,11 +90,13 @@ export type PolarPluginStore<
 /** @internal */
 export type BundledPluginId =
 	| typeof AddressSearchPluginId
+	| typeof FooterPluginId
 	| typeof FullscreenPluginId
 	| typeof GeoLocationPluginId
 	| typeof IconMenuPluginId
 	| typeof LayerChooserPluginId
 	| typeof LoadingIndicatorId
+	| typeof PinsPluginId
 	| typeof ToastPluginId
 
 type GetPluginStore<
@@ -99,11 +111,13 @@ type GetPluginStore<
 /** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof AddressSearchPluginId, typeof AddressSearchStore>
+	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
 	| GetPluginStore<T, typeof LoadingIndicatorId, typeof LoadingIndicatorStore>
+	| GetPluginStore<T, typeof PinsPluginId, typeof PinsStore>
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
 
 type GetPluginResources<
@@ -119,6 +133,7 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof AddressSearchPluginId,
 			typeof AddressSearchResources
 	  >
+	| GetPluginResources<T, typeof FooterPluginId, typeof FooterResources>
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
 	| GetPluginResources<
 			T,
@@ -131,6 +146,7 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof LayerChooserPluginId,
 			typeof LayerChooserResources
 	  >
+	| GetPluginResources<T, typeof PinsPluginId, typeof PinsResources>
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 
 /** @internal */
@@ -163,6 +179,12 @@ export interface PluginContainer {
 	 * or will be determined by the layout.
 	 */
 	component?: Component
+
+	/**
+	 * Icon class for the plugin.
+	 * This icon will be used as the default for rendering in menus.
+	 */
+	icon?: string
 
 	/**
 	 * Whether the plugin is independently rendered.

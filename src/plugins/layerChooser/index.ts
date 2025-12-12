@@ -29,6 +29,7 @@ export default function pluginLayerChooser(
 	return {
 		id: PluginId,
 		component,
+		icon: 'kern-icon-fill--layers',
 		locales,
 		storeModule: useLayerChooserStore as PolarPluginStore,
 		options,
