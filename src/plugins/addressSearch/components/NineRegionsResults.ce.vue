@@ -6,7 +6,7 @@
 		featuresAvailable also already ensures that searchResults has at least one element.
 	-->
 	<div
-		v-if="Array.isArray(searchResults)"
+		v-if="Array.isArray(searchResults) && featuresAvailable"
 		class="polar-plugin-address-search-result-wrapper"
 	>
 		<template v-for="(result, i) in searchResults" :key="result.categoryId">
@@ -62,7 +62,8 @@ import { useCoreStore } from '@/core/stores/export'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
-const { inputValue, searchResults } = storeToRefs(addressSearchStore)
+const { inputValue, featuresAvailable, searchResults } =
+	storeToRefs(addressSearchStore)
 
 // const openCategories = ref<string[]>([])
 const maxHeight = computed(() =>
