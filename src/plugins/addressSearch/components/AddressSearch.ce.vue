@@ -38,7 +38,7 @@
 		<span v-if="hint.length > 0" class="polar-plugin-address-search-hint">
 			{{ hint }}
 		</span>
-		<NineRegionsResults />
+		<SearchResults />
 	</PolarCard>
 </template>
 
@@ -48,7 +48,7 @@ import { computed, nextTick, ref } from 'vue'
 import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
 import { focusFirstResult } from '../utils/focusFirstResult'
-import NineRegionsResults from './NineRegionsResults.ce.vue'
+import SearchResults from './SearchResults.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
