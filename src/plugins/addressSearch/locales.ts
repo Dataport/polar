@@ -12,6 +12,7 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	ariaDescription:
 		'Durch Eingabe in das Suchfeld kann die Suche nach Adressen gestartet werden',
+	// TODO: Not used yet
 	defaultCategory: 'Adresssuche',
 	hint: {
 		button: 'Eingabefeld der Addresssuche anzeigen',
@@ -22,6 +23,7 @@ export const resourcesDe = {
 		tooShort: 'Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.',
 	},
 	resultCount: '({{count}} Ergebnisse)',
+	// TODO: Not used yet
 	resultList: {
 		extend: 'Alle Ergebnisse anzeigen',
 		extendMax:

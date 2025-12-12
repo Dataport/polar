@@ -5,8 +5,8 @@
 /* eslint-enable tsdoc/syntax */
 
 import { debounce, toMerged } from 'es-toolkit'
-import { t } from 'i18next'
 import type { Feature } from 'geojson'
+import { t } from 'i18next'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { type AddressSearchOptions, PluginId, type SearchResult } from './types'
@@ -33,7 +33,9 @@ export const useAddressSearchStore = defineStore(
 
 		const _inputValue = ref('')
 		const isLoading = ref(false)
-		const searchResults = ref<SearchResult[] | symbol>([])
+		const searchResults = ref<SearchResult[] | symbol>(
+			SearchResultSymbols.NO_SEARCH
+		)
 
 		const inputValue = computed({
 			get: () => _inputValue.value,
@@ -55,6 +57,36 @@ export const useAddressSearchStore = defineStore(
 						Array.isArray(features) && features.length > 0
 				)
 		)
+		const hint = computed(() => {
+			if (isLoading.value) {
+				return t(($) => $.hint.loading, { ns: PluginId })
+			}
+
+			if (searchResults.value === SearchResultSymbols.ERROR) {
+				return t(($) => $.hint.error, { ns: PluginId })
+			}
+
+			if (
+				inputValue.value.length > 0 &&
+				inputValue.value.length < minLength.value
+			) {
+				return t(($) => $.hint.tooShort, {
+					ns: PluginId,
+					minLength: minLength.value,
+				})
+			}
+
+			if (
+				searchResults.value !== SearchResultSymbols.NO_SEARCH &&
+				!featuresAvailable.value
+			) {
+				return t(($) => $.hint.noResults, { ns: PluginId })
+			}
+
+			return ''
+			// TODO: Check if needed
+			// return selectedGroupHint
+		})
 		const minLength = computed(() =>
 			typeof coreStore.configuration.addressSearch?.minLength === 'number'
 				? coreStore.configuration.addressSearch.minLength
@@ -160,6 +192,8 @@ export const useAddressSearchStore = defineStore(
 			/** @internal */
 			isLoading,
 
+			searchResults,
+
 			/**
 			 * `true` if any service yielded features.
 			 *
@@ -168,8 +202,10 @@ export const useAddressSearchStore = defineStore(
 			featuresAvailable,
 
 			/** @internal */
+			hint,
+
+			/** @internal */
 			orderedSearchResults,
-			searchResults,
 
 			/** @alpha */
 			abortAndRequest,

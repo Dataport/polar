@@ -5,9 +5,6 @@
 		clearable
 		:label="$t(label)"
 		:placeholder="$t(placeholder)"
-		:hint="$t(hint, { minLength })"
-		:aria-description="$t(hint, { minLength })"
-		:loading="loading"
 		@keydown.down.prevent.stop="
 			focusFirstResult(featureListsWithCategory.length)
 		"
@@ -26,9 +23,6 @@ export default Vue.extend({
 			'featureListsWithCategory',
 			'label',
 			'placeholder',
-			'hint',
-			'minLength',
-			'loading',
 		]),
 	},
 	methods: {

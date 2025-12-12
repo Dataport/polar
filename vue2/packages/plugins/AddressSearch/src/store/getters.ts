@@ -5,7 +5,6 @@ import {
 	PolarGetterTree,
 	SearchMethodConfiguration,
 } from '@polar/lib-custom-types'
-import SearchResults from '../utils/searchResultSymbols'
 import {
 	AddressSearchGetters,
 	AddressSearchState,
@@ -16,7 +15,6 @@ import { getInitialState } from './state'
 const defaultGroupProperties: AddressSearchGroupProperties = {
 	label: 'plugins.addressSearch.defaultGroup',
 	placeholder: '',
-	hint: '',
 	resultDisplayMode: 'mixed',
 	limitResults: Number.MAX_SAFE_INTEGER,
 }
@@ -135,28 +133,6 @@ const getters: PolarGetterTree<AddressSearchState, AddressSearchGetters> = {
 			selectedGroupId,
 			key: 'hint',
 		})
-	},
-	hint(
-		{ inputValue, searchResults },
-		{ selectedGroupHint, minLength, featuresAvailable, loading }
-	) {
-		if (loading) {
-			return 'plugins.addressSearch.hint.loading'
-		}
-
-		if (searchResults === SearchResults.ERROR) {
-			return 'plugins.addressSearch.hint.error'
-		}
-
-		if (inputValue && inputValue.length > 0 && inputValue.length < minLength) {
-			return 'plugins.addressSearch.hint.tooShort'
-		}
-
-		if (searchResults !== SearchResults.NO_SEARCH && !featuresAvailable) {
-			return 'plugins.addressSearch.hint.noResults'
-		}
-
-		return selectedGroupHint
 	},
 	hasMultipleGroups(_, { groupIds }) {
 		return groupIds.length > 1

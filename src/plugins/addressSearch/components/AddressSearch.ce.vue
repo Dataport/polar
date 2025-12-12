@@ -6,13 +6,15 @@
 		icon="kern-icon--search"
 		@click="updateStatus"
 	/>
-	<PolarCard v-else>
+	<PolarCard v-else :class="{ 'has-hint': hint.length > 0 }">
 		<input
 			id="polar-plugin-address-search-input"
 			v-model="inputValue"
 			class="kern-form-input__input"
 			type="text"
-			:aria-description="$t(($) => $.ariaDescription, { ns: PluginId })"
+			:aria-description="
+				hint.length > 0 ? hint : $t(($) => $.ariaDescription, { ns: PluginId })
+			"
 			@keydown.enter="addressSearchStore.abortAndRequest"
 			@keydown.down.prevent.stop="inputDown"
 			@focusout="updateStatus"
@@ -33,6 +35,9 @@
 				{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
 			</span>
 		</button>
+		<span v-if="hint.length > 0" class="polar-plugin-address-search-hint">
+			{{ hint }}
+		</span>
 		<NineRegionsResults />
 	</PolarCard>
 </template>
@@ -48,11 +53,9 @@ import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
 
-// TODO: Add information below input field for error
-
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
-const { inputValue, isLoading } = storeToRefs(addressSearchStore)
+const { hint, inputValue, isLoading } = storeToRefs(addressSearchStore)
 
 const open = ref(false)
 
@@ -90,6 +93,10 @@ function inputDown(event: KeyboardEvent) {
 	margin: 0.5rem;
 }
 
+.has-hint :deep(.kern-card__container) {
+	padding-bottom: var(--kern-metric-space-small) !important;
+}
+
 .kern-card {
 	display: flex;
 	flex-direction: column;
@@ -113,6 +120,13 @@ function inputDown(event: KeyboardEvent) {
 		margin-right: var(--kern-metric-space-default);
 		width: var(--kern-metric-dimension-large);
 		min-height: var(--kern-metric-dimension-large);
+	}
+
+	.polar-plugin-address-search-hint {
+		/* TODO: This should be based on the color scheme, otherwise it is not visible */
+		color: #0009;
+		font-size: 0.875rem;
+		padding: 0 0.1rem;
 	}
 }
 
