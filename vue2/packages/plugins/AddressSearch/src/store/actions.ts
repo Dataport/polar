@@ -50,18 +50,6 @@ export const makeActions = () => {
 			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
 			dispatch('input', state.inputValue)
 		},
-		indicateLoading(
-			{ getters: { addressSearchConfiguration }, commit },
-			loading: boolean
-		): void {
-			commit('setLoading', loading)
-			const { addLoading, removeLoading } = addressSearchConfiguration
-			if (loading && addLoading && addLoading.length > 0) {
-				commit(addLoading, 'AddressSearch', { root: true })
-			} else if (!loading && removeLoading && removeLoading.length > 0) {
-				commit(removeLoading, 'AddressSearch', { root: true })
-			}
-		},
 		selectResult(actionContext, payload): void {
 			const { commit, getters } = actionContext
 			const { feature, categoryId } = payload

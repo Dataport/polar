@@ -7,10 +7,6 @@
 		@click="updateStatus"
 	/>
 	<PolarCard v-else>
-		<!--
-				TODO:
-					- Show inline-loader
-			-->
 		<input
 			id="polar-plugin-address-search-input"
 			v-model="inputValue"
@@ -21,6 +17,13 @@
 			@keydown.down.prevent.stop="inputDown"
 			@focusout="updateStatus"
 		/>
+		<!-- TODO: May be replaced with the KERN-Loader. -->
+		<div v-if="isLoading" class="loader" role="status">
+			<div />
+			<div />
+			<div />
+			<div />
+		</div>
 		<button
 			class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
 			@click="addressSearchStore.clear"
@@ -49,7 +52,7 @@ import { useCoreStore } from '@/core/stores/export'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
-const { inputValue } = storeToRefs(addressSearchStore)
+const { inputValue, isLoading } = storeToRefs(addressSearchStore)
 
 const open = ref(false)
 
@@ -110,6 +113,46 @@ function inputDown(event: KeyboardEvent) {
 		margin-right: var(--kern-metric-space-default);
 		width: var(--kern-metric-dimension-large);
 		min-height: var(--kern-metric-dimension-large);
+	}
+}
+
+.loader,
+.loader div {
+	box-sizing: border-box;
+}
+.loader {
+	position: absolute;
+	right: 3rem;
+	width: var(--kern-metric-dimension-large);
+	height: var(--kern-metric-dimension-large);
+	margin: var(--kern-metric-space-small);
+}
+.loader div {
+	box-sizing: border-box;
+	display: block;
+	position: absolute;
+	width: var(--kern-metric-dimension-large);
+	height: var(--kern-metric-dimension-large);
+	border: 4px solid currentColor;
+	border-radius: 50%;
+	animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	border-color: currentColor transparent transparent transparent;
+}
+.loader div:nth-child(1) {
+	animation-delay: -0.45s;
+}
+.loader div:nth-child(2) {
+	animation-delay: -0.3s;
+}
+.loader div:nth-child(3) {
+	animation-delay: -0.15s;
+}
+@keyframes loader {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
 	}
 }
 </style>

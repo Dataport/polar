@@ -32,6 +32,7 @@ export const useAddressSearchStore = defineStore(
 		let methodContainer: ReturnType<typeof getMethodContainer>
 
 		const _inputValue = ref('')
+		const isLoading = ref(false)
 		const searchResults = ref<SearchResult[] | symbol>([])
 
 		const inputValue = computed({
@@ -106,10 +107,10 @@ export const useAddressSearchStore = defineStore(
 		function _search() {
 			if (inputValue.value.length < minLength.value) {
 				searchResults.value = SearchResultSymbols.NO_SEARCH
-				// TODO: Remove loader
+				isLoading.value = false
 				return Promise.resolve()
 			}
-			// TODO: Show loader
+			isLoading.value = true
 			abortController = new AbortController()
 			const localAbortControllerReference = abortController
 			return Promise.allSettled(
@@ -146,7 +147,7 @@ export const useAddressSearchStore = defineStore(
 					searchResults.value = SearchResultSymbols.ERROR
 				})
 				.finally(() => {
-					// TODO: Remove loader
+					isLoading.value = false
 				})
 		}
 
@@ -155,6 +156,9 @@ export const useAddressSearchStore = defineStore(
 
 		return {
 			inputValue,
+
+			/** @internal */
+			isLoading,
 
 			/**
 			 * `true` if any service yielded features.
