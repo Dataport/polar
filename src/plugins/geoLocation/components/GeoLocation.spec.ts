@@ -35,7 +35,7 @@ test('The button should include a tooltip', ({ wrapper }) => {
 	expect(btn.find('.kern-label').exists()).toBe(true)
 })
 
-// TODO: Fix test
+// TODO: Fix test; the user interaction accepting the location request needs to be mocked in order for the test to pass
 test.skip('The icon of the button should change on click to a filled icon if the user accepts the location request', async ({
 	wrapper,
 }) => {
