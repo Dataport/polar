@@ -8,6 +8,7 @@
 		"types": [
 			"vitest/importMeta",
 			"vitest/jsdom",
+			"node",
 			"vite-plugin-kern-extra-icons/client"
 		],
 		"lib": [
