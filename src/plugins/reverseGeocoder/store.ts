@@ -46,7 +46,7 @@ export const useReverseGeocoderStore = defineStore(
 				}
 				watchHandles.value.push(
 					watch(
-						() => store[source.source],
+						() => store[source.key],
 						async (coordinate) => {
 							if (coordinate) {
 								await reverseGeocode(coordinate)
@@ -74,7 +74,7 @@ export const useReverseGeocoderStore = defineStore(
 			if (!targetStore) {
 				return
 			}
-			targetStore[target.target] = feature
+			targetStore[target.key] = feature
 		}
 
 		async function reverseGeocode(coordinate: [number, number]) {
@@ -161,8 +161,8 @@ if (import.meta.vitest) {
 					configuration: {
 						[PluginId]: {
 							url: 'https://wps.example',
-							coordinateSources: [{ source: 'coordinateSource' }],
-							addressTarget: { target: 'addressTarget' },
+							coordinateSources: [{ key: 'coordinateSource' }],
+							addressTarget: { key: 'addressTarget' },
 							zoomTo: 99,
 						},
 					},

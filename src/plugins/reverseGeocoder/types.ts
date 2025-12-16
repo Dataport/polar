@@ -1,5 +1,5 @@
 import type { Feature } from 'geojson'
-import type { PluginId as PolarPluginId, PluginOptions } from '@/core'
+import type { PluginOptions, StoreReference } from '@/core'
 
 /**
  * Plugin identifier.
@@ -18,19 +18,13 @@ export interface ReverseGeocoderPluginOptions extends PluginOptions {
 	/**
 	 * Store state parameter that should receive the result of the reverse geocoding.
 	 */
-	addressTarget?: {
-		plugin?: PolarPluginId
-		target: string
-	}
+	addressTarget?: StoreReference
 
 	/**
 	 * Array of store fields that contain a coordinate.
 	 * If a coordinate is refreshed, reverse geocoding for that coordinate is done automatically.
 	 */
-	coordinateSources?: {
-		plugin?: PolarPluginId
-		source: string
-	}[]
+	coordinateSources?: StoreReference[]
 
 	/**
 	 * Zoom level to zoom to when a successful answer was received.
