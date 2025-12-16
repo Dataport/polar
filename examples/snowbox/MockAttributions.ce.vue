@@ -11,6 +11,6 @@
 	</button>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 // Mock
 </script>

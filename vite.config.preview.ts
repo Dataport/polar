@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 
 import commonJs from 'vite-plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
+import kernExtraIcons from 'vite-plugin-kern-extra-icons'
 import enrichedConsole from './vitePlugins/enrichedConsole.js'
 
 export default defineConfig({
@@ -17,6 +18,10 @@ export default defineConfig({
 				},
 			},
 		}),
+		kernExtraIcons({
+			cssLayer: 'kern-ux-icons',
+			ignoreFilename: (filename) => !filename.includes('/examples/iceberg/'),
+		}),
 		enrichedConsole(),
 	],
 	build: {
@@ -25,6 +30,7 @@ export default defineConfig({
 			input: {
 				main: resolve(__dirname, 'index.html'),
 				snowbox: resolve(__dirname, 'examples', 'snowbox', 'index.html'),
+				iceberg: resolve(__dirname, 'examples', 'iceberg', 'index.html'),
 			},
 		},
 	},
