@@ -45,7 +45,7 @@ export function createPanAndZoomInteractions(
  * to correctly detect editable elements inside a ShadowDOM, as needed in this
  * situation.
  */
-function targetNotEditable(mapBrowserEvent: MapBrowserEvent<KeyboardEvent>) {
+function targetNotEditable(mapBrowserEvent: MapBrowserEvent) {
 	const target = mapBrowserEvent.originalEvent.composedPath()[0] as HTMLElement
 	const { tagName } = target
 	return (
