@@ -34,7 +34,7 @@
 						"
 						@keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
 						@keydown.escape.prevent.stop="escapeResults"
-						v-html="strongTitleByInput(feature.title, inputValue)"
+						v-html="strongTitleByInput(feature.properties.title, inputValue)"
 					/>
 					<!-- eslint-enable vue/no-v-html -->
 					<!-- TODO: Add afterResultComponent, if configured -->

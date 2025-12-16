@@ -5,7 +5,7 @@ import { transform } from 'ol/proj'
 import type { MpapiParameters, MpapiResult } from './types'
 
 export default async function (
-	signal: AbortSignal,
+	_: AbortSignal,
 	url: string,
 	input: string,
 	queryParameters: MpapiParameters
@@ -24,9 +24,9 @@ export default async function (
 		)) as MpapiResult[]
 
 		// If no results were found without using the wildcard, try again with the wildcard
-		if (results.length === 0) {
+		if (!results[0]) {
 			results = (await search(input, baseQueryParameters)) as MpapiResult[]
-			if (results.length === 0) {
+			if (!results[0]) {
 				return {
 					type: 'FeatureCollection',
 					features: [],
@@ -38,7 +38,6 @@ export default async function (
 			type: 'FeatureCollection',
 			features: mapFeatures(
 				results,
-				signal,
 				queryParameters.epsg,
 				getFeatureEPSG(results[0].properties.position.Point[0].$.srsName)
 			),
@@ -63,26 +62,20 @@ function getFeatureEPSG(srsName: string) {
 
 const mapFeatures = (
 	results: MpapiResult[],
-	signal: AbortSignal,
 	queryEpsg: string,
 	featureEpsg: string
 ): Feature[] =>
 	results.map((result) => {
 		const { name, geometry } = result
-		const coordsAsIntegers = [
-			parseInt(geometry.coordinates[0]),
-			parseInt(geometry.coordinates[1]),
-		]
 
-		return toMerged(result, {
-			signal,
-			title: name,
-			epsg: featureEpsg,
+		return {
+			type: 'Feature',
 			geometry: toMerged(geometry, {
 				coordinates:
 					featureEpsg === queryEpsg
-						? coordsAsIntegers
-						: transform(coordsAsIntegers, featureEpsg, queryEpsg),
+						? geometry.coordinates
+						: transform(geometry.coordinates, featureEpsg, queryEpsg),
 			}),
-		})
+			properties: toMerged(result.properties, { title: name }),
+		}
 	})

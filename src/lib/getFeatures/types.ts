@@ -42,7 +42,7 @@ export interface MpapiParameters extends QueryParameters {
 export interface MpapiResult {
 	geometry: Point
 	name: string
-	properties: object
+	properties: MpapiResultProperties
 
 	/**
 	 * Based on the values of searchTypes from
@@ -56,4 +56,10 @@ export interface MpapiResult {
 		| 'addressAffixed'
 		| 'addressUnaffixed'
 		| 'houseNumbersForStreet'
+}
+
+interface MpapiResultProperties {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	position: { Point: [{ $: { srsName: string } }] }
+	title: string
 }

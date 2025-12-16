@@ -1,4 +1,4 @@
-import type { FeatureCollection } from 'geojson'
+import type { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson'
 import type { PluginOptions } from '@/core'
 import type { QueryParameters } from '@/lib/getFeatures/types'
 
@@ -48,10 +48,15 @@ export type SearchMethodFunction = (
 	url: SearchMethodConfiguration['url'],
 	inputValue: string,
 	queryParameters: SearchMethodConfiguration['queryParameters']
-) => Promise<FeatureCollection> | never
+) => Promise<PolarFeatureCollection> | never
 
 export interface SearchResult {
 	categoryId: string
 	categoryLabel: string
-	features: FeatureCollection
+	features: PolarFeatureCollection
 }
+
+type PolarFeatureCollection = FeatureCollection<
+	Geometry,
+	GeoJsonProperties & { title: string }
+>
