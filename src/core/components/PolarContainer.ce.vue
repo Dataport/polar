@@ -164,6 +164,7 @@ onBeforeUnmount(() => {
 		height: 30em;
 		border-radius: var(--kern-metric-border-radius-large);
 		overflow: hidden;
+		box-sizing: border-box;
 	}
 }
 </style>
