@@ -30,6 +30,10 @@ import type { PluginId as PinsPluginId } from '@/plugins/pins'
 import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
 import type { resourcesEn as PinsResources } from '@/plugins/pins/locales'
 
+import type { PluginId as ReverseGeocoderPluginId } from '@/plugins/reverseGeocoder'
+import type { useReverseGeocoderStore as ReverseGeocoderStore } from '@/plugins/reverseGeocoder/store'
+import type { resourcesEn as ReverseGeocoderResources } from '@/plugins/reverseGeocoder/locales'
+
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
@@ -92,6 +96,7 @@ export type BundledPluginId =
 	| typeof LayerChooserPluginId
 	| typeof LoadingIndicatorId
 	| typeof PinsPluginId
+	| typeof ReverseGeocoderPluginId
 	| typeof ToastPluginId
 
 type GetPluginStore<
@@ -112,6 +117,11 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
 	| GetPluginStore<T, typeof LoadingIndicatorId, typeof LoadingIndicatorStore>
 	| GetPluginStore<T, typeof PinsPluginId, typeof PinsStore>
+	| GetPluginStore<
+			T,
+			typeof ReverseGeocoderPluginId,
+			typeof ReverseGeocoderStore
+	  >
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
 
 type GetPluginResources<
@@ -136,6 +146,11 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof LayerChooserResources
 	  >
 	| GetPluginResources<T, typeof PinsPluginId, typeof PinsResources>
+	| GetPluginResources<
+			T,
+			typeof ReverseGeocoderPluginId,
+			typeof ReverseGeocoderResources
+	  >
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 
 /** @internal */
