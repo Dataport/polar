@@ -6,7 +6,7 @@
 		class="polar-plugin-address-search-result-wrapper"
 	>
 		<template v-for="(result, i) in searchResults" :key="result.categoryId">
-			<span v-if="searchResults.length > 1">
+			<span>
 				{{ result.categoryLabel }}
 				{{
 					$t(($) => $.resultCount, {
@@ -128,7 +128,7 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 		display: flex;
 		align-items: center;
 		height: var(--kern-metric-dimension-x-large);
-		padding: 0 var(--kern-metric-space-default);
+		padding: 0 var(--kern-metric-space-small);
 		font-size: 0.875rem;
 		color: var(--kern-color-layout-text-muted);
 	}
