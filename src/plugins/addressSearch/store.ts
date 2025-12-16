@@ -92,17 +92,7 @@ export const useAddressSearchStore = defineStore(
 				? coreStore.configuration.addressSearch.minLength
 				: 0
 		)
-		// TODO: only needed if question answered on Figma is "yes"
-		const orderedSearchResults = computed<Feature[]>(() => {
-			if (Array.isArray(searchResults.value)) {
-				const results = searchResults.value.map((res) => res.features.features)
-				return Array.from(
-					{ length: Math.max(...results.map((res) => res.length)) },
-					(_, i) => results.flatMap((arr) => arr[i] ?? [])
-				).flat()
-			}
-			return []
-		})
+
 		const waitMs = computed(() =>
 			typeof coreStore.configuration.addressSearch?.waitMs === 'number'
 				? coreStore.configuration.addressSearch.waitMs
@@ -203,9 +193,6 @@ export const useAddressSearchStore = defineStore(
 
 			/** @internal */
 			hint,
-
-			/** @internal */
-			orderedSearchResults,
 
 			/** @alpha */
 			abortAndRequest,
