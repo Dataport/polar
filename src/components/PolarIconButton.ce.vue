@@ -37,6 +37,7 @@ const { hasSmallDisplay } = storeToRefs(useCoreStore())
 .polar-icon-button {
 	position: relative;
 	background: var(--kern-color-layout-background-default);
+	box-sizing: border-box;
 	box-shadow: var(--polar-shadow);
 	border: none;
 	pointer-events: all;
