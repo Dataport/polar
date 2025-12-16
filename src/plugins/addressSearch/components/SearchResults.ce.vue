@@ -125,14 +125,12 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 	width: 100%;
 
 	span {
-		/* TODO: This should be based on the color scheme, otherwise it is not visible */
-		color: #0009;
-
 		display: flex;
 		align-items: center;
 		height: var(--kern-metric-dimension-x-large);
-		font-size: 0.875rem;
 		padding: 0 var(--kern-metric-space-default);
+		font-size: 0.875rem;
+		color: var(--kern-color-layout-text-muted);
 	}
 
 	ul {

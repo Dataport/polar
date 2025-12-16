@@ -123,8 +123,7 @@ function inputDown(event: KeyboardEvent) {
 	}
 
 	.polar-plugin-address-search-hint {
-		/* TODO: This should be based on the color scheme, otherwise it is not visible */
-		color: #0009;
+		color: var(--kern-color-layout-text-muted);
 		font-size: 0.875rem;
 		padding: 0 0.1rem;
 	}
