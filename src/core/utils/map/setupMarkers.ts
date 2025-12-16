@@ -234,7 +234,7 @@ export function setupMarkers(map: Map) {
 
 // // // MAP EVENT HANDLING
 
-let lastClickEvent: MapBrowserEvent<MouseEvent | TouchEvent> | null = null
+let lastClickEvent: MapBrowserEvent | null = null
 
 function mapMoveEnd({ map }: MapEvent) {
 	const store = useMarkerStore()
@@ -250,7 +250,7 @@ function mapMoveEnd({ map }: MapEvent) {
 	}
 }
 
-function mapPointerMove({ map, pixel }: MapBrowserEvent<MouseEvent>) {
+function mapPointerMove({ map, pixel }: MapBrowserEvent) {
 	const store = useMarkerStore()
 	const feature = map.getFeaturesAtPixel(pixel, {
 		layerFilter,
@@ -284,7 +284,7 @@ function mapPointerMove({ map, pixel }: MapBrowserEvent<MouseEvent>) {
 	store.hovered = markRaw(feature)
 }
 
-function mapClick(event: MapBrowserEvent<MouseEvent | TouchEvent>) {
+function mapClick(event: MapBrowserEvent) {
 	const store = useMarkerStore()
 	const map = event.map
 	if (store.selected !== null) {
@@ -337,7 +337,7 @@ function mapClick(event: MapBrowserEvent<MouseEvent | TouchEvent>) {
 	}
 }
 
-function mapSingleClick(event: MapBrowserEvent<MouseEvent | TouchEvent>) {
+function mapSingleClick(event: MapBrowserEvent) {
 	if (event.originalEvent === lastClickEvent?.originalEvent) {
 		event.stopPropagation()
 	}
