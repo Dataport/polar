@@ -4,7 +4,6 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import locales from './locales'
 import { useReverseGeocoderStore } from './store'
 import { PluginId, type ReverseGeocoderPluginOptions } from './types'
 import type { PluginContainer, PolarPluginStore } from '@/core'
@@ -19,7 +18,6 @@ export default function pluginReverseGeocoder(
 ): PluginContainer {
 	return {
 		id: PluginId,
-		locales,
 		storeModule: useReverseGeocoderStore as PolarPluginStore,
 		options,
 	}
