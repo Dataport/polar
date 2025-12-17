@@ -263,7 +263,7 @@ addPlugin(
 		// TODO: Check if this works when addressSearch is implemented
 		addressTarget: {
 			plugin: 'addressSearch',
-			target: 'selectResult',
+			key: 'selectResult',
 		},
 		zoomTo: 7,
 	})
