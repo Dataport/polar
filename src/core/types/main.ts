@@ -12,6 +12,7 @@ import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
 import type { PinsPluginOptions } from '@/plugins/pins'
+import type { ReverseGeocoderPluginOptions } from '@/plugins/reverseGeocoder'
 import type { ToastPluginOptions } from '@/plugins/toast'
 
 export interface ServiceAvailabilityCheck {
@@ -318,6 +319,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** Configuration for pins plugin. */
 	pins?: PinsPluginOptions
+
+	/** Configuration for reverseGeocoder plugin. */
+	reverseGeocoder?: ReverseGeocoderPluginOptions
 
 	/** Configuration for toast plugin. */
 	toast?: ToastPluginOptions
