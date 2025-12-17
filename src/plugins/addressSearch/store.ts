@@ -5,7 +5,6 @@
 /* eslint-enable tsdoc/syntax */
 
 import { debounce, toMerged } from 'es-toolkit'
-import type { Feature } from 'geojson'
 import { t } from 'i18next'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
