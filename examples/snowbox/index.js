@@ -14,14 +14,15 @@ import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
 import pluginPins from '@polar/polar/plugins/pins'
+import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
 import pluginToast from '@polar/polar/plugins/toast'
-import EmptyComponent from './EmptyComponent.vue'
-import styleJsonUrl from './style.json?url'
-import services from './services.js'
-import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
-import MockPointerPosition from './MockPointerPosition.ce.vue'
-import MockScale from './MockScale.ce.vue'
 import MockAttributions from './MockAttributions.ce.vue'
+import MockScale from './MockScale.ce.vue'
+import MockPointerPosition from './MockPointerPosition.ce.vue'
+import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
+import services from './services.js'
+import styleJsonUrl from './style.json?url'
+import EmptyComponent from './EmptyComponent.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -248,6 +249,24 @@ addPlugin(
 			fill: '#FF0019',
 		},
 		toZoomLevel: 7,
+	})
+)
+addPlugin(
+	map,
+	pluginReverseGeocoder({
+		url: 'https://geodienste.hamburg.de/HH_WPS',
+		coordinateSources: [
+			{
+				plugin: 'pins',
+				key: 'coordinate',
+			},
+		],
+		// TODO: Check if this works when addressSearch is implemented
+		addressTarget: {
+			plugin: 'addressSearch',
+			key: 'selectResult',
+		},
+		zoomTo: 7,
 	})
 )
 addPlugin(

@@ -4,6 +4,7 @@ import type { MarkerConfiguration } from './marker'
 import type { LayerConfiguration } from './layer'
 import type { PolarTheme } from './theme'
 import type { LocaleOverride } from './locales'
+import type { PluginId } from './plugin'
 import type { AddressSearchOptions } from '@/plugins/addressSearch'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
@@ -17,6 +18,11 @@ export interface ServiceAvailabilityCheck {
 	ping: Promise<number>
 	serviceId: string
 	serviceName: string
+}
+
+export interface StoreReference {
+	key: string
+	plugin?: PluginId
 }
 
 export type InitialLanguage = 'de' | 'en'
