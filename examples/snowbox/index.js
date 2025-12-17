@@ -257,7 +257,7 @@ addPlugin(
 		coordinateSources: [
 			{
 				plugin: 'pins',
-				source: 'coordinate',
+				key: 'coordinate',
 			},
 		],
 		// TODO: Check if this works when addressSearch is implemented
