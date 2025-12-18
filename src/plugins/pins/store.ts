@@ -101,14 +101,16 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			return
 		}
 		coordinateSources.forEach((source) => {
-			const pluginStore = coreStore.getPluginStore(source.pluginName)
-			if (!pluginStore) {
+			const store = source.plugin
+				? coreStore.getPluginStore(source.plugin)
+				: coreStore
+			if (!store) {
 				return
 			}
 			// TODO: After e.g. AddressSearch has been implemented, check if {deep: true} is needed as an option for watch
 			// redo pin if source (e.g. from addressSearch) changes
 			coordinateSourceWatcher = watch(
-				() => pluginStore[source.getterName],
+				() => store[source.key],
 				(feature) => {
 					// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
 					// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
