@@ -36,6 +36,9 @@ export const useAddressSearchStore = defineStore(
 			SearchResultSymbols.NO_SEARCH
 		)
 
+		const configuration = computed(
+			() => coreStore.configuration.addressSearch as AddressSearchOptions
+		)
 		const inputValue = computed({
 			get: () => _inputValue.value,
 			set: (value) => {
@@ -46,7 +49,6 @@ export const useAddressSearchStore = defineStore(
 				abortAndRequest()
 			},
 		})
-
 		const featuresAvailable = computed(
 			() =>
 				Array.isArray(searchResults.value) &&
@@ -87,20 +89,14 @@ export const useAddressSearchStore = defineStore(
 			// return selectedGroupHint
 		})
 		const minLength = computed(() =>
-			typeof coreStore.configuration.addressSearch?.minLength === 'number'
-				? coreStore.configuration.addressSearch.minLength
+			typeof configuration.value.minLength === 'number'
+				? configuration.value.minLength
 				: 0
 		)
-
 		const waitMs = computed(() =>
-			typeof coreStore.configuration.addressSearch?.waitMs === 'number'
-				? coreStore.configuration.addressSearch.waitMs
+			typeof configuration.value.waitMs === 'number'
+				? configuration.value.waitMs
 				: 0
-		)
-		const searchMethods = computed(
-			() =>
-				(coreStore.configuration.addressSearch as AddressSearchOptions)
-					.searchMethods
 		)
 
 		function setupPlugin() {
@@ -136,7 +132,7 @@ export const useAddressSearchStore = defineStore(
 			const localAbortControllerReference = abortController
 			return Promise.allSettled(
 				// TODO: IF groups are to be implemented, the searchMethods should be retrieved from the group
-				searchMethods.value.map(
+				configuration.value.searchMethods.map(
 					async ({ categoryId, queryParameters, type, url }) => {
 						const features = await methodContainer.getSearchMethod(type)(
 							localAbortControllerReference.signal,
