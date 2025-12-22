@@ -261,30 +261,6 @@ queryParameters: {
 }
 ```
 
-##### addressSearch.searchMethodsObject.queryParameters (type:mpapi)
-
-> **Please mind that this requires a configured backend. A WFS's Stored Query is requested with predefined parameters using the [masterportalapi](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/). This implementation is meant for e.g. https://geodienste.hamburg.de/HH_WFS_GAGES, but works with other WFS configured in the same manner.**
-
-| fieldName | Type | Description |
-| - | - | - |
-| searchAddress | Boolean? | Defines whether address search is active. For backward compatibility, if "searchAddress" is not configured, the "searchAddress" attribute is set to "true" when "searchStreets" and "searchHouseNumbers" are set to "true". |
-| searchDistricts | Boolean? | Defines whether district search is active. |
-| searchHouseNumbers | Boolean? | Defines whether house numbers should be searched for. Requires `searchStreets` to be set to `true`, too. |
-| searchParcels | Boolean? | Defines whether parcels search is active. |
-| searchStreetKey | Boolean? | Defines whether streets should be searched for by key. |
-| searchStreets | Boolean? | Defines whether street search is active. Precondition to set `searchHouseNumbers` to `true`. |
-
-While all fields are optional, configuring none of them will yield undefined behaviour. At least one search instruction should be set to `true`.
-
-```js
-type: 'mpapi'
-queryParameters: {
-  searchAddress: true,
-  searchStreets: true,
-  searchHouseNumbers: true,
-},
-```
-
 ##### addressSearch.searchMethodsObject.queryParameters (type:bkg)
 
 In _BKG_ mode, queryParameter's key-value pairs are used in the service query. E.g. `{filter: { bundesland: 'Bremen' }}` results in the GET request URL having `&filter=bundesland:Bremen` as suffix.
