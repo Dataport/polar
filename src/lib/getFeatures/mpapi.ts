@@ -1,15 +1,15 @@
 import { search, setGazetteerUrl } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
-import type { FeatureCollection, Feature } from 'geojson'
 import { transform } from 'ol/proj'
 import type { MpapiParameters, MpapiResult } from './types'
+import type { PolarFeature, PolarFeatureCollection } from '@/core'
 
 export default async function (
 	_: AbortSignal,
 	url: string,
 	input: string,
 	queryParameters: MpapiParameters
-): Promise<FeatureCollection> {
+): Promise<PolarFeatureCollection> {
 	setGazetteerUrl(url)
 
 	try {
@@ -64,18 +64,19 @@ const mapFeatures = (
 	results: MpapiResult[],
 	queryEpsg: string,
 	featureEpsg: string
-): Feature[] =>
+): PolarFeature[] =>
 	results.map((result) => {
 		const { name, geometry } = result
 
 		return {
 			type: 'Feature',
+			title: name,
 			geometry: toMerged(geometry, {
 				coordinates:
 					featureEpsg === queryEpsg
 						? geometry.coordinates
 						: transform(geometry.coordinates, featureEpsg, queryEpsg),
 			}),
-			properties: toMerged(result.properties, { title: name }),
+			properties: result.properties,
 		}
 	})
