@@ -21,7 +21,6 @@
 					:key="`result-${i}-${j}`"
 				>
 					<!-- TODO: Add things to be done on keydown etc. -->
-					<!-- TODO: Improve the type so relevant stuff is there -->
 					<!-- 	@focus="focusIndex = `${index}-${innerDex}`"
 								@blur="focusIndex = ''" -->
 					<!-- eslint-disable vue/no-v-html -->
