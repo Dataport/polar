@@ -120,7 +120,7 @@ export const useAddressSearchStore = defineStore(
 		function clear() {
 			inputValue.value = ''
 			searchResults.value = SearchResultSymbols.NO_SEARCH
-			// TODO: Reset chosenAddress (chosen feature)
+			chosenAddress.value = null
 		}
 
 		function _search() {
