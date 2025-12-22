@@ -74,8 +74,12 @@ const mapFeatures = (
 			geometry: toMerged(geometry, {
 				coordinates:
 					featureEpsg === queryEpsg
-						? geometry.coordinates
-						: transform(geometry.coordinates, featureEpsg, queryEpsg),
+						? geometry.coordinates.map(Number)
+						: transform(
+								geometry.coordinates.map(Number),
+								featureEpsg,
+								queryEpsg
+							),
 			}),
 			properties: result.properties,
 		}
