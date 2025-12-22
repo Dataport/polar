@@ -22,13 +22,13 @@
 				>
 					<!-- TODO: Add things to be done on keydown etc. -->
 					<!-- TODO: Improve the type so relevant stuff is there -->
-					<!-- 	@click="selectResult({ feature, categoryId })"
-								@focus="focusIndex = `${index}-${innerDex}`"
+					<!-- 	@focus="focusIndex = `${index}-${innerDex}`"
 								@blur="focusIndex = ''" -->
 					<!-- eslint-disable vue/no-v-html -->
 					<li
 						:id="`polar-plugin-address-search-results-feature-${i}-${j}`"
 						tabindex="-1"
+						@click="addressSearchStore.selectResult(feature, result.categoryId)"
 						@keydown.down.prevent.stop="
 							(event) => focusNextElement(true, event)
 						"

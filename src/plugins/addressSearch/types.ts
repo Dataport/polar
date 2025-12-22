@@ -1,15 +1,32 @@
-import type { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson'
-import type { PluginOptions } from '@/core'
+import type {
+	PluginOptions,
+	PolarFeature,
+	PolarFeatureCollection,
+} from '@/core'
 import type { QueryParameters } from '@/lib/getFeatures/types'
 
 export const PluginId = 'addressSearch'
 
 export interface AddressSearchOptions extends PluginOptions {
-	/** Configured search methods. */
+	/**
+	 * Array of search method descriptions.
+	 * Only searches configured here can be used.
+	 */
 	searchMethods: SearchMethodConfiguration[]
 
-	/** Additional search methods (client-side injection). */
+	/**
+	 * An object with named search functions added to the existing set of
+	 * configurable search methods.
+	 */
 	customSearchMethods?: Record<string, SearchMethodFunction>
+
+	/**
+	 * An object that maps categoryIds to functions.
+	 * These functions are then called inplace of the default `selectResult`
+	 * implementation. This allows overriding selection behaviour.
+	 * Use `''` as the key for categoryless results.
+	 */
+	customSelectResult?: Record<string, SelectResultFunction>
 
 	/**
 	 * Minimal input length before the search starts.
@@ -56,7 +73,7 @@ export interface SearchResult {
 	features: PolarFeatureCollection
 }
 
-type PolarFeatureCollection = FeatureCollection<
-	Geometry,
-	GeoJsonProperties & { title: string }
->
+export type SelectResultFunction = (
+	feature: PolarFeature,
+	categoryId: string
+) => void

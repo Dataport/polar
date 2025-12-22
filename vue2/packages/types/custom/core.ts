@@ -16,7 +16,7 @@ import {
 	SubscribeActionOptions,
 	SubscribeOptions,
 } from 'vuex'
-import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
+import { Feature as GeoJsonFeature } from 'geojson'
 import { VueConstructor, WatchOptions } from 'vue'
 import { Coordinate } from 'ol/coordinate'
 
@@ -27,16 +27,6 @@ import { Coordinate } from 'ol/coordinate'
  */
 
 export type RenderType = 'iconMenu' | 'independent' | 'footer'
-
-export interface SelectResultPayload {
-	feature: GeoJsonFeature & { title: string }
-	categoryId: number
-}
-
-export type SelectResultFunction<S, G> = (
-	context: PolarActionContext<S, G>,
-	payload: SelectResultPayload
-) => void
 
 /**
  * The suffix of the feature in the FeatureCollection;
@@ -59,20 +49,11 @@ export interface AddressSearchCategoryProperties {
 
 /** AddressSearch Module Configuration */
 export interface AddressSearchConfiguration extends PluginOptions {
-	// optional loading action name to start loading
-	addLoading?: string
 	// definition of categories referred to in searchMethods
 	categoryProperties?: Record<string, AddressSearchCategoryProperties>
-	component?: VueConstructor
-	/** NOTE regarding \<any, any\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here; not using "unknown" since that errors in client configuration, not using "never" since that errors in AddressSearch plugin; this way, "any"thing goes */
-	// optional selectResult overrides (client-side injections)
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	customSelectResult?: Record<string, SelectResultFunction<any, any>>
 	focusAfterSearch?: boolean
 	// definition of groups referred to in searchMethods
 	groupProperties?: Record<string, AddressSearchGroupProperties>
-	// optional loading action name to end loading
-	removeLoading?: string
 	afterResultComponent?: VueConstructor
 }
 
@@ -506,8 +487,10 @@ export interface CoreState {
 	zoomLevel: number
 }
 
-export interface CoreGetters
-	extends Omit<CoreState, 'components' | 'hovered' | 'map' | 'selected'> {
+export interface CoreGetters extends Omit<
+	CoreState,
+	'components' | 'hovered' | 'map' | 'selected'
+> {
 	// omitted from CoreState as actual getter type diverges
 	components: PluginContainer[]
 	hovered: Feature | null

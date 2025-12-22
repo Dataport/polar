@@ -50,21 +50,6 @@ export const makeActions = () => {
 			commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
 			dispatch('input', state.inputValue)
 		},
-		selectResult(actionContext, payload): void {
-			const { commit, getters } = actionContext
-			const { feature, categoryId } = payload
-			const customMethod =
-				getters.addressSearchConfiguration.customSelectResult?.[categoryId]
-			if (customMethod) {
-				customMethod.call(this, actionContext, payload)
-			} else {
-				// default behaviour
-				commit('setChosenAddress', feature)
-				commit('setInputValue', feature.title)
-				commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
-			}
-		},
-
 		/**
 		 * `search` is meant for programmatic access. User search is triggered from
 		 * the `input` action effects and features a debouncing mechanism.
