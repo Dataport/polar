@@ -108,7 +108,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			if (!store) {
 				return
 			}
-			// TODO: After e.g. AddressSearch has been implemented, check if {deep: true} is needed as an option for watch
 			// redo pin if source (e.g. from addressSearch) changes
 			coordinateSourceWatcher = watch(
 				() => store[source.key],
