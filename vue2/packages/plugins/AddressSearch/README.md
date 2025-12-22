@@ -261,24 +261,6 @@ queryParameters: {
 }
 ```
 
-##### addressSearch.searchMethodsObject.queryParameters (type:bkg)
-
-In _BKG_ mode, queryParameter's key-value pairs are used in the service query. E.g. `{filter: { bundesland: 'Bremen' }}` results in the GET request URL having `&filter=bundesland:Bremen` as suffix.
-
-For more options, please check the [official documentation](https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf) regarding what query parameters are interpreted.
-
-Additionally, it is possible to configure the parameters `accesstoken` (`Authorization`) or `apiKey` (custom header `X-Api-Key`) to send the described headers to the search service for authentication purposes. 
-Note that this changes the request to be non-simple. To be able to use the parameters, the request has to be sent in [`cors` mode](https://developer.mozilla.org/en-US/docs/Web/API/Request/mode) and has to support preflight request `OPTIONS`.
-
-```js
-type: 'bkg'
-queryParameters: {
-  filter: {
-    bundesland: 'Schleswig-Holstein',
-  },
-},
-```
-
 ## Store
 
 ### Mutations

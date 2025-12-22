@@ -8,42 +8,6 @@ import {
 import { VueConstructor } from 'vue'
 import { Feature, FeatureCollection } from 'geojson'
 
-/** Federal states of Germany */
-export type Bundesland =
-	| 'Baden-Württemberg'
-	| 'Bayern'
-	| 'Berlin'
-	| 'Brandenburg'
-	| 'Bremen'
-	| 'Hamburg'
-	| 'Hessen'
-	| 'Mecklenburg-Vorpommern'
-	| 'Niedersachsen'
-	| 'Nordrhein-Westfalen'
-	| 'Rheinland-Pfalz'
-	| 'Saarland'
-	| 'Sachsen'
-	| 'Sachsen-Anhalt'
-	| 'Schleswig-Holstein'
-	| 'Thüringen'
-
-/** Filter for the results as described at {@link https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf} under 2.1.1 */
-export interface BKGFilter {
-	bundesland?: Bundesland
-}
-
-/** Specific QueryParameters for the BKG search as described at {@link https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf} under 4.4.3.3 */
-export interface BKGParameters extends QueryParameters {
-	/** Authorization header used for authentication, if given */
-	accessToken: string
-	/** X-Api-Key header used for authentication, if given */
-	apiKey: string
-	/** Currently used projection of the map */
-	epsg: `EPSG:${string}`
-	/** Limit search to the defined filter attributes */
-	filter?: BKGFilter
-}
-
 export interface FeatureIndexZip {
 	value: FeatureCollection
 	index: number

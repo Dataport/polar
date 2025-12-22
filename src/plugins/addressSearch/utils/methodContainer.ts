@@ -1,8 +1,9 @@
 import type { SearchMethodFunction } from '../types'
+import bkg from '@/lib/getFeatures/bkg'
 import mpapi from '@/lib/getFeatures/mpapi'
 
 export function getMethodContainer() {
-	const methods = { mpapi }
+	const methods = { bkg, mpapi }
 
 	return {
 		registerSearchMethods: (

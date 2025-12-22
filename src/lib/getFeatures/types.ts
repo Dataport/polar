@@ -9,6 +9,62 @@ export interface QueryParameters {
 	maxFeatures?: number
 }
 
+/** Federal states of Germany */
+export type Bundesland =
+	| 'Baden-Württemberg'
+	| 'Bayern'
+	| 'Berlin'
+	| 'Brandenburg'
+	| 'Bremen'
+	| 'Hamburg'
+	| 'Hessen'
+	| 'Mecklenburg-Vorpommern'
+	| 'Niedersachsen'
+	| 'Nordrhein-Westfalen'
+	| 'Rheinland-Pfalz'
+	| 'Saarland'
+	| 'Sachsen'
+	| 'Sachsen-Anhalt'
+	| 'Schleswig-Holstein'
+	| 'Thüringen'
+
+/** Filter for the results as described at {@link https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf} under 2.1.1. */
+export interface BKGFilter {
+	bundesland?: Bundesland
+}
+
+/**
+ * Specific QueryParameters for the BKG search.
+ *
+ * With this search mode, queryParameter's key-value pairs are used in the service
+ * query. E.g. `{filter: { bundesland: 'Bremen' }}` results in the GET request URL
+ * having `&filter=bundesland:Bremen` as suffix.
+ *
+ * Additionally, it is possible to configure the parameters `accesstoken` (`Authorization`)
+ * or `apiKey` (custom header `X-Api-Key`) to send the described headers to the
+ * search service for authentication purposes.
+ * Note that this changes the request to be non-simple. To be able to use the
+ * parameters, the request has to be sent in [`cors` mode](https://developer.mozilla.org/en-US/docs/Web/API/Request/mode)
+ * and has to support preflight request `OPTIONS`.
+ *
+ * @remarks
+ * For more options, please check the [official documentation](https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf)
+ * under 4.4.3.3 regarding what query parameters are interpreted.
+ */
+export interface BKGParameters extends QueryParameters {
+	/** Authorization header used for authentication, if given */
+	accessToken: string
+
+	/** X-Api-Key header used for authentication, if given */
+	apiKey: string
+
+	/** Currently used projection of the map */
+	epsg: `EPSG:${string}`
+
+	/** Limit search to the defined filter attributes */
+	filter?: BKGFilter
+}
+
 /**
  * Specific queryParameters used for the gazetteer search implemented in
  * `@masterportal/masterportalapi`.
