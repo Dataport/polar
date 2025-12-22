@@ -5,7 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { toMerged } from 'es-toolkit'
-import type { GeoJsonGeometryTypes } from 'geojson'
+import type { GeoJsonGeometryTypes, Point as GeoJsonPoint } from 'geojson'
 import { defineStore } from 'pinia'
 import type { Coordinate } from 'ol/coordinate'
 import { pointerMove } from 'ol/events/condition'
@@ -21,6 +21,7 @@ import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
 import { isCoordinateInBoundaryLayer } from './utils/isCoordinateInBoundaryLayer'
 import { useCoreStore } from '@/core/stores/export'
+import type { PolarFeature } from '@/core'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -111,12 +112,11 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			// redo pin if source (e.g. from addressSearch) changes
 			coordinateSourceWatcher = watch(
 				() => store[source.key],
-				(feature) => {
+				(feature: PolarFeature<GeoJsonPoint> | null) => {
 					// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
 					// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
 					if (feature && feature.type !== 'reverse_geocoded') {
 						addPin(feature.geometry.coordinates, false, {
-							epsg: feature.epsg,
 							type: feature.geometry.type,
 						})
 					}
@@ -209,8 +209,8 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		newCoordinate: Coordinate,
 		clicked = true,
 		pinInformation?: {
-			epsg: string
 			type: Exclude<GeoJsonGeometryTypes, 'GeometryCollection'>
+			epsg?: string
 		}
 	) {
 		// Always clean up other/old pin first – single pin only atm.
@@ -218,7 +218,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		coordinate.value = newCoordinate
 		if (!clicked && pinInformation) {
 			coordinate.value = getPointCoordinate(
-				pinInformation.epsg,
+				pinInformation.epsg || coreStore.configuration.epsg,
 				coreStore.configuration.epsg,
 				pinInformation.type,
 				newCoordinate
