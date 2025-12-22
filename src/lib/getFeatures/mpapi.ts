@@ -4,6 +4,8 @@ import { transform } from 'ol/proj'
 import type { MpapiParameters, MpapiResult } from './types'
 import type { PolarFeature, PolarFeatureCollection } from '@/core'
 
+// AbortSignal is not used as the AbortController is implemented by @masterportal/masterportalapi
+
 export default async function (
 	_: AbortSignal,
 	url: string,
