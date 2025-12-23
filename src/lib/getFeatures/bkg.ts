@@ -1,6 +1,6 @@
 import { transform as transformCoordinates } from 'ol/proj'
 import type { BKGParameters } from './types'
-import type { PolarFeatureCollection } from '@/core'
+import type { PolarGeoJsonFeatureCollection } from '@/core'
 
 function getRequestUrlQuery(
 	inputValue: string,
@@ -33,7 +33,7 @@ export default function (
 	url: string,
 	inputValue: string,
 	queryParameters: BKGParameters
-): Promise<PolarFeatureCollection> {
+): Promise<PolarGeoJsonFeatureCollection> {
 	const requestUrl = `${url}?` + getRequestUrlQuery(inputValue, queryParameters)
 	const options: RequestInit = { signal }
 	if (queryParameters.accessToken) {

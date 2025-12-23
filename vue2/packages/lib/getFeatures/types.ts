@@ -1,4 +1,3 @@
-import { Feature as GeoJsonFeature } from 'geojson'
 import { QueryParameters } from '@polar/lib-custom-types'
 
 /** Optional options related to a GetFeature request */
@@ -26,20 +25,6 @@ export interface AdditionalSearchOptions {
  *     maxFeatures to its limit.
  */
 export type KeyValueSetArray = Array<Array<[string, string]>>
-
-/** Adds the possibility to have a 'title' attribute in a GeoJSON Feature */
-export interface PolarGeoJsonFeature extends GeoJsonFeature {
-  /** The projection of the coordinates of the features */
-  epsg: `EPSG:${string}`
-  /** Which fieldName to use for display purposes; e.g. used in the AddressSearch for the result list */
-  title?: string
-}
-
-/** Which values to search for in the GetFeature request */
-export interface SearchParameters {
-  /** Mapping of fieldName and to be searched value */
-  [fieldName: string]: string
-}
 
 /** Parameters for wfs searches */
 export interface WfsParameters extends QueryParameters {

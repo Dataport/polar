@@ -2,7 +2,7 @@ import { search, setGazetteerUrl } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import { transform } from 'ol/proj'
 import type { MpapiParameters, MpapiResult } from './types'
-import type { PolarFeature, PolarFeatureCollection } from '@/core'
+import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
 
 // AbortSignal is not used as the AbortController is implemented by @masterportal/masterportalapi
 
@@ -11,7 +11,7 @@ export default async function (
 	url: string,
 	input: string,
 	queryParameters: MpapiParameters
-): Promise<PolarFeatureCollection> {
+): Promise<PolarGeoJsonFeatureCollection> {
 	setGazetteerUrl(url)
 
 	try {
@@ -66,7 +66,7 @@ const mapFeatures = (
 	results: MpapiResult[],
 	queryEpsg: string,
 	featureEpsg: string
-): PolarFeature[] =>
+): PolarGeoJsonFeature[] =>
 	results.map((result) => {
 		const { name, geometry } = result
 

@@ -13,7 +13,7 @@ import { getMethodContainer } from './utils/methodContainer'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import SearchResultSymbols from './utils/searchResultSymbols'
 import { useCoreStore } from '@/core/stores/export'
-import type { PolarFeature } from '@/core'
+import type { PolarGeoJsonFeature } from '@/core'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -31,7 +31,7 @@ export const useAddressSearchStore = defineStore(
 		let debouncedSearch: ReturnType<typeof debounce<typeof _search>>
 		let methodContainer: ReturnType<typeof getMethodContainer>
 
-		const chosenAddress = ref<PolarFeature | null>(null)
+		const chosenAddress = ref<PolarGeoJsonFeature | null>(null)
 		const _inputValue = ref('')
 		const isLoading = ref(false)
 		const searchResults = ref<SearchResult[] | symbol>(
@@ -173,7 +173,7 @@ export const useAddressSearchStore = defineStore(
 		// TODO: External method
 		function search() {}
 
-		function selectResult(feature: PolarFeature, categoryId: string) {
+		function selectResult(feature: PolarGeoJsonFeature, categoryId: string) {
 			const customMethod = configuration.value.customSelectResult?.[categoryId]
 			if (customMethod) {
 				customMethod(feature, categoryId)

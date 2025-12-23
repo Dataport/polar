@@ -1,7 +1,7 @@
 import type {
 	PluginOptions,
-	PolarFeature,
-	PolarFeatureCollection,
+	PolarGeoJsonFeature,
+	PolarGeoJsonFeatureCollection,
 } from '@/core'
 import type { QueryParameters } from '@/lib/getFeatures/types'
 
@@ -65,15 +65,15 @@ export type SearchMethodFunction = (
 	url: SearchMethodConfiguration['url'],
 	inputValue: string,
 	queryParameters: SearchMethodConfiguration['queryParameters']
-) => Promise<PolarFeatureCollection> | never
+) => Promise<PolarGeoJsonFeatureCollection> | never
 
 export interface SearchResult {
 	categoryId: string
 	categoryLabel: string
-	features: PolarFeatureCollection
+	features: PolarGeoJsonFeatureCollection
 }
 
 export type SelectResultFunction = (
-	feature: PolarFeature,
+	feature: PolarGeoJsonFeature,
 	categoryId: string
 ) => void

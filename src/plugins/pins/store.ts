@@ -21,7 +21,7 @@ import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
 import { isCoordinateInBoundaryLayer } from './utils/isCoordinateInBoundaryLayer'
 import { useCoreStore } from '@/core/stores/export'
-import type { PolarFeature } from '@/core'
+import type { PolarGeoJsonFeature } from '@/core'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -111,7 +111,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			// redo pin if source (e.g. from addressSearch) changes
 			coordinateSourceWatcher = watch(
 				() => store[source.key],
-				(feature: PolarFeature<GeoJsonPoint> | null) => {
+				(feature: PolarGeoJsonFeature<GeoJsonPoint> | null) => {
 					// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
 					// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
 					if (feature && feature.type !== 'reverse_geocoded') {
