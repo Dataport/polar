@@ -69,8 +69,8 @@ const name = computed(
 	gap: var(--kern-metric-space-large, 1.5rem);
 }
 
-.polar-layer-chooser-options-checkbox {
-	margin-left: 0 !important;
+.kern-form-check.polar-layer-chooser-options-checkbox {
+	margin-left: 0;
 }
 
 .kern-btn {

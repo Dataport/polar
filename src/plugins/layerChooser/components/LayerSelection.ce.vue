@@ -1,5 +1,5 @@
 <template>
-	<PolarCard class="polar-layer-chooser-card">
+	<PolarCard id="polar-layer-chooser-card">
 		<PolarInputGroup
 			v-if="backgrounds.length"
 			:legend="$t(($) => $.backgroundTitle, { ns: PluginId })"
@@ -107,8 +107,8 @@ function updateOpenedOptions(layerId: string) {
 </script>
 
 <style scoped>
-.polar-layer-chooser-card {
-	overflow-y: inherit !important;
+#polar-layer-chooser-card {
+	overflow-y: inherit;
 }
 
 .polar-layer-chooser-input-wrapper {
