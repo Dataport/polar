@@ -1,6 +1,9 @@
+import { toMerged } from 'es-toolkit'
+import type { FeatureCollection, Point } from 'geojson'
 import { transform as transformCoordinates } from 'ol/proj'
 import type { BKGParameters } from './types'
-import type { PolarGeoJsonFeatureCollection } from '@/core'
+import { errorCheck } from './errorCheck'
+import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
 
 function getRequestUrlQuery(
 	inputValue: string,
@@ -28,7 +31,7 @@ function getRequestUrlQuery(
 	return query
 }
 
-export default function (
+export default async function (
 	signal: AbortSignal,
 	url: string,
 	inputValue: string,
@@ -43,24 +46,27 @@ export default function (
 		// eslint-disable-next-line @typescript-eslint/naming-convention
 		options.headers = { 'X-Api-Key': queryParameters.apiKey }
 	}
-	return fetch(encodeURI(requestUrl), options)
-		.then((response: Response) => response.json())
-		.then((geo) => ({
-			...geo,
-			features: geo.features.map((feature) => ({
-				...feature,
-				geometry: {
-					...feature.geometry,
-					coordinates:
-						queryParameters.epsg === 'EPSG:4326'
-							? feature.geometry.coordinates
-							: transformCoordinates(
-									feature.geometry.coordinates,
-									'EPSG:4326',
-									queryParameters.epsg
-								),
-				},
-				title: feature.properties.text,
-			})),
-		}))
+	const response = await fetch(encodeURI(requestUrl), options)
+	errorCheck(response)
+	const featureCollection: FeatureCollection = await response.json()
+	return {
+		...featureCollection,
+		features: featureCollection.features.map(
+			(feature) =>
+				toMerged(feature, {
+					geometry: toMerged(feature.geometry, {
+						coordinates:
+							queryParameters.epsg === 'EPSG:4326'
+								? (feature.geometry as Point).coordinates
+								: transformCoordinates(
+										(feature.geometry as Point).coordinates,
+										'EPSG:4326',
+										queryParameters.epsg
+									),
+					}),
+					// @ts-expect-error | It is always defined in this case
+					title: feature.properties.text,
+				}) as PolarGeoJsonFeature<Point>
+		),
+	}
 }
