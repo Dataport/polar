@@ -3,6 +3,7 @@ import type {
 	GeoJsonObject,
 	GeoJsonProperties,
 	Geometry,
+	GeometryCollection,
 } from 'geojson'
 
 /**
@@ -14,7 +15,7 @@ import type {
  */
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
-type UsedGeometry = Exclude<Geometry, 'GeometryCollection'>
+type UsedGeometry = Exclude<Geometry, GeometryCollection>
 
 export interface PolarGeoJsonFeature<
 	G extends UsedGeometry | null = UsedGeometry,
