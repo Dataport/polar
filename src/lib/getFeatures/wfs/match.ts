@@ -146,3 +146,85 @@ export const match = (
 	})
 	return sortMatches(matches, patterns, uninterpretedCharacters)
 }
+
+if (import.meta.vitest) {
+	const { expect, test } = import.meta.vitest
+
+	// mock result from pattern.matchAll(/{{(.*?)}}/g) for test comparison
+	const mockRegExpMatchArray = (find, inner, index, input, groups?) => {
+		const regExpMatchArray: RegExpMatchArray = [find, inner]
+		regExpMatchArray.index = index
+		regExpMatchArray.input = input
+		regExpMatchArray.groups = groups
+		return regExpMatchArray
+	}
+	const patterns = [
+		'{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+		'{{gemarkung}} {{flur}} {{flstnrzae}}, {{flstkennz}}',
+		'{{gemarkung}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+		'{{gemarkung}} {{flstnrzae}}, {{flstkennz}}',
+		'{{flstkennz}}',
+	]
+	const patternKeys = {
+		gemarkung: '([^0-9]+)',
+		flur: '([0-9]+)',
+		flstnrzae: '([0-9]+)',
+		flstnrnen: '([0-9]+)',
+		flstkennz: '([0-9_]+)',
+	}
+
+	test('getBlocks parts pattern strings to Block[][]', () => {
+		expect(getBlocks(patterns[0] as string)).toEqual([
+			mockRegExpMatchArray('{{gemarkung}}', 'gemarkung', 0, patterns[0]),
+			' ',
+			mockRegExpMatchArray('{{flur}}', 'flur', 14, patterns[0]),
+			' ',
+			mockRegExpMatchArray('{{flstnrzae}}', 'flstnrzae', 23, patterns[0]),
+			'/',
+			mockRegExpMatchArray('{{flstnrnen}}', 'flstnrnen', 37, patterns[0]),
+			', ',
+			mockRegExpMatchArray('{{flstkennz}}', 'flstkennz', 52, patterns[0]),
+		])
+	})
+	test('match builds full match groups', () => {
+		expect(
+			match(patterns, patternKeys, 'Musterhausen 12 3/4, 1234___')
+		).toEqual([
+			[
+				['gemarkung', 'Musterhausen'],
+				['flur', '12'],
+				['flstnrzae', '3'],
+				['flstnrnen', '4'],
+				['flstkennz', '1234___'],
+			],
+			[
+				['gemarkung', 'Musterhausen'],
+				['flur', '12'],
+				['flstnrzae', '3'],
+			],
+			[
+				['gemarkung', 'Musterhausen'],
+				['flstnrzae', '12'],
+				['flstnrnen', '3'],
+			],
+			[
+				['gemarkung', 'Musterhausen'],
+				['flstnrzae', '12'],
+				['flstkennz', '3'],
+			],
+		])
+	})
+	test('match manages to decide the best fit', () => {
+		expect(match(patterns, patternKeys, '1234___')).toEqual([
+			[
+				['flur', '1234'],
+				['flstkennz', '___'],
+			],
+			[
+				['flstnrzae', '1234'],
+				['flstkennz', '___'],
+			],
+			[['flstkennz', '1234___']],
+		])
+	})
+}

@@ -87,3 +87,60 @@ export const buildWfsFilter = (
 			inputs.map((input) => buildWfsFilterQuery(input, parameters)).join('') +
 			'</wfs:GetFeature>'
 	)
+
+if (import.meta.vitest) {
+	const { expect, test } = import.meta.vitest
+
+	const parameters: WfsParameters = {
+		typeName: 'TyPeNaMe',
+		epsg: 'EPSG:25832',
+		featurePrefix: 'prefix',
+		xmlns: 'example.com',
+		maxFeatures: 999,
+		patterns: [
+			'{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+			'{{gemarkung}} {{flur}} {{flstnrzae}}, {{flstkennz}}',
+			'{{gemarkung}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+			'{{gemarkung}} {{flstnrzae}}, {{flstkennz}}',
+			'{{flstkennz}}',
+		],
+		patternKeys: {
+			gemarkung: '([^0-9]+)',
+			flur: '([0-9]+)',
+			flstnrzae: '([0-9]+)',
+			flstnrnen: '([0-9]+)',
+			flstkennz: '([0-9_]+)',
+		},
+	}
+
+	test('creates an empty search for an empty input', () => {
+		expect(buildWfsFilter([], parameters)).toEqual(
+			'<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"></wfs:GetFeature>'
+		)
+	})
+	test('creates a one-query search for a single match', () => {
+		expect(buildWfsFilter([[['a', '5']]], parameters)).toEqual(
+			'<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:a</ogc:PropertyName><ogc:Literal>5*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query></wfs:GetFeature>'
+		)
+	})
+	test('creates a one-query and-ed search for a single match with multiple fields', () => {
+		expect(
+			buildWfsFilter(
+				[
+					[
+						['a', '5'],
+						['b', '3'],
+					],
+				],
+				parameters
+			)
+		).toEqual(
+			'<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:And><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:a</ogc:PropertyName><ogc:Literal>5*</ogc:Literal></ogc:PropertyIsLike><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:b</ogc:PropertyName><ogc:Literal>3*</ogc:Literal></ogc:PropertyIsLike></ogc:And></ogc:Filter></wfs:Query></wfs:GetFeature>'
+		)
+	})
+	test('creates a multi-query search for a multiple matches', () => {
+		expect(buildWfsFilter([[['a', '5']], [['b', '3']]], parameters)).toEqual(
+			'<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:a</ogc:PropertyName><ogc:Literal>5*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:b</ogc:PropertyName><ogc:Literal>3*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query></wfs:GetFeature>'
+		)
+	})
+}
