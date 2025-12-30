@@ -87,14 +87,7 @@ addressSearch: {
 
 | fieldName | type | description |
 | - | - | - |
-| type | enum["bkg", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. |
-| url | string | Search service URL. Should you require a service provider, please contact us for further information. |
-| categoryId | string? | Grouped services can optionally be distinguished in the UI with categories. See `addressSearch.categoryProperties` for configuration options. |
 | groupId | string? | Default groupId is `"defaultGroup"`. All services with the same id are grouped and used together. See `addressSearch.groupProperties` for configuration options. If multiple groups exist, the UI offers a group switcher. |
-| hint | string? | Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key. If grouped with other services, the group's hint will be used instead. |
-| label | string? | Display label. Can be a locale key. If grouped with other services, the group's label will be used instead. |
-| placeholder | string? | Placeholder string to display on input element. Can be a locale key. If grouped with other services, the group's placeholder will be used instead. |
-| queryParameters | object? | The object further describes details for the search request. Its contents vary by service type, see documentation below. |
 
 Example configuration:
 ```js

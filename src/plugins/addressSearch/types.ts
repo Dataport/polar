@@ -58,14 +58,50 @@ export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
 
 export type SearchDisplayMode = 'mixed' | 'categorized'
 
-/** Object containing information for a specific search method */
+// TODO: Check if all parameters are actually being used
+
+/** Object containing information for a specific search method. */
 export interface SearchMethodConfiguration {
+	/**
+	 * Service type.
+	 * Enum can be extended by configuration, see {@link AddressSearch.customSearchMethods| addressSearch.customSearchMethods}.
+	 */
 	type: SearchType
+
+	/**
+	 * Search service URL.
+	 * Should you require a service provider, please contact us for further information.
+	 */
 	url: string
+
+	/**
+	 * Grouped services can optionally be distinguished in the UI with categories.
+	 * See {@link AddressSearch.categoryProperties | addressSearch.categoryProperties} for configuration options.
+	 */
 	categoryId?: string
+
+	/**
+	 * Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed.
+	 * Can be a locale key. If grouped with other services, the group's hint will be used instead.
+	 */
 	hint?: string
+
+	/**
+	 * Display label.
+	 * Can be a locale key. If grouped with other services, the group's label will be used instead.
+	 */
 	label?: string
+
+	/**
+	 * Placeholder string to display on input element.
+	 * Can be a locale key. If grouped with other services, the group's placeholder will be used instead.
+	 */
 	placeholder?: string
+
+	/**
+	 * The object further describes details for the search request.
+	 * Its contents vary by service type, see {@link BKGParameters}, {@link MpapiParameters} or {@link WfsParameters}.
+	 */
 	queryParameters?: QueryParameters
 }
 
