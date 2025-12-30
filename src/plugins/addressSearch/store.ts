@@ -38,6 +38,9 @@ export const useAddressSearchStore = defineStore(
 			SearchResultSymbols.NO_SEARCH
 		)
 
+		const afterResultComponent = computed(
+			() => configuration.value.afterResultComponent || null
+		)
 		const configuration = computed(
 			() => coreStore.configuration.addressSearch as AddressSearchOptions
 		)
@@ -187,6 +190,9 @@ export const useAddressSearchStore = defineStore(
 		return {
 			chosenAddress,
 			inputValue,
+
+			/** @internal */
+			afterResultComponent,
 
 			/** @internal */
 			isLoading,

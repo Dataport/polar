@@ -54,7 +54,6 @@ export interface AddressSearchConfiguration extends PluginOptions {
 	focusAfterSearch?: boolean
 	// definition of groups referred to in searchMethods
 	groupProperties?: Record<string, AddressSearchGroupProperties>
-	afterResultComponent?: VueConstructor
 }
 
 export interface Attribution {

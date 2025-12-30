@@ -1,3 +1,4 @@
+import type { Component } from 'vue'
 import type {
 	PluginOptions,
 	PolarGeoJsonFeature,
@@ -13,6 +14,14 @@ export interface AddressSearchOptions extends PluginOptions {
 	 * Only searches configured here can be used.
 	 */
 	searchMethods: SearchMethodConfiguration[]
+
+	/**
+	 * If given, this component will be rendered in the last line of every single
+	 * search result. It will be forwarded its search result feature as prop
+	 * `feature` of type `GeoJSON.Feature`, and the focus state of the result as
+	 * prop `focus` of type `boolean`.
+	 */
+	afterResultComponent?: Component
 
 	/**
 	 * An object with named search functions added to the existing set of

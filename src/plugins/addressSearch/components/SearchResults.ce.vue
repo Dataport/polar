@@ -18,10 +18,6 @@
 					v-for="(feature, j) in result.features.features"
 					:key="`result-${i}-${j}`"
 				>
-					<!-- TODO: Add things to be done on keydown etc. -->
-					<!-- 	@focus="focusIndex = `${index}-${innerDex}`"
-								@blur="focusIndex = ''" -->
-					<!-- eslint-disable vue/no-v-html -->
 					<li
 						:id="`polar-plugin-address-search-results-feature-${i}-${j}`"
 						tabindex="-1"
@@ -31,10 +27,16 @@
 						"
 						@keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
 						@keydown.escape.prevent.stop="escapeResults"
-						v-html="strongTitleByInput(feature.title, inputValue)"
-					/>
-					<!-- eslint-enable vue/no-v-html -->
-					<!-- TODO: Add afterResultComponent, if configured -->
+					>
+						<!-- eslint-disable vue/no-v-html -->
+						<span v-html="strongTitleByInput(feature.title, inputValue)" />
+						<!-- eslint-enable vue/no-v-html -->
+						<component
+							:is="afterResultComponent"
+							v-if="afterResultComponent"
+							:feature="feature"
+						/>
+					</li>
 					<!-- TODO: Implement button that expands the results -->
 					<!-- TODO: Add divider -->
 				</template>
@@ -54,7 +56,7 @@ import { useCoreStore } from '@/core/stores/export'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
-const { inputValue, featuresAvailable, searchResults } =
+const { afterResultComponent, inputValue, featuresAvailable, searchResults } =
 	storeToRefs(addressSearchStore)
 
 // const openCategories = ref<string[]>([])

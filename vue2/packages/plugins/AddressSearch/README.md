@@ -24,7 +24,6 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 
 | fieldName | type | description |
 | - | - | - |
-| afterResultComponent | VueConstructor? | If given, this component will be rendered in the last line of every single search result. It will be forwarded its search result feature as prop `feature` of type `GeoJSON.Feature`, and the focus state of the result as prop `focus` of type `boolean`. |
 | categoryProperties | Record<string, categoryProperties>? | An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category. |
 | focusAfterSearch | boolean? | Whether the focus should switch to the first result after a successful search. Defaults to `false`. |
 | groupProperties | Record<string, groupProperties>? | An object defining properties for a group. The searchMethod's groupId is used as identifier. All services without groupId fall back to the key `"defaultGroup"`. |
@@ -69,7 +68,6 @@ addressSearch: {
       },
     }
   ],
-  afterResultComponent: Component,
   groupProperties: {
     defaultGroup: {
       limitResults: 5,

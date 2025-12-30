@@ -19,12 +19,6 @@
 								: limitResults),
 					}"
 				>
-					<component
-						:is="afterResultComponent"
-						v-if="afterResultComponent"
-						:feature="feature"
-						:focus="focusIndex === `${index}-${innerDex}`"
-					></component>
 				</v-list-item>
 			</template>
 			<v-btn
@@ -76,7 +70,6 @@ export default Vue.extend({
 	computed: {
 		...mapGetters(['clientHeight', 'hasWindowSize']),
 		...mapGetters('plugin/addressSearch', [
-			'afterResultComponent',
 			'featuresAvailable',
 			'featureListsWithCategory',
 			'focusAfterSearch',
