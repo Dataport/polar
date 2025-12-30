@@ -1,6 +1,4 @@
 <template>
-	<!-- TODO: migrate search functionality one after another -->
-	<!-- TODO: All search functions should be moved to the lib package so they may be used in Routing as well  -->
 	<div
 		v-if="Array.isArray(searchResults) && featuresAvailable"
 		class="polar-plugin-address-search-result-wrapper"
