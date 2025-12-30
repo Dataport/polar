@@ -81,6 +81,16 @@ export interface SearchMethodConfiguration {
 	categoryId?: string
 
 	/**
+	 * All services with the same id are grouped and used together.
+	 * See {@link AddressSearch.groupProperties | addressSearch.groupProperties} for configuration options.
+	 * If multiple groups exist, the UI offers a group switcher.
+	 *
+	 * @remarks
+	 * Default groupId is `"defaultGroup"`.
+	 */
+	groupId?: string
+
+	/**
 	 * Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed.
 	 * Can be a locale key. If grouped with other services, the group's hint will be used instead.
 	 */

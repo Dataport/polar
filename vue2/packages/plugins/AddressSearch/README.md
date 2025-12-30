@@ -83,50 +83,6 @@ addressSearch: {
 
 </details>
 
-#### addressSearch.searchMethodsObject
-
-| fieldName | type | description |
-| - | - | - |
-| groupId | string? | Default groupId is `"defaultGroup"`. All services with the same id are grouped and used together. See `addressSearch.groupProperties` for configuration options. If multiple groups exist, the UI offers a group switcher. |
-
-Example configuration:
-```js
- searchMethods: [
-  {
-    groupId: 'groupAdressSearch',
-    categoryId: 'categoryAddressSearch',
-    type: 'bkg',
-    url: 'example.com',
-    hint: 'Input of e.g. street or address',
-    label: 'Street search',
-    placeholder: 'Street name',
-    queryParameters: {
-      filter: {
-        bundesland: 'Schleswig-Holstein',
-      },
-    },
-  },
-],
-
-#### addressSearch.customSearchMethod
-
-This is a function with the following signature:
-
-```ts
-(
-  // should be used to actually abort request
-  signal: AbortSignal,
-  // base url as configured
-  url: string,
-  // input value from address search input
-  inputValue: string,
-  // whatever was configured
-  queryParameters: any
-) => Promise<FeatureCollection> | never
-```
-
-With this, arbitrary services can be supported.
-
 #### addressSearch.customSelectFunction
 
 This is a function with the following signature:
