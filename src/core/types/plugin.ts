@@ -4,6 +4,10 @@ import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
 import type { Icon } from './theme'
 
+import type { PluginId as FilterPluginId } from '@/plugins/filter'
+import type { useFilterStore as FilterStore } from '@/plugins/filter/store'
+import type { resourcesEn as FilterResources } from '@/plugins/filter/locales'
+
 import type { PluginId as FooterPluginId } from '@/plugins/footer'
 import type { useFooterStore as FooterStore } from '@/plugins/footer/store'
 import type { resourcesEn as FooterResources } from '@/plugins/footer/locales'
@@ -89,6 +93,7 @@ export type PolarPluginStore<
 
 /** @internal */
 export type BundledPluginId =
+	| typeof FilterPluginId
 	| typeof FooterPluginId
 	| typeof FullscreenPluginId
 	| typeof GeoLocationPluginId
@@ -110,6 +115,7 @@ type GetPluginStore<
 
 /** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
+	| GetPluginStore<T, typeof FilterPluginId, typeof FilterStore>
 	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
@@ -132,6 +138,7 @@ type GetPluginResources<
 
 /** @internal */
 export type BundledPluginLocaleResources<T extends BundledPluginId> =
+	| GetPluginResources<T, typeof FilterPluginId, typeof FilterResources>
 	| GetPluginResources<T, typeof FooterPluginId, typeof FooterResources>
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
 	| GetPluginResources<

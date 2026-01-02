@@ -6,6 +6,7 @@ import {
 	subscribe,
 	updateState,
 } from '@polar/polar'
+import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFooter from '@polar/polar/plugins/footer'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
@@ -178,6 +179,29 @@ const map = await createMap(
 			{
 				type: 'de',
 				resources: {
+					filter: {
+						layer: {
+							[reports]: {
+								category: {
+									skat: {
+										title: 'Schadensart',
+										knownValue: {
+											100: 'Wege und Straßen',
+											101: 'Schlagloch und Wegeschaden',
+											102: 'Verunreinigung und Vandalismus',
+										},
+									},
+									statu: {
+										title: 'Bearbeitungsstatus',
+										knownValue: {
+											'In Bearbeitung': 'In Bearbeitung',
+											abgeschlossen: 'Abgeschlossen',
+										},
+									},
+								},
+							},
+						},
+					},
 					fullscreen: {
 						button: {
 							label_on: 'Mach groß',
@@ -309,6 +333,55 @@ addPlugin(
 						locales: [],
 					},
 					icon: 'kern-icon-fill--share',
+				},
+			],
+			[
+				{
+					plugin: pluginFilter({
+						layers: {
+							[reports]: {
+								categories: [
+									{
+										targetProperty: 'skat',
+										knownValues: [
+											{
+												value: '100',
+												icon: 'kern-icon--road',
+											},
+											{
+												value: '101',
+												icon: 'kern-icon--remove-road',
+											},
+											{
+												value: '102',
+												icon: 'kern-icon--destruction',
+											},
+										],
+										selectAll: true,
+									},
+									{
+										targetProperty: 'statu',
+										knownValues: [
+											{
+												value: 'In Bearbeitung',
+												icon: 'kern-icon--assignment',
+											},
+											{
+												value: 'abgeschlossen',
+												icon: 'kern-icon--check',
+											},
+										],
+									},
+								],
+								time: {
+									targetProperty: 'start',
+									freeSelection: 'until',
+									last: [0, 7, 30],
+									pattern: 'YYYYMMDD',
+								},
+							},
+						},
+					}),
 				},
 			],
 			[
