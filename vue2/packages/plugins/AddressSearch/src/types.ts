@@ -1,10 +1,4 @@
-import {
-	AddressSearchConfiguration,
-	SearchMethodConfiguration,
-	AddressSearchGroupProperties,
-	AddressSearchCategoryProperties,
-} from '@polar/lib-custom-types'
-import { Feature, FeatureCollection } from 'geojson'
+import { FeatureCollection } from 'geojson'
 
 export interface FeatureIndexZip {
 	value: FeatureCollection
@@ -28,33 +22,7 @@ export interface AddressSearchState {
 	selectedGroupId: string | null
 }
 
-export interface FeatureListWithCategory {
-	features: Feature[]
-	categoryId: string
-	category: string
-}
-
 export interface AddressSearchGetters extends AddressSearchState {
-	addressSearchConfiguration: AddressSearchConfiguration
-	featuresAvailable: boolean
-	minLength: number
-	waitMs: number
-	searchMethods: SearchMethodConfiguration[]
-	searchMethodsByGroupId: Record<string, SearchMethodConfiguration[]>
-	groupIds: string[]
-	selectedGroupId: string
-	selectedGroup: SearchMethodConfiguration[]
-	getGroupProperties: (string) => AddressSearchGroupProperties
-	selectedGroupProperties: AddressSearchGroupProperties
-	limitResults: number
-	categoryProperties: AddressSearchCategoryProperties
-	label: string
-	placeholder: string
-	selectedGroupHint: string
-	hint: string
-	hasMultipleGroups: boolean
-	groupSelectOptions: string[]
-	featureListsWithCategory: FeatureListWithCategory[]
 	focusAfterSearch: boolean
 }
 

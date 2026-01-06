@@ -73,7 +73,6 @@ export default Vue.extend({
 			'featuresAvailable',
 			'featureListsWithCategory',
 			'focusAfterSearch',
-			'inputValue',
 			'limitResults',
 			'selectedGroupId',
 			'selectedGroup',

@@ -1,9 +1,9 @@
 <template>
 	<div
-		v-if="Array.isArray(searchResults) && featuresAvailable"
+		v-if="featuresAvailable"
 		class="polar-plugin-address-search-result-wrapper"
 	>
-		<template v-for="(result, i) in searchResults" :key="result.categoryId">
+		<template v-for="(result, i) in results" :key="result.categoryId">
 			<span>
 				{{ result.categoryLabel }}
 				{{
@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, toRaw } from 'vue'
 import { useAddressSearchStore } from '../store'
 import { PluginId, type SearchResult } from '../types'
 import { focusFirstResult } from '../utils/focusFirstResult'
@@ -56,7 +56,7 @@ import { useCoreStore } from '@/core/stores/export'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
-const { afterResultComponent, inputValue, featuresAvailable, searchResults } =
+const { afterResultComponent, inputValue, featuresAvailable } =
 	storeToRefs(addressSearchStore)
 
 // const openCategories = ref<string[]>([])
@@ -64,6 +64,29 @@ const maxHeight = computed(() =>
 	coreStore.hasWindowSize
 		? 'inherit'
 		: `calc(${coreStore.clientHeight}px - 10.75rem)`
+)
+
+const results = computed<SearchResult[]>(() =>
+	Array.isArray(addressSearchStore.searchResults)
+		? (toRaw(addressSearchStore.searchResults) as SearchResult[])
+				.reduce<SearchResult[]>((acc, curr) => {
+					const index = acc.findIndex(
+						(val) => val.categoryId === curr.categoryId
+					)
+					if (index === -1) {
+						return [...acc, curr]
+					}
+					;(acc[index] as SearchResult).features.features = [
+						...(acc[index] as SearchResult).features.features,
+						...curr.features.features,
+					]
+
+					return acc
+				}, [])
+				.filter(
+					(result) => result.groupId === addressSearchStore.selectedGroupId
+				)
+		: []
 )
 
 function escapeResults() {

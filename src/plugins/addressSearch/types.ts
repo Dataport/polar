@@ -8,6 +8,44 @@ import type { QueryParameters } from '@/lib/getFeatures/types'
 
 export const PluginId = 'addressSearch'
 
+interface CategoryProperties {
+	/**
+	 * Category label to display next to results to identify the source.
+	 * Can be a locale key.
+	 *
+	 * Only relevant if the search's {@link AddressSearchOptions.groupProperties | groupProperties} linked via
+	 * {@link SearchMethodConfiguration.groupId | groupId} contain a {@link GroupProperties.resultDisplayMode | resultDisplayMode}
+	 * scenario that uses categories.
+	 */
+	label: string
+}
+
+export interface GroupProperties {
+	/**
+	 * In `'mixed'`, results of all requested services are offered in a list in no specific order.
+	 * In `'categorized'`, the results are listed by their searchService's categoryId.
+	 *
+	 * @defaultValue 'mixed'
+	 */
+	resultDisplayMode: 'mixed' | 'categorized'
+
+	/**
+	 * Hint that is displayed below the input field if no other plugin-state-based
+	 * hint is to be displayed.
+	 * Can be a locale key.
+	 */
+	hint?: string
+
+	/** Display label for group selection. Can be a locale key. */
+	label?: string
+
+	/**
+	 * If set, only the first `n` results (per category in `categorized`) are displayed initially.
+	 * All further results can be opened via UI.
+	 */
+	limitResults?: number
+}
+
 export interface AddressSearchOptions extends PluginOptions {
 	/**
 	 * Array of search method descriptions.
@@ -24,6 +62,14 @@ export interface AddressSearchOptions extends PluginOptions {
 	afterResultComponent?: Component
 
 	/**
+	 * An object defining properties for a category.
+	 * The searchMethod's {@link AddressSearchOptions.categoryId | addressSearch.categoryId} is used as identifier.
+	 *
+	 * A service without categoryId default to the {@link AddressSearchOptions.categoryId | addressSearch.categoryId} `"default"`.
+	 */
+	categoryProperties?: Record<string, CategoryProperties>
+
+	/**
 	 * An object with named search functions added to the existing set of
 	 * configurable search methods.
 	 */
@@ -36,6 +82,13 @@ export interface AddressSearchOptions extends PluginOptions {
 	 * Use `''` as the key for categoryless results.
 	 */
 	customSelectResult?: Record<string, SelectResultFunction>
+
+	/**
+	 * An object defining properties for a group.
+	 * The searchMethod's groupId is used as identifier.
+	 * All services without groupId fall back to the key `"defaultGroup"`.
+	 */
+	groupProperties?: Record<string, GroupProperties>
 
 	/**
 	 * Minimal input length before the search starts.
@@ -64,7 +117,7 @@ export type SearchDisplayMode = 'mixed' | 'categorized'
 export interface SearchMethodConfiguration {
 	/**
 	 * Service type.
-	 * Enum can be extended by configuration, see {@link AddressSearch.customSearchMethods| addressSearch.customSearchMethods}.
+	 * Enum can be extended by configuration, see {@link AddressSearchOptions.customSearchMethods | addressSearch.customSearchMethods}.
 	 */
 	type: SearchType
 
@@ -76,13 +129,15 @@ export interface SearchMethodConfiguration {
 
 	/**
 	 * Grouped services can optionally be distinguished in the UI with categories.
-	 * See {@link AddressSearch.categoryProperties | addressSearch.categoryProperties} for configuration options.
+	 * See {@link AddressSearchOptions.categoryProperties | addressSearch.categoryProperties} for configuration options.
+	 *
+	 * @defaultValue 'default'
 	 */
 	categoryId?: string
 
 	/**
 	 * All services with the same id are grouped and used together.
-	 * See {@link AddressSearch.groupProperties | addressSearch.groupProperties} for configuration options.
+	 * See {@link AddressSearchOptions.groupProperties | addressSearch.groupProperties} for configuration options.
 	 * If multiple groups exist, the UI offers a group switcher.
 	 *
 	 * @remarks
@@ -126,6 +181,7 @@ export interface SearchResult {
 	categoryId: string
 	categoryLabel: string
 	features: PolarGeoJsonFeatureCollection
+	groupId: string
 }
 
 export type SelectResultFunction = (

@@ -8,12 +8,38 @@ import { debounce, toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { type AddressSearchOptions, PluginId, type SearchResult } from './types'
+import {
+	type AddressSearchOptions,
+	type GroupProperties,
+	PluginId,
+	type SearchResult,
+	type SearchMethodConfiguration,
+} from './types'
 import { getMethodContainer } from './utils/methodContainer'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import SearchResultSymbols from './utils/searchResultSymbols'
 import { useCoreStore } from '@/core/stores/export'
 import type { PolarGeoJsonFeature } from '@/core'
+
+const defaultGroupProperties: GroupProperties = {
+	// TODO: The label should be translated for others as well -> The translation should probably not take place here but in the GroupSelect dropdown
+	label: t(($) => $.defaultLabel, { ns: PluginId }),
+	hint: '',
+	resultDisplayMode: 'mixed',
+	limitResults: Number.MAX_SAFE_INTEGER,
+}
+
+/** Same pattern for hint/label retrieval. */
+const retrieve = (
+	searchMethodsByGroupId: Record<string, SearchMethodConfiguration[]>,
+	selectedGroupProperties: GroupProperties,
+	selectedGroupId: string,
+	key: string
+): string =>
+	selectedGroupProperties[key] ||
+	// if not set, first entry defines [key] value
+	searchMethodsByGroupId[selectedGroupId]?.[0]?.[key] ||
+	defaultGroupProperties[key]
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -37,6 +63,7 @@ export const useAddressSearchStore = defineStore(
 		const searchResults = ref<SearchResult[] | symbol>(
 			SearchResultSymbols.NO_SEARCH
 		)
+		const selectedGroupId = ref('defaultGroup')
 
 		const afterResultComponent = computed(
 			() => configuration.value.afterResultComponent || null
@@ -63,6 +90,31 @@ export const useAddressSearchStore = defineStore(
 						Array.isArray(features) && features.length > 0
 				)
 		)
+		const getGroupProperties = computed(
+			() =>
+				(groupId: string): GroupProperties => {
+					const selectedGroupProperties =
+						configuration.value.groupProperties?.[groupId] ||
+						({} as GroupProperties)
+					// defaultGroup is only one with predefined values
+					return groupId === 'defaultGroup'
+						? toMerged(defaultGroupProperties, selectedGroupProperties)
+						: selectedGroupProperties
+				}
+		)
+		const groupIds = computed(() => Object.keys(searchMethodsByGroupId.value))
+		const groupSelectOptions = computed(() =>
+			Object.keys(searchMethodsByGroupId).map((key) => ({
+				value: key,
+				text: retrieve(
+					searchMethodsByGroupId.value,
+					selectedGroupProperties.value,
+					key,
+					'label'
+				),
+			}))
+		)
+		const hasMultipleGroups = computed(() => groupIds.value.length > 1)
 		const hint = computed(() => {
 			if (isLoading.value) {
 				return t(($) => $.hint.loading, { ns: PluginId })
@@ -89,14 +141,41 @@ export const useAddressSearchStore = defineStore(
 				return t(($) => $.hint.noResults, { ns: PluginId })
 			}
 
-			return ''
-			// TODO: Check if needed
-			// return selectedGroupHint
+			return selectedGroupHint.value
 		})
+		const limitResults = computed(
+			() =>
+				selectedGroupProperties.value.limitResults ||
+				defaultGroupProperties.limitResults
+		)
 		const minLength = computed(() =>
 			typeof configuration.value.minLength === 'number'
 				? configuration.value.minLength
 				: 0
+		)
+		const searchMethodsByGroupId = computed<
+			Record<string, SearchMethodConfiguration[]>
+		>(() =>
+			configuration.value.searchMethods.reduce((groups, searchMethod) => {
+				const searchMethodName = searchMethod.groupId || 'defaultGroup'
+				if (groups[searchMethodName]) {
+					groups[searchMethodName].push(searchMethod)
+				} else {
+					groups[searchMethodName] = [searchMethod]
+				}
+				return groups
+			}, {})
+		)
+		const selectedGroupHint = computed(() =>
+			retrieve(
+				searchMethodsByGroupId.value,
+				selectedGroupProperties.value,
+				selectedGroupId.value,
+				'hint'
+			)
+		)
+		const selectedGroupProperties = computed<GroupProperties>(() =>
+			getGroupProperties.value(selectedGroupId.value)
 		)
 		const waitMs = computed(() =>
 			typeof configuration.value.waitMs === 'number'
@@ -107,6 +186,7 @@ export const useAddressSearchStore = defineStore(
 		function setupPlugin() {
 			debouncedSearch = debounce(_search, waitMs.value)
 			methodContainer = getMethodContainer()
+			selectedGroupId.value = groupIds.value[0] as string
 			// TODO: Register customSearchMethods as callable ones to the methodContainer
 		}
 
@@ -136,9 +216,8 @@ export const useAddressSearchStore = defineStore(
 			abortController = new AbortController()
 			const localAbortControllerReference = abortController
 			return Promise.allSettled(
-				// TODO: IF groups are to be implemented, the searchMethods should be retrieved from the group
 				configuration.value.searchMethods.map(
-					async ({ categoryId, queryParameters, type, url }) => {
+					async ({ categoryId, groupId, queryParameters, type, url }) => {
 						const features = await methodContainer.getSearchMethod(type)(
 							localAbortControllerReference.signal,
 							url,
@@ -147,12 +226,16 @@ export const useAddressSearchStore = defineStore(
 								epsg: coreStore.configuration.epsg,
 							})
 						)
+						const id = categoryId || 'default'
+						const properties = configuration.value.categoryProperties?.[id]
 						return {
-							// TODO: Add information, that the defaulted categoryId is 'default'
-							categoryId: categoryId || 'default',
-							// TODO: Add information, that this is the defaulted label and this can be configured similar to categoryId
-							categoryLabel: t(($) => $.defaultCategory, { ns: PluginId }),
+							categoryId: id,
+							categoryLabel: properties
+								? // @ts-expect-error | Other values can be used.
+									t(properties.label)
+								: t(($) => $.defaultLabel, { ns: PluginId }),
 							features,
+							groupId: groupId || 'defaultGroup',
 						}
 					}
 				)
@@ -198,6 +281,8 @@ export const useAddressSearchStore = defineStore(
 			isLoading,
 
 			searchResults,
+
+			selectedGroupId,
 
 			/**
 			 * `true` if any service yielded features.

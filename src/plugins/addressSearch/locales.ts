@@ -12,8 +12,7 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	ariaDescription:
 		'Durch Eingabe in das Suchfeld kann die Suche nach Adressen gestartet werden',
-	// TODO: Not used yet
-	defaultCategory: 'Adresssuche',
+	defaultLabel: 'Adresssuche',
 	hint: {
 		button: 'Eingabefeld der Addresssuche anzeigen',
 		clear: 'Das Eingabefeld der Addresssuche leeren',
@@ -35,7 +34,7 @@ export const resourcesDe = {
 export const resourcesEn = {
 	ariaDescription:
 		'Durch Eingabe in das Suchfeld kann die Suche nach Adressen gestartet werden',
-	defaultCategory: 'Address Search',
+	defaultLabel: 'Address Search',
 	hint: {
 		button: 'Show address search input field',
 		clear: 'Clear address search input field',

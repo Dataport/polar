@@ -24,64 +24,7 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 
 | fieldName | type | description |
 | - | - | - |
-| categoryProperties | Record<string, categoryProperties>? | An object defining properties for a category. The searchMethod's categoryId is used as identifier. A service without categoryId does not have a fallback category. |
 | focusAfterSearch | boolean? | Whether the focus should switch to the first result after a successful search. Defaults to `false`. |
-| groupProperties | Record<string, groupProperties>? | An object defining properties for a group. The searchMethod's groupId is used as identifier. All services without groupId fall back to the key `"defaultGroup"`. |
-
-For details on the `displayComponent` attribute, refer to the [Global Plugin Parameters](../../core/README.md#global-plugin-parameters) section of `@polar/core`.
-
-<details>
-<summary>Example configuration</summary>
-
-```js
-import Component from './component.vue'
-
-addressSearch: {
-  searchMethods: [
-    {
-      queryParameters: {
-        searchAddress: true,
-        searchStreets: true,
-        searchHouseNumbers: true,
-      },
-      type: 'mpapi',
-      url: 'example-url.com',
-    },
-    {
-      queryParameters: {
-        filter: {
-          bundesland: 'Schleswig-Holstein',
-        },
-      },
-      type: 'bkg',
-      url: 'other-example-url.com',
-    },
-    {
-      type: 'wfs'
-      queryParameters: {
-        srsName: 'EPSG:25832',
-        typeName: 'address_shp',
-        fieldName: 'objektid',
-        featurePrefix: 'app',
-        xmlns: 'http://www.deegree.org/app',
-        useRightHandWildcard: true,
-      },
-    }
-  ],
-  groupProperties: {
-    defaultGroup: {
-      limitResults: 5,
-    },
-  },
-  focusAfterSearch: true,
-  minLength: 3,
-  waitMs: 300,
-  addLoading: 'plugin/loadingIndicator/addLoadingKey',
-  removeLoading: 'plugin/loadingIndicator/removeLoadingKey',
-},
-```
-
-</details>
 
 #### addressSearch.customSelectFunction
 
@@ -99,46 +42,6 @@ This is a function with the following signature:
 ```
 
 With this, arbitrary click results can be supported. Please mind that undocumented mutations and actions fired in such a function are subject to change without further notice.
-
-#### addressSearch.groupProperties
-
-| fieldName | type | description |
-| - | - | - |
-| label | string | Display label. Can be a locale key. |
-| resultDisplayMode | enum['mixed', 'categorized'] | Defaults to `'mixed'`. In `'mixed'`, results of all requested services are offered in a list in no specific order. In `'categorized'`, the results are listed by their searchService's categoryId. |
-| hint | string? | Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key. |
-| limitResults | number? | If set, only the first `n` results (per category in `categorized`) are displayed initially. All further results can be opened via UI. |
-| placeholder | string? | Placeholder string to display on input element. Can be a locale key. |
-
-Example configuration:
-```js
-groupProperties: {
-  groupAdressSearch: {
-    label: 'Street search',
-    hint: 'Please enter a street name',
-    resultDisplayMode: 'categorized',
-    limitResults: 3,
-  },
-  defaultGroup: {
-    limitResults: 5,
-  },
-}
-```
-
-#### addressSearch.categoryProperties
-
-| fieldName | type | description |
-| - | - | - |
-| label | string | Category label to display next to results to identify the source. Can be a locale key. Only relevant if the search's `groupProperties` linked via `groupId` contain a `resultDisplayMode` scenario that uses categories. |
-
-Example configuration:
-```js
-categoryProperties: {
-  categoryAddressSearchAutocomplete: {
-    label: 'Address search hits',
-  },
-}
-```
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:common)
 
