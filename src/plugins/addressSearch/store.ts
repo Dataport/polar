@@ -103,7 +103,8 @@ export const useAddressSearchStore = defineStore(
 				}
 		)
 		const groupIds = computed(() => Object.keys(searchMethodsByGroupId.value))
-		const groupSelectOptions = computed(() =>
+		// TODO: Add usage
+		/* const groupSelectOptions = computed(() =>
 			Object.keys(searchMethodsByGroupId).map((key) => ({
 				value: key,
 				text: retrieve(
@@ -113,8 +114,9 @@ export const useAddressSearchStore = defineStore(
 					'label'
 				),
 			}))
-		)
-		const hasMultipleGroups = computed(() => groupIds.value.length > 1)
+		) */
+		// TODO: Add usage
+		// const hasMultipleGroups = computed(() => groupIds.value.length > 1)
 		const hint = computed(() => {
 			if (isLoading.value) {
 				return t(($) => $.hint.loading, { ns: PluginId })
@@ -143,11 +145,12 @@ export const useAddressSearchStore = defineStore(
 
 			return selectedGroupHint.value
 		})
-		const limitResults = computed(
+		// TODO: Add usage
+		/* const limitResults = computed(
 			() =>
 				selectedGroupProperties.value.limitResults ||
 				defaultGroupProperties.limitResults
-		)
+		) */
 		const minLength = computed(() =>
 			typeof configuration.value.minLength === 'number'
 				? configuration.value.minLength
