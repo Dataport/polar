@@ -63,7 +63,7 @@ const { afterResultComponent, inputValue, featuresAvailable, searchResults } =
 const maxHeight = computed(() =>
 	coreStore.hasWindowSize
 		? 'inherit'
-		: `calc(${coreStore.clientHeight}px - 5.75em)`
+		: `calc(${coreStore.clientHeight}px - 10.75rem)`
 )
 
 function escapeResults() {
