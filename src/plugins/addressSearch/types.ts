@@ -8,7 +8,7 @@ import type { QueryParameters } from '@/lib/getFeatures/types'
 
 export const PluginId = 'addressSearch'
 
-interface CategoryProperties {
+export interface CategoryProperties {
 	/**
 	 * Category label to display next to results to identify the source.
 	 * Can be a locale key.
