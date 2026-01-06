@@ -262,7 +262,8 @@ addPlugin(
 		searchMethods: [
 			{
 				queryParameters: {
-					searchAddress: true,
+					searchStreets: true,
+					searchHouseNumbers: true,
 				},
 				type: 'mpapi',
 				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
