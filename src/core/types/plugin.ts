@@ -2,6 +2,7 @@ import type { SetupStoreDefinition } from 'pinia'
 import type { Component } from 'vue'
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
+import type { Icon } from './theme'
 
 import type { PluginId as FooterPluginId } from '@/plugins/footer'
 import type { useFooterStore as FooterStore } from '@/plugins/footer/store'
@@ -182,7 +183,7 @@ export interface PluginContainer {
 	 * Icon class for the plugin.
 	 * This icon will be used as the default for rendering in menus.
 	 */
-	icon?: string
+	icon?: Icon
 
 	/**
 	 * Whether the plugin is independently rendered.
