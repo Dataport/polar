@@ -30,7 +30,7 @@ const denkmaelerWmService = {
   layers: '0,1,2,3,4,6,24,25',
 }
 
-const beschriftungService = {
+export const beschriftungService = {
   ...commonConfigDenkmaelWMS,
   id: beschriftung,
   name: 'Beschriftung',
@@ -116,3 +116,24 @@ export const servicesIntern = [
   bddColInternService,
   dop20ColInternService,
 ]
+
+export const labeledLayerServices = [
+  denkmaelerWmService,
+  kontrollbedarfService,
+  verlustService,
+]
+
+export const layerLabelMap = new Map([
+  ['0', '9'],
+  ['1', '10'],
+  ['2', '11'],
+  ['3', '12'],
+  ['4', '13'],
+  ['6', '15'],
+  ['7', '16'],
+  ['8', '17'],
+  ['24', '26'],
+  ['25', '27'],
+  ['28', '35'],
+  ['29', '36'],
+])

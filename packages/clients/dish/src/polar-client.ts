@@ -15,6 +15,12 @@ import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
 import selectionLayer from './selectionLayer'
 import { DishUrlParams } from './types'
+import {
+  beschriftungService,
+  labeledLayerServices,
+  layerLabelMap,
+  servicesIntern,
+} from './servicesIntern'
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
 
@@ -40,6 +46,7 @@ export default {
     const objektId = parameters.get('ObjektID')
     if (mode === 'INTERN') {
       subscribeToExportedMap(map)
+      watchActiveMaskIds(map)
       map.$store.commit('plugin/selectionObject/setObjectId', objektId)
       if (typeof objektId === 'string') {
         zoomToInternalFeature(map, objektId, urlParams)
@@ -116,4 +123,67 @@ function zoomToInternalFeature(
         text: 'dish.idNotFound',
       })
     })
+}
+
+function watchActiveMaskIds(instance: MapInstance) {
+  instance.$store.watch(
+    (_, getters) => getters['plugin/layerChooser/activeLayerIds'],
+    (activeLayerIds) => {
+      const activeLabeledLayers = Object.keys(activeLayerIds).filter((key) =>
+        labeledLayerServices.map((service) => service.id).includes(key)
+      )
+      console.log('### activeLabeledLayers', activeLabeledLayers)
+      instance.$store.dispatch(
+        'plugin/layerChooser/toggleOpenedOptionsServiceLayer',
+        activeLayerIds.join(','),
+        {
+          root: true,
+        }
+      )
+    }
+  )
+  instance.$store.watch(
+    (_, getters) => getters['plugin/layerChooser/activeMaskIds'],
+    (activeMaskIds) => {
+      const allActiveLabelLayers = activeMaskIds
+        .filter((maskId: string) => {
+          return labeledLayerServices.map((l) => l.id).includes(maskId)
+        })
+        .map((maskId: string) => {
+          const subLayers = servicesIntern
+            .find((s) => s.id === maskId)!
+            .layers.split(',')
+
+          console.error('subLayers', subLayers)
+
+          const allActiveLabelLayers = subLayers
+            .map(
+              (notLabelLayer: string) => layerLabelMap.get(notLabelLayer) || ''
+            )
+            .filter((s) => s)
+          return allActiveLabelLayers
+        })
+        .flat()
+
+      console.error('allActiveLabelLayers', allActiveLabelLayers)
+
+      const map = instance.$store.getters.map
+      const olLabelLayer = map
+        .getLayers()
+        .getArray()
+        .find((l) => l.get('id') === beschriftungService.id)
+
+      const LAYERS = allActiveLabelLayers.join(',')
+
+      // ^_^
+
+      const olSource = olLabelLayer.getSource()
+      const updatedParams = { ...olSource.getParams(), LAYERS }
+      olSource.updateParams(updatedParams)
+
+      // servicesIntern
+      // layerLabelMap
+    },
+    { immediate: true }
+  )
 }

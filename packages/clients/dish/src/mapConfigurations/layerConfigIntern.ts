@@ -155,7 +155,7 @@ const layersIntern: LayerConfiguration[] = [
     name: `Beschriftung (ab 1:${thousandsSeparator(
       scaleFromZoomLevel(beschriftungMinZoom)
     )})`,
-    minZoom: 9,
+    minZoom: beschriftungMinZoom,
   },
 ]
 

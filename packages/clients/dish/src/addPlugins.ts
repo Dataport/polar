@@ -7,7 +7,7 @@ import PolarPluginFullscreen from '@polar/plugin-fullscreen'
 import PolarPluginGeoLocation from '@polar/plugin-geo-location'
 import PolarPluginGfi from '@polar/plugin-gfi'
 import PolarPluginIconMenu from '@polar/plugin-icon-menu'
-import PolarPluginLayerChooser from '@polar/plugin-layer-chooser'
+// import PolarPluginLayerChooser from '@polar/plugin-layer-chooser'
 import PolarPluginLegend from '@polar/plugin-legend'
 import PolarPluginLoadingIndicator from '@polar/plugin-loading-indicator'
 import PolarPluginPins from '@polar/plugin-pins'
@@ -20,6 +20,7 @@ import {
   GfiConfiguration,
   SearchMethodFunction,
 } from '@polar/lib-custom-types'
+import { layerLabelMap } from './servicesIntern'
 import { extendGfi } from './utils/extendGfi'
 import { search } from './utils/search'
 import {
@@ -30,6 +31,7 @@ import {
 import { denkmalSearchResult } from './utils/denkmalSearchIntern'
 import DishModal from './plugins/Modal'
 import DishHeader from './plugins/Header'
+import DishLayerChooser from './plugins/DishLayerChooser'
 import { MODE } from './enums'
 import { DishGfiIntern, DishGfiExtern } from './plugins/Gfi'
 import DishExportMap from './plugins/DishExportMap'
@@ -79,7 +81,7 @@ const addressSearchConfig = (mode: keyof typeof MODE) => {
 export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
   const internalMenu = [
     {
-      plugin: PolarPluginLayerChooser({}),
+      plugin: DishLayerChooser({ layerDependencies: layerLabelMap }),
       icon: 'fa-layer-group',
       id: 'layerChooser',
     },
@@ -99,7 +101,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
   ]
   const externalMenu = [
     {
-      plugin: PolarPluginLayerChooser({}),
+      plugin: DishLayerChooser({ layerDependencies: layerLabelMap }),
       icon: 'fa-layer-group',
       id: 'layerChooser',
     },

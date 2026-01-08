@@ -156,6 +156,9 @@ export const makeStoreModule = () => {
         },
         value
       ) {
+        console.log(
+          `### toggleOpenedOptionsServiceLayer called with value: ${value}`
+        )
         // keep configured layer order - vuetify puts last activated last
         const sortedValue =
           openedOptionsServiceLayers === null
