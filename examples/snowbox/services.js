@@ -74,4 +74,14 @@ export default [
 		version: '1.3.0',
 		transparent: true,
 	},
+	{
+		id: 'kiel_polygon',
+		name: 'Kiel Polygon',
+		url: 'https://polar.dataport.de/qgisserver?MAP=/home/qgis/projects/dev_services.qgz',
+		typ: 'WFS',
+		featureType: 'polygon_kiel',
+		outputFormat: 'XML',
+		version: '1.1.0',
+		legendURL: '',
+	},
 ]

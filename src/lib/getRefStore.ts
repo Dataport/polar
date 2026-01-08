@@ -1,5 +1,6 @@
 import type { StoreReference } from '@/core'
-import { useCoreStore } from '@/core/stores/export'
+
+import { useCoreStore } from '@/core/stores'
 
 /**
  * Get the store for a `StoreReference`.

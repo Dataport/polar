@@ -79,6 +79,10 @@ export const useMainStore = defineStore('main', () => {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
 	}
 
+	function getLayer(layerId: string) {
+		return map.value.getAllLayers().find((layer) => layer.get('id') === layerId)
+	}
+
 	function setup() {
 		addEventListener('resize', updateHasSmallDisplay)
 		updateHasSmallDisplay()
@@ -112,6 +116,7 @@ export const useMainStore = defineStore('main', () => {
 		deviceIsHorizontal,
 		// Actions
 		centerOnFeature,
+		getLayer,
 		updateHasSmallDisplay,
 		setup,
 		teardown,

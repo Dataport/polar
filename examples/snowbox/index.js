@@ -9,6 +9,7 @@ import {
 import pluginFooter from '@polar/polar/plugins/footer'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
+import pluginGfi from '@polar/polar/plugins/gfi'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
@@ -29,6 +30,7 @@ const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
+const kielPolygon = 'kiel_polygon'
 const hamburgBorder = '1693'
 
 let colorScheme = 'light'
@@ -141,6 +143,12 @@ const map = await createMap(
 					},
 				},
 			},
+			{
+				id: kielPolygon,
+				type: 'mask',
+				name: 'Kiel Polygone',
+				visibility: true,
+			},
 		],
 		layout: 'standard',
 		checkServiceAvailability: true,
@@ -183,6 +191,18 @@ const map = await createMap(
 						button: {
 							label_on: 'Mach groß',
 							label_off: 'Mach klein',
+						},
+					},
+					gfi: {
+						layer: {
+							[reports]: {
+								property: {
+									addr: 'Adresse',
+									statu: 'Status',
+									beschr: 'Beschr.',
+									kat_text: 'Kat.',
+								},
+							},
 						},
 					},
 					iconMenu: {
@@ -299,6 +319,68 @@ addPlugin(
 							layerId: hamburgBorder,
 							onError: 'strict',
 						}, */
+					}),
+				},
+			],
+			[
+				{
+					plugin: pluginGfi({
+						layers: {
+							[reports]: {
+								window: true,
+								properties: [
+									'addr',
+									'statu',
+									'beschr',
+									'pic',
+									'kat_text',
+									'skat_text',
+								],
+								exportProperty: 'pic',
+								showTooltip: (feature) => [
+									[
+										'span',
+										`Coordinates: ${feature.getGeometry().getCoordinates().join(', ')}`,
+									],
+								],
+							},
+							[kielPolygon]: {
+								window: true,
+							},
+						},
+						afterLoadFunction: (featuresByLayerId) => {
+							Object.values(featuresByLayerId).forEach((featureList) => {
+								featureList.forEach((feature) => {
+									if (feature.properties) {
+										feature.properties = {
+											addr: [
+												feature.properties.str,
+												feature.properties.hsnr,
+											].join(' '),
+											...feature.properties,
+										}
+									}
+								})
+							})
+							return featuresByLayerId
+						},
+						featureList: {
+							activeLayers: {
+								plugin: 'layerChooser',
+								key: 'activeMaskIds',
+							},
+							mode: 'visible',
+							bindWithCoreHoverSelect: false,
+							pageLength: 5,
+							text: {
+								title: (feature) =>
+									feature.get('str') + ' ' + feature.get('hsnr'),
+								subtitle: 'Michels Meldung',
+								subSubtitle: (feature) => feature.get('skat_text'),
+							},
+						},
+						multiSelect: 'box',
+						directSelect: true,
 					}),
 				},
 			],
