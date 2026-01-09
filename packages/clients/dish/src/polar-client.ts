@@ -19,7 +19,6 @@ import {
   beschriftungService,
   labeledLayerServices,
   layerLabelMap,
-  servicesIntern,
 } from './servicesIntern'
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
@@ -129,43 +128,21 @@ function watchActiveMaskIds(instance: MapInstance) {
   instance.$store.watch(
     (_, getters) => getters['plugin/layerChooser/activeLayerIds'],
     (activeLayerIds) => {
-      const activeLabeledLayers = Object.keys(activeLayerIds).filter((key) =>
-        labeledLayerServices.map((service) => service.id).includes(key)
-      )
-      console.log('### activeLabeledLayers', activeLabeledLayers)
-      instance.$store.dispatch(
-        'plugin/layerChooser/toggleOpenedOptionsServiceLayer',
-        activeLayerIds.join(','),
-        {
-          root: true,
-        }
-      )
-    }
-  )
-  instance.$store.watch(
-    (_, getters) => getters['plugin/layerChooser/activeMaskIds'],
-    (activeMaskIds) => {
-      const allActiveLabelLayers = activeMaskIds
-        .filter((maskId: string) => {
-          return labeledLayerServices.map((l) => l.id).includes(maskId)
-        })
-        .map((maskId: string) => {
-          const subLayers = servicesIntern
-            .find((s) => s.id === maskId)!
-            .layers.split(',')
-
-          console.error('subLayers', subLayers)
-
-          const allActiveLabelLayers = subLayers
-            .map(
-              (notLabelLayer: string) => layerLabelMap.get(notLabelLayer) || ''
-            )
-            .filter((s) => s)
-          return allActiveLabelLayers
-        })
+      const activeMaskIds =
+        instance.$store.getters['plugin/layerChooser/activeMaskIds']
+      const activeLabeledLayers = Object.entries(activeLayerIds)
+        .filter(
+          ([key]) =>
+            labeledLayerServices.map((service) => service.id).includes(key) &&
+            activeMaskIds.includes(key)
+        )
+        .map(([, value]) => value)
         .flat()
-
-      console.error('allActiveLabelLayers', allActiveLabelLayers)
+      const allActiveLabelLayers = activeLabeledLayers
+        .map((l) => {
+          return layerLabelMap.get(l)
+        })
+        .filter((s) => s)
 
       const map = instance.$store.getters.map
       const olLabelLayer = map
@@ -175,14 +152,58 @@ function watchActiveMaskIds(instance: MapInstance) {
 
       const LAYERS = allActiveLabelLayers.join(',')
 
-      // ^_^
-
       const olSource = olLabelLayer.getSource()
       const updatedParams = { ...olSource.getParams(), LAYERS }
       olSource.updateParams(updatedParams)
+    }
+  )
+  instance.$store.watch(
+    (_, getters) => getters['plugin/layerChooser/activeMaskIds'],
+    (activeMaskIds) => {
+      const activeLayerIds =
+        instance.$store.getters['plugin/layerChooser/activeLayerIds']
+      const activeLabeledLayers = Object.entries(activeLayerIds)
+        .filter(
+          ([key]) =>
+            labeledLayerServices.map((service) => service.id).includes(key) &&
+            activeMaskIds.includes(key)
+        )
+        .map(([, value]) => value)
+        .flat()
+      const allActiveLabelLayers = activeLabeledLayers
+        .map((l) => {
+          return layerLabelMap.get(l)
+        })
+        .filter((s) => s)
 
-      // servicesIntern
-      // layerLabelMap
+      const map = instance.$store.getters.map
+      const olLabelLayer = map
+        .getLayers()
+        .getArray()
+        .find((l) => l.get('id') === beschriftungService.id)
+
+      const LAYERS = allActiveLabelLayers.join(',')
+      const masks = instance.$store.getters['plugin/layerChooser/masks']
+
+      if (LAYERS !== '') {
+        const olSource = olLabelLayer.getSource()
+        const updatedParams = { ...olSource.getParams(), LAYERS }
+        olSource.updateParams(updatedParams)
+        const masksArray = masks.map((mask) =>
+          mask.id === beschriftungService.id
+            ? { ...mask, hideInMenu: false }
+            : mask
+        )
+        instance.$store.commit('plugin/layerChooser/setMasks', masksArray)
+      } else if (activeMaskIds.includes(beschriftungService.id)) {
+        const masksArray = masks.map((mask) =>
+          mask.id === beschriftungService.id
+            ? { ...mask, hideInMenu: true }
+            : mask
+        )
+        instance.$store.commit('plugin/layerChooser/setMasks', masksArray)
+        olLabelLayer.setVisible(false)
+      }
     },
     { immediate: true }
   )
