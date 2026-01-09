@@ -5,7 +5,7 @@
 		:style="`max-height: ${maxHeight}`"
 	>
 		<template v-for="(result, i) in results" :key="result.categoryId">
-			<span>
+			<span v-if="results.length > 1">
 				{{ result.categoryLabel }}
 				{{
 					$t(($) => $.resultCount, {
