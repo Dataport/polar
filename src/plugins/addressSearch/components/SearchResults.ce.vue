@@ -2,6 +2,7 @@
 	<div
 		v-if="featuresAvailable"
 		class="polar-plugin-address-search-result-wrapper"
+		:style="`max-height: ${maxHeight}`"
 	>
 		<template v-for="(result, i) in results" :key="result.categoryId">
 			<span>
@@ -13,7 +14,7 @@
 					})
 				}}
 			</span>
-			<ul :style="`max-height: ${maxHeight}`" tabindex="-1">
+			<ul tabindex="-1">
 				<template
 					v-for="(feature, j) in result.features.features"
 					:key="`result-${i}-${j}`"
@@ -61,9 +62,7 @@ const { afterResultComponent, inputValue, featuresAvailable } =
 
 // const openCategories = ref<string[]>([])
 const maxHeight = computed(() =>
-	coreStore.hasWindowSize
-		? 'inherit'
-		: `calc(${coreStore.clientHeight}px - 10.75rem)`
+	coreStore.hasWindowSize ? 'inherit' : `${coreStore.clientHeight * 0.8}px`
 )
 
 const results = computed<SearchResult[]>(() =>
@@ -145,6 +144,7 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 <style scoped>
 .polar-plugin-address-search-result-wrapper {
 	width: 100%;
+	overflow-y: auto;
 
 	span {
 		display: flex;
@@ -158,7 +158,6 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 	ul {
 		margin: 0;
 		padding: 0;
-		overflow-y: auto;
 
 		li {
 			display: flex;
