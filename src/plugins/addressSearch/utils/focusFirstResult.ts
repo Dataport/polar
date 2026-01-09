@@ -7,7 +7,6 @@ export function focusFirstResult(
 		const firstFocusableElement = shadowRoot.getElementById(
 			`polar-plugin-address-search-results-feature-${i}-0`
 		)
-		console.warn(firstFocusableElement)
 		if (firstFocusableElement) {
 			firstFocusableElement.focus()
 			// prevent list scrolling on newly focused element
