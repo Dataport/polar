@@ -174,10 +174,6 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 				background-color: var(--kern-color-layout-background-hued);
 				cursor: pointer;
 			}
-
-			&:first-of-type {
-				margin-top: var(--kern-metric-space-small);
-			}
 		}
 	}
 }
