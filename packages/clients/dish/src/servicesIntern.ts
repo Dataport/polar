@@ -123,6 +123,7 @@ export const labeledLayerServices = [
   verlustService,
 ]
 
+// Map of geom layername to label layername of denkmal WMS service
 export const layerLabelMap = new Map([
   ['0', '9'],
   ['1', '10'],
@@ -132,7 +133,11 @@ export const layerLabelMap = new Map([
   ['6', '15'],
   ['7', '16'],
   ['8', '17'],
-  ['24', '26'],
+  ['19', '30'],
+  ['20', '31'],
+  ['21', '32'],
+  ['22', '33'],
+  ['23', '34'],
   ['25', '27'],
   ['28', '35'],
   ['29', '36'],
