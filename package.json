@@ -76,7 +76,7 @@
 		"security.md"
 	],
 	"devDependencies": {
-		"@actions/github": "^6.0.1",
+		"@actions/github": "^7.0.0",
 		"@commitlint/cli": "^20.2.0",
 		"@commitlint/config-conventional": "^20.2.0",
 		"@dataport/eslint-config-geodev": "^1.0.0-alpha.1",
