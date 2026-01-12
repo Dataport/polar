@@ -46,6 +46,7 @@ export default {
     const objektId = parameters.get('ObjektID')
     if (mode === 'INTERN') {
       subscribeToExportedMap(map)
+      // watch for changes in activeMaskIds to update beschriftung layer
       watchActiveMaskIds(map)
       map.$store.commit('plugin/selectionObject/setObjectId', objektId)
       if (typeof objektId === 'string') {
