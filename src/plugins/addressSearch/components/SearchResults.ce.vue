@@ -23,6 +23,9 @@
 						:id="`polar-plugin-address-search-results-feature-${i}-${j}`"
 						tabindex="-1"
 						@click="addressSearchStore.selectResult(feature, result.categoryId)"
+						@keydown.enter.prevent.stop="
+							addressSearchStore.selectResult(feature, result.categoryId)
+						"
 						@keydown.down.prevent.stop="
 							(event) => focusNextElement(true, event)
 						"
