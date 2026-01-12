@@ -126,56 +126,44 @@ function zoomToInternalFeature(
     })
 }
 
+function getOlLabelLayer(instance: MapInstance) {
+  const map = instance.$store.getters.map
+  return map
+    .getLayers()
+    .getArray()
+    .find((l) => l.get('id') === beschriftungService.id)
+}
+
 function watchActiveMaskIds(instance: MapInstance) {
-  instance.$store.watch(
-    (_, getters) => getters['plugin/layerChooser/activeLayerIds'],
-    (activeLayerIds) => {
-      const activeMaskIds =
-        instance.$store.getters['plugin/layerChooser/activeMaskIds']
+  const updateLabelLayers = () => {
+    const activeLayerIds =
+      instance.$store.getters['plugin/layerChooser/activeLayerIds']
+    const activeMaskIds =
+      instance.$store.getters['plugin/layerChooser/activeMaskIds']
+    const masks = instance.$store.getters['plugin/layerChooser/masks']
 
-      const allActiveLabelLayers = getAllActiveLabelLayers(
-        activeLayerIds,
-        activeMaskIds
-      )
-      const map = instance.$store.getters.map
-      const olLabelLayer = map
-        .getLayers()
-        .getArray()
-        .find((l) => l.get('id') === beschriftungService.id)
+    const allActiveLabelLayers = getAllActiveLabelLayers(
+      activeLayerIds,
+      activeMaskIds
+    )
+    const LAYERS = allActiveLabelLayers.join(',')
 
-      const LAYERS = allActiveLabelLayers.join(',')
-
-      const olSource = olLabelLayer.getSource()
-      const updatedParams = { ...olSource.getParams(), LAYERS }
-      olSource.updateParams(updatedParams)
+    if (LAYERS !== '') {
+      updateBeschriftungsLayer(instance, LAYERS)
+      setBeschriftungVisibilityInMenu(masks, instance, false)
+    } else {
+      setBeschriftungVisibilityInMenu(masks, instance, true)
+      getOlLabelLayer(instance)?.setVisible(false)
     }
-  )
+  }
+
   instance.$store.watch(
-    (_, getters) => getters['plugin/layerChooser/activeMaskIds'],
-    (activeMaskIds) => {
-      const activeLayerIds =
-        instance.$store.getters['plugin/layerChooser/activeLayerIds']
-      const allActiveLabelLayers = getAllActiveLabelLayers(
-        activeLayerIds,
-        activeMaskIds
-      )
-
-      const map = instance.$store.getters.map
-      const olLabelLayer = map
-        .getLayers()
-        .getArray()
-        .find((l) => l.get('id') === beschriftungService.id)
-
-      const LAYERS = allActiveLabelLayers.join(',')
-      const masks = instance.$store.getters['plugin/layerChooser/masks']
-
-      if (LAYERS !== '') {
-        updateBeschriftungsLayer(instance, LAYERS)
-        setBeschriftungVisibilityInMenu(masks, instance, false)
-      } else {
-        setBeschriftungVisibilityInMenu(masks, instance, true)
-        olLabelLayer.setVisible(false)
-      }
+    (_, getters) => ({
+      activeLayerIds: getters['plugin/layerChooser/activeLayerIds'],
+      activeMaskIds: getters['plugin/layerChooser/activeMaskIds'],
+    }),
+    () => {
+      updateLabelLayers()
     },
     { immediate: true }
   )
@@ -201,15 +189,12 @@ function getAllActiveLabelLayers(
 }
 
 function updateBeschriftungsLayer(instance: MapInstance, LAYERS: string) {
-  const map = instance.$store.getters.map
-  const olLabelLayer = map
-    .getLayers()
-    .getArray()
-    .find((l) => l.get('id') === beschriftungService.id)
-
-  const olSource = olLabelLayer.getSource()
-  const updatedParams = { ...olSource.getParams(), LAYERS }
-  olSource.updateParams(updatedParams)
+  const olLabelLayer = getOlLabelLayer(instance)
+  const olSource = olLabelLayer?.getSource()
+  if (olSource) {
+    const updatedParams = { ...olSource.getParams(), LAYERS }
+    olSource.updateParams(updatedParams)
+  }
 }
 
 function setBeschriftungVisibilityInMenu(
