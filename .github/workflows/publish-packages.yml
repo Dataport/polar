@@ -5,26 +5,29 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: write
+
 jobs:
   publish:
+    environment: npm-publish
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix.outputs.TAGS }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
         with:
-          ssh-key: ${{ secrets.MAIN_BOT_KEY_PRIVATE }}
-      - uses: actions/setup-node@v4
+          token: ${{ secrets.BUMPER }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 20.16.0
+          node-version: 24.11.1
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: |
           RETURN_TAGS=$(node ./scripts/versionPackages)
           echo "TAGS=$RETURN_TAGS" >> $GITHUB_ENV
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - uses: EndBug/add-and-commit@v9
+      - uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5
         with:
           author_name: Dataport Geo Bot
           author_email: polar@dataport.de
@@ -38,8 +41,6 @@ jobs:
             echo "Released and tagged $TAG"
           done
       - run: node ./scripts/publishPackages ${{ env.TAGS }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: node ./scripts/createRelease ${{ env.TAGS }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

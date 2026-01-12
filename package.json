@@ -5,8 +5,8 @@
   "author": "Dataport AöR <polar@dataport.de>",
   "license": "EUPL-1.2",
   "engines": {
-    "node": "^20.16.0",
-    "npm": "^10.8.1"
+    "node": "^24.11.1",
+    "npm": "^11.6.2"
   },
   "workspaces": [
     "packages/clients/*",
@@ -79,7 +79,7 @@
     "@types/geojson": "^7946.0.8",
     "@types/jest": "^29.5.13",
     "@types/lodash.debounce": "^4.0.9",
-    "@types/node": "^20.16.10",
+    "@types/node": "^24.10.2",
     "@types/proj4": "^2.5.2",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
@@ -114,7 +114,7 @@
     "sass": "^1.79.4",
     "stream-browserify": "^3.0.0",
     "timers-browserify": "^2.0.12",
-    "ts-jest": "^29.0.5",
+    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.1",
     "tslib": "^2.3.0",
     "tsx": "^4.19.2",

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.3.0
+
+- Feature: Add optional `resultModifier` field to `SearchMethodConfiguration`.
+
 ## 2.2.0
 
 - Feature: Add new interface `PointerPositionConfiguration` and `PointerPositionProjection` for new plugin `@polar/plugin-pointer-position`, and add `PointerPositionConfiguration` as an optional entry of `MapConfig`.

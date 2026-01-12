@@ -2,6 +2,7 @@
 
 ## unpublished
 - Fix: Add new configuration parameters for DishExportMap to configure different host (backend host might differ from `internalHost`) and to simplify adjustments for backend changes.
+- Chore: Edit urlParams configuration for new testing environment.
 
 ## 1.2.0
 
