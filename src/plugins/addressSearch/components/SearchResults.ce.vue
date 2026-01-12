@@ -1,7 +1,7 @@
 <template>
 	<div
 		v-if="featuresAvailable"
-		class="polar-plugin-address-search-result-wrapper"
+		id="polar-plugin-address-search-result-wrapper"
 		:style="`max-height: ${maxHeight}`"
 	>
 		<template v-for="(result, i) in results" :key="result.categoryId">
@@ -51,7 +51,6 @@ import { storeToRefs } from 'pinia'
 import { computed, toRaw } from 'vue'
 import { useAddressSearchStore } from '../store'
 import { PluginId, type SearchResult } from '../types'
-import { focusFirstResult } from '../utils/focusFirstResult'
 import { strongTitleByInput } from '../utils/strongTitleByInput'
 import { useCoreStore } from '@/core/stores/export'
 
@@ -96,8 +95,6 @@ function escapeResults() {
 }
 
 function focusNextElement(down: boolean, event: KeyboardEvent): void {
-	const focus = ['BUTTON', 'LI']
-	const sibling = down ? 'nextElementSibling' : 'previousElementSibling'
 	const { target } = event
 
 	if (target === null) {
@@ -105,33 +102,17 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 		return
 	}
 
-	let searchBase = target as Element
-	let candidateElement = searchBase[sibling]
+	const wrapper = coreStore.shadowRoot?.getElementById(
+		'polar-plugin-address-search-result-wrapper'
+	) as HTMLDivElement
+	const elements = wrapper.querySelectorAll('li, button')
 
-	while (candidateElement && !focus.includes(candidateElement.tagName)) {
-		candidateElement = candidateElement[sibling]
-
-		if (!candidateElement) {
-			const children = searchBase.parentElement?.[sibling]?.children
-			if (children) {
-				searchBase = children[down ? 0 : children.length - 1] as Element
-				candidateElement = searchBase
-			}
-		}
-	}
-
-	if (candidateElement) {
+	const index = [...elements].indexOf(target as Element)
+	// Gets the next or previous element in the list of all available results and expansion buttons.
+	const nextElement = elements[(index + (down ? 1 : -1)) % elements.length]
+	if (nextElement) {
 		// @ts-expect-error | we have no non-HTML elements in this DOM part.
-		candidateElement.focus()
-		return
-	}
-
-	if (down) {
-		focusFirstResult(
-			(addressSearchStore.searchResults as SearchResult[]).length,
-			coreStore.shadowRoot as ShadowRoot,
-			event
-		)
+		nextElement.focus()
 		return
 	}
 
@@ -142,7 +123,7 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 </script>
 
 <style scoped>
-.polar-plugin-address-search-result-wrapper {
+#polar-plugin-address-search-result-wrapper {
 	width: 100%;
 	overflow-y: auto;
 
