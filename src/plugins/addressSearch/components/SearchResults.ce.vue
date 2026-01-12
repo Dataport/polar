@@ -88,7 +88,6 @@ const results = computed<SearchResult[]>(() =>
 )
 
 function escapeResults() {
-	addressSearchStore.clear()
 	;(coreStore.shadowRoot as ShadowRoot)
 		.getElementById('polar-plugin-address-search-input')
 		?.focus()
