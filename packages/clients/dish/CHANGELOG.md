@@ -1,8 +1,11 @@
 # CHANGELOG
 
 ## unpublished
+
+- Feature: Monumental label layer toggle visibility depending on matching monumental geometry layer.
 - Fix: Add new configuration parameters for DishExportMap to configure different host (backend host might differ from `internalHost`) and to simplify adjustments for backend changes.
 - Chore: Edit urlParams configuration for new testing environment.
+
 
 ## 1.2.0
 
