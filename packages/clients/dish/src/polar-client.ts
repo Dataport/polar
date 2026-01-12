@@ -180,7 +180,7 @@ function watchActiveMaskIds(instance: MapInstance) {
         // )
         // instance.$store.commit('plugin/layerChooser/setMasks', masksArray)
         setBeschriftungVisibilityInMenu(masks, instance, false)
-      } else if (activeMaskIds.includes(beschriftungService.id)) {
+      } else {
         setBeschriftungVisibilityInMenu(masks, instance, true)
         //   mask.id === beschriftungService.id
         //     ? { ...mask, hideInMenu: true }
