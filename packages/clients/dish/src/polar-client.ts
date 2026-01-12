@@ -170,23 +170,9 @@ function watchActiveMaskIds(instance: MapInstance) {
 
       if (LAYERS !== '') {
         updateBeschriftungsLayer(instance, LAYERS)
-        // const olSource = olLabelLayer.getSource()
-        // const updatedParams = { ...olSource.getParams(), LAYERS }
-        // olSource.updateParams(updatedParams)
-        // const masksArray = masks.map((mask) =>
-        //   mask.id === beschriftungService.id
-        //     ? { ...mask, hideInMenu: false }
-        //     : mask
-        // )
-        // instance.$store.commit('plugin/layerChooser/setMasks', masksArray)
         setBeschriftungVisibilityInMenu(masks, instance, false)
       } else {
         setBeschriftungVisibilityInMenu(masks, instance, true)
-        //   mask.id === beschriftungService.id
-        //     ? { ...mask, hideInMenu: true }
-        //     : mask
-        // )
-        // instance.$store.commit('plugin/layerChooser/setMasks', masksArray)
         olLabelLayer.setVisible(false)
       }
     },
