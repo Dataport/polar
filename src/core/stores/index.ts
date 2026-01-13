@@ -30,6 +30,13 @@ export const useCoreStore = defineStore('core', () => {
 
 	return {
 		/**
+		 * Read or modify center coordinate of the map.
+		 *
+		 * @internal
+		 */
+		center: mainStoreRefs.center,
+
+		/**
 		 * Color scheme the client should be using.
 		 *
 		 * @internal
@@ -59,6 +66,14 @@ export const useCoreStore = defineStore('core', () => {
 		 * @readonly
 		 */
 		deviceIsHorizontal: computed(() => mainStore.deviceIsHorizontal),
+
+		/**
+		 * Extent of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		extent: computed(() => mainStore.extent),
 
 		/**
 		 * Whether the map has a maximum height of {@link SMALL_DISPLAY_HEIGHT} and

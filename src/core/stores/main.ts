@@ -1,5 +1,6 @@
 import type { Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
+import type { Extent } from 'ol/extent'
 import type { Point } from 'ol/geom'
 
 import { toMerged } from 'es-toolkit'
@@ -27,6 +28,7 @@ export const useMainStore = defineStore('main', () => {
 			defaults
 		)
 	)
+	const extent = ref<Extent>([0, 0, 0, 0])
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)
@@ -100,6 +102,7 @@ export const useMainStore = defineStore('main', () => {
 		serviceRegister,
 		shadowRoot,
 		center,
+		extent,
 		zoom,
 		// Getters
 		layout,

@@ -31,13 +31,15 @@ import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInt
 import PolarMapOverlay from './PolarMapOverlay.ce.vue'
 
 const mainStore = useMainStore()
-const { hasWindowSize, hasSmallDisplay, center, zoom } = storeToRefs(mainStore)
+const { hasWindowSize, hasSmallDisplay, center, extent, zoom } =
+	storeToRefs(mainStore)
 
 const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
 const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
 
 function onMove() {
 	center.value = mainStore.map.getView().getCenter() || center.value
+	extent.value = mainStore.map.getView().calculateExtent()
 	zoom.value = mainStore.map.getView().getZoom() || zoom.value
 }
 
