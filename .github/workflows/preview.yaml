@@ -1,0 +1,43 @@
+name: Deploy PR previews
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency: preview-${{ github.ref }}
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+
+      - name: Set up Node.js
+        if: github.event.action != 'closed'
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+        with:
+          node-version: 24.12.0
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies and build preview
+        run: |
+          npm ci
+          npm run build:ci
+          npm run preview:build:ci -- --base="./"
+
+      - name: Deploy preview to GitHub Pages
+        uses: rossjrw/pr-preview-action@5fd5f8e2f88e735fc3d1151302b32242037e3962
+        with:
+          source-dir: ./.dist.preview/
+          preview-branch: gh-pages
+          qr-code: true
+          wait-for-pages-deployment: true
