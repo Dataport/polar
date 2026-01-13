@@ -6,7 +6,6 @@
 - Fix: Add new configuration parameters for DishExportMap to configure different host (backend host might differ from `internalHost`) and to simplify adjustments for backend changes.
 - Chore: Edit urlParams configuration for new testing environment.
 
-
 ## 1.2.0
 
 - Feature: If a user is geolocated outside the map's extent, the client will inform the user of why geolocation did not take effect via a textbox.
