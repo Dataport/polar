@@ -162,9 +162,7 @@ function watchActiveMaskIds(instance: MapInstance) {
       activeLayerIds: getters['plugin/layerChooser/activeLayerIds'],
       activeMaskIds: getters['plugin/layerChooser/activeMaskIds'],
     }),
-    () => {
-      updateLabelLayers()
-    },
+    updateLabelLayers
     { immediate: true }
   )
 }
