@@ -34,7 +34,7 @@ import type { PolarGeoJsonFeature } from '@/core'
 export const usePinsStore = defineStore('plugins/pins', () => {
 	const coreStore = useCoreStore()
 
-	const coordinate = ref<Coordinate>([])
+	const coordinate = ref<Coordinate | null>(null)
 	const getsDragged = ref(false)
 
 	const configuration = computed<
@@ -50,6 +50,9 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		)
 	)
 	const latLon = computed(() => {
+		if (!coordinate.value) {
+			return null
+		}
 		const lonLat = toLonLat(coordinate.value, coreStore.configuration.epsg)
 		return [lonLat[1], lonLat[0]]
 	})
@@ -161,15 +164,17 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 					feature.getGeometry() as Point
 				).getCoordinates()
 
-				addPin(
-					!(await isCoordinateInBoundaryLayer(
-						geometryCoordinates,
-						coreStore.map,
-						configuration.value.boundary
-					))
-						? coordinate.value
-						: geometryCoordinates
-				)
+				const newCoordinate = !(await isCoordinateInBoundaryLayer(
+					geometryCoordinates,
+					coreStore.map,
+					configuration.value.boundary
+				))
+					? coordinate.value
+					: geometryCoordinates
+
+				if (newCoordinate) {
+					addPin(newCoordinate)
+				}
 			})
 		})
 		coreStore.map.addInteraction(translate)
