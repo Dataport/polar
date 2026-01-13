@@ -6,7 +6,14 @@
 		icon="kern-icon--search"
 		@click="updateStatus"
 	/>
-	<PolarCard v-else :class="{ 'has-hint': hint.length > 0 }">
+	<PolarCard
+		v-else
+		:class="{
+			'has-hint': hint.length > 0,
+			'polar-plugin-address-search-shown-results':
+				Array.isArray(searchResults) && searchResults.length,
+		}"
+	>
 		<input
 			id="polar-plugin-address-search-input"
 			v-model="inputValue"
@@ -55,7 +62,8 @@ import { useCoreStore } from '@/core/stores/export'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
-const { hint, inputValue, isLoading } = storeToRefs(addressSearchStore)
+const { hint, inputValue, isLoading, searchResults } =
+	storeToRefs(addressSearchStore)
 
 const open = ref(false)
 
@@ -95,6 +103,10 @@ function inputDown(event: KeyboardEvent) {
 
 .has-hint :deep(.kern-card__container) {
 	padding-bottom: var(--kern-metric-space-small) !important;
+}
+
+.polar-plugin-address-search-shown-results :deep(.kern-card__container) {
+	padding-bottom: 0 !important;
 }
 
 .kern-card {

@@ -21,7 +21,7 @@ import SearchResultSymbols from './utils/searchResultSymbols'
 import { useCoreStore } from '@/core/stores/export'
 import type { PolarGeoJsonFeature } from '@/core'
 
-const defaultGroupProperties: GroupProperties = {
+const defaultGroupProperties: Required<GroupProperties> = {
 	// TODO: The label should be translated for others as well -> The translation should probably not take place here but in the GroupSelect dropdown
 	label: t(($) => $.defaultLabel, { ns: PluginId }),
 	hint: '',
@@ -145,12 +145,11 @@ export const useAddressSearchStore = defineStore(
 
 			return selectedGroupHint.value
 		})
-		// TODO: Add usage
-		/* const limitResults = computed(
+		const limitResults = computed(
 			() =>
 				selectedGroupProperties.value.limitResults ||
 				defaultGroupProperties.limitResults
-		) */
+		)
 		const minLength = computed(() =>
 			typeof configuration.value.minLength === 'number'
 				? configuration.value.minLength
@@ -296,6 +295,9 @@ export const useAddressSearchStore = defineStore(
 
 			/** @internal */
 			hint,
+
+			/** @internal */
+			limitResults,
 
 			/** @alpha */
 			abortAndRequest,

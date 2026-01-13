@@ -22,11 +22,8 @@ export const resourcesDe = {
 		tooShort: 'Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.',
 	},
 	resultCount: '({{count}} Ergebnisse)',
-	// TODO: Not used yet
 	resultList: {
 		extend: 'Alle Ergebnisse anzeigen',
-		extendMax:
-			'Alle Ergebnisse (max. {{queryParameters.maxFeatures}}) anzeigen',
 		reduce: 'Ergebnisliste reduzieren',
 	},
 } as const
@@ -46,7 +43,6 @@ export const resourcesEn = {
 	resultCount: '({{count}} results)',
 	resultList: {
 		extend: 'Show all results',
-		extendMax: 'Show all results (max. {{queryParameters.maxFeatures}})',
 		reduce: 'Reduce result list',
 	},
 } as const
