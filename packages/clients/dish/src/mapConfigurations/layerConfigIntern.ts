@@ -20,7 +20,7 @@ import {
 import { scaleFromZoomLevel } from '../utils/calculateScaleFromResolution'
 
 const alkisMinZoom = 10
-const beschriftungMinZoom = 9
+export const beschriftungMinZoom = 9
 
 const layersIntern: LayerConfiguration[] = [
   {

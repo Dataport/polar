@@ -4,6 +4,7 @@ import {
   labeledLayerServices,
   layerLabelMap,
 } from '../servicesIntern'
+import { beschriftungMinZoom } from '../mapConfigurations/layerConfigIntern'
 
 function getOlLabelLayer(instance) {
   const map = instance.$store.getters.map
@@ -13,7 +14,7 @@ function getOlLabelLayer(instance) {
     .find((l) => l.get('id') === beschriftungService.id)
 }
 
-export function watchActiveMaskIds(instance) {
+export function watchActiveMaskIds(instance: MapInstance) {
   let previousLayers = ''
 
   const updateLabelLayers = () => {
@@ -76,6 +77,12 @@ function updateBeschriftungsLayer(instance: MapInstance, LAYERS: string) {
   if (olSource) {
     const updatedParams = { ...olSource.getParams(), LAYERS }
     olSource.updateParams(updatedParams)
+  }
+  const currentZoom = instance.$store.getters.map.getView().getZoom()
+  if (currentZoom >= beschriftungMinZoom) {
+    olLabelLayer?.setVisible(true)
+  } else {
+    olLabelLayer?.setVisible(false)
   }
 }
 
