@@ -135,6 +135,8 @@ function getOlLabelLayer(instance: MapInstance) {
 }
 
 function watchActiveMaskIds(instance: MapInstance) {
+  let previousLayers = ''
+
   const updateLabelLayers = () => {
     const activeLayerIds =
       instance.$store.getters['plugin/layerChooser/activeLayerIds']
@@ -147,6 +149,12 @@ function watchActiveMaskIds(instance: MapInstance) {
       activeMaskIds
     )
     const LAYERS = allActiveLabelLayers.join(',')
+
+    if (LAYERS === previousLayers) {
+      return
+    }
+
+    previousLayers = LAYERS
 
     if (LAYERS !== '') {
       updateBeschriftungsLayer(instance, LAYERS)
@@ -162,7 +170,7 @@ function watchActiveMaskIds(instance: MapInstance) {
       activeLayerIds: getters['plugin/layerChooser/activeLayerIds'],
       activeMaskIds: getters['plugin/layerChooser/activeMaskIds'],
     }),
-    updateLabelLayers
+    updateLabelLayers,
     { immediate: true }
   )
 }
