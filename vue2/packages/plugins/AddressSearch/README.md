@@ -16,16 +16,6 @@ Currently supported services:
 
 ### addressSearch
 
-The configuration allows defining and grouping services. Grouped services can be requested in a search at the same time, and one group of searches can be active at a time. When multiple searches are in a group, they may be extended with category information to make the results easier to browse.
-
-It is advised to either use one-search-per-group _or_ all services in a singular group to avoid an overly complex UI. Mixed configurations may be required for more complex search requirements.
-
-In `categoryProperties` and `groupProperties`, id strings called `groupId` and `categoryId` are used. These are arbitrary strings you can introduce and reuse to group or categorize elements together. Regarding what groups and categories are, see further below.
-
-| fieldName | type | description |
-| - | - | - |
-| focusAfterSearch | boolean? | Whether the focus should switch to the first result after a successful search. Defaults to `false`. |
-
 #### addressSearch.customSelectFunction
 
 This is a function with the following signature:
@@ -42,21 +32,6 @@ This is a function with the following signature:
 ```
 
 With this, arbitrary click results can be supported. Please mind that undocumented mutations and actions fired in such a function are subject to change without further notice.
-
-##### addressSearch.searchMethodsObject.queryParameters (type:common)
-
-These fields are interpreted by all implemented services.
-
-| fieldName | type | description |
-| - | - | - |
-| maxFeatures | number? | Maximum amount of features to retrieve. Doesn't limit results if not set. |
-
-Example configuration:
-```js
-queryParameters: {
-  maxFeatures: 120,
-},
-```
 
 ## Store
 

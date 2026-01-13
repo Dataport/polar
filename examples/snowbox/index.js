@@ -271,6 +271,12 @@ addPlugin(
 		],
 		minLength: 3,
 		waitMs: 300,
+		focusAfterSearch: true,
+		groupProperties: {
+			defaultGroup: {
+				limitResults: 5,
+			},
+		},
 	})
 )
 addPlugin(

@@ -46,6 +46,17 @@ export interface GroupProperties {
 	limitResults?: number
 }
 
+/**
+ * The configuration allows defining and grouping services.
+ * Grouped services can be requested in a search at the same time, and one group
+ * of searches can be active at a time. When multiple searches are in a group,
+ * they may be extended with category information to make the results easier to browse.
+ *
+ * @remarks
+ * In {@link categoryProperties} and {@link groupProperties}, id strings called
+ * {@link groupId} and {@link categoryId} are used. These are arbitrary strings
+ * you can introduce and reuse to group or categorize elements together.
+ */
 export interface AddressSearchOptions extends PluginOptions {
 	/**
 	 * Array of search method descriptions.
@@ -82,6 +93,13 @@ export interface AddressSearchOptions extends PluginOptions {
 	 * Use `''` as the key for categoryless results.
 	 */
 	customSelectResult?: Record<string, SelectResultFunction>
+
+	/**
+	 * Whether the focus should switch to the first result after a successful search.
+	 *
+	 * @defaultValue false
+	 */
+	focusAfterSearch?: boolean
 
 	/**
 	 * An object defining properties for a group.

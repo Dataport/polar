@@ -90,6 +90,9 @@ export const useAddressSearchStore = defineStore(
 						Array.isArray(features) && features.length > 0
 				)
 		)
+		const focusAfterSearch = computed(
+			() => configuration.value.focusAfterSearch || false
+		)
 		const getGroupProperties = computed(
 			() =>
 				(groupId: string): GroupProperties => {
@@ -278,6 +281,9 @@ export const useAddressSearchStore = defineStore(
 
 			/** @internal */
 			afterResultComponent,
+
+			/** @internal */
+			focusAfterSearch,
 
 			/** @internal */
 			isLoading,

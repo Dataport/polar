@@ -76,9 +76,10 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, ref, toRaw, watch } from 'vue'
+import { computed, nextTick, ref, toRaw, watch } from 'vue'
 import { useAddressSearchStore } from '../store'
 import { PluginId, type SearchResult } from '../types'
+import { focusFirstResult } from '../utils/focusFirstResult'
 import { strongTitleByInput } from '../utils/strongTitleByInput'
 import { useCoreStore } from '@/core/stores/export'
 
@@ -95,6 +96,13 @@ const {
 
 // Reset opened categories on group change
 watch(selectedGroupId, () => (openCategories.value = []))
+watch(featuresAvailable, () => {
+	if (addressSearchStore.focusAfterSearch) {
+		void nextTick(() => {
+			focusFirstResult(results.value.length, coreStore.shadowRoot as ShadowRoot)
+		})
+	}
+})
 
 const openCategories = ref<string[]>([])
 

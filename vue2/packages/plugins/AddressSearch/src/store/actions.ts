@@ -1,16 +1,10 @@
-import { PolarActionTree } from '@polar/lib-custom-types'
-import { SearchResultSymbols } from '../'
-import {
-	AddressSearchGetters,
-	AddressSearchState,
-	AddressSearchAutoselect,
-} from '../types'
+type AddressSearchAutoselect = 'first' | 'only' | 'never'
 
 export const makeActions = () => {
 	let abortController
 	let methodContainer
 
-	const actions: PolarActionTree<AddressSearchState, AddressSearchGetters> = {
+	const actions = {
 		setupModule({ getters }): void {
 			// searchMethod without url is invalid – print error
 			getters.searchMethods
