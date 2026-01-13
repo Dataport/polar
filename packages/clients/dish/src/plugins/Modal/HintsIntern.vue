@@ -30,9 +30,9 @@
       >
         <span class="polar-unwrappable">
           <v-icon x-small color="#0089ca">fa-chevron-right</v-icon>
-          https://wdishpw002.lr.landsh.de/Content/Default.aspxx
-        </span>
-      </a>
+          https://wdishpw002.lr.landsh.de/Content/Default.aspxx</span
+        ></a
+      >
       darf nur auf Endgeräten erfolgen, die von den IT-Verantwortlichen der
       jeweiligen Kreisverwaltung bzw. der Verwaltung der kreisfreien Stadt
       gemanagt werden.
