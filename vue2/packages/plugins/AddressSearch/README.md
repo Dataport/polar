@@ -1,38 +1,5 @@
 # AddressSearch
 
-## Scope
-
-The AddressSearch plugin allows users to search for an address. If multiple addresses are returned by services, the user is prompted to select a result.
-
-The plugin saves the chosen information as GeoJSON to the store so that following procedures may grab it or so that other plugins may use it.
-
-Currently supported services:
-
-- BKG
-- WFS
-- Hamburg WFS-G (`mpapi`), may fit some WFS-G outside HH, test advised
-
-## Configuration
-
-### addressSearch
-
-#### addressSearch.customSelectFunction
-
-This is a function with the following signature:
-
-```ts
-({
-  // VueX context object
-  context,
-  payload: {
-    feature, // GeoJSON feature
-    categoryId // if configured on searchService, else ''
-  }
-}) => void
-```
-
-With this, arbitrary click results can be supported. Please mind that undocumented mutations and actions fired in such a function are subject to change without further notice.
-
 ## Store
 
 ### Mutations
