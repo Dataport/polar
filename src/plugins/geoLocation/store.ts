@@ -20,7 +20,7 @@ import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
 import { getTooltip } from '@/lib/tooltip'

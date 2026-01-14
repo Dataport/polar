@@ -30,7 +30,7 @@ import { computed, ref } from 'vue'
 
 import PolarInput from '@/components/PolarInput.ce.vue'
 import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import { useLayerChooserStore } from '../store'
 import { type LayerOptions, PluginId } from '../types'

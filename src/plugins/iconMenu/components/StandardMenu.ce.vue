@@ -14,7 +14,7 @@
 import { toMerged } from 'es-toolkit'
 import { computed } from 'vue'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import { useIconMenuStore } from '../store'
 import StandardFocusMenu from './StandardFocusMenu.ce.vue'

@@ -12,7 +12,7 @@ import { computed, ref, watch } from 'vue'
 
 import type { LayerConfiguration } from '@/core'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import type { LayerLegend, LayerOptions } from './types'
 

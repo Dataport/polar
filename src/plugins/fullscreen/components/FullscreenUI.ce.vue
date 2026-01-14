@@ -20,7 +20,7 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores'
 
 import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'

@@ -11,7 +11,7 @@ import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch, type Reactive, type WatchHandle } from 'vue'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 import { indicateLoading } from '@/lib/indicateLoading'
 
 import {
@@ -128,7 +128,7 @@ if (import.meta.vitest) {
 	const { expect, test: _test, vi } = import.meta.vitest
 	const { createPinia, setActivePinia } = await import('pinia')
 	const { reactive } = await import('vue')
-	const useCoreStoreFile = await import('@/core/stores/export')
+	const useCoreStoreFile = await import('@/core/stores')
 	const reverseGeocodeUtilFile = await import('./utils/reverseGeocode')
 	const indicateLoadingFile = await import('@/lib/indicateLoading')
 

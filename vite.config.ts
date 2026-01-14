@@ -57,7 +57,7 @@ export default defineConfig(({ mode }) => ({
 			formats: ['es'],
 			entry: {
 				polar: 'src/core/index.ts',
-				store: 'src/core/stores/export.ts',
+				store: 'src/core/stores/index.ts',
 				...Object.fromEntries(
 					globSync('src/plugins/*/').flatMap((path) => [
 						[`plugin-${basename(path)}`, [path, 'index.ts'].join(sep)],
@@ -99,7 +99,7 @@ export default defineConfig(({ mode }) => ({
 							'src',
 							'core',
 							'stores',
-							'export.ts'
+							'index.ts'
 						),
 						'@polar/polar/polar.css': resolve(
 							__dirname,

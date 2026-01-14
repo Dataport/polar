@@ -10,7 +10,7 @@ import { type Component, markRaw, ref } from 'vue'
 
 import type { PluginContainer } from '@/core'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 /* eslint-disable tsdoc/syntax */
 /**

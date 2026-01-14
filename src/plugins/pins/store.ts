@@ -18,7 +18,7 @@ import { Vector } from 'ol/source'
 import { defineStore } from 'pinia'
 import { computed, ref, watch, type WatchHandle } from 'vue'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import type { PinMovable, PinsPluginOptions } from './types'
 

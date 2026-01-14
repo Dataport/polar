@@ -65,7 +65,7 @@ import {
 	watch,
 } from 'vue'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import { useIconMenuStore } from '../store'
 import NineRegionsButton from './NineRegionsButton.ce.vue'

@@ -27,7 +27,7 @@
 import { storeToRefs } from 'pinia'
 
 import PolarCard from '@/components/PolarCard.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
+import { useCoreStore } from '@/core/stores'
 
 import { useLoadingIndicatorStore } from '../store'
 import {
