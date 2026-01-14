@@ -69,7 +69,11 @@
 					}}
 				</span>
 			</button>
-			<!-- TODO: Add divider -->
+			<hr
+				v-if="i < results.length - 1"
+				class="kern-divider"
+				aria-hidden="true"
+			/>
 		</template>
 	</div>
 </template>
