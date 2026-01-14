@@ -3,6 +3,8 @@
 ## unpublished
 - Fix: Add new configuration parameters for DishExportMap to configure different host (backend host might differ from `internalHost`) and to simplify adjustments for backend changes.
 - Chore: Edit urlParams configuration for new testing environment.
+- Feature: Configuration changed. A maximum of 120 features per search (BKG (address search) results) are now displayed.
+
 
 ## 1.2.0
 
