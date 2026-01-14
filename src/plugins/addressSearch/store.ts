@@ -192,7 +192,12 @@ export const useAddressSearchStore = defineStore(
 			debouncedSearch = debounce(_search, waitMs.value)
 			methodContainer = getMethodContainer()
 			selectedGroupId.value = groupIds.value[0] as string
-			// TODO: Register customSearchMethods as callable ones to the methodContainer
+			if (configuration.value.customSearchMethods) {
+				// TODO: The method was bound to the store before, test with DISH if still required
+				methodContainer.registerSearchMethods(
+					configuration.value.customSearchMethods
+				)
+			}
 		}
 
 		function teardownPlugin() {}

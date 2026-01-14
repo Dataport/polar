@@ -5,32 +5,6 @@ export const makeActions = () => {
 	let methodContainer
 
 	const actions = {
-		setupModule({ getters }): void {
-			// searchMethod without url is invalid – print error
-			getters.searchMethods
-				.filter(({ url }) => !url)
-				.forEach((miss) =>
-					console.error(
-						`@polar/plugin-address-search: A specification is missing an URL: (${JSON.stringify(
-							miss
-						)})`
-					)
-				)
-
-			// add custom added search implementations, if any configured
-			const customSearchMethods =
-				getters.addressSearchConfiguration.customSearchMethods
-			if (customSearchMethods) {
-				methodContainer.registerSearchMethods(
-					Object.fromEntries(
-						Object.entries(customSearchMethods).map(([key, value]) => [
-							key,
-							value.bind(this),
-						])
-					)
-				)
-			}
-		},
 		setSelectedGroupId(
 			{ commit, dispatch, state },
 			selectedGroupId: string
