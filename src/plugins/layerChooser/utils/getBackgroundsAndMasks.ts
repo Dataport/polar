@@ -1,4 +1,5 @@
 import { rawLayerList } from '@masterportal/masterportalapi'
+
 import type { LayerConfiguration } from '@/core'
 
 export const getBackgroundsAndMasks = (

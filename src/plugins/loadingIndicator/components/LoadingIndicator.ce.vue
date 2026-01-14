@@ -25,6 +25,10 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+
+import PolarCard from '@/components/PolarCard.ce.vue'
+import { useCoreStore } from '@/core/stores/export.ts'
+
 import { useLoadingIndicatorStore } from '../store'
 import {
 	BasicLoader,
@@ -33,8 +37,6 @@ import {
 	RollerLoader,
 	SpinnerLoader,
 } from './loaderStyles'
-import PolarCard from '@/components/PolarCard.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
 
 const { layout } = storeToRefs(useCoreStore())
 const { loaderStyle, showLoader } = storeToRefs(useLoadingIndicatorStore())

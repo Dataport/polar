@@ -1,5 +1,5 @@
-import { readFileSync } from 'node:fs'
 import { getOctokit, context } from '@actions/github'
+import { readFileSync } from 'node:fs'
 if (!process.env.GITHUB_TOKEN) {
 	process.stderr.write('fatal: No GitHub token provided')
 	process.exit(1)

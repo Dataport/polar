@@ -4,12 +4,14 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { t } from 'i18next'
 import { toMerged } from 'es-toolkit'
+import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
-import type { Menu } from './types'
+
 import { useCoreStore } from '@/core/stores/export'
+
+import type { Menu } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**

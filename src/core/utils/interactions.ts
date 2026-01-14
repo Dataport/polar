@@ -1,3 +1,5 @@
+import type { MapBrowserEvent } from 'ol'
+
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import {
 	DragPan,
@@ -5,7 +7,6 @@ import {
 	KeyboardZoom,
 	MouseWheelZoom,
 } from 'ol/interaction'
-import type { MapBrowserEvent } from 'ol'
 
 /**
  * Desktop:

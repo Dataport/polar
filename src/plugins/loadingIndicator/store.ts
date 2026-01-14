@@ -6,6 +6,7 @@
 
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+
 import { useCoreStore } from '@/core/stores/export.ts'
 
 const styles = [

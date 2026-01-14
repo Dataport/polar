@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+
 import { useFooterStore } from '../store'
 
 const { leftEntries, rightEntries } = storeToRefs(useFooterStore())

@@ -1,4 +1,5 @@
 import { rawLayerList } from '@masterportal/masterportalapi'
+
 import type { MasterportalApiServiceRegister } from '../types'
 
 export async function fetchServiceRegister(url: string) {

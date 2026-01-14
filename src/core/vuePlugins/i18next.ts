@@ -1,7 +1,9 @@
+import type { Plugin } from 'vue'
+
 import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import I18NextVue from 'i18next-vue'
-import type { Plugin } from 'vue'
+
 import locales from '../locales'
 
 export const CoreId = 'core'

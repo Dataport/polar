@@ -1,10 +1,10 @@
-import { ref, reactive, watch } from 'vue'
 import {
 	fetchServiceRegister,
 	type MapConfiguration,
 	type MasterportalApiServiceRegister,
 } from '@polar/polar'
 import { defineStore } from 'pinia'
+import { ref, reactive, watch } from 'vue'
 
 export const useIcebergStore = defineStore('iceberg', () => {
 	const mapConfiguration = reactive<MapConfiguration>({

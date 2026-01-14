@@ -4,9 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, toRaw, type Reactive } from 'vue'
-import { toMerged } from 'es-toolkit'
+
+import { useCoreStore } from '@/core/stores/export'
+
 import {
 	PluginId,
 	type Toast,
@@ -15,7 +18,6 @@ import {
 	type ToastSeverity,
 	type ToastTheme,
 } from './types'
-import { useCoreStore } from '@/core/stores/export'
 
 interface ToastItem {
 	toast: Toast

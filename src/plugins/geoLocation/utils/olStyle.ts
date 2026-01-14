@@ -1,4 +1,5 @@
 import type { FeatureLike } from 'ol/Feature'
+
 import Circle from 'ol/style/Circle'
 import Fill from 'ol/style/Fill'
 import RegularShape from 'ol/style/RegularShape'

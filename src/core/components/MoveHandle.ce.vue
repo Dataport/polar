@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import {
 	computed,
 	onBeforeUnmount,
@@ -33,7 +34,7 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
-import { storeToRefs } from 'pinia'
+
 import { useCoreStore } from '../stores/export'
 import { useMoveHandleStore } from '../stores/moveHandle'
 

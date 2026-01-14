@@ -1,10 +1,9 @@
-import { resolve } from 'node:path'
-
-import { defineConfig } from 'vite'
-
-import commonJs from 'vite-plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
+import { resolve } from 'node:path'
+import { defineConfig } from 'vite'
+import commonJs from 'vite-plugin-commonjs'
 import kernExtraIcons from 'vite-plugin-kern-extra-icons'
+
 import enrichedConsole from './vitePlugins/enrichedConsole.js'
 
 export default defineConfig({
