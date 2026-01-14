@@ -68,7 +68,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       attributionsAlkisWms,
     ],
     staticAttributions: [
-      `<span>Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/">BKG</a> 2024 <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf">Nutzungsbedingungen</a></span>`,
+      `<span>Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/" target="_blank">BKG</a> <YEAR> <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf" target="_blank">Nutzungsbedingungen</a></span>`,
       '<a href="#" onclick="window.openBenutzungshinweise(true)">Benutzungshinweise</a>',
     ],
   },
