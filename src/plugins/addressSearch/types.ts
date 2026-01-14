@@ -129,8 +129,6 @@ export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
 
 export type SearchDisplayMode = 'mixed' | 'categorized'
 
-// TODO: Check if all parameters are actually being used
-
 /** Object containing information for a specific search method. */
 export interface SearchMethodConfiguration {
 	/**
@@ -174,12 +172,6 @@ export interface SearchMethodConfiguration {
 	 * Can be a locale key. If grouped with other services, the group's label will be used instead.
 	 */
 	label?: string
-
-	/**
-	 * Placeholder string to display on input element.
-	 * Can be a locale key. If grouped with other services, the group's placeholder will be used instead.
-	 */
-	placeholder?: string
 
 	/**
 	 * The object further describes details for the search request.
