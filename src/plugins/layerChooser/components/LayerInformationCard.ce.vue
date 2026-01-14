@@ -15,10 +15,12 @@
 </template>
 <script setup lang="ts">
 import { nextTick, onMounted } from 'vue'
-import { PluginId } from '../types'
-import { useLayerChooserStore } from '../store'
+
 import PolarCard from '@/components/PolarCard.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
+
+import { useLayerChooserStore } from '../store'
+import { PluginId } from '../types'
 
 const props = defineProps<{
 	identifier: string

@@ -6,10 +6,11 @@
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed } from 'vue'
+
 import { useMainStore } from './main'
-import { usePluginStore } from './plugin'
 import { useMarkerStore } from './marker'
 import { useMoveHandleStore } from './moveHandle'
+import { usePluginStore } from './plugin'
 
 /* eslint-disable tsdoc/syntax */
 /**

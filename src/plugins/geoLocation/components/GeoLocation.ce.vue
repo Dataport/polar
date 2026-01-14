@@ -14,10 +14,12 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { useGeoLocationStore } from '../store'
-import { PluginId } from '../types'
+
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores/export'
+
+import { useGeoLocationStore } from '../store'
+import { PluginId } from '../types'
 
 const { layout } = storeToRefs(useCoreStore())
 const geoLocationStore = useGeoLocationStore()

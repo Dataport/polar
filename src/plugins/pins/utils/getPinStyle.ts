@@ -1,5 +1,7 @@
 import { Style, Icon } from 'ol/style'
+
 import type { PinStyle } from '../types'
+
 import { getPinSvg } from './getPinSvg'
 
 export const getPinStyle = ({

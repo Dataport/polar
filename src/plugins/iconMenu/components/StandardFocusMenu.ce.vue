@@ -32,9 +32,12 @@
 import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
-import { useIconMenuStore } from '../store'
-import type { Menu } from '../types'
+
 import { useCoreStore } from '@/core/stores/export'
+
+import type { Menu } from '../types'
+
+import { useIconMenuStore } from '../store'
 
 const props = defineProps<{
 	menus: (Menu & { buttonClass: string; icon: string })[]

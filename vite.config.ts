@@ -1,15 +1,14 @@
+import vue from '@vitejs/plugin-vue'
+import { globSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve, basename, sep } from 'node:path'
-import { globSync } from 'node:fs'
-
 import { defineConfig } from 'vite'
-
-import commonJs from 'vite-plugin-commonjs'
-import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
-import dts from 'vite-plugin-dts'
 import checker from 'vite-plugin-checker'
+import commonJs from 'vite-plugin-commonjs'
+import dts from 'vite-plugin-dts'
 import kernExtraIcons from 'vite-plugin-kern-extra-icons'
+import vueDevTools from 'vite-plugin-vue-devtools'
+
 import enrichedConsole from './vitePlugins/enrichedConsole.js'
 
 const require = createRequire(import.meta.url)

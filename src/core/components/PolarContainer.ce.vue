@@ -27,10 +27,12 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
+
+import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
+
 import { useCoreStore } from '../stores/export'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
-import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
 import { loadKern } from '../utils/loadKern'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import MoveHandle from './MoveHandle.ce.vue'

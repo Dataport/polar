@@ -22,6 +22,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+
 import { useCoreStore } from '@/core/stores/export'
 
 defineProps<{

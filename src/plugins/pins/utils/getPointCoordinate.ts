@@ -1,5 +1,7 @@
 import type { GeoJsonGeometryTypes } from 'geojson'
 import type { Coordinate } from 'ol/coordinate'
+
+import { getCenter } from 'ol/extent'
 import {
 	Circle,
 	LinearRing,
@@ -11,7 +13,6 @@ import {
 	Polygon,
 } from 'ol/geom'
 import { transform } from 'ol/proj'
-import { getCenter } from 'ol/extent'
 
 // TODO: This function is exported as part of the module and currently used in DISH. Check whether that is still needed.
 

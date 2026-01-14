@@ -4,19 +4,22 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { Mock } from 'vitest'
+
+import { easeOut } from 'ol/easing'
+import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch, type Reactive, type WatchHandle } from 'vue'
-import { Point } from 'ol/geom'
-import { easeOut } from 'ol/easing'
-import type { Mock } from 'vitest'
-import { reverseGeocode as reverseGeocodeUtil } from './utils/reverseGeocode'
+
+import { useCoreStore } from '@/core/stores/export'
+import { indicateLoading } from '@/lib/indicateLoading'
+
 import {
 	PluginId,
 	type ReverseGeocoderFeature,
 	type ReverseGeocoderPluginOptions,
 } from './types'
-import { useCoreStore } from '@/core/stores/export'
-import { indicateLoading } from '@/lib/indicateLoading'
+import { reverseGeocode as reverseGeocodeUtil } from './utils/reverseGeocode'
 
 /* eslint-disable tsdoc/syntax */
 /**

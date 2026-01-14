@@ -1,4 +1,5 @@
 import { computed } from 'vue'
+
 import { useCoreStore } from '@/core/stores/export'
 
 export function computedT(translator: () => string) {
