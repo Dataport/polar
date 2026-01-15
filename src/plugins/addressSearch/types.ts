@@ -21,13 +21,8 @@ export interface CategoryProperties {
 }
 
 export interface GroupProperties {
-	/**
-	 * In `'mixed'`, results of all requested services are offered in a list in no specific order.
-	 * In `'categorized'`, the results are listed by their searchService's categoryId.
-	 *
-	 * @defaultValue 'mixed'
-	 */
-	resultDisplayMode: 'mixed' | 'categorized'
+	/** Display label for group selection. Can be a locale key. */
+	label: string
 
 	/**
 	 * Hint that is displayed below the input field if no other plugin-state-based
@@ -36,14 +31,19 @@ export interface GroupProperties {
 	 */
 	hint?: string
 
-	/** Display label for group selection. Can be a locale key. */
-	label?: string
-
 	/**
 	 * If set, only the first `n` results (per category in `categorized`) are displayed initially.
 	 * All further results can be opened via UI.
 	 */
 	limitResults?: number
+
+	/**
+	 * In `'mixed'`, results of all requested services are offered in a list in no specific order.
+	 * In `'categorized'`, the results are listed by their searchService's categoryId.
+	 *
+	 * @defaultValue 'mixed'
+	 */
+	resultDisplayMode?: 'mixed' | 'categorized'
 }
 
 /**
