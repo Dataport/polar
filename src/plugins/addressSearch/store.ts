@@ -63,7 +63,7 @@ export const useAddressSearchStore = defineStore(
 		const searchResults = ref<SearchResult[] | symbol>(
 			SearchResultSymbols.NO_SEARCH
 		)
-		const selectedGroupId = ref('defaultGroup')
+		const _selectedGroupId = ref('defaultGroup')
 
 		const afterResultComponent = computed(
 			() => configuration.value.afterResultComponent || null
@@ -179,6 +179,19 @@ export const useAddressSearchStore = defineStore(
 				'hint'
 			)
 		)
+		const selectedGroupId = computed({
+			get: () => _selectedGroupId.value,
+			set: (value) => {
+				if (value === _selectedGroupId.value) {
+					return
+				}
+				_selectedGroupId.value = value
+				searchResults.value = SearchResultSymbols.NO_SEARCH
+				if (inputValue.value.length > 0) {
+					void _search()
+				}
+			},
+		})
 		const selectedGroupProperties = computed<GroupProperties>(() =>
 			getGroupProperties.value(selectedGroupId.value)
 		)
@@ -336,6 +349,11 @@ export const useAddressSearchStore = defineStore(
 
 			searchResults,
 
+			/**
+			 * ID of the currently selected group.
+			 * Changing this triggers a new search with the currently set value
+			 * for {@link inputValue} if it has at least one character.
+			 */
 			selectedGroupId,
 
 			/**
