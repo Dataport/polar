@@ -1,4 +1,5 @@
 import { MapInstance } from '@polar/core'
+import { SearchMethodConfiguration } from '@polar/lib-custom-types'
 import { categoryIdAlkisSearch } from '../mapConfigurations/searchConfigParams'
 import { alkisWms } from '../servicesConstants'
 import { alkisMinZoom } from '../mapConfigurations/layerConfigIntern'
@@ -11,11 +12,13 @@ export function watchSearchResultForAlkisSearch(instance: MapInstance) {
     const configuration =
       instance.$store.getters['plugin/addressSearch/addressSearchConfiguration']
     const configPatternKeys = configuration.searchMethods?.find(
-      (method) => method.categoryId === categoryIdAlkisSearch
+      (method: SearchMethodConfiguration) =>
+        method.categoryId === categoryIdAlkisSearch
     ).queryParameters?.patternKeys
     const configPatternKeysArray = Object.keys(configPatternKeys || {})
     const patternKeysSearchResult = Object.keys(
-      (chosenAddress as any)?.properties || {}
+      (chosenAddress as { properties?: Record<string, unknown> })?.properties ||
+        {}
     )
 
     if (
