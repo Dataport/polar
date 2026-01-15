@@ -30,7 +30,7 @@ import {
 
 import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
 
-import { useCoreStore } from '../stores/export'
+import { useCoreStore } from '../stores'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
 import { loadKern } from '../utils/loadKern'

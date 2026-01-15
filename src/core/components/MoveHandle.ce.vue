@@ -35,7 +35,7 @@ import {
 	watch,
 } from 'vue'
 
-import { useCoreStore } from '../stores/export'
+import { useCoreStore } from '../stores'
 import { useMoveHandleStore } from '../stores/moveHandle'
 
 type MoveEventName = 'touchmove' | 'mousemove'

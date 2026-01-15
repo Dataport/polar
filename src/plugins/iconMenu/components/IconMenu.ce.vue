@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import NineRegionsMenu from './NineRegionsMenu.ce.vue'
 import StandardMenu from './StandardMenu.ce.vue'

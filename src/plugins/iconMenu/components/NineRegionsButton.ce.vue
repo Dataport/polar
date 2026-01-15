@@ -13,7 +13,7 @@ import { storeToRefs } from 'pinia'
 import { computed, inject } from 'vue'
 
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import { useIconMenuStore } from '../store'
 

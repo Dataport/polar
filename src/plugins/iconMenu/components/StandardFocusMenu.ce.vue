@@ -33,7 +33,7 @@ import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import type { Menu } from '../types'
 

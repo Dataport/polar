@@ -17,7 +17,7 @@
 import { nextTick, onMounted } from 'vue'
 
 import PolarCard from '@/components/PolarCard.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import { useLayerChooserStore } from '../store'
 import { PluginId } from '../types'

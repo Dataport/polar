@@ -9,7 +9,7 @@ import type { Reactive } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import { PluginId, type FullscreenPluginOptions } from './types'
 
@@ -161,7 +161,7 @@ if (import.meta.vitest) {
 	const { expect, test: _test, vi } = import.meta.vitest
 	const { createPinia, setActivePinia } = await import('pinia')
 	const { reactive } = await import('vue')
-	const useCoreStoreFile = await import('@/core/stores/export')
+	const useCoreStoreFile = await import('@/core/stores')
 
 	/* eslint-disable no-empty-pattern */
 	const test = _test.extend<{

@@ -1,4 +1,4 @@
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 let loaderKeyCounter = 0
 
 export function indicateLoading() {
