@@ -23,7 +23,10 @@ export function watchSearchResultForAlkisSearch(instance: MapInstance) {
         patternKeysSearchResult.includes(item)
       )
     ) {
-      instance.$store.getters.map.getView().setZoom(alkisMinZoom)
+      const zoomLevel = instance.$store.getters['plugin/zoom/zoomLevel']
+      if (zoomLevel < alkisMinZoom) {
+        instance.$store.getters.map.getView().setZoom(alkisMinZoom)
+      }
       const activeMaskIds =
         instance.$store.getters['plugin/layerChooser/activeMaskIds']
       if (!activeMaskIds.includes(alkisWms)) {
