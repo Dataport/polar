@@ -1,5 +1,7 @@
 import { MapInstance } from '@polar/core'
 import { categoryIdAlkisSearch } from '../mapConfigurations/searchConfigParams'
+import { alkisWms } from '../servicesConstants'
+import { alkisMinZoom } from '../mapConfigurations/layerConfigIntern'
 
 export function watchSearchResultForAlkisSearch(instance: MapInstance) {
   instance.subscribe('plugin/addressSearch/chosenAddress', (chosenAddress) => {
@@ -21,7 +23,16 @@ export function watchSearchResultForAlkisSearch(instance: MapInstance) {
         patternKeysSearchResult.includes(item)
       )
     ) {
-      console.log('### ES KLAPPT')
+      instance.$store.getters.map.getView().setZoom(alkisMinZoom)
+      const activeMaskIds =
+        instance.$store.getters['plugin/layerChooser/activeMaskIds']
+      if (!activeMaskIds.includes(alkisWms)) {
+        activeMaskIds.push(alkisWms)
+        instance.$store.dispatch(
+          'plugin/layerChooser/setActiveMaskIds',
+          activeMaskIds
+        )
+      }
     }
   })
 }
