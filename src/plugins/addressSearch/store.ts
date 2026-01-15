@@ -315,6 +315,13 @@ export const useAddressSearchStore = defineStore(
 		}
 
 		return {
+			/**
+			 * Address GeoJSON object _as returned by a search service_.
+			 * The result and its fields differ depending on the used backend.
+			 * The callback is used whenever the user clicks on a search result or
+			 * started a one-result search, which results in an auto-select of the
+			 * singular result.
+			 */
 			chosenAddress,
 			inputValue,
 
