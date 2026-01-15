@@ -5,6 +5,7 @@ import { alkisWms } from '../servicesConstants'
 import { alkisMinZoom } from '../mapConfigurations/layerConfigIntern'
 
 export function watchSearchResultForAlkisSearch(instance: MapInstance) {
+  console.log('### watchSearchResultForAlkisSearch initialized')
   instance.subscribe('plugin/addressSearch/chosenAddress', (chosenAddress) => {
     if (chosenAddress === null) {
       return
@@ -27,9 +28,11 @@ export function watchSearchResultForAlkisSearch(instance: MapInstance) {
       )
     ) {
       const zoomLevel = instance.$store.getters['plugin/zoom/zoomLevel']
-      if (zoomLevel < alkisMinZoom) {
-        instance.$store.getters.map.getView().setZoom(alkisMinZoom)
-      }
+
+      instance.$store.getters.map
+        .getView()
+        .setZoom(zoomLevel <= alkisMinZoom ? alkisMinZoom : zoomLevel)
+
       const activeMaskIds =
         instance.$store.getters['plugin/layerChooser/activeMaskIds']
       if (!activeMaskIds.includes(alkisWms)) {
