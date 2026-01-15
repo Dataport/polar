@@ -18,10 +18,12 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+
+import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import { useCoreStore } from '@/core/stores'
+
 import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'
-import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export.ts'
 
 const coreStore = useCoreStore()
 const fullscreenStore = useFullscreenStore()

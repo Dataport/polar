@@ -1,5 +1,6 @@
 import type { Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
+
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 

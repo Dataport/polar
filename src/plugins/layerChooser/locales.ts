@@ -7,8 +7,9 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { PluginId } from './types'
 import type { Locale } from '@/core'
+
+import { PluginId } from './types'
 
 /**
  * German locales for layerChooser plugin.

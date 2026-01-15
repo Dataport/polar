@@ -1,7 +1,10 @@
-import { t } from 'i18next'
 import type { Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
+
+import { t } from 'i18next'
+
 import type { BoundaryOptions } from '@/core'
+
 import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
 

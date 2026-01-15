@@ -11,22 +11,23 @@
 </template>
 
 <script setup lang="ts">
+import type { Map } from 'ol'
+
 import api from '@masterportal/masterportalapi/src/maps/api'
 import Hammer from 'hammerjs'
+import { t } from 'i18next'
+import { easeOut } from 'ol/easing'
 import { defaults } from 'ol/interaction'
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, useTemplateRef, watch } from 'vue'
-import type { Map } from 'ol'
-import { easeOut } from 'ol/easing'
-import { t } from 'i18next'
-import { useMainStore } from '../stores/main'
 
+import { useT } from '../composables/useT'
+import { useMainStore } from '../stores/main'
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
 import { createKeyboardInteractions } from '../utils/interactions'
-import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
-import { setupStyling } from '../utils/map/setupStyling'
 import { setupMarkers } from '../utils/map/setupMarkers'
-import { useT } from '../composables/useT'
+import { setupStyling } from '../utils/map/setupStyling'
+import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
 import PolarMapOverlay from './PolarMapOverlay.ce.vue'
 
 const mainStore = useMainStore()

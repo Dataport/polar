@@ -25,7 +25,9 @@
 
 <script setup lang="ts">
 import type { MapConfiguration } from '@polar/polar'
+
 import { useId } from 'vue'
+
 import { useIcebergStore } from '../stores/iceberg'
 
 const id = useId()

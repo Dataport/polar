@@ -9,6 +9,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+
 import { usePluginStore } from '../../stores/plugin'
 
 const pluginStore = usePluginStore()

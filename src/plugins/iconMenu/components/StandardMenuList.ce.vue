@@ -45,10 +45,13 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
-import { useIconMenuStore } from '../store'
-import type { Menu } from '../types'
+
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
+
+import type { Menu } from '../types'
+
+import { useIconMenuStore } from '../store'
 
 withDefaults(
 	defineProps<{

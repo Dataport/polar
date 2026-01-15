@@ -22,9 +22,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+
+import { getCssColor } from '@/lib/getCssColor'
+
 import { useToastStore } from '../store'
 import { PluginId, type ToastSeverity } from '../types'
-import { getCssColor } from '@/lib/getCssColor'
 const store = useToastStore()
 
 function getKernSeverity(severity: ToastSeverity) {

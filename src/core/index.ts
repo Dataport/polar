@@ -11,10 +11,10 @@
 
 import '@kern-ux/native/dist/fonts/fira-sans.css'
 import { defineCustomElement } from 'vue'
+
 import PolarContainer from './components/PolarContainer.ce.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
-
 import './monkeyHeaderLoader'
 
 /**

@@ -4,9 +4,10 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { Coordinate } from 'ol/coordinate'
+
 import { noop, toMerged } from 'es-toolkit'
 import { t } from 'i18next'
-import type { Coordinate } from 'ol/coordinate'
 import { containsCoordinate } from 'ol/extent'
 import Feature from 'ol/Feature'
 import Geolocation from 'ol/Geolocation'
@@ -18,14 +19,17 @@ import { transform as transformCoordinates } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import type { PluginState, GeoLocationPluginOptions } from './types'
-import { detectDeniedGeolocationEarly } from './utils/detectDeniedGeolocationEarly'
-import { getGeoLocationStyle } from './utils/olStyle'
-import { positionChanged } from './utils/positionChanged'
-import { useCoreStore } from '@/core/stores/export'
+
+import { useCoreStore } from '@/core/stores'
 import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
 import { getTooltip } from '@/lib/tooltip'
+
+import type { PluginState, GeoLocationPluginOptions } from './types'
+
+import { detectDeniedGeolocationEarly } from './utils/detectDeniedGeolocationEarly'
+import { getGeoLocationStyle } from './utils/olStyle'
+import { positionChanged } from './utils/positionChanged'
 
 /* eslint-disable tsdoc/syntax */
 /**

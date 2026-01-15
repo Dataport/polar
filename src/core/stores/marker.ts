@@ -2,7 +2,9 @@ import { Feature } from 'ol'
 import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+
 import type { CallOnMapSelect } from '../types'
+
 import { useMainStore } from './main'
 
 export const useMarkerStore = defineStore('marker', () => {

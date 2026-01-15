@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+
 import { useLayerChooserStore } from '../store'
 import { type LayerLegend, PluginId } from '../types'
 import LayerInformationCard from './LayerInformationCard.ce.vue'

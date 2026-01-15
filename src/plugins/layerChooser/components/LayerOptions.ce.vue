@@ -25,14 +25,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
+
+import PolarInput from '@/components/PolarInput.ce.vue'
+import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
+import { useCoreStore } from '@/core/stores'
+
 import { useLayerChooserStore } from '../store'
 import { type LayerOptions, PluginId } from '../types'
 import LayerInformationCard from './LayerInformationCard.ce.vue'
-import PolarInput from '@/components/PolarInput.ce.vue'
-import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
 
 const coreStore = useCoreStore()
 const layerChooserStore = useLayerChooserStore()
