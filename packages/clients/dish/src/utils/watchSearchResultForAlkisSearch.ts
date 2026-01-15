@@ -5,7 +5,6 @@ import { alkisWms } from '../servicesConstants'
 import { alkisMinZoom } from '../mapConfigurations/layerConfigIntern'
 
 export function watchSearchResultForAlkisSearch(instance: MapInstance) {
-  console.log('### watchSearchResultForAlkisSearch initialized')
   instance.subscribe('plugin/addressSearch/chosenAddress', (chosenAddress) => {
     if (chosenAddress === null) {
       return
