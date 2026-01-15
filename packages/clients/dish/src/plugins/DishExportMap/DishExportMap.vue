@@ -218,7 +218,7 @@ export default Vue.extend({
         .join('&')
       const encodedUrl = `${this.dishExportMap.exportMapAsPdfUrl}?${queryString}`
 
-      window.open(encodedUrl, '_blank')
+      window.open(encodedUrl, this.newTab === true ? '_blank' : '_self')
       this.showOverlay = false
     },
   },
