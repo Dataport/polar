@@ -4,11 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { PluginContainer, PluginOptions, PolarPluginStore } from '@/core'
+
 import component from './components/AddressSearch.ce.vue'
 import locales from './locales'
 import { useAddressSearchStore } from './store'
 import { PluginId } from './types'
-import type { PluginContainer, PluginOptions, PolarPluginStore } from '@/core'
 
 /**
  * Creates a plugin which adds a user interface to search for various kinds of textual information to map it to a

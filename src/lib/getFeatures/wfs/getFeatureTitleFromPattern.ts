@@ -1,5 +1,6 @@
-import { getBlocks } from './match'
 import type { PolarGeoJsonFeature } from '@/core'
+
+import { getBlocks } from './match'
 
 interface Option {
 	fillPercentage: number

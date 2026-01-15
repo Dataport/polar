@@ -1,13 +1,13 @@
-import { defineConfig } from 'eslint/config'
 import mainConfig from '@dataport/eslint-config-geodev'
 import browserConfig from '@dataport/eslint-config-geodev/browser'
-import tsConfig from '@dataport/eslint-config-geodev/typescript'
-import vueConfig from '@dataport/eslint-config-geodev/vue'
+import htmlConfig from '@dataport/eslint-config-geodev/html'
 import jsonConfig from '@dataport/eslint-config-geodev/json'
 import markdownConfig from '@dataport/eslint-config-geodev/markdown'
-import htmlConfig from '@dataport/eslint-config-geodev/html'
-import prettierConfig from 'eslint-plugin-prettier/recommended'
+import tsConfig from '@dataport/eslint-config-geodev/typescript'
+import vueConfig from '@dataport/eslint-config-geodev/vue'
 import perfectionist from 'eslint-plugin-perfectionist'
+import prettierConfig from 'eslint-plugin-prettier/recommended'
+import { defineConfig } from 'eslint/config'
 
 /**
  * POLAR-specific ESLint configuration
@@ -39,6 +39,8 @@ const polarConfig = defineConfig({
 				allowTypeStart: true,
 			},
 		],
+		'import-x/order': 'off',
+		'perfectionist/sort-imports': 'error',
 	},
 })
 

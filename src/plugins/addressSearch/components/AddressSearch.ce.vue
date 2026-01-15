@@ -52,13 +52,15 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, nextTick, ref } from 'vue'
+
+import PolarCard from '@/components/PolarCard.ce.vue'
+import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import { useCoreStore } from '@/core/stores'
+
 import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
 import { focusFirstResult } from '../utils/focusFirstResult'
 import SearchResults from './SearchResults.ce.vue'
-import PolarCard from '@/components/PolarCard.ce.vue'
-import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()

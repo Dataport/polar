@@ -1,8 +1,10 @@
 import { toMerged } from 'es-toolkit'
 import { GeoJSON, WFS } from 'ol/format'
 import { transform as transformCoordinates } from 'ol/proj'
-import { getFeatureTitleFromPattern } from './getFeatureTitleFromPattern'
+
 import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
+
+import { getFeatureTitleFromPattern } from './getFeatureTitleFromPattern'
 
 const parser = new WFS()
 const writer = new GeoJSON()

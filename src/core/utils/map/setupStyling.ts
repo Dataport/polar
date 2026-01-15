@@ -1,9 +1,11 @@
 import type { Feature, Map } from 'ol'
+import type { FeatureLike } from 'ol/Feature'
+import type VectorLayer from 'ol/layer/Vector'
+
 import createStyle from '@masterportal/masterportalapi/src/vectorStyle/createStyle'
 import styleList from '@masterportal/masterportalapi/src/vectorStyle/styleList'
 import noop from '@repositoryname/noop'
-import type VectorLayer from 'ol/layer/Vector'
-import type { FeatureLike } from 'ol/Feature'
+
 import type {
 	MapConfiguration,
 	MasterportalApiServiceRegister,

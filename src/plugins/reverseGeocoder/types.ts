@@ -1,4 +1,5 @@
 import type { Feature } from 'geojson'
+
 import type { PluginOptions, StoreReference } from '@/core'
 
 /**

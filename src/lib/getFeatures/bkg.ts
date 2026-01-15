@@ -1,9 +1,13 @@
-import { toMerged } from 'es-toolkit'
 import type { FeatureCollection, Point } from 'geojson'
+
+import { toMerged } from 'es-toolkit'
 import { transform as transformCoordinates } from 'ol/proj'
-import type { BKGParameters } from './types'
-import { errorCheck } from './errorCheck'
+
 import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
+
+import type { BKGParameters } from './types'
+
+import { errorCheck } from './errorCheck'
 
 function getRequestUrlQuery(
 	inputValue: string,

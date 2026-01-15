@@ -1,7 +1,9 @@
 import type { Plugin } from 'vue'
+
 import { createPinia } from 'pinia'
-import { saveInstance } from '../piniaPlugins/saveInstance'
+
 import { actionLogger } from '../piniaPlugins/actionLogger'
+import { saveInstance } from '../piniaPlugins/saveInstance'
 
 export const Pinia: Plugin = {
 	install(app) {

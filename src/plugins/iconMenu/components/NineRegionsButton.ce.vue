@@ -11,9 +11,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, inject } from 'vue'
-import { useIconMenuStore } from '../store'
+
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
+
+import { useIconMenuStore } from '../store'
 
 const props = defineProps<{
 	icon: string

@@ -1,10 +1,5 @@
 import type { VueElement } from 'vue'
-import type defaults from '../utils/defaults'
-import type { MarkerConfiguration } from './marker'
-import type { LayerConfiguration } from './layer'
-import type { PolarTheme } from './theme'
-import type { LocaleOverride } from './locales'
-import type { PluginId } from './plugin'
+
 import type { AddressSearchOptions } from '@/plugins/addressSearch'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
@@ -14,6 +9,13 @@ import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
 import type { PinsPluginOptions } from '@/plugins/pins'
 import type { ReverseGeocoderPluginOptions } from '@/plugins/reverseGeocoder'
 import type { ToastPluginOptions } from '@/plugins/toast'
+
+import type defaults from '../utils/defaults'
+import type { LayerConfiguration } from './layer'
+import type { LocaleOverride } from './locales'
+import type { MarkerConfiguration } from './marker'
+import type { PluginId } from './plugin'
+import type { PolarTheme } from './theme'
 
 export interface ServiceAvailabilityCheck {
 	ping: Promise<number>

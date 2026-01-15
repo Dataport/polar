@@ -42,11 +42,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import kernExtraIcons from 'virtual:kern-extra-icons'
+import { computed, ref } from 'vue'
+
+import IcebergMap from './components/IcebergMap.vue'
 import LayoutChooser from './components/LayoutChooser.vue'
 import TaskMenu from './components/TaskMenu.vue'
-import IcebergMap from './components/IcebergMap.vue'
 
 const configTasks = [
 	{

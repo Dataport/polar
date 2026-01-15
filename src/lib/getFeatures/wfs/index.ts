@@ -1,8 +1,9 @@
-import { errorCheck } from '../errorCheck'
 import type { KeyValueSetArray, WfsParameters } from '../types'
-import { parseWfsResponse } from './parse'
+
+import { errorCheck } from '../errorCheck'
 import { buildWfsFilter } from './buildWfsFilter'
 import { match } from './match'
+import { parseWfsResponse } from './parse'
 
 /** AbortSignal may be null in order to use it outside typical search scenarios. */
 export async function getWfsFeatures(

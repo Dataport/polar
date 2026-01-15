@@ -1,5 +1,6 @@
 import kernCss from '@kern-ux/native/dist/kern.min.css?raw'
 import kernExtraIcons from 'virtual:kern-extra-icons'
+
 import type { KernTheme, KernThemeTree } from '../types'
 
 function flattenKernTheme(theme: KernThemeTree, prefix: string[] = []) {

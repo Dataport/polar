@@ -81,11 +81,13 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, nextTick, ref, toRaw, watch } from 'vue'
+
+import { useCoreStore } from '@/core/stores'
+
 import { useAddressSearchStore } from '../store'
 import { PluginId, type SearchResult } from '../types'
 import { focusFirstResult } from '../utils/focusFirstResult'
 import { strongTitleByInput } from '../utils/strongTitleByInput'
-import { useCoreStore } from '@/core/stores/export'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()

@@ -1,4 +1,5 @@
 import { toMerged } from 'es-toolkit'
+
 import type { KeyValueSetArray, WfsParameters } from '../types'
 
 const removeLinebreaks = (s) => s.replace(/\r?\n|\r/g, '')

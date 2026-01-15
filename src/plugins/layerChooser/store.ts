@@ -5,20 +5,24 @@
 /* eslint-enable tsdoc/syntax */
 
 import { toMerged } from 'es-toolkit'
-import { defineStore } from 'pinia'
-import { computed, ref, watch } from 'vue'
 import Layer from 'ol/layer/Layer'
 import { ImageWMS, TileWMS } from 'ol/source'
+import { defineStore } from 'pinia'
+import { computed, ref, watch } from 'vue'
+
+import type { LayerConfiguration } from '@/core'
+
+import { useCoreStore } from '@/core/stores'
+
 import type { LayerLegend, LayerOptions } from './types'
+
 import { areLayersActive } from './utils/areLayersActive'
 import {
 	loadCapabilities,
 	prepareLayersWithOptions,
 } from './utils/capabilities'
-import { prepareLegends } from './utils/prepareLegends'
 import { getBackgroundsAndMasks } from './utils/getBackgroundsAndMasks'
-import type { LayerConfiguration } from '@/core'
-import { useCoreStore } from '@/core/stores/export'
+import { prepareLegends } from './utils/prepareLegends'
 
 /* eslint-disable tsdoc/syntax */
 /**

@@ -8,6 +8,11 @@ import { debounce, toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+
+import type { PolarGeoJsonFeature } from '@/core'
+
+import { useCoreStore } from '@/core/stores'
+
 import {
 	type AddressSearchOptions,
 	type GroupProperties,
@@ -15,11 +20,9 @@ import {
 	type SearchResult,
 	type SearchMethodConfiguration,
 } from './types'
-import { getMethodContainer } from './utils/methodContainer'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
+import { getMethodContainer } from './utils/methodContainer'
 import SearchResultSymbols from './utils/searchResultSymbols'
-import { useCoreStore } from '@/core/stores/export'
-import type { PolarGeoJsonFeature } from '@/core'
 
 const defaultGroupProperties: Required<GroupProperties> = {
 	// TODO: The label should be translated for others as well -> The translation should probably not take place here but in the GroupSelect dropdown
