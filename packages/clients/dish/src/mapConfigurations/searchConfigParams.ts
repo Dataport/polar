@@ -74,8 +74,8 @@ export const searchMethods = {
       },
       patterns: [
       '{{objektansprache}}, {{strasse}} {{hausnummer}}, {{kreis_kue}}, {{gemeinde}}, {{objektid}}',
-        '{{strasse}} {{hausnummer}}, {{kreis_kue}}, {{gemeinde}}',
-        ' {{objektansprache}}, {{gemeinde}}, {{objektid}}',
+      '{{strasse}} {{hausnummer}}, {{kreis_kue}}, {{gemeinde}}',
+       '{{objektansprache}}, {{gemeinde}}, {{objektid}}',
       ],
     },
   },
