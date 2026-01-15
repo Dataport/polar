@@ -73,8 +73,8 @@ export const searchMethods = {
         objektid: '([0-9]+)',
       },
       patterns: [
-        '{{objektansprache}}, {{strasse}} {{hausnummer}}, {{kreis_kue}}, {{objektid}}',
-        '{{strasse}} {{hausnummer}}, {{kreis_kue}}',
+      '{{objektansprache}}, {{strasse}} {{hausnummer}}, {{kreis_kue}}, {{gemeinde}}, {{objektid}}',
+        '{{strasse}} {{hausnummer}}, {{kreis_kue}}, {{gemeinde}}',
         ' {{objektansprache}}, {{gemeinde}}, {{objektid}}',
       ],
     },
