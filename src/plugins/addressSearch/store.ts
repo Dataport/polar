@@ -266,8 +266,42 @@ export const useAddressSearchStore = defineStore(
 				})
 		}
 
-		// TODO: External method
-		function search() {}
+		async function search(
+			input: string,
+			autoselect: 'first' | 'only' | 'never' = 'never'
+		) {
+			inputValue.value = input
+			if (abortController) {
+				abortController.abort()
+				abortController = null
+			}
+			await _search()
+
+			if (!Array.isArray(searchResults.value)) {
+				// error or word too short, nothing to do
+				return
+			}
+
+			const firstFound = searchResults.value.find(
+				({ features }) => features.features.length
+			)
+			if (!firstFound) {
+				// results are empty
+				return
+			}
+			const firstFeatures = firstFound.features
+				.features as PolarGeoJsonFeature[]
+
+			if (
+				(autoselect === 'first' && firstFeatures.length >= 1) ||
+				(autoselect === 'only' && firstFeatures.length === 1)
+			) {
+				selectResult(
+					firstFeatures[0] as PolarGeoJsonFeature,
+					firstFound.categoryId
+				)
+			}
+		}
 
 		function selectResult(feature: PolarGeoJsonFeature, categoryId: string) {
 			const customMethod = configuration.value.customSelectResult?.[categoryId]
@@ -317,7 +351,11 @@ export const useAddressSearchStore = defineStore(
 			clear,
 
 			/**
-			 * TODO
+			 * This function is solely meant for programmatic access and is not used by
+			 * direct user input.
+			 *
+			 * @param input - Search string to be used.
+			 * @param autoselect - Whether to automatically select a result. Defaults to `'never'` so that results will be presented as if the user searched for them. Using `'only'` will autoselect if a single result was returned; using `'first'` will autoselect the first of an arbitrary amount of results \>=1.
 			 */
 			search,
 
