@@ -6,6 +6,7 @@
 - Fix: Add new configuration parameters for DishExportMap to configure different host (backend host might differ from `internalHost`) and to simplify adjustments for backend changes.
 - Fix: Add terms of use for internal map.
 - Fix: Open links for BKG and their terms of use in new tab.
+- Fix: Only a new Tab for the print-function if newTab is wanted.
 - Chore: Edit urlParams configuration for new testing environment.
 - Enhancement: Changed search result to display 'ONR' before the Objektnummer
 
