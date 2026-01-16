@@ -9,23 +9,7 @@ export function watchSearchResultForAlkisSearch(instance: MapInstance) {
     if (chosenAddress === null) {
       return
     }
-    const configuration =
-      instance.$store.getters['plugin/addressSearch/addressSearchConfiguration']
-    const configPatternKeys = configuration.searchMethods?.find(
-      (method: SearchMethodConfiguration) =>
-        method.categoryId === categoryIdAlkisSearch
-    ).queryParameters?.patternKeys
-    const configPatternKeysArray = Object.keys(configPatternKeys || {})
-    const patternKeysSearchResult = Object.keys(
-      (chosenAddress as { properties?: Record<string, unknown> })?.properties ||
-        {}
-    )
-
-    if (
-      configPatternKeysArray.every((item) =>
-        patternKeysSearchResult.includes(item)
-      )
-    ) {
+    if (chosenAddress.properties?.idflurst) {
       const zoomLevel = instance.$store.getters['plugin/zoom/zoomLevel']
 
       instance.$store.getters.map
