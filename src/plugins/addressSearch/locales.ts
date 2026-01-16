@@ -21,6 +21,7 @@ export const resourcesDe = {
 		noResults: 'Keine Ergebnisse gefunden.',
 		tooShort: 'Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.',
 	},
+	groupSelector: 'Suchthema auswählen',
 	resultCount: '({{count}} Ergebnisse)',
 	resultList: {
 		extend: 'Alle Ergebnisse anzeigen',
@@ -40,6 +41,7 @@ export const resourcesEn = {
 		noResults: 'No results for the current query.',
 		tooShort: 'Please enter at least {{minLength}} characters.',
 	},
+	groupSelector: 'Select search topic',
 	resultCount: '({{count}} results)',
 	resultList: {
 		extend: 'Show all results',

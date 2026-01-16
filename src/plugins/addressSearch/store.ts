@@ -24,26 +24,6 @@ import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import { getMethodContainer } from './utils/methodContainer'
 import SearchResultSymbols from './utils/searchResultSymbols'
 
-const defaultGroupProperties: Required<GroupProperties> = {
-	// TODO: The label should be translated for others as well -> The translation should probably not take place here but in the GroupSelect dropdown
-	label: t(($) => $.defaultLabel, { ns: PluginId }),
-	hint: '',
-	resultDisplayMode: 'mixed',
-	limitResults: Number.MAX_SAFE_INTEGER,
-}
-
-/** Same pattern for hint/label retrieval. */
-const retrieve = (
-	searchMethodsByGroupId: Record<string, SearchMethodConfiguration[]>,
-	selectedGroupProperties: GroupProperties,
-	selectedGroupId: string,
-	key: string
-): string =>
-	selectedGroupProperties[key] ||
-	// if not set, first entry defines [key] value
-	searchMethodsByGroupId[selectedGroupId]?.[0]?.[key] ||
-	defaultGroupProperties[key]
-
 /* eslint-disable tsdoc/syntax */
 /**
  * @function
@@ -55,6 +35,13 @@ export const useAddressSearchStore = defineStore(
 	'plugins/addressSearch',
 	() => {
 		const coreStore = useCoreStore()
+
+		const defaultGroupProperties: Required<GroupProperties> = {
+			label: 'defaultLabel',
+			hint: '',
+			resultDisplayMode: 'mixed',
+			limitResults: Number.MAX_SAFE_INTEGER,
+		}
 
 		let abortController: AbortController | null = null
 		let debouncedSearch: ReturnType<typeof debounce<typeof _search>>
@@ -109,20 +96,13 @@ export const useAddressSearchStore = defineStore(
 				}
 		)
 		const groupIds = computed(() => Object.keys(searchMethodsByGroupId.value))
-		// TODO: Add usage
-		/* const groupSelectOptions = computed(() =>
-			Object.keys(searchMethodsByGroupId).map((key) => ({
-				value: key,
-				text: retrieve(
-					searchMethodsByGroupId.value,
-					selectedGroupProperties.value,
-					key,
-					'label'
-				),
+		const groupSelectOptions = computed(() =>
+			Object.keys(searchMethodsByGroupId.value).map((key) => ({
+				groupId: key,
+				text: getGroupProperties.value(key).label,
 			}))
-		) */
-		// TODO: Add usage
-		// const hasMultipleGroups = computed(() => groupIds.value.length > 1)
+		)
+		const hasMultipleGroups = computed(() => groupIds.value.length > 1)
 		const hint = computed(() => {
 			if (isLoading.value) {
 				return t(($) => $.hint.loading, { ns: PluginId })
@@ -149,7 +129,7 @@ export const useAddressSearchStore = defineStore(
 				return t(($) => $.hint.noResults, { ns: PluginId })
 			}
 
-			return selectedGroupHint.value
+			return selectedGroupProperties.value.hint || ''
 		})
 		const limitResults = computed(
 			() =>
@@ -173,14 +153,6 @@ export const useAddressSearchStore = defineStore(
 				}
 				return groups
 			}, {})
-		)
-		const selectedGroupHint = computed(() =>
-			retrieve(
-				searchMethodsByGroupId.value,
-				selectedGroupProperties.value,
-				selectedGroupId.value,
-				'hint'
-			)
 		)
 		const selectedGroupId = computed({
 			get: () => _selectedGroupId.value,
@@ -339,6 +311,8 @@ export const useAddressSearchStore = defineStore(
 			 * singular result.
 			 */
 			chosenAddress,
+
+			/** @internal */
 			inputValue,
 
 			/** @internal */
@@ -348,8 +322,17 @@ export const useAddressSearchStore = defineStore(
 			focusAfterSearch,
 
 			/** @internal */
+			groupSelectOptions,
+
+			/** @internal */
+			hasMultipleGroups,
+
+			/** @internal */
 			isLoading,
 
+			/**
+			 * The results of the search sorted by searchMethod.
+			 */
 			searchResults,
 
 			/**

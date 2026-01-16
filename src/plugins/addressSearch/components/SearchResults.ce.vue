@@ -120,6 +120,9 @@ const results = computed<SearchResult[]>(() =>
 	Array.isArray(addressSearchStore.searchResults)
 		? // If we do not clone, we'd still copy references on the deeper levels
 			structuredClone(toRaw(addressSearchStore.searchResults) as SearchResult[])
+				.filter(
+					(result) => result.groupId === addressSearchStore.selectedGroupId
+				)
 				.reduce<SearchResult[]>((acc, curr) => {
 					const index = acc.findIndex(
 						(val) => val.categoryId === curr.categoryId
@@ -134,9 +137,6 @@ const results = computed<SearchResult[]>(() =>
 
 					return acc
 				}, [])
-				.filter(
-					(result) => result.groupId === addressSearchStore.selectedGroupId
-				)
 				.map((result) => {
 					if (areResultsExpanded(result.categoryId)) {
 						return result

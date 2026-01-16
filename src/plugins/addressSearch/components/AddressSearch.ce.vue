@@ -14,37 +14,45 @@
 				Array.isArray(searchResults) && searchResults.length,
 		}"
 	>
-		<input
-			id="polar-plugin-address-search-input"
-			v-model="inputValue"
-			class="kern-form-input__input"
-			type="text"
-			:aria-description="
-				hint.length > 0 ? hint : $t(($) => $.ariaDescription, { ns: PluginId })
-			"
-			@keydown.enter="addressSearchStore.abortAndRequest"
-			@keydown.down.prevent.stop="inputDown"
-			@focusout="updateStatus"
-		/>
-		<!-- TODO: May be replaced with the KERN-Loader. -->
-		<div v-if="isLoading" class="loader" role="status">
-			<div />
-			<div />
-			<div />
-			<div />
+		<div class="polar-plugin-address-search-selection-wrapper">
+			<GroupSelect v-if="hasMultipleGroups" />
+			<div class="polar-plugin-address-search-input-wrapper">
+				<input
+					id="polar-plugin-address-search-input"
+					v-model="inputValue"
+					class="kern-form-input__input"
+					type="text"
+					:aria-description="
+						hint.length > 0
+							? hint
+							: $t(($) => $.ariaDescription, { ns: PluginId })
+					"
+					@keydown.enter="addressSearchStore.abortAndRequest"
+					@keydown.down.prevent.stop="inputDown"
+					@focusout="updateStatus"
+				/>
+				<!-- TODO: May be replaced with the KERN-Loader. -->
+				<div v-if="isLoading" class="loader" role="status">
+					<div />
+					<div />
+					<div />
+					<div />
+				</div>
+				<button
+					class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
+					@click="addressSearchStore.clear"
+				>
+					<span class="kern-icon kern-icon--close" aria-hidden="true" />
+					<span class="kern-label kern-sr-only">
+						{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
+					</span>
+				</button>
+				<!-- TODO: Displaying this when multipleGroups are being used jiggles a bit -->
+				<span v-if="hint.length > 0" class="polar-plugin-address-search-hint">
+					{{ hint }}
+				</span>
+			</div>
 		</div>
-		<button
-			class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
-			@click="addressSearchStore.clear"
-		>
-			<span class="kern-icon kern-icon--close" aria-hidden="true" />
-			<span class="kern-label kern-sr-only">
-				{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
-			</span>
-		</button>
-		<span v-if="hint.length > 0" class="polar-plugin-address-search-hint">
-			{{ hint }}
-		</span>
 		<SearchResults />
 	</PolarCard>
 </template>
@@ -60,11 +68,12 @@ import { useCoreStore } from '@/core/stores'
 import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
 import { focusFirstResult } from '../utils/focusFirstResult'
+import GroupSelect from './GroupSelect.ce.vue'
 import SearchResults from './SearchResults.ce.vue'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
-const { hint, inputValue, isLoading, searchResults } =
+const { hasMultipleGroups, hint, inputValue, isLoading, searchResults } =
 	storeToRefs(addressSearchStore)
 
 const open = ref(false)
@@ -74,7 +83,8 @@ const showButton = computed(
 )
 
 function updateStatus() {
-	if (!open.value || !inputValue.value.length) {
+	// TODO: Find a possible different solution for multiple groups instead of just disabling this feature
+	if (!open.value || (!inputValue.value.length && !hasMultipleGroups.value)) {
 		open.value = !open.value
 		void nextTick(() => {
 			;(
@@ -100,7 +110,7 @@ function inputDown(event: KeyboardEvent) {
 <style scoped>
 #polar-plugin-address-search-icon-button {
 	position: absolute;
-	margin: 0.5rem;
+	margin: var(--kern-metric-space-small);
 }
 
 .has-hint :deep(.kern-card__container) {
@@ -115,31 +125,45 @@ function inputDown(event: KeyboardEvent) {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 0.5rem;
-
+	gap: var(--kern-metric-space-small);
 	position: absolute;
-	margin: 0.5rem;
+	margin: var(--kern-metric-space-small);
 
-	#polar-plugin-address-search-input {
-		pointer-events: all;
-		border-radius: var(--kern-metric-border-radius-small);
-		background: var(--kern-color-form-input-background);
-	}
+	.polar-plugin-address-search-selection-wrapper {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 100%;
+		gap: var(--kern-metric-space-small);
 
-	.polar-plugin-address-search-input-button {
-		position: absolute;
-		right: 0;
-		border-radius: var(--kern-metric-border-radius-small);
-		margin: var(--kern-metric-space-small);
-		margin-right: var(--kern-metric-space-default);
-		width: var(--kern-metric-dimension-large);
-		min-height: var(--kern-metric-dimension-large);
-	}
+		.polar-plugin-address-search-input-wrapper {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
 
-	.polar-plugin-address-search-hint {
-		color: var(--kern-color-layout-text-muted);
-		font-size: 0.875rem;
-		padding: 0 0.1rem;
+			#polar-plugin-address-search-input {
+				pointer-events: all;
+				border-radius: var(--kern-metric-border-radius-small);
+				background: var(--kern-color-form-input-background);
+			}
+
+			.polar-plugin-address-search-input-button {
+				position: absolute;
+				right: 0;
+				border-radius: var(--kern-metric-border-radius-small);
+				margin: var(--kern-metric-space-small);
+				margin-right: var(--kern-metric-space-default);
+				width: var(--kern-metric-dimension-large);
+				min-height: var(--kern-metric-dimension-large);
+			}
+
+			.polar-plugin-address-search-hint {
+				color: var(--kern-color-layout-text-muted);
+				font-size: 0.875rem;
+				padding: 0 0.1rem;
+				margin-top: var(--kern-metric-space-small);
+			}
+		}
 	}
 }
 
