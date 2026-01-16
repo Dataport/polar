@@ -2,7 +2,8 @@ import type { ResourceKey } from 'i18next'
 
 import type { BundledPluginId, BundledPluginLocaleResources } from '@/core'
 import type { resourcesEn as core } from '@/core/locales'
-import type { CoreId } from '@/core/vuePlugins/i18next'
+import type { resourcesEn as shared } from '@/locales'
+import type { CoreId, SharedId } from '@/core/vuePlugins/i18next'
 
 /** @internal */
 export interface Locale {
@@ -12,9 +13,14 @@ export interface Locale {
 
 /** @internal */
 export type LocaleResources = {
-	[T in typeof CoreId | BundledPluginId]: T extends BundledPluginId
+	[T in
+		| typeof CoreId
+		| typeof SharedId
+		| BundledPluginId]: T extends BundledPluginId
 		? BundledPluginLocaleResources<T>
-		: typeof core
+		: T extends typeof SharedId
+			? typeof shared
+			: typeof core
 }
 
 type ToLocaleOverride<T> = T extends string
