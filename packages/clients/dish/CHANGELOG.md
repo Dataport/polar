@@ -8,6 +8,7 @@
 - Fix: Open links for BKG and their terms of use in new tab.
 - Fix: Only a new Tab for the print-function if newTab is wanted.
 - Chore: Edit urlParams configuration for new testing environment.
+- Enhancement: Changed search result to display 'ONR' before the Objektnummer
 
 ## 1.2.0
 

@@ -72,9 +72,9 @@ export const searchMethods = {
         objektid: '([0-9]+)',
       },
       patterns: [
-        '{{objektansprache}}, {{strasse}} {{hausnummer}}, {{kreis_kue}}, {{objektid}}',
+        '{{objektansprache}}, {{strasse}} {{hausnummer}}, {{kreis_kue}}, ONR {{objektid}}',
         '{{strasse}} {{hausnummer}}, {{kreis_kue}}',
-        ' {{objektansprache}}, {{objektid}}',
+        ' {{objektansprache}}, ONR {{objektid}}',
       ],
     },
   },
