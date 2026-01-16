@@ -29,11 +29,21 @@ jobs:
           node-version: 24.12.0
           registry-url: https://registry.npmjs.org/
 
-      - name: Install dependencies and build preview
+      - name: Install documentation build dependencies
+        run: sudo apt install mkdocs mkdocs-material
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Build preview
         run: |
-          npm ci
           npm run build:ci
           npm run preview:build:ci -- --base="./"
+
+      - name: Build documentation
+        run: |
+          npm run docs:ci
+          mv docs-html ./.dist.preview/docs-html
 
       - name: Deploy preview to GitHub Pages
         uses: rossjrw/pr-preview-action@5fd5f8e2f88e735fc3d1151302b32242037e3962
