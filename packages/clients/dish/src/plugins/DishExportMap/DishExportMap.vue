@@ -73,9 +73,9 @@ export default Vue.extend({
       layers: 'de_basemapde_web_raster_grau',
     },
     newTab:
-      new URL(document.location as unknown as string).searchParams.get(
-        'NewTab'
-      ) || true,
+      new URL(document.location as unknown as string).searchParams
+        .get('newTab')
+        ?.toLowerCase() === 'true',
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
@@ -218,7 +218,7 @@ export default Vue.extend({
         .join('&')
       const encodedUrl = `${this.dishExportMap.exportMapAsPdfUrl}?${queryString}`
 
-      window.open(encodedUrl, '_blank')
+      window.open(encodedUrl, this.newTab ? '_blank' : '_self')
       this.showOverlay = false
     },
   },
