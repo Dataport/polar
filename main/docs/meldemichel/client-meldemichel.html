@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1 id="meldemichel-mapclient-api-%F0%9F%97%BA%EF%B8%8F-%40polar%2Fclient-meldemichel" tabindex="-1">Meldemichel MapClient API 🗺️ <code>@polar/client-meldemichel</code></h1>
+<p>This client is based on <a href="https://github.com/Dataport/polar">POLAR</a> and subsequently the <a href="https://bitbucket.org/geowerkstatt-hamburg/masterportalapi/src/master/">masterportalAPI</a>. The following documentation only contains how this specific client can be used, and the minimal information required to get it running.</p>
+
+<p>For the development test deployments, <a href="./example/index.html">see here</a>.</p>
+<h2 id="basic-usage" tabindex="-1">Basic usage</h2>
+<p>The NPM package <code>@polar/client-meldemichel</code> can be installed via NPM or downloaded from the <a href="https://github.com/Dataport/polar/releases">release page</a>. When using <code>import mapClient from '@polar/client-meldemichel'</code>, the object <code>mapClient</code> contains a method <code>createMap</code>. This is the main method required to get the client up and running. Should you use another import method, check the package's <code>dist</code> folder for available files.</p>
+<p>The method expects a single object with the following parameters.</p>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>containerId</td>
+<td>string</td>
+<td>ID of the container the map is supposed to render itself to.</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>enum[&quot;REPORT&quot;, &quot;SINGLE&quot;, &quot;COMPLETE&quot;]</td>
+<td>See chapters below for an overview of the modes.</td>
+</tr>
+<tr>
+<td>stadtwaldActive</td>
+<td>boolean?</td>
+<td>This layer only works in 'SINGLE' mode and should not be activated in the others. If not set, any existing previous state is kept; off by default.</td>
+</tr>
+<tr>
+<td>afmUrl</td>
+<td>string?</td>
+<td><code>COMPLETE</code> mode only. The URL used here is the URL of the AfM service to open to create a new damage report.</td>
+</tr>
+<tr>
+<td>reportServiceId</td>
+<td>string?</td>
+<td><code>COMPLETE</code> mode only. ID of the report layer to display. Both the Filter and the Feature List will work with this layer. The client will also provide tooltips and cluster the features.</td>
+</tr>
+<tr>
+<td>configOverride</td>
+<td>object?</td>
+<td>This can be used to override the configuration of any installed plugin; see full documentation. It is also used to set initial pins in <code>SINGLE</code> mode. See documentation of <code>SINGLE</code> further below.</td>
+</tr>
+</tbody>
+</table>
+<p>It returns a Promise of a map instance. This returned instance is required to retrieve information from the map.</p>
+<p>The package also includes a <code>style.css</code> and an <code>index.html</code> file. The <code>style.css</code>'s relative path must, if it isn't the default value <code>'./style.css'</code>, be included in the <code>configOverride</code> as follows:</p>
+<pre><code class="language-js">{
+  // ...
+  configOverride: {
+    stylePath: '../the/relative/path/style.css'
+  }
+}
+</code></pre>
+<p>The value to <code>stylePath</code> is the same as as a <code>link</code> tag would have in its <code>href</code>.</p>
+<p>The <code>index.html</code> is used in <code>COMPLETE</code> mode, which is not run in the AfM. You may, however, use it for testing or inspecting an example.</p>
+<h3 id="instance-reuse" tabindex="-1">Instance reuse</h3>
+<p>The <code>mapInstance</code> and its HTML environment are kept in the client; it is returned and rerendered on subsequent <code>createMap</code> calls to a div with the given <code>id</code>. Due to this, everything will appear to the user as it was previously left, including opened menus.</p>
+<p>Since in <code>SINGLE</code> mode, changes to the pins are required between renders, hence the parameters in <code>configOverride.pins</code> are used to update the client. Should additional updates be required, please let us know.</p>
+<p>Calling <code>watch</code>/<code>subscribe</code> on the client will return an <code>unwatch</code>/<code>unsubscribe</code> method. It should be called on leaving the map's page; depending on framework/library in e.g. the <code>beforeDestroy</code> or <code>beforeUnmount</code> method.</p>
+<h2 id="rendering-in-single-or-report-mode" tabindex="-1">Rendering in SINGLE or REPORT mode</h2>
+<p>A document rendering the map client could e.g. look like this:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;REPORT EXAMPLE&lt;/title&gt;
+    &lt;style&gt;
+      #meldemichel-map-client {
+        min-width: 320px;
+        max-width: 930px;
+        height: 500px;
+        position: relative;
+        margin: 5px;
+        -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.5);
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;meldemichel-map-client&quot;&gt;
+      &lt;!-- Optional, may use if your page does not have its own &lt;noscript&gt; information --&gt;
+      &lt;noscript&gt;Please use a browser with active JavaScript to use the map client.&lt;/noscript&gt;
+    &lt;/div&gt;
+    &lt;script type=&quot;module&quot;&gt;
+      import meldemichelMapClient from './client-meldemichel.js'
+
+      const meldemichelMapInstance = await meldemichelMapClient.createMap({
+        containerId: 'meldemichel-map-client',
+        mode: 'REPORT', // or 'SINGLE',
+        // This layer only works in 'SINGLE' mode and should not be activated in the others
+        stadtwaldActive: true, // or `false`; if not set, previous state is kept; off by default
+        // For 'SINGLE' mode where a singular coordinate is inspected/worked on
+        configOverride: {
+          pins: {
+            initial: {
+              centerOn: true,
+              // The coordinate that is inspected/worked on
+              coordinates: [569028, 5932885],
+            },
+            movable: 'drag', // or 'none' to have an immovable pin
+            style: {
+              fill: '#0392cf' // or (optionally) '#ff0019' if 'none' is set
+            },
+          },
+        },
+      })
+
+      // If an old view state should be set, use this snippet:
+      meldemichelMapInstance.$store.dispatch('meldemichel/setMapState', {
+        vendor_maps_position: '566167.224436667,5935872.419250831',
+        vendor_maps_address_str: 'Alte Rabenstraße',
+        vendor_maps_address_hnr: '28',
+        mapZoomLevel: 6,
+        mapBaseLayer: 34127,
+        mapCenter: '566808.8386735287,5935896.23173797',
+        // NOTE: vendor_maps_distance_to and -_plz are not read
+      })
+
+      /* To change the stadtwald layer's visibility in 'SINGLE' mode, use this;
+       * this key can be used standalone or within the call seen above */
+      meldemichelMapInstance.$store.dispatch('meldemichel/setMapState', {
+        stadtwaldActive: true, // or false
+      })
+
+      // to retrieve map state updates, use this snippet:
+      const unwatch = mapInstance.$store.watch(
+        (_, getters) =&gt; getters[&quot;meldemichel/mapState&quot;],
+        ({
+          mapCenter,
+          mapZoomLevel,
+          mapBaseLayer,
+          vendor_maps_position,
+          // The following fields are not changed/set in 'SINGLE' mode
+          vendor_maps_address_hnr,
+          vendor_maps_address_str,
+          vendor_maps_address_plz,
+          vendor_maps_distance_to
+        }) =&gt; {
+          // do anything with the map values here; example print
+          console.info(`MapState Update
+            Center coordinate: ${mapCenter}
+            Zoom level: ${mapZoomLevel}
+            Base layer: ${mapBaseLayer}
+            Pin coordinate: ${vendor_maps_position}
+            Address: ${vendor_maps_address_str + ' ' + vendor_maps_address_hnr}
+            PLZ: ${vendor_maps_address_plz}
+            Distance to address: ${vendor_maps_distance_to}`)
+        },
+        // will return initial values; delete parameter if not desired
+        { immediate: true }
+      )
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="rendering-complete-mode-(full-page)" tabindex="-1">Rendering COMPLETE mode (full page)</h2>
+<p>The <code>index.html</code> included in the package's <code>dist</code> folder has been prepared for this mode and must merely be hosted.</p>
+<p>Please see the table in chapter <code>Basic usage</code> about configuration options.</p>
+<h2 id="rendering-complete-mode-(embedded-element)" tabindex="-1">Rendering COMPLETE mode (embedded element)</h2>
+<p>To embed the COMPLETE mode map on any page, provide a div with an id like <code>meldemichel-map-client</code>; you may choose any id you like.</p>
+<p>The following script tag can then be used to render the productive services of the Meldemichel map client.</p>
+<pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
+  // adjust path to where the client is
+  import meldemichelMapClient from '../dist/client-meldemichel.js'
+
+  meldemichelMapClient.createMap({
+    containerId: 'meldemichel-map-client', // the id you used
+    mode: 'COMPLETE',
+    afmUrl: `https://afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index`,
+    reportServiceId: '6059',
+    configOverride: {
+      // adjust path to where the client is
+      stylePath: '../dist/style.css'
+    }
+  })
+&lt;/script&gt;
+</code></pre>
+<p>POLAR will rebuild the given div to contain a ShadowDOM that hosts the map. The outer div will change to have the id <code>meldemichel-map-client-wrapper</code> (resp. <code>${yourId}-wrapper</code>) and can be used to style the map's height and width with, for example:</p>
+<pre><code class="language-css">#meldemichel-map-client-wrapper {
+  /* &quot;position: relative;&quot; is the minimum required styling */
+  position: relative;
+  height: 400px;
+  width: 100%;
+}
+</code></pre>
+<p>To also serve users with JS disabled some content, this fragment is common:</p>
+<pre><code class="language-html">&lt;div id=&quot;meldemichel-map-client&quot;&gt;
+  &lt;!-- Optional, if your page does not have its own &lt;noscript&gt; information --&gt;
+  &lt;noscript&gt;Please use a browser with active JavaScript to use the map client.&lt;/noscript&gt;
+&lt;/div&gt;
+</code></pre>
+<p>For a complete example, you may also check <a href="https://dataport.github.io/polar/docs/meldemichel/example/complete_embedded.html">the running embedded scenario</a> or its <a href="https://github.com/Dataport/polar/blob/main/packages/clients/meldemichel/example/complete_embedded.html">source file</a>.</p>
+
+    <h2>Child documents</h2><nav><ul>
+      <li><a href="core.html" target="_blank">core.html</a></li><li><a href="lib-custom-types.html" target="_blank">lib-custom-types.html</a></li><li><a href="lib-invisible-style.html" target="_blank">lib-invisible-style.html</a></li><li><a href="plugin-address-search.html" target="_blank">plugin-address-search.html</a></li><li><a href="plugin-attributions.html" target="_blank">plugin-attributions.html</a></li><li><a href="plugin-filter.html" target="_blank">plugin-filter.html</a></li><li><a href="plugin-fullscreen.html" target="_blank">plugin-fullscreen.html</a></li><li><a href="plugin-geo-location.html" target="_blank">plugin-geo-location.html</a></li><li><a href="plugin-gfi.html" target="_blank">plugin-gfi.html</a></li><li><a href="plugin-icon-menu.html" target="_blank">plugin-icon-menu.html</a></li><li><a href="plugin-layer-chooser.html" target="_blank">plugin-layer-chooser.html</a></li><li><a href="plugin-loading-indicator.html" target="_blank">plugin-loading-indicator.html</a></li><li><a href="plugin-pins.html" target="_blank">plugin-pins.html</a></li><li><a href="plugin-reverse-geocoder.html" target="_blank">plugin-reverse-geocoder.html</a></li><li><a href="plugin-scale.html" target="_blank">plugin-scale.html</a></li><li><a href="plugin-toast.html" target="_blank">plugin-toast.html</a></li><li><a href="plugin-zoom.html" target="_blank">plugin-zoom.html</a></li>
+      </ul></nav>
+    <h2>Locales</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Locale Key</th>
+          <th scope="col">German default</th>
+          <th scope="col">English default</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>meldemichel.attributions.stadtplan</td>
+          <td>Kartografie Stadtplan: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a></td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.attributions.stadtwald</td>
+          <td>Kartografie Stadtwald: <a target="_blank" href="https://www.hamburg.de/politik-und-verwaltung/behoerden/bukea">Freie und Hansestadt Hamburg, Behörde für Umwelt, Klima, Energie und Agrarwirtschaft (BUKEA)</a></td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.attributions.luftbilder</td>
+          <td>Kartografie Luftbilder: <a target="_blank" href="https://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/">Landesbetrieb Geoinformation und Vermessung</a></td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.attributions.reports</td>
+          <td>Meldungen durch Bürger</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.gfi.title</td>
+          <td>Meldung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.gfi.skat</td>
+          <td>Kategorie</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.gfi.beschr</td>
+          <td>Beschreibung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.gfi.rueck</td>
+          <td>Rückmeldung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.gfi.start</td>
+          <td>Gemeldet am</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.gfi.statu</td>
+          <td>Status</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.gfi.tooltip.multiHeader</td>
+          <td>Mehrere Anliegen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.gfi.tooltip.multiBody</td>
+          <td>Klick zum Zoomen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.gfi.tooltip.multiBodyUnresolvable</td>
+          <td>Klick zum Öffnen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.layers.stadtplan</td>
+          <td>Stadtplan</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.layers.stadtwald</td>
+          <td>Stadtwald</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.layers.luftbilder</td>
+          <td>Luftbildansicht</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.layers.reports</td>
+          <td>Meldungen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.layers.hamburgBorder</td>
+          <td>Stadtgrenze Hamburg</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.100</td>
+          <td>Wege und Straßen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.101</td>
+          <td>Schlagloch und Wegeschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.102</td>
+          <td>Verunreinigung und Vandalismus</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.103</td>
+          <td>Wildwuchs und Überwuchs</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.104</td>
+          <td>Beschädigtes Verkehrszeichen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.105</td>
+          <td>Beschädigte Brücke, Tunnel, Mauer, Treppe</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.106</td>
+          <td>Beschädigte Geländer, Poller, Fahrradständer, Sitzgelegenheit</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.111</td>
+          <td>Schrottfahrräder</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.112</td>
+          <td>Abgemeldete Fahrzeuge</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.113</td>
+          <td>Radverkehr</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.114</td>
+          <td>Stadtwald Hamburg</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.115</td>
+          <td>Stadtwald: Schäden am Baumbestand</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.116</td>
+          <td>Stadtwald: Schäden an Einrichtungen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.117</td>
+          <td>Stadtwald: Wegeschäden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.118</td>
+          <td>Stadtwald: Verschmutzung / Müll</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.119</td>
+          <td>Stadtwald: Illegale Aktivitäten</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.120</td>
+          <td>Stadtwald: Sonstige Schäden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.200</td>
+          <td>Ampeln und Leuchten</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.202</td>
+          <td>Ampel gestört</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.203</td>
+          <td>beleuchtetes Schild gestört</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.204</td>
+          <td>Straßenbeleuchtung ausgefallen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.205</td>
+          <td>Straßenbeleuchtung tagsüber in Betrieb</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.400</td>
+          <td>Grünanlagen und Spielplätze</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.401</td>
+          <td>Baumschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.402</td>
+          <td>Spielgeräteschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.500</td>
+          <td>Siele und Gewässer</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.501</td>
+          <td>Gully-Schaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.502</td>
+          <td>Graben</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.skat.503</td>
+          <td>Gewässerverunreinigung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.status.In Bearbeitung</td>
+          <td>In Bearbeitung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.status.abgeschlossen</td>
+          <td>Bearbeitet</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.time.0</td>
+          <td>Keine Einschränkung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.time.1</td>
+          <td>Die letzten 7 Tage</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.time.2</td>
+          <td>Die letzten 30 Tage</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>meldemichel.time.3</td>
+          <td>Zeitraum wählen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.layerName.6059</td>
+          <td>Meldungen — Filter</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.layerName.6061</td>
+          <td>Meldungen (Stage) — Filter</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.layerName.anliegen-jenfeld</td>
+          <td>Meldungen Jenfeld — Filter</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.100</td>
+          <td>Wege und Straßen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.101</td>
+          <td>Schlagloch und Wegeschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.102</td>
+          <td>Verunreinigung und Vandalismus</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.103</td>
+          <td>Wildwuchs und Überwuchs</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.104</td>
+          <td>Beschädigtes Verkehrszeichen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.105</td>
+          <td>Beschädigte Brücke, Tunnel, Mauer, Treppe</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.106</td>
+          <td>Beschädigte Geländer, Poller, Fahrradständer, Sitzgelegenheit</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.111</td>
+          <td>Schrottfahrräder</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.112</td>
+          <td>Abgemeldete Fahrzeuge</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.113</td>
+          <td>Radverkehr</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.114</td>
+          <td>Stadtwald Hamburg</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.115</td>
+          <td>Stadtwald: Schäden am Baumbestand</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.116</td>
+          <td>Stadtwald: Schäden an Einrichtungen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.117</td>
+          <td>Stadtwald: Wegeschäden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.118</td>
+          <td>Stadtwald: Verschmutzung / Müll</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.119</td>
+          <td>Stadtwald: Illegale Aktivitäten</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.120</td>
+          <td>Stadtwald: Sonstige Schäden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.200</td>
+          <td>Ampeln und Leuchten</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.202</td>
+          <td>Ampel gestört</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.203</td>
+          <td>beleuchtetes Schild gestört</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.204</td>
+          <td>Straßenbeleuchtung ausgefallen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.205</td>
+          <td>Straßenbeleuchtung tagsüber in Betrieb</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.400</td>
+          <td>Grünanlagen und Spielplätze</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.401</td>
+          <td>Baumschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.402</td>
+          <td>Spielgeräteschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.500</td>
+          <td>Siele und Gewässer</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.501</td>
+          <td>Gully-Schaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.502</td>
+          <td>Graben</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.skat.503</td>
+          <td>Gewässerverunreinigung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.statu.In Bearbeitung</td>
+          <td>In Bearbeitung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.statu.abgeschlossen</td>
+          <td>Bearbeitet</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.title.skat</td>
+          <td>Kategorien</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6059.title.statu</td>
+          <td>Status</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.100</td>
+          <td>Wege und Straßen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.101</td>
+          <td>Schlagloch und Wegeschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.102</td>
+          <td>Verunreinigung und Vandalismus</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.103</td>
+          <td>Wildwuchs und Überwuchs</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.104</td>
+          <td>Beschädigtes Verkehrszeichen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.105</td>
+          <td>Beschädigte Brücke, Tunnel, Mauer, Treppe</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.106</td>
+          <td>Beschädigte Geländer, Poller, Fahrradständer, Sitzgelegenheit</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.111</td>
+          <td>Schrottfahrräder</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.112</td>
+          <td>Abgemeldete Fahrzeuge</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.113</td>
+          <td>Radverkehr</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.114</td>
+          <td>Stadtwald Hamburg</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.115</td>
+          <td>Stadtwald: Schäden am Baumbestand</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.116</td>
+          <td>Stadtwald: Schäden an Einrichtungen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.117</td>
+          <td>Stadtwald: Wegeschäden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.118</td>
+          <td>Stadtwald: Verschmutzung / Müll</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.119</td>
+          <td>Stadtwald: Illegale Aktivitäten</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.120</td>
+          <td>Stadtwald: Sonstige Schäden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.200</td>
+          <td>Ampeln und Leuchten</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.202</td>
+          <td>Ampel gestört</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.203</td>
+          <td>beleuchtetes Schild gestört</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.204</td>
+          <td>Straßenbeleuchtung ausgefallen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.205</td>
+          <td>Straßenbeleuchtung tagsüber in Betrieb</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.400</td>
+          <td>Grünanlagen und Spielplätze</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.401</td>
+          <td>Baumschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.402</td>
+          <td>Spielgeräteschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.500</td>
+          <td>Siele und Gewässer</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.501</td>
+          <td>Gully-Schaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.502</td>
+          <td>Graben</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.skat.503</td>
+          <td>Gewässerverunreinigung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.statu.In Bearbeitung</td>
+          <td>In Bearbeitung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.statu.abgeschlossen</td>
+          <td>Bearbeitet</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.title.skat</td>
+          <td>Kategorien</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.6061.title.statu</td>
+          <td>Status</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.100</td>
+          <td>Wege und Straßen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.101</td>
+          <td>Schlagloch und Wegeschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.102</td>
+          <td>Verunreinigung und Vandalismus</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.103</td>
+          <td>Wildwuchs und Überwuchs</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.104</td>
+          <td>Beschädigtes Verkehrszeichen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.105</td>
+          <td>Beschädigte Brücke, Tunnel, Mauer, Treppe</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.106</td>
+          <td>Beschädigte Geländer, Poller, Fahrradständer, Sitzgelegenheit</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.111</td>
+          <td>Schrottfahrräder</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.112</td>
+          <td>Abgemeldete Fahrzeuge</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.113</td>
+          <td>Radverkehr</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.114</td>
+          <td>Stadtwald Hamburg</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.115</td>
+          <td>Stadtwald: Schäden am Baumbestand</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.116</td>
+          <td>Stadtwald: Schäden an Einrichtungen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.117</td>
+          <td>Stadtwald: Wegeschäden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.118</td>
+          <td>Stadtwald: Verschmutzung / Müll</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.119</td>
+          <td>Stadtwald: Illegale Aktivitäten</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.120</td>
+          <td>Stadtwald: Sonstige Schäden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.200</td>
+          <td>Ampeln und Leuchten</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.202</td>
+          <td>Ampel gestört</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.203</td>
+          <td>beleuchtetes Schild gestört</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.204</td>
+          <td>Straßenbeleuchtung ausgefallen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.205</td>
+          <td>Straßenbeleuchtung tagsüber in Betrieb</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.400</td>
+          <td>Grünanlagen und Spielplätze</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.401</td>
+          <td>Baumschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.402</td>
+          <td>Spielgeräteschaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.500</td>
+          <td>Siele und Gewässer</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.501</td>
+          <td>Gully-Schaden</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.502</td>
+          <td>Graben</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.skat.503</td>
+          <td>Gewässerverunreinigung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.statu.In Bearbeitung</td>
+          <td>In Bearbeitung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.statu.abgeschlossen</td>
+          <td>Bearbeitet</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.title.skat</td>
+          <td>Kategorien</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.filter.category.anliegen-jenfeld.title.statu</td>
+          <td>Status</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.geoLocation.toast.notInBoundary</td>
+          <td>Das System konnte Sie leider nicht in Hamburg verorten. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.geoLocation.toast.boundaryError</td>
+          <td>Die Verortung ist fehlgeschlagen. Bitte benutzen Sie Karte und Suche, um einen Schaden innerhalb von Hamburg zu melden.</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.gfi.header.close</td>
+          <td>Zurück zur Listenansicht der Meldungen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.gfi.list.header</td>
+          <td>Meldungsliste</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.gfi.list.entry</td>
+          <td>Meldung</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.gfi.list.emptyView</td>
+          <td>Im aktuellen Kartenausschnitt sind keine Meldungen enthalten.</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.gfi.list.pagination.currentPage</td>
+          <td>Aktuelle Seite, Seite {{page}} von {{maxPage}} der Schadensmeldungen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.gfi.list.pagination.page</td>
+          <td>Öffne Seite {{page}} von {{maxPage}} der Schadensmeldungen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.gfi.list.pagination.next</td>
+          <td>Nächste Seite öffnen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.gfi.list.pagination.previous</td>
+          <td>Vorherige Seite öffnen</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.gfi.list.pagination.wrapper</td>
+          <td>Seitenauswahl</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.gfi.noActiveLayer</td>
+          <td>Die Meldungen sind derzeit ausgeschaltet. Sie können Sie über die Kartenauswahl (Buch-Symbol in der Werkzeugleiste) wieder einschalten.</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.iconMenu.hints.filter</td>
+          <td>Filter</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.iconMenu.hints.gfi</td>
+          <td>Meldungsliste</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>plugins.pins.toast.notInBoundary</td>
+          <td>Es können nur Koordinaten innerhalb von Hamburg gewählt werden.</td>
+          <td></td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>

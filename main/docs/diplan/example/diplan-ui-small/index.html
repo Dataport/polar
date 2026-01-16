@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <!-- test page for build -->
+  <head>
+    <meta charset="utf-8" />
+    <title>@polar/client-diplan</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../../../../../node_modules/diplanung-style/dist/index.css">
+    <style>
+      #polarstern-wrapper {
+        width: 45vw;
+        margin: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav></nav>
+    <header>
+      <h1>Testseite <code>@polar/client-diplan</code> (Diplan UI - small)</h1>
+    </header>
+    <div id="somethingnice"></div>
+    <main>
+      <section>
+        <h2 class="padded-x">Beispielinstanz</h2>
+        <h3 class="padded-x">Klient</h3>
+        <div id="polarstern">
+          <noscript>Bitte benutzen Sie einen Browser mit aktiviertem JavaScript, um den Kartenklienten zu nutzen.</noscript>
+        </div>
+      </section>
+    </main>
+    <footer>At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.</footer>
+    <link rel="stylesheet" src="../../dist/polar-client.css">
+    <script type="module">
+      import diplanMapClient from '../../dist/client-diplan.js'
+      import services from '../services.js'
+      import config from './config.js'
+      import setup from './setup.js'
+
+      setup(diplanMapClient, services, config)
+    </script>
+  </body>
+</html>

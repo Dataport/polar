@@ -1,0 +1,6 @@
+/* px determined by when the page starts to look wonky */
+@media screen and (max-width: 650px) {
+  nav {
+    flex-direction: column;
+  }
+}

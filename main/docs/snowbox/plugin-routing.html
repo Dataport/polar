@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1 id="routing" tabindex="-1">Routing</h1>
+<p>The Routing Plugin offers a routing functionality to the user.</p>
+<h2 id="scope" tabindex="-1">Scope</h2>
+<p>A user can select multiple waypoints by clicking on the map, which then are converted to an address, if a reverse geocoder is configured.
+If at least two waypoints have been added, the route is automatically calculated and displayed on the map.</p>
+<p>The travel mode can be adjusted as well as the types of routes to avoid.
+Similarly, the route preference is set to 'recommended' by default, but can be changed to 'fastest' or 'shortest'.</p>
+<p>Once a route is available, a detailed listing of every route segment is available including instructions, distance and duration.</p>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="routing-1" tabindex="-1">routing</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>apiKey</td>
+<td>string</td>
+<td>The API key to access the routing service. Required for OpenRouteService.</td>
+</tr>
+<tr>
+<td>format</td>
+<td>'geojson'</td>
+<td>The format in which the answer of the routing service is expected in. The OpenRouteService also support <code>'json'</code> and <code>'gpx'</code>, which are currently not supported.</td>
+</tr>
+<tr>
+<td>type</td>
+<td>'ors'</td>
+<td>The type of routing service to be used. Currently, only the <a href="https://openrouteservice.org/">OpenRouteService</a> (<code>'ors'</code>) is implemented.</td>
+</tr>
+<tr>
+<td>url</td>
+<td>string</td>
+<td>The url of the routing service to be used.</td>
+</tr>
+<tr>
+<td>displayPreferences</td>
+<td>boolean?</td>
+<td>Defines whether the user can choose their route preference. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>displayRouteTypesToAvoid</td>
+<td>boolean?</td>
+<td>Defines whether the user can select types of routes to avoid. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>selectableTravelModes</td>
+<td>string[]?</td>
+<td>List of available travel modes. Accepts <code>'driving-car'</code>, <code>'driving-hgv'</code>, <code>'cycling-regular'</code>, <code>'foot-walking'</code> and <code>'wheelchair'</code>. Defaults to <code>['driving-car', 'cycling-regular', 'foot-walking']</code>.</td>
+</tr>
+</tbody>
+</table>
+
+    
+    <h2>Locales</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Locale Key</th>
+          <th scope="col">German default</th>
+          <th scope="col">English default</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>plugins.routing.title</td>
+          <td>Routenplaner</td>
+          <td>Route Planner</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.button.closeTitle</td>
+          <td>Routenplanung schließen</td>
+          <td>Hide routing tool</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.button.openTitle</td>
+          <td>Routenplanung öffnen</td>
+          <td>Show rooting tool</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.label.aria</td>
+          <td>Durch Klicken in die Karte eine Koordinate als {{position}} auswählen.</td>
+          <td>Add a coordinate as {{position}} by clicking in the map.</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.label.add</td>
+          <td>Wegpunkt hinzufügen</td>
+          <td>Add waypoint</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.label.remove</td>
+          <td>Wegpunkt entfernen</td>
+          <td>Remove waypoint</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.label.start</td>
+          <td>Startadresse</td>
+          <td>Start Address</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.label.middle</td>
+          <td>Wegpunkt</td>
+          <td>Waypoint</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.label.end</td>
+          <td>Zieladresse</td>
+          <td>Destination Address</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.label.mode</td>
+          <td>Fortbewegungsart</td>
+          <td>Travel Mode</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.label.preference</td>
+          <td>Bevorzugte Route</td>
+          <td>Preferred Route</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.inputHint</td>
+          <td>Wählen Sie durch Klicken einen Punkt auf der Karte aus oder geben Sie eine Adresse ein.</td>
+          <td>Click the map to choose a point or enter an Ad</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.resetButton</td>
+          <td>Zurücksetzen</td>
+          <td>Reset</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.travelMode.car</td>
+          <td>Auto</td>
+          <td>Car</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.travelMode.hgv</td>
+          <td>LKW</td>
+          <td>Heavy Goods Vehicle</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.travelMode.bike</td>
+          <td>Fahrrad</td>
+          <td>Bike</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.travelMode.walking</td>
+          <td>Zu Fuß</td>
+          <td>Walking</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.travelMode.wheelchair</td>
+          <td>Rollstuhl</td>
+          <td>Wheelchair</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.preference.recommended</td>
+          <td>Empfohlen</td>
+          <td>Recommended</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.preference.fastest</td>
+          <td>Schnellste</td>
+          <td>Fastest</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.preference.shortest</td>
+          <td>Kürzeste</td>
+          <td>Shortest</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.avoidRoutesTitle</td>
+          <td>Verkehrswege meiden</td>
+          <td>Types of routes to avoid</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.avoidRoutes.highways</td>
+          <td>Autobahnen</td>
+          <td>Highways</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.avoidRoutes.tollways</td>
+          <td>Mautstraßen</td>
+          <td>Tollways</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.avoidRoutes.ferries</td>
+          <td>Fähren</td>
+          <td>Ferries</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.sendRequestButton</td>
+          <td>Absenden</td>
+          <td>Send</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.routeDetails</td>
+          <td>Details zur Route</td>
+          <td>Route Details</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.distance</td>
+          <td>Entfernung:</td>
+          <td>Distance:</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.routing.duration</td>
+          <td>Dauer:</td>
+          <td>Duration:</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>

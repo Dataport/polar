@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>🧊📚 POLAR Documentation</title>
+	<link rel="stylesheet" href="./github-markdown.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #0d1117;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    <h1 id="geolocation" tabindex="-1">GeoLocation</h1>
+<h2 id="scope" tabindex="-1">Scope</h2>
+<p>The GeoLocation plugin is responsible for collecting and displaying a user's GPS location. It is shown as a crosshair mark on the map.
+The tracking can be triggered initially on startup or via a button. This behavior can be controlled by setting <code>checkLocationInitially</code> to
+either <code>true</code> or <code>false</code>. When a users denies the location tracking, the button for this plugin gets disabled.</p>
+<h2 id="configuration" tabindex="-1">Configuration</h2>
+<h3 id="geolocation-1" tabindex="-1">geoLocation</h3>
+<table>
+<thead>
+<tr>
+<th>fieldName</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boundaryLayerId</td>
+<td>string?</td>
+<td>Id of a vector layer to restrict geolocation markers and zooms to. When geolocation outside of its features occurs, a single information will be shown. When loading the boundary layer, the map will wait at most 10s; should it not happen, the geolocation feature is turned off.</td>
+</tr>
+<tr>
+<td>boundaryOnError</td>
+<td>('strict' | 'permissive')?</td>
+<td>If the boundary layer check does not work due to loading or configuration errors, style <code>'strict'</code> will disable the geolocation feature, and style <code>'permissive'</code> will act as if no boundaryLayerId was set. Defaults to <code>'permissive'</code>.</td>
+</tr>
+<tr>
+<td>checkLocationInitially</td>
+<td>boolean?</td>
+<td>If <code>true</code> the location gets checked on page load. When <code>false</code> this can be triggered with a button. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>keepCentered</td>
+<td>boolean?</td>
+<td>If <code>true</code>, the map will re-center on the user on any position change. If <code>false</code>, only the first position will be centered on. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>renderType</td>
+<td>'iconMenu' | 'independent'?</td>
+<td>If nested in <code>IconMenu</code>, select 'iconMenu' to match styling. Defaults to 'independent'.</td>
+</tr>
+<tr>
+<td>showTooltip</td>
+<td>boolean?</td>
+<td>If set to <code>true</code>, a tooltip will be shown when hovering the geoposition marker in the map, indicating that it shows the user's position. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td>toastAction</td>
+<td>string?</td>
+<td>If the user is not locatable within the boundary of the maps extent or the boundary of the layer of <code>boundaryLayerId</code>, this string will be used as action to send a toast information to the user. If no toast information is desired, leave this field undefined; for testing purposes, you can still find information in the console.</td>
+</tr>
+<tr>
+<td>zoomLevel</td>
+<td>number?</td>
+<td>Specifies to which zoom level gets zoomed after a successfull tracking of the location. Defaults to <code>7</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>For details on the <code>displayComponent</code> attribute, refer to the <a href="https://dataport.github.io/polar/docs/meldemichel/core.html#global-plugin-parameters">Global Plugin Parameters</a> section of <code>@polar/core</code>.</p>
+<p>Example configuration:</p>
+<pre><code class="language-js">geoLocation: {
+  checkLocationInitially: true,
+  keepCentered: true,
+  renderType: 'independent',
+  zoomLevel: 7,
+  boundaryLayerId: 'hamburgBorder',
+  boundaryOnError: 'strict',
+  showTooltip: true,
+  toastAction: 'plugin/toast/addToast',
+}
+</code></pre>
+<h2 id="store" tabindex="-1">Store</h2>
+<h3 id="state" tabindex="-1">State</h3>
+<p>If the access to an users location has been granted, the coordinates get stored in the <code>position</code> state value. This value can be subscribed through the path <code>'plugin/geoLocation/position'</code>.</p>
+<pre><code class="language-js">map.subscribe('plugin/geoLocation/position', (position) =&gt; {
+  /* Your code here */
+})
+</code></pre>
+
+    
+    <h2>Locales</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Locale Key</th>
+          <th scope="col">German default</th>
+          <th scope="col">English default</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>plugins.geoLocation.markerText</td>
+          <td>Aktuelle Position</td>
+          <td>Current location</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.geoLocation.button.tooltip.placeLocationMarker</td>
+          <td>Eigene Position markieren</td>
+          <td>Mark own location</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.geoLocation.button.tooltip.removeLocationMarker</td>
+          <td>Positionsmarker entfernen</td>
+          <td>Remove location marker</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.geoLocation.button.tooltip.locationAccessDenied</td>
+          <td>Standortzugriff nutzerseitig abgelehnt</td>
+          <td>Location access denied by user</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.geoLocation.toast.notInBoundary</td>
+          <td>Sie befinden sich nicht im Kartengebiet.</td>
+          <td>You are not within the map's boundaries.</td>
+        </tr>
+        
+        <tr>
+          <td>plugins.geoLocation.toast.boundaryError</td>
+          <td>Die Überprüfung Ihrer Position ist fehlgeschlagen. Bitte versuchen Sie es später erneut oder wenden Sie sich an einen Administrator, wenn das Problem bestehen bleibt.</td>
+          <td>Validating your position failed. Please try later again or contact an administrator if the issue persists.</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
+  </article>
+  <hr>
+  <a href="https://github.com/Dataport/polar/blob/main/LEGALNOTICE.md" style="font-family: sans-serif;">Legal Notice (Impressum)</a>
+</body>
+</html>
