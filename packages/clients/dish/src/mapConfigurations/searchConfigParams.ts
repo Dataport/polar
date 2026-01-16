@@ -64,6 +64,7 @@ export const searchMethods = {
       featurePrefix: 'app',
       xmlns: 'http://www.deegree.org/app',
       useRightHandWildcard: true,
+      maxFeatures: 120,
       patternKeys: {
         hausnummer: '([0-9]+)',
         strasse: '([A-Za-z]+)',
