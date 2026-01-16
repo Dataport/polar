@@ -291,7 +291,10 @@ export const useAddressSearchStore = defineStore(
 			}
 		}
 
-		function selectResult(feature: PolarGeoJsonFeature, categoryId: string) {
+		function selectResult(
+			feature: PolarGeoJsonFeature,
+			categoryId = 'default'
+		) {
 			const customMethod = configuration.value.customSelectResult?.[categoryId]
 			if (customMethod) {
 				customMethod(feature, categoryId)
