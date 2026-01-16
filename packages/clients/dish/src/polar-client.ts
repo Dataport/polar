@@ -8,6 +8,7 @@ import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
 import { GeoJSON } from 'ol/format'
 import packageInfo from '../package.json'
 import { navigateToDenkmal } from './utils/navigateToDenkmal'
+import { watchActiveMaskIds } from './utils/watchActiveMaksIds'
 import { addPlugins } from './addPlugins'
 import { services } from './services'
 import { getMapConfiguration } from './mapConfigurations/mapConfig'
@@ -15,6 +16,7 @@ import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
 import selectionLayer from './selectionLayer'
 import { DishUrlParams } from './types'
+
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
 
@@ -40,6 +42,8 @@ export default {
     const objektId = parameters.get('ObjektID')
     if (mode === 'INTERN') {
       subscribeToExportedMap(map)
+      // watch for changes in activeMaskIds to update beschriftung layer
+      watchActiveMaskIds(map)
       map.$store.commit('plugin/selectionObject/setObjectId', objektId)
       if (typeof objektId === 'string') {
         zoomToInternalFeature(map, objektId, urlParams)
