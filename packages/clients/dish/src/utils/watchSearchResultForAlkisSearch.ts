@@ -19,10 +19,9 @@ export function watchSearchResultForAlkisSearch(instance: MapInstance) {
       const activeMaskIds =
         instance.$store.getters['plugin/layerChooser/activeMaskIds']
       if (!activeMaskIds.includes(alkisWms)) {
-        activeMaskIds.push(alkisWms)
         instance.$store.dispatch(
           'plugin/layerChooser/setActiveMaskIds',
-          activeMaskIds
+          [...activeMaskIds, alkisWms]
         )
       }
     }
