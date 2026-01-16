@@ -11,11 +11,13 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+
+import PolarCard from '@/components/PolarCard.ce.vue'
+
 import { useFilterStore } from '../store'
 import FilterCategory from './FilterCategory.ce.vue'
 import FilterLayerChooser from './FilterLayerChooser.ce.vue'
 import FilterTime from './FilterTime.ce.vue'
-import PolarCard from '@/components/PolarCard.ce.vue'
 
 const filterStore = useFilterStore()
 const selectedLayer = ref('')

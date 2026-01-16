@@ -4,10 +4,11 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { PluginContainer, PolarPluginStore } from '@/core'
+
 import component from './components/LoadingIndicator.ce.vue'
 import { useLoadingIndicatorStore } from './store'
 import { type LoadingIndicatorOptions, PluginId } from './types'
-import type { PluginContainer, PolarPluginStore } from '@/core'
 
 /**
  * Creates a plugin that offers a generic loading indicator that may be used by

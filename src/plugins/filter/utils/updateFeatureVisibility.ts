@@ -1,8 +1,11 @@
-import VectorSource from 'ol/source/Vector'
 import { Feature } from 'ol'
-import type { FilterState } from '../types'
-import { doesFeaturePassFilter } from './doesFeaturePassFilter'
+import VectorSource from 'ol/source/Vector'
+
 import { hideFeature, showFeature } from '@/lib/invisibleStyle'
+
+import type { FilterState } from '../types'
+
+import { doesFeaturePassFilter } from './doesFeaturePassFilter'
 
 /**
  * Update the features in the given source according to the given filter.

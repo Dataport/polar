@@ -1,11 +1,13 @@
-import { expect, test as _test, vi, assert } from 'vitest'
-import { mount, VueWrapper } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
+import { mount, VueWrapper } from '@vue/test-utils'
+import { expect, test as _test, vi, assert } from 'vitest'
 import { nextTick } from 'vue'
+
+import { useCoreStore } from '@/core/stores/export'
+import { mockedT } from '@/test/utils/mockI18n'
+
 import { useFilterStore } from '../store'
 import FilterUI from './FilterUI.ce.vue'
-import { mockedT } from '@/test/utils/mockI18n'
-import { useCoreStore } from '@/core/stores/export'
 
 /* eslint-disable no-empty-pattern */
 const test = _test.extend<{

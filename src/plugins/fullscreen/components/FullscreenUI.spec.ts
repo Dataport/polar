@@ -1,11 +1,13 @@
-import { expect, test as _test, vi } from 'vitest'
-import { mount, VueWrapper } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
+import { mount, VueWrapper } from '@vue/test-utils'
+import { expect, test as _test, vi } from 'vitest'
 import { nextTick } from 'vue'
+
+import { mockedT } from '@/test/utils/mockI18n'
+
 import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'
 import FullscreenUI from './FullscreenUI.ce.vue'
-import { mockedT } from '@/test/utils/mockI18n'
 
 /* eslint-disable no-empty-pattern */
 const test = _test.extend<{

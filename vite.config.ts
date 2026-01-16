@@ -1,15 +1,14 @@
+import vue from '@vitejs/plugin-vue'
+import { globSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve, basename, sep } from 'node:path'
-import { globSync } from 'node:fs'
-
 import { defineConfig } from 'vite'
-
-import commonJs from 'vite-plugin-commonjs'
-import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
-import dts from 'vite-plugin-dts'
 import checker from 'vite-plugin-checker'
+import commonJs from 'vite-plugin-commonjs'
+import dts from 'vite-plugin-dts'
 import kernExtraIcons from 'vite-plugin-kern-extra-icons'
+import vueDevTools from 'vite-plugin-vue-devtools'
+
 import enrichedConsole from './vitePlugins/enrichedConsole.js'
 
 const require = createRequire(import.meta.url)
@@ -58,7 +57,7 @@ export default defineConfig(({ mode }) => ({
 			formats: ['es'],
 			entry: {
 				polar: 'src/core/index.ts',
-				store: 'src/core/stores/export.ts',
+				store: 'src/core/stores/index.ts',
 				...Object.fromEntries(
 					globSync('src/plugins/*/').flatMap((path) => [
 						[`plugin-${basename(path)}`, [path, 'index.ts'].join(sep)],
@@ -100,7 +99,7 @@ export default defineConfig(({ mode }) => ({
 							'src',
 							'core',
 							'stores',
-							'export.ts'
+							'index.ts'
 						),
 						'@polar/polar/polar.css': resolve(
 							__dirname,

@@ -26,13 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useTemplateRef, watch } from 'vue'
+import type { PolarContainer } from '@polar/polar'
 
 import { addPlugins, getStore, subscribe } from '@polar/polar'
-import type { PolarContainer } from '@polar/polar'
-import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
+import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginToast from '@polar/polar/plugins/toast'
+import { ref, useTemplateRef, watch } from 'vue'
 
 import { useIcebergStore } from '../stores/iceberg'
 

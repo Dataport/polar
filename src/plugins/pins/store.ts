@@ -4,10 +4,10 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { toMerged } from 'es-toolkit'
 import type { GeoJsonGeometryTypes } from 'geojson'
-import { defineStore } from 'pinia'
 import type { Coordinate } from 'ol/coordinate'
+
+import { toMerged } from 'es-toolkit'
 import { pointerMove } from 'ol/events/condition'
 import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
@@ -15,12 +15,16 @@ import { Draw, Modify, Select, Translate } from 'ol/interaction'
 import VectorLayer from 'ol/layer/Vector'
 import { toLonLat } from 'ol/proj'
 import { Vector } from 'ol/source'
+import { defineStore } from 'pinia'
 import { computed, ref, watch, type WatchHandle } from 'vue'
+
+import { useCoreStore } from '@/core/stores'
+
 import type { PinMovable, PinsPluginOptions } from './types'
+
 import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
 import { isCoordinateInBoundaryLayer } from './utils/isCoordinateInBoundaryLayer'
-import { useCoreStore } from '@/core/stores/export'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -33,7 +37,7 @@ import { useCoreStore } from '@/core/stores/export'
 export const usePinsStore = defineStore('plugins/pins', () => {
 	const coreStore = useCoreStore()
 
-	const coordinate = ref<Coordinate>([])
+	const coordinate = ref<Coordinate | null>(null)
 	const getsDragged = ref(false)
 
 	const configuration = computed<
@@ -49,6 +53,9 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		)
 	)
 	const latLon = computed(() => {
+		if (!coordinate.value) {
+			return null
+		}
 		const lonLat = toLonLat(coordinate.value, coreStore.configuration.epsg)
 		return [lonLat[1], lonLat[0]]
 	})
@@ -160,15 +167,17 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 					feature.getGeometry() as Point
 				).getCoordinates()
 
-				addPin(
-					!(await isCoordinateInBoundaryLayer(
-						geometryCoordinates,
-						coreStore.map,
-						configuration.value.boundary
-					))
-						? coordinate.value
-						: geometryCoordinates
-				)
+				const newCoordinate = !(await isCoordinateInBoundaryLayer(
+					geometryCoordinates,
+					coreStore.map,
+					configuration.value.boundary
+				))
+					? coordinate.value
+					: geometryCoordinates
+
+				if (newCoordinate) {
+					addPin(newCoordinate)
+				}
 			})
 		})
 		coreStore.map.addInteraction(translate)

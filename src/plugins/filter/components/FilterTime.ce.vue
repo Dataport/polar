@@ -16,14 +16,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import { t } from 'i18next'
+import { computed, ref } from 'vue'
+
+import type { Icon } from '@/core'
+
+import KernBlockButtonRadioGroup from '@/components/kern/KernBlockButtonRadioGroup.ce.vue'
+import KernDateRangePicker from '@/components/kern/KernDateRangePicker.ce.vue'
+import { useCoreStore } from '@/core/stores/export'
+
 import { useFilterStore } from '../store'
 import { type FilterConfiguration } from '../types'
-import KernBlockButtonRadioGroup from '@/components/kern/KernBlockButtonRadioGroup.ce.vue'
-import type { Icon } from '@/core'
-import { useCoreStore } from '@/core/stores/export'
-import KernDateRangePicker from '@/components/kern/KernDateRangePicker.ce.vue'
 
 const props = defineProps<{
 	layer: string

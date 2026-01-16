@@ -1,9 +1,11 @@
 import { createTestingPinia } from '@pinia/testing'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { expect, test as _test, vi } from 'vitest'
+
+import { mockedT } from '@/test/utils/mockI18n'
+
 import { useGeoLocationStore } from '../store'
 import GeoLocation from './GeoLocation.ce.vue'
-import { mockedT } from '@/test/utils/mockI18n'
 
 /* eslint-disable no-empty-pattern */
 const test = _test.extend<{

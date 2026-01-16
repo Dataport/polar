@@ -1,11 +1,13 @@
 import { ping } from '@masterportal/masterportalapi'
 import { t } from 'i18next'
+
+import { notifyUser } from '@/lib/notifyUser'
+
 import type {
 	MapConfiguration,
 	MasterportalApiServiceRegister,
 	ServiceAvailabilityCheck,
 } from '../types'
-import { notifyUser } from '@/lib/notifyUser'
 
 export function checkServiceAvailability(
 	configuration: MapConfiguration,

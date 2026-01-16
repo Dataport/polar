@@ -6,10 +6,12 @@
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import { PluginId, type FilterPluginOptions, type FilterState } from './types'
-import { updateFeatureVisibility } from './utils/updateFeatureVisibility'
-import { getVectorSource } from './utils/getVectorSource'
+
 import { useCoreStore } from '@/core/stores/export'
+
+import { PluginId, type FilterPluginOptions, type FilterState } from './types'
+import { getVectorSource } from './utils/getVectorSource'
+import { updateFeatureVisibility } from './utils/updateFeatureVisibility'
 
 /* eslint-disable tsdoc/syntax */
 /**

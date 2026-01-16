@@ -54,10 +54,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useFilterStore } from '../store'
-import { PluginId, type Category, type FilterConfiguration } from '../types'
+
 import KernBlockButton from '@/components/kern/KernBlockButton.ce.vue'
 import KernBlockButtonCheckbox from '@/components/kern/KernBlockButtonCheckbox.ce.vue'
+
+import { useFilterStore } from '../store'
+import { PluginId, type Category, type FilterConfiguration } from '../types'
 
 const props = defineProps<{
 	layer: string

@@ -13,10 +13,12 @@
 <script setup lang="ts">
 import { toMerged } from 'es-toolkit'
 import { computed } from 'vue'
+
+import { useCoreStore } from '@/core/stores'
+
 import { useIconMenuStore } from '../store'
 import StandardFocusMenu from './StandardFocusMenu.ce.vue'
 import StandardMenuList from './StandardMenuList.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
 
 const iconMenuStore = useIconMenuStore()
 

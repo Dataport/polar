@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+
 import { useFilterStore } from '../store'
 
 const model = defineModel<string>({ required: true })

@@ -4,11 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { PluginContainer, PolarPluginStore } from '@/core'
+
 import component from './components/GeoLocation.ce.vue'
 import locales from './locales'
-import { PluginId, type GeoLocationPluginOptions } from './types'
 import { useGeoLocationStore } from './store'
-import type { PluginContainer, PolarPluginStore } from '@/core'
+import { PluginId, type GeoLocationPluginOptions } from './types'
 
 /**
  * The GeoLocation plugin is responsible for collecting and displaying a user's

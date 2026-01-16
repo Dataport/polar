@@ -1,46 +1,38 @@
 import type { SetupStoreDefinition } from 'pinia'
 import type { Component } from 'vue'
+
+import type { PluginId as FilterPluginId } from '@/plugins/filter'
+import type { resourcesEn as FilterResources } from '@/plugins/filter/locales'
+import type { useFilterStore as FilterStore } from '@/plugins/filter/store'
+import type { PluginId as FooterPluginId } from '@/plugins/footer'
+import type { resourcesEn as FooterResources } from '@/plugins/footer/locales'
+import type { useFooterStore as FooterStore } from '@/plugins/footer/store'
+import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
+import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
+import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
+import type { PluginId as GeoLocationPluginId } from '@/plugins/geoLocation'
+import type { resourcesEn as GeoLocationResources } from '@/plugins/geoLocation/locales'
+import type { useGeoLocationStore as GeoLocationStore } from '@/plugins/geoLocation/store'
+import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
+import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
+import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
+import type { PluginId as LayerChooserPluginId } from '@/plugins/layerChooser'
+import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChooser/locales'
+import type { useLayerChooserStore as LayerChooserStore } from '@/plugins/layerChooser/store'
+import type { PluginId as LoadingIndicatorId } from '@/plugins/loadingIndicator'
+import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugins/loadingIndicator/store'
+import type { PluginId as PinsPluginId } from '@/plugins/pins'
+import type { resourcesEn as PinsResources } from '@/plugins/pins/locales'
+import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
+import type { PluginId as ReverseGeocoderPluginId } from '@/plugins/reverseGeocoder'
+import type { useReverseGeocoderStore as ReverseGeocoderStore } from '@/plugins/reverseGeocoder/store'
+import type { PluginId as ToastPluginId } from '@/plugins/toast'
+import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
+import type { useToastStore as ToastStore } from '@/plugins/toast/store'
+
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
 import type { Icon } from './theme'
-
-import type { PluginId as FilterPluginId } from '@/plugins/filter'
-import type { useFilterStore as FilterStore } from '@/plugins/filter/store'
-import type { resourcesEn as FilterResources } from '@/plugins/filter/locales'
-
-import type { PluginId as FooterPluginId } from '@/plugins/footer'
-import type { useFooterStore as FooterStore } from '@/plugins/footer/store'
-import type { resourcesEn as FooterResources } from '@/plugins/footer/locales'
-
-import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
-import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
-import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
-
-import type { PluginId as GeoLocationPluginId } from '@/plugins/geoLocation'
-import type { useGeoLocationStore as GeoLocationStore } from '@/plugins/geoLocation/store'
-import type { resourcesEn as GeoLocationResources } from '@/plugins/geoLocation/locales'
-
-import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
-import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
-import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
-
-import type { PluginId as LayerChooserPluginId } from '@/plugins/layerChooser'
-import type { useLayerChooserStore as LayerChooserStore } from '@/plugins/layerChooser/store'
-import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChooser/locales'
-
-import type { PluginId as LoadingIndicatorId } from '@/plugins/loadingIndicator'
-import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugins/loadingIndicator/store'
-
-import type { PluginId as PinsPluginId } from '@/plugins/pins'
-import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
-import type { resourcesEn as PinsResources } from '@/plugins/pins/locales'
-
-import type { PluginId as ReverseGeocoderPluginId } from '@/plugins/reverseGeocoder'
-import type { useReverseGeocoderStore as ReverseGeocoderStore } from '@/plugins/reverseGeocoder/store'
-
-import type { PluginId as ToastPluginId } from '@/plugins/toast'
-import type { useToastStore as ToastStore } from '@/plugins/toast/store'
-import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
 
 export interface PluginOptions {
 	displayComponent?: boolean

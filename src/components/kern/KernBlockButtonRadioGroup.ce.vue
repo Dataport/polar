@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { useId } from 'vue'
+
 import type { Icon } from '@/core'
 
 const props = defineProps<{

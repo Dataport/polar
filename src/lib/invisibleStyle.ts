@@ -1,5 +1,5 @@
-import Style from 'ol/style/Style'
 import { Feature } from 'ol'
+import Style from 'ol/style/Style'
 
 /*
  * Exports a style for vector layer features that results in invisibility.

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { type Component, markRaw, ref } from 'vue'
+
 import type { MoveHandleProperties } from '../types'
 
 export const useMoveHandleStore = defineStore('moveHandle', () => {

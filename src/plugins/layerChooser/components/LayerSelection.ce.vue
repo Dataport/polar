@@ -75,14 +75,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useLayerChooserStore } from '../store'
-import { PluginId } from '../types'
-import LegendButton from './LegendButton.ce.vue'
+import { computed } from 'vue'
+
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarInput from '@/components/PolarInput.ce.vue'
 import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
+
+import { useLayerChooserStore } from '../store'
+import { PluginId } from '../types'
+import LegendButton from './LegendButton.ce.vue'
 
 const layerChooserStore = useLayerChooserStore()
 const {
