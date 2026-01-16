@@ -7,7 +7,7 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import { PluginId, type FilterPluginOptions, type FilterState } from './types'
 import { getVectorSource } from './utils/getVectorSource'

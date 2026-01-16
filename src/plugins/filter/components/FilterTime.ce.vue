@@ -23,7 +23,7 @@ import type { Icon } from '@/core'
 
 import KernBlockButtonRadioGroup from '@/components/kern/KernBlockButtonRadioGroup.ce.vue'
 import KernDateRangePicker from '@/components/kern/KernDateRangePicker.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
+import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
 import { type FilterConfiguration } from '../types'
