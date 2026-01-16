@@ -12,9 +12,11 @@ export function watchSearchResultForAlkisSearch(instance: MapInstance) {
     if (chosenAddress.properties?.idflurst) {
       const zoomLevel = instance.$store.getters['plugin/zoom/zoomLevel']
 
-      instance.$store.getters.map
-        .getView()
-        .setZoom(zoomLevel <= alkisMinZoom ? alkisMinZoom : zoomLevel)
+      if (zoomLevel <= alkisMinZoom) {
+        instance.$store.getters.map
+          .getView()
+          .setZoom(alkisMinZoom)
+      }
 
       const activeMaskIds =
         instance.$store.getters['plugin/layerChooser/activeMaskIds']
