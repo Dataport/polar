@@ -68,7 +68,7 @@ const name = computed(
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	gap: var(--kern-metric-space-large, 1.5rem);
+	gap: var(--kern-metric-space-large);
 }
 
 .kern-form-check.polar-layer-chooser-options-checkbox {

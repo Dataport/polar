@@ -117,7 +117,7 @@ function updateOpenedOptions(layerId: string) {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	gap: var(--kern-metric-space-large, 1.5rem);
+	gap: var(--kern-metric-space-large);
 
 	button {
 		pointer-events: all;
