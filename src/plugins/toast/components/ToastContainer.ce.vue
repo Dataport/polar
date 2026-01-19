@@ -7,8 +7,10 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+
+import { useCoreStore } from '@/core/stores'
+
 import ToastUI from './ToastUI.ce.vue'
-import { useCoreStore } from '@/core/stores/export'
 
 const { layout } = storeToRefs(useCoreStore())
 </script>

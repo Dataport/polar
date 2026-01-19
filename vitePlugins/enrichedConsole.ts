@@ -1,5 +1,5 @@
-import { resolve } from 'node:path'
 import MagicString from 'magic-string'
+import { resolve } from 'node:path'
 
 const fileRegex = /\.(ts|js|vue)$/
 const consoleRegex = /console\.(log|warn|error|info)\(/g

@@ -1,7 +1,9 @@
 import { layerLib, rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
-import type { LayerLegend } from '../types'
+
 import type { LayerConfiguration } from '@/core'
+
+import type { LayerLegend } from '../types'
 
 export const prepareLegends = (
 	layers: LayerConfiguration[]

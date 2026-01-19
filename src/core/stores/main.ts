@@ -1,16 +1,19 @@
-import { toMerged } from 'es-toolkit'
 import type { Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
+
+import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
+
 import type {
 	ColorScheme,
 	MapConfigurationIncludingDefaults,
 	MasterportalApiServiceRegister,
 } from '../types'
-import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
+
 import { addInterceptor } from '../utils/addInterceptor'
+import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import defaults from '../utils/defaults'
 
 export const useMainStore = defineStore('main', () => {

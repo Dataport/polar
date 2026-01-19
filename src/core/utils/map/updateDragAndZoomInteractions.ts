@@ -1,5 +1,6 @@
 import type { Map } from 'ol'
 import type { Interaction } from 'ol/interaction'
+
 import { createPanAndZoomInteractions } from '../interactions'
 
 let interactions: Interaction[] = []

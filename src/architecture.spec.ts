@@ -1,6 +1,6 @@
 import { resolve } from 'node:path'
-import { beforeAll, describe, expect, test } from 'vitest'
 import { FileConditionBuilder, filesOfProject } from 'tsarch'
+import { beforeAll, describe, expect, test } from 'vitest'
 
 describe('Architectural checks', () => {
 	let files: FileConditionBuilder
@@ -44,7 +44,7 @@ describe('Architectural checks', () => {
 			.matchingPattern('^plugins/.*$')
 			.shouldNot()
 			.dependOnFiles()
-			.matchingPattern('^core/(?!(index|stores/export)\\.ts$).*$')
+			.matchingPattern('^core/(?!(index|stores/index)\\.ts$).*$')
 			.check()
 		expect(violations).toEqual([])
 	})
@@ -54,7 +54,7 @@ describe('Architectural checks', () => {
 			.matchingPattern('^lib/.*$')
 			.shouldNot()
 			.dependOnFiles()
-			.matchingPattern('^core/(?!(index|stores/export)\\.ts$).*$')
+			.matchingPattern('^core/(?!(index|stores/index)\\.ts$).*$')
 			.check()
 		expect(violations).toEqual([])
 	})

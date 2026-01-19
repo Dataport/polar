@@ -1,19 +1,23 @@
+import type BaseLayer from 'ol/layer/Base'
+
 import { toMerged } from 'es-toolkit'
 import { Feature, Map, MapBrowserEvent, MapEvent } from 'ol'
 import { createEmpty, extend } from 'ol/extent'
-import type BaseLayer from 'ol/layer/Base'
 import VectorLayer from 'ol/layer/Vector'
 import RenderFeature from 'ol/render/Feature'
 import Cluster from 'ol/source/Cluster'
 import VectorSource from 'ol/source/Vector'
 import { watch, markRaw, toRaw } from 'vue'
-import type { MarkerLayer, MarkerStyle, PluginId } from '../../types'
-import { getMarkerStyle } from '../../utils/markers'
-import { useMainStore } from '../../stores/main'
-import { isVisible } from '@/lib/invisibleStyle'
-import getCluster from '@/lib/getCluster'
+
 import { useMarkerStore } from '@/core/stores/marker'
 import { usePluginStore } from '@/core/stores/plugin'
+import getCluster from '@/lib/getCluster'
+import { isVisible } from '@/lib/invisibleStyle'
+
+import type { MarkerLayer, MarkerStyle, PluginId } from '../../types'
+
+import { useMainStore } from '../../stores/main'
+import { getMarkerStyle } from '../../utils/markers'
 
 // these have been measured to fit once and influence marker size
 const imgSize: [number, number] = [26, 36]

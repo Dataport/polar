@@ -4,11 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { PluginContainer, PolarPluginStore } from '@/core'
+
 import component from './components/FullscreenUI.ce.vue'
 import locales from './locales'
 import { useFullscreenStore } from './store'
 import { PluginId, type FullscreenPluginOptions } from './types'
-import type { PluginContainer, PolarPluginStore } from '@/core'
 
 /**
  * Creates a plugin which provides a fullscreen mode with a fullscreen toggle button.
