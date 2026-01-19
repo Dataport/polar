@@ -4,18 +4,21 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, watch, type WatchHandle } from 'vue'
-import { rawLayerList } from '@masterportal/masterportalapi'
 import type { Feature as GeoJsonFeature } from 'geojson'
 import type { Feature } from 'ol'
-import { PluginId, type GfiPluginOptions } from './types'
-import { requestGfi } from './utils/requestGfi'
-import { serializeFeature } from './utils/serializeFeature'
-import { useCoreStore } from '@/core/stores/export'
+
+import { rawLayerList } from '@masterportal/masterportalapi'
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { computed, ref, watch, type WatchHandle } from 'vue'
+
+import { useCoreStore } from '@/core/stores'
 import { getRefStore } from '@/lib/getRefStore'
 import { getVectorSource } from '@/lib/getVectorSource'
 import { isVisible } from '@/lib/invisibleStyle'
+
+import { PluginId, type GfiPluginOptions } from './types'
+import { requestGfi } from './utils/requestGfi'
+import { serializeFeature } from './utils/serializeFeature'
 
 /* eslint-disable tsdoc/syntax */
 /**

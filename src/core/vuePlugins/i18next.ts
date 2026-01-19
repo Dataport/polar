@@ -4,8 +4,9 @@ import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import I18NextVue from 'i18next-vue'
 
-import locales from '../locales'
 import sharedLocales from '@/locales'
+
+import locales from '../locales'
 
 export const CoreId = 'core'
 export const SharedId = 'shared'

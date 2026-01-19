@@ -1,8 +1,9 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
+import type { FeatureLike } from 'ol/Feature'
+
 import { Feature, Map } from 'ol'
 import { GeoJSON } from 'ol/format'
 import VectorLayer from 'ol/layer/Vector'
-import type { FeatureLike } from 'ol/Feature'
 
 const writer = new GeoJSON()
 

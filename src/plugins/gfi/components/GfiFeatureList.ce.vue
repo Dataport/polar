@@ -35,12 +35,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import type { Feature } from 'ol'
+
+import { computed, ref } from 'vue'
+
+import KernPagination from '@/components/kern/KernPagination.ce.vue'
+
 import type { FeatureList } from '../types'
+
 import { useGfiStore } from '../store'
 import { serializeFeature } from '../utils/serializeFeature'
-import KernPagination from '@/components/kern/KernPagination.ce.vue'
 
 const gfiStore = useGfiStore()
 

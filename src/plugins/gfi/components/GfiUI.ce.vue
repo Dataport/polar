@@ -34,10 +34,12 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+
+import PolarCard from '@/components/PolarCard.ce.vue'
+
 import { useGfiStore } from '../store'
 import GfiFeature from './GfiFeature.ce.vue'
 import GfiFeatureList from './GfiFeatureList.ce.vue'
-import PolarCard from '@/components/PolarCard.ce.vue'
 
 const gfiStore = useGfiStore()
 

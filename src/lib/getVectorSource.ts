@@ -1,4 +1,5 @@
 import type Layer from 'ol/layer/Layer'
+
 import ClusterSource from 'ol/source/Cluster'
 import VectorSource from 'ol/source/Vector'
 

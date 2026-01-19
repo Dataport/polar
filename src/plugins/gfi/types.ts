@@ -1,10 +1,11 @@
-import type { Feature, Map } from 'ol'
-import type { Fill, Stroke } from 'ol/style'
 import type { Feature as GeoJsonFeature } from 'geojson'
+import type { Feature, Map } from 'ol'
 import type BaseLayer from 'ol/layer/Base'
+import type ImageLayer from 'ol/layer/Image'
 import type TileLayer from 'ol/layer/Tile'
 import type { ImageWMS, TileWMS } from 'ol/source'
-import type ImageLayer from 'ol/layer/Image'
+import type { Fill, Stroke } from 'ol/style'
+
 import type { PluginOptions, StoreReference } from '@/core'
 
 /**
