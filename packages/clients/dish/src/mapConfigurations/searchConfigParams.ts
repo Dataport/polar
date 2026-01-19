@@ -103,8 +103,8 @@ export const searchMethods = {
         gemeinde: '([A-Za-z]+)',
       },
       patterns: [
-        '{{gemeinde}} {{gemarkung}} {{flur}}, {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
-        '{{gemeinde}}{{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
+        '{{gemeinde}} {{flur}}, {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+        '{{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
         '{{gemeinde}} {{flstkennz}}',
       ],
     },
