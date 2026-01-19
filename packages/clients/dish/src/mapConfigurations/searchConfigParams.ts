@@ -83,7 +83,7 @@ export const searchMethods = {
   alkisSearch: {
     groupId: groupDenkmalsuche,
     categoryId: 'categoryIdAlkisSearch',
-    type: 'wfs',
+    type: 'alkis',
     // will be set later due to mode setting
     url: null,
     queryParameters: {
@@ -100,12 +100,11 @@ export const searchMethods = {
         gemarkung: '([A-Za-z]+)',
         flstkennz: '([0-9_]+)',
         flur: '([0-9]+)',
-        gemeinde: '([A-Za-z]+)',
       },
       patterns: [
-        '{{gemeinde}} {{flur}}, {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+        '{{gemarkung}} {{flur}}, {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
         '{{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
-        '{{gemeinde}} {{flstkennz}}',
+        '{{flstkennz}}',
       ],
     },
   },

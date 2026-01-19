@@ -12,26 +12,18 @@ import {
 } from '@polar/plugin-address-search'
 import { WfsParameters, getWfsFeatures } from '@polar/lib-get-features'
 
-function replaceUmlauts(input: string): string {
-  return input
-    .replace(/Ä/g, 'AE')
-    .replace(/Ö/g, 'OE')
-    .replace(/Ü/g, 'UE')
-    .replace(/ß/g, 'SS')
-}
-
-export function badestellenSearch(
+export function alkisSearch(
   this: PolarStore<CoreState, CoreGetters>,
   signal: AbortSignal,
   url: string,
   inputValue: string,
   queryParameters: WfsParameters
 ) {
-  const searchString = replaceUmlauts(inputValue[0].toUpperCase())
-  return getWfsFeatures(signal, url, `*${searchString}*`, queryParameters)
+  const searchString = inputValue[0].toUpperCase() + inputValue.slice(1)
+  return getWfsFeatures(signal, url, `${searchString}*`, queryParameters)
 }
 
-export const badestellenSearchResult: SelectResultFunction<
+export const alkisSearchResult: SelectResultFunction<
   AddressSearchState,
   AddressSearchGetters
 > = (
@@ -45,7 +37,7 @@ export const badestellenSearchResult: SelectResultFunction<
     }
   }
 ) => {
-  feature.epsg = 'EPSG:25832'
+  console.log('Alkis selected feature:', feature)
   commit('setChosenAddress', feature)
   commit('setInputValue', feature.title)
   commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
