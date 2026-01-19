@@ -10,17 +10,29 @@ permissions:
 
 jobs:
   deploy:
+    name: Deploy documentation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+
+      - name: Set up Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
         with:
           node-version: 24.12.0
           registry-url: https://registry.npmjs.org/
-      - run: sudo apt install mkdocs mkdocs-material
-      - run: npm ci
-      - run: npm run docs:ci
-      - uses: JamesIves/github-pages-deploy-action@4a3abc783e1a24aeb44c16e869ad83caf6b4cc23
+
+      - name: Install documentation build dependencies
+        run: sudo apt install mkdocs mkdocs-material
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Build documentation
+        run: npm run docs:ci
+
+      - name: Deploy documentation to gh-pages/next
+        uses: JamesIves/github-pages-deploy-action@4a3abc783e1a24aeb44c16e869ad83caf6b4cc23
         with:
           folder: docs-html
           target-folder: next
