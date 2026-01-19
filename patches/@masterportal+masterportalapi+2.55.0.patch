@@ -9,7 +9,7 @@ index 6613447..cc83711 100644
  /**
   * Represents a FixedOverlaySynchronizer.
 diff --git a/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js b/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js
-index aeebfaf..de492e6 100644
+index f3d8f5b..28d799c 100644
 --- a/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js
 +++ b/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js
 @@ -2,12 +2,12 @@
