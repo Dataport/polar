@@ -3,35 +3,55 @@ on: push
 
 jobs:
   lint:
+    name: Linting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+
+      - name: Set up Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
         with:
           node-version: 24.12.0
           registry-url: https://registry.npmjs.org/
-      - run: |
+
+      - name: Install dependencies and run linter
+        run: |
           npm ci
           npm run lint:ci
+
   test:
+    name: Unit tests and e2e tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+
+      - name: Set up Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
         with:
           node-version: 24.12.0
           registry-url: https://registry.npmjs.org/
-      - run: |
+
+      - name: Install dependencies and run tests
+        run: |
           npm ci
           npm run test:ci
+
   type-check:
+    name: Type-checking
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+
+      - name: Set up Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
         with:
           node-version: 24.12.0
           registry-url: https://registry.npmjs.org/
-      - run: |
+
+      - name: Install dependencies and run type-checking
+        run: |
           npm ci
           npm run tsc:ci

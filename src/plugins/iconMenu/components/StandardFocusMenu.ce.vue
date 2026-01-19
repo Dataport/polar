@@ -144,7 +144,7 @@ function toggle(index: number) {
 		/** TODO(dopenguin): Update values depending on whether the search is displayed or not. It should generally be displayed below the toasts. */
 		top: 0;
 		left: 0;
-		margin: 0.5rem;
+		margin: var(--kern-metric-space-small);
 		white-space: nowrap;
 		overflow-y: auto;
 		scrollbar-gutter: stable;

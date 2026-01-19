@@ -48,7 +48,7 @@ const model = defineModel<
 
 .kern-form-check__checkbox[disabled] {
 	&:checked:hover::before {
-		margin: 0.25rem;
+		margin: var(--kern-metric-space-x-small);
 	}
 }
 </style>

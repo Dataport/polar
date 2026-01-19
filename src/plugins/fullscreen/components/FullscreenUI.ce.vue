@@ -43,6 +43,6 @@ const buttonClass = computed(() =>
 	box-shadow: none;
 }
 .polar-icon-button.polar-plugin-fullscreen-nine-regions {
-	margin: 0.5rem;
+	margin: var(--kern-metric-space-small);
 }
 </style>
