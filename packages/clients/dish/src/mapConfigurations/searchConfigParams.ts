@@ -8,6 +8,7 @@ import {
 } from '../servicesConstants'
 
 const groupDenkmalsuche = 'groupDenkmalsuche'
+export const categoryIdAlkisSearch = 'categoryIdAlkisSearch'
 
 export const searchMethods = {
   denkmalsucheAutocomplete: {
@@ -82,7 +83,7 @@ export const searchMethods = {
   },
   alkisSearch: {
     groupId: groupDenkmalsuche,
-    categoryId: 'categoryIdAlkisSearch',
+    categoryId: categoryIdAlkisSearch,
     type: 'wfs',
     // will be set later due to mode setting
     url: null,
