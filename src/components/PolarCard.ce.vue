@@ -14,7 +14,7 @@
 .kern-card {
 	height: inherit;
 	min-width: 25rem;
-	border-radius: 0.5rem;
+	border-radius: var(--kern-metric-border-radius-large);
 	box-shadow: var(--polar-shadow);
 
 	.kern-card__container {

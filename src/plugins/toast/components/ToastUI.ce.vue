@@ -59,10 +59,10 @@ const toasts = computed(() =>
 
 <style scoped>
 .kern-alert {
-	margin: 0.5em 0;
+	margin: var(--kern-metric-space-small) var(--kern-metric-space-none);
 
 	& > .kern-alert__header {
-		padding: 4px 16px;
+		padding: var(--kern-metric-space-x-small) var(--kern-metric-space-default);
 
 		& > .kern-icon {
 			display: none;
@@ -81,7 +81,7 @@ const toasts = computed(() =>
 }
 
 .kern-btn {
-	margin-left: 0.3em;
+	margin-left: var(--kern-metric-space-x-small);
 	background-color: transparent;
 }
 </style>

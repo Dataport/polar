@@ -123,16 +123,16 @@ provide('updateMaxWidth', updateMaxWidth)
 	position: relative;
 	list-style: none;
 	padding: 0;
-	margin: 0.5rem;
+	margin: var(--kern-metric-space-small);
 }
 
 .polar-plugin-icon-menu-list-item-horizontal {
 	float: left;
-	margin-left: 0.5rem;
+	margin-left: var(--kern-metric-space-small);
 }
 
 .polar-plugin-icon-menu-list-item {
-	margin-bottom: 0.5rem;
+	margin-bottom: var(--kern-metric-space-small);
 	z-index: 1;
 }
 
@@ -140,14 +140,14 @@ provide('updateMaxWidth', updateMaxWidth)
 	position: absolute;
 	white-space: nowrap;
 	top: 0;
-	right: calc(100% + 0.5em);
+	right: calc(100% + var(--kern-metric-space-small));
 }
 
 .polar-plugin-icon-menu-list-item-content-horizontal {
 	position: absolute;
 	white-space: nowrap;
-	top: calc(100% + 0.5em);
-	right: -0.5em;
+	top: calc(100% + var(--kern-metric-space-small));
+	right: calc(-1 * var(--kern-metric-space-small));
 }
 
 .polar-plugin-icon-menu-list-item-content-scrollable-y {

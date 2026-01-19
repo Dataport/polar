@@ -78,7 +78,7 @@ const name = computed(
 .kern-btn {
 	border: none;
 	min-height: inherit;
-	padding: 0.25rem;
+	padding: var(--kern-metric-space-x-small);
 	pointer-events: all;
 }
 
