@@ -58,7 +58,7 @@ const focusMenus = computed(() =>
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: 0.25rem;
-	margin: 0.5rem;
+	gap: var(--kern-metric-space-x-small);
+	margin: var(--kern-metric-space-small);
 }
 </style>

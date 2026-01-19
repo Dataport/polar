@@ -45,6 +45,6 @@ const tooltipPosition = computed(() =>
 
 <style scoped>
 .polar-plugin-geoLocation-nineRegions {
-	margin: 0.5rem;
+	margin: var(--kern-metric-space-small);
 }
 </style>
