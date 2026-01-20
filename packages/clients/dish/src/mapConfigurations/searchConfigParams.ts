@@ -9,6 +9,43 @@ import {
 
 const groupDenkmalsuche = 'groupDenkmalsuche'
 
+/**
+ * Sortiert Features nach mehreren Eigenschaften
+ * @param features - Array von Features
+ * @param sortKeys - Array von Property-Namen zum Sortieren (in Prioritätsreihenfolge)
+ * @param numericKeys - Array von Property-Namen, die numerisch statt alphabetisch sortiert werden sollen
+ * @returns Sortiertes Features-Array
+ */
+const sortFeaturesByProperties = (
+  features: any[],
+  sortKeys: string[],
+  numericKeys: string[] = []
+): any[] => {
+  return features.sort((a, b) => {
+    for (const key of sortKeys) {
+      const valueA = a.properties?.[key] ?? ''
+      const valueB = b.properties?.[key] ?? ''
+
+      let comparison = 0
+
+      if (numericKeys.includes(key)) {
+        // Numerische Sortierung
+        const numA = parseFloat(String(valueA)) || 0
+        const numB = parseFloat(String(valueB)) || 0
+        comparison = numA - numB
+      } else {
+        // Alphabetische Sortierung
+        comparison = String(valueA).localeCompare(String(valueB))
+      }
+
+      if (comparison !== 0) {
+        return comparison
+      }
+    }
+    return 0
+  })
+}
+
 export const searchMethods = {
   denkmalsucheAutocomplete: {
     groupId: groupDenkmalsuche,
@@ -106,6 +143,23 @@ export const searchMethods = {
         '{{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
         '{{flstkennz}}',
       ],
+    },
+    resultModifier: (featureCollection) => {
+      if (
+        featureCollection.features === undefined ||
+        featureCollection.features === null
+      ) {
+        return featureCollection
+      }
+      const featuresSorted = sortFeaturesByProperties(
+        featureCollection.features,
+        ['gemarkung', 'flur', 'flstnrzae', 'flstnrnen'],
+        ['flur', 'flstnrzae', 'flstnrnen']
+      )
+      return {
+        ...featureCollection,
+        features: featuresSorted,
+      }
     },
   },
 }
