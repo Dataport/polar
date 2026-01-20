@@ -29,12 +29,10 @@ const sortFeaturesByProperties = (
       let comparison = 0
 
       if (numericKeys.includes(key)) {
-        // Numerische Sortierung
         const numA = parseFloat(String(valueA)) || 0
         const numB = parseFloat(String(valueB)) || 0
         comparison = numA - numB
       } else {
-        // Alphabetische Sortierung
         comparison = String(valueA).localeCompare(String(valueB))
       }
 
