@@ -20,8 +20,8 @@ const { layout } = storeToRefs(useCoreStore())
 	position: absolute;
 	z-index: 40;
 	top: 0;
-	left: 0.5em;
-	right: 0.5em;
+	left: var(--kern-metric-space-small);
+	right: var(--kern-metric-space-small);
 
 	@media (min-width: 50em) {
 		left: 25%;
