@@ -7,10 +7,13 @@
 - Fix: Add terms of use for internal map.
 - Fix: Open links for BKG and their terms of use in new tab.
 - Fix: Only a new Tab for the print-function if newTab is wanted.
+- Fix: The search now returns results regardless of case(upper/lower). The search string is adjusted accordingly.
 - Chore: Edit urlParams configuration for new testing environment.
 - Feature: Configuration changed. A maximum of 120 features per search (BKG (address search) results) are now displayed.
 - Enhancement: Add 'Gemeinde' to the searchresults from the intern-Denkmal-search
 - Enhancement: Changed search result to display 'ONR' before the Objektnummer
+- Enhancement: The search results are now beautifully sorted, just like in DA Nord.
+- Enhancement: It is now possible to search ('Flurstücksuche') for 'Gemeinde'.
 
 ## 1.2.0
 
