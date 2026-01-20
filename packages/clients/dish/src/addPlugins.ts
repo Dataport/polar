@@ -35,7 +35,7 @@ import { DishGfiIntern, DishGfiExtern } from './plugins/Gfi'
 import DishExportMap from './plugins/DishExportMap'
 import SelectionObject from './plugins/SelectionObject'
 import { searchMethods } from './mapConfigurations/searchConfigParams'
-import { alkisSearch } from './utils/alkisSearch'
+import { formatSearchString } from './utils/searchIntern'
 
 const gfiConfig = (mode: keyof typeof MODE) => {
   const gfiConfig: GfiConfiguration = {
@@ -75,7 +75,7 @@ const addressSearchConfig = (mode: keyof typeof MODE) => {
     }
   } else if (mode === MODE.INTERN) {
     addressSearchConfig.customSearchMethods = {
-      alkis: alkisSearch as SearchMethodFunction,
+      dishIntern: formatSearchString as SearchMethodFunction,
     }
   }
   return addressSearchConfig
