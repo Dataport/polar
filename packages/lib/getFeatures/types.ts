@@ -61,7 +61,7 @@ export interface WfsParameters extends QueryParameters {
   useRightHandWildcard?: boolean
   /** custom attributes for the like operators in filters */
   likeFilterAttributes?: Record<string, string>
-  /** Sorting definition for WFS features; e.g. [{ propertyName: 'name', direction: 'DESC' }] */
+  /** Sorting definition for WFS features; e.g. [\{ propertyName: 'name', direction: 'DESC' \}] */
   sortBy?: { propertyName: string; direction?: 'ASC' | 'DESC' }[]
 }
 
