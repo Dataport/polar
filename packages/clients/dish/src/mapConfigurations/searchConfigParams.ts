@@ -133,12 +133,13 @@ export const searchMethods = {
         flstnrnen: '([0-9]+)',
         flstnrzae: '([0-9]+)',
         gemarkung: '([A-Za-z]+)',
+        gemeinde: '([A-Za-z]+)',
         flstkennz: '([0-9_]+)',
         flur: '([0-9]+)',
       },
       patterns: [
-        '{{gemarkung}} {{flur}}, {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
-        '{{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
+        '{{gemeinde}}, {{gemarkung}} {{flur}}, {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+        '{{gemeinde}}, {{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
         '{{flstkennz}}',
       ],
     },
@@ -151,7 +152,7 @@ export const searchMethods = {
       }
       const featuresSorted = sortFeaturesByProperties(
         featureCollection.features,
-        ['gemarkung', 'flur', 'flstnrzae', 'flstnrnen'],
+        ['gemeinde', 'gemarkung', 'flur', 'flstnrzae', 'flstnrnen'],
         ['flur', 'flstnrzae', 'flstnrnen']
       )
       return {
