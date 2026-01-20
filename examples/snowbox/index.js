@@ -249,7 +249,6 @@ addPlugin(
 				key: 'coordinate',
 			},
 		],
-		// TODO: Check if this works when addressSearch is implemented
 		addressTarget: {
 			plugin: 'addressSearch',
 			key: 'selectResult',
