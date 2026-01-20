@@ -8,6 +8,7 @@ import {
 } from '../servicesConstants'
 
 const groupDenkmalsuche = 'groupDenkmalsuche'
+export const categoryIdAlkisSearch = 'categoryIdAlkisSearch'
 
 /**
  * Sortiert Features nach mehreren Eigenschaften
@@ -134,7 +135,7 @@ export const searchMethods = {
 
   alkisSearch: {
     groupId: groupDenkmalsuche,
-    categoryId: 'categoryIdAlkisSearch',
+    categoryId: categoryIdAlkisSearch,
     type: 'dishIntern',
     // will be set later due to mode setting
     url: null,
