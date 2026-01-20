@@ -1,7 +1,7 @@
 import { CoreGetters, CoreState, PolarStore } from '@polar/lib-custom-types'
 import { WfsParameters, getWfsFeatures } from '@polar/lib-get-features'
 
-export function alkisSearch(
+export function formatSearchString(
   this: PolarStore<CoreState, CoreGetters>,
   signal: AbortSignal,
   url: string,
