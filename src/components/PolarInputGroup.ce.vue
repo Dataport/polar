@@ -24,7 +24,7 @@ defineProps<{
 	width: 100%;
 	padding: var(--kern-metric-space-small) 0;
 	gap: var(--kern-metric-space-small);
-	border-radius: var(--kern-metric-border-radius-default, 0.25rem);
+	border-radius: var(--kern-metric-border-radius-default);
 	background-color: var(--kern-color-layout-background-hued);
 }
 
@@ -34,7 +34,7 @@ defineProps<{
 
 :deep(.kern-form-check) {
 	align-items: center;
-	gap: var(--kern-metric-space-large, 1.5rem);
+	gap: var(--kern-metric-space-large);
 	margin-left: 0.75rem;
 	padding-right: 0;
 }
