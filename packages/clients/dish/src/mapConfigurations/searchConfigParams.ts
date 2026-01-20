@@ -90,7 +90,7 @@ export const searchMethods = {
   denkmalsucheDishIntern: {
     groupId: groupDenkmalsuche,
     categoryId: 'categoryDenkmalsucheDishIntern',
-    type: 'wfs',
+    type: 'dishIntern',
     // url is in mapConfig due to variable setting,
     queryParameters: {
       id: denkmaelerWFS,
@@ -114,11 +114,28 @@ export const searchMethods = {
         '{{objektansprache}}, {{gemeinde}}, ONR {{objektid}}',
       ],
     },
+    resultModifier: (featureCollection) => {
+      if (
+        featureCollection.features === undefined ||
+        featureCollection.features === null
+      ) {
+        return featureCollection
+      }
+      const featuresSorted = sortFeaturesByProperties(
+        featureCollection.features,
+        ['gemeinde', 'objektansprache', 'strasse', 'hausnummer', 'objektid']
+      )
+      return {
+        ...featureCollection,
+        features: featuresSorted,
+      }
+    },
   },
+
   alkisSearch: {
     groupId: groupDenkmalsuche,
     categoryId: 'categoryIdAlkisSearch',
-    type: 'alkis',
+    type: 'dishIntern',
     // will be set later due to mode setting
     url: null,
     queryParameters: {
