@@ -6,44 +6,10 @@ import {
   denkmaelerWFS,
   alkisWfs,
 } from '../servicesConstants'
+import { sortFeaturesByProperties } from '../utils/sortFeaturesByProperties'
 
 const groupDenkmalsuche = 'groupDenkmalsuche'
 export const categoryIdAlkisSearch = 'categoryIdAlkisSearch'
-
-/**
- * Sortiert Features nach mehreren Eigenschaften
- * @param features - Array von Features
- * @param sortKeys - Array von Property-Namen zum Sortieren (in Prioritätsreihenfolge)
- * @param numericKeys - Array von Property-Namen, die numerisch statt alphabetisch sortiert werden sollen
- * @returns Sortiertes Features-Array
- */
-const sortFeaturesByProperties = (
-  features: any[],
-  sortKeys: string[],
-  numericKeys: string[] = []
-): any[] => {
-  return features.sort((a, b) => {
-    for (const key of sortKeys) {
-      const valueA = a.properties?.[key] ?? ''
-      const valueB = b.properties?.[key] ?? ''
-
-      let comparison = 0
-
-      if (numericKeys.includes(key)) {
-        const numA = parseFloat(String(valueA)) || 0
-        const numB = parseFloat(String(valueB)) || 0
-        comparison = numA - numB
-      } else {
-        comparison = String(valueA).localeCompare(String(valueB))
-      }
-
-      if (comparison !== 0) {
-        return comparison
-      }
-    }
-    return 0
-  })
-}
 
 export const searchMethods = {
   denkmalsucheAutocomplete: {
