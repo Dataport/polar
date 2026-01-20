@@ -241,23 +241,6 @@ addPlugin(
 )
 addPlugin(
 	map,
-	pluginReverseGeocoder({
-		url: 'https://geodienste.hamburg.de/HH_WPS',
-		coordinateSources: [
-			{
-				plugin: 'pins',
-				key: 'coordinate',
-			},
-		],
-		addressTarget: {
-			plugin: 'addressSearch',
-			key: 'selectResult',
-		},
-		zoomTo: 7,
-	})
-)
-addPlugin(
-	map,
 	pluginAddressSearch({
 		searchMethods: [
 			{
@@ -292,6 +275,23 @@ addPlugin(
 			fill: '#FF0019',
 		},
 		toZoomLevel: 7,
+	})
+)
+addPlugin(
+	map,
+	pluginReverseGeocoder({
+		url: 'https://geodienste.hamburg.de/HH_WPS',
+		coordinateSources: [
+			{
+				plugin: 'pins',
+				key: 'coordinate',
+			},
+		],
+		addressTarget: {
+			plugin: 'addressSearch',
+			key: 'selectResult',
+		},
+		zoomTo: 7,
 	})
 )
 addPlugin(
