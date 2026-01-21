@@ -56,9 +56,7 @@ const wfsLike = (
 const querySortBy = (
   sortBy: { propertyName: string; direction?: 'ASC' | 'DESC' }[],
   featurePrefix: string
-) =>
-  sortBy.length > 0
-    ? `<ogc:SortBy>
+) => `<ogc:SortBy>
 ${sortBy
   .map(
     ({ propertyName, direction = 'ASC' }) =>
@@ -69,16 +67,13 @@ ${sortBy
   )
   .join('')}
 </ogc:SortBy>`
-    : ''
 
 const querySuffix = (
   sortBy?: { propertyName: string; direction?: 'ASC' | 'DESC' }[],
   featurePrefix?: string
 ) =>
   `</ogc:Filter>${
-    sortBy && sortBy.length > 0 && featurePrefix
-      ? querySortBy(sortBy, featurePrefix)
-      : ''
+    sortBy?.length && featurePrefix ? querySortBy(sortBy, featurePrefix) : ''
   }
 </wfs:Query>`
 
