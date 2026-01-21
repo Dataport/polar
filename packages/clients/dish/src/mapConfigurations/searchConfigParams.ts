@@ -107,7 +107,12 @@ export const searchMethods = {
         '{{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
         '{{flstkennz}}',
       ],
-      sortBy: [{ propertyName: 'gemarkung', direction: 'ASC' }],
+      sortBy: [
+        { propertyName: 'gemarkung', direction: 'ASC' },
+        { propertyName: 'flur', direction: 'ASC' },
+        { propertyName: 'flstnrzae', direction: 'ASC' },
+        { propertyName: 'flstnrnen', direction: 'ASC' },
+      ],
     },
   },
 }
