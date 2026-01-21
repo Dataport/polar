@@ -2,7 +2,7 @@
 
 ## unpublished
 
-- Feature: Implement server-side sorting for WFS feature requests.
+- Feature: Implement server-side sorting for `getWfsFeatures`. Can be configured by new parameter `sortBy`.
 
 ## 3.1.1
 
