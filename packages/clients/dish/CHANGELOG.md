@@ -4,6 +4,7 @@
 
 - Feature: Monumental label layer toggles its visibility depending on visible monumental layer geometries.
 - Feature: Alkis layer is switched to visible after parcel search result is picked.
+- Feature: Search results for 'Flurstückssuche' are sorted by the server.
 - Fix: Add new configuration parameters for DishExportMap to configure different host (backend host might differ from `internalHost`) and to simplify adjustments for backend changes.
 - Fix: Add terms of use for internal map.
 - Fix: Open links for BKG and their terms of use in new tab.
