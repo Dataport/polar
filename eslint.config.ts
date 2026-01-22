@@ -16,6 +16,7 @@ import { defineConfig } from 'eslint/config'
 const polarConfig = defineConfig({
 	plugins: {
 		perfectionist,
+		vue,
 	},
 	rules: {
 		'prettier/prettier': 'error',
