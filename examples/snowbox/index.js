@@ -3,6 +3,7 @@ import {
 	createMap,
 	createMapElement,
 	getStore,
+	removePlugin,
 	subscribe,
 	updateState,
 } from '@polar/polar'
@@ -235,6 +236,26 @@ addPlugin(
 		layoutTag: 'BOTTOM_MIDDLE',
 	})
 )
+
+setTimeout(() => {
+	removePlugin(map, 'toast')
+}, 3000)
+
+setTimeout(() => {
+	addPlugin(
+		map,
+		pluginToast({
+			displayComponent: true,
+			layoutTag: 'BOTTOM_MIDDLE',
+		})
+	)
+	const toastStore = getStore(map, 'toast')
+	toastStore.addToast({
+		text: 'Sechs Sekunden',
+		severity: 'info',
+	})
+}, 6000)
+
 addPlugin(
 	map,
 	pluginLoadingIndicator({
