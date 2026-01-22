@@ -32,7 +32,6 @@ export const useMainStore = defineStore('main', () => {
 	const map = shallowRef({} as Map)
 	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
-	const zoom = ref(0)
 
 	const layout = computed(() => configuration.value.layout ?? 'standard')
 
@@ -72,6 +71,21 @@ export const useMainStore = defineStore('main', () => {
 		}
 	)
 
+	const zoom = ref(0)
+
+	watch(
+		() => zoom.value,
+		(zoomLevel) => {
+			map.value.getView().setZoom(zoomLevel)
+		}
+	)
+
+	const updateZoom = () => (zoom.value = map.value.getView().getZoom() || 0)
+
+	function setZoom(zoomLevel: number) {
+		zoom.value = zoomLevel
+	}
+
 	const center = ref<Coordinate>([0, 0])
 	function centerOnFeature(feature: Feature) {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
@@ -80,10 +94,12 @@ export const useMainStore = defineStore('main', () => {
 	function setup() {
 		addEventListener('resize', updateHasSmallDisplay)
 		updateHasSmallDisplay()
+		map.value.on('moveend', updateZoom)
 	}
 
 	function teardown() {
 		removeEventListener('resize', updateHasSmallDisplay)
+		map.value.un('moveend', updateZoom)
 	}
 
 	return {
@@ -111,6 +127,7 @@ export const useMainStore = defineStore('main', () => {
 		centerOnFeature,
 		updateHasSmallDisplay,
 		setup,
+		setZoom,
 		teardown,
 	}
 })
