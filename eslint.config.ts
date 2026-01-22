@@ -7,6 +7,7 @@ import tsConfig from '@dataport/eslint-config-geodev/typescript'
 import vueConfig from '@dataport/eslint-config-geodev/vue'
 import perfectionist from 'eslint-plugin-perfectionist'
 import prettierConfig from 'eslint-plugin-prettier/recommended'
+import vue from 'eslint-plugin-vue'
 import { defineConfig } from 'eslint/config'
 
 /**
