@@ -23,7 +23,9 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install documentation build dependencies
-        run: sudo apt install mkdocs mkdocs-material
+        run: |
+          sudo apt update
+          sudo apt install mkdocs mkdocs-material
 
       - name: Install NPM dependencies
         run: npm ci
