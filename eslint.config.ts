@@ -41,6 +41,14 @@ const polarConfig = defineConfig({
 		],
 		'import-x/order': 'off',
 		'perfectionist/sort-imports': 'error',
+		'vue/html-self-closing': [
+			'error',
+			{
+				html: {
+					void: 'always',
+				},
+			},
+		],
 	},
 })
 
