@@ -1,9 +1,16 @@
 <template>
-	<PolarIconButton
-		:hint="$t(($) => $.header.close, { ns: 'gfi' })"
-		icon="kern-icon--close"
-		@click="gfiStore.featureInformation = {}"
-	/>
+	<div style="display: flex; gap: var(--kern-metric-space-default)">
+		<PolarIconButton
+			:hint="$t(($) => $.header.close, { ns: 'gfi' })"
+			icon="kern-icon--close"
+			@click="gfiStore.selectedFeatures = {}"
+		/>
+		<PolarIconButton
+			:hint="$t(($) => $.property.export, { ns: 'gfi' })"
+			icon="kern-icon--download"
+		/>
+		<pre>{{ typeof exportProperty }} -- {{ exportProperty }}</pre>
+	</div>
 	<table class="kern-table kern-table--striped">
 		<thead class="kern-table__head">
 			<tr class="kern-table__row">
@@ -101,6 +108,12 @@ const filteredProperties = computed(() =>
 			)
 			.map(([key, value]) => [key, value])
 	)
+)
+
+const exportProperty = computed(() =>
+	layerConfiguration.value.exportProperty
+		? props.feature.properties?.[layerConfiguration.value.exportProperty]
+		: null
 )
 </script>
 

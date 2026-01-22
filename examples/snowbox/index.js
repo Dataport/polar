@@ -329,15 +329,10 @@ addPlugin(
 									'kat_text',
 									'skat_text',
 								],
-								exportProperty: 'filename',
+								exportProperty: 'pic',
 								showTooltip: (feature) => feature.get('beschr'),
 							},
 						},
-						coordinateSources: [
-							{
-								key: 'selectedCoordinates',
-							},
-						],
 						afterLoadFunction: (featuresByLayerId) => {
 							Object.values(featuresByLayerId).forEach((featureList) => {
 								featureList.forEach((feature) => {
@@ -360,6 +355,7 @@ addPlugin(
 								key: 'activeMaskIds',
 							},
 							mode: 'visible',
+							bindWithCoreHoverSelect: true,
 							pageLength: 5,
 							text: {
 								title: (feature) =>

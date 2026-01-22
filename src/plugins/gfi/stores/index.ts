@@ -16,9 +16,9 @@ import { getRefStore } from '@/lib/getRefStore'
 import { getVectorSource } from '@/lib/getVectorSource'
 import { isVisible } from '@/lib/invisibleStyle'
 
-import { PluginId, type GfiPluginOptions } from './types'
-import { requestGfi } from './utils/requestGfi'
-import { serializeFeature } from './utils/serializeFeature'
+import { PluginId, type GfiPluginOptions } from '../types'
+import { requestGfi } from '../utils/requestGfi'
+import { serializeFeature } from '../utils/serializeFeature'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -27,7 +27,7 @@ import { serializeFeature } from './utils/serializeFeature'
  * Plugin store for feature information requests.
  */
 /* eslint-enable tsdoc/syntax */
-export const useGfiStore = defineStore('plugins/gfi', () => {
+export const useGfiStore = defineStore('plugins/gfi/misc', () => {
 	const coreStore = useCoreStore()
 
 	const configuration = computed(

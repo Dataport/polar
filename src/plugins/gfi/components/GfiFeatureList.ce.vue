@@ -17,12 +17,20 @@
 			:page-size="gfiStore.configuration.featureList.pageLength"
 		/>
 		<section
-			v-for="({ layerId, feature }, idx) of paginatedFlatFeatureList"
+			v-for="({ layerId, feature, hovered }, idx) of paginatedFlatFeatureList"
 			:key="idx"
 			tabindex="0"
+			:class="{
+				hovered,
+			}"
 			@click="
-				gfiStore.featureInformation[layerId] = [serializeFeature(feature)]
+				(() => {
+					gfiStore.selectedFeatures = { [layerId]: [feature] }
+					gfiStore.hoveredFeatures = {}
+				})()
 			"
+			@mouseenter="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
+			@mouseleave="gfiStore.hoveredFeatures = {}"
 		>
 			<h2 class="kern-title kern-title--small">
 				{{ getText(feature, 'title') }}
@@ -44,7 +52,6 @@ import KernPagination from '@/components/kern/KernPagination.ce.vue'
 import type { FeatureList } from '../types'
 
 import { useGfiStore } from '../store'
-import { serializeFeature } from '../utils/serializeFeature'
 
 const gfiStore = useGfiStore()
 
@@ -52,7 +59,7 @@ const flatFeatureList = computed(() =>
 	Object.entries(gfiStore.listFeatures).flatMap(([layerId, features]) =>
 		features.map((feature) => ({
 			layerId,
-			feature,
+			...feature,
 		}))
 	)
 )
@@ -93,6 +100,7 @@ section {
 	border-style: dashed;
 	border-color: transparent;
 
+	&.hovered,
 	&:hover {
 		border-radius: var(--kern-metric-border-radius-default);
 		border-color: var(--kern-color-action-default);
