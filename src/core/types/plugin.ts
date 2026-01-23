@@ -10,6 +10,9 @@ import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen
 import type { PluginId as GeoLocationPluginId } from '@/plugins/geoLocation'
 import type { resourcesEn as GeoLocationResources } from '@/plugins/geoLocation/locales'
 import type { useGeoLocationStore as GeoLocationStore } from '@/plugins/geoLocation/store'
+import type { PluginId as GfiPluginId } from '@/plugins/gfi'
+import type { resourcesEn as GfiResources } from '@/plugins/gfi/locales'
+import type { useGfiStore as GfiStore } from '@/plugins/gfi/store'
 import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
 import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
 import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
@@ -84,6 +87,7 @@ export type BundledPluginId =
 	| typeof FooterPluginId
 	| typeof FullscreenPluginId
 	| typeof GeoLocationPluginId
+	| typeof GfiPluginId
 	| typeof IconMenuPluginId
 	| typeof LayerChooserPluginId
 	| typeof LoadingIndicatorId
@@ -105,6 +109,7 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
+	| GetPluginStore<T, typeof GfiPluginId, typeof GfiStore>
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
 	| GetPluginStore<T, typeof LoadingIndicatorId, typeof LoadingIndicatorStore>
@@ -131,6 +136,7 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof GeoLocationPluginId,
 			typeof GeoLocationResources
 	  >
+	| GetPluginResources<T, typeof GfiPluginId, typeof GfiResources>
 	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
 	| GetPluginResources<
 			T,
