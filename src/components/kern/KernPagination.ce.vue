@@ -10,7 +10,7 @@
 					:disabled="currentPage <= 1"
 					@click="currentPage--"
 				>
-					<span class="kern-icon kern-icon--arrow-back"></span>
+					<span class="kern-icon kern-icon--arrow-back" />
 					<span class="kern-label kern-sr-only">
 						{{ $t(($) => $.pagination.previous, { ns: 'shared' }) }}
 					</span>
@@ -41,7 +41,7 @@
 					:disabled="currentPage >= pageCount"
 					@click="currentPage++"
 				>
-					<span class="kern-icon kern-icon--arrow-forward"></span>
+					<span class="kern-icon kern-icon--arrow-forward" />
 					<span class="kern-label kern-sr-only">
 						{{ $t(($) => $.pagination.next, { ns: 'shared' }) }}
 					</span>

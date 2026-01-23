@@ -7,7 +7,7 @@
 				class="kern-btn kern-btn--block kern-btn--secondary"
 				@click="selectedFeatureIndex--"
 			>
-				<span class="kern-icon kern-icon--arrow-back" aria-hidden="true"></span>
+				<span class="kern-icon kern-icon--arrow-back" aria-hidden="true" />
 				<span class="kern-label">
 					{{ $t(($) => $.switch.previous, { ns: 'gfi' }) }}
 				</span>
@@ -20,10 +20,7 @@
 				<span class="kern-label">
 					{{ $t(($) => $.switch.next, { ns: 'gfi' }) }}
 				</span>
-				<span
-					class="kern-icon kern-icon--arrow-forward"
-					aria-hidden="true"
-				></span>
+				<span class="kern-icon kern-icon--arrow-forward" aria-hidden="true" />
 			</button>
 		</template>
 		<template v-else-if="gfiStore.configuration.featureList">
