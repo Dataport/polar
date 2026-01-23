@@ -74,7 +74,11 @@ const maxHeight = computed(() =>
 	hasWindowSize.value
 		? 'inherit'
 		: `calc(${coreStore.clientHeight}px - ${
-				deviceIsHorizontal.value ? 'calc(100% + 1.5em)' : '1em'
+				deviceIsHorizontal.value
+					? 'calc(100% + 1.5rem)'
+					: coreStore.getPluginStore('footer') === null
+						? '4.5rem'
+						: '6.5rem'
 			})`
 )
 
