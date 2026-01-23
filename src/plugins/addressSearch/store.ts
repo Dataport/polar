@@ -6,7 +6,7 @@
 
 import { debounce, toMerged } from 'es-toolkit'
 import { t } from 'i18next'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import type { PolarGeoJsonFeature } from '@/core'
@@ -384,3 +384,9 @@ export const useAddressSearchStore = defineStore(
 		}
 	}
 )
+
+if (import.meta.hot) {
+	import.meta.hot.accept(
+		acceptHMRUpdate(useAddressSearchStore, import.meta.hot)
+	)
+}
