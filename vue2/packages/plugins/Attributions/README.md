@@ -1,9 +1,5 @@
 # Attributions
 
-## Scope
-
-This plugin shows attributions (that is, legal information) regarding copyrights and sources of the currently visible layers.
-
 ## Configuration
 
 ### attributions

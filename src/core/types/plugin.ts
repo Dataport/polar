@@ -1,6 +1,9 @@
 import type { SetupStoreDefinition } from 'pinia'
 import type { Component } from 'vue'
 
+import type { PluginId as AttributionsPluginId } from '@/plugins/attributions'
+import type { resourcesEn as AttributionsResources } from '@/plugins/attributions/locales'
+import type { useAttributionsStore as AttributionsStore } from '@/plugins/attributions/store'
 import type { PluginId as FooterPluginId } from '@/plugins/footer'
 import type { resourcesEn as FooterResources } from '@/plugins/footer/locales'
 import type { useFooterStore as FooterStore } from '@/plugins/footer/store'
@@ -81,6 +84,7 @@ export type PolarPluginStore<
 
 /** @internal */
 export type BundledPluginId =
+	| typeof AttributionsPluginId
 	| typeof FooterPluginId
 	| typeof FullscreenPluginId
 	| typeof GeoLocationPluginId
@@ -102,6 +106,7 @@ type GetPluginStore<
 
 /** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
+	| GetPluginStore<T, typeof AttributionsPluginId, typeof AttributionsStore>
 	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
@@ -124,6 +129,11 @@ type GetPluginResources<
 
 /** @internal */
 export type BundledPluginLocaleResources<T extends BundledPluginId> =
+	| GetPluginResources<
+			T,
+			typeof AttributionsPluginId,
+			typeof AttributionsResources
+	  >
 	| GetPluginResources<T, typeof FooterPluginId, typeof FooterResources>
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
 	| GetPluginResources<
