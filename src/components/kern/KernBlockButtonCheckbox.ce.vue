@@ -5,7 +5,7 @@
 			v-if="props.icon"
 			:class="{ 'kern-icon': true, [props.icon]: true }"
 			aria-hidden="true"
-		></span>
+		/>
 		<span class="kern-label">{{ props.label }}</span>
 	</label>
 </template>
