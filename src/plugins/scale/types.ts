@@ -5,8 +5,9 @@ export const PluginId = 'scale'
 export interface ScalePluginOptions extends PluginOptions {
 	/**
 	 * If set to `true`, the `1 : x` text will be replaced with a select element
-	 * that allows switching between scale values. Defaults to `false`. Requires
-	 * the configuration parameter {@link MapConfiguration.options} to be set.
+	 * that allows switching between scale values. Requires the configuration
+	 * parameter {@link MapConfiguration.options} to be set.
+	 * @defaultValue false
 	 */
 	showScaleSwitcher?: boolean
 }
