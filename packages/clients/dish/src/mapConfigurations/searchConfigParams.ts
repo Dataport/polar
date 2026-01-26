@@ -66,6 +66,7 @@ export const searchMethods = {
       featurePrefix: 'app',
       xmlns: 'http://www.deegree.org/app',
       useRightHandWildcard: true,
+      caseSensitive: false,
       maxFeatures: 120,
       patternKeys: {
         hausnummer: '([0-9]+)',
@@ -127,6 +128,7 @@ export const searchMethods = {
         '{{flstkennz}}',
       ],
       sortBy: [
+        { propertyName: 'gemeinde', direction: 'ASC' },
         { propertyName: 'gemarkung', direction: 'ASC' },
         { propertyName: 'flur', direction: 'ASC' },
         { propertyName: 'flstnrzae', direction: 'ASC' },

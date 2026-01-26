@@ -9,7 +9,7 @@
 - Fix: Add terms of use for internal map.
 - Fix: Open links for BKG and their terms of use in new tab.
 - Fix: Only a new Tab for the print-function if newTab is wanted.
-- Fix: The search now returns results regardless of case(upper/lower). The search string is adjusted accordingly.
+- Fix: The search now returns results regardless of case(upper/lower).
 - Chore: Edit urlParams configuration for new testing environment.
 - Feature: Configuration changed. A maximum of 120 features per search (BKG (address search) results) are now displayed.
 - Enhancement: Add 'Gemeinde' to the searchresults from the intern-Denkmal-search
