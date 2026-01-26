@@ -70,10 +70,10 @@ export const searchMethods = {
       maxFeatures: 120,
       patternKeys: {
         hausnummer: '([0-9]+)',
-        strasse: '([A-Za-z]+)',
-        objektansprache: '([A-Za-z]+)',
-        kreis_kue: '([A-Za-z]+)',
-        gemeinde: '([A-Za-z]+)',
+        strasse: '([A-Za-zäöüßÄÖÜ]+)',
+        objektansprache: '([A-Za-zäöüßÄÖÜ]+)',
+        kreis_kue: '([A-Za-zäöüßÄÖÜ]+)',
+        gemeinde: '([A-Za-zäöüßÄÖÜ]+)',
         objektid: '([0-9]+)',
       },
       patterns: [
@@ -117,8 +117,8 @@ export const searchMethods = {
       patternKeys: {
         flstnrnen: '([0-9]+)',
         flstnrzae: '([0-9]+)',
-        gemarkung: '([A-Za-z]+)',
-        gemeinde: '([A-Za-z]+)',
+        gemarkung: '([A-Za-zäöüßÄÖÜ]+)',
+        gemeinde: '([A-Za-zäöüßÄÖÜ]+)',
         flstkennz: '([0-9_]+)',
         flur: '([0-9]+)',
       },
