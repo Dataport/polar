@@ -57,7 +57,7 @@ export const searchMethods = {
   denkmalsucheDishIntern: {
     groupId: groupDenkmalsuche,
     categoryId: 'categoryDenkmalsucheDishIntern',
-    type: 'dishIntern',
+    type: 'wfs',
     // url is in mapConfig due to variable setting,
     queryParameters: {
       id: denkmaelerWFS,
@@ -103,7 +103,7 @@ export const searchMethods = {
   alkisSearch: {
     groupId: groupDenkmalsuche,
     categoryId: categoryIdAlkisSearch,
-    type: 'dishIntern',
+    type: 'wfs',
     // will be set later due to mode setting
     url: null,
     queryParameters: {
