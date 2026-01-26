@@ -22,10 +22,10 @@ const queryPrefix = ({
   typeName,
   xmlns,
 }: WfsParameters) => `
-<wfs:Query typeName="${featurePrefix}:${typeName}" xmlns:${featurePrefix}="${xmlns}"${
+<wfs:Query typeName="${featurePrefix}:${typeName}" xmlns:${featurePrefix}="${xmlns}" xmlns:ogc="http://www.opengis.net/ogc"${
   srsName ? ` srsName="${srsName}"` : ''
 }>
-<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">`
+<ogc:Filter>`
 
 const wfsLike = (
   fieldName: string,
@@ -53,7 +53,29 @@ const wfsLike = (
 </ogc:PropertyIsLike>`
 }
 
-const querySuffix = `</ogc:Filter></wfs:Query>`
+const querySortBy = (
+  sortBy: { propertyName: string; direction?: 'ASC' | 'DESC' }[],
+  featurePrefix: string
+) => `<ogc:SortBy>
+${sortBy
+  .map(
+    ({ propertyName, direction = 'ASC' }) =>
+      `<ogc:SortProperty>
+<ogc:PropertyName>${featurePrefix}:${propertyName}</ogc:PropertyName>
+<ogc:SortOrder>${direction}</ogc:SortOrder>
+</ogc:SortProperty>`
+  )
+  .join('')}
+</ogc:SortBy>`
+
+const querySuffix = (
+  sortBy?: { propertyName: string; direction?: 'ASC' | 'DESC' }[],
+  featurePrefix?: string
+) =>
+  `</ogc:Filter>${
+    sortBy?.length && featurePrefix ? querySortBy(sortBy, featurePrefix) : ''
+  }
+</wfs:Query>`
 
 const getFeatureSuffix = `</wfs:GetFeature>`
 
@@ -72,7 +94,7 @@ const buildWfsFilterQuery = (
     request += wfsLike(key, value, parameters)
   }
 
-  return request + querySuffix
+  return request + querySuffix(parameters.sortBy, parameters.featurePrefix)
 }
 
 /**

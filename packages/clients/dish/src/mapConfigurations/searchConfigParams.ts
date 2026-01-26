@@ -126,6 +126,12 @@ export const searchMethods = {
         '{{gemeinde}}, {{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
         '{{flstkennz}}',
       ],
+      sortBy: [
+        { propertyName: 'gemarkung', direction: 'ASC' },
+        { propertyName: 'flur', direction: 'ASC' },
+        { propertyName: 'flstnrzae', direction: 'ASC' },
+        { propertyName: 'flstnrnen', direction: 'ASC' },
+      ],
     },
     resultModifier: (featureCollection) => {
       if (
