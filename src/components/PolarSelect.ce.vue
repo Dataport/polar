@@ -1,12 +1,12 @@
 <template>
 	<div class="kern-form-input">
-		<label v-if="label" class="kern-label" :for="name">
+		<label v-if="label" class="kern-label" :for="id">
 			{{ label }}
 		</label>
 		<div class="kern-form-input__select-wrapper" :class="small ? 'small' : ''">
 			<select
+				:id="id"
 				class="kern-form-input__select"
-				:name="name"
 				:disabled
 				:required
 				:multiple
@@ -37,7 +37,7 @@ const props = withDefaults(
 		required?: boolean
 		multiple?: boolean
 		small?: boolean
-		name?: string
+		id?: string
 	}>(),
 	{
 		label: '',
@@ -46,7 +46,7 @@ const props = withDefaults(
 		required: false,
 		multiple: false,
 		small: false,
-		name: useId(),
+		id: useId(),
 	}
 )
 
