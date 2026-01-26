@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Implement server-side sorting for `getWfsFeatures`. Can be configured by new parameter `sortBy`.
+
 ## 3.1.1
 
 - Fix: On server returns with the CRS not indicated on the root element, but on its children, the projection is now inferred from those.

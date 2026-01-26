@@ -228,6 +228,7 @@ queryParameters: {
 | likeFilterAttributes | Record<string, string>? | As specified by the [OGC-Standard for filters](https://schemas.opengis.net/filter/) the `PropertyIsLike` operator requires three attributes (e.g. in WFS 2.0.0: `wildCard`, `singleChar` and `escapeChar`). These may vary in value and (with other WFS versions) also in property definition. Therefore, it is possible to configure the values of the attributes needed for WFS 2.0.0 and also to add custom attributes needed for other versions. Defaults to `{wildCard: "\*", singleChar: ".", escapeChar: "!"}`. |
 | patternKeys | Record<string, string>? | Maps field names from patterns to regexes. Each field name has to have a definition. Each regex must have one capture group that is used to search. Contents next to it are ignored for the search and just used for matching. E.g. `'([0-9]+)$'` would be a value for a key that fits an arbitrary number string at the input's end. |
 | patterns | string[]? | Allows specifying input patterns. In a single-field search, a pattern can be as easy as `{{theWholeThing}}`, where `theWholeThing` is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. `{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}` would fit many parcel search services. Mutually exclusive to `fieldName`. |
+| sortBy | Array<{propertyName: string; direction?: 'ASC' \| 'DESC'}>? | Server-side sorting criteria for WFS features. Features will be sorted by the properties in order of their appearance. The first property has highest priority. Direction defaults to 'ASC' if not specified. Applied after the filter, before results are returned. Please note that the server must support server-side sorting. |
 | srsName | string? | Name of the projection (srs) for the query. |
 | useRightHandWildcard? | boolean? | By default, if searching for "search", it is sent as "search*". This behaviour can be deactivated by setting this parameter to `false`. |
 
@@ -248,6 +249,11 @@ queryParameters: {
   featurePrefix: 'app',
   xmlns: 'http://www.deegree.org/app',
   useRightHandWildcard: true,
+  sortBy: [
+    { propertyName: 'street', direction: 'ASC' },
+    { propertyName: 'housenumber', direction: 'ASC' },
+    { propertyName: 'city', direction: 'ASC' },
+  ],
 }
 ```
 
