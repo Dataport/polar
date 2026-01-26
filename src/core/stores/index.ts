@@ -227,13 +227,6 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		setMoveHandleActionButton: moveHandleStore.setMoveHandleActionButton,
-
-		/**
-		 * Allows setting the zoom level of the map.
-		 *
-		 * @alpha
-		 */
-		setZoom: mainStore.setZoom,
 	}
 })
 

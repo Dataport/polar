@@ -15,13 +15,13 @@
 			:options="zoomOptions"
 			small
 			@update:value="setZoom"
-		></PolarSelect>
+		/>
 		<span v-else class="scale-as-a-ratio">
 			{{ scaleToOne }}
 		</span>
 		<span class="scale-line">
 			<span class="scale-line-text">{{ scaleWithUnit }}</span>
-			<span class="scale-line-scale"></span>
+			<span class="scale-line-scale" />
 		</span>
 	</div>
 </template>
@@ -47,7 +47,7 @@ const { layout, zoom } = storeToRefs(coreStore)
 const zoomValue = computed(() => `${Math.round(zoom.value)}`)
 
 function setZoom(value) {
-	coreStore.setZoom(Number(value))
+	zoom.value = Number(value)
 }
 </script>
 
