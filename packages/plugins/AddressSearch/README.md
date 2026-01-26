@@ -231,6 +231,7 @@ queryParameters: {
 | sortBy | Array<{propertyName: string; direction?: 'ASC' \| 'DESC'}>? | Server-side sorting criteria for WFS features. Features will be sorted by the properties in order of their appearance. The first property has highest priority. Direction defaults to 'ASC' if not specified. Applied after the filter, before results are returned. Please note that the server must support server-side sorting. |
 | srsName | string? | Name of the projection (srs) for the query. |
 | useRightHandWildcard? | boolean? | By default, if searching for "search", it is sent as "search*". This behaviour can be deactivated by setting this parameter to `false`. |
+| caseSensitive | boolean |  When `false`, searches are case-insensitive. When `true`, exact case matching is required. Requires WFS server support for the `matchCase` attribute. |
 
 Since inputs may overlap with multiple patterns, multiple queries are fired and executed on the WFS until the `maxFeatures` requirement is met, beginning with the pattern that 'looks like the user input the most'. The best-fitting pattern on the returned features will be used to generate a display string. When two patterns fit best, the first one is used.
 
@@ -249,6 +250,7 @@ queryParameters: {
   featurePrefix: 'app',
   xmlns: 'http://www.deegree.org/app',
   useRightHandWildcard: true,
+  caseSensitive: false,
   sortBy: [
     { propertyName: 'street', direction: 'ASC' },
     { propertyName: 'housenumber', direction: 'ASC' },
