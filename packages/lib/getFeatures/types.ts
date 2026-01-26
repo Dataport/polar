@@ -63,6 +63,8 @@ export interface WfsParameters extends QueryParameters {
   likeFilterAttributes?: Record<string, string>
   /** Sorting definition for WFS features; e.g. [\{ propertyName: 'name', direction: 'DESC' \}] */
   sortBy?: { propertyName: string; direction?: 'ASC' | 'DESC' }[]
+  /** Whether the like filter should be case sensitive */
+  caseSensitive?: boolean
 }
 
 /**

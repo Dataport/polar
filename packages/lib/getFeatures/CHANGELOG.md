@@ -3,6 +3,7 @@
 ## unpublished
 
 - Feature: Implement server-side sorting for `getWfsFeatures`. Can be configured by new parameter `sortBy`.
+- Feature: Implement possibility to search a WFS without regard to upper or lower case. Can be configured by new parameter `caseSensivite`.
 
 ## 3.1.1
 
