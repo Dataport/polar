@@ -104,7 +104,6 @@ export const useCoreStore = defineStore('core', () => {
 		 * Current zoom level of the map.
 		 *
 		 * @alpha
-		 * @readonly
 		 */
 		zoom: mainStoreRefs.zoom,
 
