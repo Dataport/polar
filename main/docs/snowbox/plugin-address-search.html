@@ -406,6 +406,11 @@ This is a function with the following signature:
 <td>Allows specifying input patterns. In a single-field search, a pattern can be as easy as <code>{{theWholeThing}}</code>, where <code>theWholeThing</code> is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. <code>{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}</code> would fit many parcel search services. Mutually exclusive to <code>fieldName</code>.</td>
 </tr>
 <tr>
+<td>sortBy</td>
+<td>Array&lt;{propertyName: string; direction?: 'ASC' | 'DESC'}&gt;?</td>
+<td>Server-side sorting criteria for WFS features. Features will be sorted by the properties in order of their appearance. The first property has highest priority. Direction defaults to 'ASC' if not specified. Applied after the filter, before results are returned. Please note that the server must support server-side sorting.</td>
+</tr>
+<tr>
 <td>srsName</td>
 <td>string?</td>
 <td>Name of the projection (srs) for the query.</td>
@@ -432,6 +437,11 @@ queryParameters: {
   featurePrefix: 'app',
   xmlns: 'http://www.deegree.org/app',
   useRightHandWildcard: true,
+  sortBy: [
+    { propertyName: 'street', direction: 'ASC' },
+    { propertyName: 'housenumber', direction: 'ASC' },
+    { propertyName: 'city', direction: 'ASC' },
+  ],
 }
 </code></pre>
 <pre><code class="language-js">type: 'wfs'
