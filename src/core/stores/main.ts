@@ -73,13 +73,6 @@ export const useMainStore = defineStore('main', () => {
 
 	const zoom = ref(0)
 
-	watch(
-		() => zoom.value,
-		(zoomLevel) => {
-			map.value.getView().setZoom(zoomLevel)
-		}
-	)
-
 	const center = ref<Coordinate>([0, 0])
 	function centerOnFeature(feature: Feature) {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
