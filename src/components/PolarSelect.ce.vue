@@ -81,7 +81,6 @@ function onChange(event: Event) {
 	}
 
 	&:hover:not(:focus-within)::after {
-		position: absolute;
 		top: calc(
 			50% +
 				calc(
@@ -92,7 +91,6 @@ function onChange(event: Event) {
 						2
 				)
 		);
-		transform: translateY(-50%);
 	}
 }
 </style>
