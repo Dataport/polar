@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 3.3.0
 
 - Feature: Add new parameter `sortBy` to type `WfsParameter` for server-side sorting of WFS search results.
 - Feature: Add new parameter `caseSensitive` to type `WfsParameter` to control case sensitivity in WFS search strings.
