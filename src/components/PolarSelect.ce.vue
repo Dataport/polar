@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { useId } from 'vue'
+import { computed, useId } from 'vue'
 
 const props = withDefaults(
 	defineProps<{
@@ -46,9 +46,13 @@ const props = withDefaults(
 		required: false,
 		multiple: false,
 		small: false,
-		id: useId(),
+		id: '',
 	}
 )
+
+const fallbackId = useId()
+
+const id = computed(() => props.id || fallbackId)
 
 const emit = defineEmits<{
 	(e: 'update:value', value: string | string[]): void
