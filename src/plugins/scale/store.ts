@@ -21,9 +21,8 @@ import { calculateScaleFromResolution } from './utils/calculateScaleFromResoluti
  */
 /* eslint-enable tsdoc/syntax */
 export const useScaleStore = defineStore('plugins/scale', () => {
-	const dpiDibs = Symbol('dpi token')
 	const coreStore = useCoreStore()
-	const { dpi, yoink, yeet } = useDpi()
+	const { dpi } = useDpi()
 
 	const scaleValue = ref<number>(0)
 
@@ -76,12 +75,10 @@ export const useScaleStore = defineStore('plugins/scale', () => {
 
 	function setupPlugin() {
 		coreStore.map.on('moveend', updateScale)
-		yoink(dpiDibs)
 	}
 
 	function teardownPlugin() {
 		coreStore.map.un('moveend', updateScale)
-		yeet(dpiDibs)
 	}
 
 	return {

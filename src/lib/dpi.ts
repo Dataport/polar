@@ -4,7 +4,7 @@
  * @returns The device dpi as subscribable reference
  */
 import { throttle } from 'es-toolkit'
-import { ref } from 'vue'
+import { onScopeDispose, ref } from 'vue'
 
 function getDpi(): number {
 	let dpi = 96
@@ -37,39 +37,27 @@ function getDpi(): number {
  */
 const dpi = ref(getDpi())
 
-const claims = new Set<symbol>()
+let claims = 0
 const updateDpi = throttle(() => (dpi.value = getDpi()), 100)
 
-/**
- * Use this method to announce an update requirement.
- * DPI will be updated as long as at least one token is registered.
- * @param dibs - unique usage token indicating update requirement
- */
-const yoink = (dibs: symbol) => {
-	if (claims.size === 0) {
+export function useDpi() {
+	if (claims === 0) {
 		window.addEventListener('resize', updateDpi, { passive: true })
 		window.addEventListener('orientationchange', updateDpi)
 		window.visualViewport?.addEventListener('resize', updateDpi)
 	}
 
-	claims.add(dibs)
-}
+	claims++
 
-/**
- * Use this method to announce updates are no longer required.
- * DPI updates will stop if this was the last using token.
- * @param dibs - unique usage token indicating update requirement
- */
-const yeet = (dibs: symbol) => {
-	claims.delete(dibs)
+	onScopeDispose(function () {
+		claims--
 
-	if (claims.size === 0) {
-		window.removeEventListener('resize', updateDpi)
-		window.removeEventListener('orientationchange', updateDpi)
-		window.visualViewport?.removeEventListener('resize', updateDpi)
-	}
-}
+		if (claims === 0) {
+			window.removeEventListener('resize', updateDpi)
+			window.removeEventListener('orientationchange', updateDpi)
+			window.visualViewport?.removeEventListener('resize', updateDpi)
+		}
+	})
 
-export function useDpi() {
-	return { dpi, yoink, yeet }
+	return { dpi }
 }
