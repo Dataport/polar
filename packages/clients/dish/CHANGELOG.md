@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.3.0
 
 - Feature: Monumental label layer toggles its visibility depending on visible monumental layer geometries.
 - Feature: Alkis layer is switched to visible after parcel search result is picked.
