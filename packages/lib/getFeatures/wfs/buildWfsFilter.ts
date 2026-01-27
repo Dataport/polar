@@ -30,12 +30,18 @@ const queryPrefix = ({
 const wfsLike = (
   fieldName: string,
   input: string,
-  { featurePrefix, useRightHandWildcard, likeFilterAttributes }: WfsParameters
+  {
+    featurePrefix,
+    useRightHandWildcard,
+    likeFilterAttributes,
+    caseSensitive,
+  }: WfsParameters
 ) => {
   const mergedLikeFilterAttributes = merge(
     {},
     defaultLikeFilterAttributes,
-    likeFilterAttributes
+    likeFilterAttributes,
+    caseSensitive !== undefined ? { matchCase: caseSensitive } : {}
   )
   return `
 <ogc:PropertyIsLike${Object.entries(mergedLikeFilterAttributes).reduce(
