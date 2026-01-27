@@ -91,19 +91,36 @@ export const useScaleStore = defineStore('plugins/scale', () => {
 		/** @internal */
 		teardownPlugin,
 
-		/** @internal */
+		/**
+		 * If {@link MapConfiguration.layout | `mapConfiguration.layout`} is set to `'nineRegions'`,
+		 * then this parameter declares the positioning of the ScaleWidget.
+		 * @alpha
+		 */
 		layoutTag,
 
-		/** @internal */
+		/**
+		 * A string of format `1 : x`, with x being a number, indicating resolution. Rounded value.
+		 * @alpha
+		 */
 		scaleToOne,
 
-		/** @internal */
+		/**
+		 * A string of format `xy`, with x being a number, and y being the unit (either `m` or `km`), indicating
+		 * the actual width of 2 on-screen cm. Rounded value.
+		 * @alpha
+		 */
 		scaleWithUnit,
 
-		/** @internal */
+		/**
+		 * Indicates whether, instead of a `1 : x` scale, a switch element (e.g. select) should be displayed.
+		 * @alpha
+		 */
 		showScaleSwitcher,
 
-		/** @internal */
+		/**
+		 * Available options for zoom levels.
+		 * @alpha
+		 */
 		zoomOptions,
 	}
 })
