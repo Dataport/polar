@@ -70,7 +70,8 @@ function onChange(event: Event) {
 	height: var(--kern-metric-dimension-default);
 
 	.kern-form-input__select {
-		padding: 0 var(--kern-40) 0 var(--kern-metric-space-default);
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 
 	&::after {
