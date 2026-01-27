@@ -1,8 +1,10 @@
+import { Feature } from 'geojson'
+
 export const sortFeaturesByProperties = (
-  features: any[],
+  features: Feature[],
   sortKeys: string[],
   numericKeys: string[] = []
-): any[] => {
+): Feature[] => {
   return features.sort((a, b) => {
     for (const key of sortKeys) {
       const valueA = a.properties?.[key] ?? ''
