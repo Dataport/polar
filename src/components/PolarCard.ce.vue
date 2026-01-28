@@ -12,7 +12,7 @@
 
 <style scoped>
 .kern-card {
-	height: inherit;
+	height: auto;
 	min-width: 25rem;
 	border-radius: var(--kern-metric-border-radius-large);
 	box-shadow: var(--polar-shadow);

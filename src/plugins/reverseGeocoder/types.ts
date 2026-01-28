@@ -17,7 +17,7 @@ export interface ReverseGeocoderPluginOptions extends PluginOptions {
 	url: string
 
 	/**
-	 * Store state parameter that should receive the result of the reverse geocoding.
+	 * Store actions that should receive the result of the reverse geocoding.
 	 */
 	addressTarget?: StoreReference
 

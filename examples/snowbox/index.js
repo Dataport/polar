@@ -6,6 +6,7 @@ import {
 	subscribe,
 	updateState,
 } from '@polar/polar'
+import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginFooter from '@polar/polar/plugins/footer'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
@@ -247,7 +248,32 @@ addPlugin(
 )
 addPlugin(
 	map,
+	pluginAddressSearch({
+		searchMethods: [
+			{
+				queryParameters: {
+					searchStreets: true,
+					searchHouseNumbers: true,
+				},
+				type: 'mpapi',
+				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+			},
+		],
+		minLength: 3,
+		waitMs: 300,
+		focusAfterSearch: true,
+		groupProperties: {
+			defaultGroup: {
+				limitResults: 5,
+			},
+		},
+	})
+)
+addPlugin(
+	map,
 	pluginPins({
+		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+		// TODO: get the correct layer, cant be found in the service register
 		boundary: {
 			layerId: hamburgBorder,
 		},
@@ -268,7 +294,6 @@ addPlugin(
 				key: 'coordinate',
 			},
 		],
-		// TODO: Check if this works when addressSearch is implemented
 		addressTarget: {
 			plugin: 'addressSearch',
 			key: 'selectResult',
