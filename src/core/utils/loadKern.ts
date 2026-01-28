@@ -37,6 +37,11 @@ export function loadKern(host: ShadowRoot, theme: Partial<KernTheme> = {}) {
 	`)
 	host.adoptedStyleSheets.push(kernSheet)
 
+	// @ts-expect-error | It's fine, we're getting `undefined` for an access on string, too.
+	if (typeof theme.typography?.font?.family?.default !== 'undefined') {
+		void import('@kern-ux/native/dist/fonts/fira-sans.css')
+	}
+
 	const kernTheme = buildKernTheme(theme)
 	host.adoptedStyleSheets.push(kernTheme)
 }
