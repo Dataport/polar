@@ -63,6 +63,13 @@ const dataportTheme = {
 				default: '0 10px 10px 10px',
 			},
 		},
+		typography: {
+			font: {
+				family: {
+					default: 'Consolas',
+				},
+			},
+		},
 	},
 }
 

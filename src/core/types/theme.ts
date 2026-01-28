@@ -14,10 +14,22 @@ export interface KernThemeTree {
 /**
  * Describes the theming options of KERN.
  * The exhaustive list of parameters is documented in `@kern-ux/native`.
+ *
+ * **About fonts**
+ *
+ * Please mind that setting a value to `kern.typography.font.family.default`
+ * will stop the client from loading the font `Fira Sans` used in the KERN
+ * design system. 'inherit' will not work as a value due to technical
+ * limitations of the ShadowDOM. To inherit whatever would naturally arrive or
+ * is styled on the host node, use `''` (empty string).
+ * You may also set `"Fira Sans", sans-serif` (the default value) to this
+ * variable in case you already have the font loaded to prevent loading it
+ * twice.
  */
 export interface KernTheme {
 	color: KernThemeTree
 	metric: KernThemeTree
+	typography: KernThemeTree
 }
 
 /**
