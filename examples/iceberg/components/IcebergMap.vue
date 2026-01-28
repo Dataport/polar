@@ -31,6 +31,7 @@ import type { PolarContainer } from '@polar/polar'
 import { addPlugins, getStore, subscribe } from '@polar/polar'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
+import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 import { ref, useTemplateRef, watch } from 'vue'
 
@@ -57,6 +58,11 @@ watch(map, (map) => {
 					},
 				],
 			],
+		}),
+		pluginScale({
+			displayComponent: true,
+			layoutTag: 'BOTTOM_RIGHT',
+			showScaleSwitcher: false,
 		}),
 		pluginToast({
 			displayComponent: true,
