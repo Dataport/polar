@@ -5,7 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, onScopeDispose } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { useDpi } from '@/lib/dpi'
@@ -73,21 +73,13 @@ export const useScaleStore = defineStore('plugins/scale', () => {
 		scaleValue.value = scale
 	}
 
-	function setupPlugin() {
-		coreStore.map.on('moveend', updateScale)
-	}
+	coreStore.map.on('moveend', updateScale)
 
-	function teardownPlugin() {
+	onScopeDispose(() => {
 		coreStore.map.un('moveend', updateScale)
-	}
+	})
 
 	return {
-		/** @internal */
-		setupPlugin,
-
-		/** @internal */
-		teardownPlugin,
-
 		/**
 		 * If {@link MapConfiguration.layout | `mapConfiguration.layout`} is set to `'nineRegions'`,
 		 * then this parameter declares the positioning of the ScaleWidget.
