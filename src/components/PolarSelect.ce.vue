@@ -7,6 +7,7 @@
 			<select
 				:id="id"
 				class="kern-form-input__select"
+				:aria-label="ariaLabel"
 				:disabled
 				:required
 				:multiple
@@ -16,7 +17,12 @@
 				<option v-if="defaultLabel" value="">{{ defaultLabel }}</option>
 				<!-- Intentional for straightforward API -->
 				<!-- eslint-disable-next-line vue/no-template-shadow -->
-				<option v-for="{ value, label } of options" :key="value" :value="value">
+				<option
+					v-for="{ value, label, ariaLabel } of options"
+					:key="value"
+					:value="value"
+					:aria-label="ariaLabel"
+				>
 					{{ label }}
 				</option>
 			</select>
@@ -30,9 +36,15 @@ import { computed, useId } from 'vue'
 const props = withDefaults(
 	defineProps<{
 		label?: string
+		ariaLabel?: string
 		defaultLabel?: string
 		value: string | string[]
-		options: { value: string | number; label: string; [key: string]: unknown }[]
+		options: {
+			value: string | number
+			label: string
+			ariaLabel?: string
+			[key: string]: unknown
+		}[]
 		disabled?: boolean
 		required?: boolean
 		multiple?: boolean
@@ -41,6 +53,7 @@ const props = withDefaults(
 	}>(),
 	{
 		label: '',
+		ariaLabel: undefined,
 		defaultLabel: '',
 		disabled: false,
 		required: false,

@@ -16,6 +16,7 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	label: 'Skala',
 	scaleSwitcher: 'Maßstab ändern',
+	to: 'Eins zu {{number}}',
 } as const
 
 /**
@@ -25,6 +26,7 @@ export const resourcesDe = {
 export const resourcesEn = {
 	label: 'Scale',
 	scaleSwitcher: 'Change scale',
+	to: 'One to {{number}}',
 } as const
 
 /**

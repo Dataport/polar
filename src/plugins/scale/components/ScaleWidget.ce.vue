@@ -13,6 +13,7 @@
 			v-if="showScaleSwitcher"
 			:value="zoomValue"
 			:options="zoomOptions"
+			:aria-label="$t(($) => $.scaleSwitcher, { ns: PluginId })"
 			small
 			@update:value="setZoom"
 		/>

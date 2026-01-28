@@ -4,10 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref, computed, onScopeDispose } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { computedT } from '@/lib/computedT'
 import { useDpi } from '@/lib/dpi'
 
 import { beautifyScale } from './utils/beautifyScale'
@@ -39,18 +41,28 @@ export const useScaleStore = defineStore('plugins/scale', () => {
 	})
 
 	const zoomOptions = computed(() =>
-		coreStore.configuration.options.map((option) => ({
-			...option,
-			label: beautifyScale(
+		coreStore.configuration.options.map((option) => {
+			const label = beautifyScale(
 				calculateScaleFromResolution(
 					coreStore.map.getView().getProjection().getUnits(),
 					option.resolution,
 					dpi.value
 				),
 				coreStore.language
-			),
-			value: option.zoomLevel,
-		}))
+			)
+
+			return {
+				...option,
+				label,
+				ariaLabel: computedT(() =>
+					t(($) => $.to, {
+						ns: 'scale',
+						number: label.split(':')[1]?.replace(/[,.]/g, '').trim(),
+					})
+				).value,
+				value: option.zoomLevel,
+			}
+		})
 	)
 
 	const layoutTag = computed(() => coreStore.configuration.scale?.layoutTag)
