@@ -73,9 +73,9 @@ export default Vue.extend({
       layers: 'de_basemapde_web_raster_grau',
     },
     newTab:
-      new URL(document.location as unknown as string).searchParams
-        .get('newTab')
-        ?.toLowerCase() === 'true',
+      new URL(document.location as unknown as string).searchParams.get(
+        'NewTab'
+      ) || true,
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
