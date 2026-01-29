@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: Correct parameter detection for `NewTab` in DishMapExport Plugin.
+
 ## 1.3.0
 
 - Feature: Monumental label layer toggles its visibility depending on visible monumental layer geometries.
