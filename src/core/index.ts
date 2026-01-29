@@ -9,7 +9,6 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import '@kern-ux/native/dist/fonts/fira-sans.css'
 import { defineCustomElement } from 'vue'
 
 import PolarContainer from './components/PolarContainer.ce.vue'

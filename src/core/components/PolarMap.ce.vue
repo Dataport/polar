@@ -89,6 +89,10 @@ watch(center, (center) => {
 	})
 })
 
+watch(zoom, (zoom) => {
+	mainStore.map.getView().setZoom(zoom)
+})
+
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 const noCommandOnZoom = useT(() =>
 	t(($) => $.overlay.noCommandOnZoom, { ns: 'core' })

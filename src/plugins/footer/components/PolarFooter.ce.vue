@@ -28,7 +28,7 @@ const { leftEntries, rightEntries } = storeToRefs(useFooterStore())
 	bottom: 0;
 	display: flex;
 	width: 100%;
-	height: var(--kern-metric-space-x-large);
+	height: var(--kern-metric-dimension-large);
 	padding: var(--kern-metric-space-x-small) var(--kern-metric-space-x-small)
 		var(--kern-metric-space-x-small) var(--kern-metric-space-small);
 	justify-content: space-between;

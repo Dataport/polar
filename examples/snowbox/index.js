@@ -3,6 +3,7 @@ import {
 	createMap,
 	createMapElement,
 	getStore,
+	removePlugin,
 	subscribe,
 	updateState,
 } from '@polar/polar'
@@ -14,12 +15,12 @@ import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
 import pluginPins from '@polar/polar/plugins/pins'
 import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
+import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 
 import EmptyComponent from './EmptyComponent.vue'
 import MockAttributions from './MockAttributions.ce.vue'
 import MockPointerPosition from './MockPointerPosition.ce.vue'
-import MockScale from './MockScale.ce.vue'
 import services from './services.js'
 import styleJsonUrl from './style.json?url'
 import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
@@ -60,6 +61,13 @@ const dataportTheme = {
 			},
 			borderRadius: {
 				default: '0 10px 10px 10px',
+			},
+		},
+		typography: {
+			font: {
+				family: {
+					default: 'Consolas',
+				},
 			},
 		},
 	},
@@ -194,6 +202,9 @@ const map = await createMap(
 				},
 			},
 		],
+		scale: {
+			showScaleSwitcher: true,
+		},
 	},
 	services
 )
@@ -232,6 +243,26 @@ addPlugin(
 		layoutTag: 'BOTTOM_MIDDLE',
 	})
 )
+
+setTimeout(() => {
+	removePlugin(map, 'toast')
+}, 3000)
+
+setTimeout(() => {
+	addPlugin(
+		map,
+		pluginToast({
+			displayComponent: true,
+			layoutTag: 'BOTTOM_MIDDLE',
+		})
+	)
+	const toastStore = getStore(map, 'toast')
+	toastStore.addToast({
+		text: 'Sechs Sekunden',
+		severity: 'info',
+	})
+}, 6000)
+
 addPlugin(
 	map,
 	pluginLoadingIndicator({
@@ -328,7 +359,7 @@ addPlugin(
 	pluginFooter({
 		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
 		rightEntries: [
-			{ id: 'mockScale', component: MockScale },
+			pluginScale({}),
 			{ id: 'mockAttributions', component: MockAttributions },
 		],
 	})
