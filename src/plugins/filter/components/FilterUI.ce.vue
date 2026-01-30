@@ -36,7 +36,6 @@ watch(
 <style scoped>
 .polar-filter-card {
 	pointer-events: all;
-	padding-bottom: 3em;
 }
 
 :deep(.polar-filter-section) {
