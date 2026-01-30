@@ -11,7 +11,7 @@
 						$['layer'][props.layer]['category'][category.targetProperty][
 							'title'
 						],
-					{ ns: PluginId }
+					{ ns: PluginId, defaultValue: category.targetProperty }
 				)
 			}}
 		</h3>
@@ -32,7 +32,7 @@
 							$['layer'][props.layer]['category'][category.targetProperty][
 								'knownValue'
 							][flattenValue(categoryValue)],
-						{ ns: PluginId }
+						{ ns: PluginId, defaultValue: flattenValue(categoryValue) }
 					)
 				"
 				:model-value="
