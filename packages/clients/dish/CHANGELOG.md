@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.3.1
 
 - Fix: Correct parameter detection for `NewTab` in DishMapExport Plugin.
 
