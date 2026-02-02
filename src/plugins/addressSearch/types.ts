@@ -119,7 +119,7 @@ export interface AddressSearchOptions extends PluginOptions {
 	/**
 	 * Time passed in milliseconds before another search is started.
 	 *
-	 * @defaultValue 0
+	 * @defaultValue 300
 	 */
 	waitMs?: number
 }

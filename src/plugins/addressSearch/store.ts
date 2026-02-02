@@ -173,7 +173,7 @@ export const useAddressSearchStore = defineStore(
 		const waitMs = computed(() =>
 			typeof configuration.value.waitMs === 'number'
 				? configuration.value.waitMs
-				: 0
+				: 300
 		)
 
 		function setupPlugin() {
