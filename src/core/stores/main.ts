@@ -2,6 +2,7 @@ import type { Feature, Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 
+import { rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
@@ -77,6 +78,17 @@ export const useMainStore = defineStore('main', () => {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
 	}
 
+	function getLayerConfiguration(layerId: string) {
+		const polar = configuration.value.layers.find(
+			(layer) => layer.id === layerId
+		)
+		const register = rawLayerList.getLayerWhere({ id: layerId })
+		if (!polar || !register) {
+			return null
+		}
+		return { ...register, ...polar }
+	}
+
 	function setup() {
 		addEventListener('resize', updateHasSmallDisplay)
 		updateHasSmallDisplay()
@@ -110,6 +122,7 @@ export const useMainStore = defineStore('main', () => {
 		// Actions
 		centerOnFeature,
 		updateHasSmallDisplay,
+		getLayerConfiguration,
 		setup,
 		teardown,
 	}

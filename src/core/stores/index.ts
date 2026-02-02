@@ -206,6 +206,16 @@ export const useCoreStore = defineStore('core', () => {
 		shadowRoot: computed(() => mainStore.shadowRoot),
 
 		/**
+		 * Returns the layer configuration or `null` if the layer was not found.
+		 * The configuration is merged from the service register and the POLAR `layers` configuration.
+		 *
+		 * @param layerId - Layer ID
+		 * @returns Layer configuration (object) or `null`
+		 * @alpha
+		 */
+		getLayerConfiguration: mainStore.getLayerConfiguration,
+
+		/**
 		 * Allows setting content to the MoveHandle to be displayed on small devices
 		 * if the application has the same size as the window.
 		 *
