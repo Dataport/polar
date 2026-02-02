@@ -17,7 +17,13 @@
 					})
 				}}
 			</span>
-			<ul tabindex="-1">
+			<ul
+				tabindex="-1"
+				:class="{
+					'polar-plugin-address-search-list-without-label':
+						results.length === 1,
+				}"
+			>
 				<template
 					v-for="(feature, j) in result.features.features"
 					:key="`result-${i}-${j}`"
@@ -209,6 +215,10 @@ function toggle(category: string) {
 		padding: 0 var(--kern-metric-space-small);
 		font-size: 0.875rem;
 		color: var(--kern-color-layout-text-muted);
+	}
+
+	.polar-plugin-address-search-list-without-label {
+		margin-top: var(--kern-metric-space-2x-small);
 	}
 
 	ul {
