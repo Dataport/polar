@@ -4,12 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { PluginContainer, PluginOptions, PolarPluginStore } from '@/core'
+import type { PluginContainer, PolarPluginStore } from '@/core'
 
 import component from './components/AddressSearch.ce.vue'
 import locales from './locales'
 import { useAddressSearchStore } from './store'
-import { PluginId } from './types'
+import { type AddressSearchOptions, PluginId } from './types'
 
 /**
  * Creates a plugin which adds a user interface to search for various kinds of textual information to map it to a
@@ -26,7 +26,7 @@ import { PluginId } from './types'
  * @returns Plugin for use with {@link addPlugin}.
  */
 export default function pluginAddressSearch(
-	options: PluginOptions
+	options: AddressSearchOptions
 ): PluginContainer {
 	return {
 		id: PluginId,
