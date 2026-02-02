@@ -57,7 +57,7 @@ export interface Category {
 	 * If using `string` instead of `CategoryValue`, the string is interpreted as the `value` key.
 	 *
 	 * @remarks
-	 * The values listed here can be localized:
+	 * The values listed here should be localized:
 	 * ```ts
 	 * filter: {
 	 * 	layer: {
