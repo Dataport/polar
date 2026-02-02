@@ -160,12 +160,13 @@ function inputDown(event: KeyboardEvent) {
 	margin: var(--kern-metric-space-small);
 }
 
-.has-hint :deep(.kern-card__container) {
-	padding-bottom: var(--kern-metric-space-small) !important;
+.kern-card.polar-plugin-address-search-shown-results
+	:deep(.kern-card__container) {
+	padding-bottom: 0;
 }
 
-.polar-plugin-address-search-shown-results :deep(.kern-card__container) {
-	padding-bottom: 0 !important;
+.kern-card.has-hint :deep(.kern-card__container) {
+	padding-bottom: var(--kern-metric-space-small);
 }
 
 .kern-card {
