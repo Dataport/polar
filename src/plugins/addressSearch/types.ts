@@ -112,7 +112,7 @@ export interface AddressSearchOptions extends PluginOptions {
 	/**
 	 * Minimal input length before the search starts.
 	 *
-	 * @defaultValue 0
+	 * @defaultValue 3
 	 */
 	minLength?: number
 

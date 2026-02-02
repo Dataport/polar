@@ -139,7 +139,7 @@ export const useAddressSearchStore = defineStore(
 		const minLength = computed(() =>
 			typeof configuration.value.minLength === 'number'
 				? configuration.value.minLength
-				: 0
+				: 3
 		)
 		const searchMethodsByGroupId = computed<
 			Record<string, SearchMethodConfiguration[]>
