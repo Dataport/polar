@@ -19,7 +19,7 @@
 			<KernBlockButton
 				v-if="category.selectAll"
 				icon="kern-icon--deselect"
-				:label="$t(($) => $.category.deselectAll, { ns: 'filter' })"
+				:label="$t(($) => $.category.deselectAll, { ns: PluginId })"
 				@click="selectOrDeselectAll(category)"
 			/>
 			<KernBlockButtonCheckbox

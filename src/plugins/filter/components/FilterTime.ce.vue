@@ -1,7 +1,7 @@
 <template>
 	<section v-if="layerConfiguration.time" class="polar-filter-section">
 		<h3 class="kern-heading-small">
-			{{ $t(($) => $.time.header, { ns: 'filter' }) }}
+			{{ $t(($) => $.time.header, { ns: PluginId }) }}
 		</h3>
 		<div class="polar-filter-category-values">
 			<KernBlockButtonRadioGroup v-model="model" :items="items" />
@@ -26,7 +26,7 @@ import KernDateRangePicker from '@/components/kern/KernDateRangePicker.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
-import { type FilterConfiguration } from '../types'
+import { PluginId, type FilterConfiguration } from '../types'
 
 const props = defineProps<{
 	layer: string
@@ -185,24 +185,24 @@ const items = computed(() => {
 	return [
 		{
 			value: 'all',
-			label: t(($) => $.time.noRestriction, { ns: 'filter' }),
+			label: t(($) => $.time.noRestriction, { ns: PluginId }),
 			icon: 'kern-icon--all-inclusive',
 		},
 		...(layerConfiguration.value.time?.last?.map((offset) => ({
 			value: `last-${offset}`,
-			label: t(($) => $.time.last, { ns: 'filter', count: offset }),
+			label: t(($) => $.time.last, { ns: PluginId, count: offset }),
 			icon: 'kern-icon--history' as Icon,
 		})) || []),
 		...(layerConfiguration.value.time?.next?.map((offset) => ({
 			value: `next-${offset}`,
-			label: t(($) => $.time.next, { ns: 'filter', count: offset }),
+			label: t(($) => $.time.next, { ns: PluginId, count: offset }),
 			icon: 'kern-icon--timeline' as Icon,
 		})) || []),
 		...(layerConfiguration.value.time?.freeSelection
 			? [
 					{
 						value: 'custom',
-						label: t(($) => $.time.chooseTimeFrame, { ns: 'filter' }),
+						label: t(($) => $.time.chooseTimeFrame, { ns: PluginId }),
 						icon: 'kern-icon--calendar-month' as Icon,
 					},
 				]
