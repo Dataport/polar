@@ -73,7 +73,7 @@ onMounted(() => {
 	const links = (sources.value as HTMLElement).getElementsByTagName('a')
 	if (links.length > 0) {
 		void nextTick(() => {
-			;(links[0] as HTMLAnchorElement).focus({ focusVisible: true })
+			;(links[0] as HTMLAnchorElement).focus()
 		})
 	}
 })
