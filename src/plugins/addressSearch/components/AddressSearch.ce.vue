@@ -207,7 +207,7 @@ function inputDown(event: KeyboardEvent) {
 			.polar-plugin-address-search-hint {
 				color: var(--kern-color-layout-text-muted);
 				font-size: 0.875rem;
-				padding: 0 0.1rem;
+				padding: 0 var(--kern-metric-space-2x-small);
 				margin-top: var(--kern-metric-space-small);
 			}
 		}
