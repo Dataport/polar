@@ -1,0 +1,1 @@
+import{h as t}from"./index-DIHDkKBB-DoYV-2cU.js";import"./pinia-BhmAVTvm-Dvvq2Cue.js";import"./vue.runtime.esm-bundler-APnTtYuL-TgjA0Nnx.js";let n=0;function d(){const i=t().getPluginStore("loadingIndicator");if(!i)return()=>{};const o=`lib-indicate-loading-${n++}`;return i.addLoadingKey(o),()=>{i.removeLoadingKey(o)}}export{d as indicateLoading};
