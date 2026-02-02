@@ -78,16 +78,66 @@ const showButton = computed(
 	() => (coreStore.hasSmallDisplay || !coreStore.hasWindowSize) && !open.value
 )
 
+function isFocusable(el: Element): el is HTMLElement {
+	const h = el as HTMLElement
+
+	if (typeof h.focus !== 'function') {
+		return false
+	}
+	if (h.hasAttribute('disabled')) {
+		return false
+	}
+	if (h.getAttribute('aria-hidden') === 'true') {
+		return false
+	}
+	if (h.tabIndex < 0) {
+		return false
+	}
+
+	const style = getComputedStyle(h)
+	if (style.display === 'none' || style.visibility === 'hidden') {
+		return false
+	}
+	return !(h.offsetParent === null && style.position !== 'fixed')
+}
+
 function updateStatus() {
-	// TODO: Find a possible different solution for multiple groups instead of just disabling this feature
-	if (!open.value || (!inputValue.value.length && !hasMultipleGroups.value)) {
+	if (!open.value) {
 		open.value = !open.value
 		void nextTick(() => {
 			;(
 				coreStore.shadowRoot?.getElementById(
-					`polar-plugin-address-search-${open.value ? 'input' : 'icon-button'}`
+					'polar-plugin-address-search-input'
 				) as HTMLElement
 			).focus()
+		})
+	}
+	// TODO: Find a possible different solution for multiple groups instead of just disabling this feature
+	else if (!inputValue.value.length && !hasMultipleGroups.value) {
+		open.value = !open.value
+		void nextTick(() => {
+			const start = coreStore.shadowRoot?.getElementById(
+				'polar-plugin-address-search-icon-button'
+			) as HTMLElement
+			const walker = document.createTreeWalker(
+				coreStore.shadowRoot as ShadowRoot,
+				NodeFilter.SHOW_ELEMENT,
+				{
+					acceptNode(node) {
+						if (node === start) {
+							return NodeFilter.FILTER_SKIP
+						}
+						return isFocusable(node as HTMLElement)
+							? NodeFilter.FILTER_ACCEPT
+							: NodeFilter.FILTER_SKIP
+					},
+				}
+			)
+			walker.currentNode = start
+			const nextElement = walker.nextNode() as HTMLElement | null
+			if (nextElement) {
+				nextElement.focus()
+			}
 		})
 	}
 }
