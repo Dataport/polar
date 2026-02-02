@@ -109,7 +109,6 @@ function toggle(index: number) {
 			.polar-plugin-icon-menu-button {
 				box-shadow: none;
 				border: none;
-				pointer-events: all;
 
 				&:focus,
 				&:hover {
