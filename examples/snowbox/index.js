@@ -210,8 +210,9 @@ const map = await createMap(
 )
 
 document.getElementById('secondMap').addEventListener('click', async () => {
-	const secondMap = await createMapElement(
+	const secondMap = createMapElement(
 		{
+			startCenter: [573364, 6028874],
 			layers: [
 				{
 					id: basemapId,
@@ -221,7 +222,7 @@ document.getElementById('secondMap').addEventListener('click', async () => {
 				},
 			],
 		},
-		'https://geodienste.hamburg.de/services-internet.json'
+		services
 	)
 	secondMap.classList.add('snowbox')
 	document.getElementById('secondMapContainer').appendChild(secondMap)
