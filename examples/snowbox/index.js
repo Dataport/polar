@@ -20,7 +20,6 @@ import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 
 import EmptyComponent from './EmptyComponent.vue'
-import MockAttributions from './MockAttributions.ce.vue'
 import MockPointerPosition from './MockPointerPosition.ce.vue'
 import services from './services.js'
 import styleJsonUrl from './style.json?url'
