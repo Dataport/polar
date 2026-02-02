@@ -4,6 +4,11 @@
 			v-if="Object.keys(filterStore.configuration.layers).length > 1"
 			v-model="selectedLayer"
 		/>
+		<h2 v-else class="kern-heading-medium">
+			{{
+				coreStore.getLayerConfiguration(selectedLayer)?.name ?? selectedLayer
+			}}
+		</h2>
 		<FilterCategory v-if="selectedLayer" :layer="selectedLayer" />
 		<FilterTime v-if="selectedLayer" :layer="selectedLayer" />
 	</PolarCard>
@@ -13,12 +18,14 @@
 import { ref, watch } from 'vue'
 
 import PolarCard from '@/components/PolarCard.ce.vue'
+import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
 import FilterCategory from './FilterCategory.ce.vue'
 import FilterLayerChooser from './FilterLayerChooser.ce.vue'
 import FilterTime from './FilterTime.ce.vue'
 
+const coreStore = useCoreStore()
 const filterStore = useFilterStore()
 const selectedLayer = ref('')
 
