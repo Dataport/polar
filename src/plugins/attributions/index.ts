@@ -6,7 +6,7 @@
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 
-import component from './components/Attributions.ce.vue'
+import AttributionsWrapper from './components/AttributionsWrapper.ce.vue'
 import locales from './locales'
 import { useAttributionsStore } from './store'
 import { PluginId, type AttributionsPluginOptions } from './types'
@@ -22,7 +22,7 @@ export default function pluginAttributions(
 ): PluginContainer {
 	return {
 		id: PluginId,
-		component,
+		component: AttributionsWrapper,
 		locales,
 		storeModule: useAttributionsStore as PolarPluginStore,
 		options,

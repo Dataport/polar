@@ -13,13 +13,29 @@ import type { Locale } from '@/core'
  * German locales for attributions plugin.
  * For overwriting these values, use the plugin's ID as namespace.
  */
-export const resourcesDe = {} as const
+export const resourcesDe = {
+	button: {
+		closeTitle: 'Quellennachweis ausblenden',
+		openTitle: 'Quellennachweis einblenden',
+	},
+	sourceCode:
+		'<span><a href="https://github.com/Dataport/polar" target="_blank">Quellcode</a> lizenziert unter <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span>',
+	title: 'Quellennachweis',
+} as const
 
 /**
  * English locales for attributions plugin.
  * For overwriting these values, use the plugin's ID as namespace.
  */
-export const resourcesEn = {} as const
+export const resourcesEn = {
+	button: {
+		closeTitle: 'Hide Attributions',
+		openTitle: 'Show Attributions',
+	},
+	sourceCode:
+		'<span><a href="https://github.com/Dataport/polar" target="_blank">Source code</a> licensed under <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span>',
+	title: 'Attributions',
+} as const
 
 // first type will be used as fallback language
 const locales: Locale[] = [

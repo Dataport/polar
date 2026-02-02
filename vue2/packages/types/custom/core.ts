@@ -26,8 +26,6 @@ import { Coordinate } from 'ol/coordinate'
  *
  */
 
-export type RenderType = 'iconMenu' | 'independent' | 'footer'
-
 /** Possible search methods by type */
 export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
 
@@ -116,26 +114,6 @@ export interface AddressSearchConfiguration extends PluginOptions {
 	afterResultComponent?: VueConstructor
 	// Time passed in milliseconds before another search is started
 	waitMs?: number
-}
-
-export interface Attribution {
-	id: string
-	title: string
-}
-
-/** Attributions Module Configuration */
-export interface AttributionsConfiguration extends PluginOptions {
-	buttonComponent?: VueConstructor
-	icons?: {
-		open?: string
-		close?: string
-	}
-	initiallyOpen?: boolean
-	listenToChanges?: string[]
-	layerAttributions?: Attribution[]
-	renderType?: RenderType
-	staticAttributions?: string[]
-	windowWidth?: number
 }
 
 export interface PolarCircleStyle {
@@ -295,34 +273,10 @@ export interface GfiLayerConfiguration {
 	window?: boolean
 }
 
-export interface GeoLocationConfiguration extends LayerBoundPluginOptions {
-	/**
-	 * Source paths through store to listen to for changes; it is assumed values
-	 * listened to are coordinates that can be used to request information from
-	 * the specified layers.
-	 */
-	checkLocationInitially?: boolean
-	/** whether to keep center on user or allow movement after first zoom to */
-	keepCentered?: boolean
-	renderType?: RenderType
-	showTooltip?: boolean
-	/**
-	 * Limits the viewable GFIs per layer by this number. The first n elements
-	 * are chosen arbitrarily. Useful if you e.g. just want one result, or to
-	 * limit an endless stream of returns to maybe 10 or so. Infinite by default.
-	 */
-	zoomLevel?: number
-}
-
 /** Object containing information for highlighting a gfi result */
 export interface HighlightStyle {
 	fill: Fill
 	stroke: Stroke
-}
-
-export interface FullscreenConfiguration extends PluginOptions {
-	renderType?: RenderType
-	targetContainerId?: string
 }
 
 export type GfiIsSelectableFunction = (feature: GeoJsonFeature) => boolean
@@ -378,7 +332,7 @@ export interface GfiConfiguration extends PluginOptions {
 	maxFeatures?: number
 	mode?: 'bboxDot' | 'intersects'
 	multiSelect?: 'box' | 'circle'
-	renderType?: RenderType
+	renderType?: 'iconMenu' | 'independent'
 }
 
 export interface LayerChooserConfiguration extends PluginOptions {
@@ -480,7 +434,7 @@ export interface ZoomIcons {
 export interface ZoomConfiguration extends PluginOptions {
 	component?: VueConstructor
 	icons?: ZoomIcons
-	renderType?: RenderType
+	renderType?: 'iconMenu' | 'independent'
 	showMobile?: boolean
 	showZoomSlider?: boolean
 }
@@ -548,8 +502,10 @@ export interface CoreState {
 	zoomLevel: number
 }
 
-export interface CoreGetters
-	extends Omit<CoreState, 'components' | 'hovered' | 'map' | 'selected'> {
+export interface CoreGetters extends Omit<
+	CoreState,
+	'components' | 'hovered' | 'map' | 'selected'
+> {
 	// omitted from CoreState as actual getter type diverges
 	components: PluginContainer[]
 	hovered: Feature | null
