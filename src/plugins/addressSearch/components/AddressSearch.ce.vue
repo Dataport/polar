@@ -34,6 +34,7 @@
 				<!-- TODO: May be replaced with the KERN-Loader. -->
 				<SmallLoader v-if="isLoading" />
 				<button
+					v-if="inputValue.length"
 					class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
 					@click="addressSearchStore.clear"
 				>
