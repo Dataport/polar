@@ -3,6 +3,7 @@
 		v-if="featuresAvailable"
 		id="polar-plugin-address-search-result-wrapper"
 		:style="`max-height: ${maxHeight}`"
+		tabindex="-1"
 	>
 		<template v-for="(result, i) in results" :key="result.categoryId">
 			<span
@@ -18,7 +19,6 @@
 				}}
 			</span>
 			<ul
-				tabindex="-1"
 				:class="{
 					'polar-plugin-address-search-list-without-label':
 						results.length === 1,
