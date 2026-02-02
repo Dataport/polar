@@ -142,7 +142,6 @@ function inputDown(event: KeyboardEvent) {
 			width: 100%;
 
 			#polar-plugin-address-search-input {
-				pointer-events: all;
 				border-radius: var(--kern-metric-border-radius-small);
 				background: var(--kern-color-form-input-background);
 			}
