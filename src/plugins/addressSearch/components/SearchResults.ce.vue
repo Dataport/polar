@@ -6,7 +6,7 @@
 		tabindex="-1"
 	>
 		<template v-for="(result, i) in results" :key="result.categoryId">
-			<span
+			<h2
 				v-if="results.length > 1"
 				class="polar-plugin-address-search-category-label"
 			>
@@ -17,7 +17,7 @@
 						ns: PluginId,
 					})
 				}}
-			</span>
+			</h2>
 			<ul
 				:class="{
 					'polar-plugin-address-search-list-without-label':
@@ -216,7 +216,9 @@ function toggle(category: string) {
 		align-items: center;
 		min-height: var(--kern-metric-dimension-large);
 		padding: 0 var(--kern-metric-space-small);
+		margin: 0;
 		font-size: calc(var(--kern-typography-font-size-static-small) * 0.875);
+		font-weight: normal;
 		color: var(--kern-color-layout-text-muted);
 	}
 
