@@ -54,7 +54,17 @@ label {
 }
 
 input[type='radio'] {
-	display: none;
+	position: absolute;
+	height: 0;
+
+	&:focus + label {
+		padding: var(--kern-metric-space-none) var(--kern-metric-space-default);
+		border-radius: var(--kern-metric-border-radius-default);
+		box-shadow:
+			0 0 0 2px var(--kern-color-action-on-default),
+			0 0 0 4px var(--kern-color-action-focus-border-inside),
+			0 0 0 6px var(--kern-color-action-focus-border-outside);
+	}
 
 	&:checked + label {
 		border-color: var(--kern-color-action-default);
