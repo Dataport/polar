@@ -213,7 +213,7 @@ function toggle(category: string) {
 		align-items: center;
 		height: var(--kern-metric-dimension-x-large);
 		padding: 0 var(--kern-metric-space-small);
-		font-size: 0.875rem;
+		font-size: calc(var(--kern-typography-font-size-static-small) * 0.875);
 		color: var(--kern-color-layout-text-muted);
 	}
 
