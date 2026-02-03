@@ -22,6 +22,11 @@
 					v-model="inputValue"
 					class="kern-form-input__input"
 					type="text"
+					:aria-label="
+						hint.length > 0
+							? hint
+							: $t(($) => $.ariaDescription, { ns: PluginId })
+					"
 					:aria-description="
 						hint.length > 0
 							? hint
