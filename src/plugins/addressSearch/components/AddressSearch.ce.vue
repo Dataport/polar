@@ -53,7 +53,7 @@
 				<button
 					v-if="inputValue.length"
 					class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
-					@click="addressSearchStore.clear"
+					@click="clear"
 				>
 					<span class="kern-icon kern-icon--close" aria-hidden="true" />
 					<span class="kern-label kern-sr-only">
@@ -102,6 +102,17 @@ const open = ref(false)
 const showButton = computed(
 	() => (coreStore.hasSmallDisplay || !coreStore.hasWindowSize) && !open.value
 )
+
+function clear() {
+	addressSearchStore.clear()
+	void nextTick(() => {
+		;(
+			coreStore.shadowRoot?.getElementById(
+				`polar-plugin-address-search-input`
+			) as HTMLElement
+		).focus()
+	})
+}
 
 function updateStatus() {
 	// TODO: Find a possible different solution for multiple groups instead of just disabling this feature
