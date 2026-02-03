@@ -35,12 +35,15 @@ const id = useId()
 	}
 }
 
+label {
+	border: var(--kern-metric-border-width-default) solid transparent;
+}
+
 input[type='checkbox'] {
 	display: none;
 
 	&:checked + label {
-		border: var(--kern-metric-border-width-default) solid
-			var(--kern-color-action-default);
+		border-color: var(--kern-color-action-default);
 	}
 }
 </style>
