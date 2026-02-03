@@ -18,7 +18,7 @@
 }
 .loader {
 	position: absolute;
-	right: 3rem;
+	right: calc(var(--kern-metric-space-x-large) * 1.5);
 	width: var(--kern-metric-dimension-large);
 	height: var(--kern-metric-dimension-large);
 	margin: var(--kern-metric-space-small);
@@ -29,7 +29,7 @@
 	position: absolute;
 	width: var(--kern-metric-dimension-large);
 	height: var(--kern-metric-dimension-large);
-	border: 4px solid currentColor;
+	border: var(--kern-metric-border-width-bold) solid currentColor;
 	border-radius: 50%;
 	animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 	border-color: currentColor transparent transparent transparent;
