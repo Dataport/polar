@@ -204,6 +204,9 @@ function toggle(category: string) {
 
 <style scoped>
 #polar-plugin-address-search-result-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: var(--kern-metric-space-2x-small);
 	width: 100%;
 	padding-bottom: 0.625rem;
 	overflow-y: auto;
@@ -211,7 +214,7 @@ function toggle(category: string) {
 	.polar-plugin-address-search-category-label {
 		display: flex;
 		align-items: center;
-		height: var(--kern-metric-dimension-x-large);
+		min-height: var(--kern-metric-dimension-large);
 		padding: 0 var(--kern-metric-space-small);
 		font-size: calc(var(--kern-typography-font-size-static-small) * 0.875);
 		color: var(--kern-color-layout-text-muted);
@@ -244,7 +247,6 @@ function toggle(category: string) {
 	}
 
 	button {
-		width: 95%;
 		margin: var(--kern-metric-space-none) var(--kern-metric-space-small);
 	}
 }
