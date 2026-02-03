@@ -1,43 +1,26 @@
 <template>
 	<PolarCard class="polar-filter-card">
 		<FilterLayerChooser
-			v-if="Object.keys(filterStore.configuration.layers).length > 1"
-			v-model="selectedLayer"
+			v-if="filterStore.layers.length > 1"
+			v-model="filterStore.selectedLayerId"
 		/>
 		<h2 v-else class="kern-heading-medium">
-			{{
-				coreStore.getLayerConfiguration(selectedLayer)?.name ?? selectedLayer
-			}}
+			{{ filterStore.selectedLayer?.layerConfiguration?.name }}
 		</h2>
-		<FilterCategory v-if="selectedLayer" :layer="selectedLayer" />
-		<FilterTime v-if="selectedLayer" :layer="selectedLayer" />
+		<FilterCategory v-if="filterStore.selectedLayerId" />
+		<FilterTime v-if="filterStore.selectedLayerHasTimeFilter" />
 	</PolarCard>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-
 import PolarCard from '@/components/PolarCard.ce.vue'
-import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
 import FilterCategory from './FilterCategory.ce.vue'
 import FilterLayerChooser from './FilterLayerChooser.ce.vue'
 import FilterTime from './FilterTime.ce.vue'
 
-const coreStore = useCoreStore()
 const filterStore = useFilterStore()
-const selectedLayer = ref('')
-
-watch(
-	() => filterStore.configuration.layers,
-	(layers) => {
-		if (selectedLayer.value.length === 0) {
-			selectedLayer.value = Object.keys(layers)[0] || ''
-		}
-	},
-	{ immediate: true, deep: true }
-)
 </script>
 
 <style scoped>

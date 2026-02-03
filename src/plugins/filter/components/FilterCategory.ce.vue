@@ -1,6 +1,6 @@
 <template>
 	<section
-		v-for="category of layerConfiguration.categories"
+		v-for="category of filterStore.selectedLayerConfiguration.categories"
 		:key="category.targetProperty"
 		class="polar-filter-section"
 	>
@@ -8,9 +8,9 @@
 			{{
 				$t(
 					($) =>
-						$['layer'][props.layer]['category'][category.targetProperty][
-							'title'
-						],
+						$['layer'][filterStore.selectedLayerId]['category'][
+							category.targetProperty
+						]['title'],
 					{ ns: PluginId, defaultValue: category.targetProperty }
 				)
 			}}
@@ -29,14 +29,14 @@
 				:label="
 					$t(
 						($) =>
-							$['layer'][props.layer]['category'][category.targetProperty][
-								'knownValue'
-							][flattenValue(categoryValue)],
+							$['layer'][filterStore.selectedLayerId]['category'][
+								category.targetProperty
+							]['knownValue'][flattenValue(categoryValue)],
 						{ ns: PluginId, defaultValue: flattenValue(categoryValue) }
 					)
 				"
 				:model-value="
-					filterStore.state[props.layer]?.knownValues?.[
+					filterStore.selectedLayerState.knownValues?.[
 						category.targetProperty
 					]?.[flattenValue(categoryValue)] ?? true
 				"
@@ -53,32 +53,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-
 import KernBlockButton from '@/components/kern/KernBlockButton.ce.vue'
 import KernBlockButtonCheckbox from '@/components/kern/KernBlockButtonCheckbox.ce.vue'
 
 import { useFilterStore } from '../store'
-import { PluginId, type Category, type FilterConfiguration } from '../types'
-
-const props = defineProps<{
-	layer: string
-}>()
+import { PluginId, type Category } from '../types'
 
 const filterStore = useFilterStore()
-const layerConfiguration = computed(
-	() => filterStore.configuration.layers[props.layer] as FilterConfiguration
-)
 
 function flattenValue(value: string | { value: string }) {
 	return typeof value === 'string' ? value : value.value
 }
 
 function createMissingObjects(targetProperty: string) {
-	const layerState = (filterStore.state[props.layer] ??= {})
+	const layerState = filterStore.selectedLayerState
 	layerState.knownValues ??= {}
 	return (layerState.knownValues[targetProperty] ??= Object.fromEntries(
-		layerConfiguration.value.categories
+		filterStore.selectedLayerConfiguration.categories
 			?.find((category) => category.targetProperty === targetProperty)
 			?.knownValues.map((value) => [flattenValue(value), true]) ?? []
 	))

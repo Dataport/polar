@@ -1,5 +1,5 @@
 <template>
-	<section v-if="layerConfiguration.time" class="polar-filter-section">
+	<section class="polar-filter-section">
 		<h3 class="kern-heading-small">
 			{{ $t(($) => $.time.header, { ns: PluginId }) }}
 		</h3>
@@ -26,29 +26,22 @@ import KernDateRangePicker from '@/components/kern/KernDateRangePicker.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
-import { PluginId, type FilterConfiguration } from '../types'
-
-const props = defineProps<{
-	layer: string
-}>()
+import { PluginId } from '../types'
 
 const minDate = new Date(-8640000000000000)
 const maxDate = new Date(8640000000000000)
 
 const coreStore = useCoreStore()
 const filterStore = useFilterStore()
-const layerConfiguration = computed(
-	() => filterStore.configuration.layers[props.layer] as FilterConfiguration
-)
 const targetProperty = computed(
-	() => layerConfiguration.value.time?.targetProperty || ''
+	() => filterStore.selectedLayerConfiguration.time?.targetProperty || ''
 )
 const pattern = computed(
-	() => layerConfiguration.value.time?.pattern || 'YYYY-MM-DD'
+	() => filterStore.selectedLayerConfiguration.time?.pattern || 'YYYY-MM-DD'
 )
 const timeState = computed(
 	() =>
-		filterStore.state[props.layer]?.timeSpan?.[targetProperty.value] ?? {
+		filterStore.selectedLayerState.timeSpan?.[targetProperty.value] ?? {
 			from: minDate,
 			until: maxDate,
 			pattern: pattern.value,
@@ -61,7 +54,7 @@ const customModelStart = computed({
 			? null
 			: timeState.value.from,
 	set: (value) => {
-		const layerState = (filterStore.state[props.layer] ??= {})
+		const layerState = filterStore.selectedLayerState
 		const spanState = (layerState.timeSpan ??= {})
 		const propState = (spanState[targetProperty.value] ??= {
 			from: minDate,
@@ -81,7 +74,7 @@ const customModelEnd = computed({
 		return value
 	},
 	set: (value) => {
-		const layerState = (filterStore.state[props.layer] ??= {})
+		const layerState = filterStore.selectedLayerState
 		const spanState = (layerState.timeSpan ??= {})
 		const propState = (spanState[targetProperty.value] ??= {
 			from: minDate,
@@ -114,7 +107,8 @@ const model = computed<'all' | 'custom' | `last-${string}` | `next-${string}`>({
 			return 'all'
 		}
 		if (customModelStart.value && customModelEnd.value) {
-			for (const offset of layerConfiguration.value.time?.last || []) {
+			for (const offset of filterStore.selectedLayerConfiguration.time?.last ||
+				[]) {
 				if (
 					checkDate(0, customModelEnd.value) &&
 					checkDate(-offset, customModelStart.value)
@@ -122,7 +116,8 @@ const model = computed<'all' | 'custom' | `last-${string}` | `next-${string}`>({
 					return `last-${offset}` as `last-${string}`
 				}
 			}
-			for (const offset of layerConfiguration.value.time?.next || []) {
+			for (const offset of filterStore.selectedLayerConfiguration.time?.next ||
+				[]) {
 				if (
 					checkDate(0, customModelStart.value) &&
 					checkDate(offset, customModelEnd.value)
@@ -174,7 +169,7 @@ const timeConstraints = computed(
 			until: {
 				max: new Date(),
 			},
-		})[layerConfiguration.value.time?.freeSelection || ''] || {}
+		})[filterStore.selectedLayerConfiguration.time?.freeSelection || ''] || {}
 )
 
 const items = computed(() => {
@@ -188,17 +183,17 @@ const items = computed(() => {
 			label: t(($) => $.time.noRestriction, { ns: PluginId }),
 			icon: 'kern-icon--all-inclusive',
 		},
-		...(layerConfiguration.value.time?.last?.map((offset) => ({
+		...(filterStore.selectedLayerConfiguration.time?.last?.map((offset) => ({
 			value: `last-${offset}`,
 			label: t(($) => $.time.last, { ns: PluginId, count: offset }),
 			icon: 'kern-icon--history' as Icon,
 		})) || []),
-		...(layerConfiguration.value.time?.next?.map((offset) => ({
+		...(filterStore.selectedLayerConfiguration.time?.next?.map((offset) => ({
 			value: `next-${offset}`,
 			label: t(($) => $.time.next, { ns: PluginId, count: offset }),
 			icon: 'kern-icon--timeline' as Icon,
 		})) || []),
-		...(layerConfiguration.value.time?.freeSelection
+		...(filterStore.selectedLayerConfiguration.time?.freeSelection
 			? [
 					{
 						value: 'custom',

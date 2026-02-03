@@ -2,7 +2,7 @@
 	<div class="kern-form-input">
 		<label class="kern-label" for="select">Fachdatensatz auswählen</label>
 		<div class="kern-form-input__select-wrapper">
-			<select v-model="model" class="kern-form-input__select">
+			<select v-model="selectModel" class="kern-form-input__select">
 				<option v-for="layer of layers" :key="layer" :value="layer">
 					{{ coreStore.getLayerConfiguration(layer)?.name ?? 'id' }}
 				</option>
@@ -18,7 +18,13 @@ import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
 
-const model = defineModel<string>({ required: true })
+const model = defineModel<string | null>({ required: true })
+const selectModel = computed({
+	get: () => model.value || '',
+	set: (value) => {
+		model.value = value || null
+	},
+})
 
 const coreStore = useCoreStore()
 const filterStore = useFilterStore()
