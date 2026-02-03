@@ -59,7 +59,6 @@ export function subscribe<T extends StoreId>(
 	options?: WatchOptions
 ) {
 	const store = getStore(map, storeName)
-	// @ts-expect-error | Parameter name is checked, but TS does not infer this
 	return watch(() => store[parameterName], callback, {
 		immediate: true,
 		...options,
@@ -81,6 +80,5 @@ export function updateState<T extends StoreId>(
 	payload: unknown
 ) {
 	const store = getStore(map, storeName)
-	// @ts-expect-error | Parameter name is checked, but TS does not infer this
 	store[parameterName] = payload
 }
