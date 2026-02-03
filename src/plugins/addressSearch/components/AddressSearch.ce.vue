@@ -15,7 +15,19 @@
 		}"
 	>
 		<div class="polar-plugin-address-search-selection-wrapper">
-			<GroupSelect v-if="hasMultipleGroups" />
+			<!-- Mapping in template to guarantee update on language change-->
+			<PolarSelect
+				v-if="hasMultipleGroups"
+				:aria-label="$t(($) => $.groupSelector, { ns: PluginId })"
+				:options="
+					groupSelectOptions.map(({ groupId, text }) => ({
+						value: groupId,
+						label: $t(($) => $[text], { ns: PluginId }),
+					}))
+				"
+				:value="selectedGroupId"
+				@update:value="selectedGroupId = $event as string"
+			/>
 			<div class="polar-plugin-address-search-input-wrapper">
 				<input
 					id="polar-plugin-address-search-input"
@@ -64,19 +76,26 @@ import { computed, nextTick, ref } from 'vue'
 
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import PolarSelect from '@/components/PolarSelect.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
 import { focusFirstResult } from '../utils/focusFirstResult'
-import GroupSelect from './GroupSelect.ce.vue'
 import SearchResults from './SearchResults.ce.vue'
 import SmallLoader from './SmallLoader.ce.vue'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
-const { hasMultipleGroups, hint, inputValue, isLoading, searchResults } =
-	storeToRefs(addressSearchStore)
+const {
+	groupSelectOptions,
+	hasMultipleGroups,
+	hint,
+	inputValue,
+	isLoading,
+	searchResults,
+	selectedGroupId,
+} = storeToRefs(addressSearchStore)
 
 const open = ref(false)
 
