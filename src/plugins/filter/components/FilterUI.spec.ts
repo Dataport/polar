@@ -42,7 +42,11 @@ const test = _test.extend<{
 })
 /* eslint-enable no-empty-pattern */
 
-test('Component works as expected', async ({ wrapper, coreStore, store }) => {
+test('Component transfers category and time filters to the store', async ({
+	wrapper,
+	coreStore,
+	store,
+}) => {
 	// @ts-expect-error | This is for testing
 	coreStore.configuration = {
 		filter: {
@@ -74,8 +78,8 @@ test('Component works as expected', async ({ wrapper, coreStore, store }) => {
 	assert(onlyCat !== undefined, 'Could not find cat button')
 	await onlyCat.trigger('click')
 
-	expect(store.state.one?.knownValues?.pet?.dog).toBeTruthy()
-	expect(store.state.one?.knownValues?.pet?.cat).toBeFalsy()
+	expect(store.selectedLayerState?.knownValues?.pet?.dog).toBeTruthy()
+	expect(store.selectedLayerState?.knownValues?.pet?.cat).toBeFalsy()
 
 	const yesterday = wrapper
 		.findAll('label')
@@ -83,12 +87,7 @@ test('Component works as expected', async ({ wrapper, coreStore, store }) => {
 	assert(yesterday !== undefined, 'Could not find yesterday button')
 	await yesterday.trigger('click')
 
-	const now = new Date()
-	const from = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
-	const until = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
-
-	expect(store.state.one?.timeSpan?.time?.from).toEqual(from)
-	expect(store.state.one?.timeSpan?.time?.until).toEqual(until)
+	expect(store.timeModel).toEqual('last-1')
 
 	await nextTick()
 	expect(

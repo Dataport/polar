@@ -36,7 +36,7 @@
 					)
 				"
 				:model-value="
-					filterStore.selectedLayerState.knownValues?.[
+					filterStore.selectedLayerState?.knownValues?.[
 						category.targetProperty
 					]?.[flattenValue(categoryValue)] ?? true
 				"
@@ -66,7 +66,9 @@ function flattenValue(value: string | { value: string }) {
 }
 
 function createMissingObjects(targetProperty: string) {
-	const layerState = filterStore.selectedLayerState
+	// The state is created automatically and this component is only used when a layer is selected.
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const layerState = filterStore.selectedLayerState!
 	layerState.knownValues ??= {}
 	return (layerState.knownValues[targetProperty] ??= Object.fromEntries(
 		filterStore.selectedLayerConfiguration.categories

@@ -4,18 +4,13 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
+import { watch } from 'vue'
 
-import { useCoreStore } from '@/core/stores'
 import { getVectorSource } from '@/lib/getVectorSource'
 
-import {
-	PluginId,
-	type FilterConfiguration,
-	type FilterPluginOptions,
-	type FilterState,
-} from './types'
+import { useFilterMainStore } from './stores/main'
+import { useFilterTimeStore } from './stores/time'
 import { updateFeatureVisibility } from './utils/updateFeatureVisibility'
 
 /* eslint-disable tsdoc/syntax */
@@ -26,84 +21,21 @@ import { updateFeatureVisibility } from './utils/updateFeatureVisibility'
  */
 /* eslint-enable tsdoc/syntax */
 export const useFilterStore = defineStore('plugins/filter', () => {
-	const coreStore = useCoreStore()
-
-	const configuration = computed(
-		() =>
-			(coreStore.configuration[PluginId] ?? {
-				layers: {},
-			}) as FilterPluginOptions
-	)
-
-	const state = ref<Record<string, FilterState>>({})
-
-	const layers = computed(() =>
-		Object.entries(configuration.value.layers).map(
-			([layerId, filterConfiguration]) => ({
-				layerId,
-				layerConfiguration: coreStore.getLayerConfiguration(layerId),
-				filterConfiguration,
-			})
-		)
-	)
-
-	const selectedLayerId = ref<string | null>(null)
-	watch(selectedLayerId, (newLayerId) => {
-		if (newLayerId === null) {
-			return
-		}
-		state.value[newLayerId] = {}
-	})
-	watch(
-		() => configuration.value.layers,
-		(layers) => {
-			selectedLayerId.value = Object.keys(layers)[0] || ''
-		},
-		{ immediate: true, deep: true }
-	)
-
-	const selectedLayer = computed(
-		() =>
-			layers.value.find((layer) => layer.layerId === selectedLayerId.value) ??
-			null
-	)
-
-	const selectedLayerConfiguration = computed(
-		() =>
-			(selectedLayerId.value
-				? configuration.value.layers[selectedLayerId.value]
-				: {}) as FilterConfiguration
-	)
-
-	const selectedLayerState = computed(
-		() =>
-			(selectedLayerId.value
-				? state.value[selectedLayerId.value]
-				: null) as FilterState
-	)
-
-	const selectedLayerHasTimeFilter = computed(
-		() =>
-			selectedLayerConfiguration.value.time?.last ||
-			selectedLayerConfiguration.value.time?.next ||
-			selectedLayerConfiguration.value.time?.freeSelection
-	)
-
-	const filteredLayers = computed(() =>
-		coreStore.map
-			.getAllLayers()
-			.filter((layer) =>
-				Object.keys(configuration.value.layers).includes(layer.get('id'))
-			)
-	)
+	const filterMainStore = useFilterMainStore()
+	const filterMainStoreRefs = storeToRefs(filterMainStore)
+	const filterTimeStore = useFilterTimeStore()
+	const filterTimeStoreRefs = storeToRefs(filterTimeStore)
 
 	const teardownCallbacks = [] as (() => void)[]
 
 	function setupPlugin() {
-		filteredLayers.value.forEach((layer) => {
+		filterMainStore.filteredLayers.forEach((layer) => {
 			const source = getVectorSource(layer)
 			const callback = () => {
-				updateFeatureVisibility(source, state.value[layer.get('id')] ?? {})
+				updateFeatureVisibility(
+					source,
+					filterMainStore.state[layer.get('id')] ?? {}
+				)
 			}
 			source.on('featuresloadend', callback)
 			teardownCallbacks.push(() => {
@@ -111,7 +43,7 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 			})
 			teardownCallbacks.push(
 				watch(
-					() => state.value[layer.get('id')],
+					() => filterMainStore.state[layer.get('id')],
 					() => {
 						callback()
 					},
@@ -133,21 +65,21 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 		 *
 		 * @alpha
 		 */
-		layers,
+		layers: filterMainStoreRefs.layers,
 
 		/**
 		 * ID of the selected layer.
 		 *
 		 * @alpha
 		 */
-		selectedLayerId,
+		selectedLayerId: filterMainStoreRefs.selectedLayerId,
 
 		/**
 		 * Information on the selected layer.
 		 *
 		 * @alpha
 		 */
-		selectedLayer,
+		selectedLayer: filterMainStoreRefs.selectedLayer,
 
 		/**
 		 * Configuration of the selected layer w.r.t. filter.
@@ -155,7 +87,7 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 		 *
 		 * @alpha
 		 */
-		selectedLayerConfiguration,
+		selectedLayerConfiguration: filterMainStoreRefs.selectedLayerConfiguration,
 
 		/**
 		 * State of the selected layer w.r.t. filter.
@@ -163,20 +95,39 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 		 *
 		 * @alpha
 		 */
-		selectedLayerState,
+		selectedLayerState: filterMainStoreRefs.selectedLayerState,
 
 		/**
 		 * `true` if the selected layer allows filtering for time.
 		 *
 		 * @alpha
 		 */
-		selectedLayerHasTimeFilter,
+		selectedLayerHasTimeFilter: filterMainStoreRefs.selectedLayerHasTimeFilter,
 
-		/** @internal */
-		configuration,
+		/**
+		 * @alpha
+		 */
+		timeModel: filterTimeStoreRefs.model,
 
-		/** @internal */
-		state,
+		/**
+		 * @alpha
+		 */
+		timeStart: filterTimeStoreRefs.customModelStart,
+
+		/**
+		 * @alpha
+		 */
+		timeEnd: filterTimeStoreRefs.customModelEnd,
+
+		/**
+		 * @alpha
+		 */
+		timeConstraints: filterTimeStoreRefs.timeConstraints,
+
+		/**
+		 * @alpha
+		 */
+		timeItems: filterTimeStoreRefs.items,
 
 		/** @internal */
 		setupPlugin,

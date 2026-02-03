@@ -3,8 +3,12 @@
 		<label class="kern-label" for="select">Fachdatensatz auswählen</label>
 		<div class="kern-form-input__select-wrapper">
 			<select v-model="selectModel" class="kern-form-input__select">
-				<option v-for="layer of layers" :key="layer" :value="layer">
-					{{ coreStore.getLayerConfiguration(layer)?.name ?? 'id' }}
+				<option
+					v-for="layer of filterStore.layers"
+					:key="layer.layerId"
+					:value="layer.layerId"
+				>
+					{{ layer.layerConfiguration.name || layer.layerId }}
 				</option>
 			</select>
 		</div>
@@ -13,8 +17,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-
-import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
 
@@ -26,7 +28,5 @@ const selectModel = computed({
 	},
 })
 
-const coreStore = useCoreStore()
 const filterStore = useFilterStore()
-const layers = computed(() => Object.keys(filterStore.configuration.layers))
 </script>
