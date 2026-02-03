@@ -11,7 +11,7 @@ import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import { PluginId, type FullscreenPluginOptions } from './types'
+import { PluginId, type FullscreenOptions } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -24,7 +24,7 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	const coreStore = useCoreStore()
 
 	const configuration = computed(
-		() => coreStore.configuration[PluginId] as FullscreenPluginOptions
+		() => coreStore.configuration[PluginId] as FullscreenOptions
 	)
 	const renderType = computed(() => configuration.value.renderType)
 

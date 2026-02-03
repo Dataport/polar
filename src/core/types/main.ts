@@ -1,13 +1,13 @@
 import type { VueElement } from 'vue'
 
-import type { FooterPluginOptions } from '@/plugins/footer'
-import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
-import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
-import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
+import type { FooterOptions } from '@/plugins/footer'
+import type { FullscreenOptions } from '@/plugins/fullscreen'
+import type { GeoLocationOptions } from '@/plugins/geoLocation'
+import type { IconMenuOptions } from '@/plugins/iconMenu'
 import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
-import type { PinsPluginOptions } from '@/plugins/pins'
-import type { ReverseGeocoderPluginOptions } from '@/plugins/reverseGeocoder'
-import type { ScalePluginOptions } from '@/plugins/scale'
+import type { PinsOptions } from '@/plugins/pins'
+import type { ReverseGeocoderOptions } from '@/plugins/reverseGeocoder'
+import type { ScaleOptions } from '@/plugins/scale'
 import type { ToastPluginOptions } from '@/plugins/toast'
 
 import type defaults from '../utils/defaults'
@@ -302,28 +302,28 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	/* eslint-disable perfectionist/sort-interfaces */
 
 	/** Configuration for footer plugin. */
-	footer?: FooterPluginOptions
+	footer?: FooterOptions
 
 	/**  Configuration for fullscreen plugin. */
-	fullscreen?: FullscreenPluginOptions
+	fullscreen?: FullscreenOptions
 
 	/** Configuration for geoLocation plugin. */
-	geoLocation?: GeoLocationPluginOptions
+	geoLocation?: GeoLocationOptions
 
 	/** Configuration for iconMenu plugin. */
-	iconMenu?: IconMenuPluginOptions
+	iconMenu?: IconMenuOptions
 
 	/** Configuration for loadingIndicator plugin. */
 	loadingIndicator?: LoadingIndicatorOptions
 
 	/** Configuration for pins plugin. */
-	pins?: PinsPluginOptions
+	pins?: PinsOptions
 
 	/** Configuration for reverseGeocoder plugin. */
-	reverseGeocoder?: ReverseGeocoderPluginOptions
+	reverseGeocoder?: ReverseGeocoderOptions
 
 	/** Configuration for scale plugin. */
-	scale?: ScalePluginOptions
+	scale?: ScaleOptions
 
 	/** Configuration for toast plugin. */
 	toast?: ToastPluginOptions

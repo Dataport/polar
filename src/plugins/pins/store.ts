@@ -20,7 +20,7 @@ import { computed, ref, watch, type WatchHandle } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import type { PinMovable, PinsPluginOptions } from './types'
+import type { PinMovable, PinsOptions } from './types'
 
 import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
@@ -41,7 +41,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	const getsDragged = ref(false)
 
 	const configuration = computed<
-		PinsPluginOptions & {
+		PinsOptions & {
 			minZoomLevel: number
 			movable: PinMovable
 			toZoomLevel: number

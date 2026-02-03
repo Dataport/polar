@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/PolarFooter.ce.vue'
 import locales from './locales'
 import { useFooterStore } from './store'
-import { PluginId, type FooterPluginOptions } from './types'
+import { PluginId, type FooterOptions } from './types'
 
 /**
  * Creates a plugin which adds the possibility to display various content as a
@@ -19,9 +19,7 @@ import { PluginId, type FooterPluginOptions } from './types'
  *
  * @returns Plugin for use with {@link addPlugin}.
  */
-export default function pluginFooter(
-	options: FooterPluginOptions
-): PluginContainer {
+export default function pluginFooter(options: FooterOptions): PluginContainer {
 	return {
 		id: PluginId,
 		component,

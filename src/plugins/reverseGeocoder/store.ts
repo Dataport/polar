@@ -17,7 +17,7 @@ import { indicateLoading } from '@/lib/indicateLoading'
 import {
 	PluginId,
 	type ReverseGeocoderFeature,
-	type ReverseGeocoderPluginOptions,
+	type ReverseGeocoderOptions,
 } from './types'
 import { reverseGeocode as reverseGeocodeUtil } from './utils/reverseGeocode'
 
@@ -34,7 +34,7 @@ export const useReverseGeocoderStore = defineStore(
 		const coreStore = useCoreStore()
 
 		const configuration = computed(
-			() => coreStore.configuration[PluginId] as ReverseGeocoderPluginOptions
+			() => coreStore.configuration[PluginId] as ReverseGeocoderOptions
 		)
 
 		const watchHandles = ref<WatchHandle[]>([])
@@ -68,7 +68,7 @@ export const useReverseGeocoderStore = defineStore(
 		}
 
 		function passFeatureToTarget(
-			target: NonNullable<ReverseGeocoderPluginOptions['addressTarget']>,
+			target: NonNullable<ReverseGeocoderOptions['addressTarget']>,
 			feature: ReverseGeocoderFeature
 		) {
 			const targetStore = target.plugin

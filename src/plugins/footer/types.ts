@@ -5,7 +5,7 @@ export const PluginId = 'footer'
 /**
  * Plugin options for footer plugin.
  */
-export interface FooterPluginOptions extends PluginOptions {
+export interface FooterOptions extends PluginOptions {
 	/**
 	 * Plugins that are going to be directly rendered on the left side of the footer.
 	 */

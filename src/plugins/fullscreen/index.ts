@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/FullscreenUI.ce.vue'
 import locales from './locales'
 import { useFullscreenStore } from './store'
-import { PluginId, type FullscreenPluginOptions } from './types'
+import { PluginId, type FullscreenOptions } from './types'
 
 /**
  * Creates a plugin which provides a fullscreen mode with a fullscreen toggle button.
@@ -17,7 +17,7 @@ import { PluginId, type FullscreenPluginOptions } from './types'
  * @returns Plugin for use with {@link addPlugin}
  */
 export default function pluginFullscreen(
-	options: FullscreenPluginOptions = {}
+	options: FullscreenOptions = {}
 ): PluginContainer {
 	return {
 		id: PluginId,

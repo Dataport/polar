@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/GeoLocation.ce.vue'
 import locales from './locales'
 import { useGeoLocationStore } from './store'
-import { PluginId, type GeoLocationPluginOptions } from './types'
+import { PluginId, type GeoLocationOptions } from './types'
 
 /**
  * The GeoLocation plugin is responsible for collecting and displaying a user's
@@ -22,7 +22,7 @@ import { PluginId, type GeoLocationPluginOptions } from './types'
  * @returns Plugin for use with {@link addPlugin}.
  */
 export default function pluginGeoLocation(
-	options: GeoLocationPluginOptions
+	options: GeoLocationOptions
 ): PluginContainer {
 	return {
 		id: PluginId,

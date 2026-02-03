@@ -8,7 +8,7 @@ export const PluginId = 'fullscreen'
 /**
  * Plugin options for fullscreen plugin.
  */
-export interface FullscreenPluginOptions extends PluginOptions {
+export interface FullscreenOptions extends PluginOptions {
 	/**
 	 * Defines if the fullscreen button is rendered independent or as part of the icon menu.
 	 *

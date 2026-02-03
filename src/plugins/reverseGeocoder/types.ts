@@ -10,7 +10,7 @@ export const PluginId = 'reverseGeocoder'
 /**
  * Plugin options for reverse geocoder plugin.
  */
-export interface ReverseGeocoderPluginOptions extends PluginOptions {
+export interface ReverseGeocoderOptions extends PluginOptions {
 	/**
 	 * URL of a WPS service to use for reverse geocoding.
 	 */

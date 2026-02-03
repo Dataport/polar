@@ -10,7 +10,7 @@ export const PluginId = 'pins'
 export type PinMovable = 'drag' | 'click' | 'none'
 
 /** Plugin options for pins plugin. */
-export interface PinsPluginOptions extends LayerBoundPluginOptions {
+export interface PinsOptions extends LayerBoundPluginOptions {
 	/**
 	 * The pins plugin may react to changes in other plugins.
 	 * This parameter specifies the paths to such store positions.

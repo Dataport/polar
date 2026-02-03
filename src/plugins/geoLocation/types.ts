@@ -13,7 +13,7 @@ export type PluginState = 'LOCATABLE' | 'LOCATED' | 'DISABLED'
 /**
  * Plugin options for geoLocation plugin.
  */
-export interface GeoLocationPluginOptions extends LayerBoundPluginOptions {
+export interface GeoLocationOptions extends LayerBoundPluginOptions {
 	/**
 	 * If `true`, the location check will be run on map start-up. If `false`, the
 	 * feature has to be triggered with a button press by the user.

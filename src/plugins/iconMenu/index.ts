@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/IconMenu.ce.vue'
 import locales from './locales'
 import { useIconMenuStore } from './store'
-import { PluginId, type IconMenuPluginOptions } from './types'
+import { PluginId, type IconMenuOptions } from './types'
 
 /**
  * Creates a plugin which adds the possibility to open various functionality as
@@ -22,7 +22,7 @@ import { PluginId, type IconMenuPluginOptions } from './types'
  * @returns Plugin for use with {@link addPlugin}.
  */
 export default function pluginIconMenu(
-	options: IconMenuPluginOptions
+	options: IconMenuOptions
 ): PluginContainer {
 	return {
 		id: PluginId,

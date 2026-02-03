@@ -7,7 +7,7 @@
 import type { PluginContainer, PolarPluginStore } from '@/core'
 
 import { useReverseGeocoderStore } from './store'
-import { PluginId, type ReverseGeocoderPluginOptions } from './types'
+import { PluginId, type ReverseGeocoderOptions } from './types'
 
 /**
  * Creates a plugin which converts coordinates into addresses.
@@ -15,7 +15,7 @@ import { PluginId, type ReverseGeocoderPluginOptions } from './types'
  * @returns Plugin for use with {@link addPlugin}
  */
 export default function pluginReverseGeocoder(
-	options: ReverseGeocoderPluginOptions
+	options: ReverseGeocoderOptions
 ): PluginContainer {
 	return {
 		id: PluginId,

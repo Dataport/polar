@@ -25,7 +25,7 @@ import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
 import { getTooltip } from '@/lib/tooltip'
 
-import type { PluginState, GeoLocationPluginOptions } from './types'
+import type { PluginState, GeoLocationOptions } from './types'
 
 import { detectDeniedGeolocationEarly } from './utils/detectDeniedGeolocationEarly'
 import { getGeoLocationStyle } from './utils/olStyle'
@@ -47,7 +47,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	const position = ref<number[]>([])
 
 	const configuration = computed<
-		GeoLocationPluginOptions & { showTooltip: boolean; zoomLevel: number }
+		GeoLocationOptions & { showTooltip: boolean; zoomLevel: number }
 	>(() =>
 		toMerged(
 			{ showTooltip: false, zoomLevel: 7 },

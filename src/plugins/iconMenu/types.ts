@@ -24,7 +24,7 @@ export interface Menu {
 /**
  * Plugin options for iconMenu plugin.
  */
-export interface IconMenuPluginOptions extends PluginOptions {
+export interface IconMenuOptions extends PluginOptions {
 	/**
 	 * Defines which plugins should be rendered as part of the icon menu.
 	 * If {@link MapConfiguration.layout | `mapConfiguration.layers`} is set to `'standard'`, multiple groups can be

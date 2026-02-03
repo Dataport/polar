@@ -8,7 +8,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 
 import locales from './locales'
 import { usePinsStore } from './store'
-import { PluginId, type PinsPluginOptions } from './types'
+import { PluginId, type PinsOptions } from './types'
 
 /**
  * Pins plugin for POLAR that adds map interactions to client that allow users
@@ -20,9 +20,7 @@ import { PluginId, type PinsPluginOptions } from './types'
  *
  * @returns Plugin for use with {@link addPlugin}.
  */
-export default function pluginPins(
-	options: PinsPluginOptions
-): PluginContainer {
+export default function pluginPins(options: PinsOptions): PluginContainer {
 	return {
 		id: PluginId,
 		locales,
