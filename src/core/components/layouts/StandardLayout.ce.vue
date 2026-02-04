@@ -26,10 +26,6 @@ const uiPlugins = computed(() =>
 .layout {
 	max-width: 100%;
 
-	& > * {
-		pointer-events: all;
-	}
-
 	&.has-window-size {
 		max-height: 100%;
 	}

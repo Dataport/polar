@@ -48,9 +48,3 @@ function close() {
 	})
 }
 </script>
-
-<style scoped>
-button {
-	pointer-events: all;
-}
-</style>

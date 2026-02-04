@@ -33,7 +33,6 @@ export const useMainStore = defineStore('main', () => {
 	const map = shallowRef({} as Map)
 	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
-	const zoom = ref(0)
 
 	const layout = computed(() => configuration.value.layout ?? 'standard')
 
@@ -72,6 +71,8 @@ export const useMainStore = defineStore('main', () => {
 			}
 		}
 	)
+
+	const zoom = ref(0)
 
 	const center = ref<Coordinate>([0, 0])
 	function centerOnFeature(feature: Feature) {

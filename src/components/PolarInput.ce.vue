@@ -34,10 +34,6 @@ const model = defineModel<
 </script>
 
 <style scoped>
-.polar-input {
-	pointer-events: all;
-}
-
 .kern-form-check__radio[disabled],
 .kern-form-check__checkbox[disabled] {
 	&:hover {

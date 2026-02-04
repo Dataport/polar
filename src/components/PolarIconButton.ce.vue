@@ -40,7 +40,6 @@ const { hasSmallDisplay } = storeToRefs(useCoreStore())
 	background: var(--kern-color-layout-background-default);
 	box-shadow: var(--polar-shadow);
 	border: none;
-	pointer-events: all;
 
 	&:focus,
 	&:hover {
