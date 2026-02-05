@@ -179,7 +179,7 @@ function inputDown(event: KeyboardEvent) {
 			#polar-plugin-address-search-input {
 				border-radius: var(--kern-metric-border-radius-small);
 				background: var(--kern-color-form-input-background);
-				padding-right: calc(var(--kern-metric-space-large) * 2);
+				padding-right: calc(var(--kern-metric-space-x-large) * 3);
 			}
 
 			.polar-plugin-address-search-input-button {
@@ -197,6 +197,11 @@ function inputDown(event: KeyboardEvent) {
 				font-size: calc(var(--kern-typography-font-size-static-small) * 0.875);
 				padding: 0 var(--kern-metric-space-2x-small);
 				margin-top: var(--kern-metric-space-small);
+			}
+
+			.kern-loader {
+				position: absolute;
+				right: calc(var(--kern-metric-space-x-large) * 1.5);
 			}
 		}
 	}
