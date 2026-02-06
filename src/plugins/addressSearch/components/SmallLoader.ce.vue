@@ -1,8 +1,8 @@
 <template>
 	<div class="kern-loader kern-loader--visible" role="status">
-		<span class="kern-sr-only">{{
-			$t(($) => $.hint.loading, { ns: PluginId })
-		}}</span>
+		<span class="kern-sr-only">
+			{{ $t(($) => $.hint.loading, { ns: PluginId }) }}
+		</span>
 	</div>
 </template>
 
