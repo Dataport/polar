@@ -6,21 +6,27 @@ import type { Icon, PluginOptions } from '@/core'
 export const PluginId = 'filter'
 
 /**
- * A single value of a category-based filter configuration for a layer.
+ * One or more values grouped to a single entry of a category-based filter configuration for a layer.
  *
  * @example
  * ```ts
  * {
- * 	value: 'home',
+ * 	key: 'myHomeIsMyCastle',
+ * 	values: ['home', 'castle'],
  * 	icon: 'kern-icon--home',
  * }
  * ```
  */
 export interface CategoryValue {
 	/**
-	 * Technical value of a feature property.
+	 * Key that is used for localization of the entry.
 	 */
-	value: string
+	key: string
+
+	/**
+	 * Technical values of the feature property.
+	 */
+	values: string[]
 
 	/**
 	 * An icon that is assigned to the value for filtering.
@@ -54,7 +60,7 @@ export interface Category {
 	 * Known values for the target property to filter by.
 	 * Values not listed here cannot be filtered.
 	 *
-	 * If using `string` instead of `CategoryValue`, the string is interpreted as the `value` key.
+	 * If using `string` instead of `CategoryValue`, the string is interpreted as the `key` and as the only entry in `values`.
 	 *
 	 * @remarks
 	 * The values listed here should be localized:

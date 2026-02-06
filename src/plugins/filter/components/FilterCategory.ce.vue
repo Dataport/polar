@@ -36,16 +36,10 @@
 					)
 				"
 				:model-value="
-					filterStore.selectedLayerState?.knownValues?.[
-						category.targetProperty
-					]?.[flattenValue(categoryValue)] ?? true
+					getStatus(category.targetProperty, expandValue(categoryValue))
 				"
 				@update:model-value="
-					setStatus(
-						category.targetProperty,
-						flattenValue(categoryValue),
-						$event
-					)
+					setStatus(category.targetProperty, expandValue(categoryValue), $event)
 				"
 			/>
 		</div>
@@ -57,12 +51,21 @@ import KernBlockButton from '@/components/kern/KernBlockButton.ce.vue'
 import KernBlockButtonCheckbox from '@/components/kern/KernBlockButtonCheckbox.ce.vue'
 
 import { useFilterStore } from '../store'
-import { PluginId, type Category, type FilterState } from '../types'
+import {
+	PluginId,
+	type Category,
+	type CategoryValue,
+	type FilterState,
+} from '../types'
 
 const filterStore = useFilterStore()
 
-function flattenValue(value: string | { value: string }) {
-	return typeof value === 'string' ? value : value.value
+function expandValue(value: Category['knownValues'][number]) {
+	return typeof value === 'string' ? { key: value, values: [value] } : value
+}
+
+function flattenValue(value: Category['knownValues'][number]) {
+	return expandValue(value).key
 }
 
 function createMissingObjects(targetProperty: string) {
@@ -76,17 +79,31 @@ function createMissingObjects(targetProperty: string) {
 	))
 }
 
-function setStatus(targetProperty: string, value: string, newValue: boolean) {
-	createMissingObjects(targetProperty)[value] = newValue
+function getStatus(targetProperty: string, { values }: CategoryValue) {
+	return Object.entries(
+		filterStore.selectedLayerState?.knownValues?.[targetProperty] ?? {}
+	)
+		.filter(([value]) => values.includes(value))
+		.every(([, status]) => status)
+}
+
+function setStatus(
+	targetProperty: string,
+	{ values }: CategoryValue,
+	newValue: boolean
+) {
+	const valueState = createMissingObjects(targetProperty)
+	values.forEach((value) => (valueState[value] = newValue))
 }
 
 function selectOrDeselectAll(category: Category) {
 	const valueState = createMissingObjects(category.targetProperty)
+	const categoryValues = category.knownValues.flatMap((entry) =>
+		typeof entry === 'string' ? [entry] : entry.values
+	)
 	const newStatus =
 		Object.values(valueState).filter((selected) => selected).length !==
-		category.knownValues.length
-	category.knownValues.forEach((value) => {
-		valueState[flattenValue(value)] = newStatus
-	})
+		categoryValues.length
+	categoryValues.forEach((value) => (valueState[value] = newStatus))
 }
 </script>

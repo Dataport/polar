@@ -195,6 +195,7 @@ const map = await createMap(
 									skat: {
 										title: 'Schadensart',
 										knownValue: {
+											'1xx': 'Alle Wege- und Straßenschäden',
 											100: 'Wege und Straßen',
 											101: 'Schlagloch und Wegeschaden',
 											102: 'Verunreinigung und Vandalismus',
@@ -203,8 +204,8 @@ const map = await createMap(
 									statu: {
 										title: 'Bearbeitungsstatus',
 										knownValue: {
-											'In Bearbeitung': 'In Bearbeitung',
-											abgeschlossen: 'Abgeschlossen',
+											todo: 'In Bearbeitung',
+											done: 'Abgeschlossen',
 										},
 									},
 								},
@@ -378,16 +379,30 @@ addPlugin(
 										targetProperty: 'skat',
 										knownValues: [
 											{
-												value: '100',
+												key: '100',
+												values: ['100'],
 												icon: 'kern-icon--road',
 											},
 											{
-												value: '101',
+												key: '101',
+												values: ['101'],
 												icon: 'kern-icon--remove-road',
 											},
 											{
-												value: '102',
+												key: '102',
+												values: ['102'],
 												icon: 'kern-icon--destruction',
+											},
+										],
+										selectAll: true,
+									},
+									{
+										targetProperty: 'skat',
+										knownValues: [
+											{
+												key: '1xx',
+												values: ['100', '101', '102'],
+												icon: 'kern-icon--road',
 											},
 										],
 										selectAll: true,
@@ -396,11 +411,13 @@ addPlugin(
 										targetProperty: 'statu',
 										knownValues: [
 											{
-												value: 'In Bearbeitung',
+												key: 'todo',
+												values: ['In Bearbeitung'],
 												icon: 'kern-icon--assignment',
 											},
 											{
-												value: 'abgeschlossen',
+												key: 'done',
+												values: ['abgeschlossen'],
 												icon: 'kern-icon--check',
 											},
 										],
