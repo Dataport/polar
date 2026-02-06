@@ -9,9 +9,14 @@
 
 import type { Locale } from '@/core'
 
+import { PluginId } from './types'
+
 export const resourcesDe = {
-	ariaDescription:
-		'Durch Eingabe in das Suchfeld kann die Suche nach Adressen gestartet werden',
+	aria: {
+		description:
+			'Durch Eingabe in das Suchfeld kann die Suche nach Adressen gestartet werden',
+		label: `Eingabeelement der $t(defaultLabel, {ns: ${PluginId}})`,
+	},
 	defaultLabel: 'Adresssuche',
 	hint: {
 		button: 'Eingabefeld der Addresssuche anzeigen',
@@ -30,8 +35,11 @@ export const resourcesDe = {
 } as const
 
 export const resourcesEn = {
-	ariaDescription:
-		'Durch Eingabe in das Suchfeld kann die Suche nach Adressen gestartet werden',
+	aria: {
+		description:
+			'By entering text into the search field, the address search can be started',
+		label: `Input element of the $t(defaultLabel, {ns: ${PluginId}})`,
+	},
 	defaultLabel: 'Address Search',
 	hint: {
 		button: 'Show address search input field',

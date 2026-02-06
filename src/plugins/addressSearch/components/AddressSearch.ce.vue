@@ -35,14 +35,12 @@
 					class="kern-form-input__input"
 					type="text"
 					:aria-label="
-						hint.length > 0
-							? hint
-							: $t(($) => $.ariaDescription, { ns: PluginId })
+						hint.length > 0 ? hint : $t(($) => $.aria.label, { ns: PluginId })
 					"
 					:aria-description="
 						hint.length > 0
 							? hint
-							: $t(($) => $.ariaDescription, { ns: PluginId })
+							: $t(($) => $.aria.description, { ns: PluginId })
 					"
 					@keydown.enter="addressSearchStore.abortAndRequest"
 					@keydown.down.prevent.stop="inputDown"
