@@ -57,7 +57,7 @@ import KernBlockButton from '@/components/kern/KernBlockButton.ce.vue'
 import KernBlockButtonCheckbox from '@/components/kern/KernBlockButtonCheckbox.ce.vue'
 
 import { useFilterStore } from '../store'
-import { PluginId, type Category } from '../types'
+import { PluginId, type Category, type FilterState } from '../types'
 
 const filterStore = useFilterStore()
 
@@ -67,8 +67,7 @@ function flattenValue(value: string | { value: string }) {
 
 function createMissingObjects(targetProperty: string) {
 	// The state is created automatically and this component is only used when a layer is selected.
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	const layerState = filterStore.selectedLayerState!
+	const layerState = filterStore.selectedLayerState as FilterState
 	layerState.knownValues ??= {}
 	return (layerState.knownValues[targetProperty] ??= Object.fromEntries(
 		filterStore.selectedLayerConfiguration.categories
