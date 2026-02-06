@@ -315,22 +315,22 @@ export const useAddressSearchStore = defineStore(
 			 */
 			chosenAddress,
 
-			/** @internal */
+			/** @alpha */
 			inputValue,
 
-			/** @internal */
+			/** @alpha */
 			afterResultComponent,
 
-			/** @internal */
+			/** @alpha */
 			focusAfterSearch,
 
-			/** @internal */
+			/** @alpha */
 			groupSelectOptions,
 
-			/** @internal */
+			/** @alpha */
 			hasMultipleGroups,
 
-			/** @internal */
+			/** @alpha */
 			isLoading,
 
 			/**
@@ -348,14 +348,14 @@ export const useAddressSearchStore = defineStore(
 			/**
 			 * `true` if any service yielded features.
 			 *
-			 * @internal
+			 * @alpha
 			 */
 			featuresAvailable,
 
-			/** @internal */
+			/** @alpha */
 			hint,
 
-			/** @internal */
+			/** @alpha */
 			limitResults,
 
 			/** @alpha */
