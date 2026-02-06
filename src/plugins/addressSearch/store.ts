@@ -14,7 +14,7 @@ import type { PolarGeoJsonFeature } from '@/core'
 import { useCoreStore } from '@/core/stores'
 
 import {
-	type AddressSearchOptions,
+	type AddressSearchPluginOptions,
 	type GroupProperties,
 	PluginId,
 	type SearchResult,
@@ -59,7 +59,7 @@ export const useAddressSearchStore = defineStore(
 			() => configuration.value.afterResultComponent || null
 		)
 		const configuration = computed(
-			() => coreStore.configuration.addressSearch as AddressSearchOptions
+			() => coreStore.configuration.addressSearch as AddressSearchPluginOptions
 		)
 		const inputValue = computed({
 			get: () => _inputValue.value,

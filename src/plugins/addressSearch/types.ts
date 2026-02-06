@@ -14,9 +14,9 @@ export interface CategoryProperties {
 	 * Category label to display next to results to identify the source.
 	 * Can be a locale key.
 	 *
-	 * Only relevant if the search's {@link AddressSearchOptions.groupProperties | groupProperties} linked via
-	 * {@link SearchMethodConfiguration.groupId | groupId} contain a {@link GroupProperties.resultDisplayMode | resultDisplayMode}
-	 * scenario that uses categories.
+	 * Only relevant if the search's {@link AddressSearchPluginOptions.groupProperties | groupProperties}
+	 * linked via {@link SearchMethodConfiguration.groupId | groupId} contain a
+	 * {@link GroupProperties.resultDisplayMode | resultDisplayMode} scenario that uses categories.
 	 */
 	label: string
 }
@@ -58,7 +58,7 @@ export interface GroupProperties {
  * {@link groupId} and {@link categoryId} are used. These are arbitrary strings
  * you can introduce and reuse to group or categorize elements together.
  */
-export interface AddressSearchOptions extends PluginOptions {
+export interface AddressSearchPluginOptions extends PluginOptions {
 	/**
 	 * Array of search method descriptions.
 	 * Only searches configured here can be used.
@@ -75,9 +75,10 @@ export interface AddressSearchOptions extends PluginOptions {
 
 	/**
 	 * An object defining properties for a category.
-	 * The searchMethod's {@link AddressSearchOptions.categoryId | addressSearch.categoryId} is used as identifier.
+	 * The searchMethod's {@link AddressSearchPluginOptions.categoryId | addressSearch.categoryId} is used as identifier.
 	 *
-	 * A service without categoryId default to the {@link AddressSearchOptions.categoryId | addressSearch.categoryId} `"default"`.
+	 * A service without categoryId default to the {@link AddressSearchPluginOptions.categoryId | addressSearch.categoryId}
+	 * `"default"`.
 	 */
 	categoryProperties?: Record<string, CategoryProperties>
 
@@ -134,7 +135,7 @@ export type SearchDisplayMode = 'mixed' | 'categorized'
 export interface SearchMethodConfiguration {
 	/**
 	 * Service type.
-	 * Enum can be extended by configuration, see {@link AddressSearchOptions.customSearchMethods | addressSearch.customSearchMethods}.
+	 * Enum can be extended by configuration, see {@link AddressSearchPluginOptions.customSearchMethods | addressSearch.customSearchMethods}.
 	 */
 	type: SearchType
 
@@ -146,7 +147,7 @@ export interface SearchMethodConfiguration {
 
 	/**
 	 * Grouped services can optionally be distinguished in the UI with categories.
-	 * See {@link AddressSearchOptions.categoryProperties | addressSearch.categoryProperties} for configuration options.
+	 * See {@link AddressSearchPluginOptions.categoryProperties | addressSearch.categoryProperties} for configuration options.
 	 *
 	 * @defaultValue 'default'
 	 */
@@ -154,7 +155,7 @@ export interface SearchMethodConfiguration {
 
 	/**
 	 * All services with the same id are grouped and used together.
-	 * See {@link AddressSearchOptions.groupProperties | addressSearch.groupProperties} for configuration options.
+	 * See {@link AddressSearchPluginOptions.groupProperties | addressSearch.groupProperties} for configuration options.
 	 * If multiple groups exist, the UI offers a group switcher.
 	 *
 	 * @remarks

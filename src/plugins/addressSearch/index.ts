@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/AddressSearch.ce.vue'
 import locales from './locales'
 import { useAddressSearchStore } from './store'
-import { type AddressSearchOptions, PluginId } from './types'
+import { type AddressSearchPluginOptions, PluginId } from './types'
 
 /**
  * Creates a plugin which adds a user interface to search for various kinds of textual information to map it to a
@@ -26,7 +26,7 @@ import { type AddressSearchOptions, PluginId } from './types'
  * @returns Plugin for use with {@link addPlugin}.
  */
 export default function pluginAddressSearch(
-	options: AddressSearchOptions
+	options: AddressSearchPluginOptions
 ): PluginContainer {
 	return {
 		id: PluginId,
