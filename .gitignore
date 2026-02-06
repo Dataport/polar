@@ -26,5 +26,6 @@ git-hooks.config.json
 /public
 logs/*.log
 logs
+*.patch
 
 .DS_Store
