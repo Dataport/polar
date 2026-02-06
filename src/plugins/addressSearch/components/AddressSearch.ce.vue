@@ -163,6 +163,15 @@ function inputDown(event: KeyboardEvent) {
 	gap: var(--kern-metric-space-small);
 	position: absolute;
 	margin: var(--kern-metric-space-small);
+	max-height: calc(
+		calc(100% - var(--kern-metric-dimension-large)) -
+			calc(2 * var(--kern-metric-space-small))
+	);
+
+	&:deep(.kern-card__container) {
+		flex: 0 1 auto;
+		overflow-y: auto;
+	}
 
 	.polar-plugin-address-search-selection-wrapper {
 		display: flex;

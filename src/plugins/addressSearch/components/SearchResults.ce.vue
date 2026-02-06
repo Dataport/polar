@@ -2,7 +2,6 @@
 	<div
 		v-if="featuresAvailable"
 		id="polar-plugin-address-search-result-wrapper"
-		:style="`max-height: ${maxHeight}`"
 		tabindex="-1"
 	>
 		<template v-for="(result, i) in results" :key="result.categoryId">
@@ -117,10 +116,6 @@ watch(featuresAvailable, () => {
 })
 
 const openCategories = ref<string[]>([])
-
-const maxHeight = computed(() =>
-	coreStore.hasWindowSize ? 'inherit' : `${coreStore.clientHeight * 0.8}px`
-)
 
 const results = computed<SearchResult[]>(() =>
 	Array.isArray(addressSearchStore.searchResults)
