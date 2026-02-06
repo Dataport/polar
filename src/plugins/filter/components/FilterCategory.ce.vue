@@ -1,7 +1,7 @@
 <template>
 	<section
-		v-for="category of filterStore.selectedLayerConfiguration.categories"
-		:key="category.targetProperty"
+		v-for="(category, idx) of filterStore.selectedLayerConfiguration.categories"
+		:key="idx"
 		class="polar-filter-section"
 	>
 		<h3 class="kern-heading-small">
