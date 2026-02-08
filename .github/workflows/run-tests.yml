@@ -1,6 +1,16 @@
-name: Run linter, tests and type check
+name: Run tests
 
-on: push
+on: 
+  push:
+    branches: ["**"]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   lint:
@@ -11,21 +21,35 @@ jobs:
         with:
           node-version: 20.16.0
           registry-url: https://registry.npmjs.org/
+          cache: npm
       - run: |
           npm ci
           npm run lint:ci
-  test:
+  type-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20.16.0
           registry-url: https://registry.npmjs.org/
+          cache: npm
+      - run: |
+          npm ci
+          npm run tsc:ci
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.16.0
+          registry-url: https://registry.npmjs.org/
+          cache: npm
       - run: |
           npm ci
           npm run test
-  teste2e:
+  e2e:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -33,6 +57,8 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 20.16.0
+        registry-url: https://registry.npmjs.org/
+        cache: npm
     - name: Install dependencies
       run: npm ci
     - name: Build snowbox (started by playwright by itself)
@@ -47,14 +73,4 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
-  type-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20.16.0
-          registry-url: https://registry.npmjs.org/
-      - run: |
-          npm ci
-          npm run tsc:ci
+  

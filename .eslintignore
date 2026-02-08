@@ -8,3 +8,8 @@
 **/tests_output
 *.d.ts
 /.nx/
+/cucumber-report/
+/.feature-gen/
+/blob-report/
+/playwright-report/
+/test-results/

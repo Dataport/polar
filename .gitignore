@@ -14,6 +14,7 @@
 /*.log
 /.idea/
 /.nx/
+/cucumber-report/
 /public
 logs/*.log
 logs
