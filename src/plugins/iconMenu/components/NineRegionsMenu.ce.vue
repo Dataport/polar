@@ -2,7 +2,7 @@
 	<component :is="asList ? 'ul' : 'div'" class="polar-plugin-icon-menu-list">
 		<component
 			:is="asList ? 'li' : 'div'"
-			v-for="({ plugin, icon }, index) of menus.flat()"
+			v-for="({ plugin, icon }, index) of menus"
 			:key="index"
 			:class="
 				deviceIsHorizontal
@@ -70,13 +70,15 @@ import { useCoreStore } from '@/core/stores'
 import { useIconMenuStore } from '../store'
 import NineRegionsButton from './NineRegionsButton.ce.vue'
 
+const iconMenuStore = useIconMenuStore()
 const { clientHeight, deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
 	storeToRefs(useCoreStore())
-const { buttonComponent, menus, open } = storeToRefs(useIconMenuStore())
+const { buttonComponent, open } = storeToRefs(iconMenuStore)
 
 const maxWidth = ref('inherit')
 const pluginComponent = useTemplateRef('pluginComponent')
 
+const menus = computed(() => iconMenuStore.menus.flat())
 const asList = computed(() => menus.value.length > 1)
 const maxHeight = computed(() =>
 	hasWindowSize.value

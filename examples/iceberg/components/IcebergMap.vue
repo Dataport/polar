@@ -61,7 +61,7 @@ watch(map, (map) => {
 						icon: 'kern-icon-fill--layers',
 					},
 					{
-						plugin: pluginFullscreen(),
+						plugin: pluginFullscreen({ renderType: 'iconMenu' }),
 					},
 				],
 			],
