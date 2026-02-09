@@ -74,8 +74,6 @@ const dataportTheme = {
 	},
 }
 
-// TODO: Re-enable with isSelectable
-/*
 // arbitrary condition for testing
 const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
 
@@ -86,7 +84,6 @@ const isReportSelectable = (feature) =>
 			(accumulator, current) => isEvenId(current.get('mmlid')) || accumulator,
 			false
 		)
-*/
 
 const map = await createMap(
 	'snowbox',
@@ -174,8 +171,7 @@ const map = await createMap(
 						stroke: '#FFFFFF',
 						fill: '#333333',
 					},
-					// TODO(dopenguin): Has some HMR issues, needs to be fixed
-					// isSelectable: isReportSelectable,
+					isSelectable: isReportSelectable,
 				},
 			],
 			clusterClickZoom: true,
