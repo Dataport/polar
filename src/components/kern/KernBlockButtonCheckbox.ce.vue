@@ -42,6 +42,7 @@ label {
 input[type='checkbox'] {
 	position: absolute;
 	height: 0;
+	clip-path: circle(0);
 
 	&:focus + label {
 		padding: var(--kern-metric-space-none) var(--kern-metric-space-default);
