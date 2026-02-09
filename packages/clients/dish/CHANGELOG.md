@@ -2,7 +2,7 @@
 
 ## 1.3.2
 
-- Fix: Don't check service availability because some services do not allow HEAD requests.
+- Fix: Don't check service availability in `INTERN` mode because some services do not allow HEAD requests.
 
 ## 1.3.1
 
