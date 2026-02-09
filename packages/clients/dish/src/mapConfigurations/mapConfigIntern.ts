@@ -27,7 +27,6 @@ import {
 } from './attributionsConfig'
 
 export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
-  checkServiceAvailability: false,
   scale: {
     showScaleSwitcher: true,
     zoomMethod: 'plugin/zoom/setZoomLevel',
