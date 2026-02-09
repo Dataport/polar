@@ -218,7 +218,7 @@ function toggle(category: string) {
 	}
 
 	.polar-plugin-address-search-list-without-label {
-		margin-top: var(--kern-metric-space-2x-small);
+		margin-top: var(--kern-metric-space-x-small);
 	}
 
 	ul {
