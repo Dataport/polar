@@ -12,6 +12,7 @@
 			'has-hint': hint.length > 0,
 			'polar-plugin-address-search-shown-results':
 				Array.isArray(searchResults) && searchResults.length,
+			'kern-card-standard': layout === 'standard',
 		}"
 	>
 		<div class="polar-plugin-address-search-selection-wrapper">
@@ -85,6 +86,7 @@ import SmallLoader from './SmallLoader.ce.vue'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
+const { layout } = storeToRefs(coreStore)
 const {
 	groupSelectOptions,
 	hasMultipleGroups,
@@ -98,7 +100,10 @@ const {
 const open = ref(false)
 
 const showButton = computed(
-	() => (coreStore.hasSmallDisplay || !coreStore.hasWindowSize) && !open.value
+	() =>
+		layout.value !== 'nineRegions' &&
+		(coreStore.hasSmallDisplay || !coreStore.hasWindowSize) &&
+		!open.value
 )
 
 function clear() {
@@ -154,12 +159,15 @@ function inputDown(event: KeyboardEvent) {
 	padding-bottom: var(--kern-metric-space-small);
 }
 
+.kern-card-standard {
+	position: absolute;
+}
+
 .kern-card {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	gap: var(--kern-metric-space-small);
-	position: absolute;
 	margin: var(--kern-metric-space-small);
 	max-height: calc(
 		calc(100% - var(--kern-metric-dimension-large)) -
