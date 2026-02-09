@@ -1,5 +1,5 @@
 <template>
-	<PolarCard class="polar-filter-card">
+	<PolarCard>
 		<FilterLayerChooser
 			v-if="filterStore.layers.length > 1"
 			v-model="filterStore.selectedLayerId"
@@ -24,10 +24,6 @@ const filterStore = useFilterStore()
 </script>
 
 <style scoped>
-.polar-filter-card {
-	pointer-events: all;
-}
-
 :deep(.polar-filter-section) {
 	width: 100%;
 
