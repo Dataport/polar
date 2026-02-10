@@ -150,6 +150,10 @@ function inputDown(event: KeyboardEvent) {
 		width: 100%;
 		gap: var(--kern-metric-space-small);
 
+		&:deep(select) {
+			width: 0;
+		}
+
 		.polar-plugin-address-search-input-wrapper {
 			display: flex;
 			flex-direction: column;
