@@ -7,7 +7,6 @@ import { mapConfigIntern } from './mapConfigIntern'
 import { mapConfigExtern } from './mapConfigExtern'
 
 const commonMapConfiguration: Partial<MapConfig> = {
-  checkServiceAvailability: false,
   startResolution: 264.583190458,
   startCenter: [553655.72, 6004479.25],
   extent: [426205.6233, 5913461.9593, 650128.6567, 6101486.8776],
