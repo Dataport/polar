@@ -158,7 +158,7 @@ function inputDown(event: KeyboardEvent) {
 			#polar-plugin-address-search-input {
 				border-radius: var(--kern-metric-border-radius-small);
 				background: var(--kern-color-form-input-background);
-				padding-right: calc(var(--kern-metric-space-x-large) * 3);
+				padding-right: calc(var(--kern-metric-space-large) * 2);
 			}
 
 			.polar-plugin-address-search-input-button {
