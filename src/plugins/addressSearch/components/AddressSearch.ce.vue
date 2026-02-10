@@ -40,7 +40,7 @@
 				/>
 				<SmallLoader v-if="isLoading" />
 				<button
-					v-if="inputValue.length"
+					v-if="inputValue.length && !isLoading"
 					class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
 					@click="clear"
 				>
@@ -180,7 +180,8 @@ function inputDown(event: KeyboardEvent) {
 
 			.kern-loader {
 				position: absolute;
-				right: calc(var(--kern-metric-space-x-large) * 1.5);
+				right: 0;
+				margin-right: var(--kern-metric-space-default);
 			}
 		}
 	}
