@@ -38,7 +38,6 @@
 					@keydown.enter="addressSearchStore.abortAndRequest"
 					@keydown.down.prevent.stop="inputDown"
 				/>
-				<!-- TODO: May be replaced with the KERN-Loader. -->
 				<SmallLoader v-if="isLoading" />
 				<button
 					v-if="inputValue.length"
