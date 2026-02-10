@@ -1,13 +1,5 @@
 <template>
-	<PolarIconButton
-		v-if="showButton"
-		id="polar-plugin-address-search-icon-button"
-		:hint="$t(($) => $.hint.button, { ns: PluginId })"
-		icon="kern-icon--search"
-		@click="updateStatus"
-	/>
 	<PolarCard
-		v-else
 		:class="{
 			'has-hint': hint.length > 0,
 			'polar-plugin-address-search-shown-results':
@@ -45,7 +37,6 @@
 					"
 					@keydown.enter="addressSearchStore.abortAndRequest"
 					@keydown.down.prevent.stop="inputDown"
-					@focusout="updateStatus"
 				/>
 				<!-- TODO: May be replaced with the KERN-Loader. -->
 				<SmallLoader v-if="isLoading" />
@@ -71,10 +62,9 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, nextTick, ref } from 'vue'
+import { nextTick } from 'vue'
 
 import PolarCard from '@/components/PolarCard.ce.vue'
-import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import PolarSelect from '@/components/PolarSelect.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
@@ -97,15 +87,6 @@ const {
 	selectedGroupId,
 } = storeToRefs(addressSearchStore)
 
-const open = ref(false)
-
-const showButton = computed(
-	() =>
-		layout.value !== 'nineRegions' &&
-		(coreStore.hasSmallDisplay || !coreStore.hasWindowSize) &&
-		!open.value
-)
-
 function clear() {
 	addressSearchStore.clear()
 	void nextTick(() => {
@@ -115,22 +96,6 @@ function clear() {
 			) as HTMLElement
 		).focus()
 	})
-}
-
-function updateStatus() {
-	// TODO: Find a possible different solution for multiple groups instead of just disabling this feature
-	if (!open.value || (!inputValue.value.length && !hasMultipleGroups.value)) {
-		open.value = !open.value
-		if (open.value) {
-			void nextTick(() => {
-				;(
-					coreStore.shadowRoot?.getElementById(
-						`polar-plugin-address-search-input`
-					) as HTMLElement
-				).focus()
-			})
-		}
-	}
 }
 
 function inputDown(event: KeyboardEvent) {
