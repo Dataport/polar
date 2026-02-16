@@ -4,6 +4,7 @@
 		v-model="model"
 		type="checkbox"
 		@keydown.prevent.enter="model = !model"
+		@focus="scrollVisible($event)"
 	/>
 	<label :for="id" class="kern-btn kern-btn--block kern-btn--tertiary">
 		<span
@@ -28,6 +29,18 @@ const props = defineProps<{
 const model = defineModel<boolean>({ required: true })
 
 const id = useId()
+
+function scrollVisible(evt: FocusEvent) {
+	const target = evt.target as HTMLInputElement
+	const label = target.parentElement?.querySelector(`label[for="${target.id}"]`)
+	if (label?.scrollIntoView) {
+		label.scrollIntoView({
+			behavior: 'smooth',
+			block: 'nearest',
+			inline: 'nearest',
+		})
+	}
+}
 </script>
 
 <style scoped>

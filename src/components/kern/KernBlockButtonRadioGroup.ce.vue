@@ -10,6 +10,7 @@
 				:data-value="item.value"
 				@keydown.prevent.space="model = item.value"
 				@keydown.prevent.enter="model = item.value"
+				@focus="scrollVisible($event)"
 			/>
 			<label
 				:id="id + '*' + item.value"
@@ -45,6 +46,20 @@ const model = defineModel<string>({ required: true })
 const id = useId()
 
 const radios = useTemplateRef<HTMLInputElement>('radios')
+
+function scrollVisible(evt: FocusEvent) {
+	const target = evt.target as HTMLInputElement
+	const label = target.parentElement?.querySelector(
+		`label[id="${target.getAttribute('aria-labelledby')}"]`
+	)
+	if (label?.scrollIntoView) {
+		label.scrollIntoView({
+			behavior: 'smooth',
+			block: 'nearest',
+			inline: 'nearest',
+		})
+	}
+}
 </script>
 
 <style scoped>
