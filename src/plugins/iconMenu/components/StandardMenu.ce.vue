@@ -1,5 +1,10 @@
 <template>
-	<div class="polar-plugin-icon-menu-list-wrapper">
+	<div
+		class="polar-plugin-icon-menu-list-wrapper"
+		:class="{
+			'polar-plugin-icon-menu-list-wrapper-horizontal': deviceIsHorizontal,
+		}"
+	>
 		<StandardMenuList
 			v-for="(menu, outerIndex) of menus"
 			:key="outerIndex"
@@ -12,6 +17,7 @@
 
 <script setup lang="ts">
 import { toMerged } from 'es-toolkit'
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
@@ -20,6 +26,7 @@ import { useIconMenuStore } from '../store'
 import StandardFocusMenu from './StandardFocusMenu.ce.vue'
 import StandardMenuList from './StandardMenuList.ce.vue'
 
+const { deviceIsHorizontal } = storeToRefs(useCoreStore())
 const iconMenuStore = useIconMenuStore()
 
 const menus = computed(() =>
@@ -56,9 +63,14 @@ const focusMenus = computed(() =>
 	position: absolute;
 	right: 0;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	gap: var(--kern-metric-space-x-small);
 	margin: var(--kern-metric-space-small);
+}
+
+.polar-plugin-icon-menu-list-wrapper-horizontal {
+	flex-direction: row;
 }
 </style>
