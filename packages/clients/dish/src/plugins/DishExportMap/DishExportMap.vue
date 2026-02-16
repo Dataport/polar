@@ -72,10 +72,16 @@ export default Vue.extend({
       url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
       layers: 'de_basemapde_web_raster_grau',
     },
-    newTab:
-      new URL(document.location as unknown as string).searchParams
-        .get('newTab')
-        ?.toLowerCase() === 'true',
+    newTab: (() => {
+      const params = new URL(document.location as unknown as string)
+        .searchParams
+      for (const [key, value] of params) {
+        if (key.toLowerCase() === 'newtab') {
+          return value.toLowerCase() === 'true'
+        }
+      }
+      return true
+    })(),
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),

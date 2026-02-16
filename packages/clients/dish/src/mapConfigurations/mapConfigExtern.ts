@@ -30,7 +30,6 @@ import {
 const alkisMinZoom = 10
 
 export const mapConfigExtern: DishMapConfig = {
-  checkServiceAvailability: false,
   geoLocation: {
     checkLocationInitially: false,
     toastAction: 'plugin/toast/addToast',

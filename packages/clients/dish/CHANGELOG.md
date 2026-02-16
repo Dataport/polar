@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.3.2
+
+- Fix: Don't check service availability in `INTERN` mode because some services do not allow HEAD requests.
+
+## 1.3.1
+
+- Fix: Correct parameter detection for `NewTab` in DishMapExport Plugin.
+
 ## 1.3.0
 
 - Feature: Monumental label layer toggles its visibility depending on visible monumental layer geometries.
