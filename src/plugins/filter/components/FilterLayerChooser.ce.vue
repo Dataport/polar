@@ -8,7 +8,7 @@
 					:key="layer.layerId"
 					:value="layer.layerId"
 				>
-					{{ layer.layerConfiguration.name || layer.layerId }}
+					{{ layer.layerConfiguration?.name || layer.layerId }}
 				</option>
 			</select>
 		</div>

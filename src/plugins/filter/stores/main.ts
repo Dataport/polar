@@ -26,7 +26,7 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 		Object.entries(configuration.value.layers).map(
 			([layerId, filterConfiguration]) => ({
 				layerId,
-				layerConfiguration: coreStore.getLayerConfiguration(layerId),
+				layerConfiguration: coreStore.getLayerMapConfiguration(layerId),
 				filterConfiguration,
 			})
 		)

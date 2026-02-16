@@ -79,7 +79,7 @@ export const useMainStore = defineStore('main', () => {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
 	}
 
-	function getLayerConfiguration(layerId: string) {
+	function getLayerMapConfiguration(layerId: string) {
 		const polar = configuration.value.layers.find(
 			(layer) => layer.id === layerId
 		)
@@ -87,7 +87,7 @@ export const useMainStore = defineStore('main', () => {
 		if (!polar || !register) {
 			return null
 		}
-		return { ...register, ...polar }
+		return { ...register, ...polar } as typeof polar
 	}
 
 	function setup() {
@@ -123,7 +123,7 @@ export const useMainStore = defineStore('main', () => {
 		// Actions
 		centerOnFeature,
 		updateHasSmallDisplay,
-		getLayerConfiguration,
+		getLayerMapConfiguration,
 		setup,
 		teardown,
 	}
