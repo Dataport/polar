@@ -170,7 +170,7 @@ function toggle(id: string) {
 		float: left;
 	}
 
-	.polar-plugin-icon-menu-list-item:nth-child(n + 2) {
+	.polar-plugin-icon-menu-list-item-horizontal:nth-child(n + 2) {
 		margin-left: 3px;
 	}
 
