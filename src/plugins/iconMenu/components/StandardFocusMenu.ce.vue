@@ -102,6 +102,7 @@ function toggle(id: string) {
 		background: var(--kern-color-layout-background-default);
 		box-shadow: var(--polar-shadow);
 		transition: bottom 0.25s ease;
+		z-index: 1;
 
 		.polar-plugin-icon-menu-focus-list-item {
 			margin-bottom: 0;
@@ -138,7 +139,7 @@ function toggle(id: string) {
 	}
 
 	.polar-plugin-icon-menu-focus-list-content {
-		z-index: 1;
+		z-index: 2;
 		position: absolute;
 		/** TODO(dopenguin): Update values depending on whether the search is displayed or not. It should generally be displayed below the toasts. */
 		top: 0;

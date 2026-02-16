@@ -175,7 +175,7 @@ function toggle(id: string) {
 	}
 
 	.polar-plugin-icon-menu-list-item-content {
-		z-index: 1;
+		z-index: 2;
 		position: absolute;
 		right: calc(100% + 0.5rem);
 		top: 0;

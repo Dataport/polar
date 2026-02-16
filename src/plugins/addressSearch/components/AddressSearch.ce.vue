@@ -141,6 +141,7 @@ function inputDown(event: KeyboardEvent) {
 .kern-card.kern-card-standard {
 	position: absolute;
 	min-width: inherit;
+	z-index: 2;
 }
 
 .kern-card {
