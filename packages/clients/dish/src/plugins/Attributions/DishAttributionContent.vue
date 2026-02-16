@@ -124,7 +124,7 @@ export default Vue.extend({
   line-height: 1.1;
 }
 .dish-benutzungshinweise {
-  font-size: 1.25rem;
+  font-size: 1rem;
   flex-grow: 1;
 }
 .plugin-attributions-close-button {
