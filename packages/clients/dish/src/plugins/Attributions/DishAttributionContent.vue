@@ -8,14 +8,20 @@
       :color="color"
       :max-width="maxWidth"
     >
-      <!-- Benutzungshinweise Link über dem Titel -->
-      <v-card-text
-        v-if="renderType !== 'footer'"
-        class="dish-benutzungshinweise pb-0"
-      >
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <span v-html="benutzungshinweiseLink" />
-      </v-card-text>
+      <div v-if="renderType !== 'footer'" class="dish-benutzungshinweise-row">
+        <v-card-text class="dish-benutzungshinweise pb-0">
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <span v-html="benutzungshinweiseLink" />
+        </v-card-text>
+        <v-btn
+          icon
+          small
+          class="plugin-attributions-close-button"
+          @click="setWindowIsOpen(false)"
+        >
+          <v-icon small>fa-xmark</v-icon>
+        </v-btn>
+      </div>
       <v-card-title v-if="renderType !== 'footer'">
         {{ $t('plugins.attributions.title') }}
       </v-card-title>
@@ -31,7 +37,7 @@
 <script lang="ts">
 import { t } from 'i18next'
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import noop from '@repositoryname/noop'
 
 export default Vue.extend({
@@ -96,10 +102,19 @@ export default Vue.extend({
       )
     }
   },
+  methods: {
+    ...mapMutations('plugin/attributions', ['setWindowIsOpen']),
+  },
 })
 </script>
 
 <style scoped lang="scss">
+.dish-benutzungshinweise-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .polar-plugin-attributions-footer {
   margin: 4px;
 }
@@ -109,6 +124,11 @@ export default Vue.extend({
   line-height: 1.1;
 }
 .dish-benutzungshinweise {
-  font-size: 0.875rem;
+  font-size: 1.25rem;
+  flex-grow: 1;
+}
+.plugin-attributions-close-button {
+  flex-shrink: 0;
+  margin-right: 8px;
 }
 </style>
