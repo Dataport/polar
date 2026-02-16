@@ -9,8 +9,6 @@
 
 import type { Locale } from '@/core'
 
-import { PluginId } from './types'
-
 export const resourcesDe = {
 	aria: {
 		description:
