@@ -116,6 +116,22 @@ export const useCoreStore = defineStore('core', () => {
 		language: mainStoreRefs.language,
 
 		/**
+		 * Returns the layer with the given ID.
+		 *
+		 * @param layerId - ID of the layer
+		 * @alpha
+		 */
+		getLayer: mainStore.getLayer,
+
+		/**
+		 * List of all active plugin's IDs.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		activePluginIds: computed(() => pluginStore.activePluginIds),
+
+		/**
 		 * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
 		 * already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared.
 		 *
