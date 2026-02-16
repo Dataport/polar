@@ -4,7 +4,12 @@
 			{{ $t(($) => $.time.header, { ns: PluginId }) }}
 		</h3>
 		<div class="polar-filter-category-values">
-			<KernBlockButtonRadioGroup
+			<component
+				:is="
+					coreStore.layout === 'standard'
+						? KernBlockButtonRadioGroup
+						: KernRadioGroup
+				"
 				v-model="filterStore.timeModel"
 				:items="filterStore.timeItems"
 				@update:model-value="scrollVisible($event)"
@@ -24,10 +29,13 @@ import { nextTick, useTemplateRef } from 'vue'
 
 import KernBlockButtonRadioGroup from '@/components/kern/KernBlockButtonRadioGroup.ce.vue'
 import KernDateRangePicker from '@/components/kern/KernDateRangePicker.ce.vue'
+import KernRadioGroup from '@/components/kern/KernRadioGroup.ce.vue'
+import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
 import { PluginId } from '../types'
 
+const coreStore = useCoreStore()
 const filterStore = useFilterStore()
 
 const section = useTemplateRef<HTMLElement>('section')

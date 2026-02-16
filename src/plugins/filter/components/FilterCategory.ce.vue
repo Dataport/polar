@@ -22,7 +22,12 @@
 				:label="$t(($) => $.category.deselectAll, { ns: PluginId })"
 				@click="selectOrDeselectAll(category)"
 			/>
-			<KernBlockButtonCheckbox
+			<component
+				:is="
+					coreStore.layout === 'standard'
+						? KernBlockButtonCheckbox
+						: KernCheckbox
+				"
 				v-for="categoryValue of category.knownValues"
 				:key="flattenValue(categoryValue)"
 				:icon="typeof categoryValue !== 'string' && categoryValue.icon"
@@ -49,6 +54,8 @@
 <script setup lang="ts">
 import KernBlockButton from '@/components/kern/KernBlockButton.ce.vue'
 import KernBlockButtonCheckbox from '@/components/kern/KernBlockButtonCheckbox.ce.vue'
+import KernCheckbox from '@/components/kern/KernCheckbox.ce.vue'
+import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
 import {
@@ -58,6 +65,7 @@ import {
 	type FilterState,
 } from '../types'
 
+const coreStore = useCoreStore()
 const filterStore = useFilterStore()
 
 function expandValue(value: Category['knownValues'][number]) {
