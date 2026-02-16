@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add client-specific `DishAttributions` plugin that wraps the standard Attributions plugin, adding a "Benutzungshinweise" link and a close button.
+
 ## 1.3.2
 
 - Fix: Don't check service availability in `INTERN` mode because some services do not allow HEAD requests.
