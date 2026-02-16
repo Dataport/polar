@@ -10,12 +10,15 @@
     >
       <div v-if="renderType !== 'footer'" class="dish-benutzungshinweise-row">
         <v-card-text class="dish-benutzungshinweise pb-0">
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <span v-html="benutzungshinweiseLink" />
+          <a href="#" @click.prevent="openBenutzungshinweise">
+            Benutzungshinweise
+          </a>
         </v-card-text>
         <v-btn
+          v-if="renderIndependently"
           icon
           small
+          aria-label="Schließen"
           class="plugin-attributions-close-button"
           @click="setWindowIsOpen(false)"
         >
@@ -40,14 +43,14 @@ import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
 import noop from '@repositoryname/noop'
 
+declare global {
+  interface Window {
+    openBenutzungshinweise?: (open: boolean) => void
+  }
+}
+
 export default Vue.extend({
   name: 'DishAttributionContent',
-  data() {
-    return {
-      benutzungshinweiseLink:
-        '<a href="#" onclick="window.openBenutzungshinweise(true)">Benutzungshinweise</a>',
-    }
-  },
   computed: {
     ...mapGetters([
       'clientWidth',
@@ -104,6 +107,9 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations('plugin/attributions', ['setWindowIsOpen']),
+    openBenutzungshinweise() {
+      window.openBenutzungshinweise?.(true)
+    },
   },
 })
 </script>
@@ -117,11 +123,12 @@ export default Vue.extend({
 
 .polar-plugin-attributions-footer {
   margin: 4px;
-}
-.polar-plugin-attributions-footer .v-card__text {
-  font-size: 0.8rem;
-  padding: 2px;
-  line-height: 1.1;
+
+  ::v-deep .v-card__text {
+    font-size: 0.8rem;
+    padding: 2px;
+    line-height: 1.1;
+  }
 }
 .dish-benutzungshinweise {
   font-size: 1rem;

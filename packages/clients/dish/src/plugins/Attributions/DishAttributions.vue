@@ -2,15 +2,10 @@
   <div
     v-if="renderType === 'independent'"
     class="polar-plugin-attributions-wrapper"
+    :class="{ 'open-left': openLeft }"
   >
-    <template v-if="openLeft">
-      <DishAttributionContent v-if="windowIsOpen" class="mr-2" />
-      <component :is="buttonComponent" />
-    </template>
-    <template v-else>
-      <component :is="buttonComponent" />
-      <DishAttributionContent v-if="windowIsOpen" class="ml-2" />
-    </template>
+    <component :is="buttonComponent" />
+    <DishAttributionContent v-if="windowIsOpen" />
   </div>
   <DishAttributionContent v-else />
 </template>
@@ -32,8 +27,8 @@ export default Vue.extend({
       'renderType',
       'windowIsOpen',
     ]),
-    openLeft() {
-      return this.configuration.layoutTag?.includes('right')
+    openLeft(): boolean {
+      return this.configuration.layoutTag?.includes('right') ?? false
     },
   },
 })
@@ -42,9 +37,13 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .polar-plugin-attributions-wrapper {
   display: flex;
-  flex-direction: row;
   justify-content: flex-end;
   align-items: flex-end;
   padding: 6px;
+  gap: 8px;
+
+  &.open-left {
+    flex-direction: row-reverse;
+  }
 }
 </style>
