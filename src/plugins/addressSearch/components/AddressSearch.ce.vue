@@ -6,6 +6,7 @@
 				Array.isArray(searchResults) && searchResults.length,
 			'kern-card-standard': layout === 'standard',
 		}"
+		:style="`max-width: ${maxWidth}`"
 	>
 		<div class="polar-plugin-address-search-selection-wrapper">
 			<!-- Mapping in template to guarantee update on language change-->
@@ -98,6 +99,7 @@ const ariaLabel = computed(() =>
 				{ ns: PluginId }
 			)
 )
+const maxWidth = computed(() => `${coreStore.clientWidth * 0.75}px`)
 
 function clear() {
 	addressSearchStore.clear()
@@ -136,8 +138,9 @@ function inputDown(event: KeyboardEvent) {
 	padding-bottom: var(--kern-metric-space-small);
 }
 
-.kern-card-standard {
+.kern-card.kern-card-standard {
 	position: absolute;
+	min-width: inherit;
 }
 
 .kern-card {
@@ -150,6 +153,8 @@ function inputDown(event: KeyboardEvent) {
 		calc(100% - var(--kern-metric-dimension-large)) -
 			calc(2 * var(--kern-metric-space-small))
 	);
+	width: 25rem;
+	min-width: inherit;
 
 	&:deep(.kern-card__container) {
 		flex: 0 1 auto;
