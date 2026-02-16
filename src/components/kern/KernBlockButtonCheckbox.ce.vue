@@ -1,5 +1,10 @@
 <template>
-	<input :id="id" v-model="model" type="checkbox" />
+	<input
+		:id="id"
+		v-model="model"
+		type="checkbox"
+		@keydown.prevent.enter="model = !model"
+	/>
 	<label :for="id" class="kern-btn kern-btn--block kern-btn--tertiary">
 		<span
 			v-if="props.icon"

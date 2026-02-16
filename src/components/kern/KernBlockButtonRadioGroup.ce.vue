@@ -9,6 +9,7 @@
 				tabindex="0"
 				:data-value="item.value"
 				@keydown.prevent.space="model = item.value"
+				@keydown.prevent.enter="model = item.value"
 			/>
 			<label
 				:id="id + '*' + item.value"
