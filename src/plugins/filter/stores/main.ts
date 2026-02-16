@@ -33,15 +33,12 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 	)
 
 	const selectedLayerId = ref<string | null>(null)
-	watch(selectedLayerId, (newLayerId) => {
-		if (newLayerId === null || state.value[newLayerId]) {
-			return
-		}
-		state.value[newLayerId] = {}
-	})
 	watch(
 		() => configuration.value.layers,
 		(layers) => {
+			Object.keys(layers).forEach((layerId) => {
+				state.value[layerId] ??= {}
+			})
 			selectedLayerId.value = Object.keys(layers)[0] || ''
 		},
 		{ immediate: true, deep: true }
