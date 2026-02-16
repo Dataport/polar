@@ -69,7 +69,7 @@ label {
 	height: 0;
 	clip-path: circle(0);
 
-	&:focus + label {
+	&:focus-visible + label {
 		padding: var(--kern-metric-space-none) var(--kern-metric-space-default);
 		border-radius: var(--kern-metric-border-radius-default);
 		box-shadow:
