@@ -16,14 +16,12 @@
 					"
 					:icon="icon"
 					tooltip-position="left"
-					@click="() => toggle(baseIndex + index)"
+					@click="() => toggle(plugin.id)"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
 				<component
 					:is="plugin.component"
-					v-if="
-						open === baseIndex + index && (!hasWindowSize || !hasSmallWidth)
-					"
+					v-if="open === plugin.id && (!hasWindowSize || !hasSmallWidth)"
 					ref="pluginComponent"
 					class="polar-plugin-icon-menu-list-item-content"
 					:style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
@@ -114,13 +112,13 @@ function updateMaxWidth() {
 	})
 }
 
-function toggle(index: number) {
-	if (open.value === index) {
-		open.value = -1
+function toggle(id: string) {
+	if (open.value === id) {
+		open.value = null
 		coreStore.setMoveHandle(null)
 	} else {
-		open.value = index
-		iconMenuStore.openInMoveHandle(index)
+		open.value = id
+		iconMenuStore.openInMoveHandle(id)
 	}
 	updateMaxWidth()
 }

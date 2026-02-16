@@ -23,14 +23,14 @@ import StandardMenuList from './StandardMenuList.ce.vue'
 const iconMenuStore = useIconMenuStore()
 
 const menus = computed(() =>
-	iconMenuStore.menus.map((menuGroup, outerIndex) =>
-		menuGroup.map((menu, index) =>
+	iconMenuStore.menus.map((menuGroup) =>
+		menuGroup.map((menu) =>
 			toMerged(menu, {
 				buttonClass: [
 					useCoreStore().layout === 'standard'
 						? 'polar-plugin-icon-menu-button'
 						: '',
-					iconMenuStore.open === outerIndex + index
+					iconMenuStore.open === menu.plugin.id
 						? ' polar-plugin-icon-menu-button-active'
 						: '',
 				].reduce((a, b) => a.concat(' ', b)),
@@ -40,10 +40,10 @@ const menus = computed(() =>
 	)
 )
 const focusMenus = computed(() =>
-	iconMenuStore.focusMenus.map((menu, index) =>
+	iconMenuStore.focusMenus.map((menu) =>
 		toMerged(menu, {
 			buttonClass:
-				iconMenuStore.focusOpen === index
+				iconMenuStore.focusOpen === menu.plugin.id
 					? 'polar-plugin-icon-menu-button-active'
 					: '',
 		})

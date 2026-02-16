@@ -9,14 +9,14 @@
 		/>
 		<ul class="polar-plugin-icon-menu-focus-list" :style="bottom">
 			<li
-				v-for="({ buttonClass, icon, plugin }, index) of menus"
-				:key="index"
+				v-for="{ buttonClass, icon, plugin } of menus"
+				:key="plugin.id"
 				class="polar-plugin-icon-menu-focus-list-item"
 			>
 				<button
 					class="kern-btn kern-btn--secondary polar-plugin-icon-menu-button"
 					:class="buttonClass"
-					@click="() => toggle(index)"
+					@click="() => toggle(plugin.id)"
 				>
 					<span class="kern-icon" :class="icon" aria-hidden="true" />
 					<span class="kern-label">
@@ -71,18 +71,18 @@ const maxHeight = computed(() =>
 			})`
 )
 
-function toggle(index: number) {
-	if (iconMenuStore.focusOpen === index) {
-		iconMenuStore.focusOpen = -1
+function toggle(id: string) {
+	if (iconMenuStore.focusOpen === id) {
+		iconMenuStore.focusOpen = null
 		pluginComponent.value = null
 		coreStore.setMoveHandle(null)
 	} else {
-		iconMenuStore.focusOpen = index
+		iconMenuStore.focusOpen = id
 		pluginComponent.value = markRaw(
-			(props.menus.find((_, i) => i === index) as Menu).plugin
+			(props.menus.find(({ plugin }) => plugin.id === id) as Menu).plugin
 				.component as Component
 		)
-		iconMenuStore.openInMoveHandle(index, true)
+		iconMenuStore.openInMoveHandle(id, true)
 	}
 }
 </script>

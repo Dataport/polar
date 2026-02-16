@@ -342,17 +342,10 @@ addPlugin(
 			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
 			[
 				{
-					plugin: pluginGeoLocation({
-						checkLocationInitially: false,
-						keepCentered: false,
-						showTooltip: true,
-						zoomLevel: 7,
-						// usable when you're in HH or fake your geolocation to HH
-						/* boundary: {
-							layerId: hamburgBorder,
-							onError: 'strict',
-						}, */
-					}),
+					plugin: pluginFullscreen({}),
+				},
+				{
+					plugin: pluginLayerChooser({}),
 				},
 			],
 			[
@@ -367,10 +360,17 @@ addPlugin(
 			],
 			[
 				{
-					plugin: pluginLayerChooser({}),
-				},
-				{
-					plugin: pluginFullscreen({}),
+					plugin: pluginGeoLocation({
+						checkLocationInitially: false,
+						keepCentered: false,
+						showTooltip: true,
+						zoomLevel: 7,
+						// usable when you're in HH or fake your geolocation to HH
+						/* boundary: {
+							layerId: hamburgBorder,
+							onError: 'strict',
+						}, */
+					}),
 				},
 			],
 		],

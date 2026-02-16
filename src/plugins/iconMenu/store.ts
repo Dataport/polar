@@ -25,8 +25,8 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 
 	const menus = ref<Array<Menu[]>>([])
 	const focusMenus = ref<(Menu & { icon: string })[]>([])
-	const open = ref(-1)
-	const focusOpen = ref(-1)
+	const open = ref<string | null>(null)
+	const focusOpen = ref<string | null>(null)
 
 	const buttonComponent = computed(() =>
 		coreStore.configuration.iconMenu?.buttonComponent
@@ -95,40 +95,29 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	function teardownPlugin() {}
 
 	function openMenuById(openId: string) {
-		const index = menus.value.reduce((foundIndex, menuGroup, outerIndex) => {
-			const innerIndex = menuGroup.findIndex(
-				({ plugin: { id } }) => id === openId
-			)
-			if (innerIndex === -1) {
-				if (foundIndex !== -1) {
-					return foundIndex
-				}
-				return -1
-			}
-			return outerIndex + innerIndex
-		}, -1)
+		const entry = menus.value.flat().find(({ plugin: { id } }) => id === openId)
 
-		if (index !== -1) {
-			open.value = index
-			openInMoveHandle(index)
+		if (entry) {
+			open.value = openId
+			openInMoveHandle(openId)
 		}
 	}
 
 	function openFocusMenuById(openId: string) {
-		const index = focusMenus.value.findIndex(
-			({ plugin: { id } }) => id === openId
-		)
+		const entry = focusMenus.value.find(({ plugin: { id } }) => id === openId)
 
-		if (index !== -1) {
-			focusOpen.value = index
-			openInMoveHandle(index, true)
+		if (entry) {
+			focusOpen.value = openId
+			openInMoveHandle(openId, true)
 		}
 	}
 
-	function openInMoveHandle(index: number, focusMenu = false) {
-		const menu = focusMenu ? focusMenus.value[index] : menus.value.flat()[index]
+	function openInMoveHandle(openId: string, focusMenu = false) {
+		const menu = (focusMenu ? focusMenus.value : menus.value.flat()).find(
+			({ plugin: { id } }) => id === openId
+		)
 		if (!menu) {
-			console.error(`Menu with index ${index} could not be found.`)
+			console.error(`Menu with index ${openId} could not be found.`)
 			return
 		}
 		if (!menu.plugin.component) {
@@ -139,19 +128,19 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		}
 		// Content is displayed in the MoveHandle in this case. Thus, only one menu can be open at a time.
 		if (coreStore.hasWindowSize && coreStore.hasSmallWidth) {
-			if (focusMenu && open.value !== -1) {
-				open.value = -1
-			} else if (!focusMenu && focusOpen.value !== -1) {
-				focusOpen.value = -1
+			if (focusMenu && open.value !== null) {
+				open.value = null
+			} else if (!focusMenu && focusOpen.value !== null) {
+				focusOpen.value = null
 			}
 		}
 		coreStore.setMoveHandle({
 			closeFunction: () => {
 				if (focusMenu) {
-					focusOpen.value = -1
+					focusOpen.value = null
 					return
 				}
-				open.value = -1
+				open.value = null
 			},
 			closeLabel: t(($) => $.mobileCloseButton, {
 				ns: 'iconMenu',
