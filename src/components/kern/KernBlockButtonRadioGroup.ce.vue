@@ -1,28 +1,33 @@
 <template>
-	<template v-for="item of props.items" :key="item.value">
-		<input
-			:id="id + '*' + item.value"
-			v-model="model"
-			type="radio"
-			:name="id"
-			:value="item.value"
-		/>
-		<label
-			:for="id + '*' + item.value"
-			class="kern-btn kern-btn--block kern-btn--tertiary"
-		>
+	<div class="radiogroup" role="radiogroup">
+		<template v-for="(item, idx) of props.items" :key="item.value">
 			<span
-				v-if="item.icon"
-				:class="{ 'kern-icon': true, [item.icon]: true }"
-				aria-hidden="true"
+				ref="radios"
+				role="radio"
+				:aria-checked="model === item.value"
+				:aria-labelledby="id + '*' + item.value"
+				tabindex="0"
+				:data-value="item.value"
+				@keydown.prevent.space="model = item.value"
 			/>
-			<span class="kern-label">{{ item.label }}</span>
-		</label>
-	</template>
+			<label
+				:id="id + '*' + item.value"
+				class="kern-btn kern-btn--block kern-btn--tertiary"
+				@click.prevent="((model = item.value), radios?.[idx].focus())"
+			>
+				<span
+					v-if="item.icon"
+					:class="{ 'kern-icon': true, [item.icon]: true }"
+					aria-hidden="true"
+				/>
+				<span class="kern-label">{{ item.label }}</span>
+			</label>
+		</template>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { useId } from 'vue'
+import { useId, useTemplateRef } from 'vue'
 
 import type { Icon } from '@/core'
 
@@ -37,9 +42,15 @@ const props = defineProps<{
 const model = defineModel<string>({ required: true })
 
 const id = useId()
+
+const radios = useTemplateRef<HTMLInputElement>('radios')
 </script>
 
 <style scoped>
+.radiogroup {
+	display: contents;
+}
+
 .kern-btn--tertiary {
 	background-color: #edf1fa;
 	justify-content: left;
@@ -53,7 +64,7 @@ label {
 	border: var(--kern-metric-border-width-default) solid transparent;
 }
 
-input[type='radio'] {
+[role='radio'] {
 	position: absolute;
 	height: 0;
 	clip-path: circle(0);
@@ -67,7 +78,7 @@ input[type='radio'] {
 			0 0 0 6px var(--kern-color-action-focus-border-outside);
 	}
 
-	&:checked + label {
+	&[aria-checked='true'] + label {
 		border-color: var(--kern-color-action-default);
 	}
 }

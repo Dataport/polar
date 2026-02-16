@@ -91,6 +91,8 @@ test('Component transfers category and time filters to the store', async ({
 
 	await nextTick()
 	expect(
-		(yesterday.element.control as HTMLInputElement | null)?.checked
-	).toBeTruthy()
+		wrapper
+			.find('[aria-labelledby="' + yesterday.element.id + '"]')
+			.element.getAttribute('aria-checked')
+	).toBe('true')
 })
