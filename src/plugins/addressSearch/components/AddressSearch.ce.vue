@@ -22,6 +22,7 @@
 				:value="selectedGroupId"
 				@update:value="selectedGroupId = $event as string"
 			/>
+			<span class="kern-icon kern-icon--search" aria-hidden="true" />
 			<div class="polar-plugin-address-search-input-wrapper">
 				<input
 					id="polar-plugin-address-search-input"
@@ -175,6 +176,11 @@ function inputDown(event: KeyboardEvent) {
 
 		&:deep(select) {
 			width: 0;
+		}
+
+		.kern-icon--search {
+			width: var(--kern-metric-dimension-large);
+			height: var(--kern-metric-dimension-large);
 		}
 
 		.polar-plugin-address-search-input-wrapper {
