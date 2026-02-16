@@ -15,7 +15,6 @@ export const resourcesDe = {
 	aria: {
 		description:
 			'Durch Eingabe in das Suchfeld kann die Suche nach Adressen gestartet werden',
-		label: `Eingabeelement der $t(defaultLabel, {ns: ${PluginId}})`,
 	},
 	defaultLabel: 'Adresssuche',
 	hint: {
@@ -38,7 +37,6 @@ export const resourcesEn = {
 	aria: {
 		description:
 			'By entering text into the search field, the address search can be started',
-		label: `Input element of the $t(defaultLabel, {ns: ${PluginId}})`,
 	},
 	defaultLabel: 'Address Search',
 	hint: {

@@ -27,9 +27,7 @@
 					v-model="inputValue"
 					class="kern-form-input__input"
 					type="text"
-					:aria-label="
-						hint.length > 0 ? hint : $t(($) => $.aria.label, { ns: PluginId })
-					"
+					:aria-label="ariaLabel"
 					:aria-description="
 						hint.length > 0
 							? hint
@@ -60,8 +58,9 @@
 </template>
 
 <script setup lang="ts">
+import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
-import { nextTick } from 'vue'
+import { computed, nextTick } from 'vue'
 
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarSelect from '@/components/PolarSelect.ce.vue'
@@ -85,6 +84,20 @@ const {
 	searchResults,
 	selectedGroupId,
 } = storeToRefs(addressSearchStore)
+
+const ariaLabel = computed(() =>
+	hint.value.length > 0
+		? hint.value
+		: t(
+				($) =>
+					$[
+						groupSelectOptions.value.find(
+							({ groupId }) => groupId === selectedGroupId.value
+						)?.text || 'defaultLabel'
+					],
+				{ ns: PluginId }
+			)
+)
 
 function clear() {
 	addressSearchStore.clear()
