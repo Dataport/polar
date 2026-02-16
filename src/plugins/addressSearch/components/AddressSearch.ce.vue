@@ -37,10 +37,11 @@
 					@keydown.enter="addressSearchStore.abortAndRequest"
 					@keydown.down.prevent.stop="inputDown"
 				/>
-				<SmallLoader v-if="isLoading" />
+				<SmallLoader v-if="isLoading" :style="`right: ${slotPlacement}`" />
 				<button
 					v-if="inputValue.length && !isLoading"
 					class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
+					:style="`right: ${slotPlacement}`"
 					@click="clear"
 				>
 					<span class="kern-icon kern-icon--close" aria-hidden="true" />
@@ -100,6 +101,9 @@ const ariaLabel = computed(() =>
 			)
 )
 const maxWidth = computed(() => `${coreStore.clientWidth * 0.75}px`)
+const slotPlacement = computed(() =>
+	layout.value === 'standard' ? '0' : 'var(--kern-metric-space-small)'
+)
 
 function clear() {
 	addressSearchStore.clear()
@@ -186,7 +190,6 @@ function inputDown(event: KeyboardEvent) {
 
 			.polar-plugin-address-search-input-button {
 				position: absolute;
-				right: 0;
 				border-radius: var(--kern-metric-border-radius-small);
 				margin: var(--kern-metric-space-small);
 				margin-right: var(--kern-metric-space-default);
@@ -203,7 +206,6 @@ function inputDown(event: KeyboardEvent) {
 
 			.kern-loader {
 				position: absolute;
-				right: 0;
 				margin-right: var(--kern-metric-space-default);
 			}
 		}
