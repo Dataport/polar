@@ -62,7 +62,10 @@ export default Vue.extend({
       ],
     },
     infoFieldsAdress: ['strasse', 'hausnummer', 'hausnrzusatz'],
-    infoFieldsParcels: [{ key: 'gemarkung', label: 'Gemarkung' }],
+    infoFieldsParcels: [
+      { key: 'gemarkung', label: 'Gemarkung' },
+      { key: 'flur', label: 'Flur' },
+    ],
     infoFieldsParcelNumber: ['flstnrzae', 'flstnrnen'],
   }),
   computed: {
