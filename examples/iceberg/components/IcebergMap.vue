@@ -34,6 +34,7 @@ import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginPins from '@polar/polar/plugins/pins'
+import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 import { ref, useTemplateRef, watch } from 'vue'
@@ -77,6 +78,20 @@ watch(map, (map) => {
 			searchMethods: [],
 		}),
 		pluginPins({}),
+		pluginReverseGeocoder({
+			url: 'https://geodienste.hamburg.de/HH_WPS',
+			coordinateSources: [
+				{
+					plugin: 'pins',
+					key: 'coordinate',
+				},
+			],
+			addressTarget: {
+				plugin: 'addressSearch',
+				key: 'selectResult',
+			},
+			zoomTo: 7,
+		}),
 		pluginToast({
 			displayComponent: true,
 			layoutTag: 'BOTTOM_MIDDLE',
