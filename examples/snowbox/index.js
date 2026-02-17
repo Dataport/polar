@@ -89,7 +89,7 @@ const map = await createMap(
 	'snowbox',
 	{
 		colorScheme,
-		startCenter: [573364, 6028874],
+		startCenter: [565874, 5934140],
 		layers: [
 			// TODO: Add internalization to snowbox
 			{
@@ -109,7 +109,7 @@ const map = await createMap(
 				visibility: true,
 				hideInMenu: true,
 				type: 'mask',
-				name: 'meldemichel.layers.hamburgBorder',
+				name: 'Stadtgrenze Hamburg',
 			},
 			{
 				id: reports,
@@ -294,7 +294,6 @@ addPlugin(
 	map,
 	pluginPins({
 		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
-		// TODO: get the correct layer, cant be found in the service register
 		boundary: {
 			layerId: hamburgBorder,
 		},

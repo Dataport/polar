@@ -74,4 +74,15 @@ export default [
 		version: '1.3.0',
 		transparent: true,
 	},
+	{
+		id: '1693',
+		name: 'Landesgrenze',
+		url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen',
+		typ: 'WFS',
+		featureType: 'landesgrenze',
+		outputFormat: 'XML',
+		version: '1.1.0',
+		featureNS: 'http://www.deegree.org/app',
+		featurePrefix: 'app',
+	},
 ]

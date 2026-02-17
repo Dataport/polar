@@ -34,6 +34,13 @@ export const useIcebergStore = defineStore('iceberg', () => {
 				minZoom: 5,
 			},
 			{
+				id: '1693',
+				visibility: true,
+				hideInMenu: true,
+				type: 'mask',
+				name: 'Stadtgrenze Hamburg',
+			},
+			{
 				id: 'denkmaelerWMS',
 				type: 'mask',
 				name: 'Kulturdenkmale',
@@ -58,7 +65,7 @@ export const useIcebergStore = defineStore('iceberg', () => {
 				},
 			},
 		],
-		startCenter: [573364, 6028874],
+		startCenter: [565874, 5934140],
 		layout: 'nineRegions',
 		addressSearch: {
 			searchMethods: [

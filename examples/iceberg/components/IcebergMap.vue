@@ -77,7 +77,17 @@ watch(map, (map) => {
 			layoutTag: 'TOP_LEFT',
 			searchMethods: [],
 		}),
-		pluginPins({}),
+		pluginPins({
+			coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+			boundary: {
+				layerId: '1693',
+			},
+			movable: 'drag',
+			style: {
+				fill: '#FF0019',
+			},
+			toZoomLevel: 7,
+		}),
 		pluginReverseGeocoder({
 			url: 'https://geodienste.hamburg.de/HH_WPS',
 			coordinateSources: [
