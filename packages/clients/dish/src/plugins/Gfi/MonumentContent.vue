@@ -150,7 +150,7 @@ export default Vue.extend({
         'Flurstück',
         '/'
       )
-      if (parcelNumber) addComposedField(parcelNumber, 'Gemarkung', tableData)
+      if (parcelNumber) addComposedField(parcelNumber, 'Flur', tableData)
 
       return tableData
     },
