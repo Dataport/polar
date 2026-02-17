@@ -92,17 +92,15 @@ const {
 } = storeToRefs(addressSearchStore)
 
 const ariaLabel = computed(() =>
-	hint.value.length > 0
-		? hint.value
-		: t(
-				($) =>
-					$[
-						groupSelectOptions.value.find(
-							({ groupId }) => groupId === selectedGroupId.value
-						)?.text || 'defaultLabel'
-					],
-				{ ns: PluginId }
-			)
+	t(
+		($) =>
+			$[
+				groupSelectOptions.value.find(
+					({ groupId }) => groupId === selectedGroupId.value
+				)?.text || 'defaultLabel'
+			],
+		{ ns: PluginId }
+	)
 )
 const maxWidth = computed(() => `${coreStore.clientWidth * 0.75}px`)
 const slotPlacement = computed(() =>
