@@ -50,15 +50,15 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       },
       {
         id: denkmaelerWMS,
-        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink}`,
       },
       {
         id: kontrollbedarf,
-        title: `Karte Objekte mit Kontrollbedarf: © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Objekte mit Kontrollbedarf: © ${denkmalAmtLink}`,
       },
       {
         id: verlust,
-        title: `Karte Verlust: © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Verlust: © ${denkmalAmtLink}`,
       },
       {
         id: verwaltung,
