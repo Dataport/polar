@@ -183,7 +183,7 @@ function inputDown(event: KeyboardEvent) {
 
 		.polar-plugin-address-search-input-wrapper {
 			display: grid;
-			grid-template-columns: auto 1fr;
+			grid-template-columns: auto minmax(0, 1fr);
 			grid-template-rows: auto auto;
 			align-items: center;
 			width: 100%;
