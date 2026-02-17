@@ -77,27 +77,21 @@ const addressSearchConfig = (mode: keyof typeof MODE) => {
   return addressSearchConfig
 }
 
-const attribtionsConfig = (mode: keyof typeof MODE) => {
+const attributionsOptions = {
+  displayComponent: true,
+  layoutTag: NineLayoutTag.BOTTOM_RIGHT,
+  listenToChanges: [
+    'plugin/zoom/zoomLevel',
+    'plugin/layerChooser/activeBackgroundId',
+    'plugin/layerChooser/activeMaskIds',
+  ],
+}
+
+const attributionsConfig = (mode: keyof typeof MODE) => {
   if (mode === MODE.INTERN) {
-    return DishAttributions({
-      displayComponent: true,
-      layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-      listenToChanges: [
-        'plugin/zoom/zoomLevel',
-        'plugin/layerChooser/activeBackgroundId',
-        'plugin/layerChooser/activeMaskIds',
-      ],
-    })
+    return DishAttributions(attributionsOptions)
   }
-  return PolarPluginAttributions({
-    displayComponent: true,
-    layoutTag: NineLayoutTag.BOTTOM_RIGHT,
-    listenToChanges: [
-      'plugin/zoom/zoomLevel',
-      'plugin/layerChooser/activeBackgroundId',
-      'plugin/layerChooser/activeMaskIds',
-    ],
-  })
+  return PolarPluginAttributions(attributionsOptions)
 }
 
 export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
@@ -159,7 +153,7 @@ export const addPlugins = (core, mode: keyof typeof MODE = 'EXTERN') => {
       displayComponent: mode === MODE.EXTERN,
       layoutTag: NineLayoutTag.BOTTOM_RIGHT,
     }),
-    attribtionsConfig(mode),
+    attributionsConfig(mode),
     PolarPluginGfi(gfiConfig(mode)),
     PolarPluginLoadingIndicator({
       displayComponent: true,
