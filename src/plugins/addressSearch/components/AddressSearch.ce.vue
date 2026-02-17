@@ -22,8 +22,8 @@
 				:value="selectedGroupId"
 				@update:value="selectedGroupId = $event as string"
 			/>
-			<span class="kern-icon kern-icon--search" aria-hidden="true" />
 			<div class="polar-plugin-address-search-input-wrapper">
+				<span class="kern-icon kern-icon--search" aria-hidden="true" />
 				<input
 					id="polar-plugin-address-search-input"
 					v-model="inputValue"
@@ -38,11 +38,14 @@
 					@keydown.enter="addressSearchStore.abortAndRequest"
 					@keydown.down.prevent.stop="inputDown"
 				/>
-				<SmallLoader v-if="isLoading" :style="`right: ${slotPlacement}`" />
+				<SmallLoader
+					v-if="isLoading"
+					:style="`right: ${slotPlacement}; top: ${slotPlacement}`"
+				/>
 				<button
 					v-if="inputValue.length && !isLoading"
 					class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
-					:style="`right: ${slotPlacement}`"
+					:style="`right: ${slotPlacement}; top: ${slotPlacement}`"
 					@click="clear"
 				>
 					<span class="kern-icon kern-icon--close" aria-hidden="true" />
@@ -178,17 +181,24 @@ function inputDown(event: KeyboardEvent) {
 			width: 0;
 		}
 
-		.kern-icon--search {
-			width: var(--kern-metric-dimension-large);
-			height: var(--kern-metric-dimension-large);
-		}
-
 		.polar-plugin-address-search-input-wrapper {
-			display: flex;
-			flex-direction: column;
+			display: grid;
+			grid-template-columns: auto 1fr;
+			grid-template-rows: auto auto;
+			align-items: center;
 			width: 100%;
+			column-gap: var(--kern-metric-space-small);
+
+			.kern-icon--search {
+				grid-column: 1;
+				grid-row: 1;
+				width: var(--kern-metric-dimension-large);
+				height: var(--kern-metric-dimension-large);
+			}
 
 			#polar-plugin-address-search-input {
+				grid-column: 2;
+				grid-row: 1;
 				border-radius: var(--kern-metric-border-radius-small);
 				background: var(--kern-color-form-input-background);
 				padding-right: calc(var(--kern-metric-space-large) * 2);
@@ -196,23 +206,28 @@ function inputDown(event: KeyboardEvent) {
 
 			.polar-plugin-address-search-input-button {
 				position: absolute;
+				right: 0;
+				top: 0;
 				border-radius: var(--kern-metric-border-radius-small);
-				margin: var(--kern-metric-space-small);
-				margin-right: var(--kern-metric-space-default);
+				margin: var(--kern-metric-space-default);
 				width: var(--kern-metric-dimension-large);
 				min-height: var(--kern-metric-dimension-large);
 			}
 
+			.kern-loader {
+				position: absolute;
+				right: 0;
+				top: 0;
+				margin: var(--kern-metric-space-default);
+			}
+
 			.polar-plugin-address-search-hint {
+				grid-column: 2;
+				grid-row: 2;
 				color: var(--kern-color-layout-text-muted);
 				font-size: calc(var(--kern-typography-font-size-static-small) * 0.875);
 				padding: 0 var(--kern-metric-space-2x-small);
 				margin-top: var(--kern-metric-space-small);
-			}
-
-			.kern-loader {
-				position: absolute;
-				margin-right: var(--kern-metric-space-default);
 			}
 		}
 	}
