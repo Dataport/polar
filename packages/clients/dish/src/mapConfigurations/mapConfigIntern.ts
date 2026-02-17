@@ -150,7 +150,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
         width: 3,
       },
       fill: {
-        color: 'rgb(255, 255, 255, 0.7)',
+        color: 'rgb(255, 255, 255, 0)',
       },
     },
   },
