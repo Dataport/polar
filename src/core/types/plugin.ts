@@ -33,9 +33,30 @@ import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
 
+/**
+ * Generic options for all plugins
+ */
 export interface PluginOptions {
+	/**
+	 * Should the component be visible at all.
+	 *
+	 * @defaultValue `false`
+	 */
 	displayComponent?: boolean
+
+	/**
+	 * The region where the plugin should be rendered.
+	 * Required for nine-regions layout, ignored otherwise.
+	 */
 	layoutTag?: keyof typeof NineLayoutTag
+
+	/**
+	 * Defines if the plugin is rendered independent or as part of the icon menu.
+	 * This is automatically set by the icon menu; you should not need to touch this.
+	 *
+	 * @defaultValue `'independent'`
+	 */
+	renderType?: 'independent' | 'iconMenu'
 }
 
 export interface BoundaryOptions {

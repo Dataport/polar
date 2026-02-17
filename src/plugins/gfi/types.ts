@@ -325,14 +325,6 @@ export interface GfiPluginOptions extends PluginOptions {
 	 * @defaultValue Disabled by default
 	 */
 	multiSelect?: 'box' | 'circle'
-
-	/**
-	 * Only relevant if `window` is set to `true` for at least one layer.
-	 * Whether the gfi plugin is rendered independently or as part of the IconMenu.
-	 *
-	 * @defaultValue `'independent'`
-	 */
-	renderType?: 'independent' | 'iconMenu'
 }
 
 /** parameter specification for request method */
