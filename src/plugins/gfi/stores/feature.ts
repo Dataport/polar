@@ -4,13 +4,16 @@ import { rawLayerList } from '@masterportal/masterportalapi'
 import { isEqual } from 'es-toolkit'
 import { MapBrowserEvent, Overlay } from 'ol'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, onScopeDispose, ref, watch } from 'vue'
+import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import type { GfiLayerConfiguration, RequestGfiParameters } from '../types'
-
 import { useMultiSelection } from '../composables/useMultiSelection'
+import {
+	PluginId,
+	type GfiLayerConfiguration,
+	type RequestGfiParameters,
+} from '../types'
 import { requestGfi } from '../utils/requestGfi'
 import { updateTooltip } from '../utils/updateTooltip'
 import { useGfiMainStore } from './main'
@@ -235,6 +238,21 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		}
 		coreStore.map.removeOverlay(overlay)
 	})
+
+	if (gfiMainStore.configuration.renderType === 'iconMenu') {
+		// TODO: Find a better solution to wait for this plugin
+		// As, in this case, we render as part of the iconMenu, the iconMenu store will be available soon.
+		void nextTick(() => {
+			const iconMenuStore = coreStore.getPluginStore('iconMenu')
+			if (iconMenuStore) {
+				watch(selectedFeature, (newFeature) => {
+					if (newFeature) {
+						iconMenuStore.openMenuById(PluginId)
+					}
+				})
+			}
+		})
+	}
 
 	return {
 		visibleFeatures,

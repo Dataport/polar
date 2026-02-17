@@ -1,5 +1,12 @@
 <template>
-	<PolarCard id="polar-card-gfi">
+	<PolarCard
+		v-if="gfiStore.features.length > 0 || gfiStore.configuration.featureList"
+		id="polar-card-gfi"
+		:class="{
+			standard: coreStore.layout === 'standard',
+			'nine-regions': coreStore.layout === 'nineRegions',
+		}"
+	>
 		<template v-if="gfiStore.features.length > 0">
 			<GfiFeature v-if="gfiStore.feature" v-bind="gfiStore.feature" />
 			<button
@@ -31,18 +38,34 @@
 
 <script setup lang="ts">
 import PolarCard from '@/components/PolarCard.ce.vue'
+import { useCoreStore } from '@/core/stores'
 
 import { useGfiStore } from '../store'
 import GfiFeature from './GfiFeature.ce.vue'
 import GfiFeatureList from './GfiFeatureList.ce.vue'
 
+const coreStore = useCoreStore()
 const gfiStore = useGfiStore()
 </script>
 
 <style scoped>
 #polar-card-gfi {
 	width: 12em;
-	pointer-events: all;
-	padding-bottom: 3em;
+	margin: var(--kern-metric-space-small);
+	max-height: 80%;
+	overflow: auto;
+
+	&.standard {
+		position: absolute;
+	}
+
+	&::deep(.kern-card__container) {
+		width: 100%;
+		padding-bottom: var(--kern-metric-space-small);
+	}
+}
+
+button {
+	margin-top: var(--kern-metric-space-small);
 }
 </style>
