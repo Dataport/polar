@@ -24,17 +24,23 @@
 			/>
 			<div class="polar-plugin-address-search-input-wrapper">
 				<span class="kern-icon kern-icon--search" aria-hidden="true" />
+				<span
+					id="polar-plugin-address-search-input-description"
+					class="kern-sr-only"
+				>
+					{{
+						hint.length > 0
+							? hint
+							: $t(($) => $.aria.description, { ns: PluginId })
+					}}
+				</span>
 				<input
 					id="polar-plugin-address-search-input"
 					v-model="inputValue"
 					class="kern-form-input__input"
 					type="text"
 					:aria-label="ariaLabel"
-					:aria-description="
-						hint.length > 0
-							? hint
-							: $t(($) => $.aria.description, { ns: PluginId })
-					"
+					aria-describedby="polar-plugin-address-search-input-description"
 					@keydown.enter="addressSearchStore.abortAndRequest"
 					@keydown.down.prevent.stop="inputDown"
 				/>
