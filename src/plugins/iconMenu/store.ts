@@ -117,7 +117,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 			({ plugin: { id } }) => id === openId
 		)
 		if (!menu) {
-			console.error(`Menu with index ${openId} could not be found.`)
+			console.error(`Menu with id ${openId} could not be found.`)
 			return
 		}
 		if (!menu.plugin.component) {
