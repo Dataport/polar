@@ -63,7 +63,7 @@ export const usePluginStore = defineStore('plugin', () => {
 			if (typeof store.teardownPlugin === 'function') {
 				store.teardownPlugin()
 			}
-			store.$reset()
+			store.$dispose()
 		}
 
 		plugins.splice(pluginIndex, 1)

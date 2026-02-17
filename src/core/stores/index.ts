@@ -121,6 +121,13 @@ export const useCoreStore = defineStore('core', () => {
 		language: mainStoreRefs.language,
 
 		/**
+		 * Current zoom level of the map.
+		 *
+		 * @alpha
+		 */
+		zoom: mainStoreRefs.zoom,
+
+		/**
 		 * Returns the layer with the given ID.
 		 *
 		 * @param layerId - ID of the layer

@@ -57,11 +57,11 @@ const bottom = computed(
 				? Math.min(
 						clientHeight.value - moveHandleTop.value,
 						clientHeight.value / 4
-					)
+					) / 16
 				: coreStore.getPluginStore('footer') === null
 					? 0
-					: 32
-		}px`
+					: 1.5
+		}rem`
 )
 const maxHeight = computed(() =>
 	hasWindowSize.value
@@ -109,7 +109,6 @@ function toggle(index: number) {
 			.polar-plugin-icon-menu-button {
 				box-shadow: none;
 				border: none;
-				pointer-events: all;
 
 				&:focus,
 				&:hover {

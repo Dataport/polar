@@ -118,10 +118,6 @@ function updateOpenedOptions(layerId: string) {
 	justify-content: space-between;
 	align-items: center;
 	gap: var(--kern-metric-space-large);
-
-	button {
-		pointer-events: all;
-	}
 }
 
 .kern-btn {
