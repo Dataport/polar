@@ -107,13 +107,6 @@ const {
 
 // Reset opened categories on group change
 watch(selectedGroupId, () => (openCategories.value = []))
-watch(featuresAvailable, () => {
-	if (addressSearchStore.focusAfterSearch) {
-		void nextTick(() => {
-			focusFirstResult(results.value.length, coreStore.shadowRoot as ShadowRoot)
-		})
-	}
-})
 
 const openCategories = ref<string[]>([])
 
@@ -151,6 +144,14 @@ const results = computed<SearchResult[]>(() =>
 				})
 		: []
 )
+
+watch(results, () => {
+	if (addressSearchStore.focusAfterSearch) {
+		void nextTick(() => {
+			focusFirstResult(results.value.length, coreStore.shadowRoot as ShadowRoot)
+		})
+	}
+})
 
 function areResultsExpanded(category: string) {
 	return openCategories.value.includes(category)
