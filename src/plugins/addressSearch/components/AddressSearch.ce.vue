@@ -59,7 +59,6 @@
 						{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
 					</span>
 				</button>
-				<!-- TODO: Displaying this when multipleGroups are being used jiggles a bit -->
 				<span v-if="hint.length > 0" class="polar-plugin-address-search-hint">
 					{{ hint }}
 				</span>
