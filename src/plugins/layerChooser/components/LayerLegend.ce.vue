@@ -40,9 +40,5 @@ const legend = computed(
 <style scoped>
 .legend-card {
 	overflow-y: scroll;
-
-	a {
-		pointer-events: all;
-	}
 }
 </style>

@@ -79,7 +79,6 @@ const name = computed(
 	border: none;
 	min-height: inherit;
 	padding: var(--kern-metric-space-x-small);
-	pointer-events: all;
 }
 
 .kern-label {
