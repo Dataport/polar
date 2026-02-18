@@ -40,8 +40,12 @@
 						@keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
 						@keydown.escape.prevent.stop="escapeResults"
 					>
+						<span class="span-sr-only">{{ feature.title }}</span>
 						<!-- eslint-disable vue/no-v-html -->
-						<span v-html="strongTitleByInput(feature.title, inputValue)" />
+						<span
+							aria-hidden="true"
+							v-html="strongTitleByInput(feature.title, inputValue)"
+						/>
 						<!-- eslint-enable vue/no-v-html -->
 						<component
 							:is="afterResultComponent"
@@ -247,5 +251,15 @@ function toggle(category: string) {
 	button {
 		margin: var(--kern-metric-space-none) var(--kern-metric-space-small);
 	}
+}
+/* Copy of kern-sr-only with a normal height so screen reader focus is correct */
+.span-sr-only {
+	width: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
 }
 </style>
