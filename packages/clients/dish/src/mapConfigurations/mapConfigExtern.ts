@@ -106,19 +106,19 @@ export const mapConfigExtern: DishMapConfig = {
       attributionsBasemapGrau,
       {
         id: bddEin,
-        title: `Digitale Topographische Karten (Graustufen): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        title: `Digitale Topographische Karten (Graustufen): © ${vermessungsAmtLink}/CC BY-SA 4.0`,
       },
       {
         id: bddCol,
-        title: `Digitale Topographische Karten (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        title: `Digitale Topographische Karten (Farbe): © ${vermessungsAmtLink}/CC BY-SA 4.0`,
       },
       {
         id: dop20col,
-        title: `Karte Luftbilder (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Luftbilder (Farbe): © ${vermessungsAmtLink}/CC BY-SA 4.0`,
       },
       {
         id: denkmaelerWMS,
-        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink}`,
       },
       attributionsAlkisWms,
     ],
