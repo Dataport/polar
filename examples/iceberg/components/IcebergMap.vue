@@ -54,7 +54,7 @@ watch(map, (map) => {
 			menus: [
 				[
 					{
-						plugin: pluginFullscreen(),
+						plugin: pluginFullscreen({ renderType: 'iconMenu' }),
 					},
 				],
 			],

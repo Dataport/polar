@@ -48,17 +48,6 @@ const { hasSmallDisplay } = storeToRefs(useCoreStore())
 		outline: solid var(--kern-color-action-default);
 	}
 
-	.polar-icon-button-active {
-		background: var(--kern-color-action-default);
-
-		&:focus,
-		&:hover {
-			background: var(--kern-color-action-default);
-			border: solid var(--kern-color-action-on-default);
-			outline: solid var(--kern-color-action-default);
-		}
-	}
-
 	.polar-icon-button-icon-active {
 		background: var(--kern-color-layout-background-default);
 	}
@@ -92,6 +81,17 @@ const { hasSmallDisplay } = storeToRefs(useCoreStore())
 	&:hover .polar-tooltip,
 	&:focus-visible .polar-tooltip {
 		opacity: 1;
+	}
+}
+
+.polar-icon-button-active {
+	background: var(--kern-color-action-default);
+
+	&:focus,
+	&:hover {
+		background: var(--kern-color-action-default);
+		border: solid var(--kern-color-action-on-default);
+		outline: solid var(--kern-color-action-default);
 	}
 }
 </style>
