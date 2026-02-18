@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.4.0
 
 - Feature: Add client-specific `DishAttributions` plugin that wraps the standard Attributions plugin, adding a "Benutzungshinweise" link and a close button.
 - Feature: Add 'Flur' to gfi and remove 'Flurstückskennzeichen' from it.
