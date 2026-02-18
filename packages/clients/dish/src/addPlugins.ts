@@ -89,7 +89,10 @@ const attributionsOptions = {
 
 const attributionsConfig = (mode: keyof typeof MODE) => {
   if (mode === MODE.INTERN) {
-    return DishAttributions(attributionsOptions)
+    return DishAttributions({
+      icons: { open: 'fa-solid fa-info', close: 'fa-chevron-right' },
+      ...attributionsOptions,
+    })
   }
   return PolarPluginAttributions(attributionsOptions)
 }
