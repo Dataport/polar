@@ -25,13 +25,13 @@ export const beschriftungMinZoom = 9
 const layersIntern: LayerConfiguration[] = [
   {
     id: basemapGrau,
-    visibility: true,
+    visibility: false,
     type: 'background',
     name: 'Basemap.de Graustufen',
   },
   {
     id: bddEin,
-    visibility: false,
+    visibility: true,
     type: 'background',
     name: 'Grundkarte Graustufen',
   },

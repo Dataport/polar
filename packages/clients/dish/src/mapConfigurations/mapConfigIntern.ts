@@ -50,15 +50,15 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       },
       {
         id: denkmaelerWMS,
-        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink}`,
       },
       {
         id: kontrollbedarf,
-        title: `Karte Objekte mit Kontrollbedarf: © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Objekte mit Kontrollbedarf: © ${denkmalAmtLink}`,
       },
       {
         id: verlust,
-        title: `Karte Verlust: © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Verlust: © ${denkmalAmtLink}`,
       },
       {
         id: verwaltung,
@@ -67,7 +67,8 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       attributionsAlkisWms,
     ],
     staticAttributions: [
-      `<span>Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/" target="_blank">BKG</a> <YEAR> <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf" target="_blank">Nutzungsbedingungen</a></span>`,
+      `<span>Dienst für Adressuche: Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/" target="_blank">BKG</a> <YEAR> <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf" target="_blank">Nutzungsbedingungen</a></span>`,
+      `<span>Dienst für Flurstückssuche: © ${vermessungsAmtLink}</span>`,
     ],
   },
   dishModal: {
@@ -150,7 +151,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
         width: 3,
       },
       fill: {
-        color: 'rgb(255, 255, 255, 0.7)',
+        color: 'rgb(255, 255, 255, 0)',
       },
     },
   },

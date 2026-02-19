@@ -64,7 +64,7 @@ export default Vue.extend({
     infoFieldsAdress: ['strasse', 'hausnummer', 'hausnrzusatz'],
     infoFieldsParcels: [
       { key: 'gemarkung', label: 'Gemarkung' },
-      { key: 'flstkennz', label: 'Flurstückskennzeichen' },
+      { key: 'flur', label: 'Flur' },
     ],
     infoFieldsParcelNumber: ['flstnrzae', 'flstnrnen'],
   }),
@@ -150,7 +150,7 @@ export default Vue.extend({
         'Flurstück',
         '/'
       )
-      if (parcelNumber) addComposedField(parcelNumber, 'Gemarkung', tableData)
+      if (parcelNumber) addComposedField(parcelNumber, 'Flur', tableData)
 
       return tableData
     },

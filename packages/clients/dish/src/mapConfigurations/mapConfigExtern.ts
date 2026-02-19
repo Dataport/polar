@@ -106,23 +106,25 @@ export const mapConfigExtern: DishMapConfig = {
       attributionsBasemapGrau,
       {
         id: bddEin,
-        title: `Digitale Topographische Karten (Graustufen): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        title: `Digitale Topographische Karten (Graustufen): © ${vermessungsAmtLink}/CC BY-SA 4.0`,
       },
       {
         id: bddCol,
-        title: `Digitale Topographische Karten (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        title: `Digitale Topographische Karten (Farbe): © ${vermessungsAmtLink}/CC BY-SA 4.0`,
       },
       {
         id: dop20col,
-        title: `Karte Luftbilder (Farbe): © ${vermessungsAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Luftbilder (Farbe): © ${vermessungsAmtLink}/CC BY-SA 4.0`,
       },
       {
         id: denkmaelerWMS,
-        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink}`,
       },
       attributionsAlkisWms,
     ],
     staticAttributions: [
+      `<span>Dienst für Adressuche: Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/" target="_blank">BKG</a> <YEAR> <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf" target="_blank">Nutzungsbedingungen</a></span>`,
+      `<span>Dienst für Flurstückssuche: © ${vermessungsAmtLink}</span>`,
       `<ul style="display: flex; flex-direction: row; flex-wrap: wrap; column-gap: 8px; list-style-type: none; padding: 0; margin: 0">
           <li>
             <a href="https://www.schleswig-holstein.de/DE/Landesregierung/LD/Kontakt/kontakt_node.html" target="_blank">Kontakt</a>
