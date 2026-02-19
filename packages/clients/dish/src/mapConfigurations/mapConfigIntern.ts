@@ -67,7 +67,8 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       attributionsAlkisWms,
     ],
     staticAttributions: [
-      `<span>Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/" target="_blank">BKG</a> <YEAR> <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf" target="_blank">Nutzungsbedingungen</a></span>`,
+      `<span>Dienst für Adressuche: Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/" target="_blank">BKG</a> <YEAR> <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf" target="_blank">Nutzungsbedingungen</a></span>`,
+      `<span>Dienst für Flurstückssuche: © ${vermessungsAmtLink}</span>`,
     ],
   },
   dishModal: {

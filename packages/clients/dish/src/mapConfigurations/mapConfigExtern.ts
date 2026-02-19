@@ -123,6 +123,8 @@ export const mapConfigExtern: DishMapConfig = {
       attributionsAlkisWms,
     ],
     staticAttributions: [
+      `<span>Dienst für Adressuche: Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/" target="_blank">BKG</a> <YEAR> <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf" target="_blank">Nutzungsbedingungen</a></span>`,
+      `<span>Dienst für Flurstückssuche: © ${vermessungsAmtLink}</span>`,
       `<ul style="display: flex; flex-direction: row; flex-wrap: wrap; column-gap: 8px; list-style-type: none; padding: 0; margin: 0">
           <li>
             <a href="https://www.schleswig-holstein.de/DE/Landesregierung/LD/Kontakt/kontakt_node.html" target="_blank">Kontakt</a>
