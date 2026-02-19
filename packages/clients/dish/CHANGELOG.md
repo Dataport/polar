@@ -6,6 +6,7 @@
 - Feature: Add 'Flur' to gfi and remove 'Flurstückskennzeichen' from it.
 - Feature: Change highlighting Style for gfi.
 - Feature: Use different background layer as default.
+- Fix: Edit attributions due to current terms of use and add missing search services to static attributions.
 
 ## 1.3.2
 
