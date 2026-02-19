@@ -89,7 +89,9 @@ export const makeStoreModule = () => {
       renderType: (_, getters) =>
         getters.configuration.renderType || 'independent',
       staticAttributions: (_, getters) =>
-        getters.configuration.staticAttributions || [],
+        (getters.configuration.staticAttributions || []).map(
+          lib.formatAttributionText
+        ),
       windowWidth: (_, getters) => getters.configuration.windowWidth || 500,
     },
   }
