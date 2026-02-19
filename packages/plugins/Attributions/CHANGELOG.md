@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.6.0
 
 - Feature: Apply `formatAttributionText` to `staticAttributions`, enabling `<YEAR>` and `<MONTH>` placeholders.
 
