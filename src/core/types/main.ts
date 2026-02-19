@@ -1,5 +1,6 @@
 import type { VueElement } from 'vue'
 
+import type { FilterPluginOptions } from '@/plugins/filter'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
@@ -296,10 +297,14 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * The default is to use KERN's standard theme.
 	 */
 	theme?: PolarTheme
+
 	// Plugins are not sorted alphabetical, but listed last.
 	// Remember to sort them alphabetical inside their space.
 	// TODO: Generate this section via types/plugin.ts
 	/* eslint-disable perfectionist/sort-interfaces */
+
+	/** Configuration for footer plugin. */
+	filter?: FilterPluginOptions
 
 	/** Configuration for footer plugin. */
 	footer?: FooterPluginOptions
