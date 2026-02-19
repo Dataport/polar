@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Apply `formatAttributionText` to `staticAttributions`, enabling `<YEAR>` and `<MONTH>` placeholders.
+
 ## 1.5.0
 
 - Feature: Use the configured `layoutTag` to identify the direction the attributions content should open in `renderType` `independent`.
