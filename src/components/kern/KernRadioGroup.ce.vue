@@ -1,25 +1,16 @@
 <template>
-	<fieldset class="kern-fieldset">
-		<legend class="kern-label">Wo sind Sie aktuell gemeldet?</legend>
-		<div class="kern-fieldset__body">
-			<div
-				v-for="item of props.items"
-				:key="item.value"
-				class="kern-form-check"
-			>
-				<input
-					:id="id + '*' + item.value"
-					v-model="model"
-					class="kern-form-check__radio"
-					type="radio"
-					:value="item.value"
-				/>
-				<label :for="id + '*' + item.value" class="kern-label">
-					{{ item.label }}
-				</label>
-			</div>
-		</div>
-	</fieldset>
+	<div v-for="item of props.items" :key="item.value" class="kern-form-check">
+		<input
+			:id="id + '*' + item.value"
+			v-model="model"
+			class="kern-form-check__radio"
+			type="radio"
+			:value="item.value"
+		/>
+		<label :for="id + '*' + item.value" class="kern-label">
+			{{ item.label }}
+		</label>
+	</div>
 </template>
 
 <script setup lang="ts">
