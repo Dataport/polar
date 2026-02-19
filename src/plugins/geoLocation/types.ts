@@ -33,16 +33,6 @@ export interface GeoLocationPluginOptions extends LayerBoundPluginOptions {
 	keepCentered?: boolean
 
 	/**
-	 * Defines if the geoLocation button is rendered independent or as part of the
-	 * icon menu.
-	 *
-	 * This is only applicable if the layout is `'nineRegions'`.
-	 *
-	 * @defaultValue `'independent'`
-	 */
-	renderType?: 'independent' | 'iconMenu'
-
-	/**
 	 * If set to `true`, a tooltip will be shown when hovering the geoposition
 	 * marker on the map, indicating that it shows the user's position.
 	 *
