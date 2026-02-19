@@ -127,8 +127,13 @@ function toggle(index: number) {
 </script>
 
 <style scoped>
-.polar-icon-button.polar-plugin-icon-menu-button {
+.polar-icon-button.polar-plugin-icon-menu-button,
+li > :deep(.polar-icon-button) {
 	box-shadow: none;
+
+	&:hover {
+		z-index: 1;
+	}
 }
 
 .polar-icon-button.polar-plugin-icon-menu-button-active {
@@ -155,9 +160,14 @@ function toggle(index: number) {
 	border-radius: 0.5rem;
 	background: var(--kern-color-layout-background-default);
 	box-shadow: var(--polar-shadow);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 
 	.polar-plugin-icon-menu-list-item {
-		float: left;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 		margin-bottom: 0;
 
 		.polar-plugin-icon-menu-list-item-content {
