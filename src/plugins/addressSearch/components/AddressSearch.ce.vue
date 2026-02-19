@@ -28,11 +28,10 @@
 					id="polar-plugin-address-search-input-description"
 					class="kern-sr-only"
 				>
-					{{
-						hint.length > 0
-							? hint
-							: $t(($) => $.aria.description, { ns: PluginId })
-					}}
+					{{ $t(($) => $.aria.description, { ns: PluginId }) }}
+				</span>
+				<span class="kern-sr-only" aria-live="polite">
+					{{ hint }}
 				</span>
 				<input
 					id="polar-plugin-address-search-input"
