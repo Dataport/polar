@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { GeoJsonGeometryTypes } from 'geojson'
+import type { GeoJsonGeometryTypes, Point as GeoJsonPoint } from 'geojson'
 import type { Coordinate } from 'ol/coordinate'
 
 import { toMerged } from 'es-toolkit'
@@ -17,6 +17,8 @@ import { toLonLat } from 'ol/proj'
 import { Vector } from 'ol/source'
 import { defineStore } from 'pinia'
 import { computed, ref, watch, type WatchHandle } from 'vue'
+
+import type { PolarGeoJsonFeature } from '@/core'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -108,20 +110,20 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			return
 		}
 		coordinateSources.forEach((source) => {
-			const pluginStore = coreStore.getPluginStore(source.pluginName)
-			if (!pluginStore) {
+			const store = source.plugin
+				? coreStore.getPluginStore(source.plugin)
+				: coreStore
+			if (!store) {
 				return
 			}
-			// TODO: After e.g. AddressSearch has been implemented, check if {deep: true} is needed as an option for watch
 			// redo pin if source (e.g. from addressSearch) changes
 			coordinateSourceWatcher = watch(
-				() => pluginStore[source.getterName],
-				(feature) => {
+				() => store[source.key],
+				(feature: PolarGeoJsonFeature<GeoJsonPoint> | null) => {
 					// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
 					// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
 					if (feature && feature.type !== 'reverse_geocoded') {
 						addPin(feature.geometry.coordinates, false, {
-							epsg: feature.epsg,
 							type: feature.geometry.type,
 						})
 					}
@@ -216,8 +218,8 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		newCoordinate: Coordinate,
 		clicked = true,
 		pinInformation?: {
-			epsg: string
 			type: Exclude<GeoJsonGeometryTypes, 'GeometryCollection'>
+			epsg?: string
 		}
 	) {
 		// Always clean up other/old pin first – single pin only atm.
@@ -225,7 +227,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		coordinate.value = newCoordinate
 		if (!clicked && pinInformation) {
 			coordinate.value = getPointCoordinate(
-				pinInformation.epsg,
+				pinInformation.epsg || coreStore.configuration.epsg,
 				coreStore.configuration.epsg,
 				pinInformation.type,
 				newCoordinate

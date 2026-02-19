@@ -22,22 +22,21 @@
 							ns: 'iconMenu',
 						})
 					"
-					:index="index"
 				/>
 				<NineRegionsButton
 					v-else
+					:id="plugin.id"
 					:icon="icon"
 					:hint="
 						$t(($) => $.hints[plugin.id], {
 							ns: 'iconMenu',
 						})
 					"
-					:index="index"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
 				<component
 					:is="plugin.component"
-					v-if="open === index && (!hasWindowSize || !hasSmallWidth)"
+					v-if="open === plugin.id && (!hasWindowSize || !hasSmallWidth)"
 					ref="pluginComponent"
 					:class="[
 						deviceIsHorizontal
