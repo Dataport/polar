@@ -30,9 +30,6 @@
 				>
 					{{ $t(($) => $.aria.description, { ns: PluginId }) }}
 				</span>
-				<span class="kern-sr-only" aria-live="polite">
-					{{ hint }}
-				</span>
 				<input
 					id="polar-plugin-address-search-input"
 					v-model="inputValue"
@@ -58,7 +55,11 @@
 						{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
 					</span>
 				</button>
-				<span v-if="hint.length > 0" class="polar-plugin-address-search-hint">
+				<!-- Additionally needed so screen readers can detect the aria live region -->
+				<span class="kern-sr-only" aria-live="polite">
+					{{ hint }}
+				</span>
+				<span v-if="hint.length" class="polar-plugin-address-search-hint">
 					{{ hint }}
 				</span>
 			</div>
