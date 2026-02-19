@@ -5,7 +5,7 @@
 				ref="radios"
 				role="radio"
 				:aria-checked="model === item.value"
-				:aria-labelledby="id + '*' + item.value"
+				:aria-labelledby="id + '*' + idx"
 				tabindex="0"
 				:data-value="item.value"
 				@keydown.prevent.space="model = item.value"
@@ -13,7 +13,7 @@
 				@focus="scrollVisible($event)"
 			/>
 			<label
-				:id="id + '*' + item.value"
+				:id="id + '*' + idx"
 				class="kern-btn kern-btn--block kern-btn--tertiary"
 				@click.prevent="((model = item.value), radios?.[idx].focus())"
 			>
