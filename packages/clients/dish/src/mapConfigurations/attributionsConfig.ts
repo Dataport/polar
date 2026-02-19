@@ -9,7 +9,7 @@ export const vermessungsAmtLink =
 export const attributionsBasemapGrau = {
   id: basemapGrau,
   title:
-    'Karte Basemap.de (Graustufen): <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <YEAR>',
+    'Karte Basemap.de (Graustufen): <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <YEAR> CC BY 4.0',
 }
 
 export const attributionsAlkisWms = {
