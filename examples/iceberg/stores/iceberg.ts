@@ -16,12 +16,42 @@ export const useIcebergStore = defineStore('iceberg', () => {
 				type: 'background',
 				name: 'snowbox.layers.basemap',
 			},
+			{
+				id: '6059',
+				visibility: true,
+				type: 'mask',
+				name: 'snowbox.layers.mml',
+			},
 		],
 		startCenter: [573364, 6028874],
 		layout: 'nineRegions',
 		fullscreen: {
 			displayComponent: true,
 			layoutTag: 'TOP_RIGHT',
+		},
+		markers: {
+			layers: [
+				{
+					id: '6059',
+					defaultStyle: {
+						stroke: '#FFFFFF',
+						fill: '#005CA9',
+					},
+					hoverStyle: {
+						stroke: '#46688E',
+						fill: '#8BA1B8',
+					},
+					selectionStyle: {
+						stroke: '#FFFFFF',
+						fill: '#E10019',
+					},
+					unselectableStyle: {
+						stroke: '#FFFFFF',
+						fill: '#333333',
+					},
+				},
+			],
+			clusterClickZoom: true,
 		},
 	})
 
