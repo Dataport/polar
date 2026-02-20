@@ -1,8 +1,4 @@
-import type {
-	Color,
-	LayerBoundPluginOptions,
-	PluginId as PolarPluginId,
-} from '@/core'
+import type { Color, LayerBoundPluginOptions, StoreReference } from '@/core'
 
 /** Plugin identifier. */
 export const PluginId = 'pins'
@@ -23,12 +19,12 @@ export interface PinsPluginOptions extends LayerBoundPluginOptions {
 	 * @example
 	 * ```
 	 * [{
-	 *   pluginName: 'addressSearch',
-	 *   getterName: 'chosenAddress'
+	 *   plugin: 'addressSearch',
+	 *   key: 'chosenAddress'
 	 * }]
 	 * ```
 	 */
-	coordinateSources?: { pluginName: PolarPluginId; getterName: string }[]
+	coordinateSources?: StoreReference[]
 
 	/**
 	 * Configuration options for setting an initial pin.
