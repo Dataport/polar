@@ -303,7 +303,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	// TODO: Generate this section via types/plugin.ts
 	/* eslint-disable perfectionist/sort-interfaces */
 
-	/** Configuration for footer plugin. */
+	/** Configuration for filter plugin. */
 	filter?: FilterPluginOptions
 
 	/** Configuration for footer plugin. */
