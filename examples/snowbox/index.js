@@ -7,6 +7,7 @@ import {
 	subscribe,
 	updateState,
 } from '@polar/polar'
+import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFooter from '@polar/polar/plugins/footer'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
@@ -74,8 +75,6 @@ const dataportTheme = {
 	},
 }
 
-// TODO: Re-enable with isSelectable
-/*
 // arbitrary condition for testing
 const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
 
@@ -86,13 +85,12 @@ const isReportSelectable = (feature) =>
 			(accumulator, current) => isEvenId(current.get('mmlid')) || accumulator,
 			false
 		)
-*/
 
 const map = await createMap(
 	'snowbox',
 	{
 		colorScheme,
-		startCenter: [573364, 6028874],
+		startCenter: [565874, 5934140],
 		layers: [
 			// TODO: Add internalization to snowbox
 			{
@@ -112,7 +110,7 @@ const map = await createMap(
 				visibility: true,
 				hideInMenu: true,
 				type: 'mask',
-				name: 'meldemichel.layers.hamburgBorder',
+				name: 'Stadtgrenze Hamburg',
 			},
 			{
 				id: reports,
@@ -174,8 +172,7 @@ const map = await createMap(
 						stroke: '#FFFFFF',
 						fill: '#333333',
 					},
-					// TODO(dopenguin): Has some HMR issues, needs to be fixed
-					// isSelectable: isReportSelectable,
+					isSelectable: isReportSelectable,
 				},
 			],
 			clusterClickZoom: true,
@@ -297,7 +294,31 @@ addPlugin(
 )
 addPlugin(
 	map,
+	pluginAddressSearch({
+		searchMethods: [
+			{
+				queryParameters: {
+					searchStreets: true,
+					searchHouseNumbers: true,
+				},
+				type: 'mpapi',
+				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+			},
+		],
+		minLength: 3,
+		waitMs: 300,
+		focusAfterSearch: true,
+		groupProperties: {
+			defaultGroup: {
+				limitResults: 5,
+			},
+		},
+	})
+)
+addPlugin(
+	map,
 	pluginPins({
+		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
 		boundary: {
 			layerId: hamburgBorder,
 		},
@@ -318,7 +339,6 @@ addPlugin(
 				key: 'coordinate',
 			},
 		],
-		// TODO: Check if this works when addressSearch is implemented
 		addressTarget: {
 			plugin: 'addressSearch',
 			key: 'selectResult',
@@ -343,22 +363,15 @@ addPlugin(
 			},
 		],
 		menus: [
-			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
 			[
 				{
-					plugin: pluginGeoLocation({
-						checkLocationInitially: false,
-						keepCentered: false,
-						showTooltip: true,
-						zoomLevel: 7,
-						// usable when you're in HH or fake your geolocation to HH
-						/* boundary: {
-							layerId: hamburgBorder,
-							onError: 'strict',
-						}, */
-					}),
+					plugin: pluginFullscreen({}),
+				},
+				{
+					plugin: pluginLayerChooser({}),
 				},
 			],
+			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
 			[
 				{
 					plugin: {
@@ -436,10 +449,17 @@ addPlugin(
 			],
 			[
 				{
-					plugin: pluginLayerChooser({}),
-				},
-				{
-					plugin: pluginFullscreen({}),
+					plugin: pluginGeoLocation({
+						checkLocationInitially: false,
+						keepCentered: false,
+						showTooltip: true,
+						zoomLevel: 7,
+						// usable when you're in HH or fake your geolocation to HH
+						/* boundary: {
+							layerId: hamburgBorder,
+							onError: 'strict',
+						}, */
+					}),
 				},
 			],
 		],

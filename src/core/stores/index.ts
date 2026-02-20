@@ -45,6 +45,14 @@ export const useCoreStore = defineStore('core', () => {
 		clientHeight: computed(() => mainStore.clientHeight),
 
 		/**
+		 * The current width of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		clientWidth: computed(() => mainStore.clientWidth),
+
+		/**
 		 * Returns the current runtime configuration.
 		 *
 		 * @readonly
