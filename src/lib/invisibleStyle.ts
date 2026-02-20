@@ -32,3 +32,25 @@ export const isInvisible = (feature: Feature) =>
  */
 export const isVisible = (feature: Feature) =>
 	feature.getStyle() !== InvisibleStyle
+
+/**
+ * Hides a feature.
+ *
+ * @param feature - The feature to hide.
+ */
+export const hideFeature = (feature: Feature) => {
+	if (isVisible(feature)) {
+		feature.setStyle(InvisibleStyle)
+	}
+}
+
+/**
+ * Shows a feature.
+ *
+ * @param feature - The feature to show.
+ */
+export const showFeature = (feature: Feature) => {
+	if (isInvisible(feature)) {
+		feature.setStyle()
+	}
+}
