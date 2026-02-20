@@ -16,7 +16,7 @@ import {
 	SubscribeActionOptions,
 	SubscribeOptions,
 } from 'vuex'
-import { Feature as GeoJsonFeature, FeatureCollection } from 'geojson'
+import { Feature as GeoJsonFeature } from 'geojson'
 import { VueConstructor, WatchOptions } from 'vue'
 import { Coordinate } from 'ol/coordinate'
 
@@ -27,50 +27,6 @@ import { Coordinate } from 'ol/coordinate'
  */
 
 export type RenderType = 'iconMenu' | 'independent' | 'footer'
-
-/** Possible search methods by type */
-export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
-
-/**
- * Additional queryParameters for the GET-Request;
- * for the specific parameters for each request,
- * please refer to the types in the plugin
- */
-export interface QueryParameters {
-	/** sets the maximum number of features to retrieve */
-	maxFeatures?: number
-}
-
-export type SearchDisplayMode = 'mixed' | 'categorized'
-
-/** Object containing information for a specific search method */
-export interface SearchMethodConfiguration {
-	type: SearchType
-	url: string
-	categoryId?: string
-	groupId?: string
-	hint?: string
-	label?: string
-	placeholder?: string
-	queryParameters?: QueryParameters
-}
-
-export type SearchMethodFunction = (
-	signal: AbortSignal,
-	url: SearchMethodConfiguration['url'],
-	inputValue: string,
-	queryParameters: SearchMethodConfiguration['queryParameters']
-) => Promise<FeatureCollection> | never
-
-export interface SelectResultPayload {
-	feature: GeoJsonFeature & { title: string }
-	categoryId: number
-}
-
-export type SelectResultFunction<S, G> = (
-	context: PolarActionContext<S, G>,
-	payload: SelectResultPayload
-) => void
 
 /**
  * The suffix of the feature in the FeatureCollection;
@@ -93,29 +49,11 @@ export interface AddressSearchCategoryProperties {
 
 /** AddressSearch Module Configuration */
 export interface AddressSearchConfiguration extends PluginOptions {
-	// Configured search methods
-	searchMethods: SearchMethodConfiguration[]
-	// optional loading action name to start loading
-	addLoading?: string
 	// definition of categories referred to in searchMethods
 	categoryProperties?: Record<string, AddressSearchCategoryProperties>
-	component?: VueConstructor
-	// optional additional search methods (client-side injections)
-	customSearchMethods?: Record<string, SearchMethodFunction>
-	/** NOTE regarding \<any, any\> – skipping further type chain upwards precision due to object optionality/clutter that would continue to MapConfig level; the inverted rabbit hole ends here; not using "unknown" since that errors in client configuration, not using "never" since that errors in AddressSearch plugin; this way, "any"thing goes */
-	// optional selectResult overrides (client-side injections)
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	customSelectResult?: Record<string, SelectResultFunction<any, any>>
 	focusAfterSearch?: boolean
 	// definition of groups referred to in searchMethods
 	groupProperties?: Record<string, AddressSearchGroupProperties>
-	// Minimal input length before the search starts
-	minLength?: number
-	// optional loading action name to end loading
-	removeLoading?: string
-	afterResultComponent?: VueConstructor
-	// Time passed in milliseconds before another search is started
-	waitMs?: number
 }
 
 export interface Attribution {
@@ -548,8 +486,10 @@ export interface CoreState {
 	zoomLevel: number
 }
 
-export interface CoreGetters
-	extends Omit<CoreState, 'components' | 'hovered' | 'map' | 'selected'> {
+export interface CoreGetters extends Omit<
+	CoreState,
+	'components' | 'hovered' | 'map' | 'selected'
+> {
 	// omitted from CoreState as actual getter type diverges
 	components: PluginContainer[]
 	hovered: Feature | null
