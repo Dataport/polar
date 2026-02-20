@@ -27,3 +27,9 @@ const model = defineModel<boolean>({ required: true })
 
 const id = useId()
 </script>
+
+<style scoped>
+.kern-form-check {
+	box-sizing: border-box;
+}
+</style>

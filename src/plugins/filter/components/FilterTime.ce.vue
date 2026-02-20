@@ -1,8 +1,5 @@
 <template>
-	<section ref="section" class="polar-filter-section">
-		<h3 class="kern-heading-small">
-			{{ $t(($) => $.time.header, { ns: PluginId }) }}
-		</h3>
+	<FilterSection :title="$t(($) => $.time.header, { ns: PluginId })">
 		<div class="polar-filter-category-values">
 			<component
 				:is="
@@ -21,7 +18,7 @@
 			v-model:end="filterStore.timeEnd"
 			v-bind="filterStore.timeConstraints"
 		/>
-	</section>
+	</FilterSection>
 </template>
 
 <script setup lang="ts">
@@ -34,6 +31,7 @@ import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
 import { PluginId } from '../types'
+import FilterSection from './FilterSection.ce.vue'
 
 const coreStore = useCoreStore()
 const filterStore = useFilterStore()

@@ -1,20 +1,17 @@
 <template>
-	<section
+	<FilterSection
 		v-for="(category, idx) of filterStore.selectedLayerConfiguration.categories"
 		:key="idx"
-		class="polar-filter-section"
+		:title="
+			$t(
+				($) =>
+					$['layer'][filterStore.selectedLayerId]['category'][
+						category.targetProperty
+					]['title'],
+				{ ns: PluginId, defaultValue: category.targetProperty }
+			)
+		"
 	>
-		<h3 class="kern-heading-small">
-			{{
-				$t(
-					($) =>
-						$['layer'][filterStore.selectedLayerId]['category'][
-							category.targetProperty
-						]['title'],
-					{ ns: PluginId, defaultValue: category.targetProperty }
-				)
-			}}
-		</h3>
 		<div class="polar-filter-category-values">
 			<KernBlockButton
 				v-if="category.selectAll"
@@ -48,7 +45,7 @@
 				"
 			/>
 		</div>
-	</section>
+	</FilterSection>
 </template>
 
 <script setup lang="ts">
@@ -64,6 +61,7 @@ import {
 	type CategoryValue,
 	type FilterState,
 } from '../types'
+import FilterSection from './FilterSection.ce.vue'
 
 const coreStore = useCoreStore()
 const filterStore = useFilterStore()

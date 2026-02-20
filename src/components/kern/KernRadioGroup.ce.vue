@@ -30,3 +30,9 @@ const model = defineModel<string>({ required: true })
 
 const id = useId()
 </script>
+
+<style scoped>
+.kern-form-check {
+	box-sizing: border-box;
+}
+</style>
