@@ -81,7 +81,7 @@
 		"@commitlint/config-conventional": "^20.2.0",
 		"@dataport/eslint-config-geodev": "^1.0.0-alpha.1",
 		"@kern-ux/native": "^2.3.0",
-		"@masterportal/masterportalapi": "2.56.0",
+		"@masterportal/masterportalapi": "2.58.0",
 		"@material-symbols/svg-400": "^0.40.2",
 		"@pinia/testing": "^1.0.2",
 		"@repositoryname/noop": "^1.0.6",
