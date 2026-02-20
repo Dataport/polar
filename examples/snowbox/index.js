@@ -77,6 +77,7 @@ const dataportTheme = {
 // arbitrary condition for testing
 const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
 
+// NOTE: This function is only usable if the layer is clustered
 const isReportSelectable = (feature) =>
 	feature
 		.get('features')
