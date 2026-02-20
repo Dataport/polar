@@ -1,13 +1,13 @@
 <template>
-	<div v-for="item of props.items" :key="item.value" class="kern-form-check">
+	<div v-for="(item, idx) of props.items" :key="idx" class="kern-form-check">
 		<input
-			:id="id + '*' + item.value"
+			:id="id + '-' + idx"
 			v-model="model"
 			class="kern-form-check__radio"
 			type="radio"
 			:value="item.value"
 		/>
-		<label :for="id + '*' + item.value" class="kern-label">
+		<label :for="id + '-' + idx" class="kern-label">
 			{{ item.label }}
 		</label>
 	</div>
