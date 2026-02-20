@@ -8,6 +8,7 @@ import {
 	updateState,
 } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
+import pluginAttributions from '@polar/polar/plugins/attributions'
 import pluginFooter from '@polar/polar/plugins/footer'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
@@ -20,7 +21,6 @@ import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 
 import EmptyComponent from './EmptyComponent.vue'
-import MockAttributions from './MockAttributions.ce.vue'
 import MockPointerPosition from './MockPointerPosition.ce.vue'
 import services from './services.js'
 import styleJsonUrl from './style.json?url'
@@ -31,7 +31,7 @@ const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
-const hamburgBorder = '1693'
+const hamburgBorder = '6074'
 
 let colorScheme = 'light'
 // eslint-disable-next-line no-unused-vars
@@ -332,7 +332,7 @@ addPlugin(
 			{
 				plugin: {
 					component: YetAnotherEmptyComponent,
-					id: 'attributions',
+					id: 'other',
 					locales: [],
 				},
 				icon: 'kern-icon--near-me',
@@ -382,7 +382,46 @@ addPlugin(
 		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
 		rightEntries: [
 			pluginScale({}),
-			{ id: 'mockAttributions', component: MockAttributions },
+			pluginAttributions({
+				icons: {
+					close: 'kern-icon--keyboard-arrow-up',
+				},
+				listenToChanges: [
+					{
+						key: 'activeBackgroundId',
+						plugin: 'layerChooser',
+					},
+					{
+						key: 'activeMaskIds',
+						plugin: 'layerChooser',
+					},
+					{
+						key: 'zoom',
+					},
+				],
+				layerAttributions: [
+					{
+						id: basemapId,
+						title: 'snowbox.attributions.basemap',
+					},
+					{
+						id: basemapGreyId,
+						title: 'snowbox.attributions.basemapGrey',
+					},
+					{
+						id: reports,
+						title: 'snowbox.attributions.reports',
+					},
+					{
+						id: ausgleichsflaechen,
+						title: 'snowbox.attributions.ausgleichsflaechen',
+					},
+					{
+						id: denkmal,
+						title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
+					},
+				],
+			}),
 		],
 	})
 )
