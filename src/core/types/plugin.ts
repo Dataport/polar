@@ -36,8 +36,36 @@ import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
 
+/**
+ * Generic options for all plugins.
+ *
+ * ## Custom Plugin Positioning ({@link MapConfiguration.layout | Standard Layout})
+ *
+ * When `layout` is set to `'standard'`, a custom plugin can be rendered in one of two ways:
+ *
+ * 1. **As part of the IconMenu**: Set {@link PluginOptions.renderType | renderType}
+ * 		to `'iconMenu'` and configure the plugin in the IconMenu's
+ * 		{@link IconMenuPluginOptions.menus | `menus`} configuration.
+ * 		The IconMenu will handle positioning and rendering the plugin at the designated location.
+ *
+ * 2. **Independent with CSS positioning**: Set {@link PluginOptions.renderType | renderType}
+ * 		to `'independent'` (default). The plugin is responsible for its own positioning
+ * 		using CSS (e.g., `position: absolute`) within the map container.
+ */
 export interface PluginOptions {
+	/**
+	 * Should the component be visible at all.
+	 * Only relevant if {@link MapConfiguration.layout | layout} is set to `'nineRegions'`.
+	 *
+	 * @defaultValue `false`
+	 */
 	displayComponent?: boolean
+
+	/**
+	 * The region where the plugin should be rendered.
+	 * Required if {@link MapConfiguration.layout | layout} is set to `'nineRegions'`,
+	 * ignored otherwise.
+	 */
 	layoutTag?: keyof typeof NineLayoutTag
 }
 
@@ -184,6 +212,8 @@ export interface PluginContainer {
 	 * The component will be rendered by POLAR over the map.
 	 * The position is either to be determined by the plugin if `layout === 'standard'`
 	 * or will be determined by the layout.
+	 *
+	 * @see {@link PluginOptions} for configuration details
 	 */
 	component?: Component
 
