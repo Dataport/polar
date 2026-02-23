@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Snowbox</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
+		<style>
+			/* style just for example page, not directly related to POLAR */
+			:root {
+				--not-quite-white: #f2f3f4;
+				--map-height: 600px;
+			}
+
+			body {
+				font-family: sans-serif;
+				padding: 2em;
+				background: var(--not-quite-white);
+				color: var(--eigengrau);
+			}
+
+			h1 {
+				margin-bottom: 0.5em;
+			}
+
+			h2 {
+				margin: 0.5em 0;
+			}
+
+			p {
+				margin: 0.2em 0;
+			}
+
+			#language-switcher {
+				outline: solid black;
+			}
+
+			.snowbox {
+				width: 90vw;
+				max-width: 100%;
+				height: var(--map-height);
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+		</style>
+		<script type="module" crossorigin src="../../assets/snowbox-DhZ3bDRq.js"></script>
+		<link rel="modulepreload" crossorigin href="../../assets/vue.runtime.esm-bundler-CYHrvVzW-BTeeWO83.js">
+		<link rel="modulepreload" crossorigin href="../../assets/pinia-DFMOV6lD-BZLsqLPB.js">
+		<link rel="modulepreload" crossorigin href="../../assets/index-F6BoAyvM-YEah4Twq.js">
+		<link rel="modulepreload" crossorigin href="../../assets/reverseGeocode-CR3Bbmu1-Cvr90uaQ.js">
+		<link rel="modulepreload" crossorigin href="../../assets/indicateLoading-BWY3qVwE-V9X-vwV_.js">
+		<link rel="modulepreload" crossorigin href="../../assets/runtime-core.esm-bundler-ClxcIC2N.js">
+		<link rel="stylesheet" crossorigin href="../../assets/snowbox-N5bcjrEU.css">
+	</head>
+
+	<body>
+		<h1>POLAR map client</h1>
+		<label id="language-switcher-label">
+			Language in map client:
+			<select id="language-switcher">
+				<option value="en">English</option>
+				<option value="de">German</option>
+			</select>
+		</label>
+		<button id="color-scheme-switcher">Switch to dark mode</button>
+		<div>
+			Coordinates of currently selected feature: <span id="selected-feature-coordinates"></span>
+		</div>
+		<h2>Demo application ("Snowbox")</h2>
+		<div style="display: flex; justify-content: center;">
+			<div id="snowbox" class="snowbox"></div>
+		</div>
+		<div style="margin-top: 4em"></div>
+		<h2>Second map</h2>
+		<button id="secondMap">Add a map client</button>
+		<button id="secondMapClean">Remove all map clients below</button>
+		<div id="secondMapContainer"></div>
+	</body>
+</html>
