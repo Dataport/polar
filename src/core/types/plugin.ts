@@ -13,6 +13,9 @@ import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen
 import type { PluginId as GeoLocationPluginId } from '@/plugins/geoLocation'
 import type { resourcesEn as GeoLocationResources } from '@/plugins/geoLocation/locales'
 import type { useGeoLocationStore as GeoLocationStore } from '@/plugins/geoLocation/store'
+import type { PluginId as GfiPluginId } from '@/plugins/gfi'
+import type { resourcesEn as GfiResources } from '@/plugins/gfi/locales'
+import type { useGfiStore as GfiStore } from '@/plugins/gfi/store'
 import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
 import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
 import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
@@ -36,9 +39,30 @@ import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
 
+/**
+ * Generic options for all plugins
+ */
 export interface PluginOptions {
+	/**
+	 * Should the component be visible at all.
+	 *
+	 * @defaultValue `false`
+	 */
 	displayComponent?: boolean
+
+	/**
+	 * The region where the plugin should be rendered.
+	 * Required for nine-regions layout, ignored otherwise.
+	 */
 	layoutTag?: keyof typeof NineLayoutTag
+
+	/**
+	 * Defines if the plugin is rendered independent or as part of the icon menu.
+	 * This is automatically set by the icon menu; you should not need to touch this.
+	 *
+	 * @defaultValue `'independent'`
+	 */
+	renderType?: 'independent' | 'iconMenu'
 }
 
 export interface BoundaryOptions {
@@ -91,6 +115,7 @@ export type BundledPluginId =
 	| typeof FooterPluginId
 	| typeof FullscreenPluginId
 	| typeof GeoLocationPluginId
+	| typeof GfiPluginId
 	| typeof IconMenuPluginId
 	| typeof LayerChooserPluginId
 	| typeof LoadingIndicatorId
@@ -114,6 +139,7 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
+	| GetPluginStore<T, typeof GfiPluginId, typeof GfiStore>
 	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
 	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
 	| GetPluginStore<T, typeof LoadingIndicatorId, typeof LoadingIndicatorStore>
@@ -146,6 +172,7 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof GeoLocationPluginId,
 			typeof GeoLocationResources
 	  >
+	| GetPluginResources<T, typeof GfiPluginId, typeof GfiResources>
 	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
 	| GetPluginResources<
 			T,

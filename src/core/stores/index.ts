@@ -4,9 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { Feature } from 'ol'
+
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
+import { updateSelection } from '../utils/map/setupMarkers'
 import { useMainStore } from './main'
 import { useMarkerStore } from './marker'
 import { useMoveHandleStore } from './moveHandle'
@@ -22,13 +25,22 @@ import { usePluginStore } from './plugin'
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 	const mainStoreRefs = storeToRefs(mainStore)
+
 	const moveHandleStore = useMoveHandleStore()
 
 	const pluginStore = usePluginStore()
 
 	const markerStore = useMarkerStore()
+	const markerStoreRefs = storeToRefs(markerStore)
 
 	return {
+		/**
+		 * Read or modify center coordinate of the map.
+		 *
+		 * @internal
+		 */
+		center: mainStoreRefs.center,
+
 		/**
 		 * Color scheme the client should be using.
 		 *
@@ -67,6 +79,14 @@ export const useCoreStore = defineStore('core', () => {
 		 * @readonly
 		 */
 		deviceIsHorizontal: computed(() => mainStore.deviceIsHorizontal),
+
+		/**
+		 * Extent of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		extent: computed(() => mainStore.extent),
 
 		/**
 		 * Whether the map has a maximum height of {@link SMALL_DISPLAY_HEIGHT} and
@@ -114,6 +134,22 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		zoom: mainStoreRefs.zoom,
+
+		/**
+		 * Returns the layer with the given ID.
+		 *
+		 * @param layerId - ID of the layer
+		 * @alpha
+		 */
+		getLayer: mainStore.getLayer,
+
+		/**
+		 * List of all active plugin's IDs.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		activePluginIds: computed(() => pluginStore.activePluginIds),
 
 		/**
 		 * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
@@ -168,7 +204,7 @@ export const useCoreStore = defineStore('core', () => {
 		/**
 		 * Allows reading or setting the OIDC token used for service accesses.
 		 */
-		oidcToken: mainStore.oidcToken,
+		oidcToken: mainStoreRefs.oidcToken,
 
 		/**
 		 * Allows accessing the POLAR DOM element (`<polar-map>`).
@@ -203,6 +239,26 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		moveHandleTop: computed(() => moveHandleStore.top),
+
+		/**
+		 * Feature that is hovered by the user with a marker.
+		 * NOTE: Set _polarLayerId!
+		 *
+		 * @alpha
+		 */
+		hoveredFeature: markerStoreRefs.hovered,
+
+		/**
+		 * Feature that was selected by the user with a marker.
+		 *
+		 * @alpha
+		 */
+		selectedFeature: computed({
+			get: () => markerStore.selected,
+			set: (feature) => {
+				updateSelection(mainStore.map, feature as Feature)
+			},
+		}),
 
 		/**
 		 * Coordinates that were selected by the user with a marker.
