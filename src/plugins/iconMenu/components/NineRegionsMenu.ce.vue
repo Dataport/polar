@@ -2,7 +2,7 @@
 	<component :is="asList ? 'ul' : 'div'" class="polar-plugin-icon-menu-list">
 		<component
 			:is="asList ? 'li' : 'div'"
-			v-for="({ plugin, icon }, index) of menus"
+			v-for="(item, index) of menus"
 			:key="index"
 			:class="
 				deviceIsHorizontal
@@ -10,33 +10,40 @@
 					: 'polar-plugin-icon-menu-list-item'
 			"
 		>
-			<component :is="plugin.component" v-if="icon === undefined" />
+			<component
+				:is="item.plugin.component"
+				v-if="
+					'icon' in item
+						? typeof item.icon === 'undefined'
+						: typeof item.plugin.icon === 'undefined'
+				"
+			/>
 			<template v-else>
 				<component
 					:is="buttonComponent"
 					v-if="buttonComponent"
-					:id="plugin.id"
-					:icon="icon"
+					:id="item.plugin.id"
+					:icon="'icon' in item ? item.icon : item.plugin.icon"
 					:hint="
-						$t(($) => $.hints[plugin.id], {
+						$t(($) => $.hints[item.plugin.id], {
 							ns: 'iconMenu',
 						})
 					"
 				/>
 				<NineRegionsButton
 					v-else
-					:id="plugin.id"
-					:icon="icon"
+					:id="item.plugin.id"
+					:icon="('icon' in item ? item.icon : item.plugin.icon) ?? ''"
 					:hint="
-						$t(($) => $.hints[plugin.id], {
+						$t(($) => $.hints[item.plugin.id], {
 							ns: 'iconMenu',
 						})
 					"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
 				<component
-					:is="plugin.component"
-					v-if="open === plugin.id && (!hasWindowSize || !hasSmallWidth)"
+					:is="item.plugin.component"
+					v-if="open === item.plugin.id && (!hasWindowSize || !hasSmallWidth)"
 					ref="pluginComponent"
 					:class="[
 						deviceIsHorizontal

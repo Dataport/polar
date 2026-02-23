@@ -8,6 +8,7 @@
 		"types": [
 			"vitest/importMeta",
 			"vitest/jsdom",
+			"node",
 			"../../src/@types/vite-env.d.ts",
 			"../../src/@types/i18next.d.ts",
 			"../../src/@types/pinia.d.ts",
