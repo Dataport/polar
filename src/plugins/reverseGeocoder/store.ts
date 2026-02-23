@@ -74,7 +74,7 @@ export const useReverseGeocoderStore = defineStore(
 			if (!targetStore) {
 				return
 			}
-			targetStore[target.key] = feature
+			targetStore[target.key](feature)
 		}
 
 		async function reverseGeocode(coordinate: [number, number]) {
@@ -170,7 +170,7 @@ if (import.meta.vitest) {
 						getView: () => ({ fit }),
 					},
 					coordinateSource: null,
-					addressTarget: null,
+					addressTarget: vi.fn(),
 				})
 				// @ts-expect-error | Mocking useCoreStore
 				vi.spyOn(useCoreStoreFile, 'useCoreStore').mockReturnValue(coreStore)
@@ -213,7 +213,8 @@ if (import.meta.vitest) {
 			feature as unknown as ReverseGeocoderFeature
 		)
 		await store.reverseGeocode([3, 4])
-		expect(coreStore.addressTarget).toBe(feature)
+		expect(coreStore.addressTarget).toHaveBeenCalledOnce()
+		expect(coreStore.addressTarget).toHaveBeenCalledWith(feature)
 	})
 
 	test('zooms to input coordinate', async ({

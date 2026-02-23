@@ -1,5 +1,6 @@
 import type { VueElement } from 'vue'
 
+import type { AddressSearchPluginOptions } from '@/plugins/addressSearch'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
@@ -300,6 +301,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	// Remember to sort them alphabetical inside their space.
 	// TODO: Generate this section via types/plugin.ts
 	/* eslint-disable perfectionist/sort-interfaces */
+
+	/** Configuration for addressSearch plugin. */
+	addressSearch?: AddressSearchPluginOptions
 
 	/** Configuration for footer plugin. */
 	footer?: FooterPluginOptions

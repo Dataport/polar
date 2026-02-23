@@ -3,7 +3,11 @@
 		<li
 			v-for="({ buttonClass, icon, plugin }, index) of menus"
 			:key="index"
-			class="polar-plugin-icon-menu-list-item"
+			:class="
+				deviceIsHorizontal
+					? 'polar-plugin-icon-menu-list-item-horizontal'
+					: 'polar-plugin-icon-menu-list-item'
+			"
 		>
 			<component :is="plugin.component" v-if="typeof icon === 'undefined'" />
 			<template v-else>
@@ -16,16 +20,18 @@
 					"
 					:icon="icon"
 					tooltip-position="left"
-					@click="() => toggle(baseIndex + index)"
+					@click="() => toggle(plugin.id)"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
 				<component
 					:is="plugin.component"
-					v-if="
-						open === baseIndex + index && (!hasWindowSize || !hasSmallWidth)
-					"
+					v-if="open === plugin.id && (!hasWindowSize || !hasSmallWidth)"
 					ref="pluginComponent"
-					class="polar-plugin-icon-menu-list-item-content"
+					:class="
+						deviceIsHorizontal
+							? 'polar-plugin-icon-menu-list-item-content-horizontal'
+							: 'polar-plugin-icon-menu-list-item-content'
+					"
 					:style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
 				/>
 			</template>
@@ -114,13 +120,13 @@ function updateMaxWidth() {
 	})
 }
 
-function toggle(index: number) {
-	if (open.value === index) {
-		open.value = -1
+function toggle(id: string) {
+	if (open.value === id) {
+		open.value = null
 		coreStore.setMoveHandle(null)
 	} else {
-		open.value = index
-		iconMenuStore.openInMoveHandle(index)
+		open.value = id
+		iconMenuStore.openInMoveHandle(id)
 	}
 	updateMaxWidth()
 }
@@ -156,22 +162,36 @@ function toggle(index: number) {
 	background: var(--kern-color-layout-background-default);
 	box-shadow: var(--polar-shadow);
 
-	.polar-plugin-icon-menu-list-item {
-		float: left;
-		margin-bottom: 0;
-
-		.polar-plugin-icon-menu-list-item-content {
-			z-index: 1;
-			position: absolute;
-			top: calc(100% + 0.5rem);
-			right: 0;
-			white-space: nowrap;
-			overflow-y: auto;
-			scrollbar-gutter: stable;
-		}
-	}
 	.polar-plugin-icon-menu-list-item:nth-child(n + 2) {
+		margin-top: 3px;
+	}
+
+	.polar-plugin-icon-menu-list-item-horizontal {
+		float: left;
+	}
+
+	.polar-plugin-icon-menu-list-item-horizontal:nth-child(n + 2) {
 		margin-left: 3px;
+	}
+
+	.polar-plugin-icon-menu-list-item-content {
+		z-index: 2;
+		position: absolute;
+		right: calc(100% + 0.5rem);
+		top: 0;
+		white-space: nowrap;
+		overflow-y: auto;
+		scrollbar-gutter: stable;
+	}
+
+	.polar-plugin-icon-menu-list-item-content-horizontal {
+		z-index: 1;
+		position: absolute;
+		top: calc(100% + 0.5rem);
+		right: 0;
+		white-space: nowrap;
+		overflow-y: auto;
+		scrollbar-gutter: stable;
 	}
 }
 </style>
