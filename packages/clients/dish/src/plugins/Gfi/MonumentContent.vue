@@ -65,8 +65,9 @@ export default Vue.extend({
     infoFieldsParcels: [
       { key: 'gemarkung', label: 'Gemarkung' },
       { key: 'flur', label: 'Flur' },
+      { key: 'flstnrzae', label: 'Flurstückszähler' },
+      { key: 'flstnrnen', label: 'Flurstücksnenner' },
     ],
-    infoFieldsParcelNumber: ['flstnrzae', 'flstnrnen'],
   }),
   computed: {
     ...mapGetters([
@@ -144,13 +145,6 @@ export default Vue.extend({
       currentProperties: Record<string, string>
     ): Array<string[]> {
       const tableData = prepareData(currentProperties, this.infoFieldsParcels)
-      const parcelNumber = createComposedField(
-        this.infoFieldsParcelNumber,
-        currentProperties,
-        'Flurstück',
-        '/'
-      )
-      if (parcelNumber) addComposedField(parcelNumber, 'Flur', tableData)
 
       return tableData
     },
