@@ -28,6 +28,7 @@ The following parameters for the plugin must be defined in the map configuration
 | wfsLayerUrl | string | The url to the WFS used for the print. |
 | wfsLayerFeatureType | string | The feature type of the wfs configured in wfsLayerUrl. |
 | printImagePath | string |  Probably the relative path to the created map section. |
+| backgroundLayer | backgroundLayer | An object with `url` and `layers` properties. `url` specifies the WMS service URL for the background layer, and `layers` specifies the layer names to display. |
 
 
 ### example configuration
@@ -52,6 +53,7 @@ dishExportMap: {
   wfsLayerFeatureType: 'app:TBLGIS_ORA',
   printImageUrlProd: `${urlParams.internalHost}/Content/MapsTmp`,
   exportMapAsPdfUrl: `${urlParams.internalHost}/Content/Objekt/Kartenausgabe.aspx`,
+  backgroundLayer: {url: 'https://sgx.geodatenzentrum.de/wms_basemapde', layers: 'de_basemapde_web_raster_grau'}
 },
 ```
 
