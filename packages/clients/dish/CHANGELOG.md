@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.5.0
 
 - Feature: Split gfi field "Flurstück" into "Flurstückszähler" and "Flurstücknenner".
 - Fix: Use only `basemapGrau` as background service for `DishExportMap` Plugin.
