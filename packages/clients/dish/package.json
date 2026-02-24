@@ -1,6 +1,6 @@
 {
   "name": "@polar/client-dish",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "POLAR Client DISH. This client provides information about monuments in Schleswig-Holstein, Germany.",
   "keywords": [
     "OpenLayers",
