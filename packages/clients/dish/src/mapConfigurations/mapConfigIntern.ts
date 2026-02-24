@@ -12,7 +12,7 @@ import {
   verwaltung,
 } from '../servicesConstants'
 import { shBlue } from '../colors'
-import { DishMapConfig, DishUrlParams } from '../types'
+import { DishMapConfig, DishUrlParams, backgroundLayer } from '../types'
 import {
   categoryProps,
   groupProperties,
@@ -181,5 +181,9 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
     wfsLayerFeatureType: 'app:TBLGIS_ORA',
     printImageUrlProd: `${urlParams.printHostDeegree}/Content/MapsTmp`,
     exportMapAsPdfUrl: `${urlParams.printHostDeegree}/Content/Objekt/Kartenausgabe.aspx`,
+    backgroundLayer: {
+      url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+      layers: 'de_basemapde_web_raster_grau',
+    } as backgroundLayer,
   },
 })
