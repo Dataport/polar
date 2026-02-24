@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Split gfi field "Flurstück" into "Flurstückszähler" and "Flurstücknenner".
+- Fix: Use only `basemapGrau` as background service for `DishExportMap` Plugin.
+
 ## 1.4.0
 
 - Feature: Add client-specific `DishAttributions` plugin that wraps the standard Attributions plugin, adding a "Benutzungshinweise" link and a close button.
