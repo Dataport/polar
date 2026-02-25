@@ -34,12 +34,13 @@ const { leftEntries, rightEntries } = storeToRefs(useFooterStore())
 	justify-content: space-between;
 	align-items: center;
 	flex-shrink: 0;
+	z-index: -2;
 
 	background: var(--kern-color-layout-background-hued);
 	box-shadow:
-		0 1px 1px 0 rgba(53, 57, 86, 0.16),
-		0 1px 2px 0 rgba(53, 57, 86, 0.25),
-		0 1px 6px 0 rgba(110, 117, 151, 0.25);
+		0 -1px 1px 0 rgba(53, 57, 86, 0.16),
+		0 -1px 2px 0 rgba(53, 57, 86, 0.25),
+		0 -1px 6px 0 rgba(110, 117, 151, 0.25);
 	border-radius: 0 0 var(--kern-metric-border-radius-large)
 		var(--kern-metric-border-radius-large);
 
