@@ -1,6 +1,7 @@
 import type { VueElement } from 'vue'
 
 import type { AddressSearchPluginOptions } from '@/plugins/addressSearch'
+import type { AttributionsPluginOptions } from '@/plugins/attributions'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
@@ -304,6 +305,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** Configuration for addressSearch plugin. */
 	addressSearch?: AddressSearchPluginOptions
+
+	/** Configuration for attributions plugin. */
+	attributions?: AttributionsPluginOptions
 
 	/** Configuration for footer plugin. */
 	footer?: FooterPluginOptions
