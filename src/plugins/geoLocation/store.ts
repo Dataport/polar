@@ -31,6 +31,8 @@ import { detectDeniedGeolocationEarly } from './utils/detectDeniedGeolocationEar
 import { getGeoLocationStyle } from './utils/olStyle'
 import { positionChanged } from './utils/positionChanged'
 
+let isUserInteracting = false
+
 /* eslint-disable tsdoc/syntax */
 /**
  * @function
@@ -45,6 +47,11 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	const geolocation = ref<Geolocation | null>(null)
 	const lastBoundaryCheck = ref<boolean | symbol | null>(null)
 	const position = ref<number[]>([])
+
+	let onMapPointerDrag: (() => void) | null = null
+	let onPointerDown: ((e: PointerEvent) => void) | null = null
+	let onPointerUp: ((e: PointerEvent) => void) | null = null
+	const activePointers = new Map<number, number>()
 
 	const configuration = computed<
 		GeoLocationPluginOptions & { showTooltip: boolean; zoomLevel: number }
@@ -144,6 +151,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 			})
 			return
 		}
+		isUserInteracting = false
 		if (geolocation.value === null) {
 			geolocation.value = new Geolocation({
 				trackingOptions: {
@@ -156,6 +164,29 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		} else {
 			void positioning()
 		}
+
+		// Track pointer count to distinguish 1-finger drag from multi-touch
+		const viewport = coreStore.map.getViewport()
+
+		onPointerDown = (e: PointerEvent) => {
+			activePointers.set(e.pointerId, 1)
+		}
+
+		onPointerUp = (e: PointerEvent) => {
+			activePointers.delete(e.pointerId)
+		}
+
+		viewport.addEventListener('pointerdown', onPointerDown)
+		viewport.addEventListener('pointerup', onPointerUp)
+
+		// Handler for pointerdrag - only set isUserInteracting if exactly 1 pointer
+		onMapPointerDrag = () => {
+			if (activePointers.size === 1) {
+				isUserInteracting = true
+			}
+		}
+
+		coreStore.map.on('pointerdrag', onMapPointerDrag)
 		geolocation.value.on('change:position', positioning)
 		geolocation.value.on('change:heading', ({ target }) => {
 			markerFeature.set('heading', target.getHeading())
@@ -185,6 +216,22 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	function untrack() {
 		// For FireFox - cannot handle geolocation.un(...).
 		geolocation.value?.setTracking(false)
+
+		if (onMapPointerDrag) {
+			coreStore.map.un('pointerdrag', onMapPointerDrag)
+			onMapPointerDrag = null
+		}
+		const viewport = coreStore.map.getViewport()
+		if (onPointerDown) {
+			viewport.removeEventListener('pointerdown', onPointerDown)
+			onPointerDown = null
+		}
+		if (onPointerUp) {
+			viewport.removeEventListener('pointerup', onPointerUp)
+			onPointerUp = null
+		}
+		activePointers.clear()
+
 		removeMarker()
 		geolocation.value = null
 	}
@@ -242,7 +289,8 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 
 		if (
 			(configuration.value.keepCentered || !hadPosition) &&
-			lastBoundaryCheck.value
+			lastBoundaryCheck.value &&
+			!isUserInteracting
 		) {
 			coreStore.map.getView().setCenter(coordinate)
 			coreStore.map.getView().setZoom(configuration.value.zoomLevel)
