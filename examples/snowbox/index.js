@@ -362,7 +362,7 @@ addPlugin(
 				{
 					plugin: pluginGeoLocation({
 						checkLocationInitially: false,
-						keepCentered: false,
+						keepCentered: true,
 						showTooltip: true,
 						zoomLevel: 7,
 						// usable when you're in HH or fake your geolocation to HH
