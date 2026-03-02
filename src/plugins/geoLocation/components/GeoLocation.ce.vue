@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
@@ -21,9 +21,10 @@ import { useCoreStore } from '@/core/stores'
 import { useGeoLocationStore } from '../store'
 import { PluginId } from '../types'
 
-const { layout } = storeToRefs(useCoreStore())
+const { layout, center } = storeToRefs(useCoreStore())
 const geoLocationStore = useGeoLocationStore()
 const { state } = storeToRefs(geoLocationStore)
+const { position, mapHasBeenMovedByUser } = storeToRefs(geoLocationStore)
 
 const icon = computed(() => {
 	if (state.value === 'LOCATED') {
@@ -41,6 +42,12 @@ const tooltipPosition = computed(() =>
 			? 'left'
 			: 'right'
 )
+
+watch(center, () => {
+	if (position.value !== center.value) {
+		mapHasBeenMovedByUser.value = true
+	}
+})
 </script>
 
 <style scoped>

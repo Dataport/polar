@@ -29,6 +29,8 @@ export const useCoreStore = defineStore('core', () => {
 	const markerStore = useMarkerStore()
 
 	return {
+		center: computed(() => mainStore.center),
+
 		/**
 		 * Color scheme the client should be using.
 		 *

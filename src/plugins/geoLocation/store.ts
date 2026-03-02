@@ -42,6 +42,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	const coreStore = useCoreStore()
 
 	const isGeolocationDenied = ref(false)
+	const mapHasBeenMovedByUser = ref(false)
 	const geolocation = ref<Geolocation | null>(null)
 	const lastBoundaryCheck = ref<boolean | symbol | null>(null)
 	const position = ref<number[]>([])
@@ -138,6 +139,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 
 	/** Enable tracking of geo position */
 	function track() {
+		mapHasBeenMovedByUser.value = false
 		if (isGeolocationDenied.value) {
 			onError({
 				message: 'Geolocation API usage was denied by user or configuration.',
@@ -242,7 +244,8 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 
 		if (
 			(configuration.value.keepCentered || !hadPosition) &&
-			lastBoundaryCheck.value
+			lastBoundaryCheck.value &&
+			!mapHasBeenMovedByUser.value
 		) {
 			coreStore.map.getView().setCenter(coordinate)
 			coreStore.map.getView().setZoom(configuration.value.zoomLevel)
@@ -324,6 +327,11 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		 * errors export, if such an error occurred.
 		 */
 		boundaryCheck: lastBoundaryCheck,
+
+		/**
+		 * Indicates whether the map has been moved by the user after the last position update. This is used to avoid re-centering the map on the user's location if they have manually moved it.
+		 */
+		mapHasBeenMovedByUser,
 	}
 })
 
