@@ -24,7 +24,7 @@ export const resourcesDe = {
 } as const
 
 /**
- * English locales for POLAR core.
+ * English locales for POLAR shared components.
  * For overwriting these values, pass a partial object of this in `locales`.
  */
 export const resourcesEn = {
