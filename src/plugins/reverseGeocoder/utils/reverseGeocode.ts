@@ -32,13 +32,21 @@ const parser = new Parser({
 	tagNameProcessors: [processors.stripPrefix],
 })
 
+let abortController: AbortController | null = null
+
 export async function reverseGeocode(
 	url: string,
 	coordinate: [number, number]
 ): Promise<ReverseGeocoderFeature> {
+	if (abortController) {
+		abortController.abort()
+		abortController = null
+	}
+	abortController = new AbortController()
 	const response = await fetch(url, {
 		method: 'POST',
 		body: buildPostBody(coordinate),
+		signal: abortController.signal,
 	})
 
 	const parsedBody = await parser.parseStringPromise(await response.text())
@@ -142,6 +150,7 @@ if (import.meta.vitest) {
 		expect(fetchMock).toHaveBeenCalledWith(testUrl, {
 			method: 'POST',
 			body: buildPostBody(testCoordinates),
+			signal: abortController?.signal,
 		})
 
 		expect(feature).toEqual<ReverseGeocoderFeature>({
