@@ -60,7 +60,7 @@ function readTextFeatures(text: string): Feature[] {
 				feature.set(key || '', value)
 			} else {
 				console.error(
-					'@polar/plugin-gfi: Found property before feature declaration in readTextFeatures.',
+					'Found property before feature declaration in readTextFeatures.',
 					line,
 					'Skipping ...'
 				)
