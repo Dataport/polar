@@ -38,7 +38,7 @@ export const resourcesEn = {
 } as const
 
 /**
- * Core locales.
+ * POLAR shared components locales.
  *
  * @privateRemarks
  * The first entry will be used as fallback.
