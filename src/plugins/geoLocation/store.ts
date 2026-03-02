@@ -55,6 +55,9 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		)
 	)
 	const boundary = computed(() => configuration.value.boundary)
+	const renderType = computed<'independent' | 'iconMenu'>(
+		() => configuration.value.renderType || 'independent'
+	)
 	const state = computed<PluginState>(() => {
 		if (isGeolocationDenied.value) {
 			return 'DISABLED'
@@ -298,6 +301,11 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		 * @internal
 		 */
 		isGeolocationDenied,
+
+		/**
+		 * @internal
+		 */
+		renderType,
 
 		/**
 		 * The plugin's current state. It can either currently have the user's
