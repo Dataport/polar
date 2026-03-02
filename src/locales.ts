@@ -10,7 +10,7 @@
 import type { Locale } from '@/core/types'
 
 /**
- * German locales for POLAR core.
+ * German locales for POLAR shared components.
  * For overwriting these values, pass a partial object of this in `locales`.
  */
 export const resourcesDe = {
