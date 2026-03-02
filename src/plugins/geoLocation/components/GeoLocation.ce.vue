@@ -21,10 +21,12 @@ import { useCoreStore } from '@/core/stores'
 import { useGeoLocationStore } from '../store'
 import { PluginId } from '../types'
 
-const { layout, center } = storeToRefs(useCoreStore())
+const { layout, center, zoom } = storeToRefs(useCoreStore())
 const geoLocationStore = useGeoLocationStore()
 const { state } = storeToRefs(geoLocationStore)
 const { position, mapHasBeenMovedByUser } = storeToRefs(geoLocationStore)
+
+let lastZoom = zoom.value
 
 const icon = computed(() => {
 	if (state.value === 'LOCATED') {
@@ -44,7 +46,10 @@ const tooltipPosition = computed(() =>
 )
 
 watch(center, () => {
-	if (position.value !== center.value) {
+	const isZooming = zoom.value !== lastZoom
+	lastZoom = zoom.value
+
+	if (!isZooming && position.value !== center.value) {
 		mapHasBeenMovedByUser.value = true
 	}
 })
