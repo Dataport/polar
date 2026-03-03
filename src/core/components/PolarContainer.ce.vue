@@ -22,8 +22,9 @@
 <script setup lang="ts">
 import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
-import { storeToRefs } from 'pinia'
+import { disposePinia, getActivePinia, type Pinia, storeToRefs } from 'pinia'
 import {
+	getCurrentInstance,
 	onBeforeUnmount,
 	onMounted,
 	ref,
@@ -146,7 +147,21 @@ onBeforeUnmount(() => {
 		resizeObserver = null
 	}
 
+	const mapEl = mainStore.map.getTargetElement()
+	mainStore.map.dispose()
+	mapEl.replaceChildren()
+	delete (mainStore.lightElement as { store?: unknown }).store
 	mainStore.teardown()
+
+	disposePinia(getActivePinia() as Pinia)
+
+	const shadowRoot = getCurrentInstance()?.proxy?.$el?.getRootNode()
+	if (shadowRoot instanceof ShadowRoot) {
+		shadowRoot.adoptedStyleSheets = []
+		shadowRoot.querySelectorAll('style').forEach((s) => {
+			s.remove()
+		})
+	}
 })
 </script>
 
