@@ -1,0 +1,23 @@
+{
+	"extends": [
+		"@vue/tsconfig/tsconfig.dom.json",
+		"@vue/tsconfig/tsconfig.lib.json",
+		"../../tsconfig.settings.json"
+	],
+	"compilerOptions": {
+		"types": [
+			"vitest/importMeta",
+			"vitest/jsdom",
+			"../../src/@types/vite-env.d.ts",
+			"../../src/@types/i18next.d.ts",
+			"../../src/@types/pinia.d.ts",
+			"../../src/@types/shims-masterportalapi.d.ts",
+			"../../src/@types/virtual-kern-extra-icons.d.ts"
+		],
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"paths": {
+			"@polar/polar": ["../../src/core/index.ts"],
+			"@polar/polar/client": ["../../src/client.ts"]
+		}
+	}
+}
