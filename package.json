@@ -91,7 +91,7 @@
 		"@vitejs/plugin-vue": "^6.0.3",
 		"@vitest/coverage-v8": "^4.0.16",
 		"@vue/test-utils": "^2.4.6",
-		"@vue/tsconfig": "^0.8.1",
+		"@vue/tsconfig": "^0.9.0",
 		"buffer": "^6.0.3",
 		"concurrently": "^9.2.1",
 		"conventional-changelog": "^7.1.1",
