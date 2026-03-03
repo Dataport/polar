@@ -89,7 +89,14 @@ function resolveClusterClick(map: Map, feature: Feature) {
 	})
 }
 
-function updateSelection(
+/**
+ * Update the selected marker in the map.
+ *
+ * @param map - Map
+ * @param feature - Feature to select
+ * @param centerOnFeature - Should the map center on the feature?
+ */
+export function updateSelection(
 	map: Map,
 	feature: Feature | null,
 	centerOnFeature = false
@@ -207,10 +214,9 @@ export function setupMarkers(map: Map) {
 
 	watch(
 		() => store.hovered,
-		(feature) => {
-			if (feature !== null && feature !== toRaw(store.selected)) {
-				store.hovered?.setStyle(undefined)
-				store.hovered = null
+		(feature, oldFeature) => {
+			if (oldFeature !== null && oldFeature !== toRaw(store.selected)) {
+				oldFeature.setStyle(undefined)
 			}
 			if (feature !== null && feature !== toRaw(store.selected)) {
 				store.hovered = markRaw(feature)
@@ -220,7 +226,7 @@ export function setupMarkers(map: Map) {
 						.hoverStyle,
 					isMultiFeature
 				)
-				store.hovered.setStyle(style)
+				feature.setStyle(style)
 			}
 		}
 	)

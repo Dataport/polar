@@ -12,6 +12,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch, type Reactive, type WatchHandle } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { getRefStore } from '@/lib/getRefStore'
 import { indicateLoading } from '@/lib/indicateLoading'
 
 import {
@@ -41,9 +42,7 @@ export const useReverseGeocoderStore = defineStore(
 
 		function setupPlugin() {
 			for (const source of configuration.value.coordinateSources || []) {
-				const store = source.plugin
-					? coreStore.getPluginStore(source.plugin)
-					: coreStore
+				const store = getRefStore(source)
 				if (!store) {
 					continue
 				}
@@ -71,9 +70,7 @@ export const useReverseGeocoderStore = defineStore(
 			target: NonNullable<ReverseGeocoderPluginOptions['addressTarget']>,
 			feature: ReverseGeocoderFeature
 		) {
-			const targetStore = target.plugin
-				? coreStore.getPluginStore(target.plugin)
-				: coreStore
+			const targetStore = getRefStore(target)
 			if (!targetStore) {
 				return
 			}

@@ -53,7 +53,14 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 			.concat(focusMenus.value)
 			.flat()
 			.forEach(({ plugin }) => {
-				coreStore.addPlugin(toMerged(plugin, { independent: false }))
+				coreStore.addPlugin(
+					toMerged(plugin, {
+						independent: false,
+						options: {
+							renderType: 'iconMenu',
+						},
+					})
+				)
 			})
 
 		// Otherwise, the component itself is made reactive
