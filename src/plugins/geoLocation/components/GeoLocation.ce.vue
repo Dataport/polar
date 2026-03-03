@@ -1,7 +1,9 @@
 <template>
 	<PolarIconButton
 		:class="
-			layout === 'nineRegions' ? 'polar-plugin-geoLocation-nineRegions' : ''
+			layout === 'nineRegions' && renderType !== 'iconMenu'
+				? 'polar-plugin-geoLocation-nineRegions'
+				: ''
 		"
 		:hint="$t(($) => $.button.tooltip, { ns: PluginId })"
 		:icon="icon"
@@ -23,7 +25,7 @@ import { PluginId } from '../types'
 
 const { layout, center, zoom } = storeToRefs(useCoreStore())
 const geoLocationStore = useGeoLocationStore()
-const { state } = storeToRefs(geoLocationStore)
+const { renderType, state } = storeToRefs(geoLocationStore)
 const { position, mapHasBeenMovedByUser } = storeToRefs(geoLocationStore)
 
 let lastZoom = zoom.value
