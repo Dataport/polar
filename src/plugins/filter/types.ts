@@ -29,6 +29,7 @@ export interface CategoryValue {
 	values: string[]
 
 	/**
+	 * (Standard-layout-only)
 	 * An icon that is assigned to the value for filtering.
 	 */
 	icon?: Icon
