@@ -21,6 +21,10 @@
 			"default": "./dist/polar.js"
 		},
 		"./polar.css": "./dist/polar.css",
+		"./client": {
+			"types": "./dist/client.d.ts",
+			"default": "./dist/client.js"
+		},
 		"./store": {
 			"types": "./dist/store.d.ts",
 			"default": "./dist/store.js"
