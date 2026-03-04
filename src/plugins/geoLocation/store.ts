@@ -42,9 +42,9 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	const coreStore = useCoreStore()
 
 	const isGeolocationDenied = ref(false)
-	const mapHasBeenMovedByUser = ref(false)
 	const geolocation = ref<Geolocation | null>(null)
 	const lastBoundaryCheck = ref<boolean | symbol | null>(null)
+	const mapHasBeenMovedByUser = ref(false)
 	const position = ref<number[]>([])
 
 	const configuration = computed<
