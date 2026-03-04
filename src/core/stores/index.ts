@@ -39,8 +39,6 @@ export const useCoreStore = defineStore('core', () => {
 
 		/**
 		 * Color scheme the client should be using.
-		 *
-		 * @internal
 		 */
 		colorScheme: mainStoreRefs.colorScheme,
 
@@ -111,8 +109,6 @@ export const useCoreStore = defineStore('core', () => {
 
 		/**
 		 * Configured language.
-		 *
-		 * @internal
 		 */
 		language: mainStoreRefs.language,
 
@@ -176,7 +172,7 @@ export const useCoreStore = defineStore('core', () => {
 		/**
 		 * Allows reading or setting the OIDC token used for service accesses.
 		 */
-		oidcToken: mainStore.oidcToken,
+		oidcToken: mainStoreRefs.oidcToken,
 
 		/**
 		 * Allows accessing the POLAR DOM element (`<polar-map>`).
@@ -199,7 +195,6 @@ export const useCoreStore = defineStore('core', () => {
 		 * Allows accessing the OpenLayers Map element.
 		 *
 		 * @readonly
-		 * @alpha
 		 */
 		map: computed(() => mainStore.map),
 
@@ -213,10 +208,23 @@ export const useCoreStore = defineStore('core', () => {
 		moveHandleTop: computed(() => moveHandleStore.top),
 
 		/**
+		 * Currently hovered marker feature or null.
+		 *
+		 * @readonly
+		 */
+		hovered: computed(() => markerStore.hovered),
+
+		/**
+		 * Currently selected marker feature or null.
+		 *
+		 * @readonly
+		 */
+		selected: computed(() => markerStore.selected),
+
+		/**
 		 * Coordinates that were selected by the user with a marker.
 		 *
 		 * @readonly
-		 * @alpha
 		 */
 		selectedCoordinates: computed(() => markerStore.selectedCoordinates),
 
