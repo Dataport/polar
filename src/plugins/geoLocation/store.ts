@@ -170,12 +170,17 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		geolocation.value.on('error', onError)
 	}
 
-	watch(coreStore.center, () => {
-		const isZooming = coreStore.zoom !== lastZoom
-		lastZoom = coreStore.zoom
-		mapHasBeenMovedByUser.value =
-			!isZooming && position.value !== coreStore.center
-	})
+	watch(
+		() => coreStore.center,
+		() => {
+			const isZooming = coreStore.zoom !== lastZoom
+			lastZoom = coreStore.zoom
+
+			if (!isZooming && position.value !== coreStore.center) {
+				mapHasBeenMovedByUser.value = true
+			}
+		}
+	)
 
 	/**
 	 * Show error information and stop tracking if there are errors by tracking the position
