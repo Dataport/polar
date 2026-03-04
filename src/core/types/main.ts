@@ -228,6 +228,8 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	/**
 	 * Choose between the standard sidebar layout with fixed positioning, the oldschool nine region layout with full
 	 * configurability regarding positioning or add a custom layout as Vue component.
+	 *
+	 * @defaultValue 'nineRegions'
 	 */
 	layout?: 'standard' | 'nineRegions' | VueElement
 
