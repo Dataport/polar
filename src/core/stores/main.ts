@@ -33,7 +33,7 @@ export const useMainStore = defineStore('main', () => {
 	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
 
-	const layout = computed(() => configuration.value.layout ?? 'standard')
+	const layout = computed(() => configuration.value.layout ?? 'nineRegions')
 
 	// TODO(dopenguin): Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
 	const clientHeight = ref(0)
