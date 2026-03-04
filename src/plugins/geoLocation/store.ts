@@ -18,7 +18,7 @@ import * as Proj from 'ol/proj'
 import { transform as transformCoordinates } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { notifyUser } from '@/lib/notifyUser'
@@ -46,6 +46,8 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	const lastBoundaryCheck = ref<boolean | symbol | null>(null)
 	const mapHasBeenMovedByUser = ref(false)
 	const position = ref<number[]>([])
+
+	let lastZoom = coreStore.zoom
 
 	const configuration = computed<
 		GeoLocationPluginOptions & { showTooltip: boolean; zoomLevel: number }
@@ -167,6 +169,13 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		})
 		geolocation.value.on('error', onError)
 	}
+
+	watch(coreStore.center, () => {
+		const isZooming = coreStore.zoom !== lastZoom
+		lastZoom = coreStore.zoom
+		mapHasBeenMovedByUser.value =
+			!isZooming && position.value !== coreStore.center
+	})
 
 	/**
 	 * Show error information and stop tracking if there are errors by tracking the position
