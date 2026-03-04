@@ -4,6 +4,9 @@ import type { Component } from 'vue'
 import type { PluginId as AddressSearchPluginId } from '@/plugins/addressSearch'
 import type { resourcesEn as AddressSearchResources } from '@/plugins/addressSearch/locales'
 import type { useAddressSearchStore as AddressSearchStore } from '@/plugins/addressSearch/store'
+import type { PluginId as FilterPluginId } from '@/plugins/filter'
+import type { resourcesEn as FilterResources } from '@/plugins/filter/locales'
+import type { useFilterStore as FilterStore } from '@/plugins/filter/store'
 import type { PluginId as FooterPluginId } from '@/plugins/footer'
 import type { resourcesEn as FooterResources } from '@/plugins/footer/locales'
 import type { useFooterStore as FooterStore } from '@/plugins/footer/store'
@@ -35,6 +38,7 @@ import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
+import type { Icon } from './theme'
 
 export interface PluginOptions {
 	displayComponent?: boolean
@@ -88,6 +92,7 @@ export type PolarPluginStore<
 /** @internal */
 export type BundledPluginId =
 	| typeof AddressSearchPluginId
+	| typeof FilterPluginId
 	| typeof FooterPluginId
 	| typeof FullscreenPluginId
 	| typeof GeoLocationPluginId
@@ -111,6 +116,7 @@ type GetPluginStore<
 /** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof AddressSearchPluginId, typeof AddressSearchStore>
+	| GetPluginStore<T, typeof FilterPluginId, typeof FilterStore>
 	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
@@ -139,6 +145,7 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof AddressSearchPluginId,
 			typeof AddressSearchResources
 	  >
+	| GetPluginResources<T, typeof FilterPluginId, typeof FilterResources>
 	| GetPluginResources<T, typeof FooterPluginId, typeof FooterResources>
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
 	| GetPluginResources<
@@ -191,7 +198,7 @@ export interface PluginContainer {
 	 * Icon class for the plugin.
 	 * This icon will be used as the default for rendering in menus.
 	 */
-	icon?: string
+	icon?: Icon
 
 	/**
 	 * Whether the plugin is independently rendered.
