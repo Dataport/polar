@@ -40,6 +40,20 @@ export function createMapElement(
  * It inserts the map element by replacing the element with the given ID.
  * The ID and the classes of the container are transferred to the map element.
  *
+ * ## Teardown
+ *
+ * In general, your calls to our `subscribe` method should also be cleaned up to avoid leaks.
+ * This method returns a function that, when called, unsubscribes from the watched parameter.
+ *
+ * Note that most frameworks will handle DOM regeneration on rerenders themselves.
+ * Should you need to clean up the DOM for arbitrary reasons yourself, this snippet may come in handy:
+ * ```ts
+ * const polarstern = document.getElementById('polarstern-wrapper')
+ * const stellamaris = document.createElement('div')
+ * stellamaris.id = 'polarstern'
+ * polarstern?.parentElement?.replaceChild(stellamaris, polarstern)
+ * ```
+ *
  * @param mapConfiguration - Configuration options.
  * @param serviceRegister - Service register given as an array, or an URL to fetch this from.
  */
