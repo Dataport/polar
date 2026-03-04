@@ -4,6 +4,9 @@ import type { Component } from 'vue'
 import type { PluginId as AddressSearchPluginId } from '@/plugins/addressSearch'
 import type { resourcesEn as AddressSearchResources } from '@/plugins/addressSearch/locales'
 import type { useAddressSearchStore as AddressSearchStore } from '@/plugins/addressSearch/store'
+import type { PluginId as AttributionsPluginId } from '@/plugins/attributions'
+import type { resourcesEn as AttributionsResources } from '@/plugins/attributions/locales'
+import type { useAttributionsStore as AttributionsStore } from '@/plugins/attributions/store'
 import type { PluginId as FilterPluginId } from '@/plugins/filter'
 import type { resourcesEn as FilterResources } from '@/plugins/filter/locales'
 import type { useFilterStore as FilterStore } from '@/plugins/filter/store'
@@ -92,6 +95,7 @@ export type PolarPluginStore<
 /** @internal */
 export type BundledPluginId =
 	| typeof AddressSearchPluginId
+	| typeof AttributionsPluginId
 	| typeof FilterPluginId
 	| typeof FooterPluginId
 	| typeof FullscreenPluginId
@@ -116,6 +120,7 @@ type GetPluginStore<
 /** @internal */
 export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof AddressSearchPluginId, typeof AddressSearchStore>
+	| GetPluginStore<T, typeof AttributionsPluginId, typeof AttributionsStore>
 	| GetPluginStore<T, typeof FilterPluginId, typeof FilterStore>
 	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
@@ -144,6 +149,11 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			T,
 			typeof AddressSearchPluginId,
 			typeof AddressSearchResources
+	  >
+	| GetPluginResources<
+			T,
+			typeof AttributionsPluginId,
+			typeof AttributionsResources
 	  >
 	| GetPluginResources<T, typeof FilterPluginId, typeof FilterResources>
 	| GetPluginResources<T, typeof FooterPluginId, typeof FooterResources>
