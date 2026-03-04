@@ -178,9 +178,6 @@ const map = await createMap(
 			clusterClickZoom: true,
 		},
 		// theme: dataportTheme,
-		/*
-			TODO(dopenguin): Surrounding application should be able give information about dark or light mode via update of a state parameter; light mode by default
-		 */
 		locales: [
 			{
 				type: 'de',
