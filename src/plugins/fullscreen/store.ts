@@ -24,9 +24,11 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	const coreStore = useCoreStore()
 
 	const configuration = computed(
-		() => coreStore.configuration[PluginId] as FullscreenPluginOptions
+		() => (coreStore.configuration[PluginId] || {}) as FullscreenPluginOptions
 	)
-	const renderType = computed(() => configuration.value.renderType)
+	const renderType = computed(
+		() => configuration.value.renderType || 'independent'
+	)
 
 	const targetContainer = computed(() => {
 		if (typeof configuration.value.targetContainer === 'string') {
