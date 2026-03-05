@@ -11,8 +11,9 @@
 		<span class="kern-icon" :class="mapInfoIcon" aria-hidden="true" />
 		<span class="kern-label kern-sr-only">
 			{{
-				$t(($) => $.button[`${windowIsOpen ? 'close' : 'open'}Title`], {
+				$t(($) => $.button.title, {
 					ns: PluginId,
+					context: windowIsOpen ? 'close' : 'open',
 				})
 			}}
 		</span>

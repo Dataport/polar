@@ -6,8 +6,9 @@
 		<template v-if="openLeft">
 			<PolarIconButton
 				:hint="
-					$t(($) => $.button[`${windowIsOpen ? 'close' : 'open'}Title`], {
+					$t(($) => $.button.title, {
 						ns: PluginId,
+						context: windowIsOpen ? 'close' : 'open',
 					})
 				"
 				:icon="mapInfoIcon"
@@ -20,8 +21,9 @@
 			<AttributionContent v-if="windowIsOpen" />
 			<PolarIconButton
 				:hint="
-					$t(($) => $.button[`${windowIsOpen ? 'close' : 'open'}Title`], {
+					$t(($) => $.button.title, {
 						ns: PluginId,
+						context: windowIsOpen ? 'close' : 'open',
 					})
 				"
 				:icon="mapInfoIcon"

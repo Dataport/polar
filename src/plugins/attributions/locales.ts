@@ -15,8 +15,8 @@ import type { Locale } from '@/core'
  */
 export const resourcesDe = {
 	button: {
-		closeTitle: 'Quellennachweis ausblenden',
-		openTitle: 'Quellennachweis einblenden',
+		title_close: 'Quellennachweis ausblenden',
+		title_open: 'Quellennachweis einblenden',
 	},
 	sourceCode:
 		'<span><a href="https://github.com/Dataport/polar" target="_blank">Quellcode</a> lizenziert unter <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span>',
@@ -29,8 +29,8 @@ export const resourcesDe = {
  */
 export const resourcesEn = {
 	button: {
-		closeTitle: 'Hide Attributions',
-		openTitle: 'Show Attributions',
+		title_close: 'Hide Attributions',
+		title_open: 'Show Attributions',
 	},
 	sourceCode:
 		'<span><a href="https://github.com/Dataport/polar" target="_blank">Source code</a> licensed under <a href="https://github.com/Dataport/polar/blob/main/LICENSE" target="_blank">EUPL v1.2</a></span>',
