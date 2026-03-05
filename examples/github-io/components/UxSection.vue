@@ -53,28 +53,28 @@ const cards = [
 		iconBg: '#dbeafe',
 		iconColor: '#1d4ed8',
 		title: 'Mobile Friendly',
-		body: 'Optimized for touch interactions and small screens from the ground up.',
+		body: 'Optimized for touch interactions and mobile devices. POLAR provides smooth gestures, responsive controls, and efficient rendering on smartphones and tablets.',
 	},
 	{
 		icon: 'kern-icon--arrow-forward',
 		iconBg: '#dcfce7',
 		iconColor: '#15803d',
 		title: 'Responsive',
-		body: 'Fluid layout adapts seamlessly from mobile phones to wide-screen displays.',
+		body: 'Seamlessly adapts to any screen size or device. From desktop monitors to mobile screens, POLAR delivers a consistent and optimized experience across all platforms.',
 	},
 	{
 		icon: 'kern-icon--edit',
 		iconBg: '#fef3c7',
 		iconColor: '#d97706',
 		title: 'Flexible',
-		body: 'Configure every aspect via JSON — no code required for most customisations.',
+		body: 'Highly customizable and extensible architecture. Build custom plugins, integrate with existing systems, and configure POLAR to match your specific requirements.',
 	},
 	{
 		icon: 'kern-icon--help',
 		iconBg: '#fae8ff',
 		iconColor: '#9333ea',
 		title: 'Accessible',
-		body: 'WCAG 2.1 AA compliant — keyboard navigable and screen reader tested.',
+		body: 'Built with WCAG guidelines in mind. Keyboard navigation, screen reader support, and high contrast modes ensure your maps are accessible to all users.',
 	},
 ]
 </script>
