@@ -26,6 +26,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://dataport.github.io/polar/docs/troubleshooting/</loc>
+         <lastmod>2026-03-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://dataport.github.io/polar/docs/architecture/</loc>
          <lastmod>2026-03-05</lastmod>
          <changefreq>daily</changefreq>
