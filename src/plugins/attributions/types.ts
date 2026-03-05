@@ -12,6 +12,9 @@ export interface Attribution {
 	 * Attribution text or localization key. May contain HTML.
 	 * The tags `<YEAR>` and `<MONTH>` are translated to the current year or month respectively.
 	 *
+	 * This configuration parameter is vulnerable to XSS attacks by design to allow
+	 * the usage of HTML. Thus, no user input should be put here without further validation.
+	 *
 	 * @remarks
 	 * The text will only be shown when the layer is visible.
 	 */
