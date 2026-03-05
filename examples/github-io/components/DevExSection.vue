@@ -1,55 +1,60 @@
 <template>
-	<section class="lp-section lp-section--dark" aria-labelledby="dx-heading">
+	<section class="lp-section lp-dx-section" aria-labelledby="dx-heading">
 		<div class="lp-container">
-			<div class="lp-section-header lp-section-header--left">
-				<span class="lp-pill lp-pill--blue" role="note">Developer Experience</span>
-				<h2 id="dx-heading" style="text-align: left; color: #f1f5f9">
-					Code so easy, your cat could do it!
-				</h2>
-				<p style="text-align: left; color: #94a3b8">
-					Get started in minutes. POLAR's JSON-driven configuration means most
-					maps require zero application code.
-				</p>
-			</div>
+			<div class="lp-dx-grid">
+				<!-- Left column: copy + checklist -->
+				<div class="lp-dx-left">
+					<div class="lp-section-header lp-section-header--left">
+						<span class="lp-pill lp-pill--blue" role="note">Developer Experience</span>
+						<h2 id="dx-heading">Code so easy, your cat could do it!</h2>
+						<p>
+							Get started in minutes with POLAR's intuitive API.
+							Our framework is designed to make complex mapping tasks simple while giving you full control when you need it.
+						</p>
+					</div>
 
-			<!-- Code tabs -->
-			<div class="lp-code-wrap">
-				<div class="lp-code-tabs" role="tablist" aria-label="Code examples">
-					<button
-						v-for="tab in tabs"
-						:key="tab.id"
-						:class="['lp-code-tab', { 'lp-code-tab--active': activeTab === tab.id }]"
-						role="tab"
-						:aria-selected="activeTab === tab.id"
-						:aria-controls="`tab-panel-${tab.id}`"
-						@click="activeTab = tab.id"
-					>
-						{{ tab.label }}
-					</button>
+					<ul class="lp-checklist" aria-label="Developer experience highlights">
+						<li v-for="item in checklist" :key="item">
+							<span class="lp-checklist__check" aria-hidden="true">✔</span>
+							<span>{{ item }}</span>
+						</li>
+					</ul>
 				</div>
-				<div class="lp-code-body">
-					<pre
-						:id="`tab-panel-${activeTab}`"
-						class="lp-code-pre"
-						role="tabpanel"
-						v-html="codeSnippets[activeTab]"
-					></pre>
-					<button
-						class="lp-code-copy"
-						:aria-label="copied ? 'Copied!' : 'Copy code'"
-						@click="copyCode"
-					>
-						{{ copied ? '✓ Copied' : 'Copy' }}
-					</button>
+
+				<!-- Right column: code block -->
+				<div class="lp-dx-right">
+					<div class="lp-code-wrap">
+						<div class="lp-code-tabs" role="tablist" aria-label="Code examples">
+							<button
+								v-for="tab in tabs"
+								:key="tab.id"
+								:class="['lp-code-tab', { 'lp-code-tab--active': activeTab === tab.id }]"
+								role="tab"
+								:aria-selected="activeTab === tab.id"
+								:aria-controls="`tab-panel-${tab.id}`"
+								@click="activeTab = tab.id"
+							>
+								{{ tab.label }}
+							</button>
+						</div>
+						<div class="lp-code-body">
+							<pre
+								:id="`tab-panel-${activeTab}`"
+								class="lp-code-pre"
+								role="tabpanel"
+								v-html="codeSnippets[activeTab]"
+							></pre>
+							<button
+								class="lp-code-copy"
+								:aria-label="copied ? 'Copied!' : 'Copy code'"
+								@click="copyCode"
+							>
+								{{ copied ? '✓ Copied' : 'Copy' }}
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
-
-			<ul class="lp-checklist" aria-label="Developer experience highlights">
-				<li v-for="item in checklist" :key="item">
-					<span class="lp-checklist__check" aria-hidden="true">✔</span>
-					<span>{{ item }}</span>
-				</li>
-			</ul>
 		</div>
 	</section>
 </template>
@@ -145,15 +150,47 @@ const copyCode = async () => {
 }
 
 const checklist = [
-	'Regular updates — new features and fixes shipped continuously',
-	'JSON-driven — configure maps without writing application code',
-	'TypeScript-first — full type safety and IDE completion',
-	'Framework agnostic — works as plain Web Component in any stack',
-	'Detailed documentation and real-world examples included',
+	'Regular updates and improvements',
+	'Configurable solutions',
+	'Built upon Open Geospatial Consortium Guidelines',
+	'Comprehensive documentation and examples',
+	'Public Money, Public Code',
 ]
 </script>
 
 <style scoped>
+/* ── Section theming ──────────────────────────────────────── */
+.lp-dx-section {
+	background: #f7f7f9;
+	color: #171a2b;
+}
+.lp-dx-section h2 {
+	color: #171a2b;
+}
+.lp-dx-section p {
+	color: #4a5068;
+}
+
+/* ── Two-column grid ──────────────────────────────────────── */
+.lp-dx-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 3rem;
+	align-items: center;
+}
+@media (max-width: 768px) {
+	.lp-dx-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ── Checklist badge: POLAR Blue 500 + white check ─────────── */
+:deep(.lp-checklist__check),
+.lp-checklist__check {
+	background: var(--polar-blue-500) !important;
+	color: #fff !important;
+}
+
 .lp-code-wrap {
 	background: var(--polar-code-bg);
 	border-radius: var(--polar-radius);
