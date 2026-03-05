@@ -30,6 +30,7 @@ export default defineConfig({
 				main: resolve(__dirname, 'index.html'),
 				snowbox: resolve(__dirname, 'examples', 'snowbox', 'index.html'),
 				iceberg: resolve(__dirname, 'examples', 'iceberg', 'index.html'),
+				githubIo: resolve(__dirname, 'examples', 'github-io', 'index.html'),
 			},
 		},
 	},
@@ -37,6 +38,6 @@ export default defineConfig({
 		port: 1235,
 	},
 	optimizeDeps: {
-		entries: ['snowbox', 'iceberg'],
+		entries: ['snowbox', 'iceberg', 'github-io'],
 	},
 })

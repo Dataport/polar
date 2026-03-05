@@ -1,0 +1,20 @@
+{
+	"extends": [
+		"@vue/tsconfig/tsconfig.dom.json",
+		"../../tsconfig.settings.json"
+	],
+	"compilerOptions": {
+		"types": [
+			"../../src/@types/vite-env.d.ts"
+		],
+		"lib": [
+			"ESNext",
+			"DOM",
+			"DOM.Iterable"
+		]
+	},
+	"include": [
+		"./**/*.ts",
+		"./**/*.vue"
+	]
+}
