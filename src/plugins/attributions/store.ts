@@ -120,6 +120,9 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 		windowIsOpen,
 
 		/** @internal */
+		configuration,
+
+		/** @internal */
 		mapInfo,
 
 		/** @internal */

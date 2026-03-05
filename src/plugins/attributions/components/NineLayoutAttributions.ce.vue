@@ -40,7 +40,6 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores'
 
 import { useAttributionsStore } from '../store'
 import { PluginId } from '../types'
@@ -49,7 +48,7 @@ import AttributionContent from './AttributionContent.ce.vue'
 const attributionsStore = useAttributionsStore()
 const { mapInfoIcon, renderType, windowIsOpen } = storeToRefs(attributionsStore)
 const openLeft = computed(() =>
-	useCoreStore().configuration.attributions?.layoutTag?.includes('right')
+	attributionsStore.configuration.layoutTag?.includes('RIGHT')
 )
 function toggleMapInfo() {
 	windowIsOpen.value = !windowIsOpen.value
