@@ -2,9 +2,7 @@
 	<section class="lp-section" aria-labelledby="ux-heading">
 		<div class="lp-container">
 			<div class="lp-section-header">
-				<span class="kern-badge kern-badge--pink" role="note">
-					<span class="kern-label">User Experience</span>
-				</span>
+				<span class="lp-pill lp-pill--pink" role="note">User Experience</span>
 				<h2 id="ux-heading">Built for humans, by humans who care!</h2>
 				<p>
 					POLAR is designed with user experience at its core &mdash; responsive,

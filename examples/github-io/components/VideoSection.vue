@@ -1,9 +1,7 @@
 <template>
 	<section class="lp-section" aria-labelledby="video-heading">
 		<div class="lp-container" style="text-align: center">
-			<span class="kern-badge kern-badge--info" role="note">
-				<span class="kern-label">Hear us talk</span>
-			</span>
+			<span class="lp-pill lp-pill--blue" role="note">Hear us talk</span>
 			<h2 id="video-heading" style="margin-top: 0.75rem">
 				Our FOSSGIS Adventure.
 			</h2>

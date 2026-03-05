@@ -2,9 +2,7 @@
 	<section class="lp-section lp-section--dark" aria-labelledby="dx-heading">
 		<div class="lp-container">
 			<div class="lp-section-header lp-section-header--left">
-				<span class="kern-badge kern-badge--on-dark" role="note">
-					<span class="kern-label">Developer Experience</span>
-				</span>
+				<span class="lp-pill lp-pill--blue" role="note">Developer Experience</span>
 				<h2 id="dx-heading" style="text-align: left; color: #f1f5f9">
 					Code so easy, your cat could do it!
 				</h2>
