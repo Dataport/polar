@@ -19,7 +19,9 @@ export default defineConfig({
 		}),
 		kernExtraIcons({
 			cssLayer: 'kern-ux-icons',
-			ignoreFilename: (filename) => !filename.includes('/examples/iceberg/'),
+			ignoreFilename: (filename) =>
+				!filename.includes('/examples/iceberg/') &&
+				!filename.includes('/examples/github-io/'),
 		}),
 		enrichedConsole(),
 	],

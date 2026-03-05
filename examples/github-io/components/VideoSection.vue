@@ -2,14 +2,13 @@
 	<section class="lp-section" aria-labelledby="video-heading">
 		<div class="lp-container" style="text-align: center">
 			<span class="kern-badge kern-badge--info" role="note">
-				<span class="kern-label">FOSSGIS 2023</span>
+				<span class="kern-label">Hear us talk</span>
 			</span>
 			<h2 id="video-heading" style="margin-top: 0.75rem">
-				Hear us talk about POLAR
+				Our FOSSGIS Adventure.
 			</h2>
 			<p style="max-width: 640px; margin: 0.5rem auto 2rem; color: #475569">
-				Watch our FOSSGIS 2023 talk where we introduced POLAR and demonstrated
-				its capabilities live.
+				2023 we gave a small talk at FOSSGIS about ...
 			</p>
 			<div ref="videoWrap" class="lp-video-wrap">
 				<template v-if="!videoPlaying">
