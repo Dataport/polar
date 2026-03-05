@@ -124,6 +124,8 @@ import screenshotUrl from '../../../docs/assets/polar_example_screenshot.png'
 	font-weight: 600;
 	line-height: 1.15;
 	margin: 0 0 1rem;
+	color: #F7F7F9;
+	text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 .lp-hero__title-spartan {
 	font-family: 'League Spartan', sans-serif;
@@ -136,11 +138,15 @@ import screenshotUrl from '../../../docs/assets/polar_example_screenshot.png'
 	font-family: 'Fira Sans', sans-serif;
 	font-size: clamp(1rem, 2.5vw, 1.5rem);
 	font-weight: 600;
+	color: #F7F7F9;
 	opacity: 0.85;
 	margin: 0 0 2.5rem;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 .lp-hero__subtitle-dot {
 	color: #47FFB0;
+	font-size: 1.25em;
+	vertical-align: middle;
 }
 .lp-hero__map {
 	max-width: 960px;

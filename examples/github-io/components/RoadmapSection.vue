@@ -5,9 +5,7 @@
 				class="lp-section-header lp-section-header--left"
 				style="margin-bottom: 2.5rem"
 			>
-				<span class="kern-badge kern-badge--accent" role="note">
-					<span class="kern-label">Our Roadmap</span>
-				</span>
+				<span class="lp-pill lp-pill--pink" role="note">Our Roadmap</span>
 				<h2 id="roadmap-heading" style="text-align: left">
 					The Future of POLAR
 				</h2>

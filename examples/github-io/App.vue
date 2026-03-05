@@ -126,6 +126,37 @@ if (import.meta.hot) {
 	--polar-dark-bg: #111827;
 	--polar-code-bg: #0d1117;
 	--polar-radius: 8px;
+	/* POLAR color tokens */
+	--polar-green-100: #47FFB0;
+	--polar-green-600: #171A2B;
+	--polar-pink-100: #FFD6EA;
+	--polar-pink-600: #B80064;
+	--polar-blue-100: #D0E4FF;
+	--polar-blue-600: #0050A0;
+}
+
+/* ── Shared pill component ──────────────────────────────── */
+.lp-pill {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.3rem 1rem;
+	border-radius: 9999px;
+	font-size: 0.875rem;
+	font-weight: 600;
+	border: none;
+	line-height: 1.4;
+}
+.lp-pill--green {
+	background: var(--polar-green-100);
+	color: var(--polar-green-600);
+}
+.lp-pill--pink {
+	background: var(--polar-pink-100);
+	color: var(--polar-pink-600);
+}
+.lp-pill--blue {
+	background: var(--polar-blue-100);
+	color: var(--polar-blue-600);
 }
 
 *,

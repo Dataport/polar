@@ -4,9 +4,7 @@
 		aria-labelledby="cta-heading"
 	>
 		<div class="lp-container">
-			<span class="kern-badge kern-badge--on-dark" role="note">
-				<span class="kern-label">Get started today</span>
-			</span>
+			<span class="lp-pill lp-pill--green" role="note">Get started today</span>
 			<h2 id="cta-heading" style="margin-top: 0.75rem">
 				Ready to Build Amazing Map Applications?
 			</h2>
