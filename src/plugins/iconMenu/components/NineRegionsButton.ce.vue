@@ -19,23 +19,23 @@ import { useIconMenuStore } from '../store'
 
 const props = defineProps<{
 	icon: string
-	index: number
+	id: string
 	hint: string
 }>()
 
 const iconMenuStore = useIconMenuStore()
 const { open } = storeToRefs(iconMenuStore)
-const active = computed(() => open.value === props.index)
+const active = computed(() => open.value === props.id)
 
 const updateMaxWidth = inject('updateMaxWidth') as () => void
 
 function toggle() {
-	if (open.value === props.index) {
-		open.value = -1
+	if (open.value === props.id) {
+		open.value = null
 		useCoreStore().setMoveHandle(null)
 	} else {
-		open.value = props.index
-		iconMenuStore.openInMoveHandle(props.index)
+		open.value = props.id
+		iconMenuStore.openInMoveHandle(props.id)
 	}
 	updateMaxWidth()
 }

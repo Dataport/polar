@@ -29,8 +29,12 @@
 import type { PolarContainer } from '@polar/polar'
 
 import { addPlugins, getStore, subscribe } from '@polar/polar'
+import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
+import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
+import pluginPins from '@polar/polar/plugins/pins'
+import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 import { ref, useTemplateRef, watch } from 'vue'
@@ -54,6 +58,10 @@ watch(map, (map) => {
 			menus: [
 				[
 					{
+						plugin: pluginLayerChooser({}),
+						icon: 'kern-icon-fill--layers',
+					},
+					{
 						plugin: pluginFullscreen({ renderType: 'iconMenu' }),
 					},
 				],
@@ -63,6 +71,36 @@ watch(map, (map) => {
 			displayComponent: true,
 			layoutTag: 'BOTTOM_RIGHT',
 			showScaleSwitcher: false,
+		}),
+		pluginAddressSearch({
+			displayComponent: true,
+			layoutTag: 'TOP_LEFT',
+			searchMethods: [],
+		}),
+		pluginPins({
+			coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+			boundary: {
+				layerId: '1693',
+			},
+			movable: 'drag',
+			style: {
+				fill: '#FF0019',
+			},
+			toZoomLevel: 7,
+		}),
+		pluginReverseGeocoder({
+			url: 'https://geodienste.hamburg.de/HH_WPS',
+			coordinateSources: [
+				{
+					plugin: 'pins',
+					key: 'coordinate',
+				},
+			],
+			addressTarget: {
+				plugin: 'addressSearch',
+				key: 'selectResult',
+			},
+			zoomTo: 7,
 		}),
 		pluginToast({
 			displayComponent: true,
