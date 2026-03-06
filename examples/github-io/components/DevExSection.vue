@@ -191,6 +191,35 @@ const checklist = [
 	}
 }
 
+/* ── Checklist base styles ────────────────────────────────── */
+.lp-checklist {
+	list-style: none;
+	padding: 0;
+	margin: 2rem 0 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+.lp-checklist li {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+	font-size: 1rem;
+}
+.lp-checklist__check {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.5rem;
+	height: 1.5rem;
+	min-width: 1.5rem;
+	border-radius: 50%;
+	background: #dcfce7;
+	color: #15803d;
+	font-size: 0.875rem;
+	font-weight: 700;
+}
+
 /* ── Checklist badge: POLAR Blue 500 + white check ─────────── */
 :deep(.lp-checklist__check),
 .lp-checklist__check {

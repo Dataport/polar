@@ -1,11 +1,11 @@
 <template>
-	<section class="lp-section" aria-labelledby="video-heading">
+	<section class="lp-section lp-section--video" aria-labelledby="video-heading">
 		<div class="lp-container" style="text-align: center">
-			<span class="lp-pill lp-pill--blue" role="note">Hear us talk</span>
-			<h2 id="video-heading" style="margin-top: 0.75rem">
+			<span class="lp-pill lp-pill--video" role="note">Hear us talk</span>
+			<h2 id="video-heading" style="margin-top: 0.75rem; color: #eff0f4">
 				Our FOSSGIS Adventure.
 			</h2>
-			<p style="max-width: 640px; margin: 0.5rem auto 2rem; color: #475569">
+			<p style="max-width: 640px; margin: 0.5rem auto 2rem; color: #a5aac3">
 				2023 we gave a small talk at FOSSGIS about ...
 			</p>
 			<div ref="videoWrap" class="lp-video-wrap">
@@ -87,5 +87,12 @@ const videoWrap = ref<HTMLElement | null>(null)
 	width: 100%;
 	height: 100%;
 	display: block;
+}
+.lp-section--video {
+	background-color: #000;
+}
+.lp-pill--video {
+	background-color: #00264e;
+	color: #0794fa;
 }
 </style>

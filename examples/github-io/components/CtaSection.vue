@@ -1,6 +1,11 @@
 <template>
-	<section class="lp-section lp-section--brand" aria-labelledby="cta-heading">
-		<div class="lp-container">
+	<section
+		class="lp-section lp-section--brand lp-cta"
+		aria-labelledby="cta-heading"
+	>
+		<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
+		<div v-html="ctaBgSvg" />
+		<div class="lp-container lp-cta__content">
 			<span class="lp-pill lp-pill--green" role="note">Get started today</span>
 			<h2 id="cta-heading" style="margin-top: 0.75rem">
 				Ready to Build Amazing Map Applications?
@@ -32,7 +37,7 @@
 					style="background: #fff"
 				>
 					<span
-						class="kern-icon kern-icon--arrow-forward"
+						class="kern-icon kern-icon--ar-stickers"
 						style="background-color: var(--polar-blue)"
 					/>
 					<span class="kern-label" style="color: var(--polar-blue)">
@@ -47,7 +52,7 @@
 					style="border-color: rgba(255, 255, 255, 0.7)"
 				>
 					<span
-						class="kern-icon kern-icon--download"
+						class="kern-icon kern-icon--open-in-new"
 						style="background-color: #fff"
 					/>
 					<span class="kern-label" style="color: #fff">Download</span>
@@ -64,5 +69,55 @@
 </template>
 
 <script setup lang="ts">
-// Static template component — no reactive state
+import rawCtaBg from './assets/features-bg.svg?raw'
+
+// Strip existing opacity attrs (they vary per-path and would multiply),
+// then apply a flat #404565 at 48% so all icons render uniformly.
+const ctaBgSvg = rawCtaBg
+	.replace(/\s*opacity="[0-9.]+"/g, '')
+	.replace(/fill="#404565"/g, 'fill="rgba(64,69,101,0.48)"')
 </script>
+
+<style scoped>
+.lp-cta {
+	position: relative;
+	overflow: hidden;
+}
+:deep(.lp-features__bg) {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	pointer-events: none;
+}
+.lp-cta__content {
+	position: relative;
+	z-index: 1;
+}
+
+/* ── CTA pills ─────────────────────────────────────────── */
+.lp-cta-pills {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 0.75rem 2rem;
+	margin-top: 3rem;
+	font-size: 1.2em;
+	color: rgba(255, 255, 255, 0.8);
+}
+.lp-cta-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+.lp-cta-pill::before {
+	content: '';
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #15e192;
+	flex-shrink: 0;
+}
+</style>

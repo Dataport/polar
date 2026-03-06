@@ -150,8 +150,9 @@ import screenshotUrl from '../../../docs/assets/polar_example_screenshot.png'
 }
 .lp-hero__subtitle-dot {
 	color: #47ffb0;
-	font-size: 1.25em;
+	font-size: 1.75em;
 	vertical-align: middle;
+	line-height: 0;
 }
 .lp-hero__map {
 	max-width: 960px;
