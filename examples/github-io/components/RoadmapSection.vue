@@ -33,10 +33,10 @@
 
 <script setup lang="ts">
 interface TimelineItem {
-	status: 'done' | 'progress' | 'planned'
-	date: string
-	title: string
 	body: string
+	date: string
+	status: 'done' | 'progress' | 'planned'
+	title: string
 }
 
 const items: TimelineItem[] = [

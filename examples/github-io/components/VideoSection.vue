@@ -30,7 +30,7 @@
 					frameborder="0"
 					allowfullscreen
 					title="POLAR - FOSSGIS 2023 talk"
-				></iframe>
+				/>
 			</div>
 		</div>
 	</section>
@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import mapsPin from '../../../docs/assets/maps_pin.jpg'
 
 const videoPlaying = ref(false)

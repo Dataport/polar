@@ -1,12 +1,17 @@
 <template>
-	<section class="lp-section lp-section--alt lp-features" aria-labelledby="features-heading">
-		<div v-html="featuresBgSvg"></div>
+	<section
+		class="lp-section lp-section--alt lp-features"
+		aria-labelledby="features-heading"
+	>
+		<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
+		<div v-html="featuresBgSvg" />
 		<div class="lp-container">
 			<div class="lp-section-header">
 				<span class="lp-pill lp-pill--green" role="note">Features</span>
 				<h2 id="features-heading">Everything you need for modern mapping</h2>
 				<p>
-					POLAR combines cutting-edge technology with ease of use, giving you the tools to create exceptional map-based applications.
+					POLAR combines cutting-edge technology with ease of use, giving you
+					the tools to create exceptional map-based applications.
 				</p>
 			</div>
 		</div>

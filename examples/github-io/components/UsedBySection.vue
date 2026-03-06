@@ -1,7 +1,8 @@
 <template>
 	<section class="lp-used-by" aria-label="Used by">
 		<div class="lp-container">
-			<div v-html="usedByLogoSvg" class="lp-used-by__logo"></div>
+			<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
+			<div class="lp-used-by__logo" v-html="usedByLogoSvg" />
 		</div>
 	</section>
 </template>
