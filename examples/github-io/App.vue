@@ -2,13 +2,15 @@
 	<div class="kern-light">
 		<!-- Shared background zone: header + hero sit on top of the SVG -->
 		<div class="lp-hero-zone">
-			<div v-html="heroBgSvg"></div>
+			<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
+			<div v-html="heroBgSvg" />
 			<TheHeader />
 			<HeroSection />
 		</div>
 		<FeaturesSection />
 		<UxSection />
 		<DevExSection />
+		<UsedBySection />
 		<RoadmapSection />
 		<CtaSection />
 		<VideoSection />
@@ -18,8 +20,8 @@
 
 <script setup lang="ts">
 import kernExtraIcons from 'virtual:kern-extra-icons'
-import heroBgSvg from './components/assets/hero-bg.svg?raw'
 
+import heroBgSvg from './components/assets/hero-bg.svg?raw'
 import CtaSection from './components/CtaSection.vue'
 import DevExSection from './components/DevExSection.vue'
 import FeaturesSection from './components/FeaturesSection.vue'
@@ -27,6 +29,7 @@ import HeroSection from './components/HeroSection.vue'
 import RoadmapSection from './components/RoadmapSection.vue'
 import TheFooter from './components/TheFooter.vue'
 import TheHeader from './components/TheHeader.vue'
+import UsedBySection from './components/UsedBySection.vue'
 import UxSection from './components/UxSection.vue'
 import VideoSection from './components/VideoSection.vue'
 
@@ -57,13 +60,13 @@ if (import.meta.hot) {
 	--polar-code-bg: #0d1117;
 	--polar-radius: 8px;
 	/* POLAR color tokens */
-	--polar-green-100: #47FFB0;
-	--polar-green-600: #171A2B;
-	--polar-pink-100: #FFD6EA;
-	--polar-pink-600: #B80064;
-	--polar-blue-100: #D0E4FF;
-	--polar-blue-500: #0078D4;
-	--polar-blue-600: #0050A0;
+	--polar-green-100: #47ffb0;
+	--polar-green-600: #171a2b;
+	--polar-pink-100: #ffd6ea;
+	--polar-pink-600: #b80064;
+	--polar-blue-100: #d0e4ff;
+	--polar-blue-500: #0078d4;
+	--polar-blue-600: #0050a0;
 }
 
 /* ── Shared pill component ──────────────────────────────── */
@@ -100,7 +103,8 @@ body {
 	margin: 0;
 	background: #fff;
 	color: #1a1a2e;
-	font-family: 'Fira Sans', var(--kern-typography-font-family-default, sans-serif);
+	font-family:
+		'Fira Sans', var(--kern-typography-font-family-default, sans-serif);
 	line-height: 1.6;
 }
 

@@ -5,11 +5,14 @@
 				<!-- Left column: copy + checklist -->
 				<div class="lp-dx-left">
 					<div class="lp-section-header lp-section-header--left">
-						<span class="lp-pill lp-pill--blue" role="note">Developer Experience</span>
+						<span class="lp-pill lp-pill--blue" role="note"
+							>Developer Experience</span
+						>
 						<h2 id="dx-heading">Code so easy, your cat could do it!</h2>
 						<p>
-							Get started in minutes with POLAR's intuitive API.
-							Our framework is designed to make complex mapping tasks simple while giving you full control when you need it.
+							Get started in minutes with POLAR's intuitive API. Our framework
+							is designed to make complex mapping tasks simple while giving you
+							full control when you need it.
 						</p>
 					</div>
 
@@ -28,7 +31,10 @@
 							<button
 								v-for="tab in tabs"
 								:key="tab.id"
-								:class="['lp-code-tab', { 'lp-code-tab--active': activeTab === tab.id }]"
+								:class="[
+									'lp-code-tab',
+									{ 'lp-code-tab--active': activeTab === tab.id },
+								]"
 								role="tab"
 								:aria-selected="activeTab === tab.id"
 								:aria-controls="`tab-panel-${tab.id}`"
@@ -38,12 +44,14 @@
 							</button>
 						</div>
 						<div class="lp-code-body">
+							<!-- eslint-disable vue/no-v-html -- safe: HTML-escaped hardcoded strings with syntax-highlight spans -->
 							<pre
 								:id="`tab-panel-${activeTab}`"
 								class="lp-code-pre"
 								role="tabpanel"
 								v-html="codeSnippets[activeTab]"
-							></pre>
+							/>
+							<!-- eslint-enable vue/no-v-html -->
 							<button
 								class="lp-code-copy"
 								:aria-label="copied ? 'Copied!' : 'Copy code'"
@@ -62,6 +70,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
+const SCRIPT_CLOSE = '</' + 'script>'
+
 const tabs = [
 	{ id: 'install', label: 'Install' },
 	{ id: 'quickstart', label: 'Quickstart' },
@@ -76,7 +86,7 @@ const rawCode: Record<string, string> = {
 npm install @polar/core @polar/plugin-layer-chooser
 
 # …or just use it as a Web Component (no build step needed)
-<script src="https://cdn.jsdelivr.net/npm/@polar/core/dist/polar.js"><\/script>`,
+<script src="https://cdn.jsdelivr.net/npm/@polar/core/dist/polar.js">${SCRIPT_CLOSE}`,
 
 	quickstart: `<polar-map
   id="myMap"
@@ -122,10 +132,7 @@ const highlight = (code: string) =>
 			/(import|from|await|const|export|async|function)/g,
 			'<span class="lp-token-kw">$1</span>'
 		)
-		.replace(
-			/('[^']*'|"[^"]*")/g,
-			'<span class="lp-token-str">$1</span>'
-		)
+		.replace(/('[^']*'|"[^"]*")/g, '<span class="lp-token-str">$1</span>')
 		.replace(/(\/\/.*)/g, '<span class="lp-token-cm">$1</span>')
 		.replace(/(#.*)/g, '<span class="lp-token-cm">$1</span>')
 		.replace(
@@ -208,7 +215,9 @@ const checklist = [
 	background: transparent;
 	color: rgba(255, 255, 255, 0.55);
 	font-family: inherit;
-	transition: color 0.15s, border-color 0.15s;
+	transition:
+		color 0.15s,
+		border-color 0.15s;
 	border-bottom: 2px solid transparent;
 }
 .lp-code-tab:hover {
@@ -249,8 +258,16 @@ const checklist = [
 	color: #fff;
 }
 
-:global(.lp-token-kw) { color: #c084fc; }
-:global(.lp-token-fn) { color: #7dd3fc; }
-:global(.lp-token-str) { color: #86efac; }
-:global(.lp-token-cm) { color: #6b7280; }
+:global(.lp-token-kw) {
+	color: #c084fc;
+}
+:global(.lp-token-fn) {
+	color: #7dd3fc;
+}
+:global(.lp-token-str) {
+	color: #86efac;
+}
+:global(.lp-token-cm) {
+	color: #6b7280;
+}
 </style>

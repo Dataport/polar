@@ -3,23 +3,24 @@
 		<div class="lp-container">
 			<div class="lp-header__bar">
 				<!-- Logo -->
-				<a href="#" class="lp-header__logo" aria-label="POLAR – Home" v-html="polarLogoSvg"></a>
+				<!-- eslint-disable vue/no-v-html -- safe: build-time ?raw SVG import -->
+				<a
+					href="#"
+					class="lp-header__logo"
+					aria-label="POLAR – Home"
+					v-html="polarLogoSvg"
+				/>
+				<!-- eslint-enable vue/no-v-html -->
 
 				<!-- Centered pill nav -->
 				<nav class="lp-header__nav" aria-label="Main navigation">
 					<div class="lp-header__pill">
 						<a href="#" class="lp-header__link" aria-current="page">
-							<span
-								class="kern-icon kern-icon--home"
-								aria-hidden="true"
-							></span>
+							<span class="kern-icon kern-icon--home" aria-hidden="true" />
 							Home
 						</a>
 						<a href="./docs/" class="lp-header__link">
-							<span
-								class="kern-icon kern-icon--school"
-								aria-hidden="true"
-							></span>
+							<span class="kern-icon kern-icon--school" aria-hidden="true" />
 							Learn
 						</a>
 						<a
@@ -31,14 +32,11 @@
 							<span
 								class="kern-icon kern-icon--ar-stickers"
 								aria-hidden="true"
-							></span>
+							/>
 							Playground
 						</a>
 						<a href="./docs/" class="lp-header__link">
-							<span
-								class="kern-icon kern-icon--book-5"
-								aria-hidden="true"
-							></span>
+							<span class="kern-icon kern-icon--book-5" aria-hidden="true" />
 							Docs
 						</a>
 					</div>
@@ -51,12 +49,10 @@
 					rel="noopener"
 					class="lp-header__github"
 				>
-					<span
-						class="kern-icon kern-icon--open-in-new"
-						aria-hidden="true"
-					></span>
+					<span class="kern-icon kern-icon--open-in-new" aria-hidden="true" />
 					Find us on GitHub
-					<span v-html="githubIconSvg"></span>
+					<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
+					<span v-html="githubIconSvg" />
 				</a>
 			</div>
 		</div>
@@ -64,8 +60,8 @@
 </template>
 
 <script setup lang="ts">
-import polarLogoSvg from './assets/polar-logo.svg?raw'
 import githubIconSvg from './assets/github-icon.svg?raw'
+import polarLogoSvg from './assets/polar-logo.svg?raw'
 </script>
 
 <style scoped>
@@ -112,7 +108,7 @@ import githubIconSvg from './assets/github-icon.svg?raw'
 		160deg,
 		rgba(255, 255, 255, 0.18) 0%,
 		rgba(255, 255, 255, 0.05) 60%,
-		rgba(255, 255, 255, 0.10) 100%
+		rgba(255, 255, 255, 0.1) 100%
 	);
 	border: 1px solid rgba(255, 255, 255, 0.22);
 	box-shadow:
@@ -131,7 +127,9 @@ import githubIconSvg from './assets/github-icon.svg?raw'
 	font-weight: 500;
 	padding: 0.6rem 1.4rem;
 	border-radius: 999px;
-	transition: background 0.15s, color 0.15s;
+	transition:
+		background 0.15s,
+		color 0.15s;
 	white-space: nowrap;
 }
 .lp-header__link:hover,

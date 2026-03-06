@@ -9,12 +9,23 @@
 			<!-- Hero content -->
 			<div class="lp-hero__content">
 				<h1 class="lp-hero__title">
-					<span>The <span class="lp-hero__title-spartan lp-hero__title-mint">configurable</span></span><br />
-					<span><span class="lp-hero__title-mint">&lt;</span>map element solution <span class="lp-hero__title-mint">/&gt;</span></span>
+					<span
+						>The
+						<span class="lp-hero__title-spartan lp-hero__title-mint"
+							>configurable</span
+						></span
+					><br />
+					<span
+						><span class="lp-hero__title-mint">&lt;</span>map element solution
+						<span class="lp-hero__title-mint">/&gt;</span></span
+					>
 				</h1>
 				<p class="lp-hero__subtitle">
-					reusable plugins <span class="lp-hero__subtitle-dot">&nbsp;&middot;&nbsp;</span> extensible library
-					<span class="lp-hero__subtitle-dot">&nbsp;&middot;&nbsp;</span> KERN Design
+					reusable plugins
+					<span class="lp-hero__subtitle-dot">&nbsp;&middot;&nbsp;</span>
+					extensible library
+					<span class="lp-hero__subtitle-dot">&nbsp;&middot;&nbsp;</span> KERN
+					Design
 				</p>
 
 				<!-- Map preview -->
@@ -36,10 +47,7 @@
 						rel="noopener"
 						class="kern-btn kern-btn--primary lp-hero__cta-try"
 					>
-						<span
-							class="kern-icon kern-icon--ar-stickers"
-							aria-hidden="true"
-						></span>
+						<span class="kern-icon kern-icon--ar-stickers" aria-hidden="true" />
 						<span class="kern-label">Try me out</span>
 					</a>
 					<a
@@ -48,10 +56,7 @@
 						rel="noopener"
 						class="kern-btn kern-btn--secondary lp-hero__cta-download"
 					>
-						<span
-							class="kern-icon kern-icon--open-in-new"
-							aria-hidden="true"
-						></span>
+						<span class="kern-icon kern-icon--open-in-new" aria-hidden="true" />
 						<span class="kern-label">Download</span>
 					</a>
 				</div>
@@ -124,7 +129,7 @@ import screenshotUrl from '../../../docs/assets/polar_example_screenshot.png'
 	font-weight: 600;
 	line-height: 1.15;
 	margin: 0 0 1rem;
-	color: #F7F7F9;
+	color: #f7f7f9;
 	text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 .lp-hero__title-spartan {
@@ -132,19 +137,19 @@ import screenshotUrl from '../../../docs/assets/polar_example_screenshot.png'
 	font-weight: 400;
 }
 .lp-hero__title-mint {
-	color: #47FFB0;
+	color: #47ffb0;
 }
 .lp-hero__subtitle {
 	font-family: 'Fira Sans', sans-serif;
 	font-size: clamp(1rem, 2.5vw, 1.5rem);
 	font-weight: 600;
-	color: #F7F7F9;
+	color: #f7f7f9;
 	opacity: 0.85;
 	margin: 0 0 2.5rem;
 	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 .lp-hero__subtitle-dot {
-	color: #47FFB0;
+	color: #47ffb0;
 	font-size: 1.25em;
 	vertical-align: middle;
 }
@@ -171,7 +176,7 @@ import screenshotUrl from '../../../docs/assets/polar_example_screenshot.png'
 
 /* Invert KERN btn colours for dark hero background */
 .lp-hero :deep(.lp-hero__cta-try.kern-btn--primary) {
-	background: #1A3DA5;
+	background: #1a3da5;
 }
 .lp-hero :deep(.lp-hero__cta-try.kern-btn--primary .kern-label) {
 	color: #fff;
@@ -181,13 +186,13 @@ import screenshotUrl from '../../../docs/assets/polar_example_screenshot.png'
 }
 .lp-hero :deep(.lp-hero__cta-download.kern-btn--secondary) {
 	background: #fff;
-	border-color: #1A3DA5;
+	border-color: #1a3da5;
 }
 .lp-hero :deep(.lp-hero__cta-download.kern-btn--secondary .kern-label) {
-	color: #1A3DA5;
+	color: #1a3da5;
 }
 .lp-hero :deep(.lp-hero__cta-download.kern-btn--secondary .kern-icon) {
-	background-color: #1A3DA5;
+	background-color: #1a3da5;
 }
 
 .lp-hero__wave {
