@@ -222,43 +222,6 @@ For example, a `@polar/plugin-address-search` plugin can be configured like this
 }
 ```
 
-## Teardown
-
-In some single page applications, the map client may produce unexpected behaviour on rerenders. Should this occur in your environment, these hints should help:
-
-* Use `mapInstance.$destroy()` in your framework's lifecycle's unmount method before new `createMap` calls.
-* In general, your calls to our `watch` or `subscribe` methods should also be cleaned up to avoid leaks. These methods return `unwatch` or `unsubscribe` methods respectively, and can be called on any cleanup.
-* Most frameworks will handle DOM regeneration on rerenders themselves. Should you need to clean up the DOM for arbitrary reasons yourself, this snippet may come in handy:
-  ```js
-    const polarstern = document.getElementById('polarstern-wrapper')
-    const stellamaris = document.createElement('div')
-    stellamaris.id = 'polarstern'
-    polarstern?.parentElement?.replaceChild(stellamaris, polarstern)
-  ```
-
-## Store
-
-The core module features a vuex root store that all plugin vuex modules are plugged into. However, the root contents are only relevant to plugins. It is accessible with `map.$store`, and can be used as a starting point for plugin access.
-
-To ease use, the map instance also features a `subscribe` method that will register a watcher to any state field. Please mind that only documented paths should be used, and all others are subject to change without notice.
-
-```js
-// state subscription – listening to data held by the map client
-map.subscribe('some/key', (value) => {
-  // do something with the value
-})
-
-// getter subscription – these are computed values from various sources
-map.$store.watch(
-    (_, getters) => getters['some/key'],
-    (value) => {
-        // effect
-    }
-)
-```
-
-This is, for example, useful to listen to search results, draw features, or marker coordinates. The plugins document how exactly to use their respective fields.
-
 ### Mutations
 
 #### setOidcToken

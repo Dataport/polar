@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Generic POLAR client</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
+		<link rel="stylesheet" href="@polar/polar/polar.css" />
+		<script type="module" defer src="index.js"></script>
+		<style>
+			/* style just for example page, not directly related to POLAR */
+			:root {
+				--not-quite-white: #f2f3f4;
+				--map-height: 600px;
+			}
+
+			body {
+				font-family: sans-serif;
+				padding: 2em;
+				background: var(--not-quite-white);
+				color: var(--eigengrau);
+			}
+
+			h1 {
+				margin-bottom: 0.5em;
+			}
+
+			h2 {
+				margin: 0.5em 0;
+			}
+
+			p {
+				margin: 0.2em 0;
+			}
+
+			#language-switcher {
+				outline: solid black;
+			}
+
+			.polarstern {
+				width: 90vw;
+				max-width: 100%;
+				height: var(--map-height);
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>POLAR map client</h1>
+		<label id="language-switcher-label">
+			Language in map client:
+			<select id="language-switcher">
+				<option value="en">English</option>
+				<option value="de">German</option>
+			</select>
+		</label>
+		<button id="color-scheme-switcher">Switch to dark mode</button>
+		<h2>Demo application</h2>
+		<div style="display: flex; justify-content: center;">
+			<div id="polarstern" class="polarstern"></div>
+		</div>
+	</body>
+</html>
