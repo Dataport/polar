@@ -320,13 +320,6 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		isGeolocationDenied,
 
 		/**
-		 * Indicates whether the map has been moved by the user after the last position update. This is used to avoid re-centering the map on the user's location if they have manually moved it.
-		 *
-		 * @internal
-		 */
-		mapHasBeenMovedByUser,
-
-		/**
 		 * @internal
 		 */
 		renderType,
