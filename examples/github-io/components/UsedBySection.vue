@@ -6,13 +6,15 @@
 </template>
 
 <script setup lang="ts">
-import usedByLogoSvg from './assets/used-by-section-logo.svg?raw'
+import rawSvg from './assets/used-by-section-logo.svg?raw'
+
+// Replace the SVG's fixed 1728px width with 100% so it always fills its container.
+const usedByLogoSvg = rawSvg.replace('width="1728"', 'width="100%"')
 </script>
 
 <style scoped>
 .lp-used-by {
-	padding: 2.5rem 0;
-	background: #f7f7f9;
+	background: #21243a;
 	overflow: hidden;
 }
 .lp-used-by__logo {
@@ -22,6 +24,6 @@ import usedByLogoSvg from './assets/used-by-section-logo.svg?raw'
 :deep(.lp-used-by__logo svg) {
 	display: block;
 	width: 100%;
-	height: 192px;
+	height: auto;
 }
 </style>
