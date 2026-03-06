@@ -5,10 +5,9 @@
 /* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, watch, type WatchHandle } from 'vue'
+import { computed, ref } from 'vue'
 
-import type { StoreReference } from '@/core'
-
+import { usePluginStoreWatcher } from '@/core/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 import { getVisibleAttributions } from '@/plugins/attributions/utils/getVisibleAttributions.ts'
 
@@ -32,13 +31,8 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	const layers = ref<string[]>([])
 	const windowIsOpen = ref(false)
 
-	const watchHandles = ref<WatchHandle[]>([])
-
 	const configuration = computed(
 		() => coreStore.configuration.attributions || {}
-	)
-	const listenToChanges = computed<StoreReference[]>(
-		() => configuration.value.listenToChanges || []
 	)
 	const mapInfo = computed(() =>
 		buildMapInfo(
@@ -59,19 +53,13 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
 
+	const listenersWatchers = usePluginStoreWatcher(
+		() => configuration.value.listenToChanges || [],
+		updateLayers
+	)
+
 	function setupPlugin() {
-		// TODO: addPlugin order is still relevant if the wather is added like this
-		for (const listenReference of listenToChanges.value) {
-			const store = listenReference.plugin
-				? coreStore.getPluginStore(listenReference.plugin)
-				: coreStore
-			if (!store) {
-				continue
-			}
-			watchHandles.value.push(
-				watch(() => store[listenReference.key], updateLayers)
-			)
-		}
+		listenersWatchers.setupPlugin()
 
 		const allLayers = coreStore.map.getLayers()
 		allLayers.on('add', updateLayers)
@@ -91,6 +79,7 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	}
 
 	function teardownPlugin() {
+		listenersWatchers.teardownPlugin()
 		const allLayers = coreStore.map.getLayers()
 		allLayers.un('add', updateLayers)
 		allLayers.un('add', updateAttributions)
