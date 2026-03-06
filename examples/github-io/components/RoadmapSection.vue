@@ -140,6 +140,8 @@
 </template>
 
 <script setup lang="ts">
+// Icon names used dynamically below — listed here for vite-plugin-kern-extra-icons static scanning:
+// kern-icon--check kern-icon--location-on kern-icon--palette kern-icon--rocket-launch
 interface RoadmapItem {
 	body: string
 	title: string
@@ -194,7 +196,7 @@ const phases: Phase[] = [
 		status: 'planned',
 		label: 'Q4·2025',
 		sublabel: 'Planned',
-		accentIcon: 'schedule',
+		accentIcon: 'palette',
 		milestoneIcon: '',
 		items: [
 			{
