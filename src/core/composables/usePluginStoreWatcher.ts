@@ -8,6 +8,7 @@ import { computed, watch, type ComputedRef, type WatchHandle } from 'vue'
 
 import type { StoreReference } from '@/core/types'
 
+import { useCoreStore } from '@/core/stores'
 import { usePluginStore } from '@/core/stores/plugin'
 
 /**
@@ -57,6 +58,7 @@ export function usePluginStoreWatcher(
 		| (() => StoreReference[]),
 	callback: (value: unknown) => void | Promise<void>
 ) {
+	const coreStore = useCoreStore()
 	const pluginStore = usePluginStore()
 	const sourcesArray = computed(() => {
 		if (typeof sources === 'function') {
@@ -73,7 +75,18 @@ export function usePluginStoreWatcher(
 	let sourcesWatcher: WatchHandle | null = null
 
 	function setupWatcherForSource(watcherConfig: WatcherConfig) {
-		if (watcherConfig.handle !== null || !watcherConfig.source.plugin) {
+		if (watcherConfig.handle !== null) {
+			return
+		}
+
+		if (!watcherConfig.source.plugin) {
+			watcherConfig.handle = watch(
+				() =>
+					(coreStore as unknown as Record<string, unknown>)[
+						watcherConfig.source.key
+					],
+				watcherConfig.callback
+			)
 			return
 		}
 
@@ -114,9 +127,9 @@ export function usePluginStoreWatcher(
 				watchers.push(watcherConfig)
 			}
 
-			const pluginIsInstalled = pluginStore.plugins.some(
-				(plugin) => plugin.id === source.plugin
-			)
+			const pluginIsInstalled =
+				!source.plugin ||
+				pluginStore.plugins.some((plugin) => plugin.id === source.plugin)
 
 			if (pluginIsInstalled && !watcherConfig.handle) {
 				setupWatcherForSource(watcherConfig)
