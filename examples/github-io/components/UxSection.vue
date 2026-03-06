@@ -59,6 +59,19 @@ const cards = [
 </script>
 
 <style scoped>
+.lp-grid-4 {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1.5rem;
+}
+
+.lp-card {
+	border-radius: var(--polar-radius);
+	border: 1px solid #e2e8f0;
+	background: #fff;
+	overflow: hidden;
+}
+
 .lp-card__container {
 	padding: 0;
 	display: flex;
