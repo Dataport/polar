@@ -28,13 +28,13 @@ export const useCoreStore = defineStore('core', () => {
 
 	const markerStore = useMarkerStore()
 
-	/**
-	 * The current center coordinates of the map.
-	 *
-	 * @alpha
-	 * @readonly
-	 */
 	return {
+		/**
+		 * The current center coordinates of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
 		center: computed(() => mainStore.center),
 
 		/**
