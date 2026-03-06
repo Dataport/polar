@@ -70,8 +70,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-const SCRIPT_CLOSE = '</' + 'script>'
-
 const tabs = [
 	{ id: 'install', label: 'Install' },
 	{ id: 'quickstart', label: 'Quickstart' },
@@ -83,44 +81,46 @@ const copied = ref(false)
 
 const rawCode: Record<string, string> = {
 	install: `# npm
-npm install @polar/core @polar/plugin-layer-chooser
+npm install @polar/polar
 
-# …or just use it as a Web Component (no build step needed)
-<script src="https://cdn.jsdelivr.net/npm/@polar/core/dist/polar.js">${SCRIPT_CLOSE}`,
+# yarn
+yarn add @polar/polar`,
 
-	quickstart: `<polar-map
-  id="myMap"
-  options='{
-    "epsg": "EPSG:25832",
-    "startCenter": [565765, 5933920],
-    "startResolution": 10,
-    "layers": [
-      {
-        "id": "basemap",
-        "visibility": true,
-        "type": "background",
-        "url": "https://sgx.geodatenzentrum.de/wmts_basemapde",
-        "layers": "de_basemapde_web_raster_farbe"
-      }
-    ]
-  }'
-></polar-map>`,
+	quickstart: `// main.js – register POLAR as a Vue 3 app
+import { register } from '@polar/polar'
+import { createPinia } from 'pinia'
+import { createApp } from 'vue'
+import App from './App.vue'
 
-	advanced: `import { createMap } from '@polar/core'
-import layerChooser from '@polar/plugin-layer-chooser'
-import addressSearch from '@polar/plugin-address-search'
+register() // registers <polar-map> as a web component
+createApp(App).use(createPinia()).mount('#app')
 
-const map = await createMap({
-  containerId: 'polar-root',
-  plugins: [layerChooser(), addressSearch()],
-  services: servicesSummary,
-  mapConfiguration: {
-    epsg: 'EPSG:25832',
-    startCenter: [565765, 5933920],
-    startResolution: 10,
-    layers: [ /* … */ ]
-  }
-})`,
+// App.vue – embed the map:
+// <polar-map
+//   :map-configuration="config"
+//   :service-register="services"
+// />`,
+
+	advanced: `// Extend with plugins and configure the map
+import { addPlugins } from '@polar/polar'
+import pluginIconMenu from '@polar/polar/plugins/iconMenu'
+import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
+import pluginScale from '@polar/polar/plugins/scale'
+
+const mapConfiguration = {
+  startCenter: [565874, 5934140],
+  layout: 'nineRegions',
+  layers: [{ id: 'basemap', visibility: true, type: 'background' }],
+}
+
+addPlugins(map, [
+  pluginIconMenu({
+    displayComponent: true,
+    layoutTag: 'TOP_RIGHT',
+    menus: [[{ plugin: pluginLayerChooser({}) }]],
+  }),
+  pluginScale({ displayComponent: true, layoutTag: 'BOTTOM_RIGHT' }),
+])`,
 }
 
 const escapeHtml = (s: string) =>
@@ -134,9 +134,9 @@ const highlight = (code: string) =>
 		)
 		.replace(/('[^']*'|"[^"]*")/g, '<span class="lp-token-str">$1</span>')
 		.replace(/(\/\/.*)/g, '<span class="lp-token-cm">$1</span>')
-		.replace(/(#.*)/g, '<span class="lp-token-cm">$1</span>')
+		.replace(/(^#[^\n]*)/gm, '<span class="lp-token-cm">$1</span>')
 		.replace(
-			/(createMap|createApp|addPlugin)\b/g,
+			/(createMap|createApp|addPlugins?|register)\b/g,
 			'<span class="lp-token-fn">$1</span>'
 		)
 
@@ -185,6 +185,9 @@ const checklist = [
 	gap: 3rem;
 	align-items: center;
 }
+.lp-dx-right {
+	min-width: 0;
+}
 @media (max-width: 768px) {
 	.lp-dx-grid {
 		grid-template-columns: 1fr;
@@ -231,9 +234,15 @@ const checklist = [
 	background: var(--polar-code-bg);
 	border-radius: var(--polar-radius);
 	overflow: hidden;
+	width: 100%;
+	max-width: 688px;
+	height: 440px;
+	display: flex;
+	flex-direction: column;
 }
 .lp-code-tabs {
 	display: flex;
+	flex-shrink: 0;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .lp-code-tab {
@@ -242,32 +251,39 @@ const checklist = [
 	cursor: pointer;
 	border: none;
 	background: transparent;
-	color: rgba(255, 255, 255, 0.55);
+	color: #92abdf;
 	font-family: inherit;
 	transition:
 		color 0.15s,
-		border-color 0.15s;
+		background 0.15s;
 	border-bottom: 2px solid transparent;
 }
 .lp-code-tab:hover {
-	color: rgba(255, 255, 255, 0.85);
+	color: #fff;
 }
 .lp-code-tab--active {
-	color: #7dd3fc;
-	border-bottom-color: #7dd3fc;
+	color: #000;
+	background: #92abdf;
+	border-bottom-color: transparent;
 }
 .lp-code-body {
 	position: relative;
+	flex: 1;
+	overflow: hidden;
 	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
 }
 .lp-code-pre {
 	margin: 0;
-	font-family: 'Fira Mono', 'Fira Code', monospace;
+	font-family: 'Fira Code', monospace;
+	font-weight: 600;
 	font-size: 0.85rem;
 	line-height: 1.7;
-	overflow-x: auto;
+	overflow: auto;
 	color: #e2e8f0;
 	white-space: pre;
+	flex: 1;
 }
 .lp-code-copy {
 	position: absolute;
@@ -288,13 +304,13 @@ const checklist = [
 }
 
 :global(.lp-token-kw) {
-	color: #c084fc;
+	color: #fc0c91;
 }
 :global(.lp-token-fn) {
 	color: #7dd3fc;
 }
 :global(.lp-token-str) {
-	color: #86efac;
+	color: #00d388;
 }
 :global(.lp-token-cm) {
 	color: #6b7280;
