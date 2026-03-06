@@ -30,6 +30,14 @@ export const useCoreStore = defineStore('core', () => {
 
 	return {
 		/**
+		 * The current center coordinates of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		center: computed(() => mainStore.center),
+
+		/**
 		 * Color scheme the client should be using.
 		 */
 		colorScheme: mainStoreRefs.colorScheme,
