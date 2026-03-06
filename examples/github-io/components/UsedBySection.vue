@@ -1,9 +1,7 @@
 <template>
 	<section class="lp-used-by" aria-label="Used by">
-		<div class="lp-container">
-			<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
-			<div class="lp-used-by__logo" v-html="usedByLogoSvg" />
-		</div>
+		<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
+		<div class="lp-used-by__logo" v-html="usedByLogoSvg" />
 	</section>
 </template>
 
@@ -14,11 +12,16 @@ import usedByLogoSvg from './assets/used-by-section-logo.svg?raw'
 <style scoped>
 .lp-used-by {
 	padding: 2.5rem 0;
-	background: #fff;
+	background: #f7f7f9;
+	overflow: hidden;
 }
 .lp-used-by__logo {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	display: block;
+	width: 100%;
+}
+:deep(.lp-used-by__logo svg) {
+	display: block;
+	width: 100%;
+	height: 192px;
 }
 </style>
