@@ -8,6 +8,7 @@ import {
 	updateState,
 } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
+import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFooter from '@polar/polar/plugins/footer'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
@@ -182,6 +183,30 @@ const map = await createMap(
 			{
 				type: 'de',
 				resources: {
+					filter: {
+						layer: {
+							[reports]: {
+								category: {
+									skat: {
+										title: 'Schadensart',
+										knownValue: {
+											'1xx': 'Alle Wege- und Straßenschäden',
+											100: 'Wege und Straßen',
+											101: 'Schlagloch und Wegeschaden',
+											102: 'Verunreinigung und Vandalismus',
+										},
+									},
+									statu: {
+										title: 'Bearbeitungsstatus',
+										knownValue: {
+											todo: 'In Bearbeitung',
+											done: 'Abgeschlossen',
+										},
+									},
+								},
+							},
+						},
+					},
 					fullscreen: {
 						button: {
 							label_on: 'Mach groß',
@@ -336,7 +361,6 @@ addPlugin(
 			},
 		],
 		menus: [
-			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
 			[
 				{
 					plugin: pluginFullscreen({}),
@@ -345,6 +369,7 @@ addPlugin(
 					plugin: pluginLayerChooser({}),
 				},
 			],
+			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
 			[
 				{
 					plugin: {
@@ -353,6 +378,71 @@ addPlugin(
 						locales: [],
 					},
 					icon: 'kern-icon-fill--share',
+				},
+			],
+			[
+				{
+					plugin: pluginFilter({
+						layers: {
+							[reports]: {
+								categories: [
+									{
+										targetProperty: 'skat',
+										knownValues: [
+											{
+												key: '100',
+												values: ['100'],
+												icon: 'kern-icon--road',
+											},
+											{
+												key: '101',
+												values: ['101'],
+												icon: 'kern-icon--remove-road',
+											},
+											{
+												key: '102',
+												values: ['102'],
+												icon: 'kern-icon--destruction',
+											},
+										],
+										selectAll: true,
+									},
+									{
+										targetProperty: 'skat',
+										knownValues: [
+											{
+												key: '1xx',
+												values: ['100', '101', '102'],
+												icon: 'kern-icon--road',
+											},
+										],
+										selectAll: true,
+									},
+									{
+										targetProperty: 'statu',
+										knownValues: [
+											{
+												key: 'todo',
+												values: ['In Bearbeitung'],
+												icon: 'kern-icon--assignment',
+											},
+											{
+												key: 'done',
+												values: ['abgeschlossen'],
+												icon: 'kern-icon--check',
+											},
+										],
+									},
+								],
+								time: {
+									targetProperty: 'start',
+									freeSelection: 'until',
+									last: [0, 7, 30],
+									pattern: 'YYYYMMDD',
+								},
+							},
+						},
+					}),
 				},
 			],
 			[

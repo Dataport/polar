@@ -7,6 +7,7 @@ export function mockedT(
 	options: {
 		ns: string
 		context?: string
+		count?: number
 	}
 ) {
 	const target = {
@@ -21,5 +22,5 @@ export function mockedT(
 			return proxy
 		},
 	})
-	return `$t(${options.ns}:${keyFn(proxy)}${options.context ? `_${options.context}` : ''})`
+	return `$t(${options.ns}:${keyFn(proxy)}${options.context ? `_${options.context}` : ''}${options.count ? `_${options.count}` : ''})`
 }
