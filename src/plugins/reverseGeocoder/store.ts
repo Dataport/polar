@@ -9,8 +9,9 @@ import type { Mock } from 'vitest'
 import { easeOut } from 'ol/easing'
 import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, watch, type Reactive, type WatchHandle } from 'vue'
+import { computed, type Reactive } from 'vue'
 
+import { usePluginStoreWatcher } from '@/core/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 import { indicateLoading } from '@/lib/indicateLoading'
 
@@ -20,6 +21,15 @@ import {
 	type ReverseGeocoderPluginOptions,
 } from './types'
 import { reverseGeocode as reverseGeocodeUtil } from './utils/reverseGeocode'
+
+function isCoordinate(value: unknown): value is [number, number] {
+	return (
+		Array.isArray(value) &&
+		value.length === 2 &&
+		typeof value[0] === 'number' &&
+		typeof value[1] === 'number'
+	)
+}
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -37,34 +47,21 @@ export const useReverseGeocoderStore = defineStore(
 			() => coreStore.configuration[PluginId] as ReverseGeocoderPluginOptions
 		)
 
-		const watchHandles = ref<WatchHandle[]>([])
+		const sourceWatchers = usePluginStoreWatcher(
+			() => configuration.value.coordinateSources || [],
+			async (coordinate: unknown) => {
+				if (isCoordinate(coordinate)) {
+					await reverseGeocode(coordinate)
+				}
+			}
+		)
 
 		function setupPlugin() {
-			for (const source of configuration.value.coordinateSources || []) {
-				const store = source.plugin
-					? coreStore.getPluginStore(source.plugin)
-					: coreStore
-				if (!store) {
-					continue
-				}
-				watchHandles.value.push(
-					watch(
-						() => store[source.key],
-						async (coordinate) => {
-							if (coordinate) {
-								await reverseGeocode(coordinate)
-							}
-						},
-						{ immediate: true }
-					)
-				)
-			}
+			sourceWatchers.setupPlugin()
 		}
 
 		function teardownPlugin() {
-			watchHandles.value.forEach((handle) => {
-				handle()
-			})
+			sourceWatchers.teardownPlugin()
 		}
 
 		function passFeatureToTarget(
