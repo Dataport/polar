@@ -1,120 +1,134 @@
 <template>
-	<section class="lp-section lp-section--alt" aria-labelledby="roadmap-heading">
-		<div class="lp-container">
-			<div
-				class="lp-section-header lp-section-header--center"
-				style="margin-bottom: 2.5rem"
-			>
-				<span class="lp-pill lp-pill--pink" role="note">Our Roadmap</span>
-				<h2 id="roadmap-heading" style="text-align: center">
-					The Future of POLAR
-				</h2>
-				<p style="text-align: center">
-					We're continuously improving POLAR. Here's what we've shipped and
-					what's coming next.
-				</p>
+	<section class="lp-roadmap-section" aria-labelledby="roadmap-heading">
+		<div class="lp-roadmap-section__header">
+			<div class="lp-container">
+				<div class="lp-section-header lp-section-header--center">
+					<span class="lp-pill lp-pill--pink" role="note">Our Roadmap</span>
+					<h2 id="roadmap-heading" style="text-align: center">
+						The Future of POLAR
+					</h2>
+					<p style="text-align: center">
+						We're continuously improving POLAR. Here's what we've shipped and
+						what's coming next.
+					</p>
+				</div>
 			</div>
+		</div>
 
-			<div class="lp-roadmap" role="list" aria-label="POLAR Roadmap">
-				<div
-					v-for="phase in phases"
-					:key="phase.status"
-					:class="['lp-roadmap__phase', `lp-roadmap__phase--${phase.status}`]"
-				>
+		<div class="lp-roadmap-section__body">
+			<div class="lp-container">
+				<div class="lp-roadmap" role="list" aria-label="POLAR Roadmap">
 					<div
-						v-for="(item, ii) in phase.items"
-						:key="item.title"
-						:class="[
-							'lp-roadmap__row',
-							ii % 2 === 0 ? 'lp-roadmap__row--right' : 'lp-roadmap__row--left',
-						]"
-						role="listitem"
+						v-for="phase in phases"
+						:key="phase.status"
+						:class="['lp-roadmap__phase', `lp-roadmap__phase--${phase.status}`]"
 					>
-						<!-- Left cell: phase label (milestone rows) OR left-side card -->
-						<div class="lp-roadmap__cell lp-roadmap__cell--left">
-							<div
-								v-if="ii === 0"
-								:class="[
-									'lp-roadmap__phase-label',
-									`lp-roadmap__phase-label--${phase.status}`,
-								]"
-							>
-								<span class="lp-roadmap__phase-date">{{ phase.label }}</span>
-								<span class="lp-roadmap__phase-sublabel">{{
-									phase.sublabel
-								}}</span>
-							</div>
-							<div
-								v-else-if="ii % 2 !== 0"
-								:class="[
-									'lp-roadmap__card',
-									'lp-roadmap__card--left',
-									`lp-roadmap__card--${phase.status}`,
-								]"
-							>
-								<div class="lp-roadmap__card-content">
-									<p class="lp-roadmap__card-title">{{ item.title }}</p>
-									<p class="lp-roadmap__card-body">{{ item.body }}</p>
+						<div
+							v-for="(item, ii) in phase.items"
+							:key="item.title"
+							:class="[
+								'lp-roadmap__row',
+								ii % 2 === 0
+									? 'lp-roadmap__row--right'
+									: 'lp-roadmap__row--left',
+							]"
+							role="listitem"
+						>
+							<!-- Left cell: phase label (milestone rows) OR left-side card -->
+							<div class="lp-roadmap__cell lp-roadmap__cell--left">
+								<div
+									v-if="ii === 0"
+									:class="[
+										'lp-roadmap__phase-label',
+										`lp-roadmap__phase-label--${phase.status}`,
+									]"
+								>
+									<span class="lp-roadmap__phase-date">{{ phase.label }}</span>
+									<span class="lp-roadmap__phase-sublabel">{{
+										phase.sublabel
+									}}</span>
 								</div>
 								<div
+									v-else-if="ii % 2 !== 0"
 									:class="[
-										'lp-roadmap__card-accent',
-										`lp-roadmap__card-accent--${phase.status}`,
+										'lp-roadmap__card',
+										'lp-roadmap__card--left',
+										`lp-roadmap__card--${phase.status}`,
+									]"
+								>
+									<div class="lp-roadmap__card-content">
+										<p class="lp-roadmap__card-title">{{ item.title }}</p>
+										<p class="lp-roadmap__card-body">{{ item.body }}</p>
+									</div>
+									<div
+										:class="[
+											'lp-roadmap__card-accent',
+											`lp-roadmap__card-accent--${phase.status}`,
+										]"
+									>
+										<span
+											:class="[
+												'kern-icon',
+												`kern-icon--${item.accentIcon ?? phase.accentIcon}`,
+											]"
+											aria-hidden="true"
+										/>
+									</div>
+								</div>
+							</div>
+
+							<!-- Center marker: large milestone circle or small item pill -->
+							<div class="lp-roadmap__center" aria-hidden="true">
+								<div
+									v-if="ii === 0"
+									:class="[
+										'lp-roadmap__milestone',
+										`lp-roadmap__milestone--${phase.status}`,
 									]"
 								>
 									<span
-										:class="['kern-icon', `kern-icon--${phase.accentIcon}`]"
+										v-if="phase.milestoneIcon"
+										:class="['kern-icon', `kern-icon--${phase.milestoneIcon}`]"
 										aria-hidden="true"
 									/>
 								</div>
-							</div>
-						</div>
-
-						<!-- Center marker: large milestone circle or small item pill -->
-						<div class="lp-roadmap__center" aria-hidden="true">
-							<div
-								v-if="ii === 0"
-								:class="[
-									'lp-roadmap__milestone',
-									`lp-roadmap__milestone--${phase.status}`,
-								]"
-							>
-								<span
-									v-if="phase.milestoneIcon"
-									:class="['kern-icon', `kern-icon--${phase.milestoneIcon}`]"
-									aria-hidden="true"
+								<div
+									v-else
+									:class="[
+										'lp-roadmap__dot',
+										`lp-roadmap__dot--${phase.status}`,
+									]"
 								/>
 							</div>
-							<div
-								v-else
-								:class="['lp-roadmap__dot', `lp-roadmap__dot--${phase.status}`]"
-							/>
-						</div>
 
-						<!-- Right cell: right-side card (milestone + even sub-items) -->
-						<div class="lp-roadmap__cell lp-roadmap__cell--right">
-							<div
-								v-if="ii % 2 === 0"
-								:class="[
-									'lp-roadmap__card',
-									'lp-roadmap__card--right',
-									`lp-roadmap__card--${phase.status}`,
-								]"
-							>
+							<!-- Right cell: right-side card (milestone + even sub-items) -->
+							<div class="lp-roadmap__cell lp-roadmap__cell--right">
 								<div
+									v-if="ii % 2 === 0"
 									:class="[
-										'lp-roadmap__card-accent',
-										`lp-roadmap__card-accent--${phase.status}`,
+										'lp-roadmap__card',
+										'lp-roadmap__card--right',
+										`lp-roadmap__card--${phase.status}`,
 									]"
 								>
-									<span
-										:class="['kern-icon', `kern-icon--${phase.accentIcon}`]"
-										aria-hidden="true"
-									/>
-								</div>
-								<div class="lp-roadmap__card-content">
-									<p class="lp-roadmap__card-title">{{ item.title }}</p>
-									<p class="lp-roadmap__card-body">{{ item.body }}</p>
+									<div
+										:class="[
+											'lp-roadmap__card-accent',
+											`lp-roadmap__card-accent--${phase.status}`,
+										]"
+									>
+										<span
+											:class="[
+												'kern-icon',
+												`kern-icon--${item.accentIcon ?? phase.accentIcon}`,
+											]"
+											aria-hidden="true"
+										/>
+									</div>
+									<div class="lp-roadmap__card-content">
+										<p class="lp-roadmap__card-title">{{ item.title }}</p>
+										<p class="lp-roadmap__card-body">{{ item.body }}</p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -129,6 +143,7 @@
 interface RoadmapItem {
 	body: string
 	title: string
+	accentIcon?: string
 }
 
 interface Phase {
@@ -163,7 +178,7 @@ const phases: Phase[] = [
 		label: 'Q1·2025',
 		sublabel: 'In progress',
 		accentIcon: 'location-on',
-		milestoneIcon: 'location-on',
+		milestoneIcon: '',
 		items: [
 			{
 				title: 'More Geostuff',
@@ -179,16 +194,18 @@ const phases: Phase[] = [
 		status: 'planned',
 		label: 'Q4·2025',
 		sublabel: 'Planned',
-		accentIcon: 'list',
+		accentIcon: 'schedule',
 		milestoneIcon: '',
 		items: [
 			{
 				title: 'Enhanced UX & Theming',
 				body: 'Dark mode support, theming API, and improved mobile interaction patterns.',
+				accentIcon: 'palette',
 			},
 			{
 				title: 'Something Wonderful',
 				body: 'Stay tuned — we have exciting things in the works for the next major release.',
+				accentIcon: 'rocket-launch',
 			},
 		],
 	},
@@ -196,6 +213,22 @@ const phases: Phase[] = [
 </script>
 
 <style scoped>
+/* ── Two-band section layout ───────────────────────────── */
+.lp-roadmap-section {
+	display: flex;
+	flex-direction: column;
+}
+
+.lp-roadmap-section__header {
+	background: #fff;
+	padding: 5rem 0 2.5rem;
+}
+
+.lp-roadmap-section__body {
+	background: #f7f7f9;
+	padding: 2.5rem 0 5rem;
+}
+
 /* ── Phase section: draws the phase-coloured vertical line */
 .lp-roadmap__phase {
 	position: relative;
@@ -251,7 +284,8 @@ const phases: Phase[] = [
 	width: 48px;
 	height: 48px;
 	border-radius: 50%;
-	border: 4px solid #f7f7f9;
+	border: 4px solid #fff;
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.07);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -274,6 +308,30 @@ const phases: Phase[] = [
 	background: #00c37c;
 }
 
+.lp-roadmap__milestone--progress::before {
+	content: '';
+	display: block;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2.5px solid rgba(255, 255, 255, 0.9);
+	background: transparent;
+	z-index: 3;
+}
+
+.lp-roadmap__milestone--progress::after {
+	content: '';
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.9);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 4;
+}
+
 /* Planned: white circle with gray ring */
 .lp-roadmap__milestone--planned {
 	background: #fff;
@@ -286,7 +344,8 @@ const phases: Phase[] = [
 	width: 24px;
 	height: 32px;
 	border-radius: 12px;
-	border: 3px solid #f7f7f9;
+	border: 3px solid #fff;
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
 	position: relative;
 	z-index: 2;
 	flex-shrink: 0;
@@ -327,6 +386,7 @@ const phases: Phase[] = [
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
+	box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
 
 .lp-roadmap__card-accent .kern-icon {
