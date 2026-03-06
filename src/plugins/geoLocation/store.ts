@@ -44,10 +44,9 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	const isGeolocationDenied = ref(false)
 	const geolocation = ref<Geolocation | null>(null)
 	const lastBoundaryCheck = ref<boolean | symbol | null>(null)
-	const mapHasBeenMovedByUser = ref(false)
 	const position = ref<number[]>([])
 
-	let lastZoom = coreStore.zoom
+	let mapHasBeenMovedByUser = false
 
 	const configuration = computed<
 		GeoLocationPluginOptions & { showTooltip: boolean; zoomLevel: number }
@@ -144,7 +143,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 
 	/** Enable tracking of geo position */
 	function track() {
-		mapHasBeenMovedByUser.value = false
+		mapHasBeenMovedByUser = false
 		if (isGeolocationDenied.value) {
 			onError({
 				message: 'Geolocation API usage was denied by user or configuration.',
@@ -173,11 +172,8 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	watch(
 		() => coreStore.center,
 		() => {
-			const isZooming = coreStore.zoom !== lastZoom
-			lastZoom = coreStore.zoom
-
-			if (!isZooming && position.value !== coreStore.center) {
-				mapHasBeenMovedByUser.value = true
+			if (position.value !== coreStore.center) {
+				mapHasBeenMovedByUser = true
 			}
 		}
 	)
@@ -262,7 +258,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		if (
 			(configuration.value.keepCentered || !hadPosition) &&
 			lastBoundaryCheck.value &&
-			!mapHasBeenMovedByUser.value
+			!mapHasBeenMovedByUser
 		) {
 			coreStore.map.getView().setCenter(coordinate)
 			coreStore.map.getView().setZoom(configuration.value.zoomLevel)
