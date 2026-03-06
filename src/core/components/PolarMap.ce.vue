@@ -90,7 +90,7 @@ watch(center, (center) => {
 })
 
 watch(zoom, (zoom) => {
-	mainStore.map.getView().setZoom(zoom)
+	mainStore.map.getView().animate({ zoom, duration: 300 })
 })
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1

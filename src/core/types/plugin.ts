@@ -35,6 +35,9 @@ import type { useScaleStore as ScaleStore } from '@/plugins/scale/store'
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
+import type { PluginId as ZoomPluginId } from '@/plugins/zoom'
+import type { resourcesEn as ZoomResources } from '@/plugins/zoom/locales'
+import type { useZoomStore as ZoomStore } from '@/plugins/zoom/store'
 
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
@@ -102,6 +105,7 @@ export type BundledPluginId =
 	| typeof ReverseGeocoderPluginId
 	| typeof ScalePluginId
 	| typeof ToastPluginId
+	| typeof ZoomPluginId
 
 type GetPluginStore<
 	T extends BundledPluginId,
@@ -130,6 +134,7 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	  >
 	| GetPluginStore<T, typeof ScalePluginId, typeof ScaleStore>
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
+	| GetPluginStore<T, typeof ZoomPluginId, typeof ZoomStore>
 
 type GetPluginResources<
 	T extends BundledPluginId,
@@ -165,6 +170,7 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 	| GetPluginResources<T, typeof PinsPluginId, typeof PinsResources>
 	| GetPluginResources<T, typeof ScalePluginId, typeof ScaleResources>
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
+	| GetPluginResources<T, typeof ZoomPluginId, typeof ZoomResources>
 
 /** @internal */
 export type ExternalPluginId = `external-${string}`
