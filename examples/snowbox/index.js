@@ -19,6 +19,7 @@ import pluginPins from '@polar/polar/plugins/pins'
 import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
+import pluginZoom from '@polar/polar/plugins/zoom'
 
 import EmptyComponent from './EmptyComponent.vue'
 import MockPointerPosition from './MockPointerPosition.ce.vue'
@@ -337,6 +338,7 @@ addPlugin(
 		],
 		menus: [
 			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
+			[],
 			[
 				{
 					plugin: pluginFullscreen({}),
@@ -371,6 +373,13 @@ addPlugin(
 				},
 			],
 		],
+	})
+)
+addPlugin(
+	map,
+	pluginZoom({
+		showZoomSlider: true,
+		orientation: 'vertical',
 	})
 )
 addPlugin(
