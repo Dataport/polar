@@ -290,20 +290,6 @@ addPlugin(
 )
 addPlugin(
 	map,
-	pluginPins({
-		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
-		boundary: {
-			layerId: hamburgBorder,
-		},
-		movable: 'drag',
-		style: {
-			fill: '#FF0019',
-		},
-		toZoomLevel: 7,
-	})
-)
-addPlugin(
-	map,
 	pluginReverseGeocoder({
 		url: 'https://geodienste.hamburg.de/HH_WPS',
 		coordinateSources: [
@@ -317,6 +303,20 @@ addPlugin(
 			key: 'selectResult',
 		},
 		zoomTo: 7,
+	})
+)
+addPlugin(
+	map,
+	pluginPins({
+		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+		boundary: {
+			layerId: hamburgBorder,
+		},
+		movable: 'drag',
+		style: {
+			fill: '#FF0019',
+		},
+		toZoomLevel: 7,
 	})
 )
 addPlugin(
