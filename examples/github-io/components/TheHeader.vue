@@ -190,17 +190,53 @@ import polarLogoSvg from './assets/polar-logo.svg?raw'
 	background: rgba(255, 255, 255, 0.62);
 }
 @media (max-width: 768px) {
+	.lp-header .lp-container {
+		padding: 0 1.5rem;
+	}
 	.lp-header__bar {
-		grid-template-columns: auto 1fr;
+		grid-template-columns: 1fr auto;
 		grid-template-rows: auto auto;
+		gap: 1rem;
 	}
 	.lp-header__nav {
 		grid-column: 1 / -1;
-		order: 3;
+		grid-row: 2;
+		order: unset;
+		justify-content: stretch;
 	}
 	.lp-header__pill {
-		flex-wrap: wrap;
+		height: auto;
+		padding: 8px;
 		border-radius: 1rem;
+		gap: 4px;
+		width: 100%;
+		justify-content: space-around;
+	}
+	.lp-header__link {
+		font-size: 0.95rem;
+		padding: 0.4rem 0.75rem;
+		gap: 0.25rem;
+	}
+	/* GitHub button: compact icon-only pill */
+	.lp-header__github {
+		width: auto;
+		height: auto;
+		padding: 0.6rem 0.9rem;
+		gap: 0;
+		font-size: 0;
+		margin-left: 0;
+	}
+	.lp-header__github .kern-icon {
+		display: none;
+	}
+}
+@media (max-width: 480px) {
+	.lp-header__pill {
+		flex-wrap: wrap;
+	}
+	.lp-header__link {
+		font-size: 0.85rem;
+		padding: 0.35rem 0.5rem;
 	}
 }
 </style>
