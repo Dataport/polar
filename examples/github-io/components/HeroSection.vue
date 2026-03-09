@@ -1,10 +1,5 @@
 <template>
 	<section class="lp-hero" aria-label="Hero">
-		<!-- Decorative star placeholders – replace src with designer assets -->
-		<div class="lp-hero__stars" aria-hidden="true">
-			<!-- star assets will go here once provided by designer -->
-		</div>
-
 		<div class="lp-container">
 			<!-- Hero content -->
 			<div class="lp-hero__content">
@@ -28,15 +23,9 @@
 					Design
 				</p>
 
-				<!-- Map preview -->
+				<!-- Live map preview -->
 				<div class="lp-hero__map">
-					<div class="lp-hero__map-frame">
-						<img
-							:src="screenshotUrl"
-							alt="POLAR Map Demo Screenshot"
-							loading="lazy"
-						/>
-					</div>
+					<HeroPolarMap />
 				</div>
 
 				<!-- CTAs -->
@@ -66,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import screenshotUrl from '../../../docs/assets/polar_example_screenshot.png'
+import HeroPolarMap from './HeroPolarMap.vue'
 </script>
 
 <style scoped>
@@ -157,16 +146,6 @@ import screenshotUrl from '../../../docs/assets/polar_example_screenshot.png'
 .lp-hero__map {
 	max-width: 960px;
 	margin: 0 auto 2.5rem;
-}
-.lp-hero__map-frame {
-	background: #fff;
-	border-radius: 1.5rem;
-	overflow: hidden;
-	box-shadow: 0 32px 80px rgba(0, 0, 0, 0.45);
-}
-.lp-hero__map-frame img {
-	width: 100%;
-	display: block;
 }
 .lp-hero__ctas {
 	display: flex;
