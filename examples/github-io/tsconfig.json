@@ -12,7 +12,12 @@
 			"ESNext",
 			"DOM",
 			"DOM.Iterable"
-		]
+		],
+		"paths": {
+			"@polar/polar": ["../../src/core/index.ts"],
+			"@polar/polar/plugins/*": ["../../src/plugins/*/index.ts"],
+			"@/*": ["../../src/*"]
+		}
 	},
 	"include": [
 		"./**/*.ts",
