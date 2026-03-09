@@ -2,8 +2,6 @@
 	<div class="kern-light">
 		<!-- Shared background zone: header + hero sit on top of the SVG -->
 		<div class="lp-hero-zone">
-			<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
-			<div v-html="heroBgSvg" />
 			<TheHeader />
 			<HeroSection />
 		</div>
@@ -21,7 +19,6 @@
 <script setup lang="ts">
 import kernExtraIcons from 'virtual:kern-extra-icons'
 
-import rawHeroBg from './components/assets/polar-bg.svg?raw'
 import CtaSection from './components/CtaSection.vue'
 import DevExSection from './components/DevExSection.vue'
 import FeaturesSection from './components/FeaturesSection.vue'
@@ -32,16 +29,6 @@ import TheHeader from './components/TheHeader.vue'
 import UsedBySection from './components/UsedBySection.vue'
 import UxSection from './components/UxSection.vue'
 import VideoSection from './components/VideoSection.vue'
-
-// polar-bg.svg has no class/preserveAspectRatio/aria-hidden — patch them in,
-// remove fixed dimensions and use slice so it always covers the hero zone
-const heroBgSvg = rawHeroBg
-	.replace('<svg ', '<svg class="lp-hero-zone__bg" aria-hidden="true" ')
-	.replace('width="1728" height="682"', 'width="100%" height="100%"')
-	.replace(
-		'viewBox="0 0 1728 682"',
-		'viewBox="0 0 1728 682" preserveAspectRatio="xMidYMin slice"'
-	)
 
 document.adoptedStyleSheets.push(kernExtraIcons)
 if (import.meta.hot) {
@@ -122,16 +109,11 @@ body {
 .lp-hero-zone {
 	position: relative;
 	background: #fff;
+	background-image: url('./components/assets/polar-bg.svg');
+	background-size: cover;
+	background-position: top center;
+	background-repeat: no-repeat;
 	overflow: hidden;
-}
-.lp-hero-zone__bg {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 0;
-	pointer-events: none;
 }
 
 /* ── Layout helpers ─────────────────────────────────────── */
