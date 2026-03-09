@@ -31,6 +31,7 @@
 							<button
 								v-for="tab in tabs"
 								:key="tab.id"
+								type="button"
 								:class="[
 									'lp-code-tab',
 									{ 'lp-code-tab--active': activeTab === tab.id },
@@ -49,6 +50,7 @@
 								:id="`tab-panel-${activeTab}`"
 								class="lp-code-pre"
 								role="tabpanel"
+								tabindex="-1"
 								v-html="codeSnippets[activeTab]"
 							/>
 							<!-- eslint-enable vue/no-v-html -->
@@ -86,41 +88,47 @@ npm install @polar/polar
 # yarn
 yarn add @polar/polar`,
 
-	quickstart: `// main.js – register POLAR as a Vue 3 app
-import { register } from '@polar/polar'
-import { createPinia } from 'pinia'
-import { createApp } from 'vue'
-import App from './App.vue'
+	quickstart: `import { createMap } from '@polar/polar'
 
-register() // registers <polar-map> as a web component
-createApp(App).use(createPinia()).mount('#app')
+const map = await createMap(
+  'map-container',   // id of the element to replace
+  {
+    startCenter: [553655, 6004479],
+    layers: [
+      { id: 'basemap', name: 'Basemap' },
+    ],
+  },
+  'https://example.com/services.json' // or pass array directly
+)`,
 
-// App.vue – embed the map:
-// <polar-map
-//   :map-configuration="config"
-//   :service-register="services"
-// />`,
-
-	advanced: `// Extend with plugins and configure the map
-import { addPlugins } from '@polar/polar'
+	advanced: `// Add plugins and subscribe to store changes
+import { addPlugins, getStore, subscribe } from '@polar/polar'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginScale from '@polar/polar/plugins/scale'
 
-const mapConfiguration = {
-  startCenter: [565874, 5934140],
+const map = await createMap('map-container', {
+  startCenter: [553655, 6004479],
+  epsg: 'EPSG:25832',
   layout: 'nineRegions',
-  layers: [{ id: 'basemap', visibility: true, type: 'background' }],
-}
+  layers: [{ id: 'basemap', name: 'Basemap' }],
+}, serviceRegister)
 
 addPlugins(map, [
-  pluginIconMenu({
-    displayComponent: true,
-    layoutTag: 'TOP_RIGHT',
-    menus: [[{ plugin: pluginLayerChooser({}) }]],
-  }),
-  pluginScale({ displayComponent: true, layoutTag: 'BOTTOM_RIGHT' }),
-])`,
+  pluginIconMenu({ 
+  	displayComponent: true, 
+	layoutTag: 'TOP_RIGHT',
+    menus: [[{ plugin: pluginLayerChooser({}) }]] 
+	}),
+  pluginScale({ 
+  	displayComponent: true, 
+	layoutTag: 'BOTTOM_RIGHT' }),
+])
+
+// React to store changes
+const unsubscribe = subscribe(map, 'core', 'zoom', (zoom) => {
+  console.log('zoom changed to', zoom)
+})`,
 }
 
 const escapeHtml = (s: string) =>
@@ -128,11 +136,11 @@ const escapeHtml = (s: string) =>
 
 const highlight = (code: string) =>
 	escapeHtml(code)
+		.replace(/('[^']*'|"[^"]*")/g, '<span class="lp-token-str">$1</span>')
 		.replace(
 			/(import|from|await|const|export|async|function)/g,
 			'<span class="lp-token-kw">$1</span>'
 		)
-		.replace(/('[^']*'|"[^"]*")/g, '<span class="lp-token-str">$1</span>')
 		.replace(/(\/\/.*)/g, '<span class="lp-token-cm">$1</span>')
 		.replace(/(^#[^\n]*)/gm, '<span class="lp-token-cm">$1</span>')
 		.replace(
