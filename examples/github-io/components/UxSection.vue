@@ -5,8 +5,9 @@
 				<span class="lp-pill lp-pill--pink" role="note">User Experience</span>
 				<h2 id="ux-heading">Built for humans, by humans who care!</h2>
 				<p>
-					POLAR is designed with user experience at its core &mdash; responsive,
-					accessible, and intuitive regardless of the device or context.
+					POLAR is designed with user experience at its core, ensuring your
+					mapping applications are accessible, responsive, and delightful to
+					use.
 				</p>
 			</div>
 
@@ -68,7 +69,7 @@ const cards = [
 .lp-card {
 	border-radius: var(--polar-radius);
 	border: 1px solid #e2e8f0;
-	background: #fff;
+	background: #f7f7f9;
 	overflow: hidden;
 }
 
