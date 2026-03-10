@@ -43,10 +43,10 @@
 										`lp-roadmap__phase-label--${phase.status}`,
 									]"
 								>
-									<span class="lp-roadmap__phase-date">{{ phase.label }}</span>
 									<span class="lp-roadmap__phase-sublabel">{{
 										phase.sublabel
 									}}</span>
+									<span class="lp-roadmap__phase-date">{{ phase.label }}</span>
 								</div>
 								<div
 									v-else-if="ii % 2 !== 0"
@@ -178,7 +178,7 @@ const phases: Phase[] = [
 	{
 		status: 'progress',
 		label: 'Q1·2025',
-		sublabel: 'In progress',
+		sublabel: 'In Progress',
 		accentIcon: 'location-on',
 		milestoneIcon: '',
 		items: [
@@ -189,6 +189,15 @@ const phases: Phase[] = [
 			{
 				title: 'KERN Design System Integration',
 				body: 'Full migration of all UI components to @kern-ux/native, ensuring a consistent public-sector look and feel.',
+			},
+			{
+				title: 'Added Monument Icon Package',
+				body: 'Integrated the monument icon set, expanding the icon library for cultural heritage use cases.',
+			},
+			{
+				title: 'Fixed some bugs',
+				body: 'Various stability improvements and regression fixes across the plugin ecosystem.',
+				accentIcon: 'check',
 			},
 		],
 	},
@@ -234,6 +243,7 @@ const phases: Phase[] = [
 /* ── Phase section: draws the phase-coloured vertical line */
 .lp-roadmap__phase {
 	position: relative;
+	display: flow-root;
 }
 
 .lp-roadmap__phase::before {
@@ -249,15 +259,52 @@ const phases: Phase[] = [
 }
 
 .lp-roadmap__phase--done::before {
-	background: linear-gradient(to bottom, #0078d4, #005ea8);
+	background: linear-gradient(
+		to bottom,
+		var(--polar-blue-500),
+		var(--polar-blue-600)
+	);
 }
 
 .lp-roadmap__phase--progress::before {
-	background: linear-gradient(to bottom, #00c37c, #008854);
+	background: linear-gradient(
+		to bottom,
+		var(--polar-green-300),
+		var(--polar-green-500)
+	);
 }
 
 .lp-roadmap__phase--planned::before {
-	background: #a5aac3;
+	background: var(--polar-grey-300);
+}
+
+/* ── Phase connectors (gradient line between phases) ────── */
+.lp-roadmap__phase--done::after,
+.lp-roadmap__phase--progress::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	width: 3px;
+	height: 3rem;
+	bottom: -1.5rem;
+	transform: translateX(-50%);
+	z-index: 1;
+}
+
+.lp-roadmap__phase--done::after {
+	background: linear-gradient(
+		to bottom,
+		var(--polar-blue-600),
+		var(--polar-green-300)
+	);
+}
+
+.lp-roadmap__phase--progress::after {
+	background: linear-gradient(
+		to bottom,
+		var(--polar-green-500),
+		var(--polar-grey-300)
+	);
 }
 
 /* ── Row: 3-column grid (left | center | right) ────────── */
@@ -303,11 +350,11 @@ const phases: Phase[] = [
 }
 
 .lp-roadmap__milestone--done {
-	background: #0078d4;
+	background: var(--polar-blue-500);
 }
 
 .lp-roadmap__milestone--progress {
-	background: #00c37c;
+	background: var(--polar-green-300);
 }
 
 .lp-roadmap__milestone--progress::before {
@@ -354,11 +401,11 @@ const phases: Phase[] = [
 }
 
 .lp-roadmap__dot--done {
-	background: #0078d4;
+	background: var(--polar-blue-500);
 }
 
 .lp-roadmap__dot--progress {
-	background: #008854;
+	background: var(--polar-green-500);
 }
 
 .lp-roadmap__dot--planned {
@@ -368,7 +415,9 @@ const phases: Phase[] = [
 /* ── Cards ─────────────────────────────────────────────── */
 .lp-roadmap__card {
 	display: flex;
-	align-items: stretch;
+	align-items: center;
+	gap: 0.875rem;
+	padding: 0.875rem;
 	background: #fff;
 	border-radius: 16px;
 	box-shadow:
@@ -377,46 +426,63 @@ const phases: Phase[] = [
 		0px 10px 20px rgba(23, 26, 43, 0.06),
 		0px 20px 32px rgba(23, 26, 43, 0.04);
 	min-height: 80px;
-	overflow: hidden;
 }
 
 /* ── Card accent bar (on the inner/center-facing side) ──── */
 .lp-roadmap__card-accent {
 	width: 52px;
+	height: 76px;
 	min-width: 52px;
+	border-radius: 14px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
-	box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
 
 .lp-roadmap__card-accent .kern-icon {
-	width: 24px;
-	height: 24px;
+	width: 32px;
+	height: 32px;
 	background-color: #fff;
 }
 
 .lp-roadmap__card-accent--done {
-	background: linear-gradient(to bottom, #0078d4, #005ea8);
+	background: linear-gradient(
+		to bottom,
+		var(--polar-blue-500),
+		var(--polar-blue-600)
+	);
+	box-shadow: 0 4px 12px
+		color-mix(in srgb, var(--polar-blue-300) 50%, transparent);
 }
 
 .lp-roadmap__card-accent--progress {
-	background: linear-gradient(to bottom, #00c37c, #008854);
+	background: linear-gradient(
+		to bottom,
+		var(--polar-green-500),
+		var(--polar-green-600)
+	);
+	box-shadow: 0 4px 12px
+		color-mix(in srgb, var(--polar-green-300) 50%, transparent);
 }
 
 .lp-roadmap__card-accent--planned {
-	background: linear-gradient(to bottom, #dfe1ea, #c0c4d6);
+	background: linear-gradient(
+		to bottom,
+		var(--polar-grey-500),
+		var(--polar-grey-600)
+	);
+	box-shadow: 0 4px 12px
+		color-mix(in srgb, var(--polar-grey-300) 50%, transparent);
 }
 
 .lp-roadmap__card-accent--planned .kern-icon {
-	background-color: #a5aac3;
+	background-color: #fff;
 }
 
 /* ── Card content ──────────────────────────────────────── */
 .lp-roadmap__card-content {
 	flex: 1;
-	padding: 1rem 1.125rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -426,7 +492,7 @@ const phases: Phase[] = [
 .lp-roadmap__card-title {
 	font-size: 0.9375rem;
 	font-weight: 600;
-	color: #171a2b;
+	color: var(--polar-text-default);
 	margin: 0 0 0.25rem;
 	line-height: 1.3;
 }
@@ -439,25 +505,31 @@ const phases: Phase[] = [
 }
 
 .lp-roadmap__card--planned .lp-roadmap__card-title {
-	color: #6b7280;
+	color: var(--polar-text-default);
 }
 
 .lp-roadmap__card--planned .lp-roadmap__card-body {
-	color: #9ca3af;
+	color: var(--polar-text-default);
+}
+
+.lp-roadmap__card--left .lp-roadmap__card-content {
+	text-align: right;
 }
 
 /* ── Phase date label (in left cell of milestone rows) ──── */
 .lp-roadmap__phase-label {
 	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	gap: 0.3rem;
+	flex-direction: row;
+	align-items: center;
+	width: fit-content;
+	gap: 0.5rem;
+	padding: 0.375rem 1.375rem 0.375rem 0.75rem;
+	margin-left: auto;
+	margin-right: -1.375rem;
+	border-radius: 100px;
 }
 
 .lp-roadmap__phase-date {
-	display: inline-block;
-	padding: 0.25rem 0.75rem;
-	border-radius: 100px;
 	font-size: 0.8125rem;
 	font-weight: 700;
 	letter-spacing: 0.04em;
@@ -472,8 +544,11 @@ const phases: Phase[] = [
 	font-weight: 600;
 }
 
-.lp-roadmap__phase-label--done .lp-roadmap__phase-date {
+.lp-roadmap__phase-label--done {
 	background: #bee7ff;
+}
+
+.lp-roadmap__phase-label--done .lp-roadmap__phase-date {
 	color: #004e8c;
 }
 
@@ -482,8 +557,11 @@ const phases: Phase[] = [
 	color: #0066b8;
 }
 
-.lp-roadmap__phase-label--progress .lp-roadmap__phase-date {
+.lp-roadmap__phase-label--progress {
 	background: #47ffb0;
+}
+
+.lp-roadmap__phase-label--progress .lp-roadmap__phase-date {
 	color: #004d33;
 }
 
@@ -492,14 +570,17 @@ const phases: Phase[] = [
 	color: #00543c;
 }
 
-.lp-roadmap__phase-label--planned .lp-roadmap__phase-date {
+.lp-roadmap__phase-label--planned {
 	background: #dfe1ea;
-	color: #6b7280;
+}
+
+.lp-roadmap__phase-label--planned .lp-roadmap__phase-date {
+	color: var(--polar-text-default);
 }
 
 .lp-roadmap__phase-label--planned .lp-roadmap__phase-sublabel {
 	background: #eff0f5;
-	color: #9ca3af;
+	color: var(--polar-text-default);
 }
 
 /* ── Responsive ────────────────────────────────────────── */
