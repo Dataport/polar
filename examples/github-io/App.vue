@@ -62,8 +62,16 @@ if (import.meta.hot) {
 	--polar-pink-100: #ffd6ea;
 	--polar-pink-600: #b80064;
 	--polar-blue-100: #d0e4ff;
+	--polar-blue-300: #47b2ff;
 	--polar-blue-500: #0078d4;
-	--polar-blue-600: #0050a0;
+	--polar-blue-600: #005fad;
+	--polar-green-300: #00c37c;
+	--polar-green-500: #008854;
+	--polar-green-600: #006c42;
+	--polar-grey-300: #a5aac3;
+	--polar-grey-500: #6e7597;
+	--polar-grey-600: #565c7f;
+	--polar-text-default: #171a2b;
 }
 
 /* ── Shared pill component ──────────────────────────────── */
