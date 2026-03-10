@@ -1,11 +1,11 @@
 <template>
 	<section class="lp-section lp-section--video" aria-labelledby="video-heading">
-		<div class="lp-container" style="text-align: center">
+		<div class="lp-container lp-video__container">
 			<span class="lp-pill lp-pill--video" role="note">Hear us talk</span>
-			<h2 id="video-heading" style="margin-top: 0.75rem; color: #eff0f4">
+			<h2 id="video-heading" class="lp-video__heading">
 				Our FOSSGIS Adventure.
 			</h2>
-			<p style="max-width: 640px; margin: 0.5rem auto 2rem; color: #a5aac3">
+			<p class="lp-video__lead">
 				2023 we gave a small talk at FOSSGIS about ...
 			</p>
 			<div ref="videoWrap" class="lp-video-wrap">
@@ -20,7 +20,7 @@
 						aria-label="Play FOSSGIS 2023 talk"
 						@click="videoPlaying = true"
 					>
-						<span style="margin-left: 4px">&#9654;</span>
+						<span class="lp-video__play-icon">&#9654;</span>
 					</button>
 				</template>
 				<iframe
@@ -94,5 +94,25 @@ const videoWrap = ref<HTMLElement | null>(null)
 .lp-pill--video {
 	background-color: #00264e;
 	color: #0794fa;
+}
+
+/* ── Section copy ──────────────────────────────────────── */
+.lp-video__container {
+	text-align: center;
+}
+
+.lp-video__heading {
+	margin-top: 0.75rem;
+	color: #eff0f4;
+}
+
+.lp-video__lead {
+	max-width: 640px;
+	margin: 0.5rem auto 2rem;
+	color: #a5aac3;
+}
+
+.lp-video__play-icon {
+	margin-left: 4px;
 }
 </style>

@@ -36,48 +36,24 @@
 						>
 							<!-- Left cell: phase label (milestone rows) OR left-side card -->
 							<div class="lp-roadmap__cell lp-roadmap__cell--left">
-								<div
+								<RoadmapPhaseLabel
 									v-if="ii === 0"
-									:class="[
-										'lp-roadmap__phase-label',
-										`lp-roadmap__phase-label--${phase.status}`,
-									]"
-								>
-									<span class="lp-roadmap__phase-sublabel">{{
-										phase.sublabel
-									}}</span>
-									<span class="lp-roadmap__phase-date">{{ phase.label }}</span>
-								</div>
-								<div
+									:label="phase.label"
+									:sublabel="phase.sublabel"
+									:status="phase.status"
+								/>
+								<RoadmapCard
 									v-else-if="ii % 2 !== 0"
-									:class="[
-										'lp-roadmap__card',
-										'lp-roadmap__card--left',
-										`lp-roadmap__card--${phase.status}`,
-									]"
-								>
-									<div class="lp-roadmap__card-content">
-										<p class="lp-roadmap__card-title">{{ item.title }}</p>
-										<p class="lp-roadmap__card-body">{{ item.body }}</p>
-									</div>
-									<div
-										:class="[
-											'lp-roadmap__card-accent',
-											`lp-roadmap__card-accent--${phase.status}`,
-										]"
-									>
-										<span
-											:class="[
-												'kern-icon',
-												`kern-icon--${item.accentIcon ?? phase.accentIcon}`,
-											]"
-											aria-hidden="true"
-										/>
-									</div>
-								</div>
+									:title="item.title"
+									:body="item.body"
+									:accent-icon="item.accentIcon ?? phase.accentIcon"
+									:status="phase.status"
+									side="left"
+								/>
 							</div>
 
 							<!-- Center marker: large milestone circle or small item pill -->
+							<!-- kern-icon--check (milestone icon) — static scanning hint -->
 							<div class="lp-roadmap__center" aria-hidden="true">
 								<div
 									v-if="ii === 0"
@@ -103,33 +79,14 @@
 
 							<!-- Right cell: right-side card (milestone + even sub-items) -->
 							<div class="lp-roadmap__cell lp-roadmap__cell--right">
-								<div
+								<RoadmapCard
 									v-if="ii % 2 === 0"
-									:class="[
-										'lp-roadmap__card',
-										'lp-roadmap__card--right',
-										`lp-roadmap__card--${phase.status}`,
-									]"
-								>
-									<div
-										:class="[
-											'lp-roadmap__card-accent',
-											`lp-roadmap__card-accent--${phase.status}`,
-										]"
-									>
-										<span
-											:class="[
-												'kern-icon',
-												`kern-icon--${item.accentIcon ?? phase.accentIcon}`,
-											]"
-											aria-hidden="true"
-										/>
-									</div>
-									<div class="lp-roadmap__card-content">
-										<p class="lp-roadmap__card-title">{{ item.title }}</p>
-										<p class="lp-roadmap__card-body">{{ item.body }}</p>
-									</div>
-								</div>
+									:title="item.title"
+									:body="item.body"
+									:accent-icon="item.accentIcon ?? phase.accentIcon"
+									:status="phase.status"
+									side="right"
+								/>
 							</div>
 						</div>
 					</div>
@@ -140,87 +97,9 @@
 </template>
 
 <script setup lang="ts">
-// Icon names used dynamically below — listed here for vite-plugin-kern-extra-icons static scanning:
-// kern-icon--check kern-icon--location-on kern-icon--palette kern-icon--rocket-launch
-interface RoadmapItem {
-	body: string
-	title: string
-	accentIcon?: string
-}
-
-interface Phase {
-	accentIcon: string
-	items: RoadmapItem[]
-	label: string
-	milestoneIcon: string
-	status: 'done' | 'progress' | 'planned'
-	sublabel: string
-}
-
-const phases: Phase[] = [
-	{
-		status: 'done',
-		label: 'Q4 · 2024',
-		sublabel: 'Completed',
-		accentIcon: 'check',
-		milestoneIcon: 'check',
-		items: [
-			{
-				title: 'Core Framework Release',
-				body: 'Initial release with OpenLayers integration, plugin system, and i18n support.',
-			},
-			{
-				title: 'Plugin Suite Expanded',
-				body: 'Added address search, reverse geocoder, scale bar, fullscreen toggle, layer chooser, and toast notifications.',
-			},
-		],
-	},
-	{
-		status: 'progress',
-		label: 'Q1 · 2025',
-		sublabel: 'In Progress',
-		accentIcon: 'location-on',
-		milestoneIcon: '',
-		items: [
-			{
-				title: 'More Geostuff',
-				body: 'Extended GeoJSON handling, cluster visualisation, and improved WMS/WFS layer management.',
-			},
-			{
-				title: 'KERN Design System Integration',
-				body: 'Full migration of all UI components to @kern-ux/native, ensuring a consistent public-sector look and feel.',
-			},
-			{
-				title: 'Added Monument Icon Package',
-				body: 'Integrated the monument icon set, expanding the icon library for cultural heritage use cases.',
-			},
-			{
-				title: 'Fixed some bugs',
-				body: 'Various stability improvements and regression fixes across the plugin ecosystem.',
-				accentIcon: 'check',
-			},
-		],
-	},
-	{
-		status: 'planned',
-		label: 'Q4 · 2025',
-		sublabel: 'Planned',
-		accentIcon: 'palette',
-		milestoneIcon: '',
-		items: [
-			{
-				title: 'Enhanced UX & Theming',
-				body: 'Dark mode support, theming API, and improved mobile interaction patterns.',
-				accentIcon: 'palette',
-			},
-			{
-				title: 'Something Wonderful',
-				body: 'Stay tuned — we have exciting things in the works for the next major release.',
-				accentIcon: 'rocket-launch',
-			},
-		],
-	},
-]
+import RoadmapCard from './RoadmapCard.vue'
+import { phases } from './roadmapData'
+import RoadmapPhaseLabel from './RoadmapPhaseLabel.vue'
 </script>
 
 <style scoped>
@@ -410,177 +289,6 @@ const phases: Phase[] = [
 
 .lp-roadmap__dot--planned {
 	background: #dfe1ea;
-}
-
-/* ── Cards ─────────────────────────────────────────────── */
-.lp-roadmap__card {
-	display: flex;
-	align-items: center;
-	gap: 0.875rem;
-	padding: 0.875rem;
-	background: #fff;
-	border-radius: 16px;
-	box-shadow:
-		0px 1px 2px rgba(23, 26, 43, 0.04),
-		0px 4px 8px rgba(23, 26, 43, 0.06),
-		0px 10px 20px rgba(23, 26, 43, 0.06),
-		0px 20px 32px rgba(23, 26, 43, 0.04);
-	min-height: 80px;
-}
-
-/* ── Card accent bar (on the inner/center-facing side) ──── */
-.lp-roadmap__card-accent {
-	width: 52px;
-	height: 76px;
-	min-width: 52px;
-	border-radius: 14px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-}
-
-.lp-roadmap__card-accent .kern-icon {
-	width: 32px;
-	height: 32px;
-	background-color: #fff;
-}
-
-.lp-roadmap__card-accent--done {
-	background: linear-gradient(
-		to bottom,
-		var(--polar-blue-500),
-		var(--polar-blue-600)
-	);
-	box-shadow: 0 2px 8px -2px
-		color-mix(in srgb, var(--polar-blue-300) 50%, transparent);
-}
-
-.lp-roadmap__card-accent--progress {
-	background: linear-gradient(
-		to bottom,
-		var(--polar-green-500),
-		var(--polar-green-600)
-	);
-	box-shadow: 0 2px 8px -2px
-		color-mix(in srgb, var(--polar-green-300) 50%, transparent);
-}
-
-.lp-roadmap__card-accent--planned {
-	background: linear-gradient(
-		to bottom,
-		var(--polar-grey-500),
-		var(--polar-grey-600)
-	);
-	box-shadow: 0 2px 8px -2px
-		color-mix(in srgb, var(--polar-grey-300) 50%, transparent);
-}
-
-.lp-roadmap__card-accent--planned .kern-icon {
-	background-color: #fff;
-}
-
-/* ── Card content ──────────────────────────────────────── */
-.lp-roadmap__card-content {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	min-width: 0;
-}
-
-.lp-roadmap__card-title {
-	font-size: 0.9375rem;
-	font-weight: 600;
-	color: var(--polar-text-default);
-	margin: 0 0 0.25rem;
-	line-height: 1.3;
-}
-
-.lp-roadmap__card-body {
-	font-size: 0.8125rem;
-	color: #4a5068;
-	margin: 0;
-	line-height: 1.5;
-}
-
-.lp-roadmap__card--planned .lp-roadmap__card-title {
-	color: var(--polar-text-default);
-}
-
-.lp-roadmap__card--planned .lp-roadmap__card-body {
-	color: var(--polar-text-default);
-}
-
-.lp-roadmap__card--left .lp-roadmap__card-content {
-	text-align: right;
-}
-
-/* ── Phase date label (in left cell of milestone rows) ──── */
-.lp-roadmap__phase-label {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	width: fit-content;
-	gap: 0.5rem;
-	padding: 0.375rem 1.375rem 0.375rem 0.75rem;
-	margin-left: auto;
-	margin-right: -1.375rem;
-	border-radius: 100px;
-}
-
-.lp-roadmap__phase-date {
-	font-size: 0.8125rem;
-	font-weight: 700;
-	letter-spacing: 0.04em;
-	line-height: 1.5;
-}
-
-.lp-roadmap__phase-sublabel {
-	display: inline-block;
-	padding: 0.175rem 0.625rem;
-	border-radius: 100px;
-	font-size: 0.75rem;
-	font-weight: 600;
-}
-
-.lp-roadmap__phase-label--done {
-	background: #bee7ff;
-}
-
-.lp-roadmap__phase-label--done .lp-roadmap__phase-date {
-	color: #004e8c;
-}
-
-.lp-roadmap__phase-label--done .lp-roadmap__phase-sublabel {
-	background: #e3f4ff;
-	color: #0066b8;
-}
-
-.lp-roadmap__phase-label--progress {
-	background: #47ffb0;
-}
-
-.lp-roadmap__phase-label--progress .lp-roadmap__phase-date {
-	color: #004d33;
-}
-
-.lp-roadmap__phase-label--progress .lp-roadmap__phase-sublabel {
-	background: #c6ffe8;
-	color: #00543c;
-}
-
-.lp-roadmap__phase-label--planned {
-	background: #dfe1ea;
-}
-
-.lp-roadmap__phase-label--planned .lp-roadmap__phase-date {
-	color: var(--polar-text-default);
-}
-
-.lp-roadmap__phase-label--planned .lp-roadmap__phase-sublabel {
-	background: #eff0f5;
-	color: var(--polar-text-default);
 }
 
 /* ── Responsive ────────────────────────────────────────── */
