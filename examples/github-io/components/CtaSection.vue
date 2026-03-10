@@ -7,55 +7,31 @@
 		<div v-html="ctaBgSvg" />
 		<div class="lp-container lp-cta__content">
 			<span class="lp-pill lp-pill--green" role="note">Get started today</span>
-			<h2 id="cta-heading" style="margin-top: 0.75rem">
+			<h2 id="cta-heading" class="lp-cta__heading">
 				Ready to Build Amazing Map Applications?
 			</h2>
-			<p
-				style="
-					max-width: 680px;
-					margin: 0.5rem auto 2.5rem;
-					font-size: 1.1rem;
-					opacity: 0.85;
-				"
-			>
+			<p class="lp-cta__lead">
 				Join the growing community of developers and public administrations
 				using POLAR to deliver modern, accessible map experiences.
 			</p>
-			<div
-				style="
-					display: flex;
-					justify-content: center;
-					gap: 1rem;
-					flex-wrap: wrap;
-				"
-			>
+			<div class="lp-cta__actions">
 				<a
 					href="https://polar.dataport.de/next/"
 					target="_blank"
 					rel="noopener"
-					class="kern-btn kern-btn--primary"
-					style="background: #fff"
+					class="kern-btn kern-btn--primary lp-cta__btn--primary"
 				>
-					<span
-						class="kern-icon kern-icon--ar-stickers"
-						style="background-color: var(--polar-blue)"
-					/>
-					<span class="kern-label" style="color: var(--polar-blue)">
-						Try me out
-					</span>
+					<span class="kern-icon kern-icon--ar-stickers" aria-hidden="true" />
+					<span class="kern-label">Try me out</span>
 				</a>
 				<a
 					href="https://github.com/Dataport/polar"
 					target="_blank"
 					rel="noopener"
-					class="kern-btn kern-btn--secondary"
-					style="border-color: rgba(255, 255, 255, 0.7)"
+					class="kern-btn kern-btn--secondary lp-cta__btn--secondary"
 				>
-					<span
-						class="kern-icon kern-icon--open-in-new"
-						style="background-color: #fff"
-					/>
-					<span class="kern-label" style="color: #fff">Download</span>
+					<span class="kern-icon kern-icon--open-in-new" aria-hidden="true" />
+					<span class="kern-label">Download</span>
 				</a>
 			</div>
 			<div class="lp-cta-pills" aria-label="Key properties">
@@ -119,5 +95,49 @@ const ctaBgSvg = rawCtaBg
 	border-radius: 50%;
 	background: #15e192;
 	flex-shrink: 0;
+}
+
+/* ── CTA copy ──────────────────────────────────────────── */
+.lp-cta__heading {
+	margin-top: 0.75rem;
+}
+
+.lp-cta__lead {
+	max-width: 680px;
+	margin: 0.5rem auto 2.5rem;
+	font-size: 1.1rem;
+	opacity: 0.85;
+}
+
+.lp-cta__actions {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+/* ── CTA button overrides ──────────────────────────────── */
+.lp-cta__btn--primary {
+	background: #fff;
+}
+
+.lp-cta__btn--primary .kern-icon {
+	background-color: var(--polar-blue);
+}
+
+.lp-cta__btn--primary .kern-label {
+	color: var(--polar-blue);
+}
+
+.lp-cta__btn--secondary {
+	border-color: rgba(255, 255, 255, 0.7);
+}
+
+.lp-cta__btn--secondary .kern-icon {
+	background-color: #fff;
+}
+
+.lp-cta__btn--secondary .kern-label {
+	color: #fff;
 }
 </style>
