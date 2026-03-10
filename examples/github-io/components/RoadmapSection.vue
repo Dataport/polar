@@ -160,7 +160,7 @@ interface Phase {
 const phases: Phase[] = [
 	{
 		status: 'done',
-		label: 'Q4·2024',
+		label: 'Q4 · 2024',
 		sublabel: 'Completed',
 		accentIcon: 'check',
 		milestoneIcon: 'check',
@@ -177,7 +177,7 @@ const phases: Phase[] = [
 	},
 	{
 		status: 'progress',
-		label: 'Q1·2025',
+		label: 'Q1 · 2025',
 		sublabel: 'In Progress',
 		accentIcon: 'location-on',
 		milestoneIcon: '',
@@ -203,7 +203,7 @@ const phases: Phase[] = [
 	},
 	{
 		status: 'planned',
-		label: 'Q4·2025',
+		label: 'Q4 · 2025',
 		sublabel: 'Planned',
 		accentIcon: 'palette',
 		milestoneIcon: '',
@@ -452,7 +452,7 @@ const phases: Phase[] = [
 		var(--polar-blue-500),
 		var(--polar-blue-600)
 	);
-	box-shadow: 0 4px 12px
+	box-shadow: 0 2px 8px -2px
 		color-mix(in srgb, var(--polar-blue-300) 50%, transparent);
 }
 
@@ -462,7 +462,7 @@ const phases: Phase[] = [
 		var(--polar-green-500),
 		var(--polar-green-600)
 	);
-	box-shadow: 0 4px 12px
+	box-shadow: 0 2px 8px -2px
 		color-mix(in srgb, var(--polar-green-300) 50%, transparent);
 }
 
@@ -472,7 +472,7 @@ const phases: Phase[] = [
 		var(--polar-grey-500),
 		var(--polar-grey-600)
 	);
-	box-shadow: 0 4px 12px
+	box-shadow: 0 2px 8px -2px
 		color-mix(in srgb, var(--polar-grey-300) 50%, transparent);
 }
 
