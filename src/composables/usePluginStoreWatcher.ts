@@ -83,7 +83,7 @@ export function usePluginStoreWatcher(
 			return
 		}
 
-		const store = pluginStore.getPluginStore(watcherConfig.source.plugin)
+		const store = coreStore.getPluginStore(watcherConfig.source.plugin)
 
 		if (!store) {
 			return
