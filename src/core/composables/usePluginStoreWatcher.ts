@@ -29,7 +29,6 @@ interface WatcherConfig {
  *
  * @param sources - Array of plugin store references to watch, or a computed reference to them, or a function returning them
  * @param callback - Function called when any watched plugin store value changes
- * @returns Object with setup and cleanup methods for plugin lifecycle
  *
  * @example
  * ```typescript
