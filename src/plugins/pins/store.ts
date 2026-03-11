@@ -20,7 +20,7 @@ import { computed, ref } from 'vue'
 
 import type { PolarGeoJsonFeature } from '@/core'
 
-import { usePluginStoreWatcher } from '@/core/composables/usePluginStoreWatcher'
+import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
 import type { PinMovable, PinsPluginOptions } from './types'

@@ -11,7 +11,7 @@ import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, type Reactive } from 'vue'
 
-import { usePluginStoreWatcher } from '@/core/composables/usePluginStoreWatcher'
+import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 import { indicateLoading } from '@/lib/indicateLoading'
 
