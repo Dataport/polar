@@ -40,12 +40,6 @@ interface WatcherConfig {
  *     }
  *   }
  * )
- *
- * // In setupPlugin():
- * setupPlugin()
- *
- * // In teardownPlugin():
- * teardownPlugin()
  * ```
  *
  * @internal
