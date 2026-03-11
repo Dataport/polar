@@ -71,13 +71,6 @@ export function usePluginStoreWatcher(
 		}
 
 		if (!watcherConfig.source.plugin) {
-			watcherConfig.handle = watch(
-				() =>
-					(coreStore as unknown as Record<string, unknown>)[
-						watcherConfig.source.key
-					],
-				watcherConfig.callback
-			)
 			return
 		}
 
