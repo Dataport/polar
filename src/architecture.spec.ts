@@ -44,9 +44,7 @@ describe('Architectural checks', () => {
 			.matchingPattern('^plugins/.*$')
 			.shouldNot()
 			.dependOnFiles()
-			.matchingPattern(
-				'^core/(?!(index|stores/index|composables/usePluginStoreWatcher)\\.ts$).*$'
-			)
+			.matchingPattern('^core/(?!(index|stores/index)\\.ts$).*$')
 			.check()
 		expect(violations).toEqual([])
 	})
