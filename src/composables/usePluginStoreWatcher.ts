@@ -77,6 +77,9 @@ export function usePluginStoreWatcher(
 		const store = coreStore.getPluginStore(watcherConfig.source.plugin)
 
 		if (!store) {
+			console.warn(
+				`usePluginStoreWatcher: "${watcherConfig.source.plugin}" not found. Cannot watch "${watcherConfig.source.key}".`
+			)
 			return
 		}
 
