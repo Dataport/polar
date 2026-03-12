@@ -56,6 +56,7 @@ export default defineConfig(({ mode }) => ({
 			name: '@polar/polar',
 			formats: ['es'],
 			entry: {
+				client: 'src/client.ts',
 				polar: 'src/core/index.ts',
 				store: 'src/core/stores/index.ts',
 				...Object.fromEntries(
@@ -94,6 +95,7 @@ export default defineConfig(({ mode }) => ({
 								],
 							])
 						),
+						'@polar/polar/client': resolve(__dirname, 'src', 'client.ts'),
 						'@polar/polar/store': resolve(
 							__dirname,
 							'src',

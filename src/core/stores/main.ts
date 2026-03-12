@@ -6,6 +6,9 @@ import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 
+import { teardownMarkers } from '@/core/utils/map/setupMarkers.ts'
+import { teardownInteractions } from '@/core/utils/map/updateDragAndZoomInteractions.ts'
+
 import type {
 	ColorScheme,
 	MapConfigurationIncludingDefaults,
@@ -33,7 +36,7 @@ export const useMainStore = defineStore('main', () => {
 	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
 
-	const layout = computed(() => configuration.value.layout ?? 'standard')
+	const layout = computed(() => configuration.value.layout ?? 'nineRegions')
 
 	// TODO(dopenguin): Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
 	const clientHeight = ref(0)
@@ -85,6 +88,10 @@ export const useMainStore = defineStore('main', () => {
 
 	function teardown() {
 		removeEventListener('resize', updateHasSmallDisplay)
+		teardownInteractions()
+		if (configuration.value.markers) {
+			teardownMarkers(map.value)
+		}
 	}
 
 	return {
