@@ -9,8 +9,9 @@ import type { Mock } from 'vitest'
 import { easeOut } from 'ol/easing'
 import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, watch, type Reactive, type WatchHandle } from 'vue'
+import { computed, type Reactive } from 'vue'
 
+import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 import { indicateLoading } from '@/lib/indicateLoading'
 
@@ -37,34 +38,22 @@ export const useReverseGeocoderStore = defineStore(
 			() => coreStore.configuration[PluginId] as ReverseGeocoderPluginOptions
 		)
 
-		const watchHandles = ref<WatchHandle[]>([])
+		const sourceWatchers = usePluginStoreWatcher(
+			() => configuration.value.coordinateSources || [],
+			async (value: unknown) => {
+				const coordinate = value as [number, number] | null
+				if (coordinate) {
+					await reverseGeocode(coordinate)
+				}
+			}
+		)
 
 		function setupPlugin() {
-			for (const source of configuration.value.coordinateSources || []) {
-				const store = source.plugin
-					? coreStore.getPluginStore(source.plugin)
-					: coreStore
-				if (!store) {
-					continue
-				}
-				watchHandles.value.push(
-					watch(
-						() => store[source.key],
-						async (coordinate) => {
-							if (coordinate) {
-								await reverseGeocode(coordinate)
-							}
-						},
-						{ immediate: true }
-					)
-				)
-			}
+			sourceWatchers.setupPlugin()
 		}
 
 		function teardownPlugin() {
-			watchHandles.value.forEach((handle) => {
-				handle()
-			})
+			sourceWatchers.teardownPlugin()
 		}
 
 		function passFeatureToTarget(
@@ -160,11 +149,16 @@ if (import.meta.vitest) {
 		coreStore: [
 			async ({}, use) => {
 				const fit = vi.fn()
+				const pluginStores = {
+					pins: reactive({
+						coordinate: null,
+					}),
+				}
 				const coreStore = reactive({
 					configuration: {
 						[PluginId]: {
 							url: 'https://wps.example',
-							coordinateSources: [{ key: 'coordinateSource' }],
+							coordinateSources: [{ plugin: 'pins', key: 'coordinate' }],
 							addressTarget: { key: 'addressTarget' },
 							zoomTo: 99,
 						},
@@ -172,12 +166,12 @@ if (import.meta.vitest) {
 					map: {
 						getView: () => ({ fit }),
 					},
-					coordinateSource: null,
 					addressTarget: vi.fn(),
+					getPluginStore: (plugin) => pluginStores[plugin] || null,
 				})
 				// @ts-expect-error | Mocking useCoreStore
 				vi.spyOn(useCoreStoreFile, 'useCoreStore').mockReturnValue(coreStore)
-				await use(coreStore)
+				await use({ ...coreStore, pluginStores })
 			},
 			{ auto: true },
 		],
@@ -198,7 +192,12 @@ if (import.meta.vitest) {
 		reverseGeocodeUtil,
 		coreStore,
 	}) => {
-		coreStore.coordinateSource = [1, 2]
+		const pluginStore = coreStore.pluginStores as {
+			pins: {
+				coordinate: [number, number] | null
+			}
+		}
+		pluginStore.pins.coordinate = [1, 2]
 		await new Promise((resolve) => setTimeout(resolve))
 		expect(reverseGeocodeUtil).toHaveBeenCalledWith(
 			'https://wps.example',

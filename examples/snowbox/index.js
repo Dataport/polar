@@ -234,6 +234,56 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 
 addPlugin(
 	map,
+	pluginFooter({
+		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
+		rightEntries: [
+			pluginScale({}),
+			pluginAttributions({
+				icons: {
+					close: 'kern-icon--keyboard-arrow-up',
+				},
+				listenToChanges: [
+					{
+						key: 'activeBackgroundId',
+						plugin: 'layerChooser',
+					},
+					{
+						key: 'activeMaskIds',
+						plugin: 'layerChooser',
+					},
+					{
+						key: 'zoom',
+					},
+				],
+				layerAttributions: [
+					{
+						id: basemapId,
+						title: 'snowbox.attributions.basemap',
+					},
+					{
+						id: basemapGreyId,
+						title: 'snowbox.attributions.basemapGrey',
+					},
+					{
+						id: reports,
+						title: 'snowbox.attributions.reports',
+					},
+					{
+						id: ausgleichsflaechen,
+						title: 'snowbox.attributions.ausgleichsflaechen',
+					},
+					{
+						id: denkmal,
+						title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
+					},
+				],
+			}),
+		],
+	})
+)
+
+addPlugin(
+	map,
 	pluginToast({
 		displayComponent: true,
 		layoutTag: 'BOTTOM_MIDDLE',
@@ -265,43 +315,7 @@ addPlugin(
 		loaderStyle: 'BasicLoader',
 	})
 )
-addPlugin(
-	map,
-	pluginAddressSearch({
-		searchMethods: [
-			{
-				queryParameters: {
-					searchStreets: true,
-					searchHouseNumbers: true,
-				},
-				type: 'mpapi',
-				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
-			},
-		],
-		minLength: 3,
-		waitMs: 300,
-		focusAfterSearch: true,
-		groupProperties: {
-			defaultGroup: {
-				limitResults: 5,
-			},
-		},
-	})
-)
-addPlugin(
-	map,
-	pluginPins({
-		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
-		boundary: {
-			layerId: hamburgBorder,
-		},
-		movable: 'drag',
-		style: {
-			fill: '#FF0019',
-		},
-		toZoomLevel: 7,
-	})
-)
+
 addPlugin(
 	map,
 	pluginReverseGeocoder({
@@ -317,6 +331,20 @@ addPlugin(
 			key: 'selectResult',
 		},
 		zoomTo: 7,
+	})
+)
+addPlugin(
+	map,
+	pluginPins({
+		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+		boundary: {
+			layerId: hamburgBorder,
+		},
+		movable: 'drag',
+		style: {
+			fill: '#FF0019',
+		},
+		toZoomLevel: 7,
 	})
 )
 addPlugin(
@@ -373,53 +401,28 @@ addPlugin(
 		],
 	})
 )
+
 addPlugin(
 	map,
-	pluginFooter({
-		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
-		rightEntries: [
-			pluginScale({}),
-			pluginAttributions({
-				icons: {
-					close: 'kern-icon--keyboard-arrow-up',
+	pluginAddressSearch({
+		searchMethods: [
+			{
+				queryParameters: {
+					searchStreets: true,
+					searchHouseNumbers: true,
 				},
-				listenToChanges: [
-					{
-						key: 'activeBackgroundId',
-						plugin: 'layerChooser',
-					},
-					{
-						key: 'activeMaskIds',
-						plugin: 'layerChooser',
-					},
-					{
-						key: 'zoom',
-					},
-				],
-				layerAttributions: [
-					{
-						id: basemapId,
-						title: 'snowbox.attributions.basemap',
-					},
-					{
-						id: basemapGreyId,
-						title: 'snowbox.attributions.basemapGrey',
-					},
-					{
-						id: reports,
-						title: 'snowbox.attributions.reports',
-					},
-					{
-						id: ausgleichsflaechen,
-						title: 'snowbox.attributions.ausgleichsflaechen',
-					},
-					{
-						id: denkmal,
-						title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
-					},
-				],
-			}),
+				type: 'mpapi',
+				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+			},
 		],
+		minLength: 3,
+		waitMs: 300,
+		focusAfterSearch: true,
+		groupProperties: {
+			defaultGroup: {
+				limitResults: 5,
+			},
+		},
 	})
 )
 

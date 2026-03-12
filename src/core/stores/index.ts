@@ -170,6 +170,13 @@ export const useCoreStore = defineStore('core', () => {
 		getPluginStore: pluginStore.getPluginStore,
 
 		/**
+		 * Returns a list of IDs of all currently installed plugins.
+		 *
+		 * @readonly
+		 */
+		usedPlugins: computed(() => pluginStore.plugins.map((p) => p.id)),
+
+		/**
 		 * Allows reading or setting the OIDC token used for service accesses.
 		 */
 		oidcToken: mainStoreRefs.oidcToken,
