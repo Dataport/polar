@@ -29,35 +29,6 @@ import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
 import { isCoordinateInBoundaryLayer } from './utils/isCoordinateInBoundaryLayer'
 
-function isPolarGeoJsonPoint(
-	feature: unknown
-): feature is PolarGeoJsonFeature<GeoJsonPoint> {
-	if (feature === null || typeof feature !== 'object') {
-		return false
-	}
-
-	const obj = feature as Record<string, unknown>
-	// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
-	// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
-	if (!('type' in obj) || obj.type === 'reverse_geocoded') {
-		return false
-	}
-
-	if (
-		!('geometry' in obj) ||
-		typeof obj.geometry !== 'object' ||
-		obj.geometry === null
-	) {
-		return false
-	}
-
-	const geometry = obj.geometry as Record<string, unknown>
-
-	return (
-		'type' in geometry && geometry.type === 'Point' && 'coordinates' in geometry
-	)
-}
-
 /* eslint-disable tsdoc/syntax */
 /**
  * @function
@@ -110,8 +81,11 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 
 	const sourceWatchers = usePluginStoreWatcher(
 		() => configuration.value.coordinateSources || [],
-		(feature: unknown) => {
-			if (isPolarGeoJsonPoint(feature)) {
+		(value: unknown) => {
+			const feature = value as PolarGeoJsonFeature<GeoJsonPoint> | null
+			// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
+			// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
+			if (feature && feature.type !== 'reverse_geocoded') {
 				addPin(feature.geometry.coordinates, false, {
 					type: feature.geometry.type,
 				})
