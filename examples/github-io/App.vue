@@ -2,6 +2,18 @@
 	<div class="kern-light">
 		<!-- Shared background zone: header + hero sit on top of the SVG -->
 		<div class="lp-hero-zone">
+			<div class="lp-hero-decorations" aria-hidden="true">
+				<img
+					src="./components/assets/polar-header-bear.svg"
+					class="lp-hero-bear"
+					alt=""
+				/>
+				<img
+					src="./components/assets/polar-header-star.svg"
+					class="lp-hero-star"
+					alt=""
+				/>
+			</div>
 			<TheHeader />
 			<HeroSection />
 		</div>
@@ -116,12 +128,37 @@ body {
 /* ── Hero zone ──────────────────────────────────────────── */
 .lp-hero-zone {
 	position: relative;
-	background: #fff;
-	background-image: url('./components/assets/polar-bg.svg');
+	background-image: url('./components/assets/polar-header-bg.svg');
 	background-size: cover;
-	background-position: top center;
+	background-position: top -175px center;
 	background-repeat: no-repeat;
 	overflow: hidden;
+}
+
+.lp-hero-decorations {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	mask-image: url('./components/assets/polar-header-bg.svg');
+	mask-size: cover;
+	mask-position: top center;
+	mask-repeat: no-repeat;
+}
+
+.lp-hero-bear {
+	position: absolute;
+	left: -12%;
+	top: 0;
+	width: 40%;
+	filter: brightness(0) invert(1);
+}
+
+.lp-hero-star {
+	position: absolute;
+	right: 0%;
+	top: 0%;
+	width: 30%;
+	filter: brightness(0) invert(1);
 }
 
 /* ── Layout helpers ─────────────────────────────────────── */
