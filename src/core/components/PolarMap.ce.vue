@@ -19,7 +19,14 @@ import { t } from 'i18next'
 import { easeOut } from 'ol/easing'
 import { defaults } from 'ol/interaction'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted, useTemplateRef, watch } from 'vue'
+import {
+	computed,
+	markRaw,
+	onBeforeUnmount,
+	onMounted,
+	useTemplateRef,
+	watch,
+} from 'vue'
 
 import { useT } from '../composables/useT'
 import { useMainStore } from '../stores/main'
@@ -42,26 +49,28 @@ function onMove() {
 }
 
 function createMap() {
-	mainStore.map = api.map.createMap(
-		{
-			target: polarMapContainer.value,
-			extent: undefined,
-			...mainStore.configuration,
-			layerConf: mainStore.serviceRegister,
-		},
-		'2D',
-		{
-			mapParams: {
-				interactions: defaults({
-					altShiftDragRotate: false,
-					pinchRotate: false,
-					dragPan: false,
-					mouseWheelZoom: false,
-					keyboard: false,
-				}),
+	mainStore.map = markRaw(
+		api.map.createMap(
+			{
+				target: polarMapContainer.value,
+				extent: undefined,
+				...mainStore.configuration,
+				layerConf: mainStore.serviceRegister,
 			},
-		}
-	) as Map
+			'2D',
+			{
+				mapParams: {
+					interactions: defaults({
+						altShiftDragRotate: false,
+						pinchRotate: false,
+						dragPan: false,
+						mouseWheelZoom: false,
+						keyboard: false,
+					}),
+				},
+			}
+		) as Map
+	)
 	mainStore.map.on('moveend', onMove)
 
 	updateDragAndZoomInteractions(
@@ -126,17 +135,24 @@ onMounted(async () => {
 		mainStore.serviceRegister
 	)
 })
+onBeforeUnmount(() => {
+	mainStore.map.un('moveend', onMove)
+	hammer?.destroy()
+	hammer = null
+})
 
 const oneFingerPan = useT(() =>
 	t(($) => $.overlay.oneFingerPan, { ns: 'core' })
 )
+let hammer: { destroy: () => void } | null = null
 function updateListeners() {
 	if (
 		!hasWindowSize.value &&
 		polarMapContainer.value &&
 		mainStore.hasSmallDisplay
 	) {
-		new Hammer(polarMapContainer.value).on('pan', (e) => {
+		hammer?.destroy()
+		hammer = new Hammer(polarMapContainer.value).on('pan', (e) => {
 			if (
 				overlay.value &&
 				e.maxPointers === 1 &&
