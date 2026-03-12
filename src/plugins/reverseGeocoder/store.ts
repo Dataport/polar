@@ -149,11 +149,16 @@ if (import.meta.vitest) {
 		coreStore: [
 			async ({}, use) => {
 				const fit = vi.fn()
+				const pluginStores = {
+					pins: reactive({
+						coordinate: null,
+					}),
+				}
 				const coreStore = reactive({
 					configuration: {
 						[PluginId]: {
 							url: 'https://wps.example',
-							coordinateSources: [{ key: 'coordinateSource' }],
+							coordinateSources: [{ plugin: 'pins', key: 'coordinate' }],
 							addressTarget: { key: 'addressTarget' },
 							zoomTo: 99,
 						},
@@ -161,12 +166,12 @@ if (import.meta.vitest) {
 					map: {
 						getView: () => ({ fit }),
 					},
-					coordinateSource: null,
 					addressTarget: vi.fn(),
+					getPluginStore: (plugin) => pluginStores[plugin] || null,
 				})
 				// @ts-expect-error | Mocking useCoreStore
 				vi.spyOn(useCoreStoreFile, 'useCoreStore').mockReturnValue(coreStore)
-				await use(coreStore)
+				await use({ ...coreStore, pluginStores })
 			},
 			{ auto: true },
 		],
@@ -187,7 +192,12 @@ if (import.meta.vitest) {
 		reverseGeocodeUtil,
 		coreStore,
 	}) => {
-		coreStore.coordinateSource = [1, 2]
+		const pluginStore = coreStore.pluginStores as {
+			pins: {
+				coordinate: [number, number] | null
+			}
+		}
+		pluginStore.pins.coordinate = [1, 2]
 		await new Promise((resolve) => setTimeout(resolve))
 		expect(reverseGeocodeUtil).toHaveBeenCalledWith(
 			'https://wps.example',
