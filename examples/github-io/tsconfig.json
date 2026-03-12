@@ -15,6 +15,7 @@
 		],
 		"paths": {
 			"@polar/polar": ["../../src/core/index.ts"],
+			"@polar/polar/client": ["../../src/client.ts"],
 			"@polar/polar/plugins/*": ["../../src/plugins/*/index.ts"],
 			"@/*": ["../../src/*"]
 		}
