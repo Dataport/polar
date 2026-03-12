@@ -5,164 +5,131 @@
 </template>
 
 <script setup lang="ts">
-import { addPlugin, createMap } from '@polar/polar'
-import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
-import pluginFooter from '@polar/polar/plugins/footer'
-import pluginFullscreen from '@polar/polar/plugins/fullscreen'
-import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
-import pluginIconMenu from '@polar/polar/plugins/iconMenu'
-import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
-import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
-import pluginPins from '@polar/polar/plugins/pins'
-import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
-import pluginScale from '@polar/polar/plugins/scale'
+import type { Feature } from 'ol'
+
+import { createMap } from '@polar/polar/client'
+import { toMerged } from 'es-toolkit'
 import { onMounted } from 'vue'
 
 import type { MpapiParameters } from '@/lib/getFeatures/types'
 
-import CoordinateDisplay from './CoordinateDisplay.vue'
+const basemapId = '23420'
+const basemapGreyId = '23421'
+const reports = '6059'
+const hamburgBorder = '1693'
 
-const serviceRegister = [
-	{
-		id: '23420',
-		name: 'basemap.de Web Raster Farbe',
-		url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
-		typ: 'WMS',
-		layers: 'de_basemapde_web_raster_farbe',
-		format: 'image/png',
-		version: '1.3.0',
-		singleTile: false,
-		transparent: true,
-		transparency: 0,
-		tilesize: 512,
-		gutter: 0,
-		minScale: '0',
-		maxScale: '2500000',
-		cache: false,
-	},
-	{
-		id: '23421',
-		name: 'basemap.de Web Raster Grau',
-		url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
-		typ: 'WMS',
-		layers: 'de_basemapde_web_raster_grau',
-		format: 'image/png',
-		version: '1.3.0',
-		singleTile: false,
-		transparent: true,
-		transparency: 0,
-		tilesize: 512,
-		gutter: 0,
-		minScale: '0',
-		maxScale: '2500000',
-		cache: false,
-	},
-]
+const isEvenId = (mmlid: string) => Number(mmlid.slice(-1)) % 2 === 0
+
+const isReportSelectable = (feature: Feature) =>
+	(feature.get('features') as Feature[]).reduce(
+		(acc: boolean, curr: Feature) =>
+			isEvenId(curr.get('mmlid') as string) || acc,
+		false
+	)
 
 onMounted(async () => {
-	const map = await createMap(
+	await createMap(
 		'hero-polar-map',
+		'https://geoportal-hamburg.de/lgv-config/services-internet.json',
 		{
 			startCenter: [565874, 5934140],
 			layers: [
 				{
-					id: '23420',
+					id: basemapId,
 					visibility: true,
 					type: 'background',
 					name: 'Basemap.de (Farbe)',
 				},
 				{
-					id: '23421',
+					id: basemapGreyId,
 					type: 'background',
 					name: 'Basemap.de (Grau)',
+					maxZoom: 6,
 				},
-			],
-			layout: 'standard',
-			scale: {
-				showScaleSwitcher: true,
-			},
-		},
-		serviceRegister
-	)
-
-	addPlugin(map, pluginLoadingIndicator({}))
-
-	addPlugin(
-		map,
-		pluginAddressSearch({
-			searchMethods: [
 				{
-					type: 'mpapi',
-					url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
-					queryParameters: {
-						epsg: 'EPSG:25832',
-						searchStreets: true,
-						searchHouseNumbers: true,
-					} as MpapiParameters,
+					id: hamburgBorder,
+					visibility: true,
+					hideInMenu: true,
+					type: 'mask',
+					name: 'Stadtgrenze Hamburg',
+				},
+				{
+					id: reports,
+					type: 'mask',
+					name: 'Anliegen (MML)',
+					visibility: false,
 				},
 			],
-			minLength: 3,
-			waitMs: 300,
-			focusAfterSearch: true,
-			groupProperties: {
-				defaultGroup: {
-					label: 'Address',
-					limitResults: 5,
-				},
-			},
-		})
-	)
-
-	addPlugin(
-		map,
-		pluginPins({
-			coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
-			movable: 'drag',
-			style: { fill: '#FF0019' },
-			toZoomLevel: 7,
-		})
-	)
-
-	addPlugin(
-		map,
-		pluginReverseGeocoder({
-			url: 'https://geodienste.hamburg.de/HH_WPS',
-			coordinateSources: [{ plugin: 'pins', key: 'coordinate' }],
-			addressTarget: { plugin: 'addressSearch', key: 'selectResult' },
-			zoomTo: 7,
-		})
-	)
-
-	addPlugin(
-		map,
-		pluginIconMenu({
-			displayComponent: true,
-			layoutTag: 'TOP_RIGHT',
-			initiallyOpen: 'layerChooser',
-			menus: [
-				[{ plugin: pluginFullscreen({}) }, { plugin: pluginLayerChooser({}) }],
-				[
+			layout: 'nineRegions',
+			checkServiceAvailability: true,
+			markers: {
+				layers: [
 					{
-						plugin: pluginGeoLocation({
-							checkLocationInitially: false,
-							keepCentered: false,
-							showTooltip: true,
-							zoomLevel: 7,
-						}),
+						id: reports,
+						defaultStyle: { stroke: '#FFFFFF', fill: '#005CA9' },
+						hoverStyle: { stroke: '#46688E', fill: '#8BA1B8' },
+						selectionStyle: { stroke: '#FFFFFF', fill: '#E10019' },
+						unselectableStyle: { stroke: '#FFFFFF', fill: '#333333' },
+						isSelectable: isReportSelectable,
 					},
 				],
-			],
-		})
-	)
-
-	addPlugin(
-		map,
-		pluginFooter({
-			leftEntries: [
-				{ id: 'external-coordinateDisplay', component: CoordinateDisplay },
-			],
-			rightEntries: [pluginScale({})],
-		})
+				clusterClickZoom: true,
+			},
+			scale: { showScaleSwitcher: true },
+			addressSearch: {
+				searchMethods: [
+					{
+						type: 'mpapi',
+						url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+						queryParameters: {
+							searchStreets: true,
+							searchHouseNumbers: true,
+						} as MpapiParameters,
+					},
+				],
+				minLength: 3,
+				waitMs: 300,
+				focusAfterSearch: true,
+				groupProperties: {
+					defaultGroup: { label: 'Address', limitResults: 5 },
+				},
+			},
+			pins: {
+				coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+				boundary: { layerId: hamburgBorder },
+				movable: 'drag',
+				style: { fill: '#FF0019' },
+				toZoomLevel: 7,
+			},
+			reverseGeocoder: {
+				url: 'https://geodienste.hamburg.de/HH_WPS',
+				coordinateSources: [{ plugin: 'pins', key: 'coordinate' }],
+				addressTarget: { plugin: 'addressSearch', key: 'selectResult' },
+				zoomTo: 7,
+			},
+			geoLocation: {
+				checkLocationInitially: false,
+				keepCentered: false,
+				showTooltip: true,
+				zoomLevel: 7,
+			},
+		},
+		[
+			'addressSearch',
+			'fullscreen',
+			'geoLocation',
+			'iconMenu',
+			'layerChooser',
+			'loadingIndicator',
+			'pins',
+			'reverseGeocoder',
+			'scale',
+			'toast',
+		],
+		(serviceRegister) =>
+			serviceRegister.map((entry) =>
+				entry.id === reports ? toMerged(entry, { clusterDistance: 20 }) : entry
+			)
 	)
 })
 </script>

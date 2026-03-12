@@ -114,7 +114,7 @@ import HeroPolarMap from './HeroPolarMap.vue'
 }
 .lp-hero__title {
 	font-family: 'Fira Sans', sans-serif;
-	font-size: clamp(2.25rem, 6vw, 5rem);
+	font-size: 4rem;
 	font-weight: 600;
 	line-height: 1.15;
 	margin: 0 0 1rem;
@@ -130,7 +130,7 @@ import HeroPolarMap from './HeroPolarMap.vue'
 }
 .lp-hero__subtitle {
 	font-family: 'Fira Sans', sans-serif;
-	font-size: clamp(1rem, 2.5vw, 1.5rem);
+	font-size: 2rem;
 	font-weight: 600;
 	color: #f7f7f9;
 	opacity: 0.85;
