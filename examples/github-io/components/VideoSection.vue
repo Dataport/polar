@@ -6,18 +6,18 @@
 				Our FOSSGIS Adventure.
 			</h2>
 			<p class="lp-video__lead">
-				2023 we gave a small talk at FOSSGIS about ...
+				2024 we gave a small talk at FOSSGIS about ...
 			</p>
 			<div ref="videoWrap" class="lp-video-wrap">
 				<template v-if="!videoPlaying">
 					<img
 						:src="mapsPin"
-						alt="POLAR FOSSGIS 2023 talk thumbnail"
+						alt="POLAR FOSSGIS 2024 talk thumbnail"
 						class="lp-video-thumb"
 					/>
 					<button
 						class="lp-video-play"
-						aria-label="Play FOSSGIS 2023 talk"
+						aria-label="Play FOSSGIS 2024 talk"
 						@click="videoPlaying = true"
 					>
 						<span class="lp-video__play-icon">&#9654;</span>
@@ -26,10 +26,10 @@
 				<iframe
 					v-else
 					class="lp-video-iframe"
-					src="https://media.ccc.de/v/fossgis2023-24143-polar-ein-konfigurierbarer-kartenclient/oembed"
+					src="https://media.ccc.de/v/fossgis2024-38921-polar-vollkonfigurierbare-pluginbasierte-kartenklienten-fr-brgernahe-anwendungen/oembed"
 					frameborder="0"
 					allowfullscreen
-					title="POLAR - FOSSGIS 2023 talk"
+					title="POLAR - FOSSGIS 2024 talk"
 				/>
 			</div>
 		</div>
