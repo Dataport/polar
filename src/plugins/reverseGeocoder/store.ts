@@ -22,15 +22,6 @@ import {
 } from './types'
 import { reverseGeocode as reverseGeocodeUtil } from './utils/reverseGeocode'
 
-function isCoordinate(value: unknown): value is [number, number] {
-	return (
-		Array.isArray(value) &&
-		value.length === 2 &&
-		typeof value[0] === 'number' &&
-		typeof value[1] === 'number'
-	)
-}
-
 /* eslint-disable tsdoc/syntax */
 /**
  * @function
@@ -49,8 +40,9 @@ export const useReverseGeocoderStore = defineStore(
 
 		const sourceWatchers = usePluginStoreWatcher(
 			() => configuration.value.coordinateSources || [],
-			async (coordinate: unknown) => {
-				if (isCoordinate(coordinate)) {
+			async (value: unknown) => {
+				const coordinate = value as [number, number] | null
+				if (coordinate) {
 					await reverseGeocode(coordinate)
 				}
 			}
