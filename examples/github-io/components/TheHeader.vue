@@ -23,18 +23,6 @@
 							<span class="kern-icon kern-icon--school" aria-hidden="true" />
 							Learn
 						</a>
-						<a
-							href="https://polar.dataport.de/next/"
-							target="_blank"
-							rel="noopener"
-							class="lp-header__link"
-						>
-							<span
-								class="kern-icon kern-icon--ar-stickers"
-								aria-hidden="true"
-							/>
-							Playground
-						</a>
 						<a href="./docs/" class="lp-header__link">
 							<span class="kern-icon kern-icon--book-5" aria-hidden="true" />
 							Docs
