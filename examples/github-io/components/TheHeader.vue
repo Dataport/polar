@@ -7,7 +7,7 @@
 				<a
 					href="#"
 					class="lp-header__logo"
-					aria-label="POLAR – Home"
+					aria-label="POLAR - Home"
 					v-html="polarLogoSvg"
 				/>
 				<!-- eslint-enable vue/no-v-html -->
