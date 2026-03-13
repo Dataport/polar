@@ -3,8 +3,7 @@
 		class="lp-section lp-section--alt lp-features"
 		aria-labelledby="features-heading"
 	>
-		<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
-		<div v-html="featuresBgSvg" />
+		<img :src="featuresBgSvg" class="lp-features__bg" alt="" />
 		<div class="lp-container">
 			<div class="lp-section-header">
 				<span class="lp-pill lp-pill--green" role="note">Features</span>
@@ -19,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import featuresBgSvg from './assets/features-bg.svg?raw'
+import featuresBgSvg from './assets/features-bg.svg'
 </script>
 
 <style scoped>
@@ -28,7 +27,7 @@ import featuresBgSvg from './assets/features-bg.svg?raw'
 	overflow: hidden;
 	padding: 2rem 0;
 }
-:deep(.lp-features__bg) {
+.lp-features__bg {
 	position: absolute;
 	inset: 0;
 	width: 100%;

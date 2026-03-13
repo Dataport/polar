@@ -3,14 +3,9 @@
 		<div class="lp-container">
 			<div class="lp-header__bar">
 				<!-- Logo -->
-				<!-- eslint-disable vue/no-v-html -- safe: build-time ?raw SVG import -->
-				<a
-					href="#"
-					class="lp-header__logo"
-					aria-label="POLAR - Home"
-					v-html="polarLogoSvg"
-				/>
-				<!-- eslint-enable vue/no-v-html -->
+				<a href="#" class="lp-header__logo" aria-label="POLAR - Home">
+					<img :src="polarLogoSvg" class="lp-header__icon" alt="POLAR" />
+				</a>
 
 				<!-- Centered pill nav -->
 				<nav class="lp-header__nav" aria-label="Main navigation">
@@ -39,8 +34,7 @@
 				>
 					<span class="kern-icon kern-icon--open-in-new" aria-hidden="true" />
 					Find us on GitHub
-					<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
-					<span v-html="githubIconSvg" />
+					<img :src="githubIconSvg" class="lp-header__github-icon" alt="" />
 				</a>
 			</div>
 		</div>
@@ -48,8 +42,8 @@
 </template>
 
 <script setup lang="ts">
-import githubIconSvg from './assets/github-icon.svg?raw'
-import polarLogoSvg from './assets/polar-logo.svg?raw'
+import githubIconSvg from './assets/github-icon.svg'
+import polarLogoSvg from './assets/polar-logo.svg'
 </script>
 
 <style scoped>
@@ -75,7 +69,7 @@ import polarLogoSvg from './assets/polar-logo.svg?raw'
 	display: inline-flex;
 	align-items: center;
 }
-:deep(.lp-header__icon) {
+.lp-header__icon {
 	height: 68px;
 	width: auto;
 	flex-shrink: 0;
@@ -170,7 +164,7 @@ import polarLogoSvg from './assets/polar-logo.svg?raw'
 .lp-header__github:hover .kern-icon {
 	background-color: #003087;
 }
-.lp-header__github svg {
+.lp-header__github-icon {
 	flex-shrink: 0;
 	fill: #004787;
 }

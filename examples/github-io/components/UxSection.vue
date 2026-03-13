@@ -18,8 +18,9 @@
 					class="kern-card lp-card"
 				>
 					<div class="kern-card__container lp-card__container">
-						<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
-						<div class="lp-card__img" aria-hidden="true" v-html="card.svg" />
+						<div class="lp-card__img" aria-hidden="true">
+							<img :src="card.svg" alt="" />
+						</div>
 						<h3 class="lp-card__title">{{ card.title }}</h3>
 						<p class="lp-card__body">{{ card.body }}</p>
 					</div>
@@ -30,10 +31,10 @@
 </template>
 
 <script setup lang="ts">
-import accessibleSvg from './assets/ux-accessible.svg?raw'
-import flexibleSvg from './assets/ux-flexible.svg?raw'
-import mobileFriendlySvg from './assets/ux-mobile-friendly.svg?raw'
-import responsiveSvg from './assets/ux-responsive.svg?raw'
+import accessibleSvg from './assets/ux-accessible.svg'
+import flexibleSvg from './assets/ux-flexible.svg'
+import mobileFriendlySvg from './assets/ux-mobile-friendly.svg'
+import responsiveSvg from './assets/ux-responsive.svg'
 
 const cards = [
 	{
@@ -89,7 +90,7 @@ const cards = [
 	line-height: 0;
 }
 
-.lp-card__img svg {
+.lp-card__img img {
 	display: block;
 	width: 100%;
 	height: 96px;

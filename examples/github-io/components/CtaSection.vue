@@ -3,8 +3,7 @@
 		class="lp-section lp-section--brand lp-cta"
 		aria-labelledby="cta-heading"
 	>
-		<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
-		<div v-html="ctaBgSvg" />
+		<img class="lp-cta__bg" :src="ctaBgSvg" alt="" />
 		<div class="lp-container lp-cta__content">
 			<span class="lp-pill lp-pill--green" role="note">Get started today</span>
 			<h2 id="cta-heading" class="lp-cta__heading">
@@ -45,13 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import rawCtaBg from './assets/features-bg.svg?raw'
-
-// Strip existing opacity attrs (they vary per-path and would multiply),
-// then apply a flat #404565 at 48% so all icons render uniformly.
-const ctaBgSvg = rawCtaBg
-	.replace(/\s*opacity="[0-9.]+"/g, '')
-	.replace(/fill="#404565"/g, 'fill="rgba(64,69,101,0.48)"')
+import ctaBgSvg from './assets/cta-bg.svg'
 </script>
 
 <style scoped>
@@ -59,7 +52,7 @@ const ctaBgSvg = rawCtaBg
 	position: relative;
 	overflow: hidden;
 }
-:deep(.lp-features__bg) {
+.lp-cta__bg {
 	position: absolute;
 	inset: 0;
 	width: 100%;
