@@ -1,15 +1,11 @@
 <template>
 	<section class="lp-used-by" aria-label="Used by">
-		<!-- eslint-disable-next-line vue/no-v-html -- safe: build-time ?raw SVG import -->
-		<div class="lp-used-by__logo" v-html="usedByLogoSvg" />
+		<img class="lp-used-by__logo" :src="usedByLogoSvg" alt="" />
 	</section>
 </template>
 
 <script setup lang="ts">
-import rawSvg from './assets/used-by-section-logo.svg?raw'
-
-// Replace the SVG's fixed 1728px width with 100% so it always fills its container.
-const usedByLogoSvg = rawSvg.replace('width="1728"', 'width="100%"')
+import usedByLogoSvg from './assets/used-by-section-logo.svg'
 </script>
 
 <style scoped>
@@ -18,10 +14,6 @@ const usedByLogoSvg = rawSvg.replace('width="1728"', 'width="100%"')
 	overflow: hidden;
 }
 .lp-used-by__logo {
-	display: block;
-	width: 100%;
-}
-:deep(.lp-used-by__logo svg) {
 	display: block;
 	width: 100%;
 	height: auto;
