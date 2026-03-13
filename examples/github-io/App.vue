@@ -69,14 +69,13 @@ if (import.meta.hot) {
 	--polar-code-bg: #0d1117;
 	--polar-radius: 8px;
 	/* POLAR color tokens */
-	--polar-green-100: #47ffb0;
-	--polar-green-600: #171a2b;
 	--polar-pink-100: #ffd6ea;
 	--polar-pink-600: #b80064;
 	--polar-blue-100: #d0e4ff;
 	--polar-blue-300: #47b2ff;
 	--polar-blue-500: #0078d4;
 	--polar-blue-600: #005fad;
+	--polar-green-100: #47ffb0;
 	--polar-green-300: #00c37c;
 	--polar-green-500: #008854;
 	--polar-green-600: #006c42;
