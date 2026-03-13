@@ -1,7 +1,9 @@
 <template>
-	<div class="lp-hero__map-frame" aria-label="Interactive POLAR map demo">
-		<div id="hero-polar-map" class="lp-hero__map-container" />
-	</div>
+	<div
+		id="hero-polar-map"
+		class="lp-hero__map-container"
+		aria-label="Interactive POLAR map demo"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -135,13 +137,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.lp-hero__map-frame {
-	background: #fff;
-	border-radius: 1.5rem;
-	overflow: hidden;
-	box-shadow: 0 32px 80px rgba(0, 0, 0, 0.45);
-}
-
 .lp-hero__map-container {
 	width: 100%;
 	height: 480px;
