@@ -1,0 +1,34 @@
+/* eslint-disable tsdoc/syntax */
+/**
+ * @module \@polar/polar/plugins/footer
+ */
+/* eslint-enable tsdoc/syntax */
+
+import type { PluginContainer, PolarPluginStore } from '@/core'
+
+import component from './components/ExportUI.ce.vue'
+import locales from './locales'
+import { useExportStore } from './store'
+import { PluginId, type ExportPluginOptions } from './types'
+
+/**
+ * Creates a plugin which adds the possibility to display various content as a
+ * footer at the bottom of the map.
+ *
+ * Note that a link to the POLAR repository will always be displayed.
+ *
+ * @returns Plugin for use with {@link addPlugin}.
+ */
+export default function pluginExport(
+	options: ExportPluginOptions
+): PluginContainer {
+	return {
+		id: PluginId,
+		component,
+		locales,
+		storeModule: useExportStore as PolarPluginStore,
+		options,
+	}
+}
+
+export * from './types'
