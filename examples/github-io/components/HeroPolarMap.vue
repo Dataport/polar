@@ -34,6 +34,7 @@ onMounted(async () => {
 		'hero-polar-map',
 		'https://geoportal-hamburg.de/lgv-config/services-internet.json',
 		{
+			colorScheme: 'light',
 			startCenter: [565874, 5934140],
 			layers: [
 				{
