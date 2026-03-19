@@ -25,7 +25,7 @@ defineProps<{
 	}
 
 	.kern-label--green {
-		color: var(--polar-green-600);
+		color: var(--kern-color-layout-text-default);
 	}
 
 	.kern-label--pink {
