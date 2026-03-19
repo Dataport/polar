@@ -97,6 +97,12 @@ body {
 	margin: 0;
 }
 
+h3 {
+	font-size: var(--kern-typography-font-size-adaptive-medium);
+	font-weight: var(--kern-typography-font-weight-semi-bold);
+	line-height: var(--kern-typography-line-height-adaptive-medium);
+}
+
 /* ── Hero zone ──────────────────────────────────────────── */
 .lp-hero-zone {
 	position: relative;

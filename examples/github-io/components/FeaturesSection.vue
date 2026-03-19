@@ -1,13 +1,10 @@
 <template>
-	<section
-		class="lp-section lp-section--alt lp-features"
-		aria-labelledby="features-heading"
-	>
+	<section class="lp-section lp-section--alt lp-features">
 		<img :src="featuresBgSvg" class="lp-features__bg" alt="" />
 		<div class="lp-container">
 			<div class="lp-section-header">
 				<TheBadge color="green">Features</TheBadge>
-				<h2 id="features-heading">Everything you need for modern mapping</h2>
+				<h3>Everything you need for modern mapping</h3>
 				<p>
 					POLAR combines cutting-edge technology with ease of use, giving you
 					the tools to create exceptional map-based applications.

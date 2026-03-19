@@ -1,12 +1,10 @@
 <template>
-	<section class="lp-roadmap-section" aria-labelledby="roadmap-heading">
+	<section class="lp-roadmap-section">
 		<div class="lp-roadmap-section__header">
 			<div class="lp-container">
 				<div class="lp-section-header lp-section-header--center">
 					<TheBadge color="pink">Our Roadmap</TheBadge>
-					<h2 id="roadmap-heading" style="text-align: center">
-						The Future of POLAR
-					</h2>
+					<h3 style="text-align: center">The Future of POLAR</h3>
 					<p style="text-align: center">
 						We're continuously improving POLAR. Here's what we've shipped and
 						what's coming next.

@@ -1,19 +1,17 @@
 <template>
-	<section class="lp-section lp-dx-section" aria-labelledby="dx-heading">
+	<section class="lp-section lp-dx-section">
 		<div class="lp-container">
 			<div class="lp-dx-grid">
-				<!-- Left column: copy + checklist -->
 				<div class="lp-dx-left">
 					<div class="lp-section-header lp-section-header--left">
 						<TheBadge color="blue">Developer Experience</TheBadge>
-						<h2 id="dx-heading">Code so easy, your cat could do it!</h2>
+						<h3>Code so easy, your cat could do it!</h3>
 						<p>
 							Get started in minutes with POLAR's intuitive API. Our framework
 							is designed to make complex mapping tasks simple while giving you
 							full control when you need it.
 						</p>
 					</div>
-
 					<ul class="lp-checklist" aria-label="Developer experience highlights">
 						<li v-for="item in checklist" :key="item">
 							<span class="lp-checklist__check" aria-hidden="true">✔</span>
@@ -21,8 +19,6 @@
 						</li>
 					</ul>
 				</div>
-
-				<!-- Right column: code block -->
 				<div class="lp-dx-right">
 					<div class="lp-code-wrap">
 						<div class="lp-code-tabs" role="tablist" aria-label="Code examples">
@@ -111,18 +107,13 @@ const copyCode = async () => {
 </script>
 
 <style scoped>
-/* ── Section theming ──────────────────────────────────────── */
 .lp-dx-section {
 	background: #f7f7f9;
-	color: #171a2b;
-}
-.lp-dx-section h2 {
-	color: #171a2b;
-}
-.lp-dx-section p {
-	color: #4a5068;
-}
 
+	p {
+		color: var(--kern-color-layout-text-muted);
+	}
+}
 /* ── Two-column grid ──────────────────────────────────────── */
 .lp-dx-grid {
 	display: grid;

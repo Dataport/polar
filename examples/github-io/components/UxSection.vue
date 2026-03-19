@@ -1,16 +1,15 @@
 <template>
-	<section class="lp-section" aria-labelledby="ux-heading">
+	<section class="lp-section">
 		<div class="lp-container">
 			<div class="lp-section-header">
 				<TheBadge color="pink">User Experience</TheBadge>
-				<h2 id="ux-heading">Built for humans, by humans who care!</h2>
+				<h3>Built for humans, by humans who care!</h3>
 				<p>
 					POLAR is designed with user experience at its core, ensuring your
 					mapping applications are accessible, responsive, and delightful to
 					use.
 				</p>
 			</div>
-
 			<div class="lp-grid-4">
 				<article
 					v-for="card in cards"
@@ -21,7 +20,7 @@
 						<div class="lp-card__img" aria-hidden="true">
 							<img :src="card.svg" alt="" />
 						</div>
-						<h3 class="lp-card__title">{{ card.title }}</h3>
+						<h4 class="lp-card__title kern-title">{{ card.title }}</h4>
 						<p class="lp-card__body">{{ card.body }}</p>
 					</div>
 				</article>
