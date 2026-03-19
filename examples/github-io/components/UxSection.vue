@@ -2,7 +2,7 @@
 	<section class="lp-section" aria-labelledby="ux-heading">
 		<div class="lp-container">
 			<div class="lp-section-header">
-				<span class="lp-pill lp-pill--pink" role="note">User Experience</span>
+				<TheBadge color="pink">User Experience</TheBadge>
 				<h2 id="ux-heading">Built for humans, by humans who care!</h2>
 				<p>
 					POLAR is designed with user experience at its core, ensuring your
@@ -35,6 +35,7 @@ import accessibleSvg from './assets/ux-accessible.svg'
 import flexibleSvg from './assets/ux-flexible.svg'
 import mobileFriendlySvg from './assets/ux-mobile-friendly.svg'
 import responsiveSvg from './assets/ux-responsive.svg'
+import TheBadge from './TheBadge.vue'
 
 const cards = [
 	{

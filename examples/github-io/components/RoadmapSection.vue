@@ -3,7 +3,7 @@
 		<div class="lp-roadmap-section__header">
 			<div class="lp-container">
 				<div class="lp-section-header lp-section-header--center">
-					<span class="lp-pill lp-pill--pink" role="note">Our Roadmap</span>
+					<TheBadge color="pink">Our Roadmap</TheBadge>
 					<h2 id="roadmap-heading" style="text-align: center">
 						The Future of POLAR
 					</h2>
@@ -100,6 +100,7 @@
 import RoadmapCard from './RoadmapCard.vue'
 import { phases } from './roadmapData'
 import RoadmapPhaseLabel from './RoadmapPhaseLabel.vue'
+import TheBadge from './TheBadge.vue'
 </script>
 
 <style scoped>

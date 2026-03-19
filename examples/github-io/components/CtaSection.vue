@@ -5,7 +5,7 @@
 	>
 		<img class="lp-cta__bg" :src="ctaBgSvg" alt="" />
 		<div class="lp-container lp-cta__content">
-			<span class="lp-pill lp-pill--green" role="note">Get started today</span>
+			<TheBadge color="green">Get started today</TheBadge>
 			<h2 id="cta-heading" class="lp-cta__heading">
 				Ready to Build Amazing Map Applications?
 			</h2>
@@ -45,6 +45,7 @@
 
 <script setup lang="ts">
 import ctaBgSvg from './assets/cta-bg.svg'
+import TheBadge from './TheBadge.vue'
 </script>
 
 <style scoped>

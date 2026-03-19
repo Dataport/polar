@@ -5,9 +5,7 @@
 				<!-- Left column: copy + checklist -->
 				<div class="lp-dx-left">
 					<div class="lp-section-header lp-section-header--left">
-						<span class="lp-pill lp-pill--blue" role="note"
-							>Developer Experience</span
-						>
+						<TheBadge color="blue">Developer Experience</TheBadge>
 						<h2 id="dx-heading">Code so easy, your cat could do it!</h2>
 						<p>
 							Get started in minutes with POLAR's intuitive API. Our framework
@@ -73,6 +71,7 @@
 import { computed, ref } from 'vue'
 
 import { tabs, rawCode, checklist } from './devexContent'
+import TheBadge from './TheBadge.vue'
 
 const activeTab = ref<(typeof tabs)[number]['id']>('install')
 const copied = ref(false)

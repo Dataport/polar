@@ -6,7 +6,7 @@
 		<img :src="featuresBgSvg" class="lp-features__bg" alt="" />
 		<div class="lp-container">
 			<div class="lp-section-header">
-				<span class="lp-pill lp-pill--green" role="note">Features</span>
+				<TheBadge color="green">Features</TheBadge>
 				<h2 id="features-heading">Everything you need for modern mapping</h2>
 				<p>
 					POLAR combines cutting-edge technology with ease of use, giving you
@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import featuresBgSvg from './assets/features-bg.svg'
+import TheBadge from './TheBadge.vue'
 </script>
 
 <style scoped>
