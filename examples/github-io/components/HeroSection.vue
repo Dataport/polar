@@ -56,7 +56,6 @@ section {
 	h2 {
 		color: var(--kern-color-layout-text-inverse);
 		text-align: center;
-		font-family: var(--kern-typography-font-family-default), sans-serif;
 		font-style: normal;
 		letter-spacing: var(--kern-metric-space-none);
 
