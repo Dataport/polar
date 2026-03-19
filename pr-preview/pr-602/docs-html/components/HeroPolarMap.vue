@@ -34,18 +34,20 @@ onMounted(async () => {
 		'hero-polar-map',
 		'https://geoportal-hamburg.de/lgv-config/services-internet.json',
 		{
+			colorScheme: 'light',
+			language: 'en',
 			startCenter: [565874, 5934140],
 			layers: [
 				{
 					id: basemapId,
 					visibility: true,
 					type: 'background',
-					name: 'Basemap.de (Farbe)',
+					name: 'Basemap.de (Colour)',
 				},
 				{
 					id: basemapGreyId,
 					type: 'background',
-					name: 'Basemap.de (Grau)',
+					name: 'Basemap.de (Gray)',
 					maxZoom: 6,
 				},
 				{
@@ -53,12 +55,12 @@ onMounted(async () => {
 					visibility: true,
 					hideInMenu: true,
 					type: 'mask',
-					name: 'Stadtgrenze Hamburg',
+					name: 'Border of Hamburg',
 				},
 				{
 					id: reports,
 					type: 'mask',
-					name: 'Anliegen (MML)',
+					name: 'Reports (MML)',
 					visibility: false,
 				},
 			],
