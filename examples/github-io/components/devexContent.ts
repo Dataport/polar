@@ -13,21 +13,19 @@ npm install @polar/polar
 # yarn
 yarn add @polar/polar`,
 
-	quickstart: `import { createMap } from '@polar/polar'
+	quickstart: `import { createMap } from '@polar/polar/client'
 
 const map = await createMap(
-  'map-container',   // id of the element to replace
+  'map-container', /* id of the element to replace */
+  'https://example.com/services.json', /* or pass an array */
   {
-    startCenter: [553655, 6004479],
-    layers: [
-      { id: 'basemap', name: 'Basemap' },
-    ],
+    /* General and plugin configuration should be added here */
   },
-  'https://example.com/services.json' // or pass array directly
+  enabledPlugins: [ /* add plugins that you want to use */ ],
 )`,
 
-	advanced: `// Add plugins and subscribe to store changes
-import { addPlugins, getStore, subscribe } from '@polar/polar'
+	advanced: `/* Add plugins and subscribe to store changes */
+import { addPlugins, createMap, subscribe } from '@polar/polar'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginScale from '@polar/polar/plugins/scale'
@@ -37,7 +35,7 @@ const map = await createMap('map-container', {
   epsg: 'EPSG:25832',
   layout: 'nineRegions',
   layers: [{ id: 'basemap', name: 'Basemap' }],
-}, serviceRegister)
+}, 'https://example.com/services.json')
 
 addPlugins(map, [
   pluginIconMenu({
@@ -51,16 +49,8 @@ addPlugins(map, [
   }),
 ])
 
-// React to store changes
+/* React to store changes */
 const unsubscribe = subscribe(map, 'core', 'zoom', (zoom) => {
   console.log('zoom changed to', zoom)
 })`,
 }
-
-export const checklist = [
-	'Regular updates and improvements',
-	'Configurable solutions',
-	'Built upon Open Geospatial Consortium Guidelines',
-	'Comprehensive documentation and examples',
-	'Public Money, Public Code',
-]

@@ -1,64 +1,98 @@
 <template>
-	<section class="lp-section lp-dx-section">
-		<div class="lp-container">
-			<div class="lp-dx-grid">
-				<div class="lp-dx-left">
-					<div class="lp-section-header lp-section-header--left">
-						<TheBadge color="blue">Developer Experience</TheBadge>
-						<h3>Code so easy, your cat could do it!</h3>
-						<p>
-							Get started in minutes with POLAR's intuitive API. Our framework
-							is designed to make complex mapping tasks simple while giving you
-							full control when you need it.
-						</p>
-					</div>
-					<ul class="lp-checklist" aria-label="Developer experience highlights">
-						<li v-for="item in checklist" :key="item">
-							<span class="lp-checklist__check" aria-hidden="true">✔</span>
-							<span>{{ item }}</span>
-						</li>
-					</ul>
-				</div>
-				<div class="lp-dx-right">
-					<div class="lp-code-wrap">
-						<div class="lp-code-tabs" role="tablist" aria-label="Code examples">
-							<button
-								v-for="tab in tabs"
-								:key="tab.id"
-								type="button"
-								:class="[
-									'lp-code-tab',
-									{ 'lp-code-tab--active': activeTab === tab.id },
-								]"
-								role="tab"
-								:aria-selected="activeTab === tab.id"
-								:aria-controls="`tab-panel-${tab.id}`"
-								@click="activeTab = tab.id"
-							>
-								{{ tab.label }}
-							</button>
-						</div>
-						<div class="lp-code-body">
-							<!-- eslint-disable vue/no-v-html -- safe: HTML-escaped hardcoded strings with syntax-highlight spans -->
-							<pre
-								:id="`tab-panel-${activeTab}`"
-								class="lp-code-pre"
-								role="tabpanel"
-								tabindex="-1"
-								v-html="codeSnippets[activeTab]"
-							/>
-							<!-- eslint-enable vue/no-v-html -->
-							<button
-								class="lp-code-copy"
-								:aria-label="copied ? 'Copied!' : 'Copy code'"
-								@click="copyCode"
-							>
-								{{ copied ? '✓ Copied' : 'Copy' }}
-							</button>
-						</div>
-					</div>
-				</div>
+	<section class="lp-section">
+		<div>
+			<div class="lp-section-header lp-section-header--left">
+				<TheBadge color="blue">Developer Experience</TheBadge>
+				<h3>Code so easy, your cat could do it!</h3>
+				<p>
+					Get started in minutes with POLAR's intuitive API. Our framework is
+					designed to make complex mapping tasks simple while giving you full
+					control when you need it.
+				</p>
 			</div>
+			<ul class="kern-list" aria-label="Developer experience highlights">
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
+					Regular updates and improvements
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
+					Configurable solutions
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
+					Built upon
+					<a class="kern-link" href="https://www.ogc.org/" target="_blank">
+						Open Geospatial Consortium Guidelines
+					</a>
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
+					Comprehensive documentation and examples
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
+					Tried & Tested with 50+ productive uses
+				</li>
+			</ul>
+		</div>
+		<div class="lp-code-wrap">
+			<div class="code-tablist-wrapper">
+				<div role="tablist">
+					<button
+						v-for="tab in tabs"
+						:key="tab.id"
+						:class="[
+							'kern-btn',
+							{ 'kern-btn--primary': activeTab === tab.id },
+							{ 'kern-btn--tertiary': activeTab !== tab.id },
+						]"
+						role="tab"
+						:aria-selected="activeTab === tab.id"
+						:aria-controls="`tab-panel-${tab.id}`"
+						@click="activeTab = tab.id"
+					>
+						<span class="kern-label">{{ tab.label }}</span>
+					</button>
+				</div>
+				<button
+					class="kern-btn kern-btn--tertiary copy-btn"
+					:aria-label="copied ? 'Copied!' : 'Copy code'"
+					@click="copyCode"
+				>
+					<span
+						class="kern-icon"
+						:class="
+							copied ? 'kern-icon--check' : 'kern-icon-fill--content-copy'
+						"
+					/>
+					<span class="kern-label">{{ copied ? 'Copied' : 'Copy' }}</span>
+				</button>
+			</div>
+			<!-- eslint-disable vue/no-v-html -- safe: HTML-escaped hardcoded strings with syntax-highlight spans -->
+			<pre
+				:id="`tab-panel-${activeTab}`"
+				class="lp-code-pre"
+				role="tabpanel"
+				tabindex="-1"
+				v-html="codeSnippets[activeTab]"
+			/>
+			<!-- eslint-enable vue/no-v-html -->
 		</div>
 	</section>
 </template>
@@ -66,7 +100,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-import { tabs, rawCode, checklist } from './devexContent'
+import { tabs, rawCode } from './devexContent'
 import TheBadge from './TheBadge.vue'
 
 const activeTab = ref<(typeof tabs)[number]['id']>('install')
@@ -82,10 +116,11 @@ const highlight = (code: string) =>
 			/(import|from|await|const|export|async|function)/g,
 			'<span class="lp-token-kw">$1</span>'
 		)
-		.replace(/(\/\/.*)/g, '<span class="lp-token-cm">$1</span>')
+		.replace(/(\/\*.*)/g, '<span class="lp-token-cm">$1</span>')
+		.replace(/(\*\\.*)/g, '<span class="lp-token-cm">$1</span>')
 		.replace(/(^#[^\n]*)/gm, '<span class="lp-token-cm">$1</span>')
 		.replace(
-			/(createMap|createApp|addPlugins?|register)\b/g,
+			/(createMap|createApp|addPlugins|pluginIconMenu|pluginLayerChooser|pluginScale)\b/g,
 			'<span class="lp-token-fn">$1</span>'
 		)
 
@@ -107,148 +142,141 @@ const copyCode = async () => {
 </script>
 
 <style scoped>
-.lp-dx-section {
-	background: #f7f7f9;
+section {
+	display: flex;
+	justify-content: space-between;
+	padding: 2rem 10rem;
+	background: var(--kern-color-layout-background-hued);
 
-	p {
-		color: var(--kern-color-layout-text-muted);
+	.lp-section-header {
+		margin-bottom: var(--kern-metric-space-x-large);
+
+		p {
+			width: 34rem;
+			color: var(--kern-color-layout-text-muted);
+		}
+
+		h3 {
+			margin: var(--kern-metric-space-default) 0;
+		}
 	}
-}
-/* ── Two-column grid ──────────────────────────────────────── */
-.lp-dx-grid {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 3rem;
-	align-items: center;
-}
-.lp-dx-right {
-	min-width: 0;
-}
-@media (max-width: 768px) {
-	.lp-dx-grid {
-		grid-template-columns: 1fr;
+
+	.kern-list {
+		padding: 0;
+
+		li {
+			display: flex;
+			gap: var(--kern-metric-space-small);
+			color: var(--kern-color-layout-text-muted);
+
+			.kern-icon-fill--check-circle {
+				background: var(--polar-blue-500);
+			}
+
+			.kern-link {
+				padding: 0;
+			}
+		}
+
+		li:not(:last-child) {
+			margin-bottom: var(--kern-metric-space-small);
+		}
 	}
-}
 
-/* ── Checklist base styles ────────────────────────────────── */
-.lp-checklist {
-	list-style: none;
-	padding: 0;
-	margin: 2rem 0 0;
-	display: flex;
-	flex-direction: column;
-	gap: 0.75rem;
-}
-.lp-checklist li {
-	display: flex;
-	align-items: flex-start;
-	gap: 0.75rem;
-	font-size: 1rem;
-}
-.lp-checklist__check {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 1.5rem;
-	height: 1.5rem;
-	min-width: 1.5rem;
-	border-radius: 50%;
-	background: #dcfce7;
-	color: #15803d;
-	font-size: 0.875rem;
-	font-weight: 700;
-}
+	.lp-code-wrap {
+		display: flex;
+		flex-direction: column;
+		width: 43rem;
+		height: 27.5rem;
+		padding: var(--kern-metric-space-default);
+		background: #000;
+		border-radius: var(--kern-metric-border-radius-large);
+		box-shadow:
+			0 112px 31px 0 rgba(0, 0, 0, 0),
+			0 72px 29px 0 rgba(0, 0, 0, 0.01),
+			0 40px 24px 0 rgba(0, 0, 0, 0.03),
+			0 18px 18px 0 rgba(0, 0, 0, 0.06),
+			0 4px 10px 0 rgba(0, 0, 0, 0.07);
 
-/* ── Checklist badge: POLAR Blue 500 + white check ─────────── */
-:deep(.lp-checklist__check),
-.lp-checklist__check {
-	background: var(--polar-blue-500) !important;
-	color: #fff !important;
-}
+		.code-tablist-wrapper {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: var(--kern-metric-space-x-large);
 
-.lp-code-wrap {
-	background: var(--polar-code-bg);
-	border-radius: var(--polar-radius);
-	overflow: hidden;
-	width: 100%;
-	max-width: 688px;
-	height: 440px;
-	display: flex;
-	flex-direction: column;
-}
-.lp-code-tabs {
-	display: flex;
-	flex-shrink: 0;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-.lp-code-tab {
-	padding: 0.6rem 1.25rem;
-	font-size: 0.875rem;
-	cursor: pointer;
-	border: none;
-	background: transparent;
-	color: #92abdf;
-	font-family: inherit;
-	transition:
-		color 0.15s,
-		background 0.15s;
-	border-bottom: 2px solid transparent;
-}
-.lp-code-tab:hover {
-	color: #fff;
-}
-.lp-code-tab--active {
-	color: #000;
-	background: #92abdf;
-	border-bottom-color: transparent;
-}
-.lp-code-body {
-	position: relative;
-	flex: 1;
-	overflow: hidden;
-	padding: 1.5rem;
-	display: flex;
-	flex-direction: column;
-}
-.lp-code-pre {
-	margin: 0;
-	font-family: 'Fira Code', monospace;
-	font-weight: 600;
-	font-size: 0.85rem;
-	line-height: 1.7;
-	overflow: auto;
-	color: #e2e8f0;
-	white-space: pre;
-	flex: 1;
-}
-.lp-code-copy {
-	position: absolute;
-	top: 1rem;
-	right: 1rem;
-	background: rgba(255, 255, 255, 0.1);
-	border: none;
-	border-radius: 4px;
-	color: rgba(255, 255, 255, 0.65);
-	font-size: 0.75rem;
-	padding: 0.3rem 0.7rem;
-	cursor: pointer;
-	font-family: inherit;
-}
-.lp-code-copy:hover {
-	background: rgba(255, 255, 255, 0.2);
-	color: #fff;
+			.kern-btn {
+				font-size: var(--kern-typography-font-size-static-medium,);
+				font-weight: var(--kern-typography-font-weight-medium);
+
+				&:focus {
+					box-shadow: none;
+				}
+			}
+
+			.kern-btn--primary {
+				.kern-label {
+					color: #000;
+				}
+				background: oklch(
+					var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
+						var(--kern-darkblue-300-hue)
+				);
+			}
+
+			.kern-btn--tertiary {
+				.kern-label {
+					text-decoration: none;
+					color: oklch(
+						var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
+							var(--kern-darkblue-300-hue)
+					);
+				}
+			}
+
+			.copy-btn {
+				/* Stops the jiggle */
+				width: 8rem;
+
+				.kern-icon {
+					background: oklch(
+						var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
+							var(--kern-darkblue-300-hue)
+					);
+				}
+				.kern-label {
+					color: oklch(
+						var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
+							var(--kern-darkblue-300-hue)
+					);
+				}
+			}
+		}
+
+		.lp-code-pre {
+			flex: 1;
+			margin: 0;
+			font-family: 'Fira Code', monospace;
+			font-size: var(--kern-typography-font-size-static-medium);
+			font-style: normal;
+			font-weight: var(--kern-typography-font-weight-semi-bold);
+			line-height: var(--kern-typography-line-height-static-large);
+			letter-spacing: 0;
+			overflow: auto;
+			color: var(--polar-grey-300);
+			white-space: pre;
+		}
+	}
 }
 
 :global(.lp-token-kw) {
-	color: #fc0c91;
+	color: var(--polar-pink-450);
 }
 :global(.lp-token-fn) {
-	color: #7dd3fc;
+	color: var(--polar-blue-250);
 }
 :global(.lp-token-str) {
-	color: #00d388;
+	color: var(--polar-green-250);
 }
 :global(.lp-token-cm) {
-	color: #6b7280;
+	color: var(--polar-grey-500);
 }
 </style>

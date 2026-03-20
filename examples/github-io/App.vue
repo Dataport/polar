@@ -70,14 +70,17 @@ if (import.meta.hot) {
 	--polar-radius: 8px;
 	/* POLAR color tokens */
 	--polar-pink-100: #ffd6ea;
+	--polar-pink-450: #fc0c91;
 	--polar-pink-600: #b80064;
 	--polar-blue-100: #d0e4ff;
+	--polar-blue-250: #7dbbfe;
 	--polar-blue-300: #47b2ff;
 	--polar-blue-400: #0794fa;
 	--polar-blue-500: #0078d4;
 	--polar-blue-600: #005fad;
 	--polar-blue-850: #00264e;
 	--polar-green-100: #47ffb0;
+	--polar-green-250: #00d388;
 	--polar-green-300: #00c37c;
 	--polar-green-500: #008854;
 	--polar-green-600: #006c42;
@@ -166,23 +169,18 @@ h3 {
 .lp-section-header {
 	text-align: center;
 	margin-bottom: 1rem;
+
+	p {
+		font-size: var(--kern-typography-font-size-static-medium);
+		width: 54rem;
+		margin: 0 auto;
+	}
 }
 .lp-section-header--left {
 	text-align: left;
-}
-.lp-section-header h2 {
-	font-size: clamp(1.75rem, 4vw, 2.75rem);
-	font-weight: 700;
-	margin: 0.75rem 0 1rem;
-	color: inherit;
-}
-.lp-section-header p {
-	font-size: 1.1rem;
-	opacity: 0.75;
-	max-width: 680px;
-	margin: 0 auto;
-}
-.lp-section-header--left p {
-	margin: 0;
+
+	p {
+		margin: 0;
+	}
 }
 </style>
