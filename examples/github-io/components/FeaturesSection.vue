@@ -20,7 +20,6 @@ import TheBadge from './TheBadge.vue'
 <style scoped>
 section {
 	position: relative;
-	padding: 2rem 0;
 
 	img {
 		position: absolute;

@@ -148,7 +148,7 @@ h3 {
 
 /* ── Section shared ─────────────────────────────────────── */
 .lp-section {
-	padding: 5rem 0;
+	padding: 2rem 0;
 }
 .lp-section--alt {
 	background: var(--polar-section-alt);
@@ -165,7 +165,7 @@ h3 {
 
 .lp-section-header {
 	text-align: center;
-	margin-bottom: 3rem;
+	margin-bottom: 1rem;
 }
 .lp-section-header--left {
 	text-align: left;
