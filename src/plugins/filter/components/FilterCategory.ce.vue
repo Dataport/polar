@@ -17,7 +17,7 @@
 				v-if="category.selectAll"
 				icon="kern-icon--deselect"
 				:label="$t(($) => $.category.deselectAll, { ns: PluginId })"
-				@click="selectOrDeselectAll(category)"
+				@click="filterStore.selectOrDeselectAllFromCategory(category)"
 			/>
 			<component
 				:is="
@@ -38,10 +38,17 @@
 					)
 				"
 				:model-value="
-					getStatus(category.targetProperty, expandValue(categoryValue))
+					filterStore.getCategoryStatus(
+						category.targetProperty,
+						expandValue(categoryValue)
+					)
 				"
 				@update:model-value="
-					setStatus(category.targetProperty, expandValue(categoryValue), $event)
+					filterStore.setCategoryStatus(
+						category.targetProperty,
+						expandValue(categoryValue),
+						$event
+					)
 				"
 			/>
 		</div>
@@ -55,61 +62,10 @@ import KernCheckbox from '@/components/kern/KernCheckbox.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useFilterStore } from '../store'
-import {
-	PluginId,
-	type Category,
-	type CategoryValue,
-	type FilterState,
-} from '../types'
+import { PluginId } from '../types'
+import { expandValue, flattenValue } from '../utils/flattenAndExpandValue'
 import FilterSection from './FilterSection.ce.vue'
 
 const coreStore = useCoreStore()
 const filterStore = useFilterStore()
-
-function expandValue(value: Category['knownValues'][number]) {
-	return typeof value === 'string' ? { key: value, values: [value] } : value
-}
-
-function flattenValue(value: Category['knownValues'][number]) {
-	return expandValue(value).key
-}
-
-function createMissingObjects(targetProperty: string) {
-	// The state is created automatically and this component is only used when a layer is selected.
-	const layerState = filterStore.selectedLayerState as FilterState
-	layerState.knownValues ??= {}
-	return (layerState.knownValues[targetProperty] ??= Object.fromEntries(
-		filterStore.selectedLayerConfiguration.categories
-			?.find((category) => category.targetProperty === targetProperty)
-			?.knownValues.map((value) => [flattenValue(value), true]) ?? []
-	))
-}
-
-function getStatus(targetProperty: string, { values }: CategoryValue) {
-	return Object.entries(
-		filterStore.selectedLayerState?.knownValues?.[targetProperty] ?? {}
-	)
-		.filter(([value]) => values.includes(value))
-		.every(([, status]) => status)
-}
-
-function setStatus(
-	targetProperty: string,
-	{ values }: CategoryValue,
-	newValue: boolean
-) {
-	const valueState = createMissingObjects(targetProperty)
-	values.forEach((value) => (valueState[value] = newValue))
-}
-
-function selectOrDeselectAll(category: Category) {
-	const valueState = createMissingObjects(category.targetProperty)
-	const categoryValues = category.knownValues.flatMap((entry) =>
-		typeof entry === 'string' ? [entry] : entry.values
-	)
-	const newStatus =
-		Object.values(valueState).filter((selected) => selected).length !==
-		categoryValues.length
-	categoryValues.forEach((value) => (valueState[value] = newStatus))
-}
 </script>
