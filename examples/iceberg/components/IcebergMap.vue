@@ -91,6 +91,7 @@ watch(map, (map) => {
 			toZoomLevel: 7,
 		}),
 		pluginReverseGeocoder({
+			type: 'wps',
 			url: 'https://geodienste.hamburg.de/HH_WPS',
 			coordinateSources: [
 				{

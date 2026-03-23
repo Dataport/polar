@@ -32,7 +32,7 @@ const parser = new Parser({
 	tagNameProcessors: [processors.stripPrefix],
 })
 
-export async function reverseGeocode(
+export async function reverseGeocodeWps(
 	url: string,
 	coordinate: [number, number]
 ): Promise<ReverseGeocoderFeature> {
@@ -136,7 +136,7 @@ if (import.meta.vitest) {
 			text: () => Promise.resolve(testResponse),
 		} as Response)
 
-		const feature = await reverseGeocode(testUrl, testCoordinates)
+		const feature = await reverseGeocodeWps(testUrl, testCoordinates)
 
 		expect(fetchMock).toHaveBeenCalledOnce()
 		expect(fetchMock).toHaveBeenCalledWith(testUrl, {
