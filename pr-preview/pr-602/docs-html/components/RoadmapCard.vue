@@ -135,7 +135,7 @@ defineProps<{
 
 .lp-roadmap__card-body {
 	font-size: 0.8125rem;
-	color: #4a5068;
+	color: var(--kern-color-layout-text-muted);
 	margin: 0;
 	line-height: 1.5;
 }

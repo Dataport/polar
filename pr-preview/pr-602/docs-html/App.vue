@@ -70,12 +70,17 @@ if (import.meta.hot) {
 	--polar-radius: 8px;
 	/* POLAR color tokens */
 	--polar-pink-100: #ffd6ea;
+	--polar-pink-450: #fc0c91;
 	--polar-pink-600: #b80064;
 	--polar-blue-100: #d0e4ff;
+	--polar-blue-250: #7dbbfe;
 	--polar-blue-300: #47b2ff;
+	--polar-blue-400: #0794fa;
 	--polar-blue-500: #0078d4;
 	--polar-blue-600: #005fad;
+	--polar-blue-850: #00264e;
 	--polar-green-100: #47ffb0;
+	--polar-green-250: #00d388;
 	--polar-green-300: #00c37c;
 	--polar-green-500: #008854;
 	--polar-green-600: #006c42;
@@ -83,30 +88,6 @@ if (import.meta.hot) {
 	--polar-grey-500: #6e7597;
 	--polar-grey-600: #565c7f;
 	--polar-text-default: #171a2b;
-}
-
-/* ── Shared pill component ──────────────────────────────── */
-.lp-pill {
-	display: inline-flex;
-	align-items: center;
-	padding: 0.3rem 1rem;
-	border-radius: 9999px;
-	font-size: 0.875rem;
-	font-weight: 600;
-	border: none;
-	line-height: 1.4;
-}
-.lp-pill--green {
-	background: var(--polar-green-100);
-	color: var(--polar-green-600);
-}
-.lp-pill--pink {
-	background: var(--polar-pink-100);
-	color: var(--polar-pink-600);
-}
-.lp-pill--blue {
-	background: var(--polar-blue-100);
-	color: var(--polar-blue-600);
 }
 
 *,
@@ -117,11 +98,12 @@ if (import.meta.hot) {
 
 body {
 	margin: 0;
-	background: #fff;
-	color: #1a1a2e;
-	font-family:
-		'Fira Sans', var(--kern-typography-font-family-default, sans-serif);
-	line-height: 1.6;
+}
+
+h3 {
+	font-size: var(--kern-typography-font-size-adaptive-medium);
+	font-weight: var(--kern-typography-font-weight-semi-bold);
+	line-height: var(--kern-typography-line-height-adaptive-medium);
 }
 
 /* ── Hero zone ──────────────────────────────────────────── */
@@ -169,14 +151,10 @@ body {
 
 /* ── Section shared ─────────────────────────────────────── */
 .lp-section {
-	padding: 5rem 0;
+	padding: 2rem 0;
 }
 .lp-section--alt {
 	background: var(--polar-section-alt);
-}
-.lp-section--dark {
-	background: var(--polar-dark-bg);
-	color: #e5e7eb;
 }
 .lp-section--brand {
 	background: linear-gradient(
@@ -190,28 +168,19 @@ body {
 
 .lp-section-header {
 	text-align: center;
-	margin-bottom: 3rem;
+	margin-bottom: 1rem;
+
+	p {
+		font-size: var(--kern-typography-font-size-static-medium);
+		width: 54rem;
+		margin: 0 auto;
+	}
 }
 .lp-section-header--left {
 	text-align: left;
-}
-.lp-section-header h2 {
-	font-size: clamp(1.75rem, 4vw, 2.75rem);
-	font-weight: 700;
-	margin: 0.75rem 0 1rem;
-	color: inherit;
-}
-.lp-section-header p {
-	font-size: 1.1rem;
-	opacity: 0.75;
-	max-width: 680px;
-	margin: 0 auto;
-}
-.lp-section-header--left p {
-	margin: 0;
-}
 
-/* ── Responsive ─────────────────────────────────────────── */
-@media (max-width: 600px) {
+	p {
+		margin: 0;
+	}
 }
 </style>

@@ -1,10 +1,11 @@
 <template>
 	<section class="lp-section lp-section--video" aria-labelledby="video-heading">
 		<div class="lp-container lp-video__container">
-			<span class="lp-pill lp-pill--video" role="note">Hear us talk</span>
-			<h2 id="video-heading" class="lp-video__heading">
+			<span class="lp-pill lp-pill--video" role="note" />
+			<TheBadge color="dark-blue">Hear us talk</TheBadge>
+			<h3 id="video-heading" class="lp-video__heading">
 				Our FOSSGIS Adventure.
-			</h2>
+			</h3>
 			<p class="lp-video__lead">
 				2024 we gave a small talk at FOSSGIS about ...
 			</p>
@@ -40,6 +41,7 @@
 import { ref } from 'vue'
 
 import mapsPin from '../../../docs/assets/maps_pin.jpg'
+import TheBadge from './TheBadge.vue'
 
 const videoPlaying = ref(false)
 const videoWrap = ref<HTMLElement | null>(null)
@@ -90,10 +92,6 @@ const videoWrap = ref<HTMLElement | null>(null)
 }
 .lp-section--video {
 	background-color: #000;
-}
-.lp-pill--video {
-	background-color: #00264e;
-	color: #0794fa;
 }
 
 /* ── Section copy ──────────────────────────────────────── */

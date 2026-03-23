@@ -1,14 +1,9 @@
 <template>
-	<section
-		class="lp-section lp-section--brand lp-cta"
-		aria-labelledby="cta-heading"
-	>
+	<section class="lp-section lp-section--brand lp-cta">
 		<img class="lp-cta__bg" :src="ctaBgSvg" alt="" />
 		<div class="lp-container lp-cta__content">
-			<span class="lp-pill lp-pill--green" role="note">Get started today</span>
-			<h2 id="cta-heading" class="lp-cta__heading">
-				Ready to Build Amazing Map Applications?
-			</h2>
+			<TheBadge color="green">Get started today</TheBadge>
+			<h3>Ready to Build Amazing Map Applications?</h3>
 			<p class="lp-cta__lead">
 				Join the growing community of developers and public administrations
 				using POLAR to deliver modern, accessible map experiences.
@@ -45,6 +40,7 @@
 
 <script setup lang="ts">
 import ctaBgSvg from './assets/cta-bg.svg'
+import TheBadge from './TheBadge.vue'
 </script>
 
 <style scoped>
@@ -91,10 +87,6 @@ import ctaBgSvg from './assets/cta-bg.svg'
 }
 
 /* ── CTA copy ──────────────────────────────────────────── */
-.lp-cta__heading {
-	margin-top: 0.75rem;
-}
-
 .lp-cta__lead {
 	max-width: 680px;
 	margin: 0.5rem auto 2.5rem;

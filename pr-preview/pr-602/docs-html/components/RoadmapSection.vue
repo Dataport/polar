@@ -1,12 +1,10 @@
 <template>
-	<section class="lp-roadmap-section" aria-labelledby="roadmap-heading">
+	<section class="lp-roadmap-section">
 		<div class="lp-roadmap-section__header">
 			<div class="lp-container">
 				<div class="lp-section-header lp-section-header--center">
-					<span class="lp-pill lp-pill--pink" role="note">Our Roadmap</span>
-					<h2 id="roadmap-heading" style="text-align: center">
-						The Future of POLAR
-					</h2>
+					<TheBadge color="pink">Our Roadmap</TheBadge>
+					<h3 style="text-align: center">The Future of POLAR</h3>
 					<p style="text-align: center">
 						We're continuously improving POLAR. Here's what we've shipped and
 						what's coming next.
@@ -100,6 +98,7 @@
 import RoadmapCard from './RoadmapCard.vue'
 import { phases } from './roadmapData'
 import RoadmapPhaseLabel from './RoadmapPhaseLabel.vue'
+import TheBadge from './TheBadge.vue'
 </script>
 
 <style scoped>
