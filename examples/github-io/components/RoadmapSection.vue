@@ -17,44 +17,57 @@
 			<div class="lp-container">
 				<div class="lp-roadmap" role="list" aria-label="POLAR Roadmap">
 					<div
-						v-for="phase in phases"
+						v-for="(phase, index) in phases"
 						:key="phase.status"
-						:class="['lp-roadmap__phase', `lp-roadmap__phase--${phase.status}`]"
+						:class="[
+							'lp-roadmap__phase',
+							`lp-roadmap__phase--${phase.status}`,
+							index < phases.length - 1 && phases[index + 1].status === phase.status
+								? 'lp-roadmap__phase--next-same'
+								: 'lp-roadmap__phase--next-different',
+						]"
 					>
+						<!-- Cards stacked above -->
 						<div
-							v-for="(item, ii) in phase.items"
-							:key="item.title"
-							:class="[
-								'lp-roadmap__row',
-								ii % 2 === 0
-									? 'lp-roadmap__row--right'
-									: 'lp-roadmap__row--left',
-							]"
-							role="listitem"
+							v-show="!isPhaseCollapsed(phase)"
+							class="lp-roadmap__cards"
 						>
-							<!-- Left cell: phase label (milestone rows) OR left-side card -->
-							<div class="lp-roadmap__cell lp-roadmap__cell--left">
-								<RoadmapPhaseLabel
-									v-if="ii === 0"
-									:label="phase.label"
-									:sublabel="phase.sublabel"
-									:status="phase.status"
-								/>
+							<div
+								v-for="item in phase.items"
+								:key="item.title"
+								class="lp-roadmap__card-item"
+								role="listitem"
+							>
 								<RoadmapCard
-									v-else-if="ii % 2 !== 0"
 									:title="item.title"
 									:body="item.body"
 									:accent-icon="item.accentIcon ?? phase.accentIcon"
 									:status="phase.status"
-									side="left"
 								/>
 							</div>
+						</div>
 
-							<!-- Center marker: large milestone circle or small item pill -->
-							<!-- kern-icon--check (milestone icon) — static scanning hint -->
-							<div class="lp-roadmap__center" aria-hidden="true">
+						<!-- Milestone header row -->
+						<div
+							:class="[
+								'lp-roadmap__milestone-row',
+								phase.status === 'done' && 'lp-roadmap__milestone-row--clickable',
+							]"
+							:role="phase.status === 'done' ? 'button' : 'listitem'"
+							:tabindex="phase.status === 'done' ? 0 : -1"
+							@click="togglePhase(phase)"
+							@keydown.enter="togglePhase(phase)"
+							@keydown.space.prevent="togglePhase(phase)"
+						>
+							<div class="lp-roadmap__milestone-label">
+								<RoadmapPhaseLabel
+									:label="phase.label"
+									:sublabel="phase.sublabel"
+									:status="phase.status"
+								/>
+							</div>
+							<div class="lp-roadmap__milestone-marker" aria-hidden="true">
 								<div
-									v-if="ii === 0"
 									:class="[
 										'lp-roadmap__milestone',
 										`lp-roadmap__milestone--${phase.status}`,
@@ -66,25 +79,6 @@
 										aria-hidden="true"
 									/>
 								</div>
-								<div
-									v-else
-									:class="[
-										'lp-roadmap__dot',
-										`lp-roadmap__dot--${phase.status}`,
-									]"
-								/>
-							</div>
-
-							<!-- Right cell: right-side card (milestone + even sub-items) -->
-							<div class="lp-roadmap__cell lp-roadmap__cell--right">
-								<RoadmapCard
-									v-if="ii % 2 === 0"
-									:title="item.title"
-									:body="item.body"
-									:accent-icon="item.accentIcon ?? phase.accentIcon"
-									:status="phase.status"
-									side="right"
-								/>
 							</div>
 						</div>
 					</div>
@@ -95,10 +89,29 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import RoadmapCard from './RoadmapCard.vue'
 import { phases } from './roadmapData'
 import RoadmapPhaseLabel from './RoadmapPhaseLabel.vue'
 import TheBadge from './TheBadge.vue'
+
+const collapsedPhases = ref<Set<string>>(new Set(
+	phases.filter(phase => phase.status === 'done').map(phase => phase.label)
+))
+
+function togglePhase(phase: typeof phases[0]) {
+	if (phase.status === 'done') {
+		if (collapsedPhases.value.has(phase.label)) {
+			collapsedPhases.value.delete(phase.label)
+		} else {
+			collapsedPhases.value.add(phase.label)
+		}
+	}
+}
+
+function isPhaseCollapsed(phase: typeof phases[0]): boolean {
+	return collapsedPhases.value.has(phase.label)
+}
 </script>
 
 <style scoped>
@@ -169,7 +182,8 @@ import TheBadge from './TheBadge.vue'
 	z-index: 1;
 }
 
-.lp-roadmap__phase--done::after {
+/* Done phase connector: gradient (to progress) or solid (to done) */
+.lp-roadmap__phase--done.lp-roadmap__phase--next-different::after {
 	background: linear-gradient(
 		to bottom,
 		var(--polar-blue-600),
@@ -177,7 +191,12 @@ import TheBadge from './TheBadge.vue'
 	);
 }
 
-.lp-roadmap__phase--progress::after {
+.lp-roadmap__phase--done.lp-roadmap__phase--next-same::after {
+	background: var(--polar-blue-600);
+}
+
+/* Progress phase connector: gradient (to planned) or solid (to progress) */
+.lp-roadmap__phase--progress.lp-roadmap__phase--next-different::after {
 	background: linear-gradient(
 		to bottom,
 		var(--polar-green-500),
@@ -185,20 +204,47 @@ import TheBadge from './TheBadge.vue'
 	);
 }
 
-/* ── Row: 3-column grid (left | center | right) ────────── */
-.lp-roadmap__row {
+.lp-roadmap__phase--progress.lp-roadmap__phase--next-same::after {
+	background: var(--polar-green-500);
+}
+
+/* ── Cards container: stacked above milestone on the right ──── */
+.lp-roadmap__cards {
 	display: grid;
 	grid-template-columns: 1fr 4rem 1fr;
-	align-items: center;
+	gap: 1.5rem;
 	margin-bottom: 1.5rem;
 }
 
-.lp-roadmap__cell {
+.lp-roadmap__card-item {
+	grid-column: 3;
+	display: flex;
+	justify-content: flex-start;
+	padding: 0 0.875rem;
+	width: 100%;
+}
+
+/* ── Milestone row: phase label + milestone marker (below cards) ────── */
+.lp-roadmap__milestone-row {
+	display: grid;
+	grid-template-columns: 1fr 4rem 1fr;
+	align-items: center;
+	margin-bottom: 3rem;
+	margin-top: 1rem;
+}
+
+.lp-roadmap__milestone-row--clickable {
+	cursor: pointer;
+	outline: none;
+}
+
+.lp-roadmap__milestone-label {
+	grid-column: 1;
 	padding: 0 0.875rem;
 }
 
-/* ── Center column wrapper ─────────────────────────────── */
-.lp-roadmap__center {
+.lp-roadmap__milestone-marker {
+	grid-column: 2;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -292,42 +338,60 @@ import TheBadge from './TheBadge.vue'
 
 /* ── Responsive ────────────────────────────────────────── */
 @media (max-width: 640px) {
+	.lp-roadmap-section__body {
+		padding: 2.5rem 0 5rem;
+	}
+
+	.lp-roadmap {
+		padding: 0 1rem;
+	}
+
 	.lp-roadmap__phase::before {
 		left: 1.25rem;
 		transform: none;
 	}
 
-	.lp-roadmap__row {
-		grid-template-columns: 2.5rem 1fr;
+	.lp-roadmap__phase::after {
+		left: 1.25rem;
+		transform: none;
 	}
 
-	.lp-roadmap__center {
+	.lp-roadmap__milestone-row {
+		grid-template-columns: 2.5rem 1fr;
+		margin-bottom: 2rem;
+		margin-top: 0.5rem;
+	}
+
+	.lp-roadmap__milestone-marker {
 		grid-column: 1;
 		grid-row: 1;
 	}
 
-	/* RIGHT rows: hide left cell (phase label), show right card in col 2 */
-	.lp-roadmap__row--right .lp-roadmap__cell--left {
-		display: none;
-	}
-
-	.lp-roadmap__row--right .lp-roadmap__cell--right {
+	.lp-roadmap__milestone-label {
 		grid-column: 2;
-		grid-row: 1;
 		padding-left: 0.75rem;
-		padding-right: 0;
 	}
 
-	/* LEFT rows: show left card in col 2, hide empty right cell */
-	.lp-roadmap__row--left .lp-roadmap__cell--left {
+	.lp-roadmap__cards {
+		grid-template-columns: 2.5rem 1fr;
+		gap: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.lp-roadmap__card-item {
 		grid-column: 2;
-		grid-row: 1;
-		padding-left: 0.75rem;
-		padding-right: 0;
+		padding: 0 0.5rem;
+		width: 100%;
+	}
+}
+
+@media (max-width: 480px) {
+	.lp-roadmap__cards {
+		gap: 0.875rem;
 	}
 
-	.lp-roadmap__row--left .lp-roadmap__cell--right {
-		display: none;
+	.lp-roadmap__card-item {
+		padding: 0 0.25rem;
 	}
 }
 </style>

@@ -174,6 +174,11 @@ h3 {
 		font-size: var(--kern-typography-font-size-static-medium);
 		width: 54rem;
 		margin: 0 auto;
+
+		@media (max-width: 768px) {
+			width: 100%;
+			padding: 0 1rem;
+		}
 	}
 }
 .lp-section-header--left {

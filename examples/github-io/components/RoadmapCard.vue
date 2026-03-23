@@ -1,6 +1,6 @@
 <template>
 	<!-- Icon names used dynamically below — listed here for kern-extra-icons static scanning: -->
-	<!-- kern-icon--check kern-icon--location-on kern-icon--palette kern-icon--rocket-launch -->
+	<!-- kern-icon--check kern-icon--location-on kern-icon--palette kern-icon--rocket-launch kern-icon--settings kern-icon--build kern-icon--orbit kern-icon--extension kern-icon--looks kern-icon--museum kern-icon--alt-route kern-icon--map kern-icon--accessibility -->
 	<div
 		:class="[
 			'lp-roadmap__card',
@@ -38,13 +38,18 @@
 <script setup lang="ts">
 import type { PhaseStatus } from './roadmapData'
 
-defineProps<{
-	title: string
-	body: string
-	accentIcon: string
-	status: PhaseStatus
-	side: 'left' | 'right'
-}>()
+withDefaults(
+	defineProps<{
+		title: string
+		body: string
+		accentIcon: string
+		status: PhaseStatus
+		side?: 'left' | 'right'
+	}>(),
+	{
+		side: 'right',
+	}
+)
 </script>
 
 <style scoped>
@@ -61,7 +66,8 @@ defineProps<{
 		0px 4px 8px rgba(23, 26, 43, 0.06),
 		0px 10px 20px rgba(23, 26, 43, 0.06),
 		0px 20px 32px rgba(23, 26, 43, 0.04);
-	min-height: 80px;
+	height: 100px;
+	width: 100%;
 }
 
 /* ── Card accent bar (on the inner/center-facing side) ──── */
@@ -138,6 +144,11 @@ defineProps<{
 	color: var(--kern-color-layout-text-muted);
 	margin: 0;
 	line-height: 1.5;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
 }
 
 .lp-roadmap__card--planned .lp-roadmap__card-title,
@@ -147,5 +158,29 @@ defineProps<{
 
 .lp-roadmap__card--left .lp-roadmap__card-content {
 	text-align: right;
+}
+
+@media (max-width: 640px) {
+	.lp-roadmap__card {
+		height: auto;
+		min-height: 80px;
+		padding: 0.75rem;
+		gap: 0.625rem;
+	}
+
+	.lp-roadmap__card-accent {
+		width: 44px;
+		height: 68px;
+		min-width: 44px;
+	}
+
+	.lp-roadmap__card-title {
+		font-size: 0.875rem;
+	}
+
+	.lp-roadmap__card-body {
+		font-size: 0.75rem;
+		-webkit-line-clamp: 3;
+	}
 }
 </style>
