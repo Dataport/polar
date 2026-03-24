@@ -1,7 +1,7 @@
 import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { markRaw, reactive } from 'vue'
+import { computed, markRaw, reactive } from 'vue'
 
 import type {
 	PluginContainer,
@@ -17,6 +17,8 @@ import { useMainStore } from './main'
 export const usePluginStore = defineStore('plugin', () => {
 	const plugins = reactive<PluginContainer[]>([])
 	const mainStore = useMainStore()
+
+	const activePluginIds = computed(() => plugins.map((plugin) => plugin.id))
 
 	function addPlugin(plugin: PluginContainer) {
 		const { id, locales, options, storeModule } = plugin
@@ -81,6 +83,7 @@ export const usePluginStore = defineStore('plugin', () => {
 
 	return {
 		plugins,
+		activePluginIds,
 		addPlugin,
 		removePlugin,
 		getPluginStore,
