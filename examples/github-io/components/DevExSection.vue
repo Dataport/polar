@@ -142,17 +142,34 @@ const copyCode = async () => {
 </script>
 
 <style scoped>
+@media (max-width: 1275px) {
+	section {
+		flex-direction: column;
+		align-items: center;
+		padding: 2rem 2rem;
+		gap: var(--kern-metric-space-x-large);
+
+		.lp-section-header p {
+			width: 100%;
+		}
+
+		.lp-code-wrap {
+			width: 100%;
+		}
+	}
+}
+
 section {
 	display: flex;
 	justify-content: space-between;
-	padding: 2rem 10rem;
+	padding: 2rem clamp(2rem, 5vw, 10rem);
 	background: var(--kern-color-layout-background-hued);
 
 	.lp-section-header {
 		margin-bottom: var(--kern-metric-space-x-large);
 
 		p {
-			width: 34rem;
+			max-width: 34rem;
 			color: var(--kern-color-layout-text-muted);
 		}
 
@@ -186,7 +203,7 @@ section {
 	.lp-code-wrap {
 		display: flex;
 		flex-direction: column;
-		width: 43rem;
+		max-width: 43rem;
 		height: 27.5rem;
 		padding: var(--kern-metric-space-default);
 		background: #000;
