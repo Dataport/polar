@@ -1,58 +1,57 @@
 <template>
 	<section class="lp-section">
-		<div class="lp-container lp-devex-flex">
-			<div>
-				<div class="lp-section-header lp-section-header--left">
-					<TheBadge color="blue">Developer Experience</TheBadge>
-					<h3>Code so easy, your cat could do it!</h3>
-					<p>
-						Get started in minutes with POLAR's intuitive API. Our framework is
-						designed to make complex mapping tasks simple while giving you full
-						control when you need it.
-					</p>
-				</div>
-				<ul class="kern-list" aria-label="Developer experience highlights">
-					<li>
-						<span
-							class="kern-icon kern-icon-fill--check-circle"
-							aria-hidden="true"
-						/>
-						Regular updates and improvements
-					</li>
-					<li>
-						<span
-							class="kern-icon kern-icon-fill--check-circle"
-							aria-hidden="true"
-						/>
-						Configurable solutions
-					</li>
-					<li>
-						<span
-							class="kern-icon kern-icon-fill--check-circle"
-							aria-hidden="true"
-						/>
-						Built upon
-						<a class="kern-link" href="https://www.ogc.org/" target="_blank">
-							Open Geospatial Consortium Guidelines
-						</a>
-					</li>
-					<li>
-						<span
-							class="kern-icon kern-icon-fill--check-circle"
-							aria-hidden="true"
-						/>
-						Comprehensive documentation and examples
-					</li>
-					<li>
-						<span
-							class="kern-icon kern-icon-fill--check-circle"
-							aria-hidden="true"
-						/>
-						Tried & Tested with 70+ productive uses
-					</li>
-				</ul>
+		<div>
+			<div class="lp-section-header lp-section-header--left">
+				<TheBadge color="blue">Developer Experience</TheBadge>
+				<h3>Code so easy, your cat could do it!</h3>
+				<p>
+					Get started in minutes with POLAR's intuitive API. Our framework is
+					designed to make complex mapping tasks simple while giving you full
+					control when you need it.
+				</p>
 			</div>
-			<div class="lp-code-wrap">
+			<ul class="kern-list" aria-label="Developer experience highlights">
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
+					Regular updates and improvements
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
+					Configurable solutions
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
+					Built upon
+					<a class="kern-link" href="https://www.ogc.org/" target="_blank">
+						Open Geospatial Consortium Guidelines
+					</a>
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
+					Comprehensive documentation and examples
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
+					Tried & Tested with 50+ productive uses
+				</li>
+			</ul>
+		</div>
+		<div class="lp-code-wrap">
 			<div class="code-tablist-wrapper">
 				<div role="tablist">
 					<button

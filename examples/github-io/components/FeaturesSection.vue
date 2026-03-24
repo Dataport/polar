@@ -1,15 +1,13 @@
 <template>
 	<section class="lp-section lp-section--alt">
 		<img :src="featuresBgSvg" alt="" />
-		<div class="lp-container">
-			<div class="lp-section-header">
-				<TheBadge color="green">Features</TheBadge>
-				<h3>Everything you need for modern mapping</h3>
-				<p>
-					POLAR combines cutting-edge technology with ease of use, giving you the
-					tools to create exceptional map-based applications.
-				</p>
-			</div>
+		<div class="lp-section-header">
+			<TheBadge color="green">Features</TheBadge>
+			<h3>Everything you need for modern mapping</h3>
+			<p>
+				POLAR combines cutting-edge technology with ease of use, giving you the
+				tools to create exceptional map-based applications.
+			</p>
 		</div>
 	</section>
 </template>
