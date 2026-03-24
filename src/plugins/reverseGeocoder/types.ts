@@ -12,6 +12,11 @@ export const PluginId = 'reverseGeocoder'
  */
 export interface ReverseGeocoderPluginOptions extends PluginOptions {
 	/**
+	 * Type of reverse geocoding service.
+	 */
+	type: 'wps' | 'nominatim'
+
+	/**
 	 * URL of a WPS service to use for reverse geocoding.
 	 */
 	url: string

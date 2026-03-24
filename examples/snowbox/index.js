@@ -286,6 +286,157 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 
 addPlugin(
 	map,
+	pluginToast({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_MIDDLE',
+	})
+)
+
+setTimeout(() => {
+	removePlugin(map, 'toast')
+}, 3000)
+
+setTimeout(() => {
+	addPlugin(
+		map,
+		pluginToast({
+			displayComponent: true,
+			layoutTag: 'BOTTOM_MIDDLE',
+		})
+	)
+	const toastStore = getStore(map, 'toast')
+	toastStore.addToast({
+		text: 'Sechs Sekunden',
+		severity: 'info',
+	})
+}, 6000)
+
+addPlugin(
+	map,
+	pluginLoadingIndicator({
+		loaderStyle: 'BasicLoader',
+	})
+)
+addPlugin(
+	map,
+	pluginAddressSearch({
+		searchMethods: [
+			/*
+			{
+				queryParameters: {
+					searchStreets: true,
+					searchHouseNumbers: true,
+				},
+				type: 'mpapi',
+				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+			},
+			*/
+			{
+				type: 'nominatim',
+				url: 'https://polar.dataport.de/nominatim/search',
+				queryParameters: {},
+			},
+		],
+		minLength: 3,
+		waitMs: 300,
+		focusAfterSearch: true,
+		groupProperties: {
+			defaultGroup: {
+				limitResults: 5,
+			},
+		},
+	})
+)
+addPlugin(
+	map,
+	pluginPins({
+		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+		boundary: {
+			layerId: hamburgBorder,
+		},
+		movable: 'drag',
+		style: {
+			fill: '#FF0019',
+		},
+		toZoomLevel: 7,
+	})
+)
+addPlugin(
+	map,
+	pluginReverseGeocoder({
+		// type: 'wps',
+		// url: 'https://geodienste.hamburg.de/HH_WPS',
+		type: 'nominatim',
+		url: 'https://polar.dataport.de/nominatim/reverse',
+		coordinateSources: [
+			{
+				plugin: 'pins',
+				key: 'coordinate',
+			},
+		],
+		addressTarget: {
+			plugin: 'addressSearch',
+			key: 'selectResult',
+		},
+		zoomTo: 7,
+	})
+)
+addPlugin(
+	map,
+	pluginIconMenu({
+		displayComponent: true,
+		layoutTag: 'TOP_RIGHT',
+		initiallyOpen: 'layerChooser',
+		focusMenus: [
+			{
+				plugin: {
+					component: YetAnotherEmptyComponent,
+					id: 'other',
+					locales: [],
+				},
+				icon: 'kern-icon--near-me',
+			},
+		],
+		menus: [
+			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
+			[
+				{
+					plugin: pluginFullscreen({}),
+				},
+				{
+					plugin: pluginLayerChooser({}),
+				},
+			],
+			[
+				{
+					plugin: {
+						component: EmptyComponent,
+						id: 'realKewl',
+						locales: [],
+					},
+					icon: 'kern-icon-fill--share',
+				},
+			],
+			[
+				{
+					plugin: pluginGeoLocation({
+						checkLocationInitially: false,
+						keepCentered: true,
+						showTooltip: true,
+						zoomLevel: 7,
+						// usable when you're in HH or fake your geolocation to HH
+						/* boundary: {
+							layerId: hamburgBorder,
+							onError: 'strict',
+						}, */
+					}),
+				},
+			],
+		],
+	})
+)
+addPlugin(
+	map,
 	pluginFooter({
 		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
 		rightEntries: [
