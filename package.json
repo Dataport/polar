@@ -57,7 +57,7 @@
 		"tsc": "tsc && vue-tsc -p src && vue-tsc -p examples/iceberg",
 		"tsc:ci": "tsc && vue-tsc -p src && vue-tsc -p examples/iceberg",
 		"docs:ci": "npm run docs:showcase:ci && npm run docs:docs:ci && npm run docs:api:ci && npm run docs:api:core:ci && npm run docs:api:plugin:ci",
-		"docs:showcase:ci": "mkdir -p docs-html && cp -r examples/github-io/* docs-html/",
+		"docs:showcase:ci": "mkdir -p docs-html && npm run build:ci && vite build -c vite.config.github-io.ts && cp -r .dist.github-io/* docs-html/",
 		"docs:docs": "mkdocs serve",
 		"docs:docs:ci": "mkdocs build",
 		"docs:api": "node scripts/typedoc-install-vue-tsc.ts && typedoc --watch",

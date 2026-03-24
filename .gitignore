@@ -5,6 +5,7 @@ git-hooks.config.json
 
 /docs-html
 .dist.preview
+.dist.github-io
 .vscode/settings.json
 
 # Old gitignore, maybe cleanup when migrated
