@@ -1,7 +1,7 @@
 import { Feature } from 'ol'
 import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, shallowRef } from 'vue'
 
 import type { CallOnMapSelect } from '../types'
 
@@ -20,8 +20,8 @@ export const useMarkerStore = defineStore('marker', () => {
 		() => (configuration.value?.clusterClickZoom as boolean) || false
 	)
 
-	const hovered = ref<Feature | null>(null)
-	const selected = ref<Feature | null>(null)
+	const hovered = shallowRef<Feature | null>(null)
+	const selected = shallowRef<Feature | null>(null)
 	const selectedCoordinates = computed(() =>
 		selected.value === null
 			? null
