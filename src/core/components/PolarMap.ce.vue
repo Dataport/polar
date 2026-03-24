@@ -156,7 +156,7 @@ function updateListeners() {
 			if (
 				overlay.value &&
 				e.maxPointers === 1 &&
-				mainStore.map
+				!mainStore.map
 					.getInteractions()
 					.getArray()
 					.some((interaction) => interaction.get('_isPolarDragLikeInteraction'))
