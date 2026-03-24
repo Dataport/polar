@@ -152,6 +152,7 @@ function updateListeners() {
 }
 
 watch(hasWindowSize, updateListeners)
+watch(hasSmallDisplay, updateListeners)
 </script>
 
 <!-- eslint-disable-next-line vue/enforce-style-attribute -->
