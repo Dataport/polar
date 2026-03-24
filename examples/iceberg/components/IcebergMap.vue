@@ -31,6 +31,7 @@ import type { PolarContainer } from '@polar/polar'
 import { addPlugins, getStore, subscribe } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
+import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
@@ -57,6 +58,39 @@ watch(map, (map) => {
 			displayComponent: true,
 			layoutTag: 'TOP_RIGHT',
 			menus: [
+				[
+					{
+						plugin: pluginFilter({
+							layers: {
+								6059: {
+									categories: [
+										{
+											targetProperty: 'statu',
+											knownValues: [
+												{
+													key: 'todo',
+													values: ['In Bearbeitung'],
+													icon: 'kern-icon--assignment',
+												},
+												{
+													key: 'done',
+													values: ['abgeschlossen'],
+													icon: 'kern-icon--check',
+												},
+											],
+										},
+									],
+									time: {
+										targetProperty: 'start',
+										freeSelection: 'until',
+										last: [7],
+										pattern: 'YYYYMMDD',
+									},
+								},
+							},
+						}),
+					},
+				],
 				[
 					{
 						plugin: pluginLayerChooser({}),

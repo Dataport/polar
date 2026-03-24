@@ -2,6 +2,7 @@ import type { VueElement } from 'vue'
 
 import type { AddressSearchPluginOptions } from '@/plugins/addressSearch'
 import type { AttributionsPluginOptions } from '@/plugins/attributions'
+import type { FilterPluginOptions } from '@/plugins/filter'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
@@ -300,6 +301,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	 * The default is to use KERN's standard theme.
 	 */
 	theme?: PolarTheme
+
 	// Plugins are not sorted alphabetical, but listed last.
 	// Remember to sort them alphabetical inside their space.
 	// TODO: Generate this section via types/plugin.ts
@@ -310,6 +312,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** Configuration for attributions plugin. */
 	attributions?: AttributionsPluginOptions
+
+	/** Configuration for filter plugin. */
+	filter?: FilterPluginOptions
 
 	/** Configuration for footer plugin. */
 	footer?: FooterPluginOptions
