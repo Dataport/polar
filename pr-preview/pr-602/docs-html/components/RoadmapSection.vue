@@ -22,16 +22,14 @@
 						:class="[
 							'lp-roadmap__phase',
 							`lp-roadmap__phase--${phase.status}`,
-							index < phases.length - 1 && phases[index + 1].status === phase.status
+							index < phases.length - 1 &&
+							phases[index + 1].status === phase.status
 								? 'lp-roadmap__phase--next-same'
 								: 'lp-roadmap__phase--next-different',
 						]"
 					>
 						<!-- Cards stacked above -->
-						<div
-							v-show="!isPhaseCollapsed(phase)"
-							class="lp-roadmap__cards"
-						>
+						<div v-show="!isPhaseCollapsed(phase)" class="lp-roadmap__cards">
 							<div
 								v-for="item in phase.items"
 								:key="item.title"
@@ -51,7 +49,8 @@
 						<div
 							:class="[
 								'lp-roadmap__milestone-row',
-								phase.status === 'done' && 'lp-roadmap__milestone-row--clickable',
+								phase.status === 'done' &&
+									'lp-roadmap__milestone-row--clickable',
 							]"
 							:role="phase.status === 'done' ? 'button' : 'listitem'"
 							:tabindex="phase.status === 'done' ? 0 : -1"
@@ -90,16 +89,21 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import RoadmapCard from './RoadmapCard.vue'
 import { phases } from './roadmapData'
 import RoadmapPhaseLabel from './RoadmapPhaseLabel.vue'
 import TheBadge from './TheBadge.vue'
 
-const collapsedPhases = ref<Set<string>>(new Set(
-	phases.filter(phase => phase.status === 'done').map(phase => phase.label)
-))
+const collapsedPhases = ref<Set<string>>(
+	new Set(
+		phases
+			.filter((phase) => phase.status === 'done')
+			.map((phase) => phase.label)
+	)
+)
 
-function togglePhase(phase: typeof phases[0]) {
+function togglePhase(phase: (typeof phases)[0]) {
 	if (phase.status === 'done') {
 		if (collapsedPhases.value.has(phase.label)) {
 			collapsedPhases.value.delete(phase.label)
@@ -109,7 +113,7 @@ function togglePhase(phase: typeof phases[0]) {
 	}
 }
 
-function isPhaseCollapsed(phase: typeof phases[0]): boolean {
+function isPhaseCollapsed(phase: (typeof phases)[0]): boolean {
 	return collapsedPhases.value.has(phase.label)
 }
 </script>

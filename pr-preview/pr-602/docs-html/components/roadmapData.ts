@@ -64,7 +64,7 @@ export const phases: Phase[] = [
 			},
 		],
 	},
-		{
+	{
 		status: 'progress',
 		label: 'Q2 · 2025',
 		sublabel: 'In Progress',
@@ -104,7 +104,7 @@ export const phases: Phase[] = [
 				title: 'E2E Testing & CI/CD',
 				body: 'Enhance end-to-end testing and continuous integration/continuous deployment pipelines.',
 				accentIcon: 'build',
-			}
+			},
 		],
 	},
 	{
