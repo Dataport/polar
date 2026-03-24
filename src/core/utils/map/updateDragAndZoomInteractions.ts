@@ -18,3 +18,7 @@ export function updateDragAndZoomInteractions(
 		map.addInteraction(interaction)
 	}
 }
+
+export function teardownInteractions() {
+	interactions = []
+}

@@ -8,6 +8,9 @@ import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 
+import { teardownMarkers } from '@/core/utils/map/setupMarkers.ts'
+import { teardownInteractions } from '@/core/utils/map/updateDragAndZoomInteractions.ts'
+
 import type {
 	ColorScheme,
 	MapConfigurationIncludingDefaults,
@@ -104,6 +107,10 @@ export const useMainStore = defineStore('main', () => {
 
 	function teardown() {
 		removeEventListener('resize', updateHasSmallDisplay)
+		teardownInteractions()
+		if (configuration.value.markers) {
+			teardownMarkers(map.value)
+		}
 	}
 
 	return {

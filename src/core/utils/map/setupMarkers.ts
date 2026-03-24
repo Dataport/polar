@@ -19,6 +19,8 @@ import type { MarkerLayer, MarkerStyle, PluginId } from '../../types'
 import { useMainStore } from '../../stores/main'
 import { getMarkerStyle } from '../../utils/markers'
 
+let stopWatcher: (() => void) | null = null
+
 // these have been measured to fit once and influence marker size
 const imgSize: [number, number] = [26, 36]
 const imgSizeMulti: [number, number] = [40, 36]
@@ -128,7 +130,7 @@ export function updateSelection(
 	store.selected = markRaw(selectedCluster)
 	if (centerOnFeature) {
 		const mainStore = useMainStore()
-		mainStore.centerOnFeature(store.selected as Feature)
+		mainStore.centerOnFeature(store.selected)
 	}
 }
 
@@ -212,7 +214,7 @@ export function setupMarkers(map: Map) {
 
 	// // // STORE EVENT HANDLING
 
-	watch(
+	stopWatcher = watch(
 		() => store.hovered,
 		(feature, oldFeature) => {
 			if (oldFeature !== null && oldFeature !== toRaw(store.selected)) {
@@ -240,6 +242,19 @@ export function setupMarkers(map: Map) {
 	 * to not let other plugins pick it up, something was already done with it
 	 */
 	map.on('singleclick', mapSingleClick)
+}
+
+export function teardownMarkers(map: Map) {
+	stopWatcher?.()
+	stopWatcher = null
+	layers = []
+	lastClickEvent = null
+
+	map.un('moveend', mapMoveEnd)
+	map.un('pointermove', mapPointerMove)
+	map.un('click', mapClick)
+
+	map.un('singleclick', mapSingleClick)
 }
 
 // // // MAP EVENT HANDLING

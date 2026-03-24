@@ -250,6 +250,7 @@ const map = await createMap(
 	services
 )
 
+const additionalMaps = []
 document.getElementById('secondMap').addEventListener('click', async () => {
 	const secondMap = createMapElement(
 		{
@@ -273,9 +274,14 @@ document.getElementById('secondMap').addEventListener('click', async () => {
 			layoutTag: 'TOP_RIGHT',
 		})
 	)
+	additionalMaps.push(secondMap)
 })
 document.getElementById('secondMapClean').addEventListener('click', () => {
-	document.getElementById('secondMapContainer').innerText = ''
+	additionalMaps.forEach((map, i) => {
+		map.remove()
+		delete additionalMaps[i]
+	})
+	additionalMaps.length = 0
 })
 
 addPlugin(
