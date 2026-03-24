@@ -174,8 +174,8 @@ import polarLogoSvg from './assets/polar-logo.svg'
 }
 .lp-header__github-icon {
 	flex-shrink: 0;
+	width: 2.0625rem;
 	height: 2rem;
-	aspect-ratio: 33/32;
 }
 .lp-header__github:hover {
 	background: rgba(255, 255, 255, 0.62);
