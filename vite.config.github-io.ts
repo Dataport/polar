@@ -23,6 +23,7 @@ export default defineConfig({
 		outDir: resolve(__dirname, 'examples', 'github-io', 'dist'),
 		emptyOutDir: true,
 		rollupOptions: {
+			external: ['@polar/polar', '@polar/polar/client', '@polar/polar/store'],
 			input: resolve(__dirname, 'examples', 'github-io', 'index.html'),
 			output: {
 				entryFileNames: '[name].js',
