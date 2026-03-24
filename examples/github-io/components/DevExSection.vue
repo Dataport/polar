@@ -94,7 +94,6 @@
 			/>
 			<!-- eslint-enable vue/no-v-html -->
 		</div>
-		</div>
 	</section>
 </template>
 
@@ -144,188 +143,139 @@ const copyCode = async () => {
 
 <style scoped>
 section {
+	display: flex;
+	justify-content: space-between;
+	padding: 2rem 10rem;
 	background: var(--kern-color-layout-background-hued);
-}
 
-.lp-devex-flex {
-	display: flex;
-	justify-content: space-between;
-	gap: 2rem;
-}
+	.lp-section-header {
+		margin-bottom: var(--kern-metric-space-x-large);
 
-.lp-section-header {
-	margin-bottom: var(--kern-metric-space-x-large);
-
-	p {
-		width: 34rem;
-		color: var(--kern-color-layout-text-muted);
-	}
-
-	h3 {
-		margin: var(--kern-metric-space-default) 0;
-	}
-}
-
-.kern-list {
-	padding: 0;
-	margin-bottom: var(--kern-metric-space-x-large);
-
-	li {
-		display: flex;
-		gap: var(--kern-metric-space-small);
-		color: var(--kern-color-layout-text-muted);
-
-		.kern-icon-fill--check-circle {
-			background: var(--polar-blue-500);
+		p {
+			width: 34rem;
+			color: var(--kern-color-layout-text-muted);
 		}
 
-		.kern-link {
-			padding: 0;
+		h3 {
+			margin: var(--kern-metric-space-default) 0;
 		}
 	}
 
-	li:not(:last-child) {
-		margin-bottom: var(--kern-metric-space-small);
-	}
-}
+	.kern-list {
+		padding: 0;
 
-.lp-code-wrap {
-	display: flex;
-	flex-direction: column;
-	width: 43rem;
-	height: 27.5rem;
-	padding: var(--kern-metric-space-default);
-	background: #000;
-	border-radius: var(--kern-metric-border-radius-large);
-	box-shadow:
-		0 112px 31px 0 rgba(0, 0, 0, 0),
-		0 72px 29px 0 rgba(0, 0, 0, 0.01),
-		0 40px 24px 0 rgba(0, 0, 0, 0.03),
-		0 18px 18px 0 rgba(0, 0, 0, 0.06),
-		0 4px 10px 0 rgba(0, 0, 0, 0.07);
-}
+		li {
+			display: flex;
+			gap: var(--kern-metric-space-small);
+			color: var(--kern-color-layout-text-muted);
 
-.code-tablist-wrapper {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: var(--kern-metric-space-default);
-	flex-wrap: nowrap;
-	margin-bottom: var(--kern-metric-space-x-large);
-}
+			.kern-icon-fill--check-circle {
+				background: var(--polar-blue-500);
+			}
 
-.code-tablist-wrapper [role="tablist"] {
-	display: flex;
-	gap: var(--kern-metric-space-default);
-	flex-wrap: nowrap;
-}
+			.kern-link {
+				padding: 0;
+			}
+		}
 
-.kern-btn {
-	font-size: var(--kern-typography-font-size-static-medium,);
-	font-weight: var(--kern-typography-font-weight-medium);
-	white-space: nowrap;
-}
-
-.kern-btn:focus {
-	box-shadow: none;
-}
-
-.kern-btn--primary {
-	background: oklch(
-		var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
-			var(--kern-darkblue-300-hue)
-	);
-}
-
-.kern-btn--primary .kern-label {
-	color: #000;
-}
-
-.kern-btn--tertiary .kern-label {
-	text-decoration: none;
-	color: oklch(
-		var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
-			var(--kern-darkblue-300-hue)
-	);
-}
-
-.copy-btn {
-	/* Stops the jiggle */
-	width: 8rem;
-	flex-shrink: 0;
-}
-
-.copy-btn .kern-icon {
-	background: oklch(
-		var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
-			var(--kern-darkblue-300-hue)
-	);
-}
-
-.copy-btn .kern-label {
-	color: oklch(
-		var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
-			var(--kern-darkblue-300-hue)
-	);
-}
-
-.lp-code-pre {
-	flex: 1;
-	margin: 0;
-	font-family: 'Fira Code', monospace;
-	font-size: var(--kern-typography-font-size-static-medium);
-	font-style: normal;
-	font-weight: var(--kern-typography-font-weight-semi-bold);
-	line-height: var(--kern-typography-line-height-static-large);
-	letter-spacing: 0;
-	overflow: auto;
-	color: var(--polar-grey-300);
-	white-space: pre;
-}
-
-@media (max-width: 1200px) {
-	.lp-devex-flex {
-		flex-direction: column;
-	}
-
-	.lp-section-header p {
-		width: 100%;
+		li:not(:last-child) {
+			margin-bottom: var(--kern-metric-space-small);
+		}
 	}
 
 	.lp-code-wrap {
-		width: 100%;
-		height: auto;
-		min-height: 20rem;
-	}
+		display: flex;
+		flex-direction: column;
+		width: 43rem;
+		height: 27.5rem;
+		padding: var(--kern-metric-space-default);
+		background: #000;
+		border-radius: var(--kern-metric-border-radius-large);
+		box-shadow:
+			0 112px 31px 0 rgba(0, 0, 0, 0),
+			0 72px 29px 0 rgba(0, 0, 0, 0.01),
+			0 40px 24px 0 rgba(0, 0, 0, 0.03),
+			0 18px 18px 0 rgba(0, 0, 0, 0.06),
+			0 4px 10px 0 rgba(0, 0, 0, 0.07);
 
-	.code-tablist-wrapper {
-		flex-wrap: wrap;
-		gap: var(--kern-metric-space-small);
-	}
+		.code-tablist-wrapper {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: var(--kern-metric-space-x-large);
 
-	.code-tablist-wrapper [role="tablist"] {
-		flex: 1 1 auto;
-		min-width: 0;
-	}
+			.kern-btn {
+				font-size: var(--kern-typography-font-size-static-medium,);
+				font-weight: var(--kern-typography-font-weight-medium);
 
-	.copy-btn {
-		width: auto;
-		padding: 0 var(--kern-metric-space-small);
+				&:focus {
+					box-shadow: none;
+				}
+			}
+
+			.kern-btn--primary {
+				.kern-label {
+					color: #000;
+				}
+				background: oklch(
+					var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
+						var(--kern-darkblue-300-hue)
+				);
+			}
+
+			.kern-btn--tertiary {
+				.kern-label {
+					text-decoration: none;
+					color: oklch(
+						var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
+							var(--kern-darkblue-300-hue)
+					);
+				}
+			}
+
+			.copy-btn {
+				/* Stops the jiggle */
+				width: 8rem;
+
+				.kern-icon {
+					background: oklch(
+						var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
+							var(--kern-darkblue-300-hue)
+					);
+				}
+				.kern-label {
+					color: oklch(
+						var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
+							var(--kern-darkblue-300-hue)
+					);
+				}
+			}
+		}
+
+		.lp-code-pre {
+			flex: 1;
+			margin: 0;
+			font-family: 'Fira Code', monospace;
+			font-size: var(--kern-typography-font-size-static-medium);
+			font-style: normal;
+			font-weight: var(--kern-typography-font-weight-semi-bold);
+			line-height: var(--kern-typography-line-height-static-large);
+			letter-spacing: 0;
+			overflow: auto;
+			color: var(--polar-grey-300);
+			white-space: pre;
+		}
 	}
 }
 
 :global(.lp-token-kw) {
 	color: var(--polar-pink-450);
 }
-
 :global(.lp-token-fn) {
 	color: var(--polar-blue-250);
 }
-
 :global(.lp-token-str) {
 	color: var(--polar-green-250);
 }
-
 :global(.lp-token-cm) {
 	color: var(--polar-grey-500);
 }
