@@ -84,7 +84,6 @@ export const useMainStore = defineStore('main', () => {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
 	}
 
-<<<<<<< HEAD
 	function getLayerMapConfiguration(layerId: string) {
 		const polar = configuration.value.layers.find(
 			(layer) => layer.id === layerId
@@ -94,10 +93,10 @@ export const useMainStore = defineStore('main', () => {
 			return null
 		}
 		return { ...register, ...polar } as typeof polar
-=======
+	}
+
 	function getLayer(layerId: string) {
 		return map.value.getAllLayers().find((layer) => layer.get('id') === layerId)
->>>>>>> origin/vue3/migrate-plugin-gfi
 	}
 
 	function setup() {
