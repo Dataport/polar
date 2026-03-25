@@ -53,14 +53,12 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
 
-	const listenersWatchers = usePluginStoreWatcher(
+	usePluginStoreWatcher(
 		() => configuration.value.listenToChanges || [],
 		updateLayers
 	)
 
 	function setupPlugin() {
-		listenersWatchers.setupPlugin()
-
 		const allLayers = coreStore.map.getLayers()
 		allLayers.on('add', updateLayers)
 		allLayers.on('add', updateAttributions)
@@ -79,7 +77,6 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	}
 
 	function teardownPlugin() {
-		listenersWatchers.teardownPlugin()
 		const allLayers = coreStore.map.getLayers()
 		allLayers.un('add', updateLayers)
 		allLayers.un('add', updateAttributions)

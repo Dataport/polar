@@ -38,7 +38,7 @@ export const useReverseGeocoderStore = defineStore(
 			() => coreStore.configuration[PluginId] as ReverseGeocoderPluginOptions
 		)
 
-		const sourceWatchers = usePluginStoreWatcher(
+		usePluginStoreWatcher(
 			() => configuration.value.coordinateSources || [],
 			async (value: unknown) => {
 				const coordinate = value as [number, number] | null
@@ -49,11 +49,9 @@ export const useReverseGeocoderStore = defineStore(
 		)
 
 		function setupPlugin() {
-			sourceWatchers.setupPlugin()
 		}
 
 		function teardownPlugin() {
-			sourceWatchers.teardownPlugin()
 		}
 
 		function passFeatureToTarget(

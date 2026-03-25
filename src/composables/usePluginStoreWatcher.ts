@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { computed, watch, type ComputedRef, type WatchHandle } from 'vue'
+import { computed, onScopeDispose, watch, type ComputedRef, type WatchStopHandle } from 'vue'
 
 import type { StoreReference } from '@/core/types'
 
@@ -16,7 +16,7 @@ import { useCoreStore } from '@/core/stores'
  */
 interface WatcherConfig {
 	callback: (value: unknown) => void | Promise<void>
-	handle: WatchHandle | null
+	handle: WatchStopHandle | null
 	source: StoreReference
 }
 
@@ -62,8 +62,8 @@ export function usePluginStoreWatcher(
 	})
 
 	const watchers: WatcherConfig[] = []
-	let pluginListWatcher: WatchHandle | null = null
-	let sourcesWatcher: WatchHandle | null = null
+	let pluginListWatcher: WatchStopHandle | null = null
+	let sourcesWatcher: WatchStopHandle | null = null
 
 	function setupWatcherForSource(watcherConfig: WatcherConfig) {
 		if (watcherConfig.handle !== null) {
@@ -157,8 +157,6 @@ export function usePluginStoreWatcher(
 		}
 	}
 
-	return {
-		setupPlugin,
-		teardownPlugin,
-	}
+	setupPlugin()
+	onScopeDispose(teardownPlugin)
 }
