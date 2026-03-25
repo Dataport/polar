@@ -106,6 +106,7 @@ onMounted(async () => {
 				toZoomLevel: 7,
 			},
 			reverseGeocoder: {
+				type: 'wps',
 				url: 'https://geodienste.hamburg.de/HH_WPS',
 				coordinateSources: [{ plugin: 'pins', key: 'coordinate' }],
 				addressTarget: { plugin: 'addressSearch', key: 'selectResult' },
