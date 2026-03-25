@@ -28,11 +28,6 @@ export const phases: Phase[] = [
 				body: 'Initial release with OpenLayers integration, plugin system, and i18n support.',
 				accentIcon: 'orbit',
 			},
-			{
-				title: 'Plugin Suite Expanded',
-				body: 'Added address search, reverse geocoder, scale bar, fullscreen toggle, layer chooser, and toast notifications.',
-				accentIcon: 'extension',
-			},
 		],
 	},
 	{
@@ -42,6 +37,11 @@ export const phases: Phase[] = [
 		accentIcon: 'check',
 		milestoneIcon: 'check',
 		items: [
+			{
+				title: 'Plugin Suite Expanded',
+				body: 'Added address search, reverse geocoder, scale bar, fullscreen toggle, layer chooser, and toast notifications.',
+				accentIcon: 'extension',
+			},
 			{
 				title: 'More Geostuff',
 				body: 'Extended GeoJSON handling, cluster visualisation, and improved WMS/WFS layer management.',
