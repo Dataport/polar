@@ -20,7 +20,7 @@
 		</div>
 		<div class="lp-hero__ctas">
 			<a
-				href="https://polar.dataport.de/next/"
+				href="https://polar.dataport.de/main/"
 				target="_blank"
 				rel="noopener"
 				class="kern-btn kern-btn--primary"

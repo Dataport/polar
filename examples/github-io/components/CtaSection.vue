@@ -10,7 +10,7 @@
 			</p>
 			<div class="lp-cta__actions">
 				<a
-					href="https://polar.dataport.de/next/"
+					href="https://polar.dataport.de/main/"
 					target="_blank"
 					rel="noopener"
 					class="kern-btn kern-btn--primary lp-cta__btn--primary"
