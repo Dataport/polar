@@ -122,7 +122,7 @@ onMounted(async () => {
 		[
 			'addressSearch',
 			'fullscreen',
-			'geoLocation',
+			// 'geoLocation', TODO: Removed for FOSSGIS for now
 			'iconMenu',
 			'layerChooser',
 			'loadingIndicator',
