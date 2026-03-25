@@ -1,50 +1,29 @@
 <template>
 	<section class="lp-section lp-section--video" aria-labelledby="video-heading">
 		<div class="lp-container lp-video__container">
-			<span class="lp-pill lp-pill--video" role="note" />
-			<TheBadge color="dark-blue">Hear us talk</TheBadge>
+			<TheBadge color="dark-blue">Media</TheBadge>
 			<h3 id="video-heading" class="lp-video__heading">
-				Our FOSSGIS Adventure.
+				FOSSGIS 2024 (German)
 			</h3>
 			<p class="lp-video__lead">
-				2024 we gave a small talk at FOSSGIS about POLAR...
+				Watch our latest talk for a comprehensive explanation of architecture
+				and configuration.
 			</p>
-			<div ref="videoWrap" class="lp-video-wrap">
-				<template v-if="!videoPlaying">
-					<img
-						:src="mapsPin"
-						alt="POLAR FOSSGIS 2024 talk thumbnail"
-						class="lp-video-thumb"
-					/>
-					<button
-						class="lp-video-play"
-						aria-label="Play FOSSGIS 2024 talk"
-						@click="videoPlaying = true"
-					>
-						<span class="lp-video__play-icon">&#9654;</span>
-					</button>
-				</template>
-				<iframe
-					v-else
-					class="lp-video-iframe"
-					src="https://media.ccc.de/v/fossgis2024-38921-polar-vollkonfigurierbare-pluginbasierte-kartenklienten-fr-brgernahe-anwendungen/oembed"
-					frameborder="0"
-					allowfullscreen
-					title="POLAR - FOSSGIS 2024 talk"
-				/>
-			</div>
+			<iframe
+				class="lp-video-iframe"
+				src="https://media.ccc.de/v/fossgis2024-38921-polar-vollkonfigurierbare-pluginbasierte-kartenklienten-fr-brgernahe-anwendungen/oembed"
+				frameborder="0"
+				allowfullscreen
+				title="POLAR - FOSSGIS 2024 talk"
+				width="1024"
+				height="576"
+			/>
 		</div>
 	</section>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
-import mapsPin from '../../../docs/assets/maps_pin.jpg'
 import TheBadge from './TheBadge.vue'
-
-const videoPlaying = ref(false)
-const videoWrap = ref<HTMLElement | null>(null)
 </script>
 
 <style scoped>
@@ -57,44 +36,13 @@ const videoWrap = ref<HTMLElement | null>(null)
 	aspect-ratio: 16 / 9;
 	background: #000;
 }
-.lp-video-thumb {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
-	filter: brightness(0.7);
-}
-.lp-video-play {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 2rem;
-	color: #fff;
-	background: rgba(0, 0, 0, 0.5);
-	border: none;
-	cursor: pointer;
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
-	transition: background 0.2s;
-}
-.lp-video-play:hover {
-	background: rgba(26, 61, 165, 0.85);
-}
 .lp-video-iframe {
-	width: 100%;
-	height: 100%;
-	display: block;
+	margin: auto;
 }
 .lp-section--video {
 	background-color: #000;
 }
 
-/* ── Section copy ──────────────────────────────────────── */
 .lp-video__container {
 	text-align: center;
 }
@@ -108,9 +56,5 @@ const videoWrap = ref<HTMLElement | null>(null)
 	max-width: 640px;
 	margin: 0.5rem auto 2rem;
 	color: #a5aac3;
-}
-
-.lp-video__play-icon {
-	margin-left: 4px;
 }
 </style>
