@@ -12,7 +12,6 @@
 			<iframe
 				class="lp-video-iframe"
 				src="https://media.ccc.de/v/fossgis2024-38921-polar-vollkonfigurierbare-pluginbasierte-kartenklienten-fr-brgernahe-anwendungen/oembed"
-				frameborder="0"
 				allowfullscreen
 				title="POLAR - FOSSGIS 2024 talk"
 				width="1024"
@@ -38,6 +37,7 @@ import TheBadge from './TheBadge.vue'
 }
 .lp-video-iframe {
 	margin: auto;
+	border: none;
 }
 .lp-section--video {
 	background-color: #000;
