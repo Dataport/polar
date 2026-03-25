@@ -161,7 +161,8 @@ const copyCode = async () => {
 
 section {
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
+	gap: 2rem;
 	padding: 2rem clamp(2rem, 5vw, 10rem);
 	background: var(--kern-color-layout-background-hued);
 
