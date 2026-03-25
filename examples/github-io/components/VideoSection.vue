@@ -9,14 +9,14 @@
 				Watch our latest talk for a comprehensive explanation of architecture
 				and configuration.
 			</p>
-			<iframe
-				class="lp-video-iframe"
-				src="https://media.ccc.de/v/fossgis2024-38921-polar-vollkonfigurierbare-pluginbasierte-kartenklienten-fr-brgernahe-anwendungen/oembed"
-				allowfullscreen
-				title="POLAR - FOSSGIS 2024 talk"
-				width="1024"
-				height="576"
-			/>
+			<div class="video-container">
+				<iframe
+					class="lp-video-iframe"
+					src="https://media.ccc.de/v/fossgis2024-38921-polar-vollkonfigurierbare-pluginbasierte-kartenklienten-fr-brgernahe-anwendungen/oembed"
+					allowfullscreen
+					title="POLAR - FOSSGIS 2024 talk"
+				/>
+			</div>
 		</div>
 	</section>
 </template>
@@ -26,17 +26,16 @@ import TheBadge from './TheBadge.vue'
 </script>
 
 <style scoped>
-.lp-video-wrap {
-	position: relative;
-	max-width: 800px;
-	margin: 0 auto;
+.video-container {
+	max-width: 1024px;
+	margin: auto;
 	border-radius: var(--polar-radius);
-	overflow: hidden;
 	aspect-ratio: 16 / 9;
 	background: #000;
 }
 .lp-video-iframe {
-	margin: auto;
+	width: 100%;
+	height: 100%;
 	border: none;
 }
 .lp-section--video {
