@@ -2,7 +2,7 @@
 	<footer class="lp-footer" role="contentinfo">
 		<div class="lp-container">
 			<p>
-				&copy; 2024&ndash;2026
+				&copy; 2023&ndash;2026
 				<a href="https://www.dataport.de" target="_blank" rel="noopener"
 					>Dataport AöR</a
 				>

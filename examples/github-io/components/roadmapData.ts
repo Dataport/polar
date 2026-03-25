@@ -18,7 +18,7 @@ export interface Phase {
 export const phases: Phase[] = [
 	{
 		status: 'done',
-		label: 'Q4 · 2023',
+		label: '2023',
 		sublabel: 'Completed',
 		accentIcon: 'check',
 		milestoneIcon: 'check',
@@ -37,7 +37,7 @@ export const phases: Phase[] = [
 	},
 	{
 		status: 'done',
-		label: 'Q1 · 2025',
+		label: '2024',
 		sublabel: 'Completed',
 		accentIcon: 'check',
 		milestoneIcon: 'check',
@@ -46,11 +46,6 @@ export const phases: Phase[] = [
 				title: 'More Geostuff',
 				body: 'Extended GeoJSON handling, cluster visualisation, and improved WMS/WFS layer management.',
 				accentIcon: 'map',
-			},
-			{
-				title: 'New Plugin - Routing',
-				body: 'Added routing plugin with support for multiple transport modes and customizable route styling.',
-				accentIcon: 'alt-route',
 			},
 			{
 				title: 'Added Monument Icon Package',
@@ -65,8 +60,22 @@ export const phases: Phase[] = [
 		],
 	},
 	{
+		status: 'done',
+		label: 'Q1 · 2025',
+		sublabel: 'Completed',
+		accentIcon: 'check',
+		milestoneIcon: 'check',
+		items: [
+			{
+				title: 'New Plugin - Routing',
+				body: 'Added routing plugin with support for multiple transport modes and customizable route styling.',
+				accentIcon: 'alt-route',
+			},
+		],
+	},
+	{
 		status: 'progress',
-		label: 'Q2 · 2025',
+		label: 'Q2 · 2026',
 		sublabel: 'In Progress',
 		accentIcon: 'location-on',
 		milestoneIcon: '',
