@@ -1,54 +1,43 @@
 <template>
 	<header class="lp-header" role="banner">
-		<div class="lp-container">
-			<div class="lp-header__bar">
-				<!-- Logo -->
-				<a href="#" class="lp-header__logo" aria-label="POLAR - Home">
-					<img :src="polarLogoSvg" class="lp-header__icon" alt="POLAR" />
-				</a>
-
-				<!-- Centered pill nav -->
-				<nav class="lp-header__nav" aria-label="Main navigation">
-					<div class="lp-header__pill">
-						<a href="#" class="lp-header__link" aria-current="page">
-							<span class="kern-icon kern-icon--home" aria-hidden="true" />
-							Home
-						</a>
-						<!--
+		<a href="#" class="lp-header__logo" aria-label="POLAR - Home">
+			<img :src="polarLogoSvg" class="lp-header__icon" alt="POLAR" />
+		</a>
+		<nav class="lp-header__nav">
+			<a href="#" class="lp-header__link" aria-current="page">
+				<span class="kern-icon kern-icon--home" aria-hidden="true" />
+				Home
+			</a>
+			<!--
 						<a href="./docs/" class="lp-header__link">
 							<span class="kern-icon kern-icon--school" aria-hidden="true" />
 							Learn
 						</a>
 						-->
-						<a href="./docs/" class="lp-header__link">
-							<span class="kern-icon kern-icon--book-5" aria-hidden="true" />
-							Docs
-						</a>
-					</div>
-				</nav>
-
-				<!-- GitHub CTA -->
-				<a
-					href="https://github.com/Dataport/polar"
-					target="_blank"
-					rel="noopener"
-					class="lp-header__github"
-				>
-					<span class="kern-icon kern-icon--open-in-new" aria-hidden="true" />
-					Find us on GitHub
-					<svg
-						viewBox="0 0 24 24"
-						fill="currentColor"
-						class="lp-header__github-icon"
-						aria-hidden="true"
-					>
-						<path
-							d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.94 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.62-2.8 5.63-5.48 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.21.69.83.57C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"
-						/>
-					</svg>
-				</a>
-			</div>
-		</div>
+			<a href="./docs/" class="lp-header__link">
+				<span class="kern-icon kern-icon--book-5" aria-hidden="true" />
+				Docs
+			</a>
+		</nav>
+		<a
+			href="https://github.com/Dataport/polar"
+			target="_blank"
+			rel="noopener"
+			class="lp-header__github"
+		>
+			<span class="kern-icon kern-icon--open-in-new" aria-hidden="true" />
+			Find us on GitHub
+			<svg
+				viewBox="0 0 24 24"
+				fill="currentColor"
+				class="lp-header__github-icon"
+				aria-hidden="true"
+			>
+				<path
+					d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.94 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.62-2.8 5.63-5.48 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.21.69.83.57C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"
+				/>
+			</svg>
+		</a>
 	</header>
 </template>
 
@@ -63,16 +52,11 @@ import polarLogoSvg from './assets/polar-logo.svg'
 	padding: 2.5rem 0 2.5rem;
 	position: relative;
 	z-index: 1;
-}
-.lp-header .lp-container {
-	max-width: none;
-	padding: 0 4rem;
-}
-.lp-header__bar {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+
+	display: flex;
+	justify-content: space-around;
 	align-items: center;
-	gap: 2rem;
+	gap: 1.5rem;
 }
 .lp-header__logo {
 	text-decoration: none;
@@ -80,22 +64,18 @@ import polarLogoSvg from './assets/polar-logo.svg'
 	align-items: center;
 }
 .lp-header__icon {
-	height: 68px;
+	height: 4rem;
+	min-width: 12rem;
 	width: auto;
 	flex-shrink: 0;
 }
-/* Centered pill */
 .lp-header__nav {
-	display: flex;
-	justify-content: center;
-}
-.lp-header__pill {
 	display: flex;
 	align-items: center;
 	gap: 8px;
 	border-radius: 9999px;
 	padding: 10px;
-	height: 88px;
+	height: 4rem;
 	background: linear-gradient(
 		160deg,
 		rgba(255, 255, 255, 0.18) 0%,
@@ -118,6 +98,7 @@ import polarLogoSvg from './assets/polar-logo.svg'
 	font-size: 1.2rem;
 	font-weight: 500;
 	padding: 0.6rem 1.4rem;
+	height: 100%;
 	border-radius: 999px;
 	transition:
 		background 0.15s,
@@ -148,7 +129,7 @@ import polarLogoSvg from './assets/polar-logo.svg'
 	font-weight: 600;
 	border-radius: 9999px;
 	padding: 16px 20px 16px 28px;
-	height: 88px;
+	height: 4rem;
 	width: 300px;
 	background: linear-gradient(
 		160deg,
@@ -165,7 +146,6 @@ import polarLogoSvg from './assets/polar-logo.svg'
 	box-sizing: border-box;
 	transition: background 0.15s;
 	white-space: nowrap;
-	margin-left: auto;
 }
 .lp-header__github .kern-icon {
 	background-color: #004787;
@@ -183,10 +163,11 @@ import polarLogoSvg from './assets/polar-logo.svg'
 	background: rgba(255, 255, 255, 0.62);
 }
 @media (max-width: 768px) {
-	.lp-header .lp-container {
+	.lp-header {
 		padding: 0 1.5rem;
 	}
-	.lp-header__bar {
+	.lp-header {
+		display: grid;
 		grid-template-columns: 1fr auto;
 		grid-template-rows: auto auto;
 		gap: 1rem;
@@ -196,19 +177,15 @@ import polarLogoSvg from './assets/polar-logo.svg'
 		grid-row: 2;
 		order: unset;
 		justify-content: stretch;
+		margin-bottom: 2rem;
 	}
-	.lp-header__pill {
+	.lp-header__nav {
 		height: auto;
 		padding: 8px;
 		border-radius: 1rem;
 		gap: 4px;
 		width: 100%;
 		justify-content: space-around;
-	}
-	.lp-header__link {
-		font-size: 0.95rem;
-		padding: 0.4rem 0.75rem;
-		gap: 0.25rem;
 	}
 	/* GitHub button: compact icon-only pill */
 	.lp-header__github {
@@ -217,19 +194,13 @@ import polarLogoSvg from './assets/polar-logo.svg'
 		padding: 0.6rem 0.9rem;
 		gap: 0;
 		font-size: 0;
-		margin-left: 0;
 	}
 	.lp-header__github .kern-icon {
 		display: none;
 	}
-}
-@media (max-width: 480px) {
-	.lp-header__pill {
-		flex-wrap: wrap;
-	}
 	.lp-header__link {
-		font-size: 0.85rem;
-		padding: 0.35rem 0.5rem;
+		width: 50%;
+		justify-content: center;
 	}
 }
 </style>
