@@ -107,11 +107,11 @@ import TheBadge from './TheBadge.vue'
 }
 
 .lp-cta__btn--primary .kern-icon {
-	background-color: var(--polar-blue);
+	background-color: var(--polar-blue-600);
 }
 
 .lp-cta__btn--primary .kern-label {
-	color: var(--polar-blue);
+	color: var(--polar-blue-600);
 }
 
 .lp-cta__btn--secondary {

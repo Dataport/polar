@@ -35,13 +35,13 @@
 
 <style scoped>
 .lp-footer {
-	background: var(--polar-navy);
-	color: rgba(255, 255, 255, 0.6);
+	background: var(--polar-blue-600);
+	color: #fff;
 	text-align: center;
 	padding: 1.5rem;
 	font-size: 0.85rem;
 }
 .lp-footer a {
-	color: rgba(255, 255, 255, 0.75);
+	color: #fff;
 }
 </style>
