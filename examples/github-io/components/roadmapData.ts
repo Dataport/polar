@@ -16,7 +16,7 @@ export interface Phase {
 }
 
 export const phases: Phase[] = [
-	{
+	/* {
 		status: 'done',
 		label: '2023',
 		sublabel: 'Completed',
@@ -58,7 +58,7 @@ export const phases: Phase[] = [
 				accentIcon: 'settings',
 			},
 		],
-	},
+	}, */
 	{
 		status: 'done',
 		label: 'Q1 · 2025',
@@ -113,20 +113,6 @@ export const phases: Phase[] = [
 				title: 'E2E Testing & CI/CD',
 				body: 'Enhance end-to-end testing and continuous integration/continuous deployment pipelines.',
 				accentIcon: 'build',
-			},
-		],
-	},
-	{
-		status: 'planned',
-		label: 'Q2 · 2027',
-		sublabel: 'Planned',
-		accentIcon: 'palette',
-		milestoneIcon: '',
-		items: [
-			{
-				title: 'Something Wonderful',
-				body: 'Stay tuned — we have exciting things in the works for the next major release.',
-				accentIcon: 'looks',
 			},
 		],
 	},

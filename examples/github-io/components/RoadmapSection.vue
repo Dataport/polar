@@ -29,7 +29,7 @@
 						]"
 					>
 						<!-- Cards stacked above -->
-						<div v-show="!isPhaseCollapsed(phase)" class="lp-roadmap__cards">
+						<div class="lp-roadmap__cards">
 							<div
 								v-for="item in phase.items"
 								:key="item.title"
@@ -47,16 +47,9 @@
 
 						<!-- Milestone header row -->
 						<div
-							:class="[
-								'lp-roadmap__milestone-row',
-								phase.status === 'done' &&
-									'lp-roadmap__milestone-row--clickable',
-							]"
-							:role="phase.status === 'done' ? 'button' : 'listitem'"
-							:tabindex="phase.status === 'done' ? 0 : -1"
-							@click="togglePhase(phase)"
-							@keydown.enter="togglePhase(phase)"
-							@keydown.space.prevent="togglePhase(phase)"
+							:class="['lp-roadmap__milestone-row']"
+							role="listitem"
+							tabindex="-1"
 						>
 							<div class="lp-roadmap__milestone-label">
 								<RoadmapPhaseLabel
@@ -88,34 +81,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 import RoadmapCard from './RoadmapCard.vue'
 import { phases } from './roadmapData'
 import RoadmapPhaseLabel from './RoadmapPhaseLabel.vue'
 import TheBadge from './TheBadge.vue'
-
-const collapsedPhases = ref<Set<string>>(
-	new Set(
-		phases
-			.filter((phase) => phase.status === 'done')
-			.map((phase) => phase.label)
-	)
-)
-
-function togglePhase(phase: (typeof phases)[0]) {
-	if (phase.status === 'done') {
-		if (collapsedPhases.value.has(phase.label)) {
-			collapsedPhases.value.delete(phase.label)
-		} else {
-			collapsedPhases.value.add(phase.label)
-		}
-	}
-}
-
-function isPhaseCollapsed(phase: (typeof phases)[0]): boolean {
-	return collapsedPhases.value.has(phase.label)
-}
 </script>
 
 <style scoped>
