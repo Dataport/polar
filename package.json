@@ -21,6 +21,10 @@
 			"default": "./dist/polar.js"
 		},
 		"./polar.css": "./dist/polar.css",
+		"./client": {
+			"types": "./dist/client.d.ts",
+			"default": "./dist/client.js"
+		},
 		"./store": {
 			"types": "./dist/store.d.ts",
 			"default": "./dist/store.js"
@@ -47,13 +51,14 @@
 		"preview": "conc --kill-others 'npm run build' 'npm run preview:build' 'npm run preview:preview'",
 		"build": "vite build --watch",
 		"build:ci": "vite build",
+		"build:github-io": "vite build --config vite.config.github-io.ts",
 		"lint": "eslint --cache .",
 		"lint:ci": "eslint .",
 		"lint:fix": "npm run lint -- --fix",
 		"tsc": "tsc && vue-tsc -p src && vue-tsc -p examples/iceberg",
 		"tsc:ci": "tsc && vue-tsc -p src && vue-tsc -p examples/iceberg",
 		"docs:ci": "npm run docs:showcase:ci && npm run docs:docs:ci && npm run docs:api:ci && npm run docs:api:core:ci && npm run docs:api:plugin:ci",
-		"docs:showcase:ci": "mkdir -p docs-html && cp -r examples/github-io/* docs-html/",
+		"docs:showcase:ci": "npm run build:github-io && mkdir -p docs-html && cp -r examples/github-io/dist/* docs-html/",
 		"docs:docs": "mkdocs serve",
 		"docs:docs:ci": "mkdocs build",
 		"docs:api": "node scripts/typedoc-install-vue-tsc.ts && typedoc --watch",

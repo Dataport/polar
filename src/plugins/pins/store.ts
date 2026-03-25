@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { GeoJsonGeometryTypes, Point as GeoJsonPoint } from 'geojson'
+import type { MapBrowserEvent } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 
 import { toMerged } from 'es-toolkit'
@@ -96,18 +97,14 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	function setupPlugin() {
 		coreStore.map.addLayer(pinLayer)
 		pinLayer.setZIndex(100)
-		coreStore.map.on('singleclick', async ({ coordinate }) => {
-			await click(coordinate)
-		})
+		coreStore.map.on('singleclick', onSingleClick)
 		setupInitial()
 		setupInteractions()
 	}
 
 	function teardownPlugin() {
 		const { map } = coreStore
-		map.un('singleclick', async ({ coordinate }) => {
-			await click(coordinate)
-		})
+		map.un('singleclick', onSingleClick)
 		removePin()
 		map.removeLayer(pinLayer)
 		map.removeInteraction(move)
@@ -165,6 +162,10 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			})
 		})
 		coreStore.map.addInteraction(translate)
+	}
+
+	async function onSingleClick({ coordinate }: MapBrowserEvent) {
+		await click(coordinate)
 	}
 
 	async function click(coordinate: Coordinate) {
