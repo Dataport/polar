@@ -7,7 +7,7 @@
 				Our FOSSGIS Adventure.
 			</h3>
 			<p class="lp-video__lead">
-				2024 we gave a small talk at FOSSGIS about ...
+				2024 we gave a small talk at FOSSGIS about POLAR...
 			</p>
 			<div ref="videoWrap" class="lp-video-wrap">
 				<template v-if="!videoPlaying">

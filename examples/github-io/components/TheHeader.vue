@@ -14,10 +14,12 @@
 							<span class="kern-icon kern-icon--home" aria-hidden="true" />
 							Home
 						</a>
+						<!--
 						<a href="./docs/" class="lp-header__link">
 							<span class="kern-icon kern-icon--school" aria-hidden="true" />
 							Learn
 						</a>
+						-->
 						<a href="./docs/" class="lp-header__link">
 							<span class="kern-icon kern-icon--book-5" aria-hidden="true" />
 							Docs
