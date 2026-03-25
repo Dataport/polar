@@ -47,7 +47,7 @@
 						class="kern-icon kern-icon-fill--check-circle"
 						aria-hidden="true"
 					/>
-					Tried & Tested with 50+ productive uses
+					Tried & Tested with 70+ productive uses
 				</li>
 			</ul>
 		</div>
