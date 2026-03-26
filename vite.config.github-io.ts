@@ -1,7 +1,6 @@
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
-
 import kernExtraIcons from 'vite-plugin-kern-extra-icons'
 
 export default defineConfig({
@@ -15,8 +14,7 @@ export default defineConfig({
 		}),
 		kernExtraIcons({
 			cssLayer: 'kern-ux-icons',
-			ignoreFilename: (filename) =>
-				!filename.includes('/examples/github-io/'),
+			ignoreFilename: (filename) => !filename.includes('/examples/github-io/'),
 		}),
 	],
 	build: {

@@ -4,7 +4,13 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { computed, onScopeDispose, watch, type ComputedRef, type WatchStopHandle } from 'vue'
+import {
+	computed,
+	onScopeDispose,
+	watch,
+	type ComputedRef,
+	type WatchStopHandle,
+} from 'vue'
 
 import type { StoreReference } from '@/core/types'
 

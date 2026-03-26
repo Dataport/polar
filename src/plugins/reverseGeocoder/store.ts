@@ -48,11 +48,9 @@ export const useReverseGeocoderStore = defineStore(
 			}
 		)
 
-		function setupPlugin() {
-		}
+		function setupPlugin() {}
 
-		function teardownPlugin() {
-		}
+		function teardownPlugin() {}
 
 		function passFeatureToTarget(
 			target: NonNullable<ReverseGeocoderPluginOptions['addressTarget']>,
