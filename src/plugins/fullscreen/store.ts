@@ -266,7 +266,7 @@ if (import.meta.vitest) {
 		store,
 		coreStore,
 	}) => {
-		const style = new CSSStyleDeclaration()
+		const style = document.createElement('div').style
 		coreStore.lightElement = { style }
 		style.cssText = 'position: relative; width: 400px; height: 300px;'
 		store.fullscreenEnabled = true
