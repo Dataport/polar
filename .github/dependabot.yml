@@ -10,3 +10,4 @@ updates:
     target-branch: "next"
     schedule:
       interval: "daily"
+    open-pull-requests-limit: 20
