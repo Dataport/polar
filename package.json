@@ -5,8 +5,8 @@
   "author": "Dataport AöR <polar@dataport.de>",
   "license": "EUPL-1.2",
   "engines": {
-    "node": "^24.11.1",
-    "npm": "^11.6.2"
+    "node": "^24.14.1",
+    "npm": "^11.11.1"
   },
   "workspaces": [
     "packages/clients/*",
