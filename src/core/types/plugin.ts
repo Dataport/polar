@@ -46,17 +46,20 @@ import type { Icon } from './theme'
 /**
  * Generic options for all plugins.
  *
- * ## Custom Plugin Positioning ({@link MapConfiguration.layout | Standard Layout})
+ * ## Custom Plugin Positioning
  *
- * When `layout` is set to `'standard'`, a custom plugin can be rendered in one of two ways:
+ * There are two implemented layouting systems in POLAR configured by {@link MapConfiguration.layout}.
  *
- * 1. **As part of the IconMenu**: Set {@link PluginOptions.renderType | renderType}
- * 		to `'iconMenu'` and configure the plugin in the IconMenu's
+ * If `layout` is set to `'nineRegions'` all plugins are placed in a predefined region grid.
+ * Use {@link PluginOptions.displayComponent | displayComponent} to control visibility
+ * and {@link PluginOptions.layoutTag | layoutTag} to specify the target region.
+ *
+ * If `layout` is set to `'standard'`, a plugin can be rendered in one of two ways:
+ * 1. **As part of the IconMenu**: Configure the plugin in the IconMenu's
  * 		{@link IconMenuPluginOptions.menus | `menus`} configuration.
  * 		The IconMenu will handle positioning and rendering the plugin at the designated location.
- *
- * 2. **Independent with CSS positioning**: Set {@link PluginOptions.renderType | renderType}
- * 		to `'independent'` (default). The plugin is responsible for its own positioning
+ * 2. **Independent with CSS positioning**: Directly add the plugin with
+ * 		{@link addPlugin}. The plugin is responsible for its own positioning
  * 		using CSS (e.g., `position: absolute`) within the map container.
  */
 export interface PluginOptions {
