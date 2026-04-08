@@ -89,6 +89,19 @@ export const useIcebergStore = defineStore('iceberg', () => {
 			},
 		},
 		attributions: {
+			listenToChanges: [
+				{
+					key: 'activeBackgroundId',
+					plugin: 'layerChooser',
+				},
+				{
+					key: 'activeMaskIds',
+					plugin: 'layerChooser',
+				},
+				{
+					key: 'zoom',
+				},
+			],
 			layerAttributions: [
 				{
 					id: '23420',
