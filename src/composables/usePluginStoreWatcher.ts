@@ -9,6 +9,7 @@ import {
 	onScopeDispose,
 	watch,
 	type ComputedRef,
+	type WatchOptions,
 	type WatchStopHandle,
 } from 'vue'
 
@@ -34,6 +35,7 @@ interface WatcherConfig {
  *
  * @param sources - Array of plugin store references to watch, or a computed reference to them, or a function returning them
  * @param callback - Function called when any watched plugin store value changes
+ * @param watchOptions - Optional watch options to pass to the underlying Vue watcher (e.g., `{ immediate: true }`)
  *
  * @example
  * ```typescript
@@ -43,7 +45,8 @@ interface WatcherConfig {
  *     if (coordinate) {
  *       await reverseGeocode(coordinate)
  *     }
- *   }
+ *   },
+ *   { immediate: true }
  * )
  * ```
  *
@@ -54,7 +57,8 @@ export function usePluginStoreWatcher(
 		| StoreReference[]
 		| ComputedRef<StoreReference[]>
 		| (() => StoreReference[]),
-	callback: (value: unknown) => void | Promise<void>
+	callback: (value: unknown) => void | Promise<void>,
+	watchOptions?: WatchOptions
 ) {
 	const coreStore = useCoreStore()
 	const sourcesArray = computed(() => {
@@ -91,7 +95,8 @@ export function usePluginStoreWatcher(
 
 		watcherConfig.handle = watch(
 			() => store[watcherConfig.source.key],
-			watcherConfig.callback
+			watcherConfig.callback,
+			watchOptions
 		)
 	}
 

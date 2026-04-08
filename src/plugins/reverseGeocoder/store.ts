@@ -45,7 +45,8 @@ export const useReverseGeocoderStore = defineStore(
 				if (coordinate) {
 					await reverseGeocode(coordinate)
 				}
-			}
+			},
+			{ immediate: true }
 		)
 
 		function setupPlugin() {}
