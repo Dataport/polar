@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test'
 import { createBdd } from 'playwright-bdd'
-import { dispatch } from '../../e2e/utils/vuex'
+import { dispatch } from './utils/vuex'
 
 const { When, Then } = createBdd()
 

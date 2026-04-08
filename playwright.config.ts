@@ -4,6 +4,7 @@ import { defineConfig, devices } from '@playwright/test'
 
 // Parse client from environment variable set by run-e2e.js script
 const getClient = () => {
+  // eslint-disable-next-line no-console
   console.log('PLAYWRIGHT_CLIENT:', process.env.PLAYWRIGHT_CLIENT)
   if (process.env.PLAYWRIGHT_CLIENT) {
     return process.env.PLAYWRIGHT_CLIENT
@@ -25,12 +26,14 @@ const validClients = [
 ]
 
 if (client && !validClients.includes(client)) {
+  // eslint-disable-next-line no-console
   console.error(
     `Invalid client: ${client}. Valid options: ${validClients.join(', ')}`
   )
   process.exit(1)
 }
 
+// eslint-disable-next-line no-console
 console.log(
   client
     ? `Running tests for client: ${client}`
@@ -64,6 +67,9 @@ const testDir = defineBddConfig({
 module.exports = {
   default: defineConfig({
     testDir,
+    /* Start/stop the mock map server for the entire suite */
+    globalSetup: require.resolve('./e2e/global-setup'),
+    globalTeardown: require.resolve('./e2e/global-teardown'),
     /* Run tests in files in parallel */
     fullyParallel: true,
     /* Maximum time each test can run for. */
@@ -106,10 +112,10 @@ module.exports = {
       //   name: 'chromium',
       //   use: { ...devices['Desktop Chrome'] },
       // },
-      // {
-      //   name: 'firefox',
-      //   use: { ...devices['Desktop Firefox'] },
-      // },
+      {
+        name: 'firefox',
+        use: { ...devices['Desktop Firefox'] },
+      },
       // {
       //   name: 'webkit',
       //   use: { ...devices['Desktop Safari'] },
@@ -118,10 +124,10 @@ module.exports = {
       //   name: 'Mobile Chrome',
       //   use: { ...devices['Pixel 5'] },
       // },
-      {
-        name: 'Mobile Safari',
-        use: { ...devices['iPhone 12'] },
-      },
+      // {
+      //   name: 'Mobile Safari',
+      //   use: { ...devices['iPhone 12'] },
+      // },
     ],
   }),
 }

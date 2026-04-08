@@ -13,6 +13,7 @@
 **/playwright/.cache/
 /*.log
 /.idea/
+/.features-gen/
 /.nx/
 /cucumber-report/
 /public

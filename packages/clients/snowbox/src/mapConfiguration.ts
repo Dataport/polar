@@ -11,6 +11,7 @@ const notQuiteWhite = '#f2f3f4'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
+export const mockMapId = 'mock-map'
 export const flurstuecke = '27607'
 const sBahn = '23050'
 const uBahn = '23053'
@@ -111,6 +112,10 @@ export const mapConfiguration = {
       {
         id: basemapGreyId,
         title: 'snowbox.attributions.basemapGrey',
+      },
+      {
+        id: mockMapId,
+        title: 'snowbox.attributions.mockMap',
       },
       {
         id: flurstuecke,
@@ -246,6 +251,11 @@ export const mapConfiguration = {
       id: basemapGreyId,
       type: 'background',
       name: 'snowbox.layers.basemapGrey',
+    },
+    {
+      id: mockMapId,
+      type: 'background',
+      name: 'snowbox.layers.mockMap',
     },
     {
       id: uBahn,

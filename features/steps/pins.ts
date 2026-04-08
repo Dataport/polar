@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 import { createBdd } from 'playwright-bdd'
-import { saveScreenshot, saveAllPinsScreenshots } from './screenshot-utils'
+import { saveAllPinsScreenshots } from './utils/screenshot-utils'
 
 const { Given, When, Then } = createBdd()
 
@@ -123,6 +123,7 @@ async function ensureZoomLevel(page: Page, targetLevel: number) {
     )
   }
 
+  // map could still be not stable after zooming
   await page.waitForTimeout(3000)
 }
 
@@ -148,8 +149,8 @@ async function waitForStableClip(
  * Ensures that no pin coordinate is set before any interaction.
  *
  * This is implemented as a black-box baseline capture: we store a small screenshot
- * around the canvas center (and the full canvas box) so later steps can detect
- * visual changes after click interactions.
+ * around the canvas center, the canvas center position and the canvas box so later
+ * steps can detect visual changes after click interactions.
  */
 Given('no pin coordinate is set', async function ({ page }) {
   const world = this as unknown as PinsContext
@@ -296,55 +297,63 @@ When('the map is clicked at the center coordinates', async function ({ page }) {
   )
 })
 
-Then('the pin location should be set to some value', async function () {
-  const world = this as unknown as PinsContext
-  const pins = world.pins
+Then(
+  'the pin location should be set to some value',
+  async function ({ $testInfo }) {
+    const world = this as unknown as PinsContext
+    const pins = world.pins
 
-  if (!pins?.canvasBox) {
-    throw new Error('Missing canvas box; did the map load?')
-  }
-  if (!pins.clickPosition) {
-    throw new Error('Missing click position; did a click step run?')
-  }
-  if (!pins.beforeClickClip) {
-    throw new Error('Missing baseline clip; did the click step run?')
-  }
-  if (!pins.afterClickClip) {
-    throw new Error('Missing post-click clip; did the click step run?')
-  }
+    if (!pins?.canvasBox) {
+      throw new Error('Missing canvas box; did the map load?')
+    }
+    if (!pins.clickPosition) {
+      throw new Error('Missing click position; did a click step run?')
+    }
+    if (!pins.beforeClickClip) {
+      throw new Error('Missing baseline clip; did the click step run?')
+    }
+    if (!pins.afterClickClip) {
+      throw new Error('Missing post-click clip; did the click step run?')
+    }
 
-  try {
-    expect(pins.afterClickClip).not.toEqual(pins.beforeClickClip)
-  } catch (error) {
-    await saveAllPinsScreenshots(pins, 'pin-location-set')
-    throw error
+    try {
+      expect(pins.afterClickClip).not.toEqual(pins.beforeClickClip)
+    } catch (error) {
+      await saveAllPinsScreenshots(pins, 'pin-location-set', $testInfo)
+      throw error
+    }
   }
-})
+)
 
-Then('a pin should be displayed at the center coordinates', async function () {
-  const world = this as unknown as PinsContext
-  const pins = world.pins
+Then(
+  'a pin should be displayed at the center coordinates',
+  async function ({ $testInfo }) {
+    const world = this as unknown as PinsContext
+    const pins = world.pins
 
-  if (!pins?.canvasBox) {
-    throw new Error('Missing canvas box; did the map load?')
-  }
-  if (!pins.centerPosition) {
-    throw new Error('Missing center position; did a click step run?')
-  }
-  if (!pins.beforeCenterClip) {
-    throw new Error('Missing baseline center clip; did a Given/When step run?')
-  }
-  if (!pins.afterClickClip) {
-    throw new Error('Missing post-click clip; did the click step run?')
-  }
-  if (!pins.stabilizedCenterClip) {
-    throw new Error('Missing stabilized center clip; did the click step run?')
-  }
+    if (!pins?.canvasBox) {
+      throw new Error('Missing canvas box; did the map load?')
+    }
+    if (!pins.centerPosition) {
+      throw new Error('Missing center position; did a click step run?')
+    }
+    if (!pins.beforeCenterClip) {
+      throw new Error(
+        'Missing baseline center clip; did a Given/When step run?'
+      )
+    }
+    if (!pins.afterClickClip) {
+      throw new Error('Missing post-click clip; did the click step run?')
+    }
+    if (!pins.stabilizedCenterClip) {
+      throw new Error('Missing stabilized center clip; did the click step run?')
+    }
 
-  try {
-    expect(pins.stabilizedCenterClip).toEqual(pins.afterClickClip)
-  } catch (error) {
-    await saveAllPinsScreenshots(pins, 'pin-at-center')
-    throw error
+    try {
+      expect(pins.stabilizedCenterClip).toEqual(pins.afterClickClip)
+    } catch (error) {
+      await saveAllPinsScreenshots(pins, 'pin-at-center', $testInfo)
+      throw error
+    }
   }
-})
+)

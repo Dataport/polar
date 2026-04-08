@@ -4,11 +4,30 @@ import { changeLanguage } from 'i18next'
 // NOTE bad pattern, but probably fine for a test client
 import { enableClustering } from '../../meldemichel/src/utils/enableClustering'
 import { addPlugins } from './addPlugins'
-import { flurstuecke, mapConfiguration, reports } from './mapConfiguration'
+import { flurstuecke, mapConfiguration, mockMapId, reports } from './mapConfiguration'
 import { exampleFeatureInformation } from './exampleFeatureInformation'
 import { validateForm } from './validateForm'
 
 addPlugins(polarCore)
+
+declare const __MOCK_MAP_URL__: string
+
+const MOCK_MAP_URL: string = typeof __MOCK_MAP_URL__ !== 'undefined'
+  ? __MOCK_MAP_URL__
+  : ''
+
+const mockMapService = {
+  id: mockMapId,
+  name: 'Mock Map Service',
+  url: MOCK_MAP_URL + '/wms',
+  typ: 'WMS',
+  layers: 'mock',
+  format: 'image/png',
+  version: '1.3.0',
+  transparent: true,
+  singleTile: false,
+  tilesize: 256,
+}
 
 const createMap = (layerConf) => {
   // NOTE This seems to be missing in the layer specs
@@ -16,6 +35,11 @@ const createMap = (layerConf) => {
   if (flurLayer) {
     flurLayer.crs = 'http://www.opengis.net/def/crs/EPSG/0/25832'
     flurLayer.bboxCrs = 'http://www.opengis.net/def/crs/EPSG/0/25832'
+  }
+
+  // Inject mock map service for e2e testing
+  if (MOCK_MAP_URL) {
+    layerConf.push(mockMapService)
   }
 
   polarCore
