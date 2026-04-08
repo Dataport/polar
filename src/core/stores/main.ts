@@ -1,5 +1,4 @@
 import type { Feature, Map } from 'ol'
-import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 
 import { toMerged } from 'es-toolkit'
@@ -76,7 +75,7 @@ export const useMainStore = defineStore('main', () => {
 
 	const zoom = ref(0)
 
-	const center = ref<Coordinate>([0, 0])
+	const center = ref([0, 0])
 	function centerOnFeature(feature: Feature) {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
 	}

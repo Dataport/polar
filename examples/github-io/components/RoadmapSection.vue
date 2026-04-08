@@ -95,7 +95,7 @@ import { phases } from './roadmapData'
 import RoadmapPhaseLabel from './RoadmapPhaseLabel.vue'
 import TheBadge from './TheBadge.vue'
 
-const collapsedPhases = ref<Set<string>>(
+const collapsedPhases = ref(
 	new Set(
 		phases
 			.filter((phase) => phase.status === 'done')
