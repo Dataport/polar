@@ -134,5 +134,9 @@
 		"vue": "^3.5.26",
 		"vue-tsc": "^3.2.1",
 		"xml2js": "^0.6.2"
+	},
+	"//": "Relevant overrides until the respective packages fix these vulnerable versions themselves.",
+	"overrides": {
+		"handlebars": "^4.7.9"
 	}
 }
