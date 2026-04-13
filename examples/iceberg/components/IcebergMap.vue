@@ -30,6 +30,7 @@ import type { PolarContainer } from '@polar/polar'
 
 import { addPlugins, getStore, subscribe } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
+import pluginAttributions from '@polar/polar/plugins/attributions'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
@@ -67,6 +68,7 @@ watch(map, (map) => {
 				],
 			],
 		}),
+		pluginAttributions({ displayComponent: true, layoutTag: 'BOTTOM_RIGHT' }),
 		pluginScale({
 			displayComponent: true,
 			layoutTag: 'BOTTOM_RIGHT',

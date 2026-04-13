@@ -88,6 +88,40 @@ export const useIcebergStore = defineStore('iceberg', () => {
 				},
 			},
 		},
+		attributions: {
+			listenToChanges: [
+				{
+					key: 'activeBackgroundId',
+					plugin: 'layerChooser',
+				},
+				{
+					key: 'activeMaskIds',
+					plugin: 'layerChooser',
+				},
+				{
+					key: 'zoom',
+				},
+			],
+			layerAttributions: [
+				{
+					id: '23420',
+					title: 'Basemap © basemap.de / BKG <MONTH> <YEAR>',
+				},
+				{
+					id: '23421',
+					title: 'Basemap Grey © basemap.de / BKG <MONTH> <YEAR>',
+				},
+				{
+					id: '1454',
+					title:
+						'Compensation area © Freie und Hansestadt Hamburg, Behörde für Umwelt und Energie',
+				},
+				{
+					id: 'denkmaelerWMS',
+					title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
+				},
+			],
+		},
 		fullscreen: {
 			displayComponent: true,
 			layoutTag: 'TOP_RIGHT',

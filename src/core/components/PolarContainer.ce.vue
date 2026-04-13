@@ -5,20 +5,26 @@
 		:lang="language"
 		:data-kern-theme="mainStore.colorScheme"
 	>
-		<PolarMap />
-		<PolarUI />
-		<MoveHandle
-			v-if="isActive && hasWindowSize && hasSmallWidth"
-			:key="moveHandleKey"
-		/>
+		<div class="polar-map-layer">
+			<PolarMap />
+		</div>
+		<div class="polar-ui-layer">
+			<div v-if="!hasWindowSize" class="polar-shadow" aria-hidden="true" />
+			<PolarUI />
+			<MoveHandle
+				v-if="isActive && hasWindowSize && hasSmallWidth"
+				:key="moveHandleKey"
+			/>
+		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
-import { storeToRefs } from 'pinia'
+import { disposePinia, getActivePinia, type Pinia, storeToRefs } from 'pinia'
 import {
+	getCurrentInstance,
 	onBeforeUnmount,
 	onMounted,
 	ref,
@@ -141,7 +147,21 @@ onBeforeUnmount(() => {
 		resizeObserver = null
 	}
 
+	const mapEl = mainStore.map.getTargetElement()
+	mainStore.map.dispose()
+	mapEl.replaceChildren()
+	delete (mainStore.lightElement as { store?: unknown }).store
 	mainStore.teardown()
+
+	disposePinia(getActivePinia() as Pinia)
+
+	const shadowRoot = getCurrentInstance()?.proxy?.$el?.getRootNode()
+	if (shadowRoot instanceof ShadowRoot) {
+		shadowRoot.adoptedStyleSheets = []
+		shadowRoot.querySelectorAll('style').forEach((s) => {
+			s.remove()
+		})
+	}
 })
 </script>
 
@@ -165,7 +185,6 @@ onBeforeUnmount(() => {
 		width: 100%;
 		height: 30em;
 		border-radius: var(--kern-metric-border-radius-large);
-		overflow: hidden;
 		box-sizing: border-box;
 	}
 }
@@ -176,5 +195,33 @@ onBeforeUnmount(() => {
 	position: relative;
 	height: 100%;
 	width: 100%;
+	border-radius: var(--kern-metric-border-radius-large);
+}
+
+.polar-map-layer {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	clip-path: inset(0 round var(--kern-metric-border-radius-large));
+}
+
+.polar-shadow {
+	position: absolute;
+	inset: 0;
+	border-radius: var(--kern-metric-border-radius-large);
+	box-shadow:
+		inset 0 1px 1px 0 rgba(53, 57, 86, 0.5),
+		inset 0 1px 2px 0 rgba(53, 57, 86, 0.5),
+		inset 0 1px 6px 0 rgba(110, 117, 151, 0.5);
+	pointer-events: none;
+	z-index: -1;
+}
+
+.polar-ui-layer {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	isolation: isolate;
+	pointer-events: none;
 }
 </style>

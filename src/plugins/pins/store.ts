@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { GeoJsonGeometryTypes, Point as GeoJsonPoint } from 'geojson'
+import type { MapBrowserEvent } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 
 import { toMerged } from 'es-toolkit'
@@ -16,10 +17,11 @@ import VectorLayer from 'ol/layer/Vector'
 import { toLonLat } from 'ol/proj'
 import { Vector } from 'ol/source'
 import { defineStore } from 'pinia'
-import { computed, ref, watch, type WatchHandle } from 'vue'
+import { computed, ref } from 'vue'
 
 import type { PolarGeoJsonFeature } from '@/core'
 
+import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
 import type { PinMovable, PinsPluginOptions } from './types'
@@ -77,59 +79,36 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			configuration.value.minZoomLevel,
 		layers: [pinLayer],
 	})
-	let coordinateSourceWatcher: WatchHandle | null = null
+
+	usePluginStoreWatcher(
+		() => configuration.value.coordinateSources || [],
+		(value: unknown) => {
+			const feature = value as PolarGeoJsonFeature<GeoJsonPoint> | null
+			// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
+			// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
+			if (feature && feature.type !== 'reverse_geocoded') {
+				addPin(feature.geometry.coordinates, false, {
+					type: feature.geometry.type,
+				})
+			}
+		}
+	)
 
 	function setupPlugin() {
 		coreStore.map.addLayer(pinLayer)
 		pinLayer.setZIndex(100)
-		coreStore.map.on('singleclick', async ({ coordinate }) => {
-			await click(coordinate)
-		})
-		setupCoordinateSource()
+		coreStore.map.on('singleclick', onSingleClick)
 		setupInitial()
 		setupInteractions()
 	}
 
 	function teardownPlugin() {
 		const { map } = coreStore
-		map.un('singleclick', async ({ coordinate }) => {
-			await click(coordinate)
-		})
+		map.un('singleclick', onSingleClick)
 		removePin()
 		map.removeLayer(pinLayer)
 		map.removeInteraction(move)
 		map.removeInteraction(translate)
-		if (coordinateSourceWatcher) {
-			coordinateSourceWatcher()
-		}
-	}
-
-	function setupCoordinateSource() {
-		const { coordinateSources } = configuration.value
-		if (!coordinateSources) {
-			return
-		}
-		coordinateSources.forEach((source) => {
-			const store = source.plugin
-				? coreStore.getPluginStore(source.plugin)
-				: coreStore
-			if (!store) {
-				return
-			}
-			// redo pin if source (e.g. from addressSearch) changes
-			coordinateSourceWatcher = watch(
-				() => store[source.key],
-				(feature: PolarGeoJsonFeature<GeoJsonPoint> | null) => {
-					// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
-					// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
-					if (feature && feature.type !== 'reverse_geocoded') {
-						addPin(feature.geometry.coordinates, false, {
-							type: feature.geometry.type,
-						})
-					}
-				}
-			)
-		})
 	}
 
 	function setupInitial() {
@@ -183,6 +162,10 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			})
 		})
 		coreStore.map.addInteraction(translate)
+	}
+
+	async function onSingleClick({ coordinate }: MapBrowserEvent) {
+		await click(coordinate)
 	}
 
 	async function click(coordinate: Coordinate) {

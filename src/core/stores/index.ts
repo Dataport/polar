@@ -37,14 +37,14 @@ export const useCoreStore = defineStore('core', () => {
 		/**
 		 * Read or modify center coordinate of the map.
 		 *
-		 * @internal
+		 * @alpha
 		 */
 		center: mainStoreRefs.center,
 
 		/**
 		 * Color scheme the client should be using.
 		 *
-		 * @internal
+		 * @alpha
 		 */
 		colorScheme: mainStoreRefs.colorScheme,
 
@@ -123,8 +123,6 @@ export const useCoreStore = defineStore('core', () => {
 
 		/**
 		 * Configured language.
-		 *
-		 * @internal
 		 */
 		language: mainStoreRefs.language,
 
@@ -202,6 +200,13 @@ export const useCoreStore = defineStore('core', () => {
 		getPluginStore: pluginStore.getPluginStore,
 
 		/**
+		 * Returns a list of IDs of all currently installed plugins.
+		 *
+		 * @readonly
+		 */
+		usedPlugins: computed(() => pluginStore.plugins.map((p) => p.id)),
+
+		/**
 		 * Allows reading or setting the OIDC token used for service accesses.
 		 */
 		oidcToken: mainStoreRefs.oidcToken,
@@ -227,7 +232,6 @@ export const useCoreStore = defineStore('core', () => {
 		 * Allows accessing the OpenLayers Map element.
 		 *
 		 * @readonly
-		 * @alpha
 		 */
 		map: computed(() => mainStore.map),
 
@@ -242,7 +246,9 @@ export const useCoreStore = defineStore('core', () => {
 
 		/**
 		 * Feature that is hovered by the user with a marker.
-		 * NOTE: Set _polarLayerId!
+		 *
+		 * @remarks
+		 * Set _polarLayerId!
 		 *
 		 * @alpha
 		 */
@@ -264,7 +270,6 @@ export const useCoreStore = defineStore('core', () => {
 		 * Coordinates that were selected by the user with a marker.
 		 *
 		 * @readonly
-		 * @alpha
 		 */
 		selectedCoordinates: computed(() => markerStore.selectedCoordinates),
 

@@ -18,6 +18,9 @@
 							? 'polar-layer-chooser-options-checkbox'
 							: ''
 					"
+					:disabled="
+						activeLayers.length === 1 && activeLayers.includes(layerName)
+					"
 				/>
 			</div>
 		</PolarInputGroup>
@@ -25,8 +28,10 @@
 </template>
 
 <script setup lang="ts">
+import Layer from 'ol/layer/Layer'
+import { ImageWMS, TileWMS } from 'ol/source'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 import PolarInput from '@/components/PolarInput.ce.vue'
 import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
@@ -45,8 +50,7 @@ const options = computed(
 		layerChooserStore.layersWithOptions[openedOptionsId.value] as LayerOptions[]
 )
 
-// NOTE: Reversing the array is needed to preserve the order that is displayed in the map.
-const layerIds = ref(options.value.map(({ layerName }) => layerName).reverse())
+const layerIds = ref<string[]>([])
 
 const activeLayers = computed({
 	get: () => layerIds.value,
@@ -61,6 +65,25 @@ const name = computed(
 			({ id }) => id === openedOptionsId.value
 		)?.name || ''
 )
+
+onMounted(() => {
+	const layersInSource: string =
+		(
+			(
+				coreStore.map
+					.getLayers()
+					.getArray()
+					.find((l) => l.get('id') === openedOptionsId.value) as Layer<
+					ImageWMS | TileWMS
+				>
+			).getSource() as ImageWMS | TileWMS
+		).getParams().LAYERS || ''
+	// NOTE: Reversing the array is needed to preserve the order that is displayed in the map.
+	layerIds.value = options.value
+		.filter(({ layerName }) => layersInSource.includes(layerName))
+		.map(({ layerName }) => layerName)
+		.reverse()
+})
 </script>
 
 <style scoped>

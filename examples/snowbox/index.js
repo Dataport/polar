@@ -8,6 +8,7 @@ import {
 	updateState,
 } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
+import pluginAttributions from '@polar/polar/plugins/attributions'
 import pluginFooter from '@polar/polar/plugins/footer'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
@@ -21,7 +22,6 @@ import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 
 import EmptyComponent from './EmptyComponent.vue'
-import MockAttributions from './MockAttributions.ce.vue'
 import MockPointerPosition from './MockPointerPosition.ce.vue'
 import services from './services.js'
 import styleJsonUrl from './style.json?url'
@@ -33,7 +33,7 @@ const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
 const kielPolygon = 'kiel_polygon'
-const hamburgBorder = '1693'
+const hamburgBorder = '6074'
 
 let colorScheme = 'light'
 // eslint-disable-next-line no-unused-vars
@@ -186,9 +186,6 @@ const map = await createMap(
 			clusterClickZoom: true,
 		},
 		// theme: dataportTheme,
-		/*
-			TODO(dopenguin): Surrounding application should be able give information about dark or light mode via update of a state parameter; light mode by default
-		 */
 		locales: [
 			{
 				type: 'de',
@@ -227,6 +224,7 @@ const map = await createMap(
 	services
 )
 
+const additionalMaps = []
 document.getElementById('secondMap').addEventListener('click', async () => {
 	const secondMap = createMapElement(
 		{
@@ -250,10 +248,65 @@ document.getElementById('secondMap').addEventListener('click', async () => {
 			layoutTag: 'TOP_RIGHT',
 		})
 	)
+	additionalMaps.push(secondMap)
 })
 document.getElementById('secondMapClean').addEventListener('click', () => {
-	document.getElementById('secondMapContainer').innerText = ''
+	additionalMaps.forEach((map, i) => {
+		map.remove()
+		delete additionalMaps[i]
+	})
+	additionalMaps.length = 0
 })
+
+addPlugin(
+	map,
+	pluginFooter({
+		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
+		rightEntries: [
+			pluginScale({}),
+			pluginAttributions({
+				icons: {
+					close: 'kern-icon--keyboard-arrow-up',
+				},
+				listenToChanges: [
+					{
+						key: 'activeBackgroundId',
+						plugin: 'layerChooser',
+					},
+					{
+						key: 'activeMaskIds',
+						plugin: 'layerChooser',
+					},
+					{
+						key: 'zoom',
+					},
+				],
+				layerAttributions: [
+					{
+						id: basemapId,
+						title: 'snowbox.attributions.basemap',
+					},
+					{
+						id: basemapGreyId,
+						title: 'snowbox.attributions.basemapGrey',
+					},
+					{
+						id: reports,
+						title: 'snowbox.attributions.reports',
+					},
+					{
+						id: ausgleichsflaechen,
+						title: 'snowbox.attributions.ausgleichsflaechen',
+					},
+					{
+						id: denkmal,
+						title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
+					},
+				],
+			}),
+		],
+	})
+)
 
 addPlugin(
 	map,
@@ -288,43 +341,7 @@ addPlugin(
 		loaderStyle: 'BasicLoader',
 	})
 )
-addPlugin(
-	map,
-	pluginAddressSearch({
-		searchMethods: [
-			{
-				queryParameters: {
-					searchStreets: true,
-					searchHouseNumbers: true,
-				},
-				type: 'mpapi',
-				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
-			},
-		],
-		minLength: 3,
-		waitMs: 300,
-		focusAfterSearch: true,
-		groupProperties: {
-			defaultGroup: {
-				limitResults: 5,
-			},
-		},
-	})
-)
-addPlugin(
-	map,
-	pluginPins({
-		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
-		boundary: {
-			layerId: hamburgBorder,
-		},
-		movable: 'drag',
-		style: {
-			fill: '#FF0019',
-		},
-		toZoomLevel: 7,
-	})
-)
+
 addPlugin(
 	map,
 	pluginReverseGeocoder({
@@ -344,6 +361,20 @@ addPlugin(
 )
 addPlugin(
 	map,
+	pluginPins({
+		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+		boundary: {
+			layerId: hamburgBorder,
+		},
+		movable: 'drag',
+		style: {
+			fill: '#FF0019',
+		},
+		toZoomLevel: 7,
+	})
+)
+addPlugin(
+	map,
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
@@ -352,7 +383,7 @@ addPlugin(
 			{
 				plugin: {
 					component: YetAnotherEmptyComponent,
-					id: 'attributions',
+					id: 'other',
 					locales: [],
 				},
 				icon: 'kern-icon--near-me',
@@ -444,7 +475,7 @@ addPlugin(
 				{
 					plugin: pluginGeoLocation({
 						checkLocationInitially: false,
-						keepCentered: false,
+						keepCentered: true,
 						showTooltip: true,
 						zoomLevel: 7,
 						// usable when you're in HH or fake your geolocation to HH
@@ -458,14 +489,28 @@ addPlugin(
 		],
 	})
 )
+
 addPlugin(
 	map,
-	pluginFooter({
-		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
-		rightEntries: [
-			pluginScale({}),
-			{ id: 'mockAttributions', component: MockAttributions },
+	pluginAddressSearch({
+		searchMethods: [
+			{
+				queryParameters: {
+					searchStreets: true,
+					searchHouseNumbers: true,
+				},
+				type: 'mpapi',
+				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+			},
 		],
+		minLength: 3,
+		waitMs: 300,
+		focusAfterSearch: true,
+		groupProperties: {
+			defaultGroup: {
+				limitResults: 5,
+			},
+		},
 	})
 )
 

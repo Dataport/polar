@@ -1,7 +1,7 @@
 import type { LayerConfiguration } from '@/core'
 
 /**
- * Returns a boolean list which contains the attributions for every visible Layer.
+ * Returns a boolean list which contains every visible Layer.
  *
  * @param layers - layers carrying setup information.
  * @param zoom - the zoom the map is currently in.
@@ -16,5 +16,5 @@ export const areLayersActive = (layers: LayerConfiguration[], zoom: number) =>
 		if (typeof maxZoom === 'undefined') {
 			maxZoom = Number.MAX_SAFE_INTEGER
 		}
-		return minZoom <= zoom && zoom <= maxZoom
+		return minZoom < zoom && zoom < maxZoom
 	})

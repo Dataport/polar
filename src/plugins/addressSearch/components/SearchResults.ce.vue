@@ -5,8 +5,9 @@
 		tabindex="-1"
 	>
 		<template v-for="(result, i) in results" :key="result.categoryId">
-			<h2
+			<span
 				v-if="results.length > 1"
+				:id="`polar-plugin-address-search-category-label-${result.categoryId}`"
 				class="polar-plugin-address-search-category-label"
 			>
 				{{ result.categoryLabel }}
@@ -16,8 +17,9 @@
 						ns: PluginId,
 					})
 				}}
-			</h2>
+			</span>
 			<ul
+				:aria-labelledby="`polar-plugin-address-search-category-label-${result.categoryId}`"
 				:class="{
 					'polar-plugin-address-search-list-without-label':
 						results.length === 1,

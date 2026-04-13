@@ -1,11 +1,12 @@
 import type { Feature, Map } from 'ol'
-import type { Coordinate } from 'ol/coordinate'
-import type { Extent } from 'ol/extent'
 import type { Point } from 'ol/geom'
 
 import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
+
+import { teardownMarkers } from '@/core/utils/map/setupMarkers.ts'
+import { teardownInteractions } from '@/core/utils/map/updateDragAndZoomInteractions.ts'
 
 import type {
 	ColorScheme,
@@ -28,14 +29,14 @@ export const useMainStore = defineStore('main', () => {
 			defaults
 		)
 	)
-	const extent = ref<Extent>([0, 0, 0, 0])
+	const extent = ref([0, 0, 0, 0])
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)
 	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
 
-	const layout = computed(() => configuration.value.layout ?? 'standard')
+	const layout = computed(() => configuration.value.layout ?? 'nineRegions')
 
 	// TODO(dopenguin): Both will possibly be updated with different breakpoints -> Breakpoints are e.g. not valid on newer devices
 	const clientHeight = ref(0)
@@ -75,7 +76,7 @@ export const useMainStore = defineStore('main', () => {
 
 	const zoom = ref(0)
 
-	const center = ref<Coordinate>([0, 0])
+	const center = ref([0, 0])
 	function centerOnFeature(feature: Feature) {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
 	}
@@ -91,6 +92,10 @@ export const useMainStore = defineStore('main', () => {
 
 	function teardown() {
 		removeEventListener('resize', updateHasSmallDisplay)
+		teardownInteractions()
+		if (configuration.value.markers) {
+			teardownMarkers(map.value)
+		}
 	}
 
 	return {

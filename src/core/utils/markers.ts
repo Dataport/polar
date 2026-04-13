@@ -91,7 +91,7 @@ const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
 	}
 }
 
-const getStyleFunction: GetMarkerFunction = (style, multi = false) =>
+const getStyleFunction: GetMarkerFunction = (style, multi) =>
 	new Style({
 		image: new Icon({
 			src: (multi ? makeMultiMarker : makeMarker)(style),
