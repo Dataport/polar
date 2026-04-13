@@ -1,11 +1,13 @@
 import type { Feature, Map } from 'ol'
-import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
+
+import { teardownMarkers } from '@/core/utils/map/setupMarkers.ts'
+import { teardownInteractions } from '@/core/utils/map/updateDragAndZoomInteractions.ts'
 
 import type {
 	ColorScheme,
@@ -74,7 +76,7 @@ export const useMainStore = defineStore('main', () => {
 
 	const zoom = ref(0)
 
-	const center = ref<Coordinate>([0, 0])
+	const center = ref([0, 0])
 	function centerOnFeature(feature: Feature) {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
 	}
@@ -97,6 +99,10 @@ export const useMainStore = defineStore('main', () => {
 
 	function teardown() {
 		removeEventListener('resize', updateHasSmallDisplay)
+		teardownInteractions()
+		if (configuration.value.markers) {
+			teardownMarkers(map.value)
+		}
 	}
 
 	return {

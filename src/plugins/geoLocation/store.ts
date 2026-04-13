@@ -18,7 +18,7 @@ import * as Proj from 'ol/proj'
 import { transform as transformCoordinates } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { notifyUser } from '@/lib/notifyUser'
@@ -45,6 +45,8 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	const geolocation = ref<Geolocation | null>(null)
 	const lastBoundaryCheck = ref<boolean | symbol | null>(null)
 	const position = ref<number[]>([])
+
+	let mapHasBeenMovedByUser = false
 
 	const configuration = computed<
 		GeoLocationPluginOptions & { showTooltip: boolean; zoomLevel: number }
@@ -141,6 +143,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 
 	/** Enable tracking of geo position */
 	function track() {
+		mapHasBeenMovedByUser = false
 		if (isGeolocationDenied.value) {
 			onError({
 				message: 'Geolocation API usage was denied by user or configuration.',
@@ -165,6 +168,15 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		})
 		geolocation.value.on('error', onError)
 	}
+
+	watch(
+		() => coreStore.center,
+		() => {
+			if (position.value !== coreStore.center) {
+				mapHasBeenMovedByUser = true
+			}
+		}
+	)
 
 	/**
 	 * Show error information and stop tracking if there are errors by tracking the position
@@ -245,7 +257,8 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 
 		if (
 			(configuration.value.keepCentered || !hadPosition) &&
-			lastBoundaryCheck.value
+			lastBoundaryCheck.value &&
+			!mapHasBeenMovedByUser
 		) {
 			coreStore.map.getView().setCenter(coordinate)
 			coreStore.map.getView().setZoom(configuration.value.zoomLevel)

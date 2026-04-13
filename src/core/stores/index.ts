@@ -30,6 +30,14 @@ export const useCoreStore = defineStore('core', () => {
 
 	return {
 		/**
+		 * The current center coordinates of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		center: computed(() => mainStore.center),
+
+		/**
 		 * Color scheme the client should be using.
 		 */
 		colorScheme: mainStoreRefs.colorScheme,
@@ -160,6 +168,13 @@ export const useCoreStore = defineStore('core', () => {
 		 * @param pluginId - ID of the plugin whose store is requested.
 		 */
 		getPluginStore: pluginStore.getPluginStore,
+
+		/**
+		 * Returns a list of IDs of all currently installed plugins.
+		 *
+		 * @readonly
+		 */
+		usedPlugins: computed(() => pluginStore.plugins.map((p) => p.id)),
 
 		/**
 		 * Allows reading or setting the OIDC token used for service accesses.
