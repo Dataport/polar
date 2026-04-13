@@ -25,4 +25,8 @@ const props = defineProps<{
 		font-size: 1.2em;
 	}
 }
+
+.kern-accordion__body {
+	padding-bottom: var(--kern-metric-space-small);
+}
 </style>
