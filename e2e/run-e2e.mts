@@ -110,6 +110,7 @@ if (playwrightArgs[0] === '--') playwrightArgs = playwrightArgs.slice(1)
 // Run bddgen and playwright
 
 try {
+  // eslint-disable-next-line no-console
   console.log(`Running e2e tests for client: ${clientName}`)
 
   const tagsExpression = values.tags
@@ -117,6 +118,7 @@ try {
     : ''
 
   if (tagsExpression) {
+    // eslint-disable-next-line no-console
     console.log(`Using tags expression: ${tagsExpression}`)
   }
 
@@ -125,7 +127,9 @@ try {
     bddgenCliPath,
     ...(tagsExpression ? ['--tags', tagsExpression] : []),
   ]
+  // eslint-disable-next-line no-console
   console.log('executing: ' + formatCommandForLog(process.execPath, bddgenArgs))
+  // eslint-disable-next-line no-console
   console.log(
     'equivalent: ' +
       formatCommandForLog('npx', [
@@ -140,7 +144,9 @@ try {
 
   // Run playwright with PLAYWRIGHT_CLIENT environment variable
   const pwArgs = [playwrightCliPath, 'test', ...playwrightArgs]
+  // eslint-disable-next-line no-console
   console.log('executing: ' + formatCommandForLog(process.execPath, pwArgs))
+  // eslint-disable-next-line no-console
   console.log(
     'equivalent: ' +
       formatCommandForLog('npx', ['playwright', 'test', ...playwrightArgs])
@@ -150,6 +156,7 @@ try {
     env: { ...process.env, PLAYWRIGHT_CLIENT: clientName },
   })
 } catch (error) {
+  // eslint-disable-next-line no-console
   // console.error(error)
   const exitCode =
     error && typeof error === 'object' && 'status' in error

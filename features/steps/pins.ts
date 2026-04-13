@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 import { createBdd } from 'playwright-bdd'
-import { saveAllPinsScreenshots } from './utils/screenshot-utils'
+import { saveAllPinsScreenshots } from './utils/screenshot'
 
 const { Given, When, Then } = createBdd()
 

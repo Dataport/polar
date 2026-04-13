@@ -11,6 +11,7 @@
 **/playwright-report/
 **/blob-report/
 **/playwright/.cache/
+**/all-blob-reports/
 /*.log
 /.idea/
 /.features-gen/
