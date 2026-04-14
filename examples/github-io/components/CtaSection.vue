@@ -31,8 +31,9 @@
 			<div class="lp-cta-pills" aria-label="Key properties">
 				<span class="lp-cta-pill">EUPL license</span>
 				<span class="lp-cta-pill">Active Development</span>
-				<span class="lp-cta-pill">Community Support</span>
-				<span class="lp-cta-pill">KERN Compliant</span>
+				<span class="lp-cta-pill">OSGeo Community Project</span>
+				<!--<span class="lp-cta-pill">Community Support</span>-->
+				<span class="lp-cta-pill">KERN Compliant</span>	
 			</div>
 		</div>
 	</section>

@@ -40,6 +40,16 @@
 						class="kern-icon kern-icon-fill--check-circle"
 						aria-hidden="true"
 					/>
+					Official
+					<a class="kern-link" href="https://www.osgeo.org/projects/polar/" target="_blank">
+						OSGeo community project
+					</a>
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
 					Comprehensive documentation and examples
 				</li>
 				<li>

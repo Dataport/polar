@@ -73,6 +73,20 @@ export const phases: Phase[] = [
 			},
 		],
 	},
+		{
+		status: 'done',
+		label: 'Q1 · 2026',
+		sublabel: 'Completed',
+		accentIcon: 'check',
+		milestoneIcon: 'check',
+		items: [
+			{
+				title: 'OSGeo Community Project',
+				body: 'POLAR has been accepted as an OSGeo community project, fostering open collaboration and wider adoption.',
+				accentIcon: 'groups',
+			}
+		],
+	},
 	{
 		status: 'progress',
 		label: 'Q2 · 2026',
@@ -93,7 +107,7 @@ export const phases: Phase[] = [
 			{
 				title: 'Fixing more bugs',
 				body: 'Further improvements across the core and plugin ecosystem.',
-				accentIcon: 'settings',
+				accentIcon: 'bug-report',
 			},
 		],
 	},
