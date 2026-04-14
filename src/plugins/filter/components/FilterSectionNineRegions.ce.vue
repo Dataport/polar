@@ -16,6 +16,10 @@ const props = defineProps<{
 </script>
 
 <style scoped>
+.kern-accordion {
+	border-bottom: 0;
+}
+
 .kern-accordion__header {
 	padding: var(--kern-metric-space-x-small);
 
