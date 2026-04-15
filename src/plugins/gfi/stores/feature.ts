@@ -6,6 +6,7 @@ import { MapBrowserEvent, Overlay } from 'ol'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
 
+import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
 import { useMultiSelection } from '../composables/useMultiSelection'
@@ -108,25 +109,19 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		gfiMainStore.featureInformation = result
 	}
 
-	for (const source of gfiMainStore.configuration.coordinateSources || []) {
-		const store = source.plugin
-			? coreStore.getPluginStore(source.plugin)
-			: coreStore
-		if (!store) {
-			continue
-		}
-		watch(
-			() => store[source.key],
-			async (coordinate) => {
-				if (coordinate) {
-					await getFeatureInfo(coordinate)
-				} else {
-					gfiMainStore.featureInformation = {}
-				}
-			},
-			{ immediate: true }
-		)
-	}
+	usePluginStoreWatcher(
+		gfiMainStore.configuration.coordinateSources || [],
+		async (coordinate) => {
+			if (coordinate) {
+				await getFeatureInfo(
+					coordinate as RequestGfiParameters['coordinateOrExtent']
+				)
+			} else {
+				gfiMainStore.featureInformation = {}
+			}
+		},
+		{ immediate: true }
+	)
 
 	if (gfiMainStore.configuration.multiSelect) {
 		const multiSelection = useMultiSelection({
