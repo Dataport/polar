@@ -24,7 +24,7 @@ const props = defineProps<{
 	padding: var(--kern-metric-space-x-small);
 
 	.kern-title {
-		color: black;
+		color: var(--kern-color-layout-text-default);
 		font-weight: normal;
 		font-size: 1.2em;
 	}
