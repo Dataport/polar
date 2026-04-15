@@ -7,7 +7,7 @@ import type { ImageWMS, TileWMS } from 'ol/source'
 import type { Options as Fill } from 'ol/style/Fill'
 import type { Options as Stroke } from 'ol/style/Stroke'
 
-import type { PluginOptions, StoreReference } from '@/core'
+import type { InterfacePluginOptions, StoreReference } from '@/core'
 
 /**
  * Plugin identifier.
@@ -238,7 +238,7 @@ export interface FeatureList {
  * }
  * ```
  */
-export interface GfiPluginOptions extends PluginOptions {
+export interface GfiPluginOptions extends InterfacePluginOptions {
 	/**
 	 * Maps a string (must be a layer ID) to a behaviour configuration for that layer.
 	 */

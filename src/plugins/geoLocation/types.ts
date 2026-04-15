@@ -1,4 +1,4 @@
-import type { LayerBoundPluginOptions } from '@/core'
+import type { LayerBoundPluginOptions, InterfacePluginOptions } from '@/core'
 
 /**
  * Plugin identifier.
@@ -13,7 +13,8 @@ export type PluginState = 'LOCATABLE' | 'LOCATED' | 'DISABLED'
 /**
  * Plugin options for geoLocation plugin.
  */
-export interface GeoLocationPluginOptions extends LayerBoundPluginOptions {
+export interface GeoLocationPluginOptions
+	extends LayerBoundPluginOptions, InterfacePluginOptions {
 	/**
 	 * If `true`, the location check will be run on map start-up. If `false`, the
 	 * feature has to be triggered with a button press by the user.
