@@ -29,8 +29,9 @@ export interface CategoryValue {
 	values: string[]
 
 	/**
-	 * (Standard-layout-only)
 	 * An icon that is assigned to the value for filtering.
+	 *
+	 * Only usable if {@link MapConfiguration.layout | layout} is set to `'standard'`.
 	 */
 	icon?: Icon
 }
