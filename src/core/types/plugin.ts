@@ -55,7 +55,8 @@ export interface PluginOptions {
 
 	/**
 	 * The region where the plugin should be rendered.
-	 * Required for nine-regions layout, ignored otherwise.
+	 *
+	 * Only usable if {@link MapConfiguration.layout | `layout`} is set to `'nineRegions'`.
 	 */
 	layoutTag?: keyof typeof NineLayoutTag
 
