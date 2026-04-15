@@ -71,8 +71,8 @@ export interface AttributionsPluginOptions extends PluginOptions {
 
 	/**
 	 * Whether the information box is open by default.
-	 * Only usable when {@link renderType} is set to `'independent'` and {@link layout | MapConfiguration.layout}
-	 * is set to `'nineRegions'` OR {@link layout | MapConfiguration.layout} is set to `'standard'`.
+	 * Only usable when {@link renderType} is set to `'independent'` and {@link MapConfiguration.layout | `layout`}
+	 * is set to `'nineRegions'` OR {@link MapConfiguration.layout | `layout`} is set to `'standard'`.
 	 * Otherwise, the IconMenu or the Footer handles this.
 	 */
 	initiallyOpen?: boolean
@@ -94,7 +94,7 @@ export interface AttributionsPluginOptions extends PluginOptions {
 	 * should always be visible (`'footer'`).
 	 *
 	 * @remarks
-	 * Only relevant if {@link layout | MapConfiguration.layout} is set to `'nineRegions'`,
+	 * Only relevant if {@link MapConfiguration.layout | `layout`} is set to `'nineRegions'`,
 	 * as it is otherwise expected to be rendered as part of the Footer.
 	 *
 	 * @defaultValue 'independent'
@@ -107,8 +107,8 @@ export interface AttributionsPluginOptions extends PluginOptions {
 	staticAttributions?: string[]
 
 	/**
-	 * If {@link renderType} is set to `'independent'` and {@link layout | MapConfiguration.layout}
-	 * is set to `'nineRegions'` OR {@link layout | MapConfiguration.layout} is set to `'standard'`,
+	 * If {@link renderType} is set to `'independent'` and {@link MapConfiguration.layout | `layout`}
+	 * is set to `'nineRegions'` OR {@link MapConfiguration.layout | `layout`} is set to `'standard'`,
 	 * sets the width of the container of the attributions.
 	 *
 	 * @defaultValue 500
