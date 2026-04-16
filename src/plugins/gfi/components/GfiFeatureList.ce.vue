@@ -2,9 +2,12 @@
 	<h2 class="kern-heading-medium">
 		{{ $t(($) => $.list.header, { ns: 'gfi' }) }}
 	</h2>
-	<template v-if="gfiStore.listFlatFeatures.length === 0">
+	<p
+		v-if="gfiStore.listFlatFeatures.length === 0"
+		class="kern-body kern-body--small polar-plugin-gfi-list-empty-view"
+	>
 		{{ $t(($) => $.list.emptyView, { ns: 'gfi' }) }}
-	</template>
+	</p>
 	<template v-else>
 		<KernPagination
 			v-if="gfiStore.listPaginationActive"
@@ -49,6 +52,10 @@ const gfiStore = useGfiStore()
 </script>
 
 <style scoped>
+.polar-plugin-gfi-list-empty-view {
+	text-wrap: wrap;
+}
+
 section {
 	width: 100%;
 	padding: var(--kern-metric-space-small);
