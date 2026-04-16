@@ -447,7 +447,7 @@ addPlugin(
 								key: 'activeMaskIds',
 							},
 							mode: 'visible',
-							bindWithCoreHoverSelect: false,
+							bindWithCoreHoverSelect: true,
 							pageLength: 5,
 							text: {
 								title: (feature) =>
