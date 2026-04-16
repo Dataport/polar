@@ -222,13 +222,19 @@ export function setupMarkers(map: Map) {
 			}
 			if (feature !== null && feature !== toRaw(store.selected)) {
 				store.hovered = markRaw(feature)
-				const isMultiFeature = store.hovered.get('features')?.length > 1
-				const style = getMarkerStyle(
-					getLayerConfiguration(feature.get('_polarLayerId') as string)
-						.hoverStyle,
-					isMultiFeature
+				const layerId = feature.get('_polarLayerId') as string
+				const selectedCluster =
+					// @ts-expect-error | Found layers always have a source and getDistance is defined on cluster sources.
+					typeof findLayer(map, layerId)?.getSource().getDistance === 'function'
+						? getCluster(map, feature, '_polarLayerId')
+						: feature
+				selectedCluster.setStyle(
+					getMarkerStyle(
+						getLayerConfiguration(feature.get('_polarLayerId') as string)
+							.hoverStyle,
+						selectedCluster.get('features')?.length > 1
+					)
 				)
-				feature.setStyle(style)
 			}
 		}
 	)
