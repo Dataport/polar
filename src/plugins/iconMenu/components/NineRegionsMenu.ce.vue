@@ -154,6 +154,5 @@ provide('updateMaxWidth', updateMaxWidth)
 .polar-plugin-icon-menu-list-item-content-scrollable-y {
 	z-index: 1;
 	overflow-y: auto;
-	scrollbar-gutter: stable;
 }
 </style>
