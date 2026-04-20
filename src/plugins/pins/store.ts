@@ -80,7 +80,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		layers: [pinLayer],
 	})
 
-	const sourceWatchers = usePluginStoreWatcher(
+	usePluginStoreWatcher(
 		() => configuration.value.coordinateSources || [],
 		(value: unknown) => {
 			const feature = value as PolarGeoJsonFeature<GeoJsonPoint> | null
@@ -98,7 +98,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		coreStore.map.addLayer(pinLayer)
 		pinLayer.setZIndex(100)
 		coreStore.map.on('singleclick', onSingleClick)
-		sourceWatchers.setupPlugin()
 		setupInitial()
 		setupInteractions()
 	}
@@ -110,7 +109,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		map.removeLayer(pinLayer)
 		map.removeInteraction(move)
 		map.removeInteraction(translate)
-		sourceWatchers.teardownPlugin()
 	}
 
 	function setupInitial() {

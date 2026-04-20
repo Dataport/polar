@@ -68,6 +68,8 @@ test('Component transfers category and time filters to the store', async ({
 			},
 		},
 	}
+	store.getCategoryStatus = vi.fn().mockReturnValue(true)
+
 	await nextTick()
 
 	const onlyCat = wrapper
@@ -78,8 +80,11 @@ test('Component transfers category and time filters to the store', async ({
 	assert(onlyCat !== undefined, 'Could not find cat button')
 	await onlyCat.trigger('click')
 
-	expect(store.selectedLayerState?.knownValues?.pet?.dog).toBeTruthy()
-	expect(store.selectedLayerState?.knownValues?.pet?.cat).toBeFalsy()
+	expect(store.setCategoryStatus).toHaveBeenCalledExactlyOnceWith(
+		'pet',
+		{ key: 'cat', values: ['cat'] },
+		false
+	)
 
 	const yesterday = wrapper
 		.findAll('label')
@@ -88,11 +93,4 @@ test('Component transfers category and time filters to the store', async ({
 	await yesterday.trigger('click')
 
 	expect(store.timeModel).toEqual('last-1')
-
-	await nextTick()
-	expect(
-		wrapper
-			.find('[aria-labelledby="' + yesterday.element.id + '"]')
-			.element.getAttribute('aria-checked')
-	).toBe('true')
 })

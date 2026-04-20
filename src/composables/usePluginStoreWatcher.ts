@@ -4,7 +4,14 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { computed, watch, type ComputedRef, type WatchHandle } from 'vue'
+import {
+	computed,
+	onScopeDispose,
+	watch,
+	type ComputedRef,
+	type WatchOptions,
+	type WatchStopHandle,
+} from 'vue'
 
 import type { StoreReference } from '@/core/types'
 
@@ -16,7 +23,7 @@ import { useCoreStore } from '@/core/stores'
  */
 interface WatcherConfig {
 	callback: (value: unknown) => void | Promise<void>
-	handle: WatchHandle | null
+	handle: WatchStopHandle | null
 	source: StoreReference
 }
 
@@ -28,6 +35,7 @@ interface WatcherConfig {
  *
  * @param sources - Array of plugin store references to watch, or a computed reference to them, or a function returning them
  * @param callback - Function called when any watched plugin store value changes
+ * @param watchOptions - Optional watch options to pass to the underlying Vue watcher (e.g., `{ immediate: true }`)
  *
  * @example
  * ```typescript
@@ -37,7 +45,8 @@ interface WatcherConfig {
  *     if (coordinate) {
  *       await reverseGeocode(coordinate)
  *     }
- *   }
+ *   },
+ *   { immediate: true }
  * )
  * ```
  *
@@ -48,7 +57,8 @@ export function usePluginStoreWatcher(
 		| StoreReference[]
 		| ComputedRef<StoreReference[]>
 		| (() => StoreReference[]),
-	callback: (value: unknown) => void | Promise<void>
+	callback: (value: unknown) => void | Promise<void>,
+	watchOptions?: WatchOptions
 ) {
 	const coreStore = useCoreStore()
 	const sourcesArray = computed(() => {
@@ -62,8 +72,8 @@ export function usePluginStoreWatcher(
 	})
 
 	const watchers: WatcherConfig[] = []
-	let pluginListWatcher: WatchHandle | null = null
-	let sourcesWatcher: WatchHandle | null = null
+	let pluginListWatcher: WatchStopHandle | null = null
+	let sourcesWatcher: WatchStopHandle | null = null
 
 	function setupWatcherForSource(watcherConfig: WatcherConfig) {
 		if (watcherConfig.handle !== null) {
@@ -85,7 +95,8 @@ export function usePluginStoreWatcher(
 
 		watcherConfig.handle = watch(
 			() => store[watcherConfig.source.key],
-			watcherConfig.callback
+			watcherConfig.callback,
+			watchOptions
 		)
 	}
 
@@ -157,8 +168,6 @@ export function usePluginStoreWatcher(
 		}
 	}
 
-	return {
-		setupPlugin,
-		teardownPlugin,
-	}
+	setupPlugin()
+	onScopeDispose(teardownPlugin)
 }

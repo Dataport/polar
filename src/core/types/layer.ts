@@ -75,6 +75,16 @@ export interface LayerConfiguration {
 	 * Type of layer. Can be background layer, a feature ('mask') layer with
 	 * specific information, or any custom string for grouping different mask layers.
 	 * Custom strings allow for the categorization of layers into arbitrary groups.
+	 *
+	 * @remarks
+	 * Localization of a custom type is required and can be done by adding the
+	 * following snipped to the localization of a client for the type `dank`.
+	 *
+	 * ```
+	 * layerChooser: {
+	 * 	dankTitle: 'Dank layers',
+	 * },
+	 * ```
 	 */
 	type: LayerType
 

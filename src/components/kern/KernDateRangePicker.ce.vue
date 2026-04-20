@@ -24,5 +24,6 @@ const end = defineModel<Date | null>('end', { required: true })
 	align-items: center;
 	justify-content: space-between;
 	margin: 0.3em 0;
+	gap: 0.3em;
 }
 </style>

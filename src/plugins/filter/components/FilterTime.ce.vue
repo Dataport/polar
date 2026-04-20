@@ -12,12 +12,16 @@
 				@update:model-value="scrollVisible($event)"
 			/>
 		</div>
-		<KernDateRangePicker
+		<div
 			v-if="filterStore.timeModel === 'custom'"
-			v-model:start="filterStore.timeStart"
-			v-model:end="filterStore.timeEnd"
-			v-bind="filterStore.timeConstraints"
-		/>
+			class="polar-filter-time-range"
+		>
+			<KernDateRangePicker
+				v-model:start="filterStore.timeStart"
+				v-model:end="filterStore.timeEnd"
+				v-bind="filterStore.timeConstraints"
+			/>
+		</div>
 	</FilterSection>
 </template>
 
@@ -49,3 +53,9 @@ async function scrollVisible(model: string) {
 	}
 }
 </script>
+
+<style scoped>
+.polar-filter-time-range {
+	margin-top: var(--kern-metric-space-default);
+}
+</style>

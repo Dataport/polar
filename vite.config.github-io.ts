@@ -26,8 +26,18 @@ export default defineConfig({
 		enrichedConsole(),
 	],
 	build: {
-		outDir: '../../.dist.github-io',
+		outDir: resolve(__dirname, 'examples', 'github-io', 'dist'),
 		chunkSizeWarningLimit: 1536,
+		emptyOutDir: true,
+		rollupOptions: {
+			external: ['@polar/polar', '@polar/polar/client', '@polar/polar/store'],
+			input: resolve(__dirname, 'examples', 'github-io', 'index.html'),
+			output: {
+				entryFileNames: '[name].js',
+				chunkFileNames: '[name].js',
+				assetFileNames: '[name].[ext]',
+			},
+		},
 	},
 	preview: {
 		port: 1236,

@@ -26,7 +26,7 @@ export const useScaleStore = defineStore('plugins/scale', () => {
 	const coreStore = useCoreStore()
 	const { dpi } = useDpi()
 
-	const scaleValue = ref<number>(0)
+	const scaleValue = ref(0)
 
 	const scaleToOne = computed(() =>
 		beautifyScale(scaleValue.value, coreStore.language)

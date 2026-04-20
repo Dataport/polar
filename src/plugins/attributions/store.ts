@@ -7,6 +7,8 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
+import type { StoreReference } from '@/core'
+
 import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 import { getVisibleAttributions } from '@/plugins/attributions/utils/getVisibleAttributions.ts'
@@ -40,6 +42,9 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 			staticAttributions.value
 		)
 	)
+	const listenToChanges = computed<StoreReference[]>(
+		() => configuration.value.listenToChanges || []
+	)
 	const mapInfoIcon = computed(() =>
 		windowIsOpen.value
 			? (configuration.value.icons?.close ?? 'kern-icon--chevron-forward')
@@ -53,14 +58,9 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
 
-	const listenersWatchers = usePluginStoreWatcher(
-		() => configuration.value.listenToChanges || [],
-		updateLayers
-	)
+	usePluginStoreWatcher(listenToChanges, updateLayers)
 
 	function setupPlugin() {
-		listenersWatchers.setupPlugin()
-
 		const allLayers = coreStore.map.getLayers()
 		allLayers.on('add', updateLayers)
 		allLayers.on('add', updateAttributions)
@@ -79,7 +79,6 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	}
 
 	function teardownPlugin() {
-		listenersWatchers.teardownPlugin()
 		const allLayers = coreStore.map.getLayers()
 		allLayers.un('add', updateLayers)
 		allLayers.un('add', updateAttributions)

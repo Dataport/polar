@@ -15,6 +15,12 @@
 				splitScreen ? 'Exit split screen' : 'Enter split screen'
 			}}</span>
 		</button>
+		<button class="kern-btn kern-btn--secondary" @click="darkMode = !darkMode">
+			<span class="kern-icon kern-icon--dark-mode" />
+			<span class="kern-label">{{
+				darkMode ? 'Exit dark mode' : 'Enter dark mode'
+			}}</span>
+		</button>
 	</div>
 	<polar-map
 		v-if="store.serviceRegister.length"
@@ -39,7 +45,7 @@ import pluginPins from '@polar/polar/plugins/pins'
 import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
-import { ref, useTemplateRef, watch } from 'vue'
+import { computed, ref, useTemplateRef, watch } from 'vue'
 
 import { useIcebergStore } from '../stores/iceberg'
 
@@ -148,6 +154,23 @@ watch(map, (map) => {
 	subscribe(map, 'core', 'language', (newLanguage) => {
 		language.value = newLanguage as string
 	})
+})
+
+const darkMode = computed({
+	get: () => {
+		if (!map.value) {
+			return
+		}
+		const coreStore = getStore(map.value, 'core')
+		return coreStore.colorScheme === 'dark'
+	},
+	set: (value: boolean) => {
+		if (!map.value) {
+			return
+		}
+		const coreStore = getStore(map.value, 'core')
+		coreStore.colorScheme = value ? 'dark' : 'light'
+	},
 })
 
 function switchLanguage() {
