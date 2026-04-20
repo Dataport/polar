@@ -77,6 +77,7 @@ defineExpose({
 	color: white;
 	background-color: rgba(0, 0, 0, 0.45);
 	pointer-events: none;
+	border-radius: var(--kern-metric-border-radius-large);
 }
 
 .fade-enter-active,
