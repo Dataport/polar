@@ -5,8 +5,9 @@
 		:lang="language"
 		:data-kern-theme="mainStore.colorScheme"
 	>
+		<PolarMapOverlay ref="polar-map-overlay" />
 		<div class="polar-map-layer">
-			<PolarMap />
+			<PolarMap ref="polar-map-container" @wheel="wheelEffect" />
 		</div>
 		<div class="polar-ui-layer">
 			<div v-if="!hasWindowSize" class="polar-shadow" aria-hidden="true" />
@@ -21,9 +22,11 @@
 
 <script setup lang="ts">
 import { toMerged } from 'es-toolkit'
-import i18next from 'i18next'
+import Hammer from 'hammerjs'
+import i18next, { t } from 'i18next'
 import { disposePinia, getActivePinia, type Pinia, storeToRefs } from 'pinia'
 import {
+	computed,
 	getCurrentInstance,
 	onBeforeUnmount,
 	onMounted,
@@ -36,6 +39,7 @@ import {
 
 import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
 
+import { useT } from '../composables/useT'
 import { useCoreStore } from '../stores'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
@@ -43,6 +47,7 @@ import { loadKern } from '../utils/loadKern'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import MoveHandle from './MoveHandle.ce.vue'
 import PolarMap from './PolarMap.ce.vue'
+import PolarMapOverlay from './PolarMapOverlay.ce.vue'
 import PolarUI from './PolarUI.ce.vue'
 
 defineOptions({
@@ -58,8 +63,58 @@ defineExpose<{
 	store: ReturnType<typeof useCoreStore>
 }>()
 
+const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
+const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
+
+const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
+const noCommandOnZoom = useT(() =>
+	t(($) => $.overlay.noCommandOnZoom, { ns: 'core' })
+)
+const noControlOnZoom = useT(() =>
+	t(($) => $.overlay.noControlOnZoom, { ns: 'core' })
+)
+
+function wheelEffect(event: WheelEvent) {
+	if (hasWindowSize.value || !overlay.value) {
+		return
+	}
+	const condition = computed(() => !hasWindowSize.value)
+	if (isMacOS && !event.metaKey) {
+		overlay.value.show(noCommandOnZoom, condition)
+	} else if (!isMacOS && !event.ctrlKey) {
+		overlay.value.show(noControlOnZoom, condition)
+	}
+}
+
+const oneFingerPan = useT(() =>
+	t(($) => $.overlay.oneFingerPan, { ns: 'core' })
+)
+let hammer: { destroy: () => void } | null = null
+function updateListeners() {
+	if (
+		!hasWindowSize.value &&
+		polarMapContainer.value &&
+		mainStore.hasSmallDisplay
+	) {
+		hammer?.destroy()
+		hammer = new Hammer(polarMapContainer.value).on('pan', (e) => {
+			if (
+				overlay.value &&
+				e.maxPointers === 1 &&
+				!mainStore.map
+					.getInteractions()
+					.getArray()
+					.some((interaction) => interaction.get('_isPolarDragLikeInteraction'))
+			) {
+				overlay.value.show(oneFingerPan)
+			}
+		})
+	}
+}
+
 const mainStore = useMainStore()
-const { hasSmallWidth, hasWindowSize, language } = storeToRefs(mainStore)
+const { hasSmallDisplay, hasSmallWidth, hasWindowSize, language } =
+	storeToRefs(mainStore)
 
 mainStore.configuration = toMerged(
 	mainStore.configuration,
@@ -109,6 +164,8 @@ watch(
 		await i18next.changeLanguage(newLanguage)
 	}
 )
+watch(hasWindowSize, updateListeners)
+watch(hasSmallDisplay, updateListeners)
 
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
@@ -145,6 +202,9 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+	hammer?.destroy()
+	hammer = null
+
 	if (resizeObserver instanceof ResizeObserver) {
 		resizeObserver.unobserve(polarWrapper.value as Element)
 		resizeObserver = null
