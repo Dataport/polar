@@ -15,6 +15,12 @@
 				splitScreen ? 'Exit split screen' : 'Enter split screen'
 			}}</span>
 		</button>
+		<button class="kern-btn kern-btn--secondary" @click="darkMode = !darkMode">
+			<span class="kern-icon kern-icon--dark-mode" />
+			<span class="kern-label">{{
+				darkMode ? 'Exit dark mode' : 'Enter dark mode'
+			}}</span>
+		</button>
 	</div>
 	<polar-map
 		v-if="store.serviceRegister.length"
@@ -31,6 +37,7 @@ import type { PolarContainer } from '@polar/polar'
 import { addPlugins, getStore, subscribe } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
+import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
@@ -38,7 +45,7 @@ import pluginPins from '@polar/polar/plugins/pins'
 import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
-import { ref, useTemplateRef, watch } from 'vue'
+import { computed, ref, useTemplateRef, watch } from 'vue'
 
 import { useIcebergStore } from '../stores/iceberg'
 
@@ -57,6 +64,39 @@ watch(map, (map) => {
 			displayComponent: true,
 			layoutTag: 'TOP_RIGHT',
 			menus: [
+				[
+					{
+						plugin: pluginFilter({
+							layers: {
+								6059: {
+									categories: [
+										{
+											targetProperty: 'statu',
+											knownValues: [
+												{
+													key: 'todo',
+													values: ['In Bearbeitung'],
+													icon: 'kern-icon--assignment',
+												},
+												{
+													key: 'done',
+													values: ['abgeschlossen'],
+													icon: 'kern-icon--check',
+												},
+											],
+										},
+									],
+									time: {
+										targetProperty: 'start',
+										freeSelection: 'until',
+										last: [7],
+										pattern: 'YYYYMMDD',
+									},
+								},
+							},
+						}),
+					},
+				],
 				[
 					{
 						plugin: pluginLayerChooser({}),
@@ -113,6 +153,23 @@ watch(map, (map) => {
 	subscribe(map, 'core', 'language', (newLanguage) => {
 		language.value = newLanguage as string
 	})
+})
+
+const darkMode = computed({
+	get: () => {
+		if (!map.value) {
+			return
+		}
+		const coreStore = getStore(map.value, 'core')
+		return coreStore.colorScheme === 'dark'
+	},
+	set: (value: boolean) => {
+		if (!map.value) {
+			return
+		}
+		const coreStore = getStore(map.value, 'core')
+		coreStore.colorScheme = value ? 'dark' : 'light'
+	},
 })
 
 function switchLanguage() {

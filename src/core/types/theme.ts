@@ -53,7 +53,7 @@ export type Color = { oklch: OklchColor } | { rgba: RgbaColor } | string
 /**
  * An icon.
  */
-export type Icon = `kern-icon--${string}`
+export type Icon = `kern-icon--${string}` | `kern-icon-fill--${string}`
 
 /**
  * A theme for the POLAR map client.
