@@ -1,0 +1,175 @@
+/* eslint-disable tsdoc/syntax */
+/**
+ * @module \@polar/polar/plugins/filter/store
+ */
+/* eslint-enable tsdoc/syntax */
+
+import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
+import { watch } from 'vue'
+
+import { getVectorSource } from '@/lib/getVectorSource'
+
+import { useFilterCategoryStore } from './stores/category'
+import { useFilterMainStore } from './stores/main'
+import { useFilterTimeStore } from './stores/time'
+import { updateFeatureVisibility } from './utils/updateFeatureVisibility'
+
+/* eslint-disable tsdoc/syntax */
+/**
+ * @function
+ *
+ * Plugin store for filtering features.
+ */
+/* eslint-enable tsdoc/syntax */
+export const useFilterStore = defineStore('plugins/filter', () => {
+	const filterMainStore = useFilterMainStore()
+	const filterMainStoreRefs = storeToRefs(filterMainStore)
+	const filterCategoryStore = useFilterCategoryStore()
+	const filterTimeStore = useFilterTimeStore()
+	const filterTimeStoreRefs = storeToRefs(filterTimeStore)
+
+	const teardownCallbacks = [] as (() => void)[]
+
+	function setupPlugin() {
+		filterMainStore.filteredLayers.forEach((layer) => {
+			const source = getVectorSource(layer)
+			const callback = () => {
+				updateFeatureVisibility(
+					source,
+					filterMainStore.state[layer.get('id')] ?? {}
+				)
+			}
+			source.on('featuresloadend', callback)
+			teardownCallbacks.push(() => {
+				source.un('featuresloadend', callback)
+			})
+			teardownCallbacks.push(
+				watch(
+					() => filterMainStore.state[layer.get('id')],
+					() => {
+						callback()
+					},
+					{ deep: true, immediate: true }
+				)
+			)
+		})
+	}
+
+	function teardownPlugin() {
+		teardownCallbacks.forEach((callback) => {
+			callback()
+		})
+	}
+
+	return {
+		/**
+		 * Flat list of filterable layers.
+		 *
+		 * @alpha
+		 */
+		layers: filterMainStoreRefs.layers,
+
+		/**
+		 * ID of the selected layer.
+		 *
+		 * @alpha
+		 */
+		selectedLayerId: filterMainStoreRefs.selectedLayerId,
+
+		/**
+		 * Information on the selected layer.
+		 *
+		 * @alpha
+		 */
+		selectedLayer: filterMainStoreRefs.selectedLayer,
+
+		/**
+		 * Configuration of the selected layer w.r.t. filter.
+		 * If no layer is selected, the configuration is an empty object.
+		 *
+		 * @alpha
+		 */
+		selectedLayerConfiguration: filterMainStoreRefs.selectedLayerConfiguration,
+
+		/**
+		 * State of the selected layer w.r.t. filter.
+		 * If no layer is selected, the state is `null`.
+		 *
+		 * @alpha
+		 */
+		selectedLayerState: filterMainStoreRefs.selectedLayerState,
+
+		/**
+		 * `true` if the selected layer allows filtering for time.
+		 *
+		 * @alpha
+		 */
+		selectedLayerHasTimeFilter: filterMainStoreRefs.selectedLayerHasTimeFilter,
+
+		/**
+		 * For a given category value for a target property, return the selected values.
+		 *
+		 * @remarks
+		 * If there are multiple values specified for the category value, the category is considered selected if all values are selected.
+		 *
+		 * @param targetProperty - Target property
+		 * @param categoryValue - Value to filter for
+		 * @returns `true` if the category value is selected, `false` otherwise
+		 * @alpha
+		 */
+		getCategoryStatus: filterCategoryStore.getStatus,
+
+		/**
+		 * Set the selection state for a given category value for a target property.
+		 *
+		 * @param targetProperty - Target property
+		 * @param categoryValue - Value to filter for
+		 * @param newStatus - `true` if the category value should be selected, `false` otherwise
+		 * @alpha
+		 */
+		setCategoryStatus: filterCategoryStore.setStatus,
+
+		/**
+		 * For a given category, select all values if at least some are not selected yet, or de-select all values otherwise.
+		 *
+		 * @param category - Category to toggle value's selection states
+		 * @alpha
+		 */
+		selectOrDeselectAllFromCategory: filterCategoryStore.selectOrDeselectAll,
+
+		/**
+		 * @alpha
+		 */
+		timeModel: filterTimeStoreRefs.model,
+
+		/**
+		 * @alpha
+		 */
+		timeStart: filterTimeStoreRefs.customModelStart,
+
+		/**
+		 * @alpha
+		 */
+		timeEnd: filterTimeStoreRefs.customModelEnd,
+
+		/**
+		 * @alpha
+		 */
+		timeConstraints: filterTimeStoreRefs.timeConstraints,
+
+		/**
+		 * @alpha
+		 */
+		timeItems: filterTimeStoreRefs.items,
+
+		/** @internal */
+		setupPlugin,
+
+		/** @internal */
+		teardownPlugin,
+	}
+})
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useFilterStore, import.meta.hot))
+}

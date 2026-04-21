@@ -181,7 +181,6 @@ function toggle(id: string) {
 		top: 0;
 		white-space: nowrap;
 		overflow-y: auto;
-		scrollbar-gutter: stable;
 	}
 
 	.polar-plugin-icon-menu-list-item-content-horizontal {

@@ -147,7 +147,6 @@ function toggle(id: string) {
 		margin: var(--kern-metric-space-small);
 		white-space: nowrap;
 		overflow-y: auto;
-		scrollbar-gutter: stable;
 	}
 }
 </style>
