@@ -102,7 +102,7 @@ function updateListeners() {
 		!hasWindowSize.value &&
 		polarMapContainer.value &&
 		polarMapContainer.value.el &&
-		mainStore.hasSmallDisplay
+		hasSmallDisplay.value
 	) {
 		hammer?.destroy()
 		hammer = new Hammer(polarMapContainer.value.el).on('pan', (e) => {
