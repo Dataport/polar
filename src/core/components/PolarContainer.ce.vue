@@ -94,9 +94,12 @@ if (mainStore.configuration.language) {
 mainStore.serviceRegister = props.serviceRegister
 
 mainStore.language = i18next.language
-i18next.on('languageChanged', (newLanguage) => {
+i18next.on('languageChanged', updateLanguage)
+
+function updateLanguage(newLanguage: string) {
 	mainStore.language = newLanguage
-})
+}
+
 watch(
 	() => mainStore.language,
 	async (newLanguage) => {
@@ -146,6 +149,8 @@ onBeforeUnmount(() => {
 		resizeObserver.unobserve(polarWrapper.value as Element)
 		resizeObserver = null
 	}
+
+	i18next.off('languageChanged', updateLanguage)
 
 	const mapEl = mainStore.map.getTargetElement()
 	mainStore.map.dispose()
