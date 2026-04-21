@@ -7,7 +7,11 @@
 	>
 		<PolarMapOverlay ref="polar-map-overlay" />
 		<div class="polar-map-layer">
-			<PolarMap ref="polar-map-container" @wheel="wheelEffect" />
+			<PolarMap
+				ref="polar-map-container"
+				@wheel="wheelEffect"
+				@update-listeners="updateListeners"
+			/>
 		</div>
 		<div class="polar-ui-layer">
 			<div v-if="!hasWindowSize" class="polar-shadow" aria-hidden="true" />
@@ -63,8 +67,11 @@ defineExpose<{
 	store: ReturnType<typeof useCoreStore>
 }>()
 
-const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
-const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
+const polarMapContainer = useTemplateRef<InstanceType<typeof PolarMap>>(
+	'polar-map-container'
+)
+const overlay =
+	useTemplateRef<InstanceType<typeof PolarMapOverlay>>('polar-map-overlay')
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 const noCommandOnZoom = useT(() =>
@@ -94,10 +101,11 @@ function updateListeners() {
 	if (
 		!hasWindowSize.value &&
 		polarMapContainer.value &&
+		polarMapContainer.value.el &&
 		mainStore.hasSmallDisplay
 	) {
 		hammer?.destroy()
-		hammer = new Hammer(polarMapContainer.value).on('pan', (e) => {
+		hammer = new Hammer(polarMapContainer.value.el).on('pan', (e) => {
 			if (
 				overlay.value &&
 				e.maxPointers === 1 &&
@@ -164,8 +172,6 @@ watch(
 		await i18next.changeLanguage(newLanguage)
 	}
 )
-watch(hasWindowSize, updateListeners)
-watch(hasSmallDisplay, updateListeners)
 
 const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
 
