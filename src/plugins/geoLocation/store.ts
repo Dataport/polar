@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { Coordinate } from 'ol/coordinate'
+import type { ObjectEvent } from 'ol/Object'
 
 import { noop, toMerged } from 'es-toolkit'
 import { t } from 'i18next'
@@ -163,9 +164,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 			void positioning()
 		}
 		geolocation.value.on('change:position', positioning)
-		geolocation.value.on('change:heading', ({ target }) => {
-			markerFeature.set('heading', target.getHeading())
-		})
+		geolocation.value.on('change:heading', setHeading)
 		geolocation.value.on('error', onError)
 	}
 
@@ -194,12 +193,20 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		removeMarker()
 	}
 
+	function setHeading({ target }: ObjectEvent) {
+		markerFeature.set('heading', target.getHeading())
+	}
+
 	/**
-	 * Stop tracking of geo position
+	 * Stop tracking of geo position.
 	 */
 	function untrack() {
-		// For FireFox - cannot handle geolocation.un(...).
-		geolocation.value?.setTracking(false)
+		if (geolocation.value) {
+			geolocation.value.un('change:position', positioning)
+			geolocation.value.un('change:heading', setHeading)
+			geolocation.value.un('error', onError)
+			geolocation.value.setTracking(false)
+		}
 		removeMarker()
 		geolocation.value = null
 	}

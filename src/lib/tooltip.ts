@@ -73,7 +73,7 @@ export function getTooltip(
 	return {
 		element,
 		unregister: () => {
-			i18next.off('languageChanges', translate)
+			i18next.off('languageChanged', translate)
 			i18next.store.off('added', translate)
 		},
 	}
