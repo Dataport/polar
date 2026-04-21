@@ -405,6 +405,7 @@ addPlugin(
 						layers: {
 							[reports]: {
 								window: true,
+								geometry: false,
 								properties: [
 									'addr',
 									'statu',
@@ -456,8 +457,6 @@ addPlugin(
 								subSubtitle: (feature) => feature.get('skat_text'),
 							},
 						},
-						multiSelect: 'box',
-						directSelect: true,
 					}),
 				},
 			],
