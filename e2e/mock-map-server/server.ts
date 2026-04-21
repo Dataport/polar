@@ -23,6 +23,14 @@ import type {
 import { DEFAULT_TTL_MS } from './types'
 import { BLUE_TILE, GREEN_TILE } from './png'
 
+// ### Shared CORS headers ####################################################
+
+const CORS_HEADERS: Record<string, string> = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': '*',
+}
+
 // ### File logger ############################################################
 
 const LOG_FILE = path.resolve(
@@ -57,18 +65,14 @@ function logToFile(tag: string, params: string): void {
 
 // ### State ##################################################################
 
-/** Ordered list of expected requests. */
-let expectations: MockExpectation[] = []
+/** Ordered expected-request queues keyed by test-client UUID. */
+let expectationsByTestClientUuid: Record<string, MockExpectation[]> = {}
 
-/** All received requests (chronological). */
-let receivedRequests: ReceivedRequest[] = []
+/** Received-request queues keyed by test-client UUID (chronological per UUID). */
+let receivedRequestsByTestClientUuid: Record<string, ReceivedRequest[]> = {}
 
-/** Fallback response when no expectation matches. Default is a blue PNG tile. */
-let fallbackResponse: MockResponse = {
-  status: 200,
-  body: BLUE_TILE,
-  headers: { 'Content-Type': 'image/png' },
-}
+/** Fallback response when no expectation matches. Initialized by `createMockMapServer()`. */
+let fallbackResponse: MockResponse
 
 // ### Helpers ################################################################
 
@@ -77,10 +81,71 @@ let fallbackResponse: MockResponse = {
  */
 function pruneStaleEntries(): void {
   const now = Date.now()
-  expectations = expectations.filter((e) => now - e.createdAt < e.ttlMs)
-  receivedRequests = receivedRequests.filter(
-    (r) => now - r.receivedAt < DEFAULT_TTL_MS
-  )
+  for (const [testClientUuid, expectations] of Object.entries(
+    expectationsByTestClientUuid
+  )) {
+    const active = expectations.filter((e) => now - e.createdAt < e.ttlMs)
+    if (active.length === 0) {
+      delete expectationsByTestClientUuid[testClientUuid]
+    } else {
+      expectationsByTestClientUuid[testClientUuid] = active
+    }
+  }
+
+  for (const [testClientUuid, requests] of Object.entries(
+    receivedRequestsByTestClientUuid
+  )) {
+    const recent = requests.filter((r) => now - r.receivedAt < DEFAULT_TTL_MS)
+    if (recent.length === 0) {
+      delete receivedRequestsByTestClientUuid[testClientUuid]
+    } else {
+      receivedRequestsByTestClientUuid[testClientUuid] = recent
+    }
+  }
+}
+
+/**
+ * Returns the expectation queue for a UUID, creating an empty queue when needed.
+ *
+ * @param testClientUuid - UUID identifying the test client whose queue is requested.
+ * @returns The expectation array for the given UUID.
+ */
+function getExpectationsQueue(testClientUuid: string): MockExpectation[] {
+  if (!expectationsByTestClientUuid[testClientUuid]) {
+    expectationsByTestClientUuid[testClientUuid] = []
+  }
+  return expectationsByTestClientUuid[testClientUuid]
+}
+
+/**
+ * Returns the received-request queue for a UUID, creating an empty queue when needed.
+ *
+ * @param testClientUuid - UUID identifying the test client whose queue is requested.
+ * @returns The received-request array for the given UUID.
+ */
+function getReceivedRequestsQueue(testClientUuid: string): ReceivedRequest[] {
+  if (!receivedRequestsByTestClientUuid[testClientUuid]) {
+    receivedRequestsByTestClientUuid[testClientUuid] = []
+  }
+  return receivedRequestsByTestClientUuid[testClientUuid]
+}
+
+/**
+ * Returns all expectations flattened across UUID buckets.
+ *
+ * @returns A flat array of every active expectation across all clients.
+ */
+function getAllExpectations(): MockExpectation[] {
+  return Object.values(expectationsByTestClientUuid).flat()
+}
+
+/**
+ * Returns all received requests flattened across UUID buckets.
+ *
+ * @returns A flat array of every recorded request across all clients.
+ */
+function getAllReceivedRequests(): ReceivedRequest[] {
+  return Object.values(receivedRequestsByTestClientUuid).flat()
 }
 
 /**
@@ -180,6 +245,7 @@ function matchesRequest(
  * Returns the first expectation that matches the incoming request details.
  * Expectation order is respected.
  *
+ * @param testClientUuid - UUID identifying the test client whose expectations are searched.
  * @param method - Incoming HTTP method used for matcher evaluation.
  * @param url - Incoming request URL to test against expectation URL rules.
  * @param query - Parsed request query parameters used by query matchers.
@@ -187,17 +253,18 @@ function matchesRequest(
  * @returns The first matching expectation, or `undefined` when no match exists.
  */
 function findMatchingExpectation(
+  testClientUuid: string,
   method: string,
   url: string,
   query: Record<string, string>,
   headers: Record<string, string>
 ): MockExpectation | undefined {
+  const expectations = expectationsByTestClientUuid[testClientUuid] ?? []
   return expectations.find((exp) =>
     matchesRequest(exp.matcher, method, url, query, headers)
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 /**
  * Sends a JSON response with CORS headers for admin endpoints.
  * This helper keeps admin handler responses consistent and compact.
@@ -209,9 +276,7 @@ function findMatchingExpectation(
 function sendJson(res: http.ServerResponse, data: unknown, status = 200): void {
   res.writeHead(status, {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': '*',
+    ...CORS_HEADERS,
   })
   res.end(JSON.stringify(data))
 }
@@ -229,9 +294,7 @@ function sendMockResponse(
 ): void {
   const status = mockRes.status ?? 200
   const headers: Record<string, string> = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': '*',
+    ...CORS_HEADERS,
     ...(mockRes.headers ?? {}),
   }
 
@@ -290,6 +353,59 @@ function reviveRegExp(obj: unknown): unknown {
 }
 
 /**
+ * Reads the test client UUID value from a headers map.
+ *
+ * @param headers - Header map to inspect for test client UUID values.
+ * @returns The extracted UUID as a string, or `none` when missing.
+ */
+function getTestClientUuidHeaderValue(
+  headers: Record<string, string | RegExp> | Record<string, string> | undefined
+): string {
+  if (!headers) {
+    return 'none'
+  }
+  const value = headers['test-client-uuid']
+  return value === undefined ? 'none' : String(value)
+}
+
+/**
+ * Resolves the test client UUID from an expectation creation payload.
+ * Header-based values take precedence over query values.
+ *
+ * @param payload - Expectation payload containing matcher headers and query.
+ * @returns The resolved UUID string, or `none` when not provided.
+ */
+function getTestClientUuidFromMatcher(
+  payload: CreateExpectationPayload
+): string {
+  const headerValue = getTestClientUuidHeaderValue(payload.matcher.headers)
+  if (headerValue !== 'none') {
+    return headerValue
+  }
+  const queryValue = payload.matcher.query?.testClientUuid
+  return queryValue === undefined ? 'none' : String(queryValue)
+}
+
+/**
+ * Resolves the test client UUID from an incoming request payload.
+ * Header-based values take precedence over query-string values.
+ *
+ * @param headers - Normalized incoming request headers.
+ * @param query - Parsed query parameter map from the request URL.
+ * @returns The resolved UUID string, or `none` when absent.
+ */
+function getTestClientUuidFromRequest(
+  headers: Record<string, string>,
+  query: Record<string, string>
+): string {
+  const headerValue = getTestClientUuidHeaderValue(headers)
+  if (headerValue !== 'none') {
+    return headerValue
+  }
+  return query.testClientUuid ?? 'none'
+}
+
+/**
  * Logs newly registered expectations to both console output and the test log file.
  * The log entry includes matcher details and whether a custom response was provided.
  *
@@ -303,6 +419,7 @@ function logExpectation(
   expectation: MockExpectation,
   payload: CreateExpectationPayload
 ): void {
+  const testClientUuid = getTestClientUuidFromMatcher(payload)
   // eslint-disable-next-line no-console
   console.log(
     `[MockMapServer] Expectation registered: ${expectation.id}`,
@@ -313,6 +430,7 @@ function logExpectation(
     `id=${expectation.id} ` +
       `url=${JSON.stringify(payload.matcher.url)} ` +
       `query=${JSON.stringify(payload.matcher.query ?? {})} ` +
+      `testClientUuid=${JSON.stringify(testClientUuid)} ` +
       `persistent=${expectation.persistent} ` +
       `response=${payload.response ? 'custom' : 'auto-green-tile'}`
   )
@@ -327,12 +445,17 @@ function logExpectation(
  * @param req - Incoming admin request carrying method, URL, and optional JSON body.
  * @param res - Outgoing response used to return admin operation results.
  * @param pathname - Parsed request pathname used for endpoint routing.
+ * @param query - Parsed query parameters from the admin request URL.
  */
+// eslint-disable-next-line complexity
 async function handleAdmin(
   req: http.IncomingMessage,
   res: http.ServerResponse,
-  pathname: string
+  pathname: string,
+  query: Record<string, string>
 ): Promise<void> {
+  const scopedUuid = query.testClientUuid
+
   // POST /__mock/expect - add a new expectation
   if (pathname === '/__mock/expect' && req.method === 'POST') {
     const raw = await readBody(req)
@@ -347,48 +470,89 @@ async function handleAdmin(
       ttlMs: payload.ttlMs ?? DEFAULT_TTL_MS,
     }
     logExpectation(expectation, payload)
-    expectations.push(expectation)
+    const testClientUuid = getTestClientUuidFromMatcher(payload)
+    getExpectationsQueue(testClientUuid).push(expectation)
     sendJson(res, { id: expectation.id }, 201)
     return
   }
 
   // GET /__mock/expectations - list all expectations
   if (pathname === '/__mock/expectations' && req.method === 'GET') {
-    sendJson(res, expectations)
+    sendJson(
+      res,
+      scopedUuid
+        ? expectationsByTestClientUuid[scopedUuid] ?? []
+        : getAllExpectations()
+    )
     return
   }
 
   // GET /__mock/requests - list all received requests
   if (pathname === '/__mock/requests' && req.method === 'GET') {
-    sendJson(res, receivedRequests)
+    sendJson(
+      res,
+      scopedUuid
+        ? receivedRequestsByTestClientUuid[scopedUuid] ?? []
+        : getAllReceivedRequests()
+    )
     return
   }
 
   // GET /__mock/requests/count - just the count
   if (pathname === '/__mock/requests/count' && req.method === 'GET') {
-    sendJson(res, { count: receivedRequests.length })
+    sendJson(res, {
+      count: scopedUuid
+        ? (receivedRequestsByTestClientUuid[scopedUuid] ?? []).length
+        : getAllReceivedRequests().length,
+    })
     return
   }
 
   // DELETE /__mock/expectations - clear all expectations
   if (pathname === '/__mock/expectations' && req.method === 'DELETE') {
-    expectations = []
+    if (scopedUuid) {
+      delete expectationsByTestClientUuid[scopedUuid]
+    } else {
+      expectationsByTestClientUuid = {}
+    }
     sendJson(res, { cleared: true })
     return
   }
 
   // DELETE /__mock/requests - clear received requests
   if (pathname === '/__mock/requests' && req.method === 'DELETE') {
-    receivedRequests = []
+    if (scopedUuid) {
+      delete receivedRequestsByTestClientUuid[scopedUuid]
+    } else {
+      receivedRequestsByTestClientUuid = {}
+    }
     sendJson(res, { cleared: true })
     return
   }
 
   // DELETE /__mock/reset - clear everything
   if (pathname === '/__mock/reset' && req.method === 'DELETE') {
-    expectations = []
-    receivedRequests = []
+    if (scopedUuid) {
+      delete expectationsByTestClientUuid[scopedUuid]
+      delete receivedRequestsByTestClientUuid[scopedUuid]
+    } else {
+      expectationsByTestClientUuid = {}
+      receivedRequestsByTestClientUuid = {}
+    }
     sendJson(res, { reset: true })
+    return
+  }
+
+  // DELETE /__mock/client?testClientUuid=... - clear one UUID bucket
+  if (pathname === '/__mock/client' && req.method === 'DELETE') {
+    if (!scopedUuid) {
+      sendJson(res, { error: 'Missing testClientUuid query parameter' }, 400)
+      return
+    }
+
+    delete expectationsByTestClientUuid[scopedUuid]
+    delete receivedRequestsByTestClientUuid[scopedUuid]
+    sendJson(res, { cleared: true, testClientUuid: scopedUuid })
     return
   }
 
@@ -422,9 +586,7 @@ async function handleRequest(
   // Handle CORS preflight
   if (method === 'OPTIONS') {
     res.writeHead(204, {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': '*',
+      ...CORS_HEADERS,
       'Access-Control-Max-Age': '86400',
     })
     res.end()
@@ -436,7 +598,8 @@ async function handleRequest(
 
   // Route admin endpoints
   if (pathname.startsWith('/__mock/')) {
-    await handleAdmin(req, res, pathname)
+    const adminQuery = parseQuery(rawUrl, 'http://localhost')
+    await handleAdmin(req, res, pathname, adminQuery)
     return
   }
 
@@ -454,7 +617,15 @@ async function handleRequest(
     ? await readBody(req)
     : undefined
 
-  const match = findMatchingExpectation(method, rawUrl, query, headers)
+  const testClientUuid = getTestClientUuidFromRequest(headers, query)
+  const missingTestClientUuid = testClientUuid === 'none'
+  const match = findMatchingExpectation(
+    testClientUuid,
+    method,
+    rawUrl,
+    query,
+    headers
+  )
 
   const received: ReceivedRequest = {
     timestamp: new Date().toISOString(),
@@ -467,21 +638,36 @@ async function handleRequest(
     matched: !!match,
     matchedExpectationId: match?.id,
   }
-  receivedRequests.push(received)
+  getReceivedRequestsQueue(testClientUuid).push(received)
 
   logToFile(
     method.toLowerCase(),
     `url=${rawUrl} ` +
       `query=${JSON.stringify(query)} ` +
+      `testClientUuid=${JSON.stringify(testClientUuid)} ` +
+      `missingTestClientUuid=${missingTestClientUuid} ` +
       `matched=${received.matched}` +
       (match ? ` expectation=${match.id}` : '')
   )
+
+  if (missingTestClientUuid) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `[MockMapServer] Missing test-client-uuid on request: ${method} ${rawUrl}`
+    )
+  }
 
   if (match) {
     match.hitCount++
     // remove non-persistent expectations after first hit
     if (!match.persistent) {
-      expectations = expectations.filter((e) => e.id !== match.id)
+      expectationsByTestClientUuid[testClientUuid] = (
+        expectationsByTestClientUuid[testClientUuid] ?? []
+      ).filter((e) => e.id !== match.id)
+
+      if (expectationsByTestClientUuid[testClientUuid].length === 0) {
+        delete expectationsByTestClientUuid[testClientUuid]
+      }
     }
 
     // use the explicit response if provided, otherwise auto-generate a green tile
@@ -513,8 +699,8 @@ async function handleRequest(
  */
 export function createMockMapServer(): http.Server {
   // reset state when a new server is created
-  expectations = []
-  receivedRequests = []
+  expectationsByTestClientUuid = {}
+  receivedRequestsByTestClientUuid = {}
   fallbackResponse = {
     status: 200,
     body: BLUE_TILE,
@@ -533,9 +719,7 @@ export function createMockMapServer(): http.Server {
         console.error('[MockMapServer] Error handling request:', err)
         res.writeHead(500, {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': '*',
+          ...CORS_HEADERS,
         })
         res.end(JSON.stringify({ error: 'Internal mock server error' }))
       })

@@ -1,18 +1,14 @@
-import { expect } from '@playwright/test'
 import { createBdd } from 'playwright-bdd'
-import { MockMapClient } from '../../e2e/mock-map-server'
+import { expect, test } from '../../e2e/fixtures'
 
-const { Given, When, Then } = createBdd()
-
-const MOCK_MAP_BASE_URL = 'http://127.0.0.1:3579'
+const { When, Then } = createBdd(test)
 
 /**
- * Resets all mock server state (expectations + received requests) so that
- * parallel scenarios don't interfere with each other.
+ * Clears all expectations and recorded requests for this test client mid-test.
+ * Useful when a scenario needs to reset mock state after earlier interactions.
  */
-Given('the mock map server state is reset', async function () {
-  const client = new MockMapClient(MOCK_MAP_BASE_URL)
-  await client.reset()
+When('the mock map server state is reset', async function ({ mockMap }) {
+  await mockMap.clearClientState()
 })
 
 /**
@@ -21,15 +17,16 @@ Given('the mock map server state is reset', async function () {
  */
 When(
   'a WMS GetMap expectation is registered for the mock layer',
-  async function () {
-    const client = new MockMapClient(MOCK_MAP_BASE_URL)
-    await client.expect(
+  async function ({ mockMap }) {
+    const clientUuid = mockMap.getUuid()
+    await mockMap.expect(
       {
         url: '/wms',
         query: {
           REQUEST: 'GetMap',
           SERVICE: 'WMS',
           LAYERS: 'mock',
+          testClientUuid: clientUuid,
         },
       },
       undefined,
@@ -45,15 +42,16 @@ When(
  */
 When(
   'a single-use WMS GetMap expectation is registered for the mock layer',
-  async function () {
-    const client = new MockMapClient(MOCK_MAP_BASE_URL)
-    await client.expect(
+  async function ({ mockMap }) {
+    const clientUuid = mockMap.getUuid()
+    await mockMap.expect(
       {
         url: '/wms',
         query: {
           REQUEST: 'GetMap',
           SERVICE: 'WMS',
           LAYERS: 'mock',
+          testClientUuid: clientUuid,
         },
       },
       undefined,
@@ -79,12 +77,13 @@ When('the layer chooser is opened', async function ({ page }) {
  * need to give enough time for the layer chooser to finish rendering.
  */
 When('the mock map basemap is selected', async function ({ page }) {
-  const radio = page.locator('.layer-chooser-selection .v-radio', {
+  const radioLabel = page.locator('.layer-chooser-selection .v-radio', {
     hasText: 'Mock Map (E2E)',
   })
-  // Wait for the radio to be attached & visible before clicking
-  await expect(radio).toBeVisible({ timeout: 15000 })
-  await radio.click()
+  await expect(radioLabel).toBeVisible({ timeout: 30000 })
+  await expect(async () => {
+    await radioLabel.click({ timeout: 5000 })
+  }).toPass({ timeout: 30000, intervals: [100, 250, 500, 1000] })
 })
 
 /**
@@ -93,13 +92,14 @@ When('the mock map basemap is selected', async function ({ page }) {
  */
 Then(
   'WMS GetMap requests should have been sent to the mock map service',
-  async function () {
-    const client = new MockMapClient(MOCK_MAP_BASE_URL)
-    const match = await client.waitForRequest(
+  async function ({ mockMap }) {
+    const clientUuid = mockMap.getUuid()
+    const match = await mockMap.waitForRequest(
       (req) =>
         req.query.REQUEST === 'GetMap' &&
         req.query.SERVICE === 'WMS' &&
-        req.query.LAYERS === 'mock',
+        req.query.LAYERS === 'mock' &&
+        req.query.testClientUuid === clientUuid,
       { timeout: 5000 }
     )
     expect(
@@ -119,13 +119,14 @@ Then(
  */
 Then(
   'subsequent WMS GetMap requests should return the blue fallback tile',
-  async function () {
-    const client = new MockMapClient(MOCK_MAP_BASE_URL)
-    const unmatchedReq = await client.waitForRequest(
+  async function ({ mockMap }) {
+    const clientUuid = mockMap.getUuid()
+    const unmatchedReq = await mockMap.waitForRequest(
       (req) =>
         req.query.REQUEST === 'GetMap' &&
         req.query.SERVICE === 'WMS' &&
         req.query.LAYERS === 'mock' &&
+        req.query.testClientUuid === clientUuid &&
         !req.matched,
       { timeout: 5000 }
     )

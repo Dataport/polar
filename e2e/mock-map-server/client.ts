@@ -3,6 +3,7 @@
  * It wraps the internal admin endpoints so Playwright and BDD steps can use a clean API.
  */
 
+import { randomUUID } from 'node:crypto'
 import type {
   CreateExpectationPayload,
   MockResponse,
@@ -31,9 +32,48 @@ function serialiseMatcher(matcher: RequestMatcher): unknown {
 
 export class MockMapClient {
   private baseUrl: string
+  private testClientUuid: string
 
+  /**
+   * Creates a new mock map client scoped to a unique test client UUID.
+   *
+   * @param baseUrl - Base URL of the mock map server (trailing slash is stripped).
+   */
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl.replace(/\/$/, '')
+    this.testClientUuid = randomUUID()
+  }
+
+  /**
+   * Returns the UUID for this test client instance.
+   * Each client generates its own UUID on construction for request scoping.
+   * @returns The UUID string used to scope expectations and received requests.
+   */
+  getUuid(): string {
+    return this.testClientUuid
+  }
+
+  /**
+   * Builds an admin endpoint URL and applies UUID scoping when available.
+   * @param path Admin endpoint path relative to the mock server base URL.
+   * @returns The fully qualified admin URL including optional UUID query scoping.
+   */
+  private adminUrl(path: string): string {
+    const url = new URL(`${this.baseUrl}${path}`)
+    url.searchParams.set('testClientUuid', this.testClientUuid)
+    return url.toString()
+  }
+
+  /**
+   * Returns true when matcher already carries a client UUID in headers or query.
+   * @param matcher Request matcher to inspect for an existing client UUID.
+   * @returns `true` when the matcher already includes a client UUID.
+   */
+  private matcherHasClientUuid(matcher: RequestMatcher): boolean {
+    if (matcher.headers?.['test-client-uuid']) {
+      return true
+    }
+    return matcher.query?.testClientUuid !== undefined
   }
 
   // ## Expectations ########################################################
@@ -52,14 +92,24 @@ export class MockMapClient {
     response?: MockResponse,
     options?: { persistent?: boolean; ttlMs?: number }
   ): Promise<string> {
+    const matcherWithUuid = !this.matcherHasClientUuid(matcher)
+      ? {
+          ...matcher,
+          query: {
+            ...(matcher.query ?? {}),
+            testClientUuid: this.testClientUuid,
+          },
+        }
+      : matcher
+
     const payload: CreateExpectationPayload = {
-      matcher: serialiseMatcher(matcher) as RequestMatcher,
+      matcher: serialiseMatcher(matcherWithUuid) as RequestMatcher,
       response,
       persistent: options?.persistent,
       ttlMs: options?.ttlMs,
     }
 
-    const res = await fetch(`${this.baseUrl}/__mock/expect`, {
+    const res = await fetch(this.adminUrl('/__mock/expect'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -108,7 +158,7 @@ export class MockMapClient {
    * @returns The server-reported expectation list.
    */
   async getExpectations(): Promise<unknown[]> {
-    const res = await fetch(`${this.baseUrl}/__mock/expectations`)
+    const res = await fetch(this.adminUrl('/__mock/expectations'))
     return (await res.json()) as unknown[]
   }
 
@@ -117,7 +167,7 @@ export class MockMapClient {
    * Use this when you need a clean matcher state mid-test.
    */
   async clearExpectations(): Promise<void> {
-    await fetch(`${this.baseUrl}/__mock/expectations`, { method: 'DELETE' })
+    await fetch(this.adminUrl('/__mock/expectations'), { method: 'DELETE' })
   }
 
   // ## Received Requests #################################################
@@ -129,7 +179,7 @@ export class MockMapClient {
    * @returns Chronological list of recorded requests.
    */
   async getReceivedRequests(): Promise<ReceivedRequest[]> {
-    const res = await fetch(`${this.baseUrl}/__mock/requests`)
+    const res = await fetch(this.adminUrl('/__mock/requests'))
     return (await res.json()) as ReceivedRequest[]
   }
 
@@ -140,7 +190,7 @@ export class MockMapClient {
    * @returns Total number of received requests currently tracked by the server.
    */
   async getReceivedRequestCount(): Promise<number> {
-    const res = await fetch(`${this.baseUrl}/__mock/requests/count`)
+    const res = await fetch(this.adminUrl('/__mock/requests/count'))
     const data = (await res.json()) as { count: number }
     return data.count
   }
@@ -150,17 +200,19 @@ export class MockMapClient {
    * This keeps subsequent assertions focused on new traffic only.
    */
   async clearReceivedRequests(): Promise<void> {
-    await fetch(`${this.baseUrl}/__mock/requests`, { method: 'DELETE' })
+    await fetch(this.adminUrl('/__mock/requests'), { method: 'DELETE' })
   }
 
   // ## Full Reset #######################################################
 
   /**
-   * Performs a full server reset by clearing expectations and request history.
-   * This is the fastest way to return the mock server to a fresh state.
+   * Deletes all state for this test client (expectations + requests).
+   * @returns A promise that resolves once the scoped state has been deleted.
    */
-  async reset(): Promise<void> {
-    await fetch(`${this.baseUrl}/__mock/reset`, { method: 'DELETE' })
+  async clearClientState(): Promise<void> {
+    await fetch(this.adminUrl('/__mock/client'), {
+      method: 'DELETE',
+    })
   }
 
   // ## Fallback Response ################################################
@@ -172,7 +224,7 @@ export class MockMapClient {
    * @param response - Mock response object used for unmatched requests.
    */
   async setFallback(response: MockResponse): Promise<void> {
-    await fetch(`${this.baseUrl}/__mock/fallback`, {
+    await fetch(this.adminUrl('/__mock/fallback'), {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(response),

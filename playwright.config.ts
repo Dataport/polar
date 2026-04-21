@@ -52,6 +52,7 @@ const features = client
   : [`${clientsFeaturePath}*${featureSuffix}`]
 
 const steps = [
+  'e2e/fixtures.ts',
   `features/steps/${stepsSuffix}`,
   `${clientsStepsPath}*/${stepsSuffix}`, // Alle client-spezifischen Steps
 ]

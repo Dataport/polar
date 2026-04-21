@@ -1,12 +1,11 @@
 @client_snowbox
 @mock-map-service
-@mode:serial
+# @mode:serial
 Feature: Mock Map Service tests for Snowbox client
     Background:
-        Given the mock map server state is reset
-        And the index page is loaded
+        Given the index page is loaded
         And the map is loaded
-
+    
     @smoke
     Scenario: Mock map basemap is selectable and sends WMS requests
         When a WMS GetMap expectation is registered for the mock layer

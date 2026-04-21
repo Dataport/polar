@@ -20,6 +20,12 @@ export class MockMapServerManager {
   private host: string
   private running = false
 
+  /**
+   * Creates a new manager instance with the given port and host.
+   *
+   * @param port - TCP port for the mock server (defaults to 3579).
+   * @param host - Host interface for the mock server (defaults to 127.0.0.1).
+   */
   private constructor(port?: number, host?: string) {
     this.port = port ?? DEFAULT_PORT
     this.host = host ?? DEFAULT_HOST
@@ -51,6 +57,8 @@ export class MockMapServerManager {
   /**
    * Starts the mock server and resolves when it is ready to accept requests.
    * If the server is already running, this method returns immediately.
+   *
+   * @returns A promise that resolves once the server is listening.
    */
   start(): Promise<void> {
     if (this.running) {
@@ -90,6 +98,8 @@ export class MockMapServerManager {
   /**
    * Stops the running mock server and releases the internal server reference.
    * If no server is active, this method resolves without doing anything.
+   *
+   * @returns A promise that resolves once the server has been closed.
    */
   stop(): Promise<void> {
     if (!this.running || !this.server) {

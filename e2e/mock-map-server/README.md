@@ -61,7 +61,7 @@ Then('a WMS request should have been sent', async ({ mockMap }) => {
 | `getReceivedRequests()` | Get all requests the mock server received. |
 | `getReceivedRequestCount()` | Get just the count. |
 | `clearReceivedRequests()` | Clear received requests. |
-| `reset()` | Full reset (expectations + received requests). |
+| `clearClientState()` | Remove this client's UUID bucket (expectations + received requests). |
 | `setFallback(response)` | Set response for unmatched requests (default: server-configured fallback). |
 | `waitForRequest(predicate, opts?)` | Poll until a matching request is found, or return `null` on timeout. |
 | `waitForRequestOrFail(predicate, opts?)` | Same as above but throws on timeout. |
@@ -98,7 +98,7 @@ Then('a WMS request should have been sent', async ({ mockMap }) => {
 ## How It Works
 
 1. **Global Setup** (`e2e/global-setup.ts`) starts the server on its configured host and port before any test runs.
-2. **Fixture** (`e2e/fixtures.ts`) injects a `mockMap` client and calls `reset()` before each test.
+2. **Fixture** (`e2e/fixtures.ts`) injects a `mockMap` client scoped to a unique UUID for each test.
 3. **During the test**, your code plans expectations and the web application's network calls hit the mock server instead of the real map service.
 4. **Global Teardown** (`e2e/global-teardown.ts`) shuts down the server when the suite is complete.
 
@@ -109,12 +109,13 @@ These are used by `MockMapClient` under the hood:
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/__mock/expect` | POST | Add a new expectation |
-| `/__mock/expectations` | GET | List expectations |
-| `/__mock/expectations` | DELETE | Clear expectations |
-| `/__mock/requests` | GET | List received requests |
-| `/__mock/requests/count` | GET | Request count |
-| `/__mock/requests` | DELETE | Clear received requests |
-| `/__mock/reset` | DELETE | Full reset |
+| `/__mock/expectations` | GET | List expectations (optionally scoped with `?testClientUuid=...`) |
+| `/__mock/expectations` | DELETE | Clear expectations (optionally scoped) |
+| `/__mock/requests` | GET | List received requests (optionally scoped) |
+| `/__mock/requests/count` | GET | Request count (optionally scoped) |
+| `/__mock/requests` | DELETE | Clear received requests (optionally scoped) |
+| `/__mock/reset` | DELETE | Reset all buckets or one scoped bucket |
+| `/__mock/client` | DELETE | Clear one bucket via `?testClientUuid=...` |
 | `/__mock/fallback` | PUT | Set fallback response |
 
 ## Configuration

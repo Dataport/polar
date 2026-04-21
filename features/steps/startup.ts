@@ -1,6 +1,7 @@
 import { createBdd } from 'playwright-bdd'
+import { test } from '../../e2e/fixtures'
 
-const { Given } = createBdd()
+const { Given } = createBdd(test)
 
 declare global {
   interface Window {
@@ -12,8 +13,21 @@ declare global {
  * Navigates to the client entry page and ensures the client entry page is loaded.
  * This step is a common prerequisite for all tests, as it ensures that the application is in a known state before any interactions occur.
  */
-Given('the index page is loaded', async function ({ page }) {
-  await page.goto('./dist/index.html', { waitUntil: 'load' })
+Given('the index page is loaded', async function ({ page, mockMap }) {
+  const clientUuid = mockMap.getUuid()
+
+  await page.route('**/wms*', async (route) => {
+    const requestUrl = new URL(route.request().url())
+    if (!requestUrl.searchParams.has('testClientUuid')) {
+      requestUrl.searchParams.set('testClientUuid', clientUuid)
+    }
+    await route.continue({ url: requestUrl.toString() })
+  })
+
+  await page.goto(
+    `./dist/index.html?clientUuid=${encodeURIComponent(clientUuid)}`,
+    { waitUntil: 'load' }
+  )
 })
 
 /**

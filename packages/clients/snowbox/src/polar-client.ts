@@ -4,7 +4,12 @@ import { changeLanguage } from 'i18next'
 // NOTE bad pattern, but probably fine for a test client
 import { enableClustering } from '../../meldemichel/src/utils/enableClustering'
 import { addPlugins } from './addPlugins'
-import { flurstuecke, mapConfiguration, mockMapId, reports } from './mapConfiguration'
+import {
+  flurstuecke,
+  mapConfiguration,
+  mockMapId,
+  reports,
+} from './mapConfiguration'
 import { exampleFeatureInformation } from './exampleFeatureInformation'
 import { validateForm } from './validateForm'
 
@@ -12,14 +17,18 @@ addPlugins(polarCore)
 
 declare const __MOCK_MAP_URL__: string
 
-const MOCK_MAP_URL: string = typeof __MOCK_MAP_URL__ !== 'undefined'
-  ? __MOCK_MAP_URL__
-  : ''
+const MOCK_MAP_URL: string =
+  typeof __MOCK_MAP_URL__ !== 'undefined' ? __MOCK_MAP_URL__ : ''
+
+const clientUuid = new URLSearchParams(window.location.search).get('clientUuid')
+const mockMapUrlSuffix = clientUuid
+  ? `/wms?testClientUuid=${encodeURIComponent(clientUuid)}`
+  : '/wms'
 
 const mockMapService = {
   id: mockMapId,
   name: 'Mock Map Service',
-  url: MOCK_MAP_URL + '/wms',
+  url: `${MOCK_MAP_URL}${mockMapUrlSuffix}`,
   typ: 'WMS',
   layers: 'mock',
   format: 'image/png',
@@ -51,7 +60,6 @@ const createMap = (layerConf) => {
       },
     })
     .then((map) => {
-      // @ts-expect-error | adding it intentionally for e2e testing
       window.mapInstance = map
 
       const loginButton = document.getElementById(

@@ -20,6 +20,12 @@ for (let n = 0; n < 256; n++) {
   crcTable[n] = c
 }
 
+/**
+ * Computes the CRC-32 checksum of a buffer as required by the PNG specification.
+ *
+ * @param buf - Input buffer to compute the checksum for.
+ * @returns The unsigned 32-bit CRC value.
+ */
 function crc32(buf: Buffer): number {
   let crc = 0xffffffff
   for (let i = 0; i < buf.length; i++) {
