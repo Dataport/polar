@@ -25,12 +25,13 @@ import { setupMarkers } from '../utils/map/setupMarkers'
 import { setupStyling } from '../utils/map/setupStyling'
 import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
 
+const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
+defineExpose({ el: polarMapContainer })
+
 const emit = defineEmits(['updateListeners', 'wheel'])
 
 const mainStore = useMainStore()
 const { hasWindowSize, hasSmallDisplay, center, zoom } = storeToRefs(mainStore)
-
-const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
 
 function onMove() {
 	center.value = mainStore.map.getView().getCenter() || center.value
@@ -75,8 +76,9 @@ function createMap() {
 
 // NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
 //       Added as a watcher to trigger the update at the correct time.
-watch(hasWindowSize, (value) => {
-	updateDragAndZoomInteractions(mainStore.map, value, hasSmallDisplay.value)
+watch([hasWindowSize, hasSmallDisplay], ([windowSize, smallDisplay]) => {
+	updateDragAndZoomInteractions(mainStore.map, windowSize, smallDisplay)
+	emit('updateListeners')
 })
 
 watch(center, (center) => {
