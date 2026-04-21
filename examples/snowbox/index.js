@@ -423,7 +423,6 @@ addPlugin(
 					plugin: pluginLayerChooser({}),
 				},
 			],
-			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
 			[
 				{
 					plugin: pluginGfi({
@@ -485,6 +484,7 @@ addPlugin(
 					}),
 				},
 			],
+			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
 			[
 				{
 					plugin: {
