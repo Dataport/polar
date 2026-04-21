@@ -6,6 +6,7 @@
 			@click="gfiStore.selectedFeatures = {}"
 		/>
 		<PolarIconButton
+			v-if="gfiStore.exportProperty"
 			:hint="$t(($) => $.property.export, { ns: 'gfi' })"
 			icon="kern-icon--download"
 			@click="startDownload(gfiStore.exportProperty)"
