@@ -25,9 +25,10 @@
 				hovered,
 			}"
 			@click="
-				(() => {
-					gfiStore.selectedFeatures = { [layerId]: [feature] }
+				(async () => {
 					gfiStore.hoveredFeatures = {}
+					await nextTick()
+					gfiStore.selectedFeatures = { [layerId]: [feature] }
 				})()
 			"
 			@mouseenter="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
@@ -44,6 +45,8 @@
 </template>
 
 <script setup lang="ts">
+import { nextTick } from 'vue'
+
 import KernPagination from '@/components/kern/KernPagination.ce.vue'
 
 import { useGfiStore } from '../store'

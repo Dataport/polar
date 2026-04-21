@@ -248,7 +248,7 @@ export const useCoreStore = defineStore('core', () => {
 		 * Feature that is hovered by the user with a marker.
 		 *
 		 * @remarks
-		 * Set _polarLayerId!
+		 * The attribute _polarLayerId needs to be set.
 		 *
 		 * @alpha
 		 */
@@ -257,12 +257,19 @@ export const useCoreStore = defineStore('core', () => {
 		/**
 		 * Feature that was selected by the user with a marker.
 		 *
+		 * If this value is modified, the newly selected feature is centered on the map.
+		 *
+		 * @remarks
+		 * The attribute _polarLayerId needs to be set.
+		 *
+		 * Wait at least one `nextTick` after modifying {@link hoveredFeature} before touching this value.
+		 *
 		 * @alpha
 		 */
 		selectedFeature: computed({
 			get: () => markerStore.selected,
 			set: (feature) => {
-				updateSelection(mainStore.map, feature as Feature)
+				updateSelection(mainStore.map, feature as Feature, true)
 			},
 		}),
 

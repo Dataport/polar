@@ -148,14 +148,19 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		],
 		([bindMarkers, featureMap]) => {
 			if (bindMarkers) {
-				const features = Object.values(featureMap).flat()
+				const features = Object.entries(featureMap).flatMap(
+					([layerId, features]) =>
+						features.map((feature) => ({ layerId, feature }))
+				)
 
-				if (features.length <= 0) {
+				// The second condition is necessary for TypeScript checks.
+				if (features.length <= 0 || !features[0]) {
 					coreStore.selectedFeature = null
 					return
 				}
 
-				coreStore.selectedFeature = features[0] as Feature
+				features[0].feature.set('_polarLayerId', features[0].layerId)
+				coreStore.selectedFeature = features[0].feature
 			}
 		},
 		{ immediate: true, deep: true }
