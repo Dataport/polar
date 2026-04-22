@@ -5,7 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { debounce, toMerged } from 'es-toolkit'
-import { t } from 'i18next'
+import { useTranslation } from 'i18next-vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
@@ -34,6 +34,7 @@ import SearchResultSymbols from './utils/searchResultSymbols'
 export const useAddressSearchStore = defineStore(
 	'plugins/addressSearch',
 	() => {
+		const { t } = useTranslation(PluginId)
 		const coreStore = useCoreStore()
 
 		const defaultGroupProperties: Required<GroupProperties> = {
@@ -105,11 +106,11 @@ export const useAddressSearchStore = defineStore(
 		const hasMultipleGroups = computed(() => groupIds.value.length > 1)
 		const hint = computed(() => {
 			if (isLoading.value) {
-				return t(($) => $.hint.loading, { ns: PluginId })
+				return t(($) => $.hint.loading)
 			}
 
 			if (searchResults.value === SearchResultSymbols.ERROR) {
-				return t(($) => $.hint.error, { ns: PluginId })
+				return t(($) => $.hint.error)
 			}
 
 			if (
@@ -117,8 +118,7 @@ export const useAddressSearchStore = defineStore(
 				inputValue.value.length < minLength.value
 			) {
 				return t(($) => $.hint.tooShort, {
-					ns: PluginId,
-					minLength: minLength.value,
+					minLength: String(minLength.value),
 				})
 			}
 
@@ -126,7 +126,7 @@ export const useAddressSearchStore = defineStore(
 				searchResults.value !== SearchResultSymbols.NO_SEARCH &&
 				!featuresAvailable.value
 			) {
-				return t(($) => $.hint.noResults, { ns: PluginId })
+				return t(($) => $.hint.noResults)
 			}
 
 			return selectedGroupProperties.value.hint || ''
@@ -231,7 +231,7 @@ export const useAddressSearchStore = defineStore(
 							categoryLabel: properties
 								? // @ts-expect-error | Other values can be used.
 									t(properties.label)
-								: t(($) => $.defaultLabel, { ns: PluginId }),
+								: t(($) => $.defaultLabel),
 							features,
 							groupId: groupId || 'defaultGroup',
 						}

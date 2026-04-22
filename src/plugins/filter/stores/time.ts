@@ -1,4 +1,4 @@
-import { t } from 'i18next'
+import { useTranslation } from 'i18next-vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
@@ -12,6 +12,8 @@ import { useFilterMainStore } from './main'
 export const useFilterTimeStore = defineStore('plugins/filter/time', () => {
 	const minDate = new Date(-8640000000000000)
 	const maxDate = new Date(8640000000000000)
+
+	const { t } = useTranslation(PluginId)
 
 	const coreStore = useCoreStore()
 	const filterMainStore = useFilterMainStore()
@@ -178,17 +180,17 @@ export const useFilterTimeStore = defineStore('plugins/filter/time', () => {
 		return [
 			{
 				value: 'all',
-				label: t(($) => $.time.noRestriction, { ns: PluginId }),
+				label: t(($) => $.time.noRestriction),
 				icon: 'kern-icon--all-inclusive',
 			},
 			...(configuration.value.last?.map((offset) => ({
 				value: `last-${offset}`,
-				label: t(($) => $.time.last, { ns: PluginId, count: offset }),
+				label: t(($) => $.time.last, { count: offset }),
 				icon: 'kern-icon--history' as Icon,
 			})) || []),
 			...(configuration.value.next?.map((offset) => ({
 				value: `next-${offset}`,
-				label: t(($) => $.time.next, { ns: PluginId, count: offset }),
+				label: t(($) => $.time.next, { count: offset }),
 				icon: 'kern-icon--timeline' as Icon,
 			})) || []),
 			...(configuration.value.freeSelection
