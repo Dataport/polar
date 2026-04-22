@@ -98,13 +98,14 @@ const oneFingerPan = useT(() =>
 )
 let hammer: { destroy: () => void } | null = null
 function updateListeners() {
+	hammer?.destroy()
+	hammer = null
 	if (
 		!hasWindowSize.value &&
 		polarMapContainer.value &&
 		polarMapContainer.value.el &&
 		hasSmallDisplay.value
 	) {
-		hammer?.destroy()
 		hammer = new Hammer(polarMapContainer.value.el).on('pan', (e) => {
 			if (
 				overlay.value &&
