@@ -1,4 +1,4 @@
-import"./pinia-CwPcdQRI--BkveR6C.js";import"./vue.runtime.esm-bundler-Cr-EkTlU-BT-EYi8_.js";import{s as c}from"./index-B42SfnBf-CxiQRsp3.js";import{U as w}from"./xml2js-CTxLGEh3-CDAh7OSF.js";const b=Object.freeze(Object.defineProperty({__proto__:null,useCoreStore:c},Symbol.toStringTag,{value:"Module"})),l=([s,o])=>`<wps:Execute
+import{i as e,t}from"./xml2js-C83YXSRu-F_TEvUJx.js";var n=t(e(),1),r=([e,t])=>`<wps:Execute
 	xmlns:wps='http://www.opengis.net/wps/1.0.0'
 	xmlns:xlink='http://www.w3.org/1999/xlink'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
@@ -12,17 +12,17 @@ import"./pinia-CwPcdQRI--BkveR6C.js";import"./vue.runtime.esm-bundler-Cr-EkTlU-B
 		<wps:Input>
 			<ows:Identifier>X</ows:Identifier>
 			<wps:Data>
-				<wps:LiteralData dataType='float'>${s}</wps:LiteralData>
+				<wps:LiteralData dataType='float'>${e}</wps:LiteralData>
 			</wps:Data>
 		</wps:Input>
 		<wps:Input>
 			<ows:Identifier>Y</ows:Identifier>
 			<wps:Data>
-				<wps:LiteralData dataType='float'>${o}</wps:LiteralData>
+				<wps:LiteralData dataType='float'>${t}</wps:LiteralData>
 			</wps:Data>
 		</wps:Input>
 	</wps:DataInputs>
-</wps:Execute>`,d=new w.Parser({tagNameProcessors:[w.processors.stripPrefix]});let r=null;async function m(s,o){r&&(r.abort(),r=null),r=new AbortController;const i=await fetch(s,{method:"POST",body:l(o),signal:r.signal}),n=await d.parseStringPromise(await i.text()),e=Object.fromEntries(Object.entries(n.ExecuteResponse.ProcessOutputs[0].Output[0].Data[0].ComplexData[0].ReverseGeocoder[0].Ergebnis[0].Adresse[0]).map(([p,a])=>[p,a[0]])),t={Distanz:parseFloat(e.Distanz),Hausnr:parseInt(e.Hausnr,10),Plz:parseInt(e.Plz,10),Strasse:e.Strasse,XKoordinate:parseFloat(e.XKoordinate),YKoordinate:parseFloat(e.YKoordinate),Zusatz:e.Zusatz};return{type:"reverse_geocoded",title:`${t.Strasse} ${t.Hausnr}${t.Zusatz}`,properties:t,geometry:{coordinates:o,type:"Point"},addressGeometry:{coordinates:[t.XKoordinate,t.YKoordinate],type:"Point"}}}if(import.meta.vitest){const{expect:s,test:o,vi:i}=import.meta.vitest,n="https://wps.example",e=[565192.2974622496,5933428820743558e-9],t=`<?xml version='1.0' encoding='UTF-8'?>
+</wps:Execute>`,i=new n.Parser({tagNameProcessors:[n.processors.stripPrefix]});async function a(e,t,n){let a=await fetch(e,{method:`POST`,body:r(t),signal:n}),o=await i.parseStringPromise(await a.text()),s=Object.fromEntries(Object.entries(o.ExecuteResponse.ProcessOutputs[0].Output[0].Data[0].ComplexData[0].ReverseGeocoder[0].Ergebnis[0].Adresse[0]).map(([e,t])=>[e,t[0]])),c={Distanz:parseFloat(s.Distanz),Hausnr:parseInt(s.Hausnr,10),Plz:parseInt(s.Plz,10),Strasse:s.Strasse,XKoordinate:parseFloat(s.XKoordinate),YKoordinate:parseFloat(s.YKoordinate),Zusatz:s.Zusatz};return{type:`reverse_geocoded`,title:`${c.Strasse} ${c.Hausnr}${c.Zusatz}`,properties:c,geometry:{coordinates:t,type:`Point`},addressGeometry:{coordinates:[c.XKoordinate,c.YKoordinate],type:`Point`}}}if(import.meta.vitest){let{expect:e,test:t,vi:n}=import.meta.vitest,i=`https://wps.example`,o=[565192.2974622496,5933428.820743558],s=`<?xml version='1.0' encoding='UTF-8'?>
 <wps:ExecuteResponse xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WPS" version="1.0.0" xml:lang="en" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_response.xsd" serviceInstance="https://geodienste.hamburg.de/HH_WPS?service=WPS&amp;request=GetCapabilities&amp;version=1.0.0">
 	<wps:Process wps:processVersion="0.0.1">
 		<ows:Identifier>ReverseGeocoder.fmw</ows:Identifier>
@@ -40,8 +40,8 @@ import"./pinia-CwPcdQRI--BkveR6C.js";import"./vue.runtime.esm-bundler-Cr-EkTlU-B
 				<wps:ComplexData mimeType="application/xml">
 					<wps:ReverseGeocoder xmlns:wps="http://www.safe.com/xml/xmltables" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.safe.com/xml/xmltables output.xsd">
 						<wps:Anfrage>
-							<wps:XKoordinate>${e[0]}</wps:XKoordinate>
-							<wps:YKoordinate>${e[1]}</wps:YKoordinate>
+							<wps:XKoordinate>${o[0]}</wps:XKoordinate>
+							<wps:YKoordinate>${o[1]}</wps:YKoordinate>
 							<wps:Epsg>25832</wps:Epsg>
 						</wps:Anfrage>
 						<wps:Ergebnis>
@@ -60,4 +60,4 @@ import"./pinia-CwPcdQRI--BkveR6C.js";import"./vue.runtime.esm-bundler-Cr-EkTlU-B
 			</wps:Data>
 		</wps:Output>
 	</wps:ProcessOutputs>
-</wps:ExecuteResponse>`;o("reverseGeocode works with Hamburg-WPS-style",async()=>{const p=i.spyOn(global,"fetch").mockResolvedValueOnce({text:()=>Promise.resolve(t)}),a=await m(n,e);s(p).toHaveBeenCalledOnce(),s(p).toHaveBeenCalledWith(n,{method:"POST",body:l(e),signal:r?.signal}),s(a).toEqual({type:"reverse_geocoded",title:"Herrlichkeit 1",addressGeometry:{coordinates:[565200.347,5933442881e-3],type:"Point"},geometry:{coordinates:e,type:"Point"},properties:{Distanz:16.20141565450446,Hausnr:1,Plz:20459,Strasse:"Herrlichkeit",XKoordinate:565200.347,YKoordinate:5933442881e-3,Zusatz:""}})})}const f=Object.freeze(Object.defineProperty({__proto__:null,reverseGeocode:m},Symbol.toStringTag,{value:"Module"}));export{m,f as r,b as s};
+</wps:ExecuteResponse>`;t(`reverseGeocode works with Hamburg-WPS-style`,async()=>{let t=n.spyOn(global,`fetch`).mockResolvedValueOnce({text:()=>Promise.resolve(s)}),c=new AbortController,l=await a(i,o,c.signal);e(t).toHaveBeenCalledOnce(),e(t).toHaveBeenCalledWith(i,{method:`POST`,body:r(o),signal:c.signal}),e(l).toEqual({type:`reverse_geocoded`,title:`Herrlichkeit 1`,addressGeometry:{coordinates:[565200.347,5933442.881],type:`Point`},geometry:{coordinates:o,type:`Point`},properties:{Distanz:16.20141565450446,Hausnr:1,Plz:20459,Strasse:`Herrlichkeit`,XKoordinate:565200.347,YKoordinate:5933442.881,Zusatz:``}})})}export{a as t};
