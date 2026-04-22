@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { t } from 'i18next'
+import { useTranslation } from 'i18next-vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref, computed, onScopeDispose } from 'vue'
 
@@ -12,6 +12,7 @@ import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
 import { useDpi } from '@/lib/dpi'
 
+import { PluginId } from './types'
 import { beautifyScale } from './utils/beautifyScale'
 import { calculateScaleFromResolution } from './utils/calculateScaleFromResolution'
 
@@ -25,6 +26,7 @@ import { calculateScaleFromResolution } from './utils/calculateScaleFromResoluti
 export const useScaleStore = defineStore('plugins/scale', () => {
 	const coreStore = useCoreStore()
 	const { dpi } = useDpi()
+	const { t } = useTranslation(PluginId)
 
 	const scaleValue = ref(0)
 
@@ -56,8 +58,7 @@ export const useScaleStore = defineStore('plugins/scale', () => {
 				label,
 				ariaLabel: computedT(() =>
 					t(($) => $.to, {
-						ns: 'scale',
-						number: label.split(':')[1]?.replace(/[,.]/g, '').trim(),
+						number: label.split(':')[1]?.replace(/[,.]/g, '').trim() ?? '',
 					})
 				).value,
 				value: option.zoomLevel,
