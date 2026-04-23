@@ -12,54 +12,8 @@ import { useCoreStore } from '@/core/stores'
 import type { ExportPluginOptions, ExportFormat } from './types'
 
 import { EXPORT_FORMATS } from './types'
-
-/**
- * Canvas von der Map extrahieren (ohne Controls)
- */
-function getCanvasFromMap(map: any): HTMLCanvasElement {
-	const viewport = map.getViewport() as HTMLElement
-	const canvas = document.createElement('canvas')
-	const context = canvas.getContext('2d')
-
-	if (!context) {
-		throw new Error('2D context not available')
-	}
-
-	canvas.width = viewport.clientWidth
-	canvas.height = viewport.clientHeight
-
-	const layerCanvases = viewport.querySelectorAll('.ol-layer canvas')
-	layerCanvases.forEach((layerCanvas) => {
-		const canvas = layerCanvas as HTMLCanvasElement
-		if (canvas.width > 0) {
-			context.drawImage(canvas, 0, 0)
-		}
-	})
-
-	return canvas
-}
-
-/**
- * Screenshot verarbeiten und herunterladen
- */
-function handleScreenshot(canvas: HTMLCanvasElement, type: ExportFormat): void {
-	const mimeType = type === 'png' ? 'image/png' : 'image/jpeg'
-	canvas.toBlob((blob) => {
-		if (!blob) {
-			console.error('Exporter: Failed to create blob from canvas')
-			return
-		}
-		const url = URL.createObjectURL(blob)
-		const link = document.createElement('a')
-		link.href = url
-		link.download = `map.${type}`
-		link.style.display = 'none'
-		document.body.appendChild(link)
-		link.click()
-		document.body.removeChild(link)
-		URL.revokeObjectURL(url)
-	}, mimeType)
-}
+import { convertCanvasToBase64 } from './utils/convertCanvasToBase64'
+import { getCanvasFromMap } from './utils/getCanvasFromMap'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -68,13 +22,10 @@ function handleScreenshot(canvas: HTMLCanvasElement, type: ExportFormat): void {
  * Plugin store for export functionality.
  */
 /* eslint-enable tsdoc/syntax */
-
 export const useExportStore = defineStore('plugins/exporter', () => {
 	const coreStore = useCoreStore()
-
 	const selectedExportFormat = ref<ExportFormat>()
-	// TODO implement export as base64-encoded string
-	const exportedMap = ref<string>('')
+	const exportedMap = ref('')
 
 	const configuration = computed(
 		() => (coreStore.configuration['exporter'] || {}) as ExportPluginOptions
@@ -101,7 +52,19 @@ export const useExportStore = defineStore('plugins/exporter', () => {
 		}
 		const map = coreStore.map
 		const canvas = getCanvasFromMap(map)
-		// handleScreenshot(canvas, type)
+
+		const base64String = convertCanvasToBase64(canvas, type)
+		exportedMap.value = base64String
+
+		if (download.value) {
+			const link = document.createElement('a')
+			link.href = base64String
+			link.download = `map.${type}`
+			link.style.display = 'none'
+			document.body.appendChild(link)
+			link.click()
+			document.body.removeChild(link)
+		}
 	}
 
 	return {
