@@ -1,6 +1,6 @@
 import type { PluginOptions } from '@/core'
 
-export const PluginId = 'exporter'
+export const PluginId = 'export'
 
 export const EXPORT_FORMATS = ['jpg', 'jpeg', 'pdf', 'png']
 
