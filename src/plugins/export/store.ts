@@ -13,6 +13,8 @@ import type { ExportPluginOptions, ExportFormat } from './types'
 
 import { EXPORT_FORMATS } from './types'
 import { convertCanvasToBase64 } from './utils/convertCanvasToBase64'
+import { convertToPdf } from './utils/convertToPdf'
+import { downloadAsImage } from './utils/downloadAsImage'
 import { getCanvasFromMap } from './utils/getCanvasFromMap'
 
 /* eslint-disable tsdoc/syntax */
@@ -31,6 +33,9 @@ export const useExportStore = defineStore('plugins/exporter', () => {
 		() => (coreStore.configuration['exporter'] || {}) as ExportPluginOptions
 	)
 	const download = computed(() => configuration.value.download || false)
+	const selectedFormatIsPdf = computed(
+		() => selectedExportFormat.value === 'pdf'
+	)
 
 	const renderType = computed(
 		() => configuration.value.renderType || 'independent'
@@ -54,16 +59,24 @@ export const useExportStore = defineStore('plugins/exporter', () => {
 		const canvas = getCanvasFromMap(map)
 
 		const base64String = convertCanvasToBase64(canvas, type)
+		if (!base64String) {
+			console.warn(
+				'@polar/plugin-export: Failed to convert canvas to base64 string.'
+			)
+			return
+		}
 		exportedMap.value = base64String
+		if (selectedFormatIsPdf.value) {
+			const { pdfSrc, jsPdf } = convertToPdf(base64String)
+			exportedMap.value = pdfSrc
 
-		if (download.value) {
-			const link = document.createElement('a')
-			link.href = base64String
-			link.download = `map.${type}`
-			link.style.display = 'none'
-			document.body.appendChild(link)
-			link.click()
-			document.body.removeChild(link)
+			if (download.value) {
+				jsPdf.save('map.pdf')
+			}
+		} else {
+			if (download.value) {
+				downloadAsImage(base64String, type)
+			}
 		}
 	}
 
