@@ -1,6 +1,6 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @module \@polar/polar/plugins/exporter/store
+ * @module \@polar/polar/plugins/export/store
  */
 /* eslint-enable tsdoc/syntax */
 
@@ -24,19 +24,17 @@ import { getCanvasFromMap } from './utils/getCanvasFromMap'
  * Plugin store for export functionality.
  */
 /* eslint-enable tsdoc/syntax */
-export const useExportStore = defineStore('plugins/exporter', () => {
+export const useExportStore = defineStore('plugins/export', () => {
 	const coreStore = useCoreStore()
 	const exportedMap = ref('')
 
 	const configuration = computed(
-		() => (coreStore.configuration['exporter'] || {}) as ExportPluginOptions
+		() => (coreStore.configuration['export'] || {}) as ExportPluginOptions
 	)
 	const download = computed(() => configuration.value.download || false)
-
 	const renderType = computed(
 		() => configuration.value.renderType || 'independent'
 	)
-
 	const filteredExportOptions = computed(() => {
 		const configured = configuration.value.options || ['png']
 		const configuredArray = Array.isArray(configured)
@@ -45,10 +43,15 @@ export const useExportStore = defineStore('plugins/exporter', () => {
 
 		return configuredArray.filter((opt) => EXPORT_FORMATS.includes(opt))
 	})
+	const singleExport = computed(() =>
+		filteredExportOptions.value.length === 1
+			? filteredExportOptions.value[0]
+			: null
+	)
 
 	function exportAs(type: ExportFormat) {
 		if (!filteredExportOptions.value.includes(type)) {
-			console.warn(`Exporter: Export format not allowed: ${type}`)
+			console.warn(`@polar/plugin-export: Export format not allowed: ${type}`)
 			return
 		}
 		const map = coreStore.map
@@ -89,6 +92,9 @@ export const useExportStore = defineStore('plugins/exporter', () => {
 
 		/** @internal */
 		download,
+
+		/** @internal */
+		singleExport,
 
 		/**
 		 * Initiates the export process for the specified format.
