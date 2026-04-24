@@ -18,7 +18,7 @@
 				:key="format"
 				class="polar-plugin-export-secondary"
 				:hint="`Export ${format.toUpperCase()}`"
-				icon="kern-icon-fill--image"
+				:icon="icon(format)"
 				:tooltip-position="tooltipPosition"
 				@click="() => exportAs(format)"
 			/>
@@ -54,6 +54,19 @@ const tooltipPosition = computed(() =>
 			? 'left'
 			: 'right'
 )
+
+const icon = (format: string) => {
+	switch (format) {
+		case 'png':
+		case 'jpg':
+		case 'jpeg':
+			return 'kern-icon-fill--imagesmode'
+		case 'pdf':
+			return 'kern-icon-fill--picture-as-pdf'
+		default:
+			return 'kern-icon-fill--image'
+	}
+}
 </script>
 <style scoped>
 .polar-plugin-export-wrapper {
