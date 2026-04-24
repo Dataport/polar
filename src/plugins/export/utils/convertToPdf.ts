@@ -10,12 +10,29 @@ const dims: Record<string, [number, number]> = {
 	a5: [210, 148],
 }
 
-export const convertToPdf = (src: string) => {
+export const convertToPdf = (
+	src: string,
+	imgWidth: number,
+	imgHeight: number
+) => {
 	// NOTE: when supporting more formats, scale map accordingly
 	const format = 'a4'
 	const dim = dims[format] as [number, number]
   const jsPdf = new jsPDF('landscape', undefined, format) // eslint-disable-line
-	jsPdf.addImage(src, 'JPEG', 0, 0, dim[0], dim[1])
+
+	// Fit image proportionally onto the page
+	const pageWidth = dim[0]
+	const pageHeight = dim[1]
+	const ratio = imgWidth / imgHeight
+	let drawWidth = pageWidth
+	let drawHeight = pageWidth / ratio
+	if (drawHeight > pageHeight) {
+		drawHeight = pageHeight
+		drawWidth = pageHeight * ratio
+	}
+	const x = (pageWidth - drawWidth) / 2
+	const y = (pageHeight - drawHeight) / 2
+	jsPdf.addImage(src, 'JPEG', x, y, drawWidth, drawHeight)
 
 	return {
 		pdfSrc: jsPdf.output('datauristring'),

@@ -63,7 +63,11 @@ export const useExportStore = defineStore('plugins/exporter', () => {
 		}
 		exportedMap.value = base64String
 		if (type === 'pdf') {
-			const { pdfSrc, jsPdf } = convertToPdf(base64String)
+			const { pdfSrc, jsPdf } = convertToPdf(
+				base64String,
+				canvas.width,
+				canvas.height
+			)
 			exportedMap.value = pdfSrc
 
 			if (download.value) {
