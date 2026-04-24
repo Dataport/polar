@@ -32,7 +32,7 @@ export const useExportStore = defineStore('plugins/export', () => {
 		() => (coreStore.configuration['export'] || {}) as ExportPluginOptions
 	)
 	const download = computed(() => configuration.value.download || false)
-	const renderType = computed(
+	const renderType = computed<'independent' | 'iconMenu'>(
 		() => configuration.value.renderType || 'independent'
 	)
 	const filteredExportOptions = computed(() => {
@@ -51,7 +51,7 @@ export const useExportStore = defineStore('plugins/export', () => {
 
 	function exportAs(type: ExportFormat) {
 		if (!filteredExportOptions.value.includes(type)) {
-			console.warn(`@polar/plugin-export: Export format not allowed: ${type}`)
+			console.warn(`Export: Export format not allowed: ${type}`)
 			return
 		}
 		const map = coreStore.map
@@ -84,6 +84,9 @@ export const useExportStore = defineStore('plugins/export', () => {
 	}
 
 	return {
+		/** @internal */
+		configuration,
+
 		/** @internal */
 		renderType,
 
