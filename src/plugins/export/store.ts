@@ -26,16 +26,12 @@ import { getCanvasFromMap } from './utils/getCanvasFromMap'
 /* eslint-enable tsdoc/syntax */
 export const useExportStore = defineStore('plugins/exporter', () => {
 	const coreStore = useCoreStore()
-	const selectedExportFormat = ref<ExportFormat>()
 	const exportedMap = ref('')
 
 	const configuration = computed(
 		() => (coreStore.configuration['exporter'] || {}) as ExportPluginOptions
 	)
 	const download = computed(() => configuration.value.download || false)
-	const selectedFormatIsPdf = computed(
-		() => selectedExportFormat.value === 'pdf'
-	)
 
 	const renderType = computed(
 		() => configuration.value.renderType || 'independent'
@@ -66,7 +62,7 @@ export const useExportStore = defineStore('plugins/exporter', () => {
 			return
 		}
 		exportedMap.value = base64String
-		if (selectedFormatIsPdf.value) {
+		if (type === 'pdf') {
 			const { pdfSrc, jsPdf } = convertToPdf(base64String)
 			exportedMap.value = pdfSrc
 
@@ -86,9 +82,6 @@ export const useExportStore = defineStore('plugins/exporter', () => {
 
 		/** @internal */
 		filteredExportOptions,
-
-		/** @internal */
-		selectedExportFormat,
 
 		/** @internal */
 		download,
