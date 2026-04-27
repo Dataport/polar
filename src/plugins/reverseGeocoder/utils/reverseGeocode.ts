@@ -34,11 +34,13 @@ const parser = new Parser({
 
 export async function reverseGeocode(
 	url: string,
-	coordinate: [number, number]
+	coordinate: [number, number],
+	signal: AbortSignal
 ): Promise<ReverseGeocoderFeature> {
 	const response = await fetch(url, {
 		method: 'POST',
 		body: buildPostBody(coordinate),
+		signal,
 	})
 
 	const parsedBody = await parser.parseStringPromise(await response.text())
@@ -135,13 +137,18 @@ if (import.meta.vitest) {
 		const fetchMock = vi.spyOn(global, 'fetch').mockResolvedValueOnce({
 			text: () => Promise.resolve(testResponse),
 		} as Response)
-
-		const feature = await reverseGeocode(testUrl, testCoordinates)
+		const abortController = new AbortController()
+		const feature = await reverseGeocode(
+			testUrl,
+			testCoordinates,
+			abortController.signal
+		)
 
 		expect(fetchMock).toHaveBeenCalledOnce()
 		expect(fetchMock).toHaveBeenCalledWith(testUrl, {
 			method: 'POST',
 			body: buildPostBody(testCoordinates),
+			signal: abortController.signal,
 		})
 
 		expect(feature).toEqual<ReverseGeocoderFeature>({
