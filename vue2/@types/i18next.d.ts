@@ -68,8 +68,8 @@ const resources = {
       meldemichel: {
         ...meldemichelAfmButtonDe
       },
-      pointerPosition: resourcesDePointerPosition.plugins.pointerPosition,
       pins: resourcesDePins.plugins.pins,
+      pointerPosition: resourcesDePointerPosition.plugins.pointerPosition,
       scale: resourcesDeScale.plugins.scale,
       textLocator: {
         ...textLocatorHeaderDe

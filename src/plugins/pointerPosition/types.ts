@@ -1,0 +1,24 @@
+import type { PluginOptions } from '@/core'
+
+export const PluginId = 'pointerPosition'
+
+export interface PointerPositionProjection {
+	/** Configured codes must be defined via the core's configuration field
+	 * `namedProjections` or its default value. */
+	code: `EPSG:${string}`
+
+	/** If no decimal count is given for a projection, the decimals are
+	 * defaulted to 4. */
+	decimals?: number
+}
+
+export interface PointerPositionPluginOptions extends PluginOptions {
+	/**
+	 * List of which projections from the `namedProjections` to use, i.e., only
+	 * a subset can be chosen here. If not given, all EPSG systems configured in
+	 * `namedProjections` will be chosen. In both cases, the coordinate reference
+	 * system that is first in the list will be used as initial selection. If
+	 * only one system is available, the selection element will be omitted.
+	 */
+	projections?: PointerPositionProjection[]
+}

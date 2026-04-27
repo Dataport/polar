@@ -9,6 +9,7 @@ import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
 import type { PinsPluginOptions } from '@/plugins/pins'
+import type { PointerPositionPluginOptions } from '@/plugins/pointerPosition'
 import type { ReverseGeocoderPluginOptions } from '@/plugins/reverseGeocoder'
 import type { ScalePluginOptions } from '@/plugins/scale'
 import type { ToastPluginOptions } from '@/plugins/toast'
@@ -333,6 +334,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** Configuration for pins plugin. */
 	pins?: PinsPluginOptions
+
+	/** Configuration for pointerPosition plugin. */
+	pointerPosition?: PointerPositionPluginOptions
 
 	/** Configuration for reverseGeocoder plugin. */
 	reverseGeocoder?: ReverseGeocoderPluginOptions
