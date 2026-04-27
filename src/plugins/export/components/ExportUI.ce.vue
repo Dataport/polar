@@ -1,7 +1,7 @@
 <template>
 	<div ref="wrapper" class="polar-plugin-export-wrapper">
 		<PolarIconButton
-			v-if="filteredExportOptions.length > 1"
+			v-if="filteredExportOptions.length >= 1"
 			class="polar-plugin-export-primary"
 			hint="Export"
 			icon="kern-icon-fill--image"
