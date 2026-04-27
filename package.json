@@ -113,7 +113,7 @@
 		"i18next-vue": "^5.4.0",
 		"jsdom": "^29.0.1",
 		"magic-string": "^0.30.18",
-		"ol": "10.8.0",
+		"ol": "10.9.0",
 		"patch-package": "^8.0.0",
 		"pinia": "^3.0.3",
 		"prettier": "^3.7.4",
