@@ -9,8 +9,11 @@ export interface PointerPositionProjection {
 	 */
 	code: `EPSG:${string}`
 
-	/** If no decimal count is given for a projection, the decimals are
-	 * defaulted to 4. */
+	/**
+	 * Decimal count to be displayed for the projection.
+	 *
+	 * @defaultValue 4
+	 */
 	decimals?: number
 }
 
