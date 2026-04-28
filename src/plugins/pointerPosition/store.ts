@@ -1,6 +1,6 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @module \@polar/polar/plugins/scale/store
+ * @module \@polar/polar/plugins/pointerPosition/store
  */
 /* eslint-enable tsdoc/syntax */
 
