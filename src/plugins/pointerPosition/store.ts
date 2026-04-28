@@ -70,7 +70,6 @@ export const usePointerPositionStore = defineStore(
 		}
 
 		function setupPlugin() {
-			setSelectedProjection(selectedProjection.value)
 			coreStore.map.on('pointermove', updatePointerPosition)
 		}
 
