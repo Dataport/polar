@@ -1,4 +1,4 @@
-import { useTranslation } from 'i18next-vue'
+import { getFixedT } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
@@ -13,7 +13,8 @@ export const useFilterTimeStore = defineStore('plugins/filter/time', () => {
 	const minDate = new Date(-8640000000000000)
 	const maxDate = new Date(8640000000000000)
 
-	const { t } = useTranslation(PluginId)
+	// TODO: This may be removed once count properly works with the normal "t" again
+	const t = getFixedT(null, PluginId)
 
 	const coreStore = useCoreStore()
 	const filterMainStore = useFilterMainStore()
@@ -197,7 +198,7 @@ export const useFilterTimeStore = defineStore('plugins/filter/time', () => {
 				? [
 						{
 							value: 'custom',
-							label: t(($) => $.time.chooseTimeFrame, { ns: PluginId }),
+							label: t(($) => $.time.chooseTimeFrame),
 							icon: 'kern-icon--calendar-month' as Icon,
 						},
 					]
