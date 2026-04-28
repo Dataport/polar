@@ -3,8 +3,10 @@ import type { PluginOptions } from '@/core'
 export const PluginId = 'pointerPosition'
 
 export interface PointerPositionProjection {
-	/** Configured codes must be defined via the core's configuration field
-	 * `namedProjections` or its default value. */
+	/**
+	 * Configured codes must be defined via the core's configuration field
+	 * {@link MasterportalApiConfiguration.namedProjections | `mapConfiguration.namedProjections`} or its default value.
+	 */
 	code: `EPSG:${string}`
 
 	/** If no decimal count is given for a projection, the decimals are
