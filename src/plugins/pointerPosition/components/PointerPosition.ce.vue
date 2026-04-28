@@ -9,18 +9,21 @@
 			v-if="availableProjections.length > 1"
 			:value="String(selectedProjection)"
 			:options="
-				availableProjections.map((projection, index) => ({
-					value: index,
+				availableProjections.map((projection) => ({
+					value: projection.code,
 					label: projection.code,
 					ariaLabel: projection.code,
 				}))
 			"
 			:aria-label="$t(($) => $.projectionSelect.label, { ns: PluginId })"
 			small
-			@update:value="setSelectedProjection"
+			@update:value="
+				(value) =>
+					(selectedProjection = Array.isArray(value) ? value[0] : value)
+			"
 		/>
 		<small v-else>
-			{{ currentEpsgSystem?.code }}
+			{{ selectedProjection }}
 		</small>
 		<span>
 			{{ formattedPointerPosition }}
@@ -38,14 +41,8 @@ import { PluginId } from '../types'
 
 const pointerPositionStore = usePointerPositionStore()
 
-const {
-	formattedPointerPosition,
-	availableProjections,
-	selectedProjection,
-	currentEpsgSystem,
-} = storeToRefs(pointerPositionStore)
-
-const { setSelectedProjection } = pointerPositionStore
+const { formattedPointerPosition, availableProjections, selectedProjection } =
+	storeToRefs(pointerPositionStore)
 </script>
 
 <style scoped>

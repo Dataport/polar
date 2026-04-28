@@ -23,7 +23,7 @@ export const usePointerPositionStore = defineStore(
 	() => {
 		const coreStore = useCoreStore()
 
-		const selectedProjection = ref(0)
+		const selectedProjectionIndex = ref(0)
 		const pointerPosition: Ref<Coordinate> = ref([])
 
 		const availableProjections = computed(() =>
@@ -39,18 +39,25 @@ export const usePointerPositionStore = defineStore(
 		)
 
 		const currentEpsgSystem = computed(
-			() => availableProjections.value[selectedProjection.value]
+			() => availableProjections.value[selectedProjectionIndex.value]
 		)
+
+		const selectedProjection = computed({
+			get: () => currentEpsgSystem.value?.code,
+			set: (value) => {
+				selectedProjectionIndex.value = availableProjections.value.findIndex(
+					({ code }) => code === value
+				)
+			},
+		})
 
 		const formattedPointerPosition = computed(() =>
 			pointerPosition.value.length
-				? createStringXY(
-						availableProjections.value[selectedProjection.value]?.decimals ?? 4
-					)(
+				? createStringXY(currentEpsgSystem.value?.decimals ?? 4)(
 						transform(
 							pointerPosition.value,
 							coreStore.map.getView().getProjection().getCode(),
-							currentEpsgSystem.value?.code
+							selectedProjection.value
 						)
 					)
 				: 'X, Y'
@@ -58,16 +65,6 @@ export const usePointerPositionStore = defineStore(
 
 		const updatePointerPosition = ({ coordinate }) =>
 			(pointerPosition.value = coordinate)
-
-		const setSelectedProjection = (
-			nextSelectedProjection: string | string[] | number
-		) => {
-			selectedProjection.value = Number(
-				Array.isArray(nextSelectedProjection)
-					? nextSelectedProjection[0]
-					: nextSelectedProjection
-			)
-		}
 
 		function setupPlugin() {
 			coreStore.map.on('pointermove', updatePointerPosition)
@@ -84,34 +81,24 @@ export const usePointerPositionStore = defineStore(
 			teardownPlugin,
 
 			/**
-			 * Offers last pointer position as formatted string `X, Y` in selected EPSG system with decimal cut-off applied.
-			 * @alpha
+			 * Offers last pointer position as formatted string `X, Y` in selected
+			 * EPSG system with decimal cut-off applied.
 			 */
 			formattedPointerPosition,
 
 			/**
-			 * Array of available projections; either configured set or `namedProjections`.
+			 * Array of available projections; either configured set or
+			 * `namedProjections`.
 			 * @alpha
 			 */
 			availableProjections,
 
 			/**
-			 * Index of selected projection.
+			 * Currently selected projection as EPSG code, e.g. `EPSG:4326`.
+			 * You may also safely write to the `.value` property of this.
 			 * @alpha
 			 */
 			selectedProjection,
-
-			/**
-			 * Currently selected EPSG system configuration.
-			 * @alpha
-			 */
-			currentEpsgSystem,
-
-			/**
-			 * Setter for selected projection.
-			 * @alpha
-			 */
-			setSelectedProjection,
 		}
 	}
 )
