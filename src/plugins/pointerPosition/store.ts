@@ -15,7 +15,7 @@ import { useCoreStore } from '@/core/stores'
 /**
  * @function
  *
- * Plugin store for the scale.
+ * Plugin store for the pointerPosition.
  */
 /* eslint-enable tsdoc/syntax */
 export const usePointerPositionStore = defineStore(
