@@ -192,21 +192,6 @@ export default defineConfig([
 		},
 	},
 	{
-		// Disable the most expensive type-aware rules in tests and examples,
-		// where strict promise/method-binding checks add little value but
-		// account for the majority of total lint time.
-		files: [
-			'**/*.spec.ts',
-			'**/examples/**/*.{ts,vue}',
-			'**/test/**/*.{ts,vue}',
-		],
-		rules: {
-			'@typescript-eslint/no-misused-promises': 'off',
-			'@typescript-eslint/unbound-method': 'off',
-			'@typescript-eslint/no-deprecated': 'off',
-		},
-	},
-	{
 		files: ['**/*.json'],
 		ignores: ['package-lock.json'],
 		extends: [jsonConfig],
