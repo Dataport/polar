@@ -45,9 +45,14 @@ export const usePointerPositionStore = defineStore(
 		const selectedProjection = computed({
 			get: () => currentEpsgSystem.value?.code,
 			set: (value) => {
-				selectedProjectionIndex.value = availableProjections.value.findIndex(
+				const index = availableProjections.value.findIndex(
 					({ code }) => code === value
 				)
+				if (index !== -1) {
+					selectedProjectionIndex.value = index
+					return
+				}
+				console.error(`EPSG code ${value} not found in available projections.`)
 			},
 		})
 
