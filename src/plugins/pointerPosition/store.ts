@@ -7,7 +7,7 @@
 import { type Coordinate, createStringXY } from 'ol/coordinate'
 import { transform } from 'ol/proj'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref, computed, type Ref } from 'vue'
+import { ref, computed } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -24,7 +24,7 @@ export const usePointerPositionStore = defineStore(
 		const coreStore = useCoreStore()
 
 		const selectedProjectionIndex = ref(0)
-		const pointerPosition: Ref<Coordinate> = ref([])
+		const pointerPosition = ref<Coordinate>([])
 
 		const availableProjections = computed(() =>
 			coreStore.configuration.pointerPosition?.projections
