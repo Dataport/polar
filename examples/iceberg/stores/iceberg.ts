@@ -164,6 +164,12 @@ export const useIcebergStore = defineStore('iceberg', () => {
 			},
 			toZoomLevel: 7,
 		},
+		pointerPosition: {
+			projections: [
+				{ code: 'EPSG:4326', decimals: 4 },
+				{ code: 'EPSG:25832', decimals: 2 },
+			],
+		},
 	})
 
 	const serviceRegister = ref<MasterportalApiServiceRegister>(services)

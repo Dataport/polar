@@ -17,6 +17,7 @@ import IconMenu, { type Menu } from '@/plugins/iconMenu'
 import LayerChooser from '@/plugins/layerChooser'
 import LoadingIndicator from '@/plugins/loadingIndicator'
 import Pins from '@/plugins/pins'
+import PointerPosition from '@/plugins/pointerPosition'
 import ReverseGeocoder from '@/plugins/reverseGeocoder'
 import Scale from '@/plugins/scale'
 import Toast from '@/plugins/toast'
@@ -54,6 +55,11 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: PluginId[]) {
 					searchMethods: [],
 				}),
 			enabledPlugins.includes('pins') && Pins({}),
+			enabledPlugins.includes('pointerPosition') &&
+				PointerPosition({
+					displayComponent: true,
+					layoutTag: 'BOTTOM_LEFT',
+				}),
 			enabledPlugins.includes('loadingIndicator') &&
 				LoadingIndicator({
 					displayComponent: true,
