@@ -1,4 +1,3 @@
-// Small change
 export default [
 	{
 		id: '23420',
