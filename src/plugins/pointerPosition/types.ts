@@ -19,9 +19,9 @@ export interface PointerPositionProjection {
 
 export interface PointerPositionPluginOptions extends PluginOptions {
 	/**
-	 * List of which projections from the {@link MasterportalApiConfiguration.namedProjections | `mapConfiguration.namedProjections` } to
+	 * List of which projections from the {@link MasterportalApiConfiguration.namedProjections | `mapConfiguration.namedProjections`} to
 	 * use, i.e., only a subset can be chosen here. If not given, all EPSG
-	 * systems configured in {@link MasterportalApiConfiguration.namedProjections | `mapConfiguration.namedProjections` } will be chosen.
+	 * systems configured in {@link MasterportalApiConfiguration.namedProjections | `mapConfiguration.namedProjections`} will be chosen.
 	 * In both cases, the coordinate reference system that is first in the
 	 * list will be used as initial selection. If only one system is
 	 * available, the selection element will be omitted.
