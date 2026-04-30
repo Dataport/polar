@@ -5,6 +5,10 @@ on:
     branches:
       - next
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -21,6 +25,7 @@ jobs:
         with:
           node-version: 24.15.0
           registry-url: https://registry.npmjs.org/
+          cache: 'npm'
 
       - name: Install documentation build dependencies
         run: |
