@@ -16,10 +16,9 @@ const test = _test.extend<{
 	store: ReturnType<typeof useFilterStore>
 }>({
 	wrapper: async ({}, use) => {
-		vi.mock('i18next-vue', () => ({
-			useTranslation: (ns: string) => ({
-				t: (keyFn, opts) => mockedT(keyFn, { ns, ...opts }),
-			}),
+		vi.mock('i18next', () => ({
+			getFixedT: (_: unknown, ns: string) => (keyFn, opts) =>
+				mockedT(keyFn, { ...opts, ns }),
 		}))
 		const wrapper = mount(FilterUI, {
 			attachTo: document.body,

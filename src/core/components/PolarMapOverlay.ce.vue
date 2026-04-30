@@ -69,14 +69,15 @@ defineExpose({
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: inherit;
-	height: inherit;
+	width: 100%;
+	height: 100%;
 	z-index: 42;
 	font-size: var(--kern-typography-font-size-static-large);
 	text-align: center;
 	color: white;
 	background-color: rgba(0, 0, 0, 0.45);
 	pointer-events: none;
+	border-radius: var(--kern-metric-border-radius-large);
 }
 
 .fade-enter-active,
