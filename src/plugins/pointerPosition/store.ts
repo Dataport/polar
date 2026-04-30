@@ -93,7 +93,7 @@ export const usePointerPositionStore = defineStore(
 
 			/**
 			 * Array of available projections; either configured set or
-			 * `namedProjections`.
+			 * {@link MasterportalApiConfiguration.namedProjections | mapConfiguration.namedProjections}.
 			 * @alpha
 			 */
 			availableProjections,
