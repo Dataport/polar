@@ -5,11 +5,9 @@ updates:
     target-branch: next
     schedule:
       interval: weekly
+    open-pull-requests-limit: 20
     cooldown:
       default-days: 7
-      include:
-        - '*'
-    open-pull-requests-limit: 10
     commit-message:
       prefix: chore
       include: scope
@@ -18,12 +16,10 @@ updates:
     directory: /
     target-branch: next
     schedule:
-      interval: weekly
+      interval: daily
+    open-pull-requests-limit: 20
     cooldown:
       default-days: 3
-      include:
-        - '*'
-    open-pull-requests-limit: 10
     commit-message:
       prefix: chore
       include: scope
