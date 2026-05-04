@@ -14,8 +14,6 @@ import type { InterfacePluginOptions, StoreReference } from '@/core'
  */
 export const PluginId = 'gfi'
 
-export const gfiFailedSymbol = Symbol('POLAR gfi call failed')
-
 /**
  * Gfi configuration for a layer.
  *
