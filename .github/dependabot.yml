@@ -21,7 +21,7 @@ updates:
     directory: /
     target-branch: next
     schedule:
-      interval: daily
+      interval: weekly
     open-pull-requests-limit: 20
     cooldown:
       default-days: 3
