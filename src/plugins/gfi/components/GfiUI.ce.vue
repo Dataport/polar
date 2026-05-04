@@ -30,9 +30,7 @@
 				<span class="kern-icon kern-icon--arrow-forward" aria-hidden="true" />
 			</button>
 		</template>
-		<template v-else-if="gfiStore.configuration.featureList">
-			<GfiFeatureList />
-		</template>
+		<GfiFeatureList v-else-if="gfiStore.configuration.featureList" />
 	</PolarCard>
 </template>
 
