@@ -100,7 +100,6 @@ export const usePointerPositionStore = defineStore(
 
 			/**
 			 * Currently selected projection as EPSG code, e.g. `EPSG:4326`.
-			 * You may also safely write to the `.value` property of this.
 			 * @alpha
 			 */
 			selectedProjection,
