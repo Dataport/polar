@@ -41,7 +41,7 @@ export const gfiFailedSymbol = Symbol('POLAR gfi call failed')
  */
 export interface GfiLayerConfiguration {
 	/**
-	 * Property of the features of a service having an url usable to trigger a download of features as a document.
+	 * Property of the features of a service having a url usable to trigger a download of features as a document.
 	 */
 	exportProperty?: string
 
