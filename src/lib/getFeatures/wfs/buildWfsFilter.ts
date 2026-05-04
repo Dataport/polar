@@ -23,19 +23,27 @@ const queryPrefix = ({
 	typeName,
 	xmlns,
 }: WfsParameters) => `
-<wfs:Query typeName="${featurePrefix}:${typeName}" xmlns:${featurePrefix}="${xmlns}"${
+<wfs:Query typeName="${featurePrefix}:${typeName}" xmlns:${featurePrefix}="${xmlns}" xmlns:ogc="http://www.opengis.net/ogc"${
 	srsName ? ` srsName="${srsName}"` : ''
 }>
-<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">`
+<ogc:Filter>`
 
 function wfsLike(
 	fieldName: string,
 	input: string,
-	{ featurePrefix, useRightHandWildcard, likeFilterAttributes }: WfsParameters
+	{
+		featurePrefix,
+		useRightHandWildcard,
+		likeFilterAttributes,
+		caseSensitive,
+	}: WfsParameters
 ) {
 	const mergedLikeFilterAttributes = toMerged(
 		defaultLikeFilterAttributes,
-		likeFilterAttributes || {}
+		toMerged(
+			likeFilterAttributes || {},
+			caseSensitive !== undefined ? { matchCase: caseSensitive } : {}
+		)
 	)
 	return `
 <ogc:PropertyIsLike${Object.entries(mergedLikeFilterAttributes).reduce(
@@ -52,6 +60,30 @@ function wfsLike(
 	}</ogc:Literal>
 </ogc:PropertyIsLike>`
 }
+
+const querySortBy = (
+	sortBy: { propertyName: string; direction?: 'ASC' | 'DESC' }[],
+	featurePrefix: string
+) => `<ogc:SortBy>
+${sortBy
+	.map(
+		({ propertyName, direction = 'ASC' }) =>
+			`<ogc:SortProperty>
+<ogc:PropertyName>${featurePrefix}:${propertyName}</ogc:PropertyName>
+<ogc:SortOrder>${direction}</ogc:SortOrder>
+</ogc:SortProperty>`
+	)
+	.join('')}
+</ogc:SortBy>`
+
+const querySuffix = (
+	sortBy?: { propertyName: string; direction?: 'ASC' | 'DESC' }[],
+	featurePrefix?: string
+) =>
+	`</ogc:Filter>${
+		sortBy?.length && featurePrefix ? querySortBy(sortBy, featurePrefix) : ''
+	}
+</wfs:Query>`
 
 function buildWfsFilterQuery(
 	patternMatch: string[][],
@@ -70,7 +102,7 @@ function buildWfsFilterQuery(
 		request += wfsLike(pattern[0] as string, pattern[1] as string, parameters)
 	}
 
-	return request + '</ogc:Filter></wfs:Query>'
+	return request + querySuffix(parameters.sortBy, parameters.featurePrefix)
 }
 
 /**
@@ -121,7 +153,7 @@ if (import.meta.vitest) {
 	})
 	test('creates a one-query search for a single match', () => {
 		expect(buildWfsFilter([[['a', '5']]], parameters)).toEqual(
-			'<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:a</ogc:PropertyName><ogc:Literal>5*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query></wfs:GetFeature>'
+			'<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com" xmlns:ogc="http://www.opengis.net/ogc"><ogc:Filter><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:a</ogc:PropertyName><ogc:Literal>5*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query></wfs:GetFeature>'
 		)
 	})
 	test('creates a one-query and-ed search for a single match with multiple fields', () => {
@@ -136,12 +168,12 @@ if (import.meta.vitest) {
 				parameters
 			)
 		).toEqual(
-			'<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:And><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:a</ogc:PropertyName><ogc:Literal>5*</ogc:Literal></ogc:PropertyIsLike><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:b</ogc:PropertyName><ogc:Literal>3*</ogc:Literal></ogc:PropertyIsLike></ogc:And></ogc:Filter></wfs:Query></wfs:GetFeature>'
+			'<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com" xmlns:ogc="http://www.opengis.net/ogc"><ogc:Filter><ogc:And><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:a</ogc:PropertyName><ogc:Literal>5*</ogc:Literal></ogc:PropertyIsLike><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:b</ogc:PropertyName><ogc:Literal>3*</ogc:Literal></ogc:PropertyIsLike></ogc:And></ogc:Filter></wfs:Query></wfs:GetFeature>'
 		)
 	})
 	test('creates a multi-query search for a multiple matches', () => {
 		expect(buildWfsFilter([[['a', '5']], [['b', '3']]], parameters)).toEqual(
-			'<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:a</ogc:PropertyName><ogc:Literal>5*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:b</ogc:PropertyName><ogc:Literal>3*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query></wfs:GetFeature>'
+			'<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com" xmlns:ogc="http://www.opengis.net/ogc"><ogc:Filter><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:a</ogc:PropertyName><ogc:Literal>5*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com" xmlns:ogc="http://www.opengis.net/ogc"><ogc:Filter><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:b</ogc:PropertyName><ogc:Literal>3*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query></wfs:GetFeature>'
 		)
 	})
 }

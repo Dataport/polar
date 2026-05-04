@@ -57,7 +57,6 @@
 import Vue from 'vue'
 import { mapMutations, mapGetters } from 'vuex'
 import Overlay from 'ol/Overlay'
-import { denkmaelerWMS, denkmaelerWFS } from '../../servicesConstants'
 
 const rectangleWidth = 893
 const rectangleHeight = 473
@@ -69,25 +68,23 @@ export default Vue.extend({
     showOverlay: false,
     dialog: false,
     title: '',
-    printImageUrlProd: '',
-    exportMapAsPdfUrl: '',
-    wmsLayerUrl: '',
-    wfsLayerUrl: '',
-    wfsLayerFeatureType: '',
     defaultBackground: {
       url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
       layers: 'de_basemapde_web_raster_grau',
     },
-    internalHost: '',
-    internServicesBaseUrl: '',
-    newTab:
-      new URL(document.location as unknown as string).searchParams.get(
-        'NewTab'
-      ) || true,
+    newTab: (() => {
+      const params = new URL(document.location as unknown as string)
+        .searchParams
+      for (const [key, value] of params) {
+        if (key.toLowerCase() === 'newtab') {
+          return value.toLowerCase() === 'true'
+        }
+      }
+      return true
+    })(),
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
-    ...mapGetters('plugin/layerChooser', ['activeBackgroundId']),
     ...mapGetters('plugin/pins', ['transformedCoordinate']),
     ...mapGetters('plugin/gfi', ['currentProperties']),
     ...mapGetters('plugin/scale', ['scaleValue', 'scaleWithUnit']),
@@ -97,14 +94,15 @@ export default Vue.extend({
     },
     backgroundLayer() {
       return (
-        this.configuration.layerConf.find(
-          (layer) => layer.id === this.activeBackgroundId
-        ) || this.defaultBackground
+        this.configuration.dishExportMap.backgroundLayer ||
+        this.defaultBackground
       )
+    },
+    dishExportMap() {
+      return this.configuration.dishExportMap
     },
   },
   mounted() {
-    this.configureSettings()
     const element = this.$refs.rectangle as HTMLElement
     if (!this.overlay) {
       this.overlay = new Overlay({
@@ -118,23 +116,6 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations('plugin/fullscreen', ['setIsInFullscreen']),
-    configureSettings() {
-      this.internServicesBaseUrl =
-        this.configuration.dishExportMap.urlParams.internServicesBaseUrl
-      this.internalHost =
-        this.configuration.dishExportMap.urlParams.internalHost
-      const wmsLayer = this.configuration.layerConf.find(
-        (layer) => layer.id === denkmaelerWMS
-      )
-      const wfsLayer = this.configuration.layerConf.find(
-        (layer) => layer.id === denkmaelerWFS
-      )
-      this.wmsLayerUrl = wmsLayer.url || `${this.internServicesBaseUrl}/wms`
-      this.wfsLayerUrl = wfsLayer.url || `${this.internServicesBaseUrl}/wfs`
-      this.wfsLayerFeatureType = wfsLayer.featureType || 'app:dish_shp'
-      this.printImageUrlProd ||= `${this.internalHost}/Content/MapsTmp`
-      this.exportMapAsPdfUrl ||= `${this.internalHost}/Content/Objekt/Kartenausgabe.aspx`
-    },
     showRectangleAndDialog() {
       if (this.isInFullscreen) {
         if (document.exitFullscreen) {
@@ -200,11 +181,11 @@ export default Vue.extend({
         objektueberschrift: this.title,
         // spelling is intentional because of backend requirements
         masssstab: this.scaleValue,
-        printApproach: this.configuration.dishExportMap.printApproach,
-        printRequester: this.configuration.dishExportMap.printRequester,
+        printApproach: this.dishExportMap.printApproach,
+        printRequester: this.dishExportMap.printRequester,
         id: this.currentProperties.objektid,
-        xPrint: this.configuration.dishExportMap.xPrint,
-        yPrint: this.configuration.dishExportMap.yPrint,
+        xPrint: this.dishExportMap.xPrint,
+        yPrint: this.dishExportMap.yPrint,
         scale: this.scaleValue,
         xMin: bbox?.xMin,
         yMin: bbox?.yMin,
@@ -215,19 +196,19 @@ export default Vue.extend({
         mapSRS: this.configuration.epsg,
         urlHintergrund: `${this.backgroundLayer.url}?`,
         LayerNameHintergrund: this.backgroundLayer.layers,
-        VersionHintergrund: this.configuration.dishExportMap.versionHintergrund,
-        ProxyHintergrund: this.configuration.dishExportMap.proxyHintergrund,
-        urlWMS: `${this.wmsLayerUrl}?`,
-        VersionWMS: this.configuration.dishExportMap.versionWMS,
-        LayerNameWMS: this.configuration.dishExportMap.layerNameWMS,
-        urlWFS: `${this.wfsLayerUrl}?`,
-        VersionWFS: this.configuration.dishExportMap.versionWFS,
-        LayerNameWFS: this.wfsLayerFeatureType,
-        PropertyNameWFS: this.configuration.dishExportMap.propertyNameWFS,
-        FilterTypeWFS: this.configuration.dishExportMap.filterTypeWFS,
+        VersionHintergrund: this.dishExportMap.versionHintergrund,
+        ProxyHintergrund: this.dishExportMap.proxyHintergrund,
+        urlWMS: `${this.dishExportMap.wmsLayerUrl}?`,
+        VersionWMS: this.dishExportMap.versionWMS,
+        LayerNameWMS: this.dishExportMap.layerNameWMS,
+        urlWFS: `${this.dishExportMap.wfsLayerUrl}?`,
+        VersionWFS: this.dishExportMap.versionWFS,
+        LayerNameWFS: this.dishExportMap.wfsLayerFeatureType,
+        PropertyNameWFS: this.dishExportMap.propertyNameWFS,
+        FilterTypeWFS: this.dishExportMap.filterTypeWFS,
         scaleText: this.scaleWithUnit,
-        PrintImageURL: this.printImageUrlProd,
-        PrintImagePath: this.configuration.dishExportMap.printImagePath,
+        PrintImageURL: this.dishExportMap.printImageUrlProd,
+        PrintImagePath: this.dishExportMap.printImagePath,
       }
     },
     printMapAsPdf() {
@@ -239,9 +220,9 @@ export default Vue.extend({
             `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
         )
         .join('&')
-      const encodedUrl = `${this.exportMapAsPdfUrl}?${queryString}`
+      const encodedUrl = `${this.dishExportMap.exportMapAsPdfUrl}?${queryString}`
 
-      window.open(encodedUrl, '_blank')
+      window.open(encodedUrl, this.newTab ? '_blank' : '_self')
       this.showOverlay = false
     },
   },
