@@ -318,7 +318,8 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	 * If set to `'box'`, the selection will be done in a box.
 	 * If set to `'circle'`, the selection will be done in a circle.
 	 *
-	 * Similar to `directSelect`, features can be added and removed by selection / unselecting them.
+	 * Similar to {@link GfiPluginOptions.directSelect | `directSelect`},
+	 * features can be added and removed by selection / unselecting them.
 	 * The features need to be distinguishable by their properties for the functionality to properly work.
 	 * Does not work together with `extendedMasterportalapiMarkers` of `@polar/core`.
 	 *
