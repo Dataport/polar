@@ -292,7 +292,7 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	featureList?: FeatureList
 
 	/**
-	 * Limits the viewable GFIs per layer by this number.
+	 * Limits the viewable results per layer by this number.
 	 * The first n elements are chosen arbitrarily.
 	 * Useful if you e.g. just want one result, or to limit an endless stream of returns to e.g. 10.
 	 * Infinite by default.
