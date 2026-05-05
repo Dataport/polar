@@ -33,7 +33,7 @@ function readTextFeatures(text: string): Feature[] {
 	const features: Feature[] = []
 	let feature: Feature | undefined
 
-	/* TODO: Format supposedly looks like this – is this a standard or arbitrary?
+	/* TODO: Format supposedly looks like this – however, this is probably not standardized!
 		GetFeatureInfo results:
 			LayerName:
 				FeatureId:
