@@ -13,6 +13,9 @@ import { PluginId, type ExportPluginOptions } from './types'
 
 /**
  * The Export plugin allows making screenshots of the currently visible map.
+ * Please note that the plugin must be added initially, before any layers are
+ * loaded, or the canvas will no longer be printable due to potential security
+ * issues.
  *
  * @returns Plugin for use with {@link addPlugin}.
  */
