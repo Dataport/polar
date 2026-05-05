@@ -67,7 +67,7 @@ export interface GfiLayerConfiguration {
 	geometry?: boolean
 
 	/**
-	 * Name of the geometry property if not the default field.
+	 * Name of the geometry property if not the default field of the service.
 	 */
 	geometryName?: string
 
