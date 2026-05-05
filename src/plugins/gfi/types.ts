@@ -303,7 +303,7 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	 * Method of calculating which feature has been chosen by the user.
 	 * `bboxDot` utilizes the `bbox`-url parameter using the clicked coordinate while `intersects` uses a `Filter` to calculate the intersected features.
 	 * Layers can have their own `gfiMode` parameter which would override this global mode.
-	 * To apply this, add the desired value to the parameter in the {@link MapConfiguration | `mapConfiguration`}.
+	 * To apply this, add the desired value to the parameter in the {@link MapConfiguration | `mapConfiguration`}.
 	 *
 	 * @defaultValue `'bboxDot'`
 	 */
