@@ -20,6 +20,7 @@ import type { LocaleOverride } from './locales'
 import type { MarkerConfiguration } from './marker'
 import type { PluginId } from './plugin'
 import type { PolarTheme } from './theme'
+import type { ExportPluginOptions } from '@/plugins/export/types'
 
 export interface ServiceAvailabilityCheck {
 	ping: Promise<number>
@@ -313,6 +314,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** Configuration for attributions plugin. */
 	attributions?: AttributionsPluginOptions
+
+	/** Configuration for export plugin. */
+	export?: ExportPluginOptions
 
 	/** Configuration for filter plugin. */
 	filter?: FilterPluginOptions

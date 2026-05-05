@@ -1,7 +1,8 @@
-import { jsPDF } from 'jspdf'
+import { jsPDF as JSpdf } from 'jspdf'
 
-// PDF options
-const dims: Record<string, [number, number]> = {
+type DINmension = 'a0' | 'a1' | 'a2' | 'a3' | 'a4' | 'a5'
+
+const dimensions: Record<DINmension, [number, number]> = {
 	a0: [1189, 841],
 	a1: [841, 594],
 	a2: [594, 420],
@@ -17,12 +18,12 @@ export const convertToPdf = (
 ) => {
 	// NOTE: when supporting more formats, scale map accordingly
 	const format = 'a4'
-	const dim = dims[format] as [number, number]
-  const jsPdf = new jsPDF('landscape', undefined, format) // eslint-disable-line
+	const dimension = dimensions[format]
+	const jsPdf = new JSpdf('landscape', undefined, format)
 
 	// Fit image proportionally onto the page
-	const pageWidth = dim[0]
-	const pageHeight = dim[1]
+	const pageWidth = dimension[0]
+	const pageHeight = dimension[1]
 	const ratio = imgWidth / imgHeight
 	let drawWidth = pageWidth
 	let drawHeight = pageWidth / ratio

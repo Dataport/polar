@@ -1,26 +1,35 @@
 <template>
-	<div ref="wrapper" class="polar-plugin-export-wrapper">
+	<div class="polar-plugin-export">
 		<PolarIconButton
-			v-if="filteredExportOptions.length >= 1"
-			class="polar-plugin-export-primary"
-			hint="Export"
-			icon="kern-icon-fill--image"
+			:hint="
+				singleExport
+					? $t(($) => $.button.hint, {
+							ns: 'export',
+							format: singleExport?.toUpperCase(),
+						})
+					: $t(($) => $.button.tooltip, { ns: 'export' })
+			"
+			:icon="singleExport ? icon(singleExport) : 'kern-icon-fill--photo-camera'"
 			:tooltip-position="tooltipPosition"
 			@click="singleExport ? exportAs(singleExport) : toggleButtons()"
 		/>
 		<div
 			v-if="visible && !singleExport"
-			class="polar-plugin-export-fanout"
-			:class="`polar-plugin-export-fanout-${tooltipPosition}`"
+			class="polar-plugin-export-formats"
+			:class="`polar-plugin-export-formats-${tooltipPosition}`"
 		>
 			<PolarIconButton
-				v-for="format in filteredExportOptions"
+				v-for="format in availableFormats"
 				:key="format"
-				class="polar-plugin-export-secondary"
-				:hint="`Export ${format.toUpperCase()}`"
+				:hint="
+					$t(($) => $.button.hint, {
+						ns: 'export',
+						format: format.toUpperCase(),
+					})
+				"
 				:icon="icon(format)"
 				:tooltip-position="tooltipPosition"
-				@click="() => exportAs(format)"
+				@click="exportAs(format)"
 			/>
 		</div>
 	</div>
@@ -31,70 +40,62 @@ import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
-import { useCoreStore } from '@/core/stores'
+
+import type { ExportFormat } from '../types'
 
 import { useExportStore } from '../store'
 
-const { layout } = storeToRefs(useCoreStore())
-const {
-	exportAs,
-	filteredExportOptions,
-	singleExport,
-	renderType,
-	configuration,
-} = useExportStore()
+const exportStore = useExportStore()
+
+const { availableFormats, layoutTag } = storeToRefs(exportStore)
+const { exportAs } = exportStore
+
 const visible = ref(false)
-const toggleButtons = () => {
-	visible.value = !visible.value
-}
+const toggleButtons = () => (visible.value = !visible.value)
+
 const tooltipPosition = computed(() =>
-	renderType === 'iconMenu'
-		? undefined
-		: layout.value === 'standard' || configuration.layoutTag?.includes('RIGHT')
-			? 'left'
-			: 'right'
+	layoutTag.value?.includes('RIGHT') ? 'left' : 'right'
 )
 
-const icon = (format: string) => {
+const singleExport = computed(() =>
+	availableFormats.value.length === 1 ? availableFormats.value[0] : null
+)
+
+const icon = (format: ExportFormat) => {
 	switch (format) {
 		case 'png':
-		case 'jpg':
-		case 'jpeg':
-			return 'kern-icon-fill--imagesmode'
+			return 'kern-icon-fill--file-png'
 		case 'pdf':
 			return 'kern-icon-fill--picture-as-pdf'
+		case 'jpg':
+		case 'jpeg':
 		default:
-			return 'kern-icon-fill--image'
+			return 'kern-icon-fill--imagesmode'
 	}
 }
 </script>
+
 <style scoped>
-.polar-plugin-export-wrapper {
+.polar-plugin-export {
 	position: relative;
-}
-.polar-icon-button.polar-plugin-export-primary,
-.polar-icon-button.polar-plugin-export-secondary {
-	box-shadow: none;
-}
-.polar-icon-button.polar-plugin-export-secondary {
-	opacity: 0.75;
-}
-.polar-icon-button.polar-plugin-export-secondary:hover {
-	opacity: 1;
-}
-.polar-plugin-export-fanout {
-	position: absolute;
-	top: 0;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: var(--kern-metric-space-x-small);
-}
-.polar-plugin-export-fanout-left {
-	right: calc(100% + var(--kern-metric-space-x-small));
-	flex-direction: row-reverse;
-}
-.polar-plugin-export-fanout-right {
-	left: calc(100% + var(--kern-metric-space-x-small));
+	margin: var(--kern-metric-space-2x-small);
+
+	.polar-plugin-export-formats {
+		position: absolute;
+		top: 0;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: var(--kern-metric-space-x-small);
+
+		&.polar-plugin-export-formats-left {
+			right: calc(100% + var(--kern-metric-space-x-small));
+			flex-direction: row-reverse;
+		}
+
+		&.polar-plugin-export-formats-right {
+			left: calc(100% + var(--kern-metric-space-x-small));
+		}
+	}
 }
 </style>

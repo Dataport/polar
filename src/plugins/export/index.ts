@@ -1,6 +1,6 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @module \@polar/polar/plugins/footer
+ * @module \@polar/polar/plugins/export
  */
 /* eslint-enable tsdoc/syntax */
 
@@ -12,10 +12,7 @@ import { useExportStore } from './store'
 import { PluginId, type ExportPluginOptions } from './types'
 
 /**
- * Creates a plugin which adds the possibility to display various content as a
- * footer at the bottom of the map.
- *
- * Note that a link to the POLAR repository will always be displayed.
+ * The Export plugin allows making screenshots of the currently visible map.
  *
  * @returns Plugin for use with {@link addPlugin}.
  */

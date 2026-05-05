@@ -122,20 +122,6 @@ export interface DrawMetaService {
 	propertyNames?: string[]
 }
 
-export interface ExportConfiguration extends PluginOptions {
-	/**
-	 * Whether the user should be able to download a file
-	 * or the data should only be accessible through the store.
-	 */
-	download?: boolean
-	/** Tool offers exporting current mapView as a jpg. */
-	showJpg?: boolean
-	/** Tool offers exporting current mapView as a pdf. */
-	showPdf?: boolean
-	/** Tool offers exporting current mapView as a png. */
-	showPng?: boolean
-}
-
 export interface FilterConfigurationTimeOption {
 	amounts: number[]
 	unit?: 'days'
@@ -382,7 +368,6 @@ export interface MapConfig extends MasterportalApiConfig {
 	addressSearch?: AddressSearchConfiguration
 	attributions?: AttributionsConfiguration
 	draw?: DrawConfiguration
-	export?: ExportConfiguration
 	filter?: FilterConfiguration
 	fullscreen?: FullscreenConfiguration
 	geoLocation?: GeoLocationConfiguration

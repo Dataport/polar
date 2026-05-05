@@ -2,32 +2,30 @@ import type { PluginOptions } from '@/core'
 
 export const PluginId = 'export'
 
-export const EXPORT_FORMATS = ['jpg', 'jpeg', 'pdf', 'png']
+/**
+ * Supported export formats. 'jpg' and 'jpeg' are effectively the same format,
+ * so you can provide whatever you prefer. Providing both is not recommended
+ * due to the confusing nature of having both options.
+ */
+export const EXPORT_FORMATS = ['jpg', 'jpeg', 'pdf', 'png'] as const
 
 export type ExportFormat = (typeof EXPORT_FORMATS)[number]
 
 export interface ExportPluginOptions extends PluginOptions {
 	/**
-	 * Defines whether the file is offered for download.
+	 * If true, the screenshot will be both stored in the store and offered as a
+	 * download to the user. If false, it will only be stored – in that case, the
+	 * leading application must show a fitting indication (e.g. by firing a
+	 * toast or showing the screenshot) to the user.
 	 *
 	 * @defaultValue `false`
 	 */
 	download?: boolean
 
 	/**
-	 * Defines the export options to be shown in the export menu.
-	 * Can be a single format or an array of formats.
+	 * Defines the export formats to be offered in the export menu.
 	 *
 	 * @defaultValue `['png']`
 	 */
-	options?: ExportFormat | ExportFormat[]
-
-	/**
-	 * Defines if the export button is rendered independent or as part of the icon menu.
-	 *
-	 * This is only applicable if the layout is `'nineRegions'`.
-	 *
-	 * @defaultValue `'independent'`
-	 */
-	renderType?: 'independent' | 'iconMenu'
+	formats?: ExportFormat[]
 }

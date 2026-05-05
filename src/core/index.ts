@@ -15,7 +15,6 @@ import PolarContainer from './components/PolarContainer.ce.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
 import './monkeyHeaderLoader'
-import './monkeyCrossOrigin'
 
 /**
  * Custom element of the POLAR map.

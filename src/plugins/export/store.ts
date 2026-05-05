@@ -4,19 +4,20 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import { t } from 'i18next'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { notifyUser } from '@/lib/notifyUser'
 
-import type { ExportPluginOptions, ExportFormat } from './types'
+import type { ExportFormat } from './types'
 
 import { EXPORT_FORMATS } from './types'
-import { convertCanvasToBase64 } from './utils/convertCanvasToBase64'
 import { convertToPdf } from './utils/convertToPdf'
+import { CrossOriginMonkey } from './utils/CrossOriginMonkey'
 import { downloadAsImage } from './utils/downloadAsImage'
 import { getCanvasFromMap } from './utils/getCanvasFromMap'
-
 /* eslint-disable tsdoc/syntax */
 /**
  * @function
@@ -28,84 +29,108 @@ export const useExportStore = defineStore('plugins/export', () => {
 	const coreStore = useCoreStore()
 	const exportedMap = ref('')
 
-	const configuration = computed(
-		() => (coreStore.configuration['export'] || {}) as ExportPluginOptions
-	)
-	const download = computed(() => configuration.value.download || false)
-	const renderType = computed<'independent' | 'iconMenu'>(
-		() => configuration.value.renderType || 'independent'
-	)
-	const filteredExportOptions = computed(() => {
-		const configured = configuration.value.options || ['png']
-		const configuredArray = Array.isArray(configured)
-			? configured
-			: [configured]
+	const configuration = computed(() => coreStore.configuration.export ?? {})
+	const download = computed(() => configuration.value.download ?? false)
+	const layoutTag = computed(() => configuration.value.layoutTag)
+	const availableFormats = computed(() => {
+		const validFormats =
+			configuration.value.formats?.filter((format) => {
+				const valid = EXPORT_FORMATS.includes(format)
 
-		return configuredArray.filter((opt) => EXPORT_FORMATS.includes(opt))
+				if (!valid) {
+					console.warn(
+						`Erronoeous export.formats entry '${format}' configured. It was filtered out. Please verify configuration. Allowed formats are: '${EXPORT_FORMATS.join("', '")}'.`
+					)
+				}
+
+				return valid
+			}) ?? ([] as ExportFormat[])
+
+		return validFormats.length > 0 ? validFormats : (['png'] as ExportFormat[])
 	})
-	const singleExport = computed(() =>
-		filteredExportOptions.value.length === 1
-			? filteredExportOptions.value[0]
-			: null
-	)
 
 	function exportAs(type: ExportFormat) {
-		if (!filteredExportOptions.value.includes(type)) {
-			console.warn(`Export: Export format not allowed: ${type}`)
-			return
-		}
-		const map = coreStore.map
-		const canvas = getCanvasFromMap(map)
-
-		const base64String = convertCanvasToBase64(canvas, type)
-		if (!base64String) {
-			console.warn(
-				'@polar/plugin-export: Failed to convert canvas to base64 string.'
-			)
-			return
-		}
-		exportedMap.value = base64String
-		if (type === 'pdf') {
-			const { pdfSrc, jsPdf } = convertToPdf(
-				base64String,
-				canvas.width,
-				canvas.height
-			)
-			exportedMap.value = pdfSrc
-
-			if (download.value) {
-				jsPdf.save('map.pdf')
+		try {
+			if (!availableFormats.value.includes(type)) {
+				throw new Error(`Export format not allowed: "${type}"`)
 			}
-		} else {
-			if (download.value) {
-				downloadAsImage(base64String, type)
+
+			const map = coreStore.map
+			const canvas = getCanvasFromMap(map)
+			const base64String = canvas.toDataURL(
+				type === 'png' ? 'image/png' : 'image/jpeg'
+			)
+
+			if (!base64String) {
+				throw new Error('Failed to convert canvas to base64 string.')
 			}
+
+			if (type === 'pdf') {
+				const { pdfSrc, jsPdf } = convertToPdf(
+					base64String,
+					canvas.width,
+					canvas.height
+				)
+				exportedMap.value = pdfSrc
+
+				if (download.value) {
+					jsPdf.save('polar-map.pdf')
+				}
+			} else {
+				exportedMap.value = base64String
+				if (download.value) {
+					downloadAsImage(base64String, type)
+				}
+			}
+		} catch (error) {
+			console.error(error)
+			notifyUser('error', () =>
+				t(($) => $.error, {
+					ns: 'export',
+				})
+			)
+			throw error
 		}
+	}
+
+	const monkey = new CrossOriginMonkey()
+
+	function setupPlugin() {
+		monkey.startBusiness(coreStore.map)
+	}
+
+	function teardownPlugin() {
+		monkey.stopBusiness(coreStore.map)
 	}
 
 	return {
 		/** @internal */
-		configuration,
+		setupPlugin,
 
 		/** @internal */
-		renderType,
-
-		/** @internal */
-		filteredExportOptions,
-
-		/** @internal */
-		download,
-
-		/** @internal */
-		singleExport,
+		teardownPlugin,
 
 		/**
-		 * Initiates the export process for the specified format.
+		 * Configured valid formats or, if none are given or all are invalid, fallback.
+		 * @alpha
+		 */
+		availableFormats,
+
+		/**
+		 * Configured layout tag, if given.
+		 * @alpha
+		 */
+		layoutTag,
+
+		/**
+		 * Initiates the export process for the specified format. Throws with an
+		 * error description if something goes wrong.
 		 */
 		exportAs,
 
 		/**
 		 * Holds the exported map as a base64-encoded string after export.
+		 * Content depends on chosen export format. Initially `''`.
 		 */
 		exportedMap,
 	}

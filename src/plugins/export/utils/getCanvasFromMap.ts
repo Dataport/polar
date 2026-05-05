@@ -1,6 +1,6 @@
 import { Map } from 'ol'
 
-export function getCanvasFromMap(map: Map): HTMLCanvasElement {
+export function getCanvasFromMap(map: Map) {
 	const viewport = map.getViewport()
 	const canvas = document.createElement('canvas')
 	const context = canvas.getContext('2d')
@@ -12,11 +12,12 @@ export function getCanvasFromMap(map: Map): HTMLCanvasElement {
 	canvas.width = viewport.clientWidth
 	canvas.height = viewport.clientHeight
 
-	const layerCanvases = viewport.querySelectorAll('.ol-layer canvas')
+	const layerCanvases: NodeListOf<HTMLCanvasElement> =
+		viewport.querySelectorAll('.ol-layer canvas')
 	layerCanvases.forEach((layerCanvas) => {
-		const canvas = layerCanvas as HTMLCanvasElement
+		const canvas = layerCanvas
 		if (canvas.width > 0) {
-			// Handle layer opacity
+			// use layer opacity for printing
 			const opacity = (canvas.parentNode as HTMLElement).style.opacity
 			context.globalAlpha = opacity === '' ? 1 : Number(opacity)
 
@@ -32,7 +33,7 @@ export function getCanvasFromMap(map: Map): HTMLCanvasElement {
 
 			context.drawImage(canvas, 0, 0)
 		} else {
-			console.warn('@polar/plugin-export: canvas width is 0.')
+			console.error('Canvas width is 0, remains effectively empty.')
 		}
 	})
 	return canvas

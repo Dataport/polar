@@ -16,7 +16,9 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	button: {
 		tooltip: 'Karte exportieren',
+		hint: 'Karte als {{format}} exportieren',
 	},
+	error: 'Beim Exportieren der Karte ist ein Fehler aufgetreten.',
 } as const
 
 /**
@@ -26,7 +28,9 @@ export const resourcesDe = {
 export const resourcesEn = {
 	button: {
 		tooltip: 'Export map',
+		hint: 'Export map as {{format}}',
 	},
+	error: 'An error occurred while exporting the map.',
 } as const
 
 const locales: Locale[] = [
