@@ -2,6 +2,7 @@ import type { VueElement } from 'vue'
 
 import type { AddressSearchPluginOptions } from '@/plugins/addressSearch'
 import type { AttributionsPluginOptions } from '@/plugins/attributions'
+import type { ExportPluginOptions } from '@/plugins/export/types'
 import type { FilterPluginOptions } from '@/plugins/filter'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
@@ -20,7 +21,6 @@ import type { LocaleOverride } from './locales'
 import type { MarkerConfiguration } from './marker'
 import type { PluginId } from './plugin'
 import type { PolarTheme } from './theme'
-import type { ExportPluginOptions } from '@/plugins/export/types'
 
 export interface ServiceAvailabilityCheck {
 	ping: Promise<number>
