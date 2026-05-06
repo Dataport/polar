@@ -29,7 +29,7 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 				enabledPlugins.includes('fullscreen') && {
 					plugin: Fullscreen({ renderType: 'iconMenu' }),
 				},
-				enabledPlugins.includes('layerChooser') && {
+				{
 					plugin: LayerChooser({}),
 					icon: 'kern-icon-fill--layers',
 				},
@@ -77,10 +77,10 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
  *
  * @param containerId - ID of the container the map will render itself in.
  * @param serviceRegister - Service register given as an array, or a URL to fetch this from.
- * @param mapConfiguration - Configuration options. Only plugins with that have a configuration will be created. To
- * 												   enable a plugin with default configuration, add its key with an empty object. The
- * 												   plugins with the ids 'fullscreen', 'geoLocation' and 'layerChooser' are added to the iconMenu.
- * 													 IconMenu, Toast, and LoadingIndicator are enabled by default.
+ * @param mapConfiguration - Configuration options. Only plugins that have a configuration will be created. To
+ * 													enable a plugin with default configuration, add its key with an empty object. The
+ * 													plugins with the ids 'fullscreen', 'geoLocation' and 'layerChooser' are added to the iconMenu.
+ * 													IconMenu, Toast, aLayerChooser, nd LoadingIndicator are enabled by default.
  * @param modifyServiceRegister - Optionally modify the serviceRegister. This may be useful if a pre-existing register is used.
  *
  * @example
