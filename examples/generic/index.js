@@ -136,7 +136,6 @@ const map = await createMap(
 			zoomLevel: 7,
 		},
 		fullscreen: {},
-		layerChooser: {},
 	},
 	(serviceRegister) =>
 		serviceRegister.map((entry) =>
