@@ -13,8 +13,8 @@ export type ExportFormat = (typeof EXPORT_FORMATS)[number]
 
 export interface ExportPluginOptions extends PluginOptions {
 	/**
-	 * If true, the screenshot will be both stored in the store and offered as a
-	 * download to the user. If false, it will only be stored – in that case, the
+	 * If `true`, the screenshot will be both stored in the store and offered as a
+	 * download to the user. If `false`, it will only be stored – in that case, the
 	 * leading application must show a fitting indication (e.g. by firing a
 	 * toast or showing the screenshot) to the user.
 	 *
