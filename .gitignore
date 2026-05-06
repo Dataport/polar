@@ -2,6 +2,7 @@ node_modules
 .eslintcache
 
 git-hooks.config.json
+bom.xml
 
 /docs-html
 .dist.preview
