@@ -10,22 +10,19 @@ import {
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
 import pluginFilter from '@polar/polar/plugins/filter'
-import pluginFooter from '@polar/polar/plugins/footer'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
 import pluginPins from '@polar/polar/plugins/pins'
+import pluginPointerPosition from '@polar/polar/plugins/pointerPosition'
 import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 
-import EmptyComponent from './EmptyComponent.vue'
-import MockPointerPosition from './MockPointerPosition.ce.vue'
 import services from './services.js'
 import styleJsonUrl from './style.json?url'
-import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -150,7 +147,7 @@ const map = await createMap(
 				},
 			},
 		],
-		layout: 'standard',
+		layout: 'nineRegions',
 		checkServiceAvailability: true,
 		featureStyles: styleJsonUrl,
 		markers: {
@@ -265,59 +262,57 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 
 addPlugin(
 	map,
-	pluginFooter({
-		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
-		rightEntries: [
-			pluginScale({}),
-			pluginAttributions({
-				icons: {
-					close: 'kern-icon--keyboard-arrow-up',
-				},
-				listenToChanges: [
-					{
-						key: 'activeBackgroundId',
-						plugin: 'layerChooser',
-					},
-					{
-						key: 'activeMaskIds',
-						plugin: 'layerChooser',
-					},
-					{
-						key: 'zoom',
-					},
-				],
-				layerAttributions: [
-					{
-						id: basemapId,
-						title: 'snowbox.attributions.basemap',
-					},
-					{
-						id: basemapGreyId,
-						title: 'snowbox.attributions.basemapGrey',
-					},
-					{
-						id: reports,
-						title: 'snowbox.attributions.reports',
-					},
-					{
-						id: ausgleichsflaechen,
-						title: 'snowbox.attributions.ausgleichsflaechen',
-					},
-					{
-						id: denkmal,
-						title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
-					},
-				],
-			}),
+	pluginAttributions({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_RIGHT',
+		listenToChanges: [
+			{
+				key: 'activeBackgroundId',
+				plugin: 'layerChooser',
+			},
+			{
+				key: 'activeMaskIds',
+				plugin: 'layerChooser',
+			},
+			{
+				key: 'zoom',
+			},
+		],
+		layerAttributions: [
+			{
+				id: basemapId,
+				title: 'snowbox.attributions.basemap',
+			},
+			{
+				id: basemapGreyId,
+				title: 'snowbox.attributions.basemapGrey',
+			},
+			{
+				id: reports,
+				title: 'snowbox.attributions.reports',
+			},
+			{
+				id: ausgleichsflaechen,
+				title: 'snowbox.attributions.ausgleichsflaechen',
+			},
+			{
+				id: denkmal,
+				title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
+			},
 		],
 	})
 )
 
 addPlugin(
 	map,
+	pluginScale({ displayComponent: true, layoutTag: 'BOTTOM_RIGHT' })
+)
+
+addPlugin(
+	map,
 	pluginToast({
 		displayComponent: true,
-		layoutTag: 'BOTTOM_MIDDLE',
+		layoutTag: 'TOP_MIDDLE',
 	})
 )
 
@@ -343,6 +338,8 @@ setTimeout(() => {
 addPlugin(
 	map,
 	pluginLoadingIndicator({
+		displayComponent: true,
+		layoutTag: 'MIDDLE_MIDDLE',
 		loaderStyle: 'BasicLoader',
 	})
 )
@@ -380,38 +377,24 @@ addPlugin(
 )
 addPlugin(
 	map,
+	pluginPointerPosition({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_LEFT',
+	})
+)
+addPlugin(
+	map,
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
 		initiallyOpen: 'layerChooser',
-		focusMenus: [
-			{
-				plugin: {
-					component: YetAnotherEmptyComponent,
-					id: 'other',
-					locales: [],
-				},
-				icon: 'kern-icon--near-me',
-			},
-		],
 		menus: [
 			[
 				{
-					plugin: pluginFullscreen({}),
+					plugin: pluginFullscreen({ renderType: 'iconMenu' }),
 				},
 				{
 					plugin: pluginLayerChooser({}),
-				},
-			],
-			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
-			[
-				{
-					plugin: {
-						component: EmptyComponent,
-						id: 'realKewl',
-						locales: [],
-					},
-					icon: 'kern-icon-fill--share',
 				},
 			],
 			[
@@ -482,6 +465,7 @@ addPlugin(
 			[
 				{
 					plugin: pluginGeoLocation({
+						renderType: 'iconMenu',
 						checkLocationInitially: false,
 						keepCentered: true,
 						showTooltip: true,
@@ -501,6 +485,8 @@ addPlugin(
 addPlugin(
 	map,
 	pluginAddressSearch({
+		displayComponent: true,
+		layoutTag: 'TOP_LEFT',
 		searchMethods: [
 			{
 				queryParameters: {
