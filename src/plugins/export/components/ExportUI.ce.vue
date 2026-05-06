@@ -82,7 +82,7 @@ const icon = (format: ExportFormat) => {
 <style scoped>
 .polar-plugin-export {
 	position: relative;
-	margin: var(--kern-metric-space-2x-small);
+	margin: var(--kern-metric-space-small);
 
 	.polar-plugin-export-formats {
 		position: absolute;
