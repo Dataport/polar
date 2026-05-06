@@ -3,12 +3,16 @@
 		<PolarIconButton
 			:hint="
 				singleExport
-					? $t(($) => $.button.hint, {
+					? $t(($) => $.button.tooltip.format, {
 							ns: 'export',
 							format: singleExport?.toUpperCase(),
 						})
-					: $t(($) => $.button.tooltip, { ns: 'export' })
+					: $t(
+							($) => (visible ? $.button.tooltip.close : $.button.tooltip.open),
+							{ ns: 'export' }
+						)
 			"
+			:active="visible"
 			:icon="singleExport ? icon(singleExport) : 'kern-icon-fill--photo-camera'"
 			:tooltip-position="tooltipPosition"
 			@click="singleExport ? exportAs(singleExport) : toggleButtons()"
@@ -22,7 +26,7 @@
 				v-for="format in availableFormats"
 				:key="format"
 				:hint="
-					$t(($) => $.button.hint, {
+					$t(($) => $.button.tooltip.format, {
 						ns: 'export',
 						format: format.toUpperCase(),
 					})
