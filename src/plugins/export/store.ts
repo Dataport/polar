@@ -39,7 +39,7 @@ export const useExportStore = defineStore('plugins/export', () => {
 
 				if (!valid) {
 					console.warn(
-						`Erronoeous export.formats entry '${format}' configured. It was filtered out. Please verify configuration. Allowed formats are: '${EXPORT_FORMATS.join("', '")}'.`
+						`Erroneous export.formats entry '${format}' configured. It was filtered out. Please verify configuration. Allowed formats are: '${EXPORT_FORMATS.join("', '")}'.`
 					)
 				}
 
