@@ -1,0 +1,10 @@
+@use "sass:map";
+
+@mixin heading($variables) {
+  color: map.get($variables, "color");
+  font-size: map.get($variables, "font-size");
+  font-weight: map.get($variables, "font-weight");
+  letter-spacing: map.get($variables, "letter-spacing");
+  line-height: map.get($variables, "line-height");
+  text-transform: map.get($variables, "text-transform");
+}

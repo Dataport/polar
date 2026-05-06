@@ -1,0 +1,35 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsFilterButtonStories from "./DpsFilterButton.stories";
+
+<Meta of={DpsFilterButtonStories} />
+
+# DpsFilterButton
+
+## Description
+
+The `DpsFilterButton` component is a simple button that displays the currently selected filters. The
+label content is rendered using its default slot.
+
+**Note:**
+
+By default, the `title` property is set to `"Filter entfernen"`.
+
+<Primary name="Default" />
+
+## Stories
+
+### Disabled
+
+To disable the button, set the `disabled` property to `true`.
+
+<Canvas of={DpsFilterButtonStories.Disabled} />
+
+### Readonly
+
+To disable the button and display it as read-only, set the `readonly` property to `true`.
+
+<Canvas of={DpsFilterButtonStories.Readonly} />
+
+## Properties, Events, Slots
+
+<Controls />

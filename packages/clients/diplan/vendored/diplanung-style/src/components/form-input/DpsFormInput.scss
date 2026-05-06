@@ -1,0 +1,13 @@
+.dps-form-input {
+  &__search-cancel-button {
+    background: none;
+    border: none;
+    padding: 0;
+
+    &:focus-visible {
+      outline: 2px solid var(--dps-color-primary);
+      box-shadow: 0 0 4px 1px #00000040;
+      border-radius: 100%;
+    }
+  }
+}

@@ -1,0 +1,111 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsFormCheckboxStories from "./DpsFormCheckbox.stories";
+
+<Meta of={DpsFormCheckboxStories} />
+
+# DpsFormCheckbox
+
+## Description
+
+The `DpsFormCheckbox` component renders a basic checkbox, with its label provided through the
+default slot.
+
+<Primary name="Default" />
+
+## Stories
+
+### Checked
+
+To set the checkbox to **checked**, ensure that the `modelValue` matches the `value` property. By
+default, the `value` property is `true`.
+
+<Canvas of={DpsFormCheckboxStories.Checked} />
+
+### Disabled
+
+To disable the input element, set the `disabled` property to `true`.
+
+<Canvas of={DpsFormCheckboxStories.Disabled} />
+
+#### Checked
+
+<Canvas of={DpsFormCheckboxStories.DisabledChecked} />
+
+### Readonly
+
+To disable the checkbox and display it as read-only, set the `readonly` property to `true`.
+
+**Note:**
+
+According to the HTML specification, there is no `readonly` attribute for input checkboxes.
+Therefore, when the `readonly` property is added, the `disabled` attribute is also applied to ensure
+the user cannot alter the state of the checkbox. This approach prevents interaction while
+maintaining different styling compared to a standard disabled state.
+
+<Canvas of={DpsFormCheckboxStories.Readonly} />
+
+#### Checked
+
+<Canvas of={DpsFormCheckboxStories.ReadonlyChecked} />
+
+### Error
+
+To display the **error** state, set the `error` property to `true`.
+
+<Canvas of={DpsFormCheckboxStories.Error} />
+
+#### Checked
+
+<Canvas of={DpsFormCheckboxStories.ErrorChecked} />
+
+### Sizes
+
+#### Small
+
+To display a smaller version of the checkbox, set the `size` property to `"sm"`.
+
+<Canvas of={DpsFormCheckboxStories.SizeSm} />
+
+### Block
+
+To render the component with `display: block`, set the `block` property to `true`.
+
+<Canvas of={DpsFormCheckboxStories.Block} />
+
+### Truncated Label
+
+To truncate the label, set the `truncate` property to `true`. When this property is set, ellipses
+are added to indicate overflowing label text.
+
+<Canvas of={DpsFormCheckboxStories.TruncatedLabel} />
+
+### HTML Label
+
+You can also use HTML code as label content.
+
+<Canvas of={DpsFormCheckboxStories.HtmlLabel} />
+
+### Hide Label
+
+To visually hide the label, set the `hideLabel` property to `true`.
+
+**Note:** The label will still be accessible by screen readers.
+
+<Canvas of={DpsFormCheckboxStories.HideLabel} />
+
+### Multiple
+
+The example below demonstrates how to use multiple checkboxes. The 'Selected' element is not part of
+the component and is only used to show the currently selected options.
+
+<Canvas of={DpsFormCheckboxStories.Multiple} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/form-checkbox

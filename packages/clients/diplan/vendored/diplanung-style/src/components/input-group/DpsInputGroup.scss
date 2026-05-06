@@ -1,0 +1,26 @@
+.dps-input-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &--collapsed {
+    gap: 0;
+
+    .dps-input-group__content {
+      &--prepend {
+        margin-right: -1px;
+      }
+
+      &--append {
+        margin-left: -1px;
+      }
+    }
+  }
+}

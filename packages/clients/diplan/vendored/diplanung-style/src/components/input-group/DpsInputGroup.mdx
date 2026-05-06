@@ -1,0 +1,40 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsInputGroupStories from "./DpsInputGroup.stories";
+
+<Meta of={DpsInputGroupStories} />
+
+# DpsInputGroup
+
+## Description
+
+The `DpsInputGroup` component groups input elements together. It provides multiple slots, which are
+displayed side by side.
+
+The default example groups an icon, a `DpsFormInput` and a `DpsButton` together.
+
+<Primary name="Default" />
+
+## Stories
+
+### Collapsed
+
+To remove the gap between the slot content elements, set the `collapsed` property to `true`.
+
+<Canvas of={DpsInputGroupStories.Collapsed} />
+
+### Multiple Buttons
+
+A slot can contain multiple elements. In the example below the `append` slot contains two
+`DpsButton` components.
+
+<Canvas of={DpsInputGroupStories.MultipleButtons} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/input-group

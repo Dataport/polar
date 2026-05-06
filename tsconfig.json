@@ -16,5 +16,8 @@
     "isolatedModules": true,
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "typeRoots": ["node_modules/@types", "@types"]
-  }
+  },
+  "exclude": [
+    "packages/clients/diplan/vendored"
+  ]
 }

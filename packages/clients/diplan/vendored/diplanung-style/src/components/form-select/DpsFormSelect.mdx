@@ -1,0 +1,193 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsFormSelectStories from "./DpsFormSelect.stories";
+
+<Meta of={DpsFormSelectStories} />
+
+# DpsFormSelect
+
+## Description
+
+The `DpsFormSelect` component is based on [Vue-multiselect](https://vue-multiselect.js.org/).
+
+To configure the options, add them to the `options` property:
+
+```json
+[
+  {
+    "label": "Option 1",
+    "value": "option-1"
+  },
+  {
+    "label": "Option 2",
+    "value": "option-2"
+  },
+  {
+    "label": "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+    "value": "option-3"
+  },
+  {
+    "label": "Option 4",
+    "value": "option-4",
+    "$isDisabled": true
+  }
+]
+```
+
+**Note:**
+
+The 'Selected' element is not part of the component and is only used to show the currently selected
+option.
+
+<Primary name="Default" />
+
+## Stories
+
+### Variants
+
+#### Filter
+
+To display the grey variant, set the `variant` property to `"filter"`.
+
+<Canvas of={DpsFormSelectStories.Filter} />
+
+#### Simple
+
+To display the simple and reduced variant, set the `variant` property to `"simple"`.
+
+<Canvas of={DpsFormSelectStories.Simple} />
+
+### Align End
+
+To align the options to the right side of the select dropdown, set the `align` property to `"end"`.
+This ensures that the options will be positioned at the horizontal end, providing a cleaner look for
+right-aligned layouts.
+
+<Canvas of={DpsFormSelectStories.AlignEnd} />
+
+### Sizes
+
+#### Small
+
+To display a smaller version of the select, set the `size` property to `"sm"`.
+
+<Canvas of={DpsFormSelectStories.SizeSm} />
+
+### Disabled
+
+To disable the Multiselect component and its filter buttons, set the `disabled` property to `true`.
+
+<Canvas of={DpsFormSelectStories.Disabled} />
+
+### Readonly
+
+To disable the Multiselect component and display it as read-only, set the `readonly` property to
+`true`.
+
+<Canvas of={DpsFormSelectStories.Readonly} />
+
+### Required
+
+When the `required` property is set to `true`, it becomes impossible to deselect an option. A value
+must always remain selected, ensuring that the user cannot submit without choosing an option.
+
+<Canvas of={DpsFormSelectStories.Required} />
+
+### Label
+
+To set a static label for the select element, use the `label` property. This label will be displayed
+instead of the selected option.
+
+<Canvas of={DpsFormSelectStories.Label} />
+
+### Error
+
+To display the **error** state, set the `error` property to `true`.
+
+<Canvas of={DpsFormSelectStories.Error} />
+
+### Success
+
+To display the **success** state, set the `success` property to `true`.
+
+<Canvas of={DpsFormSelectStories.Success} />
+
+### Option Icon
+
+To add an icon at the front of an option, include an `icon` property in the **option object**.
+
+```json
+{
+  "label": "Option 2",
+  "value": "option-2",
+  "icon": "map"
+}
+```
+
+<Canvas of={DpsFormSelectStories.OptionIcon} />
+
+### Searchable
+
+To add a search field to the dropdown, set the `searchable` property to `true`.
+
+<Canvas of={DpsFormSelectStories.Searchable} />
+
+### Multiple
+
+The `multiple` property allows users to select multiple options. Setting `closeOnSelect` to `false`
+ensures the dropdown remains open after a selection is made.
+
+<Canvas of={DpsFormSelectStories.Multiple} />
+
+### Multiple Searchable
+
+To retain the search input after a selection, set the `clearOnSelect` property to `false`.
+
+<Canvas of={DpsFormSelectStories.MultipleSearchable} />
+
+### Simple Options
+
+The `options` can also be a simple array of strings. In this case, the value and label are the same.
+
+```json
+["Eimsbuettel", "Hamburg-Mitte", "FNPLapro", "Altona"]
+```
+
+<Canvas of={DpsFormSelectStories.SimpleOptions} />
+
+### Custom Options
+
+The example below demonstrates how to customize the keys for value and label using `optionValue` and
+`optionLabel`.
+
+Instead of `label` and `value`, the options object consist of `code` and `name` properties. To use
+them as the label and value, set `optionLabel` to `"name"` and `optionValue` to `"code"`.
+
+```json
+[
+  { "code": "Eimsbuettel", "name": "Eimsbüttel" },
+  { "code": "Hamburg-Mitte", "name": "Hamburg-Mitte" },
+  { "code": "FNPLapro", "name": "BSW FNP / Lapro" },
+  { "code": "Altona", "name": "Altona" }
+]
+```
+
+<Canvas of={DpsFormSelectStories.CustomOptions} />
+
+### Filter Full Example
+
+This example showcases the configuration for a filter select element.
+
+<Canvas of={DpsFormSelectStories.FilterFullExample} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Vue-Multiselect:**
+
+- [Examples](https://vue-multiselect.js.org/#examples)
+- [Props](https://vue-multiselect.js.org/#sub-props)
+- [Events](https://vue-multiselect.js.org/#sub-events)
+- [Slots](https://vue-multiselect.js.org/#sub-slots)

@@ -1,0 +1,74 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsFormFileStories from "./DpsFormFile.stories.js";
+
+<Meta of={DpsFormFileStories} />
+
+# DpsFormFile
+
+## Description
+
+The `DpsFormFile` component can be used to select files from the users filesystem. It is based on
+the HTML `<input type="file">` element and provides additional functionality and styling.
+
+**Note**
+
+In the examples below the "Selected: " element is not part of the component but is used to display
+the selected filenames.
+
+<Primary name="Default" />
+
+## Stories
+
+### Title
+
+To change the title attribute of the file input, set the `title` property. If no value is provided
+it defaults to "Datei auswählen".
+
+<Canvas of={DpsFormFileStories.Title} />
+
+### Disabled
+
+To disable the component, set the `disabled` property to `true`.
+
+<Canvas of={DpsFormFileStories.Disabled} />
+
+### Accept
+
+Set the selectable file types using the `accept` property. In this example the input will accept PDF
+and XML files.
+
+<Canvas of={DpsFormFileStories.Accept} />
+
+### Multiple
+
+Allow the selection of multiple files at once by setting the `multiple` property to `true`. If more
+than one file gets selected the number of selected files gets shown in the output field instead of
+the filenames. The exact text depends on the browser. All selected filenames get shown in the
+tooltip when hovering over the output.
+
+<Canvas of={DpsFormFileStories.Multiple} />
+
+### Error
+
+Display the component in its error state by setting the `error` property to `true`.
+
+<Canvas of={DpsFormFileStories.Error} />
+
+### Required
+
+Make the input `required` by setting the `required` property to `true`.
+
+**Note:** The button is not part of the component and is used here to demonstrate submitting a form
+when required is set.
+
+<Canvas of={DpsFormFileStories.Required} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/form-file

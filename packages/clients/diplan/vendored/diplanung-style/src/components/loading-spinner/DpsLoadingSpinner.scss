@@ -1,0 +1,18 @@
+.dps-loading-spinner {
+  .dps-icon {
+    display: inline-block;
+    color: var(--dps-color-primary);
+    font-size: 24px;
+    animation: spin 2s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

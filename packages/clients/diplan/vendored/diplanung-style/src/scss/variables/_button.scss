@@ -1,0 +1,142 @@
+@use "typography" as typography-variables;
+
+$button-bg-color: var(--dps-color-primary) !default;
+$button-gap: 8px !default;
+$button-color: var(--dps-color-white) !default;
+$button-border-radius: 48px !default;
+$button-border: none !default;
+$button-box-shadow: none !default;
+$button-padding: 6px 20px !default;
+$button-min-width: 40px !default;
+$button-min-height: 40px !default;
+$button-font-family: typography-variables.$font-name-default !default;
+$button-font-size: 14px !default;
+$button-font-weight: 500 !default;
+$button-line-height: 110% !default;
+$button-transition: all 0.15s ease-out !default;
+$button-icon--font-size: 24px !default;
+
+// Hover
+$button--hover--bg-color: #3968c2 !default;
+$button--hover--color: var(--dps-color-white) !default;
+
+// Focus
+$button--focus--bg-color: #3968c2 !default;
+$button--focus--color: var(--dps-color-white) !default;
+$button--focus--outline: 1px solid var(--dps-color-primary) !default;
+$button--focus--box-shadow: 0 0 6px 0 rgba(51 117 212 / 60%) !default;
+
+// Size Sm
+$button--size-sm--gap: 4px !default;
+$button--size-sm--min-height: 32px !default;
+$button--size-sm--min-width: 32px !default;
+$button--size-sm--padding: 4px 20px !default;
+$button--size-sm--font-size: 14px !default;
+$button--size-sm--line-height: 100% !default;
+$button--size-sm--icon-font-size: 20px !default;
+
+// Size Lg
+$button--size-lg--min-height: 48px !default;
+$button--size-lg--min-width: 48px !default;
+$button--size-lg--padding: 10px 24px !default;
+$button--size-lg--font-size: 15px !default;
+$button--size-lg--font-weight: 600 !default;
+
+// Disabled
+$button--disabled--color: var(--dps-color-white) !default;
+$button--disabled--opacity: 0.5 !default;
+$button--disabled--bg-color: var(--dps-color-primary) !default;
+
+// Secondary
+$button--secondary--color: var(--dps-color-primary) !default;
+$button--secondary--bg-color: var(--dps-color-white) !default;
+$button--secondary--border: 1px solid rgba(51 117 212 / 50%) !default; // primary-50
+$button--secondary--hover--color: var(--dps-color-white) !default;
+$button--secondary--hover--bg-color: var(--dps-color-primary) !default;
+$button--secondary--focus--bg-color: var(--dps-color-white) !default;
+$button--secondary--focus--border-color: var(--dps-color-primary) !default;
+$button--secondary--focus--color: var(--dps-color-primary) !default;
+$button--secondary--disabled--bg-color: var(--dps-color-white) !default;
+$button--secondary--disabled--color: var(--dps-color-primary) !default;
+$button--secondary--disabled--border: 1px solid rgba(51 117 212 / 50%) !default;
+
+// Link
+$button--link--color: var(--dps-color-primary) !default;
+$button--link--gap: 4px !default;
+$button--link--text-underline-offset: 4px !default;
+$button--link--hover--color: var(--dps-color-primary) !default;
+$button--link--focus--color: var(--dps-color-primary) !default;
+$button--link--focus--text-shadow: 0 0 4px rgba(51 117 212 / 60%) !default;
+$button--link--size-sm--padding-inline: 16px !default;
+$button--link--disabled--color: var(--dps-color-medium-gray) !default;
+
+// Link Darker
+$button--link-darker--color: var(--dps-color-primary-darker) !default;
+
+// Default
+$button-theme: (
+  gap: $button-gap,
+  font-size: $button-font-size,
+  font-family: $button-font-family,
+  font-weight: $button-font-weight,
+  line-height: $button-line-height,
+  color: $button-color,
+  bg-color: $button-bg-color,
+  border: $button-border,
+  box-shadow: $button-box-shadow,
+  padding: $button-padding,
+  border-radius: $button-border-radius,
+  transition: $button-transition,
+  min-height: $button-min-height,
+  min-width: $button-min-width,
+  icon-font-size: $button-icon--font-size,
+  // Hover
+  hover--bg-color: $button--hover--bg-color,
+  hover--color: $button--hover--color,
+  // Focus
+  focus--bg-color: $button--focus--bg-color,
+  focus--color: $button--focus--color,
+  focus--outline: $button--focus--outline,
+  focus--box-shadow: $button--focus--box-shadow,
+  // Size Sm
+  size-sm--gap: $button--size-sm--gap,
+  size-sm--min-height: $button--size-sm--min-height,
+  size-sm--min-width: $button--size-sm--min-width,
+  size-sm--padding: $button--size-sm--padding,
+  size-sm--font-size: $button--size-sm--font-size,
+  size-sm--line-height: $button--size-sm--line-height,
+  size-sm--icon-font-size: $button--size-sm--icon-font-size,
+  // Size Lg
+  size-lg--min-height: $button--size-lg--min-height,
+  size-lg--min-width: $button--size-lg--min-width,
+  size-lg--padding: $button--size-lg--padding,
+  size-lg--font-size: $button--size-lg--font-size,
+  size-lg--font-weight: $button--size-lg--font-weight,
+  // Disabled
+  disabled--color: $button--disabled--color,
+  disabled--opacity: $button--disabled--opacity,
+  disabled--bg-color: $button--disabled--bg-color,
+  // Secondary
+  secondary--color: $button--secondary--color,
+  secondary--bg-color: $button--secondary--bg-color,
+  secondary--border: $button--secondary--border,
+  secondary--hover--color: $button--secondary--hover--color,
+  secondary--hover--bg-color: $button--secondary--hover--bg-color,
+  secondary--focus--bg-color: $button--secondary--focus--bg-color,
+  secondary--focus--border-color: $button--secondary--focus--border-color,
+  secondary--focus--color: $button--secondary--focus--color,
+  secondary--disabled--bg-color: $button--secondary--disabled--bg-color,
+  secondary--disabled--color: $button--secondary--disabled--color,
+  secondary--disabled--border: $button--secondary--disabled--border,
+  // Link
+  link--color: $button--link--color,
+  link--gap: $button--link--gap,
+  link--text-underline-offset: $button--link--text-underline-offset,
+  link--hover--color: $button--link--hover--color,
+  link--focus--color: $button--link--focus--color,
+  link--focus--text-shadow: $button--link--focus--text-shadow,
+  link--size-sm--padding-inline: $button--link--size-sm--padding-inline,
+  link--disabled--color: $button--link--disabled--color,
+  // Link Darker
+  link-darker--color: $button--link-darker--color,
+) !default;

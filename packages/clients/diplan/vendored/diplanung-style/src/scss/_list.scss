@@ -1,0 +1,19 @@
+.dps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  > li {
+    padding: 16px 0;
+    position: relative;
+  }
+
+  &--bordered {
+    border-top: 1px solid var(--dps-color-light-gray);
+    border-bottom: 1px solid var(--dps-color-light-gray);
+
+    > li + li {
+      border-top: 1px solid var(--dps-color-light-gray);
+    }
+  }
+}

@@ -1,0 +1,71 @@
+.dps-pagination {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+
+  &__select-container {
+    font-size: 14px;
+
+    .dps-form-group {
+      display: flex;
+      gap: 16px;
+
+      &__label {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        font-weight: 400;
+        text-align: right;
+      }
+    }
+  }
+
+  .multiselect__option {
+    padding: 8px 16px;
+    text-align: center;
+  }
+
+  &__buttons {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+
+    .dps-button {
+      color: var(--dps-color-black);
+      padding-inline: 8px;
+      font-size: 16px;
+      font-weight: 400;
+      border-color: var(--dps-color-light-gray);
+
+      + .dps-button {
+        margin-left: -1px;
+      }
+
+      &.active,
+      &:hover {
+        color: var(--dps-color-white);
+        background: var(--dps-color-primary);
+        border-color: var(--dps-color-primary);
+      }
+
+      &:focus-visible {
+        position: relative;
+        z-index: 1;
+        border-color: var(--dps-color-primary);
+      }
+
+      &--disabled {
+        background: transparent !important;
+        border-color: var(--dps-color-light-gray) !important;
+        color: var(--dps-color-medium-gray) !important;
+
+        .dps-icon {
+          color: inherit;
+        }
+      }
+    }
+  }
+}

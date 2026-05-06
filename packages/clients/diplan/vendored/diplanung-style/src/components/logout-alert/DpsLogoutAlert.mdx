@@ -1,0 +1,82 @@
+import { Canvas, Meta, Primary, Controls } from "@storybook/blocks";
+import * as DpsLogoutAlertStories from "./DpsLogoutAlert.stories";
+
+<Meta of={DpsLogoutAlertStories} />
+
+## Description
+
+The `DpsLogoutAlert` component informs the user about an upcoming auto-logout.
+
+**Concept:**
+
+- When clicked on "Neu anmelden", the user should be redirected to the project's logout page.
+- If there are any unsaved changes, a confirmation modal must be displayed.
+- By default, the alert will be visible when there are less than 3 minutes left before auto-logout.
+
+### Implementation
+
+**Expiration time:**
+
+The expiration time can be extracted from the `keycloak` object:
+
+```js
+import Keycloak from "keycloak-js";
+
+const keycloak = new Keycloak("/keycloak.json");
+
+async function init() {
+  await keycloak.init({
+    onLoad: "login-required",
+    checkLoginIframe: false,
+    enableLogging: false,
+  });
+
+  // The `exp` property contains the expiration timestamp
+  // keycloak.refreshTokenParsed.exp
+}
+```
+
+**Placement:**
+
+The component should be placed within your page header, below the regular header content:
+
+```html
+<header>
+  <!-- regular header content -->
+
+  <DpsLogoutAlert
+    v-if="keycloak.refreshTokenParsed?.exp"
+    :expiration-time="keycloak.refreshTokenParsed.exp"
+    @click="goToLogout"
+  />
+</header>
+```
+
+<Primary name="Default" />
+
+## Stories
+
+### Default
+
+To use the component you need to set a `expiration-time` property, that specifies when the current
+session expires (UNIX timestamp in seconds).
+
+<Canvas of={DpsLogoutAlertStories.Default} />
+
+### Threshold
+
+By setting the `threshold` property you can specify how many minutes before the auto-logout the
+alert should be visible.
+
+<Canvas of={DpsLogoutAlertStories.Threshold} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## References
+
+**Keycloak docs:**
+
+- [JavaScript adapter](https://www.keycloak.org/docs/latest/securing_apps/index.html#_javascript_adapter)
+- [API reference](https://www.keycloak.org/docs/latest/securing_apps/index.html#api-reference)

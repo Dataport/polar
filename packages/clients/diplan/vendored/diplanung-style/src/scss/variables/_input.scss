@@ -1,0 +1,71 @@
+$input-bg-color: var(--dps-color-white) !default;
+$input-border-color: var(--dps-color-dark-gray) !default;
+$input-border-radius: 2px !default;
+$input-border-style: solid !default;
+$input-border-width: 1px !default;
+$input-color: var(--dps-color-black) !default;
+$input-font-size: 16px !default;
+$input-height--size-sm: 40px !default;
+$input-height: 48px !default;
+$input-icon-font-size: 24px !default;
+$input-icon-offset: 12px !default;
+$input-line-height: 156% !default;
+$input-padding--icon--size-sm: 4px 46px 4px 12px !default;
+$input-padding--icon: 4px 50px 4px 16px !default;
+$input-padding--size-sm: 4px 12px !default;
+$input-padding: 8px 16px !default;
+$input-placeholder-color: var(--dps-color-dark-gray) !default;
+$input-placeholder-font-size: 16px !default;
+
+// Modifiers
+$input--disabled--bg-color: var(--dps-color-background) !default;
+$input--disabled--border-color: var(--dps-color-background) !default;
+$input--disabled--color: var(--dps-color-dark-gray) !default;
+$input--error--border-color: var(--dps-color-error) !default;
+$input--error--color: var(--dps-color-black) !default;
+$input--focus--border-color: var(--dps-color-primary) !default;
+$input--focus--box-shadow: 0 0 4px 1px #00000040 !default;
+$input--focus--outline: 1px solid var(--dps-color-primary) !default;
+$input--readonly--bg-color: var(--dps-color-light-blue) !default;
+$input--readonly--border-color: var(--dps-color-light-blue) !default;
+$input--success--border-color: var(--dps-color-success) !default;
+$input--success--color: var(--dps-color-black) !default;
+
+// Default
+$input-theme: (
+  bg-color: $input-bg-color,
+  border-color: $input-border-color,
+  border-radius: $input-border-radius,
+  border-style: $input-border-style,
+  border-width: $input-border-width,
+  color: $input-color,
+  height--size-sm: $input-height--size-sm,
+  height: $input-height,
+  icon-font-size: $input-icon-font-size,
+  icon-offset: $input-icon-offset,
+  line-height: $input-line-height,
+  padding--icon--size-sm: $input-padding--icon--size-sm,
+  padding--icon: $input-padding--icon,
+  padding--size-sm: $input-padding--size-sm,
+  padding: $input-padding,
+  placeholder-color: $input-placeholder-color,
+  placeholder-font-size: $input-placeholder-font-size,
+  width: 100%,
+  // success
+  success--border-color: $input--success--border-color,
+  success--color: $input--success--color,
+  // error
+  error--border-color: $input--error--border-color,
+  error--color: $input--error--color,
+  // focus
+  focus--border-color: $input--focus--border-color,
+  focus--box-shadow: $input--focus--box-shadow,
+  focus--outline: $input--focus--outline,
+  // disabled
+  disabled--bg-color: $input--disabled--bg-color,
+  disabled--border-color: $input--disabled--border-color,
+  disabled--color: $input--disabled--color,
+  // readonly
+  readonly--bg-color: $input--readonly--bg-color,
+  readonly--border-color: $input--readonly--border-color,
+) !default;

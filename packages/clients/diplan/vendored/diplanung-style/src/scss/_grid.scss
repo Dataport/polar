@@ -1,0 +1,25 @@
+@use "sass:map";
+@use "bootstrap/scss/mixins/breakpoints" as mixins;
+@use "variables/grid" as variables;
+
+.container {
+  $container-max-width-xxl: map.get(variables.$container-max-widths, xxl);
+
+  @include mixins.media-breakpoint-up(xl, variables.$grid-breakpoints) {
+    padding: 0 3.5vw;
+  }
+
+  @include mixins.media-breakpoint-up(xxl, variables.$grid-breakpoints) {
+    padding: 0 calc((3.5 / 100) * #{$container-max-width-xxl});
+  }
+
+  .row {
+    @include mixins.media-breakpoint-up(xl, variables.$grid-breakpoints) {
+      --bs-gutter-x: 3vw;
+    }
+
+    @include mixins.media-breakpoint-up(xxl, variables.$grid-breakpoints) {
+      --bs-gutter-x: calc((3 / 100) * #{$container-max-width-xxl});
+    }
+  }
+}

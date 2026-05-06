@@ -1,0 +1,55 @@
+@use "sass:map";
+
+@mixin textarea($variables) {
+  background-color: map.get($variables, "bg-color");
+  border-color: map.get($variables, "border-color");
+  border-radius: map.get($variables, "border-radius");
+  border-style: map.get($variables, "border-style");
+  border-width: map.get($variables, "border-width");
+  color: map.get($variables, "color");
+  font-size: map.get($variables, "font-size");
+  line-height: map.get($variables, "line-height");
+  padding: map.get($variables, "padding");
+  width: map.get($variables, "width");
+  height: map.get($variables, "height");
+  outline: none;
+  resize: none;
+
+  &:focus {
+    border-color: map.get($variables, "focus--border-color");
+    outline: map.get($variables, "focus--outline");
+    box-shadow: map.get($variables, "focus--box-shadow");
+  }
+
+  &:disabled {
+    border-color: map.get($variables, "disabled--border-color");
+    background-color: map.get($variables, "disabled--bg-color");
+    color: map.get($variables, "disabled--color");
+  }
+
+  &[readonly] {
+    border-color: map.get($variables, "disabled--border-color");
+    background-color: map.get($variables, "readonly--bg-color");
+
+    &:focus {
+      border-color: map.get($variables, "focus--border-color");
+      outline: map.get($variables, "focus--outline");
+    }
+  }
+
+  &::placeholder {
+    font-size: map.get($variables, "placeholder-font-size");
+    color: map.get($variables, "placeholder-color");
+    opacity: 1;
+  }
+
+  &--success {
+    border-color: map.get($variables, "success--border-color");
+    color: map.get($variables, "success--color");
+  }
+
+  &--error {
+    border-color: map.get($variables, "error--border-color");
+    color: map.get($variables, "error--color");
+  }
+}

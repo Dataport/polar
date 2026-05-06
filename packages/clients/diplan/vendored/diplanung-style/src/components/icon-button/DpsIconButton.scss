@@ -1,0 +1,54 @@
+.dps-icon-button {
+  background: transparent;
+  box-shadow: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 2px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--dps-color-black);
+  transition: all 0.15s ease-out;
+  font-size: 24px;
+  border: 1px solid transparent;
+  text-decoration: none !important;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--dps-color-primary);
+  }
+
+  &:focus-visible {
+    border-color: var(--dps-color-primary);
+    outline: 1px solid var(--dps-color-primary);
+    box-shadow: 0 0 4px 1px #00000040;
+  }
+
+  &--danger {
+    &:hover,
+    &:focus {
+      color: var(--dps-color-error);
+    }
+
+    &:focus-visible {
+      border-color: var(--dps-color-error);
+      outline: 1px solid var(--dps-color-error);
+    }
+  }
+
+  &--loading {
+    cursor: default !important;
+    color: var(--dps-color-black) !important;
+
+    .dps-icon::before {
+      display: block;
+      animation: 0.75s linear infinite dps-rotate;
+    }
+  }
+
+  &--disabled {
+    cursor: default !important;
+    color: var(--dps-color-medium-gray) !important;
+  }
+}

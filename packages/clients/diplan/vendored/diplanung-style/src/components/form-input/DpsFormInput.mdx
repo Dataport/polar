@@ -1,0 +1,109 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsFormInputStories from "./DpsFormInput.stories";
+
+<Meta of={DpsFormInputStories} />
+
+# DpsFormInput
+
+## Description
+
+The `DpsFormInput` component is a versatile input field with enhanced functionalities. It supports
+various input types and can display different states such as `error`, `success`, `readonly` and
+`disabled`. Additionally, it can be configured to be smaller in size or to include an icon within
+the input field.
+
+<Primary name="Default" />
+
+## Stories
+
+### Placeholder
+
+To display a placeholder text, set the `placeholder` property to a string value.
+
+<Canvas of={DpsFormInputStories.Placeholder} />
+
+### Filled
+
+Use `v-model` to set and read the input value. The 'Value' element is not part of the component and
+is only used to show the current value.
+
+<Canvas of={DpsFormInputStories.Filled} />
+
+### Error
+
+To display the **error** state, set the `error` property to `true`.
+
+<Canvas of={DpsFormInputStories.Error} />
+
+### Success
+
+To display the **success** state, set the `success` property to `true`.
+
+<Canvas of={DpsFormInputStories.Success} />
+
+### Readonly
+
+To disable the input and display it as read-only, set the `readonly` property to `true`.
+
+<Canvas of={DpsFormInputStories.Readonly} />
+
+### Disabled
+
+To disable the input element, set the `disabled` property to `true`.
+
+<Canvas of={DpsFormInputStories.Disabled} />
+
+### Icon
+
+To display an icon at the end of the input field, set the `icon` property to a string value (e.g.,
+`"placeholder"`).
+
+<Canvas of={DpsFormInputStories.Icon} />
+
+### Types
+
+By default, the `type` property is set to `text`.
+
+#### URL
+
+To change the input type to "url", set the `type` property to `"url"`.
+
+<Canvas of={DpsFormInputStories.TypeUrl} />
+
+#### Email
+
+To change the input type to "email", set the `type` property to `"email"`.
+
+<Canvas of={DpsFormInputStories.TypeEmail} />
+
+#### Number
+
+To change the input type to “number”, set the `type` property to `"number"`. You can also configure
+the `step`, `min` and `max` properties when the input type is set to “number”.
+
+<Canvas of={DpsFormInputStories.TypeNumber} />
+
+#### Search
+
+To change the input type to "search", set the `type` property to `"search"`. Search inputs include
+an icon at the end of the input field and a button to clear the entered text.
+
+<Canvas of={DpsFormInputStories.TypeSearch} />
+
+### Sizes
+
+#### Small
+
+To display a smaller version of the input field, set the `size` property to `"sm"`.
+
+<Canvas of={DpsFormInputStories.SizeSm} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/form-input

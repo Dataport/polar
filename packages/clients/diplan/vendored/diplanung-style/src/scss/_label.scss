@@ -1,0 +1,15 @@
+@use "mixins/label" as mixins;
+
+@import "variables/label";
+
+label,
+.dps-label {
+  @include mixins.label-theme($label-default);
+  @include mixins.label-variant($label-default);
+}
+
+.dps-label {
+  &--slim {
+    @include mixins.label-variant($label-slim);
+  }
+}

@@ -8,3 +8,4 @@
 **/tests_output
 *.d.ts
 /.nx/
+/packages/clients/diplan/vendored/diplanung-style

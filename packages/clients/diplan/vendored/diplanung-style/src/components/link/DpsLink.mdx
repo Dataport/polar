@@ -1,0 +1,60 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsLinkStories from "./DpsLink.stories";
+
+<Meta of={DpsLinkStories} />
+
+# DpsLink
+
+## Description
+
+The `DpsLink` component displays a basic link. The link content is rendered using its default slot,
+and an icon can be displayed in front of the content.
+
+<Primary name="Default" />
+
+## Stories
+
+### Icon
+
+To display an icon before the label, set the `icon` property to a string value (e.g., `"create"`).
+
+<Canvas of={DpsLinkStories.Icon} />
+
+### External
+
+To automatically set the `icon`, `rel` and `target` for external links, set the `external` property
+to `true`.
+
+<Canvas of={DpsLinkStories.External} />
+
+### Darker
+
+A variant using a slightly darker blue to improve contrast when used on a light-gray or light-blue
+background.
+
+<Canvas of={DpsLinkStories.Darker} />
+
+### Format
+
+#### Email
+
+To automatically add `mailto:` in front of the URL, set the `format` property to `"email"`.
+
+<Canvas of={DpsLinkStories.FormatEmail} />
+
+#### Telephone
+
+To automatically remove special characters between numbers and add `tel:` in front of the URL, set
+the `format` property to `"telephone"`.
+
+<Canvas of={DpsLinkStories.FormatTelephone} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/link

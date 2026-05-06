@@ -1,0 +1,10 @@
+.dps-button {
+  &--loading {
+    cursor: default;
+
+    .dps-icon::before {
+      display: block;
+      animation: 0.75s linear infinite dps-rotate;
+    }
+  }
+}

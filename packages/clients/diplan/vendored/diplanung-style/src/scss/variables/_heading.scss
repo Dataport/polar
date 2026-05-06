@@ -1,0 +1,54 @@
+@use "sass:map";
+@use "typography" as typography-variables;
+
+$heading-font-family: typography-variables.$font-family-default !default;
+$heading-font-weight-normal: map.get(typography-variables.$font-weight-values, normal) !default;
+$heading-font-weight-medium: map.get(typography-variables.$font-weight-values, medium) !default;
+$heading-font-weight-semi-bold: map.get(
+  typography-variables.$font-weight-values,
+  semi-bold
+) !default;
+$heading-font-weight-bold: map.get(typography-variables.$font-weight-values, bold) !default;
+$heading-text-transform: inherit !default;
+
+// h1
+$heading-1: (
+  font-weight: $heading-font-weight-semi-bold,
+  font-size: 40px,
+  line-height: 120%,
+) !default;
+
+// h2
+$heading-2: (
+  font-weight: $heading-font-weight-normal,
+  font-size: 30px,
+  line-height: 120%,
+) !default;
+
+// h3
+$heading-3: (
+  font-weight: $heading-font-weight-semi-bold,
+  font-size: 22px,
+  line-height: 30px,
+) !default;
+
+// h4
+$heading-4: (
+  font-weight: $heading-font-weight-semi-bold,
+  font-size: 18px,
+  line-height: 25px,
+) !default;
+
+// h5
+$heading-5: (
+  font-weight: $heading-font-weight-semi-bold,
+  font-size: 15px,
+  line-height: 21px,
+) !default;
+
+// h6
+$heading-6: (
+  font-weight: $heading-font-weight-bold,
+  font-size: 14px,
+  line-height: 21px,
+) !default;

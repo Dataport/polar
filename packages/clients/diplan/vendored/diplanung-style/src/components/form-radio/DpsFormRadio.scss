@@ -1,0 +1,17 @@
+.dps-form-radio {
+  display: inline-block;
+  vertical-align: middle;
+
+  &--block {
+    display: block;
+  }
+
+  &__label {
+    &--input-only.dps-label {
+      width: 26px;
+      height: 26px;
+      padding: 0;
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,70 @@
+@use "sass:string";
+@use "sass:map";
+
+$font-name-default: "OpenSans" !default;
+$font-path: "/src/fonts/" !default;
+$font-weight-values: (
+  light: 300,
+  normal: 400,
+  medium: 500,
+  semi-bold: 600,
+  bold: 700,
+  extra-bold: 800,
+) !default;
+$fonts: (
+    "name": $font-name-default,
+    "path": $font-path + "OpenSans/open-sans-v34-latin-ext_latin-300",
+    "style": normal,
+    "weight": map.get($font-weight-values, light),
+    "ext": ttf,
+  ),
+  (
+    "name": $font-name-default,
+    "path": $font-path + "OpenSans/open-sans-v34-latin-ext_latin-regular",
+    "style": normal,
+    "weight": map.get($font-weight-values, normal),
+    "ext": ttf,
+  ),
+  (
+    "name": $font-name-default,
+    "path": $font-path + "OpenSans/open-sans-v34-latin-ext_latin-500",
+    "style": normal,
+    "weight": map.get($font-weight-values, medium),
+    "ext": ttf,
+  ),
+  (
+    "name": $font-name-default,
+    "path": $font-path + "OpenSans/open-sans-v34-latin-ext_latin-600",
+    "style": normal,
+    "weight": map.get($font-weight-values, semi-bold),
+    "ext": ttf,
+  ),
+  (
+    "name": $font-name-default,
+    "path": $font-path + "OpenSans/open-sans-v34-latin-ext_latin-700",
+    "style": normal,
+    "weight": map.get($font-weight-values, bold),
+    "ext": ttf,
+  ),
+  (
+    "name": $font-name-default,
+    "path": $font-path + "OpenSans/open-sans-v34-latin-ext_latin-800",
+    "style": normal,
+    "weight": map.get($font-weight-values, extra-bold),
+    "ext": ttf,
+  ) !default;
+$font-family-default: string.unquote("#{$font-name-default}, sans-serif") !default;
+$line-height: 150% !default;
+$color: var(--dps-color-black) !default;
+$font-sizes: (
+  xxxs: 12px,
+  xxs: 13px,
+  xs: 14px,
+  sm: 15px,
+  md: 16px,
+  lg: 18px,
+  xl: 22px,
+  xxl: 30px,
+  xxxl: 40px,
+) !default;
+$root-font-size: map.get($font-sizes, "md") !default;

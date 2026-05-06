@@ -1,0 +1,3143 @@
+{
+  "framework": "vue",
+  "name": "diplanung-style",
+  "version": "13.2.0",
+  "contributions": {
+    "html": {
+      "description-markup": "markdown",
+      "types-syntax": "typescript",
+      "tags": [
+        {
+          "name": "DpsActionMenu",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "The unique identifier for the menu.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "tag",
+              "required": false,
+              "description": "The HTML tag to be used for the menu container.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"ul\""
+            },
+            {
+              "name": "icon",
+              "required": false,
+              "description": "The icon to be used for the trigger button.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"more-horiz\""
+            },
+            {
+              "name": "label",
+              "required": false,
+              "description": "The label for the trigger button.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "name": "title",
+              "required": false,
+              "description": "The title attribute for the trigger button.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"Aktions-Menu öffnen\""
+            },
+            {
+              "name": "showCloseButton",
+              "required": false,
+              "description": "Whether to show a close button in the menu.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "showTriggerChevron",
+              "required": false,
+              "description": "Whether to show a chevron icon in the trigger button.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "headline",
+              "required": false,
+              "description": "The headline text for the menu.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "autoClose",
+              "required": false,
+              "description": "Whether the menu should automatically close after an action is selected.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Whether the menu is disabled.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "hide",
+              "description": "Emitted when the menu is hidden."
+            },
+            {
+              "name": "show",
+              "description": "Emitted when the menu is shown."
+            }
+          ],
+          "slots": [
+            {
+              "name": "trigger",
+              "description": "Trigger element"
+            },
+            {
+              "name": "default",
+              "description": "Dropdown content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/action-menu/DpsActionMenu.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsActionMenuItem",
+          "description": "",
+          "attributes": [
+            {
+              "name": "icon",
+              "required": false,
+              "description": "The icon displayed before the menu item",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "title",
+              "required": false,
+              "description": "The title attribute of the menu item",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the menu item.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "target",
+              "required": false,
+              "description": "The link target attribute.(e.g.: _blank)",
+              "value": {
+                "kind": "expression",
+                "type": "\"_blank\" | \"_self\" | \"_parent\" | \"_top\" | string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "href",
+              "required": false,
+              "description": "The URL that the hyperlink points to.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "rel",
+              "required": false,
+              "description": "The relationship of the linked URL as space-separated link types.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "danger",
+              "required": false,
+              "description": "Applies the 'danger' styles (red on hover).",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "tag",
+              "description": "HTML tag of the wrapper element.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"li\""
+            }
+          ],
+          "events": [
+            {
+              "name": "click",
+              "description": "Emitted when the element is clicked."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src/components/action-menu-item/DpsActionMenuItem.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsAlert",
+          "description": "",
+          "attributes": [
+            {
+              "name": "variant",
+              "required": false,
+              "description": "The variant determines the color and icon of the alert.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "heading",
+              "required": false,
+              "description": "Headline of the alert.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "hideIcon",
+              "required": false,
+              "description": "Hides the icon.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Body content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/alert/DpsAlert.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsAlphabeticFilter",
+          "description": "",
+          "attributes": [
+            {
+              "name": "options",
+              "required": false,
+              "description": "Array of available filter options.",
+              "value": {
+                "kind": "expression",
+                "type": "string[]"
+              },
+              "default": "() => [\"A-G\", \"H-N\", \"O-U\", \"V-Z\"]"
+            },
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "The modelValue",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "required",
+              "required": false,
+              "description": "Requires some option to be active.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the component.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when the selected value changes."
+            }
+          ],
+          "source": {
+            "module": "./src/components/alphabetic-filter/DpsAlphabeticFilter.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsBadge",
+          "description": "",
+          "attributes": [
+            {
+              "name": "variant",
+              "required": false,
+              "description": "Determines the styling of the badge.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "rounded",
+              "description": "Rounds the badge.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Label content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/badge/DpsBadge.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsButton",
+          "description": "",
+          "attributes": [
+            {
+              "name": "type",
+              "required": false,
+              "description": "The HTML button type (ignored when used as a link).\nWhen not set defaults to 'button'.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "href",
+              "required": false,
+              "description": "The URL that the hyperlink points to.\nWhen set the component will be rendered as an anchor element.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the button.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "variant",
+              "required": false,
+              "description": "Determines the styling of the component.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "size",
+              "required": false,
+              "description": "Determines the size of the button.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "squared",
+              "required": false,
+              "description": "Squared edges.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "icon",
+              "required": false,
+              "description": "Optional icon displayed inside the button.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "iconPosition",
+              "required": false,
+              "description": "Position of the icon.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"start\""
+            },
+            {
+              "name": "noPadding",
+              "required": false,
+              "description": "Removes the padding.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "loading",
+              "required": false,
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "click",
+              "description": "Emitted when the button gets clicked."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Label content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/button/DpsButton.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsCollapsible",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "The unique identifier for the menu (optional).",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "expanded",
+              "required": false,
+              "description": "Collapsible expanded.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "locked",
+              "required": false,
+              "description": "Whether the collapsible can not be interacted with.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "size",
+              "required": false,
+              "description": "Size of the collapsible.",
+              "value": {
+                "kind": "expression",
+                "type": "\"lg\""
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "variant",
+              "required": false,
+              "description": "Styling of the collapsible.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "toggleTextExpanded",
+              "required": false,
+              "description": "Headline text when collapsible is expanded.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "toggleText",
+              "required": false,
+              "description": "Headline text when collapsible is not expanded.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            }
+          ],
+          "events": [
+            {
+              "name": "hide-collapsible",
+              "description": "Emitted immediately when collapsible content gets hidden."
+            },
+            {
+              "name": "hidden-collapsible",
+              "description": "Emitted when collapsible content has been hidden (after CSS transitions)."
+            },
+            {
+              "name": "show-collapsible",
+              "description": "Emitted immediately when collapsible content gets shown."
+            },
+            {
+              "name": "shown-collapsible",
+              "description": "Emitted when collapsible content has been made visible (after CSS transitions)."
+            }
+          ],
+          "slots": [
+            {
+              "name": "header",
+              "description": "Header content"
+            },
+            {
+              "name": "default",
+              "description": "Body content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/collapsible/DpsCollapsible.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFilterButton",
+          "description": "",
+          "attributes": [
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the button.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "readonly",
+              "required": false,
+              "description": "Makes the button readonly.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "title",
+              "required": false,
+              "description": "Title attribute of the button.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            }
+          ],
+          "events": [
+            {
+              "name": "click",
+              "description": "Emitted when the button is clicked."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Label content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/filter-button/DpsFilterButton.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormCheckbox",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "The unique identifier for the checkbox (optional).",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "modelValue of the checkbox.",
+              "value": {
+                "kind": "expression",
+                "type": "string | boolean | number | string[] | boolean[] | number[]"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "name",
+              "required": false,
+              "description": "Name attribute of the input.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "value",
+              "required": false,
+              "description": "Value attribute of the input.",
+              "value": {
+                "kind": "expression",
+                "type": "string|boolean|number"
+              },
+              "default": "true"
+            },
+            {
+              "name": "tooltip",
+              "required": false,
+              "description": "Title attribute of the component.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the checkbox.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "readonly",
+              "required": false,
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "error",
+              "required": false,
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "block",
+              "required": false,
+              "description": "Checkbox is displayed as block.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "truncate",
+              "required": false,
+              "description": "Truncates the label.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "hideLabel",
+              "required": false,
+              "description": "Hides the label.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "size",
+              "required": false,
+              "description": "The size of the component.",
+              "value": {
+                "kind": "expression",
+                "type": "\"sm\""
+              },
+              "default": "undefined"
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when the value changes."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Label content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-checkbox/DpsFormCheckbox.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormCheckboxGroup",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "The unique identifier for the checkbox group (optional).",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "modelValue of the checkbox group.",
+              "value": {
+                "kind": "expression",
+                "type": "string[]"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "name",
+              "required": false,
+              "description": "Name attribute of the checkboxes.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "label",
+              "required": false,
+              "description": "Label for the checkbox group.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "hideLabel",
+              "required": false,
+              "description": "Whether the label should be visually hidden.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "options",
+              "required": true,
+              "description": "Array of checkbox data to be displayed.",
+              "value": {
+                "kind": "expression",
+                "type": "DpsFormCheckboxGroupOption[]"
+              }
+            },
+            {
+              "name": "optionValue",
+              "required": false,
+              "description": "Key to use for the checkbox values.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"value\""
+            },
+            {
+              "name": "optionLabel",
+              "required": false,
+              "description": "Key to use for the checkbox labels.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"label\""
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the checkbox group.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "inline",
+              "required": false,
+              "description": "Checkboxes displayed in line.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "truncate",
+              "required": false,
+              "description": "Truncates the labels.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "size",
+              "required": false,
+              "description": "Size of the checkboxes.",
+              "value": {
+                "kind": "expression",
+                "type": "\"sm\""
+              },
+              "default": "undefined"
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when one of the values changes."
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-checkbox-group/DpsFormCheckboxGroup.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormDatepicker",
+          "description": "",
+          "attributes": [
+            {
+              "name": "initialDate",
+              "description": "Sets the initial date in the format `YYYY-MM-DD`.\nExample: `2024-10-02`.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "name": "hasCheckbox",
+              "description": "Enables the checkbox next to the date picker.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "isCheckboxChecked",
+              "description": "Sets the initial state of the checkbox.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "checkboxTitle",
+              "description": "Title for the checkbox.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "name": "dateBlackList",
+              "description": "An array of dates that should be grayed out.\nCan either be an array of dates or an array of objects containing a \"from\" and \"to\" date and an optional title.\nExample: `[new Date(2024, 9, 15)]` or `[{from: \"01.02.2025\", to: \"10.02.2025\", title: \"Beispieltermin\"}]`.",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            },
+            {
+              "name": "watchForExternalUpdates",
+              "description": "Watch for external updates.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "zeitraum",
+              "description": "Sets the start and end dates for the range.\nExample: `{ beginn: new Date(), ende: new Date() }`.",
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              },
+              "default": "{}"
+            },
+            {
+              "name": "disabled",
+              "description": "Disables the date picker when true.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder text for the input field.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"TT.MM.JJJJ\""
+            },
+            {
+              "name": "range",
+              "required": false,
+              "description": "Enables range selection mode.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "inputAttr",
+              "description": "Additional attributes for the input element.",
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              },
+              "default": "{}"
+            },
+            {
+              "name": "clearable",
+              "description": "Allows the date picker to be cleared when set to true.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "name": "editable",
+              "description": "Enables manual input in the date field when set to true.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            }
+          ],
+          "events": [
+            {
+              "name": "pick-element",
+              "description": "Emitted when a date is selected."
+            },
+            {
+              "name": "date-picker-value",
+              "description": "Emitted when the selected date value changes."
+            },
+            {
+              "name": "is-checkbox-checked",
+              "description": "Emitted when the checkbox state changes."
+            },
+            {
+              "name": "date-picker-opened",
+              "description": "Emitted when the date picker is opened."
+            },
+            {
+              "name": "update-range",
+              "description": "Emitted when the date range is updated."
+            },
+            {
+              "name": "update-termindauer",
+              "description": "Emitted when the duration is updated."
+            },
+            {
+              "name": "start-end",
+              "description": "Emitted when the start or end dates are changed."
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-datepicker/DpsFormDatepicker.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormFile",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "The unique identifier for the input (optional).",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "ModelValue of the input.\nWith inputs of type file, normally this is uni-directional.\nHowever, you can clear the file input's selected files by setting the modelValue to either null\n(for single mode) or an empty array [] (for multiple mode).",
+              "value": {
+                "kind": "expression",
+                "type": "File | File[] | null"
+              },
+              "default": "null"
+            },
+            {
+              "name": "accept",
+              "required": false,
+              "description": "Which file formats to accept.\nCan be either file extension or mime-type or mixed\ne.g. '.pdf', 'application/pdf' or '.pdf, application/pdf'",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "name": "multiple",
+              "required": false,
+              "description": "Allows selecting multiple files at once.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the component.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "title",
+              "required": false,
+              "description": "Title for the search button.\nDefaults to \"Datei auswählen\" if no title is set.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "error",
+              "required": false,
+              "description": "Changes the state to error.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "required",
+              "required": false,
+              "description": "Required attribute of the input.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when the file selection changes."
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-file/DpsFormFile.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormGroup",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "Unique ID for the component (optional).",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "description",
+              "required": false,
+              "description": "Description text shown under the content.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "label",
+              "required": false,
+              "description": "Label for the group.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "labelFor",
+              "required": false,
+              "description": "ID of the element the label is for.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "hideLabel",
+              "required": false,
+              "description": "Whether the label should be visually hidden.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "successFeedback",
+              "required": false,
+              "description": "Text shown on success.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "errorFeedback",
+              "required": false,
+              "description": "Text shown on error.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "valid",
+              "required": false,
+              "description": "Whether the input is valid or not.\n`undefined` if the state is neutral.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Whether the group is disabled.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Body content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-group/DpsFormGroup.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormInput",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "Unique ID of the input field.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "ModelValue of the input.",
+              "value": {
+                "kind": "expression",
+                "type": "string|number"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "icon",
+              "required": false,
+              "description": "Icon displayed at the end of the input field.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "placeholder",
+              "required": false,
+              "description": "Placeholder text.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "title",
+              "required": false,
+              "description": "Title attribute of the input.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "readonly",
+              "required": false,
+              "description": "Makes the field readonly.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the field.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "maxlength",
+              "required": false,
+              "description": "The maximum string length that the user can enter.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "-1"
+            },
+            {
+              "name": "type",
+              "required": false,
+              "description": "The type of the input field.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"text\""
+            },
+            {
+              "name": "step",
+              "required": false,
+              "description": "The step attribute specifying the granularity number values have to\nadhere to.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "1"
+            },
+            {
+              "name": "min",
+              "required": false,
+              "description": "The minimum value to accept for this input.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "max",
+              "required": false,
+              "description": "The maximum value to accept for this input.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "pattern",
+              "required": false,
+              "description": "Pattern the value must match to be valid.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "required",
+              "required": false,
+              "description": "Required field.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "ariaLabel",
+              "required": false,
+              "description": "Aria label for the input.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "ariaLabelledby",
+              "required": false,
+              "description": "ID of the element that labels the input.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "ariaDescribedby",
+              "required": false,
+              "description": "ID of the element that describes the input.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "size",
+              "required": false,
+              "description": "Vertical size of the input field.",
+              "value": {
+                "kind": "expression",
+                "type": "\"sm\""
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "success",
+              "required": false,
+              "description": "Displays the success state.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "error",
+              "required": false,
+              "description": "Displays the error state.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "keyup",
+              "description": "Emitted on keyup."
+            },
+            {
+              "name": "keydown",
+              "description": "Emitted on keydown."
+            },
+            {
+              "name": "blur",
+              "description": "Emitted on blur."
+            },
+            {
+              "name": "focus",
+              "description": "Emitted on focus."
+            },
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when the value changes."
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-input/DpsFormInput.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormRadio",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "Unique ID for the radio (optional)",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "ModelValue of the radio.",
+              "value": {
+                "kind": "expression",
+                "type": "string|boolean|number"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "name",
+              "required": true,
+              "description": "Name attribute of the radio input.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "value",
+              "required": true,
+              "description": "Value of the radio input.",
+              "value": {
+                "kind": "expression",
+                "type": "string|boolean|number"
+              }
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the radio input.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "readonly",
+              "required": false,
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "error",
+              "required": false,
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "block",
+              "required": false,
+              "description": "Displays the component as a block.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "truncate",
+              "required": false,
+              "description": "Truncates the label.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "hideLabel",
+              "required": false,
+              "description": "Hides the label.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when the selected value changes."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Label content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-radio/DpsFormRadio.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormRadioGroup",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "The unique identifier for the radio group (optional).",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "ModelValue of the radio group.",
+              "value": {
+                "kind": "expression",
+                "type": "string|boolean|number"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "name",
+              "required": true,
+              "description": "Name of the radio inputs.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "label",
+              "required": false,
+              "description": "Label for the radio group.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "hideLabel",
+              "required": false,
+              "description": "Whether the label should be visually hidden.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "options",
+              "required": true,
+              "description": "Array of options to be displayed.",
+              "value": {
+                "kind": "expression",
+                "type": "DpsFormRadioGroupOption[]"
+              }
+            },
+            {
+              "name": "optionValue",
+              "required": false,
+              "description": "Which key to use for the option value.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"value\""
+            },
+            {
+              "name": "optionLabel",
+              "required": false,
+              "description": "Which key to use for the option label.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"label\""
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Whether the radio group should be disabled.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "inline",
+              "required": false,
+              "description": "Whether the radio inputs should be displayed in line.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "truncate",
+              "required": false,
+              "description": "Whether the labels should be truncated.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when the selected value changes."
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-radio-group/DpsFormRadioGroup.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormSelect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "Unique ID of the select (optional).",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "size",
+              "required": false,
+              "description": "Size of the select.",
+              "value": {
+                "kind": "expression",
+                "type": "\"sm\""
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "variant",
+              "required": false,
+              "description": "Style variant of the select.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "hideTags",
+              "required": false,
+              "description": "Hides tags for selected elements (only for multiple).",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "ModelValue for the select.",
+              "value": {
+                "kind": "expression",
+                "type": "string | number | string[] | number[] | DpsFormSelectOption[] | DpsFormSelectOption"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "optionLabel",
+              "required": false,
+              "description": "Key for the label text in the option object.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"label\""
+            },
+            {
+              "name": "optionValue",
+              "required": false,
+              "description": "Key for the value in the option object.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"value\""
+            },
+            {
+              "name": "readonly",
+              "required": false,
+              "description": "Makes the select readonly.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "required",
+              "required": false,
+              "description": "Requires a value to be selected.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "title",
+              "required": false,
+              "description": "Title attribute of the select.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "function(props) {\r\n  return props.placeholder;\r\n}"
+            },
+            {
+              "name": "label",
+              "required": false,
+              "description": "Label for the select.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "icon",
+              "required": false,
+              "description": "Icon placed before the select in the simple variant.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "success",
+              "required": false,
+              "description": "Success state of the select.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "error",
+              "required": false,
+              "description": "Error state of the select.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "align",
+              "required": false,
+              "description": "Aligns the dropdown left or right.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"start\""
+            },
+            {
+              "name": "options",
+              "required": true,
+              "description": "Array of available options: Objects, Strings or Integers. If array of objects, visible label will default to option.label.",
+              "value": {
+                "kind": "expression",
+                "type": "DpsFormSelectOption[] | string[] | number[]"
+              }
+            },
+            {
+              "name": "clearOnSelect",
+              "required": false,
+              "description": "Clear the search input after `select()`. Use only when multiple is true.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "name": "closeOnSelect",
+              "required": false,
+              "description": "Enable/disable closing after selecting an option",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Enable/disable the multiselect.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "max",
+              "required": false,
+              "description": "Number of allowed selected options.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "multiple",
+              "required": false,
+              "description": "Equivalent to the multiple attribute on a `<select>` input.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "openDirection",
+              "required": false,
+              "description": "Fixed opening direction (instead of auto). Options are \"above\"/\"top\" or \"below\"/\"bottom\"",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "name": "placeholder",
+              "required": false,
+              "description": "Equivalent to the placeholder attribute on a `<select>` input.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"Bitte wählen\""
+            },
+            {
+              "name": "preselectFirst",
+              "required": false,
+              "description": "Selects the first option if initial value is empty",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "preserveSearch",
+              "required": false,
+              "description": "If set to true, will preserve the search query when opening/closing the component.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "searchable",
+              "required": false,
+              "description": "Add / removes search input.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "select",
+              "description": "Emitted when a value gets selected."
+            },
+            {
+              "name": "remove",
+              "description": "Emitted after removing an option."
+            },
+            {
+              "name": "search-change",
+              "description": "Emitted after the search query changes."
+            },
+            {
+              "name": "tag",
+              "description": "Emitted after user attempts to add a tag."
+            },
+            {
+              "name": "open",
+              "description": "Emitted when the dropdown opens. Useful for detecting when touched."
+            },
+            {
+              "name": "close",
+              "description": "Emitted when the dropdown closes."
+            },
+            {
+              "name": "update:modelValue",
+              "description": "Emitted after this.modelValue changes."
+            }
+          ],
+          "slots": [
+            {
+              "name": "option",
+              "description": "For custom option slot content"
+            },
+            {
+              "name": "tag",
+              "description": "For custom tag slot content"
+            },
+            {
+              "name": "selection",
+              "description": "For custom selection slot content"
+            },
+            {
+              "name": "noOptions",
+              "description": "For custom noOptions slot content"
+            },
+            {
+              "name": "noResult",
+              "description": "For custom noResult slot content"
+            },
+            {
+              "name": "maxElements",
+              "description": "For custom maxElements slot content"
+            },
+            {
+              "name": "beforeList",
+              "description": "For custom beforeList slot content"
+            },
+            {
+              "name": "afterList",
+              "description": "For custom afterList slot content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-select/DpsFormSelect.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormTextarea",
+          "description": "",
+          "attributes": [
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "ModelValue of the textarea.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "resizable",
+              "required": false,
+              "description": "Sets whether the textarea is resizable, and if so, in which directions.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean | \"vertical\" | \"horizontal\""
+              },
+              "default": "false"
+            },
+            {
+              "name": "success",
+              "required": false,
+              "description": "Success state of the textarea.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "error",
+              "required": false,
+              "description": "Error state of the textarea.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "rows",
+              "required": false,
+              "description": "The number of visible text lines.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "3"
+            },
+            {
+              "name": "readonly",
+              "required": false,
+              "description": "Makes the textarea readonly.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the textarea.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when the value changes."
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-textarea/DpsFormTextarea.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsFormToggle",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "The unique identifier for the input element.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "The current value of the toggle switch (on/off).",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "title",
+              "required": false,
+              "description": "The title attribute for the input element, shown as a tooltip on hover.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the toggle switch when set to true.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "ariaLabel",
+              "required": false,
+              "description": "An ARIA label for accessibility, describing the input element.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "ariaLabelledby",
+              "required": false,
+              "description": "ID of an element that labels the input element.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "ariaDescribedby",
+              "required": false,
+              "description": "ID of an element that describes the input element.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "size",
+              "required": false,
+              "description": "Size of the toggle switch. Can be 'sm' for small, 'md' for medium, or undefined for default.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when the toggle switch's value changes."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Label content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/form-toggle/DpsFormToggle.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsIconButton",
+          "description": "",
+          "attributes": [
+            {
+              "name": "icon",
+              "required": true,
+              "description": "Icon to be displayed in the button.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "danger",
+              "required": false,
+              "description": "Applies the 'danger' styles to the button.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the button.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "loading",
+              "required": false,
+              "description": "Show a loading spinner.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "type",
+              "required": false,
+              "description": "The HTML button type attribute. If undefined\nthe type defaults to 'button'.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "href",
+              "required": false,
+              "description": "The URL that the hyperlink points to.\nIf href is set an anchor\nelement is rendered instead of a button.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            }
+          ],
+          "events": [
+            {
+              "name": "click",
+              "description": "Emitted when the button gets clicked."
+            }
+          ],
+          "source": {
+            "module": "./src/components/icon-button/DpsIconButton.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsInputGroup",
+          "description": "",
+          "attributes": [
+            {
+              "name": "collapsed",
+              "required": false,
+              "description": "Whether there should be no gap between the\nelements.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "slots": [
+            {
+              "name": "prepend",
+              "description": "Left content slot"
+            },
+            {
+              "name": "default",
+              "description": "Middle content slot"
+            },
+            {
+              "name": "append",
+              "description": "Right content slot"
+            }
+          ],
+          "source": {
+            "module": "./src/components/input-group/DpsInputGroup.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsLink",
+          "description": "",
+          "attributes": [
+            {
+              "name": "href",
+              "required": true,
+              "description": "The URL that the hyperlink points to.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "icon",
+              "required": false,
+              "description": "Icon to be displayed in front of the link text.\nCan be set to 'false' when using external links to\nhide the icon.",
+              "value": {
+                "kind": "expression",
+                "type": "string|boolean"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "rel",
+              "required": false,
+              "description": "The relationship of the linked URL as space-separated\nlink types. \"noopener noreferrer\" gets set automatically\nwhen \"external\" is true.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "target",
+              "required": false,
+              "description": "Where to display the linked URL,\nas the name for a browsing context.\nGets set to \"_blank\" automatically when \"external\" is true.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "external",
+              "required": false,
+              "description": "Whether the link is an external link.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "format",
+              "required": false,
+              "description": "How to format the link (telephone or email formatting).",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "darker",
+              "required": false,
+              "description": "Whether the link should be a slightly darker blue.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "click",
+              "description": "Emitted when the link is clicked."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Label content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/link/DpsLink.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsListGroup",
+          "description": "",
+          "attributes": [
+            {
+              "name": "bordered",
+              "required": false,
+              "description": "Adds a border around the list group.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "tag",
+              "required": false,
+              "description": "Specifies the HTML tag to use for the root element of the component.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"div\""
+            }
+          ],
+          "slots": [
+            {
+              "name": "counter",
+              "description": "Counter content"
+            },
+            {
+              "name": "default",
+              "description": "List group content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/list-group/DpsListGroup.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsListGroupItem",
+          "description": "",
+          "attributes": [
+            {
+              "name": "collapseId",
+              "required": false,
+              "description": "The unique identifier for the collapsible element. This identifier is used to associate the\ncollapsible content with its corresponding trigger for accessibility and Bootstrap's collapse functionality.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "tag",
+              "required": false,
+              "description": "Specifies the HTML tag to use for the root element.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"div\""
+            },
+            {
+              "name": "href",
+              "required": false,
+              "description": "The URL that the hyperlink points to.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "expanded",
+              "required": false,
+              "description": "Indicates whether the collapsible row content is initially expanded.\nWhen set to true, the collapsible content will be visible by default.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "show",
+              "description": "This event is fired immediately when the show method has been called."
+            },
+            {
+              "name": "hide",
+              "description": "This event is fired immediately when the hide method has been called."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Item content"
+            },
+            {
+              "name": "collapsible-content",
+              "description": "Item collapsible content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/list-group-item/DpsListGroupItem.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsLoadingSpinner",
+          "description": "",
+          "attributes": [
+            {
+              "name": "ariaLabel",
+              "required": false,
+              "description": "Aria label for the spinner.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"Laden\""
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Loading spinner content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/loading-spinner/DpsLoadingSpinner.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsLogoutAlert",
+          "description": "",
+          "attributes": [
+            {
+              "name": "expirationTime",
+              "required": true,
+              "description": "Defines when the current session expires (UNIX timestamp in seconds)",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            },
+            {
+              "name": "threshold",
+              "required": false,
+              "description": "Defines how many minutes before the logout the alert should be visible",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "3"
+            }
+          ],
+          "events": [
+            {
+              "name": "click",
+              "description": "Emitted when the user clicks the \"Neu anmelden\" button"
+            }
+          ],
+          "source": {
+            "module": "./src/components/logout-alert/DpsLogoutAlert.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsPagination",
+          "description": "",
+          "attributes": [
+            {
+              "name": "numberOfElements",
+              "required": true,
+              "description": "Total Number of Elements",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            },
+            {
+              "name": "ariaLabel",
+              "required": false,
+              "description": "Label of pagination menu for accessibilty (\"aria-label\")",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "ariaContentId",
+              "required": false,
+              "description": "ID of the HTML element the pagination is controlling for accessibility (\"aria-controls\")",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "elementsPerPageOptions",
+              "required": false,
+              "description": "Configure select options for \"elements per page\"",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[25, 50, 100]"
+            },
+            {
+              "name": "numberOfPageNumbers",
+              "required": false,
+              "description": "Configure maximum number of page buttons in pagination",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "5"
+            },
+            {
+              "name": "numberOfPagesAsProp",
+              "required": false,
+              "description": "Set number of pages as prop if the calculation should not be handled automatically (e.g. for serverside pagination). A note for migration: Was \"pagesFromServer\"",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "null"
+            },
+            {
+              "name": "currentPageAsProp",
+              "required": false,
+              "description": "Set current page as prop (e.g. for serverside pagination)",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "elementsPerPageAsProp",
+              "required": false,
+              "description": "Set default option for \"elements per page\". If not set the first option will be selected. This is useful e.g. when resetting the page size to default on removing filters.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "undefined"
+            }
+          ],
+          "events": [
+            {
+              "name": "updatePagination",
+              "description": "Emitted when the pagination is updated"
+            }
+          ],
+          "source": {
+            "module": "./src/components/pagination/DpsPagination.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsSortSelect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "Unique ID of the select (optional).",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "options",
+              "required": true,
+              "description": "Array of options to be displayed.",
+              "value": {
+                "kind": "expression",
+                "type": "DpsFormSelectOption[]"
+              }
+            },
+            {
+              "name": "modelValue",
+              "required": true,
+              "description": "ModelValue of the select.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "title",
+              "required": false,
+              "description": "Title attribute of the select.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"Sortierung anpassen\""
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the select.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when the selected value changes."
+            }
+          ],
+          "source": {
+            "module": "./src/components/sort-select/DpsSortSelect.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsTable",
+          "description": "",
+          "attributes": [
+            {
+              "name": "fields",
+              "description": "An array of field definition objects, each defining the properties of a table column.",
+              "value": {
+                "kind": "expression",
+                "type": "DpsTableField[]"
+              },
+              "default": "function() {\r\n  return [];\r\n}"
+            },
+            {
+              "name": "items",
+              "description": "An array of data objects to be displayed in the table rows.\nEach object should match the structure defined by the `fields` array.",
+              "value": {
+                "kind": "expression",
+                "type": "DpsTableItem[]"
+              },
+              "default": "function() {\r\n  return [];\r\n}"
+            },
+            {
+              "name": "hideHeader",
+              "required": false,
+              "description": "Whether to hide the table header while keeping it accessible for screen readers.\nThis is useful for visually minimalist tables while maintaining accessibility.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "sortBy",
+              "required": false,
+              "description": "The key  of the field currently being used for sorting the table.\nShould correspond to one of the `key` values defined in the `fields` array.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "sortDesc",
+              "required": false,
+              "description": "Indicates whether the sorting is in descending order.\nWhen set to `true`, the table will be sorted in descending order; otherwise, it will be in ascending order.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "collapseColstart",
+              "required": false,
+              "description": "The starting column index where the collapsible content should be displayed.\nThis can create an offset within the table row for the collapsible section.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "collapseColspan",
+              "required": false,
+              "description": "The number of columns the collapsible content should span when expanded.\nDetermines the width of the collapsible content section.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "undefined"
+            }
+          ],
+          "events": [
+            {
+              "name": "change-checked",
+              "description": "Emitted when the status of a header checkbox changes."
+            },
+            {
+              "name": "update:sort-by",
+              "description": "Emitted when the sortBy property changes."
+            },
+            {
+              "name": "update:sort-desc",
+              "description": "Emitted when the sortDesc property changes."
+            }
+          ],
+          "slots": [
+            {
+              "name": "table-row",
+              "description": "Table row content"
+            },
+            {
+              "name": "table-row-collapsible-content",
+              "description": "Table row collapsible content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/table/DpsTable.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsTableRow",
+          "description": "",
+          "attributes": [
+            {
+              "name": "collapseId",
+              "required": false,
+              "description": "The unique identifier for the collapsible element. This identifier is used to associate the\ncollapsible content with its corresponding trigger for accessibility and Bootstrap's collapse functionality.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "collapseColspan",
+              "required": false,
+              "description": "The number of columns the collapsible content should span when expanded.\nThis controls the width of the collapsible content.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "collapseColstart",
+              "required": false,
+              "description": "The starting position (column index) where the collapsible content should be displayed.\nThis can be used to create an offset within the row.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "0"
+            },
+            {
+              "name": "expanded",
+              "required": false,
+              "description": "Indicates whether the collapsible row content is initially expanded.\nWhen set to true, the collapsible content will be visible by default.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "show",
+              "description": "This event is fired immediately when the show method has been called."
+            },
+            {
+              "name": "hide",
+              "description": "This event is fired immediately when the hide method has been called."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Row content"
+            },
+            {
+              "name": "collapsible-content",
+              "description": "Row collapsible content"
+            }
+          ],
+          "source": {
+            "module": "./src/components/table-row/DpsTableRow.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DpsUploadFormGroup",
+          "description": "",
+          "attributes": [
+            {
+              "name": "id",
+              "required": false,
+              "description": "The unique identifier for the input (optional).",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "label",
+              "required": false,
+              "description": "The label for the component.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "name": "hideLabel",
+              "required": false,
+              "description": "Hides the label.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "uploadButtonLabel",
+              "required": false,
+              "description": "The label for the upload button.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"Hochladen\""
+            },
+            {
+              "name": "uploadButtonTitle",
+              "required": false,
+              "description": "The title for the upload button.\nDefaults to the button label if no title is set.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "fileAccept",
+              "required": false,
+              "description": "Which file formats to accept.\nCan be either file extension or mime-type or mixed\ne.g. ['.pdf'], ['application/pdf'] or ['.pdf', 'application/pdf']",
+              "value": {
+                "kind": "expression",
+                "type": "string[]"
+              },
+              "default": "function() {\r\n  return [];\r\n}"
+            },
+            {
+              "name": "fileMultiple",
+              "required": false,
+              "description": "Allows selecting multiple files at once.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the component.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "title",
+              "required": false,
+              "description": "Title for the search button.\nDefaults to the label if no title is set.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "disableUploadButton",
+              "required": false,
+              "description": "Disables the upload button.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "hideUploadButton",
+              "required": false,
+              "description": "Displays the component without the upload button.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "uploadErrorMessage",
+              "required": false,
+              "description": "Changes the state to error and displays the provided error message.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "name": "fileRequired",
+              "required": false,
+              "description": "Required attribute of the input.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "upload",
+              "description": "Emitted when the upload button gets clicked."
+            },
+            {
+              "name": "input",
+              "description": "Emitted when the file selection changes."
+            }
+          ],
+          "source": {
+            "module": "./src/components/upload-form-group/DpsUploadFormGroup.vue",
+            "symbol": "default"
+          }
+        }
+      ]
+    }
+  }
+}

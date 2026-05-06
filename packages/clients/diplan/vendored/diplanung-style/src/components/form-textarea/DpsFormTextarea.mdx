@@ -1,0 +1,83 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsFormTextareaStories from "./DpsFormTextarea.stories";
+
+<Meta of={DpsFormTextareaStories} />
+
+# DpsFormTextarea
+
+## Description
+
+The `DpsFormTextarea` component displays a basic textarea. It can be configured to be resizable and
+supports ‘error’, ‘success’, ‘readonly’ and ‘disabled’ states.
+
+<Primary name="Default" />
+
+## Stories
+
+### Filled
+
+Use `v-model` to set and read the textarea value.
+
+<Canvas of={DpsFormTextareaStories.Filled} />
+
+### Error
+
+To display the **error** state, set the `error` property to `true`.
+
+<Canvas of={DpsFormTextareaStories.Error} />
+
+### Success
+
+To display the **success** state, set the `success` property to `true`.
+
+<Canvas of={DpsFormTextareaStories.Success} />
+
+### Readonly
+
+To disable the textarea and display it as read-only, set the `readonly` property to `true`.
+
+<Canvas of={DpsFormTextareaStories.Readonly} />
+
+## Disabled
+
+To disable the textarea element, set the `disabled` property to `true`.
+
+<Canvas of={DpsFormTextareaStories.Disabled} />
+
+### Resizable
+
+#### Both
+
+To make the textarea resizable both **horizontally** and **vertically**, set the `resizable`
+property to `true`.
+
+<Canvas of={DpsFormTextareaStories.Resizable} />
+
+#### Vertical
+
+To make the textarea resizable only **vertically**, set the `resizable` property to `"vertical"`.
+
+<Canvas of={DpsFormTextareaStories.ResizableVertical} />
+
+#### Horizontal
+
+To make the textarea resizable only **horizontally**, set the `resizable` property to
+`"horizontal"`.
+
+<Canvas of={DpsFormTextareaStories.ResizableHorizontal} />
+
+### Rows
+
+To adjust the number of rows in the textarea, set the `rows` property.
+
+<Canvas of={DpsFormTextareaStories.Rows} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/form-textarea

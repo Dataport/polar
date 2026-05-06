@@ -1,0 +1,33 @@
+@use "mixins/heading" as mixins;
+
+@import "variables/heading";
+
+.dps-heading {
+  display: block;
+  font-family: $heading-font-family, sans-serif;
+  color: var(--dps-color-black);
+
+  &--1 {
+    @include mixins.heading($heading-1);
+  }
+
+  &--2 {
+    @include mixins.heading($heading-2);
+  }
+
+  &--3 {
+    @include mixins.heading($heading-3);
+  }
+
+  &--4 {
+    @include mixins.heading($heading-4);
+  }
+
+  &--5 {
+    @include mixins.heading($heading-5);
+  }
+
+  &--6 {
+    @include mixins.heading($heading-6);
+  }
+}

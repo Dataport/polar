@@ -1,0 +1,43 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsPaginationStories from "./DpsPagination.stories";
+
+<Meta of={DpsPaginationStories} />
+
+# DpsPagination
+
+## Description
+
+The `DpsPagination` component enables users to navigate between pages and adjust the number of
+elements per page. It supports both client-side and server-side configurations (see Stories).
+
+**Note:**
+
+This component does not alter the URL but emits an event when the page changes.
+
+<Primary name="Default" />
+
+## Stories
+
+### Custom
+
+Add accessibility props and customize the configuration of elements per page and number of pages
+visible.
+
+<Canvas of={DpsPaginationStories.Custom} />
+
+### Server
+
+Set the number of pages, current page and elements per page as props to control the component for
+server-side pagination.
+
+<Canvas of={DpsPaginationStories.Server} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/pagination

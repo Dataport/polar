@@ -1,0 +1,7 @@
+@use "mixins/checkbox" as mixins;
+
+@import "variables/checkbox";
+
+.dps-checkbox {
+  @include mixins.checkbox($checkbox-theme);
+}

@@ -1,0 +1,135 @@
+@use "sass:map";
+@use "sass:math";
+
+@mixin radio($variables, $prefix: "dps-") {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: map.get($variables, "width");
+  height: map.get($variables, "height");
+  outline: none;
+
+  & + .#{$prefix}label {
+    margin: 0;
+    padding-left: calc(#{map.get($variables, "width")} + #{map.get($variables, "gap")});
+    position: relative;
+    line-height: map.get($variables, "height");
+    font-weight: normal;
+    cursor: pointer;
+
+    // Tick box
+    &::before {
+      display: inline-block;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: map.get($variables, "width");
+      height: map.get($variables, "height");
+      border-radius: map.get($variables, "border-radius");
+      background-color: map.get($variables, "bg-color");
+      border-style: map.get($variables, "border-style");
+      border-width: map.get($variables, "border-width");
+    }
+
+    // Inner circle
+    &::after {
+      content: none;
+      position: absolute;
+      top: #{math.div(map.get($variables, "height"), 2)};
+      left: #{math.div(map.get($variables, "width"), 2)};
+      transform: translate(-50%, -50%);
+      width: map.get($variables, "checkmark-size");
+      height: map.get($variables, "checkmark-size");
+      background-color: map.get($variables, "checkmark-color");
+      border-radius: map.get($variables, "border-radius");
+    }
+  }
+
+  &:focus + .#{$prefix}label {
+    &::before {
+      box-shadow: map.get($variables, "focus--box-shadow");
+      border-color: map.get($variables, "focus--border-color");
+      outline: map.get($variables, "focus--outline");
+    }
+  }
+
+  &:checked + .#{$prefix}label {
+    &::before {
+      border-color: map.get($variables, "checked--border-color");
+    }
+
+    &::after {
+      content: "";
+    }
+  }
+
+  &:disabled + .#{$prefix}label {
+    cursor: default;
+    color: map.get($variables, "disabled--color");
+
+    &::before {
+      background-color: map.get($variables, "disabled--bg-color");
+      border-color: map.get($variables, "disabled--border-color");
+    }
+
+    &::after {
+      background-color: map.get($variables, "disabled--checkmark-color");
+    }
+  }
+
+  &:disabled:checked:not([readonly]) + .#{$prefix}label {
+    &::before {
+      background-color: map.get($variables, "disabled--checked--bg-color");
+      border-color: map.get($variables, "disabled--checked--border-color");
+    }
+
+    &::after {
+      background-color: map.get($variables, "disabled--checked--checkmark-color");
+    }
+  }
+
+  &[readonly] + .#{$prefix}label {
+    cursor: default;
+    color: map.get($variables, "readonly--color");
+
+    &::before {
+      background-color: map.get($variables, "readonly--bg-color");
+      border-color: map.get($variables, "readonly--border-color");
+    }
+
+    &::after {
+      background-color: map.get($variables, "readonly--checkmark-color");
+    }
+  }
+
+  &--error {
+    & + .#{$prefix}label {
+      color: map.get($variables, "error--color");
+
+      &::before {
+        background-color: map.get($variables, "error--bg-color");
+        border-color: map.get($variables, "error--border-color");
+      }
+    }
+
+    &:checked + .#{$prefix}label {
+      &::before {
+        background-color: map.get($variables, "error--checked--bg-color");
+        border-color: map.get($variables, "error--checked--border-color");
+      }
+
+      &::after {
+        background-color: map.get($variables, "error--checked--checkmark-color");
+      }
+    }
+
+    &:focus + .#{$prefix}label {
+      &::before {
+        box-shadow: map.get($variables, "error--focus--box-shadow");
+        border-color: map.get($variables, "error--focus--border-color");
+        outline: map.get($variables, "error--focus--outline");
+      }
+    }
+  }
+}

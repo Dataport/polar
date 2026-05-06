@@ -1,0 +1,58 @@
+$textarea-bg-color: var(--dps-color-white) !default;
+$textarea-border-color: var(--dps-color-dark-gray) !default;
+$textarea-border-radius: 2px !default;
+$textarea-border-style: solid !default;
+$textarea-border-width: 1px !default;
+$textarea-color: var(--dps-color-black) !default;
+$textarea-font-size: 16px !default;
+$textarea-line-height: 156% !default;
+$textarea-padding: 8px 16px !default;
+$textarea-placeholder-color: var(--dps-color-dark-gray) !default;
+$textarea-placeholder-font-size: 16px !default;
+
+// Modifiers
+$textarea--success--border-color: var(--dps-color-success) !default;
+$textarea--success--color: var(--dps-color-black) !default;
+$textarea--error--border-color: var(--dps-color-error) !default;
+$textarea--error--color: var(--dps-color-black) !default;
+$textarea--focus--border-color: var(--dps-color-primary) !default;
+$textarea--focus--box-shadow: 0 0 4px 1px #00000040 !default;
+$textarea--focus--outline: 1px solid var(--dps-color-primary) !default;
+$textarea--disabled--border-color: var(--dps-color-background) !default;
+$textarea--disabled--bg-color: var(--dps-color-background) !default;
+$textarea--disabled--color: var(--dps-color-dark-gray) !default;
+$textarea--readonly--border-color: var(--dps-color-light-blue) !default;
+$textarea--readonly--bg-color: var(--dps-color-light-blue) !default;
+
+// Default
+$textarea-theme: (
+  bg-color: $textarea-bg-color,
+  border-color: $textarea-border-color,
+  border-radius: $textarea-border-radius,
+  border-style: $textarea-border-style,
+  border-width: $textarea-border-width,
+  color: $textarea-color,
+  font-size: $textarea-font-size,
+  line-height: $textarea-line-height,
+  padding: $textarea-padding,
+  placeholder-color: $textarea-placeholder-color,
+  placeholder-font-size: $textarea-placeholder-font-size,
+  width: 100%,
+  // success
+  success--border-color: $textarea--success--border-color,
+  success--color: $textarea--success--color,
+  // error
+  error--border-color: $textarea--error--border-color,
+  error--color: $textarea--error--color,
+  // focus
+  focus--border-color: $textarea--focus--border-color,
+  focus--box-shadow: $textarea--focus--box-shadow,
+  focus--outline: $textarea--focus--outline,
+  // disabled
+  disabled--border-color: $textarea--disabled--border-color,
+  disabled--bg-color: $textarea--disabled--bg-color,
+  disabled--color: $textarea--disabled--color,
+  // readonly
+  readonly--border-color: $textarea--readonly--border-color,
+  readonly--bg-color: $textarea--readonly--bg-color,
+) !default;

@@ -1,0 +1,24 @@
+.dps-form-group {
+  &__feedback,
+  &__description {
+    margin-top: 3px;
+    font-size: 14px;
+    line-height: 140%;
+  }
+
+  &__feedback {
+    &--success {
+      color: var(--dps-color-success);
+    }
+
+    &--error {
+      color: var(--dps-color-error);
+    }
+  }
+
+  &--disabled {
+    .dps-form-group__label {
+      color: var(--dps-color-dark-gray);
+    }
+  }
+}

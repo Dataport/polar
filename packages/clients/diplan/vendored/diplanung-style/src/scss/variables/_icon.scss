@@ -1,0 +1,13 @@
+@use "sass:string";
+@use "sass:map";
+@use "typography" as typography-variables;
+
+$font-name-icons: "dpsIcons" !default;
+$font-path-icons: "/src/icons/dpsIcons" !default;
+$font-icons: (
+  "name": $font-name-icons,
+  "path": $font-path-icons,
+  "style": normal,
+  "weight": map.get(typography-variables.$font-weight-values, normal),
+  "ext": ttf,
+) !default;

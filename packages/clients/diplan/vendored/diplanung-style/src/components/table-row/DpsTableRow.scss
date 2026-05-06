@@ -1,0 +1,96 @@
+@use "../../scss/variables/transitions" as transitions-variables;
+
+.dps-table-row {
+  --icon-size: 24px;
+  --icon-offset-x: 12px;
+
+  &__collapsible-content {
+    padding-top: var(--table-padding);
+    padding-bottom: var(--table-padding);
+  }
+
+  &--collapsible {
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+      td {
+        background-color: var(--dps-color-primary-light);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--dps-color-black);
+      outline-offset: -2px;
+      z-index: 2;
+    }
+
+    &::after {
+      content: "\e906";
+      font-family: dpsIcons, sans-serif;
+      font-size: var(--icon-size);
+      position: absolute;
+      top: 50%;
+      right: var(--icon-offset-x);
+      width: var(--icon-size);
+      height: var(--icon-size);
+      transform: translate(0, -50%);
+      display: flex;
+      align-items: center;
+    }
+
+    td {
+      transition: background-color transitions-variables.$transition-duration-short ease;
+
+      &:last-child {
+        padding-right: calc(var(--table-padding) + var(--icon-size) + var(--icon-offset-x));
+        min-width: 135px;
+      }
+    }
+  }
+
+  &--expanded {
+    &.dps-table-row--collapsible {
+      outline: 1px solid var(--dps-color-light-gray);
+      z-index: 2;
+
+      &:hover {
+        td {
+          background-color: var(--dps-color-primary-light);
+        }
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--dps-color-black);
+        outline-offset: -1px;
+        z-index: 2;
+      }
+
+      &::after {
+        transform: translate(0, -50%) rotate(180deg);
+      }
+
+      td {
+        background-color: #ebecef;
+        border-bottom: none;
+      }
+
+      + .dps-table-row--collapse {
+        outline: 1px solid var(--dps-color-light-gray);
+        transform: translateY(1px);
+      }
+    }
+  }
+
+  &--collapse {
+    position: relative;
+    z-index: 2;
+
+    td {
+      border: none;
+      padding-top: 0;
+      padding-bottom: 0;
+      height: auto;
+    }
+  }
+}

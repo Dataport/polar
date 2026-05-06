@@ -1,0 +1,80 @@
+import { Canvas, Meta, Stories, Controls, Primary } from "@storybook/blocks";
+import * as DpsFormDatepickerStories from "./DpsFormDatepicker.stories";
+
+<Meta of={DpsFormDatepickerStories} />
+
+# DpsFormDatepicker
+
+## Description
+
+The `DpsFormDatepicker` component is a customizable date picker designed for selecting single or
+range dates. It supports various configurations, including optional checkboxes, blacklisted dates,
+and clearable fields. The component is using the `vue-datepicker-next` npm package for its calendar
+functionality.
+
+<Primary name="Default" />
+
+## Stories
+
+### Variants
+
+#### Checkbox
+
+This story demonstrates the date picker with an accompanying checkbox.
+
+<Canvas of={DpsFormDatepickerStories.Checkbox} />
+
+#### Placeholder
+
+Add a placeholder text for the input field.
+
+<Canvas of={DpsFormDatepickerStories.Placeholder} />
+
+#### Range
+
+This story showcases the date picker in range selection mode, allowing users to select a start and
+end date.
+
+<Canvas of={DpsFormDatepickerStories.Range} />
+
+#### Date BlackList
+
+Illustrates the date picker with specific dates disabled, preventing users from selecting them.
+
+<Canvas of={DpsFormDatepickerStories.DateBlackList} />
+
+#### Input Attr
+
+Enables passing additional HTML attributes to the input field of the date picker. This allows for
+customization such as setting an `title`, `aria-label`, `autocomplete`, and other standard or custom
+attributes, enhancing accessibility or specific behavior.
+
+<Canvas of={DpsFormDatepickerStories.InputAttr} />
+
+#### Editable
+
+Allows to add manual input in the field.
+
+<Canvas of={DpsFormDatepickerStories.Editable} />
+
+#### Disabled
+
+Demonstrates a disabled state for the date picker, preventing user interaction.
+
+<Canvas of={DpsFormDatepickerStories.Disabled} />
+
+#### Clearable Option
+
+Showcases the date picker with the option to clear the selected date.
+
+<Canvas of={DpsFormDatepickerStories.ClearablePicker} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://mengxiong10.github.io/vue-datepicker-next/

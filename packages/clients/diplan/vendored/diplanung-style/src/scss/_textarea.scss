@@ -1,0 +1,7 @@
+@use "mixins/textarea" as mixins;
+
+@import "variables/textarea";
+
+.dps-textarea {
+  @include mixins.textarea($textarea-theme);
+}

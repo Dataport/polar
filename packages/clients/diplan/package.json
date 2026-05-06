@@ -32,7 +32,7 @@
     "prepublishOnly": "npm run build",
     "build": "npm run precompile && rimraf dist && vite build && cd ../../../ && tsx ./scripts/makeDocs diplan",
     "dev": "npm run precompile && vite --host",
-    "precompile": "node ../../../scripts/precompileSvg.js ../../../node_modules/diplanung-style/src/icons/dpsIcons.svg ./assets/dist/iconMap.ts && node ../../../scripts/precompileCss.js ../../../node_modules/diplanung-style/dist/index.css ./assets/dist/cssVariables.ts && node ./scripts/preTranspileDiPlanStyle.cjs"
+    "precompile": "node ../../../scripts/precompileSvg.js ./vendored/diplanung-style/src/icons/dpsIcons.svg ./assets/dist/iconMap.ts && node ../../../scripts/precompileCss.js ./vendored/diplanung-style/dist/index.css ./assets/dist/cssVariables.ts && node ./scripts/preTranspileDiPlanStyle.cjs"
   },
   "devDependencies": {
     "@polar/core": "^3.2.0",
@@ -54,7 +54,6 @@
     "@turf/boolean-valid": "^7.2.0",
     "@turf/clean-coords": "^7.2.0",
     "@types/geojson": "^7946.0.8",
-    "diplanung-style": "^13.0.0",
     "just-compare": "^2.3.0",
     "lodash.merge": "^4.6.2"
   },
