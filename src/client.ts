@@ -86,7 +86,7 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
  * @param mapConfiguration - Configuration options. Only plugins that have a configuration will be created. To
  * 													enable a plugin with default configuration, add its key with an empty object. The
  * 													plugins with the ids 'fullscreen', 'geoLocation' and 'layerChooser' are added to the iconMenu.
- * 													IconMenu, Toast, aLayerChooser, nd LoadingIndicator are enabled by default.
+ * 													IconMenu. The IconMenu, Toast, LayerChooser and LoadingIndicator are enabled by default.
  * @param modifyServiceRegister - Optionally modify the serviceRegister. This may be useful if a pre-existing register is used.
  *
  * @example
