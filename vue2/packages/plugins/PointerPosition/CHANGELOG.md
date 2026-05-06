@@ -1,5 +1,0 @@
-# CHANGELOG
-
-## unpublished
-
-Initial release.

@@ -42,6 +42,7 @@ import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginPins from '@polar/polar/plugins/pins'
+import pluginPointerPosition from '@polar/polar/plugins/pointerPosition'
 import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
@@ -147,6 +148,10 @@ watch(map, (map) => {
 		pluginToast({
 			displayComponent: true,
 			layoutTag: 'BOTTOM_MIDDLE',
+		}),
+		pluginPointerPosition({
+			displayComponent: true,
+			layoutTag: 'BOTTOM_LEFT',
 		}),
 	])
 
