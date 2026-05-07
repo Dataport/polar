@@ -10,6 +10,7 @@ import {
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
 import pluginFilter from '@polar/polar/plugins/filter'
+import pluginExport from '@polar/polar/plugins/export'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
@@ -259,6 +260,16 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 	})
 	additionalMaps.length = 0
 })
+
+addPlugin(
+	map,
+	pluginExport({
+		displayComponent: true,
+		layoutTag: 'MIDDLE_LEFT',
+		download: true,
+		formats: ['pdf', 'jpeg', 'png'],
+	})
+)
 
 addPlugin(
 	map,
