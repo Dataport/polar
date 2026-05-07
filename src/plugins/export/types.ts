@@ -3,7 +3,8 @@ import type { PluginOptions } from '@/core'
 export const PluginId = 'export'
 
 /**
- * Supported export formats. 'jpg' and 'jpeg' are effectively the same format,
+ * Supported export formats.
+ * @remarks 'jpg' and 'jpeg' are effectively the same format,
  * so you can provide whatever you prefer. Providing both is not recommended
  * due to the confusing nature of having both options.
  */
