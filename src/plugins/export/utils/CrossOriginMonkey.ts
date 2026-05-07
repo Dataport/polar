@@ -39,7 +39,7 @@ export class CrossOriginMonkey {
 		this.shadowingPrototype = Object.create(Object.getPrototypeOf(map))
 
 		// Shadow Monkey patch
-		this.shadowingPrototype.addLayer = function (...parameters) {
+		this.shadowingPrototype.addLayer = (...parameters) => {
 			Object.getPrototypeOf(this.shadowingPrototype).addLayer.call(
 				map,
 				...parameters
