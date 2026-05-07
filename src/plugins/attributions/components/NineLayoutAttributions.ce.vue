@@ -47,7 +47,7 @@ function toggleMapInfo() {
 	display: flex;
 	flex-direction: row;
 	align-items: flex-end;
-	padding: 6px;
+	margin: var(--kern-metric-space-small);
 
 	&.open-left {
 		flex-direction: row-reverse;
