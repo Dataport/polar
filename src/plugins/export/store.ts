@@ -68,33 +68,37 @@ export const useExportStore = defineStore('plugins/export', () => {
 				interaction.setActive(false)
 			})
 
-			const map = coreStore.map
-			const canvas = getCanvasFromMap(map)
-			const base64String = canvas.toDataURL(
-				type === 'png' ? 'image/png' : 'image/jpeg'
-			)
-
-			if (!base64String) {
-				throw new Error('Failed to convert canvas to base64 string.')
-			}
-
-			if (type === 'pdf') {
-				const { pdfSrc, jsPdf } = convertToPdf(
-					base64String,
-					canvas.width,
-					canvas.height
+			coreStore.map.once('postrender', function () {
+				const map = coreStore.map
+				const canvas = getCanvasFromMap(map)
+				const base64String = canvas.toDataURL(
+					type === 'png' ? 'image/png' : 'image/jpeg'
 				)
-				exportedMap.value = pdfSrc
 
-				if (download.value) {
-					jsPdf.save('polar-map.pdf')
+				if (!base64String) {
+					throw new Error('Failed to convert canvas to base64 string.')
 				}
-			} else {
-				exportedMap.value = base64String
-				if (download.value) {
-					downloadAsImage(base64String, type)
+
+				if (type === 'pdf') {
+					const { pdfSrc, jsPdf } = convertToPdf(
+						base64String,
+						canvas.width,
+						canvas.height
+					)
+					exportedMap.value = pdfSrc
+
+					if (download.value) {
+						jsPdf.save('polar-map.pdf')
+					}
+				} else {
+					exportedMap.value = base64String
+					if (download.value) {
+						downloadAsImage(base64String, type)
+					}
 				}
-			}
+			})
+
+			coreStore.map.renderSync()
 		} catch (error) {
 			console.error(error)
 			notifyUser('error', () =>
