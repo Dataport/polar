@@ -4,6 +4,8 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { Interaction } from 'ol/interaction'
+
 import { t } from 'i18next'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
@@ -18,7 +20,6 @@ import { convertToPdf } from './utils/convertToPdf'
 import { CrossOriginMonkey } from './utils/CrossOriginMonkey'
 import { downloadAsImage } from './utils/downloadAsImage'
 import { getCanvasFromMap } from './utils/getCanvasFromMap'
-import type { Interaction } from 'ol/interaction'
 /* eslint-disable tsdoc/syntax */
 /**
  * @function
