@@ -18,6 +18,7 @@ import { convertToPdf } from './utils/convertToPdf'
 import { CrossOriginMonkey } from './utils/CrossOriginMonkey'
 import { downloadAsImage } from './utils/downloadAsImage'
 import { getCanvasFromMap } from './utils/getCanvasFromMap'
+import type { Interaction } from 'ol/interaction'
 /* eslint-disable tsdoc/syntax */
 /**
  * @function
@@ -50,10 +51,21 @@ export const useExportStore = defineStore('plugins/export', () => {
 	})
 
 	function exportAs(type: ExportFormat) {
+		let pausedInteractions: Array<Interaction> = []
+
 		try {
 			if (!availableFormats.value.includes(type)) {
 				throw new Error(`Export format not allowed: "${type}"`)
 			}
+
+			pausedInteractions = coreStore.map
+				.getInteractions()
+				.getArray()
+				.filter((interaction) => interaction.getActive())
+
+			pausedInteractions.forEach((interaction) => {
+				interaction.setActive(false)
+			})
 
 			const map = coreStore.map
 			const canvas = getCanvasFromMap(map)
@@ -90,6 +102,10 @@ export const useExportStore = defineStore('plugins/export', () => {
 				})
 			)
 			throw error
+		} finally {
+			pausedInteractions.forEach((interaction) => {
+				interaction.setActive(true)
+			})
 		}
 	}
 
