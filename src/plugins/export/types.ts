@@ -4,9 +4,6 @@ export const PluginId = 'export'
 
 /**
  * Supported export formats.
- * @remarks 'jpg' and 'jpeg' are effectively the same format,
- * so you can provide whatever you prefer. Providing both is not recommended
- * due to the confusing nature of having both options.
  */
 export const EXPORT_FORMATS = ['jpg', 'jpeg', 'pdf', 'png'] as const
 
@@ -27,6 +24,11 @@ export interface ExportPluginOptions extends PluginOptions {
 	 * Defines the export formats to be offered in the export menu.
 	 *
 	 * @defaultValue `['png']`
+	 * 
+	 *  @remarks
+	 * 'jpg' and 'jpeg' are effectively the same format,
+ 	 * so you can provide whatever you prefer. Providing both is not recommended
+ 	 * due to the confusing nature of having both options.
 	 */
 	formats?: ExportFormat[]
 }
