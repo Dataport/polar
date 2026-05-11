@@ -1,7 +1,6 @@
 import {
 	type MapConfiguration,
 	type MasterportalApiServiceRegister,
-	type PluginId,
 	type PolarContainer,
 	type PluginContainer,
 	fetchServiceRegister,
@@ -22,27 +21,25 @@ import ReverseGeocoder from '@/plugins/reverseGeocoder'
 import Scale from '@/plugins/scale'
 import Toast from '@/plugins/toast'
 
-function addPlugins(map: typeof PolarContainer, enabledPlugins: PluginId[]) {
-	const iconMenu =
-		enabledPlugins.includes('iconMenu') &&
-		IconMenu({
-			displayComponent: true,
-			layoutTag: 'TOP_RIGHT',
-			menus: [
-				[
-					enabledPlugins.includes('fullscreen') && {
-						plugin: Fullscreen({ renderType: 'iconMenu' }),
-					},
-					enabledPlugins.includes('layerChooser') && {
-						plugin: LayerChooser({}),
-						icon: 'kern-icon-fill--layers',
-					},
-					enabledPlugins.includes('geoLocation') && {
-						plugin: GeoLocation({ renderType: 'iconMenu' }),
-					},
-				].filter((x) => x) as Menu[],
-			],
-		})
+function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
+	const iconMenu = IconMenu({
+		displayComponent: true,
+		layoutTag: 'TOP_RIGHT',
+		menus: [
+			[
+				enabledPlugins.includes('fullscreen') && {
+					plugin: Fullscreen({ renderType: 'iconMenu' }),
+				},
+				{
+					plugin: LayerChooser({}),
+					icon: 'kern-icon-fill--layers',
+				},
+				enabledPlugins.includes('geoLocation') && {
+					plugin: GeoLocation({ renderType: 'iconMenu' }),
+				},
+			].filter((x) => x) as Menu[],
+		],
+	})
 
 	coreAddPlugins(
 		map,
@@ -55,15 +52,14 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: PluginId[]) {
 					searchMethods: [],
 				}),
 			enabledPlugins.includes('pins') && Pins({}),
+			LoadingIndicator({
+				displayComponent: true,
+				layoutTag: 'MIDDLE_MIDDLE',
+			}),
 			enabledPlugins.includes('pointerPosition') &&
 				PointerPosition({
 					displayComponent: true,
 					layoutTag: 'BOTTOM_LEFT',
-				}),
-			enabledPlugins.includes('loadingIndicator') &&
-				LoadingIndicator({
-					displayComponent: true,
-					layoutTag: 'MIDDLE_MIDDLE',
 				}),
 			enabledPlugins.includes('reverseGeocoder') &&
 				ReverseGeocoder({ url: '' }),
@@ -72,27 +68,25 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: PluginId[]) {
 					displayComponent: true,
 					layoutTag: 'BOTTOM_RIGHT',
 				}),
-			enabledPlugins.includes('toast') &&
-				Toast({
-					displayComponent: true,
-					layoutTag: 'BOTTOM_MIDDLE',
-				}),
+			Toast({
+				displayComponent: true,
+				layoutTag: 'BOTTOM_MIDDLE',
+			}),
 		].filter((x) => x) as PluginContainer[]
 	)
 }
 
 /**
- * Creates a map element that has the {@link enabledPlugins} included in a defaulted combination.
- *
- *
- * See {@link coreCreateMap | createMap} and {@link coreAddPlugins | addPlugins} for general information.
+ * Creates a map element that has the plugins mentioned in {@link mapConfiguration}. This is a simplified version of the map
+ * creation that goes with commonly used and expected defaults. For more flexibility, you can use
+ * {@link coreCreateMap | createMap} and {@link coreAddPlugins | addPlugins} directly.
  *
  * @param containerId - ID of the container the map will render itself in.
  * @param serviceRegister - Service register given as an array, or a URL to fetch this from.
- * @param mapConfiguration - Configuration options.
- * @param enabledPlugins - IDs of the plugins that should be enabled. Defaults to none. Note that the plugins with the
- * 												ids 'fullscreen', 'geoLocation' and 'layerChooser' are added to the iconMenu.
- * 												Using either of those requires the iconMenu to be added as well.
+ * @param mapConfiguration - Configuration options. Only plugins that have a configuration will be created. To
+ * 													enable a plugin with default configuration, add its key with an empty object. The
+ * 													plugins with the ids 'fullscreen', 'geoLocation' and 'layerChooser' are added to the iconMenu.
+ * 													IconMenu. The IconMenu, Toast, LayerChooser and LoadingIndicator are enabled by default.
  * @param modifyServiceRegister - Optionally modify the serviceRegister. This may be useful if a pre-existing register is used.
  *
  * @example
@@ -120,7 +114,6 @@ export async function createMap(
 	containerId: string,
 	serviceRegister: MasterportalApiServiceRegister | string,
 	mapConfiguration: MapConfiguration,
-	enabledPlugins: PluginId[] = [],
 	modifyServiceRegister: (
 		register: MasterportalApiServiceRegister
 	) => MasterportalApiServiceRegister = (x) => x
@@ -136,7 +129,7 @@ export async function createMap(
 		mapConfiguration,
 		register
 	)
-	addPlugins(map, enabledPlugins)
+	addPlugins(map, Object.keys(mapConfiguration))
 
 	return map
 }
