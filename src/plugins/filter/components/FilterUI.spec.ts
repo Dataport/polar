@@ -17,8 +17,7 @@ const test = _test.extend<{
 }>({
 	wrapper: async ({}, use) => {
 		vi.mock('i18next', () => ({
-			getFixedT: (_: unknown, ns: string) => (keyFn, opts) =>
-				mockedT(keyFn, { ...opts, ns }),
+			t: (keyFn, opts) => mockedT(keyFn, opts),
 		}))
 		const wrapper = mount(FilterUI, {
 			attachTo: document.body,

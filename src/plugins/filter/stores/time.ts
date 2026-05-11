@@ -1,4 +1,4 @@
-import { getFixedT } from 'i18next'
+import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
@@ -12,9 +12,6 @@ import { useFilterMainStore } from './main'
 export const useFilterTimeStore = defineStore('plugins/filter/time', () => {
 	const minDate = new Date(-8640000000000000)
 	const maxDate = new Date(8640000000000000)
-
-	// TODO: This may be removed once count properly works with the normal "t" again
-	const t = getFixedT(null, PluginId)
 
 	const coreStore = useCoreStore()
 	const filterMainStore = useFilterMainStore()
@@ -181,24 +178,24 @@ export const useFilterTimeStore = defineStore('plugins/filter/time', () => {
 		return [
 			{
 				value: 'all',
-				label: t(($) => $.time.noRestriction),
+				label: t(($) => $.time.noRestriction, { ns: PluginId }),
 				icon: 'kern-icon--all-inclusive',
 			},
 			...(configuration.value.last?.map((offset) => ({
 				value: `last-${offset}`,
-				label: t(($) => $.time.last, { count: offset }),
+				label: t(($) => $.time.last, { count: offset, ns: PluginId }),
 				icon: 'kern-icon--history' as Icon,
 			})) || []),
 			...(configuration.value.next?.map((offset) => ({
 				value: `next-${offset}`,
-				label: t(($) => $.time.next, { count: offset }),
+				label: t(($) => $.time.next, { count: offset, ns: PluginId }),
 				icon: 'kern-icon--timeline' as Icon,
 			})) || []),
 			...(configuration.value.freeSelection
 				? [
 						{
 							value: 'custom',
-							label: t(($) => $.time.chooseTimeFrame),
+							label: t(($) => $.time.chooseTimeFrame, { ns: PluginId }),
 							icon: 'kern-icon--calendar-month' as Icon,
 						},
 					]
