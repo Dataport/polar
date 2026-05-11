@@ -2,6 +2,7 @@ import type { VueElement } from 'vue'
 
 import type { AddressSearchPluginOptions } from '@/plugins/addressSearch'
 import type { AttributionsPluginOptions } from '@/plugins/attributions'
+import type { ExportPluginOptions } from '@/plugins/export/types'
 import type { FilterPluginOptions } from '@/plugins/filter'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
@@ -313,6 +314,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** Configuration for attributions plugin. */
 	attributions?: AttributionsPluginOptions
+
+	/** Configuration for export plugin. */
+	export?: ExportPluginOptions
 
 	/** Configuration for filter plugin. */
 	filter?: FilterPluginOptions

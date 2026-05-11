@@ -24,7 +24,7 @@
       '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"radius":779.3311236595036},"geometry":{"type":"Point","coordinates":[562905.3766030567,5935068.951517103]}},{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[[564254.7508743946,5934370.451894293],[565572.3751628775,5935719.8261656305]]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[566858.2494685053,5935021.326542821]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[568191.7487484157,5934354.576902865],[568953.7483369359,5935783.326131341],[569747.4979083112,5934354.576902865],[568191.7487484157,5934354.576902865]]]}}]}'
 
     render({
-      name: 'Draw & Export & Toast',
+      name: 'Draw &  & Toast',
       description: [
         "Allows the user to draw geospatial information and text to the map. The information can be forwarded both as GeoJSON and as screenshot producable by programmatic calls or, in this example, a screenshot button. It's also confiugurable to offer the image as download directly to the user.",
         'This also showcases how the toast plugin can be used to inform users about the process, as progress outside the map can easily be missed.',
@@ -69,11 +69,6 @@
               fillColor: '#e51313',
             },
           },
-        },
-        export: {
-          showPng: true,
-          showJpg: false,
-          showPdf: false,
         },
       },
       postCreation: ({ mapClient, id }) => {
