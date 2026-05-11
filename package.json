@@ -130,7 +130,7 @@
 		"vite-plugin-kern-extra-icons": "^0.6.1",
 		"vite-plugin-vue-devtools": "^8.1.1",
 		"vitest": "^4.1.4",
-		"vue": "^3.5.26",
+		"vue": "^3.5.34",
 		"vue-tsc": "^3.2.1",
 		"xml2js": "^0.6.2"
 	},
