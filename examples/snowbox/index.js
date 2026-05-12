@@ -490,6 +490,16 @@ addPlugin(
 					}),
 				},
 			],
+			[
+				{
+					plugin: pluginZoom({
+						displayComponent: true,
+						layoutTag: 'MIDDLE_RIGHT',
+						showZoomSlider: true,
+						orientation: 'vertical',
+					}),
+				},
+			],
 		],
 	})
 )
@@ -517,16 +527,6 @@ addPlugin(
 				limitResults: 5,
 			},
 		},
-	})
-)
-
-addPlugin(
-	map,
-	pluginZoom({
-		displayComponent: true,
-		layoutTag: 'MIDDLE_RIGHT',
-		showZoomSlider: true,
-		orientation: 'vertical',
 	})
 )
 
