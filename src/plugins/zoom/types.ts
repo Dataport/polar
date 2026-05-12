@@ -11,11 +11,13 @@ export const PluginId = 'zoom'
 export interface ZoomIconOptions {
 	/**
 	 * Icon for the zoom-in button.
+	 * @defaultValue 'kern-icon--zoom-in'
 	 */
 	zoomIn?: Icon
 
 	/**
 	 * Icon for the zoom-out button.
+	 * @defaultValue 'kern-icon--zoom-out'
 	 */
 	zoomOut?: Icon
 }
@@ -28,14 +30,6 @@ export interface ZoomPluginOptions extends PluginOptions {
 	 * Override the default icons for the zoom buttons.
 	 */
 	icons?: ZoomIconOptions
-
-	/**
-	 * Orientation of the UI elements.
-	 *
-	 * @defaultValue `'horizontal'`
-	 * @alpha
-	 */
-	orientation?: 'horizontal' | 'vertical'
 
 	/**
 	 * Render type.

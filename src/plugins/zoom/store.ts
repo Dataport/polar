@@ -57,10 +57,8 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 
 	const zoomSliderVisible = computed(() => configuration.value.showZoomSlider)
 
-	const renderType = computed(() =>
-		configuration.value.renderType === 'iconMenu'
-			? 'iconMenu'
-			: (configuration.value.orientation ?? 'horizontal')
+	const renderType = computed(
+		() => configuration.value.renderType ?? 'independent'
 	)
 
 	return {
@@ -131,7 +129,6 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 
 		/**
 		 * Defines the rendering type.
-		 * This may be `iconMenu` or the configured orientation otherwise.
 		 *
 		 * @alpha
 		 * @readonly

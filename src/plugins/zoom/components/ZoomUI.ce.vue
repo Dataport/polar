@@ -3,13 +3,7 @@
 		<ZoomButtons v-if="zoomStore.zoomButtonsVisible" />
 		<ZoomSlider v-if="zoomStore.zoomSliderVisible" />
 	</template>
-	<div
-		v-else
-		:class="{
-			'polar-plugin-zoom-ui': true,
-			vertical: zoomStore.renderType === 'vertical',
-		}"
-	>
+	<div v-else class="polar-plugin-zoom-ui">
 		<ZoomButtons v-if="zoomStore.zoomButtonsVisible" />
 		<ZoomSlider v-if="zoomStore.zoomSliderVisible" />
 	</div>
@@ -26,10 +20,6 @@ const zoomStore = useZoomStore()
 <style scoped>
 .polar-plugin-zoom-ui {
 	display: flex;
-	flex-direction: row;
-
-	&.vertical {
-		flex-direction: column;
-	}
+	flex-direction: column;
 }
 </style>
