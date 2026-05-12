@@ -1,4 +1,5 @@
 <template>
+	<!-- TODO: needs tooltip -->
 	<input
 		v-model="zoomStore.zoomLevel"
 		type="range"
