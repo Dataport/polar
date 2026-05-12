@@ -32,21 +32,15 @@ const parser = new Parser({
 	tagNameProcessors: [processors.stripPrefix],
 })
 
-let abortController: AbortController | null = null
-
 export async function reverseGeocodeWps(
 	url: string,
-	coordinate: [number, number]
+	coordinate: [number, number],
+	signal: AbortSignal
 ): Promise<ReverseGeocoderFeature> {
-	if (abortController) {
-		abortController.abort()
-		abortController = null
-	}
-	abortController = new AbortController()
 	const response = await fetch(url, {
 		method: 'POST',
 		body: buildPostBody(coordinate),
-		signal: abortController.signal,
+		signal,
 	})
 
 	const parsedBody = await parser.parseStringPromise(await response.text())
@@ -72,7 +66,7 @@ export async function reverseGeocodeWps(
 	}
 	/* eslint-enable @typescript-eslint/naming-convention */
 
-	const resultObject: ReverseGeocoderFeature = {
+	return {
 		type: 'reverse_geocoded',
 		title: `${properties.Strasse} ${properties.Hausnr}${properties.Zusatz}`,
 		properties,
@@ -87,7 +81,6 @@ export async function reverseGeocodeWps(
 			type: 'Point',
 		},
 	}
-	return resultObject
 }
 
 if (import.meta.vitest) {
@@ -143,14 +136,18 @@ if (import.meta.vitest) {
 		const fetchMock = vi.spyOn(global, 'fetch').mockResolvedValueOnce({
 			text: () => Promise.resolve(testResponse),
 		} as Response)
-
-		const feature = await reverseGeocodeWps(testUrl, testCoordinates)
+		const abortController = new AbortController()
+		const feature = await reverseGeocodeWps(
+			testUrl,
+			testCoordinates,
+			abortController.signal
+		)
 
 		expect(fetchMock).toHaveBeenCalledOnce()
 		expect(fetchMock).toHaveBeenCalledWith(testUrl, {
 			method: 'POST',
 			body: buildPostBody(testCoordinates),
-			signal: abortController?.signal,
+			signal: abortController.signal,
 		})
 
 		expect(feature).toEqual<ReverseGeocoderFeature>({

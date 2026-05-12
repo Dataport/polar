@@ -41,7 +41,11 @@
 						aria-hidden="true"
 					/>
 					Official
-					<a class="kern-link" href="https://www.osgeo.org/projects/polar/" target="_blank">
+					<a
+						class="kern-link"
+						href="https://www.osgeo.org/projects/polar/"
+						target="_blank"
+					>
 						OSGeo community project
 					</a>
 				</li>

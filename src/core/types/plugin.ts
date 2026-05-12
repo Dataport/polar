@@ -7,6 +7,9 @@ import type { useAddressSearchStore as AddressSearchStore } from '@/plugins/addr
 import type { PluginId as AttributionsPluginId } from '@/plugins/attributions'
 import type { resourcesEn as AttributionsResources } from '@/plugins/attributions/locales'
 import type { useAttributionsStore as AttributionsStore } from '@/plugins/attributions/store'
+import type { PluginId as ExportPluginId } from '@/plugins/export'
+import type { resourcesEn as ExportResources } from '@/plugins/export/locales'
+import type { useExportStore as ExportStore } from '@/plugins/export/store'
 import type { PluginId as FilterPluginId } from '@/plugins/filter'
 import type { resourcesEn as FilterResources } from '@/plugins/filter/locales'
 import type { useFilterStore as FilterStore } from '@/plugins/filter/store'
@@ -33,6 +36,9 @@ import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugin
 import type { PluginId as PinsPluginId } from '@/plugins/pins'
 import type { resourcesEn as PinsResources } from '@/plugins/pins/locales'
 import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
+import type { PluginId as PointerPositionPluginId } from '@/plugins/pointerPosition'
+import type { resourcesEn as PointerPositionResources } from '@/plugins/pointerPosition/locales'
+import type { usePointerPositionStore as PointerPositionStore } from '@/plugins/pointerPosition/store'
 import type { PluginId as ReverseGeocoderPluginId } from '@/plugins/reverseGeocoder'
 import type { useReverseGeocoderStore as ReverseGeocoderStore } from '@/plugins/reverseGeocoder/store'
 import type { PluginId as ScalePluginId } from '@/plugins/scale'
@@ -52,17 +58,20 @@ import type { Icon } from './theme'
 /**
  * Generic options for all plugins.
  *
- * ## Custom Plugin Positioning ({@link MapConfiguration.layout | Standard Layout})
+ * ## Custom Plugin Positioning
  *
- * When `layout` is set to `'standard'`, a custom plugin can be rendered in one of two ways:
+ * There are two implemented layouting systems in POLAR configured by {@link MapConfiguration.layout}.
  *
- * 1. **As part of the IconMenu**: Set {@link PluginOptions.renderType | renderType}
- * 		to `'iconMenu'` and configure the plugin in the IconMenu's
+ * If `layout` is set to `'nineRegions'` all plugins are placed in a predefined region grid.
+ * Use {@link PluginOptions.displayComponent | displayComponent} to control visibility
+ * and {@link PluginOptions.layoutTag | layoutTag} to specify the target region.
+ *
+ * If `layout` is set to `'standard'`, a plugin can be rendered in one of two ways:
+ * 1. **As part of the IconMenu**: Configure the plugin in the IconMenu's
  * 		{@link IconMenuPluginOptions.menus | `menus`} configuration.
  * 		The IconMenu will handle positioning and rendering the plugin at the designated location.
- *
- * 2. **Independent with CSS positioning**: Set {@link PluginOptions.renderType | renderType}
- * 		to `'independent'` (default). The plugin is responsible for its own positioning
+ * 2. **Independent with CSS positioning**: Directly add the plugin with
+ * 		{@link addPlugin}. The plugin is responsible for its own positioning
  * 		using CSS (e.g., `position: absolute`) within the map container.
  */
 export interface PluginOptions {
@@ -80,14 +89,6 @@ export interface PluginOptions {
 	 * ignored otherwise.
 	 */
 	layoutTag?: keyof typeof NineLayoutTag
-
-	/**
-	 * Defines if the plugin is rendered independent or as part of the icon menu.
-	 * This is automatically set by the icon menu; you should not need to touch this.
-	 *
-	 * @defaultValue `'independent'`
-	 */
-	renderType?: 'independent' | 'iconMenu'
 }
 
 export interface BoundaryOptions {
@@ -138,6 +139,7 @@ export type PolarPluginStore<
 export type BundledPluginId =
 	| typeof AddressSearchPluginId
 	| typeof AttributionsPluginId
+	| typeof ExportPluginId
 	| typeof FilterPluginId
 	| typeof FooterPluginId
 	| typeof FullscreenPluginId
@@ -147,6 +149,7 @@ export type BundledPluginId =
 	| typeof LayerChooserPluginId
 	| typeof LoadingIndicatorId
 	| typeof PinsPluginId
+	| typeof PointerPositionPluginId
 	| typeof ReverseGeocoderPluginId
 	| typeof ScalePluginId
 	| typeof ToastPluginId
@@ -165,6 +168,7 @@ type GetPluginStore<
 export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof AddressSearchPluginId, typeof AddressSearchStore>
 	| GetPluginStore<T, typeof AttributionsPluginId, typeof AttributionsStore>
+	| GetPluginStore<T, typeof ExportPluginId, typeof ExportStore>
 	| GetPluginStore<T, typeof FilterPluginId, typeof FilterStore>
 	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
@@ -174,6 +178,11 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
 	| GetPluginStore<T, typeof LoadingIndicatorId, typeof LoadingIndicatorStore>
 	| GetPluginStore<T, typeof PinsPluginId, typeof PinsStore>
+	| GetPluginStore<
+			T,
+			typeof PointerPositionPluginId,
+			typeof PointerPositionStore
+	  >
 	| GetPluginStore<
 			T,
 			typeof ReverseGeocoderPluginId,
@@ -201,6 +210,7 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof AttributionsPluginId,
 			typeof AttributionsResources
 	  >
+	| GetPluginResources<T, typeof ExportPluginId, typeof ExportResources>
 	| GetPluginResources<T, typeof FilterPluginId, typeof FilterResources>
 	| GetPluginResources<T, typeof FooterPluginId, typeof FooterResources>
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
@@ -217,6 +227,11 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof LayerChooserResources
 	  >
 	| GetPluginResources<T, typeof PinsPluginId, typeof PinsResources>
+	| GetPluginResources<
+			T,
+			typeof PointerPositionPluginId,
+			typeof PointerPositionResources
+	  >
 	| GetPluginResources<T, typeof ScalePluginId, typeof ScaleResources>
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 	| GetPluginResources<T, typeof ZoomPluginId, typeof ZoomResources>

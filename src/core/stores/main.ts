@@ -1,5 +1,4 @@
 import type { Feature, Map } from 'ol'
-import type { Extent } from 'ol/extent'
 import type { Point } from 'ol/geom'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
@@ -31,7 +30,7 @@ export const useMainStore = defineStore('main', () => {
 			defaults
 		)
 	)
-	const extent = ref<Extent>([0, 0, 0, 0])
+	const extent = ref([0, 0, 0, 0])
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)

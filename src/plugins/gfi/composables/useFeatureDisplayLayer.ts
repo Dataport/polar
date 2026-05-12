@@ -9,7 +9,7 @@ import { onScopeDispose, watch, type Ref } from 'vue'
 
 function getFeatureDisplayLayer() {
 	const featureDisplayLayer = new VectorLayer({
-		source: new Vector<Feature>({
+		source: new Vector({
 			features: [],
 		}),
 	})

@@ -185,7 +185,7 @@ li > :deep(.polar-icon-button) {
 			overflow-y: auto;
 			scrollbar-gutter: stable;
 		}
-  }
+	}
 
 	.polar-plugin-icon-menu-list-item:nth-child(n + 2) {
 		margin-top: 3px;

@@ -175,10 +175,14 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			.some(
 				(interaction) =>
 					(interaction instanceof Draw &&
-						// @ts-expect-error | internal hack to detect it from @polar/plugin-gfi and @polar/plugin-draw
-						(interaction._isMultiSelect || interaction._isDrawPlugin)) ||
+						// @ts-expect-error | internal hack to detect it from gfi plugin
+						(interaction._isMultiSelect ||
+							// @ts-expect-error | internal hack to detect it from routing plugin
+							interaction._isRoutingDraw ||
+							// @ts-expect-error | internal hack to detect it from draw plugin
+							interaction._isDrawPlugin)) ||
 					interaction instanceof Modify ||
-					// @ts-expect-error | internal hack to detect it from @polar/plugin-draw
+					// @ts-expect-error | internal hack to detect it from draw plugin
 					interaction._isDeleteSelect
 			)
 		const { minZoomLevel, movable } = configuration.value

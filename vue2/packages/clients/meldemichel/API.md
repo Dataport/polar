@@ -102,7 +102,7 @@ A document rendering the map client could e.g. look like this:
         vendor_maps_address_str: 'Alte Rabenstraße',
         vendor_maps_address_hnr: '28',
         mapZoomLevel: 6,
-        mapBaseLayer: 452,
+        mapBaseLayer: 34127,
         mapCenter: '566808.8386735287,5935896.23173797',
         // NOTE: vendor_maps_distance_to and -_plz are not read
       })

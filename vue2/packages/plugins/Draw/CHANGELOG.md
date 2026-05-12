@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## unpublished
+## 3.2.0
 
-- Feature: Add new `revision` parameter that, if set, adds an additional export with modifications and additional information to the drawn geometries.
+- Feature: Add new `revision` parameter that, if set, adds another export with modifications and additional information to the drawn geometries.
 - Feature: Add new mode `'cut'` to allow users to cut polygons in parts.
 - Feature: Add new mode `'merge'` to allow users to merge drawn polygons with a then-to-be-drawn merge polygon.
 - Feature: Add new mode `'duplicate'` to allow users to copy drawn features.

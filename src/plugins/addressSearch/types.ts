@@ -180,6 +180,15 @@ export interface SearchMethodConfiguration {
 	 * Its contents vary by service type, see {@link BKGParameters}, {@link MpapiParameters}, {@link WfsParameters} or {@link NominatimParameters}.
 	 */
 	queryParameters?: QueryParameters
+
+	/**
+	 * The function will receive the full FeatureCollection object that may be reduced before returning it.
+	 * The resultModifier function will be called before adding anything to the store.
+	 * Programming knowledge required.
+	 */
+	resultModifier?: (
+		object: PolarGeoJsonFeatureCollection
+	) => PolarGeoJsonFeatureCollection
 }
 
 export type SearchMethodFunction = (

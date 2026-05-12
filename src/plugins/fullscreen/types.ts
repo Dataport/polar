@@ -10,6 +10,14 @@ export const PluginId = 'fullscreen'
  */
 export interface FullscreenPluginOptions extends PluginOptions {
 	/**
+	 * Defines if the plugin is rendered independent or as part of the icon menu.
+	 * This is automatically set by the icon menu; you should not need to touch this.
+	 *
+	 * @defaultValue `'independent'`
+	 */
+	renderType?: 'independent' | 'iconMenu'
+
+	/**
 	 * Defines the target container to show in fullscreen mode.
 	 * This defaults to the web component (i.e., the map with its plugin controls).
 	 *

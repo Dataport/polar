@@ -1,17 +1,10 @@
-import {
-  PolarActionContext,
-  PolarActionHandler,
-  PolarStore,
-} from '@polar/lib-custom-types'
+import { PolarActionContext, PolarStore } from '@polar/lib-custom-types'
 import debounce from 'lodash.debounce'
 import { Feature } from 'ol'
 import VectorSource, { VectorSourceEvent } from 'ol/source/Vector'
 import { GeometrySearchGetters, GeometrySearchState } from '../../types'
 
-let debouncedSearchGeometry: PolarActionHandler<
-  GeometrySearchState,
-  GeometrySearchGetters
->
+let debouncedSearchGeometry
 
 export function setupDrawReaction(
   this: PolarStore<GeometrySearchState, GeometrySearchGetters>,
@@ -35,7 +28,6 @@ export function setupDrawReaction(
       lastFeature = nextFeature
       drawSource.clear()
       drawSource.addFeature(nextFeature)
-      // @ts-expect-error | The function is bound and hence already has context.
       debouncedSearchGeometry(nextFeature)
     }
   })

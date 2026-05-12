@@ -29,5 +29,4 @@ logs/*.log
 logs
 *.patch
 !/patches/**/*.patch
-
 .DS_Store

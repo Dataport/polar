@@ -102,6 +102,8 @@ export interface ModalState {
 export interface DishUrlParams {
   internalHost: string
   internServicesBaseUrl: string
+  printHostDeegree: string
+  printServicesBaseUrl: string
 }
 
 export interface DishMapConfig
@@ -123,8 +125,18 @@ export interface DishMapConfig
     propertyNameWFS: string
     filterTypeWFS: string
     printImagePath: string
-    urlParams: DishUrlParams
+    wmsLayerUrl: string
+    wfsLayerUrl: string
+    wfsLayerFeatureType: string
+    printImageUrlProd: string
+    exportMapAsPdfUrl: string
+    backgroundLayer: backgroundLayer
   }
+}
+
+export interface backgroundLayer {
+  url: string
+  layers: string
 }
 
 export interface SelectionObjectState {

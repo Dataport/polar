@@ -38,7 +38,7 @@
 					:aria-label="ariaLabel"
 					aria-describedby="polar-plugin-address-search-input-description"
 					@keydown.enter="addressSearchStore.abortAndRequest"
-					@keydown.down.prevent.stop="inputDown"
+					@keydown.down="inputDown"
 				/>
 				<SmallLoader
 					v-if="isLoading"

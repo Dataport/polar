@@ -1,11 +1,12 @@
-import { PolarActionContext } from '@polar/lib-custom-types'
-import { FeatureCollection } from 'geojson'
-import { DrawGetters, DrawState, GeometryType } from '../../types'
-import { validateGeoJson } from './validateGeoJson'
-import { enrichWithMetaServices } from './enrichWithMetaServices'
+import type { PolarActionContext } from '@polar/lib-custom-types'
+import type { FeatureCollection } from 'geojson'
+import type { DrawGetters, DrawState, GeometryType } from '../../types'
 import { complete, error, inProgress } from './revisionStates'
-import { cloneFeatureCollection } from './cloneFeatureCollection'
 import { autofixFeatureCollection } from './autofix'
+import { cloneFeatureCollection } from './cloneFeatureCollection'
+import { enrichWithMetaServices } from './enrichWithMetaServices'
+import { mergeToMultiGeometries } from './mergeToMultiGeometries'
+import { validateGeoJson } from './validateGeoJson'
 
 let abortController: AbortController | null = null
 
@@ -44,6 +45,12 @@ export const reviseFeatures = async ({
       )
       return
     }
+  }
+
+  // merge first; relevant for both follow-up steps
+  if (revision.mergeToMultiGeometries) {
+    // TODO: turf provides "union" and "combine" methods, probably just use them
+    revisedFeatureCollection = mergeToMultiGeometries(revisedFeatureCollection)
   }
 
   if (revision.validate) {

@@ -183,12 +183,12 @@ export const useFilterTimeStore = defineStore('plugins/filter/time', () => {
 			},
 			...(configuration.value.last?.map((offset) => ({
 				value: `last-${offset}`,
-				label: t(($) => $.time.last, { ns: PluginId, count: offset }),
+				label: t(($) => $.time.last, { count: offset, ns: PluginId }),
 				icon: 'kern-icon--history' as Icon,
 			})) || []),
 			...(configuration.value.next?.map((offset) => ({
 				value: `next-${offset}`,
-				label: t(($) => $.time.next, { ns: PluginId, count: offset }),
+				label: t(($) => $.time.next, { count: offset, ns: PluginId }),
 				icon: 'kern-icon--timeline' as Icon,
 			})) || []),
 			...(configuration.value.freeSelection

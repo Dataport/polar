@@ -73,7 +73,7 @@ export const phases: Phase[] = [
 			},
 		],
 	},
-		{
+	{
 		status: 'done',
 		label: 'Q1 · 2026',
 		sublabel: 'Completed',
@@ -84,7 +84,7 @@ export const phases: Phase[] = [
 				title: 'OSGeo Community Project',
 				body: 'POLAR has been accepted as an OSGeo community project, fostering open collaboration and wider adoption.',
 				accentIcon: 'groups',
-			}
+			},
 		],
 	},
 	{
