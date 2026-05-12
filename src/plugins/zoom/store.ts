@@ -38,10 +38,10 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 	const minimumZoomLevel = computed(() => Math.min(...zoomLevels.value))
 	const maximumZoomLevel = computed(() => Math.max(...zoomLevels.value))
 	const minimumZoomLevelActive = computed(
-		() => coreStore.zoom === minimumZoomLevel.value
+		() => zoomLevel.value === minimumZoomLevel.value
 	)
 	const maximumZoomLevelActive = computed(
-		() => coreStore.zoom === maximumZoomLevel.value
+		() => zoomLevel.value === maximumZoomLevel.value
 	)
 
 	const zoomButtonsVisible = computed(
