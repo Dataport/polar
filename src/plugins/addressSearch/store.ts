@@ -239,7 +239,7 @@ export const useAddressSearchStore = defineStore(
 								? // @ts-expect-error | Other values can be used.
 									t(properties.label)
 								: t(($) => $.defaultLabel, { ns: PluginId }),
-							features: resultModifier ? resultModifier(features) : features,
+							features: resultModifier?.(features) ?? features,
 							groupId: groupId || 'defaultGroup',
 						}
 					}
