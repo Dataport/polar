@@ -53,7 +53,6 @@ const { formattedPointerPosition, availableProjections, selectedProjection } =
 	align-items: center;
 
 	gap: var(--kern-metric-space-small);
-	margin: var(--kern-metric-space-2x-small);
 	padding: var(--kern-metric-space-2x-small) var(--kern-metric-space-small);
 	border-radius: var(--kern-metric-border-radius-large);
 
