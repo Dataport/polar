@@ -6,7 +6,6 @@
 		:max="zoomStore.maximumZoomLevel"
 		:step="1"
 		:aria-label="$t(($) => $.slider, { ns: PluginId })"
-		:class="{ vertical: zoomStore.renderType === 'vertical' }"
 	/>
 </template>
 
@@ -20,11 +19,8 @@ const zoomStore = useZoomStore()
 <style scoped>
 input {
 	margin: var(--kern-metric-space-small);
+	margin-left: var(--kern-metric-space-large);
 	width: 12em;
-
-	&.vertical {
-		margin-left: var(--kern-metric-space-large);
-		transform: translateX(-50%) translateY(-50%) rotate(-90deg) translateX(-50%);
-	}
+	transform: translateX(-50%) translateY(-50%) rotate(-90deg) translateX(-50%);
 }
 </style>
