@@ -1,4 +1,5 @@
 <template>
+	<!-- TODO: tooltip direction -->
 	<PolarIconButton
 		:hint="$t(($) => $.zoomIn, { ns: PluginId })"
 		:icon="zoomStore.zoomInIcon"
@@ -7,6 +8,7 @@
 		class="polar-plugin-zoom-icon-button"
 		@click="zoomStore.zoomLevel++"
 	/>
+	<!-- TODO: tooltip direction -->
 	<PolarIconButton
 		:hint="$t(($) => $.zoomOut, { ns: PluginId })"
 		:icon="zoomStore.zoomOutIcon"
@@ -27,15 +29,7 @@ const zoomStore = useZoomStore()
 </script>
 
 <style scoped>
-.polar-plugin-zoom-icon-button {
-	margin: var(--kern-metric-space-small);
-
-	&:nth-child(n + 2) {
-		margin-top: 0;
-	}
-}
-
-:global(.polar-plugin-icon-menu-list-item button) {
-	margin: 0;
+.polar-plugin-zoom-icon-button:first-child {
+	margin-bottom: var(--kern-metric-space-small);
 }
 </style>
