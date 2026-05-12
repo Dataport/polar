@@ -29,7 +29,7 @@ export default defineConfig({
 		outDir: resolve(__dirname, 'examples', 'github-io', 'dist'),
 		chunkSizeWarningLimit: 1536,
 		emptyOutDir: true,
-		rollupOptions: {
+		rolldownOptions: {
 			external: ['@polar/polar', '@polar/polar/client', '@polar/polar/store'],
 			input: resolve(__dirname, 'examples', 'github-io', 'index.html'),
 			output: {
