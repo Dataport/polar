@@ -1,0 +1,1 @@
+import{n as e,o as t}from"./pinia2.js";export{e as createPinia,t as setActivePinia};
