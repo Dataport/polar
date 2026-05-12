@@ -58,7 +58,7 @@ polar.createMap({
 />
 ```
 
-See our [documentation page](https://dataport.github.io/polar/) for all features and configuration options included in this modulith client, with running examples.
+See our [documentation page](https://dataport.github.io/polar/main/) for all features and configuration options included in this modulith client, with running examples.
 
 ## Example clients
 
@@ -105,7 +105,7 @@ POLAR runs both as full page application and as component. The most common usage
 
 ### Plugin-based approach
 
-To see our plugins in action, please visit our [documentation page](https://dataport.github.io/polar/) to see running examples. Plugins are designed to be configurable, optional, and replacable.
+To see our plugins in action, please visit our [documentation page](https://dataport.github.io/polar/main) to see running examples. Plugins are designed to be configurable, optional, and replacable.
 
 |Name|Details|
 |-|-|
