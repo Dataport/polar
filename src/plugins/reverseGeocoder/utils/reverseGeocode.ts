@@ -66,7 +66,7 @@ export async function reverseGeocode(
 	}
 	/* eslint-enable @typescript-eslint/naming-convention */
 
-	const resultObject: ReverseGeocoderFeature = {
+	return {
 		type: 'reverse_geocoded',
 		title: `${properties.Strasse} ${properties.Hausnr}${properties.Zusatz}`,
 		properties,
@@ -81,7 +81,6 @@ export async function reverseGeocode(
 			type: 'Point',
 		},
 	}
-	return resultObject
 }
 
 if (import.meta.vitest) {

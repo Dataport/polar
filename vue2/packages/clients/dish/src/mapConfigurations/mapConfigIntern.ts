@@ -12,7 +12,7 @@ import {
   verwaltung,
 } from '../servicesConstants'
 import { shBlue } from '../colors'
-import { DishMapConfig, DishUrlParams } from '../types'
+import { DishMapConfig, DishUrlParams, backgroundLayer } from '../types'
 import {
   categoryProps,
   groupProperties,
@@ -27,7 +27,6 @@ import {
 } from './attributionsConfig'
 
 export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
-  checkServiceAvailability: true,
   scale: {
     showScaleSwitcher: true,
     zoomMethod: 'plugin/zoom/setZoomLevel',
@@ -51,15 +50,15 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       },
       {
         id: denkmaelerWMS,
-        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Kulturdenkmale (Denkmalliste): © ${denkmalAmtLink}`,
       },
       {
         id: kontrollbedarf,
-        title: `Karte Objekte mit Kontrollbedarf: © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Objekte mit Kontrollbedarf: © ${denkmalAmtLink}`,
       },
       {
         id: verlust,
-        title: `Karte Verlust: © ${denkmalAmtLink} <MONTH> <YEAR>`,
+        title: `Karte Verlust: © ${denkmalAmtLink}`,
       },
       {
         id: verwaltung,
@@ -68,8 +67,8 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
       attributionsAlkisWms,
     ],
     staticAttributions: [
-      `<span>Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/">BKG</a> 2024 <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf">Nutzungsbedingungen</a></span>`,
-      '<a href="#" onclick="window.openBenutzungshinweise(true)">Benutzungshinweise</a>',
+      `<span>Dienst für Adressuche: Geobasisdaten: © GeoBasis-DE / <a href="https://www.bkg.bund.de/" target="_blank">BKG</a> <YEAR> <a href="http://sg.geodatenzentrum.de/web_public/nutzungsbedingungen.pdf" target="_blank">Nutzungsbedingungen</a></span>`,
+      `<span>Dienst für Flurstückssuche: © ${vermessungsAmtLink}</span>`,
     ],
   },
   dishModal: {
@@ -152,7 +151,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
         width: 3,
       },
       fill: {
-        color: 'rgb(255, 255, 255, 0.7)',
+        color: 'rgb(255, 255, 255, 0)',
       },
     },
   },
@@ -177,6 +176,14 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
     propertyNameWFS: 'objektid',
     filterTypeWFS: 'EQUAL_TO',
     printImagePath: 'ContentMapsTmp',
-    urlParams,
+    wmsLayerUrl: `${urlParams.printServicesBaseUrl}/wms`,
+    wfsLayerUrl: `${urlParams.printServicesBaseUrl}/wfs`,
+    wfsLayerFeatureType: 'app:TBLGIS_ORA',
+    printImageUrlProd: `${urlParams.printHostDeegree}/Content/MapsTmp`,
+    exportMapAsPdfUrl: `${urlParams.printHostDeegree}/Content/Objekt/Kartenausgabe.aspx`,
+    backgroundLayer: {
+      url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+      layers: 'de_basemapde_web_raster_grau',
+    } as backgroundLayer,
   },
 })

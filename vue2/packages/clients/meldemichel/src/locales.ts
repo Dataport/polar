@@ -96,10 +96,12 @@ const locales: Locale[] = [
           layerName: {
             6059: 'Meldungen — Filter',
             6061: 'Meldungen (Stage) — Filter',
+            'anliegen-jenfeld': 'Meldungen Jenfeld — Filter',
           },
           category: {
             6059: filterCategory,
             6061: filterCategory,
+            'anliegen-jenfeld': filterCategory,
           },
         },
         geoLocation: {
@@ -164,3 +166,21 @@ locales.forEach((locale) => {
 })
 
 export default locales
+
+export const jenfeldLocales = JSON.parse(JSON.stringify(locales))
+
+jenfeldLocales[0].resources.plugins.geoLocation.toast.notInBoundary =
+  jenfeldLocales[0].resources.plugins.geoLocation.toast.notInBoundary.replaceAll(
+    'Hamburg',
+    'Jenfeld'
+  )
+jenfeldLocales[0].resources.plugins.geoLocation.toast.boundaryError =
+  jenfeldLocales[0].resources.plugins.geoLocation.toast.boundaryError.replaceAll(
+    'Hamburg',
+    'Jenfeld'
+  )
+jenfeldLocales[0].resources.plugins.pins.toast.notInBoundary =
+  jenfeldLocales[0].resources.plugins.pins.toast.notInBoundary.replaceAll(
+    'Hamburg',
+    'Jenfeld'
+  )

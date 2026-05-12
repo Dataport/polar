@@ -23,6 +23,8 @@ export const dishModalDe = {
     },
     hintsIntern: {
       mainTitle: 'Interne Denkmalkarte Schleswig-Holstein',
+      title:
+        'Nutzungsregeln für die Verwendung von DISH durch die Mitarbeiterinnen und Mitarbeiter der Unteren Denkmalschutzbehörden',
     },
   },
 } as const

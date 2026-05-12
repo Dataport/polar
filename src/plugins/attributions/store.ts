@@ -53,8 +53,8 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	const renderType = computed(
 		() => configuration.value.renderType || 'independent'
 	)
-	const staticAttributions = computed<string[]>(
-		() => configuration.value.staticAttributions || []
+	const staticAttributions = computed(() =>
+		(configuration.value.staticAttributions || []).map(formatAttributionText)
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
 
