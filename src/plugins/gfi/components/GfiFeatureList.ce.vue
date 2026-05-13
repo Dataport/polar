@@ -34,9 +34,9 @@
 			@mouseenter="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
 			@mouseleave="gfiStore.hoveredFeatures = {}"
 		>
-			<h2 class="kern-title kern-title--small">
+			<h3 class="kern-title kern-title--small">
 				{{ gfiStore.listGetText(feature, 'title') }}
-			</h2>
+			</h3>
 			{{ gfiStore.listGetText(feature, 'subtitle') }}
 			<br />
 			<em>{{ gfiStore.listGetText(feature, 'subSubtitle') }}</em>
