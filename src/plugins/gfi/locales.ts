@@ -34,9 +34,6 @@ export const resourcesDe = {
 		'Derzeit ist kein Kartenmaterial mit passenden Objekten eingeschaltet.',
 	list: {
 		header: 'Objektliste',
-		entry: 'Eintrag',
-		to: 'bis',
-		of: 'von',
 		emptyView: 'Im aktuellen Kartenausschnitt sind keine Objekte enthalten.',
 	},
 } as const
@@ -65,9 +62,6 @@ export const resourcesEn = {
 	noActiveLayer: 'Currently, no map layer with fitting objects is active.',
 	list: {
 		header: 'Feature list',
-		entry: 'Entry',
-		to: 'to',
-		of: 'of',
 		emptyView: 'There are no features in the current view.',
 	},
 } as const

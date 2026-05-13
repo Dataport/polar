@@ -20,6 +20,7 @@ export const resourcesDe = {
 		next: 'Nächste Seite',
 		previous: 'Vorherige Seite',
 		wrapper: 'Seitenauswahl',
+		entries: 'Eintrag {{start}} bis {{end}} von {{total}}',
 	},
 } as const
 
@@ -34,6 +35,7 @@ export const resourcesEn = {
 		next: 'Nächste Seite',
 		previous: 'Vorherige Seite',
 		wrapper: 'Seitenauswahl',
+		entries: 'Entry {{start}} to {{end}} of {{total}}',
 	},
 } as const
 

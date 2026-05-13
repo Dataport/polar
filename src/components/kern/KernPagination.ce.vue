@@ -1,4 +1,14 @@
 <template>
+	<p class="kern-body kern-body--small kern-body--muted">
+		{{
+			$t(($) => $.pagination.entries, {
+				ns: 'shared',
+				start: startIndex + 1,
+				end: Math.min(props.count, startIndex + props.pageSize),
+				total: props.count,
+			})
+		}}
+	</p>
 	<nav
 		v-if="pageCount > 1"
 		:aria-label="$t(($) => $.pagination.wrapper, { ns: 'shared' })"
