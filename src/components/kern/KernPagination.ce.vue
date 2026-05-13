@@ -152,13 +152,13 @@ ul {
 		pointer-events: none;
 
 		.kern-label {
-			color: white;
+			color: var(--kern-color-action-on-default);
 		}
 	}
 
 	.kern-label {
 		font-size: var(--kern-typography-font-size-static-small);
-		line-height: var(--kern-typography-line-height-static-small);
+		line-height: var(--kern-typography-line-height-static-medium);
 	}
 }
 </style>
