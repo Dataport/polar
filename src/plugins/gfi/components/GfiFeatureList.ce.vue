@@ -1,47 +1,54 @@
 <template>
-	<h2 class="kern-heading-medium">
-		{{ $t(($) => $.list.header, { ns: PluginId }) }}
-	</h2>
-	<p
-		v-if="gfiStore.listFlatFeatures.length === 0"
-		class="kern-body kern-body--small polar-plugin-gfi-list-empty-view"
-	>
-		{{ $t(($) => $.list.emptyView, { ns: PluginId }) }}
-	</p>
-	<template v-else>
-		<KernPagination
-			v-if="gfiStore.listPaginationActive"
-			v-model="gfiStore.listPaginationStartIndex"
-			:count="gfiStore.listFlatFeatures.length"
-			:page-size="gfiStore.listPageLength"
-		/>
-		<section
-			v-for="(
-				{ layerId, feature, hovered }, idx
-			) of gfiStore.listPaginatedFeatures"
-			:key="idx"
-			tabindex="0"
-			:class="{
-				hovered,
-			}"
-			@click="
-				(async () => {
-					gfiStore.hoveredFeatures = {}
-					await nextTick()
-					gfiStore.selectedFeatures = { [layerId]: [feature] }
-				})()
-			"
-			@mouseenter="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
-			@mouseleave="gfiStore.hoveredFeatures = {}"
+	<header class="kern-card__header">
+		<hgroup>
+			<h2 class="kern-heading-medium">
+				{{ $t(($) => $.list.header, { ns: PluginId }) }}
+			</h2>
+		</hgroup>
+	</header>
+	<section class="kern-card__body">
+		<p
+			v-if="gfiStore.listFlatFeatures.length === 0"
+			class="kern-body kern-body--small polar-plugin-gfi-list-empty-view"
 		>
-			<h3 class="kern-title kern-title--small">
-				{{ gfiStore.listGetText(feature, 'title') }}
-			</h3>
-			{{ gfiStore.listGetText(feature, 'subtitle') }}
-			<br />
-			<em>{{ gfiStore.listGetText(feature, 'subSubtitle') }}</em>
-		</section>
-	</template>
+			{{ $t(($) => $.list.emptyView, { ns: PluginId }) }}
+		</p>
+		<template v-else>
+			<KernPagination
+				v-if="gfiStore.listPaginationActive"
+				v-model="gfiStore.listPaginationStartIndex"
+				:count="gfiStore.listFlatFeatures.length"
+				:page-size="gfiStore.listPageLength"
+			/>
+			<section
+				v-for="(
+					{ layerId, feature, hovered }, idx
+				) of gfiStore.listPaginatedFeatures"
+				:key="idx"
+				tabindex="0"
+				:class="{
+					'feature-list-item': true,
+					hovered,
+				}"
+				@click="
+					(async () => {
+						gfiStore.hoveredFeatures = {}
+						await nextTick()
+						gfiStore.selectedFeatures = { [layerId]: [feature] }
+					})()
+				"
+				@mouseenter="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
+				@mouseleave="gfiStore.hoveredFeatures = {}"
+			>
+				<h3 class="kern-title kern-title--small">
+					{{ gfiStore.listGetText(feature, 'title') }}
+				</h3>
+				{{ gfiStore.listGetText(feature, 'subtitle') }}
+				<br />
+				<em>{{ gfiStore.listGetText(feature, 'subSubtitle') }}</em>
+			</section>
+		</template>
+	</section>
 </template>
 
 <script setup lang="ts">
@@ -60,7 +67,7 @@ const gfiStore = useGfiStore()
 	text-wrap: wrap;
 }
 
-section {
+section.feature-list-item {
 	width: 100%;
 	padding: var(--kern-metric-space-small);
 	overflow: hidden;
