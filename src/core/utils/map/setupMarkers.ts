@@ -96,7 +96,7 @@ function resolveClusterClick(map: Map, feature: Feature) {
  *
  * @param map - Map
  * @param feature - Feature to select
- * @param centerOnFeature - Should the map center on the feature?
+ * @param centerOnFeature - Whether the map should center on the feature
  */
 export function updateSelection(
 	map: Map,
