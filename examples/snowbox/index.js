@@ -493,8 +493,6 @@ addPlugin(
 			[
 				{
 					plugin: pluginZoom({
-						displayComponent: true,
-						layoutTag: 'MIDDLE_RIGHT',
 						showZoomSlider: true,
 						orientation: 'vertical',
 					}),
