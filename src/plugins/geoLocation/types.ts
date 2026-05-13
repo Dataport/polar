@@ -1,4 +1,4 @@
-import type { LayerBoundPluginOptions, InterfacePluginOptions } from '@/core'
+import type { InterfacePluginOptions, LayerBoundPluginOptions } from '@/core'
 
 /**
  * Plugin identifier.

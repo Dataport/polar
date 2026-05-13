@@ -5,7 +5,7 @@ import { Feature, Map } from 'ol'
 import { GeoJSON } from 'ol/format'
 import VectorLayer from 'ol/layer/Vector'
 import { Vector } from 'ol/source'
-import { onScopeDispose, watch, type Ref } from 'vue'
+import { onScopeDispose, type Ref, watch } from 'vue'
 
 function getFeatureDisplayLayer() {
 	const featureDisplayLayer = new VectorLayer({

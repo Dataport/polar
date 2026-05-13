@@ -57,7 +57,7 @@ import { nextTick } from 'vue'
 import KernPagination from '@/components/kern/KernPagination.ce.vue'
 
 import { useGfiStore } from '../store'
-import { PluginId } from '../types';
+import { PluginId } from '../types'
 
 const gfiStore = useGfiStore()
 </script>

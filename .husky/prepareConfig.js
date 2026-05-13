@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 
 let config = JSON.parse(readFileSync('.husky/defaults.json').toString())
 if (existsSync('git-hooks.config.json')) {

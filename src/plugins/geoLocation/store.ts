@@ -26,7 +26,7 @@ import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
 import { getTooltip } from '@/lib/tooltip'
 
-import type { PluginState, GeoLocationPluginOptions } from './types'
+import type { GeoLocationPluginOptions, PluginState } from './types'
 
 import { detectDeniedGeolocationEarly } from './utils/detectDeniedGeolocationEarly'
 import { getGeoLocationStyle } from './utils/olStyle'

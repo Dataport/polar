@@ -1,10 +1,10 @@
 import {
+	fetchServiceRegister,
 	type MapConfiguration,
 	type MasterportalApiServiceRegister,
+	type PluginContainer,
 	type PluginId,
 	type PolarContainer,
-	type PluginContainer,
-	fetchServiceRegister,
 } from '@/core'
 import {
 	addPlugins as coreAddPlugins,

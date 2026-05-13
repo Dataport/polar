@@ -5,8 +5,8 @@
 /* eslint-enable tsdoc/syntax */
 
 import type {
-	PluginContainer,
 	InterfacePluginOptions,
+	PluginContainer,
 	PolarPluginStore,
 } from '@/core'
 

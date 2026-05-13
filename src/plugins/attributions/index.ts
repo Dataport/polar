@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import AttributionsWrapper from './components/AttributionsWrapper.ce.vue'
 import locales from './locales'
 import { useAttributionsStore } from './store'
-import { PluginId, type AttributionsPluginOptions } from './types'
+import { type AttributionsPluginOptions, PluginId } from './types'
 
 /**
  * Creates a plugin which adds attributions (copyright information) regarding all currently active layers.

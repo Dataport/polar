@@ -9,9 +9,9 @@ import { useCoreStore } from '@/core/stores'
 
 import { useFeatureDisplayLayer } from '../composables/useFeatureDisplayLayer'
 import {
-	PluginId,
 	type CustomHighlightStyle,
 	type GfiPluginOptions,
+	PluginId,
 } from '../types'
 import { serializeFeature } from '../utils/serializeFeature'
 

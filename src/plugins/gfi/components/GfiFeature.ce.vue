@@ -1,5 +1,12 @@
 <template>
-	<div style="width: 100%; display: flex; justify-content: flex-end; gap: var(--kern-metric-space-default)">
+	<div
+		style="
+			width: 100%;
+			display: flex;
+			justify-content: flex-end;
+			gap: var(--kern-metric-space-default);
+		"
+	>
 		<PolarIconButton
 			v-if="gfiStore.exportProperty"
 			:hint="$t(($) => $.property.export, { ns: PluginId })"
@@ -83,8 +90,8 @@ import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useGfiStore } from '../store'
-import { isValidHttpUrl } from '../utils/isValidHttpUrl'
 import { PluginId } from '../types'
+import { isValidHttpUrl } from '../utils/isValidHttpUrl'
 
 const coreStore = useCoreStore()
 const gfiStore = useGfiStore()

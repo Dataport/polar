@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/ScaleWidget.ce.vue'
 import locales from './locales'
 import { useScaleStore } from './store'
-import { type ScalePluginOptions, PluginId } from './types'
+import { PluginId, type ScalePluginOptions } from './types'
 
 export { beautifyScale } from './utils/beautifyScale'
 export { calculateScaleFromResolution } from './utils/calculateScaleFromResolution'
