@@ -30,11 +30,11 @@ export const resourcesDe = {
  */
 export const resourcesEn = {
 	pagination: {
-		currentPage: 'Aktuelle Seite, Seite {{page}}',
-		page: 'Seite {{page}}',
-		next: 'Nächste Seite',
-		previous: 'Vorherige Seite',
-		wrapper: 'Seitenauswahl',
+		currentPage: 'Current page, page {{page}}',
+		page: 'Page {{page}}',
+		next: 'Next page',
+		previous: 'Previous page',
+		wrapper: 'Pagination',
 		entries: 'Entry {{start}} to {{end}} of {{total}}',
 	},
 } as const
