@@ -1,15 +1,15 @@
 <template>
-	<div style="display: flex; gap: var(--kern-metric-space-default)">
-		<PolarIconButton
-			:hint="$t(($) => $.header.close, { ns: 'gfi' })"
-			icon="kern-icon--close"
-			@click="gfiStore.selectedFeatures = {}"
-		/>
+	<div style="width: 100%; display: flex; justify-content: flex-end; gap: var(--kern-metric-space-default)">
 		<PolarIconButton
 			v-if="gfiStore.exportProperty"
 			:hint="$t(($) => $.property.export, { ns: 'gfi' })"
 			icon="kern-icon--download"
 			@click="startDownload(gfiStore.exportProperty)"
+		/>
+		<PolarIconButton
+			:hint="$t(($) => $.header.close, { ns: 'gfi' })"
+			icon="kern-icon--close"
+			@click="gfiStore.selectedFeatures = {}"
 		/>
 	</div>
 	<table class="kern-table kern-table--striped">
