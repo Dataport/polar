@@ -16,7 +16,7 @@
 			>
 				<span class="kern-icon kern-icon--arrow-back" aria-hidden="true" />
 				<span class="kern-label">
-					{{ $t(($) => $.switch.previous, { ns: 'gfi' }) }}
+					{{ $t(($) => $.switch.previous, { ns: PluginId }) }}
 				</span>
 			</button>
 			<button
@@ -25,7 +25,7 @@
 				@click="gfiStore.featureIndex++"
 			>
 				<span class="kern-label">
-					{{ $t(($) => $.switch.next, { ns: 'gfi' }) }}
+					{{ $t(($) => $.switch.next, { ns: PluginId }) }}
 				</span>
 				<span class="kern-icon kern-icon--arrow-forward" aria-hidden="true" />
 			</button>

@@ -1,12 +1,12 @@
 <template>
 	<h2 class="kern-heading-medium">
-		{{ $t(($) => $.list.header, { ns: 'gfi' }) }}
+		{{ $t(($) => $.list.header, { ns: PluginId }) }}
 	</h2>
 	<p
 		v-if="gfiStore.listFlatFeatures.length === 0"
 		class="kern-body kern-body--small polar-plugin-gfi-list-empty-view"
 	>
-		{{ $t(($) => $.list.emptyView, { ns: 'gfi' }) }}
+		{{ $t(($) => $.list.emptyView, { ns: PluginId }) }}
 	</p>
 	<template v-else>
 		<KernPagination
@@ -50,6 +50,7 @@ import { nextTick } from 'vue'
 import KernPagination from '@/components/kern/KernPagination.ce.vue'
 
 import { useGfiStore } from '../store'
+import { PluginId } from '../types';
 
 const gfiStore = useGfiStore()
 </script>

@@ -2,12 +2,12 @@
 	<div style="width: 100%; display: flex; justify-content: flex-end; gap: var(--kern-metric-space-default)">
 		<PolarIconButton
 			v-if="gfiStore.exportProperty"
-			:hint="$t(($) => $.property.export, { ns: 'gfi' })"
+			:hint="$t(($) => $.property.export, { ns: PluginId })"
 			icon="kern-icon--download"
 			@click="startDownload(gfiStore.exportProperty)"
 		/>
 		<PolarIconButton
-			:hint="$t(($) => $.header.close, { ns: 'gfi' })"
+			:hint="$t(($) => $.header.close, { ns: PluginId })"
 			icon="kern-icon--close"
 			@click="gfiStore.selectedFeatures = {}"
 		/>
@@ -16,10 +16,10 @@
 		<thead class="kern-table__head">
 			<tr class="kern-table__row">
 				<th scope="col" class="kern-table__header">
-					{{ $t(($) => $.header.field, { ns: 'gfi' }) }}
+					{{ $t(($) => $.header.field, { ns: PluginId }) }}
 				</th>
 				<th scope="col" class="kern-table__header">
-					{{ $t(($) => $.header.value, { ns: 'gfi' }) }}
+					{{ $t(($) => $.header.value, { ns: PluginId }) }}
 				</th>
 			</tr>
 		</thead>
@@ -33,7 +33,7 @@
 				<td class="kern-table__cell">
 					{{
 						$t(($) => $['layer'][props.layerId]['property'][key], {
-							ns: 'gfi',
+							ns: PluginId,
 							defaultValue: key,
 						})
 					}}
@@ -50,8 +50,8 @@
 							<a :href="value" target="_blank">
 								<img
 									:src="value"
-									:alt="$t(($) => $.property.imageAlt, { ns: 'gfi' })"
-									:title="$t(($) => $.property.linkTitle, { ns: 'gfi' })"
+									:alt="$t(($) => $.property.imageAlt, { ns: PluginId })"
+									:title="$t(($) => $.property.linkTitle, { ns: PluginId })"
 									:height="Math.min(200, coreStore.clientHeight * 0.15)"
 									width="auto"
 								/>
@@ -61,9 +61,9 @@
 							<a
 								:href="value"
 								target="_blank"
-								:title="$t(($) => $.property.linkTitle, { ns: 'gfi' })"
+								:title="$t(($) => $.property.linkTitle, { ns: PluginId })"
 							>
-								{{ $t(($) => $.property.linkText, { ns: 'gfi' }) }}
+								{{ $t(($) => $.property.linkText, { ns: PluginId }) }}
 							</a>
 						</template>
 					</template>
@@ -84,6 +84,7 @@ import { useCoreStore } from '@/core/stores'
 
 import { useGfiStore } from '../store'
 import { isValidHttpUrl } from '../utils/isValidHttpUrl'
+import { PluginId } from '../types'
 
 const coreStore = useCoreStore()
 const gfiStore = useGfiStore()
