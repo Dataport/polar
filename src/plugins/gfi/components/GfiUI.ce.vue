@@ -39,6 +39,7 @@ import PolarCard from '@/components/PolarCard.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useGfiStore } from '../store'
+import { PluginId } from '../types'
 import GfiFeature from './GfiFeature.ce.vue'
 import GfiFeatureList from './GfiFeatureList.ce.vue'
 
