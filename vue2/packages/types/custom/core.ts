@@ -168,12 +168,6 @@ export interface FilterConfiguration extends PluginOptions {
 	>
 }
 
-/** Object containing information for highlighting a gfi result */
-export interface HighlightStyle {
-	fill: Fill
-	stroke: Stroke
-}
-
 export interface LayerChooserConfiguration extends PluginOptions {
 	component?: VueConstructor
 }
