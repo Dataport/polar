@@ -3,6 +3,7 @@
 		<button
 			class="kern-btn kern-btn--secondary polar-icon-button"
 			:class="{ 'polar-icon-button-active': active }"
+			v-bind="$attrs"
 		>
 			<span
 				class="kern-icon"
@@ -22,6 +23,10 @@ defineProps<{
 	active?: boolean
 	tooltipPosition?: 'left' | 'right'
 }>()
+
+defineOptions({
+	inheritAttrs: false,
+})
 </script>
 
 <style scoped>
