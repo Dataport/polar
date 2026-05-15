@@ -35,7 +35,7 @@ const { hasWindowSize, hasSmallDisplay, center, zoom } = storeToRefs(mainStore)
 
 function onMove() {
 	center.value = mainStore.map.getView().getCenter() || center.value
-	zoom.value = mainStore.map.getView().getZoom() || zoom.value
+	zoom.value = mainStore.map.getView().getZoom() ?? zoom.value
 }
 
 function createMap() {

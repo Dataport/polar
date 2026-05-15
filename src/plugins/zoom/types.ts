@@ -28,6 +28,7 @@ export interface ZoomIconOptions {
 export interface ZoomPluginOptions extends PluginOptions {
 	/**
 	 * Override the default icons for the zoom buttons.
+	 * @defaultValue `{ zoomIn: 'kern-icon--zoom-in', zoomOut: 'kern-icon--zoom-out' }`
 	 */
 	icons?: ZoomIconOptions
 
@@ -39,7 +40,7 @@ export interface ZoomPluginOptions extends PluginOptions {
 	renderType?: 'independent' | 'iconMenu'
 
 	/**
-	 * Defines if the zoom buttons should be visible on small devices.
+	 * Defines if the zoom buttons and slider should be visible on small devices.
 	 *
 	 * @defaultValue `false`
 	 */
@@ -47,7 +48,7 @@ export interface ZoomPluginOptions extends PluginOptions {
 
 	/**
 	 * Defines if a zoom slider is offered in addition to the zoom buttons.
-	 * The zoom slider is (regardless of this setting) only offered if there is enough space.
+	 * The zoom slider is (regardless of this setting) only displayed if there is enough space.
 	 *
 	 * @defaultValue `false`
 	 */
