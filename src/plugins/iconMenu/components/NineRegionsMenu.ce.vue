@@ -131,7 +131,7 @@ provide('updateMaxWidth', updateMaxWidth)
 	position: relative;
 	list-style: none;
 	padding: 0;
-	margin: var(--kern-metric-space-small);
+	margin: 0;
 }
 
 .polar-plugin-icon-menu-list-item-horizontal {
@@ -140,8 +140,11 @@ provide('updateMaxWidth', updateMaxWidth)
 }
 
 .polar-plugin-icon-menu-list-item {
-	margin-bottom: var(--kern-metric-space-small);
 	z-index: 1;
+
+	&:not(:last-child) {
+		margin-bottom: var(--kern-metric-space-small);
+	}
 }
 
 .polar-plugin-icon-menu-list-item-content {
