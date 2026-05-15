@@ -14,6 +14,7 @@ import { computed } from 'vue'
 
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
+import { useIconMenuStore } from '@/plugins/iconMenu/store'
 
 import { useGeoLocationStore } from '../store'
 import { PluginId } from '../types'
@@ -21,6 +22,7 @@ import { PluginId } from '../types'
 const { layout } = storeToRefs(useCoreStore())
 const geoLocationStore = useGeoLocationStore()
 const { state } = storeToRefs(geoLocationStore)
+const { layoutTag: iconMenuLayoutTag } = storeToRefs(useIconMenuStore())
 
 const icon = computed(() => {
 	if (state.value === 'LOCATED') {
@@ -32,7 +34,9 @@ const icon = computed(() => {
 })
 const tooltipPosition = computed(() =>
 	geoLocationStore.configuration.renderType === 'iconMenu'
-		? undefined
+		? iconMenuLayoutTag.value.includes('RIGHT')
+			? 'left'
+			: 'right'
 		: layout.value === 'standard' ||
 			  geoLocationStore.configuration.layoutTag?.includes('RIGHT')
 			? 'left'
