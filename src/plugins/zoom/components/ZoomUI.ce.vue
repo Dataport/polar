@@ -1,25 +1,33 @@
 <template>
-	<template v-if="zoomStore.renderType === 'iconMenu'">
-		<ZoomButtons v-if="zoomStore.zoomButtonsVisible" />
-		<ZoomSlider v-if="zoomStore.zoomSliderVisible" />
-	</template>
-	<div v-else class="polar-plugin-zoom-ui">
-		<ZoomButtons v-if="zoomStore.zoomButtonsVisible" />
-		<ZoomSlider v-if="zoomStore.zoomSliderVisible" />
+	<div
+		v-if="zoomUiVisible"
+		class="polar-plugin-zoom-ui"
+		:class="{ 'polar-plugin-zoom-ui-horizontal': renderHorizontal }"
+	>
+		<ZoomButtons />
+		<ZoomSlider v-if="zoomSliderVisible" />
 	</div>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+
 import { useZoomStore } from '../store'
 import ZoomButtons from './ZoomButtons.ce.vue'
 import ZoomSlider from './ZoomSlider.ce.vue'
 
-const zoomStore = useZoomStore()
+const { zoomUiVisible, zoomSliderVisible, renderHorizontal } =
+	storeToRefs(useZoomStore())
 </script>
 
 <style scoped>
 .polar-plugin-zoom-ui {
 	display: flex;
 	flex-direction: column;
+	gap: var(--kern-metric-space-small);
+
+	&.polar-plugin-zoom-ui-horizontal {
+		flex-direction: row;
+	}
 }
 </style>

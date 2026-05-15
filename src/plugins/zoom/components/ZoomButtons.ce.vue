@@ -1,35 +1,34 @@
 <template>
-	<!-- TODO: tooltip direction -->
 	<PolarIconButton
 		:hint="$t(($) => $.zoomIn, { ns: PluginId })"
-		:icon="zoomStore.zoomInIcon"
-		tooltip-position="left"
-		:disabled="zoomStore.maximumZoomLevelActive"
-		class="polar-plugin-zoom-icon-button"
-		@click="zoomStore.zoomLevel++"
+		:icon="zoomInIcon"
+		:tooltip-position="tooltipPosition"
+		:disabled="maximumZoomLevelActive"
+		@click="zoomLevel++"
 	/>
-	<!-- TODO: tooltip direction -->
 	<PolarIconButton
 		:hint="$t(($) => $.zoomOut, { ns: PluginId })"
-		:icon="zoomStore.zoomOutIcon"
-		tooltip-position="left"
-		:disabled="zoomStore.minimumZoomLevelActive"
-		class="polar-plugin-zoom-icon-button"
-		@click="zoomStore.zoomLevel--"
+		:icon="zoomOutIcon"
+		:tooltip-position="tooltipPosition"
+		:disabled="minimumZoomLevelActive"
+		@click="zoomLevel--"
 	/>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 
 import { useZoomStore } from '../store'
 import { PluginId } from '../types'
 
-const zoomStore = useZoomStore()
+const {
+	tooltipPosition,
+	minimumZoomLevelActive,
+	maximumZoomLevelActive,
+	zoomLevel,
+	zoomInIcon,
+	zoomOutIcon,
+} = storeToRefs(useZoomStore())
 </script>
-
-<style scoped>
-.polar-plugin-zoom-icon-button:first-child {
-	margin-bottom: var(--kern-metric-space-small);
-}
-</style>
