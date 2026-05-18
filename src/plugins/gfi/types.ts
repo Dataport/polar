@@ -185,8 +185,10 @@ export interface FeatureList {
 
 	/**
 	 * Object with one to three entries that will produce title, subtitle, and an additional subtitle for the list view.
-	 * If string, the text item will simply be that feature's value for the denoted property.
-	 * If function, it's assumed to match the function signature `(feature: Feature): string`, and the returned string will be used for the text item.
+	 * 
+	 * If a parameter is a string, the text item will simply be that feature's value for the denoted property.
+	 * If it is a function, it's assumed to match the function signature `(feature: Feature): string`
+	 * and the returned string will be used for the text item.
 	 */
 	text?: {
 		title: ((feature: Feature) => string) | string
