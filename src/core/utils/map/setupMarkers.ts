@@ -11,6 +11,7 @@ import { markRaw, toRaw, watch } from 'vue'
 
 import { useMarkerStore } from '@/core/stores/marker'
 import { usePluginStore } from '@/core/stores/plugin'
+import { findLayer } from '@/lib/findLayer'
 import getCluster from '@/lib/getCluster'
 import { isVisible } from '@/lib/invisibleStyle'
 
@@ -68,13 +69,6 @@ function getLayerConfiguration(id: string) {
 
 function layerFilter(layer: BaseLayer) {
 	return layers.some(({ id }) => id === (layer.get('id') as string))
-}
-
-function findLayer(map: Map, layerId: string) {
-	return map
-		.getLayers()
-		.getArray()
-		.find((layer) => layer.get('id') === layerId) as VectorLayer | undefined
 }
 
 function resolveClusterClick(map: Map, feature: Feature) {

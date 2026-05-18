@@ -8,6 +8,7 @@ import { computed, ref, shallowRef, watch } from 'vue'
 
 import { teardownMarkers } from '@/core/utils/map/setupMarkers.ts'
 import { teardownInteractions } from '@/core/utils/map/updateDragAndZoomInteractions.ts'
+import { findLayer } from '@/lib/findLayer'
 
 import type {
 	ColorScheme,
@@ -83,7 +84,7 @@ export const useMainStore = defineStore('main', () => {
 	}
 
 	function getLayer(layerId: string) {
-		return map.value.getAllLayers().find((layer) => layer.get('id') === layerId)
+		return findLayer(map.value, layerId)
 	}
 
 	function getLayerMapConfiguration(layerId: string) {
