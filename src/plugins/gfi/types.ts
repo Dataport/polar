@@ -201,7 +201,6 @@ export interface FeatureList {
  * Plugin options for gfi plugin.
  *
  * @example
- * An example configuration for the plugin might look like this:
  * ```ts
  * {
  * 	mode: 'bboxDot',
