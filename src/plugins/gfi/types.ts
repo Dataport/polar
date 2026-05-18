@@ -54,8 +54,12 @@ export interface GfiLayerConfiguration {
 
 	/**
 	 * (WMS-only)
-	 * If the `infoFormat` is not set to `'application/geojson'`´, this can be configured to be the known file format of the response.
+	 * If the `infoFormat` is not set to `'application/geojson'` for the layer in the service register, this can be configured to be the known file format of the response.
 	 * If not given, the format is parsed from the response data.
+	 *
+	 * @remarks
+	 * The format `'text'` expects a plain text response in an undocumented, yet common format.
+	 * The behaviour of the format `'text'` may change in future versions.
 	 */
 	format?: 'GML' | 'GML2' | 'GML3' | 'GML32' | 'text'
 
