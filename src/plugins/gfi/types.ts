@@ -261,7 +261,6 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	 * The plugin will react to these coordinate positions in the store.
 	 * This allows it to react to e.g. the address search or the pins plugin.
 	 * Please see the example configuration for the common use-cases.
-	 * Please mind that, when referencing another plugin, that plugin must be in `addPlugins` before this one.
 	 */
 	coordinateSources?: StoreReference[]
 
