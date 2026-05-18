@@ -78,7 +78,6 @@ export default ({
 					]
 				: coordinateOrExtent
 
-		// TODO: Layer list needs better typing
 		featureUrl.searchParams.set('bbox', `${extent.join(',')},${code}`)
 	} else if (mode === 'intersects') {
 		const point =
