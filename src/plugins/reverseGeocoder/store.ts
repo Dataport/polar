@@ -12,8 +12,8 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, type Reactive, ref, toRaw } from 'vue'
 
 import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
+import { useRefStore } from '@/composables/useRefStore'
 import { useCoreStore } from '@/core/stores'
-import { getRefStore } from '@/lib/getRefStore'
 import { indicateLoading } from '@/lib/indicateLoading'
 
 import {
@@ -60,7 +60,7 @@ export const useReverseGeocoderStore = defineStore(
 			target: NonNullable<ReverseGeocoderPluginOptions['addressTarget']>,
 			feature: ReverseGeocoderFeature
 		) {
-			const targetStore = getRefStore(target)
+			const targetStore = useRefStore(target)
 			if (!targetStore) {
 				return
 			}

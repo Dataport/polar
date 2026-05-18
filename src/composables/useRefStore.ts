@@ -8,7 +8,7 @@ import { useCoreStore } from '@/core/stores'
  * @param ref - Store reference
  * @returns Referenced store
  */
-export function getRefStore(ref: StoreReference) {
+export function useRefStore(ref: StoreReference) {
 	const coreStore = useCoreStore()
 	return ref.plugin ? coreStore.getPluginStore(ref.plugin) : coreStore
 }

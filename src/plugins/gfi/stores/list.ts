@@ -3,8 +3,8 @@ import type { Feature } from 'ol'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
+import { useRefStore } from '@/composables/useRefStore'
 import { useCoreStore } from '@/core/stores'
-import { getRefStore } from '@/lib/getRefStore'
 import { getVectorSource } from '@/lib/getVectorSource'
 import { isVisible } from '@/lib/invisibleStyle'
 
@@ -29,7 +29,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		}
 
 		const activeLayersRef = configuration.value.activeLayers
-		const store = getRefStore(activeLayersRef)
+		const store = useRefStore(activeLayersRef)
 		if (!store) {
 			return []
 		}
