@@ -58,7 +58,7 @@ const gfiStore = useGfiStore()
 		position: absolute;
 	}
 
-	&::deep(.kern-card__container) {
+	&:deep(.kern-card__container) {
 		width: 100%;
 		padding-bottom: var(--kern-metric-space-small);
 	}
