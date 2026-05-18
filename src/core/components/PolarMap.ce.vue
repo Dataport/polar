@@ -1,12 +1,11 @@
 <template>
-	<PolarMapOverlay ref="polar-map-overlay" />
 	<div
 		ref="polar-map-container"
 		class="polar-map"
 		tabindex="0"
 		role="region"
 		:aria-label="$t(($) => $.canvas.label, { ns: 'core' })"
-		@wheel="wheelEffect"
+		@wheel="(e) => $emit('wheel', e)"
 	/>
 </template>
 
@@ -14,35 +13,26 @@
 import type { Map } from 'ol'
 
 import api from '@masterportal/masterportalapi/src/maps/api'
-import Hammer from 'hammerjs'
-import { t } from 'i18next'
 import { easeOut } from 'ol/easing'
 import { defaults } from 'ol/interaction'
 import { storeToRefs } from 'pinia'
-import {
-	computed,
-	markRaw,
-	onBeforeUnmount,
-	onMounted,
-	useTemplateRef,
-	watch,
-} from 'vue'
+import { markRaw, onBeforeUnmount, onMounted, useTemplateRef, watch } from 'vue'
 
-import { useT } from '../composables/useT'
 import { useMainStore } from '../stores/main'
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
 import { createKeyboardInteractions } from '../utils/interactions'
 import { setupMarkers } from '../utils/map/setupMarkers'
 import { setupStyling } from '../utils/map/setupStyling'
 import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
-import PolarMapOverlay from './PolarMapOverlay.ce.vue'
+
+const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
+defineExpose({ el: polarMapContainer })
+
+const emit = defineEmits(['updateListeners', 'wheel'])
 
 const mainStore = useMainStore()
 const { hasWindowSize, hasSmallDisplay, center, extent, zoom } =
 	storeToRefs(mainStore)
-
-const polarMapContainer = useTemplateRef<HTMLDivElement>('polar-map-container')
-const overlay = useTemplateRef<typeof PolarMapOverlay>('polar-map-overlay')
 
 function onMove() {
 	center.value = mainStore.map.getView().getCenter() || center.value
@@ -83,13 +73,14 @@ function createMap() {
 	createKeyboardInteractions().forEach((interaction) => {
 		mainStore.map.addInteraction(interaction)
 	})
-	updateListeners()
+	emit('updateListeners')
 }
 
 // NOTE: Updates can happen if a user resizes the window or the fullscreen plugin is used.
 //       Added as a watcher to trigger the update at the correct time.
-watch(hasWindowSize, (value) => {
-	updateDragAndZoomInteractions(mainStore.map, value, hasSmallDisplay.value)
+watch([hasWindowSize, hasSmallDisplay], ([windowSize, smallDisplay]) => {
+	updateDragAndZoomInteractions(mainStore.map, windowSize, smallDisplay)
+	emit('updateListeners')
 })
 
 watch(center, (center) => {
@@ -103,25 +94,6 @@ watch(center, (center) => {
 watch(zoom, (zoom) => {
 	mainStore.map.getView().setZoom(zoom)
 })
-
-const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
-const noCommandOnZoom = useT(() =>
-	t(($) => $.overlay.noCommandOnZoom, { ns: 'core' })
-)
-const noControlOnZoom = useT(() =>
-	t(($) => $.overlay.noControlOnZoom, { ns: 'core' })
-)
-function wheelEffect(event: WheelEvent) {
-	if (hasWindowSize.value || !overlay.value) {
-		return
-	}
-	const condition = computed(() => !hasWindowSize.value)
-	if (isMacOS && !event.metaKey) {
-		overlay.value.show(noCommandOnZoom, condition)
-	} else if (!isMacOS && !event.ctrlKey) {
-		overlay.value.show(noControlOnZoom, condition)
-	}
-}
 
 onMounted(async () => {
 	createMap()
@@ -139,37 +111,7 @@ onMounted(async () => {
 })
 onBeforeUnmount(() => {
 	mainStore.map.un('moveend', onMove)
-	hammer?.destroy()
-	hammer = null
 })
-
-const oneFingerPan = useT(() =>
-	t(($) => $.overlay.oneFingerPan, { ns: 'core' })
-)
-let hammer: { destroy: () => void } | null = null
-function updateListeners() {
-	if (
-		!hasWindowSize.value &&
-		polarMapContainer.value &&
-		mainStore.hasSmallDisplay
-	) {
-		hammer?.destroy()
-		hammer = new Hammer(polarMapContainer.value).on('pan', (e) => {
-			if (
-				overlay.value &&
-				e.maxPointers === 1 &&
-				mainStore.map
-					.getInteractions()
-					.getArray()
-					.some((interaction) => interaction.get('_isPolarDragLikeInteraction'))
-			) {
-				overlay.value.show(oneFingerPan)
-			}
-		})
-	}
-}
-
-watch(hasWindowSize, updateListeners)
 </script>
 
 <!-- eslint-disable-next-line vue/enforce-style-attribute -->

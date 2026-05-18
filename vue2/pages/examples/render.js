@@ -10,7 +10,7 @@ const commonParameters = {
         type: 'background',
       },
     ],
-    stylePath: '../node_modules/@polar/client-generic/dist/polar-client.css',
+    stylePath: '../node_modules/@polar/client-generic/dist/style.css',
   },
 }
 

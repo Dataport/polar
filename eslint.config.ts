@@ -140,8 +140,8 @@ export default defineConfig([
 			'docs/assets/',
 			'docs-html/',
 			'.vscode/',
-			'dist/',
-			'.dist.preview/',
+			'**/dist/**',
+			'**/.dist.preview/**',
 
 			// Legacy list
 			'**/build',

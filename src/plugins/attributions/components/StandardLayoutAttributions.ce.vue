@@ -23,10 +23,9 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 
-import { PluginId } from '@/plugins/attributions'
-import AttributionContent from '@/plugins/attributions/components/AttributionContent.ce.vue'
-
 import { useAttributionsStore } from '../store'
+import { PluginId } from '../types'
+import AttributionContent from './AttributionContent.ce.vue'
 
 const { mapInfoIcon, windowIsOpen } = storeToRefs(useAttributionsStore())
 

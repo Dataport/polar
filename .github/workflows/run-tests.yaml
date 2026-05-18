@@ -1,57 +1,126 @@
 name: Run automated tests
 on: push
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  lint:
-    name: Linting
+  setup:
+    name: Install dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Set up Node.js
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 24.15.0
+          registry-url: https://registry.npmjs.org/
+          cache: 'npm'
+
+      - name: Cache node_modules
+        id: node-modules-cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-node24.15.0-${{ hashFiles('package-lock.json', 'patches/**') }}
+
+      - name: Install NPM dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+  lint:
+    name: Linting
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 24.15.0
           registry-url: https://registry.npmjs.org/
 
-      - name: Install dependencies and run linter
-        run: |
-          npm ci
-          npm run lint:ci
+      - name: Restore node_modules
+        id: node-modules-cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-node24.15.0-${{ hashFiles('package-lock.json', 'patches/**') }}
+
+      - name: Install NPM dependencies (cache miss fallback)
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Restore ESLint cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: .eslintcache
+          key: eslint-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('eslint.config.ts') }}-${{ github.sha }}
+          restore-keys: |
+            eslint-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('eslint.config.ts') }}-
+            eslint-${{ runner.os }}-${{ github.ref }}-
+            eslint-${{ runner.os }}-
+
+      - name: Run linter
+        run: npm run lint
 
   test:
     name: Unit tests and e2e tests
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Set up Node.js
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 24.15.0
           registry-url: https://registry.npmjs.org/
 
-      - name: Install dependencies and run tests
-        run: |
-          npm ci
-          npm run test:ci
+      - name: Restore node_modules
+        id: node-modules-cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-node24.15.0-${{ hashFiles('package-lock.json', 'patches/**') }}
+
+      - name: Install NPM dependencies (cache miss fallback)
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Run tests
+        run: npm run test:ci
 
   type-check:
     name: Type-checking
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Set up Node.js
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 24.15.0
           registry-url: https://registry.npmjs.org/
 
-      - name: Install dependencies and run type-checking
-        run: |
-          npm ci
-          npm run tsc:ci
+      - name: Restore node_modules
+        id: node-modules-cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-node24.15.0-${{ hashFiles('package-lock.json', 'patches/**') }}
+
+      - name: Install NPM dependencies (cache miss fallback)
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Run type-checking
+        run: npm run tsc:ci

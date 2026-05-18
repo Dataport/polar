@@ -1,10 +1,5 @@
 <template>
 	<PolarIconButton
-		:class="
-			layout === 'nineRegions' && renderType !== 'iconMenu'
-				? 'polar-plugin-geoLocation-nineRegions'
-				: ''
-		"
 		:hint="$t(($) => $.button.tooltip, { ns: PluginId })"
 		:icon="icon"
 		:tooltip-position="tooltipPosition"
@@ -25,7 +20,7 @@ import { PluginId } from '../types'
 
 const { layout } = storeToRefs(useCoreStore())
 const geoLocationStore = useGeoLocationStore()
-const { renderType, state } = storeToRefs(geoLocationStore)
+const { state } = storeToRefs(geoLocationStore)
 
 const icon = computed(() => {
 	if (state.value === 'LOCATED') {
@@ -44,9 +39,3 @@ const tooltipPosition = computed(() =>
 			: 'right'
 )
 </script>
-
-<style scoped>
-.polar-plugin-geoLocation-nineRegions {
-	margin: var(--kern-metric-space-small);
-}
-</style>

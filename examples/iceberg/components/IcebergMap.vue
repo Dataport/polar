@@ -21,6 +21,15 @@
 				darkMode ? 'Exit dark mode' : 'Enter dark mode'
 			}}</span>
 		</button>
+		<button
+			class="kern-btn kern-btn--secondary"
+			@click="exportPluginActive = !exportPluginActive"
+		>
+			<span class="kern-icon kern-icon--photo-camera" />
+			<span class="kern-label">{{
+				exportPluginActive ? 'Deactivate export' : 'Activate export'
+			}}</span>
+		</button>
 	</div>
 	<polar-map
 		v-if="store.serviceRegister.length"
@@ -34,15 +43,17 @@
 <script setup lang="ts">
 import type { PolarContainer } from '@polar/polar'
 
-import { addPlugins, getStore, subscribe } from '@polar/polar'
+import { addPlugins, getStore, removePlugin, subscribe } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
+import pluginExport from '@polar/polar/plugins/export'
 import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGfi from '@polar/polar/plugins/gfi'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginPins from '@polar/polar/plugins/pins'
+import pluginPointerPosition from '@polar/polar/plugins/pointerPosition'
 import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
@@ -159,6 +170,16 @@ watch(map, (map) => {
 			displayComponent: true,
 			layoutTag: 'BOTTOM_MIDDLE',
 		}),
+		pluginPointerPosition({
+			displayComponent: true,
+			layoutTag: 'BOTTOM_LEFT',
+		}),
+		pluginExport({
+			displayComponent: true,
+			layoutTag: 'MIDDLE_LEFT',
+			download: true,
+			formats: ['pdf', 'jpeg', 'png'],
+		}),
 	])
 
 	subscribe(map, 'core', 'language', (newLanguage) => {
@@ -180,6 +201,32 @@ const darkMode = computed({
 		}
 		const coreStore = getStore(map.value, 'core')
 		coreStore.colorScheme = value ? 'dark' : 'light'
+	},
+})
+
+const exportPluginActive = computed({
+	get: () => {
+		if (!map.value) {
+			return
+		}
+		return Boolean(getStore(map.value, 'export'))
+	},
+	set: (value: boolean) => {
+		if (!map.value) {
+			return
+		}
+		if (value) {
+			addPlugins(map.value, [
+				pluginExport({
+					displayComponent: true,
+					layoutTag: 'MIDDLE_LEFT',
+					download: true,
+					formats: ['pdf', 'jpeg', 'png'],
+				}),
+			])
+		} else {
+			removePlugin(map.value, 'export')
+		}
 	},
 })
 

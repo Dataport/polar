@@ -118,18 +118,6 @@ onMounted(async () => {
 				zoomLevel: 7,
 			},
 		},
-		[
-			'addressSearch',
-			'fullscreen',
-			'geoLocation',
-			'iconMenu',
-			'layerChooser',
-			'loadingIndicator',
-			'pins',
-			'reverseGeocoder',
-			'scale',
-			'toast',
-		],
 		(serviceRegister) =>
 			serviceRegister.map((entry) =>
 				entry.id === reports ? toMerged(entry, { clusterDistance: 20 }) : entry

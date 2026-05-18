@@ -202,6 +202,14 @@ export interface WfsParameters extends QueryParameters {
 	xmlns: string
 
 	/**
+	 * Whether the like filter should be case-sensitive.
+	 *
+	 * When `false`, searches are case-insensitive. When `true`, exact case matching is required.
+	 * Requires WFS server support for the `matchCase` attribute.
+	 */
+	caseSensitive?: boolean
+
+	/**
 	 * Name of the type's field to search in.
 	 *
 	 * @remarks
@@ -253,6 +261,23 @@ export interface WfsParameters extends QueryParameters {
 	 * `{{streetName}} {{houseNumber}}`
 	 */
 	patterns?: string[]
+
+	/**
+	 * Server-side sorting criteria for WFS features.
+	 * Features will be sorted by the properties in order of their appearance. The first property has the highest priority.
+	 * Direction defaults to 'ASC' if not specified. Applied after the filter, before results are returned.
+	 * Please note that the server must support server-side sorting.
+	 *
+	 * @example
+	 * ```
+	 * [
+	 * 	{ propertyName: 'street', direction: 'ASC' },
+	 * 	{ propertyName: 'housenumber', direction: 'ASC' },
+	 *	{ propertyName: 'city', direction: 'ASC' },
+	 * ]
+	 * ```
+	 */
+	sortBy?: { propertyName: string; direction?: 'ASC' | 'DESC' }[]
 
 	/** Name of the projection (srs) for the query. */
 	srsName?: string

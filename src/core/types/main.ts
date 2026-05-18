@@ -2,6 +2,7 @@ import type { VueElement } from 'vue'
 
 import type { AddressSearchPluginOptions } from '@/plugins/addressSearch'
 import type { AttributionsPluginOptions } from '@/plugins/attributions'
+import type { ExportPluginOptions } from '@/plugins/export/types'
 import type { FilterPluginOptions } from '@/plugins/filter'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
@@ -10,6 +11,7 @@ import type { GfiPluginOptions } from '@/plugins/gfi'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
 import type { PinsPluginOptions } from '@/plugins/pins'
+import type { PointerPositionPluginOptions } from '@/plugins/pointerPosition'
 import type { ReverseGeocoderPluginOptions } from '@/plugins/reverseGeocoder'
 import type { ScalePluginOptions } from '@/plugins/scale'
 import type { ToastPluginOptions } from '@/plugins/toast'
@@ -314,6 +316,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	/** Configuration for attributions plugin. */
 	attributions?: AttributionsPluginOptions
 
+	/** Configuration for export plugin. */
+	export?: ExportPluginOptions
+
 	/** Configuration for filter plugin. */
 	filter?: FilterPluginOptions
 
@@ -337,6 +342,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** Configuration for pins plugin. */
 	pins?: PinsPluginOptions
+
+	/** Configuration for pointerPosition plugin. */
+	pointerPosition?: PointerPositionPluginOptions
 
 	/** Configuration for reverseGeocoder plugin. */
 	reverseGeocoder?: ReverseGeocoderPluginOptions

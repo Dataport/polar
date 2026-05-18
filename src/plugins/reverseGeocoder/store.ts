@@ -9,7 +9,7 @@ import type { Mock } from 'vitest'
 import { easeOut } from 'ol/easing'
 import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, type Reactive } from 'vue'
+import { computed, type Reactive, ref, toRaw } from 'vue'
 
 import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
@@ -34,6 +34,8 @@ export const useReverseGeocoderStore = defineStore(
 	'plugins/reverseGeocoder',
 	() => {
 		const coreStore = useCoreStore()
+
+		const abortController = ref<AbortController | null>(null)
 
 		const configuration = computed(
 			() => coreStore.configuration[PluginId] as ReverseGeocoderPluginOptions
@@ -67,10 +69,17 @@ export const useReverseGeocoderStore = defineStore(
 
 		async function reverseGeocode(coordinate: [number, number]) {
 			const finish = indicateLoading()
+			if (abortController.value) {
+				abortController.value.abort()
+				abortController.value = null
+			}
+			abortController.value = new AbortController()
+			const signal = toRaw(abortController.value.signal)
 			try {
 				const feature = await reverseGeocodeUtil(
 					configuration.value.url,
-					coordinate
+					coordinate,
+					signal
 				)
 				if (configuration.value.addressTarget) {
 					passFeatureToTarget(configuration.value.addressTarget, feature)
@@ -84,7 +93,9 @@ export const useReverseGeocoderStore = defineStore(
 				}
 				return feature
 			} catch (error) {
-				console.error('Reverse geocoding failed:', error)
+				if (!signal.aborted) {
+					console.error('Reverse geocoding failed:', error)
+				}
 				return null
 			} finally {
 				finish()
@@ -99,6 +110,9 @@ export const useReverseGeocoderStore = defineStore(
 			 * @returns A promise that resolves to the reverse geocoded feature or null.
 			 */
 			reverseGeocode,
+
+			/** @internal */
+			abortController,
 
 			/** @internal */
 			setupPlugin,
@@ -187,6 +201,7 @@ if (import.meta.vitest) {
 	test('detects changes in coordinate sources', async ({
 		reverseGeocodeUtil,
 		coreStore,
+		store,
 	}) => {
 		const pluginStore = coreStore.pluginStores as {
 			pins: {
@@ -197,7 +212,8 @@ if (import.meta.vitest) {
 		await new Promise((resolve) => setTimeout(resolve))
 		expect(reverseGeocodeUtil).toHaveBeenCalledWith(
 			'https://wps.example',
-			[1, 2]
+			[1, 2],
+			store.abortController?.signal
 		)
 	})
 

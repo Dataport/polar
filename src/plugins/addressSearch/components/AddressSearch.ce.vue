@@ -38,7 +38,7 @@
 					:aria-label="ariaLabel"
 					aria-describedby="polar-plugin-address-search-input-description"
 					@keydown.enter="addressSearchStore.abortAndRequest"
-					@keydown.down.prevent.stop="inputDown"
+					@keydown.down="inputDown"
 				/>
 				<SmallLoader
 					v-if="isLoading"
@@ -160,7 +160,6 @@ function inputDown(event: KeyboardEvent) {
 	flex-direction: column;
 	align-items: flex-start;
 	gap: var(--kern-metric-space-small);
-	margin: var(--kern-metric-space-small);
 	max-height: calc(
 		calc(100% - var(--kern-metric-dimension-large)) -
 			calc(2 * var(--kern-metric-space-small))

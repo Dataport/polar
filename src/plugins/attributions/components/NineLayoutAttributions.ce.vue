@@ -2,35 +2,22 @@
 	<div
 		v-if="renderType === 'independent'"
 		class="polar-plugin-attributions-wrapper"
+		:class="{
+			'open-left': openLeft,
+		}"
 	>
-		<template v-if="openLeft">
-			<PolarIconButton
-				:hint="
-					$t(($) => $.button.title, {
-						ns: PluginId,
-						context: windowIsOpen ? 'close' : 'open',
-					})
-				"
-				:icon="mapInfoIcon"
-				tooltip-position="left"
-				@click="toggleMapInfo"
-			/>
-			<AttributionContent v-if="windowIsOpen" />
-		</template>
-		<template v-else>
-			<AttributionContent v-if="windowIsOpen" />
-			<PolarIconButton
-				:hint="
-					$t(($) => $.button.title, {
-						ns: PluginId,
-						context: windowIsOpen ? 'close' : 'open',
-					})
-				"
-				:icon="mapInfoIcon"
-				tooltip-position="right"
-				@click="toggleMapInfo"
-			/>
-		</template>
+		<PolarIconButton
+			:hint="
+				$t(($) => $.button.title, {
+					ns: PluginId,
+					context: windowIsOpen ? 'close' : 'open',
+				})
+			"
+			:icon="mapInfoIcon"
+			:tooltip-position="openLeft ? 'left' : 'right'"
+			@click="toggleMapInfo"
+		/>
+		<AttributionContent v-if="windowIsOpen" />
 	</div>
 	<AttributionContent v-else />
 </template>
@@ -59,8 +46,10 @@ function toggleMapInfo() {
 .polar-plugin-attributions-wrapper {
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-end;
 	align-items: flex-end;
-	padding: 6px;
+
+	&.open-left {
+		flex-direction: row-reverse;
+	}
 }
 </style>

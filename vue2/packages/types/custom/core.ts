@@ -112,6 +112,7 @@ export interface DrawConfiguration extends Partial<PluginOptions> {
 
 export interface DrawRevision {
 	autofix?: boolean
+	mergeToMultiGeometries?: boolean
 	metaServices?: DrawMetaService[]
 	validate?: boolean
 }
@@ -120,20 +121,6 @@ export interface DrawMetaService {
 	id: string
 	aggregationMode?: 'unequal' | 'all'
 	propertyNames?: string[]
-}
-
-export interface ExportConfiguration extends PluginOptions {
-	/**
-	 * Whether the user should be able to download a file
-	 * or the data should only be accessible through the store.
-	 */
-	download?: boolean
-	/** Tool offers exporting current mapView as a jpg. */
-	showJpg?: boolean
-	/** Tool offers exporting current mapView as a pdf. */
-	showPdf?: boolean
-	/** Tool offers exporting current mapView as a png. */
-	showPng?: boolean
 }
 
 export interface FilterConfigurationTimeOption {
@@ -227,6 +214,23 @@ export interface ReverseGeocoderConfiguration {
 	zoomTo?: number
 }
 
+export type SelectableTravelMode =
+	| 'driving-car'
+	| 'driving-hgv'
+	| 'cycling-regular'
+	| 'foot-walking'
+	| 'wheelchair'
+
+export interface RoutingConfiguration {
+	apiKey: string
+	format: 'geojson'
+	type: 'ors'
+	url: string
+	displayPreferences?: boolean
+	displayRouteTypesToAvoid?: boolean
+	selectableTravelModes?: SelectableTravelMode[]
+}
+
 /** Style of a toast */
 export interface ToastStyle {
 	/** Color of the toast. */
@@ -248,15 +252,6 @@ export type ToastConfiguration = PluginOptions & ToastTypeStyles
 export interface ScaleConfiguration extends PluginOptions {
 	showScaleSwitcher?: boolean
 	zoomMethod?: string
-}
-
-export interface PointerPositionProjection {
-	code: `EPSG:${string}`
-	decimals?: number
-}
-
-export interface PointerPositionConfiguration extends PluginOptions {
-	projections?: PointerPositionProjection[]
 }
 
 export interface ZoomIcons {
@@ -286,15 +281,14 @@ export interface MapConfig extends MasterportalApiConfig {
 	addressSearch?: AddressSearchConfiguration
 	attributions?: AttributionsConfiguration
 	draw?: DrawConfiguration
-	export?: ExportConfiguration
 	filter?: FilterConfiguration
 	fullscreen?: FullscreenConfiguration
 	geoLocation?: GeoLocationConfiguration
 	layerChooser?: LayerChooserConfiguration
 	legend?: LegendConfiguration
 	pins?: PinsConfiguration
-	pointerPosition?: PointerPositionConfiguration
 	reverseGeocoder?: ReverseGeocoderConfiguration
+	routing?: RoutingConfiguration
 	scale?: ScaleConfiguration
 	toast?: ToastConfiguration
 	zoom?: ZoomConfiguration
@@ -334,10 +328,8 @@ export interface CoreState {
 	zoomLevel: number
 }
 
-export interface CoreGetters extends Omit<
-	CoreState,
-	'components' | 'hovered' | 'map' | 'selected'
-> {
+export interface CoreGetters
+	extends Omit<CoreState, 'components' | 'hovered' | 'map' | 'selected'> {
 	// omitted from CoreState as actual getter type diverges
 	components: PluginContainer[]
 	hovered: Feature | null

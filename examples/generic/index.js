@@ -135,19 +135,8 @@ const map = await createMap(
 			showTooltip: true,
 			zoomLevel: 7,
 		},
+		fullscreen: {},
 	},
-	[
-		'addressSearch',
-		'fullscreen',
-		'geoLocation',
-		'iconMenu',
-		'layerChooser',
-		'loadingIndicator',
-		'pins',
-		'reverseGeocoder',
-		'scale',
-		'toast',
-	],
 	(serviceRegister) =>
 		serviceRegister.map((entry) =>
 			entry.id === reports ? toMerged(entry, { clusterDistance: 20 }) : entry
