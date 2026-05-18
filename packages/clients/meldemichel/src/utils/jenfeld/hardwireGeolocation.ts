@@ -5,5 +5,5 @@ import { jenfeldhausCoordinate } from './jenfeldhausCoordinate'
  * This call mimicks the geolocation of the display element by just entering its position hard.
  */
 export const hardwireGeolocation = (client) => {
-  client.$store.dispatch('plugin/geoLocation/addMarker', jenfeldhausCoordinate) // Jenfeldhaus (Koordinate der Adresse "Charlottenburger Straße 1")
+  client.$store.dispatch('plugin/geoLocation/addMarker', jenfeldhausCoordinate)
 }
