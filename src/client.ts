@@ -12,6 +12,7 @@ import {
 import AddressSearch from '@/plugins/addressSearch'
 import Fullscreen from '@/plugins/fullscreen'
 import GeoLocation from '@/plugins/geoLocation'
+import Gfi from '@/plugins/gfi'
 import IconMenu, { type Menu } from '@/plugins/iconMenu'
 import LayerChooser from '@/plugins/layerChooser'
 import LoadingIndicator from '@/plugins/loadingIndicator'
@@ -33,6 +34,12 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 				{
 					plugin: LayerChooser({}),
 					icon: 'kern-icon-fill--layers',
+				},
+				enabledPlugins.includes('gfi') && {
+					plugin: Gfi({
+						renderType: 'iconMenu',
+						layers: {},
+					}),
 				},
 				enabledPlugins.includes('geoLocation') && {
 					plugin: GeoLocation({ renderType: 'iconMenu' }),
@@ -85,7 +92,7 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
  * @param serviceRegister - Service register given as an array, or a URL to fetch this from.
  * @param mapConfiguration - Configuration options. Only plugins that have a configuration will be created. To
  * 													enable a plugin with default configuration, add its key with an empty object. The
- * 													plugins with the ids 'fullscreen', 'geoLocation' and 'layerChooser' are added to the iconMenu.
+ * 													plugins with the ids 'fullscreen', 'geoLocation', 'gfi' and 'layerChooser' are added to the iconMenu.
  * 													IconMenu. The IconMenu, Toast, LayerChooser and LoadingIndicator are enabled by default.
  * @param modifyServiceRegister - Optionally modify the serviceRegister. This may be useful if a pre-existing register is used.
  *
