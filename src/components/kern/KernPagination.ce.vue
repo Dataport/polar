@@ -127,13 +127,11 @@ nav {
 }
 
 ul {
-	width: 100%;
 	display: flex;
 	list-style-type: none;
 	padding: 0;
 	align-items: center;
 	justify-content: space-between;
-	gap: var(--kern-metric-space-x-small);
 }
 
 .kern-btn {
