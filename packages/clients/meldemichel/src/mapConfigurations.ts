@@ -15,6 +15,8 @@ import locales, { jenfeldLocales } from './locales'
 import { MeldemichelCreateMapParams } from './types'
 import { showTooltip } from './utils/showTooltip'
 import { jenfeldBoundaryId } from './utils/jenfeld/addJenfeldBoundary'
+import { jenfeldhausCoordinate } from './utils/jenfeld/jenfeldhausCoordinate'
+import mpapiDefaults from '@polar/core/src/utils/createMap/defaults'
 
 export const stadtwald = '18746'
 const stadtplan = '453'
@@ -223,13 +225,17 @@ const mapConfigurations: Record<
     }
   },
   [MODE.JENFELD]: (reportServiceId: string, afmUrl: string) => {
+    const queryZoom =
+      Number(new URLSearchParams(location.search).get('jenfeld_zoom')) || 7
+    const singularOption = mpapiDefaults.options[queryZoom]
+
     return {
       ...commonMapConfiguration,
       locales: jenfeldLocales,
-      startResolution: 0.6614579761460262,
-      startCenter: [574779.93, 5936743.88],
+      startResolution: singularOption.resolution,
+      startCenter: jenfeldhausCoordinate,
       extent: [573113.0, 5935603.15, 576367.37, 5938307.19],
-      options: [{ resolution: 0.6614579761460262, scale: 2500, zoomLevel: 7 }],
+      options: [singularOption],
       extendedMasterportalapiMarkers: {
         layers: [reportServiceId],
         defaultStyle: {
@@ -308,6 +314,10 @@ const mapConfigurations: Record<
       geoLocation: {
         ...geoLocation,
         boundaryLayerId: jenfeldBoundaryId,
+        zoomLevel: 7,
+        // Feature activity turned off, see utils/jenfeld/hardwireGeolocation.ts
+        checkLocationInitially: false,
+        showTooltip: false,
       },
       gfi: {
         mode: 'bboxDot',
