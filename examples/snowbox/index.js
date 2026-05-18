@@ -450,6 +450,7 @@ addPlugin(
 										`Coordinates: ${feature.getGeometry().getCoordinates().join(', ')}`,
 									],
 								],
+								isSelectable: (feature) => isEvenId(feature.properties.mmlid),
 							},
 							[kielPolygon]: {
 								window: true,
