@@ -272,7 +272,7 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	customHighlightStyle?: CustomHighlightStyle
 
 	/**
-	 * If `true`, a feature can be selected without defining a value in `gfi.coordinateSources`.
+	 * If `true`, a feature can be selected without defining a value in {@link GfiPluginOptions.coordinateSources | `coordinateSources`}.
 	 *
 	 * It is also possible to add multiple features to the selection by using the modifier key (CTRL on Windows or Command on macOS).
 	 * To deselect a feature, simply re-click it with the modifier key pressed.
