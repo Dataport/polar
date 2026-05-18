@@ -43,9 +43,12 @@
 				<h3 class="kern-title kern-title--small">
 					{{ gfiStore.listGetText(feature, 'title') }}
 				</h3>
-				{{ gfiStore.listGetText(feature, 'subtitle') }}
-				<br />
-				<em>{{ gfiStore.listGetText(feature, 'subSubtitle') }}</em>
+				<p class="kern-subline kern-subline--small">
+					{{ gfiStore.listGetText(feature, 'subtitle') }}
+				</p>
+				<p class="kern-body kern-body--small">
+					{{ gfiStore.listGetText(feature, 'subSubtitle') }}
+				</p>
 			</section>
 		</template>
 	</section>
@@ -81,6 +84,11 @@ section.feature-list-item {
 		border-radius: var(--kern-metric-border-radius-default);
 		border-color: var(--kern-color-action-default);
 		cursor: pointer;
+	}
+
+	& > .kern-subline,
+	& > .kern-body {
+		padding: 0;
 	}
 }
 </style>
