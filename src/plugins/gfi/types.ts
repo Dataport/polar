@@ -278,12 +278,13 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	 * To deselect a feature, simply re-click it with the modifier key pressed.
 	 * To create a new selection, click anywhere else without pressing the modifier key.
 	 *
-	 * Be careful when using this parameter together with some values set in `coordinateSources` as it may lead to unexpected results.
-	 * The features need to be distinguishable by their properties for the functionality to properly work.
-	 *
 	 * Does not work together with {@link MapConfiguration.markers}.
 	 *
-	 * @defaultValue false
+	 * @remarks
+	 * Be careful when using this parameter together with some values set in {@link GfiPluginOptions.coordinateSources | `coordinateSources`} as it may lead to unexpected results.
+	 * The features need to be distinguishable by their properties for the functionality to properly work.
+	 *
+	 * @defaultValue `false`
 	 */
 	directSelect?: boolean
 
