@@ -323,7 +323,7 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	 * Similar to {@link GfiPluginOptions.directSelect | `directSelect`},
 	 * features can be added and removed by selection / unselecting them.
 	 * The features need to be distinguishable by their properties for the functionality to properly work.
-	 * Does not work together with `extendedMasterportalapiMarkers` of `@polar/core`.
+	 * Does not work together with {@link MapConfiguration.markers}.
 	 *
 	 * @defaultValue Disabled by default
 	 */
