@@ -315,7 +315,7 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 
 	/**
 	 * If configured, multiple features can be selected at once by using the modifier key (CTRL on Windows or Command on macOS) and dragging the mouse.
-	 * Can only be used in Desktop environments.
+	 * Can only be used in desktop environments.
 	 *
 	 * If set to `'box'`, the selection will be done in a box.
 	 * If set to `'circle'`, the selection will be done in a circle.
