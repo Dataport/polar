@@ -326,7 +326,10 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	multiSelect?: 'box' | 'circle'
 }
 
-/** parameter specification for request method */
+/**
+ * parameter specification for request method
+ * @internal
+ */
 export interface RequestGfiParameters {
 	coordinateOrExtent: [number, number] | [number, number, number, number]
 	layer: BaseLayer
@@ -341,6 +344,7 @@ export interface RequestGfiParameters {
 	mode?: 'bboxDot' | 'intersects'
 }
 
+/** @internal */
 export interface RequestGfiWmsParameters {
 	coordinate: [number, number]
 	layer: TileLayer<TileWMS> | ImageLayer<ImageWMS>
