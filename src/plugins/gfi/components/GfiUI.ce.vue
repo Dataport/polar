@@ -4,7 +4,7 @@
 		id="polar-card-gfi"
 		:class="{
 			standard: coreStore.layout === 'standard',
-			'nine-regions': coreStore.layout === 'nineRegions',
+			independent: gfiStore.configuration.renderType === 'independent',
 		}"
 	>
 		<template v-if="gfiStore.features.length > 0">
@@ -49,13 +49,18 @@ const gfiStore = useGfiStore()
 
 <style scoped>
 #polar-card-gfi {
-	width: 12em;
-	margin: var(--kern-metric-space-small);
-	max-height: 80%;
-	overflow: auto;
-
 	&.standard {
 		position: absolute;
+	}
+
+	&.independent {
+		width: calc(
+			var(--kern-metric-dimension-5x-large) +
+				var(--kern-metric-dimension-5x-large)
+		);
+		margin: var(--kern-metric-space-small);
+		max-height: 80%;
+		overflow: auto;
 	}
 
 	&:deep(.kern-card__container) {
