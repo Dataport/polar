@@ -275,7 +275,7 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	 * If `true`, a feature can be selected without defining a value in `gfi.coordinateSources`.
 	 *
 	 * It is also possible to add multiple features to the selection by using the modifier key (CTRL on Windows or Command on macOS).
-	 * To delesect a feature, simply reclick it with the modifier key pressed.
+	 * To deselect a feature, simply re-click it with the modifier key pressed.
 	 * To create a new selection, click anywhere else without pressing the modifier key.
 	 *
 	 * Be careful when using this parameter together with some values set in `coordinateSources` as it may lead to unexpected results.
