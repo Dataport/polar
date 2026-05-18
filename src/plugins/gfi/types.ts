@@ -132,13 +132,13 @@ export interface CustomHighlightStyle {
 	 * Object for defining the fill style.
 	 * See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Fill-Fill.html) for full options.
 	 */
-	fill: Fill
+	fill?: Fill
 
 	/**
 	 * Object for defining the stroke style.
 	 * See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Stroke-Stroke.html) for full options.
 	 */
-	stroke: Stroke
+	stroke?: Stroke
 }
 
 /**
