@@ -96,7 +96,7 @@ export interface GfiLayerConfiguration {
 	/**
 	 * (WFS- and GeoJSON-only)
 	 * If given, a tooltip will be shown with the values calculated for the feature.
-	 * The first string is the HTML tag to render, the second its contents; contants may be locale keys.
+	 * The first string is the HTML tag to render, the second its contents; contents may be locale keys.
 	 *
 	 * Please mind that tooltips will only be shown if a mouse is used or the hovering device could not be detected.
 	 * Touch and pen interactions do not open tooltips since they will open the GFI window, rendering the gatherable information redundant.
