@@ -2,7 +2,7 @@ import type { Feature as GeoJsonFeature } from 'geojson'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { isEqual } from 'es-toolkit'
-import { MapBrowserEvent, Overlay } from 'ol'
+import { MapBrowserEvent } from 'ol'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
 
@@ -10,13 +10,13 @@ import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
 import { useMultiSelection } from '../composables/useMultiSelection'
+import { useTooltip } from '../composables/useTooltip'
 import {
 	type GfiLayerConfiguration,
 	PluginId,
 	type RequestGfiParameters,
 } from '../types'
 import { requestGfi } from '../utils/requestGfi'
-import { updateTooltip } from '../utils/updateTooltip'
 import { useGfiMainStore } from './main'
 
 export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
@@ -206,32 +206,13 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		{ deep: true }
 	)
 
-	const overlay = new Overlay({
-		positioning: 'bottom-center',
-		offset: [0, -5],
-	})
-	coreStore.map.addOverlay(overlay)
-	let teardownTooltip: (() => void) | null = null
-	coreStore.map.on('pointermove', (evt) => {
-		if (teardownTooltip) {
-			teardownTooltip()
-		}
-
-		teardownTooltip = updateTooltip(
-			evt,
-			overlay,
-			Object.fromEntries(
-				Object.entries(gfiMainStore.configuration.layers)
-					.filter(([, { showTooltip }]) => Boolean(showTooltip))
-					.map(([layerId, { showTooltip }]) => [layerId, showTooltip])
-			) as Record<string, NonNullable<GfiLayerConfiguration['showTooltip']>>
-		)
-	})
-	onScopeDispose(() => {
-		if (teardownTooltip) {
-			teardownTooltip()
-		}
-		coreStore.map.removeOverlay(overlay)
+	useTooltip({
+		map: coreStore.map,
+		tooltipGenerators: Object.fromEntries(
+			Object.entries(gfiMainStore.configuration.layers)
+				.filter(([, { showTooltip }]) => Boolean(showTooltip))
+				.map(([layerId, { showTooltip }]) => [layerId, showTooltip])
+		) as Record<string, NonNullable<GfiLayerConfiguration['showTooltip']>>,
 	})
 
 	if (gfiMainStore.configuration.renderType === 'iconMenu') {
