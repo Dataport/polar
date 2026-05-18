@@ -281,7 +281,7 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	 * Be careful when using this parameter together with some values set in `coordinateSources` as it may lead to unexpected results.
 	 * The features need to be distinguishable by their properties for the functionality to properly work.
 	 *
-	 * Does not work together with `extendedMasterportalapiMarkers`.
+	 * Does not work together with {@link MapConfiguration.markers}.
 	 *
 	 * @defaultValue false
 	 */
