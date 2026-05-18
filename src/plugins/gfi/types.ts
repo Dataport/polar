@@ -103,7 +103,7 @@ export interface GfiLayerConfiguration {
 	 *
 	 * @defaultValue undefined
 	 * @param feature - Feature to calculate the tooltip for
-	 * @returns [HTML tag to render, content or locale key]
+	 * @returns Array of tuples of the form [HTML tag to render, content or locale key]
 	 */
 	showTooltip?: (feature: Feature) => [string, string][]
 
