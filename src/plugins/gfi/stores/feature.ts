@@ -1,7 +1,7 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
-import { isEqual } from 'es-toolkit'
+import { debounce, isEqual } from 'es-toolkit'
 import { MapBrowserEvent } from 'ol'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
@@ -109,11 +109,14 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		gfiMainStore.featureInformation = result
 	}
 
+	const waitMs = computed(() => gfiMainStore.configuration.waitMs || 50)
+	const debouncedGetFeatureInfo = debounce(getFeatureInfo, waitMs.value)
+
 	usePluginStoreWatcher(
 		gfiMainStore.configuration.coordinateSources || [],
-		async (coordinate) => {
+		(coordinate) => {
 			if (coordinate) {
-				await getFeatureInfo(
+				debouncedGetFeatureInfo(
 					coordinate as RequestGfiParameters['coordinateOrExtent']
 				)
 			} else {
@@ -128,9 +131,9 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			map: coreStore.map,
 			mode: gfiMainStore.configuration.multiSelect,
 		})
-		watch(multiSelection.selection, async (selection) => {
+		watch(multiSelection.selection, (selection) => {
 			if (selection) {
-				await getFeatureInfo(selection)
+				debouncedGetFeatureInfo(selection)
 			} else {
 				gfiMainStore.featureInformation = {}
 			}
@@ -138,8 +141,8 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	}
 
 	if (gfiMainStore.configuration.directSelect) {
-		async function onMapClick({ coordinate, originalEvent }: MapBrowserEvent) {
-			await getFeatureInfo(coordinate as [number, number], {
+		function onMapClick({ coordinate, originalEvent }: MapBrowserEvent) {
+			debouncedGetFeatureInfo(coordinate as [number, number], {
 				toggleSelection:
 					navigator.userAgent.indexOf('Mac') !== -1
 						? originalEvent.metaKey

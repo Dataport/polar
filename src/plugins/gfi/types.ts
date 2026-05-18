@@ -329,6 +329,14 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	 * @defaultValue Disabled by default
 	 */
 	multiSelect?: 'box' | 'circle'
+
+	/**
+	 * Time passed in milliseconds before another request is started.
+	 *
+	 * @defaultValue `50`
+	 * @alpha
+	 */
+	waitMs?: number
 }
 
 /**
