@@ -4,12 +4,11 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import { useIconMenuStore } from '../iconMenu/store'
 import { PluginId, type ZoomPluginOptions } from './types'
 
 /* eslint-disable tsdoc/syntax */
@@ -58,14 +57,12 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 				['TOP_MIDDLE', 'BOTTOM_MIDDLE'].includes(layoutTag.value))
 	)
 
-	const { layoutTag: iconMenuLayoutTag } = storeToRefs(useIconMenuStore())
-
 	const tooltipPosition = computed(() =>
 		layoutTag.value
 			? layoutTag.value.includes('RIGHT')
 				? 'left'
 				: 'right'
-			: iconMenuLayoutTag.value.includes('RIGHT')
+			: coreStore.getPluginStore('iconMenu')?.layoutTag.includes('RIGHT')
 				? 'left'
 				: 'right'
 	)
