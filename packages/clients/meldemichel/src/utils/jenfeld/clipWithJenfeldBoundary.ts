@@ -25,7 +25,7 @@ export function clipWithJenfeldBoundary(map: Map) {
 
       const pixelCoords = simplifiedBoundary.map((coord) =>
         // coordinate is tainted (CSS transform); thankfully, OL already delivers inversion function
-        apply(inversePixelTransform, map.getPixelFromCoordinate(coord).slice())
+        apply(inversePixelTransform, map.getPixelFromCoordinate(coord))
       )
 
       const context = event.context as CanvasRenderingContext2D
