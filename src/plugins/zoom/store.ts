@@ -154,14 +154,6 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 		zoomOutIcon,
 
 		/**
-		 * Defines the rendering type.
-		 *
-		 * @alpha
-		 * @readonly
-		 */
-		renderType,
-
-		/**
 		 * Whether the zoom UI should be rendered horizontally.
 		 *
 		 * @alpha
@@ -176,14 +168,6 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 		 * @readonly
 		 */
 		tooltipPosition,
-
-		/**
-		 * Layout tag when used with independent rendering in NineLayout.
-		 *
-		 * @alpha
-		 * @readonly
-		 */
-		layoutTag,
 	}
 })
 
