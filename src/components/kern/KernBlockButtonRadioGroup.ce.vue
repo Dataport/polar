@@ -1,6 +1,6 @@
 <template>
 	<div class="radiogroup" role="radiogroup">
-		<template v-for="(item, idx) of props.items" :key="idx">
+		<template v-for="(item, idx) of $props.items" :key="idx">
 			<span
 				ref="radios"
 				role="radio"
@@ -19,7 +19,7 @@
 			>
 				<span
 					v-if="item.icon"
-					:class="{ 'kern-icon': true, [item.icon]: true }"
+					:class="`kern-icon ${item.icon}`"
 					aria-hidden="true"
 				/>
 				<span class="kern-label">{{ item.label }}</span>
@@ -33,11 +33,11 @@ import { useId, useTemplateRef } from 'vue'
 
 import type { Icon } from '@/core'
 
-const props = defineProps<{
+defineProps<{
 	items: {
 		value: string
 		label: string
-		icon?: Icon | false
+		icon?: Icon
 	}[]
 }>()
 
