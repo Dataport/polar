@@ -39,6 +39,8 @@
 				"
 				@mouseenter="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
 				@mouseleave="gfiStore.hoveredFeatures = {}"
+				@focus="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
+				@blur="gfiStore.hoveredFeatures = {}"
 			>
 				<h3 class="kern-title kern-title--small">
 					{{ gfiStore.listGetText(feature, 'title') }}
