@@ -5,7 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -58,14 +58,14 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 	)
 
 	const tooltipPosition = computed(() =>
-		layoutTag.value
+		renderType.value === 'independent'
 			? layoutTag.value.includes('RIGHT')
 				? 'left'
 				: 'right'
 			: coreStore.getPluginStore('iconMenu')?.layoutTag.includes('RIGHT')
 				? 'left'
 				: 'right'
-	)
+	) as ComputedRef<'left' | 'right'>
 
 	const zoomUiVisible = computed(
 		() => configuration.value.showMobile || !coreStore.hasSmallDisplay
