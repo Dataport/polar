@@ -3,6 +3,7 @@ import type { Feature } from 'ol'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
+import { useOlVectorSources } from '@/composables/useOlVectorSources'
 import { useRefStore } from '@/composables/useRefStore'
 import { useCoreStore } from '@/core/stores'
 import { getVectorSource } from '@/lib/getVectorSource'
@@ -36,32 +37,41 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		return store[activeLayersRef.key]
 	})
 
-	const features = computed(() => {
-		// We want to re-calculate on extent changes, as the features change then.
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-		coreStore.extent
+	const activeLayerList = computed(() =>
+		activeLayers.value
+			.map((layerId) => ({
+				layerId,
+				layerConfiguration: gfiMainStore.getLayerConfiguration(layerId),
+				layer: coreStore.getLayer(layerId),
+			}))
+			.filter(
+				(
+					layer
+				): layer is {
+					[K in keyof typeof layer]: NonNullable<(typeof layer)[K]>
+				} => Boolean(layer.layerConfiguration) && Boolean(layer.layer)
+			)
+			.map(({ layerId, layerConfiguration, layer }) => ({
+				layerId,
+				layerConfiguration,
+				source: getVectorSource(layer),
+			}))
+	)
 
-		// TODO: We also want to re-calculate when the features are actually loaded.
-		// Currently, we need an extent change to reload the list.
+	function isHovered(feature: Feature) {
+		return (
+			coreStore.hoveredFeature === feature ||
+			coreStore.hoveredFeature?.get('features')?.includes(feature)
+		)
+	}
 
-		return Object.fromEntries(
-			activeLayers.value
-				.map((layerId) => ({
-					layerId,
-					layerConfiguration: gfiMainStore.getLayerConfiguration(layerId),
-					layer: coreStore.getLayer(layerId),
-				}))
-				.filter(
-					(
-						layer
-					): layer is {
-						[K in keyof typeof layer]: NonNullable<(typeof layer)[K]>
-					} => Boolean(layer.layerConfiguration) && Boolean(layer.layer)
-				)
-				.map(({ layerId, layerConfiguration, layer }) => {
-					const source = getVectorSource(layer)
-
-					return [
+	const features = useOlVectorSources(
+		computed(() => activeLayerList.value.map(({ source }) => source)),
+		computed(() => [coreStore.extent, coreStore.hoveredFeature]),
+		() =>
+			Object.fromEntries(
+				activeLayerList.value
+					.map(({ layerId, layerConfiguration, source }) => [
 						layerId,
 						getSourceFeatures(
 							coreStore.map,
@@ -77,25 +87,18 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 							.map((feature) => ({
 								feature,
 								...(configuration.value?.bindWithCoreHoverSelect
-									? {
-											hovered:
-												coreStore.hoveredFeature === feature ||
-												coreStore.hoveredFeature
-													?.get('features')
-													?.includes(feature),
-										}
+									? { hovered: isHovered(feature) }
 									: {}),
 							})),
-					]
-				})
-				.filter(
-					(
-						layer
-					): layer is [string, { feature: Feature; hovered?: boolean }[]] =>
-						Boolean(layer)
-				)
-		)
-	})
+					])
+					.filter(
+						(
+							layer
+						): layer is [string, { feature: Feature; hovered?: boolean }[]] =>
+							Boolean(layer)
+					)
+			)
+	)
 
 	watch(
 		[
