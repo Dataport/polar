@@ -20,28 +20,23 @@ import { PluginId, type ZoomPluginOptions } from './types'
  */
 /* eslint-enable tsdoc/syntax */
 export const useZoomStore = defineStore('plugins/zoom', () => {
-	const {
-		deviceIsHorizontal,
-		hasSmallDisplay,
-		configuration: coreStoreConfiguration,
-		zoom,
-	} = storeToRefs(useCoreStore())
+	const coreStore = useCoreStore()
 
 	const configuration = computed(
-		() => coreStoreConfiguration.value[PluginId] as ZoomPluginOptions
+		() => coreStore.configuration[PluginId] as ZoomPluginOptions
 	)
 
 	const zoomLevel = computed({
-		get: () => zoom.value,
+		get: () => coreStore.zoom,
 		set: (value) => {
-			zoom.value = value
+			coreStore.$patch({ zoom: value })
 		},
 	})
 
 	const layoutTag = computed(() => configuration.value.layoutTag ?? '')
 
 	const zoomLevels = computed(() =>
-		coreStoreConfiguration.value.options.map((option) => option.zoomLevel)
+		coreStore.configuration.options.map((option) => option.zoomLevel)
 	)
 	const minimumZoomLevel = computed(() => Math.min(...zoomLevels.value))
 	const maximumZoomLevel = computed(() => Math.max(...zoomLevels.value))
@@ -58,7 +53,7 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 
 	const renderHorizontal = computed(
 		() =>
-			(renderType.value === 'iconMenu' && deviceIsHorizontal.value) ||
+			(renderType.value === 'iconMenu' && coreStore.deviceIsHorizontal) ||
 			(renderType.value === 'independent' &&
 				['TOP_MIDDLE', 'BOTTOM_MIDDLE'].includes(layoutTag.value))
 	)
@@ -76,7 +71,7 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 	)
 
 	const zoomUiVisible = computed(
-		() => configuration.value.showMobile || !hasSmallDisplay.value
+		() => configuration.value.showMobile || !coreStore.hasSmallDisplay
 	)
 	const zoomSliderVisible = computed(() => configuration.value.showZoomSlider)
 
