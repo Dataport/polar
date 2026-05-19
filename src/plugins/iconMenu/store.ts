@@ -164,6 +164,8 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		openInMoveHandle,
 		openMenuById,
 		openFocusMenuById,
+
+		/** @alpha */
 		layoutTag,
 
 		/** @internal */
