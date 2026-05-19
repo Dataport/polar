@@ -2,10 +2,10 @@ import vue from '@vitejs/plugin-vue'
 import { globSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve, basename, sep } from 'node:path'
+import dts from 'unplugin-dts/vite'
 import { defineConfig } from 'vite'
 import checker from 'vite-plugin-checker'
 import commonJs from 'vite-plugin-commonjs'
-import dts from 'vite-plugin-dts'
 import kernExtraIcons from 'vite-plugin-kern-extra-icons'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => ({
 		}),
 		vueDevTools(),
 		dts({
-			rollupTypes: true,
+			bundleTypes: true,
 			tsconfigPath: './src/tsconfig.json',
 		}),
 		...(mode === 'development'
