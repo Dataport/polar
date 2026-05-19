@@ -232,7 +232,7 @@ const mapConfigurations: Record<
   },
   [MODE.JENFELD]: (reportServiceId: string, afmUrl: string) => {
     const queryZoom =
-      Number(new URLSearchParams(location.search).get('jenfeld_zoom')) || 7
+      Number(new URLSearchParams(location.search).get('zoom')) || 7
     const singularOption = mpapiDefaults.options[queryZoom]
 
     return {
