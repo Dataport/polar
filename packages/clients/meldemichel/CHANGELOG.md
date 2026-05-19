@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Jenfeld client variant now initially focuses on known position of interactive display.
+- Feature: Instead of geolocating, Jenfeld client variant displays geolocation at that known position.
+- Feature: With query parameter `?zoom`, the single zoom level of the Jenfeld client variant can be set.
+- Feature: The FullScreen button is no longer shown in the Jenfeld client variant, as it did almost nothing in the target environment.
+- Fix: A bug that was apparent on higher zoom levels in the Jenfeld client variant has been resolved. It affected which parts of the city district were shown.
+- Chore: Various dependencies have been updated.
+
 ## 1.3.0
 
 - Feature: Add a Jenfeld client with reduced network traffic and scope.

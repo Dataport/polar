@@ -1,6 +1,7 @@
 import Polygon from 'ol/geom/Polygon'
 import Map from 'ol/Map'
 import TileLayer from 'ol/layer/Tile'
+import { apply } from 'ol/transform'
 import { jenfeldCoordinates } from '../jenfeld'
 
 const jenfeldBoundaryPolygon = new Polygon(jenfeldCoordinates)
@@ -16,12 +17,15 @@ export function clipWithJenfeldBoundary(map: Map) {
 
   backgroundLayers.forEach((layer) => {
     layer.on('prerender', (event) => {
-      if (!layer.getVisible() || !event.context) {
+      const { inversePixelTransform } = event
+
+      if (!layer.getVisible() || !event.context || !inversePixelTransform) {
         return
       }
 
       const pixelCoords = simplifiedBoundary.map((coord) =>
-        map.getPixelFromCoordinate(coord)
+        // coordinate is tainted (CSS transform); thankfully, OL already delivers inversion function
+        apply(inversePixelTransform, map.getPixelFromCoordinate(coord))
       )
 
       const context = event.context as CanvasRenderingContext2D
