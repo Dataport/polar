@@ -1,28 +1,22 @@
 <template>
 	<button
 		class="kern-btn kern-btn--block kern-btn--tertiary"
-		@click="emit('click')"
+		@click="$emit('click')"
 	>
 		<span
-			v-if="props.icon"
-			:class="{ 'kern-icon': true, [props.icon]: true }"
+			v-if="$props.icon"
+			:class="`kern-icon ${$props.icon}`"
 			aria-hidden="true"
 		/>
-		<span class="kern-label">{{ props.label }}</span>
+		<span class="kern-label"><slot /></span>
 	</button>
 </template>
 
 <script setup lang="ts">
 import type { Icon } from '@/core'
 
-const props = defineProps<{
-	icon?: Icon | false
-	label: string
-}>()
-
-const emit = defineEmits<{
-	click: []
-}>()
+defineProps<{ icon?: Icon }>()
+defineEmits<{ click: [] }>()
 </script>
 
 <style scoped>
