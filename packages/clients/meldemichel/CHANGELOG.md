@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.4.0
 
 - Feature: Jenfeld client variant now initially focuses on known position of interactive display.
 - Feature: Instead of geolocating, Jenfeld client variant displays geolocation at that known position.
