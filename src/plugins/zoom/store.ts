@@ -28,7 +28,7 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 	const zoomLevel = computed({
 		get: () => coreStore.zoom,
 		set: (value) => {
-			coreStore.$patch({ zoom: value })
+			coreStore.zoom = value
 		},
 	})
 
