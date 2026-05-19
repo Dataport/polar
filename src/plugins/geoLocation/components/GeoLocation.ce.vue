@@ -14,15 +14,18 @@ import { computed } from 'vue'
 
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
-import { useIconMenuStore } from '@/plugins/iconMenu/store'
 
 import { useGeoLocationStore } from '../store'
 import { PluginId } from '../types'
 
-const { layout } = storeToRefs(useCoreStore())
+const coreStore = useCoreStore()
+const iconMenuStore = coreStore.getPluginStore('iconMenu')
+const { layout } = storeToRefs(coreStore)
 const geoLocationStore = useGeoLocationStore()
 const { state } = storeToRefs(geoLocationStore)
-const { layoutTag: iconMenuLayoutTag } = storeToRefs(useIconMenuStore())
+const { layoutTag: iconMenuLayoutTag } = iconMenuStore
+	? storeToRefs(iconMenuStore)
+	: { layoutTag: computed(() => '') }
 
 const icon = computed(() => {
 	if (state.value === 'LOCATED') {
