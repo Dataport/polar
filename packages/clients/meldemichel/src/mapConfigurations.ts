@@ -10,12 +10,6 @@ import {
   ReverseGeocoderConfiguration,
 } from '@polar/lib-custom-types'
 import { MpApiParameters } from '@polar/plugin-address-search'
-import { MODE, SKAT, REPORT_STATUS } from './enums'
-import locales, { jenfeldLocales } from './locales'
-import { MeldemichelCreateMapParams } from './types'
-import { showTooltip } from './utils/showTooltip'
-import { jenfeldBoundaryId } from './utils/jenfeld/addJenfeldBoundary'
-import { jenfeldhausCoordinate } from './utils/jenfeld/jenfeldhausCoordinate'
 import { mpapiDefaults } from '@polar/core'
 import { MODE, SKAT, REPORT_STATUS } from './enums'
 import locales, { jenfeldLocales } from './locales'
