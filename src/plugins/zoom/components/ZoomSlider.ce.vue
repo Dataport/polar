@@ -36,13 +36,11 @@ const {
 
 <style scoped>
 .polar-plugin-zoom-slider {
-	width: var(--kern-metric-dimension-5x-large);
+	inline-size: var(--kern-metric-dimension-5x-large);
+}
 
-	&.polar-plugin-zoom-slider-vertical {
-		width: unset;
-		height: var(--kern-metric-dimension-5x-large);
-		writing-mode: vertical-lr;
-		direction: rtl;
-	}
+.polar-plugin-zoom-slider-vertical {
+	writing-mode: vertical-lr;
+	direction: rtl;
 }
 </style>
