@@ -16,7 +16,13 @@ import { MeldemichelCreateMapParams } from './types'
 import { showTooltip } from './utils/showTooltip'
 import { jenfeldBoundaryId } from './utils/jenfeld/addJenfeldBoundary'
 import { jenfeldhausCoordinate } from './utils/jenfeld/jenfeldhausCoordinate'
-import mpapiDefaults from '@polar/core/src/utils/createMap/defaults'
+import { mpapiDefaults } from '@polar/core'
+import { MODE, SKAT, REPORT_STATUS } from './enums'
+import locales, { jenfeldLocales } from './locales'
+import { MeldemichelCreateMapParams } from './types'
+import { showTooltip } from './utils/showTooltip'
+import { jenfeldBoundaryId } from './utils/jenfeld/addJenfeldBoundary'
+import { jenfeldhausCoordinate } from './utils/jenfeld/jenfeldhausCoordinate'
 
 export const stadtwald = '18746'
 const stadtplan = '453'
@@ -226,7 +232,7 @@ const mapConfigurations: Record<
   },
   [MODE.JENFELD]: (reportServiceId: string, afmUrl: string) => {
     const queryZoom =
-      Number(new URLSearchParams(location.search).get('jenfeld_zoom')) || 7
+      Number(new URLSearchParams(location.search).get('zoom')) || 7
     const singularOption = mpapiDefaults.options[queryZoom]
 
     return {
