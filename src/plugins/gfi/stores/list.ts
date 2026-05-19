@@ -108,9 +108,10 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		([bindMarkers, feature]) => {
 			if (bindMarkers) {
 				if (feature) {
-					selectedFeatures.value[feature.get('_polarLayerId')] = feature.get(
-						'features'
-					) || [feature]
+					const newFeatures = feature.get('features') || [feature]
+					if (newFeatures.length === 1) {
+						selectedFeatures.value[feature.get('_polarLayerId')] = newFeatures
+					}
 				} else {
 					selectedFeatures.value = {}
 				}

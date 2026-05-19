@@ -267,8 +267,9 @@ function mapMoveEnd({ map }: MapEvent) {
 	if (zoom !== lastZoom) {
 		lastZoom = zoom
 		if (store.selected) {
-			const baseFeature = (store.selected.get('features')?.[0] ||
-				store.selected) as Feature
+			const baseFeature =
+				store.selectedBaseFeature ||
+				((store.selected.get('features')?.[0] || store.selected) as Feature)
 			setLayerId(map, baseFeature)
 			updateSelection(map, baseFeature)
 		}

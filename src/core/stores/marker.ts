@@ -1,7 +1,7 @@
 import { Feature } from 'ol'
 import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, shallowRef } from 'vue'
+import { computed, shallowRef, watch } from 'vue'
 
 import type { CallOnMapSelect } from '../types'
 
@@ -28,12 +28,25 @@ export const useMarkerStore = defineStore('marker', () => {
 			: (selected.value.getGeometry() as Point).getCoordinates()
 	)
 
+	const selectedBaseFeature = shallowRef<Feature | null>(null)
+	watch(selected, (feature) => {
+		if (feature) {
+			const childFeatures = feature.get('features') as Feature[] | undefined
+			if (childFeatures?.length === 1 && childFeatures[0]) {
+				selectedBaseFeature.value = childFeatures[0]
+			}
+		} else {
+			selectedBaseFeature.value = null
+		}
+	})
+
 	return {
 		configuration,
 		callOnMapSelect,
 		clusterClickZoom,
 
 		hovered,
+		selectedBaseFeature,
 		selected,
 		selectedCoordinates,
 	}
