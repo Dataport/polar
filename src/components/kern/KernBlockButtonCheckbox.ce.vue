@@ -8,11 +8,11 @@
 	/>
 	<label :for="id" class="kern-btn kern-btn--block kern-btn--tertiary">
 		<span
-			v-if="props.icon"
-			:class="{ 'kern-icon': true, [props.icon]: true }"
+			v-if="$props.icon"
+			:class="`kern-icon ${$props.icon}`"
 			aria-hidden="true"
 		/>
-		<span class="kern-label">{{ props.label }}</span>
+		<span class="kern-label"><slot /></span>
 	</label>
 </template>
 
@@ -21,10 +21,7 @@ import { useId } from 'vue'
 
 import type { Icon } from '@/core'
 
-const props = defineProps<{
-	icon?: Icon | false
-	label: string
-}>()
+defineProps<{ icon?: Icon }>()
 
 const model = defineModel<boolean>({ required: true })
 

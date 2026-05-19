@@ -7,21 +7,12 @@
 			type="checkbox"
 			@keydown.prevent.enter="model = !model"
 		/>
-		<label :for="id" class="kern-label">
-			{{ props.label }}
-		</label>
+		<label :for="id" class="kern-label"><slot /></label>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { useId } from 'vue'
-
-import type { Icon } from '@/core'
-
-const props = defineProps<{
-	icon?: Icon | false
-	label: string
-}>()
 
 const model = defineModel<boolean>({ required: true })
 
