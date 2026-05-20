@@ -1,6 +1,6 @@
 <template>
 	<div class="radiogroup" role="radiogroup">
-		<template v-for="(item, idx) of $props.items" :key="idx">
+		<template v-for="(item, idx) of items" :key="idx">
 			<span
 				ref="radios"
 				role="radio"
