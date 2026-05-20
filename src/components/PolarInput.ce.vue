@@ -13,7 +13,7 @@
 			class="polar-input kern-label"
 			:for="`polar-${type}-${value}-${idSuffix}`"
 		>
-			{{ label }}
+			<slot />
 		</label>
 	</div>
 </template>
@@ -23,7 +23,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
 	idSuffix: string
-	label: string
 	type: T
 	value: string
 	disabled?: boolean
