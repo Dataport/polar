@@ -5,7 +5,8 @@ import type { ReverseGeocoderFeature } from '../types'
 export async function reverseGeocodeNominatim(
 	url: string,
 	coordinate: [number, number],
-	epsg: string
+	epsg: string,
+	signal: AbortSignal
 ): Promise<ReverseGeocoderFeature> {
 	const searchCoordinate = transformCoordinate(
 		coordinate,
@@ -18,7 +19,9 @@ export async function reverseGeocodeNominatim(
 	fetchUrl.searchParams.set('lon', searchCoordinate[0].toString())
 	fetchUrl.searchParams.set('format', 'jsonv2')
 
-	const result = await fetch(fetchUrl).then((response) => response.json())
+	const result = await fetch(fetchUrl, { signal }).then((response) =>
+		response.json()
+	)
 
 	const resultObject: ReverseGeocoderFeature = {
 		type: 'reverse_geocoded',

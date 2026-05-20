@@ -6,8 +6,10 @@ import {
   denkmaelerWFS,
   alkisWfs,
 } from '../servicesConstants'
+import { sortFeaturesByProperties } from '../utils/sortFeaturesByProperties'
 
 const groupDenkmalsuche = 'groupDenkmalsuche'
+export const categoryIdAlkisSearch = 'categoryIdAlkisSearch'
 
 export const searchMethods = {
   denkmalsucheAutocomplete: {
@@ -64,23 +66,43 @@ export const searchMethods = {
       featurePrefix: 'app',
       xmlns: 'http://www.deegree.org/app',
       useRightHandWildcard: true,
+      caseSensitive: false,
+      maxFeatures: 120,
       patternKeys: {
         hausnummer: '([0-9]+)',
-        strasse: '([A-Za-z]+)',
-        objektansprache: '([A-Za-z]+)',
-        kreis_kue: '([A-Za-z]+)',
+        strasse: '([A-Za-zäöüßÄÖÜ]+)',
+        objektansprache: '([A-Za-zäöüßÄÖÜ]+)',
+        kreis_kue: '([A-Za-zäöüßÄÖÜ]+)',
+        gemeinde: '([A-Za-zäöüßÄÖÜ]+)',
         objektid: '([0-9]+)',
       },
       patterns: [
-        '{{objektansprache}}, {{strasse}} {{hausnummer}}, {{kreis_kue}}, {{objektid}}',
-        '{{strasse}} {{hausnummer}}, {{kreis_kue}}',
-        ' {{objektansprache}}, {{objektid}}',
+        '{{objektansprache}}, {{strasse}} {{hausnummer}}, {{kreis_kue}}, {{gemeinde}}, ONR {{objektid}}',
+        '{{strasse}} {{hausnummer}}, {{kreis_kue}}, {{gemeinde}}',
+        '{{objektansprache}}, {{gemeinde}}, ONR {{objektid}}',
       ],
     },
+    resultModifier: (featureCollection) => {
+      if (
+        featureCollection.features === undefined ||
+        featureCollection.features === null
+      ) {
+        return featureCollection
+      }
+      const featuresSorted = sortFeaturesByProperties(
+        featureCollection.features,
+        ['gemeinde', 'objektansprache', 'strasse', 'hausnummer', 'objektid']
+      )
+      return {
+        ...featureCollection,
+        features: featuresSorted,
+      }
+    },
   },
+
   alkisSearch: {
     groupId: groupDenkmalsuche,
-    categoryId: 'categoryIdAlkisSearch',
+    categoryId: categoryIdAlkisSearch,
     type: 'wfs',
     // will be set later due to mode setting
     url: null,
@@ -95,15 +117,40 @@ export const searchMethods = {
       patternKeys: {
         flstnrnen: '([0-9]+)',
         flstnrzae: '([0-9]+)',
-        gemarkung: '([A-Za-z]+)',
+        gemarkung: '([A-Za-zäöüßÄÖÜ]+)',
+        gemeinde: '([A-Za-zäöüßÄÖÜ]+)',
         flstkennz: '([0-9_]+)',
         flur: '([0-9]+)',
       },
       patterns: [
-        '{{gemarkung}} {{flur}}, {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
-        '{{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
+        '{{gemeinde}}, {{gemarkung}} {{flur}}, {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
+        '{{gemeinde}}, {{gemarkung}} {{flur}}, {{flstnrzae}}, {{flstkennz}}',
         '{{flstkennz}}',
       ],
+      sortBy: [
+        { propertyName: 'gemeinde', direction: 'ASC' },
+        { propertyName: 'gemarkung', direction: 'ASC' },
+        { propertyName: 'flur', direction: 'ASC' },
+        { propertyName: 'flstnrzae', direction: 'ASC' },
+        { propertyName: 'flstnrnen', direction: 'ASC' },
+      ],
+    },
+    resultModifier: (featureCollection) => {
+      if (
+        featureCollection.features === undefined ||
+        featureCollection.features === null
+      ) {
+        return featureCollection
+      }
+      const featuresSorted = sortFeaturesByProperties(
+        featureCollection.features,
+        ['gemeinde', 'gemarkung', 'flur', 'flstnrzae', 'flstnrnen'],
+        ['flur', 'flstnrzae', 'flstnrnen']
+      )
+      return {
+        ...featureCollection,
+        features: featuresSorted,
+      }
     },
   },
 }

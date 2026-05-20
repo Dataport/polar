@@ -14,6 +14,7 @@ import LoadingIndicator from '@polar/plugin-loading-indicator'
 import Pins from '@polar/plugin-pins'
 import PointerPosition from '@polar/plugin-pointer-position'
 import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
+import Routing from '@polar/plugin-routing'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
@@ -49,6 +50,17 @@ export const addPlugins = (core) => {
       {
         plugin: GeoLocation({ renderType: 'iconMenu' }),
         id: 'geoLocation',
+      },
+      {
+        plugin: Routing({
+          // Will be set later
+          apiKey: '',
+          url: 'https://api.openrouteservice.org/v2/directions/',
+          format: 'geojson',
+          type: 'ors',
+        }),
+        icon: 'fa-route',
+        id: 'routing',
       },
       {
         plugin: Attributions({

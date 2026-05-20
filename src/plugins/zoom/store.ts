@@ -1,0 +1,168 @@
+/* eslint-disable tsdoc/syntax */
+/**
+ * @module \@polar/polar/plugins/zoom/store
+ */
+/* eslint-enable tsdoc/syntax */
+
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { computed, type ComputedRef } from 'vue'
+
+import { useCoreStore } from '@/core/stores'
+
+import { PluginId, type ZoomPluginOptions } from './types'
+
+/* eslint-disable tsdoc/syntax */
+/**
+ * @function
+ *
+ * Plugin store for zoom buttons and zoom slider.
+ */
+/* eslint-enable tsdoc/syntax */
+export const useZoomStore = defineStore('plugins/zoom', () => {
+	const coreStore = useCoreStore()
+
+	const configuration = computed(
+		() => coreStore.configuration[PluginId] as ZoomPluginOptions
+	)
+
+	const zoomLevel = computed({
+		get: () => coreStore.zoom,
+		set: (value) => {
+			coreStore.zoom = value
+		},
+	})
+
+	const layoutTag = computed(() => configuration.value.layoutTag ?? '')
+
+	const zoomLevels = computed(() =>
+		coreStore.configuration.options.map((option) => option.zoomLevel)
+	)
+	const minimumZoomLevel = computed(() => Math.min(...zoomLevels.value))
+	const maximumZoomLevel = computed(() => Math.max(...zoomLevels.value))
+	const minimumZoomLevelActive = computed(
+		() => zoomLevel.value <= minimumZoomLevel.value
+	)
+	const maximumZoomLevelActive = computed(
+		() => zoomLevel.value >= maximumZoomLevel.value
+	)
+
+	const renderType = computed(
+		() => configuration.value.renderType ?? 'independent'
+	)
+
+	const renderHorizontal = computed(
+		() =>
+			(renderType.value === 'iconMenu' && coreStore.deviceIsHorizontal) ||
+			(renderType.value === 'independent' &&
+				['TOP_MIDDLE', 'BOTTOM_MIDDLE'].includes(layoutTag.value))
+	)
+
+	const tooltipPosition = computed(() =>
+		renderType.value === 'independent'
+			? layoutTag.value.includes('RIGHT')
+				? 'left'
+				: 'right'
+			: coreStore.getPluginStore('iconMenu')?.layoutTag.includes('RIGHT')
+				? 'left'
+				: 'right'
+	) as ComputedRef<'left' | 'right'>
+
+	const zoomUiVisible = computed(
+		() => configuration.value.showMobile || !coreStore.hasSmallDisplay
+	)
+	const zoomSliderVisible = computed(() => configuration.value.showZoomSlider)
+
+	const zoomInIcon = computed(
+		() => configuration.value.icons?.zoomIn ?? 'kern-icon--add'
+	)
+	const zoomOutIcon = computed(
+		() => configuration.value.icons?.zoomOut ?? 'kern-icon--remove'
+	)
+
+	return {
+		/**
+		 * Current zoom level.
+		 */
+		zoomLevel,
+
+		/**
+		 * Minimum zoom level.
+		 *
+		 * @readonly
+		 */
+		minimumZoomLevel,
+
+		/**
+		 * Whether minimum zoom level is active.
+		 *
+		 * @readonly
+		 */
+		minimumZoomLevelActive,
+
+		/**
+		 * Maximum zoom level.
+		 *
+		 * @readonly
+		 */
+		maximumZoomLevel,
+
+		/**
+		 * Whether maximum zoom level is active.
+		 *
+		 * @readonly
+		 */
+		maximumZoomLevelActive,
+
+		/**
+		 * Whether zoom buttons and slider should be rendered.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		zoomUiVisible,
+
+		/**
+		 * Whether zoom slider should be rendered.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		zoomSliderVisible,
+
+		/**
+		 * CSS icon class for the icon of the zoom in button.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		zoomInIcon,
+
+		/**
+		 * CSS icon class for the icon of the zoom out button.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		zoomOutIcon,
+
+		/**
+		 * Whether the zoom UI should be rendered horizontally.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		renderHorizontal,
+
+		/**
+		 * Indicates in which direction of the element space is available for a tooltip.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		tooltipPosition,
+	}
+})
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useZoomStore, import.meta.hot))
+}

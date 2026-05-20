@@ -12,6 +12,7 @@ import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
 import { useDpi } from '@/lib/dpi'
 
+import { PluginId } from './types'
 import { beautifyScale } from './utils/beautifyScale'
 import { calculateScaleFromResolution } from './utils/calculateScaleFromResolution'
 
@@ -56,8 +57,8 @@ export const useScaleStore = defineStore('plugins/scale', () => {
 				label,
 				ariaLabel: computedT(() =>
 					t(($) => $.to, {
-						ns: 'scale',
-						number: label.split(':')[1]?.replace(/[,.]/g, '').trim(),
+						number: label.split(':')[1]?.replace(/[,.]/g, '').trim() ?? '',
+						ns: PluginId,
 					})
 				).value,
 				value: option.zoomLevel,

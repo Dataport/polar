@@ -31,8 +31,11 @@ export async function parseWfsResponse(
 
 	const text = await response.text()
 	const parsedFeatures = parser.readFeatures(text)
-	// @ts-expect-error | srsName is there, I've seen it – probably a bug in OL?
-	const { srsName } = parser.readFeatureCollectionMetadata(text)
+	const epsgCode =
+		// @ts-expect-error | srsName is there, I've seen it – probably a type-bug in OL?
+		parser.readFeatureCollectionMetadata(text).srsName?.split('::')?.[1] ??
+		// if srs not on root node, but on children, take first-best match
+		text.match(/srsName="[^"]*EPSG:(\d+)/)?.[1]
 
 	parsedFeatures.forEach((f) => {
 		const featureObject = JSON.parse(writer.writeFeature(f))
@@ -49,11 +52,11 @@ export async function parseWfsResponse(
 					: featureObject.properties[title]
 			}
 		}
-		if (srsName) {
+		if (epsgCode) {
 			featureObject.geometry = toMerged(featureObject.geometry, {
 				coordinates: transformCoordinates(
 					featureObject.geometry.coordinates,
-					`EPSG:${srsName.split('::')[1]}`,
+					`EPSG:${epsgCode}`,
 					epsg
 				),
 			})

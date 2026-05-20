@@ -117,8 +117,8 @@ export const useAddressSearchStore = defineStore(
 				inputValue.value.length < minLength.value
 			) {
 				return t(($) => $.hint.tooShort, {
+					minLength: String(minLength.value),
 					ns: PluginId,
-					minLength: minLength.value,
 				})
 			}
 
@@ -215,7 +215,14 @@ export const useAddressSearchStore = defineStore(
 			const localAbortControllerReference = abortController
 			return Promise.allSettled(
 				configuration.value.searchMethods.map(
-					async ({ categoryId, groupId, queryParameters, type, url }) => {
+					async ({
+						categoryId,
+						groupId,
+						queryParameters,
+						resultModifier,
+						type,
+						url,
+					}) => {
 						const features = await methodContainer.getSearchMethod(type)(
 							localAbortControllerReference.signal,
 							url,
@@ -232,7 +239,7 @@ export const useAddressSearchStore = defineStore(
 								? // @ts-expect-error | Other values can be used.
 									t(properties.label)
 								: t(($) => $.defaultLabel, { ns: PluginId }),
-							features,
+							features: resultModifier?.(features) ?? features,
 							groupId: groupId || 'defaultGroup',
 						}
 					}

@@ -1,7 +1,13 @@
 # CHANGELOG
 
-## unpublished
+## 1.3.0
 
+- Feature: Add a Jenfeld client with reduced network traffic and scope.
+- Chore: Update `@polar/address-search` dependency to minimum required version.
+
+## 1.2.2
+
+- Fix: Use updated layer id for the aerial photo layer.
 - Chore: Update `@polar`-dependencies to the latest versions.
 
 ## 1.2.1

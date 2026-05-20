@@ -9,22 +9,22 @@ import {
 } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
-import pluginFooter from '@polar/polar/plugins/footer'
+import pluginExport from '@polar/polar/plugins/export'
+import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
 import pluginPins from '@polar/polar/plugins/pins'
+import pluginPointerPosition from '@polar/polar/plugins/pointerPosition'
 import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
+import pluginZoom from '@polar/polar/plugins/zoom'
 
-import EmptyComponent from './EmptyComponent.vue'
-import MockPointerPosition from './MockPointerPosition.ce.vue'
 import services from './services.js'
 import styleJsonUrl from './style.json?url'
-import YetAnotherEmptyComponent from './YetAnotherEmptyComponent.vue'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -149,7 +149,7 @@ const map = await createMap(
 				},
 			},
 		],
-		layout: 'standard',
+		layout: 'nineRegions',
 		checkServiceAvailability: true,
 		featureStyles: styleJsonUrl,
 		markers: {
@@ -182,6 +182,30 @@ const map = await createMap(
 			{
 				type: 'de',
 				resources: {
+					filter: {
+						layer: {
+							[reports]: {
+								category: {
+									skat: {
+										title: 'Schadensart',
+										knownValue: {
+											'1xx': 'Alle Wege- und Straßenschäden',
+											100: 'Wege und Straßen',
+											101: 'Schlagloch und Wegeschaden',
+											102: 'Verunreinigung und Vandalismus',
+										},
+									},
+									statu: {
+										title: 'Bearbeitungsstatus',
+										knownValue: {
+											todo: 'In Bearbeitung',
+											done: 'Abgeschlossen',
+										},
+									},
+								},
+							},
+						},
+					},
 					fullscreen: {
 						button: {
 							label_on: 'Mach groß',
@@ -240,9 +264,67 @@ document.getElementById('secondMapClean').addEventListener('click', () => {
 
 addPlugin(
 	map,
+	pluginExport({
+		displayComponent: true,
+		layoutTag: 'MIDDLE_LEFT',
+		download: true,
+		formats: ['pdf', 'jpeg', 'png'],
+	})
+)
+
+addPlugin(
+	map,
+	pluginAttributions({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_RIGHT',
+		listenToChanges: [
+			{
+				key: 'activeBackgroundId',
+				plugin: 'layerChooser',
+			},
+			{
+				key: 'activeMaskIds',
+				plugin: 'layerChooser',
+			},
+			{
+				key: 'zoom',
+			},
+		],
+		layerAttributions: [
+			{
+				id: basemapId,
+				title: 'snowbox.attributions.basemap',
+			},
+			{
+				id: basemapGreyId,
+				title: 'snowbox.attributions.basemapGrey',
+			},
+			{
+				id: reports,
+				title: 'snowbox.attributions.reports',
+			},
+			{
+				id: ausgleichsflaechen,
+				title: 'snowbox.attributions.ausgleichsflaechen',
+			},
+			{
+				id: denkmal,
+				title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
+			},
+		],
+	})
+)
+
+addPlugin(
+	map,
+	pluginScale({ displayComponent: true, layoutTag: 'BOTTOM_RIGHT' })
+)
+
+addPlugin(
+	map,
 	pluginToast({
 		displayComponent: true,
-		layoutTag: 'BOTTOM_MIDDLE',
+		layoutTag: 'TOP_MIDDLE',
 	})
 )
 
@@ -268,12 +350,167 @@ setTimeout(() => {
 addPlugin(
 	map,
 	pluginLoadingIndicator({
+		displayComponent: true,
+		layoutTag: 'MIDDLE_MIDDLE',
 		loaderStyle: 'BasicLoader',
+	})
+)
+
+addPlugin(
+	map,
+	pluginReverseGeocoder({
+		// type: 'wps',
+		// url: 'https://geodienste.hamburg.de/HH_WPS',
+		type: 'nominatim',
+		url: 'https://polar.dataport.de/nominatim/reverse',
+		coordinateSources: [
+			{
+				plugin: 'pins',
+				key: 'coordinate',
+			},
+		],
+		addressTarget: {
+			plugin: 'addressSearch',
+			key: 'selectResult',
+		},
+		zoomTo: 7,
 	})
 )
 addPlugin(
 	map,
+	pluginPins({
+		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+		boundary: {
+			layerId: hamburgBorder,
+		},
+		movable: 'drag',
+		style: {
+			fill: '#FF0019',
+		},
+		toZoomLevel: 7,
+	})
+)
+addPlugin(
+	map,
+	pluginPointerPosition({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_LEFT',
+	})
+)
+addPlugin(
+	map,
+	pluginIconMenu({
+		displayComponent: true,
+		layoutTag: 'TOP_RIGHT',
+		initiallyOpen: 'layerChooser',
+		menus: [
+			[
+				{
+					plugin: pluginFullscreen({ renderType: 'iconMenu' }),
+				},
+				{
+					plugin: pluginLayerChooser({}),
+				},
+			],
+			[
+				{
+					plugin: pluginFilter({
+						layers: {
+							[reports]: {
+								categories: [
+									{
+										targetProperty: 'skat',
+										knownValues: [
+											{
+												key: '100',
+												values: ['100'],
+												icon: 'kern-icon--road',
+											},
+											{
+												key: '101',
+												values: ['101'],
+												icon: 'kern-icon--remove-road',
+											},
+											{
+												key: '102',
+												values: ['102'],
+												icon: 'kern-icon--destruction',
+											},
+										],
+										selectAll: true,
+									},
+									{
+										targetProperty: 'skat',
+										knownValues: [
+											{
+												key: '1xx',
+												values: ['100', '101', '102'],
+												icon: 'kern-icon--road',
+											},
+										],
+										selectAll: true,
+									},
+									{
+										targetProperty: 'statu',
+										knownValues: [
+											{
+												key: 'todo',
+												values: ['In Bearbeitung'],
+												icon: 'kern-icon--assignment',
+											},
+											{
+												key: 'done',
+												values: ['abgeschlossen'],
+												icon: 'kern-icon--check',
+											},
+										],
+									},
+								],
+								time: {
+									targetProperty: 'start',
+									freeSelection: 'until',
+									last: [0, 7, 30],
+									pattern: 'YYYYMMDD',
+								},
+							},
+						},
+					}),
+				},
+			],
+			[
+				{
+					plugin: pluginGeoLocation({
+						renderType: 'iconMenu',
+						checkLocationInitially: false,
+						keepCentered: true,
+						showTooltip: true,
+						zoomLevel: 7,
+						// usable when you're in HH or fake your geolocation to HH
+						/* boundary: {
+							layerId: hamburgBorder,
+							onError: 'strict',
+						}, */
+					}),
+				},
+			],
+			[
+				{
+					plugin: pluginZoom({
+						renderType: 'iconMenu',
+						showMobile: false,
+						showZoomSlider: true,
+					}),
+				},
+			],
+		],
+	})
+)
+
+addPlugin(
+	map,
 	pluginAddressSearch({
+		displayComponent: true,
+		layoutTag: 'TOP_LEFT',
 		searchMethods: [
 			/*
 			{
@@ -299,143 +536,6 @@ addPlugin(
 				limitResults: 5,
 			},
 		},
-	})
-)
-addPlugin(
-	map,
-	pluginPins({
-		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
-		boundary: {
-			layerId: hamburgBorder,
-		},
-		movable: 'drag',
-		style: {
-			fill: '#FF0019',
-		},
-		toZoomLevel: 7,
-	})
-)
-addPlugin(
-	map,
-	pluginReverseGeocoder({
-		// type: 'wps',
-		// url: 'https://geodienste.hamburg.de/HH_WPS',
-		type: 'nominatim',
-		url: 'https://polar.dataport.de/nominatim/reverse',
-		coordinateSources: [
-			{
-				plugin: 'pins',
-				key: 'coordinate',
-			},
-		],
-		addressTarget: {
-			plugin: 'addressSearch',
-			key: 'selectResult',
-		},
-		zoomTo: 7,
-	})
-)
-addPlugin(
-	map,
-	pluginIconMenu({
-		displayComponent: true,
-		layoutTag: 'TOP_RIGHT',
-		initiallyOpen: 'layerChooser',
-		focusMenus: [
-			{
-				plugin: {
-					component: YetAnotherEmptyComponent,
-					id: 'other',
-					locales: [],
-				},
-				icon: 'kern-icon--near-me',
-			},
-		],
-		menus: [
-			// TODO: Delete the mock plugins including the components once the correct plugins have been implemented
-			[
-				{
-					plugin: pluginFullscreen({}),
-				},
-				{
-					plugin: pluginLayerChooser({}),
-				},
-			],
-			[
-				{
-					plugin: {
-						component: EmptyComponent,
-						id: 'realKewl',
-						locales: [],
-					},
-					icon: 'kern-icon-fill--share',
-				},
-			],
-			[
-				{
-					plugin: pluginGeoLocation({
-						checkLocationInitially: false,
-						keepCentered: true,
-						showTooltip: true,
-						zoomLevel: 7,
-						// usable when you're in HH or fake your geolocation to HH
-						/* boundary: {
-							layerId: hamburgBorder,
-							onError: 'strict',
-						}, */
-					}),
-				},
-			],
-		],
-	})
-)
-addPlugin(
-	map,
-	pluginFooter({
-		leftEntries: [{ id: 'mockPointer', component: MockPointerPosition }],
-		rightEntries: [
-			pluginScale({}),
-			pluginAttributions({
-				icons: {
-					close: 'kern-icon--keyboard-arrow-up',
-				},
-				listenToChanges: [
-					{
-						key: 'activeBackgroundId',
-						plugin: 'layerChooser',
-					},
-					{
-						key: 'activeMaskIds',
-						plugin: 'layerChooser',
-					},
-					{
-						key: 'zoom',
-					},
-				],
-				layerAttributions: [
-					{
-						id: basemapId,
-						title: 'snowbox.attributions.basemap',
-					},
-					{
-						id: basemapGreyId,
-						title: 'snowbox.attributions.basemapGrey',
-					},
-					{
-						id: reports,
-						title: 'snowbox.attributions.reports',
-					},
-					{
-						id: ausgleichsflaechen,
-						title: 'snowbox.attributions.ausgleichsflaechen',
-					},
-					{
-						id: denkmal,
-						title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
-					},
-				],
-			}),
-		],
 	})
 )
 

@@ -34,6 +34,10 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 			: null
 	)
 
+	const layoutTag = computed(
+		() => coreStore.configuration.iconMenu?.layoutTag ?? ''
+	)
+
 	function setupPlugin() {
 		menus.value = (coreStore.configuration.iconMenu?.menus || []).map(
 			(menuGroup) =>
@@ -160,6 +164,9 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		openInMoveHandle,
 		openMenuById,
 		openFocusMenuById,
+
+		/** @alpha */
+		layoutTag,
 
 		/** @internal */
 		setupPlugin,

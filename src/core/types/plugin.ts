@@ -7,6 +7,12 @@ import type { useAddressSearchStore as AddressSearchStore } from '@/plugins/addr
 import type { PluginId as AttributionsPluginId } from '@/plugins/attributions'
 import type { resourcesEn as AttributionsResources } from '@/plugins/attributions/locales'
 import type { useAttributionsStore as AttributionsStore } from '@/plugins/attributions/store'
+import type { PluginId as ExportPluginId } from '@/plugins/export'
+import type { resourcesEn as ExportResources } from '@/plugins/export/locales'
+import type { useExportStore as ExportStore } from '@/plugins/export/store'
+import type { PluginId as FilterPluginId } from '@/plugins/filter'
+import type { resourcesEn as FilterResources } from '@/plugins/filter/locales'
+import type { useFilterStore as FilterStore } from '@/plugins/filter/store'
 import type { PluginId as FooterPluginId } from '@/plugins/footer'
 import type { resourcesEn as FooterResources } from '@/plugins/footer/locales'
 import type { useFooterStore as FooterStore } from '@/plugins/footer/store'
@@ -27,6 +33,9 @@ import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugin
 import type { PluginId as PinsPluginId } from '@/plugins/pins'
 import type { resourcesEn as PinsResources } from '@/plugins/pins/locales'
 import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
+import type { PluginId as PointerPositionPluginId } from '@/plugins/pointerPosition'
+import type { resourcesEn as PointerPositionResources } from '@/plugins/pointerPosition/locales'
+import type { usePointerPositionStore as PointerPositionStore } from '@/plugins/pointerPosition/store'
 import type { PluginId as ReverseGeocoderPluginId } from '@/plugins/reverseGeocoder'
 import type { useReverseGeocoderStore as ReverseGeocoderStore } from '@/plugins/reverseGeocoder/store'
 import type { PluginId as ScalePluginId } from '@/plugins/scale'
@@ -35,12 +44,47 @@ import type { useScaleStore as ScaleStore } from '@/plugins/scale/store'
 import type { PluginId as ToastPluginId } from '@/plugins/toast'
 import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
 import type { useToastStore as ToastStore } from '@/plugins/toast/store'
+import type { PluginId as ZoomPluginId } from '@/plugins/zoom'
+import type { resourcesEn as ZoomResources } from '@/plugins/zoom/locales'
+import type { useZoomStore as ZoomStore } from '@/plugins/zoom/store'
 
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Locale } from './locales'
+import type { Icon } from './theme'
 
+/**
+ * Generic options for all plugins.
+ *
+ * ## Custom Plugin Positioning
+ *
+ * There are two implemented layouting systems in POLAR configured by {@link MapConfiguration.layout}.
+ *
+ * If `layout` is set to `'nineRegions'` all plugins are placed in a predefined region grid.
+ * Use {@link PluginOptions.displayComponent | displayComponent} to control visibility
+ * and {@link PluginOptions.layoutTag | layoutTag} to specify the target region.
+ *
+ * If `layout` is set to `'standard'`, a plugin can be rendered in one of two ways:
+ * 1. **As part of the IconMenu**: Configure the plugin in the IconMenu's
+ * 		{@link IconMenuPluginOptions.menus | `menus`} configuration.
+ * 		The IconMenu will handle positioning and rendering the plugin at the designated location.
+ * 2. **Independent with CSS positioning**: Directly add the plugin with
+ * 		{@link addPlugin}. The plugin is responsible for its own positioning
+ * 		using CSS (e.g., `position: absolute`) within the map container.
+ */
 export interface PluginOptions {
+	/**
+	 * Should the component be visible at all.
+	 * Only relevant if {@link MapConfiguration.layout | layout} is set to `'nineRegions'`.
+	 *
+	 * @defaultValue `false`
+	 */
 	displayComponent?: boolean
+
+	/**
+	 * The region where the plugin should be rendered.
+	 * Required if {@link MapConfiguration.layout | layout} is set to `'nineRegions'`,
+	 * ignored otherwise.
+	 */
 	layoutTag?: keyof typeof NineLayoutTag
 }
 
@@ -92,6 +136,8 @@ export type PolarPluginStore<
 export type BundledPluginId =
 	| typeof AddressSearchPluginId
 	| typeof AttributionsPluginId
+	| typeof ExportPluginId
+	| typeof FilterPluginId
 	| typeof FooterPluginId
 	| typeof FullscreenPluginId
 	| typeof GeoLocationPluginId
@@ -99,9 +145,11 @@ export type BundledPluginId =
 	| typeof LayerChooserPluginId
 	| typeof LoadingIndicatorId
 	| typeof PinsPluginId
+	| typeof PointerPositionPluginId
 	| typeof ReverseGeocoderPluginId
 	| typeof ScalePluginId
 	| typeof ToastPluginId
+	| typeof ZoomPluginId
 
 type GetPluginStore<
 	T extends BundledPluginId,
@@ -116,6 +164,8 @@ type GetPluginStore<
 export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof AddressSearchPluginId, typeof AddressSearchStore>
 	| GetPluginStore<T, typeof AttributionsPluginId, typeof AttributionsStore>
+	| GetPluginStore<T, typeof ExportPluginId, typeof ExportStore>
+	| GetPluginStore<T, typeof FilterPluginId, typeof FilterStore>
 	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
 	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
 	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
@@ -125,11 +175,17 @@ export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof PinsPluginId, typeof PinsStore>
 	| GetPluginStore<
 			T,
+			typeof PointerPositionPluginId,
+			typeof PointerPositionStore
+	  >
+	| GetPluginStore<
+			T,
 			typeof ReverseGeocoderPluginId,
 			typeof ReverseGeocoderStore
 	  >
 	| GetPluginStore<T, typeof ScalePluginId, typeof ScaleStore>
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
+	| GetPluginStore<T, typeof ZoomPluginId, typeof ZoomStore>
 
 type GetPluginResources<
 	T extends BundledPluginId,
@@ -149,6 +205,8 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof AttributionsPluginId,
 			typeof AttributionsResources
 	  >
+	| GetPluginResources<T, typeof ExportPluginId, typeof ExportResources>
+	| GetPluginResources<T, typeof FilterPluginId, typeof FilterResources>
 	| GetPluginResources<T, typeof FooterPluginId, typeof FooterResources>
 	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
 	| GetPluginResources<
@@ -163,8 +221,14 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof LayerChooserResources
 	  >
 	| GetPluginResources<T, typeof PinsPluginId, typeof PinsResources>
+	| GetPluginResources<
+			T,
+			typeof PointerPositionPluginId,
+			typeof PointerPositionResources
+	  >
 	| GetPluginResources<T, typeof ScalePluginId, typeof ScaleResources>
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
+	| GetPluginResources<T, typeof ZoomPluginId, typeof ZoomResources>
 
 /** @internal */
 export type ExternalPluginId = `external-${string}`
@@ -194,6 +258,8 @@ export interface PluginContainer {
 	 * The component will be rendered by POLAR over the map.
 	 * The position is either to be determined by the plugin if `layout === 'standard'`
 	 * or will be determined by the layout.
+	 *
+	 * @see {@link PluginOptions} for configuration details
 	 */
 	component?: Component
 
@@ -201,7 +267,7 @@ export interface PluginContainer {
 	 * Icon class for the plugin.
 	 * This icon will be used as the default for rendering in menus.
 	 */
-	icon?: string
+	icon?: Icon
 
 	/**
 	 * Whether the plugin is independently rendered.

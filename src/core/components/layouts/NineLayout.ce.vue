@@ -63,6 +63,8 @@ const regions = computed(() =>
 	align-items: center;
 	position: absolute;
 	max-width: 100%;
+	padding: var(--kern-metric-space-small);
+	gap: var(--kern-metric-space-small);
 
 	& > * {
 		pointer-events: all;

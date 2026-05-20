@@ -1,5 +1,5 @@
 <template>
-	<article class="kern-card kern-card--small">
+	<article class="kern-card kern-card--small" tabindex="-1">
 		<div class="kern-card__container">
 			<slot />
 		</div>

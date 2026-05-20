@@ -64,6 +64,12 @@ export const useIcebergStore = defineStore('iceberg', () => {
 					},
 				},
 			},
+			{
+				id: '6059',
+				visibility: true,
+				type: 'mask',
+				name: 'snowbox.layers.mml',
+			},
 		],
 		startCenter: [565874, 5934140],
 		layout: 'nineRegions',
@@ -89,6 +95,19 @@ export const useIcebergStore = defineStore('iceberg', () => {
 			},
 		},
 		attributions: {
+			listenToChanges: [
+				{
+					key: 'activeBackgroundId',
+					plugin: 'layerChooser',
+				},
+				{
+					key: 'activeMaskIds',
+					plugin: 'layerChooser',
+				},
+				{
+					key: 'zoom',
+				},
+			],
 			layerAttributions: [
 				{
 					id: '23420',
@@ -113,6 +132,30 @@ export const useIcebergStore = defineStore('iceberg', () => {
 			displayComponent: true,
 			layoutTag: 'TOP_RIGHT',
 		},
+		markers: {
+			layers: [
+				{
+					id: '6059',
+					defaultStyle: {
+						stroke: '#FFFFFF',
+						fill: '#005CA9',
+					},
+					hoverStyle: {
+						stroke: '#46688E',
+						fill: '#8BA1B8',
+					},
+					selectionStyle: {
+						stroke: '#FFFFFF',
+						fill: '#E10019',
+					},
+					unselectableStyle: {
+						stroke: '#FFFFFF',
+						fill: '#333333',
+					},
+				},
+			],
+			clusterClickZoom: true,
+		},
 		pins: {
 			coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
 			movable: 'drag',
@@ -120,6 +163,12 @@ export const useIcebergStore = defineStore('iceberg', () => {
 				fill: '#FF0019',
 			},
 			toZoomLevel: 7,
+		},
+		pointerPosition: {
+			projections: [
+				{ code: 'EPSG:4326', decimals: 4 },
+				{ code: 'EPSG:25832', decimals: 2 },
+			],
 		},
 	})
 
