@@ -3,8 +3,8 @@
 		v-model="inputModel"
 		type="date"
 		class="kern-form-input__input"
-		:min="dateToString($props.min ?? null)"
-		:max="dateToString($props.max ?? null)"
+		:min="dateToString(min ?? null)"
+		:max="dateToString(max ?? null)"
 	/>
 </template>
 

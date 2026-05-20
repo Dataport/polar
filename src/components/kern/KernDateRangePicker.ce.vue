@@ -1,15 +1,15 @@
 <template>
 	<div class="range-picker">
-		<KernDatePicker v-model="start" v-bind="$props" />
+		<KernDatePicker v-model="start" v-bind="props" />
 		–
-		<KernDatePicker v-model="end" v-bind="$props" />
+		<KernDatePicker v-model="end" v-bind="props" />
 	</div>
 </template>
 
 <script setup lang="ts">
 import KernDatePicker from './KernDatePicker.ce.vue'
 
-defineProps<{
+const props = defineProps<{
 	min?: Date
 	max?: Date
 }>()
