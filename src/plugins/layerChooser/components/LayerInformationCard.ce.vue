@@ -1,21 +1,20 @@
 <template>
 	<PolarCard>
-		<button
+		<KernButton
 			:id="`polar-layer-chooser-${identifier}-back-button`"
-			class="kern-btn kern-btn--secondary"
+			class="kern-btn--secondary"
+			icon="kern-icon--arrow-back"
 			@click="close"
 		>
-			<span class="kern-icon kern-icon--arrow-back" aria-hidden="true" />
-			<span class="kern-label">
-				{{ $t(($) => $.returnToLayers, { ns: PluginId }) }}
-			</span>
-		</button>
+			{{ $t(($) => $.returnToLayers, { ns: PluginId }) }}
+		</KernButton>
 		<slot />
 	</PolarCard>
 </template>
 <script setup lang="ts">
 import { nextTick, onMounted } from 'vue'
 
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 import { useCoreStore } from '@/core/stores'
 

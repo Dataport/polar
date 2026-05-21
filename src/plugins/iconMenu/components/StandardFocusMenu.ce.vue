@@ -13,16 +13,14 @@
 				:key="plugin.id"
 				class="polar-plugin-icon-menu-focus-list-item"
 			>
-				<button
-					class="kern-btn kern-btn--secondary polar-plugin-icon-menu-button"
+				<KernButton
+					class="kern-btn--secondary polar-plugin-icon-menu-button"
 					:class="buttonClass"
+					:icon="icon"
 					@click="() => toggle(plugin.id)"
 				>
-					<span class="kern-icon" :class="icon" aria-hidden="true" />
-					<span class="kern-label">
-						{{ t(($) => $.hints[plugin.id], { ns: 'iconMenu' }) }}
-					</span>
-				</button>
+					{{ t(($) => $.hints[plugin.id], { ns: 'iconMenu' }) }}
+				</KernButton>
 			</li>
 		</ul>
 	</div>
@@ -33,6 +31,9 @@ import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { type Component, computed, markRaw, ref } from 'vue'
 
+import type { Icon } from '@/core'
+
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import type { Menu } from '../types'
@@ -40,7 +41,7 @@ import type { Menu } from '../types'
 import { useIconMenuStore } from '../store'
 
 const props = defineProps<{
-	menus: (Menu & { buttonClass: string; icon: string })[]
+	menus: (Menu & { buttonClass: string; icon: Icon })[]
 }>()
 
 const coreStore = useCoreStore()
