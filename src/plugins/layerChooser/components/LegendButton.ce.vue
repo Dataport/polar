@@ -1,21 +1,20 @@
 <template>
-	<button
+	<KernButton
 		:id="`polar-layer-chooser-legend-${id}-button`"
-		class="kern-btn kern-btn--tertiary"
-		:disabled="disabled"
+		class="kern-btn--tertiary"
+		icon="kern-icon--info"
+		:label-sr-only="true"
 	>
-		<span class="kern-icon kern-icon--info" aria-hidden="true" />
-		<span class="kern-label kern-sr-only">
-			{{ $t(($) => $.legend.open, { ns: PluginId }) }}
-		</span>
-	</button>
+		{{ $t(($) => $.legend.open, { ns: PluginId }) }}
+	</KernButton>
 </template>
 
 <script setup lang="ts">
+import KernButton from '@/components/kern/KernButton.ce.vue'
+
 import { PluginId } from '../types'
 
 defineProps<{
-	disabled: boolean
 	id: string
 }>()
 </script>

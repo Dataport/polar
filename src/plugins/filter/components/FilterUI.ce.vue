@@ -39,10 +39,11 @@ const filterStore = useFilterStore()
 }
 
 :deep(.kern-accordion-group .polar-filter-category-values) {
-	margin-top: var(--kern-metric-space-default);
+	margin-top: var(--kern-metric-space-small);
 }
 
 .kern-accordion-group {
 	width: 100%;
 }
 </style>
+f

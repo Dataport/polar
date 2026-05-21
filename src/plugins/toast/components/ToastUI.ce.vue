@@ -10,12 +10,14 @@
 		<div class="kern-alert__header">
 			<span class="kern-icon" :class="toast.iconClass" aria-hidden="true" />
 			<span class="kern-title">{{ toast.text }}</span>
-			<button class="kern-btn" @click="store.removeToast(toast.originalToast)">
-				<span class="kern-icon kern-icon--close" aria-hidden="true" />
-				<span class="kern-label kern-sr-only">{{
-					$t(($) => $.dismissButton.label, { ns: PluginId })
-				}}</span>
-			</button>
+			<KernButton
+				class="kern-btn--tertiary"
+				icon="kern-icon--close"
+				:label-sr-only="true"
+				@click="store.removeToast(toast.originalToast)"
+			>
+				{{ $t(($) => $.dismissButton.label, { ns: PluginId }) }}
+			</KernButton>
 		</div>
 	</div>
 </template>
@@ -23,10 +25,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import { getCssColor } from '@/lib/getCssColor'
 
 import { useToastStore } from '../store'
 import { PluginId, type ToastSeverity } from '../types'
+
 const store = useToastStore()
 
 function getKernSeverity(severity: ToastSeverity) {
@@ -80,10 +84,5 @@ const toasts = computed(() =>
 			overflow-wrap: break-word;
 		}
 	}
-}
-
-.kern-btn {
-	margin-left: var(--kern-metric-space-x-small);
-	background-color: transparent;
 }
 </style>

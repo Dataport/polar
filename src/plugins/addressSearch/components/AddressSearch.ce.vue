@@ -44,17 +44,16 @@
 					v-if="isLoading"
 					:style="`right: ${slotPlacement}; top: ${slotPlacement}`"
 				/>
-				<button
+				<KernButton
 					v-if="inputValue.length && !isLoading"
-					class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
+					class="kern-btn--tertiary polar-plugin-address-search-input-button"
 					:style="`right: ${slotPlacement}; top: ${slotPlacement}`"
+					icon="kern-icon--close"
+					:label-sr-only="true"
 					@click="clear"
 				>
-					<span class="kern-icon kern-icon--close" aria-hidden="true" />
-					<span class="kern-label kern-sr-only">
-						{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
-					</span>
-				</button>
+					{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
+				</KernButton>
 				<!-- Additionally needed so screen readers can detect the aria live region -->
 				<span class="kern-sr-only" aria-live="polite">
 					{{ hint }}
@@ -73,6 +72,7 @@ import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { computed, nextTick } from 'vue'
 
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarSelect from '@/components/PolarSelect.ce.vue'
 import { useCoreStore } from '@/core/stores'
