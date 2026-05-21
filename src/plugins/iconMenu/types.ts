@@ -1,6 +1,6 @@
 import type { Component } from 'vue'
 
-import type { PluginContainer, PluginOptions } from '@/core'
+import type { Icon, PluginContainer, PluginOptions } from '@/core'
 import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
 
 export const PluginId = 'iconMenu'
@@ -81,7 +81,7 @@ export interface IconMenuPluginOptions extends PluginOptions {
 	 * @remarks
 	 * Plugins like GeoLocation can not be added here, as only plugins containing content are allowed.
 	 */
-	focusMenus?: (Menu & { icon: string })[]
+	focusMenus?: (Menu & { icon: Icon })[]
 
 	/**
 	 * ID of the plugin which should be open on start.
