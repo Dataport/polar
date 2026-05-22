@@ -1,0 +1,51 @@
+import type { Map } from 'ol'
+import type VectorLayer from 'ol/layer/Vector'
+import type VectorSource from 'ol/source/Vector'
+
+import { Select } from 'ol/interaction'
+
+const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {
+	const found = map.hasFeatureAtPixel(e.pixel, {
+		layerFilter: (l) => l === drawLayer,
+	})
+
+	if (found) {
+		map.getTargetElement().setAttribute('style', 'cursor: copy')
+	} else {
+		map.getTargetElement().setAttribute('style', '')
+	}
+}
+
+export function createDuplicateInteractions(
+	map: Map,
+	{
+		drawSource,
+		drawLayer,
+	}: {
+		drawSource: VectorSource
+		drawLayer: VectorLayer
+	}
+) {
+	const selectInteraction = new Select({ layers: [drawLayer], style: null })
+	const selectedFeatures = selectInteraction.getFeatures()
+	// TODO temp solution, not actually _isDeleteSelect; normalizing these flags is part of a future effort
+	// @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
+	selectInteraction._isDeleteSelect = true
+
+	const boundPointerStyle = pointerStyle(map, drawLayer)
+	map.on('pointermove', boundPointerStyle)
+
+	selectedFeatures.on('add', () => {
+		// @ts-expect-error | We know there's a feature. It's why we're here.
+		drawSource.addFeature(selectedFeatures.getArray()[0].clone())
+		selectedFeatures.clear()
+	})
+
+	// @ts-expect-error | local piggyback
+	selectInteraction._onRemove = () => {
+		map.un('pointermove', boundPointerStyle)
+		map.getTargetElement().setAttribute('style', '')
+	}
+
+	return selectInteraction
+}
