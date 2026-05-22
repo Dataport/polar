@@ -7,6 +7,9 @@ import type { useAddressSearchStore as AddressSearchStore } from '@/plugins/addr
 import type { PluginId as AttributionsPluginId } from '@/plugins/attributions'
 import type { resourcesEn as AttributionsResources } from '@/plugins/attributions/locales'
 import type { useAttributionsStore as AttributionsStore } from '@/plugins/attributions/store'
+import type { PluginId as DrawPluginId } from '@/plugins/draw'
+import type { resourcesEn as DrawResources } from '@/plugins/draw/locales'
+import type { useDrawStore as DrawStore } from '@/plugins/draw/store'
 import type { PluginId as ExportPluginId } from '@/plugins/export'
 import type { resourcesEn as ExportResources } from '@/plugins/export/locales'
 import type { useExportStore as ExportStore } from '@/plugins/export/store'
@@ -136,6 +139,7 @@ export type PolarPluginStore<
 export type BundledPluginId =
 	| typeof AddressSearchPluginId
 	| typeof AttributionsPluginId
+	| typeof DrawPluginId
 	| typeof ExportPluginId
 	| typeof FilterPluginId
 	| typeof FooterPluginId
@@ -164,6 +168,7 @@ type GetPluginStore<
 export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof AddressSearchPluginId, typeof AddressSearchStore>
 	| GetPluginStore<T, typeof AttributionsPluginId, typeof AttributionsStore>
+	| GetPluginStore<T, typeof DrawPluginId, typeof DrawStore>
 	| GetPluginStore<T, typeof ExportPluginId, typeof ExportStore>
 	| GetPluginStore<T, typeof FilterPluginId, typeof FilterStore>
 	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
@@ -205,6 +210,7 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof AttributionsPluginId,
 			typeof AttributionsResources
 	  >
+	| GetPluginResources<T, typeof DrawPluginId, typeof DrawResources>
 	| GetPluginResources<T, typeof ExportPluginId, typeof ExportResources>
 	| GetPluginResources<T, typeof FilterPluginId, typeof FilterResources>
 	| GetPluginResources<T, typeof FooterPluginId, typeof FooterResources>

@@ -72,6 +72,9 @@ export default defineConfig(({ mode }) => ({
 	},
 	server: {
 		port: 1234,
+		hmr: {
+			overlay: false,
+		},
 	},
 	optimizeDeps: {
 		entries: ['!vue2'],

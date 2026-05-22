@@ -136,6 +136,7 @@ export default defineConfig([
 	{
 		ignores: [
 			'vue2/',
+			'src/plugins/draw/old_Draw', // TODO: @doPenguin remind me to delete this :3
 			'node_modules/',
 			'docs/assets/',
 			'docs-html/',

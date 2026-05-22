@@ -11,6 +11,7 @@
 				aria-hidden="true"
 			/>
 			<span class="kern-label kern-sr-only">{{ hint }}</span>
+			<slot />
 		</button>
 	</PolarTooltip>
 </template>
@@ -34,7 +35,7 @@ defineOptions({
 	position: relative;
 	background: var(--kern-color-layout-background-default);
 	box-shadow: var(--polar-shadow);
-	border: none;
+	border: solid transparent;
 
 	&:focus,
 	&:hover {

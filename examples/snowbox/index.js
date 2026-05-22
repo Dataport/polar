@@ -9,6 +9,7 @@ import {
 } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
+import pluginDraw from '@polar/polar/plugins/draw'
 import pluginExport from '@polar/polar/plugins/export'
 import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
@@ -123,14 +124,14 @@ const map = await createMap(
 				type: 'mask',
 				name: 'Ausgleichsflächen',
 				styleId: 'panda',
-				visibility: true,
+				visibility: false,
 				minZoom: 5,
 			},
 			{
 				id: denkmal,
 				type: 'mask',
 				name: 'Kulturdenkmale',
-				visibility: true,
+				visibility: false,
 				options: {
 					layers: {
 						order: '6,24,25,4,3,2,1,0',
@@ -399,7 +400,7 @@ addPlugin(
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
-		initiallyOpen: 'layerChooser',
+		initiallyOpen: 'draw',
 		menus: [
 			[
 				{
@@ -471,6 +472,13 @@ addPlugin(
 								},
 							},
 						},
+					}),
+				},
+			],
+			[
+				{
+					plugin: pluginDraw({
+						layers: [],
 					}),
 				},
 			],

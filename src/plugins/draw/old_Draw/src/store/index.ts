@@ -11,8 +11,6 @@ import { makeActions } from './actions'
 import { inactive } from './reviseFeatures/revisionStates'
 
 const getInitialState = (): DrawState => ({
-  mode: 'none',
-  drawMode: 'Point',
   textInput: '',
   selectedSize: 0,
   featureCollection: {
