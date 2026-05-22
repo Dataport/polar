@@ -1,8 +1,9 @@
 <template>
-	<div class="kern-form-input">
+	<div class="kern-form-input polar-select">
 		<label
-			:for="resolvedId"
+			v-if="label"
 			class="kern-label"
+			:for="resolvedId"
 			:class="{ 'kern-sr-only': labelSrOnly }"
 		>
 			{{ label }}
