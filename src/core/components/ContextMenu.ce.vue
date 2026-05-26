@@ -18,7 +18,6 @@ import { ref } from 'vue'
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 // TODO: Add visual groups
-// TODO: Add actions to add and remove buttons from the context menu
 const buttons = ref([
 	{ id: 'color', icon: 'kern-icon--palette', label: 'Farben anpassen' },
 	{ id: 'path', icon: 'kern-icon--rebase-edit', label: 'Pfad anpassen' },
