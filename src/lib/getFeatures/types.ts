@@ -195,7 +195,7 @@ export interface WfsParameters extends QueryParameters {
 	/** XML feature prefix from xmlns namespace without :; e.g. 'ave'. */
 	featurePrefix: string
 
-	/** Feature type to search for by name (see ?service=wfs&request=DescribeFeatureType). */
+	/** Feature type to search for by name (see `?service=wfs&request=DescribeFeatureType`). */
 	typeName: string
 
 	/** XML namespace of feature type to use in search. */
@@ -291,7 +291,7 @@ export interface WfsParameters extends QueryParameters {
 
 export interface NominatimParameters extends QueryParameters {
 	/**
-	 * Include address details in result?
+	 * Whether to include address details in the result.
 	 */
 	addressdetails?: boolean
 
@@ -326,12 +326,12 @@ export interface NominatimParameters extends QueryParameters {
 	county?: string
 
 	/**
-	 * Include entrances to buildings in results?
+	 * Whether to include entrances to buildings in the results.
 	 */
 	entrances?: boolean
 
 	/**
-	 * Add extra tags to result?
+	 * Whether to add extra tags to the result.
 	 */
 	extratags?: boolean
 
@@ -346,7 +346,7 @@ export interface NominatimParameters extends QueryParameters {
 	layer?: ('address' | 'poi' | 'railway' | 'natural' | 'manmade')[]
 
 	/**
-	 * Include more names in alternate languages?
+	 * Whether to include more names in alternate languages.
 	 */
 	namedetails?: boolean
 
