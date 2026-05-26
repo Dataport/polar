@@ -3,7 +3,7 @@
 		class="kern-btn kern-btn--block kern-btn--tertiary"
 		@click="$emit('click')"
 	>
-		<span v-if="icon" :class="`kern-icon ${icon}`" aria-hidden="true" />
+		<span v-if="icon" class="kern-icon" :class="icon" aria-hidden="true" />
 		<span class="kern-label"><slot /></span>
 	</button>
 </template>

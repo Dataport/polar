@@ -19,7 +19,8 @@
 			>
 				<span
 					v-if="item.icon"
-					:class="`kern-icon ${item.icon}`"
+					class="kern-icon"
+					:class="item.icon"
 					aria-hidden="true"
 				/>
 				<span class="kern-label">{{ item.label }}</span>
