@@ -35,6 +35,7 @@ export const useMainStore = defineStore('main', () => {
 	const map = shallowRef({} as Map)
 	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
+	const showContextMenu = ref(false)
 
 	const layout = computed(() => configuration.value.layout ?? 'nineRegions')
 
@@ -118,6 +119,7 @@ export const useMainStore = defineStore('main', () => {
 		oidcToken,
 		serviceRegister,
 		shadowRoot,
+		showContextMenu,
 		center,
 		zoom,
 		// Getters
