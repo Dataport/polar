@@ -23,7 +23,7 @@ export async function reverseGeocodeNominatim(
 		response.json()
 	)
 
-	const resultObject: ReverseGeocoderFeature = {
+	return {
 		type: 'reverse_geocoded',
 		title: [
 			[result.address.road, result.address.house_number]
@@ -49,5 +49,4 @@ export async function reverseGeocodeNominatim(
 			type: 'Point',
 		},
 	}
-	return resultObject
 }
