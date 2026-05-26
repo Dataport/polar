@@ -126,7 +126,7 @@
 		"typescript": "~5.9.2",
 		"unplugin-dts": "^1.0.0",
 		"util": "^0.12.5",
-		"vite": "^8.0.13",
+		"vite": "^8.0.14",
 		"vite-plugin-checker": "^0.13.0",
 		"vite-plugin-commonjs": "^0.10.4",
 		"vite-plugin-kern-extra-icons": "^0.6.1",
