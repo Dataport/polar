@@ -1,30 +1,46 @@
 <template>
-	<input
-		v-model="zoomStore.zoomLevel"
-		type="range"
-		:min="zoomStore.minimumZoomLevel"
-		:max="zoomStore.maximumZoomLevel"
-		:step="1"
-		:aria-label="$t(($) => $.slider, { ns: PluginId })"
-		:class="{ vertical: zoomStore.renderType === 'vertical' }"
-	/>
+	<PolarTooltip
+		:hint="$t(($) => $.slider, { ns: PluginId })"
+		:tooltip-position="tooltipPosition"
+	>
+		<input
+			v-model="zoomLevel"
+			:class="{
+				'polar-plugin-zoom-slider': true,
+				'polar-plugin-zoom-slider-vertical': !renderHorizontal,
+			}"
+			type="range"
+			:min="minimumZoomLevel"
+			:max="maximumZoomLevel"
+			:aria-label="$t(($) => $.slider, { ns: PluginId })"
+		/>
+	</PolarTooltip>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+
+import PolarTooltip from '@/components/PolarTooltip.ce.vue'
+
 import { useZoomStore } from '../store'
 import { PluginId } from '../types'
 
-const zoomStore = useZoomStore()
+const {
+	minimumZoomLevel,
+	maximumZoomLevel,
+	zoomLevel,
+	renderHorizontal,
+	tooltipPosition,
+} = storeToRefs(useZoomStore())
 </script>
 
 <style scoped>
-input {
-	margin: var(--kern-metric-space-small);
-	width: 12em;
+.polar-plugin-zoom-slider {
+	inline-size: var(--kern-metric-dimension-5x-large);
+}
 
-	&.vertical {
-		margin-left: var(--kern-metric-space-large);
-		transform: translateX(-50%) translateY(-50%) rotate(-90deg) translateX(-50%);
-	}
+.polar-plugin-zoom-slider-vertical {
+	writing-mode: vertical-lr;
+	direction: rtl;
 }
 </style>

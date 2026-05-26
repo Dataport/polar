@@ -30,19 +30,12 @@ const fullscreenStore = useFullscreenStore()
 const { fullscreenEnabled } = storeToRefs(fullscreenStore)
 
 const buttonClass = computed(() =>
-	coreStore.layout === 'standard'
-		? 'polar-plugin-fullscreen-standard'
-		: fullscreenStore.renderType === 'iconMenu'
-			? ''
-			: 'polar-plugin-fullscreen-nine-regions'
+	coreStore.layout === 'standard' ? 'polar-plugin-fullscreen-standard' : ''
 )
 </script>
 
 <style scoped>
 .polar-icon-button.polar-plugin-fullscreen-standard {
 	box-shadow: none;
-}
-.polar-icon-button.polar-plugin-fullscreen-nine-regions {
-	margin: var(--kern-metric-space-small);
 }
 </style>

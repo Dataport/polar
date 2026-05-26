@@ -12,7 +12,7 @@ import { useZoomStore } from './store'
 import { PluginId, type ZoomPluginOptions } from './types'
 
 /**
- * Creates a plugin which provides zoom buttons and a zoom slider.
+ * Creates a plugin which provides UI and functionality regarding zooming.
  *
  * @returns Plugin for use with {@link addPlugin}
  */

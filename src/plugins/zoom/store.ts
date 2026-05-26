@@ -5,7 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -32,35 +32,51 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 		},
 	})
 
+	const layoutTag = computed(() => configuration.value.layoutTag ?? '')
+
 	const zoomLevels = computed(() =>
 		coreStore.configuration.options.map((option) => option.zoomLevel)
 	)
 	const minimumZoomLevel = computed(() => Math.min(...zoomLevels.value))
 	const maximumZoomLevel = computed(() => Math.max(...zoomLevels.value))
 	const minimumZoomLevelActive = computed(
-		() => coreStore.zoom === minimumZoomLevel.value
+		() => zoomLevel.value <= minimumZoomLevel.value
 	)
 	const maximumZoomLevelActive = computed(
-		() => coreStore.zoom === maximumZoomLevel.value
+		() => zoomLevel.value >= maximumZoomLevel.value
 	)
 
-	const zoomButtonsVisible = computed(
+	const renderType = computed(
+		() => configuration.value.renderType ?? 'independent'
+	)
+
+	const renderHorizontal = computed(
+		() =>
+			(renderType.value === 'iconMenu' && coreStore.deviceIsHorizontal) ||
+			(renderType.value === 'independent' &&
+				['TOP_MIDDLE', 'BOTTOM_MIDDLE'].includes(layoutTag.value))
+	)
+
+	const tooltipPosition = computed(() =>
+		renderType.value === 'independent'
+			? layoutTag.value.includes('RIGHT')
+				? 'left'
+				: 'right'
+			: coreStore.getPluginStore('iconMenu')?.layoutTag.includes('RIGHT')
+				? 'left'
+				: 'right'
+	) as ComputedRef<'left' | 'right'>
+
+	const zoomUiVisible = computed(
 		() => configuration.value.showMobile || !coreStore.hasSmallDisplay
 	)
-
-	const zoomInIcon = computed(
-		() => configuration.value.icons?.zoomIn ?? 'kern-icon--zoom-in'
-	)
-	const zoomOutIcon = computed(
-		() => configuration.value.icons?.zoomIn ?? 'kern-icon--zoom-out'
-	)
-
 	const zoomSliderVisible = computed(() => configuration.value.showZoomSlider)
 
-	const renderType = computed(() =>
-		configuration.value.renderType === 'iconMenu'
-			? 'iconMenu'
-			: (configuration.value.orientation ?? 'horizontal')
+	const zoomInIcon = computed(
+		() => configuration.value.icons?.zoomIn ?? 'kern-icon--add'
+	)
+	const zoomOutIcon = computed(
+		() => configuration.value.icons?.zoomOut ?? 'kern-icon--remove'
 	)
 
 	return {
@@ -98,12 +114,12 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 		maximumZoomLevelActive,
 
 		/**
-		 * Whether zoom buttons should be rendered.
+		 * Whether zoom buttons and slider should be rendered.
 		 *
 		 * @alpha
 		 * @readonly
 		 */
-		zoomButtonsVisible,
+		zoomUiVisible,
 
 		/**
 		 * Whether zoom slider should be rendered.
@@ -130,13 +146,20 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 		zoomOutIcon,
 
 		/**
-		 * Defines the rendering type.
-		 * This may be `iconMenu` or the configured orientation otherwise.
+		 * Whether the zoom UI should be rendered horizontally.
 		 *
 		 * @alpha
 		 * @readonly
 		 */
-		renderType,
+		renderHorizontal,
+
+		/**
+		 * Indicates in which direction of the element space is available for a tooltip.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		tooltipPosition,
 	}
 })
 

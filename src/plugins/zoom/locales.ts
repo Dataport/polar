@@ -14,9 +14,9 @@ import type { Locale } from '@/core'
  * For overwriting these values, use the plugin's ID as namespace.
  */
 export const resourcesDe = {
-	zoomIn: 'Reinzoomen',
-	zoomOut: 'Rauszoomen',
-	slider: 'Zoomstufe anpassen',
+	zoomIn: 'Hinein zoomen',
+	zoomOut: 'Heraus zoomen',
+	slider: 'Zoomstufe wählen',
 } as const
 
 /**
@@ -26,7 +26,7 @@ export const resourcesDe = {
 export const resourcesEn = {
 	zoomIn: 'Zoom in',
 	zoomOut: 'Zoom out',
-	slider: 'Change zoom level',
+	slider: 'Choose zoom level',
 } as const
 
 /**

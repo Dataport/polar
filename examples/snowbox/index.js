@@ -574,6 +574,15 @@ addPlugin(
 					}),
 				},
 			],
+			[
+				{
+					plugin: pluginZoom({
+						renderType: 'iconMenu',
+						showMobile: false,
+						showZoomSlider: true,
+					}),
+				},
+			],
 		],
 	})
 )

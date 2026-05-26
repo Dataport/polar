@@ -59,7 +59,8 @@ const toasts = computed(() =>
 
 <style scoped>
 .kern-alert {
-	margin: var(--kern-metric-space-small) var(--kern-metric-space-none);
+	margin-left: var(--kern-metric-space-none);
+	margin-right: var(--kern-metric-space-none);
 	z-index: 2;
 
 	& > .kern-alert__header {
