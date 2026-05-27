@@ -50,6 +50,7 @@ import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
 
 import { useT } from '../composables/useT'
 import { useCoreStore } from '../stores'
+import { useContextMenuStore } from '../stores/contextMenu.ts'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
 import { loadKern } from '../utils/loadKern'
@@ -116,7 +117,7 @@ function updateListeners() {
 	const container = polarMapContainer.value?.el
 	if (container && hasSmallDisplay.value) {
 		longPressHammer = new Hammer(container, { time: 1000 }).on('press', (e) => {
-			mainStore.showContextMenu = true
+			contextMenuStore.show = true
 			contextMenuLeft.value = `${e.center.x}px`
 			contextMenuTop.value = `${e.center.y}px`
 		})
@@ -141,14 +142,8 @@ function updateListeners() {
 }
 
 const mainStore = useMainStore()
-const {
-	colorScheme,
-	hasSmallDisplay,
-	hasSmallWidth,
-	hasWindowSize,
-	language,
-	showContextMenu,
-} = storeToRefs(mainStore)
+const { colorScheme, hasSmallDisplay, hasSmallWidth, hasWindowSize, language } =
+	storeToRefs(mainStore)
 
 mainStore.configuration = toMerged(
 	mainStore.configuration,
@@ -213,14 +208,17 @@ function updateClientDimensions() {
 	mainStore.clientWidth = (polarWrapper.value as Element).clientWidth
 }
 
+const contextMenuStore = useContextMenuStore()
+const { show: showContextMenu } = storeToRefs(contextMenuStore)
+
 function dismissContextMenu() {
-	mainStore.showContextMenu = false
+	contextMenuStore.show = false
 }
 function openContextMenu(e: MouseEvent) {
 	// Suppresses the context menu of the browser
 	e.preventDefault()
 	e.stopImmediatePropagation()
-	mainStore.showContextMenu = true
+	contextMenuStore.show = true
 	contextMenuLeft.value = `${e.offsetX}px`
 	contextMenuTop.value = `${e.offsetY}px`
 }
