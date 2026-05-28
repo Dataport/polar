@@ -4,7 +4,7 @@
 		@pointerdown.stop
 		@keydown.escape="close"
 	>
-		<section class="kern-card__body" role="menu">
+		<section ref="menu" class="kern-card__body" role="menu">
 			<KernButton
 				v-for="{ id, icon, text, callback } in buttons.values()"
 				:key="id"
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { toRaw } from 'vue'
+import { onMounted, toRaw, useTemplateRef } from 'vue'
 
 import type { ContextMenuEntry } from '@/core'
 
@@ -48,6 +48,13 @@ function ring(callback: ContextMenuEntry['callback']) {
 function close() {
 	contextMenuStore.show = false
 }
+
+const menu = useTemplateRef<HTMLElement>('menu')
+onMounted(() => {
+	;(menu.value as HTMLElement)
+		.querySelector<HTMLElement>('[role="menuitem"]')
+		?.focus()
+})
 </script>
 
 <style scoped>
