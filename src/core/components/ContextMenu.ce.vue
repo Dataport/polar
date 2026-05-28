@@ -2,9 +2,13 @@
 	<PolarCard :style="`left: ${left}; top: ${top}`" @pointerdown.stop>
 		<section class="kern-card__body">
 			<ul>
-				<li v-for="{ id, icon, label } in buttons" :key="id">
-					<KernButton class="kern-btn--block kern-btn--tertiary" :icon="icon">
-						{{ label }}
+				<li v-for="{ id, icon, text, callback } in buttons.values()" :key="id">
+					<KernButton
+						class="kern-btn--block kern-btn--tertiary"
+						:icon="icon"
+						@click="ring(callback)"
+					>
+						{{ text }}
 					</KernButton>
 				</li>
 			</ul>
@@ -13,20 +17,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { toRaw } from 'vue'
+
+import type { ContextMenuEntry } from '@/core'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
-// TODO: Add visual groups
-const buttons = ref([
-	{ id: 'color', icon: 'kern-icon--palette', label: 'Farben anpassen' },
-	{ id: 'path', icon: 'kern-icon--rebase-edit', label: 'Pfad anpassen' },
-	{
-		id: 'duplicate',
-		icon: 'kern-icon--content-copy',
-		label: 'Duplizieren',
-	},
-])
+
+import { useContextMenuStore } from '../stores/contextMenu'
+
+// TODO(dopenguin): Add visual groups
+
+const contextMenuStore = useContextMenuStore()
+const { buttons } = storeToRefs(contextMenuStore)
+
+function ring(callback: ContextMenuEntry['callback']) {
+	contextMenuStore.show = false
+	callback(toRaw(contextMenuStore.clickCoordinate))
+}
+
 defineProps<{
 	top: string
 	left: string
@@ -39,13 +49,13 @@ defineProps<{
 	border-width: 0;
 	min-width: 15rem;
 	z-index: 3;
+	pointer-events: all;
 
 	&:deep(.kern-card__container) {
 		padding: 0;
 	}
 
 	button {
-		pointer-events: all;
 		justify-content: start;
 	}
 

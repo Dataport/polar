@@ -50,7 +50,7 @@ import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
 
 import { useT } from '../composables/useT'
 import { useCoreStore } from '../stores'
-import { useContextMenuStore } from '../stores/contextMenu.ts'
+import { useContextMenuStore } from '../stores/contextMenu'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
 import { loadKern } from '../utils/loadKern'
@@ -118,6 +118,10 @@ function updateListeners() {
 	if (container && hasSmallDisplay.value) {
 		longPressHammer = new Hammer(container, { time: 1000 }).on('press', (e) => {
 			contextMenuStore.show = true
+			contextMenuStore.clickCoordinate = mainStore.map.getCoordinateFromPixel([
+				e.center.x,
+				e.center.y,
+			])
 			contextMenuLeft.value = `${e.center.x}px`
 			contextMenuTop.value = `${e.center.y}px`
 		})
@@ -219,6 +223,10 @@ function openContextMenu(e: MouseEvent) {
 	e.preventDefault()
 	e.stopImmediatePropagation()
 	contextMenuStore.show = true
+	contextMenuStore.clickCoordinate = mainStore.map.getCoordinateFromPixel([
+		e.offsetX,
+		e.offsetY,
+	])
 	contextMenuLeft.value = `${e.offsetX}px`
 	contextMenuTop.value = `${e.offsetY}px`
 }
@@ -245,8 +253,8 @@ onMounted(() => {
 	mainStore.map
 		.getTargetElement()
 		.addEventListener('contextmenu', openContextMenu)
-	polarWrapper.value?.addEventListener('pointerdown', dismissContextMenu, true)
-	document.addEventListener('pointerdown', dismissContextMenu, true)
+	polarWrapper.value?.addEventListener('pointerdown', dismissContextMenu)
+	document.addEventListener('pointerdown', dismissContextMenu)
 })
 
 onBeforeUnmount(() => {
@@ -263,8 +271,8 @@ onBeforeUnmount(() => {
 	i18next.off('languageChanged', updateLanguage)
 
 	const mapEl = mainStore.map.getTargetElement()
-	mapEl.removeEventListener('contextmenu', openContextMenu, true)
-	document.removeEventListener('pointerdown', dismissContextMenu, true)
+	mapEl.removeEventListener('contextmenu', openContextMenu)
+	document.removeEventListener('pointerdown', dismissContextMenu)
 	mainStore.map.dispose()
 	mapEl.replaceChildren()
 	delete (mainStore.lightElement as { store?: unknown }).store
