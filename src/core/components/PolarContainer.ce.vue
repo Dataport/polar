@@ -118,12 +118,15 @@ function updateListeners() {
 	if (container && hasSmallDisplay.value) {
 		longPressHammer = new Hammer(container, { time: 1000 }).on('press', (e) => {
 			contextMenuStore.show = true
+			const rect = (polarWrapper.value as Element).getBoundingClientRect()
+			const left = e.center.x - rect.left
+			const top = e.center.y - rect.top
 			contextMenuStore.clickCoordinate = mainStore.map.getCoordinateFromPixel([
-				e.center.x,
-				e.center.y,
+				left,
+				top,
 			])
-			contextMenuLeft.value = `${e.center.x}px`
-			contextMenuTop.value = `${e.center.y}px`
+			contextMenuLeft.value = `${left}px`
+			contextMenuTop.value = `${top}px`
 		})
 
 		if (!hasWindowSize.value) {
@@ -223,12 +226,15 @@ function openContextMenu(e: MouseEvent) {
 	e.preventDefault()
 	e.stopImmediatePropagation()
 	contextMenuStore.show = true
+	const rect = (polarWrapper.value as Element).getBoundingClientRect()
+	const left = e.clientX - rect.left
+	const top = e.clientY - rect.top
 	contextMenuStore.clickCoordinate = mainStore.map.getCoordinateFromPixel([
-		e.offsetX,
-		e.offsetY,
+		left,
+		top,
 	])
-	contextMenuLeft.value = `${e.offsetX}px`
-	contextMenuTop.value = `${e.offsetY}px`
+	contextMenuLeft.value = `${left}px`
+	contextMenuTop.value = `${top}px`
 }
 
 onMounted(() => {
