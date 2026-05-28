@@ -5,11 +5,16 @@
 		@keydown.escape="close"
 	>
 		<section class="kern-card__body">
-			<ul>
-				<li v-for="{ id, icon, text, callback } in buttons.values()" :key="id">
+			<ul role="menu">
+				<li
+					v-for="{ id, icon, text, callback } in buttons.values()"
+					:key="id"
+					role="none"
+				>
 					<KernButton
 						class="kern-btn--block kern-btn--tertiary"
 						:icon="icon"
+						role="menuitem"
 						@click="ring(callback)"
 					>
 						{{ text }}
