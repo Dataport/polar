@@ -1,5 +1,9 @@
 <template>
-	<PolarCard :style="`left: ${left}; top: ${top}`" @pointerdown.stop>
+	<PolarCard
+		:style="`left: ${left}; top: ${top}`"
+		@pointerdown.stop
+		@keydown.escape="close"
+	>
 		<section class="kern-card__body">
 			<ul>
 				<li v-for="{ id, icon, text, callback } in buttons.values()" :key="id">
@@ -27,20 +31,24 @@ import PolarCard from '@/components/PolarCard.ce.vue'
 
 import { useContextMenuStore } from '../stores/contextMenu'
 
+defineProps<{
+	top: string
+	left: string
+}>()
+
 // TODO(dopenguin): Add visual groups
 
 const contextMenuStore = useContextMenuStore()
 const { buttons } = storeToRefs(contextMenuStore)
 
 function ring(callback: ContextMenuEntry['callback']) {
-	contextMenuStore.show = false
+	close()
 	callback(toRaw(contextMenuStore.clickCoordinate))
 }
 
-defineProps<{
-	top: string
-	left: string
-}>()
+function close() {
+	contextMenuStore.show = false
+}
 </script>
 
 <style scoped>
