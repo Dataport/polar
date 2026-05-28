@@ -1,11 +1,10 @@
 <template>
 	<PolarCard
 		:style="`left: ${left}; top: ${top}`"
-		role="menu"
 		@pointerdown.stop
 		@keydown.escape="close"
 	>
-		<section class="kern-card__body">
+		<section class="kern-card__body" role="menu">
 			<KernButton
 				v-for="{ id, icon, text, callback } in buttons.values()"
 				:key="id"
