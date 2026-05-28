@@ -1,6 +1,6 @@
 import type { Component } from 'vue'
 
-import type { Icon } from '../types'
+import type { Icon } from './theme'
 
 export interface MoveHandleProperties {
 	closeFunction: (...args: unknown[]) => unknown

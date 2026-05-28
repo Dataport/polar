@@ -7,7 +7,7 @@
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
-import { useContextMenuStore } from './contextMenu.ts'
+import { useContextMenuStore } from './contextMenu'
 import { useMainStore } from './main'
 import { useMarkerStore } from './marker'
 import { useMoveHandleStore } from './moveHandle'
