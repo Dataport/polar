@@ -16,6 +16,7 @@ import { isVisible } from '@/lib/invisibleStyle'
 
 import type { MarkerLayer, MarkerStyle, PluginId } from '../../types'
 
+import { useContextMenuStore } from '../../stores/contextMenu.ts'
 import { useMainStore } from '../../stores/main'
 import { getMarkerStyle } from '../../utils/markers'
 
@@ -304,7 +305,7 @@ function mapPointerMove({ map, pixel }: MapBrowserEvent) {
 }
 
 function mapClick(event: MapBrowserEvent) {
-	if (useMainStore().showContextMenu) {
+	if (useContextMenuStore().show) {
 		return
 	}
 	const store = useMarkerStore()
@@ -360,7 +361,7 @@ function mapClick(event: MapBrowserEvent) {
 }
 
 function mapSingleClick(event: MapBrowserEvent) {
-	if (useMainStore().showContextMenu) {
+	if (useContextMenuStore().show) {
 		return
 	}
 	if (event.originalEvent === lastClickEvent?.originalEvent) {
