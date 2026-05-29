@@ -6,12 +6,17 @@
 	>
 		<section ref="menu" class="kern-card__body" role="menu">
 			<KernButton
-				v-for="{ id, icon, text, callback } in buttons.values()"
+				v-for="({ id, icon, text, callback }, index) in buttons.values()"
 				:key="id"
+				ref="menuItems"
 				class="kern-btn--block kern-btn--tertiary"
 				:icon="icon"
 				role="menuitem"
+				tabindex="-1"
 				@click="ring(callback)"
+				@keydown.enter="ring(callback)"
+				@keydown.up.prevent.stop="focusNextElement(index, -1)"
+				@keydown.down.prevent.stop="focusNextElement(index, 1)"
 			>
 				{{ text }}
 			</KernButton>
@@ -21,7 +26,12 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { onMounted, toRaw, useTemplateRef } from 'vue'
+import {
+	type ComponentPublicInstance,
+	onMounted,
+	toRaw,
+	useTemplateRef,
+} from 'vue'
 
 import type { ContextMenuEntry } from '@/core'
 
@@ -55,6 +65,20 @@ onMounted(() => {
 		.querySelector<HTMLElement>('[role="menuitem"]')
 		?.focus()
 })
+
+const menuItems = useTemplateRef<ComponentPublicInstance[]>('menuItems')
+
+function focusNextElement(index: number, direction: -1 | 1) {
+	const nextIndex = index + direction
+	if (
+		!menuItems.value ||
+		nextIndex === -1 ||
+		nextIndex === menuItems.value.length
+	) {
+		return
+	}
+	menuItems.value[nextIndex]?.$el.focus()
+}
 </script>
 
 <style scoped>
@@ -74,6 +98,10 @@ onMounted(() => {
 
 		button {
 			justify-content: start;
+
+			&:focus {
+				outline: auto;
+			}
 		}
 	}
 }
