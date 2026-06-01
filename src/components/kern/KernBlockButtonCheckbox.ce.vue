@@ -7,7 +7,7 @@
 		@focus="scrollVisible($event)"
 	/>
 	<label :for="id" class="kern-btn kern-btn--block kern-btn--tertiary">
-		<span v-if="icon" :class="`kern-icon ${icon}`" aria-hidden="true" />
+		<span v-if="icon" class="kern-icon" :class="icon" aria-hidden="true" />
 		<span class="kern-label"><slot /></span>
 	</label>
 </template>
