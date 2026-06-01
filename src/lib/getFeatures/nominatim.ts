@@ -1,3 +1,5 @@
+import type { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
+
 import type { PolarGeoJsonFeatureCollection } from '@/core'
 
 import type { NominatimParameters } from './types'
@@ -31,7 +33,7 @@ export default async function (
 	return await fetch(fetchUrl, {
 		signal,
 	})
-		.then((response) => response.json())
+		.then(async (response) => <GeoJSONFeatureCollection>await response.json())
 		.then((featureCollection) => ({
 			...featureCollection,
 			features: featureCollection.features.map((feature) => ({
