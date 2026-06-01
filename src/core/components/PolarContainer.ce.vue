@@ -13,6 +13,10 @@
 				@update-listeners="updateListeners"
 			/>
 		</div>
+		<MoveHandle
+			v-if="isActive && hasWindowSize && hasSmallWidth"
+			:key="moveHandleKey"
+		/>
 		<div class="polar-ui-layer">
 			<ContextMenu
 				v-if="showContextMenu"
@@ -21,10 +25,6 @@
 			/>
 			<div v-if="!hasWindowSize" class="polar-shadow" aria-hidden="true" />
 			<PolarUI />
-			<MoveHandle
-				v-if="isActive && hasWindowSize && hasSmallWidth"
-				:key="moveHandleKey"
-			/>
 		</div>
 	</div>
 </template>
