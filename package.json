@@ -71,7 +71,7 @@
     "@babel/preset-env": "^7.24.8",
     "@cesium/engine": "^15.0.0",
     "@jest/types": "^29.3.1",
-    "@nx/js": "^22.6.5",
+    "@nx/js": "^22.7.5",
     "@playwright/test": "^1.47.2",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
@@ -108,7 +108,7 @@
     "lodash.merge": "^4.6.2",
     "markdown-it": "^14.1.1",
     "markdown-it-anchor": "^9.2.0",
-    "nx": "22.6.5",
+    "nx": "22.7.5",
     "prettier": "^2.5.1",
     "rimraf": "^6.0.1",
     "sass": "^1.79.4",
@@ -119,7 +119,7 @@
     "tslib": "^2.3.0",
     "tsx": "^4.19.2",
     "typescript": "^5.6.2",
-    "vite": "^5.4.8",
+    "vite": "^8.0.16",
     "vite-plugin-commonjs": "^0.6.2",
     "vue-template-compiler": "^2.7.16"
   }

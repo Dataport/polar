@@ -99,8 +99,8 @@
     "stylelint-scss": "^6.3.1",
     "stylelint-selector-bem-pattern": "^4.0.0",
     "typescript": "^5.5.4",
-    "vite": "^6.0.9",
-    "vitest": "^3.0.5",
+    "vite": "^8.0.14",
+    "vitest": "^4.1.7",
     "vue": "^3.4.27",
     "vue-docgen-web-types": "^0.1.8",
     "vue-tsc": "^2.0.29"
