@@ -15,7 +15,7 @@ import { useCoreStore } from '@/core/stores'
 
 import { buildMapInfo } from './utils/buildMapInfo'
 import { formatAttributionText } from './utils/formatAttributionText'
-import { getVisibleAttributions } from './utils/getVisibleAttributions.ts'
+import { getVisibleAttributions } from './utils/getVisibleAttributions'
 import { getVisibleLayers } from './utils/getVisibleLayers'
 
 /* eslint-disable tsdoc/syntax */

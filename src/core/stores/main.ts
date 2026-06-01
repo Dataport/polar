@@ -14,6 +14,7 @@ import { computed, ref, shallowRef, watch } from 'vue'
 import { addInterceptor } from '../utils/addInterceptor'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import defaults from '../utils/defaults'
+import { teardownMarkers } from '../utils/map/setupMarkers'
 import { teardownInteractions } from '../utils/map/updateDragAndZoomInteractions'
 
 export const useMainStore = defineStore('main', () => {
@@ -97,6 +98,9 @@ export const useMainStore = defineStore('main', () => {
 	function teardown() {
 		removeEventListener('resize', updateHasSmallDisplay)
 		teardownInteractions()
+		if (configuration.value.markers) {
+			teardownMarkers(map.value)
+		}
 	}
 
 	return {

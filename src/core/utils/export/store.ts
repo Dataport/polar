@@ -1,12 +1,12 @@
 import type { WatchOptions } from 'vue'
-import type { PolarContainer } from '@/core'
-import type { useCoreStore } from '@/core/stores'
+import type { PolarContainer } from '../..'
+import type { useCoreStore } from '../../stores'
 import type {
 	BundledPluginId,
 	BundledPluginStores,
 	PluginId,
 	PolarPluginStore,
-} from '@/core/types'
+} from '../../types'
 
 import { watch } from 'vue'
 

@@ -1,4 +1,4 @@
-import type { PluginContainer, PolarContainer } from '@/core'
+import type { PluginContainer, PolarContainer } from '../..'
 
 /**
  * Calls `addPlugin` for each plugin in the array.

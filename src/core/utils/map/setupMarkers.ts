@@ -10,13 +10,13 @@ import RenderFeature from 'ol/render/Feature'
 import Cluster from 'ol/source/Cluster'
 import { markRaw, toRaw, watch } from 'vue'
 
-import { useMarkerStore } from '@/core/stores/marker'
-import { usePluginStore } from '@/core/stores/plugin'
 import getCluster from '@/lib/getCluster'
 import { isVisible } from '@/lib/invisibleStyle'
 
 import { useMainStore } from '../../stores/main'
-import { getMarkerStyle } from '../../utils/markers'
+import { useMarkerStore } from '../../stores/marker'
+import { usePluginStore } from '../../stores/plugin'
+import { getMarkerStyle } from '../markers'
 
 let stopWatcher: (() => void) | null = null
 
