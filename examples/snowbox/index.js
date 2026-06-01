@@ -248,6 +248,13 @@ const buttons = [
 		text: 'Duplizieren',
 		callback: (c) => console.warn('Duplicate', c),
 	},
+	{
+		id: 'delete',
+		icon: 'kern-icon--delete',
+		text: 'Löschen',
+		callback: (c) => console.warn('Delete', c),
+		color: 'oklch(50.78% 0.202 29.22)',
+	},
 ]
 buttons.forEach((b) => map.store.addToContextMenu(b))
 

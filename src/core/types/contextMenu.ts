@@ -1,6 +1,6 @@
 import type { Coordinate } from 'ol/coordinate'
 
-import type { Icon } from './theme'
+import type { Color, Icon } from './theme'
 
 // TODO(dopenguin): Add proper description
 export interface ContextMenuEntry {
@@ -8,4 +8,5 @@ export interface ContextMenuEntry {
 	icon: Icon
 	id: string
 	text: string
+	color?: Color
 }

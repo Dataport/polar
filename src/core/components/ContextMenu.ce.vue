@@ -6,13 +6,14 @@
 	>
 		<section ref="menu" class="kern-card__body" role="menu">
 			<KernButton
-				v-for="({ id, icon, text, callback }, index) in buttons.values()"
+				v-for="({ id, icon, text, callback, color }, index) in buttons.values()"
 				:key="id"
 				ref="menuItems"
 				class="kern-btn--block kern-btn--tertiary"
 				:icon="icon"
 				role="menuitem"
 				tabindex="-1"
+				:style="{ color }"
 				@click="ring(callback)"
 				@keydown.enter="ring(callback)"
 				@keydown.up.prevent.stop="focusNextElement(index, -1)"
