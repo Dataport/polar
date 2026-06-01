@@ -525,7 +525,6 @@ addPlugin(
 			{
 				type: 'nominatim',
 				url: 'https://polar.dataport.de/nominatim/search',
-				queryParameters: {},
 			},
 		],
 		minLength: 3,
