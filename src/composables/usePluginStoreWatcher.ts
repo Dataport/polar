@@ -80,11 +80,9 @@ export function usePluginStoreWatcher(
 			return
 		}
 
-		if (!watcherConfig.source.plugin) {
-			return
-		}
-
-		const store = coreStore.getPluginStore(watcherConfig.source.plugin)
+		const store = watcherConfig.source.plugin
+			? coreStore.getPluginStore(watcherConfig.source.plugin)
+			: coreStore
 
 		if (!store) {
 			console.warn(
@@ -126,7 +124,7 @@ export function usePluginStoreWatcher(
 			}
 
 			const pluginIsInstalled =
-				source.plugin && coreStore.getPluginStore(source.plugin)
+				!source.plugin || coreStore.getPluginStore(source.plugin)
 
 			if (pluginIsInstalled && !watcherConfig.handle) {
 				setupWatcherForSource(watcherConfig)
