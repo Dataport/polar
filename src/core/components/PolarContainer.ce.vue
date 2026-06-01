@@ -54,6 +54,7 @@ import { useContextMenuStore } from '../stores/contextMenu'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
 import { loadKern } from '../utils/loadKern'
+import { teardownMarkers } from '../utils/map/setupMarkers'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import ContextMenu from './ContextMenu.ce.vue'
 import MoveHandle from './MoveHandle.ce.vue'
@@ -279,6 +280,9 @@ onBeforeUnmount(() => {
 	const mapEl = mainStore.map.getTargetElement()
 	mapEl.removeEventListener('contextmenu', openContextMenu)
 	document.removeEventListener('pointerdown', dismissContextMenu)
+	if (mainStore.configuration.markers) {
+		teardownMarkers(mainStore.map)
+	}
 	mainStore.map.dispose()
 	mapEl.replaceChildren()
 	delete (mainStore.lightElement as { store?: unknown }).store
