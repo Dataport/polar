@@ -1,5 +1,7 @@
 name: Deploy PR previews
 
+concurrency: preview-${{ github.ref }}
+
 on:
   pull_request:
     types:
@@ -31,19 +33,23 @@ jobs:
           cache: 'npm'
 
       - name: Install documentation build dependencies
+        if: github.event.action != 'closed'
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends mkdocs mkdocs-material
 
       - name: Install NPM dependencies
+        if: github.event.action != 'closed'
         run: npm ci
 
       - name: Build preview
+        if: github.event.action != 'closed'
         run: |
           npm run build:ci
           npm run preview:build:ci -- --base="./"
 
       - name: Build documentation
+        if: github.event.action != 'closed'
         run: |
           npm run docs:ci
           mv docs-html ./.dist.preview/docs-html
