@@ -1,6 +1,5 @@
 import type { Component } from 'vue'
 import type { PluginContainer, PluginOptions } from '@/core'
-import type { NineLayoutTag } from '@/core/utils/NineLayoutTag'
 
 export const PluginId = 'iconMenu'
 
@@ -95,5 +94,5 @@ export interface IconMenuPluginOptions extends PluginOptions {
 	 * declares the positioning of the IconMenu. However, if {@link buttonComponent} is not set, then only `"TOP_RIGHT"`
 	 * is allowed as value.
 	 */
-	layoutTag?: keyof typeof NineLayoutTag
+	layoutTag?: PluginOptions['layoutTag']
 }
