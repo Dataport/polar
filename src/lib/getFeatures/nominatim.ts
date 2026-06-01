@@ -25,7 +25,8 @@ export default async function (
 		...(maxFeatures ? { limit: maxFeatures } : {}),
 		q: inputValue,
 		format: 'geojson',
-		polygon_geojson: 0, // TODO: Setting this to 1 is currently not supported well by addressSearch plugin. The plugin expects a point geometry.
+		// Setting this to 1 is currently not supported well by addressSearch plugin. The plugin expects a point geometry.
+		polygon_geojson: 0,
 		polygon_threshold: 5,
 	}).forEach(([key, value]) => {
 		fetchUrl.searchParams.set(key, value.toString())
