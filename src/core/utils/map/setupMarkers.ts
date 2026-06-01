@@ -16,7 +16,7 @@ import { isVisible } from '@/lib/invisibleStyle'
 
 import type { MarkerLayer, MarkerStyle, PluginId } from '../../types'
 
-import { useContextMenuStore } from '../../stores/contextMenu.ts'
+import { useContextMenuStore } from '../../stores/contextMenu'
 import { useMainStore } from '../../stores/main'
 import { getMarkerStyle } from '../../utils/markers'
 
