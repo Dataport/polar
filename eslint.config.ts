@@ -81,6 +81,7 @@ const polarTsConfig = defineConfig({
 				groups: ['required-member', 'unknown'],
 			},
 		],
+		'@typescript-eslint/consistent-type-imports': 'error',
 	},
 })
 

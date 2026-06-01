@@ -4,9 +4,10 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type Layer from 'ol/layer/Layer'
+import type { ImageWMS, TileWMS } from 'ol/source'
+
 import { toMerged } from 'es-toolkit'
-import Layer from 'ol/layer/Layer'
-import { ImageWMS, TileWMS } from 'ol/source'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 

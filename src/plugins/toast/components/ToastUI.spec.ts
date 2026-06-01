@@ -1,5 +1,7 @@
+import type { VueWrapper } from '@vue/test-utils'
+
 import { createTestingPinia } from '@pinia/testing'
-import { mount, VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { expect, test as _test, vi } from 'vitest'
 import { nextTick } from 'vue'
 

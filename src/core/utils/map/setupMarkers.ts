@@ -1,12 +1,12 @@
+import type { Feature, Map, MapBrowserEvent, MapEvent } from 'ol'
 import type BaseLayer from 'ol/layer/Base'
+import type VectorSource from 'ol/source/Vector'
 
 import { toMerged } from 'es-toolkit'
-import { Feature, Map, MapBrowserEvent, MapEvent } from 'ol'
 import { createEmpty, extend } from 'ol/extent'
 import VectorLayer from 'ol/layer/Vector'
 import RenderFeature from 'ol/render/Feature'
 import Cluster from 'ol/source/Cluster'
-import VectorSource from 'ol/source/Vector'
 import { watch, markRaw, toRaw } from 'vue'
 
 import { useMarkerStore } from '@/core/stores/marker'

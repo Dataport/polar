@@ -29,8 +29,9 @@
 </template>
 
 <script setup lang="ts">
-import Layer from 'ol/layer/Layer'
-import { ImageWMS, TileWMS } from 'ol/source'
+import type Layer from 'ol/layer/Layer'
+import type { ImageWMS, TileWMS } from 'ol/source'
+
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
 

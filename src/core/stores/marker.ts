@@ -1,5 +1,6 @@
-import { Feature } from 'ol'
-import { Point } from 'ol/geom'
+import type { Feature } from 'ol'
+import type { Point } from 'ol/geom'
+
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, shallowRef } from 'vue'
 
