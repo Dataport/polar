@@ -5,30 +5,36 @@
 		@keydown.escape="close"
 	>
 		<section ref="menu" class="kern-card__body" role="menu">
-			<KernButton
-				v-for="({ id, icon, text, callback, color }, index) in buttons.values()"
-				:key="id"
-				ref="menuItems"
-				class="kern-btn--block kern-btn--tertiary"
-				:icon="icon"
-				role="menuitem"
-				tabindex="-1"
-				:style="{ '--kern-btn-text-color': color }"
-				@click="ring(callback)"
-				@keydown.enter="ring(callback)"
-				@keydown.up.prevent.stop="focusNextElement(index, -1)"
-				@keydown.down.prevent.stop="focusNextElement(index, 1)"
+			<template
+				v-for="(group, groupId, index) of buttonsByGroup"
+				:key="groupId"
 			>
-				{{ text }}
-			</KernButton>
+				<KernButton
+					v-for="{ id, icon, text, callback, color } in group"
+					:key="id"
+					ref="menuItems"
+					class="kern-btn--block kern-btn--tertiary"
+					:icon="icon"
+					role="menuitem"
+					tabindex="-1"
+					:style="{ '--kern-btn-text-color': color }"
+					@click="ring(callback)"
+					@keydown.enter="ring(callback)"
+					@keydown.up.prevent.stop="focusNextElement($event, -1)"
+					@keydown.down.prevent.stop="focusNextElement($event, 1)"
+				>
+					{{ text }}
+				</KernButton>
+				<hr v-if="index < Object.keys(buttonsByGroup).length - 1" />
+			</template>
 		</section>
 	</PolarCard>
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import {
 	type ComponentPublicInstance,
+	computed,
 	onMounted,
 	toRaw,
 	useTemplateRef,
@@ -46,10 +52,14 @@ defineProps<{
 	left: string
 }>()
 
-// TODO(dopenguin): Add visual groups
-
 const contextMenuStore = useContextMenuStore()
-const { buttons } = storeToRefs(contextMenuStore)
+
+const buttonsByGroup = computed(() =>
+	Object.groupBy(
+		contextMenuStore.buttons.values().toArray(),
+		({ group }) => group ?? 'default'
+	)
+)
 
 function ring(callback: ContextMenuEntry['callback']) {
 	close()
@@ -69,16 +79,18 @@ onMounted(() => {
 
 const menuItems = useTemplateRef<ComponentPublicInstance[]>('menuItems')
 
-function focusNextElement(index: number, direction: -1 | 1) {
-	const nextIndex = index + direction
-	if (
-		!menuItems.value ||
-		nextIndex === -1 ||
-		nextIndex === menuItems.value.length
-	) {
+function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
+	const { target } = event
+	const items = menu.value?.querySelectorAll<HTMLElement>('[role="menuitem"]')
+	if (!items || target === null) {
+		console.warn('Could not focus any element.')
 		return
 	}
-	menuItems.value[nextIndex]?.$el.focus()
+	const index = [...items].indexOf(target as HTMLElement)
+	const nextElement = items[(index + direction) % items.length]
+	if (nextElement) {
+		nextElement.focus()
+	}
 }
 </script>
 
@@ -103,6 +115,13 @@ function focusNextElement(index: number, direction: -1 | 1) {
 			&:focus {
 				outline: auto;
 			}
+		}
+
+		hr {
+			height: var(--kern-metric-border-width-light, 0.0625rem);
+			width: 100%;
+			margin: 0;
+			color: var(--kern-color-layout-border);
 		}
 	}
 }

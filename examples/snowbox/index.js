@@ -254,6 +254,7 @@ const buttons = [
 		text: 'Löschen',
 		callback: (c) => console.warn('Delete', c),
 		color: 'oklch(50.78% 0.202 29.22)',
+		group: 'delete',
 	},
 ]
 buttons.forEach((b) => map.store.addToContextMenu(b))

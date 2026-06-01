@@ -27,4 +27,11 @@ export interface ContextMenuEntry {
 	 * Override for the color of the {@link ContextMenuEntry.icon | icon} and {@link ContextMenuEntry.text | text}.
 	 */
 	color?: Color
+
+	/**
+	 * Override the group of the entry resulting in a visual differentiation.
+	 *
+	 * @defaultValue 'default'
+	 */
+	group?: string
 }
