@@ -13,3 +13,16 @@ import type { Icon } from '@/core'
 defineProps<{ icon?: Icon; labelSrOnly?: boolean }>()
 defineEmits(['click'])
 </script>
+
+<style scoped>
+.kern-icon {
+	background-color: var(
+		--kern-btn-text-color,
+		var(--kern-color-action-default, #1a3da5)
+	);
+}
+
+.kern-label {
+	color: var(--kern-btn-text-color, var(--kern-color-action-default, #1a3da5));
+}
+</style>

@@ -13,7 +13,7 @@
 				:icon="icon"
 				role="menuitem"
 				tabindex="-1"
-				:style="{ color }"
+				:style="{ '--kern-btn-text-color': color }"
 				@click="ring(callback)"
 				@keydown.enter="ring(callback)"
 				@keydown.up.prevent.stop="focusNextElement(index, -1)"
