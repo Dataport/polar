@@ -26,8 +26,11 @@ import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
 import { getTooltip } from '@/lib/tooltip'
 
-import type { PluginState, GeoLocationPluginOptions } from './types'
-
+import {
+	type PluginState,
+	type GeoLocationPluginOptions,
+	PluginId,
+} from './types'
 import { detectDeniedGeolocationEarly } from './utils/detectDeniedGeolocationEarly'
 import { getGeoLocationStyle } from './utils/olStyle'
 import { positionChanged } from './utils/positionChanged'
@@ -184,7 +187,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		notifyUser(
 			'error',
 			t(($) => $.button.locationAccessDenied, {
-				ns: 'geoLocation',
+				ns: PluginId,
 			})
 		)
 		console.error(error.message)
@@ -282,13 +285,13 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 
 	function printPositioningFailed(boundaryErrorOccurred: boolean) {
 		if (boundaryErrorOccurred) {
-			const msg = t(($) => $.toast.boundaryError, { ns: 'geoLocation' })
+			const msg = t(($) => $.toast.boundaryError, { ns: PluginId })
 			notifyUser('error', msg)
 			console.error(msg)
 			return
 		}
 		const msg = t(($) => $.toast.notInBoundary, {
-			ns: 'geoLocation',
+			ns: PluginId,
 		})
 		notifyUser('info', msg, { timeout: 10000 })
 		// eslint-disable-next-line no-console

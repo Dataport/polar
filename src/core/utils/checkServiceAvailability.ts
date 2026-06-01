@@ -9,6 +9,8 @@ import type {
 	ServiceAvailabilityCheck,
 } from '../types'
 
+import { CoreId } from '../vuePlugins/i18next'
+
 export function checkServiceAvailability(
 	configuration: MapConfiguration,
 	register: MasterportalApiServiceRegister
@@ -44,7 +46,7 @@ export function checkServiceAvailability(
 					if (statusCode !== 200) {
 						notifyUser('warning', () =>
 							t(($) => $.error.serviceUnavailable, {
-								ns: 'core',
+								ns: CoreId,
 								serviceId,
 								serviceName,
 							})

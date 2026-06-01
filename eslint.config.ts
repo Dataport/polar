@@ -55,6 +55,7 @@ const polarConfig = defineConfig({
 			},
 		],
 		'local/import-style': 'error',
+		'local/no-literal-ns-in-t': 'error',
 	},
 })
 

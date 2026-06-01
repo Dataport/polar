@@ -11,7 +11,7 @@ import { type Component, computed, markRaw, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import type { Menu } from './types'
+import { PluginId, type Menu } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -147,11 +147,11 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 				open.value = null
 			},
 			closeLabel: t(($) => $.mobileCloseButton, {
-				ns: 'iconMenu',
-				plugin: t(($) => $.hints[menu.plugin.id], { ns: 'iconMenu' }),
+				ns: PluginId,
+				plugin: t(($) => $.hints[menu.plugin.id], { ns: PluginId }),
 			}),
 			component: menu.plugin.component,
-			plugin: 'iconMenu',
+			plugin: PluginId,
 		})
 	}
 
