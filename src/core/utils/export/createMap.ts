@@ -1,9 +1,9 @@
 import type {
 	MapConfiguration,
 	MasterportalApiServiceRegister,
-} from '@/core/types'
+} from '../../types'
 
-import { fetchServiceRegister, register } from '@/core'
+import { fetchServiceRegister, register } from '../..'
 
 /**
  * Creates an HTML map element with a given configuration.

@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import KernDatePicker from './KernDatePicker.ce.vue'
+import KernDatePicker from '@/components/kern/KernDatePicker.ce.vue'
 
 const props = defineProps<{
 	min?: Date

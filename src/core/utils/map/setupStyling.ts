@@ -9,7 +9,7 @@ import noop from '@repositoryname/noop'
 import type {
 	MapConfiguration,
 	MasterportalApiServiceRegister,
-} from '@/core/types'
+} from '../../types'
 
 export async function setupStyling(
 	map: Map,

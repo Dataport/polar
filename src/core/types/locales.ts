@@ -1,8 +1,8 @@
 import type { ResourceKey } from 'i18next'
 
-import type { BundledPluginId, BundledPluginLocaleResources } from '@/core'
-import type { resourcesEn as core } from '@/core/locales'
-import type { CoreId } from '@/core/vuePlugins/i18next'
+import type { BundledPluginId, BundledPluginLocaleResources } from '..'
+import type { resourcesEn as core } from '../locales'
+import type { CoreId } from '../vuePlugins/i18next'
 
 /** @internal */
 export interface Locale {
