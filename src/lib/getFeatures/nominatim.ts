@@ -1,10 +1,8 @@
-import type { Point } from 'geojson'
-
-import { transform as transformCoordinates } from 'ol/proj'
-
 import type { PolarGeoJsonFeatureCollection } from '@/core'
 
 import type { NominatimParameters } from './types'
+
+import { transformGeometry } from '../transformGeometry'
 
 export default async function (
 	signal: AbortSignal,
@@ -38,24 +36,8 @@ export default async function (
 			...featureCollection,
 			features: featureCollection.features.map((feature) => ({
 				...feature,
-				title: feature.properties.display_name,
-				geometry: {
-					...feature.geometry,
-					coordinates:
-						epsg === 'EPSG:4326'
-							? feature.geometry.coordinates
-							: feature.geometry.type === 'Polygon'
-								? feature.geometry.coordinates.map((ring) =>
-										ring.map((coord) =>
-											transformCoordinates(coord, 'EPSG:4326', epsg)
-										)
-									)
-								: transformCoordinates(
-										(feature.geometry as Point).coordinates,
-										'EPSG:4326',
-										epsg
-									),
-				},
+				title: feature.properties?.display_name,
+				geometry: transformGeometry(feature.geometry, 'EPSG:4326', epsg),
 			})),
 		}))
 }

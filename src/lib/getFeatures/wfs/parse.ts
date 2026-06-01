@@ -1,8 +1,8 @@
-import { toMerged } from 'es-toolkit'
 import { GeoJSON, WFS } from 'ol/format'
-import { transform as transformCoordinates } from 'ol/proj'
 
 import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
+
+import { transformGeometry } from '@/lib/transformGeometry'
 
 import { getFeatureTitleFromPattern } from './getFeatureTitleFromPattern'
 
@@ -53,13 +53,11 @@ export async function parseWfsResponse(
 			}
 		}
 		if (epsgCode) {
-			featureObject.geometry = toMerged(featureObject.geometry, {
-				coordinates: transformCoordinates(
-					featureObject.geometry.coordinates,
-					`EPSG:${epsgCode}`,
-					epsg
-				),
-			})
+			featureObject.geometry = transformGeometry(
+				featureObject.geometry,
+				`EPSG:${epsgCode}`,
+				epsg
+			)
 		}
 		features.push(featureObject)
 	})
