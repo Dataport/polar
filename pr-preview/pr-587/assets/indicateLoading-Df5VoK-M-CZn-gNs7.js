@@ -1,1 +1,0 @@
-import{En as e}from"./stores-B9wNghgM-B2vQe7ra.js";var t=0;function n(){let n=e().getPluginStore(`loadingIndicator`);if(!n)return()=>{};let r=`lib-indicate-loading-${t++}`;return n.addLoadingKey(r),()=>{n.removeLoadingKey(r)}}export{n as t};
