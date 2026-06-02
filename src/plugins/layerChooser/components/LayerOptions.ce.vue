@@ -10,7 +10,6 @@
 				<PolarInput
 					v-model="activeLayers"
 					id-suffix="polar-layer-chooser-mask-options"
-					:label="displayName"
 					type="checkbox"
 					:value="layerName"
 					:class="
@@ -21,7 +20,9 @@
 					:disabled="
 						activeLayers.length === 1 && activeLayers.includes(layerName)
 					"
-				/>
+				>
+					{{ displayName }}
+				</PolarInput>
 			</div>
 		</PolarInputGroup>
 	</LayerInformationCard>

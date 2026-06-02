@@ -13,13 +13,13 @@
 				@update-listeners="updateListeners"
 			/>
 		</div>
+		<MoveHandle
+			v-if="isActive && hasWindowSize && hasSmallWidth"
+			:key="moveHandleKey"
+		/>
 		<div class="polar-ui-layer">
 			<div v-if="!hasWindowSize" class="polar-shadow" aria-hidden="true" />
 			<PolarUI />
-			<MoveHandle
-				v-if="isActive && hasWindowSize && hasSmallWidth"
-				:key="moveHandleKey"
-			/>
 		</div>
 	</div>
 </template>
@@ -48,6 +48,7 @@ import { useCoreStore } from '../stores'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
 import { loadKern } from '../utils/loadKern'
+import { teardownMarkers } from '../utils/map/setupMarkers'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import MoveHandle from './MoveHandle.ce.vue'
 import PolarMap from './PolarMap.ce.vue'
@@ -220,6 +221,9 @@ onBeforeUnmount(() => {
 	i18next.off('languageChanged', updateLanguage)
 
 	const mapEl = mainStore.map.getTargetElement()
+	if (mainStore.configuration.markers) {
+		teardownMarkers(mainStore.map)
+	}
 	mainStore.map.dispose()
 	mapEl.replaceChildren()
 	delete (mainStore.lightElement as { store?: unknown }).store

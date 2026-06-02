@@ -1,5 +1,5 @@
 <template>
-	<div v-for="(item, idx) of props.items" :key="idx" class="kern-form-check">
+	<div v-for="(item, idx) of items" :key="idx" class="kern-form-check">
 		<input
 			:id="id + '-' + idx"
 			v-model="model"
@@ -18,7 +18,7 @@ import { useId } from 'vue'
 
 import type { Icon } from '@/core'
 
-const props = defineProps<{
+defineProps<{
 	items: {
 		value: string
 		label: string

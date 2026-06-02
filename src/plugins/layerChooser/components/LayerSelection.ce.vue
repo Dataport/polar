@@ -12,11 +12,12 @@
 				<PolarInput
 					v-model="activeBackgroundId"
 					:id-suffix="`polar-layer-chooser-background`"
-					:label="name"
 					type="radio"
 					:value="id"
 					:disabled="disabledBackgrounds[id]"
-				/>
+				>
+					{{ name }}
+				</PolarInput>
 				<LegendButton
 					v-if="layersWithLegendsIds.includes(id)"
 					:id="id"
@@ -41,11 +42,12 @@
 						<PolarInput
 							v-model="activeMaskIds"
 							:id-suffix="`polar-layer-chooser-mask-${type}`"
-							:label="name"
 							type="checkbox"
 							:value="id"
 							:disabled="disabledMasks[id]"
-						/>
+						>
+							{{ name }}
+						</PolarInput>
 						<button
 							v-if="Object.keys(layersWithOptions).includes(id)"
 							:id="`polar-layer-chooser-options-${id}-button`"
