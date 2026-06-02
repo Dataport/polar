@@ -37,7 +37,7 @@ const { hasWindowSize, hasSmallDisplay, center, extent, zoom } =
 function onMove() {
 	center.value = mainStore.map.getView().getCenter() || center.value
 	extent.value = mainStore.map.getView().calculateExtent()
-	zoom.value = mainStore.map.getView().getZoom() || zoom.value
+	zoom.value = mainStore.map.getView().getZoom() ?? zoom.value
 }
 
 function createMap() {
@@ -92,7 +92,7 @@ watch(center, (center) => {
 })
 
 watch(zoom, (zoom) => {
-	mainStore.map.getView().setZoom(zoom)
+	mainStore.map.getView().animate({ zoom, duration: 300 })
 })
 
 onMounted(async () => {

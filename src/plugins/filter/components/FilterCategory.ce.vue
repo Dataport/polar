@@ -16,9 +16,10 @@
 			<KernBlockButton
 				v-if="category.selectAll"
 				icon="kern-icon--deselect"
-				:label="$t(($) => $.category.deselectAll, { ns: PluginId })"
 				@click="filterStore.selectOrDeselectAllFromCategory(category)"
-			/>
+			>
+				{{ $t(($) => $.category.deselectAll, { ns: PluginId }) }}
+			</KernBlockButton>
 			<component
 				:is="
 					coreStore.layout === 'standard'
@@ -28,15 +29,6 @@
 				v-for="categoryValue of category.knownValues"
 				:key="flattenValue(categoryValue)"
 				:icon="typeof categoryValue !== 'string' && categoryValue.icon"
-				:label="
-					$t(
-						($) =>
-							$['layer'][filterStore.selectedLayerId]['category'][
-								category.targetProperty
-							]['knownValue'][flattenValue(categoryValue)],
-						{ ns: PluginId, defaultValue: flattenValue(categoryValue) }
-					)
-				"
 				:model-value="
 					filterStore.getCategoryStatus(
 						category.targetProperty,
@@ -50,7 +42,17 @@
 						$event
 					)
 				"
-			/>
+			>
+				{{
+					$t(
+						($) =>
+							$['layer'][filterStore.selectedLayerId]['category'][
+								category.targetProperty
+							]['knownValue'][flattenValue(categoryValue)],
+						{ ns: PluginId, defaultValue: flattenValue(categoryValue) }
+					)
+				}}
+			</component>
 		</div>
 	</FilterSection>
 </template>

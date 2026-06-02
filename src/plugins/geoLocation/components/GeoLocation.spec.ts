@@ -33,8 +33,9 @@ const test = _test.extend<{
 test('The button should include a tooltip', ({ wrapper }) => {
 	const btn = wrapper.find('button')
 	expect(btn.element.disabled).toBe(false)
-	expect(btn.find('.polar-tooltip').exists()).toBe(true)
 	expect(btn.find('.kern-label').exists()).toBe(true)
+	const tooltip = wrapper.find('.polar-tooltip')
+	expect(tooltip.exists()).toBe(true)
 })
 
 // TODO: Fix test; the user interaction accepting the location request needs to be mocked in order for the test to pass

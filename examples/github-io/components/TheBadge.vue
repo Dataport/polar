@@ -1,6 +1,6 @@
 <template>
-	<span :class="`kern-badge kern-badge--${$props.color}`">
-		<span :class="`kern-label kern-label--small kern-label--${$props.color}`">
+	<span :class="`kern-badge kern-badge--${color}`">
+		<span :class="`kern-label kern-label--small kern-label--${color}`">
 			<slot />
 		</span>
 	</span>
