@@ -84,7 +84,7 @@
 		"@commitlint/cli": "^21.0.2",
 		"@commitlint/config-conventional": "^21.0.2",
 		"@dataport/eslint-config-geodev": "^1.0.0-alpha.1",
-		"@kern-ux/native": "^2.3.0",
+		"@kern-ux/native": "^2.6.2",
 		"@masterportal/masterportalapi": "2.61.0",
 		"@microsoft/api-extractor": "^7.58.7",
 		"@pinia/testing": "^1.0.2",
