@@ -22,7 +22,7 @@ import { useCoreStore } from '@/core/stores'
  * @internal
  */
 interface WatcherConfig {
-	callback: (value: unknown) => void | Promise<void>
+	callback: (value: unknown, source: StoreReference) => void | Promise<void>
 	handle: WatchStopHandle | null
 	source: StoreReference
 }
@@ -57,7 +57,7 @@ export function usePluginStoreWatcher(
 		| StoreReference[]
 		| ComputedRef<StoreReference[]>
 		| (() => StoreReference[]),
-	callback: (value: unknown) => void | Promise<void>,
+	callback: WatcherConfig['callback'],
 	watchOptions?: WatchOptions
 ) {
 	const coreStore = useCoreStore()
@@ -95,7 +95,7 @@ export function usePluginStoreWatcher(
 
 		watcherConfig.handle = watch(
 			() => store[watcherConfig.source.key],
-			watcherConfig.callback,
+			(value) => watcherConfig.callback(value, watcherConfig.source),
 			watchOptions
 		)
 	}
