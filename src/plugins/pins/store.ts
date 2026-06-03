@@ -10,12 +10,9 @@ import type { Coordinate } from 'ol/coordinate'
 
 import { toMerged } from 'es-toolkit'
 import { pointerMove } from 'ol/events/condition'
-import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
 import { Draw, Modify, Select, Translate } from 'ol/interaction'
-import VectorLayer from 'ol/layer/Vector'
 import { toLonLat } from 'ol/proj'
-import { Vector } from 'ol/source'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
@@ -26,6 +23,7 @@ import { useCoreStore } from '@/core/stores'
 
 import type { PinMovable, PinsPluginOptions } from './types'
 
+import { usePinLayer } from './composables/usePinLayer'
 import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
 import { isCoordinateInBoundaryLayer } from './utils/isCoordinateInBoundaryLayer'
@@ -64,10 +62,10 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		return [lonLat[1], lonLat[0]]
 	})
 
-	const pinLayer = new VectorLayer({
-		source: new Vector(),
-		style: getPinStyle(configuration.value.style || {}),
-	})
+	const { pinLayer } = usePinLayer(
+		coordinate,
+		getPinStyle(configuration.value.style || {})
+	)
 	const move = new Select({
 		layers: (l) => l === pinLayer,
 		style: null,
@@ -105,7 +103,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	function teardownPlugin() {
 		const { map } = coreStore
 		map.un('singleclick', onSingleClick)
-		removePin()
 		map.removeLayer(pinLayer)
 		map.removeInteraction(move)
 		map.removeInteraction(translate)
@@ -209,9 +206,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			epsg?: string
 		}
 	) {
-		// Always clean up other/old pin first – single pin only atm.
-		removePin()
-		coordinate.value = newCoordinate
 		if (!clicked && pinInformation) {
 			coordinate.value = getPointCoordinate(
 				pinInformation.epsg || coreStore.configuration.epsg,
@@ -221,19 +215,9 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			)
 			coreStore.map.getView().setCenter(coordinate.value)
 			coreStore.map.getView().setZoom(configuration.value.toZoomLevel)
+		} else {
+			coordinate.value = newCoordinate
 		}
-		;(pinLayer.getSource() as Vector).addFeature(
-			new Feature({
-				geometry: new Point(coordinate.value),
-				type: 'point',
-				name: 'mapMarker',
-				zIndex: 100,
-			})
-		)
-	}
-
-	function removePin() {
-		;(pinLayer.getSource() as Vector).clear()
 	}
 
 	return {
