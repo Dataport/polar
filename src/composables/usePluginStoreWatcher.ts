@@ -88,7 +88,7 @@ export function usePluginStoreWatcher(
 
 		if (!store) {
 			console.warn(
-				`usePluginStoreWatcher: "${watcherConfig.source.plugin}" not found. Cannot watch "${watcherConfig.source.key}".`
+				`"${watcherConfig.source.plugin}" not found. Cannot watch "${watcherConfig.source.key}".`
 			)
 			return
 		}
