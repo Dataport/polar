@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/PointerPosition.ce.vue'
 import locales from './locales'
 import { usePointerPositionStore } from './store'
-import { type PointerPositionPluginOptions, PluginId } from './types'
+import { PluginId, type PointerPositionPluginOptions } from './types'
 
 /**
  * The PointerPosition plugin makes the current/last pointer position visible

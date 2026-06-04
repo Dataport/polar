@@ -11,7 +11,7 @@ import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import { PluginId, type FullscreenPluginOptions } from './types'
+import { type FullscreenPluginOptions, PluginId } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**

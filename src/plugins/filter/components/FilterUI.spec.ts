@@ -1,6 +1,6 @@
 import { createTestingPinia } from '@pinia/testing'
 import { mount, VueWrapper } from '@vue/test-utils'
-import { expect, test as _test, vi, assert } from 'vitest'
+import { test as _test, assert, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
