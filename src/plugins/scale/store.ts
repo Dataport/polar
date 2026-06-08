@@ -6,7 +6,7 @@
 
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref, computed, onScopeDispose } from 'vue'
+import { computed, onScopeDispose, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'

@@ -7,7 +7,7 @@ import VectorLayer from 'ol/layer/Vector'
 import RenderFeature from 'ol/render/Feature'
 import Cluster from 'ol/source/Cluster'
 import VectorSource from 'ol/source/Vector'
-import { watch, markRaw, toRaw } from 'vue'
+import { markRaw, toRaw, watch } from 'vue'
 
 import { useMarkerStore } from '@/core/stores/marker'
 import { usePluginStore } from '@/core/stores/plugin'
