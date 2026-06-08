@@ -100,7 +100,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-import { tabs, rawCode } from './devexContent'
+import { rawCode, tabs } from './devexContent'
 import TheBadge from './TheBadge.vue'
 
 const activeTab = ref<(typeof tabs)[number]['id']>('install')
