@@ -10,7 +10,7 @@
 				:key="groupId"
 			>
 				<KernButton
-					v-for="{ id, icon, text, callback, color } in group"
+					v-for="{ id, icon, text, textNs, callback, color } in group"
 					:key="id"
 					ref="menuItems"
 					class="kern-btn--block kern-btn--tertiary"
@@ -23,7 +23,7 @@
 					@keydown.up.prevent.stop="focusNextElement($event, -1)"
 					@keydown.down.prevent.stop="focusNextElement($event, 1)"
 				>
-					{{ text }}
+					{{ translate(text, textNs) }}
 				</KernButton>
 				<hr v-if="index < Object.keys(buttonsByGroup).length - 1" />
 			</template>
@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+import { t } from 'i18next'
 import {
 	type ComponentPublicInstance,
 	computed,
@@ -60,6 +61,11 @@ const buttonsByGroup = computed(() =>
 		({ group }) => group ?? 'default'
 	)
 )
+
+function translate(text: string, textNs?: string): string {
+	// @ts-expect-error | Locale keys are dynamic.
+	return t(text, { ns: textNs })
+}
 
 function ring(callback: ContextMenuEntry['callback']) {
 	close()
