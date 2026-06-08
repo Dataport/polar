@@ -166,6 +166,7 @@ function inputDown(event: KeyboardEvent) {
 	);
 	width: 25rem;
 	min-width: inherit;
+	z-index: 1;
 
 	&:deep(.kern-card__container) {
 		flex: 0 1 auto;
