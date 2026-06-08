@@ -4,10 +4,10 @@ import { computed, ref, watch } from 'vue'
 import { useCoreStore } from '@/core/stores'
 
 import {
-	PluginId,
 	type FilterConfiguration,
 	type FilterPluginOptions,
 	type FilterState,
+	PluginId,
 } from '../types'
 
 export const useFilterMainStore = defineStore('plugins/filter/main', () => {
