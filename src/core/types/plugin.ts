@@ -38,6 +38,9 @@ import type { resourcesEn as PointerPositionResources } from '@/plugins/pointerP
 import type { usePointerPositionStore as PointerPositionStore } from '@/plugins/pointerPosition/store'
 import type { PluginId as ReverseGeocoderPluginId } from '@/plugins/reverseGeocoder'
 import type { useReverseGeocoderStore as ReverseGeocoderStore } from '@/plugins/reverseGeocoder/store'
+import type { PluginId as RoutingPluginId } from '@/plugins/routing'
+import type { resourcesEn as RoutingResources } from '@/plugins/routing/locales'
+import type { useRoutingStore as RoutingStore } from '@/plugins/routing/store'
 import type { PluginId as ScalePluginId } from '@/plugins/scale'
 import type { resourcesEn as ScaleResources } from '@/plugins/scale/locales'
 import type { useScaleStore as ScaleStore } from '@/plugins/scale/store'
@@ -147,6 +150,7 @@ export type BundledPluginId =
 	| typeof PinsPluginId
 	| typeof PointerPositionPluginId
 	| typeof ReverseGeocoderPluginId
+	| typeof RoutingPluginId
 	| typeof ScalePluginId
 	| typeof ToastPluginId
 	| typeof ZoomPluginId
@@ -183,6 +187,7 @@ export type BundledPluginStores<T extends BundledPluginId> =
 			typeof ReverseGeocoderPluginId,
 			typeof ReverseGeocoderStore
 	  >
+	| GetPluginStore<T, typeof RoutingPluginId, typeof RoutingStore>
 	| GetPluginStore<T, typeof ScalePluginId, typeof ScaleStore>
 	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
 	| GetPluginStore<T, typeof ZoomPluginId, typeof ZoomStore>
@@ -226,6 +231,7 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			typeof PointerPositionPluginId,
 			typeof PointerPositionResources
 	  >
+	| GetPluginResources<T, typeof RoutingPluginId, typeof RoutingResources>
 	| GetPluginResources<T, typeof ScalePluginId, typeof ScaleResources>
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 	| GetPluginResources<T, typeof ZoomPluginId, typeof ZoomResources>

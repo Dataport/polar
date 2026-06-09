@@ -1,17 +1,5 @@
 # Routing
 
-The Routing Plugin offers a routing functionality to the user.
-
-## Scope
-
-A user can select multiple waypoints by clicking on the map, which then are converted to an address, if a reverse geocoder is configured.
-If at least two waypoints have been added, the route is automatically calculated and displayed on the map.
-
-The travel mode can be adjusted as well as the types of routes to avoid.
-Similarly, the route preference is set to 'recommended' by default, but can be changed to 'fastest' or 'shortest'.
-
-Once a route is available, a detailed listing of every route segment is available including instructions, distance and duration.
-
 ## Configuration
 
 ### routing
