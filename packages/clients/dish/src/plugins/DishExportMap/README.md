@@ -23,11 +23,12 @@ The following parameters for the plugin must be defined in the map configuration
 | versionWFS | string |  Version for WFS. |
 | propertyNameWFS | string | No description available. |
 | filterTypeWFS | string | No description available. |
-| printImageUrlProd | internalHost + '/Content/MapsTmp' | Probably the URL to the created map section. The internalHost is set in the urlParams. |
+| printImageUrlProd | `printImageBaseUrl` + /Content/MapsTmp | Probably the URL to the created map section. Only necessary for production, otherwise the same as `printHostDegree`. `printImageBaseUrl` and `printHostDegree` are set in the urlParams. |
 | wmsLayerUrl | string | The url to the WMS used for the print. |
 | wfsLayerUrl | string | The url to the WFS used for the print. |
 | wfsLayerFeatureType | string | The feature type of the wfs configured in wfsLayerUrl. |
-| printImagePath | string |  Probably the relative path to the created map section. |
+| printImagePath | string |  Probably the relative path to the created map image that is used in the pdf print. |
+| exportMapAsPdfUrl | `printHostDeegree` + /Content/Objekt/Kartenausgabe.aspx | The path to the created pdf. `printHostDegree` is set in the urlParams. |
 
 
 ### example configuration
