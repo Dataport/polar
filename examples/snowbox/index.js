@@ -227,38 +227,6 @@ const map = await createMap(
 	},
 	services
 )
-
-// TODO: Remove this once plugins (e.g. draw) add something themselves to the context menu
-const buttons = [
-	{
-		id: 'color',
-		icon: 'kern-icon--palette',
-		text: 'Farben anpassen',
-		callback: (c) => console.warn('Colour', c),
-	},
-	{
-		id: 'path',
-		icon: 'kern-icon--rebase-edit',
-		text: 'Pfad anpassen',
-		callback: (c) => console.warn('Path', c),
-	},
-	{
-		id: 'duplicate',
-		icon: 'kern-icon--content-copy',
-		text: 'Duplizieren',
-		callback: (c) => console.warn('Duplicate', c),
-	},
-	{
-		id: 'delete',
-		icon: 'kern-icon--delete',
-		text: 'Löschen',
-		callback: (c) => console.warn('Delete', c),
-		color: 'oklch(50.78% 0.202 29.22)',
-		group: 'delete',
-	},
-]
-buttons.forEach((b) => map.store.addToContextMenu(b))
-
 const additionalMaps = []
 document.getElementById('secondMap').addEventListener('click', async () => {
 	const secondMap = createMapElement(
