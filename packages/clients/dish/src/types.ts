@@ -104,6 +104,7 @@ export interface DishUrlParams {
   internServicesBaseUrl: string
   printHostDeegree: string
   printServicesBaseUrl: string
+  printImageUrlProd: string
 }
 
 export interface DishMapConfig
