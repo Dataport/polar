@@ -180,6 +180,6 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
     wfsLayerUrl: `${urlParams.printServicesBaseUrl}/wfs`,
     wfsLayerFeatureType: 'app:TBLGIS_ORA',
     printImageUrlProd: `${urlParams.printImageUrlProd}/Content/MapsTmp`,
-    exportMapAsPdfUrl: `${urlParams.internalHost}/Content/Objekt/Kartenausgabe.aspx`,
+    exportMapAsPdfUrl: `${urlParams.printHostDeegree}/Content/Objekt/Kartenausgabe.aspx`,
   },
 })
