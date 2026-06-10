@@ -130,13 +130,7 @@ export interface DishMapConfig
     wfsLayerFeatureType: string
     printImageUrlProd: string
     exportMapAsPdfUrl: string
-    backgroundLayer: backgroundLayer
   }
-}
-
-export interface backgroundLayer {
-  url: string
-  layers: string
 }
 
 export interface SelectionObjectState {
