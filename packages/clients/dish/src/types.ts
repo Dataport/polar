@@ -129,7 +129,7 @@ export interface DishMapConfig
     wmsLayerUrl: string
     wfsLayerUrl: string
     wfsLayerFeatureType: string
-    printImageUrlProd: string
+    printImageUrlProd?: string
     exportMapAsPdfUrl: string
   }
 }
