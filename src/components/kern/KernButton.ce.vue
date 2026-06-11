@@ -15,21 +15,30 @@ defineEmits(['click'])
 </script>
 
 <style scoped>
-.kern-icon {
-	background-color: var(
-		--kern-btn-text-color,
-		var(--kern-color-action-default-contextual)
-	);
-}
+.kern-btn {
+	background: var(--kern-btn-background-color, transparent);
 
-.kern-label {
-	color: var(
-		--kern-btn-text-color,
-		var(--kern-color-action-default-contextual)
-	);
+	.kern-icon {
+		background-color: var(
+			--kern-btn-text-color,
+			var(--kern-color-action-default-contextual)
+		);
+	}
+
+	.kern-label {
+		color: var(
+			--kern-btn-text-color,
+			var(--kern-color-action-default-contextual)
+		);
+	}
 }
 
 .kern-btn--primary {
+	background: var(
+		--kern-btn-background-color,
+		var(--kern-color-action-default-contextual)
+	);
+
 	.kern-icon {
 		background-color: var(
 			--kern-btn-text-color,
