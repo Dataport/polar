@@ -23,6 +23,7 @@
 			<KernButton
 				icon="kern-icon--add"
 				:label-sr-only="true"
+				class="kern-btn--tertiary"
 				:disabled="addWaypointButtonDisabled"
 				@click="routeStore.setRoute(index)"
 			>
@@ -31,6 +32,7 @@
 			<KernButton
 				icon="kern-icon--remove"
 				:label-sr-only="true"
+				class="kern-btn--tertiary"
 				:disabled="route.length === 2"
 				@click="routeStore.setRoute(index, true)"
 			>
