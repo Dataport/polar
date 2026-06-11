@@ -30,20 +30,20 @@
       const internalHost = 'https://dish-testumgebung.dsc.dataport.de/deegree'
       const internalPort = ''
       const internalPath = 'dish-deegree-3.5.0/services'
+      const internalHostForGfi = 'https://dish-testumgebung.dsc.dataport.de'
 
       // configuration for backend print services
       const printHostDeegree = "http://10.61.63.54"
       const printHostPort = "8081"
       const printPath = "dish-deegree-3.5.0/services"
-      const internalHostForGfi = 'https://dish-testumgebung.dsc.dataport.de'
-      const printImageUrlProd = printHostDeegree // only needed for prod, otherwise the same as printHostDegree
+      const printImageBaseUrl = printHostDeegree // only needed for prod, otherwise the same as printHostDegree
 
       // leave empty for external map
       const urlParams = {
         internalHost,
         printHostDeegree,
-        printImageUrlProd,
-        printServicesBaseUrl: `${printHostDeegree}:${printHostPort}/${printPath}`,
+        printImageBaseUrl,
+        printServicesBaseUrl: `${printImageBaseUrl}:${printHostPort}/${printPath}`,
         internServicesBaseUrl: `${internalHost}/${internalPath}`
       }
 
