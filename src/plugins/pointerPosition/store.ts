@@ -4,12 +4,16 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import { t } from 'i18next'
 import { type Coordinate, createStringXY } from 'ol/coordinate'
 import { transform } from 'ol/proj'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { notifyUser } from '@/lib/notifyUser'
+
+import { PluginId } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -58,25 +62,49 @@ export const usePointerPositionStore = defineStore(
 
 		const formattedPointerPosition = computed(() =>
 			pointerPosition.value.length
-				? createStringXY(currentEpsgSystem.value?.decimals ?? 4)(
-						transform(
-							pointerPosition.value,
-							coreStore.map.getView().getProjection().getCode(),
-							selectedProjection.value
-						)
-					)
+				? getFormattedCoordinate(pointerPosition.value)
 				: 'X, Y'
 		)
+
+		function getFormattedCoordinate(coordinate: Coordinate) {
+			const mapProjection = coreStore.map.getView().getProjection().getCode()
+			return createStringXY(currentEpsgSystem.value?.decimals ?? 4)(
+				transform(coordinate, mapProjection, selectedProjection.value)
+			)
+		}
 
 		const updatePointerPosition = ({ coordinate }) =>
 			(pointerPosition.value = coordinate)
 
 		function setupPlugin() {
 			coreStore.map.on('pointermove', updatePointerPosition)
+			coreStore.addToContextMenu({
+				id: 'pointerPosition',
+				icon: 'kern-icon--point-scan',
+				text: 'contextMenu',
+				textNs: PluginId,
+				callback: (coordinate) => {
+					navigator.clipboard
+						.writeText(getFormattedCoordinate(coordinate))
+						.then(() => {
+							notifyUser(
+								'success',
+								t(($) => $.toast.success, { ns: PluginId })
+							)
+						})
+						.catch(() => {
+							notifyUser(
+								'error',
+								t(($) => $.toast.error, { ns: PluginId })
+							)
+						})
+				},
+			})
 		}
 
 		function teardownPlugin() {
 			coreStore.map.un('pointermove', updatePointerPosition)
+			coreStore.removeFromContextMenu('pointerPosition')
 		}
 		return {
 			/** @internal */
