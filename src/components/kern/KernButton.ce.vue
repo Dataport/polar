@@ -18,11 +18,29 @@ defineEmits(['click'])
 .kern-icon {
 	background-color: var(
 		--kern-btn-text-color,
-		var(--kern-color-action-default)
+		var(--kern-color-action-default-contextual)
 	);
 }
 
 .kern-label {
-	color: var(--kern-btn-text-color, var(--kern-color-action-default));
+	color: var(
+		--kern-btn-text-color,
+		var(--kern-color-action-default-contextual)
+	);
+}
+
+.kern-btn--primary {
+	.kern-icon {
+		background-color: var(
+			--kern-btn-text-color,
+			var(--kern-color-action-on-default-contextual)
+		);
+	}
+	.kern-label {
+		color: var(
+			--kern-btn-text-color,
+			var(--kern-color-action-on-default-contextual)
+		);
+	}
 }
 </style>
