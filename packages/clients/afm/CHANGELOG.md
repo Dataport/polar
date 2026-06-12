@@ -2,9 +2,9 @@
 
 ## 2.2.0
 
-- Feature: Plugin Update (https://github.com/Dataport/polar/blob/main/packages/plugins/AddressSearch/CHANGELOG.md)[AddressSearch: 3.1.1 → 3.3.0]
-- Feature: Plugin Update (https://github.com/Dataport/polar/blob/main/packages/plugins/Attributions/CHANGELOG.md)[Attributions: 1.5.0 → 1.6.0]
-- Chore: Plugin Update (https://github.com/Dataport/polar/blob/main/packages/plugins/Export/CHANGELOG.md)[Export: 1.2.2 → 1.2.3]
+- Feature: Plugin Update [AddressSearch: 3.1.1 → 3.3.0](https://github.com/Dataport/polar/blob/main/packages/plugins/AddressSearch/CHANGELOG.md)
+- Feature: Plugin Update [Attributions: 1.5.0 → 1.6.0](https://github.com/Dataport/polar/blob/main/packages/plugins/Attributions/CHANGELOG.md)
+- Chore: Plugin Update [Export: 1.2.2 → 1.2.3](https://github.com/Dataport/polar/blob/main/packages/plugins/Export/CHANGELOG.md)
 - Chore: Various dependency updates.
 
 ## 2.1.0
