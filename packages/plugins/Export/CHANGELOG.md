@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.2.3
 
 - Chore: The dependency `jspdf` was updated from `^2.5.2` to `^4.2.1` due to multiple security issues ([issue one](https://github.com/parallax/jsPDF/security/advisories/GHSA-f8cm-6447-x5h2) and [issue two](https://github.com/parallax/jsPDF/security/advisories/GHSA-wfv2-pwc8-crg5)). The security issues did not affect POLAR builds, and no further action is required.
 
