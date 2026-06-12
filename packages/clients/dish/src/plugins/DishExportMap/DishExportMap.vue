@@ -85,6 +85,7 @@ export default Vue.extend({
   }),
   computed: {
     ...mapGetters(['map', 'configuration']),
+    ...mapGetters('plugin/layerChooser', ['activeBackgroundId']),
     ...mapGetters('plugin/pins', ['transformedCoordinate']),
     ...mapGetters('plugin/gfi', ['currentProperties']),
     ...mapGetters('plugin/scale', ['scaleValue', 'scaleWithUnit']),
@@ -94,8 +95,9 @@ export default Vue.extend({
     },
     backgroundLayer() {
       return (
-        this.configuration.dishExportMap.backgroundLayer ||
-        this.defaultBackground
+        this.configuration.layerConf.find(
+          (layer) => layer.id === this.activeBackgroundId
+        ) || this.defaultBackground
       )
     },
     dishExportMap() {
