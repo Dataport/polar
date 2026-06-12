@@ -1,6 +1,6 @@
 {
   "name": "@polar/client-generic",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "POLAR Client Generic. General purpose client with everything plugged in.",
   "keywords": [
     "OpenLayers",
