@@ -11,6 +11,7 @@
 					v-model="activeLayers"
 					id-suffix="polar-layer-chooser-mask-options"
 					type="checkbox"
+					name="polar-layer-chooser-mask-options"
 					:value="layerName"
 					:class="
 						options.some(({ layerImage }) => layerImage !== null)
