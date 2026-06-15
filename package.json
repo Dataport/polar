@@ -116,7 +116,7 @@
 		"ol": "10.9.0",
 		"patch-package": "^8.0.0",
 		"pinia": "^3.0.3",
-		"prettier": "^3.7.4",
+		"prettier": "^3.8.4",
 		"stream-browserify": "^3.0.0",
 		"timers-browserify": "^2.0.12",
 		"tsarch": "^5.4.1",
