@@ -3,7 +3,7 @@
 ## 1.6.0
 
 - Feature: Use selected background service for print in `DishExportMap`.
-- Fix: Add new parameter `printImageBaseUrl` to urlParams needed for printing in qs and prod environment.
+- Fix: Add new parameter `printImageBaseUrl` to urlParams needed for printing in QS and prod environment.
 
 ## 1.5.0
 
