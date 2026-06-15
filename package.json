@@ -101,7 +101,7 @@
 		"conventional-changelog-conventionalcommits": "^9.3.1",
 		"cross-env": "^10.0.0",
 		"es-toolkit": "^1.47.1",
-		"eslint": "^9.34.0",
+		"eslint": "^10.4.1",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.6",
 		"events": "^3.3.0",
