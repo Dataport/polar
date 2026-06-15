@@ -11,7 +11,7 @@ async function clean() {
   console.log('nx cache was reset.')
 
   await rimraf('{.cache,dist,node_modules}', { glob: true })
-  await rimraf('packages/**/{.cache,dist,docs}', {
+  await rimraf('packages/**/{.cache,dist,docs,node_modules}', {
     glob: { ignore: 'packages/clients/diplan/vendored/**' },
   })
   console.log(
