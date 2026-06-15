@@ -9,8 +9,7 @@
 				:key="`polar-plugin-routing-route-wrapper-${index}`"
 				:index="index"
 			/>
-
-			<span> 2) Options </span>
+			<RoutingOptions />
 
 			<span> 3) Buttons </span>
 
@@ -27,6 +26,7 @@ import PolarCard from '@/components/PolarCard.ce.vue'
 import { useRoutingStore } from '../store.ts'
 import { PluginId } from '../types'
 import RoutingInput from './RoutingInput.ce.vue'
+import RoutingOptions from './RoutingOptions.ce.vue'
 
 const { route } = storeToRefs(useRoutingStore())
 </script>

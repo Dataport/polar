@@ -18,6 +18,7 @@ import { ref } from 'vue'
 /* eslint-enable tsdoc/syntax */
 export const useRoutingStore = defineStore('plugins/routing', () => {
 	const route = ref<Coordinate[]>([[], []])
+	const selectedTravelMode = ref('driving-car')
 
 	function setupPlugin() {}
 
@@ -34,6 +35,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * TODO(dopenguin)
 		 */
 		route,
+
+		/**
+		 * TODO(dopenguin)
+		 */
+		selectedTravelMode,
 
 		/**
 		 * TODO(dopenguin)

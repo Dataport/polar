@@ -18,6 +18,14 @@ export const resourcesDe = {
 		end: 'Zieladresse',
 		add: 'Wegpunkt hinzufügen',
 		remove: 'Wegpunkt entfernen',
+		travelMode: 'Fortbewegungsart',
+	},
+	travelMode: {
+		car: 'Auto',
+		hgv: 'LKW',
+		bike: 'Fahrrad',
+		walking: 'Zu Fuß',
+		wheelchair: 'Rollstuhl',
 	},
 } as const
 
@@ -30,6 +38,14 @@ export const resourcesEn = {
 		end: 'Destination Address',
 		add: 'Add waypoint',
 		remove: 'Remove waypoint',
+		travelMode: 'Travel Mode',
+	},
+	travelMode: {
+		car: 'Car',
+		hgv: 'Heavy Goods Vehicle',
+		bike: 'Bike',
+		walking: 'Walking',
+		wheelchair: 'Wheelchair',
 	},
 } as const
 

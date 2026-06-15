@@ -8,19 +8,11 @@ export const resourcesDe = {
 				openTitle: 'Routenplanung öffnen',
 			},
 			label: {
-				mode: 'Fortbewegungsart',
 				preference: 'Bevorzugte Route',
 			},
 			inputHint:
 				'Wählen Sie durch Klicken einen Punkt auf der Karte aus oder geben Sie eine Adresse ein.',
 			resetButton: 'Zurücksetzen',
-			travelMode: {
-				car: 'Auto',
-				hgv: 'LKW',
-				bike: 'Fahrrad',
-				walking: 'Zu Fuß',
-				wheelchair: 'Rollstuhl',
-			},
 			preference: {
 				recommended: 'Empfohlen',
 				fastest: 'Schnellste',
@@ -48,18 +40,10 @@ export const resourcesEn = {
 				openTitle: 'Show rooting tool',
 			},
 			label: {
-				mode: 'Travel Mode',
 				preference: 'Preferred Route',
 			},
 			inputHint: 'Click the map to choose a point or enter an Ad',
 			resetButton: 'Reset',
-			travelMode: {
-				car: 'Car',
-				hgv: 'Heavy Goods Vehicle',
-				bike: 'Bike',
-				walking: 'Walking',
-				wheelchair: 'Wheelchair',
-			},
 			preference: {
 				recommended: 'Recommended',
 				fastest: 'Fastest',
