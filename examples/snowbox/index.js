@@ -490,7 +490,13 @@ addPlugin(
 					}),
 				},
 				{
-					plugin: pluginRouting({}),
+					plugin: pluginRouting({
+						type: 'ors',
+						url: 'https://api.openrouteservice.org/v2/directions/',
+						apiKey: '',
+						displayPreferences: true,
+						displayRouteTypesToAvoid: true,
+					}),
 					icon: 'kern-icon-fill--assistant-direction',
 				},
 			],
