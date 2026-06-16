@@ -27,8 +27,6 @@ export const makeStoreModule = (): PolarModule<
 		...generateSimpleGetters(getInitialState()),
 		configuration: (_, __, ___, rootGetters) =>
 			rootGetters.configuration.routing,
-		displayPreferences: (_, { configuration }) =>
-			configuration.displayPreferences || false,
 		displayRouteTypesToAvoid: (_, { configuration }) =>
 			configuration.displayRouteTypesToAvoid || false,
 		routeAsWGS84: (_, getters, __, rootGetters) =>

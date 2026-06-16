@@ -19,6 +19,7 @@ export const resourcesDe = {
 		add: 'Wegpunkt hinzufügen',
 		remove: 'Wegpunkt entfernen',
 		travelMode: 'Fortbewegungsart',
+		preference: 'Bevorzugte Route',
 	},
 	travelMode: {
 		car: 'Auto',
@@ -26,6 +27,11 @@ export const resourcesDe = {
 		bike: 'Fahrrad',
 		walking: 'Zu Fuß',
 		wheelchair: 'Rollstuhl',
+	},
+	preference: {
+		recommended: 'Empfohlen',
+		fastest: 'Schnellste',
+		shortest: 'Kürzeste',
 	},
 } as const
 
@@ -39,6 +45,7 @@ export const resourcesEn = {
 		add: 'Add waypoint',
 		remove: 'Remove waypoint',
 		travelMode: 'Travel Mode',
+		preference: 'Preferred Route',
 	},
 	travelMode: {
 		car: 'Car',
@@ -46,6 +53,11 @@ export const resourcesEn = {
 		bike: 'Bike',
 		walking: 'Walking',
 		wheelchair: 'Wheelchair',
+	},
+	preference: {
+		recommended: 'Recommended',
+		fastest: 'Fastest',
+		shortest: 'Shortest',
 	},
 } as const
 

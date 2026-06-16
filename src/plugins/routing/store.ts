@@ -30,8 +30,18 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const coreStore = useCoreStore()
 
 	const route = ref<Coordinate[]>([[], []])
+	const selectedPreference = ref('recommended')
 	const selectedTravelMode = ref('driving-car')
 
+	const displayPreferences = computed(
+		() => coreStore.configuration.routing?.displayPreferences || false
+	)
+	const selectablePreferences = computed(() =>
+		['recommended', 'fastest', 'shortest'].map((value) => ({
+			value,
+			label: useT(() => t(($) => $.preference[value], { ns: PluginId })),
+		}))
+	)
 	const selectableTravelModes = computed<SelectableTravelMode[]>(
 		() =>
 			coreStore.configuration.routing?.selectableTravelModes || [
@@ -93,7 +103,22 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		/**
 		 * TODO(dopenguin)
 		 */
+		selectedPreference,
+
+		/**
+		 * TODO(dopenguin)
+		 */
 		selectedTravelMode,
+
+		/**
+		 * TODO(dopenguin)
+		 */
+		displayPreferences,
+
+		/**
+		 * TODO(dopenguin)
+		 */
+		selectablePreferences,
 
 		/**
 		 * TODO(dopenguin)

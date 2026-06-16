@@ -7,17 +7,9 @@ export const resourcesDe = {
 				closeTitle: 'Routenplanung schließen',
 				openTitle: 'Routenplanung öffnen',
 			},
-			label: {
-				preference: 'Bevorzugte Route',
-			},
 			inputHint:
 				'Wählen Sie durch Klicken einen Punkt auf der Karte aus oder geben Sie eine Adresse ein.',
 			resetButton: 'Zurücksetzen',
-			preference: {
-				recommended: 'Empfohlen',
-				fastest: 'Schnellste',
-				shortest: 'Kürzeste',
-			},
 			avoidRoutesTitle: 'Verkehrswege meiden',
 			avoidRoutes: {
 				highways: 'Autobahnen',
@@ -39,16 +31,8 @@ export const resourcesEn = {
 				closeTitle: 'Hide routing tool',
 				openTitle: 'Show rooting tool',
 			},
-			label: {
-				preference: 'Preferred Route',
-			},
 			inputHint: 'Click the map to choose a point or enter an Ad',
 			resetButton: 'Reset',
-			preference: {
-				recommended: 'Recommended',
-				fastest: 'Fastest',
-				shortest: 'Shortest',
-			},
 			avoidRoutesTitle: 'Types of routes to avoid',
 			avoidRoutes: {
 				highways: 'Highways',

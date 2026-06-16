@@ -1,18 +1,5 @@
 <template>
 	<div>
-		<!-- NOTE: Adding @keydown.prevent.stop here would prevent the map movement but would also prevent the tabbing -->
-		<v-select
-			v-if="displayPreferences"
-			v-model="selectedPreferenceItem"
-			:label="$t('plugins.routing.label.preference')"
-			:aria-label="$t('plugins.routing.label.preference')"
-			:items="
-				['recommended', 'fastest', 'shortest'].map((value) => ({
-					value,
-					text: $t(`plugins.routing.preference.${value}`),
-				}))
-			"
-		/>
 		<div
 			v-if="displayRouteTypesToAvoid"
 			class="polar-plugin-routing-route-types-to-avoid-container"
@@ -41,10 +28,8 @@ export default Vue.extend({
 	name: 'RoutingOptions',
 	computed: {
 		...mapGetters('plugin/routing', [
-			'displayPreferences',
 			'displayRouteTypesToAvoid',
 			'selectableRouteTypesToAvoid',
-			'selectedPreference',
 			'selectedRouteTypesToAvoid',
 			'selectedTravelMode',
 		]),
@@ -59,14 +44,6 @@ export default Vue.extend({
 							locale: 'plugins.routing.avoidRoutes.ferries',
 						},
 					]
-		},
-		selectedPreferenceItem: {
-			get(): string {
-				return this.selectedPreference
-			},
-			set(value: string): void {
-				this.setSelectedPreference(value)
-			},
 		},
 		selectedRouteTypesToAvoidItem: {
 			get(): string {
@@ -83,10 +60,7 @@ export default Vue.extend({
 		},
 	},
 	methods: {
-		...mapMutations('plugin/routing', [
-			'setSelectedPreference',
-			'setSelectedRouteTypesToAvoid',
-		]),
+		...mapMutations('plugin/routing', ['setSelectedRouteTypesToAvoid']),
 		noop,
 		translatedRouteTypeToAvoid(myKey: string) {
 			return this.selectableRouteTypesToAvoid.find(
