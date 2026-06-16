@@ -33,7 +33,8 @@ function readTextFeatures(text: string): Feature[] {
 	const features: Feature[] = []
 	let feature: Feature | undefined
 
-	/* TODO: Format supposedly looks like this – however, this is probably not standardized!
+	/* Format supposedly looks like this – however, this is probably not standardized!
+	 * See https://docs.ogc.org/is/06-042/06-042.pdf#page=40 for the WMS specification.
 		GetFeatureInfo results:
 			LayerName:
 				FeatureId:
