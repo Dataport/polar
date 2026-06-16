@@ -6,8 +6,13 @@
 
 import type { Coordinate } from 'ol/coordinate'
 
+import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+
+import { useT } from '@/core/composables/useT.ts'
+
+import { PluginId, type TravelMode } from './types.ts'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -19,6 +24,34 @@ import { ref } from 'vue'
 export const useRoutingStore = defineStore('plugins/routing', () => {
 	const route = ref<Coordinate[]>([[], []])
 	const selectedTravelMode = ref('driving-car')
+
+	const travelModes = computed<TravelMode[]>(() => [
+		{
+			value: 'driving-car',
+			label: useT(() => t(($) => $.travelMode.car, { ns: PluginId })),
+			icon: 'kern-icon--directions-car',
+		},
+		{
+			value: 'driving-hgv',
+			label: useT(() => t(($) => $.travelMode.hgv, { ns: PluginId })),
+			icon: 'kern-icon--local-shipping',
+		},
+		{
+			value: 'cycling-regular',
+			label: useT(() => t(($) => $.travelMode.bike, { ns: PluginId })),
+			icon: 'kern-icon--directions-bike',
+		},
+		{
+			value: 'foot-walking',
+			label: useT(() => t(($) => $.travelMode.walking, { ns: PluginId })),
+			icon: 'kern-icon--directions-walk',
+		},
+		{
+			value: 'wheelchair',
+			label: useT(() => t(($) => $.travelMode.wheelchair, { ns: PluginId })),
+			icon: 'kern-icon--accessible',
+		},
+	])
 
 	function setupPlugin() {}
 
@@ -40,6 +73,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * TODO(dopenguin)
 		 */
 		selectedTravelMode,
+
+		/**
+		 * TODO(dopenguin)
+		 */
+		travelModes,
 
 		/**
 		 * TODO(dopenguin)

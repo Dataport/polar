@@ -1,4 +1,6 @@
-import type { PluginOptions } from '@/core'
+import type { Ref } from 'vue'
+
+import type { Icon, PluginOptions } from '@/core'
 
 export const PluginId = 'routing'
 
@@ -8,6 +10,12 @@ export type SelectableTravelMode =
 	| 'cycling-regular'
 	| 'foot-walking'
 	| 'wheelchair'
+
+export interface TravelMode {
+	icon: Icon
+	label: Ref<string>
+	value: SelectableTravelMode
+}
 
 export interface RoutingPluginOptions extends PluginOptions {
 	/**
