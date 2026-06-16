@@ -1,7 +1,6 @@
 <template>
 	<v-scroll-x-reverse-transition>
 		<v-card id="polar-plugin-routing-card">
-			<RoutingOptions />
 			<div id="polar-plugin-routing-button-group">
 				<v-btn :aria-label="$t('plugins.routing.resetButton')" @click="reset">
 					{{ $t('plugins.routing.resetButton') }}
@@ -23,13 +22,11 @@
 import Vue from 'vue'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import RoutingDetails from './RoutingDetails.vue'
-import RoutingOptions from './RoutingOptions.vue'
 
 export default Vue.extend({
 	name: 'PolarRouting',
 	components: {
 		RoutingDetails,
-		RoutingOptions,
 	},
 	computed: {
 		...mapGetters(['language']),

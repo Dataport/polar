@@ -20,6 +20,7 @@ export const resourcesDe = {
 		remove: 'Wegpunkt entfernen',
 		travelMode: 'Fortbewegungsart',
 		preference: 'Bevorzugte Route',
+		avoid: 'Verkehrswege meiden',
 	},
 	travelMode: {
 		car: 'Auto',
@@ -32,6 +33,11 @@ export const resourcesDe = {
 		recommended: 'Empfohlen',
 		fastest: 'Schnellste',
 		shortest: 'Kürzeste',
+	},
+	avoid: {
+		highways: 'Autobahnen',
+		tollways: 'Mautstraßen',
+		ferries: 'Fähren',
 	},
 } as const
 
@@ -46,6 +52,7 @@ export const resourcesEn = {
 		remove: 'Remove waypoint',
 		travelMode: 'Travel Mode',
 		preference: 'Preferred Route',
+		avoid: 'Types of routes to avoid',
 	},
 	travelMode: {
 		car: 'Car',
@@ -58,6 +65,11 @@ export const resourcesEn = {
 		recommended: 'Recommended',
 		fastest: 'Fastest',
 		shortest: 'Shortest',
+	},
+	avoid: {
+		highways: 'Highways',
+		tollways: 'Tollways',
+		ferries: 'Ferries',
 	},
 } as const
 

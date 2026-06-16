@@ -10,12 +10,6 @@ export const resourcesDe = {
 			inputHint:
 				'Wählen Sie durch Klicken einen Punkt auf der Karte aus oder geben Sie eine Adresse ein.',
 			resetButton: 'Zurücksetzen',
-			avoidRoutesTitle: 'Verkehrswege meiden',
-			avoidRoutes: {
-				highways: 'Autobahnen',
-				tollways: 'Mautstraßen',
-				ferries: 'Fähren',
-			},
 			sendRequestButton: 'Absenden',
 			routeDetails: 'Details zur Route',
 			distance: 'Entfernung:',
@@ -33,12 +27,6 @@ export const resourcesEn = {
 			},
 			inputHint: 'Click the map to choose a point or enter an Ad',
 			resetButton: 'Reset',
-			avoidRoutesTitle: 'Types of routes to avoid',
-			avoidRoutes: {
-				highways: 'Highways',
-				tollways: 'Tollways',
-				ferries: 'Ferries',
-			},
 			sendRequestButton: 'Send',
 			routeDetails: 'Route Details',
 			distance: 'Distance:',

@@ -31,6 +31,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const route = ref<Coordinate[]>([[], []])
 	const selectedPreference = ref('recommended')
+	const selectedRouteTypesToAvoid = ref<string[]>([])
 	const selectedTravelMode = ref('driving-car')
 
 	const displayPreferences = computed(
@@ -41,6 +42,15 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			value,
 			label: useT(() => t(($) => $.preference[value], { ns: PluginId })),
 		}))
+	)
+	const displayRouteTypesToAvoid = computed(
+		() => coreStore.configuration.routing?.displayRouteTypesToAvoid || false
+	)
+	const selectableRouteTypesToAvoid = computed(() =>
+		selectedTravelMode.value === 'driving-car' ||
+		selectedTravelMode.value === 'driving-hgv'
+			? ['highways', 'tollways', 'ferries']
+			: ['ferries']
 	)
 	const selectableTravelModes = computed<SelectableTravelMode[]>(
 		() =>
@@ -124,6 +134,21 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * TODO(dopenguin)
 		 */
 		selectablePreferences,
+
+		/**
+		 * TODO(dopenguin)
+		 */
+		displayRouteTypesToAvoid,
+
+		/**
+		 * TODO(dopenguin)
+		 */
+		selectedRouteTypesToAvoid,
+
+		/**
+		 * TODO(dopenguin)
+		 */
+		selectableRouteTypesToAvoid,
 
 		/**
 		 * TODO(dopenguin)
