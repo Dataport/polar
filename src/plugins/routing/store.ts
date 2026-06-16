@@ -11,8 +11,13 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { useT } from '@/core/composables/useT.ts'
+import { useCoreStore } from '@/core/stores'
 
-import { PluginId, type TravelMode } from './types.ts'
+import {
+	PluginId,
+	type SelectableTravelMode,
+	type TravelMode,
+} from './types.ts'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -22,36 +27,52 @@ import { PluginId, type TravelMode } from './types.ts'
  */
 /* eslint-enable tsdoc/syntax */
 export const useRoutingStore = defineStore('plugins/routing', () => {
+	const coreStore = useCoreStore()
+
 	const route = ref<Coordinate[]>([[], []])
 	const selectedTravelMode = ref('driving-car')
 
-	const travelModes = computed<TravelMode[]>(() => [
-		{
-			value: 'driving-car',
-			label: useT(() => t(($) => $.travelMode.car, { ns: PluginId })),
-			icon: 'kern-icon--directions-car',
-		},
-		{
-			value: 'driving-hgv',
-			label: useT(() => t(($) => $.travelMode.hgv, { ns: PluginId })),
-			icon: 'kern-icon--local-shipping',
-		},
-		{
-			value: 'cycling-regular',
-			label: useT(() => t(($) => $.travelMode.bike, { ns: PluginId })),
-			icon: 'kern-icon--directions-bike',
-		},
-		{
-			value: 'foot-walking',
-			label: useT(() => t(($) => $.travelMode.walking, { ns: PluginId })),
-			icon: 'kern-icon--directions-walk',
-		},
-		{
-			value: 'wheelchair',
-			label: useT(() => t(($) => $.travelMode.wheelchair, { ns: PluginId })),
-			icon: 'kern-icon--accessible',
-		},
-	])
+	const selectableTravelModes = computed<SelectableTravelMode[]>(
+		() =>
+			coreStore.configuration.routing?.selectableTravelModes || [
+				'driving-car',
+				'cycling-regular',
+				'foot-walking',
+			]
+	)
+	const travelModes = computed(() =>
+		(
+			[
+				{
+					value: 'driving-car',
+					label: useT(() => t(($) => $.travelMode.car, { ns: PluginId })),
+					icon: 'kern-icon--directions-car',
+				},
+				{
+					value: 'driving-hgv',
+					label: useT(() => t(($) => $.travelMode.hgv, { ns: PluginId })),
+					icon: 'kern-icon--local-shipping',
+				},
+				{
+					value: 'cycling-regular',
+					label: useT(() => t(($) => $.travelMode.bike, { ns: PluginId })),
+					icon: 'kern-icon--directions-bike',
+				},
+				{
+					value: 'foot-walking',
+					label: useT(() => t(($) => $.travelMode.walking, { ns: PluginId })),
+					icon: 'kern-icon--directions-walk',
+				},
+				{
+					value: 'wheelchair',
+					label: useT(() =>
+						t(($) => $.travelMode.wheelchair, { ns: PluginId })
+					),
+					icon: 'kern-icon--accessible',
+				},
+			] as TravelMode[]
+		).filter(({ value }) => selectableTravelModes.value.includes(value))
+	)
 
 	function setupPlugin() {}
 
