@@ -60,7 +60,7 @@ const coreStore = useCoreStore()
 const routeStore = useRoutingStore()
 
 const { route } = storeToRefs(routeStore)
-// TODO(dopenguin): Maybe move to the store
+// TODO(dopenguin): Move to the store with draw logic
 const currentlyFocusedInput = ref(-1)
 
 // TODO(dopenguin): Add TSDoc

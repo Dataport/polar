@@ -86,7 +86,12 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	function setupPlugin() {}
 
-	function teardownPlugin() {}
+	function teardownPlugin() {
+		route.value = [[], []]
+		selectedPreference.value = 'recommended'
+		selectedTravelMode.value = 'driving-car'
+		// TODO(dopenguin): The source of the route layer has to be reset as well
+	}
 
 	function setRoute(index: number, remove = false) {
 		route.value = remove

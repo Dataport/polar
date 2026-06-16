@@ -38,12 +38,6 @@ export const makeStoreModule = (): PolarModule<
 			),
 		/* searchConfiguration: (_, getters) =>
       getters.configuration.searchConfiguration || null, */
-		selectableTravelModes: (_, { configuration }) =>
-			configuration.selectableTravelModes || [
-				'driving-car',
-				'cycling-regular',
-				'foot-walking',
-			],
 		url: (_, getters) =>
 			getters.configuration.url +
 			getters.selectedTravelMode +
@@ -56,9 +50,6 @@ export const makeStoreModule = (): PolarModule<
 			const currentRoute = [...state.route]
 			currentRoute[state.currentlyFocusedInput] = coordinate
 			state.route = currentRoute
-		},
-		resetRoute(state) {
-			state.route = [[], []]
 		},
 		updateShowSteps(state) {
 			state.showSteps = !state.showSteps
