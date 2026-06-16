@@ -22,6 +22,7 @@
 				<LegendButton
 					v-if="layersWithLegendsIds.includes(id)"
 					:id="id"
+					:name="name"
 					:disabled="disabledBackgrounds[id]"
 					@click="openedLegendId = id"
 				/>
@@ -68,6 +69,7 @@
 						<LegendButton
 							v-else-if="layersWithLegendsIds.includes(id)"
 							:id="id"
+							:name="name"
 							:disabled="disabledMasks[id]"
 							@click="openedLegendId = id"
 						/>

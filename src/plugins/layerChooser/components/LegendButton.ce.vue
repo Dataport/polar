@@ -6,7 +6,7 @@
 	>
 		<span class="kern-icon kern-icon--info" aria-hidden="true" />
 		<span class="kern-label kern-sr-only">
-			{{ $t(($) => $.legend.open, { ns: PluginId }) }}
+			{{ $t(($) => $.legend.open, { ns: PluginId, name }) }}
 		</span>
 	</button>
 </template>
@@ -17,5 +17,6 @@ import { PluginId } from '../types'
 defineProps<{
 	disabled: boolean
 	id: string
+	name: string
 }>()
 </script>
