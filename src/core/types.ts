@@ -6,3 +6,5 @@ export * from './types/moveHandle'
 export * from './types/plugin'
 export * from './types/theme'
 export * from './types/utils'
+
+export const CoreId = 'core'

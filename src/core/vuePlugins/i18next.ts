@@ -5,8 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import I18NextVue from 'i18next-vue'
 
 import locales from '../locales'
-
-export const CoreId = 'core'
+import { CoreId } from '../types'
 
 export const I18Next: Plugin = {
 	async install(app) {
