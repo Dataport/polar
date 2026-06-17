@@ -7,7 +7,7 @@
 			:name="name"
 			:value="value"
 			:type="type"
-			:disabled="disabled"
+			:disabled
 		/>
 		<label
 			class="polar-input kern-label"
