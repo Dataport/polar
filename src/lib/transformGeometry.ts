@@ -6,7 +6,7 @@ import { transform as transformCoordinates } from 'ol/proj'
  * Transforms the coordinates of a GeoJSON geometry from one EPSG projection to another.
  *
  * @remarks
- * Currently supports only Point and Polygon geometries.
+ * Currently, supports only Point and Polygon geometries.
  * For unsupported geometry types, an error is thrown.
  *
  * @param geometry - The GeoJSON geometry to transform.
