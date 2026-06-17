@@ -84,8 +84,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Feature as GeoJsonFeature } from 'geojson'
-
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
@@ -98,7 +96,6 @@ const gfiStore = useGfiStore()
 
 defineProps<{
 	layerId: string
-	feature: GeoJsonFeature
 }>()
 
 function startDownload(url: string) {
