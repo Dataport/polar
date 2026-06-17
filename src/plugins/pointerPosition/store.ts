@@ -38,12 +38,19 @@ export const usePointerPositionStore = defineStore(
 					}))
 		)
 
-		const currentEpsgSystem = computed(
-			() => availableProjections.value[selectedProjectionIndex.value]
-		)
+		const currentEpsgSystem = computed(() => {
+			const projection =
+				availableProjections.value[selectedProjectionIndex.value]
+			if (!projection) {
+				throw new Error(
+					'selectedProjectionIndex out of bounds. This should never happen.'
+				)
+			}
+			return projection
+		})
 
 		const selectedProjection = computed({
-			get: () => currentEpsgSystem.value?.code,
+			get: () => currentEpsgSystem.value.code,
 			set: (value) => {
 				const index = availableProjections.value.findIndex(
 					({ code }) => code === value
@@ -58,7 +65,7 @@ export const usePointerPositionStore = defineStore(
 
 		const formattedPointerPosition = computed(() =>
 			pointerPosition.value.length
-				? createStringXY(currentEpsgSystem.value?.decimals ?? 4)(
+				? createStringXY(currentEpsgSystem.value.decimals)(
 						transform(
 							pointerPosition.value,
 							coreStore.map.getView().getProjection().getCode(),
