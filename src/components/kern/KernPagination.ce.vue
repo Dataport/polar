@@ -85,7 +85,7 @@ watch([() => props.count, () => props.pageSize], () => {
 	}
 })
 
-const visibleOptions = computed<({ dots: string } | { page: number })[]>(() => {
+const visibleOptions = computed(() => {
 	const generatePageInterval = (start: number, end: number) =>
 		new Array(end - start + 1).fill(null).map((_, idx) => ({
 			page: idx + start,
