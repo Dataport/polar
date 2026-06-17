@@ -1,6 +1,6 @@
 import { Feature, type MapBrowserEvent, Overlay } from 'ol'
 
-import { getTooltip } from '@/lib/tooltip'
+import { getTooltip, type Tooltip } from '@/lib/tooltip'
 
 export function updateTooltip(
 	{ pixel, dragging, originalEvent, map }: MapBrowserEvent,
@@ -16,7 +16,7 @@ export function updateTooltip(
 	}
 
 	let hasFeatureAtPixel = false
-	let unregister: (() => void) | null = null
+	let unregister: Tooltip['unregister'] | null = null
 
 	// stops on return `true`, thus only using the uppermost feature
 	map.forEachFeatureAtPixel(
@@ -30,7 +30,7 @@ export function updateTooltip(
 			if (unregister) {
 				unregister()
 			}
-			let element
+			let element: Tooltip['element']
 			;({ element, unregister } = getTooltip(
 				tooltipGenerators[layer.get('id')]?.(feature) as [string, string][]
 			))
