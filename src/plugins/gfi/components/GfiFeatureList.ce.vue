@@ -26,10 +26,8 @@
 				) of gfiStore.listPaginatedFeatures"
 				:key="idx"
 				tabindex="0"
-				:class="{
-					'feature-list-item': true,
-					hovered,
-				}"
+				class="feature-list-item"
+				:class="{ hovered }"
 				@click="
 					(async () => {
 						gfiStore.hoveredFeatures = {}
