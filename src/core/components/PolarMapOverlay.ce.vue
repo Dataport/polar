@@ -74,7 +74,7 @@ defineExpose({
 	width: 100%;
 	height: 100%;
 	z-index: 42;
-	font-size: var(--kern-typography-font-size-static-large);
+	font-size: var(--kern-typography-font-size-large-static);
 	text-align: center;
 	color: white;
 	background-color: rgba(0, 0, 0, 0.45);

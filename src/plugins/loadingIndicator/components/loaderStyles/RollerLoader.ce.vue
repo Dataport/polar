@@ -9,15 +9,13 @@ export default {}
 </script>
 
 <style scoped>
-.lds-roller {
-	color: var(--kern-color-action-default);
-}
 .lds-roller,
 .lds-roller div,
 .lds-roller div:after {
 	box-sizing: border-box;
 }
 .lds-roller {
+	color: var(--kern-color-action-default);
 	display: inline-block;
 	position: relative;
 	width: 80px;
