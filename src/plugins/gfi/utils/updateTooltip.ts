@@ -3,15 +3,11 @@ import { Feature, type MapBrowserEvent, Overlay } from 'ol'
 import { getTooltip, type Tooltip } from '@/lib/tooltip'
 
 export function updateTooltip(
-	{ pixel, dragging, originalEvent, map }: MapBrowserEvent,
+	{ pixel, dragging, originalEvent, map }: MapBrowserEvent<PointerEvent>,
 	overlay: Overlay,
 	tooltipGenerators: Record<string, (feature: Feature) => [string, string][]>
 ) {
-	if (
-		dragging ||
-		('pointerType' in originalEvent &&
-			['touch', 'pen'].includes(originalEvent.pointerType))
-	) {
+	if (dragging || ['touch', 'pen'].includes(originalEvent.pointerType)) {
 		return null
 	}
 

@@ -1,4 +1,4 @@
-import { Feature, Map, Overlay } from 'ol'
+import { Feature, Map, MapBrowserEvent, Overlay } from 'ol'
 import { onScopeDispose } from 'vue'
 
 import { updateTooltip } from '../utils/updateTooltip'
@@ -23,7 +23,11 @@ export function useTooltip(options: {
 			teardownTooltip()
 		}
 
-		teardownTooltip = updateTooltip(evt, overlay, options.tooltipGenerators)
+		teardownTooltip = updateTooltip(
+			evt as MapBrowserEvent<PointerEvent>,
+			overlay,
+			options.tooltipGenerators
+		)
 	})
 	onScopeDispose(() => {
 		if (teardownTooltip) {
