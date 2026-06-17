@@ -57,8 +57,8 @@ function readTextFeatures(text: string): Feature[] {
 				const [key, value] = [
 					line.substring(0, equalIndex),
 					line.substring(equalIndex + 3, line.length - 1),
-				].map((s) => s.trim())
-				feature.set(key || '', value)
+				].map((s) => s.trim()) as [string, string]
+				feature.set(key, value)
 			} else {
 				console.error(
 					'Found property before feature declaration in readTextFeatures.',
