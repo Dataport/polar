@@ -39,7 +39,7 @@
 			>
 				<td class="kern-table__cell">
 					{{
-						$t(($) => $['layer'][props.layerId]['property'][key], {
+						$t(($) => $['layer'][layerId]['property'][key], {
 							ns: PluginId,
 							defaultValue: key,
 						})
@@ -96,7 +96,7 @@ import { isValidHttpUrl } from '../utils/isValidHttpUrl'
 const coreStore = useCoreStore()
 const gfiStore = useGfiStore()
 
-const props = defineProps<{
+defineProps<{
 	layerId: string
 	feature: GeoJsonFeature
 }>()
