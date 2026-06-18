@@ -2,12 +2,14 @@ import type { Time } from '../types'
 
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from '../types'
 import { useFilterMainStore } from './main'
+
+type TimeModel = 'all' | 'custom' | `last-${string}` | `next-${string}`
 
 export const useFilterTimeStore = defineStore('plugins/filter/time', () => {
 	const minDate = new Date(-8640000000000000)
@@ -19,142 +21,78 @@ export const useFilterTimeStore = defineStore('plugins/filter/time', () => {
 	const configuration = computed(
 		() => filterMainStore.selectedLayerConfiguration.time || ({} as Time)
 	)
-	const state = computed(
-		() => filterMainStore.selectedLayerState?.timeSpan || null
-	)
 
 	const targetProperty = computed(
 		() => configuration.value.targetProperty || ''
 	)
 	const pattern = computed(() => configuration.value.pattern || 'YYYY-MM-DD')
-	const timeState = computed(
-		() =>
-			state.value?.[targetProperty.value] ?? {
-				from: minDate,
-				until: maxDate,
-				pattern: pattern.value,
-			}
+
+	const model = ref<TimeModel>('all')
+	const customModelStart = ref<Date | null>(null)
+	const customModelEnd = ref<Date | null>(null)
+
+	/** Reset time filter selection when the active layer changes. */
+	watch(
+		() => filterMainStore.selectedLayerId,
+		() => {
+			model.value = 'all'
+			customModelStart.value = null
+			customModelEnd.value = null
+		}
 	)
 
-	const customModelStart = computed({
-		get: () =>
-			timeState.value.from.getTime() === minDate.getTime()
-				? null
-				: timeState.value.from,
-		set: (value) => {
-			if (!filterMainStore.selectedLayerState) {
-				return
-			}
+	watch(
+		[model, customModelStart, customModelEnd],
+		([value, start, end]) => {
 			const layerState = filterMainStore.selectedLayerState
-			const spanState = (layerState.timeSpan ??= {})
-			const propState = (spanState[targetProperty.value] ??= {
-				from: minDate,
-				until: maxDate,
-				pattern: pattern.value,
-			})
-			propState.from = value || minDate
-		},
-	})
-	const customModelEnd = computed({
-		get: () => {
-			if (timeState.value.until.getTime() === maxDate.getTime()) {
-				return null
-			}
-			const value = new Date(timeState.value.until)
-			value.setDate(value.getDate() - 1)
-			return value
-		},
-		set: (value) => {
-			if (!filterMainStore.selectedLayerState) {
+			if (!layerState || !targetProperty.value) {
 				return
 			}
-			const layerState = filterMainStore.selectedLayerState
-			const spanState = (layerState.timeSpan ??= {})
-			const propState = (spanState[targetProperty.value] ??= {
-				from: minDate,
-				until: maxDate,
-				pattern: pattern.value,
-			})
-			if (value === null) {
-				propState.until = maxDate
-				return
-			}
-			const newValue = new Date(value)
-			newValue.setDate(newValue.getDate() + 1)
-			propState.until = newValue
-		},
-	})
+			layerState.timeSpan ??= {}
 
-	function checkDate(offset: number, date: Date) {
-		const referenceDate = new Date()
-		referenceDate.setDate(referenceDate.getDate() + offset)
-		return date.toDateString() === referenceDate.toDateString()
-	}
+			const now = new Date()
+			const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+			let from: Date
+			let until: Date
 
-	const isCustom = ref(false)
-	const model = computed<
-		'all' | 'custom' | `last-${string}` | `next-${string}`
-	>({
-		get: () => {
-			if (isCustom.value) {
-				return 'custom'
-			}
-			if (customModelStart.value === null && customModelEnd.value === null) {
-				return 'all'
-			}
-			if (customModelStart.value && customModelEnd.value) {
-				for (const offset of filterMainStore.selectedLayerConfiguration.time
-					?.last || []) {
-					if (
-						checkDate(0, customModelEnd.value) &&
-						checkDate(-offset, customModelStart.value)
-					) {
-						return `last-${offset}` as `last-${string}`
-					}
-				}
-				for (const offset of filterMainStore.selectedLayerConfiguration.time
-					?.next || []) {
-					if (
-						checkDate(0, customModelStart.value) &&
-						checkDate(offset, customModelEnd.value)
-					) {
-						return `next-${offset}` as `next-${string}`
-					}
-				}
-			}
-			return 'custom'
-		},
-		set: (value) => {
-			if (value === 'all' || value === 'custom') {
-				customModelStart.value = null
-				customModelEnd.value = null
+			if (value === 'all') {
+				from = minDate
+				until = maxDate
+			} else if (value === 'custom') {
+				from = start || minDate
+				until = end
+					? new Date(end.getFullYear(), end.getMonth(), end.getDate() + 1)
+					: maxDate
 			} else if (value.startsWith('last-')) {
 				const offset = Number(value.substring(5))
-				const now = new Date()
-				const from = new Date(
-					now.getFullYear(),
-					now.getMonth(),
-					now.getDate() - offset
+				from = new Date(
+					today.getFullYear(),
+					today.getMonth(),
+					today.getDate() - offset
 				)
-				const until = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-				customModelStart.value = from
-				customModelEnd.value = until
-			} else if (value.startsWith('next-')) {
+				until = new Date(
+					today.getFullYear(),
+					today.getMonth(),
+					today.getDate() + 1
+				)
+			} else {
 				const offset = Number(value.substring(5))
-				const now = new Date()
-				const from = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-				const until = new Date(
-					now.getFullYear(),
-					now.getMonth(),
-					now.getDate() + offset
+				from = today
+				until = new Date(
+					today.getFullYear(),
+					today.getMonth(),
+					today.getDate() + offset + 1
 				)
-				until.setDate(until.getDate() + offset)
-				customModelStart.value = from
-				customModelEnd.value = until
 			}
-			isCustom.value = value === 'custom'
+
+			layerState.timeSpan[targetProperty.value] = {
+				from,
+				until,
+				pattern: pattern.value,
+			}
 		},
-	})
+		{ immediate: true }
+	)
 
 	const timeConstraints = computed(
 		() =>
