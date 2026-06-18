@@ -14,8 +14,8 @@ import { parseDateWithPattern } from './parseDateWithPattern'
 export function doesFeaturePassFilter(feature: Feature, filter: FilterState) {
 	if (
 		filter.knownValues &&
-		!Object.entries(filter.knownValues).every(
-			([key, values]) => values[feature.get(key)]
+		!Object.entries(filter.knownValues).every(([key, values]) =>
+			values.includes(feature.get(key))
 		)
 	) {
 		return false
@@ -49,9 +49,7 @@ if (import.meta.vitest) {
 	test('a feature passes the category filter', () => {
 		const filter = {
 			knownValues: {
-				category: {
-					blue: true,
-				},
+				category: ['blue'],
 			},
 		} satisfies FilterState
 		expect(doesFeaturePassFilter(feature, filter)).toBeTruthy()
@@ -60,9 +58,7 @@ if (import.meta.vitest) {
 	test('a feature fails the category filter', () => {
 		const filter = {
 			knownValues: {
-				category: {
-					red: true,
-				},
+				category: ['red'],
 			},
 		} satisfies FilterState
 		expect(doesFeaturePassFilter(feature, filter)).toBeFalsy()
@@ -97,12 +93,8 @@ if (import.meta.vitest) {
 	test('a feature fails one out of two filters', () => {
 		const filter = {
 			knownValues: {
-				category: {
-					blue: true,
-				},
-				misc: {
-					yes: true,
-				},
+				category: ['blue'],
+				misc: ['yes'],
 			},
 		} satisfies FilterState
 		expect(doesFeaturePassFilter(feature, filter)).toBeFalsy()
