@@ -5,7 +5,7 @@
 		icon="kern-icon--info"
 		:label-sr-only="true"
 	>
-		{{ $t(($) => $.legend.open, { ns: PluginId }) }}
+		{{ $t(($) => $.legend.open, { ns: PluginId, name }) }}
 	</KernButton>
 </template>
 
@@ -16,5 +16,6 @@ import { PluginId } from '../types'
 
 defineProps<{
 	id: string
+	name: string
 }>()
 </script>
