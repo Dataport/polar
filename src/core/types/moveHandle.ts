@@ -1,5 +1,7 @@
 import type { Component } from 'vue'
 
+import type { Icon } from '../types'
+
 export interface MoveHandleProperties {
 	closeFunction: (...args: unknown[]) => unknown
 	closeLabel: string
@@ -7,5 +9,5 @@ export interface MoveHandleProperties {
 
 	/** Id of the plugin that added the moveHandle. */
 	plugin: string
-	closeIcon?: string
+	closeIcon?: Icon
 }
