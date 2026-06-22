@@ -11,6 +11,7 @@
 					v-model="activeLayers"
 					id-suffix="polar-layer-chooser-mask-options"
 					type="checkbox"
+					name="polar-layer-chooser-mask-options"
 					:value="layerName"
 					:class="
 						options.some(({ layerImage }) => layerImage !== null)
@@ -97,16 +98,5 @@ onMounted(() => {
 
 .kern-form-check.polar-layer-chooser-options-checkbox {
 	margin-left: 0;
-}
-
-.kern-btn {
-	border: none;
-	min-height: inherit;
-	padding: var(--kern-metric-space-x-small);
-}
-
-.kern-label {
-	padding: 0;
-	padding-left: var(--kern-metric-space-small);
 }
 </style>

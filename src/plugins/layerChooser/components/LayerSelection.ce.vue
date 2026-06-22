@@ -12,6 +12,7 @@
 				<PolarInput
 					v-model="activeBackgroundId"
 					:id-suffix="`polar-layer-chooser-background`"
+					name="polar-layer-chooser-background"
 					type="radio"
 					:value="id"
 					:disabled="disabledBackgrounds[id]"
@@ -21,6 +22,7 @@
 				<LegendButton
 					v-if="layersWithLegendsIds.includes(id)"
 					:id="id"
+					:name="name"
 					:disabled="disabledBackgrounds[id]"
 					@click="openedLegendId = id"
 				/>
@@ -42,30 +44,28 @@
 						<PolarInput
 							v-model="activeMaskIds"
 							:id-suffix="`polar-layer-chooser-mask-${type}`"
+							name="polar-layer-chooser-mask"
 							type="checkbox"
 							:value="id"
 							:disabled="disabledMasks[id]"
 						>
 							{{ name }}
 						</PolarInput>
-						<button
+						<KernButton
 							v-if="Object.keys(layersWithOptions).includes(id)"
 							:id="`polar-layer-chooser-options-${id}-button`"
-							class="kern-btn kern-btn--tertiary"
+							class="kern-btn--tertiary"
+							icon="kern-icon-fill--settings"
+							:label-sr-only="true"
 							:disabled="disabledMasks[id]"
 							@click="() => updateOpenedOptions(id)"
 						>
-							<span
-								class="kern-icon kern-icon-fill--settings"
-								aria-hidden="true"
-							/>
-							<span class="kern-label kern-sr-only">
-								{{ $t(($) => $.layerOptions, { ns: PluginId }) }}
-							</span>
-						</button>
+							{{ $t(($) => $.layerOptions, { ns: PluginId }) }}
+						</KernButton>
 						<LegendButton
 							v-else-if="layersWithLegendsIds.includes(id)"
 							:id="id"
+							:name="name"
 							:disabled="disabledMasks[id]"
 							@click="openedLegendId = id"
 						/>
@@ -80,6 +80,7 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarInput from '@/components/PolarInput.ce.vue'
 import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
