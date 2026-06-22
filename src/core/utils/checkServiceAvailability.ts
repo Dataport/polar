@@ -3,10 +3,11 @@ import { t } from 'i18next'
 
 import { notifyUser } from '@/lib/notifyUser'
 
-import type {
-	MapConfiguration,
-	MasterportalApiServiceRegister,
-	ServiceAvailabilityCheck,
+import {
+	CoreId,
+	type MapConfiguration,
+	type MasterportalApiServiceRegister,
+	type ServiceAvailabilityCheck,
 } from '../types'
 
 export function checkServiceAvailability(
@@ -44,7 +45,7 @@ export function checkServiceAvailability(
 					if (statusCode !== 200) {
 						notifyUser('warning', () =>
 							t(($) => $.error.serviceUnavailable, {
-								ns: 'core',
+								ns: CoreId,
 								serviceId,
 								serviceName,
 							})
