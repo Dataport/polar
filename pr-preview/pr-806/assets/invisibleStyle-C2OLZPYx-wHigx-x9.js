@@ -1,1 +1,0 @@
-import{v as e}from"./Style-DLhrTVsl-kHN-t3MJ.js";var t=new e,n=e=>e.getStyle()===t,r=e=>e.getStyle()!==t,i=e=>{r(e)&&e.setStyle(t)},a=e=>{n(e)&&e.setStyle()};export{r as i,i as n,n as r,a as t};
