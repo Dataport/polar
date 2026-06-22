@@ -1,11 +1,7 @@
 import { type PolarModule } from '@polar/lib-custom-types'
-import {
-	generateSimpleGetters,
-	generateSimpleMutations,
-} from '@repositoryname/vuex-generators'
+import { generateSimpleGetters } from '@repositoryname/vuex-generators'
 import { RoutingGetters, RoutingState } from '../types'
 import { getInitialState } from './state'
-import actions from './actions'
 
 /**
  * Creates and returns a Vuex store module with namespacing enabled.
@@ -18,18 +14,9 @@ export const makeStoreModule = (): PolarModule<
 	RoutingState,
 	RoutingGetters
 > => ({
-	namespaced: true,
-	state: getInitialState(),
-	actions,
 	getters: {
 		...generateSimpleGetters(getInitialState()),
 		/* searchConfiguration: (_, getters) =>
       getters.configuration.searchConfiguration || null, */
-	},
-	mutations: {
-		...generateSimpleMutations(getInitialState()),
-		updateShowSteps(state) {
-			state.showSteps = !state.showSteps
-		},
 	},
 })

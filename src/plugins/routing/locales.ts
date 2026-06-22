@@ -21,6 +21,8 @@ export const resourcesDe = {
 		travelMode: 'Fortbewegungsart',
 		preference: 'Bevorzugte Route',
 		avoid: 'Verkehrswege meiden',
+		reset: 'Zurücksetzen',
+		details: 'Details zur Route',
 	},
 	travelMode: {
 		car: 'Auto',
@@ -53,6 +55,8 @@ export const resourcesEn = {
 		travelMode: 'Travel Mode',
 		preference: 'Preferred Route',
 		avoid: 'Types of routes to avoid',
+		reset: 'Reset',
+		details: 'Route Details',
 	},
 	travelMode: {
 		car: 'Car',

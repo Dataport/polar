@@ -289,6 +289,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		/**
 		 * TODO(dopenguin)
 		 */
+		routingResponseData,
+
+		/**
+		 * TODO(dopenguin)
+		 */
 		selectedPreference,
 
 		/**
@@ -325,6 +330,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * TODO(dopenguin)
 		 */
 		travelModes,
+
+		/**
+		 * TODO(dopenguin)
+		 */
+		reset,
 
 		/**
 		 * TODO(dopenguin)
