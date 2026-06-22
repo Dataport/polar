@@ -57,29 +57,28 @@
 					</li>
 				</template>
 			</ul>
-			<button
+			<KernButton
 				v-if="searchResults[i].features.features.length > limitResults"
-				class="kern-btn kern-btn--tertiary"
+				class="kern-btn--tertiary"
+				:icon="
+					areResultsExpanded(result.categoryId)
+						? 'kern-icon--keyboard-arrow-up'
+						: 'kern-icon--keyboard-arrow-down'
+				"
 				@keydown.down.prevent.stop="(event) => focusNextElement(true, event)"
 				@keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
 				@click="toggle(result.categoryId)"
 			>
-				<span
-					:class="`kern-icon ${areResultsExpanded(result.categoryId) ? 'kern-icon--keyboard-arrow-up' : 'kern-icon--keyboard-arrow-down'}`"
-					aria-hidden="true"
-				/>
-				<span class="kern-label">
-					{{
-						$t(
-							($) =>
-								$.resultList[
-									areResultsExpanded(result.categoryId) ? 'reduce' : 'extend'
-								],
-							{ ns: PluginId }
-						)
-					}}
-				</span>
-			</button>
+				{{
+					$t(
+						($) =>
+							$.resultList[
+								areResultsExpanded(result.categoryId) ? 'reduce' : 'extend'
+							],
+						{ ns: PluginId }
+					)
+				}}
+			</KernButton>
 			<hr
 				v-if="i < results.length - 1"
 				class="kern-divider"
@@ -93,6 +92,7 @@
 import { storeToRefs } from 'pinia'
 import { computed, nextTick, ref, toRaw, watch } from 'vue'
 
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useAddressSearchStore } from '../store'

@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/FilterUI.ce.vue'
 import locales from './locales'
 import { useFilterStore } from './store'
-import { PluginId, type FilterPluginOptions } from './types'
+import { type FilterPluginOptions, PluginId } from './types'
 
 /**
  * Creates a plugin which allows to filter arbitrary configurable vector layers by their properties.

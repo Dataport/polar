@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/GfiUI.ce.vue'
 import locales from './locales'
 import { useGfiStore } from './store'
-import { PluginId, type GfiPluginOptions } from './types'
+import { type GfiPluginOptions, PluginId } from './types'
 
 /**
  * Creates a plugin which fetches and optionally displays GFI (GetFeatureInfo) from WMS and WFS services or layers based on GeoJSON files.

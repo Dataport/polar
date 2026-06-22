@@ -10,8 +10,8 @@ import { useCoreStore } from '@/core/stores'
 
 import { useMultiSelection } from '../composables/useMultiSelection'
 import {
-	PluginId,
 	type GfiLayerConfiguration,
+	PluginId,
 	type RequestGfiParameters,
 } from '../types'
 import { requestGfi } from '../utils/requestGfi'

@@ -4,7 +4,7 @@
 			:id="`polar-${type}-${value}-${idSuffix}`"
 			v-model="model"
 			:class="`polar-input kern-form-check__${type}`"
-			:name="value"
+			:name="name"
 			:value="value"
 			:type="type"
 			:disabled="disabled"
@@ -13,7 +13,7 @@
 			class="polar-input kern-label"
 			:for="`polar-${type}-${value}-${idSuffix}`"
 		>
-			{{ label }}
+			<slot />
 		</label>
 	</div>
 </template>
@@ -23,7 +23,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
 	idSuffix: string
-	label: string
+	name: string
 	type: T
 	value: string
 	disabled?: boolean

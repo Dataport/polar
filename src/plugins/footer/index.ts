@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/PolarFooter.ce.vue'
 import locales from './locales'
 import { useFooterStore } from './store'
-import { PluginId, type FooterPluginOptions } from './types'
+import { type FooterPluginOptions, PluginId } from './types'
 
 /**
  * Creates a plugin which adds the possibility to display various content as a

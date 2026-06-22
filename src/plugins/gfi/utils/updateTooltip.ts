@@ -1,4 +1,4 @@
-import { Feature, Overlay, type MapBrowserEvent } from 'ol'
+import { Feature, type MapBrowserEvent, Overlay } from 'ol'
 
 import { getTooltip } from '@/lib/tooltip'
 

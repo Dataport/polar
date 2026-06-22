@@ -41,6 +41,7 @@ defineOptions({
 		background: var(--kern-color-layout-background-default);
 		border: solid var(--kern-color-action-on-default);
 		outline: solid var(--kern-color-action-default);
+		outline-offset: 0;
 	}
 
 	.polar-icon-button-icon-active {

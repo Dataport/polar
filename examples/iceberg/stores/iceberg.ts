@@ -3,7 +3,7 @@ import {
 	type MasterportalApiServiceRegister,
 } from '@polar/polar'
 import { defineStore } from 'pinia'
-import { ref, reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 import type { MpapiParameters } from '@/lib/getFeatures/types'
 

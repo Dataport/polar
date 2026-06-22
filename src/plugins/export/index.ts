@@ -9,7 +9,7 @@ import type { PluginContainer, PolarPluginStore } from '@/core'
 import component from './components/ExportUI.ce.vue'
 import locales from './locales'
 import { useExportStore } from './store'
-import { PluginId, type ExportPluginOptions } from './types'
+import { type ExportPluginOptions, PluginId } from './types'
 
 /**
  * The Export plugin allows making screenshots of the currently visible map.

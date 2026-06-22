@@ -4,12 +4,12 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, markRaw, reactive } from 'vue'
 
 import type {
-	PluginContainer,
-	PluginId,
 	BundledPluginId,
 	BundledPluginStores,
-	PolarPluginStore,
+	PluginContainer,
+	PluginId,
 	PluginOptions,
+	PolarPluginStore,
 } from '../types'
 
 import { useMainStore } from './main'

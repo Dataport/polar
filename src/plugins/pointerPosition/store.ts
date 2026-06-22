@@ -7,7 +7,7 @@
 import { type Coordinate, createStringXY } from 'ol/coordinate'
 import { transform } from 'ol/proj'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 

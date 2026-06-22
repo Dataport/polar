@@ -7,9 +7,7 @@ import I18NextVue from 'i18next-vue'
 import sharedLocales from '@/locales'
 
 import locales from '../locales'
-
-export const CoreId = 'core'
-export const SharedId = 'shared'
+import { CoreId, SharedId } from '../types'
 
 export const I18Next: Plugin = {
 	async install(app) {
