@@ -6,9 +6,9 @@
 
 import {
 	computed,
+	type ComputedRef,
 	onScopeDispose,
 	watch,
-	type ComputedRef,
 	type WatchOptions,
 	type WatchStopHandle,
 } from 'vue'

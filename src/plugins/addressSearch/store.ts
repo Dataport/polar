@@ -17,8 +17,8 @@ import {
 	type AddressSearchPluginOptions,
 	type GroupProperties,
 	PluginId,
-	type SearchResult,
 	type SearchMethodConfiguration,
+	type SearchResult,
 } from './types'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import { getMethodContainer } from './utils/methodContainer'

@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import type { PolarContainer } from '@polar/polar'
 
-import { addPlugins, removePlugin, getStore, subscribe } from '@polar/polar'
+import { addPlugins, getStore, removePlugin, subscribe } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
 import pluginExport from '@polar/polar/plugins/export'

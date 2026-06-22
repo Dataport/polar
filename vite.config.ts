@@ -1,7 +1,7 @@
 import vue from '@vitejs/plugin-vue'
 import { globSync } from 'node:fs'
 import { createRequire } from 'node:module'
-import { resolve, basename, sep } from 'node:path'
+import { basename, resolve, sep } from 'node:path'
 import dts from 'unplugin-dts/vite'
 import { defineConfig } from 'vite'
 import checker from 'vite-plugin-checker'
