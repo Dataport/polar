@@ -30,7 +30,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string | string[]">
 import { computed, useId } from 'vue'
 
 const props = withDefaults(
@@ -38,7 +38,7 @@ const props = withDefaults(
 		label?: string
 		ariaLabel?: string
 		defaultLabel?: string
-		value: string | string[]
+		value: T
 		options: {
 			value: string | number
 			label: string
@@ -68,16 +68,16 @@ const fallbackId = useId()
 const id = computed(() => props.id || fallbackId)
 
 const emit = defineEmits<{
-	(e: 'update:value', value: string | string[]): void
+	(e: 'update:value', value: T): void
 }>()
 
 function onChange(event: Event) {
 	const target = event.target as HTMLSelectElement
 	if (props.multiple) {
 		const selected = Array.from(target.selectedOptions).map((opt) => opt.value)
-		emit('update:value', selected)
+		emit('update:value', selected as T)
 	} else {
-		emit('update:value', target.value)
+		emit('update:value', target.value as T)
 	}
 }
 </script>

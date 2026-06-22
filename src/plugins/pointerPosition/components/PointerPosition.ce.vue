@@ -17,10 +17,7 @@
 			"
 			:aria-label="$t(($) => $.projectionSelect.label, { ns: PluginId })"
 			small
-			@update:value="
-				(value) =>
-					(selectedProjection = Array.isArray(value) ? value[0] : value)
-			"
+			@update:value="(value) => (selectedProjection = value)"
 		/>
 		<small v-else>
 			{{ selectedProjection }}
