@@ -3,7 +3,7 @@ import type { Feature } from 'ol'
 
 import { Fill, Stroke, Style } from 'ol/style'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -36,7 +36,7 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 		return configuration.value.layers[layerId]
 	}
 
-	const selectedFeatures = ref<Record<string, Feature[]>>({})
+	const selectedFeatures = shallowRef<Record<string, Feature[]>>({})
 	const featureInformation = ref<Record<string, GeoJsonFeature[]>>({})
 
 	watch(

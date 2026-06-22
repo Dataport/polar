@@ -1,7 +1,7 @@
 import type VectorSource from 'ol/source/Vector'
 
 import { debounce } from 'es-toolkit'
-import { onWatcherCleanup, ref, type Ref, watch } from 'vue'
+import { onWatcherCleanup, type Ref, shallowRef, watch } from 'vue'
 
 /**
  * Generate a reactive value based on the provided callback, which is re-evaluated when any of the provided sources emit a 'change' event.
@@ -21,7 +21,7 @@ export function useOlVectorSources<T>(
 	callback: () => T,
 	waitMs: number = 50
 ): Ref<T> {
-	const result = ref(callback()) as Ref<T>
+	const result = shallowRef(callback()) as Ref<T>
 	const refresh = () => {
 		result.value = callback()
 	}

@@ -1,7 +1,7 @@
 import type { Feature } from 'ol'
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 
 import { useOlVectorSources } from '@/composables/useOlVectorSources'
 import { useRefStore } from '@/composables/useRefStore'
@@ -19,7 +19,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 	const coreStore = useCoreStore()
 	const gfiMainStore = useGfiMainStore()
 
-	const hoveredFeatures = ref<Record<string, Feature[]>>({})
+	const hoveredFeatures = shallowRef<Record<string, Feature[]>>({})
 	const { selectedFeatures } = storeToRefs(gfiMainStore)
 
 	const configuration = computed(() => gfiMainStore.configuration.featureList)
