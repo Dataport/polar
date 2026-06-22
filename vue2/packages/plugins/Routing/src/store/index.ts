@@ -3,9 +3,7 @@ import {
 	generateSimpleGetters,
 	generateSimpleMutations,
 } from '@repositoryname/vuex-generators'
-import { type Coordinate } from 'ol/coordinate'
 import { RoutingGetters, RoutingState } from '../types'
-import { transformCoordinateToWGS84 } from '../utils/routingServiceUtils'
 import { getInitialState } from './state'
 import actions from './actions'
 
@@ -25,28 +23,11 @@ export const makeStoreModule = (): PolarModule<
 	actions,
 	getters: {
 		...generateSimpleGetters(getInitialState()),
-		routeAsWGS84: (_, getters, __, rootGetters) =>
-			getters.route.map((coordinate) =>
-				transformCoordinateToWGS84(
-					coordinate,
-					rootGetters.map.getView().getProjection().getCode()
-				)
-			),
 		/* searchConfiguration: (_, getters) =>
       getters.configuration.searchConfiguration || null, */
-		url: (_, getters) =>
-			getters.configuration.url +
-			getters.selectedTravelMode +
-			'/' +
-			getters.configuration.format,
 	},
 	mutations: {
 		...generateSimpleMutations(getInitialState()),
-		addCoordinateToRoute(state, coordinate: Coordinate) {
-			const currentRoute = [...state.route]
-			currentRoute[state.currentlyFocusedInput] = coordinate
-			state.route = currentRoute
-		},
 		updateShowSteps(state) {
 			state.showSteps = !state.showSteps
 		},

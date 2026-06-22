@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, onUnmounted, ref } from 'vue'
+import { computed } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
@@ -60,8 +60,6 @@ const coreStore = useCoreStore()
 const routeStore = useRoutingStore()
 
 const { route } = storeToRefs(routeStore)
-// TODO(dopenguin): Move to the store with draw logic
-const currentlyFocusedInput = ref(-1)
 
 // TODO(dopenguin): Add TSDoc
 const addWaypointButtonDisabled = computed(() => {
@@ -72,17 +70,17 @@ const addWaypointButtonDisabled = computed(() => {
 })
 
 function focusInput(e: FocusEvent, index: number) {
-	if (currentlyFocusedInput.value !== -1) {
+	if (routeStore.currentlyFocusedInput !== -1) {
 		;(coreStore.shadowRoot as ShadowRoot)
 			.getElementById(
-				`polar-plugin-routing-input-${currentlyFocusedInput.value}`
+				`polar-plugin-routing-input-${routeStore.currentlyFocusedInput}`
 			)
 			?.classList.remove('polar-plugin-routing-input-focused')
 	}
 	;(e.currentTarget as HTMLElement).classList.add(
 		'polar-plugin-routing-input-focused'
 	)
-	currentlyFocusedInput.value = index
+	routeStore.currentlyFocusedInput = index
 }
 function getRouteLabel(index: number) {
 	return index === 0
@@ -91,10 +89,6 @@ function getRouteLabel(index: number) {
 			? 'end'
 			: 'middle'
 }
-
-onUnmounted(() => {
-	currentlyFocusedInput.value = -1
-})
 </script>
 
 <style scoped>

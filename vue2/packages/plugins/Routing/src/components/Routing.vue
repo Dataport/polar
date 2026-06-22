@@ -29,44 +29,10 @@ export default Vue.extend({
 		RoutingDetails,
 	},
 	computed: {
-		...mapGetters(['language']),
-		...mapGetters('plugin/routing', [
-			'currentlyFocusedInput',
-			'route',
-			'routingResponseData',
-			'searchResults',
-			'selectedPreference',
-			'selectedRouteTypesToAvoid',
-			'selectedTravelMode',
-		]),
-		routeIncomplete() {
-			return this.route.some((part) => part.length === 0)
-		},
-	},
-	watch: {
-		language() {
-			if (!this.routeIncomplete) {
-				this.getRoute()
-			}
-		},
-		route() {
-			if (!this.routeIncomplete) {
-				this.getRoute()
-			}
-		},
-		selectedRouteTypesToAvoid() {
-			if (!this.routeIncomplete) {
-				this.getRoute()
-			}
-		},
-		selectedPreference() {
-			if (!this.routeIncomplete) {
-				this.getRoute()
-			}
-		},
+		...mapGetters('plugin/routing', ['routingResponseData']),
 	},
 	methods: {
-		...mapActions('plugin/routing', ['getRoute', 'reset']),
+		...mapActions('plugin/routing', ['reset']),
 		...mapMutations('plugin/routing', ['updateShowSteps']),
 	},
 })
