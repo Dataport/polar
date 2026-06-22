@@ -226,12 +226,13 @@ const mapConfigurations: Record<
   },
   [MODE.JENFELD]: (reportServiceId: string, afmUrl: string) => {
     const queryZoom =
-      Number(new URLSearchParams(location.search).get('zoom')) || 7
+      Number(new URLSearchParams(location.search).get('zoom')) || 8
     const singularOption = mpapiDefaults.options[queryZoom]
 
     return {
       ...commonMapConfiguration,
       locales: jenfeldLocales,
+      language: 'de',
       startResolution: singularOption.resolution,
       startCenter: jenfeldhausCoordinate,
       extent: [573113.0, 5935603.15, 576367.37, 5938307.19],
@@ -314,7 +315,7 @@ const mapConfigurations: Record<
       geoLocation: {
         ...geoLocation,
         boundaryLayerId: jenfeldBoundaryId,
-        zoomLevel: 7,
+        zoomLevel: 8,
         // Feature activity turned off, see utils/jenfeld/hardwireGeolocation.ts
         checkLocationInitially: false,
         showTooltip: false,

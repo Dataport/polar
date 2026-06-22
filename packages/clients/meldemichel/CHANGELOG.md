@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.4.1
+
+- Chore: Change default language of Jenfeld client to german (instead of using browser language).
+- Chore: Change zoom default of Jenfeld client to 7.
+
 ## 1.4.0
 
 - Feature: Jenfeld client variant now initially focuses on known position of interactive display.
