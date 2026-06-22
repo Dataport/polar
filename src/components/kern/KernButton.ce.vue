@@ -1,5 +1,5 @@
 <template>
-	<button class="kern-btn" @click="$emit('click')">
+	<button class="kern-btn">
 		<span v-if="icon" class="kern-icon" :class="icon" aria-hidden="true" />
 		<span class="kern-label" :class="{ 'kern-sr-only': labelSrOnly }">
 			<slot />
@@ -11,7 +11,6 @@
 import type { Icon } from '@/core'
 
 defineProps<{ icon?: Icon; labelSrOnly?: boolean }>()
-defineEmits(['click'])
 </script>
 
 <style scoped>

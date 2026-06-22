@@ -19,7 +19,7 @@
 					:icon="icon"
 					@click="() => toggle(plugin.id)"
 				>
-					{{ t(($) => $.hints[plugin.id], { ns: 'iconMenu' }) }}
+					{{ t(($) => $.hints[plugin.id], { ns: PluginId }) }}
 				</KernButton>
 			</li>
 		</ul>
@@ -36,9 +36,8 @@ import type { Icon } from '@/core'
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
-import type { Menu } from '../types'
-
 import { useIconMenuStore } from '../store'
+import { type Menu, PluginId } from '../types'
 
 const props = defineProps<{
 	menus: (Menu & { buttonClass: string; icon: Icon })[]

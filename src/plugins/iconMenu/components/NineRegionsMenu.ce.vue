@@ -26,7 +26,7 @@
 					:icon="'icon' in item ? item.icon : item.plugin.icon"
 					:hint="
 						$t(($) => $.hints[item.plugin.id], {
-							ns: 'iconMenu',
+							ns: PluginId,
 						})
 					"
 				/>
@@ -36,7 +36,7 @@
 					:icon="('icon' in item ? item.icon : item.plugin.icon) ?? ''"
 					:hint="
 						$t(($) => $.hints[item.plugin.id], {
-							ns: 'iconMenu',
+							ns: PluginId,
 						})
 					"
 				/>
@@ -74,6 +74,7 @@ import {
 import { useCoreStore } from '@/core/stores'
 
 import { useIconMenuStore } from '../store'
+import { PluginId } from '../types'
 import NineRegionsButton from './NineRegionsButton.ce.vue'
 
 const iconMenuStore = useIconMenuStore()
