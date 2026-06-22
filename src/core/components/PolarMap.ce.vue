@@ -4,7 +4,7 @@
 		class="polar-map"
 		tabindex="0"
 		role="region"
-		:aria-label="$t(($) => $.canvas.label, { ns: 'core' })"
+		:aria-label="$t(($) => $.canvas.label, { ns: CoreId })"
 		@wheel="(e) => $emit('wheel', e)"
 	/>
 </template>
@@ -19,6 +19,7 @@ import { storeToRefs } from 'pinia'
 import { markRaw, onBeforeUnmount, onMounted, useTemplateRef, watch } from 'vue'
 
 import { useMainStore } from '../stores/main'
+import { CoreId } from '../types'
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
 import { createKeyboardInteractions } from '../utils/interactions'
 import { setupMarkers } from '../utils/map/setupMarkers'

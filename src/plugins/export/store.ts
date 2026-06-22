@@ -15,7 +15,7 @@ import { notifyUser } from '@/lib/notifyUser'
 
 import type { ExportFormat } from './types'
 
-import { EXPORT_FORMATS } from './types'
+import { EXPORT_FORMATS, PluginId } from './types'
 import { convertToPdf } from './utils/convertToPdf'
 import { CrossOriginMonkey } from './utils/CrossOriginMonkey'
 import { downloadAsImage } from './utils/downloadAsImage'
@@ -103,7 +103,7 @@ export const useExportStore = defineStore('plugins/export', () => {
 			console.error(error)
 			notifyUser('error', () =>
 				t(($) => $.error, {
-					ns: 'export',
+					ns: PluginId,
 				})
 			)
 			throw error
