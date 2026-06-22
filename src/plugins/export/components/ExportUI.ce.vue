@@ -4,12 +4,12 @@
 			:hint="
 				singleExport
 					? $t(($) => $.button.tooltip.format, {
-							ns: 'export',
+							ns: PluginId,
 							format: singleExport?.toUpperCase(),
 						})
 					: $t(
 							($) => (visible ? $.button.tooltip.close : $.button.tooltip.open),
-							{ ns: 'export' }
+							{ ns: PluginId }
 						)
 			"
 			:active="visible"
@@ -27,7 +27,7 @@
 				:key="format"
 				:hint="
 					$t(($) => $.button.tooltip.format, {
-						ns: 'export',
+						ns: PluginId,
 						format: format.toUpperCase(),
 					})
 				"
@@ -45,9 +45,8 @@ import { computed, ref } from 'vue'
 
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 
-import type { ExportFormat } from '../types'
-
 import { useExportStore } from '../store'
+import { type ExportFormat, PluginId } from '../types'
 
 const exportStore = useExportStore()
 

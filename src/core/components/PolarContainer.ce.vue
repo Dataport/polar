@@ -41,12 +41,15 @@ import {
 	watch,
 } from 'vue'
 
-import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
-
 import { useT } from '../composables/useT'
 import { useCoreStore } from '../stores'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
+import {
+	CoreId,
+	type MapConfiguration,
+	type MasterportalApiServiceRegister,
+} from '../types'
 import { loadKern } from '../utils/loadKern'
 import { teardownMarkers } from '../utils/map/setupMarkers'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
@@ -76,10 +79,10 @@ const overlay =
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 const noCommandOnZoom = useT(() =>
-	t(($) => $.overlay.noCommandOnZoom, { ns: 'core' })
+	t(($) => $.overlay.noCommandOnZoom, { ns: CoreId })
 )
 const noControlOnZoom = useT(() =>
-	t(($) => $.overlay.noControlOnZoom, { ns: 'core' })
+	t(($) => $.overlay.noControlOnZoom, { ns: CoreId })
 )
 
 function wheelEffect(event: WheelEvent) {
@@ -95,7 +98,7 @@ function wheelEffect(event: WheelEvent) {
 }
 
 const oneFingerPan = useT(() =>
-	t(($) => $.overlay.oneFingerPan, { ns: 'core' })
+	t(($) => $.overlay.oneFingerPan, { ns: CoreId })
 )
 let hammer: { destroy: () => void } | null = null
 function updateListeners() {
