@@ -15,7 +15,7 @@
 					:class="buttonClass"
 					:hint="
 						$t(($) => $.hints[plugin.id], {
-							ns: 'iconMenu',
+							ns: PluginId,
 						})
 					"
 					:icon="icon"
@@ -55,9 +55,8 @@ import {
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
-import type { Menu } from '../types'
-
 import { useIconMenuStore } from '../store'
+import { type Menu, PluginId } from '../types'
 
 withDefaults(
 	defineProps<{

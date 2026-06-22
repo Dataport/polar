@@ -20,7 +20,7 @@
 				>
 					<span class="kern-icon" :class="icon" aria-hidden="true" />
 					<span class="kern-label">
-						{{ t(($) => $.hints[plugin.id], { ns: 'iconMenu' }) }}
+						{{ t(($) => $.hints[plugin.id], { ns: PluginId }) }}
 					</span>
 				</button>
 			</li>
@@ -35,9 +35,8 @@ import { type Component, computed, markRaw, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import type { Menu } from '../types'
-
 import { useIconMenuStore } from '../store'
+import { type Menu, PluginId } from '../types'
 
 const props = defineProps<{
 	menus: (Menu & { buttonClass: string; icon: string })[]
