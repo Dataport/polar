@@ -13,7 +13,7 @@ import type { Icon } from '@/core'
 
 import { useCoreStore } from '@/core/stores'
 
-import type { Menu } from './types'
+import { type Menu, PluginId } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -149,11 +149,11 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 				open.value = null
 			},
 			closeLabel: t(($) => $.mobileCloseButton, {
-				ns: 'iconMenu',
-				plugin: t(($) => $.hints[menu.plugin.id], { ns: 'iconMenu' }),
+				ns: PluginId,
+				plugin: t(($) => $.hints[menu.plugin.id], { ns: PluginId }),
 			}),
 			component: menu.plugin.component,
-			plugin: 'iconMenu',
+			plugin: PluginId,
 		})
 	}
 
