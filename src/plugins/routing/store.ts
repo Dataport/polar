@@ -49,8 +49,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	let stopRouteWatch: WatchStopHandle | undefined
 	let stopTravelModeWatch: WatchStopHandle | undefined
 
-	// TODO(dopenguin): Update this to a computed so the draw interaction now added in setupPlugin only sometimes gets added
-	const currentlyFocusedInput = ref(-1)
+	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
 	const routingResponseData = ref<FeatureCollection<GeoJsonLineString> | null>(
 		null
@@ -63,6 +62,18 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const configuration = computed(
 		() => (coreStore.configuration.routing || {}) as RoutingPluginOptions
 	)
+	const currentlyFocusedInput = computed({
+		get: () => _currentlyFocusedInput.value,
+		set: (index) => {
+			_currentlyFocusedInput.value = index
+
+			if (index !== -1) {
+				coreStore.map.addInteraction(draw as Draw)
+			} else {
+				coreStore.map.removeInteraction(draw as Draw)
+			}
+		},
+	})
 	const routeIncomplete = computed(() =>
 		route.value.some((part) => part.length === 0)
 	)
@@ -209,8 +220,24 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			addCoordinateToRoute((e.feature.getGeometry() as Point).getCoordinates())
 			// @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
 			draw._isRoutingDraw = false
+			currentlyFocusedInput.value = -1
 		})
-		coreStore.map.addInteraction(draw)
+	}
+
+	function updateFocus(event: Event) {
+		if (currentlyFocusedInput.value === -1) {
+			return
+		}
+		const path = event.composedPath()
+		const isRoutingInput = path.some(
+			(el) =>
+				el instanceof HTMLElement &&
+				el.id.startsWith('polar-plugin-routing-input-')
+		)
+		const isMapViewport = path.includes(coreStore.map.getViewport())
+		if (!isRoutingInput && !isMapViewport) {
+			currentlyFocusedInput.value = -1
+		}
 	}
 
 	function setupPlugin() {
@@ -223,6 +250,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		coreStore.map.addLayer(routeLayer)
 
 		initializeDraw()
+		// TODO(dopenguin): Currently doesn't work if one tabs to another element
+		;(coreStore.shadowRoot as ShadowRoot).addEventListener(
+			'pointerdown',
+			updateFocus
+		)
 		stopRouteWatch = watch(
 			[
 				route,
@@ -247,6 +279,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		stopRouteWatch = undefined
 		stopTravelModeWatch?.()
 		stopTravelModeWatch = undefined
+		;(coreStore.shadowRoot as ShadowRoot).removeEventListener(
+			'pointerdown',
+			updateFocus
+		)
 
 		reset()
 

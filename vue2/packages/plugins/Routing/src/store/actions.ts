@@ -2,15 +2,6 @@ import { type PolarActionTree } from '@polar/lib-custom-types'
 import { RoutingState, RoutingGetters } from '../types'
 
 const actions: PolarActionTree<RoutingState, RoutingGetters> = {
-	setCurrentlyFocusedInput({ commit, getters, rootGetters }, index: number) {
-		const previousIndex = getters.currentlyFocusedInput
-		commit('setCurrentlyFocusedInput', index)
-		if (previousIndex === -1 && index !== -1) {
-			rootGetters.map.addInteraction(draw)
-		} else if (previousIndex !== -1 && index === -1) {
-			rootGetters.map.removeInteraction(draw)
-		}
-	},
 	// TODO: Add implementation for the search functionality
 	/* async search({ commit, dispatch, getters, rootGetters }, input: string) {
     if (getters.searchConfiguration) {
