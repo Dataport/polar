@@ -474,6 +474,7 @@ addPlugin(
 							return featuresByLayerId
 						},
 						featureList: {
+							icon: 'kern-icon--checklist',
 							activeLayers: {
 								plugin: 'layerChooser',
 								key: 'activeMaskIds',

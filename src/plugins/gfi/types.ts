@@ -7,7 +7,7 @@ import type { ImageWMS, TileWMS } from 'ol/source'
 import type { Options as Fill } from 'ol/style/Fill'
 import type { Options as Stroke } from 'ol/style/Stroke'
 
-import type { InterfacePluginOptions, StoreReference } from '@/core'
+import type { Icon, InterfacePluginOptions, StoreReference } from '@/core'
 
 /**
  * Plugin identifier.
@@ -160,6 +160,11 @@ export interface CustomHighlightStyle {
  */
 export interface FeatureList {
 	activeLayers: StoreReference
+
+	/**
+	 * Icon to be shown in the list view title.
+	 */
+	icon: Icon
 
 	/**
 	 * Whether to show only features currently visible in the map view's bounding box or to display all loaded features.

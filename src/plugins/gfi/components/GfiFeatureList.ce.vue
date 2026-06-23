@@ -2,6 +2,11 @@
 	<header class="kern-card__header">
 		<hgroup>
 			<h2 class="kern-heading-medium">
+				<span
+					v-if="gfiStore.configuration.featureList?.icon"
+					class="kern-icon"
+					:class="gfiStore.configuration.featureList?.icon"
+				/>
 				{{ $t(($) => $.list.header, { ns: PluginId }) }}
 			</h2>
 		</hgroup>
