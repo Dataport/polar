@@ -27,8 +27,8 @@
 			/>
 			<section
 				v-for="(
-					{ layerId, feature, hovered }, idx
-				) of gfiStore.listPaginatedFeatures"
+					{ layerId, feature, hovered, text }, idx
+				) of gfiStore.listEnrichedPaginatedFeatures"
 				:key="idx"
 				tabindex="0"
 				class="feature-list-item"
@@ -46,13 +46,13 @@
 				@blur="gfiStore.hoveredFeatures = {}"
 			>
 				<h3 class="kern-title kern-title--small">
-					{{ gfiStore.listGetText(feature, 'title') }}
+					{{ text.title }}
 				</h3>
 				<p class="kern-subline kern-subline--small">
-					{{ gfiStore.listGetText(feature, 'subtitle') }}
+					{{ text.subtitle }}
 				</p>
 				<p class="kern-body kern-body--small">
-					{{ gfiStore.listGetText(feature, 'subSubtitle') }}
+					{{ text.subSubtitle }}
 				</p>
 			</section>
 		</template>

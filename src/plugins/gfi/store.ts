@@ -134,6 +134,14 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		listPaginatedFeatures: gfiListStoreRefs.paginatedFeatures,
 
 		/**
+		 * Enriched paginated list of features to display in the list view.
+		 * This includes additional text information for each feature.
+		 *
+		 * @alpha
+		 */
+		listEnrichedPaginatedFeatures: gfiListStoreRefs.enrichedPaginatedFeatures,
+
+		/**
 		 * Get the text description of a feature for the list view.
 		 *
 		 * @param feature - The feature to get the text description for

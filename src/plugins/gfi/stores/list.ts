@@ -223,6 +223,17 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		return null
 	}
 
+	const enrichedPaginatedFeatures = computed(() =>
+		paginatedFeatures.value.map((feature) => ({
+			...feature,
+			text: {
+				title: getText(feature.feature, 'title'),
+				subtitle: getText(feature.feature, 'subtitle'),
+				subSubtitle: getText(feature.feature, 'subSubtitle'),
+			},
+		}))
+	)
+
 	return {
 		features,
 		hoveredFeatures,
@@ -233,6 +244,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		paginationStartIndex,
 		paginationEndIndex,
 		paginatedFeatures,
+		enrichedPaginatedFeatures,
 		getText,
 	}
 })
