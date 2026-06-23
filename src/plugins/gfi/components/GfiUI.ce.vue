@@ -62,11 +62,6 @@ const gfiStore = useGfiStore()
 		max-height: 80%;
 		overflow: auto;
 	}
-
-	&:deep(.kern-card__container) {
-		width: 100%;
-		padding-bottom: var(--kern-metric-space-small);
-	}
 }
 
 button {
