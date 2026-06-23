@@ -1,6 +1,10 @@
 <template>
 	<div class="kern-form-input">
-		<label v-if="label" class="kern-label" :for="resolvedId">
+		<label
+			:for="resolvedId"
+			class="kern-label"
+			:class="{ 'kern-sr-only': labelSrOnly }"
+		>
 			{{ label }}
 		</label>
 		<div class="kern-form-input__select-wrapper" :class="{ small }">
@@ -8,7 +12,6 @@
 				:id="resolvedId"
 				v-model="model"
 				class="kern-form-input__select"
-				:aria-label="ariaLabel"
 				:disabled
 				:required
 				:multiple
@@ -38,7 +41,7 @@ const props = defineProps<{
 		[key: string]: unknown
 	}[]
 	label?: string
-	ariaLabel?: string
+	labelSrOnly?: boolean
 	defaultLabel?: string
 	disabled?: boolean
 	required?: boolean

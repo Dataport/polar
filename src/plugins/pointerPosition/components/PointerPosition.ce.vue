@@ -15,7 +15,8 @@
 					ariaLabel: projection.code,
 				}))
 			"
-			:aria-label="$t(($) => $.projectionSelect.label, { ns: PluginId })"
+			:label="$t(($) => $.projectionSelect.label, { ns: PluginId })"
+			:label-sr-only="true"
 			small
 		/>
 		<small v-else>
