@@ -6,11 +6,10 @@
 	/>
 	<PolarSelect
 		v-if="displayPreferences"
+		v-model="selectedPreference"
 		:label="$t(($) => $.label.preference, { ns: PluginId })"
 		:aria-label="$t(($) => $.label.preference, { ns: PluginId })"
 		:options="selectablePreferences"
-		:value="selectedPreference"
-		@update:value="selectedPreference = $event as string"
 	/>
 	<PolarInputGroup
 		v-if="displayRouteTypesToAvoid"

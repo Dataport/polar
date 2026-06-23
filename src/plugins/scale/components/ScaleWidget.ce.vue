@@ -11,11 +11,10 @@
 	>
 		<PolarSelect
 			v-if="showScaleSwitcher"
-			:value="zoomValue"
+			v-model="zoomValue"
 			:options="zoomOptions"
 			:aria-label="$t(($) => $.scaleSwitcher, { ns: PluginId })"
 			small
-			@update:value="setZoom"
 		/>
 		<span v-else class="scale-as-a-ratio">
 			{{ scaleToOne }}
@@ -45,11 +44,12 @@ const { layoutTag, scaleToOne, scaleWithUnit, showScaleSwitcher, zoomOptions } =
 
 const { layout, zoom } = storeToRefs(coreStore)
 
-const zoomValue = computed(() => `${Math.round(zoom.value)}`)
-
-function setZoom(value) {
-	zoom.value = Number(value)
-}
+const zoomValue = computed({
+	get: () => `${Math.round(zoom.value)}`,
+	set: (value: string) => {
+		zoom.value = Number(value)
+	},
+})
 </script>
 
 <style scoped>
