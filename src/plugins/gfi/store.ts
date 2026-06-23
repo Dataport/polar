@@ -36,6 +36,13 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		configuration: gfiMainStoreRefs.configuration,
 
 		/**
+		 * Render type for the plugin.
+		 *
+		 * @alpha
+		 */
+		renderType: gfiMainStoreRefs.renderType,
+
+		/**
 		 * Hovered features.
 		 * This is only used for the list view.
 		 *

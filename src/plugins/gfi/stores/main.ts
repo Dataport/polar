@@ -32,6 +32,10 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 		() => coreStore.configuration[PluginId] as GfiPluginOptions
 	)
 
+	const renderType = computed(
+		() => configuration.value.renderType ?? 'independent'
+	)
+
 	function getLayerConfiguration(layerId: string) {
 		return configuration.value.layers[layerId]
 	}
@@ -78,6 +82,7 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 
 	return {
 		configuration,
+		renderType,
 		getLayerConfiguration,
 		selectedFeatures,
 		featureInformation,

@@ -4,7 +4,7 @@
 		id="polar-card-gfi"
 		:class="{
 			standard: coreStore.layout === 'standard',
-			independent: gfiStore.configuration.renderType === 'independent',
+			independent: gfiStore.renderType === 'independent',
 		}"
 	>
 		<template v-if="gfiStore.features.length > 0">
