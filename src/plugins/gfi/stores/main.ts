@@ -70,11 +70,11 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 			.filter(([layerId]) => getLayerConfiguration(layerId)?.geometry ?? true)
 			.flatMap(([, features]) => features)
 	)
-	useFeatureDisplayLayer({
-		map: coreStore.map,
-		style: customHighlightStyle,
-		features: highlightedFeatures,
-	})
+	useFeatureDisplayLayer(
+		coreStore.map,
+		highlightedFeatures,
+		customHighlightStyle
+	)
 
 	return {
 		configuration,

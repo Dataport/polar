@@ -10,12 +10,10 @@ import { onScopeDispose, ref } from 'vue'
 
 import type { GfiPluginOptions } from '../types'
 
-export function useMultiSelection(options: {
-	map: Map
+export function useMultiSelection(
+	map: Map,
 	mode: GfiPluginOptions['multiSelect']
-}) {
-	const { map, mode } = options
-
+) {
 	const drawOptions: DrawOptions = {
 		stopClick: true,
 		type: 'Circle',

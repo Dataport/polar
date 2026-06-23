@@ -127,10 +127,10 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	)
 
 	if (gfiMainStore.configuration.multiSelect) {
-		const multiSelection = useMultiSelection({
-			map: coreStore.map,
-			mode: gfiMainStore.configuration.multiSelect,
-		})
+		const multiSelection = useMultiSelection(
+			coreStore.map,
+			gfiMainStore.configuration.multiSelect
+		)
 		watch(multiSelection.selection, (selection) => {
 			if (selection) {
 				debouncedGetFeatureInfo(selection)
@@ -209,14 +209,14 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		{ deep: true }
 	)
 
-	useTooltip({
-		map: coreStore.map,
-		tooltipGenerators: Object.fromEntries(
+	useTooltip(
+		coreStore.map,
+		Object.fromEntries(
 			Object.entries(gfiMainStore.configuration.layers)
 				.filter(([, { showTooltip }]) => Boolean(showTooltip))
 				.map(([layerId, { showTooltip }]) => [layerId, showTooltip])
-		) as Record<string, NonNullable<GfiLayerConfiguration['showTooltip']>>,
-	})
+		) as Record<string, NonNullable<GfiLayerConfiguration['showTooltip']>>
+	)
 
 	if (gfiMainStore.configuration.renderType === 'iconMenu') {
 		// TODO: Find a better solution to wait for this plugin

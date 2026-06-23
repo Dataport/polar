@@ -50,12 +50,11 @@ function addFeature(
 	}
 }
 
-export function useFeatureDisplayLayer(options: {
-	map: Map
+export function useFeatureDisplayLayer(
+	map: Map,
+	features: Ref<GeoJsonFeature[]>,
 	style: Ref<Style>
-	features: Ref<GeoJsonFeature[]>
-}) {
-	const { map, style, features } = options
+) {
 	const layer = getFeatureDisplayLayer()
 
 	map.addLayer(layer)

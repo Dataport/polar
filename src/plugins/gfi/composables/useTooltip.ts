@@ -3,11 +3,11 @@ import { onScopeDispose } from 'vue'
 
 import { updateTooltip } from '../utils/updateTooltip'
 
-export function useTooltip(options: {
-	map: Map
+export function useTooltip(
+	map: Map,
 	tooltipGenerators: Record<string, (feature: Feature) => [string, string][]>
-}) {
-	if (!Object.keys(options.tooltipGenerators).length) {
+) {
+	if (!Object.keys(tooltipGenerators).length) {
 		return
 	}
 
@@ -15,10 +15,10 @@ export function useTooltip(options: {
 		positioning: 'bottom-center',
 		offset: [0, -5],
 	})
-	options.map.addOverlay(overlay)
+	map.addOverlay(overlay)
 
 	let teardownTooltip: (() => void) | null = null
-	options.map.on('pointermove', (evt) => {
+	map.on('pointermove', (evt) => {
 		if (teardownTooltip) {
 			teardownTooltip()
 		}
@@ -26,13 +26,13 @@ export function useTooltip(options: {
 		teardownTooltip = updateTooltip(
 			evt as MapBrowserEvent<PointerEvent>,
 			overlay,
-			options.tooltipGenerators
+			tooltipGenerators
 		)
 	})
 	onScopeDispose(() => {
 		if (teardownTooltip) {
 			teardownTooltip()
 		}
-		options.map.removeOverlay(overlay)
+		map.removeOverlay(overlay)
 	})
 }
