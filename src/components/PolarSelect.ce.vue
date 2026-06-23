@@ -6,13 +6,12 @@
 		<div class="kern-form-input__select-wrapper" :class="{ small }">
 			<select
 				:id="resolvedId"
+				v-model="model"
 				class="kern-form-input__select"
 				:aria-label="ariaLabel"
 				:disabled
 				:required
 				:multiple
-				:value="model"
-				@change="onChange"
 			>
 				<option v-if="defaultLabel" value="">{{ defaultLabel }}</option>
 				<option
@@ -51,15 +50,6 @@ const model = defineModel<string | string[]>({ required: true })
 
 const fallbackId = useId()
 const resolvedId = computed(() => props.id || fallbackId)
-
-function onChange(event: Event) {
-	const target = event.target as HTMLSelectElement
-	if (props.multiple) {
-		model.value = Array.from(target.selectedOptions).map((opt) => opt.value)
-	} else {
-		model.value = target.value
-	}
-}
 </script>
 <style scoped>
 .kern-form-input__select-wrapper.small {
