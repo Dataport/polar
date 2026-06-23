@@ -17,6 +17,18 @@ export interface TravelMode {
 	value: SelectableTravelMode
 }
 
+interface RouteStep {
+	distance: number
+	duration: number
+	instruction: string
+}
+
+export interface RouteSegment {
+	distance: number
+	duration: number
+	steps: RouteStep[]
+}
+
 export interface RoutingPluginOptions extends PluginOptions {
 	/**
 	 * The type of routing service to be used.

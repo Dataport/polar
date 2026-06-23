@@ -41,6 +41,8 @@ export const resourcesDe = {
 		tollways: 'Mautstraßen',
 		ferries: 'Fähren',
 	},
+	distance: 'Entfernung:',
+	duration: 'Dauer:',
 } as const
 
 export const resourcesEn = {
@@ -75,6 +77,8 @@ export const resourcesEn = {
 		tollways: 'Tollways',
 		ferries: 'Ferries',
 	},
+	distance: 'Distance:',
+	duration: 'Duration:',
 } as const
 
 // first type will be used as fallback language

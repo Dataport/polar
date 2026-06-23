@@ -23,27 +23,25 @@
 					{{ $t(($) => $.label.details, { ns: PluginId }) }}
 				</KernButton>
 			</div>
-			<span> 4) Details </span>
+			<RoutingDetails v-if="showDetails" />
 		</section>
 	</PolarCard>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 
 import { useRoutingStore } from '../store.ts'
 import { PluginId } from '../types'
+import RoutingDetails from './RoutingDetails.ce.vue'
 import RoutingInput from './RoutingInput.ce.vue'
 import RoutingOptions from './RoutingOptions.ce.vue'
 
 const routingStore = useRoutingStore()
-const { route, routingResponseData } = storeToRefs(routingStore)
-
-const showDetails = ref(false)
+const { route, routingResponseData, showDetails } = storeToRefs(routingStore)
 </script>
 
 <style scoped>

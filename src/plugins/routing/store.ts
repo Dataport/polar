@@ -58,6 +58,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
 	const selectedTravelMode = ref('driving-car')
+	const showDetails = ref(false)
 
 	const configuration = computed(
 		() => (coreStore.configuration.routing || {}) as RoutingPluginOptions
@@ -266,6 +267,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		selectedTravelMode.value = 'driving-car'
 		selectedRouteTypesToAvoid.value = []
 		routingResponseData.value = null
+		showDetails.value = false
 		routeSource.clear()
 	}
 
@@ -290,6 +292,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * TODO(dopenguin)
 		 */
 		routingResponseData,
+
+		/**
+		 * TODO(dopenguin)
+		 */
+		showDetails,
 
 		/**
 		 * TODO(dopenguin)
