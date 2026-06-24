@@ -14,7 +14,6 @@
 				class="kern-form-input__select"
 				:disabled
 				:required
-				:multiple
 			>
 				<option v-if="defaultLabel" value="">{{ defaultLabel }}</option>
 				<option
@@ -45,11 +44,10 @@ const props = defineProps<{
 	defaultLabel?: string
 	disabled?: boolean
 	required?: boolean
-	multiple?: boolean
 	small?: boolean
 	id?: string
 }>()
-const model = defineModel<string | string[]>({ required: true })
+const model = defineModel<string>({ required: true })
 
 const fallbackId = useId()
 const resolvedId = computed(() => props.id || fallbackId)
