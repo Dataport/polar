@@ -11,18 +11,13 @@
 			/>
 			<RoutingOptions />
 			<hr class="kern-divider" aria-hidden="true" />
-			<div class="routing-button-wrapper">
-				<KernButton class="kern-btn--secondary" @click="routingStore.reset">
-					{{ $t(($) => $.label.reset, { ns: PluginId }) }}
-				</KernButton>
-				<KernButton
-					class="kern-btn--primary"
-					:disabled="routingResponseData === null"
-					@click="showDetails = !showDetails"
-				>
-					{{ $t(($) => $.label.details, { ns: PluginId }) }}
-				</KernButton>
-			</div>
+			<KernButton
+				class="kern-btn--secondary kern-btn--block"
+				@click="routingStore.reset"
+			>
+				{{ $t(($) => $.label.reset, { ns: PluginId }) }}
+			</KernButton>
+			<hr v-if="showDetails" class="kern-divider" aria-hidden="true" />
 			<RoutingDetails />
 		</section>
 	</PolarCard>
@@ -41,18 +36,11 @@ import RoutingInput from './RoutingInput.ce.vue'
 import RoutingOptions from './RoutingOptions.ce.vue'
 
 const routingStore = useRoutingStore()
-const { route, routingResponseData, showDetails } = storeToRefs(routingStore)
+const { route, showDetails } = storeToRefs(routingStore)
 </script>
 
 <style scoped>
 hr {
-	width: 100%;
-}
-
-.routing-button-wrapper {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-	gap: var(--kern-metric-space-small);
 	width: 100%;
 }
 </style>
