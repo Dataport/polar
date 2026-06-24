@@ -13,7 +13,8 @@
 			<PolarSelect
 				v-if="hasMultipleGroups"
 				v-model="selectedGroupId"
-				:aria-label="$t(($) => $.groupSelector, { ns: PluginId })"
+				:label="$t(($) => $.groupSelector, { ns: PluginId })"
+				:label-sr-only="true"
 				:options="
 					groupSelectOptions.map(({ groupId, text }) => ({
 						value: groupId,

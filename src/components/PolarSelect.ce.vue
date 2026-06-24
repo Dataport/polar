@@ -1,6 +1,10 @@
 <template>
 	<div class="kern-form-input">
-		<label v-if="label" class="kern-label" :for="resolvedId">
+		<label
+			:for="resolvedId"
+			class="kern-label"
+			:class="{ 'kern-sr-only': labelSrOnly }"
+		>
 			{{ label }}
 		</label>
 		<div class="kern-form-input__select-wrapper" :class="{ small }">
@@ -8,10 +12,8 @@
 				:id="resolvedId"
 				v-model="model"
 				class="kern-form-input__select"
-				:aria-label="ariaLabel"
 				:disabled
 				:required
-				:multiple
 			>
 				<option v-if="defaultLabel" value="">{{ defaultLabel }}</option>
 				<option
@@ -38,15 +40,14 @@ const props = defineProps<{
 		[key: string]: unknown
 	}[]
 	label?: string
-	ariaLabel?: string
+	labelSrOnly?: boolean
 	defaultLabel?: string
 	disabled?: boolean
 	required?: boolean
-	multiple?: boolean
 	small?: boolean
 	id?: string
 }>()
-const model = defineModel<string | string[]>({ required: true })
+const model = defineModel<string>({ required: true })
 
 const fallbackId = useId()
 const resolvedId = computed(() => props.id || fallbackId)

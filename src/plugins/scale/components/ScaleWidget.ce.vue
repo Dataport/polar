@@ -13,7 +13,8 @@
 			v-if="showScaleSwitcher"
 			v-model="zoomValue"
 			:options="zoomOptions"
-			:aria-label="$t(($) => $.scaleSwitcher, { ns: PluginId })"
+			:label="$t(($) => $.scaleSwitcher, { ns: PluginId })"
+			:label-sr-only="true"
 			small
 		/>
 		<span v-else class="scale-as-a-ratio">
