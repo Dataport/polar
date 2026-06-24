@@ -30,7 +30,6 @@
 				</th>
 			</tr>
 		</thead>
-
 		<tbody class="kern-table__body">
 			<tr
 				v-for="[key, value] of Object.entries(gfiStore.properties)"
