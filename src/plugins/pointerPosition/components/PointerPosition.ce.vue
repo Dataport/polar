@@ -7,7 +7,7 @@
 		<span class="kern-icon kern-icon--point-scan" aria-hidden="true" />
 		<PolarSelect
 			v-if="availableProjections.length > 1"
-			:value="String(selectedProjection)"
+			v-model="selectedProjection"
 			:options="
 				availableProjections.map((projection) => ({
 					value: projection.code,
@@ -15,12 +15,9 @@
 					ariaLabel: projection.code,
 				}))
 			"
-			:aria-label="$t(($) => $.projectionSelect.label, { ns: PluginId })"
+			:label="$t(($) => $.projectionSelect.label, { ns: PluginId })"
+			:label-sr-only="true"
 			small
-			@update:value="
-				(value) =>
-					(selectedProjection = Array.isArray(value) ? value[0] : value)
-			"
 		/>
 		<small v-else>
 			{{ selectedProjection }}

@@ -12,15 +12,15 @@
 			<!-- Mapping in template to guarantee update on language change-->
 			<PolarSelect
 				v-if="hasMultipleGroups"
-				:aria-label="$t(($) => $.groupSelector, { ns: PluginId })"
+				v-model="selectedGroupId"
+				:label="$t(($) => $.groupSelector, { ns: PluginId })"
+				:label-sr-only="true"
 				:options="
 					groupSelectOptions.map(({ groupId, text }) => ({
 						value: groupId,
 						label: $t(($) => $[text], { ns: PluginId }),
 					}))
 				"
-				:value="selectedGroupId"
-				@update:value="selectedGroupId = $event as string"
 			/>
 			<div class="polar-plugin-address-search-input-wrapper">
 				<span class="kern-icon kern-icon--search" aria-hidden="true" />
