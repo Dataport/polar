@@ -1,40 +1,82 @@
 <template>
-	<div class="routing-details-wrapper">
+	<p role="status" aria-live="polite" class="kern-sr-only">
+		{{
+			$t(($) => $.ariaLive, {
+				ns: PluginId,
+				steps: steps.length,
+				duration: formatDuration(duration),
+				distance: formatDistance(distance),
+			})
+		}}
+	</p>
+	<div v-show="showDetails" class="routing-details-wrapper">
 		<div class="routing-details-header">
 			<span>
-				{{ $t(($) => $.duration, { ns: PluginId }) }}
-				{{ formatDuration(duration) }} &nbsp;
+				{{
+					$t(($) => $.duration, {
+						ns: PluginId,
+						duration: formatDuration(duration),
+					})
+				}}
 			</span>
 			<span>
-				{{ $t(($) => $.distance, { ns: PluginId }) }}
-				{{ formatDistance(distance) }}
+				{{
+					$t(($) => $.distance, {
+						ns: PluginId,
+						distance: formatDistance(distance),
+					})
+				}}
 			</span>
 		</div>
-		<dl class="kern-description-list kern-description-list--col">
-			<div
+		<ol class="kern-description-list kern-description-list--col">
+			<li
 				v-for="(step, i) in steps"
 				:key="i"
 				class="kern-description-list-item"
 			>
-				<dt class="kern-description-list-item__key">{{ step.instruction }}</dt>
-				<dd class="kern-description-list-item__value">
-					{{ $t(($) => $.duration, { ns: PluginId }) }}
-					{{ formatDuration(step.duration) }},
-					{{ $t(($) => $.distance, { ns: PluginId }) }}
-					{{ formatDistance(step.distance) }}
-				</dd>
-			</div>
-		</dl>
+				<span class="routing-instruction">
+					{{ step.instruction }}
+				</span>
+				<div class="routing-badges">
+					<span
+						class="kern-badge"
+						:aria-label="
+							$t(($) => $.duration, {
+								ns: PluginId,
+								duration: formatDuration(step.duration),
+							})
+						"
+					>
+						<span class="kern-icon kern-icon--pace" aria-hidden="true" />
+						<span class="kern-label">{{ formatDuration(step.duration) }}</span>
+					</span>
+					<span
+						class="kern-badge"
+						:aria-label="
+							$t(($) => $.distance, {
+								ns: PluginId,
+								distance: formatDistance(step.distance),
+							})
+						"
+					>
+						<span class="kern-icon kern-icon--arrow-range" aria-hidden="true" />
+						<span class="kern-label">{{ formatDistance(step.distance) }}</span>
+					</span>
+				</div>
+			</li>
+		</ol>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 import { useRoutingStore } from '../store.ts'
 import { PluginId, type RouteSegment } from '../types'
 
 const routingStore = useRoutingStore()
+const { showDetails } = storeToRefs(routingStore)
 
 const segments = computed<RouteSegment[]>(() => {
 	// TODO(dopenguin): Check whether there is always only one feature
@@ -77,13 +119,49 @@ function formatDuration(duration: number) {
 		justify-content: center;
 		gap: var(--kern-metric-space-small);
 		margin-bottom: var(--kern-metric-space-small);
+
+		span {
+			font-size: var(--kern-typography-font-size-medium-static);
+		}
 	}
 
-	.kern-description-list-item {
-		padding: var(--kern-metric-space-small);
-		border-radius: var(--kern-metric-border-radius-default);
-		background-color: var(--kern-color-layout-background-hued);
-		white-space: break-spaces;
+	ol {
+		display: flex;
+		flex-direction: column;
+		gap: var(--kern-metric-space-small);
+
+		li {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: var(--kern-metric-space-small);
+			padding: var(--kern-metric-space-small);
+			padding-left: var(--kern-metric-space-default);
+			border-radius: var(--kern-metric-border-radius-default);
+			background-color: var(--kern-color-layout-background-hued);
+			white-space: break-spaces;
+			word-break: break-word;
+
+			.routing-instruction {
+				font-weight: var(--kern-typography-font-weight-label-default);
+				color: var(--kern-color-layout-text-default);
+			}
+
+			.routing-badges {
+				display: flex;
+				gap: var(--kern-metric-space-small);
+				width: 100%;
+				color: var(--kern-color-layout-text-default);
+
+				.kern-badge {
+					box-sizing: content-box;
+					justify-content: center;
+					width: var(--kern-metric-dimension-5x-large);
+					border: var(--kern-metric-border-width-light) solid
+						var(--kern-color-decorative-border-contextual);
+				}
+			}
+		}
 	}
 }
 </style>

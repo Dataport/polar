@@ -9,6 +9,8 @@
 
 import type { Locale } from '@/core'
 
+import { PluginId } from './types'
+
 export const resourcesDe = {
 	title: 'Routenplaner',
 	label: {
@@ -41,8 +43,9 @@ export const resourcesDe = {
 		tollways: 'Mautstraßen',
 		ferries: 'Fähren',
 	},
-	distance: 'Entfernung:',
-	duration: 'Dauer:',
+	ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
+	distance: 'Entfernung: {{distance}}',
+	duration: 'Dauer: {{duration}}',
 } as const
 
 export const resourcesEn = {
@@ -77,8 +80,9 @@ export const resourcesEn = {
 		tollways: 'Tollways',
 		ferries: 'Ferries',
 	},
-	distance: 'Distance:',
-	duration: 'Duration:',
+	ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
+	distance: 'Distance: {{distance}}',
+	duration: 'Duration: {{duration}}',
 } as const
 
 // first type will be used as fallback language

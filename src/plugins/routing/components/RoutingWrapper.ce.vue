@@ -23,7 +23,7 @@
 					{{ $t(($) => $.label.details, { ns: PluginId }) }}
 				</KernButton>
 			</div>
-			<RoutingDetails v-if="showDetails" />
+			<RoutingDetails />
 		</section>
 	</PolarCard>
 </template>
