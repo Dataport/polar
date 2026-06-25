@@ -21,8 +21,8 @@ import { Stroke, Style } from 'ol/style'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch, type WatchStopHandle } from 'vue'
 
-import { useT } from '@/core/composables/useT.ts'
 import { useCoreStore } from '@/core/stores'
+import { computedT } from '@/lib/computedT'
 
 import {
 	PluginId,
@@ -95,7 +95,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const selectablePreferences = computed(() =>
 		['recommended', 'fastest', 'shortest'].map((value) => ({
 			value,
-			label: useT(() => t(($) => $.preference[value], { ns: PluginId })),
+			label: computedT(() => t(($) => $.preference[value], { ns: PluginId })),
 		}))
 	)
 	const displayRouteTypesToAvoid = computed(
@@ -115,32 +115,35 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				'foot-walking',
 			]
 	)
+	// TODO(dopenguin): computedT Spaß prolly wieder ändern ._.
 	const travelModes = computed(() =>
 		(
 			[
 				{
 					value: 'driving-car',
-					label: useT(() => t(($) => $.travelMode.car, { ns: PluginId })),
+					label: computedT(() => t(($) => $.travelMode.car, { ns: PluginId })),
 					icon: 'kern-icon--directions-car',
 				},
 				{
 					value: 'driving-hgv',
-					label: useT(() => t(($) => $.travelMode.hgv, { ns: PluginId })),
+					label: computedT(() => t(($) => $.travelMode.hgv, { ns: PluginId })),
 					icon: 'kern-icon--local-shipping',
 				},
 				{
 					value: 'cycling-regular',
-					label: useT(() => t(($) => $.travelMode.bike, { ns: PluginId })),
+					label: computedT(() => t(($) => $.travelMode.bike, { ns: PluginId })),
 					icon: 'kern-icon--directions-bike',
 				},
 				{
 					value: 'foot-walking',
-					label: useT(() => t(($) => $.travelMode.walking, { ns: PluginId })),
+					label: computedT(() =>
+						t(($) => $.travelMode.walking, { ns: PluginId })
+					),
 					icon: 'kern-icon--directions-walk',
 				},
 				{
 					value: 'wheelchair',
-					label: useT(() =>
+					label: computedT(() =>
 						t(($) => $.travelMode.wheelchair, { ns: PluginId })
 					),
 					icon: 'kern-icon--accessible',

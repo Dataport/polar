@@ -1,29 +1,24 @@
 <template>
-	<fieldset class="polar-toggle-group">
+	<fieldset>
 		<legend class="kern-sr-only">{{ label }}</legend>
-		<label
-			v-for="option in options"
-			:key="option.value"
-			class="polar-toggle-group__option"
-		>
+		<label v-for="option in options" :key="option.value">
 			<input
 				v-model="model"
 				type="radio"
-				class="kern-sr-only"
 				:name="groupName"
 				:value="option.value"
 				:disabled="option.disabled"
+				:aria-label="unref(option.label)"
 			/>
-			<span class="kern-btn kern-btn--tertiary polar-toggle-group__face">
+			<span class="kern-btn kern-btn--tertiary" aria-hidden="true">
 				<span class="kern-icon" :class="option.icon" aria-hidden="true" />
-				<span class="kern-sr-only">{{ option.label }}</span>
 			</span>
 		</label>
 	</fieldset>
 </template>
 
 <script setup lang="ts">
-import { type Ref, useId } from 'vue'
+import { type Ref, unref, useId } from 'vue'
 
 import type { Icon } from '@/core'
 
@@ -37,12 +32,10 @@ interface PolarToggleOption {
 defineProps<{ label: string; options: PolarToggleOption[] }>()
 const model = defineModel<string>({ required: true })
 const groupName = useId()
-
-// TODO(dopenguin): Different color scheme for the buttons?
 </script>
 
 <style scoped>
-.polar-toggle-group {
+fieldset {
 	display: flex;
 	gap: var(--kern-metric-space-x-small);
 	width: 100%;
@@ -52,11 +45,23 @@ const groupName = useId()
 	background-color: var(--kern-color-layout-background-hued);
 	border-radius: var(--kern-metric-border-radius-default, 4px);
 
-	.polar-toggle-group__option {
+	label {
 		display: flex;
 		flex: 1;
+		position: relative;
 
-		.polar-toggle-group__face {
+		input {
+			position: absolute;
+			inset: 0;
+			opacity: 0;
+			margin: 0;
+
+			&:disabled {
+				cursor: not-allowed;
+			}
+		}
+
+		.kern-btn {
 			flex: 1;
 			border: solid transparent;
 			background: var(--kern-btn-background-color, transparent);
@@ -69,21 +74,46 @@ const groupName = useId()
 				);
 				transition: inherit;
 			}
+
+			@media (prefers-reduced-motion: reduce) {
+				transition: none;
+			}
+		}
+
+		&:hover {
+			> input:not(:disabled):not(:checked) + .kern-btn {
+				border-color: var(--kern-color-action-default);
+			}
+
+			> input:checked + .kern-btn {
+				background: var(--kern-color-action-state-indicator-shade-hover);
+			}
+		}
+
+		input:checked + .kern-btn {
+			--kern-btn-text-color: var(--kern-color-action-on-default-contextual);
+			--kern-btn-background-color: var(--kern-color-action-default);
+		}
+
+		input:focus-visible + .kern-btn {
+			outline: 2px solid var(--kern-color-action-default);
+			outline-offset: 2px;
+		}
+
+		input:disabled + .kern-btn {
+			opacity: 0.4;
+			cursor: not-allowed;
+		}
+
+		@media (forced-colors: active) {
+			input:checked + .kern-btn {
+				border-color: Highlight;
+			}
+
+			input:disabled + .kern-btn {
+				border-color: GrayText;
+			}
 		}
 	}
-}
-
-.polar-toggle-group__option:hover .polar-toggle-group__face {
-	border-color: var(--kern-color-action-default);
-}
-
-input:checked + .polar-toggle-group__face {
-	--kern-btn-text-color: var(--kern-color-action-on-default-contextual);
-	--kern-btn-background-color: var(--kern-color-action-default);
-}
-
-input:focus-visible + .polar-toggle-group__face {
-	outline: 2px solid var(--kern-color-action-default);
-	outline-offset: 2px;
 }
 </style>
