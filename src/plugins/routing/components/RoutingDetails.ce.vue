@@ -28,12 +28,8 @@
 				}}
 			</span>
 		</div>
-		<ol class="kern-description-list kern-description-list--col">
-			<li
-				v-for="(step, i) in steps"
-				:key="i"
-				class="kern-description-list-item"
-			>
+		<ol>
+			<li v-for="(step, i) in steps" :key="i">
 				<span class="routing-instruction">
 					{{ step.instruction }}
 				</span>
@@ -129,6 +125,7 @@ function formatDuration(duration: number) {
 		display: flex;
 		flex-direction: column;
 		gap: var(--kern-metric-space-small);
+		padding: 0;
 
 		li {
 			display: flex;
