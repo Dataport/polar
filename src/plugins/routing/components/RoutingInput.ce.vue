@@ -1,7 +1,7 @@
 <template>
 	<div class="polar-plugin-routing-route-wrapper">
 		<div class="kern-form-input">
-			<label class="kern-label" for="text">
+			<label class="kern-label" :for="`polar-plugin-routing-input-${index}`">
 				{{ $t(($) => $.label[getRouteLabel(index)], { ns: PluginId }) }}
 			</label>
 			<input
