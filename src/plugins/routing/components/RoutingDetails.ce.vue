@@ -9,9 +9,10 @@
 			})
 		}}
 	</p>
-	<div v-show="showDetails" class="routing-details-wrapper">
+	<section v-show="showDetails">
 		<div class="routing-details-header">
-			<span>
+			<h3>{{ $t(($) => $.label.details, { ns: PluginId }) }}</h3>
+			<span aria-hidden="true">
 				{{
 					$t(($) => $.duration, {
 						ns: PluginId,
@@ -19,7 +20,7 @@
 					})
 				}}
 			</span>
-			<span>
+			<span aria-hidden="true">
 				{{
 					$t(($) => $.distance, {
 						ns: PluginId,
@@ -28,7 +29,7 @@
 				}}
 			</span>
 		</div>
-		<ol>
+		<ol :aria-label="$t(($) => $.label.steps, { ns: PluginId })">
 			<li v-for="(step, i) in steps" :key="i">
 				<span class="routing-instruction">
 					{{ step.instruction }}
@@ -44,7 +45,9 @@
 						"
 					>
 						<span class="kern-icon kern-icon--pace" aria-hidden="true" />
-						<span class="kern-label">{{ formatDuration(step.duration) }}</span>
+						<span class="kern-label" aria-hidden="true">
+							{{ formatDuration(step.duration) }}
+						</span>
 					</span>
 					<span
 						class="kern-badge"
@@ -56,12 +59,14 @@
 						"
 					>
 						<span class="kern-icon kern-icon--arrow-range" aria-hidden="true" />
-						<span class="kern-label">{{ formatDistance(step.distance) }}</span>
+						<span class="kern-label" aria-hidden="true">
+							{{ formatDistance(step.distance) }}
+						</span>
 					</span>
 				</div>
 			</li>
 		</ol>
-	</div>
+	</section>
 </template>
 
 <script setup lang="ts">
@@ -107,14 +112,23 @@ function formatDuration(duration: number) {
 </script>
 
 <style scoped>
-.routing-details-wrapper {
+section {
 	margin-top: var(--kern-metric-space-small);
 
 	.routing-details-header {
+		position: relative;
 		display: flex;
 		justify-content: center;
 		gap: var(--kern-metric-space-small);
 		margin-bottom: var(--kern-metric-space-small);
+
+		h3 {
+			position: absolute;
+			inset: 0;
+			opacity: 0;
+			pointer-events: none;
+			margin: 0;
+		}
 
 		span {
 			font-size: var(--kern-typography-font-size-medium-static);
