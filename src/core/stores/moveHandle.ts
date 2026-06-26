@@ -1,7 +1,8 @@
-import { defineStore } from 'pinia'
-import { type Component, markRaw, ref } from 'vue'
-
+import type { Component } from 'vue'
 import type { Icon, MoveHandleProperties } from '../types'
+
+import { defineStore } from 'pinia'
+import { markRaw, ref } from 'vue'
 
 export const useMoveHandleStore = defineStore('moveHandle', () => {
 	const actionButton = ref<Component | null>(null)

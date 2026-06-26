@@ -4,20 +4,22 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { Reactive } from 'vue'
+import type {
+	Toast,
+	ToastOptions,
+	ToastPluginOptions,
+	ToastSeverity,
+	ToastTheme,
+} from './types'
+
 import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, type Reactive, ref, toRaw } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import {
-	PluginId,
-	type Toast,
-	type ToastOptions,
-	type ToastPluginOptions,
-	type ToastSeverity,
-	type ToastTheme,
-} from './types'
+import { PluginId } from './types'
 
 interface ToastItem {
 	toast: Toast

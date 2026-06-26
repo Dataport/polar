@@ -5,11 +5,12 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { AttributionsPluginOptions } from './types'
 
 import AttributionsWrapper from './components/AttributionsWrapper.ce.vue'
 import locales from './locales'
 import { useAttributionsStore } from './store'
-import { type AttributionsPluginOptions, PluginId } from './types'
+import { PluginId } from './types'
 
 /**
  * Creates a plugin which adds attributions (copyright information) regarding all currently active layers.

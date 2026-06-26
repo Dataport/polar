@@ -1,5 +1,6 @@
+import type { Feature } from 'ol'
+
 import { rawLayerList } from '@masterportal/masterportalapi'
-import { Feature } from 'ol'
 
 const supportedFormats = ['OAF', 'WFS']
 

@@ -1,8 +1,8 @@
+import type { MarkerStyle } from '../types'
+
 import PolygonStyle from '@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon'
 import Icon from 'ol/style/Icon'
 import Style from 'ol/style/Style'
-
-import type { MarkerStyle } from '../types'
 
 const polygonStyle = new PolygonStyle()
 

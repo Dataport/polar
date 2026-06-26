@@ -1,5 +1,4 @@
 import type { VueElement } from 'vue'
-
 import type { AddressSearchPluginOptions } from '@/plugins/addressSearch'
 import type { AttributionsPluginOptions } from '@/plugins/attributions'
 import type { ExportPluginOptions } from '@/plugins/export/types'
@@ -14,7 +13,6 @@ import type { PointerPositionPluginOptions } from '@/plugins/pointerPosition'
 import type { ReverseGeocoderPluginOptions } from '@/plugins/reverseGeocoder'
 import type { ScalePluginOptions } from '@/plugins/scale'
 import type { ToastPluginOptions } from '@/plugins/toast'
-
 import type defaults from '../utils/defaults'
 import type { LayerConfiguration } from './layer'
 import type { LocaleOverride } from './locales'

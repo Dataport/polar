@@ -4,7 +4,9 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { type Coordinate, createStringXY } from 'ol/coordinate'
+import type { Coordinate } from 'ol/coordinate'
+
+import { createStringXY } from 'ol/coordinate'
 import { transform } from 'ol/proj'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'

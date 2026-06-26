@@ -1,5 +1,4 @@
 import type { Component } from 'vue'
-
 import type { Icon, PluginContainer, PluginOptions } from '@/core'
 import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
 

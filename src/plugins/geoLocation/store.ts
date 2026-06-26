@@ -6,6 +6,7 @@
 
 import type { Coordinate } from 'ol/coordinate'
 import type { ObjectEvent } from 'ol/Object'
+import type { GeoLocationPluginOptions, PluginState } from './types'
 
 import { noop, toMerged } from 'es-toolkit'
 import { t } from 'i18next'
@@ -26,11 +27,7 @@ import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
 import { getTooltip } from '@/lib/tooltip'
 
-import {
-	type GeoLocationPluginOptions,
-	PluginId,
-	type PluginState,
-} from './types'
+import { PluginId } from './types'
 import { detectDeniedGeolocationEarly } from './utils/detectDeniedGeolocationEarly'
 import { getGeoLocationStyle } from './utils/olStyle'
 import { positionChanged } from './utils/positionChanged'

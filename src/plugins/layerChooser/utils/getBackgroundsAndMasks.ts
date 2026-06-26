@@ -1,6 +1,6 @@
-import { rawLayerList } from '@masterportal/masterportalapi'
-
 import type { LayerConfiguration } from '@/core'
+
+import { rawLayerList } from '@masterportal/masterportalapi'
 
 export const getBackgroundsAndMasks = (
 	layers: LayerConfiguration[]

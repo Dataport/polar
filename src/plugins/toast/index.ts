@@ -5,11 +5,12 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { ToastPluginOptions } from './types'
 
 import component from './components/ToastContainer.ce.vue'
 import locales from './locales'
 import { useToastStore } from './store'
-import { PluginId, type ToastPluginOptions } from './types'
+import { PluginId } from './types'
 
 /**
  * Creates a plugin which provides toast messages.

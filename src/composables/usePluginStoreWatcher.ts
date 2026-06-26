@@ -4,16 +4,10 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import {
-	computed,
-	type ComputedRef,
-	onScopeDispose,
-	watch,
-	type WatchOptions,
-	type WatchStopHandle,
-} from 'vue'
-
+import type { ComputedRef, WatchOptions, WatchStopHandle } from 'vue'
 import type { StoreReference } from '@/core/types'
+
+import { computed, onScopeDispose, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
