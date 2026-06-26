@@ -317,6 +317,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	return {
 		/**
 		 * The coordinates selected by the user.
+		 * If all coordinate pairs are filled, a route is requested.
 		 */
 		route,
 
