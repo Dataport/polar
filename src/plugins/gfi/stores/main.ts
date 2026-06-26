@@ -1,6 +1,7 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
 import type { Feature } from 'ol'
 
+import { GeoJSON } from 'ol/format'
 import { Fill, Stroke, Style } from 'ol/style'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
@@ -13,7 +14,6 @@ import {
 	type GfiPluginOptions,
 	PluginId,
 } from '../types'
-import { serializeFeature } from '../utils/serializeFeature'
 
 const defaultHighlightStyle = {
 	stroke: {
@@ -49,7 +49,7 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 			featureInformation.value = Object.fromEntries(
 				Object.entries(features).map(([layerId, features]) => [
 					layerId,
-					features.map((feature) => serializeFeature(feature)),
+					features.map((feature) => new GeoJSON().writeFeatureObject(feature)),
 				])
 			)
 		},

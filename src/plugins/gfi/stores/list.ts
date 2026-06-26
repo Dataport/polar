@@ -1,5 +1,6 @@
 import type { Feature } from 'ol'
 
+import { GeoJSON } from 'ol/format'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 
@@ -12,7 +13,6 @@ import { isVisible } from '@/lib/invisibleStyle'
 import type { FeatureList } from '../types'
 
 import { getSourceFeatures } from '../utils/getSourceFeatures'
-import { serializeFeature } from '../utils/serializeFeature'
 import { useGfiMainStore } from './main'
 
 export const useGfiListStore = defineStore('plugins/gfi/list', () => {
@@ -82,7 +82,9 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 							.filter(
 								(feature) =>
 									!layerConfiguration.isSelectable ||
-									layerConfiguration.isSelectable(serializeFeature(feature))
+									layerConfiguration.isSelectable(
+										new GeoJSON().writeFeatureObject(feature)
+									)
 							)
 							.map((feature) => ({
 								feature,
