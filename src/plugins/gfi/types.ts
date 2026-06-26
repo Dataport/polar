@@ -88,7 +88,7 @@ export interface GfiLayerConfiguration {
 	isSelectable?: (feature: GeoJsonFeature) => boolean
 
 	/**
-	 * In case `window` is `true`, this will be used to determine which contents to show.
+	 * In case {@link GfiLayerConfiguration.window | `window`} is `true`, this will be used to determine which contents to show.
 	 * The property names can be localized, regardless if this is set or all properties are shown.
 	 *
 	 * @defaultValue Display all properties
