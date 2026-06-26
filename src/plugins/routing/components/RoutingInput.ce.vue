@@ -59,7 +59,9 @@ const routeStore = useRoutingStore()
 
 const { currentlyFocusedInput, route } = storeToRefs(routeStore)
 
-// TODO(dopenguin): Add TSDoc
+/**
+ * This makes sure that there are always two fillable input fields at max.
+ */
 const addWaypointButtonDisabled = computed(() => {
 	return (
 		route.value.filter((part) => Boolean(part.length)).length <

@@ -115,7 +115,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				'foot-walking',
 			]
 	)
-	// TODO(dopenguin): computedT Spaß prolly wieder ändern ._.
 	const travelModes = computed(() =>
 		(
 			[
@@ -317,74 +316,103 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	return {
 		/**
-		 * TODO(dopenguin)
-		 */
-		currentlyFocusedInput,
-
-		/**
-		 * TODO(dopenguin)
+		 * The coordinates selected by the user.
 		 */
 		route,
 
 		/**
-		 * TODO(dopenguin)
+		 * The response of the routing service depending on the {@link route} and
+		 * other chosen options.
 		 */
 		routingResponseData,
 
 		/**
-		 * TODO(dopenguin)
+		 * The input that currently has focus.
+		 * Adds a draw interaction to the map if this value is not `-1` so the user
+		 * can add a coordinate for the selected waypoint.
+		 *
+		 * @alpha
 		 */
-		showDetails,
+		currentlyFocusedInput,
 
 		/**
-		 * TODO(dopenguin)
-		 */
-		selectedPreference,
-
-		/**
-		 * TODO(dopenguin)
-		 */
-		selectedTravelMode,
-
-		/**
-		 * TODO(dopenguin)
-		 */
-		displayPreferences,
-
-		/**
-		 * TODO(dopenguin)
+		 * The preferences of the route type that a user can select.
+		 *
+		 * @alpha
 		 */
 		selectablePreferences,
 
 		/**
-		 * TODO(dopenguin)
-		 */
-		displayRouteTypesToAvoid,
-
-		/**
-		 * TODO(dopenguin)
-		 */
-		selectedRouteTypesToAvoid,
-
-		/**
-		 * TODO(dopenguin)
+		 * The types of routes that a user can select to avoid on their route.
+		 *
+		 * @alpha
 		 */
 		selectableRouteTypesToAvoid,
 
 		/**
-		 * TODO(dopenguin)
+		 * The routing preference selected by the user.
+		 *
+		 * @alpha
+		 */
+		selectedPreference,
+
+		/**
+		 * The types of routes the user wishes to avoid on their route.
+		 *
+		 * @alpha
+		 */
+		selectedRouteTypesToAvoid,
+
+		/**
+		 * The selected mode of transportation by the user.
+		 *
+		 * @alpha
+		 */
+		selectedTravelMode,
+
+		/**
+		 * The modes of transportation a user can select.
+		 * Is constrained by {@link RoutingPluginOptions.selectableTravelModes}.
+		 *
+		 * @alpha
 		 */
 		travelModes,
 
 		/**
-		 * TODO(dopenguin)
+		 * Resets the state and clears the route layer source.
+		 *
+		 * @alpha
 		 */
 		reset,
 
 		/**
-		 * TODO(dopenguin)
+		 * Inserts an empty coordinate pair into the route.
+		 *
+		 * @alpha
 		 */
 		setRoute,
+
+		/**
+		 * Value of {@link RoutingPluginOptions.displayPreferences}.
+		 *
+		 * @internal
+		 */
+		displayPreferences,
+
+		/**
+		 * Value of {@link RoutingPluginOptions.displayRouteTypesToAvoid}.
+		 *
+		 * @internal
+		 */
+		displayRouteTypesToAvoid,
+
+		/**
+		 * Whether the route details should be displayed.
+		 * Is `true` if {@link routingResponseData} is not `null`.
+		 *
+		 * @internal
+		 */
+		showDetails,
 
 		/** @internal */
 		setupPlugin,
