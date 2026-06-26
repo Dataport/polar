@@ -4,8 +4,8 @@
 			$t(($) => $.pagination.entries, {
 				ns: 'shared',
 				start: startIndex + 1,
-				end: Math.min(props.count, startIndex + props.pageSize),
-				total: props.count,
+				end: Math.min(count, startIndex + pageSize),
+				total: count,
 			})
 		}}
 	</p>
