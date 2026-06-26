@@ -17,7 +17,6 @@
 			>
 				{{ $t(($) => $.label.reset, { ns: PluginId }) }}
 			</KernButton>
-			<hr v-if="showDetails" class="kern-divider" aria-hidden="true" />
 			<RoutingDetails />
 		</section>
 	</PolarCard>
@@ -36,7 +35,7 @@ import RoutingInput from './RoutingInput.ce.vue'
 import RoutingOptions from './RoutingOptions.ce.vue'
 
 const routingStore = useRoutingStore()
-const { route, showDetails } = storeToRefs(routingStore)
+const { route } = storeToRefs(routingStore)
 </script>
 
 <style scoped>

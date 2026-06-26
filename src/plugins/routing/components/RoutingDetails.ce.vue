@@ -1,14 +1,17 @@
 <template>
-	<p role="status" aria-live="polite" class="kern-sr-only">
-		{{
-			$t(($) => $.ariaLive, {
-				ns: PluginId,
-				steps: steps.length,
-				duration: formatDuration(duration),
-				distance: formatDistance(distance),
-			})
-		}}
-	</p>
+	<div class="routing-live-region">
+		<hr class="kern-divider" aria-hidden="true" />
+		<span role="status" aria-live="polite">
+			{{
+				$t(($) => $.ariaLive, {
+					ns: PluginId,
+					steps: steps.length,
+					duration: formatDuration(duration),
+					distance: formatDistance(distance),
+				})
+			}}
+		</span>
+	</div>
 	<section v-show="showDetails">
 		<div class="routing-details-header">
 			<h3>{{ $t(($) => $.label.details, { ns: PluginId }) }}</h3>
@@ -112,6 +115,23 @@ function formatDuration(duration: number) {
 </script>
 
 <style scoped>
+.routing-live-region {
+	position: relative;
+	width: 100%;
+
+	hr {
+		width: 100%;
+	}
+
+	span {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		pointer-events: none;
+		margin: calc(-1 * var(--kern-metric-space-small)) 0;
+	}
+}
+
 section {
 	margin-top: var(--kern-metric-space-small);
 
