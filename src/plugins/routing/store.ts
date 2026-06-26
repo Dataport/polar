@@ -165,7 +165,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			headers: {
 				/* eslint-disable @typescript-eslint/naming-convention */
 				'Content-Type': 'application/json',
-				Authorization: configuration.value.apiKey as string, // TODO(dopenguin): Update function as this is now optional
+				...(configuration.value.apiKey && {
+					Authorization: configuration.value.apiKey,
+				}),
 				/* eslint-enable @typescript-eslint/naming-convention */
 			},
 			body: JSON.stringify({
