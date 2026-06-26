@@ -45,6 +45,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const routeSource = new VectorSource()
 	let routeLayer: VectorLayer | undefined
+	let abortController: AbortController | null = null
 	let draw: Draw | undefined
 
 	let stopRouteWatch: WatchStopHandle | undefined
@@ -161,7 +162,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		)
 	}
 
-	async function fetchRoute(): Promise<RoutingResponseData> {
+	async function fetchRoute(signal: AbortSignal): Promise<RoutingResponseData> {
 		const response = await fetch(encodeURI(url.value), {
 			method: 'POST',
 			headers: {
@@ -183,6 +184,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				preference: selectedPreference.value,
 				units: 'm',
 			}),
+			signal,
 		})
 		if (!response.ok) {
 			throw new Error(
@@ -194,9 +196,13 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	async function getRoute() {
 		routeSource.clear()
+		if (abortController) {
+			abortController.abort()
+		}
+		abortController = new AbortController()
+		const { signal } = abortController
 		try {
-			// TODO(dopenguin): Add AbortController
-			routingResponseData.value = await fetchRoute()
+			routingResponseData.value = await fetchRoute(signal)
 
 			if (!routeFeature.value) {
 				throw new Error(t(($) => $.noFeature, { ns: PluginId }))
@@ -215,7 +221,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				})
 			)
 		} catch (error) {
-			handleErrors(error)
+			if (!signal.aborted) {
+				handleErrors(error)
+			}
 		}
 	}
 
@@ -311,6 +319,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		selectedRouteTypesToAvoid.value = []
 		routingResponseData.value = null
 		routeSource.clear()
+
+		if (abortController) {
+			abortController.abort()
+			abortController = null
+		}
 	}
 
 	function setRoute(index: number, remove = false) {
