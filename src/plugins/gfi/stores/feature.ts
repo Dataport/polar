@@ -173,22 +173,6 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		gfiMainStore.getLayerConfiguration(selectedFeature.value?.layerId || '')
 	)
 
-	const selectedFeaturePropertiesLayerConfiguration = computed(
-		() => selectedFeatureLayerConfiguration.value?.properties
-	)
-
-	const selectedFeatureProperties = computed(() =>
-		Object.fromEntries(
-			Object.entries(selectedFeature.value?.feature.properties || {})
-				.filter(
-					([key]) =>
-						!selectedFeaturePropertiesLayerConfiguration.value ||
-						selectedFeaturePropertiesLayerConfiguration.value.includes(key)
-				)
-				.map(([key, value]) => [key, value])
-		)
-	)
-
 	const exportPropertyLayerConfiguration = computed(
 		() => selectedFeatureLayerConfiguration.value?.exportProperty
 	)
@@ -199,6 +183,26 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 					exportPropertyLayerConfiguration.value
 				]
 			: null
+	)
+
+	const selectedFeaturePropertiesLayerConfiguration = computed(
+		() => selectedFeatureLayerConfiguration.value?.properties
+	)
+
+	const selectedFeatureProperties = computed(() =>
+		Object.fromEntries(
+			Object.entries(selectedFeature.value?.feature.properties || {})
+				.filter(
+					([key]) =>
+						(!selectedFeaturePropertiesLayerConfiguration.value ||
+							selectedFeaturePropertiesLayerConfiguration.value.includes(
+								key
+							)) &&
+						(!exportPropertyLayerConfiguration.value ||
+							key !== exportPropertyLayerConfiguration.value)
+				)
+				.map(([key, value]) => [key, value])
+		)
 	)
 
 	watch(

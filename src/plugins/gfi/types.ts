@@ -40,6 +40,8 @@ export const PluginId = 'gfi'
 export interface GfiLayerConfiguration {
 	/**
 	 * Property of the features of a service having a url usable to trigger a download of features as a document.
+	 *
+	 * If defined, that property is hidden within the properties.
 	 */
 	exportProperty?: string
 
