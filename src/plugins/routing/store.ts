@@ -27,6 +27,7 @@ import { computedT } from '@/lib/computedT'
 import {
 	PluginId,
 	type RoutingPluginOptions,
+	type RoutingResponseData,
 	type SelectableTravelMode,
 	type TravelMode,
 } from './types.ts'
@@ -51,9 +52,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
-	const routingResponseData = ref<FeatureCollection<GeoJsonLineString> | null>(
-		null
-	)
+	const routingResponseData = ref<RoutingResponseData | null>(null)
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
 	const selectedTravelMode = ref('driving-car')
@@ -84,6 +83,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				'EPSG:4326'
 			)
 		)
+	)
+	const routeFeature = computed(
+		() => routingResponseData.value?.features[0] ?? null
 	)
 	const showDetails = computed(() => routingResponseData.value !== null)
 	const url = computed(
@@ -159,7 +161,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		)
 	}
 
-	async function fetchRoute() {
+	async function fetchRoute(): Promise<RoutingResponseData> {
 		const response = await fetch(encodeURI(url.value), {
 			method: 'POST',
 			headers: {
@@ -187,7 +189,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				'Route could not be determined. Try different coordinates.'
 			)
 		}
-		// TODO(dopenguin): Update type
 		return response.json()
 	}
 
@@ -195,13 +196,15 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		routeSource.clear()
 		try {
 			// TODO(dopenguin): Add AbortController
-			const data = await fetchRoute()
-			routingResponseData.value = data
+			routingResponseData.value = await fetchRoute()
 
+			if (!routeFeature.value) {
+				throw new Error(t(($) => $.noFeature, { ns: PluginId }))
+			}
 			routeSource.addFeature(
 				new Feature({
 					geometry: new LineString(
-						data.features[0].geometry.coordinates.map((coordinate) =>
+						routeFeature.value.geometry.coordinates.map((coordinate) =>
 							transform(
 								coordinate,
 								'EPSG:4326',
@@ -408,6 +411,14 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * @internal
 		 */
 		displayRouteTypesToAvoid,
+
+		/**
+		 * The feature of the {@link routingResponseData}.
+		 * The ORS only returns one feature that is instead split in 1 to n segments.
+		 *
+		 * @internal
+		 */
+		routeFeature,
 
 		/**
 		 * Whether the route details should be displayed.

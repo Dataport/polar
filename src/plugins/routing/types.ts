@@ -1,3 +1,7 @@
+import type {
+	FeatureCollection,
+	LineString as GeoJsonLineString,
+} from 'geojson'
 import type { Ref } from 'vue'
 
 import type { Icon, PluginOptions } from '@/core'
@@ -28,6 +32,11 @@ export interface RouteSegment {
 	duration: number
 	steps: RouteStep[]
 }
+
+export type RoutingResponseData = FeatureCollection<
+	GeoJsonLineString,
+	{ segments: RouteSegment[] }
+>
 
 export interface RoutingPluginOptions extends PluginOptions {
 	/**

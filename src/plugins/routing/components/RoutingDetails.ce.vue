@@ -77,19 +77,14 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 import { useRoutingStore } from '../store.ts'
-import { PluginId, type RouteSegment } from '../types'
+import { PluginId } from '../types'
 
 const routingStore = useRoutingStore()
 const { showDetails } = storeToRefs(routingStore)
 
-const segments = computed<RouteSegment[]>(() => {
-	// The ORS only returns one feature that is instead split in 1 to n segments
-	const feature = routingStore.routingResponseData?.features[0]
-	if (!feature || !feature.properties) {
-		return []
-	}
-	return feature.properties.segments
-})
+const segments = computed(
+	() => routingStore.routeFeature?.properties.segments ?? []
+)
 const distance = computed(() =>
 	segments.value.reduce((acc, segment) => acc + segment.distance, 0)
 )

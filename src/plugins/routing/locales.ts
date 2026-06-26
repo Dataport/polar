@@ -45,6 +45,8 @@ export const resourcesDe = {
 	ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
 	distance: 'Entfernung: {{distance}}',
 	duration: 'Dauer: {{duration}}',
+	noFeature:
+		'Die Route konnte nicht ermittelt werden. Versuchen Sie es mit anderen Koordinaten.',
 } as const
 
 export const resourcesEn = {
@@ -83,6 +85,7 @@ export const resourcesEn = {
 	ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
 	distance: 'Distance: {{distance}}',
 	duration: 'Duration: {{duration}}',
+	noFeature: 'Route could not be determined. Try different coordinates.',
 } as const
 
 // first type will be used as fallback language
