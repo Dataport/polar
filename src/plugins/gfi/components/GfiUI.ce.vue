@@ -58,7 +58,6 @@ const gfiStore = useGfiStore()
 			var(--kern-metric-dimension-5x-large) +
 				var(--kern-metric-dimension-5x-large)
 		);
-		margin: var(--kern-metric-space-small);
 		max-height: 80%;
 		overflow: auto;
 	}
