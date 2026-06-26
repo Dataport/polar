@@ -1,0 +1,47 @@
+name: Feature request
+description: Suggest a new feature or enhancement.
+type: Feature
+assignees: []
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of the feature you'd like to see.
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-behavior
+    attributes:
+      label: Current behavior
+      description: Describe the current behavior and reference relevant files or code if applicable.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Describe the desired behavior after the feature is implemented.
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected-areas
+    attributes:
+      label: Affected areas
+      description: List files, modules, or components that would need changes. Use a table or list format.
+      placeholder: |
+        | File | What needs to change |
+        | --- | --- |
+        | `src/...` | Description of the change |
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      description: Explicitly note what is NOT part of this feature request including future work that is intentionally excluded.
+    validations:
+      required: true
