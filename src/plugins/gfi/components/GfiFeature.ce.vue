@@ -1,23 +1,32 @@
 <template>
-	<div
-		style="
-			width: 100%;
-			display: flex;
-			justify-content: flex-end;
-			gap: var(--kern-metric-space-default);
-		"
-	>
-		<PolarIconButton
-			v-if="gfiStore.exportProperty"
-			:hint="$t(($) => $.property.export, { ns: PluginId })"
-			icon="kern-icon--download"
-			@click="startDownload(gfiStore.exportProperty)"
-		/>
-		<PolarIconButton
-			:hint="$t(($) => $.header.close, { ns: PluginId })"
-			icon="kern-icon--close"
-			@click="gfiStore.selectedFeatures = {}"
-		/>
+	<div class="action-bar">
+		<div class="action-bar-group">
+			<PolarIconButton
+				v-if="gfiStore.featureIndex > 0"
+				:hint="$t(($) => $.switch.previous, { ns: PluginId })"
+				icon="kern-icon--arrow-back"
+				@click="gfiStore.featureIndex--"
+			/>
+			<PolarIconButton
+				v-if="gfiStore.featureIndex + 1 < gfiStore.features.length"
+				:hint="$t(($) => $.switch.next, { ns: PluginId })"
+				icon="kern-icon--arrow-forward"
+				@click="gfiStore.featureIndex++"
+			/>
+		</div>
+		<div class="action-bar-group">
+			<PolarIconButton
+				v-if="gfiStore.exportProperty"
+				:hint="$t(($) => $.property.export, { ns: PluginId })"
+				icon="kern-icon--download"
+				@click="startDownload(gfiStore.exportProperty)"
+			/>
+			<PolarIconButton
+				:hint="$t(($) => $.header.close, { ns: PluginId })"
+				icon="kern-icon--close"
+				@click="gfiStore.selectedFeatures = {}"
+			/>
+		</div>
 	</div>
 	<table class="kern-table kern-table--striped">
 		<thead class="kern-table__head">
@@ -103,6 +112,17 @@ function startDownload(url: string) {
 </script>
 
 <style scoped>
+.action-bar {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+
+	.action-bar-group {
+		display: flex;
+		gap: var(--kern-metric-space-default);
+	}
+}
+
 td {
 	white-space: normal;
 }
