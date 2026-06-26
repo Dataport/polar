@@ -83,7 +83,7 @@ const routingStore = useRoutingStore()
 const { showDetails } = storeToRefs(routingStore)
 
 const segments = computed<RouteSegment[]>(() => {
-	// TODO(dopenguin): Check whether there is always only one feature
+	// The ORS only returns one feature that is instead split in 1 to n segments
 	const feature = routingStore.routingResponseData?.features[0]
 	if (!feature || !feature.properties) {
 		return []
