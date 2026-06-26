@@ -155,8 +155,8 @@ ul {
 	}
 
 	.kern-label {
-		font-size: var(--kern-typography-font-size-static-small);
-		line-height: var(--kern-typography-line-height-static-medium);
+		font-size: var(--kern-typography-font-size-small-static);
+		line-height: var(--kern-typography-line-height-medium-static);
 	}
 }
 </style>
