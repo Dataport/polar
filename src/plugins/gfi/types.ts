@@ -297,7 +297,7 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 
 	/**
 	 * If defined, a list of available vector layer features is visible when no feature is selected.
-	 * Only usable if `renderType` is set to `iconMenu` and `window` is set to `true` for at least one configured layer.
+	 * Only usable if {@link GfiPluginOptions.renderType | `renderType`} is set to `iconMenu` and {@link GfiLayerConfiguration.window | `window`} is set to `true` for at least one configured layer.
 	 */
 	featureList?: FeatureList
 
