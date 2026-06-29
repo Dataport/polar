@@ -23,13 +23,15 @@
 </template>
 
 <script setup lang="ts">
+import type { ToastSeverity } from '../types'
+
 import { computed } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import { getCssColor } from '@/lib/getCssColor'
 
 import { useToastStore } from '../store'
-import { PluginId, type ToastSeverity } from '../types'
+import { PluginId } from '../types'
 
 const store = useToastStore()
 

@@ -1,14 +1,15 @@
+import type {
+	FilterConfiguration,
+	FilterPluginOptions,
+	FilterState,
+} from '../types'
+
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import {
-	type FilterConfiguration,
-	type FilterPluginOptions,
-	type FilterState,
-	PluginId,
-} from '../types'
+import { PluginId } from '../types'
 
 export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 	const coreStore = useCoreStore()

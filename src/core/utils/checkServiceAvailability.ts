@@ -1,14 +1,15 @@
+import type {
+	MapConfiguration,
+	MasterportalApiServiceRegister,
+	ServiceAvailabilityCheck,
+} from '../types'
+
 import { ping } from '@masterportal/masterportalapi'
 import { t } from 'i18next'
 
 import { notifyUser } from '@/lib/notifyUser'
 
-import {
-	CoreId,
-	type MapConfiguration,
-	type MasterportalApiServiceRegister,
-	type ServiceAvailabilityCheck,
-} from '../types'
+import { CoreId } from '../types'
 
 export function checkServiceAvailability(
 	configuration: MapConfiguration,

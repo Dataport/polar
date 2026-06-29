@@ -1,6 +1,6 @@
-import { Parser, processors } from 'xml2js'
-
 import type { ReverseGeocoderFeature } from '../types'
+
+import { Parser, processors } from 'xml2js'
 
 const buildPostBody = ([x, y]: [number, number]) => `<wps:Execute
 	xmlns:wps='http://www.opengis.net/wps/1.0.0'

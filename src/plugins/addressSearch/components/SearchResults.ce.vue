@@ -89,6 +89,8 @@
 </template>
 
 <script setup lang="ts">
+import type { SearchResult } from '../types'
+
 import { storeToRefs } from 'pinia'
 import { computed, nextTick, ref, toRaw, watch } from 'vue'
 
@@ -96,7 +98,7 @@ import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useAddressSearchStore } from '../store'
-import { PluginId, type SearchResult } from '../types'
+import { PluginId } from '../types'
 import { focusFirstResult } from '../utils/focusFirstResult'
 import { strongTitleByInput } from '../utils/strongTitleByInput'
 

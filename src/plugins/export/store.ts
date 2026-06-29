@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { Interaction } from 'ol/interaction'
+import type { ExportFormat } from './types'
 
 import { t } from 'i18next'
 import { defineStore } from 'pinia'
@@ -12,8 +13,6 @@ import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { notifyUser } from '@/lib/notifyUser'
-
-import type { ExportFormat } from './types'
 
 import { EXPORT_FORMATS, PluginId } from './types'
 import { convertToPdf } from './utils/convertToPdf'

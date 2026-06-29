@@ -22,10 +22,12 @@
 </template>
 
 <script setup lang="ts">
+import type { LayerLegend } from '../types'
+
 import { computed } from 'vue'
 
 import { useLayerChooserStore } from '../store'
-import { type LayerLegend, PluginId } from '../types'
+import { PluginId } from '../types'
 import LayerInformationCard from './LayerInformationCard.ce.vue'
 
 const layerChooserStore = useLayerChooserStore()

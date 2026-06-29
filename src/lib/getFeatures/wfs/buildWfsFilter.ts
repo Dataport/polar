@@ -1,6 +1,6 @@
-import { toMerged } from 'es-toolkit'
-
 import type { KeyValueSetArray, WfsParameters } from '../types'
+
+import { toMerged } from 'es-toolkit'
 
 const removeLinebreaks = (s) => s.replace(/\r?\n|\r/g, '')
 

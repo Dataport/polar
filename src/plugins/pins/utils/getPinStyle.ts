@@ -1,6 +1,6 @@
-import { Icon, Style } from 'ol/style'
-
 import type { PinStyle } from '../types'
+
+import { Icon, Style } from 'ol/style'
 
 import { getPinSvg } from './getPinSvg'
 

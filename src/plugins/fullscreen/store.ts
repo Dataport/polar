@@ -5,13 +5,14 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { Reactive } from 'vue'
+import type { FullscreenPluginOptions } from './types'
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import { type FullscreenPluginOptions, PluginId } from './types'
+import { PluginId } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**

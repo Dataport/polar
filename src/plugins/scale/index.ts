@@ -5,11 +5,12 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { ScalePluginOptions } from './types'
 
 import component from './components/ScaleWidget.ce.vue'
 import locales from './locales'
 import { useScaleStore } from './store'
-import { PluginId, type ScalePluginOptions } from './types'
+import { PluginId } from './types'
 
 export { beautifyScale } from './utils/beautifyScale'
 export { calculateScaleFromResolution } from './utils/calculateScaleFromResolution'
