@@ -13,7 +13,7 @@ import {
 	type WatchStopHandle,
 } from 'vue'
 
-import type { StoreReference } from '@/core/types'
+import type { WatcherStoreReference } from '@/core/types'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -22,9 +22,12 @@ import { useCoreStore } from '@/core/stores'
  * @internal
  */
 interface WatcherConfig {
-	callback: (value: unknown) => void | Promise<void>
+	callback: (
+		value: unknown,
+		source: WatcherStoreReference
+	) => void | Promise<void>
 	handle: WatchStopHandle | null
-	source: StoreReference
+	source: WatcherStoreReference
 }
 
 /**
@@ -54,10 +57,10 @@ interface WatcherConfig {
  */
 export function usePluginStoreWatcher(
 	sources:
-		| StoreReference[]
-		| ComputedRef<StoreReference[]>
-		| (() => StoreReference[]),
-	callback: (value: unknown) => void | Promise<void>,
+		| WatcherStoreReference[]
+		| ComputedRef<WatcherStoreReference[]>
+		| (() => WatcherStoreReference[]),
+	callback: WatcherConfig['callback'],
 	watchOptions?: WatchOptions
 ) {
 	const coreStore = useCoreStore()
@@ -88,14 +91,26 @@ export function usePluginStoreWatcher(
 
 		if (!store) {
 			console.warn(
-				`usePluginStoreWatcher: "${watcherConfig.source.plugin}" not found. Cannot watch "${watcherConfig.source.key}".`
+				`"${watcherConfig.source.plugin}" not found. Cannot watch "${watcherConfig.source.key}".`
 			)
 			return
 		}
 
 		watcherConfig.handle = watch(
 			() => store[watcherConfig.source.key],
-			watcherConfig.callback,
+			(value) => {
+				const sourceKey = watcherConfig.source.key + 'Source'
+				if (
+					sourceKey in store &&
+					typeof store[sourceKey] === 'string' &&
+					((watcherConfig.source.ignoredSources ?? []) as string[]).includes(
+						store[sourceKey]
+					)
+				) {
+					return
+				}
+				return watcherConfig.callback(value, watcherConfig.source)
+			},
 			watchOptions
 		)
 	}

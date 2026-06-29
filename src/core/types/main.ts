@@ -33,6 +33,10 @@ export interface StoreReference {
 	plugin?: PluginId
 }
 
+export interface WatcherStoreReference extends StoreReference {
+	ignoredSources?: ('core' | 'user' | PluginId)[]
+}
+
 export type InitialLanguage = 'de' | 'en'
 
 export interface PolarMapOptions {

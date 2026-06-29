@@ -10,22 +10,23 @@ import type { Coordinate } from 'ol/coordinate'
 
 import { toMerged } from 'es-toolkit'
 import { pointerMove } from 'ol/events/condition'
-import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
 import { Draw, Modify, Select, Translate } from 'ol/interaction'
-import VectorLayer from 'ol/layer/Vector'
 import { toLonLat } from 'ol/proj'
-import { Vector } from 'ol/source'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import type { PolarGeoJsonFeature } from '@/core'
-
 import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
+import {
+	type PluginId,
+	type PolarGeoJsonFeature,
+	type StoreReference,
+} from '@/core'
 import { useCoreStore } from '@/core/stores'
 
 import type { PinMovable, PinsPluginOptions } from './types'
 
+import { usePinLayer } from './composables/usePinLayer'
 import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
 import { isCoordinateInBoundaryLayer } from './utils/isCoordinateInBoundaryLayer'
@@ -42,6 +43,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	const coreStore = useCoreStore()
 
 	const coordinate = ref<Coordinate | null>(null)
+	const coordinateSource = ref<'core' | 'user' | PluginId | null>(null)
 	const getsDragged = ref(false)
 
 	const configuration = computed<
@@ -64,10 +66,10 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		return [lonLat[1], lonLat[0]]
 	})
 
-	const pinLayer = new VectorLayer({
-		source: new Vector(),
-		style: getPinStyle(configuration.value.style || {}),
-	})
+	const { pinLayer } = usePinLayer(
+		coordinate,
+		getPinStyle(configuration.value.style || {})
+	)
 	const move = new Select({
 		layers: (l) => l === pinLayer,
 		style: null,
@@ -82,11 +84,12 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 
 	usePluginStoreWatcher(
 		() => configuration.value.coordinateSources || [],
-		(value: unknown) => {
+		(value: unknown, source: StoreReference) => {
 			const feature = value as PolarGeoJsonFeature<GeoJsonPoint> | null
 			// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
 			// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
 			if (feature && feature.type !== 'reverse_geocoded') {
+				coordinateSource.value = source.plugin ?? 'core'
 				addPin(feature.geometry.coordinates, false, {
 					type: feature.geometry.type,
 				})
@@ -105,7 +108,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	function teardownPlugin() {
 		const { map } = coreStore
 		map.un('singleclick', onSingleClick)
-		removePin()
 		map.removeLayer(pinLayer)
 		map.removeInteraction(move)
 		map.removeInteraction(translate)
@@ -157,6 +159,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 					: geometryCoordinates
 
 				if (newCoordinate) {
+					coordinateSource.value = 'user'
 					addPin(newCoordinate)
 				}
 			})
@@ -197,6 +200,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 				configuration.value.boundary
 			))
 		) {
+			coordinateSource.value = 'user'
 			addPin(coordinate)
 		}
 	}
@@ -209,9 +213,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			epsg?: string
 		}
 	) {
-		// Always clean up other/old pin first – single pin only atm.
-		removePin()
-		coordinate.value = newCoordinate
 		if (!clicked && pinInformation) {
 			coordinate.value = getPointCoordinate(
 				pinInformation.epsg || coreStore.configuration.epsg,
@@ -221,19 +222,9 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			)
 			coreStore.map.getView().setCenter(coordinate.value)
 			coreStore.map.getView().setZoom(configuration.value.toZoomLevel)
+		} else {
+			coordinate.value = newCoordinate
 		}
-		;(pinLayer.getSource() as Vector).addFeature(
-			new Feature({
-				geometry: new Point(coordinate.value),
-				type: 'point',
-				name: 'mapMarker',
-				zIndex: 100,
-			})
-		)
-	}
-
-	function removePin() {
-		;(pinLayer.getSource() as Vector).clear()
 	}
 
 	return {
@@ -241,6 +232,14 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		 * Current coordinate of the pin.
 		 */
 		coordinate,
+
+		/**
+		 * The plugin that is the source of the current coordinate.
+		 * This can be used by other plugins to e.g. determine whether they should react to a coordinate change or not.
+		 *
+		 * @readonly
+		 */
+		coordinateSource: computed(() => coordinateSource.value),
 
 		/**
 		 * The {@link coordinate | pinCoordinate} transcribed to latitude / longitude.
