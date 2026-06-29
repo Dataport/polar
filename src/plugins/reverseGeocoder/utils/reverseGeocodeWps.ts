@@ -32,9 +32,10 @@ const parser = new Parser({
 	tagNameProcessors: [processors.stripPrefix],
 })
 
-export async function reverseGeocode(
+export async function reverseGeocodeWps(
 	url: string,
 	coordinate: [number, number],
+	_epsg: string,
 	signal: AbortSignal
 ): Promise<ReverseGeocoderFeature> {
 	const response = await fetch(url, {
@@ -136,10 +137,12 @@ if (import.meta.vitest) {
 		const fetchMock = vi.spyOn(global, 'fetch').mockResolvedValueOnce({
 			text: () => Promise.resolve(testResponse),
 		} as Response)
+
 		const abortController = new AbortController()
-		const feature = await reverseGeocode(
+		const feature = await reverseGeocodeWps(
 			testUrl,
 			testCoordinates,
+			'EPSG:25832',
 			abortController.signal
 		)
 

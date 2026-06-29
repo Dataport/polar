@@ -20,7 +20,8 @@ import {
 	type ReverseGeocoderFeature,
 	type ReverseGeocoderPluginOptions,
 } from './types'
-import { reverseGeocode as reverseGeocodeUtil } from './utils/reverseGeocode'
+import { reverseGeocodeNominatim } from './utils/reverseGeocodeNominatim'
+import { reverseGeocodeWps } from './utils/reverseGeocodeWps'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -77,9 +78,14 @@ export const useReverseGeocoderStore = defineStore(
 			abortController.value = new AbortController()
 			const signal = toRaw(abortController.value.signal)
 			try {
+				const reverseGeocodeUtil = {
+					wps: reverseGeocodeWps,
+					nominatim: reverseGeocodeNominatim,
+				}[configuration.value.type]
 				const feature = await reverseGeocodeUtil(
 					configuration.value.url,
 					coordinate,
+					coreStore.configuration.epsg,
 					signal
 				)
 				if (configuration.value.addressTarget) {
@@ -129,12 +135,12 @@ if (import.meta.vitest) {
 	const { createPinia, setActivePinia } = await import('pinia')
 	const { reactive } = await import('vue')
 	const useCoreStoreFile = await import('@/core/stores')
-	const reverseGeocodeUtilFile = await import('./utils/reverseGeocode')
+	const reverseGeocodeUtilFile = await import('./utils/reverseGeocodeWps')
 	const indicateLoadingFile = await import('@/lib/indicateLoading')
 
 	/* eslint-disable no-empty-pattern */
 	const test = _test.extend<{
-		reverseGeocodeUtil: Mock<typeof reverseGeocodeUtil>
+		reverseGeocodeUtil: Mock<typeof reverseGeocodeWps>
 		indicateLoading: Mock<typeof indicateLoading>
 		coreStore: Reactive<Record<string, unknown>>
 		store: ReturnType<typeof useReverseGeocoderStore>
@@ -142,7 +148,7 @@ if (import.meta.vitest) {
 		reverseGeocodeUtil: [
 			async ({}, use) => {
 				const reverseGeocodeUtil = vi
-					.spyOn(reverseGeocodeUtilFile, 'reverseGeocode')
+					.spyOn(reverseGeocodeUtilFile, 'reverseGeocodeWps')
 					.mockResolvedValue(null as unknown as ReverseGeocoderFeature)
 				await use(reverseGeocodeUtil)
 			},
@@ -167,7 +173,9 @@ if (import.meta.vitest) {
 				}
 				const coreStore = reactive({
 					configuration: {
+						epsg: 'EPSG:25832',
 						[PluginId]: {
+							type: 'wps',
 							url: 'https://wps.example',
 							coordinateSources: [{ plugin: 'pins', key: 'coordinate' }],
 							addressTarget: { key: 'addressTarget' },
@@ -211,9 +219,10 @@ if (import.meta.vitest) {
 		}
 		pluginStore.pins.coordinate = [1, 2]
 		await new Promise((resolve) => setTimeout(resolve))
-		expect(reverseGeocodeUtil).toHaveBeenCalledWith(
+		expect(reverseGeocodeUtil).toHaveBeenCalledExactlyOnceWith(
 			'https://wps.example',
 			[1, 2],
+			'EPSG:25832',
 			store.abortController?.signal
 		)
 	})
@@ -228,8 +237,7 @@ if (import.meta.vitest) {
 			feature as unknown as ReverseGeocoderFeature
 		)
 		await store.reverseGeocode([3, 4])
-		expect(coreStore.addressTarget).toHaveBeenCalledOnce()
-		expect(coreStore.addressTarget).toHaveBeenCalledWith(feature)
+		expect(coreStore.addressTarget).toHaveBeenCalledExactlyOnceWith(feature)
 	})
 
 	test('zooms to input coordinate', async ({

@@ -62,7 +62,7 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 					layoutTag: 'BOTTOM_LEFT',
 				}),
 			enabledPlugins.includes('reverseGeocoder') &&
-				ReverseGeocoder({ url: '' }),
+				ReverseGeocoder({ url: '', type: 'wps' }),
 			enabledPlugins.includes('scale') &&
 				Scale({
 					displayComponent: true,
