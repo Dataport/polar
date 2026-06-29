@@ -1,4 +1,6 @@
-import { METERS_PER_UNIT, type Units } from 'ol/proj/Units'
+import type { Units } from 'ol/proj/Units'
+
+import { METERS_PER_UNIT } from 'ol/proj/Units'
 
 /**
  * Calculates the current scale from given parameters.

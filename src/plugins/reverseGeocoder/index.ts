@@ -5,9 +5,10 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { ReverseGeocoderPluginOptions } from './types'
 
 import { useReverseGeocoderStore } from './store'
-import { PluginId, type ReverseGeocoderPluginOptions } from './types'
+import { PluginId } from './types'
 
 /**
  * Creates a plugin which converts coordinates into addresses.

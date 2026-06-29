@@ -1,8 +1,8 @@
+import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
+
 import { toMerged } from 'es-toolkit'
 import { GeoJSON, WFS } from 'ol/format'
 import { transform as transformCoordinates } from 'ol/proj'
-
-import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
 
 import { getFeatureTitleFromPattern } from './getFeatureTitleFromPattern'
 

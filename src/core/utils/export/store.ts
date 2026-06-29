@@ -1,5 +1,4 @@
-import { watch, type WatchOptions } from 'vue'
-
+import type { WatchOptions } from 'vue'
 import type { PolarContainer } from '@/core'
 import type { useCoreStore } from '@/core/stores'
 import type {
@@ -8,6 +7,8 @@ import type {
 	PluginId,
 	PolarPluginStore,
 } from '@/core/types'
+
+import { watch } from 'vue'
 
 export type SubscribeCallback = (value: unknown, oldValue: unknown) => void
 

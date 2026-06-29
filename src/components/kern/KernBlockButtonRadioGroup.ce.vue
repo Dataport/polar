@@ -30,9 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import { useId, useTemplateRef } from 'vue'
-
 import type { Icon } from '@/core'
+
+import { useId, useTemplateRef } from 'vue'
 
 defineProps<{
 	items: {

@@ -1,4 +1,4 @@
-import { type ExportFormat } from '../types'
+import type { ExportFormat } from '../types'
 
 export const downloadAsImage = (base64String: string, type: ExportFormat) => {
 	const link = document.createElement('a')

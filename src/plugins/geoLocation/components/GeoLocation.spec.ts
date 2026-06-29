@@ -1,5 +1,7 @@
+import type { VueWrapper } from '@vue/test-utils'
+
 import { createTestingPinia } from '@pinia/testing'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { test as _test, expect, vi } from 'vitest'
 
 import { mockedT } from '@/test/utils/mockI18n'

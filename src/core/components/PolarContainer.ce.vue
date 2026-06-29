@@ -30,10 +30,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Pinia } from 'pinia'
+import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
+
 import { toMerged } from 'es-toolkit'
 import Hammer from 'hammerjs'
 import i18next, { t } from 'i18next'
-import { disposePinia, getActivePinia, type Pinia, storeToRefs } from 'pinia'
+import { disposePinia, getActivePinia, storeToRefs } from 'pinia'
 import {
 	computed,
 	getCurrentInstance,
@@ -51,11 +54,7 @@ import { useCoreStore } from '../stores'
 import { useContextMenuStore } from '../stores/contextMenu'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
-import {
-	CoreId,
-	type MapConfiguration,
-	type MasterportalApiServiceRegister,
-} from '../types'
+import { CoreId } from '../types'
 import { loadKern } from '../utils/loadKern'
 import { teardownMarkers } from '../utils/map/setupMarkers'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
