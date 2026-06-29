@@ -1,9 +1,8 @@
 import type { Coordinate } from 'ol/coordinate'
+import type { ContextMenuEntry } from '../types'
 
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-
-import type { ContextMenuEntry } from '../types'
 
 export const useContextMenuStore = defineStore('contextMenu', () => {
 	const buttons = ref(new Map<string, ContextMenuEntry>())

@@ -32,16 +32,11 @@
 </template>
 
 <script setup lang="ts">
-import { t } from 'i18next'
-import {
-	type ComponentPublicInstance,
-	computed,
-	onMounted,
-	toRaw,
-	useTemplateRef,
-} from 'vue'
-
+import type { ComponentPublicInstance } from 'vue'
 import type { ContextMenuEntry } from '@/core'
+
+import { t } from 'i18next'
+import { computed, onMounted, toRaw, useTemplateRef } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
