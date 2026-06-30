@@ -6,7 +6,7 @@ import type { MarkerStyle } from '../types'
 
 const polygonStyle = new PolygonStyle()
 
-type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
+type GetMarkerFunction = (style: MarkerStyle, count: number) => Style
 
 const prefix = 'data:image/svg+xml,'
 
@@ -75,12 +75,12 @@ const anchor = [0.5, 1]
 const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
 	const singleCache = new Map()
 	const multiCache = new Map()
-	return (style, multi) => {
-		const cache = multi ? multiCache : singleCache
+	return (style, count) => {
+		const cache = count > 1 ? multiCache : singleCache
 		if (cache.has(style)) {
 			return cache.get(style)
 		}
-		const markerStyle = getMarker(style, multi)
+		const markerStyle = getMarker(style, count)
 		cache.set(style, markerStyle)
 		if (cache.size > 1000) {
 			console.warn(
@@ -91,10 +91,10 @@ const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
 	}
 }
 
-const getStyleFunction: GetMarkerFunction = (style, multi) =>
+const getStyleFunction: GetMarkerFunction = (style, count) =>
 	new Style({
 		image: new Icon({
-			src: (multi ? makeMultiMarker : makeMarker)(style),
+			src: (count > 1 ? makeMultiMarker : makeMarker)(style),
 			anchor,
 		}),
 	})

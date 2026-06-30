@@ -116,7 +116,7 @@ function updateSelection(
 		getMarkerStyle(
 			getLayerConfiguration(feature.get('_polarLayerId') as string)
 				.selectionStyle,
-			selectedCluster.get('features')?.length > 1
+			selectedCluster.get('features')?.length
 		)
 	)
 
@@ -200,7 +200,7 @@ export function setupMarkers(map: Map) {
 					layerConfiguration.isSelectable(feature as Feature)
 						? layerConfiguration.defaultStyle
 						: layerConfiguration.unselectableStyle,
-					feature.get('features')?.length > 1
+					feature.get('features')?.length
 				)
 			)
 		})
@@ -216,11 +216,11 @@ export function setupMarkers(map: Map) {
 			}
 			if (feature !== null && feature !== toRaw(store.selected)) {
 				store.hovered = markRaw(feature)
-				const isMultiFeature = store.hovered.get('features')?.length > 1
+				const featureCount = store.hovered.get('features')?.length
 				const style = getMarkerStyle(
 					getLayerConfiguration(feature.get('_polarLayerId') as string)
 						.hoverStyle,
-					isMultiFeature
+					featureCount
 				)
 				store.hovered.setStyle(style)
 			}
@@ -296,10 +296,8 @@ function mapPointerMove({ map, pixel }: MapBrowserEvent) {
 	if (!layerConfiguration.isSelectable(feature)) {
 		return
 	}
-	const isMultiFeature = feature.get('features')?.length > 1
-	feature.setStyle(
-		getMarkerStyle(layerConfiguration.hoverStyle, isMultiFeature)
-	)
+	const featureCount = feature.get('features')?.length
+	feature.setStyle(getMarkerStyle(layerConfiguration.hoverStyle, featureCount))
 	store.hovered = markRaw(feature)
 }
 
