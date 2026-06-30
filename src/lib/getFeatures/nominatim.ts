@@ -1,10 +1,8 @@
 import type { Point } from 'geojson'
+import type { PolarGeoJsonFeatureCollection } from '@/core'
+import type { NominatimParameters } from './types'
 
 import { transform as transformCoordinates } from 'ol/proj'
-
-import type { PolarGeoJsonFeatureCollection } from '@/core'
-
-import type { NominatimParameters } from './types'
 
 export default async function (
 	signal: AbortSignal,

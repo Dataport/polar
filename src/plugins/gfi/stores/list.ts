@@ -1,4 +1,5 @@
 import type { Feature } from 'ol'
+import type { FeatureList } from '../types'
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, ref, watch } from 'vue'
@@ -7,8 +8,6 @@ import { useCoreStore } from '@/core/stores'
 import { getRefStore } from '@/lib/getRefStore'
 import { getVectorSource } from '@/lib/getVectorSource'
 import { isVisible } from '@/lib/invisibleStyle'
-
-import type { FeatureList } from '../types'
 
 import { getSourceFeatures } from '../utils/getSourceFeatures'
 import { serializeFeature } from '../utils/serializeFeature'

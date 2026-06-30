@@ -1,5 +1,6 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
 import type { Feature } from 'ol'
+import type { CustomHighlightStyle, GfiPluginOptions } from '../types'
 
 import { Fill, Stroke, Style } from 'ol/style'
 import { acceptHMRUpdate, defineStore } from 'pinia'
@@ -8,11 +9,7 @@ import { computed, ref, watch } from 'vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useFeatureDisplayLayer } from '../composables/useFeatureDisplayLayer'
-import {
-	type CustomHighlightStyle,
-	type GfiPluginOptions,
-	PluginId,
-} from '../types'
+import { PluginId } from '../types'
 import { serializeFeature } from '../utils/serializeFeature'
 
 const defaultHighlightStyle = {

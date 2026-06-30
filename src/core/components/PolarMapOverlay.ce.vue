@@ -7,7 +7,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, watch, type WatchHandle } from 'vue'
+import type { Ref, WatchHandle } from 'vue'
+
+import { ref, watch } from 'vue'
 
 const message = ref('')
 const messageWatcher = ref<WatchHandle | null>(null)

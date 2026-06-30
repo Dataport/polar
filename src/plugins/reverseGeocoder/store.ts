@@ -5,22 +5,23 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { Mock } from 'vitest'
+import type { Reactive } from 'vue'
+import type {
+	ReverseGeocoderFeature,
+	ReverseGeocoderPluginOptions,
+} from './types'
 
 import { easeOut } from 'ol/easing'
 import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, type Reactive, ref, toRaw } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 
 import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 import { getRefStore } from '@/lib/getRefStore'
 import { indicateLoading } from '@/lib/indicateLoading'
 
-import {
-	PluginId,
-	type ReverseGeocoderFeature,
-	type ReverseGeocoderPluginOptions,
-} from './types'
+import { PluginId } from './types'
 import { reverseGeocodeNominatim } from './utils/reverseGeocodeNominatim'
 import { reverseGeocodeWps } from './utils/reverseGeocodeWps'
 

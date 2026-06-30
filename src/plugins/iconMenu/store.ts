@@ -4,16 +4,18 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { Component } from 'vue'
+import type { Icon } from '@/core'
+import type { Menu } from './types'
+
 import { toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { type Component, computed, markRaw, ref } from 'vue'
-
-import type { Icon } from '@/core'
+import { computed, markRaw, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import { type Menu, PluginId } from './types'
+import { PluginId } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**

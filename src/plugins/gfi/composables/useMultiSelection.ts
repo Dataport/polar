@@ -1,14 +1,11 @@
 import type { Map } from 'ol'
+import type { Options as DrawOptions } from 'ol/interaction/Draw'
+import type { GfiPluginOptions } from '../types'
 
 import { platformModifierKeyOnly } from 'ol/events/condition'
-import Draw, {
-	createBox,
-	type Options as DrawOptions,
-} from 'ol/interaction/Draw'
+import Draw, { createBox } from 'ol/interaction/Draw'
 import { Fill, Stroke, Style } from 'ol/style'
 import { onScopeDispose, ref } from 'vue'
-
-import type { GfiPluginOptions } from '../types'
 
 export function useMultiSelection(options: {
 	map: Map

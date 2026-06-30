@@ -4,22 +4,22 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { PolarGeoJsonFeature } from '@/core'
+import type {
+	AddressSearchPluginOptions,
+	GroupProperties,
+	SearchMethodConfiguration,
+	SearchResult,
+} from './types'
+
 import { debounce, toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import type { PolarGeoJsonFeature } from '@/core'
-
 import { useCoreStore } from '@/core/stores'
 
-import {
-	type AddressSearchPluginOptions,
-	type GroupProperties,
-	PluginId,
-	type SearchMethodConfiguration,
-	type SearchResult,
-} from './types'
+import { PluginId } from './types'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import { getMethodContainer } from './utils/methodContainer'
 import SearchResultSymbols from './utils/searchResultSymbols'

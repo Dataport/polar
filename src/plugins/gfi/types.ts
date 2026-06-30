@@ -6,7 +6,6 @@ import type TileLayer from 'ol/layer/Tile'
 import type { ImageWMS, TileWMS } from 'ol/source'
 import type { Options as Fill } from 'ol/style/Fill'
 import type { Options as Stroke } from 'ol/style/Stroke'
-
 import type { PluginOptions, StoreReference } from '@/core'
 
 /**

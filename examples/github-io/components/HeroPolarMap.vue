@@ -8,11 +8,10 @@
 
 <script setup lang="ts">
 import type { Feature } from 'ol'
+import type { MpapiParameters } from '@/lib/getFeatures/types'
 
 import { toMerged } from 'es-toolkit'
 import { onMounted } from 'vue'
-
-import type { MpapiParameters } from '@/lib/getFeatures/types'
 
 import { createMap } from '@/client'
 

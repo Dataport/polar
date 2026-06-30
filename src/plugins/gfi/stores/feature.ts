@@ -1,19 +1,17 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
+import type { MapBrowserEvent } from 'ol'
+import type { GfiLayerConfiguration, RequestGfiParameters } from '../types'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { isEqual } from 'es-toolkit'
-import { MapBrowserEvent, Overlay } from 'ol'
+import { Overlay } from 'ol'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
 import { useMultiSelection } from '../composables/useMultiSelection'
-import {
-	type GfiLayerConfiguration,
-	PluginId,
-	type RequestGfiParameters,
-} from '../types'
+import { PluginId } from '../types'
 import { requestGfi } from '../utils/requestGfi'
 import { updateTooltip } from '../utils/updateTooltip'
 import { useGfiMainStore } from './main'

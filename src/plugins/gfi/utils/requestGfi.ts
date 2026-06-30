@@ -1,11 +1,10 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
+import type { RequestGfiParameters } from '../types'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
 import ImageLayer from 'ol/layer/Image'
 import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
-
-import type { RequestGfiParameters } from '../types'
 
 import requestGfiGeoJson from './requestGfiGeoJson'
 import requestGfiWfs from './requestGfiWfs'

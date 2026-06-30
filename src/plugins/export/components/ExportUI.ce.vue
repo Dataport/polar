@@ -40,13 +40,15 @@
 </template>
 
 <script setup lang="ts">
+import type { ExportFormat } from '../types'
+
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 
 import { useExportStore } from '../store'
-import { type ExportFormat, PluginId } from '../types'
+import { PluginId } from '../types'
 
 const exportStore = useExportStore()
 
