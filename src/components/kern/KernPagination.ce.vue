@@ -135,7 +135,8 @@ ul {
 	list-style-type: none;
 	padding: 0;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
+	gap: var(--kern-metric-space-small);
 }
 
 .kern-btn {
