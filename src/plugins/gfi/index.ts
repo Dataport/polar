@@ -24,7 +24,7 @@ export default function pluginGfi(options: GfiPluginOptions): PluginContainer {
 		locales,
 		storeModule: useGfiStore as PolarPluginStore,
 		options,
-		icon: 'kern-icon--map-pin-heart',
+		icon: 'kern-icon-fill--location-on',
 	}
 }
 
