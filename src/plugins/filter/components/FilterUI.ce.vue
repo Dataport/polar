@@ -46,4 +46,3 @@ const filterStore = useFilterStore()
 	width: 100%;
 }
 </style>
-f
