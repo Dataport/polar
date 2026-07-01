@@ -15,7 +15,6 @@ import { usePluginStore } from '@/core/stores/plugin'
 import getCluster from '@/lib/getCluster'
 import { isVisible } from '@/lib/invisibleStyle'
 
-import { useContextMenuStore } from '../../stores/contextMenu'
 import { useMainStore } from '../../stores/main'
 import { getMarkerStyle } from '../../utils/markers'
 
