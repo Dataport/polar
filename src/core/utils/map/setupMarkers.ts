@@ -304,9 +304,6 @@ function mapPointerMove({ map, pixel }: MapBrowserEvent) {
 }
 
 function mapClick(event: MapBrowserEvent) {
-	if (useContextMenuStore().show) {
-		return
-	}
 	const store = useMarkerStore()
 	const map = event.map
 	if (store.selected !== null) {
@@ -360,9 +357,6 @@ function mapClick(event: MapBrowserEvent) {
 }
 
 function mapSingleClick(event: MapBrowserEvent) {
-	if (useContextMenuStore().show) {
-		return
-	}
 	if (event.originalEvent === lastClickEvent?.originalEvent) {
 		event.stopPropagation()
 	}

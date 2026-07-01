@@ -163,9 +163,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	}
 
 	async function onSingleClick({ coordinate }: MapBrowserEvent) {
-		if (coreStore.showContextMenu) {
-			return
-		}
 		await click(coordinate)
 	}
 
