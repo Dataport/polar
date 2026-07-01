@@ -14,7 +14,7 @@ import { toMerged } from 'es-toolkit'
 import { pointerMove } from 'ol/events/condition'
 import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
-import { Draw, Modify, Select, Translate } from 'ol/interaction'
+import { Select, Translate } from 'ol/interaction'
 import VectorLayer from 'ol/layer/Vector'
 import { toLonLat } from 'ol/proj'
 import { Vector } from 'ol/source'
@@ -167,28 +167,12 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	}
 
 	async function click(coordinate: Coordinate) {
-		const isDrawing = coreStore.map
-			.getInteractions()
-			.getArray()
-			.some(
-				(interaction) =>
-					(interaction instanceof Draw &&
-						// @ts-expect-error | internal hack to detect it from gfi plugin
-						(interaction._isMultiSelect ||
-							// @ts-expect-error | internal hack to detect it from routing plugin
-							interaction._isRoutingDraw ||
-							// @ts-expect-error | internal hack to detect it from draw plugin
-							interaction._isDrawPlugin)) ||
-					interaction instanceof Modify ||
-					// @ts-expect-error | internal hack to detect it from draw plugin
-					interaction._isDeleteSelect
-			)
 		const { minZoomLevel, movable } = configuration.value
 		if (
 			(movable === 'drag' || movable === 'click') &&
 			// NOTE: It is assumed that getZoom actually returns the currentZoomLevel, thus the view has a constraint in the resolution.
 			(coreStore.map.getView().getZoom() as number) >= minZoomLevel &&
-			!isDrawing &&
+			!coreStore.isInteractionMasked('click') &&
 			(await isCoordinateInBoundaryLayer(
 				coordinate,
 				coreStore.map,
