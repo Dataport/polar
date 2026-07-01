@@ -114,6 +114,15 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 
 		button {
 			justify-content: start;
+			-webkit-user-select: none;
+			-webkit-touch-callout: none;
+
+			> * {
+				user-select: none;
+				-webkit-user-select: none;
+				-webkit-touch-callout: none;
+				pointer-events: none;
+			}
 
 			&:focus {
 				outline: auto;
