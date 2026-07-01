@@ -49,7 +49,9 @@ const selectionModes = [
 		label: 'Mehrfachauswahl',
 		config: {
 			directSelect: true,
-			multiSelect: 'box',
+			multiSelect: {
+				mode: 'box',
+			},
 		},
 	},
 	{

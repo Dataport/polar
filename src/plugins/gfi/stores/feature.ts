@@ -134,7 +134,10 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		)
 		watch(multiSelection.selection, (selection) => {
 			if (selection) {
-				debouncedGetFeatureInfo(selection)
+				debouncedGetFeatureInfo(selection, {
+					toggleSelection:
+						gfiMainStore.configuration.multiSelect?.toggleSelection ?? true,
+				})
 			} else {
 				gfiMainStore.featureInformation = {}
 			}

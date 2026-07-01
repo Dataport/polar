@@ -12,7 +12,7 @@ import type { GfiPluginOptions } from '../types'
 
 export function useMultiSelection(
 	map: Map,
-	mode: GfiPluginOptions['multiSelect']
+	{ mode }: NonNullable<GfiPluginOptions['multiSelect']>
 ) {
 	const drawOptions: DrawOptions = {
 		stopClick: true,

@@ -205,6 +205,26 @@ export interface FeatureList {
 }
 
 /**
+ * Configuration for multi-selection behavior in the gfi plugin.
+ */
+export interface MultiSelect {
+	/**
+	 * If set to `'box'`, the selection will be done in a box.
+	 * If set to `'circle'`, the selection will be done in a circle.
+	 */
+	mode: 'box' | 'circle'
+
+	/**
+	 * Defines the behaviour of a new selection.
+	 * If `true`, features can be added and removed by selection / unselecting them.
+	 * If `false`, a new selection will always replace the old one.
+	 *
+	 * @defaultValue `true`
+	 */
+	toggleSelection?: boolean
+}
+
+/**
  * Plugin options for gfi plugin.
  *
  * @example
@@ -332,9 +352,6 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	 * If configured, multiple features can be selected at once by using the modifier key (CTRL on Windows or Command on macOS) and dragging the mouse.
 	 * Can only be used in desktop environments.
 	 *
-	 * If set to `'box'`, the selection will be done in a box.
-	 * If set to `'circle'`, the selection will be done in a circle.
-	 *
 	 * Similar to {@link GfiPluginOptions.directSelect | `directSelect`},
 	 * features can be added and removed by selection / unselecting them.
 	 * The features need to be distinguishable by their properties for the functionality to properly work.
@@ -342,7 +359,7 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	 *
 	 * @defaultValue Disabled by default
 	 */
-	multiSelect?: 'box' | 'circle'
+	multiSelect?: MultiSelect
 
 	/**
 	 * Time passed in milliseconds before another request is started.
