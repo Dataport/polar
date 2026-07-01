@@ -655,3 +655,7 @@ document
 		colorScheme = colorScheme === 'light' ? 'dark' : 'light'
 		updateState(map, 'core', 'colorScheme', colorScheme)
 	})
+
+document.getElementById('kiel-teleport').addEventListener('click', () => {
+	updateState(map, 'core', 'center', [575609, 6023501])
+})
