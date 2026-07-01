@@ -1,5 +1,5 @@
 <template>
-	<p class="kern-body kern-body--small kern-body--muted">
+	<p class="kern-subline kern-subline--small">
 		{{
 			$t(($) => $.pagination.entries, {
 				ns: 'shared',
@@ -122,10 +122,6 @@ const visibleOptions = computed(() => {
 </script>
 
 <style scoped>
-nav {
-	width: 100%;
-}
-
 ul {
 	display: flex;
 	list-style-type: none;

@@ -9,6 +9,12 @@
 				/>
 				{{ $t(($) => $.list.header, { ns: PluginId }) }}
 			</h2>
+			<KernPagination
+				v-if="gfiStore.listPaginationActive && gfiStore.listFlatFeatures.length"
+				v-model="gfiStore.listPaginationStartIndex"
+				:count="gfiStore.listFlatFeatures.length"
+				:page-size="gfiStore.listPageLength"
+			/>
 		</hgroup>
 	</header>
 	<section class="kern-card__body">
@@ -19,12 +25,6 @@
 			{{ $t(($) => $.list.emptyView, { ns: PluginId }) }}
 		</p>
 		<template v-else>
-			<KernPagination
-				v-if="gfiStore.listPaginationActive"
-				v-model="gfiStore.listPaginationStartIndex"
-				:count="gfiStore.listFlatFeatures.length"
-				:page-size="gfiStore.listPageLength"
-			/>
 			<section
 				v-for="(
 					{ layerId, feature, hovered, text }, idx
@@ -71,6 +71,10 @@ const gfiStore = useGfiStore()
 </script>
 
 <style scoped>
+hgroup {
+	width: 100%;
+}
+
 .polar-plugin-gfi-list-empty-view {
 	text-wrap: wrap;
 }
