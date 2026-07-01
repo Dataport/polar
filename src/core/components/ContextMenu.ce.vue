@@ -102,6 +102,7 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 	min-width: 15rem;
 	z-index: 3;
 	pointer-events: all;
+	border-radius: var(--kern-metric-border-radius-default);
 
 	&:deep(.kern-card__container) {
 		padding: 0;
