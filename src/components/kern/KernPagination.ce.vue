@@ -95,10 +95,18 @@ const visibleOptions = computed(() => {
 		return generatePageInterval(1, pageCount.value)
 	}
 
+	if (currentPage.value <= 2 || currentPage.value >= pageCount.value - 1) {
+		return [
+			...generatePageInterval(1, 3),
+			{ dots: 'center' },
+			...generatePageInterval(pageCount.value - 2, pageCount.value),
+		]
+	}
+
 	if (currentPage.value < 5) {
 		return [
 			...generatePageInterval(1, 5),
-			{ dots: 'only' },
+			{ dots: 'late' },
 			...generatePageInterval(pageCount.value, pageCount.value),
 		]
 	}
@@ -106,16 +114,16 @@ const visibleOptions = computed(() => {
 	if (currentPage.value > pageCount.value - 4) {
 		return [
 			...generatePageInterval(1, 1),
-			{ dots: 'only' },
+			{ dots: 'early' },
 			...generatePageInterval(pageCount.value - 4, pageCount.value),
 		]
 	}
 
 	return [
 		...generatePageInterval(1, 1),
-		{ dots: 'only' },
+		{ dots: 'early' },
 		...generatePageInterval(currentPage.value - 1, currentPage.value + 1),
-		{ dots: 'only' },
+		{ dots: 'late' },
 		...generatePageInterval(pageCount.value, pageCount.value),
 	]
 })
