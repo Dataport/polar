@@ -36,6 +36,7 @@ import type { ComponentPublicInstance } from 'vue'
 import type { ContextMenuEntry } from '@/core'
 
 import { t } from 'i18next'
+import { storeToRefs } from 'pinia'
 import { computed, onMounted, toRaw, useTemplateRef } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
@@ -43,12 +44,8 @@ import PolarCard from '@/components/PolarCard.ce.vue'
 
 import { useContextMenuStore } from '../stores/contextMenu'
 
-defineProps<{
-	top: string
-	left: string
-}>()
-
 const contextMenuStore = useContextMenuStore()
+const { top, left } = storeToRefs(contextMenuStore)
 
 const buttonsByGroup = computed(() =>
 	Object.groupBy(

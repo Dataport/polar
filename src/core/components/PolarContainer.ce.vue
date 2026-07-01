@@ -18,11 +18,7 @@
 			:key="moveHandleKey"
 		/>
 		<div class="polar-ui-layer">
-			<ContextMenu
-				v-if="showContextMenu"
-				:left="contextMenuLeft"
-				:top="contextMenuTop"
-			/>
+			<ContextMenu v-if="contextMenuStore.show" />
 			<div v-if="!hasWindowSize" class="polar-shadow" aria-hidden="true" />
 			<PolarUI />
 		</div>
@@ -106,8 +102,6 @@ function wheelEffect(event: WheelEvent) {
 const oneFingerPan = useT(() =>
 	t(($) => $.overlay.oneFingerPan, { ns: CoreId })
 )
-const contextMenuLeft = ref('0')
-const contextMenuTop = ref('0')
 
 let longPressHammer: { destroy: () => void } | null = null
 let panHammer: { destroy: () => void } | null = null
@@ -128,8 +122,8 @@ function updateListeners() {
 				left,
 				top,
 			])
-			contextMenuLeft.value = `${left}px`
-			contextMenuTop.value = `${top}px`
+			contextMenuStore.left = `${left}px`
+			contextMenuStore.top = `${top}px`
 		})
 
 		if (!hasWindowSize.value) {
@@ -219,25 +213,12 @@ function updateClientDimensions() {
 }
 
 const contextMenuStore = useContextMenuStore()
-const { show: showContextMenu } = storeToRefs(contextMenuStore)
 
-function dismissContextMenu() {
-	contextMenuStore.show = false
-}
 function openContextMenu(e: MouseEvent) {
-	// Suppresses the context menu of the browser
-	e.preventDefault()
-	e.stopImmediatePropagation()
-	contextMenuStore.show = true
-	const rect = (polarWrapper.value as Element).getBoundingClientRect()
-	const left = e.clientX - rect.left
-	const top = e.clientY - rect.top
-	contextMenuStore.clickCoordinate = mainStore.map.getCoordinateFromPixel([
-		left,
-		top,
-	])
-	contextMenuLeft.value = `${left}px`
-	contextMenuTop.value = `${top}px`
+	contextMenuStore.open(
+		e,
+		(polarWrapper.value as Element).getBoundingClientRect()
+	)
 }
 
 onMounted(() => {
@@ -262,8 +243,8 @@ onMounted(() => {
 	mainStore.map
 		.getTargetElement()
 		.addEventListener('contextmenu', openContextMenu)
-	polarWrapper.value?.addEventListener('pointerdown', dismissContextMenu)
-	document.addEventListener('pointerdown', dismissContextMenu)
+	polarWrapper.value?.addEventListener('pointerdown', contextMenuStore.dismiss)
+	document.addEventListener('pointerdown', contextMenuStore.dismiss)
 })
 
 onBeforeUnmount(() => {
@@ -281,7 +262,7 @@ onBeforeUnmount(() => {
 
 	const mapEl = mainStore.map.getTargetElement()
 	mapEl.removeEventListener('contextmenu', openContextMenu)
-	document.removeEventListener('pointerdown', dismissContextMenu)
+	document.removeEventListener('pointerdown', contextMenuStore.dismiss)
 	if (mainStore.configuration.markers) {
 		teardownMarkers(mainStore.map)
 	}
@@ -294,7 +275,7 @@ onBeforeUnmount(() => {
 
 	polarWrapper.value?.removeEventListener(
 		'pointerdown',
-		dismissContextMenu,
+		contextMenuStore.dismiss,
 		true
 	)
 
