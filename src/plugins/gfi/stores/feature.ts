@@ -146,6 +146,9 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 
 	if (gfiMainStore.configuration.directSelect) {
 		function onMapClick({ coordinate, originalEvent }: MapBrowserEvent) {
+			if (coreStore.isInteractionMasked('click')) {
+				return
+			}
 			debouncedGetFeatureInfo(coordinate as [number, number], {
 				toggleSelection:
 					navigator.userAgent.indexOf('Mac') !== -1

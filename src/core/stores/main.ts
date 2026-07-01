@@ -12,6 +12,7 @@ import type {
 	ColorScheme,
 	MapConfigurationIncludingDefaults,
 	MasterportalApiServiceRegister,
+	PluginId,
 } from '../types'
 
 import { addInterceptor } from '../utils/addInterceptor'
@@ -97,6 +98,26 @@ export const useMainStore = defineStore('main', () => {
 		return { ...register, ...polar } as typeof polar
 	}
 
+	const maskedInteractions = ref(new globalThis.Map<string, PluginId>())
+	function maskInteraction(pluginId: PluginId, interaction: string) {
+		if (maskedInteractions.value.has(interaction)) {
+			throw new Error(
+				`Interaction "${interaction}" is already masked by plugin "${maskedInteractions.value.get(
+					interaction
+				)}"`
+			)
+		}
+		maskedInteractions.value.set(interaction, pluginId)
+	}
+	function unmaskInteraction(pluginId: PluginId, interaction: string) {
+		if (maskedInteractions.value.get(interaction) === pluginId) {
+			maskedInteractions.value.delete(interaction)
+		}
+	}
+	function isInteractionMasked(interaction: string) {
+		return maskedInteractions.value.has(interaction)
+	}
+
 	function setup() {
 		addEventListener('resize', updateHasSmallDisplay)
 		updateHasSmallDisplay()
@@ -134,6 +155,9 @@ export const useMainStore = defineStore('main', () => {
 		getLayer,
 		updateHasSmallDisplay,
 		getLayerMapConfiguration,
+		maskInteraction,
+		unmaskInteraction,
+		isInteractionMasked,
 		setup,
 		teardown,
 	}
@@ -141,4 +165,50 @@ export const useMainStore = defineStore('main', () => {
 
 if (import.meta.hot) {
 	import.meta.hot.accept(acceptHMRUpdate(useMainStore, import.meta.hot))
+}
+
+if (import.meta.vitest) {
+	const { expect, test: _test } = import.meta.vitest
+	const { createPinia, setActivePinia } = await import('pinia')
+
+	/* eslint-disable no-empty-pattern */
+	const test = _test.extend<{
+		store: ReturnType<typeof useMainStore>
+	}>({
+		store: async ({}, use) => {
+			setActivePinia(createPinia())
+			const store = useMainStore()
+			store.setup()
+			await use(store)
+			store.teardown()
+		},
+	})
+	/* eslint-enable no-empty-pattern */
+
+	test('Masking interactions works as expected', ({ store }) => {
+		const pluginId = 'external-test-plugin'
+		const interaction = 'click'
+
+		expect(store.isInteractionMasked(interaction)).toBe(false)
+
+		store.maskInteraction(pluginId, interaction)
+		expect(store.isInteractionMasked(interaction)).toBe(true)
+
+		store.unmaskInteraction(pluginId, interaction)
+		expect(store.isInteractionMasked(interaction)).toBe(false)
+	})
+
+	test('Masking interactions twice fails', ({ store }) => {
+		const pluginId = 'external-test-plugin'
+		const interaction = 'click'
+
+		expect(store.isInteractionMasked(interaction)).toBe(false)
+
+		store.maskInteraction(pluginId, interaction)
+		expect(store.isInteractionMasked(interaction)).toBe(true)
+
+		expect(() => {
+			store.maskInteraction(pluginId, interaction)
+		}).toThrow()
+	})
 }
