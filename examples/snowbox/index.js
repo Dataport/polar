@@ -3,6 +3,7 @@ import {
 	createMap,
 	createMapElement,
 	getStore,
+	isVisible,
 	removePlugin,
 	subscribe,
 	updateState,
@@ -445,12 +446,32 @@ addPlugin(
 									'skat_text',
 								],
 								exportProperty: 'pic',
-								showTooltip: (feature) => [
-									[
-										'span',
-										`Coordinates: ${feature.getGeometry().getCoordinates().join(', ')}`,
-									],
-								],
+								showTooltip: (feature) => {
+									const olMap = getStore(map, 'core').map
+									const features = feature.get('features') || [feature]
+									const visibleFeatures = features.filter((f) => isVisible(f))
+									if (visibleFeatures.length > 1) {
+										return [
+											['h2', 'Mehrere Anliegen'],
+											[
+												'span',
+												`Klick zum ${olMap.getView().getZoom() !== olMap.getView().getMaxZoom() ? 'Zoomen' : 'Öffnen'}`,
+											],
+										]
+									}
+									const tooltipFeature = visibleFeatures[0]
+									return [
+										[
+											'h2',
+											`${tooltipFeature.get('str')} ${tooltipFeature.get('hsnr')}`,
+										],
+										[
+											'span',
+											`layer.${reports}.category.skat.knownValue.${tooltipFeature.get('skat')}`,
+											{ ns: 'filter' },
+										],
+									]
+								},
 								isSelectable: (feature) => isEvenId(feature.properties.mmlid),
 							},
 							[kielPolygon]: {
