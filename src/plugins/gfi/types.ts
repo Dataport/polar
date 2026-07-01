@@ -272,6 +272,13 @@ export interface GfiPluginOptions extends InterfacePluginOptions {
 	coordinateSources?: StoreReference[]
 
 	/**
+	 * It may be desirable to clear a store value when the GFI plugin is closed.
+	 * This allows it to e.g. clear the pin.
+	 * Usually, this is a store value that is also used in {@link GfiPluginOptions.coordinateSources | `coordinateSources`}.
+	 */
+	coordinateTarget?: StoreReference
+
+	/**
 	 * If required, a user can change the stroke and fill of the highlighted feature.
 	 * The default style as seen in the example will be used for each part that is not customized.
 	 * An empty object will return the complete default style while e.g. for an object without a configured fill the default fill will be applied.

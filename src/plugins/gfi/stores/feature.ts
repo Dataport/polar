@@ -7,6 +7,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
 
 import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
+import { useRefStore } from '@/composables/useRefStore'
 import { useCoreStore } from '@/core/stores'
 
 import { useMultiSelection } from '../composables/useMultiSelection'
@@ -211,6 +212,19 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			selectedFeatureIndex.value = 0
 		},
 		{ deep: true }
+	)
+
+	watch(
+		[() => gfiMainStore.configuration.coordinateTarget, selectedFeature],
+		([target, feature], [, oldFeature]) => {
+			if (target && !feature && oldFeature) {
+				const targetStore = useRefStore(target)
+				if (!targetStore) {
+					return
+				}
+				targetStore[target.key] = null
+			}
+		}
 	)
 
 	useTooltip(
