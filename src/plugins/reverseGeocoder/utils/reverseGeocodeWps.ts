@@ -1,7 +1,5 @@
 import type { ReverseGeocoderFeature } from '../types'
 
-import { Parser, processors } from 'xml2js'
-
 const buildPostBody = ([x, y]: [number, number]) => `<wps:Execute
 	xmlns:wps='http://www.opengis.net/wps/1.0.0'
 	xmlns:xlink='http://www.w3.org/1999/xlink'
@@ -28,9 +26,9 @@ const buildPostBody = ([x, y]: [number, number]) => `<wps:Execute
 	</wps:DataInputs>
 </wps:Execute>`
 
-const parser = new Parser({
-	tagNameProcessors: [processors.stripPrefix],
-})
+function getTextContent(parent: Element, localName: string) {
+	return parent.getElementsByTagNameNS('*', localName)[0]?.textContent ?? ''
+}
 
 export async function reverseGeocodeWps(
 	url: string,
@@ -43,26 +41,28 @@ export async function reverseGeocodeWps(
 		signal,
 	})
 
-	const parsedBody = await parser.parseStringPromise(await response.text())
+	const doc = new DOMParser().parseFromString(await response.text(), 'text/xml')
 
-	const address = Object.fromEntries(
-		Object.entries(
-			parsedBody.ExecuteResponse.ProcessOutputs[0].Output[0].Data[0]
-				.ComplexData[0].ReverseGeocoder[0].Ergebnis[0].Adresse[0]
-			// @ts-expect-error | This was any anyway
-		).map(([k, v]) => [k, v[0]])
-	)
+	const parseError = doc.querySelector('parsererror')
+	if (parseError) {
+		throw new Error(`Failed to parse XML response: ${parseError.textContent}.`)
+	}
 
-	// NOTE: Property names come from the WPS
+	const address = doc.getElementsByTagNameNS('*', 'Adresse')[0]
+	if (!address) {
+		throw new Error('Response does not contain an "Adresse" element.')
+	}
+
+	// NOTE: Property names come from the WPS.
 	/* eslint-disable @typescript-eslint/naming-convention */
 	const properties = {
-		Distanz: parseFloat(address.Distanz),
-		Hausnr: parseInt(address.Hausnr, 10),
-		Plz: parseInt(address.Plz, 10),
-		Strasse: address.Strasse,
-		XKoordinate: parseFloat(address.XKoordinate),
-		YKoordinate: parseFloat(address.YKoordinate),
-		Zusatz: address.Zusatz,
+		Distanz: parseFloat(getTextContent(address, 'Distanz')),
+		Hausnr: parseInt(getTextContent(address, 'Hausnr'), 10),
+		Plz: parseInt(getTextContent(address, 'Plz'), 10),
+		Strasse: getTextContent(address, 'Strasse'),
+		XKoordinate: parseFloat(getTextContent(address, 'XKoordinate')),
+		YKoordinate: parseFloat(getTextContent(address, 'YKoordinate')),
+		Zusatz: getTextContent(address, 'Zusatz'),
 	}
 	/* eslint-enable @typescript-eslint/naming-convention */
 
@@ -84,7 +84,11 @@ export async function reverseGeocodeWps(
 }
 
 if (import.meta.vitest) {
-	const { expect, test, vi } = import.meta.vitest
+	const { beforeEach, expect, test, vi } = import.meta.vitest
+
+	beforeEach(() => {
+		vi.restoreAllMocks()
+	})
 
 	const testUrl = 'https://wps.example'
 
@@ -131,6 +135,28 @@ if (import.meta.vitest) {
 		</wps:Output>
 	</wps:ProcessOutputs>
 </wps:ExecuteResponse>`
+
+	test('reverseGeocode throws on invalid XML', async () => {
+		vi.spyOn(global, 'fetch').mockResolvedValueOnce({
+			text: () => Promise.resolve('<invalid><xml'),
+		} as Response)
+		const abortController = new AbortController()
+
+		await expect(
+			reverseGeocode(testUrl, testCoordinates, abortController.signal)
+		).rejects.toThrow('Failed to parse XML response')
+	})
+
+	test('reverseGeocode throws when Adresse element is missing', async () => {
+		vi.spyOn(global, 'fetch').mockResolvedValueOnce({
+			text: () => Promise.resolve('<?xml version="1.0"?><root><empty/></root>'),
+		} as Response)
+		const abortController = new AbortController()
+
+		await expect(
+			reverseGeocode(testUrl, testCoordinates, abortController.signal)
+		).rejects.toThrow('Response does not contain an "Adresse" element.')
+	})
 
 	test('reverseGeocode works with Hamburg-WPS-style', async () => {
 		const fetchMock = vi.spyOn(global, 'fetch').mockResolvedValueOnce({
