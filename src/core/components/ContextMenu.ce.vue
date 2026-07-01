@@ -121,7 +121,7 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 		}
 
 		hr {
-			height: var(--kern-metric-border-width-light, 0.0625rem);
+			height: var(--kern-metric-border-width-light);
 			width: 100%;
 			margin: 0;
 			color: var(--kern-color-layout-border);
