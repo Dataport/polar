@@ -7,6 +7,7 @@
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
+import { useContextMenuStore } from './contextMenu'
 import { useMainStore } from './main'
 import { useMarkerStore } from './marker'
 import { useMoveHandleStore } from './moveHandle'
@@ -22,11 +23,11 @@ import { usePluginStore } from './plugin'
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 	const mainStoreRefs = storeToRefs(mainStore)
-	const moveHandleStore = useMoveHandleStore()
 
-	const pluginStore = usePluginStore()
-
+	const contextMenuStore = useContextMenuStore()
 	const markerStore = useMarkerStore()
+	const moveHandleStore = useMoveHandleStore()
+	const pluginStore = usePluginStore()
 
 	return {
 		/**
@@ -268,6 +269,20 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		setMoveHandleActionButton: moveHandleStore.setMoveHandleActionButton,
+
+		/**
+		 * Allows adding an entry to the context menu.
+		 *
+		 * @param entry - The entry to be added to the context menu.
+		 */
+		addToContextMenu: contextMenuStore.addEntry,
+
+		/**
+		 * Allows removing an entry from the context menu.
+		 *
+		 * @param id - The id of the entry to be removed.
+		 */
+		removeFromContextMenu: contextMenuStore.removeEntry,
 	}
 })
 

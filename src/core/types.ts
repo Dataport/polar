@@ -1,3 +1,4 @@
+export * from './types/contextMenu'
 export * from './types/layer'
 export * from './types/locales'
 export * from './types/main'

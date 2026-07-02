@@ -227,7 +227,6 @@ const map = await createMap(
 	},
 	services
 )
-
 const additionalMaps = []
 document.getElementById('secondMap').addEventListener('click', async () => {
 	const secondMap = createMapElement(
