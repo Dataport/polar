@@ -13,6 +13,7 @@ import pluginExport from '@polar/polar/plugins/export'
 import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
+import pluginGfi from '@polar/polar/plugins/gfi'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
@@ -31,6 +32,7 @@ const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
+const kielPolygon = 'kiel_polygon'
 const hamburgBorder = '6074'
 
 let colorScheme = 'light'
@@ -148,6 +150,12 @@ const map = await createMap(
 					},
 				},
 			},
+			{
+				id: kielPolygon,
+				type: 'mask',
+				name: 'Kiel Polygone',
+				visibility: true,
+			},
 		],
 		layout: 'nineRegions',
 		checkServiceAvailability: true,
@@ -210,6 +218,18 @@ const map = await createMap(
 						button: {
 							label_on: 'Mach groß',
 							label_off: 'Mach klein',
+						},
+					},
+					gfi: {
+						layer: {
+							[reports]: {
+								property: {
+									addr: 'Adresse',
+									statu: 'Status',
+									beschr: 'Beschr.',
+									kat_text: 'Kat.',
+								},
+							},
 						},
 					},
 					iconMenu: {
@@ -359,7 +379,10 @@ addPlugin(
 addPlugin(
 	map,
 	pluginReverseGeocoder({
-		url: 'https://geodienste.hamburg.de/HH_WPS',
+		// type: 'wps',
+		// url: 'https://geodienste.hamburg.de/HH_WPS',
+		type: 'nominatim',
+		url: 'https://polar.dataport.de/nominatim/reverse',
 		coordinateSources: [
 			{
 				plugin: 'pins',
@@ -410,6 +433,67 @@ addPlugin(
 				},
 			],
 			[
+				{ plugin: pluginZoom() },
+				{
+					plugin: pluginGfi({
+						layers: {
+							[reports]: {
+								window: true,
+								properties: [
+									'addr',
+									'statu',
+									'beschr',
+									'pic',
+									'kat_text',
+									'skat_text',
+								],
+								exportProperty: 'pic',
+								showTooltip: (feature) => [
+									[
+										'span',
+										`Coordinates: ${feature.getGeometry().getCoordinates().join(', ')}`,
+									],
+								],
+							},
+							[kielPolygon]: {
+								window: true,
+							},
+						},
+						afterLoadFunction: (featuresByLayerId) => {
+							Object.values(featuresByLayerId).forEach((featureList) => {
+								featureList.forEach((feature) => {
+									if (feature.properties) {
+										feature.properties = {
+											addr: [
+												feature.properties.str,
+												feature.properties.hsnr,
+											].join(' '),
+											...feature.properties,
+										}
+									}
+								})
+							})
+							return featuresByLayerId
+						},
+						featureList: {
+							activeLayers: {
+								plugin: 'layerChooser',
+								key: 'activeMaskIds',
+							},
+							mode: 'visible',
+							bindWithCoreHoverSelect: false,
+							pageLength: 5,
+							text: {
+								title: (feature) =>
+									feature.get('str') + ' ' + feature.get('hsnr'),
+								subtitle: 'Michels Meldung',
+								subSubtitle: (feature) => feature.get('skat_text'),
+							},
+						},
+						multiSelect: 'box',
+						directSelect: true,
+					}),
+				},
 				{
 					plugin: pluginFilter({
 						layers: {
@@ -516,6 +600,11 @@ addPlugin(
 				},
 				type: 'mpapi',
 				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+			},
+			{
+				type: 'nominatim',
+				url: 'https://polar.dataport.de/nominatim/search',
+				queryParameters: {},
 			},
 		],
 		minLength: 3,

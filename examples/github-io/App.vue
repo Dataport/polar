@@ -58,8 +58,6 @@ if (import.meta.hot) {
 @import url('@kern-ux/native/dist/fonts/fira-sans.css');
 
 :root {
-	--polar-navy: #003087;
-	--polar-blue: #003087;
 	--polar-cyan: #00adef;
 	--polar-hero-from: #00adef;
 	--polar-hero-to: #003087;

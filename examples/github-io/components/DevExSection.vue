@@ -40,6 +40,20 @@
 						class="kern-icon kern-icon-fill--check-circle"
 						aria-hidden="true"
 					/>
+					Official
+					<a
+						class="kern-link"
+						href="https://www.osgeo.org/projects/polar/"
+						target="_blank"
+					>
+						OSGeo community project
+					</a>
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
 					Comprehensive documentation and examples
 				</li>
 				<li>
@@ -47,7 +61,7 @@
 						class="kern-icon kern-icon-fill--check-circle"
 						aria-hidden="true"
 					/>
-					Tried & Tested with 50+ productive uses
+					Tried & Tested with 70+ productive uses
 				</li>
 			</ul>
 		</div>
@@ -161,7 +175,8 @@ const copyCode = async () => {
 
 section {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
+	gap: 2rem;
 	padding: 2rem clamp(2rem, 5vw, 10rem);
 	background: var(--kern-color-layout-background-hued);
 

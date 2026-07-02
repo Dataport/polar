@@ -16,9 +16,9 @@ export interface Phase {
 }
 
 export const phases: Phase[] = [
-	{
+	/* {
 		status: 'done',
-		label: 'Q4 · 2023',
+		label: '2023',
 		sublabel: 'Completed',
 		accentIcon: 'check',
 		milestoneIcon: 'check',
@@ -28,29 +28,24 @@ export const phases: Phase[] = [
 				body: 'Initial release with OpenLayers integration, plugin system, and i18n support.',
 				accentIcon: 'orbit',
 			},
-			{
-				title: 'Plugin Suite Expanded',
-				body: 'Added address search, reverse geocoder, scale bar, fullscreen toggle, layer chooser, and toast notifications.',
-				accentIcon: 'extension',
-			},
 		],
 	},
 	{
 		status: 'done',
-		label: 'Q1 · 2025',
+		label: '2024',
 		sublabel: 'Completed',
 		accentIcon: 'check',
 		milestoneIcon: 'check',
 		items: [
 			{
+				title: 'Plugin Suite Expanded',
+				body: 'Added address search, reverse geocoder, scale bar, fullscreen toggle, layer chooser, and toast notifications.',
+				accentIcon: 'extension',
+			},
+			{
 				title: 'More Geostuff',
 				body: 'Extended GeoJSON handling, cluster visualisation, and improved WMS/WFS layer management.',
 				accentIcon: 'map',
-			},
-			{
-				title: 'New Plugin - Routing',
-				body: 'Added routing plugin with support for multiple transport modes and customizable route styling.',
-				accentIcon: 'alt-route',
 			},
 			{
 				title: 'Added Monument Icon Package',
@@ -63,10 +58,38 @@ export const phases: Phase[] = [
 				accentIcon: 'settings',
 			},
 		],
+	}, */
+	{
+		status: 'done',
+		label: 'Q1 · 2025',
+		sublabel: 'Completed',
+		accentIcon: 'check',
+		milestoneIcon: 'check',
+		items: [
+			{
+				title: 'New Plugin - Routing',
+				body: 'Added routing plugin with support for multiple transport modes and customizable route styling.',
+				accentIcon: 'alt-route',
+			},
+		],
+	},
+	{
+		status: 'done',
+		label: 'Q1 · 2026',
+		sublabel: 'Completed',
+		accentIcon: 'check',
+		milestoneIcon: 'check',
+		items: [
+			{
+				title: 'OSGeo Community Project',
+				body: 'POLAR has been accepted as an OSGeo community project, fostering open collaboration and wider adoption.',
+				accentIcon: 'groups',
+			},
+		],
 	},
 	{
 		status: 'progress',
-		label: 'Q2 · 2025',
+		label: 'Q2 · 2026',
 		sublabel: 'In Progress',
 		accentIcon: 'location-on',
 		milestoneIcon: '',
@@ -84,7 +107,7 @@ export const phases: Phase[] = [
 			{
 				title: 'Fixing more bugs',
 				body: 'Further improvements across the core and plugin ecosystem.',
-				accentIcon: 'settings',
+				accentIcon: 'bug-report',
 			},
 		],
 	},
@@ -104,20 +127,6 @@ export const phases: Phase[] = [
 				title: 'E2E Testing & CI/CD',
 				body: 'Enhance end-to-end testing and continuous integration/continuous deployment pipelines.',
 				accentIcon: 'build',
-			},
-		],
-	},
-	{
-		status: 'planned',
-		label: 'Q2 · 2027',
-		sublabel: 'Planned',
-		accentIcon: 'palette',
-		milestoneIcon: '',
-		items: [
-			{
-				title: 'Something Wonderful',
-				body: 'Stay tuned — we have exciting things in the works for the next major release.',
-				accentIcon: 'looks',
 			},
 		],
 	},

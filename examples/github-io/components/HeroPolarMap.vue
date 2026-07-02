@@ -10,9 +10,10 @@
 import type { Feature } from 'ol'
 import type { MpapiParameters } from '@/lib/getFeatures/types'
 
-import { createMap } from '@polar/polar/client'
 import { toMerged } from 'es-toolkit'
 import { onMounted } from 'vue'
+
+import { createMap } from '@/client'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'
@@ -105,6 +106,7 @@ onMounted(async () => {
 				toZoomLevel: 7,
 			},
 			reverseGeocoder: {
+				type: 'wps',
 				url: 'https://geodienste.hamburg.de/HH_WPS',
 				coordinateSources: [{ plugin: 'pins', key: 'coordinate' }],
 				addressTarget: { plugin: 'addressSearch', key: 'selectResult' },
