@@ -90,7 +90,7 @@ const zoomValue = computed({
 	}
 
 	:deep(.kern-form-input__select-wrapper) {
-		background-color: var(--kern-color-form-input-background-inverted);
+		background-color: var(--kern-color-layout-background-default);
 	}
 
 	&.polar-plugin-scale-nineRegions {
@@ -99,7 +99,7 @@ const zoomValue = computed({
 		align-items: stretch;
 
 		> * {
-			background: var(--kern-color-form-input-background-inverted);
+			background: var(--kern-color-layout-background-default);
 			border-radius: var(--kern-metric-border-radius-large);
 			padding: var(--kern-metric-space-x-small) var(--kern-metric-space-small);
 			box-shadow: var(--polar-shadow);

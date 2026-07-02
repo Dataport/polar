@@ -2,6 +2,7 @@
 	"skipPreCommit": false,
 	"allowDirtyCommit": true,
 	"lintOnCommit": false,
+	"lintCssOnCommit": false,
 	"typecheckOnCommit": false,
 	"testOnCommit": false,
 
