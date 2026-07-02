@@ -1,8 +1,8 @@
 import type { Ref } from 'vue'
+import type { ToastOptions } from '@/plugins/toast'
 
 import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
-import { type ToastOptions } from '@/plugins/toast'
 
 export function notifyUser(
 	severity: 'error' | 'warning' | 'info' | 'success',

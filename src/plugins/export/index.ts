@@ -5,11 +5,12 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { ExportPluginOptions } from './types'
 
 import component from './components/ExportUI.ce.vue'
 import locales from './locales'
 import { useExportStore } from './store'
-import { type ExportPluginOptions, PluginId } from './types'
+import { PluginId } from './types'
 
 /**
  * The Export plugin allows making screenshots of the currently visible map.

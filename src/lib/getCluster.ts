@@ -1,6 +1,8 @@
-import { Feature, Map } from 'ol'
+import type { Map } from 'ol'
+import type VectorSource from 'ol/source/Vector'
+
+import { Feature } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
-import VectorSource from 'ol/source/Vector'
 
 /*
  * Helper function to retrieve the related cluster of a feature.

@@ -1,11 +1,9 @@
 import type { FeatureCollection, Point } from 'geojson'
+import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
+import type { BKGParameters } from './types'
 
 import { toMerged } from 'es-toolkit'
 import { transform as transformCoordinates } from 'ol/proj'
-
-import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
-
-import type { BKGParameters } from './types'
 
 import { errorCheck } from './errorCheck'
 

@@ -1,8 +1,3 @@
-import { toMerged } from 'es-toolkit'
-import i18next from 'i18next'
-import { acceptHMRUpdate, defineStore } from 'pinia'
-import { markRaw, reactive } from 'vue'
-
 import type {
 	BundledPluginId,
 	BundledPluginStores,
@@ -11,6 +6,11 @@ import type {
 	PluginOptions,
 	PolarPluginStore,
 } from '../types'
+
+import { toMerged } from 'es-toolkit'
+import i18next from 'i18next'
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { markRaw, reactive } from 'vue'
 
 import { useMainStore } from './main'
 

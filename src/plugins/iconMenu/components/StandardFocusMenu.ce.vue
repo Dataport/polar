@@ -27,17 +27,19 @@
 </template>
 
 <script setup lang="ts">
+import type { Component } from 'vue'
+import type { Icon } from '@/core'
+import type { Menu } from '../types'
+
 import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
-import { type Component, computed, markRaw, ref } from 'vue'
-
-import type { Icon } from '@/core'
+import { computed, markRaw, ref } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useIconMenuStore } from '../store'
-import { type Menu, PluginId } from '../types'
+import { PluginId } from '../types'
 
 const props = defineProps<{
 	menus: (Menu & { buttonClass: string; icon: Icon })[]

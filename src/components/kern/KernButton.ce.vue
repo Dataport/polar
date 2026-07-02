@@ -15,38 +15,31 @@ defineProps<{ icon?: Icon; labelSrOnly?: boolean }>()
 
 <style scoped>
 .kern-btn {
-	background: var(--kern-btn-background-color, transparent);
-
 	.kern-icon {
 		background-color: var(
-			--kern-btn-text-color,
+			--polar-btn-text-color,
 			var(--kern-color-action-default-contextual)
 		);
 	}
 
 	.kern-label {
 		color: var(
-			--kern-btn-text-color,
+			--polar-btn-text-color,
 			var(--kern-color-action-default-contextual)
 		);
 	}
 }
 
 .kern-btn--primary {
-	background: var(
-		--kern-btn-background-color,
-		var(--kern-color-action-default-contextual)
-	);
-
 	.kern-icon {
 		background-color: var(
-			--kern-btn-text-color,
+			--polar-btn-text-color,
 			var(--kern-color-action-on-default-contextual)
 		);
 	}
 	.kern-label {
 		color: var(
-			--kern-btn-text-color,
+			--polar-btn-text-color,
 			var(--kern-color-action-on-default-contextual)
 		);
 	}

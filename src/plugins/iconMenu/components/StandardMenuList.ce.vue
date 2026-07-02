@@ -40,9 +40,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Component } from 'vue'
+import type { Menu } from '../types'
+
 import { storeToRefs } from 'pinia'
 import {
-	type Component,
 	computed,
 	nextTick,
 	onBeforeUnmount,
@@ -56,7 +58,7 @@ import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useIconMenuStore } from '../store'
-import { type Menu, PluginId } from '../types'
+import { PluginId } from '../types'
 
 withDefaults(
 	defineProps<{

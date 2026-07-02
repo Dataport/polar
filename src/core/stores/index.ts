@@ -114,13 +114,6 @@ export const useCoreStore = defineStore('core', () => {
 		language: mainStoreRefs.language,
 
 		/**
-		 * Whether the context menu should be displayed or not.
-		 *
-		 * @alpha
-		 */
-		showContextMenu: contextMenuStore.show,
-
-		/**
 		 * Current zoom level of the map.
 		 *
 		 * @alpha

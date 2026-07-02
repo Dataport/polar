@@ -17,7 +17,7 @@
 					:icon="icon"
 					role="menuitem"
 					tabindex="-1"
-					:style="{ '--kern-btn-text-color': color }"
+					:style="{ '--polar-btn-text-color': color }"
 					@click="ring(callback)"
 					@keydown.enter="ring(callback)"
 					@keydown.up.prevent.stop="focusNextElement($event, -1)"
@@ -32,28 +32,20 @@
 </template>
 
 <script setup lang="ts">
-import { t } from 'i18next'
-import {
-	type ComponentPublicInstance,
-	computed,
-	onMounted,
-	toRaw,
-	useTemplateRef,
-} from 'vue'
-
+import type { ComponentPublicInstance } from 'vue'
 import type { ContextMenuEntry } from '@/core'
+
+import { t } from 'i18next'
+import { storeToRefs } from 'pinia'
+import { computed, onMounted, toRaw, useTemplateRef } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 
 import { useContextMenuStore } from '../stores/contextMenu'
 
-defineProps<{
-	top: string
-	left: string
-}>()
-
 const contextMenuStore = useContextMenuStore()
+const { top, left } = storeToRefs(contextMenuStore)
 
 const buttonsByGroup = computed(() =>
 	Object.groupBy(
@@ -93,10 +85,11 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 		return
 	}
 	const index = [...items].indexOf(target as HTMLElement)
-	const nextElement = items[(index + direction) % items.length]
-	if (nextElement) {
-		nextElement.focus()
+	const nextIndex = index + direction
+	if (nextIndex < 0 || nextIndex >= items.length || !items[nextIndex]) {
+		return
 	}
+	items[nextIndex].focus()
 }
 </script>
 
@@ -107,6 +100,7 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 	min-width: 15rem;
 	z-index: 3;
 	pointer-events: all;
+	border-radius: var(--kern-metric-border-radius-default);
 
 	&:deep(.kern-card__container) {
 		padding: 0;
@@ -117,6 +111,15 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 
 		button {
 			justify-content: start;
+			-webkit-user-select: none;
+			-webkit-touch-callout: none;
+
+			> * {
+				user-select: none;
+				-webkit-user-select: none;
+				-webkit-touch-callout: none;
+				pointer-events: none;
+			}
 
 			&:focus {
 				outline: auto;
@@ -124,7 +127,7 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 		}
 
 		hr {
-			height: var(--kern-metric-border-width-light, 0.0625rem);
+			height: var(--kern-metric-border-width-light);
 			width: 100%;
 			margin: 0;
 			color: var(--kern-color-layout-border);
