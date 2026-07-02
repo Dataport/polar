@@ -79,7 +79,7 @@ export interface IconMenuPluginOptions extends PluginOptions {
 	 * @remarks
 	 * Plugins like GeoLocation can not be added here, as only plugins containing content are allowed.
 	 */
-	focusMenus?: (Menu & { icon: string })[]
+	focusMenus?: (Menu & { icon: Icon })[]
 
 	/**
 	 * ID of the plugin which should be open on start.
