@@ -1,8 +1,10 @@
-/** @type {import('stylelint').Config} */
+import type { Config } from 'stylelint'
+
 export default {
 	extends: ['stylelint-config-recommended', 'stylelint-config-recommended-vue'],
 	plugins: ['stylelint-value-no-unknown-custom-properties'],
 	rules: {
+		/* eslint-disable @typescript-eslint/naming-convention */
 		'csstools/value-no-unknown-custom-properties': [
 			true,
 			{
@@ -26,5 +28,6 @@ export default {
 				],
 			},
 		],
+		/* eslint-enable @typescript-eslint/naming-convention */
 	},
-}
+} satisfies Config
