@@ -54,7 +54,7 @@ const { formattedPointerPosition, availableProjections, selectedProjection } =
 	border-radius: var(--kern-metric-border-radius-large);
 
 	color: var(--kern-color-layout-text-default);
-	background-color: var(--kern-color-layout-background-overlay);
+	background-color: var(--kern-color-layout-background-default);
 	box-shadow: var(--polar-shadow);
 }
 </style>
