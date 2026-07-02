@@ -1,5 +1,5 @@
 import type { WatchOptions } from 'vue'
-import type { PolarContainer } from '../..'
+import type PolarContainer from '../../components/PolarContainer.ce.vue'
 import type { useCoreStore } from '../../stores'
 import type {
 	BundledPluginId,
