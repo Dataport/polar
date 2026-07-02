@@ -56,39 +56,7 @@ if (import.meta.hot) {
 @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400&family=Fira+Code:wght@400&display=swap');
 @import url('@kern-ux/native/dist/kern.css');
 @import url('@kern-ux/native/dist/fonts/fira-sans.css');
-
-:root {
-	--polar-navy: #003087;
-	--polar-blue: #003087;
-	--polar-cyan: #00adef;
-	--polar-hero-from: #00adef;
-	--polar-hero-to: #003087;
-	--polar-hero-accent: #39ff14;
-	--polar-section-alt: #f8fafc;
-	--polar-dark-bg: #111827;
-	--polar-code-bg: #0d1117;
-	--polar-radius: 8px;
-	/* POLAR color tokens */
-	--polar-pink-100: #ffd6ea;
-	--polar-pink-450: #fc0c91;
-	--polar-pink-600: #b80064;
-	--polar-blue-100: #d0e4ff;
-	--polar-blue-250: #7dbbfe;
-	--polar-blue-300: #47b2ff;
-	--polar-blue-400: #0794fa;
-	--polar-blue-500: #0078d4;
-	--polar-blue-600: #005fad;
-	--polar-blue-850: #00264e;
-	--polar-green-100: #47ffb0;
-	--polar-green-250: #00d388;
-	--polar-green-300: #00c37c;
-	--polar-green-500: #008854;
-	--polar-green-600: #006c42;
-	--polar-grey-300: #a5aac3;
-	--polar-grey-500: #6e7597;
-	--polar-grey-600: #565c7f;
-	--polar-text-default: #171a2b;
-}
+@import url('./variables.css');
 
 *,
 *::before,
@@ -101,9 +69,9 @@ body {
 }
 
 h3 {
-	font-size: var(--kern-typography-font-size-adaptive-medium);
+	font-size: var(--kern-typography-font-size-medium-adaptive);
 	font-weight: var(--kern-typography-font-weight-semi-bold);
-	line-height: var(--kern-typography-line-height-adaptive-medium);
+	line-height: var(--kern-typography-line-height-medium-adaptive);
 }
 
 /* ── Hero zone ──────────────────────────────────────────── */
@@ -171,7 +139,7 @@ h3 {
 	margin-bottom: 1rem;
 
 	p {
-		font-size: var(--kern-typography-font-size-static-medium);
+		font-size: var(--kern-typography-font-size-medium-static);
 		width: 54rem;
 		margin: 0 auto;
 
