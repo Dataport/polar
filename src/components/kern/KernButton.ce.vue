@@ -17,14 +17,14 @@ defineProps<{ icon?: Icon; labelSrOnly?: boolean }>()
 .kern-btn {
 	.kern-icon {
 		background-color: var(
-			--kern-btn-text-color,
+			--polar-btn-text-color,
 			var(--kern-color-action-default-contextual)
 		);
 	}
 
 	.kern-label {
 		color: var(
-			--kern-btn-text-color,
+			--polar-btn-text-color,
 			var(--kern-color-action-default-contextual)
 		);
 	}
@@ -33,13 +33,13 @@ defineProps<{ icon?: Icon; labelSrOnly?: boolean }>()
 .kern-btn--primary {
 	.kern-icon {
 		background-color: var(
-			--kern-btn-text-color,
+			--polar-btn-text-color,
 			var(--kern-color-action-on-default-contextual)
 		);
 	}
 	.kern-label {
 		color: var(
-			--kern-btn-text-color,
+			--polar-btn-text-color,
 			var(--kern-color-action-on-default-contextual)
 		);
 	}
