@@ -30,12 +30,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Ref } from 'vue'
+
 import { computed, useId } from 'vue'
 
 const props = defineProps<{
 	options: {
 		value: string | number
-		label: string
+		label: string | Ref<string>
 		ariaLabel?: string
 		[key: string]: unknown
 	}[]

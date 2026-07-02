@@ -19,6 +19,7 @@ import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
 import pluginPins from '@polar/polar/plugins/pins'
 import pluginPointerPosition from '@polar/polar/plugins/pointerPosition'
 import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
+import pluginRouting from '@polar/polar/plugins/routing'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 import pluginZoom from '@polar/polar/plugins/zoom'
@@ -227,7 +228,6 @@ const map = await createMap(
 	},
 	services
 )
-
 const additionalMaps = []
 document.getElementById('secondMap').addEventListener('click', async () => {
 	const secondMap = createMapElement(
@@ -488,6 +488,16 @@ addPlugin(
 							onError: 'strict',
 						}, */
 					}),
+				},
+				{
+					plugin: pluginRouting({
+						type: 'ors',
+						url: 'https://api.openrouteservice.org/v2/directions/',
+						apiKey: '',
+						displayPreferences: true,
+						displayRouteTypesToAvoid: true,
+					}),
+					icon: 'kern-icon-fill--assistant-direction',
 				},
 			],
 			[
