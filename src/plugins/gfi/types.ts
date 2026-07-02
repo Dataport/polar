@@ -122,7 +122,7 @@ export interface GfiLayerConfiguration {
 	/**
 	 * If `true`, properties will be shown in the map client.
 	 *
-	 * @defaultValue false
+	 * @defaultValue `false`
 	 */
 	window?: boolean
 }
