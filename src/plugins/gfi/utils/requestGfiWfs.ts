@@ -1,8 +1,7 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
+import type { RequestGfiParameters } from '../types'
 
 import { GeoJSON, WFS } from 'ol/format'
-
-import type { RequestGfiParameters } from '../types'
 
 /**
  * Parses WFS reply to jsonable objects.

@@ -1,6 +1,5 @@
 import vue from '@vitejs/plugin-vue'
 import { globSync } from 'node:fs'
-import { createRequire } from 'node:module'
 import { basename, resolve, sep } from 'node:path'
 import dts from 'unplugin-dts/vite'
 import { defineConfig } from 'vite'
@@ -10,8 +9,6 @@ import kernExtraIcons from 'vite-plugin-kern-extra-icons'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 import enrichedConsole from './vitePlugins/enrichedConsole.js'
-
-const require = createRequire(import.meta.url)
 
 export default defineConfig(({ mode }) => ({
 	plugins: [
@@ -113,8 +110,6 @@ export default defineConfig(({ mode }) => ({
 					}
 				: {}),
 			'@': resolve(__dirname, 'src'),
-			stream: require.resolve('stream-browserify'),
-			timers: require.resolve('timers-browserify'),
 			/* eslint-enable @typescript-eslint/naming-convention */
 		},
 	},

@@ -1,5 +1,4 @@
 import type { PluginOptions } from '@/core'
-
 import type { LoaderStyles } from './store'
 
 export const PluginId = 'loadingIndicator'

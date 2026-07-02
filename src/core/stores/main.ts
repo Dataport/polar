@@ -1,5 +1,11 @@
 import type { Feature, Map } from 'ol'
 import type { Point } from 'ol/geom'
+import type {
+	ColorScheme,
+	MapConfigurationIncludingDefaults,
+	MasterportalApiServiceRegister,
+	PluginId,
+} from '../types'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
@@ -7,13 +13,6 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 
 import { findLayer } from '@/lib/findLayer'
-
-import type {
-	ColorScheme,
-	MapConfigurationIncludingDefaults,
-	MasterportalApiServiceRegister,
-	PluginId,
-} from '../types'
 
 import { addInterceptor } from '../utils/addInterceptor'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'

@@ -5,11 +5,12 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { FilterPluginOptions } from './types'
 
 import component from './components/FilterUI.ce.vue'
 import locales from './locales'
 import { useFilterStore } from './store'
-import { type FilterPluginOptions, PluginId } from './types'
+import { PluginId } from './types'
 
 /**
  * Creates a plugin which allows to filter arbitrary configurable vector layers by their properties.

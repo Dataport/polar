@@ -1,4 +1,6 @@
-import { Feature, Map, MapBrowserEvent, Overlay } from 'ol'
+import type { Feature, Map, MapBrowserEvent } from 'ol'
+
+import { Overlay } from 'ol'
 import { onScopeDispose } from 'vue'
 
 import { updateTooltip } from '../utils/updateTooltip'

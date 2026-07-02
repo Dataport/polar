@@ -1,9 +1,9 @@
+import type { FilterState } from '../types'
+
 import { Feature } from 'ol'
 import VectorSource from 'ol/source/Vector'
 
 import { hideFeature, showFeature } from '@/lib/invisibleStyle'
-
-import type { FilterState } from '../types'
 
 import { doesFeaturePassFilter } from './doesFeaturePassFilter'
 

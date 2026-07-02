@@ -1,9 +1,9 @@
-import { Feature } from 'ol'
-import { Point } from 'ol/geom'
+import type { Feature } from 'ol'
+import type { Point } from 'ol/geom'
+import type { CallOnMapSelect } from '../types'
+
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, shallowRef, watch } from 'vue'
-
-import type { CallOnMapSelect } from '../types'
 
 import { useMainStore } from './main'
 

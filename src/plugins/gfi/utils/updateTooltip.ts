@@ -1,6 +1,10 @@
-import { Feature, type MapBrowserEvent, Overlay } from 'ol'
+import type { Overlay } from 'ol'
+import type { MapBrowserEvent } from 'ol'
+import type { Tooltip } from '@/lib/tooltip'
 
-import { getTooltip, type Tooltip } from '@/lib/tooltip'
+import { Feature } from 'ol'
+
+import { getTooltip } from '@/lib/tooltip'
 
 export function updateTooltip(
 	{ pixel, dragging, originalEvent, map }: MapBrowserEvent<PointerEvent>,

@@ -1,4 +1,5 @@
 import type { Feature } from 'ol'
+import type { FeatureList } from '../types'
 
 import { GeoJSON } from 'ol/format'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
@@ -9,8 +10,6 @@ import { useRefStore } from '@/composables/useRefStore'
 import { useCoreStore } from '@/core/stores'
 import { getVectorSource } from '@/lib/getVectorSource'
 import { isVisible } from '@/lib/invisibleStyle'
-
-import type { FeatureList } from '../types'
 
 import { getSourceFeatures } from '../utils/getSourceFeatures'
 import { useGfiMainStore } from './main'

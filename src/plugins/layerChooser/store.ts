@@ -4,17 +4,16 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type Layer from 'ol/layer/Layer'
+import type { ImageWMS, TileWMS } from 'ol/source'
+import type { LayerConfiguration } from '@/core'
+import type { LayerLegend, LayerOptions } from './types'
+
 import { toMerged } from 'es-toolkit'
-import Layer from 'ol/layer/Layer'
-import { ImageWMS, TileWMS } from 'ol/source'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
-import type { LayerConfiguration } from '@/core'
-
 import { useCoreStore } from '@/core/stores'
-
-import type { LayerLegend, LayerOptions } from './types'
 
 import { areLayersActive } from './utils/areLayersActive'
 import {

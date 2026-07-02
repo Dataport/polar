@@ -1,12 +1,13 @@
-import { defineStore } from 'pinia'
-import { type Component, markRaw, ref } from 'vue'
+import type { Component } from 'vue'
+import type { Icon, MoveHandleProperties } from '../types'
 
-import type { MoveHandleProperties } from '../types'
+import { defineStore } from 'pinia'
+import { markRaw, ref } from 'vue'
 
 export const useMoveHandleStore = defineStore('moveHandle', () => {
 	const actionButton = ref<Component | null>(null)
 	const closeFunction = ref<(userInteraction: boolean) => void>(() => {})
-	const closeIcon = ref('kern-icon--close')
+	const closeIcon = ref<Icon>('kern-icon--close')
 	const closeLabel = ref('')
 	const component = ref<Component | null>(null)
 	const isActive = ref(false)

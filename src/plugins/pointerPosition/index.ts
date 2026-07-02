@@ -5,11 +5,12 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { PointerPositionPluginOptions } from './types'
 
 import component from './components/PointerPosition.ce.vue'
 import locales from './locales'
 import { usePointerPositionStore } from './store'
-import { PluginId, type PointerPositionPluginOptions } from './types'
+import { PluginId } from './types'
 
 /**
  * The PointerPosition plugin makes the current/last pointer position visible

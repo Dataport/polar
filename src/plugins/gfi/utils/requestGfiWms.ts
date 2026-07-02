@@ -1,4 +1,6 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
+import type { TileWMS } from 'ol/source'
+import type { RequestGfiWmsParameters } from '../types'
 
 import { Feature } from 'ol'
 import { GeoJSON } from 'ol/format'
@@ -7,9 +9,6 @@ import GML2 from 'ol/format/GML2'
 import GML3 from 'ol/format/GML3'
 import GML32 from 'ol/format/GML32'
 import WFS from 'ol/format/WFS'
-import { TileWMS } from 'ol/source'
-
-import type { RequestGfiWmsParameters } from '../types'
 
 // list of supported reply formats that can be used from OL
 const formats = {

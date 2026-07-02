@@ -4,14 +4,18 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { Component } from 'vue'
+import type { Icon } from '@/core'
+import type { Menu } from './types'
+
 import { toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { type Component, computed, markRaw, ref } from 'vue'
+import { computed, markRaw, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import type { Menu } from './types'
+import { PluginId } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -24,7 +28,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	const coreStore = useCoreStore()
 
 	const menus = ref<Array<Menu[]>>([])
-	const focusMenus = ref<(Menu & { icon: string })[]>([])
+	const focusMenus = ref<(Menu & { icon: Icon })[]>([])
 	const open = ref<string | null>(null)
 	const focusOpen = ref<string | null>(null)
 
@@ -154,11 +158,11 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 				open.value = null
 			},
 			closeLabel: t(($) => $.mobileCloseButton, {
-				ns: 'iconMenu',
-				plugin: t(($) => $.hints[menu.plugin.id], { ns: 'iconMenu' }),
+				ns: PluginId,
+				plugin: t(($) => $.hints[menu.plugin.id], { ns: PluginId }),
 			}),
 			component: menu.plugin.component,
-			plugin: 'iconMenu',
+			plugin: PluginId,
 		})
 	}
 

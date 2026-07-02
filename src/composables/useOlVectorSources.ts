@@ -1,7 +1,8 @@
 import type VectorSource from 'ol/source/Vector'
+import type { Ref } from 'vue'
 
 import { debounce } from 'es-toolkit'
-import { onWatcherCleanup, type Ref, shallowRef, watch } from 'vue'
+import { onWatcherCleanup, shallowRef, watch } from 'vue'
 
 /**
  * Generate a reactive value based on the provided callback, which is re-evaluated when any of the provided sources emit a 'change' event.

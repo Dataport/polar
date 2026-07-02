@@ -209,7 +209,7 @@ const exportPluginActive = computed({
 		if (!map.value) {
 			return
 		}
-		return Boolean(getStore(map.value, 'export'))
+		return getStore(map.value, 'core').usedPlugins.includes('export')
 	},
 	set: (value: boolean) => {
 		if (!map.value) {

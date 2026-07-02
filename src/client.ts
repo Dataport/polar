@@ -1,10 +1,12 @@
-import {
-	fetchServiceRegister,
-	type MapConfiguration,
-	type MasterportalApiServiceRegister,
-	type PluginContainer,
-	type PolarContainer,
+import type {
+	MapConfiguration,
+	MasterportalApiServiceRegister,
+	PluginContainer,
+	PolarContainer,
 } from '@/core'
+import type { Menu } from '@/plugins/iconMenu'
+
+import { fetchServiceRegister } from '@/core'
 import {
 	addPlugins as coreAddPlugins,
 	createMap as coreCreateMap,
@@ -13,7 +15,7 @@ import AddressSearch from '@/plugins/addressSearch'
 import Fullscreen from '@/plugins/fullscreen'
 import GeoLocation from '@/plugins/geoLocation'
 import Gfi from '@/plugins/gfi'
-import IconMenu, { type Menu } from '@/plugins/iconMenu'
+import IconMenu from '@/plugins/iconMenu'
 import LayerChooser from '@/plugins/layerChooser'
 import LoadingIndicator from '@/plugins/loadingIndicator'
 import Pins from '@/plugins/pins'
