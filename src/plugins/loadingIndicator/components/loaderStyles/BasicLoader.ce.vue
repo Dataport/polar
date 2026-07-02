@@ -13,14 +13,12 @@
 </script>
 
 <style scoped>
-.lds-default {
-	color: var(--kern-color-action-default);
-}
 .lds-default,
 .lds-default div {
 	box-sizing: border-box;
 }
 .lds-default {
+	color: var(--kern-color-action-default);
 	display: inline-block;
 	position: relative;
 	width: 80px;

@@ -72,7 +72,7 @@ section {
 	h1 {
 		font-size: 4rem;
 		font-weight: var(--kern-typography-font-weight-medium);
-		line-height: var(--kern-typography-line-height-adaptive-2x-large);
+		line-height: var(--kern-typography-line-height-2x-large-adaptive);
 		margin-top: 0;
 		margin-bottom: 1rem;
 
@@ -95,7 +95,7 @@ section {
 	h2 {
 		font-size: 2rem;
 		font-weight: var(--kern-typography-font-weight-semi-bold);
-		line-height: var(--kern-typography-line-height-adaptive-large);
+		line-height: var(--kern-typography-line-height-large-adaptive);
 
 		.lp-hero__subtitle-dot {
 			color: #3effab;
