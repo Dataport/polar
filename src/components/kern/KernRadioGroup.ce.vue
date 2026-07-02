@@ -14,9 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { useId } from 'vue'
-
 import type { Icon } from '@/core'
+
+import { useId } from 'vue'
 
 defineProps<{
 	items: {

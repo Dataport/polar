@@ -1,5 +1,4 @@
 import type { Component } from 'vue'
-
 import type { Icon } from '../types'
 
 export interface MoveHandleProperties {

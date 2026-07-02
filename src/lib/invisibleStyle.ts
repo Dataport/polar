@@ -1,4 +1,5 @@
-import { Feature } from 'ol'
+import type { Feature } from 'ol'
+
 import Style from 'ol/style/Style'
 
 /*

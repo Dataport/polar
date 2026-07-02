@@ -1,5 +1,4 @@
 import type { Ref } from 'vue'
-
 import type { Color, Icon, PluginOptions } from '@/core'
 
 /**

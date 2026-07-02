@@ -4,11 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { Component } from 'vue'
+import type { PluginContainer } from '@/core'
+
 import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { type Component, markRaw, ref } from 'vue'
-
-import type { PluginContainer } from '@/core'
+import { markRaw, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 

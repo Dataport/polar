@@ -5,11 +5,12 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { IconMenuPluginOptions } from './types'
 
 import component from './components/IconMenu.ce.vue'
 import locales from './locales'
 import { useIconMenuStore } from './store'
-import { type IconMenuPluginOptions, PluginId } from './types'
+import { PluginId } from './types'
 
 /**
  * Creates a plugin which adds the possibility to open various functionality as
