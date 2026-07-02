@@ -1,4 +1,5 @@
-import type { PluginContainer, PolarContainer } from '@/core'
+import type PolarContainer from '../../components/PolarContainer.ce.vue'
+import type { PluginContainer } from '../../types'
 
 /**
  * Calls `addPlugin` for each plugin in the array.
