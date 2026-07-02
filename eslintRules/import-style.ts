@@ -147,7 +147,13 @@ const importStyle: Rule.RuleModule = {
 				const currentDir = path.join(srcRoot, path.dirname(currentSrcRel))
 				const targetAbs = path.join(srcRoot, targetSrcRel)
 				let rel = path.relative(currentDir, targetAbs).replace(/\\/g, '/')
-				if (!rel.startsWith('.')) {
+				if (rel === '') {
+					// The target file's extension-stripped path is identical to the
+					// current file's directory. This happens when a file imports a
+					// sibling file whose name matches its own folder, e.g. importing
+					// `../types.ts` from a file inside a folder named `types`.
+					rel = `../${path.basename(targetAbs)}`
+				} else if (!rel.startsWith('.')) {
 					rel = `./${rel}`
 				}
 				expected = rel

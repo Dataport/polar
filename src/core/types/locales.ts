@@ -1,12 +1,6 @@
-import type { ResourceKey } from 'i18next'
-import type { BundledPluginId, BundledPluginLocaleResources, CoreId } from '..'
 import type { resourcesEn as core } from '../locales'
-
-/** @internal */
-export interface Locale {
-	resources: Record<string, ResourceKey>
-	type: string
-}
+import type { CoreId } from '../types'
+import type { BundledPluginId, BundledPluginLocaleResources } from './plugin'
 
 /** @internal */
 export type LocaleResources = {
