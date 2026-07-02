@@ -29,6 +29,11 @@
 		</div>
 	</div>
 	<table class="kern-table kern-table--striped">
+		<caption v-if="gfiStore.title" class="kern-title">
+			{{
+				gfiStore.title
+			}}
+		</caption>
 		<thead class="kern-table__head">
 			<tr class="kern-table__row">
 				<th scope="col" class="kern-table__header">

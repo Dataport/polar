@@ -437,6 +437,8 @@ addPlugin(
 							[reports]: {
 								window: true,
 								geometry: false,
+								title: (feature) =>
+									`Meldung ${feature.properties.str} ${feature.properties.hsnr}`,
 								properties: [
 									'addr',
 									'statu',

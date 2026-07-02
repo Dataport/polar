@@ -110,6 +110,16 @@ export interface GfiLayerConfiguration {
 	showTooltip?: (feature: Feature) => [string, string][]
 
 	/**
+	 * Title to be shown in the GFI window.
+	 * If a function is given, it will be called with the feature to determine the title.
+	 *
+	 * @defaultValue Title will be omitted
+	 * @param feature - Feature to calculate the title for
+	 * @returns Title string or `null` if no title should be shown
+	 */
+	title?: string | ((feature: GeoJsonFeature) => string | null)
+
+	/**
 	 * If `true`, properties will be shown in the map client.
 	 *
 	 * @defaultValue false

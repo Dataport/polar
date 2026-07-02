@@ -193,6 +193,14 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		 * @alpha
 		 */
 		exportProperty: gfiFeatureStoreRefs.exportProperty,
+
+		/**
+		 * The title for the selected feature in detail view.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		title: gfiFeatureStoreRefs.title,
 	}
 })
 

@@ -192,6 +192,18 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			: null
 	)
 
+	const titleLayerConfiguration = computed(() =>
+		typeof selectedFeatureLayerConfiguration.value?.title === 'string'
+			? () => selectedFeatureLayerConfiguration.value?.title ?? null
+			: (selectedFeatureLayerConfiguration.value?.title ?? null)
+	)
+
+	const title = computed(() =>
+		titleLayerConfiguration.value && selectedFeature.value
+			? titleLayerConfiguration.value(selectedFeature.value.feature)
+			: null
+	)
+
 	const selectedFeaturePropertiesLayerConfiguration = computed(
 		() => selectedFeatureLayerConfiguration.value?.properties
 	)
@@ -263,6 +275,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		selectedFeature,
 		selectedFeatureProperties,
 		exportProperty,
+		title,
 	}
 })
 
