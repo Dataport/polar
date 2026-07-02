@@ -1,4 +1,3 @@
-import type { Icon } from '@/core'
 import type { Time } from '../types'
 
 import { t } from 'i18next'
@@ -180,28 +179,24 @@ export const useFilterTimeStore = defineStore('plugins/filter/time', () => {
 			{
 				value: 'all',
 				label: t(($) => $.time.noRestriction, { ns: PluginId }),
-				icon: 'kern-icon--all-inclusive',
 			},
 			...(configuration.value.last?.map((offset) => ({
 				value: `last-${offset}`,
 				label: t(($) => $.time.last, { count: offset, ns: PluginId }),
-				icon: 'kern-icon--history' as Icon,
 			})) || []),
 			...(configuration.value.next?.map((offset) => ({
 				value: `next-${offset}`,
 				label: t(($) => $.time.next, { count: offset, ns: PluginId }),
-				icon: 'kern-icon--timeline' as Icon,
 			})) || []),
 			...(configuration.value.freeSelection
 				? [
 						{
 							value: 'custom',
 							label: t(($) => $.time.chooseTimeFrame, { ns: PluginId }),
-							icon: 'kern-icon--calendar-month' as Icon,
 						},
 					]
 				: []),
-		] satisfies { value: string; label: string; icon: Icon }[]
+		]
 	})
 
 	return {
