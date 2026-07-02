@@ -18,9 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import { type Ref, unref, useId } from 'vue'
-
+import type { Ref } from 'vue'
 import type { Icon } from '@/core'
+
+import { unref, useId } from 'vue'
 
 interface PolarToggleOption {
 	label: string | Ref<string>

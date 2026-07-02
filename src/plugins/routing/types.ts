@@ -3,7 +3,6 @@ import type {
 	LineString as GeoJsonLineString,
 } from 'geojson'
 import type { Ref } from 'vue'
-
 import type { Icon, PluginOptions } from '@/core'
 
 export const PluginId = 'routing'

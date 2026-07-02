@@ -5,11 +5,12 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { RoutingPluginOptions } from './types'
 
 import component from './components/RoutingWrapper.ce.vue'
 import locales from './locales'
 import { useRoutingStore } from './store'
-import { PluginId, type RoutingPluginOptions } from './types'
+import { PluginId } from './types'
 
 /**
  * Creates a plugin which offers routing functionality to the user.

@@ -4,33 +4,31 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type {
-	FeatureCollection,
-	LineString as GeoJsonLineString,
-} from 'geojson'
 import type { Coordinate } from 'ol/coordinate'
+import type { Point } from 'ol/geom'
+import type { WatchStopHandle } from 'vue'
+import type {
+	RoutingPluginOptions,
+	RoutingResponseData,
+	SelectableTravelMode,
+	TravelMode,
+} from './types.ts'
 
 import { t } from 'i18next'
 import { Feature } from 'ol'
-import { LineString, Point } from 'ol/geom'
+import { LineString } from 'ol/geom'
 import Draw from 'ol/interaction/Draw'
 import VectorLayer from 'ol/layer/Vector'
 import { transform } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
 import { Stroke, Style } from 'ol/style'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, watch, type WatchStopHandle } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
 
-import {
-	PluginId,
-	type RoutingPluginOptions,
-	type RoutingResponseData,
-	type SelectableTravelMode,
-	type TravelMode,
-} from './types.ts'
+import { PluginId } from './types.ts'
 import { handleErrors } from './utils/handleErrors.ts'
 
 /* eslint-disable tsdoc/syntax */

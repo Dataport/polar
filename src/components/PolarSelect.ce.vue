@@ -30,7 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, type Ref, useId } from 'vue'
+import type { Ref } from 'vue'
+
+import { computed, useId } from 'vue'
 
 const props = defineProps<{
 	options: {
