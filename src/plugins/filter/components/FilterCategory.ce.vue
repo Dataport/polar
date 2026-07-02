@@ -1,6 +1,6 @@
 <template>
 	<FilterSection
-		v-for="(category, idx) of filterStore.selectedLayerConfiguration.categories"
+		v-for="(category, idx) of filterStore.categories"
 		:key="idx"
 		:title="
 			$t(
@@ -12,7 +12,18 @@
 			)
 		"
 	>
-		<div class="polar-filter-category-values">
+		<PolarInputGroup
+			legend-sr-only
+			:legend="
+				$t(
+					($) =>
+						$['layer'][filterStore.selectedLayerId]['category'][
+							category.targetProperty
+						]['title'],
+					{ ns: PluginId, defaultValue: category.targetProperty }
+				)
+			"
+		>
 			<KernButton
 				v-if="category.selectAll"
 				class="kern-btn--block kern-btn--tertiary"
@@ -21,28 +32,13 @@
 			>
 				{{ $t(($) => $.category.deselectAll, { ns: PluginId }) }}
 			</KernButton>
-			<component
-				:is="
-					coreStore.layout === 'standard'
-						? KernBlockButtonCheckbox
-						: KernCheckbox
-				"
+			<PolarInput
 				v-for="categoryValue of category.knownValues"
 				:key="flattenValue(categoryValue)"
-				:icon="typeof categoryValue !== 'string' && categoryValue.icon"
-				:model-value="
-					filterStore.getCategoryStatus(
-						category.targetProperty,
-						expandValue(categoryValue)
-					)
-				"
-				@update:model-value="
-					filterStore.setCategoryStatus(
-						category.targetProperty,
-						expandValue(categoryValue),
-						$event
-					)
-				"
+				v-model="category.selection"
+				type="checkbox"
+				:name="category.targetProperty"
+				:value="flattenValue(categoryValue)"
 			>
 				{{
 					$t(
@@ -53,23 +49,21 @@
 						{ ns: PluginId, defaultValue: flattenValue(categoryValue) }
 					)
 				}}
-			</component>
-		</div>
+			</PolarInput>
+		</PolarInputGroup>
 	</FilterSection>
 </template>
 
 <script setup lang="ts">
-import KernBlockButtonCheckbox from '@/components/kern/KernBlockButtonCheckbox.ce.vue'
 import KernButton from '@/components/kern/KernButton.ce.vue'
-import KernCheckbox from '@/components/kern/KernCheckbox.ce.vue'
-import { useCoreStore } from '@/core/stores'
+import PolarInput from '@/components/PolarInput.ce.vue'
+import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
 
 import { useFilterStore } from '../store'
 import { PluginId } from '../types'
-import { expandValue, flattenValue } from '../utils/flattenAndExpandValue'
+import { flattenValue } from '../utils/flattenAndExpandValue'
 import FilterSection from './FilterSection.ce.vue'
 
-const coreStore = useCoreStore()
 const filterStore = useFilterStore()
 </script>
 

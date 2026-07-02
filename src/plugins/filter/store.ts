@@ -107,27 +107,12 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 		selectedLayerHasTimeFilter: filterMainStoreRefs.selectedLayerHasTimeFilter,
 
 		/**
-		 * For a given category value for a target property, return the selected values.
+		 * Categories of the selected layer, each enriched with a writable
+		 * `selection` computed (usable with `v-model`).
 		 *
-		 * @remarks
-		 * If there are multiple values specified for the category value, the category is considered selected if all values are selected.
-		 *
-		 * @param targetProperty - Target property
-		 * @param categoryValue - Value to filter for
-		 * @returns `true` if the category value is selected, `false` otherwise
 		 * @alpha
 		 */
-		getCategoryStatus: filterCategoryStore.getStatus,
-
-		/**
-		 * Set the selection state for a given category value for a target property.
-		 *
-		 * @param targetProperty - Target property
-		 * @param categoryValue - Value to filter for
-		 * @param newStatus - `true` if the category value should be selected, `false` otherwise
-		 * @alpha
-		 */
-		setCategoryStatus: filterCategoryStore.setStatus,
+		categories: filterCategoryStore.categories,
 
 		/**
 		 * For a given category, select all values if at least some are not selected yet, or de-select all values otherwise.
