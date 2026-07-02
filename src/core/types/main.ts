@@ -6,6 +6,7 @@ import type { FilterPluginOptions } from '@/plugins/filter'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
+import type { GfiPluginOptions } from '@/plugins/gfi'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
 import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
 import type { PinsPluginOptions } from '@/plugins/pins'
@@ -327,6 +328,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** Configuration for geoLocation plugin. */
 	geoLocation?: GeoLocationPluginOptions
+
+	/** Configuration for gfi plugin. */
+	gfi?: GfiPluginOptions
 
 	/** Configuration for iconMenu plugin. */
 	iconMenu?: IconMenuPluginOptions

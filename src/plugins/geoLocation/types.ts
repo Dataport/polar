@@ -1,4 +1,4 @@
-import type { LayerBoundPluginOptions } from '@/core'
+import type { InterfacePluginOptions, LayerBoundPluginOptions } from '@/core'
 
 /**
  * Plugin identifier.
@@ -13,7 +13,8 @@ export type PluginState = 'LOCATABLE' | 'LOCATED' | 'DISABLED'
 /**
  * Plugin options for geoLocation plugin.
  */
-export interface GeoLocationPluginOptions extends LayerBoundPluginOptions {
+export interface GeoLocationPluginOptions
+	extends LayerBoundPluginOptions, InterfacePluginOptions {
 	/**
 	 * If `true`, the location check will be run on map start-up. If `false`, the
 	 * feature has to be triggered with a button press by the user.
@@ -31,16 +32,6 @@ export interface GeoLocationPluginOptions extends LayerBoundPluginOptions {
 	 * @defaultValue `false`
 	 */
 	keepCentered?: boolean
-
-	/**
-	 * Defines if the geoLocation button is rendered independent or as part of the
-	 * icon menu.
-	 *
-	 * This is only applicable if the layout is `'nineRegions'`.
-	 *
-	 * @defaultValue `'independent'`
-	 */
-	renderType?: 'independent' | 'iconMenu'
 
 	/**
 	 * If set to `true`, a tooltip will be shown when hovering the geoposition

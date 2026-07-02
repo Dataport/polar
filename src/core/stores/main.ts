@@ -4,12 +4,15 @@ import type {
 	ColorScheme,
 	MapConfigurationIncludingDefaults,
 	MasterportalApiServiceRegister,
+	PluginId,
 } from '../types'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
+
+import { findLayer } from '@/lib/findLayer'
 
 import { addInterceptor } from '../utils/addInterceptor'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
@@ -27,6 +30,7 @@ export const useMainStore = defineStore('main', () => {
 			defaults
 		)
 	)
+	const extent = ref([0, 0, 0, 0])
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)
@@ -78,6 +82,10 @@ export const useMainStore = defineStore('main', () => {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
 	}
 
+	function getLayer(layerId: string) {
+		return findLayer(map.value, layerId)
+	}
+
 	function getLayerMapConfiguration(layerId: string) {
 		const polar = configuration.value.layers.find(
 			(layer) => layer.id === layerId
@@ -87,6 +95,26 @@ export const useMainStore = defineStore('main', () => {
 			return null
 		}
 		return { ...register, ...polar } as typeof polar
+	}
+
+	const maskedInteractions = ref(new globalThis.Map<string, PluginId>())
+	function maskInteraction(pluginId: PluginId, interaction: string) {
+		if (maskedInteractions.value.has(interaction)) {
+			throw new Error(
+				`Interaction "${interaction}" is already masked by plugin "${maskedInteractions.value.get(
+					interaction
+				)}"`
+			)
+		}
+		maskedInteractions.value.set(interaction, pluginId)
+	}
+	function unmaskInteraction(pluginId: PluginId, interaction: string) {
+		if (maskedInteractions.value.get(interaction) === pluginId) {
+			maskedInteractions.value.delete(interaction)
+		}
+	}
+	function isInteractionMasked(interaction: string) {
+		return maskedInteractions.value.has(interaction)
 	}
 
 	function setup() {
@@ -113,6 +141,7 @@ export const useMainStore = defineStore('main', () => {
 		serviceRegister,
 		shadowRoot,
 		center,
+		extent,
 		zoom,
 		// Getters
 		layout,
@@ -122,8 +151,12 @@ export const useMainStore = defineStore('main', () => {
 		deviceIsHorizontal,
 		// Actions
 		centerOnFeature,
+		getLayer,
 		updateHasSmallDisplay,
 		getLayerMapConfiguration,
+		maskInteraction,
+		unmaskInteraction,
+		isInteractionMasked,
 		setup,
 		teardown,
 	}
@@ -131,4 +164,50 @@ export const useMainStore = defineStore('main', () => {
 
 if (import.meta.hot) {
 	import.meta.hot.accept(acceptHMRUpdate(useMainStore, import.meta.hot))
+}
+
+if (import.meta.vitest) {
+	const { expect, test: _test } = import.meta.vitest
+	const { createPinia, setActivePinia } = await import('pinia')
+
+	/* eslint-disable no-empty-pattern */
+	const test = _test.extend<{
+		store: ReturnType<typeof useMainStore>
+	}>({
+		store: async ({}, use) => {
+			setActivePinia(createPinia())
+			const store = useMainStore()
+			store.setup()
+			await use(store)
+			store.teardown()
+		},
+	})
+	/* eslint-enable no-empty-pattern */
+
+	test('Masking interactions works as expected', ({ store }) => {
+		const pluginId = 'external-test-plugin'
+		const interaction = 'click'
+
+		expect(store.isInteractionMasked(interaction)).toBe(false)
+
+		store.maskInteraction(pluginId, interaction)
+		expect(store.isInteractionMasked(interaction)).toBe(true)
+
+		store.unmaskInteraction(pluginId, interaction)
+		expect(store.isInteractionMasked(interaction)).toBe(false)
+	})
+
+	test('Masking interactions twice fails', ({ store }) => {
+		const pluginId = 'external-test-plugin'
+		const interaction = 'click'
+
+		expect(store.isInteractionMasked(interaction)).toBe(false)
+
+		store.maskInteraction(pluginId, interaction)
+		expect(store.isInteractionMasked(interaction)).toBe(true)
+
+		expect(() => {
+			store.maskInteraction(pluginId, interaction)
+		}).toThrow()
+	})
 }

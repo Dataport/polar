@@ -45,6 +45,7 @@
 import kernExtraIcons from 'virtual:kern-extra-icons'
 import { computed, ref } from 'vue'
 
+import GfiConfig from './components/GfiConfig.vue'
 import IcebergMap from './components/IcebergMap.vue'
 import LayoutChooser from './components/LayoutChooser.vue'
 import TaskMenu from './components/TaskMenu.vue'
@@ -54,6 +55,11 @@ const configTasks = [
 		id: 'choose-layout',
 		label: 'Layout wählen',
 		component: LayoutChooser,
+	},
+	{
+		id: 'configure-gfi',
+		label: 'GFI konfigurieren',
+		component: GfiConfig,
 	},
 ]
 const tasks = computed(() => [

@@ -3,6 +3,7 @@ import {
 	createMap,
 	createMapElement,
 	getStore,
+	isVisible,
 	removePlugin,
 	subscribe,
 	updateState,
@@ -13,6 +14,7 @@ import pluginExport from '@polar/polar/plugins/export'
 import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
+import pluginGfi from '@polar/polar/plugins/gfi'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
@@ -31,6 +33,7 @@ const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
+const kielPolygon = 'kiel_polygon'
 const hamburgBorder = '6074'
 
 let colorScheme = 'light'
@@ -148,6 +151,12 @@ const map = await createMap(
 					},
 				},
 			},
+			{
+				id: kielPolygon,
+				type: 'mask',
+				name: 'Kiel Polygone',
+				visibility: true,
+			},
 		],
 		layout: 'nineRegions',
 		checkServiceAvailability: true,
@@ -210,6 +219,18 @@ const map = await createMap(
 						button: {
 							label_on: 'Mach groß',
 							label_off: 'Mach klein',
+						},
+					},
+					gfi: {
+						layer: {
+							[reports]: {
+								property: {
+									addr: 'Adresse',
+									statu: 'Status',
+									beschr: 'Beschr.',
+									kat_text: 'Kat.',
+								},
+							},
 						},
 					},
 					iconMenu: {
@@ -411,6 +432,91 @@ addPlugin(
 			],
 			[
 				{
+					plugin: pluginGfi({
+						layers: {
+							[reports]: {
+								window: true,
+								geometry: false,
+								title: (feature) =>
+									`Meldung ${feature.properties.str} ${feature.properties.hsnr}`,
+								properties: [
+									'addr',
+									'statu',
+									'beschr',
+									'pic',
+									'kat_text',
+									'skat_text',
+								],
+								exportProperty: 'pic',
+								showTooltip: (feature) => {
+									const olMap = getStore(map, 'core').map
+									const features = feature.get('features') || [feature]
+									const visibleFeatures = features.filter((f) => isVisible(f))
+									if (visibleFeatures.length > 1) {
+										return [
+											['h2', 'Mehrere Anliegen'],
+											[
+												'span',
+												`Klick zum ${olMap.getView().getZoom() !== olMap.getView().getMaxZoom() ? 'Zoomen' : 'Öffnen'}`,
+											],
+										]
+									}
+									const tooltipFeature = visibleFeatures[0]
+									return [
+										[
+											'h2',
+											`${tooltipFeature.get('str')} ${tooltipFeature.get('hsnr')}`,
+										],
+										[
+											'span',
+											`layer.${reports}.category.skat.knownValue.${tooltipFeature.get('skat')}`,
+											{ ns: 'filter' },
+										],
+									]
+								},
+								isSelectable: (feature) => isEvenId(feature.properties.mmlid),
+							},
+							[kielPolygon]: {
+								window: true,
+							},
+						},
+						afterLoadFunction: (featuresByLayerId) => {
+							Object.values(featuresByLayerId).forEach((featureList) => {
+								featureList.forEach((feature) => {
+									if (feature.properties) {
+										feature.properties = {
+											addr: [
+												feature.properties.str,
+												feature.properties.hsnr,
+											].join(' '),
+											...feature.properties,
+										}
+									}
+								})
+							})
+							return featuresByLayerId
+						},
+						featureList: {
+							icon: 'kern-icon--checklist',
+							activeLayers: {
+								plugin: 'layerChooser',
+								key: 'activeMaskIds',
+							},
+							mode: 'visible',
+							bindWithCoreHoverSelect: true,
+							pageLength: 5,
+							text: {
+								title: (feature) =>
+									feature.get('str') + ' ' + feature.get('hsnr'),
+								subtitle: 'Michels Meldung',
+								subSubtitle: (feature) => feature.get('skat_text'),
+							},
+						},
+					}),
+				},
+			],
+			[
+				{
 					plugin: pluginFilter({
 						layers: {
 							[reports]: {
@@ -572,3 +678,7 @@ document
 		colorScheme = colorScheme === 'light' ? 'dark' : 'light'
 		updateState(map, 'core', 'colorScheme', colorScheme)
 	})
+
+document.getElementById('kiel-teleport').addEventListener('click', () => {
+	updateState(map, 'core', 'center', [575609, 6023501])
+})

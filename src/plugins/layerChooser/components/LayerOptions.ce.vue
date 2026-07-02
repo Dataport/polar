@@ -74,12 +74,7 @@ onMounted(() => {
 	const layersInSource: string =
 		(
 			(
-				coreStore.map
-					.getLayers()
-					.getArray()
-					.find((l) => l.get('id') === openedOptionsId.value) as Layer<
-					ImageWMS | TileWMS
-				>
+				coreStore.getLayer(openedOptionsId.value) as Layer<ImageWMS | TileWMS>
 			).getSource() as ImageWMS | TileWMS
 		).getParams().LAYERS || ''
 	// NOTE: Reversing the array is needed to preserve the order that is displayed in the map.

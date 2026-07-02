@@ -1,0 +1,103 @@
+<template>
+	<header class="kern-card__header">
+		<hgroup>
+			<h2 class="kern-heading-medium">
+				<span
+					v-if="gfiStore.configuration.featureList?.icon"
+					class="kern-icon"
+					:class="gfiStore.configuration.featureList?.icon"
+				/>
+				{{ $t(($) => $.list.header, { ns: PluginId }) }}
+			</h2>
+			<KernPagination
+				v-if="gfiStore.listPaginationActive && gfiStore.listFlatFeatures.length"
+				v-model="gfiStore.listPaginationStartIndex"
+				:count="gfiStore.listFlatFeatures.length"
+				:page-size="gfiStore.listPageLength"
+			/>
+		</hgroup>
+	</header>
+	<section class="kern-card__body">
+		<p
+			v-if="gfiStore.listFlatFeatures.length === 0"
+			class="kern-body kern-body--small polar-plugin-gfi-list-empty-view"
+		>
+			{{ $t(($) => $.list.emptyView, { ns: PluginId }) }}
+		</p>
+		<template v-else>
+			<section
+				v-for="(
+					{ layerId, feature, hovered, text }, idx
+				) of gfiStore.listEnrichedPaginatedFeatures"
+				:key="idx"
+				tabindex="0"
+				class="feature-list-item"
+				:class="{ hovered }"
+				@click="
+					(async () => {
+						gfiStore.hoveredFeatures = {}
+						await nextTick()
+						gfiStore.selectedFeatures = { [layerId]: [feature] }
+					})()
+				"
+				@mouseenter="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
+				@mouseleave="gfiStore.hoveredFeatures = {}"
+				@focus="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
+				@blur="gfiStore.hoveredFeatures = {}"
+			>
+				<h3 class="kern-title kern-title--small">
+					{{ text.title }}
+				</h3>
+				<p class="kern-subline kern-subline--small">
+					{{ text.subtitle }}
+				</p>
+				<p class="kern-body kern-body--small">
+					{{ text.subSubtitle }}
+				</p>
+			</section>
+		</template>
+	</section>
+</template>
+
+<script setup lang="ts">
+import { nextTick } from 'vue'
+
+import KernPagination from '@/components/kern/KernPagination.ce.vue'
+
+import { useGfiStore } from '../store'
+import { PluginId } from '../types'
+
+const gfiStore = useGfiStore()
+</script>
+
+<style scoped>
+hgroup {
+	width: 100%;
+}
+
+.polar-plugin-gfi-list-empty-view {
+	text-wrap: wrap;
+}
+
+section.feature-list-item {
+	width: 100%;
+	padding: var(--kern-metric-space-small);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border-width: var(--kern-metric-border-width-default);
+	border-style: dashed;
+	border-color: transparent;
+
+	&.hovered,
+	&:hover {
+		border-radius: var(--kern-metric-border-radius-default);
+		border-color: var(--kern-color-action-default);
+		cursor: pointer;
+	}
+
+	& > .kern-subline,
+	& > .kern-body {
+		padding: 0;
+	}
+}
+</style>

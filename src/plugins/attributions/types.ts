@@ -1,4 +1,4 @@
-import type { PluginOptions, StoreReference } from '@/core'
+import type { InterfacePluginOptions, StoreReference } from '@/core'
 
 export const PluginId = 'attributions'
 
@@ -63,7 +63,7 @@ export interface Attribution {
  * All parameters are optional. However, setting neither {@link layerAttributions}
  * nor {@link staticAttributions} results in an empty window.
  */
-export interface AttributionsPluginOptions extends PluginOptions {
+export interface AttributionsPluginOptions extends InterfacePluginOptions {
 	/**
 	 * Optional icon override.
 	 */

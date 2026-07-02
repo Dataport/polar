@@ -12,6 +12,7 @@ import { markRaw, toRaw, watch } from 'vue'
 
 import { useMarkerStore } from '@/core/stores/marker'
 import { usePluginStore } from '@/core/stores/plugin'
+import { findLayer } from '@/lib/findLayer'
 import getCluster from '@/lib/getCluster'
 import { isVisible } from '@/lib/invisibleStyle'
 
@@ -69,13 +70,6 @@ function layerFilter(layer: BaseLayer) {
 	return layers.some(({ id }) => id === (layer.get('id') as string))
 }
 
-function findLayer(map: Map, layerId: string) {
-	return map
-		.getLayers()
-		.getArray()
-		.find((layer) => layer.get('id') === layerId) as VectorLayer | undefined
-}
-
 function resolveClusterClick(map: Map, feature: Feature) {
 	const features = feature.get('features') as Feature[]
 
@@ -90,7 +84,14 @@ function resolveClusterClick(map: Map, feature: Feature) {
 	})
 }
 
-function updateSelection(
+/**
+ * Update the selected marker in the map.
+ *
+ * @param map - Map
+ * @param feature - Feature to select
+ * @param centerOnFeature - Whether the map should center on the feature
+ */
+export function updateSelection(
 	map: Map,
 	feature: Feature | null,
 	centerOnFeature = false
@@ -208,20 +209,25 @@ export function setupMarkers(map: Map) {
 
 	stopWatcher = watch(
 		() => store.hovered,
-		(feature) => {
-			if (feature !== null && feature !== toRaw(store.selected)) {
-				store.hovered?.setStyle(undefined)
-				store.hovered = null
+		(feature, oldFeature) => {
+			if (oldFeature !== null && oldFeature !== toRaw(store.selected)) {
+				oldFeature.setStyle(undefined)
 			}
 			if (feature !== null && feature !== toRaw(store.selected)) {
 				store.hovered = markRaw(feature)
-				const isMultiFeature = store.hovered.get('features')?.length > 1
-				const style = getMarkerStyle(
-					getLayerConfiguration(feature.get('_polarLayerId') as string)
-						.hoverStyle,
-					isMultiFeature
+				const layerId = feature.get('_polarLayerId') as string
+				const selectedCluster =
+					// @ts-expect-error | Found layers always have a source and getDistance is defined on cluster sources.
+					typeof findLayer(map, layerId)?.getSource().getDistance === 'function'
+						? getCluster(map, feature, '_polarLayerId')
+						: feature
+				selectedCluster.setStyle(
+					getMarkerStyle(
+						getLayerConfiguration(feature.get('_polarLayerId') as string)
+							.hoverStyle,
+						selectedCluster.get('features')?.length > 1
+					)
 				)
-				store.hovered.setStyle(style)
 			}
 		}
 	)
@@ -260,8 +266,9 @@ function mapMoveEnd({ map }: MapEvent) {
 	if (zoom !== lastZoom) {
 		lastZoom = zoom
 		if (store.selected) {
-			const baseFeature = (store.selected.get('features')?.[0] ||
-				store.selected) as Feature
+			const baseFeature =
+				store.selectedBaseFeature ||
+				((store.selected.get('features')?.[0] || store.selected) as Feature)
 			setLayerId(map, baseFeature)
 			updateSelection(map, baseFeature)
 		}

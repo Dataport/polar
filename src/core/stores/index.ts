@@ -4,9 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { Feature } from 'ol'
+
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
+import { updateSelection } from '../utils/map/setupMarkers'
 import { useMainStore } from './main'
 import { useMarkerStore } from './marker'
 import { useMoveHandleStore } from './moveHandle'
@@ -22,23 +25,26 @@ import { usePluginStore } from './plugin'
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 	const mainStoreRefs = storeToRefs(mainStore)
+
 	const moveHandleStore = useMoveHandleStore()
 
 	const pluginStore = usePluginStore()
 
 	const markerStore = useMarkerStore()
+	const markerStoreRefs = storeToRefs(markerStore)
 
 	return {
 		/**
-		 * The current center coordinates of the map.
+		 * Read or modify center coordinate of the map.
 		 *
 		 * @alpha
-		 * @readonly
 		 */
-		center: computed(() => mainStore.center),
+		center: mainStoreRefs.center,
 
 		/**
 		 * Color scheme the client should be using.
+		 *
+		 * @alpha
 		 */
 		colorScheme: mainStoreRefs.colorScheme,
 
@@ -73,6 +79,14 @@ export const useCoreStore = defineStore('core', () => {
 		 * @readonly
 		 */
 		deviceIsHorizontal: computed(() => mainStore.deviceIsHorizontal),
+
+		/**
+		 * Extent of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		extent: computed(() => mainStore.extent),
 
 		/**
 		 * Whether the map has a maximum height of {@link SMALL_DISPLAY_HEIGHT} and
@@ -118,6 +132,53 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		zoom: mainStoreRefs.zoom,
+
+		/**
+		 * Returns the layer with the given ID.
+		 *
+		 * @param layerId - ID of the layer
+		 * @alpha
+		 */
+		getLayer: mainStore.getLayer,
+
+		/**
+		 * Masks an interaction for a plugin.
+		 * If the interaction is already masked by another plugin, an error is thrown.
+		 *
+		 * This may, for example, be used for interactions that should not be triggered while drawing.
+		 *
+		 * @param pluginId - ID of the plugin that wants to mask the interaction
+		 * @param interaction - Name of the interaction to be masked
+		 * @alpha
+		 */
+		maskInteraction: mainStore.maskInteraction,
+
+		/**
+		 * Unmasks an interaction for a plugin.
+		 * If the interaction is not masked by the plugin, nothing happens.
+		 *
+		 * @param pluginId - ID of the plugin that wants to unmask the interaction
+		 * @param interaction - Name of the interaction to be unmasked
+		 * @alpha
+		 */
+		unmaskInteraction: mainStore.unmaskInteraction,
+
+		/**
+		 * Checks whether an interaction is masked by another plugin.
+		 *
+		 * @param interaction - Name of the interaction to be checked
+		 * @returns `true` if the interaction is masked by another plugin, `false` otherwise
+		 * @alpha
+		 */
+		isInteractionMasked: mainStore.isInteractionMasked,
+
+		/**
+		 * List of all active plugin's IDs.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		activePluginIds: computed(() => pluginStore.activePluginIds),
 
 		/**
 		 * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
@@ -215,18 +276,33 @@ export const useCoreStore = defineStore('core', () => {
 		moveHandleTop: computed(() => moveHandleStore.top),
 
 		/**
-		 * Currently hovered marker feature or null.
+		 * Feature that is hovered by the user with a marker.
 		 *
-		 * @readonly
+		 * @remarks
+		 * The attribute _polarLayerId needs to be set.
+		 *
+		 * @alpha
 		 */
-		hovered: computed(() => markerStore.hovered),
+		hoveredFeature: markerStoreRefs.hovered,
 
 		/**
-		 * Currently selected marker feature or null.
+		 * Feature that was selected by the user with a marker.
 		 *
-		 * @readonly
+		 * If this value is modified, the newly selected feature is centered on the map.
+		 *
+		 * @remarks
+		 * The attribute _polarLayerId needs to be set.
+		 *
+		 * Wait at least one `nextTick` after modifying {@link hoveredFeature} before touching this value.
+		 *
+		 * @alpha
 		 */
-		selected: computed(() => markerStore.selected),
+		selectedFeature: computed({
+			get: () => markerStore.selected,
+			set: (feature) => {
+				updateSelection(mainStore.map, feature as Feature, true)
+			},
+		}),
 
 		/**
 		 * Coordinates that were selected by the user with a marker.

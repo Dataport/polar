@@ -4,6 +4,8 @@ import type { Coordinate } from 'ol/coordinate'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 
+import { findLayer } from './findLayer'
+
 // arbitrarily give up after 10s of stalling (100 * 100ms)
 const readinessCheckLimit = 100
 const readinessWaitTime = 100
@@ -52,11 +54,7 @@ export async function passesBoundaryCheck(
 		return true
 	}
 
-	const boundaryLayer = map
-		.getLayers()
-		.getArray()
-		.find((layer) => layer.get('id') === boundaryLayerId)
-
+	const boundaryLayer = findLayer(map, boundaryLayerId)
 	if (!(boundaryLayer instanceof VectorLayer)) {
 		console.error(
 			`No layer configured to match boundaryLayerId "${boundaryLayerId}".`

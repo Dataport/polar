@@ -58,7 +58,7 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		)
 	)
 	const boundary = computed(() => configuration.value.boundary)
-	const renderType = computed<'independent' | 'iconMenu'>(
+	const renderType = computed<GeoLocationPluginOptions['renderType']>(
 		() => configuration.value.renderType || 'independent'
 	)
 	const state = computed<PluginState>(() => {

@@ -8,3 +8,4 @@ export * from './types/theme'
 export * from './types/utils'
 
 export const CoreId = 'core'
+export const SharedId = 'shared'

@@ -195,12 +195,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 	function toggleOpenedOptionsServiceLayer(layerIds: string[]) {
 		const olSource = (
-			coreStore.map
-				.getLayers()
-				.getArray()
-				.find((l) => l.get('id') === openedOptionsId.value) as Layer<
-				ImageWMS | TileWMS
-			>
+			coreStore.getLayer(openedOptionsId.value) as Layer<ImageWMS | TileWMS>
 		).getSource()
 
 		if (!olSource) {

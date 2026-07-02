@@ -4,7 +4,11 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { PluginContainer, PluginOptions, PolarPluginStore } from '@/core'
+import type {
+	InterfacePluginOptions,
+	PluginContainer,
+	PolarPluginStore,
+} from '@/core'
 
 import component from './components/LayerChooser.ce.vue'
 import locales from './locales'
@@ -25,7 +29,7 @@ import { PluginId } from './types'
  * @returns Plugin for use with {@link addPlugin}.
  */
 export default function pluginLayerChooser(
-	options: PluginOptions
+	options: InterfacePluginOptions
 ): PluginContainer {
 	return {
 		id: PluginId,
