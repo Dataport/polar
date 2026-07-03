@@ -54,7 +54,7 @@
 		"build:github-io": "vite build --config vite.config.github-io.ts",
 		"lint": "eslint --cache --cache-location .eslintcache --cache-strategy content .",
 		"lint:fix": "npm run lint -- --fix",
-		"lint:css": "stylelint \"**/*.vue\"",
+		"lint:css": "stylelint \"**/*.{css,vue}\"",
 		"lint:css:fix": "npm run lint:css -- --fix",
 		"tsc": "tsc && vue-tsc -p src && vue-tsc -p examples/iceberg",
 		"tsc:ci": "tsc && vue-tsc -p src && vue-tsc -p examples/iceberg",
