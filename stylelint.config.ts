@@ -9,7 +9,7 @@ export default {
 	extends: ['stylelint-config-recommended', 'stylelint-config-recommended-vue'],
 	plugins: ['stylelint-value-no-unknown-custom-properties'],
 	// TODO: Remove 'vue2/**' after migration
-	ignoreFiles: ['examples/iceberg/**', 'vue2/**'],
+	ignoreFiles: ['**/node_modules/**', 'examples/iceberg/**', 'vue2/**'],
 	rules: {
 		/* eslint-disable @typescript-eslint/naming-convention */
 		'csstools/value-no-unknown-custom-properties': [
