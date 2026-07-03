@@ -166,7 +166,7 @@ section {
 			border-radius: var(--kern-metric-border-radius-default);
 			background-color: var(--kern-color-layout-background-hued);
 			white-space: break-spaces;
-			word-break: break-word;
+			overflow-wrap: break-word;
 
 			.routing-instruction {
 				font-weight: var(--kern-typography-font-weight-label-default);
