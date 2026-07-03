@@ -1,4 +1,4 @@
-import{t as e}from"./chunk-Dqa2HsxW-DwrjHvwf.js";import{t}from"./xml2js-BgoOMWRp-KK_10ifK.js";var n=e(t(),1),r=([e,t])=>`<wps:Execute
+var e=([e,t])=>`<wps:Execute
 	xmlns:wps='http://www.opengis.net/wps/1.0.0'
 	xmlns:xlink='http://www.w3.org/1999/xlink'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
@@ -22,7 +22,7 @@ import{t as e}from"./chunk-Dqa2HsxW-DwrjHvwf.js";import{t}from"./xml2js-BgoOMWRp
 			</wps:Data>
 		</wps:Input>
 	</wps:DataInputs>
-</wps:Execute>`,i=new n.Parser({tagNameProcessors:[n.processors.stripPrefix]});async function a(e,t,n){let a=await fetch(e,{method:`POST`,body:r(t),signal:n}),o=await i.parseStringPromise(await a.text()),s=Object.fromEntries(Object.entries(o.ExecuteResponse.ProcessOutputs[0].Output[0].Data[0].ComplexData[0].ReverseGeocoder[0].Ergebnis[0].Adresse[0]).map(([e,t])=>[e,t[0]])),c={Distanz:parseFloat(s.Distanz),Hausnr:parseInt(s.Hausnr,10),Plz:parseInt(s.Plz,10),Strasse:s.Strasse,XKoordinate:parseFloat(s.XKoordinate),YKoordinate:parseFloat(s.YKoordinate),Zusatz:s.Zusatz};return{type:`reverse_geocoded`,title:`${c.Strasse} ${c.Hausnr}${c.Zusatz}`,properties:c,geometry:{coordinates:t,type:`Point`},addressGeometry:{coordinates:[c.XKoordinate,c.YKoordinate],type:`Point`}}}if(import.meta.vitest){let{expect:e,test:t,vi:n}=import.meta.vitest,i=`https://wps.example`,o=[565192.2974622496,5933428.820743558],s=`<?xml version='1.0' encoding='UTF-8'?>
+</wps:Execute>`;function t(e,t){return e.getElementsByTagNameNS(`*`,t)[0]?.textContent??``}async function n(n,r,i){let a=await fetch(n,{method:`POST`,body:e(r),signal:i}),o=new DOMParser().parseFromString(await a.text(),`text/xml`),s=o.querySelector(`parsererror`);if(s)throw Error(`Failed to parse XML response: ${s.textContent}.`);let c=o.getElementsByTagNameNS(`*`,`Adresse`)[0];if(!c)throw Error(`Response does not contain an "Adresse" element.`);let l={Distanz:parseFloat(t(c,`Distanz`)),Hausnr:parseInt(t(c,`Hausnr`),10),Plz:parseInt(t(c,`Plz`),10),Strasse:t(c,`Strasse`),XKoordinate:parseFloat(t(c,`XKoordinate`)),YKoordinate:parseFloat(t(c,`YKoordinate`)),Zusatz:t(c,`Zusatz`)};return{type:`reverse_geocoded`,title:`${l.Strasse} ${l.Hausnr}${l.Zusatz}`,properties:l,geometry:{coordinates:r,type:`Point`},addressGeometry:{coordinates:[l.XKoordinate,l.YKoordinate],type:`Point`}}}if(import.meta.vitest){let{beforeEach:t,expect:r,test:i,vi:a}=import.meta.vitest;t(()=>{a.restoreAllMocks()});let o=`https://wps.example`,s=[565192.2974622496,5933428.820743558],c=`<?xml version='1.0' encoding='UTF-8'?>
 <wps:ExecuteResponse xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WPS" version="1.0.0" xml:lang="en" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_response.xsd" serviceInstance="https://geodienste.hamburg.de/HH_WPS?service=WPS&amp;request=GetCapabilities&amp;version=1.0.0">
 	<wps:Process wps:processVersion="0.0.1">
 		<ows:Identifier>ReverseGeocoder.fmw</ows:Identifier>
@@ -40,8 +40,8 @@ import{t as e}from"./chunk-Dqa2HsxW-DwrjHvwf.js";import{t}from"./xml2js-BgoOMWRp
 				<wps:ComplexData mimeType="application/xml">
 					<wps:ReverseGeocoder xmlns:wps="http://www.safe.com/xml/xmltables" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.safe.com/xml/xmltables output.xsd">
 						<wps:Anfrage>
-							<wps:XKoordinate>${o[0]}</wps:XKoordinate>
-							<wps:YKoordinate>${o[1]}</wps:YKoordinate>
+							<wps:XKoordinate>${s[0]}</wps:XKoordinate>
+							<wps:YKoordinate>${s[1]}</wps:YKoordinate>
 							<wps:Epsg>25832</wps:Epsg>
 						</wps:Anfrage>
 						<wps:Ergebnis>
@@ -60,4 +60,4 @@ import{t as e}from"./chunk-Dqa2HsxW-DwrjHvwf.js";import{t}from"./xml2js-BgoOMWRp
 			</wps:Data>
 		</wps:Output>
 	</wps:ProcessOutputs>
-</wps:ExecuteResponse>`;t(`reverseGeocode works with Hamburg-WPS-style`,async()=>{let t=n.spyOn(global,`fetch`).mockResolvedValueOnce({text:()=>Promise.resolve(s)}),c=new AbortController,l=await a(i,o,c.signal);e(t).toHaveBeenCalledOnce(),e(t).toHaveBeenCalledWith(i,{method:`POST`,body:r(o),signal:c.signal}),e(l).toEqual({type:`reverse_geocoded`,title:`Herrlichkeit 1`,addressGeometry:{coordinates:[565200.347,5933442.881],type:`Point`},geometry:{coordinates:o,type:`Point`},properties:{Distanz:16.20141565450446,Hausnr:1,Plz:20459,Strasse:`Herrlichkeit`,XKoordinate:565200.347,YKoordinate:5933442.881,Zusatz:``}})})}export{a as t};
+</wps:ExecuteResponse>`;i(`reverseGeocode throws on invalid XML`,async()=>{a.spyOn(global,`fetch`).mockResolvedValueOnce({text:()=>Promise.resolve(`<invalid><xml`)}),await r(n(o,s,new AbortController().signal)).rejects.toThrow(`Failed to parse XML response`)}),i(`reverseGeocode throws when Adresse element is missing`,async()=>{a.spyOn(global,`fetch`).mockResolvedValueOnce({text:()=>Promise.resolve(`<?xml version="1.0"?><root><empty/></root>`)}),await r(n(o,s,new AbortController().signal)).rejects.toThrow(`Response does not contain an "Adresse" element.`)}),i(`reverseGeocode works with Hamburg-WPS-style`,async()=>{let t=a.spyOn(global,`fetch`).mockResolvedValueOnce({text:()=>Promise.resolve(c)}),i=new AbortController,l=await n(o,s,i.signal);r(t).toHaveBeenCalledOnce(),r(t).toHaveBeenCalledWith(o,{method:`POST`,body:e(s),signal:i.signal}),r(l).toEqual({type:`reverse_geocoded`,title:`Herrlichkeit 1`,addressGeometry:{coordinates:[565200.347,5933442.881],type:`Point`},geometry:{coordinates:s,type:`Point`},properties:{Distanz:16.20141565450446,Hausnr:1,Plz:20459,Strasse:`Herrlichkeit`,XKoordinate:565200.347,YKoordinate:5933442.881,Zusatz:``}})})}export{n as t};
