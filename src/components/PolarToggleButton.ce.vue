@@ -1,6 +1,8 @@
 <template>
 	<fieldset>
-		<legend class="kern-sr-only">{{ label }}</legend>
+		<legend :class="labelSrOnly ? 'kern-sr-only' : 'kern-label'">
+			{{ label }}
+		</legend>
 		<label v-for="option in options" :key="option.value">
 			<input
 				v-model="model"
@@ -30,7 +32,11 @@ interface PolarToggleOption {
 	icon?: Icon
 }
 
-defineProps<{ label: string; options: PolarToggleOption[] }>()
+defineProps<{
+	label: string
+	options: PolarToggleOption[]
+	labelSrOnly?: boolean
+}>()
 const model = defineModel<string>({ required: true })
 const groupName = useId()
 </script>
@@ -81,16 +87,6 @@ fieldset {
 			}
 		}
 
-		&:hover {
-			> input:not(:disabled):not(:checked) + .kern-btn {
-				border-color: var(--kern-color-action-default);
-			}
-
-			> input:checked + .kern-btn {
-				background: var(--kern-color-action-state-indicator-shade-hover);
-			}
-		}
-
 		input:checked + .kern-btn {
 			--kern-btn-text-color: var(--kern-color-action-on-default-contextual);
 			--kern-btn-background-color: var(--kern-color-action-default);
@@ -104,6 +100,16 @@ fieldset {
 		input:disabled + .kern-btn {
 			opacity: 0.4;
 			cursor: not-allowed;
+		}
+
+		&:hover {
+			> input:checked + .kern-btn {
+				background: var(--kern-color-action-state-indicator-shade-hover);
+			}
+
+			> input:not(:disabled):not(:checked) + .kern-btn {
+				border-color: var(--kern-color-action-default);
+			}
 		}
 
 		@media (forced-colors: active) {
