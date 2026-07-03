@@ -6,10 +6,11 @@ import path from 'node:path'
  * Returns the context key for a path that is already relative to srcRoot.
  *
  * Contexts:
- *   - "core"            → src/core/**
- *   - "plugins/<name>"  → src/plugins/<name>/**
- *   - "lib/<name>"      → src/lib/<name>/**
- *   - null              → everything else (no context)
+ *   - "core"              → src/core/**
+ *   - "plugins/<name>"    → src/plugins/<name>/**
+ *   - "lib/<name>"        → src/lib/<name>/**
+ *   - "components/<name>" → src/components/<name>/**
+ *   - null                → everything else (no context)
  */
 function getContext(srcRelPath: string): string | null {
 	const parts = srcRelPath.split('/')
@@ -21,6 +22,9 @@ function getContext(srcRelPath: string): string | null {
 	}
 	if (parts[0] === 'lib' && parts.length > 1) {
 		return `lib/${parts[1]}`
+	}
+	if (parts[0] === 'components' && parts.length > 1) {
+		return `components/${parts[1]}`
 	}
 	return null
 }
@@ -58,10 +62,11 @@ function resolveToSrcRel(
  *  3. Cross-context or context-less imports must use the `@/…` alias.
  *
  * A "context" is one of:
- *   - `core`             for every file inside `src/core/`
- *   - `plugins/<name>`   for every file inside `src/plugins/<name>/`
- *   - `lib/<name>`       for every file inside `src/lib/<name>/`
- *   - (none)             for all other files
+ *   - `core`              for every file inside `src/core/`
+ *   - `plugins/<name>`    for every file inside `src/plugins/<name>/`
+ *   - `lib/<name>`        for every file inside `src/lib/<name>/`
+ *   - `components/<name>` for every file inside `src/components/<name>/`
+ *   - (none)              for all other files
  *
  * Files outside `srcDir` (default `"src"`) are ignored.
  *
