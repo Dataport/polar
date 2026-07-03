@@ -10,7 +10,7 @@ import type { Attribution } from './types'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
+import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
 import { buildMapInfo } from './utils/buildMapInfo'
@@ -57,7 +57,7 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
 
-	usePluginStoreWatcher(listenToChanges, updateLayers)
+	useStoreWatcher(listenToChanges, updateLayers)
 
 	function setupPlugin() {
 		const allLayers = coreStore.map.getLayers()

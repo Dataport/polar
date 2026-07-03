@@ -1,6 +1,6 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @module \@polar/polar/core/composables/usePluginStoreWatcher
+ * @module \@polar/polar/composables/useStoreWatcher
  */
 /* eslint-enable tsdoc/syntax */
 
@@ -22,18 +22,18 @@ interface WatcherConfig {
 }
 
 /**
- * Generic composable for watching multiple plugin store references.
+ * Generic composable for watching multiple core or plugin store references.
  *
  * It watches the list of installed plugins to detect when target plugins
  * are added or removed, and manages the corresponding watchers accordingly.
  *
- * @param sources - Array of plugin store references to watch, or a computed reference to them, or a function returning them
- * @param callback - Function called when any watched plugin store value changes
+ * @param sources - Array of core or plugin store references to watch, or a computed reference to them, or a function returning them
+ * @param callback - Function called when any watched core or plugin store value changes
  * @param watchOptions - Optional watch options to pass to the underlying Vue watcher (e.g., `{ immediate: true }`)
  *
  * @example
  * ```typescript
- * const { setupPlugin, teardownPlugin } = usePluginStoreWatcher(
+ * const { setupPlugin, teardownPlugin } = useStoreWatcher(
  *   () => configuration.value.coordinateSources || [],
  *   (coordinate) => {
  *     if (coordinate) {
@@ -46,7 +46,7 @@ interface WatcherConfig {
  *
  * @internal
  */
-export function usePluginStoreWatcher(
+export function useStoreWatcher(
 	sources:
 		| StoreReference[]
 		| ComputedRef<StoreReference[]>
@@ -74,11 +74,9 @@ export function usePluginStoreWatcher(
 			return
 		}
 
-		if (!watcherConfig.source.plugin) {
-			return
-		}
-
-		const store = coreStore.getPluginStore(watcherConfig.source.plugin)
+		const store = watcherConfig.source.plugin
+			? coreStore.getPluginStore(watcherConfig.source.plugin)
+			: coreStore
 
 		if (!store) {
 			console.warn(
@@ -119,12 +117,12 @@ export function usePluginStoreWatcher(
 				watchers.push(watcherConfig)
 			}
 
-			const pluginIsInstalled =
-				source.plugin && coreStore.getPluginStore(source.plugin)
+			const targetIsInstalled =
+				!source.plugin || coreStore.getPluginStore(source.plugin)
 
-			if (pluginIsInstalled && !watcherConfig.handle) {
+			if (targetIsInstalled && !watcherConfig.handle) {
 				setupWatcherForSource(watcherConfig)
-			} else if (!pluginIsInstalled && watcherConfig.handle) {
+			} else if (!targetIsInstalled && watcherConfig.handle) {
 				removeWatcherForSource(watcherConfig)
 			}
 		})
