@@ -247,8 +247,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				el instanceof HTMLElement &&
 				el.id.startsWith('polar-plugin-routing-input-')
 		)
-		const isMapViewport = path.includes(coreStore.map.getViewport())
-		if (!isRoutingInput && !isMapViewport) {
+		if (!isRoutingInput && !path.includes(coreStore.map.getTargetElement())) {
 			currentlyFocusedInput.value = -1
 		}
 	}
@@ -263,9 +262,14 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		coreStore.map.addLayer(routeLayer)
 
 		initializeDraw()
-		// TODO(dopenguin): Currently doesn't work if one tabs to another element
+		// `pointerdown` handles mouse interaction while `focusin` handles keyboard
+		// navigation (e.g. tabbing) away from the routing inputs.
 		;(coreStore.shadowRoot as ShadowRoot).addEventListener(
 			'pointerdown',
+			updateFocus
+		)
+		;(coreStore.shadowRoot as ShadowRoot).addEventListener(
+			'focusin',
 			updateFocus
 		)
 		stopRouteWatch = watch(
@@ -294,6 +298,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		stopTravelModeWatch = undefined
 		;(coreStore.shadowRoot as ShadowRoot).removeEventListener(
 			'pointerdown',
+			updateFocus
+		)
+		;(coreStore.shadowRoot as ShadowRoot).removeEventListener(
+			'focusin',
 			updateFocus
 		)
 
