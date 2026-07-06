@@ -3,6 +3,7 @@
 		v-model="selectedTravelMode"
 		:label="$t(($) => $.label.travelMode, { ns: PluginId })"
 		:options="travelModes"
+		:label-sr-only="true"
 	/>
 	<PolarSelect
 		v-if="displayPreferences"
