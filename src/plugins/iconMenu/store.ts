@@ -4,14 +4,13 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { Component } from 'vue'
 import type { Icon } from '@/core'
 import type { Menu } from './types'
 
 import { toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, markRaw, ref } from 'vue'
+import { computed, markRaw, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -42,6 +41,33 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		() => coreStore.configuration.iconMenu?.layoutTag ?? ''
 	)
 
+	const flatMenuItems = computed(() =>
+		menus.value.concat(focusMenus.value).flat()
+	)
+	watch(
+		flatMenuItems,
+		(newItems, oldItems) => {
+			const getDiffItems = (to, from) =>
+				to.filter(
+					(item) =>
+						!from.some((oldItem) => oldItem.plugin.id === item.plugin.id)
+				)
+			getDiffItems(newItems, oldItems).forEach((newItem) => {
+				coreStore.addPlugin(toMerged(newItem.plugin, { independent: false }))
+			})
+			getDiffItems(oldItems, newItems).forEach((oldItem) => {
+				if (open.value === oldItem.plugin.id) {
+					open.value = null
+				}
+				if (focusOpen.value === oldItem.plugin.id) {
+					focusOpen.value = null
+				}
+				coreStore.removePlugin(oldItem.plugin.id)
+			})
+		},
+		{ deep: true }
+	)
+
 	function setupPlugin() {
 		menus.value = (coreStore.configuration.iconMenu?.menus || []).map(
 			(menuGroup) =>
@@ -63,24 +89,6 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 			.forEach(({ plugin }) => {
 				coreStore.addPlugin(toMerged(plugin, { independent: false }))
 			})
-
-		// Otherwise, the component itself is made reactive
-		menus.value.map((menuGroup) =>
-			menuGroup.map((menuItem) =>
-				toMerged(menuItem, {
-					plugin: {
-						component: markRaw(menuItem.plugin.component as Component),
-					},
-				})
-			)
-		)
-		focusMenus.value.map((menuItem) =>
-			toMerged(menuItem, {
-				plugin: {
-					component: markRaw(menuItem.plugin.component as Component),
-				},
-			})
-		)
 
 		const initiallyOpen = coreStore.configuration.iconMenu?.initiallyOpen
 		if (
@@ -104,21 +112,31 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 
 	function openMenuById(openId: string) {
 		const entry = menus.value.flat().find(({ plugin: { id } }) => id === openId)
-
 		if (entry) {
 			open.value = openId
-			openInMoveHandle(openId)
 		}
 	}
+	watch(open, (open) => {
+		if (open) {
+			openInMoveHandle(open)
+		} else {
+			coreStore.setMoveHandle(null)
+		}
+	})
 
 	function openFocusMenuById(openId: string) {
 		const entry = focusMenus.value.find(({ plugin: { id } }) => id === openId)
-
 		if (entry) {
 			focusOpen.value = openId
-			openInMoveHandle(openId, true)
 		}
 	}
+	watch(focusOpen, (focusOpen) => {
+		if (focusOpen) {
+			openInMoveHandle(focusOpen, true)
+		} else {
+			coreStore.setMoveHandle(null)
+		}
+	})
 
 	function openInMoveHandle(openId: string, focusMenu = false) {
 		const menu = (focusMenu ? focusMenus.value : menus.value.flat()).find(
