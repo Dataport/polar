@@ -572,3 +572,16 @@ document
 		colorScheme = colorScheme === 'light' ? 'dark' : 'light'
 		updateState(map, 'core', 'colorScheme', colorScheme)
 	})
+
+let filterItem = null
+document
+	.getElementById('toggle-filter')
+	.addEventListener('click', ({ target }) => {
+		const store = getStore(map, 'iconMenu')
+		if (!filterItem) {
+			;[filterItem] = store.menus.splice(1, 1)
+		} else {
+			store.menus.splice(1, 0, filterItem)
+			filterItem = null
+		}
+	})
