@@ -344,6 +344,7 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	/** Configuration for reverseGeocoder plugin. */
 	reverseGeocoder?: ReverseGeocoderPluginOptions
 
+	/** Configuration for routing plugin. */
 	routing?: RoutingPluginOptions
 
 	/** Configuration for scale plugin. */
