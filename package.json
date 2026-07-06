@@ -129,7 +129,7 @@
 		"vite-plugin-vue-devtools": "^8.1.5",
 		"vitest": "^4.1.9",
 		"vue": "^3.5.39",
-		"vue-tsc": "^3.3.5"
+		"vue-tsc": "^3.3.6"
 	},
 	"//": "Relevant overrides until the respective packages fix these vulnerable versions themselves.",
 	"overrides": {
