@@ -16,6 +16,13 @@ updates:
     commit-message:
       prefix: chore
       include: scope
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
 
   - package-ecosystem: npm
     directory: /
@@ -25,6 +32,9 @@ updates:
     open-pull-requests-limit: 20
     cooldown:
       default-days: 3
+      exclude:
+        - "@dataport/eslint-config-geodev"
+        - vite-plugin-kern-extra-icons
     commit-message:
       prefix: chore
       include: scope
@@ -33,3 +43,73 @@ updates:
       - dependency-name: "@types/node"
         update-types:
           - version-update:semver-major
+    groups:
+      quality:
+        patterns:
+          - eslint
+          - eslint-config-prettier
+          - eslint-plugin-import
+          - eslint-plugin-prettier
+          - prettier
+          - stylelint
+          - stylelint-config-recommended-vue
+          - stylelint-value-no-unknown-custom-properties
+          - postcss-html
+          - "@commitlint/cli"
+          - "@commitlint/config-conventional"
+          - "@dataport/eslint-config-geodev"
+          - husky
+          - vitest
+          - "@vitest/coverage-v8"
+          - "@vue/test-utils"
+          - "@pinia/testing"
+          - jsdom
+          - tsarch
+        update-types:
+          - minor
+          - patch
+      build-tooling:
+        patterns:
+          - vite
+          - vite-plugin-*
+          - "@vitejs/plugin-vue"
+          - unplugin-dts
+          - magic-string
+          - cross-env
+        update-types:
+          - minor
+          - patch
+      vue-ecosystem:
+        patterns:
+          - vue
+          - vue-tsc
+          - pinia
+          - "@vue/tsconfig"
+        update-types:
+          - minor
+          - patch
+      types:
+        patterns:
+          - "@types/*"
+        update-types:
+          - minor
+          - patch
+      map:
+        patterns:
+          - ol
+          - "@masterportal/masterportalapi"
+        update-types:
+          - minor
+          - patch
+      typescript:
+        patterns:
+          - typescript
+        update-types:
+          - minor
+          - patch
+      misc:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
