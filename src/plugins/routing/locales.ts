@@ -13,9 +13,9 @@ export const resourcesDe = {
 	title: 'Routenplaner',
 	label: {
 		aria: 'Durch Klicken in die Karte eine Koordinate als {{position}} auswählen.',
-		start: 'Startadresse',
+		start: 'Start',
 		middle: 'Wegpunkt',
-		end: 'Zieladresse',
+		end: 'Ziel',
 		add: 'Wegpunkt hinzufügen',
 		remove: 'Wegpunkt entfernen',
 		travelMode: 'Fortbewegungsart',
@@ -53,9 +53,9 @@ export const resourcesEn = {
 	title: 'Route Planner',
 	label: {
 		aria: 'Add a coordinate as {{position}} by clicking in the map.',
-		start: 'Start Address',
+		start: 'Start',
 		middle: 'Waypoint',
-		end: 'Destination Address',
+		end: 'Destination',
 		add: 'Add waypoint',
 		remove: 'Remove waypoint',
 		travelMode: 'Travel Mode',
