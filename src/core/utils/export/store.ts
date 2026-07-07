@@ -67,7 +67,7 @@ export function subscribe<T extends StoreId>(
 }
 
 /**
- * Updates the parameter {@link parameterName | parameter} in the {@link storeName | store} with the {@link payload}.
+ * Updates the parameter `parameterName` in the `storeName` store with the `payload`.
  *
  * @param map - Map to update the value at.
  * @param storeName - Either `'core'` for the core store or the plugin ID for a plugin's store.

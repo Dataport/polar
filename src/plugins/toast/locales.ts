@@ -1,11 +1,9 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the toast plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/toast
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Locale } from '@/core'
 

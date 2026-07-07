@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/filter/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { watch } from 'vue'
@@ -14,13 +12,11 @@ import { useFilterMainStore } from './stores/main'
 import { useFilterTimeStore } from './stores/time'
 import { updateFeatureVisibility } from './utils/updateFeatureVisibility'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for filtering features.
  */
-/* eslint-enable tsdoc/syntax */
 export const useFilterStore = defineStore('plugins/filter', () => {
 	const filterMainStore = useFilterMainStore()
 	const filterMainStoreRefs = storeToRefs(filterMainStore)

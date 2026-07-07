@@ -119,9 +119,9 @@ export interface LayerConfiguration {
 	options?: LayerConfigurationOptions
 
 	/**
-	 * ID of the used style. If the layer is also configured in {@link MapConfiguration.markers | `mapConfiguration.markers`},
+	 * ID of the used style. If the layer is also configured in {@link @polar/polar!MapConfiguration.markers | `mapConfiguration.markers`},
 	 * that configuration takes precedence over the configured `styleId`. Only applicable for vector-type layers.
-	 * For more information and an example see {@link MapConfiguration.featureStyles | `mapConfiguration.featureStyles`}.
+	 * For more information and an example see {@link @polar/polar!MapConfiguration.featureStyles | `mapConfiguration.featureStyles`}.
 	 * Defaults and fallbacks to OpenLayers default styling.
 	 */
 	styleId?: string

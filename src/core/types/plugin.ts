@@ -55,7 +55,7 @@ import type { Icon } from './theme'
  *
  * ## Custom Plugin Positioning
  *
- * There are two implemented layouting systems in POLAR configured by {@link MapConfiguration.layout}.
+ * There are two implemented layouting systems in POLAR configured by {@link @polar/polar!MapConfiguration.layout}.
  *
  * If `layout` is set to `'nineRegions'` all plugins are placed in a predefined region grid.
  * Use {@link PluginOptions.displayComponent | displayComponent} to control visibility
@@ -63,16 +63,16 @@ import type { Icon } from './theme'
  *
  * If `layout` is set to `'standard'`, a plugin can be rendered in one of two ways:
  * 1. **As part of the IconMenu**: Configure the plugin in the IconMenu's
- * 		{@link IconMenuPluginOptions.menus | `menus`} configuration.
+ * 		{@link @polar/polar/plugins/iconMenu!IconMenuPluginOptions.menus | `menus`} configuration.
  * 		The IconMenu will handle positioning and rendering the plugin at the designated location.
  * 2. **Independent with CSS positioning**: Directly add the plugin with
- * 		{@link addPlugin}. The plugin is responsible for its own positioning
+ * 		{@link @polar/polar!addPlugin | addPlugin}. The plugin is responsible for its own positioning
  * 		using CSS (e.g., `position: absolute`) within the map container.
  */
 export interface PluginOptions {
 	/**
 	 * Should the component be visible at all.
-	 * Only relevant if {@link MapConfiguration.layout | layout} is set to `'nineRegions'`.
+	 * Only relevant if {@link @polar/polar!MapConfiguration.layout | layout} is set to `'nineRegions'`.
 	 *
 	 * @defaultValue `false`
 	 */
@@ -80,7 +80,7 @@ export interface PluginOptions {
 
 	/**
 	 * The region where the plugin should be rendered.
-	 * Required if {@link MapConfiguration.layout | layout} is set to `'nineRegions'`,
+	 * Required if {@link @polar/polar!MapConfiguration.layout | layout} is set to `'nineRegions'`,
 	 * ignored otherwise.
 	 */
 	layoutTag?: keyof typeof NineLayoutTag
@@ -284,7 +284,7 @@ export interface PluginContainer {
 
 	/**
 	 * Configuration options. Please also note that all configuration added via plugin constructors can be overridden in
-	 * the {@link createMap | `createMap`'s parameter `mapConfiguration`} .
+	 * the {@link @polar/polar!createMap | `createMap`'s parameter `mapConfiguration`} .
 	 *
 	 * You may use either object (or a mix of them) to create the configuration, e.g. use the constructors for a base
 	 * configuration and the `mapConfiguration` object to override it for various use cases.

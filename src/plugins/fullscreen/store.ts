@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/fullscreen/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Reactive } from 'vue'
 import type { FullscreenPluginOptions } from './types'
@@ -14,13 +12,11 @@ import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from './types'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for fullscreen mode detection and enablement.
  */
-/* eslint-enable tsdoc/syntax */
 export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	const coreStore = useCoreStore()
 

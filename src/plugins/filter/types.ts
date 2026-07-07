@@ -31,7 +31,7 @@ export interface CategoryValue {
 	/**
 	 * An icon that is assigned to the value for filtering.
 	 *
-	 * Only usable if {@link MapConfiguration.layout | layout} is set to `'standard'`.
+	 * Only usable if {@link @polar/polar!MapConfiguration.layout | layout} is set to `'standard'`.
 	 */
 	icon?: Icon
 }

@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/layerChooser/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type Layer from 'ol/layer/Layer'
 import type { ImageWMS, TileWMS } from 'ol/source'
@@ -23,13 +21,11 @@ import {
 import { getBackgroundsAndMasks } from './utils/getBackgroundsAndMasks'
 import { prepareLegends } from './utils/prepareLegends'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for the layer chooser.
  */
-/* eslint-enable tsdoc/syntax */
 export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 	const coreStore = useCoreStore()
 

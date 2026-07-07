@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/geoLocation
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { GeoLocationPluginOptions } from './types'
@@ -20,7 +18,7 @@ import { PluginId } from './types'
  * If a users denies the location tracking, the button for this plugin gets
  * disabled and indicates the user's decision.
  *
- * @returns Plugin for use with {@link addPlugin}.
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginGeoLocation(
 	options: GeoLocationPluginOptions

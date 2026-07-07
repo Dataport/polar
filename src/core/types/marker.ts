@@ -74,7 +74,7 @@ export interface MarkerLayer {
 }
 
 export interface MarkerLayerConfiguration {
-	/** Unique identifier of a layer configured in {@link MapConfiguration.layers | `mapConfiguration.layers`}. */
+	/** Unique identifier of a layer configured in {@link @polar/polar!MapConfiguration.layers | `mapConfiguration.layers`}. */
 	id: string
 
 	/**

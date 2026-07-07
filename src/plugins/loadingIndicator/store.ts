@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/loadingIndicator/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
@@ -20,13 +18,11 @@ const styles = [
 
 export type LoaderStyles = (typeof styles)[number]
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for the loading indicator.
  */
-/* eslint-enable tsdoc/syntax */
 export const useLoadingIndicatorStore = defineStore(
 	'plugins/loadingIndicator',
 	() => {

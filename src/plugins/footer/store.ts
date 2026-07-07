@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/footer/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Component } from 'vue'
 import type { PluginContainer } from '@/core'
@@ -13,13 +11,11 @@ import { markRaw, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for the footer.
  */
-/* eslint-enable tsdoc/syntax */
 export const useFooterStore = defineStore('plugins/footer', () => {
 	const coreStore = useCoreStore()
 

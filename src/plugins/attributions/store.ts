@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/attributions/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { StoreReference } from '@/core'
 import type { Attribution } from './types'
@@ -18,13 +16,11 @@ import { formatAttributionText } from './utils/formatAttributionText'
 import { getVisibleAttributions } from './utils/getVisibleAttributions.ts'
 import { getVisibleLayers } from './utils/getVisibleLayers'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for the attributions.
  */
-/* eslint-enable tsdoc/syntax */
 export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	const coreStore = useCoreStore()
 

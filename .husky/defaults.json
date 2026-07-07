@@ -4,6 +4,7 @@
 	"lintOnCommit": false,
 	"lintCssOnCommit": false,
 	"typecheckOnCommit": false,
+	"typedocOnCommit": false,
 	"testOnCommit": false,
 
 	"skipCommitMsg": false,

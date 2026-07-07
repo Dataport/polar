@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/zoom/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { ComputedRef } from 'vue'
 import type { ZoomPluginOptions } from './types'
@@ -14,13 +12,11 @@ import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from './types'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for zoom buttons and zoom slider.
  */
-/* eslint-enable tsdoc/syntax */
 export const useZoomStore = defineStore('plugins/zoom', () => {
 	const coreStore = useCoreStore()
 

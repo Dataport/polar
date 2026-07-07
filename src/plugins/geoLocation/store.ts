@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/geoLocation/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Coordinate } from 'ol/coordinate'
 import type { ObjectEvent } from 'ol/Object'
@@ -32,13 +30,11 @@ import { detectDeniedGeolocationEarly } from './utils/detectDeniedGeolocationEar
 import { getGeoLocationStyle } from './utils/olStyle'
 import { positionChanged } from './utils/positionChanged'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for geoLocation.
  */
-/* eslint-enable tsdoc/syntax */
 export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 	const coreStore = useCoreStore()
 

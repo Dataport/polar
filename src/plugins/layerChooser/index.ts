@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/layerChooser
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PluginOptions, PolarPluginStore } from '@/core'
 
@@ -19,10 +17,10 @@ import { PluginId } from './types'
  * Order of layers within a layer is always as initially configured.
  *
  * The tool does not require any configuration for itself but is based on the
- * {@link MapConfiguration.layers | `mapConfiguration.layers`}.
+ * {@link @polar/polar!MapConfiguration.layers | `mapConfiguration.layers`}.
  * It will infer `id` and `name` from that configuration.
  *
- * @returns Plugin for use with {@link addPlugin}.
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginLayerChooser(
 	options: PluginOptions

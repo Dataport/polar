@@ -1,13 +1,11 @@
 import type { Locale } from '@/core'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the export plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/export
  */
-/* eslint-enable tsdoc/syntax */
 
 /**
  * German locales for export plugin.

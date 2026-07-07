@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/fullscreen
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { FullscreenPluginOptions } from './types'
@@ -15,7 +13,7 @@ import { PluginId } from './types'
 /**
  * Creates a plugin which provides a fullscreen mode with a fullscreen toggle button.
  *
- * @returns Plugin for use with {@link addPlugin}
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginFullscreen(
 	options: FullscreenPluginOptions = {}

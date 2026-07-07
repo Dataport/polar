@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/reverseGeocoder/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Mock } from 'vitest'
 import type { Reactive } from 'vue'
@@ -23,13 +21,11 @@ import { indicateLoading } from '@/lib/indicateLoading'
 import { PluginId } from './types'
 import { reverseGeocode as reverseGeocodeUtil } from './utils/reverseGeocode'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for reverse geocoder that converts coordinates into addresses.
  */
-/* eslint-enable tsdoc/syntax */
 export const useReverseGeocoderStore = defineStore(
 	'plugins/reverseGeocoder',
 	() => {

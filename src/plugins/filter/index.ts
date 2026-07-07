@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/filter
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { FilterPluginOptions } from './types'
@@ -15,7 +13,7 @@ import { PluginId } from './types'
 /**
  * Creates a plugin which allows to filter arbitrary configurable vector layers by their properties.
  *
- * @returns Plugin for use with {@link addPlugin}
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginFilter(
 	options: FilterPluginOptions

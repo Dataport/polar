@@ -54,7 +54,7 @@ export interface GroupProperties {
  *
  * @remarks
  * In {@link categoryProperties} and {@link groupProperties}, id strings called
- * {@link groupId} and {@link categoryId} are used. These are arbitrary strings
+ * `groupId` and `categoryId` are used. These are arbitrary strings
  * you can introduce and reuse to group or categorize elements together.
  */
 export interface AddressSearchPluginOptions extends PluginOptions {
@@ -74,9 +74,9 @@ export interface AddressSearchPluginOptions extends PluginOptions {
 
 	/**
 	 * An object defining properties for a category.
-	 * The searchMethod's {@link AddressSearchPluginOptions.categoryId | addressSearch.categoryId} is used as identifier.
+	 * The searchMethod's {@link SearchMethodConfiguration.categoryId | categoryId} is used as identifier.
 	 *
-	 * A service without categoryId default to the {@link AddressSearchPluginOptions.categoryId | addressSearch.categoryId}
+	 * A service without categoryId defaults to the {@link SearchMethodConfiguration.categoryId | categoryId}
 	 * `"default"`.
 	 */
 	categoryProperties?: Record<string, CategoryProperties>
@@ -130,6 +130,12 @@ export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
 
 export type SearchDisplayMode = 'mixed' | 'categorized'
 
+export type {
+	BKGParameters,
+	MpapiParameters,
+	WfsParameters,
+} from '../../lib/getFeatures/types'
+
 /** Object containing information for a specific search method. */
 export interface SearchMethodConfiguration {
 	/**
@@ -176,7 +182,7 @@ export interface SearchMethodConfiguration {
 
 	/**
 	 * The object further describes details for the search request.
-	 * Its contents vary by service type, see {@link BKGParameters}, {@link MpapiParameters} or {@link WfsParameters}.
+	 * Its contents vary by service type, see {@link @polar/polar/plugins/addressSearch!BKGParameters}, {@link @polar/polar/plugins/addressSearch!MpapiParameters} or {@link @polar/polar/plugins/addressSearch!WfsParameters}.
 	 */
 	queryParameters?: QueryParameters
 

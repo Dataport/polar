@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/export/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Interaction } from 'ol/interaction'
 import type { ExportFormat } from './types'
@@ -19,13 +17,12 @@ import { convertToPdf } from './utils/convertToPdf'
 import { CrossOriginMonkey } from './utils/CrossOriginMonkey'
 import { downloadAsImage } from './utils/downloadAsImage'
 import { getCanvasFromMap } from './utils/getCanvasFromMap'
-/* eslint-disable tsdoc/syntax */
+
 /**
  * @function
  *
  * Plugin store for export functionality.
  */
-/* eslint-enable tsdoc/syntax */
 export const useExportStore = defineStore('plugins/export', () => {
 	const coreStore = useCoreStore()
 	const exportedMap = ref('')

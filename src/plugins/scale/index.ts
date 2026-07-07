@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/scale
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { ScalePluginOptions } from './types'
@@ -17,9 +15,9 @@ export { calculateScaleFromResolution } from './utils/calculateScaleFromResoluti
 
 /**
  * Creates a plugin that shows the scale as "1 : x", relative to a line, and/or as a scale selection element.
- * Its options are defined by the zoom options defined by configuration of the {@link MasterportalApiConfiguration.options | `mapConfiguration.options`}.
+ * Its options are defined by the zoom options defined by configuration of the {@link @polar/polar!MasterportalApiConfiguration.options | `mapConfiguration.options`}.
  *
- * @returns Plugin for use with {@link addPlugin}.
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}.
  */
 export default function pluginScale(
 	options: ScalePluginOptions
