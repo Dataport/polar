@@ -231,6 +231,8 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		/**
 		 * Ids of the currently active mask layers without distinction between mask groups,
 		 * filtered by availability.
+		 *
+		 * @alpha
 		 */
 		visibleMaskIds,
 
