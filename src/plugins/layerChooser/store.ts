@@ -223,49 +223,49 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 		/**
 		 * Ids of the currently active mask layers without distinction between mask groups.
+		 *
+		 * @alpha
 		 */
 		activeMaskIds,
 
 		/**
 		 * Ids of the currently active mask layers without distinction between mask groups,
 		 * filtered by availability.
-		 *
-		 * @alpha
 		 */
 		visibleMaskIds,
 
-		/** @internal */
+		/** @alpha */
 		backgrounds,
 
 		/**
 		 * Maps a layer id to its GetCapabilities xml return value or null if an error happened.
 		 *
-		 * @internal
+		 * @alpha
 		 */
 		capabilities,
 
-		/** @internal */
+		/** @alpha */
 		disabledBackgrounds,
 
-		/** @internal */
+		/** @alpha */
 		disabledMasks,
 
-		/** @internal */
+		/** @alpha */
 		layersWithLegends,
 
-		/** @internal */
+		/** @alpha */
 		layersWithOptions,
 
-		/** @internal */
+		/** @alpha */
 		masksSeparatedByType,
 
-		/** @internal */
+		/** @alpha */
 		shownMasks,
 
-		/** @internal */
+		/** @alpha */
 		openedLegendId,
 
-		/** @internal */
+		/** @alpha */
 		openedOptionsId,
 
 		/** @internal */
@@ -274,7 +274,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		/** @internal */
 		teardownPlugin,
 
-		/** @internal */
+		/** @alpha */
 		toggleOpenedOptionsServiceLayer,
 	}
 })
