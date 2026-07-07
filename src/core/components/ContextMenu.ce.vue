@@ -127,10 +127,6 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 				-webkit-touch-callout: none;
 				pointer-events: none;
 			}
-
-			&:focus {
-				outline: auto;
-			}
 		}
 
 		hr {
