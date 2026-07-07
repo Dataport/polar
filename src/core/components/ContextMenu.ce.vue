@@ -19,7 +19,6 @@
 					tabindex="-1"
 					:style="{ '--polar-btn-text-color': color }"
 					@click="ring(callback)"
-					@keydown.enter="ring(callback)"
 					@keydown.up.prevent.stop="focusNextElement($event, -1)"
 					@keydown.down.prevent.stop="focusNextElement($event, 1)"
 				>
@@ -60,8 +59,13 @@ function translate(text: string, textNs?: string): string {
 }
 
 function ring(callback: ContextMenuEntry['callback']) {
-	close()
-	callback(toRaw(contextMenuStore.clickCoordinate))
+	try {
+		callback(toRaw(contextMenuStore.clickCoordinate))
+	} catch (error) {
+		console.error('A context menu callback threw an error:', error)
+	} finally {
+		close()
+	}
 }
 
 function close() {
@@ -85,11 +89,14 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 		return
 	}
 	const index = [...items].indexOf(target as HTMLElement)
-	const nextIndex = index + direction
-	if (nextIndex < 0 || nextIndex >= items.length || !items[nextIndex]) {
+	if (index < 0) {
+		console.warn('Could not focus any element.')
 		return
 	}
-	items[nextIndex].focus()
+	const nextElement = items[(index + direction + items.length) % items.length]
+	if (nextElement) {
+		nextElement.focus()
+	}
 }
 </script>
 
@@ -119,10 +126,6 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 				-webkit-user-select: none;
 				-webkit-touch-callout: none;
 				pointer-events: none;
-			}
-
-			&:focus {
-				outline: auto;
 			}
 		}
 
