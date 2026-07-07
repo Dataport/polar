@@ -48,9 +48,7 @@ interface WatcherConfig {
  */
 export function useStoreWatcher(
 	sources:
-		| StoreReference[]
-		| ComputedRef<StoreReference[]>
-		| (() => StoreReference[]),
+		StoreReference[] | ComputedRef<StoreReference[]> | (() => StoreReference[]),
 	callback: (value: unknown) => void | Promise<void>,
 	watchOptions?: WatchOptions
 ) {
