@@ -12,6 +12,7 @@ export const useContextMenuStore = defineStore('contextMenu', () => {
 	const buttons = ref(new Map<string, ContextMenuEntry>())
 	const clickCoordinate = ref<Coordinate>([])
 	const show = ref(false)
+	const suppressNextMapClick = ref(false)
 
 	const left = ref('0')
 	const top = ref('0')
@@ -47,6 +48,7 @@ export const useContextMenuStore = defineStore('contextMenu', () => {
 
 	function dismiss() {
 		show.value = false
+		suppressNextMapClick.value = false
 	}
 
 	return {
@@ -58,6 +60,9 @@ export const useContextMenuStore = defineStore('contextMenu', () => {
 
 		/** @internal */
 		show,
+
+		/** @internal */
+		suppressNextMapClick,
 
 		/** @internal */
 		top,
