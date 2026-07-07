@@ -85,11 +85,14 @@ function focusNextElement(event: KeyboardEvent, direction: -1 | 1) {
 		return
 	}
 	const index = [...items].indexOf(target as HTMLElement)
-	const nextIndex = index + direction
-	if (nextIndex < 0 || nextIndex >= items.length || !items[nextIndex]) {
+	if (index < 0) {
+		console.warn('Could not focus any element.')
 		return
 	}
-	items[nextIndex].focus()
+	const nextElement = items[(index + direction + items.length) % items.length]
+	if (nextElement) {
+		nextElement.focus()
+	}
 }
 </script>
 
