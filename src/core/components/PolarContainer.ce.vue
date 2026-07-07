@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import type { MapBrowserEvent } from 'ol'
 import type { Pinia } from 'pinia'
 import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
 
@@ -107,23 +106,6 @@ const oneFingerPan = useT(() =>
 let longPressHammer: { destroy: () => void } | null = null
 let panHammer: { destroy: () => void } | null = null
 
-/** Suppresses e.g. a pin being set if the contextmenu was just opened. */
-function suppressMapClickAfterLongPress(event: MapBrowserEvent) {
-	if (contextMenuStore.suppressNextMapClick) {
-		event.stopPropagation()
-	}
-}
-
-function toggleMapClickSuppression(active = false) {
-	mainStore.map.un('click', suppressMapClickAfterLongPress)
-	mainStore.map.un('singleclick', suppressMapClickAfterLongPress)
-
-	if (active) {
-		mainStore.map.on('click', suppressMapClickAfterLongPress)
-		mainStore.map.on('singleclick', suppressMapClickAfterLongPress)
-	}
-}
-
 function updateListeners() {
 	longPressHammer?.destroy()
 	longPressHammer = null
@@ -132,7 +114,6 @@ function updateListeners() {
 
 	const container = polarMapContainer.value?.el
 	if (container && hasSmallDisplay.value) {
-		toggleMapClickSuppression(true)
 		longPressHammer = new Hammer(container, { time: 1000 }).on('press', (e) => {
 			contextMenuStore.show = true
 			const rect = (polarWrapper.value as Element).getBoundingClientRect()
@@ -163,8 +144,6 @@ function updateListeners() {
 				}
 			})
 		}
-	} else {
-		toggleMapClickSuppression()
 	}
 }
 
@@ -275,7 +254,6 @@ onBeforeUnmount(() => {
 	panHammer = null
 	longPressHammer?.destroy()
 	longPressHammer = null
-	toggleMapClickSuppression()
 
 	if (resizeObserver instanceof ResizeObserver) {
 		resizeObserver.unobserve(polarWrapper.value as Element)
