@@ -19,7 +19,6 @@
 					tabindex="-1"
 					:style="{ '--polar-btn-text-color': color }"
 					@click="ring(callback)"
-					@keydown.enter="ring(callback)"
 					@keydown.up.prevent.stop="focusNextElement($event, -1)"
 					@keydown.down.prevent.stop="focusNextElement($event, 1)"
 				>
@@ -60,8 +59,13 @@ function translate(text: string, textNs?: string): string {
 }
 
 function ring(callback: ContextMenuEntry['callback']) {
-	close()
-	callback(toRaw(contextMenuStore.clickCoordinate))
+	try {
+		callback(toRaw(contextMenuStore.clickCoordinate))
+	} catch (error) {
+		console.error('A context menu callback threw an error:', error)
+	} finally {
+		close()
+	}
 }
 
 function close() {
