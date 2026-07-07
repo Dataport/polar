@@ -75,6 +75,11 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 	const shownMasks = computed(() =>
 		masks.value.filter(({ hideInMenu }) => !hideInMenu)
 	)
+	const visibleMaskIds = computed(() =>
+		availableMasks.value
+			.map(({ id }) => id)
+			.filter((id) => activeMaskIds.value.includes(id))
+	)
 	const masksSeparatedByType = computed(() =>
 		shownMasks.value.reduce<Record<string, LayerConfiguration[]>>(
 			(acc, mask) =>
@@ -143,7 +148,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 			})
 	})
 
-	watch(activeMaskIds, (ids) => {
+	watch(visibleMaskIds, (ids) => {
 		setActiveMaskIdsVisibility(ids)
 	})
 
@@ -218,41 +223,51 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 		/**
 		 * Ids of the currently active mask layers without distinction between mask groups.
+		 *
+		 * @alpha
 		 */
 		activeMaskIds,
 
-		/** @internal */
+		/**
+		 * Ids of the currently active mask layers without distinction between mask groups,
+		 * filtered by availability.
+		 *
+		 * @alpha
+		 */
+		visibleMaskIds,
+
+		/** @alpha */
 		backgrounds,
 
 		/**
 		 * Maps a layer id to its GetCapabilities xml return value or null if an error happened.
 		 *
-		 * @internal
+		 * @alpha
 		 */
 		capabilities,
 
-		/** @internal */
+		/** @alpha */
 		disabledBackgrounds,
 
-		/** @internal */
+		/** @alpha */
 		disabledMasks,
 
-		/** @internal */
+		/** @alpha */
 		layersWithLegends,
 
-		/** @internal */
+		/** @alpha */
 		layersWithOptions,
 
-		/** @internal */
+		/** @alpha */
 		masksSeparatedByType,
 
-		/** @internal */
+		/** @alpha */
 		shownMasks,
 
-		/** @internal */
+		/** @alpha */
 		openedLegendId,
 
-		/** @internal */
+		/** @alpha */
 		openedOptionsId,
 
 		/** @internal */
@@ -261,7 +276,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		/** @internal */
 		teardownPlugin,
 
-		/** @internal */
+		/** @alpha */
 		toggleOpenedOptionsServiceLayer,
 	}
 })

@@ -282,7 +282,7 @@ addPlugin(
 				plugin: 'layerChooser',
 			},
 			{
-				key: 'activeMaskIds',
+				key: 'visibleMaskIds',
 				plugin: 'layerChooser',
 			},
 			{
