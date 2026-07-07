@@ -93,6 +93,17 @@ export const usePointerPositionStore = defineStore(
 				text: 'contextMenu',
 				textNs: PluginId,
 				callback: (coordinate) => {
+					const onError = () => {
+						notifyUser(
+							'error',
+							t(($) => $.toast.error, { ns: PluginId })
+						)
+					}
+					// navigator.clipboard is only available in secure contexts
+					if (!window.isSecureContext) {
+						onError()
+						return
+					}
 					navigator.clipboard
 						.writeText(getFormattedCoordinate(coordinate))
 						.then(() => {
@@ -101,12 +112,7 @@ export const usePointerPositionStore = defineStore(
 								t(($) => $.toast.success, { ns: PluginId })
 							)
 						})
-						.catch(() => {
-							notifyUser(
-								'error',
-								t(($) => $.toast.error, { ns: PluginId })
-							)
-						})
+						.catch(onError)
 				},
 			})
 		}
