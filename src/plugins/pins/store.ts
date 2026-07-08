@@ -21,7 +21,7 @@ import { Vector } from 'ol/source'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
+import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
 import { getPinStyle } from './utils/getPinStyle'
@@ -78,7 +78,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		layers: [pinLayer],
 	})
 
-	usePluginStoreWatcher(
+	useStoreWatcher(
 		() => configuration.value.coordinateSources || [],
 		(value: unknown) => {
 			const feature = value as PolarGeoJsonFeature<GeoJsonPoint> | null

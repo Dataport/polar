@@ -11,7 +11,7 @@ export const areLayersActive = (layers: LayerConfiguration[], zoom: number) =>
 	layers.filter((layer) => {
 		let { minZoom, maxZoom } = layer
 		if (typeof minZoom === 'undefined') {
-			minZoom = 0
+			minZoom = Number.MIN_SAFE_INTEGER
 		}
 		if (typeof maxZoom === 'undefined') {
 			maxZoom = Number.MAX_SAFE_INTEGER
