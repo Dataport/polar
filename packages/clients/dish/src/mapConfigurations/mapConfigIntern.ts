@@ -21,6 +21,7 @@ import {
 import layersIntern from './layerConfigIntern'
 import {
   attributionsBasemapGrau,
+  attributionsBasemapFarbe,
   attributionsAlkisWms,
   denkmalAmtLink,
   vermessungsAmtLink,
@@ -36,6 +37,7 @@ export const mapConfigIntern = (urlParams: DishUrlParams): DishMapConfig => ({
     initiallyOpen: false,
     layerAttributions: [
       attributionsBasemapGrau,
+      attributionsBasemapFarbe,
       {
         id: bddEin,
         title: `Grundkarte Graustufen: © ${vermessungsAmtLink}`,

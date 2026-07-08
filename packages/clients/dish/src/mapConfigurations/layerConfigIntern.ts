@@ -10,6 +10,7 @@ import {
   bddCol,
   dop20col,
   basemapGrau,
+  basemapFarbe,
   alkisWms,
   alkisWfs,
   kontrollbedarf,
@@ -28,6 +29,12 @@ const layersIntern: LayerConfiguration[] = [
     visibility: false,
     type: 'background',
     name: 'Basemap.de Graustufen',
+  },
+    {
+    id: basemapFarbe,
+    visibility: false,
+    type: 'background',
+    name: 'Basemap.de Farbe',
   },
   {
     id: bddEin,
