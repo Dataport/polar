@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpulblished
+
+- Chore: Readded the BaseMap (Farbe).
+
 ## 1.6.0
 
 - Feature: Use selected background service for print in `DishExportMap`.
