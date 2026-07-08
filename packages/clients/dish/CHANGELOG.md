@@ -3,6 +3,7 @@
 ## unpulblished
 
 - Chore: Readded the BaseMap (Farbe).
+- Fix: updated parameter `printImageBaseUrl` and the port needed for printing.
 
 ## 1.6.0
 
