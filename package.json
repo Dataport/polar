@@ -71,7 +71,7 @@
 		"clean": "node scripts/clean.ts",
 		"test": "vitest",
 		"test:ci": "vitest run",
-		"test:coverage": "vitest run --coverage",
+		"test:coverage": "vitest --coverage --ui",
 		"prepare": "node .husky/install.js"
 	},
 	"files": [
@@ -93,7 +93,8 @@
 		"@types/geojson": "7946.0.16",
 		"@types/node": "^24.13.2",
 		"@vitejs/plugin-vue": "^6.0.7",
-		"@vitest/coverage-v8": "^4.1.7",
+		"@vitest/coverage-v8": "^4.1.10",
+		"@vitest/ui": "^4.1.10",
 		"@vue/test-utils": "^2.4.11",
 		"@vue/tsconfig": "^0.9.0",
 		"cross-env": "^10.0.0",
@@ -127,7 +128,7 @@
 		"vite-plugin-commonjs": "^0.10.4",
 		"vite-plugin-kern-extra-icons": "^0.6.1",
 		"vite-plugin-vue-devtools": "^8.1.5",
-		"vitest": "^4.1.9",
+		"vitest": "^4.1.10",
 		"vue": "^3.5.39",
 		"vue-tsc": "^3.3.6"
 	},
