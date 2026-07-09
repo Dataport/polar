@@ -28,7 +28,7 @@ import { storeToRefs } from 'pinia'
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 
-import { useRoutingStore } from '../store.ts'
+import { useRoutingStore } from '../store'
 import { PluginId } from '../types'
 import RoutingDetails from './RoutingDetails.ce.vue'
 import RoutingInput from './RoutingInput.ce.vue'

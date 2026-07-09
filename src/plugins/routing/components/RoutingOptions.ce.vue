@@ -38,7 +38,7 @@ import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
 import PolarSelect from '@/components/PolarSelect.ce.vue'
 import PolarToggleButton from '@/components/PolarToggleButton.ce.vue'
 
-import { useRoutingStore } from '../store.ts'
+import { useRoutingStore } from '../store'
 import { PluginId } from '../types'
 
 const {

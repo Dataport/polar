@@ -12,7 +12,7 @@ import type {
 	RoutingResponseData,
 	SelectableTravelMode,
 	TravelMode,
-} from './types.ts'
+} from './types'
 
 import { t } from 'i18next'
 import { Feature } from 'ol'
@@ -28,8 +28,8 @@ import { computed, ref, watch } from 'vue'
 import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
 
-import { PluginId } from './types.ts'
-import { handleErrors } from './utils/handleErrors.ts'
+import { PluginId } from './types'
+import { handleErrors } from './utils/handleErrors'
 
 /* eslint-disable tsdoc/syntax */
 /**

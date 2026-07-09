@@ -48,7 +48,7 @@ import { computed } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 
-import { useRoutingStore } from '../store.ts'
+import { useRoutingStore } from '../store'
 import { PluginId } from '../types'
 
 defineProps<{

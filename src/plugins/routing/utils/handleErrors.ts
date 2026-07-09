@@ -1,4 +1,4 @@
-import { notifyUser } from '@/lib/notifyUser.ts'
+import { notifyUser } from '@/lib/notifyUser'
 
 export function handleErrors(error: unknown) {
 	let errorMessage = ''

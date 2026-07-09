@@ -76,7 +76,7 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
-import { useRoutingStore } from '../store.ts'
+import { useRoutingStore } from '../store'
 import { PluginId } from '../types'
 
 const routingStore = useRoutingStore()
