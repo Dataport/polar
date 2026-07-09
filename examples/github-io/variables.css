@@ -1,0 +1,32 @@
+:root {
+	--polar-navy: #003087;
+	--polar-blue: #003087;
+	--polar-cyan: #00adef;
+	--polar-hero-from: #00adef;
+	--polar-hero-to: #003087;
+	--polar-hero-accent: #39ff14;
+	--polar-section-alt: #f8fafc;
+	--polar-dark-bg: #111827;
+	--polar-code-bg: #0d1117;
+	--polar-radius: 8px;
+	/* POLAR color tokens */
+	--polar-pink-100: #ffd6ea;
+	--polar-pink-450: #fc0c91;
+	--polar-pink-600: #b80064;
+	--polar-blue-100: #d0e4ff;
+	--polar-blue-250: #7dbbfe;
+	--polar-blue-300: #47b2ff;
+	--polar-blue-400: #0794fa;
+	--polar-blue-500: #0078d4;
+	--polar-blue-600: #005fad;
+	--polar-blue-850: #00264e;
+	--polar-green-100: #47ffb0;
+	--polar-green-250: #00d388;
+	--polar-green-300: #00c37c;
+	--polar-green-500: #008854;
+	--polar-green-600: #006c42;
+	--polar-grey-300: #a5aac3;
+	--polar-grey-500: #6e7597;
+	--polar-grey-600: #565c7f;
+	--polar-text-default: #171a2b;
+}

@@ -221,7 +221,7 @@ section {
 			margin-bottom: var(--kern-metric-space-x-large);
 
 			.kern-btn {
-				font-size: var(--kern-typography-font-size-static-medium,);
+				font-size: var(--kern-typography-font-size-medium-static);
 				font-weight: var(--kern-typography-font-weight-medium);
 
 				&:focus {
@@ -233,19 +233,13 @@ section {
 				.kern-label {
 					color: #000;
 				}
-				background: oklch(
-					var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
-						var(--kern-darkblue-300-hue)
-				);
+				background: var(--kern-color-darkblue-300);
 			}
 
 			.kern-btn--tertiary {
 				.kern-label {
 					text-decoration: none;
-					color: oklch(
-						var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
-							var(--kern-darkblue-300-hue)
-					);
+					color: var(--kern-color-darkblue-300);
 				}
 			}
 
@@ -254,16 +248,10 @@ section {
 				width: 8rem;
 
 				.kern-icon {
-					background: oklch(
-						var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
-							var(--kern-darkblue-300-hue)
-					);
+					background: var(--kern-color-darkblue-300);
 				}
 				.kern-label {
-					color: oklch(
-						var(--kern-darkblue-300-lightness) var(--kern-darkblue-300-chroma)
-							var(--kern-darkblue-300-hue)
-					);
+					color: var(--kern-color-darkblue-300);
 				}
 			}
 		}
@@ -272,10 +260,10 @@ section {
 			flex: 1;
 			margin: 0;
 			font-family: 'Fira Code', monospace;
-			font-size: var(--kern-typography-font-size-static-medium);
+			font-size: var(--kern-typography-font-size-medium-static);
 			font-style: normal;
 			font-weight: var(--kern-typography-font-weight-semi-bold);
-			line-height: var(--kern-typography-line-height-static-large);
+			line-height: var(--kern-typography-line-height-large-static);
 			letter-spacing: 0;
 			overflow: auto;
 			color: var(--polar-grey-300);

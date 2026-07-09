@@ -4,7 +4,7 @@ import type { Coordinate } from 'ol/coordinate'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 
-import { findLayer } from './findLayer'
+import { findLayer } from '@/lib/findLayer'
 
 // arbitrarily give up after 10s of stalling (100 * 100ms)
 const readinessCheckLimit = 100

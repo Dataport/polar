@@ -9,15 +9,12 @@ export default {}
 </script>
 
 <style scoped>
-.lds-ring {
-	/* change color here */
-	color: var(--kern-color-action-default);
-}
 .lds-ring,
 .lds-ring div {
 	box-sizing: border-box;
 }
 .lds-ring {
+	color: var(--kern-color-action-default);
 	display: inline-block;
 	position: relative;
 	width: 80px;

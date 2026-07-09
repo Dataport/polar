@@ -43,8 +43,7 @@ export function useMultiSelection(
 		(e) =>
 			(selection.value =
 				(e.feature.getGeometry()?.getExtent() as
-					| [number, number, number, number]
-					| undefined) ?? null)
+					[number, number, number, number] | undefined) ?? null)
 	)
 
 	map.addInteraction(draw)

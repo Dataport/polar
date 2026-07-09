@@ -150,6 +150,11 @@ ul {
 		width: var(--kern-metric-dimension-large);
 	}
 
+	.kern-label {
+		font-size: var(--kern-typography-font-size-small-static);
+		line-height: var(--kern-typography-line-height-medium-static);
+	}
+
 	&.active {
 		background-color: var(--kern-color-action-default);
 		pointer-events: none;
@@ -157,11 +162,6 @@ ul {
 		.kern-label {
 			color: var(--kern-color-action-on-default);
 		}
-	}
-
-	.kern-label {
-		font-size: var(--kern-typography-font-size-small-static);
-		line-height: var(--kern-typography-line-height-medium-static);
 	}
 }
 </style>

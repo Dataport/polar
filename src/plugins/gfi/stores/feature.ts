@@ -7,8 +7,8 @@ import { debounce, isEqual } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
 
-import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
 import { useRefStore } from '@/composables/useRefStore'
+import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
 import { useMultiSelection } from '../composables/useMultiSelection'
@@ -110,7 +110,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	const waitMs = computed(() => gfiMainStore.configuration.waitMs || 50)
 	const debouncedGetFeatureInfo = debounce(getFeatureInfo, waitMs.value)
 
-	usePluginStoreWatcher(
+	useStoreWatcher(
 		gfiMainStore.configuration.coordinateSources || [],
 		(coordinate) => {
 			if (coordinate) {

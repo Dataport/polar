@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import PolarTooltip from './PolarTooltip.ce.vue'
+import PolarTooltip from '@/components/PolarTooltip.ce.vue'
 defineProps<{
 	hint: string
 	icon: string

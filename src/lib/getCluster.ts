@@ -4,7 +4,7 @@ import type VectorSource from 'ol/source/Vector'
 import { Feature } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
 
-import { findLayer } from './findLayer'
+import { findLayer } from '@/lib/findLayer'
 
 /*
  * Helper function to retrieve the related cluster of a feature.

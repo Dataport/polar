@@ -7,14 +7,12 @@ export default {}
 </script>
 
 <style scoped>
-.lds-circle {
-	color: var(--kern-color-action-default);
-}
 .lds-circle,
 .lds-circle div {
 	box-sizing: border-box;
 }
 .lds-circle {
+	color: var(--kern-color-action-default);
 	display: inline-block;
 	transform: translateZ(1px);
 	width: 80px;
@@ -30,12 +28,9 @@ export default {}
 	animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 @keyframes lds-circle {
-	0%,
-	100% {
-		animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
-	}
 	0% {
 		transform: rotateY(0deg);
+		animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
 	}
 	50% {
 		transform: rotateY(1800deg);
@@ -43,6 +38,7 @@ export default {}
 	}
 	100% {
 		transform: rotateY(3600deg);
+		animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
 	}
 }
 </style>
