@@ -12,3 +12,36 @@ import type { Icon } from '@/core'
 
 defineProps<{ icon?: Icon; labelSrOnly?: boolean }>()
 </script>
+
+<style scoped>
+.kern-btn {
+	.kern-icon {
+		background-color: var(
+			--polar-btn-text-color,
+			var(--kern-color-action-default-contextual)
+		);
+	}
+
+	.kern-label {
+		color: var(
+			--polar-btn-text-color,
+			var(--kern-color-action-default-contextual)
+		);
+	}
+}
+
+.kern-btn--primary {
+	.kern-icon {
+		background-color: var(
+			--polar-btn-text-color,
+			var(--kern-color-action-on-default-contextual)
+		);
+	}
+	.kern-label {
+		color: var(
+			--polar-btn-text-color,
+			var(--kern-color-action-on-default-contextual)
+		);
+	}
+}
+</style>

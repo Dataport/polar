@@ -18,6 +18,7 @@ import { defaults } from 'ol/interaction'
 import { storeToRefs } from 'pinia'
 import { markRaw, onBeforeUnmount, onMounted, useTemplateRef, watch } from 'vue'
 
+import { useContextMenuStore } from '../stores/contextMenu.ts'
 import { useMainStore } from '../stores/main'
 import { CoreId } from '../types'
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
@@ -33,6 +34,7 @@ const emit = defineEmits(['updateListeners', 'wheel'])
 
 const mainStore = useMainStore()
 const { hasWindowSize, hasSmallDisplay, center, zoom } = storeToRefs(mainStore)
+const contextMenuStore = useContextMenuStore()
 
 function onMove() {
 	center.value = mainStore.map.getView().getCenter() || center.value
@@ -63,6 +65,11 @@ function createMap() {
 		) as Map
 	)
 	mainStore.map.on('moveend', onMove)
+	mainStore.map.on('click', contextMenuStore.suppressMapClickAfterLongPress)
+	mainStore.map.on(
+		'singleclick',
+		contextMenuStore.suppressMapClickAfterLongPress
+	)
 
 	updateDragAndZoomInteractions(
 		mainStore.map,
@@ -110,6 +117,11 @@ onMounted(async () => {
 })
 onBeforeUnmount(() => {
 	mainStore.map.un('moveend', onMove)
+	mainStore.map.un('click', contextMenuStore.suppressMapClickAfterLongPress)
+	mainStore.map.un(
+		'singleclick',
+		contextMenuStore.suppressMapClickAfterLongPress
+	)
 })
 </script>
 
