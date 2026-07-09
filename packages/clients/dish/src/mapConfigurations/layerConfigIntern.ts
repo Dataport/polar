@@ -30,7 +30,7 @@ const layersIntern: LayerConfiguration[] = [
     type: 'background',
     name: 'Basemap.de Graustufen',
   },
-    {
+  {
     id: basemapFarbe,
     visibility: false,
     type: 'background',
