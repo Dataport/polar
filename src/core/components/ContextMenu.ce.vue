@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import type { ComponentPublicInstance } from 'vue'
-import type { ContextMenuEntry } from '@/core'
+import type { ContextMenuEntry } from '../types/contextMenu'
 
 import { t } from 'i18next'
 import { storeToRefs } from 'pinia'

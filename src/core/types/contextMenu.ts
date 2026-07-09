@@ -1,5 +1,5 @@
 import type { Coordinate } from 'ol/coordinate'
-import type { PluginId } from '@/core'
+import type { PluginId } from './plugin'
 import type { Color, Icon } from './theme'
 
 export interface ContextMenuEntry {
