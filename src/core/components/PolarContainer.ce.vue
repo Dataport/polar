@@ -105,6 +105,7 @@ const oneFingerPan = useT(() =>
 
 let longPressHammer: { destroy: () => void } | null = null
 let panHammer: { destroy: () => void } | null = null
+
 function updateListeners() {
 	longPressHammer?.destroy()
 	longPressHammer = null
@@ -124,6 +125,7 @@ function updateListeners() {
 			])
 			contextMenuStore.left = `${left}px`
 			contextMenuStore.top = `${top}px`
+			contextMenuStore.suppressNextMapClick = true
 		})
 
 		if (!hasWindowSize.value) {

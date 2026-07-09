@@ -1,3 +1,4 @@
+import type { MapBrowserEvent } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { ContextMenuEntry } from '../types'
 
@@ -12,6 +13,7 @@ export const useContextMenuStore = defineStore('contextMenu', () => {
 	const buttons = ref(new Map<string, ContextMenuEntry>())
 	const clickCoordinate = ref<Coordinate>([])
 	const show = ref(false)
+	const suppressNextMapClick = ref(false)
 
 	const left = ref('0')
 	const top = ref('0')
@@ -47,6 +49,14 @@ export const useContextMenuStore = defineStore('contextMenu', () => {
 
 	function dismiss() {
 		show.value = false
+		suppressNextMapClick.value = false
+	}
+
+	/** Suppresses e.g. a pin being set if the contextmenu was just opened. */
+	function suppressMapClickAfterLongPress(event: MapBrowserEvent) {
+		if (suppressNextMapClick.value) {
+			event.stopPropagation()
+		}
 	}
 
 	return {
@@ -58,6 +68,9 @@ export const useContextMenuStore = defineStore('contextMenu', () => {
 
 		/** @internal */
 		show,
+
+		/** @internal */
+		suppressNextMapClick,
 
 		/** @internal */
 		top,
@@ -76,5 +89,8 @@ export const useContextMenuStore = defineStore('contextMenu', () => {
 
 		/** @internal */
 		dismiss,
+
+		/** @internal */
+		suppressMapClickAfterLongPress,
 	}
 })
