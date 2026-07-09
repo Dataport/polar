@@ -13,11 +13,7 @@
 					type="checkbox"
 					name="polar-layer-chooser-mask-options"
 					:value="layerName"
-					:class="
-						options.some(({ layerImage }) => layerImage !== null)
-							? 'polar-layer-chooser-options-checkbox'
-							: ''
-					"
+					:class="{ 'polar-layer-chooser-options-checkbox': hasLayerImages }"
 					:disabled="
 						activeLayers.length === 1 && activeLayers.includes(layerName)
 					"
@@ -52,6 +48,9 @@ const { openedOptionsId } = storeToRefs(layerChooserStore)
 const options = computed(
 	() =>
 		layerChooserStore.layersWithOptions[openedOptionsId.value] as LayerOptions[]
+)
+const hasLayerImages = computed(() =>
+	options.value.some(({ layerImage }) => layerImage !== null)
 )
 
 const layerIds = ref<string[]>([])

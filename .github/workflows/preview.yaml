@@ -1,7 +1,5 @@
 name: Deploy PR previews
 
-concurrency: preview-${{ github.ref }}
-
 on:
   pull_request:
     types:
