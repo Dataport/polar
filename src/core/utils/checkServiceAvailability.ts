@@ -33,11 +33,13 @@ export function checkServiceAvailability(
 				return true
 			}
 		)
-		.map(({ service }): ServiceAvailabilityCheck => ({
-			ping: ping(service),
-			serviceId: service.id as string,
-			serviceName: service.name as string,
-		}))
+		.map(
+			({ service }): ServiceAvailabilityCheck => ({
+				ping: ping(service),
+				serviceId: service.id as string,
+				serviceName: service.name as string,
+			})
+		)
 		.forEach(({ ping, serviceId, serviceName }) => {
 			ping
 				.then((statusCode) => {
