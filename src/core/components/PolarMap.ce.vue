@@ -18,7 +18,7 @@ import { defaults } from 'ol/interaction'
 import { storeToRefs } from 'pinia'
 import { markRaw, onBeforeUnmount, onMounted, useTemplateRef, watch } from 'vue'
 
-import { useContextMenuStore } from '../stores/contextMenu.ts'
+import { useContextMenuStore } from '../stores/contextMenu'
 import { useMainStore } from '../stores/main'
 import { CoreId } from '../types'
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
