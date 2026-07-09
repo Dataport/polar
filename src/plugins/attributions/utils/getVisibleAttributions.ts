@@ -20,3 +20,21 @@ export function getVisibleAttributions(
 	})
 	return visibleAttributions
 }
+
+if (import.meta.vitest) {
+	const { expect, test } = import.meta.vitest
+
+	const attribution = (id: string): Attribution => ({
+		id,
+		title: `title-${id}`,
+	})
+
+	test('returns only attributions whose id matches a visible layer', () => {
+		const attributions = [attribution('a'), attribution('b'), attribution('c')]
+
+		expect(getVisibleAttributions(['a', 'c'], attributions)).toEqual([
+			attribution('a'),
+			attribution('c'),
+		])
+	})
+}

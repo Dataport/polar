@@ -19,3 +19,30 @@ export function buildMapInfo(
 	text.push('sourceCode')
 	return text
 }
+
+if (import.meta.vitest) {
+	const { expect, test } = import.meta.vitest
+
+	const attribution = (id: string, title: string): Attribution => ({
+		id,
+		title,
+	})
+
+	test('lists layer titles followed by the source code entry', () => {
+		const infos = [attribution('a', 'Thea'), attribution('b', 'Beta')]
+
+		expect(buildMapInfo(infos)).toEqual(['Thea', 'Beta', 'sourceCode'])
+	})
+
+	test('appends static attributions between layer titles and the source code entry', () => {
+		const infos = [attribution('a', 'Thea')]
+		const staticAttributions = ['Static 1', 'Static 2']
+
+		expect(buildMapInfo(infos, staticAttributions)).toEqual([
+			'Thea',
+			'Static 1',
+			'Static 2',
+			'sourceCode',
+		])
+	})
+}
