@@ -157,7 +157,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	}
 
 	async function fetchRoute(signal: AbortSignal): Promise<RoutingResponseData> {
-		const response = await fetch(encodeURI(url.value), {
+		const response = await fetch(url.value, {
 			method: 'POST',
 			headers: {
 				/* eslint-disable @typescript-eslint/naming-convention */
