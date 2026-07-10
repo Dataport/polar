@@ -62,12 +62,11 @@ const { currentlyFocusedInput, route } = storeToRefs(routeStore)
 /**
  * This makes sure that there are always two fillable input fields at max.
  */
-const addWaypointButtonDisabled = computed(() => {
-	return (
+const addWaypointButtonDisabled = computed(
+	() =>
 		route.value.filter((part) => Boolean(part.length)).length <
 		route.value.length - 1
-	)
-})
+)
 
 function getRouteLabel(index: number) {
 	return index === 0
