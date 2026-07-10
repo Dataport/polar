@@ -15,7 +15,7 @@ import { PluginId } from './types'
 /**
  * Creates a plugin which offers routing functionality to the user.
  *
- * A user can select multiple waypoints by clicking on the map, which then are converted to an address, if the `reverseGeocoder` plugin is configured.
+ * A user can select multiple waypoints by clicking on the map.
  * If at least two waypoints have been added, the route is automatically calculated and displayed on the map.
  *
  * The travel mode can be adjusted as well as the types of routes to avoid.
