@@ -30,6 +30,7 @@ export default defineConfig({
 		chunkSizeWarningLimit: 1536,
 		emptyOutDir: true,
 		rolldownOptions: {
+			external: ['@polar/polar', '@polar/polar/client', '@polar/polar/store'],
 			input: resolve(__dirname, 'examples', 'github-io', 'index.html'),
 			output: {
 				entryFileNames: '[name].js',
