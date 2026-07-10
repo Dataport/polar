@@ -1,6 +1,8 @@
-import { type ImageTile, Map } from 'ol'
+import type { ImageTile } from 'ol'
+import type { TileWMS } from 'ol/source'
+
+import { Map } from 'ol'
 import TileLayer from 'ol/layer/Tile'
-import { type TileWMS } from 'ol/source'
 
 // NOTE: This monkey patch allows url parameters of tiled WMS layers to become headers if used like `{key=value}`
 

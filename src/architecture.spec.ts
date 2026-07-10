@@ -1,5 +1,7 @@
+import type { FileConditionBuilder } from 'tsarch'
+
 import { resolve } from 'node:path'
-import { FileConditionBuilder, filesOfProject } from 'tsarch'
+import { filesOfProject } from 'tsarch'
 import { beforeAll, describe, expect, test } from 'vitest'
 
 describe('Architectural checks', () => {

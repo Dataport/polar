@@ -1,4 +1,5 @@
-import { Map } from 'ol'
+import type { Map } from 'ol'
+
 import { ImageWMS } from 'ol/source'
 
 /**

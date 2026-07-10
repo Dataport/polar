@@ -15,7 +15,7 @@
 					:class="buttonClass"
 					:hint="
 						$t(($) => $.hints[plugin.id], {
-							ns: 'iconMenu',
+							ns: PluginId,
 						})
 					"
 					:icon="icon"
@@ -40,9 +40,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Component } from 'vue'
+import type { Menu } from '../types'
+
 import { storeToRefs } from 'pinia'
 import {
-	type Component,
 	computed,
 	nextTick,
 	onBeforeUnmount,
@@ -55,9 +57,8 @@ import {
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
-import type { Menu } from '../types'
-
 import { useIconMenuStore } from '../store'
+import { PluginId } from '../types'
 
 withDefaults(
 	defineProps<{

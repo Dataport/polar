@@ -1,4 +1,4 @@
-import { Map } from 'ol'
+import type { Map } from 'ol'
 
 export function getCanvasFromMap(map: Map) {
 	const viewport = map.getViewport()

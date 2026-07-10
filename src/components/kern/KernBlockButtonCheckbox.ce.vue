@@ -13,9 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import { useId } from 'vue'
-
 import type { Icon } from '@/core'
+
+import { useId } from 'vue'
 
 defineProps<{ icon?: Icon }>()
 
@@ -58,10 +58,8 @@ input[type='checkbox'] {
 	&:focus-visible + label {
 		padding: var(--kern-metric-space-none) var(--kern-metric-space-default);
 		border-radius: var(--kern-metric-border-radius-default);
-		box-shadow:
-			0 0 0 2px var(--kern-color-action-on-default),
-			0 0 0 4px var(--kern-color-action-focus-border-inside),
-			0 0 0 6px var(--kern-color-action-focus-border-outside);
+		outline: 4px solid var(--kern-color-action-focus-default-contextual);
+		outline-offset: 2px;
 	}
 
 	&:checked + label {

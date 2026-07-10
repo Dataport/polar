@@ -5,10 +5,11 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { PinsPluginOptions } from './types'
 
 import locales from './locales'
 import { usePinsStore } from './store'
-import { PluginId, type PinsPluginOptions } from './types'
+import { PluginId } from './types'
 
 /**
  * Pins plugin for POLAR that adds map interactions to client that allow users

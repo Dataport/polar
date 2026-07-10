@@ -1,12 +1,13 @@
+import type { Icon } from '@/core'
+import type { Time } from '../types'
+
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import type { Icon } from '@/core'
-
 import { useCoreStore } from '@/core/stores'
 
-import { PluginId, type Time } from '../types'
+import { PluginId } from '../types'
 import { useFilterMainStore } from './main'
 
 export const useFilterTimeStore = defineStore('plugins/filter/time', () => {

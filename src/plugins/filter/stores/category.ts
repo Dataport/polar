@@ -1,6 +1,7 @@
+import type { Category, CategoryValue, FilterState } from '../types'
+
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
-import { type Category, type CategoryValue, type FilterState } from '../types'
 import { flattenValue } from '../utils/flattenAndExpandValue'
 import { useFilterMainStore } from './main'
 

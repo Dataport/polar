@@ -23,7 +23,7 @@ export const resourcesDe = {
 	legend: {
 		title: 'Legende',
 		to: 'Legendenbild zu "{{name}}"',
-		open: `$t(legend.to, {ns: ${PluginId}}) öffnen`,
+		open: `$t(${PluginId}:legend.to, { name: {{name}} ) öffnen`,
 	},
 	returnToLayers: 'Zurück',
 } as const
@@ -40,7 +40,7 @@ export const resourcesEn = {
 	legend: {
 		title: 'Legend',
 		to: '"{{name}}" legend image',
-		open: `Open $t(legend.to, {ns: ${PluginId}})`,
+		open: `Open $t(${PluginId}:legend.to, { name: {{name}} })`,
 	},
 	returnToLayers: 'Back',
 } as const

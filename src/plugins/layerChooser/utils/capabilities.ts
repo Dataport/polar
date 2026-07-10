@@ -1,8 +1,8 @@
+import type { LayerConfiguration, LayerConfigurationOptionLayers } from '@/core'
+
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import WMSCapabilities from 'ol/format/WMSCapabilities'
-
-import type { LayerConfiguration, LayerConfigurationOptionLayers } from '@/core'
 
 import {
 	findLayerTitleInCapabilitiesByName,

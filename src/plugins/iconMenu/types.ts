@@ -1,7 +1,5 @@
 import type { Component } from 'vue'
-
-import type { PluginContainer, PluginOptions } from '@/core'
-import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
+import type { Icon, PluginContainer, PluginOptions } from '@/core'
 
 export const PluginId = 'iconMenu'
 
@@ -18,7 +16,7 @@ export interface Menu {
 	 * Current examples for the usage without icon include Zoom and Fullscreen if
 	 * {@link MapConfiguration.layout | `layout`} is set to `'nineRegions'`
 	 */
-	icon?: string
+	icon?: Icon
 }
 
 /**
@@ -81,7 +79,7 @@ export interface IconMenuPluginOptions extends PluginOptions {
 	 * @remarks
 	 * Plugins like GeoLocation can not be added here, as only plugins containing content are allowed.
 	 */
-	focusMenus?: (Menu & { icon: string })[]
+	focusMenus?: (Menu & { icon: Icon })[]
 
 	/**
 	 * ID of the plugin which should be open on start.
@@ -96,5 +94,5 @@ export interface IconMenuPluginOptions extends PluginOptions {
 	 * declares the positioning of the IconMenu. However, if {@link buttonComponent} is not set, then only `"TOP_RIGHT"`
 	 * is allowed as value.
 	 */
-	layoutTag?: keyof typeof NineLayoutTag
+	layoutTag?: PluginOptions['layoutTag']
 }

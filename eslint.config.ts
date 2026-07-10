@@ -5,18 +5,23 @@ import jsonConfig from '@dataport/eslint-config-geodev/json'
 import markdownConfig from '@dataport/eslint-config-geodev/markdown'
 import tsConfig from '@dataport/eslint-config-geodev/typescript'
 import vueConfig from '@dataport/eslint-config-geodev/vue'
+import importPlugin from 'eslint-plugin-import'
 import perfectionist from 'eslint-plugin-perfectionist'
 import prettierConfig from 'eslint-plugin-prettier/recommended'
 import vue from 'eslint-plugin-vue'
 import { defineConfig } from 'eslint/config'
+
+import local from './eslintRules/index.js'
 
 /**
  * POLAR-specific ESLint configuration
  */
 const polarConfig = defineConfig({
 	plugins: {
+		import: importPlugin,
 		perfectionist,
 		vue,
+		local,
 	},
 	rules: {
 		'prettier/prettier': 'error',
@@ -42,7 +47,29 @@ const polarConfig = defineConfig({
 			},
 		],
 		'import-x/order': 'off',
-		'perfectionist/sort-imports': 'error',
+		'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+		'perfectionist/sort-imports': [
+			'error',
+			{
+				groups: [
+					'type-import',
+					{ newlinesBetween: 0 },
+					'type-internal',
+					{ newlinesBetween: 0 },
+					'type-parent',
+					{ newlinesBetween: 0 },
+					'type-sibling',
+					{ newlinesBetween: 0 },
+					'type-index',
+					['value-builtin', 'value-external'],
+					'value-internal',
+					['value-parent', 'value-sibling', 'value-index'],
+					'ts-equals-import',
+					'unknown',
+				],
+			},
+		],
+		'perfectionist/sort-named-imports': 'error',
 		'vue/html-self-closing': [
 			'error',
 			{
@@ -51,6 +78,7 @@ const polarConfig = defineConfig({
 				},
 			},
 		],
+		'local/import-style': 'error',
 	},
 })
 
@@ -79,6 +107,14 @@ const polarTsConfig = defineConfig({
 			{
 				type: 'natural',
 				groups: ['required-member', 'unknown'],
+			},
+		],
+		'@typescript-eslint/consistent-type-imports': [
+			'error',
+			{
+				disallowTypeAnnotations: true,
+				fixStyle: 'separate-type-imports',
+				prefer: 'type-imports',
 			},
 		],
 	},

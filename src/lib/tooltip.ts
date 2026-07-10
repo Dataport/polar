@@ -1,4 +1,6 @@
-import i18next, { type TOptions } from 'i18next'
+import type { TOptions } from 'i18next'
+
+import i18next from 'i18next'
 
 type TooltipLocaleKeys = [string, string, TOptions?][]
 

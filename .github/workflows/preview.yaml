@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Set up Node.js
         if: github.event.action != 'closed'
@@ -31,19 +31,23 @@ jobs:
           cache: 'npm'
 
       - name: Install documentation build dependencies
+        if: github.event.action != 'closed'
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends mkdocs mkdocs-material
 
       - name: Install NPM dependencies
+        if: github.event.action != 'closed'
         run: npm ci
 
       - name: Build preview
+        if: github.event.action != 'closed'
         run: |
           npm run build:ci
           npm run preview:build:ci -- --base="./"
 
       - name: Build documentation
+        if: github.event.action != 'closed'
         run: |
           npm run docs:ci
           mv docs-html ./.dist.preview/docs-html

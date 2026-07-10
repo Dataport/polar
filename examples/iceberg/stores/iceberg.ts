@@ -1,11 +1,11 @@
-import {
-	type MapConfiguration,
-	type MasterportalApiServiceRegister,
+import type {
+	MapConfiguration,
+	MasterportalApiServiceRegister,
 } from '@polar/polar'
-import { defineStore } from 'pinia'
-import { ref, reactive } from 'vue'
-
 import type { MpapiParameters } from '@/lib/getFeatures/types'
+
+import { defineStore } from 'pinia'
+import { reactive, ref } from 'vue'
 
 import services from '../services'
 

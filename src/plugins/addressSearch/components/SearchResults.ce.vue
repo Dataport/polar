@@ -57,29 +57,28 @@
 					</li>
 				</template>
 			</ul>
-			<button
+			<KernButton
 				v-if="searchResults[i].features.features.length > limitResults"
-				class="kern-btn kern-btn--tertiary"
+				class="kern-btn--tertiary"
+				:icon="
+					areResultsExpanded(result.categoryId)
+						? 'kern-icon--keyboard-arrow-up'
+						: 'kern-icon--keyboard-arrow-down'
+				"
 				@keydown.down.prevent.stop="(event) => focusNextElement(true, event)"
 				@keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
 				@click="toggle(result.categoryId)"
 			>
-				<span
-					:class="`kern-icon ${areResultsExpanded(result.categoryId) ? 'kern-icon--keyboard-arrow-up' : 'kern-icon--keyboard-arrow-down'}`"
-					aria-hidden="true"
-				/>
-				<span class="kern-label">
-					{{
-						$t(
-							($) =>
-								$.resultList[
-									areResultsExpanded(result.categoryId) ? 'reduce' : 'extend'
-								],
-							{ ns: PluginId }
-						)
-					}}
-				</span>
-			</button>
+				{{
+					$t(
+						($) =>
+							$.resultList[
+								areResultsExpanded(result.categoryId) ? 'reduce' : 'extend'
+							],
+						{ ns: PluginId }
+					)
+				}}
+			</KernButton>
 			<hr
 				v-if="i < results.length - 1"
 				class="kern-divider"
@@ -90,13 +89,16 @@
 </template>
 
 <script setup lang="ts">
+import type { SearchResult } from '../types'
+
 import { storeToRefs } from 'pinia'
 import { computed, nextTick, ref, toRaw, watch } from 'vue'
 
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useAddressSearchStore } from '../store'
-import { PluginId, type SearchResult } from '../types'
+import { PluginId } from '../types'
 import { focusFirstResult } from '../utils/focusFirstResult'
 import { strongTitleByInput } from '../utils/strongTitleByInput'
 
@@ -219,7 +221,7 @@ function toggle(category: string) {
 		min-height: var(--kern-metric-dimension-large);
 		padding: 0 var(--kern-metric-space-small);
 		margin: 0;
-		font-size: calc(var(--kern-typography-font-size-static-small) * 0.875);
+		font-size: calc(var(--kern-typography-font-size-small-static) * 0.875);
 		font-weight: normal;
 		color: var(--kern-color-layout-text-muted);
 	}
@@ -260,7 +262,7 @@ function toggle(category: string) {
 	padding: 0;
 	margin: -1px;
 	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
+	clip-path: circle(0);
 	white-space: nowrap;
 	border: 0;
 }

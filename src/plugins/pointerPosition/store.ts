@@ -4,12 +4,18 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import { type Coordinate, createStringXY } from 'ol/coordinate'
+import type { Coordinate } from 'ol/coordinate'
+
+import { t } from 'i18next'
+import { createStringXY } from 'ol/coordinate'
 import { transform } from 'ol/proj'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { notifyUser } from '@/lib/notifyUser'
+
+import { PluginId } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -38,12 +44,19 @@ export const usePointerPositionStore = defineStore(
 					}))
 		)
 
-		const currentEpsgSystem = computed(
-			() => availableProjections.value[selectedProjectionIndex.value]
-		)
+		const currentEpsgSystem = computed(() => {
+			const projection =
+				availableProjections.value[selectedProjectionIndex.value]
+			if (!projection) {
+				throw new Error(
+					'selectedProjectionIndex out of bounds. This should never happen.'
+				)
+			}
+			return projection
+		})
 
 		const selectedProjection = computed({
-			get: () => currentEpsgSystem.value?.code,
+			get: () => currentEpsgSystem.value.code,
 			set: (value) => {
 				const index = availableProjections.value.findIndex(
 					({ code }) => code === value
@@ -58,25 +71,55 @@ export const usePointerPositionStore = defineStore(
 
 		const formattedPointerPosition = computed(() =>
 			pointerPosition.value.length
-				? createStringXY(currentEpsgSystem.value?.decimals ?? 4)(
-						transform(
-							pointerPosition.value,
-							coreStore.map.getView().getProjection().getCode(),
-							selectedProjection.value
-						)
-					)
+				? getFormattedCoordinate(pointerPosition.value)
 				: 'X, Y'
 		)
+
+		function getFormattedCoordinate(coordinate: Coordinate) {
+			const mapProjection = coreStore.map.getView().getProjection().getCode()
+			return createStringXY(currentEpsgSystem.value.decimals)(
+				transform(coordinate, mapProjection, selectedProjection.value)
+			)
+		}
 
 		const updatePointerPosition = ({ coordinate }) =>
 			(pointerPosition.value = coordinate)
 
 		function setupPlugin() {
 			coreStore.map.on('pointermove', updatePointerPosition)
+			coreStore.addToContextMenu({
+				id: 'pointerPosition',
+				icon: 'kern-icon--point-scan',
+				text: 'contextMenu',
+				textNs: PluginId,
+				callback: (coordinate) => {
+					const onError = () => {
+						notifyUser(
+							'error',
+							t(($) => $.toast.error, { ns: PluginId })
+						)
+					}
+					// navigator.clipboard is only available in secure contexts
+					if (!window.isSecureContext) {
+						onError()
+						return
+					}
+					navigator.clipboard
+						.writeText(getFormattedCoordinate(coordinate))
+						.then(() => {
+							notifyUser(
+								'success',
+								t(($) => $.toast.success, { ns: PluginId })
+							)
+						})
+						.catch(onError)
+				},
+			})
 		}
 
 		function teardownPlugin() {
 			coreStore.map.un('pointermove', updatePointerPosition)
+			coreStore.removeFromContextMenu('pointerPosition')
 		}
 		return {
 			/** @internal */

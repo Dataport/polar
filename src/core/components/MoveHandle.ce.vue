@@ -13,12 +13,14 @@
 			:class="{ 'polar-move-handle-has-action-button': actionButton !== null }"
 		>
 			<component :is="actionButton" v-if="actionButton" />
-			<button class="kern-btn kern-btn--tertiary" @click="close(true)">
-				<span :class="`kern-icon ${closeIcon}`" aria-hidden="true" />
-				<span class="kern-label kern-sr-only">
-					{{ closeLabel }}
-				</span>
-			</button>
+			<KernButton
+				class="kern-btn--tertiary"
+				:icon="closeIcon"
+				:label-sr-only="true"
+				@click="close(true)"
+			>
+				{{ closeLabel }}
+			</KernButton>
 		</div>
 		<component :is="component" />
 	</div>
@@ -34,6 +36,8 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
+
+import KernButton from '@/components/kern/KernButton.ce.vue'
 
 import { useCoreStore } from '../stores'
 import { useMoveHandleStore } from '../stores/moveHandle'

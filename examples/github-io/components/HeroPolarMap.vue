@@ -8,12 +8,11 @@
 
 <script setup lang="ts">
 import type { Feature } from 'ol'
+import type { MpapiParameters } from '@/lib/getFeatures/types'
 
 import { createMap } from '@polar/polar/client'
 import { toMerged } from 'es-toolkit'
 import { onMounted } from 'vue'
-
-import type { MpapiParameters } from '@/lib/getFeatures/types'
 
 const basemapId = '23420'
 const basemapGreyId = '23421'

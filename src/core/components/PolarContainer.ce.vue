@@ -3,7 +3,7 @@
 		ref="polar-wrapper"
 		class="polar-wrapper"
 		:lang="language"
-		:data-kern-theme="mainStore.colorScheme"
+		:data-kern-theme="colorScheme"
 	>
 		<PolarMapOverlay ref="polar-map-overlay" />
 		<div class="polar-map-layer">
@@ -18,6 +18,7 @@
 			:key="moveHandleKey"
 		/>
 		<div class="polar-ui-layer">
+			<ContextMenu v-if="contextMenuStore.show" />
 			<div v-if="!hasWindowSize" class="polar-shadow" aria-hidden="true" />
 			<PolarUI />
 		</div>
@@ -25,10 +26,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Pinia } from 'pinia'
+import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
+
 import { toMerged } from 'es-toolkit'
 import Hammer from 'hammerjs'
 import i18next, { t } from 'i18next'
-import { disposePinia, getActivePinia, type Pinia, storeToRefs } from 'pinia'
+import { disposePinia, getActivePinia, storeToRefs } from 'pinia'
 import {
 	computed,
 	getCurrentInstance,
@@ -41,15 +45,16 @@ import {
 	watch,
 } from 'vue'
 
-import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
-
 import { useT } from '../composables/useT'
 import { useCoreStore } from '../stores'
+import { useContextMenuStore } from '../stores/contextMenu'
 import { useMainStore } from '../stores/main'
 import { useMoveHandleStore } from '../stores/moveHandle'
+import { CoreId } from '../types'
 import { loadKern } from '../utils/loadKern'
 import { teardownMarkers } from '../utils/map/setupMarkers'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
+import ContextMenu from './ContextMenu.ce.vue'
 import MoveHandle from './MoveHandle.ce.vue'
 import PolarMap from './PolarMap.ce.vue'
 import PolarMapOverlay from './PolarMapOverlay.ce.vue'
@@ -76,10 +81,10 @@ const overlay =
 
 const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
 const noCommandOnZoom = useT(() =>
-	t(($) => $.overlay.noCommandOnZoom, { ns: 'core' })
+	t(($) => $.overlay.noCommandOnZoom, { ns: CoreId })
 )
 const noControlOnZoom = useT(() =>
-	t(($) => $.overlay.noControlOnZoom, { ns: 'core' })
+	t(($) => $.overlay.noControlOnZoom, { ns: CoreId })
 )
 
 function wheelEffect(event: WheelEvent) {
@@ -95,35 +100,55 @@ function wheelEffect(event: WheelEvent) {
 }
 
 const oneFingerPan = useT(() =>
-	t(($) => $.overlay.oneFingerPan, { ns: 'core' })
+	t(($) => $.overlay.oneFingerPan, { ns: CoreId })
 )
-let hammer: { destroy: () => void } | null = null
+
+let longPressHammer: { destroy: () => void } | null = null
+let panHammer: { destroy: () => void } | null = null
+
 function updateListeners() {
-	hammer?.destroy()
-	hammer = null
-	if (
-		!hasWindowSize.value &&
-		polarMapContainer.value &&
-		polarMapContainer.value.el &&
-		hasSmallDisplay.value
-	) {
-		hammer = new Hammer(polarMapContainer.value.el).on('pan', (e) => {
-			if (
-				overlay.value &&
-				e.maxPointers === 1 &&
-				!mainStore.map
-					.getInteractions()
-					.getArray()
-					.some((interaction) => interaction.get('_isPolarDragLikeInteraction'))
-			) {
-				overlay.value.show(oneFingerPan)
-			}
+	longPressHammer?.destroy()
+	longPressHammer = null
+	panHammer?.destroy()
+	panHammer = null
+
+	const container = polarMapContainer.value?.el
+	if (container && hasSmallDisplay.value) {
+		longPressHammer = new Hammer(container, { time: 1000 }).on('press', (e) => {
+			contextMenuStore.show = true
+			const rect = (polarWrapper.value as Element).getBoundingClientRect()
+			const left = e.center.x - rect.left
+			const top = e.center.y - rect.top
+			contextMenuStore.clickCoordinate = mainStore.map.getCoordinateFromPixel([
+				left,
+				top,
+			])
+			contextMenuStore.left = `${left}px`
+			contextMenuStore.top = `${top}px`
+			contextMenuStore.suppressNextMapClick = true
 		})
+
+		if (!hasWindowSize.value) {
+			panHammer = new Hammer(container).on('pan', (e) => {
+				if (
+					overlay.value &&
+					e.maxPointers === 1 &&
+					!mainStore.map
+						.getInteractions()
+						.getArray()
+						.some((interaction) =>
+							interaction.get('_isPolarDragLikeInteraction')
+						)
+				) {
+					overlay.value.show(oneFingerPan)
+				}
+			})
+		}
 	}
 }
 
 const mainStore = useMainStore()
-const { hasSmallDisplay, hasSmallWidth, hasWindowSize, language } =
+const { colorScheme, hasSmallDisplay, hasSmallWidth, hasWindowSize, language } =
 	storeToRefs(mainStore)
 
 mainStore.configuration = toMerged(
@@ -189,6 +214,15 @@ function updateClientDimensions() {
 	mainStore.clientWidth = (polarWrapper.value as Element).clientWidth
 }
 
+const contextMenuStore = useContextMenuStore()
+
+function openContextMenu(e: MouseEvent) {
+	contextMenuStore.open(
+		e,
+		(polarWrapper.value as Element).getBoundingClientRect()
+	)
+}
+
 onMounted(() => {
 	mainStore.lightElement = useHost()
 	mainStore.shadowRoot = useShadowRoot()
@@ -207,11 +241,19 @@ onMounted(() => {
 	// FIXME: Improve types for lightElement
 	// This is necessary for making `getStore` work
 	;(mainStore.lightElement as { store?: unknown }).store = useCoreStore()
+
+	mainStore.map
+		.getTargetElement()
+		.addEventListener('contextmenu', openContextMenu)
+	polarWrapper.value?.addEventListener('pointerdown', contextMenuStore.dismiss)
+	document.addEventListener('pointerdown', contextMenuStore.dismiss)
 })
 
 onBeforeUnmount(() => {
-	hammer?.destroy()
-	hammer = null
+	panHammer?.destroy()
+	panHammer = null
+	longPressHammer?.destroy()
+	longPressHammer = null
 
 	if (resizeObserver instanceof ResizeObserver) {
 		resizeObserver.unobserve(polarWrapper.value as Element)
@@ -221,6 +263,8 @@ onBeforeUnmount(() => {
 	i18next.off('languageChanged', updateLanguage)
 
 	const mapEl = mainStore.map.getTargetElement()
+	mapEl.removeEventListener('contextmenu', openContextMenu)
+	document.removeEventListener('pointerdown', contextMenuStore.dismiss)
 	if (mainStore.configuration.markers) {
 		teardownMarkers(mainStore.map)
 	}
@@ -230,6 +274,12 @@ onBeforeUnmount(() => {
 	mainStore.teardown()
 
 	disposePinia(getActivePinia() as Pinia)
+
+	polarWrapper.value?.removeEventListener(
+		'pointerdown',
+		contextMenuStore.dismiss,
+		true
+	)
 
 	const shadowRoot = getCurrentInstance()?.proxy?.$el?.getRootNode()
 	if (shadowRoot instanceof ShadowRoot) {

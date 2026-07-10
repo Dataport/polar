@@ -12,15 +12,15 @@
 			<!-- Mapping in template to guarantee update on language change-->
 			<PolarSelect
 				v-if="hasMultipleGroups"
-				:aria-label="$t(($) => $.groupSelector, { ns: PluginId })"
+				v-model="selectedGroupId"
+				:label="$t(($) => $.groupSelector, { ns: PluginId })"
+				:label-sr-only="true"
 				:options="
 					groupSelectOptions.map(({ groupId, text }) => ({
 						value: groupId,
 						label: $t(($) => $[text], { ns: PluginId }),
 					}))
 				"
-				:value="selectedGroupId"
-				@update:value="selectedGroupId = $event as string"
 			/>
 			<div class="polar-plugin-address-search-input-wrapper">
 				<span class="kern-icon kern-icon--search" aria-hidden="true" />
@@ -44,17 +44,16 @@
 					v-if="isLoading"
 					:style="`right: ${slotPlacement}; top: ${slotPlacement}`"
 				/>
-				<button
+				<KernButton
 					v-if="inputValue.length && !isLoading"
-					class="kern-btn kern-btn--tertiary polar-plugin-address-search-input-button"
+					class="kern-btn--tertiary polar-plugin-address-search-input-button"
 					:style="`right: ${slotPlacement}; top: ${slotPlacement}`"
+					icon="kern-icon--close"
+					:label-sr-only="true"
 					@click="clear"
 				>
-					<span class="kern-icon kern-icon--close" aria-hidden="true" />
-					<span class="kern-label kern-sr-only">
-						{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
-					</span>
-				</button>
+					{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
+				</KernButton>
 				<!-- Additionally needed so screen readers can detect the aria live region -->
 				<span class="kern-sr-only" aria-live="polite">
 					{{ hint }}
@@ -73,6 +72,7 @@ import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { computed, nextTick } from 'vue'
 
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarSelect from '@/components/PolarSelect.ce.vue'
 import { useCoreStore } from '@/core/stores'
@@ -166,6 +166,7 @@ function inputDown(event: KeyboardEvent) {
 	);
 	width: 25rem;
 	min-width: inherit;
+	z-index: 1;
 
 	&:deep(.kern-card__container) {
 		flex: 0 1 auto;
@@ -227,7 +228,7 @@ function inputDown(event: KeyboardEvent) {
 				grid-column: 2;
 				grid-row: 2;
 				color: var(--kern-color-layout-text-muted);
-				font-size: calc(var(--kern-typography-font-size-static-small) * 0.875);
+				font-size: calc(var(--kern-typography-font-size-small-static) * 0.875);
 				padding: 0 var(--kern-metric-space-2x-small);
 				margin-top: var(--kern-metric-space-small);
 			}

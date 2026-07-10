@@ -4,19 +4,18 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { StoreReference } from '@/core'
+import type { Attribution } from './types'
+
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import type { StoreReference } from '@/core'
-
-import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
+import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
-
-import type { Attribution } from './types'
 
 import { buildMapInfo } from './utils/buildMapInfo'
 import { formatAttributionText } from './utils/formatAttributionText'
-import { getVisibleAttributions } from './utils/getVisibleAttributions.ts'
+import { getVisibleAttributions } from './utils/getVisibleAttributions'
 import { getVisibleLayers } from './utils/getVisibleLayers'
 
 /* eslint-disable tsdoc/syntax */
@@ -58,7 +57,7 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
 
-	usePluginStoreWatcher(listenToChanges, updateLayers)
+	useStoreWatcher(listenToChanges, updateLayers)
 
 	function setupPlugin() {
 		const allLayers = coreStore.map.getLayers()

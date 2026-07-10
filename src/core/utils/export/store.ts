@@ -1,13 +1,14 @@
-import { watch, type WatchOptions } from 'vue'
-
-import type { PolarContainer } from '@/core'
-import type { useCoreStore } from '@/core/stores'
+import type { WatchOptions } from 'vue'
+import type PolarContainer from '../../components/PolarContainer.ce.vue'
+import type { useCoreStore } from '../../stores'
 import type {
 	BundledPluginId,
 	BundledPluginStores,
 	PluginId,
 	PolarPluginStore,
-} from '@/core/types'
+} from '../../types'
+
+import { watch } from 'vue'
 
 export type SubscribeCallback = (value: unknown, oldValue: unknown) => void
 
