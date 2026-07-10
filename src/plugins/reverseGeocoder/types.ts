@@ -32,6 +32,15 @@ export interface ReverseGeocoderPluginOptions extends PluginOptions {
 	coordinateSources?: StoreReference[]
 
 	/**
+	 * EPSG code of the coordinate system used by the WPS service.
+	 *
+	 * This is only relevant for the WPS service, since Nominatim always uses EPSG:4326.
+	 *
+	 * @defaultValue `'EPSG:25832'`
+	 */
+	epsg?: string
+
+	/**
 	 * Zoom level to zoom to when a successful answer was received.
 	 */
 	zoomTo?: number

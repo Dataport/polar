@@ -2,12 +2,17 @@ import type { ReverseGeocoderFeature } from '../types'
 
 import { transform as transformCoordinate } from 'ol/proj'
 
-export async function reverseGeocodeNominatim(
-	url: string,
-	coordinate: [number, number],
-	epsg: string,
+export async function reverseGeocodeNominatim({
+	url,
+	coordinate,
+	epsg,
+	signal,
+}: {
+	url: string
+	coordinate: [number, number]
+	epsg: string
 	signal: AbortSignal
-): Promise<ReverseGeocoderFeature> {
+}): Promise<ReverseGeocoderFeature> {
 	const searchCoordinate = transformCoordinate(
 		coordinate,
 		epsg,

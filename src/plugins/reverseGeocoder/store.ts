@@ -83,12 +83,13 @@ export const useReverseGeocoderStore = defineStore(
 					wps: reverseGeocodeWps,
 					nominatim: reverseGeocodeNominatim,
 				}[configuration.value.type]
-				const feature = await reverseGeocodeUtil(
-					configuration.value.url,
+				const feature = await reverseGeocodeUtil({
+					url: configuration.value.url,
 					coordinate,
-					coreStore.configuration.epsg,
-					signal
-				)
+					epsg: coreStore.configuration.epsg,
+					serviceEpsg: configuration.value.epsg || 'EPSG:25832',
+					signal,
+				})
 				if (configuration.value.addressTarget) {
 					passFeatureToTarget(configuration.value.addressTarget, feature)
 				}
@@ -220,12 +221,13 @@ if (import.meta.vitest) {
 		}
 		pluginStore.pins.coordinate = [1, 2]
 		await new Promise((resolve) => setTimeout(resolve))
-		expect(reverseGeocodeUtil).toHaveBeenCalledExactlyOnceWith(
-			'https://wps.example',
-			[1, 2],
-			'EPSG:25832',
-			store.abortController?.signal
-		)
+		expect(reverseGeocodeUtil).toHaveBeenCalledExactlyOnceWith({
+			url: 'https://wps.example',
+			coordinate: [1, 2],
+			epsg: 'EPSG:25832',
+			serviceEpsg: 'EPSG:25832',
+			signal: store.abortController?.signal,
+		})
 	})
 
 	test('passes geocoding result to address target', async ({
