@@ -17,16 +17,15 @@ import { t } from 'i18next'
 import { Feature } from 'ol'
 import { LineString } from 'ol/geom'
 import Draw from 'ol/interaction/Draw'
-import VectorLayer from 'ol/layer/Vector'
 import { transform } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
-import { Stroke, Style } from 'ol/style'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
 
+import { useLayer } from './composables/useLayer'
 import { PluginId } from './types'
 import { handleErrors } from './utils/handleErrors'
 
@@ -41,7 +40,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const coreStore = useCoreStore()
 
 	const routeSource = new VectorSource()
-	let routeLayer: VectorLayer | undefined
 	let abortController: AbortController | null = null
 	let draw: Draw | undefined
 
@@ -267,14 +265,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	})
 
 	function setupPlugin() {
-		routeLayer = new VectorLayer({
-			source: routeSource,
-			style: new Style({
-				stroke: new Stroke({ color: 'blue', width: 6 }),
-			}),
-		})
-		coreStore.map.addLayer(routeLayer)
-
+		useLayer(coreStore.map, routeSource)
 		initializeDraw()
 		// `pointerdown` handles mouse interaction while `focusin` handles keyboard
 		// navigation (e.g. tabbing) away from the routing inputs.
@@ -300,10 +291,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 		reset()
 
-		if (routeLayer) {
-			coreStore.map.removeLayer(routeLayer)
-			routeLayer = undefined
-		}
 		if (draw) {
 			coreStore.map.removeInteraction(draw)
 			draw = undefined
