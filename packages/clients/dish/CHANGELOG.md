@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpulblished
+
+- Chore: Readded the BaseMap (Farbe).
+- Fix: updated parameter `printImageBaseUrl` and the port needed for printing.
+
 ## 1.6.0
 
 - Feature: Use selected background service for print in `DishExportMap`.

@@ -2,13 +2,13 @@
 
 DishExportMap is a plugin that was created specifically for the internal use of the DISH client. It creates a URL to address a backend that triggeres a PDF print with information about a selected monument and a map section centering on the selected monument.
 
-The original print feature was part of the outdated map in the internal DISH software, so the focus was on recreating the old feature and implement it in the polar client. The backend expects specific values and does not leave much room for different configurations which is the reason for a lot of hardcoded values. Due to missing documentation of the original feature, it is not always clear as to why some values must be set or what their meaning is. The URL has to be composed in a certain way to address the backend so that the print works successfully. 
+The original print feature was part of the outdated map in the internal DISH software, so the focus was on recreating the old feature and implement it in the polar client. The backend expects specific values and does not leave much room for different configurations which is the reason for a lot of hardcoded values. Due to missing documentation of the original feature, it is not always clear as to why some values must be set or what their meaning is. The URL has to be composed in a certain way to address the backend so that the print works successfully.
 
 Please note that the WMS and WFS used for the print might not be the same as configured in the map and as to this moment cannot be changed. For this reason, they are configured here separately.
 
 ## Plugin Configuration
 
-The following parameters for the plugin must be defined in the map configuration. As to this moment, most of these should not be changed due to the restricted backend. 
+The following parameters for the plugin must be defined in the map configuration. As to this moment, most of these should not be changed due to the restricted backend.
 
 | parameter name | type | description |
 | - | - | - |
@@ -19,7 +19,7 @@ The following parameters for the plugin must be defined in the map configuration
 | versionHintergrund | string | Version for background service. |
 | proxyHintergrund | string | No description available. |
 | versionWMS | string | The version of the configured WMS. |
-| layerNameWMS | string | Layers from the WMS to print. Since they differ from the monument configuration, they are hardcoded and taken from the configuration of the original application to recreate the right look for the map section. | 
+| layerNameWMS | string | Layers from the WMS to print. Since they differ from the monument configuration, they are hardcoded and taken from the configuration of the original application to recreate the right look for the map section. |
 | versionWFS | string |  Version for WFS. |
 | propertyNameWFS | string | No description available. |
 | filterTypeWFS | string | No description available. |
@@ -29,7 +29,6 @@ The following parameters for the plugin must be defined in the map configuration
 | wfsLayerFeatureType | string | The feature type of the wfs configured in wfsLayerUrl. |
 | printImagePath | string |  Probably the relative path to the created map image that is used in the pdf print. |
 | exportMapAsPdfUrl | `printHostDeegree` + /Content/Objekt/Kartenausgabe.aspx | The path to the created pdf. `printHostDegree` is set in the urlParams. |
-
 
 ### example configuration
 
@@ -48,8 +47,8 @@ dishExportMap: {
   propertyNameWFS: 'objektid',
   filterTypeWFS: 'EQUAL_TO',
   printImagePath: 'ContentMapsTmp',
-  wmsLayerUrl: 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/wms', // ⚠️ Do not change
-  wfsLayerUrl: 'http://10.61.63.54:8081/dish-deegree-3.5.0/services/wfs', // ⚠️ Do not change
+  wmsLayerUrl: 'http://10.61.63.54:8081/dish-deegree/services/wms', // ⚠️ Do not change, unless somone changed it first
+  wfsLayerUrl: 'http://10.61.63.54:8081/dish-deegree/services/wfs', // ⚠️ Do not change, unless somone changed it first
   wfsLayerFeatureType: 'app:TBLGIS_ORA',
   printImageUrlProd: `${urlParams.internalHost}/Content/MapsTmp`,
   exportMapAsPdfUrl: `${urlParams.internalHost}/Content/Objekt/Kartenausgabe.aspx`,
