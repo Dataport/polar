@@ -111,6 +111,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		map.removeLayer(pinLayer)
 		map.removeInteraction(move)
 		map.removeInteraction(translate)
+		coordinate.value = null
 	}
 
 	function setupInitial() {
