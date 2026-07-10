@@ -32,6 +32,7 @@ export default function pluginRouting(
 		id: PluginId,
 		component,
 		locales,
+		icon: 'kern-icon-fill--assistant-direction',
 		storeModule: useRoutingStore as PolarPluginStore,
 		options,
 	}
