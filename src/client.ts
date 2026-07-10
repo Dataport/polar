@@ -40,7 +40,7 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 				enabledPlugins.includes('geoLocation') && {
 					plugin: GeoLocation({ renderType: 'iconMenu' }),
 				},
-				enabledPlugins.includes('geoLocation') && {
+				enabledPlugins.includes('routing') && {
 					plugin: Routing({ type: 'ors', url: '' }),
 				},
 			].filter((x) => x) as Menu[],
