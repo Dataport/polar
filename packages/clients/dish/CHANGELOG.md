@@ -1,9 +1,9 @@
 # CHANGELOG
 
-## unpulblished
+## 1.6.1
 
-- Chore: Readded the BaseMap (Farbe).
 - Fix: updated parameter `printImageBaseUrl` and the port needed for printing.
+- Chore: Readded the BaseMap (Farbe).
 
 ## 1.6.0
 
