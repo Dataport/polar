@@ -1,6 +1,6 @@
+import type { ResourceKey } from 'i18next'
 import type { SetupStoreDefinition } from 'pinia'
 import type { Component } from 'vue'
-
 import type { PluginId as AddressSearchPluginId } from '@/plugins/addressSearch'
 import type { resourcesEn as AddressSearchResources } from '@/plugins/addressSearch/locales'
 import type { useAddressSearchStore as AddressSearchStore } from '@/plugins/addressSearch/store'
@@ -47,10 +47,14 @@ import type { useToastStore as ToastStore } from '@/plugins/toast/store'
 import type { PluginId as ZoomPluginId } from '@/plugins/zoom'
 import type { resourcesEn as ZoomResources } from '@/plugins/zoom/locales'
 import type { useZoomStore as ZoomStore } from '@/plugins/zoom/store'
-
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
-import type { Locale } from './locales'
 import type { Icon } from './theme'
+
+/** @internal */
+export interface Locale {
+	resources: Record<string, ResourceKey>
+	type: string
+}
 
 /**
  * Generic options for all plugins.

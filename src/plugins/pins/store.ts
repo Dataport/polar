@@ -7,6 +7,8 @@
 import type { GeoJsonGeometryTypes, Point as GeoJsonPoint } from 'geojson'
 import type { MapBrowserEvent } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
+import type { PolarGeoJsonFeature } from '@/core'
+import type { PinMovable, PinsPluginOptions } from './types'
 
 import { toMerged } from 'es-toolkit'
 import { pointerMove } from 'ol/events/condition'
@@ -19,12 +21,8 @@ import { Vector } from 'ol/source'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import type { PolarGeoJsonFeature } from '@/core'
-
-import { usePluginStoreWatcher } from '@/composables/usePluginStoreWatcher'
+import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
-
-import type { PinMovable, PinsPluginOptions } from './types'
 
 import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
@@ -80,7 +78,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		layers: [pinLayer],
 	})
 
-	usePluginStoreWatcher(
+	useStoreWatcher(
 		() => configuration.value.coordinateSources || [],
 		(value: unknown) => {
 			const feature = value as PolarGeoJsonFeature<GeoJsonPoint> | null

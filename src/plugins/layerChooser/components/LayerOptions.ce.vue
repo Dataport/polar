@@ -11,12 +11,9 @@
 					v-model="activeLayers"
 					id-suffix="polar-layer-chooser-mask-options"
 					type="checkbox"
+					name="polar-layer-chooser-mask-options"
 					:value="layerName"
-					:class="
-						options.some(({ layerImage }) => layerImage !== null)
-							? 'polar-layer-chooser-options-checkbox'
-							: ''
-					"
+					:class="{ 'polar-layer-chooser-options-checkbox': hasLayerImages }"
 					:disabled="
 						activeLayers.length === 1 && activeLayers.includes(layerName)
 					"
@@ -29,8 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import Layer from 'ol/layer/Layer'
-import { ImageWMS, TileWMS } from 'ol/source'
+import type Layer from 'ol/layer/Layer'
+import type { ImageWMS, TileWMS } from 'ol/source'
+import type { LayerOptions } from '../types'
+
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
 
@@ -39,7 +38,7 @@ import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useLayerChooserStore } from '../store'
-import { type LayerOptions, PluginId } from '../types'
+import { PluginId } from '../types'
 import LayerInformationCard from './LayerInformationCard.ce.vue'
 
 const coreStore = useCoreStore()
@@ -49,6 +48,9 @@ const { openedOptionsId } = storeToRefs(layerChooserStore)
 const options = computed(
 	() =>
 		layerChooserStore.layersWithOptions[openedOptionsId.value] as LayerOptions[]
+)
+const hasLayerImages = computed(() =>
+	options.value.some(({ layerImage }) => layerImage !== null)
 )
 
 const layerIds = ref<string[]>([])
@@ -97,16 +99,5 @@ onMounted(() => {
 
 .kern-form-check.polar-layer-chooser-options-checkbox {
 	margin-left: 0;
-}
-
-.kern-btn {
-	border: none;
-	min-height: inherit;
-	padding: var(--kern-metric-space-x-small);
-}
-
-.kern-label {
-	padding: 0;
-	padding-left: var(--kern-metric-space-small);
 }
 </style>

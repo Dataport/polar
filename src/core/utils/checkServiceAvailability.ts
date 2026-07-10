@@ -1,13 +1,15 @@
-import { ping } from '@masterportal/masterportalapi'
-import { t } from 'i18next'
-
-import { notifyUser } from '@/lib/notifyUser'
-
 import type {
 	MapConfiguration,
 	MasterportalApiServiceRegister,
 	ServiceAvailabilityCheck,
 } from '../types'
+
+import { ping } from '@masterportal/masterportalapi'
+import { t } from 'i18next'
+
+import { notifyUser } from '@/lib/notifyUser'
+
+import { CoreId } from '../types'
 
 export function checkServiceAvailability(
 	configuration: MapConfiguration,
@@ -31,20 +33,18 @@ export function checkServiceAvailability(
 				return true
 			}
 		)
-		.map(
-			({ service }): ServiceAvailabilityCheck => ({
-				ping: ping(service),
-				serviceId: service.id as string,
-				serviceName: service.name as string,
-			})
-		)
+		.map(({ service }): ServiceAvailabilityCheck => ({
+			ping: ping(service),
+			serviceId: service.id as string,
+			serviceName: service.name as string,
+		}))
 		.forEach(({ ping, serviceId, serviceName }) => {
 			ping
 				.then((statusCode) => {
 					if (statusCode !== 200) {
 						notifyUser('warning', () =>
 							t(($) => $.error.serviceUnavailable, {
-								ns: 'core',
+								ns: CoreId,
 								serviceId,
 								serviceName,
 							})

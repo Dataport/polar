@@ -11,11 +11,11 @@
 	>
 		<PolarSelect
 			v-if="showScaleSwitcher"
-			:value="zoomValue"
+			v-model="zoomValue"
 			:options="zoomOptions"
-			:aria-label="$t(($) => $.scaleSwitcher, { ns: PluginId })"
+			:label="$t(($) => $.scaleSwitcher, { ns: PluginId })"
+			:label-sr-only="true"
 			small
-			@update:value="setZoom"
 		/>
 		<span v-else class="scale-as-a-ratio">
 			{{ scaleToOne }}
@@ -45,11 +45,12 @@ const { layoutTag, scaleToOne, scaleWithUnit, showScaleSwitcher, zoomOptions } =
 
 const { layout, zoom } = storeToRefs(coreStore)
 
-const zoomValue = computed(() => `${Math.round(zoom.value)}`)
-
-function setZoom(value) {
-	zoom.value = Number(value)
-}
+const zoomValue = computed({
+	get: () => `${Math.round(zoom.value)}`,
+	set: (value: string) => {
+		zoom.value = Number(value)
+	},
+})
 </script>
 
 <style scoped>
@@ -89,7 +90,7 @@ function setZoom(value) {
 	}
 
 	:deep(.kern-form-input__select-wrapper) {
-		background-color: var(--kern-color-form-input-background-inverted);
+		background-color: var(--kern-color-layout-background-default);
 	}
 
 	&.polar-plugin-scale-nineRegions {
@@ -98,7 +99,7 @@ function setZoom(value) {
 		align-items: stretch;
 
 		> * {
-			background: var(--kern-color-form-input-background-inverted);
+			background: var(--kern-color-layout-background-default);
 			border-radius: var(--kern-metric-border-radius-large);
 			padding: var(--kern-metric-space-x-small) var(--kern-metric-space-small);
 			box-shadow: var(--polar-shadow);

@@ -1,12 +1,11 @@
 import type { FeatureCollection, Point } from 'geojson'
+import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
+import type { BKGParameters } from './types'
 
 import { toMerged } from 'es-toolkit'
 
-import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
+import { transformGeometry } from '@/lib/transformGeometry'
 
-import type { BKGParameters } from './types'
-
-import { transformGeometry } from '../transformGeometry'
 import { errorCheck } from './errorCheck'
 
 function getRequestUrlQuery(

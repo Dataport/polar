@@ -13,13 +13,14 @@
 		"
 	>
 		<div class="polar-filter-category-values">
-			<KernBlockButton
+			<KernButton
 				v-if="category.selectAll"
+				class="kern-btn--block kern-btn--tertiary"
 				icon="kern-icon--deselect"
 				@click="filterStore.selectOrDeselectAllFromCategory(category)"
 			>
 				{{ $t(($) => $.category.deselectAll, { ns: PluginId }) }}
-			</KernBlockButton>
+			</KernButton>
 			<component
 				:is="
 					coreStore.layout === 'standard'
@@ -58,8 +59,8 @@
 </template>
 
 <script setup lang="ts">
-import KernBlockButton from '@/components/kern/KernBlockButton.ce.vue'
 import KernBlockButtonCheckbox from '@/components/kern/KernBlockButtonCheckbox.ce.vue'
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import KernCheckbox from '@/components/kern/KernCheckbox.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
@@ -71,3 +72,11 @@ import FilterSection from './FilterSection.ce.vue'
 const coreStore = useCoreStore()
 const filterStore = useFilterStore()
 </script>
+
+<style scoped>
+.kern-btn--tertiary {
+	background-color: #edf1fa;
+	justify-content: left;
+	margin-bottom: var(--kern-metric-space-small);
+}
+</style>

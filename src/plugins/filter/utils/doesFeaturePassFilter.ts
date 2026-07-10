@@ -1,6 +1,6 @@
-import { Feature } from 'ol'
-
 import type { FilterState } from '../types'
+
+import { Feature } from 'ol'
 
 import { parseDateWithPattern } from './parseDateWithPattern'
 

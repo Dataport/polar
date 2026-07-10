@@ -4,12 +4,15 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { ComputedRef } from 'vue'
+import type { ZoomPluginOptions } from './types'
+
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import { PluginId, type ZoomPluginOptions } from './types'
+import { PluginId } from './types'
 
 /* eslint-disable tsdoc/syntax */
 /**

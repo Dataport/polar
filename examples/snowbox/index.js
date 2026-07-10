@@ -227,7 +227,6 @@ const map = await createMap(
 	},
 	services
 )
-
 const additionalMaps = []
 document.getElementById('secondMap').addEventListener('click', async () => {
 	const secondMap = createMapElement(
@@ -283,7 +282,7 @@ addPlugin(
 				plugin: 'layerChooser',
 			},
 			{
-				key: 'activeMaskIds',
+				key: 'visibleMaskIds',
 				plugin: 'layerChooser',
 			},
 			{

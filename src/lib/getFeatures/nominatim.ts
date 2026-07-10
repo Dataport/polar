@@ -1,10 +1,8 @@
 import type { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
-
 import type { PolarGeoJsonFeatureCollection } from '@/core'
-
 import type { NominatimParameters } from './types'
 
-import { transformGeometry } from '../transformGeometry'
+import { transformGeometry } from '@/lib/transformGeometry'
 
 export default async function (
 	signal: AbortSignal,

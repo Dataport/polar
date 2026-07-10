@@ -20,6 +20,9 @@ updates:
     open-pull-requests-limit: 20
     cooldown:
       default-days: 3
+      exclude:
+        - "@dataport/eslint-config-geodev"
+        - vite-plugin-kern-extra-icons
     commit-message:
       prefix: chore
       include: scope

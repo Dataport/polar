@@ -1,6 +1,6 @@
-import { GeoJSON, WFS } from 'ol/format'
-
 import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
+
+import { GeoJSON, WFS } from 'ol/format'
 
 import { transformGeometry } from '@/lib/transformGeometry'
 

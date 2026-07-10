@@ -1,12 +1,13 @@
 import type { Map } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
+import type { BoundaryOptions } from '@/core'
 
 import { t } from 'i18next'
 
-import type { BoundaryOptions } from '@/core'
-
 import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
+
+import { PluginId } from '../types'
 
 /**
  * Checks if boundary layer conditions are met; returns false if not and
@@ -35,10 +36,10 @@ export async function isCoordinateInBoundaryLayer(
 	}
 
 	if (typeof boundaryCheckResult === 'symbol') {
-		notifyUser('error', () => t(($) => $.boundaryError, { ns: 'pins' }))
+		notifyUser('error', () => t(($) => $.boundaryError, { ns: PluginId }))
 		console.error('Checking boundary layer failed.')
 	} else {
-		notifyUser('info', () => t(($) => $.notInBoundary, { ns: 'pins' }))
+		notifyUser('info', () => t(($) => $.notInBoundary, { ns: PluginId }))
 		// eslint-disable-next-line no-console
 		console.info('Pin position outside of boundary layer:', coordinate)
 	}

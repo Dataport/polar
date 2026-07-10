@@ -1,6 +1,6 @@
-import { transform as transformCoordinate } from 'ol/proj'
-
 import type { ReverseGeocoderFeature } from '../types'
+
+import { transform as transformCoordinate } from 'ol/proj'
 
 export async function reverseGeocodeNominatim(
 	url: string,

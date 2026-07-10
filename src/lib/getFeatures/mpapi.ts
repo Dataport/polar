@@ -1,10 +1,9 @@
+import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
+import type { MpapiParameters, MpapiResult } from './types'
+
 import { search, setGazetteerUrl } from '@masterportal/masterportalapi'
 import { toMerged } from 'es-toolkit'
 import { transform } from 'ol/proj'
-
-import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
-
-import type { MpapiParameters, MpapiResult } from './types'
 
 // AbortSignal is not used as the AbortController is implemented by @masterportal/masterportalapi
 
