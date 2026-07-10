@@ -6,7 +6,6 @@
 
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
-import type { WatchStopHandle } from 'vue'
 import type {
 	RoutingPluginOptions,
 	RoutingResponseData,
@@ -45,9 +44,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	let routeLayer: VectorLayer | undefined
 	let abortController: AbortController | null = null
 	let draw: Draw | undefined
-
-	let stopRouteWatch: WatchStopHandle | undefined
-	let stopTravelModeWatch: WatchStopHandle | undefined
 
 	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
@@ -252,6 +248,24 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		}
 	}
 
+	watch(
+		[
+			route,
+			selectedPreference,
+			selectedRouteTypesToAvoid,
+			selectedTravelMode,
+			() => coreStore.language,
+		],
+		() => {
+			if (!routeIncomplete.value) {
+				void getRoute()
+			}
+		}
+	)
+	watch(selectedTravelMode, () => {
+		selectedRouteTypesToAvoid.value = []
+	})
+
 	function setupPlugin() {
 		routeLayer = new VectorLayer({
 			source: routeSource,
@@ -272,30 +286,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			'focusin',
 			updateFocus
 		)
-		stopRouteWatch = watch(
-			[
-				route,
-				selectedPreference,
-				selectedRouteTypesToAvoid,
-				selectedTravelMode,
-				() => coreStore.language,
-			],
-			() => {
-				if (!routeIncomplete.value) {
-					void getRoute()
-				}
-			}
-		)
-		stopTravelModeWatch = watch(selectedTravelMode, () => {
-			selectedRouteTypesToAvoid.value = []
-		})
 	}
 
 	function teardownPlugin() {
-		stopRouteWatch?.()
-		stopRouteWatch = undefined
-		stopTravelModeWatch?.()
-		stopTravelModeWatch = undefined
 		;(coreStore.shadowRoot as ShadowRoot).removeEventListener(
 			'pointerdown',
 			updateFocus
