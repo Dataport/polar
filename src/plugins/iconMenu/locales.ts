@@ -23,6 +23,7 @@ export const resourcesDe = {
 		filter: 'Filter',
 		layerChooser: 'Kartenauswahl',
 		gfi: 'Objektliste',
+		routing: 'Routenplaner',
 	},
 } as const
 
@@ -40,6 +41,7 @@ export const resourcesEn = {
 		filter: 'Filter',
 		layerChooser: 'Choose map',
 		gfi: 'Feature list',
+		routing: 'Route Planner',
 	},
 } as const
 
