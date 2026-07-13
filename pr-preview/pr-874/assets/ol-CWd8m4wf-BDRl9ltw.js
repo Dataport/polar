@@ -1,1 +1,0 @@
-import"./Style-lcpm573C-CekDZcbZ.js";import{p as e}from"./ol-D4mbDtmC-16UoY0Xf.js";export{e as Collection};
