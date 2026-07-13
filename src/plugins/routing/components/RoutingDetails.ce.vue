@@ -76,9 +76,12 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
+import { useCoreStore } from '@/core/stores'
+
 import { useRoutingStore } from '../store'
 import { PluginId } from '../types'
 
+const coreStore = useCoreStore()
 const routingStore = useRoutingStore()
 const { showDetails } = storeToRefs(routingStore)
 
@@ -94,16 +97,26 @@ const duration = computed(() =>
 const steps = computed(() => segments.value.flatMap((segment) => segment.steps))
 
 function formatDistance(distance: number) {
+	const formatter = new Intl.NumberFormat(coreStore.language, {
+		minimumFractionDigits: 1,
+		maximumFractionDigits: 1,
+	})
 	if (distance >= 1000) {
-		return `${(distance / 1000).toFixed(1)} km`
+		return `${formatter.format(distance / 1000)} km`
 	}
-	return `${distance} m`
+	return `${formatter.format(distance)} m`
 }
 function formatDuration(duration: number) {
 	if (duration >= 3600) {
-		return `${(duration / 3600).toFixed(2)} h`
+		return `${new Intl.NumberFormat(coreStore.language, {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		}).format(duration / 3600)} h`
 	} else if (duration >= 60) {
-		return `${(duration / 60).toFixed(1)} min`
+		return `${new Intl.NumberFormat(coreStore.language, {
+			minimumFractionDigits: 1,
+			maximumFractionDigits: 1,
+		}).format(duration / 60)} min`
 	}
 	return `${duration} sec`
 }
