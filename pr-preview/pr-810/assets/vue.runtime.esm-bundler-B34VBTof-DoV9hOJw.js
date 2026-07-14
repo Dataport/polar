@@ -1,0 +1,1 @@
+import{pt as e}from"./vue.runtime.esm-bundler-PoU-qGsn-D35RpLBi.js";import"./runtime-dom.esm-bundler-C4XCyWtE-BHhOfl6J.js";export{e as reactive};
