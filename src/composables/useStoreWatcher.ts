@@ -227,3 +227,82 @@ export function useStoreWatcher(
 	setupPlugin()
 	onScopeDispose(teardownPlugin)
 }
+
+if (import.meta.vitest) {
+	const { expect, test, vi, afterEach } = import.meta.vitest
+	const { createPinia, setActivePinia } = await import('pinia')
+	const { reactive, effectScope, nextTick } = await import('vue')
+	const useCoreStoreFile = await import('@/core/stores')
+
+	let activeScope: ReturnType<typeof effectScope> | null = null
+	afterEach(() => {
+		activeScope?.stop()
+		activeScope = null
+	})
+
+	// Rebuilds the real AddressSearch -> Pins -> ReverseGeocoder -> AddressSearch wiring:
+	// a chosen address moves the pin, which reverse geocodes and would write the
+	// address selection back, closing the loop.
+	const setup = (options: { withTarget: boolean }) => {
+		setActivePinia(createPinia())
+
+		const pins = reactive({ coordinate: null as [number, number] | null })
+		const selectResult = vi.fn()
+		const addressSearch = reactive({
+			chosenAddress: null as [number, number] | null,
+			selectResult,
+		})
+		const stores: Record<string, object> = { pins, addressSearch }
+		const coreStore = reactive({
+			usedPlugins: ['pins', 'addressSearch', 'reverseGeocoder'],
+			getPluginStore: (plugin: string) => stores[plugin] ?? null,
+		})
+		vi.spyOn(useCoreStoreFile, 'useCoreStore').mockReturnValue(
+			coreStore as ReturnType<typeof useCoreStore>
+		)
+
+		activeScope = effectScope()
+		activeScope.run(() => {
+			useStoreWatcher(
+				[{ plugin: 'addressSearch', key: 'chosenAddress' }],
+				(value) => {
+					pins.coordinate = value as [number, number] | null
+				},
+				{ target: { plugin: 'pins', key: 'coordinate' } }
+			)
+			useStoreWatcher(
+				[{ plugin: 'pins', key: 'coordinate' }],
+				(value) => selectResult(value),
+				options.withTarget
+					? { target: { plugin: 'addressSearch', key: 'selectResult' } }
+					: undefined
+			)
+		})
+
+		// Chooses an address and lets the watcher chain settle.
+		const selectAddress = async (coordinate: [number, number]) => {
+			addressSearch.chosenAddress = coordinate
+			await nextTick()
+			await Promise.resolve()
+		}
+
+		return { pins, selectResult, selectAddress }
+	}
+
+	test('breaks the reference loop via target', async () => {
+		const { pins, selectResult, selectAddress } = setup({ withTarget: true })
+
+		await selectAddress([1, 2])
+
+		expect(pins.coordinate).toEqual([1, 2])
+		expect(selectResult).not.toHaveBeenCalled()
+	})
+
+	test('would loop without a target', async () => {
+		const { selectResult, selectAddress } = setup({ withTarget: false })
+
+		await selectAddress([1, 2])
+
+		expect(selectResult).toHaveBeenCalledWith([1, 2])
+	})
+}
