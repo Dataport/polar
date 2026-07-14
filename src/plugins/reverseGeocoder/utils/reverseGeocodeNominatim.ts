@@ -60,9 +60,9 @@ export async function reverseGeocodeNominatim({
 	fetchUrl.searchParams.set('lon', searchCoordinate[0].toString())
 	fetchUrl.searchParams.set('format', 'jsonv2')
 
-	const result = await fetch(fetchUrl, { signal }).then(
-		(response) => <Promise<NominatimReverseGeocodeResponse>>response.json()
-	)
+	const result: NominatimReverseGeocodeResponse = await fetch(fetchUrl, {
+		signal,
+	}).then((response) => response.json())
 
 	return {
 		type: 'reverse_geocoded',
