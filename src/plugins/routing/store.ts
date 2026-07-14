@@ -264,8 +264,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		selectedRouteTypesToAvoid.value = []
 	})
 
+	useLayer(coreStore.map, routeSource)
+
 	function setupPlugin() {
-		useLayer(coreStore.map, routeSource)
 		initializeDraw()
 		// `pointerdown` handles mouse interaction while `focusin` handles keyboard
 		// navigation (e.g. tabbing) away from the routing inputs.
