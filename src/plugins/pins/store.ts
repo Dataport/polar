@@ -8,7 +8,7 @@ import type { GeoJsonGeometryTypes, Point as GeoJsonPoint } from 'geojson'
 import type { MapBrowserEvent } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type Point from 'ol/geom/Point'
-import type { PluginId, PolarGeoJsonFeature, StoreReference } from '@/core'
+import type { PolarGeoJsonFeature } from '@/core'
 import type { PinMovable, PinsPluginOptions } from './types'
 
 import { toMerged } from 'es-toolkit'
@@ -22,6 +22,7 @@ import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
 import { usePinLayer } from './composables/usePinLayer'
+import { PluginId } from './types'
 import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
 import { isCoordinateInBoundaryLayer } from './utils/isCoordinateInBoundaryLayer'
@@ -38,7 +39,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	const coreStore = useCoreStore()
 
 	const coordinate = ref<Coordinate | null>(null)
-	const coordinateSource = ref<'core' | 'user' | PluginId | null>(null)
 	const getsDragged = ref(false)
 
 	const configuration = computed<
@@ -79,17 +79,17 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 
 	useStoreWatcher(
 		() => configuration.value.coordinateSources || [],
-		(value: unknown, source: StoreReference) => {
+		(value) => {
 			const feature = value as PolarGeoJsonFeature<GeoJsonPoint> | null
 			// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
 			// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
 			if (feature && feature.type !== 'reverse_geocoded') {
-				coordinateSource.value = source.plugin ?? 'core'
 				addPin(feature.geometry.coordinates, false, {
 					type: feature.geometry.type,
 				})
 			}
-		}
+		},
+		{ target: { plugin: PluginId, key: 'coordinate' } }
 	)
 
 	function setupPlugin() {
@@ -155,7 +155,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 					: geometryCoordinates
 
 				if (newCoordinate) {
-					coordinateSource.value = 'user'
 					addPin(newCoordinate)
 				}
 			})
@@ -196,7 +195,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 				configuration.value.boundary
 			))
 		) {
-			coordinateSource.value = 'user'
 			addPin(coordinate)
 		}
 	}
@@ -228,14 +226,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		 * Current coordinate of the pin.
 		 */
 		coordinate,
-
-		/**
-		 * The plugin that is the source of the current coordinate.
-		 * This can be used by other plugins to e.g. determine whether they should react to a coordinate change or not.
-		 *
-		 * @readonly
-		 */
-		coordinateSource: computed(() => coordinateSource.value),
 
 		/**
 		 * The {@link coordinate | pinCoordinate} transcribed to latitude / longitude.

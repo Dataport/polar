@@ -42,21 +42,6 @@ export interface StoreReference {
 	plugin?: PluginId
 }
 
-/**
- * Reference to a store value that can be watched.
- */
-export interface WatcherStoreReference extends StoreReference {
-	/**
-	 * Change sources that should be ignored when watching the store value.
-	 * If not set, all sources are watched.
-	 *
-	 * @remarks
-	 * This does only work with store values that save the source of the change in the store.
-	 * The source is expected in a key that is the same as the store value key, but with `Source` appended to it.
-	 */
-	ignoredSources?: ('core' | 'user' | PluginId)[]
-}
-
 export type InitialLanguage = 'de' | 'en'
 
 export interface PolarMapOptions {

@@ -1,8 +1,4 @@
-import type {
-	Color,
-	LayerBoundPluginOptions,
-	WatcherStoreReference,
-} from '@/core'
+import type { Color, LayerBoundPluginOptions, StoreReference } from '@/core'
 
 /** Plugin identifier. */
 export const PluginId = 'pins'
@@ -28,7 +24,7 @@ export interface PinsPluginOptions extends LayerBoundPluginOptions {
 	 * }]
 	 * ```
 	 */
-	coordinateSources?: WatcherStoreReference[]
+	coordinateSources?: StoreReference[]
 
 	/**
 	 * Configuration options for setting an initial pin.

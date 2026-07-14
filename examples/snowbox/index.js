@@ -363,7 +363,6 @@ addPlugin(
 			{
 				plugin: 'pins',
 				key: 'coordinate',
-				ignoredSources: ['addressSearch'],
 			},
 		],
 		addressTarget: {
