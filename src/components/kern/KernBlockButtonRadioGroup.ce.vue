@@ -1,11 +1,11 @@
 <template>
 	<div class="radiogroup" role="radiogroup">
-		<template v-for="(item, idx) of items" :key="idx">
+		<template v-for="(item, index) of items" :key="index">
 			<span
 				ref="radios"
 				role="radio"
 				:aria-checked="model === item.value"
-				:aria-labelledby="id + '-' + idx"
+				:aria-labelledby="id + '-' + index"
 				tabindex="0"
 				:data-value="item.value"
 				@keydown.prevent.space="model = item.value"
@@ -13,9 +13,9 @@
 				@focus="scrollVisible($event)"
 			/>
 			<label
-				:id="id + '-' + idx"
+				:id="id + '-' + index"
 				class="kern-btn kern-btn--block kern-btn--tertiary"
-				@click.prevent="((model = item.value), radios?.[idx].focus())"
+				@click.prevent="((model = item.value), radios?.[index].focus())"
 			>
 				<span
 					v-if="item.icon"

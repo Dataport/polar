@@ -53,7 +53,6 @@ if (import.meta.hot) {
 <!-- ── Global: KERN design system ───────────────────────────────── -->
 <!-- eslint-disable-next-line vue/enforce-style-attribute -->
 <style>
-@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400&family=Fira+Code:wght@400&display=swap');
 @import url('@kern-ux/native/dist/kern.css');
 @import url('@kern-ux/native/dist/fonts/fira-sans.css');
 @import url('./variables.css');
