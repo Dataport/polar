@@ -6,7 +6,10 @@ Before proceeding, please mind our [code of conduct](https://github.com/Dataport
 ## Reporting Issues
 
 Should you find bugs, feel free to add them as [issues](https://github.com/Dataport/polar/issues). A bug template is provided.
-You may also contact us via polar@dataport.de.
+You may also contact us via [polar@dataport.de](mailto:polar@dataport.de).
+
+For security vulnerabilities, please do not open a public issue.
+Report them privately as described in our [security policy](https://github.com/Dataport/polar/blob/main/security.md).
 
 ## Contributing Code
 
