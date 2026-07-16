@@ -1,7 +1,8 @@
 <template>
 	<FilterSection
-		v-for="(category, idx) of filterStore.selectedLayerConfiguration.categories"
-		:key="idx"
+		v-for="(category, index) of filterStore.selectedLayerConfiguration
+			.categories"
+		:key="index"
 		:title="
 			$t(
 				($) =>

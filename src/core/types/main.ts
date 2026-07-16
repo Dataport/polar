@@ -11,6 +11,7 @@ import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
 import type { PinsPluginOptions } from '@/plugins/pins'
 import type { PointerPositionPluginOptions } from '@/plugins/pointerPosition'
 import type { ReverseGeocoderPluginOptions } from '@/plugins/reverseGeocoder'
+import type { RoutingPluginOptions } from '@/plugins/routing'
 import type { ScalePluginOptions } from '@/plugins/scale'
 import type { ToastPluginOptions } from '@/plugins/toast'
 import type defaults from '../utils/defaults'
@@ -353,6 +354,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** Configuration for reverseGeocoder plugin. */
 	reverseGeocoder?: ReverseGeocoderPluginOptions
+
+	/** Configuration for routing plugin. */
+	routing?: RoutingPluginOptions
 
 	/** Configuration for scale plugin. */
 	scale?: ScalePluginOptions
