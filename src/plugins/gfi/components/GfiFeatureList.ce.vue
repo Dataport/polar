@@ -75,6 +75,12 @@ hgroup {
 	width: 100%;
 }
 
+h2.kern-heading-medium {
+	display: flex;
+	align-items: center;
+	gap: var(--kern-metric-space-small);
+}
+
 .polar-plugin-gfi-list-empty-view {
 	text-wrap: wrap;
 }
