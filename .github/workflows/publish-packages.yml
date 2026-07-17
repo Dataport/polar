@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   publish:
+    environment: npm-publish
     name: Publish package @polar/polar
     runs-on: ubuntu-latest
     steps:
