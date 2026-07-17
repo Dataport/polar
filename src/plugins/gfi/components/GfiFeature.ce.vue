@@ -1,31 +1,43 @@
 <template>
 	<div class="action-bar">
 		<div class="action-bar-group">
-			<PolarIconButton
+			<KernButton
 				v-if="gfiStore.featureIndex > 0"
-				:hint="$t(($) => $.switch.previous, { ns: PluginId })"
+				class="kern-btn--tertiary"
 				icon="kern-icon--arrow-back"
+				:label-sr-only="true"
 				@click="gfiStore.featureIndex--"
-			/>
-			<PolarIconButton
+			>
+				{{ $t(($) => $.switch.previous, { ns: PluginId }) }}
+			</KernButton>
+			<KernButton
 				v-if="gfiStore.featureIndex + 1 < gfiStore.features.length"
-				:hint="$t(($) => $.switch.next, { ns: PluginId })"
+				class="kern-btn--tertiary"
 				icon="kern-icon--arrow-forward"
+				:label-sr-only="true"
 				@click="gfiStore.featureIndex++"
-			/>
+			>
+				{{ $t(($) => $.switch.next, { ns: PluginId }) }}
+			</KernButton>
 		</div>
 		<div class="action-bar-group">
-			<PolarIconButton
+			<KernButton
 				v-if="gfiStore.exportProperty"
-				:hint="$t(($) => $.property.export, { ns: PluginId })"
+				class="kern-btn--tertiary"
 				icon="kern-icon--download"
+				:label-sr-only="true"
 				@click="startDownload(gfiStore.exportProperty)"
-			/>
-			<PolarIconButton
-				:hint="$t(($) => $.header.close, { ns: PluginId })"
+			>
+				{{ $t(($) => $.property.export, { ns: PluginId }) }}
+			</KernButton>
+			<KernButton
+				class="kern-btn--tertiary"
 				icon="kern-icon--close"
+				:label-sr-only="true"
 				@click="gfiStore.selectedFeatures = {}"
-			/>
+			>
+				{{ $t(($) => $.header.close, { ns: PluginId }) }}
+			</KernButton>
 		</div>
 	</div>
 	<table class="kern-table kern-table--striped">
@@ -97,7 +109,7 @@
 </template>
 
 <script setup lang="ts">
-import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useGfiStore } from '../store'
