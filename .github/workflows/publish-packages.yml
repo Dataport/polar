@@ -5,6 +5,10 @@ on:
     tags:
       - v*
 
+permissions:
+  id-token: write
+  contents: write
+
 jobs:
   publish:
     name: Publish package @polar/polar
@@ -28,8 +32,6 @@ jobs:
 
       - name: Publish to NPM
         run: npm publish --access public --tag latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub release
         run: node scripts/create-github-release.ts
