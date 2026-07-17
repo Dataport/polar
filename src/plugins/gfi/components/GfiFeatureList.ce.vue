@@ -71,6 +71,10 @@ const gfiStore = useGfiStore()
 </script>
 
 <style scoped>
+header.kern-card__header {
+	padding: 0 var(--kern-metric-space-small);
+}
+
 hgroup {
 	width: 100%;
 }
@@ -82,6 +86,7 @@ h2.kern-heading-medium {
 }
 
 .polar-plugin-gfi-list-empty-view {
+	padding: var(--kern-metric-space-small);
 	text-wrap: wrap;
 }
 
