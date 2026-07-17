@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & Discussions
+    url: https://github.com/Dataport/polar/discussions
+    about: Use GitHub discussions for message-board style questions and discussions.
+  - name: Report a security vulnerability
+    url: https://github.com/Dataport/polar/security/advisories/new
+    about: Please report security issues privately here instead of opening a public issue.
