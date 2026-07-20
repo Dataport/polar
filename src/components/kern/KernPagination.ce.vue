@@ -134,7 +134,7 @@ ul {
 	display: flex;
 	list-style-type: none;
 	padding: 0;
-	align-items: center;
+	align-items: stretch;
 	justify-content: center;
 	gap: var(--kern-metric-space-small);
 }
@@ -145,6 +145,7 @@ ul {
 	min-height: calc(
 		var(--kern-metric-dimension-large) + var(--kern-metric-dimension-2x-small)
 	);
+	height: 100%;
 
 	&:has(.kern-sr-only) {
 		width: var(--kern-metric-dimension-large);
