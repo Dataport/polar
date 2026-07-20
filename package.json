@@ -112,7 +112,7 @@
 		"jspdf": "^4.2.1",
 		"magic-string": "^0.30.18",
 		"ol": "10.9.0",
-		"pinia": "^3.0.3",
+		"pinia": "^4.0.2",
 		"postcss-html": "^1.8.1",
 		"prettier": "^3.9.5",
 		"stylelint": "^17.13.0",
