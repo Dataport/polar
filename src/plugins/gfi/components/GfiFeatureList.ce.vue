@@ -90,6 +90,10 @@ h2.kern-heading-medium {
 	text-wrap: wrap;
 }
 
+section.kern-card__body {
+	gap: 0;
+}
+
 section.feature-list-item {
 	width: 100%;
 	padding: var(--kern-metric-space-small);
@@ -99,10 +103,13 @@ section.feature-list-item {
 	border-style: dashed;
 	border-color: transparent;
 
-	&.hovered,
+	&.hovered {
+		background-color: #dff0dd;
+	}
+
 	&:hover {
 		border-radius: var(--kern-metric-border-radius-default);
-		border-color: var(--kern-color-action-default);
+		border-color: #3fa535;
 		cursor: pointer;
 	}
 

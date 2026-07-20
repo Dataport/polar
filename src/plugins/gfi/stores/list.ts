@@ -2,12 +2,14 @@ import type { Feature } from 'ol'
 import type { FeatureList } from '../types'
 
 import { GeoJSON } from 'ol/format'
+import ClusterSource from 'ol/source/Cluster'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 
 import { useOlVectorSources } from '@/composables/useOlVectorSources'
 import { useRefStore } from '@/composables/useRefStore'
 import { useCoreStore } from '@/core/stores'
+import getCluster from '@/lib/getCluster'
 import { getVectorSource } from '@/lib/getVectorSource'
 import { isVisible } from '@/lib/invisibleStyle'
 
@@ -110,8 +112,8 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 			if (bindMarkers) {
 				if (feature) {
 					const newFeatures = feature.get('features') || [feature]
-					if (newFeatures.length === 1) {
-						selectedFeatures.value[feature.get('_polarLayerId')] = newFeatures
+					selectedFeatures.value = {
+						[feature.get('_polarLayerId')]: newFeatures,
 					}
 				} else {
 					selectedFeatures.value = {}
@@ -139,8 +141,12 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 					return
 				}
 
-				features[0].feature.set('_polarLayerId', features[0].layerId)
-				coreStore.hoveredFeature = features[0].feature
+				const { feature, layerId } = features[0]
+				feature.set('_polarLayerId', layerId)
+				coreStore.hoveredFeature =
+					coreStore.getLayer(layerId)?.getSource() instanceof ClusterSource
+						? getCluster(coreStore.map, feature, '_polarLayerId')
+						: feature
 			}
 		},
 		{ immediate: true, deep: true }
@@ -161,6 +167,20 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 				// The second condition is necessary for TypeScript checks.
 				if (features.length <= 0 || !features[0]) {
 					coreStore.selectedFeature = null
+					return
+				}
+
+				const selectedFeature = coreStore.selectedFeature
+				const selectedClusterFeatures =
+					selectedFeature?.get('features') ||
+					(selectedFeature ? [selectedFeature] : [])
+				if (
+					selectedFeature?.get('_polarLayerId') === features[0].layerId &&
+					selectedClusterFeatures.length === features.length &&
+					features.every(({ feature }) =>
+						selectedClusterFeatures.includes(feature)
+					)
+				) {
 					return
 				}
 
