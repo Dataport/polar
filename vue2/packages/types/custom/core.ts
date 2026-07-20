@@ -5,54 +5,14 @@ import { type Options as TextOptions } from 'ol/style/Text'
 import { Size } from 'ol/size'
 import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
-import { UserVuetifyPreset } from 'vuetify/types/services/presets'
-import {
-	ActionPayload,
-	Commit,
-	Dispatch,
-	MutationPayload,
-	MutationTree,
-	Plugin,
-	SubscribeActionOptions,
-	SubscribeOptions,
-} from 'vuex'
 import { Feature as GeoJsonFeature } from 'geojson'
-import { VueConstructor, WatchOptions } from 'vue'
-import { Coordinate } from 'ol/coordinate'
+import { VueConstructor } from 'vue'
 
 /**
  *
  * Plugin-Container
  *
  */
-
-/**
- * The suffix of the feature in the FeatureCollection;
- * obsolete with WFS\@3.0.0 as GeoJSON will be the standard response
- */
-export type MemberSuffix = 'member' | 'featureMember'
-
-export interface AddressSearchGroupProperties {
-	label: string
-	resultDisplayMode: SearchDisplayMode
-	hint?: string
-	limitResults?: number
-	placeholder?: string
-}
-
-export interface AddressSearchCategoryProperties {
-	/** display label for category */
-	label: string
-}
-
-/** AddressSearch Module Configuration */
-export interface AddressSearchConfiguration extends PluginOptions {
-	// definition of categories referred to in searchMethods
-	categoryProperties?: Record<string, AddressSearchCategoryProperties>
-	focusAfterSearch?: boolean
-	// definition of groups referred to in searchMethods
-	groupProperties?: Record<string, AddressSearchGroupProperties>
-}
 
 export interface PolarCircleStyle {
 	fillColor?: Color | ColorLike
@@ -123,36 +83,47 @@ export interface DrawMetaService {
 	propertyNames?: string[]
 }
 
-export interface FilterConfigurationTimeOption {
-	amounts: number[]
-	unit?: 'days'
-}
-
-interface FilterConfigurationTime {
-	targetProperty: string
-	freeSelection?: {
-		now?: 'until' | 'from'
-		unit?: 'days'
-	}
-	last?: FilterConfigurationTimeOption[]
-	next?: FilterConfigurationTimeOption[]
-	pattern?: string
-}
-
-interface FilerConfigurationCategory {
-	knownValues: (string | number)[]
-	targetProperty: string
-	selectAll?: boolean
-}
-
-export interface FilterConfiguration extends PluginOptions {
-	layers: Record<
-		string,
-		{
-			categories?: FilerConfigurationCategory[]
-			time?: FilterConfigurationTime
-		}
-	>
+/** Configuration of GFI feature regarding a specific layer */
+export interface GfiLayerConfiguration {
+	/**
+	 * Property of the features of a service having an url usable to trigger a
+	 * download of features as a document.
+	 */
+	exportProperty?: string
+	// filter method to apply on response features, only relevant for WMS services
+	filterBy?: 'clickPosition'
+	// format the response is known to come in (e.g. "GML"); only relevant for WMS services
+	format?: 'GML' | 'GML2' | 'GML3' | 'GML32' | 'text'
+	/**
+	 * Whether the found features' geometry, if available, is to be shown on the
+	 * map. It is simply printed to a helper layer.
+	 */
+	geometry?: boolean
+	// name of field to use for geometry, if not default field
+	geometryName?: string
+	isSelectable?: GfiIsSelectableFunction
+	maxFeatures?: number
+	/**
+	 * If window is true, the properties are either
+	 * 1. filtered by whether their key is in a string[]
+	 * 2. filtered by whether their key is in the given object's keys, and then
+	 *    translated to the object's value for that key
+	 * I.e., a feature \{ a: 0, b: 0, c: 0 \} with ['a', 'b'] will show key-value
+	 * pairs 'a':0 and 'b':0, and the same feature with object \{a: 'A'\} will
+	 * show key-value pair 'A':0, mind the uppercase A, which is the mapped key.
+	 *
+	 * This does not influence what information is available in the store,
+	 * only the UI is affected by these filters/mappings.
+	 */
+	properties?: string[] | Record<string, string>
+	showTooltip?: (feature: Feature, map: Map) => [string, string][]
+	/**
+	 * Whether the found features' properties are to be shown in the client's UI.
+	 * They are displayed as a table, one feature at a time, and if multiple
+	 * features are found, the user may step through all where the layer's window
+	 * value is true.
+	 */
+	window?: boolean
 }
 
 /** Object containing information for highlighting a gfi result */
@@ -161,301 +132,58 @@ export interface HighlightStyle {
 	stroke: Stroke
 }
 
-export interface LayerChooserConfiguration extends PluginOptions {
-	component?: VueConstructor
+export type GfiIsSelectableFunction = (feature: GeoJsonFeature) => boolean
+
+/** configurable function to gather additional info */
+export type GfiAfterLoadFunction = (
+	featureInformation: Record<string, GeoJsonFeature[]>,
+	srsName: string // TODO: Might be interesting to overlap this with mapConfig.namedProjections for type safety in using only allowed epsg codes
+) =>
+	| Record<string, GeoJsonFeature[] | symbol>
+	| Promise<Record<string, GeoJsonFeature[] | symbol>>
+
+/** GFI Module Configuration */
+export interface FeatureList {
+	mode: 'visible' | 'loaded'
+	bindWithCoreHoverSelect?: boolean
+	pageLength?: number
+	text?: (string | ((f: Feature) => string))[]
 }
 
-export interface LegendConfiguration extends PluginOptions {
-	icons?: {
-		open?: string
-		close?: string
-	}
-}
-
-export interface AppearOnClick {
-	/** Whether the pin should be set with a click on a map. */
-	show: boolean
-	/** At which zoomLevel it should be possible to have a pin set (if show is set to true). */
-	atZoomLevel?: number
-}
-
-interface InitialPin {
-	coordinates: [number, number]
-	centerOn?: boolean
-	epsg?: string
-}
-
-type MovablePin = 'drag' | 'click' | 'none'
-
-interface PinStyle {
-	fill?: string
-	stroke?: string
-}
-
-export interface PinsConfiguration extends LayerBoundPluginOptions {
-	appearOnClick?: AppearOnClick
-	/** Path in store from where coordinates can be retrieved from. */
-	coordinateSource?: string
-	initial?: InitialPin
-	/** If the pin should be movable; defaults to false. */
-	movable?: boolean | MovablePin
-	/** Pin styling */
-	style?: PinStyle
-	/** The zoom level to zoom to when a pin is added to the map. */
-	toZoomLevel?: number
-}
-
-export interface ReverseGeocoderConfiguration {
-	// WPS (Web Processing Service) URL
-	url: string
-	// optional loading action name to start loading
-	addLoading?: string
-	// points to an address acceptor; on resolve, address is dispatched there
-	addressTarget?: string
-	// points to a coordinate source; on update, coordinate is resolved
-	coordinateSource?: string
-	// optional loading action name to end loading
-	removeLoading?: string
-	// optionally zooms to given coordinate after successful reverse geocoding; number indicates zoom level
-	zoomTo?: number
-}
-
-export type SelectableTravelMode =
-	| 'driving-car'
-	| 'driving-hgv'
-	| 'cycling-regular'
-	| 'foot-walking'
-	| 'wheelchair'
-
-export interface RoutingConfiguration {
-	apiKey: string
-	format: 'geojson'
-	type: 'ors'
-	url: string
-	displayPreferences?: boolean
-	displayRouteTypesToAvoid?: boolean
-	selectableTravelModes?: SelectableTravelMode[]
-}
-
-/** Style of a toast */
-export interface ToastStyle {
-	/** Color of the toast. */
-	color?: string
-	/** optional icon class from available icon set */
-	icon?: string
-}
-
-/** various kinds of toasts */
-export type ToastType = 'success' | 'info' | 'warning' | 'error'
-
-export type ToastTypeStyles = {
-	[key in ToastType]?: ToastStyle
-}
-
-/** configuration for toast type styles */
-export type ToastConfiguration = PluginOptions & ToastTypeStyles
-
-export interface ScaleConfiguration extends PluginOptions {
-	showScaleSwitcher?: boolean
-	zoomMethod?: string
-}
-
-export interface ZoomIcons {
-	zoomIn: string
-	zoomOut: string
-}
-
-export interface ZoomConfiguration extends PluginOptions {
-	component?: VueConstructor
-	icons?: ZoomIcons
+export interface GfiConfiguration extends PluginOptions {
+	/**
+	 * Source paths through store to listen to for changes; it is assumed values
+	 * listened to are coordinates that can be used to request information from
+	 * the specified layers.
+	 */
+	coordinateSources: string[]
+	/**
+	 * The layers to request feature information from. Both WMS and WFS layers are
+	 * supported. Keys are layer IDs as specified in the services.json registry.
+	 */
+	layers: Record<string, GfiLayerConfiguration>
+	activeLayerPath?: string
+	afterLoadFunction?: GfiAfterLoadFunction
+	boxSelect?: boolean
+	/**
+	 * If required the stroke and fill of the highlighted feature can be configured.
+	 * Otherwise, a default style is applied.
+	 */
+	customHighlightStyle?: HighlightStyle
+	directSelect?: boolean
+	featureList?: FeatureList
+	/**
+	 * Optionally replace GfiContent component.
+	 * Usable to completely redesign content of GFI window.
+	 */
+	gfiContentComponent?: VueConstructor
+	/**
+	 * Limits the viewable GFIs per layer by this number. The first n elements
+	 * are chosen arbitrarily. Useful if you e.g. just want one result, or to
+	 * limit an endless stream of returns to maybe 10 or so. Infinite by default.
+	 */
+	maxFeatures?: number
+	mode?: 'bboxDot' | 'intersects'
+	multiSelect?: 'box' | 'circle'
 	renderType?: 'iconMenu' | 'independent'
-	showMobile?: boolean
-	showZoomSlider?: boolean
-}
-
-/**
- *
- * Map-Config
- *
- */
-
-export interface MapConfig extends MasterportalApiConfig {
-	/** if true, all services' availability will be checked with head requests */
-	renderFaToLightDom?: boolean
-	stylePath?: string
-	vuetify?: UserVuetifyPreset
-	addressSearch?: AddressSearchConfiguration
-	attributions?: AttributionsConfiguration
-	draw?: DrawConfiguration
-	filter?: FilterConfiguration
-	fullscreen?: FullscreenConfiguration
-	geoLocation?: GeoLocationConfiguration
-	layerChooser?: LayerChooserConfiguration
-	legend?: LegendConfiguration
-	pins?: PinsConfiguration
-	reverseGeocoder?: ReverseGeocoderConfiguration
-	routing?: RoutingConfiguration
-	scale?: ScaleConfiguration
-	toast?: ToastConfiguration
-	zoom?: ZoomConfiguration
-}
-
-/**
- *
- * Vuex Types
- *
- * Mostly copied from https://github.com/vuejs/vuex, adapted where required.
- *
- */
-
-export interface CoreState {
-	center: [number, number] | null
-	clientHeight: number
-	clientWidth: number
-	components: number
-	// NOTE: The additional values are not required in the configuration but have default values.
-	configuration: MapConfig &
-	Required<
-		Pick<
-			MasterportalApiConfig,
-			'epsg' | 'namedProjections' | 'options' | 'startResolution'
-		>
-	>
-	hasSmallDisplay: boolean
-	hovered: number
-	language: string
-	map: number
-	mapHasDimensions: boolean
-	oidcToken: string
-	// NOTE truly any since external plugins may bring whatever; unknown will lead to further errors
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	plugin: Record<string, any>
-	selected: number
-	zoomLevel: number
-}
-
-export interface CoreGetters
-	extends Omit<CoreState, 'components' | 'hovered' | 'map' | 'selected'> {
-	// omitted from CoreState as actual getter type diverges
-	components: PluginContainer[]
-	hovered: Feature | null
-	map: Map
-	mapHasDimensions: boolean
-	selected: Feature | null
-	selectedCoordinate: Coordinate | null
-
-	// regular getters
-	deviceIsHorizontal: boolean
-	hasSmallHeight: boolean
-	hasSmallWidth: boolean
-	/** Whether the application currently has the same size as the visual viewport of the users browser */
-	hasWindowSize: boolean
-}
-
-export type PolarGetter<S, G, P> = (
-	state: S,
-	getters: G,
-	rootState: CoreState,
-	rootGetters: CoreGetters
-) => P
-
-export type PolarGetterTree<S, G> = {
-	[Property in keyof G]: PolarGetter<S, G, G[Property]>
-}
-
-export interface PolarActionContext<S, G> {
-	dispatch: Dispatch
-	commit: Commit
-	state: S
-	getters: G
-	rootState: CoreState
-	rootGetters: CoreGetters
-}
-
-export type PolarActionHandler<S, G> = (
-	this: PolarStore<S, G>,
-	injectee: PolarActionContext<S, G>,
-	// NOTE: This any is fine, as it can actually be anything.
-	// eslint-disable-next-line
-	payload?: any
-) => unknown
-
-export interface PolarActionObject<S, G> {
-	root?: boolean
-	handler: PolarActionHandler<S, G>
-}
-
-export type PolarAction<S, G> =
-	| PolarActionHandler<S, G>
-	| PolarActionObject<S, G>
-
-export interface PolarActionTree<S, G> {
-	[key: string]: PolarAction<S, G>
-}
-
-export interface PolarModule<S, G> {
-	namespaced: boolean
-	state: S | (() => S)
-	getters: PolarGetterTree<S, G>
-	actions?: PolarActionTree<S, G>
-	mutations: MutationTree<S>
-}
-
-export interface PolarModuleTree<S, G> {
-	[key: string]: PolarModule<S, G>
-}
-
-export interface PolarStoreOptions<S, G> {
-	state: S | (() => S)
-	getters: PolarGetterTree<S, G>
-	actions: PolarActionTree<S, G>
-	mutations?: MutationTree<S>
-	modules?: PolarModuleTree<S, G>
-	plugins?: Plugin<S>[]
-	strict?: boolean
-	devtools?: boolean
-}
-
-export declare class PolarStore<S, G> {
-	constructor(options: PolarStoreOptions<S, G>)
-	readonly state: S
-	readonly getters: G
-	replaceState(state: S): void
-	// NOTE: options object is removed from type here as it's mostly used for SSR; see https://vuex.vuejs.org/api/#registermodule
-	registerModule<LS, LG>(
-		path: string | string[],
-		module: PolarModule<LS, LG>
-	): void
-
-	dispatch: Dispatch
-	commit: Commit
-	subscribe<P extends MutationPayload>(
-		// TODO: check if type any is valid
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		fn: (mutation: P, state: S) => any,
-		options?: SubscribeOptions
-	): () => void
-
-	subscribeAction<P extends ActionPayload>(
-		fn: SubscribeActionOptions<P, S>,
-		options?: SubscribeOptions
-	): () => void
-
-	watch<T>(
-		// TODO: check if type any is valid
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		getter: (state: S, getters: any) => T,
-		cb: (value: T, oldValue: T) => void,
-		options?: WatchOptions
-	): () => void
-
-	unregisterModule(path: string | string[]): void
-
-	hasModule(path: string | string[]): boolean
-	hotUpdate(options: {
-		actions?: PolarActionTree<S, G>
-		mutations?: MutationTree<S>
-		getters?: PolarGetterTree<S, G>
-		modules?: PolarModuleTree<S, G>
-	}): void
 }

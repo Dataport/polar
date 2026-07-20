@@ -113,6 +113,10 @@ import polarLogoSvg from './assets/polar-logo.svg'
 .lp-header__link .kern-icon {
 	background-color: rgba(255, 255, 255, 0.8);
 }
+.lp-header__github .kern-icon {
+	background-color: #004787;
+	flex-shrink: 0;
+}
 .lp-header__link:hover .kern-icon,
 .lp-header__link[aria-current='page'] .kern-icon {
 	background-color: #fff;
@@ -146,10 +150,6 @@ import polarLogoSvg from './assets/polar-logo.svg'
 	box-sizing: border-box;
 	transition: background 0.15s;
 	white-space: nowrap;
-}
-.lp-header__github .kern-icon {
-	background-color: #004787;
-	flex-shrink: 0;
 }
 .lp-header__github:hover .kern-icon {
 	background-color: #003087;

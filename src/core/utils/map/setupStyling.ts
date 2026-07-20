@@ -4,7 +4,7 @@ import type VectorLayer from 'ol/layer/Vector'
 import type {
 	MapConfiguration,
 	MasterportalApiServiceRegister,
-} from '@/core/types'
+} from '../../types'
 
 import createStyle from '@masterportal/masterportalapi/src/vectorStyle/createStyle'
 import styleList from '@masterportal/masterportalapi/src/vectorStyle/styleList'

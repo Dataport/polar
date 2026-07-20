@@ -1,0 +1,163 @@
+/* eslint-disable tsdoc/syntax */
+/**
+ * @module \@polar/polar/composables/useStoreWatcher
+ */
+/* eslint-enable tsdoc/syntax */
+
+import type { ComputedRef, WatchOptions, WatchStopHandle } from 'vue'
+import type { StoreReference } from '@/core/types'
+
+import { computed, onScopeDispose, watch } from 'vue'
+
+import { useCoreStore } from '@/core/stores'
+
+/**
+ * Configuration for a single store reference watcher.
+ * @internal
+ */
+interface WatcherConfig {
+	callback: (value: unknown) => void | Promise<void>
+	handle: WatchStopHandle | null
+	source: StoreReference
+}
+
+/**
+ * Generic composable for watching multiple core or plugin store references.
+ *
+ * It watches the list of installed plugins to detect when target plugins
+ * are added or removed, and manages the corresponding watchers accordingly.
+ *
+ * @param sources - Array of core or plugin store references to watch, or a computed reference to them, or a function returning them
+ * @param callback - Function called when any watched core or plugin store value changes
+ * @param watchOptions - Optional watch options to pass to the underlying Vue watcher (e.g., `{ immediate: true }`)
+ *
+ * @example
+ * ```typescript
+ * const { setupPlugin, teardownPlugin } = useStoreWatcher(
+ *   () => configuration.value.coordinateSources || [],
+ *   (coordinate) => {
+ *     if (coordinate) {
+ *       await reverseGeocode(coordinate)
+ *     }
+ *   },
+ *   { immediate: true }
+ * )
+ * ```
+ *
+ * @internal
+ */
+export function useStoreWatcher(
+	sources:
+		StoreReference[] | ComputedRef<StoreReference[]> | (() => StoreReference[]),
+	callback: (value: unknown) => void | Promise<void>,
+	watchOptions?: WatchOptions
+) {
+	const coreStore = useCoreStore()
+	const sourcesArray = computed(() => {
+		if (typeof sources === 'function') {
+			return sources()
+		}
+		if ('value' in sources) {
+			return sources.value
+		}
+		return sources
+	})
+
+	const watchers: WatcherConfig[] = []
+	let pluginListWatcher: WatchStopHandle | null = null
+	let sourcesWatcher: WatchStopHandle | null = null
+
+	function setupWatcherForSource(watcherConfig: WatcherConfig) {
+		if (watcherConfig.handle !== null) {
+			return
+		}
+
+		const store = watcherConfig.source.plugin
+			? coreStore.getPluginStore(watcherConfig.source.plugin)
+			: coreStore
+
+		if (!store) {
+			console.warn(
+				`usePluginStoreWatcher: "${watcherConfig.source.plugin}" not found. Cannot watch "${watcherConfig.source.key}".`
+			)
+			return
+		}
+
+		watcherConfig.handle = watch(
+			() => store[watcherConfig.source.key],
+			watcherConfig.callback,
+			watchOptions
+		)
+	}
+
+	function removeWatcherForSource(watcherConfig: WatcherConfig) {
+		if (watcherConfig.handle) {
+			watcherConfig.handle()
+			watcherConfig.handle = null
+		}
+	}
+
+	function updateWatchersBasedOnInstalledPlugins() {
+		const currentSources = sourcesArray.value
+
+		watchers.forEach((watcherConfig, index) => {
+			if (!currentSources.some((s) => s === watcherConfig.source)) {
+				removeWatcherForSource(watcherConfig)
+				watchers.splice(index, 1)
+			}
+		})
+
+		currentSources.forEach((source) => {
+			let watcherConfig = watchers.find((w) => w.source === source)
+
+			if (!watcherConfig) {
+				watcherConfig = { source, callback, handle: null }
+				watchers.push(watcherConfig)
+			}
+
+			const targetIsInstalled =
+				!source.plugin || coreStore.getPluginStore(source.plugin)
+
+			if (targetIsInstalled && !watcherConfig.handle) {
+				setupWatcherForSource(watcherConfig)
+			} else if (!targetIsInstalled && watcherConfig.handle) {
+				removeWatcherForSource(watcherConfig)
+			}
+		})
+	}
+
+	function setupPlugin() {
+		updateWatchersBasedOnInstalledPlugins()
+
+		sourcesWatcher = watch(sourcesArray, () => {
+			updateWatchersBasedOnInstalledPlugins()
+		})
+
+		pluginListWatcher = watch(
+			() => coreStore.usedPlugins,
+			() => {
+				updateWatchersBasedOnInstalledPlugins()
+			}
+		)
+	}
+
+	function teardownPlugin() {
+		watchers.forEach((watcher) => {
+			removeWatcherForSource(watcher)
+		})
+		watchers.length = 0
+
+		if (sourcesWatcher) {
+			sourcesWatcher()
+			sourcesWatcher = null
+		}
+
+		if (pluginListWatcher) {
+			pluginListWatcher()
+			pluginListWatcher = null
+		}
+	}
+
+	setupPlugin()
+	onScopeDispose(teardownPlugin)
+}

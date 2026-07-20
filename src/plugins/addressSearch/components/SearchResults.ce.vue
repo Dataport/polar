@@ -221,7 +221,7 @@ function toggle(category: string) {
 		min-height: var(--kern-metric-dimension-large);
 		padding: 0 var(--kern-metric-space-small);
 		margin: 0;
-		font-size: calc(var(--kern-typography-font-size-static-small) * 0.875);
+		font-size: calc(var(--kern-typography-font-size-small-static) * 0.875);
 		font-weight: normal;
 		color: var(--kern-color-layout-text-muted);
 	}
@@ -262,7 +262,7 @@ function toggle(category: string) {
 	padding: 0;
 	margin: -1px;
 	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
+	clip-path: circle(0);
 	white-space: nowrap;
 	border: 0;
 }

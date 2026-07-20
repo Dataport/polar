@@ -87,12 +87,11 @@ const pluginComponent = useTemplateRef('pluginComponent')
 
 const menus = computed(() => iconMenuStore.menus.flat())
 const asList = computed(() => menus.value.length > 1)
-const maxHeight = computed(() =>
-	hasWindowSize.value
-		? 'inherit'
-		: `calc(${clientHeight.value}px - ${
-				deviceIsHorizontal.value ? 'calc(100% + 1.5em)' : '1em'
-			})`
+const maxHeight = computed(
+	() =>
+		`calc(${clientHeight.value}px - ${
+			deviceIsHorizontal.value ? 'calc(100% + 1.5em)' : '1em'
+		})`
 )
 
 // Fixes an issue if the orientation of a mobile device is changed while a plugin is open.

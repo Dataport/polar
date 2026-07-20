@@ -1,11 +1,11 @@
 <template>
 	<div class="radiogroup" role="radiogroup">
-		<template v-for="(item, idx) of items" :key="idx">
+		<template v-for="(item, index) of items" :key="index">
 			<span
 				ref="radios"
 				role="radio"
 				:aria-checked="model === item.value"
-				:aria-labelledby="id + '-' + idx"
+				:aria-labelledby="id + '-' + index"
 				tabindex="0"
 				:data-value="item.value"
 				@keydown.prevent.space="model = item.value"
@@ -13,9 +13,9 @@
 				@focus="scrollVisible($event)"
 			/>
 			<label
-				:id="id + '-' + idx"
+				:id="id + '-' + index"
 				class="kern-btn kern-btn--block kern-btn--tertiary"
-				@click.prevent="((model = item.value), radios?.[idx].focus())"
+				@click.prevent="((model = item.value), radios?.[index].focus())"
 			>
 				<span
 					v-if="item.icon"
@@ -89,10 +89,8 @@ label {
 	&:focus-visible + label {
 		padding: var(--kern-metric-space-none) var(--kern-metric-space-default);
 		border-radius: var(--kern-metric-border-radius-default);
-		box-shadow:
-			0 0 0 2px var(--kern-color-action-on-default),
-			0 0 0 4px var(--kern-color-action-focus-border-inside),
-			0 0 0 6px var(--kern-color-action-focus-border-outside);
+		outline: 4px solid var(--kern-color-action-focus-default-contextual);
+		outline-offset: 2px;
 	}
 
 	&[aria-checked='true'] + label {

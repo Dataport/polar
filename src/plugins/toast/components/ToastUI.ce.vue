@@ -1,7 +1,7 @@
 <template>
 	<div
-		v-for="(toast, idx) of toasts"
-		:key="idx"
+		v-for="(toast, index) of toasts"
+		:key="index"
 		class="kern-alert"
 		:class="toast.alertClass"
 		:style="toast.alertStyle"

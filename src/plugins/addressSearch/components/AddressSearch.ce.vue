@@ -228,7 +228,7 @@ function inputDown(event: KeyboardEvent) {
 				grid-column: 2;
 				grid-row: 2;
 				color: var(--kern-color-layout-text-muted);
-				font-size: calc(var(--kern-typography-font-size-static-small) * 0.875);
+				font-size: calc(var(--kern-typography-font-size-small-static) * 0.875);
 				padding: 0 var(--kern-metric-space-2x-small);
 				margin-top: var(--kern-metric-space-small);
 			}

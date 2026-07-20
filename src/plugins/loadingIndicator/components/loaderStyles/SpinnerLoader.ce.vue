@@ -9,16 +9,13 @@ export default {}
 </script>
 
 <style scoped>
-.lds-spinner {
-	color: var(--kern-color-action-default);
-}
 .lds-spinner,
 .lds-spinner div,
 .lds-spinner div:after {
 	box-sizing: border-box;
 }
 .lds-spinner {
-	color: currentColor;
+	color: var(--kern-color-action-default);
 	display: inline-block;
 	position: relative;
 	width: 80px;

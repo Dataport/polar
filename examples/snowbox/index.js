@@ -20,6 +20,7 @@ import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
 import pluginPins from '@polar/polar/plugins/pins'
 import pluginPointerPosition from '@polar/polar/plugins/pointerPosition'
 import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
+import pluginRouting from '@polar/polar/plugins/routing'
 import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 import pluginZoom from '@polar/polar/plugins/zoom'
@@ -247,7 +248,6 @@ const map = await createMap(
 	},
 	services
 )
-
 const additionalMaps = []
 document.getElementById('secondMap').addEventListener('click', async () => {
 	const secondMap = createMapElement(
@@ -275,8 +275,8 @@ document.getElementById('secondMap').addEventListener('click', async () => {
 	additionalMaps.push(secondMap)
 })
 document.getElementById('secondMapClean').addEventListener('click', () => {
-	additionalMaps.forEach((map, i) => {
-		map.remove()
+	additionalMaps.forEach((aMap, i) => {
+		aMap.remove()
 		delete additionalMaps[i]
 	})
 	additionalMaps.length = 0
@@ -303,7 +303,7 @@ addPlugin(
 				plugin: 'layerChooser',
 			},
 			{
-				key: 'activeMaskIds',
+				key: 'visibleMaskIds',
 				plugin: 'layerChooser',
 			},
 			{
@@ -572,6 +572,16 @@ addPlugin(
 							onError: 'strict',
 						}, */
 					}),
+				},
+				{
+					plugin: pluginRouting({
+						type: 'ors',
+						url: 'https://api.openrouteservice.org/v2/directions/',
+						apiKey: '',
+						displayPreferences: true,
+						displayRouteTypesToAvoid: true,
+					}),
+					icon: 'kern-icon-fill--assistant-direction',
 				},
 			],
 			[
