@@ -13,22 +13,6 @@ body:
       required: true
 
   - type: textarea
-    id: current-behavior
-    attributes:
-      label: Current behavior
-      description: Describe the current behavior and reference relevant files or code if applicable.
-    validations:
-      required: true
-
-  - type: textarea
-    id: expected-behavior
-    attributes:
-      label: Expected behavior
-      description: Describe the desired behavior after the feature is implemented.
-    validations:
-      required: true
-
-  - type: textarea
     id: affected-areas
     attributes:
       label: Affected areas
