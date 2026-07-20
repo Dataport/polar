@@ -314,6 +314,12 @@ onBeforeUnmount(() => {
 		box-sizing: border-box;
 	}
 }
+
+.ol-overlay-container.ol-selectable {
+	h2 {
+		margin: var(--kern-metric-space-small) 0;
+	}
+}
 </style>
 
 <style scoped>
