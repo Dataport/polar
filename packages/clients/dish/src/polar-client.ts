@@ -40,7 +40,7 @@ export default {
     const parameters = new URL(document.location as unknown as string)
       .searchParams
     // using naming from backend to avoid multiple names for same thing
-    const objektId = parameters.get('ObjektID')
+    const objektId = parameters.get('ObjektID') === "" ? null : parameters.get('ObjektID')
     if (mode === 'INTERN') {
       subscribeToExportedMap(map)
       // watch for changes in activeMaskIds to update beschriftung layer
