@@ -33,13 +33,7 @@
 				tabindex="0"
 				class="feature-list-item"
 				:class="{ hovered }"
-				@click="
-					(async () => {
-						gfiStore.hoveredFeatures = {}
-						await nextTick()
-						gfiStore.selectedFeatures = { [layerId]: [feature] }
-					})()
-				"
+				@click="setSelectedFeature(layerId, feature)"
 				@mouseenter="setHoveredFeature(layerId, feature)"
 				@focus="setHoveredFeature(layerId, feature)"
 				@blur="clearHoveredFeatures"
@@ -74,6 +68,12 @@ function setHoveredFeature(layerId: string, feature: Feature) {
 	if (gfiStore.hoveredFeatures[layerId]?.[0] !== feature) {
 		gfiStore.hoveredFeatures = { [layerId]: [feature] }
 	}
+}
+
+async function setSelectedFeature(layerId: string, feature: Feature) {
+	gfiStore.hoveredFeatures = {}
+	await nextTick()
+	gfiStore.selectedFeatures = { [layerId]: [feature] }
 }
 
 function clearHoveredFeatures() {
