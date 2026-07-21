@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: improve check for objektid to prevent errors for empty strings.
+
 ## 1.6.1
 
 - Fix: updated parameter `printImageBaseUrl` and the port needed for printing.
