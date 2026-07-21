@@ -90,6 +90,7 @@ export const useMainStore = defineStore('main', () => {
 		return { ...register, ...polar } as typeof polar
 	}
 
+	// TODO: Check if this works as expected in all combinations when draw is migrated
 	const maskedInteractions = ref(
 		new Map<string, { pluginId: PluginId; teardown: () => void }>()
 	)
