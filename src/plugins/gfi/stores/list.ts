@@ -68,7 +68,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 
 	const features = useOlVectorSources(
 		computed(() => activeLayerList.value.map(({ source }) => source)),
-		computed(() => [coreStore.extent, coreStore.hoveredFeature]),
+		computed(() => coreStore.extent),
 		() =>
 			Object.fromEntries(
 				activeLayerList.value
@@ -87,12 +87,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 										new GeoJSON().writeFeatureObject(feature)
 									)
 							)
-							.map((feature) => ({
-								feature,
-								...(configuration.value?.bindWithCoreHoverSelect
-									? { hovered: isHovered(feature) }
-									: {}),
-							})),
+							.map((feature) => ({ feature })),
 					])
 					.filter(
 						(
@@ -120,7 +115,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 				}
 			}
 		},
-		{ immediate: true, deep: true }
+		{ immediate: true }
 	)
 
 	watch(
@@ -142,14 +137,14 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 				}
 
 				const { feature, layerId } = features[0]
-				feature.set('_polarLayerId', layerId)
+				feature.set('_polarLayerId', layerId, true)
 				coreStore.hoveredFeature =
 					coreStore.getLayer(layerId)?.getSource() instanceof ClusterSource
 						? getCluster(coreStore.map, feature, '_polarLayerId')
 						: feature
 			}
 		},
-		{ immediate: true, deep: true }
+		{ immediate: true }
 	)
 
 	watch(
@@ -184,11 +179,11 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 					return
 				}
 
-				features[0].feature.set('_polarLayerId', features[0].layerId)
+				features[0].feature.set('_polarLayerId', features[0].layerId, true)
 				coreStore.selectedFeature = features[0].feature
 			}
 		},
-		{ immediate: true, deep: true }
+		{ immediate: true }
 	)
 
 	const flatFeatures = computed(() =>
@@ -247,6 +242,11 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 	const enrichedPaginatedFeatures = computed(() =>
 		paginatedFeatures.value.map((feature) => ({
 			...feature,
+			get hovered() {
+				return configuration.value?.bindWithCoreHoverSelect
+					? isHovered(feature.feature)
+					: undefined
+			},
 			text: {
 				title: getText(feature.feature, 'title'),
 				subtitle: getText(feature.feature, 'subtitle'),

@@ -17,7 +17,7 @@
 			/>
 		</hgroup>
 	</header>
-	<section class="kern-card__body">
+	<section class="kern-card__body" @mouseleave="clearHoveredFeatures">
 		<p
 			v-if="gfiStore.listFlatFeatures.length === 0"
 			class="kern-body kern-body--small polar-plugin-gfi-list-empty-view"
@@ -40,10 +40,9 @@
 						gfiStore.selectedFeatures = { [layerId]: [feature] }
 					})()
 				"
-				@mouseenter="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
-				@mouseleave="gfiStore.hoveredFeatures = {}"
-				@focus="gfiStore.hoveredFeatures = { [layerId]: [feature] }"
-				@blur="gfiStore.hoveredFeatures = {}"
+				@mouseenter="setHoveredFeature(layerId, feature)"
+				@focus="setHoveredFeature(layerId, feature)"
+				@blur="clearHoveredFeatures"
 			>
 				<h3 class="kern-title kern-title--small">
 					{{ text.title }}
@@ -60,6 +59,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Feature } from 'ol'
+
 import { nextTick } from 'vue'
 
 import KernPagination from '@/components/kern/KernPagination.ce.vue'
@@ -68,6 +69,18 @@ import { useGfiStore } from '../store'
 import { PluginId } from '../types'
 
 const gfiStore = useGfiStore()
+
+function setHoveredFeature(layerId: string, feature: Feature) {
+	if (gfiStore.hoveredFeatures[layerId]?.[0] !== feature) {
+		gfiStore.hoveredFeatures = { [layerId]: [feature] }
+	}
+}
+
+function clearHoveredFeatures() {
+	if (Object.keys(gfiStore.hoveredFeatures).length) {
+		gfiStore.hoveredFeatures = {}
+	}
+}
 </script>
 
 <style scoped>
@@ -103,7 +116,8 @@ section.feature-list-item {
 	border-style: dashed;
 	border-color: transparent;
 
-	&.hovered {
+	&.hovered,
+	&:hover {
 		background-color: #dff0dd;
 	}
 

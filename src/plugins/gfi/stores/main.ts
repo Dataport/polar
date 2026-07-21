@@ -50,7 +50,7 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 				])
 			)
 		},
-		{ immediate: true, deep: true }
+		{ immediate: true }
 	)
 
 	const customHighlightStyle = computed(
