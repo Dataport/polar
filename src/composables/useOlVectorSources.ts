@@ -28,25 +28,21 @@ export function useOlVectorSources<T>(
 	}
 	const debouncedRefresh = debounce(refresh, waitMs)
 
-	watch(
-		sources,
-		(sources) => {
-			refresh()
+	watch(sources, (sources) => {
+		refresh()
+		sources.forEach((source) => {
+			source.on('addfeature', debouncedRefresh)
+			source.on('removefeature', debouncedRefresh)
+		})
+		onWatcherCleanup(() => {
 			sources.forEach((source) => {
-				source.on('addfeature', debouncedRefresh)
-				source.on('removefeature', debouncedRefresh)
+				source.un('addfeature', debouncedRefresh)
+				source.un('removefeature', debouncedRefresh)
 			})
-			onWatcherCleanup(() => {
-				sources.forEach((source) => {
-					source.un('addfeature', debouncedRefresh)
-					source.un('removefeature', debouncedRefresh)
-				})
-			})
-		},
-		{ deep: true }
-	)
+		})
+	})
 
-	watch(reactivitySource, refresh, { deep: true })
+	watch(reactivitySource, refresh)
 
 	refresh()
 	return result
