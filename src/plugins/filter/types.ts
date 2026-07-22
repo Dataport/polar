@@ -308,17 +308,19 @@ export interface FilterPluginOptions extends PluginOptions {
  */
 export interface FilterState {
 	/**
-	 * For each key representing a property's key, only values listed as keys with a truthy value in the value record are visible.
+	 * For each key representing a property's key, only the technical values
+	 * contained in the array are visible. A property key that is absent imposes
+	 * no restriction (all of its values pass).
 	 *
 	 * @example
 	 * The following example allows the property `houseType` to have the value `shed` only.
 	 * ```ts
 	 * {
-	 * 	houseType: { shed: true, house: false },
+	 * 	houseType: ['shed'],
 	 * }
 	 * ```
 	 */
-	knownValues?: Record<string, Record<string, boolean>>
+	knownValues?: Record<string, string[]>
 
 	/**
 	 * For each key representing a property's key, only values starting after `from` and ending until `until` are visible.
