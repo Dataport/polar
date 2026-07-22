@@ -37,7 +37,9 @@ export default {
         configOverride || {}
       ),
     })
-    const objektId = getObjektIdFromURL(new URL(document.location as unknown as string).searchParams)
+    const objektId = getObjektIdFromURL(
+      new URL(document.location as unknown as string).searchParams
+    )
     if (mode === 'INTERN') {
       subscribeToExportedMap(map)
       // watch for changes in activeMaskIds to update beschriftung layer
