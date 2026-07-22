@@ -6,19 +6,13 @@
       "exclude": ["packages/clients/diplan/vendored/**"]
     }
   ],
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx/tasks-runners/default"
-    }
-  },
   "defaultBase": "main",
   "release": {
     "projectsRelationship": "independent",
     "version": {
-      "generatorOptions": {
-        "updateDependents": true
-      }
+      "updateDependents": "auto"
     }
   },
-  "analytics": false
+  "analytics": false,
+  "neverConnectToCloud": true
 }
