@@ -255,8 +255,8 @@ document.getElementById('secondMap').addEventListener('click', async () => {
 	additionalMaps.push(secondMap)
 })
 document.getElementById('secondMapClean').addEventListener('click', () => {
-	additionalMaps.forEach((map, i) => {
-		map.remove()
+	additionalMaps.forEach((aMap, i) => {
+		aMap.remove()
 		delete additionalMaps[i]
 	})
 	additionalMaps.length = 0
