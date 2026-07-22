@@ -124,7 +124,7 @@ function zoomToInternalFeature(
 function getObjektIdFromURL(urlSearchParams: URLSearchParams): string | null {
   for (const [key, value] of urlSearchParams) {
     if (key.toLowerCase() === 'objektid') {
-      return value === "" ? null : value
+      return value || null
     }
   }
   return null
