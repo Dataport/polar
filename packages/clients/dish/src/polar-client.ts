@@ -37,11 +37,7 @@ export default {
         configOverride || {}
       ),
     })
-    const parameters = new URL(document.location as unknown as string)
-      .searchParams
-    // using naming from backend to avoid multiple names for same thing
-    const objektId =
-      parameters.get('ObjektID') === '' ? null : parameters.get('ObjektID')
+    const objektId = getObjektIdFromURL(new URL(document.location as unknown as string).searchParams)
     if (mode === 'INTERN') {
       subscribeToExportedMap(map)
       // watch for changes in activeMaskIds to update beschriftung layer
@@ -123,4 +119,13 @@ function zoomToInternalFeature(
         text: 'dish.idNotFound',
       })
     })
+}
+
+function getObjektIdFromURL(urlSearchParams: URLSearchParams): string | null {
+  for (const [key, value] of urlSearchParams) {
+    if (key.toLowerCase() === 'objektid') {
+      return value === "" ? null : value
+    }
+  }
+  return null
 }
