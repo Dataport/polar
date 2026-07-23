@@ -89,9 +89,10 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 
 	/**
 	 * Initializes the filter state for all categories of the selected layer.
-	 * On (re-)selection of a layer, all known values are added to the state,
-	 * ensuring all features are visible by default. Previously deselected
-	 * values are re-added intentionally to reset the filter on layer switch.
+	 * Runs whenever the selected layer (or its category configuration) changes,
+	 * so layers or categories configured at runtime are covered as well.
+	 * Existing selections persist: only targetProperties not yet present are
+	 * seeded, so previously deselected values are not re-added on layer switch.
 	 */
 	watch(
 		() => selectedLayerConfiguration.value.categories,
@@ -100,12 +101,21 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 			if (!categories || !layerState) {
 				return
 			}
-			layerState.knownValues ??= {}
+			// Aggregate default values per targetProperty first, so multiple
+			// categories sharing a targetProperty are merged instead of the
+			// later one overwriting the earlier.
+			const defaults: Record<string, string[]> = {}
 			for (const category of categories) {
-				layerState.knownValues[category.targetProperty] = union(
-					layerState.knownValues[category.targetProperty] ?? [],
+				defaults[category.targetProperty] = union(
+					defaults[category.targetProperty] ?? [],
 					getAllTechnicalValues(category)
 				)
+			}
+			layerState.knownValues ??= {}
+			// Only seed targetProperties that are not present yet, so existing
+			// (de)selections persist across layer switches.
+			for (const [targetProperty, values] of Object.entries(defaults)) {
+				layerState.knownValues[targetProperty] ??= values
 			}
 		},
 		{ immediate: true }
