@@ -31,6 +31,22 @@ if (import.meta.vitest) {
 	feature.set('category', 'blue')
 	feature.set('time', '2025-01-01')
 
+	const passingTimeSpan = {
+		time: {
+			pattern: 'YYYY-MM-DD',
+			from: new Date('Jan 1, 2024'),
+			until: new Date('Dec 31, 2026'),
+		},
+	} satisfies FilterState['timeSpan']
+
+	const failingTimeSpan = {
+		time: {
+			pattern: 'YYYY-MM-DD',
+			from: new Date('Jan 1, 2024'),
+			until: new Date('Dec 31, 2024'),
+		},
+	} satisfies FilterState['timeSpan']
+
 	test('a feature passes an empty filter', () => {
 		const filter = { knownValues: {} } satisfies FilterState
 		expect(doesFeaturePassFilter(feature, filter)).toBeTruthy()
@@ -57,13 +73,7 @@ if (import.meta.vitest) {
 	test('a feature passes the time filter', () => {
 		const filter = {
 			knownValues: {},
-			timeSpan: {
-				time: {
-					pattern: 'YYYY-MM-DD',
-					from: new Date('Jan 1, 2024'),
-					until: new Date('Dec 31, 2026'),
-				},
-			},
+			timeSpan: passingTimeSpan,
 		} satisfies FilterState
 		expect(doesFeaturePassFilter(feature, filter)).toBeTruthy()
 	})
@@ -71,13 +81,7 @@ if (import.meta.vitest) {
 	test('a feature fails the time filter', () => {
 		const filter = {
 			knownValues: {},
-			timeSpan: {
-				time: {
-					pattern: 'YYYY-MM-DD',
-					from: new Date('Jan 1, 2024'),
-					until: new Date('Dec 31, 2024'),
-				},
-			},
+			timeSpan: failingTimeSpan,
 		} satisfies FilterState
 		expect(doesFeaturePassFilter(feature, filter)).toBeFalsy()
 	})
@@ -97,13 +101,7 @@ if (import.meta.vitest) {
 			knownValues: {
 				category: ['blue'],
 			},
-			timeSpan: {
-				time: {
-					pattern: 'YYYY-MM-DD',
-					from: new Date('Jan 1, 2024'),
-					until: new Date('Dec 31, 2026'),
-				},
-			},
+			timeSpan: passingTimeSpan,
 		} satisfies FilterState
 		expect(doesFeaturePassFilter(feature, filter)).toBeTruthy()
 	})
@@ -113,13 +111,7 @@ if (import.meta.vitest) {
 			knownValues: {
 				category: ['blue'],
 			},
-			timeSpan: {
-				time: {
-					pattern: 'YYYY-MM-DD',
-					from: new Date('Jan 1, 2024'),
-					until: new Date('Dec 31, 2024'),
-				},
-			},
+			timeSpan: failingTimeSpan,
 		} satisfies FilterState
 		expect(doesFeaturePassFilter(feature, filter)).toBeFalsy()
 	})
