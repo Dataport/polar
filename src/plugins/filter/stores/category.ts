@@ -1,5 +1,6 @@
 import type { Category, FilterState } from '../types'
 
+import { union } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, watch } from 'vue'
 
@@ -12,10 +13,6 @@ export interface CategoryWithSelection extends Category {
 
 function getAllTechnicalValues(category: Category): string[] {
 	return category.knownValues.flatMap((v) => expandValue(v).values)
-}
-
-function uniqueConcat(...arrays: string[][]): string[] {
-	return [...new Set(arrays.flat())]
 }
 
 export const useFilterCategoryStore = defineStore(
@@ -38,7 +35,7 @@ export const useFilterCategoryStore = defineStore(
 				}
 				state.knownValues ??= {}
 				for (const category of categories) {
-					state.knownValues[category.targetProperty] = uniqueConcat(
+					state.knownValues[category.targetProperty] = union(
 						state.knownValues[category.targetProperty] ?? [],
 						getAllTechnicalValues(category)
 					)
@@ -79,7 +76,7 @@ export const useFilterCategoryStore = defineStore(
 							const othersValues = current.filter(
 								(v) => !allMyValues.includes(v)
 							)
-							state.knownValues[category.targetProperty] = uniqueConcat(
+							state.knownValues[category.targetProperty] = union(
 								othersValues,
 								newMyValues
 							)
@@ -99,7 +96,7 @@ export const useFilterCategoryStore = defineStore(
 					(v) => !allMyValues.includes(v)
 				)
 			} else {
-				state.knownValues[category.targetProperty] = uniqueConcat(
+				state.knownValues[category.targetProperty] = union(
 					stateValues,
 					allMyValues
 				)
