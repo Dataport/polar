@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Fix: improve check for objektid in internal mode to prevent errors from empty strings or differences in uppercase / lowercase letters.
+
 ## 1.6.1
 
 - Fix: updated parameter `printImageBaseUrl` and the port needed for printing.
