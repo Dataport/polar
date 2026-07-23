@@ -1,16 +1,23 @@
 import type {
+	Category,
+	CategoryWithSelection,
 	FilterConfiguration,
 	FilterPluginOptions,
 	FilterState,
 } from '../types'
 
+import { union } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from '../types'
-
+import {
+	expandValue,
+	flattenValue,
+	getAllTechnicalValues,
+} from '../utils/categoryValues'
 export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 	const coreStore = useCoreStore()
 
@@ -80,7 +87,84 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 			)
 	)
 
+	/**
+	 * Initializes the filter state for all categories of the selected layer.
+	 * On (re-)selection of a layer, all known values are added to the state,
+	 * ensuring all features are visible by default. Previously deselected
+	 * values are re-added intentionally to reset the filter on layer switch.
+	 */
+	watch(
+		() => selectedLayerConfiguration.value.categories,
+		(categories) => {
+			const layerState = selectedLayerState.value
+			if (!categories || !layerState) {
+				return
+			}
+			layerState.knownValues ??= {}
+			for (const category of categories) {
+				layerState.knownValues[category.targetProperty] = union(
+					layerState.knownValues[category.targetProperty] ?? [],
+					getAllTechnicalValues(category)
+				)
+			}
+		},
+		{ immediate: true }
+	)
+
+	const categories = computed<CategoryWithSelection[]>(
+		() =>
+			selectedLayerConfiguration.value.categories?.map((category) => ({
+				...category,
+				get selection() {
+					const stateValues =
+						selectedLayerState.value?.knownValues?.[category.targetProperty] ??
+						[]
+					return category.knownValues
+						.filter((entry) =>
+							expandValue(entry).values.every((v) => stateValues.includes(v))
+						)
+						.map(flattenValue)
+				},
+				set selection(selectedKeys: string[]) {
+					const layerState = selectedLayerState.value as FilterState
+					layerState.knownValues ??= {}
+					const allMyValues = getAllTechnicalValues(category)
+					const newMyValues = selectedKeys.flatMap((key) => {
+						const entry = category.knownValues.find(
+							(v) => flattenValue(v) === key
+						)
+						return entry ? expandValue(entry).values : [key]
+					})
+					const current = layerState.knownValues[category.targetProperty] ?? []
+					const othersValues = current.filter((v) => !allMyValues.includes(v))
+					layerState.knownValues[category.targetProperty] = union(
+						othersValues,
+						newMyValues
+					)
+				},
+			})) ?? []
+	)
+
+	function selectOrDeselectAll(category: Category) {
+		const layerState = selectedLayerState.value as FilterState
+		layerState.knownValues ??= {}
+		const stateValues = layerState.knownValues[category.targetProperty] ?? []
+		const allMyValues = getAllTechnicalValues(category)
+		const allSelected = allMyValues.every((v) => stateValues.includes(v))
+		if (allSelected) {
+			layerState.knownValues[category.targetProperty] = stateValues.filter(
+				(v) => !allMyValues.includes(v)
+			)
+		} else {
+			layerState.knownValues[category.targetProperty] = union(
+				stateValues,
+				allMyValues
+			)
+		}
+	}
+
 	return {
+		categories,
 		configuration,
 		state,
 		layers,
@@ -90,6 +174,7 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 		selectedLayerState,
 		selectedLayerHasTimeFilter,
 		filteredLayers,
+		selectOrDeselectAll,
 	}
 })
 

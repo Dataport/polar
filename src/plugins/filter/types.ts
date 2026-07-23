@@ -120,6 +120,10 @@ export interface Category {
 	selectAll?: boolean
 }
 
+export interface CategoryWithSelection extends Category {
+	selection: string[]
+}
+
 /**
  * Time-based filter configuration for a layer.
  *
