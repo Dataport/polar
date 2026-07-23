@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.6.2
 
 - Fix: improve check for objektid in internal mode to prevent errors from empty strings or differences in uppercase / lowercase letters.
 
