@@ -12,25 +12,16 @@ import { parseDateWithPattern } from './parseDateWithPattern'
  * @returns `true` if the feature should be visible, `false` otherwise
  */
 export function doesFeaturePassFilter(feature: Feature, filter: FilterState) {
-	if (
-		!Object.entries(filter.knownValues).every(([key, values]) =>
-			values.includes(feature.get(key))
-		)
-	) {
-		return false
-	}
-
-	if (
-		filter.timeSpan &&
-		!Object.entries(filter.timeSpan).every(([key, config]) => {
+	const passesKnownValues = Object.entries(filter.knownValues).every(
+		([key, values]) => values.includes(feature.get(key))
+	)
+	const passesTimeSpan =
+		!filter.timeSpan ||
+		Object.entries(filter.timeSpan).every(([key, config]) => {
 			const featureDate = parseDateWithPattern(feature.get(key), config.pattern)
 			return featureDate >= config.from && featureDate < config.until
 		})
-	) {
-		return false
-	}
-
-	return true
+	return passesKnownValues && passesTimeSpan
 }
 
 if (import.meta.vitest) {
@@ -96,6 +87,38 @@ if (import.meta.vitest) {
 			knownValues: {
 				category: ['blue'],
 				misc: ['yes'],
+			},
+		} satisfies FilterState
+		expect(doesFeaturePassFilter(feature, filter)).toBeFalsy()
+	})
+
+	test('a feature passes combined category and time filters', () => {
+		const filter = {
+			knownValues: {
+				category: ['blue'],
+			},
+			timeSpan: {
+				time: {
+					pattern: 'YYYY-MM-DD',
+					from: new Date('Jan 1, 2024'),
+					until: new Date('Dec 31, 2026'),
+				},
+			},
+		} satisfies FilterState
+		expect(doesFeaturePassFilter(feature, filter)).toBeTruthy()
+	})
+
+	test('a feature fails combined filters when only the time filter fails', () => {
+		const filter = {
+			knownValues: {
+				category: ['blue'],
+			},
+			timeSpan: {
+				time: {
+					pattern: 'YYYY-MM-DD',
+					from: new Date('Jan 1, 2024'),
+					until: new Date('Dec 31, 2024'),
+				},
 			},
 		} satisfies FilterState
 		expect(doesFeaturePassFilter(feature, filter)).toBeFalsy()
