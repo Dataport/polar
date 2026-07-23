@@ -45,7 +45,7 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 		() => configuration.value.layers,
 		(layers) => {
 			Object.keys(layers).forEach((layerId) => {
-				state.value[layerId] ??= {}
+				state.value[layerId] ??= { knownValues: {} }
 			})
 			selectedLayerId.value = Object.keys(layers)[0] || ''
 		},
@@ -111,7 +111,6 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 					getAllTechnicalValues(category)
 				)
 			}
-			layerState.knownValues ??= {}
 			// Only seed targetProperties that are not present yet, so existing
 			// (de)selections persist across layer switches.
 			for (const [targetProperty, values] of Object.entries(defaults)) {
@@ -127,8 +126,7 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 				...category,
 				get selection() {
 					const stateValues =
-						selectedLayerState.value?.knownValues?.[category.targetProperty] ??
-						[]
+						selectedLayerState.value?.knownValues[category.targetProperty] ?? []
 					return category.knownValues
 						.filter((entry) =>
 							expandValue(entry).values.every((v) => stateValues.includes(v))
@@ -137,7 +135,6 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 				},
 				set selection(selectedKeys: string[]) {
 					const layerState = selectedLayerState.value as FilterState
-					layerState.knownValues ??= {}
 					const allMyValues = getAllTechnicalValues(category)
 					const newMyValues = selectedKeys.flatMap((key) => {
 						const entry = category.knownValues.find(
@@ -157,7 +154,6 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 
 	function selectOrDeselectAll(category: Category) {
 		const layerState = selectedLayerState.value as FilterState
-		layerState.knownValues ??= {}
 		const stateValues = layerState.knownValues[category.targetProperty] ?? []
 		const allMyValues = getAllTechnicalValues(category)
 		const allSelected = allMyValues.every((v) => stateValues.includes(v))

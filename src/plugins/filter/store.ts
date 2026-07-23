@@ -34,7 +34,7 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 			const callback = () => {
 				updateFeatureVisibility(
 					source,
-					filterMainStore.state[layer.get('id')] ?? {}
+					filterMainStore.state[layer.get('id')] ?? { knownValues: {} }
 				)
 			}
 			source.on('featuresloadend', callback)

@@ -324,7 +324,7 @@ export interface FilterState {
 	 * }
 	 * ```
 	 */
-	knownValues?: Record<string, string[]>
+	knownValues: Record<string, string[]>
 
 	/**
 	 * For each key representing a property's key, only values starting after `from` and ending until `until` are visible.

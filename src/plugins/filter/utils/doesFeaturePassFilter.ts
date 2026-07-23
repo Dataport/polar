@@ -13,7 +13,6 @@ import { parseDateWithPattern } from './parseDateWithPattern'
  */
 export function doesFeaturePassFilter(feature: Feature, filter: FilterState) {
 	if (
-		filter.knownValues &&
 		!Object.entries(filter.knownValues).every(([key, values]) =>
 			values.includes(feature.get(key))
 		)
@@ -42,7 +41,7 @@ if (import.meta.vitest) {
 	feature.set('time', '2025-01-01')
 
 	test('a feature passes an empty filter', () => {
-		const filter = {} satisfies FilterState
+		const filter = { knownValues: {} } satisfies FilterState
 		expect(doesFeaturePassFilter(feature, filter)).toBeTruthy()
 	})
 
@@ -66,6 +65,7 @@ if (import.meta.vitest) {
 
 	test('a feature passes the time filter', () => {
 		const filter = {
+			knownValues: {},
 			timeSpan: {
 				time: {
 					pattern: 'YYYY-MM-DD',
@@ -79,6 +79,7 @@ if (import.meta.vitest) {
 
 	test('a feature fails the time filter', () => {
 		const filter = {
+			knownValues: {},
 			timeSpan: {
 				time: {
 					pattern: 'YYYY-MM-DD',
