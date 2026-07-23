@@ -497,6 +497,7 @@ addPlugin(
 						displayPreferences: true,
 						displayRouteTypesToAvoid: true,
 					}),
+					disabledOnMobile: true,
 					icon: 'kern-icon-fill--assistant-direction',
 				},
 			],
