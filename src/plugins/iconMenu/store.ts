@@ -42,6 +42,19 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		() => coreStore.configuration.iconMenu?.layoutTag ?? ''
 	)
 
+	const visibleMenus = computed(() =>
+		menus.value.map((menuGroup) =>
+			menuGroup.filter(
+				(item) => !coreStore.hasSmallDisplay || !item.disabledOnMobile
+			)
+		)
+	)
+	const visibleFocusMenus = computed(() =>
+		focusMenus.value
+			.flat()
+			.filter((item) => !coreStore.hasSmallDisplay || !item.disabledOnMobile)
+	)
+
 	function setupPlugin() {
 		menus.value = (coreStore.configuration.iconMenu?.menus || []).map(
 			(menuGroup) =>
@@ -160,8 +173,8 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	}
 
 	return {
-		menus,
-		focusMenus,
+		visibleMenus,
+		visibleFocusMenus,
 		open,
 		focusOpen,
 		buttonComponent,
