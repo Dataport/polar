@@ -56,19 +56,34 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	)
 
 	function setupPlugin() {
+		// Components are marked raw so they themselves are not made reactive
 		menus.value = (coreStore.configuration.iconMenu?.menus || []).map(
 			(menuGroup) =>
-				menuGroup.filter(({ plugin: { id } }) => {
-					const display = coreStore.configuration[id]?.displayComponent
-					return typeof display === 'boolean' ? display : true
-				})
+				menuGroup
+					.filter(({ plugin: { id } }) => {
+						const display = coreStore.configuration[id]?.displayComponent
+						return typeof display === 'boolean' ? display : true
+					})
+					.map((menuItem) =>
+						toMerged(menuItem, {
+							plugin: {
+								component: markRaw(menuItem.plugin.component as Component),
+							},
+						})
+					)
 		)
-		focusMenus.value = (
-			coreStore.configuration.iconMenu?.focusMenus || []
-		).filter(({ plugin: { id } }) => {
-			const display = coreStore.configuration[id]?.displayComponent
-			return typeof display === 'boolean' ? display : true
-		})
+		focusMenus.value = (coreStore.configuration.iconMenu?.focusMenus || [])
+			.filter(({ plugin: { id } }) => {
+				const display = coreStore.configuration[id]?.displayComponent
+				return typeof display === 'boolean' ? display : true
+			})
+			.map((menuItem) =>
+				toMerged(menuItem, {
+					plugin: {
+						component: markRaw(menuItem.plugin.component as Component),
+					},
+				})
+			)
 
 		menus.value
 			.concat(focusMenus.value)
@@ -76,24 +91,6 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 			.forEach(({ plugin }) => {
 				coreStore.addPlugin(toMerged(plugin, { independent: false }))
 			})
-
-		// Otherwise, the component itself is made reactive
-		menus.value.map((menuGroup) =>
-			menuGroup.map((menuItem) =>
-				toMerged(menuItem, {
-					plugin: {
-						component: markRaw(menuItem.plugin.component as Component),
-					},
-				})
-			)
-		)
-		focusMenus.value.map((menuItem) =>
-			toMerged(menuItem, {
-				plugin: {
-					component: markRaw(menuItem.plugin.component as Component),
-				},
-			})
-		)
 
 		const initiallyOpen = coreStore.configuration.iconMenu?.initiallyOpen
 		if (
