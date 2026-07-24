@@ -66,7 +66,6 @@ export function createDrawInteraction(
 
 	const style = makeMeasurement
 		? createMeasureStyle(
-				drawMode,
 				'#000000',
 				measureMode,
 				map.getView().getProjection(),

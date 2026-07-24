@@ -29,6 +29,11 @@ function calculatePartialDistances(
 		geometry instanceof Polygon
 			? geometry.getCoordinates()[0]
 			: geometry.getCoordinates()
+
+	if (!coordinates) {
+		return styles
+	}
+
 	for (let i = 1; i < coordinates.length; i++) {
 		const lineString = new LineString([coordinates[i - 1], coordinates[i]])
 		const lengthInMetres = getLength(lineString, {
@@ -132,24 +137,14 @@ const measureStyle: (
 		return new Style(styleOptions)
 	}
 
-// TODO: this overrides the whole style, but should merely add measurements; most of this file can be thrown away, as it should merely add measurement styling now; also wow, that's a lot of type errors!
+// TODO: this was createDrawStyle; it is createMeasureStyle now. much of the code is useless and can be removed. Proposal: Instead of overriding all styles, only inject text styles onto the existing/configured style.
 export function createMeasureStyle(
-	drawMode: string,
 	strokeColor: string,
-	measureMode: MeasureMode,
+	measureMode: Exclude<MeasureMode, 'none'>,
 	projection: Projection,
 	drawStyle?: DrawPluginOptionsLayerStyle
 ): Style | StyleFunction {
 	const defaultFillColor = 'rgba(255, 255, 255, 0.5)'
-	if (drawMode === 'Point') {
-		return createPointStyle(
-			strokeColor,
-			drawStyle?.circle?.fillColor
-				? drawStyle.circle.fillColor
-				: defaultFillColor,
-			drawStyle?.circle?.radius
-		)
-	}
 	const fillColor = drawStyle?.fill?.color
 		? drawStyle.fill.color
 		: defaultFillColor
@@ -169,23 +164,5 @@ export function createMeasureStyle(
 			color: fillColor,
 		}),
 	}
-	return measureMode === 'none'
-		? new Style(styleOptions)
-		: measureStyle(styleOptions, measureMode, projection, drawStyle?.measure)
-}
-
-function createPointStyle(
-	strokeColor: string,
-	fillColor: Color | ColorLike,
-	radius = 5
-) {
-	return new Style({
-		image: new CircleStyle({
-			radius,
-			fill: new Fill({
-				color: fillColor,
-			}),
-			stroke: new Stroke({ color: strokeColor }),
-		}),
-	})
+	return measureStyle(styleOptions, measureMode, projection, drawStyle?.measure)
 }
