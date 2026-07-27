@@ -11,7 +11,7 @@ import type { Menu } from './types'
 import { toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, markRaw, ref } from 'vue'
+import { computed, markRaw, ref, toRaw } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -64,26 +64,26 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 						const display = coreStore.configuration[id]?.displayComponent
 						return typeof display === 'boolean' ? display : true
 					})
-					.map((menuItem) =>
-						toMerged(menuItem, {
-							plugin: {
-								component: markRaw(menuItem.plugin.component as Component),
-							},
-						})
-					)
+					.map((menuItem) => ({
+						...menuItem,
+						plugin: {
+							...menuItem.plugin,
+							component: markRaw(toRaw(menuItem.plugin.component as Component)),
+						},
+					}))
 		)
 		focusMenus.value = (coreStore.configuration.iconMenu?.focusMenus || [])
 			.filter(({ plugin: { id } }) => {
 				const display = coreStore.configuration[id]?.displayComponent
 				return typeof display === 'boolean' ? display : true
 			})
-			.map((menuItem) =>
-				toMerged(menuItem, {
-					plugin: {
-						component: markRaw(menuItem.plugin.component as Component),
-					},
-				})
-			)
+			.map((menuItem) => ({
+				...menuItem,
+				plugin: {
+					...menuItem.plugin,
+					component: markRaw(toRaw(menuItem.plugin.component as Component)),
+				},
+			}))
 
 		menus.value
 			.concat(focusMenus.value)
