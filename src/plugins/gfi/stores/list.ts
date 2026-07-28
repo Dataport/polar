@@ -1,7 +1,6 @@
 import type { Feature } from 'ol'
 import type { FeatureList } from '../types'
 
-import { GeoJSON } from 'ol/format'
 import ClusterSource from 'ol/source/Cluster'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, markRaw, ref, shallowRef, watch } from 'vue'
@@ -13,6 +12,7 @@ import getCluster from '@/lib/getCluster'
 import { getVectorSource } from '@/lib/getVectorSource'
 import { isVisible } from '@/lib/invisibleStyle'
 
+import { filterSelectableFeatures } from '../utils/filterSelectableFeatures'
 import { getSourceFeatures } from '../utils/getSourceFeatures'
 import { useGfiMainStore } from './main'
 
@@ -75,20 +75,14 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 					activeLayerList.value
 						.map(({ layerId, layerConfiguration, source }) => [
 							layerId,
-							getSourceFeatures(
-								coreStore.map,
-								source,
-								configuration.value?.mode || 'visible'
-							)
-								.filter((feature) => isVisible(feature))
-								.filter(
-									(feature) =>
-										!layerConfiguration.isSelectable ||
-										layerConfiguration.isSelectable(
-											new GeoJSON().writeFeatureObject(feature)
-										)
-								)
-								.map((feature) => ({ feature })),
+							filterSelectableFeatures(
+								getSourceFeatures(
+									coreStore.map,
+									source,
+									configuration.value?.mode || 'visible'
+								).filter((feature) => isVisible(feature)),
+								layerConfiguration.isSelectable
+							).map((feature) => ({ feature })),
 						])
 						.filter(
 							(
@@ -108,9 +102,13 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		([bindMarkers, feature]) => {
 			if (bindMarkers) {
 				if (feature) {
-					const newFeatures = feature.get('features') || [feature]
+					const layerId = feature.get('_polarLayerId')
+					const newFeatures = filterSelectableFeatures(
+						feature.get('features') || [feature],
+						gfiMainStore.getLayerConfiguration(layerId)?.isSelectable
+					)
 					selectedFeatures.value = markRaw({
-						[feature.get('_polarLayerId')]: markRaw(newFeatures),
+						...(newFeatures.length ? { [layerId]: markRaw(newFeatures) } : {}),
 					})
 				} else {
 					selectedFeatures.value = markRaw({})
