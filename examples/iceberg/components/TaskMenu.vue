@@ -5,12 +5,12 @@
 		</div>
 		<ul class="kern-task-list__list">
 			<li
-				v-for="(task, idx) of configTasks"
-				:key="idx"
+				v-for="(task, index) of configTasks"
+				:key="index"
 				class="kern-task-list__item"
 			>
-				<span class="kern-number">{{ idx + 1 }}</span>
-				<div :id="`task${idx + 1}-title`" class="kern-task-list__title">
+				<span class="kern-number">{{ index + 1 }}</span>
+				<div :id="`task${index + 1}-title`" class="kern-task-list__title">
 					<a
 						href="#"
 						class="kern-link kern-link--stretched"

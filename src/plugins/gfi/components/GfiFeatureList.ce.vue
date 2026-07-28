@@ -27,9 +27,9 @@
 		<template v-else>
 			<section
 				v-for="(
-					{ layerId, feature, hovered, text }, idx
+					{ layerId, feature, hovered, text }, index
 				) of gfiStore.listEnrichedPaginatedFeatures"
-				:key="idx"
+				:key="index"
 				tabindex="0"
 				class="feature-list-item"
 				:class="{ hovered }"

@@ -87,8 +87,8 @@ watch([() => props.count, () => props.pageSize], () => {
 
 const visibleOptions = computed(() => {
 	const generatePageInterval = (start: number, end: number) =>
-		new Array(end - start + 1).fill(null).map((_, idx) => ({
-			page: idx + start,
+		new Array(end - start + 1).fill(null).map((_, index) => ({
+			page: index + start,
 		}))
 
 	if (pageCount.value <= 7) {
