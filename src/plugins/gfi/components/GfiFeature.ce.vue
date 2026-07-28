@@ -34,7 +34,7 @@
 				class="kern-btn--tertiary"
 				icon="kern-icon--close"
 				:label-sr-only="true"
-				@click="gfiStore.selectedFeatures = {}"
+				@click="gfiStore.selectedFeatures = markRaw({})"
 			>
 				{{ $t(($) => $.header.close, { ns: PluginId }) }}
 			</KernButton>
@@ -109,6 +109,8 @@
 </template>
 
 <script setup lang="ts">
+import { markRaw } from 'vue'
+
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 

@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import type { Feature } from 'ol'
 
-import { nextTick } from 'vue'
+import { markRaw, nextTick } from 'vue'
 
 import KernPagination from '@/components/kern/KernPagination.ce.vue'
 
@@ -66,19 +66,23 @@ const gfiStore = useGfiStore()
 
 function setHoveredFeature(layerId: string, feature: Feature) {
 	if (gfiStore.hoveredFeatures[layerId]?.[0] !== feature) {
-		gfiStore.hoveredFeatures = { [layerId]: [feature] }
+		gfiStore.hoveredFeatures = markRaw({
+			[layerId]: markRaw([feature]),
+		})
 	}
 }
 
 async function setSelectedFeature(layerId: string, feature: Feature) {
-	gfiStore.hoveredFeatures = {}
+	gfiStore.hoveredFeatures = markRaw({})
 	await nextTick()
-	gfiStore.selectedFeatures = { [layerId]: [feature] }
+	gfiStore.selectedFeatures = markRaw({
+		[layerId]: markRaw([feature]),
+	})
 }
 
 function clearHoveredFeatures() {
 	if (Object.keys(gfiStore.hoveredFeatures).length) {
-		gfiStore.hoveredFeatures = {}
+		gfiStore.hoveredFeatures = markRaw({})
 	}
 }
 </script>

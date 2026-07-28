@@ -4,7 +4,7 @@ import type { FeatureList } from '../types'
 import { GeoJSON } from 'ol/format'
 import ClusterSource from 'ol/source/Cluster'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed, markRaw, ref, shallowRef, watch } from 'vue'
 
 import { useOlVectorSources } from '@/composables/useOlVectorSources'
 import { useRefStore } from '@/composables/useRefStore'
@@ -70,31 +70,33 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		computed(() => activeLayerList.value.map(({ source }) => source)),
 		computed(() => coreStore.extent),
 		() =>
-			Object.fromEntries(
-				activeLayerList.value
-					.map(({ layerId, layerConfiguration, source }) => [
-						layerId,
-						getSourceFeatures(
-							coreStore.map,
-							source,
-							configuration.value?.mode || 'visible'
-						)
-							.filter((feature) => isVisible(feature))
-							.filter(
-								(feature) =>
-									!layerConfiguration.isSelectable ||
-									layerConfiguration.isSelectable(
-										new GeoJSON().writeFeatureObject(feature)
-									)
+			markRaw(
+				Object.fromEntries(
+					activeLayerList.value
+						.map(({ layerId, layerConfiguration, source }) => [
+							layerId,
+							getSourceFeatures(
+								coreStore.map,
+								source,
+								configuration.value?.mode || 'visible'
 							)
-							.map((feature) => ({ feature })),
-					])
-					.filter(
-						(
-							layer
-						): layer is [string, { feature: Feature; hovered?: boolean }[]] =>
-							Boolean(layer)
-					)
+								.filter((feature) => isVisible(feature))
+								.filter(
+									(feature) =>
+										!layerConfiguration.isSelectable ||
+										layerConfiguration.isSelectable(
+											new GeoJSON().writeFeatureObject(feature)
+										)
+								)
+								.map((feature) => ({ feature })),
+						])
+						.filter(
+							(
+								layer
+							): layer is [string, { feature: Feature; hovered?: boolean }[]] =>
+								Boolean(layer)
+						)
+				)
 			)
 	)
 
@@ -107,11 +109,11 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 			if (bindMarkers) {
 				if (feature) {
 					const newFeatures = feature.get('features') || [feature]
-					selectedFeatures.value = {
-						[feature.get('_polarLayerId')]: newFeatures,
-					}
+					selectedFeatures.value = markRaw({
+						[feature.get('_polarLayerId')]: markRaw(newFeatures),
+					})
 				} else {
-					selectedFeatures.value = {}
+					selectedFeatures.value = markRaw({})
 				}
 			}
 		},
@@ -138,10 +140,11 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 
 				const { feature, layerId } = features[0]
 				feature.set('_polarLayerId', layerId, true)
-				coreStore.hoveredFeature =
+				coreStore.hoveredFeature = markRaw(
 					coreStore.getLayer(layerId)?.getSource() instanceof ClusterSource
 						? getCluster(coreStore.map, feature, '_polarLayerId')
 						: feature
+				)
 			}
 		},
 		{ immediate: true }
@@ -180,7 +183,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 				}
 
 				features[0].feature.set('_polarLayerId', features[0].layerId, true)
-				coreStore.selectedFeature = features[0].feature
+				coreStore.selectedFeature = markRaw(features[0].feature)
 			}
 		},
 		{ immediate: true }
