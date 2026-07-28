@@ -188,7 +188,7 @@ if (import.meta.vitest) {
 		expect(store.isInteractionMasked(interaction)).toBe(false)
 	})
 
-	test('Masking interactions twice fails', ({ store }) => {
+	test('masking the same interaction twice fails', ({ store }) => {
 		const pluginId = 'external-test-plugin'
 		const interaction = 'click'
 
