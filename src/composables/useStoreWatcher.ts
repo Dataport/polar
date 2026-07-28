@@ -11,15 +11,39 @@ import { computed, onScopeDispose, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
+/** @internal */
+interface OriginEntry {
+	chain: string[]
+
+	/**
+	 * The value the {@link chain} was recorded for.
+	 * Used to invalidate stale entries: if a store field is overwritten
+	 * directly (e.g. by a user interaction) the stored value no longer matches
+	 * and the entry is ignored.
+	 */
+	value: unknown
+}
+
+/** @internal */
+type StoreWatcherOptions = WatchOptions & {
+	/**
+	 * Store reference(s) the callback writes its result to.
+	 * Used to break possible reference loops.
+	 */
+	target?: StoreReference | StoreReference[]
+}
+
 /**
  * Configuration for a single store reference watcher.
  * @internal
  */
 interface WatcherConfig {
-	callback: (value: unknown) => void | Promise<void>
+	callback: (value: unknown, source: StoreReference) => void | Promise<void>
 	handle: WatchStopHandle | null
 	source: StoreReference
 }
+
+const originRegistries = new WeakMap<object, Map<string, OriginEntry>>()
 
 /**
  * Generic composable for watching multiple core or plugin store references.
@@ -29,18 +53,18 @@ interface WatcherConfig {
  *
  * @param sources - Array of core or plugin store references to watch, or a computed reference to them, or a function returning them
  * @param callback - Function called when any watched core or plugin store value changes
- * @param watchOptions - Optional watch options to pass to the underlying Vue watcher (e.g., `{ immediate: true }`)
+ * @param options - Optional {@link WatchOptions} (e.g. `{ immediate: true }`) plus an optional {@link StoreWatcherOptions.target | target}
  *
  * @example
  * ```typescript
- * const { setupPlugin, teardownPlugin } = useStoreWatcher(
+ * useStoreWatcher(
  *   () => configuration.value.coordinateSources || [],
- *   (coordinate) => {
- *     if (coordinate) {
- *       await reverseGeocode(coordinate)
+ *   (value) => {
+ *     if (value) {
+ *       addPin(value)
  *     }
  *   },
- *   { immediate: true }
+ *   { target: { plugin: 'pins', key: 'coordinate' } }
  * )
  * ```
  *
@@ -49,10 +73,11 @@ interface WatcherConfig {
 export function useStoreWatcher(
 	sources:
 		StoreReference[] | ComputedRef<StoreReference[]> | (() => StoreReference[]),
-	callback: (value: unknown) => void | Promise<void>,
-	watchOptions?: WatchOptions
+	callback: WatcherConfig['callback'],
+	options?: StoreWatcherOptions
 ) {
 	const coreStore = useCoreStore()
+	const { target, ...watchOptions } = options ?? {}
 	const sourcesArray = computed(() => {
 		if (typeof sources === 'function') {
 			return sources()
@@ -67,25 +92,66 @@ export function useStoreWatcher(
 	let pluginListWatcher: WatchStopHandle | null = null
 	let sourcesWatcher: WatchStopHandle | null = null
 
+	function resolveTargets() {
+		const list = Array.isArray(target) ? target : target ? [target] : []
+		return list.map((reference) => ({
+			id: reference.plugin ?? 'core',
+			key: reference.key,
+			store: reference.plugin
+				? coreStore.getPluginStore(reference.plugin)
+				: coreStore,
+		}))
+	}
+
 	function setupWatcherForSource(watcherConfig: WatcherConfig) {
 		if (watcherConfig.handle !== null) {
 			return
 		}
-
-		const store = watcherConfig.source.plugin
-			? coreStore.getPluginStore(watcherConfig.source.plugin)
+		const { source } = watcherConfig
+		const store = source.plugin
+			? coreStore.getPluginStore(source.plugin)
 			: coreStore
 
 		if (!store) {
 			console.warn(
-				`usePluginStoreWatcher: "${watcherConfig.source.plugin}" not found. Cannot watch "${watcherConfig.source.key}".`
+				`"${source.plugin}" not found. Cannot watch "${source.key}".`
 			)
 			return
 		}
 
 		watcherConfig.handle = watch(
-			() => store[watcherConfig.source.key],
-			watcherConfig.callback,
+			() => store[source.key],
+			async (value) => {
+				const registry =
+					originRegistries.get(coreStore) ?? new Map<string, OriginEntry>()
+				originRegistries.set(coreStore, registry)
+
+				const sourcePlugin = source.plugin ?? 'core'
+
+				const entry = registry.get(`${sourcePlugin}/${source.key}`)
+
+				const incoming =
+					entry && Object.is(entry.value, value) ? entry.chain : []
+
+				const targets = resolveTargets()
+				// Do nothing if target is already part of the loop
+				if (targets.some(({ id }) => incoming.includes(id))) {
+					return
+				}
+
+				// Stamp the origin on the targets synchronously (before awaiting)
+				// so downstream watchers observe it before they run and can break loops.
+				const result = watcherConfig.callback(value, source)
+				targets.forEach(({ id, key, store: targetStore }) => {
+					if (targetStore) {
+						registry.set(`${id}/${key}`, {
+							chain: [...incoming, sourcePlugin],
+							value: targetStore[key],
+						})
+					}
+				})
+				await result
+			},
 			watchOptions
 		)
 	}
@@ -160,4 +226,83 @@ export function useStoreWatcher(
 
 	setupPlugin()
 	onScopeDispose(teardownPlugin)
+}
+
+if (import.meta.vitest) {
+	const { expect, test, vi, afterEach } = import.meta.vitest
+	const { createPinia, setActivePinia } = await import('pinia')
+	const { reactive, effectScope, nextTick } = await import('vue')
+	const useCoreStoreFile = await import('@/core/stores')
+
+	let activeScope: ReturnType<typeof effectScope> | null = null
+	afterEach(() => {
+		activeScope?.stop()
+		activeScope = null
+	})
+
+	// Rebuilds the real AddressSearch -> Pins -> ReverseGeocoder -> AddressSearch wiring:
+	// a chosen address moves the pin, which reverse geocodes and would write the
+	// address selection back, closing the loop.
+	const setup = (options: { withTarget: boolean }) => {
+		setActivePinia(createPinia())
+
+		const pins = reactive({ coordinate: null as [number, number] | null })
+		const selectResult = vi.fn()
+		const addressSearch = reactive({
+			chosenAddress: null as [number, number] | null,
+			selectResult,
+		})
+		const stores: Record<string, object> = { pins, addressSearch }
+		const coreStore = reactive({
+			usedPlugins: ['pins', 'addressSearch', 'reverseGeocoder'],
+			getPluginStore: (plugin: string) => stores[plugin] ?? null,
+		})
+		vi.spyOn(useCoreStoreFile, 'useCoreStore').mockReturnValue(
+			coreStore as ReturnType<typeof useCoreStore>
+		)
+
+		activeScope = effectScope()
+		activeScope.run(() => {
+			useStoreWatcher(
+				[{ plugin: 'addressSearch', key: 'chosenAddress' }],
+				(value) => {
+					pins.coordinate = value as [number, number] | null
+				},
+				{ target: { plugin: 'pins', key: 'coordinate' } }
+			)
+			useStoreWatcher(
+				[{ plugin: 'pins', key: 'coordinate' }],
+				(value) => selectResult(value),
+				options.withTarget
+					? { target: { plugin: 'addressSearch', key: 'selectResult' } }
+					: undefined
+			)
+		})
+
+		// Chooses an address and lets the watcher chain settle.
+		const selectAddress = async (coordinate: [number, number]) => {
+			addressSearch.chosenAddress = coordinate
+			await nextTick()
+			await Promise.resolve()
+		}
+
+		return { pins, selectResult, selectAddress }
+	}
+
+	test('breaks the reference loop via target', async () => {
+		const { pins, selectResult, selectAddress } = setup({ withTarget: true })
+
+		await selectAddress([1, 2])
+
+		expect(pins.coordinate).toEqual([1, 2])
+		expect(selectResult).not.toHaveBeenCalled()
+	})
+
+	test('would loop without a target', async () => {
+		const { selectResult, selectAddress } = setup({ withTarget: false })
+
+		await selectAddress([1, 2])
+
+		expect(selectResult).toHaveBeenCalledWith([1, 2])
+	})
 }

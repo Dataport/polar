@@ -85,7 +85,7 @@ const { buttonComponent, open } = storeToRefs(iconMenuStore)
 const maxWidth = ref('inherit')
 const pluginComponent = useTemplateRef('pluginComponent')
 
-const menus = computed(() => iconMenuStore.menus.flat())
+const menus = computed(() => iconMenuStore.visibleMenus.flat())
 const asList = computed(() => menus.value.length > 1)
 const maxHeight = computed(
 	() =>
