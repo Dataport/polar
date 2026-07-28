@@ -175,7 +175,7 @@ if (import.meta.vitest) {
 	})
 	/* eslint-enable no-empty-pattern */
 
-	test('Masking interactions works as expected', ({ store }) => {
+	test('interactions can be masked and unmasked', ({ store }) => {
 		const pluginId = 'external-test-plugin'
 		const interaction = 'click'
 
