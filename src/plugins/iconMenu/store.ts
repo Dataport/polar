@@ -14,6 +14,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, markRaw, ref, toRaw, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { watchArray } from '@/lib/watchArray'
 
 import { PluginId } from './types'
 
@@ -45,26 +46,19 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	const flatMenuItems = computed(() =>
 		menus.value.concat(focusMenus.value).flat()
 	)
-	watch(
+	watchArray(
 		flatMenuItems,
-		(newItems, oldItems) => {
-			const getDiffItems = (to, from) =>
-				to.filter(
-					(item) =>
-						!from.some((oldItem) => oldItem.plugin.id === item.plugin.id)
-				)
-			getDiffItems(newItems, oldItems).forEach((newItem) => {
-				coreStore.addPlugin(toMerged(newItem.plugin, { independent: false }))
-			})
-			getDiffItems(oldItems, newItems).forEach((oldItem) => {
-				if (open.value === oldItem.plugin.id) {
-					open.value = null
-				}
-				if (focusOpen.value === oldItem.plugin.id) {
-					focusOpen.value = null
-				}
-				coreStore.removePlugin(oldItem.plugin.id)
-			})
+		(newItem) => {
+			coreStore.addPlugin(toMerged(newItem.plugin, { independent: false }))
+		},
+		(oldItem) => {
+			if (open.value === oldItem.plugin.id) {
+				open.value = null
+			}
+			if (focusOpen.value === oldItem.plugin.id) {
+				focusOpen.value = null
+			}
+			coreStore.removePlugin(oldItem.plugin.id)
 		},
 		{ deep: true }
 	)
