@@ -27,8 +27,19 @@ export interface ServiceAvailabilityCheck {
 	serviceName: string
 }
 
+/**
+ * Reference to a store value.
+ */
 export interface StoreReference {
+	/**
+	 * The key of the store value to watch.
+	 */
 	key: string
+
+	/**
+	 * The plugin that owns the store value.
+	 * If not set, the core store is used.
+	 */
 	plugin?: PluginId
 }
 

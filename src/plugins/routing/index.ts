@@ -23,6 +23,9 @@ import { PluginId } from './types'
  *
  * Once a route is available, a detailed listing of every route segment is available including instructions, distance and duration.
  *
+ * @remarks
+ * This plugin currently can only be used on larger devices.
+ *
  * @returns Plugin for use with {@link addPlugin}.
  */
 export default function pluginRouting(

@@ -8,6 +8,10 @@ export function flattenValue(value: Category['knownValues'][number]) {
 	return expandValue(value).key
 }
 
+export function getAllTechnicalValues(category: Category) {
+	return category.knownValues.flatMap((v) => expandValue(v).values)
+}
+
 if (import.meta.vitest) {
 	const { expect, test } = import.meta.vitest
 

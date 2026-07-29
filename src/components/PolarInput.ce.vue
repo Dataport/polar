@@ -1,28 +1,26 @@
 <template>
 	<div class="kern-form-check">
 		<input
-			:id="`polar-${type}-${value}-${idSuffix}`"
+			:id="id"
 			v-model="model"
 			:class="`polar-input kern-form-check__${type}`"
 			:name="name"
 			:value="value"
 			:type="type"
-			:disabled="disabled"
+			:disabled
 		/>
-		<label
-			class="polar-input kern-label"
-			:for="`polar-${type}-${value}-${idSuffix}`"
-		>
+		<label class="polar-input kern-label" :for="id">
 			<slot />
 		</label>
 	</div>
 </template>
 
 <script setup lang="ts" generic="T extends 'checkbox' | 'radio'">
+import { useId } from 'vue'
+
 // NOTE: It is fine here that props is only used as a type in the script.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
-	idSuffix: string
 	name: string
 	type: T
 	value: string
@@ -31,6 +29,7 @@ const props = defineProps<{
 const model = defineModel<
 	typeof props.type extends 'checkbox' ? string[] : string
 >({ required: true })
+const id = useId()
 </script>
 
 <style scoped>
