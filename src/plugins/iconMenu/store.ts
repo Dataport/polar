@@ -62,6 +62,19 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		},
 		{ deep: true }
 	)
+	function addPlugin(menu: Menu) {
+		menus.value.push([menu])
+	}
+	function removePlugin(pluginId: string) {
+		menus.value = menus.value
+			.map((menuGroup) =>
+				menuGroup.filter(({ plugin: { id } }) => id !== pluginId)
+			)
+			.filter((menuGroup) => menuGroup.length > 0)
+		focusMenus.value = focusMenus.value.filter(
+			({ plugin: { id } }) => id !== pluginId
+		)
+	}
 
 	const visibleMenus = computed(() =>
 		menus.value.map((menuGroup) =>
@@ -209,6 +222,26 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		openInMoveHandle,
 		openMenuById,
 		openFocusMenuById,
+
+		/** @alpha */
+		menus,
+
+		/** @alpha */
+		focusMenus,
+
+		/**
+		 * Appends a plugin to the icon menu.
+		 *
+		 * @param menu - The menu item to add.
+		 */
+		addPlugin,
+
+		/**
+		 * Removes a plugin from the icon menu.
+		 *
+		 * @param pluginId - The ID of the plugin to remove.
+		 */
+		removePlugin,
 
 		/** @alpha */
 		layoutTag,
