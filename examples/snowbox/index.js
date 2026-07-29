@@ -394,6 +394,7 @@ addPlugin(
 		layoutTag: 'BOTTOM_LEFT',
 	})
 )
+let filterItem
 addPlugin(
 	map,
 	pluginIconMenu({
@@ -409,7 +410,7 @@ addPlugin(
 					plugin: pluginLayerChooser({}),
 				},
 			],
-			[
+			(filterItem = [
 				{
 					plugin: pluginFilter({
 						layers: {
@@ -473,7 +474,7 @@ addPlugin(
 						},
 					}),
 				},
-			],
+			]),
 			[
 				{
 					plugin: pluginGeoLocation({
@@ -584,15 +585,16 @@ document
 		updateState(map, 'core', 'colorScheme', colorScheme)
 	})
 
-let filterItem = null
+let hasFilter = true
 document
 	.getElementById('toggle-filter')
 	.addEventListener('click', ({ target }) => {
 		const store = getStore(map, 'iconMenu')
-		if (!filterItem) {
-			;[filterItem] = store.menus.splice(1, 1)
+		if (hasFilter) {
+			store.removePlugin('filter')
+			hasFilter = false
 		} else {
-			store.menus.splice(1, 0, filterItem)
-			filterItem = null
+			store.addPlugin(filterItem)
+			hasFilter = true
 		}
 	})
