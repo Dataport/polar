@@ -9,7 +9,7 @@ import type { FocusMenu, Menu } from './types'
 import { toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, markRaw, ref, watch } from 'vue'
+import { computed, markRaw, readonly, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -125,33 +125,27 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	}
 	function teardownPlugin() {}
 
-	function openMenuById(openId: string) {
+	function openMenuById(openId: string | null) {
 		const entry = menus.value.flat().find(({ plugin: { id } }) => id === openId)
-		if (entry) {
+		if (openId && entry) {
 			open.value = openId
-		}
-	}
-	watch(open, (open) => {
-		if (open) {
-			openInMoveHandle(open)
+			openInMoveHandle(openId)
 		} else {
+			open.value = null
 			coreStore.setMoveHandle(null)
 		}
-	})
+	}
 
-	function openFocusMenuById(openId: string) {
+	function openFocusMenuById(openId: string | null) {
 		const entry = focusMenus.value.find(({ plugin: { id } }) => id === openId)
-		if (entry) {
+		if (openId && entry) {
 			focusOpen.value = openId
-		}
-	}
-	watch(focusOpen, (focusOpen) => {
-		if (focusOpen) {
-			openInMoveHandle(focusOpen, true)
+			openInMoveHandle(openId, true)
 		} else {
+			focusOpen.value = null
 			coreStore.setMoveHandle(null)
 		}
-	})
+	}
 
 	function openInMoveHandle(openId: string, focusMenu = false) {
 		const menu = (focusMenu ? focusMenus.value : menus.value.flat()).find(
@@ -195,10 +189,26 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	return {
 		visibleMenus,
 		visibleFocusMenus,
-		open,
-		focusOpen,
+
+		/**
+		 * Determines which menu is currently open.
+		 *
+		 * To change the open menu, use {@link openMenuById}.
+		 *
+		 * @readonly
+		 */
+		open: readonly(open),
+
+		/**
+		 * Determines which focus menu is currently open.
+		 *
+		 * To change the open focus menu, use {@link openFocusMenuById}.
+		 *
+		 * @readonly
+		 */
+		focusOpen: readonly(focusOpen),
+
 		buttonComponent,
-		openInMoveHandle,
 		openMenuById,
 		openFocusMenuById,
 
