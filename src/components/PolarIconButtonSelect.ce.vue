@@ -46,7 +46,7 @@ defineProps<{
 
 			.polar-icon-button-label-active {
 				color: var(--kern-color-action-on-default);
-				font-weight: var(--kern-font-weight-bold);
+				font-weight: var(--kern-typography-font-weight-semi-bold);
 			}
 
 			.polar-select {
