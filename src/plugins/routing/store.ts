@@ -59,10 +59,17 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			_currentlyFocusedInput.value = index
 
 			if (index !== -1) {
-				coreStore.maskInteraction('routing', 'click')
-				coreStore.map.addInteraction(draw as Draw)
+				coreStore.maskInteraction(
+					'routing',
+					'click',
+					() => {
+						coreStore.map.addInteraction(draw as Draw)
+					},
+					() => {
+						coreStore.map.removeInteraction(draw as Draw)
+					}
+				)
 			} else {
-				coreStore.map.removeInteraction(draw as Draw)
 				coreStore.unmaskInteraction('routing', 'click')
 			}
 		},
@@ -292,7 +299,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		reset()
 
 		if (draw) {
-			coreStore.map.removeInteraction(draw)
 			coreStore.unmaskInteraction('routing', 'click')
 			draw = undefined
 		}
