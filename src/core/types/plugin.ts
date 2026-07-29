@@ -25,6 +25,9 @@ import type { useGeoLocationStore as GeoLocationStore } from '@/plugins/geoLocat
 import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
 import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
 import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
+import type { PluginId as ReturnToInitialViewPluginId } from '@/plugins/initialView'
+import type { resourcesEn as ReturnToInitialViewResources } from '@/plugins/initialView/locales'
+import type { useInitialViewStore as ReturnToInitialViewStore } from '@/plugins/initialView/store'
 import type { PluginId as LayerChooserPluginId } from '@/plugins/layerChooser'
 import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChooser/locales'
 import type { useLayerChooserStore as LayerChooserStore } from '@/plugins/layerChooser/store'
@@ -153,6 +156,7 @@ export type BundledPluginId =
 	| typeof LoadingIndicatorId
 	| typeof PinsPluginId
 	| typeof PointerPositionPluginId
+	| typeof ReturnToInitialViewPluginId
 	| typeof ReverseGeocoderPluginId
 	| typeof RoutingPluginId
 	| typeof ScalePluginId
@@ -185,6 +189,11 @@ export type BundledPluginStores<T extends BundledPluginId> =
 			T,
 			typeof PointerPositionPluginId,
 			typeof PointerPositionStore
+	  >
+	| GetPluginStore<
+			T,
+			typeof ReturnToInitialViewPluginId,
+			typeof ReturnToInitialViewStore
 	  >
 	| GetPluginStore<
 			T,
@@ -234,6 +243,11 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 			T,
 			typeof PointerPositionPluginId,
 			typeof PointerPositionResources
+	  >
+	| GetPluginResources<
+			T,
+			typeof ReturnToInitialViewPluginId,
+			typeof ReturnToInitialViewResources
 	  >
 	| GetPluginResources<T, typeof RoutingPluginId, typeof RoutingResources>
 	| GetPluginResources<T, typeof ScalePluginId, typeof ScaleResources>

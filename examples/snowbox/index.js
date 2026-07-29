@@ -14,6 +14,7 @@ import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
+import pluginInitialView from '@polar/polar/plugins/initialView'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
 import pluginPins from '@polar/polar/plugins/pins'
@@ -498,6 +499,11 @@ addPlugin(
 						displayRouteTypesToAvoid: true,
 					}),
 					icon: 'kern-icon-fill--assistant-direction',
+				},
+				{
+					plugin: pluginInitialView({
+						renderType: 'iconMenu',
+					}),
 				},
 			],
 			[
