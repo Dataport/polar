@@ -1,6 +1,4 @@
 import type { Feature } from 'ol'
-import type { Color } from 'ol/color'
-import type { ColorLike } from 'ol/colorlike'
 import type { Projection } from 'ol/proj'
 import type { Options, StyleFunction } from 'ol/style/Style'
 import type { Options as TextOptions } from 'ol/style/Text'
