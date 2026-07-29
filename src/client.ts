@@ -20,6 +20,7 @@ import LoadingIndicator from '@/plugins/loadingIndicator'
 import Pins from '@/plugins/pins'
 import PointerPosition from '@/plugins/pointerPosition'
 import ReverseGeocoder from '@/plugins/reverseGeocoder'
+import Routing from '@/plugins/routing'
 import Scale from '@/plugins/scale'
 import Toast from '@/plugins/toast'
 
@@ -38,6 +39,9 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 				},
 				enabledPlugins.includes('geoLocation') && {
 					plugin: GeoLocation({ renderType: 'iconMenu' }),
+				},
+				enabledPlugins.includes('routing') && {
+					plugin: Routing({ type: 'ors', url: '' }),
 				},
 			].filter((x) => x) as Menu[],
 		],
@@ -85,10 +89,10 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
  *
  * @param containerId - ID of the container the map will render itself in.
  * @param serviceRegister - Service register given as an array, or a URL to fetch this from.
- * @param mapConfiguration - Configuration options. Only plugins that have a configuration will be created. To
- * 													enable a plugin with default configuration, add its key with an empty object. The
- * 													plugins with the ids 'fullscreen', 'geoLocation' and 'layerChooser' are added to the iconMenu.
- * 													IconMenu. The IconMenu, Toast, LayerChooser and LoadingIndicator are enabled by default.
+ * @param mapConfiguration - Configuration options. Only plugins that have a configuration will be created.
+ * 													To enable a plugin with default configuration, add its key with an empty object.
+ * 													The plugins with the ids 'fullscreen', 'geoLocation', 'routing' and 'layerChooser' are added
+ * 													to the IconMenu. The IconMenu, Toast, LayerChooser and LoadingIndicator are enabled by default.
  * @param modifyServiceRegister - Optionally modify the serviceRegister. This may be useful if a pre-existing register is used.
  *
  * @example

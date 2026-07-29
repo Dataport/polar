@@ -50,7 +50,7 @@ export const useReverseGeocoderStore = defineStore(
 					await reverseGeocode(coordinate)
 				}
 			},
-			{ immediate: true }
+			{ immediate: true, target: configuration.value.addressTarget }
 		)
 
 		function setupPlugin() {}
