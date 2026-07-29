@@ -117,5 +117,10 @@ export default defineConfig(({ mode }) => ({
 		environment: 'jsdom',
 		include: ['src/**/*.spec.ts'],
 		includeSource: ['src/**/*.ts'],
+		coverage: {
+			all: true,
+			include: ['src/**/*.{ts,vue}'],
+			exclude: ['**/*.d.ts', 'src/test/**'],
+		},
 	},
 }))

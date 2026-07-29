@@ -4,13 +4,14 @@
  */
 /* eslint-enable tsdoc/syntax */
 
+import type { Component } from 'vue'
 import type { Icon } from '@/core'
 import type { Menu } from './types'
 
 import { toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, markRaw, ref, watch } from 'vue'
+import { computed, markRaw, ref, toRaw, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -68,20 +69,48 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		{ deep: true }
 	)
 
+	const visibleMenus = computed(() =>
+		menus.value.map((menuGroup) =>
+			menuGroup.filter(
+				(item) => !coreStore.hasSmallDisplay || !item.disabledOnMobile
+			)
+		)
+	)
+	const visibleFocusMenus = computed(() =>
+		focusMenus.value
+			.flat()
+			.filter((item) => !coreStore.hasSmallDisplay || !item.disabledOnMobile)
+	)
+
 	function setupPlugin() {
+		// Components are marked raw so they themselves are not made reactive
 		menus.value = (coreStore.configuration.iconMenu?.menus || []).map(
 			(menuGroup) =>
-				menuGroup.filter(({ plugin: { id } }) => {
-					const display = coreStore.configuration[id]?.displayComponent
-					return typeof display === 'boolean' ? display : true
-				})
+				menuGroup
+					.filter(({ plugin: { id } }) => {
+						const display = coreStore.configuration[id]?.displayComponent
+						return typeof display === 'boolean' ? display : true
+					})
+					.map((menuItem) => ({
+						...menuItem,
+						plugin: {
+							...menuItem.plugin,
+							component: markRaw(toRaw(menuItem.plugin.component as Component)),
+						},
+					}))
 		)
-		focusMenus.value = (
-			coreStore.configuration.iconMenu?.focusMenus || []
-		).filter(({ plugin: { id } }) => {
-			const display = coreStore.configuration[id]?.displayComponent
-			return typeof display === 'boolean' ? display : true
-		})
+		focusMenus.value = (coreStore.configuration.iconMenu?.focusMenus || [])
+			.filter(({ plugin: { id } }) => {
+				const display = coreStore.configuration[id]?.displayComponent
+				return typeof display === 'boolean' ? display : true
+			})
+			.map((menuItem) => ({
+				...menuItem,
+				plugin: {
+					...menuItem.plugin,
+					component: markRaw(toRaw(menuItem.plugin.component as Component)),
+				},
+			}))
 
 		menus.value
 			.concat(focusMenus.value)
@@ -178,8 +207,8 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	}
 
 	return {
-		menus,
-		focusMenus,
+		visibleMenus,
+		visibleFocusMenus,
 		open,
 		focusOpen,
 		buttonComponent,

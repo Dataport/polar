@@ -16,3 +16,24 @@ export function getVisibleLayers(layers: Collection<BaseLayer>) {
 		.filter((layer) => layer.getVisible() && layer.get('id'))
 		.map((layer) => layer.get('id'))
 }
+
+if (import.meta.vitest) {
+	const { expect, test } = import.meta.vitest
+	const { Collection } = await import('ol')
+
+	const createLayer = (visible: boolean, id?: string) =>
+		({
+			getVisible: () => visible,
+			get: (key: string) => (key === 'id' ? id : undefined),
+		}) as unknown as BaseLayer
+
+	test('returns ids of visible layers that define an id', () => {
+		const layers = new Collection<BaseLayer>([
+			createLayer(true, 'visible-with-id'),
+			createLayer(true),
+			createLayer(false, 'hidden-with-id'),
+		])
+
+		expect(getVisibleLayers(layers)).toEqual(['visible-with-id'])
+	})
+}

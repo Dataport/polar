@@ -3,7 +3,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
 import { mount } from '@vue/test-utils'
 import { test as _test, assert, expect, vi } from 'vitest'
-import { nextTick } from 'vue'
+import { computed, nextTick } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { mockedT } from '@/test/utils/mockI18n'
@@ -70,7 +70,24 @@ test('Component transfers category and time filters to the store', async ({
 			},
 		},
 	}
-	store.getCategoryStatus = vi.fn().mockReturnValue(true)
+	let selectionValue = ['cat', 'dog']
+	const setSpy = vi.fn((value: string[]) => {
+		selectionValue = value
+	})
+	// @ts-expect-error | This is for testing
+	store.categories = computed(() => [
+		{
+			targetProperty: 'pet',
+			knownValues: ['cat', 'dog'],
+			selectAll: true,
+			get selection() {
+				return selectionValue
+			},
+			set selection(v: string[]) {
+				setSpy(v)
+			},
+		},
+	])
 
 	await nextTick()
 
@@ -82,11 +99,7 @@ test('Component transfers category and time filters to the store', async ({
 	assert(onlyCat !== undefined, 'Could not find cat button')
 	await onlyCat.trigger('click')
 
-	expect(store.setCategoryStatus).toHaveBeenCalledExactlyOnceWith(
-		'pet',
-		{ key: 'cat', values: ['cat'] },
-		false
-	)
+	expect(setSpy).toHaveBeenCalledExactlyOnceWith(['dog'])
 
 	const yesterday = wrapper
 		.findAll('label')

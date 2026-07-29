@@ -11,6 +11,8 @@ import prettierConfig from 'eslint-plugin-prettier/recommended'
 import vue from 'eslint-plugin-vue'
 import { defineConfig } from 'eslint/config'
 
+import local from './eslintRules/index.js'
+
 /**
  * POLAR-specific ESLint configuration
  */
@@ -19,6 +21,7 @@ const polarConfig = defineConfig({
 		import: importPlugin,
 		perfectionist,
 		vue,
+		local,
 	},
 	rules: {
 		'prettier/prettier': 'error',
@@ -75,6 +78,7 @@ const polarConfig = defineConfig({
 				},
 			},
 		],
+		'local/import-style': 'error',
 	},
 })
 

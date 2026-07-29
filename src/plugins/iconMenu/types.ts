@@ -1,6 +1,5 @@
 import type { Component } from 'vue'
 import type { Icon, PluginContainer, PluginOptions } from '@/core'
-import type { NineLayoutTag } from '@/core/utils/NineLayoutTag.ts'
 
 export const PluginId = 'iconMenu'
 
@@ -11,13 +10,20 @@ export interface Menu {
 	plugin: PluginContainer
 
 	/**
+	 * Adds possibility to disable some entries on mobile.
+	 *
+	 * @defaultValue `false`
+	 */
+	disabledOnMobile?: boolean
+
+	/**
 	 * Icon for icon menu button. If given, render a button with the icon. When clicked, open the content of the
 	 * configured plugin. If not given, render the plugin content as is inside the IconMenu.
 	 *
 	 * Current examples for the usage without icon include Zoom and Fullscreen if
 	 * {@link MapConfiguration.layout | `layout`} is set to `'nineRegions'`
 	 */
-	icon?: string
+	icon?: Icon
 }
 
 /**
@@ -95,5 +101,5 @@ export interface IconMenuPluginOptions extends PluginOptions {
 	 * declares the positioning of the IconMenu. However, if {@link buttonComponent} is not set, then only `"TOP_RIGHT"`
 	 * is allowed as value.
 	 */
-	layoutTag?: keyof typeof NineLayoutTag
+	layoutTag?: PluginOptions['layoutTag']
 }
