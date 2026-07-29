@@ -10,6 +10,13 @@ export interface Menu {
 	plugin: PluginContainer
 
 	/**
+	 * Adds possibility to disable some entries on mobile.
+	 *
+	 * @defaultValue `false`
+	 */
+	disabledOnMobile?: boolean
+
+	/**
 	 * Icon for icon menu button. If given, render a button with the icon. When clicked, open the content of the
 	 * configured plugin. If not given, render the plugin content as is inside the IconMenu.
 	 *

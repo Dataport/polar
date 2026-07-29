@@ -9,7 +9,6 @@ import { watch } from 'vue'
 
 import { getVectorSource } from '@/lib/getVectorSource'
 
-import { useFilterCategoryStore } from './stores/category'
 import { useFilterMainStore } from './stores/main'
 import { useFilterTimeStore } from './stores/time'
 import { updateFeatureVisibility } from './utils/updateFeatureVisibility'
@@ -24,7 +23,6 @@ import { updateFeatureVisibility } from './utils/updateFeatureVisibility'
 export const useFilterStore = defineStore('plugins/filter', () => {
 	const filterMainStore = useFilterMainStore()
 	const filterMainStoreRefs = storeToRefs(filterMainStore)
-	const filterCategoryStore = useFilterCategoryStore()
 	const filterTimeStore = useFilterTimeStore()
 	const filterTimeStoreRefs = storeToRefs(filterTimeStore)
 
@@ -36,7 +34,7 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 			const callback = () => {
 				updateFeatureVisibility(
 					source,
-					filterMainStore.state[layer.get('id')] ?? {}
+					filterMainStore.state[layer.get('id')] ?? { knownValues: {} }
 				)
 			}
 			source.on('featuresloadend', callback)
@@ -112,7 +110,7 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 		 *
 		 * @alpha
 		 */
-		categories: filterCategoryStore.categories,
+		categories: filterMainStoreRefs.categories,
 
 		/**
 		 * For a given category, select all values if at least some are not selected yet, or de-select all values otherwise.
@@ -120,7 +118,7 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 		 * @param category - Category to toggle value's selection states
 		 * @alpha
 		 */
-		selectOrDeselectAllFromCategory: filterCategoryStore.selectOrDeselectAll,
+		selectOrDeselectAllFromCategory: filterMainStore.selectOrDeselectAll,
 
 		/**
 		 * @alpha

@@ -61,7 +61,7 @@ import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
 
 import { useFilterStore } from '../store'
 import { PluginId } from '../types'
-import { flattenValue } from '../utils/flattenAndExpandValue'
+import { flattenValue } from '../utils/categoryValues'
 import FilterSection from './FilterSection.ce.vue'
 
 const filterStore = useFilterStore()
