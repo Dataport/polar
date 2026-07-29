@@ -1,5 +1,4 @@
 import type {
-	FeatureCollection,
 	Feature as GeoJsonFeature,
 	Geometry,
 	GeometryCollection,
@@ -8,6 +7,7 @@ import type { Feature } from 'ol'
 import type { Map } from 'ol'
 import type { Polygon } from 'ol/geom'
 import type VectorSource from 'ol/source/Vector'
+import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { booleanContains } from '@turf/boolean-contains'
@@ -26,7 +26,7 @@ const parseError =
 	'@polar/plugin-draw: Client failure in reading responses in lasso action.'
 
 const buildFeatureCollection = (
-	featureCollections: FeatureCollection[],
+	featureCollections: PolarGeoJsonFeatureCollection[],
 	drawnLasso: Feature
 ) => {
 	const drawnLassoGeoJson = JSON.parse(new GeoJSON().writeFeature(drawnLasso))
@@ -34,7 +34,7 @@ const buildFeatureCollection = (
 	return {
 		type: 'FeatureCollection',
 		features: featureCollections
-			.reduce<GeoJsonFeature[]>(
+			.reduce<PolarGeoJsonFeature[]>(
 				(accumulator, { features }) => accumulator.concat(features),
 				[]
 			)
@@ -56,7 +56,7 @@ const buildFeatureCollection = (
 						)
 					)
 				}
-				return booleanContains(drawnLassoGeoJson, feature)
+				return booleanContains(drawnLassoGeoJson, feature as GeoJsonFeature)
 			}),
 	}
 }
@@ -114,13 +114,12 @@ export function createLassoInteractions(
 									false,
 									map.getView().getProjection().getCode()
 								)
-							: ((await result.value.json()) as FeatureCollection)
+							: ((await result.value.json()) as PolarGeoJsonFeatureCollection)
 					)
 				)
 			)
 			.then((featureCollections) => {
 				const featureCollection = buildFeatureCollection(
-					// TODO: Proposal: 🙈
 					featureCollections,
 					drawnLasso
 				)
