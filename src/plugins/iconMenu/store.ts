@@ -4,17 +4,14 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { Component } from 'vue'
-import type { Icon } from '@/core'
-import type { Menu } from './types'
+import type { FocusMenu, Menu } from './types'
 
 import { toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, markRaw, ref, toRaw, watch } from 'vue'
+import { computed, markRaw, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
-import { watchArray } from '@/lib/watchArray'
 
 import { PluginId } from './types'
 
@@ -29,7 +26,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	const coreStore = useCoreStore()
 
 	const menus = ref<Array<Menu[]>>([])
-	const focusMenus = ref<(Menu & { icon: Icon })[]>([])
+	const focusMenus = ref<FocusMenu[]>([])
 	const open = ref<string | null>(null)
 	const focusOpen = ref<string | null>(null)
 
@@ -43,37 +40,48 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		() => coreStore.configuration.iconMenu?.layoutTag ?? ''
 	)
 
-	const flatMenuItems = computed(() =>
-		menus.value.concat(focusMenus.value).flat()
-	)
-	watchArray(
-		flatMenuItems,
-		(newItem) => {
-			coreStore.addPlugin(toMerged(newItem.plugin, { independent: false }))
-		},
-		(oldItem) => {
-			if (open.value === oldItem.plugin.id) {
-				open.value = null
+	function isPluginInIconMenu(pluginId: string) {
+		const display = coreStore.configuration[pluginId]?.displayComponent
+		return typeof display === 'boolean' ? display : true
+	}
+	function addPlugin(menuGroup: Menu[]) {
+		const filteredMenuGroup = menuGroup.filter(({ plugin: { id } }) =>
+			isPluginInIconMenu(id)
+		)
+		filteredMenuGroup.forEach(({ plugin }) => {
+			if (plugin.component) {
+				markRaw(plugin.component)
 			}
-			if (focusOpen.value === oldItem.plugin.id) {
-				focusOpen.value = null
-			}
-			coreStore.removePlugin(oldItem.plugin.id)
-		},
-		{ deep: true }
-	)
-	function addPlugin(menu: Menu) {
-		menus.value.push([menu])
+			coreStore.addPlugin(toMerged(plugin, { independent: false }))
+		})
+		menus.value.push(filteredMenuGroup)
+	}
+	function addFocusPlugin(menu: FocusMenu) {
+		if (!isPluginInIconMenu(menu.plugin.id)) {
+			return
+		}
+		if (menu.plugin.component) {
+			markRaw(menu.plugin.component)
+		}
+		coreStore.addPlugin(toMerged(menu.plugin, { independent: false }))
+		focusMenus.value.push(menu)
 	}
 	function removePlugin(pluginId: string) {
+		if (open.value === pluginId) {
+			open.value = null
+		}
 		menus.value = menus.value
 			.map((menuGroup) =>
 				menuGroup.filter(({ plugin: { id } }) => id !== pluginId)
 			)
 			.filter((menuGroup) => menuGroup.length > 0)
+		if (focusOpen.value === pluginId) {
+			focusOpen.value = null
+		}
 		focusMenus.value = focusMenus.value.filter(
 			({ plugin: { id } }) => id !== pluginId
 		)
+		coreStore.removePlugin(pluginId)
 	}
 
 	const visibleMenus = computed(() =>
@@ -90,41 +98,12 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	)
 
 	function setupPlugin() {
-		// Components are marked raw so they themselves are not made reactive
-		menus.value = (coreStore.configuration.iconMenu?.menus || []).map(
-			(menuGroup) =>
-				menuGroup
-					.filter(({ plugin: { id } }) => {
-						const display = coreStore.configuration[id]?.displayComponent
-						return typeof display === 'boolean' ? display : true
-					})
-					.map((menuItem) => ({
-						...menuItem,
-						plugin: {
-							...menuItem.plugin,
-							component: markRaw(toRaw(menuItem.plugin.component as Component)),
-						},
-					}))
-		)
-		focusMenus.value = (coreStore.configuration.iconMenu?.focusMenus || [])
-			.filter(({ plugin: { id } }) => {
-				const display = coreStore.configuration[id]?.displayComponent
-				return typeof display === 'boolean' ? display : true
-			})
-			.map((menuItem) => ({
-				...menuItem,
-				plugin: {
-					...menuItem.plugin,
-					component: markRaw(toRaw(menuItem.plugin.component as Component)),
-				},
-			}))
-
-		menus.value
-			.concat(focusMenus.value)
-			.flat()
-			.forEach(({ plugin }) => {
-				coreStore.addPlugin(toMerged(plugin, { independent: false }))
-			})
+		;(coreStore.configuration.iconMenu?.menus || []).forEach((menuGroup) => {
+			addPlugin(menuGroup)
+		})
+		;(coreStore.configuration.iconMenu?.focusMenus || []).forEach((menu) => {
+			addFocusPlugin(menu)
+		})
 
 		const initiallyOpen = coreStore.configuration.iconMenu?.initiallyOpen
 		if (
@@ -223,18 +202,19 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		openMenuById,
 		openFocusMenuById,
 
-		/** @alpha */
-		menus,
-
-		/** @alpha */
-		focusMenus,
-
 		/**
-		 * Appends a plugin to the icon menu.
+		 * Appends a group of plugins to the icon menu.
 		 *
-		 * @param menu - The menu item to add.
+		 * @param menu - The menu item group to add.
 		 */
 		addPlugin,
+
+		/**
+		 * Appends a plugin to the icon menu as a focus menu.
+		 *
+		 * @param menu - The focus menu item to add.
+		 */
+		addFocusPlugin,
 
 		/**
 		 * Removes a plugin from the icon menu.
