@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { PluginContainer } from '@/core'
+import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { DrawPluginOptions } from './types'
 
 import component from './components/DrawGadget.ce.vue'
@@ -25,8 +25,7 @@ export default function pluginDraw(
 		component,
 		locales,
 		icon: 'kern-icon-fill--brush',
-		// TODO: red squibbly line
-		storeModule: useDrawStore,
+		storeModule: useDrawStore as PolarPluginStore,
 		options,
 	}
 }
