@@ -138,7 +138,7 @@ const mapConfig = {
           },
         } as BKGParameters,
         type: 'bkg',
-        url: 'https://gisdemo.dp.dsecurecloud.de/bkg_geosearch3',
+        url: 'https://geoportale.dp.dsecurecloud.de/geocoder',
       },
       {
         groupId: 'badestellenSearch',
