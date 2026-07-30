@@ -1,8 +1,9 @@
+import type { Coordinate } from 'ol/coordinate'
 import type { ReverseGeocoderFeature } from '../types'
 
 import { transform as transformCoordinate } from 'ol/proj'
 
-const buildPostBody = ([x, y]: [number, number]) => `<wps:Execute
+const buildPostBody = ([x, y]: Coordinate) => `<wps:Execute
 	xmlns:wps='http://www.opengis.net/wps/1.0.0'
 	xmlns:xlink='http://www.w3.org/1999/xlink'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
@@ -47,9 +48,7 @@ export async function reverseGeocodeWps({
 }): Promise<ReverseGeocoderFeature> {
 	const response = await fetch(url, {
 		method: 'POST',
-		body: buildPostBody(
-			transformCoordinate(coordinate, epsg, serviceEpsg) as [number, number]
-		),
+		body: buildPostBody(transformCoordinate(coordinate, epsg, serviceEpsg)),
 		signal,
 	})
 
