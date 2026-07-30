@@ -87,6 +87,7 @@ export const useReverseGeocoderStore = defineStore(
 					url: configuration.value.url,
 					coordinate,
 					epsg: coreStore.configuration.epsg,
+					// unused for Nominatim, but required for WPS
 					serviceEpsg: configuration.value.epsg || 'EPSG:25832',
 					signal,
 				})
