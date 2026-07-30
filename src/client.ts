@@ -67,6 +67,7 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 				ReturnToInitialView({
 					displayComponent: true,
 					layoutTag: 'TOP_RIGHT',
+					renderType: 'iconMenu',
 				}),
 			enabledPlugins.includes('pointerPosition') &&
 				PointerPosition({

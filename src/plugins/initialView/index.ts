@@ -24,7 +24,6 @@ export default function pluginInitialView(
 		id: PluginId,
 		component,
 		locales,
-		icon: 'kern-icon--home',
 		storeModule: useInitialViewStore as PolarPluginStore,
 		options,
 	}
