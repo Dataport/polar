@@ -1,8 +1,9 @@
+import type { FeatureCollection } from 'geojson'
 import type { ReverseGeocoderFeature } from '../types'
 
 import { transform as transformCoordinate } from 'ol/proj'
 
-interface NominatimReverseGeocodeResponse {
+interface NominatimReverseGeocodeProperties {
 	address: {
 		house_number?: string
 		road?: string
@@ -21,13 +22,10 @@ interface NominatimReverseGeocodeResponse {
 		country?: string
 		country_code?: string
 	}
-	boundingbox: [string, string, string, string]
 	category: string
 	display_name: string
 	importance: number
-	lat: string
 	licence: string
-	lon: string
 	name: string
 	osm_id: string
 	osm_type: string
@@ -58,23 +56,35 @@ export async function reverseGeocodeNominatim({
 	const fetchUrl = new URL(url)
 	fetchUrl.searchParams.set('lat', searchCoordinate[1].toString())
 	fetchUrl.searchParams.set('lon', searchCoordinate[0].toString())
-	fetchUrl.searchParams.set('format', 'jsonv2')
+	fetchUrl.searchParams.set('format', 'geojson')
 
-	const result: NominatimReverseGeocodeResponse = await fetch(fetchUrl, {
+	const result: FeatureCollection = await fetch(fetchUrl, {
 		signal,
 	}).then((response) => response.json())
+
+	const feature = result.features[0]
+	if (!feature) {
+		throw new Error('No features returned from Nominatim reverse geocode')
+	}
+	if (feature.geometry.type !== 'Point') {
+		throw new Error('Nominatim reverse geocode returned non-point geometry')
+	}
+
+	const properties = feature.properties as NominatimReverseGeocodeProperties
 
 	return {
 		type: 'reverse_geocoded',
 		title: [
-			[result.address.road, result.address.house_number]
+			[properties.address.road, properties.address.house_number]
 				.filter((x) => x)
 				.join(' '),
-			result.address.town || result.address.city || result.address.village,
+			properties.address.town ||
+				properties.address.city ||
+				properties.address.village,
 		]
 			.filter((x) => x)
 			.join(', '),
-		properties: {},
+		properties,
 		geometry: {
 			// as clicked by user - usually want to keep this since user is pointing at something
 			coordinates: coordinate,
@@ -83,7 +93,7 @@ export async function reverseGeocodeNominatim({
 		addressGeometry: {
 			// as returned by reverse geocoder
 			coordinates: transformCoordinate(
-				[Number(result.lon), Number(result.lat)],
+				feature.geometry.coordinates as [number, number],
 				'EPSG:4326',
 				epsg
 			),
