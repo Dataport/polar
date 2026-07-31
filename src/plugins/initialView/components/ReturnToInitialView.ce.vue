@@ -13,9 +13,9 @@ import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 import { useInitialViewStore } from '../store'
 import { PluginId } from '../types'
 
-const InitialViewStore = useInitialViewStore()
+const initialViewStore = useInitialViewStore()
 
 function onClick() {
-	InitialViewStore.returnToInitialView()
+	initialViewStore.returnToInitialView()
 }
 </script>
