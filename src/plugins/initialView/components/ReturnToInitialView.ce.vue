@@ -3,7 +3,7 @@
 		:hint="$t(($) => $.label.return, { ns: PluginId })"
 		icon="kern-icon--home"
 		tooltip-position="left"
-		@click="onClick"
+		@click="initialViewStore.returnToInitialView()"
 	/>
 </template>
 
@@ -14,8 +14,4 @@ import { useInitialViewStore } from '../store'
 import { PluginId } from '../types'
 
 const initialViewStore = useInitialViewStore()
-
-function onClick() {
-	initialViewStore.returnToInitialView()
-}
 </script>
