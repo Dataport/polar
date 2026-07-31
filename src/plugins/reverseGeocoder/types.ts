@@ -27,6 +27,13 @@ export interface ReverseGeocoderPluginOptions extends PluginOptions {
 	coordinateSources?: StoreReference[]
 
 	/**
+	 * Type of reverse geocoding service.
+	 *
+	 * @defaultValue: 'wps'
+	 */
+	type?: 'wps' | 'nominatim'
+
+	/**
 	 * Zoom level to zoom to when a successful answer was received.
 	 */
 	zoomTo?: number

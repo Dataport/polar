@@ -33,10 +33,8 @@ export interface GeoLocationPluginOptions extends LayerBoundPluginOptions {
 	keepCentered?: boolean
 
 	/**
-	 * Defines if the geoLocation button is rendered independent or as part of the
-	 * icon menu.
-	 *
-	 * This is only applicable if the layout is `'nineRegions'`.
+	 * Defines if the plugin is rendered independent or as part of the icon menu.
+	 * This is automatically set by the icon menu; you should not need to touch this.
 	 *
 	 * @defaultValue `'independent'`
 	 */

@@ -30,7 +30,7 @@ function getTextContent(parent: Element, localName: string) {
 	return parent.getElementsByTagNameNS('*', localName)[0]?.textContent ?? ''
 }
 
-export async function reverseGeocode(
+export async function reverseGeocodeWps(
 	url: string,
 	coordinate: [number, number],
 	signal: AbortSignal
@@ -163,7 +163,7 @@ if (import.meta.vitest) {
 			text: () => Promise.resolve(testResponse),
 		} as Response)
 		const abortController = new AbortController()
-		const feature = await reverseGeocode(
+		const feature = await reverseGeocodeWps(
 			testUrl,
 			testCoordinates,
 			abortController.signal

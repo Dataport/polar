@@ -27,6 +27,7 @@ export const useMainStore = defineStore('main', () => {
 			defaults
 		)
 	)
+	const extent = ref([0, 0, 0, 0])
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as Map)
@@ -89,6 +90,10 @@ export const useMainStore = defineStore('main', () => {
 		return { ...register, ...polar } as typeof polar
 	}
 
+	function getLayer(layerId: string) {
+		return map.value.getAllLayers().find((layer) => layer.get('id') === layerId)
+	}
+
 	function setup() {
 		addEventListener('resize', updateHasSmallDisplay)
 		updateHasSmallDisplay()
@@ -113,6 +118,7 @@ export const useMainStore = defineStore('main', () => {
 		serviceRegister,
 		shadowRoot,
 		center,
+		extent,
 		zoom,
 		// Getters
 		layout,
@@ -122,6 +128,7 @@ export const useMainStore = defineStore('main', () => {
 		deviceIsHorizontal,
 		// Actions
 		centerOnFeature,
+		getLayer,
 		updateHasSmallDisplay,
 		getLayerMapConfiguration,
 		setup,

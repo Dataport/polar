@@ -288,3 +288,85 @@ export interface WfsParameters extends QueryParameters {
 	 */
 	useRightHandWildcard?: boolean
 }
+
+export interface NominatimParameters extends QueryParameters {
+	/**
+	 * Include address details in result?
+	 */
+	addressdetails?: boolean
+
+	/**
+	 * Name and/or type of POI.
+	 */
+	amenity?: string
+
+	/**
+	 * Whether to consider the viewbox as exact instead of fuzzy filter.
+	 */
+	bounded?: boolean
+
+	/**
+	 * City.
+	 */
+	city?: string
+
+	/**
+	 * Country.
+	 */
+	country?: string
+
+	/**
+	 * Country code (ISO 3166-1alpha2).
+	 */
+	countrycodes?: string[]
+
+	/**
+	 * County.
+	 */
+	county?: string
+
+	/**
+	 * Include entrances to buildings in results?
+	 */
+	entrances?: boolean
+
+	/**
+	 * Add extra tags to result?
+	 */
+	extratags?: boolean
+
+	/**
+	 * Which feature types to include.
+	 */
+	featureType?: 'country' | 'state' | 'city' | 'settlement'
+
+	/**
+	 * Which type(s) of results to return.
+	 */
+	layer?: ('address' | 'poi' | 'railway' | 'natural' | 'manmade')[]
+
+	/**
+	 * Include more names in alternate languages?
+	 */
+	namedetails?: boolean
+
+	/**
+	 * Postal code.
+	 */
+	postalcode?: string
+
+	/**
+	 * State.
+	 */
+	state?: string
+
+	/**
+	 * House number and street name.
+	 */
+	street?: string
+
+	/**
+	 * Viewbox to prefer for searching the given term.
+	 */
+	viewbox?: [number, number, number, number]
+}
