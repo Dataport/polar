@@ -80,15 +80,17 @@ export const useReverseGeocoderStore = defineStore(
 			const signal = toRaw(abortController.value.signal)
 			try {
 				const reverseGeocodeUtil = {
-					wps: reverseGeocodeWps,
+					wps: (params) =>
+						reverseGeocodeWps({
+							...params,
+							serviceEpsg: configuration.value.epsg || 'EPSG:25832',
+						}),
 					nominatim: reverseGeocodeNominatim,
 				}[configuration.value.type]
 				const feature = await reverseGeocodeUtil({
 					url: configuration.value.url,
 					coordinate,
 					epsg: coreStore.configuration.epsg,
-					// unused for Nominatim, but required for WPS
-					serviceEpsg: configuration.value.epsg || 'EPSG:25832',
 					signal,
 				})
 				if (configuration.value.addressTarget) {
