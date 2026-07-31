@@ -9,6 +9,4 @@ export interface InitialViewPluginOptions extends PluginOptions {
 	 * @defaultValue `'independent'`
 	 */
 	renderType?: 'independent' | 'iconMenu'
-	startCenter?: [number, number]
-	startResolution?: number
 }
