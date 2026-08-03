@@ -218,6 +218,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		 * Appends a group of plugins to the icon menu.
 		 *
 		 * @param menu - The menu item group to add.
+		 * @alpha
 		 */
 		addPlugin,
 
