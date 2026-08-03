@@ -9,7 +9,7 @@ import type { FocusMenu, Menu } from './types'
 import { toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, markRaw, readonly, ref } from 'vue'
+import { computed, markRaw, readonly, ref, toRaw } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -50,7 +50,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		)
 		filteredMenuGroup.forEach(({ plugin }) => {
 			if (plugin.component) {
-				markRaw(plugin.component)
+				markRaw(toRaw(plugin.component))
 			}
 			coreStore.addPlugin(toMerged(plugin, { independent: false }))
 		})
@@ -61,7 +61,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 			return
 		}
 		if (menu.plugin.component) {
-			markRaw(menu.plugin.component)
+			markRaw(toRaw(menu.plugin.component))
 		}
 		coreStore.addPlugin(toMerged(menu.plugin, { independent: false }))
 		focusMenus.value.push(menu)
