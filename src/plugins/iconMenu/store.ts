@@ -234,6 +234,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		 * Removes a plugin from the icon menu.
 		 *
 		 * @param pluginId - The ID of the plugin to remove.
+		 * @alpha
 		 */
 		removePlugin,
 
