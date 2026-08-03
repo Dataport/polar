@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/footer
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { FooterPluginOptions } from './types'
@@ -18,7 +16,7 @@ import { PluginId } from './types'
  *
  * Note that a link to the POLAR repository will always be displayed.
  *
- * @returns Plugin for use with {@link addPlugin}.
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginFooter(
 	options: FooterPluginOptions

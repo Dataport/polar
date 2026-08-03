@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/pointerPosition/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Coordinate } from 'ol/coordinate'
 
@@ -17,13 +15,11 @@ import { notifyUser } from '@/lib/notifyUser'
 
 import { PluginId } from './types'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for the pointerPosition.
  */
-/* eslint-enable tsdoc/syntax */
 export const usePointerPositionStore = defineStore(
 	'plugins/pointerPosition',
 	() => {
@@ -136,7 +132,7 @@ export const usePointerPositionStore = defineStore(
 
 			/**
 			 * Array of available projections; either configured set or
-			 * {@link MasterportalApiConfiguration.namedProjections | `mapConfiguration.namedProjections`}.
+			 * {@link @polar/polar!MasterportalApiConfiguration.namedProjections | `mapConfiguration.namedProjections`}.
 			 * @alpha
 			 */
 			availableProjections,

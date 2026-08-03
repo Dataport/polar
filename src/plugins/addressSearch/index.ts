@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/addressSearch
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { AddressSearchPluginOptions } from './types'
@@ -24,7 +22,7 @@ import { PluginId } from './types'
  * - WFS
  * - Hamburg WFS-G (`mpapi`), may fit some WFS-G outside HH, testing is advised
  *
- * @returns Plugin for use with {@link addPlugin}.
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginAddressSearch(
 	options: AddressSearchPluginOptions

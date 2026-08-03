@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/toast/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Reactive } from 'vue'
 import type {
@@ -26,13 +24,11 @@ interface ToastItem {
 	timeout?: ReturnType<typeof setTimeout>
 }
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for showing messages to the user.
  */
-/* eslint-enable tsdoc/syntax */
 export const useToastStore = defineStore('plugins/toast', () => {
 	const coreStore = useCoreStore()
 

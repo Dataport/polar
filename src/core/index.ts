@@ -1,4 +1,3 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the main export for the NPM package \@polar/polar.
  *
@@ -7,7 +6,6 @@
  * @packageDocumentation
  * @module \@polar/polar
  */
-/* eslint-enable tsdoc/syntax */
 
 import { defineCustomElement } from 'vue'
 

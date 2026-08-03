@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/addressSearch/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PolarGeoJsonFeature } from '@/core'
 import type {
@@ -24,13 +22,11 @@ import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import { getMethodContainer } from './utils/methodContainer'
 import SearchResultSymbols from './utils/searchResultSymbols'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for the address search.
  */
-/* eslint-enable tsdoc/syntax */
 export const useAddressSearchStore = defineStore(
 	'plugins/addressSearch',
 	() => {
@@ -348,7 +344,7 @@ export const useAddressSearchStore = defineStore(
 			/**
 			 * ID of the currently selected group.
 			 * Changing this triggers a new search with the currently set value
-			 * for {@link inputValue} if it has at least one character.
+			 * for `inputValue` if it has at least one character.
 			 */
 			selectedGroupId,
 

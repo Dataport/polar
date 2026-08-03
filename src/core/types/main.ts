@@ -196,7 +196,7 @@ export type ColorScheme = 'dark' | 'light' | 'system'
 export interface MapConfiguration extends MasterportalApiConfiguration {
 	/**
 	 * Configuration of layers that are supposed to be used in the respective client. All layers defined here have to have
-	 * an entry in the {@link createMap | `serviceRegister` parameter of `createMap`}. If `@polar/plugin-layer-chooser` is
+	 * an entry in the {@link @polar/polar!createMap | `serviceRegister` parameter of `createMap`}. If `@polar/plugin-layer-chooser` is
 	 * installed and configured, all these layers will be displayed in that menu.
 	 *
 	 * @example

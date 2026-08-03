@@ -102,7 +102,7 @@ interface InitialPin {
 	/**
 	 * Coordinate reference system in which the given coordinates are encoded.
 	 *
-	 * Defaults to {@link MapConfiguration.epsg | `mapConfiguration.epsg`}.
+	 * Defaults to {@link @polar/polar!MapConfiguration.epsg | `mapConfiguration.epsg`}.
 	 */
 	epsg?: string
 }

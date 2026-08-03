@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/attributions
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { AttributionsPluginOptions } from './types'
@@ -16,7 +14,7 @@ import { PluginId } from './types'
  * Creates a plugin which adds attributions (copyright information) regarding all currently active layers.
  * Additionally, static information can be added.
  *
- * @returns Plugin for use with {@link addPlugin}.
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginAttributions(
 	options: AttributionsPluginOptions

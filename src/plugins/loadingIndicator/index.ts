@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/loadingIndicator
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { LoadingIndicatorOptions } from './types'
@@ -15,7 +13,7 @@ import { PluginId } from './types'
  * Creates a plugin that offers a generic loading indicator that may be used by
  * any plugin or outside procedure to indicate loading.
  *
- * @returns Plugin for use with {@link addPlugin}.
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginLoadingIndicator(
 	options: LoadingIndicatorOptions

@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/pins
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { PinsPluginOptions } from './types'
@@ -19,7 +17,7 @@ import { PluginId } from './types'
  * coordinate for further steps. The plugin may react to other plugins,
  * especially address searches.
  *
- * @returns Plugin for use with {@link addPlugin}.
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginPins(
 	options: PinsPluginOptions

@@ -100,6 +100,7 @@ const polarTsConfig = defineConfig({
 				allowNumber: true,
 			},
 		],
+		'tsdoc/syntax': 'off',
 
 		// POLAR-specific rules
 		'perfectionist/sort-interfaces': [

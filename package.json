@@ -59,6 +59,7 @@
 		"tsc": "tsc && vue-tsc -p src && vue-tsc -p examples/iceberg",
 		"tsc:ci": "tsc && vue-tsc -p src && vue-tsc -p examples/iceberg",
 		"docs:ci": "npm run docs:showcase:ci && npm run docs:docs:ci && npm run docs:api:ci && npm run docs:api:core:ci && npm run docs:api:plugin:ci",
+		"docs:ci:validate": "typedoc --targetAudience core",
 		"docs:showcase:ci": "npm run build:github-io && mkdir -p docs-html && cp -r examples/github-io/dist/* docs-html/",
 		"docs:docs": "mkdocs serve",
 		"docs:docs:ci": "mkdocs build",

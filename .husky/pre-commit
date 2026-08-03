@@ -73,3 +73,16 @@ then
 		exit 1
 	fi
 fi
+
+if [ "$POLAR_TYPEDOC_ON_COMMIT" = "yes" ]
+then
+	if ! npm run docs:ci:validate
+	then
+		echo "Cannot commit: Typedoc validation failed." >&2
+		echo "Please fix the above error(s)." >&2
+		echo >&2
+		echo "If you want to commit anyway, set POLAR_TYPEDOC_ON_COMMIT=no" >&2
+		echo "If you want to skip all pre-commit checks, set POLAR_SKIP_PRE_COMMIT=yes" >&2
+		exit 1
+	fi
+fi

@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/export
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { ExportPluginOptions } from './types'
@@ -18,7 +16,7 @@ import { PluginId } from './types'
  * loaded, or the canvas will no longer be printable due to potential security
  * issues.
  *
- * @returns Plugin for use with {@link addPlugin}.
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginExport(
 	options: ExportPluginOptions

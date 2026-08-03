@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/reverseGeocoder
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { ReverseGeocoderPluginOptions } from './types'
@@ -13,7 +11,7 @@ import { PluginId } from './types'
 /**
  * Creates a plugin which converts coordinates into addresses.
  *
- * @returns Plugin for use with {@link addPlugin}
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginReverseGeocoder(
 	options: ReverseGeocoderPluginOptions

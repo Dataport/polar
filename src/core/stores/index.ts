@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed } from 'vue'
@@ -13,13 +11,11 @@ import { useMarkerStore } from './marker'
 import { useMoveHandleStore } from './moveHandle'
 import { usePluginStore } from './plugin'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Core store of POLAR.
  */
-/* eslint-enable tsdoc/syntax */
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 	const mainStoreRefs = storeToRefs(mainStore)
@@ -76,8 +72,7 @@ export const useCoreStore = defineStore('core', () => {
 		deviceIsHorizontal: computed(() => mainStore.deviceIsHorizontal),
 
 		/**
-		 * Whether the map has a maximum height of {@link SMALL_DISPLAY_HEIGHT} and
-		 * a maximum width of {@link SMALL_DISPLAY_WIDTH}.
+		 * Whether the map has a small display.
 		 *
 		 * @alpha
 		 * @readonly
@@ -166,7 +161,7 @@ export const useCoreStore = defineStore('core', () => {
 		 *
 		 * If no plugin with the specified ID is loaded, `null` is returned instead.
 		 *
-		 * @param pluginId - ID of the plugin whose store is requested.
+		 * @param id - ID of the plugin whose store is requested.
 		 */
 		getPluginStore: pluginStore.getPluginStore,
 
@@ -246,7 +241,7 @@ export const useCoreStore = defineStore('core', () => {
 
 		/**
 		 * Returns the effective layer configuration or `null` if the layer was not found.
-		 * The configuration is merged from the {@link createMap | serviceRegister parameter of createMap} and the POLAR {@link MapConfiguration.layers | layers} configuration.
+		 * The configuration is merged from the {@link @polar/polar!createMap | serviceRegister parameter of createMap} and the POLAR {@link @polar/polar!MapConfiguration.layers | layers} configuration.
 		 *
 		 * @param layerId - Layer ID
 		 * @returns Layer configuration (object) or `null`

@@ -10,6 +10,15 @@
 	],
 	"out": "docs-html/reference",
 	"skipErrorChecking": true,
+	"validation": {
+		"notExported": false,
+		"invalidLink": true,
+		"rewrittenLink": true,
+		"notDocumented": false,
+		"unusedMergeModuleWith": true
+	},
+	"treatWarningsAsErrors": false,
+	"treatValidationWarningsAsErrors": true,
 	"projectDocuments": [],
 	"name": "POLAR reference",
 	"sort": [

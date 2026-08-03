@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/iconMenu
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { IconMenuPluginOptions } from './types'
@@ -20,7 +18,7 @@ import { PluginId } from './types'
  * Please use carefully – users may have issues finding process-relevant
  * buttons or interactions if you hide them here.
  *
- * @returns Plugin for use with {@link addPlugin}.
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginIconMenu(
 	options: IconMenuPluginOptions

@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/pins/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { GeoJsonGeometryTypes, Point as GeoJsonPoint } from 'geojson'
 import type { MapBrowserEvent } from 'ol'
@@ -27,14 +25,12 @@ import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
 import { isCoordinateInBoundaryLayer } from './utils/isCoordinateInBoundaryLayer'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for adding a pin to the map for e.g. coordinate retrieval or
  * marking the location of a found address.
  */
-/* eslint-enable tsdoc/syntax */
 export const usePinsStore = defineStore('plugins/pins', () => {
 	const coreStore = useCoreStore()
 

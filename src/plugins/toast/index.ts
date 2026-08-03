@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/toast
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { ToastPluginOptions } from './types'
@@ -19,7 +17,7 @@ import { PluginId } from './types'
  * These are the classic success, warning, info, and error messages,
  * helping to understand what's going on or why something happened.
  *
- * @returns Plugin for use with {@link addPlugin}
+ * @returns Plugin for use with {@link @polar/polar!addPlugin | addPlugin}
  */
 export default function pluginToast(
 	options: ToastPluginOptions
