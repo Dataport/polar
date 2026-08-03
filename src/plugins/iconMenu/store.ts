@@ -196,6 +196,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		 * To change the open menu, use {@link openMenuById}.
 		 *
 		 * @readonly
+		 * @alpha
 		 */
 		open: readonly(open),
 
