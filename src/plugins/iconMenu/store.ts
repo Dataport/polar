@@ -206,6 +206,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		 * To change the open focus menu, use {@link openFocusMenuById}.
 		 *
 		 * @readonly
+		 * @alpha
 		 */
 		focusOpen: readonly(focusOpen),
 
