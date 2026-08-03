@@ -29,3 +29,44 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 		teardownPlugin,
 	}
 })
+
+let mockCoreStore: unknown
+
+if (import.meta.vitest) {
+	const { createPinia, setActivePinia } = await import('pinia')
+	const { describe, it, expect, vi, beforeEach } = import.meta.vitest
+
+	const mockView = {
+		setCenter: vi.fn(),
+		setResolution: vi.fn(),
+	}
+
+	vi.mock('@/core/stores', () => ({
+		useCoreStore: () => mockCoreStore,
+	}))
+
+	const { useInitialViewStore } = await import('./store')
+
+	describe('InitialView Store', () => {
+		beforeEach(() => {
+			setActivePinia(createPinia())
+			vi.clearAllMocks()
+			mockCoreStore = {
+				map: {
+					getView: vi.fn(() => mockView),
+				},
+				configuration: {
+					startCenter: [10, 20],
+					startResolution: 2,
+				},
+			}
+		})
+
+		it('should call setCenter and setResolution on returnToInitialView', () => {
+			const store = useInitialViewStore()
+			store.returnToInitialView()
+			expect(mockView.setCenter).toHaveBeenCalledWith([10, 20])
+			expect(mockView.setResolution).toHaveBeenCalledWith(2)
+		})
+	})
+}
