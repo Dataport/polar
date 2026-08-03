@@ -1,6 +1,6 @@
 {
 	"name": "@polar/polar",
-	"version": "3.0.0-alpha.2",
+	"version": "3.0.0-alpha.3",
 	"description": "Configurable map client based on OpenLayers",
 	"keywords": [
 		"OpenLayers",
