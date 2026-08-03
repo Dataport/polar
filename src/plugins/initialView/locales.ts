@@ -1,6 +1,6 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @module locales/plugins/returnToInitialView
+ * @module locales/plugins/InitialView
  */
 /* eslint-enable tsdoc/syntax */
 

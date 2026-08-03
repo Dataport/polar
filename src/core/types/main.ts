@@ -344,8 +344,8 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	/** Configuration for iconMenu plugin. */
 	iconMenu?: IconMenuPluginOptions
 
-	/** Configuration for iInitialView plugin. */
-	returnToInitialView?: InitialViewPluginOptions
+	/** Configuration for initialView plugin. */
+	initialView?: InitialViewPluginOptions
 
 	/** Configuration for loadingIndicator plugin. */
 	loadingIndicator?: LoadingIndicatorOptions

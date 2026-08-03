@@ -1,13 +1,13 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @module @polar/polar/plugins/returnToInitialView
+ * @module @polar/polar/plugins/InitialView
  */
 /* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { InitialViewPluginOptions } from './types'
 
-import component from './components/ReturnToInitialView.ce.vue'
+import component from './components/InitialView.ce.vue'
 import locales from './locales'
 import { useInitialViewStore } from './store'
 import { PluginId } from './types'

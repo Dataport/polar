@@ -15,7 +15,7 @@ import AddressSearch from '@/plugins/addressSearch'
 import Fullscreen from '@/plugins/fullscreen'
 import GeoLocation from '@/plugins/geoLocation'
 import IconMenu from '@/plugins/iconMenu'
-import ReturnToInitialView from '@/plugins/initialView'
+import InitialView from '@/plugins/initialView'
 import LayerChooser from '@/plugins/layerChooser'
 import LoadingIndicator from '@/plugins/loadingIndicator'
 import Pins from '@/plugins/pins'
@@ -64,7 +64,7 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 				layoutTag: 'MIDDLE_MIDDLE',
 			}),
 			enabledPlugins.includes('returnToInitialView') &&
-				ReturnToInitialView({
+				InitialView({
 					displayComponent: true,
 					layoutTag: 'TOP_RIGHT',
 					renderType: 'iconMenu',
