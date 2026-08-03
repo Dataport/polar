@@ -13,8 +13,13 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 	)
 
 	function returnToInitialView() {
-		coreStore.map.getView().setCenter(startCenter.value)
-		coreStore.map.getView().setResolution(startResolution.value)
+		coreStore.center = startCenter.value
+		const zoom = coreStore.configuration.options.find(
+			({ resolution }) => resolution === startResolution.value
+		)
+		if (zoom) {
+			coreStore.zoom = zoom.zoomLevel
+		}
 	}
 
 	function setupPlugin() {}
