@@ -226,6 +226,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		 * Appends a plugin to the icon menu as a focus menu.
 		 *
 		 * @param menu - The focus menu item to add.
+		 * @alpha
 		 */
 		addFocusPlugin,
 
