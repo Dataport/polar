@@ -124,11 +124,11 @@
 		"typedoc-plugin-vue": "^1.5.0",
 		"typescript": "~5.9.2",
 		"unplugin-dts": "^1.0.3",
-		"vite": "^8.1.5",
+		"vite": "^8.2.0",
 		"vite-plugin-checker": "^0.14.5",
 		"vite-plugin-commonjs": "^0.10.4",
 		"vite-plugin-kern-extra-icons": "^1.0.1",
-		"vite-plugin-vue-devtools": "^8.1.5",
+		"vite-plugin-vue-devtools": "^8.2.1",
 		"vitest": "^4.1.10",
 		"vue": "^3.5.40",
 		"vue-tsc": "^3.3.8"
