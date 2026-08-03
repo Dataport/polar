@@ -31,6 +31,9 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 		layoutTag: 'TOP_RIGHT',
 		menus: [
 			[
+				enabledPlugins.includes('initialView') && {
+					plugin: InitialView({ renderType: 'iconMenu' }),
+				},
 				enabledPlugins.includes('fullscreen') && {
 					plugin: Fullscreen({ renderType: 'iconMenu' }),
 				},
@@ -63,12 +66,6 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 				displayComponent: true,
 				layoutTag: 'MIDDLE_MIDDLE',
 			}),
-			enabledPlugins.includes('returnToInitialView') &&
-				InitialView({
-					displayComponent: true,
-					layoutTag: 'TOP_RIGHT',
-					renderType: 'iconMenu',
-				}),
 			enabledPlugins.includes('pointerPosition') &&
 				PointerPosition({
 					displayComponent: true,
@@ -98,8 +95,8 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
  * @param serviceRegister - Service register given as an array, or a URL to fetch this from.
  * @param mapConfiguration - Configuration options. Only plugins that have a configuration will be created.
  * 													To enable a plugin with default configuration, add its key with an empty object.
- * 													The plugins with the ids 'fullscreen', 'geoLocation', 'routing' and 'layerChooser' are added
- * 													to the IconMenu. The IconMenu, Toast, LayerChooser and LoadingIndicator are enabled by default.
+ * 													The plugins with the ids 'fullscreen', 'geoLocation', 'routing', 'initialView' and 'layerChooser'
+ * 													are added to the IconMenu. The IconMenu, Toast, LayerChooser and LoadingIndicator are enabled by default.
  * @param modifyServiceRegister - Optionally modify the serviceRegister. This may be useful if a pre-existing register is used.
  *
  * @example
