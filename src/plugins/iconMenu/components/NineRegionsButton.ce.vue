@@ -29,11 +29,7 @@ const active = computed(() => open.value === props.id)
 const updateMaxWidth = inject('updateMaxWidth') as () => void
 
 function toggle() {
-	if (open.value === props.id) {
-		iconMenuStore.openMenuById(null)
-	} else {
-		iconMenuStore.openMenuById(props.id)
-	}
+	iconMenuStore.openMenuById(open.value === props.id ? null : props.id)
 	updateMaxWidth()
 }
 </script>
