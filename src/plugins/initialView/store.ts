@@ -28,7 +28,11 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 		/** @alpha  */
 
 		returnToInitialView,
+
+		/** @internal */
 		setupPlugin,
+
+		/** @internal */
 		teardownPlugin,
 	}
 })
