@@ -26,7 +26,6 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 		startResolution,
 
 		/** @alpha  */
-
 		returnToInitialView,
 
 		/** @internal */
