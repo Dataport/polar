@@ -2,7 +2,7 @@
 	<PolarIconButton
 		:hint="$t(($) => $.label.return, { ns: PluginId })"
 		icon="kern-icon--home"
-		tooltip-position="left"
+		:tooltip-position="initialViewStore.tooltipPosition"
 		@click="initialViewStore.returnToInitialView()"
 	/>
 </template>
