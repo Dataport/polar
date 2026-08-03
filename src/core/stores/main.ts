@@ -1,4 +1,4 @@
-import type { Feature, Map } from 'ol'
+import type { Feature, Map as OlMap } from 'ol'
 import type { Point } from 'ol/geom'
 import type {
 	ColorScheme,
@@ -30,7 +30,7 @@ export const useMainStore = defineStore('main', () => {
 	)
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
-	const map = shallowRef({} as Map)
+	const map = shallowRef({} as OlMap)
 	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
 
@@ -91,7 +91,7 @@ export const useMainStore = defineStore('main', () => {
 	}
 
 	const maskedInteractions = ref(
-		new globalThis.Map<string, { pluginId: PluginId; teardown: () => void }>()
+		new Map<string, { pluginId: PluginId; teardown: () => void }>()
 	)
 	function maskInteraction(
 		pluginId: PluginId,
