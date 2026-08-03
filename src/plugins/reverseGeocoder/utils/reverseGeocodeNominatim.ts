@@ -1,4 +1,4 @@
-import type { FeatureCollection } from 'geojson'
+import type { FeatureCollection, Point } from 'geojson'
 import type { ReverseGeocoderFeature } from '../types'
 
 import { transform as transformCoordinate } from 'ol/proj'
@@ -58,19 +58,17 @@ export async function reverseGeocodeNominatim({
 	fetchUrl.searchParams.set('lon', searchCoordinate[0].toString())
 	fetchUrl.searchParams.set('format', 'geojson')
 
-	const result: FeatureCollection = await fetch(fetchUrl, {
-		signal,
-	}).then((response) => response.json())
+	const result: FeatureCollection<Point, NominatimReverseGeocodeProperties> =
+		await fetch(fetchUrl, {
+			signal,
+		}).then((response) => response.json())
 
 	const feature = result.features[0]
 	if (!feature) {
 		throw new Error('No features returned from Nominatim reverse geocode')
 	}
-	if (feature.geometry.type !== 'Point') {
-		throw new Error('Nominatim reverse geocode returned non-point geometry')
-	}
 
-	const properties = feature.properties as NominatimReverseGeocodeProperties
+	const properties = feature.properties
 
 	return {
 		type: 'reverse_geocoded',
