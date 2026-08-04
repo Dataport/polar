@@ -59,9 +59,7 @@ export async function reverseGeocodeNominatim({
 	fetchUrl.searchParams.set('format', 'geojson')
 
 	const result: FeatureCollection<Point, NominatimReverseGeocodeProperties> =
-		await fetch(fetchUrl, {
-			signal,
-		}).then((response) => response.json())
+		await fetch(fetchUrl, { signal }).then((response) => response.json())
 
 	const feature = result.features[0]
 	if (!feature) {
