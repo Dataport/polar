@@ -67,8 +67,7 @@ export async function reverseGeocodeNominatim({
 	if (!feature) {
 		throw new Error('No features returned from Nominatim reverse geocode')
 	}
-
-	const properties = feature.properties
+	const { properties } = feature
 
 	return {
 		type: 'reverse_geocoded',
