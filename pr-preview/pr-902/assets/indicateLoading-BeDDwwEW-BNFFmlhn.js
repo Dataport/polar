@@ -1,1 +1,0 @@
-import{A as e}from"./stores-BNpoFZ6_-CEgGRU-G.js";var t=0;function n(){let n=e().getPluginStore(`loadingIndicator`);if(!n)return()=>{};let r=`lib-indicate-loading-${t++}`;return n.addLoadingKey(r),()=>{n.removeLoadingKey(r)}}export{n as t};
