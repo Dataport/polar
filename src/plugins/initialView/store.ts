@@ -52,9 +52,6 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 	function teardownPlugin() {}
 
 	return {
-		startCenter,
-		startResolution,
-
 		/** @alpha  */
 		returnToInitialView,
 
