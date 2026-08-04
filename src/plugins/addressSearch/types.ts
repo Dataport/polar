@@ -126,7 +126,7 @@ export interface AddressSearchPluginOptions extends PluginOptions {
 
 /** Possible search methods by type. */
 // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
+export type SearchType = 'bkg' | 'wfs' | 'mpapi' | 'nominatim' | string
 
 export type SearchDisplayMode = 'mixed' | 'categorized'
 
@@ -176,7 +176,7 @@ export interface SearchMethodConfiguration {
 
 	/**
 	 * The object further describes details for the search request.
-	 * Its contents vary by service type, see {@link BKGParameters}, {@link MpapiParameters} or {@link WfsParameters}.
+	 * Its contents vary by service type, see {@link BKGParameters}, {@link MpapiParameters}, {@link WfsParameters} or {@link NominatimParameters}.
 	 */
 	queryParameters?: QueryParameters
 

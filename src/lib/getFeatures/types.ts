@@ -195,7 +195,7 @@ export interface WfsParameters extends QueryParameters {
 	/** XML feature prefix from xmlns namespace without :; e.g. 'ave'. */
 	featurePrefix: string
 
-	/** Feature type to search for by name (see ?service=wfs&request=DescribeFeatureType). */
+	/** Feature type to search for by name (see `?service=wfs&request=DescribeFeatureType`). */
 	typeName: string
 
 	/** XML namespace of feature type to use in search. */
@@ -287,4 +287,86 @@ export interface WfsParameters extends QueryParameters {
 	 * This behaviour can be deactivated by setting this parameter to `false`.
 	 */
 	useRightHandWildcard?: boolean
+}
+
+export interface NominatimParameters extends QueryParameters {
+	/**
+	 * Whether to include address details in the result.
+	 */
+	addressdetails?: boolean
+
+	/**
+	 * Name and/or type of POI.
+	 */
+	amenity?: string
+
+	/**
+	 * Whether to consider the viewbox as exact instead of fuzzy filter.
+	 */
+	bounded?: boolean
+
+	/**
+	 * City.
+	 */
+	city?: string
+
+	/**
+	 * Country.
+	 */
+	country?: string
+
+	/**
+	 * Country code (ISO 3166-1alpha2).
+	 */
+	countrycodes?: string[]
+
+	/**
+	 * County.
+	 */
+	county?: string
+
+	/**
+	 * Whether to include entrances to buildings in the results.
+	 */
+	entrances?: boolean
+
+	/**
+	 * Whether to add extra tags to the result.
+	 */
+	extratags?: boolean
+
+	/**
+	 * Which feature types to include.
+	 */
+	featureType?: 'country' | 'state' | 'city' | 'settlement'
+
+	/**
+	 * Which type(s) of results to return.
+	 */
+	layer?: ('address' | 'poi' | 'railway' | 'natural' | 'manmade')[]
+
+	/**
+	 * Whether to include more names in alternate languages.
+	 */
+	namedetails?: boolean
+
+	/**
+	 * Postal code.
+	 */
+	postalcode?: string
+
+	/**
+	 * State.
+	 */
+	state?: string
+
+	/**
+	 * House number and street name.
+	 */
+	street?: string
+
+	/**
+	 * Viewbox to prefer for searching the given term.
+	 */
+	viewbox?: [number, number, number, number]
 }
