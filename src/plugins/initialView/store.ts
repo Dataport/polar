@@ -71,22 +71,22 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 	}
 })
 
-interface MockCoreStore {
-	center: number[] | null
-	configuration: {
-		startCenter: number[]
-		startResolution: number
-		options: { resolution: number; zoomLevel: number }[]
-	}
-	getPluginStore: () => unknown
-	zoom: number | null
-}
-
-let mockCoreStore: MockCoreStore
-
 if (import.meta.vitest) {
 	const { createPinia, setActivePinia } = await import('pinia')
 	const { describe, it, expect, vi, beforeEach } = import.meta.vitest
+
+	interface MockCoreStore {
+		center: number[] | null
+		configuration: {
+			startCenter: number[]
+			startResolution: number
+			options: { resolution: number; zoomLevel: number }[]
+		}
+		getPluginStore: () => unknown
+		zoom: number | null
+	}
+
+	let mockCoreStore: MockCoreStore
 
 	const mockOptions = [
 		{ resolution: 1, zoomLevel: 5 },
