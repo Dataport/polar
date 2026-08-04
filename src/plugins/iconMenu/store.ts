@@ -70,17 +70,30 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		if (open.value === pluginId) {
 			open.value = null
 		}
-		menus.value = menus.value
-			.map((menuGroup) =>
-				menuGroup.filter(({ plugin: { id } }) => id !== pluginId)
+		const pluginIndex = menus.value.findIndex((menuGroup) =>
+			menuGroup.some(({ plugin: { id } }) => id === pluginId)
+		)
+		if (pluginIndex !== -1) {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const pluginMenu = menus.value[pluginIndex]!
+			const pluginMenuIndex = pluginMenu.findIndex(
+				({ plugin: { id } }) => id === pluginId
 			)
-			.filter((menuGroup) => menuGroup.length > 0)
+			pluginMenu.splice(pluginMenuIndex, 1)
+			if (pluginMenu.length === 0) {
+				menus.value.splice(pluginIndex, 1)
+			}
+		}
+
 		if (focusOpen.value === pluginId) {
 			focusOpen.value = null
 		}
-		focusMenus.value = focusMenus.value.filter(
-			({ plugin: { id } }) => id !== pluginId
+		const pluginFocusIndex = focusMenus.value.findIndex(
+			({ plugin: { id } }) => id === pluginId
 		)
+		if (pluginFocusIndex !== -1) {
+			focusMenus.value.splice(pluginFocusIndex, 1)
+		}
 		coreStore.removePlugin(pluginId)
 	}
 

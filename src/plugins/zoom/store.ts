@@ -65,7 +65,7 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 			? layoutTag.value.includes('RIGHT')
 				? 'left'
 				: 'right'
-			: coreStore.getPluginStore('iconMenu')?.layoutTag.includes('RIGHT')
+			: coreStore.configuration.iconMenu?.layoutTag?.includes('RIGHT')
 				? 'left'
 				: 'right'
 	) as ComputedRef<'left' | 'right'>
