@@ -1,6 +1,6 @@
 {
 	"name": "@polar/polar",
-	"version": "3.0.0-alpha.2",
+	"version": "3.0.0-alpha.3",
 	"description": "Configurable map client based on OpenLayers",
 	"keywords": [
 		"OpenLayers",
@@ -85,7 +85,7 @@
 		"@commitlint/cli": "^21.2.1",
 		"@commitlint/config-conventional": "^21.0.2",
 		"@dataport/eslint-config-geodev": "^1.1.0",
-		"@kern-ux/native": "^2.7.1",
+		"@kern-ux/native": "^2.7.2",
 		"@masterportal/masterportalapi": "2.63.0",
 		"@microsoft/api-extractor": "^7.58.12",
 		"@pinia/testing": "^2.0.1",
@@ -95,7 +95,7 @@
 		"@vitejs/plugin-vue": "^6.0.8",
 		"@vitest/coverage-v8": "^4.1.10",
 		"@vitest/ui": "^4.1.10",
-		"@vue/devtools-api": "^8.1.5",
+		"@vue/devtools-api": "^8.2.1",
 		"@vue/test-utils": "^2.4.11",
 		"@vue/tsconfig": "^0.9.0",
 		"cross-env": "^10.0.0",
@@ -109,7 +109,7 @@
 		"i18next": "^26.3.6",
 		"i18next-browser-languagedetector": "^8.2.0",
 		"i18next-vue": "^5.4.0",
-		"jsdom": "^29.0.1",
+		"jsdom": "^30.0.1",
 		"jspdf": "^4.2.1",
 		"magic-string": "^0.30.18",
 		"ol": "10.9.0",
@@ -124,14 +124,14 @@
 		"typedoc-plugin-vue": "^1.5.0",
 		"typescript": "~5.9.2",
 		"unplugin-dts": "^1.0.3",
-		"vite": "^8.1.5",
+		"vite": "^8.2.0",
 		"vite-plugin-checker": "^0.14.5",
 		"vite-plugin-commonjs": "^0.10.4",
 		"vite-plugin-kern-extra-icons": "^1.0.1",
-		"vite-plugin-vue-devtools": "^8.1.5",
+		"vite-plugin-vue-devtools": "^8.2.1",
 		"vitest": "^4.1.10",
 		"vue": "^3.5.40",
-		"vue-tsc": "^3.3.8"
+		"vue-tsc": "^3.3.9"
 	},
 	"//": "Relevant overrides until the respective packages fix these vulnerable versions themselves.",
 	"overrides": {
