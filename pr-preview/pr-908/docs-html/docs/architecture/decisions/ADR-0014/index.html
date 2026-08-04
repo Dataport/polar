@@ -962,10 +962,10 @@
 <h2 id="status">Status</h2>
 <p>Accepted.</p>
 <h2 id="context">Context</h2>
-<p>The previous Vue 2 codebase used jest for unit and component tests, which required additional transformers and configuration to work with TypeScript and single-file components.</p>
-<p>The rewrite introduced by ADR 0009 is built with vite, so the test runner should fit that toolchain.</p>
+<p>The previous <code>vue@2</code> codebase used <code>jest</code> for unit and component tests, which required additional transformers and configuration to work with TypeScript and single-file components.</p>
+<p>The rewrite introduced by ADR 0009 is built with <code>vite</code>, so the test runner should fit that toolchain.</p>
 <h2 id="decision">Decision</h2>
-<p>We use vitest as test runner.</p>
+<p>We use <code>vitest</code> as test runner.</p>
 <h2 id="consequences">Consequences</h2>
 <ul>
 <li>(+) The vite configuration, including aliases and plugins, is reused for tests, so there is no second build setup to maintain.</li>
