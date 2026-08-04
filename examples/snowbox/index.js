@@ -360,7 +360,10 @@ addPlugin(
 addPlugin(
 	map,
 	pluginReverseGeocoder({
-		url: 'https://geodienste.hamburg.de/HH_WPS',
+		// type: 'wps',
+		// url: 'https://geodienste.hamburg.de/HH_WPS',
+		type: 'nominatim',
+		url: 'https://polar.dataport.de/nominatim/reverse',
 		coordinateSources: [
 			{
 				plugin: 'pins',
@@ -526,6 +529,7 @@ addPlugin(
 		displayComponent: true,
 		layoutTag: 'TOP_LEFT',
 		searchMethods: [
+			/*
 			{
 				queryParameters: {
 					searchStreets: true,
@@ -533,6 +537,11 @@ addPlugin(
 				},
 				type: 'mpapi',
 				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+			},
+			*/
+			{
+				type: 'nominatim',
+				url: 'https://polar.dataport.de/nominatim/search',
 			},
 		],
 		minLength: 3,
