@@ -74,6 +74,7 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 if (import.meta.vitest) {
 	const { createPinia, setActivePinia } = await import('pinia')
 	const { describe, it, expect, vi, beforeEach } = import.meta.vitest
+	const useCoreStoreFile = await import('@/core/stores')
 
 	interface MockCoreStore {
 		center: number[] | null
@@ -106,11 +107,9 @@ if (import.meta.vitest) {
 			zoom: null,
 			getPluginStore: vi.fn(),
 		}
+		// @ts-expect-error | Mocking useCoreStore
+		vi.spyOn(useCoreStoreFile, 'useCoreStore').mockReturnValue(mockCoreStore)
 	})
-
-	vi.mock('@/core/stores', () => ({
-		useCoreStore: () => mockCoreStore,
-	}))
 
 	const { useInitialViewStore } = await import('./store')
 
