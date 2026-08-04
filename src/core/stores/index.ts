@@ -296,7 +296,7 @@ export const useCoreStore = defineStore('core', () => {
 		 * @remarks
 		 * The attribute _polarLayerId needs to be set.
 		 *
-		 * Wait at least one `nextTick` after modifying {@link hoveredFeature} before touching this value.
+		 * Wait at least one `nextTick` after modifying {@link hoveredFeature} before mutating this value.
 		 *
 		 * @alpha
 		 */
