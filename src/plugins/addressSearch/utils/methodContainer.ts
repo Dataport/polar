@@ -2,10 +2,11 @@ import type { SearchMethodFunction } from '../types'
 
 import bkg from '@/lib/getFeatures/bkg'
 import mpapi from '@/lib/getFeatures/mpapi'
+import nominatim from '@/lib/getFeatures/nominatim'
 import { getWfsFeatures } from '@/lib/getFeatures/wfs'
 
 export function getMethodContainer() {
-	const methods = { bkg, mpapi, wfs: getWfsFeatures }
+	const methods = { bkg, mpapi, nominatim, wfs: getWfsFeatures }
 
 	return {
 		registerSearchMethods: (

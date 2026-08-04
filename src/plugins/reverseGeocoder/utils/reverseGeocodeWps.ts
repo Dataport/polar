@@ -1,6 +1,9 @@
+import type { Coordinate } from 'ol/coordinate'
 import type { ReverseGeocoderFeature } from '../types'
 
-const buildPostBody = ([x, y]: [number, number]) => `<wps:Execute
+import { transform as transformCoordinate } from 'ol/proj'
+
+const buildPostBody = ([x, y]: Coordinate) => `<wps:Execute
 	xmlns:wps='http://www.opengis.net/wps/1.0.0'
 	xmlns:xlink='http://www.w3.org/1999/xlink'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
@@ -30,14 +33,22 @@ function getTextContent(parent: Element, localName: string) {
 	return parent.getElementsByTagNameNS('*', localName)[0]?.textContent ?? ''
 }
 
-export async function reverseGeocode(
-	url: string,
-	coordinate: [number, number],
+export async function reverseGeocodeWps({
+	url,
+	coordinate,
+	epsg,
+	serviceEpsg,
+	signal,
+}: {
+	url: string
+	coordinate: [number, number]
+	epsg: string
+	serviceEpsg: string
 	signal: AbortSignal
-): Promise<ReverseGeocoderFeature> {
+}): Promise<ReverseGeocoderFeature> {
 	const response = await fetch(url, {
 		method: 'POST',
-		body: buildPostBody(coordinate),
+		body: buildPostBody(transformCoordinate(coordinate, epsg, serviceEpsg)),
 		signal,
 	})
 
@@ -85,9 +96,16 @@ export async function reverseGeocode(
 
 if (import.meta.vitest) {
 	const { beforeEach, expect, test, vi } = import.meta.vitest
+	const {
+		default: { registerProjections },
+	} = await import('@masterportal/masterportalapi/src/crs')
+	const {
+		default: { namedProjections },
+	} = await import('@/core/utils/defaults')
 
 	beforeEach(() => {
 		vi.restoreAllMocks()
+		registerProjections(namedProjections)
 	})
 
 	const testUrl = 'https://wps.example'
@@ -143,7 +161,13 @@ if (import.meta.vitest) {
 		const abortController = new AbortController()
 
 		await expect(
-			reverseGeocode(testUrl, testCoordinates, abortController.signal)
+			reverseGeocodeWps({
+				url: testUrl,
+				coordinate: testCoordinates,
+				epsg: 'EPSG:25832',
+				serviceEpsg: 'EPSG:25832',
+				signal: abortController.signal,
+			})
 		).rejects.toThrow('Failed to parse XML response')
 	})
 
@@ -154,7 +178,13 @@ if (import.meta.vitest) {
 		const abortController = new AbortController()
 
 		await expect(
-			reverseGeocode(testUrl, testCoordinates, abortController.signal)
+			reverseGeocodeWps({
+				url: testUrl,
+				coordinate: testCoordinates,
+				epsg: 'EPSG:25832',
+				serviceEpsg: 'EPSG:25832',
+				signal: abortController.signal,
+			})
 		).rejects.toThrow('Response does not contain an "Adresse" element.')
 	})
 
@@ -162,12 +192,15 @@ if (import.meta.vitest) {
 		const fetchMock = vi.spyOn(global, 'fetch').mockResolvedValueOnce({
 			text: () => Promise.resolve(testResponse),
 		} as Response)
+
 		const abortController = new AbortController()
-		const feature = await reverseGeocode(
-			testUrl,
-			testCoordinates,
-			abortController.signal
-		)
+		const feature = await reverseGeocodeWps({
+			url: testUrl,
+			coordinate: testCoordinates,
+			epsg: 'EPSG:25832',
+			serviceEpsg: 'EPSG:25832',
+			signal: abortController.signal,
+		})
 
 		expect(fetchMock).toHaveBeenCalledOnce()
 		expect(fetchMock).toHaveBeenCalledWith(testUrl, {
