@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => ({
 		vueDevTools(),
 		dts({
 			bundleTypes: true,
+			processor: 'vue',
 			tsconfigPath: './src/tsconfig.json',
 		}),
 		...(mode === 'development'
