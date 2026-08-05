@@ -1,15 +1,13 @@
-import type { Feature as GeoJsonFeature } from 'geojson'
-import type { Feature } from 'ol'
 import type { CustomHighlightStyle, GfiPluginOptions } from '../types'
 
-import { GeoJSON } from 'ol/format'
 import { Fill, Stroke, Style } from 'ol/style'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
 import { useFeatureDisplayLayer } from '../composables/useFeatureDisplayLayer'
+import { useSelectedFeatures } from '../composables/useSelectedFeatures'
 import { PluginId } from '../types'
 
 const defaultHighlightStyle = {
@@ -37,21 +35,7 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 		return configuration.value.layers[layerId]
 	}
 
-	const selectedFeatures = shallowRef<Record<string, Feature[]>>({})
-	const featureInformation = ref<Record<string, GeoJsonFeature[]>>({})
-
-	watch(
-		selectedFeatures,
-		(features) => {
-			featureInformation.value = Object.fromEntries(
-				Object.entries(features).map(([layerId, features]) => [
-					layerId,
-					features.map((feature) => new GeoJSON().writeFeatureObject(feature)),
-				])
-			)
-		},
-		{ immediate: true }
-	)
+	const { selectedFeatures, featureInformation } = useSelectedFeatures()
 
 	const customHighlightStyle = computed(
 		() =>
