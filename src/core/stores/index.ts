@@ -120,6 +120,37 @@ export const useCoreStore = defineStore('core', () => {
 		zoom: mainStoreRefs.zoom,
 
 		/**
+		 * Masks an interaction for a plugin.
+		 * If the interaction is already masked by another plugin, an error is thrown.
+		 *
+		 * This may, for example, be used for interactions that should not be triggered while drawing.
+		 *
+		 * @param pluginId - ID of the plugin that wants to mask the interaction
+		 * @param interaction - Name of the interaction to be masked
+		 * @alpha
+		 */
+		maskInteraction: mainStore.maskInteraction,
+
+		/**
+		 * Unmasks an interaction for a plugin.
+		 * If the interaction is not masked by the plugin, nothing happens.
+		 *
+		 * @param pluginId - ID of the plugin that wants to unmask the interaction
+		 * @param interaction - Name of the interaction to be unmasked
+		 * @alpha
+		 */
+		unmaskInteraction: mainStore.unmaskInteraction,
+
+		/**
+		 * Checks whether an interaction is masked by another plugin.
+		 *
+		 * @param interaction - Name of the interaction to be checked
+		 * @returns `true` if the interaction is masked by another plugin, `false` otherwise
+		 * @alpha
+		 */
+		isInteractionMasked: mainStore.isInteractionMasked,
+
+		/**
 		 * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
 		 * already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared.
 		 *
