@@ -5,7 +5,6 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { Coordinate } from 'ol/coordinate'
-import type { Point } from 'ol/geom'
 import type {
 	RoutingPluginOptions,
 	RoutingResponseData,
@@ -15,6 +14,7 @@ import type {
 
 import { t } from 'i18next'
 import { Feature } from 'ol'
+import { Point } from 'ol/geom'
 import { LineString } from 'ol/geom'
 import Draw from 'ol/interaction/Draw'
 import { transform } from 'ol/proj'
@@ -26,6 +26,7 @@ import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
 
 import { useLayer } from './composables/useLayer'
+import { useMarkerLayer } from './composables/useMarkerLayer'
 import { PluginId } from './types'
 import { handleErrors } from './utils/handleErrors'
 
@@ -40,6 +41,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const coreStore = useCoreStore()
 
 	const routeSource = new VectorSource()
+	const markerSource = new VectorSource()
 	let abortController: AbortController | null = null
 	let draw: Draw | undefined
 
@@ -224,7 +226,8 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		// @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
 		draw._isRoutingDraw = true
 		draw.on('drawend', (e) => {
-			addCoordinateToRoute((e.feature.getGeometry() as Point).getCoordinates())
+			const coordinate = (e.feature.getGeometry() as Point).getCoordinates()
+			addCoordinateToRoute(coordinate)
 			// @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
 			draw._isRoutingDraw = false
 			currentlyFocusedInput.value = -1
@@ -264,7 +267,21 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		selectedRouteTypesToAvoid.value = []
 	})
 
+	watch(route, () => {
+		markerSource.clear()
+		route.value.forEach((coordinate) => {
+			if (coordinate.length) {
+				const marker = new Feature({
+					geometry: new Point(coordinate),
+					// icon: 'kern-icon--home',
+				})
+				markerSource.addFeature(marker)
+			}
+		})
+	})
+
 	useLayer(coreStore.map, routeSource)
+	useMarkerLayer(coreStore.map, markerSource)
 
 	function setupPlugin() {
 		initializeDraw()
@@ -306,6 +323,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		selectedRouteTypesToAvoid.value = []
 		routingResponseData.value = null
 		routeSource.clear()
+		markerSource.clear()
 
 		if (abortController) {
 			abortController.abort()
