@@ -36,6 +36,10 @@
 		"./plugins/*/store": {
 			"types": "./dist/plugin-*-store.d.ts",
 			"default": "./dist/plugin-*-store.js"
+		},
+		"./lib/*": {
+			"types": "./dist/lib/*.d.ts",
+			"default": "./dist/lib/*.js"
 		}
 	},
 	"repository": {
