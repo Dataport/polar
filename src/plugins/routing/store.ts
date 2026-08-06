@@ -273,7 +273,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			if (coordinate.length) {
 				const marker = new Feature({
 					geometry: new Point(coordinate),
-					// icon: 'kern-icon--home',
 				})
 				markerSource.addFeature(marker)
 			}
