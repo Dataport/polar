@@ -17,7 +17,7 @@
 			/>
 		</hgroup>
 	</header>
-	<section class="kern-card__body" @mouseleave="clearHoveredFeatures">
+	<section class="kern-card__body" @mouseleave="gfiStore.hover(null)">
 		<p
 			v-if="gfiStore.listFlatFeatures.length === 0"
 			class="kern-body kern-body--small polar-plugin-gfi-list-empty-view"
@@ -34,9 +34,9 @@
 				class="feature-list-item"
 				:class="{ hovered }"
 				@click="setSelectedFeature(layerId, feature)"
-				@mouseenter="setHoveredFeature(layerId, feature)"
-				@focus="setHoveredFeature(layerId, feature)"
-				@blur="clearHoveredFeatures"
+				@mouseenter="gfiStore.hover({ layerId, feature })"
+				@focus="gfiStore.hover({ layerId, feature })"
+				@blur="gfiStore.hover(null)"
 			>
 				<h3 class="kern-title kern-title--small">
 					{{ text.title }}
@@ -64,26 +64,12 @@ import { PluginId } from '../types'
 
 const gfiStore = useGfiStore()
 
-function setHoveredFeature(layerId: string, feature: Feature) {
-	if (gfiStore.hoveredFeatures[layerId]?.[0] !== feature) {
-		gfiStore.hoveredFeatures = markRaw({
-			[layerId]: markRaw([feature]),
-		})
-	}
-}
-
 async function setSelectedFeature(layerId: string, feature: Feature) {
 	gfiStore.hoveredFeatures = markRaw({})
 	await nextTick()
 	gfiStore.selectedFeatures = markRaw({
 		[layerId]: markRaw([feature]),
 	})
-}
-
-function clearHoveredFeatures() {
-	if (Object.keys(gfiStore.hoveredFeatures).length) {
-		gfiStore.hoveredFeatures = markRaw({})
-	}
 }
 </script>
 

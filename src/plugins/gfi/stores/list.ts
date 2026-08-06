@@ -1,29 +1,55 @@
 import type { Feature } from 'ol'
 import type { FeatureList } from '../types'
 
-import ClusterSource from 'ol/source/Cluster'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { computed, markRaw, ref, shallowRef, watch } from 'vue'
+import { computed, markRaw, ref, shallowRef } from 'vue'
 
 import { useOlVectorSources } from '@/composables/useOlVectorSources'
 import { useRefStore } from '@/composables/useRefStore'
 import { useCoreStore } from '@/core/stores'
-import getCluster from '@/lib/getCluster'
 import { getVectorSource } from '@/lib/getVectorSource'
 import { isVisible } from '@/lib/invisibleStyle'
 
+import { useBindWithCoreHoverSelect } from '../composables/useBindWithCoreHoverSelect'
 import { filterSelectableFeatures } from '../utils/filterSelectableFeatures'
 import { getSourceFeatures } from '../utils/getSourceFeatures'
 import { useGfiMainStore } from './main'
 
 export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 	const coreStore = useCoreStore()
-	const gfiMainStore = useGfiMainStore()
+	const coreStoreRefs = storeToRefs(coreStore)
 
-	const hoveredFeatures = shallowRef<Record<string, Feature[]>>({})
-	const { selectedFeatures } = storeToRefs(gfiMainStore)
+	const gfiMainStore = useGfiMainStore()
+	const gfiMainStoreRefs = storeToRefs(gfiMainStore)
 
 	const configuration = computed(() => gfiMainStore.configuration.featureList)
+
+	const hoveredFeatures = shallowRef<Record<string, Feature[]>>({})
+	if (configuration.value?.bindWithCoreHoverSelect) {
+		useBindWithCoreHoverSelect(
+			hoveredFeatures,
+			gfiMainStoreRefs.selectedFeatures,
+			coreStoreRefs.hoveredFeature,
+			coreStoreRefs.selectedFeature
+		)
+	}
+
+	function hover(data: { layerId: string; feature: Feature } | null) {
+		if (data === null) {
+			if (Object.keys(hoveredFeatures.value).length) {
+				hoveredFeatures.value = markRaw({})
+			}
+			return
+		}
+
+		const { layerId, feature } = data
+		if (hoveredFeatures.value[layerId]?.includes(feature)) {
+			return
+		}
+		hoveredFeatures.value = markRaw({
+			[layerId]: markRaw([feature]),
+		})
+	}
 
 	const activeLayers = computed((): string[] => {
 		if (!configuration.value) {
@@ -59,13 +85,6 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 			}))
 	)
 
-	function isHovered(feature: Feature) {
-		return (
-			coreStore.hoveredFeature === feature ||
-			coreStore.hoveredFeature?.get('features')?.includes(feature)
-		)
-	}
-
 	const features = useOlVectorSources(
 		computed(() => activeLayerList.value.map(({ source }) => source)),
 		computed(() => coreStore.extent),
@@ -92,99 +111,6 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 						)
 				)
 			)
-	)
-
-	watch(
-		[
-			() => configuration.value?.bindWithCoreHoverSelect,
-			() => coreStore.selectedFeature,
-		],
-		([bindMarkers, feature]) => {
-			if (bindMarkers) {
-				if (feature) {
-					const layerId = feature.get('_polarLayerId')
-					const newFeatures = filterSelectableFeatures(
-						feature.get('features') || [feature],
-						gfiMainStore.getLayerConfiguration(layerId)?.isSelectable
-					)
-					selectedFeatures.value = markRaw({
-						...(newFeatures.length ? { [layerId]: markRaw(newFeatures) } : {}),
-					})
-				} else {
-					selectedFeatures.value = markRaw({})
-				}
-			}
-		},
-		{ immediate: true }
-	)
-
-	watch(
-		[
-			() => configuration.value?.bindWithCoreHoverSelect,
-			() => hoveredFeatures.value,
-		],
-		([bindMarkers, featureMap]) => {
-			if (bindMarkers) {
-				const features = Object.entries(featureMap).flatMap(
-					([layerId, features]) =>
-						features.map((feature) => ({ layerId, feature }))
-				)
-
-				// The second condition is necessary for TypeScript checks.
-				if (features.length <= 0 || !features[0]) {
-					coreStore.hoveredFeature = null
-					return
-				}
-
-				const { feature, layerId } = features[0]
-				feature.set('_polarLayerId', layerId, true)
-				coreStore.hoveredFeature = markRaw(
-					coreStore.getLayer(layerId)?.getSource() instanceof ClusterSource
-						? getCluster(coreStore.map, feature, '_polarLayerId')
-						: feature
-				)
-			}
-		},
-		{ immediate: true }
-	)
-
-	watch(
-		[
-			() => configuration.value?.bindWithCoreHoverSelect,
-			() => selectedFeatures.value,
-		],
-		([bindMarkers, featureMap]) => {
-			if (bindMarkers) {
-				const features = Object.entries(featureMap).flatMap(
-					([layerId, features]) =>
-						features.map((feature) => ({ layerId, feature }))
-				)
-
-				// The second condition is necessary for TypeScript checks.
-				if (features.length <= 0 || !features[0]) {
-					coreStore.selectedFeature = null
-					return
-				}
-
-				const selectedFeature = coreStore.selectedFeature
-				const selectedClusterFeatures =
-					selectedFeature?.get('features') ||
-					(selectedFeature ? [selectedFeature] : [])
-				if (
-					selectedFeature?.get('_polarLayerId') === features[0].layerId &&
-					selectedClusterFeatures.length === features.length &&
-					features.every(({ feature }) =>
-						selectedClusterFeatures.includes(feature)
-					)
-				) {
-					return
-				}
-
-				features[0].feature.set('_polarLayerId', features[0].layerId, true)
-				coreStore.selectedFeature = markRaw(features[0].feature)
-			}
-		},
-		{ immediate: true }
 	)
 
 	const flatFeatures = computed(() =>
@@ -244,9 +170,9 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		paginatedFeatures.value.map((feature) => ({
 			...feature,
 			get hovered() {
-				return configuration.value?.bindWithCoreHoverSelect
-					? isHovered(feature.feature)
-					: undefined
+				return Object.values(hoveredFeatures.value).some((features) =>
+					features.includes(feature.feature)
+				)
 			},
 			text: {
 				title: getText(feature.feature, 'title'),
@@ -259,6 +185,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 	return {
 		features,
 		hoveredFeatures,
+		hover,
 		flatFeatures,
 		paginationActive,
 		pageLength,

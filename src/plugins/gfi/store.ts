@@ -51,6 +51,14 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		hoveredFeatures: gfiListStoreRefs.hoveredFeatures,
 
 		/**
+		 * Mark feature as hovered.
+		 * This is only used for the list view.
+		 *
+		 * @alpha
+		 */
+		hover: gfiListStore.hover,
+
+		/**
 		 * Selected features.
 		 * This is only used if the feature is loaded from the list view.
 		 *
