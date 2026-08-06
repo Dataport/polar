@@ -11,6 +11,11 @@ export const PluginId = 'reverseGeocoder'
  */
 export interface ReverseGeocoderPluginOptions extends PluginOptions {
 	/**
+	 * Type of reverse geocoding service.
+	 */
+	type: 'wps' | 'nominatim'
+
+	/**
 	 * URL of a WPS service to use for reverse geocoding.
 	 */
 	url: string
@@ -25,6 +30,14 @@ export interface ReverseGeocoderPluginOptions extends PluginOptions {
 	 * If a coordinate is refreshed, reverse geocoding for that coordinate is done automatically.
 	 */
 	coordinateSources?: StoreReference[]
+
+	/**
+	 * EPSG code of the coordinate system used by the service.
+	 * Considered only if {@link ReverseGeocoderPluginOptions.type | type} is set to `'wps'`.
+	 *
+	 * @defaultValue `'EPSG:25832'`
+	 */
+	epsg?: string
 
 	/**
 	 * Zoom level to zoom to when a successful answer was received.

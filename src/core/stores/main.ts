@@ -1,9 +1,10 @@
-import type { Feature, Map } from 'ol'
+import type { Feature, Map as OlMap } from 'ol'
 import type { Point } from 'ol/geom'
 import type {
 	ColorScheme,
 	MapConfigurationIncludingDefaults,
 	MasterportalApiServiceRegister,
+	PluginId,
 } from '../types'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
@@ -29,7 +30,7 @@ export const useMainStore = defineStore('main', () => {
 	)
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
-	const map = shallowRef({} as Map)
+	const map = shallowRef({} as OlMap)
 	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
 
@@ -89,6 +90,32 @@ export const useMainStore = defineStore('main', () => {
 		return { ...register, ...polar } as typeof polar
 	}
 
+	// TODO: Check if this works as expected in all combinations when draw is migrated
+	const maskedInteractions = ref(
+		new Map<string, { pluginId: PluginId; teardown: () => void }>()
+	)
+	function maskInteraction(
+		pluginId: PluginId,
+		interaction: string,
+		setup: () => void,
+		teardown: () => void
+	) {
+		if (maskedInteractions.value.has(interaction)) {
+			maskedInteractions.value.get(interaction)?.teardown()
+		}
+		maskedInteractions.value.set(interaction, { pluginId, teardown })
+		setup()
+	}
+	function unmaskInteraction(pluginId: PluginId, interaction: string) {
+		if (maskedInteractions.value.get(interaction)?.pluginId === pluginId) {
+			maskedInteractions.value.get(interaction)?.teardown()
+			maskedInteractions.value.delete(interaction)
+		}
+	}
+	function isInteractionMasked(interaction: string) {
+		return maskedInteractions.value.has(interaction)
+	}
+
 	function setup() {
 		addEventListener('resize', updateHasSmallDisplay)
 		updateHasSmallDisplay()
@@ -124,6 +151,9 @@ export const useMainStore = defineStore('main', () => {
 		centerOnFeature,
 		updateHasSmallDisplay,
 		getLayerMapConfiguration,
+		maskInteraction,
+		unmaskInteraction,
+		isInteractionMasked,
 		setup,
 		teardown,
 	}
@@ -131,4 +161,72 @@ export const useMainStore = defineStore('main', () => {
 
 if (import.meta.hot) {
 	import.meta.hot.accept(acceptHMRUpdate(useMainStore, import.meta.hot))
+}
+
+if (import.meta.vitest) {
+	const { vi, expect, test: _test } = import.meta.vitest
+	const { createPinia, setActivePinia } = await import('pinia')
+
+	/* eslint-disable no-empty-pattern */
+	const test = _test.extend<{
+		store: ReturnType<typeof useMainStore>
+	}>({
+		store: async ({}, use) => {
+			setActivePinia(createPinia())
+			const store = useMainStore()
+			store.setup()
+			await use(store)
+			store.teardown()
+		},
+	})
+	/* eslint-enable no-empty-pattern */
+
+	test('interactions can be masked and unmasked', ({ store }) => {
+		const pluginId = 'external-test-plugin'
+		const interaction = 'click'
+		const setup = vi.fn()
+		const teardown = vi.fn()
+
+		expect(store.isInteractionMasked(interaction)).toBe(false)
+
+		store.maskInteraction(pluginId, interaction, setup, teardown)
+		expect(store.isInteractionMasked(interaction)).toBe(true)
+		expect(setup).toHaveBeenCalledTimes(1)
+		expect(teardown).toHaveBeenCalledTimes(0)
+
+		store.unmaskInteraction(pluginId, interaction)
+		expect(store.isInteractionMasked(interaction)).toBe(false)
+		expect(setup).toHaveBeenCalledTimes(1)
+		expect(teardown).toHaveBeenCalledTimes(1)
+	})
+
+	test('masking the same interaction twice tears down the previous mask', ({
+		store,
+	}) => {
+		const interaction = 'click'
+		const firstPluginId = 'external-test-plugin'
+		const firstSetup = vi.fn()
+		const firstTeardown = vi.fn()
+		const secondPluginId = 'external-second-test-plugin'
+		const secondSetup = vi.fn()
+		const secondTeardown = vi.fn()
+
+		expect(store.isInteractionMasked(interaction)).toBe(false)
+
+		store.maskInteraction(firstPluginId, interaction, firstSetup, firstTeardown)
+		expect(store.isInteractionMasked(interaction)).toBe(true)
+		expect(firstSetup).toHaveBeenCalledTimes(1)
+		expect(firstTeardown).toHaveBeenCalledTimes(0)
+
+		store.maskInteraction(
+			secondPluginId,
+			interaction,
+			secondSetup,
+			secondTeardown
+		)
+		expect(store.isInteractionMasked(interaction)).toBe(true)
+		expect(firstTeardown).toHaveBeenCalledTimes(1)
+		expect(secondSetup).toHaveBeenCalledTimes(1)
+		expect(secondTeardown).toHaveBeenCalledTimes(0)
+	})
 }
