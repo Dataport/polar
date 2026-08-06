@@ -52,9 +52,6 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 	function teardownPlugin() {}
 
 	return {
-		startCenter,
-		startResolution,
-
 		/** @alpha  */
 		returnToInitialView,
 
@@ -74,43 +71,54 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 	}
 })
 
-let mockCoreStore: unknown
-
 if (import.meta.vitest) {
 	const { createPinia, setActivePinia } = await import('pinia')
 	const { describe, it, expect, vi, beforeEach } = import.meta.vitest
+	const useCoreStoreFile = await import('@/core/stores')
 
-	const mockView = {
-		setCenter: vi.fn(),
-		setResolution: vi.fn(),
+	interface MockCoreStore {
+		center: number[] | null
+		configuration: {
+			startCenter: number[]
+			startResolution: number
+			options: { resolution: number; zoomLevel: number }[]
+		}
+		getPluginStore: () => unknown
+		zoom: number | null
 	}
 
-	vi.mock('@/core/stores', () => ({
-		useCoreStore: () => mockCoreStore,
-	}))
+	let mockCoreStore: MockCoreStore
+
+	const mockOptions = [
+		{ resolution: 1, zoomLevel: 5 },
+		{ resolution: 2, zoomLevel: 10 },
+		{ resolution: 3, zoomLevel: 15 },
+	]
+
+	beforeEach(() => {
+		setActivePinia(createPinia())
+		mockCoreStore = {
+			configuration: {
+				startCenter: [10, 20],
+				startResolution: 2,
+				options: mockOptions,
+			},
+			center: null,
+			zoom: null,
+			getPluginStore: vi.fn(),
+		}
+		// @ts-expect-error | Mocking useCoreStore
+		vi.spyOn(useCoreStoreFile, 'useCoreStore').mockReturnValue(mockCoreStore)
+	})
 
 	const { useInitialViewStore } = await import('./store')
 
 	describe('InitialView Store', () => {
-		beforeEach(() => {
-			setActivePinia(createPinia())
-			vi.clearAllMocks()
-			mockCoreStore = {
-				map: {
-					getView: vi.fn(() => mockView),
-				},
-				configuration: {
-					startCenter: [10, 20],
-					startResolution: 2,
-				},
-			}
-		})
-
-		it('should call setCenter and setResolution on returnToInitialView', () => {
+		it('should set center and zoom on returnToInitialView', () => {
 			const store = useInitialViewStore()
 			store.returnToInitialView()
-			expect(mockView.setCenter).toHaveBeenCalledWith([10, 20])
-			expect(mockView.setResolution).toHaveBeenCalledWith(2)
+			expect(mockCoreStore.center).toEqual([10, 20])
+			expect(mockCoreStore.zoom).toBe(10)
 		})
 	})
 }
