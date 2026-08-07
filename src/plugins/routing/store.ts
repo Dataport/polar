@@ -25,8 +25,8 @@ import { computed, ref, watch } from 'vue'
 import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
 
-import { useLayer } from './composables/useLayer'
 import { useMarkerLayer } from './composables/useMarkerLayer'
+import { useRouteLayer } from './composables/useRouteLayer'
 import { PluginId } from './types'
 import { handleErrors } from './utils/handleErrors'
 
@@ -272,7 +272,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		selectedRouteTypesToAvoid.value = []
 	})
 
-	useLayer(coreStore.map, routeSource)
+	useRouteLayer(coreStore.map, routeSource)
 	useMarkerLayer(coreStore.map, markerSource, route)
 
 	function setupPlugin() {
