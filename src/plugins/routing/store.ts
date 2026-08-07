@@ -26,6 +26,7 @@ import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
 
 import { useLayer } from './composables/useLayer'
+import { useMarkerLayer } from './composables/useMarkerLayer'
 import { PluginId } from './types'
 import { handleErrors } from './utils/handleErrors'
 
@@ -40,6 +41,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const coreStore = useCoreStore()
 
 	const routeSource = new VectorSource()
+	const markerSource = new VectorSource()
 	let abortController: AbortController | null = null
 	let draw: Draw | undefined
 
@@ -271,6 +273,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	})
 
 	useLayer(coreStore.map, routeSource)
+	useMarkerLayer(coreStore.map, markerSource, route)
 
 	function setupPlugin() {
 		initializeDraw()
@@ -312,6 +315,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		selectedRouteTypesToAvoid.value = []
 		routingResponseData.value = null
 		routeSource.clear()
+		markerSource.clear()
 
 		if (abortController) {
 			abortController.abort()
