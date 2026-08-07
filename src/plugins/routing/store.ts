@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import type { Coordinate } from 'ol/coordinate'
+import type { Point } from 'ol/geom'
 import type {
 	RoutingPluginOptions,
 	RoutingResponseData,
@@ -14,7 +15,6 @@ import type {
 
 import { t } from 'i18next'
 import { Feature } from 'ol'
-import { Point } from 'ol/geom'
 import { LineString } from 'ol/geom'
 import Draw from 'ol/interaction/Draw'
 import { transform } from 'ol/proj'
@@ -274,20 +274,8 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		selectedRouteTypesToAvoid.value = []
 	})
 
-	watch(route, () => {
-		markerSource.clear()
-		route.value.forEach((coordinate) => {
-			if (coordinate.length) {
-				const marker = new Feature({
-					geometry: new Point(coordinate),
-				})
-				markerSource.addFeature(marker)
-			}
-		})
-	})
-
 	useLayer(coreStore.map, routeSource)
-	useMarkerLayer(coreStore.map, markerSource)
+	useMarkerLayer(coreStore.map, markerSource, route)
 
 	function setupPlugin() {
 		initializeDraw()

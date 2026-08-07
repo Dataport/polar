@@ -1,11 +1,19 @@
 import type { Map } from 'ol'
+import type { Coordinate } from 'ol/coordinate'
 import type VectorSource from 'ol/source/Vector'
+import type { Ref } from 'vue'
 
+import { Feature } from 'ol'
+import { Point } from 'ol/geom'
 import VectorLayer from 'ol/layer/Vector'
 import { Circle, Fill, Stroke, Style } from 'ol/style'
-import { onScopeDispose } from 'vue'
+import { onScopeDispose, watch } from 'vue'
 
-export function useMarkerLayer(map: Map, markerSource: VectorSource) {
+export function useMarkerLayer(
+	map: Map,
+	markerSource: VectorSource,
+	route: Ref<Coordinate[]>
+) {
 	const layer = new VectorLayer({
 		source: markerSource,
 		style: new Style({
@@ -20,5 +28,18 @@ export function useMarkerLayer(map: Map, markerSource: VectorSource) {
 	map.addLayer(layer)
 	onScopeDispose(() => {
 		map.removeLayer(layer)
+	})
+
+	watch(route, () => {
+		markerSource.clear()
+		route.value.forEach((coordinate) => {
+			if (coordinate.length) {
+				markerSource.addFeature(
+					new Feature({
+						geometry: new Point(coordinate),
+					})
+				)
+			}
+		})
 	})
 }
