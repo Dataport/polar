@@ -17,7 +17,7 @@
 			/>
 		</hgroup>
 	</header>
-	<section class="kern-card__body" @mouseleave="gfiStore.hover(null)">
+	<section class="kern-card__body" @mouseleave="gfiStore.hoveredFeature = null">
 		<p
 			v-if="gfiStore.listFlatFeatures.length === 0"
 			class="kern-body kern-body--small polar-plugin-gfi-list-empty-view"
@@ -34,9 +34,9 @@
 				class="feature-list-item"
 				:class="{ hovered }"
 				@click="setSelectedFeature(layerId, feature)"
-				@mouseenter="gfiStore.hover({ layerId, feature })"
-				@focus="gfiStore.hover({ layerId, feature })"
-				@blur="gfiStore.hover(null)"
+				@mouseenter="gfiStore.hoveredFeature = { layerId, feature }"
+				@focus="gfiStore.hoveredFeature = { layerId, feature }"
+				@blur="gfiStore.hoveredFeature = null"
 			>
 				<h3 class="kern-title kern-title--small">
 					{{ text.title }}
@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import type { Feature } from 'ol'
 
-import { markRaw, nextTick } from 'vue'
+import { nextTick } from 'vue'
 
 import KernPagination from '@/components/kern/KernPagination.ce.vue'
 
@@ -65,11 +65,9 @@ import { PluginId } from '../types'
 const gfiStore = useGfiStore()
 
 async function setSelectedFeature(layerId: string, feature: Feature) {
-	gfiStore.hoveredFeatures = markRaw({})
+	gfiStore.hoveredFeature = null
 	await nextTick()
-	gfiStore.selectedFeatures = markRaw({
-		[layerId]: markRaw([feature]),
-	})
+	gfiStore.selectedFeature = { layerId, feature }
 }
 </script>
 

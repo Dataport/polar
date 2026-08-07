@@ -3,7 +3,7 @@ import type { GfiLayerConfiguration, RequestGfiParameters } from '../types'
 
 import { debounce, isEqual } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
+import { computed, nextTick, onScopeDispose, watch } from 'vue'
 
 import { useRefStore } from '@/composables/useRefStore'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
@@ -36,10 +36,10 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 
 		if (options.toggleSelection) {
 			Object.entries(result).forEach(([layerId, features]) => {
-				if (!gfiMainStore.featureInformation[layerId]) {
-					gfiMainStore.featureInformation[layerId] = []
+				if (!gfiMainStore.geojsonFeatures[layerId]) {
+					gfiMainStore.geojsonFeatures[layerId] = []
 				}
-				const layerFeatureList = gfiMainStore.featureInformation[layerId]
+				const layerFeatureList = gfiMainStore.geojsonFeatures[layerId]
 
 				features.forEach((feature) => {
 					const oldFeatureIndex = layerFeatureList.findIndex((oldFeature) =>
@@ -55,7 +55,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			return
 		}
 
-		gfiMainStore.featureInformation = result
+		gfiMainStore.geojsonFeatures = result
 	}
 
 	const waitMs = computed(() => gfiMainStore.configuration.waitMs || 50)
@@ -69,7 +69,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 					coordinate as RequestGfiParameters['coordinateOrExtent']
 				)
 			} else {
-				gfiMainStore.featureInformation = {}
+				gfiMainStore.geojsonFeatures = {}
 			}
 		},
 		{ immediate: true }
@@ -87,7 +87,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 						gfiMainStore.configuration.multiSelect?.toggleSelection ?? true,
 				})
 			} else {
-				gfiMainStore.featureInformation = {}
+				gfiMainStore.geojsonFeatures = {}
 			}
 		})
 	}
@@ -112,20 +112,30 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	}
 
 	const visibleFeatures = computed(() =>
-		Object.entries(gfiMainStore.featureInformation)
+		Object.entries(gfiMainStore.geojsonFeatures)
 			.filter(([layerId]) => gfiMainStore.configuration.layers[layerId]?.window)
 			.flatMap(([layerId, features]) =>
 				features.map((feature) => ({ layerId, feature }))
 			)
 	)
 
-	const selectedFeatureIndex = ref(0)
-	const selectedFeature = computed(
-		() => visibleFeatures.value[selectedFeatureIndex.value]
-	)
+	const selectedFeatureIndex = computed({
+		get: () =>
+			visibleFeatures.value.findIndex((feature) =>
+				isEqual(feature, gfiMainStore.geojsonFeature)
+			),
+		set: (value) => {
+			const feature = visibleFeatures.value[value]
+			if (feature) {
+				gfiMainStore.geojsonFeature = feature
+			}
+		},
+	})
 
 	const selectedFeatureLayerConfiguration = computed(() =>
-		gfiMainStore.getLayerConfiguration(selectedFeature.value?.layerId || '')
+		gfiMainStore.getLayerConfiguration(
+			gfiMainStore.geojsonFeature?.layerId || ''
+		)
 	)
 
 	const exportPropertyLayerConfiguration = computed(
@@ -134,7 +144,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 
 	const exportProperty = computed(() =>
 		exportPropertyLayerConfiguration.value
-			? selectedFeature.value?.feature.properties?.[
+			? gfiMainStore.geojsonFeature?.feature.properties?.[
 					exportPropertyLayerConfiguration.value
 				]
 			: null
@@ -147,8 +157,8 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	)
 
 	const title = computed(() =>
-		titleLayerConfiguration.value && selectedFeature.value
-			? titleLayerConfiguration.value(selectedFeature.value.feature)
+		titleLayerConfiguration.value && gfiMainStore.geojsonFeature
+			? titleLayerConfiguration.value(gfiMainStore.geojsonFeature.feature)
 			: null
 	)
 
@@ -158,7 +168,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 
 	const selectedFeatureProperties = computed(() =>
 		Object.fromEntries(
-			Object.entries(selectedFeature.value?.feature.properties || {})
+			Object.entries(gfiMainStore.geojsonFeature?.feature.properties || {})
 				.filter(
 					([key]) =>
 						(!selectedFeaturePropertiesLayerConfiguration.value ||
@@ -173,15 +183,10 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	)
 
 	watch(
-		visibleFeatures,
-		() => {
-			selectedFeatureIndex.value = 0
-		},
-		{ deep: true }
-	)
-
-	watch(
-		[() => gfiMainStore.configuration.coordinateTarget, selectedFeature],
+		[
+			() => gfiMainStore.configuration.coordinateTarget,
+			() => gfiMainStore.geojsonFeature,
+		],
 		([target, feature], [, oldFeature]) => {
 			if (target && !feature && oldFeature) {
 				const targetStore = useRefStore(target)
@@ -208,11 +213,14 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		void nextTick(() => {
 			const iconMenuStore = coreStore.getPluginStore('iconMenu')
 			if (iconMenuStore) {
-				watch(selectedFeature, (newFeature) => {
-					if (newFeature) {
-						iconMenuStore.openMenuById(PluginId)
+				watch(
+					() => gfiMainStore.geojsonFeature,
+					(newFeature) => {
+						if (newFeature) {
+							iconMenuStore.openMenuById(PluginId)
+						}
 					}
-				})
+				)
 			}
 		})
 	}
@@ -220,7 +228,6 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	return {
 		visibleFeatures,
 		selectedFeatureIndex,
-		selectedFeature,
 		selectedFeatureProperties,
 		exportProperty,
 		title,

@@ -2,20 +2,30 @@
 	<div class="action-bar">
 		<div class="action-bar-group">
 			<KernButton
-				v-if="gfiStore.featureIndex > 0"
+				v-if="gfiStore.features.length > 1"
 				class="kern-btn--tertiary"
 				icon="kern-icon--arrow-back"
 				:label-sr-only="true"
-				@click="gfiStore.featureIndex--"
+				@click="
+					gfiStore.featureIndex =
+						gfiStore.featureIndex > 0
+							? gfiStore.featureIndex - 1
+							: gfiStore.features.length - 1
+				"
 			>
 				{{ $t(($) => $.switch.previous, { ns: PluginId }) }}
 			</KernButton>
 			<KernButton
-				v-if="gfiStore.featureIndex + 1 < gfiStore.features.length"
+				v-if="gfiStore.features.length > 1"
 				class="kern-btn--tertiary"
 				icon="kern-icon--arrow-forward"
 				:label-sr-only="true"
-				@click="gfiStore.featureIndex++"
+				@click="
+					gfiStore.featureIndex =
+						gfiStore.featureIndex + 1 < gfiStore.features.length
+							? gfiStore.featureIndex + 1
+							: 0
+				"
 			>
 				{{ $t(($) => $.switch.next, { ns: PluginId }) }}
 			</KernButton>
@@ -38,7 +48,7 @@
 						: 'kern-icon--close'
 				"
 				:label-sr-only="true"
-				@click="gfiStore.selectedFeatures = markRaw({})"
+				@click="gfiStore.selectedFeature = null"
 			>
 				{{
 					$t(
@@ -133,8 +143,6 @@
 </template>
 
 <script setup lang="ts">
-import { markRaw } from 'vue'
-
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 

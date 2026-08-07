@@ -1,109 +1,103 @@
 import type { Feature } from 'ol'
 import type { ShallowRef } from 'vue'
 
-import ClusterSource from 'ol/source/Cluster'
 import { markRaw, watch } from 'vue'
-
-import { useCoreStore } from '@/core/stores'
-import { findLayer } from '@/lib/findLayer'
-import getCluster from '@/lib/getCluster'
 
 import { useGfiMainStore } from '../stores/main'
 import { filterSelectableFeatures } from '../utils/filterSelectableFeatures'
 
 type CoreFeature = Feature | null
-type GfiFeature = Record<string, Feature[]>
+type CoreFeatures = Feature[]
+type GfiFeature = { layerId: string; feature: Feature } | null
+type GfiFeatures = Partial<Record<string, Feature[]>>
 
-function assignCoreToGfi(target: ShallowRef<GfiFeature>, feature: CoreFeature) {
+function assignCoreToGfiCluster(
+	target: ShallowRef<GfiFeatures>,
+	features: CoreFeatures,
+	referenceOrder?: CoreFeatures
+) {
 	const gfiMainStore = useGfiMainStore()
+	const layerId = features[0]?.get('_polarLayerId')
+	const layerConfiguration = gfiMainStore.getLayerConfiguration(layerId)
 
-	if (feature === null) {
-		target.value = markRaw({})
-		return
+	if (referenceOrder) {
+		features.sort((a, b) => {
+			const getIndex = (feature) => referenceOrder.indexOf(feature)
+			return getIndex(a) - getIndex(b)
+		})
 	}
 
-	const layerId = feature.get('_polarLayerId')
-	const newFeatures = filterSelectableFeatures(
-		feature.get('features') || [feature],
-		gfiMainStore.getLayerConfiguration(layerId)?.isSelectable
+	target.value = markRaw(
+		Object.groupBy(
+			filterSelectableFeatures(features, layerConfiguration?.isSelectable),
+			(feature) => feature.get('_polarLayerId')
+		)
 	)
-	target.value = markRaw({
-		...(newFeatures.length ? { [layerId]: markRaw(newFeatures) } : {}),
-	})
 }
 
-function assignGfiToCore(
+function assignGfiToCoreFeature(
 	target: ShallowRef<CoreFeature>,
-	featureMap: GfiFeature
+	feature: GfiFeature
 ) {
-	const coreStore = useCoreStore()
-
-	const features = Object.entries(featureMap).flatMap(([layerId, features]) =>
-		features.map((feature) => ({ layerId, feature }))
-	)
-
-	// The second condition is necessary for TypeScript checks.
-	if (features.length <= 0 || !features[0]) {
+	if (!feature) {
 		target.value = null
 		return
 	}
+	target.value = markRaw(feature.feature)
+}
 
-	const targetFeature = target.value
-	const targetLayerId = targetFeature?.get('_polarLayerId')
-	const targetClusterFeatures =
-		targetFeature?.get('features') || (targetFeature ? [targetFeature] : [])
-	if (
-		targetLayerId === features[0].layerId &&
-		targetClusterFeatures.length === features.length &&
-		features.every(({ feature }) => targetClusterFeatures.includes(feature))
-	) {
+function assignCoreToGfiFeature(
+	target: ShallowRef<GfiFeature>,
+	feature: CoreFeature
+) {
+	if (!feature) {
+		target.value = null
 		return
 	}
+	target.value = markRaw({
+		layerId: feature.get('_polarLayerId'),
+		feature,
+	})
+}
 
-	const { feature, layerId } = features[0]
-	feature.set('_polarLayerId', layerId, true)
-	target.value = markRaw(
-		findLayer(coreStore.map, layerId)?.getSource() instanceof ClusterSource
-			? getCluster(coreStore.map, feature, '_polarLayerId')
-			: feature
+function bindWithWatcher<T, S, E>(
+	target: ShallowRef<T>,
+	source: ShallowRef<S>,
+	handler: (target: ShallowRef<T>, source: S, extra?: E) => void,
+	extra?: ShallowRef<E>
+) {
+	watch(
+		source,
+		(value) => {
+			handler(target, value, extra?.value)
+		},
+		{
+			immediate: true,
+		}
 	)
 }
 
 export function useBindWithCoreHoverSelect(
-	hoveredFeatures: ShallowRef<Record<string, Feature[]>>,
-	selectedFeatures: ShallowRef<Record<string, Feature[]>>,
-	coreHoveredFeature: ShallowRef<Feature | null>,
-	coreSelectedFeature: ShallowRef<Feature | null>
+	hoveredFeature: ShallowRef<GfiFeature>,
+	coreHoveredFeature: ShallowRef<CoreFeature>,
+	hoveredFeatures: ShallowRef<GfiFeatures>,
+	coreHoveredFeatures: ShallowRef<CoreFeatures>,
+	selectedFeature: ShallowRef<GfiFeature>,
+	coreSelectedFeature: ShallowRef<CoreFeature>,
+	selectedFeatures: ShallowRef<GfiFeatures>,
+	coreSelectedFeatures: ShallowRef<CoreFeatures>,
+	referenceOrder: ShallowRef<Feature[]>
 ) {
-	watch(
-		coreHoveredFeature,
-		(feature) => {
-			assignCoreToGfi(hoveredFeatures, feature)
-		},
-		{ immediate: true }
-	)
+	bindWithWatcher(hoveredFeature, coreHoveredFeature, assignCoreToGfiFeature)
+	bindWithWatcher(coreHoveredFeature, hoveredFeature, assignGfiToCoreFeature)
+	bindWithWatcher(hoveredFeatures, coreHoveredFeatures, assignCoreToGfiCluster)
 
-	watch(
-		coreSelectedFeature,
-		(feature) => {
-			assignCoreToGfi(selectedFeatures, feature)
-		},
-		{ immediate: true }
-	)
-
-	watch(
-		hoveredFeatures,
-		(featureMap) => {
-			assignGfiToCore(coreHoveredFeature, featureMap)
-		},
-		{ immediate: true }
-	)
-
-	watch(
+	bindWithWatcher(selectedFeature, coreSelectedFeature, assignCoreToGfiFeature)
+	bindWithWatcher(coreSelectedFeature, selectedFeature, assignGfiToCoreFeature)
+	bindWithWatcher(
 		selectedFeatures,
-		(featureMap) => {
-			assignGfiToCore(coreSelectedFeature, featureMap)
-		},
-		{ immediate: true }
+		coreSelectedFeatures,
+		assignCoreToGfiCluster,
+		referenceOrder
 	)
 }

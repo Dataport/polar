@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
+import { readonly } from 'vue'
 
 import { useGfiFeatureStore } from './stores/feature'
 import { useGfiListStore } from './stores/list'
@@ -43,35 +44,49 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		renderType: gfiMainStoreRefs.renderType,
 
 		/**
-		 * Hovered features.
+		 * Hovered feature.
+		 * This is a feature whose hovering state is originated at the plugin.
+		 *
 		 * This is only used for the list view.
 		 *
 		 * @alpha
 		 */
-		hoveredFeatures: gfiListStoreRefs.hoveredFeatures,
+		hoveredFeature: gfiListStoreRefs.hoveredFeature,
 
 		/**
-		 * Mark feature as hovered.
+		 * Hovered features.
+		 * The hovering state may be originated either from {@link hoveredFeature} or by other means.
+		 *
 		 * This is only used for the list view.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		hoveredFeatures: readonly(gfiListStoreRefs.hoveredFeatures),
+
+		/**
+		 * Selected feature.
+		 * This is only used if the feature is loaded from the list view.
 		 *
 		 * @alpha
 		 */
-		hover: gfiListStore.hover,
+		selectedFeature: gfiMainStoreRefs.olFeature,
 
 		/**
 		 * Selected features.
 		 * This is only used if the feature is loaded from the list view.
 		 *
+		 * @readonly
 		 * @alpha
 		 */
-		selectedFeatures: gfiMainStoreRefs.selectedFeatures,
+		selectedFeatures: readonly(gfiMainStoreRefs.olFeatures),
 
 		/**
 		 * Feature information for the currently selected feature(s).
 		 *
 		 * @alpha
 		 */
-		featureInformation: gfiMainStoreRefs.featureInformation,
+		featureInformation: gfiMainStoreRefs.geojsonFeatures,
 
 		/**
 		 * List of features that should be displayed in a list view.
@@ -177,12 +192,9 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		 * Selected feature for the detailed view.
 		 * This is the currently shown feature.
 		 *
-		 * To mutate this value, change `featureIndex`.
-		 *
-		 * @readonly
 		 * @alpha
 		 */
-		feature: gfiFeatureStoreRefs.selectedFeature,
+		feature: gfiMainStoreRefs.geojsonFeature,
 
 		/**
 		 * Properties for the selected feature in the detailed view.
