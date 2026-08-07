@@ -233,10 +233,8 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	function initializeDraw() {
 		draw = new Draw({ stopClick: true, type: 'Point' })
 		draw.on('drawend', (e) => {
-			const coordinate = (e.feature.getGeometry() as Point).getCoordinates()
-			addCoordinateToRoute(coordinate)
-			// @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
-			draw._isRoutingDraw = false
+			addCoordinateToRoute((e.feature.getGeometry() as Point).getCoordinates())
+			coreStore.unmaskInteraction('routing', 'click')
 			currentlyFocusedInput.value = -1
 		})
 	}
