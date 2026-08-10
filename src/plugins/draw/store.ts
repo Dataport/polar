@@ -20,7 +20,7 @@ import type {
 import type { MeasureMode } from './types'
 
 import Style from 'ol/style/Style'
-import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
@@ -42,7 +42,6 @@ import { reviseFeatures } from './utils/reviseFeatures'
 /* eslint-enable tsdoc/syntax */
 export const useDrawStore = defineStore('plugins/draw', () => {
 	const coreStore = useCoreStore()
-	const { map } = storeToRefs(coreStore)
 
 	let interactionManager: InteractionManager | undefined
 
@@ -369,7 +368,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 					// value then goes to ref featureCollection by interactionManager callback
 					const extent = drawSource.getExtent()
 					if (extent) {
-						map.value.getView().fit(extent, { duration: 500 })
+						coreStore.map.getView().fit(extent, { duration: 500 })
 					}
 				} catch (e: unknown) {
 					console.error(e)
@@ -403,7 +402,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 			_featureCollection.value = value
 			if (activeLayerConfig.value?.revision) {
 				revisionStateFlag.value = inProgress
-				reviseFeatures(map.value, activeLayerConfig.value.revision, value)
+				reviseFeatures(coreStore.map, activeLayerConfig.value.revision, value)
 					.then((oneRevvedBoi) => {
 						if (oneRevvedBoi !== null) {
 							revisedFeatureCollection.value = oneRevvedBoi
@@ -436,7 +435,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 
 		layers.forEach((layerConfig) => {
 			if (layerConfig.id) {
-				const layer = map.value
+				const layer = coreStore.map
 					.getLayers()
 					.getArray()
 					.find((l) => l.get('id') === layerConfig.id)
@@ -453,14 +452,14 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 				layerConfig.style
 			)
 
-			map.value.addLayer(localLayer)
+			coreStore.map.addLayer(localLayer)
 			_layers.value.push(localLayer)
 			_layerIds.value.push(localLayer.get('id'))
 		})
 
 		activeLayerId.value = _layerIds.value[0] ?? ''
 		interactionManager = new InteractionManager(
-			map.value,
+			coreStore.map,
 			configuration.value,
 			activeLayerId.value,
 			featureCollectionUpdater
