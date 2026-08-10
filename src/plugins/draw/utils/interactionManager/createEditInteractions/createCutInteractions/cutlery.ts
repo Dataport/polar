@@ -3,6 +3,7 @@ import type {
 	LineString as GeoJsonLineString,
 	MultiPolygon as GeoJsonMultiPolygon,
 	Polygon as GeoJsonPolygon,
+	Position,
 } from 'geojson'
 import type Feature from 'ol/Feature'
 import type VectorSource from 'ol/source/Vector'
@@ -82,15 +83,15 @@ const wouldCutterCutCandidate = (
 	// check if candidate is actually a polygon, we don't cut anything else today
 	polygonTypes.includes(candidate.geometry.type) &&
 	// start and end do not reside inside candidate (cut through, not cut in)
-	[
-		cutter.geometry.coordinates[0],
-		cutter.geometry.coordinates[cutter.geometry.coordinates.length - 1],
-	].every(
+	(
+		[
+			cutter.geometry.coordinates[0],
+			cutter.geometry.coordinates[cutter.geometry.coordinates.length - 1],
+		] as [Position, Position]
+	).every(
 		(coordinate) =>
 			!booleanPointInPolygon(
-				// trust me bro, LineString type indicates >=2 points available
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				coordinate!,
+				coordinate,
 				candidate as GeoJsonFeature<GeoJsonPolygon | GeoJsonMultiPolygon>
 			)
 	) &&
