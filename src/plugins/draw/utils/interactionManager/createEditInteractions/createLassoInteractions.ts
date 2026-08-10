@@ -19,11 +19,9 @@ import { parseWfsResponse } from '@/lib/getFeatures/wfs/parse'
 import { indicateLoading } from '@/lib/indicateLoading'
 import { notifyUser } from '@/lib/notifyUser'
 
-const requestError = `@polar/plugin-draw: An error occurred on creating the lasso request: `
-const rejectedError =
-	'@polar/plugin-draw: The response to a lasso request indicated an error.'
-const parseError =
-	'@polar/plugin-draw: Client failure in reading responses in lasso action.'
+const requestError = 'An error occurred on creating the lasso request: '
+const rejectedError = 'The response to a lasso request indicated an error.'
+const parseError = 'Client failure in reading responses in lasso action.'
 
 const buildFeatureCollection = (
 	featureCollections: PolarGeoJsonFeatureCollection[],

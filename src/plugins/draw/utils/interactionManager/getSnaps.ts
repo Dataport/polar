@@ -25,7 +25,7 @@ export const getSnaps = (map: Map, snapIds: string[]): Snap[] =>
 			accumulator.push(snap)
 		} else {
 			console.warn(
-				`@polar/plugin-draw: Layer with ID "${layerId}" configured for 'snapTo', but it has no source to snap to. The layer does probably not hold any vector data.`
+				`Layer with ID "${layerId}" configured for 'snapTo', but it has no source to snap to. The layer does probably not hold any vector data.`
 			)
 		}
 		return accumulator

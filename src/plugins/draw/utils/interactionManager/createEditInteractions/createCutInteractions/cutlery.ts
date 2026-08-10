@@ -32,14 +32,7 @@ const cutCuttableWithCutter = (
 
 	if (cuts === null) {
 		const errorText = 'Cutting resulted in geometry destruction.'
-		console.error(
-			'@polar/plugin-draw: ',
-			errorText,
-			'cuttable: ',
-			cuttable,
-			'cutter: ',
-			cutter
-		)
+		console.error(errorText, 'cuttable: ', cuttable, 'cutter: ', cutter)
 		throw new Error(errorText)
 	}
 
