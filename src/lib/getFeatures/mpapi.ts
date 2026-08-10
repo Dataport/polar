@@ -7,7 +7,7 @@ import { transform } from 'ol/proj'
 
 // AbortSignal is not used as the AbortController is implemented by @masterportal/masterportalapi
 
-export default async function (
+export default async function mpapi(
 	_: AbortSignal,
 	url: string,
 	input: string,

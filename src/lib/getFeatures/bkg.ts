@@ -34,7 +34,7 @@ function getRequestUrlQuery(
 	return query
 }
 
-export default async function (
+export default async function bkg(
 	signal: AbortSignal,
 	url: string,
 	inputValue: string,

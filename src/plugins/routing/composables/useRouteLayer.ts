@@ -5,7 +5,7 @@ import VectorLayer from 'ol/layer/Vector'
 import { Stroke, Style } from 'ol/style'
 import { onScopeDispose } from 'vue'
 
-export function useLayer(map: Map, routeSource: VectorSource) {
+export function useRouteLayer(map: Map, routeSource: VectorSource) {
 	const layer = new VectorLayer({
 		source: routeSource,
 		style: new Style({
