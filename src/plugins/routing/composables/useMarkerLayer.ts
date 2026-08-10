@@ -55,4 +55,10 @@ export function useMarkerLayer(
 		})
 	})
 	map.addInteraction(modify)
+
+	map.on('pointermove', function (evt) {
+		const pixel = map.getEventPixel(evt.originalEvent)
+		const hit = map.hasFeatureAtPixel(pixel)
+		map.getTargetElement().style.cursor = hit ? 'pointer' : ''
+	})
 }
