@@ -121,7 +121,7 @@
 		"postcss-html": "^1.8.1",
 		"prettier": "^3.9.6",
 		"stylelint": "^17.14.1",
-		"stylelint-config-recommended-vue": "^1.6.1",
+		"stylelint-config-recommended-vue": "^2.0.0",
 		"stylelint-value-no-unknown-custom-properties": "^6.1.1",
 		"tsarch": "^5.4.1",
 		"typedoc": "^0.28.20",
