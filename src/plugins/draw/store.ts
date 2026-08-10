@@ -49,6 +49,13 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 		() => (coreStore.configuration[PluginId] || {}) as DrawPluginOptions
 	)
 
+	const layerConfiguration = computed(() => {
+		const l = configuration.value.layers
+		// Don't trust configuration, not even your own.
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		return !l || l.length === 0 ? [{}] : l
+	})
+
 	// *slaps roof of store*
 	const _activeTool = ref<ToolMode | null>(null)
 	const _drawMode = ref<DrawMode>('Point')
@@ -111,7 +118,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	})
 
 	const activeLayerConfig = computed(() =>
-		configuration.value.layers.find((layer) => layer.id === activeLayerId.value)
+		layerConfiguration.value.find((layer) => layer.id === activeLayerId.value)
 	)
 
 	const layerOptions = computed(() => {
@@ -425,15 +432,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	function setupPlugin() {
 		let syntheticDrawLayerId = 0
 
-		let layers = configuration.value.layers
-
-		// Don't trust configuration, not even your own.
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (!layers || layers.length === 0) {
-			layers = [{}]
-		}
-
-		layers.forEach((layerConfig) => {
+		layerConfiguration.value.forEach((layerConfig) => {
 			if (layerConfig.id) {
 				const layer = coreStore.map
 					.getLayers()
