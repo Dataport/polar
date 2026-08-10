@@ -13,22 +13,16 @@ export function featureCollectionToDrawSource(
 	drawSource: VectorSource
 ) {
 	const features = featureCollection.features.map((feature) => {
-		const style = feature.properties?.style
-		const isCircle =
-			feature.properties && typeof feature.properties.radius !== 'undefined'
-		const text = feature.properties?.text
-		const textFont = feature.properties?.textFont
-
 		const olFeature = new GeoJSON().readFeature(feature) as Feature
+		if (!feature.properties) {
+			return olFeature
+		}
+		const { radius, style, text, textFont } = feature.properties
+		const isCircle = typeof radius === 'number'
 
 		if (isCircle) {
 			olFeature.setGeometry(
-				new Circle(
-					(feature.geometry as Point).coordinates,
-					// Known due to isCircle. TypeScript, you should be able to solve this.
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					feature.properties!.radius as number
-				)
+				new Circle((feature.geometry as Point).coordinates, radius)
 			)
 		}
 
