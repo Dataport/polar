@@ -118,7 +118,7 @@
 		"magic-string": "^0.30.18",
 		"ol": "10.9.0",
 		"pinia": "^4.0.2",
-		"postcss-html": "^1.8.1",
+		"postcss-html": "^2.0.0",
 		"prettier": "^3.9.6",
 		"stylelint": "^17.14.1",
 		"stylelint-config-recommended-vue": "^1.6.1",
