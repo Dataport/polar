@@ -1,6 +1,3 @@
-/* Allowing PascalCase keys for ease of use (using OL entity names here) */
-/* eslint-disable @typescript-eslint/naming-convention */
-
 /* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the draw plugin.
@@ -23,11 +20,15 @@ export const resourcesDe = {
 	},
 	drawMode: {
 		label: 'Zeichnen',
+
+		// Allowing PascalCase keys here and later for ease of use (using OL entity names here)
+		/* eslint-disable @typescript-eslint/naming-convention */
 		Point: 'Punkt',
 		LineString: 'Linie',
 		Polygon: 'Polygon',
 		Circle: 'Kreis',
 		Text: 'Text',
+		/* eslint-enable @typescript-eslint/naming-convention */
 	},
 	editMode: {
 		label: 'Editieren',
@@ -90,12 +91,14 @@ export const resourcesDe = {
 	},
 	help: {
 		text: {
+			/* eslint-disable @typescript-eslint/naming-convention */
 			Point: 'Punkte setzen.',
 			LineString: 'Linien zeichnen.',
 			Polygon: 'Polygone zeichnen.',
 			Circle:
 				'Kreise zeichnen. Der erste Klick fügt einen Mittelpunkt hinzu, der zweite Klick legt den Radius fest.',
 			Text: 'Text hinzufügen. Bitte benutzen sie hierfür die untenstehende Eingabemaske. Es können nur Texte hinzugefügt werden, wenn diese nicht leer sind.',
+			/* eslint-enable @typescript-eslint/naming-convention */
 			modify:
 				'Geometrie durch Bewegen, Hinzufügen, und Löschen von Stützpunkten bearbeiten.',
 			translate: 'Geometrie ganzheitlich verschieben.',
@@ -140,11 +143,13 @@ export const resourcesEn = {
 	},
 	drawMode: {
 		label: 'Draw',
+		/* eslint-disable @typescript-eslint/naming-convention */
 		Point: 'Point',
 		LineString: 'Line',
 		Polygon: 'Polygon',
 		Circle: 'Circle',
 		Text: 'Text',
+		/* eslint-enable @typescript-eslint/naming-convention */
 	},
 	editMode: {
 		label: 'Edit',
@@ -205,12 +210,14 @@ export const resourcesEn = {
 	},
 	help: {
 		text: {
+			/* eslint-disable @typescript-eslint/naming-convention */
 			Point: 'Place points.',
 			LineString: 'Draw lines.',
 			Polygon: 'Draw polygons.',
 			Circle:
 				'Draw circles. The first click adds a center point, the second click sets the radius.',
 			Text: 'Add text. Please use the input field below for this. Text can only be added if it is not empty.',
+			/* eslint-enable @typescript-eslint/naming-convention */
 			modify: 'Edit the geometry by moving, adding, and removing vertices.',
 			translate: 'Move the geometry as a whole.',
 			duplicate: 'Duplicate the geometry.',
