@@ -5,6 +5,7 @@ import type { Ref } from 'vue'
 
 import { Feature } from 'ol'
 import { Point } from 'ol/geom'
+import Modify from 'ol/interaction/Modify'
 import VectorLayer from 'ol/layer/Vector'
 import { Circle, Fill, Stroke, Style } from 'ol/style'
 import { onScopeDispose, watch } from 'vue'
@@ -42,4 +43,16 @@ export function useMarkerLayer(
 			}
 		})
 	})
+
+	const modify = new Modify({ source: markerSource })
+	modify.on('modifyend', () => {
+		route.value = markerSource.getFeatures().map((feature) => {
+			const geometry = feature.getGeometry()
+			if (geometry instanceof Point) {
+				return geometry.getCoordinates()
+			}
+			return []
+		})
+	})
+	map.addInteraction(modify)
 }
