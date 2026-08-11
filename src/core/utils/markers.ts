@@ -103,7 +103,28 @@ const memoStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
 	}
 }
 
+const memoCountStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
+	const countCache = new Map<number, Map<MarkerStyle, Style>>()
+	return (style, count, displayFeatureCount) => {
+		// vielleicht auslagern und ind warnMeoLeak einbinden?
+		const getTotalCachedStyles = (
+			countCache: Map<number, Map<MarkerStyle, Style>>
+		): number => {
+			let total = 0
+			for (const stylesByCount of countCache.values()) {
+				total += stylesByCount.size
+			}
+			return total
 		}
+
+		const cache = countCache.get(count) || new Map<MarkerStyle, Style>()
+		if (cache.has(style)) {
+			return cache.get(style) as Style
+		}
+		const markerStyle = getMarker(style, count, displayFeatureCount)
+		cache.set(style, markerStyle)
+		countCache.set(count, cache)
+		warnMemoLeak(getTotalCachedStyles(countCache))
 		return markerStyle
 	}
 }
