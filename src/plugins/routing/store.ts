@@ -442,7 +442,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		/**
 		 * Sets the address label for a given coordinate in the route.
 		 *
-		 * @param feature The feature returned by the reverse geocoder.
+		 * @param feature - The feature returned by the reverse geocoder.
 		 * @alpha
 		 */
 		selectRouteResult,
