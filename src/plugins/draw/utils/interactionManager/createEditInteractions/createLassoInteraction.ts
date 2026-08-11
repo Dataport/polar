@@ -59,7 +59,7 @@ const buildFeatureCollection = (
 	}
 }
 
-export function createLassoInteractions(
+export function createLassoInteraction(
 	map: Map,
 	drawSource: VectorSource,
 	activeLassoIds: string[]

@@ -12,7 +12,7 @@ const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {
 	map.getTargetElement().style.cursor = found ? 'copy' : ''
 }
 
-export function createDuplicateInteractions(
+export function createDuplicateInteraction(
 	map: Map,
 	{
 		drawSource,

@@ -2,22 +2,20 @@ import type { Feature, Map } from 'ol'
 import type VectorLayer from 'ol/layer/Vector'
 
 import { Collection } from 'ol'
-import { Translate } from 'ol/interaction'
+import { Modify } from 'ol/interaction'
 
 import { makeLocalSelector } from '../localSelector'
 
-export const createTranslateInteractions = (
-	map: Map,
-	drawLayer: VectorLayer
-) => {
+// TODO: doesn't properly work on mobile, difficult/impossible to get the vertices
+export const createModifyInteraction = (map: Map, drawLayer: VectorLayer) => {
 	const activeContainer = { active: false }
 	const features: Collection<Feature> = new Collection()
-	const translate = new Translate({ features })
-	translate.set('_isPolarDragLikeInteraction', true, true)
-	translate.on('translatestart', () => {
+	const modify = new Modify({ features })
+	modify.set('_isPolarDragLikeInteraction', true, true)
+	modify.on('modifystart', () => {
 		activeContainer.active = true
 	})
-	translate.on('translateend', () => {
+	modify.on('modifyend', () => {
 		activeContainer.active = false
 	})
 
@@ -29,9 +27,9 @@ export const createTranslateInteractions = (
 	)
 	map.on('pointermove', localSelector)
 	// @ts-expect-error | "un on removal" riding piggyback as _onRemove
-	translate._onRemove = () => {
+	modify._onRemove = () => {
 		map.un('pointermove', localSelector)
 	}
 
-	return translate
+	return modify
 }

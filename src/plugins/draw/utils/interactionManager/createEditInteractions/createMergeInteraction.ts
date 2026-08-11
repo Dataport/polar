@@ -9,7 +9,7 @@ import Draw from 'ol/interaction/Draw'
 
 const converter = new GeoJSON()
 
-export const createMergeInteractions = (drawSource: VectorSource) => {
+export const createMergeInteraction = (drawSource: VectorSource) => {
 	const draw = new Draw({ type: 'Polygon' })
 	// @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
 	draw._isDrawPlugin = true

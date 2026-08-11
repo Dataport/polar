@@ -11,11 +11,11 @@ import Style from 'ol/style/Style'
 
 import { getSnaps } from '../getSnaps'
 import { createCutInteractions } from './createCutInteractions'
-import { createDuplicateInteractions } from './createDuplicateInteractions'
-import { createLassoInteractions } from './createLassoInteractions'
-import { createMergeInteractions } from './createMergeInteractions'
-import { createModifyInteractions } from './createModifyInteractions'
-import { createTranslateInteractions } from './createTranslateInteractions'
+import { createDuplicateInteraction } from './createDuplicateInteraction'
+import { createLassoInteraction } from './createLassoInteraction'
+import { createMergeInteraction } from './createMergeInteraction'
+import { createModifyInteraction } from './createModifyInteraction'
+import { createTranslateInteraction } from './createTranslateInteraction'
 
 const makeModifySelect = (
 	drawLayer: VectorLayer,
@@ -59,29 +59,29 @@ export function createEditInteractions(
 	switch (drawMode) {
 		case 'modify':
 			return [
-				createModifyInteractions(map, drawLayer),
+				createModifyInteraction(map, drawLayer),
 				...getSnaps(map, configuration.snapTo ?? []),
 				new Snap({ source: drawSource }),
 				makeModifySelect(drawLayer, drawSource, selectedFeature),
 			]
 		case 'translate':
 			return [
-				createTranslateInteractions(map, drawLayer),
+				createTranslateInteraction(map, drawLayer),
 				...getSnaps(map, configuration.snapTo ?? []),
 				new Snap({ source: drawSource }),
 			]
 		case 'duplicate':
-			return [createDuplicateInteractions(map, { drawSource, drawLayer })]
+			return [createDuplicateInteraction(map, { drawSource, drawLayer })]
 		case 'cut':
 			return [createCutInteractions(map, drawSource)]
 		case 'merge':
 			return [
-				createMergeInteractions(drawSource),
+				createMergeInteraction(drawSource),
 				...getSnaps(map, configuration.snapTo ?? []),
 				new Snap({ source: drawSource }),
 			]
 		case 'lasso':
-			return [createLassoInteractions(map, drawSource, activeLassoIds)]
+			return [createLassoInteraction(map, drawSource, activeLassoIds)]
 		default:
 			return []
 	}
