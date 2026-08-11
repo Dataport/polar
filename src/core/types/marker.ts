@@ -7,7 +7,13 @@ export type GetMarkerFunction = (
 	count: number,
 	displayFeatureCount: boolean
 ) => Style
+export type GetSVGConfigFunction = (digits: string) => MarkerSVGConfig
+export type GetTextPositionFunction = (path: string) => TextPosition
 
+export interface TextPosition {
+	x: number
+	y: number
+}
 export interface CallOnMapSelect {
 	action: string
 	payload: unknown
@@ -68,6 +74,49 @@ export interface MarkerStyle {
 	 * @defaultValue `'2'`
 	 */
 	strokeWidth: string | number
+
+	/**
+	 * Text to display on the marker..
+	 *
+	 * @defaultValue `''`
+	 */
+	displayedText?: string | number
+}
+
+export interface MarkerSVGConfig {
+	/**
+	 * Calculates the x and y coordinates for the text position within the marker.
+	 * The calculation is based on the provided SVG path, which is expected to follow the schema:
+	 * M[xStart] [yMid] C... [xLeftCap] [yTop] h[width] C... [xRight] [yMid] S... [xRightCap] [yBottom] h-[width] C... Z
+	 *
+	 * @throws  Error If the provided path does not match the expected marker pattern.
+	 * @returns The x and y coordinates for the text position within the marker.
+	 */
+	getTextPosition: GetTextPositionFunction
+
+	/**
+	 * The SVG path for the markershape.
+	 */
+	path: string
+
+	/**
+	 * The SVG path for the stacked markershape.
+	 */
+	stackedPath1: string
+
+	stackedPath2: string
+
+	readonly textPosition: TextPosition
+
+	/**
+	 * The SVG path for the tip of the marker.
+	 */
+	tipPath: string
+
+	/**
+	 * The viewBox for the marker.
+	 */
+	viewBox: string
 }
 
 export interface MarkerLayer {
