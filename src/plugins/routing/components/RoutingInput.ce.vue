@@ -57,7 +57,8 @@ defineProps<{
 
 const routeStore = useRoutingStore()
 
-const { currentlyFocusedInput, route, routeAddressTexts} = storeToRefs(routeStore)
+const { currentlyFocusedInput, route, routeAddressTexts } =
+	storeToRefs(routeStore)
 
 /**
  * This makes sure that there are always two fillable input fields at max.
@@ -69,10 +70,10 @@ const addWaypointButtonDisabled = computed(
 )
 
 const routeInput = computed(() =>
-    route.value.map((coord, i) => {
-        const label = routeAddressTexts.value[i]
-        return label?.length ? label : coord.join(', ')
-    })
+	route.value.map((coord, i) => {
+		const label = routeAddressTexts.value[i]
+		return label?.length ? label : coord.join(', ')
+	})
 )
 
 function getRouteLabel(index: number) {

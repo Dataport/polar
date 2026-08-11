@@ -6,6 +6,7 @@
 
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
+import type { PolarGeoJsonFeature } from '@/core'
 import type {
 	RoutingPluginOptions,
 	RoutingResponseData,
@@ -29,7 +30,6 @@ import { useMarkerLayer } from './composables/useMarkerLayer'
 import { useRouteLayer } from './composables/useRouteLayer'
 import { PluginId } from './types'
 import { handleErrors } from './utils/handleErrors'
-import type { PolarGeoJsonFeature } from '@/core'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -170,11 +170,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	function addCoordinateToRoute(coordinate: Coordinate) {
 		const index = currentlyFocusedInput.value
 		pendingReverseGeocode.value = { coordinate, index }
-		route.value = route.value.toSpliced(
-			index,
-			1,
-			coordinate
-		)
+		route.value = route.value.toSpliced(index, 1, coordinate)
 		routeAddressTexts.value = routeAddressTexts.value.toSpliced(index, 1, '')
 	}
 
@@ -445,7 +441,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 		/**
 		 * Sets the address label for a given coordinate in the route.
-		 * 
+		 *
 		 * @param feature The feature returned by the reverse geocoder.
 		 * @alpha
 		 */
