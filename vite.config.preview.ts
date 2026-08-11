@@ -29,10 +29,25 @@ export default defineConfig({
 		outDir: '.dist.preview',
 		rollupOptions: {
 			input: {
-				main: resolve(__dirname, 'index.html'),
-				snowbox: resolve(__dirname, 'examples', 'snowbox', 'index.html'),
-				iceberg: resolve(__dirname, 'examples', 'iceberg', 'index.html'),
-				githubIo: resolve(__dirname, 'examples', 'github-io', 'index.html'),
+				main: resolve(import.meta.dirname, 'index.html'),
+				snowbox: resolve(
+					import.meta.dirname,
+					'examples',
+					'snowbox',
+					'index.html'
+				),
+				iceberg: resolve(
+					import.meta.dirname,
+					'examples',
+					'iceberg',
+					'index.html'
+				),
+				githubIo: resolve(
+					import.meta.dirname,
+					'examples',
+					'github-io',
+					'index.html'
+				),
 			},
 		},
 	},

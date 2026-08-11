@@ -18,11 +18,16 @@ export default defineConfig({
 		}),
 	],
 	build: {
-		outDir: resolve(__dirname, 'examples', 'github-io', 'dist'),
+		outDir: resolve(import.meta.dirname, 'examples', 'github-io', 'dist'),
 		emptyOutDir: true,
 		rollupOptions: {
 			external: ['@polar/polar', '@polar/polar/client', '@polar/polar/store'],
-			input: resolve(__dirname, 'examples', 'github-io', 'index.html'),
+			input: resolve(
+				import.meta.dirname,
+				'examples',
+				'github-io',
+				'index.html'
+			),
 			output: {
 				entryFileNames: '[name].js',
 				chunkFileNames: '[name].js',
