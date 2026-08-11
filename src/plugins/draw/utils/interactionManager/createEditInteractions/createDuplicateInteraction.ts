@@ -9,11 +9,7 @@ const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {
 		layerFilter: (l) => l === drawLayer,
 	})
 
-	if (found) {
-		map.getTargetElement().setAttribute('style', 'cursor: copy')
-	} else {
-		map.getTargetElement().setAttribute('style', '')
-	}
+	map.getTargetElement().style.cursor = found ? 'copy' : ''
 }
 
 export function createDuplicateInteractions(

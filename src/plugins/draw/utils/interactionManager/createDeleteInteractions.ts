@@ -6,17 +6,12 @@ import type VectorSource from 'ol/source/Vector'
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import { DragBox, Select } from 'ol/interaction'
 
-// TODO: pointer cursor doesn't consequently work atm (purely cosmetical)
 const pointerStyle = (map: Map, drawLayer: VectorLayer) => (e) => {
 	const found = map.hasFeatureAtPixel(e.pixel, {
 		layerFilter: (l) => l === drawLayer,
 	})
 
-	if (found) {
-		map.getTargetElement().setAttribute('style', 'cursor: pointer')
-	} else {
-		map.getTargetElement().setAttribute('style', '')
-	}
+	map.getTargetElement().style.cursor = found ? 'pointer' : ''
 }
 
 export default function (
