@@ -57,6 +57,24 @@ const makeMultiMarker = (
 	<path ${svgConfig.stackedPath1}/>
 	<path ${svgConfig.stackedPath2}/>
   </g>
+	${
+		!displayFeatureCount || displayedText === undefined
+			? ''
+			: `<text
+	x="${svgConfig.textPosition.x}"
+    y="${svgConfig.textPosition.y}"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-size="14"
+    font-weight="700"
+    fill="#ffffff"
+	>${String(displayedText)}</text>`
+	}
+	  <g stroke="${stroke}" stroke-width="${strokeWidth}" fill="${
+			typeof fill === 'string' ? fill : 'url(#img)'
+		}" fill-rule="nonzero">
+	<path ${svgConfig.tipPath}/>
+	</g>
 </svg>
 `)}`
 
