@@ -25,11 +25,11 @@ import { computed, ref, shallowRef, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
+import { useDrawLayer } from './composables/useDrawLayer'
 import { complete, error, inactive, inProgress } from './types'
 import { MeasureModes, PluginId } from './types'
 import { drawSourceToFeatureCollection } from './utils/conversion/drawSourceToFeatureCollection'
 import { featureCollectionToDrawSource } from './utils/conversion/featureCollectionToDrawSource'
-import { createDrawLayer } from './utils/drawLayer'
 import { InteractionManager } from './utils/interactionManager'
 import { reviseFeatures } from './utils/reviseFeatures'
 
@@ -429,6 +429,11 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 		},
 	})
 
+	function registerLayer(layer: BaseLayer) {
+		_layers.value.push(layer)
+		_layerIds.value.push(layer.get('id'))
+	}
+
 	function setupPlugin() {
 		let syntheticDrawLayerId = 0
 
@@ -440,20 +445,17 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 					.find((l) => l.get('id') === layerConfig.id)
 
 				if (layer) {
-					_layers.value.push(layer)
-					_layerIds.value.push(layerConfig.id)
+					registerLayer(layer)
 					return
 				}
 			}
-
-			const localLayer = createDrawLayer(
-				layerConfig.id ?? `draw-layer-${++syntheticDrawLayerId}`,
-				layerConfig.style
+			registerLayer(
+				useDrawLayer(
+					coreStore.map,
+					layerConfig.id ?? `draw-layer-${++syntheticDrawLayerId}`,
+					layerConfig.style
+				)
 			)
-
-			coreStore.map.addLayer(localLayer)
-			_layers.value.push(localLayer)
-			_layerIds.value.push(localLayer.get('id'))
 		})
 
 		activeLayerId.value = _layerIds.value[0] ?? ''
