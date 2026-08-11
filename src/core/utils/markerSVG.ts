@@ -6,11 +6,27 @@
  */
 
 import type {
+	GetSVGConfigFunction,
 	GetTextPositionFunction,
 	MarkerSVGConfig,
 	TextPosition,
 } from '../types'
 
+export const getSVGConfig: GetSVGConfigFunction = (digits: string) => {
+	switch (digits.length) {
+		case 0:
+		case 1:
+		case 2:
+			return singleMarkerSVG
+		case 3:
+		case 4:
+			return twoDigitsMarkerSVG
+		case 5:
+			return threeDigitsMarkerSVG
+		default:
+			throw new Error('Unsupported number of digits')
+	}
+}
 
 /**
  * Calculates the optically centered text position for a pill SVG path.
