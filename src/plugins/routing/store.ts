@@ -29,6 +29,7 @@ import { useMarkerLayer } from './composables/useMarkerLayer'
 import { useRouteLayer } from './composables/useRouteLayer'
 import { PluginId } from './types'
 import { handleErrors } from './utils/handleErrors'
+import type { PolarGeoJsonFeature } from '@/core'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -45,8 +46,12 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	let abortController: AbortController | null = null
 	let draw: Draw | undefined
 
+	const reverseGeocodeCoordinateIndex = ref(-1)
+
 	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
+	const routeAddressTexts = ref<(string | null)[]>([null, null])
+	const reverseGeocodeCoordinate = ref<Coordinate | null>(null)
 	const routingResponseData = ref<RoutingResponseData | null>(null)
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
@@ -158,11 +163,14 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	)
 
 	function addCoordinateToRoute(coordinate: Coordinate) {
+		reverseGeocodeCoordinate.value = coordinate
 		route.value = route.value.toSpliced(
 			currentlyFocusedInput.value,
 			1,
 			coordinate
 		)
+		routeAddressTexts.value = routeAddressTexts.value.toSpliced(currentlyFocusedInput.value, 1, '')
+		reverseGeocodeCoordinateIndex.value = currentlyFocusedInput.value
 	}
 
 	async function fetchRoute(signal: AbortSignal): Promise<RoutingResponseData> {
@@ -309,6 +317,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	function reset() {
 		route.value = [[], []]
+		routeAddressTexts.value = [null, null]
 		currentlyFocusedInput.value = -1
 		selectedPreference.value = 'recommended'
 		selectedTravelMode.value = 'driving-car'
@@ -327,6 +336,13 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		route.value = remove
 			? route.value.toSpliced(index, 1)
 			: route.value.toSpliced(index, 0, [])
+		routeAddressTexts.value = remove
+			? routeAddressTexts.value.toSpliced(index, 1)
+			: routeAddressTexts.value.toSpliced(index, 0, null)
+	}
+
+	function selectRouteResult(feature: PolarGeoJsonFeature) {
+		routeAddressTexts.value[reverseGeocodeCoordinateIndex.value] = feature.title
 	}
 
 	return {
@@ -335,6 +351,13 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * If all coordinate pairs are filled, a route is requested.
 		 */
 		route,
+
+		/**
+		 * Reverse-geocoded address labels for each waypoint in {@link route}.
+		 * `null` if no address was resolved (e.g. reverse geocoder not configured).
+		 * @alpha
+		 */
+		routeAddressTexts,
 
 		/**
 		 * The response of the routing service depending on the {@link route} and
@@ -394,6 +417,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 */
 		travelModes,
 
+		/** @alpha */
+		reverseGeocodeCoordinate,
+
 		/**
 		 * Resets the state and clears the route layer source.
 		 *
@@ -407,6 +433,14 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * @alpha
 		 */
 		setRoute,
+
+		/**
+		 * Sets the address label for a given coordinate in the route.
+		 * 
+		 * @param feature The feature returned by the reverse geocoder.
+		 * @alpha
+		 */
+		selectRouteResult,
 
 		/**
 		 * Value of {@link RoutingPluginOptions.displayPreferences}.
