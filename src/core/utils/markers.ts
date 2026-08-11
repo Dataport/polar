@@ -129,7 +129,19 @@ const memoCountStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
 	}
 }
 
-const getStyleFunction: GetMarkerFunction = (style, multi) =>
+/**
+ * The map became a little laggy due to constant re-generation of styles.
+ * This memoization function optimises this issue by reusing styles.
+ * */
+const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
+	const memoizedCountStyle = memoCountStyle(getMarker)
+	const memoizedStyle = memoStyle(getMarker)
+	return (style, count, displayFeatureCount) =>
+		displayFeatureCount
+			? memoizedCountStyle(style, count, displayFeatureCount)
+			: memoizedStyle(style, count, displayFeatureCount)
+}
+
 	new Style({
 		image: new Icon({
 			src: (multi ? makeMultiMarker : makeMarker)(style),
