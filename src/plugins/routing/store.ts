@@ -46,12 +46,17 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	let abortController: AbortController | null = null
 	let draw: Draw | undefined
 
-	const reverseGeocodeCoordinateIndex = ref(-1)
+	const pendingReverseGeocode = ref<{
+		coordinate: Coordinate
+		index: number
+	} | null>(null)
 
 	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
 	const routeAddressTexts = ref<(string | null)[]>([null, null])
-	const reverseGeocodeCoordinate = ref<Coordinate | null>(null)
+	const reverseGeocodeCoordinate = computed(
+		() => pendingReverseGeocode.value?.coordinate ?? null
+	)
 	const routingResponseData = ref<RoutingResponseData | null>(null)
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
@@ -163,14 +168,14 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	)
 
 	function addCoordinateToRoute(coordinate: Coordinate) {
-		reverseGeocodeCoordinate.value = coordinate
+		const index = currentlyFocusedInput.value
+		pendingReverseGeocode.value = { coordinate, index }
 		route.value = route.value.toSpliced(
-			currentlyFocusedInput.value,
+			index,
 			1,
 			coordinate
 		)
-		routeAddressTexts.value = routeAddressTexts.value.toSpliced(currentlyFocusedInput.value, 1, '')
-		reverseGeocodeCoordinateIndex.value = currentlyFocusedInput.value
+		routeAddressTexts.value = routeAddressTexts.value.toSpliced(index, 1, '')
 	}
 
 	async function fetchRoute(signal: AbortSignal): Promise<RoutingResponseData> {
@@ -318,6 +323,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	function reset() {
 		route.value = [[], []]
 		routeAddressTexts.value = [null, null]
+		pendingReverseGeocode.value = null
 		currentlyFocusedInput.value = -1
 		selectedPreference.value = 'recommended'
 		selectedTravelMode.value = 'driving-car'
@@ -342,7 +348,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	}
 
 	function selectRouteResult(feature: PolarGeoJsonFeature) {
-		routeAddressTexts.value[reverseGeocodeCoordinateIndex.value] = feature.title
+		const pendingIndex = pendingReverseGeocode.value?.index
+		if (pendingIndex !== undefined && pendingIndex > -1) {
+			routeAddressTexts.value[pendingIndex] = feature.title
+		}
 	}
 
 	return {
