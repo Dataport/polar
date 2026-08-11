@@ -142,9 +142,24 @@ const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
 			: memoizedStyle(style, count, displayFeatureCount)
 }
 
+const getStyleFunction: GetMarkerFunction = (
+	style,
+	count,
+	displayFeatureCount
+) =>
 	new Style({
 		image: new Icon({
-			src: (multi ? makeMultiMarker : makeMarker)(style),
+			src:
+				count > 1
+					? makeMultiMarker(
+							{
+								...style,
+								displayedText: count,
+							},
+							displayFeatureCount,
+							getSVGConfig(String(count))
+						)
+					: makeMarker(style),
 			anchor,
 		}),
 	})
