@@ -81,11 +81,13 @@ const makeMultiMarker = (
 // center bottom of marker 📍 is intended to show the spot
 const anchor = [0.5, 1]
 
-/**
- * The map became a little laggy due to constant re-generation of styles.
- * This memoization function optimises this issue by reusing styles.
- * */
-const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
+const warnMemoLeak = (styleCount: number) => {
+	if (styleCount > 1000) {
+		console.warn(
+			`1000+ styles have been created. This is possibly a memory leak. Please mind that the methods exported by this module are memoized. You *may* be calling the methods with constantly newly generated objects, or maybe there's just a lot of styles.`
+		)
+	}
+}
 	const singleCache = new Map()
 	const multiCache = new Map()
 	return (style, multi) => {
