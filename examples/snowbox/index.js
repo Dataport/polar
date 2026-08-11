@@ -360,19 +360,19 @@ addPlugin(
 addPlugin(
 	map,
 	pluginReverseGeocoder({
-		// type: 'wps',
-		// url: 'https://geodienste.hamburg.de/HH_WPS',
-		type: 'nominatim',
-		url: 'https://polar.dataport.de/nominatim/reverse',
+		type: 'wps',
+		url: 'https://geodienste.hamburg.de/HH_WPS',
+		// type: 'nominatim',
+		// url: 'https://polar.dataport.de/nominatim/reverse',
 		coordinateSources: [
 			{
-				plugin: 'pins',
-				key: 'coordinate',
+				plugin: 'routing',
+				key: 'reverseGeocodeCoordinate',
 			},
 		],
 		addressTarget: {
-			plugin: 'addressSearch',
-			key: 'selectResult',
+			plugin: 'routing',
+			key: 'selectRouteResult',
 		},
 		zoomTo: 7,
 	})
