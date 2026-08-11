@@ -40,7 +40,7 @@ export function createDuplicateInteractions(
 	// @ts-expect-error | local piggyback
 	selectInteraction._onRemove = () => {
 		map.un('pointermove', boundPointerStyle)
-		map.getTargetElement().setAttribute('style', '')
+		map.getTargetElement().style = ''
 	}
 
 	return selectInteraction
