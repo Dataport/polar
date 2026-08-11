@@ -110,7 +110,6 @@ function updateSelection(
 		typeof findLayer(map, layerId)?.getSource().getDistance === 'function'
 			? getCluster(map, feature, '_polarLayerId')
 			: feature
-
 	selectedCluster.setStyle(
 		getMarkerStyle(
 			getLayerConfiguration(feature.get('_polarLayerId') as string)
