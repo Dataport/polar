@@ -88,19 +88,21 @@ const warnMemoLeak = (styleCount: number) => {
 		)
 	}
 }
+const memoStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
 	const singleCache = new Map()
 	const multiCache = new Map()
-	return (style, multi) => {
-		const cache = multi ? multiCache : singleCache
+	return (style, count, displayFeatureCount) => {
+		const cache = count > 1 ? multiCache : singleCache
 		if (cache.has(style)) {
 			return cache.get(style)
 		}
-		const markerStyle = getMarker(style, multi)
+		const markerStyle = getMarker(style, count, displayFeatureCount)
 		cache.set(style, markerStyle)
-		if (cache.size > 1000) {
-			console.warn(
-				`1000+ styles have been created. This is possibly a memory leak. Please mind that the methods exported by this module are memoized. You *may* be calling the methods with constantly newly generated objects, or maybe there's just a lot of styles.`
-			)
+		warnMemoLeak(cache.size)
+		return markerStyle
+	}
+}
+
 		}
 		return markerStyle
 	}
