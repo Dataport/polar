@@ -1,13 +1,12 @@
-import type { MarkerStyle } from '../types'
+import type { GetMarkerFunction, MarkerStyle, MarkerSVGConfig } from '../types'
 
 import PolygonStyle from '@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon'
 import Icon from 'ol/style/Icon'
 import Style from 'ol/style/Style'
 
+import { getSVGConfig, singleMarkerSVG } from './markerSVG'
+
 const polygonStyle = new PolygonStyle()
-
-type GetMarkerFunction = (style: MarkerStyle, multi: boolean) => Style
-
 const prefix = 'data:image/svg+xml,'
 
 const getImagePattern = (fill: MarkerStyle['fill']) =>
@@ -23,18 +22,15 @@ const getImagePattern = (fill: MarkerStyle['fill']) =>
     </pattern>
   </defs>`
 
-/* Path of marker svg used in this file copied and adapted from
- * @masterportal/masterportalapi/public/marker.svg. */
-
 const makeMarker = ({ fill, size, stroke, strokeWidth }: MarkerStyle) =>
 	`${prefix}${encodeURIComponent(`
 <svg width="${size[0]}" height="${
 		size[1]
-	}" viewBox="0 0 30 43" xmlns="http://www.w3.org/2000/svg">
+	}" viewBox=${singleMarkerSVG.viewBox} xmlns="http://www.w3.org/2000/svg">
   <title>DB6C494E-88E8-49F1-89CE-97CBEC3A5240</title>
   ${getImagePattern(fill)}
   <path
-    d="M14.584 1C7.101 1 1 7.101 1 14.584c0 8.103 7.865 20.448 11.63 25.93a2.36 2.36 0 0 0 3.908 0c3.766-5.482 11.63-17.922 11.63-25.93C28.168 7.054 22.068 1 14.584 1z"
+    ${singleMarkerSVG.path}
     stroke="${stroke}"
     stroke-width="${strokeWidth}"
     fill="${typeof fill === 'string' ? fill : 'url(#img)'}"
