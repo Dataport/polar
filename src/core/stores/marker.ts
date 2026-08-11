@@ -20,6 +20,10 @@ export const useMarkerStore = defineStore('marker', () => {
 		() => (configuration.value?.clusterClickZoom as boolean) || false
 	)
 
+	const displayFeatureCount = computed(
+		() => (configuration.value?.displayFeatureCount as boolean) || false
+	)
+
 	const hovered = shallowRef<Feature | null>(null)
 	const selected = shallowRef<Feature | null>(null)
 	const selectedCoordinates = computed(() =>
@@ -32,6 +36,7 @@ export const useMarkerStore = defineStore('marker', () => {
 		configuration,
 		callOnMapSelect,
 		clusterClickZoom,
+		displayFeatureCount,
 
 		hovered,
 		selected,

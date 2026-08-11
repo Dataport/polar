@@ -1,6 +1,12 @@
 import type { Feature } from 'ol'
+import type { Style } from 'ol/style'
 
 export type MarkersIsSelectableFunction = (feature: Feature) => boolean
+export type GetMarkerFunction = (
+	style: MarkerStyle,
+	count: number,
+	displayFeatureCount: boolean
+) => Style
 
 export interface CallOnMapSelect {
 	action: string
@@ -150,4 +156,10 @@ export interface MarkerConfiguration {
 	 * take place. Defaults to `false`.
 	 */
 	clusterClickZoom?: boolean
+
+	/**
+	 * If `true`, the number of features in a cluster will be displayed on the cluster marker.
+	 * @defaultValue `false`
+	 */
+	displayFeatureCount?: boolean
 }
