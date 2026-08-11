@@ -5,7 +5,7 @@ import { Circle as CircleStyle, Fill, Style, Text } from 'ol/style'
 export function createTextStyle(
 	drawText: string,
 	textStyle?: DrawTextStyle,
-	textSize?: number
+	textSize = 12
 ) {
 	return new Style({
 		image: new CircleStyle({
@@ -15,7 +15,7 @@ export function createTextStyle(
 		text: new Text({
 			textAlign: 'center',
 			text: drawText,
-			font: createFont(textStyle, textSize),
+			font: createFont(textSize, textStyle),
 			fill: textStyle?.textColor
 				? new Fill({ color: textStyle.textColor })
 				: undefined,
@@ -24,7 +24,7 @@ export function createTextStyle(
 	})
 }
 
-function createFont(textStyle?: DrawTextStyle, textSize?: number) {
+function createFont(textSize: number, textStyle?: DrawTextStyle) {
 	if (typeof textStyle === 'undefined') {
 		// if empty string apply default open layers style
 		return ''
@@ -34,5 +34,6 @@ function createFont(textStyle?: DrawTextStyle, textSize?: number) {
 		return font
 	}
 	const fontFamily: string = font?.family ?? 'sans-serif'
-	return String(textSize ?? 12) + 'px ' + fontFamily
+	// TODO: If font is an object is also has size defined. Update this when refactoring as well.
+	return `${textSize}px ${fontFamily}`
 }
