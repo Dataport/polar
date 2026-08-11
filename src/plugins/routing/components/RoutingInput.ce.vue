@@ -6,7 +6,7 @@
 			</label>
 			<input
 				:id="`polar-plugin-routing-input-${index}`"
-				v-model="route[index]"
+				v-model="routeInput[index]"
 				class="kern-form-input__input"
 				:aria-label="
 					$t(($) => $.label.aria, {
@@ -57,7 +57,7 @@ defineProps<{
 
 const routeStore = useRoutingStore()
 
-const { currentlyFocusedInput, route } = storeToRefs(routeStore)
+const { currentlyFocusedInput, route, routeAddressTexts} = storeToRefs(routeStore)
 
 /**
  * This makes sure that there are always two fillable input fields at max.
@@ -66,6 +66,13 @@ const addWaypointButtonDisabled = computed(
 	() =>
 		route.value.filter((part) => Boolean(part.length)).length <
 		route.value.length - 1
+)
+
+const routeInput = computed(() =>
+    route.value.map((coord, i) => {
+        const label = routeAddressTexts.value[i]
+        return label?.length ? label : coord.join(', ')
+    })
 )
 
 function getRouteLabel(index: number) {
