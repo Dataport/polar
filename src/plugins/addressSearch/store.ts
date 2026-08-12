@@ -19,6 +19,7 @@ import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import SearchResultSymbols from '@/lib/searchResultSymbols'
+import { selectSearchResult } from '@/lib/selectSearchResult'
 
 import { PluginId } from './types'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
@@ -302,14 +303,17 @@ export const useAddressSearchStore = defineStore(
 			feature: PolarGeoJsonFeature,
 			categoryId = 'default'
 		) {
-			const customMethod = configuration.value.customSelectResult?.[categoryId]
-			if (customMethod) {
-				customMethod(feature, categoryId)
-			} else {
-				chosenAddress.value = feature
-				_inputValue.value = feature.title
-				searchResults.value = SearchResultSymbols.NO_SEARCH
+			const searchResult = selectSearchResult(
+				feature,
+				configuration.value.customSelectResult,
+				categoryId
+			)
+			if (!searchResult) {
+				return
 			}
+			chosenAddress.value = searchResult.feature
+			_inputValue.value = searchResult.title
+			searchResults.value = searchResult.resultSymbol
 		}
 
 		return {
