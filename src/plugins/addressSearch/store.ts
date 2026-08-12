@@ -18,11 +18,11 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import SearchResultSymbols from '@/lib/searchResultSymbols'
 
 import { PluginId } from './types'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import { getMethodContainer } from './utils/methodContainer'
-import SearchResultSymbols from './utils/searchResultSymbols'
 
 /* eslint-disable tsdoc/syntax */
 /**
