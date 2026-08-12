@@ -49,10 +49,6 @@ export class InteractionManager {
 		this.#drawLayerId = drawLayer.get('id')
 	}
 
-	getDrawSource() {
-		return this.#drawSource
-	}
-
 	initializeInteractions(
 		tool: ToolMode,
 		entry: string | undefined,

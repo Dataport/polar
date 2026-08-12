@@ -356,7 +356,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	}
 
 	function upload() {
-		const drawSource = interactionManager?.getDrawSource()
+		const drawSource = activeDrawLayer.value.getSource()
 		if (!drawSource) {
 			// TODO: notifyUser to select a draw source
 			return
@@ -399,7 +399,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 		featureCollection: FeatureCollection<GeometryType>,
 		overwrite = false
 	) {
-		const drawSource = interactionManager?.getDrawSource()
+		const drawSource = activeDrawLayer.value.getSource()
 		if (!drawSource) {
 			// TODO: notifyUser to select a draw source
 			return
