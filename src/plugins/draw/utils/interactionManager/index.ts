@@ -17,7 +17,7 @@ import createDeleteInteractions from './createDeleteInteractions'
 import { createDrawInteraction } from './createDrawInteractions'
 import { createEditInteractions } from './createEditInteractions'
 
-// This is a class since it works indepently of vue and its framework
+// This is a class since it works independently of vue and its framework
 // Don't make the next migration harder than it has to be
 export class InteractionManager {
 	#map: Map
