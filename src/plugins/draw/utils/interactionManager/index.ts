@@ -1,4 +1,3 @@
-import type { EventsKey } from 'ol/events'
 import type Interaction from 'ol/interaction/Interaction'
 import type VectorLayer from 'ol/layer/Vector'
 import type Map from 'ol/Map'
@@ -10,8 +9,6 @@ import type {
 	InteractionOptions,
 	ToolMode,
 } from '../../types'
-
-import { unByKey } from 'ol/Observable'
 
 import createDeleteInteractions from './createDeleteInteractions'
 import { createDrawInteraction } from './createDrawInteractions'
@@ -26,58 +23,30 @@ export class InteractionManager {
 	#drawSource: VectorSource | null = null
 	#currentInteractions = new Set<Interaction>()
 	#configuration: DrawPluginOptions
-	#sourceChangeCallback: ((drawSource: VectorSource) => void) | undefined
-	#uns: EventsKey[] = []
 
 	constructor(
 		map: Map,
 		configuration: DrawPluginOptions,
-		drawLayer: VectorLayer,
-		sourceChangeCallback?: (drawSource: VectorSource) => void
+		drawLayer: VectorLayer
 	) {
 		this.#map = map
 		this.#configuration = configuration
-		if (sourceChangeCallback) {
-			this.#sourceChangeCallback = sourceChangeCallback
-		}
-		this.determineDrawSource(drawLayer)
+		this.setLayer(drawLayer)
 	}
 
 	destructor() {
 		this.removeAllInteractions()
-		if (this.#uns.length > 0) {
-			this.#uns.forEach((key) => {
-				unByKey(key)
-			})
-			this.#uns = []
-		}
 	}
 
 	updateDrawLayer(drawLayer: VectorLayer) {
 		this.removeAllInteractions()
-		this.determineDrawSource(drawLayer)
+		this.setLayer(drawLayer)
 	}
 
-	determineDrawSource(drawLayer: VectorLayer) {
-		if (this.#uns.length > 0) {
-			this.#uns.forEach((key) => {
-				unByKey(key)
-			})
-			this.#uns = []
-		}
-
+	setLayer(drawLayer: VectorLayer) {
 		this.#drawLayer = drawLayer
 		this.#drawSource = drawLayer.getSource()
 		this.#drawLayerId = drawLayer.get('id')
-
-		if (this.#drawSource) {
-			this.#uns = this.#drawSource.on(
-				['addfeature', 'changefeature', 'removefeature'],
-				() => {
-					this.#sourceChangeCallback?.(this.#drawSource as VectorSource)
-				}
-			)
-		}
 	}
 
 	getDrawSource() {

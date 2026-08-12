@@ -6,6 +6,7 @@
 
 import type { FeatureCollection } from 'geojson'
 import type { Feature as OlFeature } from 'ol'
+import type { EventsKey } from 'ol/events'
 import type BaseLayer from 'ol/layer/Base'
 import type VectorLayer from 'ol/layer/Vector'
 import type { ComputedRef } from 'vue'
@@ -20,6 +21,7 @@ import type {
 } from './types'
 import type { MeasureMode } from './types'
 
+import { unByKey } from 'ol/Observable'
 import Style from 'ol/style/Style'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, markRaw, ref, shallowRef, watch } from 'vue'
@@ -45,6 +47,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	const coreStore = useCoreStore()
 
 	let interactionManager: InteractionManager | undefined
+	let sourceListenerKeys: EventsKey[] = []
 
 	const configuration = computed(
 		() => (coreStore.configuration[PluginId] || {}) as DrawPluginOptions
@@ -103,10 +106,6 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 				}
 			)
 		}
-	}
-
-	const featureCollectionUpdater = (drawSource) => {
-		drawSourceToFeatureCollection(drawSource, featureCollection)
 	}
 
 	const activeLayerId = computed({
@@ -440,6 +439,17 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	function registerLayer(layer: BaseLayer) {
 		_layers.value.push(markRaw(layer))
 		_layerIds.value.push(layer.get('id'))
+
+		const source = (layer as VectorLayer).getSource()
+		if (source) {
+			sourceListenerKeys.push(
+				...source.on(['addfeature', 'changefeature', 'removefeature'], () => {
+					if (layer.get('id') === _activeLayerId.value) {
+						drawSourceToFeatureCollection(source, featureCollection)
+					}
+				})
+			)
+		}
 	}
 
 	function setupPlugin() {
@@ -470,13 +480,16 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 		interactionManager = new InteractionManager(
 			coreStore.map,
 			configuration.value,
-			activeDrawLayer.value,
-			featureCollectionUpdater
+			activeDrawLayer.value
 		)
 	}
 
 	function teardownPlugin() {
 		interactionManager?.destructor()
+		sourceListenerKeys.forEach((key) => {
+			unByKey(key)
+		})
+		sourceListenerKeys = []
 		// TODO: check for completeness
 	}
 
