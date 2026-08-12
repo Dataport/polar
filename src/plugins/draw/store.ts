@@ -7,6 +7,7 @@
 import type { FeatureCollection } from 'geojson'
 import type { Feature as OlFeature } from 'ol'
 import type BaseLayer from 'ol/layer/Base'
+import type VectorLayer from 'ol/layer/Vector'
 import type { ComputedRef } from 'vue'
 import type {
 	DownloadMode,
@@ -21,7 +22,7 @@ import type { MeasureMode } from './types'
 
 import Style from 'ol/style/Style'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed, markRaw, ref, shallowRef, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -113,9 +114,16 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 		set: (value) => {
 			_activeTool.value = null
 			_activeLayerId.value = value
-			interactionManager?.updateDrawLayer(value)
+			interactionManager?.updateDrawLayer(activeDrawLayer.value)
 		},
 	})
+
+	const activeDrawLayer = computed(
+		() =>
+			_layers.value.find(
+				(layer) => layer.get('id') === _activeLayerId.value
+			) as VectorLayer
+	)
 
 	const activeLayerConfig = computed(() =>
 		layerConfiguration.value.find((layer) => layer.id === activeLayerId.value)
@@ -430,7 +438,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	})
 
 	function registerLayer(layer: BaseLayer) {
-		_layers.value.push(layer)
+		_layers.value.push(markRaw(layer))
 		_layerIds.value.push(layer.get('id'))
 	}
 
@@ -462,7 +470,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 		interactionManager = new InteractionManager(
 			coreStore.map,
 			configuration.value,
-			activeLayerId.value,
+			activeDrawLayer.value,
 			featureCollectionUpdater
 		)
 	}

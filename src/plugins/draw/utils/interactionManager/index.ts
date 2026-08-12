@@ -21,7 +21,7 @@ import { createEditInteractions } from './createEditInteractions'
 // Don't make the next migration harder than it has to be
 export class InteractionManager {
 	#map: Map
-	#drawLayerId: string
+	#drawLayerId = ''
 	#drawLayer: VectorLayer | null = null
 	#drawSource: VectorSource | null = null
 	#currentInteractions = new Set<Interaction>()
@@ -32,16 +32,15 @@ export class InteractionManager {
 	constructor(
 		map: Map,
 		configuration: DrawPluginOptions,
-		drawLayerId: string,
+		drawLayer: VectorLayer,
 		sourceChangeCallback?: (drawSource: VectorSource) => void
 	) {
 		this.#map = map
 		this.#configuration = configuration
-		this.#drawLayerId = drawLayerId
 		if (sourceChangeCallback) {
 			this.#sourceChangeCallback = sourceChangeCallback
 		}
-		this.determineDrawSource(drawLayerId)
+		this.determineDrawSource(drawLayer)
 	}
 
 	destructor() {
@@ -54,21 +53,12 @@ export class InteractionManager {
 		}
 	}
 
-	updateDrawLayer(drawLayerId: string) {
+	updateDrawLayer(drawLayer: VectorLayer) {
 		this.removeAllInteractions()
-		this.determineDrawSource(drawLayerId)
+		this.determineDrawSource(drawLayer)
 	}
 
-	determineDrawSource(drawLayerId: string) {
-		const drawLayer = this.#map
-			.getLayers()
-			.getArray()
-			.find((layer) => layer.get('id') === drawLayerId)
-
-		if (!drawLayer) {
-			throw new Error(`Draw layer with id ${drawLayerId} not found`)
-		}
-
+	determineDrawSource(drawLayer: VectorLayer) {
 		if (this.#uns.length > 0) {
 			this.#uns.forEach((key) => {
 				unByKey(key)
@@ -76,9 +66,9 @@ export class InteractionManager {
 			this.#uns = []
 		}
 
-		this.#drawLayer = drawLayer as VectorLayer
-		this.#drawSource = this.#drawLayer.getSource()
-		this.#drawLayerId = drawLayerId
+		this.#drawLayer = drawLayer
+		this.#drawSource = drawLayer.getSource()
+		this.#drawLayerId = drawLayer.get('id')
 
 		if (this.#drawSource) {
 			this.#uns = this.#drawSource.on(
