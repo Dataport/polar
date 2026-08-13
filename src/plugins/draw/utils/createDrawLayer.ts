@@ -14,7 +14,7 @@ import { buildStyleParameters } from '@/lib/jsonStyleMapper'
  *
  * @returns VectorLayer for the drawn features to reside in.
  */
-export function useDrawLayer(
+export function createDrawLayer(
 	map: Map,
 	id: string,
 	style?: DrawPluginOptionsLayerStyle
@@ -25,11 +25,6 @@ export function useDrawLayer(
 	}
 	const layer = new VectorLayer(options)
 	layer.set('id', id)
-
-	map.addLayer(layer)
-	onScopeDispose(() => {
-		map.removeLayer(layer)
-	})
 
 	return layer
 }

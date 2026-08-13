@@ -28,11 +28,11 @@ import { computed, markRaw, ref, shallowRef, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import { useDrawLayer } from './composables/useDrawLayer'
 import { complete, error, inactive, inProgress } from './types'
 import { MeasureModes, PluginId } from './types'
 import { drawSourceToFeatureCollection } from './utils/conversion/drawSourceToFeatureCollection'
 import { featureCollectionToDrawSource } from './utils/conversion/featureCollectionToDrawSource'
+import { createDrawLayer } from './utils/createDrawLayer'
 import { InteractionManager } from './utils/interactionManager'
 import { reviseFeatures } from './utils/reviseFeatures'
 
@@ -46,6 +46,7 @@ import { reviseFeatures } from './utils/reviseFeatures'
 export const useDrawStore = defineStore('plugins/draw', () => {
 	const coreStore = useCoreStore()
 
+	const localLayers: VectorLayer[] = []
 	let interactionManager: InteractionManager | undefined
 	let sourceListenerKeys: EventsKey[] = []
 
@@ -467,13 +468,16 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 					return
 				}
 			}
-			registerLayer(
-				useDrawLayer(
-					coreStore.map,
-					layerConfig.id ?? `draw-layer-${++syntheticDrawLayerId}`,
-					layerConfig.style
-				)
+			const l = createDrawLayer(
+				coreStore.map,
+				layerConfig.id ?? `draw-layer-${++syntheticDrawLayerId}`,
+				layerConfig.style
 			)
+			localLayers.push(l)
+			registerLayer(l)
+		})
+		localLayers.forEach((l) => {
+			coreStore.map.addLayer(l)
 		})
 
 		activeLayerId.value = _layerIds.value[0] ?? ''
@@ -490,6 +494,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 			unByKey(key)
 		})
 		sourceListenerKeys = []
+		localLayers.forEach((l) => coreStore.map.removeLayer(l))
 		// TODO: check for completeness
 	}
 
