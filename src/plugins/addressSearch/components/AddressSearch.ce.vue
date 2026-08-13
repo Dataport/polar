@@ -76,10 +76,10 @@ import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
 import PolarSelect from '@/components/PolarSelect.ce.vue'
 import { useCoreStore } from '@/core/stores'
+import { focusFirstResult } from '@/lib/focusFirstResult'
 
 import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
-import { focusFirstResult } from '../utils/focusFirstResult'
 import SearchResults from './SearchResults.ce.vue'
 import SmallLoader from './SmallLoader.ce.vue'
 
