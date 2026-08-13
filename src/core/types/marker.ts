@@ -9,7 +9,7 @@ export type GetMarkerFunction = (
 ) => Style
 export type GetSVGConfigFunction = (digits: string) => MarkerSVGConfig
 export type GetTextPositionFunction = (path: string) => TextPosition
-
+export type PinShape = 'circle' | 'pill'
 export interface TextPosition {
 	x: number
 	y: number
@@ -85,6 +85,16 @@ export interface MarkerStyle {
 
 export interface MarkerSVGConfig {
 	/**
+	 * The SVG path for the markershape where the text ist displayed in.
+	 */
+	contentPath: string
+
+	/**
+	 * the definitions for the marker. e.g. shadows
+	 */
+	defs: string
+
+	/**
 	 * Calculates the x and y coordinates for the text position within the marker.
 	 * The calculation is based on the provided SVG path, which is expected to follow the schema:
 	 * M[xStart] [yMid] C... [xLeftCap] [yTop] h[width] C... [xRight] [yMid] S... [xRightCap] [yBottom] h-[width] C... Z
@@ -95,16 +105,21 @@ export interface MarkerSVGConfig {
 	getTextPosition: GetTextPositionFunction
 
 	/**
-	 * The SVG path for the markershape.
+	 * The shape of the marker, which can be either a circle or a pill.
+	 * This property is used to determine the visual representation during the rendering of the marker.
 	 */
-	path: string
+	pinShape: PinShape
+
+	/** The outer shape of the marker. */
+	shapePath: string
 
 	/**
-	 * The SVG path for the stacked markershape.
+	 * The SVG paths for the stacked markershape.
 	 */
-	stackedPath1: string
-
-	stackedPath2: string
+	stackedShape1: string
+	stackedShape2: string
+	stackedTip1: string
+	stackedTip2: string
 
 	readonly textPosition: TextPosition
 

@@ -4,7 +4,7 @@ import PolygonStyle from '@masterportal/masterportalapi/src/vectorStyle/styles/p
 import Icon from 'ol/style/Icon'
 import Style from 'ol/style/Style'
 
-import { getSVGConfig, singleMarkerSVG } from './markerSVG'
+import { circlePin, getSVGConfig } from './markerSVG'
 
 const polygonStyle = new PolygonStyle()
 const prefix = 'data:image/svg+xml,'
@@ -22,59 +22,103 @@ const getImagePattern = (fill: MarkerStyle['fill']) =>
     </pattern>
   </defs>`
 
-const makeMarker = ({ fill, size, stroke, strokeWidth }: MarkerStyle) =>
+const makeMarker = ({ fill, size, stroke }: MarkerStyle) =>
 	`${prefix}${encodeURIComponent(`
-<svg width="${size[0]}" height="${
+<svg fill="none" width="${size[0]}" height="${
 		size[1]
-	}" viewBox=${singleMarkerSVG.viewBox} xmlns="http://www.w3.org/2000/svg">
+	}" viewBox="${circlePin.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>DB6C494E-88E8-49F1-89CE-97CBEC3A5240</title>
   ${getImagePattern(fill)}
-  <path
-    ${singleMarkerSVG.path}
-    stroke="${stroke}"
-    stroke-width="${strokeWidth}"
-    fill="${typeof fill === 'string' ? fill : 'url(#img)'}"
-    fill-rule="nonzero"
-  />
+  <g class="feature-pin-default">
+    <g class="feature-pin-content">
+      <g class="feature-pin-shape" filter="url(#a)">
+        <path fill-rule="nonzero" fill="${stroke}" ${circlePin.shapePath}/>
+      </g>
+      <path fill-rule="nonzero" fill="${typeof fill === 'string' ? fill : 'url(#img)'}" ${circlePin.contentPath} class="feature-flag-background"/>
+    </g>
+  </g>
+	${circlePin.defs}
 </svg>
 `)}`
 
 const makeMultiMarker = (
-	{ fill, clusterSize, stroke, strokeWidth, displayedText }: MarkerStyle,
+	{ fill, clusterSize, stroke, displayedText }: MarkerStyle,
 	displayFeatureCount: boolean,
 	svgConfig: MarkerSVGConfig
 ) =>
 	`${prefix}${encodeURIComponent(`
-<svg width="${clusterSize[0]}" height="${
-		clusterSize[1]
-	}" viewBox=${svgConfig.viewBox} xmlns="http://www.w3.org/2000/svg">
+<svg width="${clusterSize[0]}" height="${clusterSize[1]}"
+	viewBox="${svgConfig.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>0A6F4952-4A5A-4E86-88E4-4B3D2EA1E3DF</title>
   ${getImagePattern(fill)}
-  <g stroke="${stroke}" stroke-width="${strokeWidth}" fill="${
-		typeof fill === 'string' ? fill : 'url(#img)'
-	}" fill-rule="nonzero">
-	<path ${svgConfig.path}/>
-	<path ${svgConfig.stackedPath1}/>
-	<path ${svgConfig.stackedPath2}/>
-  </g>
-	${
-		!displayFeatureCount || displayedText === undefined
-			? ''
-			: `<text
-	x="${svgConfig.textPosition.x}"
-    y="${svgConfig.textPosition.y}"
-    text-anchor="middle"
-    dominant-baseline="central"
-    font-size="14"
-    font-weight="700"
-    fill="#ffffff"
-	>${String(displayedText)}</text>`
-	}
-	  <g stroke="${stroke}" stroke-width="${strokeWidth}" fill="${
-			typeof fill === 'string' ? fill : 'url(#img)'
-		}" fill-rule="nonzero">
-	<path ${svgConfig.tipPath}/>
-	</g>
+${
+	svgConfig.pinShape === 'circle'
+		? `  <g class="feature-pin-default-stacked">
+      <g class="feature-pin-content">
+        <g class="feature-pin-shape" filter="url(#a)">
+          <path fill="${stroke}" ${svgConfig.stackedShape2}/>
+        </g>
+        <g class="feature-pin-shape" filter="url(#b)">
+          <path fill="${stroke}" ${svgConfig.stackedShape1}/>
+        </g>
+        <g class="feature-pin-shape" filter="url(#c)">
+          <path fill="${stroke}" ${svgConfig.shapePath}/>
+        </g>
+        <path fill="${typeof fill === 'string' ? fill : 'url(#img)'}"  fill-rule="nonzero"
+            ${svgConfig.contentPath} class="feature-flag-background"/>
+        ${
+					!displayFeatureCount || displayedText === undefined
+						? ''
+						: `<text
+                    x="${svgConfig.textPosition.x}"
+                    y="${svgConfig.textPosition.y}"
+                    text-anchor="middle"
+                    dominant-baseline="central"
+                    font-size="18"
+                    font-weight="400"
+                    font-family="'Fira Code', 'Fira Mono', ui-monospace"
+                    font-variant-numeric="slashed-zero"
+                        font-feature-settings="'zero' 1"
+                    fill="${stroke}"
+                >${String(displayedText)}</text>`
+				}
+    </g>
+	</g>`
+		: `<g class="feature-pin-five-digits-stacked">
+    <g class="feature-pin-five-digits" filter="url(#a)">
+      <path fill="${stroke}" ${svgConfig.stackedShape2} class="feature-pin-content"/>
+      <path fill="${stroke}" ${svgConfig.stackedTip2} class="feature-pin-tip"/>
+    </g>
+    <g class="feature-pin-five-digits" filter="url(#b)">
+      <path fill="${stroke}" ${svgConfig.stackedShape1} class="feature-pin-content"/>
+      <path fill="${stroke}" ${svgConfig.stackedTip1} class="feature-pin-tip"/>
+    </g>
+    <g class="feature-pin-five-digits" filter="url(#c)">
+      <g class="feature-pin-content">
+        <path fill="${stroke}" ${svgConfig.shapePath}/>
+        <path fill="${typeof fill === 'string' ? fill : 'url(#img)'}" ${svgConfig.contentPath} class="feature-flag-label"/>
+        ${
+					!displayFeatureCount || displayedText === undefined
+						? ''
+						: `<text
+                x="${svgConfig.textPosition.x}"
+                y="${svgConfig.textPosition.y}"
+                text-anchor="middle"
+                dominant-baseline="central"
+                font-size="18"
+                font-weight="400"
+                font-family="'Fira Code', 'Fira Mono', ui-monospace"
+                font-variant-numeric="slashed-zero"
+                font-feature-settings="'zero' 1"
+                fill="${stroke}"
+              >${String(displayedText)}</text>`
+				}
+      </g>
+      <path fill="${stroke}" ${svgConfig.tipPath} class="feature-pin-tip"/>
+    </g>
+  </g>`
+}
+${svgConfig.defs}
 </svg>
 `)}`
 
