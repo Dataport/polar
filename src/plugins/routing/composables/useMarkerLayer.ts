@@ -55,7 +55,7 @@ export function useMarkerLayer(
 		})
 	})
 
-	map.on('pointermove', function (evt) {
+	map.on('pointermove', (evt) => {
 		const pixel = map.getEventPixel(evt.originalEvent)
 		const hit = map.hasFeatureAtPixel(pixel)
 		if (
