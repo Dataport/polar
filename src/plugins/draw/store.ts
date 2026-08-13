@@ -7,6 +7,7 @@
 import type { FeatureCollection } from 'geojson'
 import type { Feature as OlFeature } from 'ol'
 import type { EventsKey } from 'ol/events'
+import type Interaction from 'ol/interaction/Interaction'
 import type BaseLayer from 'ol/layer/Base'
 import type VectorLayer from 'ol/layer/Vector'
 import type { ComputedRef } from 'vue'
@@ -33,7 +34,8 @@ import { MeasureModes, PluginId } from './types'
 import { drawSourceToFeatureCollection } from './utils/conversion/drawSourceToFeatureCollection'
 import { featureCollectionToDrawSource } from './utils/conversion/featureCollectionToDrawSource'
 import { createDrawLayer } from './utils/createDrawLayer'
-import { InteractionManager } from './utils/interactionManager'
+import { initializeInteractions } from './utils/interactions/initializeInteractions'
+import { removeAllInteractions } from './utils/interactions/removeAllInteractions'
 import { reviseFeatures } from './utils/reviseFeatures'
 
 /* eslint-disable tsdoc/syntax */
@@ -47,7 +49,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	const coreStore = useCoreStore()
 
 	const localLayers: VectorLayer[] = []
-	let interactionManager: InteractionManager | undefined
+	let currentInteractions: Interaction[] = []
 	let sourceListenerKeys: EventsKey[] = []
 
 	const configuration = computed(
@@ -87,7 +89,11 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 
 	const reinitializeInteractions = () => {
 		if (_activeTool.value) {
-			interactionManager?.initializeInteractions(
+			removeAllInteractions(coreStore.map, currentInteractions)
+			currentInteractions = initializeInteractions(
+				coreStore.map,
+				configuration.value,
+				activeDrawLayer.value,
 				_activeTool.value,
 				getModeForTool(_activeTool.value),
 				{
@@ -114,7 +120,8 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 		set: (value) => {
 			_activeTool.value = null
 			_activeLayerId.value = value
-			interactionManager?.updateDrawLayer(activeDrawLayer.value)
+			removeAllInteractions(coreStore.map, currentInteractions)
+			currentInteractions = []
 		},
 	})
 
@@ -154,7 +161,8 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 			if (_activeTool.value) {
 				reinitializeInteractions()
 			} else {
-				interactionManager?.removeAllInteractions()
+				removeAllInteractions(coreStore.map, currentInteractions)
+				currentInteractions = []
 			}
 		},
 	})
@@ -380,7 +388,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 						) as FeatureCollection<GeometryType>,
 						drawSource
 					)
-					// value then goes to ref featureCollection by interactionManager callback
+					// value then goes to ref featureCollection via the source listener
 					const extent = drawSource.getExtent()
 					if (extent) {
 						coreStore.map.getView().fit(extent, { duration: 500 })
@@ -481,15 +489,11 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 		})
 
 		activeLayerId.value = _layerIds.value[0] ?? ''
-		interactionManager = new InteractionManager(
-			coreStore.map,
-			configuration.value,
-			activeDrawLayer.value
-		)
 	}
 
 	function teardownPlugin() {
-		interactionManager?.destructor()
+		removeAllInteractions(coreStore.map, currentInteractions)
+		currentInteractions = []
 		sourceListenerKeys.forEach((key) => {
 			unByKey(key)
 		})
