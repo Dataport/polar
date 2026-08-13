@@ -45,13 +45,16 @@ export function useMarkerLayer(
 	})
 
 	const modify = new Modify({ source: markerSource })
-	modify.on('modifyend', () => {
-		route.value = markerSource.getFeatures().map((feature) => {
+	modify.on('modifyend', (evt) => {
+		const allFeatures = markerSource.getFeatures()
+		evt.features.forEach((feature) => {
 			const geometry = feature.getGeometry()
 			if (geometry instanceof Point) {
-				return geometry.getCoordinates()
+				const index = allFeatures.indexOf(feature)
+				if (index !== -1 && index < route.value.length) {
+					route.value[index] = geometry.getCoordinates()
+				}
 			}
-			return []
 		})
 	})
 
