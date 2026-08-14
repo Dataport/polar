@@ -22,8 +22,6 @@ import SearchResultSymbols from '@/lib/searchResultSymbols'
 import { selectSearchResult } from '@/lib/selectSearchResult'
 
 import { PluginId } from './types'
-// import { getResultsFromPromises } from './utils/getResultsFromPromises'
-import { getMethodContainer } from './utils/methodContainer'
 import { useAddressSearchEngine } from './utils/useAddressSearchEngine'
 
 /* eslint-disable tsdoc/syntax */
@@ -47,7 +45,6 @@ export const useAddressSearchStore = defineStore(
 
 		let abortController: AbortController | null = null
 		let debouncedSearch: ReturnType<typeof debounce<typeof _search>>
-		let methodContainer: ReturnType<typeof getMethodContainer>
 
 		const chosenAddress = ref<PolarGeoJsonFeature | null>(null)
 		const _inputValue = ref('')
@@ -180,7 +177,6 @@ export const useAddressSearchStore = defineStore(
 
 		function setupPlugin() {
 			debouncedSearch = debounce(_search, waitMs.value)
-			methodContainer = getMethodContainer()
 			selectedGroupId.value = groupIds.value[0] as string
 		}
 
