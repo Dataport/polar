@@ -65,6 +65,7 @@ const showTextOptions = computed(
 
 	.polar-plugin-draw-slider-container {
 		display: flex;
+		align-items: center;
 		gap: var(--kern-metric-space-default);
 		width: 100%;
 
