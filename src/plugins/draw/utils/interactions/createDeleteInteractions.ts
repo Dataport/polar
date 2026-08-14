@@ -44,9 +44,6 @@ export default function (
 		selectedFeatures.clear()
 	})
 
-	// @ts-expect-error | internal hack to detect it in other plugins
-	selectInteraction._isDeleteSelect = true
-
 	// @ts-expect-error | local piggyback
 	selectInteraction._onRemove = () => {
 		map.un('pointermove', boundPointerStyle)

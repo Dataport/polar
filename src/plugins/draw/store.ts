@@ -11,6 +11,7 @@ import type Interaction from 'ol/interaction/Interaction'
 import type BaseLayer from 'ol/layer/Base'
 import type VectorLayer from 'ol/layer/Vector'
 import type { ComputedRef } from 'vue'
+import type { MeasureMode } from './types'
 import type {
 	DownloadMode,
 	DrawMode,
@@ -20,7 +21,6 @@ import type {
 	RevisionStateFlag,
 	ToolMode,
 } from './types'
-import type { MeasureMode } from './types'
 
 import { unByKey } from 'ol/Observable'
 import Style from 'ol/style/Style'
@@ -29,8 +29,14 @@ import { computed, markRaw, ref, shallowRef, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
-import { complete, error, inactive, inProgress } from './types'
-import { MeasureModes, PluginId } from './types'
+import {
+	complete,
+	error,
+	inactive,
+	inProgress,
+	MeasureModes,
+	PluginId,
+} from './types'
 import { drawSourceToFeatureCollection } from './utils/conversion/drawSourceToFeatureCollection'
 import { featureCollectionToDrawSource } from './utils/conversion/featureCollectionToDrawSource'
 import { createDrawLayer } from './utils/createDrawLayer'
@@ -88,30 +94,44 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	const drawing = ref(false)
 
 	const reinitializeInteractions = () => {
-		if (_activeTool.value) {
-			removeAllInteractions(coreStore.map, currentInteractions)
-			currentInteractions = initializeInteractions(
-				coreStore.map,
-				configuration.value,
-				activeDrawLayer.value,
-				_activeTool.value,
-				getModeForTool(_activeTool.value),
-				{
-					measureMode: measureMode.value,
-					activeLassoIds: activeLassoIds.value,
-					text: {
-						textInput: textInput.value,
-						textSize: textSizes.value[textSizeIndex.value] ?? 12,
-						textStyle: {
-							font: activeLayerConfig.value?.textStyle?.font ?? 'sans-serif',
-							textColor:
-								activeLayerConfig.value?.textStyle?.textColor ?? '#000000',
-						},
-					},
-					selectedFeature,
-					drawing,
+		const tool = _activeTool.value
+
+		if (tool) {
+			coreStore.maskInteraction(
+				PluginId,
+				'click',
+				() => {
+					currentInteractions = initializeInteractions(
+						coreStore.map,
+						configuration.value,
+						activeDrawLayer.value,
+						tool,
+						getModeForTool(tool),
+						{
+							measureMode: measureMode.value,
+							activeLassoIds: activeLassoIds.value,
+							text: {
+								textInput: textInput.value,
+								textSize: textSizes.value[textSizeIndex.value] ?? 12,
+								textStyle: {
+									font:
+										activeLayerConfig.value?.textStyle?.font ?? 'sans-serif',
+									textColor:
+										activeLayerConfig.value?.textStyle?.textColor ?? '#000000',
+								},
+							},
+							selectedFeature,
+							drawing,
+						}
+					)
+				},
+				() => {
+					removeAllInteractions(coreStore.map, currentInteractions)
+					currentInteractions = []
 				}
 			)
+		} else {
+			coreStore.unmaskInteraction(PluginId, 'click')
 		}
 	}
 
@@ -120,8 +140,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 		set: (value) => {
 			_activeTool.value = null
 			_activeLayerId.value = value
-			removeAllInteractions(coreStore.map, currentInteractions)
-			currentInteractions = []
+			coreStore.unmaskInteraction(PluginId, 'click')
 		},
 	})
 
@@ -161,8 +180,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 			if (_activeTool.value) {
 				reinitializeInteractions()
 			} else {
-				removeAllInteractions(coreStore.map, currentInteractions)
-				currentInteractions = []
+				coreStore.unmaskInteraction(PluginId, 'click')
 			}
 		},
 	})
@@ -492,8 +510,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	}
 
 	function teardownPlugin() {
-		removeAllInteractions(coreStore.map, currentInteractions)
-		currentInteractions = []
+		coreStore.unmaskInteraction(PluginId, 'click')
 		sourceListenerKeys.forEach((key) => {
 			unByKey(key)
 		})

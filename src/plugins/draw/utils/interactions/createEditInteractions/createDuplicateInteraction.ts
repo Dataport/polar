@@ -24,9 +24,6 @@ export function createDuplicateInteraction(
 ) {
 	const selectInteraction = new Select({ layers: [drawLayer], style: null })
 	const selectedFeatures = selectInteraction.getFeatures()
-	// TODO temp solution, not actually _isDeleteSelect; normalizing these flags is part of a future effort
-	// @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
-	selectInteraction._isDeleteSelect = true
 
 	const boundPointerStyle = pointerStyle(map, drawLayer)
 	map.on('pointermove', boundPointerStyle)
