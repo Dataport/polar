@@ -1,21 +1,15 @@
 <template>
 	<section v-if="showTextOptions" class="polar-plugin-draw-text">
-		<div v-if="showSizeSlider" class="kern-form-input">
-			<label class="kern-label" for="polar-plugin-draw-slider">
-				{{ $t(($) => $.text.size, { ns: PluginId }) }}
-			</label>
-			<div class="polar-plugin-draw-slider-container">
-				<input
-					id="polar-plugin-draw-slider"
-					v-model="textSizeIndex"
-					class="polar-plugin-draw-slider"
-					type="range"
-					:min="0"
-					:max="textSizes.length - 1"
-				/>
-				{{ textSizes[textSizeIndex] }}
-			</div>
-		</div>
+		<PolarRange
+			v-if="showSizeSlider"
+			v-model="textSizeIndex"
+			name="polar-plugin-draw-slider"
+			:label="$t(($) => $.text.size, { ns: PluginId })"
+			:min="0"
+			:max="textSizes.length - 1"
+		>
+			{{ textSizes[textSizeIndex] }}
+		</PolarRange>
 		<div class="kern-form-input">
 			<label class="kern-label" for="polar-plugin-draw-textarea">
 				{{ $t(($) => $.text.content, { ns: PluginId }) }}
@@ -33,6 +27,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+
+import PolarRange from '@/components/PolarRange.ce.vue'
 
 import { useDrawStore } from '../store'
 import { PluginId } from '../types'
@@ -62,16 +58,5 @@ const showTextOptions = computed(
 <style scoped>
 .polar-plugin-draw-text {
 	width: 100%;
-
-	.polar-plugin-draw-slider-container {
-		display: flex;
-		align-items: center;
-		gap: var(--kern-metric-space-default);
-		width: 100%;
-
-		.polar-plugin-draw-slider {
-			flex-grow: 1;
-		}
-	}
 }
 </style>
