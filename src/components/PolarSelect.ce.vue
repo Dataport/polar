@@ -1,7 +1,6 @@
 <template>
 	<div class="kern-form-input polar-select">
 		<label
-			v-if="label"
 			class="kern-label"
 			:for="resolvedId"
 			:class="{ 'kern-sr-only': labelSrOnly }"
@@ -42,7 +41,7 @@ const props = defineProps<{
 		ariaLabel?: string
 		[key: string]: unknown
 	}[]
-	label?: string
+	label: string
 	labelSrOnly?: boolean
 	defaultLabel?: string
 	disabled?: boolean
