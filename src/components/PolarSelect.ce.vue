@@ -1,5 +1,5 @@
 <template>
-	<div class="kern-form-input polar-select">
+	<div class="kern-form-input">
 		<label
 			class="kern-label"
 			:for="resolvedId"

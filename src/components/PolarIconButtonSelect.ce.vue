@@ -35,33 +35,31 @@ defineProps<{
 }>()
 </script>
 
-<!-- Wrapping with .polar-icon-button-select to prevent side effects -->
-<!-- eslint-disable-next-line vue/enforce-style-attribute -->
-<style>
+<style scoped>
 .polar-icon-button-select {
 	width: 100%;
 
 	.polar-tooltip-wrapper {
 		width: 100%;
 
-		.polar-icon-button {
-			display: flex;
-			justify-content: flex-start;
-			width: 100%;
-
-			.polar-icon-button-label-active {
-				color: var(--kern-color-action-on-default);
-				font-weight: var(--kern-typography-font-weight-semi-bold);
-			}
-
-			.polar-select {
-				position: absolute;
-				top: 0;
-				right: 0;
-				bottom: 0;
-				width: 50%;
-			}
+		.polar-icon-button-label-active {
+			color: var(--kern-color-action-on-default);
+			font-weight: var(--kern-typography-font-weight-semi-bold);
 		}
 	}
+}
+
+:deep(.polar-icon-button) {
+	display: flex;
+	justify-content: flex-start;
+	width: 100%;
+}
+
+:deep(.kern-form-input) {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 50%;
 }
 </style>
