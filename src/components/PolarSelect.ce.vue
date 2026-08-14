@@ -1,8 +1,8 @@
 <template>
 	<div class="kern-form-input">
 		<label
-			class="kern-label"
 			:for="resolvedId"
+			class="kern-label"
 			:class="{ 'kern-sr-only': labelSrOnly }"
 		>
 			{{ label }}
