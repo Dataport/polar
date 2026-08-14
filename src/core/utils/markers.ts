@@ -7,7 +7,8 @@ import Style from 'ol/style/Style'
 import { circlePin, getSVGConfig } from './markerSVG'
 
 const polygonStyle = new PolygonStyle()
-const prefix = 'data:image/svg+xml,'
+const prefix = 'data:image/svg+xml;base64,'
+const encodeSVG = (svg: string) => btoa(unescape(encodeURIComponent(svg)))
 
 const getImagePattern = (fill: MarkerStyle['fill']) =>
 	typeof fill === 'string'
@@ -23,7 +24,7 @@ const getImagePattern = (fill: MarkerStyle['fill']) =>
   </defs>`
 
 const makeMarker = ({ fill, size, stroke }: MarkerStyle) =>
-	`${prefix}${encodeURIComponent(`
+	`${prefix}${encodeSVG(`
 <svg fill="none" width="${size[0] * 1.8}" height="${size[1] * 1.8}" viewBox="${circlePin.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>DB6C494E-88E8-49F1-89CE-97CBEC3A5240</title>
   ${getImagePattern(fill)}
@@ -43,15 +44,14 @@ const makeMultiMarker = (
 	{ fill, clusterSize, stroke, displayedText }: MarkerStyle,
 	displayFeatureCount: boolean,
 	svgConfig: MarkerSVGConfig
-) =>
-	`${prefix}${encodeURIComponent(`
+) => {
+	return svgConfig.pinShape === 'circle'
+		? `${prefix}${encodeSVG(`
 <svg width="${clusterSize[0] * 1.5}" height="${clusterSize[1] * 1.5}"
 	viewBox="${svgConfig.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>0A6F4952-4A5A-4E86-88E4-4B3D2EA1E3DF</title>
   ${getImagePattern(fill)}
-${
-	svgConfig.pinShape === 'circle'
-		? `  <g class="feature-pin-default-stacked">
+  <g class="feature-pin-default-stacked">
       <g class="feature-pin-content">
         <g class="feature-pin-shape" filter="url(#a)">
           <path fill="${stroke}" ${svgConfig.stackedShape2}/>
@@ -81,8 +81,15 @@ ${
                 >${String(displayedText)}</text>`
 				}
     </g>
-	</g>`
-		: `<g class="feature-pin-five-digits-stacked">
+	</g>
+</svg>
+`)}`
+		: `${prefix}${encodeSVG(`
+<svg width="${clusterSize[0] * 1.5}" height="${clusterSize[1] * 1.5}"
+	viewBox="${svgConfig.viewBox}" xmlns="http://www.w3.org/2000/svg">
+  <title>0A6F4952-4A5A-4E86-88E4-4B3D2EA1E3DF</title>
+  ${getImagePattern(fill)}
+<g class="feature-pin-five-digits-stacked">
     <g class="feature-pin-five-digits" filter="url(#a)">
       <path fill="${stroke}" ${svgConfig.stackedShape2} class="feature-pin-content"/>
       <path fill="${stroke}" ${svgConfig.stackedTip2} class="feature-pin-tip"/>
@@ -114,11 +121,10 @@ ${
       </g>
       <path fill="${stroke}" ${svgConfig.tipPath} class="feature-pin-tip"/>
     </g>
-  </g>`
-}
-${svgConfig.defs}
+  </g>
 </svg>
 `)}`
+}
 
 // center bottom of marker 📍 is intended to show the spot
 const anchor = [0.5, 1]
