@@ -22,8 +22,9 @@ import SearchResultSymbols from '@/lib/searchResultSymbols'
 import { selectSearchResult } from '@/lib/selectSearchResult'
 
 import { PluginId } from './types'
-import { getResultsFromPromises } from './utils/getResultsFromPromises'
+// import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import { getMethodContainer } from './utils/methodContainer'
+import { useAddressSearchEngine } from './utils/useAddressSearchEngine'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -181,12 +182,6 @@ export const useAddressSearchStore = defineStore(
 			debouncedSearch = debounce(_search, waitMs.value)
 			methodContainer = getMethodContainer()
 			selectedGroupId.value = groupIds.value[0] as string
-			if (configuration.value.customSearchMethods) {
-				// TODO: The method was bound to the store before, test with DISH if still required
-				methodContainer.registerSearchMethods(
-					configuration.value.customSearchMethods
-				)
-			}
 		}
 
 		function teardownPlugin() {}
@@ -205,57 +200,41 @@ export const useAddressSearchStore = defineStore(
 			chosenAddress.value = null
 		}
 
+		function getCategoryLabel(categoryId: string) {
+			const properties = configuration.value.categoryProperties?.[categoryId]
+			return properties
+				? // @ts-expect-error | Other values can be used.
+					t(properties.label)
+				: t(($) => $.defaultLabel, { ns: PluginId })
+		}
+
 		function _search() {
-			if (inputValue.value.length < minLength.value) {
-				searchResults.value = SearchResultSymbols.NO_SEARCH
-				isLoading.value = false
-				return Promise.resolve()
+			const searchMethods = searchMethodsByGroupId.value[selectedGroupId.value]
+			if (!searchMethods || searchMethods.length === 0) {
+				console.error(
+					`No search methods found for groupId "${selectedGroupId.value}".`
+				)
+				return Promise.resolve(SearchResultSymbols.ERROR)
 			}
-			isLoading.value = true
 			abortController = new AbortController()
 			const localAbortControllerReference = abortController
-			return Promise.allSettled(
-				configuration.value.searchMethods.map(
-					async ({
-						categoryId,
-						groupId,
-						queryParameters,
-						resultModifier,
-						type,
-						url,
-					}) => {
-						const features = await methodContainer.getSearchMethod(type)(
-							localAbortControllerReference.signal,
-							url,
-							inputValue.value,
-							toMerged(queryParameters || {}, {
-								epsg: coreStore.configuration.epsg,
-							})
-						)
-						const id = categoryId || 'default'
-						const properties = configuration.value.categoryProperties?.[id]
-						return {
-							categoryId: id,
-							categoryLabel: properties
-								? // @ts-expect-error | Other values can be used.
-									t(properties.label)
-								: t(($) => $.defaultLabel, { ns: PluginId }),
-							features: resultModifier?.(features) ?? features,
-							groupId: groupId || 'defaultGroup',
-						}
-					}
-				)
-			)
-				.then(
-					(results) =>
-						(searchResults.value = getResultsFromPromises(
-							results,
-							localAbortControllerReference
-						))
-				)
+			isLoading.value = true
+			return useAddressSearchEngine({
+				searchMethods,
+				tCategoryLabel: getCategoryLabel,
+				epsg: coreStore.configuration.epsg,
+				minLength: minLength.value,
+				customSearchMethods: configuration.value.customSearchMethods,
+			})
+				.runSearch(inputValue.value, localAbortControllerReference)
+				.then((results) => {
+					searchResults.value = results
+					return results
+				})
 				.catch((error: unknown) => {
 					console.error('An error occurred while searching.', error)
 					searchResults.value = SearchResultSymbols.ERROR
+					return SearchResultSymbols.ERROR
 				})
 				.finally(() => {
 					isLoading.value = false
