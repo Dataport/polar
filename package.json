@@ -115,7 +115,7 @@
 		"i18next-vue": "^5.4.0",
 		"jsdom": "^30.0.1",
 		"jspdf": "^4.2.1",
-		"magic-string": "^0.30.18",
+		"magic-string": "^1.1.0",
 		"ol": "10.9.0",
 		"pinia": "^4.0.2",
 		"postcss-html": "^2.0.0",
