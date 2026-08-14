@@ -209,21 +209,19 @@ export function setupMarkers(map: Map) {
 
 	stopWatcher = watch(
 		() => store.hovered,
-		(feature) => {
-			if (feature !== null && feature !== toRaw(store.selected)) {
-				store.hovered?.setStyle(undefined)
-				store.hovered = null
+		(feature, oldFeature) => {
+			if (oldFeature !== null && oldFeature !== toRaw(store.selected)) {
+				oldFeature.setStyle(undefined)
 			}
 			if (feature !== null && feature !== toRaw(store.selected)) {
-				store.hovered = markRaw(feature)
-				const featureCount = store.hovered.get('features')?.length
+				const featureCount = feature.get('features')?.length
 				const style = getMarkerStyle(
 					getLayerConfiguration(feature.get('_polarLayerId') as string)
 						.hoverStyle,
 					featureCount,
 					store.displayFeatureCount
 				)
-				store.hovered.setStyle(style)
+				feature.setStyle(style)
 			}
 		}
 	)
@@ -276,18 +274,15 @@ function mapPointerMove({ map, pixel }: MapBrowserEvent) {
 		layerFilter,
 	})[0]
 
+	if (feature === toRaw(store.hovered)) {
+		return
+	}
+
 	if (feature === toRaw(store.selected) || feature instanceof RenderFeature) {
 		return
 	}
-	if (
-		toRaw(store.hovered) !== null &&
-		toRaw(store.hovered) !== toRaw(store.selected)
-	) {
-		store.hovered?.setStyle(undefined)
-		store.hovered = null
-	}
-
 	if (!feature) {
+		store.hovered = null
 		return
 	}
 	setLayerId(map, feature)
@@ -295,16 +290,9 @@ function mapPointerMove({ map, pixel }: MapBrowserEvent) {
 		feature.get('_polarLayerId') as string
 	)
 	if (!layerConfiguration.isSelectable(feature)) {
+		store.hovered = null
 		return
 	}
-	const featureCount = feature.get('features')?.length
-	feature.setStyle(
-		getMarkerStyle(
-			layerConfiguration.hoverStyle,
-			featureCount,
-			store.displayFeatureCount
-		)
-	)
 	store.hovered = markRaw(feature)
 }
 
