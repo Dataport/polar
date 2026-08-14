@@ -104,6 +104,7 @@ const buttons = computed(() =>
 			selectProps: {
 				modelValue: drawMode.value,
 				'onUpdate:modelValue': onDrawModeUpdate,
+				label: t(($) => $.drawMode.selectLabel, { ns: PluginId }),
 				options: DrawModes.map((mode) => ({
 					value: mode,
 					label: t(($) => $.drawMode[mode], { ns: PluginId }),
@@ -122,6 +123,7 @@ const buttons = computed(() =>
 			selectProps: {
 				modelValue: editMode.value,
 				'onUpdate:modelValue': onEditModeUpdate,
+				label: t(($) => $.editMode.selectLabel, { ns: PluginId }),
 
 				/*
 				 * TODO: Only provide cut/merge if Polygon is available.

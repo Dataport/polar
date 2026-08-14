@@ -11,7 +11,12 @@
 			>
 				{{ label }}
 			</span>
-			<PolarSelect v-if="selectProps" v-bind="selectProps" @click.stop />
+			<PolarSelect
+				v-if="selectProps"
+				v-bind="selectProps"
+				:label-sr-only="true"
+				@click.stop
+			/>
 		</PolarIconButton>
 	</div>
 </template>

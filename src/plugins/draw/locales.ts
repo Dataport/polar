@@ -20,6 +20,7 @@ export const resourcesDe = {
 	},
 	drawMode: {
 		label: 'Zeichnen',
+		selectLabel: 'Zeichenauswahl',
 
 		// Allowing PascalCase keys here and later for ease of use (using OL entity names here)
 		/* eslint-disable @typescript-eslint/naming-convention */
@@ -32,6 +33,7 @@ export const resourcesDe = {
 	},
 	editMode: {
 		label: 'Editieren',
+		selectLabel: 'Editierauswahl',
 		modify: 'Modifizieren',
 		translate: 'Verschieben',
 		duplicate: 'Duplizieren',
@@ -143,6 +145,7 @@ export const resourcesEn = {
 	},
 	drawMode: {
 		label: 'Draw',
+		selectLabel: 'Draw options',
 		/* eslint-disable @typescript-eslint/naming-convention */
 		Point: 'Point',
 		LineString: 'Line',
@@ -153,6 +156,7 @@ export const resourcesEn = {
 	},
 	editMode: {
 		label: 'Edit',
+		selectLabel: 'Edit options',
 		modify: 'Modify',
 		translate: 'Move',
 		duplicate: 'Duplicate',
