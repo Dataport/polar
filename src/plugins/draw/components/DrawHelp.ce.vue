@@ -1,4 +1,5 @@
 <template>
+	<!-- TODO: These maybe should be placed elsewhere -->
 	<section v-if="helpText" class="draw-help">
 		<p class="kern-body">
 			{{ $t(($) => $.help.text[helpText], { ns: PluginId }) }}
