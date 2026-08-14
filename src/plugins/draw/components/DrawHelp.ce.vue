@@ -9,8 +9,8 @@
 			:key="index"
 			class="kern-badge kern-badge--info"
 		>
-			<!-- TODO: Mac has Options button, Mobile has bad luck -->
-			{{ alt ? 'Alt + ' : '' }}
+			<!-- TODO: Mobile has bad luck -->
+			{{ alt ? modifier : '' }}
 			<span :class="icon" aria-hidden="true" />
 			<span class="kern-label">
 				{{ $t(($) => $.help.tooltip[label], { ns: PluginId }) }}
@@ -28,6 +28,10 @@ import { PluginId } from '../types'
 
 const drawStore = useDrawStore()
 const { activeTool, drawMode, editMode, drawing } = storeToRefs(drawStore)
+
+const modifier = computed(() =>
+	navigator.userAgent.indexOf('Mac') !== -1 ? 'Option (⌥) + ' : 'Alt + '
+)
 
 const helpText = computed(() => {
 	if (activeTool.value === 'draw') {
