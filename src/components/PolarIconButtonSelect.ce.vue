@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/enforce-style-attribute -->
 <template>
 	<div class="polar-icon-button-select">
 		<PolarIconButton
