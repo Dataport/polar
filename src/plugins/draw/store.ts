@@ -128,6 +128,9 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 				() => {
 					removeAllInteractions(coreStore.map, currentInteractions)
 					currentInteractions = []
+				},
+				() => {
+					_activeTool.value = null
 				}
 			)
 		} else {
