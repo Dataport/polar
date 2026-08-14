@@ -208,3 +208,18 @@ export type SelectResultFunction = (
 	feature: PolarGeoJsonFeature,
 	categoryId: string
 ) => void
+
+export interface SearchEngineParams {
+	epsg: QueryParameters['epsg']
+	minLength: number
+	searchMethods: SearchMethodConfiguration[]
+	tCategoryLabel: (categoryId: string) => string
+	customSearchMethods?: AddressSearchPluginOptions['customSearchMethods']
+}
+
+export interface SearchEngine {
+	runSearch: (
+		inputValue: string,
+		abortController: AbortController
+	) => Promise<SearchResult[] | symbol>
+}
