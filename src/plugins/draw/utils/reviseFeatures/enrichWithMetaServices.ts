@@ -4,7 +4,7 @@ import type { DrawPluginOptionsMetaService, GeometryType } from '../../types'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
 import { booleanIntersects } from '@turf/turf'
-import compare from 'just-compare'
+import { isEqual } from 'es-toolkit'
 import { GeoJSON } from 'ol/format'
 
 import { getVectorFeaturesByFeatureRequest } from '@/lib/getFeatures/vector'
@@ -23,7 +23,7 @@ const aggregators: Record<
 	all: (x) => x,
 	unequal: (propertiesArray) =>
 		propertiesArray.reduce((accumulator, current) => {
-			if (accumulator.every((entry) => !compare(entry, current))) {
+			if (accumulator.every((entry) => !isEqual(entry, current))) {
 				accumulator.push(current)
 			}
 			return accumulator
