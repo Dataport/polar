@@ -6,8 +6,7 @@ import type {
 } from 'geojson'
 import type { GeometryType } from '../../types'
 
-import { cleanCoords } from '@turf/clean-coords'
-import { unkinkPolygon } from '@turf/unkink-polygon'
+import { cleanCoords, unkinkPolygon } from '@turf/turf'
 
 export const autofixFeatureCollection = (
 	revisedFeatureCollection: FeatureCollection<GeometryType>

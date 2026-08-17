@@ -9,12 +9,15 @@ import type Feature from 'ol/Feature'
 import type VectorSource from 'ol/source/Vector'
 import type { ProjectionInfo } from './types'
 
-import { booleanPointInPolygon } from '@turf/boolean-point-in-polygon'
-import { buffer } from '@turf/buffer'
-import { difference } from '@turf/difference'
-import { featureCollection, polygon } from '@turf/helpers'
-import { lineIntersect } from '@turf/line-intersect'
-import { unkinkPolygon } from '@turf/unkink-polygon'
+import {
+	booleanPointInPolygon,
+	buffer,
+	difference,
+	featureCollection,
+	lineIntersect,
+	polygon,
+	unkinkPolygon,
+} from '@turf/turf'
 import { GeoJSON } from 'ol/format'
 
 const polygonTypes = ['Polygon', 'MultiPolygon']

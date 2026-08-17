@@ -3,7 +3,7 @@ import type { Feature, Map } from 'ol'
 import type { DrawPluginOptionsMetaService, GeometryType } from '../../types'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
-import { booleanIntersects } from '@turf/boolean-intersects'
+import { booleanIntersects } from '@turf/turf'
 import compare from 'just-compare'
 import { GeoJSON } from 'ol/format'
 

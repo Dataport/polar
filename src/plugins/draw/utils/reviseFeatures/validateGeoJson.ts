@@ -1,7 +1,7 @@
 import type { FeatureCollection } from 'geojson'
 import type { GeometryType } from '../../types'
 
-import { booleanValid } from '@turf/boolean-valid'
+import { booleanValid } from '@turf/turf'
 
 export const validateGeoJson = (
 	featureCollection: FeatureCollection<GeometryType>

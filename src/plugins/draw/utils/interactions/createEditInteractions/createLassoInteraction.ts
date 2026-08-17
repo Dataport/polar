@@ -10,7 +10,7 @@ import type VectorSource from 'ol/source/Vector'
 import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
-import { booleanContains } from '@turf/boolean-contains'
+import { booleanContains } from '@turf/turf'
 import { GeoJSON } from 'ol/format'
 import Draw from 'ol/interaction/Draw'
 

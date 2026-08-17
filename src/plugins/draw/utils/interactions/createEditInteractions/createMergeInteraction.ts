@@ -2,8 +2,7 @@ import type { Feature as GeoJsonFeature, MultiPolygon, Polygon } from 'geojson'
 import type Feature from 'ol/Feature'
 import type VectorSource from 'ol/source/Vector'
 
-import { booleanIntersects } from '@turf/boolean-intersects'
-import { union } from '@turf/union'
+import { booleanIntersects, union } from '@turf/turf'
 import { GeoJSON } from 'ol/format'
 import Draw from 'ol/interaction/Draw'
 

@@ -4,7 +4,7 @@ import type { Options, StyleFunction } from 'ol/style/Style'
 import type { Options as TextOptions } from 'ol/style/Text'
 import type { DrawPluginOptionsLayerStyle, MeasureMode } from '../types'
 
-import centerOfMass from '@turf/center-of-mass'
+import { centerOfMass } from '@turf/turf'
 import { LineString, Point, Polygon } from 'ol/geom'
 import { getArea, getLength } from 'ol/sphere'
 import { Circle as CircleStyle, Fill, Stroke } from 'ol/style'
