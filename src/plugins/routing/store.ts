@@ -25,12 +25,22 @@ import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
+import SearchResultSymbols from '@/lib/searchResultSymbols'
 import { selectSearchResult } from '@/lib/selectSearchResult'
 
 import { useMarkerLayer } from './composables/useMarkerLayer'
 import { useRouteLayer } from './composables/useRouteLayer'
 import { PluginId } from './types'
 import { handleErrors } from './utils/handleErrors'
+
+interface SearchResult {
+	categoryId: string
+	categoryLabel: string
+	features: {
+		features: PolarGeoJsonFeature[]
+	}
+	groupId: string
+}
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -54,8 +64,12 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
 	const selectedTravelMode = ref('driving-car')
-	const inputValue = ref('')
-	const focusAfterSearch = ref(false)
+	const routeInputValues = ref(['', ''])
+	const routeSearchResults = ref<(SearchResult[] | symbol)[]>([
+		SearchResultSymbols.NO_SEARCH,
+		SearchResultSymbols.NO_SEARCH,
+	])
+	const routeSearchRequestCounters = ref([0, 0])
 
 	const configuration = computed(
 		() => (coreStore.configuration.routing || {}) as RoutingPluginOptions
@@ -74,6 +88,28 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			reverseGeocoderConfigured.value &&
 			configuration.value.useAddressSearch
 	)
+	const focusAfterSearch = computed(
+		() => coreStore.configuration.addressSearch?.focusAfterSearch ?? false
+	)
+	const selectedSearchGroupId = computed(
+		() =>
+			coreStore.getPluginStore('addressSearch')?.selectedGroupId ??
+			'defaultGroup'
+	)
+	const inputValue = computed({
+		get: () => {
+			if (currentlyFocusedInput.value >= 0) {
+				return routeInputValues.value[currentlyFocusedInput.value] ?? ''
+			}
+			return routeInputValues.value[0] ?? ''
+		},
+		set: (value) => {
+			if (currentlyFocusedInput.value === -1) {
+				return
+			}
+			setRouteInputValue(currentlyFocusedInput.value, value)
+		},
+	})
 
 	const currentlyFocusedInput = computed({
 		get: () => _currentlyFocusedInput.value,
@@ -181,7 +217,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		const index = currentlyFocusedInput.value
 		route.value = route.value.toSpliced(index, 1, coordinate)
 		routeAddressTexts.value = routeAddressTexts.value.toSpliced(index, 1, '')
-		if (hasReverseGeocoder.value) {
+		if (reverseGeocoderConfigured.value) {
 			const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
 			const [x, y] = coordinate
 			if (x === undefined || y === undefined) {
@@ -189,6 +225,152 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			}
 			const feature = await reverseGeocoderStore?.reverseGeocode([x, y], false)
 			routeAddressTexts.value[index] = feature?.title ?? ''
+		}
+	}
+
+	function setRouteInputValue(index: number, value: string) {
+		if (index < 0 || index >= route.value.length) {
+			return
+		}
+		routeInputValues.value = routeInputValues.value.toSpliced(index, 1, value)
+		void searchForRouteInput(index, value)
+	}
+
+	async function searchForRouteInput(
+		index: number,
+		input: string,
+		autoselect: 'first' | 'only' | 'never' = 'never'
+	) {
+		if (!showSearchResultList.value) {
+			return
+		}
+		if (index < 0 || index >= route.value.length) {
+			return
+		}
+
+		const addressSearchStore = coreStore.getPluginStore('addressSearch')
+		if (!addressSearchStore) {
+			return
+		}
+
+		const currentCounter = (routeSearchRequestCounters.value[index] ?? 0) + 1
+		routeSearchRequestCounters.value =
+			routeSearchRequestCounters.value.toSpliced(index, 1, currentCounter)
+
+		if (!input.trim().length) {
+			routeSearchResults.value = routeSearchResults.value.toSpliced(
+				index,
+				1,
+				SearchResultSymbols.NO_SEARCH
+			)
+			return
+		}
+
+		await addressSearchStore.search(input, 'never')
+
+		if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
+			return
+		}
+
+		const result = addressSearchStore.searchResults
+		routeSearchResults.value = routeSearchResults.value.toSpliced(
+			index,
+			1,
+			result
+		)
+
+		if (!Array.isArray(result)) {
+			return
+		}
+
+		const firstFound = result.find(({ features }) => features.features.length)
+		if (!firstFound) {
+			return
+		}
+		const firstFeatures = firstFound.features.features
+
+		if (
+			(autoselect === 'first' && firstFeatures.length >= 1) ||
+			(autoselect === 'only' && firstFeatures.length === 1)
+		) {
+			currentlyFocusedInput.value = index
+			selectResult(
+				firstFeatures[0] as PolarGeoJsonFeature,
+				firstFound.categoryId
+			)
+		}
+	}
+
+	function setRouteInputValue(index: number, value: string) {
+		if (index < 0 || index >= route.value.length) {
+			return
+		}
+		routeInputValues.value = routeInputValues.value.toSpliced(index, 1, value)
+		void searchForRouteInput(index, value)
+	}
+
+	async function searchForRouteInput(
+		index: number,
+		input: string,
+		autoselect: 'first' | 'only' | 'never' = 'never'
+	) {
+		if (!showSearchResultList.value) {
+			return
+		}
+		if (index < 0 || index >= route.value.length) {
+			return
+		}
+
+		const addressSearchStore = coreStore.getPluginStore('addressSearch')
+		if (!addressSearchStore) {
+			return
+		}
+
+		const currentCounter = (routeSearchRequestCounters.value[index] ?? 0) + 1
+		routeSearchRequestCounters.value =
+			routeSearchRequestCounters.value.toSpliced(index, 1, currentCounter)
+
+		if (!input.trim().length) {
+			routeSearchResults.value = routeSearchResults.value.toSpliced(
+				index,
+				1,
+				SearchResultSymbols.NO_SEARCH
+			)
+			return
+		}
+
+		await addressSearchStore.search(input, 'never')
+
+		if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
+			return
+		}
+
+		const result = addressSearchStore.searchResults
+		routeSearchResults.value = routeSearchResults.value.toSpliced(
+			index,
+			1,
+			result
+		)
+
+		if (!Array.isArray(result)) {
+			return
+		}
+
+		const firstFound = result.find(({ features }) => features.features.length)
+		if (!firstFound) {
+			return
+		}
+		const firstFeatures = firstFound.features.features
+
+		if (
+			(autoselect === 'first' && firstFeatures.length >= 1) ||
+			(autoselect === 'only' && firstFeatures.length === 1)
+		) {
+			currentlyFocusedInput.value = index
+			selectResult(
+				firstFeatures[0] as PolarGeoJsonFeature,
+				firstFound.categoryId
+			)
 		}
 	}
 
@@ -349,6 +531,12 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	function reset() {
 		route.value = [[], []]
 		routeAddressTexts.value = [null, null]
+		routeInputValues.value = ['', '']
+		routeSearchResults.value = [
+			SearchResultSymbols.NO_SEARCH,
+			SearchResultSymbols.NO_SEARCH,
+		]
+		routeSearchRequestCounters.value = [0, 0]
 		currentlyFocusedInput.value = -1
 		selectedPreference.value = 'recommended'
 		selectedTravelMode.value = 'driving-car'
@@ -364,6 +552,19 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	}
 
 	function setRoute(index: number, remove = false) {
+		routeInputValues.value = remove
+			? routeInputValues.value.toSpliced(index, 1)
+			: routeInputValues.value.toSpliced(index, 0, '')
+		routeSearchResults.value = remove
+			? routeSearchResults.value.toSpliced(index, 1)
+			: routeSearchResults.value.toSpliced(
+					index,
+					0,
+					SearchResultSymbols.NO_SEARCH
+				)
+		routeSearchRequestCounters.value = remove
+			? routeSearchRequestCounters.value.toSpliced(index, 1)
+			: routeSearchRequestCounters.value.toSpliced(index, 0, 0)
 		route.value = remove
 			? route.value.toSpliced(index, 1)
 			: route.value.toSpliced(index, 0, [])
@@ -373,31 +574,36 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	}
 
 	async function search(input: string) {
-		console.warn(
-			'The `search` function is meant for internal use only. Use the `search` function of the address search plugin instead.'
+		const targetIndex =
+			currentlyFocusedInput.value === -1 ? 0 : currentlyFocusedInput.value
+		routeInputValues.value = routeInputValues.value.toSpliced(
+			targetIndex,
+			1,
+			input
 		)
-		inputValue.value = input
-		const addressSearchStore = coreStore.getPluginStore('addressSearch')
-		if (addressSearchStore && coreStore.configuration.addressSearch) {
-			focusAfterSearch.value =
-				coreStore.configuration.addressSearch.focusAfterSearch ?? false
-			await addressSearchStore.search(input, 'only')
-		}
+		await searchForRouteInput(targetIndex, input, 'only')
 	}
 
 	function selectResult(feature: PolarGeoJsonFeature, categoryId = 'default') {
-		if (
-			currentlyFocusedInput.value < 0 ||
-			currentlyFocusedInput.value >= route.value.length
-		) {
+		const index = currentlyFocusedInput.value
+		if (index < 0 || index >= route.value.length) {
 			return
 		}
 		const searchResult = selectSearchResult(feature, undefined, categoryId)
 		if (!searchResult) {
 			return
 		}
-		route.value[currentlyFocusedInput.value] = searchResult.feature.geometry
-			.coordinates as Coordinate
+		route.value[index] = searchResult.feature.geometry.coordinates as Coordinate
+		routeInputValues.value = routeInputValues.value.toSpliced(
+			index,
+			1,
+			searchResult.title
+		)
+		routeSearchResults.value = routeSearchResults.value.toSpliced(
+			index,
+			1,
+			SearchResultSymbols.NO_SEARCH
+		)
 	}
 
 	return {
@@ -424,6 +630,18 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * @alpha
 		 */
 		inputValue,
+
+		/** @alpha */
+		routeInputValues,
+
+		/** @alpha */
+		routeSearchResults,
+
+		/** @alpha */
+		selectedSearchGroupId,
+
+		/** @alpha */
+		focusAfterSearch,
 
 		/**
 		 * The input that currently has focus.
@@ -490,6 +708,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * @alpha
 		 */
 		setRoute,
+
+		/** @alpha */
+		setRouteInputValue,
 
 		/** @alpha */
 		selectResult,

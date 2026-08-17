@@ -6,7 +6,7 @@
 			</label>
 			<input
 				:id="`polar-plugin-routing-input-${index}`"
-				v-model="inputValue"
+				v-model="routeInputValue"
 				class="kern-form-input__input"
 				:aria-label="
 					$t(($) => $.label.aria, {
@@ -23,15 +23,17 @@
 				v-if="showResultList"
 				:features-available="featuresAvailable"
 				:component-id="`routing-${index}`"
-				:search-results="searchResults"
+				:search-results="searchResultsForInput"
 				:after-result-component="null"
 				:limited-results="5"
-				:input-value="inputValue"
+				:input-value="routeInputValue"
 				:result-count-label="resultCountLabel"
 				:select-result="routeStore.selectResult"
 				:toggle-label="toggleLabel"
-				:selected-group-id="selectedGroupId"
+				:selected-group-id="selectedSearchGroupId"
 				:focus-after-search="focusAfterSearch"
+				:focus-return-target-id="`polar-plugin-routing-input-${index}`"
+				:result-item-id-prefix="`polar-result-list-routing-${index}-results-feature`"
 			/>
 		</div>
 		<div class="polar-plugin-routing-waypoint-button-wrapper">
@@ -58,47 +60,69 @@
 </template>
 
 <script setup lang="ts">
+import type { Coordinate } from 'ol/coordinate'
+import type { StoreGeneric } from 'pinia'
+import type { PolarGeoJsonFeatureCollection } from '@/core'
+
 import { t } from 'i18next'
-import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarResultList from '@/components/PolarResultList.ce.vue'
 import { useCoreStore } from '@/core/stores'
 import { focusFirstResult } from '@/lib/focusFirstResult'
+import SearchResultSymbols from '@/lib/searchResultSymbols'
 
 import { useRoutingStore } from '../store'
 import { PluginId } from '../types'
+
+interface SearchResult {
+	categoryId: string
+	categoryLabel: string
+	features: PolarGeoJsonFeatureCollection
+	groupId: string
+}
 
 const props = defineProps<{
 	index: number
 }>()
 
-const routeStore = useRoutingStore()
+const routeStore: StoreGeneric = useRoutingStore()
 const coreStore = useCoreStore()
 
-const { currentlyFocusedInput, route, inputValue, showSearchResultList } =
-	storeToRefs(routeStore)
+const currentlyFocusedInput = computed({
+	get: () => routeStore.currentlyFocusedInput as number,
+	set: (value: number) => {
+		routeStore.currentlyFocusedInput = value
+	},
+})
+const route = computed(() => routeStore.route as Coordinate[])
+const routeInputValues = computed(() => routeStore.routeInputValues as string[])
+const routeSearchResults = computed(
+	() => routeStore.routeSearchResults as (SearchResult[] | symbol)[]
+)
+const showSearchResultList = computed(() =>
+	Boolean(routeStore.showSearchResultList)
+)
+const selectedSearchGroupId = computed(
+	() => routeStore.selectedSearchGroupId as string
+)
+const focusAfterSearch = computed(() => Boolean(routeStore.focusAfterSearch))
 
-const addressSearchStore = computed(() =>
-	coreStore.getPluginStore('addressSearch')
+const routeInputValue = computed({
+	get: () => routeInputValues.value[props.index] ?? '',
+	set: (value: string) => {
+		routeStore.setRouteInputValue(props.index, value)
+	},
+})
+
+const searchResultsForInput = computed(
+	() => routeSearchResults.value[props.index] ?? SearchResultSymbols.NO_SEARCH
 )
 
 const showResultList = computed(
 	() =>
 		showSearchResultList.value && currentlyFocusedInput.value === props.index
-)
-
-const selectedGroupId = computed(
-	() => addressSearchStore.value?.selectedGroupId ?? 'defaultGroup'
-)
-
-const focusAfterSearch = computed(
-	() => addressSearchStore.value?.focusAfterSearch ?? false
-)
-
-const searchResults = computed(
-	() => addressSearchStore.value?.searchResults ?? []
 )
 
 /**
@@ -112,21 +136,21 @@ const addWaypointButtonDisabled = computed(
 
 const featuresAvailable = computed(
 	() =>
-		Array.isArray(searchResults.value) &&
-		searchResults.value.length > 0 &&
-		searchResults.value.some(
+		Array.isArray(searchResultsForInput.value) &&
+		searchResultsForInput.value.length > 0 &&
+		searchResultsForInput.value.some(
 			({ features: { features } }) =>
 				Array.isArray(features) && features.length > 0
 		)
 )
 
 function focusResultList(event: KeyboardEvent) {
-	if (!featuresAvailable.value || !Array.isArray(searchResults.value)) {
+	if (!featuresAvailable.value || !Array.isArray(searchResultsForInput.value)) {
 		return
 	}
 
 	focusFirstResult(
-		searchResults.value.length,
+		searchResultsForInput.value.length,
 		coreStore.shadowRoot as ShadowRoot,
 		`polar-result-list-routing-${props.index}-results-feature`,
 		event

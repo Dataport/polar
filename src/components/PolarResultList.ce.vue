@@ -106,9 +106,23 @@ const props = defineProps<{
 	selectResult: (feature: PolarGeoJsonFeature, categoryId: string) => void
 	toggleLabel: (expanded: boolean) => string
 	focusAfterSearch: boolean
+	focusReturnTargetId?: string
+	resultItemIdPrefix?: string
 }>()
 
 const coreStore = useCoreStore()
+
+const defaultFocusReturnTargetId = computed(() => {
+	return (
+		props.focusReturnTargetId ?? `polar-result-list-${props.componentId}-input`
+	)
+})
+const defaultResultItemIdPrefix = computed(() => {
+	return (
+		props.resultItemIdPrefix ??
+		`polar-result-list-${props.componentId}-results-feature`
+	)
+})
 
 const resultsBySearchMethod = computed(() =>
 	Array.isArray(props.searchResults) ? props.searchResults : []
@@ -158,7 +172,7 @@ watch(results, () => {
 			focusFirstResult(
 				results.value.length,
 				coreStore.shadowRoot as ShadowRoot,
-				`polar-result-list-${props.componentId}-results-feature`
+				defaultResultItemIdPrefix.value
 			)
 		})
 	}
@@ -182,7 +196,7 @@ function areResultsExpanded(category: string) {
 
 function escapeResults() {
 	;(coreStore.shadowRoot as ShadowRoot)
-		.getElementById(`polar-result-list-${props.componentId}-input`)
+		.getElementById(defaultFocusReturnTargetId.value)
 		?.focus()
 }
 
@@ -209,7 +223,7 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 	}
 
 	;(coreStore.shadowRoot as ShadowRoot)
-		.getElementById(`polar-result-list-${props.componentId}-input`)
+		.getElementById(defaultFocusReturnTargetId.value)
 		?.focus()
 }
 
