@@ -178,7 +178,7 @@ const map = await createMap(
 				},
 			],
 			clusterClickZoom: true,
-			displayFeatureCount: false,
+			displayFeatureCount: true,
 		},
 		// theme: dataportTheme,
 		locales: [
