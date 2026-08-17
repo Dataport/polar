@@ -1,21 +1,21 @@
 <template>
 	<div
 		v-if="featuresAvailable"
-		:id="`polar-result-list-${pluginId}-wrapper`"
+		:id="`polar-result-list-${componentId}-wrapper`"
 		class="polar-result-list-wrapper"
 		tabindex="-1"
 	>
 		<template v-for="(result, i) in results" :key="result.categoryId">
 			<span
 				v-if="results.length > 1"
-				:id="`polar-result-list-${pluginId}-${result.categoryId}`"
+				:id="`polar-result-list-${componentId}-${result.categoryId}`"
 				class="polar-result-list-category-label"
 			>
 				{{ result.categoryLabel }}
 				{{ resultCountLabel(getResultCount(result.categoryId)) }}
 			</span>
 			<ul
-				:aria-labelledby="`polar-result-list-${pluginId}-${result.categoryId}`"
+				:aria-labelledby="`polar-result-list-${componentId}-${result.categoryId}`"
 				:class="{
 					'polar-result-list-without-label': results.length === 1,
 				}"
@@ -25,7 +25,7 @@
 					:key="`result-${i}-${j}`"
 				>
 					<li
-						:id="`polar-result-list-${pluginId}-results-feature-${i}-${j}`"
+						:id="`polar-result-list-${componentId}-results-feature-${i}-${j}`"
 						tabindex="-1"
 						@click="selectResult(feature, result.categoryId)"
 						@keydown.enter.prevent.stop="
@@ -96,7 +96,7 @@ import { strongTitleByInput } from '@/lib/strongTitleByInput'
 
 const props = defineProps<{
 	featuresAvailable: boolean
-	pluginId: string
+	componentId: string
 	searchResults: SearchResult[] | symbol
 	afterResultComponent?: Component | null
 	limitedResults: number
@@ -155,7 +155,11 @@ watch(
 watch(results, () => {
 	if (props.focusAfterSearch && coreStore.shadowRoot) {
 		void nextTick(() => {
-			focusFirstResult(results.value.length, coreStore.shadowRoot as ShadowRoot)
+			focusFirstResult(
+				results.value.length,
+				coreStore.shadowRoot as ShadowRoot,
+				`polar-result-list-${props.componentId}-results-feature`
+			)
 		})
 	}
 })
@@ -178,7 +182,7 @@ function areResultsExpanded(category: string) {
 
 function escapeResults() {
 	;(coreStore.shadowRoot as ShadowRoot)
-		.getElementById(`polar-plugin-${props.pluginId}-input`)
+		.getElementById(`polar-result-list-${props.componentId}-input`)
 		?.focus()
 }
 
@@ -191,7 +195,7 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 	}
 
 	const wrapper = coreStore.shadowRoot?.getElementById(
-		`polar-plugin-${props.pluginId}-result-wrapper`
+		`polar-result-list-${props.componentId}-wrapper`
 	) as HTMLDivElement
 	const elements = wrapper.querySelectorAll('li, button')
 
@@ -205,7 +209,7 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 	}
 
 	;(coreStore.shadowRoot as ShadowRoot)
-		.getElementById(`polar-plugin-${props.pluginId}-input`)
+		.getElementById(`polar-result-list-${props.componentId}-input`)
 		?.focus()
 }
 

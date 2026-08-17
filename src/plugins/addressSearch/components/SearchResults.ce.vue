@@ -1,8 +1,7 @@
 <template>
 	<PolarResultList
-		:id="PluginId"
 		:features-available="featuresAvailable"
-		:plugin-id="PluginId"
+		component-id="address-search"
 		:search-results="searchResults"
 		:after-result-component="afterResultComponent ? afterResultComponent : null"
 		:limited-results="limitResults"

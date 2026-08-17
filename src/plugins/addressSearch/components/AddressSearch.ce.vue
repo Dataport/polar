@@ -128,6 +128,7 @@ function inputDown(event: KeyboardEvent) {
 		focusFirstResult(
 			addressSearchStore.searchResults.length,
 			coreStore.shadowRoot as ShadowRoot,
+			'polar-result-list-address-search-results-feature',
 			event
 		)
 	}
