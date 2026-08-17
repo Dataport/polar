@@ -64,9 +64,10 @@ const makeMultiMarker = (
 	x="${svgConfig.textPosition.x}"
     y="${svgConfig.textPosition.y}"
     text-anchor="middle"
-    dominant-baseline="central"
-    font-size="14"
-    font-weight="700"
+    dy="0.35em"
+    ont-size="18"
+    font-weight="400"
+    font-family="'Fira-sans', sans-serif"
     fill="#ffffff"
 	>${String(displayedText)}</text>`
 	}

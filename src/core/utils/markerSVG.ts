@@ -15,14 +15,16 @@ import type {
 export const getSVGConfig: GetSVGConfigFunction = (digits: string) => {
 	switch (digits.length) {
 		case 0:
-		case 1:
-		case 2:
+			case 1:
 			return singleMarkerSVG
-		case 3:
-		case 4:
+		case 2:
 			return twoDigitsMarkerSVG
-		case 5:
+		case 3:
 			return threeDigitsMarkerSVG
+		case 4:
+			return fourDigitsMarkerSVG
+		case 5:
+			return fiveDigitsMarkerSVG
 		default:
 			throw new Error('Unsupported number of digits')
 	}
