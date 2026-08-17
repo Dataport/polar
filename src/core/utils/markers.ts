@@ -25,7 +25,7 @@ const getImagePattern = (fill: MarkerStyle['fill']) =>
 
 const makeMarker = ({ fill, size, stroke }: MarkerStyle) =>
 	`${prefix}${encodeSVG(`
-<svg fill="none" width="${size[0] * 1.8}" height="${size[1] * 1.8}" viewBox="${circlePin.viewBox}" xmlns="http://www.w3.org/2000/svg">
+<svg fill="none" width="${size[0]}" height="${size[1]}" viewBox="${circlePin.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>DB6C494E-88E8-49F1-89CE-97CBEC3A5240</title>
   ${getImagePattern(fill)}
   <g class="feature-pin-default">
@@ -47,7 +47,7 @@ const makeMultiMarker = (
 ) => {
 	return svgConfig.pinShape === 'circle'
 		? `${prefix}${encodeSVG(`
-<svg width="${clusterSize[0] * 1.5}" height="${clusterSize[1] * 1.5}"
+<svg width="${clusterSize[0]}" height="${clusterSize[1]}"
 	viewBox="${svgConfig.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>0A6F4952-4A5A-4E86-88E4-4B3D2EA1E3DF</title>
   ${getImagePattern(fill)}
@@ -71,10 +71,10 @@ const makeMultiMarker = (
                     x="${svgConfig.textPosition.x}"
                     y="${svgConfig.textPosition.y}"
                     text-anchor="middle"
-                    dominant-baseline="central"
+                    dy="0.35em"
                     font-size="18"
                     font-weight="400"
-                    font-family="'Fira Code', 'Fira Mono', ui-monospace"
+                    font-family="'Fira-sans', sans-serif"
                     font-variant-numeric="slashed-zero"
                         font-feature-settings="'zero' 1"
                     fill="${stroke}"
@@ -85,7 +85,7 @@ const makeMultiMarker = (
 </svg>
 `)}`
 		: `${prefix}${encodeSVG(`
-<svg width="${clusterSize[0] * 1.5}" height="${clusterSize[1] * 1.5}"
+<svg width="${clusterSize[0]}" height="${clusterSize[1]}"
 	viewBox="${svgConfig.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>0A6F4952-4A5A-4E86-88E4-4B3D2EA1E3DF</title>
   ${getImagePattern(fill)}
@@ -109,10 +109,10 @@ const makeMultiMarker = (
                 x="${svgConfig.textPosition.x}"
                 y="${svgConfig.textPosition.y}"
                 text-anchor="middle"
-                dominant-baseline="central"
+                dy="0.35em"
                 font-size="18"
                 font-weight="400"
-                font-family="'Fira Code', 'Fira Mono', ui-monospace"
+                font-family="'Fira-sans', sans-serif"
                 font-variant-numeric="slashed-zero"
                 font-feature-settings="'zero' 1"
                 fill="${stroke}"
