@@ -75,4 +75,11 @@ export interface RoutingPluginOptions extends PluginOptions {
 	 * @defaultValue `['driving-car', 'cycling-regular', 'foot-walking']`
 	 */
 	selectableTravelModes?: SelectableTravelMode[]
+
+	/**
+	 * Defines whether to use the address search plugin for the routing input fields.
+	 *
+	 * @defaultValue `false`
+	 */
+	useAddressSearch?: boolean
 }

@@ -86,6 +86,11 @@ export const resourcesEn = {
 	distance: 'Distance: {{distance}}',
 	duration: 'Duration: {{duration}}',
 	noFeature: 'Route could not be determined. Try different coordinates.',
+	resultList: {
+		extend: 'Show all results',
+		reduce: 'Reduce result list',
+	},
+	resultCount: '({{count}} results)',
 } as const
 
 // first type will be used as fallback language

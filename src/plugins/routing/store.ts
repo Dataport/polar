@@ -6,6 +6,7 @@
 
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
+import type { PolarGeoJsonFeature } from '@/core'
 import type {
 	RoutingPluginOptions,
 	RoutingResponseData,
@@ -24,6 +25,7 @@ import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
+import { selectSearchResult } from '@/lib/selectSearchResult'
 
 import { useMarkerLayer } from './composables/useMarkerLayer'
 import { useRouteLayer } from './composables/useRouteLayer'
@@ -52,13 +54,27 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
 	const selectedTravelMode = ref('driving-car')
+	const inputValue = ref('')
+	const focusAfterSearch = ref(false)
 
 	const configuration = computed(
 		() => (coreStore.configuration.routing || {}) as RoutingPluginOptions
 	)
-	const hasReverseGeocoder = computed(
-		() => !!coreStore.getPluginStore('reverseGeocoder')
+
+	const reverseGeocoderConfigured = computed(
+		() => !!coreStore.configuration.reverseGeocoder
 	)
+	const addressSearchConfigured = computed(
+		() => !!coreStore.configuration.addressSearch
+	)
+
+	const showSearchResultList = computed(
+		() =>
+			addressSearchConfigured.value &&
+			reverseGeocoderConfigured.value &&
+			configuration.value.useAddressSearch
+	)
+
 	const currentlyFocusedInput = computed({
 		get: () => _currentlyFocusedInput.value,
 		set: (index) => {
@@ -262,7 +278,17 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				el instanceof HTMLElement &&
 				el.id.startsWith('polar-plugin-routing-input-')
 		)
-		if (!isRoutingInput && !path.includes(coreStore.map.getTargetElement())) {
+		const isRoutingResultList = path.some(
+			(el) =>
+				el instanceof HTMLElement &&
+				(el.id.startsWith('polar-result-list-routing-') ||
+					el.closest('.polar-result-list-wrapper') !== null)
+		)
+		if (
+			!isRoutingInput &&
+			!isRoutingResultList &&
+			!path.includes(coreStore.map.getTargetElement())
+		) {
 			currentlyFocusedInput.value = -1
 		}
 	}
@@ -346,6 +372,34 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			: routeAddressTexts.value.toSpliced(index, 0, null)
 	}
 
+	async function search(input: string) {
+		console.warn(
+			'The `search` function is meant for internal use only. Use the `search` function of the address search plugin instead.'
+		)
+		inputValue.value = input
+		const addressSearchStore = coreStore.getPluginStore('addressSearch')
+		if (addressSearchStore && coreStore.configuration.addressSearch) {
+			focusAfterSearch.value =
+				coreStore.configuration.addressSearch.focusAfterSearch ?? false
+			await addressSearchStore.search(input, 'only')
+		}
+	}
+
+	function selectResult(feature: PolarGeoJsonFeature, categoryId = 'default') {
+		if (
+			currentlyFocusedInput.value < 0 ||
+			currentlyFocusedInput.value >= route.value.length
+		) {
+			return
+		}
+		const searchResult = selectSearchResult(feature, undefined, categoryId)
+		if (!searchResult) {
+			return
+		}
+		route.value[currentlyFocusedInput.value] = searchResult.feature.geometry
+			.coordinates as Coordinate
+	}
+
 	return {
 		/**
 		 * The coordinates selected by the user.
@@ -365,6 +419,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * other chosen options.
 		 */
 		routingResponseData,
+
+		/**
+		 * @alpha
+		 */
+		inputValue,
 
 		/**
 		 * The input that currently has focus.
@@ -432,6 +491,12 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 */
 		setRoute,
 
+		/** @alpha */
+		selectResult,
+
+		/** @alpha */
+		search,
+
 		/**
 		 * Value of {@link RoutingPluginOptions.displayPreferences}.
 		 *
@@ -461,6 +526,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * @internal
 		 */
 		showDetails,
+
+		/** @alpha @internal */
+		showSearchResultList,
 
 		/** @internal */
 		setupPlugin,
