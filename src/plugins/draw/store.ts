@@ -93,7 +93,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	const revisionStateFlag = ref<RevisionStateFlag>(inactive)
 	const drawing = ref(false)
 
-	const reinitializeInteractions = () => {
+	function reinitializeInteractions() {
 		const tool = _activeTool.value
 
 		if (tool) {
