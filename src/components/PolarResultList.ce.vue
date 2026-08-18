@@ -127,6 +127,7 @@ const defaultResultItemIdPrefix = computed(() => {
 const resultsBySearchMethod = computed(() =>
 	Array.isArray(props.searchResults) ? props.searchResults : []
 )
+const openCategories = ref<string[]>([])
 
 const results = computed<SearchResult[]>(() =>
 	Array.isArray(resultsBySearchMethod.value)
@@ -177,8 +178,6 @@ watch(results, () => {
 		})
 	}
 })
-
-const openCategories = ref<string[]>([])
 
 function getResultCount(categoryId: string) {
 	return resultsBySearchMethod.value
