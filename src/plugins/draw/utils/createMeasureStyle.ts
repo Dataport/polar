@@ -1,4 +1,5 @@
 import type { Feature } from 'ol'
+import type { Coordinate } from 'ol/coordinate'
 import type { Projection } from 'ol/proj'
 import type { Options, StyleFunction } from 'ol/style/Style'
 import type { Options as TextOptions } from 'ol/style/Text'
@@ -32,8 +33,13 @@ function calculatePartialDistances(
 		return styles
 	}
 
-	for (let i = 1; i < coordinates.length; i++) {
-		const lineString = new LineString([coordinates[i - 1], coordinates[i]])
+	let previous: Coordinate | undefined
+	coordinates.forEach((current, i) => {
+		if (previous === undefined) {
+			previous = current
+			return
+		}
+		const lineString = new LineString([previous, current])
 		const lengthInMetres = getLength(lineString, {
 			projection,
 		})
@@ -49,7 +55,8 @@ function calculatePartialDistances(
 		})
 		style.setGeometry(lineString)
 		styles.push(style)
-	}
+		previous = current
+	})
 	// This only happens once the drawing has been finished
 	if (
 		Object.keys(feature.getProperties()).filter((key) =>
