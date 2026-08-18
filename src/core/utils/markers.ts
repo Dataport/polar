@@ -82,6 +82,7 @@ const makeMultiMarker = (
 				}
     </g>
 	</g>
+	${svgConfig.defs}
 </svg>
 `)}`
 		: `${prefix}${encodeSVG(`
@@ -122,6 +123,7 @@ const makeMultiMarker = (
       <path fill="${stroke}" ${svgConfig.tipPath} class="feature-pin-tip"/>
     </g>
   </g>
+  ${svgConfig.defs}
 </svg>
 `)}`
 }
