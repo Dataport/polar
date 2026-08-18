@@ -332,7 +332,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 		if (
 			!input.trim().length ||
-			input.trim().length < addressSearchStore.limitResults
+			input.trim().length < addressSearchStore.minLength
 		) {
 			routeSearchResults.value = routeSearchResults.value.toSpliced(
 				index,

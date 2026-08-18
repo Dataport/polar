@@ -386,6 +386,9 @@ export const useAddressSearchStore = defineStore(
 			limitResults,
 
 			/** @alpha */
+			minLength,
+
+			/** @alpha */
 			abortAndRequest,
 
 			/** @alpha */
