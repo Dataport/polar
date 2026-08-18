@@ -95,7 +95,6 @@ import { useCoreStore } from '@/core/stores'
 import { strongTitleByInput } from '@/lib/strongTitleByInput'
 
 const props = defineProps<{
-	featuresAvailable: boolean
 	componentId: string
 	searchResults: SearchResult[] | symbol
 	afterResultComponent?: Component | null
@@ -111,6 +110,16 @@ const props = defineProps<{
 }>()
 
 const coreStore = useCoreStore()
+
+const featuresAvailable = computed(
+	() =>
+		Array.isArray(props.searchResults) &&
+		props.searchResults.length > 0 &&
+		props.searchResults.some(
+			({ features: { features } }) =>
+				Array.isArray(features) && features.length > 0
+		)
+)
 
 const defaultFocusReturnTargetId = computed(() => {
 	return (

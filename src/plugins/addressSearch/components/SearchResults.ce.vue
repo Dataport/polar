@@ -1,9 +1,8 @@
 <template>
 	<PolarResultList
-		:features-available="featuresAvailable"
 		component-id="address-search"
 		:search-results="searchResults"
-		:after-result-component="afterResultComponent ? afterResultComponent : null"
+		:after-result-component="afterResultComponent"
 		:limited-results="limitResults"
 		:input-value="inputValue"
 		:result-count-label="resultCountLabel"
@@ -27,7 +26,6 @@ const addressSearchStore = useAddressSearchStore()
 const { selectResult } = addressSearchStore
 const {
 	afterResultComponent,
-	featuresAvailable,
 	inputValue,
 	limitResults,
 	selectedGroupId,
