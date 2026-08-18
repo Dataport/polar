@@ -21,6 +21,7 @@
 			/>
 			<PolarResultList
 				v-if="showResultList"
+				style="box-shadow: var(--polar-shadow)"
 				:features-available="featuresAvailable"
 				:component-id="`routing-${index}`"
 				:search-results="searchResultsForInput"
