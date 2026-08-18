@@ -601,7 +601,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		if (!searchResult) {
 			return
 		}
-		route.value[index] = searchResult.feature.geometry.coordinates as Coordinate
+		addCoordinateToRoute(
+			searchResult.feature.geometry.coordinates as Coordinate
+		)
 		routeInputValues.value = routeInputValues.value.toSpliced(
 			index,
 			1,
