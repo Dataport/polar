@@ -354,6 +354,17 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 					results
 				)
 			})
+			.catch((error) => {
+				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
+					return
+				}
+				routeSearchResults.value = routeSearchResults.value.toSpliced(
+					index,
+					1,
+					SearchResultSymbols.NO_SEARCH
+				)
+				handleErrors(error)
+			})
 
 		if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
 			return
