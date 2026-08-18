@@ -4,10 +4,11 @@ import PolygonStyle from '@masterportal/masterportalapi/src/vectorStyle/styles/p
 import Icon from 'ol/style/Icon'
 import Style from 'ol/style/Style'
 
-import { getSVGConfig, singleMarkerSVG } from './markerSVG'
+import { circlePin, getSVGConfig } from './markerSVG'
 
 const polygonStyle = new PolygonStyle()
-const prefix = 'data:image/svg+xml,'
+const prefix = 'data:image/svg+xml;base64,'
+const encodeSVG = (svg: string) => btoa(unescape(encodeURIComponent(svg)))
 
 const getImagePattern = (fill: MarkerStyle['fill']) =>
 	typeof fill === 'string'
@@ -22,62 +23,108 @@ const getImagePattern = (fill: MarkerStyle['fill']) =>
     </pattern>
   </defs>`
 
-const makeMarker = ({ fill, size, stroke, strokeWidth }: MarkerStyle) =>
-	`${prefix}${encodeURIComponent(`
-<svg width="${size[0]}" height="${
-		size[1]
-	}" viewBox=${singleMarkerSVG.viewBox} xmlns="http://www.w3.org/2000/svg">
+const makeMarker = ({ fill, size, stroke }: MarkerStyle) =>
+	`${prefix}${encodeSVG(`
+<svg fill="none" width="${size[0]}" height="${size[1]}" viewBox="${circlePin.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>DB6C494E-88E8-49F1-89CE-97CBEC3A5240</title>
   ${getImagePattern(fill)}
-  <path
-    ${singleMarkerSVG.path}
-    stroke="${stroke}"
-    stroke-width="${strokeWidth}"
-    fill="${typeof fill === 'string' ? fill : 'url(#img)'}"
-    fill-rule="nonzero"
-  />
+<path fill="url(#a)" ${circlePin.shadowPath} class="shadow-image"/>
+  <g class="feature-pin-content">
+    <path fill="${stroke}" ${circlePin.shapePath} class="feature-pin-shape"/>
+    <path
+      fill-rule="nonzero"
+      fill="${typeof fill === 'string' ? fill : 'url(#img)'}"
+      ${circlePin.contentPath}
+      class="feature-flag-background"
+    />
+  </g>
+	${circlePin.defs}
 </svg>
 `)}`
 
 const makeMultiMarker = (
-	{ fill, clusterSize, stroke, strokeWidth, displayedText }: MarkerStyle,
+	{ fill, clusterSize, stroke, displayedText }: MarkerStyle,
 	displayFeatureCount: boolean,
 	svgConfig: MarkerSVGConfig
-) =>
-	`${prefix}${encodeURIComponent(`
-<svg width="${clusterSize[0]}" height="${
-		clusterSize[1]
-	}" viewBox=${svgConfig.viewBox} xmlns="http://www.w3.org/2000/svg">
+) => {
+	return svgConfig.pinShape === 'circle'
+		? `${prefix}${encodeSVG(`
+<svg width="${clusterSize[0]}" height="${clusterSize[1]}"
+	viewBox="${svgConfig.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>0A6F4952-4A5A-4E86-88E4-4B3D2EA1E3DF</title>
   ${getImagePattern(fill)}
-  <g stroke="${stroke}" stroke-width="${strokeWidth}" fill="${
-		typeof fill === 'string' ? fill : 'url(#img)'
-	}" fill-rule="nonzero">
-	<path ${svgConfig.path}/>
-	<path ${svgConfig.stackedPath1}/>
-	<path ${svgConfig.stackedPath2}/>
-  </g>
+  <path fill="url(#a)" ${circlePin.shadowPath} class="shadow-image"/>
+  <g class="feature-pin-content">
+    <path fill="${stroke}" ${circlePin.shapePath} class="feature-pin-shape"/>
+    <path
+      fill-rule="nonzero"
+      fill="${typeof fill === 'string' ? fill : 'url(#img)'}"
+      ${circlePin.contentPath}
+      class="feature-flag-background"
+    />
 	${
 		!displayFeatureCount || displayedText === undefined
 			? ''
 			: `<text
-	x="${svgConfig.textPosition.x}"
-    y="${svgConfig.textPosition.y}"
-    text-anchor="middle"
-    dy="0.35em"
-    ont-size="18"
-    font-weight="400"
-    font-family="'Fira-sans', sans-serif"
-    fill="#ffffff"
-	>${String(displayedText)}</text>`
+                    x="${circlePin.textPosition.x}"
+                    y="${circlePin.textPosition.y}"
+                    text-anchor="middle"
+                    dy="0.35em"
+                    font-size="18"
+                    font-weight="400"
+                    font-family="'Fira-sans', sans-serif"
+                    font-variant-numeric="slashed-zero"
+                        font-feature-settings="'zero' 1"
+                    fill="${stroke}"
+                >${String(displayedText)}</text>`
 	}
-	  <g stroke="${stroke}" stroke-width="${strokeWidth}" fill="${
-			typeof fill === 'string' ? fill : 'url(#img)'
-		}" fill-rule="nonzero">
-	<path ${svgConfig.tipPath}/>
-	</g>
+  </g>
+	${circlePin.defs}
 </svg>
 `)}`
+		: `${prefix}${encodeSVG(`
+<svg width="${clusterSize[0]}" height="${clusterSize[1]}"
+	viewBox="${svgConfig.viewBox}" xmlns="http://www.w3.org/2000/svg">
+  <title>0A6F4952-4A5A-4E86-88E4-4B3D2EA1E3DF</title>
+  ${getImagePattern(fill)}
+ <path fill="url(#a)" ${svgConfig.stackedShadow2} class="shadow-image"/>
+  <g class="feature-pin-five-digits">
+    <path fill="${stroke}" ${svgConfig.stackedShape2} class="feature-pin-content"/>
+    <path fill="${stroke}" ${svgConfig.stackedTip2} class="feature-pin-tip"/>
+  </g>
+  <path fill="url(#b)" ${svgConfig.stackedShadow1} class="shadow-image"/>
+  <g class="feature-pin-five-digits">
+    <path fill="${stroke}" ${svgConfig.stackedShape1} class="feature-pin-content"/>
+    <path fill="${stroke}" ${svgConfig.stackedTip1} class="feature-pin-tip"/>
+  </g>
+  <path fill="url(#c)" ${svgConfig.shadowPath} class="shadow-image"/>
+  <g class="feature-pin-five-digits">
+    <g class="feature-pin-content">
+      <path fill="${stroke}" ${svgConfig.shapePath}/>
+      <path fill="${typeof fill === 'string' ? fill : 'url(#img)'}" ${svgConfig.contentPath} class="feature-flag-label"/>
+      ${
+				!displayFeatureCount || displayedText === undefined
+					? ''
+					: `<text
+                x="${svgConfig.textPosition.x}"
+                y="${svgConfig.textPosition.y}"
+                text-anchor="middle"
+                dy="0.35em"
+                font-size="18"
+                font-weight="400"
+                font-family="'Fira-sans', sans-serif"
+                font-variant-numeric="slashed-zero"
+                font-feature-settings="'zero' 1"
+                fill="${stroke}"
+              >${String(displayedText)}</text>`
+			}
+    </g>
+    <path fill="${stroke}" ${svgConfig.tipPath} class="feature-pin-tip"/>
+  </g>
+  ${svgConfig.defs}
+</svg>
+`)}`
+}
 
 // center bottom of marker 📍 is intended to show the spot
 const anchor = [0.5, 1]
