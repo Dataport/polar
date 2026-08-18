@@ -16,7 +16,7 @@ import enrichedConsole from './vitePlugins/enrichedConsole.js'
  * otherwise each `.ts` file is exposed and subdirectories are traversed.
  */
 function collectLibEntries() {
-	const baseDir = resolve(__dirname, 'src')
+	const baseDir = resolve(import.meta.dirname, 'src')
 	const entries: Record<string, string> = {}
 
 	const toKey = (absPath: string) =>
@@ -144,24 +144,33 @@ export default defineConfig(({ mode }) => ({
 								file,
 							])
 						),
-						'@polar/polar/client': resolve(__dirname, 'src', 'client.ts'),
+						'@polar/polar/client': resolve(
+							import.meta.dirname,
+							'src',
+							'client.ts'
+						),
 						'@polar/polar/store': resolve(
-							__dirname,
+							import.meta.dirname,
 							'src',
 							'core',
 							'stores',
 							'index.ts'
 						),
 						'@polar/polar/polar.css': resolve(
-							__dirname,
+							import.meta.dirname,
 							'src',
 							'core',
 							'.polar-dev.css'
 						),
-						'@polar/polar': resolve(__dirname, 'src', 'core', 'index.ts'),
+						'@polar/polar': resolve(
+							import.meta.dirname,
+							'src',
+							'core',
+							'index.ts'
+						),
 					}
 				: {}),
-			'@': resolve(__dirname, 'src'),
+			'@': resolve(import.meta.dirname, 'src'),
 			/* eslint-enable @typescript-eslint/naming-convention */
 		},
 	},

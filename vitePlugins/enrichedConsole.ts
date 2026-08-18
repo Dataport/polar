@@ -5,7 +5,7 @@ const fileRegex = /\.(ts|js|vue)$/
 const consoleRegex = /console\.(log|warn|error|info)\(/g
 
 function stripId(id: string): string | null {
-	const root = resolve(__dirname, '..', 'src')
+	const root = resolve(import.meta.dirname, '..', 'src')
 	if (!id.startsWith(root)) {
 		return null
 	}
