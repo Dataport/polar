@@ -239,7 +239,7 @@ export const useAddressSearchStore = defineStore(
 
 		async function runSearch(
 			inputValue: string,
-			abortController: AbortController
+			abortController: AbortController = new AbortController()
 		) {
 			return Promise.allSettled(
 				configuration.value.searchMethods.map(
@@ -402,6 +402,9 @@ export const useAddressSearchStore = defineStore(
 
 			/** @alpha */
 			selectResult,
+
+			/** @alpha */
+			runSearch,
 
 			/** @internal */
 			setupPlugin,

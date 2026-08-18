@@ -330,7 +330,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		routeSearchRequestCounters.value =
 			routeSearchRequestCounters.value.toSpliced(index, 1, currentCounter)
 
-		if (!input.trim().length) {
+		if (
+			!input.trim().length ||
+			input.trim().length < addressSearchStore.limitResults
+		) {
 			routeSearchResults.value = routeSearchResults.value.toSpliced(
 				index,
 				1,
@@ -339,19 +342,24 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			return
 		}
 
-		await addressSearchStore.search(input)
+		await addressSearchStore
+			.runSearch(input)
+			.then((results: SearchResult[] | symbol) => {
+				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
+					return
+				}
+				routeSearchResults.value = routeSearchResults.value.toSpliced(
+					index,
+					1,
+					results
+				)
+			})
 
 		if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
 			return
 		}
 
-		const result = addressSearchStore.searchResults
-		routeSearchResults.value = routeSearchResults.value.toSpliced(
-			index,
-			1,
-			result
-		)
-
+		const result = routeSearchResults.value[index] ?? []
 		if (!Array.isArray(result)) {
 			return
 		}
