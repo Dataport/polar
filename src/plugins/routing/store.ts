@@ -83,10 +83,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	)
 
 	const showSearchResultList = computed(
-		() =>
-			addressSearchConfigured.value &&
-			reverseGeocoderConfigured.value &&
-			configuration.value.useAddressSearch
+		() => addressSearchConfigured.value
+		// addressSearchConfigured.value &&
+		// reverseGeocoderConfigured.value &&
+		// configuration.value.useAddressSearch
 	)
 	const focusAfterSearch = computed(
 		() => coreStore.configuration.addressSearch?.focusAfterSearch ?? false
@@ -339,7 +339,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			return
 		}
 
-		await addressSearchStore.search(input, 'never')
+		await addressSearchStore.search(input)
 
 		if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
 			return
