@@ -28,7 +28,7 @@ export interface DrawFontStyle {
  * TODO: document defaultValue
  */
 export interface DrawTextStyle {
-	font?: string | DrawFontStyle
+	font: string | DrawFontStyle
 	textColor?: string
 }
 
