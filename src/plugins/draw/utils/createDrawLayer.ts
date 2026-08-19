@@ -1,4 +1,3 @@
-import type { Map } from 'ol'
 import type { Options as VectorOptions } from 'ol/layer/Vector'
 import type { DrawPluginOptionsLayerStyle } from '../types'
 
@@ -15,7 +14,6 @@ import { buildStyleParameters } from '@/lib/jsonStyleMapper'
  * @returns VectorLayer for the drawn features to reside in.
  */
 export function createDrawLayer(
-	map: Map,
 	id: string,
 	style?: DrawPluginOptionsLayerStyle
 ) {

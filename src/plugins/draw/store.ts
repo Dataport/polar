@@ -498,7 +498,6 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 				}
 			}
 			const l = createDrawLayer(
-				coreStore.map,
 				layerConfig.id ?? `draw-layer-${++syntheticDrawLayerId}`,
 				layerConfig.style
 			)
