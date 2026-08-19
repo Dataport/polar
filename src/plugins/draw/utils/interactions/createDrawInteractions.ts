@@ -71,7 +71,7 @@ export function createDrawInteraction(
 				baseStyle,
 				configuration.measureStyle
 			)
-		: undefined
+		: baseStyle
 
 	const draw =
 		drawMode === 'Text'
