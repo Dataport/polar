@@ -15,7 +15,7 @@ export function createTextStyle(
 		text: new Text({
 			textAlign: 'center',
 			text: drawText,
-			font: createFont(textSize, textStyle),
+			font: createFont(textSize, textStyle?.font),
 			fill: textStyle?.textColor
 				? new Fill({ color: textStyle.textColor })
 				: undefined,
@@ -24,16 +24,13 @@ export function createTextStyle(
 	})
 }
 
-function createFont(textSize: number, textStyle?: DrawTextStyle) {
-	if (typeof textStyle === 'undefined') {
-		// if empty string apply default open layers style
+function createFont(selectedSize: number, font?: DrawTextStyle['font']) {
+	if (typeof font === 'undefined') {
+		// if empty string apply default ol style
 		return ''
 	}
-	const { font } = textStyle
 	if (typeof font === 'string') {
 		return font
 	}
-	const fontFamily: string = font?.family ?? 'sans-serif'
-	// TODO: If font is an object is also has size defined. Update this when refactoring as well.
-	return `${textSize}px ${fontFamily}`
+	return `${selectedSize}px ${font.family}`
 }

@@ -280,7 +280,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 
 	const textSizes = computed(
 		// @ts-expect-error | exactly, we want undefined then ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧
-		() => activeLayerConfig.value?.textStyle?.font?.size ?? []
+		() => activeLayerConfig.value?.textStyle?.font.size ?? []
 	)
 
 	const textSizeIndex = computed({
