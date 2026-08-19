@@ -1,15 +1,15 @@
 import type { Feature } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { Projection } from 'ol/proj'
-import type { Options, StyleFunction } from 'ol/style/Style'
+import type { StyleFunction } from 'ol/style/Style'
 import type { Options as TextOptions } from 'ol/style/Text'
-import type { DrawPluginOptionsLayerStyle, MeasureMode } from '../types'
+import type { MeasureMode } from '../types'
 
 import { centerOfMass } from '@turf/turf'
 import { LineString, Point, Polygon } from 'ol/geom'
 import { getArea, getLength } from 'ol/sphere'
-import { Circle as CircleStyle, Fill, Stroke } from 'ol/style'
-import Style from 'ol/style/Style'
+import { Fill, Stroke } from 'ol/style'
+import Style, { createDefaultStyle } from 'ol/style/Style'
 import Text from 'ol/style/Text'
 
 const roundMeasurement = (measurement: number, divisor: number) =>
@@ -17,7 +17,6 @@ const roundMeasurement = (measurement: number, divisor: number) =>
 
 function calculatePartialDistances(
 	styles: Style[],
-	styleOptions: Options,
 	textOptions: TextOptions,
 	feature: Feature,
 	unit: 'm' | 'km',
@@ -47,7 +46,6 @@ function calculatePartialDistances(
 		const text = `${length} ${unit}`
 		feature.set(`length-${i}`, roundMeasurement(lengthInMetres, 1))
 		const style = new Style({
-			...styleOptions,
 			text: new Text({
 				...textOptions,
 				text,
@@ -70,7 +68,7 @@ function calculatePartialDistances(
 }
 
 function getAreaUnitAndDivisor(measureMode: Exclude<MeasureMode, 'none'>) {
-	let areaUnit = ''
+	let areaUnit: string
 	let divisor: number
 	if (measureMode === 'metres') {
 		areaUnit = 'm²'
@@ -85,89 +83,62 @@ function getAreaUnitAndDivisor(measureMode: Exclude<MeasureMode, 'none'>) {
 	return { areaUnit, divisor }
 }
 
-const measureStyle: (
-	styleOptions: Options,
-	measureMode: Exclude<MeasureMode, 'none'>,
-	projection: Projection,
-	measureStyleOptions?: TextOptions
-) => StyleFunction =
-	(styleOptions, measureMode, projection, measureStyleOptions) => (feature) => {
-		const geometry = feature.getGeometry()
-		if (geometry instanceof Polygon || geometry instanceof LineString) {
-			const styles = [new Style(styleOptions)]
-			const textOptions: TextOptions = {
-				font: '16px sans-serif',
-				placement: 'line',
-				fill: new Fill({ color: 'black' }),
-				stroke: new Stroke({ color: 'black' }),
-				offsetY: -5,
-				...measureStyleOptions,
-			}
-			if (geometry instanceof Polygon) {
-				const { areaUnit, divisor } = getAreaUnitAndDivisor(measureMode)
-				const areaInMetres = getArea(geometry, { projection })
-				const area = roundMeasurement(areaInMetres, divisor)
-				const text = `${area} ${areaUnit}`
-				const style = new Style({
-					text: new Text({
-						...textOptions,
-						placement: 'point',
-						text,
-					}),
-				})
-				// @ts-expect-error | Features in this StyleFunction are always of type Feature<Geometry>
-				feature.set('area', roundMeasurement(areaInMetres, 1))
-				style.setGeometry(
-					new Point(
-						centerOfMass({
-							type: 'Feature',
-							geometry: {
-								type: 'Polygon',
-								coordinates: geometry.getCoordinates(),
-							},
-						}).geometry.coordinates
-					)
-				)
-				styles.push(style)
-			}
-			return calculatePartialDistances(
-				styles,
-				styleOptions,
-				textOptions,
-				feature as Feature,
-				measureMode === 'metres' ? 'm' : 'km',
-				projection
-			)
-		}
-		return new Style(styleOptions)
-	}
-
-// TODO: this was createDrawStyle; it is createMeasureStyle now. much of the code is useless and can be removed. Proposal: Instead of overriding all styles, only inject text styles onto the existing/configured style.
 export function createMeasureStyle(
-	strokeColor: string,
 	measureMode: Exclude<MeasureMode, 'none'>,
 	projection: Projection,
-	drawStyle?: DrawPluginOptionsLayerStyle
-): Style | StyleFunction {
-	const defaultFillColor = 'rgba(255, 255, 255, 0.5)'
-	const fillColor = drawStyle?.fill?.color
-		? drawStyle.fill.color
-		: defaultFillColor
-	const styleOptions: Options = {
-		image: new CircleStyle({
-			radius: 5,
-			fill: new Fill({
-				color: fillColor,
-			}),
-			stroke: new Stroke({ color: strokeColor }),
-		}),
-		stroke: new Stroke({
-			color: strokeColor,
-			width: drawStyle?.stroke?.width || 2,
-		}),
-		fill: new Fill({
-			color: fillColor,
-		}),
+	baseStyle?: Style,
+	measureStyleOptions?: TextOptions
+): StyleFunction {
+	return (feature, resolution) => {
+		const geometry = feature.getGeometry()
+		// Style for the point from the interaction at the cursor
+		if (!(geometry instanceof Polygon || geometry instanceof LineString)) {
+			return baseStyle ?? createDefaultStyle(feature, resolution)
+		}
+		const styles: Style[] = baseStyle
+			? [baseStyle]
+			: [...createDefaultStyle(feature, resolution)]
+		const textOptions: TextOptions = {
+			font: '16px sans-serif',
+			placement: 'line',
+			fill: new Fill({ color: 'black' }),
+			stroke: new Stroke({ color: 'black' }),
+			offsetY: -5,
+			...measureStyleOptions,
+		}
+		if (geometry instanceof Polygon) {
+			const { areaUnit, divisor } = getAreaUnitAndDivisor(measureMode)
+			const areaInMetres = getArea(geometry, { projection })
+			const area = roundMeasurement(areaInMetres, divisor)
+			const text = `${area} ${areaUnit}`
+			const style = new Style({
+				text: new Text({
+					...textOptions,
+					placement: 'point',
+					text,
+				}),
+			})
+			// @ts-expect-error | Features in this StyleFunction are always of type Feature<Geometry>
+			feature.set('area', roundMeasurement(areaInMetres, 1))
+			style.setGeometry(
+				new Point(
+					centerOfMass({
+						type: 'Feature',
+						geometry: {
+							type: 'Polygon',
+							coordinates: geometry.getCoordinates(),
+						},
+					}).geometry.coordinates
+				)
+			)
+			styles.push(style)
+		}
+		return calculatePartialDistances(
+			styles,
+			textOptions,
+			feature as Feature,
+			measureMode === 'metres' ? 'm' : 'km',
+			projection
+		)
 	}
-	return measureStyle(styleOptions, measureMode, projection, drawStyle?.measure)
 }

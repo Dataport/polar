@@ -1,3 +1,4 @@
+import type { Options as TextOptions } from 'ol/style/Text'
 import type { PluginOptions } from '@/core'
 import type { DrawMode, DrawTextStyle } from './common'
 
@@ -86,14 +87,6 @@ export interface DrawPluginOptionsLayerRevision {
  *      radius: 7,
  *      fillColor: '#e51313'
  *    },
- *    // Styling for text of measurements; supports everything described at https://openlayers.org/en/v9.2.4/apidoc/module-ol_style_Text-Text.html
- *    measure: {
- *      font: '16px sans-serif',
- *      placement: 'line',
- *      fill: new Fill({ color: 'black' }),
- *      stroke: new Stroke({ color: 'black' }),
- *      offsetY: -5
- *    }
  *  }
  * ```
  */
@@ -119,9 +112,25 @@ export interface DrawPluginOptionsLayer {
 	/**
 	 * Lassos allow the user to copy geometries from other layers onto the
 	 * currently chosen draw layer.
-	 * @defaultValue `undefined`
 	 */
 	lassos?: DrawPluginOptionsLayerLasso[]
+
+	/**
+	 * Styling for text of measurements.
+	 * Supports everything described at https://openlayers.org/en/v9.2.4/apidoc/module-ol_style_Text-Text.html.
+	 *
+	 * @example
+	 * ```js
+	 * {
+	 *		font: '16px sans-serif',
+	 *		placement: 'line',
+	 *		fill: new Fill({ color: 'black' }),
+	 *		stroke: new Stroke({ color: 'black' }),
+	 *		offsetY: -5
+	 * }
+	 * ```
+	 */
+	measureStyle?: TextOptions
 
 	/**
 	 * Display name for layer. This is only used when multiple draw layers exist,

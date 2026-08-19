@@ -1,6 +1,7 @@
 import type Interaction from 'ol/interaction/Interaction'
 import type VectorLayer from 'ol/layer/Vector'
 import type Map from 'ol/Map'
+import type Style from 'ol/style/Style'
 import type {
 	DrawMode,
 	DrawPluginOptions,
@@ -44,7 +45,8 @@ export function initializeInteractions(
 			drawSource,
 			map,
 			text,
-			drawing
+			drawing,
+			drawLayer.getStyle() as Style | undefined
 		)
 	} else if (tool === 'edit') {
 		interactions = createEditInteractions(

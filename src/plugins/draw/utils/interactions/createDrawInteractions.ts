@@ -1,6 +1,7 @@
 import type { Map } from 'ol'
 import type Interaction from 'ol/interaction/Interaction'
 import type VectorSource from 'ol/source/Vector'
+import type Style from 'ol/style/Style'
 import type { Ref } from 'vue'
 import type {
 	DrawMode,
@@ -49,7 +50,8 @@ export function createDrawInteraction(
 	drawSource: VectorSource,
 	map: Map,
 	text: InteractionOptions['text'],
-	drawing: Ref<boolean>
+	drawing: Ref<boolean>,
+	baseStyle?: Style
 ): Interaction[] {
 	if (
 		drawMode === 'Text' &&
@@ -64,10 +66,10 @@ export function createDrawInteraction(
 
 	const style = makeMeasurement
 		? createMeasureStyle(
-				'#000000',
 				measureMode,
 				map.getView().getProjection(),
-				configuration.style
+				baseStyle,
+				configuration.measureStyle
 			)
 		: undefined
 
