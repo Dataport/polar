@@ -21,7 +21,7 @@ function createTextDraw(
 	textInput: string,
 	textSize: number,
 	drawSource: VectorSource,
-	textStyleOptions?: DrawTextStyle
+	textStyleOptions: DrawTextStyle
 ) {
 	const textStyle = createTextStyle(textInput, textStyleOptions, textSize)
 	const draw = new Draw({
@@ -76,14 +76,10 @@ export function createDrawInteraction(
 	const draw =
 		drawMode === 'Text'
 			? createTextDraw(
-					// TS doesn't infer from check at method start
-					// TODO: This can be removed with refactoring through all layers.
-					/* eslint-disable @typescript-eslint/no-non-null-assertion */
-					text!.textInput,
-					text!.textSize,
+					text.textInput,
+					text.textSize,
 					drawSource,
-					text!.textStyle
-					/* eslint-enable @typescript-eslint/no-non-null-assertion */
+					text.textStyle
 				)
 			: new Draw({
 					source: drawSource,

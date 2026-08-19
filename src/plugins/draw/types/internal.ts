@@ -45,13 +45,13 @@ export type MeasureMode = (typeof MeasureModes)[number]
 export interface InteractionOptions {
 	drawing: Ref<boolean>
 	selectedFeature: WritableComputedRef<OlFeature | null>
-	activeLassoIds?: string[]
-	measureMode?: MeasureMode
-	text?: {
+	text: {
 		textInput: string
 		textSize: number
 		textStyle: DrawTextStyle
 	}
+	activeLassoIds?: string[]
+	measureMode?: MeasureMode
 }
 
 export type GeometryType = Exclude<Geometry, GeometryCollection>
