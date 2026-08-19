@@ -122,13 +122,7 @@ function updateMaxWidth() {
 }
 
 function toggle(id: string) {
-	if (open.value === id) {
-		open.value = null
-		coreStore.setMoveHandle(null)
-	} else {
-		open.value = id
-		iconMenuStore.openInMoveHandle(id)
-	}
+	iconMenuStore.openMenuById(open.value === id ? null : id)
 	updateMaxWidth()
 }
 </script>

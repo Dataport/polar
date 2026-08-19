@@ -191,6 +191,7 @@ if (import.meta.vitest) {
 						getView: () => ({ fit }),
 					},
 					addressTarget: vi.fn(),
+					usedPlugins: ['pins'],
 					getPluginStore: (plugin) => pluginStores[plugin] || null,
 				})
 				// @ts-expect-error | Mocking useCoreStore

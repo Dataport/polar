@@ -4,14 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { Component } from 'vue'
-import type { Icon } from '@/core'
-import type { Menu } from './types'
+import type { FocusMenu, Menu } from './types'
 
 import { toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, markRaw, ref, toRaw } from 'vue'
+import { computed, markRaw, readonly, ref, toRaw } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 
@@ -28,7 +26,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	const coreStore = useCoreStore()
 
 	const menus = ref<Array<Menu[]>>([])
-	const focusMenus = ref<(Menu & { icon: Icon })[]>([])
+	const focusMenus = ref<FocusMenu[]>([])
 	const open = ref<string | null>(null)
 	const focusOpen = ref<string | null>(null)
 
@@ -41,6 +39,63 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	const layoutTag = computed(
 		() => coreStore.configuration.iconMenu?.layoutTag ?? ''
 	)
+
+	function isPluginInIconMenu(pluginId: string) {
+		const display = coreStore.configuration[pluginId]?.displayComponent
+		return typeof display === 'boolean' ? display : true
+	}
+	function addPlugin(menuGroup: Menu[]) {
+		const filteredMenuGroup = menuGroup.filter(({ plugin: { id } }) =>
+			isPluginInIconMenu(id)
+		)
+		filteredMenuGroup.forEach(({ plugin }) => {
+			if (plugin.component) {
+				markRaw(toRaw(plugin.component))
+			}
+			coreStore.addPlugin(toMerged(plugin, { independent: false }))
+		})
+		menus.value.push(filteredMenuGroup)
+	}
+	function addFocusPlugin(menu: FocusMenu) {
+		if (!isPluginInIconMenu(menu.plugin.id)) {
+			return
+		}
+		if (menu.plugin.component) {
+			markRaw(toRaw(menu.plugin.component))
+		}
+		coreStore.addPlugin(toMerged(menu.plugin, { independent: false }))
+		focusMenus.value.push(menu)
+	}
+	function removePlugin(pluginId: string) {
+		if (open.value === pluginId) {
+			open.value = null
+		}
+		const pluginIndex = menus.value.findIndex((menuGroup) =>
+			menuGroup.some(({ plugin: { id } }) => id === pluginId)
+		)
+		if (pluginIndex !== -1) {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const pluginMenu = menus.value[pluginIndex]!
+			const pluginMenuIndex = pluginMenu.findIndex(
+				({ plugin: { id } }) => id === pluginId
+			)
+			pluginMenu.splice(pluginMenuIndex, 1)
+			if (pluginMenu.length === 0) {
+				menus.value.splice(pluginIndex, 1)
+			}
+		}
+
+		if (focusOpen.value === pluginId) {
+			focusOpen.value = null
+		}
+		const pluginFocusIndex = focusMenus.value.findIndex(
+			({ plugin: { id } }) => id === pluginId
+		)
+		if (pluginFocusIndex !== -1) {
+			focusMenus.value.splice(pluginFocusIndex, 1)
+		}
+		coreStore.removePlugin(pluginId)
+	}
 
 	const visibleMenus = computed(() =>
 		menus.value.map((menuGroup) =>
@@ -56,41 +111,12 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	)
 
 	function setupPlugin() {
-		// Components are marked raw so they themselves are not made reactive
-		menus.value = (coreStore.configuration.iconMenu?.menus || []).map(
-			(menuGroup) =>
-				menuGroup
-					.filter(({ plugin: { id } }) => {
-						const display = coreStore.configuration[id]?.displayComponent
-						return typeof display === 'boolean' ? display : true
-					})
-					.map((menuItem) => ({
-						...menuItem,
-						plugin: {
-							...menuItem.plugin,
-							component: markRaw(toRaw(menuItem.plugin.component as Component)),
-						},
-					}))
-		)
-		focusMenus.value = (coreStore.configuration.iconMenu?.focusMenus || [])
-			.filter(({ plugin: { id } }) => {
-				const display = coreStore.configuration[id]?.displayComponent
-				return typeof display === 'boolean' ? display : true
-			})
-			.map((menuItem) => ({
-				...menuItem,
-				plugin: {
-					...menuItem.plugin,
-					component: markRaw(toRaw(menuItem.plugin.component as Component)),
-				},
-			}))
-
-		menus.value
-			.concat(focusMenus.value)
-			.flat()
-			.forEach(({ plugin }) => {
-				coreStore.addPlugin(toMerged(plugin, { independent: false }))
-			})
+		;(coreStore.configuration.iconMenu?.menus || []).forEach((menuGroup) => {
+			addPlugin(menuGroup)
+		})
+		;(coreStore.configuration.iconMenu?.focusMenus || []).forEach((menu) => {
+			addFocusPlugin(menu)
+		})
 
 		const initiallyOpen = coreStore.configuration.iconMenu?.initiallyOpen
 		if (
@@ -112,21 +138,25 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	}
 	function teardownPlugin() {}
 
-	function openMenuById(openId: string) {
+	function openMenuById(openId: string | null) {
 		const entry = menus.value.flat().find(({ plugin: { id } }) => id === openId)
-
-		if (entry) {
+		if (openId && entry) {
 			open.value = openId
 			openInMoveHandle(openId)
+		} else {
+			open.value = null
+			coreStore.setMoveHandle(null)
 		}
 	}
 
-	function openFocusMenuById(openId: string) {
+	function openFocusMenuById(openId: string | null) {
 		const entry = focusMenus.value.find(({ plugin: { id } }) => id === openId)
-
-		if (entry) {
+		if (openId && entry) {
 			focusOpen.value = openId
 			openInMoveHandle(openId, true)
+		} else {
+			focusOpen.value = null
+			coreStore.setMoveHandle(null)
 		}
 	}
 
@@ -172,12 +202,54 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	return {
 		visibleMenus,
 		visibleFocusMenus,
-		open,
-		focusOpen,
+
+		/**
+		 * Determines which menu is currently open.
+		 *
+		 * To change the open menu, use {@link openMenuById}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		open: readonly(open),
+
+		/**
+		 * Determines which focus menu is currently open.
+		 *
+		 * To change the open focus menu, use {@link openFocusMenuById}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		focusOpen: readonly(focusOpen),
+
 		buttonComponent,
-		openInMoveHandle,
 		openMenuById,
 		openFocusMenuById,
+
+		/**
+		 * Appends a group of plugins to the icon menu.
+		 *
+		 * @param menu - The menu item group to add.
+		 * @alpha
+		 */
+		addPlugin,
+
+		/**
+		 * Appends a plugin to the icon menu as a focus menu.
+		 *
+		 * @param menu - The focus menu item to add.
+		 * @alpha
+		 */
+		addFocusPlugin,
+
+		/**
+		 * Removes a plugin from the icon menu.
+		 *
+		 * @param pluginId - The ID of the plugin to remove.
+		 * @alpha
+		 */
+		removePlugin,
 
 		/** @alpha */
 		layoutTag,

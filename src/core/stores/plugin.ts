@@ -10,7 +10,7 @@ import type {
 import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { markRaw, reactive } from 'vue'
+import { markRaw, reactive, readonly } from 'vue'
 
 import { useMainStore } from './main'
 
@@ -67,20 +67,17 @@ export const usePluginStore = defineStore('plugin', () => {
 		plugins.splice(pluginIndex, 1)
 	}
 
-	function getPluginStore<T extends PluginId>(
+	function getPluginStore<T extends BundledPluginId>(
 		id: T
-	): ReturnType<
-		T extends BundledPluginId
-			? BundledPluginStores<typeof id>
-			: PolarPluginStore
-	> | null {
+	): ReturnType<BundledPluginStores<T>> | null
+	function getPluginStore(id: PluginId): ReturnType<PolarPluginStore> | null
+	function getPluginStore(id: PluginId): unknown {
 		const plugin = plugins.find((plugin) => plugin.id === id)
-		// @ts-expect-error | We trust that our internal IDs work.
 		return plugin?.storeModule?.(mainStore._instance) || null
 	}
 
 	return {
-		plugins,
+		plugins: readonly(plugins) as readonly PluginContainer[],
 		addPlugin,
 		removePlugin,
 		getPluginStore,

@@ -182,7 +182,7 @@ export function useStoreWatcher(
 			}
 
 			const targetIsInstalled =
-				!source.plugin || coreStore.getPluginStore(source.plugin)
+				!source.plugin || coreStore.usedPlugins.includes(source.plugin)
 
 			if (targetIsInstalled && !watcherConfig.handle) {
 				setupWatcherForSource(watcherConfig)

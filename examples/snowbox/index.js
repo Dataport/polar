@@ -398,6 +398,7 @@ addPlugin(
 		layoutTag: 'BOTTOM_LEFT',
 	})
 )
+let filterItem
 addPlugin(
 	map,
 	pluginIconMenu({
@@ -413,7 +414,7 @@ addPlugin(
 					plugin: pluginLayerChooser({}),
 				},
 			],
-			[
+			(filterItem = [
 				{
 					plugin: pluginFilter({
 						layers: {
@@ -477,7 +478,7 @@ addPlugin(
 						},
 					}),
 				},
-			],
+			]),
 			[
 				{
 					plugin: pluginGeoLocation({
@@ -597,4 +598,18 @@ document
 		target.innerHTML = `Switch to ${colorScheme} mode`
 		colorScheme = colorScheme === 'light' ? 'dark' : 'light'
 		updateState(map, 'core', 'colorScheme', colorScheme)
+	})
+
+let hasFilter = true
+document
+	.getElementById('toggle-filter')
+	.addEventListener('click', ({ target }) => {
+		const store = getStore(map, 'iconMenu')
+		if (hasFilter) {
+			store.removePlugin('filter')
+			hasFilter = false
+		} else {
+			store.addPlugin(filterItem)
+			hasFilter = true
+		}
 	})

@@ -26,6 +26,10 @@ export interface Menu {
 	icon?: Icon
 }
 
+export interface FocusMenu extends Menu {
+	icon: Icon
+}
+
 /**
  * Plugin options for iconMenu plugin.
  */

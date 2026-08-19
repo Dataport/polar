@@ -75,16 +75,14 @@ const maxHeight = computed(() =>
 
 function toggle(id: string) {
 	if (iconMenuStore.focusOpen === id) {
-		iconMenuStore.focusOpen = null
+		iconMenuStore.openFocusMenuById(null)
 		pluginComponent.value = null
-		coreStore.setMoveHandle(null)
 	} else {
-		iconMenuStore.focusOpen = id
+		iconMenuStore.openFocusMenuById(id)
 		pluginComponent.value = markRaw(
 			(props.menus.find(({ plugin }) => plugin.id === id) as Menu).plugin
 				.component as Component
 		)
-		iconMenuStore.openInMoveHandle(id, true)
 	}
 }
 </script>

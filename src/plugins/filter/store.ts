@@ -50,10 +50,12 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 					{ deep: true, immediate: true }
 				)
 			)
+			teardownCallbacks.push(callback)
 		})
 	}
 
 	function teardownPlugin() {
+		filterMainStore.state = {}
 		teardownCallbacks.forEach((callback) => {
 			callback()
 		})
