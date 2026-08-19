@@ -99,9 +99,6 @@ export function createDrawInteraction(
 		drawing.value = false
 	})
 
-	// @ts-expect-error | internal hack to detect it in other plugins
-	draw._isDrawPlugin = true
-
 	if (makeMeasurement) {
 		draw.on('drawend', (e) => {
 			e.feature.setStyle(style)
