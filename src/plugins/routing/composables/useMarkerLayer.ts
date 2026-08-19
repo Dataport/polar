@@ -33,11 +33,12 @@ export function useMarkerLayer(
 
 	watch(route, () => {
 		markerSource.clear()
-		route.value.forEach((coordinate) => {
+		route.value.forEach((coordinate, index) => {
 			if (coordinate.length) {
 				markerSource.addFeature(
 					new Feature({
 						geometry: new Point(coordinate),
+						routeIndex: index,
 					})
 				)
 			}
@@ -46,12 +47,11 @@ export function useMarkerLayer(
 
 	const modify = new Modify({ source: markerSource })
 	modify.on('modifyend', (evt) => {
-		const allFeatures = markerSource.getFeatures()
 		evt.features.forEach((feature) => {
 			const geometry = feature.getGeometry()
 			if (geometry instanceof Point) {
-				const index = allFeatures.indexOf(feature)
-				if (index !== -1 && index < route.value.length) {
+				const index = feature.get('routeIndex')
+				if (index < route.value.length && typeof index === 'number') {
 					route.value[index] = geometry.getCoordinates()
 				}
 			}
