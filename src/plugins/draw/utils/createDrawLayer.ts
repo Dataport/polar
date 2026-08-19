@@ -1,5 +1,6 @@
 import type { Map } from 'ol'
-import type { DrawPluginOptionsLayerStyle, PolarVectorOptions } from '../types'
+import type { Options as VectorOptions } from 'ol/layer/Vector'
+import type { DrawPluginOptionsLayerStyle } from '../types'
 
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
@@ -18,7 +19,7 @@ export function createDrawLayer(
 	id: string,
 	style?: DrawPluginOptionsLayerStyle
 ) {
-	const options: PolarVectorOptions = { source: new VectorSource() }
+	const options: VectorOptions = { source: new VectorSource() }
 	if (style) {
 		options.style = new Style(buildStyleParameters(style))
 	}

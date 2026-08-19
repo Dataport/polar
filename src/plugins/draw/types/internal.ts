@@ -1,7 +1,5 @@
 import type { Geometry, GeometryCollection } from 'geojson'
 import type { Feature as OlFeature } from 'ol'
-import type VectorSource from 'ol/source/Vector'
-import type { StyleLike } from 'ol/style/Style'
 import type { Ref, WritableComputedRef } from 'vue'
 import type { DrawTextStyle } from './common'
 
@@ -55,15 +53,6 @@ export interface InteractionOptions {
 }
 
 export type GeometryType = Exclude<Geometry, GeometryCollection>
-
-/**
- * The options that can be given to an ol/VectorLayer.
- * TODO: Somehow the direct import from ol doesn't work. This is a copy with the things that we currently use. Fix me if you can.
- */
-export interface PolarVectorOptions {
-	source?: VectorSource
-	style?: StyleLike
-}
 
 export const inactive = 'inactive'
 export const inProgress = 'inProgress'
