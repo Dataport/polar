@@ -35,7 +35,7 @@ export const buildStyleParameters = (styleFragment) =>
 					accumulator[inputKeyToOpenLayersKey(key)] =
 						new inputKeyToOpenLayersClass[key]({
 							...buildStyleParameters(value),
-							...(key === 'text' ? { text: 'Testtext' } : {}),
+							...(key === 'text' ? { text: '' } : {}),
 						})
 				} else {
 					accumulator[inputKeyToOpenLayersKey(key)] =
