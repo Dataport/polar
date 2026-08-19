@@ -6,10 +6,10 @@
 		:limited-results="limitResults"
 		:input-value="inputValue"
 		:result-count-label="resultCountLabel"
-		:select-result="selectResult"
 		:toggle-label="toggleLabel"
 		:selected-group-id="selectedGroupId"
 		:focus-after-search="addressSearchStore.focusAfterSearch"
+		@select-result="selectResult"
 	/>
 </template>
 

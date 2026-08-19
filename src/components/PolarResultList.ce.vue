@@ -27,9 +27,9 @@
 					<li
 						:id="`polar-result-list-${componentId}-results-feature-${i}-${j}`"
 						tabindex="-1"
-						@click="selectResult(feature, result.categoryId)"
+						@click="emit('selectResult', feature, result.categoryId)"
 						@keydown.enter.prevent.stop="
-							selectResult(feature, result.categoryId)
+							emit('selectResult', feature, result.categoryId)
 						"
 						@keydown.down.prevent.stop="
 							(event) => focusNextElement(true, event)
@@ -102,11 +102,14 @@ const props = defineProps<{
 	inputValue: string
 	selectedGroupId: string
 	resultCountLabel: (count: number) => string
-	selectResult: (feature: PolarGeoJsonFeature, categoryId: string) => void
 	toggleLabel: (expanded: boolean) => string
 	focusAfterSearch: boolean
 	focusReturnTargetId?: string
 	resultItemIdPrefix?: string
+}>()
+
+const emit = defineEmits<{
+	selectResult: [PolarGeoJsonFeature, string]
 }>()
 
 const coreStore = useCoreStore()
@@ -187,6 +190,11 @@ watch(results, () => {
 		})
 	}
 })
+
+// function translate(text: string, textNs?: string): string {
+// 	// @ts-expect-error | Locale keys are dynamic.
+// 	return t(text, { ns: textNs })
+// }
 
 function getResultCount(categoryId: string) {
 	return resultsBySearchMethod.value

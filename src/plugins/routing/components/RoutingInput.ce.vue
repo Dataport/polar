@@ -27,12 +27,12 @@
 				:limited-results="5"
 				:input-value="routeInputValue"
 				:result-count-label="resultCountLabel"
-				:select-result="routeStore.selectResult"
 				:toggle-label="toggleLabel"
 				:selected-group-id="selectedSearchGroupId"
 				:focus-after-search="focusAfterSearch"
 				:focus-return-target-id="`polar-plugin-routing-input-${index}`"
 				:result-item-id-prefix="`polar-result-list-routing-${index}-results-feature`"
+				@select-result="routeStore.selectResult"
 			/>
 		</div>
 		<div class="polar-plugin-routing-waypoint-button-wrapper">
