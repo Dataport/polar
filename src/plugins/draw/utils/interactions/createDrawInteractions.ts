@@ -21,16 +21,16 @@ function createTextDraw(
 	textInput: string,
 	textSize: number,
 	drawSource: VectorSource,
-	textStyle?: DrawTextStyle
+	textStyleOptions?: DrawTextStyle
 ) {
-	const _textStyle = createTextStyle(textInput, textStyle, textSize)
+	const textStyle = createTextStyle(textInput, textStyleOptions, textSize)
 	const draw = new Draw({
 		source: drawSource,
 		type: 'Point',
-		style: _textStyle,
+		style: textStyle,
 	})
 	draw.on('drawend', function (e) {
-		e.feature.setStyle(_textStyle)
+		e.feature.setStyle(textStyle)
 		e.feature.set('text', textInput)
 	})
 	// prevent the creation of empty text features
@@ -77,7 +77,7 @@ export function createDrawInteraction(
 		drawMode === 'Text'
 			? createTextDraw(
 					// TS doesn't infer from check at method start
-					// TODO: This can be removed with refactoring through all layers. However, it adds zero value.
+					// TODO: This can be removed with refactoring through all layers.
 					/* eslint-disable @typescript-eslint/no-non-null-assertion */
 					text!.textInput,
 					text!.textSize,
