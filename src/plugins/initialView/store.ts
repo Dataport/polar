@@ -1,7 +1,7 @@
 import type { ComputedRef } from 'vue'
 import type { InitialViewPluginOptions } from './types'
 
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
@@ -70,6 +70,10 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 		tooltipPosition,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useInitialViewStore, import.meta.hot))
+}
 
 if (import.meta.vitest) {
 	const { createPinia, setActivePinia } = await import('pinia')
