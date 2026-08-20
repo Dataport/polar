@@ -6,9 +6,9 @@ import { computed } from 'vue'
 import { useCoreStore } from '@/core/stores'
 
 /**
- * .𖥔 ݁ ˖ִ🛸༄˖°.⋆⭒˚.⋆🔭👀 Yep, it's space.
- *
  * Composable strictly meant for usage with NineLayout.
+ *
+ * * @privateRemarks .𖥔 ݁ ˖ִ🛸༄˖°.⋆⭒˚.⋆🔭👀 Yep, it's space.
  */
 export const spaceDetector = (options: Ref<PlaceablePluginOptions>) => {
 	const coreStore = useCoreStore()
