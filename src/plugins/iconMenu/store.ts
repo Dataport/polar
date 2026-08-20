@@ -13,8 +13,8 @@ import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, markRaw, ref, toRaw } from 'vue'
 
+import { spaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
-import { spaceDetector } from '@/lib/spaceDetector'
 
 import { PluginId } from './types'
 

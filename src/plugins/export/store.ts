@@ -11,9 +11,9 @@ import { t } from 'i18next'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
+import { spaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 import { notifyUser } from '@/lib/notifyUser'
-import { spaceDetector } from '@/lib/spaceDetector'
 
 import { EXPORT_FORMATS, PluginId } from './types'
 import { convertToPdf } from './utils/convertToPdf'

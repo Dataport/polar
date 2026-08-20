@@ -22,10 +22,10 @@ import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
+import { spaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
-import { spaceDetector } from '@/lib/spaceDetector'
 import { getTooltip } from '@/lib/tooltip'
 
 import { PluginId } from './types'

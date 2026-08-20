@@ -11,9 +11,9 @@ import type { Attribution, AttributionsPluginOptions } from './types'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
+import { spaceDetector } from '@/composables/spaceDetector'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
-import { spaceDetector } from '@/lib/spaceDetector'
 
 import { buildMapInfo } from './utils/buildMapInfo'
 import { formatAttributionText } from './utils/formatAttributionText'

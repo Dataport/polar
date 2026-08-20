@@ -9,8 +9,8 @@ import type { ZoomPluginOptions } from './types'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 
+import { spaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
-import { spaceDetector } from '@/lib/spaceDetector'
 
 import { PluginId } from './types'
 
