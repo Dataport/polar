@@ -53,7 +53,7 @@
 				</template>
 			</ul>
 			<KernButton
-				v-if="result.features.features.length > limitedResults"
+				v-if="searchResults[i].features.features.length > limitedResults"
 				class="kern-btn--tertiary"
 				:icon="
 					areResultsExpanded(result.categoryId)
