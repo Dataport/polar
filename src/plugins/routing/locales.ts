@@ -47,6 +47,11 @@ export const resourcesDe = {
 	duration: 'Dauer: {{duration}}',
 	noFeature:
 		'Die Route konnte nicht ermittelt werden. Versuchen Sie es mit anderen Koordinaten.',
+	resultList: {
+		extend: 'Alle Ergebnisse anzeigen',
+		reduce: 'Ergebnisse reduzieren',
+	},
+	resultCount: '({{count}} Ergebnisse)',
 } as const
 
 export const resourcesEn = {
