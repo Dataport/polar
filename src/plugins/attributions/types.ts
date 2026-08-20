@@ -63,7 +63,10 @@ export interface Attribution {
  * All parameters are optional. However, setting neither {@link layerAttributions}
  * nor {@link staticAttributions} results in an empty window.
  */
-export interface AttributionsPluginOptions extends PlaceablePluginOptions {
+export type AttributionsPluginOptions = Omit<
+	PlaceablePluginOptions,
+	'renderType'
+> & {
 	/**
 	 * Optional icon override.
 	 */
@@ -87,6 +90,8 @@ export interface AttributionsPluginOptions extends PlaceablePluginOptions {
 	 * Will update the currently visible layers depending on the current map state on changes to these values.
 	 */
 	listenToChanges?: StoreReference[]
+
+	renderType?: PlaceablePluginOptions['renderType'] | 'footer'
 
 	/**
 	 * List of static attributions that are always shown. May contain HTML elements.

@@ -101,11 +101,10 @@ export interface PluginOptions {
 export interface PlaceablePluginOptions extends PluginOptions {
 	/**
 	 * Placeable plugins can be placed either independently or as part of the icon menu.
-	 * TODO: 'footer' is kept as future option already supported in parts of the program. Types will have to be further diversified for the final implementation.
 	 *
 	 * @defaultValue 'independent'
 	 */
-	renderType?: 'independent' | 'iconMenu' | 'footer'
+	renderType?: 'independent' | 'iconMenu'
 }
 
 export interface BoundaryOptions {

@@ -13,7 +13,6 @@ import { useCoreStore } from '@/core/stores'
 export const spaceDetector = (options: Ref<PlaceablePluginOptions>) => {
 	const coreStore = useCoreStore()
 
-	// TODO: when 'standard' is implemented, this'll probably have to handle the footer case, too
 	const spaceDirection: ComputedRef<'left' | 'right'> = computed(() =>
 		(options.value.renderType === 'independent' ||
 		typeof options.value.renderType === 'undefined'

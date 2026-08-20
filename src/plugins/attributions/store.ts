@@ -57,6 +57,8 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 		(configuration.value.staticAttributions || []).map(formatAttributionText)
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
+	// TODO: Since we're currently not using standard, this is currently not an issue
+	// @ts-expect-error | Known issue, we'll handle this later when it's time to implement standard
 	const { spaceDirection } = spaceDetector(configuration)
 
 	useStoreWatcher(listenToChanges, updateLayers)
