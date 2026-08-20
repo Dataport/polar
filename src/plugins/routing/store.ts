@@ -6,7 +6,7 @@
 
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
-import type { PolarGeoJsonFeature } from '@/core'
+import type { PolarGeoJsonFeature, SearchResult } from '@/core'
 import type {
 	RoutingPluginOptions,
 	RoutingResponseData,
@@ -32,15 +32,6 @@ import { useMarkerLayer } from './composables/useMarkerLayer'
 import { useRouteLayer } from './composables/useRouteLayer'
 import { PluginId } from './types'
 import { handleErrors } from './utils/handleErrors'
-
-interface SearchResult {
-	categoryId: string
-	categoryLabel: string
-	features: {
-		features: PolarGeoJsonFeature[]
-	}
-	groupId: string
-}
 
 /* eslint-disable tsdoc/syntax */
 /**

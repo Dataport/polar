@@ -70,7 +70,7 @@
 <script setup lang="ts">
 import type { Coordinate } from 'ol/coordinate'
 import type { StoreGeneric } from 'pinia'
-import type { PolarGeoJsonFeatureCollection } from '@/core'
+import type { SearchResult } from '@/core'
 
 import { computed } from 'vue'
 
@@ -82,13 +82,6 @@ import SearchResultSymbols from '@/lib/searchResultSymbols'
 
 import { useRoutingStore } from '../store'
 import { PluginId } from '../types'
-
-interface SearchResult {
-	categoryId: string
-	categoryLabel: string
-	features: PolarGeoJsonFeatureCollection
-	groupId: string
-}
 
 const props = defineProps<{
 	index: number

@@ -4,12 +4,11 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { PolarGeoJsonFeature } from '@/core'
+import type { PolarGeoJsonFeature, SearchResult } from '@/core'
 import type {
 	AddressSearchPluginOptions,
 	GroupProperties,
 	SearchMethodConfiguration,
-	SearchResult,
 } from './types'
 
 import { debounce, toMerged } from 'es-toolkit'

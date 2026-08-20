@@ -77,21 +77,13 @@
 </template>
 
 <script setup lang="ts">
-import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
+import type { PolarGeoJsonFeature, SearchResult } from '@/core'
 
 import { computed, nextTick, ref, toRaw, watch } from 'vue'
 
-import { focusFirstResult } from '@/lib/focusFirstResult'
-
-interface SearchResult {
-	categoryId: string
-	categoryLabel: string
-	features: PolarGeoJsonFeatureCollection
-	groupId: string
-}
-
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
+import { focusFirstResult } from '@/lib/focusFirstResult'
 import { strongTitleByInput } from '@/lib/strongTitleByInput'
 
 const props = defineProps<{
