@@ -1,10 +1,12 @@
-import type Interaction from 'ol/interaction/Interaction'
 import type Map from 'ol/Map'
+import type { DisposableInteraction } from '../../types'
 
-export function removeAllInteractions(map: Map, interactions: Interaction[]) {
-	interactions.forEach((interaction) => {
+export function removeAllInteractions(
+	map: Map,
+	interactions: DisposableInteraction[]
+) {
+	interactions.forEach(({ interaction, dispose }) => {
 		map.removeInteraction(interaction)
-		// @ts-expect-error | "un on removal" riding piggyback as _onRemove
-		interaction._onRemove?.()
+		dispose?.()
 	})
 }

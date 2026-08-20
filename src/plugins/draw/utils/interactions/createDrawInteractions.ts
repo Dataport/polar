@@ -1,9 +1,9 @@
 import type { Map } from 'ol'
-import type Interaction from 'ol/interaction/Interaction'
 import type VectorSource from 'ol/source/Vector'
 import type Style from 'ol/style/Style'
 import type { Ref } from 'vue'
 import type {
+	DisposableInteraction,
 	DrawMode,
 	DrawPluginOptions,
 	DrawTextStyle,
@@ -52,7 +52,7 @@ export function createDrawInteraction(
 	text: InteractionOptions['text'],
 	drawing: Ref<boolean>,
 	baseStyle?: Style
-): Interaction[] {
+): DisposableInteraction[] {
 	if (
 		drawMode === 'Text' &&
 		(typeof text === 'undefined' || !text.textInput.trim())
@@ -106,8 +106,8 @@ export function createDrawInteraction(
 	}
 
 	return [
-		draw,
+		{ interaction: draw },
 		...getSnaps(map, configuration.snapTo ?? []),
-		new Snap({ source: drawSource }),
+		{ interaction: new Snap({ source: drawSource }) },
 	]
 }

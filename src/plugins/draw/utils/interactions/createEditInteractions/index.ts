@@ -1,10 +1,13 @@
 import type { Map } from 'ol'
 import type { Feature as OlFeature } from 'ol'
-import type Interaction from 'ol/interaction/Interaction'
 import type VectorLayer from 'ol/layer/Vector'
 import type VectorSource from 'ol/source/Vector'
 import type { Ref } from 'vue'
-import type { DrawPluginOptions, EditMode } from '../../../types'
+import type {
+	DisposableInteraction,
+	DrawPluginOptions,
+	EditMode,
+} from '../../../types'
 
 import { Select, Snap } from 'ol/interaction'
 import Style from 'ol/style/Style'
@@ -55,33 +58,34 @@ export function createEditInteractions(
 	map: Map,
 	activeLassoIds: string[] = [],
 	selectedFeature: Ref<OlFeature | null>
-): Interaction[] {
+): DisposableInteraction[] {
+	const snaps = [
+		...getSnaps(map, configuration.snapTo ?? []),
+		{ interaction: new Snap({ source: drawSource }) },
+	]
 	switch (drawMode) {
 		case 'modify':
 			return [
 				createModifyInteraction(map, drawLayer),
-				...getSnaps(map, configuration.snapTo ?? []),
-				new Snap({ source: drawSource }),
-				makeModifySelect(drawLayer, drawSource, selectedFeature),
+				...snaps,
+				{
+					interaction: makeModifySelect(drawLayer, drawSource, selectedFeature),
+				},
 			]
 		case 'translate':
-			return [
-				createTranslateInteraction(map, drawLayer),
-				...getSnaps(map, configuration.snapTo ?? []),
-				new Snap({ source: drawSource }),
-			]
+			return [createTranslateInteraction(map, drawLayer), ...snaps]
 		case 'duplicate':
 			return [createDuplicateInteraction(map, { drawSource, drawLayer })]
 		case 'cut':
-			return [createCutInteractions(map, drawSource)]
+			return [{ interaction: createCutInteractions(map, drawSource) }]
 		case 'merge':
-			return [
-				createMergeInteraction(drawSource),
-				...getSnaps(map, configuration.snapTo ?? []),
-				new Snap({ source: drawSource }),
-			]
+			return [{ interaction: createMergeInteraction(drawSource) }, ...snaps]
 		case 'lasso':
-			return [createLassoInteraction(map, drawSource, activeLassoIds)]
+			return [
+				{
+					interaction: createLassoInteraction(map, drawSource, activeLassoIds),
+				},
+			]
 		default:
 			return []
 	}

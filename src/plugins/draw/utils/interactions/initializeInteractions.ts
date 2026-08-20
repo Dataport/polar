@@ -1,8 +1,8 @@
-import type Interaction from 'ol/interaction/Interaction'
 import type VectorLayer from 'ol/layer/Vector'
 import type Map from 'ol/Map'
 import type Style from 'ol/style/Style'
 import type {
+	DisposableInteraction,
 	DrawMode,
 	DrawPluginOptions,
 	EditMode,
@@ -35,7 +35,7 @@ export function initializeInteractions(
 		throw new Error('No draw layer or source available.')
 	}
 
-	let interactions: Interaction[] = []
+	let interactions: DisposableInteraction[]
 
 	if (tool === 'draw') {
 		interactions = createDrawInteraction(
@@ -62,7 +62,7 @@ export function initializeInteractions(
 		interactions = createDeleteInteractions(map, drawLayer, drawSource)
 	}
 
-	interactions.forEach((interaction) => {
+	interactions.forEach(({ interaction }) => {
 		map.addInteraction(interaction)
 	})
 

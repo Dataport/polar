@@ -1,5 +1,6 @@
 import type { Geometry, GeometryCollection } from 'geojson'
 import type { Feature as OlFeature } from 'ol'
+import type Interaction from 'ol/interaction/Interaction'
 import type { Ref, WritableComputedRef } from 'vue'
 import type { DrawTextStyle } from './common'
 
@@ -39,6 +40,11 @@ export type ToolMode = (typeof ToolModes)[number]
 export type EditMode = (typeof EditModes)[number]
 export type DownloadMode = (typeof DownloadModes)[number]
 export type MeasureMode = (typeof MeasureModes)[number]
+
+export interface DisposableInteraction {
+	interaction: Interaction
+	dispose?: () => void
+}
 
 export interface InteractionOptions {
 	drawing: Ref<boolean>

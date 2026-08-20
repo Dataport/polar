@@ -7,12 +7,12 @@
 import type { FeatureCollection } from 'geojson'
 import type { Feature as OlFeature } from 'ol'
 import type { EventsKey } from 'ol/events'
-import type Interaction from 'ol/interaction/Interaction'
 import type BaseLayer from 'ol/layer/Base'
 import type VectorLayer from 'ol/layer/Vector'
 import type { ComputedRef } from 'vue'
 import type { MeasureMode } from './types'
 import type {
+	DisposableInteraction,
 	DownloadMode,
 	DrawMode,
 	DrawPluginOptions,
@@ -55,7 +55,7 @@ export const useDrawStore = defineStore('plugins/draw', () => {
 	const coreStore = useCoreStore()
 
 	const localLayers: VectorLayer[] = []
-	let currentInteractions: Interaction[] = []
+	let currentInteractions: DisposableInteraction[] = []
 	let sourceListenerKeys: EventsKey[] = []
 
 	const configuration = computed(

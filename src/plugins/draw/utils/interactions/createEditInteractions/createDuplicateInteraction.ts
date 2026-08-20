@@ -1,6 +1,7 @@
 import type { Map } from 'ol'
 import type VectorLayer from 'ol/layer/Vector'
 import type VectorSource from 'ol/source/Vector'
+import type { DisposableInteraction } from '../../../types'
 
 import { Select } from 'ol/interaction'
 
@@ -21,7 +22,7 @@ export function createDuplicateInteraction(
 		drawSource: VectorSource
 		drawLayer: VectorLayer
 	}
-) {
+): DisposableInteraction {
 	const selectInteraction = new Select({ layers: [drawLayer], style: null })
 	const selectedFeatures = selectInteraction.getFeatures()
 
@@ -34,11 +35,11 @@ export function createDuplicateInteraction(
 		selectedFeatures.clear()
 	})
 
-	// @ts-expect-error | local piggyback
-	selectInteraction._onRemove = () => {
-		map.un('pointermove', boundPointerStyle)
-		map.getTargetElement().style.cursor = ''
+	return {
+		interaction: selectInteraction,
+		dispose: () => {
+			map.un('pointermove', boundPointerStyle)
+			map.getTargetElement().style.cursor = ''
+		},
 	}
-
-	return selectInteraction
 }
