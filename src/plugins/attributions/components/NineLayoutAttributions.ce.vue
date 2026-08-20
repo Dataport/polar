@@ -2,9 +2,7 @@
 	<div
 		v-if="renderType === 'independent'"
 		class="polar-plugin-attributions-wrapper"
-		:class="{
-			'open-left': openLeft,
-		}"
+		:class="`open-${spaceDirection}`"
 	>
 		<PolarIconButton
 			:hint="
@@ -14,7 +12,7 @@
 				})
 			"
 			:icon="mapInfoIcon"
-			:tooltip-position="openLeft ? 'left' : 'right'"
+			:tooltip-position="spaceDirection"
 			@click="toggleMapInfo"
 		/>
 		<AttributionContent v-if="windowIsOpen" />
@@ -24,7 +22,6 @@
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
 
 import PolarIconButton from '@/components/PolarIconButton.ce.vue'
 
@@ -33,10 +30,8 @@ import { PluginId } from '../types'
 import AttributionContent from './AttributionContent.ce.vue'
 
 const attributionsStore = useAttributionsStore()
-const { mapInfoIcon, renderType, windowIsOpen } = storeToRefs(attributionsStore)
-const openLeft = computed(() =>
-	attributionsStore.configuration.layoutTag?.includes('RIGHT')
-)
+const { mapInfoIcon, renderType, windowIsOpen, spaceDirection } =
+	storeToRefs(attributionsStore)
 function toggleMapInfo() {
 	windowIsOpen.value = !windowIsOpen.value
 }

@@ -12,6 +12,7 @@ import { computed, ref } from 'vue'
 
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
+import { spaceDetector } from '@/lib/spaceDetector'
 
 import { buildMapInfo } from './utils/buildMapInfo'
 import { formatAttributionText } from './utils/formatAttributionText'
@@ -56,6 +57,7 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 		(configuration.value.staticAttributions || []).map(formatAttributionText)
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
+	const { spaceDirection } = spaceDetector(configuration)
 
 	useStoreWatcher(listenToChanges, updateLayers)
 
@@ -117,6 +119,9 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 
 		/** @internal */
 		renderType,
+
+		/** @internal */
+		spaceDirection,
 
 		/** @internal */
 		windowWidth,

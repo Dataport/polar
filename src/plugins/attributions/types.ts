@@ -1,4 +1,4 @@
-import type { PluginOptions, StoreReference } from '@/core'
+import type { PlaceablePluginOptions, StoreReference } from '@/core'
 
 export const PluginId = 'attributions'
 
@@ -63,7 +63,7 @@ export interface Attribution {
  * All parameters are optional. However, setting neither {@link layerAttributions}
  * nor {@link staticAttributions} results in an empty window.
  */
-export interface AttributionsPluginOptions extends PluginOptions {
+export interface AttributionsPluginOptions extends PlaceablePluginOptions {
 	/**
 	 * Optional icon override.
 	 */
@@ -87,19 +87,6 @@ export interface AttributionsPluginOptions extends PluginOptions {
 	 * Will update the currently visible layers depending on the current map state on changes to these values.
 	 */
 	listenToChanges?: StoreReference[]
-
-	/**
-	 * Defines whether this plugin (`'independent'`) or the IconMenu (`'iconMenu'`)
-	 * should handle opening the information box or if a small information box
-	 * should always be visible (`'footer'`).
-	 *
-	 * @remarks
-	 * Only relevant if {@link MapConfiguration.layout | `layout`} is set to `'nineRegions'`,
-	 * as it is otherwise expected to be rendered as part of the Footer.
-	 *
-	 * @defaultValue 'independent'
-	 */
-	renderType?: 'footer' | 'iconMenu' | 'independent'
 
 	/**
 	 * List of static attributions that are always shown. May contain HTML elements.
