@@ -141,18 +141,8 @@ const addWaypointButtonDisabled = computed(
 		route.value.length - 1
 )
 
-const featuresAvailable = computed(
-	() =>
-		Array.isArray(searchResultsForInput.value) &&
-		searchResultsForInput.value.length > 0 &&
-		searchResultsForInput.value.some(
-			({ features: { features } }) =>
-				Array.isArray(features) && features.length > 0
-		)
-)
-
 function focusResultList(event: KeyboardEvent) {
-	if (!featuresAvailable.value || !Array.isArray(searchResultsForInput.value)) {
+	if (!Array.isArray(searchResultsForInput.value)) {
 		return
 	}
 
