@@ -7,8 +7,8 @@ import Style from 'ol/style/Style'
 import { circlePin, getSVGConfig } from './markerSVG'
 
 const polygonStyle = new PolygonStyle()
-const prefix = 'data:image/svg+xml;base64,'
-const encodeSVG = (svg: string) => btoa(unescape(encodeURIComponent(svg)))
+const prefix = 'data:image/svg+xml,'
+const encodeSVG = (svg: string) => encodeURIComponent(svg)
 
 const getImagePattern = (fill: MarkerStyle['fill']) =>
 	typeof fill === 'string'
