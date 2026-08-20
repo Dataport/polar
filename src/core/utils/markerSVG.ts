@@ -15,8 +15,9 @@ import type {
 export const getSVGConfig: GetSVGConfigFunction = (digits: string) => {
 	switch (digits.length) {
 		case 0:
-		case 1:
 			return circlePin
+		case 1:
+			return circlePinStacked
 		case 2:
 			return twoDigitsPin
 		case 3:

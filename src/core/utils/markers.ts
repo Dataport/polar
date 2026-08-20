@@ -53,21 +53,21 @@ const makeMultiMarker = (
 	viewBox="${svgConfig.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>0A6F4952-4A5A-4E86-88E4-4B3D2EA1E3DF</title>
   ${getImagePattern(fill)}
-  <path fill="url(#a)" ${circlePin.shadowPath} class="shadow-image"/>
+
   <g class="feature-pin-content">
-    <path fill="${stroke}" ${circlePin.shapePath} class="feature-pin-shape"/>
-    <path
-      fill-rule="nonzero"
-      fill="${typeof fill === 'string' ? fill : 'url(#img)'}"
-      ${circlePin.contentPath}
-      class="feature-flag-background"
-    />
-	${
-		!displayFeatureCount || displayedText === undefined
-			? ''
-			: `<text
-                    x="${circlePin.textPosition.x}"
-                    y="${circlePin.textPosition.y}"
+    <path fill="url(#a)" ${svgConfig.stackedShadow2} class="shadow-image"/>
+<path fill="${stroke}" ${svgConfig.stackedShape2} class="feature-pin-shape"/>
+<path fill="url(#b)" ${svgConfig.stackedShadow1} class="shadow-image"/>
+<path fill="${stroke}" ${svgConfig.stackedShape1} class="feature-pin-shape"/>
+<path fill="url(#c)" ${svgConfig.shadowPath} class="shadow-image"/>
+<path fill="${stroke}" ${svgConfig.shapePath} class="feature-pin-shape"/>
+<path fill="${typeof fill === 'string' ? fill : 'url(#img)'}" ${svgConfig.contentPath} class="feature-flag-background"/>
+		${
+			!displayFeatureCount || displayedText === undefined
+				? ''
+				: `<text
+                    x="${svgConfig.textPosition.x}"
+                    y="${svgConfig.textPosition.y}"
                     text-anchor="middle"
                     dy="0.35em"
                     font-size="18"
@@ -77,9 +77,9 @@ const makeMultiMarker = (
                         font-feature-settings="'zero' 1"
                     fill="${stroke}"
                 >${String(displayedText)}</text>`
-	}
+		}
   </g>
-	${circlePin.defs}
+	${svgConfig.defs}
 </svg>
 `)}`
 		: `${prefix}${encodeSVG(`
