@@ -12,7 +12,10 @@
 				class="polar-result-list-category-label"
 			>
 				{{ result.categoryLabel }}
-				{{ resultCountLabel(getResultCount(result.categoryId)) }}
+				<slot
+					name="result-count-label"
+					:count="getResultCount(result.categoryId)"
+				/>
 			</span>
 			<ul
 				:aria-labelledby="`polar-result-list-${componentId}-${result.categoryId}`"
@@ -43,12 +46,7 @@
 							aria-hidden="true"
 							v-html="strongTitleByInput(feature.title, inputValue)"
 						/>
-						<!-- eslint-enable vue/no-v-html -->
-						<component
-							:is="afterResultComponent"
-							v-if="afterResultComponent"
-							:feature="feature"
-						/>
+						<slot />
 					</li>
 				</template>
 			</ul>
@@ -64,7 +62,10 @@
 				@keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
 				@click="toggle(result.categoryId)"
 			>
-				{{ toggleLabel(areResultsExpanded(result.categoryId)) }}
+				<slot
+					name="toggle-label"
+					:expanded="areResultsExpanded(result.categoryId)"
+				/>
 			</KernButton>
 			<hr
 				v-if="i < results.length - 1"
@@ -76,7 +77,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from 'vue'
 import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
 
 import { computed, nextTick, ref, toRaw, watch } from 'vue'
@@ -97,12 +97,9 @@ import { strongTitleByInput } from '@/lib/strongTitleByInput'
 const props = defineProps<{
 	componentId: string
 	searchResults: SearchResult[] | symbol
-	afterResultComponent?: Component | null
 	limitedResults: number
 	inputValue: string
 	selectedGroupId: string
-	resultCountLabel: (count: number) => string
-	toggleLabel: (expanded: boolean) => string
 	focusAfterSearch: boolean
 	focusReturnTargetId?: string
 	resultItemIdPrefix?: string

@@ -26,14 +26,23 @@
 				:search-results="searchResultsForInput"
 				:limited-results="5"
 				:input-value="routeInputValue"
-				:result-count-label="resultCountLabel"
-				:toggle-label="toggleLabel"
 				:selected-group-id="selectedSearchGroupId"
 				:focus-after-search="focusAfterSearch"
 				:focus-return-target-id="`polar-plugin-routing-input-${index}`"
 				:result-item-id-prefix="`polar-result-list-routing-${index}-results-feature`"
 				@select-result="routeStore.selectResult"
-			/>
+			>
+				<template #result-count-label="{ count }">
+					{{ $t(($) => $.resultCount, { count, ns: PluginId }) }}
+				</template>
+				<template #toggle-label="{ expanded }">
+					{{
+						$t(($) => $.resultList[expanded ? 'reduce' : 'extend'], {
+							ns: PluginId,
+						})
+					}}
+				</template>
+			</PolarResultList>
 		</div>
 		<div class="polar-plugin-routing-waypoint-button-wrapper">
 			<KernButton
@@ -63,7 +72,6 @@ import type { Coordinate } from 'ol/coordinate'
 import type { StoreGeneric } from 'pinia'
 import type { PolarGeoJsonFeatureCollection } from '@/core'
 
-import { t } from 'i18next'
 import { computed } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
@@ -169,19 +177,6 @@ function getRouteLabel(index: number) {
 		: index === route.value.length - 1
 			? 'end'
 			: 'middle'
-}
-
-function toggleLabel(expanded: boolean) {
-	return t(($) => $.resultList[expanded ? 'reduce' : 'extend'], {
-		ns: PluginId,
-	})
-}
-
-function resultCountLabel(count: number) {
-	return t(($) => $.resultCount, {
-		count,
-		ns: PluginId,
-	})
 }
 </script>
 
