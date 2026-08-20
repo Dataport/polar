@@ -191,11 +191,6 @@ watch(results, () => {
 	}
 })
 
-// function translate(text: string, textNs?: string): string {
-// 	// @ts-expect-error | Locale keys are dynamic.
-// 	return t(text, { ns: textNs })
-// }
-
 function getResultCount(categoryId: string) {
 	return resultsBySearchMethod.value
 		.filter(
