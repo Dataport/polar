@@ -4,7 +4,8 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { StoreReference } from '@/core'
+import type { Ref } from 'vue'
+import type { PlaceablePluginOptions, StoreReference } from '@/core'
 import type { Attribution } from './types'
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
@@ -57,9 +58,12 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 		(configuration.value.staticAttributions || []).map(formatAttributionText)
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
-	// TODO: Since we're currently not using standard, this is currently not an issue
-	// @ts-expect-error | Known issue, we'll handle this later when it's time to implement standard
-	const { spaceDirection } = spaceDetector(configuration)
+	const { spaceDirection } =
+		configuration.value.renderType !== 'footer'
+			? spaceDetector(configuration as unknown as Ref<PlaceablePluginOptions>)
+			: {
+					spaceDirection: ref('left'),
+				}
 
 	useStoreWatcher(listenToChanges, updateLayers)
 
