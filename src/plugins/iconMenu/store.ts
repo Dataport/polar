@@ -13,7 +13,7 @@ import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, markRaw, ref, toRaw } from 'vue'
 
-import { spaceDetector } from '@/composables/spaceDetector'
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from './types'
@@ -47,7 +47,7 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		() => coreStore.configuration.iconMenu?.layoutTag ?? ''
 	)
 
-	const { spaceDirection } = spaceDetector(configuration)
+	const { spaceDirection } = useSpaceDetector(configuration)
 
 	const visibleMenus = computed(() =>
 		menus.value.map((menuGroup) =>

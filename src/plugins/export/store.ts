@@ -11,7 +11,7 @@ import { t } from 'i18next'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import { spaceDetector } from '@/composables/spaceDetector'
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 import { notifyUser } from '@/lib/notifyUser'
 
@@ -36,7 +36,7 @@ export const useExportStore = defineStore('plugins/export', () => {
 	const renderType = computed(
 		() => configuration.value.renderType || 'independent'
 	)
-	const { spaceDirection } = spaceDetector(configuration)
+	const { spaceDirection } = useSpaceDetector(configuration)
 	const availableFormats = computed(() => {
 		const validFormats =
 			configuration.value.formats?.filter((format) => {

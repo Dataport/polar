@@ -3,7 +3,7 @@ import type { InitialViewPluginOptions } from './types'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 
-import { spaceDetector } from '@/composables/spaceDetector'
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from './types'
@@ -15,7 +15,7 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 		() => coreStore.configuration[PluginId] as InitialViewPluginOptions
 	)
 
-	const { spaceDirection: tooltipPosition } = spaceDetector(configuration)
+	const { spaceDirection: tooltipPosition } = useSpaceDetector(configuration)
 
 	const startCenter = computed(() => coreStore.configuration.startCenter)
 

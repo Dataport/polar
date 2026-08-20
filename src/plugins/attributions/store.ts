@@ -11,7 +11,7 @@ import type { Attribution, AttributionsPluginOptions } from './types'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import { spaceDetector } from '@/composables/spaceDetector'
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
@@ -64,7 +64,7 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
 	const { spaceDirection } = isPlaceableConfiguration(configuration)
-		? spaceDetector(configuration)
+		? useSpaceDetector(configuration)
 		: {
 				spaceDirection: ref<'left'>('left'),
 			}

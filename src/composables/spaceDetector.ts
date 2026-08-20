@@ -10,7 +10,7 @@ import { useCoreStore } from '@/core/stores'
  *
  * * @privateRemarks .𖥔 ݁ ˖ִ🛸༄˖°.⋆⭒˚.⋆🔭👀 Yep, it's space.
  */
-export const spaceDetector = (options: Ref<PlaceablePluginOptions>) => {
+export const useSpaceDetector = (options: Ref<PlaceablePluginOptions>) => {
 	const coreStore = useCoreStore()
 
 	const spaceDirection: ComputedRef<'left' | 'right'> = computed(() =>

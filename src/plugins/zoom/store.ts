@@ -9,7 +9,7 @@ import type { ZoomPluginOptions } from './types'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 
-import { spaceDetector } from '@/composables/spaceDetector'
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from './types'
@@ -60,7 +60,7 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 				['TOP_MIDDLE', 'BOTTOM_MIDDLE'].includes(layoutTag.value))
 	)
 
-	const { spaceDirection: tooltipPosition } = spaceDetector(configuration)
+	const { spaceDirection: tooltipPosition } = useSpaceDetector(configuration)
 
 	const zoomUiVisible = computed(
 		() => configuration.value.showMobile || !coreStore.hasSmallDisplay
