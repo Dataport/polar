@@ -4,7 +4,7 @@ import PolygonStyle from '@masterportal/masterportalapi/src/vectorStyle/styles/p
 import Icon from 'ol/style/Icon'
 import Style from 'ol/style/Style'
 
-import { circlePinStacked, getSVGConfig } from './markerSVG'
+import { circlePin, getSVGConfig } from './markerSVG'
 
 const polygonStyle = new PolygonStyle()
 const prefix = 'data:image/svg+xml;base64,'
