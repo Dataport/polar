@@ -39,8 +39,4 @@ const gfiStore = useGfiStore()
 		overflow: auto;
 	}
 }
-
-button {
-	margin-top: var(--kern-metric-space-small);
-}
 </style>
