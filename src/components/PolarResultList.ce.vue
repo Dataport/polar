@@ -265,13 +265,19 @@ function toggle(category: string) {
 
 		li {
 			display: flex;
-			align-items: center;
+			align-items: flex-start;
 			min-height: var(--kern-metric-dimension-x-large);
-			padding: var(--kern-metric-space-none) var(--kern-metric-space-small);
+			padding: var(--kern-metric-space-2x-small) var(--kern-metric-space-small);
 			margin: var(--kern-metric-space-none) var(--kern-metric-space-small);
 			border-radius: var(--kern-metric-border-radius-default);
 			color: var(--kern-color-layout-text-default);
 			transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+
+			span[aria-hidden='true'] {
+				white-space: normal;
+				overflow-wrap: anywhere;
+				word-break: break-word;
+			}
 
 			&:hover,
 			&:focus {
