@@ -20,7 +20,7 @@ export const resourcesDe = {
 		value: 'Wert',
 	},
 	property: {
-		export: 'Export als PDF',
+		export: 'Export',
 		imageAlt:
 			'Bitte entnehmen Sie Informationen zum Inhalt des Bildes aus den umliegenden Tabellenfeldern',
 		linkTitle: 'In neuem Tab öffnen',
@@ -49,7 +49,7 @@ export const resourcesEn = {
 		value: 'Value',
 	},
 	property: {
-		export: 'Export as a PDF document',
+		export: 'Export',
 		imageAlt:
 			'Please refer to the other table fields for further information about the topics of the displayed picture',
 		linkTitle: 'Open in a new tab',
