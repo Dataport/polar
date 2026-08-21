@@ -24,7 +24,7 @@
 				style="box-shadow: var(--polar-shadow)"
 				:component-id="`routing-${index}`"
 				:search-results="searchResultsForInput"
-				:limited-results="5"
+				:limited-results="limitedResults"
 				:input-value="routeInputValue"
 				:selected-group-id="selectedSearchGroupId"
 				:focus-after-search="focusAfterSearch"
@@ -89,6 +89,9 @@ const props = defineProps<{
 
 const routeStore: StoreGeneric = useRoutingStore()
 const coreStore = useCoreStore()
+const limitedResults = computed(
+	() => coreStore.getPluginStore('addressSearch')?.limitResults ?? 5
+)
 
 const currentlyFocusedInput = computed({
 	get: () => routeStore.currentlyFocusedInput as number,
