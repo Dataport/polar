@@ -2,12 +2,6 @@ import type { Feature } from 'ol'
 
 export type MarkersIsSelectableFunction = (feature: Feature) => boolean
 
-export interface CallOnMapSelect {
-	action: string
-	payload: unknown
-	pluginName?: string
-}
-
 /**
  * A full documentation of the parameters is available at the Masterportal's https://www.masterportal.org/mkdocs/doc/Latest/User/Global-Config/style.json/.
  * For more details, visual examples, and expert features, see there.
@@ -122,26 +116,6 @@ export interface MarkerConfiguration {
 	 * condition a feature is selectable.
 	 */
 	layers: MarkerLayerConfiguration[]
-
-	/**
-	 * If set, the given `action` will be called with the given `payload`. If the
-	 * `pluginName` is set, the action will be called in the respective plugin,
-	 * otherwise the core store is used.
-	 *
-	 * @example
-	 * ```
-	 * callOnMapSelect: {
-	 *   action: 'openMenuById',
-	 *   payload: 'gfi',
-	 *   pluginName: 'iconMenu'
-	 * }
-	 * ```
-	 *
-	 * @remarks
-	 * The example open the gfi window in the iconMenu, if the IconMenu exists
-	 * with the gfi plugin registered under the id `gfi`.
-	 */
-	callOnMapSelect?: CallOnMapSelect
 
 	/**
 	 * If `true`, clicking a cluster feature will zoom into the clustered features'
