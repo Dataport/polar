@@ -21,6 +21,7 @@
 			/>
 			<PolarResultList
 				v-if="showResultList"
+				class="polar-plugin-routing-result-list"
 				style="box-shadow: var(--polar-shadow)"
 				:component-id="`routing-${index}`"
 				:search-results="searchResultsForInput"
@@ -181,5 +182,20 @@ function getRouteLabel(index: number) {
 		display: flex;
 		gap: var(--kern-metric-space-small);
 	}
+}
+
+.polar-plugin-routing-route-wrapper
+	:deep(.polar-plugin-routing-result-list ul li) {
+	align-items: flex-start;
+	padding-top: var(--kern-metric-space-2x-small);
+	padding-bottom: var(--kern-metric-space-2x-small);
+	min-height: var(--kern-metric-dimension-x-large);
+}
+
+.polar-plugin-routing-route-wrapper
+	:deep(.polar-plugin-routing-result-list ul li span[aria-hidden='true']) {
+	white-space: normal;
+	overflow-wrap: anywhere;
+	word-break: break-word;
 }
 </style>
