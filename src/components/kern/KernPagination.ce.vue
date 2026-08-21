@@ -137,6 +137,11 @@ ul {
 	align-items: stretch;
 	justify-content: center;
 	gap: var(--kern-metric-space-small);
+
+	li {
+		display: flex;
+		align-items: center;
+	}
 }
 
 .kern-btn {
