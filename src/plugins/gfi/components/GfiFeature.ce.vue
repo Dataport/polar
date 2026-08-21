@@ -32,11 +32,23 @@
 			</KernButton>
 			<KernButton
 				class="kern-btn--tertiary"
-				icon="kern-icon--close"
+				:icon="
+					gfiStore.configuration.featureList
+						? 'kern-icon--keyboard-double-arrow-right'
+						: 'kern-icon--close'
+				"
 				:label-sr-only="true"
 				@click="gfiStore.selectedFeatures = markRaw({})"
 			>
-				{{ $t(($) => $.header.close, { ns: PluginId }) }}
+				{{
+					$t(
+						($) =>
+							gfiStore.configuration.featureList
+								? $.header.closeToList
+								: $.header.close,
+						{ ns: PluginId }
+					)
+				}}
 			</KernButton>
 		</div>
 	</div>

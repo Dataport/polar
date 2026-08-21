@@ -16,6 +16,7 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	header: {
 		close: 'Informationsfenster schließen',
+		closeToList: 'Zurück zur Liste navigieren',
 		field: 'Feld',
 		value: 'Wert',
 	},
@@ -45,6 +46,7 @@ export const resourcesDe = {
 export const resourcesEn = {
 	header: {
 		close: 'Close information window',
+		closeToList: 'Navigate back to list',
 		field: 'Field',
 		value: 'Value',
 	},
