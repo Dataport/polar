@@ -21,7 +21,7 @@ import { getMarkerStyle } from '../markers'
 let stopWatcher: (() => void) | null = null
 
 // these have been measured to fit once and influence marker size
-const imgSize: [number, number] = [26 * 2, 36 * 2]
+const imgSize: [number, number] = [40 * 2, 36 * 2]
 const imgSizeMulti: [number, number] = [40 * 2, 36 * 2]
 
 const defaultStroke = '#FFFFFF'

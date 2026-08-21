@@ -45,7 +45,7 @@ export interface MarkerStyle {
 	/**
 	 * `width` and `height` of the `<svg>`-cluster-marker.
 	 *
-	 * @defaultValue `[40, 36]`
+	 * @defaultValue `[40 * 2, 36 * 2]`
 	 */
 	clusterSize: [number, number]
 
@@ -57,7 +57,7 @@ export interface MarkerStyle {
 	/**
 	 * `width` and `height` of the `<svg>`-marker.
 	 *
-	 * @defaultValue `[26, 36]`
+	 * @defaultValue `[40 * 2, 36 * 2]`
 	 */
 	size: [number, number]
 
