@@ -2,7 +2,9 @@
 	<div
 		v-if="renderType === 'independent'"
 		class="polar-plugin-attributions-wrapper"
-		:class="`open-${spaceDirection}`"
+		:class="{
+			'open-left': spaceDirection === 'left',
+		}"
 	>
 		<PolarIconButton
 			:hint="
