@@ -138,7 +138,7 @@ function startDownload(url: string) {
 
 	.action-bar-group {
 		display: flex;
-		gap: var(--kern-metric-space-default);
+		gap: var(--kern-metric-space-small);
 	}
 }
 
