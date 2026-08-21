@@ -117,6 +117,12 @@ section.feature-list-item {
 		cursor: pointer;
 	}
 
+	&:focus {
+		border-radius: var(--kern-metric-border-radius-default);
+		border-color: #3fa535;
+		border-style: solid;
+	}
+
 	& > .kern-subline,
 	& > .kern-body {
 		padding: 0;
