@@ -251,7 +251,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		) as Record<string, NonNullable<GfiLayerConfiguration['showTooltip']>>
 	)
 
-	if (gfiMainStore.configuration.renderType === 'iconMenu') {
+	if (gfiMainStore.renderType === 'iconMenu') {
 		// TODO: Find a better solution to wait for this plugin
 		// As, in this case, we render as part of the iconMenu, the iconMenu store will be available soon.
 		void nextTick(() => {
