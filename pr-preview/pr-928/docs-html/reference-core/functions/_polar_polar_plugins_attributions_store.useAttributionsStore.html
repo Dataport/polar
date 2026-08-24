@@ -32,7 +32,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PiniaStore</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type tsd-kind-function">useAttributionsStore</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/a069565d06e03c904bcb74007631299b2c589801/src/plugins/attributions/store.ts#L28">src/plugins/attributions/store.ts:28</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/plugins/attributions/store.ts#L35">src/plugins/attributions/store.ts:35</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -49,6 +49,7 @@
 <a href="#mapinfoicon" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>map<wbr/>Info<wbr/>Icon</span></a>
 <a href="#rendertype" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>render<wbr/>Type</span></a>
 <a href="#setupplugin" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>setup<wbr/>Plugin</span></a>
+<a href="#spacedirection" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>space<wbr/>Direction</span></a>
 <a href="#teardownplugin" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>teardown<wbr/>Plugin</span></a>
 <a href="#windowisopen" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>window<wbr/>Is<wbr/>Open</span></a>
 <a href="#windowwidth" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>window<wbr/>Width</span></a>
@@ -82,7 +83,7 @@ patched with a newer version.</p>
 <h3 class="tsd-anchor-link" id="_instance"><span>_<wbr/>instance</span><a href="#_instance" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_instance</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Pinia</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/a069565d06e03c904bcb74007631299b2c589801/src/@types/pinia.d.ts#L12">src/@types/pinia.d.ts:12</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/@types/pinia.d.ts#L12">src/@types/pinia.d.ts:12</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-external">
 <h3 class="tsd-anchor-link" id="_p"><code class="tsd-tag">Internal</code><span>_<wbr/>p</span><a href="#_p" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_p</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Pinia</span></div>
@@ -133,7 +134,7 @@ Only relevant if MapConfiguration.layout | layout is set to <code>'nineRegions'<
 <li class="tsd-parameter">
 <h5><code class="tsd-tag">Optional</code><span class="tsd-kind-property">initiallyOpen</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
 <div class="tsd-comment tsd-typography"><p>Whether the information box is open by default.
-Only usable when <a href="../interfaces/_polar_polar_plugins_attributions.AttributionsPluginOptions.html#rendertype" class="tsd-kind-property">renderType</a> is set to <code>'independent'</code> and MapConfiguration.layout | <code>layout</code>
+Only usable when <a href="#configuration" class="tsd-kind-property">renderType</a> is set to <code>'independent'</code> and MapConfiguration.layout | <code>layout</code>
 is set to <code>'nineRegions'</code> OR MapConfiguration.layout | <code>layout</code> is set to <code>'standard'</code>.
 Otherwise, the IconMenu or the Footer handles this.</p>
 </div></li>
@@ -153,76 +154,67 @@ ignored otherwise.</p>
 Will update the currently visible layers depending on the current map state on changes to these values.</p>
 </div></li>
 <li class="tsd-parameter">
-<h5><code class="tsd-tag">Optional</code><span class="tsd-kind-property">renderType</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">&quot;footer&quot;</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;iconMenu&quot;</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;independent&quot;</span></h5>
-<div class="tsd-comment tsd-typography"><p>Defines whether this plugin (<code>'independent'</code>) or the IconMenu (<code>'iconMenu'</code>)
-should handle opening the information box or if a small information box
-should always be visible (<code>'footer'</code>).</p>
-</div>
-<div class="tsd-comment tsd-typography">
-<div class="tsd-tag-remarks">
-<h4 class="tsd-anchor-link" id="remarks">Remarks<a href="#remarks" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Only relevant if MapConfiguration.layout | <code>layout</code> is set to <code>'nineRegions'</code>,
-as it is otherwise expected to be rendered as part of the Footer.</p>
-</div>
-<div class="tsd-tag-defaultValue">
-<h4 class="tsd-anchor-link" id="default-value-3">Default Value<a href="#default-value-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><pre><code class="ts"><span class="hl-0">&#39;independent&#39;</span>
-</code><button type="button">Copy</button></pre>
-
-</div></div></li>
+<h5><code class="tsd-tag">Optional</code><span class="tsd-kind-property">renderType</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">&quot;footer&quot;</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;iconMenu&quot;</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;independent&quot;</span></h5></li>
 <li class="tsd-parameter">
 <h5><code class="tsd-tag">Optional</code><span class="tsd-kind-property">staticAttributions</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 <div class="tsd-comment tsd-typography"><p>List of static attributions that are always shown. May contain HTML elements.</p>
 </div></li>
 <li class="tsd-parameter">
 <h5><code class="tsd-tag">Optional</code><span class="tsd-kind-property">windowWidth</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
-<div class="tsd-comment tsd-typography"><p>If <a href="../interfaces/_polar_polar_plugins_attributions.AttributionsPluginOptions.html#rendertype" class="tsd-kind-property">renderType</a> is set to <code>'independent'</code> and MapConfiguration.layout | <code>layout</code>
+<div class="tsd-comment tsd-typography"><p>If <a href="#configuration" class="tsd-kind-property">renderType</a> is set to <code>'independent'</code> and MapConfiguration.layout | <code>layout</code>
 is set to <code>'nineRegions'</code> OR MapConfiguration.layout | <code>layout</code> is set to <code>'standard'</code>,
 sets the width of the container of the attributions.</p>
 </div>
 <div class="tsd-comment tsd-typography">
 <div class="tsd-tag-defaultValue">
-<h4 class="tsd-anchor-link" id="default-value-4">Default Value<a href="#default-value-4" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><pre><code class="ts"><span class="hl-4">500</span>
+<h4 class="tsd-anchor-link" id="default-value-3">Default Value<a href="#default-value-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><pre><code class="ts"><span class="hl-4">500</span>
 </code><button type="button">Copy</button></pre>
 
 </div></div></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/a069565d06e03c904bcb74007631299b2c589801/src/plugins/attributions/store.ts#L110">src/plugins/attributions/store.ts:110</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/plugins/attributions/store.ts#L122">src/plugins/attributions/store.ts:122</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="mapinfo"><code class="tsd-tag">Internal</code><span>map<wbr/>Info</span><a href="#mapinfo" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">mapInfo</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/a069565d06e03c904bcb74007631299b2c589801/src/plugins/attributions/store.ts#L113">src/plugins/attributions/store.ts:113</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/plugins/attributions/store.ts#L125">src/plugins/attributions/store.ts:125</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="mapinfoicon"><code class="tsd-tag">Internal</code><span>map<wbr/>Info<wbr/>Icon</span><a href="#mapinfoicon" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">mapInfoIcon</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/a069565d06e03c904bcb74007631299b2c589801/src/plugins/attributions/store.ts#L116">src/plugins/attributions/store.ts:116</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/plugins/attributions/store.ts#L128">src/plugins/attributions/store.ts:128</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="rendertype"><code class="tsd-tag">Internal</code><span>render<wbr/>Type</span><a href="#rendertype" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">renderType</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;footer&quot;</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;iconMenu&quot;</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;independent&quot;</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/a069565d06e03c904bcb74007631299b2c589801/src/plugins/attributions/store.ts#L119">src/plugins/attributions/store.ts:119</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/plugins/attributions/store.ts#L131">src/plugins/attributions/store.ts:131</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="setupplugin"><code class="tsd-tag">Internal</code><span>setup<wbr/>Plugin</span><a href="#setupplugin" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">setupPlugin</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">()</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/a069565d06e03c904bcb74007631299b2c589801/src/plugins/attributions/store.ts#L125">src/plugins/attributions/store.ts:125</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/plugins/attributions/store.ts#L140">src/plugins/attributions/store.ts:140</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="spacedirection"><code class="tsd-tag">Internal</code><span>space<wbr/>Direction</span><a href="#spacedirection" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">spaceDirection</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;left&quot;</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;right&quot;</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/plugins/attributions/store.ts#L134">src/plugins/attributions/store.ts:134</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="teardownplugin"><code class="tsd-tag">Internal</code><span>teardown<wbr/>Plugin</span><a href="#teardownplugin" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">teardownPlugin</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">()</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">void</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/a069565d06e03c904bcb74007631299b2c589801/src/plugins/attributions/store.ts#L128">src/plugins/attributions/store.ts:128</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/plugins/attributions/store.ts#L143">src/plugins/attributions/store.ts:143</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="windowisopen"><code class="tsd-tag">Internal</code><span>window<wbr/>Is<wbr/>Open</span><a href="#windowisopen" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">windowIsOpen</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 <div class="tsd-comment tsd-typography"><p>Only relevant if the plugin controls the toggling of the window itself.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/a069565d06e03c904bcb74007631299b2c589801/src/plugins/attributions/store.ts#L107">src/plugins/attributions/store.ts:107</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/plugins/attributions/store.ts#L119">src/plugins/attributions/store.ts:119</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="windowwidth"><code class="tsd-tag">Internal</code><span>window<wbr/>Width</span><a href="#windowwidth" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">windowWidth</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/a069565d06e03c904bcb74007631299b2c589801/src/plugins/attributions/store.ts#L122">src/plugins/attributions/store.ts:122</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/3e0e3ed4b96e999b96d5cfbbfbb19e862c18f0e4/src/plugins/attributions/store.ts#L137">src/plugins/attributions/store.ts:137</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-external">
 <h3 class="tsd-anchor-link" id="_getters"><code class="tsd-tag">Optional</code> <code class="tsd-tag">Internal</code><span>_<wbr/>getters</span><a href="#_getters" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_getters</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
@@ -278,7 +270,7 @@ sets the width of the container of the attributions.</p>
 <h3>On This Page</h3></summary>
 <div class="tsd-accordion-details">
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Properties</summary>
-<div><a href="#_hmrpayload" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>hmr<wbr/>Payload</span></a><a href="#_hotupdating" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>hot<wbr/>Updating</span></a><a href="#_instance"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>instance</span></a><a href="#_p" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>p</span></a><a href="#configuration"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>configuration</span></a><a href="#mapinfo"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>map<wbr/>Info</span></a><a href="#mapinfoicon"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>map<wbr/>Info<wbr/>Icon</span></a><a href="#rendertype"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>render<wbr/>Type</span></a><a href="#setupplugin"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>setup<wbr/>Plugin</span></a><a href="#teardownplugin"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>teardown<wbr/>Plugin</span></a><a href="#windowisopen"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>window<wbr/>Is<wbr/>Open</span></a><a href="#windowwidth"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>window<wbr/>Width</span></a><a href="#_getters" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>getters</span></a><a href="#_isoptionsapi" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>is<wbr/>Options<wbr/>API</span></a><a href="#_pinia" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>pinia</span></a></div></details>
+<div><a href="#_hmrpayload" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>hmr<wbr/>Payload</span></a><a href="#_hotupdating" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>hot<wbr/>Updating</span></a><a href="#_instance"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>instance</span></a><a href="#_p" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>p</span></a><a href="#configuration"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>configuration</span></a><a href="#mapinfo"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>map<wbr/>Info</span></a><a href="#mapinfoicon"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>map<wbr/>Info<wbr/>Icon</span></a><a href="#rendertype"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>render<wbr/>Type</span></a><a href="#setupplugin"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>setup<wbr/>Plugin</span></a><a href="#spacedirection"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>space<wbr/>Direction</span></a><a href="#teardownplugin"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>teardown<wbr/>Plugin</span></a><a href="#windowisopen"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>window<wbr/>Is<wbr/>Open</span></a><a href="#windowwidth"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>window<wbr/>Width</span></a><a href="#_getters" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>getters</span></a><a href="#_isoptionsapi" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>is<wbr/>Options<wbr/>API</span></a><a href="#_pinia" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>_<wbr/>pinia</span></a></div></details>
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Methods</summary>
 <div><a href="#_hotupdate" class="tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>_<wbr/>hot<wbr/>Update</span></a></div></details></div></details></div>
 <div class="site-menu">
