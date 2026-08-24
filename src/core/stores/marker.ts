@@ -224,6 +224,12 @@ export const useMarkerStore = defineStore('marker', () => {
 			.forEach((layer) => {
 				// only vector layers reach this
 				const source = (layer as VectorLayer).getSource()
+				const stampFeature = (feature: Feature) => {
+					feature.set('_polarLayerId', layer.get('id'), true)
+					;(feature.get('features') || []).forEach((feature) => {
+						feature.set('_polarLayerId', layer.get('id'), true)
+					})
+				}
 				if (source !== null) {
 					// @ts-expect-error | Undocumented hook.
 					source.geometryFunction =
@@ -234,12 +240,12 @@ export const useMarkerStore = defineStore('marker', () => {
 						// @ts-expect-error | Undocumented hook.
 						source.geometryFunction = undefined
 					})
+					source.getFeatures().forEach((feature) => {
+						stampFeature(feature)
+					})
 					listenerKeys.push(
 						source.on('addfeature', (event) => {
-							event.feature.set('_polarLayerId', layer.get('id'), true)
-							;(event.feature.get('features') || []).forEach((feature) => {
-								feature.set('_polarLayerId', layer.get('id'), true)
-							})
+							stampFeature(event.feature)
 						})
 					)
 				}
