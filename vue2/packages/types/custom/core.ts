@@ -1,12 +1,9 @@
-import { Feature, Map } from 'ol'
 import { Options as Fill } from 'ol/style/Fill'
 import { Options as Stroke } from 'ol/style/Stroke'
 import { type Options as TextOptions } from 'ol/style/Text'
 import { Size } from 'ol/size'
 import { Color } from 'ol/color'
 import { ColorLike } from 'ol/colorlike'
-import { Feature as GeoJsonFeature } from 'geojson'
-import { VueConstructor } from 'vue'
 
 /**
  *
@@ -56,7 +53,7 @@ export interface Lasso {
 	minZoom: boolean
 }
 
-export interface DrawConfiguration extends Partial<PluginOptions> {
+export interface DrawConfiguration /*extends Partial<PluginOptions>*/ {
 	addLoading?: string
 	enableOptions?: boolean
 	lassos?: Lasso[]
