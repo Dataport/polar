@@ -1,9 +1,9 @@
-import type { ComputedRef } from 'vue'
 import type { InitialViewPluginOptions } from './types'
 
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from './types'
@@ -15,21 +15,7 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 		() => coreStore.configuration[PluginId] as InitialViewPluginOptions
 	)
 
-	const layoutTag = computed(() => configuration.value.layoutTag ?? '')
-
-	const renderType = computed(
-		() => configuration.value.renderType ?? 'independent'
-	)
-
-	const tooltipPosition = computed(() =>
-		renderType.value === 'independent'
-			? layoutTag.value.includes('RIGHT')
-				? 'left'
-				: 'right'
-			: coreStore.getPluginStore('iconMenu')?.layoutTag.includes('RIGHT')
-				? 'left'
-				: 'right'
-	) as ComputedRef<'left' | 'right'>
+	const { spaceDirection: tooltipPosition } = useSpaceDetector(configuration)
 
 	const startCenter = computed(() => coreStore.configuration.startCenter)
 
@@ -70,6 +56,10 @@ export const useInitialViewStore = defineStore('plugins/initialView', () => {
 		tooltipPosition,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useInitialViewStore, import.meta.hot))
+}
 
 if (import.meta.vitest) {
 	const { createPinia, setActivePinia } = await import('pinia')
