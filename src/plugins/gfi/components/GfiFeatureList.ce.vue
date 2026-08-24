@@ -108,18 +108,20 @@ section.feature-list-item {
 
 	&.hovered,
 	&:hover {
-		background-color: #dff0dd;
+		background-color: oklch(0.9373 0.031 142.34);
+	}
+
+	&:hover,
+	&:focus {
+		border-radius: var(--kern-metric-border-radius-default);
+		border-color: oklch(0.639 0.177 141.85);
 	}
 
 	&:hover {
-		border-radius: var(--kern-metric-border-radius-default);
-		border-color: #3fa535;
 		cursor: pointer;
 	}
 
 	&:focus {
-		border-radius: var(--kern-metric-border-radius-default);
-		border-color: #3fa535;
 		border-style: solid;
 	}
 
