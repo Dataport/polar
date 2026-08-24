@@ -1,4 +1,4 @@
-import type { Feature, Map } from 'ol'
+import type { Feature, Map as OlMap } from 'ol'
 import type { Point } from 'ol/geom'
 import type {
 	ColorScheme,
@@ -33,7 +33,7 @@ export const useMainStore = defineStore('main', () => {
 	const extent = ref([0, 0, 0, 0])
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
-	const map = shallowRef({} as Map)
+	const map = shallowRef({} as OlMap)
 	const serviceRegister = ref<MasterportalApiServiceRegister>([])
 	const shadowRoot = ref<ShadowRoot | null>(null)
 
@@ -98,19 +98,24 @@ export const useMainStore = defineStore('main', () => {
 	}
 
 	// TODO: Check if this works as expected in all combinations when draw is migrated
-	const maskedInteractions = ref(new globalThis.Map<string, PluginId>())
-	function maskInteraction(pluginId: PluginId, interaction: string) {
+	const maskedInteractions = ref(
+		new Map<string, { pluginId: PluginId; teardown: () => void }>()
+	)
+	function maskInteraction(
+		pluginId: PluginId,
+		interaction: string,
+		setup: () => void,
+		teardown: () => void
+	) {
 		if (maskedInteractions.value.has(interaction)) {
-			throw new Error(
-				`Interaction "${interaction}" is already masked by plugin "${maskedInteractions.value.get(
-					interaction
-				)}"`
-			)
+			maskedInteractions.value.get(interaction)?.teardown()
 		}
-		maskedInteractions.value.set(interaction, pluginId)
+		maskedInteractions.value.set(interaction, { pluginId, teardown })
+		setup()
 	}
 	function unmaskInteraction(pluginId: PluginId, interaction: string) {
-		if (maskedInteractions.value.get(interaction) === pluginId) {
+		if (maskedInteractions.value.get(interaction)?.pluginId === pluginId) {
+			maskedInteractions.value.get(interaction)?.teardown()
 			maskedInteractions.value.delete(interaction)
 		}
 	}
@@ -168,7 +173,7 @@ if (import.meta.hot) {
 }
 
 if (import.meta.vitest) {
-	const { expect, test: _test } = import.meta.vitest
+	const { vi, expect, test: _test } = import.meta.vitest
 	const { createPinia, setActivePinia } = await import('pinia')
 
 	/* eslint-disable no-empty-pattern */
@@ -185,30 +190,52 @@ if (import.meta.vitest) {
 	})
 	/* eslint-enable no-empty-pattern */
 
-	test('Masking interactions works as expected', ({ store }) => {
+	test('interactions can be masked and unmasked', ({ store }) => {
 		const pluginId = 'external-test-plugin'
 		const interaction = 'click'
+		const setup = vi.fn()
+		const teardown = vi.fn()
 
 		expect(store.isInteractionMasked(interaction)).toBe(false)
 
-		store.maskInteraction(pluginId, interaction)
+		store.maskInteraction(pluginId, interaction, setup, teardown)
 		expect(store.isInteractionMasked(interaction)).toBe(true)
+		expect(setup).toHaveBeenCalledTimes(1)
+		expect(teardown).toHaveBeenCalledTimes(0)
 
 		store.unmaskInteraction(pluginId, interaction)
 		expect(store.isInteractionMasked(interaction)).toBe(false)
+		expect(setup).toHaveBeenCalledTimes(1)
+		expect(teardown).toHaveBeenCalledTimes(1)
 	})
 
-	test('Masking interactions twice fails', ({ store }) => {
-		const pluginId = 'external-test-plugin'
+	test('masking the same interaction twice tears down the previous mask', ({
+		store,
+	}) => {
 		const interaction = 'click'
+		const firstPluginId = 'external-test-plugin'
+		const firstSetup = vi.fn()
+		const firstTeardown = vi.fn()
+		const secondPluginId = 'external-second-test-plugin'
+		const secondSetup = vi.fn()
+		const secondTeardown = vi.fn()
 
 		expect(store.isInteractionMasked(interaction)).toBe(false)
 
-		store.maskInteraction(pluginId, interaction)
+		store.maskInteraction(firstPluginId, interaction, firstSetup, firstTeardown)
 		expect(store.isInteractionMasked(interaction)).toBe(true)
+		expect(firstSetup).toHaveBeenCalledTimes(1)
+		expect(firstTeardown).toHaveBeenCalledTimes(0)
 
-		expect(() => {
-			store.maskInteraction(pluginId, interaction)
-		}).toThrow()
+		store.maskInteraction(
+			secondPluginId,
+			interaction,
+			secondSetup,
+			secondTeardown
+		)
+		expect(store.isInteractionMasked(interaction)).toBe(true)
+		expect(firstTeardown).toHaveBeenCalledTimes(1)
+		expect(secondSetup).toHaveBeenCalledTimes(1)
+		expect(secondTeardown).toHaveBeenCalledTimes(0)
 	})
 }

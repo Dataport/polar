@@ -10,7 +10,7 @@
 		:icon="
 			fullscreenEnabled ? 'kern-icon--fullscreen-exit' : 'kern-icon--fullscreen'
 		"
-		tooltip-position="left"
+		:tooltip-position="spaceDirection"
 		@click="() => (fullscreenEnabled = !fullscreenEnabled)"
 	/>
 </template>
@@ -27,7 +27,7 @@ import { PluginId } from '../types'
 
 const coreStore = useCoreStore()
 const fullscreenStore = useFullscreenStore()
-const { fullscreenEnabled } = storeToRefs(fullscreenStore)
+const { fullscreenEnabled, spaceDirection } = storeToRefs(fullscreenStore)
 
 const buttonClass = computed(() =>
 	coreStore.layout === 'standard' ? 'polar-plugin-fullscreen-standard' : ''

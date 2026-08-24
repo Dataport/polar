@@ -6,13 +6,14 @@
 
 import type { Component } from 'vue'
 import type { Icon } from '@/core'
-import type { Menu } from './types'
+import type { IconMenuPluginOptions, Menu } from './types'
 
 import { toMerged } from 'es-toolkit'
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, markRaw, ref, toRaw } from 'vue'
 
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from './types'
@@ -26,6 +27,10 @@ import { PluginId } from './types'
 /* eslint-enable tsdoc/syntax */
 export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	const coreStore = useCoreStore()
+
+	const configuration = computed(
+		() => coreStore.configuration[PluginId] as IconMenuPluginOptions
+	)
 
 	const menus = ref<Array<Menu[]>>([])
 	const focusMenus = ref<(Menu & { icon: Icon })[]>([])
@@ -41,6 +46,8 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 	const layoutTag = computed(
 		() => coreStore.configuration.iconMenu?.layoutTag ?? ''
 	)
+
+	const { spaceDirection } = useSpaceDetector(configuration)
 
 	const visibleMenus = computed(() =>
 		menus.value.map((menuGroup) =>
@@ -188,6 +195,9 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 
 		/** @alpha */
 		layoutTag,
+
+		/** @internal */
+		spaceDirection,
 
 		/** @internal */
 		setupPlugin,

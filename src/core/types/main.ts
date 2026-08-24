@@ -8,6 +8,7 @@ import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
 import type { GfiPluginOptions } from '@/plugins/gfi'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
+import type { InitialViewPluginOptions } from '@/plugins/initialView'
 import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
 import type { PinsPluginOptions } from '@/plugins/pins'
 import type { PointerPositionPluginOptions } from '@/plugins/pointerPosition'
@@ -346,6 +347,9 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 
 	/** Configuration for iconMenu plugin. */
 	iconMenu?: IconMenuPluginOptions
+
+	/** Configuration for initialView plugin. */
+	initialView?: InitialViewPluginOptions
 
 	/** Configuration for loadingIndicator plugin. */
 	loadingIndicator?: LoadingIndicatorOptions

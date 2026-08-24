@@ -16,6 +16,7 @@ import Fullscreen from '@/plugins/fullscreen'
 import GeoLocation from '@/plugins/geoLocation'
 import Gfi from '@/plugins/gfi'
 import IconMenu from '@/plugins/iconMenu'
+import InitialView from '@/plugins/initialView'
 import LayerChooser from '@/plugins/layerChooser'
 import LoadingIndicator from '@/plugins/loadingIndicator'
 import Pins from '@/plugins/pins'
@@ -31,6 +32,9 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 		layoutTag: 'TOP_RIGHT',
 		menus: [
 			[
+				enabledPlugins.includes('initialView') && {
+					plugin: InitialView({ renderType: 'iconMenu' }),
+				},
 				enabledPlugins.includes('fullscreen') && {
 					plugin: Fullscreen({ renderType: 'iconMenu' }),
 				},
@@ -75,7 +79,7 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 					layoutTag: 'BOTTOM_LEFT',
 				}),
 			enabledPlugins.includes('reverseGeocoder') &&
-				ReverseGeocoder({ url: '' }),
+				ReverseGeocoder({ url: '', type: 'wps' }),
 			enabledPlugins.includes('scale') &&
 				Scale({
 					displayComponent: true,
@@ -98,7 +102,7 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
  * @param serviceRegister - Service register given as an array, or a URL to fetch this from.
  * @param mapConfiguration - Configuration options. Only plugins that have a configuration will be created.
  *                           To enable a plugin with default configuration, add its key with an empty object.
- *                           The plugins with the ids 'fullscreen', 'geoLocation', 'gfi', 'routing' and 'layerChooser' are added
+ *                           The plugins with the ids 'fullscreen', 'geoLocation', 'gfi', 'initialView', 'routing' and 'layerChooser' are added
  *                           to the IconMenu. The IconMenu, Toast, LayerChooser and LoadingIndicator are enabled by default.
  * @param modifyServiceRegister - Optionally modify the serviceRegister. This may be useful if a pre-existing register is used.
  *

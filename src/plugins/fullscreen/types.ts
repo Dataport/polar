@@ -1,4 +1,4 @@
-import type { InterfacePluginOptions } from '@/core'
+import type { PlaceablePluginOptions } from '@/core'
 
 /**
  * Plugin identifier.
@@ -8,7 +8,7 @@ export const PluginId = 'fullscreen'
 /**
  * Plugin options for fullscreen plugin.
  */
-export interface FullscreenPluginOptions extends InterfacePluginOptions {
+export interface FullscreenPluginOptions extends PlaceablePluginOptions {
 	/**
 	 * Defines the target container to show in fullscreen mode.
 	 * This defaults to the web component (i.e., the map with its plugin controls).

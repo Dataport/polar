@@ -22,6 +22,7 @@ import VectorSource from 'ol/source/Vector'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 import { notifyUser } from '@/lib/notifyUser'
 import { passesBoundaryCheck } from '@/lib/passesBoundaryCheck'
@@ -58,9 +59,10 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		)
 	)
 	const boundary = computed(() => configuration.value.boundary)
-	const renderType = computed<GeoLocationPluginOptions['renderType']>(
+	const renderType = computed(
 		() => configuration.value.renderType || 'independent'
 	)
+	const { spaceDirection } = useSpaceDetector(configuration)
 	const state = computed<PluginState>(() => {
 		if (isGeolocationDenied.value) {
 			return 'DISABLED'
@@ -326,6 +328,11 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		 * @internal
 		 */
 		renderType,
+
+		/**
+		 * @internal
+		 */
+		spaceDirection,
 
 		/**
 		 * The plugin's current state. It can either currently have the user's

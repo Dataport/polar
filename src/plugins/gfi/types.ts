@@ -6,7 +6,7 @@ import type TileLayer from 'ol/layer/Tile'
 import type { ImageWMS, TileWMS } from 'ol/source'
 import type { Options as Fill } from 'ol/style/Fill'
 import type { Options as Stroke } from 'ol/style/Stroke'
-import type { Icon, InterfacePluginOptions, StoreReference } from '@/core'
+import type { Icon, PlaceablePluginOptions, StoreReference } from '@/core'
 
 /**
  * Plugin identifier.
@@ -277,7 +277,7 @@ export interface MultiSelect {
  * }
  * ```
  */
-export interface GfiPluginOptions extends InterfacePluginOptions {
+export interface GfiPluginOptions extends PlaceablePluginOptions {
 	/**
 	 * Maps a string (must be a layer ID) to a behaviour configuration for that layer.
 	 */

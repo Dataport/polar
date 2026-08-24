@@ -1,4 +1,4 @@
-import type { InterfacePluginOptions, StoreReference } from '@/core'
+import type { PlaceablePluginOptions, StoreReference } from '@/core'
 
 export const PluginId = 'attributions'
 
@@ -63,7 +63,10 @@ export interface Attribution {
  * All parameters are optional. However, setting neither {@link layerAttributions}
  * nor {@link staticAttributions} results in an empty window.
  */
-export interface AttributionsPluginOptions extends InterfacePluginOptions {
+export type AttributionsPluginOptions = Omit<
+	PlaceablePluginOptions,
+	'renderType'
+> & {
 	/**
 	 * Optional icon override.
 	 */
@@ -88,18 +91,7 @@ export interface AttributionsPluginOptions extends InterfacePluginOptions {
 	 */
 	listenToChanges?: StoreReference[]
 
-	/**
-	 * Defines whether this plugin (`'independent'`) or the IconMenu (`'iconMenu'`)
-	 * should handle opening the information box or if a small information box
-	 * should always be visible (`'footer'`).
-	 *
-	 * @remarks
-	 * Only relevant if {@link MapConfiguration.layout | `layout`} is set to `'nineRegions'`,
-	 * as it is otherwise expected to be rendered as part of the Footer.
-	 *
-	 * @defaultValue 'independent'
-	 */
-	renderType?: 'footer' | 'iconMenu' | 'independent'
+	renderType?: PlaceablePluginOptions['renderType'] | 'footer'
 
 	/**
 	 * List of static attributions that are always shown. May contain HTML elements.

@@ -5,7 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import type {
-	InterfacePluginOptions,
+	PlaceablePluginOptions,
 	PluginContainer,
 	PolarPluginStore,
 } from '@/core'
@@ -29,7 +29,7 @@ import { PluginId } from './types'
  * @returns Plugin for use with {@link addPlugin}.
  */
 export default function pluginLayerChooser(
-	options: InterfacePluginOptions
+	options: PlaceablePluginOptions
 ): PluginContainer {
 	return {
 		id: PluginId,

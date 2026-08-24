@@ -12,7 +12,11 @@ const clusterByFeature = new WeakMap<Feature, Feature>()
  * Helper function to retrieve the related cluster of a feature.
  * Returns the feature if it's a cluster feature, or the cluster the feature is in.
  */
-export default function (map: Map, feature: Feature, layerId: string): Feature {
+export default function getCluster(
+	map: Map,
+	feature: Feature,
+	layerId: string
+): Feature {
 	if (feature.get('features')) {
 		return feature
 	}
