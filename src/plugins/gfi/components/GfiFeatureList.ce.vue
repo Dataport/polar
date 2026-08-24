@@ -1,7 +1,7 @@
 <template>
 	<header class="kern-card__header">
 		<hgroup>
-			<h2 class="kern-heading-medium">
+			<h2 class="kern-title">
 				<span
 					v-if="gfiStore.configuration.featureList?.icon"
 					class="kern-icon"
@@ -74,60 +74,56 @@ async function setSelectedFeature(layerId: string, feature: Feature) {
 </script>
 
 <style scoped>
-header.kern-card__header {
+header {
 	padding: 0 var(--kern-metric-space-small);
+
+	h2 {
+		display: flex;
+		align-items: center;
+		gap: var(--kern-metric-space-small);
+	}
 }
 
-hgroup {
-	width: 100%;
-}
-
-h2.kern-heading-medium {
-	display: flex;
-	align-items: center;
-	gap: var(--kern-metric-space-small);
-}
-
-.polar-plugin-gfi-list-empty-view {
-	padding: var(--kern-metric-space-small);
-	text-wrap: wrap;
-}
-
-section.kern-card__body {
+.kern-card__body {
 	gap: 0;
-}
 
-section.feature-list-item {
-	width: 100%;
-	padding: var(--kern-metric-space-small);
-	overflow: hidden;
-	text-overflow: ellipsis;
-	border-width: var(--kern-metric-border-width-default);
-	border-style: dashed;
-	border-color: transparent;
-
-	&.hovered,
-	&:hover {
-		background-color: oklch(0.9373 0.031 142.34);
+	.polar-plugin-gfi-list-empty-view {
+		padding: var(--kern-metric-space-small);
+		text-wrap: wrap;
 	}
 
-	&:hover,
-	&:focus {
-		border-radius: var(--kern-metric-border-radius-default);
-		border-color: oklch(0.639 0.177 141.85);
-	}
+	.feature-list-item {
+		width: 100%;
+		padding: var(--kern-metric-space-small);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		border-width: var(--kern-metric-border-width-default);
+		border-style: dashed;
+		border-color: transparent;
 
-	&:hover {
-		cursor: pointer;
-	}
+		&.hovered,
+		&:hover {
+			background-color: oklch(0.9373 0.031 142.34);
+		}
 
-	&:focus {
-		border-style: solid;
-	}
+		&:hover,
+		&:focus {
+			border-radius: var(--kern-metric-border-radius-default);
+			border-color: oklch(0.639 0.177 141.85);
+		}
 
-	& > .kern-subline,
-	& > .kern-body {
-		padding: 0;
+		&:hover {
+			cursor: pointer;
+		}
+
+		&:focus {
+			border-style: solid;
+		}
+
+		& > .kern-subline,
+		& > .kern-body {
+			padding: 0;
+		}
 	}
 }
 </style>
