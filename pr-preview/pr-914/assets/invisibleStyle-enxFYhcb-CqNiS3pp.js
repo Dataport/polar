@@ -1,0 +1,1 @@
+import{M as e}from"./Style-DJNi0zjU-C_PpEzHC.js";var t=new e,n=e=>e.getStyle()===t,r=e=>e.getStyle()!==t,i=e=>{r(e)&&e.setStyle(t)},a=e=>{n(e)&&e.setStyle()};export{t as a,r as i,i as n,n as r,a as t};
