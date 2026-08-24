@@ -70,7 +70,10 @@ export const useReverseGeocoderStore = defineStore(
 			targetStore[target.key](feature)
 		}
 
-		async function reverseGeocode(coordinate: [number, number]) {
+		async function reverseGeocode(
+			coordinate: [number, number],
+			forwardToAddressTarget = true
+		) {
 			const finish = indicateLoading()
 			if (abortController.value) {
 				abortController.value.abort()
@@ -93,7 +96,7 @@ export const useReverseGeocoderStore = defineStore(
 					epsg: coreStore.configuration.epsg,
 					signal,
 				})
-				if (configuration.value.addressTarget) {
+				if (configuration.value.addressTarget && forwardToAddressTarget) {
 					passFeatureToTarget(configuration.value.addressTarget, feature)
 				}
 				if (configuration.value.zoomTo) {
