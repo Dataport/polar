@@ -6,7 +6,6 @@
 
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
-import type { PolarGeoJsonFeature } from '@/core'
 import type {
 	RoutingPluginOptions,
 	RoutingResponseData,
@@ -46,17 +45,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	let abortController: AbortController | null = null
 	let draw: Draw | undefined
 
-	const pendingReverseGeocode = ref<{
-		coordinate: Coordinate
-		index: number
-	} | null>(null)
-
 	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
 	const routeAddressTexts = ref<(string | null)[]>([null, null])
-	const reverseGeocodeCoordinate = computed(
-		() => pendingReverseGeocode.value?.coordinate ?? null
-	)
 	const routingResponseData = ref<RoutingResponseData | null>(null)
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
@@ -64,6 +55,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const configuration = computed(
 		() => (coreStore.configuration.routing || {}) as RoutingPluginOptions
+	)
+	const hasReverseGeocoder = computed(
+		() => !!coreStore.getPluginStore('reverseGeocoder')
 	)
 	const currentlyFocusedInput = computed({
 		get: () => _currentlyFocusedInput.value,
@@ -167,11 +161,19 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		).filter(({ value }) => selectableTravelModes.value.includes(value))
 	)
 
-	function addCoordinateToRoute(coordinate: Coordinate) {
+	async function addCoordinateToRoute(coordinate: Coordinate) {
 		const index = currentlyFocusedInput.value
-		pendingReverseGeocode.value = { coordinate, index }
 		route.value = route.value.toSpliced(index, 1, coordinate)
 		routeAddressTexts.value = routeAddressTexts.value.toSpliced(index, 1, '')
+		if (hasReverseGeocoder.value) {
+			const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
+			const [x, y] = coordinate
+			if (x === undefined || y === undefined) {
+				return
+			}
+			const feature = await reverseGeocoderStore?.reverseGeocode([x, y], false)
+			routeAddressTexts.value[index] = feature?.title ?? ''
+		}
 	}
 
 	async function fetchRoute(signal: AbortSignal): Promise<RoutingResponseData> {
@@ -241,8 +243,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	function initializeDraw() {
 		draw = new Draw({ stopClick: true, type: 'Point' })
-		draw.on('drawend', (e) => {
-			addCoordinateToRoute((e.feature.getGeometry() as Point).getCoordinates())
+		draw.on('drawend', async (e) => {
+			await addCoordinateToRoute(
+				(e.feature.getGeometry() as Point).getCoordinates()
+			)
 			coreStore.unmaskInteraction('routing', 'click')
 			currentlyFocusedInput.value = -1
 		})
@@ -319,7 +323,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	function reset() {
 		route.value = [[], []]
 		routeAddressTexts.value = [null, null]
-		pendingReverseGeocode.value = null
 		currentlyFocusedInput.value = -1
 		selectedPreference.value = 'recommended'
 		selectedTravelMode.value = 'driving-car'
@@ -341,13 +344,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		routeAddressTexts.value = remove
 			? routeAddressTexts.value.toSpliced(index, 1)
 			: routeAddressTexts.value.toSpliced(index, 0, null)
-	}
-
-	function selectRouteResult(feature: PolarGeoJsonFeature) {
-		const pendingIndex = pendingReverseGeocode.value?.index
-		if (pendingIndex !== undefined && pendingIndex > -1) {
-			routeAddressTexts.value[pendingIndex] = feature.title
-		}
 	}
 
 	return {
@@ -422,9 +418,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 */
 		travelModes,
 
-		/** @alpha */
-		reverseGeocodeCoordinate,
-
 		/**
 		 * Resets the state and clears the route layer source.
 		 *
@@ -438,14 +431,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * @alpha
 		 */
 		setRoute,
-
-		/**
-		 * Sets the address label for a given coordinate in the route.
-		 *
-		 * @param feature - The feature returned by the reverse geocoder.
-		 * @alpha
-		 */
-		selectRouteResult,
 
 		/**
 		 * Value of {@link RoutingPluginOptions.displayPreferences}.
