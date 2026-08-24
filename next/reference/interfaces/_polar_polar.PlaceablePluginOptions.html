@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>InitialViewPluginOptions | POLAR reference</title><meta name="description" content="Documentation for POLAR reference"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>PlaceablePluginOptions | POLAR reference</title><meta name="description" content="Documentation for POLAR reference"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container"><a href="../index.html" class="title">POLAR reference</a>
 <div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
 <ul role="listbox" id="tsd-search-results"></ul>
@@ -8,13 +8,13 @@
 <div class="col-content">
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb" aria-label="Breadcrumb">
-<li><a href="../modules/_polar_polar_plugins_InitialView.html">@polar/polar/plugins/InitialView</a></li>
-<li><a href="" aria-current="page">InitialViewPluginOptions</a></li></ul>
-<h1>Interface InitialViewPluginOptions</h1></div>
+<li><a href="../modules/_polar_polar.html">@polar/polar</a></li>
+<li><a href="" aria-current="page">PlaceablePluginOptions</a></li></ul>
+<h1>Interface PlaceablePluginOptions</h1></div>
 <section class="tsd-panel tsd-comment">
 <div class="tsd-comment tsd-typography"><p>Generic options for all plugins.</p>
 <h2 id="custom-plugin-positioning" class="tsd-anchor-link">Custom Plugin Positioning<a href="#custom-plugin-positioning" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<p>There are two implemented layouting systems in POLAR configured by MapConfiguration.layout.</p>
+<p>There are two implemented layouting systems in POLAR configured by <a href="_polar_polar.MapConfiguration.html#layout" class="tsd-kind-property">MapConfiguration.layout</a>.</p>
 <p>If <code>layout</code> is set to <code>'nineRegions'</code> all plugins are placed in a predefined region grid.
 Use <a href="_polar_polar.PluginOptions.html#displaycomponent" class="tsd-kind-property">displayComponent</a> to control visibility
 and <a href="_polar_polar.PluginOptions.html#layouttag" class="tsd-kind-property">layoutTag</a> to specify the target region.</p>
@@ -24,19 +24,24 @@ and <a href="_polar_polar.PluginOptions.html#layouttag" class="tsd-kind-property
 IconMenuPluginOptions.menus | <code>menus</code> configuration.
 The IconMenu will handle positioning and rendering the plugin at the designated location.</li>
 <li><strong>Independent with CSS positioning</strong>: Directly add the plugin with
-addPlugin. The plugin is responsible for its own positioning
+<a href="../functions/_polar_polar.addPlugin.html" class="tsd-kind-function">addPlugin</a>. The plugin is responsible for its own positioning
 using CSS (e.g., <code>position: absolute</code>) within the map container.</li>
 </ol>
 </div></section>
-<div class="tsd-signature"><span class="tsd-signature-keyword">interface</span> <span class="tsd-kind-interface">InitialViewPluginOptions</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="#displaycomponent">displayComponent</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#layouttag">layoutTag</a><span class="tsd-signature-symbol">?:</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;TOP_LEFT&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;TOP_MIDDLE&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;TOP_RIGHT&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;MIDDLE_LEFT&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;MIDDLE_MIDDLE&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;MIDDLE_RIGHT&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;BOTTOM_LEFT&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;BOTTOM_MIDDLE&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;BOTTOM_RIGHT&quot;</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#rendertype">renderType</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">&quot;iconMenu&quot;</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;independent&quot;</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div>
-<section class="tsd-panel tsd-hierarchy" data-refl="12595">
-<h4>Hierarchy (<a href="../hierarchy.html#@polar/polar/plugins/InitialView.InitialViewPluginOptions">View Summary</a>)</h4>
+<div class="tsd-signature"><span class="tsd-signature-keyword">interface</span> <span class="tsd-kind-interface">PlaceablePluginOptions</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="#displaycomponent">displayComponent</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#layouttag">layoutTag</a><span class="tsd-signature-symbol">?:</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;TOP_LEFT&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;TOP_MIDDLE&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;TOP_RIGHT&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;MIDDLE_LEFT&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;MIDDLE_MIDDLE&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;MIDDLE_RIGHT&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;BOTTOM_LEFT&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;BOTTOM_MIDDLE&quot;</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;BOTTOM_RIGHT&quot;</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#rendertype">renderType</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">&quot;iconMenu&quot;</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;independent&quot;</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div>
+<section class="tsd-panel tsd-hierarchy" data-refl="12362">
+<h4>Hierarchy (<a href="../hierarchy.html#@polar/polar.PlaceablePluginOptions">View Summary</a>)</h4>
 <ul class="tsd-hierarchy">
 <li class="tsd-hierarchy-item"><a href="_polar_polar.PluginOptions.html" class="tsd-signature-type tsd-kind-interface">PluginOptions</a>
 <ul class="tsd-hierarchy">
-<li class="tsd-hierarchy-item"><span class="tsd-hierarchy-target">InitialViewPluginOptions</span></li></ul></li></ul></section><aside class="tsd-sources">
+<li class="tsd-hierarchy-item"><span class="tsd-hierarchy-target">PlaceablePluginOptions</span>
+<ul class="tsd-hierarchy">
+<li class="tsd-hierarchy-item"><a href="_polar_polar_plugins_export.ExportPluginOptions.html" class="tsd-signature-type tsd-kind-interface">ExportPluginOptions</a></li>
+<li class="tsd-hierarchy-item"><a href="_polar_polar_plugins_fullscreen.FullscreenPluginOptions.html" class="tsd-signature-type tsd-kind-interface">FullscreenPluginOptions</a></li>
+<li class="tsd-hierarchy-item"><a href="_polar_polar_plugins_geoLocation.GeoLocationPluginOptions.html" class="tsd-signature-type tsd-kind-interface">GeoLocationPluginOptions</a></li>
+<li class="tsd-hierarchy-item"><a href="_polar_polar_plugins_zoom.ZoomPluginOptions.html" class="tsd-signature-type tsd-kind-interface">ZoomPluginOptions</a></li></ul></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/2739ed2979a1f7a46aba954c28892af6f850e9d7/src/plugins/initialView/types.ts#L5">src/plugins/initialView/types.ts:5</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/d15576a9deabed4972dd0638e0c115f80b5308c4/src/core/types/plugin.ts#L101">src/core/types/plugin.ts:101</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -55,7 +60,7 @@ using CSS (e.g., <code>position: absolute</code>) within the map container.</li>
 <h3 class="tsd-anchor-link" id="displaycomponent"><code class="tsd-tag">Optional</code><span>display<wbr/>Component</span><a href="#displaycomponent" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">displayComponent</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div>
 <div class="tsd-comment tsd-typography"><p>Should the component be visible at all.
-Only relevant if MapConfiguration.layout | layout is set to <code>'nineRegions'</code>.</p>
+Only relevant if <a href="_polar_polar.MapConfiguration.html#layout" class="tsd-kind-property">layout</a> is set to <code>'nineRegions'</code>.</p>
 </div>
 <div class="tsd-comment tsd-typography">
 <div class="tsd-tag-defaultValue">
@@ -63,29 +68,30 @@ Only relevant if MapConfiguration.layout | layout is set to <code>'nineRegions'<
 </div></div><aside class="tsd-sources">
 <p>Inherited from <a href="_polar_polar.PluginOptions.html">PluginOptions</a>.<a href="_polar_polar.PluginOptions.html#displaycomponent">displayComponent</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/2739ed2979a1f7a46aba954c28892af6f850e9d7/src/core/types/plugin.ts#L91">src/core/types/plugin.ts:91</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/d15576a9deabed4972dd0638e0c115f80b5308c4/src/core/types/plugin.ts#L91">src/core/types/plugin.ts:91</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="layouttag"><code class="tsd-tag">Optional</code><span>layout<wbr/>Tag</span><a href="#layouttag" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">layoutTag</span><span class="tsd-signature-symbol">?:</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;TOP_LEFT&quot;</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;TOP_MIDDLE&quot;</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;TOP_RIGHT&quot;</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;MIDDLE_LEFT&quot;</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;MIDDLE_MIDDLE&quot;</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;MIDDLE_RIGHT&quot;</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;BOTTOM_LEFT&quot;</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;BOTTOM_MIDDLE&quot;</span><br/>    <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;BOTTOM_RIGHT&quot;</span></div>
 <div class="tsd-comment tsd-typography"><p>The region where the plugin should be rendered.
-Required if MapConfiguration.layout | layout is set to <code>'nineRegions'</code>,
+Required if <a href="_polar_polar.MapConfiguration.html#layout" class="tsd-kind-property">layout</a> is set to <code>'nineRegions'</code>,
 ignored otherwise.</p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="_polar_polar.PluginOptions.html">PluginOptions</a>.<a href="_polar_polar.PluginOptions.html#layouttag">layoutTag</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/2739ed2979a1f7a46aba954c28892af6f850e9d7/src/core/types/plugin.ts#L98">src/core/types/plugin.ts:98</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/d15576a9deabed4972dd0638e0c115f80b5308c4/src/core/types/plugin.ts#L98">src/core/types/plugin.ts:98</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="rendertype"><code class="tsd-tag">Optional</code><span>render<wbr/>Type</span><a href="#rendertype" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">renderType</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">&quot;iconMenu&quot;</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">&quot;independent&quot;</span></div>
-<div class="tsd-comment tsd-typography"><p>Defines if the initialView button is rendered independent or as part of the
-icon menu.</p>
+<div class="tsd-comment tsd-typography"><p>Placeable plugins can be placed either independently or as part of the icon menu.</p>
 </div>
 <div class="tsd-comment tsd-typography">
 <div class="tsd-tag-defaultValue">
-<h4 class="tsd-anchor-link" id="default-value-1">Default Value<a href="#default-value-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p><code>'independent'</code></p>
+<h4 class="tsd-anchor-link" id="default-value-1">Default Value<a href="#default-value-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><pre><code class="ts"><span class="hl-0">&#39;independent&#39;</span>
+</code><button type="button">Copy</button></pre>
+
 </div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/2739ed2979a1f7a46aba954c28892af6f850e9d7/src/plugins/initialView/types.ts#L11">src/plugins/initialView/types.ts:11</a></li></ul></aside></section></section></details></div>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/d15576a9deabed4972dd0638e0c115f80b5308c4/src/core/types/plugin.ts#L107">src/core/types/plugin.ts:107</a></li></ul></aside></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
