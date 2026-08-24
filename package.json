@@ -97,7 +97,7 @@
 		"@types/geojson": "7946.0.16",
 		"@types/node": "^24.13.3",
 		"@vitejs/plugin-vue": "^6.0.8",
-		"@vitest/coverage-v8": "^4.1.10",
+		"@vitest/coverage-v8": "^4.1.11",
 		"@vitest/ui": "^4.1.10",
 		"@vue/devtools-api": "^8.2.1",
 		"@vue/test-utils": "^2.4.11",
