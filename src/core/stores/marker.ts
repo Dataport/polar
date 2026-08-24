@@ -1,4 +1,5 @@
 import type { Feature, MapBrowserEvent } from 'ol'
+import type { EventsKey } from 'ol/events'
 import type BaseLayer from 'ol/layer/Base'
 import type VectorLayer from 'ol/layer/Vector'
 import type { Style } from 'ol/style'
@@ -9,6 +10,7 @@ import type {
 } from '../types'
 
 import { toMerged } from 'es-toolkit'
+import { unByKey } from 'ol/Observable'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef } from 'vue'
 
@@ -211,6 +213,9 @@ export const useMarkerStore = defineStore('marker', () => {
 		}
 	}
 
+	const listenerKeys: EventsKey[] = []
+	const teardownCallbacks: (() => void)[] = []
+
 	function setup() {
 		mainStore.map
 			.getLayers()
@@ -225,26 +230,38 @@ export const useMarkerStore = defineStore('marker', () => {
 						// prevents features from jumping due to invisible features "pulling"
 						(feature: Feature) =>
 							isVisible(feature) ? feature.getGeometry() : null
-					source.on('addfeature', (event) => {
-						event.feature.set('_polarLayerId', layer.get('id'), true)
-						;(event.feature.get('features') || []).forEach((feature) => {
-							feature.set('_polarLayerId', layer.get('id'), true)
-						})
+					teardownCallbacks.push(() => {
+						// @ts-expect-error | Undocumented hook.
+						source.geometryFunction = undefined
 					})
+					listenerKeys.push(
+						source.on('addfeature', (event) => {
+							event.feature.set('_polarLayerId', layer.get('id'), true)
+							;(event.feature.get('features') || []).forEach((feature) => {
+								feature.set('_polarLayerId', layer.get('id'), true)
+							})
+						})
+					)
 				}
 				;(layer as VectorLayer).setStyle((feature) =>
 					getStyle(feature as Feature, layer.get('id'), false, false)
 				)
+				teardownCallbacks.push(() => {
+					;(layer as VectorLayer).setStyle(undefined)
+				})
 			})
 
-		mainStore.map.on('pointermove', mapPointerMove)
-		mainStore.map.on('click', mapClick)
-		mainStore.map.on('singleclick', mapSingleClick)
+		listenerKeys.push(mainStore.map.on('pointermove', mapPointerMove))
+		listenerKeys.push(mainStore.map.on('click', mapClick))
+		listenerKeys.push(mainStore.map.on('singleclick', mapSingleClick))
 	}
 	function teardown() {
-		mainStore.map.un('pointermove', mapPointerMove)
-		mainStore.map.un('click', mapClick)
-		mainStore.map.un('singleclick', mapSingleClick)
+		listenerKeys.forEach((key) => {
+			unByKey(key)
+		})
+		teardownCallbacks.forEach((callback) => {
+			callback()
+		})
 	}
 
 	return {
