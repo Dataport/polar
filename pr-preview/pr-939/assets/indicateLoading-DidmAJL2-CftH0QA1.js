@@ -1,0 +1,1 @@
+import{l as e}from"./stores-WHTTyKHP-BFCkeDN5.js";var t=0;function n(){let n=e().getPluginStore(`loadingIndicator`);if(!n)return()=>{};let r=`lib-indicate-loading-${t++}`;return n.addLoadingKey(r),()=>{n.removeLoadingKey(r)}}export{n as t};
