@@ -69,19 +69,20 @@ export const useMarkerStore = defineStore('marker', () => {
 	const mainStore = useMainStore()
 	const configuration = computed(() => mainStore.configuration.markers)
 
-	const layers = computed(
-		() =>
-			configuration.value?.layers.map((layer) =>
-				toMerged(layerDefaults, layer)
-			) ?? []
+	const layers = computed(() =>
+		Object.fromEntries(
+			configuration.value?.layers
+				.map((layer) => toMerged(layerDefaults, layer))
+				.map((layer) => [layer.id, layer as MarkerLayer]) ?? []
+		)
 	)
 
 	function getLayerConfiguration(id: string) {
-		return layers.value.find((layer) => layer.id === id) as MarkerLayer
+		return layers.value[id] as MarkerLayer
 	}
 
 	function layerFilter(layer: BaseLayer) {
-		return layers.value.some(({ id }) => id === (layer.get('id') as string))
+		return layer.get('id') in layers.value
 	}
 
 	function getStyle(
