@@ -21,7 +21,7 @@ export const useMarkerStore = defineStore('marker', () => {
 	)
 
 	const displayFeatureCount = computed(
-		() => (configuration.value?.displayFeatureCount as boolean) || false
+		() => configuration.value?.displayFeatureCount || false
 	)
 
 	const hovered = shallowRef<Feature | null>(null)
