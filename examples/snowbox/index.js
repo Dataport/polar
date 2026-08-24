@@ -366,13 +366,13 @@ addPlugin(
 		// url: 'https://polar.dataport.de/nominatim/reverse',
 		coordinateSources: [
 			{
-				plugin: 'routing',
-				key: 'reverseGeocodeCoordinate',
+				plugin: 'pins',
+				key: 'coordinate',
 			},
 		],
 		addressTarget: {
-			plugin: 'routing',
-			key: 'selectRouteResult',
+			plugin: 'addressSearch',
+			key: 'selectResult',
 		},
 		zoomTo: 7,
 	})
