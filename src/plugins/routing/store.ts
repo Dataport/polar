@@ -76,15 +76,18 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const showSearchResultList = computed(
 		() => addressSearchConfigured.value && reverseGeocoderConfigured.value
 	)
+
 	const focusAfterSearch = computed(
 		() => coreStore.configuration.addressSearch?.focusAfterSearch ?? false
 	)
+
 	const selectedSearchGroupId = computed(
 		() =>
 			configuration.value.searchGroupId ??
 			coreStore.getPluginStore('addressSearch')?.selectedGroupId ??
 			`defaultGroup`
 	)
+
 	const inputValue = computed({
 		get: () => {
 			if (currentlyFocusedInput.value >= 0) {
