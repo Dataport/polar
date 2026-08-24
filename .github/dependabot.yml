@@ -61,6 +61,7 @@ updates:
           - husky
           - vitest
           - "@vitest/coverage-v8"
+          - "@vitest/ui"
           - "@vue/test-utils"
           - "@pinia/testing"
           - jsdom
