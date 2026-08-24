@@ -98,6 +98,15 @@ export interface PluginOptions {
 	layoutTag?: keyof typeof NineLayoutTag
 }
 
+export interface PlaceablePluginOptions extends PluginOptions {
+	/**
+	 * Placeable plugins can be placed either independently or as part of the icon menu.
+	 *
+	 * @defaultValue 'independent'
+	 */
+	renderType?: 'independent' | 'iconMenu'
+}
+
 export interface BoundaryOptions {
 	/**
 	 * ID of the vector layer to restrict requests to.
