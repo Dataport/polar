@@ -1,7 +1,12 @@
 import type { Feature, Map, MapBrowserEvent, MapEvent } from 'ol'
 import type BaseLayer from 'ol/layer/Base'
 import type VectorSource from 'ol/source/Vector'
-import type { MarkerLayer, MarkerStyle, PluginId } from '../../types'
+import type {
+	GetMarkerFunction,
+	MarkerLayer,
+	MarkerStyle,
+	PluginId,
+} from '../../types'
 
 import { toMerged } from 'es-toolkit'
 import { createEmpty, extend } from 'ol/extent'
@@ -16,9 +21,10 @@ import { isVisible } from '@/lib/invisibleStyle'
 import { useMainStore } from '../../stores/main'
 import { useMarkerStore } from '../../stores/marker'
 import { usePluginStore } from '../../stores/plugin'
-import { getMarkerStyle } from '../markers'
+import { createGetMarkerStyle } from '../markers'
 
 let stopWatcher: (() => void) | null = null
+let getMarkerStyle: GetMarkerFunction = createGetMarkerStyle(() => {})
 
 // these have been measured to fit once and influence marker size
 const imgSize: [number, number] = [40 * 2, 36 * 2]
@@ -162,6 +168,10 @@ export function setupMarkers(map: Map) {
 		return
 	}
 
+	getMarkerStyle = createGetMarkerStyle(() => {
+		map.render()
+	})
+
 	layers = configuration.layers.map((layer) =>
 		toMerged(
 			{
@@ -242,6 +252,7 @@ export function teardownMarkers(map: Map) {
 	stopWatcher = null
 	layers = []
 	lastClickEvent = null
+	getMarkerStyle = createGetMarkerStyle(() => {})
 
 	map.un('moveend', mapMoveEnd)
 	map.un('pointermove', mapPointerMove)

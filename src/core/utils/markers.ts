@@ -129,87 +129,102 @@ const makeMultiMarker = (
 // center bottom of marker 📍 is intended to show the spot
 const anchor = [0.5, 1]
 
-const warnMemoLeak = (styleCount: number) => {
-	if (styleCount > 1000) {
-		console.warn(
-			`1000+ styles have been created. This is possibly a memory leak. Please mind that the methods exported by this module are memoized. You *may* be calling the methods with constantly newly generated objects, or maybe there's just a lot of styles.`
-		)
+function variantKey(count: number, displayFeatureCount: boolean) {
+	if (count <= 1) {
+		return 'single'
 	}
-}
-const memoStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
-	const singleCache = new Map()
-	const multiCache = new Map()
-	return (style, count, displayFeatureCount) => {
-		const cache = count > 1 ? multiCache : singleCache
-		if (cache.has(style)) {
-			return cache.get(style)
-		}
-		const markerStyle = getMarker(style, count, displayFeatureCount)
-		cache.set(style, markerStyle)
-		warnMemoLeak(cache.size)
-		return markerStyle
-	}
-}
-
-const memoCountStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
-	const countCache = new Map<number, Map<MarkerStyle, Style>>()
-	return (style, count, displayFeatureCount) => {
-		// vielleicht auslagern und ind warnMeoLeak einbinden?
-		const getTotalCachedStyles = (
-			countCache: Map<number, Map<MarkerStyle, Style>>
-		): number => {
-			let total = 0
-			for (const stylesByCount of countCache.values()) {
-				total += stylesByCount.size
-			}
-			return total
-		}
-
-		const cache = countCache.get(count) || new Map<MarkerStyle, Style>()
-		if (cache.has(style)) {
-			return cache.get(style) as Style
-		}
-		const markerStyle = getMarker(style, count, displayFeatureCount)
-		cache.set(style, markerStyle)
-		countCache.set(count, cache)
-		warnMemoLeak(getTotalCachedStyles(countCache))
-		return markerStyle
-	}
+	return displayFeatureCount ? `multi:${count}` : 'multi'
 }
 
 /**
  * The map became a little laggy due to constant re-generation of styles.
  * This memoization function optimises this issue by reusing styles.
- * */
+ * Styles are cached per (referentially stable) style object and a variant that
+ * captures whether it is a single feature, a generic cluster, or a cluster
+ * showing a specific count.
+ */
 const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
-	const memoizedCountStyle = memoCountStyle(getMarker)
-	const memoizedStyle = memoStyle(getMarker)
-	return (style, count, displayFeatureCount) =>
-		displayFeatureCount
-			? memoizedCountStyle(style, count, displayFeatureCount)
-			: memoizedStyle(style, count, displayFeatureCount)
+	const cache = new Map<MarkerStyle, Map<string, Style>>()
+	let totalStyles = 0
+	return (style, count, displayFeatureCount) => {
+		const variant = variantKey(count, displayFeatureCount)
+		let byVariant = cache.get(style)
+		if (!byVariant) {
+			byVariant = new Map<string, Style>()
+			cache.set(style, byVariant)
+		}
+		const cached = byVariant.get(variant)
+		if (cached) {
+			return cached
+		}
+		const markerStyle = getMarker(style, count, displayFeatureCount)
+		byVariant.set(variant, markerStyle)
+		totalStyles += 1
+		if (totalStyles > 1000) {
+			console.warn(
+				`1000+ styles have been created. This is possibly a memory leak. Please mind that the methods exported by this module are memoized. You *may* be calling the methods with constantly newly generated objects, or maybe there's just a lot of styles.`
+			)
+		}
+		return markerStyle
+	}
 }
 
-const getStyleFunction: GetMarkerFunction = (
-	style,
-	count,
-	displayFeatureCount
-) =>
-	new Style({
-		image: new Icon({
-			src:
-				count > 1
-					? makeMultiMarker(
-							{
-								...style,
-								displayedText: count,
-							},
-							displayFeatureCount,
-							getSVGConfig(String(count))
-						)
-					: makeMarker(style),
-			anchor,
-		}),
-	})
+/*
+ * Rasterizes the (expensive) marker SVG into a canvas once and uses that canvas
+ * as the icon image.
+ */
+function buildCanvasIcon(
+	requestRender: () => void,
+	src: string,
+	width: number,
+	height: number
+) {
+	const pixelRatio = window.devicePixelRatio || 1
+	const canvas = document.createElement('canvas')
+	canvas.width = width * pixelRatio
+	canvas.height = height * pixelRatio
+	const icon = new Icon({ img: canvas, anchor, scale: 1 / pixelRatio })
+	const image = new Image()
+	image.onload = () => {
+		canvas.getContext('2d')?.drawImage(image, 0, 0, canvas.width, canvas.height)
+		requestRender()
+	}
+	image.src = src
+	return icon
+}
 
-export const getMarkerStyle = memoizeStyle(getStyleFunction)
+function buildStyle(
+	requestRender: () => void,
+	style: MarkerStyle,
+	count: number,
+	displayFeatureCount: boolean
+) {
+	const [width, height] = count > 1 ? style.clusterSize : style.size
+	const src =
+		count > 1
+			? makeMultiMarker(
+					{
+						...style,
+						displayedText: count,
+					},
+					displayFeatureCount,
+					getSVGConfig(String(count))
+				)
+			: makeMarker(style)
+	return new Style({
+		image: buildCanvasIcon(requestRender, src, width, height),
+	})
+}
+
+/**
+ * Creates a memoized marker-style getter.
+ *
+ * @param requestRender - Called to trigger a map re-render once an
+ *   asynchronously rasterized marker icon becomes available.
+ */
+export const createGetMarkerStyle = (
+	requestRender: () => void
+): GetMarkerFunction =>
+	memoizeStyle((style, count, displayFeatureCount) =>
+		buildStyle(requestRender, style, count, displayFeatureCount)
+	)
