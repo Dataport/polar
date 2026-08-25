@@ -30,7 +30,7 @@
 				:focus-after-search="focusAfterSearch"
 				:focus-return-target-id="`polar-plugin-routing-input-${index}`"
 				:result-item-id-prefix="`polar-result-list-routing-${index}-results-feature`"
-				@select-result="routeStore.selectResult"
+				@select-result="selectResult"
 			>
 				<template #result-count-label="{ count }">
 					{{ $t(($) => $.resultCount, { count, ns: PluginId }) }}
@@ -50,7 +50,7 @@
 				:label-sr-only="true"
 				class="kern-btn--tertiary"
 				:disabled="addWaypointButtonDisabled"
-				@click="routeStore.setRoute(index)"
+				@click="setRoute(index)"
 			>
 				{{ $t(($) => $.label.add, { ns: PluginId }) }}
 			</KernButton>
@@ -59,7 +59,7 @@
 				:label-sr-only="true"
 				class="kern-btn--tertiary"
 				:disabled="route.length === 2"
-				@click="routeStore.setRoute(index, true)"
+				@click="setRoute(index, true)"
 			>
 				{{ $t(($) => $.label.remove, { ns: PluginId }) }}
 			</KernButton>
@@ -68,10 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Coordinate } from 'ol/coordinate'
-import type { StoreGeneric } from 'pinia'
-import type { SearchResult } from '@/core'
-
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
@@ -87,34 +84,29 @@ const props = defineProps<{
 	index: number
 }>()
 
-const routeStore: StoreGeneric = useRoutingStore()
+const routeStore = useRoutingStore()
 const coreStore = useCoreStore()
+
 const limitedResults = computed(
 	() => coreStore.getPluginStore('addressSearch')?.limitResults ?? 5
 )
 
 const currentlyFocusedInput = computed({
-	get: () => routeStore.currentlyFocusedInput as number,
+	get: () => routeStore.currentlyFocusedInput,
 	set: (value: number) => {
 		routeStore.currentlyFocusedInput = value
 	},
 })
-const route = computed(() => routeStore.route as Coordinate[])
-const routeInputValues = computed(() => routeStore.routeInputValues as string[])
-const routeSearchResults = computed(
-	() => routeStore.routeSearchResults as (SearchResult[] | symbol)[]
-)
-const showSearchResultList = computed(() =>
-	Boolean(routeStore.showSearchResultList)
-)
-const selectedSearchGroupId = computed(
-	() => routeStore.selectedSearchGroupId as string
-)
-const focusAfterSearch = computed(() => Boolean(routeStore.focusAfterSearch))
 
-const routeAddressTexts = computed(
-	() => routeStore.routeAddressTexts as (string | undefined)[]
-)
+const {
+	route,
+	routeInputValues,
+	routeSearchResults,
+	routeAddressTexts,
+	showSearchResultList,
+	selectedSearchGroupId,
+	focusAfterSearch,
+} = storeToRefs(routeStore)
 
 const routeInputValue = computed({
 	get: () => {
@@ -158,6 +150,8 @@ const addWaypointButtonDisabled = computed(
 		route.value.filter((part) => Boolean(part.length)).length <
 		route.value.length - 1
 )
+
+const { setRoute, selectResult } = routeStore
 
 function focusResultList(event: KeyboardEvent) {
 	if (!Array.isArray(searchResultsForInput.value)) {
