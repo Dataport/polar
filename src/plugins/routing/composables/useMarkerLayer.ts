@@ -76,6 +76,7 @@ export function useMarkerLayer(
 }
 
 if (import.meta.vitest) {
+	const { default: VectorSource } = await import('ol/source/Vector')
 	const { describe, it, beforeEach, afterEach, vi, expect } = import.meta.vitest
 	const { effectScope, ref, nextTick } = await import('vue')
 
@@ -93,40 +94,22 @@ if (import.meta.vitest) {
 
 	describe('useMarkerLayer', () => {
 		let route: Ref<Coordinate[]>
-		let markerSource: {
-			addFeature: ReturnType<typeof vi.fn>
-			clear: ReturnType<typeof vi.fn>
-			getFeature: ReturnType<typeof vi.fn>
-			getFeatures: ReturnType<typeof vi.fn>
-		}
 		let map: {
 			addLayer: ReturnType<typeof vi.fn>
 			removeLayer: ReturnType<typeof vi.fn>
 			addInteraction: ReturnType<typeof vi.fn>
 			on: ReturnType<typeof vi.fn>
-			hasFeatureAtPixel: ReturnType<typeof vi.fn>
-			getEventPixel: ReturnType<typeof vi.fn>
-			getTargetElement: ReturnType<typeof vi.fn>
 		}
-		let mapElement: { style: { cursor: string } }
+		let markerSource: VectorSource
 
 		beforeEach(() => {
 			route = ref<Coordinate[]>([])
-			mapElement = { style: { cursor: '' } }
-			markerSource = {
-				addFeature: vi.fn(),
-				clear: vi.fn(),
-				getFeature: vi.fn(),
-				getFeatures: vi.fn().mockReturnValue([{ id: 1 }]),
-			}
+			markerSource = new VectorSource()
 			map = {
 				addLayer: vi.fn(),
 				removeLayer: vi.fn(),
 				addInteraction: vi.fn(),
 				on: vi.fn(),
-				hasFeatureAtPixel: vi.fn().mockReturnValue(false),
-				getEventPixel: vi.fn().mockReturnValue([0, 0]),
-				getTargetElement: vi.fn().mockReturnValue(mapElement),
 			}
 		})
 
@@ -180,6 +163,8 @@ if (import.meta.vitest) {
 		})
 
 		it('clears and fills markerSource when route changes', async () => {
+			const addFeatureSpy = vi.spyOn(markerSource, 'addFeature')
+			const clearSpy = vi.spyOn(markerSource, 'clear')
 			const scope = effectScope()
 			scope.run(() => {
 				useMarkerLayer(
@@ -193,14 +178,19 @@ if (import.meta.vitest) {
 				[3, 4],
 			]
 			await nextTick()
-			expect(markerSource.addFeature).toHaveBeenCalledTimes(2)
-			route.value[0] = [2, 5]
+			expect(addFeatureSpy).toHaveBeenCalledTimes(2)
+			route.value = [
+				[2, 5],
+				[3, 4],
+			]
 			await nextTick()
-			expect(markerSource.clear).toHaveBeenCalledOnce()
+			expect(clearSpy).toHaveBeenCalledTimes(2)
+			expect(addFeatureSpy).toHaveBeenCalledTimes(4)
 			scope.stop()
 		})
 
 		it('skips empty coordinates when route changes', async () => {
+			const addFeatureSpy = vi.spyOn(markerSource, 'addFeature')
 			const scope = effectScope()
 			scope.run(() => {
 				useMarkerLayer(
@@ -212,11 +202,10 @@ if (import.meta.vitest) {
 
 			route.value = [[1, 2], []]
 			await nextTick()
-			expect(markerSource.addFeature).toHaveBeenCalledOnce()
-			route.value[2] = [4, 7]
-			route.value[0] = [2, 5]
+			expect(addFeatureSpy).toHaveBeenCalledOnce()
+			route.value = [[2, 5], [], [4, 7]]
 			await nextTick()
-			expect(markerSource.addFeature).toHaveBeenCalledOnce()
+			expect(addFeatureSpy).toHaveBeenCalledTimes(3)
 			scope.stop()
 		})
 	})
