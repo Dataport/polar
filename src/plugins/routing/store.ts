@@ -82,10 +82,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	)
 
 	const selectedSearchGroupId = computed(
-		() =>
-			configuration.value.searchGroupId ??
-			coreStore.getPluginStore('addressSearch')?.selectedGroupId ??
-			`defaultGroup`
+		() => configuration.value.searchGroupId ?? 'defaultGroup'
 	)
 
 	const inputValue = computed({
