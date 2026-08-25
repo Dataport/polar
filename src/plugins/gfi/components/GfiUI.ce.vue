@@ -5,6 +5,7 @@
 		:class="{
 			standard: coreStore.layout === 'standard',
 			independent: gfiStore.renderType === 'independent',
+			'showing-feature': gfiStore.feature,
 		}"
 	>
 		<GfiFeature v-if="gfiStore.feature" v-bind="gfiStore.feature" />
@@ -31,12 +32,15 @@ const gfiStore = useGfiStore()
 	}
 
 	&.independent {
-		width: calc(
-			var(--kern-metric-dimension-5x-large) +
-				var(--kern-metric-dimension-5x-large)
-		);
 		max-height: 80%;
 		overflow: auto;
+
+		&.showing-feature {
+			width: calc(
+				var(--kern-metric-dimension-5x-large) +
+					var(--kern-metric-dimension-5x-large)
+			);
+		}
 	}
 }
 </style>
