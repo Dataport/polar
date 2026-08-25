@@ -158,13 +158,6 @@ function focusResultList(event: KeyboardEvent) {
 	)
 }
 
-const routeInput = computed(() =>
-	route.value.map((coord, i) => {
-		const label = routeAddressTexts.value[i]
-		return label?.length ? label : coord.join(', ')
-	})
-)
-
 function getRouteLabel(index: number) {
 	return index === 0
 		? 'start'

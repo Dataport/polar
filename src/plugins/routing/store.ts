@@ -283,99 +283,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			(autoselect === 'only' && firstFeatures.length === 1)
 		) {
 			currentlyFocusedInput.value = index
-			selectResult(
-				firstFeatures[0] as PolarGeoJsonFeature,
-				firstFound.categoryId
-			)
-		}
-	}
-
-	function setRouteInputValue(index: number, value: string) {
-		if (index < 0 || index >= route.value.length) {
-			return
-		}
-		routeInputValues.value = routeInputValues.value.toSpliced(index, 1, value)
-		void searchForRouteInput(index, value)
-	}
-
-	async function searchForRouteInput(
-		index: number,
-		input: string,
-		autoselect: 'first' | 'only' | 'never' = 'never'
-	) {
-		if (!showSearchResultList.value) {
-			return
-		}
-		if (index < 0 || index >= route.value.length) {
-			return
-		}
-
-		const addressSearchStore = coreStore.getPluginStore('addressSearch')
-		if (!addressSearchStore) {
-			return
-		}
-
-		const currentCounter = (routeSearchRequestCounters.value[index] ?? 0) + 1
-		routeSearchRequestCounters.value =
-			routeSearchRequestCounters.value.toSpliced(index, 1, currentCounter)
-
-		if (
-			!input.trim().length ||
-			input.trim().length < addressSearchStore.minLength
-		) {
-			routeSearchResults.value = routeSearchResults.value.toSpliced(
-				index,
-				1,
-				SearchResultSymbols.NO_SEARCH
-			)
-			return
-		}
-
-		await addressSearchStore
-			.runSearch(input)
-			.then((results: SearchResult[] | symbol) => {
-				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
-					return
-				}
-				routeSearchResults.value = routeSearchResults.value.toSpliced(
-					index,
-					1,
-					results
-				)
-			})
-			.catch((error: unknown) => {
-				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
-					return
-				}
-				routeSearchResults.value = routeSearchResults.value.toSpliced(
-					index,
-					1,
-					SearchResultSymbols.NO_SEARCH
-				)
-				handleErrors(error)
-			})
-
-		if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
-			return
-		}
-
-		const result = routeSearchResults.value[index] ?? []
-		if (!Array.isArray(result)) {
-			return
-		}
-
-		const firstFound = result.find(({ features }) => features.features.length)
-		if (!firstFound) {
-			return
-		}
-		const firstFeatures = firstFound.features.features
-
-		if (
-			(autoselect === 'first' && firstFeatures.length >= 1) ||
-			(autoselect === 'only' && firstFeatures.length === 1)
-		) {
-			currentlyFocusedInput.value = index
-			selectResult(
+			await selectResult(
 				firstFeatures[0] as PolarGeoJsonFeature,
 				firstFound.categoryId
 			)
@@ -592,7 +500,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		await searchForRouteInput(targetIndex, input, 'only')
 	}
 
-	function selectResult(feature: PolarGeoJsonFeature, categoryId = 'default') {
+	async function selectResult(
+		feature: PolarGeoJsonFeature,
+		categoryId = 'default'
+	) {
 		const index = currentlyFocusedInput.value
 		if (index < 0 || index >= route.value.length) {
 			return
@@ -601,7 +512,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		if (!searchResult) {
 			return
 		}
-		addCoordinateToRoute(
+		await addCoordinateToRoute(
 			searchResult.feature.geometry.coordinates as Coordinate
 		)
 		routeInputValues.value = routeInputValues.value.toSpliced(
