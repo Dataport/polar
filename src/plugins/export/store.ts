@@ -11,6 +11,7 @@ import { t } from 'i18next'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 import { notifyUser } from '@/lib/notifyUser'
 
@@ -32,7 +33,10 @@ export const useExportStore = defineStore('plugins/export', () => {
 
 	const configuration = computed(() => coreStore.configuration.export ?? {})
 	const download = computed(() => configuration.value.download ?? false)
-	const layoutTag = computed(() => configuration.value.layoutTag)
+	const renderType = computed(
+		() => configuration.value.renderType || 'independent'
+	)
+	const { spaceDirection } = useSpaceDetector(configuration)
 	const availableFormats = computed(() => {
 		const validFormats =
 			configuration.value.formats?.filter((format) => {
@@ -137,10 +141,15 @@ export const useExportStore = defineStore('plugins/export', () => {
 		availableFormats,
 
 		/**
-		 * Configured layout tag, if given.
-		 * @alpha
+		 * Direction in which UI elements may extend.
 		 */
-		layoutTag,
+		spaceDirection,
+
+		/**
+		 * Configured configuration type.
+		 * @defaultValue 'independent'
+		 */
+		renderType,
 
 		/**
 		 * Initiates the export process for the specified format. Throws with an
