@@ -222,6 +222,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			return
 		}
 		routeInputValues.value = routeInputValues.value.toSpliced(index, 1, value)
+		routeAddressTexts.value = routeAddressTexts.value.toSpliced(index, 1, null)
 		void searchForRouteInput(index, value)
 	}
 
@@ -246,7 +247,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		routeSearchRequestCounters.value =
 			routeSearchRequestCounters.value.toSpliced(index, 1, currentCounter)
 
-		if (!input.trim().length) {
+		if (
+			!input.trim().length ||
+			input.trim().length < addressSearchStore.minLength
+		) {
 			routeSearchResults.value = routeSearchResults.value.toSpliced(
 				index,
 				1,
@@ -255,19 +259,35 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			return
 		}
 
-		await addressSearchStore.search(input, 'never')
+		await addressSearchStore
+			.runSearch(input)
+			.then((results: SearchResult[] | symbol) => {
+				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
+					return
+				}
+				routeSearchResults.value = routeSearchResults.value.toSpliced(
+					index,
+					1,
+					results
+				)
+			})
+			.catch((error: unknown) => {
+				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
+					return
+				}
+				routeSearchResults.value = routeSearchResults.value.toSpliced(
+					index,
+					1,
+					SearchResultSymbols.NO_SEARCH
+				)
+				handleErrors(error)
+			})
 
 		if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
 			return
 		}
 
-		const result = addressSearchStore.searchResults
-		routeSearchResults.value = routeSearchResults.value.toSpliced(
-			index,
-			1,
-			result
-		)
-
+		const result = routeSearchResults.value[index] ?? []
 		if (!Array.isArray(result)) {
 			return
 		}
@@ -446,13 +466,13 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	function reset() {
 		route.value = [[], []]
-		routeAddressTexts.value = [null, null]
 		routeInputValues.value = ['', '']
 		routeSearchResults.value = [
 			SearchResultSymbols.NO_SEARCH,
 			SearchResultSymbols.NO_SEARCH,
 		]
 		routeSearchRequestCounters.value = [0, 0]
+		routeAddressTexts.value = [null, null]
 		currentlyFocusedInput.value = -1
 		selectedPreference.value = 'recommended'
 		selectedTravelMode.value = 'driving-car'
@@ -671,6 +691,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 		/** @alpha @internal */
 		showSearchResultList,
+
+		/** @internal */
+		reverseGeocoderConfigured,
 
 		/** @internal */
 		setupPlugin,

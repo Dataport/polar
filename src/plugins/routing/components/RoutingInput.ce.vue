@@ -112,18 +112,32 @@ const selectedSearchGroupId = computed(
 )
 const focusAfterSearch = computed(() => Boolean(routeStore.focusAfterSearch))
 
+const routeAddressTexts = computed(
+	() => routeStore.routeAddressTexts as (string | undefined)[]
+)
+
 const routeInputValue = computed({
 	get: () => {
-		if (!showSearchResultList.value) {
-			const coordinate = route.value[props.index]
-			if (Array.isArray(coordinate) && coordinate.length) {
-				return coordinate.join(',')
-			}
+		const typedValue = routeInputValues.value[props.index] ?? ''
+		if (typedValue.length > 0) {
+			return typedValue
 		}
-		return routeInputValues.value[props.index] ?? ''
+
+		const addressText = routeAddressTexts.value[props.index]
+		if (addressText && addressText.length > 0) {
+			return addressText
+		}
+
+		const coordinate = route.value[props.index]
+		if (!showSearchResultList.value && Array.isArray(coordinate)) {
+			return coordinate.length ? coordinate.join(',') : ''
+		}
+
+		return ''
 	},
 	set: (value: string) => {
 		routeStore.setRouteInputValue(props.index, value)
+		routeStore.routeAddressTexts[props.index] = null
 	},
 })
 
