@@ -129,7 +129,6 @@ const routeInputValue = computed({
 	},
 	set: (value: string) => {
 		routeStore.setRouteInputValue(props.index, value)
-		routeStore.routeAddressTexts[props.index] = null
 	},
 })
 
