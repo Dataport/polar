@@ -202,11 +202,14 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		).filter(({ value }) => selectableTravelModes.value.includes(value))
 	)
 
-	async function addCoordinateToRoute(coordinate: Coordinate) {
+	async function addCoordinateToRoute(
+		coordinate: Coordinate,
+		userInput = false
+	) {
 		const index = currentlyFocusedInput.value
 		route.value = route.value.toSpliced(index, 1, coordinate)
 		routeAddressTexts.value = routeAddressTexts.value.toSpliced(index, 1, '')
-		if (reverseGeocoderConfigured.value) {
+		if (reverseGeocoderConfigured.value && !userInput) {
 			const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
 			const [x, y] = coordinate
 			if (x === undefined || y === undefined) {
@@ -533,7 +536,8 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			return
 		}
 		await addCoordinateToRoute(
-			searchResult.feature.geometry.coordinates as Coordinate
+			searchResult.feature.geometry.coordinates as Coordinate,
+			true
 		)
 		routeInputValues.value = routeInputValues.value.toSpliced(
 			index,
