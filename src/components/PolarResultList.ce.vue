@@ -276,7 +276,6 @@ function toggle(category: string) {
 			span[aria-hidden='true'] {
 				white-space: normal;
 				overflow-wrap: anywhere;
-				word-break: break-word;
 			}
 
 			&:hover,
