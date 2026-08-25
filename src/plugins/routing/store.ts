@@ -343,7 +343,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 					results
 				)
 			})
-			.catch((error) => {
+			.catch((error: unknown) => {
 				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
 					return
 				}
