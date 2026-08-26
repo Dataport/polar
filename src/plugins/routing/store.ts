@@ -202,6 +202,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			}
 			const feature = await reverseGeocoderStore?.reverseGeocode([x, y], false)
 			routeAddressTexts.value[index] = feature?.title ?? ''
+			routeInputValues.value[index] = ''
 		}
 	}
 
