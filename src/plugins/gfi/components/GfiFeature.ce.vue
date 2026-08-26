@@ -156,5 +156,8 @@ function startDownload(url: string) {
 
 td {
 	white-space: normal;
+	max-width: calc(2 * var(--kern-metric-dimension-5x-large));
+	overflow-wrap: break-word;
+	word-break: normal;
 }
 </style>
