@@ -85,21 +85,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		() => configuration.value.searchGroupId ?? 'defaultGroup'
 	)
 
-	const inputValue = computed({
-		get: () => {
-			if (currentlyFocusedInput.value >= 0) {
-				return routeInputValues.value[currentlyFocusedInput.value] ?? ''
-			}
-			return routeInputValues.value[0] ?? ''
-		},
-		set: (value) => {
-			if (currentlyFocusedInput.value === -1) {
-				return
-			}
-			setRouteInputValue(currentlyFocusedInput.value, value)
-		},
-	})
-
 	const currentlyFocusedInput = computed({
 		get: () => _currentlyFocusedInput.value,
 		set: (index) => {
@@ -561,6 +546,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		/**
 		 * Reverse-geocoded address labels for each waypoint in {@link route}.
 		 * `null` if no address was resolved (e.g. reverse geocoder not configured).
+		 *
 		 * @alpha
 		 */
 		routeAddressTexts,
@@ -572,20 +558,33 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		routingResponseData,
 
 		/**
+		 * Input values for each waypoint in {@link route}.
+		 *
 		 * @alpha
 		 */
-		inputValue,
-
-		/** @alpha */
 		routeInputValues,
 
-		/** @alpha */
+		/**
+		 * Search results for each waypoint in {@link route}.
+		 *
+		 * @alpha
+		 */
 		routeSearchResults,
 
-		/** @alpha */
+		/**
+		 * The selected search group ID.
+		 *
+		 * @alpha
+		 */
 		selectedSearchGroupId,
 
-		/** @alpha */
+		/**
+		 * Whether the search result list should be displayed.
+		 * @alpha
+		 */
+		showSearchResultList,
+
+		/** @alpha @internal */
 		focusAfterSearch,
 
 		/**
@@ -648,7 +647,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		reset,
 
 		/**
-		 * Inserts an empty coordinate pair into the route.
+		 * Inserts an empty coordinate pair into the route as well as an empty input value into routeInputValues, routeSearchResults and routeAddressTexts.
 		 *
 		 * @alpha
 		 */
@@ -657,10 +656,18 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		/** @alpha */
 		setRouteInputValue,
 
-		/** @alpha */
+		/**
+		 * Selects a search result and adds its coordinate to the route.
+		 *
+		 * @alpha
+		 */
 		selectResult,
 
-		/** @alpha */
+		/**
+		 * Searches for a route input and updates the search results.
+		 *
+		 * @alpha
+		 */
 		search,
 
 		/**
@@ -692,12 +699,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * @internal
 		 */
 		showDetails,
-
-		/** @alpha @internal */
-		showSearchResultList,
-
-		/** @internal */
-		reverseGeocoderConfigured,
 
 		/** @internal */
 		setupPlugin,
