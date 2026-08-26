@@ -43,6 +43,9 @@
 					}}
 				</template>
 			</PolarResultList>
+			<p v-if="searchResultHint" class="polar-plugin-routing-search-hint">
+				{{ searchResultHint }}
+			</p>
 		</div>
 		<div class="polar-plugin-routing-waypoint-button-wrapper">
 			<KernButton
@@ -106,6 +109,7 @@ const {
 	showSearchResultList,
 	selectedSearchGroupId,
 	focusAfterSearch,
+	searchResultHint,
 } = storeToRefs(routeStore)
 
 const routeInputValue = computed({
@@ -183,6 +187,10 @@ function getRouteLabel(index: number) {
 	.polar-plugin-routing-waypoint-button-wrapper {
 		display: flex;
 		gap: var(--kern-metric-space-small);
+	}
+
+	.polar-plugin-routing-search-hint {
+		color: var(--kern-color-layout-text-muted);
 	}
 }
 </style>

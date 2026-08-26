@@ -42,6 +42,10 @@ export const resourcesDe = {
 		tollways: 'Mautstraßen',
 		ferries: 'Fähren',
 	},
+	hint: {
+		error: 'Etwas ist bei der Suche schiefgegangen.',
+		noResults: 'Keine Ergebnisse gefunden.',
+	},
 	ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
 	distance: 'Entfernung: {{distance}}',
 	duration: 'Dauer: {{duration}}',
@@ -86,6 +90,10 @@ export const resourcesEn = {
 		highways: 'Highways',
 		tollways: 'Tollways',
 		ferries: 'Ferries',
+	},
+	hint: {
+		error: 'Something went wrong.',
+		noResults: 'No results found.',
 	},
 	ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
 	distance: 'Distance: {{distance}}',

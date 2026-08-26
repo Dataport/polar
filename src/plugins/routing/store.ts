@@ -187,6 +187,39 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		).filter(({ value }) => selectableTravelModes.value.includes(value))
 	)
 
+	const searchResultHint = computed(() => {
+		const index = currentlyFocusedInput.value
+		if (!showSearchResultList.value) {
+			return false
+		}
+		const input = routeInputValues.value[index]?.trim() ?? ''
+		const addressSearchStore = coreStore.getPluginStore('addressSearch')
+		if (!addressSearchStore) {
+			return false
+		}
+		if (input.length < addressSearchStore.minLength) {
+			return false
+		}
+		if (routeSearchResults.value[index] === SearchResultSymbols.ERROR) {
+			return t(($) => $.hint.error, { ns: PluginId })
+		}
+		if (!Array.isArray(routeSearchResults.value[index])) {
+			return false
+		}
+		const results = routeSearchResults.value[index].filter(
+			(group) => group.groupId === selectedSearchGroupId.value
+		)
+		if (
+			!results.some(
+				(group) =>
+					Array.isArray(group.features.features) &&
+					group.features.features.length > 0
+			)
+		) {
+			return t(($) => $.hint.noResults, { ns: PluginId })
+		}
+	})
+
 	async function addCoordinateToRoute(
 		coordinate: Coordinate,
 		userInput = false
@@ -587,6 +620,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 		/** @alpha @internal */
 		focusAfterSearch,
+
+		/** @alpha */
+		searchResultHint,
 
 		/**
 		 * The input that currently has focus.
