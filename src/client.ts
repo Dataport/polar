@@ -39,7 +39,7 @@ function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
 					plugin: Fullscreen({ renderType: 'iconMenu' }),
 				},
 				{
-					plugin: LayerChooser({}),
+					plugin: LayerChooser(),
 					icon: 'kern-icon-fill--layers',
 				},
 				enabledPlugins.includes('gfi') && {
