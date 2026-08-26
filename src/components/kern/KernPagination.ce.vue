@@ -29,6 +29,7 @@
 			<li
 				v-for="option of visibleOptions"
 				:key="'dots' in option ? option.dots : option.page"
+				:class="{ dots: 'dots' in option }"
 			>
 				<template v-if="'dots' in option">…</template>
 				<button
@@ -145,6 +146,10 @@ ul {
 	li {
 		display: flex;
 		align-items: center;
+
+		&.dots {
+			margin-top: -0.5rem;
+		}
 	}
 }
 
