@@ -79,11 +79,15 @@ const currentPage = computed({
 
 const pageCount = computed(() => Math.ceil(props.count / props.pageSize))
 
-watch([() => props.count, () => props.pageSize], () => {
-	if (currentPage.value > pageCount.value) {
-		startIndex.value = 0
-	}
-})
+watch(
+	[() => props.count, () => props.pageSize],
+	() => {
+		if (currentPage.value > pageCount.value) {
+			startIndex.value = 0
+		}
+	},
+	{ immediate: true }
+)
 
 const visibleOptions = computed(() => {
 	const generatePageInterval = (start: number, end: number) =>
