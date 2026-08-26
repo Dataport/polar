@@ -12,8 +12,6 @@ import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 
-import { findLayer } from '@/lib/findLayer'
-
 import { addInterceptor } from '../utils/addInterceptor'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import defaults from '../utils/defaults'
@@ -80,10 +78,6 @@ export const useMainStore = defineStore('main', () => {
 	const center = ref([0, 0])
 	function centerOnFeature(feature: Feature) {
 		center.value = (feature.getGeometry() as Point).getCoordinates()
-	}
-
-	function getLayer(layerId: string) {
-		return findLayer(map.value, layerId)
 	}
 
 	function getLayerMapConfiguration(layerId: string) {
@@ -157,7 +151,6 @@ export const useMainStore = defineStore('main', () => {
 		deviceIsHorizontal,
 		// Actions
 		centerOnFeature,
-		getLayer,
 		updateHasSmallDisplay,
 		getLayerMapConfiguration,
 		maskInteraction,

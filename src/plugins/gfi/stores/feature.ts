@@ -10,6 +10,7 @@ import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
 import { useRefStore } from '@/composables/useRefStore'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
+import { findLayer } from '@/lib/findLayer'
 
 import { useMultiSelection } from '../composables/useMultiSelection'
 import { useTooltip } from '../composables/useTooltip'
@@ -34,7 +35,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 						.map(([layerId, layerConfiguration]) => ({
 							layerId,
 							layerConfiguration,
-							layer: coreStore.getLayer(layerId),
+							layer: findLayer(coreStore.map, layerId),
 						}))
 						.filter(
 							(

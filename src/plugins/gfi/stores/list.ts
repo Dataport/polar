@@ -7,6 +7,7 @@ import { computed, markRaw, ref, shallowRef } from 'vue'
 import { useOlVectorSources } from '@/composables/useOlVectorSources'
 import { useRefStore } from '@/composables/useRefStore'
 import { useCoreStore } from '@/core/stores'
+import { findLayer } from '@/lib/findLayer'
 import { getVectorSource } from '@/lib/getVectorSource'
 import { isVisible } from '@/lib/invisibleStyle'
 
@@ -69,7 +70,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 			.map((layerId) => ({
 				layerId,
 				layerConfiguration: gfiMainStore.getLayerConfiguration(layerId),
-				layer: coreStore.getLayer(layerId),
+				layer: findLayer(coreStore.map, layerId),
 			}))
 			.filter(
 				(

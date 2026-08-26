@@ -137,14 +137,6 @@ export const useCoreStore = defineStore('core', () => {
 		zoom: mainStoreRefs.zoom,
 
 		/**
-		 * Returns the layer with the given ID.
-		 *
-		 * @param layerId - ID of the layer
-		 * @alpha
-		 */
-		getLayer: mainStore.getLayer,
-
-		/**
 		 * Masks an interaction for a plugin.
 		 * If the interaction is already masked by another plugin, an error is thrown.
 		 *

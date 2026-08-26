@@ -5,6 +5,7 @@ import ClusterSource from 'ol/source/Cluster'
 import { markRaw, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { findLayer } from '@/lib/findLayer'
 import getCluster from '@/lib/getCluster'
 
 import { useGfiMainStore } from '../stores/main'
@@ -62,7 +63,7 @@ function assignGfiToCore(
 	const { feature, layerId } = features[0]
 	feature.set('_polarLayerId', layerId, true)
 	target.value = markRaw(
-		coreStore.getLayer(layerId)?.getSource() instanceof ClusterSource
+		findLayer(coreStore.map, layerId)?.getSource() instanceof ClusterSource
 			? getCluster(coreStore.map, feature, '_polarLayerId')
 			: feature
 	)
