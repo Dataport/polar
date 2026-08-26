@@ -3,11 +3,11 @@ import {
 	createMap,
 	createMapElement,
 	getStore,
-	isVisible,
 	removePlugin,
 	subscribe,
 	updateState,
 } from '@polar/polar'
+import { isVisible } from '@polar/polar/lib/invisibleStyle'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
 import pluginExport from '@polar/polar/plugins/export'

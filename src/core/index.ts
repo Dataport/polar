@@ -43,7 +43,5 @@ export * from './utils/export/createMap'
 export * from './utils/export/plugin'
 export * from './utils/export/store'
 
-export { isVisible } from '@/lib/invisibleStyle'
-
 export type * from './types'
 export { type PolarContainer }
