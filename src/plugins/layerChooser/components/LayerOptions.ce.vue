@@ -35,6 +35,7 @@ import { computed, onMounted, ref } from 'vue'
 import PolarInput from '@/components/PolarInput.ce.vue'
 import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
 import { useCoreStore } from '@/core/stores'
+import { findLayer } from '@/lib/findLayer'
 
 import { useLayerChooserStore } from '../store'
 import { PluginId } from '../types'
@@ -72,7 +73,9 @@ onMounted(() => {
 	const layersInSource: string =
 		(
 			(
-				coreStore.getLayer(openedOptionsId.value) as Layer<ImageWMS | TileWMS>
+				findLayer(coreStore.map, openedOptionsId.value) as Layer<
+					ImageWMS | TileWMS
+				>
 			).getSource() as ImageWMS | TileWMS
 		).getParams().LAYERS || ''
 	// NOTE: Reversing the array is needed to preserve the order that is displayed in the map.

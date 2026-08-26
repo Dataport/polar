@@ -14,6 +14,7 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { findLayer } from '@/lib/findLayer'
 
 import { areLayersActive } from './utils/areLayersActive'
 import {
@@ -200,7 +201,9 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 	function toggleOpenedOptionsServiceLayer(layerIds: string[]) {
 		const olSource = (
-			coreStore.getLayer(openedOptionsId.value) as Layer<ImageWMS | TileWMS>
+			findLayer(coreStore.map, openedOptionsId.value) as Layer<
+				ImageWMS | TileWMS
+			>
 		).getSource()
 
 		if (!olSource) {
