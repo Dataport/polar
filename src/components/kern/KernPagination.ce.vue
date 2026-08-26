@@ -1,5 +1,8 @@
 <template>
-	<p class="kern-subline kern-subline--small">
+	<p
+		class="kern-subline kern-subline--small"
+		:class="{ 'polar-subline--real-small': pageCount <= 1 }"
+	>
 		{{
 			$t(($) => $.pagination.entries, {
 				ns: 'shared',
@@ -135,6 +138,10 @@ const visibleOptions = computed(() => {
 </script>
 
 <style scoped>
+.polar-subline--real-small {
+	padding-bottom: 0;
+}
+
 ul {
 	display: flex;
 	list-style-type: none;
