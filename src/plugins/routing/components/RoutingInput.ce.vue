@@ -8,6 +8,7 @@
 				:id="`polar-plugin-routing-input-${index}`"
 				v-model="routeInputValue"
 				class="kern-form-input__input"
+				:aria-describedby="`polar-plugin-routing-hint-${index}`"
 				:aria-label="
 					$t(($) => $.label.aria, {
 						ns: PluginId,
@@ -43,8 +44,13 @@
 					}}
 				</template>
 			</PolarResultList>
-			<p v-if="searchResultHint" class="polar-plugin-routing-search-hint">
-				{{ searchResultHint }}
+			<p
+				:id="`polar-plugin-routing-hint-${index}`"
+				role="status"
+				aria-live="polite"
+				class="polar-plugin-routing-search-hint"
+			>
+				{{ searchResultHint || '' }}
 			</p>
 		</div>
 		<div class="polar-plugin-routing-waypoint-button-wrapper">
