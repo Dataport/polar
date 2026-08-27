@@ -232,7 +232,7 @@ export const useMarkerStore = defineStore('marker', () => {
 			const pluginListStore = usePluginStore()
 			const pluginStore = pluginListStore.getPluginStore(pluginName as PluginId)
 			if (!pluginStore) {
-				// As the default assumes GFI is available, we don't want to throw an error if the plugin is not installed.
+				// As the default assumes IconMenu is available, we don't want to throw an error if the plugin is not installed.
 				return
 			}
 			pluginStore[action](payload)
