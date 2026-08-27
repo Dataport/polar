@@ -256,7 +256,7 @@ export const useCoreStore = defineStore('core', () => {
 		/**
 		 * Feature that is hovered by the user with a marker.
 		 * If the layer does not use clustering, this is the same as {@link hoveredFeature}.
-		 * Otherwise, this is the cluster feature that contains the {@link hoveredFeature}.
+		 * Otherwise, this is the cluster that contains the {@link hoveredFeature}.
 		 *
 		 * @readonly
 		 * @alpha
