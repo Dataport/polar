@@ -14,7 +14,7 @@ import type {
 import { toMerged } from 'es-toolkit'
 import { unByKey } from 'ol/Observable'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, shallowRef } from 'vue'
+import { computed, shallowRef, watch } from 'vue'
 
 import { isVisible } from '@/lib/invisibleStyle'
 
@@ -119,6 +119,12 @@ export const useMarkerStore = defineStore('marker', () => {
 			active
 		)
 	)
+
+	watch(selectedFeature, (feature) => {
+		if (feature) {
+			mainStore.centerOnFeature(feature)
+		}
+	})
 
 	const hoveredFeature = shallowRef<Feature | null>(null)
 	const {
