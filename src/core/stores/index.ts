@@ -305,7 +305,7 @@ export const useCoreStore = defineStore('core', () => {
 		/**
 		 * Feature that is marked as selected on the map.
 		 * If the layer does not use clustering, this is the same as {@link selectedFeature}.
-		 * Otherwise, this is the cluster feature that contains the {@link selectedFeature}.
+		 * Otherwise, this is the cluster that contains the {@link selectedFeature}.
 		 *
 		 * @readonly
 		 * @alpha
