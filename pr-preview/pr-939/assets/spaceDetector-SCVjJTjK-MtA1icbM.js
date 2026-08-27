@@ -1,1 +1,0 @@
-import{ot as e}from"./vue.runtime.esm-bundler-RlC0jGC_-BFgCretw.js";import{o as t}from"./stores-C-wpxfDd-BGaIPOEb.js";var n=n=>{let r=t();return{spaceDirection:e(()=>(n.value.renderType===`independent`||n.value.renderType===void 0?n.value.layoutTag:r.getPluginStore(`iconMenu`)?.layoutTag)?.includes(`RIGHT`)?`left`:`right`)}};export{n as t};
