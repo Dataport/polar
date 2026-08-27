@@ -283,7 +283,7 @@ export const useCoreStore = defineStore('core', () => {
 		/**
 		 * Currently selected marker feature or `null`.
 		 * You may not set this to a cluster.
-		 * Setting this value to a cluster feature has no effect, however, this may change in the future.
+		 * Setting this value to a cluster has no effect, however, this may change in the future.
 		 *
 		 * @remarks
 		 * If this value is modified, the newly selected feature is centered on the map.
