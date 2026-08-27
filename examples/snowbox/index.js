@@ -119,6 +119,7 @@ const map = await createMap(
 				type: 'mask',
 				name: 'Anliegen (MML)',
 				visibility: false,
+				backgroundId: basemapGreyId,
 			},
 			{
 				id: ausgleichsflaechen,

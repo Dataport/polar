@@ -151,6 +151,10 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 	watch(visibleMaskIds, (ids) => {
 		setActiveMaskIdsVisibility(ids)
+		const newBackgroundId = getBackgroundIdForActiveMasks(ids)
+		if (newBackgroundId && activeBackgroundId.value !== newBackgroundId) {
+			activeBackgroundId.value = newBackgroundId
+		}
 	})
 
 	function setActiveMaskIdsVisibility(ids: string[]) {
@@ -212,6 +216,13 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 			return
 		}
 		olSource.updateParams({ ...olSource.getParams(), LAYERS: layerIds })
+	}
+
+	function getBackgroundIdForActiveMasks(maskIds) {
+		const mask = masks.value.find(
+			({ id, backgroundId }) => maskIds.includes(id) && backgroundId
+		)
+		return mask?.backgroundId || null
 	}
 
 	return {
@@ -277,3 +288,24 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		toggleOpenedOptionsServiceLayer,
 	}
 })
+
+if (import.meta.vitest) {
+	const { describe, it, expect } = await import('vitest')
+
+	describe('layerChooser store - getBackgroundIdForActiveMasks', () => {
+		it('should return backgroundId when active mask has one', () => {
+			const maskList = [
+				{ id: 'mask1', backgroundId: 'bg-grey' },
+				{ id: 'mask2', backgroundId: 'bg-color' },
+			]
+			const activeIds = ['mask1']
+
+			const result =
+				maskList.find(
+					({ id, backgroundId }) => activeIds.includes(id) && backgroundId
+				)?.backgroundId || null
+
+			expect(result).toBe('bg-grey')
+		})
+	})
+}

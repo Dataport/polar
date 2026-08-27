@@ -89,6 +89,24 @@ export interface LayerConfiguration {
 	type: LayerType
 
 	/**
+	 * ID of the background layer that should be shown when this mask layer is active.
+	 *
+	 * @remarks
+	 * When this mask layer is activated, the layerChooser store will automatically switch to this background.
+	 *
+	 * @example
+	 * ```
+	 * {
+	 *   id: 'reports',
+	 *   type: 'mask',
+	 *   name: 'Complaints (MML)',
+	 *   backgroundId: 'basemapGrey',
+	 * }
+	 * ```
+	 */
+	backgroundId?: string
+
+	/**
 	 * layers may have their own gfiMode.
 	 */
 	gfiMode?: 'bboxDot' | 'intersects'
