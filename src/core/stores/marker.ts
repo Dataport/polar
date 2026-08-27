@@ -290,6 +290,9 @@ export const useMarkerStore = defineStore('marker', () => {
 
 		listenerKeys.push(mainStore.map.on('pointermove', mapPointerMove))
 		listenerKeys.push(mainStore.map.on('click', mapClick))
+
+		// click leads to singleclick; if an element is selected,
+		// to not let other plugins pick it up, something was already done with it
 		listenerKeys.push(mainStore.map.on('singleclick', mapSingleClick))
 	}
 	function teardown() {
