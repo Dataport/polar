@@ -138,7 +138,7 @@ export interface MarkerConfiguration {
 	 * ```
 	 *
 	 * @remarks
-	 * The default value open the gfi window in the iconMenu, if the iconMenu exists
+	 * The default value opens the gfi window in the iconMenu, if the iconMenu exists
 	 * with the gfi plugin registered under the id `gfi`.
 	 * Actively setting the value to `null` results in nothing being done on select.
 	 */
