@@ -4,9 +4,11 @@ import type BaseLayer from 'ol/layer/Base'
 import type VectorLayer from 'ol/layer/Vector'
 import type { Style } from 'ol/style'
 import type {
+	CallOnMapSelect,
 	MarkerLayer,
 	MarkerLayerConfiguration,
 	MarkerStyle,
+	PluginId,
 } from '../types'
 
 import { toMerged } from 'es-toolkit'
@@ -20,6 +22,7 @@ import { useClusterMarker } from '../composables/useClusterMarker'
 import { resolveClusterClick } from '../utils/map/resolveClusterClick'
 import { getMarkerStyle } from '../utils/markers'
 import { useMainStore } from './main'
+import { usePluginStore } from './plugin'
 
 // these have been measured to fit once and influence marker size
 const imgSize: [number, number] = [26, 36]
@@ -166,6 +169,18 @@ export const useMarkerStore = defineStore('marker', () => {
 		() => mainStore.map.getView().getMaxZoom() === mainStore.zoom
 	)
 
+	const callOnMapSelect = computed(() =>
+		typeof configuration.value?.callOnMapSelect === 'function'
+			? (configuration.value.callOnMapSelect as CallOnMapSelect)
+			: typeof configuration.value?.callOnMapSelect === 'undefined'
+				? ({
+						action: 'openMenuById',
+						payload: 'gfi',
+						pluginName: 'iconMenu',
+					} satisfies CallOnMapSelect)
+				: null
+	)
+
 	const lastClickEvent = ref<PointerEvent | KeyboardEvent | WheelEvent | null>(
 		null
 	)
@@ -206,6 +221,23 @@ export const useMarkerStore = defineStore('marker', () => {
 		}
 
 		selectedFeature.value = selectableClusterFeatures[0]
+
+		if (callOnMapSelect.value) {
+			const mainStore = useMainStore()
+			const { action, payload, pluginName } = callOnMapSelect.value
+			if (!pluginName) {
+				mainStore[action](payload)
+				return
+			}
+
+			const pluginListStore = usePluginStore()
+			const pluginStore = pluginListStore.getPluginStore(pluginName as PluginId)
+			if (!pluginStore) {
+				// As the default assumes GFI is available, we don't want to throw an error if the plugin is not installed.
+				return
+			}
+			pluginStore[action](payload)
+		}
 	}
 
 	function mapSingleClick(event: MapBrowserEvent) {
