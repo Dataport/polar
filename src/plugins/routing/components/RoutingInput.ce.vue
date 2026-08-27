@@ -50,7 +50,7 @@
 				aria-live="polite"
 				class="polar-plugin-routing-search-hint"
 			>
-				{{ searchResultHint || '' }}
+				{{ searchResultHintForInput }}
 			</p>
 		</div>
 		<div class="polar-plugin-routing-waypoint-button-wrapper">
@@ -149,6 +149,12 @@ const searchResultsForInput = computed(
 const showResultList = computed(
 	() =>
 		showSearchResultList.value && currentlyFocusedInput.value === props.index
+)
+
+const searchResultHintForInput = computed(() =>
+	currentlyFocusedInput.value === props.index
+		? searchResultHint.value || ''
+		: ''
 )
 
 /**
