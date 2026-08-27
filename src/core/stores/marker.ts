@@ -14,7 +14,7 @@ import type {
 import { toMerged } from 'es-toolkit'
 import { unByKey } from 'ol/Observable'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, shallowRef } from 'vue'
+import { computed, shallowRef } from 'vue'
 
 import { isVisible } from '@/lib/invisibleStyle'
 
@@ -181,9 +181,7 @@ export const useMarkerStore = defineStore('marker', () => {
 				: null
 	)
 
-	const lastClickEvent = ref<PointerEvent | KeyboardEvent | WheelEvent | null>(
-		null
-	)
+	let lastClickEvent: PointerEvent | KeyboardEvent | WheelEvent | null = null
 
 	function mapClick(event: MapBrowserEvent) {
 		const { map, pixel } = event
@@ -209,7 +207,7 @@ export const useMarkerStore = defineStore('marker', () => {
 		}
 
 		event.stopPropagation()
-		lastClickEvent.value = event.originalEvent
+		lastClickEvent = event.originalEvent
 
 		if (
 			clusterClickZoom.value &&
@@ -241,7 +239,7 @@ export const useMarkerStore = defineStore('marker', () => {
 	}
 
 	function mapSingleClick(event: MapBrowserEvent) {
-		if (event.originalEvent === lastClickEvent.value) {
+		if (event.originalEvent === lastClickEvent) {
 			event.stopPropagation()
 		}
 	}
