@@ -4,7 +4,6 @@ import type BaseLayer from 'ol/layer/Base'
 import type VectorLayer from 'ol/layer/Vector'
 import type { Style } from 'ol/style'
 import type {
-	CallOnMapSelect,
 	MarkerLayer,
 	MarkerLayerConfiguration,
 	MarkerStyle,
@@ -174,15 +173,13 @@ export const useMarkerStore = defineStore('marker', () => {
 	)
 
 	const callOnMapSelect = computed(() =>
-		typeof configuration.value?.callOnMapSelect === 'function'
-			? (configuration.value.callOnMapSelect as CallOnMapSelect)
-			: typeof configuration.value?.callOnMapSelect === 'undefined'
-				? ({
-						action: 'openMenuById',
-						payload: 'gfi',
-						pluginName: 'iconMenu',
-					} satisfies CallOnMapSelect)
-				: null
+		typeof configuration.value?.callOnMapSelect === 'undefined'
+			? {
+					action: 'openMenuById',
+					payload: 'gfi',
+					pluginName: 'iconMenu',
+				}
+			: configuration.value.callOnMapSelect
 	)
 
 	let lastClickEvent: PointerEvent | KeyboardEvent | WheelEvent | null = null

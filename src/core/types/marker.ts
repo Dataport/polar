@@ -2,7 +2,7 @@ import type { Feature } from 'ol'
 
 export type MarkersIsSelectableFunction = (feature: Feature) => boolean
 
-export interface CallOnMapSelect {
+interface CallOnMapSelect {
 	action: string
 	payload: unknown
 	pluginName?: string
@@ -140,8 +140,9 @@ export interface MarkerConfiguration {
 	 * @remarks
 	 * The default value open the gfi window in the iconMenu, if the iconMenu exists
 	 * with the gfi plugin registered under the id `gfi`.
+	 * Actively setting the value to `null` results in nothing being done on select.
 	 */
-	callOnMapSelect?: CallOnMapSelect
+	callOnMapSelect?: CallOnMapSelect | null
 
 	/**
 	 * If `true`, clicking a cluster feature will zoom into the clustered features'
