@@ -82,7 +82,7 @@ export const useMarkerStore = defineStore('marker', () => {
 	}
 
 	function layerFilter(layer: BaseLayer) {
-		return layer.get('id') in layers.value
+		return Object.hasOwn(layers.value, layer.get('id'))
 	}
 
 	function getStyle(
