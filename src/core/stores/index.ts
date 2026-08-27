@@ -282,7 +282,7 @@ export const useCoreStore = defineStore('core', () => {
 
 		/**
 		 * Currently selected marker feature or `null`.
-		 * You may not set this to a cluster feature.
+		 * You may not set this to a cluster.
 		 * Setting this value to a cluster feature has no effect, however, this may change in the future.
 		 *
 		 * @remarks
