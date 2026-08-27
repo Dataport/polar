@@ -249,7 +249,7 @@ export const useCoreStore = defineStore('core', () => {
 
 		/**
 		 * Currently hovered marker feature or `null`.
-		 * You may not set this to a cluster feature.
+		 * You may not set this to a cluster.
 		 */
 		hoveredFeature: markerStoreRefs.hoveredFeature,
 
