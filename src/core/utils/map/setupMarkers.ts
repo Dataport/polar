@@ -1,7 +1,12 @@
 import type { Feature, Map, MapBrowserEvent, MapEvent } from 'ol'
 import type BaseLayer from 'ol/layer/Base'
 import type VectorSource from 'ol/source/Vector'
-import type { MarkerLayer, MarkerStyle, PluginId } from '../../types'
+import type {
+	GetMarkerFunction,
+	MarkerLayer,
+	MarkerStyle,
+	PluginId,
+} from '../../types'
 
 import { toMerged } from 'es-toolkit'
 import { createEmpty, extend } from 'ol/extent'
@@ -17,13 +22,14 @@ import { isVisible } from '@/lib/invisibleStyle'
 import { useMainStore } from '../../stores/main'
 import { useMarkerStore } from '../../stores/marker'
 import { usePluginStore } from '../../stores/plugin'
-import { getMarkerStyle } from '../markers'
+import { createGetMarkerStyle } from '../markers'
 
 let stopWatcher: (() => void) | null = null
+let getMarkerStyle: GetMarkerFunction = createGetMarkerStyle(() => {})
 
 // these have been measured to fit once and influence marker size
-const imgSize: [number, number] = [26, 36]
-const imgSizeMulti: [number, number] = [40, 36]
+const imgSize: [number, number] = [40 * 2, 36 * 2]
+const imgSizeMulti: [number, number] = [40 * 2, 36 * 2]
 
 const defaultStroke = '#FFFFFF'
 const defaultStrokeWidth = '2'
@@ -104,12 +110,12 @@ function updateSelection(
 		typeof findLayer(map, layerId)?.getSource().getDistance === 'function'
 			? getCluster(map, feature, '_polarLayerId')
 			: feature
-
 	selectedCluster.setStyle(
 		getMarkerStyle(
 			getLayerConfiguration(feature.get('_polarLayerId') as string)
 				.selectionStyle,
-			selectedCluster.get('features')?.length > 1
+			selectedCluster.get('features')?.length,
+			store.displayFeatureCount
 		)
 	)
 
@@ -156,6 +162,10 @@ export function setupMarkers(map: Map) {
 		return
 	}
 
+	getMarkerStyle = createGetMarkerStyle(() => {
+		map.render()
+	})
+
 	layers = configuration.layers.map((layer) =>
 		toMerged(
 			{
@@ -193,7 +203,8 @@ export function setupMarkers(map: Map) {
 					layerConfiguration.isSelectable(feature as Feature)
 						? layerConfiguration.defaultStyle
 						: layerConfiguration.unselectableStyle,
-					feature.get('features')?.length > 1
+					feature.get('features')?.length,
+					store.displayFeatureCount
 				)
 			)
 		})
@@ -202,20 +213,19 @@ export function setupMarkers(map: Map) {
 
 	stopWatcher = watch(
 		() => store.hovered,
-		(feature) => {
-			if (feature !== null && feature !== toRaw(store.selected)) {
-				store.hovered?.setStyle(undefined)
-				store.hovered = null
+		(feature, oldFeature) => {
+			if (oldFeature !== null && oldFeature !== toRaw(store.selected)) {
+				oldFeature.setStyle(undefined)
 			}
 			if (feature !== null && feature !== toRaw(store.selected)) {
-				store.hovered = markRaw(feature)
-				const isMultiFeature = store.hovered.get('features')?.length > 1
+				const featureCount = feature.get('features')?.length
 				const style = getMarkerStyle(
 					getLayerConfiguration(feature.get('_polarLayerId') as string)
 						.hoverStyle,
-					isMultiFeature
+					featureCount,
+					store.displayFeatureCount
 				)
-				store.hovered.setStyle(style)
+				feature.setStyle(style)
 			}
 		}
 	)
@@ -236,6 +246,7 @@ export function teardownMarkers(map: Map) {
 	stopWatcher = null
 	layers = []
 	lastClickEvent = null
+	getMarkerStyle = createGetMarkerStyle(() => {})
 
 	map.un('moveend', mapMoveEnd)
 	map.un('pointermove', mapPointerMove)
@@ -268,18 +279,15 @@ function mapPointerMove({ map, pixel }: MapBrowserEvent) {
 		layerFilter,
 	})[0]
 
+	if (feature === toRaw(store.hovered)) {
+		return
+	}
+
 	if (feature === toRaw(store.selected) || feature instanceof RenderFeature) {
 		return
 	}
-	if (
-		toRaw(store.hovered) !== null &&
-		toRaw(store.hovered) !== toRaw(store.selected)
-	) {
-		store.hovered?.setStyle(undefined)
-		store.hovered = null
-	}
-
 	if (!feature) {
+		store.hovered = null
 		return
 	}
 	setLayerId(map, feature)
@@ -287,12 +295,9 @@ function mapPointerMove({ map, pixel }: MapBrowserEvent) {
 		feature.get('_polarLayerId') as string
 	)
 	if (!layerConfiguration.isSelectable(feature)) {
+		store.hovered = null
 		return
 	}
-	const isMultiFeature = feature.get('features')?.length > 1
-	feature.setStyle(
-		getMarkerStyle(layerConfiguration.hoverStyle, isMultiFeature)
-	)
 	store.hovered = markRaw(feature)
 }
 
