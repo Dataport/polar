@@ -110,7 +110,7 @@ watch(map, (map) => {
 				],
 				[
 					{
-						plugin: pluginLayerChooser({}),
+						plugin: pluginLayerChooser(),
 						icon: 'kern-icon-fill--layers',
 					},
 					{
