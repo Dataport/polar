@@ -24,10 +24,10 @@ export const PluginId = 'gfi'
  * 	maxFeatures: 10,
  * 	geometryName: 'app:geometry',
  * 	exportProperty: 'Export',
- * 	properties: {
- * 		status: 'status',
- * 		type: 'type',
- * 	},
+ * 	properties: [
+ * 		'status',
+ * 		'type',
+ * 	],
  * 	showTooltip: (feature: Feature): [string, string][] => [
  * 		['div', `Feature ID: ${feature.properties.id}`],
  * 		['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`],
@@ -89,6 +89,23 @@ export interface GfiLayerConfiguration {
 	/**
 	 * In case {@link GfiLayerConfiguration.window | `window`} is `true`, this will be used to determine which contents to show.
 	 * The property names can be localized, regardless if this is set or all properties are shown.
+	 *
+	 * @remarks
+	 * The values listed here can be localized as follows:
+	 * ```ts
+	 * gfi: {
+	 * 	layer: {
+	 * 		haus: {
+	 * 			property: {
+	 * 				status: 'Status',
+	 * 				type: 'Type',
+	 * 			},
+	 * 		},
+	 * 	},
+	 * }
+	 * ```
+	 *
+	 * @example `['status', 'type']`
 	 *
 	 * @defaultValue Display all properties
 	 */
