@@ -87,6 +87,16 @@ export interface GfiLayerConfiguration {
 	isSelectable?: (feature: GeoJsonFeature) => boolean
 
 	/**
+	 * Limits the viewable results per layer by this number.
+	 * The first n elements are chosen arbitrarily.
+	 * Useful if you e.g. just want one result, or to limit an endless stream of returns to e.g. 10.
+	 *
+	 * @defaultValue `Infinity`
+	 * @example `10`
+	 */
+	maxFeatures?: number
+
+	/**
 	 * In case {@link GfiLayerConfiguration.window | `window`} is `true`, this will be used to determine which contents to show.
 	 * The property names can be localized, regardless if this is set or all properties are shown.
 	 *
