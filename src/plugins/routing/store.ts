@@ -175,7 +175,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				coordinate,
 				false
 			)
-			routeAddressTexts.value[index] = feature?.title ?? ''
+			if (feature?.title) {
+				routeAddressTexts.value[index] = feature.title
+			}
 		}
 	}
 
