@@ -216,7 +216,7 @@ export interface FeatureList {
 /**
  * Configuration for multi-selection behavior in the gfi plugin.
  */
-export interface MultiSelect {
+interface MultiSelect {
 	/**
 	 * If set to `'box'`, the selection will be done in a box.
 	 * If set to `'circle'`, the selection will be done in a circle.
