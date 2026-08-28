@@ -1,8 +1,6 @@
-import type { Feature as GeoJsonFeature } from 'geojson'
 import type { MapBrowserEvent } from 'ol'
 import type { GfiLayerConfiguration, RequestGfiParameters } from '../types'
 
-import { rawLayerList } from '@masterportal/masterportalapi'
 import { debounce, isEqual } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
@@ -10,12 +8,11 @@ import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
 import { useRefStore } from '@/composables/useRefStore'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
-import { findLayer } from '@/lib/findLayer'
 
 import { useMultiSelection } from '../composables/useMultiSelection'
 import { useTooltip } from '../composables/useTooltip'
 import { PluginId } from '../types'
-import { requestGfi } from '../utils/requestGfi'
+import { retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers } from '../utils/retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers'
 import { useGfiMainStore } from './main'
 
 export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
@@ -28,57 +25,10 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			toggleSelection?: boolean
 		} = {}
 	) {
-		let result = Object.fromEntries(
-			(
-				await Promise.all(
-					Object.entries(gfiMainStore.configuration.layers)
-						.map(([layerId, layerConfiguration]) => ({
-							layerId,
-							layerConfiguration,
-							layer: findLayer(coreStore.map, layerId),
-						}))
-						.filter(
-							(
-								layer
-							): layer is {
-								[K in keyof typeof layer]: NonNullable<(typeof layer)[K]>
-							} => Boolean(layer.layer)
-						)
-						.map(async ({ layerId, layer, layerConfiguration }) => {
-							return [
-								layerId,
-								(
-									await requestGfi({
-										coordinateOrExtent,
-										layer,
-										layerConfiguration,
-										layerSpecification: rawLayerList.getLayerWhere({
-											id: layerId,
-										}),
-										map: coreStore.map,
-										mode:
-											coreStore.configuration.layers.find(
-												(layer) => layer.id === layerId
-											)?.gfiMode ||
-											gfiMainStore.configuration.mode ||
-											'bboxDot',
-									})
-								)
-									.filter(
-										(feature) =>
-											!layerConfiguration.isSelectable ||
-											layerConfiguration.isSelectable(feature)
-									)
-									.slice(
-										0,
-										gfiMainStore.configuration.maxFeatures ||
-											Number.POSITIVE_INFINITY
-									),
-							]
-						})
-				)
-			).filter((it): it is GeoJsonFeature[][] => Boolean(it))
-		) as Record<string, GeoJsonFeature[]>
+		let result =
+			await retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers(
+				coordinateOrExtent
+			)
 
 		if (gfiMainStore.configuration.afterLoadFunction) {
 			result = gfiMainStore.configuration.afterLoadFunction(result)
