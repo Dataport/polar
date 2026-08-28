@@ -348,7 +348,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			: route.value.toSpliced(index, 0, [])
 		routeAddressTexts.value = remove
 			? routeAddressTexts.value.toSpliced(index, 1)
-			: routeAddressTexts.value.toSpliced(index, 0, null)
+			: routeAddressTexts.value.toSpliced(index, 0, '')
 	}
 
 	return {
