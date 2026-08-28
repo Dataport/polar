@@ -222,7 +222,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	})
 
 	async function addCoordinateToRoute(
-		coordinate: Coordinate,
+		coordinate: [number, number],
 		userInput = false
 	) {
 		const index = currentlyFocusedInput.value
@@ -232,7 +232,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			1,
 			coordinate.join(', ')
 		)
-		if (reverseGeocoderStore) {
+		if (reverseGeocoderStore && !userInput) {
 			const feature = await reverseGeocoderStore.reverseGeocode(
 				coordinate,
 				false
@@ -240,6 +240,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			if (feature?.title) {
 				routeInput.value[index] = feature.title
 			}
+		}
 	}
 
 	function setRouteInputValue(index: number, value: string) {
@@ -247,7 +248,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			return
 		}
 		routeInputValues.value = routeInputValues.value.toSpliced(index, 1, value)
-		routeAddressTexts.value = routeAddressTexts.value.toSpliced(index, 1, null)
+		routeInput.value = routeInput.value.toSpliced(index, 1, null)
 		void searchForRouteInput(index, value)
 	}
 
@@ -558,7 +559,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			return
 		}
 		await addCoordinateToRoute(
-			searchResult.feature.geometry.coordinates as Coordinate,
+			searchResult.feature.geometry.coordinates as [number, number],
 			true
 		)
 		routeInputValues.value = routeInputValues.value.toSpliced(
@@ -686,7 +687,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		reset,
 
 		/**
-		 * Inserts an empty coordinate pair into the route as well as an empty input value into routeInputValues, routeSearchResults and routeAddressTexts.
+		 * Inserts an empty coordinate pair into the route as well as an empty input value into routeInputValues, routeSearchResults and routeInput.
 		 *
 		 * @alpha
 		 */

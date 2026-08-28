@@ -31,7 +31,7 @@
 				:focus-after-search="focusAfterSearch"
 				:focus-return-target-id="`polar-plugin-routing-input-${index}`"
 				:result-item-id-prefix="`polar-result-list-routing-${index}-results-feature`"
-				@select-result="selectResult"
+				@select-result="routeStore.selectResult"
 			>
 				<template #result-count-label="{ count }">
 					{{ $t(($) => $.resultCount, { count, ns: PluginId }) }}
@@ -59,7 +59,7 @@
 				:label-sr-only="true"
 				class="kern-btn--tertiary"
 				:disabled="addWaypointButtonDisabled"
-				@click="setRoute(index)"
+				@click="routeStore.setRoute(index)"
 			>
 				{{ $t(($) => $.label.add, { ns: PluginId }) }}
 			</KernButton>
@@ -68,7 +68,7 @@
 				:label-sr-only="true"
 				class="kern-btn--tertiary"
 				:disabled="route.length === 2"
-				@click="setRoute(index, true)"
+				@click="routeStore.setRoute(index, true)"
 			>
 				{{ $t(($) => $.label.remove, { ns: PluginId }) }}
 			</KernButton>
@@ -165,8 +165,6 @@ const addWaypointButtonDisabled = computed(
 		route.value.filter((part) => Boolean(part.length)).length <
 		route.value.length - 1
 )
-
-const { setRoute, selectResult } = routeStore
 
 function focusResultList(event: KeyboardEvent) {
 	if (!Array.isArray(searchResultsForInput.value)) {
