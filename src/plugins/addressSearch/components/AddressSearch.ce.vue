@@ -22,46 +22,22 @@
 					}))
 				"
 			/>
-			<div class="polar-plugin-address-search-input-wrapper">
-				<span class="kern-icon kern-icon--search" aria-hidden="true" />
-				<span
-					id="polar-plugin-address-search-input-description"
-					class="kern-sr-only"
-				>
-					{{ $t(($) => $.aria.description, { ns: PluginId }) }}
-				</span>
-				<input
-					id="polar-plugin-address-search-input"
-					v-model="inputValue"
-					class="kern-form-input__input"
-					type="text"
-					:aria-label="ariaLabel"
-					aria-describedby="polar-plugin-address-search-input-description"
-					@keydown.enter="addressSearchStore.abortAndRequest"
-					@keydown.down="inputDown"
-				/>
-				<SmallLoader
-					v-if="isLoading"
-					:style="`right: ${slotPlacement}; top: ${slotPlacement}`"
-				/>
-				<KernButton
-					v-if="inputValue.length && !isLoading"
-					class="kern-btn--tertiary polar-plugin-address-search-input-button"
-					:style="`right: ${slotPlacement}; top: ${slotPlacement}`"
-					icon="kern-icon--close"
-					:label-sr-only="true"
-					@click="clear"
-				>
-					{{ $t(($) => $.hint.clear, { ns: PluginId }) }}
-				</KernButton>
-				<!-- Additionally needed so screen readers can detect the aria live region -->
-				<span class="kern-sr-only" aria-live="polite">
-					{{ hint }}
-				</span>
-				<span v-if="hint.length" class="polar-plugin-address-search-hint">
-					{{ hint }}
-				</span>
-			</div>
+			<PolarSearchInput
+				:input-id="'polar-plugin-address-search-input'"
+				:input-value="inputValue"
+				:label-text="ariaLabel"
+				:described-by-text="'polar-plugin-address-search-description'"
+				:description-for-aria="descriptionForAria"
+				:layout="layout"
+				:is-loading="isLoading"
+				:show-clear-button="showClearButton"
+				:clear-label="$t(($) => $.hint.clear, { ns: PluginId })"
+				:hint="hint"
+				@update:input-value="(val) => (inputValue = val)"
+				@clear="clear"
+				@keydown.enter="addressSearchStore.abortAndRequest"
+				@keydown.down="inputDown"
+			/>
 		</div>
 		<SearchResults />
 	</PolarCard>
@@ -72,8 +48,8 @@ import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { computed, nextTick } from 'vue'
 
-import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
+import PolarSearchInput from '@/components/PolarSearchInput.ce.vue'
 import PolarSelect from '@/components/PolarSelect.ce.vue'
 import { useCoreStore } from '@/core/stores'
 import { focusFirstResult } from '@/lib/focusFirstResult'
@@ -81,7 +57,6 @@ import { focusFirstResult } from '@/lib/focusFirstResult'
 import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
 import SearchResults from './SearchResults.ce.vue'
-import SmallLoader from './SmallLoader.ce.vue'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()
@@ -108,8 +83,13 @@ const ariaLabel = computed(() =>
 	)
 )
 const maxWidth = computed(() => `${coreStore.clientWidth * 0.75}px`)
-const slotPlacement = computed(() =>
-	layout.value === 'standard' ? '0' : 'var(--kern-metric-space-small)'
+
+const descriptionForAria = computed(() =>
+	t(($) => $.aria.description, { ns: PluginId })
+)
+
+const showClearButton = computed(
+	() => inputValue.value.length > 0 && !isLoading.value
 )
 
 function clear() {
@@ -183,56 +163,6 @@ function inputDown(event: KeyboardEvent) {
 
 		&:deep(select) {
 			width: 0;
-		}
-
-		.polar-plugin-address-search-input-wrapper {
-			display: grid;
-			grid-template-columns: auto minmax(0, 1fr);
-			grid-template-rows: auto auto;
-			align-items: center;
-			width: 100%;
-			column-gap: var(--kern-metric-space-small);
-
-			.kern-icon--search {
-				grid-column: 1;
-				grid-row: 1;
-				width: var(--kern-metric-dimension-large);
-				height: var(--kern-metric-dimension-large);
-			}
-
-			#polar-plugin-address-search-input {
-				grid-column: 2;
-				grid-row: 1;
-				border-radius: var(--kern-metric-border-radius-small);
-				background: var(--kern-color-form-input-background);
-				padding-right: calc(var(--kern-metric-space-large) * 2);
-			}
-
-			.polar-plugin-address-search-input-button {
-				position: absolute;
-				right: 0;
-				top: 0;
-				border-radius: var(--kern-metric-border-radius-small);
-				margin: var(--kern-metric-space-default);
-				width: var(--kern-metric-dimension-large);
-				min-height: var(--kern-metric-dimension-large);
-			}
-
-			.kern-loader {
-				position: absolute;
-				right: 0;
-				top: 0;
-				margin: var(--kern-metric-space-default);
-			}
-
-			.polar-plugin-address-search-hint {
-				grid-column: 2;
-				grid-row: 2;
-				color: var(--kern-color-layout-text-muted);
-				font-size: calc(var(--kern-typography-font-size-small-static) * 0.875);
-				padding: 0 var(--kern-metric-space-2x-small);
-				margin-top: var(--kern-metric-space-small);
-			}
 		}
 	}
 }
