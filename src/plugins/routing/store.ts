@@ -161,7 +161,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		).filter(({ value }) => selectableTravelModes.value.includes(value))
 	)
 
-	async function addCoordinateToRoute(coordinate: Coordinate) {
+	async function addCoordinateToRoute(coordinate: [number, number]) {
 		const index = currentlyFocusedInput.value
 		route.value = route.value.toSpliced(index, 1, coordinate)
 		routeAddressTexts.value = routeAddressTexts.value.toSpliced(
@@ -171,11 +171,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		)
 		if (hasReverseGeocoder.value) {
 			const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
-			const [x, y] = coordinate
-			if (x === undefined || y === undefined) {
-				return
-			}
-			const feature = await reverseGeocoderStore?.reverseGeocode([x, y], false)
+			const feature = await reverseGeocoderStore?.reverseGeocode(
+				coordinate,
+				false
+			)
 			routeAddressTexts.value[index] = feature?.title ?? ''
 		}
 	}
@@ -249,7 +248,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		draw = new Draw({ stopClick: true, type: 'Point' })
 		draw.on('drawend', async (e) => {
 			await addCoordinateToRoute(
-				(e.feature.getGeometry() as Point).getCoordinates()
+				(e.feature.getGeometry() as Point).getCoordinates() as [number, number]
 			)
 			coreStore.unmaskInteraction('routing', 'click')
 			currentlyFocusedInput.value = -1
