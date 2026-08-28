@@ -360,7 +360,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 		/**
 		 * Reverse-geocoded address labels for each waypoint in {@link route}.
-		 * `null` if no address was resolved (e.g. reverse geocoder not configured).
+		 * Coordinates if no address was resolved (e.g. reverse geocoder not configured).
 		 * @alpha
 		 */
 		routeAddressTexts,
