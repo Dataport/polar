@@ -30,6 +30,7 @@ export const resourcesDe = {
 	switch: {
 		previous: 'Vorangehender Datensatz',
 		next: 'Nächster Datensatz',
+		entryXOfY: 'Eintrag {{index}} von {{count}}',
 	},
 	noActiveLayer:
 		'Derzeit ist kein Kartenmaterial mit passenden Objekten eingeschaltet.',
@@ -60,6 +61,7 @@ export const resourcesEn = {
 	switch: {
 		previous: 'Previous data',
 		next: 'Next data',
+		entryXOfY: 'Entry {{index}} of {{count}}',
 	},
 	noActiveLayer: 'Currently, no map layer with fitting objects is active.',
 	list: {

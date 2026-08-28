@@ -52,6 +52,18 @@
 			</KernButton>
 		</div>
 	</div>
+	<p
+		v-if="gfiStore.features.length > 1"
+		class="kern-subline kern-subline--small"
+	>
+		{{
+			$t(($) => $.switch.entryXOfY, {
+				ns: PluginId,
+				index: gfiStore.featureIndex + 1,
+				count: gfiStore.features.length,
+			})
+		}}
+	</p>
 	<table class="kern-table kern-table--striped">
 		<caption v-if="gfiStore.title" class="kern-title">
 			{{
