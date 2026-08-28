@@ -13,10 +13,11 @@ import type {
 import { toMerged } from 'es-toolkit'
 import { unByKey } from 'ol/Observable'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, shallowRef, watch } from 'vue'
+import { computed, shallowRef } from 'vue'
 
 import { isVisible } from '@/lib/invisibleStyle'
 
+import { useCenteredFeature } from '../composables/useCenteredFeature'
 import { useClusterMarker } from '../composables/useClusterMarker'
 import { resolveClusterClick } from '../utils/map/resolveClusterClick'
 import { getMarkerStyle } from '../utils/markers'
@@ -105,7 +106,7 @@ export const useMarkerStore = defineStore('marker', () => {
 		)
 	}
 
-	const selectedFeature = shallowRef<Feature | null>(null)
+	const { feature: selectedFeature } = useCenteredFeature()
 	const {
 		cluster: selectedCluster,
 		clusterFeatures: selectedClusterFeatures,
@@ -118,12 +119,6 @@ export const useMarkerStore = defineStore('marker', () => {
 			active
 		)
 	)
-
-	watch(selectedFeature, (feature) => {
-		if (feature) {
-			mainStore.centerOnFeature(feature)
-		}
-	})
 
 	const hoveredFeature = shallowRef<Feature | null>(null)
 	const {
