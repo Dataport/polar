@@ -1,5 +1,5 @@
 import type { Feature } from 'ol'
-import type { FeatureList } from '../types'
+import type { FeatureListText } from '../types'
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, markRaw, ref, shallowRef } from 'vue'
@@ -153,10 +153,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		)
 	)
 
-	function getText(
-		feature: Feature,
-		type: keyof NonNullable<FeatureList['text']>
-	) {
+	function getText(feature: Feature, type: keyof FeatureListText) {
 		const text = configuration.value?.text?.[type]
 		if (typeof text === 'string') {
 			return text

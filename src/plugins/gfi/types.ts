@@ -157,6 +157,19 @@ export interface CustomHighlightStyle {
 }
 
 /**
+ * Object with one to three entries that will produce title, subtitle, and an additional subtitle for the list view.
+ *
+ * If a parameter is a string, the text item will simply be that feature's value for the denoted property.
+ * If it is a function, it's assumed to match the function signature `(feature: Feature): string`
+ * and the returned string will be used for the text item.
+ */
+export interface FeatureListText {
+	title: ((feature: Feature) => string) | string
+	subSubtitle?: ((feature: Feature) => string) | string
+	subtitle?: ((feature: Feature) => string) | string
+}
+
+/**
  * Configuration for visible features in the feature information window.
  *
  * @example
@@ -199,18 +212,8 @@ export interface FeatureList {
 	 */
 	pageLength?: number
 
-	/**
-	 * Object with one to three entries that will produce title, subtitle, and an additional subtitle for the list view.
-	 *
-	 * If a parameter is a string, the text item will simply be that feature's value for the denoted property.
-	 * If it is a function, it's assumed to match the function signature `(feature: Feature): string`
-	 * and the returned string will be used for the text item.
-	 */
-	text?: {
-		title: ((feature: Feature) => string) | string
-		subtitle?: ((feature: Feature) => string) | string
-		subSubtitle?: ((feature: Feature) => string) | string
-	}
+	/** Header text definition for feature list. */
+	text?: FeatureListText
 }
 
 /**
