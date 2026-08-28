@@ -401,10 +401,10 @@ export interface RequestGfiParameters {
 }
 
 /** @internal */
-export interface RequestGfiWmsParameters {
+export interface RequestGfiWmsParameters extends Pick<
+	RequestGfiParameters,
+	'layerConfiguration' | 'layerSpecification' | 'map'
+> {
 	coordinate: [number, number]
 	layer: TileLayer<TileWMS> | ImageLayer<ImageWMS>
-	layerConfiguration: RequestGfiParameters['layerConfiguration']
-	layerSpecification: RequestGfiParameters['layerSpecification']
-	map: RequestGfiParameters['map']
 }
