@@ -7,7 +7,7 @@
 			independent: gfiStore.renderType === 'independent',
 		}"
 	>
-		<GfiFeature v-if="gfiStore.feature" v-bind="gfiStore.feature" />
+		<GfiFeature v-if="gfiStore.feature" :layer-id="gfiStore.feature.layerId" />
 		<GfiFeatureList v-else-if="gfiStore.configuration.featureList" />
 	</PolarCard>
 </template>
