@@ -14,6 +14,7 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { findLayer } from '@/lib/findLayer'
 
 import { areLayersActive } from './utils/areLayersActive'
 import {
@@ -200,14 +201,10 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 
 	function toggleOpenedOptionsServiceLayer(layerIds: string[]) {
 		const olSource = (
-			coreStore.map
-				.getLayers()
-				.getArray()
-				.find((l) => l.get('id') === openedOptionsId.value) as Layer<
+			findLayer(coreStore.map, openedOptionsId.value) as Layer<
 				ImageWMS | TileWMS
 			>
 		).getSource()
-
 		if (!olSource) {
 			console.error(
 				`Action 'toggleOpenedOptionsServiceLayer' failed on ${openedOptionsId.value}. Layer not found in OpenLayers or source not initialized in OpenLayers.`
