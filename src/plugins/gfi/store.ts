@@ -159,14 +159,14 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		listGetText: gfiListStore.getText,
 
 		/**
-		 * Features that should be displayed in a detail view.
+		 * Features that should be displayed in the detailed view.
 		 *
 		 * @alpha
 		 */
 		features: gfiFeatureStoreRefs.visibleFeatures,
 
 		/**
-		 * Index of the selected feature for the detail view.
+		 * Index of the selected feature for the detailed view.
 		 * This is used to calculate `feature`.
 		 *
 		 * @alpha
@@ -174,7 +174,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		featureIndex: gfiFeatureStoreRefs.selectedFeatureIndex,
 
 		/**
-		 * Selected feature for the detail view.
+		 * Selected feature for the detailed view.
 		 * This is the currently shown feature.
 		 *
 		 * To mutate this value, change `featureIndex`.
@@ -185,7 +185,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		feature: gfiFeatureStoreRefs.selectedFeature,
 
 		/**
-		 * Properties for the selected feature in detail view.
+		 * Properties for the selected feature in the detailed view.
 		 * The properties are already filtered by configuration.
 		 *
 		 * @readonly
@@ -203,7 +203,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		exportProperty: gfiFeatureStoreRefs.exportProperty,
 
 		/**
-		 * The title for the selected feature in detail view.
+		 * The title for the selected feature in the detailed view.
 		 *
 		 * @readonly
 		 * @alpha
