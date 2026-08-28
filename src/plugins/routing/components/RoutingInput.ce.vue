@@ -6,7 +6,7 @@
 			</label>
 			<input
 				:id="`polar-plugin-routing-input-${index}`"
-				v-model="routeAddressTexts[index]"
+				v-model="routeInput[index]"
 				class="kern-form-input__input"
 				:aria-label="
 					$t(($) => $.label.aria, {
@@ -57,8 +57,7 @@ defineProps<{
 
 const routeStore = useRoutingStore()
 
-const { currentlyFocusedInput, route, routeAddressTexts } =
-	storeToRefs(routeStore)
+const { currentlyFocusedInput, route, routeInput } = storeToRefs(routeStore)
 
 /**
  * This makes sure that there are always two fillable input fields at max.

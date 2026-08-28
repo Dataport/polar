@@ -47,7 +47,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
-	const routeAddressTexts = ref<(string | null)[]>([null, null])
+	const routeInput = ref<(string | null)[]>([null, null])
 	const routingResponseData = ref<RoutingResponseData | null>(null)
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
@@ -164,7 +164,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	async function addCoordinateToRoute(coordinate: [number, number]) {
 		const index = currentlyFocusedInput.value
 		route.value = route.value.toSpliced(index, 1, coordinate)
-		routeAddressTexts.value = routeAddressTexts.value.toSpliced(
+		routeInput.value = routeInput.value.toSpliced(
 			index,
 			1,
 			coordinate.join(', ')
@@ -176,7 +176,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				false
 			)
 			if (feature?.title) {
-				routeAddressTexts.value[index] = feature.title
+				routeInput.value[index] = feature.title
 			}
 		}
 	}
@@ -327,7 +327,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	function reset() {
 		route.value = [[], []]
-		routeAddressTexts.value = [null, null]
+		routeInput.value = [null, null]
 		currentlyFocusedInput.value = -1
 		selectedPreference.value = 'recommended'
 		selectedTravelMode.value = 'driving-car'
@@ -346,9 +346,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		route.value = remove
 			? route.value.toSpliced(index, 1)
 			: route.value.toSpliced(index, 0, [])
-		routeAddressTexts.value = remove
-			? routeAddressTexts.value.toSpliced(index, 1)
-			: routeAddressTexts.value.toSpliced(index, 0, '')
+		routeInput.value = remove
+			? routeInput.value.toSpliced(index, 1)
+			: routeInput.value.toSpliced(index, 0, '')
 	}
 
 	return {
@@ -363,7 +363,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * Coordinates if no address was resolved (e.g. reverse geocoder not configured).
 		 * @alpha
 		 */
-		routeAddressTexts,
+		routeInput,
 
 		/**
 		 * The response of the routing service depending on the {@link route} and
