@@ -96,7 +96,6 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 
 		/**
 		 * If pagination is configured, the number of features per page.
-		 * Otherwise, the behaviour is undefined.
 		 *
 		 * @alpha
 		 */
@@ -104,7 +103,6 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 
 		/**
 		 * If pagination is configured, the page that is currently selected in the list view.
-		 * Otherwise, the behaviour is undefined.
 		 *
 		 * @alpha
 		 */
@@ -114,7 +112,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		 * If pagination is configured, the index of the first feature that is shown on the current page.
 		 * Otherwise, the value is zero.
 		 *
-		 * The index refers to `listFlatFeatures`.
+		 * The index refers to {@link listFlatFeatures}.
 		 *
 		 * @alpha
 		 */
