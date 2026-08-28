@@ -79,7 +79,7 @@ export interface GfiLayerConfiguration {
 	/**
 	 * A function can be defined to allow filtering features to be either selectable (return `true`) or not.
 	 * Unselectable features will be filtered out by the GFI plugin and have neither GFI display nor store presence, but may be visible in the map nonetheless, depending on your other configuration.
-	 * Please also mind that usage in combination with `extendedMasterportalapiMarkers` requires further configuration of that feature for smooth UX.
+	 * Please also mind that usage in combination with {@link MapConfiguration.markers | `mapConfiguration.markers`} requires further configuration of that feature for smooth UX.
 	 *
 	 * @param feature - Feature to check
 	 * @returns `true` if the feature should be selectable, `false` otherwise
