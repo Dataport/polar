@@ -1,4 +1,5 @@
 import type { Feature, MapBrowserEvent } from 'ol'
+import type { EventsKey } from 'ol/events'
 import type BaseLayer from 'ol/layer/Base'
 import type VectorLayer from 'ol/layer/Vector'
 import type { Style } from 'ol/style'
@@ -6,18 +7,22 @@ import type {
 	MarkerLayer,
 	MarkerLayerConfiguration,
 	MarkerStyle,
+	PluginId,
 } from '../types'
 
 import { toMerged } from 'es-toolkit'
+import { unByKey } from 'ol/Observable'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, shallowRef } from 'vue'
+import { computed, shallowRef } from 'vue'
 
 import { isVisible } from '@/lib/invisibleStyle'
 
+import { useCenteredFeature } from '../composables/useCenteredFeature'
 import { useClusterMarker } from '../composables/useClusterMarker'
 import { resolveClusterClick } from '../utils/map/resolveClusterClick'
 import { getMarkerStyle } from '../utils/markers'
 import { useMainStore } from './main'
+import { usePluginStore } from './plugin'
 
 // these have been measured to fit once and influence marker size
 const imgSize: [number, number] = [26, 36]
@@ -67,19 +72,18 @@ export const useMarkerStore = defineStore('marker', () => {
 	const mainStore = useMainStore()
 	const configuration = computed(() => mainStore.configuration.markers)
 
-	const layers = computed(
-		() =>
-			configuration.value?.layers.map((layer) =>
-				toMerged(layerDefaults, layer)
-			) ?? []
+	const layers = Object.fromEntries(
+		configuration.value?.layers
+			.map((layer) => toMerged(layerDefaults, layer))
+			.map((layer) => [layer.id, layer as MarkerLayer]) ?? []
 	)
 
 	function getLayerConfiguration(id: string) {
-		return layers.value.find((layer) => layer.id === id) as MarkerLayer
+		return layers[id] as MarkerLayer
 	}
 
 	function layerFilter(layer: BaseLayer) {
-		return layers.value.some(({ id }) => id === (layer.get('id') as string))
+		return Object.hasOwn(layers, layer.get('id'))
 	}
 
 	function getStyle(
@@ -102,7 +106,7 @@ export const useMarkerStore = defineStore('marker', () => {
 		)
 	}
 
-	const selectedFeature = shallowRef<Feature | null>(null)
+	const { feature: selectedFeature } = useCenteredFeature()
 	const {
 		cluster: selectedCluster,
 		clusterFeatures: selectedClusterFeatures,
@@ -163,9 +167,17 @@ export const useMarkerStore = defineStore('marker', () => {
 		() => mainStore.map.getView().getMaxZoom() === mainStore.zoom
 	)
 
-	const lastClickEvent = ref<PointerEvent | KeyboardEvent | WheelEvent | null>(
-		null
+	const callOnMapSelect = computed(() =>
+		typeof configuration.value?.callOnMapSelect === 'undefined'
+			? {
+					action: 'openMenuById',
+					payload: 'gfi',
+					pluginName: 'iconMenu',
+				}
+			: configuration.value.callOnMapSelect
 	)
+
+	let lastClickEvent: PointerEvent | KeyboardEvent | WheelEvent | null = null
 
 	function mapClick(event: MapBrowserEvent) {
 		const { map, pixel } = event
@@ -191,7 +203,7 @@ export const useMarkerStore = defineStore('marker', () => {
 		}
 
 		event.stopPropagation()
-		lastClickEvent.value = event.originalEvent
+		lastClickEvent = event.originalEvent
 
 		if (
 			clusterClickZoom.value &&
@@ -203,13 +215,33 @@ export const useMarkerStore = defineStore('marker', () => {
 		}
 
 		selectedFeature.value = selectableClusterFeatures[0]
+
+		if (callOnMapSelect.value) {
+			const mainStore = useMainStore()
+			const { action, payload, pluginName } = callOnMapSelect.value
+			if (!pluginName) {
+				mainStore[action](payload)
+				return
+			}
+
+			const pluginListStore = usePluginStore()
+			const pluginStore = pluginListStore.getPluginStore(pluginName as PluginId)
+			if (!pluginStore) {
+				// As the default assumes IconMenu is available, we don't want to throw an error if the plugin is not installed.
+				return
+			}
+			pluginStore[action](payload)
+		}
 	}
 
 	function mapSingleClick(event: MapBrowserEvent) {
-		if (event.originalEvent === lastClickEvent.value) {
+		if (event.originalEvent === lastClickEvent) {
 			event.stopPropagation()
 		}
 	}
+
+	const listenerKeys: EventsKey[] = []
+	const teardownCallbacks: (() => void)[] = []
 
 	function setup() {
 		mainStore.map
@@ -219,32 +251,53 @@ export const useMarkerStore = defineStore('marker', () => {
 			.forEach((layer) => {
 				// only vector layers reach this
 				const source = (layer as VectorLayer).getSource()
+				const stampFeature = (feature: Feature) => {
+					feature.set('_polarLayerId', layer.get('id'), true)
+					;(feature.get('features') || []).forEach((feature) => {
+						feature.set('_polarLayerId', layer.get('id'), true)
+					})
+				}
 				if (source !== null) {
 					// @ts-expect-error | Undocumented hook.
 					source.geometryFunction =
 						// prevents features from jumping due to invisible features "pulling"
 						(feature: Feature) =>
 							isVisible(feature) ? feature.getGeometry() : null
-					source.on('addfeature', (event) => {
-						event.feature.set('_polarLayerId', layer.get('id'), true)
-						;(event.feature.get('features') || []).forEach((feature) => {
-							feature.set('_polarLayerId', layer.get('id'), true)
-						})
+					teardownCallbacks.push(() => {
+						// @ts-expect-error | Undocumented hook.
+						source.geometryFunction = undefined
 					})
+					source.getFeatures().forEach((feature) => {
+						stampFeature(feature)
+					})
+					listenerKeys.push(
+						source.on('addfeature', (event) => {
+							stampFeature(event.feature)
+						})
+					)
 				}
 				;(layer as VectorLayer).setStyle((feature) =>
 					getStyle(feature as Feature, layer.get('id'), false, false)
 				)
+				teardownCallbacks.push(() => {
+					;(layer as VectorLayer).setStyle(undefined)
+				})
 			})
 
-		mainStore.map.on('pointermove', mapPointerMove)
-		mainStore.map.on('click', mapClick)
-		mainStore.map.on('singleclick', mapSingleClick)
+		listenerKeys.push(mainStore.map.on('pointermove', mapPointerMove))
+		listenerKeys.push(mainStore.map.on('click', mapClick))
+
+		// click leads to singleclick; if an element is selected,
+		// to not let other plugins pick it up, something was already done with it
+		listenerKeys.push(mainStore.map.on('singleclick', mapSingleClick))
 	}
 	function teardown() {
-		mainStore.map.un('pointermove', mapPointerMove)
-		mainStore.map.un('click', mapClick)
-		mainStore.map.un('singleclick', mapSingleClick)
+		listenerKeys.forEach((key) => {
+			unByKey(key)
+		})
+		teardownCallbacks.forEach((callback) => {
+			callback()
+		})
 	}
 
 	return {

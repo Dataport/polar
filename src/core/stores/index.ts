@@ -24,13 +24,11 @@ export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 	const mainStoreRefs = storeToRefs(mainStore)
 
-	const contextMenuStore = useContextMenuStore()
-
 	const markerStore = useMarkerStore()
 	const markerStoreRefs = storeToRefs(markerStore)
 
+	const contextMenuStore = useContextMenuStore()
 	const moveHandleStore = useMoveHandleStore()
-
 	const pluginStore = usePluginStore()
 
 	return {
@@ -268,19 +266,15 @@ export const useCoreStore = defineStore('core', () => {
 		moveHandleTop: computed(() => moveHandleStore.top),
 
 		/**
-		 * Feature that is hovered by the user with a marker.
-		 *
-		 * @remarks
-		 * The attribute _polarLayerId needs to be set.
-		 *
-		 * @alpha
+		 * Currently hovered marker feature or `null`.
+		 * You may not set this to a cluster.
 		 */
 		hoveredFeature: markerStoreRefs.hoveredFeature,
 
 		/**
 		 * Feature that is hovered by the user with a marker.
 		 * If the layer does not use clustering, this is the same as {@link hoveredFeature}.
-		 * Otherwise, this is the cluster feature that contains the {@link hoveredFeature}.
+		 * Otherwise, this is the cluster that contains the {@link hoveredFeature}.
 		 *
 		 * @readonly
 		 * @alpha
@@ -305,15 +299,12 @@ export const useCoreStore = defineStore('core', () => {
 		hoveredCoordinates: computed(() => markerStore.hoveredCoordinates),
 
 		/**
-		 * Feature that was selected by the user with a marker.
-		 *
-		 * You may not set this to a cluster feature.
-		 * Setting this value to a cluster feature has no effect, however, this may change in the future.
-		 *
-		 * If this value is modified, the newly selected feature is centered on the map.
+		 * Currently selected marker feature or `null`.
+		 * You may not set this to a cluster.
+		 * Setting this value to a cluster has no effect, however, this may change in the future.
 		 *
 		 * @remarks
-		 * The attribute _polarLayerId needs to be set.
+		 * If this value is modified, the newly selected feature is centered on the map.
 		 *
 		 * Wait at least one `nextTick` after modifying {@link hoveredFeature} before mutating this value.
 		 *
@@ -332,7 +323,7 @@ export const useCoreStore = defineStore('core', () => {
 		/**
 		 * Feature that is marked as selected on the map.
 		 * If the layer does not use clustering, this is the same as {@link selectedFeature}.
-		 * Otherwise, this is the cluster feature that contains the {@link selectedFeature}.
+		 * Otherwise, this is the cluster that contains the {@link selectedFeature}.
 		 *
 		 * @readonly
 		 * @alpha
