@@ -195,7 +195,8 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 
 		/**
 		 * If an export property is configured and defined, the value of that property.
-		 * Otherwise `null`.
+		 *
+		 * @defaultValue `null`
 		 *
 		 * @readonly
 		 * @alpha
