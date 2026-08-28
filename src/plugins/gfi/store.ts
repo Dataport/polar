@@ -95,21 +95,21 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		listPaginationActive: gfiListStoreRefs.paginationActive,
 
 		/**
-		 * If pagination is configured, the number of features per page.
+		 * If {@link FeatureList.pageLength | pagination} is configured, the number of features per page.
 		 *
 		 * @alpha
 		 */
 		listPageLength: gfiListStoreRefs.pageLength,
 
 		/**
-		 * If pagination is configured, the page that is currently selected in the list view.
+		 * If {@link FeatureList.pageLength | pagination} is configured, the page that is currently selected in the list view.
 		 *
 		 * @alpha
 		 */
 		listPage: gfiListStoreRefs.page,
 
 		/**
-		 * If pagination is configured, the index of the first feature that is shown on the current page.
+		 * If {@link FeatureList.pageLength | pagination} is configured, the index of the first feature that is shown on the current page.
 		 * Otherwise, the value is zero.
 		 *
 		 * The index refers to {@link listFlatFeatures}.
@@ -119,7 +119,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		listPaginationStartIndex: gfiListStoreRefs.paginationStartIndex,
 
 		/**
-		 * If pagination is configured, the index of the last feature that is shown on the current page.
+		 * If {@link FeatureList.pageLength | pagination} is configured, the index of the last feature that is shown on the current page.
 		 * Otherwise, the value is `undefined`.
 		 *
 		 * The index refers to `listFlatFeatures`.
@@ -133,7 +133,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 
 		/**
 		 * Paginated list of features to display in the list view.
-		 * If pagination is not configured, this equals `listFlatFeatures`.
+		 * If {@link FeatureList.pageLength | pagination} is not configured, this equals `listFlatFeatures`.
 		 *
 		 * @alpha
 		 */
@@ -165,7 +165,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 
 		/**
 		 * Index of the selected feature for the detailed view.
-		 * This is used to calculate `feature`.
+		 * This is used to calculate {@link feature}.
 		 *
 		 * @alpha
 		 */
@@ -175,7 +175,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		 * Selected feature for the detailed view.
 		 * This is the currently shown feature.
 		 *
-		 * To mutate this value, change `featureIndex`.
+		 * To mutate this value, change {@link featureIndex}.
 		 *
 		 * @readonly
 		 * @alpha
@@ -192,7 +192,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		properties: gfiFeatureStoreRefs.selectedFeatureProperties,
 
 		/**
-		 * If an export property is configured and defined, the value of that property.
+		 * If an {@link GfiLayerConfiguration.exportProperty} is configured and defined, the value of that property.
 		 *
 		 * @defaultValue `null`
 		 *
