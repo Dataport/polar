@@ -50,7 +50,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
-	const routeAddressTexts = ref<(string | null)[]>([null, null])
+	const routeInput = ref<(string | null)[]>([null, null])
 	const routingResponseData = ref<RoutingResponseData | null>(null)
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
@@ -84,6 +84,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const selectedSearchGroupId = computed(
 		() => configuration.value.searchGroupId ?? 'defaultGroup'
 	)
+	const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
 
 	const currentlyFocusedInput = computed({
 		get: () => _currentlyFocusedInput.value,
@@ -226,17 +227,19 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	) {
 		const index = currentlyFocusedInput.value
 		route.value = route.value.toSpliced(index, 1, coordinate)
-		routeAddressTexts.value = routeAddressTexts.value.toSpliced(index, 1, '')
-		if (reverseGeocoderConfigured.value && !userInput) {
-			const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
-			const [x, y] = coordinate
-			if (x === undefined || y === undefined) {
-				return
+		routeInput.value = routeInput.value.toSpliced(
+			index,
+			1,
+			coordinate.join(', ')
+		)
+		if (reverseGeocoderStore) {
+			const feature = await reverseGeocoderStore.reverseGeocode(
+				coordinate,
+				false
+			)
+			if (feature?.title) {
+				routeInput.value[index] = feature.title
 			}
-			const feature = await reverseGeocoderStore?.reverseGeocode([x, y], false)
-			routeAddressTexts.value[index] = feature?.title ?? ''
-			routeInputValues.value[index] = ''
-		}
 	}
 
 	function setRouteInputValue(index: number, value: string) {
@@ -401,7 +404,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		draw = new Draw({ stopClick: true, type: 'Point' })
 		draw.on('drawend', async (e) => {
 			await addCoordinateToRoute(
-				(e.feature.getGeometry() as Point).getCoordinates()
+				(e.feature.getGeometry() as Point).getCoordinates() as [number, number]
 			)
 			coreStore.unmaskInteraction('routing', 'click')
 			currentlyFocusedInput.value = -1
@@ -494,7 +497,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			SearchResultSymbols.NO_SEARCH,
 		]
 		routeSearchRequestCounters.value = [0, 0]
-		routeAddressTexts.value = [null, null]
+		routeInput.value = [null, null]
 		currentlyFocusedInput.value = -1
 		selectedPreference.value = 'recommended'
 		selectedTravelMode.value = 'driving-car'
@@ -526,9 +529,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		route.value = remove
 			? route.value.toSpliced(index, 1)
 			: route.value.toSpliced(index, 0, [])
-		routeAddressTexts.value = remove
-			? routeAddressTexts.value.toSpliced(index, 1)
-			: routeAddressTexts.value.toSpliced(index, 0, null)
+		routeInput.value = remove
+			? routeInput.value.toSpliced(index, 1)
+			: routeInput.value.toSpliced(index, 0, '')
 	}
 
 	async function search(input: string) {
@@ -579,11 +582,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 		/**
 		 * Reverse-geocoded address labels for each waypoint in {@link route}.
-		 * `null` if no address was resolved (e.g. reverse geocoder not configured).
-		 *
+		 * Coordinates if no address was resolved (e.g. reverse geocoder not configured).
 		 * @alpha
 		 */
-		routeAddressTexts,
+		routeInput,
 
 		/**
 		 * The response of the routing service depending on the {@link route} and

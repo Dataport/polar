@@ -5,7 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, readonly } from 'vue'
 
 import { useContextMenuStore } from './contextMenu'
 import { useMainStore } from './main'
@@ -24,8 +24,10 @@ export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 	const mainStoreRefs = storeToRefs(mainStore)
 
-	const contextMenuStore = useContextMenuStore()
 	const markerStore = useMarkerStore()
+	const markerStoreRefs = storeToRefs(markerStore)
+
+	const contextMenuStore = useContextMenuStore()
 	const moveHandleStore = useMoveHandleStore()
 	const pluginStore = usePluginStore()
 
@@ -246,18 +248,79 @@ export const useCoreStore = defineStore('core', () => {
 		moveHandleTop: computed(() => moveHandleStore.top),
 
 		/**
-		 * Currently hovered marker feature or null.
-		 *
-		 * @readonly
+		 * Currently hovered marker feature or `null`.
+		 * You may not set this to a cluster.
 		 */
-		hovered: computed(() => markerStore.hovered),
+		hoveredFeature: markerStoreRefs.hoveredFeature,
 
 		/**
-		 * Currently selected marker feature or null.
+		 * Feature that is hovered by the user with a marker.
+		 * If the layer does not use clustering, this is the same as {@link hoveredFeature}.
+		 * Otherwise, this is the cluster that contains the {@link hoveredFeature}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		hoveredCluster: readonly(markerStoreRefs.hoveredCluster),
+
+		/**
+		 * Features that are hovered by the user with a marker.
+		 * If the layer does not use clustering, this is an array with a single element, which is the same as {@link hoveredFeature}.
+		 * Otherwise, this is an array of all features that are contained in the {@link hoveredCluster}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		hoveredClusterFeatures: markerStoreRefs.hoveredClusterFeatures,
+
+		/**
+		 * Coordinates that were hovered by the user with a marker.
 		 *
 		 * @readonly
 		 */
-		selected: computed(() => markerStore.selected),
+		hoveredCoordinates: computed(() => markerStore.hoveredCoordinates),
+
+		/**
+		 * Currently selected marker feature or `null`.
+		 * You may not set this to a cluster.
+		 * Setting this value to a cluster has no effect, however, this may change in the future.
+		 *
+		 * @remarks
+		 * If this value is modified, the newly selected feature is centered on the map.
+		 *
+		 * Wait at least one `nextTick` after modifying {@link hoveredFeature} before mutating this value.
+		 *
+		 * @alpha
+		 */
+		selectedFeature: computed({
+			get: () => markerStore.selectedFeature,
+			set: (feature) => {
+				if (feature?.get('features')) {
+					return
+				}
+				markerStore.selectedFeature = feature
+			},
+		}),
+
+		/**
+		 * Feature that is marked as selected on the map.
+		 * If the layer does not use clustering, this is the same as {@link selectedFeature}.
+		 * Otherwise, this is the cluster that contains the {@link selectedFeature}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		selectedCluster: readonly(markerStoreRefs.selectedCluster),
+
+		/**
+		 * Features that are marked as selected on the map.
+		 * If the layer does not use clustering, this is an array with a single element, which is the same as {@link selectedFeature}.
+		 * Otherwise, this is an array of all features that are contained in the {@link selectedCluster}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		selectedClusterFeatures: markerStoreRefs.selectedClusterFeatures,
 
 		/**
 		 * Coordinates that were selected by the user with a marker.

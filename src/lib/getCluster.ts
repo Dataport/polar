@@ -4,6 +4,8 @@ import type VectorSource from 'ol/source/Vector'
 import { Feature } from 'ol'
 import VectorLayer from 'ol/layer/Vector'
 
+import { findLayer } from '@/lib/findLayer'
+
 /*
  * Helper function to retrieve the related cluster of a feature.
  * Returns the feature if it's a cluster feature, or the cluster the feature is in.
@@ -17,11 +19,7 @@ export default function getCluster(
 		return feature
 	}
 
-	const layer = map
-		.getLayers()
-		.getArray()
-		.find((layer) => layer.get('id') === feature.get(layerId))
-
+	const layer = findLayer(map, feature.get(layerId))
 	if (!(layer instanceof VectorLayer)) {
 		throw new Error(
 			`@polar/lib-get-cluster: The layer with the id ${layerId} either does not exist or is not a VectorLayer.`

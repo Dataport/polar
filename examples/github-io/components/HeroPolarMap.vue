@@ -7,7 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Feature } from 'ol'
 import type { MpapiParameters } from '@/lib/getFeatures/types'
 
 import { createMap } from '@polar/polar/client'
@@ -20,13 +19,7 @@ const reports = '6059'
 const hamburgBorder = '1693'
 
 const isEvenId = (mmlid: string) => Number(mmlid.slice(-1)) % 2 === 0
-
-const isReportSelectable = (feature: Feature) =>
-	(feature.get('features') as Feature[]).reduce(
-		(acc: boolean, curr: Feature) =>
-			isEvenId(curr.get('mmlid') as string) || acc,
-		false
-	)
+const isReportSelectable = (feature) => isEvenId(feature.get('mmlid'))
 
 onMounted(async () => {
 	await createMap(

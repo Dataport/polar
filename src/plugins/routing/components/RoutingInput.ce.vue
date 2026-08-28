@@ -111,7 +111,7 @@ const {
 	route,
 	routeInputValues,
 	routeSearchResults,
-	routeAddressTexts,
+	routeInput,
 	showSearchResultList,
 	selectedSearchGroupId,
 	focusAfterSearch,
@@ -125,7 +125,7 @@ const routeInputValue = computed({
 			return typedValue
 		}
 
-		const addressText = routeAddressTexts.value[props.index]
+		const addressText = routeInput.value[props.index]
 		if (addressText && addressText.length > 0) {
 			return addressText
 		}

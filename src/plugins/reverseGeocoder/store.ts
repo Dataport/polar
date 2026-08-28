@@ -99,7 +99,7 @@ export const useReverseGeocoderStore = defineStore(
 				if (configuration.value.addressTarget && forwardToAddressTarget) {
 					passFeatureToTarget(configuration.value.addressTarget, feature)
 				}
-				if (configuration.value.zoomTo) {
+				if (configuration.value.zoomTo && forwardToAddressTarget) {
 					coreStore.map.getView().fit(new Point(coordinate), {
 						maxZoom: configuration.value.zoomTo,
 						duration: 400,
