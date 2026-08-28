@@ -53,6 +53,7 @@ import { useMoveHandleStore } from '../stores/moveHandle'
 import { CoreId } from '../types'
 import { loadKern } from '../utils/loadKern'
 import { teardownMarkers } from '../utils/map/setupMarkers'
+import { teardownInteractions } from '../utils/map/updateDragAndZoomInteractions'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import ContextMenu from './ContextMenu.ce.vue'
 import MoveHandle from './MoveHandle.ce.vue'
@@ -232,7 +233,8 @@ onMounted(() => {
 		mainStore.configuration.theme?.kern || {}
 	)
 
-	mainStore.setup()
+	addEventListener('resize', mainStore.updateHasSmallDisplay)
+	mainStore.updateHasSmallDisplay()
 
 	resizeObserver = new ResizeObserver(updateClientDimensions)
 	resizeObserver.observe(polarWrapper.value as Element)
@@ -271,7 +273,8 @@ onBeforeUnmount(() => {
 	mainStore.map.dispose()
 	mapEl.replaceChildren()
 	delete (mainStore.lightElement as { store?: unknown }).store
-	mainStore.teardown()
+	removeEventListener('resize', mainStore.updateHasSmallDisplay)
+	teardownInteractions()
 
 	disposePinia(getActivePinia() as Pinia)
 
