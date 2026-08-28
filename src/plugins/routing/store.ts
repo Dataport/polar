@@ -56,9 +56,8 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const configuration = computed(
 		() => (coreStore.configuration.routing || {}) as RoutingPluginOptions
 	)
-	const hasReverseGeocoder = computed(
-		() => !!coreStore.getPluginStore('reverseGeocoder')
-	)
+	const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
+
 	const currentlyFocusedInput = computed({
 		get: () => _currentlyFocusedInput.value,
 		set: (index) => {
@@ -169,9 +168,8 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			1,
 			coordinate.join(', ')
 		)
-		if (hasReverseGeocoder.value) {
-			const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
-			const feature = await reverseGeocoderStore?.reverseGeocode(
+		if (reverseGeocoderStore) {
+			const feature = await reverseGeocoderStore.reverseGeocode(
 				coordinate,
 				false
 			)
