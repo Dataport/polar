@@ -164,7 +164,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	async function addCoordinateToRoute(coordinate: Coordinate) {
 		const index = currentlyFocusedInput.value
 		route.value = route.value.toSpliced(index, 1, coordinate)
-		routeAddressTexts.value = routeAddressTexts.value.toSpliced(index, 1, '')
+		routeAddressTexts.value = routeAddressTexts.value.toSpliced(
+			index,
+			1,
+			coordinate.join(', ')
+		)
 		if (hasReverseGeocoder.value) {
 			const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
 			const [x, y] = coordinate

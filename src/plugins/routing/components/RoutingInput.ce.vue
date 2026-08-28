@@ -6,7 +6,7 @@
 			</label>
 			<input
 				:id="`polar-plugin-routing-input-${index}`"
-				v-model="routeInput[index]"
+				v-model="routeAddressTexts[index]"
 				class="kern-form-input__input"
 				:aria-label="
 					$t(($) => $.label.aria, {
@@ -67,13 +67,6 @@ const addWaypointButtonDisabled = computed(
 	() =>
 		route.value.filter((part) => Boolean(part.length)).length <
 		route.value.length - 1
-)
-
-const routeInput = computed(() =>
-	route.value.map((coord, i) => {
-		const label = routeAddressTexts.value[i]
-		return label?.length ? label : coord.join(', ')
-	})
 )
 
 function getRouteLabel(index: number) {
