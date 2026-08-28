@@ -49,10 +49,10 @@ import { useT } from '../composables/useT'
 import { useCoreStore } from '../stores'
 import { useContextMenuStore } from '../stores/contextMenu'
 import { useMainStore } from '../stores/main'
+import { useMarkerStore } from '../stores/marker'
 import { useMoveHandleStore } from '../stores/moveHandle'
 import { CoreId } from '../types'
 import { loadKern } from '../utils/loadKern'
-import { teardownMarkers } from '../utils/map/setupMarkers'
 import { teardownInteractions } from '../utils/map/updateDragAndZoomInteractions'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
 import ContextMenu from './ContextMenu.ce.vue'
@@ -224,6 +224,8 @@ function openContextMenu(e: MouseEvent) {
 	)
 }
 
+const markerStore = useMarkerStore()
+
 onMounted(() => {
 	mainStore.lightElement = useHost()
 	mainStore.shadowRoot = useShadowRoot()
@@ -268,7 +270,7 @@ onBeforeUnmount(() => {
 	mapEl.removeEventListener('contextmenu', openContextMenu)
 	document.removeEventListener('pointerdown', contextMenuStore.dismiss)
 	if (mainStore.configuration.markers) {
-		teardownMarkers(mainStore.map)
+		markerStore.teardown()
 	}
 	mainStore.map.dispose()
 	mapEl.replaceChildren()
