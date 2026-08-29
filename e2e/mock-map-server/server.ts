@@ -50,6 +50,24 @@ function ensureLogStream(): void {
 }
 
 /**
+ * Formats a date as a local-time string for logging.
+ *
+ * @param date - The date to format (defaults to now).
+ * @returns A string like `2026-01-19T10:44:28.738`.
+ */
+function formatLocalTimestamp(date: Date = new Date()): string {
+  const pad = (value: number, length = 2): string =>
+    String(Math.abs(value)).padStart(length, '0')
+
+  return (
+    `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}` +
+    `T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(
+      date.getSeconds()
+    )}.${pad(date.getMilliseconds(), 3)}`
+  )
+}
+
+/**
  * Appends one structured log line to the mock server log file with a timestamp and request tag.
  * This is used to trace expectations and incoming map requests during test runs.
  *
@@ -58,7 +76,7 @@ function ensureLogStream(): void {
  */
 function logToFile(tag: string, params: string): void {
   ensureLogStream()
-  const timestamp = new Date().toISOString()
+  const timestamp = formatLocalTimestamp()
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   logStream!.write(`[${timestamp}][${tag}] -> [${params}]\n`)
 }

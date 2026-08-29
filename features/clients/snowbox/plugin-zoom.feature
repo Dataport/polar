@@ -42,5 +42,30 @@ Feature: Zoom functionality tests for Snowbox client
         Given the map is zoomed out at minimum zoom level
         When the zoom in button is clicked 1 times
         Then the zoom out button should be enabled
+
+    @mock-map-service
+    Scenario: Zooming in requests smaller tiles from the mock map service
+        When a WMS GetMap expectation is registered for the mock layer
+        And the layer chooser is opened
+        And the mock map basemap is selected
+        Then WMS GetMap requests should have been sent to the mock map service
+        And the WMS tile width is saved as "before zoom"
+        When the zoom in button is clicked 1 time
+        Then the zoom level should be at level 3
+        And a WMS request with tile width smaller than "before zoom" is saved as "after zoom"
+
+    @mock-map-service
+    Scenario: Zoom in followed by zoom out returns to the same tile size
+        When a WMS GetMap expectation is registered for the mock layer
+        And the layer chooser is opened
+        And the mock map basemap is selected
+        Then WMS GetMap requests should have been sent to the mock map service
+        And the WMS tile width is saved as "initial"
+        When the zoom in button is clicked 1 time
+        Then the zoom level should be at level 3
+        And a WMS request with tile width smaller than "initial" is saved as "after zoom in"
+        When the zoom out button is clicked 1 time
+        Then the zoom level should be at level 2
+        And a WMS request with tile width larger than "after zoom in" is saved as "after roundtrip"
     
 
