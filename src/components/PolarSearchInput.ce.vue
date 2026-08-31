@@ -69,7 +69,6 @@ defineOptions({
 })
 
 const slotPlacement = computed(() => {
-	console.warn(props.layout)
 	return props.layout === 'standard' ? '0' : 'var(--kern-metric-space-small)'
 })
 </script>
