@@ -16,52 +16,6 @@ function formatCommandForLog(command: string, args: string[]) {
   return [command, ...args].map(quoteIfNeeded).join(' ')
 }
 
-function normalizeTag(tag: string) {
-  return tag.startsWith('@') ? tag : `@${tag}`
-}
-
-function parseSimpleTagsSyntax(input: string) {
-  const tokens = input.trim().split(/\s+/).filter(Boolean)
-
-  const include: string[] = []
-  const exclude: string[] = []
-
-  for (const token of tokens) {
-    const isExclude = token.startsWith('!')
-    const rawTag = isExclude ? token.slice(1) : token
-
-    // example: @smoke !@not_implemented !@fails
-    if (
-      /[()]/.test(token) ||
-      /^(and|or|not)$/i.test(token) ||
-      !/^@?[A-Za-z0-9_:-]+$/.test(rawTag)
-    ) {
-      throw new Error(
-        `Unsupported --tags token: "${token}". Use: --tags "@tag !@excluded"`
-      )
-    }
-
-    const normalized = normalizeTag(rawTag)
-    if (isExclude) {
-      exclude.push(normalized)
-    } else {
-      include.push(normalized)
-    }
-  }
-
-  return { include, exclude }
-}
-
-function buildBddgenTagsExpressionFromSimpleSyntax(input: string) {
-  const { include, exclude } = parseSimpleTagsSyntax(input)
-
-  const parts: string[] = []
-  if (include.length) parts.push(`(${include.join(' and ')})`)
-  if (exclude.length) parts.push(`not (${exclude.join(' or ')})`)
-
-  return parts.join(' and ')
-}
-
 const bddgenCliPath = path.join(
   process.cwd(),
   'node_modules',
@@ -103,7 +57,7 @@ if (playwrightArgs[0] === '--') playwrightArgs = playwrightArgs.slice(1)
 
 // if (!clientName) {
 //   console.error('Error: Client name required')
-//   console.error('Usage: node e2e/run-e2e.mts <client>')
+//   console.error('Usage: node e2e/scripts/run-e2e.mts <client>')
 //   process.exit(1)
 // }
 
@@ -113,9 +67,7 @@ try {
   // eslint-disable-next-line no-console
   console.log(`Running e2e tests for client: ${clientName}`)
 
-  const tagsExpression = values.tags
-    ? buildBddgenTagsExpressionFromSimpleSyntax(String(values.tags))
-    : ''
+  const tagsExpression = values.tags ? String(values.tags) : ''
 
   if (tagsExpression) {
     // eslint-disable-next-line no-console

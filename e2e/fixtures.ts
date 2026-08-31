@@ -5,17 +5,16 @@
  * so expectations and recorded requests are isolated between parallel tests.
  *
  * Usage in spec files:
- *   import { test, expect } from '../e2e/fixtures'
+ *   import { test, expect } from '../fixtures'
  *   test('zoom sends correct request', async ({ page, mockMap }) => { ... })
  *
  * Usage in BDD step definitions:
- *   import { test } from '../e2e/fixtures'
+ *   import { test } from '../fixtures'
  *   const { Given, When, Then } = createBdd(test)
  */
 import { test as base } from 'playwright-bdd'
 import { MockMapClient } from './mock-map-server'
-
-const MOCK_MAP_BASE_URL = process.env.MOCK_MAP_URL ?? 'http://127.0.0.1:3579'
+import { MOCK_MAP_BASE_URL } from './support/config'
 
 /** Extended test type with `mockMap` fixture. */
 export const test = base.extend<{ mockMap: MockMapClient }>({

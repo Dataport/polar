@@ -1,6 +1,6 @@
 import { createBdd } from 'playwright-bdd'
-import { expect, test } from '../../e2e/fixtures'
-import type { ReceivedRequest } from '../../e2e/mock-map-server'
+import { expect, test } from '../fixtures'
+import type { ReceivedRequest } from '../mock-map-server'
 
 const { When, Then } = createBdd(test)
 

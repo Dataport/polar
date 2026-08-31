@@ -1,5 +1,5 @@
 import { createBdd } from 'playwright-bdd'
-import { test } from '../../e2e/fixtures'
+import { test } from '../fixtures'
 
 const { Given } = createBdd(test)
 

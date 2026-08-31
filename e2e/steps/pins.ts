@@ -1,32 +1,20 @@
 import { expect, type Page } from '@playwright/test'
 import { createBdd } from 'playwright-bdd'
+import {
+  CANVAS_SELECTOR,
+  SNOWBOX_PIN_TARGET_ID,
+  SNOWBOX_ZOOM_TARGET_ID,
+  ZOOM_IN_LABEL,
+  ZOOM_OUT_LABEL,
+} from '../support/selectors'
 import { saveAllPinsScreenshots } from './utils/screenshot'
+import { getPinsState, type CanvasBox } from './context'
 
 const { Given, When, Then } = createBdd()
 
 type Clip = { x: number; y: number; width: number; height: number }
 
-type CanvasBox = { x: number; y: number; width: number; height: number }
-
-type PinsContext = {
-  pins?: {
-    canvasBox?: CanvasBox
-    clickPosition?: { x: number; y: number }
-    centerPosition?: { x: number; y: number }
-    beforeClickClip?: Buffer
-    beforeCenterClip?: Buffer
-    afterClickClip?: Buffer
-    loadingCenterClip?: Buffer
-    stabilizedCenterClip?: Buffer
-  }
-}
-
-const CANVAS_SELECTOR = 'canvas'
 const CLIP_SIZE = 60
-const ZOOM_IN_LABEL = 'Zoom in'
-const ZOOM_OUT_LABEL = 'Zoom out'
-const SNOWBOX_ZOOM_TARGET_ID = '#vuex-target-zoom'
-const SNOWBOX_PIN_TARGET_ID = '#vuex-target-pin-coordinate'
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max)
@@ -152,9 +140,8 @@ async function waitForStableClip(
  * around the canvas center, the canvas center position and the canvas box so later
  * steps can detect visual changes after click interactions.
  */
-Given('no pin coordinate is set', async function ({ page }) {
-  const world = this as unknown as PinsContext
-  world.pins = world.pins || {}
+Given('no pin coordinate is set', async ({ page }) => {
+  const state = getPinsState(page)
 
   // Let the map finish initial rendering/tiles.
   await page.waitForTimeout(250)
@@ -163,11 +150,11 @@ Given('no pin coordinate is set', async function ({ page }) {
   await expect(coordinateTarget).toBeEmpty()
 
   const canvasBox = await getCanvasBox(page)
-  world.pins.canvasBox = canvasBox
-  world.pins.centerPosition = getCenterPosition(canvasBox)
+  state.canvasBox = canvasBox
+  state.centerPosition = getCenterPosition(canvasBox)
 
-  const centerClip = toClipAround(canvasBox, world.pins.centerPosition)
-  world.pins.beforeCenterClip = await screenshotClip(page, centerClip)
+  const centerClip = toClipAround(canvasBox, state.centerPosition)
+  state.beforeCenterClip = await screenshotClip(page, centerClip)
 })
 
 /**
@@ -175,21 +162,17 @@ Given('no pin coordinate is set', async function ({ page }) {
  *
  * @param {number} level - The target zoom level to set on the map.
  */
-Given(
-  'the map is zoomed to level {int}',
-  async function ({ page }, level: number) {
-    await ensureZoomLevel(page, level)
-  }
-)
+Given('the map is zoomed to level {int}', async ({ page }, level: number) => {
+  await ensureZoomLevel(page, level)
+})
 
 When(
   'the map is clicked at coordinates [{int}, {int}]',
-  async function ({ page }, x: number, y: number) {
-    const world = this as unknown as PinsContext
-    world.pins = world.pins || {}
+  async ({ page }, x: number, y: number) => {
+    const state = getPinsState(page)
 
-    const canvasBox = world.pins.canvasBox || (await getCanvasBox(page))
-    world.pins.canvasBox = canvasBox
+    const canvasBox = state.canvasBox || (await getCanvasBox(page))
+    state.canvasBox = canvasBox
 
     if (Math.abs(x) < CLIP_SIZE && Math.abs(y) < CLIP_SIZE) {
       throw new Error(
@@ -198,18 +181,17 @@ When(
     }
 
     const clickPosition = toCanvasPositionFromCenter(canvasBox, { x, y })
-    world.pins.clickPosition = clickPosition
-    world.pins.centerPosition =
-      world.pins.centerPosition || getCenterPosition(canvasBox)
+    state.clickPosition = clickPosition
+    state.centerPosition = state.centerPosition || getCenterPosition(canvasBox)
 
     await page.waitForTimeout(150)
-    world.pins.beforeClickClip = await screenshotClip(
+    state.beforeClickClip = await screenshotClip(
       page,
       toClipAround(canvasBox, clickPosition)
     )
-    world.pins.beforeCenterClip = await screenshotClip(
+    state.beforeCenterClip = await screenshotClip(
       page,
-      toClipAround(canvasBox, world.pins.centerPosition)
+      toClipAround(canvasBox, state.centerPosition)
     )
 
     await page
@@ -220,49 +202,45 @@ When(
     // Wait for loading overlay to appear and then disappear
     await page.waitForSelector('text=Loading...', { timeout: 2000 })
 
-    world.pins.afterClickClip = await waitForStableClip(
+    state.afterClickClip = await waitForStableClip(
       page,
       toClipAround(canvasBox, clickPosition)
     )
 
-    world.pins.loadingCenterClip = await screenshotClip(
+    state.loadingCenterClip = await screenshotClip(
       page,
-      toClipAround(canvasBox, world.pins.centerPosition)
+      toClipAround(canvasBox, state.centerPosition)
     )
-    expect(world.pins.loadingCenterClip).not.toEqual(
-      world.pins.beforeCenterClip
-    )
+    expect(state.loadingCenterClip).not.toEqual(state.beforeCenterClip)
 
     await page.waitForSelector('text=Loading...', {
       state: 'hidden',
       timeout: 5000,
     })
 
-    world.pins.stabilizedCenterClip = await waitForStableClip(
+    state.stabilizedCenterClip = await waitForStableClip(
       page,
-      toClipAround(canvasBox, world.pins.centerPosition)
+      toClipAround(canvasBox, state.centerPosition)
     )
   }
 )
 
-When('the map is clicked at the center coordinates', async function ({ page }) {
-  const world = this as unknown as PinsContext
-  world.pins = world.pins || {}
+When('the map is clicked at the center coordinates', async ({ page }) => {
+  const state = getPinsState(page)
 
-  const canvasBox = world.pins.canvasBox || (await getCanvasBox(page))
-  world.pins.canvasBox = canvasBox
+  const canvasBox = state.canvasBox || (await getCanvasBox(page))
+  state.canvasBox = canvasBox
 
-  const centerPosition =
-    world.pins.centerPosition || getCenterPosition(canvasBox)
-  world.pins.centerPosition = centerPosition
-  world.pins.clickPosition = centerPosition
+  const centerPosition = state.centerPosition || getCenterPosition(canvasBox)
+  state.centerPosition = centerPosition
+  state.clickPosition = centerPosition
 
   await page.waitForTimeout(150)
-  world.pins.beforeClickClip = await screenshotClip(
+  state.beforeClickClip = await screenshotClip(
     page,
     toClipAround(canvasBox, centerPosition)
   )
-  world.pins.beforeCenterClip = await screenshotClip(
+  state.beforeCenterClip = await screenshotClip(
     page,
     toClipAround(canvasBox, centerPosition)
   )
@@ -275,35 +253,34 @@ When('the map is clicked at the center coordinates', async function ({ page }) {
   // Wait for loading overlay to appear and then disappear
   await page.waitForSelector('text=Loading...', { timeout: 2000 })
 
-  world.pins.afterClickClip = await waitForStableClip(
+  state.afterClickClip = await waitForStableClip(
     page,
     toClipAround(canvasBox, centerPosition)
   )
 
-  world.pins.loadingCenterClip = await screenshotClip(
+  state.loadingCenterClip = await screenshotClip(
     page,
-    toClipAround(canvasBox, world.pins.centerPosition)
+    toClipAround(canvasBox, state.centerPosition)
   )
-  expect(world.pins.loadingCenterClip).not.toEqual(world.pins.beforeCenterClip)
+  expect(state.loadingCenterClip).not.toEqual(state.beforeCenterClip)
 
   await page.waitForSelector('text=Loading...', {
     state: 'hidden',
     timeout: 5000,
   })
 
-  world.pins.stabilizedCenterClip = await waitForStableClip(
+  state.stabilizedCenterClip = await waitForStableClip(
     page,
-    toClipAround(canvasBox, world.pins.centerPosition)
+    toClipAround(canvasBox, state.centerPosition)
   )
 })
 
 Then(
   'the pin location should be set to some value',
-  async function ({ $testInfo }) {
-    const world = this as unknown as PinsContext
-    const pins = world.pins
+  async ({ page, $testInfo }) => {
+    const pins = getPinsState(page)
 
-    if (!pins?.canvasBox) {
+    if (!pins.canvasBox) {
       throw new Error('Missing canvas box; did the map load?')
     }
     if (!pins.clickPosition) {
@@ -327,11 +304,10 @@ Then(
 
 Then(
   'a pin should be displayed at the center coordinates',
-  async function ({ $testInfo }) {
-    const world = this as unknown as PinsContext
-    const pins = world.pins
+  async ({ page, $testInfo }) => {
+    const pins = getPinsState(page)
 
-    if (!pins?.canvasBox) {
+    if (!pins.canvasBox) {
       throw new Error('Missing canvas box; did the map load?')
     }
     if (!pins.centerPosition) {

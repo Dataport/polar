@@ -5,7 +5,7 @@
 import { cp, mkdir, rm } from 'node:fs/promises'
 import { spawnSync } from 'node:child_process'
 
-const smokeTags = '@smoke !@not_implemented !@fails'
+const smokeTags = '@smoke and not (@not_implemented or @fails)'
 const defaultClients = ['snowbox', 'dish']
 
 const parseClients = () => {

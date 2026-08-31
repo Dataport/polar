@@ -1,0 +1,7 @@
+{
+  "cucumber.features": ["e2e/features/**/*.feature"],
+  "cucumber.glue": ["e2e/steps/**/*.ts"],
+  "cucumberautocomplete.steps": ["e2e/steps/**/*.ts"],
+  "cucumberautocomplete.syncfeatures": "e2e/features/**/*.feature",
+  "cucumberautocomplete.strictGherkinCompletion": false
+}

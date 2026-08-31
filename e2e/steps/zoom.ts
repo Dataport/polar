@@ -1,11 +1,12 @@
 import { expect } from '@playwright/test'
 import { createBdd } from 'playwright-bdd'
+import {
+  SNOWBOX_ZOOM_TARGET_ID,
+  ZOOM_IN_LABEL,
+  ZOOM_OUT_LABEL,
+} from '../support/selectors'
 
 const { Given, When, Then } = createBdd()
-
-const ZOOM_IN_LABEL = 'Zoom in'
-const ZOOM_OUT_LABEL = 'Zoom out'
-const SNOWBOX_ZOOM_TARGET_ID = '#vuex-target-zoom'
 
 async function clickUntilDisabled(
   button: ReturnType<import('@playwright/test').Page['getByLabel']>,

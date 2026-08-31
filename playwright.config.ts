@@ -41,9 +41,9 @@ console.log(
 )
 
 const url = 'http://127.0.0.1:8080'
-const clientsFeaturePath = 'features/clients/'
+const clientsFeaturePath = 'e2e/features/clients/'
 const featureSuffix = '/*.feature'
-const clientsStepsPath = 'features/steps/clientSpecific/'
+const clientsStepsPath = 'e2e/steps/clientSpecific/'
 const stepsSuffix = '*.ts'
 
 // If no client specified, include all features and steps
@@ -53,7 +53,7 @@ const features = client
 
 const steps = [
   'e2e/fixtures.ts',
-  `features/steps/${stepsSuffix}`,
+  `e2e/steps/${stepsSuffix}`,
   `${clientsStepsPath}*/${stepsSuffix}`, // Alle client-spezifischen Steps
 ]
 

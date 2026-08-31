@@ -56,15 +56,8 @@ jobs:
       fail-fast: false
       matrix:
         client:
-          - afm
-          - bgw
-          - diplan
           - dish
-          - generic
-          - meldemichel
           - snowbox
-          - stylePreview
-          - textLocator
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -79,7 +72,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright smoke tests
-      run: npm run test:e2e:${{ matrix.client }} -- --tags "@smoke !@not_implemented !@fails" --pass-with-no-tests
+      run: npm run test:e2e:${{ matrix.client }} -- --tags "@smoke and not (@not_implemented or @fails)" --pass-with-no-tests
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

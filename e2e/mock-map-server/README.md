@@ -22,7 +22,7 @@ e2e/
 
 ```ts
 import { createBdd } from 'playwright-bdd'
-import { test } from '../../e2e/fixtures'
+import { test } from '../fixtures'
 import { expect } from '@playwright/test'
 
 const { Given, When, Then } = createBdd(test)
