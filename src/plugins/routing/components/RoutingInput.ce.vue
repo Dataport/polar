@@ -4,12 +4,10 @@
 			<label class="kern-label" :for="`polar-plugin-routing-input-${index}`">
 				{{ $t(($) => $.label[getRouteLabel(index)], { ns: PluginId }) }}
 			</label>
-			<input
-				:id="`polar-plugin-routing-input-${index}`"
-				v-model="routeInputValue"
-				class="kern-form-input__input"
-				:aria-describedby="`polar-plugin-routing-hint-${index}`"
-				:aria-label="
+			<PolarSearchInput
+				:input-id="`polar-plugin-routing-input-${index}`"
+				:input-value="routeInputValue"
+				:label-text="
 					$t(($) => $.label.aria, {
 						ns: PluginId,
 						position: $t(($) => $.label[getRouteLabel(index)], {
@@ -17,6 +15,20 @@
 						}),
 					})
 				"
+				:described-by-text="`polar-plugin-routing-hint-${index}`"
+				:description-for-aria="$t(($) => $.ariaDescription, { ns: PluginId })"
+				:layout="coreStore.layout"
+				:is-loading="routeInputLoading[index]"
+				:show-clear-button="routeInputValue.length > 0"
+				:clear-label="
+					$t(($) => $.clear, {
+						ns: PluginId,
+						label: $t(($) => $.label[getRouteLabel(index)], { ns: PluginId }),
+					})
+				"
+				:hint="searchResultHintForInput"
+				@update:input-value="(val) => routeStore.setRouteInputValue(index, val)"
+				@clear="routeInputValue = ''"
 				@focus="currentlyFocusedInput = index"
 				@keydown.down.prevent.stop="focusResultList"
 			/>
@@ -44,14 +56,6 @@
 					}}
 				</template>
 			</PolarResultList>
-			<p
-				:id="`polar-plugin-routing-hint-${index}`"
-				role="status"
-				aria-live="polite"
-				class="polar-plugin-routing-search-hint"
-			>
-				{{ searchResultHintForInput }}
-			</p>
 		</div>
 		<div class="polar-plugin-routing-waypoint-button-wrapper">
 			<KernButton
@@ -82,6 +86,7 @@ import { computed } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarResultList from '@/components/PolarResultList.ce.vue'
+import PolarSearchInput from '@/components/PolarSearchInput.ce.vue'
 import { useCoreStore } from '@/core/stores'
 import { focusFirstResult } from '@/lib/focusFirstResult'
 import SearchResultSymbols from '@/lib/searchResultSymbols'
@@ -116,6 +121,7 @@ const {
 	selectedSearchGroupId,
 	focusAfterSearch,
 	searchResultHint,
+	routeInputLoading,
 } = storeToRefs(routeStore)
 
 const routeInputValue = computed({

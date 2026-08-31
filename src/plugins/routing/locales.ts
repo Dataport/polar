@@ -47,6 +47,9 @@ export const resourcesDe = {
 		noResults: 'Keine Ergebnisse gefunden.',
 	},
 	ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
+	ariaDescription:
+		'Durch Eingabe in das Suchfeld kann die Suche nach Adressen gestartet werden',
+	clear: '{{label}} Eingabefeld leeren',
 	distance: 'Entfernung: {{distance}}',
 	duration: 'Dauer: {{duration}}',
 	noFeature:
@@ -96,6 +99,9 @@ export const resourcesEn = {
 		noResults: 'No results found.',
 	},
 	ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
+	ariaDescription:
+		'By entering text into the search field, the address search can be started',
+	clear: 'Clear {{label}} input field',
 	distance: 'Distance: {{distance}}',
 	duration: 'Duration: {{duration}}',
 	noFeature: 'Route could not be determined. Try different coordinates.',

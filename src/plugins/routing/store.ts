@@ -51,6 +51,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
 	const routeInput = ref<(string | null)[]>([null, null])
+	const routeInputLoading = ref<boolean[]>([false, false])
 	const routingResponseData = ref<RoutingResponseData | null>(null)
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
@@ -252,6 +253,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		void searchForRouteInput(index, value)
 	}
 
+	function setRouteInputLoading(index: number, value: boolean) {
+		routeInputLoading.value = routeInputLoading.value.toSpliced(index, 1, value)
+	}
+
 	async function searchForRouteInput(
 		index: number,
 		input: string,
@@ -284,6 +289,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			)
 			return
 		}
+		setRouteInputLoading(index, true)
 
 		await addressSearchStore
 			.runSearch(input)
@@ -307,6 +313,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 					SearchResultSymbols.NO_SEARCH
 				)
 				handleErrors(error)
+			})
+			.finally(() => {
+				setRouteInputLoading(index, false)
 			})
 
 		if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
@@ -709,6 +718,12 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * @alpha
 		 */
 		search,
+
+		/**
+		 * Sets the loading state for a specific route input.
+		 * @alpha
+		 */
+		routeInputLoading,
 
 		/**
 		 * Value of {@link RoutingPluginOptions.displayPreferences}.
