@@ -45,6 +45,7 @@ export const resourcesDe = {
 	hint: {
 		error: 'Etwas ist bei der Suche schiefgegangen.',
 		noResults: 'Keine Ergebnisse gefunden.',
+		loading: 'Suche ...',
 	},
 	ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
 	ariaDescription:
@@ -97,6 +98,7 @@ export const resourcesEn = {
 	hint: {
 		error: 'Something went wrong.',
 		noResults: 'No results found.',
+		loading: 'Searching...',
 	},
 	ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
 	ariaDescription:

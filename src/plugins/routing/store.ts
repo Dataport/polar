@@ -192,21 +192,24 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const searchResultHint = computed(() => {
 		const index = currentlyFocusedInput.value
 		if (!showSearchResultList.value) {
-			return false
+			return ''
 		}
 		const input = routeInputValues.value[index]?.trim() ?? ''
 		const addressSearchStore = coreStore.getPluginStore('addressSearch')
 		if (!addressSearchStore) {
-			return false
+			return ''
 		}
 		if (input.length < addressSearchStore.minLength) {
-			return false
+			return ''
 		}
 		if (routeSearchResults.value[index] === SearchResultSymbols.ERROR) {
 			return t(($) => $.hint.error, { ns: PluginId })
 		}
+		if (routeInputLoading.value[index]) {
+			return t(($) => $.hint.loading, { ns: PluginId })
+		}
 		if (!Array.isArray(routeSearchResults.value[index])) {
-			return false
+			return ''
 		}
 		const results = routeSearchResults.value[index].filter(
 			(group) => group.groupId === selectedSearchGroupId.value
