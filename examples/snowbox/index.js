@@ -9,6 +9,7 @@ import {
 } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
+import pluginDraw from '@polar/polar/plugins/draw'
 import pluginExport from '@polar/polar/plugins/export'
 import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
@@ -34,6 +35,7 @@ const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
 const hamburgBorder = '6074'
+const flurstuecke = 'flurstuecke'
 
 let colorScheme = 'light'
 // eslint-disable-next-line no-unused-vars
@@ -113,18 +115,24 @@ const map = await createMap(
 				visibility: false,
 			},
 			{
+				id: flurstuecke,
+				type: 'mask',
+				name: 'Flurstücke',
+				visibility: false,
+			},
+			{
 				id: ausgleichsflaechen,
 				type: 'mask',
 				name: 'Ausgleichsflächen',
 				styleId: 'panda',
-				visibility: true,
+				visibility: false,
 				minZoom: 5,
 			},
 			{
 				id: denkmal,
 				type: 'mask',
 				name: 'Kulturdenkmale',
-				visibility: true,
+				visibility: false,
 				options: {
 					layers: {
 						order: '6,24,25,4,3,2,1,0',
@@ -141,6 +149,11 @@ const map = await createMap(
 						legend: true,
 					},
 				},
+			},
+			{
+				id: 'lgv_multipolygons',
+				type: 'WFS-T',
+				name: 'LGV WFS-T Multipolygone (P)',
 			},
 		],
 		layout: 'nineRegions',
@@ -395,7 +408,7 @@ addPlugin(
 	pluginIconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
-		initiallyOpen: 'layerChooser',
+		initiallyOpen: 'draw',
 		menus: [
 			[
 				{
@@ -467,6 +480,86 @@ addPlugin(
 								},
 							},
 						},
+					}),
+				},
+			],
+			[
+				{
+					plugin: pluginDraw({
+						// showLoader: true, // defaultValue: true
+						// showToasts: true, // defaultValue: true
+						showMeasure: true, // defaultValue: false
+						showStyling: true, // defaultValue: false
+						layers: [
+							{
+								id: 'localLayer',
+								name: 'Lokale Zeichenebene',
+								selectableDrawModes: [
+									'Point',
+									'LineString',
+									'Polygon',
+									'Circle',
+									'Text',
+								],
+								snapTo: [flurstuecke],
+								style: {
+									fill: {
+										hatch: {
+											pattern: 'diagonal',
+											lineWidth: 10,
+											size: 30,
+											backgroundColor: [100, 100, 255, 0.5],
+											patternColor: [255, 255, 255, 1.0],
+										},
+									},
+									stroke: {
+										color: '#3375d4',
+										width: 2,
+									},
+									imageCircle: {
+										radius: 7,
+										fill: {
+											color: 'rgb(51 117 212 / 100%)',
+										},
+									},
+								},
+								textStyle: {
+									font: {
+										size: [10, 20, 30],
+										family: 'Consolas',
+									},
+									textColor: '#16161D',
+								},
+								lassos: [{ id: flurstuecke }],
+								revision: {
+									autofix: true,
+									mergeToMultiGeometries: true,
+									metaServices: [
+										{
+											id: flurstuecke,
+											propertyNames: [
+												'land',
+												'gemarkung',
+												'regbezirk',
+												'kreis',
+												'gemeinde',
+											],
+											aggregationMode: 'unequal',
+										},
+									],
+									validate: true,
+								},
+							},
+
+							/* TODO: support WFS-T layers for selection
+							{
+								id: 'lgv_multipolygons',
+								name: 'LGV WFS-T Multipolygone (P)',
+								selectableDrawModes: ['MultiPolygon'],
+								saving: {}, // »if ID matches a WFS-T config, we may need some save parameters and then are good to go« – partially copyable from FDB, also use the OL methods provided; please mind that saving (esp. of styles) should be written in an adaptable fashion, i.e. adapters should be planned, since people will make up formats wherever they go
+							},
+							*/
+						],
 					}),
 				},
 			],
@@ -568,6 +661,22 @@ subscribe(
 	(coordinates) =>
 		(document.getElementById('selected-feature-coordinates').innerText =
 			JSON.stringify(coordinates))
+)
+
+subscribe(map, 'draw', 'featureCollection', (featureCollection) =>
+	// eslint-disable-next-line no-console
+	console.info(
+		'Feature Collection was updated: ',
+		JSON.stringify(featureCollection, null, 2)
+	)
+)
+
+subscribe(map, 'draw', 'revisedFeatureCollection', (revisedFeatureCollection) =>
+	// eslint-disable-next-line no-console
+	console.info(
+		'Revised Feature Collection was updated: ',
+		JSON.stringify(revisedFeatureCollection, null, 2)
+	)
 )
 
 /* simple language switcher attached for demo purposes;
