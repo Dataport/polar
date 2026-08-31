@@ -58,7 +58,7 @@ export const retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers = async (
 								)
 								.slice(
 									0,
-									layerConfiguration.maxFeatures || Number.POSITIVE_INFINITY
+									layerConfiguration.maxFeatures ?? Number.POSITIVE_INFINITY
 								),
 						]
 					})
