@@ -67,16 +67,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		() => (coreStore.configuration.routing || {}) as RoutingPluginOptions
 	)
 
-	const reverseGeocoderConfigured = computed(
-		() => !!coreStore.configuration.reverseGeocoder
-	)
-	const addressSearchConfigured = computed(
-		() => !!coreStore.configuration.addressSearch
-	)
-
-	const showSearchResultList = computed(
-		() => addressSearchConfigured.value && reverseGeocoderConfigured.value
-	)
+	const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
+	const addressSearchStore = coreStore.getPluginStore('addressSearch')
+	const showSearchResultList = !!addressSearchStore && !!reverseGeocoderStore
 
 	const focusAfterSearch = computed(
 		() => coreStore.configuration.addressSearch?.focusAfterSearch ?? false
@@ -85,7 +78,6 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const selectedSearchGroupId = computed(
 		() => configuration.value.searchGroupId ?? 'defaultGroup'
 	)
-	const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
 
 	const currentlyFocusedInput = computed({
 		get: () => _currentlyFocusedInput.value,
@@ -191,14 +183,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const searchResultHint = computed(() => {
 		const index = currentlyFocusedInput.value
-		if (!showSearchResultList.value) {
+		if (!showSearchResultList) {
 			return ''
 		}
 		const input = routeInputValues.value[index]?.trim() ?? ''
-		const addressSearchStore = coreStore.getPluginStore('addressSearch')
-		if (!addressSearchStore) {
-			return ''
-		}
 		if (input.length < addressSearchStore.minLength) {
 			return ''
 		}
@@ -265,14 +253,12 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		input: string,
 		autoselect: 'first' | 'only' | 'never' = 'never'
 	) {
-		if (!showSearchResultList.value) {
+		if (!showSearchResultList) {
 			return
 		}
 		if (index < 0 || index >= route.value.length) {
 			return
 		}
-
-		const addressSearchStore = coreStore.getPluginStore('addressSearch')
 		if (!addressSearchStore) {
 			return
 		}
