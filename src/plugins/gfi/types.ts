@@ -409,7 +409,7 @@ export interface GfiPluginOptions extends PlaceablePluginOptions {
 	 * Can only be used in desktop environments.
 	 *
 	 * Similar to {@link GfiPluginOptions.directSelect | `directSelect`},
-	 * features can be added and removed by selection / unselecting them.
+	 * features can be added and removed by selecting / unselecting them.
 	 * The features need to be distinguishable by their properties for the functionality to properly work.
 	 * Does not work together with {@link MapConfiguration.markers}.
 	 *
