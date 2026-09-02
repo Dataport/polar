@@ -52,6 +52,9 @@ jobs:
   e2e:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    # Uses preinstalled dependencies needed for playwright tests. Version number musst match used playwright version.
+    container:
+      image: mcr.microsoft.com/playwright:v1.57.0-noble
     strategy:
       fail-fast: false
       matrix:
@@ -69,8 +72,6 @@ jobs:
       run: npm ci
     - name: Build client
       run: npm run ${{ matrix.client }}:build
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
     - name: Run Playwright smoke tests
       run: npm run test:e2e:${{ matrix.client }} -- --tags "@smoke and not (@not_implemented or @fails)" --pass-with-no-tests
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
