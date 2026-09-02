@@ -18,16 +18,15 @@
 	>
 		<ul>
 			<li>
-				<button
-					class="kern-btn kern-btn--secondary"
+				<KernButton
+					class="kern-btn--secondary"
+					icon="kern-icon--arrow-back"
+					:label-sr-only="true"
 					:disabled="currentPage <= 1"
 					@click="currentPage--"
 				>
-					<span class="kern-icon kern-icon--arrow-back" />
-					<span class="kern-label kern-sr-only">
-						{{ $t(($) => $.pagination.previous, { ns: 'shared' }) }}
-					</span>
-				</button>
+					{{ $t(($) => $.pagination.previous, { ns: 'shared' }) }}
+				</KernButton>
 			</li>
 			<li
 				v-for="option of visibleOptions"
@@ -35,31 +34,28 @@
 				:class="{ dots: 'dots' in option }"
 			>
 				<template v-if="'dots' in option">…</template>
-				<button
+				<KernButton
 					v-else-if="option.page"
-					class="kern-btn kern-btn--secondary"
+					class="kern-btn--secondary"
 					:class="{ active: currentPage === option.page }"
 					:aria-label="
 						$t(($) => $.pagination.page, { ns: 'shared', page: option.page })
 					"
 					@click="currentPage = option.page"
 				>
-					<span class="kern-label">
-						{{ option.page }}
-					</span>
-				</button>
+					{{ option.page }}
+				</KernButton>
 			</li>
 			<li>
-				<button
-					class="kern-btn kern-btn--secondary"
+				<KernButton
+					class="kern-btn--secondary"
+					icon="kern-icon--arrow-forward"
+					:label-sr-only="true"
 					:disabled="currentPage >= pageCount"
 					@click="currentPage++"
 				>
-					<span class="kern-icon kern-icon--arrow-forward" />
-					<span class="kern-label kern-sr-only">
-						{{ $t(($) => $.pagination.next, { ns: 'shared' }) }}
-					</span>
-				</button>
+					{{ $t(($) => $.pagination.next, { ns: 'shared' }) }}
+				</KernButton>
 			</li>
 		</ul>
 	</nav>
@@ -67,6 +63,8 @@
 
 <script lang="ts" setup>
 import { computed, watch } from 'vue'
+
+import KernButton from './KernButton.ce.vue'
 
 const props = defineProps<{
 	count: number
@@ -172,16 +170,15 @@ ul {
 		width: var(--kern-metric-dimension-large);
 	}
 
-	.kern-label {
+	&:deep(.kern-label) {
 		font-size: var(--kern-typography-font-size-small-static);
-		line-height: var(--kern-typography-line-height-medium-static);
 	}
 
 	&.active {
 		background-color: var(--kern-color-action-default);
 		pointer-events: none;
 
-		.kern-label {
+		&:deep(.kern-label) {
 			color: var(--kern-color-action-on-default);
 		}
 	}

@@ -1,16 +1,13 @@
 import type { Map } from 'ol'
 import type { Options as DrawOptions } from 'ol/interaction/Draw'
-import type { GfiPluginOptions } from '../types'
+import type { MultiSelect } from '../types'
 
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import Draw, { createBox } from 'ol/interaction/Draw'
 import { Fill, Stroke, Style } from 'ol/style'
 import { onScopeDispose, ref } from 'vue'
 
-export function useMultiSelection(
-	map: Map,
-	{ mode }: NonNullable<GfiPluginOptions['multiSelect']>
-) {
+export function useMultiSelection(map: Map, { mode }: MultiSelect) {
 	const drawOptions: DrawOptions = {
 		stopClick: true,
 		type: 'Circle',

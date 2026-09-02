@@ -58,12 +58,16 @@ export const retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers = async (
 								)
 								.slice(
 									0,
-									gfiMainStore.configuration.maxFeatures ||
-										Number.POSITIVE_INFINITY
+									layerConfiguration.maxFeatures || Number.POSITIVE_INFINITY
 								),
 						]
 					})
 			)
-		).filter((it): it is GeoJsonFeature[][] => Boolean(it))
+		)
+			.filter((it): it is GeoJsonFeature[][] => Boolean(it))
+			.slice(
+				0,
+				gfiMainStore.configuration.maxFeatures || Number.POSITIVE_INFINITY
+			)
 	) as Record<string, GeoJsonFeature[]>
 }

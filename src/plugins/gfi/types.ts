@@ -41,10 +41,10 @@ export type ShowTooltip = (feature: Feature) => [string, string][]
  * 	maxFeatures: 10,
  * 	geometryName: 'app:geometry',
  * 	exportProperty: 'Export',
- * 	properties: {
- * 		status: 'status',
- * 		type: 'type',
- * 	},
+ * 	properties: [
+ * 		'status',
+ * 		'type',
+ * 	],
  * 	showTooltip: (feature: Feature): [string, string][] => [
  * 		['div', `Feature ID: ${feature.properties.id}`],
  * 		['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`],
@@ -104,8 +104,35 @@ export interface GfiLayerConfiguration {
 	isSelectable?: (feature: GeoJsonFeature) => boolean
 
 	/**
+	 * Limits the viewable results per layer by this number.
+	 * The first n elements are chosen arbitrarily.
+	 * Useful if you e.g. just want one result, or to limit an endless stream of returns to e.g. 10.
+	 *
+	 * @defaultValue `Infinity`
+	 * @example `10`
+	 */
+	maxFeatures?: number
+
+	/**
 	 * In case {@link GfiLayerConfiguration.window | `window`} is `true`, this will be used to determine which contents to show.
 	 * The property names can be localized, regardless if this is set or all properties are shown.
+	 *
+	 * @remarks
+	 * The values listed here can be localized as follows:
+	 * ```ts
+	 * gfi: {
+	 * 	layer: {
+	 * 		haus: {
+	 * 			property: {
+	 * 				status: 'Status',
+	 * 				type: 'Type',
+	 * 			},
+	 * 		},
+	 * 	},
+	 * }
+	 * ```
+	 *
+	 * @example `['status', 'type']`
 	 *
 	 * @defaultValue Display all properties
 	 */
@@ -192,7 +219,10 @@ export interface FeatureListText {
  * 	mode: 'visible',
  * 	bindWithCoreHoverSelect: true,
  * 	pageLength: 5,
- * 	text: ['Nature reserves', (feature) => `${feature.get('str')} ${feature.get('hsnr')}`],
+ * 	text: {
+ * 		title: 'Nature reserves',
+ * 		subtitle: (feature) => `${feature.get('str')} ${feature.get('hsnr')}`,
+ * 	}
  * }
  * ```
  */
@@ -233,7 +263,7 @@ export interface FeatureList {
 /**
  * Configuration for multi-selection behavior in the gfi plugin.
  */
-interface MultiSelect {
+export interface MultiSelect {
 	/**
 	 * If set to `'box'`, the selection will be done in a box.
 	 * If set to `'circle'`, the selection will be done in a circle.
