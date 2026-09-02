@@ -88,7 +88,15 @@ module.exports = {
         externalAttachments: true,
       }),
       ['html', { open: 'never' }],
-      ['blob', { outputDir: 'blob-report' }],
+      // Use a client-specific file name so blob reports from different matrix
+      // jobs don't collide when merged into a single directory in CI.
+      [
+        'blob',
+        {
+          outputDir: 'blob-report',
+          fileName: client ? `report-${client}.zip` : undefined,
+        },
+      ],
     ],
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {

@@ -55,6 +55,8 @@ jobs:
     # Uses preinstalled dependencies needed for playwright tests. Version number musst match used playwright version.
     container:
       image: mcr.microsoft.com/playwright:v1.57.0-noble
+    env:
+      HOME: /root
     strategy:
       fail-fast: false
       matrix:

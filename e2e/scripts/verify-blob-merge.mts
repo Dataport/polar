@@ -74,7 +74,10 @@ const main = async () => {
     ])
 
     console.log(`\n=== ${client}: save blob report ===`)
-    await cp('blob-report/report.zip', `all-blob-reports/report-${client}.zip`)
+    await cp(
+      `blob-report/report-${client}.zip`,
+      `all-blob-reports/report-${client}.zip`
+    )
     await rm('blob-report', { recursive: true, force: true })
   }
 
