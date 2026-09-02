@@ -49,7 +49,7 @@ export type ShowTooltip = (feature: Feature) => [string, string][]
  * 		['div', `Feature ID: ${feature.properties.id}`],
  * 		['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`],
  * 	],
- * 	isSelectable: (feature: Feature): boolean => Boolean(Math.random() < 0.5)
+ * 	isSelectable: (feature: GeoJsonFeature): boolean => Boolean(Math.random() < 0.5)
  * }
  * ```
  */
