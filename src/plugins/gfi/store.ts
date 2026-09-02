@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
+import { readonly } from 'vue'
 
 import { useGfiFeatureStore } from './stores/feature'
 import { useGfiListStore } from './stores/list'
@@ -43,35 +44,49 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		renderType: gfiMainStoreRefs.renderType,
 
 		/**
-		 * Hovered features.
+		 * Hovered feature.
+		 * This is a feature whose hovering state is originated at the plugin.
+		 *
 		 * This is only used for the list view.
 		 *
 		 * @alpha
 		 */
-		hoveredFeatures: gfiListStoreRefs.hoveredFeatures,
+		hoveredFeature: gfiListStoreRefs.hoveredFeature,
 
 		/**
-		 * Mark feature as hovered.
+		 * Hovered features.
+		 * The hovering state may be originated either from {@link hoveredFeature} or by other means.
+		 *
 		 * This is only used for the list view.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		hoveredFeatures: readonly(gfiListStoreRefs.hoveredFeatures),
+
+		/**
+		 * Selected feature.
+		 * This is only used if the feature is loaded from the list view.
 		 *
 		 * @alpha
 		 */
-		hover: gfiListStore.hover,
+		selectedFeature: gfiMainStoreRefs.olFeature,
 
 		/**
 		 * Selected features.
 		 * This is only used if the feature is loaded from the list view.
 		 *
+		 * @readonly
 		 * @alpha
 		 */
-		selectedFeatures: gfiMainStoreRefs.selectedFeatures,
+		selectedFeatures: readonly(gfiMainStoreRefs.olFeatures),
 
 		/**
 		 * Feature information for the currently selected feature(s).
 		 *
 		 * @alpha
 		 */
-		featureInformation: gfiMainStoreRefs.featureInformation,
+		featureInformation: gfiMainStoreRefs.geoJsonFeatures,
 
 		/**
 		 * List of features that should be displayed in a list view.
@@ -109,7 +124,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		listPage: gfiListStoreRefs.page,
 
 		/**
-		 * If {@link FeatureList.pageLength | pagination} is configured, the index of the first feature that is shown on the current page.
+		 * If {@link FeatureList.pageLength | pagination} is configured, the index of the first feature (inclusive) that is shown on the current page.
 		 * Otherwise, the value is zero.
 		 *
 		 * The index refers to {@link listFlatFeatures}.
@@ -119,7 +134,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		listPaginationStartIndex: gfiListStoreRefs.paginationStartIndex,
 
 		/**
-		 * If {@link FeatureList.pageLength | pagination} is configured, the index of the last feature that is shown on the current page.
+		 * If {@link FeatureList.pageLength | pagination} is configured, the index of the last feature (exclusive) that is shown on the current page.
 		 * Otherwise, the value is `undefined`.
 		 *
 		 * The index refers to `listFlatFeatures`.
@@ -175,12 +190,15 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		 * Selected feature for the detailed view.
 		 * This is the currently shown feature.
 		 *
+<<<<<<< HEAD
+=======
 		 * To mutate this value, change {@link featureIndex}.
 		 *
 		 * @readonly
+>>>>>>> vue3/migrate-plugin-gfi
 		 * @alpha
 		 */
-		feature: gfiFeatureStoreRefs.selectedFeature,
+		feature: gfiMainStoreRefs.geoJsonFeature,
 
 		/**
 		 * Properties for the selected feature in the detailed view.

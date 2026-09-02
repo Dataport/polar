@@ -1,9 +1,13 @@
 import type { MapBrowserEvent } from 'ol'
-import type { GfiLayerConfiguration, RequestGfiParameters } from '../types'
+import type {
+	GfiLayerConfiguration,
+	RequestGfiParameters,
+	ShowTooltip,
+} from '../types'
 
-import { debounce, isEqual } from 'es-toolkit'
+import { debounce, isEqual, mapValues, pickBy } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, nextTick, onScopeDispose, ref, watch } from 'vue'
+import { computed, onScopeDispose, watch } from 'vue'
 
 import { useRefStore } from '@/composables/useRefStore'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
@@ -11,7 +15,6 @@ import { useCoreStore } from '@/core/stores'
 
 import { useMultiSelection } from '../composables/useMultiSelection'
 import { useTooltip } from '../composables/useTooltip'
-import { PluginId } from '../types'
 import { retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers } from '../utils/retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers'
 import { useGfiMainStore } from './main'
 
@@ -36,10 +39,10 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 
 		if (options.toggleSelection) {
 			Object.entries(result).forEach(([layerId, features]) => {
-				if (!gfiMainStore.featureInformation[layerId]) {
-					gfiMainStore.featureInformation[layerId] = []
+				if (!gfiMainStore.geoJsonFeatures[layerId]) {
+					gfiMainStore.geoJsonFeatures[layerId] = []
 				}
-				const layerFeatureList = gfiMainStore.featureInformation[layerId]
+				const layerFeatureList = gfiMainStore.geoJsonFeatures[layerId]
 
 				features.forEach((feature) => {
 					const oldFeatureIndex = layerFeatureList.findIndex((oldFeature) =>
@@ -55,10 +58,10 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			return
 		}
 
-		gfiMainStore.featureInformation = result
+		gfiMainStore.geoJsonFeatures = result
 	}
 
-	const waitMs = computed(() => gfiMainStore.configuration.waitMs || 50)
+	const waitMs = computed(() => gfiMainStore.configuration.waitMs ?? 50)
 	const debouncedGetFeatureInfo = debounce(getFeatureInfo, waitMs.value)
 
 	useStoreWatcher(
@@ -69,7 +72,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 					coordinate as RequestGfiParameters['coordinateOrExtent']
 				)
 			} else {
-				gfiMainStore.featureInformation = {}
+				gfiMainStore.geoJsonFeatures = {}
 			}
 		},
 		{ immediate: true }
@@ -87,7 +90,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 						gfiMainStore.configuration.multiSelect?.toggleSelection ?? true,
 				})
 			} else {
-				gfiMainStore.featureInformation = {}
+				gfiMainStore.geoJsonFeatures = {}
 			}
 		})
 	}
@@ -112,20 +115,30 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	}
 
 	const visibleFeatures = computed(() =>
-		Object.entries(gfiMainStore.featureInformation)
+		Object.entries(gfiMainStore.geoJsonFeatures)
 			.filter(([layerId]) => gfiMainStore.configuration.layers[layerId]?.window)
 			.flatMap(([layerId, features]) =>
 				features.map((feature) => ({ layerId, feature }))
 			)
 	)
 
-	const selectedFeatureIndex = ref(0)
-	const selectedFeature = computed(
-		() => visibleFeatures.value[selectedFeatureIndex.value]
-	)
+	const selectedFeatureIndex = computed({
+		get: () =>
+			visibleFeatures.value.findIndex((feature) =>
+				isEqual(feature, gfiMainStore.geoJsonFeature)
+			),
+		set: (value) => {
+			const feature = visibleFeatures.value[value]
+			if (feature) {
+				gfiMainStore.geoJsonFeature = feature
+			}
+		},
+	})
 
 	const selectedFeatureLayerConfiguration = computed(() =>
-		gfiMainStore.getLayerConfiguration(selectedFeature.value?.layerId || '')
+		gfiMainStore.getLayerConfiguration(
+			gfiMainStore.geoJsonFeature?.layerId || ''
+		)
 	)
 
 	const exportPropertyLayerConfiguration = computed(
@@ -134,9 +147,9 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 
 	const exportProperty = computed(() =>
 		exportPropertyLayerConfiguration.value
-			? selectedFeature.value?.feature.properties?.[
+			? (gfiMainStore.geoJsonFeature?.feature.properties?.[
 					exportPropertyLayerConfiguration.value
-				]
+				] as string | null)
 			: null
 	)
 
@@ -147,8 +160,8 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	)
 
 	const title = computed(() =>
-		titleLayerConfiguration.value && selectedFeature.value
-			? titleLayerConfiguration.value(selectedFeature.value.feature)
+		titleLayerConfiguration.value && gfiMainStore.geoJsonFeature
+			? titleLayerConfiguration.value(gfiMainStore.geoJsonFeature.feature)
 			: null
 	)
 
@@ -157,31 +170,23 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	)
 
 	const selectedFeatureProperties = computed(() =>
-		Object.fromEntries(
-			Object.entries(selectedFeature.value?.feature.properties || {})
-				.filter(
-					([key]) =>
-						(!selectedFeaturePropertiesLayerConfiguration.value ||
-							selectedFeaturePropertiesLayerConfiguration.value.includes(
-								key
-							)) &&
-						(!exportPropertyLayerConfiguration.value ||
-							key !== exportPropertyLayerConfiguration.value)
-				)
-				.map(([key, value]) => [key, value])
+		pickBy(
+			gfiMainStore.geoJsonFeature?.feature.properties || {},
+			(value, key) =>
+				(!selectedFeaturePropertiesLayerConfiguration.value ||
+					selectedFeaturePropertiesLayerConfiguration.value.includes(
+						key as string
+					)) &&
+				(!exportPropertyLayerConfiguration.value ||
+					key !== exportPropertyLayerConfiguration.value)
 		)
 	)
 
 	watch(
-		visibleFeatures,
-		() => {
-			selectedFeatureIndex.value = 0
-		},
-		{ deep: true }
-	)
-
-	watch(
-		[() => gfiMainStore.configuration.coordinateTarget, selectedFeature],
+		[
+			() => gfiMainStore.configuration.coordinateTarget,
+			() => gfiMainStore.geoJsonFeature,
+		],
 		([target, feature], [, oldFeature]) => {
 			if (target && !feature && oldFeature) {
 				const targetStore = useRefStore(target)
@@ -195,32 +200,17 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 
 	useTooltip(
 		coreStore.map,
-		Object.fromEntries(
-			Object.entries(gfiMainStore.configuration.layers)
-				.filter(([, { showTooltip }]) => Boolean(showTooltip))
-				.map(([layerId, { showTooltip }]) => [layerId, showTooltip])
-		) as Record<string, NonNullable<GfiLayerConfiguration['showTooltip']>>
+		mapValues(
+			pickBy(gfiMainStore.configuration.layers, ({ showTooltip }) =>
+				Boolean(showTooltip)
+			) as Record<string, GfiLayerConfiguration>,
+			({ showTooltip }) => showTooltip
+		) as Record<string, ShowTooltip>
 	)
-
-	if (gfiMainStore.renderType === 'iconMenu') {
-		// TODO: Find a better solution to wait for this plugin
-		// As, in this case, we render as part of the iconMenu, the iconMenu store will be available soon.
-		void nextTick(() => {
-			const iconMenuStore = coreStore.getPluginStore('iconMenu')
-			if (iconMenuStore) {
-				watch(selectedFeature, (newFeature) => {
-					if (newFeature) {
-						iconMenuStore.openMenuById(PluginId)
-					}
-				})
-			}
-		})
-	}
 
 	return {
 		visibleFeatures,
 		selectedFeatureIndex,
-		selectedFeature,
 		selectedFeatureProperties,
 		exportProperty,
 		title,
