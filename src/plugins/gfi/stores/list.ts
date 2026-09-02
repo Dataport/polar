@@ -38,7 +38,16 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 
 		const activeLayersRef = configuration.value.activeLayers
 		const store = useRefStore(activeLayersRef)
-		if (!store) {
+		if (
+			!store ||
+			!Array.isArray(store[activeLayersRef.key]) ||
+			!store[activeLayersRef.key].every(
+				(layerId) => typeof layerId === 'string'
+			)
+		) {
+			console.warn(
+				`Invalid activeLayers configuration for key "${activeLayersRef.key}"`
+			)
 			return []
 		}
 		return store[activeLayersRef.key]
