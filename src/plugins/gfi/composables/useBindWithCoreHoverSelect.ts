@@ -39,25 +39,19 @@ function assignGfiToCoreFeature(
 	target: ShallowRef<CoreFeature>,
 	feature: GfiFeature
 ) {
-	if (!feature) {
-		target.value = null
-		return
-	}
-	target.value = markRaw(feature.feature)
+	target.value = feature ? markRaw(feature.feature) : null
 }
 
 function assignCoreToGfiFeature(
 	target: ShallowRef<GfiFeature>,
 	feature: CoreFeature
 ) {
-	if (!feature) {
-		target.value = null
-		return
-	}
-	target.value = markRaw({
-		layerId: feature.get('_polarLayerId'),
-		feature,
-	})
+	target.value = feature
+		? markRaw({
+				layerId: feature.get('_polarLayerId'),
+				feature,
+			})
+		: null
 }
 
 function bindWithWatcher<T, S, E>(
