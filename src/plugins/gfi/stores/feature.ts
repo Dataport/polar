@@ -144,9 +144,9 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 
 	const exportProperty = computed(() =>
 		exportPropertyLayerConfiguration.value
-			? gfiMainStore.geoJsonFeature?.feature.properties?.[
+			? (gfiMainStore.geoJsonFeature?.feature.properties?.[
 					exportPropertyLayerConfiguration.value
-				]
+				] as string | null)
 			: null
 	)
 
