@@ -11,7 +11,7 @@ import { requestGfi } from './requestGfi'
 
 export const retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers = async (
 	coordinateOrExtent: RequestGfiParameters['coordinateOrExtent']
-) => {
+): Promise<Record<string, GeoJsonFeature[]>> => {
 	const coreStore = useCoreStore()
 	const gfiMainStore = useGfiMainStore()
 
@@ -69,5 +69,5 @@ export const retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers = async (
 				0,
 				gfiMainStore.configuration.maxFeatures ?? Number.POSITIVE_INFINITY
 			)
-	) as Record<string, GeoJsonFeature[]>
+	)
 }
