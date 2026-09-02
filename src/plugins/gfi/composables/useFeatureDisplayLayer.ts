@@ -40,10 +40,7 @@ function clear(featureDisplayLayer: VectorLayer) {
 /**
  * add feature from jsonable GeoJson object.
  */
-function addFeature(
-	feature: GeoJsonFeature,
-	featureDisplayLayer: VectorLayer
-): void {
+function addFeature(feature: GeoJsonFeature, featureDisplayLayer: VectorLayer) {
 	const source = featureDisplayLayer.getSource()
 	if (isVectorSource(source)) {
 		// Since ol@10, readFeature may also return a Feature[]?
