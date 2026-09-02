@@ -1,0 +1,15 @@
+.dps-form-checkbox-group {
+  padding: 0;
+
+  .dps-input-wrapper {
+    display: flex;
+    gap: 18px 32px;
+    flex-direction: column;
+  }
+
+  &--inline {
+    .dps-input-wrapper {
+      flex-flow: row wrap;
+    }
+  }
+}

@@ -2,7 +2,14 @@
 [![License: EUPL v1.2](https://img.shields.io/badge/License-EUPL%20v1.2-blue)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
 [![We're on NPM!](https://img.shields.io/badge/npm-%F0%9F%9A%80-green)](https://www.npmjs.com/search?q=%40polar)
 
-<h1 align="center"><img alt="POLAR" height="80px" src="./pages/assets/iceberg.svg" /></h1>
+<h1 align="center">
+  <picture>
+    <!-- hier testweise einfach das alte Logo gesetzt ... -->
+    <source media="(prefers-color-scheme: dark)" srcset="./pages/assets/logo-polar--horizontal--dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./pages/assets/logo-polar--horizontal.svg">
+    <img alt="POLAR" height="80px" src="./pages/assets/logo-polar--horizontal.svg" />
+  </picture>
+</h1>
 
 **Plugins for OpenLAyeRs** is based on the [masterportalAPI](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi) and [OpenLayers](https://openlayers.org/).
 
@@ -51,7 +58,7 @@ polar.createMap({
 />
 ```
 
-See our [documentation page](https://dataport.github.io/polar/) for all features and configuration options included in this modulith client, with running examples.
+See our [documentation page](https://dataport.github.io/polar/main/) for all features and configuration options included in this modulith client, with running examples.
 
 ## Example clients
 
@@ -98,7 +105,7 @@ POLAR runs both as full page application and as component. The most common usage
 
 ### Plugin-based approach
 
-To see our plugins in action, please visit our [documentation page](https://dataport.github.io/polar/) to see running examples. Plugins are designed to be configurable, optional, and replacable.
+To see our plugins in action, please visit our [documentation page](https://dataport.github.io/polar/main) to see running examples. Plugins are designed to be configurable, optional, and replacable.
 
 |Name|Details|
 |-|-|
@@ -117,6 +124,7 @@ To see our plugins in action, please visit our [documentation page](https://data
 |[PointerPosition](https://github.com/Dataport/polar/tree/main/packages/plugins/PointerPosition)|Displays the current/last pointer position in a coordinate reference system chosen by the user.|
 |[Pins](https://github.com/Dataport/polar/tree/main/packages/plugins/Pins)|Pin feature that allows users to set and move pins to indicate a position. Integration with AddressSearch and ReverseGeocoder configurable.|
 |[ReverseGeocoder](https://github.com/Dataport/polar/tree/main/packages/plugins/ReverseGeocoder)|Configurable to translate an arbitrary coordinate to an address. Integration with AddressSearch and Pins configurable.|
+|[Routing](https://github.com/Dataport/polar/tree/main/packages/plugins/Routing)|Offers routing functionality based on the [OpenRouteService](https://openrouteservice.org/) (`'ors'`) to the user.|
 |[Scale](https://github.com/Dataport/polar/tree/main/packages/plugins/Scale)|Shows current scale as ratio and size indicator.|
 |[Toast](https://github.com/Dataport/polar/tree/main/packages/plugins/Toast)|Shows information to the user. Configurable in many plugins to communicate status updates or procedural advice.|
 |[Zoom](https://github.com/Dataport/polar/tree/main/packages/plugins/Zoom)|Allows zooming in and out of the client with buttons.|

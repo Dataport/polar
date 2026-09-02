@@ -1,6 +1,6 @@
 # Changelog
 
-## unpublished
+## 3.0.1
 
 - Fix: Make action `reverseGeocode` actually callable like it is documented and fix its payload documentation.
 

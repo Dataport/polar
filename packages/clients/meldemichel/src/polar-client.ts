@@ -13,6 +13,13 @@ import meldemichelModule from './store/module'
 import './styles/index.css'
 import AfmButton from './plugins/AfmButton'
 import { enableClustering } from './utils/enableClustering'
+import { clipWithJenfeldBoundary } from './utils/jenfeld/clipWithJenfeldBoundary'
+import { services as localServices } from './utils/jenfeld/services'
+import {
+  addJenfeldBoundary,
+  jenfeldBoundaryId,
+} from './utils/jenfeld/addJenfeldBoundary'
+import { hardwireGeolocation } from './utils/jenfeld/hardwireGeolocation'
 
 // eslint-disable-next-line no-console
 console.log(`POLAR Meldemichel loaded in version ${packageInfo.version}.`)
@@ -21,17 +28,19 @@ const serviceRegister =
   'https://geoportal-hamburg.de/lgv-config/services-internet.json'
 
 // can't be configured "visible: false" – wouldn't load at all then
-const hideHamburgBorder = (map: Map) => {
+const hideBorder = (map: Map) => {
   ;(
     map
       .getLayers()
       .getArray()
-      .find((layer) => layer.get('id') === hamburgBorder) as Vector
+      .find((layer) =>
+        [jenfeldBoundaryId, hamburgBorder].includes(layer.get('id'))
+      ) as Vector
   ).setStyle(null)
 }
 
 const registerAfmButton = (client, mode) => {
-  if (mode === MODE.COMPLETE) {
+  if (mode === MODE.COMPLETE || mode === MODE.JENFELD) {
     // late setup due to dependency to meldemichelModule
     AfmButton({
       displayComponent: true,
@@ -91,7 +100,7 @@ export default {
       addPlugins(meldemichelCore, mode)
       // NOTE initializeLayerList is async in this scenario
       meldemichelCore.rawLayerList.initializeLayerList(
-        serviceRegister,
+        mode === MODE.JENFELD ? localServices : serviceRegister,
         async (layerConf) => {
           enableClustering(layerConf, reportServiceId)
           const client = await meldemichelCore.createMap({
@@ -106,7 +115,12 @@ export default {
           })
           client.$store.registerModule('meldemichel', meldemichelModule)
           registerAfmButton(client, mode)
-          hideHamburgBorder(client.$store.getters.map)
+          if (mode === MODE.JENFELD) {
+            clipWithJenfeldBoundary(client.$store.getters.map)
+            addJenfeldBoundary(client.$store.getters.map)
+            hardwireGeolocation(client)
+          }
+          hideBorder(client.$store.getters.map)
           setBackgroundImage(containerId)
           if (typeof stadtwaldActive === 'boolean') {
             client.$store.dispatch('meldemichel/setMapState', {

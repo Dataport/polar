@@ -1,7 +1,7 @@
 // service id map to avoid typos, ease renames
 const basemap = 'basemapde_farbe'
 const stadtplan = '453'
-const luftbilder = '452'
+const luftbilder = '34127'
 
 const xplanwms = 'xplanwms'
 const xplanwfs = 'xplanwfs'

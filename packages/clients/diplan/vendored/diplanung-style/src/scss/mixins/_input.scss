@@ -1,0 +1,88 @@
+@use "sass:map";
+
+@mixin input($variables, $prefix: "dps-") {
+  background-color: map.get($variables, "bg-color");
+  border-color: map.get($variables, "border-color");
+  border-radius: map.get($variables, "border-radius");
+  border-style: map.get($variables, "border-style");
+  border-width: map.get($variables, "border-width");
+  color: map.get($variables, "color");
+  font-size: map.get($variables, "font-size");
+  line-height: map.get($variables, "line-height");
+  padding: map.get($variables, "padding");
+  width: map.get($variables, "width");
+  height: map.get($variables, "height");
+  outline: none;
+
+  &:focus {
+    border-color: map.get($variables, "focus--border-color");
+    outline: map.get($variables, "focus--outline");
+    box-shadow: map.get($variables, "focus--box-shadow");
+  }
+
+  &:disabled {
+    border-color: map.get($variables, "disabled--border-color");
+    background-color: map.get($variables, "disabled--bg-color");
+    color: map.get($variables, "disabled--color");
+  }
+
+  &[readonly] {
+    border-color: map.get($variables, "disabled--border-color");
+    background-color: map.get($variables, "readonly--bg-color");
+
+    &:focus {
+      border-color: map.get($variables, "focus--border-color");
+      outline: map.get($variables, "focus--outline");
+    }
+  }
+
+  &::placeholder {
+    font-size: map.get($variables, "placeholder-font-size");
+    color: map.get($variables, "placeholder-color");
+    opacity: 1;
+  }
+
+  &::-webkit-search-cancel-button {
+    /* stylelint-disable-next-line property-no-vendor-prefix */
+    -webkit-appearance: none;
+  }
+
+  + .#{$prefix}icon {
+    position: absolute;
+    top: 50%;
+    right: map.get($variables, "icon-offset");
+    transform: translateY(-50%);
+    font-size: map.get($variables, "icon-font-size");
+  }
+
+  &--size-sm {
+    height: map.get($variables, "height--size-sm");
+    padding: map.get($variables, "padding--size-sm");
+  }
+
+  &--icon {
+    padding: map.get($variables, "padding--icon");
+
+    &.#{$prefix}input--size-sm {
+      padding: map.get($variables, "padding--icon--size-sm");
+    }
+  }
+
+  &--success {
+    border-color: map.get($variables, "success--border-color");
+    color: map.get($variables, "success--color");
+
+    + .#{$prefix}icon {
+      color: map.get($variables, "success--border-color");
+    }
+  }
+
+  &--error {
+    border-color: map.get($variables, "error--border-color");
+    color: map.get($variables, "error--color");
+
+    + .#{$prefix}icon {
+      color: map.get($variables, "error--border-color");
+    }
+  }
+}

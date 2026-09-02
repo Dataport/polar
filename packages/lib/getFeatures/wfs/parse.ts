@@ -25,8 +25,11 @@ export function parseWfsResponse(
     const parser = new WFS()
     const writer = new GeoJSON()
     const parsedFeatures = parser.readFeatures(text)
-    // @ts-expect-error | srsName is there, I've seen it – probably a bug in OL?
-    const { srsName } = parser.readFeatureCollectionMetadata(text)
+    const epsgCode =
+      // @ts-expect-error | srsName is there, I've seen it – probably a type-bug in OL?
+      parser.readFeatureCollectionMetadata(text).srsName?.split('::')?.[1] ??
+      // if srs not on root node, but on children, take first-best match
+      text.match(/srsName="[^"]*EPSG:(\d+)/)?.[1]
 
     parsedFeatures.forEach((f) => {
       const featureObject = JSON.parse(writer.writeFeature(f))
@@ -43,8 +46,8 @@ export function parseWfsResponse(
             : featureObject.properties[title]
         }
       }
-      if (srsName) {
-        featureObject.epsg = 'EPSG:' + srsName.split('::')[1]
+      if (epsgCode) {
+        featureObject.epsg = `EPSG:${epsgCode}`
       }
       features.push(featureObject)
     })

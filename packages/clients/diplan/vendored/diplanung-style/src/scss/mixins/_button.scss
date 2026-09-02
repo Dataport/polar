@@ -1,0 +1,161 @@
+@use "sass:map";
+
+@mixin button($variables, $prefix: "dps-") {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  gap: map.get($variables, "gap");
+  font-size: map.get($variables, "font-size");
+  font-family: map.get($variables, "font-family");
+  font-weight: map.get($variables, "font-weight");
+  line-height: map.get($variables, "line-height");
+  color: map.get($variables, "color");
+  background: map.get($variables, "bg-color");
+  border: map.get($variables, "border");
+  box-shadow: map.get($variables, "box-shadow");
+  padding: map.get($variables, "padding");
+  border-radius: map.get($variables, "border-radius");
+  transition: map.get($variables, "transition");
+  min-height: map.get($variables, "min-height");
+  min-width: map.get($variables, "min-width");
+  text-decoration: none;
+
+  &:active,
+  &:focus-visible,
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:active,
+  &:hover {
+    background: map.get($variables, "hover--bg-color");
+    color: map.get($variables, "hover--color");
+  }
+
+  &:focus-visible {
+    background: map.get($variables, "focus--bg-color");
+    color: map.get($variables, "focus--color");
+    outline: map.get($variables, "focus--outline");
+    box-shadow: map.get($variables, "focus--box-shadow");
+  }
+
+  .#{$prefix}icon {
+    font-size: map.get($variables, "icon-font-size");
+  }
+
+  &--secondary {
+    color: map.get($variables, "secondary--color");
+    background: map.get($variables, "secondary--bg-color");
+    border: map.get($variables, "secondary--border");
+
+    &:active,
+    &:hover {
+      color: map.get($variables, "secondary--hover--color");
+      background: map.get($variables, "secondary--hover--bg-color");
+    }
+
+    &:focus-visible {
+      background: map.get($variables, "secondary--focus--bg-color");
+      border-color: map.get($variables, "secondary--focus--border-color");
+      color: map.get($variables, "secondary--focus--color");
+    }
+
+    &.#{$prefix}button--disabled {
+      background: map.get($variables, "secondary--disabled--bg-color") !important;
+      color: map.get($variables, "secondary--disabled--color") !important;
+      border: map.get($variables, "secondary--disabled--border") !important;
+    }
+  }
+
+  &--link,
+  &--link-darker {
+    background: transparent;
+    color: map.get($variables, "link--color");
+    gap: map.get($variables, "link--gap");
+    text-underline-offset: map.get($variables, "link--text-underline-offset");
+
+    &:focus-visible,
+    &:hover {
+      background: transparent;
+      box-shadow: none;
+
+      > span:not(.#{$prefix}icon) {
+        text-decoration: underline;
+      }
+    }
+
+    &:hover {
+      color: map.get($variables, "link--hover--color");
+    }
+
+    &:focus-visible {
+      outline: none;
+      color: map.get($variables, "link--focus--color");
+      text-shadow: map.get($variables, "link--focus--text-shadow");
+    }
+
+    &.#{$prefix}button--size-sm {
+      padding-inline: map.get($variables, "link--size-sm--padding-inline");
+    }
+
+    &.#{$prefix}button--disabled {
+      color: map.get($variables, "link--disabled--color") !important;
+      background: transparent !important;
+      text-shadow: none !important;
+
+      > span:not(.#{$prefix}icon) {
+        text-decoration: none !important;
+      }
+    }
+  }
+
+  &--link-darker,
+  &--link-darker:focus-visible,
+  &--link-darker:hover {
+    color: map.get($variables, "link-darker--color");
+  }
+
+  &--size-sm {
+    gap: map.get($variables, "size-sm--gap");
+    min-height: map.get($variables, "size-sm--min-height");
+    min-width: map.get($variables, "size-sm--min-width");
+    padding: map.get($variables, "size-sm--padding");
+    font-size: map.get($variables, "size-sm--font-size");
+    line-height: map.get($variables, "size-sm--line-height");
+
+    .#{$prefix}icon {
+      font-size: map.get($variables, "size-sm--icon-font-size");
+    }
+  }
+
+  &--size-lg {
+    min-height: map.get($variables, "size-lg--min-height");
+    min-width: map.get($variables, "size-lg--min-width");
+    padding: map.get($variables, "size-lg--padding");
+    font-size: map.get($variables, "size-lg--font-size");
+    font-weight: map.get($variables, "size-lg--font-weight");
+  }
+
+  &--squared {
+    border-radius: 0;
+  }
+
+  &--disabled {
+    color: map.get($variables, "disabled--color") !important;
+    opacity: map.get($variables, "disabled--opacity") !important;
+    background: map.get($variables, "disabled--bg-color") !important;
+    cursor: default !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  &--no-padding {
+    padding: 0;
+
+    &.dps-button--link,
+    &.dps-button--link-darker {
+      padding-inline: 0;
+    }
+  }
+}

@@ -1,0 +1,163 @@
+@use "sass:map";
+
+@import "variables/root";
+@import "variables/colors";
+@import "variables/grid";
+@import "variables/spacing";
+@import "variables/typography";
+
+$host-selector: if($enable-host, ":host", ":root");
+
+#{$host-selector} {
+  // Color
+  --dps-color-background: #{$dps-color-background};
+  --dps-color-black-70: #{$dps-color-black-70};
+  --dps-color-black: #{$dps-color-black};
+  --dps-color-dark-gray: #{$dps-color-dark-gray};
+  --dps-color-dark: #{$dps-color-dark};
+  --dps-color-delay: #{$dps-color-delay};
+  --dps-color-error: #{$dps-color-error};
+  --dps-color-light-blue: #{$dps-color-light-blue};
+  --dps-color-light-gray: #{$dps-color-light-gray};
+  --dps-color-medium-gray: #{$dps-color-medium-gray};
+  --dps-color-plan: #{$dps-color-plan};
+  --dps-color-primary-50: #{$dps-color-primary-50};
+  --dps-color-primary-darker: #{$dps-color-primary-darker};
+  --dps-color-primary-disabled: #{$dps-color-primary-disabled};
+  --dps-color-primary-hover: #{$dps-color-primary-hover};
+  --dps-color-primary-light: #{$dps-color-primary-light};
+  --dps-color-primary-shade: #{$dps-color-primary-shade};
+  --dps-color-primary-tint: #{$dps-color-primary-tint};
+  --dps-color-primary: #{$dps-color-primary};
+  --dps-color-success-text: #{$dps-color-success-text};
+  --dps-color-success: #{$dps-color-success};
+  --dps-color-transparent: #{$dps-color-transparent};
+  --dps-color-warning: #{$dps-color-warning};
+  --dps-color-white: #{$dps-color-white};
+
+  // Grid breakpoints
+  --dps-grid-breakpoint-xs: #{map.get($grid-breakpoints, "xs")};
+  --dps-grid-breakpoint-sm: #{map.get($grid-breakpoints, "sm")};
+  --dps-grid-breakpoint-md: #{map.get($grid-breakpoints, "md")};
+  --dps-grid-breakpoint-lg: #{map.get($grid-breakpoints, "lg")};
+  --dps-grid-breakpoint-xl: #{map.get($grid-breakpoints, "xl")};
+  --dps-grid-breakpoint-xxl: #{map.get($grid-breakpoints, "xxl")};
+
+  // Container max-width
+  --dps-container-max-width-sm: #{map.get($container-max-widths, "sm")};
+  --dps-container-max-width-md: #{map.get($container-max-widths, "md")};
+  --dps-container-max-width-lg: #{map.get($container-max-widths, "lg")};
+  --dps-container-max-width-xl: #{map.get($container-max-widths, "xl")};
+  --dps-container-max-width-xxl: #{map.get($container-max-widths, "xxl")};
+
+  // Font-size
+  --dps-font-size-xxxs: #{map.get($font-sizes, "xxxs")};
+  --dps-font-size-xxs: #{map.get($font-sizes, "xxs")};
+  --dps-font-size-xs: #{map.get($font-sizes, "xs")};
+  --dps-font-size-sm: #{map.get($font-sizes, "sm")};
+  --dps-font-size-md: #{map.get($font-sizes, "md")};
+  --dps-font-size-lg: #{map.get($font-sizes, "lg")};
+  --dps-font-size-xl: #{map.get($font-sizes, "xl")};
+  --dps-font-size-xxl: #{map.get($font-sizes, "xxl")};
+  --dps-font-size-xxxl: #{map.get($font-sizes, "xxxl")};
+
+  // Font-weight
+  --dps-font-weight-light: #{map.get($font-weight-values, "light")};
+  --dps-font-weight-normal: #{map.get($font-weight-values, "normal")};
+  --dps-font-weight-medium: #{map.get($font-weight-values, "medium")};
+  --dps-font-weight-semi-bold: #{map.get($font-weight-values, "semi-bold")};
+  --dps-font-weight-bold: #{map.get($font-weight-values, "bold")};
+  --dps-font-weight-extra-bold: #{map.get($font-weight-values, "extra-bold")};
+
+  // Spacing
+  --dps-spacing-xx-sm: #{map.get($spacing, "xx-sm")};
+  --dps-spacing-x-sm: #{map.get($spacing, "x-sm")};
+  --dps-spacing-sm: #{map.get($spacing, "sm")};
+  --dps-spacing-md: #{map.get($spacing, "md")};
+  --dps-spacing-x-md: #{map.get($spacing, "x-md")};
+  --dps-spacing-xx-md: #{map.get($spacing, "xx-md")};
+  --dps-spacing-lg: #{map.get($spacing, "lg")};
+  --dps-spacing-x-lg: #{map.get($spacing, "x-lg")};
+  --dps-spacing-xx-lg: #{map.get($spacing, "xx-lg")};
+  --dps-spacing-big: #{map.get($spacing, "big")};
+  --dps-spacing-x-big: #{map.get($spacing, "x-big")};
+  --dps-spacing-xx-big: #{map.get($spacing, "xx-big")};
+  --dps-spacing-xxx-big: #{map.get($spacing, "xxx-big")};
+}
+
+:export {
+  // Color
+  dps_color_background: #{$dps-color-background};
+  dps_color_black_70: #{$dps-color-black-70};
+  dps_color_black: #{$dps-color-black};
+  dps_color_dark_gray: #{$dps-color-dark-gray};
+  dps_color_dark: #{$dps-color-dark};
+  dps_color_delay: #{$dps-color-delay};
+  dps_color_error: #{$dps-color-error};
+  dps_color_light_blue: #{$dps-color-light-blue};
+  dps_color_light_gray: #{$dps-color-light-gray};
+  dps_color_medium_gray: #{$dps-color-medium-gray};
+  dps_color_plan: #{$dps-color-plan};
+  dps_color_primary_50: #{$dps-color-primary-50};
+  dps_color_primary_darker: #{$dps-color-primary-darker};
+  dps_color_primary_disabled: #{$dps-color-primary-disabled};
+  dps_color_primary_hover: #{$dps-color-primary-hover};
+  dps_color_primary_light: #{$dps-color-primary-light};
+  dps_color_primary_shade: #{$dps-color-primary-shade};
+  dps_color_primary_tint: #{$dps-color-primary-tint};
+  dps_color_primary: #{$dps-color-primary};
+  dps_color_success_text: #{$dps-color-success-text};
+  dps_color_success: #{$dps-color-success};
+  dps_color_transparent: #{$dps-color-transparent};
+  dps_color_warning: #{$dps-color-warning};
+  dps_color_white: #{$dps-color-white};
+
+  // Grid breakpoints
+  dps_grid_breakpoint_xs: #{map.get($grid-breakpoints, "xs")};
+  dps_grid_breakpoint_sm: #{map.get($grid-breakpoints, "sm")};
+  dps_grid_breakpoint_md: #{map.get($grid-breakpoints, "md")};
+  dps_grid_breakpoint_lg: #{map.get($grid-breakpoints, "lg")};
+  dps_grid_breakpoint_xl: #{map.get($grid-breakpoints, "xl")};
+  dps_grid_breakpoint_xxl: #{map.get($grid-breakpoints, "xxl")};
+
+  // Container max-width
+  dps_container_max_width_sm: #{map.get($container-max-widths, "sm")};
+  dps_container_max_width_md: #{map.get($container-max-widths, "md")};
+  dps_container_max_width_lg: #{map.get($container-max-widths, "lg")};
+  dps_container_max_width_xl: #{map.get($container-max-widths, "xl")};
+  dps_container_max_width_xxl: #{map.get($container-max-widths, "xxl")};
+
+  // Font-size
+  dps_font_size_xxxs: #{map.get($font-sizes, "xxxs")};
+  dps_font_size_xxs: #{map.get($font-sizes, "xxs")};
+  dps_font_size_xs: #{map.get($font-sizes, "xs")};
+  dps_font_size_sm: #{map.get($font-sizes, "sm")};
+  dps_font_size_md: #{map.get($font-sizes, "md")};
+  dps_font_size_lg: #{map.get($font-sizes, "lg")};
+  dps_font_size_xl: #{map.get($font-sizes, "xl")};
+  dps_font_size_xxl: #{map.get($font-sizes, "xxl")};
+  dps_font_size_xxxl: #{map.get($font-sizes, "xxxl")};
+
+  // Font-weight
+  dps_font_weight_light: #{map.get($font-weight-values, "light")};
+  dps_font_weight_normal: #{map.get($font-weight-values, "normal")};
+  dps_font_weight_medium: #{map.get($font-weight-values, "medium")};
+  dps_font_weight_semi_bold: #{map.get($font-weight-values, "semi-bold")};
+  dps_font_weight_bold: #{map.get($font-weight-values, "bold")};
+  dps_font_weight_extra_bold: #{map.get($font-weight-values, "extra-bold")};
+
+  // Spacing
+  dps_spacing_xx_sm: #{map.get($spacing, "xx-sm")};
+  dps_spacing_x_sm: #{map.get($spacing, "x-sm")};
+  dps_spacing_sm: #{map.get($spacing, "sm")};
+  dps_spacing_md: #{map.get($spacing, "md")};
+  dps_spacing_x_md: #{map.get($spacing, "x-md")};
+  dps_spacing_xx_md: #{map.get($spacing, "xx-md")};
+  dps_spacing_lg: #{map.get($spacing, "lg")};
+  dps_spacing_x_lg: #{map.get($spacing, "x-lg")};
+  dps_spacing_xx_lg: #{map.get($spacing, "xx-lg")};
+  dps_spacing_big: #{map.get($spacing, "big")};
+  dps_spacing_x_big: #{map.get($spacing, "x-big")};
+  dps_spacing_xx_big: #{map.get($spacing, "xx-big")};
+  dps_spacing_xxx_big: #{map.get($spacing, "xxx-big")};
+}

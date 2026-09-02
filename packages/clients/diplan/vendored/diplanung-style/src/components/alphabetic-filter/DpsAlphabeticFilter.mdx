@@ -1,0 +1,49 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsAlphabeticFilterStories from "./DpsAlphabeticFilter.stories";
+
+<Meta of={DpsAlphabeticFilterStories} />
+
+# DpsAlphabeticFilter
+
+## Description
+
+The `DpsAlphabeticFilter` component is used to display alphabetic filter options.
+
+By default, the alphabetic filter consists of 4 `options`:
+
+```json
+["A-G", "H-N", "O-U", "V-Z"]
+```
+
+**Note:**
+
+The 'Selected' element is not part of the component and is only used to show the currently selected
+option.
+
+<Primary name="Default" />
+
+## Stories
+
+### Selected
+
+To pre-select an option, you need to set the `v-model`. In the example below, the value is set to
+`"A-G"`.
+
+<Canvas of={DpsAlphabeticFilterStories.Selected} />
+
+### Required
+
+To prevent options from being deselected, set the `required` property to `true`. This ensures that
+users cannot deselect a value by clicking on an already selected option.
+
+<Canvas of={DpsAlphabeticFilterStories.Required} />
+
+### Disabled
+
+To disable the selection of options, set the `disabled` property to `true`.
+
+<Canvas of={DpsAlphabeticFilterStories.Disabled} />
+
+## Properties, Events, Slots
+
+<Controls />

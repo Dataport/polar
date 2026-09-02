@@ -8,6 +8,8 @@ import { FeatureCollection, Geometry, GeometryCollection } from 'geojson'
 import { GeoJSON } from 'ol/format'
 import packageInfo from '../package.json'
 import { navigateToDenkmal } from './utils/navigateToDenkmal'
+import { watchActiveMaskIds } from './utils/watchActiveMaksIds'
+import { watchSearchResultForAlkisSearch } from './utils/watchSearchResultForAlkisSearch'
 import { addPlugins } from './addPlugins'
 import { services } from './services'
 import { getMapConfiguration } from './mapConfigurations/mapConfig'
@@ -15,6 +17,7 @@ import { CONTENT_ENUM } from './plugins/Modal/store'
 import './styles.css'
 import selectionLayer from './selectionLayer'
 import { DishUrlParams } from './types'
+
 // eslint-disable-next-line no-console
 console.log(`DISH map client running in version ${packageInfo.version}.`)
 
@@ -34,12 +37,14 @@ export default {
         configOverride || {}
       ),
     })
-    const parameters = new URL(document.location as unknown as string)
-      .searchParams
-    // using naming from backend to avoid multiple names for same thing
-    const objektId = parameters.get('ObjektID')
+    const objektId = getObjektIdFromURL(
+      new URL(document.location as unknown as string).searchParams
+    )
     if (mode === 'INTERN') {
       subscribeToExportedMap(map)
+      // watch for changes in activeMaskIds to update beschriftung layer
+      watchActiveMaskIds(map)
+      watchSearchResultForAlkisSearch(map)
       map.$store.commit('plugin/selectionObject/setObjectId', objektId)
       if (typeof objektId === 'string') {
         zoomToInternalFeature(map, objektId, urlParams)
@@ -116,4 +121,13 @@ function zoomToInternalFeature(
         text: 'dish.idNotFound',
       })
     })
+}
+
+function getObjektIdFromURL(urlSearchParams: URLSearchParams): string | null {
+  for (const [key, value] of urlSearchParams) {
+    if (key.toLowerCase() === 'objektid') {
+      return value || null
+    }
+  }
+  return null
 }

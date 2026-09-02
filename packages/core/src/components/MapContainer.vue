@@ -61,6 +61,7 @@ import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import { addClusterStyle } from '../utils/addClusterStyle'
 import { setupStyling } from '../utils/setupStyling'
 import { mapZoomOffset } from '../utils/mapZoomOffset'
+import { createKeyboardInteractions } from '../utils/interactions'
 import MapUi from './MapUi.vue'
 // NOTE: OpenLayers styles need to be imported as the map resides in the shadow DOM
 import 'ol/ol.css'
@@ -150,12 +151,16 @@ export default Vue.extend({
             pinchRotate: false,
             dragPan: false,
             mouseWheelZoom: false,
+            keyboard: false,
           }),
         },
       }
     )
     setupStyling(this.mapConfiguration, map)
     this.setMap(map)
+    createKeyboardInteractions().forEach((interaction) =>
+      map.addInteraction(interaction)
+    )
     this.updateDragAndZoomInteractions()
     if (this.mapConfiguration.extendedMasterportalapiMarkers) {
       this.useExtendedMasterportalapiMarkers(

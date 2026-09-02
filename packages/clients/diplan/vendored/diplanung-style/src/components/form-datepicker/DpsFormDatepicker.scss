@@ -1,0 +1,525 @@
+@use "vue-datepicker-next/index.css";
+
+.dps-form-datepicker {
+  &__popup {
+    --mx-color-black: #000;
+    --mx-color-blue: var(--dps-color-primary);
+    --mx-color-blue-queen: #40648a;
+    --mx-color-blue-dark: #194573;
+    --mx-color-blue-light: var(--dps-color-primary-disabled);
+    --mx-color-blue-lighter: #9fb1c6;
+    --mx-color-blue-lightest: #adbccd;
+    --mx-color-grey: #a8b0b9;
+    --mx-color-grey-dark: #949494;
+    --mx-color-grey-darker: #494c4d;
+    --mx-color-grey-light: #f1f1f1;
+    --mx-color-red: var(--dps-color-error);
+    --mx-color-white: #fff;
+    --mx-content-height: 19.25rem;
+    --mx-content-width: 20.5rem;
+    --mx-space-md: 0.75rem;
+    --mx-space-lg: 1.5rem;
+    --mx-trans-duration-fast: 0.2s;
+
+    .mx-calendar {
+      padding: 0;
+      width: var(--mx-content-width);
+
+      // buttons for switching years
+      &.mx-calendar-panel-date {
+        .mx-btn-icon-double-left,
+        .mx-btn-icon-double-right {
+          display: none;
+        }
+      }
+
+      .mx-btn-icon-left,
+      .mx-btn-icon-right,
+      .mx-btn-icon-double-left,
+      .mx-btn-icon-double-right {
+        transition: color var(--mx-trans-duration-fast) ease-in-out;
+
+        &:hover {
+          color: var(--dps-color-primary);
+        }
+      }
+
+      .mx-table {
+        border-spacing: 0;
+        border-collapse: collapse;
+
+        &-date {
+          th {
+            font-size: 14px;
+            color: var(--dps-color-dark-gray);
+            text-transform: uppercase;
+            padding: 0.5rem 0;
+          }
+        }
+      }
+
+      .mx-icon {
+        &-right,
+        &-left {
+          &::before {
+            width: 1.25rem;
+            height: 1.25rem;
+          }
+        }
+      }
+
+      &-range {
+        .mx-calendar-header {
+          position: relative;
+        }
+
+        .mx-calendar-content {
+          .mx-date-row .cell {
+            &.active {
+              position: relative;
+              height: 0;
+              line-height: 0;
+              text-align: center;
+              cursor: pointer;
+              background: var(--dps-color-white);
+
+              &:has(.hover-in-range) {
+                background-image: linear-gradient(
+                  90deg,
+                  var(--mx-color-white) 50%,
+                  var(--mx-color-blue-light) 50%
+                );
+              }
+            }
+
+            // cells in range should keep their background color when hovered
+            &.in-range:hover {
+              background-color: var(--mx-color-blue-light);
+            }
+          }
+        }
+
+        .mx-btn-icon-left,
+        .mx-btn-icon-right {
+          position: absolute;
+          height: 6px;
+          width: 12px;
+          border-radius: 0;
+        }
+
+        .mx-btn-icon-double-left,
+        .mx-btn-icon-double-right,
+        .mx-btn-icon-right,
+        .mx-btn-icon-left {
+          display: none;
+        }
+
+        // applies styles only for the date table
+        .mx-table-date {
+          .cell {
+            // active item when hovered over next item
+            &.active:has(+ .cell:hover, + .in-range) {
+              background-image: linear-gradient(
+                90deg,
+                var(--mx-color-white) 50%,
+                var(--mx-color-blue-light) 50%
+              );
+            }
+
+            // next hovered item after first active item
+            &.active + .cell:not(.in-range):hover {
+              background-image: linear-gradient(
+                90deg,
+                var(--mx-color-blue-light) 50%,
+                var(--mx-color-white) 50%
+              ) !important;
+            }
+
+            // active item when next item is also active
+            &.active:has(+ .active) {
+              background-image: linear-gradient(
+                90deg,
+                var(--mx-color-white) 50%,
+                var(--mx-color-blue-light) 50%
+              );
+            }
+
+            &.in-range,
+            &.active {
+              // item after in-range or after first active item
+              + .active {
+                background-image: linear-gradient(
+                  90deg,
+                  var(--mx-color-blue-light) 50%,
+                  var(--mx-color-white) 50%
+                ) !important;
+
+                // hovered item after last active item
+                + .cell:hover {
+                  background-image: none !important;
+                }
+              }
+            }
+
+            // hovered item after setting first active item forwards
+            &.hover-in-range {
+              + .cell:not(.hover-in-range) {
+                background-image: linear-gradient(
+                  90deg,
+                  var(--mx-color-blue-light) 50%,
+                  var(--mx-color-white) 50%
+                ) !important;
+              }
+            }
+
+            // hovered item after setting first active item backwards
+            &:not(.hover-in-range):has(+ .cell.hover-in-range) {
+              background-image: linear-gradient(
+                90deg,
+                var(--mx-color-white) 50%,
+                var(--mx-color-blue-light) 50%
+              );
+            }
+
+            // first active item when hovered over previous item
+            &:not(.in-range):hover + .active:has(+ .cell:not(.active, .in-range)) {
+              background-image: linear-gradient(
+                90deg,
+                var(--mx-color-blue-light) 50%,
+                var(--mx-color-white) 50%
+              ) !important;
+            }
+
+            // previous hovered item before first active item
+            &:is(
+                .cell:not(.in-range):hover:has(+ .cell:is(.active) + .cell:not(.active, .in-range))
+              ) {
+              background-image: linear-gradient(
+                90deg,
+                var(--mx-color-white) 50%,
+                var(--mx-color-blue-light) 50%
+              );
+            }
+
+            // prevent styles of range items after last active hovered item
+            &.in-range + .active + .cell:hover {
+              background-image: none !important;
+            }
+
+            // items in between the active items
+            &.in-range,
+            &.hover-in-range {
+              background-color: var(--mx-color-blue-light);
+              color: var(--dps-color-white);
+            }
+          }
+        }
+      }
+
+      &-header {
+        font-family: OpenSans, sans-serif;
+        align-items: center;
+        gap: 4px;
+        justify-content: space-around;
+        display: flex;
+        background-color: var(--mx-color-light-grey);
+        color: var(--mx-color-black);
+        margin: -1px -1px 0;
+        padding: 0 32px;
+        height: 3.75rem;
+        line-height: 3.75rem;
+
+        > .mx-btn {
+          color: var(--dps-color-black);
+        }
+
+        &-label {
+          display: flex;
+          justify-content: space-between;
+          flex: 1;
+          padding: 0 3.75rem 0 1.25rem;
+        }
+
+        .mx-btn-icon-double-left,
+        .mx-btn-icon-double-right,
+        .mx-btn-icon-left,
+        .mx-btn-icon-right,
+        .mx-btn-current-month,
+        .mx-btn-current-year {
+          color: var(--dps-color-black);
+          font-size: 15px;
+          font-weight: 600;
+          font-family: OpenSans, sans-serif;
+
+          &:hover,
+          &:focus {
+            color: var(--dps-color-primary);
+          }
+        }
+
+        .mx-btn-current-year::after,
+        .mx-btn-current-month::after {
+          position: relative;
+          right: 0;
+          border-style: solid;
+          border-width: 1px 1px 0 0;
+          content: "";
+          display: inline-block;
+          transform: rotate(135deg);
+          height: 7px;
+          width: 7px;
+          left: 7px;
+          top: -3px;
+          border-radius: 0;
+        }
+      }
+
+      &-content {
+        height: calc(var(--mx-content-height) + var(--mx-space-lg));
+        margin: 0 0 1.25rem;
+        padding: var(--mx-space-lg);
+
+        .mx-table-date {
+          .cell {
+            color: var(--mx-color-black);
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 14px;
+            line-height: 0;
+            text-align: center;
+
+            &.today {
+              &:not(.in-range, .hover-in-range, .active, :hover, .focused) {
+                color: var(--dps-color-primary);
+                background: var(--dps-color-primary-light);
+                border-radius: 50%;
+              }
+            }
+
+            &.black-date {
+              color: var(--mx-color-grey-dark);
+            }
+
+            &.active {
+              background: var(--dps-color-white);
+            }
+
+            &.active,
+            &:hover,
+            &:focus {
+              position: relative;
+              color: var(--mx-color-white);
+              background-color: var(--dps-color-transparent);
+
+              &::before,
+              &::after {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: var(--dps-color-primary);
+                border-radius: 100%;
+              }
+
+              > div {
+                position: relative;
+                z-index: 2;
+              }
+            }
+
+            &.not-current-month {
+              visibility: hidden;
+            }
+          }
+        }
+
+        .mx-table-month,
+        .mx-table-year {
+          color: var(--dps-color-black);
+        }
+
+        .cell {
+          &:hover,
+          &:focus {
+            color: var(--dps-color-white);
+            background-color: var(--dps-color-primary);
+          }
+
+          &.active {
+            background-color: var(--dps-color-primary);
+          }
+        }
+      }
+
+      &-label {
+        font-size: 12px;
+        color: var(--mx-color-blue-light);
+        padding: 0 2.5rem 0 var(--mx-space-md);
+        text-transform: uppercase;
+        cursor: pointer;
+        width: calc(var(--mx-content-width) - var(--mx-space-md));
+        position: relative;
+        text-align: right;
+
+        &::after {
+          content: "\E973";
+          font-family: cockpiticons, sans-serif;
+          text-align: center;
+          font-weight: normal;
+          font-size: 16pt;
+          line-height: 1.75rem;
+          color: var(--mx-color-white);
+          display: inline-block;
+          width: 1.75rem;
+          height: 1.75rem;
+          margin-left: 0.875rem;
+          background-color: var(--mx-color-light-grey);
+          cursor: pointer;
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translate(0, -50%);
+        }
+      }
+    }
+  }
+
+  .mx-input {
+    border-radius: 2px;
+    border-color: var(--dps-color-medium-gray);
+    box-shadow: none;
+    color: var(--dps-color-black);
+    font-size: 16px;
+    height: 48px !important;
+    padding: 6px 40px 6px 16px;
+
+    &:disabled {
+      border-color: var(--dps-color-primary-light);
+      background-color: var(--dps-color-background);
+      color: var(--dps-color-dark-gray);
+    }
+
+    &:focus {
+      border-color: var(--dps-color-primary);
+      outline: 1px solid var(--dps-color-primary);
+      box-shadow: 0 0 4px 1px #00000040;
+    }
+  }
+
+  &--error {
+    .mx-input {
+      border-color: var(--dps-color-error);
+    }
+
+    .mx-icon-calendar {
+      color: var(--dps-color-error);
+    }
+  }
+}
+
+.mx-datepicker {
+  .mx-icon-calendar {
+    font-size: 23px;
+    right: 13px;
+    color: var(--dps-color-black);
+  }
+
+  &-content {
+    .mx-calendar-panel-month {
+      .mx-calendar-content {
+        height: 224px !important;
+      }
+    }
+  }
+
+  &-footer {
+    padding: 0 0 var(--mx-space-md) 0;
+    border: none;
+
+    .dps-form-checkbox {
+      margin: 0.5rem 1rem 1rem;
+      float: left;
+      text-align: left;
+      max-width: 300px;
+    }
+
+    .dps-form-datepicker__button-cancel,
+    .mx-datepicker-btn-confirm {
+      margin-right: 1rem;
+    }
+  }
+
+  .mx-icon-clear {
+    color: var(--dps-color-black);
+
+    &:hover,
+    &:focus {
+      color: var(--dps-color-primary);
+    }
+  }
+
+  &:not(.disabled):hover,
+  &:not(.disabled):active,
+  &:not(.disabled):focus {
+    .mx-icon-calendar {
+      color: var(--dps-color-primary);
+    }
+  }
+
+  &.disabled .mx-icon-calendar {
+    color: var(--dps-color-dark-gray);
+  }
+
+  &-btn-confirm {
+    background-color: var(--dps-color-primary);
+    color: var(--dps-color-white);
+    fill: var(--dps-color-white);
+    min-width: 33px;
+    padding: 8px 16px;
+    margin: 0 0 10px;
+    border-width: 1px;
+    border-radius: 17px;
+    border-color: var(--dps-color-primary);
+    align-items: center;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: OpenSans, sans-serif;
+    line-height: 15px;
+    max-width: 100%;
+    transition: all 0.15s ease-out;
+    font-size: 15px;
+    height: 33px;
+    justify-content: center;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: var(--dps-color-primary);
+      border-color: var(--dps-color-primary);
+      color: var(--dps-color-white);
+      fill: var(--dps-color-white);
+    }
+
+    &:hover,
+    &:focus {
+      box-shadow: 0 0 6px 2px rgb(51 117 212 / 60%);
+    }
+  }
+
+  &--filter {
+    .mx-input {
+      border: 1px solid transparent;
+      background-color: var(--dps-color-background);
+      color: var(--dps-color-black);
+      font-weight: 500;
+
+      &::placeholder {
+        color: var(--dps-color-black);
+        font-weight: 500;
+      }
+    }
+  }
+}

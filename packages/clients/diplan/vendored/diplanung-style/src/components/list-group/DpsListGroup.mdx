@@ -1,0 +1,61 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsListGroupStories from "./DpsListGroup.stories";
+
+<Meta of={DpsListGroupStories} />
+
+# DpsListGroup
+
+## Description
+
+The `DpsListGroup` component displays a list of grouped items with optional border styling.
+
+<Primary name="Default" />
+
+## Stories
+
+### Bordered
+
+Add a border around the list group by setting the `bordered` property to `true`.
+
+<Canvas of={DpsListGroupStories.Bordered} />
+
+### Tag
+
+Customize the root HTML element by setting the `tag` property to your desired tag.
+
+<Canvas of={DpsListGroupStories.Tag} />
+
+### Counter Slot
+
+To display a counter place the content in the `counter` slot.
+
+<Canvas of={DpsListGroupStories.CounterSlot} />
+
+### Collapsible Items
+
+To make the items collapsible, add content to their `collapsible-content` slot.
+
+```html
+<DpsListGroup>
+  <DpsListGroupItem>
+    Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet
+
+    <template #collapsible-content>
+      Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+      aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+    </template>
+  </DpsListGroupItem>
+</DpsListGroup>
+```
+
+<Canvas of={DpsListGroupStories.CollapsibleItems} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- [Bootstrap Vue - List Group](https://bootstrap-vue.org/docs/components/list-group)

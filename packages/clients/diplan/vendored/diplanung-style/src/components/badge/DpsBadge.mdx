@@ -1,0 +1,78 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsBadgeStories from "./DpsBadge.stories";
+
+<Meta of={DpsBadgeStories} />
+
+# DpsBadge
+
+## Description
+
+The `DpsBadge` component displays a badge in various styles. The label content is rendered using the
+default slot.
+
+**Note:**
+
+By default, the `variant` property is set to `undefined`, which results in a grey badge being
+displayed.
+
+<Primary name="Default" />
+
+## Stories
+
+### Variants
+
+#### Primary
+
+To display the blue primary variant, set the `variant` property to `"primary"`.
+
+<Canvas of={DpsBadgeStories.Primary} />
+
+#### Info
+
+To display the light-blue info variant, set the `variant` property to `"info"`.
+
+<Canvas of={DpsBadgeStories.Info} />
+
+#### Warning
+
+To display the yellow warning variant, set the `variant` property to `"warning"`.
+
+<Canvas of={DpsBadgeStories.Warning} />
+
+#### Success
+
+To display the green success variant, set the `variant` property to `"success"`.
+
+<Canvas of={DpsBadgeStories.Success} />
+
+#### Error
+
+To display the red error variant, set the `variant` property to `"error"`.
+
+<Canvas of={DpsBadgeStories.Error} />
+
+### Rounded
+
+To round the corners of the badge, set the `rounded` property to `true`.
+
+#### Outline
+
+This story showcases the `"outline"` variant with rounded corners.
+
+<Canvas of={DpsBadgeStories.RoundedOutline} />
+
+#### Primary
+
+This story showcases the `"primary"` variant with rounded corners.
+
+<Canvas of={DpsBadgeStories.RoundedPrimary} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/badge

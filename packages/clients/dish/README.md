@@ -35,6 +35,8 @@ For the internal map, another query parameter, e.g. `?NewTab=false`, can be give
 | - | - | - |
 | internalHost | string | The URL of the server where the DISH software and the monument services are hosted. |
 | internServicesBaseUrl | string | A combination of host, port and path to create a base URL that can be used for the monument services that run on the same server. |
+| printHostDeegree |string | The URL of the backend server that is used to send requests for the DishExportMap plugin. | 
+| printServicesBaseUrl | string |  The base URL for the backend WMS and WFS that are used in the DishExportMap plugin. | 
 
 The `internalHost` is also needed as parameter for the gfi plugin. It displays photographs of the monuments and uses the parameter as path to the right folder on the server.
 
@@ -44,6 +46,8 @@ The `internalHost` is also needed as parameter for the gfi plugin. It displays p
 const urlParams = {
   internalHost,
   internServicesBaseUrl: `${internalHost}:${internalPort}/${internalPath}`
+  printHostDeegree,
+  printServicesBaseUrl: `${printHostDeegree}:${printHostPort}/${printPath}`,
 }
 
 client.createMap({

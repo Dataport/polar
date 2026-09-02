@@ -18,7 +18,9 @@ import LayerChooser from '@polar/plugin-layer-chooser'
 import Legend from '@polar/plugin-legend'
 import LoadingIndicator from '@polar/plugin-loading-indicator'
 import Pins from '@polar/plugin-pins'
+import PointerPosition from '@polar/plugin-pointer-position'
 import ReverseGeocoder from '@polar/plugin-reverse-geocoder'
+import Routing from '@polar/plugin-routing'
 import Scale from '@polar/plugin-scale'
 import Toast from '@polar/plugin-toast'
 import Zoom from '@polar/plugin-zoom'
@@ -46,7 +48,9 @@ type PluginName =
   | 'legend'
   | 'loading-indicator'
   | 'pins'
+  | 'pointer-position'
   | 'reverse-geocoder'
+  | 'routing'
   | 'scale'
   | 'toast'
   | 'zoom'
@@ -102,6 +106,17 @@ const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
           }),
           id: 'geoLocation',
         },
+        enabledPlugins.includes('routing') && {
+          plugin: Routing({
+            // Has to be set later
+            apiKey: '',
+            url: 'https://api.openrouteservice.org/v2/directions/',
+            format: 'geojson',
+            type: 'ors',
+          }),
+          icon: 'fa-route',
+          id: 'routing',
+        },
         enabledPlugins.includes('attributions') && {
           plugin: Attributions({
             renderType: 'iconMenu',
@@ -148,6 +163,11 @@ const addPlugins = (coreInstance: PolarCore, enabledPlugins: PluginName[]) => {
       enabledPlugins.includes('toast') &&
         Toast({
           layoutTag: NineLayoutTag.BOTTOM_MIDDLE,
+          displayComponent: true,
+        }),
+      enabledPlugins.includes('pointer-position') &&
+        PointerPosition({
+          layoutTag: NineLayoutTag.BOTTOM_LEFT,
           displayComponent: true,
         }),
     ].filter((x) => x)

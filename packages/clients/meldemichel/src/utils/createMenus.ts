@@ -14,14 +14,14 @@ export default function (mode: keyof typeof MODE): Menu[] {
       icon: 'fa-layer-group',
       id: 'layerChooser',
     },
-    mode === MODE.COMPLETE && {
+    (mode === MODE.COMPLETE || mode === MODE.JENFELD) && {
       plugin: Filter({
         layers: {},
       }),
       icon: 'fa-filter',
       id: 'filter',
     },
-    mode === MODE.COMPLETE && {
+    (mode === MODE.COMPLETE || mode === MODE.JENFELD) && {
       plugin: Gfi({
         layers: {},
         gfiContentComponent: MeldemichelGfiFeature,
@@ -44,13 +44,14 @@ export default function (mode: keyof typeof MODE): Menu[] {
       icon: 'fa-location-pin',
       id: 'gfi',
     },
-    {
+    mode !== MODE.JENFELD && {
       plugin: Zoom({ renderType: 'iconMenu' }),
       id: 'zoom',
     },
-    mode !== MODE.REPORT && {
-      plugin: Fullscreen({ renderType: 'iconMenu' }),
-      id: 'fullscreen',
-    },
+    mode !== MODE.REPORT &&
+      mode !== MODE.JENFELD && {
+        plugin: Fullscreen({ renderType: 'iconMenu' }),
+        id: 'fullscreen',
+      },
   ].filter((x) => x /* remove `false` entries */) as Menu[]
 }

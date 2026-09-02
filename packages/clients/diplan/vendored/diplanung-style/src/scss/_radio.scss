@@ -1,0 +1,7 @@
+@use "mixins/radio" as mixins;
+
+@import "variables/radio";
+
+.dps-radio {
+  @include mixins.radio($radio-theme);
+}

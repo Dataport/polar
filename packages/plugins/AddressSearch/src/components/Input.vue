@@ -11,9 +11,7 @@
     :value="inputValue"
     @input="input"
     @keydown.enter="abortAndRequest"
-    @keydown.down.prevent.stop="
-      focusFirstResult(featureListsWithCategory.length)
-    "
+    @keydown.down="focusFirstResult(featureListsWithCategory.length, $event)"
     @click:clear="clear"
   />
 </template>

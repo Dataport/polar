@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 1.5.0
 
 - Feature: Add locale for new plugin `@polar/plugin-routing`.
 - Fix: Adjust behaviour of setting content to the MoveHandle for small devices so that an already opened plugin is still open on resize.

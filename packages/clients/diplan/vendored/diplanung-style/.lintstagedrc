@@ -1,0 +1,6 @@
+{
+  "{src,stories,tests}/**/*.{js,ts}": "npm run lint:js:fix --",
+  "{src,stories,tests}/**/*.vue": ["npm run lint:js:fix --", "npm run lint:style:fix --"],
+  "{src,stories,tests}/**/*.{css,scss}": "npm run lint:style:fix --",
+  "{src,stories,tests}/**/*.{json,html,md,mdx}": "npm run prettier --"
+}

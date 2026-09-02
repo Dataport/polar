@@ -103,6 +103,7 @@ export function addPlugins(core, mode: keyof typeof MODE) {
          * icons: Currently not implemented, provided icon set has no fitting icon
          * atm. Suggestion: Searching for "picture" on icomoon yields nice results.
          * We should ask implementors of diplanung-style to add them eventually.
+         * NOTE: They deleted it from NPM, so we can push it into the vendored version.
          */
       }),
       mode !== MODE.DIPLAN_SMALL &&

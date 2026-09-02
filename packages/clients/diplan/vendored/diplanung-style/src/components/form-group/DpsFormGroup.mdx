@@ -1,0 +1,71 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsFormGroupStories from "./DpsFormGroup.stories";
+
+<Meta of={DpsFormGroupStories} />
+
+# DpsFormGroup
+
+## Description
+
+The `DpsFormGroup` component is the easiest way to add some structure to forms. Its purpose is to
+pair form controls with a legend or label, and to provide help text and invalid/valid feedback text,
+as well as visual (color) contextual state feedback.
+
+**Note:**
+
+In the examples below, a `DpsFormInput` component is placed within the default slot. Properties such
+as `error`, `success` and `disabled` can be passed to the components in the slot using `v-slot`.
+
+<Primary name="Default" />
+
+## Stories
+
+### Description
+
+Use the `description` property to display a **description** below the default slot.
+
+<Canvas of={DpsFormGroupStories.Description} />
+
+### Success
+
+Use the `successFeedback` property to display a **success** feedback text below the default slot.
+
+**Note:**
+
+The feedback will only be visible if the `valid` property is set to `true`.
+
+<Canvas of={DpsFormGroupStories.Success} />
+
+### Error
+
+Use the `errorFeedback` property to display an **error** feedback text below the default slot.
+
+**Note:**
+
+The feedback will only be visible if the `valid` property is set to `false`.
+
+<Canvas of={DpsFormGroupStories.Error} />
+
+### With Validation
+
+This example demonstrates a form group with input validation. When text is entered, the condition is
+checked, and the `valid` property is set to either `true` or `false`.
+
+<Canvas of={DpsFormGroupStories.WithValidation} />
+
+### Disabled
+
+To disable the form group, set the `disabled` property to `true`. In the example below, the
+`disabled` state is passed from the `v-slot` to the component within the default slot.
+
+<Canvas of={DpsFormGroupStories.Disabled} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/form-group

@@ -1,6 +1,6 @@
 {
   "name": "@polar/plugin-export",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Export plugin for POLAR that adds export functionality in various formats to retrieve a screenshot-like graphic of the map without the buttons.",
   "keywords": [
     "OpenLayers",
@@ -27,7 +27,7 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "jspdf": "^2.5.2"
+    "jspdf": "^4.2.1"
   },
   "peerDependencies": {
     "@repositoryname/vuex-generators": "^1.1.2",

@@ -1,0 +1,89 @@
+@import "variables/text";
+
+// TODO Refactor
+
+// Default
+.dps-text,
+p,
+table {
+  &,
+  > p {
+    margin: $paragraph-sibling-y 0 0 0;
+    font-family: $text-font-family, sans-serif;
+    font-size: $text-font-size;
+    letter-spacing: $text-letter-spacing;
+    line-height: $text-line-height;
+
+    .dps-heading + & {
+      margin-top: 0;
+    }
+
+    b,
+    strong {
+      font-weight: $text-font-weight-bold;
+    }
+
+    i,
+    em {
+      font-style: italic;
+    }
+
+    table {
+      width: 100%;
+    }
+
+    th,
+    td {
+      font-size: $text-small-font-size;
+      padding: $text-table-padding;
+    }
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.dps-text {
+  &--small {
+    &,
+    > p {
+      font-size: $text-small-font-size;
+      line-height: $text-small-line-height;
+
+      .dps-link {
+        font-size: inherit;
+        line-height: inherit;
+      }
+
+      p + p {
+        margin-top: $paragraph-sibling-y;
+        margin-bottom: $paragraph-sibling-y;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  &--bold {
+    &,
+    > p {
+      font-weight: $text-font-weight-bold;
+    }
+  }
+
+  &--ellipse {
+    &,
+    > p {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}

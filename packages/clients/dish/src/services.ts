@@ -12,6 +12,7 @@ import {
   denkmaelerWMS,
   denkmaelerWFS,
   basemapGrau,
+  basemapFarbe,
   kontrollbedarf,
   verlust,
   beschriftung,
@@ -97,6 +98,18 @@ const basemapGrauService = {
   transparent: true,
 }
 
+const basemapFarbeService = {
+  id: basemapFarbe,
+  name: 'WMS DE BASEMAP.DE WEB RASTER',
+  url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+  typ: 'WMS',
+  layers: 'de_basemapde_web_raster_farbe',
+  format: 'image/png',
+  version: '1.3.0',
+  singleTile: false,
+  transparent: true,
+}
+
 const alkisWmService = (mode: keyof typeof MODE) => ({
   id: alkisWms,
   name: 'ALKIS WMS',
@@ -129,6 +142,7 @@ export const alkisWfService = (mode: keyof typeof MODE = 'INTERN') => ({
 
 const servicesCommon = (mode: keyof typeof MODE) => [
   basemapGrauService,
+  basemapFarbeService,
   alkisWmService(mode),
   alkisWfService(mode),
 ]

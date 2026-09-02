@@ -1,0 +1,56 @@
+@import "variables/badge";
+
+.dps-badge {
+  display: $badge-display;
+  justify-content: $badge-justify-content;
+  align-items: $badge-align-items;
+  font-weight: $badge-font-weight;
+  font-size: $badge-font-size;
+  line-height: $badge-line-height;
+  color: $badge-color;
+  background-color: $badge-bg-color;
+  padding: $badge-padding;
+  text-transform: $badge-text-transform;
+  letter-spacing: $badge-letter-spacing;
+  border-radius: $badge-border-radius;
+  min-height: $badge-min-height;
+
+  &--primary {
+    color: $badge--primary--color;
+    background-color: $badge--primary--bg-color;
+  }
+
+  &--info {
+    color: $badge--info--color;
+    background-color: $badge--info--bg-color;
+  }
+
+  &--success {
+    color: $badge--success--color;
+    background-color: $badge--success--bg-color;
+  }
+
+  &--warning {
+    color: $badge--warning--color;
+    background-color: $badge--warning--bg-color;
+  }
+
+  &--error {
+    color: $badge--error--color;
+    background-color: $badge--error--bg-color;
+  }
+
+  &--outline {
+    color: $badge--outline--color;
+    background-color: $badge--outline--bg-color;
+    border: $badge--outline--border;
+  }
+
+  &--rounded {
+    font-size: $badge--rounded--font-size;
+    font-weight: $badge--rounded--font-weight;
+    border-radius: $badge--rounded--border-radius;
+    min-width: $badge--rounded--min-width;
+    padding: $badge--rounded--padding;
+  }
+}

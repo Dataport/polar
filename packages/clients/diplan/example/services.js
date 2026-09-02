@@ -459,7 +459,7 @@ export default [
     bboxCrs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
   },
   {
-    id: '452',
+    id: '34127',
     name: 'Digitale Orthophotos (belaubt) Hamburg',
     url: 'https://geodienste.hamburg.de/HH_WMS_DOP_belaubt',
     typ: 'WMS',

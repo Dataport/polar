@@ -1,0 +1,105 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+
+import * as DpsUploadFormGroupStories from "./DpsUploadFormGroup.stories.js";
+
+<Meta of={DpsUploadFormGroupStories} />
+
+# DpsUploadFormGroup
+
+## Description
+
+The `DpsUploadFormGroup` component can be used to select files from the users filesystem. In the
+default configuration there is a button to trigger an (upload-)action after files have been
+selected. It is possible to display a label and error texts and the component includes a validation
+for accepted file types.
+
+**Note**
+
+In the examples below the "Selected: " element is not part of the component but is used to display
+the selected filenames.
+
+<Primary name="Default" />
+
+## Stories
+
+### Hide Label
+
+To visually hide the label, but keep it readable for screen readers, use the `hideLabel` property.
+
+<Canvas of={DpsUploadFormGroupStories.HideLabel} />
+
+### Upload Button Label
+
+To change the text inside the upload button, use the `uploadButtonLabel` property.
+
+<Canvas of={DpsUploadFormGroupStories.UploadButtonLabel} />
+
+### Upload Button Title
+
+To change the title of the upload button, use the `uploadButtonTitle` property. Defaults to
+`uploadButtonLabel` if no value is set.
+
+<Canvas of={DpsUploadFormGroupStories.UploadButtonTitle} />
+
+### Title
+
+To change the title attribute of the file input, use the `title` property. If no value is provided
+the `label` value will be used.
+
+<Canvas of={DpsUploadFormGroupStories.Title} />
+
+### Disabled
+
+To disable the component, set the `disabled` property to `true`.
+
+<Canvas of={DpsUploadFormGroupStories.Disabled} />
+
+### Disable Upload Button
+
+To manually disable the upload button, set the `disableUploadButton` property to `true`. The upload
+button will be disabled even if a file has been selected.
+
+<Canvas of={DpsUploadFormGroupStories.DisableUploadButton} />
+
+### File Accept
+
+To define which file types can be selected, use the `fileAccept` property. Displays a description of
+valid file formats, sets the `accept` attribute of the input element and validates the selected
+files. If the validation fails an error message gets shown.
+
+<Canvas of={DpsUploadFormGroupStories.FileAccept} />
+
+### File Multiple
+
+To allow the selection of multiple files at once, use the `fileMultiple` property. If more than one
+file gets selected the number of selected files gets shown in the output element instead of the
+filenames. The exact text depends on the browser, all filenames get shown in the title of the
+output.
+
+<Canvas of={DpsUploadFormGroupStories.FileMultiple} />
+
+### Hide Upload Button
+
+To remove the upload button, set `hideUploadButton` to `true`.
+
+<Canvas of={DpsUploadFormGroupStories.HideUploadButton} />
+
+### File Required
+
+To make the input `required`, set the `fileRequired` property to `true`.
+
+**Note:** The button is not part of the component and is used here to demonstrate submitting a form
+with the required input.
+
+<Canvas of={DpsUploadFormGroupStories.FileRequired} />
+
+### Upload Error Message
+
+To show a custom error message and display the component in its error state, use the
+`uploadErrorMessage` property. When clicking on the file input the error gets reset.
+
+<Canvas of={DpsUploadFormGroupStories.UploadErrorMessage} />
+
+## Properties, Events, Slots
+
+<Controls />

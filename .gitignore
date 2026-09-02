@@ -20,3 +20,6 @@
 /public
 logs/*.log
 logs
+.DS_Store
+!/packages/clients/diplan/vendored/diplanung-style/dist
+node_modules

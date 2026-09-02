@@ -1,0 +1,10 @@
+@mixin sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important; // NOTE: Set !important for safety's sake, if a hidden element's position is set to relative to avoid effect of styles
+  width: 1px;
+}

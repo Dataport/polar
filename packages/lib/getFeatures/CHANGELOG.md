@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 3.2.0
+
+- Feature: Implement server-side sorting for `getWfsFeatures`. Can be configured by new parameter `sortBy`.
+- Feature: Implement possibility to search a WFS without regard to upper or lower case. Can be configured by new parameter `caseSensivite`.
+
+## 3.1.1
+
+- Fix: On server returns with the CRS not indicated on the root element, but on its children, the projection is now inferred from those.
+
 ## 3.1.0
 
 - Feature: Add new methods `getVectorFeaturesByBboxRequest` and `getVectorFeaturesByFeatureRequest` that support both WFS and OAF layers.

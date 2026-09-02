@@ -1,0 +1,23 @@
+.dps-list-group {
+  &__counter {
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    &--bordered {
+      border-top: 1px solid var(--dps-color-light-gray);
+      border-bottom: 1px solid var(--dps-color-light-gray);
+
+      > .dps-list-group-item + .dps-list-group-item {
+        border-top: 1px solid var(--dps-color-light-gray);
+      }
+    }
+  }
+}

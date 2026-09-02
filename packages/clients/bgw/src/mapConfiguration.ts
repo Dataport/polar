@@ -115,12 +115,12 @@ const mapConfig = {
           'Ausdehnung der Badestellen © Ministerium für Soziales, Gesundheit, Jugend, Familie und Senioren des Landes Schleswig-Holstein',
       },
       {
-        id: '14002',
+        id: '14003',
         title:
           'Badestellen © Ministerium für Soziales, Gesundheit, Jugend, Familie und Senioren des Landes Schleswig-Holstein',
       },
       {
-        id: '14003',
+        id: '14004',
         title:
           'Probenahmestellen © Ministerium für Soziales, Gesundheit, Jugend, Familie und Senioren des Landes Schleswig-Holstein',
       },
@@ -138,7 +138,7 @@ const mapConfig = {
           },
         } as BKGParameters,
         type: 'bkg',
-        url: 'https://gisdemo.dp.dsecurecloud.de/bkg_geosearch3',
+        url: 'https://geoportale.dp.dsecurecloud.de/geocoder',
       },
       {
         groupId: 'badestellenSearch',

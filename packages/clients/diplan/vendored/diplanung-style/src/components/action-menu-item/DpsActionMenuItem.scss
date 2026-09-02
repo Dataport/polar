@@ -1,0 +1,41 @@
+.dps-action-menu-item {
+  display: flex;
+
+  &__element {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: var(--dps-color-black);
+    font-size: 15px;
+    line-height: 150%;
+    font-weight: 400;
+    white-space: nowrap;
+    text-decoration: none;
+    gap: 10px;
+    padding: 0;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      color: var(--dps-color-primary);
+      text-decoration: none;
+    }
+
+    .dps-icon {
+      font-size: 24px;
+    }
+
+    &--danger {
+      &:hover,
+      &:focus {
+        color: var(--dps-color-error);
+      }
+    }
+
+    &--disabled {
+      cursor: default !important;
+      color: var(--dps-color-medium-gray) !important;
+    }
+  }
+}

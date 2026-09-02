@@ -1,5 +1,3 @@
-import 'regenerator-runtime/runtime'
-
 class Worker {
   constructor(stringUrl) {
     this.url = stringUrl

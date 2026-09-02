@@ -1,0 +1,12 @@
+@use "mixins/typography" as mixins;
+
+@import "variables/typography";
+
+@include mixins.setup-fonts($fonts);
+
+body,
+p {
+  color: $color;
+  font-family: $font-family-default, sans-serif;
+  line-height: $line-height;
+}

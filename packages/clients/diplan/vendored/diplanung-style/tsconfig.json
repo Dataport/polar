@@ -1,0 +1,29 @@
+{
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
+  "exclude": ["node_modules", "dist"],
+  "compilerOptions": {
+    "target": "ES2021",
+    "lib": ["ES2021", "DOM"],
+    "useDefineForClassFields": true,
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["./src/types/vue-router"],
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "noEmit": false,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}

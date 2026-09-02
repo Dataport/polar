@@ -9,6 +9,7 @@ import PolarPluginLayerChooser from '@polar/plugin-layer-chooser'
 import PolarPluginLegend from '@polar/plugin-legend'
 import PolarPluginLoadingIndicator from '@polar/plugin-loading-indicator'
 import PolarPluginPins from '@polar/plugin-pins'
+import PolarPluginReverseGeocoder from '@polar/plugin-reverse-geocoder'
 import PolarPluginScale from '@polar/plugin-scale'
 import PolarPluginToast from '@polar/plugin-toast'
 import PolarPluginZoom from '@polar/plugin-zoom'
@@ -105,6 +106,8 @@ polarCore.addPlugins([
       layoutTag: NineLayoutTag.MIDDLE_RIGHT,
     })
   ),
+  // @ts-expect-error | url has to be added with instantiation configuration
+  PolarPluginReverseGeocoder({}),
 ])
 
 export default polarCore

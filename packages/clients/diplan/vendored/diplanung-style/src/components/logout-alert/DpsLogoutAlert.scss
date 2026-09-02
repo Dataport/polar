@@ -1,0 +1,36 @@
+@use "bootstrap/scss/mixins/breakpoints" as mixins;
+@use "../../scss/variables/grid" as variables;
+
+.dps-logout-alert {
+  --horizontal-spacing: 32px;
+
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: #dce4ff;
+  padding-inline: var(--horizontal-spacing);
+
+  @include mixins.media-breakpoint-up(xl, variables.$grid-breakpoints) {
+    --horizontal-spacing: 3.5vw;
+  }
+
+  .dps-alert {
+    &__content-wrapper {
+      flex-direction: row;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__icon-wrapper {
+      align-self: center;
+    }
+  }
+
+  &__logout-button {
+    flex-shrink: 0;
+  }
+
+  b {
+    font-weight: 600;
+  }
+}

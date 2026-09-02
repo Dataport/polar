@@ -1,0 +1,96 @@
+$checkbox-bg-color: var(--dps-color-white) !default;
+$checkbox-border-radius: 2px !default;
+$checkbox-border-style: solid !default;
+$checkbox-border-width: 1px !default;
+$checkbox-checkmark-color: var(--dps-color-white) !default;
+$checkbox-checkmark-size: 12px !default;
+$checkbox-checkmark-width: 2px !default;
+$checkbox-gap: 12px !default;
+$checkbox-height: 22px !default;
+$checkbox-width: 22px !default;
+
+// Checked
+$checkbox--checked--bg-color: var(--dps-color-primary) !default;
+$checkbox--checked--border-color: var(--dps-color-primary) !default;
+
+// Disabled
+$checkbox--disabled--bg-color: var(--dps-color-light-gray) !default;
+$checkbox--disabled--border-color: var(--dps-color-light-gray) !default;
+$checkbox--disabled--color: var(--dps-color-dark-gray) !default;
+
+// Readonly
+$checkbox--readonly--bg-color: var(--dps-color-primary-light) !default;
+$checkbox--readonly--border-color: var(--dps-color-primary-light) !default;
+$checkbox--readonly--color: var(--dps-color-black) !default;
+$checkbox--readonly--checkmark-color: var(--dps-color-dark-gray) !default;
+
+// Error
+$checkbox--error--bg-color: var(--dps-color-white) !default;
+$checkbox--error--border-color: var(--dps-color-error) !default;
+$checkbox--error--color: var(--dps-color-error) !default;
+
+// Error Checked
+$checkbox--error--checked--bg-color: var(--dps-color-error) !default;
+$checkbox--error--checked--border-color: var(--dps-color-error) !default;
+
+// Error Focus
+$checkbox--error--focus--border-color: var(--dps-color-error) !default;
+$checkbox--error--focus--box-shadow: 0 0 4px 1px rgba(220 53 69 / 25%) !default;
+$checkbox--error--focus--outline: 1px solid var(--dps-color-error) !default;
+
+// Focus
+$checkbox--focus--border-color: var(--dps-color-primary) !default;
+$checkbox--focus--box-shadow: 0 0 4px 1px #00000040 !default;
+$checkbox--focus--outline: 1px solid var(--dps-color-primary) !default;
+
+// Size Sm
+$checkbox--size-sm--height: 16px !default;
+$checkbox--size-sm--width: 16px !default;
+$checkbox--size-sm--checkmark-size: 9px !default;
+$checkbox--size-sm--gap: 11px !default;
+
+// Default
+$checkbox-theme: (
+  bg-color: $checkbox-bg-color,
+  border-radius: $checkbox-border-radius,
+  border-style: $checkbox-border-style,
+  border-width: $checkbox-border-width,
+  checkmark-color: $checkbox-checkmark-color,
+  checkmark-size: $checkbox-checkmark-size,
+  checkmark-width: $checkbox-checkmark-width,
+  gap: $checkbox-gap,
+  height: $checkbox-height,
+  width: $checkbox-width,
+  // Checked
+  checked--bg-color: $checkbox--checked--bg-color,
+  checked--border-color: $checkbox--checked--border-color,
+  // Disabled
+  disabled--bg-color: $checkbox--disabled--bg-color,
+  disabled--border-color: $checkbox--disabled--border-color,
+  disabled--color: $checkbox--disabled--color,
+  // Readonly
+  readonly--bg-color: $checkbox--readonly--bg-color,
+  readonly--border-color: $checkbox--readonly--border-color,
+  readonly--color: $checkbox--readonly--color,
+  readonly--checkmark-color: $checkbox--readonly--checkmark-color,
+  // Error
+  error--bg-color: $checkbox--error--bg-color,
+  error--border-color: $checkbox--error--border-color,
+  error--color: $checkbox--error--color,
+  // Error Checked
+  error--checked--bg-color: $checkbox--error--checked--bg-color,
+  error--checked--border-color: $checkbox--error--checked--border-color,
+  // Error Focus
+  error--focus--box-shadow: $checkbox--error--focus--box-shadow,
+  error--focus--border-color: $checkbox--error--focus--border-color,
+  error--focus--outline: $checkbox--error--focus--outline,
+  // Focus
+  focus--border-color: $checkbox--focus--border-color,
+  focus--box-shadow: $checkbox--focus--box-shadow,
+  focus--outline: $checkbox--focus--outline,
+  // Size Sm
+  size-sm--height: $checkbox--size-sm--height,
+  size-sm--width: $checkbox--size-sm--width,
+  size-sm--checkmark-size: $checkbox--size-sm--checkmark-size,
+  size-sm--gap: $checkbox--size-sm--gap,
+) !default;

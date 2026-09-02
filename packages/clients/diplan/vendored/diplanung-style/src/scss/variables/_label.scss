@@ -1,0 +1,23 @@
+@use "sass:map";
+
+$label-font-size: 15px !default;
+$label-font-weight: 600 !default;
+$label-font-weight-slim: 400 !default;
+$label-line-height: 18.75px !default;
+$label-font-color: var(--dps-color-black) !default;
+$label-margin-bottom: 12px !default;
+
+// Default
+$label-default: (
+  display: block,
+  font-size: $label-font-size,
+  font-weight: $label-font-weight,
+  line-height: $label-line-height,
+  color: $label-font-color,
+  margin-bottom: $label-margin-bottom,
+) !default;
+
+// Slim
+$label-slim: (
+  font-weight: $label-font-weight-slim,
+) !default;

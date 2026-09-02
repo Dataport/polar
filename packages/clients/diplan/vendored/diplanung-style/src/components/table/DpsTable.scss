@@ -1,0 +1,167 @@
+.dps-table {
+  --table-padding: 16px;
+
+  background-color: var(--dps-color-white);
+  position: relative;
+  margin: -1px -1px -2px; // Hack for collapsible rows (outlines)
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    pointer-events: none;
+    width: 12px;
+    visibility: hidden;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to left, rgb(0 0 0 / 0%) 0%, rgb(0 0 0 / 6%) 100%);
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to right, rgb(0 0 0 / 0%) 0%, rgb(0 0 0 / 6%) 100%);
+  }
+
+  .table-responsive {
+    padding: 1px 1px 2px; // Hack for collapsible rows (outlines)
+  }
+
+  th,
+  td {
+    padding: var(--table-padding);
+    font-weight: normal;
+    font-size: 15px;
+    color: var(--dps-color-black);
+    vertical-align: middle;
+    border-color: var(--dps-color-light-gray);
+    height: 80px;
+  }
+
+  thead {
+    white-space: nowrap;
+
+    th {
+      background-color: var(--dps-color-background);
+      border-bottom: none;
+
+      &[aria-sort] {
+        cursor: pointer;
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--dps-color-primary);
+        outline-offset: -2px;
+      }
+    }
+  }
+
+  &__header-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &--scroll-shadow-right {
+    &::after {
+      visibility: visible;
+    }
+  }
+
+  &--scroll-shadow-left {
+    &::before {
+      visibility: visible;
+    }
+
+    &.dps-table--scroll-shadow-right {
+      &::before,
+      &::after {
+        visibility: visible;
+      }
+    }
+  }
+
+  &--sticky {
+    .table-responsive {
+      &::before,
+      &::after {
+        content: "";
+        width: 2px;
+        background: var(--dps-color-white);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+
+      &::before {
+        left: 0;
+      }
+
+      &::after {
+        right: 0;
+      }
+    }
+
+    &::before {
+      display: none;
+    }
+
+    tr {
+      td,
+      th {
+        &[data-sticky] {
+          position: sticky;
+          left: 0;
+          z-index: 1;
+
+          &:has(+ :not([data-sticky]))::before {
+            content: "";
+            position: absolute;
+            left: 100%;
+            top: 0;
+            bottom: 0;
+            z-index: 1;
+            pointer-events: none;
+            width: 12px;
+            background: linear-gradient(to left, rgb(0 0 0 / 0%) 0%, rgb(0 0 0 / 6%) 100%);
+            opacity: 0;
+            transition: opacity 0.2s 0s ease;
+          }
+
+          &.active {
+            // Hack to fix issue with overlapping popover content
+            z-index: 11;
+            position: absolute;
+            margin-left: 1px;
+          }
+        }
+      }
+    }
+
+    .sticky-wrapper {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    &.dps-table--scroll-shadow-left {
+      tr {
+        td,
+        th {
+          &[data-sticky] {
+            &:has(+ :not([data-sticky]))::before {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}

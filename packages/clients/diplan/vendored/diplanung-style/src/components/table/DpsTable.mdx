@@ -1,0 +1,201 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsTableStories from "./DpsTable.stories";
+
+<Meta of={DpsTableStories} />
+
+# DpsTable
+
+## Description
+
+The `DpsTable` component renders a styled table with content provided through the `fields` and
+`items` properties. You can customize the row layout by defining a custom template within the
+default slot.
+
+<Primary name="Default" />
+
+## Stories
+
+### Sortable
+
+To enable sorting for a column, set the `sortable` property to `true` in the field definition.
+
+```js
+[
+  {
+    key: "id",
+    label: "ID",
+    sortable: true,
+  },
+  // ...
+];
+```
+
+<Canvas of={DpsTableStories.Sortable} />
+
+### Sticky Column
+
+To make a column sticky, set the `sticky` property to `true` in the field definition.
+
+```js
+[
+  {
+    key: "id",
+    label: "ID",
+    sticky: true,
+  },
+  // ...
+];
+```
+
+<Canvas of={DpsTableStories.StickyColumn} />
+
+#### Using Popover Components in Sticky Columns
+
+When integrating a popover-style component (e.g., `DpsActionMenu`) within a sticky column, certain
+adjustments are required to maintain proper functionality and avoid disrupting the sticky column's
+positioning. Follow these steps:
+
+1. **Wrap the Popover Component**
+   - Enclose the popover component with a `<div class="sticky-wrapper">` wrapper. (Optional, but
+     recommended)
+2. **Adjust Dimensions Dynamically**
+   - Use the `setStickyColumnStyles()` function to dynamically adjust the `td` and its parent `tr`
+     elements' height and width.
+3. **Toggle the Active State**
+   - Apply the `active` CSS class to the `td` element when the popover is displayed.
+
+```html
+<script setup>
+  import { setStickyColumnStyles } from "diplanung-style";
+
+  const actionMenuOpen = ref("");
+  const tableEl = ref(null);
+
+  const handleShow = (event, contentId) => {
+    setStickyColumnStyles(tableEl.value.$el);
+
+    actionMenuOpen.value = contentId;
+  };
+
+  const handleHide = () => {
+    actionMenuOpen.value = "";
+  };
+</script>
+```
+
+```html
+<DpsTable ref="tableEl">
+  <tr>
+    <td :class="{ active : actionMenuOpen === content.id }">
+      <div class="sticky-wrapper">
+        <DpsActionMenu @show="handleShow($event, content.id)" @hide="handleHide">
+          ...
+        </DpsActionMenu>
+      </div>
+    </td>
+  </tr>
+</DpsTable>
+```
+
+<Canvas of={DpsTableStories.StickyColumnActionMenu} />
+
+### Checkbox
+
+To add a checkbox to a column, set the `checkbox` property to `true` in its field definition. Use
+the `checkboxChecked` property and the `change-checked` event to track the checkbox status.
+
+```js
+[
+  {
+    key: "id",
+    label: "ID",
+    checkbox: true,
+    checkboxChecked: false,
+  },
+  // ...
+];
+```
+
+<Canvas of={DpsTableStories.Checkbox} />
+
+### Hide Header
+
+To hide the table header while keeping it accessible for screen readers, set the `hideHeader`
+property to `true`.
+
+<Canvas of={DpsTableStories.HideHeader} />
+
+### Missing Properties
+
+It's perfectly fine not to use every field entry; the corresponding `<td>` will simply be rendered
+as empty.
+
+<Canvas of={DpsTableStories.MissingProperties} />
+
+### Custom Template
+
+To define a custom row template, add it to the `table-row` slot. You can access the row data by
+passing the `content` object to the slot.
+
+```html
+<DpsTable>
+  <template #table-row="{ content }">
+    <td><b>{{ content.id }}</b></td>
+    <td>{{ content.name }}</td>
+    <td>{{ content.description }}</td>
+    <td>{{ content.version }}</td>
+    <td>{{ moment(content.date).format("DD.MM.YYYY, HH:mm") }}</td>
+  </template>
+</DpsTable>
+```
+
+<Canvas of={DpsTableStories.CustomTemplate} />
+
+### Collapsible Rows
+
+To make the rows collapsible, add content to the `table-row-collapsible-content` slot.
+
+```html
+<DpsTable>
+  <template #table-row="{ content }">
+    <td><b>{{ content.id }}</b></td>
+    <td>{{ content.name }}</td>
+    <td>{{ content.description }}</td>
+    <td>{{ content.version }}</td>
+    <td>{{ moment(content.date).format("DD.MM.YYYY, HH:mm") }}</td>
+  </template>
+  <template #table-row-collapsible-content="{ content }"> {{ content }} </template>
+</DpsTable>
+```
+
+<Canvas of={DpsTableStories.CollapsibleRows} />
+
+#### Colspan and Colstart
+
+To position the collapsible content differently from the entire row (`<tr>`), you can use the
+`collapseColstart` and `collapseColspan` properties.
+
+<Canvas of={DpsTableStories.CollapsibleRowsColspanColstart} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+### Field definition reference
+
+| Property           | Type      | Description                                      |
+| ------------------ | --------- | ------------------------------------------------ |
+| `key`              | `string`  | Specifies the column’s unique identifier.        |
+| `label`            | `string`  | Defines the display label for the header column. |
+| `checkboxChecked`  | `boolean` | Sets the header checkbox as checked by default.  |
+| `checkboxDisabled` | `boolean` | Disables the header checkbox.                    |
+| `checkbox`         | `boolean` | Displays a checkbox in the header column.        |
+| `class`            | `string`  | Applies a custom CSS class to the header column. |
+| `sortable`         | `boolean` | Enables sorting functionality for the column.    |
+| `sticky`           | `boolean` | Fixes the column position to the left.           |
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/table

@@ -1,0 +1,14 @@
+@use "sass:map";
+@use "typography" as typography-variables;
+@use "button" as button-variables;
+
+$link-font-size: 16px !default;
+$link-font-weight: map.get(typography-variables.$font-weight-values, medium) !default;
+$link-line-height: 110% !default;
+$link-decoration: none !default;
+$link-transition-settings: none !default;
+$link-letter-spacing: 0 !default;
+$link-color: var(--dps-color-primary) !default;
+$link-darker-color: var(--dps-color-primary-darker) !default;
+$link-hover-color: var(--dps-color-primary-hover) !default;
+$link-vertical-align: middle !default;

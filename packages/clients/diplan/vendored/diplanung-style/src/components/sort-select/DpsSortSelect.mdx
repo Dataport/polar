@@ -1,0 +1,39 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsSortSelectStories from "./DpsSortSelect.stories";
+
+<Meta of={DpsSortSelectStories} />
+
+# DpsSortSelect
+
+## Description
+
+The `DpsSortSelect` component extends the `DpsFormSelect` component by adding additional styles. It
+is used for selecting the sorting order.
+
+To configure the options, add them to the `options` property:
+
+```json
+[
+  { "label": "Name Mustervorlage A-Z", "value": "name_asc" },
+  { "label": "Name Mustervorlage Z-A", "value": "name_desc" }
+]
+```
+
+**Note:**
+
+The 'Selected' element is not part of the component and is only used to show the currently selected
+option.
+
+<Primary name="Default" />
+
+## Stories
+
+### Disabled
+
+To disable the select component, set the `disabled` property to `true`.
+
+<Canvas of={DpsSortSelectStories.Disabled} />
+
+## Properties, Events, Slots
+
+<Controls />

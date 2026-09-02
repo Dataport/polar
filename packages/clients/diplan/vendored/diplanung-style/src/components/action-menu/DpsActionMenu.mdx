@@ -1,0 +1,83 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsActionMenuStories from "./DpsActionMenu.stories";
+
+<Meta of={DpsActionMenuStories} />
+
+# DpsActionMenu
+
+## Description
+
+The `DpsActionMenu` component displays a list of actions in a structured dropdown format. It
+supports various configurations such as labels, icons, and different states (e.g., `disabled`). The
+dropdown contains a slot, allowing for complex elements like checkboxes and radio groups. The
+`DpsActionMenuItem` component can be used within the default slot.
+
+<Primary name="Default" />
+
+## Stories
+
+### Label
+
+To add a custom label to the action menu, configure the `label` property. This allows you to display
+a personalized label within the menu.
+
+<Canvas of={DpsActionMenuStories.Label} />
+
+### Disabled
+
+To disable the trigger button, set the `disabled` property to `true`. This will prevent any user
+interaction if the default trigger slot is being used.
+
+<Canvas of={DpsActionMenuStories.Disabled} />
+
+### Show Close Button
+
+To display the menu with a close button, set the `showCloseButton` property to `true`. This allows
+the user to manually close the menu.
+
+<Canvas of={DpsActionMenuStories.ShowCloseButton} />
+
+### Show Trigger Chevron
+
+To add a chevron icon to the menu, set the `showTriggerChevron` property to `true`. This indicates
+that the menu is expandable.
+
+<Canvas of={DpsActionMenuStories.ShowTriggerChevron} />
+
+### Headline
+
+To add a headline to the action menu, set the `headline` property to a string value (e.g.,
+`"Headline"`). This configuration can also be combined with `showCloseButton` to display a close
+button next to the headline.
+
+<Canvas of={DpsActionMenuStories.Headline} />
+
+### Checkbox Group
+
+When using complex form elements in the menu, such as the `DpsFormCheckboxGroup` component, set the
+`autoClose` property to `false`. This will improve accessibility.
+
+<Canvas of={DpsActionMenuStories.CheckboxGroup} />
+
+### Radio Group
+
+Another frequently used form element is the `DpsFormRadioGroup` component. When using this
+component, set the `autoClose` property to `false`, just as with the `DpsFormCheckboxGroup`
+component.
+
+<Canvas of={DpsActionMenuStories.RadioGroup} />
+
+### Custom Trigger
+
+To customize the menu trigger, use the `trigger` slot.
+
+**Important:**
+
+The custom trigger must have the Bootstrap attribute `data-bs-toggle` set to `"dropdown"`. Note that
+some properties will no longer function after this change.
+
+<Canvas of={DpsActionMenuStories.CustomTrigger} />
+
+## Properties, Events, Slots
+
+<Controls />

@@ -1,0 +1,116 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsButtonStories from "./DpsButton.stories";
+
+<Meta of={DpsButtonStories} />
+
+# DpsButton
+
+## Description
+
+The `DpsButton` component displays a styled button. The button text is provided via a slot, and the
+component can be used similarly to an HTML button element.
+
+<Primary name="Default" />
+
+## Stories
+
+### Variants
+
+#### Secondary
+
+To display the white secondary variant, set the `variant` property to `"secondary"`.
+
+<Canvas of={DpsButtonStories.Secondary} />
+
+#### Link
+
+To display the link variant, set the `variant` property to `"link"`.
+
+**Note:** This property affects only the styling, the component will still be rendered as a
+`<button>`. To render a `<a>` you need to set the `href` property.
+
+<Canvas of={DpsButtonStories.Link} />
+
+#### Link Darker
+
+To display a darker variant, set the `variant` property to `"link-darker"`.
+
+A slightly darker variant of `"link"` to improve contrast when used on a light-gray or light-blue
+background.
+
+<Canvas of={DpsButtonStories.LinkDarker} />
+
+### Sizes
+
+#### Small
+
+To display a smaller version of the button, set the `size` property to `"sm"`.
+
+<Canvas of={DpsButtonStories.SizeSm} />
+
+#### Large
+
+To display a larger version of the button, set the `size` property to `"lg"`.
+
+<Canvas of={DpsButtonStories.SizeLg} />
+
+### Squared
+
+To remove the rounded corners and display a sharp-edged button, set the `squared` property to
+`true`.
+
+<Canvas of={DpsButtonStories.Squared} />
+
+### Href
+
+To transform the button into an anchor, set the `href` property to a string value.
+
+**Note:** The styling remains the same as when used as a button.
+
+<Canvas of={DpsButtonStories.Href} />
+
+### Icon
+
+To display an icon before the label, set the `icon` property to a string value (e.g.,
+`"placeholder"`).
+
+<Canvas of={DpsButtonStories.Icon} />
+
+### Icon Position
+
+To change the position of the icon, set the `iconPosition` property to `end`.
+
+**Note:** By default, the icon position is set to `start`.
+
+<Canvas of={DpsButtonStories.IconPosition} />
+
+### Disabled
+
+To disable the button, set the `disabled` property to `true`. This will prevent any user
+interaction.
+
+<Canvas of={DpsButtonStories.Disabled} />
+
+### Loading
+
+To add a loading spinner within the button, set the `loading` property to `true`.
+
+**Note:** If an icon is set, it will be replaced by the loading spinner.
+
+<Canvas of={DpsButtonStories.Loading} />
+
+### No Padding
+
+To remove the horizontal padding, set the `noPadding` property to `true`.
+
+<Canvas of={DpsButtonStories.NoPadding} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/button

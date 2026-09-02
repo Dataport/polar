@@ -1,6 +1,58 @@
 # CHANGELOG
 
-## unpublished
+## 1.6.2
+
+- Fix: improve check for objektid in internal mode to prevent errors from empty strings or differences in uppercase / lowercase letters.
+
+## 1.6.1
+
+- Fix: updated parameter `printImageBaseUrl` and the port needed for printing.
+- Chore: Readded the BaseMap (Farbe).
+
+## 1.6.0
+
+- Feature: Use selected background service for print in `DishExportMap`.
+- Fix: Add new parameter `printImageBaseUrl` to urlParams needed for printing in QS and prod environment.
+
+## 1.5.0
+
+- Feature: Split gfi field "Flurstück" into "Flurstückszähler" and "Flurstücknenner".
+- Fix: Use only `basemapGrau` as background service for `DishExportMap` Plugin.
+
+## 1.4.0
+
+- Feature: Add client-specific `DishAttributions` plugin that wraps the standard Attributions plugin, adding a "Benutzungshinweise" link and a close button.
+- Feature: Add 'Flur' to gfi and remove 'Flurstückskennzeichen' from it.
+- Feature: Change highlighting Style for gfi.
+- Feature: Use different background layer as default.
+- Fix: Edit attributions due to current terms of use and add missing search services to static attributions.
+
+## 1.3.2
+
+- Fix: Don't check service availability in `INTERN` mode because some services do not allow HEAD requests.
+
+## 1.3.1
+
+- Fix: Correct parameter detection for `NewTab` in DishMapExport Plugin.
+
+## 1.3.0
+
+- Feature: Monumental label layer toggles its visibility depending on visible monumental layer geometries.
+- Feature: Alkis layer is switched to visible after parcel search result is picked.
+- Feature: Search results for 'Flurstückssuche' are sorted by the server.
+- Fix: Add new configuration parameters for DishExportMap to configure different host (backend host might differ from `internalHost`) and to simplify adjustments for backend changes.
+- Fix: Add terms of use for internal map.
+- Fix: Open links for BKG and their terms of use in new tab.
+- Fix: Only a new Tab for the print-function if newTab is wanted.
+- Fix: The search now returns results regardless of case(upper/lower).
+- Chore: Edit urlParams configuration for new testing environment.
+- Feature: Configuration changed. A maximum of 120 features per search (BKG (address search) results) are now displayed.
+- Enhancement: Add 'Gemeinde' to the searchresults from the intern-Denkmal-search
+- Enhancement: Changed search result to display 'ONR' before the Objektnummer
+- Enhancement: The search results are now beautifully sorted, just like in DA Nord.
+- Enhancement: It is now possible to search ('Flurstücksuche') for 'Gemeinde'.
+
+## 1.2.0
 
 - Feature: If a user is geolocated outside the map's extent, the client will inform the user of why geolocation did not take effect via a textbox.
 - Feature: The map can now be used for internal use with specific configurations. See the configuration section in the README for relevant configuration information.

@@ -1,0 +1,7 @@
+@use "mixins/button" as mixins;
+
+@import "variables/button";
+
+.dps-button {
+  @include mixins.button($button-theme);
+}

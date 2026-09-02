@@ -1,0 +1,26 @@
+@use "sass:map";
+@use "colors" as *;
+@use "typography" as typography-variables;
+@use "../functions/strip-unit" as *;
+
+// Default
+$text-font-family: typography-variables.$font-family-default !default;
+$text-font-weight-regular: map.get(typography-variables.$font-weight-values, normal) !default;
+$text-font-size: 16px !default;
+$text-line-height: 24.96px !default;
+$text-letter-spacing: 0 !default;
+$paragraph-sibling-y: 20px !default;
+
+// Small
+/* stylelint-disable function-calc-no-unspaced-operator */
+$text-small-font-size: 14px !default;
+$text-small-line-height: 19.6px !default;
+$text-small-text-spacing-y: calc(
+  $text-small-font-size / 100 * strip-unit($text-small-line-height)
+) !default;
+
+// Bold
+$text-font-weight-bold: map.get(typography-variables.$font-weight-values, bold) !default;
+
+// Table
+$text-table-padding: 5px 0 !default;

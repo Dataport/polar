@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 3.3.0
+
+- Feature: Add new parameter `sortBy` to type `WfsParameter` for server-side sorting of WFS search results.
+- Feature: Add new parameter `caseSensitive` to type `WfsParameter` to control case sensitivity in WFS search strings.
+
+## 3.2.0
+
+- Feature: Add optional `resultModifier` option to `searchMethodsObject` that allows modifying a result before adding it to the store.
+
+## 3.1.1
+
+- Fix: The `ArrowDown` key now has its original behaviour for an input element when no results are available; that is, one can use it to jump to the end of one's input.
+
 ## 3.1.0
 
 - Feature: `BKGParameters` has been exposed as root export.

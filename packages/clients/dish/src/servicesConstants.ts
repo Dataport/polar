@@ -20,6 +20,7 @@ export const dishCloudBaseUrl = 'https://dishreserveproxy.dsecurecloud.de'
 export const intranetUrl = 'https://intranet.gdi-sh.lr.landsh.de'
 
 export const basemapGrau = 'basemapGrau'
+export const basemapFarbe = 'basemapFarbe'
 export const denkmaelerWFS = 'denkmaelerWFS'
 export const denkmaelerWMS = 'denkmaelerWMS'
 export const alkisWfs = 'alkisWfs'

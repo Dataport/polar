@@ -1,0 +1,36 @@
+$badge-display: inline-flex !default;
+$badge-justify-content: center !default;
+$badge-align-items: center !default;
+$badge-font-size: 12px !default;
+$badge-font-weight: 500 !default;
+$badge-letter-spacing: 0.24px !default;
+$badge-text-transform: uppercase !default;
+$badge-padding: 2px 4px !default;
+$badge-line-height: 1 !default;
+$badge-border-radius: 2px !default;
+$badge-color: var(--dps-color-dark-gray) !default;
+$badge-bg-color: var(--dps-color-background) !default;
+$badge-min-height: 20px !default;
+
+// Variants
+$badge--primary--color: var(--dps-color-white) !default;
+$badge--primary--bg-color: var(--dps-color-primary) !default;
+$badge--info--color: var(--dps-color-black) !default;
+$badge--info--bg-color: var(--dps-color-light-blue) !default;
+$badge--success--color: var(--dps-color-white) !default;
+$badge--success--bg-color: var(--dps-color-success) !default;
+$badge--warning--color: var(--dps-color-black) !default;
+$badge--warning--bg-color: var(--dps-color-warning) !default;
+$badge--error--color: var(--dps-color-white) !default;
+$badge--error--bg-color: var(--dps-color-error) !default;
+$badge--outline--color: var(--dps-color-black) !default;
+$badge--outline--bg-color: var(--dps-color-white) !default;
+$badge--outline--border: 1px solid var(--dps-color-light-gray) !default;
+$badge--rounded--font-size: 14px !default;
+$badge--rounded--font-weight: 400 !default;
+$badge--rounded--border-radius: 17px !default;
+$badge--rounded--min-width: 20px !default;
+$badge--rounded--height: 20px !default;
+$badge--rounded--justify-content: center !default;
+$badge--rounded--align-items: center !default;
+$badge--rounded--padding: 2px 5px !default;

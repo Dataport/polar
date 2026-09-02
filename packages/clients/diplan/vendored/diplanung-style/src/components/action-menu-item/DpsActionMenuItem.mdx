@@ -1,0 +1,60 @@
+import * as DpsActionMenuItemStories from "./DpsActionMenuItem.stories.js";
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+
+<Meta of={DpsActionMenuItemStories} />
+
+# DpsActionMenuItem
+
+## Description
+
+The `DpsActionMenuItem` component is intended to be used in the default slot of the `DpsActionMenu`.
+It can either be used as a link or a button.
+
+**Note:**
+
+By default, the trigger element is a `<button>` element within a `<li>` element.
+
+<Primary name="Default" />
+
+## Stories
+
+### Icon
+
+To display an icon before the label, set the `icon` property to a string value (e.g.,
+`"placeholder"`).
+
+<Canvas of={DpsActionMenuItemStories.Icon} />
+
+### Disabled
+
+To disable the clickable element, set the `disabled` property to `true`.
+
+<Canvas of={DpsActionMenuItemStories.Disabled} />
+
+### Danger
+
+To color the clickable element **red** on hover, set the `danger` property to `true`.
+
+<Canvas of={DpsActionMenuItemStories.Danger} />
+
+### Href
+
+To transform the clickable element into an anchor, set the `href` property. With this configuration,
+you can also set the `rel` and `target` properties.
+
+<Canvas of={DpsActionMenuItemStories.Href} />
+
+### Tag
+
+To change the wrapper tag, use the `tag` property. For example, you can set it to `"div"`. By
+default, it is set to `"li"`.
+
+<Canvas of={DpsActionMenuItemStories.Tag} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## References
+
+- [Icon list](/docs/html-icon--docs#overview)

@@ -4,6 +4,8 @@
 export const MODE = {
   // display everything
   COMPLETE: 'COMPLETE',
+  // display Jenfeld contents
+  JENFELD: 'JENFELD',
   // do not display AfmButton, reports, filter, list
   REPORT: 'REPORT',
   /* do not display AfmButton, reports, filter, list

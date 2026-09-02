@@ -1,0 +1,53 @@
+import { Canvas, Meta, Stories, Controls, Primary } from "@storybook/blocks";
+import * as DpsFormToggleStories from "./DpsFormToggle.stories";
+
+<Meta of={DpsFormToggleStories} />
+
+# DpsFormToggle
+
+## Description
+
+The `DpsFormToggle` component displays a toggle switch with an optional label. It supports various
+configurations, including size customization, disabled state and ARIA attributes for accessibility.
+The label content is rendered using the default slot.
+
+<Primary name="Default" />
+
+## Stories
+
+### Label
+
+This story displays the toggle switch with a custom label provided through a slot.
+
+<Canvas of={DpsFormToggleStories.Label} />
+
+### Checked
+
+To set the toggle switch to **checked**, ensure that the `modelValue` is `true`.
+
+<Canvas of={DpsFormToggleStories.Checked} />
+
+### Disabled
+
+To disable the toggle element, set the `disabled` property to `true`.
+
+<Canvas of={DpsFormToggleStories.Disabled} />
+
+### Sizes
+
+#### Small
+
+To display a smaller version of the toggle, set the `size` property to `"sm"`.
+
+<Canvas of={DpsFormToggleStories.SizeSm} />
+
+### With ARIA Attributes
+
+This story demonstrates how the toggle switch can be configured with ARIA attributes to improve
+accessibility for users with screen readers.
+
+<Canvas of={DpsFormToggleStories.WithAriaAttributes} />
+
+## Properties, Events, Slots
+
+<Controls />

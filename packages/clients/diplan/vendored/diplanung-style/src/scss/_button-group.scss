@@ -1,0 +1,13 @@
+.dps-button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  &--center {
+    justify-content: center;
+  }
+
+  &--right {
+    justify-content: end;
+  }
+}

@@ -100,6 +100,7 @@ addressSearch: {
 | type | enum["bkg", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. |
 | url | string | Search service URL. Should you require a service provider, please contact us for further information. |
 | categoryId | string? | Grouped services can optionally be distinguished in the UI with categories. See `addressSearch.categoryProperties` for configuration options. |
+| resultModifier | (function (object: FeatureCollection) => FeatureCollection)? | Optional resultModifier function. It will get the full FeatureCollection object that may be reduced before returning it. The resultModifier function will be called before adding anything to the store. Programming knowledge required. |
 | groupId | string? | Default groupId is `"defaultGroup"`. All services with the same id are grouped and used together. See `addressSearch.groupProperties` for configuration options. If multiple groups exist, the UI offers a group switcher. |
 | hint | string? | Hint that is displayed below the input field if no other plugin-state-based hint is to be displayed. Can be a locale key. If grouped with other services, the group's hint will be used instead. |
 | label | string? | Display label. Can be a locale key. If grouped with other services, the group's label will be used instead. |
@@ -227,8 +228,10 @@ queryParameters: {
 | likeFilterAttributes | Record<string, string>? | As specified by the [OGC-Standard for filters](https://schemas.opengis.net/filter/) the `PropertyIsLike` operator requires three attributes (e.g. in WFS 2.0.0: `wildCard`, `singleChar` and `escapeChar`). These may vary in value and (with other WFS versions) also in property definition. Therefore, it is possible to configure the values of the attributes needed for WFS 2.0.0 and also to add custom attributes needed for other versions. Defaults to `{wildCard: "\*", singleChar: ".", escapeChar: "!"}`. |
 | patternKeys | Record<string, string>? | Maps field names from patterns to regexes. Each field name has to have a definition. Each regex must have one capture group that is used to search. Contents next to it are ignored for the search and just used for matching. E.g. `'([0-9]+)$'` would be a value for a key that fits an arbitrary number string at the input's end. |
 | patterns | string[]? | Allows specifying input patterns. In a single-field search, a pattern can be as easy as `{{theWholeThing}}`, where `theWholeThing` is also the feature field name to search in. In more complex scenarios, you may add separators and multiple fields, e.g. `{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}` would fit many parcel search services. Mutually exclusive to `fieldName`. |
+| sortBy | Array<{propertyName: string; direction?: 'ASC' \| 'DESC'}>? | Server-side sorting criteria for WFS features. Features will be sorted by the properties in order of their appearance. The first property has highest priority. Direction defaults to 'ASC' if not specified. Applied after the filter, before results are returned. Please note that the server must support server-side sorting. |
 | srsName | string? | Name of the projection (srs) for the query. |
 | useRightHandWildcard? | boolean? | By default, if searching for "search", it is sent as "search*". This behaviour can be deactivated by setting this parameter to `false`. |
+| caseSensitive | boolean |  When `false`, searches are case-insensitive. When `true`, exact case matching is required. Requires WFS server support for the `matchCase` attribute. |
 
 Since inputs may overlap with multiple patterns, multiple queries are fired and executed on the WFS until the `maxFeatures` requirement is met, beginning with the pattern that 'looks like the user input the most'. The best-fitting pattern on the returned features will be used to generate a display string. When two patterns fit best, the first one is used.
 
@@ -247,6 +250,12 @@ queryParameters: {
   featurePrefix: 'app',
   xmlns: 'http://www.deegree.org/app',
   useRightHandWildcard: true,
+  caseSensitive: false,
+  sortBy: [
+    { propertyName: 'street', direction: 'ASC' },
+    { propertyName: 'housenumber', direction: 'ASC' },
+    { propertyName: 'city', direction: 'ASC' },
+  ],
 }
 ```
 

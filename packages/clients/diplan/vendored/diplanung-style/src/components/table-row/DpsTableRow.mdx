@@ -1,0 +1,51 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsTableRowStories from "./DpsTableRow.stories";
+
+<Meta of={DpsTableRowStories} />
+
+# DpsTableRow
+
+## Description
+
+The `DpsTableRow` component enables collapsible functionality for table rows, allowing you to expand
+or collapse additional content within a table.
+
+<Primary name="Default" />
+
+## Stories
+
+### Collapsible
+
+To make a row collapsible, place content within the `collapsible-content` slot.
+
+**Note:**
+
+By default, the `collapseColspan` property is `undefined`. To extend the collapsible content across
+the entire available width, adjust the `collapseColspan` value accordingly.
+
+<Canvas of={DpsTableRowStories.Collapsible} />
+
+### Collapse Colspan
+
+To define the colspan for the collapsible content, set the `collapseColspan` property to the desired
+value.
+
+<Canvas of={DpsTableRowStories.CollapseColspan} />
+
+### Collapse Colstart
+
+To specify the starting column index for the collapsible content, set the `collapseColstart`
+property to the desired value.
+
+<Canvas of={DpsTableRowStories.CollapseColstart} />
+
+### Expanded
+
+To initially display the collapsible row content in an expanded state, set the `expanded` property
+to `true`.
+
+<Canvas of={DpsTableRowStories.Expanded} />
+
+## Properties, Events, Slots
+
+<Controls />

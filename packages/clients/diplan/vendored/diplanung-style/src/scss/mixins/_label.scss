@@ -1,0 +1,21 @@
+@use "sass:map";
+
+@mixin label-variant($variables, $block: null) {
+  @if not $block {
+    $block: "label";
+  }
+
+  font-weight: map.get($variables, "font-weight");
+}
+
+@mixin label-theme($variables, $block: null) {
+  @if not $block {
+    $block: "label";
+  }
+
+  color: map.get($variables, "color");
+  display: map.get($variables, "display");
+  font-size: map.get($variables, "font-size");
+  line-height: map.get($variables, "line-height");
+  margin-bottom: map.get($variables, "margin-bottom");
+}

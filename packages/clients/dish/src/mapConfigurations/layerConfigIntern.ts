@@ -10,6 +10,7 @@ import {
   bddCol,
   dop20col,
   basemapGrau,
+  basemapFarbe,
   alkisWms,
   alkisWfs,
   kontrollbedarf,
@@ -19,19 +20,25 @@ import {
 } from '../servicesConstants'
 import { scaleFromZoomLevel } from '../utils/calculateScaleFromResolution'
 
-const alkisMinZoom = 10
-const beschriftungMinZoom = 9
+export const alkisMinZoom = 10
+export const beschriftungMinZoom = 9
 
 const layersIntern: LayerConfiguration[] = [
   {
     id: basemapGrau,
-    visibility: true,
+    visibility: false,
     type: 'background',
     name: 'Basemap.de Graustufen',
   },
   {
-    id: bddEin,
+    id: basemapFarbe,
     visibility: false,
+    type: 'background',
+    name: 'Basemap.de Farbe',
+  },
+  {
+    id: bddEin,
+    visibility: true,
     type: 'background',
     name: 'Grundkarte Graustufen',
   },
@@ -46,15 +53,6 @@ const layersIntern: LayerConfiguration[] = [
     visibility: false,
     type: 'background',
     name: 'Luftbild (Farbe)',
-  },
-  {
-    id: beschriftung,
-    visibility: true,
-    type: 'mask',
-    name: `Beschriftung (ab 1:${thousandsSeparator(
-      scaleFromZoomLevel(beschriftungMinZoom)
-    )})`,
-    minZoom: 9,
   },
   {
     id: denkmaelerWFS,
@@ -156,6 +154,15 @@ const layersIntern: LayerConfiguration[] = [
       scaleFromZoomLevel(alkisMinZoom)
     )})`,
     minZoom: alkisMinZoom,
+  },
+  {
+    id: beschriftung,
+    visibility: true,
+    type: 'mask',
+    name: `Beschriftung (ab 1:${thousandsSeparator(
+      scaleFromZoomLevel(beschriftungMinZoom)
+    )})`,
+    minZoom: beschriftungMinZoom,
   },
 ]
 

@@ -1,0 +1,28 @@
+.dps-form-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+
+  &__label {
+    &--input-only.dps-label {
+      width: 22px;
+      height: 22px;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  &--block {
+    display: block;
+  }
+
+  &--size-sm {
+    .dps-form-checkbox {
+      &__label {
+        &--input-only.dps-label {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+.dps-filter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dps-color-light-blue);
+  border: none;
+  box-shadow: none;
+  color: var(--dps-color-black);
+  min-height: 28px;
+  height: auto;
+  border-radius: 28px;
+  padding: 6px 12px;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 110%;
+  transition: all 0.15s ease-out;
+  outline: none;
+
+  .dps-icon {
+    font-size: 8px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--dps-color-white);
+    background: var(--dps-color-primary);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--dps-color-primary);
+    box-shadow: 0 0 6px 0 rgba(51 117 212 / 60%);
+  }
+
+  &--disabled {
+    cursor: default;
+    color: var(--dps-color-dark-gray) !important;
+    background: var(--dps-color-background) !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  &--readonly {
+    cursor: text;
+    color: var(--dps-color-black) !important;
+    background: var(--dps-color-white) !important;
+    box-shadow: 0 0 0 1px inset #e0e8f2 !important;
+    outline: none !important;
+  }
+}

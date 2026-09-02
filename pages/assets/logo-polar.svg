@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   fill="none"
+   viewBox="0 0 80 80"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="logo-polar--horizontal.svg"
+   width="80"
+   height="80"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="6.8455598"
+     inkscape:cx="47.622109"
+     inkscape:cy="46.234349"
+     inkscape:window-width="2400"
+     inkscape:window-height="1261"
+     inkscape:window-x="2391"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     fill="#0078d4"
+     d="m 63.408384,18.217648 -12.946069,2.915832 12.946069,2.915831 2.915831,12.946069 2.915832,-12.946069 10.187477,-2.295148 v 40.068539 c 0,6.094112 -4.940253,11.034365 -11.034365,11.034365 h -2.068944 c -6.896478,0 -26.06317,-6.896478 -22.758378,-22.758378 2.758591,-9.65507 15.172252,-8.965422 15.172252,-13.103309 0,-4.137887 0.689648,-5.517183 -1.379295,-6.896478 -2.068944,-1.379296 -7.809572,-0.371031 -9.65507,-1.379296 -1.845498,-1.008265 -2.125495,-2.365492 -4.137887,-3.448239 -2.012392,-1.082747 -9.65507,-0.689648 -9.65507,-0.689648 0,0 -3.448239,-4.559952 -8.965422,-3.448239 -4.528227,0.913093 -4.827534,4.827535 -4.827534,6.896478 C 9.7730925,30.788549 0.80767061,41.133267 0.80767061,41.133267 V 17.68524 c 0,-6.094112 4.94025359,-11.0343658 11.03436539,-11.0343658 H 66.012495 Z M 68.393159,6.6508742 c 6.094112,0 11.034365,4.9402538 11.034365,11.0343658 v 2.826177 L 69.240047,18.217648 66.635936,6.6508742 Z"
+     id="path1"
+     sodipodi:nodetypes="ccccccssscssssccccssccsscccs"
+     style="stroke-width:1.3793" />
+</svg>

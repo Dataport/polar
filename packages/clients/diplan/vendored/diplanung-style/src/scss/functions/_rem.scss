@@ -1,0 +1,16 @@
+@use "sass:math";
+@use "../variables/typography" as typography-variables;
+
+// Convert pixels to REMs
+// @param {Number} $value - Length in pixels
+// @param {Number} $context - Context in pixels
+// @return {Number} Length in rems
+// Based on Jake Bresnehan "https://web-design-weekly.com/snippets/converts-pixels-to-ems-with-sass/"
+
+@function rem($value, $context: typography-variables.$root-font-size) {
+  @if math.is-unitless($value) {
+    $value: $value * 1px;
+  }
+
+  @return math.div($value, $context) * 1rem;
+}

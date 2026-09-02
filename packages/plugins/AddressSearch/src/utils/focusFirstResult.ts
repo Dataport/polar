@@ -1,4 +1,7 @@
-export function focusFirstResult(featureListsLength: number) {
+export function focusFirstResult(
+  featureListsLength: number,
+  event?: KeyboardEvent
+) {
   for (let i = 0; i < featureListsLength; i++) {
     const firstFocusableElement =
       // @ts-expect-error | Type conversion is fine here as the querySelector method is monkeyPatched in core/createMap
@@ -7,6 +10,8 @@ export function focusFirstResult(featureListsLength: number) {
       )
     if (firstFocusableElement) {
       firstFocusableElement.focus()
+      // prevent list scrolling on newly focused element
+      event?.preventDefault()
       break
     }
   }

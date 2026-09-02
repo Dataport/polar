@@ -1,0 +1,5 @@
+@use "mixins/accessibility" as *;
+
+.sr-only {
+  @include sr-only;
+}

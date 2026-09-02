@@ -1,0 +1,53 @@
+.dps-sort-select {
+  &.multiselect {
+    font-size: 14px;
+    display: inline-block;
+    width: auto;
+
+    &:hover,
+    &:focus-visible {
+      .multiselect__placeholder,
+      .multiselect__select,
+      .multiselect__tags {
+        color: var(--dps-color-primary);
+      }
+    }
+  }
+
+  .multiselect__select {
+    width: 18px;
+    padding-right: 0;
+
+    &::before {
+      font-size: 18px;
+      content: "\e96c";
+    }
+  }
+
+  .multiselect__tags {
+    min-height: 32px;
+    padding: 0 24px 0 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .multiselect__option {
+    white-space: nowrap;
+  }
+
+  &.multiselect--active {
+    .multiselect__tags {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  &--disabled {
+    .multiselect__select,
+    .multiselect__tags {
+      color: var(--dps-color-medium-gray) !important;
+    }
+  }
+}

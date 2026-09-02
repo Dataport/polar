@@ -1,0 +1,18 @@
+@use "mixins/input" as mixins;
+
+@import "variables/input";
+
+.dps-input {
+  @include mixins.input($input-theme);
+}
+
+.dps-input-wrapper {
+  position: relative;
+  height: fit-content;
+
+  &--disabled {
+    .dps-label {
+      color: var(--dps-color-dark-gray);
+    }
+  }
+}

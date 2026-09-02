@@ -1,0 +1,23 @@
+.dps-form-textarea {
+  vertical-align: middle;
+
+  &--resize {
+    resize: both;
+  }
+
+  &--resize-h {
+    resize: horizontal;
+  }
+
+  &--resize-v {
+    resize: vertical;
+  }
+
+  &--success {
+    border-color: var(--dps-color-success);
+  }
+
+  &--error {
+    border-color: var(--dps-color-error);
+  }
+}

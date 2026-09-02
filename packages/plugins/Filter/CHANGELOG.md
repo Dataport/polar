@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unpublished
+## 3.0.1
 
 - Fix: Resolve a bug where keyboard navigation in radio groups didn't work.
 

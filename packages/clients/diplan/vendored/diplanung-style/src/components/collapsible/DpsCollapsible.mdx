@@ -1,0 +1,89 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsCollapsibleStories from "./DpsCollapsible.stories";
+
+<Meta of={DpsCollapsibleStories} />
+
+# DpsCollapsible
+
+## Description
+
+The `DpsCollapsible` component, based on
+[Bootstrap's collapse](https://getbootstrap.com/docs/5.3/components/collapse), is used to toggle the
+visibility of its content. Clicking on the header toggles the content’s visibility. The content is
+rendered using the default slot, and the header can be either text or custom content provided
+through the header slot.
+
+**Note:**
+
+In the examples below, the header text is set using the `toggleText` and `toggleTextExpanded`
+properties.
+
+<Primary name="Default" />
+
+## Stories
+
+### Sizes
+
+#### Large
+
+To display a larger version of the collapsible, set the `size` property to `"lg"`.
+
+<Canvas of={DpsCollapsibleStories.SizeLg} />
+
+### Variants
+
+#### Secondary
+
+To display the grey secondary variant, set the `variant` property to `"secondary"`.
+
+<Canvas of={DpsCollapsibleStories.Secondary} />
+
+#### Tertiary
+
+To display the tertiary variant, set the `variant` property to `"tertiary"`.
+
+<Canvas of={DpsCollapsibleStories.Tertiary} />
+
+### Expanded
+
+To have the collapsible initially expanded, set the `expanded` property to `true`.
+
+<Canvas of={DpsCollapsibleStories.Expanded} />
+
+### Locked
+
+To lock the collapsible and prevent user interaction, set the `locked` property to `true`. The
+header will be displayed without the chevron.
+
+<Canvas of={DpsCollapsibleStories.Locked} />
+
+### Locked Expanded
+
+To display an **expanded** but **locked** collapsible, set both the `locked` and `expanded`
+properties to `true`. The collapsible will remain in its set state and cannot be toggled by the
+user.
+
+<Canvas of={DpsCollapsibleStories.LockedExpanded} />
+
+### Nested
+
+To nest collapsibles, add another collapsible to the default slot. Each collapsible can be toggled
+independently.
+
+<Canvas of={DpsCollapsibleStories.Nested} />
+
+### Header Slot
+
+You can also use HTML code as header content through the header slot.
+
+<Canvas of={DpsCollapsibleStories.HeaderSlot} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/collapse

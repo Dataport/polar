@@ -1,0 +1,73 @@
+import { Canvas, Controls, Meta, Primary } from "@storybook/blocks";
+import * as DpsAlertStories from "./DpsAlert.stories";
+
+<Meta of={DpsAlertStories} />
+
+# DpsAlert
+
+## Description
+
+The `DpsAlert` component is used to display an alert, with or without an icon.
+
+**Note:**
+
+By default, the `variant` property is set to `undefined`, which results in a grey alert.
+
+<Primary name="Default" />
+
+## Stories
+
+### Variants
+
+#### Info
+
+To display the blue info variant, set the `variant` property to `"info"`.
+
+<Canvas of={DpsAlertStories.Info} />
+
+#### Warning
+
+To display the yellow warning variant, set the `variant` property to `"warning"`.
+
+<Canvas of={DpsAlertStories.Warning} />
+
+#### Success
+
+To display the green success variant, set the `variant` property to `"success"`.
+
+<Canvas of={DpsAlertStories.Success} />
+
+#### Error
+
+To display the red error variant, set the `variant` property to `"error"`.
+
+<Canvas of={DpsAlertStories.Error} />
+
+### With Heading
+
+To display a bold header text, set the `heading` property to a string value (e.g.,
+`"Info: Lorem ipsum"`).
+
+<Canvas of={DpsAlertStories.WithHeading} />
+
+### Multiple Paragraphs
+
+This story demonstrates the use of HTML (in this case paragraphs) inside the default slot.
+
+<Canvas of={DpsAlertStories.MultipleParagraphs} />
+
+### Hide Icon
+
+To hide the icon, set the `hideIcon` property to `true`.
+
+<Canvas of={DpsAlertStories.HideIcon} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- https://bootstrap-vue.org/docs/components/alert

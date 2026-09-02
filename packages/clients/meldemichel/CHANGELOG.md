@@ -1,7 +1,27 @@
 # CHANGELOG
 
-## unpublished
+## 1.4.1
 
+- Chore: Change default language of Jenfeld client to german (instead of using browser language).
+- Chore: Change zoom default of Jenfeld client to 7.
+
+## 1.4.0
+
+- Feature: Jenfeld client variant now initially focuses on known position of interactive display.
+- Feature: Instead of geolocating, Jenfeld client variant displays geolocation at that known position.
+- Feature: With query parameter `?zoom`, the single zoom level of the Jenfeld client variant can be set.
+- Feature: The FullScreen button is no longer shown in the Jenfeld client variant, as it did almost nothing in the target environment.
+- Fix: A bug that was apparent on higher zoom levels in the Jenfeld client variant has been resolved. It affected which parts of the city district were shown.
+- Chore: Various dependencies have been updated.
+
+## 1.3.0
+
+- Feature: Add a Jenfeld client with reduced network traffic and scope.
+- Chore: Update `@polar/address-search` dependency to minimum required version.
+
+## 1.2.2
+
+- Fix: Use updated layer id for the aerial photo layer.
 - Chore: Update `@polar`-dependencies to the latest versions.
 
 ## 1.2.1

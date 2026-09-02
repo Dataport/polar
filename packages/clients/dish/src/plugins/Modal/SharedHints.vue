@@ -25,7 +25,7 @@
     <slot></slot>
     <v-card-actions class="modal-actions">
       <v-btn
-        class="text-none primaryContrast--text"
+        class="text-none primaryContrast--text closeButton"
         color="primary"
         @click="closed = true"
       >
@@ -74,5 +74,10 @@ export default Vue.extend({
   @media only screen and (max-width: 768px) {
     justify-content: center !important;
   }
+}
+
+.closeButton {
+  // transparent border to prevent button from jumping while hover or focus
+  border: solid #ffffffff;
 }
 </style>

@@ -1,0 +1,43 @@
+@import "variables/link";
+
+.dps-link {
+  color: $link-color;
+  font-size: $link-font-size;
+  font-weight: $link-font-weight;
+  line-height: $link-line-height;
+  transition: $link-transition-settings;
+  letter-spacing: $link-letter-spacing;
+  text-decoration: $link-decoration;
+  vertical-align: $link-vertical-align;
+
+  &--darker {
+    color: $link-darker-color;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $link-hover-color;
+    text-decoration: underline;
+  }
+
+  &.dps-link--icon {
+    align-items: center;
+    display: inline-flex;
+    gap: 2px;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: none;
+
+      > span:not(.dps-icon) {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .dps-icon {
+    font-size: 24px;
+  }
+}

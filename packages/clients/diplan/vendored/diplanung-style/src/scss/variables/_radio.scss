@@ -1,0 +1,96 @@
+$radio-bg-color: var(--dps-color-white) !default;
+$radio-border-radius: 100% !default;
+$radio-border-style: solid !default;
+$radio-border-width: 1px !default;
+$radio-checkmark-color: var(--dps-color-primary) !default;
+$radio-checkmark-size: 12px !default;
+$radio-gap: 12px !default;
+$radio-height: 24px !default;
+$radio-width: 24px !default;
+
+// Checked
+$radio--checked--border-color: var(--dps-color-primary) !default;
+
+// Disabled
+$radio--disabled--bg-color: var(--dps-color-light-gray) !default;
+$radio--disabled--border-color: var(--dps-color-light-gray) !default;
+$radio--disabled--color: var(--dps-color-dark-gray) !default;
+$radio--disabled--checkmark-color: var(--dps-color-white) !default;
+
+// Disabled Checked
+$radio--disabled--checked--bg-color: var(--dps-color-white) !default;
+$radio--disabled--checked--border-color: var(--dps-color-light-gray) !default;
+$radio--disabled--checked--checkmark-color: var(--dps-color-light-gray) !default;
+
+// Readonly
+$radio--readonly--bg-color: var(--dps-color-white) !default;
+$radio--readonly--border-color: var(--dps-color-primary-50) !default;
+$radio--readonly--color: var(--dps-color-black) !default;
+
+// Readonly Checked
+$radio--readonly--checkmark-color: var(--dps-color-primary-50) !default;
+
+// Error
+$radio--error--bg-color: var(--dps-color-white) !default;
+$radio--error--border-color: var(--dps-color-error) !default;
+$radio--error--color: var(--dps-color-error) !default;
+
+// Error Checked
+$radio--error--checked--bg-color: var(--dps-color-white) !default;
+$radio--error--checked--border-color: var(--dps-color-error) !default;
+$radio--error--checked--checkmark-color: var(--dps-color-error) !default;
+
+// Error Focus
+$radio--error--focus--border-color: var(--dps-color-error) !default;
+$radio--error--focus--box-shadow: 0 0 4px 1px rgba(220 53 69 / 25%) !default;
+$radio--error--focus--outline: 1px solid var(--dps-color-error) !default;
+
+// Focus
+$radio--focus--border-color: var(--dps-color-primary) !default;
+$radio--focus--box-shadow: 0 0 4px 1px #00000040 !default;
+$radio--focus--outline: 1px solid var(--dps-color-primary) !default;
+
+// Default
+$radio-theme: (
+  bg-color: $radio-bg-color,
+  border-radius: $radio-border-radius,
+  border-style: $radio-border-style,
+  border-width: $radio-border-width,
+  checkmark-color: $radio-checkmark-color,
+  checkmark-size: $radio-checkmark-size,
+  gap: $radio-gap,
+  height: $radio-height,
+  width: $radio-width,
+  // Checked
+  checked--border-color: $radio--checked--border-color,
+  // Disabled
+  disabled--bg-color: $radio--disabled--bg-color,
+  disabled--border-color: $radio--disabled--border-color,
+  disabled--color: $radio--disabled--color,
+  disabled--checkmark-color: $radio--disabled--checkmark-color,
+  // Disabled Checked
+  disabled--checked--bg-color: $radio--disabled--checked--bg-color,
+  disabled--checked--border-color: $radio--disabled--checked--border-color,
+  disabled--checked--checkmark-color: $radio--disabled--checked--checkmark-color,
+  // Readonly
+  readonly--bg-color: $radio--readonly--bg-color,
+  readonly--border-color: $radio--readonly--border-color,
+  readonly--color: $radio--readonly--color,
+  readonly--checkmark-color: $radio--readonly--checkmark-color,
+  // Error
+  error--bg-color: $radio--error--bg-color,
+  error--border-color: $radio--error--border-color,
+  error--color: $radio--error--color,
+  // Error Checked
+  error--checked--bg-color: $radio--error--checked--bg-color,
+  error--checked--border-color: $radio--error--checked--border-color,
+  error--checked--checkmark-color: $radio--error--checked--checkmark-color,
+  // Error Focus
+  error--focus--box-shadow: $radio--error--focus--box-shadow,
+  error--focus--border-color: $radio--error--focus--border-color,
+  error--focus--outline: $radio--error--focus--outline,
+  // Focus
+  focus--border-color: $radio--focus--border-color,
+  focus--box-shadow: $radio--focus--box-shadow,
+  focus--outline: $radio--focus--outline,
+) !default;

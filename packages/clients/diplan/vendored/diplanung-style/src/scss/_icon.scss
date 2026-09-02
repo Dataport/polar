@@ -1,0 +1,662 @@
+@use "sass:map";
+@use "mixins/typography" as *;
+
+@import "variables/icon";
+
+@include font-face(
+  map.get($font-icons, "name"),
+  map.get($font-icons, "path"),
+  map.get($font-icons, "style"),
+  map.get($font-icons, "weight"),
+  map.get($font-icons, "ext")
+);
+
+[class^="dps-icon--"],
+[class*=" dps-icon--"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: $font-name-icons;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dps-icon {
+  &--wechseln::before {
+    content: "\e98e";
+  }
+
+  &--ladeanimation::before {
+    content: "\e997";
+  }
+
+  &--stuetzpunkte-anzeigen::before {
+    content: "\e990";
+  }
+
+  &--rueckgaengig::before {
+    content: "\e991";
+  }
+
+  &--durchschneiden::before {
+    content: "\e992";
+  }
+
+  &--flurstuecke-anzeigen::before {
+    content: "\e993";
+  }
+
+  &--kombinieren::before {
+    content: "\e994";
+  }
+
+  &--kreis-einzeichnen::before {
+    content: "\e995";
+  }
+
+  &--dok_validieren::before {
+    content: "\e98f";
+  }
+
+  &--not-available::before {
+    content: "\e98d";
+  }
+
+  &--search-filter::before {
+    content: "\e98c";
+  }
+
+  &--cut-polygon::before {
+    content: "\e98b";
+  }
+
+  &--api-sync::before {
+    content: "\e988";
+  }
+
+  &--polygon-menu::before {
+    content: "\e989";
+  }
+
+  &--merge-polygon::before {
+    content: "\e98a";
+  }
+
+  &--dokumente::before {
+    content: "\e987";
+  }
+
+  &--veroeffentlichung-zueruckziehen::before {
+    content: "\e986";
+  }
+
+  &--plus-border::before {
+    content: "\e983";
+  }
+
+  &--polygon::before {
+    content: "\e984";
+  }
+
+  &--floppy-disk::before {
+    content: "\e985";
+  }
+
+  &--comment-add::before {
+    content: "\e996";
+  }
+
+  &--comment-edit::before {
+    content: "\e97e";
+  }
+
+  &--bericht::before {
+    content: "\e97f";
+  }
+
+  &--lock::before {
+    content: "\e980";
+  }
+
+  &--minus-small::before {
+    content: "\e981";
+  }
+
+  &--plus-small::before {
+    content: "\e982";
+  }
+
+  &--refresh::before {
+    content: "\e97c";
+  }
+
+  &--meine-filter::before {
+    content: "\e97d";
+  }
+
+  &--dok_ablehnen::before {
+    content: "\e97a";
+  }
+
+  &--dok_annehmen::before {
+    content: "\e97b";
+  }
+
+  &--telephone::before {
+    content: "\e979";
+  }
+
+  &--lock-error::before {
+    content: "\e978";
+  }
+
+  &--lock-open::before {
+    content: "\e99b";
+  }
+
+  &--inhalt::before {
+    content: "\e973";
+  }
+
+  &--datei-aktualisieren::before {
+    content: "\e974";
+  }
+
+  &--datei-aktualisieren2::before {
+    content: "\e975";
+  }
+
+  &--profil::before {
+    content: "\e976";
+  }
+
+  &--group::before {
+    content: "\e96e";
+  }
+
+  &--vector::before {
+    content: "\e972";
+  }
+
+  &--simple-language-outline::before {
+    content: "\e96d";
+  }
+
+  &--sort-2::before {
+    content: "\e96c";
+  }
+
+  &--minus::before {
+    content: "\e96b";
+  }
+
+  &--institution-filled::before {
+    content: "\e96a";
+  }
+
+  &--mark-filled::before {
+    content: "\e970";
+  }
+
+  &--layer-half::before {
+    content: "\e96f";
+  }
+
+  &--layer::before {
+    content: "\e969";
+  }
+
+  &--layer-select::before {
+    content: "\e977";
+  }
+
+  &--vormerken-filled::before {
+    content: "\e971";
+  }
+
+  &--pin-information::before {
+    content: "\e949";
+  }
+
+  &--place-filled_24px::before {
+    content: "\e94a";
+  }
+
+  &--point::before {
+    content: "\e94b";
+  }
+
+  &--rmeasure-area::before {
+    content: "\e94c";
+  }
+
+  &--rmeasure-radius::before {
+    content: "\e94d";
+  }
+
+  &--trip-pin::before {
+    content: "\e94e";
+  }
+
+  &--veroeffentlichen::before {
+    content: "\e94f";
+  }
+
+  &--vormerkung_leserecht::before {
+    content: "\e950";
+  }
+
+  &--vormerkung_schreibrecht::before {
+    content: "\e951";
+  }
+
+  &--add-to-list::before {
+    content: "\e952";
+  }
+
+  &--auge-closed1::before {
+    content: "\e953";
+  }
+
+  &--auge-closed2::before {
+    content: "\e954";
+  }
+
+  &--calender-day::before {
+    content: "\e955";
+  }
+
+  &--calender-zeitraum::before {
+    content: "\e956";
+  }
+
+  &--cursor::before {
+    content: "\e957";
+  }
+
+  &--default_zoom::before {
+    content: "\e958";
+  }
+
+  &--halfscreen_24px::before {
+    content: "\e959";
+  }
+
+  &--institution::before {
+    content: "\e95a";
+  }
+
+  &--legende::before {
+    content: "\e95b";
+  }
+
+  &--list::before {
+    content: "\e95c";
+  }
+
+  &--map::before {
+    content: "\e95d";
+  }
+
+  &--map-lasso::before {
+    content: "\e99c";
+  }
+
+  &--puzzle_24px::before {
+    content: "\e95e";
+  }
+
+  &--ruler::before {
+    content: "\e95f";
+  }
+
+  &--speakbubble_24px::before {
+    content: "\e960";
+  }
+
+  &--vormerken::before {
+    content: "\e961";
+  }
+
+  &--arrow-left::before {
+    content: "\e962";
+  }
+
+  &--calender-day-filled::before {
+    content: "\e963";
+  }
+
+  &--calender-filled::before {
+    content: "\e964";
+  }
+
+  &--calender-zeitraum-filled::before {
+    content: "\e965";
+  }
+
+  &--eraser::before {
+    content: "\e966";
+  }
+
+  &--freigeben::before {
+    content: "\e967";
+  }
+
+  &--freigegeben::before {
+    content: "\e968";
+  }
+
+  &--sign-language::before {
+    content: "\e947";
+  }
+
+  &--simple-language::before {
+    content: "\e948";
+  }
+
+  &--placeholder::before {
+    content: "\e904";
+  }
+
+  &--chevron-up::before {
+    content: "\e905";
+  }
+
+  &--chevron-down::before {
+    content: "\e906";
+  }
+
+  &--chevron-left::before {
+    content: "\e907";
+  }
+
+  &--chevron-right::before {
+    content: "\e91b";
+  }
+
+  &--chevron-down-small::before {
+    content: "\e93d";
+  }
+
+  &--chevron-up-small::before {
+    content: "\e93e";
+  }
+
+  &--chevron-left-small::before {
+    content: "\e93f";
+  }
+
+  &--chevron-right-small::before {
+    content: "\e940";
+  }
+
+  &--chevron-left-double-small::before {
+    content: "\e941";
+  }
+
+  &--chevron-right-double-small::before {
+    content: "\e942";
+  }
+
+  &--info-fill::before {
+    content: "\e943";
+  }
+
+  &--info::before {
+    content: "\e944";
+  }
+
+  &--help::before {
+    content: "\e945";
+  }
+
+  &--unsubscribe::before {
+    content: "\e90e";
+  }
+
+  &--success::before {
+    content: "\e933";
+  }
+
+  &--warning::before {
+    content: "\e928";
+  }
+
+  &--check::before {
+    content: "\e912";
+  }
+
+  &--resize::before {
+    content: "\e90c";
+  }
+
+  &--sort::before {
+    content: "\e90f";
+  }
+
+  &--close::before {
+    content: "\e909";
+  }
+
+  &--plus::before {
+    content: "\e908";
+  }
+
+  &--copy::before {
+    content: "\e926";
+  }
+
+  &--external-link::before {
+    content: "\e914";
+  }
+
+  &--feedback-secure::before {
+    content: "\e99a";
+  }
+
+  &--upload::before {
+    content: "\e916";
+  }
+
+  &--logout::before {
+    content: "\e917";
+  }
+
+  &--link::before {
+    content: "\e921";
+  }
+
+  &--create::before {
+    content: "\e922";
+  }
+
+  &--filter-list::before {
+    content: "\e920";
+  }
+
+  &--klammer::before {
+    content: "\e924";
+  }
+
+  &--delete::before {
+    content: "\e92a";
+  }
+
+  &--calender::before {
+    content: "\e925";
+  }
+
+  &--gear-outline::before {
+    content: "\e91c";
+  }
+
+  &--filter::before {
+    content: "\e929";
+  }
+
+  &--search::before {
+    content: "\e90d";
+  }
+
+  &--menu::before {
+    content: "\e91d";
+  }
+
+  &--place::before {
+    content: "\e934";
+  }
+
+  &--folder1::before {
+    content: "\e92e";
+  }
+
+  &--release::before {
+    content: "\e92d";
+  }
+
+  &--generate::before {
+    content: "\e92f";
+  }
+
+  &--mark::before {
+    content: "\e93a";
+  }
+
+  &--zeit::before {
+    content: "\e923";
+  }
+
+  &--folder::before {
+    content: "\e927";
+  }
+
+  &--fullscreen::before {
+    content: "\e90a";
+  }
+
+  &--fullscreen-exit::before {
+    content: "\e90b";
+  }
+
+  &--visibility-outline::before {
+    content: "\e91a";
+  }
+
+  &--sheet::before {
+    content: "\e92b";
+  }
+
+  &--mail::before {
+    content: "\e935";
+  }
+
+  &--leaf::before {
+    content: "\e939";
+  }
+
+  &--envelope-requirement::before {
+    content: "\e937";
+  }
+
+  &--him-workflow::before {
+    content: "\e936";
+  }
+
+  &--paragraph::before {
+    content: "\e938";
+  }
+
+  &--person-check::before {
+    content: "\e92c";
+  }
+
+  &--bop::before {
+    content: "\e93b";
+  }
+
+  &--information::before {
+    content: "\e930";
+  }
+
+  &--warning1::before {
+    content: "\e932";
+  }
+
+  &--error-outline::before {
+    content: "\e931";
+  }
+
+  &--more-horiz::before {
+    content: "\e91f";
+  }
+
+  &--more-vert::before {
+    content: "\e91e";
+  }
+
+  &--arrow-drop-left::before {
+    content: "\e902";
+  }
+
+  &--arrow-drop-right::before {
+    content: "\e903";
+  }
+
+  &--arrow-drop-up::before {
+    content: "\e900";
+  }
+
+  &--arrow-drop-down::before {
+    content: "\e901";
+  }
+
+  &--visibility::before {
+    content: "\e919";
+  }
+
+  &--check-circle-outline::before {
+    content: "\e911";
+  }
+
+  &--check-circle::before {
+    content: "\e910";
+  }
+
+  &--exclamation-mark::before {
+    content: "\e915";
+  }
+
+  &--close-circle::before {
+    content: "\e93c";
+  }
+
+  &--arrow-drop-down-circle::before {
+    content: "\e918";
+  }
+
+  &--einstellungen::before {
+    content: "\e946";
+  }
+
+  &--import::before {
+    content: "\e998";
+  }
+
+  &--export::before {
+    content: "\e999";
+  }
+
+  &--download::before {
+    content: "\e913";
+  }
+
+  &--feedback-info::before {
+    content: "\e99d";
+  }
+}

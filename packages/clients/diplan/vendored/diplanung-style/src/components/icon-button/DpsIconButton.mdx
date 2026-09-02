@@ -1,0 +1,48 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsIconButtonStories from "./DpsIconButton.stories";
+
+<Meta of={DpsIconButtonStories} />
+
+# DpsIconButton
+
+## Description
+
+The `DpsIconButton` component extends the `DpsButton` by removing the label and displaying only an
+icon. It can also function as a link by setting a URL via the `href` property.
+
+<Primary name="Default" />
+
+## Stories
+
+### Disabled
+
+To disable the button, set the `disabled` property to `true`. This will prevent any user
+interaction.
+
+<Canvas of={DpsIconButtonStories.Disabled} />
+
+### Loading
+
+To add a loading spinner within the button, set the `loading` property to `true`.
+
+**Note:** The set icon will be replaced by the loading spinner.
+
+<Canvas of={DpsIconButtonStories.Loading} />
+
+### Danger
+
+To color the clickable element **red** on hover, set the `danger` property to `true`.
+
+<Canvas of={DpsIconButtonStories.Danger} />
+
+### Href
+
+To transform the button into an anchor, set the `href` property to a string value.
+
+**Note:** The styling remains the same as when used as a button.
+
+<Canvas of={DpsIconButtonStories.Href} />
+
+## Properties, Events, Slots
+
+<Controls />

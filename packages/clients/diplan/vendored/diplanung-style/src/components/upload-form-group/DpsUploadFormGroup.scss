@@ -1,0 +1,33 @@
+.dps-upload-form-group {
+  .dps-form-group__feedback--error {
+    white-space: preserve;
+  }
+
+  &__upload-button {
+    border: 1px solid var(--dps-color-primary);
+    border-radius: 0 2px 2px 0;
+    margin-left: -1px;
+    font-weight: 500;
+    white-space: nowrap;
+
+    &:disabled {
+      border-color: var(--dps-color-medium-gray) !important;
+      background-color: var(--dps-color-background) !important;
+      color: var(--dps-color-dark-gray) !important;
+      opacity: inherit !important;
+    }
+
+    &--all-disabled:disabled {
+      border-color: var(--dps-color-light-gray) !important;
+    }
+
+    &--error,
+    &--error:disabled {
+      border-color: var(--dps-color-error) !important;
+    }
+  }
+
+  .dps-input-group__content--default {
+    width: 100%;
+  }
+}

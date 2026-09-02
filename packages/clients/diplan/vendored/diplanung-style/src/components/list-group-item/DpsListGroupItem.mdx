@@ -1,0 +1,49 @@
+import { Canvas, Meta, Controls, Primary } from "@storybook/blocks";
+import * as DpsListGroupItemStories from "./DpsListGroupItem.stories";
+
+<Meta of={DpsListGroupItemStories} />
+
+# DpsListGroupItem
+
+## Description
+
+The `DpsListGroupItem` component is a single item used to display content inside a `DpsListGroup`.
+
+<Primary name="Default" />
+
+## Stories
+
+### HTML Label
+
+You can also use HTML code as label content.
+
+<Canvas of={DpsListGroupItemStories.HtmlLabel} />
+
+### Tag
+
+To change the wrapper tag, use the `tag` property. For example, you can set it to `"li"`. By
+default, it is set to `"div"`.
+
+<Canvas of={DpsListGroupItemStories.Tag} />
+
+### Href
+
+To transform the wrapper element into an anchor, set the `href` property.
+
+<Canvas of={DpsListGroupItemStories.Href} />
+
+### Collapsible
+
+To make an item collapsible, place content within the `collapsible-content` slot.
+
+<Canvas of={DpsListGroupItemStories.Collapsible} />
+
+## Properties, Events, Slots
+
+<Controls />
+
+## Resources
+
+**Inspiration:**
+
+- [Bootstrap Vue - List Group Items](https://bootstrap-vue.org/docs/components/list-group#actionable-list-group-items)
