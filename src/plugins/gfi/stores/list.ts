@@ -31,7 +31,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 	} | null>(null)
 	const hoveredFeatures = shallowRef<Record<string, Feature[]>>({})
 
-	const activeLayers = computed((): string[] => {
+	const activeLayerIds = computed((): string[] => {
 		if (!configuration.value) {
 			return []
 		}
@@ -53,8 +53,8 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		return store[activeLayersRef.key]
 	})
 
-	const activeLayerList = computed(() =>
-		activeLayers.value
+	const activeLayers = computed(() =>
+		activeLayerIds.value
 			.map((layerId) => ({
 				layerId,
 				layerConfiguration: gfiMainStore.getLayerConfiguration(layerId),
@@ -75,12 +75,12 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 	)
 
 	const features = useOlVectorSources(
-		computed(() => activeLayerList.value.map(({ source }) => source)),
+		computed(() => activeLayers.value.map(({ source }) => source)),
 		computed(() => coreStore.extent),
 		() =>
 			markRaw(
 				Object.fromEntries(
-					activeLayerList.value
+					activeLayers.value
 						.map(({ layerId, layerConfiguration, source }) => [
 							layerId,
 							filterSelectableFeatures(
