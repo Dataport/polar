@@ -44,6 +44,13 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		renderType: gfiMainStoreRefs.renderType,
 
 		/**
+		 * Whether there are any layers with a configured window that are currently visible on the map.
+		 *
+		 * @alpha
+		 */
+		hasActiveWindowLayers: gfiMainStoreRefs.hasActiveWindowLayers,
+
+		/**
 		 * Hovered feature.
 		 * This is a feature whose hovering state is originated at the plugin.
 		 *

@@ -5,6 +5,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { findLayer } from '@/lib/findLayer'
 
 import { useFeatureDisplayLayer } from '../composables/useFeatureDisplayLayer'
 import { useSelectedFeatures } from '../composables/useSelectedFeatures'
@@ -34,6 +35,13 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 	function getLayerConfiguration(layerId: string) {
 		return configuration.value.layers[layerId]
 	}
+
+	const hasActiveWindowLayers = computed(() =>
+		Object.entries(configuration.value.layers).some(
+			([layerId, layerConfig]) =>
+				layerConfig.window && findLayer(coreStore.map, layerId)?.isVisible()
+		)
+	)
 
 	const { olFeatures, olFeature, geoJsonFeatures, geoJsonFeature } =
 		useSelectedFeatures()
@@ -66,6 +74,7 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 		configuration,
 		renderType,
 		getLayerConfiguration,
+		hasActiveWindowLayers,
 		olFeatures,
 		olFeature,
 		geoJsonFeatures,

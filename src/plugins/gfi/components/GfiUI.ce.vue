@@ -7,7 +7,16 @@
 			independent: gfiStore.renderType === 'independent',
 		}"
 	>
-		<GfiFeature v-if="gfiStore.feature" :layer-id="gfiStore.feature.layerId" />
+		<p
+			v-if="!gfiStore.hasActiveWindowLayers"
+			class="kern-body kern-body--small"
+		>
+			{{ $t(($) => $.noActiveLayer, { ns: PluginId }) }}
+		</p>
+		<GfiFeature
+			v-else-if="gfiStore.feature"
+			:layer-id="gfiStore.feature.layerId"
+		/>
 		<GfiFeatureList v-else-if="gfiStore.configuration.featureList" />
 	</PolarCard>
 </template>
@@ -17,6 +26,7 @@ import PolarCard from '@/components/PolarCard.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useGfiStore } from '../store'
+import { PluginId } from '../types'
 import GfiFeature from './GfiFeature.ce.vue'
 import GfiFeatureList from './GfiFeatureList.ce.vue'
 
