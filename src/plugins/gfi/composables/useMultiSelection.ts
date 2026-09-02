@@ -35,13 +35,11 @@ export function useMultiSelection(map: Map, { mode }: MultiSelect) {
 	const selection = ref<[number, number, number, number] | null>(null)
 
 	const draw = new Draw(drawOptions)
-	draw.on(
-		'drawend',
-		(e) =>
-			(selection.value =
-				(e.feature.getGeometry()?.getExtent() as
-					[number, number, number, number] | undefined) ?? null)
-	)
+	draw.on('drawend', (e) => {
+		selection.value =
+			(e.feature.getGeometry()?.getExtent() as
+				[number, number, number, number] | undefined) ?? null
+	})
 
 	map.addInteraction(draw)
 	onScopeDispose(() => {
