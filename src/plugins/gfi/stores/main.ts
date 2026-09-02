@@ -61,7 +61,7 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 	)
 	const highlightedFeatures = computed(() =>
 		Object.entries(geoJsonFeatures.value)
-			.filter(([layerId]) => getLayerConfiguration(layerId)?.geometry ?? true)
+			.filter(([layerId]) => getLayerConfiguration(layerId)?.geometry ?? false)
 			.flatMap(([, features]) => features)
 	)
 	useFeatureDisplayLayer(

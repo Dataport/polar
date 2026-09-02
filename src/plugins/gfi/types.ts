@@ -84,7 +84,7 @@ export interface GfiLayerConfiguration {
 	/**
 	 * If `true`, feature geometry will be highlighted within the map.
 	 *
-	 * @defaultValue true
+	 * @defaultValue `false`
 	 */
 	geometry?: boolean
 
