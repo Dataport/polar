@@ -8,6 +8,7 @@ import {
   ZOOM_OUT_LABEL,
 } from '../support/selectors'
 import { saveAllPinsScreenshots } from './utils/screenshot'
+import { waitForNetworkIdle } from './utils/network'
 import { getPinsState, type CanvasBox } from './context'
 
 const { Given, When, Then } = createBdd()
@@ -111,8 +112,8 @@ async function ensureZoomLevel(page: Page, targetLevel: number) {
     )
   }
 
-  // map could still be not stable after zooming
-  await page.waitForTimeout(3000)
+  // Wait for all tiles of the new zoom level to finish loading before continuing.
+  await waitForNetworkIdle(page)
 }
 
 async function waitForStableClip(
@@ -144,7 +145,7 @@ Given('no pin coordinate is set', async ({ page }) => {
   const state = getPinsState(page)
 
   // Let the map finish initial rendering/tiles.
-  await page.waitForTimeout(250)
+  await waitForNetworkIdle(page)
 
   const coordinateTarget = page.locator(SNOWBOX_PIN_TARGET_ID)
   await expect(coordinateTarget).toBeEmpty()
@@ -184,7 +185,7 @@ When(
     state.clickPosition = clickPosition
     state.centerPosition = state.centerPosition || getCenterPosition(canvasBox)
 
-    await page.waitForTimeout(150)
+    await waitForNetworkIdle(page)
     state.beforeClickClip = await screenshotClip(
       page,
       toClipAround(canvasBox, clickPosition)
@@ -202,6 +203,7 @@ When(
     // Wait for loading overlay to appear and then disappear
     await page.waitForSelector('text=Loading...', { timeout: 2000 })
 
+    await waitForNetworkIdle(page)
     state.afterClickClip = await waitForStableClip(
       page,
       toClipAround(canvasBox, clickPosition)
@@ -218,6 +220,7 @@ When(
       timeout: 5000,
     })
 
+    await waitForNetworkIdle(page)
     state.stabilizedCenterClip = await waitForStableClip(
       page,
       toClipAround(canvasBox, state.centerPosition)
@@ -235,7 +238,7 @@ When('the map is clicked at the center coordinates', async ({ page }) => {
   state.centerPosition = centerPosition
   state.clickPosition = centerPosition
 
-  await page.waitForTimeout(150)
+  await waitForNetworkIdle(page)
   state.beforeClickClip = await screenshotClip(
     page,
     toClipAround(canvasBox, centerPosition)
@@ -253,6 +256,7 @@ When('the map is clicked at the center coordinates', async ({ page }) => {
   // Wait for loading overlay to appear and then disappear
   await page.waitForSelector('text=Loading...', { timeout: 2000 })
 
+  await waitForNetworkIdle(page)
   state.afterClickClip = await waitForStableClip(
     page,
     toClipAround(canvasBox, centerPosition)
@@ -269,6 +273,7 @@ When('the map is clicked at the center coordinates', async ({ page }) => {
     timeout: 5000,
   })
 
+  await waitForNetworkIdle(page)
   state.stabilizedCenterClip = await waitForStableClip(
     page,
     toClipAround(canvasBox, state.centerPosition)
