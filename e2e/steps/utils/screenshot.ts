@@ -85,6 +85,14 @@ export async function saveScreenshot(
   }
 }
 
+interface PinsScreenshotContext {
+  beforeCenterClip?: Buffer
+  beforeClickClip?: Buffer
+  afterClickClip?: Buffer
+  loadingCenterClip?: Buffer
+  stabilizedCenterClip?: Buffer
+}
+
 /**
  * Saves all screenshots from the pins context on test failure.
  * Useful for debugging failed assertions.
@@ -97,7 +105,7 @@ export async function saveScreenshot(
  * @param testInfo - Optional Playwright TestInfo for feature/scenario directory structure
  */
 export async function saveAllPinsScreenshots(
-  pinsContext: any,
+  pinsContext: PinsScreenshotContext | undefined,
   testName: string,
   testInfo?: TestInfo
 ): Promise<void> {
@@ -130,7 +138,7 @@ export async function saveAllPinsScreenshots(
       }
     }
 
-    console.log(`Pins screenshots saved to: ${testDir}`)
+    console.warn(`Pins screenshots saved to: ${testDir}`)
   } catch (error) {
     console.error('Failed to save pins screenshots on failure:', error)
   }

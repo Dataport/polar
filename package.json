@@ -62,7 +62,7 @@
     "docs:snowbox": "tsx ./scripts/makeDocs snowbox",
     "docs:textLocator": "tsx ./scripts/makeDocs textLocator && npm run textLocator:build && cp -r ./packages/clients/textLocator/dist ./packages/clients/textLocator/docs",
     "lint": "npx eslint . --cache --ext .js,.ts,.vue",
-    "lint:ci": "npx eslint . --ext .js,.ts,.vue",
+    "lint:ci": "cross-env NODE_OPTIONS=--max-old-space-size=8192 npx eslint . --ext .js,.ts,.vue",
     "lint:fix": "npx eslint . --fix --cache --ext .js,.ts,.vue",
     "tsc:ci": "tsc --noEmit",
     "publishPackages": "node ./scripts/publishPackages",

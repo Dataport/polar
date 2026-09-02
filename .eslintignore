@@ -13,5 +13,6 @@
 /cucumber-report/
 /.feature-gen/
 /blob-report/
+/all-blob-reports/
 /playwright-report/
 /test-results/
