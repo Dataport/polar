@@ -126,7 +126,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		listPage: gfiListStoreRefs.page,
 
 		/**
-		 * If pagination is configured, the index of the first feature that is shown on the current page.
+		 * If pagination is configured, the index of the first feature (inclusive) that is shown on the current page.
 		 * Otherwise, the value is zero.
 		 *
 		 * The index refers to `listFlatFeatures`.
@@ -136,7 +136,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		listPaginationStartIndex: gfiListStoreRefs.paginationStartIndex,
 
 		/**
-		 * If pagination is configured, the index of the last feature that is shown on the current page.
+		 * If pagination is configured, the index of the last feature (exclusive) that is shown on the current page.
 		 * Otherwise, the value is `undefined`.
 		 *
 		 * The index refers to `listFlatFeatures`.
