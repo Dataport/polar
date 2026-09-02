@@ -30,7 +30,7 @@ function isVectorSource(source): source is Vector {
 /**
  * reset feature layer's features.
  */
-function clear(featureDisplayLayer: VectorLayer): void {
+function clear(featureDisplayLayer: VectorLayer) {
 	const source = featureDisplayLayer.getSource()
 	if (isVectorSource(source)) {
 		source.clear()
