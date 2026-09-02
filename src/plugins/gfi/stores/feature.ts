@@ -1,7 +1,7 @@
 import type { MapBrowserEvent } from 'ol'
 import type { GfiLayerConfiguration, RequestGfiParameters } from '../types'
 
-import { debounce, isEqual, pickBy } from 'es-toolkit'
+import { debounce, isEqual, mapValues, pickBy } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, nextTick, onScopeDispose, watch } from 'vue'
 
@@ -197,10 +197,11 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 
 	useTooltip(
 		coreStore.map,
-		Object.fromEntries(
-			Object.entries(gfiMainStore.configuration.layers)
-				.filter(([, { showTooltip }]) => Boolean(showTooltip))
-				.map(([layerId, { showTooltip }]) => [layerId, showTooltip])
+		mapValues(
+			pickBy(gfiMainStore.configuration.layers, ({ showTooltip }) =>
+				Boolean(showTooltip)
+			) as Record<string, GfiLayerConfiguration>,
+			({ showTooltip }) => showTooltip
 		) as Record<string, NonNullable<GfiLayerConfiguration['showTooltip']>>
 	)
 
