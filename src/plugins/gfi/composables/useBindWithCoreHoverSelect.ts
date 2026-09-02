@@ -22,7 +22,7 @@ function assignCoreToGfiCluster(
 
 	if (referenceOrder) {
 		features.sort((a, b) => {
-			const getIndex = (feature) => referenceOrder.indexOf(feature)
+			const getIndex = (feature: Feature) => referenceOrder.indexOf(feature)
 			return getIndex(a) - getIndex(b)
 		})
 	}
