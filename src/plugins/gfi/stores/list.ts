@@ -78,20 +78,18 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		computed(() => activeLayers.value.map(({ source }) => source)),
 		computed(() => coreStore.extent),
 		() =>
-			markRaw(
-				Object.fromEntries(
-					activeLayers.value.map(({ layerId, layerConfiguration, source }) => [
-						layerId,
-						filterSelectableFeatures(
-							getSourceFeatures(
-								coreStore.map,
-								source,
-								configuration.value?.mode || 'visible'
-							).filter((feature) => isVisible(feature)),
-							layerConfiguration.isSelectable
-						).map((feature) => ({ feature })),
-					])
-				)
+			Object.fromEntries(
+				activeLayers.value.map(({ layerId, layerConfiguration, source }) => [
+					layerId,
+					filterSelectableFeatures(
+						getSourceFeatures(
+							coreStore.map,
+							source,
+							configuration.value?.mode || 'visible'
+						).filter((feature) => isVisible(feature)),
+						layerConfiguration.isSelectable
+					).map((feature) => ({ feature: markRaw(feature) })),
+				])
 			)
 	)
 
