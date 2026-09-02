@@ -1,7 +1,7 @@
 import type { MapBrowserEvent } from 'ol'
 import type { GfiLayerConfiguration, RequestGfiParameters } from '../types'
 
-import { debounce, isEqual } from 'es-toolkit'
+import { debounce, isEqual, pickBy } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, nextTick, onScopeDispose, watch } from 'vue'
 
@@ -167,18 +167,15 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	)
 
 	const selectedFeatureProperties = computed(() =>
-		Object.fromEntries(
-			Object.entries(gfiMainStore.geojsonFeature?.feature.properties || {})
-				.filter(
-					([key]) =>
-						(!selectedFeaturePropertiesLayerConfiguration.value ||
-							selectedFeaturePropertiesLayerConfiguration.value.includes(
-								key
-							)) &&
-						(!exportPropertyLayerConfiguration.value ||
-							key !== exportPropertyLayerConfiguration.value)
-				)
-				.map(([key, value]) => [key, value])
+		pickBy(
+			gfiMainStore.geojsonFeature?.feature.properties || {},
+			(value, key) =>
+				(!selectedFeaturePropertiesLayerConfiguration.value ||
+					selectedFeaturePropertiesLayerConfiguration.value.includes(
+						key as string
+					)) &&
+				(!exportPropertyLayerConfiguration.value ||
+					key !== exportPropertyLayerConfiguration.value)
 		)
 	)
 
