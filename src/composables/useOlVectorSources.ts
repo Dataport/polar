@@ -21,8 +21,8 @@ export function useOlVectorSources<T>(
 	reactivitySource: Ref<unknown>,
 	callback: () => T,
 	waitMs: number = 50
-): Ref<T> {
-	const result = shallowRef(callback()) as Ref<T>
+) {
+	const result = shallowRef(callback())
 	const refresh = () => {
 		result.value = callback()
 	}
