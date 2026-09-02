@@ -14,6 +14,23 @@ import type { Icon, PlaceablePluginOptions, StoreReference } from '@/core'
 export const PluginId = 'gfi'
 
 /**
+ * Configuration for the tooltip to be shown when hovering over a feature.
+ * The first string is the HTML tag to render, the second its contents; contents may be locale keys.
+ *
+ * @example
+ * ```
+ * (feature: Feature): [string, string][] => [
+ * 	['div', `Feature ID: ${feature.properties.id}`],
+ * 	['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`],
+ * ],
+ * ```
+ *
+ * @param feature - Feature to calculate the tooltip for
+ * @returns Array of tuples of the form [HTML tag to render, content or locale key]
+ */
+export type ShowTooltip = (feature: Feature) => [string, string][]
+
+/**
  * Gfi configuration for a layer.
  *
  * @example
@@ -97,16 +114,13 @@ export interface GfiLayerConfiguration {
 	/**
 	 * (WFS- and GeoJSON-only)
 	 * If given, a tooltip will be shown with the values calculated for the feature.
-	 * The first string is the HTML tag to render, the second its contents; contents may be locale keys.
 	 *
 	 * Please mind that tooltips will only be shown if a mouse is used or the hovering device could not be detected.
 	 * Touch and pen interactions do not open tooltips since they will open the GFI window, rendering the gatherable information redundant.
 	 *
 	 * @defaultValue undefined
-	 * @param feature - Feature to calculate the tooltip for
-	 * @returns Array of tuples of the form [HTML tag to render, content or locale key]
 	 */
-	showTooltip?: (feature: Feature) => [string, string][]
+	showTooltip?: ShowTooltip
 
 	/**
 	 * Title to be shown in the GFI window.

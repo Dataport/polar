@@ -1,5 +1,9 @@
 import type { MapBrowserEvent } from 'ol'
-import type { GfiLayerConfiguration, RequestGfiParameters } from '../types'
+import type {
+	GfiLayerConfiguration,
+	RequestGfiParameters,
+	ShowTooltip,
+} from '../types'
 
 import { debounce, isEqual, mapValues, pickBy } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
@@ -202,7 +206,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 				Boolean(showTooltip)
 			) as Record<string, GfiLayerConfiguration>,
 			({ showTooltip }) => showTooltip
-		) as Record<string, NonNullable<GfiLayerConfiguration['showTooltip']>>
+		) as Record<string, ShowTooltip>
 	)
 
 	if (gfiMainStore.renderType === 'iconMenu') {
