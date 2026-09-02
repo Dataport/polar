@@ -28,10 +28,14 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			toggleSelection?: boolean
 		} = {}
 	) {
-		let result =
-			await retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers(
-				coordinateOrExtent
-			)
+		let result = await retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers(
+			coreStore.map,
+			coreStore.configuration.layers,
+			gfiMainStore.configuration.layers,
+			gfiMainStore.configuration.mode,
+			gfiMainStore.configuration.maxFeatures,
+			coordinateOrExtent
+		)
 
 		if (gfiMainStore.configuration.afterLoadFunction) {
 			result = gfiMainStore.configuration.afterLoadFunction(result)

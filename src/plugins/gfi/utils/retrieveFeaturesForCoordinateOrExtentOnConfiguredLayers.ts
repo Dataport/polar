@@ -1,28 +1,34 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
-import type { RequestGfiParameters } from '../types'
+import type { Map } from 'ol'
+import type { LayerConfiguration } from '@/core'
+import type {
+	GfiLayerConfiguration,
+	GfiPluginOptions,
+	RequestGfiParameters,
+} from '../types'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
 
-import { useCoreStore } from '@/core/stores'
 import { findLayer } from '@/lib/findLayer'
 
-import { useGfiMainStore } from '../stores/main'
 import { requestGfi } from './requestGfi'
 
 export const retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers = async (
+	map: Map,
+	coreLayers: LayerConfiguration[],
+	gfiLayers: Record<string, GfiLayerConfiguration>,
+	mode: GfiPluginOptions['mode'],
+	maxFeatures: GfiPluginOptions['maxFeatures'],
 	coordinateOrExtent: RequestGfiParameters['coordinateOrExtent']
 ): Promise<Record<string, GeoJsonFeature[]>> => {
-	const coreStore = useCoreStore()
-	const gfiMainStore = useGfiMainStore()
-
 	return Object.fromEntries(
 		(
 			await Promise.all(
-				Object.entries(gfiMainStore.configuration.layers)
+				Object.entries(gfiLayers)
 					.map(([layerId, layerConfiguration]) => ({
 						layerId,
 						layerConfiguration,
-						layer: findLayer(coreStore.map, layerId),
+						layer: findLayer(map, layerId),
 					}))
 					.filter(
 						(
@@ -42,12 +48,10 @@ export const retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers = async (
 									layerSpecification: rawLayerList.getLayerWhere({
 										id: layerId,
 									}),
-									map: coreStore.map,
+									map,
 									mode:
-										coreStore.configuration.layers.find(
-											(layer) => layer.id === layerId
-										)?.gfiMode ||
-										gfiMainStore.configuration.mode ||
+										coreLayers.find((layer) => layer.id === layerId)?.gfiMode ||
+										mode ||
 										'bboxDot',
 								})
 							)
@@ -65,9 +69,6 @@ export const retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers = async (
 			)
 		)
 			.filter((it): it is GeoJsonFeature[][] => Boolean(it))
-			.slice(
-				0,
-				gfiMainStore.configuration.maxFeatures ?? Number.POSITIVE_INFINITY
-			)
+			.slice(0, maxFeatures ?? Number.POSITIVE_INFINITY)
 	)
 }
