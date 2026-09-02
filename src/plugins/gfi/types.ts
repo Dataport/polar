@@ -272,7 +272,7 @@ export interface MultiSelect {
 
 	/**
 	 * Defines the behaviour of a new selection.
-	 * If `true`, features can be added and removed by selection / unselecting them.
+	 * If `true`, features can be added and removed by selecting / unselecting them.
 	 * If `false`, a new selection will always replace the old one.
 	 *
 	 * @defaultValue `true`
