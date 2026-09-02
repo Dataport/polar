@@ -58,7 +58,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		gfiMainStore.geoJsonFeatures = result
 	}
 
-	const waitMs = computed(() => gfiMainStore.configuration.waitMs || 50)
+	const waitMs = computed(() => gfiMainStore.configuration.waitMs ?? 50)
 	const debouncedGetFeatureInfo = debounce(getFeatureInfo, waitMs.value)
 
 	useStoreWatcher(
