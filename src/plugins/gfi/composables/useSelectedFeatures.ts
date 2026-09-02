@@ -5,7 +5,7 @@ import { isEqual, mapValues } from 'es-toolkit'
 import { GeoJSON } from 'ol/format'
 import { computed, shallowRef } from 'vue'
 
-interface Feature {
+interface FeaturePair {
 	geojsonFeature: GeoJsonFeature
 	olFeature?: OlFeature
 }
@@ -20,15 +20,15 @@ interface Feature {
  * For GFI requests, only the GeoJSON features are used.
  */
 export function useSelectedFeatures() {
-	const features = shallowRef<Record<string, Feature[]>>({})
-	const feature = shallowRef<(Feature & { layerId: string }) | null>(null)
+	const features = shallowRef<Record<string, FeaturePair[]>>({})
+	const feature = shallowRef<(FeaturePair & { layerId: string }) | null>(null)
 
 	const olFeatures = computed<Record<string, OlFeature[]>>({
 		get: () =>
 			mapValues(features.value, (list) =>
 				list
 					.filter(
-						(feature): feature is Feature & { olFeature: Feature } =>
+						(feature): feature is FeaturePair & { olFeature: FeaturePair } =>
 							'olFeature' in feature
 					)
 					.map(({ olFeature }) => olFeature)
