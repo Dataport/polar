@@ -67,16 +67,13 @@ export function useSelectedFeatures() {
 					}
 				: null,
 		set: (value) => {
-			if (value === null) {
-				feature.value = null
-				return
-			}
-			const layerId = value.layerId
-			feature.value = {
-				layerId,
-				olFeature: value.feature,
-				geoJsonFeature: new GeoJSON().writeFeatureObject(value.feature),
-			}
+			feature.value = value
+				? {
+						layerId: value.layerId,
+						olFeature: value.feature,
+						geoJsonFeature: new GeoJSON().writeFeatureObject(value.feature),
+					}
+				: null
 		},
 	})
 
