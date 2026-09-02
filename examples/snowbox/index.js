@@ -373,10 +373,10 @@ addPlugin(
 addPlugin(
 	map,
 	pluginReverseGeocoder({
-		// type: 'wps',
-		// url: 'https://geodienste.hamburg.de/HH_WPS',
-		type: 'nominatim',
-		url: 'https://polar.dataport.de/nominatim/reverse',
+		type: 'wps',
+		url: 'https://geodienste.hamburg.de/HH_WPS',
+		// type: 'nominatim',
+		// url: 'https://polar.dataport.de/nominatim/reverse',
 		coordinateSources: [
 			{
 				plugin: 'pins',
