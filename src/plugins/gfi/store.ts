@@ -137,9 +137,9 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		 * If {@link FeatureList.pageLength | pagination} is configured, the index of the last feature (exclusive) that is shown on the current page.
 		 * Otherwise, the value is `undefined`.
 		 *
-		 * The index refers to `listFlatFeatures`.
+		 * The index refers to {@link listFlatFeatures}.
 		 *
-		 * To mutate this value, change `listPage` or `listPaginationStartIndex`.
+		 * To mutate this value, change {@link listPage} or {@link listPaginationStartIndex}.
 		 *
 		 * @readonly
 		 * @alpha
@@ -148,7 +148,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 
 		/**
 		 * Paginated list of features to display in the list view.
-		 * If {@link FeatureList.pageLength | pagination} is not configured, this equals `listFlatFeatures`.
+		 * If {@link FeatureList.pageLength | pagination} is not configured, this equals {@link listFlatFeatures}.
 		 *
 		 * @alpha
 		 */

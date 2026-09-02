@@ -1,5 +1,5 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
-import type { TileWMS } from 'ol/source'
+import type { ImageWMS, TileWMS } from 'ol/source'
 import type { RequestGfiWmsParameters } from '../types'
 
 import { Feature } from 'ol'
@@ -134,7 +134,7 @@ function getWmsGfiUrl(
 	{ infoFormat }: Record<string, unknown>
 ): string {
 	// Only layers with a valid source reach this point
-	const source = layer.getSource() as TileWMS
+	const source = layer.getSource() as TileWMS | ImageWMS
 	const view = map.getView()
 	const url = source.getFeatureInfoUrl(
 		coordinate,
