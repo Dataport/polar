@@ -7,7 +7,7 @@ import type {
 
 import { debounce, isEqual, mapValues, pickBy } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, nextTick, onScopeDispose, watch } from 'vue'
+import { computed, onScopeDispose, watch } from 'vue'
 
 import { useRefStore } from '@/composables/useRefStore'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
@@ -15,7 +15,6 @@ import { useCoreStore } from '@/core/stores'
 
 import { useMultiSelection } from '../composables/useMultiSelection'
 import { useTooltip } from '../composables/useTooltip'
-import { PluginId } from '../types'
 import { retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers } from '../utils/retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers'
 import { useGfiMainStore } from './main'
 
@@ -208,24 +207,6 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			({ showTooltip }) => showTooltip
 		) as Record<string, ShowTooltip>
 	)
-
-	if (gfiMainStore.renderType === 'iconMenu') {
-		// TODO: Find a better solution to wait for this plugin
-		// As, in this case, we render as part of the iconMenu, the iconMenu store will be available soon.
-		void nextTick(() => {
-			const iconMenuStore = coreStore.getPluginStore('iconMenu')
-			if (iconMenuStore) {
-				watch(
-					() => gfiMainStore.geoJsonFeature,
-					(newFeature) => {
-						if (newFeature) {
-							iconMenuStore.openMenuById(PluginId)
-						}
-					}
-				)
-			}
-		})
-	}
 
 	return {
 		visibleFeatures,
