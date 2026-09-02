@@ -86,7 +86,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		 *
 		 * @alpha
 		 */
-		featureInformation: gfiMainStoreRefs.geojsonFeatures,
+		featureInformation: gfiMainStoreRefs.geoJsonFeatures,
 
 		/**
 		 * List of features that should be displayed in a list view.
@@ -194,7 +194,7 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		 *
 		 * @alpha
 		 */
-		feature: gfiMainStoreRefs.geojsonFeature,
+		feature: gfiMainStoreRefs.geoJsonFeature,
 
 		/**
 		 * Properties for the selected feature in the detailed view.

@@ -35,7 +35,7 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 		return configuration.value.layers[layerId]
 	}
 
-	const { olFeatures, olFeature, geojsonFeatures, geojsonFeature } =
+	const { olFeatures, olFeature, geoJsonFeatures, geoJsonFeature } =
 		useSelectedFeatures()
 
 	const customHighlightStyle = computed(
@@ -52,7 +52,7 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 			})
 	)
 	const highlightedFeatures = computed(() =>
-		Object.entries(geojsonFeatures.value)
+		Object.entries(geoJsonFeatures.value)
 			.filter(([layerId]) => getLayerConfiguration(layerId)?.geometry ?? true)
 			.flatMap(([, features]) => features)
 	)
@@ -68,8 +68,8 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 		getLayerConfiguration,
 		olFeatures,
 		olFeature,
-		geojsonFeatures,
-		geojsonFeature,
+		geoJsonFeatures,
+		geoJsonFeature,
 	}
 })
 

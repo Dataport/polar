@@ -6,7 +6,7 @@ import { GeoJSON } from 'ol/format'
 import { computed, shallowRef } from 'vue'
 
 interface FeaturePair {
-	geojsonFeature: GeoJsonFeature
+	geoJsonFeature: GeoJsonFeature
 	olFeature?: OlFeature
 }
 
@@ -37,20 +37,20 @@ export function useSelectedFeatures() {
 			features.value = mapValues(value, (list) =>
 				list.map((olFeature) => ({
 					olFeature,
-					geojsonFeature: new GeoJSON().writeFeatureObject(olFeature),
+					geoJsonFeature: new GeoJSON().writeFeatureObject(olFeature),
 				}))
 			)
 		},
 	})
 
-	const geojsonFeatures = computed<Record<string, GeoJsonFeature[]>>({
+	const geoJsonFeatures = computed<Record<string, GeoJsonFeature[]>>({
 		get: () =>
 			mapValues(features.value, (list) =>
-				list.map(({ geojsonFeature }) => geojsonFeature)
+				list.map(({ geoJsonFeature }) => geoJsonFeature)
 			),
 		set: (value) => {
 			features.value = mapValues(value, (list) =>
-				list.map((geojsonFeature) => ({ geojsonFeature }))
+				list.map((geoJsonFeature) => ({ geoJsonFeature }))
 			)
 		},
 	})
@@ -75,12 +75,12 @@ export function useSelectedFeatures() {
 			feature.value = {
 				layerId,
 				olFeature: value.feature,
-				geojsonFeature: new GeoJSON().writeFeatureObject(value.feature),
+				geoJsonFeature: new GeoJSON().writeFeatureObject(value.feature),
 			}
 		},
 	})
 
-	const geojsonFeature = computed<{
+	const geoJsonFeature = computed<{
 		layerId: string
 		feature: GeoJsonFeature
 	} | null>({
@@ -88,7 +88,7 @@ export function useSelectedFeatures() {
 			feature.value
 				? {
 						layerId: feature.value.layerId,
-						feature: feature.value.geojsonFeature,
+						feature: feature.value.geoJsonFeature,
 					}
 				: null,
 		set: (value) => {
@@ -97,19 +97,19 @@ export function useSelectedFeatures() {
 				return
 			}
 			const layerId = value.layerId
-			const item = features.value[layerId]?.find(({ geojsonFeature }) =>
-				isEqual(geojsonFeature, value.feature)
+			const item = features.value[layerId]?.find(({ geoJsonFeature }) =>
+				isEqual(geoJsonFeature, value.feature)
 			)
 			feature.value = item
 				? { ...item, layerId }
-				: { layerId, geojsonFeature: value.feature }
+				: { layerId, geoJsonFeature: value.feature }
 		},
 	})
 
 	return {
 		olFeatures,
 		olFeature,
-		geojsonFeatures,
-		geojsonFeature,
+		geoJsonFeatures,
+		geoJsonFeature,
 	}
 }
