@@ -80,24 +80,17 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		() =>
 			markRaw(
 				Object.fromEntries(
-					activeLayers.value
-						.map(({ layerId, layerConfiguration, source }) => [
-							layerId,
-							filterSelectableFeatures(
-								getSourceFeatures(
-									coreStore.map,
-									source,
-									configuration.value?.mode || 'visible'
-								).filter((feature) => isVisible(feature)),
-								layerConfiguration.isSelectable
-							).map((feature) => ({ feature })),
-						])
-						.filter(
-							(
-								layer
-							): layer is [string, { feature: Feature; hovered?: boolean }[]] =>
-								Boolean(layer)
-						)
+					activeLayers.value.map(({ layerId, layerConfiguration, source }) => [
+						layerId,
+						filterSelectableFeatures(
+							getSourceFeatures(
+								coreStore.map,
+								source,
+								configuration.value?.mode || 'visible'
+							).filter((feature) => isVisible(feature)),
+							layerConfiguration.isSelectable
+						).map((feature) => ({ feature })),
+					])
 				)
 			)
 	)
