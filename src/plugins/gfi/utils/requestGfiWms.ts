@@ -191,7 +191,7 @@ export default (
 
 			if (geometryName) {
 				parsedFeatures.forEach((f) => {
-					f.setGeometryName('geometry')
+					f.setGeometryName(geometryName)
 				})
 			}
 
