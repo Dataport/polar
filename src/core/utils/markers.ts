@@ -71,7 +71,7 @@ const anchor = [0.5, 1]
 /**
  * The map became a little laggy due to constant re-generation of styles.
  * This memoization function optimises this issue by reusing styles.
- * */
+ */
 const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
 	const singleCache = new Map()
 	const multiCache = new Map()

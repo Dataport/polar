@@ -1,0 +1,62 @@
+<template>
+	<PolarCard
+		v-if="
+			gfiStore.renderType === 'iconMenu' ||
+			gfiStore.features.length > 0 ||
+			gfiStore.configuration.featureList
+		"
+		id="polar-card-gfi"
+		:class="{
+			standard: coreStore.layout === 'standard',
+			independent: gfiStore.renderType === 'independent',
+		}"
+	>
+		<p
+			v-if="
+				gfiStore.features.length === 0 && !gfiStore.configuration.featureList
+			"
+			class="kern-body kern-body--small"
+		>
+			{{ $t(($) => $.noSelectedFeature, { ns: PluginId }) }}
+		</p>
+		<p
+			v-else-if="!gfiStore.hasActiveWindowLayers"
+			class="kern-body kern-body--small"
+		>
+			{{ $t(($) => $.noActiveLayer, { ns: PluginId }) }}
+		</p>
+		<GfiFeature
+			v-else-if="gfiStore.feature"
+			:layer-id="gfiStore.feature.layerId"
+		/>
+		<GfiFeatureList v-else-if="gfiStore.configuration.featureList" />
+	</PolarCard>
+</template>
+
+<script setup lang="ts">
+import PolarCard from '@/components/PolarCard.ce.vue'
+import { useCoreStore } from '@/core/stores'
+
+import { useGfiStore } from '../store'
+import { PluginId } from '../types'
+import GfiFeature from './GfiFeature.ce.vue'
+import GfiFeatureList from './GfiFeatureList.ce.vue'
+
+const coreStore = useCoreStore()
+const gfiStore = useGfiStore()
+</script>
+
+<style scoped>
+#polar-card-gfi {
+	z-index: 1;
+
+	&.standard {
+		position: absolute;
+	}
+
+	&.independent {
+		max-height: 80%;
+		overflow: auto;
+	}
+}
+</style>

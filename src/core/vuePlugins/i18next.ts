@@ -4,8 +4,10 @@ import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import I18NextVue from 'i18next-vue'
 
+import sharedLocales from '@/locales'
+
 import locales from '../locales'
-import { CoreId } from '../types'
+import { CoreId, SharedId } from '../types'
 
 export const I18Next: Plugin = {
 	async install(app) {
@@ -25,6 +27,11 @@ export const I18Next: Plugin = {
 				fallbackLng: locales[0]?.type,
 				ns: [CoreId],
 				supportedLngs: locales.map(({ type }) => type),
+			})
+
+			// This is no plugin itself, but bundled for usage of all plugins
+			sharedLocales.forEach((lng) => {
+				i18next.addResourceBundle(lng.type, SharedId, lng.resources, true)
 			})
 
 			// eslint-disable-next-line no-console
