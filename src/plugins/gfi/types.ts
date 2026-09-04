@@ -230,11 +230,6 @@ export interface FeatureList {
 	activeLayers: StoreReference
 
 	/**
-	 * Icon to be shown in the list view title.
-	 */
-	icon: Icon
-
-	/**
 	 * Whether to show only features currently visible in the map view's bounding box or to display all loaded features.
 	 * In the latter case, if you desire to display all features of a layer (seen or not), set its loading strategy to `'all'`.
 	 * The loading strategy is a value in the OpenLayers vector source configuration; see [ol/loadingStrategy](https://openlayers.org/en/latest/apidoc/module-ol_loadingstrategy.html) for further details.
@@ -248,6 +243,11 @@ export interface FeatureList {
 	 * @defaultValue false
 	 */
 	bindWithCoreHoverSelect?: boolean
+
+	/**
+	 * Icon to be shown in the list view title.
+	 */
+	icon?: Icon
 
 	/**
 	 * A number \>0 that sets the limit to the feature list's length.
