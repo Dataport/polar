@@ -122,6 +122,9 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 				})
 				return layerFeatureList
 			})
+			if (selectedFeatureIndex.value < 0) {
+				selectedFeatureIndex.value = 0
+			}
 			return
 		}
 
