@@ -83,7 +83,7 @@ export interface MarkerStyle {
 }
 
 /**
- * The MarkerSVGConfig contains the SVG-informations needed to create the svg
+ * The MarkerSVGConfig contains the SVG-informations needed to create the svg for the marker.
  */
 export interface MarkerSVGConfig {
 	/**
