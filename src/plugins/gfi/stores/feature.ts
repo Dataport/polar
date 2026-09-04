@@ -22,102 +22,6 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 	const coreStore = useCoreStore()
 	const gfiMainStore = useGfiMainStore()
 
-	async function getFeatureInfo(
-		coordinateOrExtent: RequestGfiParameters['coordinateOrExtent'],
-		options: {
-			toggleSelection?: boolean
-		} = {}
-	) {
-		let result = await retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers(
-			coreStore.map,
-			coreStore.configuration.layers,
-			gfiMainStore.configuration.layers,
-			gfiMainStore.configuration.mode,
-			gfiMainStore.configuration.maxFeatures,
-			coordinateOrExtent
-		)
-
-		if (gfiMainStore.configuration.afterLoadFunction) {
-			result = gfiMainStore.configuration.afterLoadFunction(result)
-		}
-
-		if (options.toggleSelection) {
-			Object.entries(result).forEach(([layerId, features]) => {
-				if (!gfiMainStore.geoJsonFeatures[layerId]) {
-					gfiMainStore.geoJsonFeatures[layerId] = []
-				}
-				const layerFeatureList = gfiMainStore.geoJsonFeatures[layerId]
-
-				features.forEach((feature) => {
-					const oldFeatureIndex = layerFeatureList.findIndex((oldFeature) =>
-						isEqual(oldFeature.properties, feature.properties)
-					)
-					if (oldFeatureIndex < 0) {
-						layerFeatureList.push(feature)
-					} else {
-						layerFeatureList.splice(oldFeatureIndex, 1)
-					}
-				})
-			})
-			return
-		}
-
-		gfiMainStore.geoJsonFeatures = result
-	}
-
-	const waitMs = computed(() => gfiMainStore.configuration.waitMs ?? 50)
-	const debouncedGetFeatureInfo = debounce(getFeatureInfo, waitMs.value)
-
-	useStoreWatcher(
-		gfiMainStore.configuration.coordinateSources || [],
-		(coordinate) => {
-			if (coordinate) {
-				debouncedGetFeatureInfo(
-					coordinate as RequestGfiParameters['coordinateOrExtent']
-				)
-			} else {
-				gfiMainStore.geoJsonFeatures = {}
-			}
-		},
-		{ immediate: true }
-	)
-
-	if (gfiMainStore.configuration.multiSelect) {
-		const multiSelection = useMultiSelection(
-			coreStore.map,
-			gfiMainStore.configuration.multiSelect
-		)
-		watch(multiSelection.selection, (selection) => {
-			if (selection) {
-				debouncedGetFeatureInfo(selection, {
-					toggleSelection:
-						gfiMainStore.configuration.multiSelect?.toggleSelection ?? true,
-				})
-			} else {
-				gfiMainStore.geoJsonFeatures = {}
-			}
-		})
-	}
-
-	if (gfiMainStore.configuration.directSelect) {
-		function onMapClick({ coordinate, originalEvent }: MapBrowserEvent) {
-			if (coreStore.isInteractionMasked('click')) {
-				return
-			}
-			debouncedGetFeatureInfo(coordinate as [number, number], {
-				toggleSelection:
-					navigator.userAgent.indexOf('Mac') !== -1
-						? originalEvent.metaKey
-						: originalEvent.ctrlKey,
-			})
-		}
-
-		coreStore.map.on('click', onMapClick)
-		onScopeDispose(() => {
-			coreStore.map.un('click', onMapClick)
-		})
-	}
-
 	const visibleFeatures = computed(() =>
 		Object.entries(gfiMainStore.geoJsonFeatures)
 			.filter(([layerId]) => gfiMainStore.configuration.layers[layerId]?.window)
@@ -178,13 +82,108 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			gfiMainStore.geoJsonFeature?.feature.properties || {},
 			(value, key) =>
 				(!selectedFeaturePropertiesLayerConfiguration.value ||
-					selectedFeaturePropertiesLayerConfiguration.value.includes(
-						key as string
-					)) &&
+					selectedFeaturePropertiesLayerConfiguration.value.includes(key)) &&
 				(!exportPropertyLayerConfiguration.value ||
 					key !== exportPropertyLayerConfiguration.value)
 		)
 	)
+
+	async function getFeatureInfo(
+		coordinateOrExtent: RequestGfiParameters['coordinateOrExtent'],
+		options: {
+			toggleSelection?: boolean
+		} = {}
+	) {
+		let result = await retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers(
+			coreStore.map,
+			coreStore.configuration.layers,
+			gfiMainStore.configuration.layers,
+			gfiMainStore.configuration.mode,
+			gfiMainStore.configuration.maxFeatures,
+			coordinateOrExtent
+		)
+
+		if (gfiMainStore.configuration.afterLoadFunction) {
+			result = gfiMainStore.configuration.afterLoadFunction(result)
+		}
+
+		if (options.toggleSelection) {
+			Object.entries(result).forEach(([layerId, features]) => {
+				if (!gfiMainStore.geoJsonFeatures[layerId]) {
+					gfiMainStore.geoJsonFeatures[layerId] = []
+				}
+				const layerFeatureList = gfiMainStore.geoJsonFeatures[layerId]
+
+				features.forEach((feature) => {
+					const oldFeatureIndex = layerFeatureList.findIndex((oldFeature) =>
+						isEqual(oldFeature.properties, feature.properties)
+					)
+					if (oldFeatureIndex < 0) {
+						layerFeatureList.push(feature)
+					} else {
+						layerFeatureList.splice(oldFeatureIndex, 1)
+					}
+				})
+			})
+			return
+		}
+
+		gfiMainStore.geoJsonFeatures = result
+		selectedFeatureIndex.value = 0
+	}
+
+	const waitMs = computed(() => gfiMainStore.configuration.waitMs ?? 50)
+	const debouncedGetFeatureInfo = debounce(getFeatureInfo, waitMs.value)
+
+	useStoreWatcher(
+		gfiMainStore.configuration.coordinateSources || [],
+		(coordinate) => {
+			if (coordinate) {
+				debouncedGetFeatureInfo(
+					coordinate as RequestGfiParameters['coordinateOrExtent']
+				)
+			} else {
+				gfiMainStore.geoJsonFeatures = {}
+			}
+		},
+		{ immediate: true }
+	)
+
+	if (gfiMainStore.configuration.multiSelect) {
+		const multiSelection = useMultiSelection(
+			coreStore.map,
+			gfiMainStore.configuration.multiSelect
+		)
+		watch(multiSelection.selection, (selection) => {
+			if (selection) {
+				debouncedGetFeatureInfo(selection, {
+					toggleSelection:
+						gfiMainStore.configuration.multiSelect?.toggleSelection ?? true,
+				})
+			} else {
+				gfiMainStore.geoJsonFeatures = {}
+			}
+		})
+	}
+
+	if (gfiMainStore.configuration.directSelect) {
+		function onMapClick({ coordinate, originalEvent }: MapBrowserEvent) {
+			if (coreStore.isInteractionMasked('click')) {
+				return
+			}
+			debouncedGetFeatureInfo(coordinate as [number, number], {
+				toggleSelection:
+					navigator.userAgent.indexOf('Mac') !== -1
+						? originalEvent.metaKey
+						: originalEvent.ctrlKey,
+			})
+		}
+
+		coreStore.map.on('click', onMapClick)
+		onScopeDispose(() => {
+			coreStore.map.un('click', onMapClick)
+		})
+	}
 
 	watch(
 		[
