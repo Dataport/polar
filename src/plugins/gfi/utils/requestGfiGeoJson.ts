@@ -35,12 +35,9 @@ export default ({
 					layerFilter: (candidate) => candidate === layer,
 				})
 			: // @ts-expect-error | Layers reaching this place have a source
-				layer
-					.getSource()
-					.getFeaturesInExtent(coordinateOrExtent)
-					.map(getNestedFeatures)
-					.flat(1)
+				layer.getSource().getFeaturesInExtent(coordinateOrExtent)
 		)
+			.flatMap(getNestedFeatures)
 			.map((feature) =>
 				feature instanceof Feature
 					? JSON.parse(writer.writeFeature(feature))
