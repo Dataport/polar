@@ -16,12 +16,16 @@ export function useVisibleLayers(layers: Ref<Layer[]>) {
 		layers,
 		(layer) => {
 			layer.on('change:visible', updateVisibleLayers)
+			updateVisibleLayers()
 		},
 		(layer) => {
 			layer.un('change:visible', updateVisibleLayers)
+			updateVisibleLayers()
 		},
 		{ immediate: true, deep: true }
 	)
+
+	updateVisibleLayers()
 
 	return {
 		visibleLayers: readonly(visibleLayers),
