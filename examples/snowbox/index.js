@@ -676,6 +676,15 @@ subscribe(
 			JSON.stringify(coordinates))
 )
 
+subscribe(
+	map,
+	'gfi',
+	'features',
+	(features) =>
+		(document.getElementById('gfi-features').innerText =
+			JSON.stringify(features))
+)
+
 /* simple language switcher attached for demo purposes;
  * language switching is considered a global concern and
  * should be handled by the leading application */
