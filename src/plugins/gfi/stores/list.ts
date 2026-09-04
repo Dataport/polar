@@ -1,6 +1,7 @@
 import type { Feature } from 'ol'
 import type { FeatureListText } from '../types'
 
+import { pickBy } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, markRaw, ref, shallowRef, watch } from 'vue'
 
@@ -65,7 +66,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 					layer
 				): layer is {
 					[K in keyof typeof layer]: NonNullable<(typeof layer)[K]>
-				} => Boolean(layer.layerConfiguration?.window) && Boolean(layer.layer)
+				} => Boolean(layer.layerConfiguration) && Boolean(layer.layer)
 			)
 			.map(({ layerId, layerConfiguration, layer }) => ({
 				layerId,
@@ -93,8 +94,15 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 			)
 	)
 
+	const windowFeatures = computed(
+		() =>
+			pickBy(features.value, (features, layerId) =>
+				Boolean(gfiMainStore.getLayerConfiguration(layerId)?.window)
+			) as typeof features.value
+	)
+
 	const flatFeatures = computed(() =>
-		Object.entries(features.value).flatMap(([layerId, features]) =>
+		Object.entries(windowFeatures.value).flatMap(([layerId, features]) =>
 			features.map((feature) => ({
 				layerId,
 				...feature,

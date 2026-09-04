@@ -679,7 +679,7 @@ subscribe(
 subscribe(
 	map,
 	'gfi',
-	'features',
+	'listFeatures',
 	(features) =>
 		(document.getElementById('gfi-features').innerText =
 			JSON.stringify(features))
