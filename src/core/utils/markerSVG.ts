@@ -1,6 +1,5 @@
 /**
- * This file contains the SVG-informations
- * the 'path' / 'viewBox' / 'position of the text element' of the markers
+ * This file contains the svgConfigs and functions
  * it will be used in the marker.ts file to create the marker icons
  * for the map.
  */
@@ -12,6 +11,11 @@ import type {
 	TextPosition,
 } from '../types'
 
+/**
+ * This function returns the correct svgConfig based on the number of digits in the clusterCount.
+ * @param digits - expects a number to decide which config should be used
+ * @returns - the correct svgConfig for the marker.
+ */
 export const getSVGConfig: GetSVGConfigFunction = (digits: string) => {
 	switch (digits.length) {
 		case 0:
