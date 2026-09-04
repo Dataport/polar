@@ -32,6 +32,7 @@ export const resourcesDe = {
 		next: 'Nächster Datensatz',
 		entryXOfY: 'Eintrag {{index}} von {{count}}',
 	},
+	noSelectedFeature: 'Es ist kein Objekt ausgewählt.',
 	noActiveLayer:
 		'Derzeit ist kein Kartenmaterial mit passenden Objekten eingeschaltet.',
 	list: {
@@ -63,6 +64,7 @@ export const resourcesEn = {
 		next: 'Next data',
 		entryXOfY: 'Entry {{index}} of {{count}}',
 	},
+	noSelectedFeature: 'No feature is selected.',
 	noActiveLayer: 'Currently, no map layer with fitting objects is active.',
 	list: {
 		header: 'Feature list',

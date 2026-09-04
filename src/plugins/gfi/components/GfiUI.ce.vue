@@ -1,6 +1,10 @@
 <template>
 	<PolarCard
-		v-if="gfiStore.features.length > 0 || gfiStore.configuration.featureList"
+		v-if="
+			gfiStore.renderType === 'iconMenu' ||
+			gfiStore.features.length > 0 ||
+			gfiStore.configuration.featureList
+		"
 		id="polar-card-gfi"
 		:class="{
 			standard: coreStore.layout === 'standard',
@@ -8,7 +12,15 @@
 		}"
 	>
 		<p
-			v-if="!gfiStore.hasActiveWindowLayers"
+			v-if="
+				gfiStore.features.length === 0 && !gfiStore.configuration.featureList
+			"
+			class="kern-body kern-body--small"
+		>
+			{{ $t(($) => $.noSelectedFeature, { ns: PluginId }) }}
+		</p>
+		<p
+			v-else-if="!gfiStore.hasActiveWindowLayers"
 			class="kern-body kern-body--small"
 		>
 			{{ $t(($) => $.noActiveLayer, { ns: PluginId }) }}
