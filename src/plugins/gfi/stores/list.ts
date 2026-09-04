@@ -65,7 +65,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 					layer
 				): layer is {
 					[K in keyof typeof layer]: NonNullable<(typeof layer)[K]>
-				} => Boolean(layer.layerConfiguration) && Boolean(layer.layer)
+				} => Boolean(layer.layerConfiguration?.window) && Boolean(layer.layer)
 			)
 			.map(({ layerId, layerConfiguration, layer }) => ({
 				layerId,
