@@ -43,7 +43,7 @@ const makeMarker = ({ fill, size, stroke }: MarkerStyle) =>
 `)}`
 
 const makeMultiMarker = (
-	{ fill, clusterSize, stroke, displayedText }: MarkerStyle,
+	{ fill, clusterSize, stroke, clusterCount }: MarkerStyle,
 	displayFeatureCount: boolean,
 	svgConfig: MarkerSVGConfig
 ) => {
@@ -63,7 +63,7 @@ const makeMultiMarker = (
 <path fill="${stroke}" ${svgConfig.shapePath} class="feature-pin-shape"/>
 <path fill="${typeof fill === 'string' ? fill : 'url(#img)'}" ${svgConfig.contentPath} class="feature-flag-background"/>
 		${
-			!displayFeatureCount || displayedText === undefined
+			!displayFeatureCount || clusterCount === undefined
 				? ''
 				: `<text
                     x="${svgConfig.textPosition.x}"
@@ -76,7 +76,7 @@ const makeMultiMarker = (
                     font-variant-numeric="slashed-zero"
                         font-feature-settings="'zero' 1"
                     fill="${stroke}"
-                >${String(displayedText)}</text>`
+                >${String(clusterCount)}</text>`
 		}
   </g>
 	${svgConfig.defs}
@@ -103,7 +103,7 @@ const makeMultiMarker = (
       <path fill="${stroke}" ${svgConfig.shapePath}/>
       <path fill="${typeof fill === 'string' ? fill : 'url(#img)'}" ${svgConfig.contentPath} class="feature-flag-label"/>
       ${
-				!displayFeatureCount || displayedText === undefined
+				!displayFeatureCount || clusterCount === undefined
 					? ''
 					: `<text
                 x="${svgConfig.textPosition.x}"
@@ -116,7 +116,7 @@ const makeMultiMarker = (
                 font-variant-numeric="slashed-zero"
                 font-feature-settings="'zero' 1"
                 fill="${stroke}"
-              >${String(displayedText)}</text>`
+              >${String(clusterCount)}</text>`
 			}
     </g>
     <path fill="${stroke}" ${svgConfig.tipPath} class="feature-pin-tip"/>
@@ -205,7 +205,7 @@ function buildStyle(
 			? makeMultiMarker(
 					{
 						...style,
-						displayedText: count,
+						clusterCount: count,
 					},
 					displayFeatureCount,
 					getSVGConfig(String(count))

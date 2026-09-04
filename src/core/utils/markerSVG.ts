@@ -32,10 +32,10 @@ export const getSVGConfig: GetSVGConfigFunction = (digits: string) => {
 }
 
 /**
- * Calculates the optically centered text position for a pill SVG path.
- * Expected paths in the scheme: M[x] [y] C... [xLeftCap] [yTop] h[width] C... S... [xRightCap] [yBottom] h-[width] C... Z
+ * Calculates the visually centered text position for a pill SVG path.
+ * @param path Expected paths in the scheme: M[x] [y] C... [xLeftCap] [yTop] h[width] C... S... [xRightCap] [yBottom] h-[width] C... Z
  */
-export const getPillTextPosition: GetTextPositionFunction = (
+const getPillTextPosition: GetTextPositionFunction = (
 	path: string
 ): TextPosition => {
 	const topMatch = path.match(
@@ -64,10 +64,10 @@ export const getPillTextPosition: GetTextPositionFunction = (
 }
 
 /**
- * Calculates the optically centered text position for a round SVG path (circle with tip).
- * Expected paths in the scheme: M[x0] [y0]C[x1] [y1] [x2] [y2] [x3] [y3]S[x4] [y4] [x5] [y5] [x6] [y6] [x7] [y7]Z
+ * Calculates the visually centered text position for a round SVG path (circle with tip).
+ * @param path Expected paths in the scheme: M[x0] [y0]C[x1] [y1] [x2] [y2] [x3] [y3]S[x4] [y4] [x5] [y5] [x6] [y6] [x7] [y7]Z
  */
-export const getCircleCenterPosition: GetTextPositionFunction = (
+const getCircleCenterPosition: GetTextPositionFunction = (
 	path: string
 ): TextPosition => {
 	const mMatch = path.match(/M\s*([\d.]+)\s+([\d.]+)/)

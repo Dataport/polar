@@ -76,11 +76,10 @@ export interface MarkerStyle {
 	strokeWidth: string | number
 
 	/**
-	 * Text to display on the marker..
+	 * Text to display on the marker.
 	 *
-	 * @defaultValue `''`
 	 */
-	displayedText?: string | number
+	clusterCount?: number
 }
 
 export interface MarkerSVGConfig {
@@ -97,13 +96,13 @@ export interface MarkerSVGConfig {
 	/**
 	 * Calculates the x and y coordinates for the text position within the marker.
 	 * The calculation is based on the provided SVG path
-	 * @throws  Error If the provided path does not match the expected marker pattern.
+	 * @throws Error If the provided path does not match the expected marker pattern.
 	 * @returns The x and y coordinates for the text position within the marker.
 	 */
 	getTextPosition: GetTextPositionFunction
 
 	/**
-	 * The shape of the marker
+	 * The shape of the marker.
 	 */
 	pinShape: PinShape
 
@@ -122,7 +121,7 @@ export interface MarkerSVGConfig {
 	stackedShadow2: string
 
 	/**
-	 * The SVG paths for the stacked markershape.
+	 * The SVG paths for the stacked shape of the marker.
 	 */
 	stackedShape1: string
 	stackedShape2: string
