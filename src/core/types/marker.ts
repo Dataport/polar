@@ -82,6 +82,9 @@ export interface MarkerStyle {
 	clusterCount?: number
 }
 
+/**
+ * The MarkerSVGConfig contains the SVG-informations needed to create the svg
+ */
 export interface MarkerSVGConfig {
 	/**
 	 * The SVG path for the markershape where the text is displayed in.
