@@ -108,12 +108,8 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		}
 
 		if (options.toggleSelection) {
-			Object.entries(result).forEach(([layerId, features]) => {
-				if (!gfiMainStore.geoJsonFeatures[layerId]) {
-					gfiMainStore.geoJsonFeatures[layerId] = []
-				}
-				const layerFeatureList = gfiMainStore.geoJsonFeatures[layerId]
-
+			gfiMainStore.geoJsonFeatures = mapValues(result, (features, layerId) => {
+				const layerFeatureList = gfiMainStore.geoJsonFeatures[layerId] ?? []
 				features.forEach((feature) => {
 					const oldFeatureIndex = layerFeatureList.findIndex((oldFeature) =>
 						isEqual(oldFeature.properties, feature.properties)
@@ -124,6 +120,7 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 						layerFeatureList.splice(oldFeatureIndex, 1)
 					}
 				})
+				return layerFeatureList
 			})
 			return
 		}
