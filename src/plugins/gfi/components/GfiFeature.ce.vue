@@ -48,7 +48,7 @@
 						: 'kern-icon--close'
 				"
 				:label-sr-only="true"
-				@click="gfiStore.selectedFeature = null"
+				@click="closeGfi()"
 			>
 				{{
 					$t(
@@ -159,6 +159,11 @@ defineProps<{
 
 function startDownload(url: string) {
 	open(url)
+}
+
+function closeGfi() {
+	gfiStore.featureInformation = {}
+	gfiStore.feature = null
 }
 </script>
 
