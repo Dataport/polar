@@ -197,12 +197,6 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		 * Selected feature for the detailed view.
 		 * This is the currently shown feature.
 		 *
-<<<<<<< HEAD
-=======
-		 * To mutate this value, change {@link featureIndex}.
-		 *
-		 * @readonly
->>>>>>> vue3/migrate-plugin-gfi
 		 * @alpha
 		 */
 		feature: gfiMainStoreRefs.geoJsonFeature,
