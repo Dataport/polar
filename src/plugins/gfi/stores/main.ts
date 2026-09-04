@@ -1,3 +1,4 @@
+import type Layer from 'ol/layer/Layer'
 import type { CustomHighlightStyle, GfiPluginOptions } from '../types'
 
 import { Fill, Stroke, Style } from 'ol/style'
@@ -9,6 +10,7 @@ import { findLayer } from '@/lib/findLayer'
 
 import { useFeatureDisplayLayer } from '../composables/useFeatureDisplayLayer'
 import { useSelectedFeatures } from '../composables/useSelectedFeatures'
+import { useVisibleLayers } from '../composables/useVisibleLayers'
 import { PluginId } from '../types'
 
 const defaultHighlightStyle = {
@@ -36,11 +38,15 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 		return configuration.value.layers[layerId]
 	}
 
-	const hasActiveWindowLayers = computed(() =>
-		Object.entries(configuration.value.layers).some(
-			([layerId, layerConfig]) =>
-				layerConfig.window && findLayer(coreStore.map, layerId)?.isVisible()
-		)
+	const windowLayers = computed(() =>
+		Object.entries(configuration.value.layers)
+			.filter(([, layerConfig]) => layerConfig.window)
+			.map(([layerId]) => findLayer(coreStore.map, layerId))
+			.filter((layer): layer is Layer => Boolean(layer))
+	)
+	const { visibleLayers: activeWindowLayers } = useVisibleLayers(windowLayers)
+	const hasActiveWindowLayers = computed(
+		() => activeWindowLayers.value.length > 0
 	)
 
 	const { olFeatures, olFeature, geoJsonFeatures, geoJsonFeature } =
