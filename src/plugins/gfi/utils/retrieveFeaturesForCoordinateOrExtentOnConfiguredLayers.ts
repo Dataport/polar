@@ -34,7 +34,7 @@ export const retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers = async (
 							layer
 						): layer is {
 							[K in keyof typeof layer]: NonNullable<(typeof layer)[K]>
-						} => Boolean(layer.layer)
+						} => layer.layer?.isVisible() ?? false
 					)
 					.map(async ({ layerId, layer, layerConfiguration }) => {
 						return [
