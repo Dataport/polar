@@ -67,8 +67,6 @@ export const retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers = async (
 						]
 					})
 			)
-		)
-			.filter((it): it is GeoJsonFeature[][] => Boolean(it))
-			.slice(0, maxFeatures ?? Number.POSITIVE_INFINITY)
+		).filter((it): it is GeoJsonFeature[][] => Boolean(it))
 	)
 }

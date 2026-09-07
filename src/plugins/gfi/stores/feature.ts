@@ -28,6 +28,10 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			.flatMap(([layerId, features]) =>
 				features.map((feature) => ({ layerId, feature }))
 			)
+			.slice(
+				0,
+				gfiMainStore.configuration.maxFeatures ?? Number.POSITIVE_INFINITY
+			)
 	)
 
 	const selectedFeatureIndex = computed({
