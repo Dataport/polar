@@ -103,7 +103,6 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 			coreStore.configuration.layers,
 			gfiMainStore.configuration.layers,
 			gfiMainStore.configuration.mode,
-			gfiMainStore.configuration.maxFeatures,
 			coordinateOrExtent
 		)
 

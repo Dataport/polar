@@ -18,7 +18,6 @@ export const retrieveFeaturesForCoordinateOrExtentOnConfiguredLayers = async (
 	coreLayers: LayerConfiguration[],
 	gfiLayers: Record<string, GfiLayerConfiguration>,
 	mode: GfiPluginOptions['mode'],
-	maxFeatures: GfiPluginOptions['maxFeatures'],
 	coordinateOrExtent: RequestGfiParameters['coordinateOrExtent']
 ): Promise<Record<string, GeoJsonFeature[]>> => {
 	return Object.fromEntries(
