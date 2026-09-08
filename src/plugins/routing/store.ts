@@ -69,7 +69,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
 	const addressSearchStore = coreStore.getPluginStore('addressSearch')
-	const showSearchResultList = !!addressSearchStore && !!reverseGeocoderStore
+	const showSearchResultList = computed(
+		() =>
+			coreStore.usedPlugins.includes('reverseGeocoder') &&
+			coreStore.usedPlugins.includes('addressSearch')
+	)
 
 	const focusAfterSearch = computed(
 		() => coreStore.configuration.addressSearch?.focusAfterSearch ?? false
@@ -183,7 +187,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const searchResultHint = computed(() => {
 		const index = currentlyFocusedInput.value
-		if (!showSearchResultList) {
+		if (!showSearchResultList.value) {
+			return ''
+		}
+		if (!addressSearchStore) {
 			return ''
 		}
 		const input = routeInputValues.value[index]?.trim() ?? ''
@@ -253,7 +260,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		input: string,
 		autoselect: 'first' | 'only' | 'never' = 'never'
 	) {
-		if (!showSearchResultList) {
+		if (!showSearchResultList.value) {
 			return
 		}
 		if (index < 0 || index >= route.value.length) {
