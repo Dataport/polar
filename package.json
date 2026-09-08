@@ -135,7 +135,7 @@
 		"vite-plugin-commonjs": "^0.10.4",
 		"vite-plugin-kern-extra-icons": "^1.0.1",
 		"vite-plugin-vue-devtools": "^8.2.1",
-		"vitest": "^4.1.10",
+		"vitest": "^5.0.0",
 		"vue": "^3.5.42",
 		"vue-tsc": "^3.3.11"
 	},
