@@ -137,7 +137,7 @@ const routeInputValue = computed({
 		}
 
 		const coordinate = route.value[props.index]
-		if (!showSearchResultList.value && Array.isArray(coordinate)) {
+		if (!showSearchResultList?.value && Array.isArray(coordinate)) {
 			return coordinate.length ? coordinate.join(',') : ''
 		}
 
@@ -154,7 +154,7 @@ const searchResultsForInput = computed(
 
 const showResultList = computed(
 	() =>
-		showSearchResultList.value && currentlyFocusedInput.value === props.index
+		showSearchResultList?.value && currentlyFocusedInput.value === props.index
 )
 
 const searchResultHintForInput = computed(() =>
