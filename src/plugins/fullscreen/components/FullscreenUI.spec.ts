@@ -11,15 +11,16 @@ import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'
 import FullscreenUI from './FullscreenUI.ce.vue'
 
+vi.mock('i18next', () => ({
+	t: (key, { ns, context }) => `$t(${ns}:${key}_${context})`,
+}))
+
 /* eslint-disable no-empty-pattern */
 const test = _test.extend<{
 	wrapper: VueWrapper
 	store: ReturnType<typeof useFullscreenStore>
 }>({
 	wrapper: async ({}, use) => {
-		vi.mock('i18next', () => ({
-			t: (key, { ns, context }) => `$t(${ns}:${key}_${context})`,
-		}))
 		const wrapper = mount(FullscreenUI, {
 			global: {
 				plugins: [createTestingPinia({ createSpy: vi.fn })],

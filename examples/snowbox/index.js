@@ -264,6 +264,7 @@ document.getElementById('secondMap').addEventListener('click', async () => {
 		secondMap,
 		pluginFullscreen({
 			layoutTag: 'TOP_RIGHT',
+			displayComponent: true,
 		})
 	)
 	additionalMaps.push(secondMap)
