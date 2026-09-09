@@ -41,7 +41,7 @@ const props = defineProps<{
 		ariaLabel?: string
 		[key: string]: unknown
 	}[]
-	label?: string
+	label: string
 	labelSrOnly?: boolean
 	defaultLabel?: string
 	disabled?: boolean

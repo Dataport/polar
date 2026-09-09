@@ -86,4 +86,24 @@ export default [
 		featureNS: 'http://www.deegree.org/app',
 		featurePrefix: 'app',
 	},
+	{
+		id: 'flurstuecke',
+		typ: 'OAF',
+		name: 'Flurstueck',
+		url: 'https://api.hamburg.de/datasets/v1/alkis_vereinfacht',
+		collection: 'Flurstueck',
+		crs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
+		bboxCrs: 'http://www.opengis.net/def/crs/EPSG/0/25832',
+	},
+	// NOTE: Here be WFS-T 🐉
+	{
+		id: 'lgv_multipolygons',
+		name: 'LGV WFS-T Multipolygone',
+		url: 'https://masterportal.schulung.deegree.pro/core-services/services/wfstlgv',
+		typ: 'WFS',
+		featurePrefix: 'sf',
+		featureType: 'wfstlgv',
+		version: '1.1.0',
+		featureNS: 'http://cite.opengeospatial.org/gmlsf',
+	},
 ]

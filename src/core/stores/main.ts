@@ -3,6 +3,7 @@ import type { Point } from 'ol/geom'
 import type {
 	ColorScheme,
 	MapConfigurationIncludingDefaults,
+	MaskedInteraction,
 	MasterportalApiServiceRegister,
 	PluginId,
 } from '../types'
@@ -89,20 +90,22 @@ export const useMainStore = defineStore('main', () => {
 		return { ...register, ...polar } as typeof polar
 	}
 
-	// TODO: Check if this works as expected in all combinations when draw is migrated
-	const maskedInteractions = ref(
-		new Map<string, { pluginId: PluginId; teardown: () => void }>()
-	)
+	const maskedInteractions = ref(new Map<string, MaskedInteraction>())
 	function maskInteraction(
 		pluginId: PluginId,
 		interaction: string,
 		setup: () => void,
-		teardown: () => void
+		teardown: () => void,
+		onEvict?: () => void
 	) {
-		if (maskedInteractions.value.has(interaction)) {
-			maskedInteractions.value.get(interaction)?.teardown()
+		const existing = maskedInteractions.value.get(interaction)
+		if (existing) {
+			existing.teardown()
+			if (existing.pluginId !== pluginId) {
+				existing.onEvict?.()
+			}
 		}
-		maskedInteractions.value.set(interaction, { pluginId, teardown })
+		maskedInteractions.value.set(interaction, { pluginId, teardown, onEvict })
 		setup()
 	}
 	function unmaskInteraction(pluginId: PluginId, interaction: string) {
@@ -184,23 +187,31 @@ if (import.meta.vitest) {
 		expect(teardown).toHaveBeenCalledTimes(1)
 	})
 
-	test('masking the same interaction twice tears down the previous mask', ({
+	test('masking the same interaction twice tears down the previous mask and evicts it', ({
 		store,
 	}) => {
 		const interaction = 'click'
 		const firstPluginId = 'external-test-plugin'
 		const firstSetup = vi.fn()
 		const firstTeardown = vi.fn()
+		const firstOnEvict = vi.fn()
 		const secondPluginId = 'external-second-test-plugin'
 		const secondSetup = vi.fn()
 		const secondTeardown = vi.fn()
 
 		expect(store.isInteractionMasked(interaction)).toBe(false)
 
-		store.maskInteraction(firstPluginId, interaction, firstSetup, firstTeardown)
+		store.maskInteraction(
+			firstPluginId,
+			interaction,
+			firstSetup,
+			firstTeardown,
+			firstOnEvict
+		)
 		expect(store.isInteractionMasked(interaction)).toBe(true)
 		expect(firstSetup).toHaveBeenCalledTimes(1)
 		expect(firstTeardown).toHaveBeenCalledTimes(0)
+		expect(firstOnEvict).toHaveBeenCalledTimes(0)
 
 		store.maskInteraction(
 			secondPluginId,
@@ -210,7 +221,34 @@ if (import.meta.vitest) {
 		)
 		expect(store.isInteractionMasked(interaction)).toBe(true)
 		expect(firstTeardown).toHaveBeenCalledTimes(1)
+		expect(firstOnEvict).toHaveBeenCalledTimes(1)
 		expect(secondSetup).toHaveBeenCalledTimes(1)
 		expect(secondTeardown).toHaveBeenCalledTimes(0)
+	})
+
+	test('remasking with the same plugin does not trigger onEvict', ({
+		store,
+	}) => {
+		const interaction = 'click'
+		const pluginId = 'external-test-plugin'
+		const onEvict = vi.fn()
+
+		store.maskInteraction(pluginId, interaction, vi.fn(), vi.fn(), onEvict)
+		store.maskInteraction(pluginId, interaction, vi.fn(), vi.fn(), onEvict)
+
+		expect(onEvict).toHaveBeenCalledTimes(0)
+	})
+
+	test('unmasking an interaction from the same plugin does not trigger onEvict', ({
+		store,
+	}) => {
+		const interaction = 'click'
+		const pluginId = 'external-test-plugin'
+		const onEvict = vi.fn()
+
+		store.maskInteraction(pluginId, interaction, vi.fn(), vi.fn(), onEvict)
+		store.unmaskInteraction(pluginId, interaction)
+
+		expect(onEvict).toHaveBeenCalledTimes(0)
 	})
 }
