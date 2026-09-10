@@ -2,6 +2,7 @@ import type Layer from 'ol/layer/Layer'
 import type { CustomHighlightStyle, GfiPluginOptions } from '../types'
 
 import { Fill, Stroke, Style } from 'ol/style'
+import CircleStyle from 'ol/style/Circle'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 
@@ -21,6 +22,7 @@ const defaultHighlightStyle = {
 	fill: {
 		color: 'rgb(255, 255, 255, 0.7)',
 	},
+	radius: 8,
 } satisfies CustomHighlightStyle
 
 export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
@@ -63,6 +65,19 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 					configuration.value.customHighlightStyle?.fill ||
 						defaultHighlightStyle.fill
 				),
+				image: new CircleStyle({
+					radius:
+						configuration.value.customHighlightStyle?.radius ||
+						defaultHighlightStyle.radius,
+					stroke: new Stroke(
+						configuration.value.customHighlightStyle?.stroke ||
+							defaultHighlightStyle.stroke
+					),
+					fill: new Fill(
+						configuration.value.customHighlightStyle?.fill ||
+							defaultHighlightStyle.fill
+					),
+				}),
 			})
 	)
 	const highlightedFeatures = computed(() =>

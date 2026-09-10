@@ -187,12 +187,23 @@ export interface CustomHighlightStyle {
 	/**
 	 * Object for defining the fill style.
 	 * See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Fill-Fill.html) for full options.
+	 *
+	 * @defaultValue `rgb(255, 255, 255, 0.7)`
 	 */
 	fill?: Fill
 
 	/**
+	 * Radius of the highlight circle for Point features.
+	 *
+	 * @defaultValue 8
+	 */
+	radius?: number
+
+	/**
 	 * Object for defining the stroke style.
 	 * See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Stroke-Stroke.html) for full options.
+	 *
+	 * @defaultValue `{ color: '#003064', width: 3 }`
 	 */
 	stroke?: Stroke
 }
