@@ -20,9 +20,9 @@
 </code><button type="button">Copy</button></pre>
 
 </div></div></section>
-<div class="tsd-signature"><span class="tsd-signature-keyword">interface</span> <span class="tsd-kind-interface">CustomHighlightStyle</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="#fill">fill</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Options</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#stroke">stroke</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Options</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-signature-keyword">interface</span> <span class="tsd-kind-interface">CustomHighlightStyle</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="#fill">fill</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Options</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#radius">radius</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#stroke">stroke</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Options</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/2d085f2cbb4822c93d5d8cfbafb564bc3a0f74c1/src/plugins/gfi/types.ts#L186">src/plugins/gfi/types.ts:186</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/c791f9386abf5630ce5f1b16719a36c5b27d793d/src/plugins/gfi/types.ts#L186">src/plugins/gfi/types.ts:186</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -31,6 +31,7 @@
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading tsd-anchor-link" id="properties">Properties<a href="#properties" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-index-list"><a href="#fill" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>fill?</span></a>
+<a href="#radius" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>radius?</span></a>
 <a href="#stroke" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>stroke?</span></a>
 </div></section></div></details></section></section>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -41,17 +42,38 @@
 <div class="tsd-signature"><span class="tsd-kind-property">fill</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Options</span></div>
 <div class="tsd-comment tsd-typography"><p>Object for defining the fill style.
 See <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_Fill-Fill.html">OpenLayers documentation</a> for full options.</p>
-</div><aside class="tsd-sources">
+</div>
+<div class="tsd-comment tsd-typography">
+<div class="tsd-tag-defaultValue">
+<h4 class="tsd-anchor-link" id="default-value">Default Value<a href="#default-value" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p><code>rgb(255, 255, 255, 0.7)</code></p>
+</div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/2d085f2cbb4822c93d5d8cfbafb564bc3a0f74c1/src/plugins/gfi/types.ts#L191">src/plugins/gfi/types.ts:191</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/c791f9386abf5630ce5f1b16719a36c5b27d793d/src/plugins/gfi/types.ts#L193">src/plugins/gfi/types.ts:193</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="radius"><code class="tsd-tag">Optional</code><span>radius</span><a href="#radius" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">radius</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>Radius of the highlight circle for Point features.</p>
+</div>
+<div class="tsd-comment tsd-typography">
+<div class="tsd-tag-defaultValue">
+<h4 class="tsd-anchor-link" id="default-value-1">Default Value<a href="#default-value-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><pre><code class="ts"><span class="hl-4">8</span>
+</code><button type="button">Copy</button></pre>
+
+</div></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/c791f9386abf5630ce5f1b16719a36c5b27d793d/src/plugins/gfi/types.ts#L200">src/plugins/gfi/types.ts:200</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="stroke"><code class="tsd-tag">Optional</code><span>stroke</span><a href="#stroke" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">stroke</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Options</span></div>
 <div class="tsd-comment tsd-typography"><p>Object for defining the stroke style.
 See <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_Stroke-Stroke.html">OpenLayers documentation</a> for full options.</p>
-</div><aside class="tsd-sources">
+</div>
+<div class="tsd-comment tsd-typography">
+<div class="tsd-tag-defaultValue">
+<h4 class="tsd-anchor-link" id="default-value-2">Default Value<a href="#default-value-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p><code>{ color: '#003064', width: 3 }</code></p>
+</div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/2d085f2cbb4822c93d5d8cfbafb564bc3a0f74c1/src/plugins/gfi/types.ts#L197">src/plugins/gfi/types.ts:197</a></li></ul></aside></section></section></details></div>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/c791f9386abf5630ce5f1b16719a36c5b27d793d/src/plugins/gfi/types.ts#L208">src/plugins/gfi/types.ts:208</a></li></ul></aside></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -68,7 +90,7 @@ See <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_Stroke-Stro
 <h3>On This Page</h3></summary>
 <div class="tsd-accordion-details">
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Properties</summary>
-<div><a href="#fill"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>fill</span></a><a href="#stroke"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>stroke</span></a></div></details></div></details></div>
+<div><a href="#fill"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>fill</span></a><a href="#radius"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>radius</span></a><a href="#stroke"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>stroke</span></a></div></details></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html">POLAR reference</a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container">
