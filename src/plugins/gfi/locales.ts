@@ -1,0 +1,94 @@
+/* eslint-disable tsdoc/syntax */
+/**
+ * This is the documentation for the locales keys in the gfi plugin.
+ * These locales are *NOT* exported, but documented only.
+ *
+ * @module locales/plugins/gfi
+ */
+/* eslint-enable tsdoc/syntax */
+
+import type { Locale } from '@/core'
+
+/**
+ * German locales for gfi plugin.
+ * For overwriting these values, use the plugin's ID as namespace.
+ */
+export const resourcesDe = {
+	header: {
+		close: 'Informationsfenster schließen',
+		closeToList: 'Zurück zur Liste navigieren',
+		field: 'Feld',
+		value: 'Wert',
+	},
+	property: {
+		export: 'Export',
+		imageAlt:
+			'Bitte entnehmen Sie Informationen zum Inhalt des Bildes aus den umliegenden Tabellenfeldern',
+		linkTitle: 'In neuem Tab öffnen',
+		linkText: 'Link',
+	},
+	switch: {
+		previous: 'Vorangehender Datensatz',
+		next: 'Nächster Datensatz',
+		entryXOfY: 'Eintrag {{index}} von {{count}}',
+	},
+	noSelectedFeature: 'Es ist kein Objekt ausgewählt.',
+	noActiveLayer:
+		'Derzeit ist kein Kartenmaterial mit passenden Objekten eingeschaltet.',
+	list: {
+		header: 'Objektliste',
+		emptyView: 'Im aktuellen Kartenausschnitt sind keine Objekte enthalten.',
+	},
+} as const
+
+/**
+ * English locales for gfi plugin.
+ * For overwriting these values, use the plugin's ID as namespace.
+ */
+export const resourcesEn = {
+	header: {
+		close: 'Close information window',
+		closeToList: 'Navigate back to list',
+		field: 'Field',
+		value: 'Value',
+	},
+	property: {
+		export: 'Export',
+		imageAlt:
+			'Please refer to the other table fields for further information about the topics of the displayed picture',
+		linkTitle: 'Open in a new tab',
+		linkText: 'Link',
+	},
+	switch: {
+		previous: 'Previous data',
+		next: 'Next data',
+		entryXOfY: 'Entry {{index}} of {{count}}',
+	},
+	noSelectedFeature: 'No feature is selected.',
+	noActiveLayer: 'Currently, no map layer with fitting objects is active.',
+	list: {
+		header: 'Feature list',
+		emptyView: 'There are no features in the current view.',
+	},
+} as const
+
+/**
+ * Gfi plugin locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
+const locales: Locale[] = [
+	{
+		type: 'de',
+		resources: resourcesDe,
+	},
+	{
+		type: 'en',
+		resources: resourcesEn,
+	},
+]
+
+export default locales

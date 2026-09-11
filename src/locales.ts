@@ -1,0 +1,61 @@
+/* eslint-disable tsdoc/syntax */
+/**
+ * This is the documentation for the locales keys for POLAR shared components.
+ * These locales are *NOT* exported, but documented only.
+ *
+ * @module locales/shared
+ */
+/* eslint-enable tsdoc/syntax */
+
+import type { Locale } from '@/core/types'
+
+/**
+ * German locales for POLAR shared components.
+ * For overwriting these values, pass a partial object of this in `locales`.
+ */
+export const resourcesDe = {
+	pagination: {
+		currentPage: 'Aktuelle Seite, Seite {{page}}',
+		page: 'Seite {{page}}',
+		next: 'Nächste Seite',
+		previous: 'Vorherige Seite',
+		wrapper: 'Seitenauswahl',
+		entries: 'Eintrag {{start}} bis {{end}} von {{total}}',
+	},
+} as const
+
+/**
+ * English locales for POLAR shared components.
+ * For overwriting these values, pass a partial object of this in `locales`.
+ */
+export const resourcesEn = {
+	pagination: {
+		currentPage: 'Current page, page {{page}}',
+		page: 'Page {{page}}',
+		next: 'Next page',
+		previous: 'Previous page',
+		wrapper: 'Pagination',
+		entries: 'Entry {{start}} to {{end}} of {{total}}',
+	},
+} as const
+
+/**
+ * POLAR shared components locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
+const locales: Locale[] = [
+	{
+		type: 'de',
+		resources: resourcesDe,
+	},
+	{
+		type: 'en',
+		resources: resourcesEn,
+	},
+]
+
+export default locales
