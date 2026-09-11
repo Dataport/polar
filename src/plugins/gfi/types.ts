@@ -251,6 +251,8 @@ export interface FeatureList {
 	 * If `true`, the hover/select fields in the core's state will be listened to and interacted with.
 	 * This will result in a bilateral hovering and selecting of features with the core.
 	 *
+	 * This must only be true if `markers` is configured.
+	 *
 	 * @defaultValue false
 	 */
 	bindWithCoreHoverSelect?: boolean
