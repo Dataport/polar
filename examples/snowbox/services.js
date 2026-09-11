@@ -62,7 +62,7 @@ export default [
 		maxScale: '2500000',
 		legendURL: '',
 		urlIsVisible: true,
-		clusterDistance: 20,
+		clusterDistance: 40,
 	},
 	{
 		id: 'denkmaelerWMS',
@@ -85,5 +85,15 @@ export default [
 		version: '1.1.0',
 		featureNS: 'http://www.deegree.org/app',
 		featurePrefix: 'app',
+	},
+	{
+		id: 'kiel_polygon',
+		name: 'Kiel Polygon',
+		url: 'https://polar.dataport.de/qgisserver?MAP=/home/qgis/projects/dev_services.qgz',
+		typ: 'WFS',
+		featureType: 'polygon_kiel',
+		outputFormat: 'XML',
+		version: '1.1.0',
+		legendURL: '',
 	},
 ]

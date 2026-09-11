@@ -1,12 +1,17 @@
+import type { resourcesEn as shared } from '@/locales'
 import type { resourcesEn as core } from '../locales'
-import type { CoreId } from '../types'
+import type { CoreId, SharedId } from '../types'
 import type { BundledPluginId, BundledPluginLocaleResources } from './plugin'
 
 /** @internal */
 export type LocaleResources = {
-	[T in typeof CoreId | BundledPluginId]: T extends BundledPluginId
+	[
+		T in typeof CoreId | typeof SharedId | BundledPluginId
+	]: T extends BundledPluginId
 		? BundledPluginLocaleResources<T>
-		: typeof core
+		: T extends typeof SharedId
+			? typeof shared
+			: typeof core
 }
 
 type ToLocaleOverride<T> = T extends string

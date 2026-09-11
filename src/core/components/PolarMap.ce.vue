@@ -33,12 +33,14 @@ defineExpose({ el: polarMapContainer })
 const emit = defineEmits(['updateListeners', 'wheel'])
 
 const mainStore = useMainStore()
-const { hasWindowSize, hasSmallDisplay, center, zoom } = storeToRefs(mainStore)
+const { hasWindowSize, hasSmallDisplay, center, extent, zoom } =
+	storeToRefs(mainStore)
 const markerStore = useMarkerStore()
 const contextMenuStore = useContextMenuStore()
 
 function onMove() {
 	center.value = mainStore.map.getView().getCenter() || center.value
+	extent.value = mainStore.map.getView().calculateExtent()
 	zoom.value = mainStore.map.getView().getZoom() ?? zoom.value
 }
 

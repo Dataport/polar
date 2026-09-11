@@ -27,6 +27,7 @@ export const useMainStore = defineStore('main', () => {
 			defaults
 		)
 	)
+	const extent = ref([0, 0, 0, 0])
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as OlMap)
@@ -129,6 +130,7 @@ export const useMainStore = defineStore('main', () => {
 		serviceRegister,
 		shadowRoot,
 		center,
+		extent,
 		zoom,
 		// Getters
 		layout,
