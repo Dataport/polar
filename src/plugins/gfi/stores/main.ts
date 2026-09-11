@@ -54,6 +54,7 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 	const { olFeatures, olFeature, geoJsonFeatures, geoJsonFeature } =
 		useSelectedFeatures()
 
+	// TODO: this is to be re-worked after https://github.com/Dataport/polar/pull/895/changes#diff-88c52a34635983bf7d7b89af09414fce2b7620e05978056fbadec0d05d62c6e8 is merged (generic jsonStyleMapper that can be used project-wide)
 	const customHighlightStyle = computed(
 		() =>
 			new Style({
