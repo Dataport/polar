@@ -118,9 +118,9 @@ export const useMarkerStore = defineStore('marker', () => {
 			active
 		)
 	)
-	watch(selectedCluster, (newCluster) => {
-		if (newCluster) {
-			mainStore.centerOnFeature(newCluster)
+	watch(selectedFeature, (newFeature) => {
+		if (newFeature && selectedCluster.value) {
+			mainStore.centerOnFeature(selectedCluster.value)
 		}
 	})
 
