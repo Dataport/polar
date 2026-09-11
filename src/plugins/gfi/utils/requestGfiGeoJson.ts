@@ -6,6 +6,8 @@ import type VectorLayer from 'ol/layer/Vector'
 import { Feature } from 'ol'
 import { GeoJSON } from 'ol/format'
 
+import { isVisible } from '@/lib/invisibleStyle'
+
 const writer = new GeoJSON()
 
 const getNestedFeatures = (
@@ -38,11 +40,9 @@ export default ({
 				layer.getSource().getFeaturesInExtent(coordinateOrExtent)
 		)
 			.flatMap(getNestedFeatures)
-			.map((feature) =>
-				feature instanceof Feature
-					? JSON.parse(writer.writeFeature(feature))
-					: false
+			.filter(
+				(feature): feature is Feature =>
+					feature instanceof Feature && isVisible(feature)
 			)
-			// remove FeatureLikes
-			.filter((x) => x)
+			.map((feature) => JSON.parse(writer.writeFeature(feature)))
 	)
