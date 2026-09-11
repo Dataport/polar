@@ -46,6 +46,14 @@ function assignCoreToGfiFeature(
 	target: ShallowRef<GfiFeature>,
 	feature: CoreFeature
 ) {
+	if (feature) {
+		const gfiMainStore = useGfiMainStore()
+		const layerId = feature.get('_polarLayerId')
+		const layerConfiguration = gfiMainStore.getLayerConfiguration(layerId)
+		if (!layerConfiguration?.window) {
+			return
+		}
+	}
 	target.value = feature
 		? markRaw({
 				layerId: feature.get('_polarLayerId'),
