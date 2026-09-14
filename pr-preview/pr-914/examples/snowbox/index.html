@@ -10,14 +10,13 @@
 			/* style just for example page, not directly related to POLAR */
 			:root {
 				--not-quite-white: #f2f3f4;
-				--map-height: 600px;
+				--map-height: 800px;
 			}
 
 			body {
 				font-family: sans-serif;
 				padding: 2em;
 				background: var(--not-quite-white);
-				color: var(--eigengrau);
 			}
 
 			h1 {
@@ -47,11 +46,11 @@
 				-webkit-touch-callout: none;
 			}
 		</style>
-		<script type="module" crossorigin src="../../assets/snowbox-9TykmrQC.js"></script>
+		<script type="module" crossorigin src="../../assets/snowbox-DfWfzk_8.js"></script>
 		<link rel="modulepreload" crossorigin href="../../assets/rolldown-runtime-B0aSnxlc-WE5nrRaW.js">
-		<link rel="modulepreload" crossorigin href="../../assets/vue.runtime.esm-bundler-BEzQi1K0-Cnuvelr3.js">
-		<link rel="modulepreload" crossorigin href="../../assets/runtime-dom.esm-bundler-DOwpmUY9-D93lBGpV.js">
-		<link rel="modulepreload" crossorigin href="../../assets/pinia-XauO81WY-CF_4Wjfs.js">
+		<link rel="modulepreload" crossorigin href="../../assets/vue.runtime.esm-bundler-BEzQi1K0-B4tzHJqf.js">
+		<link rel="modulepreload" crossorigin href="../../assets/runtime-dom.esm-bundler-DOwpmUY9-D73tb7wV.js">
+		<link rel="modulepreload" crossorigin href="../../assets/pinia-XauO81WY-BeklNdra.js">
 		<link rel="modulepreload" crossorigin href="../../assets/crs-Ovu6I4Po-BI6CFwaM.js">
 		<link rel="modulepreload" crossorigin href="../../assets/asserts--s6PyupZ-flifqRPO.js">
 		<link rel="modulepreload" crossorigin href="../../assets/math-BpivNITZ-CEdSfXPT.js">
@@ -59,18 +58,19 @@
 		<link rel="modulepreload" crossorigin href="../../assets/preload-helper-8nW71h-s.js">
 		<link rel="modulepreload" crossorigin href="../../assets/Feature-CnV0d2O3-dXSn4_kU.js">
 		<link rel="modulepreload" crossorigin href="../../assets/defaults-DQauJHIq-CvsGHwXN.js">
-		<link rel="modulepreload" crossorigin href="../../assets/stores-Bgms6MlO-CB2KpAUi.js">
-		<link rel="modulepreload" crossorigin href="../../assets/passesBoundaryCheck-DvlZEkE3-CUtEcx3y.js">
-		<link rel="modulepreload" crossorigin href="../../assets/spaceDetector-Dk0H1HzA-D2iobhSD.js">
-		<link rel="modulepreload" crossorigin href="../../assets/indicateLoading-B3YDhsWF-NhJYzSSx.js">
+		<link rel="modulepreload" crossorigin href="../../assets/stores-YvNvt3ES-w5p4wnlK.js">
+		<link rel="modulepreload" crossorigin href="../../assets/tooltip-BGMcXgNO-BLWN15V5.js">
+		<link rel="modulepreload" crossorigin href="../../assets/spaceDetector-BcFlbXuI-B2EQs-Ms.js">
+		<link rel="modulepreload" crossorigin href="../../assets/indicateLoading-D586kTMp-CLHz-KDj.js">
 		<link rel="modulepreload" crossorigin href="../../assets/reverseGeocodeWps-BBlNxxlE-ClRWminZ.js">
-		<link rel="modulepreload" crossorigin href="../../assets/toast-Lb9EE_RR-inHvlVMp.js">
+		<link rel="modulepreload" crossorigin href="../../assets/toast-CZ2N86M1-C3RpcBRC.js">
 		<link rel="modulepreload" crossorigin href="../../assets/typeof-CcP5rTWg-B5XbjTb1.js">
 		<link rel="modulepreload" crossorigin href="../../assets/doesFeaturePassFilter--TLmOhhZ-CetYGb0C.js">
-		<link rel="modulepreload" crossorigin href="../../assets/plugin-toast-CgpVnPhv.js">
-		<link rel="modulepreload" crossorigin href="../../assets/store-CEu5OehY-Cu1qSO29.js">
-		<link rel="modulepreload" crossorigin href="../../assets/store-CBAwAQDz-D4JAMEem.js">
-		<link rel="modulepreload" crossorigin href="../../assets/routing-VyTZ_U2k-DeY2Bim4.js">
+		<link rel="modulepreload" crossorigin href="../../assets/plugin-toast-BsbzMJUT.js">
+		<link rel="modulepreload" crossorigin href="../../assets/invisibleStyle-iydFkL67.js">
+		<link rel="modulepreload" crossorigin href="../../assets/store-B8MEWGX6-C9mG7VrY.js">
+		<link rel="modulepreload" crossorigin href="../../assets/store-ULUAI5dR-ZMQ_So3K.js">
+		<link rel="modulepreload" crossorigin href="../../assets/routing-DtQWPKMs-BuQFBsdF.js">
 		<link rel="stylesheet" crossorigin href="../../assets/snowbox-D1BsIAY6.css">
 	</head>
 
@@ -84,6 +84,7 @@
 			</select>
 		</label>
 		<button id="color-scheme-switcher">Switch to dark mode</button>
+		<button id="kiel-teleport">Go to Kiel</button>
 		<div>
 			Coordinates of currently selected feature: <span id="selected-feature-coordinates"></span>
 		</div>
@@ -96,5 +97,7 @@
 		<button id="secondMap">Add a map client</button>
 		<button id="secondMapClean">Remove all map clients below</button>
 		<div id="secondMapContainer"></div>
+		<h2>Spam Zone</h2>
+		<div id="gfi-features"></div>
 	</body>
 </html>
