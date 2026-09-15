@@ -120,7 +120,7 @@
 		"pinia": "^4.0.3",
 		"postcss-html": "^2.0.0",
 		"prettier": "^3.9.6",
-		"stylelint": "^17.14.1",
+		"stylelint": "^17.15.0",
 		"stylelint-config-html": "^2.0.0",
 		"stylelint-config-recommended": "^18.0.0",
 		"stylelint-config-recommended-vue": "^2.0.0",
