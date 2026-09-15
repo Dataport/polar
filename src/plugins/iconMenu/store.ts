@@ -63,9 +63,8 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		const pluginIndex = menus.value.findIndex((menuGroup) =>
 			menuGroup.some(({ plugin: { id } }) => id === pluginId)
 		)
-		if (pluginIndex !== -1) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const pluginMenu = menus.value[pluginIndex]!
+		const pluginMenu = menus.value[pluginIndex]
+		if (pluginMenu) {
 			const pluginMenuIndex = pluginMenu.findIndex(
 				({ plugin: { id } }) => id === pluginId
 			)
