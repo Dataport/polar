@@ -40,26 +40,16 @@ export const useIconMenuStore = defineStore('plugins/iconMenu', () => {
 		() => coreStore.configuration.iconMenu?.layoutTag ?? ''
 	)
 
-	function isPluginInIconMenu(pluginId: string) {
-		const display = coreStore.configuration[pluginId]?.displayComponent
-		return typeof display === 'boolean' ? display : true
-	}
 	function addPlugin(menuGroup: Menu[]) {
-		const filteredMenuGroup = menuGroup.filter(({ plugin: { id } }) =>
-			isPluginInIconMenu(id)
-		)
-		filteredMenuGroup.forEach(({ plugin }) => {
+		menuGroup.forEach(({ plugin }) => {
 			if (plugin.component) {
 				markRaw(toRaw(plugin.component))
 			}
 			coreStore.addPlugin(toMerged(plugin, { independent: false }))
 		})
-		menus.value.push(filteredMenuGroup)
+		menus.value.push(menuGroup)
 	}
 	function addFocusPlugin(menu: FocusMenu) {
-		if (!isPluginInIconMenu(menu.plugin.id)) {
-			return
-		}
 		if (menu.plugin.component) {
 			markRaw(toRaw(menu.plugin.component))
 		}
