@@ -88,10 +88,6 @@ if (import.meta.vitest) {
 		}),
 	}))
 
-	vi.mock('ol/layer/Vector', () => ({
-		default: vi.fn().mockImplementation(function () {}),
-	}))
-
 	describe('useMarkerLayer', () => {
 		let route: Ref<Coordinate[]>
 		let map: {
@@ -99,17 +95,25 @@ if (import.meta.vitest) {
 			removeLayer: ReturnType<typeof vi.fn>
 			addInteraction: ReturnType<typeof vi.fn>
 			on: ReturnType<typeof vi.fn>
+			getEventPixel: ReturnType<typeof vi.fn>
+			hasFeatureAtPixel: ReturnType<typeof vi.fn>
+			getTargetElement: ReturnType<typeof vi.fn>
 		}
 		let markerSource: VectorSource
+		let targetElement: { style: { cursor: string } }
 
 		beforeEach(() => {
 			route = ref<Coordinate[]>([])
 			markerSource = new VectorSource()
+			targetElement = { style: { cursor: '' } }
 			map = {
 				addLayer: vi.fn(),
 				removeLayer: vi.fn(),
 				addInteraction: vi.fn(),
 				on: vi.fn(),
+				getEventPixel: vi.fn(),
+				hasFeatureAtPixel: vi.fn(),
+				getTargetElement: vi.fn(() => targetElement),
 			}
 		})
 
@@ -128,6 +132,9 @@ if (import.meta.vitest) {
 			})
 
 			expect(map.addLayer).toHaveBeenCalledOnce()
+			const layer = map.addLayer.mock.calls[0]?.[0] as VectorLayer
+			expect(layer.getSource()).toBe(markerSource)
+			expect(layer.getStyle()).toBeInstanceOf(Style)
 
 			scope.stop()
 		})
@@ -179,6 +186,15 @@ if (import.meta.vitest) {
 			]
 			await nextTick()
 			expect(addFeatureSpy).toHaveBeenCalledTimes(2)
+			expect(
+				markerSource.getFeatures().map((feature) => ({
+					coordinate: (feature.getGeometry() as Point).getCoordinates(),
+					index: feature.get('routeIndex'),
+				}))
+			).toEqual([
+				{ coordinate: [1, 2], index: 0 },
+				{ coordinate: [3, 4], index: 1 },
+			])
 			route.value = [
 				[2, 5],
 				[3, 4],
@@ -186,6 +202,14 @@ if (import.meta.vitest) {
 			await nextTick()
 			expect(clearSpy).toHaveBeenCalledTimes(2)
 			expect(addFeatureSpy).toHaveBeenCalledTimes(4)
+			expect(
+				markerSource
+					.getFeatures()
+					.map((feature) => (feature.getGeometry() as Point).getCoordinates())
+			).toEqual([
+				[2, 5],
+				[3, 4],
+			])
 			scope.stop()
 		})
 
@@ -203,9 +227,83 @@ if (import.meta.vitest) {
 			route.value = [[1, 2], []]
 			await nextTick()
 			expect(addFeatureSpy).toHaveBeenCalledOnce()
+			expect(markerSource.getFeatures()).toHaveLength(1)
+			const firstFeature = markerSource.getFeatures()[0] as Feature
+			expect((firstFeature.getGeometry() as Point).getCoordinates()).toEqual([
+				1, 2,
+			])
 			route.value = [[2, 5], [], [4, 7]]
 			await nextTick()
 			expect(addFeatureSpy).toHaveBeenCalledTimes(3)
+			expect(markerSource.getFeatures()).toHaveLength(2)
+			expect(
+				markerSource
+					.getFeatures()
+					.map((feature) => (feature.getGeometry() as Point).getCoordinates())
+			).toEqual([
+				[2, 5],
+				[4, 7],
+			])
+			scope.stop()
+		})
+
+		it('updates the route when a marker is modified', () => {
+			const scope = effectScope()
+			scope.run(() => {
+				useMarkerLayer(
+					map as unknown as Map,
+					markerSource as unknown as VectorSource,
+					route
+				)
+			})
+			route.value = [
+				[1, 2],
+				[3, 4],
+			]
+			const modify = map.addInteraction.mock.calls[0]?.[0] as {
+				on: ReturnType<typeof vi.fn>
+			}
+			const modifyEnd = modify.on.mock.calls.find(
+				(call) => call[0] === 'modifyend'
+			)?.[1] as (event: { features: Feature[] }) => void
+			const modifiedFeature = new Feature({
+				geometry: new Point([10, 20]),
+				routeIndex: 1,
+			})
+
+			modifyEnd({ features: [modifiedFeature] })
+
+			expect(route.value).toEqual([
+				[1, 2],
+				[10, 20],
+			])
+			scope.stop()
+		})
+
+		it('updates the cursor while moving over markers', () => {
+			const scope = effectScope()
+			scope.run(() => {
+				useMarkerLayer(
+					map as unknown as Map,
+					markerSource as unknown as VectorSource,
+					route
+				)
+			})
+			const pointerMove = map.on.mock.calls.find(
+				(call) => call[0] === 'pointermove'
+			)?.[1] as (event: { originalEvent: { buttons?: number } }) => void
+			map.getEventPixel.mockReturnValue([0, 0])
+			map.hasFeatureAtPixel.mockReturnValue(true)
+
+			pointerMove({ originalEvent: { buttons: 1 } })
+			expect(targetElement.style.cursor).toBe('grabbing')
+
+			pointerMove({ originalEvent: {} })
+			expect(targetElement.style.cursor).toBe('grab')
+
+			map.hasFeatureAtPixel.mockReturnValue(false)
+			pointerMove({ originalEvent: {} })
+			expect(targetElement.style.cursor).toBe('')
 			scope.stop()
 		})
 	})
