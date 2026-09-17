@@ -5,7 +5,8 @@
 	"exclude": [
 		"src",
 		"examples",
-		"vue2"
+		"vue2",
+		"e2e"
 	],
 	"compilerOptions": {
 		"target": "esnext",

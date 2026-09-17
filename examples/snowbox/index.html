@@ -48,6 +48,25 @@
 				-webkit-user-select: none;
 				-webkit-touch-callout: none;
 			}
+
+			.polar-plugin-states {
+			margin-top: 2em;
+			font-family: monospace;
+			font-size: 12px;
+		}
+		#polar-plugin-states .polar-plugin-states__store {
+			margin-bottom: 1em;
+			border: 1px solid #ccc;
+			padding: 0.5em 1em;
+			background: #fff;
+		}
+		#polar-plugin-states .polar-plugin-states__entry {
+			display: grid;
+			grid-template-columns: 16em 1fr;
+			gap: 1em;
+			padding: 0.15em 0;
+			border-top: 1px solid #eee;
+		}
 		</style>
 	</head>
 
@@ -73,5 +92,6 @@
 		<button id="secondMap">Add a map client</button>
 		<button id="secondMapClean">Remove all map clients below</button>
 		<div id="secondMapContainer"></div>
+		<section id="polar-plugin-states"></section>
 	</body>
 </html>

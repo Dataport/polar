@@ -7,6 +7,9 @@ git-hooks.config.json
 .dist.preview
 .vscode/settings.json
 
+.features-gen/
+cucumber-report/
+
 # Old gitignore, maybe cleanup when migrated
 **/.eslintcache
 **/*.tgz

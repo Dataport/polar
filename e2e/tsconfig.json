@@ -1,0 +1,16 @@
+{
+	"extends": [
+		"@vue/tsconfig/tsconfig.dom.json",
+		"../tsconfig.settings.json"
+	],
+	"compilerOptions": {
+		"noUncheckedIndexedAccess": true,
+		"types": [
+			"node"
+		]
+	},
+	"include": [
+		"./**/*.ts",
+		"./**/*.mts"
+	]
+}

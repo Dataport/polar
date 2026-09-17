@@ -76,6 +76,9 @@
 		"test": "vitest",
 		"test:ci": "vitest run",
 		"test:coverage": "vitest --coverage --ui",
+		"serve:e2e": "vite --strictPort --host 127.0.0.1",
+		"test:e2e": "node e2e/scripts/run-e2e.mts",
+		"test:e2e:snowbox": "node e2e/scripts/run-e2e.mts snowbox",
 		"prepare": "node .husky/install.js"
 	},
 	"files": [
@@ -93,6 +96,7 @@
 		"@masterportal/masterportalapi": "2.63.0",
 		"@microsoft/api-extractor": "^7.59.0",
 		"@pinia/testing": "^2.0.1",
+		"@playwright/test": "^1.47.2",
 		"@repositoryname/noop": "^1.0.6",
 		"@types/geojson": "7946.0.16",
 		"@types/node": "^24.13.3",
@@ -118,6 +122,7 @@
 		"magic-string": "^0.30.18",
 		"ol": "10.9.0",
 		"pinia": "^4.0.3",
+		"playwright-bdd": "^9.2.1",
 		"postcss-html": "^2.0.0",
 		"prettier": "^3.9.6",
 		"stylelint": "^17.14.1",

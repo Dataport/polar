@@ -25,6 +25,7 @@ import pluginScale from '@polar/polar/plugins/scale'
 import pluginToast from '@polar/polar/plugins/toast'
 import pluginZoom from '@polar/polar/plugins/zoom'
 
+import { displayPluginStates } from './plugin-states.js'
 import services from './services.js'
 import styleJsonUrl from './style.json?url'
 
@@ -34,6 +35,32 @@ const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
 const hamburgBorder = '6074'
+const mockMapId = 'mockMap'
+
+/* e2e only: the test runner points the client at its mock WMS server and passes
+ * a `clientUuid` so the server can attribute requests to a single test. */
+const startParameters = new URLSearchParams(window.location.search)
+const mockMapUrl = startParameters.get('mockMapUrl')
+
+if (mockMapUrl) {
+	const url = new URL(mockMapUrl, window.location.origin)
+	const clientUuid = startParameters.get('clientUuid')
+	if (clientUuid) {
+		url.searchParams.set('testClientUuid', clientUuid)
+	}
+	services.push({
+		id: mockMapId,
+		name: 'Mock Map Service',
+		url: url.toString(),
+		typ: 'WMS',
+		layers: 'mock',
+		format: 'image/png',
+		version: '1.3.0',
+		transparent: true,
+		singleTile: false,
+		tilesize: 256,
+	})
+}
 
 let colorScheme = 'light'
 // eslint-disable-next-line no-unused-vars
@@ -99,6 +126,9 @@ const map = await createMap(
 				name: 'Basemap.de (Grau)',
 				maxZoom: 6,
 			},
+			...(mockMapUrl
+				? [{ id: mockMapId, type: 'background', name: 'Mock Map (E2E)' }]
+				: []),
 			{
 				id: hamburgBorder,
 				visibility: true,
@@ -590,3 +620,5 @@ document
 		colorScheme = colorScheme === 'light' ? 'dark' : 'light'
 		updateState(map, 'core', 'colorScheme', colorScheme)
 	})
+
+displayPluginStates(map)
