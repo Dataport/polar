@@ -10,7 +10,7 @@
 			</p>
 			<div class="lp-cta__actions">
 				<a
-					href="https://polar.dataport.de/next/"
+					href="https://polar.dataport.de/main/"
 					target="_blank"
 					rel="noopener"
 					class="kern-btn kern-btn--primary lp-cta__btn--primary"
@@ -31,7 +31,8 @@
 			<div class="lp-cta-pills" aria-label="Key properties">
 				<span class="lp-cta-pill">EUPL license</span>
 				<span class="lp-cta-pill">Active Development</span>
-				<span class="lp-cta-pill">Community Support</span>
+				<span class="lp-cta-pill">OSGeo Community Project</span>
+				<!--<span class="lp-cta-pill">Community Support</span>-->
 				<span class="lp-cta-pill">KERN Compliant</span>
 			</div>
 		</div>
@@ -107,11 +108,11 @@ import TheBadge from './TheBadge.vue'
 }
 
 .lp-cta__btn--primary .kern-icon {
-	background-color: var(--polar-blue);
+	background-color: var(--polar-blue-600);
 }
 
 .lp-cta__btn--primary .kern-label {
-	color: var(--polar-blue);
+	color: var(--polar-blue-600);
 }
 
 .lp-cta__btn--secondary {

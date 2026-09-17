@@ -1,6 +1,6 @@
 <template>
 	<!-- Icon names used dynamically below — listed here for kern-extra-icons static scanning: -->
-	<!-- kern-icon--check kern-icon--location-on kern-icon--palette kern-icon--rocket-launch kern-icon--settings kern-icon--build kern-icon--orbit kern-icon--extension kern-icon--looks kern-icon--museum kern-icon--alt-route kern-icon--map kern-icon--accessibility -->
+	<!-- kern-icon--check kern-icon--location-on kern-icon--palette kern-icon--rocket-launch kern-icon--settings kern-icon--build kern-icon--orbit kern-icon--extension kern-icon--looks kern-icon--museum kern-icon--alt-route kern-icon--map kern-icon--accessibility kern-icon--groups kern-icon--bug-report -->
 	<div
 		:class="[
 			'lp-roadmap__card',

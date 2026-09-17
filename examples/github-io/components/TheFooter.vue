@@ -2,7 +2,7 @@
 	<footer class="lp-footer" role="contentinfo">
 		<div class="lp-container">
 			<p>
-				&copy; 2024&ndash;2026
+				&copy; 2023&ndash;2026
 				<a href="https://www.dataport.de" target="_blank" rel="noopener"
 					>Dataport AöR</a
 				>
@@ -35,13 +35,13 @@
 
 <style scoped>
 .lp-footer {
-	background: var(--polar-navy);
-	color: rgba(255, 255, 255, 0.6);
+	background: var(--polar-blue-600);
+	color: #fff;
 	text-align: center;
 	padding: 1.5rem;
 	font-size: 0.85rem;
 }
 .lp-footer a {
-	color: rgba(255, 255, 255, 0.75);
+	color: #fff;
 }
 </style>
