@@ -46,6 +46,7 @@ const { values, positionals } = parseArgs({
   options: {
     tags: { type: 'string' },
     'skip-build': { type: 'boolean' },
+    'debug-screenshots': { type: 'boolean' },
   },
 })
 
@@ -54,6 +55,11 @@ const clientName = (positionals[0] as string | undefined) ?? ''
 // Forward everything else (including unknown flags) to Playwright
 let playwrightArgs = positionals.slice(1).map(String)
 if (playwrightArgs[0] === '--') playwrightArgs = playwrightArgs.slice(1)
+
+// Keeps screenshots of passing scenarios; read by e2e/support/config.ts.
+if (values['debug-screenshots']) {
+  process.env.E2E_DEBUG_SCREENSHOTS = '1'
+}
 
 // if (!clientName) {
 //   console.error('Error: Client name required')

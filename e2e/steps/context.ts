@@ -49,6 +49,108 @@ export function getPinsState(page: object): PinsState {
 	return state
 }
 
+/** Per-scenario background layer selection, keyed by the Playwright `page`. */
+const selectedLayerIds = new WeakMap<object, string>()
+
+/**
+ * Remembers which background layer a scenario switched to.
+ *
+ * @param page - Active Playwright page instance (used as the isolation key).
+ * @param layerId - Id of the newly selected background layer.
+ */
+export function setSelectedLayerId(page: object, layerId: string): void {
+	selectedLayerIds.set(page, layerId)
+}
+
+/**
+ * Returns the previously selected background layer id or throws a descriptive
+ * error.
+ *
+ * @param page - Active Playwright page instance (used as the isolation key).
+ * @returns The layer id saved by the "a new layer is selected" step.
+ */
+export function getSelectedLayerId(page: object): string {
+	const layerId = selectedLayerIds.get(page)
+	if (!layerId) {
+		throw new Error(
+			'No layer stored; did the "a new layer is selected" step run?'
+		)
+	}
+	return layerId
+}
+
+/**
+ * Rendering baseline captured before a background layer is switched, used to
+ * prove that the switch is visible on the map and not just in the plugin state.
+ */
+export interface BackgroundRenderState {
+	fingerprint: string
+	initialBackgroundId: string
+}
+
+/** Per-scenario background rendering baseline, keyed by the Playwright `page`. */
+const backgroundRenderStates = new WeakMap<object, BackgroundRenderState>()
+
+/**
+ * Remembers how the map center looked while the initial background was active.
+ *
+ * @param page - Active Playwright page instance (used as the isolation key).
+ * @param state - Map fingerprint and id of the active background layer.
+ */
+export function setBackgroundRenderState(
+	page: object,
+	state: BackgroundRenderState
+): void {
+	backgroundRenderStates.set(page, state)
+}
+
+/**
+ * Returns the previously captured background rendering baseline or throws a
+ * descriptive error.
+ *
+ * @param page - Active Playwright page instance (used as the isolation key).
+ * @returns The baseline saved by the "the rendered map is remembered" step.
+ */
+export function getBackgroundRenderState(page: object): BackgroundRenderState {
+	const state = backgroundRenderStates.get(page)
+	if (!state) {
+		throw new Error(
+			'No map rendering baseline stored; did the "the rendered map is ' +
+				'remembered" step run?'
+		)
+	}
+	return state
+}
+
+/** Pointer position captured before a projection switch, keyed by the `page`. */
+const pointerPositions = new WeakMap<object, string>()
+
+/**
+ * Remembers the formatted pointer position currently on screen.
+ *
+ * @param page - Active Playwright page instance (used as the isolation key).
+ * @param position - Formatted coordinate as rendered by the plugin.
+ */
+export function setPointerPosition(page: object, position: string): void {
+	pointerPositions.set(page, position)
+}
+
+/**
+ * Returns the previously captured pointer position or throws a descriptive error.
+ *
+ * @param page - Active Playwright page instance (used as the isolation key).
+ * @returns The coordinate saved before the projection was switched.
+ */
+export function getPointerPosition(page: object): string {
+	const position = pointerPositions.get(page)
+	if (!position) {
+		throw new Error(
+			'No pointer position stored; did the projection switch step run?'
+		)
+	}
+	return position
+}
+
 /** Modal locator remembered across steps of the dish modal flow. */
 const modalLocators = new WeakMap<object, Locator>()
 

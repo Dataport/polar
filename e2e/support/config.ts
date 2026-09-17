@@ -13,6 +13,15 @@ export const MOCK_MAP_BASE_URL =
 export const CLIENT_BASE_URL =
 	process.env.CLIENT_BASE_URL ?? 'http://127.0.0.1:1234'
 
+/**
+ * Keeps debug screenshots of passing scenarios instead of failures only.
+ *
+ * Enable via `E2E_DEBUG_SCREENSHOTS=1` or `npm run test:e2e -- --debug-screenshots`.
+ */
+export const DEBUG_SCREENSHOTS = /^(1|true|on|yes)$/i.test(
+	process.env.E2E_DEBUG_SCREENSHOTS ?? ''
+)
+
 /** Client name to entry path, relative to the vite dev server root. */
 export const CLIENT_ENTRY_PATHS: Record<string, string> = {
 	generic: '/examples/generic/',

@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test'
 import { fileURLToPath } from 'node:url'
 import { cucumberReporter, defineBddConfig } from 'playwright-bdd'
 
-import { CLIENT_BASE_URL } from './e2e/support/config.js'
+import { CLIENT_BASE_URL, DEBUG_SCREENSHOTS } from './e2e/support/config.js'
 
 // Parse client from environment variable set by run-e2e.js script
 const getClient = () => {
@@ -112,7 +112,7 @@ export default defineConfig({
 		// trace: 'on-first-retry',
 		trace: 'on',
 
-		screenshot: 'only-on-failure',
+		screenshot: DEBUG_SCREENSHOTS ? 'on' : 'only-on-failure',
 	},
 	webServer: {
 		// All examples are served by a single vite dev server; see `CLIENT_ENTRY_PATHS`.

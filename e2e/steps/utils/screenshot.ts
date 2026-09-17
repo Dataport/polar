@@ -3,16 +3,15 @@ import type { TestInfo } from '@playwright/test'
 import { promises as fs } from 'fs'
 import { join } from 'path'
 
-const SCREENSHOTS_DIR = join(
-	process.cwd(),
-	'test-results',
-	'pins-debug-screenshots'
-)
+import { DEBUG_SCREENSHOTS } from '../../support/config'
+
+const SCREENSHOTS_DIR = join(process.cwd(), 'test-results', 'debug-screenshots')
 
 /**
  * Sanitises a string so it can safely be used as a directory or file name.
  * Replaces characters that are invalid in file-system paths with dashes and
- * collapses consecutive dashes.
+ * collapses consecutive dashes. Trailing dots and spaces are dropped because
+ * Windows silently strips them from path segments, which breaks later reads.
  */
 function sanitise(name: string): string {
 	return name
@@ -20,6 +19,7 @@ function sanitise(name: string): string {
 		.replace(/-{2,}/g, '-')
 		.replace(/^-|-$/g, '')
 		.trim()
+		.replace(/[. ]+$/, '')
 }
 
 /**
@@ -95,11 +95,70 @@ interface PinsScreenshotContext {
 }
 
 /**
- * Saves all screenshots from the pins context on test failure.
- * Useful for debugging failed assertions.
+ * Writes a set of named image buffers into one timestamped debug directory.
  *
  * When `testInfo` is provided the directory structure is:
- *   `pins-debug-screenshots/<feature_name>/<scenario_name>/<testName>-<timestamp>/`
+ *   `debug-screenshots/<feature_name>/<scenario_name>/<testName>-<timestamp>/`
+ *
+ * @param images - Image buffers keyed by file name (without extension).
+ * @param testName - Name of the test for file organization.
+ * @param testInfo - Optional Playwright TestInfo for feature/scenario directory structure.
+ */
+export async function saveDebugScreenshots(
+	images: Record<string, Buffer | undefined>,
+	testName: string,
+	testInfo?: TestInfo
+): Promise<void> {
+	try {
+		const timestamp = Date.now()
+		let baseDir = SCREENSHOTS_DIR
+
+		if (testInfo) {
+			const { featureName, scenarioName } = extractBddNames(testInfo)
+			baseDir = join(SCREENSHOTS_DIR, featureName, scenarioName)
+		}
+
+		const testDir = join(baseDir, `${testName}-${timestamp}`)
+		await ensureDir(testDir)
+
+		for (const [name, buffer] of Object.entries(images)) {
+			if (buffer) {
+				await fs.writeFile(join(testDir, `${name}.png`), buffer)
+			}
+		}
+
+		console.warn(`Debug screenshots saved to: ${testDir}`)
+	} catch (error) {
+		console.error('Failed to save debug screenshots:', error)
+	}
+}
+
+/**
+ * Runs an assertion and writes its debug images on failure — or on every run
+ * when `E2E_DEBUG_SCREENSHOTS` is enabled.
+ *
+ * @param assertion - The comparison to guard.
+ * @param save - Callback persisting the images belonging to the assertion.
+ */
+export async function withDebugScreenshots(
+	assertion: () => void,
+	save: () => Promise<void>
+): Promise<void> {
+	try {
+		assertion()
+	} catch (error) {
+		await save()
+		throw error
+	}
+
+	if (DEBUG_SCREENSHOTS) {
+		await save()
+	}
+}
+
+/**
+ * Saves all screenshots from the pins context.
+ * Useful for debugging failed assertions.
  *
  * @param pinsContext - The pins object containing all screenshots
  * @param testName - Name of the test for file organization
@@ -114,35 +173,15 @@ export async function saveAllPinsScreenshots(
 		return
 	}
 
-	try {
-		const timestamp = Date.now()
-		let baseDir = SCREENSHOTS_DIR
-
-		if (testInfo) {
-			const { featureName, scenarioName } = extractBddNames(testInfo)
-			baseDir = join(SCREENSHOTS_DIR, featureName, scenarioName)
-		}
-
-		const testDir = join(baseDir, `${testName}-${timestamp}`)
-		await ensureDir(testDir)
-
-		const screenshots: Record<string, Buffer | undefined> = {
+	await saveDebugScreenshots(
+		{
 			beforeCenterClip: pinsContext.beforeCenterClip,
 			beforeClickClip: pinsContext.beforeClickClip,
 			afterClickClip: pinsContext.afterClickClip,
 			loadingCenterClip: pinsContext.loadingCenterClip,
 			stabilizedCenterClip: pinsContext.stabilizedCenterClip,
-		}
-
-		for (const [name, buffer] of Object.entries(screenshots)) {
-			if (buffer) {
-				const filepath = join(testDir, `${name}.png`)
-				await fs.writeFile(filepath, buffer)
-			}
-		}
-
-		console.warn(`Pins screenshots saved to: ${testDir}`)
-	} catch (error) {
-		console.error('Failed to save pins screenshots on failure:', error)
-	}
+		},
+		testName,
+		testInfo
+	)
 }

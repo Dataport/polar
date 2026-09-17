@@ -14,7 +14,10 @@ import {
 } from '../support/selectors'
 import { getPinsState } from './context'
 import { waitForNetworkIdle } from './utils/network'
-import { saveAllPinsScreenshots } from './utils/screenshot'
+import {
+	saveAllPinsScreenshots,
+	withDebugScreenshots,
+} from './utils/screenshot'
 
 const { Given, When, Then } = createBdd()
 
@@ -311,12 +314,12 @@ Then(
 			throw new Error('Missing post-click clip; did the click step run?')
 		}
 
-		try {
-			expect(pins.afterClickClip).not.toEqual(pins.beforeClickClip)
-		} catch (error) {
-			await saveAllPinsScreenshots(pins, 'pin-location-set', $testInfo)
-			throw error
-		}
+		await withDebugScreenshots(
+			() => {
+				expect(pins.afterClickClip).not.toEqual(pins.beforeClickClip)
+			},
+			() => saveAllPinsScreenshots(pins, 'pin-location-set', $testInfo)
+		)
 	}
 )
 
@@ -343,11 +346,11 @@ Then(
 			throw new Error('Missing stabilized center clip; did the click step run?')
 		}
 
-		try {
-			expect(pins.stabilizedCenterClip).toEqual(pins.afterClickClip)
-		} catch (error) {
-			await saveAllPinsScreenshots(pins, 'pin-at-center', $testInfo)
-			throw error
-		}
+		await withDebugScreenshots(
+			() => {
+				expect(pins.stabilizedCenterClip).toEqual(pins.afterClickClip)
+			},
+			() => saveAllPinsScreenshots(pins, 'pin-at-center', $testInfo)
+		)
 	}
 )
