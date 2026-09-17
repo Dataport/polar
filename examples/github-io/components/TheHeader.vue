@@ -165,8 +165,6 @@ import polarLogoSvg from './assets/polar-logo.svg'
 @media (max-width: 768px) {
 	.lp-header {
 		padding: 0 1.5rem;
-	}
-	.lp-header {
 		display: grid;
 		grid-template-columns: 1fr auto;
 		grid-template-rows: auto auto;
@@ -176,10 +174,7 @@ import polarLogoSvg from './assets/polar-logo.svg'
 		grid-column: 1 / -1;
 		grid-row: 2;
 		order: unset;
-		justify-content: stretch;
 		margin-bottom: 2rem;
-	}
-	.lp-header__nav {
 		height: auto;
 		padding: 8px;
 		border-radius: 1rem;
