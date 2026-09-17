@@ -178,6 +178,15 @@ export default defineConfig([
 			'**/dist/**',
 			'**/.dist.preview/**',
 
+			// Test artifacts
+			'**/test-results/',
+			'**/playwright-report/',
+			'**/blob-report/',
+			'**/cucumber-report/',
+
+			// playwright-bdd generated features
+			'**/.features-gen/',
+
 			// Legacy list
 			'**/build',
 			'**/.cache',

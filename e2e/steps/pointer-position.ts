@@ -50,11 +50,12 @@ Given(
 /**
  * Verifies the widget switched from the placeholder to an actual coordinate.
  */
-Then('the pointer position should display a coordinate', async function ({
-	page,
-}) {
-	await expect.poll(() => readPosition(page)).toMatch(COORDINATE_PATTERN)
-})
+Then(
+	'the pointer position should display a coordinate',
+	async function ({ page }) {
+		await expect.poll(() => readPosition(page)).toMatch(COORDINATE_PATTERN)
+	}
+)
 
 /**
  * Switches the projection, capturing the coordinate shown beforehand so the
@@ -77,11 +78,12 @@ When(
 /**
  * Verifies the coordinate changed after the projection switch.
  */
-Then('the pointer position should display a different coordinate', async function ({
-	page,
-}) {
-	const previous = getPointerPosition(page)
+Then(
+	'the pointer position should display a different coordinate',
+	async function ({ page }) {
+		const previous = getPointerPosition(page)
 
-	await expect.poll(() => readPosition(page)).not.toBe(previous)
-	await expect.poll(() => readPosition(page)).toMatch(COORDINATE_PATTERN)
-})
+		await expect.poll(() => readPosition(page)).not.toBe(previous)
+		await expect.poll(() => readPosition(page)).toMatch(COORDINATE_PATTERN)
+	}
+)
