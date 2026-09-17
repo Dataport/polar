@@ -4,6 +4,8 @@ import { defineConfig } from 'vite'
 import kernExtraIcons from 'vite-plugin-kern-extra-icons'
 
 export default defineConfig({
+	root: resolve(import.meta.dirname, 'examples', 'github-io'),
+	base: './',
 	plugins: [
 		vue({
 			template: {
