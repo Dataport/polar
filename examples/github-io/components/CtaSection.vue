@@ -19,7 +19,7 @@
 					<span class="kern-label">Try me out</span>
 				</a>
 				<a
-					href="https://github.com/Dataport/polar"
+					href="https://github.com/Dataport/polar/releases"
 					target="_blank"
 					rel="noopener"
 					class="kern-btn kern-btn--secondary lp-cta__btn--secondary"

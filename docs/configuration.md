@@ -14,8 +14,10 @@ The following specialized clients are managed by the POLAR core team:
 Not sure where to start?
 Use the package <code>@polar/polar</code> and its documentation for an unspecialized client _including all plugins_.
 
+<!---
 ## Usage pattern
 All clients come with instructions documented above. However, they all mostly share how their integration works. Overall, these parts are required:
 
 - *TODO*
+-->
 
