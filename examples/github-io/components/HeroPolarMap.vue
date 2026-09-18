@@ -11,7 +11,10 @@
 </template>
 
 <script setup lang="ts">
+import { addPlugins } from '@polar/polar'
 import { createMap } from '@polar/polar/client'
+import Attributions from '@polar/polar/plugins/attributions'
+import Scale from '@polar/polar/plugins/scale'
 import { onMounted, onUnmounted, ref } from 'vue'
 
 import {
@@ -26,11 +29,24 @@ let isUnmounted = false
 
 onMounted(async () => {
 	try {
-		await createMap(
+		const map = await createMap(
 			heroMapContainerId,
 			heroMapServiceRegisterUrl,
 			heroMapConfiguration
 		)
+		map.store.removePlugin('scale')
+		addPlugins(map, [
+			Attributions({
+				displayComponent: true,
+				layoutTag: 'BOTTOM_RIGHT',
+				...heroMapConfiguration.attributions,
+			}),
+			Scale({
+				displayComponent: true,
+				layoutTag: 'BOTTOM_RIGHT',
+				...heroMapConfiguration.scale,
+			}),
+		])
 		if (isUnmounted) {
 			return
 		}

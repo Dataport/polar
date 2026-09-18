@@ -10,6 +10,8 @@ export const heroMapServiceRegisterUrl =
 const basemapId = '23420'
 const basemapGreyId = '23421'
 const hamburgBorder = '1693'
+const droneNoFlyZonesAirfields = '4570'
+const droneNoFlyZonesHospitals = '4568'
 
 export const heroMapConfiguration: Parameters<typeof createMap>[2] = {
 	colorScheme: 'light',
@@ -36,10 +38,62 @@ export const heroMapConfiguration: Parameters<typeof createMap>[2] = {
 			name: 'Border of Hamburg',
 			styleId: 'hamburg-border',
 		},
+		{
+			id: droneNoFlyZonesAirfields,
+			type: 'mask',
+			name: 'Drohnenflugverbotszonen Flugplätze',
+		},
+		{
+			id: droneNoFlyZonesHospitals,
+			type: 'mask',
+			name: 'Drohnenflugverbotszonen Krankenhäuser',
+		},
 	],
 	layout: 'nineRegions',
 	checkServiceAvailability: true,
 	featureStyles: featureStylesUrl,
+	fullscreen: {},
+	attributions: {
+		displayComponent: true,
+		initiallyOpen: false,
+		listenToChanges: [
+			{
+				key: 'activeBackgroundId',
+				plugin: 'layerChooser',
+			},
+			{
+				key: 'activeMaskIds',
+				plugin: 'layerChooser',
+			},
+			{
+				key: 'zoom',
+			},
+		],
+		layerAttributions: [
+			{
+				id: basemapId,
+				title: 'Basemap © basemap.de / BKG <MONTH> <YEAR>',
+			},
+			{
+				id: basemapGreyId,
+				title: 'Basemap Grey © basemap.de / BKG <MONTH> <YEAR>',
+			},
+			{
+				id: hamburgBorder,
+				title: 'Border of Hamburg © Freie und Hansestadt Hamburg',
+			},
+			{
+				id: droneNoFlyZonesAirfields,
+				title:
+					'Drohnenflugverbotszonen Flugplätze © Freie und Hansestadt Hamburg',
+			},
+			{
+				id: droneNoFlyZonesHospitals,
+				title:
+					'Drohnenflugverbotszonen Krankenhäuser © Freie und Hansestadt Hamburg',
+			},
+		],
+	},
 	scale: { showScaleSwitcher: true },
 	addressSearch: {
 		searchMethods: [
