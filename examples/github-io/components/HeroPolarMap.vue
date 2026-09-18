@@ -23,17 +23,15 @@ import {
 const isLoading = ref(true)
 const errorMessage = ref('')
 let isUnmounted = false
-let mapElement: { remove: () => void } | undefined
 
 onMounted(async () => {
 	try {
-		mapElement = await createMap(
+		await createMap(
 			heroMapContainerId,
 			heroMapServiceRegisterUrl,
 			heroMapConfiguration
 		)
 		if (isUnmounted) {
-			mapElement.remove()
 			return
 		}
 		isLoading.value = false
@@ -47,8 +45,6 @@ onMounted(async () => {
 
 onUnmounted(() => {
 	isUnmounted = true
-	mapElement?.remove()
-	mapElement = undefined
 })
 </script>
 
