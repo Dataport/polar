@@ -7,6 +7,7 @@ import kernExtraIcons from 'vite-plugin-kern-extra-icons'
 export default defineConfig({
 	base: './',
 	plugins: [
+		// @ts-expect-error | commonJs dts is broken
 		commonJs(),
 		vue({
 			template: {

@@ -1,3 +1,4 @@
+// @ts-expect-error | Vite resolves the source alias for this browser-only entry
 import { createMap } from '@/client'
 
 void createMap('configuration-demo', 'services.json', {
