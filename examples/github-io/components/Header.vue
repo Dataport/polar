@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
 	<header class="lp-header" role="banner">
 		<a href="#" class="lp-header__logo" aria-label="POLAR - Home">

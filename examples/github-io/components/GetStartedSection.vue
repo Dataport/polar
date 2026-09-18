@@ -2,7 +2,7 @@
 	<section class="lp-section lp-section--brand lp-cta">
 		<img class="lp-cta__bg" :src="ctaBgSvg" alt="" />
 		<div class="lp-container lp-cta__content">
-			<TheBadge color="green">Get started today</TheBadge>
+			<Badge color="green">Get started today</Badge>
 			<h3>Ready to Build Amazing Map Applications?</h3>
 			<p class="lp-cta__lead">
 				Join the growing community of developers and public administrations
@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import ctaBgSvg from './assets/cta-bg.svg'
-import TheBadge from './TheBadge.vue'
+import Badge from './Badge.vue'
 </script>
 
 <style scoped>
@@ -113,6 +113,11 @@ import TheBadge from './TheBadge.vue'
 
 .lp-cta__btn--primary .kern-label {
 	color: var(--polar-blue-600);
+}
+
+.lp-cta__btn--primary:hover,
+.lp-cta__btn--primary:focus-visible {
+	background: #fff !important;
 }
 
 .lp-cta__btn--secondary {

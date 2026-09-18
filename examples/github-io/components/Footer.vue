@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
 	<footer class="lp-footer" role="contentinfo">
 		<div class="lp-container">

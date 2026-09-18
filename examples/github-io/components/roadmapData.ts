@@ -89,7 +89,7 @@ export const phases: Phase[] = [
 	},
 	{
 		status: 'progress',
-		label: 'Q2 · 2026',
+		label: 'Q2 · 2026 - Q4 · 2026',
 		sublabel: 'In Progress',
 		accentIcon: 'location-on',
 		milestoneIcon: '',
