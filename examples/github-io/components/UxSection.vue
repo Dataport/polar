@@ -1,15 +1,12 @@
 <template>
 	<section class="lp-section">
 		<div class="lp-container">
-			<div class="lp-section-header">
-				<TheBadge color="pink">User Experience</TheBadge>
-				<h3>Built for humans, by humans who care!</h3>
-				<p>
-					POLAR is designed with user experience at its core, ensuring your
-					mapping applications are accessible, responsive, and delightful to
-					use.
-				</p>
-			</div>
+			<SectionHeader
+				badge="User Experience"
+				badge-color="pink"
+				title="Built for humans, by humans who care!"
+				description="POLAR is designed with user experience at its core, ensuring your mapping applications are accessible, responsive, and delightful to use."
+			/>
 			<div class="kern-container">
 				<div class="kern-row">
 					<div
@@ -42,7 +39,7 @@ import accessibleSvg from './assets/ux-accessible.svg'
 import flexibleSvg from './assets/ux-flexible.svg'
 import mobileFriendlySvg from './assets/ux-mobile-friendly.svg'
 import responsiveSvg from './assets/ux-responsive.svg'
-import TheBadge from './TheBadge.vue'
+import SectionHeader from './SectionHeader.vue'
 
 const cards = [
 	{

@@ -16,7 +16,7 @@ Dataport ist eine Anstalt des öffentlichen Rechts. Sie wird vertreten durch den
 Dr. Johann Bizer (Vorsitzender)  
 Silke Tessmann-Storch  
 Andreas Reichel  
-Torsten Koß
-Cristina Tuik
+Torsten Koß  
+Cristina Tuik  
 
 USt-IdNr. gemäß § 27a Umsatzsteuergesetz: DE813840400

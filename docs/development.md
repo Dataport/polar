@@ -16,7 +16,9 @@ To avoid redoing it, it is advised to create additional plugins and clients in a
 There are no further requirements.
 If you aim to merge back, please contact us before starting to put in work.
 
+<!---
 TODO: Update this section, especially for clients
+-->
 
 ## Required skills
 Depending on what exactly you plan to write anew, the required skills may vary.

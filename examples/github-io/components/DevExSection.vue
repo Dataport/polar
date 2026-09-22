@@ -1,15 +1,13 @@
 <template>
 	<section class="lp-section">
 		<div>
-			<div class="lp-section-header lp-section-header--left">
-				<TheBadge color="blue">Developer Experience</TheBadge>
-				<h3>Code so easy, your cat could do it!</h3>
-				<p>
-					Get started in minutes with POLAR's intuitive API. Our framework is
-					designed to make complex mapping tasks simple while giving you full
-					control when you need it.
-				</p>
-			</div>
+			<SectionHeader
+				badge="Developer Experience"
+				badge-color="blue"
+				align="left"
+				title="Code so easy, your cat could do it!"
+				description="Get started in minutes with POLAR's intuitive API. Our framework is designed to make complex mapping tasks simple while giving you full control when you need it."
+			/>
 			<ul class="kern-list" aria-label="Developer experience highlights">
 				<li>
 					<span
@@ -40,6 +38,20 @@
 						class="kern-icon kern-icon-fill--check-circle"
 						aria-hidden="true"
 					/>
+					Official
+					<a
+						class="kern-link"
+						href="https://www.osgeo.org/projects/polar/"
+						target="_blank"
+					>
+						OSGeo community project
+					</a>
+				</li>
+				<li>
+					<span
+						class="kern-icon kern-icon-fill--check-circle"
+						aria-hidden="true"
+					/>
 					Comprehensive documentation and examples
 				</li>
 				<li>
@@ -47,7 +59,7 @@
 						class="kern-icon kern-icon-fill--check-circle"
 						aria-hidden="true"
 					/>
-					Tried & Tested with 50+ productive uses
+					Tried & Tested with 70+ productive uses
 				</li>
 			</ul>
 		</div>
@@ -56,6 +68,7 @@
 				<div role="tablist">
 					<button
 						v-for="tab in tabs"
+						:id="`tab-${tab.id}`"
 						:key="tab.id"
 						:class="[
 							'kern-btn',
@@ -65,7 +78,9 @@
 						role="tab"
 						:aria-selected="activeTab === tab.id"
 						:aria-controls="`tab-panel-${tab.id}`"
+						:tabindex="activeTab === tab.id ? 0 : -1"
 						@click="activeTab = tab.id"
+						@keydown="handleTabKeydown($event, tab.id)"
 					>
 						<span class="kern-label">{{ tab.label }}</span>
 					</button>
@@ -89,6 +104,7 @@
 				:id="`tab-panel-${activeTab}`"
 				class="lp-code-pre"
 				role="tabpanel"
+				:aria-labelledby="`tab-${activeTab}`"
 				tabindex="-1"
 				v-html="codeSnippets[activeTab]"
 			/>
@@ -98,47 +114,56 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 
+import { highlightCode, nextTabId } from './devexBehavior'
 import { rawCode, tabs } from './devexContent'
-import TheBadge from './TheBadge.vue'
+import SectionHeader from './SectionHeader.vue'
 
 const activeTab = ref<(typeof tabs)[number]['id']>('install')
 const copied = ref(false)
-
-const escapeHtml = (s: string) =>
-	s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-
-const highlight = (code: string) =>
-	escapeHtml(code)
-		.replace(/('[^']*'|"[^"]*")/g, '<span class="lp-token-str">$1</span>')
-		.replace(
-			/(import|from|await|const|export|async|function)/g,
-			'<span class="lp-token-kw">$1</span>'
-		)
-		.replace(/(\/\*.*)/g, '<span class="lp-token-cm">$1</span>')
-		.replace(/(\*\\.*)/g, '<span class="lp-token-cm">$1</span>')
-		.replace(/(^#[^\n]*)/gm, '<span class="lp-token-cm">$1</span>')
-		.replace(
-			/(createMap|createApp|addPlugins|pluginIconMenu|pluginLayerChooser|pluginScale)\b/g,
-			'<span class="lp-token-fn">$1</span>'
-		)
+let copiedTimeout: ReturnType<typeof setTimeout> | undefined
 
 const codeSnippets = computed(() =>
-	Object.fromEntries(Object.entries(rawCode).map(([k, v]) => [k, highlight(v)]))
+	Object.fromEntries(
+		Object.entries(rawCode).map(([key, code]) => [key, highlightCode(code)])
+	)
 )
+
+const handleTabKeydown = (
+	event: KeyboardEvent,
+	tabId: (typeof tabs)[number]['id']
+) => {
+	if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') {
+		return
+	}
+
+	event.preventDefault()
+	const direction = event.key === 'ArrowRight' ? 1 : -1
+	activeTab.value = nextTabId(tabs, tabId, direction)
+	document.getElementById(`tab-${activeTab.value}`)?.focus()
+}
 
 const copyCode = async () => {
 	try {
 		await navigator.clipboard.writeText(rawCode[activeTab.value])
 		copied.value = true
-		setTimeout(() => {
+		if (copiedTimeout) {
+			clearTimeout(copiedTimeout)
+		}
+		copiedTimeout = setTimeout(() => {
 			copied.value = false
 		}, 2000)
 	} catch {
 		/* clipboard not available */
 	}
 }
+
+onUnmounted(() => {
+	if (copiedTimeout) {
+		clearTimeout(copiedTimeout)
+	}
+})
 </script>
 
 <style scoped>
@@ -161,7 +186,8 @@ const copyCode = async () => {
 
 section {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
+	gap: 2rem;
 	padding: 2rem clamp(2rem, 5vw, 10rem);
 	background: var(--kern-color-layout-background-hued);
 
@@ -203,9 +229,12 @@ section {
 	.lp-code-wrap {
 		display: flex;
 		flex-direction: column;
+		width: min(43rem, 100%);
 		max-width: 43rem;
+		min-width: 0;
 		height: 27.5rem;
 		padding: var(--kern-metric-space-default);
+		overflow: hidden;
 		background: #000;
 		border-radius: var(--kern-metric-border-radius-large);
 		box-shadow:
@@ -217,8 +246,18 @@ section {
 
 		.code-tablist-wrapper {
 			display: flex;
-			justify-content: space-between;
+			align-items: flex-start;
+			gap: var(--kern-metric-space-small);
+			flex-wrap: wrap;
 			margin-bottom: var(--kern-metric-space-x-large);
+
+			> [role='tablist'] {
+				display: flex;
+				flex: 1 1 0;
+				flex-wrap: wrap;
+				gap: var(--kern-metric-space-2x-small);
+				min-width: 0;
+			}
 
 			.kern-btn {
 				font-size: var(--kern-typography-font-size-medium-static);
@@ -246,6 +285,7 @@ section {
 			.copy-btn {
 				/* Stops the jiggle */
 				width: 8rem;
+				flex: 0 0 8rem;
 
 				.kern-icon {
 					background: var(--kern-color-darkblue-300);
@@ -256,8 +296,17 @@ section {
 			}
 		}
 
+		@media (max-width: 30rem) {
+			.code-tablist-wrapper {
+				.copy-btn {
+					margin-left: auto;
+				}
+			}
+		}
+
 		.lp-code-pre {
 			flex: 1;
+			min-width: 0;
 			margin: 0;
 			font-family: 'Fira Code', monospace;
 			font-size: var(--kern-typography-font-size-medium-static);
@@ -265,9 +314,10 @@ section {
 			font-weight: var(--kern-typography-font-weight-semi-bold);
 			line-height: var(--kern-typography-line-height-large-static);
 			letter-spacing: 0;
-			overflow: auto;
+			overflow-x: hidden;
+			overflow-y: auto;
 			color: var(--polar-grey-300);
-			white-space: pre;
+			white-space: pre-wrap;
 		}
 	}
 }

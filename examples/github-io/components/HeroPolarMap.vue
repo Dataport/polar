@@ -1,126 +1,82 @@
 <template>
-	<div
-		id="hero-polar-map"
-		class="lp-hero__map-container"
-		aria-label="Interactive POLAR map demo"
-	/>
+	<div class="lp-hero__map-container" :aria-busy="isLoading">
+		<p v-if="isLoading" class="lp-hero__map-status" role="status">
+			Loading interactive map...
+		</p>
+		<p v-else-if="errorMessage" class="lp-hero__map-status" role="alert">
+			{{ errorMessage }}
+		</p>
+		<div id="hero-polar-map" aria-label="Interactive POLAR map demo" />
+	</div>
 </template>
 
 <script setup lang="ts">
-import type { MpapiParameters } from '@/lib/getFeatures/types'
-
+import { addPlugins } from '@polar/polar'
 import { createMap } from '@polar/polar/client'
-import { toMerged } from 'es-toolkit'
-import { onMounted } from 'vue'
+import Attributions from '@polar/polar/plugins/attributions'
+import Scale from '@polar/polar/plugins/scale'
+import { onMounted, onUnmounted, ref } from 'vue'
 
-const basemapId = '23420'
-const basemapGreyId = '23421'
-const reports = '6059'
-const hamburgBorder = '1693'
+import {
+	heroMapConfiguration,
+	heroMapContainerId,
+	heroMapServiceRegisterUrl,
+} from './heroMapConfiguration'
 
-const isEvenId = (mmlid: string) => Number(mmlid.slice(-1)) % 2 === 0
-const isReportSelectable = (feature) => isEvenId(feature.get('mmlid'))
+const isLoading = ref(true)
+const errorMessage = ref('')
+let isUnmounted = false
 
 onMounted(async () => {
-	await createMap(
-		'hero-polar-map',
-		'https://geoportal-hamburg.de/lgv-config/services-internet.json',
-		{
-			colorScheme: 'light',
-			language: 'en',
-			startCenter: [565874, 5934140],
-			layers: [
-				{
-					id: basemapId,
-					visibility: true,
-					type: 'background',
-					name: 'Basemap.de (Colour)',
-				},
-				{
-					id: basemapGreyId,
-					type: 'background',
-					name: 'Basemap.de (Gray)',
-					maxZoom: 6,
-				},
-				{
-					id: hamburgBorder,
-					visibility: true,
-					hideInMenu: true,
-					type: 'mask',
-					name: 'Border of Hamburg',
-				},
-				{
-					id: reports,
-					type: 'mask',
-					name: 'Reports (MML)',
-					visibility: false,
-				},
-			],
-			layout: 'nineRegions',
-			checkServiceAvailability: true,
-			markers: {
-				layers: [
-					{
-						id: reports,
-						defaultStyle: { stroke: '#FFFFFF', fill: '#005CA9' },
-						hoverStyle: { stroke: '#46688E', fill: '#8BA1B8' },
-						selectionStyle: { stroke: '#FFFFFF', fill: '#E10019' },
-						unselectableStyle: { stroke: '#FFFFFF', fill: '#333333' },
-						isSelectable: isReportSelectable,
-					},
-				],
-				clusterClickZoom: true,
-			},
-			scale: { showScaleSwitcher: true },
-			addressSearch: {
-				searchMethods: [
-					{
-						type: 'mpapi',
-						url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
-						queryParameters: {
-							searchStreets: true,
-							searchHouseNumbers: true,
-						} as MpapiParameters,
-					},
-				],
-				minLength: 3,
-				waitMs: 300,
-				focusAfterSearch: true,
-				groupProperties: {
-					defaultGroup: { label: 'Address', limitResults: 5 },
-				},
-			},
-			pins: {
-				coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
-				boundary: { layerId: hamburgBorder },
-				movable: 'drag',
-				style: { fill: '#FF0019' },
-				toZoomLevel: 7,
-			},
-			reverseGeocoder: {
-				url: 'https://geodienste.hamburg.de/HH_WPS',
-				coordinateSources: [{ plugin: 'pins', key: 'coordinate' }],
-				addressTarget: { plugin: 'addressSearch', key: 'selectResult' },
-				zoomTo: 7,
-			},
-			geoLocation: {
-				checkLocationInitially: false,
-				keepCentered: false,
-				showTooltip: true,
-				zoomLevel: 7,
-			},
-		},
-		(serviceRegister) =>
-			serviceRegister.map((entry) =>
-				entry.id === reports ? toMerged(entry, { clusterDistance: 20 }) : entry
-			)
-	)
+	try {
+		const map = await createMap(
+			heroMapContainerId,
+			heroMapServiceRegisterUrl,
+			heroMapConfiguration
+		)
+		map.store.removePlugin('scale')
+		addPlugins(map, [
+			Attributions({
+				displayComponent: true,
+				layoutTag: 'BOTTOM_RIGHT',
+				...heroMapConfiguration.attributions,
+			}),
+			Scale({
+				displayComponent: true,
+				layoutTag: 'BOTTOM_RIGHT',
+				...heroMapConfiguration.scale,
+			}),
+		])
+		if (isUnmounted) {
+			return
+		}
+		isLoading.value = false
+	} catch {
+		if (!isUnmounted) {
+			isLoading.value = false
+			errorMessage.value = 'The interactive map is currently unavailable.'
+		}
+	}
+})
+
+onUnmounted(() => {
+	isUnmounted = true
 })
 </script>
 
 <style scoped>
 .lp-hero__map-container {
+	position: relative;
 	width: 100%;
 	height: 480px;
+}
+
+.lp-hero__map-status {
+	position: absolute;
+	inset: 1rem;
+	display: grid;
+	place-items: center;
+	margin: 0;
+	color: var(--kern-color-layout-text-muted);
 }
 </style>
