@@ -24,12 +24,12 @@ export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 	const mainStoreRefs = storeToRefs(mainStore)
 
+	const markerStore = useMarkerStore()
+	const markerStoreRefs = storeToRefs(markerStore)
+
 	const contextMenuStore = useContextMenuStore()
 	const moveHandleStore = useMoveHandleStore()
 	const pluginStore = usePluginStore()
-
-	const markerStore = useMarkerStore()
-	const markerStoreRefs = storeToRefs(markerStore)
 
 	return {
 		/**

@@ -428,67 +428,6 @@ addPlugin(
 				},
 			],
 			[
-				{ plugin: pluginZoom() },
-				{
-					plugin: pluginGfi({
-						layers: {
-							[reports]: {
-								window: true,
-								properties: [
-									'addr',
-									'statu',
-									'beschr',
-									'pic',
-									'kat_text',
-									'skat_text',
-								],
-								exportProperty: 'pic',
-								showTooltip: (feature) => [
-									[
-										'span',
-										`Coordinates: ${feature.getGeometry().getCoordinates().join(', ')}`,
-									],
-								],
-							},
-							[kielPolygon]: {
-								window: true,
-							},
-						},
-						afterLoadFunction: (featuresByLayerId) => {
-							Object.values(featuresByLayerId).forEach((featureList) => {
-								featureList.forEach((feature) => {
-									if (feature.properties) {
-										feature.properties = {
-											addr: [
-												feature.properties.str,
-												feature.properties.hsnr,
-											].join(' '),
-											...feature.properties,
-										}
-									}
-								})
-							})
-							return featuresByLayerId
-						},
-						featureList: {
-							activeLayers: {
-								plugin: 'layerChooser',
-								key: 'activeMaskIds',
-							},
-							mode: 'visible',
-							bindWithCoreHoverSelect: false,
-							pageLength: 5,
-							text: {
-								title: (feature) =>
-									feature.get('str') + ' ' + feature.get('hsnr'),
-								subtitle: 'Michels Meldung',
-								subSubtitle: (feature) => feature.get('skat_text'),
-							},
-						},
-						multiSelect: 'box',
-						directSelect: true,
-					}),
-				},
 				{
 					plugin: pluginGfi({
 						layers: {
