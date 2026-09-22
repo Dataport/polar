@@ -16,7 +16,18 @@
 			<span>KERN Design</span>
 		</h2>
 		<div class="lp-hero__map">
-			<HeroPolarMap />
+			<Suspense>
+				<template #default>
+					<HeroPolarMap />
+				</template>
+				<template #fallback>
+					<div
+						class="lp-hero__map-fallback"
+						aria-label="Loading interactive map"
+						role="status"
+					/>
+				</template>
+			</Suspense>
 		</div>
 		<div class="lp-hero__ctas">
 			<a
@@ -32,7 +43,7 @@
 				<span class="kern-label">Try me out</span>
 			</a>
 			<a
-				href="https://github.com/Dataport/polar"
+				href="https://github.com/Dataport/polar/releases"
 				target="_blank"
 				rel="noopener"
 				class="kern-btn kern-btn--secondary"
@@ -45,7 +56,9 @@
 </template>
 
 <script setup lang="ts">
-import HeroPolarMap from './HeroPolarMap.vue'
+import { defineAsyncComponent } from 'vue'
+
+const HeroPolarMap = defineAsyncComponent(() => import('./HeroPolarMap.vue'))
 </script>
 
 <style scoped>
@@ -109,6 +122,11 @@ section {
 	.lp-hero__map {
 		max-width: 960px;
 		margin: 0 auto 2.5rem;
+	}
+
+	.lp-hero__map-fallback {
+		width: 100%;
+		height: 480px;
 	}
 
 	.lp-hero__ctas {

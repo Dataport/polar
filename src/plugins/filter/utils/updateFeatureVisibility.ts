@@ -48,7 +48,7 @@ if (import.meta.vitest) {
 		const source = new VectorSource()
 		source.addFeatures([alpha, beta])
 
-		updateFeatureVisibility(source, {})
+		updateFeatureVisibility(source, { knownValues: {} })
 
 		expect(source.getFeatures()).toHaveLength(2)
 		expect(source.getFeatures()).toContain(alpha)

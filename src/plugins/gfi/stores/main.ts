@@ -1,16 +1,18 @@
-import type { Feature as GeoJsonFeature } from 'geojson'
-import type { Feature } from 'ol'
+import type Layer from 'ol/layer/Layer'
 import type { CustomHighlightStyle, GfiPluginOptions } from '../types'
 
 import { Fill, Stroke, Style } from 'ol/style'
+import CircleStyle from 'ol/style/Circle'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { computed } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import { findLayer } from '@/lib/findLayer'
 
 import { useFeatureDisplayLayer } from '../composables/useFeatureDisplayLayer'
+import { useSelectedFeatures } from '../composables/useSelectedFeatures'
+import { useVisibleLayers } from '../composables/useVisibleLayers'
 import { PluginId } from '../types'
-import { serializeFeature } from '../utils/serializeFeature'
 
 const defaultHighlightStyle = {
 	stroke: {
@@ -20,6 +22,7 @@ const defaultHighlightStyle = {
 	fill: {
 		color: 'rgb(255, 255, 255, 0.7)',
 	},
+	radius: 8,
 } satisfies CustomHighlightStyle
 
 export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
@@ -29,26 +32,29 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 		() => coreStore.configuration[PluginId] as GfiPluginOptions
 	)
 
+	const renderType = computed(
+		() => configuration.value.renderType ?? 'independent'
+	)
+
 	function getLayerConfiguration(layerId: string) {
 		return configuration.value.layers[layerId]
 	}
 
-	const selectedFeatures = ref<Record<string, Feature[]>>({})
-	const featureInformation = ref<Record<string, GeoJsonFeature[]>>({})
-
-	watch(
-		selectedFeatures,
-		(features) => {
-			featureInformation.value = Object.fromEntries(
-				Object.entries(features).map(([layerId, features]) => [
-					layerId,
-					features.map((feature) => serializeFeature(feature)),
-				])
-			)
-		},
-		{ immediate: true, deep: true }
+	const windowLayers = computed(() =>
+		Object.entries(configuration.value.layers)
+			.filter(([, layerConfig]) => layerConfig.window)
+			.map(([layerId]) => findLayer(coreStore.map, layerId))
+			.filter((layer): layer is Layer => Boolean(layer))
+	)
+	const { visibleLayers: activeWindowLayers } = useVisibleLayers(windowLayers)
+	const hasActiveWindowLayers = computed(
+		() => activeWindowLayers.value.length > 0
 	)
 
+	const { olFeatures, olFeature, geoJsonFeatures, geoJsonFeature } =
+		useSelectedFeatures()
+
+	// TODO: this is to be re-worked after https://github.com/Dataport/polar/pull/895/changes#diff-88c52a34635983bf7d7b89af09414fce2b7620e05978056fbadec0d05d62c6e8 is merged (generic jsonStyleMapper that can be used project-wide)
 	const customHighlightStyle = computed(
 		() =>
 			new Style({
@@ -60,24 +66,41 @@ export const useGfiMainStore = defineStore('plugins/gfi/main', () => {
 					configuration.value.customHighlightStyle?.fill ||
 						defaultHighlightStyle.fill
 				),
+				image: new CircleStyle({
+					radius:
+						configuration.value.customHighlightStyle?.radius ||
+						defaultHighlightStyle.radius,
+					stroke: new Stroke(
+						configuration.value.customHighlightStyle?.stroke ||
+							defaultHighlightStyle.stroke
+					),
+					fill: new Fill(
+						configuration.value.customHighlightStyle?.fill ||
+							defaultHighlightStyle.fill
+					),
+				}),
 			})
 	)
 	const highlightedFeatures = computed(() =>
-		Object.entries(featureInformation.value)
-			.filter(([layerId]) => getLayerConfiguration(layerId)?.geometry ?? true)
+		Object.entries(geoJsonFeatures.value)
+			.filter(([layerId]) => getLayerConfiguration(layerId)?.geometry ?? false)
 			.flatMap(([, features]) => features)
 	)
-	useFeatureDisplayLayer({
-		map: coreStore.map,
-		style: customHighlightStyle,
-		features: highlightedFeatures,
-	})
+	useFeatureDisplayLayer(
+		coreStore.map,
+		highlightedFeatures,
+		customHighlightStyle
+	)
 
 	return {
 		configuration,
+		renderType,
 		getLayerConfiguration,
-		selectedFeatures,
-		featureInformation,
+		hasActiveWindowLayers,
+		olFeatures,
+		olFeature,
+		geoJsonFeatures,
+		geoJsonFeature,
 	}
 })
 

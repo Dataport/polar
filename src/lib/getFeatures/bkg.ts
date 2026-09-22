@@ -3,7 +3,8 @@ import type { PolarGeoJsonFeature, PolarGeoJsonFeatureCollection } from '@/core'
 import type { BKGParameters } from './types'
 
 import { toMerged } from 'es-toolkit'
-import { transform as transformCoordinates } from 'ol/proj'
+
+import { transformGeometry } from '@/lib/transformGeometry'
 
 import { errorCheck } from './errorCheck'
 
@@ -33,7 +34,7 @@ function getRequestUrlQuery(
 	return query
 }
 
-export default async function (
+export default async function bkg(
 	signal: AbortSignal,
 	url: string,
 	inputValue: string,
@@ -56,16 +57,11 @@ export default async function (
 		features: featureCollection.features.map(
 			(feature) =>
 				toMerged(feature, {
-					geometry: toMerged(feature.geometry, {
-						coordinates:
-							queryParameters.epsg === 'EPSG:4326'
-								? (feature.geometry as Point).coordinates
-								: transformCoordinates(
-										(feature.geometry as Point).coordinates,
-										'EPSG:4326',
-										queryParameters.epsg
-									),
-					}),
+					geometry: transformGeometry(
+						feature.geometry,
+						'EPSG:4326',
+						queryParameters.epsg
+					),
 					// @ts-expect-error | It is always defined in this case
 					title: feature.properties.text,
 				}) as PolarGeoJsonFeature<Point>

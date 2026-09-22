@@ -1,19 +1,23 @@
 <template>
 	<FilterSection :title="$t(($) => $.time.header, { ns: PluginId })">
-		<div class="polar-filter-category-values">
-			<component
-				:is="
-					coreStore.layout === 'standard'
-						? KernBlockButtonRadioGroup
-						: KernRadioGroup
-				"
+		<PolarInputGroup
+			legend-sr-only
+			:legend="$t(($) => $.time.header, { ns: PluginId })"
+		>
+			<PolarInput
+				v-for="item of filterStore.timeItems"
+				:key="item.value"
 				v-model="filterStore.timeModel"
-				:items="filterStore.timeItems"
-				@update:model-value="scrollVisible($event)"
-			/>
-		</div>
+				type="radio"
+				name="timeFilter"
+				:value="item.value"
+			>
+				{{ item.label }}
+			</PolarInput>
+		</PolarInputGroup>
 		<div
 			v-if="filterStore.timeModel === 'custom'"
+			ref="dateRange"
 			class="polar-filter-time-range"
 		>
 			<KernDateRangePicker
@@ -26,32 +30,29 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, useTemplateRef } from 'vue'
+import { nextTick, useTemplateRef, watch } from 'vue'
 
-import KernBlockButtonRadioGroup from '@/components/kern/KernBlockButtonRadioGroup.ce.vue'
 import KernDateRangePicker from '@/components/kern/KernDateRangePicker.ce.vue'
-import KernRadioGroup from '@/components/kern/KernRadioGroup.ce.vue'
-import { useCoreStore } from '@/core/stores'
+import PolarInput from '@/components/PolarInput.ce.vue'
+import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
 
 import { useFilterStore } from '../store'
 import { PluginId } from '../types'
 import FilterSection from './FilterSection.ce.vue'
 
-const coreStore = useCoreStore()
 const filterStore = useFilterStore()
 
-const section = useTemplateRef<HTMLElement>('section')
+const dateRange = useTemplateRef<HTMLElement>('dateRange')
 
-async function scrollVisible(model: string) {
-	if (model === 'custom') {
-		await nextTick()
-		if (section.value?.lastElementChild?.scrollIntoView) {
-			section.value.lastElementChild.scrollIntoView({
-				behavior: 'smooth',
-			})
+watch(
+	() => filterStore.timeModel,
+	async (value) => {
+		if (value === 'custom') {
+			await nextTick()
+			dateRange.value?.scrollIntoView({ behavior: 'smooth' })
 		}
 	}
-}
+)
 </script>
 
 <style scoped>

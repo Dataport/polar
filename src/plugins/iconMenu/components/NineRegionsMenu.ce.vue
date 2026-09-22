@@ -50,6 +50,7 @@
 							? 'polar-plugin-icon-menu-list-item-content-horizontal'
 							: 'polar-plugin-icon-menu-list-item-content',
 						'polar-plugin-icon-menu-list-item-content-scrollable-y',
+						`polar-plugin-icon-menu-list-item-content-${spaceDirection}`,
 					]"
 					:style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
 				/>
@@ -80,12 +81,12 @@ import NineRegionsButton from './NineRegionsButton.ce.vue'
 const iconMenuStore = useIconMenuStore()
 const { clientHeight, deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
 	storeToRefs(useCoreStore())
-const { buttonComponent, open } = storeToRefs(iconMenuStore)
+const { buttonComponent, open, spaceDirection } = storeToRefs(iconMenuStore)
 
 const maxWidth = ref('inherit')
 const pluginComponent = useTemplateRef('pluginComponent')
 
-const menus = computed(() => iconMenuStore.menus.flat())
+const menus = computed(() => iconMenuStore.visibleMenus.flat())
 const asList = computed(() => menus.value.length > 1)
 const maxHeight = computed(
 	() =>
@@ -152,6 +153,11 @@ provide('updateMaxWidth', updateMaxWidth)
 	white-space: nowrap;
 	top: 0;
 	right: calc(100% + var(--kern-metric-space-small));
+
+	&.polar-plugin-icon-menu-list-item-content-right {
+		right: 0;
+		left: calc(100% + var(--kern-metric-space-small));
+	}
 }
 
 .polar-plugin-icon-menu-list-item-content-horizontal {
@@ -159,6 +165,11 @@ provide('updateMaxWidth', updateMaxWidth)
 	white-space: nowrap;
 	top: calc(100% + var(--kern-metric-space-small));
 	right: calc(-1 * var(--kern-metric-space-small));
+
+	&.polar-plugin-icon-menu-list-item-content-right {
+		right: 0;
+		left: calc(-1 * var(--kern-metric-space-small));
+	}
 }
 
 .polar-plugin-icon-menu-list-item-content-scrollable-y {

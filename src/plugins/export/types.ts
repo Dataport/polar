@@ -1,4 +1,4 @@
-import type { PluginOptions } from '@/core'
+import type { PlaceablePluginOptions } from '@/core'
 
 export const PluginId = 'export'
 
@@ -9,7 +9,7 @@ export const EXPORT_FORMATS = ['jpg', 'jpeg', 'pdf', 'png'] as const
 
 export type ExportFormat = (typeof EXPORT_FORMATS)[number]
 
-export interface ExportPluginOptions extends PluginOptions {
+export interface ExportPluginOptions extends PlaceablePluginOptions {
 	/**
 	 * If `true`, the screenshot will be both stored in the store and offered as a
 	 * download to the user. If `false`, it will only be stored – in that case, the

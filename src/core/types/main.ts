@@ -6,7 +6,9 @@ import type { FilterPluginOptions } from '@/plugins/filter'
 import type { FooterPluginOptions } from '@/plugins/footer'
 import type { FullscreenPluginOptions } from '@/plugins/fullscreen'
 import type { GeoLocationPluginOptions } from '@/plugins/geoLocation'
+import type { GfiPluginOptions } from '@/plugins/gfi'
 import type { IconMenuPluginOptions } from '@/plugins/iconMenu'
+import type { InitialViewPluginOptions } from '@/plugins/initialView'
 import type { LoadingIndicatorOptions } from '@/plugins/loadingIndicator'
 import type { PinsPluginOptions } from '@/plugins/pins'
 import type { PointerPositionPluginOptions } from '@/plugins/pointerPosition'
@@ -27,8 +29,19 @@ export interface ServiceAvailabilityCheck {
 	serviceName: string
 }
 
+/**
+ * Reference to a store value.
+ */
 export interface StoreReference {
+	/**
+	 * The key of the store value to watch.
+	 */
 	key: string
+
+	/**
+	 * The plugin that owns the store value.
+	 * If not set, the core store is used.
+	 */
 	plugin?: PluginId
 }
 
@@ -329,8 +342,14 @@ export interface MapConfiguration extends MasterportalApiConfiguration {
 	/** Configuration for geoLocation plugin. */
 	geoLocation?: GeoLocationPluginOptions
 
+	/** Configuration for gfi plugin. */
+	gfi?: GfiPluginOptions
+
 	/** Configuration for iconMenu plugin. */
 	iconMenu?: IconMenuPluginOptions
+
+	/** Configuration for initialView plugin. */
+	initialView?: InitialViewPluginOptions
 
 	/** Configuration for loadingIndicator plugin. */
 	loadingIndicator?: LoadingIndicatorOptions

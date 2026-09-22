@@ -1,4 +1,4 @@
-import type { PluginOptions } from '@/core'
+import type { PlaceablePluginOptions } from '@/core'
 
 /**
  * Plugin identifier.
@@ -8,7 +8,7 @@ export const PluginId = 'fullscreen'
 /**
  * Plugin options for fullscreen plugin.
  */
-export interface FullscreenPluginOptions extends PluginOptions {
+export interface FullscreenPluginOptions extends PlaceablePluginOptions {
 	/**
 	 * Defines if the plugin is rendered independent or as part of the icon menu.
 	 * This is automatically set by the icon menu; you should not need to touch this.

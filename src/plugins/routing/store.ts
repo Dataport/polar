@@ -25,7 +25,8 @@ import { computed, ref, watch } from 'vue'
 import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
 
-import { useLayer } from './composables/useLayer'
+import { useMarkerLayer } from './composables/useMarkerLayer'
+import { useRouteLayer } from './composables/useRouteLayer'
 import { PluginId } from './types'
 import { handleErrors } from './utils/handleErrors'
 
@@ -40,11 +41,13 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const coreStore = useCoreStore()
 
 	const routeSource = new VectorSource()
+	const markerSource = new VectorSource()
 	let abortController: AbortController | null = null
 	let draw: Draw | undefined
 
 	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
+	const routeInput = ref<(string | null)[]>([null, null])
 	const routingResponseData = ref<RoutingResponseData | null>(null)
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
@@ -53,15 +56,26 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const configuration = computed(
 		() => (coreStore.configuration.routing || {}) as RoutingPluginOptions
 	)
+	const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
+
 	const currentlyFocusedInput = computed({
 		get: () => _currentlyFocusedInput.value,
 		set: (index) => {
 			_currentlyFocusedInput.value = index
 
 			if (index !== -1) {
-				coreStore.map.addInteraction(draw as Draw)
+				coreStore.maskInteraction(
+					'routing',
+					'click',
+					() => {
+						coreStore.map.addInteraction(draw as Draw)
+					},
+					() => {
+						coreStore.map.removeInteraction(draw as Draw)
+					}
+				)
 			} else {
-				coreStore.map.removeInteraction(draw as Draw)
+				coreStore.unmaskInteraction('routing', 'click')
 			}
 		},
 	})
@@ -146,12 +160,23 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		).filter(({ value }) => selectableTravelModes.value.includes(value))
 	)
 
-	function addCoordinateToRoute(coordinate: Coordinate) {
-		route.value = route.value.toSpliced(
-			currentlyFocusedInput.value,
+	async function addCoordinateToRoute(coordinate: [number, number]) {
+		const index = currentlyFocusedInput.value
+		route.value = route.value.toSpliced(index, 1, coordinate)
+		routeInput.value = routeInput.value.toSpliced(
+			index,
 			1,
-			coordinate
+			coordinate.join(', ')
 		)
+		if (reverseGeocoderStore) {
+			const feature = await reverseGeocoderStore.reverseGeocode(
+				coordinate,
+				false
+			)
+			if (feature?.title) {
+				routeInput.value[index] = feature.title
+			}
+		}
 	}
 
 	async function fetchRoute(signal: AbortSignal): Promise<RoutingResponseData> {
@@ -221,12 +246,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	function initializeDraw() {
 		draw = new Draw({ stopClick: true, type: 'Point' })
-		// @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
-		draw._isRoutingDraw = true
-		draw.on('drawend', (e) => {
-			addCoordinateToRoute((e.feature.getGeometry() as Point).getCoordinates())
-			// @ts-expect-error | internal hack to detect it in @polar/plugin-pins and @polar/plugin-gfi
-			draw._isRoutingDraw = false
+		draw.on('drawend', async (e) => {
+			await addCoordinateToRoute(
+				(e.feature.getGeometry() as Point).getCoordinates() as [number, number]
+			)
+			coreStore.unmaskInteraction('routing', 'click')
 			currentlyFocusedInput.value = -1
 		})
 	}
@@ -264,7 +288,8 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		selectedRouteTypesToAvoid.value = []
 	})
 
-	useLayer(coreStore.map, routeSource)
+	useRouteLayer(coreStore.map, routeSource)
+	useMarkerLayer(coreStore.map, markerSource, route)
 
 	function setupPlugin() {
 		initializeDraw()
@@ -293,19 +318,21 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		reset()
 
 		if (draw) {
-			coreStore.map.removeInteraction(draw)
+			coreStore.unmaskInteraction('routing', 'click')
 			draw = undefined
 		}
 	}
 
 	function reset() {
 		route.value = [[], []]
+		routeInput.value = [null, null]
 		currentlyFocusedInput.value = -1
 		selectedPreference.value = 'recommended'
 		selectedTravelMode.value = 'driving-car'
 		selectedRouteTypesToAvoid.value = []
 		routingResponseData.value = null
 		routeSource.clear()
+		markerSource.clear()
 
 		if (abortController) {
 			abortController.abort()
@@ -317,6 +344,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		route.value = remove
 			? route.value.toSpliced(index, 1)
 			: route.value.toSpliced(index, 0, [])
+		routeInput.value = remove
+			? routeInput.value.toSpliced(index, 1)
+			: routeInput.value.toSpliced(index, 0, '')
 	}
 
 	return {
@@ -325,6 +355,13 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * If all coordinate pairs are filled, a route is requested.
 		 */
 		route,
+
+		/**
+		 * Reverse-geocoded address labels for each waypoint in {@link route}.
+		 * Coordinates if no address was resolved (e.g. reverse geocoder not configured).
+		 * @alpha
+		 */
+		routeInput,
 
 		/**
 		 * The response of the routing service depending on the {@link route} and

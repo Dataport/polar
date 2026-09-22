@@ -7,7 +7,7 @@ import kernExtraIcons from 'vite-plugin-kern-extra-icons'
 import enrichedConsole from './vitePlugins/enrichedConsole.js'
 
 export default defineConfig({
-	root: resolve(__dirname, 'examples', 'github-io'),
+	root: resolve(import.meta.dirname, 'examples', 'github-io'),
 	base: './',
 	plugins: [
 		// @ts-expect-error | commonJs dts is broken
@@ -26,11 +26,16 @@ export default defineConfig({
 		enrichedConsole(),
 	],
 	build: {
-		outDir: resolve(__dirname, 'examples', 'github-io', 'dist'),
+		outDir: resolve(import.meta.dirname, 'examples', 'github-io', 'dist'),
 		chunkSizeWarningLimit: 1536,
 		emptyOutDir: true,
 		rolldownOptions: {
-			input: resolve(__dirname, 'examples', 'github-io', 'index.html'),
+			input: resolve(
+				import.meta.dirname,
+				'examples',
+				'github-io',
+				'index.html'
+			),
 			output: {
 				entryFileNames: '[name].js',
 				chunkFileNames: '[name].js',

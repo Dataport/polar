@@ -16,11 +16,12 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	header: {
 		close: 'Informationsfenster schließen',
+		closeToList: 'Zurück zur Liste navigieren',
 		field: 'Feld',
 		value: 'Wert',
 	},
 	property: {
-		export: 'Export als PDF',
+		export: 'Export',
 		imageAlt:
 			'Bitte entnehmen Sie Informationen zum Inhalt des Bildes aus den umliegenden Tabellenfeldern',
 		linkTitle: 'In neuem Tab öffnen',
@@ -29,14 +30,13 @@ export const resourcesDe = {
 	switch: {
 		previous: 'Vorangehender Datensatz',
 		next: 'Nächster Datensatz',
+		entryXOfY: 'Eintrag {{index}} von {{count}}',
 	},
+	noSelectedFeature: 'Es ist kein Objekt ausgewählt.',
 	noActiveLayer:
 		'Derzeit ist kein Kartenmaterial mit passenden Objekten eingeschaltet.',
 	list: {
 		header: 'Objektliste',
-		entry: 'Eintrag',
-		to: 'bis',
-		of: 'von',
 		emptyView: 'Im aktuellen Kartenausschnitt sind keine Objekte enthalten.',
 	},
 } as const
@@ -48,11 +48,12 @@ export const resourcesDe = {
 export const resourcesEn = {
 	header: {
 		close: 'Close information window',
+		closeToList: 'Navigate back to list',
 		field: 'Field',
 		value: 'Value',
 	},
 	property: {
-		export: 'Export as a PDF document',
+		export: 'Export',
 		imageAlt:
 			'Please refer to the other table fields for further information about the topics of the displayed picture',
 		linkTitle: 'Open in a new tab',
@@ -61,13 +62,12 @@ export const resourcesEn = {
 	switch: {
 		previous: 'Previous data',
 		next: 'Next data',
+		entryXOfY: 'Entry {{index}} of {{count}}',
 	},
+	noSelectedFeature: 'No feature is selected.',
 	noActiveLayer: 'Currently, no map layer with fitting objects is active.',
 	list: {
 		header: 'Feature list',
-		entry: 'Entry',
-		to: 'to',
-		of: 'of',
 		emptyView: 'There are no features in the current view.',
 	},
 } as const

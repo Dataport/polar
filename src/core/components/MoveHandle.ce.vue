@@ -110,7 +110,7 @@ watch(isMoving, (newValue) => {
 		;(handleElement.value as HTMLDivElement).classList.add(
 			'polar-move-handle-is-moving'
 		)
-		document.addEventListener<MoveEventName>(move, onMove)
+		document.addEventListener<MoveEventName>(move, onMove, { passive: false })
 		document.addEventListener(end, onMoveEnd, { once: true })
 		return
 	}
@@ -163,6 +163,10 @@ function onMouseDown(event: PolarMoveEvent) {
 }
 
 function onMove(event: PolarMoveEvent) {
+	// Prevents native touch gestures (e.g. pull-to-refresh) while dragging.
+	if (event instanceof TouchEvent) {
+		event.preventDefault()
+	}
 	const clientX =
 		event instanceof MouseEvent
 			? event.clientX

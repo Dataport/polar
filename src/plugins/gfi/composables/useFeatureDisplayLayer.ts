@@ -17,8 +17,6 @@ function getFeatureDisplayLayer() {
 
 	featureDisplayLayer.set('polarInternalId', 'pluginGfiFeatureDisplay')
 	featureDisplayLayer.setZIndex(90)
-	// NOTE: This may be changed in the future to not use the default styling of @masterportal/masterportalapi
-	featureDisplayLayer.set('styleId', 'defaultHighlightFeaturesPoint')
 
 	return featureDisplayLayer
 }
@@ -30,7 +28,7 @@ function isVectorSource(source): source is Vector {
 /**
  * reset feature layer's features.
  */
-function clear(featureDisplayLayer: VectorLayer): void {
+function clear(featureDisplayLayer: VectorLayer) {
 	const source = featureDisplayLayer.getSource()
 	if (isVectorSource(source)) {
 		source.clear()
@@ -40,10 +38,7 @@ function clear(featureDisplayLayer: VectorLayer): void {
 /**
  * add feature from jsonable GeoJson object.
  */
-function addFeature(
-	feature: GeoJsonFeature,
-	featureDisplayLayer: VectorLayer
-): void {
+function addFeature(feature: GeoJsonFeature, featureDisplayLayer: VectorLayer) {
 	const source = featureDisplayLayer.getSource()
 	if (isVectorSource(source)) {
 		// Since ol@10, readFeature may also return a Feature[]?
@@ -51,12 +46,11 @@ function addFeature(
 	}
 }
 
-export function useFeatureDisplayLayer(options: {
-	map: Map
+export function useFeatureDisplayLayer(
+	map: Map,
+	features: Ref<GeoJsonFeature[]>,
 	style: Ref<Style>
-	features: Ref<GeoJsonFeature[]>
-}) {
-	const { map, style, features } = options
+) {
 	const layer = getFeatureDisplayLayer()
 
 	map.addLayer(layer)

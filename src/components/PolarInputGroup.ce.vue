@@ -1,6 +1,6 @@
 <template>
 	<fieldset class="kern-fieldset">
-		<legend class="kern-label">
+		<legend class="kern-label" :class="{ 'kern-sr-only': legendSrOnly }">
 			{{ legend }}
 		</legend>
 		<div class="kern-fieldset__body">
@@ -12,6 +12,7 @@
 <script setup lang="ts">
 defineProps<{
 	legend: string
+	legendSrOnly?: boolean
 }>()
 </script>
 

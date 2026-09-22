@@ -56,7 +56,6 @@ export default ({
 	const { geometryName } = layerConfiguration
 	const code = map.getView().getProjection().getCode()
 	const typeName = version === '2.0.0' ? 'typeNames' : 'typename'
-	// TODO: Layer list needs better typing
 
 	const featureUrl = new URL(url as string)
 	featureUrl.searchParams.set('service', 'WFS')
@@ -78,7 +77,6 @@ export default ({
 					]
 				: coordinateOrExtent
 
-		// TODO: Layer list needs better typing
 		featureUrl.searchParams.set('bbox', `${extent.join(',')},${code}`)
 	} else if (mode === 'intersects') {
 		const point =

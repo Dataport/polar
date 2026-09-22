@@ -1,5 +1,5 @@
 <template>
-	<PolarCard>
+	<PolarCard v-if="!coreStore.hasSmallDisplay">
 		<header class="kern-card__header">
 			<h2 class="kern-title">{{ $t(($) => $.title, { ns: PluginId }) }}</h2>
 		</header>
@@ -27,6 +27,7 @@ import { storeToRefs } from 'pinia'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import PolarCard from '@/components/PolarCard.ce.vue'
+import { useCoreStore } from '@/core/stores'
 
 import { useRoutingStore } from '../store'
 import { PluginId } from '../types'
@@ -34,6 +35,7 @@ import RoutingDetails from './RoutingDetails.ce.vue'
 import RoutingInput from './RoutingInput.ce.vue'
 import RoutingOptions from './RoutingOptions.ce.vue'
 
+const coreStore = useCoreStore()
 const routingStore = useRoutingStore()
 const { route } = storeToRefs(routingStore)
 </script>

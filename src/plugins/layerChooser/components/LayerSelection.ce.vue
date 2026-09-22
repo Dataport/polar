@@ -11,7 +11,6 @@
 			>
 				<PolarInput
 					v-model="activeBackgroundId"
-					:id-suffix="`polar-layer-chooser-background`"
 					name="polar-layer-chooser-background"
 					type="radio"
 					:value="id"
@@ -43,7 +42,6 @@
 					>
 						<PolarInput
 							v-model="activeMaskIds"
-							:id-suffix="`polar-layer-chooser-mask-${type}`"
 							name="polar-layer-chooser-mask"
 							type="checkbox"
 							:value="id"

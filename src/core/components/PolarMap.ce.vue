@@ -20,10 +20,10 @@ import { markRaw, onBeforeUnmount, onMounted, useTemplateRef, watch } from 'vue'
 
 import { useContextMenuStore } from '../stores/contextMenu'
 import { useMainStore } from '../stores/main'
+import { useMarkerStore } from '../stores/marker'
 import { CoreId } from '../types'
 import { checkServiceAvailability } from '../utils/checkServiceAvailability'
 import { createKeyboardInteractions } from '../utils/interactions'
-import { setupMarkers } from '../utils/map/setupMarkers'
 import { setupStyling } from '../utils/map/setupStyling'
 import { updateDragAndZoomInteractions } from '../utils/map/updateDragAndZoomInteractions'
 
@@ -35,6 +35,7 @@ const emit = defineEmits(['updateListeners', 'wheel'])
 const mainStore = useMainStore()
 const { hasWindowSize, hasSmallDisplay, center, extent, zoom } =
 	storeToRefs(mainStore)
+const markerStore = useMarkerStore()
 const contextMenuStore = useContextMenuStore()
 
 function onMove() {
@@ -109,7 +110,7 @@ onMounted(async () => {
 		checkServiceAvailability(mainStore.configuration, mainStore.serviceRegister)
 	}
 	if (mainStore.configuration.markers) {
-		setupMarkers(mainStore.map)
+		markerStore.setup()
 	}
 	await setupStyling(
 		mainStore.map,

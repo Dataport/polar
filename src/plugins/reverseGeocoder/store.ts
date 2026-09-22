@@ -16,9 +16,9 @@ import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, toRaw } from 'vue'
 
+import { useRefStore } from '@/composables/useRefStore'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
-import { getRefStore } from '@/lib/getRefStore'
 import { indicateLoading } from '@/lib/indicateLoading'
 
 import { PluginId } from './types'
@@ -51,7 +51,7 @@ export const useReverseGeocoderStore = defineStore(
 					await reverseGeocode(coordinate)
 				}
 			},
-			{ immediate: true }
+			{ immediate: true, target: configuration.value.addressTarget }
 		)
 
 		function setupPlugin() {}
@@ -62,14 +62,17 @@ export const useReverseGeocoderStore = defineStore(
 			target: NonNullable<ReverseGeocoderPluginOptions['addressTarget']>,
 			feature: ReverseGeocoderFeature
 		) {
-			const targetStore = getRefStore(target)
+			const targetStore = useRefStore(target)
 			if (!targetStore) {
 				return
 			}
 			targetStore[target.key](feature)
 		}
 
-		async function reverseGeocode(coordinate: [number, number]) {
+		async function reverseGeocode(
+			coordinate: [number, number],
+			forwardToAddressTarget = true
+		) {
 			const finish = indicateLoading()
 			if (abortController.value) {
 				abortController.value.abort()
@@ -78,18 +81,24 @@ export const useReverseGeocoderStore = defineStore(
 			abortController.value = new AbortController()
 			const signal = toRaw(abortController.value.signal)
 			try {
-				const feature = await (configuration.value.type === 'nominatim'
-					? reverseGeocodeNominatim(
-							configuration.value.url,
-							coordinate,
-							coreStore.configuration.epsg,
-							signal
-						)
-					: reverseGeocodeWps(configuration.value.url, coordinate, signal))
-				if (configuration.value.addressTarget) {
+				const reverseGeocodeUtil = {
+					wps: (params) =>
+						reverseGeocodeWps({
+							...params,
+							serviceEpsg: configuration.value.epsg || 'EPSG:25832',
+						}),
+					nominatim: reverseGeocodeNominatim,
+				}[configuration.value.type]
+				const feature = await reverseGeocodeUtil({
+					url: configuration.value.url,
+					coordinate,
+					epsg: coreStore.configuration.epsg,
+					signal,
+				})
+				if (configuration.value.addressTarget && forwardToAddressTarget) {
 					passFeatureToTarget(configuration.value.addressTarget, feature)
 				}
-				if (configuration.value.zoomTo) {
+				if (configuration.value.zoomTo && forwardToAddressTarget) {
 					coreStore.map.getView().fit(new Point(coordinate), {
 						maxZoom: configuration.value.zoomTo,
 						duration: 400,
@@ -217,11 +226,13 @@ if (import.meta.vitest) {
 		}
 		pluginStore.pins.coordinate = [1, 2]
 		await new Promise((resolve) => setTimeout(resolve))
-		expect(reverseGeocodeUtil).toHaveBeenCalledExactlyOnceWith(
-			'https://wps.example',
-			[1, 2],
-			store.abortController?.signal
-		)
+		expect(reverseGeocodeUtil).toHaveBeenCalledExactlyOnceWith({
+			url: 'https://wps.example',
+			coordinate: [1, 2],
+			epsg: 'EPSG:25832',
+			serviceEpsg: 'EPSG:25832',
+			signal: store.abortController?.signal,
+		})
 	})
 
 	test('passes geocoding result to address target', async ({

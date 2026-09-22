@@ -6,6 +6,7 @@
 		<div
 			v-if="layout === 'standard'"
 			class="polar-plugin-loading-indicator-overlay"
+			:style="`width:${clientWidth}px; height: ${clientHeight}px`"
 		/>
 		<PolarCard>
 			<div
@@ -38,7 +39,7 @@ import {
 	SpinnerLoader,
 } from './loaderStyles'
 
-const { layout } = storeToRefs(useCoreStore())
+const { clientHeight, clientWidth, layout } = useCoreStore()
 const { loaderStyle, showLoader } = storeToRefs(useLoadingIndicatorStore())
 const customStyles = {
 	BasicLoader,
@@ -61,8 +62,6 @@ const customStyles = {
 
 	.polar-plugin-loading-indicator-overlay {
 		position: absolute;
-		width: 100%;
-		height: 100%;
 		opacity: var(--kern-color-action-state-opacity-overlay);
 		background: #fff;
 	}

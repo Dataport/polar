@@ -1,7 +1,7 @@
 <template>
 	<section class="lp-section lp-section--video" aria-labelledby="video-heading">
 		<div class="lp-container lp-video__container">
-			<TheBadge color="dark-blue">Media</TheBadge>
+			<Badge color="dark-blue">Media</Badge>
 			<h3 id="video-heading" class="lp-video__heading">
 				FOSSGIS 2024 (German)
 			</h3>
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import TheBadge from './TheBadge.vue'
+import Badge from './Badge.vue'
 </script>
 
 <style scoped>

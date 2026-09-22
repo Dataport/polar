@@ -1,5 +1,5 @@
 import type { Feature as GeoJsonFeature } from 'geojson'
-import type { TileWMS } from 'ol/source'
+import type { ImageWMS, TileWMS } from 'ol/source'
 import type { RequestGfiWmsParameters } from '../types'
 
 import { Feature } from 'ol'
@@ -32,7 +32,8 @@ function readTextFeatures(text: string): Feature[] {
 	const features: Feature[] = []
 	let feature: Feature | undefined
 
-	/* TODO: Format supposedly looks like this – is this a standard or arbitrary?
+	/* Format supposedly looks like this – however, this is probably not standardized!
+	 * See https://docs.ogc.org/is/06-042/06-042.pdf#page=40 for the WMS specification.
 		GetFeatureInfo results:
 			LayerName:
 				FeatureId:
@@ -55,8 +56,8 @@ function readTextFeatures(text: string): Feature[] {
 				const [key, value] = [
 					line.substring(0, equalIndex),
 					line.substring(equalIndex + 3, line.length - 1),
-				].map((s) => s.trim())
-				feature.set(key || '', value)
+				].map((s) => s.trim()) as [string, string]
+				feature.set(key, value)
 			} else {
 				console.error(
 					'Found property before feature declaration in readTextFeatures.',
@@ -133,7 +134,7 @@ function getWmsGfiUrl(
 	{ infoFormat }: Record<string, unknown>
 ): string {
 	// Only layers with a valid source reach this point
-	const source = layer.getSource() as TileWMS
+	const source = layer.getSource() as TileWMS | ImageWMS
 	const view = map.getView()
 	const url = source.getFeatureInfoUrl(
 		coordinate,
@@ -190,7 +191,7 @@ export default (
 
 			if (geometryName) {
 				parsedFeatures.forEach((f) => {
-					f.setGeometryName('geometry')
+					f.setGeometryName(geometryName)
 				})
 			}
 

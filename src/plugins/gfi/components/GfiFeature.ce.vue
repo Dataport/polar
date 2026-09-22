@@ -1,28 +1,95 @@
 <template>
-	<div style="display: flex; gap: var(--kern-metric-space-default)">
-		<PolarIconButton
-			:hint="$t(($) => $.header.close, { ns: 'gfi' })"
-			icon="kern-icon--close"
-			@click="gfiStore.selectedFeatures = {}"
-		/>
-		<PolarIconButton
-			:hint="$t(($) => $.property.export, { ns: 'gfi' })"
-			icon="kern-icon--download"
-			@click="startDownload(gfiStore.exportProperty)"
-		/>
+	<div class="action-bar">
+		<div class="action-bar-group">
+			<KernButton
+				v-if="gfiStore.features.length > 1"
+				class="kern-btn--tertiary"
+				icon="kern-icon--arrow-back"
+				:label-sr-only="true"
+				@click="
+					gfiStore.featureIndex =
+						gfiStore.featureIndex > 0
+							? gfiStore.featureIndex - 1
+							: gfiStore.features.length - 1
+				"
+			>
+				{{ $t(($) => $.switch.previous, { ns: PluginId }) }}
+			</KernButton>
+			<KernButton
+				v-if="gfiStore.features.length > 1"
+				class="kern-btn--tertiary"
+				icon="kern-icon--arrow-forward"
+				:label-sr-only="true"
+				@click="
+					gfiStore.featureIndex =
+						gfiStore.featureIndex + 1 < gfiStore.features.length
+							? gfiStore.featureIndex + 1
+							: 0
+				"
+			>
+				{{ $t(($) => $.switch.next, { ns: PluginId }) }}
+			</KernButton>
+		</div>
+		<div class="action-bar-group">
+			<KernButton
+				v-if="gfiStore.exportProperty"
+				class="kern-btn--tertiary"
+				icon="kern-icon--download"
+				:label-sr-only="true"
+				@click="startDownload(gfiStore.exportProperty)"
+			>
+				{{ $t(($) => $.property.export, { ns: PluginId }) }}
+			</KernButton>
+			<KernButton
+				class="kern-btn--tertiary"
+				:icon="
+					gfiStore.configuration.featureList
+						? 'kern-icon--keyboard-double-arrow-right'
+						: 'kern-icon--close'
+				"
+				:label-sr-only="true"
+				@click="closeGfi()"
+			>
+				{{
+					$t(
+						($) =>
+							gfiStore.configuration.featureList
+								? $.header.closeToList
+								: $.header.close,
+						{ ns: PluginId }
+					)
+				}}
+			</KernButton>
+		</div>
 	</div>
+	<p
+		v-if="gfiStore.features.length > 1"
+		class="kern-subline kern-subline--small"
+	>
+		{{
+			$t(($) => $.switch.entryXOfY, {
+				ns: PluginId,
+				index: gfiStore.featureIndex + 1,
+				count: gfiStore.features.length,
+			})
+		}}
+	</p>
 	<table class="kern-table kern-table--striped">
+		<caption v-if="gfiStore.title" class="kern-title">
+			{{
+				gfiStore.title
+			}}
+		</caption>
 		<thead class="kern-table__head">
 			<tr class="kern-table__row">
 				<th scope="col" class="kern-table__header">
-					{{ $t(($) => $.header.field, { ns: 'gfi' }) }}
+					{{ $t(($) => $.header.field, { ns: PluginId }) }}
 				</th>
 				<th scope="col" class="kern-table__header">
-					{{ $t(($) => $.header.value, { ns: 'gfi' }) }}
+					{{ $t(($) => $.header.value, { ns: PluginId }) }}
 				</th>
 			</tr>
 		</thead>
-
 		<tbody class="kern-table__body">
 			<tr
 				v-for="[key, value] of Object.entries(gfiStore.properties)"
@@ -31,8 +98,8 @@
 			>
 				<td class="kern-table__cell">
 					{{
-						$t(($) => $['layer'][props.layerId]['property'][key], {
-							ns: 'gfi',
+						$t(($) => $['layer'][layerId]['property'][key], {
+							ns: PluginId,
 							defaultValue: key,
 						})
 					}}
@@ -49,8 +116,8 @@
 							<a :href="value" target="_blank">
 								<img
 									:src="value"
-									:alt="$t(($) => $.property.imageAlt, { ns: 'gfi' })"
-									:title="$t(($) => $.property.linkTitle, { ns: 'gfi' })"
+									:alt="$t(($) => $.property.imageAlt, { ns: PluginId })"
+									:title="$t(($) => $.property.linkTitle, { ns: PluginId })"
 									:height="Math.min(200, coreStore.clientHeight * 0.15)"
 									width="auto"
 								/>
@@ -60,9 +127,9 @@
 							<a
 								:href="value"
 								target="_blank"
-								:title="$t(($) => $.property.linkTitle, { ns: 'gfi' })"
+								:title="$t(($) => $.property.linkTitle, { ns: PluginId })"
 							>
-								{{ $t(($) => $.property.linkText, { ns: 'gfi' }) }}
+								{{ $t(($) => $.property.linkText, { ns: PluginId }) }}
 							</a>
 						</template>
 					</template>
@@ -76,29 +143,46 @@
 </template>
 
 <script setup lang="ts">
-import type { Feature as GeoJsonFeature } from 'geojson'
-
-import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import KernButton from '@/components/kern/KernButton.ce.vue'
 import { useCoreStore } from '@/core/stores'
 
 import { useGfiStore } from '../store'
+import { PluginId } from '../types'
 import { isValidHttpUrl } from '../utils/isValidHttpUrl'
 
 const coreStore = useCoreStore()
 const gfiStore = useGfiStore()
 
-const props = defineProps<{
+defineProps<{
 	layerId: string
-	feature: GeoJsonFeature
 }>()
 
 function startDownload(url: string) {
 	open(url)
 }
+
+function closeGfi() {
+	gfiStore.featureInformation = {}
+	gfiStore.feature = null
+}
 </script>
 
 <style scoped>
+.action-bar {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+
+	.action-bar-group {
+		display: flex;
+		gap: var(--kern-metric-space-small);
+	}
+}
+
 td {
 	white-space: normal;
+	max-width: calc(2 * var(--kern-metric-dimension-5x-large));
+	overflow-wrap: break-word;
+	word-break: normal;
 }
 </style>

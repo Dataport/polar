@@ -62,7 +62,7 @@ export default [
 		maxScale: '2500000',
 		legendURL: '',
 		urlIsVisible: true,
-		clusterDistance: 20,
+		clusterDistance: 40,
 	},
 	{
 		id: 'denkmaelerWMS',

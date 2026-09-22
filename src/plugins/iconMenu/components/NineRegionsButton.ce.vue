@@ -3,7 +3,7 @@
 		:active="active"
 		:hint="hint"
 		:icon="icon"
-		tooltip-position="left"
+		:tooltip-position="spaceDirection"
 		@click="toggle"
 	/>
 </template>
@@ -24,7 +24,7 @@ const props = defineProps<{
 }>()
 
 const iconMenuStore = useIconMenuStore()
-const { open } = storeToRefs(iconMenuStore)
+const { open, spaceDirection } = storeToRefs(iconMenuStore)
 const active = computed(() => open.value === props.id)
 
 const updateMaxWidth = inject('updateMaxWidth') as () => void

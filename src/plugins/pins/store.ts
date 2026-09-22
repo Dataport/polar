@@ -7,23 +7,22 @@
 import type { GeoJsonGeometryTypes, Point as GeoJsonPoint } from 'geojson'
 import type { MapBrowserEvent } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
+import type Point from 'ol/geom/Point'
 import type { PolarGeoJsonFeature } from '@/core'
 import type { PinMovable, PinsPluginOptions } from './types'
 
 import { toMerged } from 'es-toolkit'
 import { pointerMove } from 'ol/events/condition'
-import Feature from 'ol/Feature'
-import Point from 'ol/geom/Point'
-import { Draw, Modify, Select, Translate } from 'ol/interaction'
-import VectorLayer from 'ol/layer/Vector'
+import { Select, Translate } from 'ol/interaction'
 import { toLonLat } from 'ol/proj'
-import { Vector } from 'ol/source'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
+import { usePinLayer } from './composables/usePinLayer'
+import { PluginId } from './types'
 import { getPinStyle } from './utils/getPinStyle'
 import { getPointCoordinate } from './utils/getPointCoordinate'
 import { isCoordinateInBoundaryLayer } from './utils/isCoordinateInBoundaryLayer'
@@ -62,10 +61,10 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		return [lonLat[1], lonLat[0]]
 	})
 
-	const pinLayer = new VectorLayer({
-		source: new Vector(),
-		style: getPinStyle(configuration.value.style || {}),
-	})
+	const { pinLayer } = usePinLayer(
+		coordinate,
+		getPinStyle(configuration.value.style || {})
+	)
 	const move = new Select({
 		layers: (l) => l === pinLayer,
 		style: null,
@@ -80,7 +79,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 
 	useStoreWatcher(
 		() => configuration.value.coordinateSources || [],
-		(value: unknown) => {
+		(value) => {
 			const feature = value as PolarGeoJsonFeature<GeoJsonPoint> | null
 			// NOTE: 'reverse_geocoded' is set as type on reverse geocoded features
 			// to prevent infinite loops as in: ReverseGeocode->AddressSearch->Pins->ReverseGeocode.
@@ -89,7 +88,8 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 					type: feature.geometry.type,
 				})
 			}
-		}
+		},
+		{ target: { plugin: PluginId, key: 'coordinate' } }
 	)
 
 	function setupPlugin() {
@@ -103,10 +103,10 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	function teardownPlugin() {
 		const { map } = coreStore
 		map.un('singleclick', onSingleClick)
-		removePin()
 		map.removeLayer(pinLayer)
 		map.removeInteraction(move)
 		map.removeInteraction(translate)
+		coordinate.value = null
 	}
 
 	function setupInitial() {
@@ -167,28 +167,12 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 	}
 
 	async function click(coordinate: Coordinate) {
-		const isDrawing = coreStore.map
-			.getInteractions()
-			.getArray()
-			.some(
-				(interaction) =>
-					(interaction instanceof Draw &&
-						// @ts-expect-error | internal hack to detect it from gfi plugin
-						(interaction._isMultiSelect ||
-							// @ts-expect-error | internal hack to detect it from routing plugin
-							interaction._isRoutingDraw ||
-							// @ts-expect-error | internal hack to detect it from draw plugin
-							interaction._isDrawPlugin)) ||
-					interaction instanceof Modify ||
-					// @ts-expect-error | internal hack to detect it from draw plugin
-					interaction._isDeleteSelect
-			)
 		const { minZoomLevel, movable } = configuration.value
 		if (
 			(movable === 'drag' || movable === 'click') &&
 			// NOTE: It is assumed that getZoom actually returns the currentZoomLevel, thus the view has a constraint in the resolution.
 			(coreStore.map.getView().getZoom() as number) >= minZoomLevel &&
-			!isDrawing &&
+			!coreStore.isInteractionMasked('click') &&
 			(await isCoordinateInBoundaryLayer(
 				coordinate,
 				coreStore.map,
@@ -207,9 +191,6 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			epsg?: string
 		}
 	) {
-		// Always clean up other/old pin first – single pin only atm.
-		removePin()
-		coordinate.value = newCoordinate
 		if (!clicked && pinInformation) {
 			coordinate.value = getPointCoordinate(
 				pinInformation.epsg || coreStore.configuration.epsg,
@@ -219,19 +200,9 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 			)
 			coreStore.map.getView().setCenter(coordinate.value)
 			coreStore.map.getView().setZoom(configuration.value.toZoomLevel)
+		} else {
+			coordinate.value = newCoordinate
 		}
-		;(pinLayer.getSource() as Vector).addFeature(
-			new Feature({
-				geometry: new Point(coordinate.value),
-				type: 'point',
-				name: 'mapMarker',
-				zIndex: 100,
-			})
-		)
-	}
-
-	function removePin() {
-		;(pinLayer.getSource() as Vector).clear()
 	}
 
 	return {

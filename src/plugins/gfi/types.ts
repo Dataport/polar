@@ -6,14 +6,29 @@ import type TileLayer from 'ol/layer/Tile'
 import type { ImageWMS, TileWMS } from 'ol/source'
 import type { Options as Fill } from 'ol/style/Fill'
 import type { Options as Stroke } from 'ol/style/Stroke'
-import type { PluginOptions, StoreReference } from '@/core'
+import type { Icon, PlaceablePluginOptions, StoreReference } from '@/core'
 
 /**
  * Plugin identifier.
  */
 export const PluginId = 'gfi'
 
-export const gfiFailedSymbol = Symbol('POLAR gfi call failed')
+/**
+ * Configuration for the tooltip to be shown when hovering over a feature.
+ * The first string is the HTML tag to render, the second its contents; contents may be locale keys.
+ *
+ * @example
+ * ```
+ * (feature: Feature): [string, string][] => [
+ * 	['div', `Feature ID: ${feature.properties.id}`],
+ * 	['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`],
+ * ],
+ * ```
+ *
+ * @param feature - Feature to calculate the tooltip for
+ * @returns Array of tuples of the form [HTML tag to render, content or locale key]
+ */
+export type ShowTooltip = (feature: Feature) => [string, string][]
 
 /**
  * Gfi configuration for a layer.
@@ -26,21 +41,23 @@ export const gfiFailedSymbol = Symbol('POLAR gfi call failed')
  * 	maxFeatures: 10,
  * 	geometryName: 'app:geometry',
  * 	exportProperty: 'Export',
- * 	properties: {
- * 		status: 'status',
- * 		type: 'type',
- * 	},
+ * 	properties: [
+ * 		'status',
+ * 		'type',
+ * 	],
  * 	showTooltip: (feature: Feature): [string, string][] => [
  * 		['div', `Feature ID: ${feature.properties.id}`],
  * 		['span', `Coordinates: ${feature.geometry.coordinates.join(', ')}`],
  * 	],
- * 	isSelectable: (feature: Feature): boolean => Boolean(Math.random() < 0.5)
+ * 	isSelectable: (feature: GeoJsonFeature): boolean => Boolean(Math.random() < 0.5)
  * }
  * ```
  */
 export interface GfiLayerConfiguration {
 	/**
-	 * Property of the features of a service having an url usable to trigger a download of features as a document.
+	 * Property of the features of a service having a url usable to trigger a download of features as a document.
+	 *
+	 * If defined, that property is hidden within the properties.
 	 */
 	exportProperty?: string
 
@@ -55,27 +72,31 @@ export interface GfiLayerConfiguration {
 
 	/**
 	 * (WMS-only)
-	 * If the `infoFormat` is not set to `'application/geojson'`´, this can be configured to be the known file format of the response.
+	 * If the `infoFormat` is not set to `'application/geojson'` for the layer in the service register, this can be configured to be the known file format of the response.
 	 * If not given, the format is parsed from the response data.
+	 *
+	 * @remarks
+	 * The format `'text'` expects a plain text response in an undocumented, yet common format.
+	 * The behaviour of the format `'text'` may change in future versions.
 	 */
 	format?: 'GML' | 'GML2' | 'GML3' | 'GML32' | 'text'
 
 	/**
 	 * If `true`, feature geometry will be highlighted within the map.
 	 *
-	 * @defaultValue true
+	 * @defaultValue `false`
 	 */
 	geometry?: boolean
 
 	/**
-	 * Name of the geometry property if not the default field.
+	 * Name of the geometry property if not the default field of the service.
 	 */
 	geometryName?: string
 
 	/**
 	 * A function can be defined to allow filtering features to be either selectable (return `true`) or not.
 	 * Unselectable features will be filtered out by the GFI plugin and have neither GFI display nor store presence, but may be visible in the map nonetheless, depending on your other configuration.
-	 * Please also mind that usage in combination with `extendedMasterportalapiMarkers` requires further configuration of that feature for smooth UX.
+	 * Please also mind that usage in combination with {@link MapConfiguration.markers | `mapConfiguration.markers`} requires further configuration of that feature for smooth UX.
 	 *
 	 * @param feature - Feature to check
 	 * @returns `true` if the feature should be selectable, `false` otherwise
@@ -83,8 +104,35 @@ export interface GfiLayerConfiguration {
 	isSelectable?: (feature: GeoJsonFeature) => boolean
 
 	/**
-	 * In case `window` is `true`, this will be used to determine which contents to show.
+	 * Limits the results per layer by this number.
+	 * The first n elements are chosen arbitrarily.
+	 * Useful if you e.g. just want one result, or to limit an endless stream of returns to e.g. 10.
+	 *
+	 * @defaultValue `Infinity`
+	 * @example `10`
+	 */
+	maxFeatures?: number
+
+	/**
+	 * In case {@link GfiLayerConfiguration.window | `window`} is `true`, this will be used to determine which contents to show.
 	 * The property names can be localized, regardless if this is set or all properties are shown.
+	 *
+	 * @remarks
+	 * The values listed here can be localized as follows:
+	 * ```ts
+	 * gfi: {
+	 * 	layer: {
+	 * 		haus: {
+	 * 			property: {
+	 * 				status: 'Status',
+	 * 				type: 'Type',
+	 * 			},
+	 * 		},
+	 * 	},
+	 * }
+	 * ```
+	 *
+	 * @example `['status', 'type']`
 	 *
 	 * @defaultValue Display all properties
 	 */
@@ -93,21 +141,28 @@ export interface GfiLayerConfiguration {
 	/**
 	 * (WFS- and GeoJSON-only)
 	 * If given, a tooltip will be shown with the values calculated for the feature.
-	 * The first string is the HTML tag to render, the second its contents; contants may be locale keys.
 	 *
 	 * Please mind that tooltips will only be shown if a mouse is used or the hovering device could not be detected.
 	 * Touch and pen interactions do not open tooltips since they will open the GFI window, rendering the gatherable information redundant.
 	 *
 	 * @defaultValue undefined
-	 * @param feature - Feature to calculate the tooltip for
-	 * @returns [HTML tag to render, content or locale key]
 	 */
-	showTooltip?: (feature: Feature) => [string, string][]
+	showTooltip?: ShowTooltip
+
+	/**
+	 * Title to be shown in the GFI window.
+	 * If a function is given, it will be called with the feature to determine the title.
+	 *
+	 * @defaultValue Title will be omitted
+	 * @param feature - Feature to calculate the title for
+	 * @returns Title string or `null` if no title should be shown
+	 */
+	title?: string | ((feature: GeoJsonFeature) => string | null)
 
 	/**
 	 * If `true`, properties will be shown in the map client.
 	 *
-	 * @defaultValue false
+	 * @defaultValue `false`
 	 */
 	window?: boolean
 }
@@ -132,14 +187,38 @@ export interface CustomHighlightStyle {
 	/**
 	 * Object for defining the fill style.
 	 * See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Fill-Fill.html) for full options.
+	 *
+	 * @defaultValue `rgb(255, 255, 255, 0.7)`
 	 */
-	fill: Fill
+	fill?: Fill
+
+	/**
+	 * Radius of the highlight circle for Point features.
+	 *
+	 * @defaultValue 8
+	 */
+	radius?: number
 
 	/**
 	 * Object for defining the stroke style.
 	 * See [OpenLayers documentation](https://openlayers.org/en/latest/apidoc/module-ol_style_Stroke-Stroke.html) for full options.
+	 *
+	 * @defaultValue `{ color: '#003064', width: 3 }`
 	 */
-	stroke: Stroke
+	stroke?: Stroke
+}
+
+/**
+ * Object with one to three entries that will produce title, subtitle, and an additional subtitle for the list view.
+ *
+ * If a parameter is a string, the text item will simply be that feature's value for the denoted property.
+ * If it is a function, it's assumed to match the function signature `(feature: Feature): string`
+ * and the returned string will be used for the text item.
+ */
+export interface FeatureListText {
+	title: ((feature: Feature) => string) | string
+	subSubtitle?: ((feature: Feature) => string) | string
+	subtitle?: ((feature: Feature) => string) | string
 }
 
 /**
@@ -151,7 +230,10 @@ export interface CustomHighlightStyle {
  * 	mode: 'visible',
  * 	bindWithCoreHoverSelect: true,
  * 	pageLength: 5,
- * 	text: ['Nature reserves', (feature) => `${feature.get('str')} ${feature.get('hsnr')}`],
+ * 	text: {
+ * 		title: 'Nature reserves',
+ * 		subtitle: (feature) => `${feature.get('str')} ${feature.get('hsnr')}`,
+ * 	}
  * }
  * ```
  */
@@ -169,9 +251,16 @@ export interface FeatureList {
 	 * If `true`, the hover/select fields in the core's state will be listened to and interacted with.
 	 * This will result in a bilateral hovering and selecting of features with the core.
 	 *
+	 * This must only be true if `markers` is configured.
+	 *
 	 * @defaultValue false
 	 */
 	bindWithCoreHoverSelect?: boolean
+
+	/**
+	 * Icon to be shown in the list view title.
+	 */
+	icon?: Icon
 
 	/**
 	 * A number \>0 that sets the limit to the feature list's length.
@@ -180,23 +269,34 @@ export interface FeatureList {
 	 */
 	pageLength?: number
 
+	/** Header text definition for feature list. */
+	text?: FeatureListText
+}
+
+/**
+ * Configuration for multi-selection behavior in the gfi plugin.
+ */
+export interface MultiSelect {
 	/**
-	 * Object with one to three entries that will produce title, subtitle, and an additional subtitle for the list view.
-	 * If string, the text item will simply be that feature's value for the denoted property.
-	 * If function, it's assumed to match the function signature `(feature: Feature): string`, and the returned string will be used for the text item.
+	 * If set to `'box'`, the selection will be done in a box.
+	 * If set to `'circle'`, the selection will be done in a circle.
 	 */
-	text?: {
-		title: ((feature: Feature) => string) | string
-		subtitle?: ((feature: Feature) => string) | string
-		subSubtitle?: ((feature: Feature) => string) | string
-	}
+	mode: 'box' | 'circle'
+
+	/**
+	 * Defines the behaviour of a new selection.
+	 * If `true`, features can be added and removed by selecting / unselecting them.
+	 * If `false`, a new selection will always replace the old one.
+	 *
+	 * @defaultValue `true`
+	 */
+	toggleSelection?: boolean
 }
 
 /**
  * Plugin options for gfi plugin.
  *
  * @example
- * An example configuration for the plugin might look like this:
  * ```ts
  * {
  * 	mode: 'bboxDot',
@@ -237,7 +337,7 @@ export interface FeatureList {
  * }
  * ```
  */
-export interface GfiPluginOptions extends PluginOptions {
+export interface GfiPluginOptions extends PlaceablePluginOptions {
 	/**
 	 * Maps a string (must be a layer ID) to a behaviour configuration for that layer.
 	 */
@@ -257,9 +357,15 @@ export interface GfiPluginOptions extends PluginOptions {
 	 * The plugin will react to these coordinate positions in the store.
 	 * This allows it to react to e.g. the address search or the pins plugin.
 	 * Please see the example configuration for the common use-cases.
-	 * Please mind that, when referencing another plugin, that plugin must be in `addPlugins` before this one.
 	 */
 	coordinateSources?: StoreReference[]
+
+	/**
+	 * It may be desirable to clear a store value when the GFI plugin is closed.
+	 * This allows it to e.g. clear the pin.
+	 * Usually, this is a store value that is also used in {@link GfiPluginOptions.coordinateSources | `coordinateSources`}.
+	 */
+	coordinateTarget?: StoreReference
 
 	/**
 	 * If required, a user can change the stroke and fill of the highlighted feature.
@@ -269,34 +375,35 @@ export interface GfiPluginOptions extends PluginOptions {
 	customHighlightStyle?: CustomHighlightStyle
 
 	/**
-	 * If `true`, a feature can be selected without defining a value in `gfi.coordinateSources`.
+	 * If `true`, a feature can be selected without defining a value in {@link GfiPluginOptions.coordinateSources | `coordinateSources`}.
 	 *
 	 * It is also possible to add multiple features to the selection by using the modifier key (CTRL on Windows or Command on macOS).
-	 * To delesect a feature, simply reclick it with the modifier key pressed.
+	 * To deselect a feature, simply re-click it with the modifier key pressed.
 	 * To create a new selection, click anywhere else without pressing the modifier key.
 	 *
-	 * Be careful when using this parameter together with some values set in `coordinateSources` as it may lead to unexpected results.
+	 * Does not work together with {@link MapConfiguration.markers}.
+	 *
+	 * @remarks
+	 * Be careful when using this parameter together with some values set in {@link GfiPluginOptions.coordinateSources | `coordinateSources`} as it may lead to unexpected results.
 	 * The features need to be distinguishable by their properties for the functionality to properly work.
 	 *
-	 * Does not work together with `extendedMasterportalapiMarkers`.
-	 *
-	 * @defaultValue false
+	 * @defaultValue `false`
 	 */
 	directSelect?: boolean
 
 	/**
 	 * If defined, a list of available vector layer features is visible when no feature is selected.
-	 * Only usable if `renderType` is set to `iconMenu` and `window` is set to `true` for at least one configured layer.
+	 * Only usable if {@link GfiPluginOptions.renderType | `renderType`} is set to `iconMenu` and {@link GfiLayerConfiguration.window | `window`} is set to `true` for at least one configured layer.
 	 */
 	featureList?: FeatureList
 
 	/**
-	 * Limits the viewable GFIs per layer by this number.
+	 * Limits the viewable results by this number.
 	 * The first n elements are chosen arbitrarily.
 	 * Useful if you e.g. just want one result, or to limit an endless stream of returns to e.g. 10.
-	 * Infinite by default.
 	 *
-	 * @example 10
+	 * @defaultValue `Infinity`
+	 * @example `10`
 	 */
 	maxFeatures?: number
 
@@ -304,7 +411,7 @@ export interface GfiPluginOptions extends PluginOptions {
 	 * Method of calculating which feature has been chosen by the user.
 	 * `bboxDot` utilizes the `bbox`-url parameter using the clicked coordinate while `intersects` uses a `Filter` to calculate the intersected features.
 	 * Layers can have their own `gfiMode` parameter which would override this global mode.
-	 * To apply this, add the desired value to the parameter in the `mapConfiguration`.
+	 * To apply this, add the desired value to the parameter in the {@link MapConfiguration | `mapConfiguration`}.
 	 *
 	 * @defaultValue `'bboxDot'`
 	 */
@@ -312,29 +419,30 @@ export interface GfiPluginOptions extends PluginOptions {
 
 	/**
 	 * If configured, multiple features can be selected at once by using the modifier key (CTRL on Windows or Command on macOS) and dragging the mouse.
-	 * Can only be used in Desktop environments.
+	 * Can only be used in desktop environments.
 	 *
-	 * If set to `'box'`, the selection will be done in a box.
-	 * If set to `'circle'`, the selection will be done in a circle.
-	 *
-	 * Similar to `directSelect`, features can be added and removed by selection / unselecting them.
+	 * Similar to {@link GfiPluginOptions.directSelect | `directSelect`},
+	 * features can be added and removed by selecting / unselecting them.
 	 * The features need to be distinguishable by their properties for the functionality to properly work.
-	 * Does not work together with `extendedMasterportalapiMarkers` of `@polar/core`.
+	 * Does not work together with {@link MapConfiguration.markers}.
 	 *
 	 * @defaultValue Disabled by default
 	 */
-	multiSelect?: 'box' | 'circle'
+	multiSelect?: MultiSelect
 
 	/**
-	 * Defines if the plugin is rendered independent or as part of the icon menu.
-	 * This is automatically set by the icon menu; you should not need to touch this.
+	 * Time passed in milliseconds before another request is started.
 	 *
-	 * @defaultValue `'independent'`
+	 * @defaultValue `50`
+	 * @alpha
 	 */
-	renderType?: 'independent' | 'iconMenu'
+	waitMs?: number
 }
 
-/** parameter specification for request method */
+/**
+ * parameter specification for request method
+ * @internal
+ */
 export interface RequestGfiParameters {
 	coordinateOrExtent: [number, number] | [number, number, number, number]
 	layer: BaseLayer
@@ -349,10 +457,11 @@ export interface RequestGfiParameters {
 	mode?: 'bboxDot' | 'intersects'
 }
 
-export interface RequestGfiWmsParameters {
+/** @internal */
+export interface RequestGfiWmsParameters extends Pick<
+	RequestGfiParameters,
+	'layerConfiguration' | 'layerSpecification' | 'map'
+> {
 	coordinate: [number, number]
 	layer: TileLayer<TileWMS> | ImageLayer<ImageWMS>
-	layerConfiguration: RequestGfiParameters['layerConfiguration']
-	layerSpecification: RequestGfiParameters['layerSpecification']
-	map: RequestGfiParameters['map']
 }

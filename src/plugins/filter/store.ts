@@ -9,7 +9,6 @@ import { watch } from 'vue'
 
 import { getVectorSource } from '@/lib/getVectorSource'
 
-import { useFilterCategoryStore } from './stores/category'
 import { useFilterMainStore } from './stores/main'
 import { useFilterTimeStore } from './stores/time'
 import { updateFeatureVisibility } from './utils/updateFeatureVisibility'
@@ -24,7 +23,6 @@ import { updateFeatureVisibility } from './utils/updateFeatureVisibility'
 export const useFilterStore = defineStore('plugins/filter', () => {
 	const filterMainStore = useFilterMainStore()
 	const filterMainStoreRefs = storeToRefs(filterMainStore)
-	const filterCategoryStore = useFilterCategoryStore()
 	const filterTimeStore = useFilterTimeStore()
 	const filterTimeStoreRefs = storeToRefs(filterTimeStore)
 
@@ -36,7 +34,7 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 			const callback = () => {
 				updateFeatureVisibility(
 					source,
-					filterMainStore.state[layer.get('id')] ?? {}
+					filterMainStore.state[layer.get('id')] ?? { knownValues: {} }
 				)
 			}
 			source.on('featuresloadend', callback)
@@ -107,27 +105,12 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 		selectedLayerHasTimeFilter: filterMainStoreRefs.selectedLayerHasTimeFilter,
 
 		/**
-		 * For a given category value for a target property, return the selected values.
+		 * Categories of the selected layer, each enriched with a writable
+		 * `selection` computed (usable with `v-model`).
 		 *
-		 * @remarks
-		 * If there are multiple values specified for the category value, the category is considered selected if all values are selected.
-		 *
-		 * @param targetProperty - Target property
-		 * @param categoryValue - Value to filter for
-		 * @returns `true` if the category value is selected, `false` otherwise
 		 * @alpha
 		 */
-		getCategoryStatus: filterCategoryStore.getStatus,
-
-		/**
-		 * Set the selection state for a given category value for a target property.
-		 *
-		 * @param targetProperty - Target property
-		 * @param categoryValue - Value to filter for
-		 * @param newStatus - `true` if the category value should be selected, `false` otherwise
-		 * @alpha
-		 */
-		setCategoryStatus: filterCategoryStore.setStatus,
+		categories: filterMainStoreRefs.categories,
 
 		/**
 		 * For a given category, select all values if at least some are not selected yet, or de-select all values otherwise.
@@ -135,7 +118,7 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 		 * @param category - Category to toggle value's selection states
 		 * @alpha
 		 */
-		selectOrDeselectAllFromCategory: filterCategoryStore.selectOrDeselectAll,
+		selectOrDeselectAllFromCategory: filterMainStore.selectOrDeselectAll,
 
 		/**
 		 * @alpha

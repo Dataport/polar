@@ -1,0 +1,14 @@
+[
+	{
+		"styleId": "hamburg-border",
+		"rules": [
+			{
+				"style": {
+					"polygonStrokeColor": [70, 104, 142, 1],
+					"polygonStrokeWidth": 2,
+					"polygonFillColor": [0, 0, 0, 0]
+				}
+			}
+		]
+	}
+]

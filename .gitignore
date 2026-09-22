@@ -4,6 +4,10 @@ node_modules
 git-hooks.config.json
 
 /docs-html
+/docs/configuration-demo.js
+/docs/configuration-demo.css
+/docs/assets/configuration-demo-*.css
+/docs/assets/FiraSans-*.woff2
 .dist.preview
 .dist.github-io
 .vscode/settings.json

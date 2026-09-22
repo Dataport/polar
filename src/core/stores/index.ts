@@ -4,12 +4,9 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { Feature } from 'ol'
-
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, readonly } from 'vue'
 
-import { updateSelection } from '../utils/map/setupMarkers'
 import { useContextMenuStore } from './contextMenu'
 import { useMainStore } from './main'
 import { useMarkerStore } from './marker'
@@ -36,14 +33,16 @@ export const useCoreStore = defineStore('core', () => {
 
 	return {
 		/**
-		 * The current center coordinates of the map.
+		 * Read or modify center coordinate of the map.
 		 *
-		 * @internal
+		 * @alpha
 		 */
 		center: mainStoreRefs.center,
 
 		/**
 		 * Color scheme the client should be using.
+		 *
+		 * @alpha
 		 */
 		colorScheme: mainStoreRefs.colorScheme,
 
@@ -133,12 +132,35 @@ export const useCoreStore = defineStore('core', () => {
 		zoom: mainStoreRefs.zoom,
 
 		/**
-		 * Returns the layer with the given ID.
+		 * Masks an interaction for a plugin.
+		 * If the interaction is already masked by another plugin, an error is thrown.
 		 *
-		 * @param layerId - ID of the layer
+		 * This may, for example, be used for interactions that should not be triggered while drawing.
+		 *
+		 * @param pluginId - ID of the plugin that wants to mask the interaction
+		 * @param interaction - Name of the interaction to be masked
 		 * @alpha
 		 */
-		getLayer: mainStore.getLayer,
+		maskInteraction: mainStore.maskInteraction,
+
+		/**
+		 * Unmasks an interaction for a plugin.
+		 * If the interaction is not masked by the plugin, nothing happens.
+		 *
+		 * @param pluginId - ID of the plugin that wants to unmask the interaction
+		 * @param interaction - Name of the interaction to be unmasked
+		 * @alpha
+		 */
+		unmaskInteraction: mainStore.unmaskInteraction,
+
+		/**
+		 * Checks whether an interaction is masked by another plugin.
+		 *
+		 * @param interaction - Name of the interaction to be checked
+		 * @returns `true` if the interaction is masked by another plugin, `false` otherwise
+		 * @alpha
+		 */
+		isInteractionMasked: mainStore.isInteractionMasked,
 
 		/**
 		 * List of all active plugin's IDs.
@@ -244,38 +266,79 @@ export const useCoreStore = defineStore('core', () => {
 		moveHandleTop: computed(() => moveHandleStore.top),
 
 		/**
-		 * Currently hovered marker feature or null.
-		 *
-		 * @readonly
+		 * Currently hovered marker feature or `null`.
+		 * You may not set this to a cluster.
 		 */
-		hovered: computed(() => markerStore.hovered),
-
-		/**
-		 * Currently selected marker feature or null.
-		 *
-		 * @readonly
-		 */
-		selected: computed(() => markerStore.selected),
+		hoveredFeature: markerStoreRefs.hoveredFeature,
 
 		/**
 		 * Feature that is hovered by the user with a marker.
-		 * NOTE: Set _polarLayerId!
+		 * If the layer does not use clustering, this is the same as {@link hoveredFeature}.
+		 * Otherwise, this is the cluster that contains the {@link hoveredFeature}.
 		 *
+		 * @readonly
 		 * @alpha
 		 */
-		hoveredFeature: markerStoreRefs.hovered,
+		hoveredCluster: readonly(markerStoreRefs.hoveredCluster),
 
 		/**
-		 * Feature that was selected by the user with a marker.
+		 * Features that are hovered by the user with a marker.
+		 * If the layer does not use clustering, this is an array with a single element, which is the same as {@link hoveredFeature}.
+		 * Otherwise, this is an array of all features that are contained in the {@link hoveredCluster}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		hoveredClusterFeatures: markerStoreRefs.hoveredClusterFeatures,
+
+		/**
+		 * Coordinates that were hovered by the user with a marker.
+		 *
+		 * @readonly
+		 */
+		hoveredCoordinates: computed(() => markerStore.hoveredCoordinates),
+
+		/**
+		 * Currently selected marker feature or `null`.
+		 * You may not set this to a cluster.
+		 * Setting this value to a cluster has no effect, however, this may change in the future.
+		 *
+		 * @remarks
+		 * If this value is modified, the newly selected feature is centered on the map.
+		 *
+		 * Wait at least one `nextTick` after modifying {@link hoveredFeature} before mutating this value.
 		 *
 		 * @alpha
 		 */
 		selectedFeature: computed({
-			get: () => markerStore.selected,
+			get: () => markerStore.selectedFeature,
 			set: (feature) => {
-				updateSelection(mainStore.map, feature as Feature)
+				if (feature?.get('features')) {
+					return
+				}
+				markerStore.selectedFeature = feature
 			},
 		}),
+
+		/**
+		 * Feature that is marked as selected on the map.
+		 * If the layer does not use clustering, this is the same as {@link selectedFeature}.
+		 * Otherwise, this is the cluster that contains the {@link selectedFeature}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		selectedCluster: readonly(markerStoreRefs.selectedCluster),
+
+		/**
+		 * Features that are marked as selected on the map.
+		 * If the layer does not use clustering, this is an array with a single element, which is the same as {@link selectedFeature}.
+		 * Otherwise, this is an array of all features that are contained in the {@link selectedCluster}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		selectedClusterFeatures: markerStoreRefs.selectedClusterFeatures,
 
 		/**
 		 * Coordinates that were selected by the user with a marker.

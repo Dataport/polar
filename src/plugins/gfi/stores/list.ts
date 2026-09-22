@@ -1,167 +1,108 @@
 import type { Feature } from 'ol'
-import type { FeatureList } from '../types'
+import type { FeatureListText } from '../types'
 
+import { pickBy } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { computed, markRaw, ref, shallowRef, watch } from 'vue'
 
+import { useOlVectorSources } from '@/composables/useOlVectorSources'
+import { useRefStore } from '@/composables/useRefStore'
 import { useCoreStore } from '@/core/stores'
-import { getRefStore } from '@/lib/getRefStore'
+import { findLayer } from '@/lib/findLayer'
 import { getVectorSource } from '@/lib/getVectorSource'
 import { isVisible } from '@/lib/invisibleStyle'
 
+import { useBindWithCoreHoverSelect } from '../composables/useBindWithCoreHoverSelect'
+import { filterSelectableFeatures } from '../utils/filterSelectableFeatures'
 import { getSourceFeatures } from '../utils/getSourceFeatures'
-import { serializeFeature } from '../utils/serializeFeature'
 import { useGfiMainStore } from './main'
 
 export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 	const coreStore = useCoreStore()
-	const gfiMainStore = useGfiMainStore()
+	const coreStoreRefs = storeToRefs(coreStore)
 
-	const hoveredFeatures = ref<Record<string, Feature[]>>({})
-	const { selectedFeatures } = storeToRefs(gfiMainStore)
+	const gfiMainStore = useGfiMainStore()
+	const gfiMainStoreRefs = storeToRefs(gfiMainStore)
 
 	const configuration = computed(() => gfiMainStore.configuration.featureList)
 
-	const activeLayers = computed((): string[] => {
+	const hoveredFeature = shallowRef<{
+		layerId: string
+		feature: Feature
+	} | null>(null)
+	const hoveredFeatures = shallowRef<Record<string, Feature[]>>({})
+
+	const activeLayerIds = computed((): string[] => {
 		if (!configuration.value) {
 			return []
 		}
 
 		const activeLayersRef = configuration.value.activeLayers
-		const store = getRefStore(activeLayersRef)
-		if (!store) {
+		const store = useRefStore(activeLayersRef)
+		if (
+			!store ||
+			!Array.isArray(store[activeLayersRef.key]) ||
+			!store[activeLayersRef.key].every(
+				(layerId) => typeof layerId === 'string'
+			)
+		) {
+			console.warn(
+				`Invalid activeLayers configuration for key "${activeLayersRef.key}"`
+			)
 			return []
 		}
 		return store[activeLayersRef.key]
 	})
 
-	const features = computed(() => {
-		// We want to re-calculate on extent changes, as the features change then.
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-		coreStore.extent
+	const activeLayers = computed(() =>
+		activeLayerIds.value
+			.map((layerId) => ({
+				layerId,
+				layerConfiguration: gfiMainStore.getLayerConfiguration(layerId),
+				layer: findLayer(coreStore.map, layerId),
+			}))
+			.filter(
+				(
+					layer
+				): layer is {
+					[K in keyof typeof layer]: NonNullable<(typeof layer)[K]>
+				} => Boolean(layer.layerConfiguration) && Boolean(layer.layer)
+			)
+			.map(({ layerId, layerConfiguration, layer }) => ({
+				layerId,
+				layerConfiguration,
+				source: getVectorSource(layer),
+			}))
+	)
 
-		// TODO: We also want to re-calculate when the features are actually loaded.
-		// Currently, we need an extent change to reload the list.
-
-		return Object.fromEntries(
-			activeLayers.value
-				.map((layerId) => ({
+	const features = useOlVectorSources(
+		computed(() => activeLayers.value.map(({ source }) => source)),
+		computed(() => coreStore.extent),
+		() =>
+			Object.fromEntries(
+				activeLayers.value.map(({ layerId, layerConfiguration, source }) => [
 					layerId,
-					layerConfiguration: gfiMainStore.getLayerConfiguration(layerId),
-					layer: coreStore.getLayer(layerId),
-				}))
-				.filter(
-					(
-						layer
-					): layer is {
-						[K in keyof typeof layer]: NonNullable<(typeof layer)[K]>
-					} => Boolean(layer.layerConfiguration) && Boolean(layer.layer)
-				)
-				.map(({ layerId, layerConfiguration, layer }) => {
-					const source = getVectorSource(layer)
-
-					return [
-						layerId,
+					filterSelectableFeatures(
 						getSourceFeatures(
 							coreStore.map,
 							source,
 							configuration.value?.mode || 'visible'
-						)
-							.filter((feature) => isVisible(feature))
-							.filter(
-								(feature) =>
-									!layerConfiguration.isSelectable ||
-									layerConfiguration.isSelectable(serializeFeature(feature))
-							)
-							.map((feature) => ({
-								feature,
-								...(configuration.value?.bindWithCoreHoverSelect
-									? {
-											hovered:
-												coreStore.hoveredFeature === feature ||
-												coreStore.hoveredFeature
-													?.get('features')
-													?.includes(feature),
-										}
-									: {}),
-							})),
-					]
-				})
-				.filter(
-					(
-						layer
-					): layer is [string, { feature: Feature; hovered?: boolean }[]] =>
-						Boolean(layer)
-				)
-		)
-	})
-
-	watch(
-		[
-			() => configuration.value?.bindWithCoreHoverSelect,
-			() => coreStore.selectedFeature,
-		],
-		([bindMarkers, feature]) => {
-			if (bindMarkers) {
-				if (feature) {
-					selectedFeatures.value[feature.get('_polarLayerId')] = feature.get(
-						'features'
-					) || [feature]
-				} else {
-					selectedFeatures.value = {}
-				}
-			}
-		},
-		{ immediate: true, deep: true }
+						).filter((feature) => isVisible(feature)),
+						layerConfiguration.isSelectable
+					).map((feature) => ({ feature: markRaw(feature) })),
+				])
+			)
 	)
 
-	watch(
-		[
-			() => configuration.value?.bindWithCoreHoverSelect,
-			() => hoveredFeatures.value,
-		],
-		([bindMarkers, featureMap]) => {
-			if (bindMarkers) {
-				const features = Object.entries(featureMap).flatMap(
-					([layerId, features]) =>
-						features.map((feature) => ({ layerId, feature }))
-				)
-
-				// The second condition is necessary for TypeScript checks.
-				if (features.length <= 0 || !features[0]) {
-					coreStore.hoveredFeature = null
-					return
-				}
-
-				features[0].feature.set('_polarLayerId', features[0].layerId)
-				coreStore.hoveredFeature = features[0].feature
-			}
-		},
-		{ immediate: true, deep: true }
-	)
-
-	watch(
-		[
-			() => configuration.value?.bindWithCoreHoverSelect,
-			() => selectedFeatures.value,
-		],
-		([bindMarkers, featureMap]) => {
-			if (bindMarkers) {
-				const features = Object.values(featureMap).flat()
-
-				if (features.length <= 0) {
-					coreStore.selectedFeature = null
-					return
-				}
-
-				coreStore.selectedFeature = features[0] as Feature
-			}
-		},
-		{ immediate: true, deep: true }
+	const windowFeatures = computed(
+		() =>
+			pickBy(features.value, (features, layerId) =>
+				Boolean(gfiMainStore.getLayerConfiguration(layerId)?.window)
+			) as typeof features.value
 	)
 
 	const flatFeatures = computed(() =>
-		Object.entries(features.value).flatMap(([layerId, features]) =>
+		Object.entries(windowFeatures.value).flatMap(([layerId, features]) =>
 			features.map((feature) => ({
 				layerId,
 				...feature,
@@ -199,10 +140,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		)
 	)
 
-	function getText(
-		feature: Feature,
-		type: keyof NonNullable<FeatureList['text']>
-	) {
+	function getText(feature: Feature, type: keyof FeatureListText) {
 		const text = configuration.value?.text?.[type]
 		if (typeof text === 'string') {
 			return text
@@ -213,8 +151,65 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		return null
 	}
 
+	const enrichedPaginatedFeatures = computed(() =>
+		paginatedFeatures.value.map((feature) => ({
+			...feature,
+			get hovered() {
+				return (
+					Object.values(hoveredFeatures.value).some((features) =>
+						features.includes(feature.feature)
+					) ||
+					(configuration.value?.bindWithCoreHoverSelect &&
+						coreStore.hoveredClusterFeatures.includes(feature.feature))
+				)
+			},
+			text: {
+				title: getText(feature.feature, 'title'),
+				subtitle: getText(feature.feature, 'subtitle'),
+				subSubtitle: getText(feature.feature, 'subSubtitle'),
+			},
+		}))
+	)
+
+	if (configuration.value?.bindWithCoreHoverSelect) {
+		useBindWithCoreHoverSelect(
+			// hovered feature
+			hoveredFeature,
+			coreStoreRefs.hoveredFeature,
+			// hovered cluster
+			hoveredFeatures,
+			coreStoreRefs.hoveredClusterFeatures,
+			// selected feature
+			gfiMainStoreRefs.olFeature,
+			coreStoreRefs.selectedFeature,
+			// selected cluster
+			gfiMainStoreRefs.olFeatures,
+			coreStoreRefs.selectedClusterFeatures,
+			// reference order
+			computed(() => flatFeatures.value.map(({ feature }) => feature))
+		)
+	} else {
+		watch(hoveredFeature, (value) => {
+			if (value === null) {
+				hoveredFeatures.value = {}
+				return
+			}
+			const { layerId, feature } = value
+			hoveredFeatures.value = { [layerId]: [feature] }
+		})
+		watch(gfiMainStoreRefs.olFeature, (value) => {
+			if (value === null) {
+				gfiMainStore.olFeatures = {}
+				return
+			}
+			const { layerId, feature } = value
+			gfiMainStore.olFeatures = { [layerId]: [feature] }
+		})
+	}
+
 	return {
 		features,
+		hoveredFeature,
 		hoveredFeatures,
 		flatFeatures,
 		paginationActive,
@@ -223,6 +218,7 @@ export const useGfiListStore = defineStore('plugins/gfi/list', () => {
 		paginationStartIndex,
 		paginationEndIndex,
 		paginatedFeatures,
+		enrichedPaginatedFeatures,
 		getText,
 	}
 })

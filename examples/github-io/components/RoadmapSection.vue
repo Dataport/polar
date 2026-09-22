@@ -2,14 +2,12 @@
 	<section class="lp-roadmap-section">
 		<div class="lp-roadmap-section__header">
 			<div class="lp-container">
-				<div class="lp-section-header lp-section-header--center">
-					<TheBadge color="pink">Our Roadmap</TheBadge>
-					<h3 style="text-align: center">The Future of POLAR</h3>
-					<p style="text-align: center">
-						We're continuously improving POLAR. Here's what we've shipped and
-						what's coming next.
-					</p>
-				</div>
+				<SectionHeader
+					badge="Our Roadmap"
+					badge-color="pink"
+					title="The Future of POLAR"
+					description="We're continuously improving POLAR. Here's what we've shipped since 2025 and what's coming next."
+				/>
 			</div>
 		</div>
 
@@ -18,7 +16,7 @@
 				<div class="lp-roadmap" role="list" aria-label="POLAR Roadmap">
 					<div
 						v-for="(phase, index) in phases"
-						:key="phase.status"
+						:key="phase.label"
 						:class="[
 							'lp-roadmap__phase',
 							`lp-roadmap__phase--${phase.status}`,
@@ -84,7 +82,7 @@
 import RoadmapCard from './RoadmapCard.vue'
 import { phases } from './roadmapData'
 import RoadmapPhaseLabel from './RoadmapPhaseLabel.vue'
-import TheBadge from './TheBadge.vue'
+import SectionHeader from './SectionHeader.vue'
 </script>
 
 <style scoped>

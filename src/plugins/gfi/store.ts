@@ -5,6 +5,7 @@
 /* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
+import { readonly } from 'vue'
 
 import { useGfiFeatureStore } from './stores/feature'
 import { useGfiListStore } from './stores/list'
@@ -36,27 +37,63 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		configuration: gfiMainStoreRefs.configuration,
 
 		/**
-		 * Hovered features.
+		 * Render type for the plugin.
+		 *
+		 * @alpha
+		 */
+		renderType: gfiMainStoreRefs.renderType,
+
+		/**
+		 * Whether there are any layers with a configured window that are currently visible on the map.
+		 *
+		 * @alpha
+		 */
+		hasActiveWindowLayers: gfiMainStoreRefs.hasActiveWindowLayers,
+
+		/**
+		 * Hovered feature.
+		 * This is a feature whose hovering state is originated at the plugin.
+		 *
 		 * This is only used for the list view.
 		 *
 		 * @alpha
 		 */
-		hoveredFeatures: gfiListStoreRefs.hoveredFeatures,
+		hoveredFeature: gfiListStoreRefs.hoveredFeature,
+
+		/**
+		 * Hovered features.
+		 * The hovering state may be originated either from {@link hoveredFeature} or by other means.
+		 *
+		 * This is only used for the list view.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		hoveredFeatures: readonly(gfiListStoreRefs.hoveredFeatures),
+
+		/**
+		 * Selected feature.
+		 * This is only used if the feature is loaded from the list view.
+		 *
+		 * @alpha
+		 */
+		selectedFeature: gfiMainStoreRefs.olFeature,
 
 		/**
 		 * Selected features.
 		 * This is only used if the feature is loaded from the list view.
 		 *
+		 * @readonly
 		 * @alpha
 		 */
-		selectedFeatures: gfiMainStoreRefs.selectedFeatures,
+		selectedFeatures: readonly(gfiMainStoreRefs.olFeatures),
 
 		/**
 		 * Feature information for the currently selected feature(s).
 		 *
 		 * @alpha
 		 */
-		featureInformation: gfiMainStoreRefs.featureInformation,
+		featureInformation: gfiMainStoreRefs.geoJsonFeatures,
 
 		/**
 		 * List of features that should be displayed in a list view.
@@ -80,38 +117,36 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		listPaginationActive: gfiListStoreRefs.paginationActive,
 
 		/**
-		 * If pagination is configured, the number of features per page.
-		 * Otherwise, the behaviour is undefined.
+		 * If {@link FeatureList.pageLength | pagination} is configured, the number of features per page.
 		 *
 		 * @alpha
 		 */
 		listPageLength: gfiListStoreRefs.pageLength,
 
 		/**
-		 * If pagination is configured, the page that is currently selected in the list view.
-		 * Otherwise, the behaviour is undefined.
+		 * If {@link FeatureList.pageLength | pagination} is configured, the page that is currently selected in the list view.
 		 *
 		 * @alpha
 		 */
 		listPage: gfiListStoreRefs.page,
 
 		/**
-		 * If pagination is configured, the index of the first feature that is shown on the current page.
+		 * If {@link FeatureList.pageLength | pagination} is configured, the index of the first feature (inclusive) that is shown on the current page.
 		 * Otherwise, the value is zero.
 		 *
-		 * The index refers to `listFlatFeatures`.
+		 * The index refers to {@link listFlatFeatures}.
 		 *
 		 * @alpha
 		 */
 		listPaginationStartIndex: gfiListStoreRefs.paginationStartIndex,
 
 		/**
-		 * If pagination is configured, the index of the last feature that is shown on the current page.
+		 * If {@link FeatureList.pageLength | pagination} is configured, the index of the last feature (exclusive) that is shown on the current page.
 		 * Otherwise, the value is `undefined`.
 		 *
-		 * The index refers to `listFlatFeatures`.
+		 * The index refers to {@link listFlatFeatures}.
 		 *
-		 * To mutate this value, change `listPage` or `listPaginationStartIndex`.
+		 * To mutate this value, change {@link listPage} or {@link listPaginationStartIndex}.
 		 *
 		 * @readonly
 		 * @alpha
@@ -120,11 +155,19 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 
 		/**
 		 * Paginated list of features to display in the list view.
-		 * If pagination is not configured, this equals `listFlatFeatures`.
+		 * If {@link FeatureList.pageLength | pagination} is not configured, this equals {@link listFlatFeatures}.
 		 *
 		 * @alpha
 		 */
 		listPaginatedFeatures: gfiListStoreRefs.paginatedFeatures,
+
+		/**
+		 * Enriched paginated list of features to display in the list view.
+		 * This includes additional text information for each feature.
+		 *
+		 * @alpha
+		 */
+		listEnrichedPaginatedFeatures: gfiListStoreRefs.enrichedPaginatedFeatures,
 
 		/**
 		 * Get the text description of a feature for the list view.
@@ -136,33 +179,30 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		listGetText: gfiListStore.getText,
 
 		/**
-		 * Features that should be displayed in a detail view.
+		 * Features that should be displayed in the detailed view.
 		 *
 		 * @alpha
 		 */
 		features: gfiFeatureStoreRefs.visibleFeatures,
 
 		/**
-		 * Index of the selected feature for the detail view.
-		 * This is used to calculate `feature`.
+		 * Index of the selected feature for the detailed view.
+		 * This is used to calculate {@link feature}.
 		 *
 		 * @alpha
 		 */
 		featureIndex: gfiFeatureStoreRefs.selectedFeatureIndex,
 
 		/**
-		 * Selected feature for the detail view.
+		 * Selected feature for the detailed view.
 		 * This is the currently shown feature.
 		 *
-		 * To mutate this value, change `featureIndex`.
-		 *
-		 * @readonly
 		 * @alpha
 		 */
-		feature: gfiFeatureStoreRefs.selectedFeature,
+		feature: gfiMainStoreRefs.geoJsonFeature,
 
 		/**
-		 * Properties for the selected feature in detail view.
+		 * Properties for the selected feature in the detailed view.
 		 * The properties are already filtered by configuration.
 		 *
 		 * @readonly
@@ -171,13 +211,22 @@ export const useGfiStore = defineStore('plugins/gfi', () => {
 		properties: gfiFeatureStoreRefs.selectedFeatureProperties,
 
 		/**
-		 * If an export property is configured and defined, the value of that property.
-		 * Otherwise `null`.
+		 * If an {@link GfiLayerConfiguration.exportProperty} is configured and defined, the value of that property.
+		 *
+		 * @defaultValue `null`
 		 *
 		 * @readonly
 		 * @alpha
 		 */
 		exportProperty: gfiFeatureStoreRefs.exportProperty,
+
+		/**
+		 * The title for the selected feature in the detailed view.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		title: gfiFeatureStoreRefs.title,
 	}
 })
 

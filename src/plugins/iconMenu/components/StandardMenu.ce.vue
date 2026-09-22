@@ -30,7 +30,7 @@ const { deviceIsHorizontal } = storeToRefs(useCoreStore())
 const iconMenuStore = useIconMenuStore()
 
 const menus = computed(() =>
-	iconMenuStore.menus.map((menuGroup) =>
+	iconMenuStore.visibleMenus.map((menuGroup) =>
 		menuGroup.map((menu) =>
 			toMerged(menu, {
 				buttonClass: [
@@ -47,7 +47,7 @@ const menus = computed(() =>
 	)
 )
 const focusMenus = computed(() =>
-	iconMenuStore.focusMenus.map((menu) =>
+	iconMenuStore.visibleFocusMenus.map((menu) =>
 		toMerged(menu, {
 			buttonClass:
 				iconMenuStore.focusOpen === menu.plugin.id
