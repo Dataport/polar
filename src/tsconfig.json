@@ -5,7 +5,6 @@
 		"../tsconfig.settings.json"
 	],
 	"compilerOptions": {
-		"baseUrl": ".",
 		"types": [
 			"vitest/importMeta",
 			"vitest/jsdom",
