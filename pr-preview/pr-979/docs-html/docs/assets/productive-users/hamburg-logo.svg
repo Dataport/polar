@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="104.87375" height="47.635376" id="svg3955">
+  <defs id="defs3957"/>
+  <metadata id="metadata3960">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:title/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g transform="translate(-187.56313,-174.25878)" id="layer1">
+    <g transform="matrix(1.25,0,0,-1.25,236.92313,216.27953)" id="g3074">
+      <path d="m 0,0 c 16.108,-3.201 27.967,-4.536 44.411,0.101 l 0,-1.644 c -16.506,-4.581 -28.562,-3.221 -44.72,-0.011 -14.065,2.796 -25.09,4.906 -39.179,0.088 l 0,1.673 C -25.333,4.919 -14.113,2.804 0,0" id="path3076" style="fill:#5685c4;fill-opacity:1;fill-rule:nonzero;stroke:none"/>
+    </g>
+    <g transform="matrix(1.25,0,0,-1.25,262.43775,217.5459)" id="g3078">
+      <path d="m 0,0 -0.066,6.196 c 0,1.862 -1.51,3.371 -3.371,3.371 -1.863,0 -3.372,-1.51 -3.372,-3.371 L -6.868,0.577 c -3.631,0.432 -7.157,1.034 -10.626,1.671 1.49,4.114 2.243,7.396 2.555,12.071 l 23.016,0 C 8.406,9.449 9.501,4.863 11.154,0.299 7.284,-0.102 3.58,-0.164 0,0" id="path3080" style="fill:#e3000f;fill-opacity:1;fill-rule:nonzero;stroke:none"/>
+    </g>
+    <g transform="matrix(1.25,0,0,-1.25,249.61213,182.52703)" id="g3082">
+      <path d="M 0,0 -1.222,0 -1.834,-1.058 -2.445,0 l -1.222,0 0.611,1.059 -0.611,1.058 1.222,0 0.611,1.058 L -1.222,2.117 0,2.117 -0.611,1.059 0,0 z" id="path3084" style="fill:#e3000f;fill-opacity:1;fill-rule:nonzero;stroke:none"/>
+    </g>
+    <g transform="matrix(1.25,0,0,-1.25,271.2705,182.52703)" id="g3086">
+      <path d="M 0,0 -1.222,0 -1.833,-1.058 -2.445,0 l -1.222,0 0.611,1.059 -0.611,1.058 1.222,0 0.612,1.058 L -1.222,2.117 0,2.117 -0.611,1.059 0,0 z" id="path3088" style="fill:#e3000f;fill-opacity:1;fill-rule:nonzero;stroke:none"/>
+    </g>
+    <g transform="matrix(1.25,0,0,-1.25,254.22125,183.09003)" id="g3090">
+      <path d="M 0,0 0,0.107 C 0,1.591 1.037,2.83 2.422,3.152 l 0,1.353 -1.137,0 0,1.262 1.137,0 0,1.298 1.442,0 0,-1.298 1.136,0 0,-1.262 -1.136,0 0,-1.349 C 5.338,2.829 6.204,1.51 6.281,0 l 1.217,0 0,-1.614 -1.365,0 0,-8.647 2.949,0 0,8.647 5.449,0 0,-8.647 1.716,0 0,-1.667 -26.209,0 0,1.667 1.716,0 0,8.647 5.449,0 0,-8.647 2.949,0 0,8.647 -1.365,0 0,1.614 L 0,0 z" id="path3092" style="fill:#e3000f;fill-opacity:1;fill-rule:nonzero;stroke:none"/>
+    </g>
+  </g>
+</svg>
