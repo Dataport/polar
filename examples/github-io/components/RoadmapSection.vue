@@ -2,14 +2,12 @@
 	<section class="lp-roadmap-section">
 		<div class="lp-roadmap-section__header">
 			<div class="lp-container">
-				<div class="lp-section-header lp-section-header--center">
-					<TheBadge color="pink">Our Roadmap</TheBadge>
-					<h3 style="text-align: center">The Future of POLAR</h3>
-					<p style="text-align: center">
-						We're continuously improving POLAR. Here's what we've shipped and
-						what's coming next.
-					</p>
-				</div>
+				<SectionHeader
+					badge="Our Roadmap"
+					badge-color="pink"
+					title="The Future of POLAR"
+					description="We're continuously improving POLAR. Here's what we've shipped since 2025 and what's coming next."
+				/>
 			</div>
 		</div>
 
@@ -18,7 +16,7 @@
 				<div class="lp-roadmap" role="list" aria-label="POLAR Roadmap">
 					<div
 						v-for="(phase, index) in phases"
-						:key="phase.status"
+						:key="phase.label"
 						:class="[
 							'lp-roadmap__phase',
 							`lp-roadmap__phase--${phase.status}`,
@@ -29,7 +27,7 @@
 						]"
 					>
 						<!-- Cards stacked above -->
-						<div v-show="!isPhaseCollapsed(phase)" class="lp-roadmap__cards">
+						<div class="lp-roadmap__cards">
 							<div
 								v-for="item in phase.items"
 								:key="item.title"
@@ -47,16 +45,9 @@
 
 						<!-- Milestone header row -->
 						<div
-							:class="[
-								'lp-roadmap__milestone-row',
-								phase.status === 'done' &&
-									'lp-roadmap__milestone-row--clickable',
-							]"
-							:role="phase.status === 'done' ? 'button' : 'listitem'"
-							:tabindex="phase.status === 'done' ? 0 : -1"
-							@click="togglePhase(phase)"
-							@keydown.enter="togglePhase(phase)"
-							@keydown.space.prevent="togglePhase(phase)"
+							:class="['lp-roadmap__milestone-row']"
+							role="listitem"
+							tabindex="-1"
 						>
 							<div class="lp-roadmap__milestone-label">
 								<RoadmapPhaseLabel
@@ -88,34 +79,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 import RoadmapCard from './RoadmapCard.vue'
 import { phases } from './roadmapData'
 import RoadmapPhaseLabel from './RoadmapPhaseLabel.vue'
-import TheBadge from './TheBadge.vue'
-
-const collapsedPhases = ref(
-	new Set(
-		phases
-			.filter((phase) => phase.status === 'done')
-			.map((phase) => phase.label)
-	)
-)
-
-function togglePhase(phase: (typeof phases)[0]) {
-	if (phase.status === 'done') {
-		if (collapsedPhases.value.has(phase.label)) {
-			collapsedPhases.value.delete(phase.label)
-		} else {
-			collapsedPhases.value.add(phase.label)
-		}
-	}
-}
-
-function isPhaseCollapsed(phase: (typeof phases)[0]): boolean {
-	return collapsedPhases.value.has(phase.label)
-}
+import SectionHeader from './SectionHeader.vue'
 </script>
 
 <style scoped>
