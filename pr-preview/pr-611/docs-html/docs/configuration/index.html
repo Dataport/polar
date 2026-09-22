@@ -251,16 +251,43 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#client-documentation" class="md-nav__link">
-    Client documentation
+  <a href="#use-the-generic-client" class="md-nav__link">
+    Use the generic client
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage-pattern" class="md-nav__link">
-    Usage pattern
+  <a href="#choose-your-path" class="md-nav__link">
+    Choose your path
   </a>
+  
+    <nav class="md-nav" aria-label="Choose your path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-polar-in-an-application" class="md-nav__link">
+    Use POLAR in an application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-a-specialized-client" class="md-nav__link">
+    Build a specialized client
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contribute-to-polar" class="md-nav__link">
+    Contribute to POLAR
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -678,16 +705,43 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#client-documentation" class="md-nav__link">
-    Client documentation
+  <a href="#use-the-generic-client" class="md-nav__link">
+    Use the generic client
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage-pattern" class="md-nav__link">
-    Usage pattern
+  <a href="#choose-your-path" class="md-nav__link">
+    Choose your path
   </a>
+  
+    <nav class="md-nav" aria-label="Choose your path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-polar-in-an-application" class="md-nav__link">
+    Use POLAR in an application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-a-specialized-client" class="md-nav__link">
+    Build a specialized client
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contribute-to-polar" class="md-nav__link">
+    Contribute to POLAR
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -707,18 +761,48 @@
 
 
 <h1 id="configuration">Configuration</h1>
-<p>About configuration, integration, and common use cases.</p>
-<h2 id="client-documentation">Client documentation</h2>
-<p>For special usecases, there are specialized clients based on POLAR.</p>
-<p>The following specialized clients are managed by the POLAR core team:
-- <a href="https://dataport.github.io/polar-client-style-preview">Style preview documentation ↗</a></p>
-<p>Not sure where to start?
-Use the package <code>@polar/polar</code> and its documentation for an unspecialized client <em>including all plugins</em>.</p>
-<h2 id="usage-pattern">Usage pattern</h2>
-<p>All clients come with instructions documented above. However, they all mostly share how their integration works. Overall, these parts are required:</p>
-<ul>
-<li><em>TODO</em></li>
-</ul>
+<p>POLAR is configured when you create a map. The generic client uses a service register and a configuration object to determine which layers and plugins are available.</p>
+<h2 id="use-the-generic-client">Use the generic client</h2>
+<p>For a standard map application, install <code>@polar/polar</code> and import its generic client:</p>
+<pre><code class="language-sh">npm install @polar/polar
+</code></pre>
+<p>The map container needs an explicit size. Pass either a service-register URL or a service-register array to <code>createMap</code>. The keys in the configuration object enable and configure plugins. The live example below uses the same configuration as the code sample.</p>
+<pre><code class="language-html">&lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 600px; position: relative;&quot;&gt;&lt;/div&gt;
+</code></pre>
+<pre><code class="language-js">import { createMap } from '@polar/polar/client'
+
+await createMap(
+    'map',
+    '../services.json',
+    {
+        startCenter: [573575, 6018990],
+        layers: [
+            {
+                id: '23420',
+                name: 'basemap.de Web Raster Farbe',
+                type: 'background',
+                visibility: true,
+            },
+        ],
+        layout: 'nineRegions',
+        scale: {},
+    }
+)
+</code></pre>
+<p>The repository includes a minimal <a href="../services.json"><code>services.json</code></a> for this example. It defines the <code>23420</code> basemap as a WMS background layer. Replace it with your own service register when integrating POLAR into an application. See the <a href="../reference/">API Reference</a> for the complete configuration types and plugin options.</p>
+<p><iframe
+    src="../configuration-demo.html"
+    title="Interactive POLAR map configuration example"
+    style="width: 100%; height: 600px; border: 0;"
+></iframe>
+</p>
+<h2 id="choose-your-path">Choose your path</h2>
+<h3 id="use-polar-in-an-application">Use POLAR in an application</h3>
+<p>Start with the generic client and the configuration pattern above. The repository also contains a <a href="https://github.com/Dataport/polar/tree/next/examples/generic">complete generic client example</a> with a service register, layers, markers, search, pins, and map controls.</p>
+<h3 id="build-a-specialized-client">Build a specialized client</h3>
+<p>Create a separate client when your application needs its own defaults or domain-specific behavior. The architecture decision <a href="../architecture/decisions/ADR-0011/">Split customer-specific clients into separate repositories</a> explains this boundary.</p>
+<h3 id="contribute-to-polar">Contribute to POLAR</h3>
+<p>For changes to the core package, plugins, or shared libraries, continue with the <a href="../development/">Development guide</a> and <a href="../architecture/">Architecture documentation</a>.</p>
 
 
 
