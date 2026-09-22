@@ -47,7 +47,12 @@ export default async function mpapi(
 		}
 	} catch (error) {
 		console.error(error)
-		throw new Error('An error occurred while fetching the feature collection.')
+		throw new Error(
+			'An error occurred while fetching the feature collection.',
+			{
+				cause: error,
+			}
+		)
 	}
 }
 
