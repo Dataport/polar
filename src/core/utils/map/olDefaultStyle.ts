@@ -1,4 +1,4 @@
-import { Circle, Fill, Stroke, Style } from 'ol/style.js'
+import { Circle, Fill, Stroke, Style } from 'ol/style'
 
 const fill = new Fill({
 	color: 'rgba(255,255,255,0.4)',
