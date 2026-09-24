@@ -33,6 +33,9 @@ function getTextContent(parent: Element, localName: string) {
 	return parent.getElementsByTagNameNS('*', localName)[0]?.textContent ?? ''
 }
 
+export const addressMissingMessage =
+	'Response does not contain an "Adresse" element.'
+
 export async function reverseGeocodeWps({
 	url,
 	coordinate,
@@ -61,7 +64,7 @@ export async function reverseGeocodeWps({
 
 	const address = doc.getElementsByTagNameNS('*', 'Adresse')[0]
 	if (!address) {
-		throw new Error('Response does not contain an "Adresse" element.')
+		throw new Error(addressMissingMessage)
 	}
 
 	// NOTE: Property names come from the WPS.
