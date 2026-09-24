@@ -1,1 +1,0 @@
-var e=new URL(`cta-bg-wL-knX5f.svg`,import.meta.url).href;export{e as t};
