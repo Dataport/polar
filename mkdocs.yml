@@ -26,6 +26,17 @@ nav:
       - architecture/decisions/ADR-0008.md
       - architecture/decisions/ADR-0009.md
       - architecture/decisions/ADR-0010.md
+      - architecture/decisions/ADR-0011.md
+      - architecture/decisions/ADR-0012.md
+      - architecture/decisions/ADR-0013.md
+      - architecture/decisions/ADR-0014.md
+      - architecture/decisions/ADR-0015.md
+      - architecture/decisions/ADR-0016.md
+      - architecture/decisions/ADR-0017.md
+      - architecture/decisions/ADR-0018.md
+      - architecture/decisions/ADR-0019.md
+      - architecture/decisions/ADR-0020.md
+      - architecture/decisions/ADR-0021.md
   - development.md
   - contact.md
   - legal-notice.md
