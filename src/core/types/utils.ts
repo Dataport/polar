@@ -33,3 +33,9 @@ export interface PolarGeoJsonFeatureCollection<
 	features: Array<PolarGeoJsonFeature<G, P>>
 	type: 'FeatureCollection'
 }
+export interface SearchResult {
+	categoryId: string
+	categoryLabel: string
+	features: PolarGeoJsonFeatureCollection
+	groupId: string
+}
