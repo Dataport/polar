@@ -6,15 +6,35 @@ import type {
 	MasterportalApiServiceRegister,
 } from '../../types'
 
+import { setCustomStyles } from '@masterportal/masterportalapi/src/layer/geojson'
 import createStyle from '@masterportal/masterportalapi/src/vectorStyle/createStyle'
 import styleList from '@masterportal/masterportalapi/src/vectorStyle/styleList'
 import noop from '@repositoryname/noop'
+
+import { styles } from './olDefaultStyle'
+
+const changeMasterportalApiDefaults = () => {
+	setCustomStyles({
+		// required by masterportalAPI
+		/* eslint-disable @typescript-eslint/naming-convention */
+		Point: styles,
+		LineString: styles,
+		MultiLineString: styles,
+		MultiPoint: styles,
+		MultiPolygon: styles,
+		Polygon: styles,
+		GeometryCollection: styles,
+		Circle: styles,
+		/* eslint-enable @typescript-eslint/naming-convention */
+	})
+}
 
 export async function setupStyling(
 	map: Map,
 	configuration: MapConfiguration,
 	register: MasterportalApiServiceRegister
 ) {
+	changeMasterportalApiDefaults()
 	if (configuration.featureStyles && Array.isArray(register)) {
 		await styleList.initializeStyleList(
 			// Masterportal specific field not required by POLAR
