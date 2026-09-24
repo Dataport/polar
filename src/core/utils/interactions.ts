@@ -1,6 +1,10 @@
 import type { MapBrowserEvent } from 'ol'
 
-import { platformModifierKeyOnly } from 'ol/events/condition'
+import {
+	noModifierKeys,
+	platformModifierKeyOnly,
+	primaryAction,
+} from 'ol/events/condition'
 import {
 	DragPan,
 	KeyboardPan,
@@ -30,9 +34,11 @@ export function createPanAndZoomInteractions(
 	}
 	return [
 		new DragPan({
-			condition: function () {
-				// @ts-expect-error | As the DragPan is added to the interactions of the map, the 'this' context of the condition function should always be defined.
-				return hasSmallScreen ? this.getPointerCount() > 1 : true
+			condition: function (e) {
+				return hasSmallScreen
+					? // @ts-expect-error | As the DragPan is added to the interactions of the map, the 'this' context of the condition function should always be defined.
+						this.getPointerCount() > 1
+					: noModifierKeys(e) && primaryAction(e)
 			},
 		}),
 		new MouseWheelZoom({
