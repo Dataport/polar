@@ -1,12 +1,17 @@
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
+import commonJs from 'vite-plugin-commonjs'
 import kernExtraIcons from 'vite-plugin-kern-extra-icons'
+
+import enrichedConsole from './vitePlugins/enrichedConsole.js'
 
 export default defineConfig({
 	root: resolve(import.meta.dirname, 'examples', 'github-io'),
 	base: './',
 	plugins: [
+		// @ts-expect-error | commonJs dts is broken
+		commonJs(),
 		vue({
 			template: {
 				compilerOptions: {
@@ -18,11 +23,13 @@ export default defineConfig({
 			cssLayer: 'kern-ux-icons',
 			ignoreFilename: (filename) => !filename.includes('/examples/github-io/'),
 		}),
+		enrichedConsole(),
 	],
 	build: {
 		outDir: resolve(import.meta.dirname, 'examples', 'github-io', 'dist'),
+		chunkSizeWarningLimit: 1536,
 		emptyOutDir: true,
-		rollupOptions: {
+		rolldownOptions: {
 			input: resolve(
 				import.meta.dirname,
 				'examples',
@@ -35,5 +42,8 @@ export default defineConfig({
 				assetFileNames: '[name].[ext]',
 			},
 		},
+	},
+	preview: {
+		port: 1236,
 	},
 })
