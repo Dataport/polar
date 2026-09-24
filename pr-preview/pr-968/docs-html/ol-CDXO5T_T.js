@@ -1,1 +1,0 @@
-import{gn as e}from"./stores-ZUS7aNKE.js";import"./store-B4GHDeBd.js";export{e as Collection};
