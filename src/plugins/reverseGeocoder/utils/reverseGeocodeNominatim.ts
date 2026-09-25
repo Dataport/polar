@@ -88,7 +88,7 @@ export async function reverseGeocodeNominatim({
 		addressGeometry: {
 			// as returned by reverse geocoder
 			coordinates: transformCoordinate(
-				feature.geometry.coordinates as [number, number],
+				feature.geometry.coordinates,
 				'EPSG:4326',
 				epsg
 			),
