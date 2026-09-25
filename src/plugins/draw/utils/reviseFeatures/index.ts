@@ -38,7 +38,9 @@ export const reviseFeatures = async (
 			notifyUser('error', () =>
 				t(($) => $.revision.autofix.errorToast, { ns: PluginId })
 			)
-			throw new Error('Autofix failed: ' + (error as Error).message)
+			throw new Error('Autofix failed: ' + (error as Error).message, {
+				cause: error,
+			})
 		}
 	}
 

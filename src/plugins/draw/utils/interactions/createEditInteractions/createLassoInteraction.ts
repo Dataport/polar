@@ -1,8 +1,4 @@
-import type {
-	Feature as GeoJsonFeature,
-	Geometry,
-	GeometryCollection,
-} from 'geojson'
+import type { Feature as GeoJsonFeature } from 'geojson'
 import type { Feature } from 'ol'
 import type { Map } from 'ol'
 import type { Polygon } from 'ol/geom'
@@ -40,9 +36,7 @@ const buildFeatureCollection = (
 				if (feature.geometry.type.startsWith('Multi')) {
 					return (
 						// since .type on GeometryCollection doesn't start with 'Multi'
-						(
-							feature.geometry as Exclude<Geometry, GeometryCollection>
-						).coordinates.every((partialCoordinates) =>
+						feature.geometry.coordinates.every((partialCoordinates) =>
 							booleanContains(drawnLassoGeoJson, {
 								type: 'Feature',
 								geometry: {
