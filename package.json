@@ -98,6 +98,7 @@
 		"@microsoft/api-extractor": "^7.59.1",
 		"@pinia/testing": "^2.0.1",
 		"@repositoryname/noop": "^1.0.6",
+		"@turf/turf": "^7.4.0",
 		"@types/geojson": "7946.0.16",
 		"@types/node": "^24.13.5",
 		"@vitejs/plugin-vue": "^6.0.9",

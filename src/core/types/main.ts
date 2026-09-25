@@ -29,6 +29,12 @@ export interface ServiceAvailabilityCheck {
 	serviceName: string
 }
 
+export interface MaskedInteraction {
+	pluginId: PluginId
+	teardown: () => void
+	onEvict?: () => void
+}
+
 /**
  * Reference to a store value.
  */
