@@ -16,13 +16,17 @@ import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, toRaw } from 'vue'
 
+import { useRefStore } from '@/composables/useRefStore'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 import { indicateLoading } from '@/lib/indicateLoading'
 
 import { PluginId } from './types'
 import { reverseGeocodeNominatim } from './utils/reverseGeocodeNominatim'
-import { reverseGeocodeWps } from './utils/reverseGeocodeWps'
+import {
+	addressMissingMessage,
+	reverseGeocodeWps,
+} from './utils/reverseGeocodeWps'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -61,16 +65,17 @@ export const useReverseGeocoderStore = defineStore(
 			target: NonNullable<ReverseGeocoderPluginOptions['addressTarget']>,
 			feature: ReverseGeocoderFeature
 		) {
-			const targetStore = target.plugin
-				? coreStore.getPluginStore(target.plugin)
-				: coreStore
+			const targetStore = useRefStore(target)
 			if (!targetStore) {
 				return
 			}
 			targetStore[target.key](feature)
 		}
 
-		async function reverseGeocode(coordinate: [number, number]) {
+		async function reverseGeocode(
+			coordinate: [number, number],
+			forwardToAddressTarget = true
+		) {
 			const finish = indicateLoading()
 			if (abortController.value) {
 				abortController.value.abort()
@@ -93,10 +98,10 @@ export const useReverseGeocoderStore = defineStore(
 					epsg: coreStore.configuration.epsg,
 					signal,
 				})
-				if (configuration.value.addressTarget) {
+				if (configuration.value.addressTarget && forwardToAddressTarget) {
 					passFeatureToTarget(configuration.value.addressTarget, feature)
 				}
-				if (configuration.value.zoomTo) {
+				if (configuration.value.zoomTo && forwardToAddressTarget) {
 					coreStore.map.getView().fit(new Point(coordinate), {
 						maxZoom: configuration.value.zoomTo,
 						duration: 400,
@@ -106,7 +111,16 @@ export const useReverseGeocoderStore = defineStore(
 				return feature
 			} catch (error) {
 				if (!signal.aborted) {
-					console.error('Reverse geocoding failed:', error)
+					if (
+						error instanceof Error &&
+						error.message === addressMissingMessage
+					) {
+						console.warn(
+							`Reverse geocoding stopped with message '${addressMissingMessage}'. This indicates the WPS does not support this region.`
+						)
+					} else {
+						console.error('Reverse geocoding failed:', error)
+					}
 				}
 				return null
 			} finally {

@@ -4,6 +4,8 @@ import { defineConfig } from 'vite'
 import kernExtraIcons from 'vite-plugin-kern-extra-icons'
 
 export default defineConfig({
+	root: resolve(import.meta.dirname, 'examples', 'github-io'),
+	base: './',
 	plugins: [
 		vue({
 			template: {
@@ -21,7 +23,6 @@ export default defineConfig({
 		outDir: resolve(import.meta.dirname, 'examples', 'github-io', 'dist'),
 		emptyOutDir: true,
 		rollupOptions: {
-			external: ['@polar/polar', '@polar/polar/client', '@polar/polar/store'],
 			input: resolve(
 				import.meta.dirname,
 				'examples',

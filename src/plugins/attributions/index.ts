@@ -24,6 +24,7 @@ export default function pluginAttributions(
 	return {
 		id: PluginId,
 		component: AttributionsWrapper,
+		icon: 'kern-icon-fill--copyright',
 		locales,
 		storeModule: useAttributionsStore as PolarPluginStore,
 		options,

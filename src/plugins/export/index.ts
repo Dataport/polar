@@ -27,6 +27,7 @@ export default function pluginExport(
 		id: PluginId,
 		component,
 		locales,
+		icon: 'kern-icon-fill--photo-camera',
 		storeModule: useExportStore as PolarPluginStore,
 		options,
 	}

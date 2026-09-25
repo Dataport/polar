@@ -79,6 +79,6 @@ export async function createMap(
 	}
 	map.id = container.id
 	container.classList.forEach((c) => map.classList.add(c))
-	container.replaceWith(map as unknown as HTMLElement)
+	container.replaceWith(map)
 	return map
 }

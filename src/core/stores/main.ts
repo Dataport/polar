@@ -16,7 +16,6 @@ import { computed, ref, shallowRef, watch } from 'vue'
 import { addInterceptor } from '../utils/addInterceptor'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import defaults from '../utils/defaults'
-import { teardownInteractions } from '../utils/map/updateDragAndZoomInteractions'
 
 export const useMainStore = defineStore('main', () => {
 	const colorScheme = ref<ColorScheme>('system')
@@ -29,6 +28,7 @@ export const useMainStore = defineStore('main', () => {
 			defaults
 		)
 	)
+	const extent = ref([0, 0, 0, 0])
 	const language = ref('')
 	const lightElement = ref<HTMLElement | null>(null)
 	const map = shallowRef({} as OlMap)
@@ -119,16 +119,6 @@ export const useMainStore = defineStore('main', () => {
 		return maskedInteractions.value.has(interaction)
 	}
 
-	function setup() {
-		addEventListener('resize', updateHasSmallDisplay)
-		updateHasSmallDisplay()
-	}
-
-	function teardown() {
-		removeEventListener('resize', updateHasSmallDisplay)
-		teardownInteractions()
-	}
-
 	return {
 		// State
 		colorScheme,
@@ -143,6 +133,7 @@ export const useMainStore = defineStore('main', () => {
 		serviceRegister,
 		shadowRoot,
 		center,
+		extent,
 		zoom,
 		// Getters
 		layout,
@@ -157,8 +148,6 @@ export const useMainStore = defineStore('main', () => {
 		maskInteraction,
 		unmaskInteraction,
 		isInteractionMasked,
-		setup,
-		teardown,
 	}
 })
 
@@ -176,10 +165,7 @@ if (import.meta.vitest) {
 	}>({
 		store: async ({}, use) => {
 			setActivePinia(createPinia())
-			const store = useMainStore()
-			store.setup()
-			await use(store)
-			store.teardown()
+			await use(useMainStore())
 		},
 	})
 	/* eslint-enable no-empty-pattern */

@@ -10,6 +10,7 @@ import type { FullscreenPluginOptions } from './types'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from './types'
@@ -25,11 +26,14 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 	const coreStore = useCoreStore()
 
 	const configuration = computed(
-		() => (coreStore.configuration[PluginId] || {}) as FullscreenPluginOptions
+		() =>
+			(coreStore.configuration[PluginId] ||
+				{}) satisfies FullscreenPluginOptions
 	)
 	const renderType = computed(
 		() => configuration.value.renderType || 'independent'
 	)
+	const { spaceDirection } = useSpaceDetector(configuration)
 
 	const targetContainer = computed(() => {
 		if (typeof configuration.value.targetContainer === 'string') {
@@ -151,6 +155,9 @@ export const useFullscreenStore = defineStore('plugins/fullscreen', () => {
 
 		/** @internal */
 		renderType,
+
+		/** @internal */
+		spaceDirection,
 
 		/** @internal */
 		setupPlugin,
