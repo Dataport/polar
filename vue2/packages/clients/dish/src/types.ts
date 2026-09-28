@@ -104,6 +104,7 @@ export interface DishUrlParams {
   internServicesBaseUrl: string
   printHostDeegree: string
   printServicesBaseUrl: string
+  printImageBaseUrl?: string
 }
 
 export interface DishMapConfig
@@ -128,15 +129,9 @@ export interface DishMapConfig
     wmsLayerUrl: string
     wfsLayerUrl: string
     wfsLayerFeatureType: string
-    printImageUrlProd: string
+    printImageUrlProd?: string
     exportMapAsPdfUrl: string
-    backgroundLayer: backgroundLayer
   }
-}
-
-export interface backgroundLayer {
-  url: string
-  layers: string
 }
 
 export interface SelectionObjectState {

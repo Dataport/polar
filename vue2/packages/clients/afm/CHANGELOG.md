@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2.2.0
+
+- Feature: Plugin Update [AddressSearch: 3.1.1 → 3.3.0](https://github.com/Dataport/polar/blob/main/packages/plugins/AddressSearch/CHANGELOG.md)
+- Feature: Plugin Update [Attributions: 1.5.0 → 1.6.0](https://github.com/Dataport/polar/blob/main/packages/plugins/Attributions/CHANGELOG.md)
+- Chore: Plugin Update [Export: 1.2.2 → 1.2.3](https://github.com/Dataport/polar/blob/main/packages/plugins/Export/CHANGELOG.md)
+- Chore: Various dependency updates.
+
 ## 2.1.0
 
 - Feature: Add `@polar/plugin-reverse-geocoder` to the client. For details about this plugin, see [the plugin's documentation](https://dataport.github.io/polar/docs/afm/plugin-reverse-geocoder.html).

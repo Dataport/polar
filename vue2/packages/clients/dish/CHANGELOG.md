@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 1.6.2
+
+- Fix: improve check for objektid in internal mode to prevent errors from empty strings or differences in uppercase / lowercase letters.
+
+## 1.6.1
+
+- Fix: updated parameter `printImageBaseUrl` and the port needed for printing.
+- Chore: Readded the BaseMap (Farbe).
+
+## 1.6.0
+
+- Feature: Use selected background service for print in `DishExportMap`.
+- Fix: Add new parameter `printImageBaseUrl` to urlParams needed for printing in QS and prod environment.
+
 ## 1.5.0
 
 - Feature: Split gfi field "Flurstück" into "Flurstückszähler" and "Flurstücknenner".
