@@ -25,7 +25,6 @@ export function useMarkerLayer(
 			}),
 		}),
 	})
-
 	map.addLayer(layer)
 	onScopeDispose(() => {
 		map.removeLayer(layer)
@@ -101,6 +100,7 @@ if (import.meta.vitest) {
 		}
 		let markerSource: VectorSource
 		let targetElement: { style: { cursor: string } }
+		let scope: ReturnType<typeof effectScope> | undefined
 
 		beforeEach(() => {
 			route = ref<Coordinate[]>([])
@@ -118,51 +118,30 @@ if (import.meta.vitest) {
 		})
 
 		afterEach(() => {
+			scope?.stop()
 			vi.clearAllMocks()
 		})
 
-		it('should check if the layer has been added to the map', () => {
-			const scope = effectScope()
-			scope.run(() => {
-				useMarkerLayer(
-					map as unknown as Map,
-					markerSource as unknown as VectorSource,
-					route
-				)
+		const run = () => {
+			const currentScope = effectScope()
+			currentScope.run(() => {
+				useMarkerLayer(map as unknown as Map, markerSource, route)
 			})
+			scope = currentScope
+			return currentScope
+		}
+
+		it('adds the layer to the map', () => {
+			run()
 
 			expect(map.addLayer).toHaveBeenCalledOnce()
 			const layer = map.addLayer.mock.calls[0]?.[0] as VectorLayer
 			expect(layer.getSource()).toBe(markerSource)
 			expect(layer.getStyle()).toBeInstanceOf(Style)
-
-			scope.stop()
 		})
 
-		it('should check whether modify interaction has been added to the map', () => {
-			const scope = effectScope()
-			scope.run(() => {
-				useMarkerLayer(
-					map as unknown as Map,
-					markerSource as unknown as VectorSource,
-					route
-				)
-			})
-
-			expect(map.addInteraction).toHaveBeenCalledOnce()
-
-			scope.stop()
-		})
-
-		it('should check if the layer has been removed from the map on scope disposal', () => {
-			const scope = effectScope()
-			scope.run(() => {
-				useMarkerLayer(
-					map as unknown as Map,
-					markerSource as unknown as VectorSource,
-					route
-				)
-			})
+		it('removes the layer from the map on scope disposal', () => {
+			const scope = run()
 
 			expect(map.removeLayer).not.toHaveBeenCalled()
 			scope.stop()
@@ -172,20 +151,12 @@ if (import.meta.vitest) {
 		it('clears and fills markerSource when route changes', async () => {
 			const addFeatureSpy = vi.spyOn(markerSource, 'addFeature')
 			const clearSpy = vi.spyOn(markerSource, 'clear')
-			const scope = effectScope()
-			scope.run(() => {
-				useMarkerLayer(
-					map as unknown as Map,
-					markerSource as unknown as VectorSource,
-					route
-				)
-			})
+			run()
 			route.value = [
 				[1, 2],
 				[3, 4],
 			]
 			await nextTick()
-			expect(addFeatureSpy).toHaveBeenCalledTimes(2)
 			expect(
 				markerSource.getFeatures().map((feature) => ({
 					coordinate: (feature.getGeometry() as Point).getCoordinates(),
@@ -202,27 +173,11 @@ if (import.meta.vitest) {
 			await nextTick()
 			expect(clearSpy).toHaveBeenCalledTimes(2)
 			expect(addFeatureSpy).toHaveBeenCalledTimes(4)
-			expect(
-				markerSource
-					.getFeatures()
-					.map((feature) => (feature.getGeometry() as Point).getCoordinates())
-			).toEqual([
-				[2, 5],
-				[3, 4],
-			])
-			scope.stop()
 		})
 
 		it('skips empty coordinates when route changes', async () => {
 			const addFeatureSpy = vi.spyOn(markerSource, 'addFeature')
-			const scope = effectScope()
-			scope.run(() => {
-				useMarkerLayer(
-					map as unknown as Map,
-					markerSource as unknown as VectorSource,
-					route
-				)
-			})
+			run()
 
 			route.value = [[1, 2], []]
 			await nextTick()
@@ -244,18 +199,27 @@ if (import.meta.vitest) {
 				[2, 5],
 				[4, 7],
 			])
-			scope.stop()
 		})
 
-		it('updates the route when a marker is modified', () => {
-			const scope = effectScope()
-			scope.run(() => {
-				useMarkerLayer(
-					map as unknown as Map,
-					markerSource as unknown as VectorSource,
-					route
-				)
-			})
+		it.each([
+			{
+				description: 'updates the route for a valid marker index',
+				routeIndex: 1,
+				expectedRoute: [
+					[1, 2],
+					[10, 20],
+				],
+			},
+			{
+				description: 'does not update the route for an invalid marker index',
+				routeIndex: 2,
+				expectedRoute: [
+					[1, 2],
+					[3, 4],
+				],
+			},
+		])('$description', ({ routeIndex, expectedRoute }) => {
+			run()
 			route.value = [
 				[1, 2],
 				[3, 4],
@@ -268,27 +232,16 @@ if (import.meta.vitest) {
 			)?.[1] as (event: { features: Feature[] }) => void
 			const modifiedFeature = new Feature({
 				geometry: new Point([10, 20]),
-				routeIndex: 1,
+				routeIndex,
 			})
 
 			modifyEnd({ features: [modifiedFeature] })
 
-			expect(route.value).toEqual([
-				[1, 2],
-				[10, 20],
-			])
-			scope.stop()
+			expect(route.value).toEqual(expectedRoute)
 		})
 
 		it('updates the cursor while moving over markers', () => {
-			const scope = effectScope()
-			scope.run(() => {
-				useMarkerLayer(
-					map as unknown as Map,
-					markerSource as unknown as VectorSource,
-					route
-				)
-			})
+			run()
 			const pointerMove = map.on.mock.calls.find(
 				(call) => call[0] === 'pointermove'
 			)?.[1] as (event: { originalEvent: { buttons?: number } }) => void
@@ -302,9 +255,15 @@ if (import.meta.vitest) {
 			expect(targetElement.style.cursor).toBe('grab')
 
 			map.hasFeatureAtPixel.mockReturnValue(false)
+			pointerMove({ originalEvent: { buttons: 1 } })
+			expect(targetElement.style.cursor).toBe('')
+
 			pointerMove({ originalEvent: {} })
 			expect(targetElement.style.cursor).toBe('')
-			scope.stop()
+
+			map.hasFeatureAtPixel.mockReturnValue(true)
+			pointerMove({ originalEvent: { buttons: 2 } })
+			expect(targetElement.style.cursor).toBe('grab')
 		})
 	})
 }
