@@ -1,0 +1,197 @@
+<template>
+	<ul class="polar-plugin-icon-menu-list">
+		<li
+			v-for="({ buttonClass, icon, plugin }, index) of menus"
+			:key="index"
+			:class="
+				deviceIsHorizontal
+					? 'polar-plugin-icon-menu-list-item-horizontal'
+					: 'polar-plugin-icon-menu-list-item'
+			"
+		>
+			<component :is="plugin.component" v-if="typeof icon === 'undefined'" />
+			<template v-else>
+				<PolarIconButton
+					:class="buttonClass"
+					:hint="
+						$t(($) => $.hints[plugin.id], {
+							ns: PluginId,
+						})
+					"
+					:icon="icon"
+					:tooltip-position="spaceDirection"
+					@click="() => toggle(plugin.id)"
+				/>
+				<!-- Content is otherwise displayed in MoveHandle of the core. -->
+				<component
+					:is="plugin.component"
+					v-if="open === plugin.id && (!hasWindowSize || !hasSmallWidth)"
+					ref="pluginComponent"
+					:class="
+						deviceIsHorizontal
+							? 'polar-plugin-icon-menu-list-item-content-horizontal'
+							: 'polar-plugin-icon-menu-list-item-content'
+					"
+					:style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
+				/>
+			</template>
+		</li>
+	</ul>
+</template>
+
+<script setup lang="ts">
+import type { Component } from 'vue'
+import type { Menu } from '../types'
+
+import { storeToRefs } from 'pinia'
+import {
+	computed,
+	nextTick,
+	onBeforeUnmount,
+	onMounted,
+	ref,
+	useTemplateRef,
+	watch,
+} from 'vue'
+
+import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import { useCoreStore } from '@/core/stores'
+
+import { useIconMenuStore } from '../store'
+import { PluginId } from '../types'
+
+withDefaults(
+	defineProps<{
+		menus: (Menu & { buttonClass: string })[]
+		baseIndex?: number
+	}>(),
+	{ baseIndex: 0 }
+)
+
+const coreStore = useCoreStore()
+const { deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
+	storeToRefs(coreStore)
+const iconMenuStore = useIconMenuStore()
+const { open, spaceDirection } = storeToRefs(iconMenuStore)
+
+const maxWidth = ref('inherit')
+const pluginComponent = useTemplateRef<[Component]>('pluginComponent')
+
+const maxHeight = computed(() =>
+	hasWindowSize.value
+		? 'inherit'
+		: `calc(${coreStore.clientHeight}px - ${
+				deviceIsHorizontal.value
+					? 'calc(100% + 1.5rem)'
+					: coreStore.getPluginStore('footer') === null
+						? '4.5rem'
+						: '6.5rem'
+			})`
+)
+
+// Fixes an issue if the orientation of a mobile device is changed while a plugin is open.
+watch(deviceIsHorizontal, (newValue) => {
+	if (!newValue) {
+		updateMaxWidth()
+	}
+})
+
+onMounted(() => {
+	addEventListener('resize', updateMaxWidth)
+	updateMaxWidth()
+})
+onBeforeUnmount(() => {
+	removeEventListener('resize', updateMaxWidth)
+})
+
+function updateMaxWidth() {
+	// Note: Not relevant here as nothing is followed by the nextTick call.
+	// eslint-disable-next-line @typescript-eslint/no-floating-promises
+	nextTick(() => {
+		if (pluginComponent.value?.[0]) {
+			if (!hasWindowSize.value) {
+				const { left, width } = (
+					pluginComponent.value[0]['$el'] as HTMLElement
+				).getBoundingClientRect()
+				maxWidth.value = `${width + left}px`
+			} else {
+				maxWidth.value = 'inherit'
+			}
+		}
+	})
+}
+
+function toggle(id: string) {
+	if (open.value === id) {
+		open.value = null
+		coreStore.setMoveHandle(null)
+	} else {
+		open.value = id
+		iconMenuStore.openInMoveHandle(id)
+	}
+	updateMaxWidth()
+}
+</script>
+
+<style scoped>
+.polar-icon-button.polar-plugin-icon-menu-button {
+	box-shadow: none;
+}
+
+.polar-icon-button.polar-plugin-icon-menu-button-active {
+	background: color-mix(
+		in oklch,
+		var(--kern-color-action-default) 12%,
+		transparent
+	);
+
+	&:focus,
+	&:hover {
+		background: color-mix(
+			in oklch,
+			var(--kern-color-action-default) 12%,
+			transparent
+		);
+	}
+}
+
+.polar-plugin-icon-menu-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-radius: 0.5rem;
+	background: var(--kern-color-layout-background-default);
+	box-shadow: var(--polar-shadow);
+
+	.polar-plugin-icon-menu-list-item:nth-child(n + 2) {
+		margin-top: 3px;
+	}
+
+	.polar-plugin-icon-menu-list-item-horizontal {
+		float: left;
+	}
+
+	.polar-plugin-icon-menu-list-item-horizontal:nth-child(n + 2) {
+		margin-left: 3px;
+	}
+
+	.polar-plugin-icon-menu-list-item-content {
+		z-index: 2;
+		position: absolute;
+		right: calc(100% + 0.5rem);
+		top: 0;
+		white-space: nowrap;
+		overflow-y: auto;
+	}
+
+	.polar-plugin-icon-menu-list-item-content-horizontal {
+		z-index: 1;
+		position: absolute;
+		top: calc(100% + 0.5rem);
+		right: 0;
+		white-space: nowrap;
+		overflow-y: auto;
+		scrollbar-gutter: stable;
+	}
+}
+</style>

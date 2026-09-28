@@ -1,12 +1,23 @@
-.vscode
-docs-html
+node_modules
+.eslintcache
+
+git-hooks.config.json
+
+/docs-html
+/docs/configuration-demo.js
+/docs/configuration-demo.css
+/docs/assets/configuration-demo-*.css
+/docs/assets/FiraSans-*.woff2
+.dist.preview
+.vscode/settings.json
+
+# Old gitignore, maybe cleanup when migrated
 **/.eslintcache
 **/*.tgz
 **/.cache
 **/coverage
 **/dist
 **/dist-test
-**/docs
 **/node_modules
 **/tests_output
 **/test-results/
@@ -19,7 +30,6 @@ docs-html
 /public
 logs/*.log
 logs
-.DS_Store
-!/packages/clients/diplan/vendored/diplanung-style/dist
-node_modules
 *.patch
+!/patches/**/*.patch
+.DS_Store

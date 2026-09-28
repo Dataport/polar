@@ -1,0 +1,5 @@
+export { default as BasicLoader } from './BasicLoader.ce.vue'
+export { default as CircleLoader } from './CircleLoader.ce.vue'
+export { default as RingLoader } from './RingLoader.ce.vue'
+export { default as RollerLoader } from './RollerLoader.ce.vue'
+export { default as SpinnerLoader } from './SpinnerLoader.ce.vue'

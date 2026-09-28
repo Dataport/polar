@@ -1,4 +1,15 @@
-[*.{js,ts,vue,json}]
+[*.{js,ts,vue,json,html,css}]
+indent_style = tab
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.yaml]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[vue2/*.{js,ts,vue,json}]
 indent_style = space
 indent_size = 2
 trim_trailing_whitespace = true

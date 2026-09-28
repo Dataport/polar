@@ -1,0 +1,28 @@
+{
+	"tsconfig": "src/tsconfig.json",
+	"entryPoints": [
+		"src/core/index.ts",
+		"src/core/locales.ts",
+		"src/core/stores/index.ts",
+		"src/plugins/*/index.ts",
+		"src/plugins/*/locales.ts",
+		"src/plugins/*/store.ts"
+	],
+	"out": "docs-html/reference",
+	"skipErrorChecking": true,
+	"projectDocuments": [],
+	"name": "POLAR reference",
+	"sort": [
+		"kind",
+		"instance-first",
+		"required-first",
+		"alphabetical-ignoring-documents"
+	],
+	"navigation": {
+		"includeFolders": false
+	},
+	"plugin": [
+		"typedoc-plugin-vue",
+		"./typedocPlugins/targetAudience.ts"
+	]
+}

@@ -1,0 +1,712 @@
+import {
+	addPlugin,
+	createMap,
+	createMapElement,
+	getStore,
+	removePlugin,
+	subscribe,
+	updateState,
+} from '@polar/polar'
+import { isVisible } from '@polar/polar/lib/invisibleStyle'
+import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
+import pluginAttributions from '@polar/polar/plugins/attributions'
+import pluginExport from '@polar/polar/plugins/export'
+import pluginFilter from '@polar/polar/plugins/filter'
+import pluginFullscreen from '@polar/polar/plugins/fullscreen'
+import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
+import pluginGfi from '@polar/polar/plugins/gfi'
+import pluginIconMenu from '@polar/polar/plugins/iconMenu'
+import pluginInitialView from '@polar/polar/plugins/initialView'
+import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
+import pluginLoadingIndicator from '@polar/polar/plugins/loadingIndicator'
+import pluginPins from '@polar/polar/plugins/pins'
+import pluginPointerPosition from '@polar/polar/plugins/pointerPosition'
+import pluginReverseGeocoder from '@polar/polar/plugins/reverseGeocoder'
+import pluginRouting from '@polar/polar/plugins/routing'
+import pluginScale from '@polar/polar/plugins/scale'
+import pluginToast from '@polar/polar/plugins/toast'
+import pluginZoom from '@polar/polar/plugins/zoom'
+
+import services from './services.js'
+import styleJsonUrl from './style.json?url'
+
+const basemapId = '23420'
+const basemapGreyId = '23421'
+const ausgleichsflaechen = '1454'
+const reports = '6059'
+const denkmal = 'denkmaelerWMS'
+const kielPolygon = 'kiel_polygon'
+const hamburgBorder = '6074'
+
+let colorScheme = 'light'
+// eslint-disable-next-line no-unused-vars
+const dataportTheme = {
+	brandColor: {
+		l: '0.4671',
+		c: '0.1532',
+		h: '24.57',
+	},
+	kern: {
+		color: {
+			action: {
+				default:
+					'oklch(var(--brand-color-l) var(--brand-color-c) var(--brand-color-h))',
+				stateIndicator: {
+					shade: {
+						hover:
+							'oklch(calc(var(--brand-color-l) + 0.1) var(--brand-color-c) var(--brand-color-h))',
+						active:
+							'oklch(calc(var(--brand-color-l) + 0.14) var(--brand-color-c) var(--brand-color-h))',
+					},
+				},
+			},
+		},
+		metric: {
+			space: {
+				default: '24px',
+			},
+			borderRadius: {
+				default: '0 10px 10px 10px',
+			},
+		},
+		typography: {
+			font: {
+				family: {
+					default: 'Consolas',
+				},
+			},
+		},
+	},
+}
+
+// arbitrary condition for testing
+const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
+const isReportSelectable = (feature) => isEvenId(feature.get('mmlid'))
+
+const map = await createMap(
+	'snowbox',
+	{
+		colorScheme,
+		startCenter: [565874, 5934140],
+		layers: [
+			// TODO: Add internalization to snowbox
+			{
+				id: basemapId,
+				visibility: true,
+				type: 'background',
+				name: 'Basemap.de (Farbe)',
+			},
+			{
+				id: basemapGreyId,
+				type: 'background',
+				name: 'Basemap.de (Grau)',
+				maxZoom: 6,
+			},
+			{
+				id: hamburgBorder,
+				visibility: true,
+				hideInMenu: true,
+				type: 'mask',
+				name: 'Stadtgrenze Hamburg',
+			},
+			{
+				id: reports,
+				type: 'mask',
+				name: 'Anliegen (MML)',
+				visibility: false,
+			},
+			{
+				id: ausgleichsflaechen,
+				type: 'mask',
+				name: 'Ausgleichsflächen',
+				styleId: 'panda',
+				visibility: true,
+				minZoom: 5,
+			},
+			{
+				id: denkmal,
+				type: 'mask',
+				name: 'Kulturdenkmale',
+				visibility: true,
+				options: {
+					layers: {
+						order: '6,24,25,4,3,2,1,0',
+						title: {
+							6: 'Denkmalbereich',
+							24: 'Mehrheit von baulichen Anlagen',
+							25: 'Sachgesamtheit',
+							4: 'Baudenkmal',
+							3: 'Gründenkmal',
+							2: 'Gewässer',
+							1: 'Baudenkmal (Fläche)',
+							0: 'Gründenkmal (Fläche)',
+						},
+						legend: true,
+					},
+				},
+			},
+			{
+				id: kielPolygon,
+				type: 'mask',
+				name: 'Kiel Polygone',
+				visibility: true,
+			},
+		],
+		layout: 'nineRegions',
+		checkServiceAvailability: true,
+		featureStyles: styleJsonUrl,
+		markers: {
+			layers: [
+				{
+					id: reports,
+					defaultStyle: {
+						stroke: '#FFFFFF',
+						fill: '#005CA9',
+					},
+					hoverStyle: {
+						stroke: '#46688E',
+						fill: '#8BA1B8',
+					},
+					selectionStyle: {
+						stroke: '#FFFFFF',
+						fill: '#E10019',
+					},
+					unselectableStyle: {
+						stroke: '#FFFFFF',
+						fill: '#333333',
+					},
+					isSelectable: isReportSelectable,
+				},
+			],
+			clusterClickZoom: true,
+		},
+		// theme: dataportTheme,
+		locales: [
+			{
+				type: 'de',
+				resources: {
+					filter: {
+						layer: {
+							[reports]: {
+								category: {
+									skat: {
+										title: 'Schadensart',
+										knownValue: {
+											'1xx': 'Alle Wege- und Straßenschäden',
+											100: 'Wege und Straßen',
+											101: 'Schlagloch und Wegeschaden',
+											102: 'Verunreinigung und Vandalismus',
+										},
+									},
+									statu: {
+										title: 'Bearbeitungsstatus',
+										knownValue: {
+											todo: 'In Bearbeitung',
+											done: 'Abgeschlossen',
+										},
+									},
+								},
+							},
+						},
+					},
+					fullscreen: {
+						button: {
+							label_on: 'Mach groß',
+							label_off: 'Mach klein',
+						},
+					},
+					gfi: {
+						layer: {
+							[reports]: {
+								property: {
+									addr: 'Adresse',
+									statu: 'Status',
+									beschr: 'Beschr.',
+									kat_text: 'Kat.',
+								},
+							},
+						},
+					},
+					iconMenu: {
+						hints: {
+							attributions: 'LMAO',
+							fullscreen: 'BEEEEEG YOSHEEEEE',
+						},
+					},
+				},
+			},
+		],
+		scale: {
+			showScaleSwitcher: true,
+		},
+	},
+	services
+)
+const additionalMaps = []
+document.getElementById('secondMap').addEventListener('click', async () => {
+	const secondMap = createMapElement(
+		{
+			startCenter: [573364, 6028874],
+			layers: [
+				{
+					id: basemapId,
+					visibility: true,
+					type: 'background',
+					name: 'snowbox.layers.basemap',
+				},
+			],
+		},
+		services
+	)
+	secondMap.classList.add('snowbox')
+	document.getElementById('secondMapContainer').appendChild(secondMap)
+	addPlugin(
+		secondMap,
+		pluginFullscreen({
+			layoutTag: 'TOP_RIGHT',
+			displayComponent: true,
+		})
+	)
+	additionalMaps.push(secondMap)
+})
+document.getElementById('secondMapClean').addEventListener('click', () => {
+	additionalMaps.forEach((aMap, i) => {
+		aMap.remove()
+		delete additionalMaps[i]
+	})
+	additionalMaps.length = 0
+})
+
+addPlugin(
+	map,
+	pluginExport({
+		displayComponent: true,
+		layoutTag: 'MIDDLE_LEFT',
+		download: true,
+		formats: ['pdf', 'jpeg', 'png'],
+	})
+)
+
+addPlugin(
+	map,
+	pluginAttributions({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_RIGHT',
+		listenToChanges: [
+			{
+				key: 'activeBackgroundId',
+				plugin: 'layerChooser',
+			},
+			{
+				key: 'visibleMaskIds',
+				plugin: 'layerChooser',
+			},
+			{
+				key: 'zoom',
+			},
+		],
+		layerAttributions: [
+			{
+				id: basemapId,
+				title: 'snowbox.attributions.basemap',
+			},
+			{
+				id: basemapGreyId,
+				title: 'snowbox.attributions.basemapGrey',
+			},
+			{
+				id: reports,
+				title: 'snowbox.attributions.reports',
+			},
+			{
+				id: ausgleichsflaechen,
+				title: 'snowbox.attributions.ausgleichsflaechen',
+			},
+			{
+				id: denkmal,
+				title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
+			},
+		],
+	})
+)
+
+addPlugin(
+	map,
+	pluginScale({ displayComponent: true, layoutTag: 'BOTTOM_RIGHT' })
+)
+
+addPlugin(
+	map,
+	pluginToast({
+		displayComponent: true,
+		layoutTag: 'TOP_MIDDLE',
+	})
+)
+
+setTimeout(() => {
+	removePlugin(map, 'toast')
+}, 3000)
+
+setTimeout(() => {
+	addPlugin(
+		map,
+		pluginToast({
+			displayComponent: true,
+			layoutTag: 'BOTTOM_MIDDLE',
+		})
+	)
+	const toastStore = getStore(map, 'toast')
+	toastStore.addToast({
+		text: 'Sechs Sekunden',
+		severity: 'info',
+	})
+}, 6000)
+
+addPlugin(
+	map,
+	pluginLoadingIndicator({
+		displayComponent: true,
+		layoutTag: 'MIDDLE_MIDDLE',
+		loaderStyle: 'BasicLoader',
+	})
+)
+
+addPlugin(
+	map,
+	pluginReverseGeocoder({
+		type: 'wps',
+		url: 'https://geodienste.hamburg.de/HH_WPS',
+		// type: 'nominatim',
+		// url: 'https://polar.dataport.de/nominatim/reverse',
+		coordinateSources: [
+			{
+				plugin: 'pins',
+				key: 'coordinate',
+			},
+		],
+		addressTarget: {
+			plugin: 'addressSearch',
+			key: 'selectResult',
+		},
+		zoomTo: 7,
+	})
+)
+addPlugin(
+	map,
+	pluginPins({
+		coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+		boundary: {
+			layerId: hamburgBorder,
+		},
+		movable: 'drag',
+		style: {
+			fill: '#FF0019',
+		},
+		toZoomLevel: 7,
+	})
+)
+addPlugin(
+	map,
+	pluginPointerPosition({
+		displayComponent: true,
+		layoutTag: 'BOTTOM_LEFT',
+	})
+)
+addPlugin(
+	map,
+	pluginIconMenu({
+		displayComponent: true,
+		layoutTag: 'TOP_RIGHT',
+		initiallyOpen: 'layerChooser',
+		menus: [
+			[
+				{
+					plugin: pluginFullscreen({ renderType: 'iconMenu' }),
+				},
+				{
+					plugin: pluginLayerChooser({}),
+				},
+			],
+			[
+				{
+					plugin: pluginGfi({
+						layers: {
+							[reports]: {
+								window: true,
+								geometry: false,
+								title: (feature) =>
+									`Meldung ${feature.properties.str} ${feature.properties.hsnr}`,
+								properties: [
+									'addr',
+									'statu',
+									'beschr',
+									'pic',
+									'kat_text',
+									'skat_text',
+								],
+								exportProperty: 'pic',
+								showTooltip: (feature) => {
+									const olMap = getStore(map, 'core').map
+									const features = feature.get('features') || [feature]
+									const visibleFeatures = features.filter((f) => isVisible(f))
+									if (visibleFeatures.length > 1) {
+										return [
+											['h2', 'Mehrere Anliegen'],
+											[
+												'span',
+												`Klick zum ${olMap.getView().getZoom() !== olMap.getView().getMaxZoom() ? 'Zoomen' : 'Öffnen'}`,
+											],
+										]
+									}
+									const tooltipFeature = visibleFeatures[0]
+									return [
+										[
+											'h2',
+											`${tooltipFeature.get('str')} ${tooltipFeature.get('hsnr')}`,
+										],
+										[
+											'span',
+											`layer.${reports}.category.skat.knownValue.${tooltipFeature.get('skat')}`,
+											{ ns: 'filter' },
+										],
+									]
+								},
+								isSelectable: (feature) => isEvenId(feature.properties.mmlid),
+							},
+							[kielPolygon]: {
+								window: true,
+							},
+						},
+						afterLoadFunction: (featuresByLayerId) => {
+							Object.values(featuresByLayerId).forEach((featureList) => {
+								featureList.forEach((feature) => {
+									if (feature.properties) {
+										feature.properties = {
+											addr: [
+												feature.properties.str,
+												feature.properties.hsnr,
+											].join(' '),
+											...feature.properties,
+										}
+									}
+								})
+							})
+							return featuresByLayerId
+						},
+						featureList: {
+							icon: 'kern-icon--checklist',
+							activeLayers: {
+								plugin: 'layerChooser',
+								key: 'activeMaskIds',
+							},
+							mode: 'visible',
+							bindWithCoreHoverSelect: true,
+							pageLength: 5,
+							text: {
+								title: (feature) =>
+									feature.get('str') + ' ' + feature.get('hsnr'),
+								subtitle: 'Michels Meldung',
+								subSubtitle: (feature) => feature.get('skat_text'),
+							},
+						},
+					}),
+				},
+			],
+			[
+				{
+					plugin: pluginFilter({
+						layers: {
+							[reports]: {
+								categories: [
+									{
+										targetProperty: 'skat',
+										knownValues: [
+											{
+												key: '100',
+												values: ['100'],
+												icon: 'kern-icon--road',
+											},
+											{
+												key: '101',
+												values: ['101'],
+												icon: 'kern-icon--remove-road',
+											},
+											{
+												key: '102',
+												values: ['102'],
+												icon: 'kern-icon--destruction',
+											},
+										],
+										selectAll: true,
+									},
+									{
+										targetProperty: 'skat',
+										knownValues: [
+											{
+												key: '1xx',
+												values: ['100', '101', '102'],
+												icon: 'kern-icon--road',
+											},
+										],
+										selectAll: true,
+									},
+									{
+										targetProperty: 'statu',
+										knownValues: [
+											{
+												key: 'todo',
+												values: ['In Bearbeitung'],
+												icon: 'kern-icon--assignment',
+											},
+											{
+												key: 'done',
+												values: ['abgeschlossen'],
+												icon: 'kern-icon--check',
+											},
+										],
+									},
+								],
+								time: {
+									targetProperty: 'start',
+									freeSelection: 'until',
+									last: [0, 7, 30],
+									pattern: 'YYYYMMDD',
+								},
+							},
+						},
+					}),
+				},
+			],
+			[
+				{
+					plugin: pluginGeoLocation({
+						renderType: 'iconMenu',
+						checkLocationInitially: false,
+						keepCentered: true,
+						showTooltip: true,
+						zoomLevel: 7,
+						// usable when you're in HH or fake your geolocation to HH
+						/* boundary: {
+							layerId: hamburgBorder,
+							onError: 'strict',
+						}, */
+					}),
+				},
+				{
+					plugin: pluginRouting({
+						type: 'ors',
+						url: 'https://api.openrouteservice.org/v2/directions/',
+						apiKey: '',
+						displayPreferences: true,
+						displayRouteTypesToAvoid: true,
+					}),
+					disabledOnMobile: true,
+					icon: 'kern-icon-fill--assistant-direction',
+				},
+				{
+					plugin: pluginInitialView({
+						renderType: 'iconMenu',
+					}),
+				},
+			],
+			[
+				{
+					plugin: pluginZoom({
+						renderType: 'iconMenu',
+						showMobile: false,
+						showZoomSlider: true,
+					}),
+				},
+			],
+		],
+	})
+)
+
+addPlugin(
+	map,
+	pluginAddressSearch({
+		displayComponent: true,
+		layoutTag: 'TOP_LEFT',
+		searchMethods: [
+			/*
+			{
+				queryParameters: {
+					searchStreets: true,
+					searchHouseNumbers: true,
+				},
+				type: 'mpapi',
+				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+			},
+			*/
+			{
+				type: 'nominatim',
+				url: 'https://polar.dataport.de/nominatim/search',
+			},
+		],
+		minLength: 3,
+		waitMs: 300,
+		focusAfterSearch: true,
+		groupProperties: {
+			defaultGroup: {
+				limitResults: 5,
+			},
+		},
+	})
+)
+
+const toastStore = getStore(map, 'toast')
+toastStore.addToast({
+	text: 'Hallo Welt',
+	severity: 'info',
+})
+toastStore.addToast({
+	text: 'Achtung! Dies ist ein Toast!',
+	severity: 'error',
+})
+
+const loadingIndicatorStore = getStore(map, 'loadingIndicator')
+loadingIndicatorStore.addLoadingKey('loadingTest')
+setTimeout(() => loadingIndicatorStore.removeLoadingKey('loadingTest'), 2000)
+
+subscribe(
+	map,
+	'core',
+	'selectedCoordinates',
+	(coordinates) =>
+		(document.getElementById('selected-feature-coordinates').innerText =
+			JSON.stringify(coordinates))
+)
+
+subscribe(
+	map,
+	'gfi',
+	'listFeatures',
+	(features) =>
+		(document.getElementById('gfi-features').innerText =
+			JSON.stringify(features))
+)
+
+/* simple language switcher attached for demo purposes;
+ * language switching is considered a global concern and
+ * should be handled by the leading application */
+document
+	.getElementById('language-switcher')
+	.addEventListener('change', (event) => {
+		const target = event.target
+		const { value } = target
+		updateState(map, 'core', 'language', value)
+		target[0].innerHTML = value === 'en' ? 'English' : 'Englisch'
+		target[1].innerHTML = value === 'en' ? 'German' : 'Deutsch'
+	})
+
+document
+	.getElementById('color-scheme-switcher')
+	.addEventListener('click', ({ target }) => {
+		target.innerHTML = `Switch to ${colorScheme} mode`
+		colorScheme = colorScheme === 'light' ? 'dark' : 'light'
+		updateState(map, 'core', 'colorScheme', colorScheme)
+	})
+
+document.getElementById('kiel-teleport').addEventListener('click', () => {
+	updateState(map, 'core', 'center', [575609, 6023501])
+})

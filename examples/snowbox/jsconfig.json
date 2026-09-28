@@ -1,0 +1,18 @@
+{
+	"extends": [
+		"@vue/tsconfig/tsconfig.dom.json",
+		"@vue/tsconfig/tsconfig.lib.json",
+		"../../tsconfig.settings.json"
+	],
+	"compilerOptions": {
+		"lib": [
+			"ESNext",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"paths": {
+			"@polar/polar": ["../../src/core/index.ts"],
+			"@polar/polar/plugins/*": ["../../src/plugins/*/index.ts"]
+		}
+	}
+}

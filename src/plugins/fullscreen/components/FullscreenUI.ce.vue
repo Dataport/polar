@@ -1,0 +1,41 @@
+<template>
+	<PolarIconButton
+		:class="buttonClass"
+		:hint="
+			$t(($) => $.button.label, {
+				ns: PluginId,
+				context: fullscreenEnabled ? 'off' : 'on',
+			})
+		"
+		:icon="
+			fullscreenEnabled ? 'kern-icon--fullscreen-exit' : 'kern-icon--fullscreen'
+		"
+		:tooltip-position="spaceDirection"
+		@click="() => (fullscreenEnabled = !fullscreenEnabled)"
+	/>
+</template>
+
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
+
+import PolarIconButton from '@/components/PolarIconButton.ce.vue'
+import { useCoreStore } from '@/core/stores'
+
+import { useFullscreenStore } from '../store'
+import { PluginId } from '../types'
+
+const coreStore = useCoreStore()
+const fullscreenStore = useFullscreenStore()
+const { fullscreenEnabled, spaceDirection } = storeToRefs(fullscreenStore)
+
+const buttonClass = computed(() =>
+	coreStore.layout === 'standard' ? 'polar-plugin-fullscreen-standard' : ''
+)
+</script>
+
+<style scoped>
+.polar-icon-button.polar-plugin-fullscreen-standard {
+	box-shadow: none;
+}
+</style>

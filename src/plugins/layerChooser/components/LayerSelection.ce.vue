@@ -1,0 +1,126 @@
+<template>
+	<PolarCard>
+		<PolarInputGroup
+			v-if="backgrounds.length"
+			:legend="$t(($) => $.backgroundTitle, { ns: PluginId })"
+		>
+			<div
+				v-for="{ name, id } in backgrounds"
+				:key="`polar-layer-chooser-background-radio-${id}`"
+				class="polar-layer-chooser-input-wrapper"
+			>
+				<PolarInput
+					v-model="activeBackgroundId"
+					name="polar-layer-chooser-background"
+					type="radio"
+					:value="id"
+					:disabled="disabledBackgrounds[id]"
+				>
+					{{ name }}
+				</PolarInput>
+				<LegendButton
+					v-if="layersWithLegendsIds.includes(id)"
+					:id="id"
+					:name="name"
+					:disabled="disabledBackgrounds[id]"
+					@click="openedLegendId = id"
+				/>
+			</div>
+		</PolarInputGroup>
+		<template v-if="shownMasks.length">
+			<template
+				v-for="[type, masks] in Object.entries(masksSeparatedByType)"
+				:key="`polar-layer-chooser-mask-${type}`"
+			>
+				<PolarInputGroup
+					:legend="$t(($) => $[`${type}Title`], { ns: PluginId })"
+				>
+					<div
+						v-for="{ name, id } in masks"
+						:key="`polar-layer-chooser-mask-${type}-checkbox-${id}`"
+						class="polar-layer-chooser-input-wrapper"
+					>
+						<PolarInput
+							v-model="activeMaskIds"
+							name="polar-layer-chooser-mask"
+							type="checkbox"
+							:value="id"
+							:disabled="disabledMasks[id]"
+						>
+							{{ name }}
+						</PolarInput>
+						<KernButton
+							v-if="Object.keys(layersWithOptions).includes(id)"
+							:id="`polar-layer-chooser-options-${id}-button`"
+							class="kern-btn--tertiary"
+							icon="kern-icon-fill--settings"
+							:label-sr-only="true"
+							:disabled="disabledMasks[id]"
+							@click="() => updateOpenedOptions(id)"
+						>
+							{{ $t(($) => $.layerOptions, { ns: PluginId }) }}
+						</KernButton>
+						<LegendButton
+							v-else-if="layersWithLegendsIds.includes(id)"
+							:id="id"
+							:name="name"
+							:disabled="disabledMasks[id]"
+							@click="openedLegendId = id"
+						/>
+					</div>
+				</PolarInputGroup>
+			</template>
+		</template>
+	</PolarCard>
+</template>
+
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
+
+import KernButton from '@/components/kern/KernButton.ce.vue'
+import PolarCard from '@/components/PolarCard.ce.vue'
+import PolarInput from '@/components/PolarInput.ce.vue'
+import PolarInputGroup from '@/components/PolarInputGroup.ce.vue'
+
+import { useLayerChooserStore } from '../store'
+import { PluginId } from '../types'
+import LegendButton from './LegendButton.ce.vue'
+
+const layerChooserStore = useLayerChooserStore()
+const {
+	activeBackgroundId,
+	activeMaskIds,
+	backgrounds,
+	disabledBackgrounds,
+	disabledMasks,
+	layersWithOptions,
+	masksSeparatedByType,
+	openedLegendId,
+	shownMasks,
+} = storeToRefs(layerChooserStore)
+
+const layersWithLegendsIds = computed(() =>
+	Object.keys(layerChooserStore.layersWithLegends)
+)
+
+function updateOpenedOptions(layerId: string) {
+	layerChooserStore.openedOptionsId = layerId
+}
+</script>
+
+<style scoped>
+.polar-layer-chooser-input-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--kern-metric-space-large);
+}
+
+.kern-btn {
+	width: var(--kern-metric-dimension-large);
+	min-height: var(--kern-metric-dimension-large);
+	border: none;
+	border-radius: 50%;
+}
+</style>

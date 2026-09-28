@@ -1,0 +1,184 @@
+import type {
+	MapConfiguration,
+	MasterportalApiServiceRegister,
+} from '@polar/polar'
+import type { MpapiParameters } from '@/lib/getFeatures/types'
+
+import { defineStore } from 'pinia'
+import { reactive, ref } from 'vue'
+
+import services from '../services'
+
+export const useIcebergStore = defineStore('iceberg', () => {
+	const mapConfiguration = reactive<MapConfiguration>({
+		checkServiceAvailability: true,
+		layers: [
+			{
+				id: '23420',
+				visibility: true,
+				type: 'background',
+				name: 'Basemap.de (Farbe)',
+			},
+			{
+				id: '23421',
+				visibility: true,
+				type: 'background',
+				name: 'Basemap.de (Grau)',
+			},
+			{
+				id: '1454',
+				type: 'mask',
+				name: 'Ausgleichsflächen',
+				styleId: 'panda',
+				visibility: true,
+			},
+			{
+				id: '1693',
+				visibility: true,
+				hideInMenu: true,
+				type: 'mask',
+				name: 'Stadtgrenze Hamburg',
+			},
+			{
+				id: 'denkmaelerWMS',
+				type: 'mask',
+				name: 'Kulturdenkmale',
+				visibility: true,
+				options: {
+					layers: {
+						order: '6,24,25,4,3,2,1,0',
+						title: {
+							/* eslint-disable @typescript-eslint/naming-convention */
+							6: 'Denkmalbereich',
+							24: 'Mehrheit von baulichen Anlagen',
+							25: 'Sachgesamtheit',
+							4: 'Baudenkmal',
+							3: 'Gründenkmal',
+							2: 'Gewässer',
+							1: 'Baudenkmal (Fläche)',
+							0: 'Gründenkmal (Fläche)',
+							/* eslint-enable @typescript-eslint/naming-convention */
+						},
+						legend: true,
+					},
+				},
+			},
+			{
+				id: '6059',
+				visibility: true,
+				type: 'mask',
+				name: 'snowbox.layers.mml',
+				minZoom: 5,
+			},
+		],
+		startCenter: [565874, 5934140],
+		layout: 'nineRegions',
+		addressSearch: {
+			searchMethods: [
+				{
+					queryParameters: {
+						searchStreets: true,
+						searchHouseNumbers: true,
+					} as MpapiParameters,
+					type: 'mpapi',
+					url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
+				},
+			],
+			minLength: 3,
+			waitMs: 300,
+			focusAfterSearch: true,
+			groupProperties: {
+				// @ts-expect-error | defaultGroup has a default label
+				defaultGroup: {
+					limitResults: 5,
+				},
+			},
+		},
+		attributions: {
+			listenToChanges: [
+				{
+					key: 'activeBackgroundId',
+					plugin: 'layerChooser',
+				},
+				{
+					key: 'activeMaskIds',
+					plugin: 'layerChooser',
+				},
+				{
+					key: 'zoom',
+				},
+			],
+			layerAttributions: [
+				{
+					id: '23420',
+					title: 'Basemap © basemap.de / BKG <MONTH> <YEAR>',
+				},
+				{
+					id: '23421',
+					title: 'Basemap Grey © basemap.de / BKG <MONTH> <YEAR>',
+				},
+				{
+					id: '1454',
+					title:
+						'Compensation area © Freie und Hansestadt Hamburg, Behörde für Umwelt und Energie',
+				},
+				{
+					id: 'denkmaelerWMS',
+					title: `Karte Kulturdenkmale (Denkmalliste): © <a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a> <MONTH> <YEAR>`,
+				},
+			],
+		},
+		fullscreen: {
+			displayComponent: true,
+			layoutTag: 'TOP_RIGHT',
+		},
+		gfi: {
+			directSelect: true,
+		} as MapConfiguration['gfi'],
+		markers: {
+			layers: [
+				{
+					id: '6059',
+					defaultStyle: {
+						stroke: '#FFFFFF',
+						fill: '#005CA9',
+					},
+					hoverStyle: {
+						stroke: '#46688E',
+						fill: '#8BA1B8',
+					},
+					selectionStyle: {
+						stroke: '#FFFFFF',
+						fill: '#E10019',
+					},
+					unselectableStyle: {
+						stroke: '#FFFFFF',
+						fill: '#333333',
+					},
+				},
+			],
+			clusterClickZoom: true,
+		},
+		pins: {
+			coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],
+			movable: 'drag',
+			style: {
+				fill: '#FF0019',
+			},
+			toZoomLevel: 7,
+		},
+		pointerPosition: {
+			projections: [
+				{ code: 'EPSG:4326', decimals: 4 },
+				{ code: 'EPSG:25832', decimals: 2 },
+			],
+		},
+	})
+
+	const serviceRegister = ref<MasterportalApiServiceRegister>(services)
+
+	return {
+		mapConfiguration,
+		serviceRegister,
+	}
+})

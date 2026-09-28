@@ -1,0 +1,63 @@
+name: Deploy PR previews
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy-preview:
+    name: Create deployment preview
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        if: github.event.action != 'closed'
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.15.0
+          registry-url: https://registry.npmjs.org/
+          cache: 'npm'
+
+      - name: Install documentation build dependencies
+        if: github.event.action != 'closed'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends mkdocs mkdocs-material
+
+      - name: Install NPM dependencies
+        if: github.event.action != 'closed'
+        run: npm ci
+
+      - name: Build preview
+        if: github.event.action != 'closed'
+        run: |
+          npm run build:ci
+          npm run preview:build:ci -- --base="./"
+
+      - name: Build documentation
+        if: github.event.action != 'closed'
+        run: |
+          npm run docs:ci
+          mv docs-html ./.dist.preview/docs-html
+
+      - name: Deploy preview to GitHub Pages
+        uses: rossjrw/pr-preview-action@ffa7509e91a3ec8dfc2e5536c4d5c1acdf7a6de9 # v1.8.1
+        with:
+          source-dir: ./.dist.preview/
+          preview-branch: gh-pages
+          qr-code: true
+          wait-for-pages-deployment: false

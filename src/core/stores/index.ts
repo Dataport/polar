@@ -1,0 +1,402 @@
+/* eslint-disable tsdoc/syntax */
+/**
+ * @module \@polar/polar/store
+ */
+/* eslint-enable tsdoc/syntax */
+
+import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
+import { computed, readonly } from 'vue'
+
+import { useContextMenuStore } from './contextMenu'
+import { useMainStore } from './main'
+import { useMarkerStore } from './marker'
+import { useMoveHandleStore } from './moveHandle'
+import { usePluginStore } from './plugin'
+
+/* eslint-disable tsdoc/syntax */
+/**
+ * @function
+ *
+ * Core store of POLAR.
+ */
+/* eslint-enable tsdoc/syntax */
+export const useCoreStore = defineStore('core', () => {
+	const mainStore = useMainStore()
+	const mainStoreRefs = storeToRefs(mainStore)
+
+	const markerStore = useMarkerStore()
+	const markerStoreRefs = storeToRefs(markerStore)
+
+	const contextMenuStore = useContextMenuStore()
+	const moveHandleStore = useMoveHandleStore()
+	const pluginStore = usePluginStore()
+
+	return {
+		/**
+		 * Read or modify center coordinate of the map.
+		 *
+		 * @alpha
+		 */
+		center: mainStoreRefs.center,
+
+		/**
+		 * Color scheme the client should be using.
+		 *
+		 * @alpha
+		 */
+		colorScheme: mainStoreRefs.colorScheme,
+
+		/**
+		 * The current height of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		clientHeight: computed(() => mainStore.clientHeight),
+
+		/**
+		 * The current width of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		clientWidth: computed(() => mainStore.clientWidth),
+
+		/**
+		 * Returns the current runtime configuration.
+		 *
+		 * @readonly
+		 */
+		configuration: computed(() => mainStore.configuration),
+
+		/**
+		 * Whether a mobile device is held horizontally.
+		 * True if {@link hasSmallHeight} and {@link hasWindowSize} are true.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		deviceIsHorizontal: computed(() => mainStore.deviceIsHorizontal),
+
+		/**
+		 * Extent of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		extent: computed(() => mainStore.extent),
+
+		/**
+		 * Whether the map has a maximum height of {@link SMALL_DISPLAY_HEIGHT} and
+		 * a maximum width of {@link SMALL_DISPLAY_WIDTH}.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		hasSmallDisplay: computed(() => mainStore.hasSmallDisplay),
+
+		/**
+		 * Whether the height of the map is smaller than 480px.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		hasSmallHeight: computed(() => mainStore.hasSmallHeight),
+
+		/**
+		 * Whether the width of the map is smaller than 768px.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		hasSmallWidth: computed(() => mainStore.hasSmallWidth),
+
+		/**
+		 * Whether the size of the map equals the size of the browser window.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		hasWindowSize: computed(() => mainStore.hasWindowSize),
+
+		/**
+		 * Configured language.
+		 */
+		language: mainStoreRefs.language,
+
+		/**
+		 * Current zoom level of the map.
+		 *
+		 * @alpha
+		 */
+		zoom: mainStoreRefs.zoom,
+
+		/**
+		 * Masks an interaction for a plugin.
+		 * If the interaction is already masked by another plugin, an error is thrown.
+		 *
+		 * This may, for example, be used for interactions that should not be triggered while drawing.
+		 *
+		 * @param pluginId - ID of the plugin that wants to mask the interaction
+		 * @param interaction - Name of the interaction to be masked
+		 * @alpha
+		 */
+		maskInteraction: mainStore.maskInteraction,
+
+		/**
+		 * Unmasks an interaction for a plugin.
+		 * If the interaction is not masked by the plugin, nothing happens.
+		 *
+		 * @param pluginId - ID of the plugin that wants to unmask the interaction
+		 * @param interaction - Name of the interaction to be unmasked
+		 * @alpha
+		 */
+		unmaskInteraction: mainStore.unmaskInteraction,
+
+		/**
+		 * Checks whether an interaction is masked by another plugin.
+		 *
+		 * @param interaction - Name of the interaction to be checked
+		 * @returns `true` if the interaction is masked by another plugin, `false` otherwise
+		 * @alpha
+		 */
+		isInteractionMasked: mainStore.isInteractionMasked,
+
+		/**
+		 * List of all active plugin's IDs.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		activePluginIds: computed(() => pluginStore.activePluginIds),
+
+		/**
+		 * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may
+		 * already have been done. Ready-made clients (that is, packages prefixed `@polar/client-`) come with plugins prepared.
+		 *
+		 * You may add further plugins.
+		 *
+		 * Please note that the order of certain plugins is relevant when other plugins are referenced,
+		 * e.g. `@polar/plugin-gfi`'s `coordinateSources` requires the configured sources to have previously been set up.
+		 *
+		 * In case you're integrating new plugins, call `addPlugin` with a plugin instance.
+		 *
+		 * @example
+		 * ```
+		 * addPlugin(Plugin(pluginOptions: PluginOptions))
+		 * ```
+		 *
+		 * @remarks
+		 * In case you're writing a new plugin, it must fulfill the following API:
+		 * ```
+		 * const Plugin = (options: PluginOptions): PluginContainer => ({
+		 * 	id,
+		 * 	component,
+		 * 	locales,
+		 * 	options,
+		 * 	storeModule,
+		 * })
+		 * ```
+		 *
+		 * @param plugin - Plugin to be added.
+		 */
+		addPlugin: pluginStore.addPlugin,
+
+		/**
+		 * Removes a plugin by its ID.
+		 *
+		 * @param pluginId - ID of the plugin to be removed.
+		 */
+		removePlugin: pluginStore.removePlugin,
+
+		/**
+		 * Returns a plugin's store by its ID.
+		 *
+		 * For bundled plugins, the return value is typed.
+		 *
+		 * If no plugin with the specified ID is loaded, `null` is returned instead.
+		 *
+		 * @param pluginId - ID of the plugin whose store is requested.
+		 */
+		getPluginStore: pluginStore.getPluginStore,
+
+		/**
+		 * Returns a list of IDs of all currently installed plugins.
+		 *
+		 * @readonly
+		 */
+		usedPlugins: computed(() => pluginStore.plugins.map((p) => p.id)),
+
+		/**
+		 * Allows reading or setting the OIDC token used for service accesses.
+		 */
+		oidcToken: mainStoreRefs.oidcToken,
+
+		/**
+		 * Allows accessing the POLAR DOM element (`<polar-map>`).
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		lightElement: computed(() => mainStore.lightElement),
+
+		/**
+		 * The currently used layout.
+		 * Either a string indicating `standard` or `nineRegions` or a custom Vue component.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		layout: computed(() => mainStore.layout),
+
+		/**
+		 * Allows accessing the OpenLayers Map element.
+		 *
+		 * @readonly
+		 */
+		map: computed(() => mainStore.map),
+
+		/**
+		 * The current top position value in px of the MoveHandle.
+		 * Is null if the MoveHandle is currently not visible.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		moveHandleTop: computed(() => moveHandleStore.top),
+
+		/**
+		 * Currently hovered marker feature or `null`.
+		 * You may not set this to a cluster.
+		 */
+		hoveredFeature: markerStoreRefs.hoveredFeature,
+
+		/**
+		 * Feature that is hovered by the user with a marker.
+		 * If the layer does not use clustering, this is the same as {@link hoveredFeature}.
+		 * Otherwise, this is the cluster that contains the {@link hoveredFeature}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		hoveredCluster: readonly(markerStoreRefs.hoveredCluster),
+
+		/**
+		 * Features that are hovered by the user with a marker.
+		 * If the layer does not use clustering, this is an array with a single element, which is the same as {@link hoveredFeature}.
+		 * Otherwise, this is an array of all features that are contained in the {@link hoveredCluster}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		hoveredClusterFeatures: markerStoreRefs.hoveredClusterFeatures,
+
+		/**
+		 * Coordinates that were hovered by the user with a marker.
+		 *
+		 * @readonly
+		 */
+		hoveredCoordinates: computed(() => markerStore.hoveredCoordinates),
+
+		/**
+		 * Currently selected marker feature or `null`.
+		 * You may not set this to a cluster.
+		 * Setting this value to a cluster has no effect, however, this may change in the future.
+		 *
+		 * @remarks
+		 * If this value is modified, the newly selected feature is centered on the map.
+		 *
+		 * Wait at least one `nextTick` after modifying {@link hoveredFeature} before mutating this value.
+		 *
+		 * @alpha
+		 */
+		selectedFeature: computed({
+			get: () => markerStore.selectedFeature,
+			set: (feature) => {
+				if (feature?.get('features')) {
+					return
+				}
+				markerStore.selectedFeature = feature
+			},
+		}),
+
+		/**
+		 * Feature that is marked as selected on the map.
+		 * If the layer does not use clustering, this is the same as {@link selectedFeature}.
+		 * Otherwise, this is the cluster that contains the {@link selectedFeature}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		selectedCluster: readonly(markerStoreRefs.selectedCluster),
+
+		/**
+		 * Features that are marked as selected on the map.
+		 * If the layer does not use clustering, this is an array with a single element, which is the same as {@link selectedFeature}.
+		 * Otherwise, this is an array of all features that are contained in the {@link selectedCluster}.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		selectedClusterFeatures: markerStoreRefs.selectedClusterFeatures,
+
+		/**
+		 * Coordinates that were selected by the user with a marker.
+		 *
+		 * @readonly
+		 */
+		selectedCoordinates: computed(() => markerStore.selectedCoordinates),
+
+		/**
+		 * Allows accessing the Shadow DOM root of POLAR.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		shadowRoot: computed(() => mainStore.shadowRoot),
+
+		/**
+		 * Returns the effective layer configuration or `null` if the layer was not found.
+		 * The configuration is merged from the {@link createMap | serviceRegister parameter of createMap} and the POLAR {@link MapConfiguration.layers | layers} configuration.
+		 *
+		 * @param layerId - Layer ID
+		 * @returns Layer configuration (object) or `null`
+		 * @alpha
+		 */
+		getLayerMapConfiguration: mainStore.getLayerMapConfiguration,
+
+		/**
+		 * Allows setting content to the MoveHandle to be displayed on small devices
+		 * if the application has the same size as the window.
+		 *
+		 * @alpha
+		 */
+		setMoveHandle: moveHandleStore.setMoveHandle,
+
+		/**
+		 * Allows setting an additional action button to be displayed as part of the
+		 * MoveHandle.
+		 *
+		 * @alpha
+		 */
+		setMoveHandleActionButton: moveHandleStore.setMoveHandleActionButton,
+
+		/**
+		 * Allows adding an entry to the context menu.
+		 *
+		 * @param entry - The entry to be added to the context menu.
+		 */
+		addToContextMenu: contextMenuStore.addEntry,
+
+		/**
+		 * Allows removing an entry from the context menu.
+		 *
+		 * @param id - The id of the entry to be removed.
+		 */
+		removeFromContextMenu: contextMenuStore.removeEntry,
+	}
+})
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useCoreStore, import.meta.hot))
+}

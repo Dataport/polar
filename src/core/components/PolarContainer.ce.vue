@@ -1,0 +1,369 @@
+<template>
+	<div
+		ref="polar-wrapper"
+		class="polar-wrapper"
+		:lang="language"
+		:data-kern-theme="colorScheme"
+	>
+		<PolarMapOverlay ref="polar-map-overlay" />
+		<div class="polar-map-layer">
+			<PolarMap
+				ref="polar-map-container"
+				@wheel="wheelEffect"
+				@update-listeners="updateListeners"
+			/>
+		</div>
+		<MoveHandle
+			v-if="isActive && hasWindowSize && hasSmallWidth"
+			:key="moveHandleKey"
+		/>
+		<div class="polar-ui-layer">
+			<ContextMenu v-if="contextMenuStore.show" />
+			<div v-if="!hasWindowSize" class="polar-shadow" aria-hidden="true" />
+			<PolarUI />
+		</div>
+	</div>
+</template>
+
+<script setup lang="ts">
+import type { Pinia } from 'pinia'
+import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
+
+import { toMerged } from 'es-toolkit'
+import Hammer from 'hammerjs'
+import i18next, { t } from 'i18next'
+import { disposePinia, getActivePinia, storeToRefs } from 'pinia'
+import {
+	computed,
+	getCurrentInstance,
+	onBeforeUnmount,
+	onMounted,
+	ref,
+	useHost,
+	useShadowRoot,
+	useTemplateRef,
+	watch,
+} from 'vue'
+
+import { useT } from '../composables/useT'
+import { useCoreStore } from '../stores'
+import { useContextMenuStore } from '../stores/contextMenu'
+import { useMainStore } from '../stores/main'
+import { useMarkerStore } from '../stores/marker'
+import { useMoveHandleStore } from '../stores/moveHandle'
+import { CoreId } from '../types'
+import { loadKern } from '../utils/loadKern'
+import { teardownInteractions } from '../utils/map/updateDragAndZoomInteractions'
+import { mapZoomOffset } from '../utils/mapZoomOffset'
+import ContextMenu from './ContextMenu.ce.vue'
+import MoveHandle from './MoveHandle.ce.vue'
+import PolarMap from './PolarMap.ce.vue'
+import PolarMapOverlay from './PolarMapOverlay.ce.vue'
+import PolarUI from './PolarUI.ce.vue'
+
+defineOptions({
+	inheritAttrs: false,
+})
+
+const props = defineProps<{
+	mapConfiguration: MapConfiguration
+	serviceRegister: MasterportalApiServiceRegister
+}>()
+
+defineExpose<{
+	store: ReturnType<typeof useCoreStore>
+}>()
+
+const polarMapContainer = useTemplateRef<InstanceType<typeof PolarMap>>(
+	'polar-map-container'
+)
+const overlay =
+	useTemplateRef<InstanceType<typeof PolarMapOverlay>>('polar-map-overlay')
+
+const isMacOS = navigator.userAgent.indexOf('Mac') !== -1
+const noCommandOnZoom = useT(() =>
+	t(($) => $.overlay.noCommandOnZoom, { ns: CoreId })
+)
+const noControlOnZoom = useT(() =>
+	t(($) => $.overlay.noControlOnZoom, { ns: CoreId })
+)
+
+function wheelEffect(event: WheelEvent) {
+	if (hasWindowSize.value || !overlay.value) {
+		return
+	}
+	const condition = computed(() => !hasWindowSize.value)
+	if (isMacOS && !event.metaKey) {
+		overlay.value.show(noCommandOnZoom, condition)
+	} else if (!isMacOS && !event.ctrlKey) {
+		overlay.value.show(noControlOnZoom, condition)
+	}
+}
+
+const oneFingerPan = useT(() =>
+	t(($) => $.overlay.oneFingerPan, { ns: CoreId })
+)
+
+let longPressHammer: { destroy: () => void } | null = null
+let panHammer: { destroy: () => void } | null = null
+
+function updateListeners() {
+	longPressHammer?.destroy()
+	longPressHammer = null
+	panHammer?.destroy()
+	panHammer = null
+
+	const container = polarMapContainer.value?.el
+	if (container && hasSmallDisplay.value) {
+		longPressHammer = new Hammer(container, { time: 1000 }).on('press', (e) => {
+			contextMenuStore.show = true
+			const rect = (polarWrapper.value as Element).getBoundingClientRect()
+			const left = e.center.x - rect.left
+			const top = e.center.y - rect.top
+			contextMenuStore.clickCoordinate = mainStore.map.getCoordinateFromPixel([
+				left,
+				top,
+			])
+			contextMenuStore.left = `${left}px`
+			contextMenuStore.top = `${top}px`
+			contextMenuStore.suppressNextMapClick = true
+		})
+
+		if (!hasWindowSize.value) {
+			panHammer = new Hammer(container).on('pan', (e) => {
+				if (
+					overlay.value &&
+					e.maxPointers === 1 &&
+					!mainStore.map
+						.getInteractions()
+						.getArray()
+						.some((interaction) =>
+							interaction.get('_isPolarDragLikeInteraction')
+						)
+				) {
+					overlay.value.show(oneFingerPan)
+				}
+			})
+		}
+	}
+}
+
+const mainStore = useMainStore()
+const { colorScheme, hasSmallDisplay, hasSmallWidth, hasWindowSize, language } =
+	storeToRefs(mainStore)
+
+mainStore.configuration = toMerged(
+	mainStore.configuration,
+	mapZoomOffset(props.mapConfiguration)
+)
+
+if (mainStore.configuration.colorScheme) {
+	mainStore.colorScheme = mainStore.configuration.colorScheme
+}
+
+if (mainStore.configuration.oidcToken) {
+	// copied to a separate spot for usage as it's changeable data at run-time
+	mainStore.oidcToken = mainStore.configuration.oidcToken
+}
+
+if (mainStore.configuration.locales) {
+	mainStore.configuration.locales.forEach((locale) => {
+		Object.entries(locale.resources).forEach(([ns, resources]) => {
+			i18next.addResourceBundle(locale.type, ns, resources, true, true)
+		})
+	})
+}
+
+if (mainStore.configuration.language) {
+	i18next
+		.changeLanguage(mainStore.configuration.language)
+		.catch((error: unknown) => {
+			console.error('Failed to set initial language:', error)
+		})
+}
+
+mainStore.serviceRegister = props.serviceRegister
+
+mainStore.language = i18next.language
+i18next.on('languageChanged', updateLanguage)
+
+function updateLanguage(newLanguage: string) {
+	mainStore.language = newLanguage
+}
+
+watch(
+	() => mainStore.language,
+	async (newLanguage) => {
+		if (i18next.language === newLanguage) {
+			return
+		}
+		await i18next.changeLanguage(newLanguage)
+	}
+)
+
+const polarWrapper = useTemplateRef<HTMLDivElement>('polar-wrapper')
+
+let resizeObserver: ResizeObserver | null = null
+
+const { isActive } = storeToRefs(useMoveHandleStore())
+const moveHandleKey = ref(0)
+// Make sure the element is properly updated.
+watch(isActive, () => (moveHandleKey.value += 1))
+
+function updateClientDimensions() {
+	mainStore.clientHeight = (polarWrapper.value as Element).clientHeight
+	mainStore.clientWidth = (polarWrapper.value as Element).clientWidth
+}
+
+const contextMenuStore = useContextMenuStore()
+
+function openContextMenu(e: MouseEvent) {
+	contextMenuStore.open(
+		e,
+		(polarWrapper.value as Element).getBoundingClientRect()
+	)
+}
+
+const markerStore = useMarkerStore()
+
+onMounted(() => {
+	mainStore.lightElement = useHost()
+	mainStore.shadowRoot = useShadowRoot()
+
+	loadKern(
+		mainStore.shadowRoot as ShadowRoot,
+		mainStore.configuration.theme?.kern || {}
+	)
+
+	addEventListener('resize', mainStore.updateHasSmallDisplay)
+	mainStore.updateHasSmallDisplay()
+
+	resizeObserver = new ResizeObserver(updateClientDimensions)
+	resizeObserver.observe(polarWrapper.value as Element)
+	updateClientDimensions()
+
+	// FIXME: Improve types for lightElement
+	// This is necessary for making `getStore` work
+	;(mainStore.lightElement as { store?: unknown }).store = useCoreStore()
+
+	mainStore.map
+		.getTargetElement()
+		.addEventListener('contextmenu', openContextMenu)
+	polarWrapper.value?.addEventListener('pointerdown', contextMenuStore.dismiss)
+	document.addEventListener('pointerdown', contextMenuStore.dismiss)
+})
+
+onBeforeUnmount(() => {
+	panHammer?.destroy()
+	panHammer = null
+	longPressHammer?.destroy()
+	longPressHammer = null
+
+	if (resizeObserver instanceof ResizeObserver) {
+		resizeObserver.unobserve(polarWrapper.value as Element)
+		resizeObserver = null
+	}
+
+	i18next.off('languageChanged', updateLanguage)
+
+	const mapEl = mainStore.map.getTargetElement()
+	mapEl.removeEventListener('contextmenu', openContextMenu)
+	document.removeEventListener('pointerdown', contextMenuStore.dismiss)
+	if (mainStore.configuration.markers) {
+		markerStore.teardown()
+	}
+	mainStore.map.dispose()
+	mapEl.replaceChildren()
+	delete (mainStore.lightElement as { store?: unknown }).store
+	removeEventListener('resize', mainStore.updateHasSmallDisplay)
+	teardownInteractions()
+
+	disposePinia(getActivePinia() as Pinia)
+
+	polarWrapper.value?.removeEventListener(
+		'pointerdown',
+		contextMenuStore.dismiss,
+		true
+	)
+
+	const shadowRoot = getCurrentInstance()?.proxy?.$el?.getRootNode()
+	if (shadowRoot instanceof ShadowRoot) {
+		shadowRoot.adoptedStyleSheets = []
+		shadowRoot.querySelectorAll('style').forEach((s) => {
+			s.remove()
+		})
+	}
+})
+</script>
+
+<!-- eslint-disable-next-line vue/enforce-style-attribute -->
+<style>
+:host {
+	--brand-color-l: v-bind('mainStore.configuration.theme?.brandColor?.l');
+	--brand-color-c: v-bind('mainStore.configuration.theme?.brandColor?.c');
+	--brand-color-h: v-bind('mainStore.configuration.theme?.brandColor?.h');
+	--polar-shadow-color: 0deg 0% 63%;
+	--polar-shadow:
+		0 0.5px 0.5px hsl(var(--polar-shadow-color) / 0.43),
+		0 1.5px 1.6px -1px hsl(var(--polar-shadow-color) / 0.4),
+		0 4px 4.2px -2px hsl(var(--polar-shadow-color) / 0.36),
+		-0.1px 10.1px 10.6px -3px hsl(var(--polar-shadow-color) / 0.32);
+}
+
+@layer polar-map {
+	:host {
+		display: block;
+		width: 100%;
+		height: 30em;
+		border-radius: var(--kern-metric-border-radius-large);
+		box-sizing: border-box;
+	}
+}
+
+/*
+ * We use KERN also within tooltips.
+ * However, the tooltip has even more space restrictions than the map itself,
+ * so we introduce some styling to match the tooltip's needs.
+ */
+.ol-overlay-container.ol-selectable {
+	h2 {
+		margin: var(--kern-metric-space-small) 0;
+	}
+}
+</style>
+
+<style scoped>
+.polar-wrapper {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	border-radius: var(--kern-metric-border-radius-large);
+}
+
+.polar-map-layer {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	clip-path: inset(0 round var(--kern-metric-border-radius-large));
+}
+
+.polar-shadow {
+	position: absolute;
+	inset: 0;
+	border-radius: var(--kern-metric-border-radius-large);
+	box-shadow:
+		inset 0 1px 1px 0 rgba(53, 57, 86, 0.5),
+		inset 0 1px 2px 0 rgba(53, 57, 86, 0.5),
+		inset 0 1px 6px 0 rgba(110, 117, 151, 0.5);
+	pointer-events: none;
+	z-index: -1;
+}
+
+.polar-ui-layer {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	isolation: isolate;
+	pointer-events: none;
+}
+</style>

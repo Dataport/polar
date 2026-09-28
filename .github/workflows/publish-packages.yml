@@ -1,9 +1,9 @@
-name: Publish packages with updated changelog to npmjs.org
+name: Publish @polar/polar to NPM registry
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - v*
 
 permissions:
   id-token: write
@@ -12,35 +12,29 @@ permissions:
 jobs:
   publish:
     environment: npm-publish
+    name: Publish package @polar/polar
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.matrix.outputs.TAGS }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          token: ${{ secrets.BUMPER }}
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
-        with:
-          node-version: 24.14.1
+          node-version: 24.15.0
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: |
-          RETURN_TAGS=$(node ./scripts/versionPackages)
-          echo "TAGS=$RETURN_TAGS" >> $GITHUB_ENV
-      - uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5
-        with:
-          author_name: Dataport Geo Bot
-          author_email: polar@dataport.de
-      - run: |
-          for TAG in ${{ env.TAGS }}
-          do
-            git config user.name "Dataport Geo Bot"
-            git config user.email "polar@dataport.de"
-            git tag $TAG
-            git push origin $TAG
-            echo "Released and tagged $TAG"
-          done
-      - run: node ./scripts/publishPackages ${{ env.TAGS }}
-      - run: node ./scripts/createRelease ${{ env.TAGS }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build:ci
+
+      - name: Publish to NPM
+        run: npm publish --access public --tag latest
+
+      - name: Create GitHub release
+        run: node scripts/create-github-release.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

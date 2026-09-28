@@ -1,23 +1,19 @@
 {
-  "compilerOptions": {
-    "target": "es6",
-    "module": "esnext",
-    "strict": true,
-    "noImplicitAny": false,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "isolatedModules": true,
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
-    "typeRoots": ["node_modules/@types", "@types"]
-  },
-  "exclude": [
-    "packages/clients/diplan/vendored"
-  ]
+	"extends": [
+		"./tsconfig.settings.json"
+	],
+	"exclude": [
+		"src",
+		"examples",
+		"vue2"
+	],
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"skipLibCheck": true,
+		"types": [
+			"node"
+		]
+	}
 }

@@ -1,0 +1,341 @@
+import type { ResourceKey } from 'i18next'
+import type { SetupStoreDefinition } from 'pinia'
+import type { Component } from 'vue'
+import type { PluginId as AddressSearchPluginId } from '@/plugins/addressSearch'
+import type { resourcesEn as AddressSearchResources } from '@/plugins/addressSearch/locales'
+import type { useAddressSearchStore as AddressSearchStore } from '@/plugins/addressSearch/store'
+import type { PluginId as AttributionsPluginId } from '@/plugins/attributions'
+import type { resourcesEn as AttributionsResources } from '@/plugins/attributions/locales'
+import type { useAttributionsStore as AttributionsStore } from '@/plugins/attributions/store'
+import type { PluginId as ExportPluginId } from '@/plugins/export'
+import type { resourcesEn as ExportResources } from '@/plugins/export/locales'
+import type { useExportStore as ExportStore } from '@/plugins/export/store'
+import type { PluginId as FilterPluginId } from '@/plugins/filter'
+import type { resourcesEn as FilterResources } from '@/plugins/filter/locales'
+import type { useFilterStore as FilterStore } from '@/plugins/filter/store'
+import type { PluginId as FooterPluginId } from '@/plugins/footer'
+import type { resourcesEn as FooterResources } from '@/plugins/footer/locales'
+import type { useFooterStore as FooterStore } from '@/plugins/footer/store'
+import type { PluginId as FullscreenPluginId } from '@/plugins/fullscreen'
+import type { resourcesEn as FullscreenResources } from '@/plugins/fullscreen/locales'
+import type { useFullscreenStore as FullscreenStore } from '@/plugins/fullscreen/store'
+import type { PluginId as GeoLocationPluginId } from '@/plugins/geoLocation'
+import type { resourcesEn as GeoLocationResources } from '@/plugins/geoLocation/locales'
+import type { useGeoLocationStore as GeoLocationStore } from '@/plugins/geoLocation/store'
+import type { PluginId as GfiPluginId } from '@/plugins/gfi'
+import type { resourcesEn as GfiResources } from '@/plugins/gfi/locales'
+import type { useGfiStore as GfiStore } from '@/plugins/gfi/store'
+import type { PluginId as IconMenuPluginId } from '@/plugins/iconMenu'
+import type { resourcesEn as IconMenuResources } from '@/plugins/iconMenu/locales'
+import type { useIconMenuStore as IconMenuStore } from '@/plugins/iconMenu/store'
+import type { PluginId as InitialViewPluginId } from '@/plugins/initialView'
+import type { resourcesEn as InitialViewResources } from '@/plugins/initialView/locales'
+import type { useInitialViewStore as InitialViewStore } from '@/plugins/initialView/store'
+import type { PluginId as LayerChooserPluginId } from '@/plugins/layerChooser'
+import type { resourcesEn as LayerChooserResources } from '@/plugins/layerChooser/locales'
+import type { useLayerChooserStore as LayerChooserStore } from '@/plugins/layerChooser/store'
+import type { PluginId as LoadingIndicatorId } from '@/plugins/loadingIndicator'
+import type { useLoadingIndicatorStore as LoadingIndicatorStore } from '@/plugins/loadingIndicator/store'
+import type { PluginId as PinsPluginId } from '@/plugins/pins'
+import type { resourcesEn as PinsResources } from '@/plugins/pins/locales'
+import type { usePinsStore as PinsStore } from '@/plugins/pins/store'
+import type { PluginId as PointerPositionPluginId } from '@/plugins/pointerPosition'
+import type { resourcesEn as PointerPositionResources } from '@/plugins/pointerPosition/locales'
+import type { usePointerPositionStore as PointerPositionStore } from '@/plugins/pointerPosition/store'
+import type { PluginId as ReverseGeocoderPluginId } from '@/plugins/reverseGeocoder'
+import type { useReverseGeocoderStore as ReverseGeocoderStore } from '@/plugins/reverseGeocoder/store'
+import type { PluginId as RoutingPluginId } from '@/plugins/routing'
+import type { resourcesEn as RoutingResources } from '@/plugins/routing/locales'
+import type { useRoutingStore as RoutingStore } from '@/plugins/routing/store'
+import type { PluginId as ScalePluginId } from '@/plugins/scale'
+import type { resourcesEn as ScaleResources } from '@/plugins/scale/locales'
+import type { useScaleStore as ScaleStore } from '@/plugins/scale/store'
+import type { PluginId as ToastPluginId } from '@/plugins/toast'
+import type { resourcesEn as ToastResources } from '@/plugins/toast/locales'
+import type { useToastStore as ToastStore } from '@/plugins/toast/store'
+import type { PluginId as ZoomPluginId } from '@/plugins/zoom'
+import type { resourcesEn as ZoomResources } from '@/plugins/zoom/locales'
+import type { useZoomStore as ZoomStore } from '@/plugins/zoom/store'
+import type { NineLayoutTag } from '../utils/NineLayoutTag'
+import type { Icon } from './theme'
+
+/** @internal */
+export interface Locale {
+	resources: Record<string, ResourceKey>
+	type: string
+}
+
+/**
+ * Generic options for all plugins.
+ *
+ * ## Custom Plugin Positioning
+ *
+ * There are two implemented layouting systems in POLAR configured by {@link MapConfiguration.layout}.
+ *
+ * If `layout` is set to `'nineRegions'` all plugins are placed in a predefined region grid.
+ * Use {@link PluginOptions.displayComponent | displayComponent} to control visibility
+ * and {@link PluginOptions.layoutTag | layoutTag} to specify the target region.
+ *
+ * If `layout` is set to `'standard'`, a plugin can be rendered in one of two ways:
+ * 1. **As part of the IconMenu**: Configure the plugin in the IconMenu's
+ * 		{@link IconMenuPluginOptions.menus | `menus`} configuration.
+ * 		The IconMenu will handle positioning and rendering the plugin at the designated location.
+ * 2. **Independent with CSS positioning**: Directly add the plugin with
+ * 		{@link addPlugin}. The plugin is responsible for its own positioning
+ * 		using CSS (e.g., `position: absolute`) within the map container.
+ */
+export interface PluginOptions {
+	/**
+	 * Should the component be visible at all.
+	 *
+	 * Only relevant if {@link MapConfiguration.layout | layout} is set to `'nineRegions'`.
+	 *
+	 * @defaultValue `false`
+	 */
+	displayComponent?: boolean
+
+	/**
+	 * The region where the plugin should be rendered.
+	 *
+	 * Required if {@link MapConfiguration.layout | layout} is set to `'nineRegions'`,
+	 * ignored otherwise.
+	 */
+	layoutTag?: keyof typeof NineLayoutTag
+}
+
+export interface PlaceablePluginOptions extends PluginOptions {
+	/**
+	 * Placeable plugins can be placed either independently or as part of the icon menu.
+	 *
+	 * @defaultValue 'independent'
+	 */
+	renderType?: 'independent' | 'iconMenu'
+}
+
+export interface BoundaryOptions {
+	/**
+	 * ID of the vector layer to restrict requests to.
+	 * The layer must contain vectors. This is useful for restricted maps to avoid
+	 * selecting unfit coordinates.
+	 */
+	layerId: string
+
+	/**
+	 * If the boundary layer check does not work due to loading or configuration
+	 * errors, style `'strict'` will disable the affected feature, and style
+	 * `'permissive'` will act as if no {@link layerId} was set.
+	 *
+	 * @defaultValue 'permissive'
+	 */
+	onError?: 'strict' | 'permissive'
+}
+
+export interface LayerBoundPluginOptions extends PluginOptions {
+	/**
+	 * Set to check whether something should be restricted to an area defined by a layer.
+	 *
+	 * If
+	 *
+	 * @example
+	 * ```
+	 * {
+	 *   layerId: 'hamburgBorder',
+	 * }
+	 * ```
+	 */
+	boundary?: BoundaryOptions
+}
+
+export type PolarPluginStore<
+	T extends {
+		setupPlugin?: () => void
+		teardownPlugin?: () => void
+	} = {
+		setupPlugin?: () => void
+		teardownPlugin?: () => void
+	},
+> = SetupStoreDefinition<string, T>
+
+/** @internal */
+export type BundledPluginId =
+	| typeof AddressSearchPluginId
+	| typeof AttributionsPluginId
+	| typeof ExportPluginId
+	| typeof FilterPluginId
+	| typeof FooterPluginId
+	| typeof FullscreenPluginId
+	| typeof GeoLocationPluginId
+	| typeof GfiPluginId
+	| typeof IconMenuPluginId
+	| typeof LayerChooserPluginId
+	| typeof LoadingIndicatorId
+	| typeof PinsPluginId
+	| typeof PointerPositionPluginId
+	| typeof InitialViewPluginId
+	| typeof ReverseGeocoderPluginId
+	| typeof RoutingPluginId
+	| typeof ScalePluginId
+	| typeof ToastPluginId
+	| typeof ZoomPluginId
+
+type GetPluginStore<
+	T extends BundledPluginId,
+	I extends BundledPluginId,
+	// TODO: This fixes the type error, but relaxes type-checking for the plugin store too much.
+	// However, it is not clear if Pinia's type system allows for stronger checks at the moment.
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	S extends PolarPluginStore<any>,
+> = T extends I ? S : never
+
+/** @internal */
+export type BundledPluginStores<T extends BundledPluginId> =
+	| GetPluginStore<T, typeof AddressSearchPluginId, typeof AddressSearchStore>
+	| GetPluginStore<T, typeof AttributionsPluginId, typeof AttributionsStore>
+	| GetPluginStore<T, typeof ExportPluginId, typeof ExportStore>
+	| GetPluginStore<T, typeof FilterPluginId, typeof FilterStore>
+	| GetPluginStore<T, typeof FooterPluginId, typeof FooterStore>
+	| GetPluginStore<T, typeof FullscreenPluginId, typeof FullscreenStore>
+	| GetPluginStore<T, typeof GeoLocationPluginId, typeof GeoLocationStore>
+	| GetPluginStore<T, typeof GfiPluginId, typeof GfiStore>
+	| GetPluginStore<T, typeof IconMenuPluginId, typeof IconMenuStore>
+	| GetPluginStore<T, typeof LayerChooserPluginId, typeof LayerChooserStore>
+	| GetPluginStore<T, typeof LoadingIndicatorId, typeof LoadingIndicatorStore>
+	| GetPluginStore<T, typeof PinsPluginId, typeof PinsStore>
+	| GetPluginStore<
+			T,
+			typeof PointerPositionPluginId,
+			typeof PointerPositionStore
+	  >
+	| GetPluginStore<T, typeof InitialViewPluginId, typeof InitialViewStore>
+	| GetPluginStore<
+			T,
+			typeof ReverseGeocoderPluginId,
+			typeof ReverseGeocoderStore
+	  >
+	| GetPluginStore<T, typeof RoutingPluginId, typeof RoutingStore>
+	| GetPluginStore<T, typeof ScalePluginId, typeof ScaleStore>
+	| GetPluginStore<T, typeof ToastPluginId, typeof ToastStore>
+	| GetPluginStore<T, typeof ZoomPluginId, typeof ZoomStore>
+
+type GetPluginResources<
+	T extends BundledPluginId,
+	I extends BundledPluginId,
+	S extends Locale['resources'],
+> = T extends I ? S : never
+
+/** @internal */
+export type BundledPluginLocaleResources<T extends BundledPluginId> =
+	| GetPluginResources<
+			T,
+			typeof AddressSearchPluginId,
+			typeof AddressSearchResources
+	  >
+	| GetPluginResources<
+			T,
+			typeof AttributionsPluginId,
+			typeof AttributionsResources
+	  >
+	| GetPluginResources<T, typeof ExportPluginId, typeof ExportResources>
+	| GetPluginResources<T, typeof FilterPluginId, typeof FilterResources>
+	| GetPluginResources<T, typeof FooterPluginId, typeof FooterResources>
+	| GetPluginResources<T, typeof FullscreenPluginId, typeof FullscreenResources>
+	| GetPluginResources<
+			T,
+			typeof GeoLocationPluginId,
+			typeof GeoLocationResources
+	  >
+	| GetPluginResources<T, typeof GfiPluginId, typeof GfiResources>
+	| GetPluginResources<T, typeof IconMenuPluginId, typeof IconMenuResources>
+	| GetPluginResources<
+			T,
+			typeof LayerChooserPluginId,
+			typeof LayerChooserResources
+	  >
+	| GetPluginResources<T, typeof PinsPluginId, typeof PinsResources>
+	| GetPluginResources<
+			T,
+			typeof PointerPositionPluginId,
+			typeof PointerPositionResources
+	  >
+	| GetPluginResources<
+			T,
+			typeof InitialViewPluginId,
+			typeof InitialViewResources
+	  >
+	| GetPluginResources<T, typeof RoutingPluginId, typeof RoutingResources>
+	| GetPluginResources<T, typeof ScalePluginId, typeof ScaleResources>
+	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
+	| GetPluginResources<T, typeof ZoomPluginId, typeof ZoomResources>
+
+/** @internal */
+export type ExternalPluginId = `external-${string}`
+
+/** @internal */
+export type PluginId = BundledPluginId | ExternalPluginId
+
+export interface PluginContainer {
+	/**
+	 * Unique technical identifier.
+	 *
+	 * For bundled plugins, this is its name, e.g. `fullscreen`.
+	 *
+	 * For external plugins, use `external-` as a prefix and ensure uniqueness.
+	 * For publicly published plugins, it is recommended to use
+	 * `polar-plugin-X` as your package name and use `external-X` as ID.
+	 *
+	 * Please do not use `external-X` when `X` is a bundled plugin.
+	 *
+	 * @example `fullscreen`
+	 */
+	id: PluginId
+
+	/**
+	 * A Vue component if required.
+	 *
+	 * The component will be rendered by POLAR over the map.
+	 * The position is either to be determined by the plugin if `layout === 'standard'`
+	 * or will be determined by the layout.
+	 *
+	 * @see {@link PluginOptions} for configuration details
+	 */
+	component?: Component
+
+	/**
+	 * Icon class for the plugin.
+	 * This icon will be used as the default for rendering in menus.
+	 */
+	icon?: Icon
+
+	/**
+	 * Whether the plugin is independently rendered.
+	 *
+	 * @internal
+	 * @defaultValue true
+	 */
+	independent?: boolean
+
+	/**
+	 * Locales used in the plugin.
+	 *
+	 * The locales will be loaded to the namespace that equals the plugin's ID.
+	 */
+	locales?: Locale[]
+
+	/**
+	 * Configuration options. Please also note that all configuration added via plugin constructors can be overridden in
+	 * the {@link createMap | `createMap`'s parameter `mapConfiguration`} .
+	 *
+	 * You may use either object (or a mix of them) to create the configuration, e.g. use the constructors for a base
+	 * configuration and the `mapConfiguration` object to override it for various use cases.
+	 *
+	 * How exactly you do this is up to you and influences the minimum API call requirements your client has.
+	 */
+	options?: PluginOptions
+
+	/**
+	 * Pinia store module if required.
+	 * If the storeModule features a `setupPlugin` action, it will be executed automatically after initialization.
+	 * If the storeModule features a `teardownPlugin` action, it will be executed automatically before unloading.
+	 */
+	storeModule?: PolarPluginStore
+}
