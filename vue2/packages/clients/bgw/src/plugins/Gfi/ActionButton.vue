@@ -21,7 +21,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters('plugin/gfi', ['currentProperties']),
     link() {
-      return `https://www.schleswig-holstein.de/DE/fachinhalte/B/badegewaesser/DarstellungBadestelle.html#bgst=${this.currentProperties.fid}`
+      return `https://www.schleswig-holstein.de/DE/fachinhalte/G/gesundheitsschutz_umweltbezogen/Badegewaesser/DarstellungBadestelle.html#bgst=${this.currentProperties.fid}`
     },
   },
 })

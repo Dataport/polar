@@ -48,9 +48,10 @@ export default function (mode: keyof typeof MODE): Menu[] {
       plugin: Zoom({ renderType: 'iconMenu' }),
       id: 'zoom',
     },
-    mode !== MODE.REPORT && {
-      plugin: Fullscreen({ renderType: 'iconMenu' }),
-      id: 'fullscreen',
-    },
+    mode !== MODE.REPORT &&
+      mode !== MODE.JENFELD && {
+        plugin: Fullscreen({ renderType: 'iconMenu' }),
+        id: 'fullscreen',
+      },
   ].filter((x) => x /* remove `false` entries */) as Menu[]
 }
