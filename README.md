@@ -4,7 +4,6 @@
 
 <h1 align="center">
   <picture>
-    <!-- hier testweise einfach das alte Logo gesetzt ... -->
     <source media="(prefers-color-scheme: dark)" srcset="./pages/assets/logo-polar--horizontal--dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="./pages/assets/logo-polar--horizontal.svg">
     <img alt="POLAR" height="80px" src="./pages/assets/logo-polar--horizontal.svg" />
