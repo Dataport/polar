@@ -12,9 +12,7 @@ permissions:
   contents: write
   pull-requests: write
 
-concurrency:
-  group: github-pages
-  cancel-in-progress: false
+concurrency: preview-${{ github.ref }}
 
 jobs:
   deploy-preview:
