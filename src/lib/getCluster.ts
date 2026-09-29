@@ -24,7 +24,7 @@ export default function getCluster(
 	const layer = findLayer(map, feature.get(layerId))
 	if (!(layer instanceof VectorLayer)) {
 		throw new Error(
-			`@polar/lib-get-cluster: The layer with the id ${layerId} either does not exist or is not a VectorLayer.`
+			`The layer with the id ${layerId} either does not exist or is not a VectorLayer.`
 		)
 	}
 
@@ -43,9 +43,7 @@ export default function getCluster(
 					)
 
 	if (!(cluster instanceof Feature)) {
-		throw new Error(
-			'@polar/lib-get-cluster: No cluster could be found for the given feature.'
-		)
+		throw new Error('No cluster could be found for the given feature.')
 	}
 	clusterByFeature.set(feature, cluster)
 	// The given feature should be the last in the array, as it the one "above" all thus added last
