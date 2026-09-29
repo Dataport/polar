@@ -176,6 +176,7 @@ import polarLogoSvg from './assets/polar-logo.svg'
 		grid-row: 2;
 		order: unset;
 		margin-bottom: 2rem;
+		/* TODO: These were from pill; nav also had 		justify-content: stretch; */
 		height: auto;
 		padding: 8px;
 		border-radius: 1rem;
