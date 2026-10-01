@@ -165,7 +165,7 @@ The following script tag can then be used to render the productive services of t
   meldemichelMapClient.createMap({
     containerId: 'meldemichel-map-client', // the id you used
     mode: 'COMPLETE',
-    afmUrl: `https://afm.hamburg.de/intelliform/forms/mml_melde_michel/standard/mml_melde_michel/index`,
+    afmUrl: `https://am.hamburg.de/intelliform/forms/HH/standard/mml_melde_michel/mml_melde_michel/index`,
     reportServiceId: '6059',
     configOverride: {
       // adjust path to where the client is
