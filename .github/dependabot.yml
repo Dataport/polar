@@ -48,7 +48,7 @@ updates:
         patterns:
           - eslint
           - eslint-config-prettier
-          - eslint-plugin-import
+          - eslint-plugin-import-x
           - eslint-plugin-prettier
           - prettier
           - stylelint
