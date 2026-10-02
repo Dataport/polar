@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## unplublished
+- Fix: edited the layer 'luftbilder'. The layer could not be retrieved because the server-side name SH_DOP20_4 was removed. An error occurred during the query, and the layer could not be retrieved.
+
 ## 1.6.2
 
 - Fix: improve check for objektid in internal mode to prevent errors from empty strings or differences in uppercase / lowercase letters.

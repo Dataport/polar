@@ -45,7 +45,7 @@ const dop20ColService = {
   name: 'DOP 20 (Farbe)',
   url: `${dishCloudBaseUrl}/dishbkgDOP20col`,
   typ: 'WMS',
-  layers: 'SH_DOP20_4,SH_DOP20_3,SH_DOP20_2,SH_DOP20_1',
+  layers: 'SH_DOP20_3,SH_DOP20_2,SH_DOP20_1',
   format: 'image/png',
   version: '1.3.0',
   transparent: true,
