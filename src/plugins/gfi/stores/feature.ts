@@ -81,16 +81,30 @@ export const useGfiFeatureStore = defineStore('plugins/gfi/feature', () => {
 		() => selectedFeatureLayerConfiguration.value?.properties
 	)
 
-	const selectedFeatureProperties = computed(() =>
-		pickBy(
-			gfiMainStore.geoJsonFeature?.feature.properties || {},
-			(value, key) =>
-				(!selectedFeaturePropertiesLayerConfiguration.value ||
-					selectedFeaturePropertiesLayerConfiguration.value.includes(key)) &&
-				(!exportPropertyLayerConfiguration.value ||
-					key !== exportPropertyLayerConfiguration.value)
+	const selectedFeatureProperties = computed(() => {
+		const feature = gfiMainStore.geoJsonFeature?.feature
+		if (!feature) {
+			return []
+		}
+		return Object.fromEntries(
+			(
+				selectedFeaturePropertiesLayerConfiguration.value ||
+				Object.keys(feature.properties || {})
+			)
+				.map((property) =>
+					typeof property === 'string' ? { name: property } : property
+				)
+				.filter(
+					({ name }) =>
+						!exportPropertyLayerConfiguration.value ||
+						name !== exportPropertyLayerConfiguration.value
+				)
+				.map(({ name, format }) => {
+					const value = gfiMainStore.geoJsonFeature?.feature.properties?.[name]
+					return [name, format ? format(value, feature) : String(value)]
+				})
 		)
-	)
+	})
 
 	async function getFeatureInfo(
 		coordinateOrExtent: RequestGfiParameters['coordinateOrExtent'],

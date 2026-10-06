@@ -31,6 +31,23 @@ export const PluginId = 'gfi'
 export type ShowTooltip = (feature: Feature) => [string, string][]
 
 /**
+ * Configuration for a property of a feature to be shown in the GFI window.
+ */
+export interface GfiPropertyConfiguration {
+	/**
+	 * Name of the property.
+	 */
+	name: string
+
+	/**
+	 * Function to format the property's value for display.
+	 *
+	 * @defaultValue The value is displayed as-is.
+	 */
+	format?: (value: unknown, feature: GeoJsonFeature) => string
+}
+
+/**
  * Gfi configuration for a layer.
  *
  * @example
@@ -136,7 +153,7 @@ export interface GfiLayerConfiguration {
 	 *
 	 * @defaultValue Display all properties
 	 */
-	properties?: string[]
+	properties?: (string | GfiPropertyConfiguration)[]
 
 	/**
 	 * (WFS- and GeoJSON-only)
