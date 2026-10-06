@@ -22,6 +22,7 @@ import { useCoreStore } from '@/core/stores'
 import { indicateLoading } from '@/lib/indicateLoading'
 
 import { PluginId } from './types'
+import { reverseGeocodeBkg } from './utils/reverseGeocodeBkg'
 import { reverseGeocodeNominatim } from './utils/reverseGeocodeNominatim'
 import {
 	addressMissingMessage,
@@ -91,6 +92,7 @@ export const useReverseGeocoderStore = defineStore(
 							serviceEpsg: configuration.value.epsg || 'EPSG:25832',
 						}),
 					nominatim: reverseGeocodeNominatim,
+					bkg: reverseGeocodeBkg,
 				}[configuration.value.type]
 				const feature = await reverseGeocodeUtil({
 					url: configuration.value.url,

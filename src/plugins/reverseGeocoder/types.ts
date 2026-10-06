@@ -13,7 +13,7 @@ export interface ReverseGeocoderPluginOptions extends PluginOptions {
 	/**
 	 * Type of reverse geocoding service.
 	 */
-	type: 'wps' | 'nominatim'
+	type: 'wps' | 'nominatim' | 'bkg'
 
 	/**
 	 * URL of a WPS service to use for reverse geocoding.

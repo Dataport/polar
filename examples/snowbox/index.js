@@ -374,10 +374,12 @@ addPlugin(
 addPlugin(
 	map,
 	pluginReverseGeocoder({
-		type: 'wps',
-		url: 'https://geodienste.hamburg.de/HH_WPS',
+		// type: 'wps',
+		// url: 'https://geodienste.hamburg.de/HH_WPS',
 		// type: 'nominatim',
 		// url: 'https://polar.dataport.de/nominatim/reverse',
+		type: 'bkg',
+		url: 'https://polar.dataport.de/bkg/geocode/geosearch',
 		coordinateSources: [
 			{
 				plugin: 'pins',
