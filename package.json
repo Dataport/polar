@@ -99,7 +99,7 @@
 		"@pinia/testing": "^2.0.1",
 		"@repositoryname/noop": "^1.0.6",
 		"@types/geojson": "7946.0.16",
-		"@types/node": "^24.13.6",
+		"@types/node": "^24.19.1",
 		"@vitejs/plugin-vue": "^6.0.9",
 		"@vitest/coverage-v8": "^5.0.2",
 		"@vitest/ui": "^5.0.2",
