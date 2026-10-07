@@ -13,8 +13,8 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: github-pages
-  cancel-in-progress: false
+  group: preview-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy-preview:

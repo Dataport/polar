@@ -75,7 +75,7 @@ const zoomValue = computed({
 
 	.scale-line {
 		display: flex;
-		align-items: anchor-center;
+		align-items: center;
 		gap: var(--kern-metric-space-small);
 
 		.scale-line-scale {

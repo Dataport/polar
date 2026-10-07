@@ -1,10 +1,10 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @module @polar/polar/plugins/InitialView
+ * @module @polar/polar/plugins/initialView
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { PluginContainer } from '@/core'
 import type { InitialViewPluginOptions } from './types'
 
 import component from './components/InitialView.ce.vue'
@@ -24,7 +24,7 @@ export default function pluginInitialView(
 		id: PluginId,
 		component,
 		locales,
-		storeModule: useInitialViewStore as PolarPluginStore,
+		storeModule: useInitialViewStore,
 		options,
 	}
 }

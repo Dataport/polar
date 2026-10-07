@@ -63,7 +63,14 @@ export default (core) => {
         id: 'fullscreen',
       },
       {
-        plugin: Attributions({ renderType: 'iconMenu' }),
+        plugin: Attributions({
+          renderType: 'iconMenu',
+          listenToChanges: [
+            'plugin/zoom/zoomLevel',
+            'plugin/layerChooser/activeBackgroundId',
+            'plugin/layerChooser/activeMaskIds',
+          ],
+        }),
         icon: 'fa-regular fa-copyright',
         id: 'attributions',
       },

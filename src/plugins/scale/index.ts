@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { PluginContainer } from '@/core'
 import type { ScalePluginOptions } from './types'
 
 import component from './components/ScaleWidget.ce.vue'
@@ -29,7 +29,7 @@ export default function pluginScale(
 		component,
 		locales,
 		options,
-		storeModule: useScaleStore as PolarPluginStore,
+		storeModule: useScaleStore,
 	}
 }
 

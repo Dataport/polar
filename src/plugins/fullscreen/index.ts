@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { PluginContainer } from '@/core'
 import type { FullscreenPluginOptions } from './types'
 
 import component from './components/FullscreenUI.ce.vue'
@@ -24,7 +24,7 @@ export default function pluginFullscreen(
 		id: PluginId,
 		component,
 		locales,
-		storeModule: useFullscreenStore as PolarPluginStore,
+		storeModule: useFullscreenStore,
 		options,
 	}
 }
