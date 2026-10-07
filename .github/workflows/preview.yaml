@@ -42,17 +42,19 @@ jobs:
         if: github.event.action != 'closed'
         run: npm ci
 
+      - name: Build documentation
+        if: github.event.action != 'closed'
+        run: npm run docs:ci
+
       - name: Build preview
         if: github.event.action != 'closed'
         run: |
-          npm run build:ci
           npm run preview:build:ci -- --base="./"
+          npm run preview:assemble
 
-      - name: Build documentation
+      - name: Assemble documentation into preview
         if: github.event.action != 'closed'
-        run: |
-          npm run docs:ci
-          mv docs-html ./.dist.preview/docs-html
+        run: mv docs-html ./.dist.preview/docs-html
 
       - name: Deploy preview to GitHub Pages
         uses: rossjrw/pr-preview-action@ffa7509e91a3ec8dfc2e5536c4d5c1acdf7a6de9 # v1.8.1
