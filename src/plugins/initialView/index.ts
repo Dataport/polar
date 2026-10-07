@@ -1,6 +1,6 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @module @polar/polar/plugins/InitialView
+ * @module @polar/polar/plugins/initialView
  */
 /* eslint-enable tsdoc/syntax */
 
