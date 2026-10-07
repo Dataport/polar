@@ -95,7 +95,7 @@
 		"@dataport/eslint-config-geodev": "^2.0.0-alpha.3",
 		"@kern-ux/native": "^2.8.2",
 		"@masterportal/masterportalapi": "2.64.0",
-		"@microsoft/api-extractor": "^7.59.2",
+		"@microsoft/api-extractor": "^7.59.3",
 		"@pinia/testing": "^2.0.1",
 		"@repositoryname/noop": "^1.0.6",
 		"@types/geojson": "7946.0.16",
