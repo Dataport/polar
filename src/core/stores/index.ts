@@ -7,6 +7,7 @@
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, readonly } from 'vue'
 
+import { useColorSchemeStore } from './colorScheme'
 import { useContextMenuStore } from './contextMenu'
 import { useMainStore } from './main'
 import { useMarkerStore } from './marker'
@@ -27,6 +28,9 @@ export const useCoreStore = defineStore('core', () => {
 	const markerStore = useMarkerStore()
 	const markerStoreRefs = storeToRefs(markerStore)
 
+	const colorSchemeStore = useColorSchemeStore()
+	const colorSchemeStoreRefs = storeToRefs(colorSchemeStore)
+
 	const contextMenuStore = useContextMenuStore()
 	const moveHandleStore = useMoveHandleStore()
 	const pluginStore = usePluginStore()
@@ -44,7 +48,17 @@ export const useCoreStore = defineStore('core', () => {
 		 *
 		 * @alpha
 		 */
-		colorScheme: mainStoreRefs.colorScheme,
+		colorScheme: colorSchemeStoreRefs.colorScheme,
+
+		/**
+		 * Effective color scheme the client should be using.
+		 *
+		 * To modify the color scheme, use {@link colorScheme} instead.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		effectiveColorScheme: colorSchemeStoreRefs.effectiveColorScheme,
 
 		/**
 		 * The current height of the map.

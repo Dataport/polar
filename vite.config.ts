@@ -176,8 +176,10 @@ export default defineConfig(({ mode }) => ({
 	},
 	test: {
 		environment: 'jsdom',
+		pool: 'vmThreads',
 		include: ['src/**/*.spec.ts'],
 		includeSource: ['src/**/*.ts'],
+		setupFiles: [resolve(import.meta.dirname, 'src', 'test', 'setup.ts')],
 		coverage: {
 			all: true,
 			include: ['src/**/*.{ts,vue}'],

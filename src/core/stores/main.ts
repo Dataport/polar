@@ -1,7 +1,6 @@
 import type { Feature, Map as OlMap } from 'ol'
 import type { Point } from 'ol/geom'
 import type {
-	ColorScheme,
 	MapConfigurationIncludingDefaults,
 	MasterportalApiServiceRegister,
 	PluginId,
@@ -17,7 +16,6 @@ import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
 import defaults from '../utils/defaults'
 
 export const useMainStore = defineStore('main', () => {
-	const colorScheme = ref<ColorScheme>('system')
 	const configuration = ref<MapConfigurationIncludingDefaults>(
 		toMerged(
 			{
@@ -118,7 +116,6 @@ export const useMainStore = defineStore('main', () => {
 
 	return {
 		// State
-		colorScheme,
 		configuration,
 		clientHeight,
 		clientWidth,

@@ -3,7 +3,7 @@
 		ref="polar-wrapper"
 		class="polar-wrapper"
 		:lang="language"
-		:data-kern-theme="colorScheme"
+		:data-kern-theme="effectiveColorScheme"
 	>
 		<PolarMapOverlay ref="polar-map-overlay" />
 		<div class="polar-map-layer">
@@ -47,6 +47,7 @@ import {
 
 import { useT } from '../composables/useT'
 import { useCoreStore } from '../stores'
+import { useColorSchemeStore } from '../stores/colorScheme'
 import { useContextMenuStore } from '../stores/contextMenu'
 import { useMainStore } from '../stores/main'
 import { useMarkerStore } from '../stores/marker'
@@ -149,8 +150,11 @@ function updateListeners() {
 }
 
 const mainStore = useMainStore()
-const { colorScheme, hasSmallDisplay, hasSmallWidth, hasWindowSize, language } =
+const { hasSmallDisplay, hasSmallWidth, hasWindowSize, language } =
 	storeToRefs(mainStore)
+
+const colorSchemeStore = useColorSchemeStore()
+const { colorScheme, effectiveColorScheme } = storeToRefs(colorSchemeStore)
 
 mainStore.configuration = toMerged(
 	mainStore.configuration,
@@ -158,7 +162,7 @@ mainStore.configuration = toMerged(
 )
 
 if (mainStore.configuration.colorScheme) {
-	mainStore.colorScheme = mainStore.configuration.colorScheme
+	colorScheme.value = mainStore.configuration.colorScheme
 }
 
 if (mainStore.configuration.oidcToken) {
