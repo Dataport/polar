@@ -78,8 +78,6 @@
 		"clean": "node scripts/clean.ts",
 		"test": "vitest",
 		"test:ci": "vitest run",
-		"test:github-io": "vitest run --config vitest.github-io.config.ts",
-		"tsc:github-io": "vue-tsc -p tsconfig.github-io.json --noEmit",
 		"test:coverage": "vitest --coverage --ui",
 		"prepare": "node .husky/install.js"
 	},
