@@ -52,7 +52,8 @@
 		"preview:build": "vite build --watch -c vite.config.preview.ts",
 		"preview:build:ci": "vite build -c vite.config.preview.ts",
 		"preview:preview": "vite preview -c vite.config.preview.ts",
-		"preview": "conc --kill-others 'npm run build' 'npm run preview:build' 'npm run preview:preview'",
+		"preview:assemble": "mkdir -p .dist.preview/examples && cp -r examples/github-io/dist .dist.preview/examples/github-io",
+		"preview": "npm run build:ci && npm run build:github-io:fast && npm run preview:build:ci && npm run preview:assemble && npm run preview:preview",
 		"build": "vite build --watch",
 		"build:ci": "vite build",
 		"build:github-io": "npm run build:ci && vite build --config vite.config.github-io.ts",
@@ -77,8 +78,6 @@
 		"clean": "node scripts/clean.ts",
 		"test": "vitest",
 		"test:ci": "vitest run",
-		"test:github-io": "vitest run --config vitest.github-io.config.ts",
-		"tsc:github-io": "vue-tsc -p tsconfig.github-io.json --noEmit",
 		"test:coverage": "vitest --coverage --ui",
 		"prepare": "node .husky/install.js"
 	},
