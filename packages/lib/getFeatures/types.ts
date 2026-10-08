@@ -65,6 +65,8 @@ export interface WfsParameters extends QueryParameters {
   sortBy?: { propertyName: string; direction?: 'ASC' | 'DESC' }[]
   /** Whether the like filter should be case sensitive */
   caseSensitive?: boolean
+  /** WFS protocol version; defaults to 1.1.0 */
+  version?: WFSVersion
 }
 
 /**

@@ -1,5 +1,6 @@
 import { match, getBlocks } from '../wfs/match'
 import { buildWfsFilter } from '../wfs/buildWfsFilter'
+import { parseWfsResponse } from '../wfs/parse'
 
 // mock result from pattern.matchAll(/{{(.*?)}}/g) for test comparison
 const mockRegExpMatchArray = (find, inner, index, input, groups?) => {
@@ -137,6 +138,77 @@ describe('tools/lib/getFeatures/wfs', () => {
       expect(filterXmlString).toEqual(
         '<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" maxFeatures="999"><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com" xmlns:ogc="http://www.opengis.net/ogc"><ogc:Filter><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:a</ogc:PropertyName><ogc:Literal>5*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query><wfs:Query typeName="prefix:TyPeNaMe" xmlns:prefix="example.com" xmlns:ogc="http://www.opengis.net/ogc"><ogc:Filter><ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><ogc:PropertyName>prefix:b</ogc:PropertyName><ogc:Literal>3*</ogc:Literal></ogc:PropertyIsLike></ogc:Filter></wfs:Query></wfs:GetFeature>'
       )
+    })
+
+    it('creates a WFS 2.0.0 request with FES filters and count', () => {
+      const filterXmlString = buildWfsFilter([[['a', '5']]], {
+        ...parameters,
+        version: '2.0.0',
+      })
+
+      expect(filterXmlString).toContain(
+        'xmlns:wfs="http://www.opengis.net/wfs/2.0"'
+      )
+      expect(filterXmlString).toContain('version="2.0.0"')
+      expect(filterXmlString).toContain('count="999"')
+      expect(filterXmlString).toContain('typeNames="prefix:TyPeNaMe"')
+      expect(filterXmlString).toContain(
+        '<fes:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><fes:ValueReference>prefix:a</fes:ValueReference><fes:Literal>5*</fes:Literal></fes:PropertyIsLike>'
+      )
+    })
+
+    it('creates WFS 2.0.0 conjunctions and sorting with FES elements', () => {
+      const filterXmlString = buildWfsFilter(
+        [
+          [
+            ['a', '5'],
+            ['b', '3'],
+          ],
+        ],
+        {
+          ...parameters,
+          version: '2.0.0',
+          sortBy: [{ propertyName: 'name', direction: 'DESC' }],
+        }
+      )
+
+      expect(filterXmlString).toContain('<fes:And>')
+      expect(filterXmlString).toContain('</fes:And>')
+      expect(filterXmlString).toContain(
+        '<fes:SortBy><fes:SortProperty><fes:ValueReference>prefix:name</fes:ValueReference><fes:SortOrder>DESC</fes:SortOrder></fes:SortProperty></fes:SortBy>'
+      )
+      expect(filterXmlString).not.toContain('ogc:')
+    })
+  })
+
+  describe('parseWfsResponse', () => {
+    it('normalizes OGC CRS URIs before parsing polygon coordinates', async () => {
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:cp="http://inspire.ec.europa.eu/schemas/cp/4.0">
+  <wfs:member>
+    <cp:CadastralParcel gml:id="CadastralParcel_1">
+      <cp:label>12412</cp:label>
+      <cp:geometry>
+        <gml:Polygon srsName="http://www.opengis.net/def/crs/epsg/0/3857" srsDimension="2">
+          <gml:exterior><gml:LinearRing>
+            <gml:posList>0 0 1 0 1 1 0 0</gml:posList>
+          </gml:LinearRing></gml:exterior>
+        </gml:Polygon>
+      </cp:geometry>
+    </cp:CadastralParcel>
+  </wfs:member>
+</wfs:FeatureCollection>`
+      const response = {
+        text: () => Promise.resolve(xml),
+      } as Response
+
+      const result = await parseWfsResponse(response, 'label', false, '2.0.0')
+
+      expect(result.features[0]).toMatchObject({
+        title: '12412',
+        epsg: 'EPSG:3857',
+        geometry: { type: 'Polygon' },
+      })
     })
   })
 })
