@@ -1,6 +1,6 @@
 import { GeoJSON, WFS } from 'ol/format'
 import { FeatureCollection } from 'geojson'
-import { PolarGeoJsonFeature } from '../types'
+import { PolarGeoJsonFeature, WFSVersion } from '../types'
 import { getFeatureTitleFromPattern } from './getFeatureTitleFromPattern'
 
 /**
@@ -9,11 +9,13 @@ import { getFeatureTitleFromPattern } from './getFeatureTitleFromPattern'
  * @param response - Response from the fetch request.
  * @param title - {@link AdditionalSearchOptions.title}
  * @param useTitleAsPattern - whether title contains patterns from config
+ * @param version - WFS version of the response; defaults to 1.1.0
  */
 export function parseWfsResponse(
   response: Response,
   title: string | string[] | undefined,
-  useTitleAsPattern: boolean
+  useTitleAsPattern: boolean,
+  version?: WFSVersion
 ): Promise<FeatureCollection> {
   const features: PolarGeoJsonFeature[] = []
   const featureCollection: FeatureCollection = {
@@ -22,14 +24,26 @@ export function parseWfsResponse(
   }
 
   return response.text().then((text) => {
-    const parser = new WFS()
+    const normalizedText = text.replace(
+      /srsName="https?:\/\/www\.opengis\.net\/def\/crs\/epsg\/0\/(\d+)"/gi,
+      'srsName="EPSG:$1"'
+    )
+    const parser = version ? new WFS({ version }) : new WFS()
     const writer = new GeoJSON()
-    const parsedFeatures = parser.readFeatures(text)
+    const parsedFeatures = parser.readFeatures(normalizedText)
+    // OL 10.4's metadata reader treats WFS 2.0 members as a metadata array.
+    const metadataSrsName =
+      version === '2.0.0'
+        ? undefined
+        : (
+            parser.readFeatureCollectionMetadata(normalizedText) as
+              | { srsName?: string }
+              | undefined
+          )?.srsName
     const epsgCode =
-      // @ts-expect-error | srsName is there, I've seen it – probably a type-bug in OL?
-      parser.readFeatureCollectionMetadata(text).srsName?.split('::')?.[1] ??
+      metadataSrsName?.split('::')?.[1] ??
       // if srs not on root node, but on children, take first-best match
-      text.match(/srsName="[^"]*EPSG:(\d+)/)?.[1]
+      normalizedText.match(/srsName="[^"]*EPSG:(\d+)/i)?.[1]
 
     parsedFeatures.forEach((f) => {
       const featureObject = JSON.parse(writer.writeFeature(f))
