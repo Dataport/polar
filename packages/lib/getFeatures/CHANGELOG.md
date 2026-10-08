@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Support WFS 2.0.0 in `getWfsFeatures` via the optional `version` parameter.
+- Fix: Normalize OGC CRS URIs before parsing WFS geometries.
+
 ## 3.2.0
 
 - Feature: Implement server-side sorting for `getWfsFeatures`. Can be configured by new parameter `sortBy`.
