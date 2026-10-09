@@ -68,7 +68,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	)
 
 	const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
-	const addressSearchStore = coreStore.getPluginStore('addressSearch')
+	const addressSearchStore = computed(() =>
+		coreStore.getPluginStore('addressSearch')
+	)
 	const showSearchResultList = computed(
 		() =>
 			coreStore.usedPlugins.includes('reverseGeocoder') &&
@@ -187,14 +189,15 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const searchResultHint = computed(() => {
 		const index = currentlyFocusedInput.value
+		const addressSearch = addressSearchStore.value
 		if (!showSearchResultList.value) {
 			return ''
 		}
-		if (!addressSearchStore) {
+		if (!addressSearch) {
 			return ''
 		}
 		const input = routeInputValues.value[index]?.trim() ?? ''
-		if (input.length < addressSearchStore.minLength) {
+		if (input.length < addressSearch.minLength) {
 			return ''
 		}
 		if (routeSearchResults.value[index] === SearchResultSymbols.ERROR) {
@@ -260,13 +263,14 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		input: string,
 		autoselect: 'first' | 'only' | 'never' = 'never'
 	) {
+		const addressSearch = addressSearchStore.value
 		if (!showSearchResultList.value) {
 			return
 		}
 		if (index < 0 || index >= route.value.length) {
 			return
 		}
-		if (!addressSearchStore) {
+		if (!addressSearch) {
 			return
 		}
 
@@ -274,10 +278,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		routeSearchRequestCounters.value =
 			routeSearchRequestCounters.value.toSpliced(index, 1, currentCounter)
 
-		if (
-			!input.trim().length ||
-			input.trim().length < addressSearchStore.minLength
-		) {
+		if (!input.trim().length || input.trim().length < addressSearch.minLength) {
 			routeSearchResults.value = routeSearchResults.value.toSpliced(
 				index,
 				1,
@@ -287,7 +288,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		}
 		setRouteInputLoading(index, true)
 
-		await addressSearchStore
+		await addressSearch
 			.runSearch(input)
 			.then((results: SearchResult[] | symbol) => {
 				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
