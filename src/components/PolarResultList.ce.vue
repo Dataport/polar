@@ -6,71 +6,21 @@
 		tabindex="-1"
 	>
 		<template v-for="(result, i) in results" :key="result.categoryId">
-			<span
-				v-if="results.length > 1"
-				:id="`polar-result-list-${componentId}-${result.categoryId}`"
-				class="polar-result-list-category-label"
-			>
-				{{ result.categoryLabel }}
-				<slot
-					name="result-count-label"
-					:count="getResultCount(result.categoryId)"
-				/>
-			</span>
-			<ul
-				:aria-labelledby="`polar-result-list-${componentId}-${result.categoryId}`"
-				:class="{
-					'polar-result-list-without-label': results.length === 1,
-				}"
-			>
-				<template
-					v-for="(feature, j) in result.features.features"
-					:key="`result-${i}-${j}`"
-				>
-					<li
-						:id="`polar-result-list-${componentId}-results-feature-${i}-${j}`"
-						tabindex="-1"
-						@click="emit('selectResult', feature, result.categoryId)"
-						@keydown.enter.prevent.stop="
-							emit('selectResult', feature, result.categoryId)
-						"
-						@keydown.down.prevent.stop="
-							(event) => focusNextElement(true, event)
-						"
-						@keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
-						@keydown.escape.prevent.stop="escapeResults"
-					>
-						<span class="span-sr-only">{{ feature.title }}</span>
-						<!-- eslint-disable vue/no-v-html -->
-						<span
-							aria-hidden="true"
-							v-html="strongTitleByInput(feature.title, inputValue)"
-						/>
-						<slot />
-					</li>
-				</template>
-			</ul>
-			<KernButton
-				v-if="searchResults[i].features.features.length > limitedResults"
-				class="kern-btn--tertiary"
-				:icon="
-					areResultsExpanded(result.categoryId)
-						? 'kern-icon--keyboard-arrow-up'
-						: 'kern-icon--keyboard-arrow-down'
+			<PolarResultCategory
+				:index="i"
+				:result="result"
+				:input-value="props.inputValue"
+				:limited-results="props.limitedResults"
+				:results-length="results.length"
+				:category-id="result.categoryId"
+				:category-label="result.categoryLabel"
+				:component-id="props.componentId"
+				:search-results="props.searchResults"
+				:selected-group-id="props.selectedGroupId"
+				@focus-next-element="focusNextElement"
+				@select-result="
+					(feature, categoryId) => emit('selectResult', feature, categoryId)
 				"
-				@keydown.down.prevent.stop="(event) => focusNextElement(true, event)"
-				@keydown.up.prevent.stop="(event) => focusNextElement(false, event)"
-				@click="toggle(result.categoryId)"
-			>
-				<slot
-					name="toggle-label"
-					:expanded="areResultsExpanded(result.categoryId)"
-				/>
-			</KernButton>
-			<hr
-				v-if="i < results.length - 1"
-				class="kern-divider"
-				aria-hidden="true"
 			/>
 		</template>
 	</div>
@@ -79,12 +29,11 @@
 <script setup lang="ts">
 import type { PolarGeoJsonFeature, SearchResult } from '@/core'
 
-import { computed, nextTick, ref, toRaw, watch } from 'vue'
+import { computed, nextTick, toRaw, watch } from 'vue'
 
-import KernButton from '@/components/kern/KernButton.ce.vue'
+import PolarResultCategory from '@/components/PolarResultCategory.ce.vue'
 import { useCoreStore } from '@/core/stores'
 import { focusFirstResult } from '@/lib/focusFirstResult'
-import { strongTitleByInput } from '@/lib/strongTitleByInput'
 
 const props = defineProps<{
 	componentId: string
@@ -118,6 +67,7 @@ const defaultFocusReturnTargetId = computed(() => {
 		props.focusReturnTargetId ?? `polar-result-list-${props.componentId}-input`
 	)
 })
+
 const defaultResultItemIdPrefix = computed(() => {
 	return (
 		props.resultItemIdPrefix ??
@@ -128,8 +78,6 @@ const defaultResultItemIdPrefix = computed(() => {
 const resultsBySearchMethod = computed(() =>
 	Array.isArray(props.searchResults) ? props.searchResults : []
 )
-const openCategories = ref<string[]>([])
-
 const results = computed<SearchResult[]>(() =>
 	Array.isArray(resultsBySearchMethod.value)
 		? // If we do not clone, we'd still copy references on the deeper levels
@@ -149,23 +97,7 @@ const results = computed<SearchResult[]>(() =>
 
 					return acc
 				}, [])
-				.map((result) => {
-					if (areResultsExpanded(result.categoryId)) {
-						return result
-					}
-
-					result.features.features = result.features.features.slice(
-						0,
-						props.limitedResults
-					)
-					return result
-				})
 		: []
-)
-
-watch(
-	() => props.selectedGroupId,
-	() => (openCategories.value = [])
 )
 
 watch(results, () => {
@@ -179,26 +111,6 @@ watch(results, () => {
 		})
 	}
 })
-
-function getResultCount(categoryId: string) {
-	return resultsBySearchMethod.value
-		.filter(
-			(result) =>
-				result.groupId === props.selectedGroupId &&
-				result.categoryId === categoryId
-		)
-		.reduce((sum, result) => sum + result.features.features.length, 0)
-}
-
-function areResultsExpanded(category: string) {
-	return openCategories.value.includes(category)
-}
-
-function escapeResults() {
-	;(coreStore.shadowRoot as ShadowRoot)
-		.getElementById(defaultFocusReturnTargetId.value)
-		?.focus()
-}
 
 function focusNextElement(down: boolean, event: KeyboardEvent): void {
 	const { target } = event
@@ -226,13 +138,6 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 		.getElementById(defaultFocusReturnTargetId.value)
 		?.focus()
 }
-
-function toggle(category: string) {
-	openCategories.value =
-		openCategories.value.indexOf(category) === -1
-			? [...openCategories.value, category]
-			: openCategories.value.filter((s) => s !== category)
-}
 </script>
 
 <style scoped>
@@ -243,61 +148,5 @@ function toggle(category: string) {
 	width: 100%;
 	padding-bottom: 0.625rem;
 	overflow-y: auto;
-
-	.polar-result-list-category-label {
-		display: flex;
-		align-items: center;
-		min-height: var(--kern-metric-dimension-large);
-		padding: 0 var(--kern-metric-space-small);
-		margin: 0;
-		font-size: calc(var(--kern-typography-font-size-small-static) * 0.875);
-		font-weight: normal;
-		color: var(--kern-color-layout-text-muted);
-	}
-
-	.polar-result-list-without-label {
-		margin-top: var(--kern-metric-space-x-small);
-	}
-
-	ul {
-		margin: 0;
-		padding: 0;
-
-		li {
-			display: flex;
-			align-items: flex-start;
-			min-height: var(--kern-metric-dimension-x-large);
-			padding: var(--kern-metric-space-2x-small) var(--kern-metric-space-small);
-			margin: var(--kern-metric-space-none) var(--kern-metric-space-small);
-			border-radius: var(--kern-metric-border-radius-default);
-			color: var(--kern-color-layout-text-default);
-			transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-
-			span[aria-hidden='true'] {
-				white-space: normal;
-				overflow-wrap: anywhere;
-			}
-
-			&:hover,
-			&:focus {
-				background-color: var(--kern-color-layout-background-hued);
-				cursor: pointer;
-			}
-		}
-	}
-
-	button {
-		margin: var(--kern-metric-space-none) var(--kern-metric-space-small);
-	}
-}
-/* Copy of kern-sr-only with a normal height so screen reader focus is correct */
-.span-sr-only {
-	width: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip-path: circle(0);
-	white-space: nowrap;
-	border: 0;
 }
 </style>

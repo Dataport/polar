@@ -1,4 +1,4 @@
-<template>
+<template class="polar-result-list-category">
 	<span
 		v-if="resultsLength > 1"
 		:id="`polar-result-list-${componentId}-${categoryId}`"
@@ -14,7 +14,12 @@
 		}"
 	>
 		<template
-			v-for="(feature, j) in result.features.features"
+			v-for="(feature, j) in result.features.features.slice(
+				0,
+				areResultsExpanded(categoryId)
+					? result.features.features.length
+					: limitedResults
+			)"
 			:key="`result-${index}-${j}`"
 		>
 			<li
@@ -41,7 +46,7 @@
 		</template>
 	</ul>
 	<KernButton
-		v-if="searchResults[index].features.features.length > limitedResults"
+		v-if="result.features.features.length > limitedResults"
 		class="kern-btn--tertiary"
 		:icon="
 			areResultsExpanded(categoryId)
@@ -66,7 +71,7 @@
 <script setup lang="ts">
 import type { PolarGeoJsonFeature, SearchResult } from '@/core'
 
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import { strongTitleByInput } from '@/lib/strongTitleByInput'
@@ -89,6 +94,11 @@ const emit = defineEmits<{
 	focusNextElement: [boolean, KeyboardEvent]
 	escapeResults: []
 }>()
+
+watch(
+	() => props.selectedGroupId,
+	() => (openCategories.value = [])
+)
 
 const resultsBySearchMethod = computed(() =>
 	Array.isArray(props.searchResults) ? props.searchResults : []
@@ -117,3 +127,62 @@ function toggle(category: string) {
 			: openCategories.value.filter((s) => s !== category)
 }
 </script>
+
+<style scoped>
+.polar-result-list-category-label {
+	display: flex;
+	align-items: center;
+	min-height: var(--kern-metric-dimension-large);
+	padding: 0 var(--kern-metric-space-small);
+	margin: 0;
+	font-size: calc(var(--kern-typography-font-size-small-static) * 0.875);
+	font-weight: normal;
+	color: var(--kern-color-layout-text-muted);
+}
+
+.polar-result-list-without-label {
+	margin-top: var(--kern-metric-space-x-small);
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+
+	li {
+		display: flex;
+		align-items: flex-start;
+		min-height: var(--kern-metric-dimension-x-large);
+		padding: var(--kern-metric-space-2x-small) var(--kern-metric-space-small);
+		margin: var(--kern-metric-space-none) var(--kern-metric-space-small);
+		border-radius: var(--kern-metric-border-radius-default);
+		color: var(--kern-color-layout-text-default);
+		transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+
+		span[aria-hidden='true'] {
+			white-space: normal;
+			overflow-wrap: anywhere;
+		}
+
+		&:hover,
+		&:focus {
+			background-color: var(--kern-color-layout-background-hued);
+			cursor: pointer;
+		}
+	}
+}
+
+button {
+	margin: var(--kern-metric-space-none) var(--kern-metric-space-small);
+}
+
+/* Copy of kern-sr-only with a normal height so screen reader focus is correct */
+.span-sr-only {
+	width: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: circle(0);
+	white-space: nowrap;
+	border: 0;
+}
+</style>
