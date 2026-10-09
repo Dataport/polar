@@ -319,6 +319,17 @@ onBeforeUnmount(() => {
 		box-sizing: border-box;
 	}
 }
+
+/*
+ * We use KERN also within tooltips.
+ * However, the tooltip has even more space restrictions than the map itself,
+ * so we introduce some styling to match the tooltip's needs.
+ */
+.ol-overlay-container.ol-selectable {
+	h2 {
+		margin: var(--kern-metric-space-small) 0;
+	}
+}
 </style>
 
 <style scoped>

@@ -33,7 +33,7 @@ export const useCoreStore = defineStore('core', () => {
 
 	return {
 		/**
-		 * The current center coordinates of the map.
+		 * Read or modify center coordinate of the map.
 		 *
 		 * @alpha
 		 */
@@ -41,6 +41,8 @@ export const useCoreStore = defineStore('core', () => {
 
 		/**
 		 * Color scheme the client should be using.
+		 *
+		 * @alpha
 		 */
 		colorScheme: mainStoreRefs.colorScheme,
 
@@ -75,6 +77,14 @@ export const useCoreStore = defineStore('core', () => {
 		 * @readonly
 		 */
 		deviceIsHorizontal: computed(() => mainStore.deviceIsHorizontal),
+
+		/**
+		 * Extent of the map.
+		 *
+		 * @alpha
+		 * @readonly
+		 */
+		extent: computed(() => mainStore.extent),
 
 		/**
 		 * Whether the map has a maximum height of {@link SMALL_DISPLAY_HEIGHT} and
@@ -151,6 +161,14 @@ export const useCoreStore = defineStore('core', () => {
 		 * @alpha
 		 */
 		isInteractionMasked: mainStore.isInteractionMasked,
+
+		/**
+		 * List of all active plugin's IDs.
+		 *
+		 * @readonly
+		 * @alpha
+		 */
+		activePluginIds: computed(() => pluginStore.activePluginIds),
 
 		/**
 		 * Before instantiating the map, all required plugins have to be added. Depending on how you use POLAR, this may

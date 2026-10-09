@@ -31,7 +31,6 @@ export const useIcebergStore = defineStore('iceberg', () => {
 				name: 'Ausgleichsflächen',
 				styleId: 'panda',
 				visibility: true,
-				minZoom: 5,
 			},
 			{
 				id: '1693',
@@ -69,6 +68,7 @@ export const useIcebergStore = defineStore('iceberg', () => {
 				visibility: true,
 				type: 'mask',
 				name: 'snowbox.layers.mml',
+				minZoom: 5,
 			},
 		],
 		startCenter: [565874, 5934140],
@@ -132,6 +132,9 @@ export const useIcebergStore = defineStore('iceberg', () => {
 			displayComponent: true,
 			layoutTag: 'TOP_RIGHT',
 		},
+		gfi: {
+			directSelect: true,
+		} as MapConfiguration['gfi'],
 		markers: {
 			layers: [
 				{

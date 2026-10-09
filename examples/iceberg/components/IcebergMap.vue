@@ -49,6 +49,7 @@ import pluginAttributions from '@polar/polar/plugins/attributions'
 import pluginExport from '@polar/polar/plugins/export'
 import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
+import pluginGfi from '@polar/polar/plugins/gfi'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
 import pluginPins from '@polar/polar/plugins/pins'
@@ -129,6 +130,16 @@ watch(map, (map) => {
 			displayComponent: true,
 			layoutTag: 'TOP_LEFT',
 			searchMethods: [],
+		}),
+		pluginGfi({
+			displayComponent: true,
+			layoutTag: 'TOP_LEFT',
+			layers: {
+				'1454': {
+					window: true,
+					geometry: true,
+				},
+			},
 		}),
 		pluginPins({
 			coordinateSources: [{ plugin: 'addressSearch', key: 'chosenAddress' }],

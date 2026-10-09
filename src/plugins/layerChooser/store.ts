@@ -205,6 +205,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 				ImageWMS | TileWMS
 			>
 		).getSource()
+
 		if (!olSource) {
 			console.error(
 				`Action 'toggleOpenedOptionsServiceLayer' failed on ${openedOptionsId.value}. Layer not found in OpenLayers or source not initialized in OpenLayers.`

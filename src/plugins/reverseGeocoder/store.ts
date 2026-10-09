@@ -16,6 +16,7 @@ import { Point } from 'ol/geom'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, toRaw } from 'vue'
 
+import { useRefStore } from '@/composables/useRefStore'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 import { indicateLoading } from '@/lib/indicateLoading'
@@ -61,9 +62,7 @@ export const useReverseGeocoderStore = defineStore(
 			target: NonNullable<ReverseGeocoderPluginOptions['addressTarget']>,
 			feature: ReverseGeocoderFeature
 		) {
-			const targetStore = target.plugin
-				? coreStore.getPluginStore(target.plugin)
-				: coreStore
+			const targetStore = useRefStore(target)
 			if (!targetStore) {
 				return
 			}
