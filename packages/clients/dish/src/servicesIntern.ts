@@ -99,7 +99,7 @@ const dop20ColInternService = {
   name: 'Luftbilder Farbe',
   url: `${intranetUrl}/WMS_SH_DOP20col`,
   typ: 'WMS',
-  layers: 'SH_DOP20_4,SH_DOP20_3,SH_DOP20_2,SH_DOP20_1',
+  layers: 'SH_DOP20_3,SH_DOP20_2,SH_DOP20_1',
   format: 'image/png',
   version: '1.1.1',
   transparent: true,
