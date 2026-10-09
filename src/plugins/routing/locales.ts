@@ -42,11 +42,24 @@ export const resourcesDe = {
 		tollways: 'Mautstraßen',
 		ferries: 'Fähren',
 	},
+	hint: {
+		error: 'Etwas ist bei der Suche schiefgegangen.',
+		noResults: 'Keine Ergebnisse gefunden.',
+		loading: 'Suche ...',
+	},
 	ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
+	ariaDescription:
+		'Durch Eingabe in das Suchfeld kann die Suche nach Adressen gestartet werden',
+	clear: '{{label}} Eingabefeld leeren',
 	distance: 'Entfernung: {{distance}}',
 	duration: 'Dauer: {{duration}}',
 	noFeature:
 		'Die Route konnte nicht ermittelt werden. Versuchen Sie es mit anderen Koordinaten.',
+	resultList: {
+		extend: 'Alle Ergebnisse anzeigen',
+		reduce: 'Ergebnisse reduzieren',
+	},
+	resultCount: '({{count}} Ergebnisse)',
 } as const
 
 export const resourcesEn = {
@@ -82,10 +95,23 @@ export const resourcesEn = {
 		tollways: 'Tollways',
 		ferries: 'Ferries',
 	},
+	hint: {
+		error: 'Something went wrong.',
+		noResults: 'No results found.',
+		loading: 'Searching...',
+	},
 	ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
+	ariaDescription:
+		'By entering text into the search field, the address search can be started',
+	clear: 'Clear {{label}} input field',
 	distance: 'Distance: {{distance}}',
 	duration: 'Duration: {{duration}}',
 	noFeature: 'Route could not be determined. Try different coordinates.',
+	resultList: {
+		extend: 'Show all results',
+		reduce: 'Reduce result list',
+	},
+	resultCount: '({{count}} results)',
 } as const
 
 // first type will be used as fallback language
