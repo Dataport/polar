@@ -150,7 +150,7 @@ ul {
 
 	li {
 		display: flex;
-		align-items: flex-start;
+		align-items: center;
 		min-height: var(--kern-metric-dimension-x-large);
 		padding: var(--kern-metric-space-2x-small) var(--kern-metric-space-small);
 		margin: var(--kern-metric-space-none) var(--kern-metric-space-small);
