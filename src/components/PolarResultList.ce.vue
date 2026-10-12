@@ -21,7 +21,17 @@
 				@select-result="
 					(feature, categoryId) => emit('selectResult', feature, categoryId)
 				"
-			/>
+			>
+				<template #result-count-label="{ count }">
+					<slot name="result-count-label" :count="count" />
+				</template>
+				<template #toggle-label="{ expanded }">
+					<slot name="toggle-label" :expanded="expanded" />
+				</template>
+				<template #default>
+					<slot />
+				</template>
+			</PolarResultCategory>
 		</template>
 	</div>
 </template>
