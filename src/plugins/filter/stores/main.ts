@@ -25,7 +25,7 @@ export const useFilterMainStore = defineStore('plugins/filter/main', () => {
 		() =>
 			(coreStore.configuration[PluginId] ?? {
 				layers: {},
-			}) as FilterPluginOptions
+			}) satisfies FilterPluginOptions
 	)
 
 	const state = ref<Record<string, FilterState>>({})

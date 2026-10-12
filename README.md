@@ -2,3 +2,5 @@
 [![License: EUPL v1.2](https://img.shields.io/badge/License-EUPL%20v1.2-blue)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
 
 # POLAR
+
+POLAR is a modular, configurable map client based on OpenLayers.

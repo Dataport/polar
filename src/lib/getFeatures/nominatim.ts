@@ -4,7 +4,7 @@ import type { NominatimParameters } from './types'
 
 import { transformGeometry } from '@/lib/transformGeometry'
 
-export default async function (
+export default async function nominatim(
 	signal: AbortSignal,
 	url: string,
 	inputValue: string,

@@ -23,7 +23,10 @@ import { indicateLoading } from '@/lib/indicateLoading'
 
 import { PluginId } from './types'
 import { reverseGeocodeNominatim } from './utils/reverseGeocodeNominatim'
-import { reverseGeocodeWps } from './utils/reverseGeocodeWps'
+import {
+	addressMissingMessage,
+	reverseGeocodeWps,
+} from './utils/reverseGeocodeWps'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -108,7 +111,16 @@ export const useReverseGeocoderStore = defineStore(
 				return feature
 			} catch (error) {
 				if (!signal.aborted) {
-					console.error('Reverse geocoding failed:', error)
+					if (
+						error instanceof Error &&
+						error.message === addressMissingMessage
+					) {
+						console.warn(
+							`Reverse geocoding stopped with message '${addressMissingMessage}'. This indicates the WPS does not support this region.`
+						)
+					} else {
+						console.error('Reverse geocoding failed:', error)
+					}
 				}
 				return null
 			} finally {

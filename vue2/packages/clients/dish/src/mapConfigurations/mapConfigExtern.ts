@@ -7,6 +7,7 @@ import { alkisWfService } from '../services'
 import {
   alkisWms,
   basemapGrau,
+  basemapFarbe,
   bddEin,
   bddCol,
   dop20col,
@@ -17,6 +18,7 @@ import { DishMapConfig } from '../types'
 import { scaleFromZoomLevel } from '../utils/calculateScaleFromResolution'
 import {
   attributionsBasemapGrau,
+  attributionsBasemapFarbe,
   attributionsAlkisWms,
   denkmalAmtLink,
   vermessungsAmtLink,
@@ -41,6 +43,12 @@ export const mapConfigExtern: DishMapConfig = {
       visibility: true,
       type: 'background',
       name: 'Basemap.de (Graustufen)',
+    },
+    {
+      id: basemapFarbe,
+      visibility: true,
+      type: 'background',
+      name: 'Basemap.de (Farbe)',
     },
     {
       id: bddEin,
@@ -104,6 +112,7 @@ export const mapConfigExtern: DishMapConfig = {
     initiallyOpen: true,
     layerAttributions: [
       attributionsBasemapGrau,
+      attributionsBasemapFarbe,
       {
         id: bddEin,
         title: `Digitale Topographische Karten (Graustufen): © ${vermessungsAmtLink}/CC BY-SA 4.0`,

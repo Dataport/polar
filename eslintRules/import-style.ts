@@ -70,7 +70,7 @@ function resolveToSrcRel(
  *
  * Files outside `srcDir` (default `"src"`) are ignored.
  *
- * @example rule options  { srcDir: "src" }
+ * @example rule options  \{ srcDir: "src" \}
  */
 const importStyle: Rule.RuleModule = {
 	meta: {
@@ -133,10 +133,7 @@ const importStyle: Rule.RuleModule = {
 						messageId: 'wrongPath',
 						data: { actual: raw, expected: withoutExt },
 						fix: (fixer) =>
-							fixer.replaceText(
-								sourceNode as Rule.Node,
-								`${q}${withoutExt}${q}`
-							),
+							fixer.replaceText(sourceNode, `${q}${withoutExt}${q}`),
 					})
 				}
 				return
@@ -174,8 +171,7 @@ const importStyle: Rule.RuleModule = {
 					node: sourceNode as Rule.Node,
 					messageId: 'wrongPath',
 					data: { actual: raw, expected },
-					fix: (fixer) =>
-						fixer.replaceText(sourceNode as Rule.Node, `${q}${expected}${q}`),
+					fix: (fixer) => fixer.replaceText(sourceNode, `${q}${expected}${q}`),
 				})
 			}
 		}

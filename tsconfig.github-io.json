@@ -1,0 +1,17 @@
+{
+	"extends": "./examples/github-io/tsconfig.json",
+	"compilerOptions": {
+		"types": ["vite/client"],
+		"paths": {
+			"@polar/polar": ["./dist/polar.d.ts"],
+			"@polar/polar/client": ["./dist/client.d.ts"],
+			"@polar/polar/plugins/*": ["./dist/plugin-*.d.ts"],
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": [
+		"./examples/github-io/**/*.ts",
+		"./examples/github-io/**/*.vue",
+		"./src/@types/virtual-kern-extra-icons.d.ts"
+	]
+}
