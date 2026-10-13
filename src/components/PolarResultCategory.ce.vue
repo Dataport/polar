@@ -1,44 +1,30 @@
-<template class="polar-result-list-category">
+<template>
 	<span
-		v-if="resultsLength > 1"
-		:id="`polar-result-list-${componentId}-${categoryId}`"
+		v-if="showLabel"
+		:id="`${idPrefix}-label`"
 		class="polar-result-list-category-label"
 	>
 		{{ categoryLabel }}
 		{{
-			$t(($) => $.resultList.count, {
-				count: getResultCount(categoryId),
-				ns: 'shared',
-			})
+			$t(($) => $.resultList.count, { count: features.length, ns: 'shared' })
 		}}
 	</span>
 	<ul
-		:aria-labelledby="`polar-result-list-${componentId}-${categoryId}`"
-		:class="{
-			'polar-result-list-without-label': resultsLength === 1,
-		}"
+		:aria-labelledby="showLabel ? `${idPrefix}-label` : undefined"
+		:class="{ 'polar-result-list-without-label': !showLabel }"
 	>
 		<template
-			v-for="(feature, j) in result.features.features.slice(
+			v-for="(feature, j) in features.slice(
 				0,
-				areResultsExpanded(categoryId)
-					? result.features.features.length
-					: limitedResults
+				expanded ? features.length : limitedResults
 			)"
-			:key="`result-${index}-${j}`"
+			:key="`result-${j}`"
 		>
 			<li
-				:id="`polar-result-list-${componentId}-results-feature-${index}-${j}`"
+				:id="`${idPrefix}-${j}`"
 				tabindex="-1"
 				@click="emit('selectResult', feature, categoryId)"
 				@keydown.enter.prevent.stop="emit('selectResult', feature, categoryId)"
-				@keydown.down.prevent.stop="
-					(event) => emit('focusNextElement', true, event)
-				"
-				@keydown.up.prevent.stop="
-					(event) => emit('focusNextElement', false, event)
-				"
-				@keydown.escape.prevent.stop="emit('escapeResults')"
 			>
 				<span class="span-sr-only">{{ feature.title }}</span>
 				<!-- eslint-disable vue/no-v-html -->
@@ -51,92 +37,48 @@
 		</template>
 	</ul>
 	<KernButton
-		v-if="result.features.features.length > limitedResults"
+		v-if="features.length > limitedResults"
 		class="kern-btn--tertiary"
 		:icon="
-			areResultsExpanded(categoryId)
+			expanded
 				? 'kern-icon--keyboard-arrow-up'
 				: 'kern-icon--keyboard-arrow-down'
 		"
-		@keydown.down.prevent.stop="
-			(event) => emit('focusNextElement', true, event)
-		"
-		@keydown.up.prevent.stop="(event) => emit('focusNextElement', false, event)"
-		@click="toggle(categoryId)"
+		@click="expanded = !expanded"
 	>
 		{{
-			$t(
-				($) =>
-					$.resultList[areResultsExpanded(categoryId) ? 'reduce' : 'extend'],
-				{ ns: 'shared' }
-			)
+			$t(($) => $.resultList[expanded ? 'reduce' : 'extend'], {
+				ns: 'shared',
+			})
 		}}
 	</KernButton>
-	<hr
-		v-if="index < resultsLength - 1"
-		class="kern-divider"
-		aria-hidden="true"
-	/>
 </template>
 
 <script setup lang="ts">
-import type { PolarGeoJsonFeature, SearchResult } from '@/core'
+import type { PolarGeoJsonFeature } from '@/core'
 
-import { computed, ref, watch } from 'vue'
+import { ref } from 'vue'
 
 import KernButton from '@/components/kern/KernButton.ce.vue'
 import { strongTitleByInput } from '@/lib/strongTitleByInput'
 
-const props = defineProps<{
-	index: number
-	result: SearchResult
-	inputValue: string
-	limitedResults: number
-	resultsLength: number
+defineProps<{
 	categoryId: string
 	categoryLabel: string
-	componentId: string
-	searchResults: SearchResult[] | symbol
-	selectedGroupId: string
+	features: PolarGeoJsonFeature[]
+	inputValue: string
+	limitedResults: number
+	showLabel: boolean
+
+	/** Ids of items are `${idPrefix}-${featureIndex}`. */
+	idPrefix: string
 }>()
 
 const emit = defineEmits<{
 	selectResult: [PolarGeoJsonFeature, string]
-	focusNextElement: [boolean, KeyboardEvent]
-	escapeResults: []
 }>()
 
-watch(
-	() => props.selectedGroupId,
-	() => (openCategories.value = [])
-)
-
-const resultsBySearchMethod = computed(() =>
-	Array.isArray(props.searchResults) ? props.searchResults : []
-)
-
-const openCategories = ref<string[]>([])
-
-function getResultCount(categoryId: string) {
-	return resultsBySearchMethod.value
-		.filter(
-			(result) =>
-				result.groupId === props.selectedGroupId &&
-				result.categoryId === categoryId
-		)
-		.reduce((sum, result) => sum + result.features.features.length, 0)
-}
-
-function areResultsExpanded(category: string) {
-	return openCategories.value.includes(category)
-}
-
-function toggle(category: string) {
-	openCategories.value =
-		openCategories.value.indexOf(category) === -1
-			? [...openCategories.value, category]
-			: openCategories.value.filter((s) => s !== category)
-}
+const expanded = ref(false)
 </script>
 
 <style scoped>

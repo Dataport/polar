@@ -4,34 +4,33 @@
 		:id="`polar-result-list-${componentId}-wrapper`"
 		class="polar-result-list-wrapper"
 		tabindex="-1"
+		@keydown.down.prevent.stop="focusNextElement(true, $event)"
+		@keydown.up.prevent.stop="focusNextElement(false, $event)"
+		@keydown.escape.prevent.stop="emit('escapeResults')"
 	>
-		<template v-for="(result, i) in results" :key="result.categoryId">
+		<template
+			v-for="(result, i) in results"
+			:key="`${props.selectedGroupId}-${result.categoryId}`"
+		>
 			<PolarResultCategory
-				:index="i"
-				:result="result"
-				:input-value="props.inputValue"
-				:limited-results="props.limitedResults"
-				:results-length="results.length"
 				:category-id="result.categoryId"
 				:category-label="result.categoryLabel"
-				:component-id="props.componentId"
-				:search-results="props.searchResults"
-				:selected-group-id="props.selectedGroupId"
-				@focus-next-element="focusNextElement"
+				:features="result.features.features"
+				:input-value="props.inputValue"
+				:limited-results="props.limitedResults"
+				:show-label="results.length > 1"
+				:id-prefix="`${defaultResultItemIdPrefix}-${i}`"
 				@select-result="
 					(feature, categoryId) => emit('selectResult', feature, categoryId)
 				"
 			>
-				<template #result-count-label="{ count }">
-					<slot name="result-count-label" :count="count" />
-				</template>
-				<template #toggle-label="{ expanded }">
-					<slot name="toggle-label" :expanded="expanded" />
-				</template>
-				<template #default>
-					<slot />
-				</template>
+				<slot />
 			</PolarResultCategory>
+			<hr
+				v-if="i < results.length - 1"
+				class="kern-divider"
+				aria-hidden="true"
+			/>
 		</template>
 	</div>
 </template>
@@ -58,6 +57,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	selectResult: [PolarGeoJsonFeature, string]
+	escapeResults: []
 }>()
 
 const coreStore = useCoreStore()
