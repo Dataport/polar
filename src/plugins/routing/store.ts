@@ -197,8 +197,15 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			return ''
 		}
 		const input = routeInputValues.value[index]?.trim() ?? ''
+		if (input.length === 0) {
+			return t(($) => $.hint.empty, { ns: PluginId })
+		}
+
 		if (input.length < addressSearch.minLength) {
-			return ''
+			return t(($) => $.hint.tooShort, {
+				minLength: addressSearch.minLength,
+				ns: PluginId,
+			})
 		}
 		if (routeSearchResults.value[index] === SearchResultSymbols.ERROR) {
 			return t(($) => $.hint.error, { ns: PluginId })

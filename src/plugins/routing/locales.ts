@@ -43,9 +43,11 @@ export const resourcesDe = {
 		ferries: 'Fähren',
 	},
 	hint: {
+		empty: 'Bitte einen Suchbegriff eingeben oder in die Karte klicken.',
 		error: 'Etwas ist bei der Suche schiefgegangen.',
 		noResults: 'Keine Ergebnisse gefunden.',
 		loading: 'Suche ...',
+		tooShort: 'Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.',
 	},
 	ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
 	ariaDescription:
@@ -91,9 +93,11 @@ export const resourcesEn = {
 		ferries: 'Ferries',
 	},
 	hint: {
+		empty: 'Please enter a search term or click on the map.',
 		error: 'Something went wrong.',
 		noResults: 'No results found.',
 		loading: 'Searching...',
+		tooShort: 'Please enter at least {{minLength}} characters.',
 	},
 	ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
 	ariaDescription:
