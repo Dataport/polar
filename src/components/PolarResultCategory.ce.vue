@@ -5,7 +5,12 @@
 		class="polar-result-list-category-label"
 	>
 		{{ categoryLabel }}
-		<slot name="result-count-label" :count="getResultCount(categoryId)" />
+		{{
+			$t(($) => $.resultList.count, {
+				count: getResultCount(categoryId),
+				ns: 'shared',
+			})
+		}}
 	</span>
 	<ul
 		:aria-labelledby="`polar-result-list-${componentId}-${categoryId}`"
@@ -59,7 +64,13 @@
 		@keydown.up.prevent.stop="(event) => emit('focusNextElement', false, event)"
 		@click="toggle(categoryId)"
 	>
-		<slot name="toggle-label" :expanded="areResultsExpanded(categoryId)" />
+		{{
+			$t(
+				($) =>
+					$.resultList[areResultsExpanded(categoryId) ? 'reduce' : 'extend'],
+				{ ns: 'shared' }
+			)
+		}}
 	</KernButton>
 	<hr
 		v-if="index < resultsLength - 1"

@@ -24,11 +24,6 @@ export const resourcesDe = {
 		tooShort: 'Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.',
 	},
 	groupSelector: 'Suchthema auswählen',
-	resultCount: '({{count}} Ergebnisse)',
-	resultList: {
-		extend: 'Alle Ergebnisse anzeigen',
-		reduce: 'Ergebnisliste reduzieren',
-	},
 } as const
 
 export const resourcesEn = {
@@ -46,11 +41,6 @@ export const resourcesEn = {
 		tooShort: 'Please enter at least {{minLength}} characters.',
 	},
 	groupSelector: 'Select search topic',
-	resultCount: '({{count}} results)',
-	resultList: {
-		extend: 'Show all results',
-		reduce: 'Reduce result list',
-	},
 } as const
 
 // first type will be used as fallback language

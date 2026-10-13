@@ -55,11 +55,6 @@ export const resourcesDe = {
 	duration: 'Dauer: {{duration}}',
 	noFeature:
 		'Die Route konnte nicht ermittelt werden. Versuchen Sie es mit anderen Koordinaten.',
-	resultList: {
-		extend: 'Alle Ergebnisse anzeigen',
-		reduce: 'Ergebnisse reduzieren',
-	},
-	resultCount: '({{count}} Ergebnisse)',
 } as const
 
 export const resourcesEn = {
@@ -107,11 +102,6 @@ export const resourcesEn = {
 	distance: 'Distance: {{distance}}',
 	duration: 'Duration: {{duration}}',
 	noFeature: 'Route could not be determined. Try different coordinates.',
-	resultList: {
-		extend: 'Show all results',
-		reduce: 'Reduce result list',
-	},
-	resultCount: '({{count}} results)',
 } as const
 
 // first type will be used as fallback language
