@@ -1,1 +1,0 @@
-import{vr as e}from"./stores-BcTkbvxE.js";import"./store-CuMDobaQ.js";export{e as Collection};
