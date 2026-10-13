@@ -44,18 +44,7 @@
 				:focus-return-target-id="`polar-plugin-routing-input-${index}`"
 				:result-item-id-prefix="`polar-result-list-routing-${index}-results-feature`"
 				@select-result="routeStore.selectResult"
-			>
-				<template #result-count-label="{ count }">
-					{{ $t(($) => $.resultCount, { count, ns: PluginId }) }}
-				</template>
-				<template #toggle-label="{ expanded }">
-					{{
-						$t(($) => $.resultList[expanded ? 'reduce' : 'extend'], {
-							ns: PluginId,
-						})
-					}}
-				</template>
-			</PolarResultList>
+			/>
 		</div>
 		<div class="polar-plugin-routing-waypoint-button-wrapper">
 			<KernButton
