@@ -6,7 +6,7 @@
 		tabindex="-1"
 		@keydown.down.prevent.stop="focusNextElement(true, $event)"
 		@keydown.up.prevent.stop="focusNextElement(false, $event)"
-		@keydown.escape.prevent.stop="emit('escapeResults')"
+		@keydown.escape.prevent.stop="focusReturnTarget"
 	>
 		<template
 			v-for="(result, i) in results"
@@ -57,7 +57,6 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	selectResult: [PolarGeoJsonFeature, string]
-	escapeResults: []
 }>()
 
 const coreStore = useCoreStore()
@@ -144,6 +143,10 @@ function focusNextElement(down: boolean, event: KeyboardEvent): void {
 		return
 	}
 
+	focusReturnTarget()
+}
+
+function focusReturnTarget(): void {
 	;(coreStore.shadowRoot as ShadowRoot)
 		.getElementById(defaultFocusReturnTargetId.value)
 		?.focus()

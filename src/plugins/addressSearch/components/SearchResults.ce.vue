@@ -1,6 +1,7 @@
 <template>
 	<PolarResultList
 		component-id="address-search"
+		focus-return-target-id="polar-plugin-address-search-input"
 		:search-results="searchResults"
 		:limited-results="limitResults"
 		:input-value="inputValue"
