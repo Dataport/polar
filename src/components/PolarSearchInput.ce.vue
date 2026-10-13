@@ -1,6 +1,5 @@
 <template>
 	<div class="polar-search-input-wrapper">
-		<span class="kern-icon kern-icon--search" aria-hidden="true" />
 		<span :id="props.describedByText" class="kern-sr-only">
 			{{ props.descriptionForAria }}
 		</span>
@@ -82,13 +81,6 @@ const slotPlacement = computed(() => {
 	align-items: center;
 	width: 100%;
 	column-gap: var(--kern-metric-space-small);
-
-	.kern-icon--search {
-		grid-column: 1;
-		grid-row: 1;
-		width: var(--kern-metric-dimension-large);
-		height: var(--kern-metric-dimension-large);
-	}
 
 	.polar-search-input {
 		grid-column: 2;

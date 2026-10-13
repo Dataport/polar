@@ -22,6 +22,7 @@
 					}))
 				"
 			/>
+			<span class="kern-icon kern-icon--search" aria-hidden="true" />
 			<PolarSearchInput
 				:input-id="'polar-plugin-address-search-input'"
 				:input-value="inputValue"
@@ -163,6 +164,14 @@ function inputDown(event: KeyboardEvent) {
 
 		&:deep(select) {
 			width: 0;
+		}
+
+		.kern-icon--search {
+			flex-shrink: 0;
+			width: var(--kern-metric-dimension-large);
+			height: var(--kern-metric-dimension-large);
+			mask-size: contain;
+			mask-repeat: no-repeat;
 		}
 	}
 }
