@@ -1,19 +1,27 @@
-import type { Map } from 'ol'
+import type { Map, MapBrowserEvent } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type VectorSource from 'ol/source/Vector'
-import type { Ref } from 'vue'
+import type { MaybeRefOrGetter, Ref } from 'vue'
 
 import { Feature } from 'ol'
 import { Point } from 'ol/geom'
 import Modify from 'ol/interaction/Modify'
 import VectorLayer from 'ol/layer/Vector'
 import { Circle, Fill, Stroke, Style } from 'ol/style'
-import { onScopeDispose, watch } from 'vue'
+import { onScopeDispose, toValue, watch } from 'vue'
 
+/**
+ * Adds a layer displaying the route markers and allows modifying them.
+ *
+ * @param modifyActive - Whether markers may currently be modified, e.g. `false`
+ * while another interaction is masking clicks.
+ */
 export function useMarkerLayer(
 	map: Map,
 	markerSource: VectorSource,
-	route: Ref<Coordinate[]>
+	route: Ref<Coordinate[]>,
+	modifyActive: MaybeRefOrGetter<boolean>,
+	onMarkerMoved: (index: number, coordinate: Coordinate) => void
 ) {
 	const layer = new VectorLayer({
 		source: markerSource,
@@ -26,9 +34,6 @@ export function useMarkerLayer(
 		}),
 	})
 	map.addLayer(layer)
-	onScopeDispose(() => {
-		map.removeLayer(layer)
-	})
 
 	watch(route, () => {
 		markerSource.clear()
@@ -50,16 +55,20 @@ export function useMarkerLayer(
 			const geometry = feature.getGeometry()
 			if (geometry instanceof Point) {
 				const index = feature.get('routeIndex')
-				if (index < route.value.length && typeof index === 'number') {
-					route.value[index] = geometry.getCoordinates()
+				if (
+					typeof index === 'number' &&
+					index >= 0 &&
+					index < route.value.length
+				) {
+					onMarkerMoved(index, geometry.getCoordinates())
 				}
 			}
 		})
 	})
 
-	map.on('pointermove', (evt) => {
+	function onPointerMove(evt: MapBrowserEvent) {
 		const pixel = map.getEventPixel(evt.originalEvent)
-		const hit = map.hasFeatureAtPixel(pixel)
+		const hit = modify.getActive() && map.hasFeatureAtPixel(pixel)
 		if (
 			'buttons' in evt.originalEvent &&
 			(evt.originalEvent as PointerEvent).buttons === 1 &&
@@ -69,9 +78,24 @@ export function useMarkerLayer(
 		} else {
 			map.getTargetElement().style.cursor = hit ? 'grab' : ''
 		}
-	})
+	}
+	map.on('pointermove', onPointerMove)
 
 	map.addInteraction(modify)
+	watch(
+		() => toValue(modifyActive),
+		(active) => {
+			modify.setActive(active)
+		},
+		{ immediate: true }
+	)
+
+	onScopeDispose(() => {
+		map.un('pointermove', onPointerMove)
+		map.removeInteraction(modify)
+		map.removeLayer(layer)
+		map.getTargetElement().style.cursor = ''
+	})
 }
 
 if (import.meta.vitest) {
@@ -82,18 +106,30 @@ if (import.meta.vitest) {
 	vi.mock('ol/interaction/Modify', () => ({
 		default: vi.fn().mockImplementation(function (this: {
 			on: ReturnType<typeof vi.fn>
+			active: boolean
+			getActive: ReturnType<typeof vi.fn>
+			setActive: ReturnType<typeof vi.fn>
 		}) {
 			this.on = vi.fn()
+			this.active = true
+			this.getActive = vi.fn(() => this.active)
+			this.setActive = vi.fn((active: boolean) => {
+				this.active = active
+			})
 		}),
 	}))
 
 	describe('useMarkerLayer', () => {
 		let route: Ref<Coordinate[]>
+		let modifyActive: Ref<boolean>
+		let onMarkerMoved: (index: number, coordinate: Coordinate) => void
 		let map: {
 			addLayer: ReturnType<typeof vi.fn>
 			removeLayer: ReturnType<typeof vi.fn>
 			addInteraction: ReturnType<typeof vi.fn>
+			removeInteraction: ReturnType<typeof vi.fn>
 			on: ReturnType<typeof vi.fn>
+			un: ReturnType<typeof vi.fn>
 			getEventPixel: ReturnType<typeof vi.fn>
 			hasFeatureAtPixel: ReturnType<typeof vi.fn>
 			getTargetElement: ReturnType<typeof vi.fn>
@@ -104,13 +140,17 @@ if (import.meta.vitest) {
 
 		beforeEach(() => {
 			route = ref<Coordinate[]>([])
+			modifyActive = ref(true)
+			onMarkerMoved = vi.fn<(index: number, coordinate: Coordinate) => void>()
 			markerSource = new VectorSource()
 			targetElement = { style: { cursor: '' } }
 			map = {
 				addLayer: vi.fn(),
 				removeLayer: vi.fn(),
 				addInteraction: vi.fn(),
+				removeInteraction: vi.fn(),
 				on: vi.fn(),
+				un: vi.fn(),
 				getEventPixel: vi.fn(),
 				hasFeatureAtPixel: vi.fn(),
 				getTargetElement: vi.fn(() => targetElement),
@@ -125,11 +165,29 @@ if (import.meta.vitest) {
 		const run = () => {
 			const currentScope = effectScope()
 			currentScope.run(() => {
-				useMarkerLayer(map as unknown as Map, markerSource, route)
+				useMarkerLayer(
+					map as unknown as Map,
+					markerSource,
+					route,
+					modifyActive,
+					onMarkerMoved
+				)
 			})
 			scope = currentScope
 			return currentScope
 		}
+
+		const getModify = () =>
+			map.addInteraction.mock.calls[0]?.[0] as {
+				on: ReturnType<typeof vi.fn>
+				setActive: ReturnType<typeof vi.fn>
+				getActive: ReturnType<typeof vi.fn>
+			}
+
+		const getPointerMove = () =>
+			map.on.mock.calls.find(
+				(call) => call[0] === 'pointermove'
+			)?.[1] as (event: { originalEvent: { buttons?: number } }) => void
 
 		it('adds the layer to the map', () => {
 			run()
@@ -140,12 +198,49 @@ if (import.meta.vitest) {
 			expect(layer.getStyle()).toBeInstanceOf(Style)
 		})
 
-		it('removes the layer from the map on scope disposal', () => {
+		it('removes the layer, interaction and listener on scope disposal', () => {
 			const scope = run()
+			const modify = getModify()
+			const pointerMove = getPointerMove()
+			targetElement.style.cursor = 'grab'
 
 			expect(map.removeLayer).not.toHaveBeenCalled()
+			expect(map.removeInteraction).not.toHaveBeenCalled()
+			expect(map.un).not.toHaveBeenCalled()
 			scope.stop()
-			expect(map.removeLayer).toHaveBeenCalledOnce()
+			expect(map.removeLayer).toHaveBeenCalledExactlyOnceWith(
+				map.addLayer.mock.calls[0]?.[0]
+			)
+			expect(map.removeInteraction).toHaveBeenCalledExactlyOnceWith(modify)
+			expect(map.un).toHaveBeenCalledExactlyOnceWith('pointermove', pointerMove)
+			expect(targetElement.style.cursor).toBe('')
+		})
+
+		it('toggles the modify interaction depending on modifyActive', async () => {
+			run()
+			const modify = getModify()
+			expect(modify.setActive).toHaveBeenLastCalledWith(true)
+
+			modifyActive.value = false
+			await nextTick()
+			expect(modify.setActive).toHaveBeenLastCalledWith(false)
+
+			modifyActive.value = true
+			await nextTick()
+			expect(modify.setActive).toHaveBeenLastCalledWith(true)
+		})
+
+		it('does not set a grab cursor while modify is inactive', async () => {
+			modifyActive.value = false
+			run()
+			await nextTick()
+			map.getEventPixel.mockReturnValue([0, 0])
+			map.hasFeatureAtPixel.mockReturnValue(true)
+
+			getPointerMove()({ originalEvent: {} })
+			expect(targetElement.style.cursor).toBe('')
+			getPointerMove()({ originalEvent: { buttons: 1 } })
+			expect(targetElement.style.cursor).toBe('')
 		})
 
 		it('clears and fills markerSource when route changes', async () => {
@@ -198,22 +293,16 @@ if (import.meta.vitest) {
 
 		it.each([
 			{
-				description: 'updates the route for a valid marker index',
+				description: 'calls the callback for a valid marker index',
 				routeIndex: 1,
-				expectedRoute: [
-					[1, 2],
-					[10, 20],
-				],
+				expectedCall: [[10, 20]],
 			},
 			{
-				description: 'does not update the route for an invalid marker index',
+				description: 'does not call the callback for an invalid marker index',
 				routeIndex: 2,
-				expectedRoute: [
-					[1, 2],
-					[3, 4],
-				],
+				expectedCall: undefined,
 			},
-		])('$description', ({ routeIndex, expectedRoute }) => {
+		])('$description', ({ routeIndex, expectedCall }) => {
 			run()
 			route.value = [
 				[1, 2],
@@ -232,7 +321,14 @@ if (import.meta.vitest) {
 
 			modifyEnd({ features: [modifiedFeature] })
 
-			expect(route.value).toEqual(expectedRoute)
+			if (expectedCall) {
+				expect(onMarkerMoved).toHaveBeenCalledExactlyOnceWith(
+					routeIndex,
+					expectedCall[0]
+				)
+			} else {
+				expect(onMarkerMoved).not.toHaveBeenCalled()
+			}
 		})
 
 		it('sets the cursor to grabbing while dragging over a marker', () => {
