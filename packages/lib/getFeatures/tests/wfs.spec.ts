@@ -182,14 +182,32 @@ describe('tools/lib/getFeatures/wfs', () => {
   })
 
   describe('parseWfsResponse', () => {
-    it('normalizes OGC CRS URIs before parsing polygon coordinates', async () => {
-      const xml = `<?xml version="1.0" encoding="UTF-8"?>
+    const toResponse = (xml: string) =>
+      ({
+        text: () => Promise.resolve(xml),
+      } as Response)
+
+    it.each([
+      [
+        'an HTTP URI with version 0',
+        'http://www.opengis.net/def/crs/epsg/0/3857',
+      ],
+      [
+        'an HTTP URI with a non-zero version',
+        'http://www.opengis.net/def/crs/EPSG/9.9.1/3857',
+      ],
+      ['a URN', 'urn:ogc:def:crs:EPSG::3857'],
+      ['a versioned URN', 'urn:ogc:def:crs:EPSG:6.18:3857'],
+    ])(
+      'normalizes OGC CRS encoded as %s before parsing polygon coordinates',
+      async (_, srsName) => {
+        const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:cp="http://inspire.ec.europa.eu/schemas/cp/4.0">
   <wfs:member>
     <cp:CadastralParcel gml:id="CadastralParcel_1">
       <cp:label>12412</cp:label>
       <cp:geometry>
-        <gml:Polygon srsName="http://www.opengis.net/def/crs/epsg/0/3857" srsDimension="2">
+        <gml:Polygon srsName="${srsName}" srsDimension="2">
           <gml:exterior><gml:LinearRing>
             <gml:posList>0 0 1 0 1 1 0 0</gml:posList>
           </gml:LinearRing></gml:exterior>
@@ -198,16 +216,53 @@ describe('tools/lib/getFeatures/wfs', () => {
     </cp:CadastralParcel>
   </wfs:member>
 </wfs:FeatureCollection>`
-      const response = {
-        text: () => Promise.resolve(xml),
-      } as Response
 
-      const result = await parseWfsResponse(response, 'label', false, '2.0.0')
+        const result = await parseWfsResponse(
+          toResponse(xml),
+          'label',
+          false,
+          '2.0.0'
+        )
+
+        expect(result.features[0]).toMatchObject({
+          title: '12412',
+          epsg: 'EPSG:3857',
+          geometry: {
+            type: 'Polygon',
+            coordinates: [
+              [
+                [0, 0, 0],
+                [1, 0, 0],
+                [1, 1, 0],
+                [0, 0, 0],
+              ],
+            ],
+          },
+        })
+      }
+    )
+
+    it('normalizes OGC CRS URNs in WFS 1.1.0 responses', async () => {
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs" xmlns:gml="http://www.opengis.net/gml" xmlns:app="http://www.deegree.org/app">
+  <gml:featureMember>
+    <app:address gml:id="address_1">
+      <app:label>Example Street 1</app:label>
+      <app:geom>
+        <gml:Point srsName="urn:ogc:def:crs:EPSG::3857">
+          <gml:pos>1110000 7085000</gml:pos>
+        </gml:Point>
+      </app:geom>
+    </app:address>
+  </gml:featureMember>
+</wfs:FeatureCollection>`
+
+      const result = await parseWfsResponse(toResponse(xml), 'label', false)
 
       expect(result.features[0]).toMatchObject({
-        title: '12412',
+        title: 'Example Street 1',
         epsg: 'EPSG:3857',
-        geometry: { type: 'Polygon' },
+        geometry: { type: 'Point', coordinates: [1110000, 7085000, 0] },
       })
     })
   })

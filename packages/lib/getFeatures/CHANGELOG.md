@@ -3,7 +3,7 @@
 ## unpublished
 
 - Feature: Support WFS 2.0.0 in `getWfsFeatures` via the optional `version` parameter.
-- Fix: Normalize OGC CRS URIs before parsing WFS geometries.
+- Fix: Normalize OGC CRS URIs (any version) and URNs (e.g. `urn:ogc:def:crs:EPSG::3857`) to `EPSG:<code>` before parsing WFS geometries.
 
 ## 3.2.0
 
