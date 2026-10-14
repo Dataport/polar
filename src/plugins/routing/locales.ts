@@ -55,7 +55,6 @@ export const resourcesDe = {
 		instructionWithoutSearch:
 			'Durch Klicken in die Karte einen Ort hinzufügen.',
 	},
-	clear: '{{label}} Eingabefeld leeren',
 	distance: 'Entfernung: {{distance}}',
 	duration: 'Dauer: {{duration}}',
 	noFeature:
@@ -107,7 +106,6 @@ export const resourcesEn = {
 			'Add a location by clicking on the map or by entering and selecting a search term.',
 		instructionWithoutSearch: 'Add a location by clicking on the map.',
 	},
-	clear: 'Clear {{label}} input field',
 	distance: 'Distance: {{distance}}',
 	duration: 'Duration: {{duration}}',
 	noFeature: 'Route could not be determined. Try different coordinates.',
