@@ -1,9 +1,5 @@
 # CHANGELOG
 
-## unpublished
-
-- Chore: Rewire clients from AfM to AM.
-
 ## 1.4.1
 
 - Chore: Change default language of Jenfeld client to german (instead of using browser language).
