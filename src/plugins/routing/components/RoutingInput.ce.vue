@@ -1,9 +1,9 @@
 <template>
-	<div class="polar-plugin-routing-route-wrapper">
+	<div class="kern-form-input polar-plugin-routing-route-wrapper">
+		<label class="kern-label" :for="`polar-plugin-routing-input-${index}`">
+			{{ $t(($) => $.label[getRouteLabel(index)], { ns: PluginId }) }}
+		</label>
 		<div class="kern-form-input">
-			<label class="kern-label" :for="`polar-plugin-routing-input-${index}`">
-				{{ $t(($) => $.label[getRouteLabel(index)], { ns: PluginId }) }}
-			</label>
 			<PolarSearchInput
 				:input-id="`polar-plugin-routing-input-${index}`"
 				:input-value="routeInputValue"
@@ -185,11 +185,25 @@ function getRouteLabel(index: number) {
 
 <style scoped>
 .polar-plugin-routing-route-wrapper {
-	display: flex;
-	align-items: end;
-	gap: var(--kern-metric-space-default);
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: start;
+	column-gap: var(--kern-metric-space-default);
+
+	> .kern-label {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	> .kern-form-input {
+		grid-column: 1;
+		grid-row: 2;
+		min-width: 0;
+	}
 
 	.polar-plugin-routing-waypoint-button-wrapper {
+		grid-column: 2;
+		grid-row: 2;
 		display: flex;
 		gap: var(--kern-metric-space-small);
 	}
