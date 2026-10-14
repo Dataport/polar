@@ -458,8 +458,16 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			selectedTravelMode,
 			() => coreStore.language,
 		],
-		() => {
-			if (!routeIncomplete.value) {
+		([coordinates], [previousCoordinates]) => {
+			if (
+				coordinates.filter((coordinate) => coordinate.length > 0).length ===
+					1 &&
+				previousCoordinates.filter((coordinate) => coordinate.length > 0)
+					.length > 1
+			) {
+				routeSource.clear()
+				routingResponseData.value = null
+			} else if (!routeIncomplete.value) {
 				void getRoute()
 			}
 		}
