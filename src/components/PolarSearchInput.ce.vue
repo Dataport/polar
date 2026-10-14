@@ -53,8 +53,8 @@ const props = defineProps<{
 	descriptionForAria: string
 	layout: 'standard' | 'nineRegions' | VueElement
 	isLoading?: boolean
-	showClearButton: boolean
-	clearLabel: string
+	showClearButton?: boolean
+	clearLabel?: string
 	hint: string
 }>()
 

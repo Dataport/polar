@@ -24,11 +24,8 @@
 				"
 				:layout="coreStore.layout"
 				:is-loading="routeInputLoading[index]"
-				:show-clear-button="false"
-				:clear-label="''"
 				:hint="searchResultHintForInput"
 				@update:input-value="(val) => routeStore.setRouteInputValue(index, val)"
-				@clear="routeInputValue = ''"
 				@focus="currentlyFocusedInput = index"
 				@keydown.down.prevent.stop="focusResultList"
 			/>
