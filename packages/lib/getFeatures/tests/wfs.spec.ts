@@ -146,6 +146,9 @@ describe('tools/lib/getFeatures/wfs', () => {
         version: '2.0.0',
       })
 
+      expect(filterXmlString).toEqual(
+        '<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="2.0.0" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="999"><wfs:Query typeNames="prefix:TyPeNaMe" xmlns:prefix="example.com" xmlns:fes="http://www.opengis.net/fes/2.0"><fes:Filter><fes:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><fes:ValueReference>prefix:a</fes:ValueReference><fes:Literal>5*</fes:Literal></fes:PropertyIsLike></fes:Filter></wfs:Query></wfs:GetFeature>'
+      )
       expect(filterXmlString).toContain(
         'xmlns:wfs="http://www.opengis.net/wfs/2.0"'
       )
@@ -172,6 +175,9 @@ describe('tools/lib/getFeatures/wfs', () => {
         }
       )
 
+      expect(filterXmlString).toEqual(
+        '<?xml version="1.0" encoding="UTF-8"?><wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="2.0.0" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="999"><wfs:Query typeNames="prefix:TyPeNaMe" xmlns:prefix="example.com" xmlns:fes="http://www.opengis.net/fes/2.0"><fes:Filter><fes:And><fes:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><fes:ValueReference>prefix:a</fes:ValueReference><fes:Literal>5*</fes:Literal></fes:PropertyIsLike><fes:PropertyIsLike wildCard="*" singleChar="." escapeChar="!"><fes:ValueReference>prefix:b</fes:ValueReference><fes:Literal>3*</fes:Literal></fes:PropertyIsLike></fes:And></fes:Filter><fes:SortBy><fes:SortProperty><fes:ValueReference>prefix:name</fes:ValueReference><fes:SortOrder>DESC</fes:SortOrder></fes:SortProperty></fes:SortBy></wfs:Query></wfs:GetFeature>'
+      )
       expect(filterXmlString).toContain('<fes:And>')
       expect(filterXmlString).toContain('</fes:And>')
       expect(filterXmlString).toContain(
