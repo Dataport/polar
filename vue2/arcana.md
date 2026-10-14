@@ -1,4 +1,4 @@
-# Arcane knowdlege 🧙🔮
+# Arcane knowledge 🧙🔮
 
 Ideally, this file would be empty. However, there's some manual procedures not yet automated, and knowledge that's difficult to put as comment since comments will probably not be found in the situations that require reading them.
 
