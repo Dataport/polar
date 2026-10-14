@@ -27,6 +27,9 @@ export const resourcesDe = {
 		extend: 'Alle Ergebnisse anzeigen',
 		reduce: 'Ergebnisliste reduzieren',
 	},
+	searchInput: {
+		clear: 'Eingabefeld der Suche löschen',
+	},
 } as const
 
 /**
@@ -46,6 +49,9 @@ export const resourcesEn = {
 		count: '({{count}} results)',
 		extend: 'Show all results',
 		reduce: 'Reduce result list',
+	},
+	searchInput: {
+		clear: 'Clear search input field',
 	},
 } as const
 

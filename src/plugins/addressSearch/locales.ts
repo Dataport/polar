@@ -17,7 +17,6 @@ export const resourcesDe = {
 	defaultLabel: 'Adresssuche',
 	hint: {
 		button: 'Eingabefeld der Addresssuche anzeigen',
-		clear: 'Das Eingabefeld der Addresssuche leeren',
 		error: 'Etwas ist bei der Suche schiefgegangen.',
 		loading: 'Suche ...',
 		noResults: 'Keine Ergebnisse gefunden.',
@@ -34,7 +33,6 @@ export const resourcesEn = {
 	defaultLabel: 'Address Search',
 	hint: {
 		button: 'Show address search input field',
-		clear: 'Clear address search input field',
 		error: 'Something went wrong.',
 		loading: 'Searching ...',
 		noResults: 'No results for the current query.',

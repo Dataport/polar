@@ -1,6 +1,6 @@
 <template>
 	<div class="polar-search-input-wrapper">
-		<span :id="props.describedByText" class="kern-sr-only">
+		<span :id="props.descriptionId" class="kern-sr-only">
 			{{ props.descriptionForAria }}
 		</span>
 		<input
@@ -9,7 +9,7 @@
 			name="polar-search-input"
 			type="text"
 			:aria-label="props.labelText"
-			:aria-describedby="props.describedByText"
+			:aria-describedby="props.descriptionId"
 			:value="props.inputValue"
 			v-bind="$attrs"
 			@input="
@@ -18,14 +18,14 @@
 		/>
 		<SmallLoader v-if="props.isLoading" class="polar-search-input-loader" />
 		<KernButton
-			v-if="props.showClearButton"
+			v-if="props.showClearButton && !props.isLoading"
 			:class="`kern-btn--tertiary polar-search-input-button`"
 			:style="`right: ${slotPlacement}; top: ${slotPlacement}`"
 			icon="kern-icon--close"
 			:label-sr-only="true"
 			@click="() => $emit('clear')"
 		>
-			{{ clearLabel }}
+			{{ $t(($) => $.searchInput.clear, { ns: 'shared' }) }}
 		</KernButton>
 		<!-- Additionally needed so screen readers can detect the aria live region -->
 		<span class="kern-sr-only" aria-live="polite">
@@ -49,12 +49,11 @@ const props = defineProps<{
 	inputId: string
 	inputValue: string
 	labelText: string
-	describedByText: string
+	descriptionId: string
 	descriptionForAria: string
 	layout: 'standard' | 'nineRegions' | VueElement
 	isLoading?: boolean
 	showClearButton?: boolean
-	clearLabel?: string
 	hint: string
 }>()
 

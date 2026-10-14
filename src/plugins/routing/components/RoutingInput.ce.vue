@@ -12,7 +12,7 @@
 						ns: PluginId,
 					})
 				"
-				:described-by-text="`polar-plugin-routing-hint-${index}`"
+				:description-id="`polar-plugin-routing-hint-${index}`"
 				:description-for-aria="
 					$t(
 						($) =>
