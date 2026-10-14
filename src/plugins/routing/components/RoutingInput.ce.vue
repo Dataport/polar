@@ -19,13 +19,8 @@
 				:description-for-aria="$t(($) => $.ariaDescription, { ns: PluginId })"
 				:layout="coreStore.layout"
 				:is-loading="routeInputLoading[index]"
-				:show-clear-button="routeInputValue.length > 0"
-				:clear-label="
-					$t(($) => $.clear, {
-						ns: PluginId,
-						label: $t(($) => $.label[getRouteLabel(index)], { ns: PluginId }),
-					})
-				"
+				:show-clear-button="false"
+				:clear-label="''"
 				:hint="searchResultHintForInput"
 				@update:input-value="(val) => routeStore.setRouteInputValue(index, val)"
 				@clear="routeInputValue = ''"
