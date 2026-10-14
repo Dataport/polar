@@ -9,7 +9,7 @@
 			name="polar-search-input"
 			type="text"
 			:aria-label="props.labelText"
-			:aria-described-by="props.describedByText"
+			:aria-describedby="props.describedByText"
 			:value="props.inputValue"
 			v-bind="$attrs"
 			@input="

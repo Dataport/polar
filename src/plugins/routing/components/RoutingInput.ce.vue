@@ -8,15 +8,20 @@
 				:input-id="`polar-plugin-routing-input-${index}`"
 				:input-value="routeInputValue"
 				:label-text="
-					$t(($) => $.label.aria, {
+					$t(($) => $.label[getRouteLabel(index)], {
 						ns: PluginId,
-						position: $t(($) => $.label[getRouteLabel(index)], {
-							ns: PluginId,
-						}),
 					})
 				"
 				:described-by-text="`polar-plugin-routing-hint-${index}`"
-				:description-for-aria="$t(($) => $.ariaDescription, { ns: PluginId })"
+				:description-for-aria="
+					$t(
+						($) =>
+							addressStore
+								? $.aria.instructionWithSearch
+								: $.aria.instructionWithoutSearch,
+						{ ns: PluginId }
+					)
+				"
 				:layout="coreStore.layout"
 				:is-loading="routeInputLoading[index]"
 				:show-clear-button="false"
@@ -84,10 +89,9 @@ const props = defineProps<{
 
 const routeStore = useRoutingStore()
 const coreStore = useCoreStore()
+const addressStore = coreStore.getPluginStore('addressSearch')
 
-const limitedResults = computed(
-	() => coreStore.getPluginStore('addressSearch')?.limitResults ?? 5
-)
+const limitedResults = computed(() => addressStore?.limitResults ?? 5)
 
 const currentlyFocusedInput = computed({
 	get: () => routeStore.currentlyFocusedInput,

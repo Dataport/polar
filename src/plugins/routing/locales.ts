@@ -12,7 +12,6 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	title: 'Routenplaner',
 	label: {
-		aria: 'Durch Klicken in die Karte eine Koordinate als {{position}} auswählen.',
 		start: 'Start',
 		middle: 'Wegpunkt',
 		end: 'Ziel',
@@ -49,9 +48,13 @@ export const resourcesDe = {
 		loading: 'Suche ...',
 		tooShort: 'Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.',
 	},
-	ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
-	ariaDescription:
-		'Durch Eingabe in das Suchfeld kann die Suche nach Adressen gestartet werden',
+	aria: {
+		ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
+		instructionWithSearch:
+			'Durch Klicken in die Karte oder durch Eingabe und Auswahl eines Suchbegriffs einen Ort hinzufügen.',
+		instructionWithoutSearch:
+			'Durch Klicken in die Karte einen Ort hinzufügen.',
+	},
 	clear: '{{label}} Eingabefeld leeren',
 	distance: 'Entfernung: {{distance}}',
 	duration: 'Dauer: {{duration}}',
@@ -62,7 +65,6 @@ export const resourcesDe = {
 export const resourcesEn = {
 	title: 'Route Planner',
 	label: {
-		aria: 'Add a coordinate as {{position}} by clicking in the map.',
 		start: 'Start',
 		middle: 'Waypoint',
 		end: 'Destination',
@@ -99,9 +101,12 @@ export const resourcesEn = {
 		loading: 'Searching...',
 		tooShort: 'Please enter at least {{minLength}} characters.',
 	},
-	ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
-	ariaDescription:
-		'By entering text into the search field, the address search can be started',
+	aria: {
+		ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
+		instructionWithSearch:
+			'Add a location by clicking on the map or by entering and selecting a search term.',
+		instructionWithoutSearch: 'Add a location by clicking on the map.',
+	},
 	clear: 'Clear {{label}} input field',
 	distance: 'Distance: {{distance}}',
 	duration: 'Duration: {{duration}}',
