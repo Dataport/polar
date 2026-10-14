@@ -54,12 +54,8 @@ export function useMarkerLayer(
 		evt.features.forEach((feature) => {
 			const geometry = feature.getGeometry()
 			if (geometry instanceof Point) {
-				const index = feature.get('routeIndex')
-				if (
-					typeof index === 'number' &&
-					index >= 0 &&
-					index < route.value.length
-				) {
+				const index = feature.get('routeIndex') as number
+				if (index < route.value.length) {
 					onMarkerMoved(index, geometry.getCoordinates())
 				}
 			}
