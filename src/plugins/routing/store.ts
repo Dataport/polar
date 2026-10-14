@@ -187,7 +187,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		).filter(({ value }) => selectableTravelModes.value.includes(value))
 	)
 
-	const searchResultHint = computed(() => {
+	const searchResultHint = computed((): string | undefined => {
 		const index = currentlyFocusedInput.value
 		const addressSearch = addressSearchStore.value
 		if (!showSearchResultList.value) {
